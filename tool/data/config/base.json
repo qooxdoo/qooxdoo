@@ -716,7 +716,7 @@
           "line"     : "${PYTHON_CMD} generate.py -q -I",
           "per-file" : false
         },
-        "path"    : "${SOURCE_PATH}/class",
+        "paths"    : ["${SOURCE_PATH}/class"],
         "include" : [ "*.js" ],
         "check-interval" : 2,
         "exit-on-retcode" : false

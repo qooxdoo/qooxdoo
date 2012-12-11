@@ -40,13 +40,13 @@
     {
       "watch-files" : 
       {
-        "path" : "source/pages",
+        "=paths" : [ "source/pages" ],
         "command" : 
         {
-          "line" : "sphinx-build -b html -d build/doctrees source build/html %(f)s",
+          "line" : "sphinx-build -b html -d build/doctrees source build/html %(FILE)",
           "per-file" : true
         },
-        "include" : ["*.rst"]
+        "=include" : ["*.rst"]
       }
     }
   }

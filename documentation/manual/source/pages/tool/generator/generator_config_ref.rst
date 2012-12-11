@@ -1254,7 +1254,7 @@ Watch arbitrary files or directories for changes.
 
   "watch-files" :
   {
-    "path"    : "file/or/dir/to/watch",
+    "paths"   : [ "file/or/dir/to/watch" ],
     "command" : 
     {
       "line"  : "generate.py source",
@@ -1270,7 +1270,7 @@ Watch arbitrary files or directories for changes.
 
   peer-keys: :ref:`pages/tool/generator/generator_config_ref#cache`
 
-* **path** *(required)* : Path to file or directory which should be watched. If it is a directory, it is watched recursively (but directories themselves are exempted).
+* **paths** *(required)* : List of  paths to files or directories which should be watched. If an entry is a directory, it is watched recursively (directories themselves are included according to the ``include-dirs`` key).
 * **command** :
 
   * **line** : *(required)* : Shell command line to be executed when a change is detected. There are a couple of placeholders available that can be interpolated into the command string with ``%(<KEY>)``. The different keys are:
@@ -1300,6 +1300,8 @@ Watch arbitrary files or directories for changes.
       sass %(FILE) > path/to/css/%(FILENAME).css
     
     which runs an SCSS compiler on a .scss file (assuming these files are watched), and redirects the output to a file with same name but a .css extension, in a different path.
+
+    Mind that if you specified multiple ``paths`` the command will be applied if *any* of them change, but for all the execution context will be the same, e.g. have the same current directory. There is currently no implicit ``cd`` or calculation of file paths relative to their watched roots or similar.
 
   * **per-file** : Whether the command should be executed for each file that has been changed. If true, command will be invoked for each file that has changed since the last check. (default: *false*)
 

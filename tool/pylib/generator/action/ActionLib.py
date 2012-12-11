@@ -56,8 +56,8 @@ class ActionLib(object):
         console = Context.console
         since = time.time()
         interval = jobconf.get("watch-files/interval", 2)
-        path = jobconf.get("watch-files/path", "")
-        if not path:
+        paths = jobconf.get("watch-files/paths", [])
+        if not paths:
             return
         include_dirs = jobconf.get("watch-files/include-dirs", False)
         exit_on_retcode = jobconf.get("watch-files/exit-on-retcode", False)
@@ -66,13 +66,16 @@ class ActionLib(object):
             return
         command_tmpl = CommandLineTemplate(command)
         per_file = jobconf.get("watch-files/command/per-file", False)
-        console.info("Watching changes of '%s'..." % path)
+        console.info("Watching changes of '%s'..." % paths)
         console.info("Press Ctrl-C to terminate.")
         pattern = self._watch_pattern(jobconf.get("watch-files/include",[])) 
         while True:
             time.sleep(interval)
-            console.debug("checking path '%s'" % path)
-            ylist = filetool.findYoungest(path, pattern=pattern, includedirs=include_dirs, since=since)
+            ylist = []
+            for path in paths:
+                console.debug("checking path '%s'" % path)
+                part_list = filetool.findYoungest(path, pattern=pattern, includedirs=include_dirs, since=since)
+                ylist.extend(part_list)
             since = time.time()
             if ylist:     # ylist =[(fpath,fstamp)]
                 flist = [f[0] for f in ylist]
