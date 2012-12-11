@@ -59,6 +59,29 @@ $arrow-position-offset:15px;
   top: $arrow-position-offset + 2;
 }
 
+// Arrow-TopRight
+.popupAnchorPointerTopRight:before {
+  right: $arrow-position-offset;
+  top:-($arrow-size + 3);
+}
+
+.popupAnchorPointerTopRight:after {
+  right: $arrow-position-offset + 2;
+  top:-($arrow-size);
+}
+
+// Arrow-TopRight
+.popupAnchorPointerBottomRight:before {
+  bottom:-($arrow-size + 3);
+  right: $arrow-position-offset;
+}
+
+.popupAnchorPointerBottomRight:after {
+  bottom: -($arrow-size);
+  right: $arrow-position-offset + 2;
+} 
+
+
 .popup-content {
   height : 100%;
 }

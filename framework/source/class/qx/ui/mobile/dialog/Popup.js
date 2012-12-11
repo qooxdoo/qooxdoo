@@ -178,17 +178,28 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         // Reset Anchor.
         this._resetPosition();
         this.__arrow.removeCssClass('popupAnchorPointerTop');
+        this.__arrow.removeCssClass('popupAnchorPointerTopRight');
         this.__arrow.removeCssClass('popupAnchorPointerLeft');
         this.__arrow.removeCssClass('popupAnchorPointerRight');
         this.__arrow.removeCssClass('popupAnchorPointerBottom');
-
-        if (anchorPosition.bottom + popupDimension.height < qx.bom.Viewport.getHeight()) {
+        this.__arrow.removeCssClass('popupAnchorPointerBottomRight');
+        
+        var viewPortHeight = qx.bom.Viewport.getHeight();
+        var viewPortWidth = qx.bom.Viewport.getWidth();
+        
+        if (anchorPosition.bottom + popupDimension.height < viewPortHeight && 
+          anchorPosition.left + popupDimension.width < viewPortWidth) {
            // BOTTOM POSITION
           this.__arrow.addCssClass('popupAnchorPointerTop');
           this.placeTo(anchorPosition.left, anchorPosition.top + anchorDimension.height + arrowSize);
+        } else if (anchorPosition.bottom + popupDimension.height < viewPortHeight && 
+          anchorPosition.left - popupDimension.width > 0) {
+          // BOTTOM RIGHT POSITION
+          this.__arrow.addCssClass('popupAnchorPointerTopRight');
+          this.placeTo(anchorPosition.right - popupDimension.width, anchorPosition.top + anchorDimension.height + arrowSize);
         }
-        else if(anchorPosition.right + popupDimension.width < qx.bom.Viewport.getWidth()
-          && anchorPosition.bottom + popupDimension.height < qx.bom.Viewport.getHeight() + anchorDimension.height) {
+        else if(anchorPosition.right + popupDimension.width < viewPortWidth
+          && anchorPosition.bottom + popupDimension.height < viewPortHeight + anchorDimension.height) {
           // RIGHT POSITION
           this.__arrow.addCssClass('popupAnchorPointerLeft');
 
@@ -197,7 +208,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
           this.placeTo(rightPosition, anchorPosition.top);
         }
         else if(anchorPosition.left - popupDimension.width > 0
-          && anchorPosition.bottom + popupDimension.height < qx.bom.Viewport.getHeight() + anchorDimension.height) {
+          && anchorPosition.bottom + popupDimension.height < viewPortHeight + anchorDimension.height) {
           // LEFT POSITION
           this.__arrow.addCssClass('popupAnchorPointerRight');
 
@@ -206,7 +217,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
           this.placeTo(leftPosition, anchorPosition.top);
         }
-        else if(anchorPosition.top - popupDimension.height > navigationBarHeight && anchorPosition.top < qx.bom.Viewport.getHeight()) {
+        else if(anchorPosition.top - popupDimension.height > navigationBarHeight && anchorPosition.top < viewPortHeight 
+          && anchorPosition.left + popupDimension.width < viewPortWidth) {
           // TOP POSITION
           this.__arrow.addCssClass('popupAnchorPointerBottom');
 
@@ -214,6 +226,15 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
           var topPosition = anchorPosition.top - popupDimension.height - arrowSize;
 
           this.placeTo(anchorPosition.left, topPosition);
+        }
+        else if(anchorPosition.top - popupDimension.height > navigationBarHeight && anchorPosition.top < viewPortHeight) {
+          // TOP RIGHT POSITION
+          this.__arrow.addCssClass('popupAnchorPointerBottomRight');
+
+          // Flip position
+          var topPosition = anchorPosition.top - popupDimension.height - arrowSize;
+
+          this.placeTo(anchorPosition.right - popupDimension.width, topPosition);
         }
         else {
           // Fallback: No Anchor.

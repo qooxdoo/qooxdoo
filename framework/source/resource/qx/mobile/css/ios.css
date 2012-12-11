@@ -587,6 +587,22 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   right: -12px;
   top: 17px; }
 
+.popupAnchorPointerTopRight:before {
+  right: 15px;
+  top: -15px; }
+
+.popupAnchorPointerTopRight:after {
+  right: 17px;
+  top: -12px; }
+
+.popupAnchorPointerBottomRight:before {
+  bottom: -15px;
+  right: 15px; }
+
+.popupAnchorPointerBottomRight:after {
+  bottom: -12px;
+  right: 17px; }
+
 .popup-content {
   height: 100%; }
 
@@ -1425,7 +1441,7 @@ input[type="checkbox"]:checked + label {
 .dialogTitleUnderline:after {
   display: none; }
 
-.popupAnchorPointerTop:not(.master-popup):before {
+.popupAnchorPointerTop:not(.master-popup):before, .popupAnchorPointerTopRight:before {
   position: absolute;
   content: "";
   display: block;
@@ -1435,7 +1451,7 @@ input[type="checkbox"]:checked + label {
   border-right: 14px solid transparent;
   border-bottom: 14px solid #c7d1e3; }
 
-.popupAnchorPointerTop:not(.master-popup):after {
+.popupAnchorPointerTop:not(.master-popup):after, .popupAnchorPointerTopRight:after {
   position: absolute;
   content: "";
   display: block;
@@ -1445,7 +1461,7 @@ input[type="checkbox"]:checked + label {
   border-right: 12px solid transparent;
   border-bottom: 12px solid #6e7d9d; }
 
-.popupAnchorPointerBottom:before {
+.popupAnchorPointerBottom:before, .popupAnchorPointerBottomRight:before {
   position: absolute;
   content: "";
   display: block;
@@ -1455,7 +1471,7 @@ input[type="checkbox"]:checked + label {
   border-right: 14px solid transparent;
   border-top: 14px solid #c7d1e3; }
 
-.popupAnchorPointerBottom:after {
+.popupAnchorPointerBottom:after, .popupAnchorPointerBottomRight:after {
   position: absolute;
   content: "";
   display: block;

@@ -684,6 +684,22 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   right: -12px;
   top: 17px; }
 
+.popupAnchorPointerTopRight:before {
+  right: 15px;
+  top: -15px; }
+
+.popupAnchorPointerTopRight:after {
+  right: 17px;
+  top: -12px; }
+
+.popupAnchorPointerBottomRight:before {
+  bottom: -15px;
+  right: 15px; }
+
+.popupAnchorPointerBottomRight:after {
+  bottom: -12px;
+  right: 17px; }
+
 .popup-content {
   height: 100%; }
 
@@ -1333,7 +1349,7 @@ ul li.active {
   border-right: 12px solid transparent;
   border-bottom: 12px solid #57595c; }
 
-.popupAnchorPointerBottom:before {
+.popupAnchorPointerBottom:before, .popupAnchorPointerBottomRight:before {
   position: absolute;
   content: "";
   display: block;
@@ -1343,7 +1359,7 @@ ul li.active {
   border-right: 14px solid transparent;
   border-top: 14px solid #3d72c9; }
 
-.popupAnchorPointerBottom:after {
+.popupAnchorPointerBottom:after, .popupAnchorPointerBottomRight:after {
   position: absolute;
   content: "";
   display: block;
@@ -1392,6 +1408,26 @@ ul li.active {
   border-top: 12px solid transparent;
   border-bottom: 12px solid transparent;
   border-left: 12px solid #262628; }
+
+.popupAnchorPointerTopRight:before {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-bottom: 14px solid #3d72c9; }
+
+.popupAnchorPointerTopRight:after {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-bottom: 12px solid #57595c; }
 
 .dialogTitleUnderline:after {
   display: none; }

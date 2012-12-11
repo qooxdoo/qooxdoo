@@ -447,13 +447,13 @@ $arrow-size: 12px;
 
 // ARROW TOP
 
-.popupAnchorPointerTop:before
+.popupAnchorPointerTop:before, .popupAnchorPointerTopRight:before
 {
   @include arrow;
   @include triangle-up($arrow-size+2, #ffffff);
 }
 
-.popupAnchorPointerTop:after
+.popupAnchorPointerTop:after, .popupAnchorPointerTopRight:after
 {
   @include arrow;
   @include triangle-up($arrow-size, $dialog-background-color);
@@ -461,13 +461,13 @@ $arrow-size: 12px;
 
 // ARROW BOTTOM
 
-.popupAnchorPointerBottom:before
+.popupAnchorPointerBottom:before,.popupAnchorPointerBottomRight:before
 {
   @include arrow;
   @include triangle-down($arrow-size+2, #ffffff);
 }
 
-.popupAnchorPointerBottom:after
+.popupAnchorPointerBottom:after,.popupAnchorPointerBottomRight:after
 {
   @include arrow;
   @include triangle-down($arrow-size, $dialog-background-color);
@@ -500,7 +500,6 @@ $arrow-size: 12px;
   @include arrow;
   @include triangle-right($arrow-size, $dialog-background-color);
 }
-
 
 //
 // TOOLBAR
