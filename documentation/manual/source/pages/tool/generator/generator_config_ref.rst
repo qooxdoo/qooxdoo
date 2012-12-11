@@ -1257,10 +1257,11 @@ Watch arbitrary files or directories for changes.
     "path"    : "file/or/dir/to/watch",
     "command" : 
     {
-      "line" : "generate.py source",
+      "line"  : "generate.py source",
       "per-file" : (true|false)
     }
     "include" : [ "*.js" ],
+    "include-dirs"    : (true|false),
     "check-interval"  : 10,
     "exit-on-retcode" : (true|false)
   }
@@ -1303,6 +1304,7 @@ Watch arbitrary files or directories for changes.
   * **per-file** : Whether the command should be executed for each file that has been changed. If true, command will be invoked for each file that has changed since the last check. (default: *false*)
 
 * **include** : List of file globs to be selected when watching a directory tree. (default: *[\*]*)
+* **include-dirs** : Whether to include directories in the list of changed files when watching a directory tree. (default: *false*)
 * **check-interval** : Seconds of elapsed time between checks for changes. (default: *2*)
 * **exit-on-retcode**: Whether to terminate when the given command returns a return code != 0, or to continue in this case. (default *false*)
 

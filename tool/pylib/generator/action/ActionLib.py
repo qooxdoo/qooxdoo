@@ -59,6 +59,7 @@ class ActionLib(object):
         path = jobconf.get("watch-files/path", "")
         if not path:
             return
+        include_dirs = jobconf.get("watch-files/include-dirs", False)
         exit_on_retcode = jobconf.get("watch-files/exit-on-retcode", False)
         command = jobconf.get("watch-files/command/line", "")
         if not command:
@@ -71,7 +72,7 @@ class ActionLib(object):
         while True:
             time.sleep(interval)
             console.debug("checking path '%s'" % path)
-            ylist = filetool.findYoungest(path, pattern=pattern, includedirs=False, since=since)
+            ylist = filetool.findYoungest(path, pattern=pattern, includedirs=include_dirs, since=since)
             since = time.time()
             if ylist:     # ylist =[(fpath,fstamp)]
                 flist = [f[0] for f in ylist]
