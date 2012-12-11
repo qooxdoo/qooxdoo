@@ -713,7 +713,7 @@
       {
         "command" : 
         {
-          "line"     : "${PYTHON_CMD} generate.py",
+          "line"     : "${PYTHON_CMD} generate.py -q -I",
           "per-file" : false
         },
         "path"    : "${SOURCE_PATH}/class",
