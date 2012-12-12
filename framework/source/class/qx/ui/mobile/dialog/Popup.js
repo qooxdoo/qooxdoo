@@ -155,57 +155,59 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     {
       if(this.__anchor)
       {
-        var anchorPosition = qx.bom.element.Location.get(this.__anchor.getContainerElement());
-        var anchorDimension = qx.bom.element.Dimension.getSize(this.__anchor.getContainerElement());
-        var popupDimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
-
-        var navigationBarHeight = 45;
-        var arrowSize = 12;
-
-        // Reset Anchor.
-        this._resetPosition();
-        this.__arrow.removeCssClass('popupAnchorPointerTop');
-        this.__arrow.removeCssClass('popupAnchorPointerLeft');
-        this.__arrow.removeCssClass('popupAnchorPointerRight');
-        this.__arrow.removeCssClass('popupAnchorPointerBottom');
-
-        if (anchorPosition.bottom + popupDimension.height < qx.bom.Viewport.getHeight()) {
-           // BOTTOM POSITION
-          this.__arrow.addCssClass('popupAnchorPointerTop');
-          this.placeTo(anchorPosition.left, anchorPosition.top + anchorDimension.height + arrowSize);
-        }
-        else if(anchorPosition.right + popupDimension.width < qx.bom.Viewport.getWidth()
-          && anchorPosition.bottom + popupDimension.height < qx.bom.Viewport.getHeight() + anchorDimension.height) {
-          // RIGHT POSITION
-          this.__arrow.addCssClass('popupAnchorPointerLeft');
-
-          var rightPosition = anchorPosition.right + arrowSize;
-
-          this.placeTo(rightPosition, anchorPosition.top);
-        }
-        else if(anchorPosition.left - popupDimension.width > 0
-          && anchorPosition.bottom + popupDimension.height < qx.bom.Viewport.getHeight() + anchorDimension.height) {
-          // LEFT POSITION
-          this.__arrow.addCssClass('popupAnchorPointerRight');
-
-          // Flip Position
-          var leftPosition = anchorPosition.left - popupDimension.width - arrowSize;
-
-          this.placeTo(leftPosition, anchorPosition.top);
-        }
-        else if(anchorPosition.top - popupDimension.height > navigationBarHeight && anchorPosition.top < qx.bom.Viewport.getHeight()) {
-          // TOP POSITION
-          this.__arrow.addCssClass('popupAnchorPointerBottom');
-
-          // Flip position
-          var topPosition = anchorPosition.top - popupDimension.height - arrowSize;
-
-          this.placeTo(anchorPosition.left, topPosition);
-        }
-        else {
-          // Fallback: No Anchor.
-          this._positionToCenter();
-        }
+          var viewPortHeight = qx.bom.Viewport.getHeight();
+          var viewPortWidth = qx.bom.Viewport.getWidth();
+        
+          var anchorPosition = qx.bom.element.Location.get(this.__anchor.getContainerElement());
+          var popupDimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
+        
+          var arrowSize = 12;
+        
+          var position = qx.util.placement.Placement.compute(popupDimension,{
+            width:viewPortWidth,
+            height:viewPortHeight
+          },anchorPosition,{
+            left:0,
+            right:0,
+            top:arrowSize,
+            bottom:arrowSize
+          },"bottom-left","keep-align","keep-align");
+        
+          // Reset Anchor.
+          this._resetPosition();
+          this.__arrow.removeCssClass('popupAnchorPointerTop');
+          this.__arrow.removeCssClass('popupAnchorPointerTopRight');
+          this.__arrow.removeCssClass('popupAnchorPointerBottom');
+          this.__arrow.removeCssClass('popupAnchorPointerBottomRight');
+        
+          this.placeTo(position.left,position.top);
+        
+          var isTop = anchorPosition.top > position.top;
+          var isLeft = anchorPosition.left > position.left;
+          
+          var isOutsideViewPort = position.top < 0 
+            || position.left < 0 
+            || position.left + popupDimension.width > viewPortWidth 
+            || position.top + popupDimension.height > viewPortHeight;
+          
+          if(isOutsideViewPort) {
+            this._positionToCenter();
+          } else {
+            if(isTop) {
+              if(isLeft) {
+                this.__arrow.addCssClass('popupAnchorPointerBottomRight');
+              } else {
+                this.__arrow.addCssClass('popupAnchorPointerBottom');
+              }
+            } else {
+              if(isLeft) {
+                this.__arrow.addCssClass('popupAnchorPointerTopRight');
+              } else {
+                this.__arrow.addCssClass('popupAnchorPointerTop');
+              }
+            }
+          }
+          
       } else if (this.__childrenContainer) {
         // No Anchor
         this._positionToCenter();
