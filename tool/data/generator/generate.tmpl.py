@@ -35,11 +35,11 @@ QX_PYLIB = "tool/pylib"
 # We need this, as we are only interested in -c/--config on this level, and
 # want to ignore pot. other options.
 #
-class MyOptionParser(optparse.OptionParser):
+class IgnoringUnknownOptionParser(optparse.OptionParser):
     ##
     # <rargs> is the raw argument list. The original _process_args mutates
     # rargs, processing options into <values> and copying interspersed args
-    # into <largs>. This overridden version ignores unknown or ambiguous 
+    # into <largs>. This overridden version ignores unknown or ambiguous
     # options.
     def _process_args(self, largs, rargs, values):
         while rargs:
@@ -50,9 +50,9 @@ class MyOptionParser(optparse.OptionParser):
 
 
 def parseArgs():
-    parser = MyOptionParser()
+    parser = IgnoringUnknownOptionParser(add_help_option=False)
     parser.add_option(
-        "-c", "--config", dest="config", metavar="CFGFILE", 
+        "-c", "--config", dest="config", metavar="CFGFILE",
         default="config.json", help="path to configuration file"
     )
     parser.add_option(
@@ -143,7 +143,7 @@ if sys.platform == "win32":
     argList = argList1
 else:
     argList = ['"%s"' % x for x in argList]  # quote argv elements
-    
+
 cmd = " ".join(argList)
 retval = subprocess.call(cmd, shell=True)
 sys.exit(retval)
