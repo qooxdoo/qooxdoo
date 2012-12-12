@@ -226,6 +226,11 @@ qx.Bootstrap.define("qx.Class",
           }
         }
       }
+      // If config has a 'extend' key but it's null or undefined
+      else if (config.hasOwnProperty('extend') && qx.core.Environment.get("qx.debug"))
+      {
+         throw new Error('"extend" parameter is null or undefined');
+      }
 
       // Process environment
       if (config.environment)
