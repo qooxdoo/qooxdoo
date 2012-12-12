@@ -46,7 +46,7 @@
     }
 }
 
-.hbox > * :not(.navigationbar,.master-detail-master) {
+.hbox > * :not(.navigationbar):not(.master-detail-master) {
   @include box-flex(0);
 }
 
@@ -62,7 +62,7 @@
   @include flexbox-direction(column);
 }
 
-.vbox > * :not(.navigationbar,.master-detail-master) {
+.vbox > * :not(.navigationbar):not(.master-detail-master) {
   @include box-flex(0);
 }
 
