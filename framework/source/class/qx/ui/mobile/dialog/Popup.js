@@ -176,7 +176,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         
           var arrowSize = 12;
         
-          var position = qx.util.placement.Placement.compute(popupDimension,{
+          var computedPopupPosition = qx.util.placement.Placement.compute(popupDimension,{
             width:viewPortWidth,
             height:viewPortHeight
           },anchorPosition,{
@@ -193,15 +193,13 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
           this.__arrow.removeCssClass('popupAnchorPointerBottom');
           this.__arrow.removeCssClass('popupAnchorPointerBottomRight');
         
-          this.placeTo(position.left,position.top);
-        
-          var isTop = anchorPosition.top > position.top;
-          var isLeft = anchorPosition.left > position.left;
+          var isTop = anchorPosition.top > computedPopupPosition.top;
+          var isLeft = anchorPosition.left > computedPopupPosition.left;
           
-          var isOutsideViewPort = position.top < 0 
-            || position.left < 0 
-            || position.left + popupDimension.width > viewPortWidth 
-            || position.top + popupDimension.height > viewPortHeight;
+          var isOutsideViewPort = computedPopupPosition.top < 0 
+            || computedPopupPosition.left < 0 
+            || computedPopupPosition.left + popupDimension.width > viewPortWidth 
+            || computedPopupPosition.top + popupDimension.height > viewPortHeight;
           
           if(isOutsideViewPort) {
             this._positionToCenter();
@@ -219,6 +217,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
                 this.__arrow.addCssClass('popupAnchorPointerTop');
               }
             }
+            
+            this.placeTo(computedPopupPosition.left,computedPopupPosition.top);
           }
           
       } else if (this.__childrenContainer) {
