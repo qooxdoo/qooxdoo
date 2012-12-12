@@ -1237,7 +1237,8 @@ class Scss(object):
         """
         full_filename = None
         i_codestr = None
-        if '..' not in name and '://' not in name and 'url(' not in name:  # Protect against going to prohibited places...
+        #if '..' not in name and '://' not in name and 'url(' not in name:  # Protect against going to prohibited places...
+        if '://' not in name and 'url(' not in name:  # Protect against going to prohibited places...
             names = name.split(',')
             for name in names:
                 name = dequote(name.strip())
