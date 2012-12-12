@@ -591,21 +591,6 @@ $master-popup-border-color:white;
   background-color: $background-color;
 }
 
-// 
-// MASTER PARENT CONTAINER ARROWS
-//
-.master-popup.popupAnchorPointerTop:before  {
-  $arrow-color:$dialog-background-color;
-  
-  border-right:none;
-  border-bottom:none;
-
-  @include gradient-diagonal($arrow-color, transparent, 50.9%, 51%);
-
-  top:-10px;
-}
-
-
 //
 // CAROUSEL
 //
