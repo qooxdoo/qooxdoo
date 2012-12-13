@@ -85,7 +85,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     this._add(this.__arrow);
 
     this.__anchor = anchor;
-
+    
     if(widget) {
       this._initializeChild(widget);
     }
@@ -159,7 +159,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     __titleWidget: null,
     __arrow : null,
     __blocker : false,
-
+    __lastPopupDimension : null,
+    __arrowSize : 12,
 
     /**
      * Event handler. Called whenever the position of the popup should be updated.
@@ -174,33 +175,30 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
           var anchorPosition = qx.bom.element.Location.get(this.__anchor.getContainerElement());
           var popupDimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
         
-          var arrowSize = 12;
-        
           var computedPopupPosition = qx.util.placement.Placement.compute(popupDimension,{
             width:viewPortWidth,
             height:viewPortHeight
           },anchorPosition,{
             left:0,
             right:0,
-            top:arrowSize,
-            bottom:arrowSize
+            top:this.__arrowSize,
+            bottom:this.__arrowSize
           },"bottom-left","keep-align","keep-align");
-        
+          
           // Reset Anchor.
           this._resetPosition();
-          this.__arrow.removeCssClass('popupAnchorPointerTop');
-          this.__arrow.removeCssClass('popupAnchorPointerTopRight');
-          this.__arrow.removeCssClass('popupAnchorPointerBottom');
-          this.__arrow.removeCssClass('popupAnchorPointerBottomRight');
         
           var isTop = anchorPosition.top > computedPopupPosition.top;
           var isLeft = anchorPosition.left > computedPopupPosition.left;
+          
+          this.__lastPopupDimension = popupDimension;
           
           var isOutsideViewPort = computedPopupPosition.top < 0 
             || computedPopupPosition.left < 0 
             || computedPopupPosition.left + popupDimension.width > viewPortWidth 
             || computedPopupPosition.top + popupDimension.height > viewPortHeight;
           
+          this.__arrow.removeCssClasses(['popupAnchorPointerTop','popupAnchorPointerTopRight','popupAnchorPointerBottom','popupAnchorPointerBottomRight']);
           if(isOutsideViewPort) {
             this._positionToCenter();
           } else {
@@ -217,10 +215,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
                 this.__arrow.addCssClass('popupAnchorPointerTop');
               }
             }
-            
             this.placeTo(computedPopupPosition.left,computedPopupPosition.top);
           }
-          
       } else if (this.__childrenContainer) {
         // No Anchor
         this._positionToCenter();
@@ -240,7 +236,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
         // Move outside of viewport
         this.placeTo(-1000,-1000);
-
+        
         // Needs to be added to screen, before rendering position, for calculating
         // objects height.
         this.base(arguments);
@@ -265,6 +261,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       if (this.__isShown)
       {
         this.__unregisterEventListener();
+        
         this.exclude();
       }
       this.__isShown = false;
@@ -306,7 +303,28 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     {
       this._positionTo(left, top);
     },
+    
+    
+    /**
+     * Tracks the user touch on root and hides the widget if touch start event 
+     * occurs outside of the widgets bounds.
+     */
+    _trackUserTouch : function(evt) {
+        var clientX = evt.getAllTouches()[0].clientX;
+        var clientY = evt.getAllTouches()[0].clientY;
+        
+        var popupLocation = qx.bom.element.Location.get(this.getContainerElement());
+        
+        var isOutsideWidget =  clientX < popupLocation.left  
+          || clientX > popupLocation.left + this.__lastPopupDimension.width
+          || clientY > popupLocation.top + this.__lastPopupDimension.height
+          || clientY < popupLocation.top;
 
+        if(isOutsideWidget) {
+          this.hide();
+        }
+    },
+    
 
     /**
      * This protected method positions the popup widget at the coordinates specified.
@@ -337,8 +355,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      * Resets the position of this element (left, top, margins...)
      */
     _resetPosition : function() {
-      this.getContainerElement().style.left = null;
-      this.getContainerElement().style.top = null;
+      this.getContainerElement().style.left = "0px";
+      this.getContainerElement().style.top = "0px";
       this.getContainerElement().style.marginLeft = null;
       this.getContainerElement().style.marginTop = null;
     },
@@ -350,14 +368,10 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     __registerEventListener : function()
     {
       qx.event.Registration.addListener(window, "resize", this._updatePosition, this);
-      /*if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
-      {
-        qx.event.message.Bus.getInstance().subscribe("iscrollstart", this.hide, this);
+      if(this.__anchor) {
+        var appRoot = qx.core.Init.getApplication().getRoot();
+        appRoot.addListener("touchstart",this._trackUserTouch,this);
       }
-      else
-      {
-        qx.event.Registration.addListener(window, "scroll", this.hide, this);
-      }*/
     },
 
 
@@ -367,17 +381,14 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     __unregisterEventListener : function()
     {
       qx.event.Registration.removeListener(window, "resize", this._updatePosition, this);
-      /*if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
-      {
-        qx.event.Registration.removeListener(window, "iscrollstart", this.hide, this);
+      
+      if(this.__anchor) {
+        var appRoot = qx.core.Init.getApplication().getRoot();
+        appRoot.removeListener("touchstart",this._trackUserTouch,this);
       }
-      else
-      {
-        qx.event.Registration.removeListener(window, "scroll", this.hide, this);
-      }*/
     },
-
-
+    
+    
     /**
      * This method creates the container where the popup's widget will be placed
      * and adds it to the popup.
