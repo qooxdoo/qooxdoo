@@ -175,6 +175,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
           var anchorPosition = qx.bom.element.Location.get(this.__anchor.getContainerElement());
           var popupDimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
         
+          this.__lastPopupDimension = popupDimension;
+          
           var computedPopupPosition = qx.util.placement.Placement.compute(popupDimension,{
             width:viewPortWidth,
             height:viewPortHeight
@@ -191,7 +193,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
           var isTop = anchorPosition.top > computedPopupPosition.top;
           var isLeft = anchorPosition.left > computedPopupPosition.left;
           
-          this.__lastPopupDimension = popupDimension;
           
           var isOutsideViewPort = computedPopupPosition.top < 0 
             || computedPopupPosition.left < 0 
@@ -301,7 +302,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     placeTo : function(left, top)
     {
-      this._positionTo(left, top);
+      this.getContainerElement().style.left = left + "px";
+      this.getContainerElement().style.top = top + "px";
     },
     
     
@@ -325,18 +327,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       }
     },
     
-
-    /**
-     * This protected method positions the popup widget at the coordinates specified.
-     * It is used internally by the placeTo and _updatePosition methods
-     * @param left {Integer}  the value the will be set to container's left style property
-     * @param top {Integer} the value the will be set to container's top style property
-     */
-    _positionTo : function(left, top) {
-      this.getContainerElement().style.left = left + "px";
-      this.getContainerElement().style.top = top + "px";
-    },
-
 
     /**
      * Centers this widget to window's center position.
