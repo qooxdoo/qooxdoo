@@ -310,19 +310,19 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      * occurs outside of the widgets bounds.
      */
     _trackUserTouch : function(evt) {
-        var clientX = evt.getAllTouches()[0].clientX;
-        var clientY = evt.getAllTouches()[0].clientY;
-        
-        var popupLocation = qx.bom.element.Location.get(this.getContainerElement());
-        
-        var isOutsideWidget =  clientX < popupLocation.left  
-          || clientX > popupLocation.left + this.__lastPopupDimension.width
-          || clientY > popupLocation.top + this.__lastPopupDimension.height
-          || clientY < popupLocation.top;
+      var clientX = evt.getAllTouches()[0].clientX;
+      var clientY = evt.getAllTouches()[0].clientY;
 
-        if(isOutsideWidget) {
-          this.hide();
-        }
+      var popupLocation = qx.bom.element.Location.get(this.getContainerElement());
+
+      var isOutsideWidget =  clientX < popupLocation.left  
+        || clientX > popupLocation.left + this.__lastPopupDimension.width
+        || clientY > popupLocation.top + this.__lastPopupDimension.height
+        || clientY < popupLocation.top;
+
+      if(isOutsideWidget) {
+        this.hide();
+      }
     },
     
 
