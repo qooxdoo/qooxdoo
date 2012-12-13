@@ -61,7 +61,9 @@ def get_doc_root(jobconf, confObj):
     libs = jobconf.get("library", [])
     lib_paths = []
     for lib in libs:
-        lib_paths.append(confObj.absPath(lib.path))
+        lpath = confObj.absPath(lib.path)
+        lpath = os.path.normcase(lpath) # for os.path.commonprefix on win32
+        lib_paths.append(lpath)
     croot = os.path.dirname(os.path.commonprefix(lib_paths))
     return croot
 
