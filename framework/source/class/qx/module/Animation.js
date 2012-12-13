@@ -41,18 +41,6 @@ qx.Bootstrap.define("qx.module.Animation", {
 
   statics :
   {
-    __animationHandles : null,
-
-    /**
-     * Internal initializer to make sure we always have a plain array
-     * for storing animation handles.
-     * @internal
-     */
-    $init : function() {
-      this.__animationHandles = [];
-    },
-
-
     /**
      * Returns the stored animation handles. The handles are only
      * available while an animation is running.
@@ -61,7 +49,11 @@ qx.Bootstrap.define("qx.module.Animation", {
      * @return {Array} An array of animation handles.
      */
     getAnimationHandles : function() {
-      return this.__animationHandles;
+      var animationHandles = [];
+      for (var i=0; i < this.length; i++) {
+        animationHandles[i] = this[i].$$animation;
+      };
+      return animationHandles;
     },
 
 
@@ -135,33 +127,7 @@ qx.Bootstrap.define("qx.module.Animation", {
      * @return {qxWeb} The collection for chaining.
      */
     animate : function(desc, duration) {
-      if (this.__animationHandles.length > 0) {
-        throw new Error("Only one animation at a time.");
-      }
-      for (var i=0; i < this.length; i++) {
-        var handle = qx.bom.element.Animation.animate(this[i], desc, duration);
-
-        var self = this;
-        // only register for the first element
-        if (i == 0) {
-          handle.on("start", function() {
-            self.emit("animationStart");
-          }, handle);
-
-          handle.on("iteration", function() {
-            self.emit("animationIteration");
-          }, handle);
-        }
-
-        handle.on("end", function() {
-          var handles = self.__animationHandles;
-          handles.splice(self.indexOf(handle), 1);
-          if (handles.length == 0) {
-            self.emit("animationEnd");
-          }
-        }, handle);
-        this.__animationHandles.push(handle);
-      };
+      qx.module.Animation._animate.bind(this)(desc, duration, false);
       return this;
     },
 
@@ -176,25 +142,54 @@ qx.Bootstrap.define("qx.module.Animation", {
      * @return {qxWeb} The collection for chaining.
      */
     animateReverse : function(desc, duration) {
-      if (this.__animationHandles.length > 0) {
-        throw new Error("Only one animation at a time.");
-      }
-      for (var i=0; i < this.length; i++) {
-        var handle = qx.bom.element.Animation.animateReverse(this[i], desc, duration);
-
-        var self = this;
-        handle.on("end", function() {
-          var handles = self.__animationHandles;
-          handles.splice(self.indexOf(handle), 1);
-          if (handles.length == 0) {
-            self.emit("animationEnd");
-          }
-        }, handle);
-        this.__animationHandles.push(handle);
-      };
+      qx.module.Animation._animate.bind(this)(desc, duration, true);
       return this;
     },
 
+
+    /**
+     * Animation execute either regular or reversed direction.
+     * @param desc {Map} The animation's description.
+     * @param duration {Number?} The duration in milliseconds of the animation,
+     *   which will override the duration given in the description.
+     * @param reverse {Boolean} <code>true</code>, if the animation should be reversed
+     */
+    _animate : function(desc, duration, reverse) {
+      for (var i=0; i < this.length; i++) {
+        var el = this[i];
+        // stop all running animations
+        if (el.$$animation) {
+          el.$$animation.stop();
+        }
+
+        if (reverse) {
+          var handle = qx.bom.element.Animation.animateReverse(el, desc, duration);
+        } else {
+          var handle = qx.bom.element.Animation.animate(el, desc, duration);
+        }
+
+        var self = this;
+        // only register for the first element
+        if (i == 0) {
+          handle.on("start", function() {
+            self.emit("animationStart");
+          }, handle);
+
+          handle.on("iteration", function() {
+            self.emit("animationIteration");
+          }, handle);
+        }
+
+        handle.on("end", function() {
+          for (var i=0; i < self.length; i++) {
+            if (self[i].$$animation) {
+              return;
+            }
+          };
+          self.emit("animationEnd");
+        }, el);
+      };
+    },
 
 
     /**
@@ -204,8 +199,11 @@ qx.Bootstrap.define("qx.module.Animation", {
      * @return {qxWeb} The collection for chaining.
      */
     play : function() {
-      for (var i=0; i < this.__animationHandles.length; i++) {
-        this.__animationHandles[i].play();
+      for (var i=0; i < this.length; i++) {
+        var handle = this[i].$$animation;
+        if (handle) {
+          handle.play();
+        }
       };
       return this;
     },
@@ -218,9 +216,13 @@ qx.Bootstrap.define("qx.module.Animation", {
      * @return {qxWeb} The collection for chaining.
      */
     pause : function() {
-      for (var i=0; i < this.__animationHandles.length; i++) {
-        this.__animationHandles[i].pause();
+      for (var i=0; i < this.length; i++) {
+        var handle = this[i].$$animation;
+        if (handle) {
+          handle.pause();
+        }
       };
+
       return this;
     },
 
@@ -231,10 +233,13 @@ qx.Bootstrap.define("qx.module.Animation", {
      * @return {qxWeb} The collection for chaining.
      */
     stop : function() {
-      for (var i=0; i < this.__animationHandles.length; i++) {
-        this.__animationHandles[i].stop();
+      for (var i=0; i < this.length; i++) {
+        var handle = this[i].$$animation;
+        if (handle) {
+          handle.stop();
+        }
       };
-      this.__animationHandles = [];
+
       return this;
     },
 
@@ -245,11 +250,13 @@ qx.Bootstrap.define("qx.module.Animation", {
      * @return {Boolean} <code>true</code>, if an animation is running.
      */
     isPlaying : function() {
-      for (var i=0; i < this.__animationHandles.length; i++) {
-        if (this.__animationHandles[i].isPlaying()) {
+      for (var i=0; i < this.length; i++) {
+        var handle = this[i].$$animation;
+        if (handle && handle.isPlaying()) {
           return true;
         }
       };
+
       return false;
     },
 
@@ -260,11 +267,13 @@ qx.Bootstrap.define("qx.module.Animation", {
      * @return {Boolean} <code>true</code>, if an animation has ended.
      */
     isEnded : function() {
-      for (var i=0; i < this.__animationHandles.length; i++) {
-        if (!this.__animationHandles[i].isEnded()) {
+      for (var i=0; i < this.length; i++) {
+        var handle = this[i].$$animation;
+        if (handle && !handle.isEnded()) {
           return false;
         }
       };
+
       return true;
     },
 
@@ -307,7 +316,5 @@ qx.Bootstrap.define("qx.module.Animation", {
       "isPlaying" : statics.isPlaying,
       "getAnimationHandles" : statics.getAnimationHandles
     });
-
-    qxWeb.$attachInit(statics.$init);
   }
 });
