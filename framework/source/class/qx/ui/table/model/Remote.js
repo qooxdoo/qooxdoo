@@ -490,7 +490,7 @@ qx.Class.define("qx.ui.table.model.Remote",
      * @throws {Error} the abstract function warning.
      */
     _loadRowData : function(firstRow, lastRow) {
-      throw new Error("_loadRowCount is abstract");
+      throw new Error("_loadRowData is abstract");
     },
 
 
