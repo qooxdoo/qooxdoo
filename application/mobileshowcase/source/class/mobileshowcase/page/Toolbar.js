@@ -191,7 +191,7 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       searchButton.addListener("tap", function(){
         this.__searchDialog.hide();
       }, this);
-      this.__searchDialog = new qx.ui.mobile.dialog.Dialog(popupWidget);
+      this.__searchDialog = new qx.ui.mobile.dialog.Popup(popupWidget);
       this.__searchDialog.setModal(true);
       this.__searchDialog.setTitle('Search ...');
       return this.__searchDialog;

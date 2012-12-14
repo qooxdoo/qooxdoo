@@ -108,7 +108,6 @@ class SimulationLogParser:
     simulationsList = []
 
     agentre = re.compile('(?s).*<p>User agent: (.*?)</p>')
-    platre = re.compile('(?s).*<p>Platform: (.*?)</p>')
     datere = re.compile('from (.*)</h1>')
     errorre = re.compile('with warnings or errors: (\d*?)</p>')
     durationre = re.compile('<p>Test run finished in: (.*)</p>')
@@ -131,15 +130,8 @@ class SimulationLogParser:
       agent = agentre.search(entry)
       if (agent):
         simulationDict["browser"] = self.getBrowser(agent.group(1))
+        simulationDict["platform"] = self.getPlatform(agent.group(1))
         simulationDict["user_agent"] = agent.group(1)
-
-      platma = platre.search(entry)
-      if (platma):
-        # Rhino reports Win 8 as "Windows NT (unknown)
-        if platma.group(1) == "Windows NT (unknown)":
-          simulationDict["platform"] = "Windows 8"
-        else:
-          simulationDict["platform"] = platma.group(1)
 
       duration = durationre.search(entry)
       if (duration):
@@ -258,3 +250,30 @@ class SimulationLogParser:
       browser = agent
 
     return browser
+
+  def getPlatform(self, agent):
+      winVersions = {
+        "Windows NT 6.2": "8",
+        "Windows NT 6.1": "7",
+        "Windows NT 6.0": "Vista",
+        "Windows NT 5.2": "2003",
+        "Windows NT 5.1": "XP",
+        "Windows NT 5.0": "2000",
+        "Windows 2000": "2000",
+        "Windows NT 4.0": "NT4"
+      }
+
+      if "Windows" in agent:
+          platform = "Windows"
+          for winVer, ver in winVersions.iteritems():
+              if winVer in agent:
+                  platform += " " + ver
+          return platform
+
+      if "Mac OS X" in agent:
+          return "Mac OS X"
+
+      if "Linux" in agent:
+          return "Linux"
+
+      return "Unknown"

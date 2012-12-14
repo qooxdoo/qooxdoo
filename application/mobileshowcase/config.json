@@ -35,7 +35,8 @@
     "source-indigo",
     "build-ios",
     "build-android",
-    "build-indigo"
+    "build-indigo",
+    "watch"
   ],
   
   "default-job" : "source-hybrid",

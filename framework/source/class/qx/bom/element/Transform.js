@@ -103,7 +103,7 @@ qx.Bootstrap.define("qx.bom.element.Transform",
 
 
     /**
-     * Converts the given map to a string which chould ba added to a css
+     * Converts the given map to a string which could be added to a css
      * stylesheet.
      * @param transforms {Map} The transforms map. For a detailed description,
      * take a look at the {@link #transform} method.
@@ -113,7 +113,7 @@ qx.Bootstrap.define("qx.bom.element.Transform",
       var transformCss = this.__mapToCss(transforms);
       if (this.__cssKeys != null) {
         var style = this.__cssKeys["name"];
-        return qx.lang.String.hyphenate(style) + ":" + transformCss + ";";
+        return qx.bom.Style.getCssName(style) + ":" + transformCss + ";";
       }
       return "";
     },

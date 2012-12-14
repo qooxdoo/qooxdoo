@@ -132,6 +132,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      */
     createItemLinkHtml : function(linkText, packageBaseClass, useIcon, useShortName)
     {
+      var classNode = null;
       if (useIcon == null) {
         useIcon = true;
       }
@@ -169,15 +170,23 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           }
           else if (packageBaseClass && className.indexOf(".") == -1)
           {
-            // The class name has no package -> Use the same package as the current class
-            var name = packageBaseClass.getName();
-            if (packageBaseClass instanceof apiviewer.dao.Package) {
-              var packageName = packageBaseClass.getFullName();
-            } else {
-              var fullName = packageBaseClass.getFullName();
-              var packageName = fullName.substring(0, fullName.length - name.length - 1);
+            classNode = apiviewer.dao.Class.getClassByName(className);
+
+            // classNode could be a native JS constructor (String, Boolean, ...)
+            if (!classNode || !classNode.classname ||
+                classNode.getPackage().getName() !== "")
+            {
+              // The class name has no package -> Use the same package as the current class
+              var name = packageBaseClass.getName();
+              var packageName;
+              if (packageBaseClass instanceof apiviewer.dao.Package) {
+                packageName = packageBaseClass.getFullName();
+              } else {
+                var fullName = packageBaseClass.getFullName();
+                packageName = fullName.substring(0, fullName.length - name.length - 1);
+              }
+              className = packageName + "." + className;
             }
-            className = packageName + "." + className;
           }
 
           // Get the node info
@@ -190,7 +199,9 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           // Add the right icon
           if (useIcon)
           {
-            var classNode = apiviewer.dao.Class.getClassByName(className);
+            if (!classNode) {
+              classNode = apiviewer.dao.Class.getClassByName(className);
+            }
 
             if (classNode)
             {
@@ -622,13 +633,23 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         for (var i=0; i<errors.length; i++)
         {
           html.add('<div class="item-detail-text">', errors[i].attributes.msg, " <br/>");
-          html.add("(");
 
-          if (node.getClass() != currentClassDocNode) {
-            html.add(node.getClass().getFullName(), "; ");
+          if (errors[i].attributes.line || node.getClass() != currentClassDocNode) {
+            html.add("(");
+
+            if (node.getClass() != currentClassDocNode) {
+              html.add(node.getClass().getFullName(), "; ");
+            }
+
+            if (errors[i].attributes.line) {
+              html.add("Line: ", errors[i].attributes.line);
+              if (errors[i].attributes.column) {
+                html.add(", Column:", errors[i].attributes.column);
+              }
+            }
+            html.add(")");
           }
-
-          html.add("Line: ", errors[i].attributes.line, ", Column:", errors[i].attributes.column + ")", '</div>');
+          html.add("</div>");
         }
 
         return html.get();

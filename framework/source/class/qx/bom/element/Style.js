@@ -124,7 +124,7 @@ qx.Bootstrap.define("qx.bom.element.Style",
         }
         else {
           this.__cssNames[key] = key == "float" ? "float" :
-            qx.lang.String.hyphenate(styleNames[key]);
+            qx.bom.Style.getCssName(styleNames[key]);
         }
       }
 
@@ -216,7 +216,7 @@ qx.Bootstrap.define("qx.bom.element.Style",
           html.push(special[name].compile(value));
         } else {
           if (!cssNames[name]) {
-            cssNames[name] = qx.lang.String.hyphenate(name);
+            cssNames[name] = qx.bom.Style.getCssName(name);
           }
           html.push(cssNames[name], ":", value, ";");
         }

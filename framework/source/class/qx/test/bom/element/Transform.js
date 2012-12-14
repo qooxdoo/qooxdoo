@@ -95,7 +95,7 @@ qx.Class.define("qx.test.bom.element.Transform",
 
     testGetCss : function() {
       var value = qx.bom.element.Transform.getCss({scale: 1.2});
-      var expected = qx.lang.String.hyphenate(this.__keys.name) + ":scale(1.2) ;";
+      var expected = qx.bom.Style.getCssName(this.__keys.name) + ":scale(1.2) ;";
       this.assertEquals(expected, value);
     },
 

@@ -22,7 +22,7 @@
 
 import os, re, sys, unicodedata as unidata
 
-from misc                         import filetool, Path
+from misc                         import filetool, Path, json
 from ecmascript.frontend          import lang, treeutil
 from generator.code.Class         import Class
 from generator.code.qcEnvClass    import qcEnvClass
@@ -33,6 +33,7 @@ from generator.action.ContribLoader      import ContribLoader
 from generator.config.Manifest    import Manifest
 from generator.config.ConfigurationError import ConfigurationError
 from generator                    import Context as context
+
 
 ##
 # pickle complains when I use NameSpace!?
@@ -58,6 +59,7 @@ class Library(object):
         self.assets["resources"] = {}
         
         self.__youngest = (None, None) # to memoize youngest file in lib
+        self._dependencies = None  # for dependencies.json
 
 
     def _init_from_manifest(self):
@@ -91,6 +93,10 @@ class Library(object):
         #transPath = os.path.join(self.path, self.assets['translations']["path"])
         #if not os.path.isdir(transPath):
         #    os.makedirs(transPath)
+
+        self._dependencies_path = os.path.join(self.path, 
+            os.path.dirname(self.classPath),  # this is to come to 'source/script'
+            'script', 'dependencies.json')
 
 
     def __repr__(self):
@@ -139,6 +145,7 @@ class Library(object):
         # the Log object (the StreamWriter for a potential log file) makes
         # problems on unpickling
         del d['_console']
+        d['_dependencies'] = None  # no need to pickle large Json, better restored with queries
         return d
 
 
@@ -149,9 +156,12 @@ class Library(object):
         self.__dict__ = d
 
 
-    def mostRecentlyChangedFile(self, force=False):
+    def mostRecentlyChangedFile(self, force=False, catList=None):
         if self.__youngest != (None,None) and not force:
             return self.__youngest
+
+        if catList is None:
+            catList = self.assets
 
         youngFiles = {} # {timestamp: "filepath"}
         # also check the Manifest file
@@ -159,7 +169,7 @@ class Library(object):
         youngFiles[mtime] = file_
 
         # for each interesting library part
-        for category in self.assets:
+        for category in catList:
             catsuffix = self.assets[category]['path']
             if catsuffix is None:  # if this changed recently, the Manifest reflects it
                 continue
@@ -221,6 +231,45 @@ class Library(object):
 
         self._console.outdent()
 
+
+    def _get_dependencies(self):
+        deps = {}
+        if os.path.isfile(self._dependencies_path):
+            deps = json.load(self._dependencies_path)
+        return deps
+
+    ##
+    # <check_file> is current against this library contents,
+    # ie. it is younger than all classes, resources, etc.
+    def file_is_current(self, check_file, force=False):
+        res = False
+        if os.path.isfile(check_file):
+            cstamp = os.stat(check_file).st_mtime
+            yfile, ystamp = self.mostRecentlyChangedFile(force=force) # new resources could be included with '*', msg keys changed in .po files
+                # we allow getting a cached yfile,ystamp result, as they should be
+                # good enough during *runtime* of this Library object (checking
+                # everythime, e.g. for deps.analysis, would be too expensive)
+            res = ystamp <= cstamp
+        return res
+
+    def getDependencies(self, classId):
+        deps = None
+        dstamp = None
+        if self.file_is_current(self._dependencies_path):
+            if self._dependencies is None:
+                self._dependencies = self._get_dependencies()
+            deps = self._dependencies.get(classId)
+            dstamp = os.stat(self._dependencies_path).st_mtime
+        return deps, dstamp
+
+    ##
+    # This is currently only a stub.
+    def putDependencies(self, classId, deps):
+        if self._dependencies is None:
+            self._dependencies = self._get_dependencies()
+        self._dependencies[classId] = deps
+        # should probably write back to file, with locking
+        return
 
     def _getCodeId1(self, fileContent):
         for item in self._codeExpr.findall(fileContent):

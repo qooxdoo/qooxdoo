@@ -26,13 +26,15 @@ import os, sys, re, types
 import urllib, urlparse
 from misc.NameSpace import NameSpace
 
-def getCommonSuffix(p1, p2):
-    #p1, p2 = map(os.path.normcase, (p1, p2)) # this helps on win32 for comparison, but breaks bug#1507
+def getCommonSuffix(p1, p2, normcase=True):
+    if normcase:
+        p1, p2 = map(os.path.normcase, (p1, p2)) # this helps on win32 for comparison
     return getCommonSuffixS(p1, p2)  # dispatch to real implementation
 
 
-def getCommonPrefix(p1, p2):
-    #p1, p2 = map(os.path.normcase, (p1, p2)) # this helps on win32 for comparison, but breaks bug#1507
+def getCommonPrefix(p1, p2, normcase=True):
+    if normcase:
+        p1, p2 = map(os.path.normcase, (p1, p2)) # this helps on win32 for comparison
     return getCommonPrefixS(p1, p2)  # dispatch to real implementation
 
 # -- string-based versions ----------------------------------------------------

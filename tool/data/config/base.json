@@ -27,8 +27,8 @@
     "LOCALES"      : [ "en" ],
     "APPLICATION_MAIN_CLASS" : "${APPLICATION}.Application",
     "ADD_NOCACHE_PARAM"      : false,
-    "BUILD_PATH"   : "${ROOT}/build",
-    "SOURCE_PATH"  : "${ROOT}/source"
+    "SOURCE_PATH"  : "${ROOT}/source",
+    "BUILD_PATH"   : "${ROOT}/build"
   },
 
 
@@ -103,12 +103,8 @@
 
     // -- source jobs --------------------------------------------------
 
-    "source-script" :
+    "source-script-compopts" :
     {
-      "desc"    : "create a source loader (all classes as source files)",
-
-      "extend" : ["common"],
-
       "compile-options" :
       {
         "paths" :
@@ -124,7 +120,15 @@
         {
           "locales" : "${LOCALES}"
         }
-      },
+      }
+    },
+
+
+    "source-script" :
+    {
+      "desc"    : "create a source loader (all classes as source files)",
+
+      "extend" : ["common", "source-script-compopts"],
 
       "compile" : { "type" : "source" }
     },
@@ -284,7 +288,7 @@
           "index.html"
         ],
 
-        "source" : "${ROOT}/source",
+        "source" : "${SOURCE_PATH}",
         "target" : "${BUILD_PATH}"
       }
     },
@@ -361,7 +365,12 @@
         {
           "type" : "using",
           "format" : "provider",
-          "json" : {"pretty" : true, "file" : "${PROVIDER_ROOT}/dependencies.json"}
+          "json"   : 
+          {
+            "pretty" : true, 
+            "file"   : "${PROVIDER_ROOT}/dependencies.json",
+            "replace-dots-in" : [ "keys", "values"]
+          }
         }
       }
     },
@@ -399,6 +408,59 @@
         "include"  : ["${APPLICATION}.*"],
         "exclude"  : ["${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
         "compile"  : ["source", "build"]
+      }
+    },
+
+
+    "dependencies" :
+    {
+      "desc"   : "create a dependencies.json file for the library"
+      ,"extend" : ["cache", "scan-local-lib"]
+      ,"config-warnings" : {
+        "exclude" : [ "${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]
+      }
+      ,"include" : [ "=${APPLICATION}.*" ]
+      ,"exclude" : [ "${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]
+
+      ,"log" :
+      {
+        "dependencies" :
+        {
+          "type" : "using",
+          "format" : "provider",
+          "json"   : 
+          {
+            "pretty" : true, 
+            "file"   : "${SOURCE_PATH}/script/dependencies.json"
+          }
+        }
+      }
+    },
+
+
+    "source-server" :
+    {
+      "desc"  : "start a lightweight web server that exports the source version"
+      ,"extend" : ["cache", "libraries", "source-script-compopts"]
+      ,"web-server" :
+      {
+        "document-root" : ""   // calculate dynamically from libraries
+        ,"server-port"  : 0
+        ,"log-level"    : "error"  // use "info" for more console logging, "fatal" for none
+        ,"allow-remote-access" : false
+      }
+    },
+
+    "source-httpd-config":
+    {
+      "desc"  : "generate a httpd configuration for the source version"
+      ,"extend" : ["cache", "libraries", "source-script-compopts"]
+      ,"web-server-config" :
+      {
+        "output-dir" : "${ROOT}"
+        ,"template-dir" : "${QOOXDOO_PATH}/tool/data/generator"
+        ,"httpd-type" : "apache2"
+        ,"httpd-host-url" : "http://localhost"
       }
     },
 
@@ -640,6 +702,24 @@
             ,"compiled-class-size" : false
           }
         }
+      }
+    },
+
+    "watch" : 
+    {
+      "extend" : ["cache"],
+
+      "watch-files" : 
+      {
+        "command" : 
+        {
+          "line"     : "${PYTHON_CMD} generate.py -q -I",
+          "per-file" : false
+        },
+        "paths"    : ["${SOURCE_PATH}/class"],
+        "include" : [ "*.js" ],
+        "check-interval" : 2,
+        "exit-on-retcode" : false
       }
     }
   }

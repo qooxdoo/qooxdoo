@@ -270,6 +270,18 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
+    "menubutton" : {
+      include : "button",
+      alias : "button",
+
+      style : function(states) {
+        return {
+          icon : "decoration/arrows/down.png",
+          iconPosition : "right"
+        };
+      }
+    },
+
     "splitbutton" : {},
     "splitbutton/button" : "button",
     "splitbutton/arrow" :

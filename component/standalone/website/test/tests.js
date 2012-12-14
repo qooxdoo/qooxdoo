@@ -1280,6 +1280,13 @@ testrunner.define({
       }, this);
     }, this);
     this.wait();
+  },
+
+  testNewCollectionPlaying : function () {
+    var test = q.create("<div id='testdiv'/>");
+    test.appendTo(this.sandbox[0]);
+    test.fadeIn();
+    this.assertTrue(q("#testdiv").isPlaying());
   }
 });
 

@@ -68,15 +68,14 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
     this.addCssClass("scrollableBottom");
 
-    this.__scrollContainer = new qx.ui.mobile.container.Composite();
-    this.__scrollContainer.addCssClass("scrollContainerChild");
-
-    this.__scrollContainer.addListener("touchstart",this._onTouchStart,this);
-    this.__scrollContainer.addListener("touchmove",this._onTouchMove,this);
-    this.__scrollContainer.addListener("touchend",this._onTouchEnd,this);
+    this._scrollContainer = this._createScrollContainer();
+    
+    this.addListener("touchstart",this._onTouchStart,this);
+    this.addListener("touchmove",this._onTouchMove,this);
+    this.addListener("touchend",this._onTouchEnd,this);
 
     this._setLayout(new qx.ui.mobile.layout.VBox());
-    this._add(this.__scrollContainer, {flex:1});
+    this._add(this._scrollContainer, {flex:1});
   },
 
 
@@ -92,29 +91,54 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     {
       refine : true,
       init : "scrollContainer"
+    },
+    
+    /** Flag if scrolling in horizontal direction should be allowed. */
+    scrollableX : 
+    {
+      init : false,
+      check : "Boolean"
+    },
+    
+    /** Flag if scrolling in vertical direction should be allowed. */
+    scrollableY : 
+    {
+      init : true,
+      check : "Boolean"
     }
   },
 
 
   members :
   {
-    __scrollContainer : null,
+    _scrollContainer : null,
     __touchStartPoints : null,
     __targetOffset : null,
     __currentOffset : null,
     __scrollTopOnStart : 0,
     __targetScrollTop : 0,
 
-
-     /**
-     * TouchHandler for scrollContainer
-     * @param evt {qx.event.type.Touch} The touch event
+    
+    /**
+     * Factory method for the scrollContainer.
+     * @return {qx.ui.mobile.container.Composite} a composite which represents the scrollContainer.
      */
+    _createScrollContainer : function() {
+      var scrollContainer = new qx.ui.mobile.container.Composite();
+      scrollContainer.addCssClass("scrollContainerChild");
+      return scrollContainer;
+    },
+    
+    
+    /**
+    * TouchHandler for scrollContainer
+    * @param evt {qx.event.type.Touch} The touch event
+    */
     _onTouchStart : function(evt){
       var touchX = evt.getScreenLeft();
       var touchY = evt.getScreenTop();
 
-      qx.bom.element.Style.set(this.__scrollContainer.getContainerElement(),"transition-duration","0s");
+      qx.bom.element.Style.set(this._scrollContainer.getContainerElement(),"transition-duration","0s");
 
       this.__touchStartPoints[0] = touchX;
       this.__touchStartPoints[1] = touchY;
@@ -134,29 +158,37 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       var distanceX = touchX - this.__touchStartPoints[0];
       var distanceY = touchY - this.__touchStartPoints[1];
 
-      var targetElement =  this.__scrollContainer.getContainerElement();
+      var targetElement =  this._scrollContainer.getContainerElement();
       var lowerLimit = targetElement.scrollHeight - targetElement.offsetHeight-4;
 
-       // Upper Limit
-      if(this.__currentOffset[1] >= 0) {
-        this.removeCssClass("scrollableTop");
-      } else {
-        this.addCssClass("scrollableTop");
-      }
+      if(this.isScrollableY()) {
+        // Upper Limit Y
+        if(this.__currentOffset[1] >= 0) {
+          this.removeCssClass("scrollableTop");
+        } else {
+          this.addCssClass("scrollableTop");
+        }
 
-      // Lower Limit
-      if(this.__currentOffset[1] < -lowerLimit) {
-        this.removeCssClass("scrollableBottom");
-      } else {
-        this.addCssClass("scrollableBottom");
-      }
+        // Lower Limit Y
+        if(this.__currentOffset[1] < -lowerLimit) {
+          this.removeCssClass("scrollableBottom");
+        } else {
+          this.addCssClass("scrollableBottom");
+        }
+      } 
 
       // X
       this.__currentOffset[0] =  this.__targetOffset[0] + distanceX;
       // Y
       this.__currentOffset[1] =  this.__targetOffset[1] + distanceY;
-
-      this.__scrollContainer.setTranslateY(this.__currentOffset[1]);
+      
+      if(this.isScrollableX()) {
+        this._scrollContainer.setTranslateX(this.__currentOffset[0]);
+      }
+      
+      if(this.isScrollableY()) {
+        this._scrollContainer.setTranslateY(this.__currentOffset[1]);
+      }
 
       evt.stopPropagation();
     },
@@ -167,92 +199,116 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * @param evt {qx.event.type.Touch} The touch event
      */
     _onTouchEnd : function(evt) {
-      var targetElement =  this.__scrollContainer.getContainerElement();
-      var lowerLimit = targetElement.scrollHeight - targetElement.offsetHeight-4;
+      this.scrollTo(this.__currentOffset[0],this.__currentOffset[1]);
+      evt.stopPropagation();
+    },
+    
+    
+    /**
+     * Scrolls the scrollContainer to the given position,
+     * depending on the state of properties scrollableX and scrollableY.
+     * @param positionX {Integer} target offset x
+     * @param positionY {Integer} target offset y
+     */
+    scrollTo : function(positionX, positionY) {
+      var targetElement =  this._scrollContainer.getContainerElement();
+      var lowerLimitY = targetElement.scrollHeight - targetElement.offsetHeight-4;
+      var lowerLimitX = targetElement.scrollWidth - targetElement.offsetWidth-4;
 
-       // Upper Limit
-      if(this.__currentOffset[1] >= 0) {
-        this.__currentOffset[1] = 0;
+      // Upper Limit Y
+      if(positionY >= 0) {
+        positionY = 0;
       }
 
-      // Lower Limit
-      if(this.__currentOffset[1] < -lowerLimit) {
-        this.__currentOffset[1] = -lowerLimit;
+      // Lower Limit Y
+      if(positionY < -lowerLimitY) {
+        positionY = -lowerLimitY;
+      }
+      
+      // Left Limit X
+      if(positionX >= 0) {
+        positionX = 0;
+      }
+      // Right Limit X
+      if(positionX < -lowerLimitX) {
+        positionX = -lowerLimitX;
       }
 
       qx.bom.element.Style.set(targetElement,"transition-duration",".2s");
+      
+      if(this.isScrollableX()) {
+         this._scrollContainer.setTranslateX(positionX);
+      }
+      if(this.isScrollableY()) {
+         this._scrollContainer.setTranslateY(positionY);
+      }
 
-      this.__scrollContainer.setTranslateY(this.__currentOffset[1]);
-
-      this.__targetOffset[0] = this.__currentOffset[0];
-      this.__targetOffset[1] = this.__currentOffset[1];
-
-
-      evt.stopPropagation();
+      this.__targetOffset[0] = positionX;
+      this.__targetOffset[1] = positionY;
     },
 
 
     //overridden
     add : function(child, options) {
-      this.__scrollContainer.add(child,options);
+      this._scrollContainer.add(child,options);
       this._handleSize(child);
     },
 
 
     // overridden
     addAfter : function(child, after, layoutProperties) {
-      this.__scrollContainer.addAfter(child, after, layoutProperties);
+      this._scrollContainer.addAfter(child, after, layoutProperties);
       this._handleSize(child);
     },
 
 
     // overridden
     addAt : function(child, index, options) {
-      this.__scrollContainer.addAt(child, index, options);
+      this._scrollContainer.addAt(child, index, options);
       this._handleSize(child);
     },
 
 
     // overridden
     addBefore : function(child, before, layoutProperties) {
-      this.__scrollContainer.addBefore(child, before, layoutProperties);
+      this._scrollContainer.addBefore(child, before, layoutProperties);
       this._handleSize(child);
     },
 
 
     // overridden
     getChildren : function() {
-      return this.__scrollContainer.getChildren();
+      return this._scrollContainer.getChildren();
     },
 
 
     // overridden
     getLayout : function() {
-      return this.__scrollContainer.getLayout();
+      return this._scrollContainer.getLayout();
     },
 
 
      // overridden
     setLayout : function(layout) {
-      this.__scrollContainer.setLayout(layout);
+      this._scrollContainer.setLayout(layout);
     },
 
 
     // overridden
     hasChildren : function() {
-      return this.__scrollContainer.getLayout();
+      return this._scrollContainer.getLayout();
     },
 
 
     indexOf : function(child) {
-      this.__scrollContainer.indexOf(child);
+      this._scrollContainer.indexOf(child);
     },
 
 
     // overridden
     remove : function(child) {
       this._unhandleSize(child);
-      this.__scrollContainer.remove(child);
+      this._scrollContainer.remove(child);
     },
 
 
@@ -263,7 +319,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
         this._unhandleSize(children[i]);
       }
 
-      this.__scrollContainer.removeAll();
+      this._scrollContainer.removeAll();
     },
 
 
@@ -272,7 +328,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       var children = this.getChildren();
       this._unhandleSize(children[index]);
 
-      this.__scrollContainer.removeAt(index);
+      this._scrollContainer.removeAt(index);
     },
 
 
@@ -300,7 +356,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * @param child {qx.ui.mobile.core.Widget} target child widget.
      */
     _unhandleSize : function(child) {
-       // If item is a text area, then it needs a special treatment.
+      // If item is a text area, then it needs a special treatment.
       // Install listener to the textArea, for syncing the scrollHeight to
       // textAreas height.
       if(child instanceof qx.ui.mobile.form.TextArea) {
@@ -331,15 +387,15 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
   */
   destruct : function()
   {
-    this.__scrollContainer.removeListener("touchstart",this._onTouchStart,this);
-    this.__scrollContainer.removeListener("touchmove",this._onTouchMove,this);
-    this.__scrollContainer.removeListener("touchend",this._onTouchEnd,this);
+    this._scrollContainer.removeListener("touchstart",this._onTouchStart,this);
+    this._scrollContainer.removeListener("touchmove",this._onTouchMove,this);
+    this._scrollContainer.removeListener("touchend",this._onTouchEnd,this);
 
     var children = this.getChildren();
     for(var i = 0; i < children.length; i++) {
       this._unhandleSize(children[i]);
     }
 
-    this._disposeObjects("__scrollContainer");
+    this._disposeObjects("_scrollContainer");
   }
 });

@@ -109,7 +109,7 @@ class Wget(object):
         savePath = pathFrag = ""
         # pathFrag = currUrl - urlRoot; assert currUrl > urlRoot
         assert currUrl.startswith(urlRoot)  # only consider urls from the same root
-        (pre,sfx1,sfx2) = Path.getCommonPrefix(urlRoot, currUrl)
+        (pre,sfx1,sfx2) = Path.getCommonPrefix(urlRoot, currUrl, normcase=False)
         pathFrag = sfx2
         savePath = os.path.join(fileRoot, pathFrag)
 

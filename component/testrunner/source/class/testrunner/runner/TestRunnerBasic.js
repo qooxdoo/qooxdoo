@@ -429,6 +429,7 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       if (this.testList.length == 0) {
         window.setTimeout(function() {
           self.setTestSuiteState("finished");
+          self.exit();
         }, 250);
         return;
       }
@@ -443,6 +444,17 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       window.setTimeout(function() {
         self.loader.runTests(testResult, className, functionName);
       }, 0);
+    },
+
+
+    /**
+     * Terminates the Java VM
+     */
+    exit : function()
+    {
+      if (qx.core.Environment.get("runtime.name") == "rhino") {
+        java.lang.System.exit(0);
+      }
     },
 
 

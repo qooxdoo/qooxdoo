@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Rest event object.
  */
 qx.Class.define("qx.event.type.Rest",

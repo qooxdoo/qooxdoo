@@ -58,6 +58,15 @@ qx.Theme.define("playground.theme.Appearance",
     },
 
 
+    "website-content" : {
+      style : function() {
+        return {
+          backgroundColor: "light-background"
+        }
+      }
+    },
+
+
     "sample-list" :
     {
       include : "list",

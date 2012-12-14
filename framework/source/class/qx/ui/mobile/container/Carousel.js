@@ -106,18 +106,27 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       init : "carousel"
     },
 
-    /** Property for setting visibility of pagination indicator. */
+    /** Property for setting visibility of pagination indicator */
     showPagination : {
       check : "Boolean",
       init : true,
       apply : "_applyShowPagination"
     },
 
-    /** Defines whether nextPage() or previousPage() should scroll back to first or last item
-     * when the end of carousel pages is reached  */
+    /** Defines whether the carousel should scroll back to first or last page
+     * when the start/end of carousel pages is reached  */
     scrollLoop : {
       check : "Boolean",
       init : true
+    },
+    
+    /**
+     * Defines the height of the carousel.
+     */
+    height : {
+      check : "Number",
+      init : 200,
+      apply : "_updateCarouselLayout"
     }
   },
 
@@ -160,7 +169,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       }
 
       page.addCssClass("carousel-page");
-
+      
       this.__pages.push(page);
       this.__carouselScroller.add(page);
 
@@ -323,10 +332,12 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * Updates the layout of the carousel the carousel scroller and its pages.
      */
     _updateCarouselLayout : function() {
-      var carouselWidth = this.getContainerElement().offsetWidth;
-      if(!carouselWidth) {
+      var carouselContainerElement = this.getContainerElement();
+      if(!carouselContainerElement) {
         return;
       }
+      
+      var carouselWidth = qx.bom.element.Dimension.getWidth(this.getContainerElement());
 
       var carouselScrollerWidth = this.__pages.length*carouselWidth;
       var carouselScrollerElement = this.__carouselScroller.getContentElement();
@@ -335,9 +346,10 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
       this.__pageWidth = carouselWidth;
 
-      for(var i =0;i<this.__pages.length;i++) {
+      for(var i = 0; i < this.__pages.length; i++) {
         var pageContentElement = this.__pages[i].getContentElement();
         qx.bom.element.Style.set(pageContentElement,"width",carouselWidth+"px");
+        qx.bom.element.Style.set(pageContentElement,"height",this.getHeight()+"px");
       }
 
       this.scrollToPage(this.__shownPageIndex, false);
@@ -416,19 +428,19 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       if(velocityAbs > this.__swipeVelocityLimit) {
         var direction = evt.getDirection();
 
-        var targetPageIndex = this.__shownPageIndex;
-
         if(direction=="left") {
           if(this.__shownPageIndex < this.__pages.length - 1) {
-            targetPageIndex = this.__shownPageIndex + 1;
+            this.scrollToPage(this.__shownPageIndex + 1);
+          } else if(this.isScrollLoop()) {
+            this._doScrollLoop(0);
           }
         } else if(direction=="right") {
           if(this.__shownPageIndex > 0) {
-            targetPageIndex = this.__shownPageIndex - 1;
+            this.scrollToPage(this.__shownPageIndex - 1);
+          } else if(this.isScrollLoop()) {
+            this._doScrollLoop(this.__pages.length - 1);
           }
         }
-
-        this.scrollToPage(targetPageIndex);
       } else {
         this._snapCarouselPage();
       }

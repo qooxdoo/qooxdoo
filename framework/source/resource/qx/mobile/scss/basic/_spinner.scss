@@ -1,0 +1,24 @@
+//
+// SPINNER
+//
+
+.spinner {
+  background-image: url(../icon/common/spinner.png);
+  margin: 0 auto; 
+  vertical-align: middle;  
+}
+
+  
+.spinnerContainer {
+  margin: 0 auto;  
+  height: 100%; 
+  text-align: center;
+} 
+
+.spinnerContainer > div {
+  display:inline;
+}
+
+.spinnerContainer .label, .spinnerContainer img {
+  display:inline; 
+}

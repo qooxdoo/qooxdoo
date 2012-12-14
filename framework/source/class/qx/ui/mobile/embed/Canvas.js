@@ -28,21 +28,20 @@
  * <pre class='javascript'>
  * var canvas = new qx.ui.mobile.embed.Canvas();
  *
- * canvas.setWidth(100);
- * canvas.setHeight(100);
+ * canvas.setWidth(150);
+ * canvas.setHeight(150);
  * this.getContent().add(canvas);
  *
- * var ctx= canvas.getContext2d();
- * ctx.fillStyle="#FF0000";
- * ctx.fillRect(0,0,150,75);
+ * var ctx = canvas.getContext2d();
+ * ctx.strokeStyle = '#3D72C9';
  * ctx.beginPath();
- * ctx.arc(75,75,50,0,Math.PI*2,true); // Outer circle
- * ctx.moveTo(110,75);
- * ctx.arc(75,75,35,0,Math.PI,false);   // Mouth (clockwise)
- * ctx.moveTo(65,65);
- * ctx.arc(60,65,5,0,Math.PI*2,true);  // Left eye
- * ctx.moveTo(95,65);
- * ctx.arc(90,65,5,0,Math.PI*2,true);  // Right eye
+ * ctx.arc(75,85,50,0,Math.PI*2,true); 
+ * ctx.moveTo(110,85);
+ * ctx.arc(75,85,35,0,Math.PI,false); 
+ * ctx.moveTo(65,75);
+ * ctx.arc(60,75,5,0,Math.PI*2,true);
+ * ctx.moveTo(95,75);
+ * ctx.arc(90,75,5,0,Math.PI*2,true);
  * ctx.stroke();
  * </pre>
  *

@@ -107,6 +107,10 @@ def expressionTerminated():
 
 class SyntaxTreeError(SyntaxException): pass
 
+def raiseSyntaxException(msg, node):
+    msg_ = msg + " (pos %r)" % ((node.get('line'), node.get('column')),)
+    raise SyntaxException(msg_)
+
 ##
 # the main purpose of this class is to instantiate parser symbol objects from
 # low-level tokens
@@ -860,7 +864,7 @@ def toListG(self):
 @method(symbol("."))
 def ifix(self, left):
     if token.id != "identifier":
-        SyntaxException("Expected an attribute name (pos %r)." % ((token.get("line"), token.get("column")),))
+        raise SyntaxException("Expected an attribute name (pos %r)." % ((token.get("line"), token.get("column")),))
     accessor = symbol("dotaccessor")(token.get("line"), token.get("column"))
     accessor.childappend(left)
     accessor.childappend(expression(symbol(".").bind_left)) 
@@ -965,6 +969,8 @@ def pfix(self):
             if token.id != ",":
                 break
             advance(",")
+    #if not group.children:  # bug#7079
+    #    raiseSyntaxException("Empty expressions in groups are not allowed", token)
     advance(")")
     return group
 
@@ -2097,7 +2103,7 @@ def init_list():  # parse anything from "i" to "i, j=3, k,..."
 def argument_list(list):
     while 1:
         if token.id != "identifier":
-            SyntaxException("Expected an argument name (pos %r)." % ((token.get("line"), token.get("column")),))
+            raise SyntaxException("Expected an argument name (pos %r)." % ((token.get("line"), token.get("column")),))
         list.append(token)
         advance()
         if token.id == "=":

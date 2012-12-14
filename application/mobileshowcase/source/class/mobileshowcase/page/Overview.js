@@ -66,6 +66,7 @@ qx.Class.define("mobileshowcase.page.Overview",
           {title : "Data Binding", subtitle : "See how data binding works", path:"databinding"},
           {title : "Page Transitions", subtitle : "Slide, Fade, Cube...", path:"animation"},
           {title : "Maps", subtitle : "Geolocation on a fullscreen map", path:"maps"},
+          {title : "Canvas", subtitle : "Have a look at HTML5 canvas", path:"canvas"},
           {title : "Theme Switcher", subtitle : "Switch between our themes...", path:"themeswitcher"}
       ];
 

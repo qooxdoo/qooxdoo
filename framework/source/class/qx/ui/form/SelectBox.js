@@ -316,6 +316,9 @@ qx.Class.define("qx.ui.form.SelectBox",
       var selected = this.getSelection()[0];
 
       if (!selected) {
+        if (!children[0]) {
+          return;
+        }
         selected = children[0];
       }
 

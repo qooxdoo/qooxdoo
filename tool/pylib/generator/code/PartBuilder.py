@@ -236,8 +236,9 @@ class PartBuilder(object):
         for partPos, partId in enumerate(partIncludes):
             npart          = Part(partId)    # create new Part object
             npart.bit_mask = script.getPartBitMask()      # add unique bit
-            npart.initial_deps = partIncludes[partId][:]  # defining classes from config
-            npart.deps     = partIncludes[partId][:]  # initialize dependencies with defining classes
+            initial_deps = list(set(partIncludes[partId]).difference(script.excludes)) # defining classes from config minus expanded excludes
+            npart.initial_deps = initial_deps    # for later cross-part checking
+            npart.deps         = initial_deps[:] # own copy, as this will get expanded
             if 'expected-load-order' in partsCfg[partId]:
                 npart.collapse_index = partsCfg[partId]['expected-load-order']
             if 'no-merge-private-package' in partsCfg[partId]:
@@ -290,7 +291,8 @@ class PartBuilder(object):
 
             # Remove all unknown classes  -- TODO: Can this ever happen here?!
             for classId in partClasses[:]:  # need to work on a copy because of changes in the loop
-                if not classId in globalClassList:
+                #if not classId in globalClassList:
+                if not classId in script.classes: # check against application class list
                     self._console.warn("Removing unknown class dependency '%s' from config of part #%s" % (classId, part.name))
                     partClasses.remove(classId)
 

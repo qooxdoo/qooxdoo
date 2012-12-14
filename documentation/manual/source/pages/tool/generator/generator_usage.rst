@@ -122,7 +122,7 @@ This gives you a list of all jobs available through your current config file, ma
     - test-source          -- create a test runner app for unit tests (source...
     - translation          -- create .po files for current library
 
-For an exhaustive reference of these default jobs, see the :doc:`default jobs page <generator_default_jobs>`.
+For an exhaustive reference of these default jobs, see the :doc:`default jobs page <default_jobs_actions>`.
 
 -------------
 

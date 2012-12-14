@@ -29,6 +29,7 @@ from ecmascript.frontend import treeutil, tree
 from misc import cldr, util, filetool, util
 from generator.resource.Library import Library
 from generator.code import Class
+from generator import Context
 
 ##
 # creates an up-to-date index of the msgid's in the POFile
@@ -433,4 +434,27 @@ class LocStats(object):
             self.stats[locale] = { 'untranslated' : {}, 'total' : 0}
         self.stats[locale]['untranslated'] = {}
         self.stats[locale]['total'] = total
+
+##
+# update .po files
+#
+def runUpdateTranslation(jobconf, classesObj, libraries, translations):
+    namespaces = jobconf.get("translate/namespaces")
+    if not namespaces:
+        return
+
+    console = Context.console
+    cache = Context.cache
+    locales = jobconf.get("translate/locales", None)
+    console.info("Updating translations...")
+    console.indent()
+    context = {}
+    context['jobconf'] = jobconf
+    localeObj = Locale(context, classesObj, translations, cache, console)
+    for namespace in namespaces:
+        lib = [x for x in libraries if x.namespace == namespace][0]
+        localeObj.updateTranslations(namespace, lib.translationPathSuffix(), locales)
+
+    console.outdent()
+
 

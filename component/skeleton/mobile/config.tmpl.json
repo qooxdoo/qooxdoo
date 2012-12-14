@@ -31,7 +31,8 @@
     "test-mobile",
     "test-mobile-source",
     "translation",
-    "minify-css"
+    "minify-css",
+    "watch-scss"
   ],
 
   "default-job" : "source-hybrid",
@@ -43,7 +44,7 @@
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${Cache}",
-    "MOBILE_THEME" : "ios",  // provide a default
+    "MOBILE_THEME" : "ios",  // valid: "ios" | "android" | "custom" 
     "CSS_COMB_URI" : "./resource/$${APPLICATION}/css/$${MOBILE_THEME}-style-min.css",
     "CSS_COMBINED" : "$${BUILD_PATH}/$${CSS_COMB_URI}",
     "ROOT"         : ".",
@@ -199,6 +200,21 @@
         [
           "$${CATCMD} $${ROOT}/source/resource/$${APPLICATION_CSS} | $${CSSMIN_CMD} > $${BUILD_PATH}/resource/$${APPLICATION_CSS}"
         ]
+      }
+    },
+
+    "watch-scss" : 
+    {
+      "desc"   : "Watch and compile custom.scss",
+      "extend" : ["cache"],
+      "watch-files" :
+      {
+        "path"    : ["source/resource/$${APPLICATION}/scss/styles.scss"],
+        "command" :
+        {
+          "line"  : "$${PYTHON_CMD} $${QOOXDOO_PATH}/tool/bin/scss.py %(FILE) -o source/resource/$${APPLICATION}/css/%(FILENAME).css",
+          "per-file" : true
+        }
       }
     }
   }

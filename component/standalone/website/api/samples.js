@@ -44,6 +44,32 @@ samples["q.ready"].push(function() {
   });
 });
 
+samples[".on"] = [];
+samples[".on"].push(function() {
+  // A common use case is to pass in some extra parameters to an event listener. 
+  // This example uses the 'Function.bind' method to achieve that. It also 
+  // demonstrates how the scope of the listener function can be changed.
+
+  // Suppose you like to have two extra parameters besides your event instance
+  var listenerFunction = function(firstArg, secondArg, event) {
+    // outputs "foo"
+    console.log("first argument: ", firstArg);
+
+    // outputs "bar"
+    console.log("second argument: ", secondArg);
+
+    // outputs the event instance
+    console.log("event: ", event);
+
+    // 'this' points to 'myInstance'
+    var baz = this.anyVariable;
+  };
+
+  // Suppose you have an instance named 'myInstance', which holds some variables 
+  // you like to access within your 'listenerFunction'
+  q("div#myTarget").on("click", listenerFunction.bind(myInstance, "foo", "bar"));
+});
+
 /**
  * Messaging
  */

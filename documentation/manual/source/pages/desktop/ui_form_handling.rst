@@ -141,7 +141,7 @@ As you can see, the interface can be implemented with only one property.
 Model / ModelSelection
 ----------------------
 
-Most of the form items handling a selection had a value property in the old API. We replaced that with a model property since the the value property is used for user input values. The methods for accessing the model data are defined in an interface called ``qx.ui.form.IModel``.
+Most of the form items handling a selection had a value property in the old API. We replaced that with a model property since the value property is used for user input values. The methods for accessing the model data are defined in an interface called ``qx.ui.form.IModel``.
 
 |Diagram of IModel|
 

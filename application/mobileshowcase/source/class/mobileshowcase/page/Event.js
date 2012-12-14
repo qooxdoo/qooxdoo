@@ -59,10 +59,10 @@ qx.Class.define("mobileshowcase.page.Event",
     __inMove : null,
     __touchPoints : null,
     __lastEventType :"",
-    __initialScale : 1,
+    __initialScale : 0.3,
     __initialRotation : -15,
-    __currentRotation : 0,
-    __currentScale : 0.4,
+    __currentRotation : -15,
+    __currentScale : 0.3,
     __maxScale : 1.5,
     __minScale : 0.3,
     __lastMultiTouchEventTime : 0,
@@ -136,6 +136,9 @@ qx.Class.define("mobileshowcase.page.Event",
       this.getContent().add(descriptionGroup, {flex:1});
       this.getContent().add(containerGroup, {flex:1});
 
+      // Center background gradient, when multiple touches are available.
+      qx.bom.element.Style.set(this.__container.getContentElement(),"background","-"+this.__vendorPrefix+"-radial-gradient(50% 50%, cover, #1a82f7, #2F2727)");
+      
       // Start rendering
       qx.bom.AnimationFrame.request(this._render, this);
     },
@@ -157,7 +160,7 @@ qx.Class.define("mobileshowcase.page.Event",
         this.__currentScale = evt.getScale() * this.__initialScale;
 
         // Scale Range bounding
-        if(this.__currentScale<this.__minScale) {
+        if(this.__currentScale < this.__minScale) {
           this.__currentScale = this.__minScale;
         } else if ( this.__currentScale > this.__maxScale) {
           this.__currentScale = this.__maxScale;
@@ -236,7 +239,7 @@ qx.Class.define("mobileshowcase.page.Event",
 
         this.__touchCount = touches.length;
 
-        for(var i=0;i<touches.length;i++) {
+        for(var i = 0; i < touches.length; i++) {
           var touchLeft = touches[i].clientX-containerLeft;
           var touchTop = touches[i].clientY-containerTop;
           this.__touchCircleLeft[i] = touchLeft;
@@ -252,7 +255,6 @@ qx.Class.define("mobileshowcase.page.Event",
      */
     _onTouch : function(evt)
     {
-
       var type = evt.getType();
       this.__updateTouchVisualisation(evt);
       if (type == "touchstart") {
@@ -263,7 +265,7 @@ qx.Class.define("mobileshowcase.page.Event",
         this.__label.setValue("");
       } else if (type == "touchend") {
         // Remove all touches out of visible area
-        for(var i=0; i < this.__touchCircleLeft.length;i++) {
+        for(var i = 0; i < this.__touchCircleLeft.length; i++) {
           this.__touchCircleLeft[i] = -1000;
           this.__touchCircleTop[i] = -1000;
         }
@@ -297,23 +299,8 @@ qx.Class.define("mobileshowcase.page.Event",
       // Touch Circle Visualization
       for(var i=0;i<this.__touchCircleLeft.length;i++) {
         var touchPoint = this.__touchPoints[i];
-
         touchPoint.setTranslateX(this.__touchCircleLeft[i]);
         touchPoint.setTranslateY(this.__touchCircleTop[i]);
-      }
-
-      // Background Handling
-      // Reset background gradient, when no touches are available.
-      var containerElement = this.__container.getContentElement();
-      if(this.__touchCount == 0) {
-        qx.bom.element.Style.set(containerElement,"background","-"+this.__vendorPrefix+"-linear-gradient(top, #000000 0%,#555555 100%)");
-      }
-      else if(this.__touchCount == 1) {
-        // If just one touch is present, the background follows the touch.
-        qx.bom.element.Style.set(containerElement,"background","-"+this.__vendorPrefix+"-radial-gradient("+ this.__touchCircleLeft[0]+"px "+this.__touchCircleTop[0]+"px, cover, #1a82f7, #2F2727)");
-      } else if (this.__touchCount > 1) {
-        // Center background gradient, when multiple touches are available.
-        qx.bom.element.Style.set(containerElement,"background","-"+this.__vendorPrefix+"-radial-gradient(50% 50%, cover, #1a82f7, #2F2727)");
       }
     },
 

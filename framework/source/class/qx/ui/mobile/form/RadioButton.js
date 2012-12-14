@@ -110,9 +110,9 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
 
 
     /**
-     * Reacts on click on radio button.
+     * Reacts on tap on radio button.
      */
-    _onClick : function() {
+    _onTap : function() {
       this.fireDataEvent("changeValue", {});
     },
 
@@ -134,18 +134,6 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
     },
 
 
-    // overridden
-    _createContainerElement : function()
-    {
-      var containerElement = this.base(arguments);
-
-      var onClick = qx.lang.Function.bind(this._onClick, this);
-      qx.bom.Event.addNativeListener(containerElement, "click", onClick, false);
-
-      return containerElement;
-    },
-
-
     /**
      * Event handler, when CheckBox appears on screen.
      */
@@ -155,7 +143,9 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
       qx.bom.element.Class.add(label, "radiobutton-label");
 
       qx.dom.Element.insertAfter(label, this.getContentElement());
-
+      
+      this.addListener("tap", this._onTap, this);
+      
       qx.event.Registration.removeListener(this, "appear", this.__onAppear, this);
     },
 
@@ -189,6 +179,7 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
   */
   destruct : function()
   {
-      qx.event.Registration.removeListener(this, "appear", this.__onAppear, this);
+    qx.event.Registration.removeListener(this, "appear", this.__onAppear, this);
+    qx.event.Registration.removeListener(this, "tap", this._onTap, this);
   }
 });
