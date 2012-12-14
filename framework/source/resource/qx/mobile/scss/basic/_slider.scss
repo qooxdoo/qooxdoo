@@ -1,0 +1,33 @@
+//
+// SLIDER
+//
+
+.slider {
+  // iOS6 flickering bug fix
+  -webkit-backface-visibility: hidden;
+ 
+  @include background-clip(padding-box);
+  position: relative;
+  top:6px;
+  overflow: visible;
+  margin-bottom:12px;
+
+  @include border-radius(.6em);
+  height: 15px;
+}
+
+.slider > div {
+  @include background-clip(padding-box);
+  position: absolute;
+  background-color:#fff;
+
+  position:relative;
+  top: -6px;
+  left: 0%;  
+
+  $size:25px;
+  height:$size;
+  width:$size;
+
+  @include border-radius($size*2);
+}

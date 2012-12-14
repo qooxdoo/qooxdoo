@@ -46,7 +46,7 @@ privatesCacheId = "privates"  # use a site-wide privates db
 #    return names
 
 
-def debug():
+def debug(used):
     for name in used:
         ids = used[name]
         if len(ids) > 1:

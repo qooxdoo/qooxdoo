@@ -83,7 +83,7 @@ MIGRATION_ORDER = [
     "2.1",
 ]
 
-default_old_version = "1.6"
+default_old_version = "2.0"
 
 LOGGING_READY = False
 

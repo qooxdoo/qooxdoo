@@ -134,6 +134,49 @@ def quoteCommandArgs(argv):
         argv1 = ['"%s"' % x for x in argv]  # quote argv elements
     return argv1
 
+##
+# Expand a list of class specifiers, pot. containing wildcards, into the
+# full list of classes that are covered by the initial list.
+def expandGlobs(entries, container=[]):
+    result = []
+    for entry in entries:
+        expanded = expandGlob(entry, container)
+        result.extend(expanded)
+    return result
+
+
+def expandGlob(entry, container=[]):
+    result = []
+    # Fast path: Try if a matching class could directly be found
+    if entry in container:
+        result.append(entry)
+    else:
+        regexp = toRegExp(entry)
+        for classId in container:
+            if regexp.search(classId) and classId not in result:
+                result.append(classId)
+        if len(result) == 0:
+            raise RuntimeError, "Expression gives no results. Malformed entry: %s" % entry
+    return result
+
+
+##
+# Sort a list of string entries that have pot. a "=" prefix into two,
+# one with the elements without prefix and one with those with prefix
+# (but the prefix stripped).
+def splitPrefixedStrings(data):
+    noPrefix = []
+    withPrefix = []
+
+    for entry in data:
+        if len(entry) > 0:
+            if entry[0] == "=":
+                withPrefix.append(entry[1:])
+            else:
+                noPrefix.append(entry)
+
+    return noPrefix, withPrefix
+
 
 
 def main():

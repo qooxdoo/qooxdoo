@@ -198,12 +198,12 @@ qx.Class.define("testrunner.view.mobile.Mobile", {
       if (!this.__iframe) {
         this.__iframe = qx.bom.Iframe.create({
           onload: "qx.event.handler.Iframe.onevent(this)",
-          id: "autframe",
-          width: "0px",
-          height: "0px"
+          id: "autframe"
         });
 
-        this.__mainPage.getContentElement().appendChild(this.__iframe);
+        var iframeWidget = new qx.ui.mobile.core.Widget();
+        iframeWidget.getContentElement().appendChild(this.__iframe);
+        this.__mainPage.getContent().addAfter(iframeWidget, this.__testListWidget);
       }
 
       return this.__iframe;

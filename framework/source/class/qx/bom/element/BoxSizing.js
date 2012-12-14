@@ -78,7 +78,7 @@ qx.Bootstrap.define("qx.bom.element.BoxSizing",
     compile : function(value)
     {
       if (qx.core.Environment.get("css.boxsizing")) {
-        var prop = qx.lang.String.hyphenate(qx.core.Environment.get("css.boxsizing"));
+        var prop = qx.bom.Style.getCssName(qx.core.Environment.get("css.boxsizing"));
         return prop + ":" + value + ";";
       }
       else {

@@ -3,7 +3,7 @@
 Generator Overview
 ******************
 
-This is a high-level overview of some important generator features.
+This is a high-level overview of some important generator features. There is also a more comprehensive :doc:`feature overview <features>`.
 
 Quick links:
 

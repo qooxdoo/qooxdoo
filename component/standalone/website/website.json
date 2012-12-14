@@ -123,6 +123,48 @@
       }
     },
 
+
+    "build-core" :
+    {
+      "extend" : ["build"],
+      "let" : {
+        "Q_INCLUDES" : ["qx.module.Core"]
+      },
+      "compile-options" :
+      {
+        "paths"  :
+        {
+          "file" : "${BUILD_PATH}/q-core-${QOOXDOO_VERSION}.js"
+        }
+      }
+    },
+
+
+    "build-core-min" :
+    {
+      "extend" : ["build-min"],
+      "let" : {
+        "Q_INCLUDES" : [
+          "qx.module.Core",
+          "qx.bom.Event",
+          "qx.bom.Stylesheet",
+          "qx.lang.Array",
+          "qx.util.Uri",
+          "qx.lang.Type",
+          "qx.lang.String",
+          "qx.lang.Object",
+          "qx.Bootstrap"
+        ]
+      },
+      "compile-options" :
+      {
+        "paths"  :
+        {
+          "file" : "${BUILD_PATH}/q-core-${QOOXDOO_VERSION}.min.js"
+        }
+      }
+    },
+
     "build-min" :
     {
       "extend" : ["build"],
@@ -139,6 +181,40 @@
         }
       }
     },
+
+
+    "build-extras" :
+    {
+      "extend" : ["build"],
+
+      "exclude" : ["=qx.module.Core"],
+
+      "compile-options" :
+      {
+        "paths"  :
+        {
+          "file" : "${BUILD_PATH}/q-extras-${QOOXDOO_VERSION}.js",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.extras.tmpl.js"
+        }
+      }
+    },
+
+    "build-extras-min" :
+    {
+      "extend" : ["build-min"],
+
+      "exclude" : ["=qx.module.Core"],
+
+      "compile-options" :
+      {
+        "paths"  :
+        {
+          "file" : "${BUILD_PATH}/q-extras-${QOOXDOO_VERSION}.min.js",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.extras.tmpl.js"
+        }
+      }
+    },
+
 
     "source" :
     {

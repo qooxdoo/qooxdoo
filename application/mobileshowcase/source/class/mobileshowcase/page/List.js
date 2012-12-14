@@ -71,7 +71,8 @@ qx.Class.define("mobileshowcase.page.List",
       popupContent.add(label);
       popupContent.add(closePopupButton);
 
-      var popup = new qx.ui.mobile.dialog.Dialog(popupContent);
+      var popup = new qx.ui.mobile.dialog.Popup(popupContent);
+      popup.setModal(true);
       popup.setTitle("Selection");
 
       closePopupButton.addListener("tap", function() {

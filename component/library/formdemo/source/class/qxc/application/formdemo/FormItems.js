@@ -177,12 +177,12 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
       this.__widgets.push(repeatButton);
 
       // menu button
-      var menueButton = new qx.ui.form.MenuButton("MenuButton", null, this.__createMenuForMenuButton()).set({tabIndex: tabIndex++});
+      var menuButton = new qx.ui.form.MenuButton("MenuButton", null, this.__createMenuForMenuButton()).set({tabIndex: tabIndex++});
       label = new qx.ui.basic.Label("MenuButton :");
-      label.setBuddy(menueButton);
+      label.setBuddy(menuButton);
       buttonGroupBox.add(label, {row: 3, column: 0});
-      buttonGroupBox.add(menueButton, {row: 3, column: 1});
-      this.__widgets.push(menueButton);
+      buttonGroupBox.add(menuButton, {row: 3, column: 1});
+      this.__widgets.push(menuButton);
 
       // split button
       var splitButton = new qx.ui.form.SplitButton("SplitButton", null, this.__createMenuForSplitButton()).set({tabIndex: tabIndex++});

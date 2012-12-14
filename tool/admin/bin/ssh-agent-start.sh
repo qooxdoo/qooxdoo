@@ -6,18 +6,21 @@
 # (thron7, 03nov11)
 
 AGENT="ssh-agent -s"
+AGENT_ENV="$HOME/.ssh/agent/agent.env"
 
 # make path for env file
-if [ ! -d $HOME/.ssh/agent ]; then
-  mkdir -p $HOME/.ssh/agent
+if [ ! -d `dirname $AGENT_ENV` ]; then
+  mkdir -p `dirname $AGENT_ENV`
 fi
 
 # start the agent, capture env settings into env file
 pid=`ps -u$LOGNAME | grep ssh-agent | awk '{print $1}'`
 if [ -z "$pid" ]; then
-  $AGENT | grep -v echo > $HOME/.ssh/agent/agent.env & pid=$!
+  $AGENT | grep -v echo > $AGENT_ENV  & pid=$!
   sleep 1 # give process time
 fi
 
+# need agent settings for next
+source $AGENT_ENV
 # add private ssh key - this will prompt for the passphrase!
 ssh-add

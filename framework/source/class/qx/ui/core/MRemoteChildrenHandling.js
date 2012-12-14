@@ -59,7 +59,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * Returns the children list
      *
      * @return {LayoutItem[]} The children array (Arrays are
-     *   reference types, please to not modify them in-place)
+     *   reference types, please do not modify them in-place)
      */
     getChildren : function() {
       return this.__forward("getChildren");

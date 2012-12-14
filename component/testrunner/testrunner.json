@@ -562,7 +562,7 @@
 
       "add-css" : [
         {
-          "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/indigo.css"
+          "uri" : "./resource/qx/mobile/css/indigo.css"
         },
         {
           "uri" : "./resource/${TESTRUNNER_CSS}"

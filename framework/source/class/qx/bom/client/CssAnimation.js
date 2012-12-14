@@ -162,11 +162,7 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
       var prefixes = qx.bom.Style.VENDOR_PREFIXES;
       var keyFrames = [];
       for (var i=0; i < prefixes.length; i++) {
-        var key = "@" + qx.lang.String.hyphenate(prefixes[i]) + "-keyframes";
-        // special treatment for IE10
-        if (key == "@ms-keyframes") {
-          key = "@-ms-keyframes";
-        }
+        var key = "@" + qx.bom.Style.getCssName(prefixes[i]) + "-keyframes";
         keyFrames.push(key);
       };
       keyFrames.unshift("@keyframes");
@@ -195,7 +191,7 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
         "msRequestAnimationFrame",
         "webkitRequestAnimationFrame",
         "mozRequestAnimationFrame",
-        "oRequestAnmiationFrame" // not available currently to I guess the name!
+        "oRequestAnimationFrame" // currently unspecified, so we guess the name!
       ];
       for (var i=0; i < choices.length; i++) {
         if (window[choices[i]] != undefined) {

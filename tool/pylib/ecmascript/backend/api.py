@@ -56,18 +56,6 @@ class DocException (Exception):
         self.node = syntaxItem
 
 
-hasDocError = False
-
-def printDocError(node, msg):
-    (line, column) = treeutil.getLineAndColumnFromSyntaxItem(node)
-    print "      - Failed: %s, Line: %s, Column: %s" % (
-        msg, str(line), str(column)
-    )
-
-    global hasDocError
-    hasDocError = True
-
-
 def createDoc(syntaxTree, docTree = None):
     if not docTree:
         docTree = tree.Node("doctree")
@@ -79,9 +67,7 @@ def createDoc(syntaxTree, docTree = None):
         handleClassDefinition(docTree, defineNode, variant)
         attachMap = findAttachMethods(docTree)
 
-    global hasDocError
-    ret = (docTree, hasDocError, attachMap)
-    hasDocError = False
+    ret = (docTree, False, attachMap)
 
     return ret
 
@@ -103,11 +89,10 @@ def createPackageDoc(text, packageName, docTree = None):
 
         elif attrib["category"] == "see":
             if not "name" in attrib:
-                printDocError(package, "Missing target for see.")
-                return docTree
-
-            seeNode = tree.Node("see").set("name", attrib["name"])
-            package.addChild(seeNode)
+                addError(docTree, "Missing target for see in '%s' package documentation." % packageName)
+            else:
+                seeNode = tree.Node("see").set("name", attrib["name"])
+                package.addChild(seeNode)
 
     return docTree
 
@@ -146,7 +131,6 @@ def handleClassDefinition(docTree, callNode, variant):
 
     handleDeprecated(classNode, commentAttributes)
     handleAccess(classNode, commentAttributes)
-    handleAppearance(callNode, classNode, className, commentAttributes)
     handleChildControls(callNode, classNode, className, commentAttributes)
 
     try:
@@ -348,8 +332,9 @@ def handleStatics(item, classNode):
         if value.type != "function":
             for docItem in commentAttributes:
                 if docItem["category"] == "signature":
-                    js_string = 'function('+ ",".join(docItem['arguments']) + '){}'
+                    js_string = 'function(' + ",".join(docItem['arguments']) + '){}'
                     value = treeutil.compileString(js_string)
+                    #TODO: Warn if syntax error
 
         # Function
         if value.type == "function":
@@ -375,19 +360,24 @@ def handleMembers(item, classNode):
         commentAttributes = Comment.parseNode(keyvalue)[-1]
 
         # handle @signature
+        signatureError = None
         if value.type != "function":
             for docItem in commentAttributes:
                 if docItem["category"] == "signature":
-                    try:
-                        js_string = 'function('+ ",".join(docItem['arguments']) + '){}'
-                        value = treeutil.compileString(js_string)
-                    except treegenerator.SyntaxException:
-                        printDocError(keyvalue, "Invalid signature")
+                    if "error" in docItem:
+                        signatureError = "%s: %s" % (docItem["category"], docItem["message"])
+                        value = treeutil.compileString('function(){}')
+                        continue
+
+                    js_string = 'function(' + ",".join(docItem['arguments']) + '){}'
+                    value = treeutil.compileString(js_string)
 
         if value.type == "function":
             node = handleFunction(value, key, commentAttributes, classNode)
             if classNode.get("type", False) == "mixin":
                 node.set("isMixin", True)
+            if signatureError:
+                addError(node, signatureError)
 
             classNode.addListChild("methods", node)
 
@@ -530,15 +520,13 @@ def handlePropertyDefinitionNew(propName, propDefinition, classNode):
             # test by parsing it
             check_value = check.get("value")
             check_tree = treegenerator.parse(check_value)
-            if check_tree.isVar():  # type name
-                node.set("check", check_value)
+            if check_tree.children[0].isVar(): # tree is (statements (...))
+                node.set("check", check_value)  # type name
             else:  # don't dare to be more specific
             #elif check_tree.type in ('operation', 'call'): # "value<=100", "qx.util.Validate.range(0,100)"
                 node.set("check", "Custom check function.")  # that's good enough so the param type is set to 'var'
         else:
-            printDocError(check, "Unknown check value")
-            return node
-
+            addError(node, "Unknown property check value %s" % check.type, propDefinition["check"])
 
     return node
 
@@ -679,71 +667,6 @@ def handleEvents(item, classNode):
         classNode.addListChild("events", node)
 
 
-def handleAppearance(item, classNode, className, commentAttributes):
-    """
-    handles the declaration of appearances and widget states
-    by evaluating the @state and @appearance attributes
-    """
-    appearances = {}
-    thisAppearance = []
-    classAppearance = None
-
-    # TODO: Needs overhaul for 0.8 features
-    return
-
-    # parse appearances
-    for attrib in commentAttributes:
-        if attrib["category"] == "appearance":
-            appearanceName = attrib["name"]
-            appearances[appearanceName] = attrib
-            if not "type" in attrib:
-                attrib["type"] = className
-            else:
-                attrib["type"] = attrib["type"][0]["type"]
-            if attrib["type"] == className:
-                thisAppearance.append(appearanceName)
-            attrib["states"] = []
-
-    if len(thisAppearance) > 1:
-        printDocError(item, "The class '%s' has more than one own appearance!" % className)
-        return
-
-    # parse states
-    for attrib in commentAttributes:
-        if attrib["category"] == "state":
-            if not "type" in attrib:
-                if thisAppearance == []:
-                    printDocError(item,
-                       "The default state '%s' of the class '%s' is defined but no default appearance is defined"
-                       % (attrib["name"], className)
-                    )
-                    return
-                type = thisAppearance[0]
-            else:
-                type = attrib["type"][0]["type"]
-
-            appearances[type]["states"].append(attrib)
-
-    #generate the doc tree nodes
-    if len(appearances) > 0:
-        for name, appearance in appearances.iteritems():
-            appearanceNode = tree.Node("appearance")
-            appearanceNode.set("name", name)
-            appearanceNode.set("type", appearance["type"])
-
-            if "text" in appearance:
-                appearanceNode.addChild(tree.Node("desc").set("text", appearance["text"]))
-
-            for state in appearance["states"]:
-                stateNode = tree.Node("state")
-                stateNode.set("name", state["name"])
-                if "text" in state:
-                    stateNode.addChild(tree.Node("desc").set("text", state["text"]))
-                appearanceNode.addListChild("states", stateNode)
-
-            classNode.addListChild("appearances", appearanceNode)
-
-
 def handleDeprecated(docNode, commentAttributes):
     for docItem in commentAttributes:
         if docItem["category"] == "deprecated":
@@ -779,15 +702,21 @@ def handleAccess(docNode, commentAttributes):
 
 
 def handleChildControls(item, classNode, className, commentAttributes):
-    childControls = {}
     for attrib in commentAttributes:
         if attrib["category"] == "childControl":
+            if "error" in attrib:
+                msg = "%s: %s" % (attrib["category"], attrib["message"])
+                addError(classNode, msg, item)
+
+            if not "name" in attrib:
+                addError(classNode, "No name defined for child control.", item)
+                return
             childControlName = attrib["name"]
             childControlNode = tree.Node("childControl")
             childControlNode.set("name", childControlName)
 
             if not "type" in attrib:
-                printDocError(item, "No type defined for child control '%s' of class %s" %(childControlName,className))
+                addError(classNode, "No type defined for child control '%s'." % childControlName, item)
             addTypeInfo(childControlNode, attrib, item)
 
             classNode.addListChild("childControls", childControlNode)
@@ -859,10 +788,6 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
     if line:
         node.set("line", line)
 
-    if funcItem.type != "function":
-        printDocError(funcItem, "'funcItem' is no function")
-        return node
-
     # Read the parameters
     params = funcItem.getChild("params", False)
     if params and params.hasChildren():
@@ -883,6 +808,8 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
 
     handleDeprecated(node, commentAttributes)
 
+    isAbstract = classNode.get("isAbstract", False)
+
     # Read all description, param and return attributes
     for attrib in commentAttributes:
 
@@ -895,16 +822,15 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
                 node.addChild(descNode)
 
         elif attrib["category"] == "see":
-            if not "name" in attrib:
-                printDocError(funcItem, "Missing target for see.")
-                return node
-
-            seeNode = tree.Node("see").set("name", attrib["name"])
-            node.addChild(seeNode)
+            if "name" in attrib:
+                seeNode = tree.Node("see").set("name", attrib["name"])
+                node.addChild(seeNode)
+            else:
+                addError(node, "Missing target for see.", funcItem)
 
         elif attrib["category"] in ("attach", "attachStatic"):
             if not "targetClass" in attrib:
-                printDocError(funcItem, "Missing target for attach.")
+                addError(node, "Missing target for attach.", funcItem)
                 continue
 
             attachNode = tree.Node(attrib["category"]).set("targetClass", attrib["targetClass"])
@@ -915,15 +841,15 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
 
         elif attrib["category"] == "param":
             if not "name" in attrib:
-                printDocError(funcItem, "Missing name of parameter.")
-                return node
+                addError(node, "Missing name of parameter", funcItem)
+                continue
 
             # Find the matching param node
             paramName = attrib["name"]
             paramNode = node.getListChildByAttribute("params", "name", paramName, False)
 
             if not paramNode:
-                addError(node, "Contains information for a non-existing parameter <code>%s</code>." % paramName, funcItem)
+                addError(node, "Contains information for a non-existing parameter '%s'." % paramName, funcItem)
                 continue
 
             addTypeInfo(paramNode, attrib, funcItem)
@@ -951,13 +877,17 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
                 throwsNode.addChild(child)
                 node.addChild(throwsNode)
 
+        elif attrib["category"] == "abstract":
+            isAbstract = True
+            if not classNode.get("isAbstract", False):
+                node.set("isAbstract", True)
+
     # Check for documentation errors
-    # Check whether all parameters have been documented
     if node.hasChild("params"):
         paramsListNode = node.getChild("params")
         for paramNode in paramsListNode.children:
             if not paramNode.getChild("desc", False):
-                addError(node, "Parameter <code>%s</code> is not documented." % paramNode.get("name"), funcItem)
+                addError(node, "Parameter '%s' is not documented." % paramNode.get("name"), funcItem)
 
     if reportMissingDesc and not node.hasChild("desc"):
         addError(node, "Documentation is missing.", funcItem)
@@ -979,12 +909,6 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
         #        superClassNode = selectNode(classNode, "../class[@fullName='%s']" %superClassName)
         #        while superClassNode:
         #            superClassNode = selectNode(classNode, "../class[@fullName='%s']" %superClassName)
-
-        isAbstract = classNode.get("isAbstract", False)
-        for attrib in commentAttributes:
-            if "category" in attrib:
-                if attrib["category"] == "abstract":
-                    isAbstract = True
 
         if hasComment and not isInterface and not hasSignatureDef and not isAbstract:
 
@@ -1017,11 +941,11 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
             isSingletonGetInstance = classNode.get("isSingleton", False) and name == "getInstance"
 
             if hasReturnDoc and not hasReturnNodes and not isSingletonGetInstance:
-                addError(node, "Has documentation for return value but contains no return statement.", funcItem)
+                addError(node, "Contains documentation for return value but no return statement found.", funcItem)
             if hasReturnDoc and (not hasReturnValue and hasNoReturnValue) and not hasUndefinedOrVarType:
-                addError(node, "Has documentation for return value but returns nothing.", funcItem)
+                addError(node, "Contains documentation for return value but returns nothing.", funcItem)
             if hasReturnDoc and hasReturnValue and hasNoReturnValue and not hasUndefinedOrVarType:
-                addError(node, "Has documentation for return value but at least one return statement has no value.", funcItem)
+                addError(node, "Contains documentation for return value but at least one return statement has no value.", funcItem)
             if hasReturnValue and not hasReturnDoc:
                 addError(node, "Missing documentation for return value.", funcItem)
 
@@ -1104,7 +1028,7 @@ def addTypeInfo(node, commentAttrib=None, item=None):
                 pass
 
         elif node.type == "param":
-            addError(node, "Parameter <code>%s</code> in not documented." % commentAttrib.get("name"), item)
+            addError(node, "Parameter '%s' is not documented." % commentAttrib.get("name"), item)
 
         elif node.type == "return":
             addError(node, "Return value is not documented.", item)
@@ -1166,31 +1090,21 @@ def addEventNode(classNode, classItem, commentAttrib):
 
 
 
-def addError(node, msg, syntaxItem):
-    # print "+++ %s (%s:%s)" % (msg, node.type, node.get("name"))
+def addError(node, msg, syntaxItem=None):
 
     errorNode = tree.Node("error")
     errorNode.set("msg", msg)
 
-    (line, column) = treeutil.getLineAndColumnFromSyntaxItem(syntaxItem)
-    if line:
-        errorNode.set("line", line)
+    if syntaxItem:
+        (line, column) = treeutil.getLineAndColumnFromSyntaxItem(syntaxItem)
+        if line:
+            errorNode.set("line", line)
 
-        if column:
-            errorNode.set("column", column)
+            if column:
+                errorNode.set("column", column)
 
     node.addListChild("errors", errorNode)
     node.set("hasError", True)
-
-
-def getType(item):
-    if item.type == "constant" and item.get("constantType") == "string":
-        val = item.get("value").capitalize()
-        return val
-
-    else:
-        printDocError(item, "Can't gess type. type is neither string nor variable: " + item.type)
-        return "unknown"
 
 
 def getPackageNode(docTree, namespace):
@@ -1258,7 +1172,7 @@ def classNodeFromDocTree(docTree, fullClassName, commentAttributes = None):
 
             elif attrib["category"] == "see":
                 if not "name" in attrib:
-                    printDocError(classNode, "Missing target for see.")
+                    addError(classNode, "Missing target for see.")
                     continue
                 seeNode = tree.Node("see").set("name", attrib["name"])
                 classNode.addChild(seeNode)
@@ -1327,10 +1241,6 @@ def connectClass(docTree, classNode):
         # This class is static
         classNode.set("isStatic", True)
 
-    # Check whether the class is abstract
-    if isClassAbstract(docTree, classNode, {}):
-        classNode.set("isAbstract", True)
-
     # Check for errors
     childHasError = (
         classNode.get("hasError", False) or
@@ -1346,33 +1256,6 @@ def connectClass(docTree, classNode):
         classNode.set("hasWarning", True)
 
     return childHasError
-
-
-
-def isClassAbstract(docTree, classNode, visitedMethodNames):
-    if containsAbstractMethods(classNode.getChild("methods", False), visitedMethodNames):
-        # One of the methods is abstract
-        return True
-
-    # No abstract methods found -> Check whether the super class has abstract
-    # methods that haven't been overridden
-    superClassName = classNode.get("superClass", False)
-    if superClassName:
-        superClassNode = classNodeFromDocTree(docTree, superClassName)
-        return isClassAbstract(docTree, superClassNode, visitedMethodNames)
-
-
-
-def containsAbstractMethods(methodListNode, visitedMethodNames):
-    if methodListNode:
-        for methodNode in methodListNode.children:
-            name = methodNode.get("name")
-            if not name in visitedMethodNames:
-                visitedMethodNames[name] = True
-                if methodNode.get("isAbstract", False):
-                    return True
-
-    return False
 
 
 def documentApplyMethod(methodNode, props):
@@ -1399,7 +1282,7 @@ def documentApplyMethod(methodNode, props):
 
     # if all properties have the same value for "check", use that
     if paramTypes[1:] == paramTypes[:-1]:
-          paramType = paramTypes[0]
+        paramType = paramTypes[0]
 
     if len(propNames) > 1:
         propNames.sort()
@@ -1425,7 +1308,7 @@ function(%(firstParamName)s, %(secondParamName)s) {}""" % ({
         "secondParamName": secondParam,
         "paramType": paramType,
         "propNames": propNamesString,
-        "propLinks" : propLinksString,
+        "propLinks": propLinksString,
         "propName": methodNode.get("name")
     })
 
@@ -1671,11 +1554,9 @@ def packagesToJsonString(node, prefix = "", childPrefix = "  ", newLine="\n", en
     if node.hasChildren() and node.type != "class":
         asString += ',children:[' + newLine
 
-        firstChild = True
         prefix = prefix + childPrefix
         for child in node.children:
             asString += packagesToJsonString(child, prefix, childPrefix, newLine) + ',' + newLine
-            firstChild = False
 
         # NOTE We remove the ',\n' of the last child
         if newLine == "":
@@ -1773,6 +1654,7 @@ def methodNodeIterator(docTree):
             for method in methodNodeIterator(child):
                 yield method
 
+
 def docTreeIterator(docTree, type_):
     if docTree.type == type_:
         yield docTree
@@ -1781,3 +1663,339 @@ def docTreeIterator(docTree, type_):
         for child in docTree.children:
             for entry in docTreeIterator(child, type_):
                 yield entry
+
+
+def errorNodeIterator(docTree):
+    if docTree.get("hasError", False) or docTree.get("hasWarning", False):
+        yield docTree
+
+    if docTree.hasChildren():
+        for child in docTree.children:
+            for fcn in errorNodeIterator(child):
+                yield fcn
+
+################################################################################
+#
+# API DOC VERIFICATION
+#
+################################################################################
+
+
+# TODO: move to treeutil?
+def getParentAttrib(node, attrib, type=None):
+    while node:
+        if node.hasAttributes():
+            if attrib in node.attributes:
+                if type:
+                    if node.type == type:
+                        return node.attributes[attrib]
+                else:
+                    return node.attributes[attrib]
+
+        if node.hasParent():
+            node = node.parent
+        else:
+            node = None
+    return None
+
+
+def getTopPackage(node):
+    while node:
+        if node.hasAttributes():
+            if "packageName" in node.attributes:
+                if node.attributes["packageName"] == "":
+                    return node.get("name")
+                elif not "." in node.attributes["packageName"]:
+                    return node.get("packageName")
+        if node.hasParent():
+            node = node.parent
+        else:
+            node = None
+    return None
+
+
+def verifyLinks(docTree, index):
+    Context.console.info("Verifying internal doc links...", False)
+
+    linkRegExp = re.compile("\{\s*@link\s*([\w#-_\.]*)[\W\w\d\s]*?\}")
+
+    descNodes = docTree.getAllChildrenOfType("desc")
+
+    links = []
+    for descNode in descNodes:
+        if not "@link" in descNode.attributes["text"]:
+            continue
+        match = linkRegExp.findall(descNode.attributes["text"])
+        if not match:
+            continue
+        internalLinks = []
+        for link in match:
+            if not "<a" in link:
+                internalLinks.append(link)
+        if len(internalLinks) > 0:
+            nodeType = descNode.parent.type
+            if nodeType == "param":
+                itemName = getParentAttrib(descNode.parent, "name")
+                paramName = getParentAttrib(descNode, "name")
+                paramForType = descNode.parent.parent.parent.type
+            else:
+                itemName = getParentAttrib(descNode, "name")
+                paramName = None
+                paramForType = None
+            linkData = {
+                "nodeType": nodeType,
+                "packageName": getParentAttrib(descNode, "packageName"),
+                "className": getParentAttrib(descNode, "name", "class"),
+                "itemName": itemName,
+                "paramName": paramName,
+                "paramForType": paramForType,
+                "links": internalLinks,
+                "parent": descNode.parent
+            }
+            links.append(linkData)
+
+    count = 0
+    classesWithWarnings = []
+    for link in links:
+        count += 1
+        Context.console.progress(count, len(links))
+        result = checkLink(link, docTree, index)
+        if result:
+            for ref, link in result.iteritems():
+                addError(link["parent"], "Unknown link target: '%s'" % ref)
+
+                if not link["className"] in classesWithWarnings:
+                    parent = link["parent"]
+                    while parent:
+                        if parent.type == "class":
+                            classesWithWarnings.append(link["className"])
+                            parent.set("hasWarning", True)
+                            parent = None
+                            break
+                        if hasattr(parent, "parent"):
+                            parent = parent.parent
+
+
+def checkLink(link, docTree, index):
+    brokenLinks = {}
+
+    def getTargetName(ref):
+        targetPackageName = None
+        targetClassName = None
+        targetItemName = None
+
+        classItem = ref.split("#")
+        # internal class item reference
+        if classItem[0] == "":
+            targetPackageName = link["packageName"]
+            targetClassName = link["className"]
+        else:
+            namespace = classItem[0].split(".")
+            targetPackageName = ".".join(namespace[:-1])
+            if targetPackageName == "":
+                if link["nodeType"] == "package":
+                    targetPackageName = link["packageName"] + "." + link["itemName"]
+                else:
+                    targetPackageName = link["packageName"]
+            targetClassName = namespace[-1]
+        if len(classItem) == 2:
+            targetItemName = classItem[1]
+
+        return (targetPackageName + "." + targetClassName, targetItemName)
+
+    def isClassInHierarchy(docTree, className, searchFor):
+        targetClass = docTree.getChildByTypeAndAttribute("class", "fullName", className, False, True)
+        if not targetClass:
+            return False
+
+        while targetClass:
+            if targetClass.attributes["fullName"] in searchFor:
+                return True
+            if "mixins" in targetClass.attributes:
+                for wanted in searchFor:
+                    if wanted in targetClass.attributes["mixins"]:
+                        return True
+            if "superClass" in targetClass.attributes:
+                superClassName = targetClass.attributes["superClass"]
+                targetClass = docTree.getChildByTypeAndAttribute("class", "fullName", superClassName, False, True)
+            else:
+                targetClass = None
+
+        return False
+
+    for ref in link["links"]:
+        # Remove parentheses from method references
+        if ref[-2:] == "()":
+            ref = ref[:-2]
+
+        # ref is a fully qualified package or class name
+        if ref in index["__fullNames__"]:
+            continue
+
+        name = getTargetName(ref)
+        targetClassName = name[0]
+        targetItemName = name[1]
+
+        # unknown class or package
+        if not targetClassName in index["__fullNames__"]:
+            brokenLinks[ref] = link
+            continue
+
+        # valid package or class ref
+        if not targetItemName:
+            continue
+
+        # unknown class item
+        if not "#" + targetItemName in index["__index__"]:
+            brokenLinks[ref] = link
+            continue
+
+        classHasItem = False
+        classesWithItem = []
+        # get all classes that have an item with the same name as the referenced item
+        for occurrence in index["__index__"]["#" + targetItemName]:
+            className = index["__fullNames__"][occurrence[1]]
+            classesWithItem.append(className)
+            if targetClassName == className:
+                classHasItem = True
+                break
+
+        if classHasItem:
+            continue
+
+        # search for a superclass or included mixin with the referenced item
+        classHasItem = isClassInHierarchy(docTree, targetClassName, classesWithItem)
+
+        if not classHasItem:
+            brokenLinks[ref] = link
+
+    return brokenLinks
+
+
+def verifyTypes(docTree, index):
+    Context.console.info("Verifying types...", False)
+    knownTypes = lang.GLOBALS[:]
+    knownTypes = knownTypes + ["var", "null",
+                               # additional types supported by the property system:
+                               "Integer", "PositiveInteger", "PositiveNumber",
+                               "Float", "Double", "Map",
+                               "Node", "Element", "Document", "Window",
+                               "Event", "Class", "Mixin", "Interface", "Theme",
+                               "Color", "Decorator", "Font"
+                              ]
+
+    count = 0
+    docNodes = docTree.getAllChildrenOfType("return")
+    docNodes = docNodes + docTree.getAllChildrenOfType("param")
+    docNodes = docNodes + docTree.getAllChildrenOfType("childControl")
+    total = len(docNodes)
+
+    for docNode in docNodes:
+        count += 1
+        Context.console.progress(count, total)
+        for typesNode in docNode.getAllChildrenOfType("types"):
+            for entryNode in typesNode.getAllChildrenOfType("entry"):
+                unknownTypes = []
+                entryType = entryNode.get("type")
+                if (not entryType in knownTypes) and not ("value" in entryType and re.search("[\<\>\=]", entryType)):
+                    unknownTypes.append(entryType)
+                if len(unknownTypes) > 0:
+                    itemName = getParentAttrib(docNode, "name")
+                    packageName = getParentAttrib(docNode, "packageName")
+                    className = getParentAttrib(docNode, "name", "class")
+
+                    linkData = {
+                      "itemName": itemName,
+                      "packageName": packageName,
+                      "className": className,
+                      "nodeType": docNode.parent.type,
+                      "links": unknownTypes
+                    }
+
+                    docNodeType = ""
+                    if docNode.type == "param":
+                        docNodeType = "Parameter '%s'" % docNode.get("name")
+                    elif docNode.type == "return":
+                        docNodeType = "Return value"
+                    elif docNode.type == "childControl":
+                        docNodeType = "Child control '%s'" % docNode.get("name")
+
+                    classesWithWarnings = []
+                    for ref in checkLink(linkData, docTree, index):
+                        fullName = "%s.%s#%s" % (packageName, className, itemName)
+                        #msg = "%s of %s is documented as unknown type '%s'" % (docNodeType, fullName, ref)
+                        msg = "%s: Unknown type '%s'" % (docNodeType, ref)
+                        if (docNode.parent.get("name", False)):
+                            #Add error to method/event/... node, not params node
+                            addError(docNode.parent, msg)
+                        else:
+                            addError(docNode.parent.parent, msg)
+                        if not linkData["className"] in classesWithWarnings:
+                            parent = docNode
+                            while parent:
+                                if parent.type == "class":
+                                    classesWithWarnings.append(linkData["className"])
+                                    parent.set("hasWarning", True)
+                                    parent = None
+                                    break
+                                if hasattr(parent, "parent"):
+                                    parent = parent.parent
+
+
+def verifyDocPercentage(docTree):
+    packages = {}
+
+    for docNode in treeutil.nodeIterator(docTree, ["package", "class", "property", "event", "method"]):
+        pkg = getTopPackage(docNode)
+        if pkg == "":
+            import pydb
+            pydb.set_trace()
+        if not pkg in packages:
+            packages[pkg] = {
+                "documentableItems": 0,
+                "undocumentedItems": 0
+            }
+        packages[pkg]["documentableItems"] += 1
+        if docNode.get("hasError", False):
+            packages[pkg]["undocumentedItems"] += 1
+
+    for pkgName, pkgStats in packages.iteritems():
+        Context.console.info("API Documentation Statistics for package '%s':" % pkgName)
+        undocumentedItems = pkgStats["undocumentedItems"]
+        documentableItems = pkgStats["documentableItems"]
+        percentageWithErrors = (float(undocumentedItems) / documentableItems) * 100
+        percentageOk = "{0:.2f}".format(100 - percentageWithErrors)
+        Context.console.indent()
+        Context.console.info("%s API items total" % documentableItems)
+        Context.console.info("%s API items with missing or incomplete documentation" % undocumentedItems)
+        Context.console.info("%s%% API documentation completeness" % percentageOk)
+        Context.console.outdent()
+
+
+def logErrors(docTree, targets):
+    for errNode in treeutil.nodeIterator(docTree, ["error"]):
+
+        if "console" in targets:
+            itemName = getParentAttrib(errNode, "fullName")
+            itemType = errNode.parent.parent.type
+
+            if itemType == 'doctree':
+                Context.console.warn(errNode.get("msg"))
+
+            if not itemType in ["class", "package"]:
+                itemName = itemName + "#" + getParentAttrib(errNode, "name")
+
+            line = errNode.get("line", False)
+            column = errNode.get("column", False)
+            lineCol = ""
+            if line:
+                lineCol = " (" + str(line)
+                if column:
+                    lineCol = "%s,%s" % (lineCol, str(column))
+                lineCol = lineCol + ")"
+
+            Context.console.warn("%s %s%s: %s" % (itemType, itemName, lineCol, errNode.get("msg")))
+
+    if not "data" in targets:
+        for node in errorNodeIterator(docTree):
+            removeErrors(node)

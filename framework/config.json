@@ -16,6 +16,7 @@
     "api-data",
     "api-verify",
     //"build-all",
+    "dependencies",
     "clean",
     "distclean",
     "fix",
@@ -31,7 +32,8 @@
     "test-performance-source",
     "test-mobile",
     "test-mobile-source",
-    "translation"
+    "translation",
+    "watch-scss"
   ],
 
 
@@ -278,11 +280,28 @@
       "desc" : "creates an Apiviewer while checking internal links. Also creates an XML sitemap with a link for each class",
       "extend" : [ "api" ],
       "api" : {
-        "verify" : [ "links", "types" ],
+        "verify" : [ "links", "types", "statistics" ],
         "sitemap" :
         {
           "link-uri" : "http://api.qooxdoo.org/#%s",
           "file" : "api/sitemap.xml"
+        }
+      }
+    },
+
+    "watch-scss" :
+    {
+      "desc"  : "Demo job for watching compile-to-CSS files",
+      "extend" : ["cache"],
+      "watch-files" :
+      {
+        "path" : "source/resource/qx/mobile/scss",
+        "command" :
+        {
+          // this is sort of missing the point, as most scss implementations
+          // have their built-in watch mode
+          "line" : "scss --no-cache --update source/resource/qx/mobile/scss:source/resource/qx/mobile/css",
+          "per-file" : false
         }
       }
     }

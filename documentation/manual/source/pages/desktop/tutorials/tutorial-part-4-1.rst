@@ -50,11 +50,11 @@ Now it's time to add a form and populate it with a pair of fields:
 ::
 
   var form = new qx.ui.form.Form();
-  
+
   var username = new qx.ui.form.TextField();
   username.setRequired(true);
   form.add(username, "Username", null, "username");
-  
+
   var password = new qx.ui.form.PasswordField();
   password.setRequired(true);
   form.add(password, "Password", null, "password");
@@ -76,7 +76,7 @@ The form still needs a "submit" button, so we'll add one, plus a "cancel" button
 
   var loginbutton = new qx.ui.form.Button("Login");
   form.addButton(loginbutton);
-  
+
   var cancelbutton = new qx.ui.form.Button("Cancel");
   form.addButton(cancelbutton);
   cancelbutton.addListener("execute", function() {
@@ -90,7 +90,7 @@ That's all the elements we need, let's get them displayed. We'll let one of qoox
   var renderer = new qx.ui.form.renderer.Single(form);
   this.add(renderer);
 
-The renderer is a widget, so we can just add it to the window. In addition to the standard renderers, it's fairly simple to create a cusstom renderer by subclassing `qx.ui.form.renderer.AbstractRenderer <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.form.renderer.AbstractRenderer>`_, though that's outside the scope of this tutorial.
+The renderer is a widget, so we can just add it to the window. In addition to the standard renderers, it's fairly simple to create a custom renderer by subclassing `qx.ui.form.renderer.AbstractRenderer <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.form.renderer.AbstractRenderer>`_, though that's outside the scope of this tutorial.
 
 .. _pages/desktop/tutorials/tutorial-part-4-1#accessing_the_form_values:
 
@@ -134,7 +134,7 @@ Now to integrate the login window with the other parts of the application. Ident
         login = username + ":" + password + "@";
       }
       var url = "http://" + login + "identi.ca/api/statuses/friends_timeline.json";
-      this.__store = new qx.data.store.Jsonp(url, null, "callback");        
+      this.__store = new qx.data.store.Jsonp(url, null, "callback");
       this.__store.bind("model", this, "tweets");
     } else {
       this.__store.reload();
@@ -156,7 +156,7 @@ And finally, we'll attach a listener to ``changeLoginData``:
 
   this.__loginWindow.addListener("changeLoginData", function(ev) {
     var loginData = ev.getData();
-    service.fetchTweets(loginData.username, loginData.password);   
+    service.fetchTweets(loginData.username, loginData.password);
   });
 
 Note how all the other calls to ``service.fetchTweets`` can remain unchanged: By making the login window modal, we've made sure the first call, which creates the store, contains the login data. Any subsequent calls (i.e. after reloading or posting an update) will use the same store so they won't need the login details.

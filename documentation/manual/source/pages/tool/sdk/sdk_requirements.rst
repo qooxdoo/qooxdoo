@@ -20,6 +20,38 @@ The tool chain only requires a `Python <http://www.python.org>`_ installation. U
 
 It is trivial! Just download and install the excellent `ActivePython <http://www.activestate.com/activepython/downloads>`_ package. Its default settings of the installation wizard are fine, there is nothing to configure. You can as well use the Windows package from `Python.org <http://www.python.org/download/releases/2.6.1/>`_, but this might require additional manual :ref:`configuration <pages/troubleshooting#windows>`.
 
+Windows Shells Interop
+------------------------
+
+A word concerning various shells available under Windows and how they
+interoperate. We are testing the SDK with `Windows cmd
+<http://en.wikipedia.org/wiki/Command_Prompt>`_ and occasionally `PowerShell 
+<http://en.wikipedia.org/wiki/PowerShell>`_.
+Both should work equally well, and you should be able to freely switch between
+them (e.g. running *create-application.py* in cmd shell, and then change to
+PowerShell and run *generate.py source* in the skeleton, or vice versa).
+
+If you mix your development efforts between native Windows shells and Cygwin
+(see next section), things will get more complicated. While working entirely
+under Cygwin should incur no problems (apart from being slower than under a
+native Windows setup), even when using a Windows installation of Python,
+creating an application with Cygwin and then building it with cmd or the other
+way round might or might not work as expected.
+
+Other environments are available on Windows that provide a command shell, like
+`MinGW <http://en.wikipedia.org/wiki/MinGW>`_ and `git bash
+<https://help.github.com/articles/set-up-git#platform-windows>`_ . The latter
+has seen increased popularity with the growing distribution of the `Git
+<http://en.wikipedia.org/wiki/Git_(software)>`_ version control system. We would
+not recommend mixing SDK usage with git bash, as it (at the time of checking)
+uses a file system interface that is neither like Windows nor Cygwin (but rather
+reminiscent of an old Cygwin interface, using drive letters and forward slashes
+like ``c:/foo/bar``). It's unclear whether using only git bash would
+work for qooxdoo projects, and we wouldn't be able to provide support for any issues that
+might arise.
+
+
+
 |image1| Cygwin
 ^^^^^^^^^^^^^^^
 

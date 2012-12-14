@@ -29,16 +29,34 @@ qx.Class.define("testrunner.view.Reporter", {
   construct : function()
   {
     this.base(arguments);
-    var info = document.createElement("div");
-    info.id = "info";
-    document.body.appendChild(info);
-    this.__infoElem = document.getElementById("info");
+
+    this.__ignoredPackages = this._getIgnoredPackages();
+    if (this.__ignoredPackages.length > 0) {
+      var ignored = document.createElement("p");
+      ignored.style.color = "red";
+      ignored.innerHTML = "Skipping packages: " + this.__ignoredPackages.join(", ");
+      document.body.appendChild(ignored);
+    }
+
+    var statusContainer = document.createElement("p");
+    statusContainer.innerHTML = "<strong>Test Suite Status:</strong> ";
+    this.__statusElement = document.createElement("span");
+    statusContainer.appendChild(this.__statusElement);
+    document.body.appendChild(statusContainer);
+
+    var infoContainer = document.createElement("p");
+    infoContainer.innerHTML = "<strong>Current Test:</strong> ";
+    this.__infoElem = document.createElement("span");
+    infoContainer.appendChild(this.__infoElem);
+    document.body.appendChild(infoContainer);
   },
 
   members :
   {
     __testPackages : null,
     __infoElem : null,
+    __ignoredPackages : null,
+    __statusElement : null,
 
     _applyTestSuiteState : function(value, old)
     {
@@ -76,15 +94,26 @@ qx.Class.define("testrunner.view.Reporter", {
      */
     autoRun : function()
     {
-      var nextPackageName = this.__testPackages.shift();
-      var nextPackage = testrunner.runner.ModelUtil.getItemByFullName(this.getTestModel(), nextPackageName);
-      if (nextPackage) {
+      if (this.__testPackages.length > 0) {
+        var nextPackageName = this.__testPackages.shift();
+        var nextPackage = testrunner.runner.ModelUtil.getItemByFullName(this.getTestModel(), nextPackageName);
+        this._runPackage(nextPackage);
+      }
+    },
+
+    /**
+     * Runs a given subset of tests
+     * @param pkg {testrunner.runner.TestItem} Tests to run
+     */
+    _runPackage : function(pkg)
+    {
+      if (pkg) {
         this.getSelectedTests().removeAll();
-        this.getSelectedTests().push(nextPackage);
-        if (nextPackage.fullName.indexOf("qx.test.io") !== 0) {
+        this.getSelectedTests().push(pkg);
+        if (pkg.fullName.indexOf("qx.test.io") !== 0) {
           this.setGlobalErrorHandler();
         }
-        this.setStatus("Running package " + nextPackage.fullName);
+        this.setStatus("Running package " + pkg.fullName);
         this.run();
       }
     },
@@ -103,9 +132,15 @@ qx.Class.define("testrunner.view.Reporter", {
         for (var i=0,l=packages.length; i<l; i++) {
           var pkg = packages.getItem(i);
           var packageName = pkg.fullName;
+          if (qx.lang.Array.contains(this.__ignoredPackages, packageName)) {
+            continue;
+          }
           if (packageName == "qx.test.ui") {
             for (var j=0,m=pkg.getChildren().length; j<m; j++) {
-              this.__testPackages.push(pkg.getChildren().getItem(j).getFullName());
+              packageName = pkg.getChildren().getItem(j).getFullName();
+              if (!qx.lang.Array.contains(this.__ignoredPackages, packageName)) {
+                this.__testPackages.push(packageName);
+              }
             }
           }
           else {
@@ -146,6 +181,28 @@ qx.Class.define("testrunner.view.Reporter", {
       {
         this.reportResult(testName);
       }
+    },
+
+
+    /**
+     * Get a list of packages to skip from the <code>ignore</code> URI parameter
+     * @return {String[]} List of package names to ignore
+     */
+    _getIgnoredPackages : function()
+    {
+      var parsedUri = qx.util.Uri.parseUri(location.href);
+      if (parsedUri.queryKey && parsedUri.queryKey.ignorePackages) {
+        return parsedUri.queryKey.ignorePackages.split(",");
+      }
+      return [];
+    },
+
+
+    // overridden
+    _applyStatus : function(value)
+    {
+      this.__statusElement.innerHTML = value;
     }
+
   }
 });

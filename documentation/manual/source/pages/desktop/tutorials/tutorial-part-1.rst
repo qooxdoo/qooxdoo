@@ -11,7 +11,7 @@ Introduction
 This tutorial covers many practical aspects of developing desktop-like qooxdoo apps. It is set up as a series of tutorials that go beyond the must-read :ref:`"Hello World" tutorial <pages/getting_started/helloworld#helloworld>`. For even more samples of app code you can check the `demo applications <http://demo.qooxdoo.org>`_ included in the framework, for instance the `Feedreader <http://demo.qooxdoo.org/%{version}/feedreader>`_.
 
 
-As the headline of this tutorial says, we are building a simple tweets application. `identica <http://identi.ca>`_ is a twitter-like service for reading and posting public short messages - called "tweets". It has a `twitter-compatible API <http://status.net/wiki/Twitter-compatible_API>`_ for accessing data. 
+As the headline of this tutorial says, we are building a simple tweets application. `identica <http://identi.ca>`_ is a twitter-like service for reading and posting public short messages - called "tweets". It has a `twitter-compatible API <http://status.net/wiki/Twitter-compatible_API>`_ for accessing data.
 
 `Twitter <http://twitter.com>`_ itself made its authorization scheme more complex, as it starts requiring OAuth even to read public tweets. For this basic tutorial it would be too complex to handle such advanced authorization. If your are interested in OAuth, check out how you could handle that in a qooxdoo app by looking at the `Github demo <http://demo.qooxdoo.org/%{version}/demobrowser/#data~Github.html>`_.
 
@@ -74,7 +74,7 @@ The last task of this tutorial part is to configure the window. Opening the wind
 
     main.moveTo(50, 30);
 
-Another thing we should configure are the buttons of the window. The user should not be able to close, minimize nor maximize the window. So we add the following lines of code in our windows constructor.
+Another thing we should configure are the buttons of the window. The user should not be able to close, minimize nor maximize the window. So we add the following lines of code in our window constructor.
 
 ::
 
@@ -91,7 +91,7 @@ The last thing we could change is the size of the window on startup. Of course t
     this.setWidth(250);
     this.setHeight(300);
 
-At this point, your application should look like this. 
+At this point, your application should look like this.
 
 |step 1|
 

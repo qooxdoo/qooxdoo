@@ -180,7 +180,7 @@ Using the basic principles outlined above, there are **two practical ways** how 
 * **Macros**
 * **Includer Jobs**
 
-In both cases, it is essential that both the invoking environment (custom application) and the providing component agree on the way how information is passed. In clear terms this means, it has to be part of the documentation of the component how it allows its job to be tailored. (This documentation for the existing component jobs of qooxdoo is available from the :doc:`list of default jobs <generator_default_jobs>`).
+In both cases, it is essential that both the invoking environment (custom application) and the providing component agree on the way how information is passed. In clear terms this means, it has to be part of the documentation of the component how it allows its job to be tailored. (This documentation for the existing component jobs of qooxdoo is available from the :ref:`list of default jobs <pages/tool#references>`).
 
 .. _pages/generator_config_background#parameterizing_a_remote_job_through_macros:
 

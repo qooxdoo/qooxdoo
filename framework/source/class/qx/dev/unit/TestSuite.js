@@ -61,7 +61,7 @@ qx.Class.define("qx.dev.unit.TestSuite",
 //      {
         if (qx.lang.Type.isString(testClassOrNamespace))
         {
-          var evalTestClassOrNamespace = eval(testClassOrNamespace);
+          var evalTestClassOrNamespace = window.eval(testClassOrNamespace);
 
           if (!evalTestClassOrNamespace) {
             this.addFail(testClassOrNamespace, "The class/namespace '" + testClassOrNamespace + "' is undefined!");

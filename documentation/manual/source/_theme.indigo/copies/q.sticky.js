@@ -125,7 +125,7 @@ var Sticky = q.define({
     // The "scroll" event may be fired too late, so that the offset
     // of the current position (determined by fixed positioning) would already
     // cause an overflow. As last resort, work around by limiting offset to highest
-    // offset acceptable. For smooth normal scrolling, still use the the offset calculated
+    // offset acceptable. For smooth normal scrolling, still use the offset calculated
     // from previous fixed position when appropriate.
     fixLateScroll: function(offset) {
       var offsetTopMax = this.getParentHeight() - this.getHeight();

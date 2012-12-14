@@ -63,6 +63,8 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
   },
 
   members : {
+    __canceled : false,
+
     /**
      * Method used to start a series of animation frames. The series will end as
      * soon as the given duration is over.
@@ -70,8 +72,15 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
      * @param duration {Number} The duration the sequence should take.
      */
     startSequence : function(duration) {
+      this.__canceled = false;
+
       var start = +(new Date());
-      var clb = function(time) {
+      var clb = function() {
+        if (this.__canceled) {
+          this.id = null;
+          return;
+        }
+        var time = +(new Date())
         // final call
         if (time >= start + duration) {
           this.emit("end");
@@ -84,6 +93,15 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
       }
 
       this.id = qx.bom.AnimationFrame.request(clb, this);
+    },
+
+
+    /**
+     * Cancels a started sequence of frames. It will do nothing if no
+     * sequence is running.
+     */
+    cancelSequence : function() {
+      this.__canceled = true;
     }
   },
 
@@ -97,7 +115,7 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
 
     /**
      * Calculation of the predefined timing functions. Approximation of the real
-     * bezier curves has ben used for easier calculation. This is good and close
+     * bezier curves has been used for easier calculation. This is good and close
      * enough for the predefined functions like <code>ease</code> or
      * <code>linear</code>.
      *
@@ -145,8 +163,8 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
     request : function(callback, context) {
       var req = qx.core.Environment.get("css.animation.requestframe");
 
-      var clb = function(time) {
-        time = time || +(new Date());
+      var clb = function() {
+        var time = +(new Date());
         callback.call(context, time);
       };
       if (req) {

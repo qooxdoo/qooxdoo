@@ -45,16 +45,16 @@ copyright = u'2011-2012, ' + project + ' developers'
 # built documents.
 #
 # The short X.Y version.
-version = '2.1'
+version = '2.2'
 # The full version, including alpha/beta/rc tags.
-release = '2.1'
+release = '2.2'
 # The current git branch (used for github links)
 git_branch = "master"
 
 # qooxdoo Source Text Macros
 # use e.g. as "%{version}" anywhere in .rst files
 vMajor = "2"
-vMinor = "1"
+vMinor = "2"
 vPatch = ""
 qxmacros = {
     "version"  : vMajor + '.' + vMinor + (('.' + vPatch) if vPatch else '')

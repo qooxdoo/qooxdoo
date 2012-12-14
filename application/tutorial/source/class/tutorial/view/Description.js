@@ -128,7 +128,7 @@ qx.Class.define("tutorial.view.Description",
       if (!this.getTutorial()) {
         return;
       }
-      var headline = "<p style='font-size: 2em; font-widht: bold;'>" + this.getTutorial().name.replace(/_/g, " ") + "</p>";
+      var headline = "<p style='font-size: 2em; font-weight: bold;'>" + this.getTutorial().name.replace(/_/g, " ") + "</p>";
       var step = "<p style='margin-top: -10px; font-size: 11px; color: #CCC;'>Step " + (this.getStep() + 1) + "/" + this.getTutorial().steps.length + "</p>";
       var html = headline + step + this.getTutorial().steps[this.getStep()];
 

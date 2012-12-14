@@ -1,0 +1,15 @@
+//
+// NAVIGATION CONTAINER
+//
+
+.navigation {
+   margin-bottom:0px;
+   @include transition(all 0.8s ease-in-out);
+   @include transform(translateY(0px));
+}
+
+.navigation.hidden {
+  margin-bottom:-($navigationbar-height);
+  @include transition(all 0.8s ease-in-out );
+  @include transform(translateY(-($navigationbar-height)));
+}

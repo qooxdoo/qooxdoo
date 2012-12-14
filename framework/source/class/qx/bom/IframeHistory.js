@@ -81,6 +81,7 @@ qx.Class.define("qx.bom.IframeHistory",
       if (this.getState() !== state) {
         this.setState(state);
       }
+      this.fireDataEvent("request", state);
     },
 
 
