@@ -34,7 +34,7 @@
  * * Synchronize the model and the target
  * * Label and icon are bindable
  * * Takes care of the selection
- * * Passes on the options used by the bindings
+ * * Passes on the options used by {@link qx.data.SingleValueBinding#bind}
  *
  * *Usage*
  *
@@ -643,7 +643,8 @@ qx.Class.define("qx.data.controller.List",
      *   If you use an empty string, the whole model item will be bound.
      * @param targetProperty {String} The name of the property in the target
      *   widget.
-     * @param options {Map | null} The options to use for the binding.
+     * @param options {Map | null} The options used by
+     *   {@link qx.data.SingleValueBinding#bind} to use for the binding.
      * @param targetWidget {qx.ui.core.Widget} The target widget.
      * @param index {Number} The index of the current binding.
      */
@@ -685,7 +686,8 @@ qx.Class.define("qx.data.controller.List",
      *
      * @param targetPath {String | null} The path to the property in the model.
      * @param sourcePath {String} The name of the property in the target.
-     * @param options {Map | null} The options to use for the binding.
+     * @param options {Map | null} The options to use by
+     *   {@link qx.data.SingleValueBinding#bind} for the binding.
      * @param sourceWidget {qx.ui.core.Widget} The source widget.
      * @param index {Number} The index of the current binding.
      */

@@ -82,7 +82,7 @@ The following code demonstrates how to initialize the data store.
 Combining with controllers
 --------------------------
 
-As described in the section above, you can access the model in the property after loading. The best solution is to use the model with a controller and then bind the the model properties with :doc:`Single Value Binding <single_value_binding>` together. The code for this could look something like this.
+As described in the section above, you can access the model in the property after loading. The best solution is to use the model with a controller and then bind the model properties with :doc:`Single Value Binding <single_value_binding>` together. The code for this could look something like this.
 
 ::
 

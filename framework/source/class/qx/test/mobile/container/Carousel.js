@@ -108,10 +108,12 @@ qx.Class.define("qx.test.mobile.container.Carousel",
 
       carousel.scrollToPage(1);
       this.assertEquals(1, carousel.getShownPageIndex());
-
-      carousel.destroy();
-      carouselPage1.destroy();
-      carouselPage2.destroy();
+      
+      window.setTimeout(function() {
+          carousel.destroy();
+          carouselPage1.destroy();
+          carouselPage2.destroy();
+      }, 600);
     }
   }
 

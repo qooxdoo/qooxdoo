@@ -185,22 +185,30 @@ def find(rootpath, pattern=None, includedirs=False):
             yield os.path.join(path,filename)
 
 
-def findYoungest(rootpath, pattern=None):
-    # find the node with the most recent modified date
+##
+# Find the node(s) with the most recent modified date(s)
+#
+def findYoungest(rootpath, pattern=None, includedirs=True, since=0):
 
     def lastModified(path):
         return os.stat(path).st_mtime
 
     youngest = rootpath
     ymodified= lastModified(rootpath)
+    files = []
 
-    for path in find(rootpath, pattern, includedirs=True):
+    for path in find(rootpath, pattern, includedirs=includedirs):
         m = lastModified(path)
         if m > ymodified:
             ymodified = m
             youngest  = path
+        if since and m > since:
+            files.append((path, m))
 
-    return (youngest, ymodified)
+    if since:
+        return files
+    else:
+        return (youngest, ymodified)
 
 
 def lockFileName(path):

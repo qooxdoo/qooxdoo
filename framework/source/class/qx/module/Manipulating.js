@@ -300,7 +300,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     empty : function() {
       for (var i=0; i < this.length; i++) {
         this[i].innerHTML = "";
-      };
+      }
       return this;
     },
 
@@ -311,21 +311,21 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * array of elements.
      *
      * @attach{qxWeb}
-     * @param args {String[]|Element[]} HTML string(s) or DOM element(s)
+     * @param content {String[]|Element[]} HTML string(s) or DOM element(s)
      * @return {qxWeb} The collection for chaining
      */
-    before : function(args) {
-      if (!qx.lang.Type.isArray(args)) {
-        args = [args];
+    before : function(content) {
+      if (!qx.lang.Type.isArray(content)) {
+        content = [content];
       }
       var fragment = document.createDocumentFragment();
-      qx.bom.Html.clean(args, document, fragment);
+      qx.bom.Html.clean(content, document, fragment);
       this.forEach(function(item, index) {
         var kids = qx.lang.Array.cast(fragment.childNodes, Array);
         for (var i=0,l=kids.length; i<l; i++) {
           var child;
           if (index < this.length - 1) {
-            child = kids[i].cloneNode(true)
+            child = kids[i].cloneNode(true);
           }
           else {
             child = kids[i];
@@ -344,21 +344,21 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * array of elements.
      *
      * @attach{qxWeb}
-     * @param args {String[]|Element[]} HTML string(s) or DOM element(s)
+     * @param content {String[]|Element[]} HTML string(s) or DOM element(s)
      * @return {qxWeb} The collection for chaining
      */
-    after : function(args) {
-      if (!qx.lang.Type.isArray(args)) {
-        args = [args];
+    after : function(content) {
+      if (!qx.lang.Type.isArray(content)) {
+        content = [content];
       }
       var fragment = document.createDocumentFragment();
-      qx.bom.Html.clean(args, document, fragment);
+      qx.bom.Html.clean(content, document, fragment);
       this.forEach(function(item, index) {
         var kids = qx.lang.Array.cast(fragment.childNodes, Array);
         for (var i=kids.length-1; i>=0; i--) {
           var child;
           if (index < this.length - 1) {
-            child = kids[i].cloneNode(true)
+            child = kids[i].cloneNode(true);
           }
           else {
             child = kids[i];

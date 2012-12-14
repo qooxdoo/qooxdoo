@@ -31,7 +31,6 @@ qx.Bootstrap.define("qx.module.event.TouchHandler", {
   {
     /**
      * List of events that require a touch handler
-     * @type {Array}
      */
     TYPES : ["tap", "swipe"],
 

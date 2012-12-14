@@ -1584,6 +1584,17 @@ qx.Theme.define("qx.theme.simple.Appearance",
       }
     },
 
+    "menubutton" : {
+      include : "button",
+      alias : "button",
+
+      style : function(states) {
+        return {
+          icon : qx.theme.simple.Image.URLS["arrow-down"],
+          iconPosition : "right"
+        };
+      }
+    },
 
     /*
     ---------------------------------------------------------------------------

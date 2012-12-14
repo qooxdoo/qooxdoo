@@ -134,7 +134,8 @@ qx.Bootstrap.define("qx.bom.element.Animation",
 
       var transformKeys = ["scale", "rotate", "skew", "translate"];
       for (var i=0; i < keys.length; i++) {
-        if (!(keys[i] in el.style)) {
+        var key = qx.lang.String.camelCase(keys[i]);
+        if (!(key in el.style)) {
           // check for transform keys
           if (transformKeys.indexOf(keys[i]) != -1) {
             continue;

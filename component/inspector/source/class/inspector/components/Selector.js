@@ -460,7 +460,9 @@ qx.Class.define("inspector.components.Selector",
     __highlight: function(object) {
       if (this.__isMobileApp) {
         this.__highlighter.hide();
-        object.addCssClass(this.self(arguments).HIGHLIGHTER_CLASS);
+        if(typeof object.addCssClass == "function") {
+          object.addCssClass(this.self(arguments).HIGHLIGHTER_CLASS);
+        }
         return;
       }
 

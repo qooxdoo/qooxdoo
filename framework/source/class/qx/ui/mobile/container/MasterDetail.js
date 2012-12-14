@@ -236,7 +236,6 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
   },
 
 
-
   destruct : function() {
     qx.event.Registration.removeListener(window, "orientationchange", this._onOrientationChange, this);
     this._disposeObjects("__master", "__detail");

@@ -14,6 +14,7 @@
 
    Authors:
      * Tino Butz (tbtz)
+     * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
 
@@ -50,8 +51,21 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 {
   extend : qx.ui.mobile.layout.Abstract,
 
+  
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+  construct : function()
+  {
+    this.base(arguments);
 
- /*
+    this.__cardAnimation = new qx.ui.mobile.layout.CardAnimation();
+  },
+  
+  
+  /*
   *****************************************************************************
      EVENTS
   *****************************************************************************
@@ -88,29 +102,14 @@ qx.Class.define("qx.ui.mobile.layout.Card",
     {
       check : "Boolean",
       init : true
-    }
-  },
-
-
- /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    /** All supported animations */
-    ANIMATIONS :
+    },
+    
+    
+    /** Transition duration of each animation. */
+    animationDuration : 
     {
-      "slide" : true,
-      "pop" : true,
-      "fade" : true,
-      "dissolve" : true,
-      "slideup" : true,
-      "flip" : true,
-      "swap" : true,
-      "cube" : true
+      check : "Integer",
+      init : 350
     }
   },
 
@@ -128,14 +127,15 @@ qx.Class.define("qx.ui.mobile.layout.Card",
     __inAnimation : null,
     __animation : null,
     __reverse : null,
-
+    __cardAnimation : null,
+    
 
     // overridden
     _getCssClasses : function() {
       return ["layout-card","vbox"];
     },
-
-
+    
+    
     // overridden
     connectToChildWidget : function(widget)
     {
@@ -166,7 +166,25 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       this.base(arguments, widget, action, properties);
     },
 
-
+    
+    /**
+     * Setter for this.__cardAnimation.
+     * @param value {qx.ui.mobile.layout.CardAnimation} the new CardAnimation object.
+     */
+    setCardAnimation : function(value) {
+      this.__cardAnimation = value;
+    },
+    
+    
+    /**
+     * Getter for this.__cardAnimation.
+     * @return {qx.ui.mobile.layout.CardAnimation} the current CardAnimation object.
+     */
+    getCardAnimation : function() {
+      return this.__cardAnimation;
+    },
+    
+    
     /**
      * Shows the widget with the given properties.
      *
@@ -188,11 +206,6 @@ qx.Class.define("qx.ui.mobile.layout.Card",
         properties = properties || {};
 
         this.__animation = properties.animation || this.getDefaultAnimation();
-
-        if (qx.core.Environment.get("qx.debug"))
-        {
-          this.assertNotUndefined(qx.ui.mobile.layout.Card.ANIMATIONS[this.__animation], "Animation " + this.__animation + " is not defined.");
-        }
 
         properties.reverse = properties.reverse == null ? false : properties.reverse;
 
@@ -268,15 +281,30 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       var fromElement = this.__currentWidget.getContainerElement();
       var toElement = widget.getContainerElement();
 
-      var fromCssClasses = this.__getAnimationClasses("out");
-      var toCssClasses = this.__getAnimationClasses("in");
+      var onAnimationEnd = qx.lang.Function.bind(this._onAnimationEnd, this);
+      
+      if(qx.core.Environment.get("event.mspointer")) {
+        qx.bom.Event.addNativeListener(fromElement, "MSAnimationEnd", onAnimationEnd, false);
+        qx.bom.Event.addNativeListener(toElement, "MSAnimationEnd", onAnimationEnd, false);
+      }
 
       qx.event.Registration.addListener(fromElement, "animationEnd", this._onAnimationEnd, this);
       qx.event.Registration.addListener(toElement, "animationEnd", this._onAnimationEnd, this);
 
+      var fromCssClasses = this.__getAnimationClasses("out");
+      var toCssClasses = this.__getAnimationClasses("in");
+      
       this._widget.addCssClass("animationParent");
+      
+      var toElementAnimation = this.__cardAnimation.getAnimation(this.__animation, "in", this.__reverse); 
+      var fromElementAnimation = this.__cardAnimation.getAnimation(this.__animation, "out", this.__reverse); 
+      
       qx.bom.element.Class.addClasses(toElement, toCssClasses);
       qx.bom.element.Class.addClasses(fromElement, fromCssClasses);
+
+      qx.bom.element.Animation.animate(toElement, toElementAnimation); 
+      qx.bom.element.Animation.animate(fromElement, fromElementAnimation); 
+      
     },
 
 

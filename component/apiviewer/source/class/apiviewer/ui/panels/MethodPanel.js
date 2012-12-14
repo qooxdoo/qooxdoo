@@ -69,7 +69,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel",
 
       titleHtml.add('<span class="parenthesis">)</span></span>');
 
-      return titleHtml.get()
+      return titleHtml.get();
     },
 
 
@@ -82,8 +82,8 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel",
     getItemTypeHtml : function(method)
     {
       var typeHtml = new qx.util.StringBuilder();
-      if (method.isAbstract()) {
-        typeHtml.add("abstract ")
+      if (method.isAbstract() && method.getClass().isAbstract()) {
+        typeHtml.add("abstract ");
       }
 
       if (!method.isConstructor()) {

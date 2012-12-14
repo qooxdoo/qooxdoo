@@ -241,6 +241,18 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "menubutton" : {
+      include : "button",
+      alias : "button",
+
+      style : function(states) {
+        return {
+          icon : "decoration/arrows/down.gif",
+          iconPosition : "right"
+        };
+      }
+    },
+
     "splitbutton" : {},
     "splitbutton/button" : "button",
     "splitbutton/arrow" :
@@ -2121,7 +2133,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           padding : [ 2, 6 ],
-          backgroundColor : states.pressed || states.hovered ? "background-selected" : undefined,
+          backgroundColor : states.pressed || states.hovered && !states.disabled ? "background-selected" : undefined,
           textColor : states.pressed || states.hovered ? "text-selected" : undefined
         };
       }

@@ -260,7 +260,7 @@ class Comment(object):
 
     ##
     # Returns comment attributes ("commentAttributes") for a comment e.g.
-    # 
+    #
     #  /**
     #   * Checks if a class is compatible to the given mixin (no conflicts)
     #   *
@@ -268,7 +268,7 @@ class Comment(object):
     #   * @param clazz {Class} class to check
     #   * @throws an exception when the given mixin is incompatible to the class
     #   * @return {Boolean} true if the mixin is compatible to the given class
-    #   */    
+    #   */
     #
     # like this:
     #  [{'category': 'description',
@@ -346,8 +346,13 @@ class Comment(object):
                         entry = getattr(self, "parse_at_"+hint_key)(line)
                     except py.ParseException, e:
                         if opts.warn_jsdoc_key_syntax:
-                            context.console.warn("Unable to parse '@%s' JSDoc entry: %s" % (hint_key,line))
-                        continue
+                            entry = {
+                              "error" : "parseError",
+                              "message" : "Unable to parse JSDoc entry",
+                              "category": hint_key,
+                              "text": line.strip()
+                            }
+                        #continue
                 elif hint_key in ( # temporarily, to see what we have in the framework
                         'protected', # ?
                     ):
@@ -361,14 +366,15 @@ class Comment(object):
                 # unknown tag
                 else:
                     #raise Exception("Unknown '@' hint in JSDoc comment: " + hint_key)
-                    if opts.warn_unknown_jsdoc_keys==[] or hint_key in opts.warn_unknown_jsdoc_keys:
-                        context.console.warn("Unknown '@' hint in JSDoc comment: " + hint_key)
                     entry = self.parse_at__default_(line)
+                    if opts.warn_unknown_jsdoc_keys==[] or hint_key in opts.warn_unknown_jsdoc_keys:
+                        entry["error"] = "parseError",
+                        entry["message"] = "Unknown '@' hint in JSDoc comment"
                 attribs.append(entry)
             # description
             else:
                 attribs.append({
-                   "category" : "description", 
+                   "category" : "description",
                    "text" : line.strip()
                 })
 
@@ -379,7 +385,7 @@ class Comment(object):
                     entry["text"] = self.formatText(entry["text"])
                 else:
                     entry["text"] = self.cleanupText(entry["text"])
- 
+
         #from pprint import pprint
         #pprint( attribs)
         return attribs
@@ -387,7 +393,7 @@ class Comment(object):
 
     gr_at__default_ = ( py.Suppress('@') + py.Word(py.alphas)('category') + py.restOfLine("text") )
     ##
-    # "@<hint> text" 
+    # "@<hint> text"
     def parse_at__default_(self, line):
         grammar = self.gr_at__default_
         presult = grammar.parseString(line)
@@ -428,7 +434,7 @@ class Comment(object):
 
     ##
     # "@ignore(foo,bar)"
-    gr_at_ignore = ( py.Suppress('@') + py.Literal('ignore') + py.Suppress('(') + 
+    gr_at_ignore = ( py.Suppress('@') + py.Literal('ignore') + py.Suppress('(') +
         py.delimitedList(py_js_identifier)('arguments') + py.Suppress(')') )
     def parse_at_ignore(self, line):
         grammar = self.gr_at_ignore
@@ -441,9 +447,9 @@ class Comment(object):
 
     ##
     # "@return {Type} msg"
-    gr_at_return = ( py.Suppress('@') + py.Literal('return')  + 
+    gr_at_return = ( py.Suppress('@') + py.Literal('return')  +
         #py.Optional(py_type_expression.copy())("type") +   # TODO: remove leading py.Optional
-        py_type_expression.copy()("type") + 
+        py_type_expression.copy()("type") +
         py.restOfLine("text") )
     def parse_at_return(self, line):
         grammar = self.gr_at_return
@@ -455,7 +461,7 @@ class Comment(object):
             'text' : presult.text.strip()
         }
         return res
-        
+
     ##
     # "@internal"
     def parse_at_internal(self, line):
@@ -466,7 +472,7 @@ class Comment(object):
 
     ##
     # "@deprecated {2.1} use X instead"
-    gr_at_deprecated = ( py.Suppress('@') + py.Literal('deprecated') + 
+    gr_at_deprecated = ( py.Suppress('@') + py.Literal('deprecated') +
         py.QuotedString('{', endQuoteChar='}', unquoteResults=True)("since") + py.restOfLine("text") )
     def parse_at_deprecated(self, line):
         grammar = self.gr_at_deprecated
@@ -480,7 +486,7 @@ class Comment(object):
 
     ##
     # "@throws text"
-    gr_at_throws = ( py.Suppress('@') + py.Literal('throws') + 
+    gr_at_throws = ( py.Suppress('@') + py.Literal('throws') +
        py.Suppress('{') + py_js_identifier.copy()('exception_type') +
        py.Suppress('}') + py.restOfLine("text") )
     def parse_at_throws(self, line):
@@ -492,7 +498,7 @@ class Comment(object):
             'text' : presult.text.strip()
         }
         return res
-        
+
     def _typedim_list_to_typemaps(self, typedim_list):
         types = []
         for el in typedim_list: # e.g. ['String', '[]', 'Integer', '[]', '[]']
@@ -502,9 +508,9 @@ class Comment(object):
                 types[-1]['dimensions'] += 1
         return types
 
-    gr_at_param = ( py.Suppress('@') + py.Word(py.alphas)('category') + 
-            py_js_identifier.copy()("name") + 
-            py_type_expression + 
+    gr_at_param = ( py.Suppress('@') + py.Word(py.alphas)('category') +
+            py_js_identifier.copy()("name") +
+            py_type_expression +
             py.restOfLine("text") )
     ##
     # @param foo {Type} text"
@@ -521,10 +527,10 @@ class Comment(object):
         if 'texp_optional' in presult and 'texp_defval' in presult:
             res['defaultValue'] = presult['texp_defval']
         return res
-        
-    gr_at_childControl = ( py.Suppress('@') + py.Word(py.alphas)('category') + 
+
+    gr_at_childControl = ( py.Suppress('@') + py.Word(py.alphas)('category') +
         py.Regex(r'\S+')("name") +   # accept "-" for childControl names
-        py_type_expression + 
+        py_type_expression +
         py.restOfLine("text"))
     ##
     # "@childControl foo-bar {Type} text"
@@ -542,8 +548,8 @@ class Comment(object):
             'text' : presult.text.strip()
         }
         return res
-        
-    gr_at_see = ( py.Suppress('@') + py.Literal('see') + py.Regex(r'\S+')("name") + 
+
+    gr_at_see = ( py.Suppress('@') + py.Literal('see') + py.Regex(r'\S+')("name") +
         py.Optional(py.restOfLine("text")) )
     ##
     # "@see qx.core.Object#CONSTANT text"
@@ -556,9 +562,9 @@ class Comment(object):
             'text' : presult.text.strip()
         }
         return res
-        
-    gr_at_signature = ( py.Suppress('@') + py.Literal('signature') + py.Literal('function') + 
-        py.Suppress('(') + py.Optional(py.delimitedList(py_js_identifier))('arguments') + 
+
+    gr_at_signature = ( py.Suppress('@') + py.Literal('signature') + py.Literal('function') +
+        py.Suppress('(') + py.Optional(py.delimitedList(py_js_identifier))('arguments') +
         py.Suppress(')') )
     ##
     # "@signature function(parm1, parm2)"
@@ -571,7 +577,7 @@ class Comment(object):
             'arguments' : presult.arguments.asList() if presult.arguments else []
         }
         return res
-        
+
     py_comment_term = py_js_identifier.copy().setResultsName('t_functor') + py.Suppress('(') + \
         py.Optional(py.delimitedList(py_js_identifier)).setResultsName('t_arguments') + py.Suppress(')')
 
@@ -587,10 +593,10 @@ class Comment(object):
             'arguments' : presult.t_arguments.asList() if presult.t_arguments else []
         }
         return res
-        
-    gr_at_attach = ( py.Suppress('@') + py.Literal('attach') + py.Suppress('{') + 
-        py_js_identifier.copy()('clazz') + 
-        py.Optional(py.Suppress(',') + py_js_identifier)('method') + 
+
+    gr_at_attach = ( py.Suppress('@') + py.Literal('attach') + py.Suppress('{') +
+        py_js_identifier.copy()('clazz') +
+        py.Optional(py.Suppress(',') + py_js_identifier)('method') +
         py.Suppress('}') )
     ##
     # "@attach {q, bar}"
@@ -603,10 +609,10 @@ class Comment(object):
             'targetMethod' : presult.method[0] if presult.method else '', # why [0]?!
         }
         return res
-        
-    gr_at_attachStatic = ( py.Suppress('@') + py.Literal('attachStatic') + py.Suppress('{') + 
-        py_js_identifier.copy()('clazz') + 
-        py.Optional(py.Suppress(',') + py_js_identifier)('method') + 
+
+    gr_at_attachStatic = ( py.Suppress('@') + py.Literal('attachStatic') + py.Suppress('{') +
+        py_js_identifier.copy()('clazz') +
+        py.Optional(py.Suppress(',') + py_js_identifier)('method') +
         py.Suppress('}') )
     ##
     # "@attachStatic {q, bar}"
@@ -619,7 +625,7 @@ class Comment(object):
             'targetMethod' : presult.method[0] if presult.method else '',
         }
         return res
-        
+
     gr_at_require = py.Suppress('@') + py_comment_term
     ##
     # "@require(foo, bar)"
@@ -631,7 +637,7 @@ class Comment(object):
             'arguments' : presult.t_arguments.asList(),
         }
         return res
-        
+
     ##
     # "@use(foo,bar)"
     def parse_at_use(self, line):
@@ -642,7 +648,7 @@ class Comment(object):
             'arguments' : presult.t_arguments.asList(),
         }
         return res
-        
+
 
     def cleanupText(self, text):
         #print "============= INTEXT ========================="
@@ -692,7 +698,7 @@ class Comment(object):
     #
     def expandMacros(self, text):
         _mmap = {
-            "qxversion" : (context.jobconf.get("let/QOOXDOO_VERSION", "!!TODO!!") if 
+            "qxversion" : (context.jobconf.get("let/QOOXDOO_VERSION", "!!TODO!!") if
                             hasattr(context,'jobconf') else "[undef]" ) # ecmalint.py doesn't know jobs
         }
         templ = string.Template(text)
@@ -806,7 +812,7 @@ class Text(object):
                 result.append(line[1:])
             return result
 
-            
+
 
     def autoOutdent(self):
         text = self.string
@@ -891,7 +897,7 @@ def getReturns(node, found):
 
 
 def findComment(node):
-    
+
     def findCommentBefore(node):
         while node:
             if node.hasChild("commentsBefore"):
@@ -903,7 +909,7 @@ def findComment(node):
                 node = node.parent
             else:
                 return None
-            
+
     def findCommentAfter(node):
         while node:
             if node.hasChild("commentsBefore"):
@@ -914,12 +920,12 @@ def findComment(node):
             if node.hasChildren():
                 node = node.children[0]
             else:
-                return None   
-            
+                return None
+
     if node.type == "file":
         return findCommentAfter(node)
     else:
-        return findCommentBefore(node)  
+        return findCommentBefore(node)
 
 
 ##
@@ -953,7 +959,7 @@ def findAssociatedComment(node):
 
     ##
     # For every <start_node> find the enclosing statement node, and from that
-    # the node of the first token (as this will carry a pot. comment) 
+    # the node of the first token (as this will carry a pot. comment)
     def statement_head_from(start_node):
         # 1. find enclosing "local root" node
         # (e.g. the enclosing statement or file node)
@@ -963,14 +969,14 @@ def findAssociatedComment(node):
             if tnode.isStatement():
                 stmt_node = tnode
                 break
-            elif tnode.type == 'file': 
+            elif tnode.type == 'file':
                 # TODO: (bug#6765) why does/n't it crash without this?!
                 #       are file-level comments being picked up correctly?!
                 stmt_node = tnode
                 break
-            elif tnode.parent: 
+            elif tnode.parent:
                 tnode = tnode.parent
-            else: 
+            else:
                 break
         # 2. determine left-most token
         #if stmt_node.isPrefixOp():

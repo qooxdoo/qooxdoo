@@ -25,10 +25,9 @@
 
 import sys, os, types, re, string, time
 from ecmascript.frontend import treeutil, lang
-from ecmascript.frontend.Script     import Script
 from ecmascript.frontend.tree       import Node, NODE_VARIABLE_TYPES
 from ecmascript.transform.optimizer import variantoptimizer
-from ecmascript.transform.check     import lint
+from ecmascript.transform.check     import lint, scopes
 from generator.code.DependencyItem  import DependencyItem
 from generator.code.ClassList       import ClassList
 from generator                      import Context
@@ -37,8 +36,6 @@ from misc import util
 ClassesAll = None # {'cid':generator.code.Class}
 
 GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % re.escape(x) for x in lang.GLOBALS + lang.QXGLOBALS))
-
-_memo1_ = [None, None]  # for memoizing getScript()
 
 DEFER_ARGS = ("statics", "members", "properties")
 
@@ -215,8 +212,22 @@ class MClassDependencies(object):
         cacheId          = "deps-%s-%s" % (self.path, util.toString(relevantVariants))
         cached           = True
 
+        # try compile cache
         classInfo, classInfoMTime = self._getClassCache()
         (deps, cacheModTime) =  classInfo[cacheId] if cacheId in classInfo else (None,None)
+
+        # try dependencies.json
+        if (True  # just a switch
+            and deps == None  
+            # TODO: temp. hack to work around issue with 'statics' optimization and dependencies.json
+            and 'statics' not in Context.jobconf.get("compile-options/code/optimize",[])
+           ):
+            deps_json, cacheModTime = self.library.getDependencies(self.id)
+            if deps_json is not None:
+                #console.info("using dependencies.json for: %s" % self.id)
+                deps = self.depsItems_from_Json(deps_json)
+                # don't cache at all, so later 'statics' optimized jobs don't
+                # pick up the short depsList from cache
 
         if (deps == None
           or force == True
@@ -231,6 +242,25 @@ class MClassDependencies(object):
         return deps, cached
 
         # end:dependencies()
+
+
+    ##
+    # Create depsItems from dependencies.json entry.
+    #
+    # deps_json = {'load':['qx.util.OOUtil', ...], 'run':['qx.util.DisposeUtil',...]}
+    #
+    def depsItems_from_Json(self, deps_json):
+        result = {'run':[], 'load':[], 'ignore':[]}
+        for category in ('run', 'load'):
+            for classId in deps_json[category]:
+                if (classId.startswith('/resource/')
+                    or classId.startswith('/translation/')):
+                    continue  # sorting out resource and msgid dependencies
+                depsItem = DependencyItem(classId, '', '|dependency.json|')
+                depsItem.isLoadDep = category == 'load'
+                result[category].append(depsItem)
+        return result
+
 
 
     def getCombinedDeps(self, classesAll_, variants, config, stripSelfReferences=True, projectClassNames=True, genProxy=None, force=False, tree=None):
@@ -340,7 +370,7 @@ class MClassDependencies(object):
     # sure how to handle this sub-recursion when the main body is an iteration.
     # TODO:
     # - <recurse> seems artificial, and should be removed when cleaning up dependencies1()
-    def _analyzeClassDepsNode(self, node, depsList, inLoadContext, inDefer=False):
+    def _analyzeClassDepsNode_1(self, node, depsList, inLoadContext, inDefer=False):
 
         if node.isVar():
             if node.dep:
@@ -348,8 +378,6 @@ class MClassDependencies(object):
                 return
                 
             assembled = (treeutil.assembleVariable(node))[0]
-            #if self.id == "qx.log.Logger" and node.toJS(None)=="clazz" and node.parent.type=="dotaccessor":
-            #    import pydb; pydb.debugger()
 
             # treat dependencies in defer as requires
             deferNode = self.checkDeferNode(assembled, node)
@@ -421,6 +449,99 @@ class MClassDependencies(object):
         return
 
         # end:_analyzeClassDepsNode
+
+    def _analyzeClassDepsNode_2(self, node, depsList, inLoadContext, inDefer=False):
+        if node.type in ('file', 'function', 'catch'):
+            top_scope = node.scope
+        else:
+            top_scope = scopes.find_enclosing(node)  # get enclosing scope of node
+        for scope in top_scope.scope_iterator(): # walk through this and all nested scopes
+            for global_name, scopeVar in scope.globals().items():  # get the global symbols { sym_name: ScopeVar }
+                for var_node in scopeVar.uses:       # create a depsItem for all its uses
+                    if treeutil.hasAncestor(var_node, node): # var_node is not disconnected through optimization
+                        depsItem = self.qualify_deps_item(var_node, scope.is_load_time, scope.is_defer)
+                        # as this also does filtering
+                        if depsItem:
+                            depsList.append(depsItem)    # and qualify them
+                            #if depsItem.name == "qx.log.appender.Console":
+                            #    import pydb; pydb.debugger()
+
+        # Augment with feature dependencies introduces with qx.core.Environment.get("...") calls
+        for env_operand in variantoptimizer.findVariantNodes(node):
+            call_node = env_operand.parent.parent
+            env_key = call_node.getChild("arguments").children[0].get("value", "")
+            className, classAttribute = self.getClassNameFromEnvKey(env_key)
+            if className:
+                #print className
+                depsItem = DependencyItem(className, classAttribute, self.id, env_operand.get('line', -1))
+                depsItem.isCall = True  # treat as if actual call, to collect recursive deps
+                # .inLoadContext
+                # get 'qx' node of 'qx.core.Environment....'
+                qx_idnode = treeutil.findFirstChainChild(env_operand)
+                scope = qx_idnode.scope
+                inLoadContext = scope.is_load_time # get its scope's .is_load_time
+                depsItem.isLoadDep = inLoadContext
+                if inLoadContext:
+                    depsItem.needsRecursion = True
+                depsList.append(depsItem)
+
+        return
+
+    _analyzeClassDepsNode = _analyzeClassDepsNode_1
+
+    ##
+    # Does all the tests to qualify a DependencyItem (inLoad, needsRecursion, ...).
+    def qualify_deps_item(self, node, isLoadTime, inDefer, depsItem=None):
+        if not depsItem:
+            depsItem = DependencyItem('', '', '')
+        depsItem.name = ''
+        depsItem.attribute = ''
+        depsItem.requestor = self.id
+        depsItem.line = node.get("line", -1)
+        depsItem.isLoadDep = isLoadTime
+        depsItem.needsRecursion = False
+        depsItem.isCall = False
+        var_root = treeutil.findVarRoot(node)  # various of the tests need the var (dot) root, rather than the head symbol (like 'qx')
+
+        # .isCall
+        if var_root.hasParentContext("call/operand"): # it's a function call
+            depsItem.isCall = True  # interesting when following transitive deps
+
+        # .name
+        assembled = (treeutil.assembleVariable(node))[0]
+        _, className, classAttribute = self._isInterestingReference(assembled, var_root, self.id, inDefer)
+        # postcond: 
+        # - className != '' must always be true, as we know it is an interesting reference
+        # - might be a known qooxdoo class, or an unknown class (use 'className in self._classes')
+        # - if assembled contained ".", classAttribute will contain approx. non-class part
+
+        if className:
+            # we allow self-references, to be able to track method dependencies within the same class
+            if className == 'this':
+                className = self.id
+            elif inDefer and className in DEFER_ARGS:
+                className = self.id
+            if not classAttribute:  # see if we have to provide 'construct'
+                if treeutil.isNEWoperand(node):
+                    classAttribute = 'construct'
+            # Can't do the next; it's catching too many occurrences of 'getInstance' that have
+            # nothing to do with the singleton 'getInstance' method (just grep in the framework)
+            #elif classAttribute == 'getInstance':  # erase 'getInstance' and introduce 'construct' dependency
+            #    classAttribute = 'construct'
+            depsItem.name = className
+            depsItem.attribute = classAttribute
+
+            # .needsRecursion
+            # Mark items that need recursive analysis of their dependencies (bug#1455)
+            if self.followCallDeps(var_root, self.id, className, isLoadTime):
+                depsItem.needsRecursion = True
+
+        if depsItem.name:
+            return depsItem
+        else:
+            return None
+        
+        
 
 
     def getAllEnvChecks(self, nodeline, inLoadContext):
@@ -507,9 +628,6 @@ class MClassDependencies(object):
             # ------------------------------------------------------------------
 
             context = 'interesting' # every context is interesting, maybe we get more specific or reset to ''
-
-            #if self.id=="qx.Bootstrap" and assembled=="__classToTypeMap":
-            #    import pydb; pydb.debugger()
 
             # don't treat label references
             if node.parent.type in ("break", "continue"):
@@ -629,70 +747,17 @@ class MClassDependencies(object):
 
     ##
     # Check if the detected (pot. complex) identifier <idStr>, with corresponding
-    # AST node <node>, is a scoped identifier in <fileId>.
+    # AST node <node>, is a lexically scoped identifier in <fileId>.
     #
-    # Uses scope analysis (ecmascript.frontend.Scope) of <fileId>; finds the
-    # enclosing scope of <node>, then looks up <idStr> in this scope.
     def _isScopedVar(self, idStr, node, fileId):
+        res = False
+        head_node = treeutil.findFirstChainChild(node)
+        assert head_node and hasattr(head_node, 'scope')
+        var_name = head_node.get('value')
+        var_scope = head_node.scope.lookup_decl(var_name)
+        res = bool(var_scope)
+        return res
 
-        def findScopeNode(node):
-            node1 = node
-            sNode = None
-            while not sNode:
-                if node1.type in ["function", "catch"]:
-                    sNode = node1
-                if node1.hasParent():
-                    node1 = node1.parent
-                else:
-                    break # we're at the root
-            if not sNode:
-                sNode = node1 # use root node
-            return sNode
-
-        def getScript(node, fileId, ):
-            # TODO: checking the root nodes is a fix, as they sometimes differ (prob. caching)
-            # -- looking up nodes in a Script() uses object identity for comparison; sometimes, the
-            #    tree _analyzeClassDepsNode works on and the tree Script is built from are not the
-            #    same in memory, e.g. when the tree is re-read from disk; then those comparisons
-            #    fail (although the nodes are semantically the same); hence we have to
-            #    re-calculate the Script (which is expensive!) when the root node object changes;
-            #    using __memo allows at least to re-use the existing script when a class is worked
-            #    on and this method is called successively for the same tree.
-            rootNode = node.getRoot()
-            #if _memo1_[0] == fileId: # replace with '_memo1_[0] == rootNode', to make it more robust, but slightly less performant
-            if _memo1_[0] == rootNode:
-                script = _memo1_[1]
-            else:
-                # TODO: disentagle use of ecmascript.frontend.Script and generator.code.Script
-                script = Script(rootNode, fileId)
-                _memo1_[0], _memo1_[1] = rootNode, script
-            return script
-
-        def getLeadingId(idStr):
-            leadingId = idStr
-            dotIdx = idStr.find('.')
-            if dotIdx > -1:
-                leadingId = idStr[:dotIdx]
-            return leadingId
-
-        # -----------------------------------------------------------------------------
-
-        # check composite id a.b.c, check only first part
-        idString = getLeadingId(idStr)
-        script   = getScript(node, fileId)
-
-        scopeNode = findScopeNode(node)  # find the node of the enclosing scope (function - catch - global)
-        if scopeNode == script.root:
-            fcnScope = script.getGlobalScope()
-        else:
-            fcnScope  = script.getScope(scopeNode)
-        assert fcnScope != None, "idString: '%s', idStr: '%s', fileId: '%s'" % (idString, idStr, fileId)
-        varDef = script.getVariableDefinition(idString, fcnScope)
-        if varDef:
-            return True
-        return False
-
-        # end:_isScopedVar()
 
 
     # --------------------------------------------------------------------
@@ -751,6 +816,9 @@ class MClassDependencies(object):
         if featureId == 'construct':  # constructor requested, but not supplied in class map
             # supply the default constructor
             featureNode = treeutil.compileString("function(){this.base(arguments);}", self.path)
+            # the next is a hack to provide minimal scope info
+            featureNode.set("treegenerator_tag", 1)
+            featureNode = scopes.create_scopes(featureNode)
             return self.id, featureNode
 
         # inspect inheritance/mixins
@@ -893,7 +961,7 @@ class MClassDependencies(object):
                     return cachedDeps
 
             # Need to calculate deps
-            console.dot("_")
+            console.dot(1)
 
             # Check known class
             if classId not in ClassesAll:
@@ -933,6 +1001,9 @@ class MClassDependencies(object):
             console.debug("%s#%s dependencies:" % (classId, methodId))
             console.indent()
 
+            #if (classId,methodId) == ('qx.Class','define'):
+            #    import pydb; pydb.debugger()
+
             if isinstance(attribNode, Node):
 
                 if (attribNode.getChild("function", False)       # is it a function(){..} value?
@@ -944,6 +1015,8 @@ class MClassDependencies(object):
                     # Get the method's immediate deps
                     # TODO: is this the right API?!
                     depslist = []
+                    if attribNode.type == 'value':
+                       attribNode = attribNode.children[0] 
                     self._analyzeClassDepsNode(attribNode, depslist, inLoadContext=False)
                     console.debug( "shallow dependencies: %r" % (depslist,))
 
@@ -957,8 +1030,9 @@ class MClassDependencies(object):
                         if depsItem.name in my_ignores:
                             continue
                         if self.resultAdd(depsItem, localDeps):
+                            totalDeps = totalDeps.union(localDeps)
                             # Recurse dependencies
-                            downstreamDeps = getTransitiveDepsR(depsItem, variants, totalDeps.union(localDeps))
+                            downstreamDeps = getTransitiveDepsR(depsItem, variants, totalDeps)
                             localDeps.update(downstreamDeps)
 
             # Cache update

@@ -252,7 +252,13 @@ qx.Class.define("qx.data.controller.Form",
 
     // apply method
     _applyModel : function(value, old) {
-      // first, get rid off all bindings (avoids whong data population)
+
+      // set the model to null to reset all items before removing them
+      if (this.__objectController != null && value == null) {
+        this.__objectController.setModel(null);
+      }
+
+      // first, get rid off all bindings (avoids wrong data population)
       if (this.__objectController != null) {
         var items = this.getTarget().getItems();
         for (var name in items) {

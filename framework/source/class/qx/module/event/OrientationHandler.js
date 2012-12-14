@@ -31,7 +31,6 @@ qx.Bootstrap.define("qx.module.event.OrientationHandler", {
   {
     /**
      * List of events that require an orientation handler
-     * @type {Array}
      */
     TYPES : ["orientationchange"],
 

@@ -23,9 +23,18 @@
  */
 qx.Class.define("qx.ui.mobile.core.Blocker",
 {
+  
   extend : qx.ui.mobile.core.Widget,
+  type : "singleton",
 
-
+  
+  construct : function()
+  {
+    this.base(arguments);
+    qx.core.Init.getApplication().getRoot().add(this);
+  },
+  
+  
   /*
   *****************************************************************************
      PROPERTIES
@@ -41,8 +50,6 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
       init : "blocker"
     }
   },
-
-
 
 
   /*
@@ -179,16 +186,14 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
   },
 
 
-
-
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
-
   destruct : function()
   {
+    qx.core.Init.getApplication().getRoot().remove(this);
     this.__unregisterEventListener();
   }
 });

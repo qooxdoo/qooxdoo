@@ -221,16 +221,20 @@ class Log(object):
             sys.stdout.flush()
 
 
-    sigils = r"|/-\|/-\\"
-    sigils1= r".o0O0o"
-    sigils_len = len(sigils)
+    sigils = {
+        1 : r"|/-\|/-\\",
+        2 : r".o0O0o"
+    }
 
-    def dot(self, char='.', i=[0]):
+    def dot(self, stype=1, i=[0]):
+        if stype not in (1,2):
+            stype = 1
+        sigils_len = len(self.sigils[stype])
         if self.progress_indication:
             self._inProgress = True
             stream = sys.stdout
-            i[0] = (i[0] + 1) % self.sigils_len
-            stream.write("\b"+self.sigils[i[0]])
+            i[0] = (i[0] + 1) % sigils_len
+            stream.write("\b" + self.sigils[stype][i[0]])
             stream.flush()
 
     def dotclear(self, ok=' '):

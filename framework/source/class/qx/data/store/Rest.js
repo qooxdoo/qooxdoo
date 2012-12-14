@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Handles response associated to a resource's action. The model property is
  * populated with the marshaled response. Note the action is invoked on the
  * resource, not the store.

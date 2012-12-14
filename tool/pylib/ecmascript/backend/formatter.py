@@ -34,7 +34,7 @@ from ecmascript.frontend import lang, Comment
 
 # fall-back in symbol_base
 def format(self, optns, state):
-    r = self.commentsPretty(optns, state)
+    r = self.commentsPretty(self.comments, optns, state)
     r += self.get("value", u'')
     return r
 symbol_base.format = format

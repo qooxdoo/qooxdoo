@@ -326,7 +326,9 @@ class QxTest:
     # to files.
     #
     # @param buildConf {dict} Build configuration
-    def buildAll(self, buildConf):
+    # @param buildOrder {list} List of buildConf keys to determine the order in
+    # which the targets are processed. Default: Alphabetical order
+    def buildAll(self, buildConf={}, buildOrder=None):
         defaultBuildConf = {
             'buildLogLevel': 'error',
             'buildLogDir': '../../logs/build',
@@ -337,7 +339,11 @@ class QxTest:
 
         buildResults = {}
         if "targets" in buildConf:
-            for target in sorted(buildConf['targets'].iterkeys()):
+            if buildOrder:
+                targets = buildOrder
+            else:
+                targets = sorted(buildConf['targets'].iterkeys())
+            for target in targets:
                 buildResult = self.buildTarget(target, buildConf)
                 if buildResult:
                     buildResults[target] = buildResult
@@ -811,10 +817,12 @@ class QxTest:
         getReportFrom = self.testConf['getReportFrom']
 
         if getReportFrom == 'testLog':
+            from random import randint
             logPath = os.path.join(self.testConf['testLogDir'], appConf['appName'])
             if not os.path.isdir(logPath):
                 os.makedirs(logPath)
-            logFile = os.path.join(logPath, testStartDate + ".log")
+            logFileName = "%s_%s.log" % (testStartDate, str(randint(100000, 999999)))
+            logFile = os.path.join(logPath, logFileName)
             if not os.path.isabs(logFile):
                 logFile = os.path.abspath(logFile)
 
@@ -848,11 +856,11 @@ class QxTest:
                     else:
                         self.log("No report HTML to send.")
 
-                    if "reportServerUrl" in self.testConf:
-                        try:
-                            self.reportResults(appConf['appName'], testStartDate, dummyLogFile)
-                        except Exception, e:
-                            self.logError(e, "Sending test results")
+                if "reportServerUrl" in self.testConf:
+                    try:
+                        self.reportResults(appConf['appName'], testStartDate, dummyLogFile)
+                    except Exception, e:
+                        self.logError(e, "Sending test results")
 
                 return
 
@@ -879,11 +887,15 @@ class QxTest:
         # Any additional options
         seleniumOptions += " %s" % self.seleniumConf["options"]
 
+        startServer = True
+        if 'startServer' in appConf:
+            startServer = appConf['startServer']
+
         individual = True
         if 'individualServer' in appConf:
             individual = appConf['individualServer']
 
-        if not individual:
+        if startServer and not individual:
             self.log("individualServer set to False, using one server instance for "
                              + "all tests")
 
@@ -908,7 +920,7 @@ class QxTest:
             if "kill" in browser:
                 killBrowser = browser['kill']
 
-            if individual:
+            if startServer and individual:
                 browserLauncher = self.browserConf[browser['browserId']]
                 if self.seleniumConf['ieSingleWindow'] and ("iexplore" in browserLauncher or "iepreview" in browserLauncher):
                     seleniumOptions += " -singleWindow"
@@ -980,13 +992,13 @@ class QxTest:
             except KeyError:
                     pass
 
-            if individual:
+            if startServer and individual:
                 self.shutdownSeleniumServer()
                 time.sleep(5)
                 if self.isSeleniumServer():
                     self.killSeleniumServer()
 
-        if not individual:
+        if startServer and not individual:
             self.shutdownSeleniumServer()
             time.sleep(5)
             if self.isSeleniumServer():
@@ -1161,7 +1173,6 @@ class QxTest:
             "aut_qxpath": "",
             "aut_path": self.autConf["autPath" + aut],
             "test_host": test_host,
-            "test_hostos": self.os,
             "test_hostid": "",
             "test_type": self.testConf["runType"],
             "revision": "",
@@ -1178,12 +1189,10 @@ class QxTest:
         if "autQxPath" in self.autConf:
             testRun["aut_qxpath"] = self.autConf["autQxPath"]
 
-        if self.mailConf:
-            if "hostId" in self.mailConf:
-                testRun["test_hostid"] = self.mailConf["hostId"]
-
-            if ("webtechnologies" in self.mailConf["mailTo"]):
-                testRun["dev_run"] = False
+        if self.mailConf and "hostId" in self.mailConf:
+            testRun["test_hostid"] = self.mailConf["hostId"]
+        elif "hostId" in self.testConf:
+            testRun["test_hostid"] = self.testConf["hostId"]
 
         return testRun
 
@@ -1438,7 +1447,11 @@ class QxTest:
         for key in lintConf:
             for target in lintConf[key]:
 
-                options = LintOpts(None, self.mailConf['mailTo'])
+                if self.mailConf and "mailTo" in self.mailConf:
+                    mailTo = self.mailConf["mailTo"]
+                else:
+                    mailTo = None
+                options = LintOpts(None, mailTo)
 
                 if key == "other":
                     options.workdir = os.path.join(self.testConf['qxPathAbs'], target['directory'])
