@@ -291,7 +291,7 @@
 
     "watch-scss" :
     {
-      "descr"  : "Demo job for watching compile-to-CSS files",
+      "desc"  : "Demo job for watching compile-to-CSS files",
       "extend" : ["cache"],
       "watch-files" :
       {
