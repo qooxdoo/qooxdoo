@@ -192,9 +192,11 @@ qx.Class.define("qx.io.request.AbstractRequest",
      */
     requestData: {
       check: function(value) {
-        return qx.lang.Type.isString(value) ||
-               qx.Class.isSubClassOf(value.constructor, qx.core.Object) ||
-               qx.lang.Type.isObject(value);
+        var Type = qx.lang.Type;
+        return Type.isString(value) ||
+               Type.isObject(value) ||
+               Type.isArray(value) ||
+               qx.Class.isSubClassOf(value.constructor, qx.core.Object);
       },
       nullable: true
     },
@@ -703,35 +705,27 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * Called internally when readyState is DONE.
      */
     __onReadyStateDone: function() {
-      var parsedResponse;
-
-      if (qx.core.Environment.get("qx.debug.io")) {
-        this.debug("Request completed with HTTP status: " + this.getStatus());
+      var debug = qx.core.Environment.get("qx.debug.io"),
+          status = this.getStatus();
+      if (debug) {
+        this.debug("Request completed with HTTP status: " + status);
       }
 
       // Event "load" fired in onLoad
       this._setPhase("load");
-
+      // Parse response
+      if (debug) {
+        this.debug("Response is of type: '" + this.getResponseContentType() + "'");
+      }
+      this._setResponse( this._getParsedResponse() );
+      
       // Successful HTTP status
-      if (qx.util.Request.isSuccessful(this.getStatus())) {
-
-        // Parse response
-        if (qx.core.Environment.get("qx.debug.io")) {
-          this.debug("Response is of type: '" + this.getResponseContentType() + "'");
-        }
-        parsedResponse = this._getParsedResponse();
-        this._setResponse(parsedResponse);
-
+      if (qx.util.Request.isSuccessful(status)) {
         this._fireStatefulEvent("success");
-
       // Erroneous HTTP status
-      } else {
-
-        // A remote error failure
-        if (this.getStatus() !== 0) {
-          this._fireStatefulEvent("statusError");
-          this.fireEvent("fail");
-        }
+      } else if (status !== 0) {
+        this._fireStatefulEvent("statusError");
+        this.fireEvent("fail");
       }
     },
 

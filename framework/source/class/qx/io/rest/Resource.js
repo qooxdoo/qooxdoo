@@ -225,6 +225,42 @@ qx.Class.define("qx.io.rest.Resource",
     }
   },
 
+  properties :
+  {
+    /**
+     * Set of headers that should be automatically set for all requests.
+     * 
+     * Object specifies header names (as object fields) and header values (as field values).
+     * Example:
+     * <code>
+     * {
+     *      "Content-Type": "application/json"
+     * }
+     * </code>
+     */
+    requestHeaders: {
+      check: "Object",
+      nullable: true
+    },
+
+    /**
+     * Properties that should be changed for every request object.
+     * 
+     * Object specifies property names (as object fields) and property values (as field values).
+     * Example:
+     * <code>
+     * {
+     *      "accept": "application/json",
+     *      "cache": "no-cache"
+     * }
+     * </code>
+     */
+    requestProperties: {
+      check: "Object",
+      nullable: true
+    }
+  },
+
   members:
   {
     __requests: null,
@@ -467,6 +503,17 @@ qx.Class.define("qx.io.rest.Resource",
      * @param data {Map} Data.
      */
     __configureRequest: function(req, config, data) {
+      // Set predefined headers and properties
+      var map = this.getRequestHeaders();
+      if (map) {
+          for (var key in map) {
+              req.setRequestHeader(key, map[key]);
+          }
+      }
+      if (map = this.getRequestProperties()) {
+          req.set(map);
+      }
+      
       req.set({method: config.method, url: config.url});
 
       if (data) {

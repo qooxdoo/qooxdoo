@@ -51,7 +51,7 @@ Here is an example of a minimal config file that defines a single job to create 
         {
           "QOOXDOO_PATH" : "../..",
           "APPLICATION" : "custom"
-        ],
+        },
 
         "library" :
         [
