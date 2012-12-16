@@ -209,6 +209,14 @@ qx.Class.define("qx.io.request.AbstractRequest",
     authentication: {
       check: "qx.io.request.authentication.IAuthentication",
       nullable: true
+    },
+
+    /**
+     * Whether the response of failed request should be parsed.
+     */
+    parseErrorResponse: {
+      check : "Boolean",
+      init : false
     }
   },
 
@@ -706,7 +714,9 @@ qx.Class.define("qx.io.request.AbstractRequest",
      */
     __onReadyStateDone: function() {
       var debug = qx.core.Environment.get("qx.debug.io"),
-          status = this.getStatus();
+          status = this.getStatus(),
+          hasStatus = status !== 0,
+          successful = qx.util.Request.isSuccessful(status);
       if (debug) {
         this.debug("Request completed with HTTP status: " + status);
       }
@@ -714,16 +724,18 @@ qx.Class.define("qx.io.request.AbstractRequest",
       // Event "load" fired in onLoad
       this._setPhase("load");
       // Parse response
-      if (debug) {
-        this.debug("Response is of type: '" + this.getResponseContentType() + "'");
+      if (successful || (hasStatus && this.isParseErrorResponse())) {
+          if (debug) {
+            this.debug("Response is of type: '" + this.getResponseContentType() + "'");
+          }
+          this._setResponse( this._getParsedResponse() );
       }
-      this._setResponse( this._getParsedResponse() );
       
       // Successful HTTP status
-      if (qx.util.Request.isSuccessful(status)) {
+      if (successful) {
         this._fireStatefulEvent("success");
       // Erroneous HTTP status
-      } else if (status !== 0) {
+      } else if (hasStatus) {
         this._fireStatefulEvent("statusError");
         this.fireEvent("fail");
       }
