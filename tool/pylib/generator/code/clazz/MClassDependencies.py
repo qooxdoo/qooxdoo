@@ -224,14 +224,10 @@ class MClassDependencies(object):
            ):
             deps_json, cacheModTime = self.library.getDependencies(self.id)
             if deps_json is not None:
+                #console.info("using dependencies.json for: %s" % self.id)
                 deps = self.depsItems_from_Json(deps_json)
-                # temp. console output, to check nightly testing
-                console.info("using dependencies.json for: %s" % self.id)
                 # don't cache at all, so later 'statics' optimized jobs don't
                 # pick up the short depsList from cache
-                #if not tree: # don't cache for a passed-in tree
-                #    classInfo[cacheId] = (deps, cacheModTime)
-                #    self._writeClassCache(classInfo)
 
         if (deps == None
           or force == True

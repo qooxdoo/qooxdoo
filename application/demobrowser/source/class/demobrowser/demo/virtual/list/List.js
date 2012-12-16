@@ -376,7 +376,7 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
      * Returns the children list
      *
      * @return {LayoutItem[]} The children array (Arrays are
-     *   reference types, please to not modify them in-place)
+     *   reference types, please do not modify them in-place)
      */
     getChildren : function() {
       return this.__items;

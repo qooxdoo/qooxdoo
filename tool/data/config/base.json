@@ -445,7 +445,7 @@
       ,"web-server" :
       {
         "document-root" : ""   // calculate dynamically from libraries
-        ,"server-port"  : 8080
+        ,"server-port"  : 0
         ,"log-level"    : "error"  // use "info" for more console logging, "fatal" for none
         ,"allow-remote-access" : false
       }

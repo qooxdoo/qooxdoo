@@ -23,13 +23,11 @@
 # Start a Mini Web Server to export applications and their libraries.
 ##
 
-import sys, os, re, types, codecs, string
+import sys, os, re, types, codecs, string, socket
 import BaseHTTPServer, CGIHTTPServer
 
 from misc import Path, filetool
 from generator import Context
-
-default_server_port = 8080
 
 log_levels = {
   "debug"   : 10,
@@ -74,12 +72,26 @@ def from_doc_root_to_app_root(jobconf, confObj, doc_root):
     url_path = Path.posifyPath(url_path)
     return url_path
 
+
+##
+# Get a (presumably) free port on this machine.
+# - Alert: Might run into race conditions with other programs.
+def search_free_port():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.bind(('',0))
+    port = sock.getsockname()[1]
+    sock.close()
+    # maybe we should wait a bit here?!
+    return port
+    
 def runWebServer(jobconf, confObj):
     global log_level
     console = Context.console
     owd = os.getcwdu()
     log_level = jobconf.get("web-server/log-level", "error")
-    server_port = jobconf.get("web-server/server-port", default_server_port)
+    server_port = jobconf.get("web-server/server-port", False)
+    if server_port in (False, 0):
+        server_port = search_free_port()
     if jobconf.get("web-server/allow-remote-access", False):
         server_interface = ""
     else:
