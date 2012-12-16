@@ -87,6 +87,30 @@ qx.Class.define("qx.log.Logger",
       return this.__buffer.getMaxMessages();
     },
 
+    
+    /**
+     * Whether log arguments should be serialized.
+     */
+    __serializeLogArgs : true,
+
+    /**
+     * Configures the necessity of log arguments serialization.
+     *
+     * @param value {Boolean} Indicates the necessity of log arguments serialization.
+     */
+    setSerializeLogArgs : function(value) {
+      this.__serializeLogArgs = value;
+    },
+
+    /**
+     * Determines whether log arguments should be serialized.
+     *
+     * @return {Boolean} Whether log arguments should be serialized.
+     */
+    isSerializeLogArgs : function() {
+      return this.__serializeLogArgs;
+    },
+
 
 
 
@@ -523,135 +547,143 @@ qx.Class.define("qx.log.Logger",
      * @param value {var} Incoming value
      * @param deep {Boolean?false} Whether arrays and maps should be
      *    serialized for a limited number of items
-     * @return {Map} Contains the keys <code>type</code>, <code>text</code> and
-     * <code>trace</code>.
+     * @return {Map} Contains the keys <code>type</code>, <code>text</code>,
+     * <code>trace</code> and <code>value</code>.
      */
     __serialize : function(value, deep)
     {
       var type = this.__detect(value);
-      var text = "unknown";
-      var trace = [];
+      var text;
+      var trace = type === "error"
+                  ? qx.dev.StackTrace.getStackTraceFromError(value) 
+                  : [];
 
-      switch(type)
-      {
-        case "null":
-        case "undefined":
-          text = type;
-          break;
-
-        case "string":
-        case "number":
-        case "boolean":
-        case "date":
-          text = value;
-          break;
-
-        case "node":
-          if (value.nodeType === 9)
-          {
-            text = "document";
-          }
-          else if (value.nodeType === 3)
-          {
-            text = "text[" + value.nodeValue + "]";
-          }
-          else if (value.nodeType === 1)
-          {
-            text = value.nodeName.toLowerCase();
-            if (value.id) {
-              text += "#" + value.id;
-            }
-          }
-          else
-          {
-            text = "node";
-          }
-          break;
-
-        case "function":
-          text = qx.lang.Function.getName(value) || type;
-          break;
-
-        case "instance":
-          text = value.basename + "[" + value.$$hash + "]";
-          break;
-
-        case "class":
-        case "stringify":
-          text = value.toString();
-          break;
-
-        case "error":
-          trace = qx.dev.StackTrace.getStackTraceFromError(value);
-          text = (value.basename ? value.basename + ": " : "") +
-                 value.toString();
-          break;
-
-        case "array":
-          if (deep)
-          {
-            text = [];
-            for (var i=0, l=value.length; i<l; i++)
+      if (this.isSerializeLogArgs()) {
+        text = "unknown";
+        switch(type)
+        {
+          case "null":
+          case "undefined":
+            text = type;
+            break;
+  
+          case "string":
+          case "number":
+          case "boolean":
+          case "date":
+            text = value;
+            break;
+  
+          case "node":
+            if (value.nodeType === 9)
             {
-              if (text.length > 20)
-              {
-                text.push("...(+" + (l-i) + ")");
-                break;
-              }
-
-              text.push(this.__serialize(value[i], false));
+              text = "document";
             }
-          }
-          else
-          {
-            text = "[...(" + value.length + ")]";
-          }
-          break;
-
-        case "map":
-          if (deep)
-          {
-            var temp;
-
-            // Produce sorted key list
-            var sorted = [];
-            for (var key in value) {
-              sorted.push(key);
-            }
-            sorted.sort();
-
-            // Temporary text list
-            text = [];
-            for (var i=0, l=sorted.length; i<l; i++)
+            else if (value.nodeType === 3)
             {
-              if (text.length > 20)
-              {
-                text.push("...(+" + (l-i) + ")");
-                break;
+              text = "text[" + value.nodeValue + "]";
+            }
+            else if (value.nodeType === 1)
+            {
+              text = value.nodeName.toLowerCase();
+              if (value.id) {
+                text += "#" + value.id;
               }
-
-              // Additional storage of hash-key
-              key = sorted[i];
-              temp = this.__serialize(value[key], false);
-              temp.key = key;
-              text.push(temp);
             }
-          }
-          else
-          {
-            var number=0;
-            for (var key in value) {
-              number++;
+            else
+            {
+              text = "node";
             }
-            text = "{...(" + number + ")}";
-          }
-          break;
+            break;
+  
+          case "function":
+            text = qx.lang.Function.getName(value) || type;
+            break;
+  
+          case "instance":
+            text = value.basename + "[" + value.$$hash + "]";
+            break;
+  
+          case "class":
+          case "stringify":
+            text = value.toString();
+            break;
+  
+          case "error":
+            text = (value.basename ? value.basename + ": " : "") +
+                   value.toString();
+            break;
+  
+          case "array":
+            if (deep)
+            {
+              text = [];
+              for (var i=0, l=value.length; i<l; i++)
+              {
+                if (text.length > 20)
+                {
+                  text.push("...(+" + (l-i) + ")");
+                  break;
+                }
+  
+                text.push(this.__serialize(value[i], false));
+              }
+            }
+            else
+            {
+              text = "[...(" + value.length + ")]";
+            }
+            break;
+  
+          case "map":
+            if (deep)
+            {
+              var temp;
+  
+              // Produce sorted key list
+              var sorted = [];
+              for (var key in value) {
+                sorted.push(key);
+              }
+              sorted.sort();
+  
+              // Temporary text list
+              text = [];
+              for (var i=0, l=sorted.length; i<l; i++)
+              {
+                if (text.length > 20)
+                {
+                  text.push("...(+" + (l-i) + ")");
+                  break;
+                }
+  
+                // Additional storage of hash-key
+                key = sorted[i];
+                temp = this.__serialize(value[key], false);
+                temp.key = key;
+                text.push(temp);
+              }
+            }
+            else
+            {
+              var number=0;
+              for (var key in value) {
+                number++;
+              }
+              text = "{...(" + number + ")}";
+            }
+            break;
+        }
+      }
+      else {
+        text = "";
       }
 
       return {
         type : type,
         text : text,
-        trace : trace
+        trace : trace,
+        value : value
       };
     }
   },

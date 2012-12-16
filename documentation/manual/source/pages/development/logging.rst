@@ -99,3 +99,4 @@ Logged Item Map
 
 * *trace* Stack trace (if the logged item is an Error object)
 * *type* One of "undefined", "null", "boolean", "number", "string", "function", "array", "error", "map", "class", "instance", "node", "stringify", "unknown" "stringify"
+* *value* The source logged item.
