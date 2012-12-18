@@ -46,6 +46,26 @@ qx.Class.define("qx.test.application.Routing",
     },
 
 
+    testGetCustomData : function() {
+      var handler = this.spy();
+      this.__r.onGet("/abc", handler);
+      this.__r.executeGet("/abc", {a: true});
+      this.assertCalledOnce(handler);
+      this.assertTrue(handler.args[0][0].customData.a);
+    },
+
+
+    testGetCustomDataTwoInstances : function() {
+      var r2 = new qx.application.Routing();
+      var handler = this.spy();
+      this.__r.onGet("/abc", handler);
+      r2.executeGet("/abc", {a: true});
+      this.assertCalledOnce(handler);
+      this.assertTrue(handler.args[0][0].customData.a);
+      r2.dispose();
+    },
+
+
     testOn : function() {
       var handler = this.spy();
       this.__r.on("/", handler);
