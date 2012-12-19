@@ -148,6 +148,15 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       var units = {};
       for (var percent in keyFrames) {
         for (var name in keyFrames[percent]) {
+          // prefixed key calculation
+          var prefixed = qx.bom.Style.getPropertyName(name);
+          if (prefixed) {
+            var prefixedName = qx.bom.Style.getCssName(prefixed);
+            keyFrames[percent][prefixedName] = keyFrames[percent][name];
+            delete keyFrames[percent][name];
+            name = prefixedName;
+          }
+          // check for the available units
           if (units[name] == undefined) {
             var item = keyFrames[percent][name];
             if (typeof item == "string") {
