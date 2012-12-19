@@ -39,12 +39,13 @@
   "let" :
   {
     "APPLICATION"  : "${Namespace}",
-    "APPLICATION_CSS" : "$${APPLICATION}/css/styles.css",  // resource id of custom css
+    "APPLICATION_PATH" : "${NamespacePath}",
+    "APPLICATION_CSS" : "$${APPLICATION_PATH}/css/styles.css",  // resource id of custom css
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${Cache}",
-    "MOBILE_THEME" : "ios",  // provide a default
-    "CSS_COMB_URI" : "./resource/$${APPLICATION}/css/$${MOBILE_THEME}-style-min.css",
+    "MOBILE_THEME" : "ios",  // valid: "ios" | "android" | "custom"
+    "CSS_COMB_URI" : "./resource/$${APPLICATION_PATH}/css/$${MOBILE_THEME}-style-min.css",
     "CSS_COMBINED" : "$${BUILD_PATH}/$${CSS_COMB_URI}",
     "ROOT"         : ".",
     "QXTHEME"      : "" // preventing mobile app to load desktop icons
