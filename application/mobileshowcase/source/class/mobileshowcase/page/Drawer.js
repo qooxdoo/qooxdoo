@@ -80,7 +80,7 @@ qx.Class.define("mobileshowcase.page.Drawer",
       var openBottomDrawerButton = new qx.ui.mobile.form.Button("Open Bottom Drawer");
       openBottomDrawerButton.addListener("tap",function(){drawerBottom.show()},this);
       
-      var drawerMenuGroup = new qx.ui.mobile.form.Group([openLeftDrawerButton,openRightDrawerButton,openTopDrawerButton,openBottomDrawerButton]);
+      var drawerMenuGroup = new qx.ui.mobile.form.Group([openLeftDrawerButton,openTopDrawerButton,openRightDrawerButton,openBottomDrawerButton]);
       this.getContent().add(drawerMenuGroup);
     },
 
