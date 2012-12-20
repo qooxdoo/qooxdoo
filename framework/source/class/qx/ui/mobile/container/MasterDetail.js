@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2012 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,6 +14,7 @@
 
    Authors:
      * Tino Butz (tbtz)
+     * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
 
@@ -81,7 +82,6 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
   members : {
     __master : null,
     __detail : null,
-    __portraitMasterContainer : null,
 
 
     /**
@@ -105,30 +105,6 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
 
 
     /**
-     * Returns the set container for the portrait mode. The master container will be added and removed
-     * automatically to this container when the orientation is changed.
-     *
-     * @return {qx.ui.mobile.core.Widget} The set master container for the portrait mode.
-     */
-    getPortraitMasterContainer : function() {
-      return this.__portraitMasterContainer;
-    },
-
-
-    /**
-     * Set the container for the portrait mode. The master container will be added and removed
-     * automatically to this container when the orientation is changed.
-     *
-     * @param container {qx.ui.mobile.core.Widget} The set master container for the portrait mode.
-     */
-    setPortraitMasterContainer : function(container)
-    {
-      this.__portraitMasterContainer = container;
-      this.__syncLayout();
-    },
-
-
-    /**
      * Event handler. Called when the orientation of the device is changed.
      *
      * @param evt {qx.event.type.Orientation} The causing event
@@ -138,50 +114,20 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
     },
 
 
-
     /**
      * Synchronizes the layout.
      */
     __syncLayout  : function() {
       var isPortrait = qx.bom.Viewport.isPortrait();
       if (isPortrait) {
-        this.__addMasterToPortraitContainer();
+        this.addCssClass("portrait");
+        this.removeCssClass("landscape");
       } else {
-        this.__addMasterToOrigin();
+        this.addCssClass("landscape");
+        this.removeCssClass("portrait");
       }
-      this._applyMasterContainerCss(isPortrait);
 
-      var portraitMasterContainer = this.getPortraitMasterContainer();
-
-      // Initial hiding of container.
-      if (portraitMasterContainer) {
-        portraitMasterContainer.hide();
-      }
       this.fireDataEvent("layoutChange", isPortrait);
-    },
-
-
-
-    /**
-     * Adds the master container to the portrait container.
-     */
-    __addMasterToPortraitContainer : function()
-    {
-      var container = this.getPortraitMasterContainer();
-      if (container) {
-        container.add(this.__master);
-      }
-    },
-
-
-    /**
-     * Adds the master container to the origin position.
-     */
-    __addMasterToOrigin : function()
-    {
-      if (this.__master.getLayoutParent() != this) {
-        this.addBefore(this.__master, this.__detail);
-      }
     },
 
 
@@ -191,23 +137,10 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
      * @return {qx.ui.mobile.container.Composite} The created container
      */
     _createMasterContainer : function() {
-      return this.__createContainer("master-detail-master");
-    },
-
-
-    /**
-     * Applies the master container CSS classes.
-     *
-     * @param isPortrait {Boolean} Whether the orientation is in portrait mode
-     */
-    _applyMasterContainerCss : function(isPortrait)
-    {
-      var container = this.getPortraitMasterContainer();
-      if (container && isPortrait) {
-        this.__master.removeCssClass("attached");
-      } else {
-        this.__master.addCssClass("attached");
-      }
+      var masterContainer = new qx.ui.mobile.container.Drawer(this, new qx.ui.mobile.layout.HBox());
+      masterContainer.addCssClass("master-detail-master");
+      masterContainer.setHideOnRootTouch(false);
+      return masterContainer;
     },
 
 
@@ -217,21 +150,10 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
      * @return {qx.ui.mobile.container.Composite} The created container
      */
     _createDetailContainer : function() {
-      return this.__createContainer("master-detail-detail");
-    },
-
-
-    /**
-     * Creates a container.
-     *
-     * @param cssClass {String} The CSS class that should be set to the container.
-     *
-     * @return {qx.ui.mobile.container.Composite} The created container
-     */
-    __createContainer : function(cssClass) {
-      var container = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
-      container.setDefaultCssClass(cssClass);
-      return container;
+      var detailContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
+      detailContainer.setDefaultCssClass("master-detail-detail");
+      return detailContainer;
+      
     }
   },
 
@@ -239,6 +161,6 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
   destruct : function() {
     qx.event.Registration.removeListener(window, "orientationchange", this._onOrientationChange, this);
     this._disposeObjects("__master", "__detail");
-    this.__master = this.__detail = this.__portraitMasterContainer = null;
+    this.__master = this.__detail = null;
   }
 });

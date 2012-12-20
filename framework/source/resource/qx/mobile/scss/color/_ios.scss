@@ -20,7 +20,7 @@ $ios-button-active-gradient-stop-2: #50709a;
 $ios-button-active-gradient-stop-3: #476489;
 $ios-button-active-gradient-stop-4: #3e5779;
 
-$shadow-color:black;
+$shadow-color: black;
 
 $dialog-border-color: #c7d1e3;
 
@@ -30,7 +30,7 @@ $button-border-color:#B4B4B4;
 // GLOBAL
 // 
 
-.root {
+.root, .drawer {
   background: rgb(197,204,211) url(../icon/ios/pinstripes.png);
   color : #666;
 }
@@ -222,7 +222,6 @@ $scGradientVerticalOffset:15px;
     height:30px;
 }
 
-
 //
 // FORM RENDERING
 //
@@ -324,41 +323,40 @@ $scGradientVerticalOffset:15px;
 //
 
 .navigationbar {
-    @include gradient-vertical-three(#cdd5df, #8195af, #6d84a2);
-    border-bottom: 1px solid #2d3642;
+  @include gradient-vertical-three(#cdd5df, #8195af, #6d84a2);
+  border-bottom: 1px solid #2d3642;
 }
 
 .navigationbar-button {
-    @include border-radius-right(5px);
-    @include border-radius-left(4px);
-    
-    color: #ffffff;
+  @include border-radius-right(5px);
+  @include border-radius-left(4px);
 
-    text-shadow: #3e5779 0 -1px 0;
+  color: #ffffff;
 
-    -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
-    -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
-    box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+  text-shadow: #3e5779 0 -1px 0;
 
-    border: 1px solid $ios-button-bordercolor;
+  -webkit-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+  -moz-box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
+  box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0, rgba(0, 0, 0, 0.2) 0 1px 2px inset;
 
-    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, $ios-button-gradient-stop-1), color-stop(50%, $ios-button-gradient-stop-2), color-stop(51%, $ios-button-gradient-stop-3), color-stop(100%, $ios-button-gradient-stop-4));
-    background-image: -webkit-linear-gradient(top, $ios-button-gradient-stop-1, $ios-button-gradient-stop-2 50%, $ios-button-gradient-stop-3 51%, $ios-button-gradient-stop-4);
-    background-image: -moz-linear-gradient(top, $ios-button-gradient-stop-1, $ios-button-gradient-stop-2 50%, $ios-button-gradient-stop-3 51%,$ios-button-gradient-stop-4);
-    background-image: linear-gradient(top, $ios-button-gradient-stop-1, $ios-button-gradient-stop-2 50%, $ios-button-gradient-stop-3 51%, $ios-button-gradient-stop-4);
-  
+  border: 1px solid $ios-button-bordercolor;
+
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, $ios-button-gradient-stop-1), color-stop(50%, $ios-button-gradient-stop-2), color-stop(51%, $ios-button-gradient-stop-3), color-stop(100%, $ios-button-gradient-stop-4));
+  background-image: -webkit-linear-gradient(top, $ios-button-gradient-stop-1, $ios-button-gradient-stop-2 50%, $ios-button-gradient-stop-3 51%, $ios-button-gradient-stop-4);
+  background-image: -moz-linear-gradient(top, $ios-button-gradient-stop-1, $ios-button-gradient-stop-2 50%, $ios-button-gradient-stop-3 51%,$ios-button-gradient-stop-4);
+  background-image: linear-gradient(top, $ios-button-gradient-stop-1, $ios-button-gradient-stop-2 50%, $ios-button-gradient-stop-3 51%, $ios-button-gradient-stop-4);
 }
 
 .navigationbar-button.active {
-    border-color: $ios-button-active-bordercolor;
-    background-color: $ios-button-active-backgroundcolor;
+  border-color: $ios-button-active-bordercolor;
+  background-color: $ios-button-active-backgroundcolor;
 
-    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, $ios-button-active-gradient-stop-1), color-stop(50%, $ios-button-active-gradient-stop-2), color-stop(51%, $ios-button-active-gradient-stop-3), color-stop(100%, $ios-button-active-gradient-stop-4));
-    background-image: -webkit-linear-gradient(top, $ios-button-active-gradient-stop-1, $ios-button-active-gradient-stop-2 50%, $ios-button-active-gradient-stop-3 51%, $ios-button-active-gradient-stop-4);
-    background-image: -moz-linear-gradient(top, $ios-button-active-gradient-stop-1, $ios-button-active-gradient-stop-2 50%, $ios-button-active-gradient-stop-3 51%, $ios-button-active-gradient-stop-4);
-    background-image: linear-gradient(top, $ios-button-active-gradient-stop-1, $ios-button-active-gradient-stop-2 50%, $ios-button-active-gradient-stop-3 51%, $ios-button-active-gradient-stop-4);
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, $ios-button-active-gradient-stop-1), color-stop(50%, $ios-button-active-gradient-stop-2), color-stop(51%, $ios-button-active-gradient-stop-3), color-stop(100%, $ios-button-active-gradient-stop-4));
+  background-image: -webkit-linear-gradient(top, $ios-button-active-gradient-stop-1, $ios-button-active-gradient-stop-2 50%, $ios-button-active-gradient-stop-3 51%, $ios-button-active-gradient-stop-4);
+  background-image: -moz-linear-gradient(top, $ios-button-active-gradient-stop-1, $ios-button-active-gradient-stop-2 50%, $ios-button-active-gradient-stop-3 51%, $ios-button-active-gradient-stop-4);
+  background-image: linear-gradient(top, $ios-button-active-gradient-stop-1, $ios-button-active-gradient-stop-2 50%, $ios-button-active-gradient-stop-3 51%, $ios-button-active-gradient-stop-4);
 
-    text-shadow: #364b68 0 -1px 0;
+  text-shadow: #364b68 0 -1px 0;
 }
 
 //
@@ -439,7 +437,6 @@ input[type="checkbox"]:checked + label {
   background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, linear-gradient(to bottom, #353535, #8f8f8f) 0px 0px no-repeat;
 }
 
-
 //
 // TOOLBAR 
 //
@@ -486,13 +483,13 @@ $arrow-shadow:rgba(0,0,0,0.3);
 
 // ARROW TOP
 
-.popupAnchorPointerTop:not(.master-popup):before, .popupAnchorPointerTopRight:before
+.popupAnchorPointerTop:before, .popupAnchorPointerTopRight:before
 {
   @include arrow;
   @include triangle-up($arrow-size+2, $dialog-border-color);
 }
 
-.popupAnchorPointerTop:not(.master-popup):after, .popupAnchorPointerTopRight:after
+.popupAnchorPointerTop:after, .popupAnchorPointerTopRight:after
 {
   @include arrow;
   @include triangle-up($arrow-size, #6E7D9D);
@@ -539,7 +536,6 @@ $arrow-shadow:rgba(0,0,0,0.3);
   @include arrow;
   @include triangle-right($arrow-size, #1D3566);
 }
-
 
 //
 // TOGGLEBUTTON
@@ -639,89 +635,6 @@ $selection-foreground-color:#2a4880;
   color:white;
 }
 
-//
-// MASTER DETAIL
-//
-
-$master-popup-border-color:$ios-button-active-gradient-stop-4;
-
-.master-detail-master.attached {
-  border-right: 1px solid #2d3642;
-}
-
-.master-popup .navigationbar {
-  background:none;
-}
-
-.master-popup ul {
-  border:none;
-}
-
-.master-popup .navigationbar > .label {
-  height: 38px !important;
-  line-height: 34px !important;
-}
-
-.master-popup .left-container {
-  top: 0px;
-}
-
-.master-popup .right-container {
-  top:0px;
-}
-
-.master-popup {
-  //@extend .dialog;
-  background:-webkit-radial-gradient(50% -33px,ellipse closest-corner, white 0%, #637396 94%, #1D3566 113%);
-  background:-moz-radial-gradient(50% -33px,ellipse closest-corner, white 0%, #637396 94%, #1D3566 113%);
-  background:radial-gradient(50% -33px,ellipse closest-corner, white 0%, #637396 94%, #1D3566 113%);
-
-  @include gradient-vertical-three($ios-button-gradient-stop-1, $ios-button-gradient-stop-3,$ios-button-gradient-stop-3, 20px);
-  border:1px solid $master-popup-border-color;
-}
-
-.master-popup ul li:not(:first-child) {
-  border-top: 1px solid $button-border-color;
-}
-
-.master-popup .page {
-  @include border-radius(0);
-  border: 1px solid $master-popup-border-color;
-}
-
-.master-popup ul li:first-child, .master-popup ul li:first-child a {
-  border-top: 0;
-  @include border-radius(0);
-}
-
-.master-popup ul li:last-child {
-  @include border-radius(0);
-}
-
-.master-popup .layout-card {
-  background-color: white;
-}
-
-// 
-// MASTER PARENT CONTAINER ARROWS
-//
-
-.master-popup .popupAnchorPointerTop:after
-{
-  @include arrow;
-  @include triangle-up($arrow-size, $ios-button-gradient-stop-1);
-}
-
-.master-popup .popupAnchorPointerTop:before
-{
-  @include arrow;
-  @include triangle-up($arrow-size+2, $master-popup-border-color);
-
-  position:absolute;
-  top: -14px;
-  left: 15px;
-}
-
 
 //
 // CAROUSEL
@@ -755,7 +668,6 @@ $pagination-label-size:8px;
 //
 // PICKER
 //
-
 
 $picker-dark-color:#888888;
 
@@ -803,11 +715,44 @@ $picker-overlay-color: #6D84A2;
   
   @include box-shadow(0px 2px 2px rgba(0, 0, 0, 1.0));
 
-  border-top:1px solid  black;
-  border-bottom:15px solid $picker-overlay-color;
+  border-top: 1px solid black;
+  border-bottom: 15px solid $picker-overlay-color;
 
   opacity:0.4;
 }
 
+// 
+// MASTER DETAIL
+// 
 
+.master-detail-master {
+  border-right: 1px solid #2d3642;
+}
 
+.master-detail.portrait .master-detail-master:not(.hidden) {
+  @include box-shadow(0px 0px 10px 5px rgba(0,0,0,0.4));
+}
+
+//
+// DRAWER
+//
+
+.drawer:not(.master-detail-master):not(.hidden) {
+  @include box-shadow(0px 0px 10px 5px rgba(0,0,0,0.4));
+}
+
+.drawer.top:not(.master-detail-master) {
+  border-bottom:1px solid $ios-button-bordercolor;
+}
+
+.drawer.left:not(.master-detail-master) {
+  border-right:1px solid $ios-button-bordercolor;
+}
+
+.drawer.right:not(.master-detail-master) {
+  border-left:1px solid $ios-button-bordercolor;
+}
+
+.drawer.bottom:not(.master-detail-master) {
+  border-top:1px solid $ios-button-bordercolor;
+}
