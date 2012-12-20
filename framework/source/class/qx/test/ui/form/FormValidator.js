@@ -484,6 +484,25 @@ qx.Class.define("qx.test.ui.form.FormValidator",
       this.assertEquals("AFFEN", this.__password1.getInvalidMessage());
     },
 
+
+    testRequiredNumberZero : function() {
+      // initialize with value 1
+      var spinner = new qx.ui.form.Spinner(-1, 1, 1);
+      spinner.setRequired(true);
+      this.__manager.add(spinner);
+
+      // validate --> should be valid due to value 1 set
+      this.assertTrue(this.__manager.validate());
+      this.assertTrue(spinner.getValid());
+
+      spinner.setValue(0);
+      // validate --> should be valid due to value 0 set
+      this.assertTrue(this.__manager.validate());
+      this.assertTrue(spinner.getValid());
+
+      spinner.dispose();
+    },
+
     // //////////////////////////////
 
 
