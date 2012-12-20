@@ -240,6 +240,7 @@ qx.Class.define("qx.test.ui.core.Command",
       cmd.dispose();
     },
 
+
     testIconAsToolTipText : function() {
       // for [BUG #4534]
       var cmd = new qx.ui.core.Command("Control+D");
@@ -271,6 +272,14 @@ qx.Class.define("qx.test.ui.core.Command",
       cmd.dispose();
 
       // test makes sure that code is running, no assert needed
+    },
+
+
+    testGetShortcut : function() {
+      // for bug #7036
+      var cmd = new qx.ui.core.Command("Control+X");
+      this.assertEquals('Control+X', cmd.getShortcut());
+      cmd.dispose();
     }
   }
 });

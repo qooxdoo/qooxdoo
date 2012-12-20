@@ -37,9 +37,13 @@ qx.Class.define("qx.ui.core.Command",
   construct : function(shortcut)
   {
     this.base(arguments);
-    this._shortcut = new qx.bom.Shortcut(shortcut);
 
+    this._shortcut = new qx.bom.Shortcut(shortcut);
     this._shortcut.addListener("execute", this.execute, this);
+
+    if (shortcut !== undefined) {
+      this.setShortcut(shortcut);
+    }
   },
 
 
