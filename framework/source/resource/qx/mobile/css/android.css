@@ -503,6 +503,9 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   padding-left: 10px;
   padding-right: 10px;
   position: relative;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
   -ms-touch-action: pan-x; }
 
 .navigationbar > .label {
@@ -839,6 +842,9 @@ input[type=radio]:checked + label:after {
   display: inline-block;
   margin: 2px; }
 
+.picker {
+  -ms-touch-action: none; }
+
 .picker-slot {
   position: relative;
   top: 0px;
@@ -905,8 +911,18 @@ input[type=radio]:checked + label:after {
   left: 0px; }
 
 .drawer {
-  position: absolute;
+  position: absolute; }
+
+.drawer.front {
   z-index: 100;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out; }
+
+.drawer.back {
+  z-index: -1; }
+
+.drawer-parent {
   -webkit-transition: all 0.5s ease-in-out;
   -moz-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out; }
@@ -931,25 +947,28 @@ input[type=radio]:checked + label:after {
   left: 0;
   bottom: 0; }
 
-.drawer.left.hidden {
+.drawer.left.front.hidden {
   -webkit-transform: translateX(-100%);
   -moz-transform: translateX(-100%);
   transform: translateX(-100%); }
 
-.drawer.right.hidden {
+.drawer.right.front.hidden {
   -webkit-transform: translateX(100%);
   -moz-transform: translateX(100%);
   transform: translateX(100%); }
 
-.drawer.top.hidden {
+.drawer.top.front.hidden {
   -webkit-transform: translateY(-100%);
   -moz-transform: translateY(-100%);
   transform: translateY(-100%); }
 
-.drawer.bottom.hidden {
+.drawer.bottom.front.hidden {
   -webkit-transform: translateY(100%);
   -moz-transform: translateY(100%);
   transform: translateY(100%); }
+
+.root.drawer-parent {
+  overflow: visible !important; }
 
 h1, h2 {
   font-weight: bold; }

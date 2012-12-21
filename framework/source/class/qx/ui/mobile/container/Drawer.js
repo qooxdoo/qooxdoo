@@ -64,6 +64,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     }
     
     this.initOrientation();
+    this.initPositionZ();
     
     if(parent) {
       if (qx.core.Environment.get("qx.debug"))
@@ -76,6 +77,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       qx.core.Init.getApplication().getRoot().add(this);
     }
     
+    this.getLayoutParent().addCssClass("drawer-parent");
     this.getLayoutParent().addListener("swipe",this._onParentSwipe,this);
     this.getLayoutParent().addListener("touchstart",this._onParentTouchStart,this);
     
@@ -134,7 +136,15 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     touchOffset : {
       check : "Integer",
       init : 20
-    } 
+    },
+    
+    
+    /** Sets the drawer zIndex position relative to its parent. */
+    positionZ : {
+      check : "String",
+      init : "front",
+      apply : "_applyPositionZ"
+    }
   },
   
   
@@ -166,6 +176,23 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     
     
     // property apply
+    _applyPositionZ : function(value,old) {
+      this.removeCssClass(old);
+      this.addCssClass(value);
+      
+      if(value == "front") {
+        // Reset transitions for "back" mode.
+        if(this.getLayoutParent()) {
+          this.getLayoutParent().setTranslateX(null);
+          this.getLayoutParent().setTranslateY(null);
+        }
+        this.setTranslateX(null);
+        this.setTranslateY(null);
+      }
+    },
+    
+    
+    // property apply
     _applySize : function(value, old) {
       // Reapply of orientation.
       this.setOrientation(this.getOrientation());
@@ -178,7 +205,30 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     show : function()
     {
       this.base(arguments);
-      this.removeCssClass("hidden");
+      if(this.getPositionZ() == "front") {
+        this.removeCssClass("hidden");
+      } else if (this.getPositionZ() == "back") {
+        this.getLayoutParent().setTranslateX(0);
+        this.getLayoutParent().setTranslateY(0);
+        this.setTranslateX(0);
+        this.setTranslateY(0);
+        
+        if(this.getOrientation() =="left") {
+          this.getLayoutParent().setTranslateX(this.getWidth());
+          this.setTranslateX(-this.getWidth());
+        } else if(this.getOrientation() == "right") {
+          this.getLayoutParent().setTranslateX(-this.getWidth());
+          this.setTranslateX(this.getWidth());
+        }  else if(this.getOrientation() =="top") {
+          this.getLayoutParent().setTranslateY(this.getHeight());
+          this.setTranslateY(-this.getHeight());
+        }  else if(this.getOrientation() =="bottom") {
+          this.getLayoutParent().setTranslateY(-this.getHeight());
+          this.setTranslateY(this.getHeight());
+        }
+        
+        this.removeCssClass("hidden");
+      }
     },
     
     
@@ -186,7 +236,14 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
      * Hides the drawer
      */
     hide : function() {
-      this.addCssClass("hidden");
+      if(this.getPositionZ() == "front") {
+        this.addCssClass("hidden");
+      } else if (this.getPositionZ() == "back") {
+        this.getLayoutParent().setTranslateX(0);
+        this.getLayoutParent().setTranslateY(0);
+        
+        this.addCssClass("hidden");
+      }
     },
     
     
@@ -196,6 +253,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     _onParentTouchStart : function(evt) {
       var clientX = evt.getAllTouches()[0].clientX;
       var clientY = evt.getAllTouches()[0].clientY;
+      
       
       this._touchStartPosition = [clientX,clientY];
       

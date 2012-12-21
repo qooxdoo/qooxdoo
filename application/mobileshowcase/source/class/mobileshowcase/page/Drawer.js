@@ -43,6 +43,7 @@ qx.Class.define("mobileshowcase.page.Drawer",
       var drawerBottom = new qx.ui.mobile.container.Drawer(this, new qx.ui.mobile.layout.VBox());
       drawerBottom.setOrientation("bottom");
       drawerBottom.setTouchOffset(100);
+      drawerBottom.setPositionZ("back");
       
       var drawerBottomLabel = new qx.ui.mobile.basic.Label("This the bottom drawer.");
       drawerBottom.add(new qx.ui.mobile.form.Group([drawerBottomLabel]));
@@ -50,6 +51,7 @@ qx.Class.define("mobileshowcase.page.Drawer",
       var drawerTop = new qx.ui.mobile.container.Drawer(this, new qx.ui.mobile.layout.VBox());
       drawerTop.setOrientation("top");
       drawerTop.setTouchOffset(100);
+      drawerTop.setPositionZ("back");
       
       var drawerTopLabel = new qx.ui.mobile.basic.Label("This the top drawer.");
       drawerTop.add(new qx.ui.mobile.form.Group([drawerTopLabel]));
@@ -57,6 +59,7 @@ qx.Class.define("mobileshowcase.page.Drawer",
       var drawerLeft = new qx.ui.mobile.container.Drawer(this, new qx.ui.mobile.layout.VBox());
       drawerLeft.setOrientation("left");
       drawerLeft.setTouchOffset(100);
+      drawerLeft.setPositionZ("back");
       
       var drawerLeftLabel = new qx.ui.mobile.basic.Label("This the left drawer.");
       drawerLeft.add(new qx.ui.mobile.form.Group([drawerLeftLabel]));
@@ -64,6 +67,7 @@ qx.Class.define("mobileshowcase.page.Drawer",
       var drawerRight = new qx.ui.mobile.container.Drawer(this, new qx.ui.mobile.layout.VBox());
       drawerRight.setOrientation("right");
       drawerRight.setTouchOffset(100);
+      drawerRight.setPositionZ("back");
       
       var drawerRightLabel = new qx.ui.mobile.basic.Label("This the right drawer.");
       drawerRight.add(new qx.ui.mobile.form.Group([drawerRightLabel]));
@@ -81,7 +85,38 @@ qx.Class.define("mobileshowcase.page.Drawer",
       openBottomDrawerButton.addListener("tap",function(){drawerBottom.show()},this);
       
       var drawerMenuGroup = new qx.ui.mobile.form.Group([openLeftDrawerButton,openTopDrawerButton,openRightDrawerButton,openBottomDrawerButton]);
+      
+      var frontBackToggleButton = new qx.ui.mobile.form.ToggleButton(false,"Front","Back",13);
+      
+      frontBackToggleButton.addListener("changeValue",function() {
+        this._togglePositionZ(drawerLeft);
+        this._togglePositionZ(drawerRight);
+        this._togglePositionZ(drawerTop);
+        this._togglePositionZ(drawerBottom);
+      },this);
+      
+      var toggleModeGroup = new qx.ui.mobile.form.Group([frontBackToggleButton]);
+      
+      this.getContent().add(new qx.ui.mobile.form.Title("Position"));
+      this.getContent().add(toggleModeGroup);
+      
+      this.getContent().add(new qx.ui.mobile.form.Title("State"));
       this.getContent().add(drawerMenuGroup);
+    },
+    
+    
+    _togglePositionZ : function(target) {
+      qx.bom.element.Style.set(target.getContainerElement(),"transition-duration","0s");
+      if(target.getPositionZ() == "front") {
+        target.setPositionZ("back")
+      }
+      else {
+        target.setPositionZ("front")
+      };
+      qx.event.Timer.once(function() {
+        qx.bom.element.Style.set(this,"transition-duration",null);
+      },target.getContainerElement(),0);
+     
     },
 
 

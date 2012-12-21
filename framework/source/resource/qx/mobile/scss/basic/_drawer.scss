@@ -1,6 +1,18 @@
 .drawer {
   position:absolute;
+}
+
+.drawer.front {
   z-index:100;
+  @include transition(all .5s ease-in-out );
+}
+
+
+.drawer.back {
+  z-index:-1;
+}
+
+.drawer-parent {
   @include transition(all .5s ease-in-out );
 }
 
@@ -28,18 +40,22 @@
   bottom:0;
 }
 
-.drawer.left.hidden {
+.drawer.left.front.hidden {
   @include transform(translateX(-100%));
 }
 
-.drawer.right.hidden {
+.drawer.right.front.hidden {
   @include transform(translateX(100%));
 }
 
-.drawer.top.hidden {
+.drawer.top.front.hidden {
   @include transform(translateY(-100%));
 }
 
-.drawer.bottom.hidden {
+.drawer.bottom.front.hidden {
   @include transform(translateY(100%));
+}
+
+.root.drawer-parent {
+  overflow:visible !important;
 }
