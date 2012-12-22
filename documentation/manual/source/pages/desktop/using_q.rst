@@ -44,4 +44,4 @@ dependencies towards the Generator.
 The easy way
 ============
 
-If you use a lot of the %{Website} API in your app, it might be worth to include all modules by requiring all classes in the ``qx.module`` name space and with that all %{Website} modules. But keep in mind that you might include classes you don't need which add to the code size of your application.
+If you use a lot of the %{Website} API in your app, it might be worth to include the code modules by requiring ``qx.module.Core`` and with that the basic %{Website} modules. But keep in mind that you might include classes you don't need which add to the code size of your application.

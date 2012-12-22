@@ -40,12 +40,13 @@
   "let" :
   {
     "APPLICATION"  : "${Namespace}",
-    "APPLICATION_CSS" : "$${APPLICATION}/css/styles.css",  // resource id of custom css
+    "APPLICATION_PATH" : "${NamespacePath}",
+    "APPLICATION_CSS" : "$${APPLICATION_PATH}/css/styles.css",  // resource id of custom css
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${Cache}",
-    "MOBILE_THEME" : "ios",  // valid: "ios" | "android" | "custom" 
-    "CSS_COMB_URI" : "./resource/$${APPLICATION}/css/$${MOBILE_THEME}-style-min.css",
+    "MOBILE_THEME" : "ios",  // valid: "ios" | "android" | "custom"
+    "CSS_COMB_URI" : "./resource/$${APPLICATION_PATH}/css/$${MOBILE_THEME}-style-min.css",
     "CSS_COMBINED" : "$${BUILD_PATH}/$${CSS_COMB_URI}",
     "ROOT"         : ".",
     "QXTHEME"      : "" // preventing mobile app to load desktop icons
@@ -203,16 +204,16 @@
       }
     },
 
-    "watch-scss" : 
+    "watch-scss" :
     {
       "desc"   : "Watch and compile custom.scss",
       "extend" : ["cache"],
       "watch-files" :
       {
-        "path"    : ["source/resource/$${APPLICATION}/scss/styles.scss"],
+        "path"    : ["source/resource/$${APPLICATION_PATH}/scss/styles.scss"],
         "command" :
         {
-          "line"  : "$${PYTHON_CMD} $${QOOXDOO_PATH}/tool/bin/scss.py %(FILE) -o source/resource/$${APPLICATION}/css/%(FILENAME).css",
+          "line"  : "$${PYTHON_CMD} $${QOOXDOO_PATH}/tool/bin/scss.py %(FILE) -o source/resource/$${APPLICATION_PATH}/css/%(FILENAME).css",
           "per-file" : true
         }
       }

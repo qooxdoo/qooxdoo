@@ -22,31 +22,69 @@ qx.Class.define("qx.test.ui.toolbar.ToolBar",
 
   members :
   {
-    testShow : function() {
+     setUp : function()
+    {
+      this.base(arguments);
+      this.__toolbar = new qx.ui.toolbar.ToolBar();
+      this.__b1 = new qx.ui.toolbar.Button("b1");
+      this.__b2 = new qx.ui.toolbar.Button("b2");
+      this.__b3 = new qx.ui.toolbar.Button("b3");
+    },
+
+
+    tearDown : function()
+    {
+      this.base(arguments);
+      this.__b1.dispose();
+      this.__b2.dispose();
+      this.__b3.dispose();
+      this.__toolbar.dispose();
+    },
+
+
+    testShowSyncing : function() {
       // setup toolbar with two buttons
-      var toolbar = new qx.ui.toolbar.ToolBar();
-      var buttons = [new qx.ui.toolbar.Button()];
-      buttons.push(new qx.ui.toolbar.Button());
-      for (var i=0; i < buttons.length; i++) {
-        toolbar.add(buttons[i]);
-      };
+      this.__toolbar.add(this.__b1);
+      this.__toolbar.add(this.__b2);
 
       // set a value and check if the buttons get synced
-      toolbar.setShow("label");
-      for (var i=0; i < buttons.length; i++) {
-        this.assertEquals("label", buttons[i].getShow());
-      };
+      this.__toolbar.setShow("label");
+      this.assertEquals("label", this.__b1.getShow());
+      this.assertEquals("label", this.__b2.getShow());
 
       // add another button and check if the value has been applied
-      buttons.push(new qx.ui.toolbar.Button());
-      toolbar.add(buttons[2]);
-      this.assertEquals("label", buttons[2].getShow());
+      this.__toolbar.add(this.__b3);
+      this.assertEquals("label", this.__b3.getShow());
+    },
 
-      // dispose all widgets
-      for (var i=0; i < buttons.length; i++) {
-        buttons[i].dispose();
-      };
-      toolbar.dispose();
+
+    testShowUserValueShouldTakePrecedence : function() {
+      // setup toolbar with two buttons
+      this.__toolbar.add(this.__b1);
+      this.__toolbar.add(this.__b2);
+
+      // assert 'label' isn't default show val
+      this.assertNotEquals("label", this.__b1.getShow());
+      this.assertNotEquals("label", this.__b2.getShow());
+
+      // initialize toolbar with 'label'
+      this.__toolbar.setShow("label");
+      this.assertEquals("label", this.__b1.getShow());
+      this.assertEquals("label", this.__b2.getShow());
+
+      // override it for button1
+      this.__b1.setShow("icon");
+      this.assertEquals("icon", this.__b1.getShow());
+      this.assertEquals("label", this.__b2.getShow());
+
+      // change it afterwards
+      this.__toolbar.setShow("both");
+      this.__toolbar.add(this.__b3);
+
+      // assert all 'both'
+      this.assertEquals("both", this.__b1.getShow());
+      this.assertEquals("both", this.__b2.getShow());
+      this.assertEquals("both", this.__b3.getShow());
     }
   }
 });

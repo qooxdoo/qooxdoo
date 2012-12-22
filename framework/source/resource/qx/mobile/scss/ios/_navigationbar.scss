@@ -7,6 +7,8 @@
   padding-right: 10px;
   position:relative;
 
+  @include backface-visibility(hidden);
+
   -ms-touch-action: pan-x;
 }
 

@@ -325,8 +325,8 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     scaleX :
     {
       check : "Number",
-      nullable : false,
-      init : 1,
+      nullable : true,
+      init : null,
       apply : "_transform"
     },
 
@@ -337,8 +337,8 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     scaleY :
     {
       check : "Number",
-      nullable : false,
-      init : 1,
+      nullable : true,
+      init : null,
       apply : "_transform"
     },
 
@@ -349,7 +349,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     translateX :
     {
       check : "Number",
-      nullable : false,
+      nullable : true,
       init : 0,
       apply : "_transform"
     },
@@ -361,7 +361,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     translateY :
     {
       check : "Number",
-      nullable : false,
+      nullable : true,
       init : 0,
       apply : "_transform"
     },
@@ -373,7 +373,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     translateZ :
     {
       check : "Number",
-      nullable : false,
+      nullable : true,
       init : 0,
       apply : "_transform"
     }
@@ -1147,17 +1147,21 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      */
     _transform : function() {
       var propertyValue = "";
-      if(this.getRotation()!=null) {
+      if(this.getRotation() != null) {
         propertyValue = propertyValue + "rotate("+this.getRotation()+"deg) ";
       }
-
-      propertyValue = propertyValue + "scale("+this.getScaleX()+","+this.getScaleY()+") ";
-
-      var isTransform3d = qx.core.Environment.get("css.transform.3d");
-      if(isTransform3d) {
-        propertyValue = propertyValue + "translate3d("+this.getTranslateX()+"px"+","+this.getTranslateY()+"px,"+this.getTranslateZ()+"px) ";
-      } else {
-        propertyValue = propertyValue + "translate("+this.getTranslateX()+"px"+","+this.getTranslateY()+"px) ";
+      
+      if(this.getScaleX() != null && this.getScaleY() != null) {
+        propertyValue = propertyValue + "scale("+this.getScaleX()+","+this.getScaleY()+") ";
+      }
+      
+      if(this.getTranslateX() != null && this.getTranslateY() != null) {
+        var isTransform3d = qx.core.Environment.get("css.transform.3d");
+        if(isTransform3d && this.getTranslateZ() != null) {
+          propertyValue = propertyValue + "translate3d("+this.getTranslateX()+"px"+","+this.getTranslateY()+"px,"+this.getTranslateZ()+"px) ";
+        } else {
+          propertyValue = propertyValue + "translate("+this.getTranslateX()+"px"+","+this.getTranslateY()+"px) ";
+        }
       }
 
       qx.bom.element.Style.set(this.getContainerElement(),"transform", propertyValue);

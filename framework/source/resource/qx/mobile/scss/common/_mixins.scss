@@ -47,6 +47,12 @@
   transition: $args;
 }
 
+@mixin transition-duration($args) {
+  -webkit-transition-duration: $args;
+  -moz-transition-duration: $args;
+  transition-duration: $args;
+}
+
 @mixin backface-visibility($args) {
   -webkit-backface-visibility: $args;
   -moz-backface-visibility: $args;

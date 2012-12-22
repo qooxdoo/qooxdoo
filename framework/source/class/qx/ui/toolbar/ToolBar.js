@@ -511,8 +511,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     // overridden
     _add : function(child, options) {
       this.base(arguments, child, options);
-      // sync the show property
-      if (child.setShow) {
+      // sync the show property (bug #6743) - but only if show wasn't explicitly set for the child (bug #6823)
+      if (child.setShow && !qx.util.PropertyUtil.getUserValue(child, "show")) {
         child.setShow(this.getShow());
       }
 
@@ -526,8 +526,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     // overridden
     _addAt : function(child, index, options) {
       this.base(arguments, child, index, options);
-      // sync the show property
-      if (child.setShow) {
+      // sync the show property (bug #6743) - but only if show wasn't explicitly set for the child (bug #6823)
+      if (child.setShow && !qx.util.PropertyUtil.getUserValue(child, "show")) {
         child.setShow(this.getShow());
       }
 
@@ -541,8 +541,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     // overridden
     _addBefore : function(child, before, options) {
       this.base(arguments, child, before, options);
-      // sync the show property
-      if (child.setShow) {
+      // sync the show property (bug #6743) - but only if show wasn't explicitly set for the child (bug #6823)
+      if (child.setShow && !qx.util.PropertyUtil.getUserValue(child, "show")) {
         child.setShow(this.getShow());
       }
 
@@ -556,8 +556,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     // overridden
     _addAfter : function(child, after, options) {
       this.base(arguments, child, after, options);
-      // sync the show property
-      if (child.setShow) {
+      // sync the show property (bug #6743) - but only if show wasn't explicitly set for the child (bug #6823)
+      if (child.setShow && !qx.util.PropertyUtil.getUserValue(child, "show")) {
         child.setShow(this.getShow());
       }
 

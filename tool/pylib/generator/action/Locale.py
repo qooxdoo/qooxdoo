@@ -132,7 +132,7 @@ class Locale(object):
             # adding a hint/comment if available
             if "hint" in strings[msgid]:
                 obj.comment = strings[msgid]["hint"]
-            
+
             if "plural" in strings[msgid]:
                 #obj.msgid_plural = strings[msgid]["plural"]
                 obj.msgid_plural = polib.unescape(strings[msgid]["plural"])
@@ -164,14 +164,14 @@ class Locale(object):
 
         self._console.info("Updating namespace: %s" % namespace)
         self._console.indent()
-        
+
         self._console.debug("Looking up relevant class files...")
         classList = []
         classes = self._classesObj
         for classId in classes:
             if classes[classId].library.namespace == namespace:
                 classList.append(classId)
-                    
+
         self._console.debug("Compiling filter...")
         pot = self.getPotFile(classList)  # pot: translation keys from the source code
         pot.sort()
@@ -198,14 +198,22 @@ class Locale(object):
             self._console.indent()
 
             entry = allLocales[locale]
-            po = polib.pofile(entry["path"])  # po: .po file from disk
-            po.merge(pot)
-            po.sort()
-            self._console.debug("Percent translated: %d" % (po.percent_translated(),))
-            #po.save(entry["path"])
-            poString = str(po)
-            #poString = self.recoverBackslashEscapes(poString)
-            filetool.save(entry["path"], poString)
+
+            try:
+                po = polib.pofile(entry["path"])  # po: .po file from disk
+                po.merge(pot)
+                po.sort()
+                self._console.debug("Percent translated: %d" % (po.percent_translated(),))
+                #po.save(entry["path"])
+                poString = str(po)
+                #poString = self.recoverBackslashEscapes(poString)
+                filetool.save(entry["path"], poString)
+            except UnicodeDecodeError:
+                self._console.nl()
+                err_msg = "Likely charset declaration and file encoding mismatch (consider using utf-8) in:"
+                self._console.error(err_msg + "\n%s" % entry["path"])
+                self._console.nl()
+
             self._console.outdent()
 
         self._console.outdent()
@@ -228,7 +236,7 @@ class Locale(object):
         # Collect the namespaces from classes in clazzlist
         def namespacesFromClasses(clazzlist):
             return set([clazz.library.namespace for clazz in clazzlist])
-            
+
         ##
         # Collect all .po files for a given locale across libraries
         def localesToPofiles(libnames, targetlocales):
@@ -272,7 +280,7 @@ class Locale(object):
         def reportUntranslated(locale, cnt_untranslated, cnt_total):
             if cnt_total > 0:
                 self._console.debug(
-                    "%s:\t untranslated entries: %2d%% (%d/%d)" % (locale, 100*cnt_untranslated/cnt_total, 
+                    "%s:\t untranslated entries: %2d%% (%d/%d)" % (locale, 100*cnt_untranslated/cnt_total,
                         cnt_untranslated, cnt_total)
                 )
 
@@ -301,7 +309,7 @@ class Locale(object):
             if statsObj:
                statsObj.update(locale, 0, 0)
             # Get relevant entries from po files for this locale, and convert to dict
-            pot = translationsFromPofiles(LocalesToPofiles[locale], pot, 
+            pot = translationsFromPofiles(LocalesToPofiles[locale], pot,
                 statsObj.stats[locale] if statsObj else statsObj) # loop through .po files, updating pot
             poentries = pot.translated_entries()
             if addUntranslatedEntries:
@@ -381,7 +389,7 @@ class Locale(object):
 
         self._console.debug("Collecting package strings...")
         self._console.indent()
-        
+
         result = {}
         numClass = len(content)
         for num,classId in enumerate(content):
