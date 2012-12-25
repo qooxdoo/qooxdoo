@@ -39,7 +39,7 @@ Both selections fire a ``changeSelection`` event if the selection has changed. L
     list.addListener("changeSelection", function(e)
     {
       var selection = e.getData();
-      for (var i = 0; i < selection.lenght; i++) {
+      for (var i = 0; i < selection.length; i++) {
         this.debug("Selected item: " + selection[i]);
       }
     }, this);

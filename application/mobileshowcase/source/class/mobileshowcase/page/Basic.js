@@ -76,13 +76,6 @@ qx.Class.define("mobileshowcase.page.Basic",
 
       var labelText = "qx.Mobile is qooxdoo's mobile framework. It provides specific UI classes for touch devices, handling of mobile events like swiping, and specific styling. It is suitable for various mobile web browsers on iOS and Android platforms.";
 
-     /* var labelText = "Mobile theme: "+qx.core.Environment.get("qx.theme");
-      labelText += " <br>Device Type: "+qx.core.Environment.get("device.type");
-      labelText += " <br>Operation system: "+qx.core.Environment.get("os.name");
-      labelText += " <br>OS version: "+qx.core.Environment.get("os.version");
-      labelText += " <br>Browser: "+qx.core.Environment.get("browser.name");
-      labelText += " <br>Browser version: "+qx.core.Environment.get("browser.version");*/
-
       var exLabel = new qx.ui.mobile.basic.Label(labelText);
       exLabel.addCssClass("space-top");
 

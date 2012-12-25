@@ -86,6 +86,7 @@ qx.Bootstrap.define("qx.bom.element.Animation",
      */
     animate : function(el, desc, duration) {
       var onlyCssKeys = qx.bom.element.Animation.__hasOnlyCssKeys(el, desc.keyFrames);
+
       if (qx.core.Environment.get("css.animation") && onlyCssKeys) {
         return qx.bom.element.AnimationCss.animate(el, desc, duration);
       } else {
@@ -138,6 +139,10 @@ qx.Bootstrap.define("qx.bom.element.Animation",
         if (!(key in el.style)) {
           // check for transform keys
           if (transformKeys.indexOf(keys[i]) != -1) {
+            continue;
+          }
+          // check for prefixed keys
+          if (qx.bom.Style.getPropertyName(key)) {
             continue;
           }
           return false;

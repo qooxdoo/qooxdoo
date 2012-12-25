@@ -162,6 +162,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     __lastPopupDimension : null,
     __arrowSize : 12,
 
+
     /**
      * Event handler. Called whenever the position of the popup should be updated.
      */
@@ -310,6 +311,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     /**
      * Tracks the user touch on root and hides the widget if touch start event 
      * occurs outside of the widgets bounds.
+     * @param evt {qx.event.type.Touch} the touch event.
      */
     _trackUserTouch : function(evt) {
       var clientX = evt.getAllTouches()[0].clientX;

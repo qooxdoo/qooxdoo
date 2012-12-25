@@ -4,13 +4,17 @@
 
 $border-thickness: 1px;
 $dialog-border-thickness:2px;
-$shadow-color: black;
+$shadow-color: rgba(0,0,0,0.5);
  
+body {
+  background-color: $navigationpage-background-color;
+}
+
 //
 // ROOT
 //
 
-.root {
+.root, .scroll {
   background-color: $navigationpage-background-color;
 }
 
@@ -294,7 +298,7 @@ $title-background-gradient-2:darken($dialog-background-color, 5%);
   border: $dialog-border-thickness solid $dialog-border-color;
 
   @include border-radius($dialog-border-radius);
-  @include box-shadow(0px 2px 7px 0px lighten($shadow-color, 50%));
+  @include box-shadow(0px 2px 7px 0px $shadow-color);
 
   color: $dialog-title-text-color; 
 }
@@ -495,32 +499,32 @@ div.checked .toggleButtonSwitch:before {
 }
 
 input[type="checkbox"] + label {
-    position:relative;
-    @include border-radius($checkbox-border-radius*3);
-    border:$border-thickness solid $checkbox-border-color;
+  position:relative;
+  @include border-radius($checkbox-border-radius*3);
+  border:$border-thickness solid $checkbox-border-color;
 
-    box-sizing:border-box;
-    background-color: #929292;
+  box-sizing:border-box;
+  background-color: #929292;
 
-    @include gradient-vertical(lighten($checkbox-background-color, 20%), darken($checkbox-background-color, 20%));
+  @include gradient-vertical(lighten($checkbox-background-color, 20%), darken($checkbox-background-color, 20%));
 }
 
 input[type="checkbox"] + label:after {
-    opacity: 0;
-    content:"";;
-    position: absolute;
-    width: 11px;
-    height: 6px;
-    background: 
-    transparent;
-    top: 8px;
-    left: 8px;
-    border: 3.5px solid lighten($checkbox-tick-color,10%);
-    border-top: 0;
-    border-right: 0;
-    @include transform(rotate(-45deg));
+  opacity: 0;
+  content:"";;
+  position: absolute;
+  width: 11px;
+  height: 6px;
+  background: 
+  transparent;
+  top: 8px;
+  left: 8px;
+  border: 3.5px solid lighten($checkbox-tick-color,10%);
+  border-top: 0;
+  border-right: 0;
+  @include transform(rotate(-45deg));
 
-    @include box-shadow(-1px 1px 1px 0px $checkbox-tick-color);
+  @include box-shadow(-1px 1px 1px 0px $checkbox-tick-color);
 }
 
 
@@ -534,109 +538,49 @@ input[type="checkbox"]:checked + label:after {
 
 // Border style
 input[type=radio] + label {
-    @include gradient-vertical(lighten($radiobutton-background-color, 20%), darken($radiobutton-background-color, 20%));
-    
-    border: $border-thickness solid $radiobutton-border-color;
-    box-sizing:border-box;
+  @include gradient-vertical(lighten($radiobutton-background-color, 20%), darken($radiobutton-background-color, 20%));
 
-    width: 30px;
-    height: 30px;
+  border: $border-thickness solid $radiobutton-border-color;
+  box-sizing:border-box;
+
+  width: 30px;
+  height: 30px;
 }
 
 
 // Inner Area
 input[type=radio]+ label:before {
-    -webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
-    -moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
-    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
-    
-     @include gradient-vertical (darken($radiobutton-background-inner-color,10%), lighten($radiobutton-background-inner-color,10%));
+  -webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+  -moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+  box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
+
+  @include gradient-vertical (darken($radiobutton-background-inner-color,10%), lighten($radiobutton-background-inner-color,10%));
 }
 
 
 // Color dot
 input[type=radio] + label:after {
-    background: $radiobutton-dot-color; 
+  background: $radiobutton-dot-color; 
 
-    $dot-dark-color: darken($radiobutton-dot-color, 10%);
+  $dot-dark-color: darken($radiobutton-dot-color, 10%);
 
-    @include gradient-vertical ($radiobutton-dot-color,$dot-dark-color);
+  @include gradient-vertical ($radiobutton-dot-color,$dot-dark-color);
 
-    -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-    -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-    box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+  -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+  -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
+  box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
 }
 
 // 
 // MASTER DETAIL
 // 
 
-.master-popup {
-  @include border-radius($dialog-border-radius);
-  padding: 0px;
-  $padding: 5px;
-  padding-left:$padding;
-  padding-right:$padding;
-  padding-bottom:$padding;
-}
-
-.master-popup .navigationbar > .label {
-  height: 40px !important;
-  line-height: 38px !important;
-  font-size: 1.2em;
-  
-}
-
-.master-popup .left-container {
-  top: 3px;
-}
-
-.master-popup .right-container {
-  top: 3px;
-}
-
-.master-popup * {
-}
-
-.master-popup ul {
-  border:none;
-}
-
-.master-popup .navigationbar {
-  background:none;
-}
-
-.master-popup .left-container {
-  left:0px;
-}
-
-.master-popup .right-container {
-  right:0px;
-}
-
-.master-popup ul li:not(:first-child) {
-  border-top: $border-thickness solid $navigationpage-border-color;
-}
-
-.master-popup ul li:first-child, .master-popup ul li:first-child a {
-  border-top: 0;
-  @include border-radius-top(0);
-}
-
-.master-popup ul li:last-child, .master-popup ul li:last-child a {
-  @include border-radius-bottom(0);
-}
-
-.master-detail-master.attached {
+.master-detail-master {
   border-right: $border-thickness solid darken($navigationpage-border-color, 40%);
 }
 
-.master-popup .layout-card {
-  background-color: $navigationpage-background-color;
-}
-
-.master-popup.popupAnchorPointerTop:before  {
-  top:-10px;
+.master-detail.portrait .master-detail-master:not(.hidden) {
+  @include box-shadow(0px 0px 10px 5px $shadow-color);
 }
 
 //
@@ -770,4 +714,50 @@ $pagination-label-size:8px;
   border-bottom:15px solid $picker-highlight-color;
 
   opacity:0.4;
+}
+
+//
+// DRAWER
+//
+
+.root.portrait .master-detail-master:not(.hidden) {
+  @include box-shadow(0px 0px 10px 5px $shadow-color);
+}
+
+.drawer {
+  background-color: $drawer-background-color;
+}
+
+.drawer:not(.master-detail-master):not(.hidden) {
+   @include box-shadow(0px 0px 10px 5px $shadow-color);
+}
+
+.drawer.top:not(.master-detail-master) {
+  border-bottom:1px solid $drawer-border-color;
+}
+
+.drawer.left:not(.master-detail-master) {
+  border-right:1px solid $drawer-border-color;
+}
+
+.drawer.right:not(.master-detail-master) {
+  border-left:1px solid $drawer-border-color;
+}
+
+.drawer.bottom:not(.master-detail-master) {
+  border-top:1px solid $drawer-border-color;
+}
+
+.drawer.back.left:before, .drawer.back.right:before, .drawer.back.top:before, .drawer.back.bottom:before {
+  content:'';
+  width:100%;
+  height:100%;
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:500;
+
+  pointer-events:none;
+  
+  @include box-inset-shadow(0px 0px 10px 5px $shadow-color);
 }

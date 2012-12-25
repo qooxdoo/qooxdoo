@@ -41,12 +41,13 @@ The size hint of a widget configured with a Canvas layout is determined such tha
 
 Layout properties
 -----------------
-* **left** *(Integer|String)*: The left coordinate in pixel or as a percent string e.g. ``20`` or ``30%``.
-* **top** *(Integer|String)*: The top coordinate in pixel or as a percent string e.g. ``20`` or ``30%``.
-* **right** *(Integer|String)*: The right coordinate in pixel or as a percent string e.g. ``20`` or ``30%``.
-* **bottom** *(Integer|String)*: The bottom coordinate in pixel or as a percent string e.g. ``20`` or ``30%``.
-* **width** *(String)*: A percent width e.g. ``40%``.
-* **height** *(String)*: A percent height e.g. ``60%``.
+* **left** *(Integer|String)*: The left coordinate in pixels or as a percent string, e.g. ``20`` or ``30%``.
+* **top** *(Integer|String)*: The top coordinate in pixels or as a percent string, e.g. ``20`` or ``30%``.
+* **right** *(Integer|String)*: The right coordinate in pixels or as a percent string, e.g. ``20`` or ``30%``.
+* **bottom** *(Integer|String)*: The bottom coordinate in pixels or as a percent string, e.g. ``20`` or ``30%``.
+* **edge** *(Integer|String)*: The coordinate in pixels or as a percent string to be used for all four edges.
+* **width** *(String)*: A percent width, e.g. ``40%``.
+* **height** *(String)*: A percent height, e.g. ``60%``.
 
 .. _pages/layout/canvas#demos:
 

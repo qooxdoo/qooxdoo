@@ -85,8 +85,6 @@ qx.Bootstrap.define("qx.application.Routing", {
 
   construct : function()
   {
-    this.__back = [];
-    this.__forward = [];
     this.__messaging = new qx.event.Messaging();
 
     this.__navigationHandler = qx.bom.History.getInstance();
@@ -95,7 +93,10 @@ qx.Bootstrap.define("qx.application.Routing", {
 
 
   statics : {
-    DEFAULT_PATH : "/"
+    DEFAULT_PATH : "/",
+
+    __back : [],
+    __forward : []
   },
 
 
@@ -103,9 +104,6 @@ qx.Bootstrap.define("qx.application.Routing", {
   {
     __navigationHandler : null,
     __messaging : null,
-
-    __back : null,
-    __forward : null,
 
     __currentGetPath : null,
 
@@ -265,10 +263,12 @@ qx.Bootstrap.define("qx.application.Routing", {
           customData.fromHistory = true;
           customData.action = history.action;
           customData.fromEvent = fromEvent;
+        } else {
+          this.__replaceCustomData(path, customData);
         }
       } else {
         this.__addToHistory(path, customData);
-        this.__forward = [];
+        qx.application.Routing.__forward = [];
       }
 
       this.__navigationHandler.setState(path);
@@ -351,10 +351,27 @@ qx.Bootstrap.define("qx.application.Routing", {
      */
     __addToHistory : function(path, customData)
     {
-      this.__back.unshift({
+      qx.application.Routing.__back.unshift({
         path : path,
-        customData :customData
+        customData : customData
       });
+    },
+
+
+    /**
+     * Replaces the customData in the history objects with the recent custom data.
+     * @param path {String} The path to replace.
+     * @param customData {var} The custom data to store.
+     */
+    __replaceCustomData : function(path, customData) {
+      var register = [qx.application.Routing.__back, qx.application.Routing.__forward];
+      for (var i=0; i < register.length; i++) {
+        for (var j=0; j < register[i].length; j++) {
+          if (register[i][j].path == path) {
+            register[i][j].customData = customData;
+          }
+        };
+      };
     },
 
 
@@ -362,12 +379,12 @@ qx.Bootstrap.define("qx.application.Routing", {
      * Returns a history entry for a certain path.
      *
      * @param path {String} The path of the entry
-     * @return {Map} The retrieved entry. <code>null</code> when no entry was found.
+     * @return {Map|null} The retrieved entry. <code>null</code> when no entry was found.
      */
     __getFromHistory : function(path)
     {
-      var back = this.__back;
-      var forward = this.__forward;
+      var back = qx.application.Routing.__back;
+      var forward = qx.application.Routing.__forward;
       var found = false;
 
       var entry = null;

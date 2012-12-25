@@ -18,38 +18,32 @@
 ************************************************************************ */
 
 
-qx.Class.define("qx.test.bom.AnimationFrame",
+qx.Class.define("qx.test.bom.PageVisibility",
 {
   extend : qx.dev.unit.TestCase,
   include : [qx.dev.unit.MMock],
 
   members :
   {
-    setUp : function()
-    {
-      this.__frame = new qx.bom.AnimationFrame();
+    setUp : function() {
+      this.__visibility = new qx.bom.PageVisibility();
     },
 
 
-    testStart : function() {
-      var clb = this.spy();
-      this.__frame.once("frame", clb);
-      this.__frame.startSequence(300);
-      this.wait(500, function() {
-        this.assertCalledOnce(clb);
-        this.assertTrue(clb.args[0][0] >= 0);
-      }, this);
+    testVisibilityState : function() {
+      var possible = ["hidden", "visible", "prerender", "unloaded"];
+      var value = this.__visibility.getVisibilityState();
+      this.assertInArray(value, possible);
     },
 
 
-    testCancel : function() {
-      var clb = this.spy();
-      this.__frame.once("frame", clb);
-      this.__frame.startSequence(300);
-      this.__frame.cancelSequence();
-      this.wait(500, function() {
-        this.assertNotCalled(clb);
-      }, this);
+    testHidden : function() {
+      this.assertBoolean(this.__visibility.isHidden());
+    },
+
+
+    testGetInstance : function() {
+      this.assertEquals(qx.bom.PageVisibility.getInstance(), qx.bom.PageVisibility.getInstance());
     }
   }
 });
