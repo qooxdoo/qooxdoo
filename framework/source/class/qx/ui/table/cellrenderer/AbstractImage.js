@@ -230,6 +230,22 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
 
 
     // overridden
+    _getCellStyle : function(cellInfo) {
+      var style = this.base(arguments, cellInfo);
+      if (style.indexOf("padding-top") < 0) {
+        var padding = cellInfo.styleHeight - this.__imageData.height;
+        if (padding > 1) {
+          if (style) {
+            style += ";";
+          }
+          style += "padding-top:" + Math.floor(padding * 0.5) + "px;";
+        }
+      }
+      return style;
+    },
+
+
+    // overridden
     _getContentHtml : function(cellInfo)
     {
       var content = "<div></div>";

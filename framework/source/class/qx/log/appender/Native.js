@@ -125,7 +125,7 @@ qx.Class.define("qx.log.appender.Native",
           else {
             var args = [],
                 items = entry.items;
-            for (i = 0, n = items.length; i < n; i++) {
+            for (var i = 0, n = items.length; i < n; i++) {
                 args.push(items[i].value);
             }
             if (this.isAddEntry()) {
