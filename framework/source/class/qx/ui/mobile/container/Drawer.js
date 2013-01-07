@@ -249,6 +249,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     
     /**
      * Handles a touch on application's root.
+     * @param evt {qx.module.event.Touch} Handled touch event.
      */
     _onParentTouchStart : function(evt) {
       var clientX = evt.getAllTouches()[0].clientX;
@@ -277,6 +278,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     
     /**
      * Handles a swipe on layout parent.
+     * @param evt {qx.module.event.Touch} Handled touch event.
      */
     _onParentSwipe : function(evt) {
       var direction = evt.getDirection();

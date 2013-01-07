@@ -103,15 +103,17 @@ qx.Class.define("qx.ui.mobile.core.Root",
     /**
      * Event handler. Called when the orientation of the device is changed.
      *
-     * @param evt {qx.event.type.Orientation || null} The causing event, or null
+     * @param evt {qx.event.type.Orientation} The handled orientation change event
      */
     _onOrientationChange : function(evt) {
       var isPortrait = null;
-      if(evt) {
+      
+      if (evt) {
         isPortrait = evt.isPortrait();
       } else {
         isPortrait = qx.bom.Viewport.isPortrait();
       }
+      
       if (isPortrait) {
         this.addCssClass("portrait");
         this.removeCssClass("landscape");
@@ -121,8 +123,6 @@ qx.Class.define("qx.ui.mobile.core.Root",
       }
     }
   },
-
-
 
 
   /*
