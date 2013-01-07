@@ -16,6 +16,14 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
+
+/* ************************************************************************
+
+#ignore(performance)
+#ignore(performance.timing)
+
+************************************************************************* */
+
 /**
  * This is a cross browser wrapper for requestAnimationFrame. For further
  * information about the feature, take a look at spec:
