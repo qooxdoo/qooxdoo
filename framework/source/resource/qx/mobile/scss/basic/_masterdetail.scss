@@ -9,3 +9,7 @@
 .root.landscape .master-detail-master {
   @include transition(none);
 }
+
+.root.portrait .drawer:not(.hidden) + .master-detail-detail {
+  pointer-events:none;
+}

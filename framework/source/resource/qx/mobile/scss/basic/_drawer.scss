@@ -59,3 +59,9 @@
 .root.drawer-parent {
   overflow:visible !important;
 }
+
+.drawer-parent.blocked:not(.root) > *:first-child > * {
+  pointer-events:none;
+}
+
+

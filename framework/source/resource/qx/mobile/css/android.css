@@ -498,6 +498,9 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   -moz-transition: none;
   transition: none; }
 
+.root.portrait .drawer:not(.hidden) + .master-detail-detail {
+  pointer-events: none; }
+
 .navigationbar {
   height: 45px;
   padding-left: 10px;
@@ -969,6 +972,9 @@ input[type=radio]:checked + label:after {
 
 .root.drawer-parent {
   overflow: visible !important; }
+
+.drawer-parent.blocked:not(.root) > *:first-child > * {
+  pointer-events: none; }
 
 h1, h2 {
   font-weight: bold; }
