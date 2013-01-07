@@ -263,9 +263,11 @@ qx.Class.define("qx.ui.table.model.Remote",
           // The request was not canceled -> Ignore it
           this._ignoreCurrentRequest = true;
         }
+        // Force clearing row cache, because of reloading data.
+        this._clearCache = true;
       }
 
-      this._clearCache = true;
+      
 
       // Forget a possibly outstanding request
       // (_loadRowCount will tell the listeners anyway, that the whole table
@@ -503,6 +505,7 @@ qx.Class.define("qx.ui.table.model.Remote",
      */
     _onRowDataLoaded : function(rowDataArr)
     {
+      // Clear cache if function was called because of a reload.
       if (this._clearCache) {
         this.clearCache();
         this._clearCache = false;
