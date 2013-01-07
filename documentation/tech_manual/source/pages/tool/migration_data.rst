@@ -100,14 +100,20 @@ pattern matching with ``\1``, ``\2`` asf. Example::
 Python Script Targeting %{JS} Code
 ======================================================
 
-There is the possibility to use a Python script that works on the syntax tree of a source file, in order to obtain more complicated rewrites than could be achieved with regex's. The file's name has to be
-``patch.py``. It must contain a method ``patch(fileId, parseTree)`` which takes
-a file id and a syntax tree, and must change the syntax tree in place. It must
-return ``True`` or ``False`` depending on whether the tree has been changed.
-During the migration process tree-based transformations, if available, are
-applied *before* regex-based transformations. The changed tree is written to
-disk using the Generator's pretty-printing feature, in place of the original
-file content.
+There is the possibility to use a Python script that works on the syntax tree of
+a source file, in order to obtain more complicated rewrites than could be
+achieved with regex's. (One example would be working on an argument of a method
+call, in between parentheses, that is itself an expression containing
+parentheses. In such a case it is not possible to match the closing parenthesis
+of the method call with a regex reliably.)
+
+The script's file name has to be ``patch.py``. It must contain a
+method ``patch(fileId, parseTree)`` which takes a file id and a syntax tree, and
+must change the syntax tree in place. It must return ``True`` or ``False``
+depending on whether the tree has been changed.  During the migration process
+tree-based transformations, if available, are applied *before* regex-based
+transformations. The changed tree is written to disk using the Generator's
+pretty-printing feature, in place of the original file content.
 
 How to do it
 --------------
