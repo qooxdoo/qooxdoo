@@ -45,6 +45,7 @@
     "API_EXCLUDE"  : ["qx.test.*"],
     "TEST_INCLUDE" : "qx.test.*",
     "LOCALES"      : [
+       "cs",  // Czech
        "de",
        "en",
        "es",
@@ -53,6 +54,7 @@
        "nl",
        "nb",  // Norwegian
        "pl",
+       "pt",  // Portuguese
        "ro",
        "sl",  // Slovene
        "sv"   // Swedish
