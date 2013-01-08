@@ -378,7 +378,6 @@ input[type="checkbox"]:checked + label:after {
     opacity: 1;
 }
 
-
 //
 // RADIOBUTTON
 //
@@ -555,7 +554,6 @@ $arrow-size: 12px;
 // MASTER DETAIL
 // 
 
-
 .master-detail-master {
   border-right: 1px solid $border-color;
 }
@@ -596,7 +594,6 @@ $pagination-label-size:8px;
 //
 // PICKER
 //
-
 
 .picker-container {
   background-color:darken($android-dark-grey,20%);
