@@ -40,6 +40,9 @@ msgstr "'%1' não é um endereço de correio eletrónico."
 msgid "Automatic"
 msgstr "Automático"
 
+msgid "Basic Colors"
+msgstr ""
+
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -81,6 +84,9 @@ msgstr "Pré-visualização (Anterior/Novo)"
 
 msgid "RGB"
 msgstr "RGB"
+
+msgid "Recent Colors"
+msgstr ""
 
 msgid "Reset column widths"
 msgstr "Repor a largura das colunas"
