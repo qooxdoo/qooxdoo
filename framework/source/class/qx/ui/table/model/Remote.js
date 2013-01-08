@@ -263,11 +263,10 @@ qx.Class.define("qx.ui.table.model.Remote",
           // The request was not canceled -> Ignore it
           this._ignoreCurrentRequest = true;
         }
-        // Force clearing row cache, because of reloading data.
-        this._clearCache = true;
       }
 
-      
+      // Force clearing row cache, because of reloading data.
+      this._clearCache = true;
 
       // Forget a possibly outstanding request
       // (_loadRowCount will tell the listeners anyway, that the whole table
@@ -421,7 +420,7 @@ qx.Class.define("qx.ui.table.model.Remote",
     prefetchRows : function(firstRowIndex, lastRowIndex)
     {
       // this.debug("Prefetch wanted: " + firstRowIndex + ".." + lastRowIndex);
-      if (this._firstLoadingBlock == -1 || this._clearCache)
+      if (this._firstLoadingBlock == -1)
       {
         var blockSize = this.getBlockSize();
         var totalBlockCount = Math.ceil(this._rowCount / blockSize);
