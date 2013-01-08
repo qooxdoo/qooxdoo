@@ -494,18 +494,10 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   position: absolute; }
 
 .drawer.front {
-  z-index: 100;
-  -webkit-transition: all 0.5s ease-in-out;
-  -moz-transition: all 0.5s ease-in-out;
-  transition: all 0.5s ease-in-out; }
+  z-index: 100; }
 
 .drawer.back {
   z-index: -1; }
-
-.drawer-parent {
-  -webkit-transition: all 0.5s ease-in-out;
-  -moz-transition: all 0.5s ease-in-out;
-  transition: all 0.5s ease-in-out; }
 
 .drawer.left {
   left: 0;
@@ -553,13 +545,11 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
 .drawer-parent.blocked:not(.root) > *:first-child > * {
   pointer-events: none; }
 
+.animationChild .drawer {
+  display: none; }
+
 .master-detail {
   overflow: hidden; }
-
-.root.landscape .master-detail-master {
-  -webkit-transition: none;
-  -moz-transition: none;
-  transition: none; }
 
 .root.portrait .drawer:not(.hidden) + .master-detail-detail {
   pointer-events: none; }

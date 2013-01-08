@@ -80,8 +80,10 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     this.getLayoutParent().addCssClass("drawer-parent");
     this.getLayoutParent().addListener("swipe",this._onParentSwipe,this);
     this.getLayoutParent().addListener("touchstart",this._onParentTouchStart,this);
+    this.getLayoutParent().addListener("back",this.forceHide, this);
     
     this.__touchStartPosition = [0,0];
+    this.__inAnimation = false;
     
     this.hide();
   },
@@ -139,6 +141,14 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     },
     
     
+    /** Flag is transition should be used when opening/closing the drawer. */
+    showTransition : {
+      check : "Boolean",
+      init : true,
+      apply : "_disableTransition"
+    },
+    
+    
     /** Sets the drawer zIndex position relative to its parent. */
     positionZ : {
       check : "String",
@@ -155,8 +165,9 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
   */
   members :
   { 
-    ___touchStartPosition : null,
+    __touchStartPosition : null,
     __parent : null,
+    __inAnimation : null,
   
   
     // property apply
@@ -188,6 +199,9 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
         }
         this.setTranslateX(null);
         this.setTranslateY(null);
+      } else {
+        this.getLayoutParent().setTranslateX(0);
+        this.getLayoutParent().setTranslateY(0);
       }
     },
     
@@ -204,9 +218,13 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
      */
     show : function()
     {
+      if(this.__inAnimation) {
+        return;
+      }
+      
       this.base(arguments);
       
-      this.removeCssClass("hidden");
+      this._enableTransition();
 
       this._toggleParentBlockedState();
       
@@ -233,11 +251,16 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
           this.setTranslateY(this.getHeight());
         }
       }
+      
+      this.removeCssClass("hidden");
+      qx.event.Timer.once(this._disableTransition, this, 500);
+      
     },
     
     
     /**
      * Toggles the blocked state of this drawer's parent.
+     * Blocked means that no pointer events are received anymore.
      */
     _toggleParentBlockedState : function() {
       if(this.getLayoutParent().hasCssClass("blocked")) {
@@ -249,15 +272,41 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     
     
     /**
-     * Hides the drawer
+     * Hides the drawer.
      */
     hide : function() {
+      if(this.__inAnimation) {
+        return;
+      } 
+      
+      this._enableTransition();
+      
       if (this.getPositionZ() == "back") {
         this.getLayoutParent().setTranslateX(0);
         this.getLayoutParent().setTranslateY(0);
       }
       
+      this.addCssClass("hidden");
+      
       qx.event.Timer.once(this._toggleParentBlockedState, this, 500);
+      qx.event.Timer.once(this._disableTransition, this, 500);
+    },
+    
+    
+    /**
+     * Strict way to hide this drawer. Removes the blocker from the parent,
+     * and hides the drawer without any animation. Should be called when drawer's 
+     * parent is animated and drawer should hide immediately.
+     */
+    forceHide : function() {
+      this._disableTransition(); 
+      
+      if (this.getPositionZ() == "back") {
+        this.getLayoutParent().setTranslateX(0);
+        this.getLayoutParent().setTranslateY(0);
+      }
+      
+      this.getLayoutParent().removeCssClass("blocked");
       
       this.addCssClass("hidden");
     },
@@ -266,6 +315,33 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     // overridden
     isHidden : function() {
       return this.hasCssClass("hidden");
+    },
+    
+    
+    /**
+     * Enables the transition on this drawer.
+     */
+    _enableTransition : function() {
+      if(this.isShowTransition()) {
+        this.__inAnimation = true;
+        
+        if (this.getPositionZ() == "back") {
+          qx.bom.element.Style.set(this.getLayoutParent().getContentElement(),"transition","all .5s ease-in-out");
+        } else {
+          qx.bom.element.Style.set(this.getContentElement(),"transition","all .5s ease-in-out");
+        }
+      }
+    },
+    
+    
+    /**
+     * Disables the transition on this drawer.
+     */
+    _disableTransition : function() {
+      this.__inAnimation = false;
+      
+      qx.bom.element.Style.set(this.getContentElement(),"transition",null);
+      qx.bom.element.Style.set(this.getLayoutParent().getContentElement(),"transition",null);
     },
     
     
@@ -364,7 +440,9 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
   {
     this.getLayoutParent().removeListener("swipe",this._onParentSwipe,this);
     this.getLayoutParent().removeListener("touchstart",this._onParentTouchStart,this);
+    this.getLayoutParent().removeListener("back", this.forceHide, this);
     
     this.__touchStartPosition = null;
+    this.__inAnimation = null;
   }
 });

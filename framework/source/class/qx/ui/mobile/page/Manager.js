@@ -410,6 +410,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       }
       
       if(qx.bom.Viewport.isLandscape()) {
+        this.__masterContainer.setShowTransition(false);
+        
         if(!this.isMasterContainerHidden()) {
           this._createDetailContainerGap();
           this.__masterContainer.show();
@@ -418,6 +420,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
         }
         this.__masterContainer.setHideOnParentTouch(false);
       } else {
+        this.__masterContainer.setShowTransition(true);
         this.__masterContainer.setHideOnParentTouch(true);
         this.__masterContainer.hide();
         this._removeDetailContainerGap();
