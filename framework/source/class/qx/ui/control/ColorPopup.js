@@ -478,13 +478,13 @@ qx.Class.define("qx.ui.control.ColorPopup",
     {
       core :
       {
-        label : "Basic Colors",
+        label : qx.locale.Manager.tr("Basic Colors"),
         values : [ "#000", "#333", "#666", "#999", "#CCC", "#FFF", "red", "green", "blue", "yellow", "teal", "maroon" ]
       },
 
       recent :
       {
-        label : "Recent Colors",
+        label : qx.locale.Manager.tr("Recent Colors"),
         values : [ ]
       }
     }

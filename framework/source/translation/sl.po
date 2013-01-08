@@ -43,6 +43,9 @@ msgstr "'%1' ni email adresa."
 msgid "Automatic"
 msgstr "Automatičen"
 
+msgid "Basic Colors"
+msgstr ""
+
 msgid "Cancel"
 msgstr "Prekliči"
 
@@ -84,6 +87,9 @@ msgstr "Predogled (Star/Nov)"
 
 msgid "RGB"
 msgstr "RGB"
+
+msgid "Recent Colors"
+msgstr ""
 
 msgid "Reset column widths"
 msgstr "Resetiraj širino stolpca"
