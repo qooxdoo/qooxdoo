@@ -381,7 +381,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
       var color = null;
 
       if (red !== null || green !== null || blue !== null) {
-        var color = qx.util.ColorUtil.rgbToRgbString([red, green, blue]);
+        color = qx.util.ColorUtil.rgbToRgbString([red, green, blue]);
       }
 
       this.getChildControl("current-preview").setBackgroundColor(color);
@@ -463,7 +463,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
         var color = null;
 
         if (red !== null || green !== null || blue !== null) {
-          var color = qx.util.ColorUtil.rgbToRgbString([red, green, blue]);
+          color = qx.util.ColorUtil.rgbToRgbString([red, green, blue]);
         }
 
         this.getChildControl("selected-preview").setBackgroundColor(color);
