@@ -62,10 +62,8 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     if (layout) {
       this.setLayout(layout);
     }
-    
     this.initOrientation();
     this.initPositionZ();
-    
     if(parent) {
       if (qx.core.Environment.get("qx.debug"))
       {
@@ -77,15 +75,18 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       qx.core.Init.getApplication().getRoot().add(this);
     }
     
-    this.getLayoutParent().addCssClass("drawer-parent");
-    this.getLayoutParent().addListener("swipe",this._onParentSwipe,this);
-    this.getLayoutParent().addListener("touchstart",this._onParentTouchStart,this);
-    this.getLayoutParent().addListener("back",this.forceHide, this);
+    this.__parent = this.getLayoutParent();
+    
+    this.__parent.addCssClass("drawer-parent");
+    
+    this.__parent.addListener("swipe",this._onParentSwipe,this);
+    this.__parent.addListener("touchstart",this._onParentTouchStart,this);
+    this.__parent.addListener("back",this.forceHide, this);
     
     this.__touchStartPosition = [0,0];
     this.__inAnimation = false;
     
-    this.hide();
+    this.forceHide();
   },
   
   
@@ -193,15 +194,15 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       
       if(value == "front") {
         // Reset transitions for "back" mode.
-        if(this.getLayoutParent()) {
-          this.getLayoutParent().setTranslateX(null);
-          this.getLayoutParent().setTranslateY(null);
+        if(this.__parent) {
+          this.__parent.setTranslateX(null);
+          this.__parent.setTranslateY(null);
         }
         this.setTranslateX(null);
         this.setTranslateY(null);
       } else {
-        this.getLayoutParent().setTranslateX(0);
-        this.getLayoutParent().setTranslateY(0);
+        this.__parent.setTranslateX(0);
+        this.__parent.setTranslateY(0);
       }
     },
     
@@ -229,25 +230,25 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       this._toggleParentBlockedState();
       
       if (this.getPositionZ() == "back") {
-        if(this.getLayoutParent()) {
-          this.getLayoutParent().setTranslateX(0);
-          this.getLayoutParent().setTranslateY(0);
+        if(this.__parent) {
+          this.__parent.setTranslateX(0);
+          this.__parent.setTranslateY(0);
         }
        
         this.setTranslateX(0);
         this.setTranslateY(0);
 
         if(this.getOrientation() == "left") {
-          this.getLayoutParent().setTranslateX(this.getWidth());
+          this.__parent.setTranslateX(this.getWidth());
           this.setTranslateX(-this.getWidth());
         } else if(this.getOrientation() == "right") {
-          this.getLayoutParent().setTranslateX(-this.getWidth());
+          this.__parent.setTranslateX(-this.getWidth());
           this.setTranslateX(this.getWidth());
         } else if(this.getOrientation() == "top") {
-          this.getLayoutParent().setTranslateY(this.getHeight());
+          this.__parent.setTranslateY(this.getHeight());
           this.setTranslateY(-this.getHeight());
         } else if(this.getOrientation() == "bottom") {
-          this.getLayoutParent().setTranslateY(-this.getHeight());
+          this.__parent.setTranslateY(-this.getHeight());
           this.setTranslateY(this.getHeight());
         }
       }
@@ -263,10 +264,10 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
      * Blocked means that no pointer events are received anymore.
      */
     _toggleParentBlockedState : function() {
-      if(this.getLayoutParent().hasCssClass("blocked")) {
-        this.getLayoutParent().removeCssClass("blocked");
+      if(this.__parent.hasCssClass("blocked")) {
+        this.__parent.removeCssClass("blocked");
       } else {
-        this.getLayoutParent().addCssClass("blocked");
+        this.__parent.addCssClass("blocked");
       }
     },
     
@@ -282,8 +283,8 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       this._enableTransition();
       
       if (this.getPositionZ() == "back") {
-        this.getLayoutParent().setTranslateX(0);
-        this.getLayoutParent().setTranslateY(0);
+        this.__parent.setTranslateX(0);
+        this.__parent.setTranslateY(0);
       }
       
       this.addCssClass("hidden");
@@ -302,11 +303,11 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       this._disableTransition(); 
       
       if (this.getPositionZ() == "back") {
-        this.getLayoutParent().setTranslateX(0);
-        this.getLayoutParent().setTranslateY(0);
+        this.__parent.setTranslateX(0);
+        this.__parent.setTranslateY(0);
       }
       
-      this.getLayoutParent().removeCssClass("blocked");
+      this.__parent.removeCssClass("blocked");
       
       this.addCssClass("hidden");
     },
@@ -326,7 +327,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
         this.__inAnimation = true;
         
         if (this.getPositionZ() == "back") {
-          qx.bom.element.Style.set(this.getLayoutParent().getContentElement(),"transition","all .5s ease-in-out");
+          qx.bom.element.Style.set(this.__parent.getContentElement(),"transition","all .5s ease-in-out");
         } else {
           qx.bom.element.Style.set(this.getContentElement(),"transition","all .5s ease-in-out");
         }
@@ -341,7 +342,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       this.__inAnimation = false;
       
       qx.bom.element.Style.set(this.getContentElement(),"transition",null);
-      qx.bom.element.Style.set(this.getLayoutParent().getContentElement(),"transition",null);
+      qx.bom.element.Style.set(this.__parent.getContentElement(),"transition",null);
     },
     
     
@@ -438,11 +439,12 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
   */
   destruct : function()
   {
-    this.getLayoutParent().removeListener("swipe",this._onParentSwipe,this);
-    this.getLayoutParent().removeListener("touchstart",this._onParentTouchStart,this);
-    this.getLayoutParent().removeListener("back", this.forceHide, this);
+    this.__parent.removeListener("swipe", this._onParentSwipe, this);
+    this.__parent.removeListener("touchstart", this._onParentTouchStart, this);
+    this.__parent.removeListener("back", this.forceHide, this);
     
     this.__touchStartPosition = null;
     this.__inAnimation = null;
+    this.__parent = null;
   }
 });
