@@ -19,13 +19,14 @@
 
 /**
  * Creates a drawer widget inside the given parent widget. The parent widget can
- * be assigned as a constructor argument. If no parent is set, the application's root
- * will be assumed as parent. A drawer widget can be assigned to left, right, top or bottom edge of its
- * parent by property "orientation". The drawer floats in on show() and floats out on hide(). Additionally the
- * drawer is shown by swiping in reverse direction on the parent edge to where the drawer is placed to:
- * Orientation: "left", Swipe: "right" on parents edge: Drawer is shown etc.
- * The drawer is hidden when user touches the parent area outside of the drawer. This behaviour can be 
- * deactivated by the property "hideOnParentTouch".
+ * be assigned as a constructor argument. If no parent is set, the application's 
+ * root will be assumed as parent. A drawer widget can be assigned to left, right,
+ * top or bottom edge of its parent by property "orientation". The drawer floats
+ * in on show() and floats out on hide(). Additionally the drawer is shown by 
+ * swiping in reverse direction on the parent edge to where the drawer is placed 
+ * to: Orientation: "left", Swipe: "right" on parents edge: Drawer is shown etc.
+ * The drawer is hidden when user touches the parent area outside of the drawer. 
+ * This behaviour can be deactivated by the property "hideOnParentTouch".
  *     
  * <pre class='javascript'>
  *  
@@ -51,10 +52,10 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
   */
 
   /**
-   * @param parent {qx.ui.mobile.container.Composite?null} The widget to which the drawer should be added,
-   *  if null it is added to app root.
-   * @param layout {qx.ui.mobile.layout.Abstract?null} The layout that should be used for this
-   *     container
+   * @param parent {qx.ui.mobile.container.Composite?null} The widget to which 
+   * the drawer should be added, if null it is added to app root.
+   * @param layout {qx.ui.mobile.layout.Abstract?null} The layout that should be 
+   * used for this container.
    */
   construct : function(parent, layout)
   {
