@@ -114,7 +114,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       var touchX = evt.getScreenLeft();
       var touchY = evt.getScreenTop();
 
-      qx.bom.element.Style.set(this.__scrollContainer.getContainerElement(),"transition-duration","0s");
+      qx.bom.element.Style.set(this.__scrollContainer.getContainerElement(),"transitionDuration","0s");
 
       this.__touchStartPoints[0] = touchX;
       this.__touchStartPoints[1] = touchY;
@@ -180,7 +180,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
         this.__currentOffset[1] = -lowerLimit;
       }
 
-      qx.bom.element.Style.set(targetElement,"transition-duration",".2s");
+      qx.bom.element.Style.set(targetElement,"transitionDuration",".2s");
 
       this.__scrollContainer.setTranslateY(this.__currentOffset[1]);
 
