@@ -347,7 +347,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     
     /**
      * Toggle the visibility of the drawer.
-     * @param {Boolean} the new visibility state.
+     * @return {Boolean} the new visibility state.
      */
     toggleVisibility : function() {
       var newValue = false;
