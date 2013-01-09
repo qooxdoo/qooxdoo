@@ -40,6 +40,9 @@ msgstr ""
 msgid "Automatic"
 msgstr ""
 
+msgid "Basic Colors"
+msgstr ""
+
 msgid "Cancel"
 msgstr ""
 
@@ -80,6 +83,9 @@ msgid "Preview (Old/New)"
 msgstr ""
 
 msgid "RGB"
+msgstr ""
+
+msgid "Recent Colors"
 msgstr ""
 
 msgid "Reset column widths"

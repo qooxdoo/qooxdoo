@@ -23,8 +23,8 @@
  * will be assumed as parent. A drawer widget can be assigned to left, right, top or bottom edge of its
  * parent by property "orientation". The drawer floats in on show() and floats out on hide(). Additionally the
  * drawer is shown by swiping in reverse direction on the parent edge to where the drawer is placed to:
- * Orientation: "left", Swipe: "right" on parents edge: >> Drawer is shown etc.
- * The drawer is hidden when user touches the parent area, outside of the drawer. This behaviour can be 
+ * Orientation: "left", Swipe: "right" on parents edge: Drawer is shown etc.
+ * The drawer is hidden when user touches the parent area outside of the drawer. This behaviour can be 
  * deactivated by the property "hideOnParentTouch".
  *     
  * <pre class='javascript'>
@@ -62,10 +62,8 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     if (layout) {
       this.setLayout(layout);
     }
-    
     this.initOrientation();
     this.initPositionZ();
-    
     if(parent) {
       if (qx.core.Environment.get("qx.debug"))
       {
@@ -77,13 +75,18 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       qx.core.Init.getApplication().getRoot().add(this);
     }
     
-    this.getLayoutParent().addCssClass("drawer-parent");
-    this.getLayoutParent().addListener("swipe",this._onParentSwipe,this);
-    this.getLayoutParent().addListener("touchstart",this._onParentTouchStart,this);
+    this.__parent = this.getLayoutParent();
     
-    this._touchStartPosition = [0,0];
+    this.__parent.addCssClass("drawer-parent");
     
-    this.hide();
+    this.__parent.addListener("swipe",this._onParentSwipe,this);
+    this.__parent.addListener("touchstart",this._onParentTouchStart,this);
+    this.__parent.addListener("back",this.forceHide, this);
+    
+    this.__touchStartPosition = [0,0];
+    this.__inAnimation = false;
+    
+    this.forceHide();
   },
   
   
@@ -139,6 +142,14 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     },
     
     
+    /** Flag is transition should be used when opening/closing the drawer. */
+    showTransition : {
+      check : "Boolean",
+      init : true,
+      apply : "_disableTransition"
+    },
+    
+    
     /** Sets the drawer zIndex position relative to its parent. */
     positionZ : {
       check : "String",
@@ -155,8 +166,9 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
   */
   members :
   { 
-    _touchStartPosition : null,
+    __touchStartPosition : null,
     __parent : null,
+    __inAnimation : null,
   
   
     // property apply
@@ -182,12 +194,15 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       
       if(value == "front") {
         // Reset transitions for "back" mode.
-        if(this.getLayoutParent()) {
-          this.getLayoutParent().setTranslateX(null);
-          this.getLayoutParent().setTranslateY(null);
+        if(this.__parent) {
+          this.__parent.setTranslateX(null);
+          this.__parent.setTranslateY(null);
         }
         this.setTranslateX(null);
         this.setTranslateY(null);
+      } else {
+        this.__parent.setTranslateX(0);
+        this.__parent.setTranslateY(0);
       }
     },
     
@@ -204,67 +219,170 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
      */
     show : function()
     {
+      if(this.__inAnimation) {
+        return;
+      }
+      
       this.base(arguments);
-      if(this.getPositionZ() == "front") {
-        this.removeCssClass("hidden");
-      } else if (this.getPositionZ() == "back") {
-        this.getLayoutParent().setTranslateX(0);
-        this.getLayoutParent().setTranslateY(0);
+      
+      this._enableTransition();
+
+      this._toggleParentBlockedState();
+      
+      if (this.getPositionZ() == "back") {
+        if(this.__parent) {
+          this.__parent.setTranslateX(0);
+          this.__parent.setTranslateY(0);
+        }
+       
         this.setTranslateX(0);
         this.setTranslateY(0);
-        
-        if(this.getOrientation() =="left") {
-          this.getLayoutParent().setTranslateX(this.getWidth());
+
+        if(this.getOrientation() == "left") {
+          this.__parent.setTranslateX(this.getWidth());
           this.setTranslateX(-this.getWidth());
         } else if(this.getOrientation() == "right") {
-          this.getLayoutParent().setTranslateX(-this.getWidth());
+          this.__parent.setTranslateX(-this.getWidth());
           this.setTranslateX(this.getWidth());
-        }  else if(this.getOrientation() =="top") {
-          this.getLayoutParent().setTranslateY(this.getHeight());
+        } else if(this.getOrientation() == "top") {
+          this.__parent.setTranslateY(this.getHeight());
           this.setTranslateY(-this.getHeight());
-        }  else if(this.getOrientation() =="bottom") {
-          this.getLayoutParent().setTranslateY(-this.getHeight());
+        } else if(this.getOrientation() == "bottom") {
+          this.__parent.setTranslateY(-this.getHeight());
           this.setTranslateY(this.getHeight());
         }
-        
-        this.removeCssClass("hidden");
+      }
+      
+      this.removeCssClass("hidden");
+      qx.event.Timer.once(this._disableTransition, this, 500);
+      
+    },
+    
+    
+    /**
+     * Toggles the blocked state of this drawer's parent.
+     * Blocked means that no pointer events are received anymore.
+     */
+    _toggleParentBlockedState : function() {
+      if(this.__parent.hasCssClass("blocked")) {
+        this.__parent.removeCssClass("blocked");
+      } else {
+        this.__parent.addCssClass("blocked");
       }
     },
     
     
     /**
-     * Hides the drawer
+     * Hides the drawer.
      */
     hide : function() {
-      if(this.getPositionZ() == "front") {
-        this.addCssClass("hidden");
-      } else if (this.getPositionZ() == "back") {
-        this.getLayoutParent().setTranslateX(0);
-        this.getLayoutParent().setTranslateY(0);
-        
-        this.addCssClass("hidden");
+      if(this.__inAnimation) {
+        return;
+      } 
+      
+      this._enableTransition();
+      
+      if (this.getPositionZ() == "back") {
+        this.__parent.setTranslateX(0);
+        this.__parent.setTranslateY(0);
       }
+      
+      this.addCssClass("hidden");
+      
+      qx.event.Timer.once(this._toggleParentBlockedState, this, 500);
+      qx.event.Timer.once(this._disableTransition, this, 500);
+    },
+    
+    
+    /**
+     * Strict way to hide this drawer. Removes the blocker from the parent,
+     * and hides the drawer without any animation. Should be called when drawer's 
+     * parent is animated and drawer should hide immediately.
+     */
+    forceHide : function() {
+      this._disableTransition(); 
+      
+      if (this.getPositionZ() == "back") {
+        this.__parent.setTranslateX(0);
+        this.__parent.setTranslateY(0);
+      }
+      
+      this.__parent.removeCssClass("blocked");
+      
+      this.addCssClass("hidden");
+    },
+    
+    
+    // overridden
+    isHidden : function() {
+      return this.hasCssClass("hidden");
+    },
+    
+    
+    /**
+     * Enables the transition on this drawer.
+     */
+    _enableTransition : function() {
+      if(this.isShowTransition()) {
+        this.__inAnimation = true;
+        
+        if (this.getPositionZ() == "back") {
+          qx.bom.element.Style.set(this.__parent.getContentElement(),"transition","all .5s ease-in-out");
+        } else {
+          qx.bom.element.Style.set(this.getContentElement(),"transition","all .5s ease-in-out");
+        }
+      }
+    },
+    
+    
+    /**
+     * Disables the transition on this drawer.
+     */
+    _disableTransition : function() {
+      this.__inAnimation = false;
+      
+      qx.bom.element.Style.set(this.getContentElement(),"transition",null);
+      qx.bom.element.Style.set(this.__parent.getContentElement(),"transition",null);
+    },
+    
+    
+    /**
+     * Toggle the visibility of the drawer.
+     * @return {Boolean} the new visibility state.
+     */
+    toggleVisibility : function() {
+      var newValue = false;
+      
+      if(this.isHidden()) {
+        this.show();
+        newValue = true;
+      } else {
+        this.hide();
+        newValue = false;
+      }
+      
+      return newValue;
     },
     
     
     /**
      * Handles a touch on application's root.
+     * @param evt {qx.module.event.Touch} Handled touch event.
      */
     _onParentTouchStart : function(evt) {
       var clientX = evt.getAllTouches()[0].clientX;
       var clientY = evt.getAllTouches()[0].clientY;
       
-      
-      this._touchStartPosition = [clientX,clientY];
+      this.__touchStartPosition = [clientX,clientY];
       
       var isShown = !this.hasCssClass("hidden");
       if(isShown && this.isHideOnParentTouch()) {
         var location = qx.bom.element.Location.get(this.getContainerElement());
         
-        if (this.getOrientation() =="left" && this._touchStartPosition[0] > location.right
-        || this.getOrientation() =="top" && this._touchStartPosition[1] > location.bottom
-        || this.getOrientation() =="bottom" && this._touchStartPosition[1] < location.top
-        || this.getOrientation() =="right" && this._touchStartPosition[0] < location.left)
+        if (this.getOrientation() =="left" && this.__touchStartPosition[0] > location.right
+        || this.getOrientation() =="top" && this.__touchStartPosition[1] > location.bottom
+        || this.getOrientation() =="bottom" && this.__touchStartPosition[1] < location.top
+        || this.getOrientation() =="right" && this.__touchStartPosition[0] < location.left)
         {
           // First touch on overlayed page should be ignored.
           evt.preventDefault();
@@ -277,6 +395,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     
     /**
      * Handles a swipe on layout parent.
+     * @param evt {qx.module.event.Touch} Handled touch event.
      */
     _onParentSwipe : function(evt) {
       var direction = evt.getDirection();
@@ -287,23 +406,23 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
         if (
           (direction == "right" 
           && this.getOrientation() == "left" 
-          && this._touchStartPosition[0] < location.right + this.getTouchOffset()
-          && this._touchStartPosition[0] > location.right)
+          && this.__touchStartPosition[0] < location.right + this.getTouchOffset()
+          && this.__touchStartPosition[0] > location.right)
           || 
           (direction == "left" 
           && this.getOrientation() == "right"
-          && this._touchStartPosition[0] > location.left - this.getTouchOffset()
-          && this._touchStartPosition[0] < location.left)
+          && this.__touchStartPosition[0] > location.left - this.getTouchOffset()
+          && this.__touchStartPosition[0] < location.left)
           || 
           (direction == "down" 
           && this.getOrientation() == "top"
-          && this._touchStartPosition[1] < this.getTouchOffset() + location.bottom 
-          && this._touchStartPosition[1] > location.bottom) 
+          && this.__touchStartPosition[1] < this.getTouchOffset() + location.bottom 
+          && this.__touchStartPosition[1] > location.bottom) 
           || 
           (direction == "up" 
           && this.getOrientation() == "bottom"
-          && this._touchStartPosition[1] > location.top - this.getTouchOffset()
-          && this._touchStartPosition[1] < location.top)
+          && this.__touchStartPosition[1] > location.top - this.getTouchOffset()
+          && this.__touchStartPosition[1] < location.top)
         )
         {
           this.show();
@@ -320,9 +439,12 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
   */
   destruct : function()
   {
-    this.getLayoutParent().removeListener("swipe",this._onParentSwipe,this);
-    this.getLayoutParent().removeListener("touchstart",this._onParentTouchStart,this);
+    this.__parent.removeListener("swipe", this._onParentSwipe, this);
+    this.__parent.removeListener("touchstart", this._onParentTouchStart, this);
+    this.__parent.removeListener("back", this.forceHide, this);
     
-    this._touchStartPosition = null;
+    this.__touchStartPosition = null;
+    this.__inAnimation = null;
+    this.__parent = null;
   }
 });

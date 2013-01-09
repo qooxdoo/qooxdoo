@@ -40,6 +40,9 @@ msgstr "'%1' nu este o adresă de email"
 msgid "Automatic"
 msgstr "Automat"
 
+msgid "Basic Colors"
+msgstr ""
+
 msgid "Cancel"
 msgstr "Anulează"
 
@@ -80,6 +83,9 @@ msgid "Preview (Old/New)"
 msgstr "Previzualizare (Vechi/Nou)"
 
 msgid "RGB"
+msgstr ""
+
+msgid "Recent Colors"
 msgstr ""
 
 msgid "Reset column widths"

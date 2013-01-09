@@ -39,6 +39,9 @@ msgstr "'%1' is geen email adres."
 msgid "Automatic"
 msgstr "Automatisch"
 
+msgid "Basic Colors"
+msgstr ""
+
 msgid "Cancel"
 msgstr "Annuleer"
 
@@ -80,6 +83,9 @@ msgstr "Voorbeeld (Oud/Nieuw)"
 
 msgid "RGB"
 msgstr "RGB"
+
+msgid "Recent Colors"
+msgstr ""
 
 msgid "Reset column widths"
 msgstr "Kolombreedte herstellen"

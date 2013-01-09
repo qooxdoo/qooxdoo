@@ -39,6 +39,9 @@ msgstr "'%1' är inte en e-postadress."
 msgid "Automatic"
 msgstr "Automatiskt"
 
+msgid "Basic Colors"
+msgstr ""
+
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -80,6 +83,9 @@ msgstr "Förhandsgranska (Gammal/Ny)"
 
 msgid "RGB"
 msgstr "RGB"
+
+msgid "Recent Colors"
+msgstr ""
 
 msgid "Reset column widths"
 msgstr "Återställ kolumnbredder"

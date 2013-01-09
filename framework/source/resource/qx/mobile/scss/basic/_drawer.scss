@@ -4,16 +4,11 @@
 
 .drawer.front {
   z-index:100;
-  @include transition(all .5s ease-in-out );
 }
 
 
 .drawer.back {
   z-index:-1;
-}
-
-.drawer-parent {
-  @include transition(all .5s ease-in-out );
 }
 
 .drawer.left {
@@ -59,3 +54,16 @@
 .root.drawer-parent {
   overflow:visible !important;
 }
+
+.drawer-parent.blocked:not(.root) > *:first-child > * {
+  pointer-events:none;
+}
+
+.animationChild .drawer {
+  display:none;
+}
+
+
+
+
+

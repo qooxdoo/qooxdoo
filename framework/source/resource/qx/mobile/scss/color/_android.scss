@@ -42,7 +42,7 @@ $highlighted-text-color: $android-orange;
   color: #ffffff;
 }
 
-.page, .drawer {
+.page, .drawer, .scroll {
   background: $background-color;
 }
 
@@ -378,7 +378,6 @@ input[type="checkbox"]:checked + label:after {
     opacity: 1;
 }
 
-
 //
 // RADIOBUTTON
 //
@@ -555,7 +554,6 @@ $arrow-size: 12px;
 // MASTER DETAIL
 // 
 
-
 .master-detail-master {
   border-right: 1px solid $border-color;
 }
@@ -597,7 +595,6 @@ $pagination-label-size:8px;
 // PICKER
 //
 
-
 .picker-container {
   background-color:darken($android-dark-grey,20%);
   @include box-shadow(0px 1px 1px rgba(255, 255, 255, 0.5));
@@ -632,8 +629,11 @@ $pagination-label-size:8px;
 // DRAWER
 //
 
-.drawer:not(.master-detail-master) {
-  background-color:rgba(0,0,0,0.7);
+.drawer:not(.master-detail-master):not(.hidden) {
+  @include box-shadow(0px 0px 10px 5px rgba(0,0,0,0.4));
+}
+
+.root.portrait .master-detail-master:not(.hidden) {
   @include box-shadow(0px 0px 10px 5px rgba(0,0,0,0.4));
 }
 
@@ -651,4 +651,18 @@ $pagination-label-size:8px;
 
 .drawer.bottom:not(.master-detail-master) {
   border-top:1px solid $android-orange;
+}
+
+.drawer.back.left:before, .drawer.back.right:before, .drawer.back.top:before, .drawer.back.bottom:before {
+  content:'';
+  width:100%;
+  height:100%;
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:500;
+
+  pointer-events:none;
+  
+  @include box-inset-shadow(0px 0px 10px 5px rgba(0,0,0,0.4));
 }

@@ -445,18 +445,10 @@ input[type="checkbox"] {
   position: absolute; }
 
 .drawer.front {
-  z-index: 100;
-  -webkit-transition: all 0.5s ease-in-out;
-  -moz-transition: all 0.5s ease-in-out;
-  transition: all 0.5s ease-in-out; }
+  z-index: 100; }
 
 .drawer.back {
   z-index: -1; }
-
-.drawer-parent {
-  -webkit-transition: all 0.5s ease-in-out;
-  -moz-transition: all 0.5s ease-in-out;
-  transition: all 0.5s ease-in-out; }
 
 .drawer.left {
   left: 0;
@@ -500,6 +492,12 @@ input[type="checkbox"] {
 
 .root.drawer-parent {
   overflow: visible !important; }
+
+.drawer-parent.blocked:not(.root) > *:first-child > * {
+  pointer-events: none; }
+
+.animationChild .drawer {
+  display: none; }
 
 ul.form {
   margin-bottom: 10px;
@@ -612,10 +610,8 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
 .master-detail {
   overflow: hidden; }
 
-.root.landscape .master-detail-master {
-  -webkit-transition: none;
-  -moz-transition: none;
-  transition: none; }
+.root.portrait .drawer:not(.hidden) + .master-detail-detail {
+  pointer-events: none; }
 
 .navigationbar {
   height: 45px;

@@ -35,58 +35,61 @@ qx.Class.define("mobileshowcase.page.Drawer",
 
   members :
   {
+    /** Factory method for creation of drawers. */
+    _createDrawer : function(orientation) {
+      var drawer = new qx.ui.mobile.container.Drawer(this, new qx.ui.mobile.layout.VBox());
+      drawer.setOrientation(orientation);
+      drawer.setTouchOffset(0);
+      drawer.setPositionZ("back");
+      return drawer;
+    },
+    
+    
+    /** Factory method for the a demo drawer's content. */
+    _createDrawerContent : function(target) {
+      var closeDrawerButton = new qx.ui.mobile.form.Button("Close");
+      closeDrawerButton.addListener("tap", function(){target.hide()},this);
+      
+      var drawerContent = new qx.ui.mobile.form.Group([new qx.ui.mobile.basic.Label("This the "+target.getOrientation()+" drawer."), closeDrawerButton]);
+      return drawerContent;
+    },
+    
+    
+    /** Factory method for the a drawer menu. */
+    _createDrawerMenu : function(drawers) {
+      var drawerGroup = new qx.ui.mobile.form.Group();
+      for(var i = 0; i < drawers.length; i++) {
+        var openDrawerButton = new qx.ui.mobile.form.Button("Open "+drawers[i].getOrientation() +" drawer");
+        openDrawerButton.addListener("tap", drawers[i].show, drawers[i]);
+        drawerGroup.add(openDrawerButton);
+      }
+      
+      return drawerGroup;
+    },
+    
+    
     // overridden
     _initialize : function()
     {
       this.base(arguments);
+
+      // DRAWERS
       
-      var drawerBottom = new qx.ui.mobile.container.Drawer(this, new qx.ui.mobile.layout.VBox());
-      drawerBottom.setOrientation("bottom");
-      drawerBottom.setTouchOffset(100);
-      drawerBottom.setPositionZ("back");
+      var drawerBottom = this._createDrawer("bottom");
+      drawerBottom.add(this._createDrawerContent(drawerBottom));
+     
+      var drawerTop = this._createDrawer("top");
+      drawerTop.add(this._createDrawerContent(drawerTop));
       
-      var drawerBottomLabel = new qx.ui.mobile.basic.Label("This the bottom drawer.");
-      drawerBottom.add(new qx.ui.mobile.form.Group([drawerBottomLabel]));
+      var drawerLeft = this._createDrawer("left");
+      drawerLeft.add(this._createDrawerContent(drawerLeft));
       
-      var drawerTop = new qx.ui.mobile.container.Drawer(this, new qx.ui.mobile.layout.VBox());
-      drawerTop.setOrientation("top");
-      drawerTop.setTouchOffset(100);
-      drawerTop.setPositionZ("back");
+      var drawerRight = this._createDrawer("right");
+      drawerRight.add(this._createDrawerContent(drawerRight));
       
-      var drawerTopLabel = new qx.ui.mobile.basic.Label("This the top drawer.");
-      drawerTop.add(new qx.ui.mobile.form.Group([drawerTopLabel]));
+      // Z POSITION TOGGLE BUTTON
       
-      var drawerLeft = new qx.ui.mobile.container.Drawer(this, new qx.ui.mobile.layout.VBox());
-      drawerLeft.setOrientation("left");
-      drawerLeft.setTouchOffset(100);
-      drawerLeft.setPositionZ("back");
-      
-      var drawerLeftLabel = new qx.ui.mobile.basic.Label("This the left drawer.");
-      drawerLeft.add(new qx.ui.mobile.form.Group([drawerLeftLabel]));
-      
-      var drawerRight = new qx.ui.mobile.container.Drawer(this, new qx.ui.mobile.layout.VBox());
-      drawerRight.setOrientation("right");
-      drawerRight.setTouchOffset(100);
-      drawerRight.setPositionZ("back");
-      
-      var drawerRightLabel = new qx.ui.mobile.basic.Label("This the right drawer.");
-      drawerRight.add(new qx.ui.mobile.form.Group([drawerRightLabel]));
-      
-      var openLeftDrawerButton = new qx.ui.mobile.form.Button("Open Left Drawer");
-      openLeftDrawerButton.addListener("tap",function(){drawerLeft.show()},this);
-      
-      var openRightDrawerButton = new qx.ui.mobile.form.Button("Open Right Drawer");
-      openRightDrawerButton.addListener("tap",function(){drawerRight.show()},this);
-      
-      var openTopDrawerButton = new qx.ui.mobile.form.Button("Open Top Drawer");
-      openTopDrawerButton.addListener("tap",function(){drawerTop.show()},this);
-      
-      var openBottomDrawerButton = new qx.ui.mobile.form.Button("Open Bottom Drawer");
-      openBottomDrawerButton.addListener("tap",function(){drawerBottom.show()},this);
-      
-      var drawerMenuGroup = new qx.ui.mobile.form.Group([openLeftDrawerButton,openTopDrawerButton,openRightDrawerButton,openBottomDrawerButton]);
-      
-      var frontBackToggleButton = new qx.ui.mobile.form.ToggleButton(false,"Front","Back",13);
+      var frontBackToggleButton = new qx.ui.mobile.form.ToggleButton(false, "Front","Back", 13);
       
       frontBackToggleButton.addListener("changeValue",function() {
         this._togglePositionZ(drawerLeft);
@@ -95,35 +98,41 @@ qx.Class.define("mobileshowcase.page.Drawer",
         this._togglePositionZ(drawerBottom);
       },this);
       
+      // PAGE CONTENT
+      
       var toggleModeGroup = new qx.ui.mobile.form.Group([frontBackToggleButton]);
       
       this.getContent().add(new qx.ui.mobile.form.Title("Position"));
       this.getContent().add(toggleModeGroup);
       
       this.getContent().add(new qx.ui.mobile.form.Title("State"));
-      this.getContent().add(drawerMenuGroup);
+      this.getContent().add(this._createDrawerMenu([drawerTop,drawerRight,drawerBottom,drawerLeft]));
     },
     
     
+    /**
+     * Toggles the z-Index position of the target drawer.
+     */
     _togglePositionZ : function(target) {
       qx.bom.element.Style.set(target.getContainerElement(),"transition-duration","0s");
+      
       if(target.getPositionZ() == "front") {
         target.setPositionZ("back")
       }
       else {
         target.setPositionZ("front")
-      };
+      }
+      
       qx.event.Timer.once(function() {
-        qx.bom.element.Style.set(this,"transition-duration",null);
+        qx.bom.element.Style.set(this,"transition-duration", null);
       },target.getContainerElement(),0);
-     
     },
 
 
     // overridden
     _back : function()
     {
-     qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
+      qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
     }
   }
 });
