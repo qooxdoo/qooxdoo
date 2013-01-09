@@ -724,8 +724,12 @@ $pagination-label-size:8px;
   @include box-shadow(0px 0px 10px 5px $shadow-color);
 }
 
-.drawer {
-  background-color: $drawer-background-color;
+.drawer.back {
+  background-color: $drawer-back-background-color;
+}
+
+.drawer.front {
+  background-color: $drawer-front-background-color;
 }
 
 .drawer:not(.master-detail-master):not(.hidden) {
