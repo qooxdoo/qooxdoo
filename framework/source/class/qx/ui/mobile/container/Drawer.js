@@ -328,9 +328,9 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
         this.__inAnimation = true;
         
         if (this.getPositionZ() == "back") {
-          qx.bom.element.Style.set(this.__parent.getContentElement(),"transition","all .5s ease-in-out");
+          qx.bom.element.Style.set(this.__parent.getContentElement(),"transition", "all .5s ease-in-out");
         } else {
-          qx.bom.element.Style.set(this.getContentElement(),"transition","all .5s ease-in-out");
+          qx.bom.element.Style.set(this.getContentElement(),"transition", "all .5s ease-in-out");
         }
       }
     },
@@ -342,8 +342,8 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     _disableTransition : function() {
       this.__inAnimation = false;
       
-      qx.bom.element.Style.set(this.getContentElement(),"transition",null);
-      qx.bom.element.Style.set(this.__parent.getContentElement(),"transition",null);
+      qx.bom.element.Style.set(this.getContentElement(),"transition", null);
+      qx.bom.element.Style.set(this.__parent.getContentElement(),"transition", null);
     },
     
     

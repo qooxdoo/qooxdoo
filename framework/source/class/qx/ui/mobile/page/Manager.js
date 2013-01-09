@@ -436,7 +436,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
      */
     _createDetailContainerGap : function() {
       var width = this.__masterContainer.getWidth();
-      qx.bom.element.Style.set(this.__detailContainer.getContainerElement(), "padding-right", width+"px");
+      qx.bom.element.Style.set(this.__detailContainer.getContainerElement(), "paddingRight", width+"px");
       this.__detailContainer.setTranslateX(width);
       
       qx.event.Registration.fireEvent(window, "resize");
@@ -447,7 +447,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
      * Moves detailContainer to the left edge of viewport.
      */
     _removeDetailContainerGap : function() {
-      qx.bom.element.Style.set(this.__detailContainer.getContainerElement(), "padding-right", null);
+      qx.bom.element.Style.set(this.__detailContainer.getContainerElement(), "paddingRight", null);
       this.__detailContainer.setTranslateX(0);
       
       qx.event.Registration.fireEvent(window, "resize");

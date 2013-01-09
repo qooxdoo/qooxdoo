@@ -393,7 +393,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
       this.__targetIndex[targetId] = this.__selectedIndex[targetId];
 
-      qx.bom.element.Style.set(target,"transition-duration","0s");
+      qx.bom.element.Style.set(target,"transitionDuration","0s");
 
       this.__slotTouchStartPoints[targetId] = {x:touchX,y:touchY};
 
@@ -502,7 +502,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
      * @param targetElement {Element} the slot target element.
      */
      _updateSlot : function(targetElement) {
-       qx.bom.element.Style.set(targetElement,"transition-duration",".2s");
+       qx.bom.element.Style.set(targetElement,"transitionDuration",".2s");
 
        var selectedIndex = this.__selectedIndex[targetElement.id];
 
