@@ -746,8 +746,6 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
 .picker-slot {
   position: relative;
   top: 0px;
-  margin-top: -12.5px;
-  margin-bottom: 12.5px;
   -webkit-border-radius: 0.3em;
   -moz-border-radius: 0.3em;
   border-radius: 0.3em;
@@ -779,7 +777,10 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   font-size: 1.2em;
   padding-left: 5px;
   padding-right: 5px;
-  height: 25px; }
+  height: 25px;
+  line-height: 25px;
+  position: relative;
+  top: -14px; }
 
 .picker-container {
   overflow: hidden;
