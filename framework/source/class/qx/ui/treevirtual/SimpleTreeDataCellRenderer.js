@@ -353,6 +353,66 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
 
     /**
+     * Return the width of indentation image.
+     *
+     * @param imageData {Map} Map of image properties.
+     *   See {@link #_getIndentSymbol}.
+     *
+     * @param cellInfo {Map} The information about the cell.
+     *   See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     *
+     * @return {Integer}
+     *   The width of indentation image.
+     */
+    _getIndentImageWidth : function(imageData, cellInfo)
+    {
+      return typeof imageData.width === "number" 
+              ? imageData.width
+              : cellInfo.table.getRowHeight();
+    },
+
+
+    /**
+     * Return the height of indentation image.
+     *
+     * @param imageData {Map} Map of image properties.
+     *   See {@link #_getIndentSymbol}.
+     *
+     * @param cellInfo {Map} The information about the cell.
+     *   See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     *
+     * @return {Integer}
+     *   The height of indentation image.
+     */
+    _getIndentImageHeight : function(imageData, cellInfo)
+    {
+      return typeof imageData.height === "number" 
+              ? imageData.height
+              : cellInfo.table.getRowHeight();
+    },
+
+
+    /**
+     * Return the padding for indentation image.
+     *
+     * @param imageData {Map} Map of image properties.
+     *   See {@link #_getIndentSymbol}.
+     *
+     * @param cellInfo {Map} The information about the cell.
+     *   See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     *
+     * @return {Integer}
+     *   The padding for indentation image.
+     */
+    _getIndentImagePaddingRight : function(imageData, cellInfo)
+    {
+      return typeof imageData.paddingRight === "number" 
+              ? imageData.paddingRight 
+              : 3;
+    },
+
+
+    /**
      * Add the indentation for this node of the tree.
      *
      * The indentation optionally includes tree lines.  Whether tree lines are
@@ -390,7 +450,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
                                           bAlwaysShowOpenCloseSymbol,
                                           bExcludeFirstLevelTreeLines);
 
-        var rowHeight = cellInfo.table.getRowHeight();
+        var imageWidth = this._getIndentImageWidth(imageData, cellInfo);
+        var imageHeight = this._getIndentImageHeight(imageData, cellInfo);
+        var rightPadding = this._getIndentImagePaddingRight(imageData, cellInfo);
 
         html += this._addImage(
         {
@@ -399,13 +461,13 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           {
             top         : 0 + (imageData.paddingTop || 0),
             left        : pos + (imageData.paddingLeft || 0),
-            width       : rowHeight + 3,
-            height      : rowHeight
+            width       : imageWidth + rightPadding,
+            height      : imageHeight
           },
-          imageWidth  : rowHeight,
-          imageHeight : rowHeight
+          imageWidth  : imageWidth,
+          imageHeight : imageHeight
         });
-        pos += rowHeight + 3;
+        pos += imageWidth + rightPadding;
       }
 
       return (
@@ -413,6 +475,57 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           html : html,
           pos  : pos
         });
+    },
+
+
+    /**
+     * Return the width of icon image.
+     *
+     * @param iconUrl {String} Icon image URL.
+     *
+     * @param cellInfo {Map} The information about the cell.
+     *   See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     *
+     * @return {Integer}
+     *   The width of indentation image.
+     */
+    _getIconWidth : function(iconUrl, cellInfo)
+    {
+      return cellInfo.table.getRowHeight();
+    },
+
+
+    /**
+     * Return the height of icon image.
+     *
+     * @param iconUrl {String} Icon image URL.
+     *
+     * @param cellInfo {Map} The information about the cell.
+     *   See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     *
+     * @return {Integer}
+     *   The height of indentation image.
+     */
+    _getIconHeight : function(iconUrl, cellInfo)
+    {
+      return cellInfo.table.getRowHeight();
+    },
+
+
+    /**
+     * Return the padding for icon image.
+     *
+     * @param iconUrl {String} Icon image URL.
+     *
+     * @param cellInfo {Map} The information about the cell.
+     *   See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     *
+     * @return {Integer}
+     *   The padding for indentation image.
+     */
+    _getIconPaddingRight : function(iconUrl, cellInfo)
+    {
+      return 3;
     },
 
     /**
@@ -452,7 +565,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         imageUrl = o.icon;
       }
 
-      var rowHeight = cellInfo.table.getRowHeight();
+      var imageWidth = this._getIconWidth(imageUrl, cellInfo);
+      var imageHeight = this._getIconHeight(imageUrl, cellInfo);
+      var rightPadding = this._getIconPaddingRight(imageUrl, cellInfo);
 
       var html = this._addImage(
       {
@@ -461,17 +576,17 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         {
           top         : 0,
           left        : pos,
-          width       : rowHeight + 3,
-          height      : rowHeight
+          width       : imageWidth + rightPadding,
+          height      : imageHeight
         },
-        imageWidth  : rowHeight,
-        imageHeight : rowHeight
+        imageWidth  : imageWidth,
+        imageHeight : imageHeight
       });
 
       return (
         {
           html : html,
-          pos  : pos + rowHeight + 3
+          pos  : pos + imageWidth + rightPadding
         });
     },
 
