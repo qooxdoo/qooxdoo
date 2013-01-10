@@ -2,12 +2,11 @@
   position:absolute;
 }
 
-.drawer.front {
-  z-index:100;
+.drawer.above {
+  z-index:1;
 }
 
-
-.drawer.back {
+.drawer.below {
   z-index:-1;
 }
 
@@ -35,19 +34,19 @@
   bottom:0;
 }
 
-.drawer.left.front.hidden {
+.drawer.left.above.hidden {
   @include transform(translateX(-100%));
 }
 
-.drawer.right.front.hidden {
+.drawer.right.above.hidden {
   @include transform(translateX(100%));
 }
 
-.drawer.top.front.hidden {
+.drawer.top.above.hidden {
   @include transform(translateY(-100%));
 }
 
-.drawer.bottom.front.hidden {
+.drawer.bottom.above.hidden {
   @include transform(translateY(100%));
 }
 

@@ -494,10 +494,10 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
 .drawer {
   position: absolute; }
 
-.drawer.front {
-  z-index: 100; }
+.drawer.above {
+  z-index: 1; }
 
-.drawer.back {
+.drawer.below {
   z-index: -1; }
 
 .drawer.left {
@@ -520,22 +520,22 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   left: 0;
   bottom: 0; }
 
-.drawer.left.front.hidden {
+.drawer.left.above.hidden {
   -webkit-transform: translateX(-100%);
   -moz-transform: translateX(-100%);
   transform: translateX(-100%); }
 
-.drawer.right.front.hidden {
+.drawer.right.above.hidden {
   -webkit-transform: translateX(100%);
   -moz-transform: translateX(100%);
   transform: translateX(100%); }
 
-.drawer.top.front.hidden {
+.drawer.top.above.hidden {
   -webkit-transform: translateY(-100%);
   -moz-transform: translateY(-100%);
   transform: translateY(-100%); }
 
-.drawer.bottom.front.hidden {
+.drawer.bottom.above.hidden {
   -webkit-transform: translateY(100%);
   -moz-transform: translateY(100%);
   transform: translateY(100%); }
@@ -1722,7 +1722,7 @@ div.checked .toggleButtonSwitch:before {
 .drawer.bottom:not(.master-detail-master) {
   border-top: 1px solid #2d3f57; }
 
-.drawer.back.left:before, .drawer.back.right:before, .drawer.back.top:before, .drawer.back.bottom:before {
+.drawer.below.left:before, .drawer.below.right:before, .drawer.below.top:before, .drawer.below.bottom:before {
   content: '';
   width: 100%;
   height: 100%;
@@ -1735,9 +1735,9 @@ div.checked .toggleButtonSwitch:before {
   -webkit-box-shadow: inset 0px 0px 10px 5px rgba(0, 0, 0, 0.4);
   box-shadow: inset 0px 0px 10px 5px rgba(0, 0, 0, 0.4); }
 
-.drawer.back {
+.drawer.below {
   background-color: #808080; }
 
-.drawer.front {
+.drawer.above {
   background: #c5ccd3 url(../icon/ios/pinstripes.png);
   color: #666; }

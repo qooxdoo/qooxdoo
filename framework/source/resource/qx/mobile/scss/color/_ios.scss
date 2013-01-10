@@ -761,7 +761,7 @@ $picker-overlay-color: #6D84A2;
   border-top:1px solid $ios-button-bordercolor;
 }
 
-.drawer.back.left:before, .drawer.back.right:before, .drawer.back.top:before, .drawer.back.bottom:before {
+.drawer.below.left:before, .drawer.below.right:before, .drawer.below.top:before, .drawer.below.bottom:before {
   content:'';
   width:100%;
   height:100%;
@@ -775,11 +775,11 @@ $picker-overlay-color: #6D84A2;
   @include box-inset-shadow(0px 0px 10px 5px rgba(0,0,0,0.4));
 }
 
-.drawer.back {
+.drawer.below {
   background-color : #808080;
 }
 
-.drawer.front {
+.drawer.above {
   background: rgb(197,204,211) url(../icon/ios/pinstripes.png);
   color : #666;
 }

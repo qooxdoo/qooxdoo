@@ -151,10 +151,10 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     },
     
     
-    /** Sets the drawer zIndex position relative to its parent. */
+    /** Sets the drawer zIndex position relative to its parent. Allowed values are "above" or "below". */
     positionZ : {
-      check : "String",
-      init : "front",
+      check : [ "above", "below"],
+      init : "above",
       apply : "_applyPositionZ"
     }
   },
@@ -193,8 +193,8 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       this.removeCssClass(old);
       this.addCssClass(value);
       
-      if(value == "front") {
-        // Reset transitions for "back" mode.
+      if(value == "above") {
+        // Reset transitions for "below" mode.
         if(this.__parent) {
           this.__parent.setTranslateX(null);
           this.__parent.setTranslateY(null);
@@ -230,7 +230,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
       this._toggleParentBlockedState();
       
-      if (this.getPositionZ() == "back") {
+      if (this.getPositionZ() == "below") {
         if(this.__parent) {
           this.__parent.setTranslateX(0);
           this.__parent.setTranslateY(0);
@@ -283,7 +283,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       
       this._enableTransition();
       
-      if (this.getPositionZ() == "back") {
+      if (this.getPositionZ() == "below") {
         this.__parent.setTranslateX(0);
         this.__parent.setTranslateY(0);
       }
@@ -303,7 +303,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     forceHide : function() {
       this._disableTransition(); 
       
-      if (this.getPositionZ() == "back") {
+      if (this.getPositionZ() == "below") {
         this.__parent.setTranslateX(0);
         this.__parent.setTranslateY(0);
       }
@@ -327,7 +327,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       if(this.isShowTransition()) {
         this.__inAnimation = true;
         
-        if (this.getPositionZ() == "back") {
+        if (this.getPositionZ() == "below") {
           qx.bom.element.Style.set(this.__parent.getContentElement(),"transition", "all .5s ease-in-out");
         } else {
           qx.bom.element.Style.set(this.getContentElement(),"transition", "all .5s ease-in-out");

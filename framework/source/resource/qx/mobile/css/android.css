@@ -913,10 +913,10 @@ input[type=radio]:checked + label:after {
 .drawer {
   position: absolute; }
 
-.drawer.front {
-  z-index: 100; }
+.drawer.above {
+  z-index: 1; }
 
-.drawer.back {
+.drawer.below {
   z-index: -1; }
 
 .drawer.left {
@@ -939,22 +939,22 @@ input[type=radio]:checked + label:after {
   left: 0;
   bottom: 0; }
 
-.drawer.left.front.hidden {
+.drawer.left.above.hidden {
   -webkit-transform: translateX(-100%);
   -moz-transform: translateX(-100%);
   transform: translateX(-100%); }
 
-.drawer.right.front.hidden {
+.drawer.right.above.hidden {
   -webkit-transform: translateX(100%);
   -moz-transform: translateX(100%);
   transform: translateX(100%); }
 
-.drawer.top.front.hidden {
+.drawer.top.above.hidden {
   -webkit-transform: translateY(-100%);
   -moz-transform: translateY(-100%);
   transform: translateY(-100%); }
 
-.drawer.bottom.front.hidden {
+.drawer.bottom.above.hidden {
   -webkit-transform: translateY(100%);
   -moz-transform: translateY(100%);
   transform: translateY(100%); }
@@ -1555,7 +1555,7 @@ input[type=radio] + label:after {
 .drawer.bottom:not(.master-detail-master) {
   border-top: 1px solid #e89c00; }
 
-.drawer.back.left:before, .drawer.back.right:before, .drawer.back.top:before, .drawer.back.bottom:before {
+.drawer.below.left:before, .drawer.below.right:before, .drawer.below.top:before, .drawer.below.bottom:before {
   content: '';
   width: 100%;
   height: 100%;
