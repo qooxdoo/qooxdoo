@@ -923,8 +923,8 @@ def toJS(self, opts):
     r.append(self.children[0].toJS(opts))
     r.append('?')
     r.append(self.children[1].toJS(opts))
-    r.append(':')
-    r.append(self.children[2].toJS(opts))
+    r.append(self.children[2].toJS(opts))  # :
+    r.append(self.children[3].toJS(opts))
     return ''.join(r)
 
 @method(symbol("?"))
@@ -964,7 +964,6 @@ def ifix(self, left):
 
 symbol("dotaccessor")
 
-# ! adapted to CST
 @method(symbol("dotaccessor"))
 def toJS(self, opts):
     r = []
@@ -1069,12 +1068,8 @@ def pfix(self):
 @method(symbol("group"))
 def toJS(self, opts):
     r = []
-    r.append('(')
-    a = []
     for c in self.children:
-        a.append(c.toJS(opts))
-    r.append(','.join(a))
-    r.append(')')
+        r.append(c.toJS(opts))
     return ''.join(r)
 
 @method(symbol("group"))
@@ -1125,12 +1120,10 @@ symbol("accessor")
 
 @method(symbol("accessor"))
 def toJS(self, opts):
-    r = u''
-    r += self.children[0].toJS(opts)
-    r += '['
-    r += self.children[1].toJS(opts)
-    r += ']'
-    return r
+    r = []
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 @method(symbol("accessor"))
 def toListG(self):
@@ -1145,7 +1138,7 @@ def toJS(self, opts):
     r = []
     for c in self.children:
         r.append(c.toJS(opts))
-    return '[' + u','.join(r) + ']'
+    return u''.join(r)
 
 @method(symbol("array"))
 def toListG(self):
@@ -1217,14 +1210,10 @@ symbol("map")
 
 @method(symbol("map"))
 def toJS(self, opts):
-    r = u''
-    r += self.write("{")
-    a = []
+    r = []
     for c in self.children:
-        a.append(c.toJS(opts))
-    r += ','.join(a)
-    r += self.write("}")
-    return r
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 #@method(symbol("map"))
 #def toListG(self):
@@ -1244,20 +1233,10 @@ symbol("keyvalue")
 
 @method(symbol("keyvalue"))
 def toJS(self, opts):
-    key = self.get("key")
-    key_quote = self.get("quote", '')
-    if key_quote:
-        quote = '"' if key_quote == 'doublequotes' else "'"
-    elif ( key in lang.RESERVED 
-           or not identifier_regex.match(key)
-           # TODO: or not lang.NUMBER_REGEXP.match(key)
-         ):
-        print "Warning: Auto protect key: %r" % key
-        quote = '"'
-    else:
-        quote = ''
-    value = self.getChild("value").toJS(opts)
-    return quote + key + quote + ':' + value
+    r = []
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 #@method(symbol("keyvalue"))
 #def toListG(self):
@@ -1278,10 +1257,9 @@ symbol("block")
 @method(symbol("block"))
 def toJS(self, opts):
     r = []
-    r.append('{')
-    r.append(self.children[0].toJS(opts))
-    r.append('}')
-    return u''.join(r)
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 #@method(symbol("block"))
 #def toListG(self):
@@ -1336,13 +1314,9 @@ def toListG(self):
 
 def toJS(self, opts):
     r = []
-    r.append('(')
-    a = []
     for c in self.children:
-        a.append(c.toJS(opts))
-    r.append(u','.join(a))
-    r.append(')')
-    return u''.join(r)
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 symbol("params").toJS = toJS
 symbol("arguments").toJS = toJS  # same here
@@ -1357,11 +1331,9 @@ symbol("arguments").toJS = toJS  # same here
 @method(symbol("body"))
 def toJS(self, opts):
     r = []
-    r.append(self.children[0].toJS(opts))
-    # 'if', 'while', etc. can have single-statement bodies
-    if self.children[0].id != 'block':
-        r.append(';')
-    return u''.join(r)
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 #@method(symbol("body"))
 #def toListG(self):
@@ -1406,7 +1378,7 @@ def toJS(self, opts):
     a = []
     for c in self.children:
         a.append(c.toJS(opts))
-    r.append(','.join(a))
+    r.append(''.join(a))
     return ''.join(r)
 
 @method(symbol("var"))
@@ -1532,22 +1504,21 @@ def toJS(self, opts):
     r = []
     r.append('for')
     r.append(self.space(False,result=r))
-    # cond
-    r.append('(')
-    # for (in)
-    if self.get("forVariant") == "in":
-        r.append(self.children[0].toJS(opts))
-    # for (;;)
-    else:
-        r.append(self.children[0].getChild("first").toJS(opts))
-        r.append(';')
-        r.append(self.children[0].getChild("second").toJS(opts))
-        r.append(';')
-        r.append(self.children[0].getChild("third").toJS(opts))
-    r.append(')')
-    # body
-    r.append(self.getChild("body").toJS(opts))
+    for c in self.children:
+        r.append(c.toJS(opts))
     return u''.join(r)
+
+@method(symbol("forInControl"))
+def toJS(self, opts):
+    return self.children[0].toJS()
+
+@method(symbol("forIterControl"))
+def toJS(self, opts):
+    r = []
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
+    
 
 @method(symbol("for"))
 def toListG(self):
@@ -1601,16 +1572,12 @@ def std(self):
 
 @method(symbol("while"))
 def toJS(self, opts):
-    r = u''
-    r += self.write("while")
-    r += self.space(False,result=r)
-    # cond
-    r += '('
-    r += self.children[0].toJS(opts)
-    r += ')'
-    # body
-    r += self.children[1].toJS(opts)
-    return r
+    r = []
+    r.append(self.write("while"))
+    r.append(self.space(False,result=r))
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 @method(symbol("while"))
 def toListG(self):
@@ -1640,11 +1607,8 @@ def toJS(self, opts):
     r = []
     r.append("do")
     r.append(self.space())
-    r.append(self.children[0].toJS(opts))
-    r.append('while')
-    r.append('(')
-    r.append(self.children[1].toJS(opts))
-    r.append(')')
+    for c in self.children:
+        r.append(c.toJS(opts))
     return ''.join(r)
 
 @method(symbol("do"))
@@ -2280,12 +2244,15 @@ class TreeGenerator(object):
     # To pass a tokenArr rather than a text string is due to the current usage
     # in the generator, which does the tokenization on its own, and then calls
     # 'createFileTree'.
-    def parse(self, tokenArr):
+    def parse(self, tokenArr, expr=False):
         global token, next, tokenStream
         tokenStream = TokenStream(tokenArr) # TODO: adapt TokenStream to token array arg
         next   = iter(tokenStream).next
         token  = next()
-        return statements()
+        if expr:
+            return expression()
+        else:
+            return statements()
 
 
 # - Interface -----------------------------------------------------------------
@@ -2302,9 +2269,9 @@ def createFileTree_from_string(string_, fileId=''):
     return createFileTree(ts, fileId)
 
 # quick high-level frontend
-def parse(string_):
+def parse(string_, expr=False):
     ts = tokenizer.Tokenizer().parseStream(string_)
-    return TreeGenerator().parse(ts)
+    return TreeGenerator().parse(ts,expr)
 
 # - Main ----------------------------------------------------------------------
 
