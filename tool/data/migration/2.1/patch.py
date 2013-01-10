@@ -20,8 +20,9 @@
 ################################################################################
 
 from ecmascript.frontend    import treeutil
-from ecmascript.backend     import formatter as formatter
-from ecmascript.frontend.treegenerator  import symbol
+from ecmascript.backend     import formatter_3 as formatter
+from ecmascript.frontend.treegenerator_3  import symbol
+from ecmascript.frontend    import treegenerator_3
 
 defaultOptions = formatter.defaultOptions()
 
@@ -43,7 +44,6 @@ def stringTrim(fileId, parseTree):
             continue
         else:
             call_node = var_root.parent.parent
-        #import pydb; pydb.debugger()
         call_arg = getCallArg(call_node)
         new_node = makeTrimReplace(call_arg)
         replaceNode(call_node, new_node)
@@ -52,28 +52,20 @@ def stringTrim(fileId, parseTree):
 
 def getCallArg(call_node):
     assert call_node.type == "call"
-    return call_node.getChild("arguments").children[0]
+    return call_node.getChild("arguments").children[1]
 
 ##
 # foo -> (foo).trim()
 def makeTrimReplace(trim_arg):
     lin, col = trim_arg.get("line",-1), trim_arg.get("column", -1)
-    # guard orig. argument with "()"
-    group_node = symbol("group")(lin,col)
-    group_node.childappend(trim_arg)
-    # construct new call tree
-    dot_node = symbol("dotaccessor")(lin,col)
-    oper_node = symbol("operand")(lin,col)
-    call_node = symbol("call")(lin,col)
-    args_node = symbol("arguments")(lin,col)
-    id_node = symbol("identifier")(lin,col)
-    id_node.set("value", "trim")
-    call_node.childappend(oper_node)
-    call_node.childappend(args_node)
-    oper_node.childappend(dot_node)
-    dot_node.childappend(group_node)
-    dot_node.childappend(id_node)
-    return call_node
+    str_replacement_tmpl = "().trim()"
+    new_tree = treegenerator_3.parse(str_replacement_tmpl)
+    new_tree = treeutil.findChild(new_tree, "call")  # get rid of "statements/statement"
+    # inject trim_arg into the empty group
+    group_node = treeutil.findChild(new_tree, "group")
+    assert group_node
+    group_node.addChild(trim_arg, 1)
+    return new_tree
 
 def replaceNode(old_node, new_node):
     old_node.parent.replaceChild(old_node, new_node)
