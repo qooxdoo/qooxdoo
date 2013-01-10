@@ -28,7 +28,7 @@
 ************************************************************************ */
 
 /**
- * Mobile page showing a OpenStreetMap map.
+ * Mobile page showing an OpenStreetMap map.
  *
  * @ignore(OpenLayers)
  */
