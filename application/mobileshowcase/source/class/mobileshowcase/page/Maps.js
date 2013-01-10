@@ -77,7 +77,7 @@ qx.Class.define("mobileshowcase.page.Maps",
 
 
     /**
-     * Used the Mapnik Layer for redrawing. Needed after orientationChange event
+     * Calls a redraw on Mapnik Layer. Needed after orientationChange event
      * and drawing markers.
      */
     _redrawMap : function () {
@@ -85,59 +85,6 @@ qx.Class.define("mobileshowcase.page.Maps",
         this._map.updateSize();
         this._mapnikLayer.redraw();
       }
-    },
-
-
-    /**
-     * Prepares GeoLocation, and installs needed listeners.
-     */
-    _initGeoLocation : function() {
-      var geo = qx.bom.GeoLocation.getInstance();
-      geo.addListener("position", this._onGeolocationSuccess,this)
-      geo.addListener("error", this._onGeolocationError,this);
-    },
-
-
-    /**
-     * Callback function when Geolocation did work.
-     */
-    _onGeolocationSuccess : function(position) {
-      var latitude = position.getLatitude();
-      var longitude = position.getLongitude();
-
-      var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
-      var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
-      var mapPosition = new OpenLayers.LonLat(longitude,latitude).transform( fromProjection, toProjection);
-      var zoom = 15;
-
-      this._map.setCenter(mapPosition, zoom);
-      this._setMarkerOnMap(this._map,mapPosition);
-
-      this._redrawMap();
-    },
-
-
-    /**
-     * Callback function when Geolocation returned an error.
-     */
-    _onGeolocationError : function() {
-      this._showMyPositionButton.setEnabled(false);
-
-      var buttons = [];
-      buttons.push(qx.locale.Manager.tr("OK"));
-      var title = "Problem with Geolocation";
-      var text = "Please activate location services on your browser and device."
-      qx.ui.mobile.dialog.Manager.getInstance().confirm(title, text, function() {
-      }, this, buttons);
-    },
-
-
-    /**
-     * Retreives GeoPosition out of qx.bom.Geolocation and zooms to this point on map.
-     */
-    _getGeoPosition : function() {
-      var geo = qx.bom.GeoLocation.getInstance();
-      geo.getCurrentPosition(false, 1000, 1000);
     },
 
 
@@ -151,8 +98,8 @@ qx.Class.define("mobileshowcase.page.Maps",
       });
 
       var mapContainer = new qx.ui.mobile.container.Composite(layout);
-
       mapContainer.setId("osmMap");
+      
       return mapContainer;
     },
 
@@ -173,7 +120,7 @@ qx.Class.define("mobileshowcase.page.Maps",
       this._showMyPositionButton = new qx.ui.mobile.form.Button("Find me!");
       this._showMyPositionButton.addListener("tap", this._getGeoPosition, this);
 
-      // Button is disabled, when Geolocation is not possible.
+      // Button is disabled when Geolocation is not available.
       this._showMyPositionButton.setEnabled(this._geolocationEnabled);
 
       toggleNavigationButton.addListener("changeValue", function() {
@@ -222,7 +169,7 @@ qx.Class.define("mobileshowcase.page.Maps",
      * In this case: Berlin, Germany.
      */
     _zoomMapToDefaultPosition : function() {
-      var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+      var fromProjection = new OpenLayers.Projection("EPSG:4326"); // Transform from WGS 1984
       var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
       var mapPosition = new OpenLayers.LonLat(13.41,52.52).transform( fromProjection, toProjection);
       var zoom = 15;
@@ -232,7 +179,7 @@ qx.Class.define("mobileshowcase.page.Maps",
 
 
     /**
-     * Draws a Marker on the map.
+     * Draws a marker on the OSM map.
      */
     _setMarkerOnMap : function(map,mapPosition) {
       if(this._markers==null) {
@@ -251,6 +198,59 @@ qx.Class.define("mobileshowcase.page.Maps",
       var icon = new OpenLayers.Icon('http://www.openlayers.org/dev/img/marker.png', size, offset);
 
       this._markers.addMarker(this._myPositionMarker);
+    },
+    
+    
+    /**
+     * Prepares qooxdoo GeoLocation and installs needed listeners.
+     */
+    _initGeoLocation : function() {
+      var geo = qx.bom.GeoLocation.getInstance();
+      geo.addListener("position", this._onGeolocationSuccess,this)
+      geo.addListener("error", this._onGeolocationError,this);
+    },
+
+
+    /**
+     * Callback function when Geolocation did work.
+     */
+    _onGeolocationSuccess : function(position) {
+      var latitude = position.getLatitude();
+      var longitude = position.getLongitude();
+
+      var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
+      var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
+      var mapPosition = new OpenLayers.LonLat(longitude,latitude).transform( fromProjection, toProjection);
+      var zoom = 15;
+
+      this._map.setCenter(mapPosition, zoom);
+      this._setMarkerOnMap(this._map,mapPosition);
+
+      this._redrawMap();
+    },
+
+
+    /**
+     * Callback function when Geolocation returned an error.
+     */
+    _onGeolocationError : function() {
+      this._showMyPositionButton.setEnabled(false);
+
+      var buttons = [];
+      buttons.push(qx.locale.Manager.tr("OK"));
+      var title = "Problem with Geolocation";
+      var text = "Please activate location services on your browser and device."
+      qx.ui.mobile.dialog.Manager.getInstance().confirm(title, text, function() {
+      }, this, buttons);
+    },
+
+
+    /**
+     * Retreives GeoPosition out of qx.bom.Geolocation and zooms to this point on map.
+     */
+    _getGeoPosition : function() {
+      var geo = qx.bom.GeoLocation.getInstance();
+      geo.getCurrentPosition(false, 1000, 1000);
     },
 
 
