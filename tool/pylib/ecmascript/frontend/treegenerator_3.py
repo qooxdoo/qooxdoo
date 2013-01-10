@@ -42,6 +42,10 @@
 # For reference with the original algorithm:
 #   led => ifix
 #   nud => pfix
+#
+# CAVEATS
+# - The toJS() methods are copies from treegenerator, and need adaption to the 
+#   CST to be useful.
 ##
 
 import sys, os, re, types, string, itertools as itert
@@ -960,12 +964,13 @@ def ifix(self, left):
 
 symbol("dotaccessor")
 
+# ! adapted to CST
 @method(symbol("dotaccessor"))
 def toJS(self, opts):
-    r = self.children[0].toJS(opts)
-    r += '.'
-    r += self.children[1].toJS(opts)
-    return r
+    r = []
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return u''.join(r)
 
 @method(symbol("dotaccessor"))
 def toListG(self):
