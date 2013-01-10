@@ -95,17 +95,17 @@ qx.Class.define("mobileshowcase.page.DataBinding",
       this.__decreaseButton.addListener("touchstart", this.__onDecrease, this);
       this.__decreaseButton.addListener("touchend", this.__onTouchEnd, this);
 
-      this.__stopTimeButton = new qx.ui.mobile.form.Button("Stop Current Time");
+      this.__stopTimeButton = new qx.ui.mobile.form.Button("Take Time Snapshot");
       this.__stopTimeButton.addListener("tap", this.__onStopTimeButtonTap, this);
 
       // Slider Data Binding
-      this.getContent().add(new qx.ui.mobile.form.Title("Slider Data Binding"));
+      this.getContent().add(new qx.ui.mobile.form.Title("Slider"));
       this.getContent().add(new qx.ui.mobile.form.renderer.Single(this.__form));
       this.getContent().add(this.__increaseButton);
       this.getContent().add(this.__decreaseButton);
 
       // List Data Binding
-      this.getContent().add(new qx.ui.mobile.form.Title("List Data Binding"));
+      this.getContent().add(new qx.ui.mobile.form.Title("Dynamic List"));
       this.getContent().add(this.__stopTimeButton);
       this.getContent().add(new qx.ui.mobile.form.Title(" "));
       this.getContent().add(this.__list);
