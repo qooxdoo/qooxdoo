@@ -26,8 +26,8 @@ from misc.ExtendAction import ExtendAction
 from misc import filetool, textutil, json
 from misc.ExtMap import ExtMap
 from ecmascript.frontend import tokenizer
-from ecmascript.frontend import treegenerator
-from ecmascript.backend  import pretty
+from ecmascript.frontend import treegenerator_3 as treegenerator
+from ecmascript.backend  import formatter_3 as formatter_
 
 #sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), os.pardir, os.pardir, 'framework', 'tool'))
 
@@ -572,7 +572,8 @@ def migrateFile(
         if patch.patch(fileId, tree):
             options.prettyPrint = True  # make sure it's set
             result = [u'']
-            result = pretty.prettyNode(tree, options, result)
+            #result = pretty.prettyNode(tree, options, result)
+            result = formatter_.formatNode(tree, options, result)
             patchedContent = u''.join(result)
 
     # apply RE patches
@@ -845,7 +846,8 @@ def main():
     parser.add_option_group(pp_options)
 
     (options, args) = parser.parse_args()
-    pretty.defaultOptions(options)
+    #pretty.defaultOptions(options)
+    formatter_.defaultOptions(options)
 
     from_version = ""
     while from_version == "":

@@ -165,6 +165,8 @@ def makeTrimReplace(trim_arg):
 
 def replaceNode(old_node, new_node):
     old_node.parent.replaceChild(old_node, new_node)
+    # carry over comments, at least from the head symbol
+    new_node.toListG().next().comments = old_node.toListG().next().comments
     # remove "qx" from scope
     qx_node = None
     for node in treeutil.findNode(old_node, ["identifier"], [("value","qx")]):
