@@ -446,7 +446,7 @@ qx.Class.define("qx.ui.table.model.Remote",
 
         for (var block=firstBlock; block<=lastBlock; block++)
         {
-          if (this._clearCache || this._rowBlockCache[block] == null || this._rowBlockCache[block].isDirty)
+          if ((this._clearCache && !this._loadRowCountRequestRunning)|| this._rowBlockCache[block] == null || this._rowBlockCache[block].isDirty)
           {
             // We don't have this block
             if (firstBlockToLoad == -1) {
