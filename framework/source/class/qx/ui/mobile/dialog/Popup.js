@@ -419,7 +419,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       if(this.getTitle() || this.getIcon())
       {
         this.__titleWidget = new qx.ui.mobile.basic.Atom(this.getTitle(), this.getIcon());
-        this.__titleWidget.addCssClass('dialogTitleUnderline');
+        this.__titleWidget.addCssClass('popup-title');
         return this.__titleWidget;
       }
       else
@@ -440,7 +440,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         else
         {
           this.__titleWidget = new qx.ui.mobile.basic.Atom(value, this.getIcon());
-          this.__titleWidget.addCssClass('dialogTitleUnderline');
+          this.__titleWidget.addCssClass('popup-title');
 
           if(this.__widget) {
             this.__childrenContainer.addBefore(this._createTitleWidget(), this.__widget);
@@ -465,7 +465,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         else
         {
           this.__titleWidget = new qx.ui.mobile.basic.Atom(this.getTitle(), value);
-          this.__titleWidget.addCssClass('dialogTitleUnderline');
+          this.__titleWidget.addCssClass('popup-title');
 
           if(this.__widget) {
             this.__childrenContainer.addBefore(this._createTitleWidget(), this.__widget);
@@ -540,15 +540,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     _getBlocker : function()
     {
-      if(!this.__blocker) {
-        this.__blocker = qx.ui.mobile.core.Blocker.getInstance();
-        this.__blocker.hide();
-        
-        var blockerZIndex = qx.bom.element.Style.get(this.__blocker.getContainerElement(), 'zIndex');
-        blockerZIndex = parseInt(blockerZIndex) +1;
-        qx.bom.element.Style.set(this.getContainerElement(), 'zIndex', blockerZIndex);
-      }
-      return this.__blocker;
+      return qx.ui.mobile.core.Blocker.getInstance();
     }
   },
 

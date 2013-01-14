@@ -7,9 +7,16 @@
   position: absolute;
   width: auto;
   padding: 6px;
-  z-index: 99;
+  max-width: 90%;
+  z-index: 101;
   clear: both;
 }
+
+.popup-title {
+  font-weight: 800;
+  font-size: 16px;
+  margin: 0 0 3px 0;
+} 
 
 $arrow-size: 12px;
 $arrow-space: 2;

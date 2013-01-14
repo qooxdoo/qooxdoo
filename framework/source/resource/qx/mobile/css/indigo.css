@@ -420,28 +420,6 @@ input[type="checkbox"] {
   top: 4px;
   left: 4px; }
 
-.dialog, .menu, .picker {
-  -webkit-border-radius: 0.5em;
-  -moz-border-radius: 0.5em;
-  border-radius: 0.5em;
-  z-index: 101;
-  min-width: 200px;
-  max-width: 90%;
-  position: fixed;
-  width: auto;
-  padding: 6px; }
-
-.dialogButton {
-  width: 0;
-  margin-top: 6px;
-  margin-left: 1px;
-  margin-right: 1px; }
-
-.dialogTitleUnderline {
-  font-weight: 800;
-  font-size: 16px;
-  margin: 0 0 3px 0; }
-
 .drawer {
   position: absolute; }
 
@@ -614,6 +592,9 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
 .root.portrait .drawer:not(.hidden) + .master-detail-detail {
   pointer-events: none; }
 
+.menu {
+  min-width: 200px; }
+
 .navigationbar {
   height: 45px;
   padding-left: 10px;
@@ -679,15 +660,21 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   -moz-transform: translateY(-45px);
   transform: translateY(-45px); }
 
-.popup {
+.popup, .menu, .picker {
   -webkit-border-radius: 0.5em;
   -moz-border-radius: 0.5em;
   border-radius: 0.5em;
   position: absolute;
   width: auto;
   padding: 6px;
-  z-index: 99;
+  max-width: 90%;
+  z-index: 101;
   clear: both; }
+
+.popup-title {
+  font-weight: 800;
+  font-size: 16px;
+  margin: 0 0 3px 0; }
 
 .popupAnchorPointerTop:before {
   top: -15px;
@@ -1334,7 +1321,7 @@ ul li.active {
   /* Standard (in flux) */
   border: 1px solid #777777; }
 
-.dialog, .menu, .picker, .popup {
+.dialog, .popup, .menu, .picker {
   background-color: #323335;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#57595c), color-stop(50%, #262628), to(#262628));
   background-image: -webkit-linear-gradient(top, #57595c, #262628 20px, #262628);

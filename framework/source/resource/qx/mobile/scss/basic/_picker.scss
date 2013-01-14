@@ -3,7 +3,7 @@
 // 
 
 .picker {
-  @extend .dialog;
+  @extend .popup;
 
   -ms-touch-action: none;
 }
