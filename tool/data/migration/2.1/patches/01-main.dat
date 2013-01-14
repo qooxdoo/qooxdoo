@@ -1,16 +1,3 @@
-##
-# Lines commented out with '##' are covered by patch.py
-#
-##\bqx\.bom\.element\.Overflow\.getX\((.*?)\)=qx.bom.element.Style.get(\1, 'overflowX')
-##\bqx\.bom\.element\.Overflow\.setX\((.*?),(.*?)\)=qx.bom.element.Style.set(\1, 'overflowX', \2)
-##\bqx\.bom\.element\.Overflow\.resetX\((.*?)\)=qx.bom.element.Style.reset(\1, 'overflowX')
-##\bqx\.bom\.element\.Overflow\.compileX\((.*?)\)=qx.bom.element.Style.get({'overflowX' : \1})
-
-##\bqx\.bom\.element\.Overflow\.getY\((.*?)\)=qx.bom.element.Style.get(\1, 'overflowY')
-##\bqx\.bom\.element\.Overflow\.setY\((.*?),(.*?)\)=qx.bom.element.Style.set(\1, 'overflowY', \2)
-##\bqx\.bom\.element\.Overflow\.resetY\((.*?)\)=qx.bom.element.Style.reset(\1, 'overflowY')
-##\bqx\.bom\.element\.Overflow\.compileY\((.*?)\)=qx.bom.element.Style.get({'overflowY' : \1})
-
 \bqx\.bom\.element\.Overflow\.DEFAULT_SCROLLBAR_WIDTH\b=qx.ui.core.scroll.AbstractScrollArea.DEFAULT_SCROLLBAR_WIDTH
 \bqx\.bom\.element\.Overflow\.getScrollbarWidth\b=qx.bom.element.Scroll.getScrollbarWidth
 
@@ -19,10 +6,6 @@
 \becmascript\.stacktrace\b=ecmascript.error.stacktrace
 
 \bqx\.lang\.Date\.now\b=Date.now
-##\bqx\.lang\.String\.trim\((.*?)\)=\1.trim()
-
-##\bqx\.Bootstrap\.getKeys\((.*?)\)=Object.keys(\1)
-##\bqx\.lang\.Object\.getKeys\((.*?)\)=Object.keys(\1)
 
 \bqx\.lang\.Function\.empty=(function() {})
 \bqx\.lang\.Function\.returnTrue=(function() {return true;})
@@ -31,20 +14,10 @@
 \bqx\.lang\.Function\.returnThis=(function() {return this;})
 \bqx\.lang\.Function\.returnZero=(function() {return 0;})
 
-##\bqx\.lang\.Array\.toArray\((.*?)\)=qx.lang.Array.cast(\1, Array)
-##\bqx\.lang\.Array\.toArray\((.*?),(.*?)\)=qx.lang.Array.cast(\1, Array, \2)
-##\bqx\.lang\.Array\.fromCollection\((.*?)\)=Array.prototype.slice.call(\1, 0)
-
-##\bqx\.lang\.Object\.hasMinLength\((.*?),(.*?)\)=(\1.length >= \2)
-##\bqx\.Bootstrap\.getKeysAsString\((.*?)\)=('"' + qx.Bootstrap.keys(\1).join('\", "') + '"')
-##\bqx\.lang\.Object\.getKeysAsString\((.*?)\)=('"' + qx.Bootstrap.keys(\1).join('\", "') + '"')
-##\bqx\.lang\.Object\.select\((.*?),(.*?)\)=\2[\1]
 \bqx\.lang\.Object\.toUriParameter\b=qx.util.Uri.toParameter
-##\bqx\.lang\.Object\.carefullyMergeWith\((.*?),(.*?)\)=qx.lang.Object.mergeWith(\1, \2, false)
 
 \bqx\.lang\.RingBuffer\b=qx.util.RingBuffer
 
 \bqx\.core\.MEvents\b=qx.core.MEvent
 
 _addLocaleChangeLeistener=_addLocaleChangeListener
-
