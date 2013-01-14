@@ -73,8 +73,13 @@ qx.Class.define("test.Application",
 
       var trim = 3;
       var foo = qx.lang.String.trim("bar");
-      var foo.qx.lang.String.trim = 1;
-      var qx.lang.String.trim.foo = 2;
+      var a = foo.qx.lang.String.trim("soop");   // honeypots for the tree matching
+      var b = qx.lang.String.trim.foo(2);
+
+      // use case from bug#7063
+      var value = "foo bar baz";
+      var lastBreakChar = 6;
+      var c = qx.lang.String.trim(value.substr(lastBreakChar + 1));
 
       // more patch cases
       qx.bom.element.Overflow.getX(elem);
