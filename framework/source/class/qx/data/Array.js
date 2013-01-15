@@ -367,12 +367,18 @@ qx.Class.define("qx.data.Array",
           }, null
         );
       }
+
+      // remove the listeners first [BUG #7132]
+      for (var i = 0; i < returnArray.length; i++) {
+        this._registerEventChaining(null, returnArray[i], i);
+      }
+
       // add listeners
       for (var i = 2; i < arguments.length; i++) {
         this._registerEventChaining(arguments[i], null, startIndex + i);
       }
       // apply event chaining for every item moved
-      this.__updateEventPropagation(startIndex + arguments.length - 2, this.length);
+      this.__updateEventPropagation(startIndex + (arguments.length - 2) - amount, this.length);
 
       // fire the changeBubble event
       var value = [];
@@ -385,10 +391,6 @@ qx.Class.define("qx.data.Array",
         value: value, name: name + "", old: returnArray, item: this
       });
 
-      // remove the listeners
-      for (var i = 0; i < returnArray.length; i++) {
-        this._registerEventChaining(null, returnArray[i], i);
-      }
       return (new qx.data.Array(returnArray));
     },
 
