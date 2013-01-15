@@ -610,14 +610,14 @@ def migrate(fileList, options, migrationTarget,
 
 
     logging.debug("  * Searching for patch module...")
-    importedModule = False
     patchFile = getPatchModulePath(migrationTarget)
-    if patchFile is not None:
-        root = os.path.dirname(patchFile)
-        if not root in sys.path:
-            sys.path.insert(0, root)
+    #importedModule = False
+    #if patchFile is not None:
+    #    root = os.path.dirname(patchFile)
+    #    if not root in sys.path:
+    #        sys.path.insert(0, root)
 
-        importedModule = True
+    #    importedModule = True
 
     confPath = os.path.join(getPatchDirectory(), migrationTarget)
 
