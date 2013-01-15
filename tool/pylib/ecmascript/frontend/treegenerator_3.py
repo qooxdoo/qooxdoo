@@ -1609,6 +1609,8 @@ def toJS(self, opts):
     r.append(self.space())
     for c in self.children:
         r.append(c.toJS(opts))
+        # we can afford to just juxtapose the 'while' child, without need to insert a space
+        # as the preceding token must be a '}' or ';' (otherwise the parse was already ungrammatical)
     return ''.join(r)
 
 @method(symbol("do"))
@@ -1639,11 +1641,9 @@ def std(self):
 def toJS(self, opts):
     r = []
     r += ["with"]
-    r += ["("]
-    r += [self.children[0].toJS(opts)]
-    r += [")"]
-    r += [self.children[1].toJS(opts)]
-    return u''.join(r)
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 @method(symbol("with"))
 def toListG(self):
@@ -1673,40 +1673,22 @@ def std(self):
         self.childappend(else_part)
     return self
 
-
 @method(symbol("if"))
 def toJS(self, opts):
-    r = u''
-    # Additional new line before each loop
-    if not self.isFirstChild(True) and not self.getChild("commentsBefore", False):
-        prev = self.getPreviousSibling(False, True)
-
-        # No separation after case statements
-        #if prev != None and prev.type in ["case", "default"]:
-        #    pass
-        #elif self.hasChild("elseStatement") or self.getChild("statement").hasBlockChildren():
-        #    self.sep()
-        #else:
-        #    self.line()
-    r += self.write("if")
-    # condition
-    r += self.write("(")
-    r += self.children[0].toJS(opts)
-    r += self.write(")")
-    # 'then' part
-    r += self.children[1].toJS(opts)
-    # (opt) 'else' part
-    if len(self.children) == 3:
-        r += self.write("else")
-        r += self.space()
-        r += self.children[2].toJS(opts)
-    r += self.space(False,result=r)
-    return r
+    r = ['if']
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 @method(symbol("if"))
 def toListG(self):
     for e in itert.chain([self], *[c.toListG() for c in self.children]):
         yield e
+
+@method(symbol("else"))  # to make sure trailing space
+def toJS(self, opts):
+    return 'else '
+
 
 symbol("break")
 
@@ -1844,18 +1826,9 @@ def case_block():
 
 @method(symbol("switch"))
 def toJS(self, opts):
-    r = []
-    r.append("switch")
-    # control
-    r.append('(')
-    r.append(self.children[0].toJS(opts))
-    r.append(')')
-    # body
-    r.append('{')
-    body = self.getChild("body")
-    for c in body.children:
+    r = ['switch']
+    for c in self.children:
         r.append(c.toJS(opts))
-    r.append('}')
     return ''.join(r)
 
 @method(symbol("switch"))
@@ -1863,16 +1836,12 @@ def toListG(self):
     for e in itert.chain([self], *[c.toListG() for c in self.children]):
         yield e
 
-
 @method(symbol("case"))
 def toJS(self, opts):
-    r = []
-    r.append('case')
+    r = ['case']
     r.append(self.space())
-    r.append(self.children[0].toJS(opts))
-    r.append(':')
-    if len(self.children) > 1:
-        r.append(self.children[1].toJS(opts))
+    for c in self.children:
+        r.append(c.toJS(opts))
     return ''.join(r)
 
 @method(symbol("case"))
@@ -1880,14 +1849,11 @@ def toListG(self):
     for e in itert.chain([self], *[c.toListG() for c in self.children]):
         yield e
 
-
 @method(symbol("default"))
 def toJS(self, opts):
-    r = []
-    r.append('default')
-    r.append(':')
-    if len(self.children) > 0:
-        r.append(self.children[0].toJS(opts))
+    r = ['default']
+    for c in self.children:
+        r.append(c.toJS(opts))
     return ''.join(r)
 
 @method(symbol("default"))
@@ -1924,20 +1890,23 @@ def std(self):
 
 @method(symbol("try"))
 def toJS(self, opts):
-    r = []
-    r.append('try')
-    r.append(self.children[0].toJS(opts))
-    catch = self.getChild("catch", 0)
-    if catch:
-        r.append('catch')
-        #r.append('(')
-        r.append(catch.children[0].toJS(opts))
-        #r.append(')')
-        r.append(catch.children[1].toJS(opts))
-    finally_ = self.getChild("finally", 0)
-    if finally_:
-        r.append('finally')
-        r.append(finally_.children[0].toJS(opts))
+    r = ['try']
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
+
+@method(symbol("catch"))
+def toJS(self, opts):
+    r = ['catch']
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
+
+@method(symbol("finally"))
+def toJS(self, opts):
+    r = ['finally']
+    for c in self.children:
+        r.append(c.toJS(opts))
     return ''.join(r)
 
 @method(symbol("try"))
@@ -2034,7 +2003,12 @@ def statement():
 
 @method(symbol("statement"))
 def toJS(self, opts):
-    return self.children[0].toJS(opts)
+    r = []
+    for c in self.children:
+        r.append(c.toJS(opts))
+    if self.children[-1].type != ';':
+        r.append(';')
+    return ''.join(r)
 
 @method(symbol("(empty)"))
 def toJS(self, opts):
@@ -2136,13 +2110,12 @@ symbol("block")
 
 @method(symbol("block"))
 def toJS(self, opts):
-    r = '{'
+    r = []
     for c in self.children:
-        r += c.toJS(opts)
-    r += '}'
+        r.append(c.toJS(opts))
     if opts.breaks:
-        r += '\n'
-    return r
+        r.append('\n')
+    return ''.join(r)
 
 symbol("call")
 
@@ -2216,15 +2189,10 @@ symbol("params")
 
 @method(symbol("params"))
 def toJS(self, opts):
-    r = u''
-    self.noline()
-    r += self.write("(")
-    a = []
+    r = []
     for c in self.children:
-        a.append(c.toJS(opts))
-    r += ','.join(a)
-    r += self.write(")")
-    return r
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 
 # - Helpers --------------------------------------------------------------------

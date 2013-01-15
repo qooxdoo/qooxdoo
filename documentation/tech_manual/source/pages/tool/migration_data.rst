@@ -119,6 +119,26 @@ tree-based transformations, if available, are applied *before* regex-based
 transformations. The changed tree is written to disk using the Generator's
 pretty-printing feature, in place of the original file content.
 
+Caveats
+----------
+
+* An important thing to note is that although the ``patch.py`` module of a
+  specific %{qooxdoo} version is written against the tool chain *as it were at
+  that time*, the module is actually run with the tool chain *of the target
+  version*. That means that migrating from, say, version 2.0 to 2.3, a
+  ``patch.py`` in the 2.1 version is run with the 2.3 SDK.
+* That means that changes in the tool chain after the introduction of a specific
+  ``patch.py`` (changed syntax tree, changed interface between *migrator.py*
+  and *patch.py* etc.) will most likely break the patch.py module.
+* It would be ideal to run each ``patch.py`` with the tool chain it was created
+  with. But that would require the user to download all intervening SDKs :-(.
+* So if compatibility with older ``patch.py`` modules breaks, one possibility is
+  to require the user to first migrate to the last version which is known to
+  work with those patch files (needing this particular intervening SDK), and
+  then migrate to the final version. (We did something before, probably for
+  other reasons, for applications being migrated from a version lower than 0.8
+  to something greater than 0.8, requiring an intermediate migration to 0.8.2.)
+
 How to do it
 --------------
 
