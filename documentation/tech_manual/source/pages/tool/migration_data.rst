@@ -19,12 +19,16 @@ explained in the remainder of this document. Most of them are optional.
 
 .. code-block:: text
 
-      tool/data/migration
-        +- 2.1.1                    [version number]
-          +- info
+      tool/data/migration/
+        +- 2.1.1/                   [version number]
+          +- info/
             +- 01-main.dat          [name arbitrary, but must end with .dat]
-          +- patches
+          +- patches/
             +- 01-main.dat          [name arbitrary, but must end with .dat]
+          +- test/
+            +- Manifest.json        [typically a test skeleton application]
+            +- config.json
+            +- ...
           +- patch.py
           +- config.py
 

@@ -551,7 +551,7 @@ def regtool(content, regs, patch, filePath):
 
 def migrateFile(
                 filePath, compiledPatches, compiledInfos,
-                hasPatchModule=False, options=None, encoding="UTF-8"):
+                patchFile, options=None, encoding="UTF-8"):
 
     logging.info("  - File: %s" % filePath)
 
@@ -563,13 +563,15 @@ def migrateFile(
     # Apply patches
     patchedContent = fileContent
 
-    if hasPatchModule and fileId is not None:
+    if patchFile and fileId is not None:
 
-        import patch
+        #import patch
+        patch = {}
+        execfile(patchFile, patch)
         tree = treegenerator.createFileTree(tokenizer.Tokenizer().parseStream(fileContent))
 
         # If there were any changes, compile the result
-        if patch.patch(fileId, tree):
+        if patch['patch'](fileId, tree):
             options.prettyPrint = True  # make sure it's set
             result = [u'']
             #result = pretty.prettyNode(tree, options, result)
@@ -641,7 +643,7 @@ def migrate(fileList, options, migrationTarget,
         i = 0
         for filePath in fileList:
             migrateFile(filePath, compiledPatches, compiledInfos,
-                        importedModule, options=options,
+                        patchFile, options=options,
                         encoding=encodings[i])
             patchedFiles[os.path.abspath(filePath)] = True
             i += 1
