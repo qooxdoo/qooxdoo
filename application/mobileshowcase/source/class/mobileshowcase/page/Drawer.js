@@ -40,7 +40,7 @@ qx.Class.define("mobileshowcase.page.Drawer",
       var drawer = new qx.ui.mobile.container.Drawer(this, new qx.ui.mobile.layout.VBox());
       drawer.setOrientation(orientation);
       drawer.setTouchOffset(0);
-      drawer.setPositionZ("back");
+      drawer.setPositionZ("below");
       return drawer;
     },
     
@@ -89,7 +89,7 @@ qx.Class.define("mobileshowcase.page.Drawer",
       
       // Z POSITION TOGGLE BUTTON
       
-      var frontBackToggleButton = new qx.ui.mobile.form.ToggleButton(false, "Front","Back", 13);
+      var frontBackToggleButton = new qx.ui.mobile.form.ToggleButton(false, "Above","Below", 13);
       
       frontBackToggleButton.addListener("changeValue",function() {
         this._togglePositionZ(drawerLeft);
@@ -105,7 +105,7 @@ qx.Class.define("mobileshowcase.page.Drawer",
       this.getContent().add(new qx.ui.mobile.form.Title("Position"));
       this.getContent().add(toggleModeGroup);
       
-      this.getContent().add(new qx.ui.mobile.form.Title("State"));
+      this.getContent().add(new qx.ui.mobile.form.Title("Action"));
       this.getContent().add(this._createDrawerMenu([drawerTop,drawerRight,drawerBottom,drawerLeft]));
     },
     
@@ -114,17 +114,17 @@ qx.Class.define("mobileshowcase.page.Drawer",
      * Toggles the z-Index position of the target drawer.
      */
     _togglePositionZ : function(target) {
-      qx.bom.element.Style.set(target.getContainerElement(),"transition-duration","0s");
+      qx.bom.element.Style.set(target.getContainerElement(),"transitionDuration","0s");
       
-      if(target.getPositionZ() == "front") {
-        target.setPositionZ("back")
+      if(target.getPositionZ() == "above") {
+        target.setPositionZ("below")
       }
       else {
-        target.setPositionZ("front")
+        target.setPositionZ("above")
       }
       
       qx.event.Timer.once(function() {
-        qx.bom.element.Style.set(this,"transition-duration", null);
+        qx.bom.element.Style.set(this,"transitionDuration", null);
       },target.getContainerElement(),0);
     },
 

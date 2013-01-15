@@ -719,7 +719,9 @@ def formatNode(tree, options, result):
     return [tree.format(options, state)]
 
 
-def defaultOptions(optns):
+def defaultOptions(optns=None):
+    if optns is None:
+        optns = FormatterOptions()
     optns.prettyPrint = True  # turn on pretty-printing
     optns.prettypCommentsBlockAdd  = True  # comment filling
     optns.prettypIndentString      = "  "   # general indent string

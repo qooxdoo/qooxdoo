@@ -159,7 +159,8 @@ input::-webkit-inner-spin-button {
   width: 100%; }
 
 .vbox {
-  width: 100%; }
+  width: 100%;
+  height: 100%; }
 
 .vbox {
   display: -webkit-box;
@@ -419,35 +420,13 @@ input[type="checkbox"] {
   top: 4px;
   left: 4px; }
 
-.dialog, .menu, .picker {
-  -webkit-border-radius: 0.5em;
-  -moz-border-radius: 0.5em;
-  border-radius: 0.5em;
-  z-index: 101;
-  min-width: 200px;
-  max-width: 90%;
-  position: fixed;
-  width: auto;
-  padding: 6px; }
-
-.dialogButton {
-  width: 0;
-  margin-top: 6px;
-  margin-left: 1px;
-  margin-right: 1px; }
-
-.dialogTitleUnderline {
-  font-weight: 800;
-  font-size: 16px;
-  margin: 0 0 3px 0; }
-
 .drawer {
   position: absolute; }
 
-.drawer.front {
-  z-index: 100; }
+.drawer.above {
+  z-index: 1; }
 
-.drawer.back {
+.drawer.below {
   z-index: -1; }
 
 .drawer.left {
@@ -470,22 +449,22 @@ input[type="checkbox"] {
   left: 0;
   bottom: 0; }
 
-.drawer.left.front.hidden {
+.drawer.left.above.hidden {
   -webkit-transform: translateX(-100%);
   -moz-transform: translateX(-100%);
   transform: translateX(-100%); }
 
-.drawer.right.front.hidden {
+.drawer.right.above.hidden {
   -webkit-transform: translateX(100%);
   -moz-transform: translateX(100%);
   transform: translateX(100%); }
 
-.drawer.top.front.hidden {
+.drawer.top.above.hidden {
   -webkit-transform: translateY(-100%);
   -moz-transform: translateY(-100%);
   transform: translateY(-100%); }
 
-.drawer.bottom.front.hidden {
+.drawer.bottom.above.hidden {
   -webkit-transform: translateY(100%);
   -moz-transform: translateY(100%);
   transform: translateY(100%); }
@@ -613,6 +592,9 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
 .root.portrait .drawer:not(.hidden) + .master-detail-detail {
   pointer-events: none; }
 
+.menu {
+  min-width: 200px; }
+
 .navigationbar {
   height: 45px;
   padding-left: 10px;
@@ -678,15 +660,21 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   -moz-transform: translateY(-45px);
   transform: translateY(-45px); }
 
-.popup {
+.popup, .menu, .picker {
   -webkit-border-radius: 0.5em;
   -moz-border-radius: 0.5em;
   border-radius: 0.5em;
   position: absolute;
   width: auto;
   padding: 6px;
-  z-index: 99;
+  max-width: 90%;
+  z-index: 101;
   clear: both; }
+
+.popup-title {
+  font-weight: 800;
+  font-size: 16px;
+  margin: 0 0 3px 0; }
 
 .popupAnchorPointerTop:before {
   top: -15px;
@@ -745,8 +733,6 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
 .picker-slot {
   position: relative;
   top: 0px;
-  margin-top: -12.5px;
-  margin-bottom: 12.5px;
   -webkit-border-radius: 0.3em;
   -moz-border-radius: 0.3em;
   border-radius: 0.3em;
@@ -778,7 +764,10 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   font-size: 1.2em;
   padding-left: 5px;
   padding-right: 5px;
-  height: 25px; }
+  height: 25px;
+  line-height: 25px;
+  position: relative;
+  top: -14px; }
 
 .picker-container {
   overflow: hidden;
@@ -1332,7 +1321,7 @@ ul li.active {
   /* Standard (in flux) */
   border: 1px solid #777777; }
 
-.dialog, .menu, .picker, .popup {
+.dialog, .popup, .menu, .picker {
   background-color: #323335;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#57595c), color-stop(50%, #262628), to(#262628));
   background-image: -webkit-linear-gradient(top, #57595c, #262628 20px, #262628);
@@ -1776,7 +1765,10 @@ input[type=radio] + label:after {
   -moz-box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.5);
   box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.5); }
 
-.drawer {
+.drawer.below {
+  background-color: gray; }
+
+.drawer.above {
   background-color: #f4f4f4; }
 
 .drawer:not(.master-detail-master):not(.hidden) {
@@ -1796,7 +1788,7 @@ input[type=radio] + label:after {
 .drawer.bottom:not(.master-detail-master) {
   border-top: 1px solid #45484d; }
 
-.drawer.back.left:before, .drawer.back.right:before, .drawer.back.top:before, .drawer.back.bottom:before {
+.drawer.below.left:before, .drawer.below.right:before, .drawer.below.top:before, .drawer.below.bottom:before {
   content: '';
   width: 100%;
   height: 100%;

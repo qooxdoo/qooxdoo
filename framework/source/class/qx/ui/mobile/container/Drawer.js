@@ -19,13 +19,14 @@
 
 /**
  * Creates a drawer widget inside the given parent widget. The parent widget can
- * be assigned as a constructor argument. If no parent is set, the application's root
- * will be assumed as parent. A drawer widget can be assigned to left, right, top or bottom edge of its
- * parent by property "orientation". The drawer floats in on show() and floats out on hide(). Additionally the
- * drawer is shown by swiping in reverse direction on the parent edge to where the drawer is placed to:
- * Orientation: "left", Swipe: "right" on parents edge: Drawer is shown etc.
- * The drawer is hidden when user touches the parent area outside of the drawer. This behaviour can be 
- * deactivated by the property "hideOnParentTouch".
+ * be assigned as a constructor argument. If no parent is set, the application's 
+ * root will be assumed as parent. A drawer widget can be assigned to left, right,
+ * top or bottom edge of its parent by property "orientation". The drawer floats
+ * in on show() and floats out on hide(). Additionally the drawer is shown by 
+ * swiping in reverse direction on the parent edge to where the drawer is placed 
+ * to: Orientation: "left", Swipe: "right" on parents edge: Drawer is shown etc.
+ * The drawer is hidden when user touches the parent area outside of the drawer. 
+ * This behaviour can be deactivated by the property "hideOnParentTouch".
  *     
  * <pre class='javascript'>
  *  
@@ -51,10 +52,10 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
   */
 
   /**
-   * @param parent {qx.ui.mobile.container.Composite?null} The widget to which the drawer should be added,
-   *  if null it is added to app root.
-   * @param layout {qx.ui.mobile.layout.Abstract?null} The layout that should be used for this
-   *     container
+   * @param parent {qx.ui.mobile.container.Composite?null} The widget to which 
+   * the drawer should be added, if null it is added to app root.
+   * @param layout {qx.ui.mobile.layout.Abstract?null} The layout that should be 
+   * used for this container.
    */
   construct : function(parent, layout)
   {
@@ -150,10 +151,10 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     },
     
     
-    /** Sets the drawer zIndex position relative to its parent. */
+    /** Sets the drawer zIndex position relative to its parent. Allowed values are "above" or "below". */
     positionZ : {
-      check : "String",
-      init : "front",
+      check : [ "above", "below"],
+      init : "above",
       apply : "_applyPositionZ"
     }
   },
@@ -192,8 +193,8 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       this.removeCssClass(old);
       this.addCssClass(value);
       
-      if(value == "front") {
-        // Reset transitions for "back" mode.
+      if(value == "above") {
+        // Reset transitions for "below" mode.
         if(this.__parent) {
           this.__parent.setTranslateX(null);
           this.__parent.setTranslateY(null);
@@ -229,7 +230,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
       this._toggleParentBlockedState();
       
-      if (this.getPositionZ() == "back") {
+      if (this.getPositionZ() == "below") {
         if(this.__parent) {
           this.__parent.setTranslateX(0);
           this.__parent.setTranslateY(0);
@@ -282,7 +283,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       
       this._enableTransition();
       
-      if (this.getPositionZ() == "back") {
+      if (this.getPositionZ() == "below") {
         this.__parent.setTranslateX(0);
         this.__parent.setTranslateY(0);
       }
@@ -302,7 +303,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     forceHide : function() {
       this._disableTransition(); 
       
-      if (this.getPositionZ() == "back") {
+      if (this.getPositionZ() == "below") {
         this.__parent.setTranslateX(0);
         this.__parent.setTranslateY(0);
       }
@@ -326,10 +327,10 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       if(this.isShowTransition()) {
         this.__inAnimation = true;
         
-        if (this.getPositionZ() == "back") {
-          qx.bom.element.Style.set(this.__parent.getContentElement(),"transition","all .5s ease-in-out");
+        if (this.getPositionZ() == "below") {
+          qx.bom.element.Style.set(this.__parent.getContentElement(),"transition", "all .5s ease-in-out");
         } else {
-          qx.bom.element.Style.set(this.getContentElement(),"transition","all .5s ease-in-out");
+          qx.bom.element.Style.set(this.getContentElement(),"transition", "all .5s ease-in-out");
         }
       }
     },
@@ -341,8 +342,8 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     _disableTransition : function() {
       this.__inAnimation = false;
       
-      qx.bom.element.Style.set(this.getContentElement(),"transition",null);
-      qx.bom.element.Style.set(this.__parent.getContentElement(),"transition",null);
+      qx.bom.element.Style.set(this.getContentElement(),"transition", null);
+      qx.bom.element.Style.set(this.__parent.getContentElement(),"transition", null);
     },
     
     

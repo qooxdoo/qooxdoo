@@ -30,7 +30,7 @@ class ContribLoader(object):
     def __init__(self):
         pass
 
-    # mirror line (16jun10):
+    # mirror line (16jun10): (this text appears in the HTML data of the viewvc page)
     # <a href="/viewvc/qooxdoo-contrib?view=revision&amp;revision=19517" title="Revision 19517">19517
     revisionpatt = re.compile("\/viewvc\/qooxdoo-contrib\?view\=\S*?revision\=([0-9]+)")
 
