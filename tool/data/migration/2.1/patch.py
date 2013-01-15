@@ -71,7 +71,7 @@ repl_table = [
         2, "qx.lang.Object.mergeWith(%(1)s, %(2)s, false)" ),
 ]
 
-defaultOptions = formatter.defaultOptions()
+defaultOptions = formatter.defaultOptions(formatter.FormatterOptions())
 
 def assembleVar(node):
     assert node.isVar()
