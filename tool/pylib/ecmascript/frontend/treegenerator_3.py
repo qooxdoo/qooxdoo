@@ -1917,9 +1917,8 @@ def std(self):
         catch.childappend(block())
     if token.id == "finally":
         finally_ = token
-        self.childappend(token)
-        advance("finally")
         self.childappend(finally_)
+        advance("finally")
         finally_.childappend(block())
     return self
 
