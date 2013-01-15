@@ -205,7 +205,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     
     /**
      * Getter for the Master Container
-     * @return {qx.ui.mobile.container.Composite} The Master Container.
+     * @return {qx.ui.mobile.container.Drawer} The Master Container.
      */
     getMasterContainer : function() {
       return this.__masterContainer;
