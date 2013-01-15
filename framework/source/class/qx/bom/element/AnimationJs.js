@@ -150,7 +150,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         for (var name in keyFrames[percent]) {
           // prefixed key calculation
           var prefixed = qx.bom.Style.getPropertyName(name);
-          if (prefixed) {
+          if (prefixed && prefixed != name) {
             var prefixedName = qx.bom.Style.getCssName(prefixed);
             keyFrames[percent][prefixedName] = keyFrames[percent][name];
             delete keyFrames[percent][name];
