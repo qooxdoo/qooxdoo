@@ -161,7 +161,11 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
       if (req) {
         return window[req](clb);
       } else {
-        return window.setTimeout(clb, qx.bom.AnimationFrame.TIMEOUT);
+        // make sure to use an indirection because setTimeout passes a
+        // number as first argument as well
+        return window.setTimeout(function() {
+          clb();
+        }, qx.bom.AnimationFrame.TIMEOUT);
       }
     }
   }
