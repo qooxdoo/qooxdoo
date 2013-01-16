@@ -60,11 +60,14 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
   construct : function(parent, layout)
   {
     this.base(arguments);
+    
     if (layout) {
       this.setLayout(layout);
     }
+    
     this.initOrientation();
     this.initPositionZ();
+    
     if(parent) {
       if (qx.core.Environment.get("qx.debug"))
       {
@@ -77,7 +80,6 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     }
     
     this.__parent = this.getLayoutParent();
-    
     this.__parent.addCssClass("drawer-parent");
     
     this.__parent.addListener("swipe",this._onParentSwipe,this);
@@ -88,6 +90,21 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     this.__inAnimation = false;
     
     this.forceHide();
+  },
+  
+  
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /**
+     * Fired when the drawer changes its size.
+     */
+    resize : "qx.event.type.Data"
   },
   
   
@@ -117,7 +134,8 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     width : {
       check : "Integer",
       init : 300,
-      apply : "_applySize"
+      apply : "_applySize",
+      event : "resize"
     },
     
     
@@ -125,7 +143,8 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     height : {
       check : "Integer",
       init : 300,
-      apply : "_applySize"
+      apply : "_applySize",
+      event : "resize"
     },
     
     
@@ -176,15 +195,6 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     _applyOrientation : function(value, old) {
       this.removeCssClass(old);
       this.addCssClass(value);
-      
-      var isVertical = value=="left" || value == "right";
-      if(isVertical) {
-        qx.bom.element.Style.set(this.getContainerElement(),"height",null);
-        qx.bom.element.Style.set(this.getContainerElement(),"width",this.getWidth()+"px");
-      } else {
-        qx.bom.element.Style.set(this.getContainerElement(),"width",null);
-        qx.bom.element.Style.set(this.getContainerElement(),"height",this.getHeight()+"px");
-      }
     },
     
     
@@ -210,11 +220,17 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     
     // property apply
     _applySize : function(value, old) {
-      // Reapply of orientation.
-      this.setOrientation(this.getOrientation());
+      var isVertical = this.getOrientation() =="left" || this.getOrientation() == "right";
+      if(isVertical) {
+        qx.bom.element.Style.set(this.getContainerElement(),"height", null);
+        qx.bom.element.Style.set(this.getContainerElement(),"width", this.getWidth()+"px");
+      } else {
+        qx.bom.element.Style.set(this.getContainerElement(),"width", null);
+        qx.bom.element.Style.set(this.getContainerElement(),"height", this.getHeight()+"px");
+      }
     },
-  
-  
+    
+    
     /**
      * Shows the drawer.
      */
