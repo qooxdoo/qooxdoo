@@ -31,7 +31,7 @@ from generator.code.Class       import Class, ClassMatchList, CompileOptions
 from generator.code.Script      import Script
 from generator.action           import Locale
 import generator.resource.Library # just need the .Library type
-from ecmascript.frontend        import tokenizer, treegenerator, treegenerator_2, treegenerator_3
+from ecmascript.frontend        import tokenizer, treegenerator, treegenerator_3
 from ecmascript.backend         import pretty
 from ecmascript.backend         import formatter, formatter_2, formatter_3
 #from ecmascript.backend         import pretty_new as pretty
@@ -1038,7 +1038,6 @@ class CodeGenerator(object):
         numClasses = len(classesObj)
         for pos, classId in enumerate(classesObj):
             self._console.progress(pos+1, numClasses)
-            #tree = classesObj[classId].tree(treegenerator_2)
             #tree = classesObj[classId].tree()
             tree = classesObj[classId].tree(treegenerator_3)
             result = [u'']
