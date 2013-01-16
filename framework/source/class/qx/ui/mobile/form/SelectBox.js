@@ -172,10 +172,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       qx.bom.Event.addNativeListener(containerElement, "click", showSelectionDialog, false);
 
       var preventDefault = qx.bom.Event.preventDefault;
-      qx.bom.Event.addNativeListener(containerElement, "mousedown", preventDefault, false);
-      qx.bom.Event.addNativeListener(containerElement, "mouseup", preventDefault, false);
       qx.bom.Event.addNativeListener(containerElement, "click", preventDefault, false);
-      qx.bom.Event.addNativeListener(containerElement, "focus", preventDefault, false);
       qx.bom.Event.addNativeListener(containerElement, "tap", preventDefault, false);
 
       return containerElement;
