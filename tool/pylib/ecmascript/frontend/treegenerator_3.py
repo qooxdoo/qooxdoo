@@ -44,8 +44,6 @@
 #   nud => pfix
 #
 # CAVEATS
-# - The toJS() methods are copies from treegenerator, and need adaption to the 
-#   CST to be useful.
 ##
 
 import sys, os, re, types, string, itertools as itert
@@ -1510,7 +1508,7 @@ def toJS(self, opts):
 
 @method(symbol("forInControl"))
 def toJS(self, opts):
-    return self.children[0].toJS()
+    return self.children[0].toJS(opts)
 
 @method(symbol("forIterControl"))
 def toJS(self, opts):
@@ -2006,9 +2004,10 @@ def toJS(self, opts):
     r = []
     for c in self.children:
         r.append(c.toJS(opts))
-    if self.children[-1].type != ';':
-        r.append(';')
-    return ''.join(r)
+    res = u''.join(r)
+    if res[-1] != ';':  # check result, as a statement might have a nested statement (see 'label')
+        res += ';'
+    return res
 
 @method(symbol("(empty)"))
 def toJS(self, opts):
@@ -2017,9 +2016,8 @@ def toJS(self, opts):
 @method(symbol("label"))
 def toJS(self, opts):
     r = []
-    r += [self.get("value")]  # identifier
-    r += [":"]
-    r += [self.children[0].toJS(opts)]
+    for c in self.children:
+        r.append(c.toJS(opts))
     return ''.join(r)
 
 
@@ -2121,16 +2119,20 @@ symbol("call")
 
 @method(symbol("call"))
 def toJS(self, opts):
-    r = u''
-    r += self.getChild("operand").toJS(opts)
-    r += self.getChild("arguments").toJS(opts)
-    return r
+    r = []
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 @method(symbol("call"))
 def toListG(self):
     for e in itert.chain(*[c.toListG() for c in self.children]):
         yield e
 
+
+# Comments are usually not hit by a tree traversion, as they are not part of the syntax
+# tree but properties of tree nodes; so these methods are probably never used. Serializing
+# of comments is usually done by pretty-printing.
 
 symbol("comment")
 
@@ -2160,29 +2162,32 @@ symbol("file")
 
 @method(symbol("file"))
 def toJS(self, opts):
-    return self.children[0].toJS(opts)
+    r = []
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 
 @method(symbol("first"))
 def toJS(self, opts):
-    r = u''
-    if self.children:  # could be empty in for(;;)
-        r = self.children[0].toJS(opts)
-    return r
+    r = []
+    for c in self.children:  # could be empty in for(;;)
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 @method(symbol("second"))
 def toJS(self, opts):
-    r = u''
-    if self.children:
-        r = self.children[0].toJS(opts)
-    return r
+    r = []
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 @method(symbol("third"))
 def toJS(self, opts):
-    r = u''
-    if self.children:
-        r = self.children[0].toJS(opts)
-    return r
+    r = []
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 
 symbol("params")
