@@ -117,6 +117,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     __currentOffset : null,
     __scrollTopOnStart : 0,
     __targetScrollTop : 0,
+    __isVerticalScroll : null,
 
     
     /**
@@ -135,6 +136,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     * @param evt {qx.event.type.Touch} The touch event
     */
     _onTouchStart : function(evt){
+      this.__isVerticalScroll = null;
+      
       var touchX = evt.getScreenLeft();
       var touchY = evt.getScreenTop();
 
@@ -160,8 +163,13 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
       var targetElement =  this._scrollContainer.getContainerElement();
       var lowerLimit = targetElement.scrollHeight - targetElement.offsetHeight-4;
-
-      if(this.isScrollableY()) {
+      
+      if(this.__isVerticalScroll == null) {
+        var cosDelta = distanceX/distanceY;
+        this.__isVerticalScroll = Math.abs(cosDelta) < 1;
+      }
+      
+      if(this.isScrollableY() && this.__isVerticalScroll) {
         // Upper Limit Y
         if(this.__currentOffset[1] >= 0) {
           this.removeCssClass("scrollableTop");
@@ -176,18 +184,20 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
           this.addCssClass("scrollableBottom");
         }
       } 
-
-      // X
-      this.__currentOffset[0] =  this.__targetOffset[0] + distanceX;
-      // Y
-      this.__currentOffset[1] =  this.__targetOffset[1] + distanceY;
       
-      if(this.isScrollableX()) {
+      // X
+      if(this.isScrollableX() && !this.__isVerticalScroll) {
         this._scrollContainer.setTranslateX(this.__currentOffset[0]);
+        
+        this.__currentOffset[0] =  this.__targetOffset[0] + distanceX;
       }
       
-      if(this.isScrollableY()) {
+      // Y
+      if(this.isScrollableY() && this.__isVerticalScroll) {
         this._scrollContainer.setTranslateY(this.__currentOffset[1]);
+        
+        this.__currentOffset[1] =  this.__targetOffset[1] + distanceY;
+        
       }
 
       evt.stopPropagation();
@@ -397,5 +407,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     }
 
     this._disposeObjects("_scrollContainer");
+    
+    this.__isVerticalScroll = null;
   }
 });
