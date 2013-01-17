@@ -25,6 +25,7 @@
     "lint",
     "lint-test",
     "provider",
+    "pretty-test",
     "test",
     "test-inline",
     "test-source",
@@ -306,6 +307,11 @@
           "per-file" : false
         }
       }
+    }
+    
+    ,"pretty-test" : {
+      "desc" : "This is just to test pretty-printing - don't commit after running.",
+      "extend" : ["pretty"]
     }
   }
 }
