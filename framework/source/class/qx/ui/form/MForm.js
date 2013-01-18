@@ -51,6 +51,7 @@ qx.Mixin.define("qx.ui.form.MForm",
     required : {
       check : "Boolean",
       init : false,
+      apply : "_applyRequired",
       event : "changeRequired"
     },
 
@@ -81,6 +82,11 @@ qx.Mixin.define("qx.ui.form.MForm",
     // apply method
     _applyValid: function(value, old) {
       value ? this.removeState("invalid") : this.addState("invalid");
+    },
+
+    // apply method (can be redefined in classes)
+    _applyRequired: function(value, old) {
+      
     },
 
 
