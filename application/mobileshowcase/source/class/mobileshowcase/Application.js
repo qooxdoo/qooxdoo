@@ -115,7 +115,7 @@ qx.Class.define("mobileshowcase.Application",
         canvas,
         themeSwitcher
       ]);
-
+      
       // Initialize the navigation
       var nm = new qx.application.Routing();
       this.setRouting(nm);
