@@ -160,14 +160,20 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
       var distanceX = touchX - this.__touchStartPoints[0];
       var distanceY = touchY - this.__touchStartPoints[1];
-
-      var targetElement =  this._scrollContainer.getContainerElement();
-      var lowerLimit = targetElement.scrollHeight - targetElement.offsetHeight-4;
       
       if(this.__isVerticalScroll == null) {
         var cosDelta = distanceX/distanceY;
         this.__isVerticalScroll = Math.abs(cosDelta) < 1;
       }
+      
+      if(this.__isVerticalScroll) {
+          distanceX = 0
+      } else {
+          distanceY = 0;
+      }
+
+      var targetElement =  this._scrollContainer.getContainerElement();
+      var lowerLimit = targetElement.scrollHeight - targetElement.offsetHeight-4;
       
       if(this.isScrollableY() && this.__isVerticalScroll) {
         // Upper Limit Y
@@ -186,20 +192,18 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       } 
       
       // X
-      if(this.isScrollableX() && !this.__isVerticalScroll) {
+      this.__currentOffset[0] =  this.__targetOffset[0] + distanceX;
+      // Y
+      this.__currentOffset[1] =  this.__targetOffset[1] + distanceY;
+      
+      if(this.isScrollableX()) {
         this._scrollContainer.setTranslateX(this.__currentOffset[0]);
-        
-        this.__currentOffset[0] =  this.__targetOffset[0] + distanceX;
       }
       
-      // Y
-      if(this.isScrollableY() && this.__isVerticalScroll) {
+      if(this.isScrollableY()) {
         this._scrollContainer.setTranslateY(this.__currentOffset[1]);
-        
-        this.__currentOffset[1] =  this.__targetOffset[1] + distanceY;
-        
       }
-
+      
       evt.stopPropagation();
     },
 
