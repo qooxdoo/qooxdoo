@@ -60,9 +60,16 @@ qx.Class.define("qx.event.handler.Mouse",
     this.__root = this.__window.document;
 
     // Initialize observers
-    this._initButtonObserver();
-    this._initMoveObserver();
-    this._initWheelObserver();
+    if (!(qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse"))) {
+      this._initButtonObserver();
+      this._initMoveObserver();
+      this._initWheelObserver();
+    }
+
+    // Include the dependency to the emulatemouse handler
+    if (qx.core.Environment.get("qx.emulatemouse")) {
+      qx.event.handler.MouseEmulation;
+    }
   },
 
 
@@ -579,9 +586,11 @@ qx.Class.define("qx.event.handler.Mouse",
 
   destruct : function()
   {
-    this._stopButtonObserver();
-    this._stopMoveObserver();
-    this._stopWheelObserver();
+    if (!(qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse"))) {
+      this._stopButtonObserver();
+      this._stopMoveObserver();
+      this._stopWheelObserver();
+    }
 
     this.__manager = this.__window = this.__root =
       this.__lastMouseDownTarget = null;
