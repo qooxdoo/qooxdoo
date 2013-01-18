@@ -479,7 +479,7 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("json"));
     },
 
-    testOldSettings : function() {
+    testQx : function() {
       this.assertBoolean(qx.core.Environment.get("qx.allowUrlSettings"), "1");
       this.assertBoolean(qx.core.Environment.get("qx.allowUrlVariants"), "2");
       this.assertString(qx.core.Environment.get("qx.application"), "3");
@@ -490,14 +490,12 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("qx.debug.io.remote.data"), "8");
       this.assertBoolean(qx.core.Environment.get("qx.nativeScrollBars"), "9");
       this.assertNumber(qx.core.Environment.get("qx.debug.property.level"), "10");
-    },
-
-    testOldVariants : function() {
-      this.assertBoolean(qx.core.Environment.get("qx.debug"), "1");
-      this.assertBoolean(qx.core.Environment.get("qx.aspects"), "2");
-      this.assertBoolean(qx.core.Environment.get("qx.dynlocale"), "3");
-      this.assertBoolean(qx.core.Environment.get("qx.mobile.emulatetouch"), "4");
-      this.assertBoolean(qx.core.Environment.get("qx.mobile.nativescroll"), "5");
+      this.assertBoolean(qx.core.Environment.get("qx.debug"), "11");
+      this.assertBoolean(qx.core.Environment.get("qx.aspects"), "12");
+      this.assertBoolean(qx.core.Environment.get("qx.dynlocale"), "13");
+      this.assertBoolean(qx.core.Environment.get("qx.mobile.emulatetouch"), "14");
+      this.assertBoolean(qx.core.Environment.get("qx.mobile.nativescroll"), "15");
+      this.assertBoolean(qx.core.Environment.get("qx.emulatemouse"), "16");
     },
 
 
