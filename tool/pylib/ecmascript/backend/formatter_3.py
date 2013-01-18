@@ -54,37 +54,51 @@ symbol_base.nl = nl
 # Pure text formatter for a list of comment nodes
 #
 def commentsPretty(self, commentsA, optns, state):
+    ##
+    # Whether the previous line had text, but not the current so far.
     def has_preceding_text():
-        boolean = (
+        boolean = bool(
             not state.hasLeadingContent() # no dangling comment
             and state.output # not the first line
             and state.not_all_white(state.output[-1]) # previous line is not all white
             )
         return boolean
+    def is_first_on_level():
+        boolean = bool(
+            state.lineOfLevel.current() == state.lineOfLevel.first_index
+            )
+        return boolean
+    def is_dangling_comment(comment):
+        boolean = bool(
+            comment.get("connection","before") == "after"
+        )
+        return boolean
+
+    if not commentsA:
+        return u''
 
     comments = []
     # leading newline
-    if commentsA and has_preceding_text():
-        comments.append('\n')
+    #if has_preceding_text() and not is_first_on_level():
+    #   comments.append('\n')
     for i,comment in enumerate(commentsA):
-        # separate block comments
         commentStr = comment.get("value")
-        #commentStr = Comment.Text(commentStr).indent(state.indentStr(optns))
+        #import pydb; pydb.debugger()
+        print comment
+        # handle comment that should dangled off preceding text
+        if is_dangling_comment(comment):
+            pass
+
+        # handle comments on their own line
+        else: 
+            # offset block comments with a blank line
+            if comment.get("multiline") and not is_first_on_level():
+                import pydb; pydb.debugger()
+                comments.append('\n')
+        # terminate a comment that extends to the end of line with newline
         if comment.get('end', False) == True:  # 'inline' needs terminating newline anyway
             commentStr += self.nl(optns,state)
-            # offset block comments with a blank line
-            if comment.get("multiline"):
-                comments.append('\n')
-        #commentStr += state.indentStr(optns)  # to pass on the indentation that was set ahead of the comment
         comments.append(commentStr)
-        # handle additional line breaks between comments
-        #if i>0:
-        #    pass
-        #    curr_start = comment.get("line")
-        #    prev_start = commentsA[i-1].get("line")
-        #    prev_lines = comments[i-1].count('\n')
-        #    addtl_lb = curr_start - prev_start + prev_lines
-        #    comments[i-1] += addtl_lb * '\n'
     return u''.join(comments)
 symbol_base.commentsPretty = commentsPretty
 
@@ -745,6 +759,8 @@ class FormatterState(object):
         self.last_token  = None
         self.inExpression = False
         self.inQxDefine = False
+        self.lineOfLevel = LineStack()  # stack of line counts (or last-line numbers) of the indent levels
+        self.lineOfLevel.push()   # now pointing to the 1st line of the 0th indent level; LineStack[self.indentLevel] is current line in this level
         self.output = []  # list of output lines
         self.line = u''   # current output line buffer
 
@@ -752,11 +768,19 @@ class FormatterState(object):
         return len(self.line) + 1
 
     def indent(self):
+        assert len(self.lineOfLevel) == self.indentLevel + 1
         self.indentLevel += 1
+        self.lineOfLevel.push()
 
     def outdent(self):
+        assert len(self.lineOfLevel) == self.indentLevel + 1
         if self.indentLevel > 0:
             self.indentLevel -= 1
+            self.lineOfLevel.pop()
+
+    def incCurrLine(self):
+        self.currLine += 1
+        self.lineOfLevel.inc()
 
     def indentStr(self, optns, incColumn=False):
         indent = optns.prettypIndentString * self.indentLevel
@@ -771,32 +795,32 @@ class FormatterState(object):
 
 
     ##
-    # strrng - the string to be inserted (usually a token-level string); can be:
+    # strng - the string to be inserted (usually a token-level string); can be:
     #     ''  - empty, if all information is conveyed in <tokenOrArr>
     # tokenOrArr - the token object behind the string value; can be:
     #     <symbol> - token behind string
     #     None     - synthetic string, not backed by a token (usually whitespace)
     #     [symbol-comment] - an array of <comment> objects, as passed to commentsPretty
     #
-    def add(self, strrng, tokenOrArr, optns):
+    def add(self, strng, tokenOrArr, optns):
         #inn = 0
-        #if "else" in strrng:
+        #if "else" in strng:
         #    inn = 1
         #if inn:
         #    #pass
-        #print strrng
-        while strrng:
+        #print strng
+        while strng:
             # Add fragment to line
-            if '\n' in strrng:
+            if '\n' in strng:
                 had_eol = True
-                idx = strrng.find('\n')
+                idx = strng.find('\n')
             else:
                 had_eol = False
-                idx = len(strrng)
-            fragment = strrng[:idx]
+                idx = len(strng)
+            fragment = strng[:idx]
 
             # statement-end hack
-            if '\n' in strrng and self.inExpression:
+            if '\n' in strng and self.inExpression:
                 self.outdent()
                 self.inExpression = False
             
@@ -810,21 +834,22 @@ class FormatterState(object):
                 self.line += fragment  # all-white lines will be trimmed in self.layout_line
 
             # Reduce
-            strrng = strrng[idx+1:]
+            strng = strng[idx+1:]
 
             # Write complete lines
             if had_eol:
                 line = self.layout_line(self.line)
                 self.append(line)
+                self.incCurrLine()   # ???
                 self.line = ''
-        # postcond: rest of strrng is in self.line
+        # postcond: rest of strng is in self.line
             
-    def layout_line(self, strrng):
-        strrng = strrng.rstrip() # remove trailing ws
-        strrng += self.nl()
-        return strrng
+    def layout_line(self, strng):
+        strng = strng.rstrip() # remove trailing ws
+        strng += self.nl()
+        return strng
 
-    def handle_text_width(self, strrng, token, optns):
+    def handle_text_width(self, strng, token, optns):
         # restricted productions in JS grammar (see "Note" in 7.9.1 ES3 "Automatic Semicolon Insertion)
         def hasUnbreakableContext(node):
             return (
@@ -851,14 +876,14 @@ class FormatterState(object):
             and token.type not in ('comment','white')
             and token.type not in (',', ';', '}', ']') # breaking before those is ugly
             and not hasUnbreakableContext(token)
-            and len(strrng) + self.currColumn() > optns.prettypTextWidth):
+            and len(strng) + self.currColumn() > optns.prettypTextWidth):
             self.add(('\n',_),optns)
             if not self.inExpression:
                 self.indent()
                 self.inExpression = True
 
         # terminate a multi-line
-        #elif strrng in ';\n':  # quick statement-end hack
+        #elif strng in ';\n':  # quick statement-end hack
         #    if self.inExpression:
         #        self.outdent()
         #        self.inExpression = False
@@ -885,6 +910,40 @@ class FormatterState(object):
             return self.re_non_white.search(self.line)
 
 
+class LineStack(object):
+    def __init__(self):
+        self.stack = []
+        self.first_index = 1
+
+    # expose len() and [] read access
+    def __len__(s):
+        return len(s.stack)
+    def __getitem__(s, key):
+        return s.stack[key]
+
+    ##
+    # New indent level
+    def push(self):
+        self.stack.append(self.first_index)
+
+    ##
+    # Back to old indent level
+    def pop(self):
+        if self.stack:
+            return self.stack.pop()
+
+    ##
+    # Increase line count on current level
+    def inc(self):
+        if self.stack:
+            self.stack[-1] += 1
+            return self.stack[-1]
+
+    def current(self):
+        if self.stack:
+            return self.stack[-1]
+    
+    
 class FormatterOptions(object): pass
 
 def formatNode(tree, options, result):
