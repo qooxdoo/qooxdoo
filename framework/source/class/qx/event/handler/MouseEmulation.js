@@ -106,7 +106,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     __root : null,
 
     __startPos : null,
-
+    __impulseTimerId : null,
 
     /*
     ---------------------------------------------------------------------------
@@ -158,6 +158,58 @@ qx.Class.define("qx.event.handler.MouseEmulation",
       return qx.event.Registration.getManager(target).dispatchEvent(target, mouseEvent);
     },
 
+
+    __fireWheelEvent : function(deltaX, deltaY, finger, target) {
+      // change the native fake event to include the wheel delta's
+      var wheelEvent = this.getDefaultFakeEvent(target, finger);
+      wheelEvent.wheelDelta = deltaX;
+      wheelEvent.wheelDeltaY = deltaY;
+      wheelEvent.wheelDeltaX = deltaX;
+
+      this.__fireEvent(wheelEvent, "mousewheel", target);
+    },
+
+
+    /**
+     * Helper for momentum scrolling.
+     * @param deltaX {Number} The deltaX from the last scrolling.
+     * @param deltaY {Number} The deltaY from the last scrolling.
+     */
+    __handleScrollImpulse : function(deltaX, deltaY, finger, target, time) {
+      // delete the old timer id
+      this.__impulseTimerId = null;
+
+      // do nothing if we don't need to scroll
+      if (deltaX == 0 && deltaY == 0) {
+        return;
+      }
+
+      var change = parseInt((time||20)/10);
+
+      // linear momentum calculation for X
+      if (deltaX > 0) {
+        deltaX = Math.max(0, deltaX - change);
+      } else {
+        deltaX = Math.min(0, deltaX + change);
+      }
+
+      // linear momentum calculation for Y
+      if (deltaY > 0) {
+        deltaY = Math.max(0, deltaY - change);
+      } else {
+        deltaY = Math.min(0, deltaY + change);
+      }
+
+      // set up a new timer with the new delta
+      var start = +(new Date())
+      this.__impulseTimerId =
+        qx.bom.AnimationFrame.request(qx.lang.Function.bind(function(deltaX, deltaY, finger, target, time) {
+          this.__handleScrollImpulse(deltaX, deltaY, finger, target, time - start);
+        }, this, deltaX, deltaY, finger, target));
+
+      // scroll the desired new delta
+      this.__fireWheelEvent(deltaX, deltaY, finger, target);
+    },
 
 
 
@@ -233,13 +285,20 @@ qx.Class.define("qx.event.handler.MouseEmulation",
       // take a new position. wheel events require the delta to the last event
       this.__startPos = {x: nativeEvent.screenX, y: nativeEvent.screenY};
 
-      // change the native fake event to include the wheel delta's
-      var wheelEvent = this.getDefaultFakeEvent(target, e.getChangedTargetTouches()[0]);
-      wheelEvent.wheelDelta = deltaX;
-      wheelEvent.wheelDeltaY = deltaY;
-      wheelEvent.wheelDeltaX = deltaX;
+      var finger = e.getChangedTargetTouches()[0];
+      this.__fireWheelEvent(deltaX, deltaY, finger, target);
 
-      this.__fireEvent(wheelEvent, "mousewheel", target);
+      // if we have an old timeout for the current direction, clear it
+      if (this.__impulseTimerId) {
+        clearTimeout(this.__impulseTimerId);
+        this.__impulseTimerId = null;
+      }
+
+      // set up a new timer for the current direction
+      this.__impulseTimerId =
+        setTimeout(qx.lang.Function.bind(function(deltaX, deltaY, finger, target) {
+          this.__handleScrollImpulse(deltaX, deltaY, finger, target);
+        }, this, deltaX, deltaY, finger, target), 100);
     },
 
 
