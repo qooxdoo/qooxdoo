@@ -257,22 +257,9 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
     /**
      * Hides the popup.
-     * 
-     * If popup is hidden before click event, the event will bubble to ui
-     * element which is behind popup and might cause an unexpected action.
-     * The popup will wait for click event before closing itself. 
      */
     hide : function()
     {
-      // Wait 500ms.
-      qx.lang.Function.delay(this.forceHide, 500, this);
-    },
-    
-    
-    /**
-     * Hides this popup without waiting for click events.
-     */
-    forceHide : function() {
       if (this.__isShown)
       {
         this.__unregisterEventListener();
@@ -286,8 +273,21 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         this._getBlocker().hide();
       }
     },
-
-
+    
+    
+    /**
+     * Hides the popup after a given time delay.
+     * @param delay {Integer} time delay in ms.
+     */
+    hideWithDelay : function(delay) {
+      if(delay) {
+        qx.lang.Function.delay(this.hide, delay, this);
+      } else {
+        this.hide();
+      }
+    },
+    
+    
     /**
      * Returns the shown state of this popup.
      * @return {Boolean} whether the popup is shown or not.
@@ -302,7 +302,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     toggleVisibility : function() {
       if(this.__isShown == true) {
-        this.forceHide();
+        this.hide();
       } else {
         this.show();
       }
@@ -338,7 +338,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         || clientY < popupLocation.top;
 
       if(isOutsideWidget) {
-        this.forceHide();
+        this.hide();
       }
     },
     
@@ -464,6 +464,15 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
           }
         }
       }
+    },
+    
+    
+    /**
+     * Prevents the firing of a click event on this widget when called on "touchstart".
+     * @param evt {qx.event.type.Touch} The touchstart event.
+     */
+    _preventClickEvent : function(evt) {
+      evt.preventDefault();
     },
 
 
