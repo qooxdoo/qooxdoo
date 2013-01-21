@@ -195,6 +195,14 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     _applyOrientation : function(value, old) {
       this.removeCssClass(old);
       this.addCssClass(value);
+      
+      // Reapply width of height size depending on orientation.
+      var isVertical = (this.getOrientation() =="left" || this.getOrientation() == "right");
+      if(isVertical) {
+        this._applySize(this.getHeight(), 0);
+      } else {
+        this._applySize(this.getWidth(), 0);
+      }
     },
     
     
