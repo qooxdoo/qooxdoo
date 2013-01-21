@@ -175,6 +175,12 @@ qx.Class.define("qx.ui.mobile.list.List",
     {
       var element = evt.getOriginalTarget();
       var index = -1;
+      
+      // Click on border: do nothing.
+      if(element.tagName == "UL") {
+        return;
+      }
+      
       while (element.tagName != "LI") {
         element = element.parentNode;
       }
