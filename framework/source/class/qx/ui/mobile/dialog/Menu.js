@@ -213,7 +213,6 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       // Add an changeSelection event
       selectionList.addListener("changeSelection", this.__onListChangeSelection, this);
       selectionList.addListener("tap", this._onSelectionListTap, this);
-      selectionList.addListener("touchstart", this._preventClickEvent, this);
       
       return selectionList;
     },
@@ -221,7 +220,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     
     /** Handler for tap event on selection list. */
     _onSelectionListTap : function() {
-      this.hideWithDelay(300);
+      this.hideWithDelay(500);
     },
 
 
@@ -309,7 +308,6 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     this._disposeObjects("__selectionList","__clearButton");
     
     this.__selectionList.removeListener("tap", this._onSelectionListTap, this);
-    this.__selectionList.removeListener("touchstart", this._preventClickEvent, this);
     
     this.__clearButton.removeListener("touchstart", this._preventClickEvent, this);
   }
