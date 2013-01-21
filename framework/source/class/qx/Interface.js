@@ -24,6 +24,10 @@
  * See the description of the {@link #define} method how an interface is
  * defined.
  */
+
+/* ************************************************************************
+#require(qx.lang.normalize.Array)
+************************************************************************ */
 qx.Bootstrap.define("qx.Interface",
 {
   statics :
