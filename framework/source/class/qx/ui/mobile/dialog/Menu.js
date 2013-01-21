@@ -179,7 +179,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       this.base(arguments);
       
       if(this.getHideOnBlockerClick()) {
-        this._getBlocker().addListenerOnce("tap", this.hide, this);
+        this._getBlocker().addListenerOnce("tap", this.forceHide, this);
       }
     },
     
@@ -211,8 +211,8 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
 
       // Add an changeSelection event
       selectionList.addListener("changeSelection", this.__onListChangeSelection, this);
-      selectionList.addListener("tap", this.__onListTap, this);
-
+      selectionList.addListener("tap", this.hide, this);
+      
       return selectionList;
     },
 
@@ -260,11 +260,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     __onClearButtonTap : function() {
       this.fireDataEvent("changeSelection", {index: null, item: null});
       
-      // Last event which is fired by tap is a click event,
-      // so hide menu after click event.
-      // If menu is hidden before click-event, event will bubble to ui
-      // element which is behind menu, and might cause an unexpected action.
-      qx.event.Timer.once(this.hide, this, 500);
+      this.hide();
     },
 
 
@@ -281,18 +277,6 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     // property apply
     _applyClearButtonLabel : function(value, old) {
        this.__clearButton.setValue(value);
-    },
-
-
-    /**
-     * Reacts on selection list click.
-     */
-    __onListTap : function () {
-        // Last event which is fired by tap on List is a click event,
-        // so hide menu, first on click event.
-        // If menu is hidden before click-event, event will bubble to ui
-        // element which is behind menu, and might cause an unexpected action.
-        qx.event.Timer.once(this.hide, this, 500);
     },
 
 

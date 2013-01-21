@@ -257,9 +257,22 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
     /**
      * Hides the popup.
+     * 
+     * If popup is hidden before click event, the event will bubble to ui
+     * element which is behind popup and might cause an unexpected action.
+     * The popup will wait for click event before closing itself. 
      */
     hide : function()
     {
+      // Wait 500ms.
+      qx.lang.Function.delay(this.forceHide, 500, this);
+    },
+    
+    
+    /**
+     * Hides this popup without waiting for click events.
+     */
+    forceHide : function() {
       if (this.__isShown)
       {
         this.__unregisterEventListener();
@@ -289,7 +302,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     toggleVisibility : function() {
       if(this.__isShown == true) {
-        this.hide();
+        this.forceHide();
       } else {
         this.show();
       }
@@ -325,7 +338,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         || clientY < popupLocation.top;
 
       if(isOutsideWidget) {
-        this.hide();
+        this.forceHide();
       }
     },
     

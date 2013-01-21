@@ -231,25 +231,25 @@ qx.Class.define("mobileshowcase.page.Dialog",
     // overridden
     _stop : function() {
       if (this.__popup) {
-        this.__popup.hide();
+        this.__popup.forceHide();
       }
       if (this.__anchorpopup) {
-        this.__anchorpopup.hide();
+        this.__anchorpopup.forceHide();
       }
       if (this.__modaldialogpopup) {
-        this.__modaldialogpopup.hide();
+        this.__modaldialogpopup.forceHide();
       }
       if (this.__busypopup) {
-        this.__busypopup.hide();
+        this.__busypopup.forceHide();
       }
       if (this.__menu) {
-        this.__menu.hide();
+        this.__menu.forceHide();
       }
       if (this.__anchoredMenu) {
-        this.__anchoredMenu.hide();
+        this.__anchoredMenu.forceHide();
       }
       if (this.__picker) {
-        this.__picker.hide();
+        this.__picker.forceHide();
       }
     },
 
