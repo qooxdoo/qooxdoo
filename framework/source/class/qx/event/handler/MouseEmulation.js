@@ -105,7 +105,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     __window : null,
     __root : null,
 
-
+    __startPos : null,
 
 
     /*
@@ -150,7 +150,9 @@ qx.Class.define("qx.event.handler.MouseEmulation",
      *     Returns <code>true</code>, when the event was NOT prevented.
      */
     __fireEvent : function(evt, type, target) {
-      var mouseEvent = new qx.event.type.Mouse();
+      var mouseEvent = type == "mousewheel" ?
+        new qx.event.type.MouseWheel() :
+        new qx.event.type.Mouse();
       mouseEvent.init(evt, target, null, true, true);
       mouseEvent.setType(type);
       return qx.event.Registration.getManager(target).dispatchEvent(target, mouseEvent);
@@ -213,6 +215,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
       if (!this.__fireEvent(nativeEvent, "mousedown", target)) {
         e.preventDefault();
       }
+      this.__startPos = {x: nativeEvent.screenX, y: nativeEvent.screenY};
     },
 
 
@@ -222,6 +225,21 @@ qx.Class.define("qx.event.handler.MouseEmulation",
       if (!this.__fireEvent(nativeEvent, "mousemove", target)) {
         e.preventDefault();
       }
+
+      // calculate the delta for the wheel event
+      var deltaY = -parseInt(this.__startPos.y - nativeEvent.screenY);
+      var deltaX = -parseInt(this.__startPos.x - nativeEvent.screenX);
+
+      // take a new position. wheel events require the delta to the last event
+      this.__startPos = {x: nativeEvent.screenX, y: nativeEvent.screenY};
+
+      // change the native fake event to include the wheel delta's
+      var wheelEvent = this.getDefaultFakeEvent(target, e.getChangedTargetTouches()[0]);
+      wheelEvent.wheelDelta = deltaX;
+      wheelEvent.wheelDeltaY = deltaY;
+      wheelEvent.wheelDeltaX = deltaX;
+
+      this.__fireEvent(wheelEvent, "mousewheel", target);
     },
 
 
