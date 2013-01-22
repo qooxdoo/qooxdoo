@@ -34,6 +34,8 @@ qx.Class.define("qx.ui.core.queue.Manager",
     /** {Boolean} Whether a flush was scheduled */
     __scheduled : false,
 
+    /** {Boolean} true, if the flush should not be executed */
+    __canceled : false,
 
     /** {Map} Internal data structure for the current job list */
     __jobs : {},
@@ -61,7 +63,8 @@ qx.Class.define("qx.ui.core.queue.Manager",
 
       if (!self.__scheduled)
       {
-        self.__deferredCall.schedule();
+        this.__canceled = false;
+        qx.bom.AnimationFrame.request(this.flush, this);
         self.__scheduled = true;
       }
     },
@@ -74,7 +77,8 @@ qx.Class.define("qx.ui.core.queue.Manager",
      */
     flush : function()
     {
-      if (qx.ui.core.queue.Manager.PAUSE) {
+      if (this.__canceled) {
+        this.__canceled = false;
         return;
       }
 
@@ -89,7 +93,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
       self.__inFlush = true;
 
       // Cancel timeout if called manually
-      self.__deferredCall.cancel();
+      this.__canceled = true;
 
       var jobs = self.__jobs;
 
@@ -315,9 +319,6 @@ qx.Class.define("qx.ui.core.queue.Manager",
 
   defer : function(statics)
   {
-    // Initialize deferred call
-    statics.__deferredCall = new qx.util.DeferredCall(statics.flush);
-
     // Replace default scheduler for HTML element with local one.
     // This is quite a hack, but allows us to force other flushes
     // before the HTML element flush.
