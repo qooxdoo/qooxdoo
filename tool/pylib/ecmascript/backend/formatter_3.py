@@ -558,10 +558,10 @@ def format(self, optns, state):
 @method(symbol("label"))
 def format(self, optns, state):
     self.commentsPretty(self.comments, optns, state)
-    self.children[0].format(optns, state,optns)  # identifier
-    self.children[1].format(optns, state,optns)  # :
+    self.children[0].format(optns, state)  # identifier
+    self.children[1].format(optns, state)  # :
     state.add(self.nl(optns, state),_, optns)
-    self.children[2].format(optns, state,optns)  # statement)
+    self.children[2].format(optns, state)  # statement)
 
 @method(symbol("{"))
 def format(self, optns, state):
@@ -678,16 +678,19 @@ def format(self, optns, state):
     commentStr = self.get("value")
     comments = []
     #import pydb; pydb.debugger()
-    #print comment
+    #print self
     # handle comment that should dangled off preceding text
     if is_dangling_comment(self):
+        # find previous non-empty line
+
+        # attach comment there
         pass
 
     # handle comments on their own line
     else: 
         # offset block comments with a blank line
         if self.get("multiline") and not is_first_on_level():
-            import pydb; pydb.debugger()
+            #import pydb; pydb.debugger()
             comments.append('\n')
     # terminate a comment that extends to the end of line with newline
     if self.get('end', False) == True:  # 'inline' needs terminating newline anyway
@@ -798,6 +801,13 @@ class FormatterState(object):
         #if inn:
         #    #pass
         #print strng
+
+        #if isinstance(tokenOrArr, symbol_base) and tokenOrArr.type == "comment":
+        #    comment = tokenOrArr
+        #    insert_idx = find_last_nonwhite_lineidx()
+        #    if self.output[insert_idx][-1] == '\n': # chop trailing newline
+        #        self.output[insert_idx] = self.output[insert_idx][:-1] 
+
         while strng:
             # Add fragment to line
             if '\n' in strng:
