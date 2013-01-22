@@ -586,10 +586,10 @@ def format(self, optns, state):
 @method(symbol("label"))
 def format(self, optns, state):
     state.add(self.commentsPretty(self.comments, optns, state),self.comments, optns)
-    self.children[0].format(optns, state,optns)  # identifier
-    self.children[1].format(optns, state,optns)  # :
+    self.children[0].format(optns, state)  # identifier
+    self.children[1].format(optns, state)  # :
     state.add(self.nl(optns, state),_, optns)
-    self.children[2].format(optns, state,optns)  # statement)
+    self.children[2].format(optns, state)  # statement)
 
 @method(symbol("{"))
 def format(self, optns, state):

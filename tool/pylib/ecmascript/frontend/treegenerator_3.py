@@ -1992,7 +1992,12 @@ def statement():
                         s.childappend(token)
                         advance(',')
                         s.childappend(expression())
-            statementEnd()
+            # Tentatively removing the statementEnd check. It's an assertion anyway, so doesn't do
+            # anything. But the idea is that each statement type as treated above ('var' statement,
+            # function decl, loop, expression, ...) determines each own end by its parsing rules.
+            # So a dedicated check for a statement end might be unnecessary, and in fact breaking
+            # the parsing of dense code, like "for(..){...}a=1" (bug#7156).
+            #statementEnd()
     statmnt.childappend(s)
     if token.id == ';':
         statmnt.childappend(token)
