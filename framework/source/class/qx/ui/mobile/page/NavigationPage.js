@@ -556,7 +556,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
       var content = new qx.ui.mobile.container.Composite();
       content.setDefaultCssClass(this.getContentCssClass());
 
-      if(this._wrapContentByGroup==true) {
+      if(this._wrapContentByGroup == true) {
         content.addCssClass("group");
       }
 
