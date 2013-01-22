@@ -106,6 +106,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     __root : null,
 
     __startPos : null,
+    __lastPos : null,
     __impulseTimerId : null,
 
     /*
@@ -184,7 +185,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
         return;
       }
 
-      var change = parseInt((time||20)/10);
+      var change = parseInt((time || 20) / 10);
 
       // linear momentum calculation for X
       if (deltaX > 0) {
@@ -211,6 +212,20 @@ qx.Class.define("qx.event.handler.MouseEmulation",
       this.__fireWheelEvent(deltaX, deltaY, finger, target);
     },
 
+
+    __hasMoved : function(nativeEvent) {
+      var endPos = {x: nativeEvent.screenX, y: nativeEvent.screenY};
+      var moved = false;
+
+      var offset = 20;
+      if (Math.abs(endPos.x - this.__startPos.x) > offset) {
+        moved = true;
+      }
+      if (Math.abs(endPos.y - this.__startPos.y) > offset) {
+        moved = true;
+      }
+      return moved;
+    },
 
 
     /*
@@ -267,6 +282,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
       if (!this.__fireEvent(nativeEvent, "mousedown", target)) {
         e.preventDefault();
       }
+      this.__lastPos = {x: nativeEvent.screenX, y: nativeEvent.screenY};
       this.__startPos = {x: nativeEvent.screenX, y: nativeEvent.screenY};
     },
 
@@ -279,11 +295,11 @@ qx.Class.define("qx.event.handler.MouseEmulation",
       }
 
       // calculate the delta for the wheel event
-      var deltaY = -parseInt(this.__startPos.y - nativeEvent.screenY);
-      var deltaX = -parseInt(this.__startPos.x - nativeEvent.screenX);
+      var deltaY = -parseInt(this.__lastPos.y - nativeEvent.screenY);
+      var deltaX = -parseInt(this.__lastPos.x - nativeEvent.screenX);
 
       // take a new position. wheel events require the delta to the last event
-      this.__startPos = {x: nativeEvent.screenX, y: nativeEvent.screenY};
+      this.__lastPos = {x: nativeEvent.screenX, y: nativeEvent.screenY};
 
       var finger = e.getChangedTargetTouches()[0];
       this.__fireWheelEvent(deltaX, deltaY, finger, target);
@@ -305,8 +321,11 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     __onTouchEnd : function(e) {
       var target = e.getTarget();
       var nativeEvent = this.getDefaultFakeEvent(target, e.getChangedTargetTouches()[0]);
-      if (!this.__fireEvent(nativeEvent, "mouseup", target)) {
-        e.preventDefault();
+
+      if (!this.__hasMoved(nativeEvent)) {
+        if (!this.__fireEvent(nativeEvent, "mouseup", target)) {
+          e.preventDefault();
+        }
       }
     },
 
@@ -315,7 +334,9 @@ qx.Class.define("qx.event.handler.MouseEmulation",
       var target = e.getTarget();
       var nativeEvent = this.getDefaultFakeEvent(target, e.getChangedTargetTouches()[0]);
 
-      this.__fireEvent(nativeEvent, "click", target);
+      if (!this.__hasMoved(nativeEvent)) {
+        this.__fireEvent(nativeEvent, "click", target);
+      }
     },
 
 
