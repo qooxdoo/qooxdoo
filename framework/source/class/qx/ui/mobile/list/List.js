@@ -81,6 +81,10 @@ qx.Class.define("qx.ui.mobile.list.List",
     if (delegate) {
       this.setDelegate(delegate);
     }
+
+    if (qx.core.Environment.get("qx.dynlocale")) {
+      qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
+    }
   },
 
 
@@ -204,24 +208,40 @@ qx.Class.define("qx.ui.mobile.list.List",
       if (value != null) {
         value.addListener("changeBubble", this.__onModelChangeBubble, this);
       }
-      
+
       if (old != null) {
         old.removeListener("change", this.__onModelChange, this);
       }
       if (value != null) {
         value.addListener("change", this.__onModelChange, this);
       }
-      
+
       this.__render();
     },
-    
-    
+
+
     // property apply
     _applyDelegate : function(value, old) {
       this.__provider.setDelegate(value);
     },
 
-    
+    /**
+     * Locale change event handler
+     *
+     * @signature function(e)
+     * @param e {Event} the change event
+     */
+    _onChangeLocale : qx.core.Environment.select("qx.dynlocale",
+    {
+      "true" : function(e)
+      {
+        this.__render();
+      },
+
+      "false" : null
+    }),
+
+
     /**
      * Reacts on model 'change' event.
      * @param evt {qx.event.type.Data} data event which contains model change data.
@@ -229,14 +249,14 @@ qx.Class.define("qx.ui.mobile.list.List",
     __onModelChange : function(evt) {
       if(evt && evt.getData() && evt.getData().type) {
         var changeType = evt.getData().type;
-        
+
         if(changeType == "order" || changeType == "add" || changeType == "remove") {
           this.__render();
         }
       }
     },
-    
-    
+
+
     /**
      * Reacts on model 'changeBubble' event.
      * @param evt {qx.event.type.Data} data event which contains model changeBubble data.
@@ -309,5 +329,8 @@ qx.Class.define("qx.ui.mobile.list.List",
   destruct : function()
   {
     this._disposeObjects("__provider");
+    if (qx.core.Environment.get("qx.dynlocale")) {
+      qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
+    }
   }
 });
