@@ -321,10 +321,8 @@ qx.Class.define("qx.event.handler.MouseEmulation",
       var target = e.getTarget();
       var nativeEvent = this.getDefaultFakeEvent(target, e.getChangedTargetTouches()[0]);
 
-      if (!this.__hasMoved(nativeEvent)) {
-        if (!this.__fireEvent(nativeEvent, "mouseup", target)) {
-          e.preventDefault();
-        }
+      if (!this.__fireEvent(nativeEvent, "mouseup", target)) {
+        e.preventDefault();
       }
     },
 
