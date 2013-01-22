@@ -67,8 +67,8 @@ We're planning to have also a web interface to the catalog that
 might be a bit nicer than using Github's code browsing facility, maybe together
 with searching and sorting capabilities.  
 
-Contribution Code
-==================
+Providing Contributions
+==========================
 
 The actual contribution code, i.e. the code somebody would download and use,
 needs to be provided through the Manifest's *info/download*. The value should be
@@ -76,6 +76,11 @@ a HTTP URL to an archive (zip or tar.gz) ready to be downloaded. The archive
 should contain a single root folder with arbitrary name, and beneath that the
 contents of the contribution. I.e. for a standard qooxdoo library the second
 level should contain its Manifest.json.
+
+Adding a revision.txt file
+---------------------------
+
+TBD.
 
 Using Contributions
 ====================
