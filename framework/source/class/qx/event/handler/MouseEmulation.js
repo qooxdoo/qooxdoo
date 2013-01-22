@@ -203,10 +203,9 @@ qx.Class.define("qx.event.handler.MouseEmulation",
 
       // set up a new timer with the new delta
       var start = +(new Date())
-      this.__impulseTimerId =
-        qx.bom.AnimationFrame.request(qx.lang.Function.bind(function(deltaX, deltaY, finger, target, time) {
-          this.__handleScrollImpulse(deltaX, deltaY, finger, target, time - start);
-        }, this, deltaX, deltaY, finger, target));
+      qx.bom.AnimationFrame.request(qx.lang.Function.bind(function(deltaX, deltaY, finger, target, time) {
+        this.__handleScrollImpulse(deltaX, deltaY, finger, target, time - start);
+      }, this, deltaX, deltaY, finger, target));
 
       // scroll the desired new delta
       this.__fireWheelEvent(deltaX, deltaY, finger, target);
