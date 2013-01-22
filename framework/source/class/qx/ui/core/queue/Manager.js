@@ -64,7 +64,13 @@ qx.Class.define("qx.ui.core.queue.Manager",
       if (!self.__scheduled)
       {
         this.__canceled = false;
-        qx.bom.AnimationFrame.request(this.flush, this);
+        qx.bom.AnimationFrame.request(function() {
+          if (this.__canceled) {
+            this.__canceled = false;
+            return;
+          }
+          this.flush();
+        }, this);
         self.__scheduled = true;
       }
     },
@@ -77,11 +83,6 @@ qx.Class.define("qx.ui.core.queue.Manager",
      */
     flush : function()
     {
-      if (this.__canceled) {
-        this.__canceled = false;
-        return;
-      }
-
       // Sometimes not executed in context, fix this
       var self = qx.ui.core.queue.Manager;
 
@@ -287,24 +288,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
      */
     __onUserAction : function(e)
     {
-      var statics = qx.ui.core.queue.Manager;
-      // postpone the flush for 500ms due to the fact that iOS stops firing
-      // events if the DOM gets changed during the vent chain [BUG #4033]
-      if (e.getData() == "touchend")
-      {
-        statics.PAUSE = true;
-        if (statics.__pauseTimeout) {
-          window.clearTimeout(statics.__pauseTimeout);
-        }
-        statics.__pauseTimeout = window.setTimeout(function()
-        {
-          statics.PAUSE = false;
-          statics.__pauseTimeout = null;
-          statics.flush();
-        }, 500);
-      } else {
-        statics.flush();
-      }
+      qx.ui.core.queue.Manager.flush();
     }
   },
 
