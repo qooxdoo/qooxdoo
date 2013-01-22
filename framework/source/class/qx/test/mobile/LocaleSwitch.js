@@ -112,13 +112,13 @@ qx.Class.define("qx.test.mobile.LocaleSwitch",
       this.__testListEn();
 
       this.manager.setLocale("de_QX");
-      title0 = q(".list * .list-itemlabel").eq(0).getHtml();
+      var title0 = q(".list * .list-itemlabel").eq(0).getHtml();
       this.assertEquals("Eins". title0);
-      subtitle0 = q(".list * .subtitle").eq(0).getHtml();
+      var subtitle0 = q(".list * .subtitle").eq(0).getHtml();
       this.assertEquals("Zwei", subtitle0);
-      title1 = q(".list * .list-itemlabel").eq(1).getHtml();
+      var title1 = q(".list * .list-itemlabel").eq(1).getHtml();
       this.assertEquals("Servus Jonathan!", title1);
-      subtitle1 = q(".list * .subtitle").eq(1).getHtml();
+      var subtitle1 = q(".list * .subtitle").eq(1).getHtml();
       this.assertEquals("Jonathan", subtitle1);
 
       this.manager.setLocale("en_QX");
