@@ -60,7 +60,7 @@ def interruptCleanup():
             func()
         except Error, e:
             print >>sys.stderr, e  # just keep on with the others
-    
+
 ##
 # This can be used with sys.settrace(). It records the max. stack size during
 # exection. Slows the whole thing down, of course.
@@ -84,7 +84,7 @@ def listJobs(console, jobs, config):
         if jdesc:
             jdesc = " \t -- %s" % (jdesc,)
         console.info(job + jdesc)
-    console.outdent()       
+    console.outdent()
 
 def getUserConfig(config):
     generatorPrefsPath = os.path.join(qxUserHome, "generator.json")
@@ -114,7 +114,7 @@ def main():
     else:
         options.jobs = []
 
-        
+
     # Initialize console
     if options.verbose:
         level = "debug"
@@ -170,7 +170,7 @@ def main():
             if not options.daemon:
                 listJobs(console, availableJobs, config)
                 sys.exit(1)
-        
+
     else:
         for job in options.jobs:
             if job not in availableJobs:
@@ -189,7 +189,7 @@ def main():
 
         # Include system defaults
         config.includeSystemDefaults(expandedjobs)
-        
+
         # Resolve "let"-Keys
         config.resolveMacros(expandedjobs)
 
@@ -226,11 +226,11 @@ def main():
             generatorObj.run()
 
     # Daemon mode
-    else: 
+    else:
         from generator.runtime.Generatord import Generatord
         console.head("Executing: Daemon Mode", True)
         generatord = Generatord(context)
-        console.info("Opening port %s on %s, serving in background..." % (generatord.servAddr[1], 
+        console.info("Opening port %s on %s, serving in background..." % (generatord.servAddr[1],
             generatord.servAddr[0] if generatord.servAddr[0] else 'localhost')
         )
         generatord.serve()
