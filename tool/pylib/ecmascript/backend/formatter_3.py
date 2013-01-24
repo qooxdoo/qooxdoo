@@ -661,37 +661,40 @@ def format(self, optns, state):
             and state.not_all_white(state.output[-1]) # previous line is not all white
             )
         return boolean
+    ##
+    # Whether the comment is the first text on current indent level.
     def is_first_on_level():
         boolean = bool(
             state.lineOfLevel.current() == state.lineOfLevel.first_index
             )
         return boolean
+    ##
+    # Whether comment follows code on the same line.
     def is_dangling_comment(comment):
         boolean = bool(
             comment.get("connection","before") == "after"
         )
         return boolean
 
-    # leading newline
-    #if has_preceding_text() and not is_first_on_level():
-    #   comments.append('\n')
-    commentStr = self.get("value")
     comments = []
-    #import pydb; pydb.debugger()
-    #print self
+    # handle leading newline
+    if (not is_dangling_comment(self)
+        and has_preceding_text() 
+        and not is_first_on_level()):
+       comments.append('\n')
+    commentStr = self.get("value")
     # handle comment that should dangled off preceding text
-    if is_dangling_comment(self):
-        # find previous non-empty line
+    #if is_dangling_comment(self):
+    #    # find previous non-empty line
 
-        # attach comment there
-        pass
+    #    # attach comment there
+    #    pass
 
-    # handle comments on their own line
-    else: 
-        # offset block comments with a blank line
-        if self.get("multiline") and not is_first_on_level():
-            #import pydb; pydb.debugger()
-            comments.append('\n')
+    ## handle comments on their own line
+    #else: 
+    #    # offset block comments with a blank line
+    #    if self.get("multiline") and not is_first_on_level():
+    #        comments.append('\n')
     # terminate a comment that extends to the end of line with newline
     if self.get('end', False) == True:  # 'inline' needs terminating newline anyway
         commentStr += state.nl()
@@ -756,6 +759,8 @@ class FormatterState(object):
         self.output = []  # list of output lines
         self.line = u''   # current output line buffer
 
+    ##
+    # Current *insert* column (i.e. the column after the last char).
     def currColumn(self):
         return len(self.line) + 1
 
@@ -795,18 +800,22 @@ class FormatterState(object):
     #     [symbol-comment] - an array of <comment> objects, as passed to commentsPretty
     #
     def add(self, strng, tokenOrArr, optns):
-        #inn = 0
-        #if "else" in strng:
-        #    inn = 1
-        #if inn:
-        #    #pass
-        #print strng
 
-        #if isinstance(tokenOrArr, symbol_base) and tokenOrArr.type == "comment":
-        #    comment = tokenOrArr
-        #    insert_idx = find_last_nonwhite_lineidx()
-        #    if self.output[insert_idx][-1] == '\n': # chop trailing newline
-        #        self.output[insert_idx] = self.output[insert_idx][:-1] 
+        # check dangling comments
+        if isinstance(tokenOrArr, symbol_base) and tokenOrArr.type == "comment":
+            comment = tokenOrArr
+            if comment.get("connection", "before") == "after":
+                if self.line:  # there is something the comment can dangle from
+                    pass       # just process as normal
+                else:
+                    # "re-open" previous line
+                    self.line = self.output.pop()
+                    assert self.line  # let's assume here is the code the comment belongs to
+                    if self.line[-1] == '\n':
+                        self.line = self.line[:-1]
+                    # now procede as usual, with self.line as an incomplete line
+                # add a padding between code and comment
+                self.line += self.make_comment_padding(comment, optns)
 
         while strng:
             # Add fragment to line
@@ -843,6 +852,32 @@ class FormatterState(object):
                 self.line = ''
         # postcond: rest of strng is in self.line
             
+    ##
+    # Return spaces to be inserted between code and dangling comment.
+    def make_comment_padding(self, comment, optns):
+        padding = u' '
+        currColumn = self.currColumn() # is last-added-char + 1
+        # check using the old comment column
+        if optns.prettypCommentsTrailingKeepColumn:
+            padding *= comment.get("column", 0) - currColumn
+            if not padding:
+                padding = optns.prettypCommentsInlinePadding
+        # check using pre-defined comment columns
+        elif optns.prettypCommentsTrailingCommentCols:
+            next_stop = 0
+            for col in optns.prettypCommentsTrailingCommentCols:
+                if col > currColumn:
+                    next_stop = col
+                    break
+            if next_stop:
+                padding *= next_stop - currColumn
+            else:
+                padding = optns.prettypCommentsInlinePadding
+        # use a fixed padding
+        else:
+            padding = optns.prettypCommentsInlinePadding
+        return padding
+
     def layout_line(self, strng):
         strng = strng.rstrip() # remove trailing ws
         strng += self.nl()
@@ -961,7 +996,7 @@ def defaultOptions(optns=None):
     optns.prettypOpenCurlyNewlineBefore = 'm'  # mixed, dep. on complexity
     optns.prettypOpenCurlyIndentBefore  = False  # indent curly on a new line
     optns.prettypAlignBlockWithCurlies  = False  # put block on same column as curlies
-    optns.prettypCommentsTrailingCommentCols = ''  # put trailing comments on fixed columns
+    optns.prettypCommentsTrailingCommentCols = []  # put trailing comments on fixed columns
     optns.prettypCommentsTrailingKeepColumn  = False  # fix trailing comment on column of original text
     optns.prettypCommentsInlinePadding  = '  '   # space between end of code and beginning of comment
     optns.prettypTextWidth = 0
