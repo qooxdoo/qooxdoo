@@ -298,10 +298,7 @@ def format(self, optns, state):
         ident = self.getChild("identifier")
         functionName = ident.get("value")
         state.add(self.space() + self.write(functionName),ident, optns)
-    # params
     self.getChild("params").format(optns, state)
-    state.add(self.space(),_, optns)
-    # body
     self.getChild("body").format(optns, state)
 
 #@method(symbol("body"))
@@ -576,15 +573,20 @@ def format(self, optns, state):
                 or (optns.prettypOpenCurlyNewlineBefore in 'mM' and node.parent.isComplex()))
     # --------------------------------------------------------------------------
 
-    self.commentsPretty(self.comments,optns, state)
+    self.commentsPretty(self.comments, optns, state)
+
     # handle opening 'always|never|mixed' mode
     if (allowsNewline(node=self) and wantsNewline(node=self)):
+        # set indent before inserting self.nl()
         if optns.prettypOpenCurlyIndentBefore:
             state.indent()
-        #state.add(self.nl(optns,state) + state.indentStr(optns),_, optns)
-        state.add(self.nl(optns,state),_, optns)
-    state.add(state.intervening_space(),_, optns)  # at least one white space (of some kind)
+        state.assure_nl(optns)
+
+    # assure at least one white space before '{'
+    state.assure_white()
+    # '{'
     state.add(self.get("value"),self, optns)
+
     if 1: #self.parent.isComplex():
         state.add(self.nl(optns,state),_, optns)
     if not optns.prettypAlignBlockWithCurlies:
@@ -652,6 +654,7 @@ def format(self, optns, state):
 # method (currently via commentsPretty).
 @method(symbol("comment"))
 def format(self, optns, state):
+
     ##
     # Whether the previous line had text, but not the current so far.
     def has_preceding_text():
@@ -676,6 +679,8 @@ def format(self, optns, state):
         )
         return boolean
 
+    # --------------------------------------------------------------------------
+
     comments = []
     # handle leading newline
     if (not is_dangling_comment(self)
@@ -683,18 +688,7 @@ def format(self, optns, state):
         and not is_first_on_level()):
        comments.append('\n')
     commentStr = self.get("value")
-    # handle comment that should dangled off preceding text
-    #if is_dangling_comment(self):
-    #    # find previous non-empty line
 
-    #    # attach comment there
-    #    pass
-
-    ## handle comments on their own line
-    #else: 
-    #    # offset block comments with a blank line
-    #    if self.get("multiline") and not is_first_on_level():
-    #        comments.append('\n')
     # terminate a comment that extends to the end of line with newline
     if self.get('end', False) == True:  # 'inline' needs terminating newline anyway
         commentStr += state.nl()
@@ -927,13 +921,17 @@ class FormatterState(object):
     def nl(self):
         return '\n'
 
-    re_a_white = re.compile('\s', re.U)
+    re_white = re.compile('\s', re.U)
 
-    def intervening_space(self):
-        if self.line and not self.re_a_white.match(self.line[-1]):
-            return ' '
-        else:
-            return ''
+    ##
+    # Insert a space unless space/tab/nl is not already present
+    def assure_white(self):
+        if self.line and not self.re_white.match(self.line[-1]):
+            self.line += ' '
+
+    def assure_nl(self, optns):
+        if self.hasLeadingContent(True):
+            self.add(self.nl(), _, optns)
 
     ##
     # Whether the current line has content
