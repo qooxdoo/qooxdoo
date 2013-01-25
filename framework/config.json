@@ -24,6 +24,7 @@
     "lint",
     "lint-test",
     "provider",
+    "pretty-test",
     "test",
     "test-inline",
     "test-source",
@@ -287,6 +288,11 @@
           "file" : "api/sitemap.xml"
         }
       }
+    }
+
+    ,"pretty-test" : {
+      "desc" : "This is just to test pretty-printing - don't commit after running.",
+      "extend" : ["pretty"]
     }
   }
 }
