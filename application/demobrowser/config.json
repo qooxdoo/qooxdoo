@@ -42,6 +42,7 @@
     "info",
     "inspector",
     "lint",
+    "pretty",
     "publish",
     "source",
     "source-data",
