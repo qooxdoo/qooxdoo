@@ -607,7 +607,7 @@ qx.Bootstrap.define("qx.Class",
      * Returns a list of all mixins available in a class.
      *
      * @param clazz {Class} class which should be inspected
-     * @return {Mixin[]} array of mixins this class uses
+     * @return {Interface[]} array of interfaces this class implements
      */
     getInterfaces : function(clazz)
     {
