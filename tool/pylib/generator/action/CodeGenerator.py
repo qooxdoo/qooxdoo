@@ -31,10 +31,8 @@ from generator.code.Class       import Class, ClassMatchList, CompileOptions
 from generator.code.Script      import Script
 from generator.action           import Locale
 import generator.resource.Library # just need the .Library type
-from ecmascript.frontend        import tokenizer, treegenerator, treegenerator_2, treegenerator_3
-from ecmascript.backend         import pretty
-from ecmascript.backend         import formatter, formatter_2, formatter_3
-#from ecmascript.backend         import pretty_new as pretty
+from ecmascript.frontend        import tokenizer, treegenerator, treegenerator_3
+from ecmascript.backend         import formatter_3
 from ecmascript.backend.Packer  import Packer
 from ecmascript.transform.optimizer    import privateoptimizer
 from misc                       import filetool, json, Path, securehash as sha, util
@@ -1005,7 +1003,7 @@ class CodeGenerator(object):
 
     ##
     # Pretty-print set of classes.
-    # Collects options and invokes ecmascript.backend.pretty
+    # Collects options and invokes ecmascript.backend.formatter
     def runPrettyPrinting(self, classesObj):
         if not isinstance(self._job.get("pretty-print", False), types.DictType):
             return
@@ -1015,8 +1013,6 @@ class CodeGenerator(object):
         ppsettings = ExtMap(self._job.get("pretty-print"))  # get the pretty-print config settings
 
         # init options
-        #def options(): pass
-        #pretty.defaultOptions(options)
         options = formatter_3.FormatterOptions()
         formatter_3.defaultOptions(options)
 
@@ -1044,16 +1040,9 @@ class CodeGenerator(object):
         numClasses = len(classesObj)
         for pos, classId in enumerate(classesObj):
             self._console.progress(pos+1, numClasses)
-            #tree = classesObj[classId].tree(treegenerator_2)
-            #tree = classesObj[classId].tree()
             tree = classesObj[classId].tree(treegenerator_3)
             result = [u'']
-            #result = pretty.prettyNode(tree, options, result)
             result = formatter_3.formatNode(tree, options, result)
-            # formatter_2
-            #file_cont = filetool.read(classesObj[classId].path)
-            #result = [formatter_2.formatString(file_cont, options)]
-            # - formatter_2
             compiled = u''.join(result)
             filetool.save(self._classes[classId].path, compiled)
 

@@ -78,6 +78,7 @@ qx.Class.define("mobileshowcase.Application",
       var overview = new mobileshowcase.page.Overview();
       var events = new mobileshowcase.page.Event();
       var carousel = new mobileshowcase.page.Carousel();
+      var drawer = new mobileshowcase.page.Drawer();
       var list = new mobileshowcase.page.List();
       var tab = new mobileshowcase.page.Tab();
       var toolbar = new mobileshowcase.page.Toolbar();
@@ -100,6 +101,7 @@ qx.Class.define("mobileshowcase.Application",
         basic,
         events,
         carousel,
+        drawer,
         list,
         tab,
         toolbar,
@@ -113,7 +115,7 @@ qx.Class.define("mobileshowcase.Application",
         canvas,
         themeSwitcher
       ]);
-
+      
       // Initialize the navigation
       var nm = new qx.application.Routing();
       this.setRouting(nm);
@@ -188,6 +190,11 @@ qx.Class.define("mobileshowcase.Application",
       nm.onGet("/carousel", function(data)
       {
         carousel.show();
+      },this);
+      
+      nm.onGet("/drawer", function(data)
+      {
+        drawer.show();
       },this);
 
       nm.onGet("/databinding", function(data)

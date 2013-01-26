@@ -42,7 +42,7 @@ $highlighted-text-color: $android-orange;
   color: #ffffff;
 }
 
-.page {
+.page, .drawer, .scroll {
   background: $background-color;
 }
 
@@ -378,7 +378,6 @@ input[type="checkbox"]:checked + label:after {
     opacity: 1;
 }
 
-
 //
 // RADIOBUTTON
 //
@@ -555,40 +554,12 @@ $arrow-size: 12px;
 // MASTER DETAIL
 // 
 
-$master-popup-border-color:white;
-
-.master-popup .navigationbar {
-  background: none;
-}
-
-.master-popup .navigationbar > .label {
-  height: 38px !important;
-  line-height: 34px !important;
-}
-
-.master-popup .left-container {
-  top: 0px;
-}
-
-.master-popup .right-container {
-  top:0px;
-}
-
-.master-detail-master.attached {
+.master-detail-master {
   border-right: 1px solid $border-color;
 }
 
-.master-popup {
-  //@include gradient-vertical-three($ios-button-gradient-stop-1, $ios-button-gradient-stop-3,$ios-button-gradient-stop-3, 20px);
-  border:2px solid $master-popup-border-color;
-}
-
-.master-popup .page {
-  border: 1px solid $border-color;
-}
-
-.master-popup .layout-card {
-  background-color: $background-color;
+.master-detail.portrait .master-detail-master:not(.hidden) {
+  @include box-shadow(0px 0px 10px 5px rgba(0,0,0,0.4));
 }
 
 //
@@ -624,7 +595,6 @@ $pagination-label-size:8px;
 // PICKER
 //
 
-
 .picker-container {
   background-color:darken($android-dark-grey,20%);
   @include box-shadow(0px 1px 1px rgba(255, 255, 255, 0.5));
@@ -653,4 +623,46 @@ $pagination-label-size:8px;
 
   border-top:1px solid $android-orange;
   border-bottom:1px solid $android-orange;
+}
+
+//
+// DRAWER
+//
+
+.drawer:not(.master-detail-master):not(.hidden) {
+  @include box-shadow(0px 0px 10px 5px rgba(0,0,0,0.4));
+}
+
+.root.portrait .master-detail-master:not(.hidden) {
+  @include box-shadow(0px 0px 10px 5px rgba(0,0,0,0.4));
+}
+
+.drawer.top:not(.master-detail-master) {
+  border-bottom:1px solid $android-orange;
+}
+
+.drawer.left:not(.master-detail-master) {
+  border-right:1px solid $android-orange;
+}
+
+.drawer.right:not(.master-detail-master) {
+  border-left:1px solid $android-orange;
+}
+
+.drawer.bottom:not(.master-detail-master) {
+  border-top:1px solid $android-orange;
+}
+
+.drawer.below.left:before, .drawer.below.right:before, .drawer.below.top:before, .drawer.below.bottom:before {
+  content:'';
+  width:100%;
+  height:100%;
+  position:absolute;
+  top:0;
+  left:0;
+  z-index:500;
+
+  pointer-events:none;
+  
+  @include box-inset-shadow(0px 0px 10px 5px rgba(0,0,0,0.4));
 }

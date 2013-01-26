@@ -25,7 +25,7 @@
 # JavaScript syntax tree.
 ##
 
-import re
+import re, types
 from ecmascript.frontend import tree, tokenizer, treegenerator, Comment
 from ecmascript.frontend.treegenerator import PackerFlags as pp
 
@@ -119,7 +119,7 @@ def findChild(node, type):
     if isinstance(type, types.StringTypes):
         if node.type == type:
             return node
-    elif isinstance(type, type.ListType):
+    elif isinstance(type, types.ListType):
         if node.type in type:
             return node
 

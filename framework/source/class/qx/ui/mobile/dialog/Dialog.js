@@ -32,7 +32,7 @@
  *
  * This example creates a label widget and adds this widget to a dialog.
  * 
- * @deprecated { 2.2 } Pleaes use qx.ui.mobile.Popup instead and call function setModal(true).
+ * @deprecated { 2.2 } Please use qx.ui.mobile.Popup instead and call function setModal(true).
  */
 qx.Class.define("qx.ui.mobile.dialog.Dialog",
 {

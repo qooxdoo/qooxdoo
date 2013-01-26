@@ -367,12 +367,18 @@ qx.Class.define("qx.data.Array",
           }, null
         );
       }
+
+      // remove the listeners first [BUG #7132]
+      for (var i = 0; i < returnArray.length; i++) {
+        this._registerEventChaining(null, returnArray[i], i);
+      }
+
       // add listeners
       for (var i = 2; i < arguments.length; i++) {
         this._registerEventChaining(arguments[i], null, startIndex + i);
       }
       // apply event chaining for every item moved
-      this.__updateEventPropagation(startIndex + arguments.length - 2, this.length);
+      this.__updateEventPropagation(startIndex + (arguments.length - 2) - amount, this.length);
 
       // fire the changeBubble event
       var value = [];
@@ -385,10 +391,6 @@ qx.Class.define("qx.data.Array",
         value: value, name: name + "", old: returnArray, item: this
       });
 
-      // remove the listeners
-      for (var i = 0; i < returnArray.length; i++) {
-        this._registerEventChaining(null, returnArray[i], i);
-      }
       return (new qx.data.Array(returnArray));
     },
 
@@ -556,6 +558,17 @@ qx.Class.define("qx.data.Array",
      */
     indexOf: function(item) {
       return this.__array.indexOf(item);
+    },
+
+    /**
+     * Returns the last index of the item in the array. If the item is not in the
+     * array, -1 will be returned.
+     *
+     * @param item {var} The item of which the index should be returned.
+     * @return {Number} The Index of the given item.
+     */
+    lastIndexOf: function(item) {
+      return this.__array.lastIndexOf(item);
     },
 
 
@@ -874,6 +887,114 @@ qx.Class.define("qx.data.Array",
       for (var i = 0; i < this.__array.length; i++) {
         callback.call(context, this.__array[i], i, this);
       }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      Additional JS1.6 methods
+    ---------------------------------------------------------------------------
+    */
+    /**
+     * Creates a new array with all elements that pass the test implemented by
+     * the provided function. It returns a new data array instance so make sure
+     * to think about disposing it.
+     * @param callback {Function} The test function, which will be executed for every
+     *   item in the array. The function will have three arguments.
+     *   <li><code>item</code>: the current item in the array</li>
+     *   <li><code>index</code>: the index of the current item</li>
+     *   <li><code>array</code>: The native array instance, NOT the data array instance.</li>
+     * @param self {var?undefined} The context of the callback.
+     * @return {qx.data.Array} A new array instance containing only the items
+     *  which passed the test.
+     */
+    filter : function(callback, self) {
+      return new qx.data.Array(this.__array.filter(callback, self));
+    },
+
+
+    /**
+     * Creates a new array with the results of calling a provided function on every
+     * element in this array. It returns a new data array instance so make sure
+     * to think about disposing it.
+     * @param callback {Function} The mapping function, which will be executed for every
+     *   item in the array. The function will have three arguments.
+     *   <li><code>item</code>: the current item in the array</li>
+     *   <li><code>index</code>: the index of the current item</li>
+     *   <li><code>array</code>: The native array instance, NOT the data array instance.</li>
+     * @param self {var?undefined} The context of the callback.
+     * @return {qx.data.Array} A new array instance containing the new created items.
+     */
+    map : function(callback, self) {
+      return new qx.data.Array(this.__array.map(callback, self));
+    },
+
+
+    /**
+     * Tests whether any element in the array passes the test implemented by the
+     * provided function.
+     * @param callback {Function} The test function, which will be executed for every
+     *   item in the array. The function will have three arguments.
+     *   <li><code>item</code>: the current item in the array</li>
+     *   <li><code>index</code>: the index of the current item</li>
+     *   <li><code>array</code>: The native array instance, NOT the data array instance.</li>
+     * @param self {var?undefined} The context of the callback.
+     * @return {Boolean} <code>true</code>, if any element passed the test function.
+     */
+    some : function(callback, self) {
+      return this.__array.some(callback, self);
+    },
+
+
+    /**
+     * Tests whether every element in the array passes the test implemented by the
+     * provided function.
+     * @param callback {Function} The test function, which will be executed for every
+     *   item in the array. The function will have three arguments.
+     *   <li><code>item</code>: the current item in the array</li>
+     *   <li><code>index</code>: the index of the current item</li>
+     *   <li><code>array</code>: The native array instance, NOT the data array instance.</li>
+     * @param self {var?undefined} The context of the callback.
+     * @return {Boolean} <code>true</code>, if every element passed the test function.
+     */
+    every : function(callback, self) {
+      return this.__array.every(callback, self);
+    },
+
+
+    /**
+     * Apply a function against an accumulator and each value of the array
+     * (from left-to-right) as to reduce it to a single value.
+     * @param callback {Function} The accumulator function, which will be
+     *   executed for every item in the array. The function will have four arguments.
+     *   <li><code>previousItem</code>: the previous item</li>
+     *   <li><code>currentItem</code>: the current item in the array</li>
+     *   <li><code>index</code>: the index of the current item</li>
+     *   <li><code>array</code>: The native array instance, NOT the data array instance.</li>
+     * @param initValue {var?undefined} Object to use as the first argument to the first
+     *   call of the callback.
+     * @return {var} The returned value of the last accumulator call.
+     */
+    reduce : function(callback, initValue) {
+      return this.__array.reduce(callback, initValue);
+    },
+
+
+    /**
+     * Apply a function against an accumulator and each value of the array
+     * (from right-to-left) as to reduce it to a single value.
+     * @param callback {Function} The accumulator function, which will be
+     *   executed for every item in the array. The function will have four arguments.
+     *   <li><code>previousItem</code>: the previous item</li>
+     *   <li><code>currentItem</code>: the current item in the array</li>
+     *   <li><code>index</code>: the index of the current item</li>
+     *   <li><code>array</code>: The native array instance, NOT the data array instance.</li>
+     * @param initValue {var?undefined} Object to use as the first argument to the first
+     *   call of the callback.
+     * @return {var} The returned value of the last accumulator call.
+     */
+    reduceRight : function(callback, initValue) {
+      return this.__array.reduceRight(callback, initValue);
     },
 
 

@@ -53,6 +53,10 @@ qx.Class.define("qx.ui.mobile.basic.Label",
       this.setValue(value);
     }
     this.initWrap();
+
+    if (qx.core.Environment.get("qx.dynlocale")) {
+      qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
+    }
   },
 
 
@@ -127,10 +131,43 @@ qx.Class.define("qx.ui.mobile.basic.Label",
     _applyWrap : function(value, old)
     {
       if (value) {
-        this.removeCssClass("no-wrap")
+        this.removeCssClass("no-wrap");
       } else {
         this.addCssClass("no-wrap");
       }
+    },
+
+    /**
+     * Locale change event handler
+     *
+     * @signature function(e)
+     * @param e {Event} the change event
+     */
+    _onChangeLocale : qx.core.Environment.select("qx.dynlocale",
+    {
+      "true" : function(e)
+      {
+        var content = this.getValue();
+        if (content && content.translate) {
+          this.setValue(content.translate());
+        }
+      },
+
+      "false" : null
+    })
+  },
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    if (qx.core.Environment.get("qx.dynlocale")) {
+      qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
     }
   }
 });

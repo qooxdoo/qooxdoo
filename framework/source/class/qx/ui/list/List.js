@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.list.List",
   /**
    * Creates the <code>qx.ui.list.List</code> with the passed model.
    *
-   * @param model {qx.data.Array|null} model for the list.
+   * @param model {qx.data.IListData|null} model for the list.
    */
   construct : function(model)
   {
@@ -127,7 +127,7 @@ qx.Class.define("qx.ui.list.List",
     /** Data array containing the data which should be shown in the list. */
     model :
     {
-      check : "qx.data.Array",
+      check : "qx.data.IListData",
       apply : "_applyModel",
       event: "changeModel",
       nullable : true,

@@ -246,7 +246,6 @@ class Tokenizer(object):
                             token['begin'] = not self.hasLeadingContent(self.out_stream)  # first non-white token on line
                             if token['begin']:
                                 token['source'] = Comment.Text(token['source']).outdent(self.column - 1)
-                            #token['source'] = Comment.Comment(token['source']).correct()
                             # adapt line number
                             linecnt = len(re.findall("\n", token['source']))
                             if linecnt > 0:
@@ -402,16 +401,18 @@ class Tokenizer(object):
 
 
     ##
-    # check if there is a preceding token on this line
+    # check if there is a preceding non-white token on this line
     def hasLeadingContent(self, tokens):
         # tokens empty
         if not len(tokens):
             return False
         else:
-            if tokens[-1]["type"] == "eol":
-                return False
-            else:
-                return True
+            for token in reversed(tokens):
+                if token["type"] == 'eol':
+                    break
+                if token["type"] not in ('white', 'eol'):
+                    return True
+            return False
 
     ##
     # Remove whitespace at the beginning of subsequent lines in a multiline text

@@ -167,7 +167,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           // if its not the last property
           } else {
 
-            // create the contenxt for the listener
+            // create the context for the listener
             var context = {
               index: i,
               propertyNames: propertyNames,
@@ -249,7 +249,6 @@ qx.Class.define("qx.data.SingleValueBinding",
      */
     __chainListener : function(context)
     {
-
       // invoke the onUpdate method
       if (context.options && context.options.onUpdate) {
         context.options.onUpdate(
@@ -283,7 +282,18 @@ qx.Class.define("qx.data.SingleValueBinding",
         context.sources[j] = source;
         // reset the target object if no new source could be found
         if (!source) {
-          this.__resetTargetValue(context.targetObject, context.targetPropertyChain);
+          // use the converter if the property chain breaks [BUG# 6880]
+          if (context.options && context.options.converter) {
+            var data = context.options.converter();
+            this.__setTargetValue(
+              context.targetObject, 
+              context.targetPropertyChain, 
+              data
+            );
+          } else {
+            this.__resetTargetValue(context.targetObject, context.targetPropertyChain);
+          }
+
           break;
         }
 
@@ -877,6 +887,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           if (arrayIndex === "last") {
             arrayIndex = sourceObject.length - 1;
           }
+
           // get the data of the array
           var data = sourceObject.getItem(arrayIndex);
 

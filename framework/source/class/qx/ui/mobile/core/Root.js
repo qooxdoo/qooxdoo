@@ -41,6 +41,10 @@ qx.Class.define("qx.ui.mobile.core.Root",
     this.__root = root || document.body;
     this.base(arguments, layout || new qx.ui.mobile.layout.VBox());
     this.addCssClass("mobile");
+    
+    qx.event.Registration.addListener(window, "orientationchange", this._onOrientationChange, this);
+
+    this._onOrientationChange();
   },
 
 
@@ -93,10 +97,32 @@ qx.Class.define("qx.ui.mobile.core.Root",
     // property apply
     _applyShowScrollbarY : function(value, old) {
       this._setStyle("overflow-y", value ? "auto" : "hidden");
+    },
+    
+    
+    /**
+     * Event handler. Called when the orientation of the device is changed.
+     *
+     * @param evt {qx.event.type.Orientation} The handled orientation change event
+     */
+    _onOrientationChange : function(evt) {
+      var isPortrait = null;
+      
+      if (evt) {
+        isPortrait = evt.isPortrait();
+      } else {
+        isPortrait = qx.bom.Viewport.isPortrait();
+      }
+      
+      if (isPortrait) {
+        this.addCssClass("portrait");
+        this.removeCssClass("landscape");
+      } else {
+        this.addCssClass("landscape");
+        this.removeCssClass("portrait");
+      }
     }
   },
-
-
 
 
   /*
@@ -107,5 +133,6 @@ qx.Class.define("qx.ui.mobile.core.Root",
 
   destruct : function() {
     this.__root = null;
+    qx.event.Registration.removeListener(window, "orientationchange", this._onOrientationChange, this);
   }
 });

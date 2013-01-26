@@ -16,6 +16,14 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
+
+/* ************************************************************************
+
+#ignore(performance)
+#ignore(performance.timing)
+
+************************************************************************* */
+
 /**
  * This is a cross browser wrapper for requestAnimationFrame. For further
  * information about the feature, take a look at spec:
@@ -58,7 +66,11 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
   events : {
     /** Fired as soon as the animation has ended. */
     "end" : undefined,
-    /** Fired on every frame having the passed time as value. */
+
+    /**
+     * Fired on every frame having the passed time as value
+     * (might be a float for higher precision).
+     */
     "frame" : "Number"
   },
 
@@ -75,12 +87,12 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
       this.__canceled = false;
 
       var start = +(new Date());
-      var clb = function() {
+      var clb = function(time) {
         if (this.__canceled) {
           this.id = null;
           return;
         }
-        var time = +(new Date())
+
         // final call
         if (time >= start + duration) {
           this.emit("end");
@@ -154,23 +166,36 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
     /**
      * Request for an animation frame. If the native <code>requestAnimationFrame</code>
      * method is supported, it will be used. Otherwise, we use timeouts with a
-     * 30ms delay.
+     * 30ms delay. The HighResolutionTime will be used if supported but the time given
+     * to the callback will still be a timestamp starting at 1 January 1970 00:00:00 UTC.
+     *
+     * @lint ignoreUndefined(performance)
      * @param callback {Function} The callback function which will get the current
-     *   time as argument.
+     *   time as argument (which could be a float for higher precision).
      * @param context {var} The context of the callback.
      * @return {Number} The id of the request.
      */
     request : function(callback, context) {
       var req = qx.core.Environment.get("css.animation.requestframe");
 
-      var clb = function() {
-        var time = +(new Date());
+      var clb = function(time) {
+        // check for high resolution time
+        var navigationStart = window.performance && performance.timing && performance.timing.navigationStart;
+        if (time < 1e10 && navigationStart) {
+          time = navigationStart + time;
+        }
+
+        time = time || +(new Date());
         callback.call(context, time);
       };
       if (req) {
         return window[req](clb);
       } else {
-        return window.setTimeout(clb, qx.bom.AnimationFrame.TIMEOUT);
+        // make sure to use an indirection because setTimeout passes a
+        // number as first argument as well
+        return window.setTimeout(function() {
+          clb();
+        }, qx.bom.AnimationFrame.TIMEOUT);
       }
     }
   }

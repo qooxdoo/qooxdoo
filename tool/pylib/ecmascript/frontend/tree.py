@@ -613,11 +613,9 @@ class Node(object):
         return nodeToJsonString(self, prefix, childPrefix, newLine)
 
     def toJavascript(self):
-        from ecmascript.backend import pretty
-        def options(): pass
-        pretty.defaultOptions(options)
-        result = [u'']
-        result = pretty.prettyNode(self, options, result)
+        from ecmascript.backend import formatter
+        optns = formatter.defaultOptions()
+        result = formatter.formatNode(self, optns, [])
         return u''.join(result)
 
     def nodeIter(self):

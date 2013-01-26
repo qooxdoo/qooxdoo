@@ -58,7 +58,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @return {Boolean} <code>true</code> if geolocation supported
      */
     getGeoLocation : function() {
-      return navigator.geolocation != null;
+      return "geolocation" in navigator;
     },
 
 

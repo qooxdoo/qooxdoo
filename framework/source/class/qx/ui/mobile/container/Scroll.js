@@ -44,13 +44,31 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
 {
   extend : qx.ui.mobile.container.Composite,
 
-
+  
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+ 
+  /**
+  * @param scrollProperties {Object} A map with scroll properties which are passed to the scrolling container (may contain iScroll properties).
+  */
+  construct : function(scrollProperties)
+  {
+    this.base(arguments);
+    
+    if(scrollProperties) {
+      this._scrollProperties = scrollProperties;
+    }
+  },
+  
+  
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
-
   properties :
   {
     // overridden
@@ -69,6 +87,9 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
 
   members :
   {
+    _scrollProperties : null,
+    
+  
     // overridden
     _createContainerElement : function()
     {

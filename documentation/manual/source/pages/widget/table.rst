@@ -128,7 +128,7 @@ As a last addition to our example we build something more complex. We want to re
     newRenderer.addNumericCondition("<", 0, null, "red");
     table.getTableColumnModel().setDataCellRenderer(1, newRenderer);
 
-For that purpose, qooxdoo has a built-in conditional renderer. In the first line, we create such a renderer. The second and third line set up our conditional rules. The last line tells the table column model to use that renderere for the column with the index 1.
+For that purpose, qooxdoo has a built-in conditional renderer. In the first line, we create such a renderer. The second and third line set up our conditional rules. The last line tells the table column model to use that renderer for the column with the index 1.
 
 .. _pages/widget/table#uml_diagram:
 

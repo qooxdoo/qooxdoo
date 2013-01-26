@@ -34,11 +34,9 @@
 
 import sys, os, re, string, copy
 from ecmascript.frontend import tree, Comment, lang
-#from ecmascript.frontend import treeutil_2 as treeutil
 from ecmascript.frontend import treeutil
 from ecmascript.frontend import treegenerator
 from ecmascript.frontend.treegenerator import PackerFlags as pp
-#from ecmascript.transform.optimizer import variantoptimizer_2 as variantoptimizer  # ugly here
 from ecmascript.transform.optimizer import variantoptimizer  # ugly here
 from generator import Context
 

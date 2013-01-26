@@ -20,7 +20,12 @@
 ################################################################################
 
 ##
-# 'symbol' class methods for formatted/pretty output of AST (internal visitors)
+# 'symbol' class methods for simple formatted/pretty output of AST (internal visitors)
+#
+# Used for serializing code in build versions where 'comments' and 'whitespace' are
+# *not* optimized. Produces output that is regularly formatted, but doesn't strive to
+# reproduce the original code, nor to support fancy prettyp options. Will also miss
+# to reproduce comments in arcane places. But heck, it's the build version!
 ##
 
 import sys, os, re, types, string
@@ -719,7 +724,9 @@ def formatNode(tree, options, result):
     return [tree.format(options, state)]
 
 
-def defaultOptions(optns):
+def defaultOptions(optns=None):
+    if optns is None:
+        optns = FormatterOptions()
     optns.prettyPrint = True  # turn on pretty-printing
     optns.prettypCommentsBlockAdd  = True  # comment filling
     optns.prettypIndentString      = "  "   # general indent string

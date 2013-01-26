@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
      */
     setImage : function(source)
     {
-      this.__image.setSource(source)
+      this.__image.setSource(source);
     },
 
 
@@ -128,7 +128,12 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
      */
     setTitle : function(title)
     {
-      this.__title.setValue(title);
+      if (title && title.translate) {
+        this.__title.setValue(title.translate());
+      }
+      else {
+        this.__title.setValue(title);
+      }
     },
 
 
@@ -139,7 +144,12 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
      */
     setSubtitle : function(subtitle)
     {
-      this.__subtitle.setValue(subtitle);
+      if (subtitle && subtitle.translate) {
+        this.__subtitle.setValue(subtitle.translate());
+      }
+      else {
+        this.__subtitle.setValue(subtitle);
+      }
     },
 
 
