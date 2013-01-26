@@ -18,6 +18,7 @@
     "TEST_INCLUDE" : "${TEST_NAMESPACE}.*",
     "TEST_EXCLUDE" : "",
     "TESTS_SCRIPT" : "tests.js",         // output script name
+    "TEST_LOADER"  : "testrunner.TestLoader",
     "BUILD_PATH"   : "build",
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "THEME"        : "qx.theme.Indigo"
@@ -265,7 +266,7 @@
         }
       ],
 
-      "=include" : ["testrunner.TestLoader", "${TEST_INCLUDE}", "${QXTHEME}"],
+      "=include" : ["${TEST_LOADER}", "${TEST_INCLUDE}", "${QXTHEME}"],
 
       "exclude" : ["${TEST_EXCLUDE}"],
 
@@ -275,7 +276,7 @@
         "qx.globalErrorHandling" : true,
         "testrunner.testParts" : false,
         "qx.allowUrlSettings" : true,
-        "qx.application" : "testrunner.TestLoader"
+        "qx.application" : "${TEST_LOADER}"
       },
 
       "cache" :
@@ -519,7 +520,8 @@
         "TESTRUNNER_VIEW" : "testrunner.view.mobile.Mobile",
         "TESTRUNNER_MAIN_CLASS" : "testrunner.MobileApplication",
         "PLATFORM": "ios",
-        "TESTRUNNER_CSS" : "testrunner/view/mobile/css/styles.css"
+        "TESTRUNNER_CSS" : "testrunner/view/mobile/css/styles.css",
+        "TEST_LOADER" : "testrunner.TestLoaderMobile"
       },
 
       "environment" :
@@ -535,6 +537,11 @@
     "source-mobile" :
     {
       "extend" : ["mobile-common"],
+
+      "let" :
+      {
+        "TEST_LOADER" : "testrunner.TestLoaderMobile"
+      },
 
       "run" : [
         "source-mobile-script",
@@ -585,6 +592,11 @@
     {
       "extend" : ["mobile-common"],
 
+      "let" :
+      {
+        "TEST_LOADER" : "testrunner.TestLoaderMobile"
+      },
+
       "run" :
       [
         "build-mobile-resources",
@@ -601,6 +613,11 @@
       "desc" : "Generates a build version of the Test Runner and a source version of the AUT",
 
       "extend" : ["mobile-common"],
+
+      "let" :
+      {
+        "TEST_LOADER" : "testrunner.TestLoaderMobile"
+      },
 
       "run" :
       [

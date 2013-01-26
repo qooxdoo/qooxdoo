@@ -255,7 +255,9 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
       }
 
       try {
-        this._manager.replaceSelection(newSelection);
+        if (!qx.lang.Array.equals(newSelection, this._manager.getSelection())) {
+          this._manager.replaceSelection(newSelection);
+        }
       }
       catch(ex)
       {

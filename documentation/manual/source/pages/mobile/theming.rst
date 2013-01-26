@@ -68,7 +68,7 @@ The third one of our themes is the "Indigo" theme. This theme can be modified by
 in many ways, like setting colors or change the used border radius etc.
 
 Switching themes in your qx.Mobile application
-==================================================
+==============================================
 
 You can change the used theme of your qx.Mobile application by opening the ``config.json``
 in your application root. 
@@ -87,15 +87,15 @@ After changing this macro you have to run the source job in your application's r
 
  
 Extending the iOS or Android theme
-=====================================
+==================================
 
 You can add your own CSS rules on top of the iOS or Android theme.  
 Just append your statements to the following file:
 
  ``<APP_ROOT>/source/resource/<APP_NAME>/mobile/css/styles.css``
 
-Using a custome theme
-===============================================
+Using a custom theme
+====================
 
 In the qx.Mobile Showcase you can have a look at our default theme, called "Indigo".
 You can use and modify this theme in many ways. 
@@ -164,7 +164,7 @@ But if you want to know more about this exciting CSS enhancement technology, ple
 * `SASS official website <http://www.sass-lang.com/>`_
 
 Improving your theming workflow
-=================================
+===============================
 
 We have a little hint for you, for improving the layouting workflow of your qx.Mobile application.
 

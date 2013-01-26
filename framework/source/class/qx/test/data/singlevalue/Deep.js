@@ -116,6 +116,30 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
     },
 
 
+    testConverterChainBroken : function() {
+      var m = qx.data.marshal.Json.createModel({a: {a: 1}, b: 2});
+      var called = 0;
+      m.bind("a.a", m, "b", {converter : function(data) {
+        called++;
+        return 3;
+      }});
+      // check the init values
+      this.assertEquals(1, called);
+      this.assertEquals(3, m.getB());
+
+      // set the binding leaf to null
+      m.getA().setA(null);
+      this.assertEquals(2, called);
+      this.assertEquals(3, m.getB());
+
+      // set the binding root to null
+      m.setA(null);
+      this.assertEquals(3, called);
+      this.assertEquals(3, m.getB());
+
+      m.dispose();
+    },
+
 
     testDepthOf2: function() {
       // create a hierarchy

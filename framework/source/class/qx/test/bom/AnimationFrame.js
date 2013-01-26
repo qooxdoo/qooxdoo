@@ -37,7 +37,6 @@ qx.Class.define("qx.test.bom.AnimationFrame",
       this.__frame.startSequence(300);
       this.wait(500, function() {
         this.assertCalledOnce(clb);
-        this.assertInteger(clb.args[0][0]);
         this.assertTrue(clb.args[0][0] >= 0);
       }, this);
     },

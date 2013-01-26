@@ -277,6 +277,16 @@ qx.Class.define("qx.test.data.DataArray",
     },
 
 
+    testLastIndexOf: function() {
+      this.__a.push("one");
+      this.__a.push("two");
+      this.__a.push("three");
+      this.assertEquals(3, this.__a.lastIndexOf("one"), "lastIndexOf does not work!");
+      this.assertEquals(4, this.__a.lastIndexOf("two"), "lastIndexOf does not work!");
+      this.assertEquals(5, this.__a.lastIndexOf("three"), "lastIndexOf does not work!");
+    },
+
+
     testCopy: function(attribute) {
       var a = this.__a.copy();
       // change the original array
@@ -618,6 +628,103 @@ qx.Class.define("qx.test.data.DataArray",
       this.__a.setAutoDisposeItems(true);
       this.__a.dispose();
       this.assertTrue(o.isDisposed());
+    },
+
+
+    testFilter : function() {
+      var self = this;
+      var b = this.__a.filter(function(item, index, array) {
+        self.assertEquals(self, this);
+        self.assertString(item);
+        self.assertNumber(index);
+        self.assertEquals(self.__a.toArray(), array);
+        return item == "one" || item == "three";
+      }, this);
+
+      this.assertEquals(2, b.length);
+      this.assertEquals("one", b.getItem(0));
+      this.assertEquals("three", b.getItem(1));
+
+      b.dispose();
+    },
+
+
+    testMap : function() {
+      var self = this;
+      var b = this.__a.map(function(item, index, array) {
+        self.assertEquals(self, this);
+        self.assertString(item);
+        self.assertNumber(index);
+        self.assertEquals(self.__a.toArray(), array);
+        return item + "!";
+      }, this);
+
+      this.assertEquals(3, b.length);
+      this.assertEquals("one!", b.getItem(0));
+      this.assertEquals("two!", b.getItem(1));
+      this.assertEquals("three!", b.getItem(2));
+
+      b.dispose();
+    },
+
+
+    testSome : function() {
+      var self = this;
+      this.assertTrue(this.__a.some(function(item, index, array) {
+        self.assertEquals(self, this);
+        self.assertString(item);
+        self.assertNumber(index);
+        self.assertEquals(self.__a.toArray(), array);
+        return item == "one";
+      }, this));
+
+      this.assertFalse(this.__a.some(function(item, index, array) {
+        return item == "xxx";
+      }, this));
+    },
+
+
+    testEvery : function() {
+      var self = this;
+      this.assertTrue(this.__a.every(function(item, index, array) {
+        self.assertEquals(self, this);
+        self.assertString(item);
+        self.assertNumber(index);
+        self.assertEquals(self.__a.toArray(), array);
+        return ["one", "two", "three"].indexOf(item) >= 0;
+      }, this));
+
+      this.assertFalse(this.__a.every(function(item, index, array) {
+        return item == "one";
+      }, this));
+    },
+
+
+    testReduce : function() {
+      var self = this;
+      var reduced = this.__a.reduce(function(previousValue, currentValue, index, array) {
+        self.assertString(previousValue);
+        self.assertString(currentValue);
+        self.assertNumber(index);
+        self.assertEquals(self.__a.toArray(), array);
+        return previousValue + currentValue;
+      }, "---");
+
+      this.assertEquals("---onetwothree", reduced);
+    },
+
+
+    testReduceRight : function() {
+      var self = this;
+      var reduced = this.__a.reduceRight(function(previousValue, currentValue, index, array) {
+        self.assertString(previousValue);
+        self.assertString(currentValue);
+        self.assertNumber(index);
+        self.assertEquals(self.__a.toArray(), array);
+        return previousValue + currentValue;
+      }, "---");
+
+      this.assertEquals("---threetwoone", reduced);
     }
   }
 });

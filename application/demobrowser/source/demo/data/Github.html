@@ -1,18 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo REST demo which uses GitHub OAuth and GitHub Gists API</title>
+  <meta charset="utf-8">
   <script src="../helper.js"></script>
+  <style>p { padding: 5px; }</style>
 </head>
 <body>
-<p style="padding: 5px;">
-  This demo is not expected to run in the context of the demo browser because it needs a backend component.
-  For a working example, please open the <a href="http://demo.qooxdoo.org/current/github/" target="_blank">GitHub demo application</a>.
-  You will be asked to login to GitHub (if not already logged in) and grant the "qx-gists" application access to
-  your public profile.
+<p>
+  This demo showcases the qooxdoo REST wrapper with the aid of the <a href="http://developer.github.com/v3/oauth/">GitHub OAuth2</a>
+  implementation and the <a href="http://developer.github.com/v3/gists/">GitHub Gists API</a>.
+  The requirements to run it is that you have a GitHub account with gists associated with it.
 </p>
-<p style="padding: 5px; padding-top: 0;">
-  The GitHub demo application is included in the SDK. Please see the comments in the source to
-  customize to your environment.
+<p>
+  This demo is not expected to run in the context of the demo browser because it needs a backend component (a php file).
+  For a working example, please open the hosted <a href="http://demo.qooxdoo.org/current/github/">REST demo application</a>.
+  You will be asked to login to GitHub (if not already logged in) and grant the "qx-gists" application access to your public gists.
+</p>
+<p>
+  The GitHub demo application is included in the SDK (under /application/github).
+  Please see the comments in the index.php file to customize it to your environment.
 </p>
 </body>

@@ -47,7 +47,7 @@ If we take a second look at the example we used above, we also added an array as
   var array = model.getA();
   array.setItem(0, "content"); // equals 'array[0] = "content"' and fires a change event
   array.getItem(0); // equals 'array[0]' and returns "content"
-  array.lenght; // like the native API and returns '1'
+  array.length; // like the native API and returns '1'
 
 You see, the read and write access needs to be done with the designated methods to ensure the firing of the events. But all the other API, like ``push``, ``pop`` or ``splice`` is all the same and also capable of the events. Just take a look at the `API-Documentation of the array <http://demo.qooxdoo.org/current/apiviewer/#qx.data.Array>`_ for more information.
 

@@ -61,7 +61,7 @@
  *
  * *Example*
  *
- * Here is a little example of how to use the grid layout.
+ * Here is a little example of how to use the vertical box layout.
  *
  * <pre class="javascript">
  * var layout = new qx.ui.layout.VBox();

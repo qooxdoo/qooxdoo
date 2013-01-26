@@ -25,26 +25,26 @@
  * *Example*
  *
  * <pre class='javascript'>
- *     var page1 = new qx.ui.mobile.page.Page();
- *     page1.addListener("initialize", function()
- *     {
- *       var sel = new qx.ui.mobile.form.SelectBox();
- *       page1.add(sel);
- *       var model = new qx.data.Array(["item1","item2"]);
- *       sel.setModel(model);
- *       model.push("item3");
+ *    var page1 = new qx.ui.mobile.page.Page();
+ *    page1.addListener("initialize", function()
+ *    {
+ *      var sel = new qx.ui.mobile.form.SelectBox();
+ *      page1.add(sel);
+ *      var model = new qx.data.Array(["item1","item2"]);
+ *      sel.setModel(model);
+ *      model.push("item3");
+ * 
+ *      var but = new qx.ui.mobile.form.Button("setSelection");
+ *      page1.add(but);
+ *      but.addListener("tap", function(){
+ *        sel.setSelection("item3");
+ *      }, this);
  *
- *       var but = new qx.ui.mobile.form.Button("setSelection");
- *       page1.add(but);
- *       but.addListener("tap", function(){
- *         sel.setSelection("item3");
- *       }, this);
- *
- *       var title = new qx.ui.mobile.form.Title("item2");
- *       title.bind("value",sel,"value");
- *       sel.bind("value",title,"value");
- *       page1.add(title);
- *     },this);
+ *      var title = new qx.ui.mobile.form.Title("item2");
+ *      title.bind("value",sel,"value");
+ *      sel.bind("value",title,"value");
+ *      page1.add(title);
+ *   },this);
  *
  *   page1.show();
  *  </pre>
@@ -116,6 +116,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       init : "selectbox"
     },
 
+
     // overridden
     activatable :
     {
@@ -172,10 +173,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       qx.bom.Event.addNativeListener(containerElement, "click", showSelectionDialog, false);
 
       var preventDefault = qx.bom.Event.preventDefault;
-      qx.bom.Event.addNativeListener(containerElement, "mousedown", preventDefault, false);
-      qx.bom.Event.addNativeListener(containerElement, "mouseup", preventDefault, false);
       qx.bom.Event.addNativeListener(containerElement, "click", preventDefault, false);
-      qx.bom.Event.addNativeListener(containerElement, "focus", preventDefault, false);
       qx.bom.Event.addNativeListener(containerElement, "tap", preventDefault, false);
 
       return containerElement;
@@ -188,7 +186,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * @return {qx.ui.mobile.dialog.Menu} A dialog, containing a selection list.
      */
     _createSelectionDialog : function() {
-      var menu =  new qx.ui.mobile.dialog.Menu();
+      var menu = new qx.ui.mobile.dialog.Menu();
 
       // Special appearance for select box menu items.
       menu.setSelectedItemClass("selectbox-selected");
@@ -244,15 +242,6 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      */
     setClearButtonLabel : function(value) {
       this.__selectionDialog.setClearButtonLabel(value);
-    },
-
-
-    // property apply
-    _applyNullable : function(isNullable) {
-      // Delegate nullable property.
-      if(this.__selectionDialog) {
-        this.__selectionDialog.setNullable(isNullable);
-      }
     },
 
 
@@ -348,9 +337,17 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
       // Bubbling event. For making it possible to listen on changeSelection event fired by SelectBox.
       this.fireDataEvent("changeSelection", {index: evtIndex, item: evtItem});
+    },
+    
+    
+    // property apply
+    _applyNullable : function(isNullable) {
+      // Delegate nullable property.
+      if(this.__selectionDialog) {
+        this.__selectionDialog.setNullable(isNullable);
+      }
     }
-  }
-  ,
+  },
 
   /*
   *****************************************************************************

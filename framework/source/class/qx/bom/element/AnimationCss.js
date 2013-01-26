@@ -343,7 +343,8 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
             }
             transforms[style] = frame[style];
           } else {
-            rule += style + ":" + frame[style] + ";";
+            var prefixed = qx.bom.Style.getCssName(qx.bom.Style.getPropertyName(style));
+            rule += (prefixed || style) + ":" + frame[style] + ";";
           }
         }
 

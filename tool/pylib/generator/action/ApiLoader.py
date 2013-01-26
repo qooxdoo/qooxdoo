@@ -32,7 +32,6 @@ import sys, os, re
 from misc import filetool
 from misc import json
 from ecmascript.backend import api
-#from ecmascript.frontend import tree, treegenerator_2 as treegenerator
 from ecmascript.frontend import tree, treegenerator, lang
 from generator import Context
 

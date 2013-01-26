@@ -42,6 +42,8 @@
 # For reference with the original algorithm:
 #   led => ifix
 #   nud => pfix
+#
+# CAVEATS
 ##
 
 import sys, os, re, types, string, itertools as itert
@@ -919,8 +921,8 @@ def toJS(self, opts):
     r.append(self.children[0].toJS(opts))
     r.append('?')
     r.append(self.children[1].toJS(opts))
-    r.append(':')
-    r.append(self.children[2].toJS(opts))
+    r.append(self.children[2].toJS(opts))  # :
+    r.append(self.children[3].toJS(opts))
     return ''.join(r)
 
 @method(symbol("?"))
@@ -962,10 +964,10 @@ symbol("dotaccessor")
 
 @method(symbol("dotaccessor"))
 def toJS(self, opts):
-    r = self.children[0].toJS(opts)
-    r += '.'
-    r += self.children[1].toJS(opts)
-    return r
+    r = []
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return u''.join(r)
 
 @method(symbol("dotaccessor"))
 def toListG(self):
@@ -1064,12 +1066,8 @@ def pfix(self):
 @method(symbol("group"))
 def toJS(self, opts):
     r = []
-    r.append('(')
-    a = []
     for c in self.children:
-        a.append(c.toJS(opts))
-    r.append(','.join(a))
-    r.append(')')
+        r.append(c.toJS(opts))
     return ''.join(r)
 
 @method(symbol("group"))
@@ -1120,12 +1118,10 @@ symbol("accessor")
 
 @method(symbol("accessor"))
 def toJS(self, opts):
-    r = u''
-    r += self.children[0].toJS(opts)
-    r += '['
-    r += self.children[1].toJS(opts)
-    r += ']'
-    return r
+    r = []
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 @method(symbol("accessor"))
 def toListG(self):
@@ -1140,7 +1136,7 @@ def toJS(self, opts):
     r = []
     for c in self.children:
         r.append(c.toJS(opts))
-    return '[' + u','.join(r) + ']'
+    return u''.join(r)
 
 @method(symbol("array"))
 def toListG(self):
@@ -1212,14 +1208,10 @@ symbol("map")
 
 @method(symbol("map"))
 def toJS(self, opts):
-    r = u''
-    r += self.write("{")
-    a = []
+    r = []
     for c in self.children:
-        a.append(c.toJS(opts))
-    r += ','.join(a)
-    r += self.write("}")
-    return r
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 #@method(symbol("map"))
 #def toListG(self):
@@ -1239,20 +1231,10 @@ symbol("keyvalue")
 
 @method(symbol("keyvalue"))
 def toJS(self, opts):
-    key = self.get("key")
-    key_quote = self.get("quote", '')
-    if key_quote:
-        quote = '"' if key_quote == 'doublequotes' else "'"
-    elif ( key in lang.RESERVED 
-           or not identifier_regex.match(key)
-           # TODO: or not lang.NUMBER_REGEXP.match(key)
-         ):
-        print "Warning: Auto protect key: %r" % key
-        quote = '"'
-    else:
-        quote = ''
-    value = self.getChild("value").toJS(opts)
-    return quote + key + quote + ':' + value
+    r = []
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 #@method(symbol("keyvalue"))
 #def toListG(self):
@@ -1273,10 +1255,9 @@ symbol("block")
 @method(symbol("block"))
 def toJS(self, opts):
     r = []
-    r.append('{')
-    r.append(self.children[0].toJS(opts))
-    r.append('}')
-    return u''.join(r)
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 #@method(symbol("block"))
 #def toListG(self):
@@ -1331,13 +1312,9 @@ def toListG(self):
 
 def toJS(self, opts):
     r = []
-    r.append('(')
-    a = []
     for c in self.children:
-        a.append(c.toJS(opts))
-    r.append(u','.join(a))
-    r.append(')')
-    return u''.join(r)
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 symbol("params").toJS = toJS
 symbol("arguments").toJS = toJS  # same here
@@ -1352,11 +1329,9 @@ symbol("arguments").toJS = toJS  # same here
 @method(symbol("body"))
 def toJS(self, opts):
     r = []
-    r.append(self.children[0].toJS(opts))
-    # 'if', 'while', etc. can have single-statement bodies
-    if self.children[0].id != 'block':
-        r.append(';')
-    return u''.join(r)
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 #@method(symbol("body"))
 #def toListG(self):
@@ -1401,7 +1376,7 @@ def toJS(self, opts):
     a = []
     for c in self.children:
         a.append(c.toJS(opts))
-    r.append(','.join(a))
+    r.append(''.join(a))
     return ''.join(r)
 
 @method(symbol("var"))
@@ -1527,22 +1502,21 @@ def toJS(self, opts):
     r = []
     r.append('for')
     r.append(self.space(False,result=r))
-    # cond
-    r.append('(')
-    # for (in)
-    if self.get("forVariant") == "in":
-        r.append(self.children[0].toJS(opts))
-    # for (;;)
-    else:
-        r.append(self.children[0].getChild("first").toJS(opts))
-        r.append(';')
-        r.append(self.children[0].getChild("second").toJS(opts))
-        r.append(';')
-        r.append(self.children[0].getChild("third").toJS(opts))
-    r.append(')')
-    # body
-    r.append(self.getChild("body").toJS(opts))
+    for c in self.children:
+        r.append(c.toJS(opts))
     return u''.join(r)
+
+@method(symbol("forInControl"))
+def toJS(self, opts):
+    return self.children[0].toJS(opts)
+
+@method(symbol("forIterControl"))
+def toJS(self, opts):
+    r = []
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
+    
 
 @method(symbol("for"))
 def toListG(self):
@@ -1596,16 +1570,12 @@ def std(self):
 
 @method(symbol("while"))
 def toJS(self, opts):
-    r = u''
-    r += self.write("while")
-    r += self.space(False,result=r)
-    # cond
-    r += '('
-    r += self.children[0].toJS(opts)
-    r += ')'
-    # body
-    r += self.children[1].toJS(opts)
-    return r
+    r = []
+    r.append(self.write("while"))
+    r.append(self.space(False,result=r))
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 @method(symbol("while"))
 def toListG(self):
@@ -1635,11 +1605,10 @@ def toJS(self, opts):
     r = []
     r.append("do")
     r.append(self.space())
-    r.append(self.children[0].toJS(opts))
-    r.append('while')
-    r.append('(')
-    r.append(self.children[1].toJS(opts))
-    r.append(')')
+    for c in self.children:
+        r.append(c.toJS(opts))
+        # we can afford to just juxtapose the 'while' child, without need to insert a space
+        # as the preceding token must be a '}' or ';' (otherwise the parse was already ungrammatical)
     return ''.join(r)
 
 @method(symbol("do"))
@@ -1670,11 +1639,9 @@ def std(self):
 def toJS(self, opts):
     r = []
     r += ["with"]
-    r += ["("]
-    r += [self.children[0].toJS(opts)]
-    r += [")"]
-    r += [self.children[1].toJS(opts)]
-    return u''.join(r)
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 @method(symbol("with"))
 def toListG(self):
@@ -1704,40 +1671,22 @@ def std(self):
         self.childappend(else_part)
     return self
 
-
 @method(symbol("if"))
 def toJS(self, opts):
-    r = u''
-    # Additional new line before each loop
-    if not self.isFirstChild(True) and not self.getChild("commentsBefore", False):
-        prev = self.getPreviousSibling(False, True)
-
-        # No separation after case statements
-        #if prev != None and prev.type in ["case", "default"]:
-        #    pass
-        #elif self.hasChild("elseStatement") or self.getChild("statement").hasBlockChildren():
-        #    self.sep()
-        #else:
-        #    self.line()
-    r += self.write("if")
-    # condition
-    r += self.write("(")
-    r += self.children[0].toJS(opts)
-    r += self.write(")")
-    # 'then' part
-    r += self.children[1].toJS(opts)
-    # (opt) 'else' part
-    if len(self.children) == 3:
-        r += self.write("else")
-        r += self.space()
-        r += self.children[2].toJS(opts)
-    r += self.space(False,result=r)
-    return r
+    r = ['if']
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 @method(symbol("if"))
 def toListG(self):
     for e in itert.chain([self], *[c.toListG() for c in self.children]):
         yield e
+
+@method(symbol("else"))  # to make sure trailing space
+def toJS(self, opts):
+    return 'else '
+
 
 symbol("break")
 
@@ -1875,18 +1824,9 @@ def case_block():
 
 @method(symbol("switch"))
 def toJS(self, opts):
-    r = []
-    r.append("switch")
-    # control
-    r.append('(')
-    r.append(self.children[0].toJS(opts))
-    r.append(')')
-    # body
-    r.append('{')
-    body = self.getChild("body")
-    for c in body.children:
+    r = ['switch']
+    for c in self.children:
         r.append(c.toJS(opts))
-    r.append('}')
     return ''.join(r)
 
 @method(symbol("switch"))
@@ -1894,16 +1834,12 @@ def toListG(self):
     for e in itert.chain([self], *[c.toListG() for c in self.children]):
         yield e
 
-
 @method(symbol("case"))
 def toJS(self, opts):
-    r = []
-    r.append('case')
+    r = ['case']
     r.append(self.space())
-    r.append(self.children[0].toJS(opts))
-    r.append(':')
-    if len(self.children) > 1:
-        r.append(self.children[1].toJS(opts))
+    for c in self.children:
+        r.append(c.toJS(opts))
     return ''.join(r)
 
 @method(symbol("case"))
@@ -1911,14 +1847,11 @@ def toListG(self):
     for e in itert.chain([self], *[c.toListG() for c in self.children]):
         yield e
 
-
 @method(symbol("default"))
 def toJS(self, opts):
-    r = []
-    r.append('default')
-    r.append(':')
-    if len(self.children) > 0:
-        r.append(self.children[0].toJS(opts))
+    r = ['default']
+    for c in self.children:
+        r.append(c.toJS(opts))
     return ''.join(r)
 
 @method(symbol("default"))
@@ -1948,28 +1881,30 @@ def std(self):
         catch.childappend(block())
     if token.id == "finally":
         finally_ = token
-        self.childappend(token)
-        advance("finally")
         self.childappend(finally_)
+        advance("finally")
         finally_.childappend(block())
     return self
 
 @method(symbol("try"))
 def toJS(self, opts):
-    r = []
-    r.append('try')
-    r.append(self.children[0].toJS(opts))
-    catch = self.getChild("catch", 0)
-    if catch:
-        r.append('catch')
-        #r.append('(')
-        r.append(catch.children[0].toJS(opts))
-        #r.append(')')
-        r.append(catch.children[1].toJS(opts))
-    finally_ = self.getChild("finally", 0)
-    if finally_:
-        r.append('finally')
-        r.append(finally_.children[0].toJS(opts))
+    r = ['try']
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
+
+@method(symbol("catch"))
+def toJS(self, opts):
+    r = ['catch']
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
+
+@method(symbol("finally"))
+def toJS(self, opts):
+    r = ['finally']
+    for c in self.children:
+        r.append(c.toJS(opts))
     return ''.join(r)
 
 @method(symbol("try"))
@@ -2057,7 +1992,12 @@ def statement():
                         s.childappend(token)
                         advance(',')
                         s.childappend(expression())
-            statementEnd()
+            # Tentatively removing the statementEnd check. It's an assertion anyway, so doesn't do
+            # anything. But the idea is that each statement type as treated above ('var' statement,
+            # function decl, loop, expression, ...) determines each own end by its parsing rules.
+            # So a dedicated check for a statement end might be unnecessary, and in fact breaking
+            # the parsing of dense code, like "for(..){...}a=1" (bug#7156).
+            #statementEnd()
     statmnt.childappend(s)
     if token.id == ';':
         statmnt.childappend(token)
@@ -2066,7 +2006,13 @@ def statement():
 
 @method(symbol("statement"))
 def toJS(self, opts):
-    return self.children[0].toJS(opts)
+    r = []
+    for c in self.children:
+        r.append(c.toJS(opts))
+    res = u''.join(r)
+    if res[-1] != ';':  # check result, as a statement might have a nested statement (see 'label')
+        res += ';'
+    return res
 
 @method(symbol("(empty)"))
 def toJS(self, opts):
@@ -2075,9 +2021,8 @@ def toJS(self, opts):
 @method(symbol("label"))
 def toJS(self, opts):
     r = []
-    r += [self.get("value")]  # identifier
-    r += [":"]
-    r += [self.children[0].toJS(opts)]
+    for c in self.children:
+        r.append(c.toJS(opts))
     return ''.join(r)
 
 
@@ -2168,28 +2113,31 @@ symbol("block")
 
 @method(symbol("block"))
 def toJS(self, opts):
-    r = '{'
+    r = []
     for c in self.children:
-        r += c.toJS(opts)
-    r += '}'
+        r.append(c.toJS(opts))
     if opts.breaks:
-        r += '\n'
-    return r
+        r.append('\n')
+    return ''.join(r)
 
 symbol("call")
 
 @method(symbol("call"))
 def toJS(self, opts):
-    r = u''
-    r += self.getChild("operand").toJS(opts)
-    r += self.getChild("arguments").toJS(opts)
-    return r
+    r = []
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 @method(symbol("call"))
 def toListG(self):
     for e in itert.chain(*[c.toListG() for c in self.children]):
         yield e
 
+
+# Comments are usually not hit by a tree traversion, as they are not part of the syntax
+# tree but properties of tree nodes; so these methods are probably never used. Serializing
+# of comments is usually done by pretty-printing.
 
 symbol("comment")
 
@@ -2219,44 +2167,42 @@ symbol("file")
 
 @method(symbol("file"))
 def toJS(self, opts):
-    return self.children[0].toJS(opts)
+    r = []
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 
 @method(symbol("first"))
 def toJS(self, opts):
-    r = u''
-    if self.children:  # could be empty in for(;;)
-        r = self.children[0].toJS(opts)
-    return r
+    r = []
+    for c in self.children:  # could be empty in for(;;)
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 @method(symbol("second"))
 def toJS(self, opts):
-    r = u''
-    if self.children:
-        r = self.children[0].toJS(opts)
-    return r
+    r = []
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 @method(symbol("third"))
 def toJS(self, opts):
-    r = u''
-    if self.children:
-        r = self.children[0].toJS(opts)
-    return r
+    r = []
+    for c in self.children:
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 
 symbol("params")
 
 @method(symbol("params"))
 def toJS(self, opts):
-    r = u''
-    self.noline()
-    r += self.write("(")
-    a = []
+    r = []
     for c in self.children:
-        a.append(c.toJS(opts))
-    r += ','.join(a)
-    r += self.write(")")
-    return r
+        r.append(c.toJS(opts))
+    return ''.join(r)
 
 
 # - Helpers --------------------------------------------------------------------
@@ -2275,12 +2221,15 @@ class TreeGenerator(object):
     # To pass a tokenArr rather than a text string is due to the current usage
     # in the generator, which does the tokenization on its own, and then calls
     # 'createFileTree'.
-    def parse(self, tokenArr):
+    def parse(self, tokenArr, expr=False):
         global token, next, tokenStream
         tokenStream = TokenStream(tokenArr) # TODO: adapt TokenStream to token array arg
         next   = iter(tokenStream).next
         token  = next()
-        return statements()
+        if expr:
+            return expression()
+        else:
+            return statements()
 
 
 # - Interface -----------------------------------------------------------------
@@ -2297,9 +2246,9 @@ def createFileTree_from_string(string_, fileId=''):
     return createFileTree(ts, fileId)
 
 # quick high-level frontend
-def parse(string_):
+def parse(string_, expr=False):
     ts = tokenizer.Tokenizer().parseStream(string_)
-    return TreeGenerator().parse(ts)
+    return TreeGenerator().parse(ts,expr)
 
 # - Main ----------------------------------------------------------------------
 

@@ -35,6 +35,8 @@
  *
  * @childControl list {qx.ui.control.DateChooser} date chooser component
  * @childControl popup {qx.ui.popup.Popup} popup which shows the list control
+ * @childControl textfield {qx.ui.form.TextField} text field for manual date entry
+ * @childControl button {qx.ui.form.Button} button that opens the list control
  */
 qx.Class.define("qx.ui.form.DateField",
 {

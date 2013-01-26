@@ -190,6 +190,10 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
         100 : {"top": "20px"}
       }};
 
+      var prefix = {duration: 1000, keyFrames : {
+        0 : {"transform": "rotate(0deg)"},
+        100 : {"transform": "rotate(359deg)"}
+      }};
 
       var tests = {
         "Width" : width,
@@ -215,7 +219,8 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
         "Linear" : linear,
         "Ease" : ease,
         "Ease In Out" : easeinout,
-        "Missing Values" : missing
+        "Missing Values" : missing,
+        "Transform" : prefix
       };
 
       // CSS ANIMATIONS

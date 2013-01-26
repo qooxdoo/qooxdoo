@@ -3,5 +3,6 @@
 // 
 
 .menu {
-  @extend .dialog;
+  @extend .popup;
+  min-width:200px;
 }
