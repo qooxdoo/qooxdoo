@@ -265,6 +265,7 @@ qx.Class.define("qx.ui.table.model.Remote",
         }
       }
 
+      // Force clearing row cache, because of reloading data.
       this._clearCache = true;
 
       // Forget a possibly outstanding request
@@ -419,7 +420,7 @@ qx.Class.define("qx.ui.table.model.Remote",
     prefetchRows : function(firstRowIndex, lastRowIndex)
     {
       // this.debug("Prefetch wanted: " + firstRowIndex + ".." + lastRowIndex);
-      if (this._firstLoadingBlock == -1 || this._clearCache)
+      if (this._firstLoadingBlock == -1)
       {
         var blockSize = this.getBlockSize();
         var totalBlockCount = Math.ceil(this._rowCount / blockSize);
@@ -445,7 +446,7 @@ qx.Class.define("qx.ui.table.model.Remote",
 
         for (var block=firstBlock; block<=lastBlock; block++)
         {
-          if (this._clearCache || this._rowBlockCache[block] == null || this._rowBlockCache[block].isDirty)
+          if ((this._clearCache && !this._loadRowCountRequestRunning)|| this._rowBlockCache[block] == null || this._rowBlockCache[block].isDirty)
           {
             // We don't have this block
             if (firstBlockToLoad == -1) {
@@ -503,6 +504,7 @@ qx.Class.define("qx.ui.table.model.Remote",
      */
     _onRowDataLoaded : function(rowDataArr)
     {
+      // Clear cache if function was called because of a reload.
       if (this._clearCache) {
         this.clearCache();
         this._clearCache = false;

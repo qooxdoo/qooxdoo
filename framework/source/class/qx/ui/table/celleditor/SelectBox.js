@@ -97,7 +97,9 @@ qx.Class.define("qx.ui.table.celleditor.SelectBox",
         };
       }
 
-      var itemToSelect = cellEditor.getChildrenContainer().findItem(label);
+      if (label != null) {
+        var itemToSelect = cellEditor.getChildrenContainer().findItem(label + "");
+      }
 
       if (itemToSelect) {
         cellEditor.setSelection([itemToSelect]);

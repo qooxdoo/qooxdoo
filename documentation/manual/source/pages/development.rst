@@ -51,6 +51,7 @@ Code Organisation
    :maxdepth: 1
 
    development/library_custom
+   development/contrib
 
 
 Parts

@@ -304,7 +304,6 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
       qx.bom.element.Animation.animate(toElement, toElementAnimation); 
       qx.bom.element.Animation.animate(fromElement, fromElementAnimation); 
-      
     },
 
 

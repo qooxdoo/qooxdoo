@@ -2,18 +2,12 @@
   position:absolute;
 }
 
-.drawer.front {
-  z-index:100;
-  @include transition(all .5s ease-in-out );
+.drawer.above {
+  z-index:1;
 }
 
-
-.drawer.back {
+.drawer.below {
   z-index:-1;
-}
-
-.drawer-parent {
-  @include transition(all .5s ease-in-out );
 }
 
 .drawer.left {
@@ -40,22 +34,30 @@
   bottom:0;
 }
 
-.drawer.left.front.hidden {
+.drawer.left.above.hidden {
   @include transform(translateX(-100%));
 }
 
-.drawer.right.front.hidden {
+.drawer.right.above.hidden {
   @include transform(translateX(100%));
 }
 
-.drawer.top.front.hidden {
+.drawer.top.above.hidden {
   @include transform(translateY(-100%));
 }
 
-.drawer.bottom.front.hidden {
+.drawer.bottom.above.hidden {
   @include transform(translateY(100%));
 }
 
 .root.drawer-parent {
   overflow:visible !important;
+}
+
+.drawer-parent.blocked:not(.root) > *:first-child > * {
+  pointer-events:none;
+}
+
+.animationChild .drawer {
+  display:none;
 }

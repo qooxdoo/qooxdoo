@@ -58,7 +58,13 @@ qx.Class.define("qx.ui.form.AbstractField",
       var color = colorManager.resolve("text-placeholder");
 
       if (qx.core.Environment.get("engine.name") == "gecko") {
-        var selector = "input:-moz-placeholder, textarea:-moz-placeholder";
+        var selector;
+        // see https://developer.mozilla.org/de/docs/CSS/:-moz-placeholder for details
+        if (parseFloat(qx.core.Environment.get("engine.version")) >= 19) {
+          selector = "input::-moz-placeholder, textarea::-moz-placeholder";
+        } else {
+          selector = "input:-moz-placeholder, textarea:-moz-placeholder";
+        }
         qx.bom.Stylesheet.addRule(this.__stylesheet, selector, "color: " + color + " !important");
       } else if (qx.core.Environment.get("engine.name") == "webkit") {
         selector = "input.qx-placeholder-color::-webkit-input-placeholder, textarea.qx-placeholder-color::-webkit-input-placeholder";

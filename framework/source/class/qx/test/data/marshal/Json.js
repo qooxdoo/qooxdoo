@@ -33,6 +33,7 @@
 qx.Class.define("qx.test.data.marshal.Json",
 {
   extend : qx.dev.unit.TestCase,
+  include : qx.dev.unit.MMock,
 
   members :
   {
@@ -875,6 +876,21 @@ qx.Class.define("qx.test.data.marshal.Json",
       this.assertEquals(2, model.getC().getY());
 
       model.dispose();
+    },
+
+
+    testBubbleSpliceRemoveAndAdd : function() {
+      var data = [{label: "Desktop"}];
+
+      var model = qx.data.marshal.Json.createModel(data, true);
+      var spy = this.spy();
+      model.addListener("changeBubble", spy);
+
+      model.splice(0, 1, model.getItem(0));
+      this.assertCalledOnce(spy);
+
+      model.getItem(0).setLabel("pistole");
+      this.assertCalledTwice(spy);
     }
   }
 });

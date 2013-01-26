@@ -17,10 +17,13 @@
 
 ************************************************************************ */
 
-/*
-#require qx.locale.data.de_DE
-#require qx.locale.data.C
-*/
+/* ************************************************************************
+#require(qx.locale.data.de_DE)
+#require(qx.locale.data.C)
+#require(qxWeb)
+#require(qx.module.Attribute)
+#require(qx.module.Traversing)
+************************************************************************ */
 
 qx.Class.define("qx.test.mobile.LocaleSwitch",
 {
@@ -81,6 +84,56 @@ qx.Class.define("qx.test.mobile.LocaleSwitch",
       this.assertEquals("test two", label.getValue());
 
       label.destroy();
+    },
+
+    testList : function()
+    {
+      var list = new qx.ui.mobile.list.List({
+        configureItem : function(item, data, row) {
+          item.setTitle(data.title);
+          item.setSubtitle(data.subTitle);
+        }
+      });
+
+      var data = [
+        {
+          title: this.tr("test one"),
+          subTitle: this.tr("test two")
+        },
+        {
+          title: this.tr("test Hello %1!", this.tr("test Jonny")),
+          subTitle: this.tr("test Jonny")
+        }
+      ];
+
+      list.setModel(new qx.data.Array(data));
+      this.getRoot().add(list);
+
+      this.__testListEn();
+
+      this.manager.setLocale("de_QX");
+      var title0 = q(".list * .list-itemlabel").eq(0).getHtml();
+      this.assertEquals("Eins". title0);
+      var subtitle0 = q(".list * .subtitle").eq(0).getHtml();
+      this.assertEquals("Zwei", subtitle0);
+      var title1 = q(".list * .list-itemlabel").eq(1).getHtml();
+      this.assertEquals("Servus Jonathan!", title1);
+      var subtitle1 = q(".list * .subtitle").eq(1).getHtml();
+      this.assertEquals("Jonathan", subtitle1);
+
+      this.manager.setLocale("en_QX");
+      this.__testListEn();
+    },
+
+    __testListEn : function() {
+      var title0 = q(".list * .list-itemlabel").eq(0).getHtml();
+      this.assertEquals("test one". title0);
+      var subtitle0 = q(".list * .subtitle").eq(0).getHtml();
+      this.assertEquals("test two", subtitle0);
+      var title1 = q(".list * .list-itemlabel").eq(1).getHtml();
+      this.assertEquals("test Hello test Jonny!", title1);
+      var subtitle1 = q(".list * .subtitle").eq(1).getHtml();
+      this.assertEquals("test Jonny", subtitle1);
     }
   }
 });

@@ -60,6 +60,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     var menuContainer = new qx.ui.mobile.container.Composite();
     var clearButton = this.__clearButton = new qx.ui.mobile.form.Button(this.getClearButtonLabel());
     clearButton.addListener("tap", this.__onClearButtonTap, this);
+    clearButton.addListener("touchstart", this._preventClickEvent, this);
     clearButton.setVisibility("excluded");
 
     menuContainer.add(this.__selectionList);
@@ -211,9 +212,15 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
 
       // Add an changeSelection event
       selectionList.addListener("changeSelection", this.__onListChangeSelection, this);
-      selectionList.addListener("tap", this.__onListTap, this);
-
+      selectionList.addListener("tap", this._onSelectionListTap, this);
+      
       return selectionList;
+    },
+    
+    
+    /** Handler for tap event on selection list. */
+    _onSelectionListTap : function() {
+      this.hideWithDelay(500);
     },
 
 
@@ -260,11 +267,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     __onClearButtonTap : function() {
       this.fireDataEvent("changeSelection", {index: null, item: null});
       
-      // Last event which is fired by tap is a click event,
-      // so hide menu after click event.
-      // If menu is hidden before click-event, event will bubble to ui
-      // element which is behind menu, and might cause an unexpected action.
-      qx.event.Timer.once(this.hide, this, 500);
+      this.hide();
     },
 
 
@@ -282,27 +285,15 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     _applyClearButtonLabel : function(value, old) {
        this.__clearButton.setValue(value);
     },
-
-
-    /**
-     * Reacts on selection list click.
-     */
-    __onListTap : function () {
-        // Last event which is fired by tap on List is a click event,
-        // so hide menu, first on click event.
-        // If menu is hidden before click-event, event will bubble to ui
-        // element which is behind menu, and might cause an unexpected action.
-        qx.event.Timer.once(this.hide, this, 500);
-    },
-
-
+    
+    
     /**
      * Triggers (re-)rendering of menu items.
      */
     _render : function() {
-        var tmpModel = this.__selectionList.getModel();
-        this.__selectionList.setModel(null);
-        this.__selectionList.setModel(tmpModel);
+      var tmpModel = this.__selectionList.getModel();
+      this.__selectionList.setModel(null);
+      this.__selectionList.setModel(tmpModel);
     }
   },
 
@@ -314,6 +305,9 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
 
   destruct : function()
   {
+    this.__selectionList.removeListener("tap", this._onSelectionListTap, this);
+    this.__clearButton.removeListener("touchstart", this._preventClickEvent, this);
+    
     this._disposeObjects("__selectionList","__clearButton");
   }
 

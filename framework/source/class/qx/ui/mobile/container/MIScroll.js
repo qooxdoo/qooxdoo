@@ -40,18 +40,11 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
   *****************************************************************************
   */
 
-  /**
-   * @param useTransform {Boolean} Whether iScroll should use transforms or not. Set this to false
-   *    when input fields are used inside the scroll container.
-   */
-  construct : function(useTransform)
+  construct : function()
   {
-    this.__useTransform = useTransform !== false ?  true : false;
     this.__initScroll();
     this.__registerEventListeners();
   },
-
-
 
 
   /*
@@ -63,7 +56,6 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
   members :
   {
     __scroll : null,
-    __useTransform : null,
 
     /**
      * Mixin method. Creates the scroll element.
@@ -159,12 +151,30 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
      */
     __createScrollInstance : function()
     {
-      var scroll = new iScroll(this.getContainerElement(), {
-        hideScrollbar:true,
-        fadeScrollbar:true,
+      var defaultScrollProperties = this._getDefaultScrollProperties();
+      var customScrollProperties = {};
+      
+      if(this._scrollProperties != null) {
+        customScrollProperties = this._scrollProperties;
+      }
+      
+      var iScrollProperties = qx.lang.Object.mergeWith(defaultScrollProperties, customScrollProperties, true);
+      
+      return new iScroll(this.getContainerElement(), iScrollProperties);
+    },
+    
+    
+    /**
+     * Returns a map with default iScroll properties for the iScroll instance.
+     * @return {Object} Map with default iScroll properties
+     */
+    _getDefaultScrollProperties : function() {
+      return {
+        hideScrollbar: true,
+        fadeScrollbar: true,
         hScrollbar : false,
-        scrollbarClass:"scrollbar",
-        useTransform: this.__useTransform,
+        scrollbarClass: "scrollbar",
+        useTransform: true,
         onBeforeScrollStart : function(e) {
           // QOOXDOO ENHANCEMENT: Do not prevent default for form elements
           /* When updating iScroll, please check out that doubleTapTimer is not active (commented out)
@@ -197,8 +207,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
             qx.event.message.Bus.getInstance().dispatch(iScrollStartEvent);
           }
         }
-      });
-      return scroll;
+      }
     },
 
 

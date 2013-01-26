@@ -24,7 +24,7 @@ To correctly implement the remote table model you have to define/overwrite two m
 
       members :
       {
-         // overloaded - called whenever the table requests the row count
+         // overridden - called whenever the table requests the row count
         _loadRowCount : function()
         {
           // Call the backend service (example) - using XmlHttp 
@@ -49,7 +49,7 @@ To correctly implement the remote table model you have to define/overwrite two m
            }
         },
 
-        // overloaded - called whenever the table requests new data
+        // overridden - called whenever the table requests new data
         _loadRowData : function(firstRow, lastRow)
         {
            // Call the backend service (example) - using XmlHttp 

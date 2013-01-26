@@ -94,6 +94,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       this.__detailContainer.add(this.__detailNavigation, {flex:1});
 
       qx.event.Registration.addListener(window, "orientationchange", this._onLayoutChange, this);
+      this.__masterContainer.addListener("resize", this._onLayoutChange, this);
 
       // On Tablet Mode, no Animation should be shown by default.
       this.__masterNavigation.getLayout().setShowAnimation(false);
@@ -145,6 +146,16 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       init : true,
       check : "Boolean",
       apply : "__updateMasterButtonVisibility"
+    },
+    
+    
+    /**
+     *  This flag controls whether the MasterContainer hides on portrait view, 
+     *  when a Detail Page fires the lifecycle event "start".
+     */
+    hideMasterOnDetailStart : {
+      init : true,
+      check : "Boolean"
     }
   },
 
@@ -163,6 +174,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     __masterButton : null,
     __hideMasterButton : null,
     __masterPages : null,
+    __detailPages : null,
     __masterContainer : null,
     __detailContainer : null,
     
@@ -194,7 +206,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     
     /**
      * Getter for the Master Container
-     * @return {qx.ui.mobile.container.Composite} The Master Container.
+     * @return {qx.ui.mobile.container.Drawer} The Master Container.
      */
     getMasterContainer : function() {
       return this.__masterContainer;
@@ -320,6 +332,34 @@ qx.Class.define("qx.ui.mobile.page.Manager",
      */
     addDetail : function(pages) {
       this._add(pages, this.__detailNavigation);
+      
+      if(pages && this.__isTablet) {
+        if (!qx.lang.Type.isArray(pages)) {
+          pages = [pages];
+        }
+        
+        for(var i = 0; i < pages.length; i++) {
+          var detailPage = pages[i];
+          qx.event.Registration.addListener(detailPage, "start", this._onDetailPageStart, this);
+        }
+        
+        if(this.__detailPages) {
+          this.__detailPages.concat(pages);
+        } else {
+          this.__detailPages = pages;
+        }
+      }
+    },
+    
+    
+    /**
+     * Called when a detailPage reaches lifecycle state "start".
+     * @param evt {qx.event.type.Event} source event.
+     */
+    _onDetailPageStart : function(evt) {
+      if(qx.bom.Viewport.isPortrait() && this.isHideMasterOnDetailStart()) {
+        this.__masterContainer.hide();
+      }
     },
 
 
@@ -410,6 +450,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       }
       
       if(qx.bom.Viewport.isLandscape()) {
+        this.__masterContainer.setShowTransition(false);
+        
         if(!this.isMasterContainerHidden()) {
           this._createDetailContainerGap();
           this.__masterContainer.show();
@@ -418,6 +460,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
         }
         this.__masterContainer.setHideOnParentTouch(false);
       } else {
+        this.__masterContainer.setShowTransition(true);
         this.__masterContainer.setHideOnParentTouch(true);
         this.__masterContainer.hide();
         this._removeDetailContainerGap();
@@ -433,7 +476,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
      */
     _createDetailContainerGap : function() {
       var width = this.__masterContainer.getWidth();
-      qx.bom.element.Style.set(this.__detailContainer.getContainerElement(), "padding-right", width+"px");
+      qx.bom.element.Style.set(this.__detailContainer.getContainerElement(), "paddingRight", width+"px");
       this.__detailContainer.setTranslateX(width);
       
       qx.event.Registration.fireEvent(window, "resize");
@@ -444,7 +487,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
      * Moves detailContainer to the left edge of viewport.
      */
     _removeDetailContainerGap : function() {
-      qx.bom.element.Style.set(this.__detailContainer.getContainerElement(), "padding-right", null);
+      qx.bom.element.Style.set(this.__detailContainer.getContainerElement(), "paddingRight", null);
       this.__detailContainer.setTranslateX(0);
       
       qx.event.Registration.fireEvent(window, "resize");
@@ -518,8 +561,20 @@ qx.Class.define("qx.ui.mobile.page.Manager",
         qx.event.Registration.removeListener(masterPage, "start", this._onMasterPageStart, this);
       }
     }
+    if(this.___detailPages) {
+      for(var j = 0; j < this.___detailPages.length; j++) {
+        var detailPage = this.___detailPages[j];
 
-    this.__masterPages = null;
+        qx.event.Registration.removeListener(detailPage, "start", this._onDetailPageStart, this);
+      }
+    }
+    
+    if(this.__isTablet) {
+      this.__masterContainer.removeListener("resize", this._onLayoutChange, this);
+      qx.event.Registration.removeListener(window, "orientationchange", this._onLayoutChange, this);
+    }
+
+    this.__masterPages = this.__detailPages =  null;
 
     this._disposeObjects("__detailNavigation", "__masterNavigation", "__masterButton");
   }

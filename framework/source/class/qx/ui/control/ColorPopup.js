@@ -381,7 +381,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
       var color = null;
 
       if (red !== null || green !== null || blue !== null) {
-        var color = qx.util.ColorUtil.rgbToRgbString([red, green, blue]);
+        color = qx.util.ColorUtil.rgbToRgbString([red, green, blue]);
       }
 
       this.getChildControl("current-preview").setBackgroundColor(color);
@@ -463,7 +463,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
         var color = null;
 
         if (red !== null || green !== null || blue !== null) {
-          var color = qx.util.ColorUtil.rgbToRgbString([red, green, blue]);
+          color = qx.util.ColorUtil.rgbToRgbString([red, green, blue]);
         }
 
         this.getChildControl("selected-preview").setBackgroundColor(color);
@@ -478,13 +478,13 @@ qx.Class.define("qx.ui.control.ColorPopup",
     {
       core :
       {
-        label : "Basic Colors",
+        label : qx.locale.Manager.tr("Basic Colors"),
         values : [ "#000", "#333", "#666", "#999", "#CCC", "#FFF", "red", "green", "blue", "yellow", "teal", "maroon" ]
       },
 
       recent :
       {
-        label : "Recent Colors",
+        label : qx.locale.Manager.tr("Recent Colors"),
         values : [ ]
       }
     }
