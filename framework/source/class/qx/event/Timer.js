@@ -59,6 +59,9 @@ qx.Class.define("qx.event.Timer",
     var self = this;
     this.__oninterval = function() {
       self._oninterval.call(self);
+      if (self.isEnabled() && self.isUseSetTimeout()) {
+        self.__intervalHandler = setTimeout(self.__oninterval, self.getInterval());
+      }
     }
   },
 
@@ -165,6 +168,16 @@ qx.Class.define("qx.event.Timer",
       check : "Integer",
       init : 1000,
       apply : "_applyInterval"
+    },
+
+    /**
+     * Specifies whether setTimeout ("true" value) or setInterval ("false" value) should be used to generate timer events.
+     */
+    useSetTimeout :
+    {
+      init : false,
+      check : "Boolean",
+      apply : "_applyUseSetTimeout"
     }
   },
 
@@ -214,12 +227,26 @@ qx.Class.define("qx.event.Timer",
     {
       if (old)
       {
-        window.clearInterval(this.__intervalHandler);
+        window[this.isUseSetTimeout() ? "clearTimeout" : "clearInterval"](this.__intervalHandler);
         this.__intervalHandler = null;
       }
       else if (value)
       {
-        this.__intervalHandler = window.setInterval(this.__oninterval, this.getInterval());
+        this.__intervalHandler = window[this.isUseSetTimeout() ? "setTimeout" : "setInterval"](this.__oninterval, this.getInterval());
+      }
+    },
+
+
+    /**
+     * Apply the <code>useSetTimeout</code> of the timer.
+     *
+     * @param value {var} Current value
+     * @param old {var} Previous value
+     */
+    _applyUseSetTimeout : function(value, old)
+    {
+      if (this.getEnabled()) {
+        this.restart();
       }
     },
 
@@ -266,9 +293,13 @@ qx.Class.define("qx.event.Timer",
      * Restart the timer.
      * This makes it possible to change the interval of a running timer.
      *
+     * @param runTimerCallback {Boolean ? false} Whether timer callback should be run immediately as if timer interval has elapsed.
      */
-    restart : function()
+    restart : function(runTimerCallback)
     {
+      if (runTimerCallback) {
+        this._oninterval();
+      }
       this.stop();
       this.start();
     },
@@ -278,9 +309,13 @@ qx.Class.define("qx.event.Timer",
      * Restart the timer. with a given interval.
      *
      * @param interval {Integer} Time in milliseconds between two callback calls.
+     * @param runTimerCallback {Boolean ? false} Whether timer callback should be run immediately as if timer interval has elapsed.
      */
-    restartWith : function(interval)
+    restartWith : function(interval, runTimerCallback)
     {
+      if (runTimerCallback) {
+        this._oninterval();
+      }
       this.stop();
       this.startWith(interval);
     },
