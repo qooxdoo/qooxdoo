@@ -37,7 +37,7 @@ qx.Class.define("qx.test.log.Logger",
       qx.log.Logger.setLevel(this.__initialLogLevel);
     },
 
-    testLogException : function()
+    __testLogException : function(exception)
     {
       var appender = new qx.log.appender.RingBuffer();
 
@@ -45,21 +45,30 @@ qx.Class.define("qx.test.log.Logger",
       qx.log.Logger.clear();
       qx.log.Logger.register(appender);
 
-      qx.log.Logger.debug(this.newException());
+      qx.log.Logger.debug(exception);
 
       var events = appender.getAllLogEvents();
       this.assertEquals(1, events.length);
 
-      if (
-        qx.core.Environment.get("engine.name") == "webkit" ||
-        qx.core.Environment.get("engine.name") == "gecko"
-      ) {
-        if (window.navigator.userAgent.indexOf("Chrome") === -1) {
+      if (qx.core.Environment.get("ecmascript.error.stacktrace")) {
+        if (exception instanceof Error || qx.core.Environment.get("engine.name") !== "gecko") {
           this.assert(events[0].items[0].trace.length > 0);
         }
       }
 
       qx.log.Logger.unregister(appender);
+    },
+
+    testLogException : function()
+    {
+      var exception = this.newException();
+      this.__testLogException(exception);
+    },
+
+    testLogDOMException : function()
+    {
+      var exception = this.newDOMException();
+      this.__testLogException(exception);
     },
 
 
@@ -83,6 +92,17 @@ qx.Class.define("qx.test.log.Logger",
         exc = e;
       }
       return exc;
+    },
+
+    newDOMException : function()
+    {
+      var exc;
+      try {
+        document.body.appendChild(null);
+      } catch (e) {
+        exc = e;
+      }
+      return exc;
     }
   }
-})
+});

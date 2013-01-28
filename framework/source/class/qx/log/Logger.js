@@ -494,7 +494,8 @@ qx.Class.define("qx.log.Logger",
       {
         if (value.nodeType) {
           return "node";
-        } else if (value instanceof Error) {
+          // In Gecko, DOMException doesn't inherit from Error
+        } else if (value instanceof Error || (value.name && value.message)) {
           return "error";
         } else if (value.classname) {
           return "instance";
