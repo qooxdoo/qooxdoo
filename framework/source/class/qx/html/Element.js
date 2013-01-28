@@ -1628,6 +1628,7 @@ qx.Class.define("qx.html.Element",
       }
 
       delete this.__visible;
+      return this;
     },
 
 
@@ -1650,6 +1651,7 @@ qx.Class.define("qx.html.Element",
       }
 
       this.__visible = false;
+      return this;
     },
 
 
