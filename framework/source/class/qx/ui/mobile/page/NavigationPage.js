@@ -539,7 +539,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
         && ((parseInt(osVersionParts[0]) < 4) || (parseInt(osVersionParts[0]) == 4 && parseInt(osVersionParts[1]) < 1));
 
       if(isAndroidQuirksMode == true) {
-        return new qx.ui.mobile.container.Scroll(false);
+        return new qx.ui.mobile.container.Scroll({useTransform: false});
       } else {
         return new qx.ui.mobile.container.Scroll();
       }
@@ -556,7 +556,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
       var content = new qx.ui.mobile.container.Composite();
       content.setDefaultCssClass(this.getContentCssClass());
 
-      if(this._wrapContentByGroup==true) {
+      if(this._wrapContentByGroup == true) {
         content.addCssClass("group");
       }
 
