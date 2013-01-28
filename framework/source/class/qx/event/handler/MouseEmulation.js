@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2013 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -13,10 +13,7 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Sebastian Werner (wpbasti)
-     * Andreas Ecker (ecker)
-     * Fabian Jakobs (fjakobs)
-     * Christian Hagendorn (chris_schmidt)
+     * Martin Wittemann (wittemann)
 
 ************************************************************************ */
 
@@ -27,24 +24,24 @@
 
 ************************************************************************ */
 
+/**
+ * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ *
+ * This handler is responsible for emulating mouse events based on touch events.
+ * The emulation is enabled by the environment key 'qx.emulatemouse' and the
+ * availability of touch events. If that's the case, the regular mouse handler will
+ * be disabled and this handler takes it's place. It fakes, based on 'touchstart', 'touchmove'
+ * 'touchend' and 'tap' the events for 'mousedown', 'mousemove', 'mouseup' and 'click'.
+ * As additional feature, it fakes 'mousewheel' events for swipe gestures including the
+ * momentum scrolling.
+ */
 qx.Class.define("qx.event.handler.MouseEmulation",
 {
   extend : qx.core.Object,
   implement : qx.event.IEventHandler,
 
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   /**
-   * Create a new instance
-   *
-   * @param manager {qx.event.Manager} Event manager for the window to use
+   * @param manager {qx.event.Manager} Event manager for the window to use.
    */
   construct : function(manager)
   {
@@ -59,14 +56,6 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     this._initObserver();
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
 
   statics :
   {
@@ -90,15 +79,6 @@ qx.Class.define("qx.event.handler.MouseEmulation",
   },
 
 
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
     __manager : null,
@@ -109,11 +89,6 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     __lastPos : null,
     __impulseTimerId : null,
 
-    /*
-    ---------------------------------------------------------------------------
-      EVENT HANDLER INTERFACE
-    ---------------------------------------------------------------------------
-    */
 
     // interface implementation
     canHandleEvent : function(target, type) {},
@@ -132,23 +107,13 @@ qx.Class.define("qx.event.handler.MouseEmulation",
 
 
 
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HELPER
-    ---------------------------------------------------------------------------
-    */
-
-
     /**
      * Fire a mouse event with the given parameters
      *
-     * @param event {Event} qooxdoo touch event
+     * @param evt {Event} qooxdoo touch event
      * @param type {String} type of the event
-     * @param target {var} The target of the event
-     * @return {Boolean} whether the event default was prevented or not.
-     *     Returns <code>true</code>, when the event was NOT prevented.
+     * @param target {var} The target of the event.
+     * @return {boolean} <code>true</code>, if the event was stoped
      */
     __fireEvent : function(evt, type, target) {
       var mouseEvent = type == "mousewheel" ?
@@ -160,9 +125,16 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     },
 
 
+    /**
+     * Helper to fire a mouse wheel event.
+     * @param deltaX {Number} The delta in x direction of the wheel event.
+     * @param deltaY {Number} The delta in y direction of the wheel event.
+     * @param finger {Map} The first item of the fingers array of a touch event.
+     * @param target {var} The target of the event.
+     */
     __fireWheelEvent : function(deltaX, deltaY, finger, target) {
       // change the native fake event to include the wheel delta's
-      var wheelEvent = this.getDefaultFakeEvent(target, finger);
+      var wheelEvent = this.__getDefaultFakeEvent(target, finger);
       wheelEvent.wheelDelta = deltaX;
       wheelEvent.wheelDeltaY = deltaY;
       wheelEvent.wheelDeltaX = deltaX;
@@ -175,6 +147,9 @@ qx.Class.define("qx.event.handler.MouseEmulation",
      * Helper for momentum scrolling.
      * @param deltaX {Number} The deltaX from the last scrolling.
      * @param deltaY {Number} The deltaY from the last scrolling.
+     * @param finger {Map} The first item of the fingers array of a touch event.
+     * @param target {var} The target of the event.
+     * @param time {Number} The passed time since the impulse was handle the last time.
      */
     __handleScrollImpulse : function(deltaX, deltaY, finger, target, time) {
       // delete the old timer id
@@ -212,6 +187,12 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     },
 
 
+    /**
+     * Helper to find out if there has been a move gesture or not.
+     *
+     * @param nativeEvent {var} The native touch event.
+     * @return {boolean} <code>true</code>, if a move has been detected.
+     */
     __hasMoved : function(nativeEvent) {
       var endPos = {x: nativeEvent.screenX, y: nativeEvent.screenY};
       var moved = false;
@@ -227,19 +208,10 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     },
 
 
-    /*
-    ---------------------------------------------------------------------------
-      OBSERVER INIT
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * Initializes the native mouse button event listeners.
-     *
-     * @signature function()
      */
-    _initObserver : function()
-    {
+    _initObserver : function() {
       qx.event.Registration.addListener(this.__root, "touchstart", this.__onTouchStart, this);
       qx.event.Registration.addListener(this.__root, "touchmove", this.__onTouchMove, this);
       qx.event.Registration.addListener(this.__root, "touchend", this.__onTouchEnd, this);
@@ -247,21 +219,10 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     },
 
 
-
-
-    /*
-    ---------------------------------------------------------------------------
-      OBSERVER STOP
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * Disconnects the native mouse button event listeners.
-     *
-     * @signature function()
      */
-    _stopObserver : function()
-    {
+    _stopObserver : function() {
       qx.event.Registration.removeListener(this.__root, "touchstart", this.__onTouchStart, this);
       qx.event.Registration.removeListener(this.__root, "touchmove", this.__onTouchMove, this);
       qx.event.Registration.removeListener(this.__root, "touchend", this.__onTouchEnd, this);
@@ -269,15 +230,13 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     },
 
 
-    /*
-    ---------------------------------------------------------------------------
-      HANDLER
-    ---------------------------------------------------------------------------
-    */
-
+    /**
+     * Handler for 'touchstart' which converts the touch start event to a mouse down event.
+     * @param e {qx.event.type.Touch} The qooxdoo touch event.
+     */
     __onTouchStart : function(e) {
       var target = e.getTarget();
-      var nativeEvent = this.getDefaultFakeEvent(target, e.getAllTouches()[0]);
+      var nativeEvent = this.__getDefaultFakeEvent(target, e.getAllTouches()[0]);
       if (!this.__fireEvent(nativeEvent, "mousedown", target)) {
         e.preventDefault();
       }
@@ -286,9 +245,14 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     },
 
 
+    /**
+     * Handler for 'touchmove' which converts the touch move event to a mouse move event.
+     * Additionally, the mouse wheel events will be generated in this handler.
+     * @param e {qx.event.type.Touch} The qooxdoo touch event.
+     */
     __onTouchMove : function(e) {
       var target = e.getTarget();
-      var nativeEvent = this.getDefaultFakeEvent(target, e.getChangedTargetTouches()[0]);
+      var nativeEvent = this.__getDefaultFakeEvent(target, e.getChangedTargetTouches()[0]);
       if (!this.__fireEvent(nativeEvent, "mousemove", target)) {
         e.preventDefault();
       }
@@ -317,9 +281,13 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     },
 
 
+    /**
+     * Handler for 'touchend' which converts the touch end event to a mouse up event.
+     * @param e {qx.event.type.Touch} The qooxdoo touch event.
+     */
     __onTouchEnd : function(e) {
       var target = e.getTarget();
-      var nativeEvent = this.getDefaultFakeEvent(target, e.getChangedTargetTouches()[0]);
+      var nativeEvent = this.__getDefaultFakeEvent(target, e.getChangedTargetTouches()[0]);
 
       if (!this.__fireEvent(nativeEvent, "mouseup", target)) {
         e.preventDefault();
@@ -327,9 +295,13 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     },
 
 
+    /**
+     * Handler for 'tap' which converts the tap event to a click event.
+     * @param e {qx.event.type.Touch} The qooxdoo touch event.
+     */
     __onTap : function(e) {
       var target = e.getTarget();
-      var nativeEvent = this.getDefaultFakeEvent(target, e.getChangedTargetTouches()[0]);
+      var nativeEvent = this.__getDefaultFakeEvent(target, e.getChangedTargetTouches()[0]);
 
       if (!this.__hasMoved(nativeEvent)) {
         this.__fireEvent(nativeEvent, "click", target);
@@ -337,7 +309,13 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     },
 
 
-    getDefaultFakeEvent : function(target, finger) {
+    /**
+     * Returns a fake native mouse event, based on the the given target and finger.
+     * @param target {var} The event target.
+     * @param finger {Map} The first item of the native touch events fingers array.
+     * @return {Map} A fake event as a simple Map containing the necessary keys and values.
+     */
+    __getDefaultFakeEvent : function(target, finger) {
       var nativeEvent = {};
 
       nativeEvent.button = 0; // for left button
@@ -366,13 +344,6 @@ qx.Class.define("qx.event.handler.MouseEmulation",
 
 
 
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
   destruct : function()
   {
     this._stopObserver();
@@ -381,14 +352,6 @@ qx.Class.define("qx.event.handler.MouseEmulation",
   },
 
 
-
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
 
   defer : function(statics) {
     qx.event.Registration.addHandler(statics);
