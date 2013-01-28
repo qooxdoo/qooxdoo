@@ -1559,7 +1559,7 @@ qx.Bootstrap.define("qx.Class",
     {
       function defaultConstructor() {
         defaultConstructor.base.apply(this, arguments);
-      };
+      }
 
       return defaultConstructor;
     },

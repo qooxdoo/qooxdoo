@@ -85,7 +85,7 @@ qx.Class.define("qx.test.performance.widget.AbstractWidget",
           for (i=0; i<l; i++) {
             widgets[i].setWidth(300);
             widgets[i].setHeight(100)
-          };
+          }
           that.flush();
 
           for (i=0; i<l; i++) {
