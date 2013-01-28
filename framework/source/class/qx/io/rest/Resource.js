@@ -322,8 +322,9 @@ qx.Class.define("qx.io.rest.Resource",
       // Not overwrite existing "non-action" methods
       if (typeof this[action] !== "undefined" && this[action].action !== true) {
 
-        // Unless the method is an empty function
-        if (this[action] !== (function() {})) {
+        // Unless the method is null (i.e. because it exists as a stub for
+        // documentation)
+        if (this[action] !== null) {
           throw new Error("Method with name of action (" +
             action + ") already exists");
         }
