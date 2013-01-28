@@ -184,8 +184,11 @@ qx.Class.define("qx.event.type.MouseWheel",
      * @return {Integer} Scroll wheel movement
      */
     __convertWheelDelta : function(delta) {
-      // new feature detectiong behavior
-      if (qx.core.Environment.get("qx.dynamicmousewheel")) {
+      if (qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse")) {
+        return delta;
+      }
+      // new feature detecting behavior
+      else if (qx.core.Environment.get("qx.dynamicmousewheel")) {
         return this.__normalize(delta);
 
       // old, browser detecting behavior

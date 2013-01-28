@@ -34,6 +34,8 @@ qx.Class.define("qx.ui.core.queue.Manager",
     /** {Boolean} Whether a flush was scheduled */
     __scheduled : false,
 
+    /** {Boolean} true, if the flush should not be executed */
+    __canceled : false,
 
     /** {Map} Internal data structure for the current job list */
     __jobs : {},
@@ -61,7 +63,14 @@ qx.Class.define("qx.ui.core.queue.Manager",
 
       if (!self.__scheduled)
       {
-        self.__deferredCall.schedule();
+        this.__canceled = false;
+        qx.bom.AnimationFrame.request(function() {
+          if (this.__canceled) {
+            this.__canceled = false;
+            return;
+          }
+          this.flush();
+        }, this);
         self.__scheduled = true;
       }
     },
@@ -74,10 +83,6 @@ qx.Class.define("qx.ui.core.queue.Manager",
      */
     flush : function()
     {
-      if (qx.ui.core.queue.Manager.PAUSE) {
-        return;
-      }
-
       // Sometimes not executed in context, fix this
       var self = qx.ui.core.queue.Manager;
 
@@ -89,7 +94,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
       self.__inFlush = true;
 
       // Cancel timeout if called manually
-      self.__deferredCall.cancel();
+      this.__canceled = true;
 
       var jobs = self.__jobs;
 
@@ -283,24 +288,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
      */
     __onUserAction : function(e)
     {
-      var statics = qx.ui.core.queue.Manager;
-      // postpone the flush for 500ms due to the fact that iOS stops firing
-      // events if the DOM gets changed during the vent chain [BUG #4033]
-      if (e.getData() == "touchend")
-      {
-        statics.PAUSE = true;
-        if (statics.__pauseTimeout) {
-          window.clearTimeout(statics.__pauseTimeout);
-        }
-        statics.__pauseTimeout = window.setTimeout(function()
-        {
-          statics.PAUSE = false;
-          statics.__pauseTimeout = null;
-          statics.flush();
-        }, 500);
-      } else {
-        statics.flush();
-      }
+      qx.ui.core.queue.Manager.flush();
     }
   },
 
@@ -315,9 +303,6 @@ qx.Class.define("qx.ui.core.queue.Manager",
 
   defer : function(statics)
   {
-    // Initialize deferred call
-    statics.__deferredCall = new qx.util.DeferredCall(statics.flush);
-
     // Replace default scheduler for HTML element with local one.
     // This is quite a hack, but allows us to force other flushes
     // before the HTML element flush.

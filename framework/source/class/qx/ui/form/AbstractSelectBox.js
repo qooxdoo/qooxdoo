@@ -154,7 +154,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
           control = new qx.ui.popup.Popup(new qx.ui.layout.VBox);
           control.setAutoHide(false);
           control.setKeepActive(true);
-          control.addListener("mouseup", this.close, this);
+          control.addListener("click", this.close, this);
           control.add(this.getChildControl("list"));
 
           control.addListener("changeVisibility", this._onPopupChangeVisibility, this);

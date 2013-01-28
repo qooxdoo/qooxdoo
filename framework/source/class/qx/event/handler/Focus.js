@@ -65,6 +65,11 @@ qx.Class.define("qx.event.handler.Focus",
     this._root = this._document.documentElement;
     this._body = this._document.body;
 
+    // abstraction
+    var useTouch = qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse");
+    this.__down = useTouch ? "touchstart" : "mousedown";
+    this.__up = useTouch ? "touchend" : "mouseup";
+
     // Initialize
     this._initObserver();
   },
@@ -164,6 +169,8 @@ qx.Class.define("qx.event.handler.Focus",
     __onNativeFocusOutWrapper : null,
     __previousFocus : null,
     __previousActive : null,
+    __down : "",
+    __up : "",
 
     /*
     ---------------------------------------------------------------------------
@@ -370,8 +377,8 @@ qx.Class.define("qx.event.handler.Focus",
 
 
         // Register events
-        qx.bom.Event.addNativeListener(this._document, "mousedown", this.__onNativeMouseDownWrapper, true);
-        qx.bom.Event.addNativeListener(this._document, "mouseup", this.__onNativeMouseUpWrapper, true);
+        qx.bom.Event.addNativeListener(this._document, this.__down, this.__onNativeMouseDownWrapper, true);
+        qx.bom.Event.addNativeListener(this._document, this.__up, this.__onNativeMouseUpWrapper, true);
 
         // Capturing is needed for gecko to correctly
         // handle focus of input and textarea fields
@@ -395,8 +402,8 @@ qx.Class.define("qx.event.handler.Focus",
 
 
         // Register events
-        qx.bom.Event.addNativeListener(this._document, "mousedown", this.__onNativeMouseDownWrapper);
-        qx.bom.Event.addNativeListener(this._document, "mouseup", this.__onNativeMouseUpWrapper);
+        qx.bom.Event.addNativeListener(this._document, this.__down, this.__onNativeMouseDownWrapper);
+        qx.bom.Event.addNativeListener(this._document, this.__up, this.__onNativeMouseUpWrapper);
 
         // MSHTML supports their own focusin and focusout events
         // To detect which elements get focus the target is useful
@@ -424,8 +431,8 @@ qx.Class.define("qx.event.handler.Focus",
 
 
         // Register events
-        qx.bom.Event.addNativeListener(this._document, "mousedown", this.__onNativeMouseDownWrapper, true);
-        qx.bom.Event.addNativeListener(this._document, "mouseup", this.__onNativeMouseUpWrapper, true);
+        qx.bom.Event.addNativeListener(this._document, this.__down, this.__onNativeMouseDownWrapper, true);
+        qx.bom.Event.addNativeListener(this._document, this.__up, this.__onNativeMouseUpWrapper, true);
         qx.bom.Event.addNativeListener(this._document, "selectstart", this.__onNativeSelectStartWrapper, false);
 
         qx.bom.Event.addNativeListener(this._window, "DOMFocusOut", this.__onNativeFocusOutWrapper, true);
@@ -445,8 +452,8 @@ qx.Class.define("qx.event.handler.Focus",
 
 
         // Register events
-        qx.bom.Event.addNativeListener(this._document, "mousedown", this.__onNativeMouseDownWrapper, true);
-        qx.bom.Event.addNativeListener(this._document, "mouseup", this.__onNativeMouseUpWrapper, true);
+        qx.bom.Event.addNativeListener(this._document, this.__down, this.__onNativeMouseDownWrapper, true);
+        qx.bom.Event.addNativeListener(this._document, this.__up, this.__onNativeMouseUpWrapper, true);
 
         qx.bom.Event.addNativeListener(this._window, "DOMFocusIn", this.__onNativeFocusInWrapper, true);
         qx.bom.Event.addNativeListener(this._window, "DOMFocusOut", this.__onNativeFocusOutWrapper, true);
@@ -462,8 +469,8 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "gecko" : function()
       {
-        qx.bom.Event.removeNativeListener(this._document, "mousedown", this.__onNativeMouseDownWrapper, true);
-        qx.bom.Event.removeNativeListener(this._document, "mouseup", this.__onNativeMouseUpWrapper, true);
+        qx.bom.Event.removeNativeListener(this._document, this.__down, this.__onNativeMouseDownWrapper, true);
+        qx.bom.Event.removeNativeListener(this._document, this.__up, this.__onNativeMouseUpWrapper, true);
 
         qx.bom.Event.removeNativeListener(this._window, "focus", this.__onNativeFocusWrapper, true);
         qx.bom.Event.removeNativeListener(this._window, "blur", this.__onNativeBlurWrapper, true);
@@ -473,8 +480,8 @@ qx.Class.define("qx.event.handler.Focus",
 
       "mshtml" : function()
       {
-        qx.bom.Event.removeNativeListener(this._document, "mousedown", this.__onNativeMouseDownWrapper);
-        qx.bom.Event.removeNativeListener(this._document, "mouseup", this.__onNativeMouseUpWrapper);
+        qx.bom.Event.removeNativeListener(this._document, this.__down, this.__onNativeMouseDownWrapper);
+        qx.bom.Event.removeNativeListener(this._document, this.__up, this.__onNativeMouseUpWrapper);
         qx.bom.Event.removeNativeListener(this._document, "focusin", this.__onNativeFocusInWrapper);
         qx.bom.Event.removeNativeListener(this._document, "focusout", this.__onNativeFocusOutWrapper);
         qx.bom.Event.removeNativeListener(this._document, "selectstart", this.__onNativeSelectStartWrapper);
@@ -482,8 +489,8 @@ qx.Class.define("qx.event.handler.Focus",
 
       "webkit" : function()
       {
-        qx.bom.Event.removeNativeListener(this._document, "mousedown", this.__onNativeMouseDownWrapper, true);
-        qx.bom.Event.removeNativeListener(this._document, "mouseup", this.__onNativeMouseUpWrapper, true);
+        qx.bom.Event.removeNativeListener(this._document, this.__down, this.__onNativeMouseDownWrapper, true);
+        qx.bom.Event.removeNativeListener(this._document, this.__up, this.__onNativeMouseUpWrapper, true);
         qx.bom.Event.removeNativeListener(this._document, "selectstart", this.__onNativeSelectStartWrapper, false);
 
         qx.bom.Event.removeNativeListener(this._window, "DOMFocusOut", this.__onNativeFocusOutWrapper, true);
@@ -494,8 +501,8 @@ qx.Class.define("qx.event.handler.Focus",
 
       "opera" : function()
       {
-        qx.bom.Event.removeNativeListener(this._document, "mousedown", this.__onNativeMouseDownWrapper, true);
-        qx.bom.Event.removeNativeListener(this._document, "mouseup", this.__onNativeMouseUpWrapper, true);
+        qx.bom.Event.removeNativeListener(this._document, this.__down, this.__onNativeMouseDownWrapper, true);
+        qx.bom.Event.removeNativeListener(this._document, this.__up, this.__onNativeMouseUpWrapper, true);
 
         qx.bom.Event.removeNativeListener(this._window, "DOMFocusIn", this.__onNativeFocusInWrapper, true);
         qx.bom.Event.removeNativeListener(this._window, "DOMFocusOut", this.__onNativeFocusOutWrapper, true);
