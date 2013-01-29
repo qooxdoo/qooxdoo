@@ -422,10 +422,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      */
     getTextShadow : function()
     {
-      var value = "red 1px 1px 3px";
-      var el = document.createElement("div");
-      var style = qx.bom.Style.getAppliedStyle(el, "textShadow", value);
-      return !style;
+      return !!qx.bom.Style.getPropertyName("textShadow");
     },
 
 
