@@ -54,6 +54,14 @@ class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
         if log_levels[log_level] <= log_levels['error']:
             self.log_message(format, *args)
 
+    def do_GET(self):
+        # mute error messages for favicon.ico requests
+        if self.path == "/favicon.ico":
+            self.send_response(404)
+            self.finish()
+        else:
+            CGIHTTPServer.CGIHTTPRequestHandler.do_GET(self)
+
 
 def get_doc_root(jobconf, confObj):
     libs = jobconf.get("library", [])
