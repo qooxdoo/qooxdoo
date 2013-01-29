@@ -296,3 +296,95 @@ Having e.g. the qooxdoo modern theme defined in your config.json file, this line
 .. note::
 
     Referencing a second theme in the code also adds a dependency to the theme and all the classes and resources necessary. This is only necessary if the theme switch is actively triggered. :ref:`Parts <pages/parts_overview#parts_and_packages_overview>` offer a convenient way of on demand loading of code, like a second theme.
+
+
+.. _pages/ui_theming#multi-theme_applications:
+
+Multi-theme Applications
+=========================
+
+Building up on the previous section, here is how to create an application that
+provides multiple themes that can be switched at runtime.
+
+* **Configure themes**: Add all meta theme classes of the themes you want to use to the
+  :ref:`pages/tool/generator/generator_config_ref#include`
+  configuration key of the compile jobs. A good way to achieve this is to
+  override the `"includes"` job in your config.json::
+
+    "includes" : {
+      "include" : [
+        "qx.theme.Classic",
+        "qx.theme.Indigo",
+        "..."
+      ]
+    }
+
+  The theme classes you list just have to be available through the
+  libraries you use for your application.
+* **Implement theme switch**: Switch the theme in your application code. E.g.
+  you can use qx.Theme.getAll() to retrieve all known theme classes, filter out
+  the "meta" classes, decide which to use, and set it as the current theme,
+  exemplified here through two methods::
+
+    _getThemeNames : function() {
+      var theme_names = [];
+      var themes = qx.Theme.getAll();
+      for (var theme in themes) {
+        if (theme.type === "meta") {
+          theme_names.push(theme.name);
+        }
+      }
+      return theme_names;
+    }
+
+    _setTheme : function(theme_name) {
+      var theme = qx.Theme.getByName(themeName);
+      if (theme) {
+        qx.theme.manager.Meta.getInstance().setTheme(theme);
+      }
+    }
+
+  Of course you can use these APIs in different ways, depending on your
+  application needs.
+* **Use theme-dependent icons (opt)**: So far switching the theme will result in
+  widgets changing their appearance. If beyond this you want to use e.g. icons
+  in your custom classes (widgets or themes) which use a different icon theme,
+  depending on the main theme, you need to (a) make sure the icons of both icon
+  themes are registered with your application; and (b) your code doesn't
+  "hard-wire" icons, but uses aliases. Here are two code snippets for both.
+
+  For the first issue, add macro definitions to your config.json's asset-let
+  config key, which can later be used in the #asset hints of class code::
+
+    // config.json/jobs :
+
+    "common" : {
+      "asset-let" : {
+        "myapp.iconthemes" : ["Foo", "Bar"]
+      }
+    }
+
+  Register an alias that hides the actual icon theme name::
+
+    // define alias in theme class :
+
+    qx.Theme.define("myapp.theme.icon.Foo",
+    {
+      title : "Foo",
+      aliases : {
+        "icon" : "myapp/icontheme/Foo"
+      }
+    });
+
+  Register icons for both icon themes with the class using them, and then use an
+  alias to reference them transparently::
+
+    // Application code:
+
+    // Register icons for both themes
+    /*
+     #asset(myapp/icontheme/${myapp.iconthemes}/16/apps/*)
+     */
+
+    // Use an aliased resource id for the icon
+    var b = qx.ui.form.Button("My button", "icon/16/apps/utilities-terminal.png");
