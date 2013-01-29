@@ -2930,7 +2930,7 @@ if (typeof module == "object" && typeof require == "function") {
     function exposedName(prefix, prop) {
         return !prefix || /^fail/.test(prop) ? prop :
             prefix + prop.slice(0, 1).toUpperCase() + prop.slice(1);
-    };
+    }
 
     assert = {
         failException: "AssertError",
