@@ -15,6 +15,7 @@
     "APPLICATION"  : "widgetbrowser",
     "QOOXDOO_PATH" : "../..",
     "QXTHEME"      : "qx.theme.Indigo",
+    "QXICONTHEME"  : ["Oxygen", "Tango"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : ".",
