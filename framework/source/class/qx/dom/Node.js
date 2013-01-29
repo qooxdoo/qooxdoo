@@ -269,7 +269,7 @@ qx.Bootstrap.define("qx.dom.Node",
           var i, a=[], nodes=node.childNodes, length=nodes.length;
           for (i=0; i<length; i++) {
             a[i] = this.getText(nodes[i]);
-          };
+          }
 
           return a.join("");
 
