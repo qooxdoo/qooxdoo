@@ -53,7 +53,9 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     this.__root = this.__window.document;
 
     // Initialize observers
-    this._initObserver();
+    if (qx.core.Environment.get("qx.emulatemouse")) {
+      this._initObserver();
+    }
   },
 
 
@@ -113,7 +115,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
      * @param evt {Event} qooxdoo touch event
      * @param type {String} type of the event
      * @param target {var} The target of the event.
-     * @return {boolean} <code>true</code>, if the event was stoped
+     * @return {Boolean} <code>true</code>, if the event was stoped
      */
     __fireEvent : function(evt, type, target) {
       var mouseEvent = type == "mousewheel" ?
@@ -191,7 +193,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
      * Helper to find out if there has been a move gesture or not.
      *
      * @param nativeEvent {var} The native touch event.
-     * @return {boolean} <code>true</code>, if a move has been detected.
+     * @return {Boolean} <code>true</code>, if a move has been detected.
      */
     __hasMoved : function(nativeEvent) {
       var endPos = {x: nativeEvent.screenX, y: nativeEvent.screenY};
@@ -346,7 +348,9 @@ qx.Class.define("qx.event.handler.MouseEmulation",
 
   destruct : function()
   {
-    this._stopObserver();
+    if (qx.core.Environment.get("qx.emulatemouse")) {
+      this._stopObserver();
+    }
 
     this.__manager = this.__window = this.__root = null;
   },
