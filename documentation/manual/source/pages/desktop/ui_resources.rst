@@ -67,27 +67,49 @@ Here's an example:
 Using qooxdoo icons with widgets
 ================================
 
-If you want to use some of the icons as resources that are part of the icon themes that come with qooxdoo, there are the following three ways to do so:
+If you want to use some of the icons as resources that are part of the
+icon themes that come with qooxdoo, there are the following ways
+to do so:
 
-(1) Copy the icons you are interested in from the original location in the qooxdoo framework to the local resource folder of your application. You are now independent of the qooxdoo icon theme folders and can manage these icons as you would any other custom images.
-(2) Use a fully-qualified path that points to the qooxdoo resource folder. This solution would contain the icon theme's name explicitly.
-(3) Use a macro to get the icons from the current theme. This would allow for a later change of icon themes at the config file level, without the need to adjust any resource URIs in your application code. The :ref:`Generator documentation <pages/tool/generator/generator_config_articles#asset-let_key>` explains how to declare these macros.
+(#) Use the explicit resource ID of the icons from the `qx` namespace.
+    The icons are then taken from the framework resource folder, and
+    contain the icons' theme name explicitly.
+(#) Use a macro to get the icons from the current theme. This would
+    allow for a later change of icon themes at the config file level,
+    without the need to adjust any resource IDs in your application code.
+    The :ref:`Generator documentation
+    <pages/tool/generator/generator_config_articles#asset-let_key>`
+    explains how to declare these macros.
+(#) Copy the icons you are interested in from the original location in
+    the %{qooxdoo} framework to the local resource folder of your
+    application. You are now independent of the qooxdoo icon theme folders
+    and can manage these icons as you would with any other custom images.
 
 ::
 
     /*
-    #asset(myapp/icons/16/utilities-dictionary.png)
     #asset(qx/icon/Oxygen/16/apps/utilities-dictionary.png)
     #asset(qx/icon/${qx.icontheme}/16/apps/utilities-dictionary.png)
+    #asset(myapp/icons/16/utilities-dictionary.png)
     */
 
     ...
 
-    var button1 = new qx.ui.form.Button("First Button", "myapp/icons/16/utilities-dictionary.png");
-    var button2 = new qx.ui.form.Button("Second Button", "qx/icon/Oxygen/16/apps/utilities-dictionary.png");
-    var button3 = new qx.ui.form.Button("Third Button", "icon/16/apps/utilities-dictionary.png");
+    var button1 = new qx.ui.form.Button("First Button", 
+           "qx/icon/Oxygen/16/apps/utilities-dictionary.png");
+    var button2 = new qx.ui.form.Button("Second Button", 
+           "icon/16/apps/utilities-dictionary.png");
+    var button3 = new qx.ui.form.Button("Third Button", 
+           "myapp/icons/16/utilities-dictionary.png");
 
-When you use the third method above and you do not use the *Modern* theme, you must edit ``config.json`` in order to have the :ref:`meta theme <pages/ui_theming#meta_theme>`'s icons and the explicitly given icon theme in sync. Here we want to use the *Classic* theme which requires the *Oxygen* icon theme configured also:
+(The constructor call for `button2` also relies on a resource alias to
+hide the current icon theme).
+
+When you use the asset macro variant the used theme and the used icon
+theme need to be in sync. The default icon set for most themes is
+*Tango*, but if you want to use the *Classic* theme make sure that
+icons from the *Oxygen* icon theme are used. You can achieve this by
+editing your `config.json` like this:
 
 ::
 
