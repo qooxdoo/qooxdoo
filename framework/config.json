@@ -26,6 +26,7 @@
     "lint-test",
     "provider",
     "pretty-test",
+    "sdk-server",
     "test",
     "test-inline",
     "test-source",
@@ -309,9 +310,25 @@
       }
     }
     
-    ,"pretty-test" : {
+    ,"pretty-test" : 
+    {
       "desc" : "This is just to test pretty-printing - don't commit after running.",
       "extend" : ["pretty"]
+    }
+
+    ,"sdk-server" :
+    {
+      "desc" : "Start a mini-webserver to export SDK's top-level ./index.html.",
+      "extend" : ["cache"],
+      "web-server" : 
+      {
+        "document-root" : ".."
+      },
+
+      "compile-options" :
+      {
+        "paths" : { "app-root" : ".." }
+      }
     }
   }
 }

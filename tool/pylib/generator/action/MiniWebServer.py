@@ -68,6 +68,8 @@ def get_doc_root(jobconf, confObj):
 def from_doc_root_to_app_root(jobconf, confObj, doc_root):
     japp_root = jobconf.get("compile-options/paths/app-root", "source")
     app_root = os.path.normpath(os.path.join(confObj.absPath(japp_root), 'index.html'))
+    doc_root = os.path.normpath(confObj.absPath(doc_root)) # important to normpath() both, coz '\' vs. '/'
+    # as soon as app_root and doc_root have a drive letter, the next might fail due to capitalization
     _, _, url_path = Path.getCommonPrefix(doc_root, app_root)
     url_path = Path.posifyPath(url_path)
     return url_path
@@ -75,7 +77,8 @@ def from_doc_root_to_app_root(jobconf, confObj, doc_root):
 
 ##
 # Get a (presumably) free port on this machine.
-# - Alert: Might run into race conditions with other programs.
+# - Alert: Might run into race conditions with other programs, as finding an
+#   open socket (here) and getting it (in BaseHTTPServer) are not atomic.
 def search_free_port():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.bind(('',0))
