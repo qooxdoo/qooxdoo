@@ -63,14 +63,15 @@ qx.Class.define("qx.ui.core.queue.Manager",
 
       if (!self.__scheduled)
       {
-        this.__canceled = false;
+        self.__canceled = false;
+
         qx.bom.AnimationFrame.request(function() {
-          if (this.__canceled) {
-            this.__canceled = false;
+          if (self.__canceled) {
+            self.__canceled = false;
             return;
           }
-          this.flush();
-        }, this);
+          self.flush();
+        }, self);
         self.__scheduled = true;
       }
     },
@@ -94,7 +95,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
       self.__inFlush = true;
 
       // Cancel timeout if called manually
-      this.__canceled = true;
+      self.__canceled = true;
 
       var jobs = self.__jobs;
 
