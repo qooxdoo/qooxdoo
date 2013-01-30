@@ -49,17 +49,17 @@ qx.Class.define("widgetbrowser.view.Header",
 
     // Build select-box
     var select = new qx.ui.form.SelectBox("Theme");
-    qx.core.Init.getApplication().getThemes().forEach(function(theme) {
-      var name = Object.keys(theme)[0];
+    var themes = qx.core.Init.getApplication().getThemes()
+    for (var name in themes) {
       var item = new qx.ui.form.ListItem(name + " Theme");
-      item.setUserData("value", theme[name]);
+      item.setUserData("value", themes[name]);
       select.add(item);
 
-      var value = theme[name];
+      var value = themes[name];
       if (value == qx.core.Environment.get("qx.theme")) {
         select.setSelection( [item] );
       }
-    });
+    }
 
     select.setFont("default");
 
