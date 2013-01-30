@@ -107,6 +107,19 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
   },
 
 
+  events : {
+    /**
+     * This event is fired as soon as the content of the selection property changes, but
+     * this is not equal to the change of the selection of the widget. If the selection
+     * of the widget changes, the content of the array stored in the selection property
+     * changes. This means you have to listen to the change event of the selection array
+     * to get an event as soon as the user changes the selected item.
+     * <pre class="javascript">obj.getSelection().addListener("change", listener, this);</pre>
+     */
+    "changeSelection" : "qx.event.type.Data"
+  },
+
+
   members :
   {
     /** {qx.ui.virtual.selection.Row} selection manager */
