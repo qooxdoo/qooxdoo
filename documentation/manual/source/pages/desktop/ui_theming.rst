@@ -331,12 +331,12 @@ provides multiple themes that can be switched at runtime.
   and set it as the current theme, exemplified here through two methods::
 
     _getThemeNames : function() {
-      var theme_names = [];
+      var theme, theme_names = [];
       var themes = qx.Theme.getAll();
-      for (var theme in themes) {
+      for (var key in themes) {
+        theme = themes[key];
         if (theme.type === "meta") {
-          theme_names.push(theme.name);
-        }
+          theme_names.push(theme.name); }
       }
       return theme_names;
     }
@@ -344,8 +344,7 @@ provides multiple themes that can be switched at runtime.
     _setTheme : function(theme_name) {
       var theme = qx.Theme.getByName(theme_name);
       if (theme) {
-        qx.theme.manager.Meta.getInstance().setTheme(theme);
-      }
+        qx.theme.manager.Meta.getInstance().setTheme(theme); }
     }
 
   Of course you can use these APIs in different ways, depending on your
