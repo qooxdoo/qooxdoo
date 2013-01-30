@@ -309,7 +309,8 @@ provides multiple themes that can be switched at runtime.
 * **Configure themes**: Add all meta theme classes of the themes you want to use to the
   :ref:`pages/tool/generator/generator_config_ref#include`
   configuration key of the compile jobs. A good way to achieve this is to
-  override the `"includes"` job in your config.json::
+  override the :ref:`pages/tool/generator/generator_default_jobs#includes` job
+  in your config.json::
 
     "includes" : {
       "include" : [
@@ -319,12 +320,15 @@ provides multiple themes that can be switched at runtime.
       ]
     }
 
-  The theme classes you list just have to be available through the
-  libraries you use for your application.
+  If you use third-party themes (like the Aristo or RetroTheme
+  contributions) make sure you also add their libraries to the
+  :ref:`pages/tool/generator/generator_default_jobs#libraries` job, so their
+  classes are actually available.
 * **Implement theme switch**: Switch the theme in your application code. E.g.
-  you can use qx.Theme.getAll() to retrieve all known theme classes, filter out
-  the "meta" classes, decide which to use, and set it as the current theme,
-  exemplified here through two methods::
+  you can use `qx.Theme.getAll()
+  <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.Theme~getAll>`_ to retrieve
+  all known theme classes, filter out the "meta" classes, decide which to use,
+  and set it as the current theme, exemplified here through two methods::
 
     _getThemeNames : function() {
       var theme_names = [];
@@ -347,44 +351,47 @@ provides multiple themes that can be switched at runtime.
   Of course you can use these APIs in different ways, depending on your
   application needs.
 * **Use theme-dependent icons (opt)**: So far switching the theme will result in
-  widgets changing their appearance. If beyond this you want to use e.g. icons
-  in your custom classes (widgets or themes) which use a different icon theme,
-  depending on the main theme, you need to (a) make sure the icons of both icon
-  themes are registered with your application; and (b) your code doesn't
-  "hard-wire" icons, but uses aliases. Here are two code snippets for both.
+  widgets changing their appearance. Usually, themes also use a specific icon
+  theme. If you use icons in your custom classes (widgets or themes), and you
+  want them to adapt to the main theme you need to make sure that 
+  
+  #. the relevant
+     icons of all icon themes are registered with your application
+  #. your code doesn't "hard-wire" icons but uses aliases. Here are code
+     snippets to illustrate that.
 
-  For the first issue, add macro definitions to your config.json's asset-let
-  config key, which can later be used in the #asset hints of class code::
+  For 1. add macro definitions to your config.json
+  which can later be used in the :ref:`#asset
+  <pages/tool/sdk/code_structure#asset>` hints of class code. E.g.::
 
-    // config.json/jobs :
+    // config.json :
 
-    "common" : {
-      "asset-let" : {
-        "myapp.iconthemes" : ["Foo", "Bar"]
-      }
+    "let" : {
+      "QXICONTHEME" : ["Tango", "Oxygen"]
     }
 
-  Register an alias that hides the actual icon theme name::
+  In application code register icons for both icon themes with the class using
+  them, by exploiting an asset macro instead of entering the icon theme
+  literally. This also allows you to later add further icon themes just by
+  adapting the configuration, without touching code::
 
-    // define alias in theme class :
+    // Application class:
 
-    qx.Theme.define("myapp.theme.icon.Foo",
-    {
-      title : "Foo",
-      aliases : {
-        "icon" : "myapp/icontheme/Foo"
-      }
-    });
-
-  Register icons for both icon themes with the class using them, and then use an
-  alias to reference them transparently::
-
-    // Application code:
-
-    // Register icons for both themes
+    // Use the asset macro "qx.icontheme" to register icons from both themes.
     /*
-     #asset(myapp/icontheme/${myapp.iconthemes}/16/apps/*)
+     #asset(myapp/icontheme/${qx.icontheme}/16/apps/utilities-terminal.png)
      */
+
+  For 2. use an alias in application code to reference icons transparently::
 
     // Use an aliased resource id for the icon
     var b = qx.ui.form.Button("My button", "icon/16/apps/utilities-terminal.png");
+
+  This is basically the same when you define your own icon themes (like with
+  ``qx.Theme.define("myapp.theme.icon.Foo)``) and define your own asset macros
+  (like ``"myapp.iconthemes" : ["Foo", "Bar"]``). For the latter you would just
+  use an explicit :ref:`pages/tool/generator/generator_config_ref#asset-let` in
+  your config.json, rather than using the default :ref:`QXICONTHEME
+  <pages/tool/generator/generator_config_macros#qxicontheme>` macro.  A suitable
+  alias like *icon* -> *myapp/icontheme/Foo* can be :ref:`defined in the theme
+  <pages/ui_theming#icon_theme>` directly.

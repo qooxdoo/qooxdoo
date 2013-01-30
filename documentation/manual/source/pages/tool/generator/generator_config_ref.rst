@@ -573,7 +573,7 @@ Include classes to be processed in the job. Takes an array of class specifiers.
 
   "include" : ["qx.util.*"]
 
-The class specifiers can include simple wildcards like 'qx.util.*' denoting all classes starting with the 'qx.util' name space. A leading ``=`` in front of a class specifier (e.g. '=qx.util.*') means 'without dependencies'. In this case, exactly the listed classes are included (wildcards expanded), but not their dependencies. Otherwise, for the given classes their dependencies are calculated recursively, and those classes are also included.
+The class specifiers can include simple wildcards like 'qx.util.*' denoting all classes starting with the 'qx.util' name space. A leading ``=`` in front of a class specifier (e.g. '=qx.util.*') means 'without dependencies'. In this case, exactly the listed classes are included (wildcards expanded), but not their dependencies. Otherwise, for the given classes their dependencies are calculated recursively, and those classes are also included. (default: [ ":ref:`${APPLICATION} <pages/tool/generator/generator_config_macros#application>`.Application", ":ref:`${QXTHEME} <pages/tool/generator/generator_config_macros#qxtheme>`" ])
 
 .. _pages/tool/generator/generator_config_ref#include_top-level:
 
