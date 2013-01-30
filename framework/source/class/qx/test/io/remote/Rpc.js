@@ -25,10 +25,6 @@ qx.Class.define("qx.test.io.remote.Rpc",
 
   members :
   {
-    setUp: function() {
-
-    },
-
     setUpFakeRequest : function() {
       var req = this.request = new qx.io.remote.Request();
 
@@ -51,10 +47,11 @@ qx.Class.define("qx.test.io.remote.Rpc",
     },
 
     "test: send request": function() {
-      var rpc = new qx.io.remote.Rpc();
+      this.setUpFakeRequest();
+      var rpc = new qx.io.remote.Rpc("/foo");
 
       rpc.callAsync();
-      this.assertCalledOnce(stub);
+      this.assertCalledOnce(this.request.send);
     },
 
     "test: request data for params with date contains date literal when convert dates": function() {
