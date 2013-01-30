@@ -338,7 +338,7 @@ provides multiple themes that can be switched at runtime.
     }
 
     _setTheme : function(theme_name) {
-      var theme = qx.Theme.getByName(themeName);
+      var theme = qx.Theme.getByName(theme_name);
       if (theme) {
         qx.theme.manager.Meta.getInstance().setTheme(theme);
       }
