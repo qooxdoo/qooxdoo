@@ -83,12 +83,27 @@ qx.Class.define("widgetbrowser.Application",
     },
 
     getThemes: function() {
+      var themes = [];
+      var theme;
+      var tmap;
+      // cannot use qx.Theme.getAll(), as themes are loaded on demand
+      var known_themes = qx.core.Environment.get("widgetbrowser.themes");
+      known_themes = known_themes.split(" ");
+      for (var i=0; i < known_themes.length; i++){
+        theme = known_themes[i];
+        tmap = {};
+        tmap[theme.substr(theme.lastIndexOf(".") + 1)] = theme;
+        themes.push(tmap); 
+      }
+      return themes;
+      /*
       return ([
         {"Indigo" : "qx.theme.Indigo"},
         {"Modern" : "qx.theme.Modern"},
         {"Simple" : "qx.theme.Simple"},
         {"Classic" : "qx.theme.Classic"}
       ]);
+      */
     }
   }
 });
