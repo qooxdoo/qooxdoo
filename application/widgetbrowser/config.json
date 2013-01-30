@@ -129,7 +129,7 @@
             },
 
 
-          // Themes
+          // Themes (non-default)
           "modern" :
           {
             "include" : [ "qx.theme.Modern" ]
