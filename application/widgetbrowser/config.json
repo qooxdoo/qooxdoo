@@ -51,13 +51,20 @@
       {
         "qx.nativeScrollBars" : true
       },
+      "include" :[
+        "${APPLICATION}.Application",
+        "qx.theme.Indigo",
+        "qx.theme.Modern",
+        "qx.theme.Simple",
+        "qx.theme.Classic"
+      ],
       "packages" :
       {
         "parts" :
         {
           "boot" :
           {
-            "include" : [ "widgetbrowser.Application" ]
+            "include" : [ "${APPLICATION}.Application", "${QXTHEME}" ]
           },
 
           "tree" :
