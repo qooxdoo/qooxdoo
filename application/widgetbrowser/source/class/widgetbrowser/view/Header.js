@@ -87,7 +87,7 @@ qx.Class.define("widgetbrowser.view.Header",
         var listItem = evt.getData()[0];
         var oldText = listItem.getLabel();
         listItem.setLabel("Loading ...");
-        qx.Part.require(part, function() {
+        qx.io.PartLoader.require([part], function() {
           qx.theme.manager.Meta.getInstance().setTheme(
             qx.Theme.getByName(selected)
           );
