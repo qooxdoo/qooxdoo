@@ -38,16 +38,12 @@ qx.Class.define("qx.test.io.remote.Rpc",
 
       // Stub
       this.stub(req);
+      req.addListener.restore();
+      req.dispatchEvent.restore();
       req.getSequenceNumber.returns(undefined);
 
       // Inject
       this.injectStub(qx.io.remote, "Request", req);
-    },
-
-    setUpMockRequest : function() {
-      var req = this.request = new qx.io.remote.Request;
-      this.stub(req);
-      return this.revealMock(qx.io.remote, "Request", req);
     },
 
     tearDown: function() {
@@ -55,12 +51,10 @@ qx.Class.define("qx.test.io.remote.Rpc",
     },
 
     "test: send request": function() {
-      var mock = this.setUpMockRequest(),
-          rpc = new qx.io.remote.Rpc();
+      var rpc = new qx.io.remote.Rpc();
 
-      mock.expects("send").once();
       rpc.callAsync();
-      mock.verify();
+      this.assertCalledOnce(stub);
     },
 
     "test: request data for params with date contains date literal when convert dates": function() {

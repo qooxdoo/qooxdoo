@@ -86,7 +86,6 @@ qx.Class.define("qx.test.data.store.Jsonp",
 
     testSetCallbackParam: function() {
       this.setUpFakeRequest();
-      this.stub(this.request, "setCallbackParam");
 
       var store = new qx.data.store.Jsonp();
       store.setCallbackParam("myCallback");
@@ -99,7 +98,6 @@ qx.Class.define("qx.test.data.store.Jsonp",
 
     testSetCallbackName: function() {
       this.setUpFakeRequest();
-      this.spy(this.request, "setCallbackName");
 
       var store = new qx.data.store.Jsonp();
       store.setCallbackName("myCallback");
