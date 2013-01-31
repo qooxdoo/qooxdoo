@@ -70,7 +70,7 @@ qx.Class.define("qx.ui.layout.Atom",
     /** The position of the icon in relation to the text */
     iconPosition :
     {
-      check : [ "left", "top", "right", "bottom", "top-left", "bottom-left" ],
+      check : ["left", "top", "right", "bottom", "top-left", "bottom-left", "top-right", "bottom-right"],
       init : "left",
       apply  : "_applyLayoutChange"
     },
@@ -131,7 +131,8 @@ qx.Class.define("qx.ui.layout.Atom",
       var center = this.getCenter();
 
       // reverse ordering
-      if (iconPosition === "bottom" || iconPosition === "right")
+      var allowedPositions = ["bottom", "right", "top-right", "bottom-right"];
+      if (allowedPositions.indexOf(iconPosition) != -1)
       {
         var start = length-1;
         var end = -1;
@@ -247,9 +248,9 @@ qx.Class.define("qx.ui.layout.Atom",
           }
 
           var align = "middle";
-          if(iconPosition == "top-left"){
+          if(iconPosition == "top-left" || iconPosition == "top-right"){
             align = "top";
-          } else if (iconPosition == "bottom-left") {
+          } else if (iconPosition == "bottom-left" || iconPosition == "bottom-right") {
             align = "bottom";
           }
           top = Util.computeVerticalAlignOffset(align, hint.height, availHeight);
