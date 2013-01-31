@@ -3,7 +3,7 @@ Custom Libraries
 
 Once your application has grown beyond a certain size, or when you start a second application that could re-use some of the code of the first, you start thinking about factoring code out into separately manageable units. This is where custom libraries come into play.
 
-In qooxdoo, all application files are organized in what we call "libraries". This affects source code, but also other resources like images, media files with sound or video, or static HTML pages. In this sense, the framework class library and its resources is nothing more than a library. But also your application is in that sense a library. (The fact that it has a "main" class which can be run as an application doesn't matter here). Hence there is this little saying in qooxdoo that *"everything is a library"*.
+In qooxdoo, all application files are organized in what we call "libraries". This affects source code, but also other resources like images, media files with sound or video, or static HTML pages. In this sense, the framework class library and its resources is nothing more than a library. But also your application is in that sense a library. (The fact that it has a main class which can be run as an application doesn't matter here). Hence there is this little saying in qooxdoo that *"everything is in a library"*.
 
 What constitutes a library is just its :doc:`Manifest.json </pages/tool/sdk/manifest>`, which provides the main meta-data, and a *source* path with corresponding subdirectories that holds the class code and resources. That's it, and this is exactly what most application :doc:`skeletons </pages/development/skeletons>` like "desktop" or "server" create. So once you've run *create-application.py* the result can immediately be used as a library.
 
