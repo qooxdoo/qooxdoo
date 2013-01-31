@@ -25,9 +25,9 @@ an application doesn't matter).
 In contrast to libraries which hold the majority of all the files you deal with
 (hence this little saying that in %{qooxdoo} *"everything is in a library"*),
 applications, which are basically generated artefacts, are related only with two
-standard files, ``config.json`` and ``generate.py``, or more abstractly, build
+standard files, ``config.json`` and ``generate.py``, or more abstractly build
 configuration and build tool interface. That means you can put a %{qooxdoo}
-configuration file anywhere in your file system, enter some paths to existing
+configuration file anywhere on your file system, enter some paths to existing
 libraries and some build options, and invoking `tool/bin/generator.py` create a
 %{qooxdoo} application right away. Bang! But for convenience these files are
 also included with the skeletons, making each skeleton a library (Manifest.json)
