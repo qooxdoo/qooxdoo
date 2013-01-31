@@ -37,8 +37,6 @@
  *   // add some children
  *   scrollComposite.add(new qx.ui.mobile.basic.Label("Name: "), {flex:1});
  *   scrollComposite.add(new qx.ui.mobile.form.TextField());
- *
- *   this.getRoot().add(scrollComposite);
  * </pre>
  *
  * This example horizontally groups a label and text field by using a
