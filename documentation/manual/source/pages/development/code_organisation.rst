@@ -32,5 +32,12 @@ libraries and some build options, and, given that `tool/bin/generator.py` is
 found in your search path, you can create a %{qooxdoo} application right away.
 Bang!  But for convenience these files are also included with the skeletons,
 making each skeleton a library (Manifest.json) and a build environment
-(config.json) at the same time.
+(config.json) at the same time [#]_.
+
+--------------------
+
+.. [#] *In addition to referring to a generated artefact that can e.g. run in a
+   browser we sometimes speak about an "application" and mean the library which
+   contains the main class, the one that will be used to start the entire
+   application at runtime.*
 
