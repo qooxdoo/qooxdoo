@@ -338,6 +338,19 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.assertEquals("Affe", req.getResponse());
     },
 
+    "test: get response on 400 status": function() {
+      this.setUpFakeTransport();
+      var req = this.req,
+          transport = this.transport;
+
+      transport.readyState = 4;
+      transport.status = 400;
+      transport.responseText = "Affe";
+      transport.onreadystatechange();
+
+      this.assertEquals("Affe", req.getResponse());
+    },
+
     "test: get response by change event": function() {
       this.setUpFakeTransport();
       var req = this.req,

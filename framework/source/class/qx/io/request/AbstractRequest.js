@@ -703,14 +703,14 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * Called internally when readyState is DONE.
      */
     __onReadyStateDone: function() {
-      var parsedResponse;
-
       if (qx.core.Environment.get("qx.debug.io")) {
         this.debug("Request completed with HTTP status: " + this.getStatus());
       }
 
       // Event "load" fired in onLoad
       this._setPhase("load");
+
+      this._setResponse(this._getParsedResponse());
 
       // Successful HTTP status
       if (qx.util.Request.isSuccessful(this.getStatus())) {
@@ -719,8 +719,6 @@ qx.Class.define("qx.io.request.AbstractRequest",
         if (qx.core.Environment.get("qx.debug.io")) {
           this.debug("Response is of type: '" + this.getResponseContentType() + "'");
         }
-        parsedResponse = this._getParsedResponse();
-        this._setResponse(parsedResponse);
 
         this._fireStatefulEvent("success");
 
