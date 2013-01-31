@@ -50,6 +50,7 @@ Code Organisation
 .. toctree::
    :maxdepth: 1
 
+   Introduction <development/code_organisation>
    development/library_custom
 .. development/contrib
 
