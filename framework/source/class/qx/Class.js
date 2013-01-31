@@ -599,7 +599,7 @@ qx.Bootstrap.define("qx.Class",
 
 
     /**
-     * Returns a list of all mixins available in a class.
+     * Returns a list of all interfaces a given class has to implement.
      *
      * @param clazz {Class} class which should be inspected
      * @return {Interface[]} array of interfaces this class implements
