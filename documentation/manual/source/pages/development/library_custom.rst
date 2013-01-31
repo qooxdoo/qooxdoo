@@ -2,10 +2,9 @@ Custom Libraries
 ****************
 
 Once your application has grown beyond a certain size, or when you start a
-second application that could re-use some of  come into play.the code of the
-first, you start thinking about factoring code out into separately manageable
-units. This is when you create a dedicated library.
-
+second application that could re-use some of the code of the first, you start
+thinking about factoring code out into separately manageable units. This is when
+you create dedicated libraries.
 
 Creating a Custom Library
 =========================
