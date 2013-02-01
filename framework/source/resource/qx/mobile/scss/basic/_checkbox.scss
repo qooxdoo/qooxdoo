@@ -4,19 +4,15 @@
 
 $checkbox-size:32px;
 
-input[type="checkbox"] {
-  visibility: hidden;
-  position:absolute;
-}
 
-.checkbox-label {
+.checkbox {
   display:inline-block;
   cursor:pointer;
   width:$checkbox-size;
   height:$checkbox-size;
 }
 
-.checkbox-label:before {
+.checkbox:before {
   content:"";
   display:block;
   position:absolute;

@@ -342,17 +342,17 @@ input::-webkit-inner-spin-button {
   line-height: 30px;
   font-size: 15px; }
 
-input[type="checkbox"] {
+/*input[type="checkbox"] {
   visibility: hidden;
-  position: absolute; }
-
-.checkbox-label {
+  position:absolute;
+}*/
+.checkbox {
   display: inline-block;
   cursor: pointer;
   width: 32px;
   height: 32px; }
 
-.checkbox-label:before {
+.checkbox:before {
   content: "";
   display: block;
   position: absolute;
@@ -1384,7 +1384,7 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   background-image: -moz-linear-gradient(left, #62666a, #65696c);
   background-image: linear-gradient(to right, #62666a, #65696c); }
 
-input[type="checkbox"] + label {
+.checkbox {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#fefefe), to(#cecece));
   /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #fefefe, #cecece);
@@ -1398,7 +1398,7 @@ input[type="checkbox"] + label {
   border-radius: 0.5em;
   border: 2px solid #4c4c4c; }
 
-.disabled input[type="checkbox"]:disabled + label {
+.disabled .checkbox:disabled {
   background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#ebebeb));
   /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, white, #ebebeb);
@@ -1409,7 +1409,7 @@ input[type="checkbox"] + label {
   /* Standard (in flux) */
   border: 2px solid #b8b8b8; }
 
-input[type="checkbox"]:checked + label {
+.checkbox.checked {
   background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -moz-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
   background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#353535), to(#8f8f8f)) 0px 0px no-repeat;
   background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
