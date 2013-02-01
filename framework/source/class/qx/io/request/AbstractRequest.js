@@ -710,8 +710,6 @@ qx.Class.define("qx.io.request.AbstractRequest",
       // Event "load" fired in onLoad
       this._setPhase("load");
 
-      this._setResponse(this._getParsedResponse());
-
       // Successful HTTP status
       if (qx.util.Request.isSuccessful(this.getStatus())) {
 
@@ -720,10 +718,18 @@ qx.Class.define("qx.io.request.AbstractRequest",
           this.debug("Response is of type: '" + this.getResponseContentType() + "'");
         }
 
+        this._setResponse(this._getParsedResponse());
+
         this._fireStatefulEvent("success");
 
       // Erroneous HTTP status
       } else {
+
+        try {
+          this._setResponse(this._getParsedResponse());
+        } catch (e) {
+          // ignore if it does not work
+        }
 
         // A remote error failure
         if (this.getStatus() !== 0) {
