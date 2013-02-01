@@ -85,7 +85,6 @@ qx.Class.define("widgetbrowser.Application",
     getThemes: function() {
       var themes = {};
       var theme;
-      var tmap;
       // cannot use qx.Theme.getAll(), as themes are loaded on demand
       var known_themes = qx.core.Environment.get("widgetbrowser.themes");
       known_themes = known_themes.split(" ");
