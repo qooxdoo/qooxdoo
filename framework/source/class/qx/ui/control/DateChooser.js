@@ -97,6 +97,12 @@ qx.Class.define("qx.ui.control.DateChooser",
     // Support for key events
     this.addListener("keypress", this._onKeyPress);
 
+    // initialize format - moved from statics{} to constructor due to [BUG #7149]
+    DateChooser = qx.ui.control.DateChooser;
+    if (!DateChooser.MONTH_YEAR_FORMAT) {
+        DateChooser.MONTH_YEAR_FORMAT = qx.locale.Date.getDateTimeFormat("yyyyMMMM", "MMMM yyyy");
+    }
+
     // Show the right date
     var shownDate = (date != null) ? date : new Date();
     this.showMonth(shownDate.getMonth(), shownDate.getFullYear());
@@ -124,7 +130,7 @@ qx.Class.define("qx.ui.control.DateChooser",
     /**
      * {string} The format for the date year label at the top center.
      */
-    MONTH_YEAR_FORMAT : qx.locale.Date.getDateTimeFormat("yyyyMMMM", "MMMM yyyy"),
+    MONTH_YEAR_FORMAT : null,
 
     /**
      * {string} The format for the weekday labels (the headers of the date table).
