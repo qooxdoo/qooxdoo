@@ -62,3 +62,9 @@ Specific Widget Communication
 
    widget/table_remote_model
 
+Development & Testing
+=====================
+
+.. toctree::
+
+  communication/fake_server
