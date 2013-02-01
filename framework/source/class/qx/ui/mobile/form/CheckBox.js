@@ -128,6 +128,6 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
   */
   destruct : function()
   {
-      qx.event.Registration.removeListener(this, "appear", this.__onAppear, this);
+    qx.event.Registration.removeListener(this, "appear", this.__onAppear, this);
   }
 });
