@@ -26,7 +26,6 @@
     "lint-test",
     "provider",
     "pretty-test",
-    "sdk-server",
     "test",
     "test-inline",
     "test-source",
