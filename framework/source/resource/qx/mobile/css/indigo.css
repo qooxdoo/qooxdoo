@@ -401,10 +401,6 @@ h2 {
   display: inline-block;
   margin: 2px; }
 
-/*input[type="checkbox"] {
-  visibility: hidden;
-  position:absolute;
-}*/
 .checkbox {
   display: inline-block;
   cursor: pointer;

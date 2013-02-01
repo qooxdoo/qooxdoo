@@ -342,10 +342,6 @@ input::-webkit-inner-spin-button {
   line-height: 30px;
   font-size: 15px; }
 
-/*input[type="checkbox"] {
-  visibility: hidden;
-  position:absolute;
-}*/
 .checkbox {
   display: inline-block;
   cursor: pointer;
