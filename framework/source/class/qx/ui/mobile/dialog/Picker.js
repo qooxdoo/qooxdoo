@@ -191,6 +191,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     
     /**
      * Getter for the selectedIndex of a picker slot, identified by its index.
+     * @param slotIndex {Integer} the index of the target picker slot.
      * @return {Integer} the index of the target picker slot, or null if slotIndex is unknown.
      */
     getSelectedIndex : function(slotIndex) {
