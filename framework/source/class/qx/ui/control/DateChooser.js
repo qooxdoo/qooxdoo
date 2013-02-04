@@ -98,7 +98,7 @@ qx.Class.define("qx.ui.control.DateChooser",
     this.addListener("keypress", this._onKeyPress);
 
     // initialize format - moved from statics{} to constructor due to [BUG #7149]
-    DateChooser = qx.ui.control.DateChooser;
+    var DateChooser = qx.ui.control.DateChooser;
     if (!DateChooser.MONTH_YEAR_FORMAT) {
         DateChooser.MONTH_YEAR_FORMAT = qx.locale.Date.getDateTimeFormat("yyyyMMMM", "MMMM yyyy");
     }
