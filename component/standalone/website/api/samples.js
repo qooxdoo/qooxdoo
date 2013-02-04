@@ -32,7 +32,29 @@ samples["q.define"].push(function() {
   });
 });
 
+samples["q.define"].push(function() {
+  q.define("MyObject", {
+    statics : {
+      method : function() {}
+    }
+  });
+});
 
+samples["q.define"].push(function() {
+  q.define("UNOUNO.WhatsLive.Matrix", {
+    statics : {
+      getWebappDetails: function(mavenCoords) {
+        
+        // some code
+        
+        // call another static method of this class
+        
+        this.renderWebappDependencies(data);
+        
+      }
+    }
+  });
+});
 
 /**
  * Events
@@ -68,6 +90,26 @@ samples[".on"].push(function() {
   // Suppose you have an instance named 'myInstance', which holds some variables 
   // you like to access within your 'listenerFunction'
   q("div#myTarget").on("click", listenerFunction.bind(myInstance, "foo", "bar"));
+  
+  // handle keyup event with scope correction
+  
+  q('#inp-add-filter-3').on('keyup', this.handleFilterInput, this);
+  
+  var handleFilterInput = function(ev) {
+    
+    // event object
+    
+    console.log(ev);
+    
+    // get input value
+    
+    var value = q(ev.getTarget()).getValue();
+    
+    // if target is a checkbox you could do something like this when handling the change event
+    // q(ev.getTarget()).getAttribute('checked');
+    
+  };
+  
 });
 
 /**
@@ -94,4 +136,180 @@ samples["q.messaging.emit"].push(function() {
 samples["q.messaging.remove"] = [];
 samples["q.messaging.remove"].push(function() {
   q.messaging.remove(id); // id must be the return of an 'on' call
+});
+
+samples["q.array"] = [];
+samples["q.array.removeAll"].push(function() {
+  q.array.removeAll(this.webappsDataFiltered); // this.webappsDataFiltered is an array
+});
+
+samples["q.cookie"] = [];
+samples["q.cookie.set"].push(function() {
+  q.cookie.set('wl-' + this.allInputIds[i], inputValue);
+});
+
+samples["q.cookie"] = [];
+samples["q.cookie.get"].push(function() {
+  var inputValue = q.cookie.get('wl-' + this.allInputIds[i]);
+});
+
+samples["q.io.xhr"] = [];
+samples["q.io.xhr"].push(function() {
+  
+  var getWebappsData = function(callback) {
+
+    var xmlhttp = q.io.xhr(this.baseRESTUrl + '/whatslive/', {
+    
+      header: {
+      
+        'Accept': 'application/json'
+        
+      }
+    
+    });
+    
+    xmlhttp.on('loadend', function(callback, xhr) {
+    
+      if (xhr.responseText) {
+      
+        // when there is a response, pass it back to the callback function and correct scope
+      
+        callback(this, JSON.parse(xhr.responseText));
+      
+      }
+    
+    }.bind(this, callback));
+    
+    // send request now
+    
+    xmlhttp.send();
+    
+  };
+  
+  // calling this function
+  
+  getWebappsData(function(that, whatsliveWebServiceData) {
+  
+    // handle response
+  
+    that.processWebappsData(whatsliveWebServiceData);
+    
+  });
+
+});
+
+samples[".addClass"] = [];
+
+samples[".addClass"].push(function() {
+  
+  if (active) {
+  
+    // show loading indicator
+  
+    q('#dependency-loading-indicator').removeClass('hidden');
+    
+    // deactivate button
+    
+    q('#but-render-dependencies').setAttribute('disabled', 'disabled');
+  
+  } else {
+  
+    // hide loading indicator
+  
+    q('#dependency-loading-indicator').addClass('hidden');
+  
+    // activate button
+    
+    q('#but-render-dependencies').removeAttribute('disabled');
+  
+  }
+
+});
+
+samples["q.template.render"] = [];
+samples["q.template.render"].push(function() {
+  
+  var entryTemplate, i, webappData;
+  
+  entryTemplate = '<li class="hidden" id="{{id}}" data-groupid="{{groupid}}" data-artefactid="{{artefactid}}">' +
+                      '<span class="groupid">{{groupid}}</span>' +
+                      '<span class="seperator">:</span>' +
+                      '<span class="artefactid">{{artefactid}}</span>' +
+                      '<span class="details" data-link="{{link}}">details</span>' +
+                    '</li>';
+  
+  for (i = 0; i < this.webappsData.length; i += 1) {
+  
+    webappData = this.webappsData[i];
+  
+    q('#app-list').append(q.template.render(entryTemplate, {
+    
+      // temp solution
+    
+      // I would like to use data attributes
+      // q chain needs data attribute support for that
+    
+      id: webappData.groupId + '-' + webappData.artefactId,
+    
+      groupid: webappData.groupId,
+      
+      artefactid: webappData.artefactId,
+      
+      link: webappData.detailLink
+      
+    }));
+    
+  }
+  
+});
+
+samples[".find"] = [];
+samples[".find"].push(function() {
+  
+  if (this.dontShowGroupId) {
+  
+    q('#app-list').find('.groupid').addClass('hidden');
+  
+    q('#app-list').find('.seperator').addClass('hidden');
+  
+  } else {
+  
+    q('#app-list').find('.groupid').removeClass('hidden');
+  
+    q('#app-list').find('.seperator').removeClass('hidden');
+  
+  }
+  
+});
+
+samples[".append"] = [];
+samples[".append"].push(function() {
+  
+  q('#app-details').append('<div id="loading-indicator"></div>');
+  
+});
+
+samples[".animate"] = [];
+samples[".animate"].push(function() {
+  
+  q('#app-list').animate({
+    'duration': 150,
+    'timing': 'ease-out',
+    'keep': 100,
+    'keyFrames': {
+      0: { 'height': '250px' },
+      100: { 'height': '120px' }
+    },
+    'repeat': 1,
+    'alternate': false,
+    'delay': 0
+  });
+  
+});
+
+samples[".getChildren"] = [];
+samples[".getChildren"].push(function() {
+  
+  q('#app-details').getChildren().remove();
+  
 });
