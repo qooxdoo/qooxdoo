@@ -21,8 +21,8 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Tango/16/actions/document-new.png)
-#asset(qx/icon/Tango/16/actions/dialog-apply.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/document-new.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/dialog-apply.png)
 
 ************************************************************************ */
 
