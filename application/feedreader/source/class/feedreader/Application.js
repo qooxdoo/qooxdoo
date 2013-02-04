@@ -22,10 +22,10 @@
 /* ************************************************************************
 
 #asset(feedreader/*)
-#asset(qx/icon/Tango/22/apps/internet-feed-reader.png)
-#asset(qx/icon/Tango/22/actions/process-stop.png)
-#asset(qx/icon/Tango/22/apps/preferences-clock.png)
-#asset(qx/icon/Tango/22/places/folder.png)
+#asset(qx/icon/${qx.icontheme}/22/apps/internet-feed-reader.png)
+#asset(qx/icon/${qx.icontheme}/22/actions/process-stop.png)
+#asset(qx/icon/${qx.icontheme}/22/apps/preferences-clock.png)
+#asset(qx/icon/${qx.icontheme}/22/places/folder.png)
 
 ************************************************************************ */
 
