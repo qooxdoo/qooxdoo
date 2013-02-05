@@ -39,7 +39,7 @@ qx.Class.define("qx.ui.popup.Manager",
   {
     this.base(arguments);
 
-    // Create data structure, use an array becasue order matters [BUG #4323]
+    // Create data structure, use an array because order matters [BUG #4323]
     this.__objects = [];
 
     // Register mousedown handler
@@ -97,10 +97,8 @@ qx.Class.define("qx.ui.popup.Manager",
         }
       }
 
-      if (this.__objects) {
-        qx.lang.Array.remove(this.__objects, obj)
-        this.__updateIndexes();
-      }
+      qx.lang.Array.remove(this.__objects, obj);
+      this.__updateIndexes();
     },
 
 
@@ -110,13 +108,12 @@ qx.Class.define("qx.ui.popup.Manager",
      */
     hideAll : function()
     {
-      var current;
-      var objects = this.__objects;
+      var l = this.__objects.length, current = {};
 
-      if (objects) {
-        for (var i = 0, l = objects.length; i < l; i++) {
-          var current = objects[i];
-          current.getAutoHide() && current.exclude();
+      while (l--) {
+        current = this.__objects[l];
+        if (current.getAutoHide()) {
+          current.exclude();
         }
       }
     },
