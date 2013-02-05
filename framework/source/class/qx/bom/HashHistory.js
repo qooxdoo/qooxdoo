@@ -60,7 +60,7 @@ qx.Class.define("qx.bom.HashHistory",
       }
 
       if (this.getState() !== state) {
-        this.setState(state);
+        this._writeState(state);
       }
     },
 
