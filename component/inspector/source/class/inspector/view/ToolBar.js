@@ -199,6 +199,9 @@ qx.Class.define("inspector.view.ToolBar",
       if (object != null) {
         this._selectedWidgetLabel.setValue("<tt>" + object.classname + "[" +
           object.toHashCode() + "]</tt>");
+          // flush the queue before calculating the overflow again
+          qx.ui.core.queue.Manager.flush();
+          this._recalculateOverflow();
       }
     },
 
