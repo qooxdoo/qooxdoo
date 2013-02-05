@@ -69,7 +69,7 @@ qx.Class.define("demobrowser.InfoWindow", {
     _getContentContainer : function()
     {
       if (!this.__contentContainer) {
-        this.__contentContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+        this.__contentContainer = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
         this.__contentContainer.setMinHeight(20);
       }
       return this.__contentContainer;
@@ -106,7 +106,7 @@ qx.Class.define("demobrowser.InfoWindow", {
     _applyContent : function(value, old)
     {
       this.clear();
-      this._getContentContainer().add(value);
+      this._getContentContainer().add(value, {edge: 0});
     },
 
 
