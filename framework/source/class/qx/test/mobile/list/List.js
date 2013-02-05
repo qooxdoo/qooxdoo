@@ -136,6 +136,18 @@ qx.Class.define("qx.test.mobile.list.List",
       list.getModel().push({title:"6", subtitle:"6", image:"qx/icon/Tango/48/places/folder.png"});
       this.__assertItemsAndModelLength(list,6);
       this.__cleanUp(list);
+    },
+    
+    
+    testExtractRowsToRender : function() {
+      var list = new qx.ui.mobile.list.List();
+      
+      this.assertArrayEquals([0], list._extractRowsToRender("0"));
+      this.assertArrayEquals([0], list._extractRowsToRender("[0].propertyName"));
+      this.assertArrayEquals([0,1,2], list._extractRowsToRender("[0-2].propertyName"));
+      this.assertArrayEquals([12,13,14], list._extractRowsToRender("[12-14].propertyName"));
+      
+      list.destroy();
     }
   }
 });

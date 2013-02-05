@@ -277,11 +277,60 @@ qx.Class.define("qx.ui.mobile.list.List",
       if(evt) {
         var data = evt.getData();
         if(data.name && data.old.length == data.value.length) {
-          var match = data.name.match(/\d+/);
-          var row = parseInt(match[0], 10);
-          this.__renderRow(row);
+          var rows = this._extractRowsToRender(data.name);
+          
+          for (var i=0; i < rows.length; i++) {
+            this.__renderRow(rows[i]);
+          }
         }
       }
+    },
+    
+    
+    /**
+     * Extracts all rows, which should be rendered from "changeBubble" event's
+     * data.name.
+     * @param name {String} The 'data.name' String of the "changeBubble" event,
+     *    which contains the rows that should be rendered.
+     */
+    _extractRowsToRender : function(name) {
+      var rows = [];
+      
+      // "[0-2].propertyName" | "[0].propertyName" | "0"
+      var containsPoint = (name.indexOf(".")!=-1);
+      if(containsPoint) {
+        // "[0-2].propertyName" | "[0].propertyName"
+        var candidate = name.split(".")[0];
+        
+        // Normalize
+        candidate = candidate.replace("[","");
+        candidate = candidate.replace("]","");
+        // "[0-2]" | "[0]"
+        var isRange = (candidate.indexOf("-") != -1);
+        
+        if(isRange) {
+          var rangeMembers = candidate.split("-");
+          // 0
+          var startRange = parseInt(rangeMembers[0],10);
+          // 2
+          var endRange = parseInt(rangeMembers[1],10);
+          
+          for(var i = startRange; i <= endRange; i++) {
+            rows.push(i);
+          }
+        } else {
+          // "[0]"
+          rows.push(parseInt(candidate.match(/\d+/)[0], 10));
+        }
+      } else {
+        // "0"
+        var match = name.match(/\d+/);
+        if(match.length == 1) {
+          rows.push(parseInt(match[0], 10));
+        }
+      }
+      
+      return rows;
     },
 
 
