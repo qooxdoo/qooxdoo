@@ -213,7 +213,15 @@ qx.Class.define("qx.ui.mobile.list.List",
       if (value != null) {
         value.addListener("change", this.__onModelChange, this);
       }
-
+      
+      if (old != null) {
+        old.removeListener("changeLength", this.__onModelChangeLength, this);
+      }
+      if (value != null) {
+        value.addListener("changeLength", this.__onModelChangeLength, this);
+      }
+      
+      
       this.__render();
     },
 
@@ -221,6 +229,15 @@ qx.Class.define("qx.ui.mobile.list.List",
     // property apply
     _applyDelegate : function(value, old) {
       this.__provider.setDelegate(value);
+    },
+    
+    
+    /**
+     * Listen on model 'changeLength' event.
+     * @param evt {qx.event.type.Data} data event which contains model change data.
+     */
+    __onModelChangeLength : function(evt) {
+      this.__render();
     },
 
     /**
@@ -245,12 +262,8 @@ qx.Class.define("qx.ui.mobile.list.List",
      * @param evt {qx.event.type.Data} data event which contains model change data.
      */
     __onModelChange : function(evt) {
-      if(evt && evt.getData() && evt.getData().type) {
-        var changeType = evt.getData().type;
-
-        if(changeType == "order" || changeType == "add" || changeType == "remove") {
-          this.__render();
-        }
+      if(evt && evt.getData() && evt.getData().type == "order") {
+        this.__render();
       }
     },
 
@@ -263,20 +276,10 @@ qx.Class.define("qx.ui.mobile.list.List",
     {
       if(evt) {
         var data = evt.getData();
-        
-        var isArray = (qx.lang.Type.isArray(data.old) && qx.lang.Type.isArray(data.value));
-        
-        if(isArray && (data.old.length == data.value.length)) {
-          var row = data.name;
-          if(row) {
-            row = parseInt(row,10);
-            this.__renderRow(row);
-          } else {
-            // FALLBACK
-            this.__render();
-          }
-        } else {
-          this.__render();
+        if(data.name && data.old.length == data.value.length) {
+          var match = data.name.match(/\d+/);
+          var row = parseInt(match[0], 10);
+          this.__renderRow(row);
         }
       }
     },
