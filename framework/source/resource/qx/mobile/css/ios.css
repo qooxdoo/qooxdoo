@@ -155,8 +155,9 @@ input::-webkit-inner-spin-button {
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
 
-.hbox, .selectbox, .toolbar-button {
-  width: 100%; }
+@-moz-document url-prefix() {
+  .hbox, .selectbox, .toolbar-button {
+    width: 100%; } }
 
 .vbox {
   width: 100%;
