@@ -677,15 +677,35 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      */
     _onChangeBubble : function(event)
     {
-      var propertyName = event.getData().name;
+      var data = event.getData();
+      var propertyName = data.name;
       var index = propertyName.lastIndexOf(".");
 
       if (index != -1) {
         propertyName = propertyName.substr(index + 1, propertyName.length);
       }
 
-      if (qx.lang.String.startsWith(propertyName, this.getChildProperty())) {
-        this.__applyModelChanges();
+      // only continue when the effected property is the child property
+      if (qx.lang.String.startsWith(propertyName, this.getChildProperty()))
+      {
+        var item = data.item;
+
+        if (qx.Class.isSubClassOf(item.constructor, qx.data.Array))
+        {
+          if (index === -1)
+          {
+            item = this.getModel();
+          }
+          else
+          {
+            var propertyChain = data.name.substr(0, index);
+            item = qx.data.SingleValueBinding.resolvePropertyChain(this.getModel(), propertyChain);
+          }
+        }
+
+        if (this.__lookupTable.indexOf(item) != -1) {
+          this.__applyModelChanges();
+        }
       }
     },
 
