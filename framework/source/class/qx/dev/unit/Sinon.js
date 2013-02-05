@@ -85,8 +85,9 @@ qx.Class.define("qx.dev.unit.Sinon",
 
 
 /**
- * @ignore(module, require, global)
- * @lint ignoreUnused(alen, requestMethod)
+ * @ignore(module, require, global, process, setImmediate, msSetImmediate)
+ * @lint ignoreUnused(alen, requestMethod, index)
+ * @lint ignoreNoLoopBlock()
  */
 (function() {
 

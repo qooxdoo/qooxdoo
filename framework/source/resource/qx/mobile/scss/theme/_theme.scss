@@ -492,13 +492,13 @@ div.checked .toggleButtonSwitch:before {
 // CHECKBOX
 //
 
-.checkbox-label:before {
+.checkbox:before {
   @include gradient-vertical (darken($checkbox-background-inner-color,10%), lighten($checkbox-background-inner-color,10%));
 
   @include border-radius($checkbox-border-radius);
 }
 
-input[type="checkbox"] + label {
+.checkbox {
   position:relative;
   @include border-radius($checkbox-border-radius*3);
   border:$border-thickness solid $checkbox-border-color;
@@ -509,7 +509,7 @@ input[type="checkbox"] + label {
   @include gradient-vertical(lighten($checkbox-background-color, 20%), darken($checkbox-background-color, 20%));
 }
 
-input[type="checkbox"] + label:after {
+.checkbox:after {
   opacity: 0;
   content:"";;
   position: absolute;
@@ -528,7 +528,7 @@ input[type="checkbox"] + label:after {
 }
 
 
-input[type="checkbox"]:checked + label:after {
+.checkbox.checked:after {
     opacity: 1;
 }
 

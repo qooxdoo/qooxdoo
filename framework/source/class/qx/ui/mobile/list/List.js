@@ -150,8 +150,6 @@ qx.Class.define("qx.ui.mobile.list.List",
   },
 
 
-
-
  /*
   *****************************************************************************
      MEMBERS
@@ -265,9 +263,10 @@ qx.Class.define("qx.ui.mobile.list.List",
     {
       if(evt) {
         var data = evt.getData();
-        var isRowCountEqual = (data.old.length == data.value.length);
-
-        if(isRowCountEqual) {
+        
+        var isArray = (qx.lang.Type.isArray(data.old) && qx.lang.Type.isArray(data.value));
+        
+        if(isArray && (data.old.length == data.value.length)) {
           var row = data.name;
           if(row) {
             row = parseInt(row,10);
@@ -276,6 +275,8 @@ qx.Class.define("qx.ui.mobile.list.List",
             // FALLBACK
             this.__render();
           }
+        } else {
+          this.__render();
         }
       }
     },
