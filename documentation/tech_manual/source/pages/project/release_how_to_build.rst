@@ -148,10 +148,12 @@ Test
 
 Release test plans:
 
-#. `Application testing <https://github.com/qooxdoo/qooxdoo/tree/master/tool/admin/release/release-test-matrix-applications.html>`_ : test standard applications (like Feedreader, Apiviewer, ...) in various browsers
-#. `create-application.py / Toolchain testing <https://github.com/qooxdoo/qooxdoo/tree/master/tool/admin/release/release-test-matrix-create_application.html>`_ : test ``create-application.py`` on various platforms
+#. `Application testing <https://github.com/qooxdoo/qooxdoo/blob/master/tool/admin/release/test_plans/applications.html>`_ : test standard applications (like Feedreader, Apiviewer, ...) in various browsers
+#. `create-application.py / Toolchain testing <https://github.com/qooxdoo/qooxdoo/blob/master/tool/admin/release/test_plans/tool_chain.html>`_ : test ``create-application.py`` on various platforms
+#. `Libraries testing <https://github.com/qooxdoo/qooxdoo/blob/master/tool/admin/release/test_plans/libraries.html>`_ : test stand-alone libraries (from *component/standalone*)
+#. `Mobile application testing <https://github.com/qooxdoo/qooxdoo/blob/master/tool/admin/release/test_plans/mobile_apps.html>`_ : test mobile applications (MobileShowcase, Feedreader Mobile, ...) on iOS, Android, etc.
 
-Both the standard apps for 1. as well as an SDK for 2. are usually made available from a build host. For instructions on what to do *there*, in order to proivde them, see further.
+All test objects (applications, libraries, SDK) are usually made available from a build host (when doing the `Build Release Kits`_ step above), so testers don't have to build  test objects on their local machines.
 
 
 .. _pages/project/release_how_to_build.rst#create_a_sourceforge_release:
