@@ -95,7 +95,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
       qx.event.Registration.addListener(window, "orientationchange", this._onLayoutChange, this);
       this.__masterContainer.addListener("resize", this._onLayoutChange, this);
-
+      
       // On Tablet Mode, no Animation should be shown by default.
       this.__masterNavigation.getLayout().setShowAnimation(false);
       this.__detailNavigation.getLayout().setShowAnimation(false);
@@ -476,8 +476,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
      */
     _createDetailContainerGap : function() {
       var width = this.__masterContainer.getWidth();
-      qx.bom.element.Style.set(this.__detailContainer.getContainerElement(), "paddingRight", width+"px");
-      this.__detailContainer.setTranslateX(width);
+      qx.bom.element.Style.set(this.__detailContainer.getContainerElement(), "paddingLeft", width+"px");
       
       qx.event.Registration.fireEvent(window, "resize");
     },
@@ -487,8 +486,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
      * Moves detailContainer to the left edge of viewport.
      */
     _removeDetailContainerGap : function() {
-      qx.bom.element.Style.set(this.__detailContainer.getContainerElement(), "paddingRight", null);
-      this.__detailContainer.setTranslateX(0);
+      qx.bom.element.Style.set(this.__detailContainer.getContainerElement(), "paddingLeft", null);
       
       qx.event.Registration.fireEvent(window, "resize");
     },
