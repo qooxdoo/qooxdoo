@@ -29,7 +29,6 @@ def validateManifest(jobconf, confObj):
     :param jobconf: generator.config.Job.Job
     :param confObj: generator.config.Config.Config
     """
-
     errors = []
     console = Context.console
 

@@ -87,8 +87,7 @@ class Manifest(object):
         return libentry
 
     def validateAgainst(self, schema):
-        """Validates catalog entry via JSON Schema. The expected_author param
-        will prevent entry overrides from others than the original author.
+        """Validates catalog entry via JSON Schema.
 
         .. seealso:: http://json-schema.org/
         .. seealso:: http://tools.ietf.org/html/draft-zyp-json-schema-03
@@ -101,19 +100,34 @@ class Manifest(object):
 
         for e in validator.iter_errors(self._manifest):
             e.path.reverse()
-            errors.append({"msg": e.message[1:], "path": e.path})
+            # hack for leading 'u' *within* string (but no unicode string!) => jsonschema v0.8.0 issue
+            e.message = e.message[1:] if e.message.startswith("u") else e.message
+            errors.append({"msg": e.message, "path": e.path})
 
         return errors
 
     @classmethod
     def schema_v1_0(self):
         """Catalog entry schema for catalog v1.0.
+
+        The regexes strive to be lax (and understandable => part of err msg) but valuable
+        at the same time, cause we don't want to adapt them over and over again.
+
+        Notes:
+            * currently a query-string (?...) isn't allowed within an URL => change if needed
+            * currently a fragment-identifier (#...) isn't allowed within an URL => change if needed
+
+        TODO:
+            * adapt config.json skeletons to export job
+            * adapt Manifest.json skeletons to adhere schema after create-application.py
         """
         patterns = {
-            "semver": r"^latest$|^\d+\.\d+(\.\d+)?(?:-[0-9]+-?)?(?:[-a-zA-Z+][-a-zA-Z0-9\.:-]*)?$",
-            "url": r"^https?://?([\da-z\.-]+)\.([a-z\.]{2,6})[\/\w \.-]*\/?$",
-            "archive_url": r"^(https?|ftp)://.*(tar.(gz|bz2)|zip)$",
+            "semver": r"^latest$|^\d+\.\d+(\.\d+)?(-[0-9]+-?)?([-a-zA-Z+][-a-zA-Z0-9\.:-]*)?$",
+            "url": r"^https?://([a-z0-9\.-]+)\.([a-z\.]{2,6})[/\w\.-]*\/?$",
+            "url_and_placeholder": r"^https?://([a-z0-9\.-]+)\.([a-z\.]{2,6})[/\w.%{}-]*(#[/\w.%{}-]*)?\/?$",
+            "url_archive": r"^(https?|ftp)://.*(tar.(gz|bz2)|zip)$",
             "name_and_github_uid": r"^.*\([A-Za-z0-9]+\)$",
+            "checksum": "^[a-f0-9]{32,40}$"  # md5 or sha1
         }
 
         return {
@@ -179,7 +193,12 @@ class Manifest(object):
                         "download": {
                             "type": "string",
                             "required": True,
-                            "pattern": patterns["archive_url"]
+                            "pattern": patterns["url_archive"]
+                        },
+                        "checksum": {
+                            "type": "string",
+                            "required": True,
+                            "pattern": patterns["checksum"]
                         },
                         "version": {
                             "type": "string",
@@ -199,7 +218,7 @@ class Manifest(object):
                         },
                         "sourceViewUri": {
                             "type": "string",
-                            "pattern": patterns["url"]
+                            "pattern": patterns["url_and_placeholder"]
                         }
                     }
                 },
