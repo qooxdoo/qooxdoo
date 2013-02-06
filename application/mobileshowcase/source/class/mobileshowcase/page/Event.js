@@ -72,8 +72,8 @@ qx.Class.define("mobileshowcase.page.Event",
     __touchCircleLeft: null,
     __touchCircleTop: null,
     __touchCount:0,
-
-
+    
+    
     // overridden
     _initialize : function()
     {
@@ -105,8 +105,8 @@ qx.Class.define("mobileshowcase.page.Event",
       this.__gestureTarget = new qx.ui.mobile.basic.Image("mobileshowcase/icon/HTML5_Badge_512.png");
 
       this.__gestureTarget.addCssClass("gesture-target");
-      this.__gestureTarget.addListener("touchmove", this._onGestureTouchMove, this);
-      this.__gestureTarget.addListener("touchend", this._onGestureTouchEnd, this);
+      this.__gestureTarget.addListener("touchmove", this.__onGestureTargetTouchMove, this);
+      this.__gestureTarget.addListener("touchend", this.__onGestureTargetTouchEnd, this);
       this.__gestureTarget.setDraggable(false);
 
       container.add(this.__gestureTarget);
@@ -143,8 +143,8 @@ qx.Class.define("mobileshowcase.page.Event",
       qx.bom.AnimationFrame.request(this._render, this);
     },
 
-
-    _onGestureTouchMove : function(evt) {
+    
+    __onGestureTargetTouchMove : function(evt) {
       if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
           this._getScrollContainer().disable();
       }
@@ -154,6 +154,7 @@ qx.Class.define("mobileshowcase.page.Event",
       var containerElement = this.__showcaseContainer.getContentElement();
       var containerLeft = qx.bom.element.Location.getLeft(containerElement, "padding");
       var containerTop = qx.bom.element.Location.getTop(containerElement, "padding");
+      
       if (evt.isMultiTouch())
       {
         this.__currentRotation = Math.round(evt.getRotation()) + Math.round(this.__initialRotation);
@@ -171,12 +172,13 @@ qx.Class.define("mobileshowcase.page.Event",
       else
       {
         var timeSinceMultiTouch = new Date().getTime() - this.__lastMultiTouchEventTime;
-        if(timeSinceMultiTouch>500) {
+        
+        if(timeSinceMultiTouch > 500) {
           var touchLeft = evt.getAllTouches()[0].clientX;
           var touchTop = evt.getAllTouches()[0].clientY;
 
-          this.__logoLeft = touchLeft-containerLeft-offset;
-          this.__logoTop = touchTop-containerTop-offset;
+          this.__logoLeft = touchLeft - containerLeft - offset;
+          this.__logoTop = touchTop - containerTop - offset;
         }
       }
 
@@ -184,7 +186,7 @@ qx.Class.define("mobileshowcase.page.Event",
     },
 
 
-    _onGestureTouchEnd : function() {
+    __onGestureTargetTouchEnd : function() {
       this.__initialRotation = this.__currentRotation;
       this.__initialScale = this.__currentScale;
 
@@ -273,7 +275,7 @@ qx.Class.define("mobileshowcase.page.Event",
         // Re-enable iScroll after touchend event
         if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
           this._getScrollContainer().enable();
-        }
+      }
       }
 
       // Text output of event
@@ -291,13 +293,13 @@ qx.Class.define("mobileshowcase.page.Event",
       var gestureTargetElement = this.__gestureTarget.getContentElement();
 
       var transitionKey = "transform";
-
-      var transitionValue1 = " translate3d("+(this.__logoLeft)+"px"+","+(this.__logoTop)+"px,0px) ";
-      var transitionValue2 = "rotate(" + (this.__currentRotation) + "deg) scale(" + (this.__currentScale) + ")";
-      qx.bom.element.Style.set(gestureTargetElement, transitionKey, transitionValue1+transitionValue2);
+      var transitionValue = "";
+      transitionValue = transitionValue.concat(" translate3d("+(this.__logoLeft)+"px"+","+(this.__logoTop)+"px,0px) ");
+      transitionValue = transitionValue.concat("rotate(" + (this.__currentRotation) + "deg) scale(" + (this.__currentScale) + ")");
+      qx.bom.element.Style.set(gestureTargetElement, transitionKey, transitionValue);
 
       // Touch Circle Visualization
-      for(var i=0;i<this.__touchCircleLeft.length;i++) {
+      for(var i = 0; i < this.__touchCircleLeft.length; i++) {
         var touchPoint = this.__touchPoints[i];
         touchPoint.setTranslateX(this.__touchCircleLeft[i]);
         touchPoint.setTranslateY(this.__touchCircleTop[i]);
