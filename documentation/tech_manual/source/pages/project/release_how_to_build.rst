@@ -326,6 +326,7 @@ Announcements
 * Mailing list (qooxdoo-devel)
 * `Freshmeat/Freecode <http://freecode.com/projects/qooxdoo>`_
 * `Wikipedia <http://en.wikipedia.org/wiki/Qooxdoo>`_ version number update
+* twitter / Facebook
 
 
 
