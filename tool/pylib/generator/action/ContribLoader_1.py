@@ -32,6 +32,15 @@ import optparse, misc
 from Wget import Wget
 from HTMLParser import HTMLParser
 
+# -- Defaults -----
+
+project = 'qooxdoo-contrib'
+# Allura SVN URL scheme
+# sample url: http://svn.code.sf.net/p/dosbox/code-0/dosbox/trunk/src/lib/ - Wget cannot handle HTTPS currently
+svn_url_schema = 'http://svn.code.sf.net/p/%(project)s/code/%(project)s/trunk/%(cName)s/%(cBranch)s/'
+
+# -----------------
+
 ##
 # This is to parse Allura's view code HTML interface, to extract a dir revision from
 # the contained elements.
@@ -68,21 +77,18 @@ class AlluraSVNView(HTMLParser):
 # Interface class
 #
 class ContribLoader(object):
-    def __init__(self):
-        pass
+
+    def __init__(self, proj=project, uschema=svn_url_schema):
+        self.project = proj
+        self.svn_url_schema = uschema
 
     #def getRevision(self, contribName, contribBranch):
     #    svnView = AlluraSVNView()
     #    rev = svnView.get_revision(html, contribName, contribBranch)
     #    return rev
 
-    project = 'dosbox'  # (TODO: 'qooxdoo-contrib')
-    # Allura SVN URL scheme (TODO: remove '-0' from 'code-0')
-    # sample url: http://svn.code.sf.net/p/dosbox/code-0/dosbox/trunk/src/lib/ - Wget cannot handle HTTPS currently
-    svn_url_scheme = 'http://svn.code.sf.net/p/%(project)s/code-0/%(project)s/trunk/%(cName)s/%(cBranch)s/'
-
     def getRevision(self, cName, cBranch):
-        cUrl =  self.svn_url_scheme % {
+        cUrl =  self.svn_url_schema % {
                     'project' : self.project, 
                     'cName' : cName,
                     'cBranch' : cBranch
@@ -127,7 +133,7 @@ class ContribLoader(object):
 
         dloader = Wget()
         #url = "http://qooxdoo-contrib.svn.sourceforge.net/svnroot/qooxdoo-contrib/trunk/qooxdoo-contrib/%s/" % contrib  # Wget cannot currently handle 'https' scheme
-        url =  self.svn_url_scheme % {
+        url =  self.svn_url_schema % {
                     'project' : self.project, 
                     'cName' : cName,
                     'cBranch' : cBranch
