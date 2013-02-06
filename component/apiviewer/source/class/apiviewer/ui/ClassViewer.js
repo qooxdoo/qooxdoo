@@ -512,7 +512,9 @@ qx.Class.define("apiviewer.ui.ClassViewer",
         classHtml.add('<p>');
         var desc = classNode.getDeprecationText();
         if (desc) {
-          classHtml.add(desc);
+          classHtml.add(
+            apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(desc, classNode)
+          );
         } else {
           classHtml.add("This ", classNode.getType(), " is deprecated!");
         }
