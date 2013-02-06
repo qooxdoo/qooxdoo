@@ -26,7 +26,6 @@ import graph
 from generator.config.Lang import Key, Let
 from generator.resource.Library import Library
 from generator.runtime.ShellCmd import ShellCmd
-from generator.action.ContribLoader import ContribLoader
 from generator.config.ConfigurationError import ConfigurationError
 from misc.NameSpace import NameSpace
 from misc import json
@@ -682,20 +681,20 @@ class Config(object):
         console.outdent()
 
 
-    def _download_contrib(self, libs, contrib, contribCache):
+    #def _download_contrib(self, libs, contrib, contribCache):
 
-        self._console.debug("Checking network-based contrib: %s" % contrib)
-        self._console.indent()
+    #    self._console.debug("Checking network-based contrib: %s" % contrib)
+    #    self._console.indent()
 
-        dloader = ContribLoader()
-        (updatedP, revNo) = dloader.download(contrib, contribCache)
+    #    dloader = ContribLoader()
+    #    (updatedP, revNo) = dloader.download(contrib, contribCache)
 
-        if updatedP:
-            self._console.info("downloaded contrib: %s" % contrib)
-        else:
-            self._console.debug("using cached version")
-        self._console.outdent()
-        return
+    #    if updatedP:
+    #        self._console.info("downloaded contrib: %s" % contrib)
+    #    else:
+    #        self._console.debug("using cached version")
+    #    self._console.outdent()
+    #    return
 
 
     def getConfigDir(self):
