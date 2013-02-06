@@ -292,6 +292,8 @@ qx.Class.define("qx.ui.mobile.list.List",
      * data.name.
      * @param name {String} The 'data.name' String of the "changeBubble" event,
      *    which contains the rows that should be rendered.
+     * @return {Integer[]} An array with integer values, representing the rows which should
+     *  be rendered.
      */
     _extractRowsToRender : function(name) {
       var rows = [];
