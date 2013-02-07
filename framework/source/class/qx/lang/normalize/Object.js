@@ -23,7 +23,7 @@
  * development in every browser. For usage samples, check out the attached links.
  *
  * *keys*:
- * <a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object/keys">MDN documentation</a> |
+ * <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object/keys">MDN documentation</a> |
  * <a href="http://es5.github.com/#x15.2.3.14">Annotated ES5 Spec</a>
  */
 qx.Bootstrap.define("qx.lang.normalize.Object", {

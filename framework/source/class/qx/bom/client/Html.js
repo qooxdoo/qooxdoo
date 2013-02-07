@@ -254,7 +254,7 @@ qx.Bootstrap.define("qx.bom.client.Html",
 
     /**
      * Whether the browser supports CSS class lists.
-     * https://developer.mozilla.org/en/DOM/element.classList
+     * https://developer.mozilla.org/en-US/docs/DOM/element.classList
      *
      * @internal
      * @return {Boolean} <code>true</code> if class list is supported.

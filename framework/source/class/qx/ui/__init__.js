@@ -1,5 +1,5 @@
 /**
- * The qooxdoo GUI toolkit includes a large set of widgets and layouts to 
+ * The qooxdoo GUI toolkit includes a large set of widgets and layouts to
  * create your application's user interface. This is what you want to look at if
  * you are building a GUI application.
  *
@@ -30,7 +30,7 @@
  * }, this);
  * </pre>
  *
- * Make sure you also check the <a href="http://manual.qooxdoo.org/${qxversion}/pages/getting_started/helloworld.html">"hello world" tutorial</a> for a minimal working application with GUI elements.
+ * Make sure you also check the <a href="http://manual.qooxdoo.org/${qxversion}/pages/tool/getting_started.html">"hello world" tutorial</a> for a minimal working application with GUI elements.
  *
  * Here is a *topical grouping* of useful widgets and packages for GUI creation:
  *

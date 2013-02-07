@@ -283,7 +283,7 @@ qx.Class.define("qx.io.remote.Request",
      * does nasty things like mixing parameters specified in the URL into
      * form fields in the POST request.  (One example of this nasty behavior
      * is known as "mixed mode" in Oracle, as described here:
-     * http://download.oracle.com/docs/cd/B32110_01/web.1013/b28963/concept.htm#i1005684)
+     * http://docs.oracle.com/cd/B32110_01/web.1013/b28963/concept.htm#i1005684)
      */
     prohibitCaching :
     {

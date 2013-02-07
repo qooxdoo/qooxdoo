@@ -217,7 +217,7 @@ qx.Class.define("qx.io.remote.Exchange",
     */
 
     /**
-     *http://msdn.microsoft.com/library/default.asp?url=/library/en-us/xmlsdk/html/0e6a34e4-f90c-489d-acff-cb44242fafc6.asp
+     * http://msdn.microsoft.com/en-us/library/ie/ms534359%28v=vs.85%29.aspx
      *
      * 0: UNINITIALIZED
      * The object has been created, but not initialized (the open method has not been called).

@@ -81,7 +81,7 @@ qx.Class.define("qx.bom.Flash",
      * The dimension of the movie should define through CSS styles {@link qx.bom.element.Style}
      *
      * It is possible to add these parameters as supported by Flash movies:
-     * http://kb.adobe.com/selfservice/viewContent.do?externalId=tn_12701
+     * http://helpx.adobe.com/flash/kb/flash-object-embed-tag-attributes.html
      *
      * @TODO: don't use the seperate argument "variables" to set flashvars, this belongs
      *        to the "params" argument.

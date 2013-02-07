@@ -32,7 +32,7 @@
  * Notes:
  *
  * * Webkit and Opera (before 9.5) do not support tabIndex for all elements
- * (See also: http://bugs.webkit.org/show_bug.cgi?id=7138)
+ * (See also: https://bugs.webkit.org/show_bug.cgi?id=7138)
  *
  * * TabIndex is normally 0, which means all naturally focusable elements are focusable.
  * * TabIndex > 0 means that the element is focusable and tabable
@@ -513,7 +513,7 @@ qx.Class.define("qx.event.handler.Focus",
      * supported by gecko. Used to stop native drag and drop when
      * selection is disabled.
      *
-     * @see http://developer.mozilla.org/en/docs/Drag_and_Drop
+     * @see https://developer.mozilla.org/en-US/docs/Drag_and_Drop
      * @signature function(domEvent)
      * @param domEvent {Event} Native event
      */

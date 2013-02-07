@@ -210,7 +210,7 @@ qx.Bootstrap.define("qxWeb", {
     /**
      * Removes the given number of items and returns the removed items as a new collection.
      * This method can also add items. Take a look at the
-     * <a href='https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/splice' target='_blank'>documentation of MDN</a> for more details.
+     * <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/splice' target='_blank'>documentation of MDN</a> for more details.
      *
      * @param index {Number} The index to begin.
      * @param howMany {Number} the amount of items to remove.
@@ -224,7 +224,7 @@ qx.Bootstrap.define("qxWeb", {
 
     /**
      * Returns a new collection containing the modified elements. For more details, check out the
-     * <a href='https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/map' target='_blank'>MDN documentation</a>.
+     * <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/map' target='_blank'>MDN documentation</a>.
      *
      * @param callback {Function} Function which produces the new element.
      * @param thisarg {var} Context of the callback.
