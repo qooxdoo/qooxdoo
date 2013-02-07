@@ -80,11 +80,12 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     carouselScroller.addListener("touchstart", this._onTouchStart, this);
     carouselScroller.addListener("touchmove", this._onTouchMove, this);
     carouselScroller.addListener("swipe", this._onSwipe, this);
-
+    
     this.addListener("appear", this._onContainerUpdate, this);
 
     qx.event.Registration.addListener(window, "orientationchange", this._onContainerUpdate, this);
     qx.event.Registration.addListener(window, "resize", this._onContainerUpdate, this);
+    qx.event.Registration.addListener(this.getContentElement(), "scroll", this._onNativeScroll, this);
 
     var pagination = this.__pagination = new qx.ui.mobile.container.Composite();
     pagination.addCssClass("carousel-pagination");
@@ -106,6 +107,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       init : "carousel"
     },
 
+
     /** Property for setting visibility of pagination indicator */
     showPagination : {
       check : "Boolean",
@@ -113,12 +115,14 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       apply : "_applyShowPagination"
     },
 
+
     /** Defines whether the carousel should scroll back to first or last page
      * when the start/end of carousel pages is reached  */
     scrollLoop : {
       check : "Boolean",
       init : true
     },
+    
     
     /**
      * Defines the height of the carousel.
@@ -462,6 +466,19 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       } else {
         this._snapCarouselPage();
       }
+    },
+    
+    
+    /**
+     * Handles the native scroll event on the carousel container.
+     * This is needed for preventing "scrollIntoView" method.
+     * 
+     * @param evt {qx.event.type.Native} the native scroll event.
+     */
+    _onNativeScroll : function(evt) {
+      var nativeEvent = evt.getNativeEvent();
+      nativeEvent.srcElement.scrollLeft = 0;
+      nativeEvent.srcElement.scrollTop = 0;
     },
 
 
