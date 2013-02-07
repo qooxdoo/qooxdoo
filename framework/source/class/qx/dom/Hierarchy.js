@@ -169,7 +169,7 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
         }
       }
       else if (qx.core.Environment.get("html.element.compareDocumentPosition")) {
-        // http://developer.mozilla.org/en/docs/DOM:Node.compareDocumentPosition
+        // https://developer.mozilla.org/en-US/docs/DOM:Node.compareDocumentPosition
         return !!(element.compareDocumentPosition(target) & 16);
       }
       else {

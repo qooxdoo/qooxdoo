@@ -251,7 +251,7 @@ qx.Class.define("qx.event.handler.Touch",
     /**
      * Creates and returns a Touch mock object.
      * Fore more information see:
-     * http://developer.apple.com/safari/library/documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
+     * https://developer.apple.com/library/safari/#documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
      *
      * @signature function(domEvent)
      * @param domEvent {Event} DOM event

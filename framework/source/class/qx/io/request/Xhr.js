@@ -53,7 +53,7 @@
  *
  * Cross-origin requests are supported, but require browser support
  * (see <a href="http://caniuse.com/#search=CORS">caniuse.com</a>) and backend configuration
- * (see <a href="https://developer.mozilla.org/en/http_access_control">MDN</a>).
+ * (see <a href="https://developer.mozilla.org/en-US/docs/docs/HTTP/Access_control_CORS>MDN</a>).
  * Note that IE's <code>XDomainRequest</code> is not currently supported.
  * For a cross-browser alternative, consider {@link qx.io.request.Jsonp}.
  *

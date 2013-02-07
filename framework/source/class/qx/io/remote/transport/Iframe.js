@@ -133,7 +133,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
     /**
      * For reference:
-     * http://msdn.microsoft.com/workshop/author/dhtml/reference/properties/readyState_1.asp
+     * http://msdn.microsoft.com/en-us/library/ie/ms534359%28v=vs.85%29.aspx
      *
      * @internal
      */

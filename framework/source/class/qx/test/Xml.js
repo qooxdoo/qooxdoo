@@ -66,8 +66,8 @@ qx.Class.define("qx.test.Xml",
       this.assertEquals('rss', doc.documentElement.tagName);
       this.assertEquals(0, doc.documentElement.childNodes.length);
 
-      var doc = qx.xml.Document.create("http://www.w3.org/1999/xhtml", "html");
-      this.assertEquals('http://www.w3.org/1999/xhtml', doc.documentElement.namespaceURI);
+      var doc = qx.xml.Document.create("http://www.w3.org/1999/xhtml/", "html");
+      this.assertEquals('http://www.w3.org/1999/xhtml/', doc.documentElement.namespaceURI);
       this.assertEquals('html', doc.documentElement.tagName);
       this.assertEquals(0, doc.documentElement.childNodes.length);
     },
@@ -93,16 +93,16 @@ qx.Class.define("qx.test.Xml",
 
     testXPathNS : function()
     {
-      var xmlStr = '<html xmlns="http://www.w3.org/1999/xhtml"><body>Juhu <em id="toll">Kinners</em>. Wie geht es <em>Euch</em>?<foo xmlns="http://qooxdoo.org" id="bar"/></body></html>';
+      var xmlStr = '<html xmlns="http://www.w3.org/1999/xhtml/"><body>Juhu <em id="toll">Kinners</em>. Wie geht es <em>Euch</em>?<foo xmlns="http://qooxdoo.org" id="bar"/></body></html>';
       var doc = qx.xml.Document.fromString(xmlStr);
-      var em = qx.xml.Element.getElementsByTagNameNS(doc, "http://www.w3.org/1999/xhtml", "em")[0];
+      var em = qx.xml.Element.getElementsByTagNameNS(doc, "http://www.w3.org/1999/xhtml/", "em")[0];
       var foo = qx.xml.Element.getElementsByTagNameNS(doc, "http://qooxdoo.org", "foo")[0];
 
       var emStr = qx.xml.Element.serialize(em);
       var fooStr = qx.xml.Element.serialize(foo);
 
       var nsMap = {
-        "xhtml" : "http://www.w3.org/1999/xhtml",
+        "xhtml" : "http://www.w3.org/1999/xhtml/",
         "qx"    : "http://qooxdoo.org"
       };
       var q1 = "//xhtml:em";
@@ -175,7 +175,7 @@ qx.Class.define("qx.test.Xml",
 
     testSetAttributeNS : function()
     {
-      var doc = qx.xml.Document.create("http://www.w3.org/1999/xhtml", "html");
+      var doc = qx.xml.Document.create("http://www.w3.org/1999/xhtml/", "html");
       var node = doc.createElement("a");
       var namespaceURI = "http://www.qooxdoo.org/";
       qx.xml.Element.setAttributeNS(doc, node, namespaceURI, "qxid", "foo");
@@ -191,7 +191,7 @@ qx.Class.define("qx.test.Xml",
 
     testGetAttributeNS : function()
     {
-      var doc = qx.xml.Document.create("http://www.w3.org/1999/xhtml", "html");
+      var doc = qx.xml.Document.create("http://www.w3.org/1999/xhtml/", "html");
       var node = doc.createElement("a");
       var namespaceURI = "http://www.qooxdoo.org/";
       qx.xml.Element.setAttributeNS(doc, node, namespaceURI, "qxid", "foo");
