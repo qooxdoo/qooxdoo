@@ -92,9 +92,11 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
     this.__pickerConfirmButton = new qx.ui.mobile.form.Button("Choose");
     this.__pickerConfirmButton.addListener("tap", this.confirm, this);
+    this.__pickerConfirmButton.addListener("touchstart", this._preventClickEvent, this);
 
     this.__pickerCancelButton = new qx.ui.mobile.form.Button("Cancel");
     this.__pickerCancelButton.addListener("tap", this.hide, this);
+    this.__pickerCancelButton.addListener("touchstart", this._preventClickEvent, this);
 
     var buttonContainer = this.__pickerButtonContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
     buttonContainer.add(this.__pickerConfirmButton,{flex:1});
@@ -410,7 +412,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
     /**
      * Handler for touchstart events on picker slot.
-     * @param evt {qx.event.type.Touch} The touch event
+     * @param evt {qx.event.type.Touch} The touch event.
      */
     _onTouchStart : function(evt) {
       var target = evt.getCurrentTarget().getContainerElement();
