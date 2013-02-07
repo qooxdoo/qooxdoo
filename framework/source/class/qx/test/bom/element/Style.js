@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2007-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2007-2013 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,6 +14,7 @@
 
    Authors:
      * Alexander Steitz (aback)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
@@ -24,10 +25,14 @@ qx.Class.define("qx.test.bom.element.Style",
 
   members :
   {
+    __element : null,
+
+
     hasCssBoxshadow : function()
     {
       return qx.core.Environment.get("css.boxshadow") !== null;
     },
+
 
     setUp : function()
     {
@@ -45,7 +50,6 @@ qx.Class.define("qx.test.bom.element.Style",
 
     testSetStylesWithCss3 : function()
     {
-      //if (this.require(["css.boxshadow"]))
       if (this.require(["cssBoxshadow"]))
       {
         var styles =
@@ -74,6 +78,33 @@ qx.Class.define("qx.test.bom.element.Style",
       var css = "font-weight: bold;";
       qx.bom.element.Style.setCss(this.__element, css);
       this.assertMatch(qx.bom.element.Style.getCss(this.__element), /font-weight.*?bold/i);
+    },
+
+
+    testSet : function()
+    {
+      var name = "border";
+      var style = "1px solid red";
+
+      qx.bom.element.Style.set(this.__element, name, style);
+      this.assertEquals(style, this.__element.style.border);
+    },
+
+
+    testGet : function()
+    {
+      var name = "border";
+      var style = "1px solid red";
+
+      var expected = qx.core.Environment.select("engine.name",
+      {
+        "webkit" : "1px solid rgb(255, 0, 0)",
+        "opera" : "1px solid rgb(255, 0, 0)",
+        "default" : "1px solid red"
+      });
+
+      qx.bom.element.Style.set(this.__element, name, style);
+      this.assertEquals(expected, qx.bom.element.Style.get(this.__element, name));
     }
   }
 });
