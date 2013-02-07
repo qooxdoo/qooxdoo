@@ -138,7 +138,7 @@ qx.Class.define("qx.ui.mobile.form.Form",
     showRow : function(groupIndex,rowIndex) {
       var item = this._getItemByIndex(groupIndex,rowIndex);
       if(item) {
-        this.__renderer.hideItem(item);
+        this.__renderer.showItem(item);
       }
     },
 
