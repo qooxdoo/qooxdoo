@@ -316,11 +316,10 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
 
   destruct : function()
   {
-    this._disposeObjects("__selectionList","__clearButton");
-    
     this.__selectionList.removeListener("tap", this._onSelectionListTap, this);
-    
     this.__clearButton.removeListener("touchstart", this._preventClickEvent, this);
+    
+    this._disposeObjects("__selectionList","__clearButton");
   }
 
 });
