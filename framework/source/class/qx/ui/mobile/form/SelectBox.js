@@ -149,6 +149,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     }
   },
 
+
   members :
   {
     __selectedIndex : null,
@@ -187,7 +188,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      */
     _createSelectionDialog : function() {
       var menu = new qx.ui.mobile.dialog.Menu();
-
+      
       // Special appearance for select box menu items.
       menu.setSelectedItemClass("selectbox-selected");
       menu.setUnselectedItemClass("selectbox-unselected");
@@ -197,10 +198,19 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
       return menu;
     },
+    
+    
+    /**
+     * Returns the SelectionDialog.
+     * @return {qx.ui.mobile.dialog.Menu} the SelectionDialog.
+     */
+    getSelectionDialog : function() {
+      return this.__selectionDialog;
+    },
 
 
     /**
-     * Returns the selected index of the element
+     * Returns the selected index of the element.
      * @return {Number} the selected index value
      */
     getSelection : function() {
