@@ -443,7 +443,7 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
 
       window.setTimeout(function() {
         self.loader.runTests(testResult, className, functionName);
-      }, 0);
+      }, 5);
     },
 
 

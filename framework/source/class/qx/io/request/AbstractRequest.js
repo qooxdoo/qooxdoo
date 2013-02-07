@@ -728,7 +728,11 @@ qx.Class.define("qx.io.request.AbstractRequest",
           if (debug) {
             this.debug("Response is of type: '" + this.getResponseContentType() + "'");
           }
-          this._setResponse( this._getParsedResponse() );
+          try {
+            this._setResponse(this._getParsedResponse());
+          } catch (e) {
+            // ignore if it does not work
+          }
       }
       
       // Successful HTTP status

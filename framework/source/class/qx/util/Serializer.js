@@ -67,7 +67,7 @@ qx.Class.define("qx.util.Serializer",
           for (var i = 0; i < value.length; i++) {
             var valueAtI = isdataArray ? value.getItem(i) : value[i];
             result += this.__toUriParameter(name, valueAtI, qxSerializer);
-          };
+          }
         } else if (qx.lang.Type.isDate(value) && dateFormat != null) {
           result += this.__toUriParameter(
             name, dateFormat.format(value), qxSerializer

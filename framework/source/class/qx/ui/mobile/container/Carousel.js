@@ -80,11 +80,12 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     carouselScroller.addListener("touchstart", this._onTouchStart, this);
     carouselScroller.addListener("touchmove", this._onTouchMove, this);
     carouselScroller.addListener("swipe", this._onSwipe, this);
-
+    
     this.addListener("appear", this._onContainerUpdate, this);
 
     qx.event.Registration.addListener(window, "orientationchange", this._onContainerUpdate, this);
     qx.event.Registration.addListener(window, "resize", this._onContainerUpdate, this);
+    qx.event.Registration.addListener(this.getContentElement(), "scroll", this._onNativeScroll, this);
 
     var pagination = this.__pagination = new qx.ui.mobile.container.Composite();
     pagination.addCssClass("carousel-pagination");
@@ -106,6 +107,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       init : "carousel"
     },
 
+
     /** Property for setting visibility of pagination indicator */
     showPagination : {
       check : "Boolean",
@@ -113,12 +115,14 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       apply : "_applyShowPagination"
     },
 
+
     /** Defines whether the carousel should scroll back to first or last page
      * when the start/end of carousel pages is reached  */
     scrollLoop : {
       check : "Boolean",
       init : true
     },
+    
     
     /**
      * Defines the height of the carousel.
@@ -173,15 +177,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       this.__pages.push(page);
       this.__carouselScroller.add(page);
 
-      var paginationIndex = this.__pages.length;
-
-      var paginationLabel = new qx.ui.mobile.container.Composite();
-      var paginationLabelText = new qx.ui.mobile.basic.Label(""+paginationIndex);
-      paginationLabel.add(paginationLabelText);
-
-      paginationLabel.addCssClass("carousel-pagination-label");
-      paginationLabel.addListener("tap",this._onPaginationLabelTap,{self: this,targetIndex:paginationIndex-1});
-
+      var paginationLabel = this._createPaginationLabel();
       this.__paginationLabels.push(paginationLabel);
       this.__pagination.add(paginationLabel);
 
@@ -189,8 +185,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       this._updateCarouselLayout();
 
     },
-
-
+    
+    
     /**
      * Removes a carousel page from carousel identified by its index.
      * @param pageIndex {Integer} The page index which should be removed from carousel.
@@ -198,21 +194,36 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     removePageByIndex : function(pageIndex) {
       if(this.__pages && this.__pages.length > pageIndex) {
         var targetPage = this.__pages[pageIndex];
-        var targetPaginationLabel = this.__paginationLabels[pageIndex];
-
-        this.__carouselScroller.remove(targetPage);
-        this.__pagination.remove(targetPaginationLabel);
-
-        this.__pages.splice(pageIndex,1);
-        this.__paginationLabels.splice(pageIndex,1);
-
-        targetPaginationLabel.dispose();
+        var paginationLabel = this.__paginationLabels[pageIndex];
 
         this._updatePagination(0,this.__shownPageIndex);
+        
+        this.__carouselScroller.remove(targetPage);
+        this.__pagination.remove(paginationLabel);
+        
+        paginationLabel.removeListener("tap",this._onPaginationLabelTap,{self: this, targetIndex: pageIndex-1});
+        paginationLabel.dispose();
+        
+        this.__pages.splice(pageIndex,1);
+        this.__paginationLabels.splice(pageIndex,1);
+        
+        if(pageIndex == this.__shownPageIndex) {
+          this.scrollToPage(this.__shownPageIndex - 1);
+        }
       }
     },
-
-
+    
+    
+    // overridden
+    removeAll : function() {
+      if(this.__pages) {
+        for(var i = this.__pages.length - 1; i >= 0 ; i--) {
+          this.removePageByIndex(i); 
+        }
+      }
+    },
+    
+    
     /**
      * Scrolls the carousel to next page.
      */
@@ -295,6 +306,22 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       qx.event.Timer.once(function() {
         this._setScrollersOpacity(1);
       },this, delayForLayoutUpdate*2);
+    },
+    
+    
+    /**
+     * Factory method for a paginationLabel.
+     * @return {qx.ui.mobile.container.Composite} the created pagination label.
+     */
+    _createPaginationLabel : function() {
+      var paginationIndex = this.__pages.length;
+      var paginationLabel = new qx.ui.mobile.container.Composite();
+      var paginationLabelText = new qx.ui.mobile.basic.Label(""+paginationIndex);
+      paginationLabel.add(paginationLabelText);
+
+      paginationLabel.addCssClass("carousel-pagination-label");
+      paginationLabel.addListener("tap",this._onPaginationLabelTap,{self: this, targetIndex: paginationIndex-1});
+      return paginationLabel;
     },
 
 
@@ -428,13 +455,13 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       if(velocityAbs > this.__swipeVelocityLimit) {
         var direction = evt.getDirection();
 
-        if(direction=="left") {
+        if(direction == "left") {
           if(this.__shownPageIndex < this.__pages.length - 1) {
             this.scrollToPage(this.__shownPageIndex + 1);
           } else if(this.isScrollLoop()) {
             this._doScrollLoop(0);
           }
-        } else if(direction=="right") {
+        } else if(direction == "right") {
           if(this.__shownPageIndex > 0) {
             this.scrollToPage(this.__shownPageIndex - 1);
           } else if(this.isScrollLoop()) {
@@ -444,6 +471,19 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       } else {
         this._snapCarouselPage();
       }
+    },
+    
+    
+    /**
+     * Handles the native scroll event on the carousel container.
+     * This is needed for preventing "scrollIntoView" method.
+     * 
+     * @param evt {qx.event.type.Native} the native scroll event.
+     */
+    _onNativeScroll : function(evt) {
+      var nativeEvent = evt.getNativeEvent();
+      nativeEvent.srcElement.scrollLeft = 0;
+      nativeEvent.srcElement.scrollTop = 0;
     },
 
 
@@ -501,7 +541,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
           nearestSnapPoint = snapPoint;
 
-          this._updatePagination(this.__shownPageIndex,i);
+          this._updatePagination(this.__shownPageIndex, i);
 
           this.__shownPageIndex = i;
         }
@@ -524,12 +564,12 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     _updatePagination : function(oldActiveIndex,newActiveIndex) {
       var oldActiveLabel = this.__paginationLabels[oldActiveIndex];
       var newActiveLabel = this.__paginationLabels[newActiveIndex];
-
-      if(oldActiveLabel) {
+      
+      if(oldActiveLabel && oldActiveLabel.getContainerElement()) {
         oldActiveLabel.removeCssClass("active");
       }
 
-      if(newActiveLabel) {
+      if(newActiveLabel && newActiveLabel.getContainerElement()) {
         newActiveLabel.addCssClass("active");
       }
     },
@@ -547,6 +587,22 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
       this.__carouselScroller.setTranslateX(x);
       this.__carouselScroller.setTranslateY(y);
+    },
+    
+    
+    /**
+     * Remove all listeners.
+     */
+    _removeListeners : function() {
+      this.__carouselScroller.removeListener("touchstart", this._onTouchStart, this);
+      this.__carouselScroller.removeListener("touchmove", this._onTouchMove, this);
+      this.__carouselScroller.removeListener("swipe", this._onSwipe, this);
+
+      this.removeListener("appear", this._onContainerUpdate, this);
+
+      qx.event.Registration.removeListener(window, "orientationchange", this._onContainerUpdate, this);
+      qx.event.Registration.removeListener(window, "resize", this._onContainerUpdate, this);
+      qx.event.Registration.removeListener(this.getContentElement(), "scroll", this._onNativeScroll, this);
     }
 
   },
@@ -554,6 +610,9 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
   destruct : function()
   {
+    this.removeAll();
+    this._removeListeners();
+    
     this._disposeObjects("__carouselScroller, __pagination");
     qx.util.DisposeUtil.disposeArray(this,"__paginationLabels");
 

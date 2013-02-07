@@ -33,7 +33,7 @@ qx.Class.define("qx.test.performance.decorator.AbstractDecorator",
         container.appendChild(div);
 
         divs.push(div);
-      };
+      }
 
       document.body.appendChild(container);
       return divs;
@@ -85,7 +85,7 @@ qx.Class.define("qx.test.performance.decorator.AbstractDecorator",
       var decorator = this.createDecorator();
       for (var i = 0; i < divs.length; i++) {
         divs[i].innerHTML = decorator.getMarkup();
-      };
+      }
       var size = [100, 200];
 
       this.measureRepeated(

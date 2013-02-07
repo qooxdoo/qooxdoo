@@ -155,8 +155,9 @@ input::-webkit-inner-spin-button {
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
 
-.hbox, .selectbox, .toolbar-button {
-  width: 100%; }
+@-moz-document url-prefix() {
+  .hbox, .selectbox, .toolbar-button {
+    width: 100%; } }
 
 .vbox {
   width: 100%;
@@ -401,17 +402,13 @@ h2 {
   display: inline-block;
   margin: 2px; }
 
-input[type="checkbox"] {
-  visibility: hidden;
-  position: absolute; }
-
-.checkbox-label {
+.checkbox {
   display: inline-block;
   cursor: pointer;
   width: 32px;
   height: 32px; }
 
-.checkbox-label:before {
+.checkbox:before {
   content: "";
   display: block;
   position: absolute;
@@ -1529,7 +1526,7 @@ div.checked .toggleButtonSwitch:before {
   -moz-border-radius: 30px;
   border-radius: 30px; }
 
-.checkbox-label:before {
+.checkbox:before {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#2d2f32), to(#5d6168));
   /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #2d2f32, #5d6168);
@@ -1542,7 +1539,7 @@ div.checked .toggleButtonSwitch:before {
   -moz-border-radius: 0.1em;
   border-radius: 0.1em; }
 
-input[type="checkbox"] + label {
+.checkbox {
   position: relative;
   -webkit-border-radius: 0.3em;
   -moz-border-radius: 0.3em;
@@ -1559,7 +1556,7 @@ input[type="checkbox"] + label {
   background-image: linear-gradient(to bottom, white, #c1c1c1);
   /* Standard (in flux) */ }
 
-input[type="checkbox"] + label:after {
+.checkbox:after {
   opacity: 0;
   content: "";
   position: absolute;
@@ -1578,7 +1575,7 @@ input[type="checkbox"] + label:after {
   -moz-box-shadow: -1px 1px 1px 0px #3d72c9;
   box-shadow: -1px 1px 1px 0px #3d72c9; }
 
-input[type="checkbox"]:checked + label:after {
+.checkbox.checked:after {
   opacity: 1; }
 
 input[type=radio] + label {

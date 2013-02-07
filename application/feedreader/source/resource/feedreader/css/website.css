@@ -63,8 +63,9 @@ h1 {
 
 /* LIST */
 #listContainer {
-  float: left;
-  width: 75%;
+  position: absolute;
+  left: 250px;
+  right: 0;
 }
 
 #list {

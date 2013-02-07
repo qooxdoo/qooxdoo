@@ -271,7 +271,7 @@ qx.Class.define("qx.test.util.Serializer",
         if (object instanceof qx.ui.form.ListItem) {
           return object.getLabel();
         }
-      }
+      };
 
       var item = new qx.ui.form.ListItem("a");
       this.__model.setData1(item);
@@ -445,7 +445,7 @@ qx.Class.define("qx.test.util.Serializer",
         if (object instanceof qx.ui.form.ListItem) {
           return object.getLabel();
         }
-      }
+      };
 
       var item = new qx.ui.form.ListItem("a");
       this.__model.setData1(item);

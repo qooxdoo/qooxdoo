@@ -206,6 +206,7 @@ qx.Class.define("qx.data.SingleValueBinding",
       } catch (ex) {
         // remove the already added listener
         // go threw all added listeners (source)
+
         for (var i = 0; i < sources.length; i++) {
           // check if a source is available
           if (sources[i] && listenerIds[i]) {
@@ -213,7 +214,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           }
         }
         var targets = targetListenerMap.targets;
-        var targetIds = targetListenerMap.listenerIds[i];
+        var targetIds = targetListenerMap.listenerIds;
         // go threw all added listeners (target)
         for (var i = 0; i < targets.length; i++) {
           // check if a target is available
@@ -286,8 +287,8 @@ qx.Class.define("qx.data.SingleValueBinding",
           if (context.options && context.options.converter) {
             var data = context.options.converter();
             this.__setTargetValue(
-              context.targetObject, 
-              context.targetPropertyChain, 
+              context.targetObject,
+              context.targetPropertyChain,
               data
             );
           } else {

@@ -92,8 +92,7 @@ qx.Class.define("qx.test.ui.form.Placeholder",
       this.getRoot().focus();
       this.flush();
 
-      var timer = qx.util.TimerManager.getInstance();
-      timer.start(function() {
+      window.setTimeout(function() {
         this.resume(function() {
           this.getRoot().focus();
           this.flush();
@@ -102,7 +101,7 @@ qx.Class.define("qx.test.ui.form.Placeholder",
           // get rid of the widget
           widget.destroy();
         }, this);
-      }, 0, this, null, 500);
+      }.bind(this), 500);
 
       this.wait();
     },

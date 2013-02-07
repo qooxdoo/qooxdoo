@@ -365,9 +365,9 @@
         {
           "type" : "using",
           "format" : "provider",
-          "json"   : 
+          "json"   :
           {
-            "pretty" : true, 
+            "pretty" : true,
             "file"   : "${PROVIDER_ROOT}/dependencies.json",
             "replace-dots-in" : [ "keys", "values"]
           }
@@ -428,9 +428,9 @@
         {
           "type" : "using",
           "format" : "provider",
-          "json"   : 
+          "json"   :
           {
-            "pretty" : true, 
+            "pretty" : true,
             "file"   : "${SOURCE_PATH}/script/dependencies.json"
           }
         }
@@ -705,13 +705,13 @@
       }
     },
 
-    "watch" : 
+    "watch" :
     {
       "extend" : ["cache"],
 
-      "watch-files" : 
+      "watch-files" :
       {
-        "command" : 
+        "command" :
         {
           "line"     : "${PYTHON_CMD} generate.py -q -I",
           "per-file" : false
@@ -721,6 +721,12 @@
         "check-interval" : 2,
         "exit-on-retcode" : false
       }
+    },
+
+    "manifest-validation" :
+    {
+      "desc" : "validates the given filepath as manifest (defaults to './Manifest.json')",
+      "manifest-validate" : {}
     }
   }
 }

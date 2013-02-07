@@ -1465,6 +1465,24 @@ testrunner.define({
     this.wait(200, function() {
       this.assertEquals(1, ctx.ready);
     }, this);
+  },
+
+  testAllOffWithType : function() {
+    var test = q.create('<h1>Foo</h1><div></div>').appendTo("#sandbox");
+    test.eq(0).on("mouseup", function() {});
+    test.eq(1).on("mousedown", function() {});
+    test.allOff("mousedown");
+    this.assertTrue(test.eq(0).hasListener("mouseup"));
+    this.assertFalse(test.eq(1).hasListener("mousedown"));
+  },
+
+  testAllOff : function() {
+    var test = q.create('<h1>Foo</h1><div></div>').appendTo("#sandbox");
+    test.eq(0).on("mouseup", function() {});
+    test.eq(1).on("mousedown", function() {});
+    test.allOff();
+    this.assertFalse(test.eq(0).hasListener("mouseup"));
+    this.assertFalse(test.eq(1).hasListener("mousedown"));
   }
 });
 

@@ -197,7 +197,7 @@ code{
         <h3>Showcase <span>(<a name="verslink" href="http://demo.qooxdoo.org/$(qxversion)/showcase">Online</a>)</span></h3>
         <p>Highlights some of qooxdoo's main features and provides a good overview of what can be achieved.</p>
         <a href="application/showcase/source/index.html">Source</a> <i>(needs generation)</i><br/>
-        <b><a href="application/showcase/build/index.html">Build</a></b> <i>(ready to run)</i>
+        <b><a href="application/showcase/build/index.html">Build</a></b> <i>(ready to run)<a href="#F1"><b>(*)</b></a></i>
       </li>
       <li>
         <h3>Tutorial <span>(<a name="verslink" href="http://demo.qooxdoo.org/$(qxversion)/tutorial">Online</a>)</span></h3>
@@ -259,8 +259,8 @@ code{
       <li>
         <h3>API Viewer <span>(Online: <a name="verslink" href="http://demo.qooxdoo.org/$(qxversion)/website-api/index.html">Website</a> | <a name="verslink" href="http://demo.qooxdoo.org/$(qxversion)/apiviewer/index.html">Framework</a>)</span></h3>
         <p>Searchable API reference of the qooxdoo framework.</p>
-        <b><a href="component/standalone/website/api/index.html">qx.Website API</a></b> <i>(ready to run)</i><br>
-        <b><a href="framework/api/index.html">Framework API</a></b> <i>(ready to run)</i>
+        <b><a href="component/standalone/website/api/index.html">qx.Website API</a></b> <i>(ready to run)<a href="#F1"><b>(*)</b></a></i><br>
+        <b><a href="framework/api/index.html">Framework API</a></b> <i>(ready to run)<a href="#F1"><b>(*)</b></a></i>
       </li>
       <li>
         <h3>Test Runner <span>(Online: <a name="verslink" href="http://demo.qooxdoo.org/$(qxversion)/website-tests/index.html">Website</a> | <a name="verslink" href="http://demo.qooxdoo.org/$(qxversion)/mobile-tests/index.html">Mobile</a> | <a name="verslink" href="http://demo.qooxdoo.org/$(qxversion)/testrunner/index.html">Framework</a>)</span></h3>
@@ -283,9 +283,28 @@ code{
         <h3>Manual <span>(<a name="verslink" href="http://manual.qooxdoo.org/$(qxversion)/">Online</a>)</span></h3>
         <p>The qooxdoo manual, including user guide and reference sections.</p>
         <span class="local"><a href="documentation/manual/build/html/index.html">Manual</a> <i>(needs generation)</i></span>
-        <span class="publish"><a href="documentation/manual/index.html">Manual</a> <i>(ready to use)</i></span>
+        <span class="publish"><a href="documentation/manual/index.html">Manual</a> <i>(ready to use)<a href="#F1"><b>(*)</b></a></i></span>
       </li>
     </ul>
   </div>
+
+  <p>
+    <div class="main" style="clear:both">
+      <div style="width:80%; margin-left:auto; margin-right:auto">
+        <a id="F1"><b>(*)</b></a> <em>As browsers sometimes restrict
+        functionality when a local HTML file is loaded directly (with the "file://"
+        protocol), it might be advantageous to run this index file through a web
+        server, particularly when you follow the links to built apps. If you
+        don't have one handy you can use the simple web server that is available
+        through qooxdoo's tool chain. To start it open a command shell in the
+        directory of this file and type <pre>
+        cd tool
+        generate.py sdk-server</pre>
+        The shell output will provide a URL to this index file
+        that you can copy and paste into your browser.
+        </em>
+      </div>
+    </div>
+  </p>
 </body>
 </html>

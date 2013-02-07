@@ -26,25 +26,50 @@ Details
 * **Header** *(optional)* : A comment holding author, copyrights, etc.
 * **Compiler Hints** *(optional)* : Enclosed in a block comment you can have any number of the following lines (leading white space is ignored):
 
-  * **#use**\ *(classname)* : Other class that has to be added to the application; a "run" dependency that has to be available when the current class is actually used (instantiation, method invocation). (There is one special symbol, which is reserved for internal use and shouldn't be used in normal application code:
+  * **#use**\ *(classname)* : Other class that has to be added to the
+    application; a "run" dependency that has to be available when the current
+    class is actually used (instantiation, method invocation). (There is one
+    special symbol, which is reserved for internal use and shouldn't be used in
+    normal application code:
 
-    * *feature-checks* : Use all known feature checks. This will add all known feature check classes as run time dependencies to the current class.)
+    * **feature-checks** : Use all known feature checks. This will add all known
+      feature check classes as run time dependencies to the current class.)
 
-  * **#require**\ *(classname)*  : Other class that has to be added to the application before this class; a "load" dependency that has to be available when the current class is loaded into the browser (i.e. its code is being evaluated). (There is one special symbol, which is reserved for internal use and shouldn't be used in normal application code:
+  * **#require**\ *(classname)*  : Other class that has to be added to the
+    application before this class; a "load" dependency that has to be available
+    when the current class is loaded into the browser (i.e. its code is being
+    evaluated). (There is one special symbol, which is reserved for internal use
+    and shouldn't be used in normal application code:
 
-    * *feature-checks* : Require all known feature checks. This will add all known feature check classes as load time dependencies to the current class.)
+    * **feature-checks** : Require all known feature checks. This will add all
+      known feature check classes as load time dependencies to the current class.)
 
-  * **#ignore**\ *(symbol)*  : Unknown global symbol (like a class name) that the compiler should not care about (i.e. you know it will be available in the running application). Ignored symbols will not be added to either the run or load dependencies of the class, and will not be warned about. Besides proper identifiers there are two special symbols you can use:
+  * **#ignore**\ *(symbol)*  : Unknown global symbol (like a class name) that
+    the compiler should not care about (i.e. you know it will be available in the
+    running application). Ignored symbols will not be added to either the run or
+    load dependencies of the class, and will not be warned about. Besides proper
+    identifiers there are two special symbols you can use:
 
-    * **auto-require** : Ignore all *require* dependencies detected by the automatic analysis; they will not be added to the class' load dependencies
-    * **auto-use** : Ignore all *use* dependencies detected by the automatic analysis; they will not be added to the class' run dependencies
+    * **auto-require** : Ignore all *require* dependencies detected by the
+      automatic analysis; they will not be added to the class' load dependencies 
+    * **auto-use** : Ignore all *use* dependencies detected by the automatic
+      analysis; they will not be added to the class' run dependencies
 
-    You are also allowed to use ``*`` as a wildcard character, to ignore entire namespaces and nested namespaces therein: ``#ignore(foo.*)`` will ignore any symbol starting with "foo.".
+    You are also allowed to use ``*`` as a wildcard character, to ignore entire
+    namespaces and nested namespaces therein: ``#ignore(foo.*)`` will ignore any
+    symbol starting with "foo.".
 
-  * **#asset**\ *(resourcepattern)* : Resources that are used by this class (required if the class uses resources such as icons)
-  * **#cldr** : Indicates that this class requires CLDR data at runtime
+  * .. _pages/tool/sdk/code_structure#asset:
+    
+    **#asset**\ *(resourcepattern)* : Resources that are used by this class
+    (required if the class uses resources such as icons) \
+  * **#cldr** : Indicates
+    that this class requires CLDR data at runtime
 
-* **Single Definition** : One call to a *define()* method, such as qx.(:doc:`Class </pages/core/classes>`\|\ :doc:`Theme </pages/desktop/ui_theming>`\|\ :doc:`Interface </pages/core/interfaces>`\|\ :doc:`Mixin </pages/core/mixins>`\|...).define().
+* **Single Definition** : One call to a *define()* method, such as
+  qx.(:doc:`Class </pages/core/classes>`\|\ :doc:`Theme
+  </pages/desktop/ui_theming>`\|\ :doc:`Interface </pages/core/interfaces>`\|\
+  :doc:`Mixin </pages/core/mixins>`\|...).define().
 
 Example:
 

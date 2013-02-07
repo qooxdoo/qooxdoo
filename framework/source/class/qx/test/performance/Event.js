@@ -70,7 +70,7 @@ qx.Class.define("qx.test.performance.Event",
       var handler = [];
       for (var i = 0; i < this.ADD_ITERATIONS; i++) {
         handler.push(function() {});
-      };
+      }
       this.measureRepeated(
         "addListener", function(i) {
           that.addListener("plain", handler[i]);
@@ -78,7 +78,7 @@ qx.Class.define("qx.test.performance.Event",
         function() {
           for (var i = 0; i < handler.length; i++) {
             that.removeListener("plain", handler[i]);
-          };
+          }
         }, this.ADD_ITERATIONS
       );
     },
@@ -90,7 +90,7 @@ qx.Class.define("qx.test.performance.Event",
       for (var i = 0; i < this.ADD_ITERATIONS; i++) {
         handler.push(function() {});
         this.addListener("plain", handler[i]);
-      };
+      }
       var that = this;
       this.measureRepeated(
         "remove listeners", function(i) {
@@ -105,7 +105,7 @@ qx.Class.define("qx.test.performance.Event",
       var listeners = [];
       for (var i = 0; i < this.ADD_ITERATIONS; i++) {
         listeners.push(this.addListener("plain", function() {}));
-      };
+      }
       var that = this;
       this.measureRepeated(
         "remove listeners by id", function(i) {
@@ -120,7 +120,7 @@ qx.Class.define("qx.test.performance.Event",
       var listeners = [];
       for (var i = 0; i < this.FIRE_ITERATIONS; i++) {
         listeners.push(this.addListener("plain", function() {}));
-      };
+      }
       var that = this;
       this.measureRepeated(
         "execute plain listeners", function() {
@@ -129,7 +129,7 @@ qx.Class.define("qx.test.performance.Event",
         function() {
           for (var i = 0; i < listeners.length; i++) {
             that.removeListenerById(listeners[i]);
-          };
+          }
         }, 1, this.FIRE_ITERATIONS
       );
     },
@@ -139,7 +139,7 @@ qx.Class.define("qx.test.performance.Event",
       var listeners = [];
       for (var i = 0; i < this.FIRE_ITERATIONS; i++) {
         listeners.push(this.addListener("data", function() {}));
-      };
+      }
       var that = this;
       this.measureRepeated(
         "execute data listeners", function() {
@@ -148,7 +148,7 @@ qx.Class.define("qx.test.performance.Event",
         function() {
           for (var i = 0; i < listeners.length; i++) {
             that.removeListenerById(listeners[i]);
-          };
+          }
         }, 1, this.FIRE_ITERATIONS
       );
     }

@@ -55,6 +55,7 @@ class Manifest(object):
         self.resource    = self.libprovides['resource'] if 'resource' in self.libprovides else None
         self.type        = self.libprovides['type'] if 'type' in self.libprovides else None
 
+
     def patchLibEntry(self, libentry):
         '''Patches a "library" entry with the information from Manifest'''
         libinfo       = self._manifest['info']
@@ -85,4 +86,172 @@ class Manifest(object):
 
         return libentry
 
+    def validateAgainst(self, schema):
+        """Validates catalog entry via JSON Schema.
 
+        .. seealso:: http://json-schema.org/
+        .. seealso:: http://tools.ietf.org/html/draft-zyp-json-schema-03
+        .. seealso:: https://github.com/json-schema/json-schema
+        """
+        from jsonschema.jsonschema import Draft3Validator
+
+        errors = []
+        validator = Draft3Validator(schema)
+
+        for e in validator.iter_errors(self._manifest):
+            e.path.reverse()
+            # hack for leading 'u' *within* string (but no unicode string!) => jsonschema v0.8.0 issue
+            e.message = e.message[1:] if e.message.startswith("u") else e.message
+            errors.append({"msg": e.message, "path": e.path})
+
+        return errors
+
+    @classmethod
+    def schema_v1_0(self):
+        """Catalog entry schema for catalog v1.0.
+
+        The regexes strive to be lax (and understandable => part of err msg) but valuable
+        at the same time, cause we don't want to adapt them over and over again.
+
+        Notes:
+            * currently a query-string (?...) isn't allowed within an URL => change if needed
+            * currently a fragment-identifier (#...) isn't allowed within an URL => change if needed
+
+        TODO:
+            * adapt config.json skeletons to export job
+            * adapt Manifest.json skeletons to adhere schema after create-application.py
+        """
+        patterns = {
+            "semver": r"^latest$|^\d+\.\d+(\.\d+)?(-[0-9]+-?)?([-a-zA-Z+][-a-zA-Z0-9\.:-]*)?$",
+            "url": r"^https?://([a-z0-9\.-]+)\.([a-z\.]{2,6})[/\w\.-]*\/?$",
+            "url_and_placeholder": r"^https?://([a-z0-9\.-]+)\.([a-z\.]{2,6})[/\w.%{}-]*(#[/\w.%{}-]*)?\/?$",
+            "url_archive": r"^(https?|ftp)://.*(tar.(gz|bz2)|zip)$",
+            "name_and_github_uid": r"^.*\([A-Za-z0-9]+\)$",
+            "checksum": "^[a-f0-9]{32,40}$"  # md5 or sha1
+        }
+
+        return {
+            "$schema": "http://json-schema.org/draft-03/schema#",
+            "name": "contribCatalog entry",
+            "type": "object",
+            "properties": {
+                "info": {
+                    "type": "object",
+                    "required": True,
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "required": True
+                        },
+                        "summary": {
+                            "type": "string"
+                        },
+                        "description": {
+                            "type": "string",
+                            "required": True
+                        },
+                        "category": {
+                            "type": "string",
+                            "required": True,
+                            "enum": ["Themes", "Widgets", "Drawing", "Misc", "Tool", "Backend"]
+                        },
+                        "keywords": {
+                            "type": "array",
+                            "uniqueItems": True,
+                            "items": {
+                                "type": "string"
+                            },
+                        },
+                        "homepage": {
+                            "type": "string",
+                            "required": True,
+                            "pattern": patterns["url"]
+                        },
+                        "license": {
+                            "type": "string",
+                            "required": True,
+                        },
+                        "authors": {
+                            "type": "array",
+                            "required": True,
+                            "minItems": 1,
+                            "uniqueItems": True,
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "pattern": patterns["name_and_github_uid"]
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "required": True
+                                    }
+                                }
+                            }
+                        },
+                        "download": {
+                            "type": "string",
+                            "required": True,
+                            "pattern": patterns["url_archive"]
+                        },
+                        "checksum": {
+                            "type": "string",
+                            "required": True,
+                            "pattern": patterns["checksum"]
+                        },
+                        "version": {
+                            "type": "string",
+                            "required": True,
+                            "pattern": patterns["semver"]
+                        },
+                        "qooxdoo-versions": {
+                            "type": "array",
+                            "required": True,
+                            "minItems": 1,
+                            "uniqueItems": True,
+                            "items": {
+                                "type": "string",
+                                "minItems": 1,
+                                "pattern": patterns["semver"],
+                            },
+                        },
+                        "sourceViewUri": {
+                            "type": "string",
+                            "pattern": patterns["url_and_placeholder"]
+                        }
+                    }
+                },
+                "provides": {
+                    "type": "object",
+                    "required": True,
+                    "properties": {
+                        "namespace": {
+                            "type": "string",
+                            "required": True,
+                        },
+                        "encoding": {
+                            "type": "string",
+                            "required": True,
+                        },
+                        "class": {
+                            "type": "string",
+                            "required": True,
+                        },
+                        "resource": {
+                            "type": "string",
+                            "required": True,
+                        },
+                        "translation": {
+                            "type": "string",
+                            "required": True,
+                        },
+                        "type": {
+                            "type": "string",
+                            "required": True,
+                            "enum": ["library", "application"]
+                        }
+                    }
+                }
+            }
+        }

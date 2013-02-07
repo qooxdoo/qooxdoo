@@ -78,11 +78,11 @@ class Wget(object):
         pageCont  = pageObj.read()
         # normalize actual url
         if actualUrl.endswith(self.urlPathSep):
-            # actually, since we are currently only downloading directory trees,
-            # we could skip index files (but wget keeps them, too):
-            # pass
-            actualUrl += "index.html"
-        #else:
+            # since we are currently only downloading directory trees
+            # we skip index files (wget keeps them), as they create artefacts:
+            pass
+            # to enable:
+            #actualUrl += "index.html"
         savePath = self.getSavePath(self.urlRoot, self.fileRoot, actualUrl)
         self.saveFile(savePath, pageCont)
         
@@ -112,7 +112,8 @@ class Wget(object):
         (pre,sfx1,sfx2) = Path.getCommonPrefix(urlRoot, currUrl, normcase=False)
         pathFrag = sfx2
         savePath = os.path.join(fileRoot, pathFrag)
-
+        if currUrl.endswith(self.urlPathSep):
+            savePath += self.urlPathSep
         return savePath
 
     def getPage(self, url):
@@ -124,9 +125,10 @@ class Wget(object):
 
     def saveFile(self, path, cont):
         filetool.directory(os.path.dirname(path))
-        fo = open(path, 'wb')
-        fo.write(cont)
-        fo.close
+        if not path.endswith(self.urlPathSep):
+            fo = open(path, 'wb')
+            fo.write(cont)
+            fo.close
 
 
     def selectLinks(self, url, linkList):

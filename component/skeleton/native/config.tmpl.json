@@ -24,6 +24,8 @@
     "source",
     "source-all",
     "source-hybrid",
+    "source-server",
+    "source-httpd-config",
     "test",
     "test-source",
     "translation"

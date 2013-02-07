@@ -68,5 +68,20 @@
         "command" : "${PYTHON_CMD} bin/generator_api.py pylib/generator ${API_SCRIPT}"
       }
     }
+
+    ,"sdk-server" :
+    {
+      "desc" : "Start a mini-web server to export SDK's top-level ./index.html.",
+      "extend" : ["cache"],
+      "web-server" : 
+      {
+        "document-root" : ".."
+      },
+
+      "compile-options" :
+      {
+        "paths" : { "app-root" : ".." }
+      }
+    }
   }
 }

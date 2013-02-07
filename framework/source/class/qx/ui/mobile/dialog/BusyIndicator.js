@@ -151,7 +151,9 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
     this.removeListener("appear", this._onAppear, this);
     this.removeListener("disappear", this._onDisappear, this);
     
-    this.__animationHandle.stop();
+    if(this.__animationHandle) {
+      this.__animationHandle.stop();
+    }
     
     this._disposeObjects("__spinnerAnimation", "__animationHandle");
   }

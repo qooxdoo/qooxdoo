@@ -515,7 +515,7 @@ qx.Class.define("qx.util.format.DateFormat",
                 if (wildcardSize > replacement.length) {
                   for (var j = replacement.length; j < wildcardSize; j++) {
                     replacement = "0" + replacement;
-                  };
+                  }
                 }
                 if(fullYear < 0) {
                   replacement = "-" + replacement;
@@ -530,7 +530,7 @@ qx.Class.define("qx.util.format.DateFormat",
               if (wildcardSize > replacement.length) {
                 for (var j = year.length; j < wildcardSize; j++) {
                   year = "0" + year;
-                };
+                }
               }
               replacement = replacement.indexOf("-") != -1 ? "-" + year : year;
 
@@ -1204,7 +1204,7 @@ qx.Class.define("qx.util.format.DateFormat",
         var startOfWeek = qx.locale.Date.getWeekStart(locale);
         var dayOfWeek =  (parseInt(value,10) - 1 + startOfWeek) <= 6 ? parseInt(value,10) - 1 + startOfWeek : (parseInt(value,10) - 1 + startOfWeek) -7;
         dateValues.weekDay = dayOfWeek;
-      }
+      };
 
       var ampmManipulator = function(dateValues, value) {
         var pmMarker = qx.locale.Date.getPmMarker(locale).toString() || DateFormat.PM_MARKER;
@@ -1226,27 +1226,27 @@ qx.Class.define("qx.util.format.DateFormat",
       var narrowEraNames = ['A', 'B'];
       var narrowEraNameManipulator = function(dateValues, value) {
         dateValues.era = value == 'A' ? 1 : -1;
-      }
+      };
 
       var abbrevEraNames = ['AD', 'BC'];
       var abbrevEraNameManipulator = function(dateValues, value) {
         dateValues.era = value == 'AD' ? 1 : -1;
-      }
+      };
 
       var fullEraNames = ['Anno Domini', 'Before Christ'];
       var fullEraNameManipulator = function(dateValues, value) {
         dateValues.era = value == 'Anno Domini' ? 1 : -1;
-      }
+      };
 
       var abbrevQuarterNames = ['Q1','Q2','Q3','Q4'];
       var abbrevQuarterManipulator = function(dateValues, value) {
         dateValues.quarter = abbrevQuarterNames.indexOf(value);
-      }
+      };
 
       var fullQuarterNames = ['1st quarter','2nd quarter','3rd quarter','4th quarter'];
       var fullQuarterManipulator = function(dateValues, value) {
         dateValues.quarter = fullQuarterNames.indexOf(value);
-      }
+      };
 
       var cache = {};
 
@@ -1273,7 +1273,7 @@ qx.Class.define("qx.util.format.DateFormat",
               lengthName = 'abbreviated';
           }
           return [context, lengthName];
-        }
+        };
 
         if(!cache[pattern])
         {
@@ -1294,7 +1294,7 @@ qx.Class.define("qx.util.format.DateFormat",
         }
 
         return cache[pattern];
-      }
+      };
 
       // Unsupported: F (Day of week in month)
 

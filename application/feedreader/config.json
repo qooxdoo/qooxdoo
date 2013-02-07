@@ -22,6 +22,7 @@
     "APPLICATION"  : "feedreader",
     "QOOXDOO_PATH" : "../..",
     "QXTHEME"      : "qx.theme.Indigo",
+    "QXICONTHEME"  : ["Oxygen", "Tango"],
     "LOCALES"      : ["en", "de", "es", "fr", "it", "nl", "sv", "ro", "cs"],
     "ROOT"         : "."
   },
@@ -121,7 +122,7 @@
 
     "source-with-translations" : {
       "extend" : ["source"],
-      "log" : { 
+      "log" : {
         "filter" : { "debug" : ["generator.code.CodeGenerator.printTranslationStats"] },
         "translations" : { "untranslated-keys" : { "skip-locales" : [ "C", "en" ] }}
       }

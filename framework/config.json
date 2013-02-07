@@ -24,6 +24,7 @@
     "info",
     "lint",
     "lint-test",
+    "manifest-validation",
     "provider",
     "pretty-test",
     "test",
@@ -308,8 +309,9 @@
         }
       }
     }
-    
-    ,"pretty-test" : {
+
+    ,"pretty-test" :
+    {
       "desc" : "This is just to test pretty-printing - don't commit after running.",
       "extend" : ["pretty"]
     }

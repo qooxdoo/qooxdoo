@@ -375,7 +375,7 @@ qx.Class.define("qx.data.Array",
 
       // add listeners
       for (var i = 2; i < arguments.length; i++) {
-        this._registerEventChaining(arguments[i], null, startIndex + i);
+        this._registerEventChaining(arguments[i], null, startIndex + (i - 2));
       }
       // apply event chaining for every item moved
       this.__updateEventPropagation(startIndex + (arguments.length - 2) - amount, this.length);

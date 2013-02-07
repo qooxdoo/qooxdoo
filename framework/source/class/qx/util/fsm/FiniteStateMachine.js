@@ -494,8 +494,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
 
     /**
-     * Retrieve the list of objects which have registered, via {@link
-     * #addObject} as being members of the specified group.
+     * Retrieve the list of objects which have registered, via {@link #addObject}
+     * as being members of the specified group.
      *
      *
      * @param groupName {String}

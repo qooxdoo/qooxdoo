@@ -89,6 +89,22 @@ Now that the application has been generated, open the ``source/index.html`` file
                          :width: 500 px
                          :target: ../../_images/running_application.png
 
+
+As you go on with your application development it might be advantageous to run
+your application through a web server. So alternatively to opening
+``source/index.html`` in the browser directly, you can start a local mini-
+web server by issuing the following command on the shell
+
+::
+
+    generate.py source-server
+
+Watch the output of the command, it will tell you the URL under which your
+source application is available over the web server (Just copy-paste it to the
+location field of your web browser). Once you're done hit ``Ctrl-C`` in the
+shell window to terminate the server process.
+
+
 .. _pages/getting_started/helloworld#write_application_code:
 
 Write Application Code
