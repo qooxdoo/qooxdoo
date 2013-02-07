@@ -179,13 +179,13 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
           this.__lastPopupDimension = popupDimension;
           
           var computedPopupPosition = qx.util.placement.Placement.compute(popupDimension,{
-            width:viewPortWidth,
-            height:viewPortHeight
+            width: viewPortWidth,
+            height: viewPortHeight
           },anchorPosition,{
-            left:0,
-            right:0,
-            top:this.__arrowSize,
-            bottom:this.__arrowSize
+            left: 0,
+            right: 0,
+            top: this.__arrowSize,
+            bottom: this.__arrowSize
           },"bottom-left","keep-align","keep-align");
           
           // Reset Anchor.
@@ -316,8 +316,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     placeTo : function(left, top)
     {
-      this.getContainerElement().style.left = left + "px";
-      this.getContainerElement().style.top = top + "px";
+      qx.bom.element.Style.set(this.getContainerElement(),"left",left+"px");
+      qx.bom.element.Style.set(this.getContainerElement(),"top",top+"px");
     },
     
     
@@ -373,6 +373,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     __registerEventListener : function()
     {
       qx.event.Registration.addListener(window, "resize", this._updatePosition, this);
+      
       if(this.__anchor) {
         var appRoot = qx.core.Init.getApplication().getRoot();
         appRoot.addListener("touchstart",this._trackUserTouch,this);
