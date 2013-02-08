@@ -33,7 +33,7 @@
  * * <a href="http://www.w3.org/TR/DOM-Level-2-Core/core.html#i-Document">W3C Interface Specification</a>
  * * <a href="http://msdn2.microsoft.com/en-us/library/ms535918.aspx">MS xml Object</a>
  * * <a href="http://msdn2.microsoft.com/en-us/library/ms764622.aspx">MSXML GUIDs and ProgIDs</a>
- * * <a href="http://developer.mozilla.org/en/docs/Parsing_and_serializing_XML">MDN Parsing and Serializing XML</a>
+ * * <a href="https://developer.mozilla.org/en-US/docs/Parsing_and_serializing_XML">MDN Parsing and Serializing XML</a>
  */
 qx.Class.define("qx.xml.Document",
 {

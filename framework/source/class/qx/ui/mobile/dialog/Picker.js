@@ -410,7 +410,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       var labelCount = target.children.length;
       var pickerSlotHeight = labelCount * this.__labelHeight;
       
-      qx.bom.element.Style.set(target,"height",pickerSlotHeight+"px");
+      qx.bom.element.Style.set(target, "height", pickerSlotHeight+"px");
     },
 
 

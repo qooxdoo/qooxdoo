@@ -304,7 +304,7 @@ var buster = (function (setTimeout, B) {
             return arr.some(fn, thisp);
         };
     } else {
-        // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/some
+        // https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/some
         buster.some = function (arr, fun, thisp) {
                         if (arr == null) { throw new TypeError(); }
             arr = Object(arr);
@@ -326,7 +326,7 @@ var buster = (function (setTimeout, B) {
             return arr.filter(fn, thisp);
         };
     } else {
-        // https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array/filter
+        // https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/filter
         buster.filter = function (fn, thisp) {
                         if (this == null) { throw new TypeError(); }
 

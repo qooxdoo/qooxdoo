@@ -44,7 +44,7 @@
 qx.Bootstrap.define("qx.bom.client.Engine",
 {
   // General: http://en.wikipedia.org/wiki/Browser_timeline
-  // Webkit: http://developer.apple.com/internet/safari/uamatrix.html
+  // Webkit: https://developer.apple.com/internet/safari/uamatrix.html
   // Firefox: http://en.wikipedia.org/wiki/History_of_Mozilla_Firefox
   // Maple: http://www.scribd.com/doc/46675822/2011-SDK2-0-Maple-Browser-Specification-V1-00
   statics :

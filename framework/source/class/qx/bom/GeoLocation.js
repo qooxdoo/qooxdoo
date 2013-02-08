@@ -27,7 +27,7 @@
  * associated with the hosting device.
  *
  * For more information see:
- * http://www.w3.org/TR/geolocation-API
+ * http://www.w3.org/TR/geolocation-API/
  *
  */
 qx.Class.define("qx.bom.GeoLocation",

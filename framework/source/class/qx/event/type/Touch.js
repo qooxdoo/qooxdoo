@@ -25,7 +25,7 @@
  * Touch event object.
  *
  * For more information see:
- *     http://developer.apple.com/safari/library/documentation/UserExperience/Reference/TouchEventClassReference/TouchEvent/TouchEvent.html
+ *     https://developer.apple.com/library/safari/#documentation/UserExperience/Reference/TouchEventClassReference/TouchEvent/TouchEvent.html
  */
 qx.Class.define("qx.event.type.Touch",
 {
@@ -89,7 +89,7 @@ qx.Class.define("qx.event.type.Touch",
        * Returns an empty array for the "touchend" event.
        *
        * @return {Object[]} Array of touch objects. For more information see:
-       *     http://developer.apple.com/safari/library/documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
+       *     https://developer.apple.com/library/safari/#documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
        */
       getAllTouches : function() {
         return this._native.touches;
@@ -102,7 +102,7 @@ qx.Class.define("qx.event.type.Touch",
        * Returns an empty array for the "touchend" event.
        *
        * @return {Object[]} Array of touch objects. For more information see:
-       *     http://developer.apple.com/safari/library/documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
+       *     https://developer.apple.com/library/safari/#documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
        */
       getTargetTouches : function() {
           return this._native.targetTouches;
@@ -121,7 +121,7 @@ qx.Class.define("qx.event.type.Touch",
        * to be on the target element.
        *
        * @return {Object[]} Array of touch objects. For more information see:
-       *     http://developer.apple.com/safari/library/documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
+       *     https://developer.apple.com/library/safari/#documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
        */
       getChangedTargetTouches : function() {
           return this._native.changedTouches;

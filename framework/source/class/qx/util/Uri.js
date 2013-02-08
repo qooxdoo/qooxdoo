@@ -106,7 +106,7 @@ qx.Bootstrap.define("qx.util.Uri",
      *
      * Escapes characters that have a special meaning in URIs as well as
      * umlauts. Uses the global function encodeURIComponent, see
-     * https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/encodeURIComponent
+     * https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/encodeURIComponent
      *
      * Note: For URI parameters that are to be sent as
      * application/x-www-form-urlencoded (POST), spaces should be encoded
