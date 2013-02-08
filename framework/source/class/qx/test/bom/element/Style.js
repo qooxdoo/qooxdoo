@@ -99,12 +99,22 @@ qx.Class.define("qx.test.bom.element.Style",
       var name = "border";
       var style = "1px solid red";
 
-      var expected = qx.core.Environment.select("engine.name",
-      {
-        "webkit" : ["1px", "solid", "rgb(255, 0, 0)"],
-        "opera" : ["1px", "solid", "rgb(255, 0, 0)"],
-        "default" : ["1px", "solid", "red"]
-      });
+      var engine = qx.core.Environment.get("engine.name");
+      var expected;
+      switch(engine) {
+        case "opera":
+        case "webkit":
+          if (qx.core.Environment.get("browser.name") == "safari" &&
+              qx.core.Environment.get("browser.version") < 6) {
+            expected = ["1px", "solid", "red"];
+          }
+          else {
+            expected = ["1px", "solid", "rgb(255, 0, 0)"];
+          }
+          break;
+        default:
+          expected = ["1px", "solid", "red"];
+      }
 
       qx.bom.element.Style.set(this.__element, name, style);
       this.assertEquals(expected.join(" "), qx.bom.element.Style.get(this.__element, name));
