@@ -21,6 +21,7 @@
         "build-script",
         "build-files",
         "build-resources",
+        "translation",
         "info"
       ]
     },
@@ -62,8 +63,6 @@
     "APPLICATION"  : "demobrowser",
     "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.demo.*", "${APPLICATION}.test.*"],
     "QOOXDOO_PATH" : "../..",
-    // need to include all locales used in demos here, so 'translation' job picks them up
-    "LOCALES"      : ["en", "en_US", "de", "de_DE", "fr", "fr_FR"],
     "THEME"        : "demobrowser.Theme"
   },
 
@@ -249,6 +248,7 @@
 
     ,"info" : 
     {
+      "extend" : ["cache"],
       "shell" :
       {
         "command" : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/generator.py ${GENERATOR_OPTS} -c ./config.demobrowser.json info"
@@ -257,7 +257,11 @@
     
     ,"translation" :
     {
-      "translate" : { "poentry-with-occurrences" : false  }
+      "extend" : ["cache"],
+      "shell" :
+      {
+        "command" : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/generator.py ${GENERATOR_OPTS} -c ./config.demobrowser.json translation"
+      }
     }
   }
 }
