@@ -14,6 +14,7 @@ Application Creation
   :maxdepth: 2
 
   development/skeletons
+  development/develop_how_to
 
 
 Debugging

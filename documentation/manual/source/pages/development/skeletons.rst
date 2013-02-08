@@ -9,7 +9,7 @@ When creating a new application using :doc:`create-application.py </pages/tool/c
 
 ::
 
-  qooxdoo-%{version}-sdk/tool/bin/create-application.py --name=custom --type=mobile
+  qooxdoo-%{version}-sdk/create-application.py --name=custom --type=mobile
 
 The following skeletons are available (The application types are in fact all lower-case, but are capitalized in the following headings for better readability):
 
