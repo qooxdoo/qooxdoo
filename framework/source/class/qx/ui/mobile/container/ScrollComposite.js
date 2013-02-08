@@ -145,9 +145,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       this.__isVerticalScroll = null;
       
       this._applyNoEasing();
-      
-      this.__touchStartPoints[0] = evt.getScreenLeft();
-      this.__touchStartPoints[1] = evt.getScreenTop();
+      this.__touchStartPoints[0] = evt.getAllTouches()[0].screenX;
+      this.__touchStartPoints[1] = evt.getAllTouches()[0].screenY;
 
       evt.stopPropagation();
     },
@@ -158,8 +157,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * @param evt {qx.event.type.Touch} The touch event
      */
     _onTouchMove : function(evt) {
-      var distanceX = evt.getScreenLeft() - this.__touchStartPoints[0];  
-      var distanceY = evt.getScreenTop() - this.__touchStartPoints[1];
+      var distanceX = evt.getAllTouches()[0].screenX - this.__touchStartPoints[0];  
+      var distanceY = evt.getAllTouches()[0].screenY - this.__touchStartPoints[1];
 
       if(this.__isVerticalScroll == null) {
         var cosDelta = distanceX / distanceY;
