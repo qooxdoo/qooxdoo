@@ -619,8 +619,13 @@ $selection-foreground-color:#2a4880;
 // SELECTBOX MENU DIALOG
 //
 
-.selectbox-selected > div > .list-itemlabel {
+.selectbox-selected .list-itemlabel {
   color:$selection-foreground-color;
+}
+
+.selectbox-unselected .list-itemlabel, .selectbox-selected .list-itemlabel {
+  // Space for tick...
+  padding-right: 35px;
 }
 
 .selectbox-selected > div > .list-itemlabel:after {

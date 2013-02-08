@@ -646,7 +646,7 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   width: 15px;
   height: 8px;
   background: transparent;
-  right: 4px;
+  right: 2px;
   border: 4px solid black;
   border-top: 0;
   border-right: 0;
@@ -1600,8 +1600,11 @@ div.checked .toggleButtonSwitch:before {
   background: linear-gradient(top, #2591ed 0%, #2591ed 56%, #6db5f3 100%);
   color: white; }
 
-.selectbox-selected > div > .list-itemlabel {
+.selectbox-selected .list-itemlabel {
   color: #2a4880; }
+
+.selectbox-unselected .list-itemlabel, .selectbox-selected .list-itemlabel {
+  padding-right: 35px; }
 
 .selectbox-selected > div > .list-itemlabel:after {
   border-color: #2a4880; }
