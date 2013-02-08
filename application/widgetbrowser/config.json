@@ -50,7 +50,8 @@
       "environment"  :
       {
         "qx.nativeScrollBars" : true,
-        "widgetbrowser.themes": "qx.theme.Indigo qx.theme.Modern qx.theme.Simple qx.theme.Classic"
+        "widgetbrowser.themes": "qx.theme.Indigo qx.theme.Modern qx.theme.Simple qx.theme.Classic",
+        "qx.emulatemouse" : true
       },
       "include" :[
         "${APPLICATION}.Application",

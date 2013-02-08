@@ -11,6 +11,8 @@
       "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
       "import" : [
         "info"
+        ,"cache"
+        ,"translation"
       ]
     }
 
@@ -20,7 +22,14 @@
   {
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "QOOXDOO_PATH" : "../..",
+    // need to include all locales used in demos here, so 'translation' job picks them up
+    "LOCALES"      : ["en", "en_US", "de", "de_DE", "fr", "fr_FR"],
     "THEME"        : "demobrowser.Theme"
+  },
+
+  "config-warnings" : 
+  {
+    "job-shadowing" : ["info", "translation"]
   },
 
   "jobs" :
@@ -31,8 +40,7 @@
 
       "let" :
       {
-        "APPLICATION"  : "demobrowser",
-        "LOCALES"      : [ "en" ]
+        "APPLICATION"  : "demobrowser"
       },
 
       "library" :
@@ -80,6 +88,14 @@
       "cache" :
       {
         "compile" : "${CACHE}"
+      },
+
+      "compile-options" :
+      {
+        "code" : 
+        {
+          "locales" : "${LOCALES}"
+        }
       }
     },
 
@@ -243,6 +259,23 @@
         "build-script",
         "build-demos"
       ]
+    },
+
+    "translation" :
+    {
+      "let" : {
+        "APPLICATION"  : "demobrowser"  // to not disturb varying APPLICATION of demos
+      },
+      "extend" : ["cache"],
+      "translate" : { "poentry-with-occurrences" : false  }
+    },
+
+    "info" : 
+    {
+      "let" : {
+        "APPLICATION"  : "demobrowser"  // to not disturb varying APPLICATION of demos
+      },
+      
     },
 
     // -- Debug jobs ----------------------------------------------------------
