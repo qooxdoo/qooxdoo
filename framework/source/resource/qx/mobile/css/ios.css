@@ -412,7 +412,7 @@ input[type="checkbox"], input[type="radio"] {
   margin: 0;
   padding: 10px 10px; }
 
-ul.form li .scrollContainer {
+ul.form li .scroll-container {
   height: 140px; }
 
 textarea {
