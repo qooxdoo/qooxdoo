@@ -59,6 +59,13 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
 
   properties :
   {
+    /** Selector of font theme entry that should be used to style a row. */
+    fontSelector :
+    {
+      check : "String",
+      init : "table-row",
+      apply : "_applyFontSelector"
+    },
     /** Whether the focused row should be highlighted. */
     highlightFocusRow :
     {
@@ -81,18 +88,32 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
     __fontStyle : null,
     __fontStyleString : null,
 
+    // property modifier
+    _applyFontSelector : function(value, old) {
+      if (value && (typeof(value = qx.theme.manager.Font.getInstance().resolve(value)) === "string")) {
+        value = null;
+      }
+      this._renderFont(value);
+    },
+
     /**
      * Initializes the colors from the color theme.
      * @internal
      */
     initThemeValues : function() {
+      var fontManager = qx.theme.manager.Font.getInstance(),
+          font;
       this.__fontStyleString = "";
       this.__fontStyle = {};
 
       this._colors = {};
 
       // link to font theme
-      this._renderFont(qx.theme.manager.Font.getInstance().resolve("default"));
+      font = this.getFontSelector();
+      if (! font || (typeof(font = fontManager.resolve(font)) === "string")) {
+        font = fontManager.resolve("default");
+      }
+      this._renderFont(font);
 
       // link to color theme
       var colorMgr = qx.theme.manager.Color.getInstance();

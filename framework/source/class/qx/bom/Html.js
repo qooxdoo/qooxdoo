@@ -266,6 +266,51 @@ qx.Bootstrap.define("qx.bom.Html",
 
       // Otherwise return the array of all elements
       return ret;
+    },
+
+
+    /**
+     * Converts tag specification into HTML code.
+     *
+     * @param spec {Map}
+     *   Tag specification.
+     *   The object can contain the following fields (all are optional):
+     *   <ul>
+     *   <li><code>tag</code> - name of tag that is used; by default, div
+     *   <li><code>attribute</code> - map of attributes of the tag; keys are attribute names
+     *   <li><code>content</code> - content of the tag
+     *   <li><code>cssClass</code> - CSS classes that should be applied to the tag; this has priority over <code>class</code> attribute
+     *   <li><code>style</code> - map of styles of the tag; keys are style names; this has priority over <code>style</code> attribute
+     *   </ul>
+     * @param closeTag {Boolean?false}
+     *   Specifies whether enclosing tag should be added.
+     * @return {String}
+     *   HTML code for the specified tag.
+     */
+    specToCode: function(spec, closeTag)
+    {
+      var tag = spec.tag ? spec.tag : 'div';
+      var html = ['<', tag];
+      var map = spec.attribute || {};
+      for (var name in map) {
+        if ((name !== "class" || ! ("cssClass" in spec)) && (name !== "style" || ! ("style" in spec))) {
+          html.push(' ', name, '="', map[name], '"');
+        }
+      }
+      if ("cssClass" in spec) {
+        html.push(' class="', spec.cssClass, '"');
+      }
+      if ("style" in spec) {
+        html.push(' style="', qx.bom.element.Style.compile(spec.style), '"');
+      }
+      html.push('>');
+      if ("content" in spec) {
+        html.push(spec.content);
+      }
+      if (closeTag) {
+        html.push('</', tag, '>');
+      }
+      return html.join("");
     }
   }
 });

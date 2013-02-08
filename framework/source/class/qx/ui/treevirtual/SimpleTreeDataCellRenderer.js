@@ -240,6 +240,157 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     },
 
     /**
+     * Return html that should be before image html.
+     *
+     * @param imageSource {String}
+     *   Path to image.
+     * @param imageInfo {Map}
+     *   How to display the image (see {@link #_addImage} for details).
+     *
+     * @return {String}
+     *   The html that should be before image html.
+     * @see #_addImage
+     * @see qx.bom.Html#specToCode
+     */
+    _getImageBoxHtmlStart : function(imageSource, imageInfo)
+    {
+      var spec = imageInfo.imageBoxSpec;
+      var pos = imageInfo.position;
+      if (pos)
+      {
+        if (! spec)
+        {
+          spec = {};
+        }
+        if (! spec.tag)
+        {
+          spec.tag = "div";
+        }
+        var style = spec.style || (spec.style = {});
+        style.position = "absolute";
+        
+        var boxsizing = qx.core.Environment.get("css.boxsizing");
+        if (boxsizing)
+        {
+          style[ qx.bom.Style.getCssName(boxsizing) ] = "content-box";
+        }
+
+        if (pos.top !== undefined)
+        {
+          style.top = pos.top + 'px';
+        }
+
+        if (pos.right !== undefined)
+        {
+          style.right = pos.right + 'px';
+        }
+
+        if (pos.bottom !== undefined)
+        {
+          style.bottom = pos.bottom + 'px';
+        }
+
+        if (pos.left !== undefined)
+        {
+          style.left = pos.left + 'px';
+        }
+
+        if (pos.width !== undefined)
+        {
+          style.width = pos.width + 'px';
+        }
+
+        if (pos.height !== undefined)
+        {
+          style.height = pos.height + 'px';
+        }
+      }
+
+      return spec ? qx.bom.Html.specToCode(spec) : "";
+    },
+
+    /**
+     * Return image html.
+     *
+     * @param imageSource {String}
+     *   Path to image.
+     * @param imageInfo {Map}
+     *   How to display the image (see {@link #_addImage} for details).
+     * @param imageBoxHtmlStart {String}
+     *   Result of {@link #_getImageBoxHtmlStart} call.
+     *
+     * @return {String}
+     *   The html code that should be used to render image.
+     * @see #_addImage
+     * @see #_getImageBoxHtmlStart
+     * @see qx.bom.Html#specToCode
+     */
+    _getImageHtml : function(imageSource, imageInfo, imageBoxHtmlStart)
+    {
+      var spec = imageInfo.imageSpec || {};
+      if (! spec.tag) 
+      {
+        spec.tag = 'div';
+      }
+      var style = spec.style || (spec.style = {});
+      
+      if (imageSource) 
+      {
+        style['background-image'] = 'url(' + imageSource + ')';
+        style['background-repeat'] = 'no-repeat';
+        
+      }
+      
+      if (imageInfo.imageWidth && imageInfo.imageHeight)
+      {
+        style.width = imageInfo.imageWidth + 'px';
+        style.height = imageInfo.imageHeight + 'px';
+      }
+
+      if (imageInfo.tooltip != null)
+      {
+        if (! spec.attribute) 
+        {
+          spec.attribute = {};
+        }
+        spec.attribute.title = imageInfo.tooltip;
+      }
+
+      if (! "content" in spec) 
+      {
+        spec.content = '&nbsp;';
+      }
+
+      return qx.bom.Html.specToCode(spec, true);
+    },
+
+    /**
+     * Return html that should be added after image html.
+     *
+     * @param imageSource {String}
+     *   Path to image.
+     * @param imageInfo {Map}
+     *   How to display the image (see {@link #_addImage} for details).
+     * @param imageBoxHtmlStart {String}
+     *   Result of {@link #_getImageBoxHtmlStart} call.
+     * @param imageHtml {String}
+     *   Result of {@link #_getImageHtml} call.
+     *
+     * @return {String}
+     *   The html that should be added after image html.
+     * @see #_addImage
+     * @see #_getImageBoxHtmlStart
+     * @see #_getImageHtml
+     */
+    _getImageBoxHtmlEnd : function(imageSource, imageInfo, imageBoxHtmlStart, imageHtml)
+    {
+      var spec = imageInfo.imageBoxSpec;
+      return imageBoxHtmlStart 
+              ? (spec && spec.tag ? '</' + spec.tag + '>' : '</div>') 
+              : "";
+    },
+
+    /**
      * Add an image to the tree.  This might be a visible icon or it may be
      * part of the indentation.
      *
@@ -258,6 +409,28 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
      *       The image's width and height.  These are used only if both are
      *       specified.
      *     </dd>
+     *     <dt>cellInfo {Map}</dt>
+     *     <dd>
+     *       Contains information about cell for which image will be added.
+     *       See {@link qx.ui.table.ICellRenderer#createDataCellHtml} for details.
+     *     </dd>
+     *     <dt>imageSpec</dt>
+     *     <dd>
+     *       Object that specifies how to render image.
+     *       The object can contain the following fields:
+     *       <ul>
+     *       <li><code>tag</code> - name of tag that is used; by default, div
+     *       <li><code>attribute</code> - map of attributes of the tag; keys are attribute names
+     *       <li><code>content</code> - content of the tag
+     *       <li><code>cssClass</code> - CSS classes that should be applied to the tag
+     *       <li><code>style</code> - map of styles of the tag; keys are style names
+     *       </ul>
+     *     </dd>
+     *     <dt>imageBoxSpec</dt>
+     *     <dd>
+     *       Object that specifies how to render image container if it is necessary.
+     *       The object has structure that is similar to imageSpec.
+     *     </dd>
      *   </dl>
      *
      * @return {String}
@@ -266,89 +439,73 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
      */
     _addImage : function(imageInfo)
     {
-      var html = [];
-
       // Resolve the URI
-      var source = this.__rm.toUri(this.__am.resolve(imageInfo.url));
+      var source = imageInfo.url ? this.__rm.toUri(this.__am.resolve(imageInfo.url)) : "";
+      
+      var boxStart = this._getImageBoxHtmlStart(source, imageInfo);
+      var imageHtml = this._getImageHtml(source, imageInfo, boxStart);
+      
+      return [boxStart, imageHtml,this._getImageBoxHtmlEnd(source, imageInfo, boxStart, imageHtml)].join("");
+    },
 
-      // If we've been given positioning attributes, enclose image in a div
-      if (imageInfo.position)
-      {
-        var pos = imageInfo.position;
 
-        html.push('<div style="position:absolute;');
+    /**
+     * Return the width of indentation image.
+     *
+     * @param imageData {Map} Map of image properties.
+     *   See {@link #_getIndentSymbol}.
+     *
+     * @param cellInfo {Map} The information about the cell.
+     *   See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     *
+     * @return {Integer}
+     *   The width of indentation image.
+     */
+    _getIndentImageWidth : function(imageData, cellInfo)
+    {
+      return typeof imageData.width === "number" 
+              ? imageData.width
+              : cellInfo.table.getRowHeight();
+    },
 
-        if (qx.core.Environment.get("css.boxsizing"))
-        {
-          html.push(qx.bom.element.BoxSizing.compile("content-box"));
-        }
 
-        if (pos.top !== undefined)
-        {
-          html.push('top:' + pos.top + 'px;');
-        }
+    /**
+     * Return the height of indentation image.
+     *
+     * @param imageData {Map} Map of image properties.
+     *   See {@link #_getIndentSymbol}.
+     *
+     * @param cellInfo {Map} The information about the cell.
+     *   See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     *
+     * @return {Integer}
+     *   The height of indentation image.
+     */
+    _getIndentImageHeight : function(imageData, cellInfo)
+    {
+      return typeof imageData.height === "number" 
+              ? imageData.height
+              : cellInfo.table.getRowHeight();
+    },
 
-        if (pos.right !== undefined)
-        {
-          html.push('right:' + pos.right + 'px;');
-        }
 
-        if (pos.bottom !== undefined)
-        {
-          html.push('bottom:' + pos.bottom + 'px;');
-        }
-
-        if (pos.left !== undefined)
-        {
-          html.push('left:' + pos.left + 'px;');
-        }
-
-        if (pos.width !== undefined)
-        {
-          html.push('width:' + pos.width + 'px;');
-        }
-
-        if (pos.height !== undefined)
-        {
-          html.push('height:' + pos.height + 'px;');
-        }
-
-        html.push('">');
-      }
-
-      // Don't use an image tag.  They render differently in Firefox and IE7
-      // even if both are enclosed in a div specified as content box.  Instead,
-      // add the image as the background image of a div.
-      html.push('<div style="');
-      html.push('background-image:url(' + source + ');');
-      html.push('background-repeat:no-repeat;');
-
-      if (imageInfo.imageWidth && imageInfo.imageHeight)
-      {
-        html.push(
-          ';width:' +
-          imageInfo.imageWidth +
-          'px' +
-          ';height:' +
-          imageInfo.imageHeight +
-          'px');
-      }
-
-      var tooltip = imageInfo.tooltip;
-
-      if (tooltip != null)
-      {
-        html.push('" title="' + tooltip);
-      }
-
-      html.push('">&nbsp;</div>');
-
-      if (imageInfo.position)
-      {
-        html.push('</div>');
-      }
-
-      return html.join("");
+    /**
+     * Return the padding for indentation image.
+     *
+     * @param imageData {Map} Map of image properties.
+     *   See {@link #_getIndentSymbol}.
+     *
+     * @param cellInfo {Map} The information about the cell.
+     *   See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     *
+     * @return {Integer}
+     *   The padding for indentation image.
+     */
+    _getIndentImagePaddingRight : function(imageData, cellInfo)
+    {
+      return typeof imageData.paddingRight === "number" 
+              ? imageData.paddingRight 
+              : 3;
     },
 
 
@@ -390,7 +547,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
                                           bAlwaysShowOpenCloseSymbol,
                                           bExcludeFirstLevelTreeLines);
 
-        var rowHeight = cellInfo.table.getRowHeight();
+        var imageWidth = this._getIndentImageWidth(imageData, cellInfo);
+        var imageHeight = this._getIndentImageHeight(imageData, cellInfo);
+        var rightPadding = this._getIndentImagePaddingRight(imageData, cellInfo);
 
         html += this._addImage(
         {
@@ -399,13 +558,14 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           {
             top         : 0 + (imageData.paddingTop || 0),
             left        : pos + (imageData.paddingLeft || 0),
-            width       : rowHeight + 3,
-            height      : rowHeight
+            width       : imageWidth + rightPadding,
+            height      : imageHeight
           },
-          imageWidth  : rowHeight,
-          imageHeight : rowHeight
+          imageWidth  : imageWidth,
+          imageHeight : imageHeight,
+          cellInfo : cellInfo
         });
-        pos += rowHeight + 3;
+        pos += imageWidth + rightPadding;
       }
 
       return (
@@ -413,6 +573,57 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           html : html,
           pos  : pos
         });
+    },
+
+
+    /**
+     * Return the width of icon image.
+     *
+     * @param iconUrl {String} Icon image URL.
+     *
+     * @param cellInfo {Map} The information about the cell.
+     *   See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     *
+     * @return {Integer}
+     *   The width of indentation image.
+     */
+    _getIconWidth : function(iconUrl, cellInfo)
+    {
+      return cellInfo.table.getRowHeight();
+    },
+
+
+    /**
+     * Return the height of icon image.
+     *
+     * @param iconUrl {String} Icon image URL.
+     *
+     * @param cellInfo {Map} The information about the cell.
+     *   See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     *
+     * @return {Integer}
+     *   The height of indentation image.
+     */
+    _getIconHeight : function(iconUrl, cellInfo)
+    {
+      return cellInfo.table.getRowHeight();
+    },
+
+
+    /**
+     * Return the padding for icon image.
+     *
+     * @param iconUrl {String} Icon image URL.
+     *
+     * @param cellInfo {Map} The information about the cell.
+     *   See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     *
+     * @return {Integer}
+     *   The padding for indentation image.
+     */
+    _getIconPaddingRight : function(iconUrl, cellInfo)
+    {
+      return 3;
     },
 
     /**
@@ -452,7 +663,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         imageUrl = o.icon;
       }
 
-      var rowHeight = cellInfo.table.getRowHeight();
+      var imageWidth = this._getIconWidth(imageUrl, cellInfo);
+      var imageHeight = this._getIconHeight(imageUrl, cellInfo);
+      var rightPadding = this._getIconPaddingRight(imageUrl, cellInfo);
 
       var html = this._addImage(
       {
@@ -461,17 +674,18 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         {
           top         : 0,
           left        : pos,
-          width       : rowHeight + 3,
-          height      : rowHeight
+          width       : imageWidth + rightPadding,
+          height      : imageHeight
         },
-        imageWidth  : rowHeight,
-        imageHeight : rowHeight
+        imageWidth  : imageWidth,
+        imageHeight : imageHeight,
+        cellInfo : cellInfo
       });
 
       return (
         {
           html : html,
-          pos  : pos + rowHeight + 3
+          pos  : pos + imageWidth + rightPadding
         });
     },
 

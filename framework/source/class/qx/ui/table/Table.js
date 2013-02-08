@@ -108,11 +108,12 @@ qx.Class.define("qx.ui.table.Table",
    *           return new qx.ui.table.pane.Scroller(obj);
    *         }
    *       </pre></dd>
-   *     <dt>tablePaneModel</dt>
+   *     <dt>dataRowRenderer</dt>
    *       <dd><pre class='javascript'>
-   *         function(obj)
+   *         An implementation of qx.ui.table.IRowRenderer or a function that returns such implementation:
+   *         function(table)
    *         {
-   *           return new qx.ui.table.pane.Model(obj);
+   *           return new qx.ui.table.rowrenderer.Default(table);
    *         }
    *       </pre></dd>
    *     <dt>columnMenu</dt>
@@ -166,6 +167,10 @@ qx.Class.define("qx.ui.table.Table",
       this.setNewTablePaneModel(custom.tablePaneModel);
     }
 
+    if (custom.dataRowRenderer) {
+      this.setNewDataRowRenderer(custom.dataRowRenderer);
+    }
+    
     if (custom.columnMenu) {
       this.setNewColumnMenu(custom.columnMenu);
     }
@@ -176,8 +181,12 @@ qx.Class.define("qx.ui.table.Table",
     this.__scrollerParent = new qx.ui.container.Composite(new qx.ui.layout.HBox());
     this._add(this.__scrollerParent, {flex: 1});
 
-    // Allocate a default data row renderer
-    this.setDataRowRenderer(new qx.ui.table.rowrenderer.Default(this));
+    // Allocate a data row renderer
+    var rowRenderer = this.getNewDataRowRenderer();
+    if (typeof rowRenderer === "function") {
+      rowRenderer = rowRenderer(this);
+    }
+    this.setDataRowRenderer(rowRenderer);
 
     // Create the models
     this.__selectionManager = this.getNewSelectionManager()(this);
@@ -695,6 +704,22 @@ qx.Class.define("qx.ui.table.Table",
       check : "Function",
       init : function(columnModel) {
         return new qx.ui.table.pane.Model(columnModel);
+      }
+    },
+
+
+    /**
+     * A table row renderer or function to instantiate a table row renderer. This allows subclasses
+     * of Table to change default row renderer. To take effect, this
+     * property must be set before calling the Table constructor.
+     */
+    newDataRowRenderer :
+    {
+      check : function(value) {
+        return typeof value === "function" || qx.Class.implementsInterface(value, qx.ui.table.IRowRenderer);
+      },
+      init : function(table) {
+        return new qx.ui.table.rowrenderer.Default(table);
       }
     }
   },
