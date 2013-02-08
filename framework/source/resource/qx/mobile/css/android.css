@@ -71,13 +71,13 @@ input::-webkit-inner-spin-button {
   position: absolute;
   padding-bottom: 10px; }
 
-.scrollContainer {
+.scroll-container {
   -webkit-perspective: 1000;
   -webkit-backface-visibility: hidden;
   position: relative;
   overflow: hidden; }
 
-.scrollContainerChild {
+.scroll-container-child {
   position: relative; }
 
 .animationParent {
@@ -1152,18 +1152,18 @@ input[type="text"]:not(.selectbox):not(.invalid), input[type="number"]:not(.inva
 .formRowContent {
   padding: 5px 10px 5px 10px; }
 
-.scrollContainer {
+.scroll-container {
   background-color: white;
   -moz-box-shadow: inset 0px 10px 10px -10px rgba(0, 0, 0, 0.2), inset 0px -10px 10px -10px rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: inset 0px 10px 10px -10px rgba(0, 0, 0, 0.2), inset 0px -10px 10px -10px rgba(0, 0, 0, 0.2);
   box-shadow: inset 0px 10px 10px -10px rgba(0, 0, 0, 0.2), inset 0px -10px 10px -10px rgba(0, 0, 0, 0.2); }
 
-.scrollContainer textarea {
+.scroll-container textarea {
   padding: 2px;
   border: none;
   background: none; }
 
-.scrollContainer:before {
+.scroll-container:before {
   position: absolute;
   top: 0px;
   z-index: 500;
@@ -1174,10 +1174,10 @@ input[type="text"]:not(.selectbox):not(.invalid), input[type="number"]:not(.inva
   width: 100%;
   height: 0px; }
 
-.scrollContainer.scrollableTop:before {
+.scroll-container.scrollable-top:before {
   height: 30px; }
 
-.scrollContainer:after {
+.scroll-container:after {
   position: absolute;
   bottom: 0px;
   z-index: 500;
@@ -1188,7 +1188,7 @@ input[type="text"]:not(.selectbox):not(.invalid), input[type="number"]:not(.inva
   width: 100%;
   height: 0px; }
 
-.scrollContainer.scrollableBottom:after {
+.scroll-container.scrollable-bottom:after {
   height: 30px; }
 
 .formSeparationRow {

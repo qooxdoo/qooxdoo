@@ -60,21 +60,21 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
   {
     this.base(arguments);
 
-    this.__targetOffset = [0,0];
+    this.__lastOffset = [0,0];
     this.__currentOffset = [0,0];
     this.__touchStartPoints = [0,0];
 
-    this.addCssClass("scrollableBottom");
-
     this._scrollContainer = this._createScrollContainer();
     
-    this.addListener("touchstart",this._onTouchStart, this);
-    this.addListener("touchmove",this._onTouchMove, this);
-    this.addListener("touchend",this._onTouchEnd, this);
-    this.addListener("swipe",this._onSwipe, this);
+    this.addListener("touchstart", this._onTouchStart, this);
+    this.addListener("touchmove", this._onTouchMove, this);
+    this.addListener("touchend", this._onTouchEnd, this);
+    this.addListener("swipe", this._onSwipe, this);
 
     this._setLayout(new qx.ui.mobile.layout.VBox());
     this._add(this._scrollContainer, {flex:1});
+    
+    this._updateScrollIndicator();
   },
 
 
@@ -89,7 +89,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     defaultCssClass :
     {
       refine : true,
-      init : "scrollContainer"
+      init : "scroll-container"
     },
     
     /** Flag if scrolling in horizontal direction should be allowed. */
@@ -104,6 +104,15 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     {
       init : true,
       check : "Boolean"
+    },
+    
+    /** Controls whether are visual indicator is used, when the scrollComposite is
+     * scrollable to top or bottom direction. */
+    showScrollIndicator : 
+    {
+      init : true,
+      check : "Boolean",
+      apply : "_updateScrollIndicator"
     }
   },
 
@@ -112,10 +121,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
   {
     _scrollContainer : null,
     __touchStartPoints : null,
-    __targetOffset : null,
+    __lastOffset : null,
     __currentOffset : null,
-    __scrollTopOnStart : 0,
-    __targetScrollTop : 0,
     __isVerticalScroll : null,
 
     
@@ -125,7 +132,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      */
     _createScrollContainer : function() {
       var scrollContainer = new qx.ui.mobile.container.Composite();
-      scrollContainer.addCssClass("scrollContainerChild");
+      scrollContainer.addCssClass("scroll-container-child");
       return scrollContainer;
     },
     
@@ -137,13 +144,10 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     _onTouchStart : function(evt){
       this.__isVerticalScroll = null;
       
-      var touchX = evt.getScreenLeft();
-      var touchY = evt.getScreenTop();
-
       this._applyNoEasing();
       
-      this.__touchStartPoints[0] = touchX;
-      this.__touchStartPoints[1] = touchY;
+      this.__touchStartPoints[0] = evt.getScreenLeft();
+      this.__touchStartPoints[1] = evt.getScreenTop();
 
       evt.stopPropagation();
     },
@@ -154,56 +158,59 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * @param evt {qx.event.type.Touch} The touch event
      */
     _onTouchMove : function(evt) {
-      var touchX = evt.getScreenLeft();
-      var touchY = evt.getScreenTop();
+      var distanceX = evt.getScreenLeft() - this.__touchStartPoints[0];  
+      var distanceY = evt.getScreenTop() - this.__touchStartPoints[1];
 
-      var distanceX = touchX - this.__touchStartPoints[0];
-      var distanceY = touchY - this.__touchStartPoints[1];
-      
       if(this.__isVerticalScroll == null) {
-        var cosDelta = distanceX/distanceY;
+        var cosDelta = distanceX / distanceY;
         this.__isVerticalScroll = Math.abs(cosDelta) < 2;
+      } 
+      
+      if(!this.isScrollableX() || this.__isVerticalScroll) {
+        distanceX = 0;
       }
       
-      if(this.__isVerticalScroll) {
-          distanceX = 0
-      } else {
-          distanceY = 0;
+      if(!this.isScrollableY() || !this.__isVerticalScroll) {
+        distanceY = 0;
       }
-
-      var targetElement =  this._scrollContainer.getContainerElement();
-      var lowerLimit = targetElement.scrollHeight - targetElement.offsetHeight-4;
       
-      if(this.isScrollableY() && this.__isVerticalScroll) {
+      this.__currentOffset[0] = this.__lastOffset[0] + distanceX;
+      this._scrollContainer.setTranslateX(this.__currentOffset[0]);
+      
+      this.__currentOffset[1] = this.__lastOffset[1] + distanceY;
+      this._scrollContainer.setTranslateY(this.__currentOffset[1]);
+      
+      this._updateScrollIndicator();
+      
+      evt.stopPropagation();
+    },
+    
+    
+    /**
+     * Updates the visibility of the vertical scroll indicator (top or bottom).
+     */
+    _updateScrollIndicator : function() {
+      if(this.isScrollableY() && this.isShowScrollIndicator()) {
+        var targetElement =  this._scrollContainer.getContainerElement();
+        var lowerLimit = targetElement.scrollHeight - targetElement.offsetHeight - 4;
+        
         // Upper Limit Y
         if(this.__currentOffset[1] >= 0) {
-          this.removeCssClass("scrollableTop");
+          this.removeCssClass("scrollable-top");
         } else {
-          this.addCssClass("scrollableTop");
+          this.addCssClass("scrollable-top");
         }
 
         // Lower Limit Y
         if(this.__currentOffset[1] < -lowerLimit) {
-          this.removeCssClass("scrollableBottom");
+          this.removeCssClass("scrollable-bottom");
         } else {
-          this.addCssClass("scrollableBottom");
+          this.addCssClass("scrollable-bottom");
         }
-      } 
-      
-      // X
-      this.__currentOffset[0] =  this.__targetOffset[0] + distanceX;
-      // Y
-      this.__currentOffset[1] =  this.__targetOffset[1] + distanceY;
-      
-      if(this.isScrollableX()) {
-        this._scrollContainer.setTranslateX(this.__currentOffset[0]);
+      } else {
+        this.removeCssClass("scrollable-top");
+        this.removeCssClass("scrollable-bottom");
       }
-      
-      if(this.isScrollableY()) {
-        this._scrollContainer.setTranslateY(this.__currentOffset[1]);
-      }
-      
-      evt.stopPropagation();
     },
 
 
@@ -224,55 +231,13 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      */
     _onSwipe : function(evt) {
       var velocity = Math.abs(evt.getVelocity());
-      var distance = evt.getDistance();
-      var hasMomentum = (Math.abs(velocity)>1);
+      var hasMomentum = (velocity > 1);
       
-      if(!hasMomentum) {
-        distance = 0;
+      if(this.isScrollableY() && this.__isVerticalScroll && hasMomentum) {
+        this.__currentOffset[1] = this.__currentOffset[1] + (2+velocity) * evt.getDistance();
       }
       
-      if(this.__isVerticalScroll) {
-        this.__currentOffset[1] = this.__currentOffset[1]+(2+velocity)*distance;
-      }
-      
-      this.scrollTo(this.__currentOffset[0],this.__currentOffset[1]);
-    },
-    
-    
-    /**
-     * Deactivates any scroll easing for the scrollContainer.
-     */
-    _applyNoEasing : function() {
-       qx.bom.element.Style.set(this._scrollContainer.getContainerElement(),"transition", null);
-    },
-    
-    
-    /**
-     * Activates momentum scrolling for the scrollContainer.
-     * Appears like a "ease-out" easing function. 
-     */
-    _applyMomentumEasing : function() {
-      qx.bom.element.Style.set(this._scrollContainer.getContainerElement(),"transition", "all 1500ms cubic-bezier(0.000, 0.075, 0.000, 1.00)");
-    },
-    
-    
-    /**
-     * Activates bounce easing for the scrollContainer.
-     * Used when user drags the scrollContainer over the edge manually.
-     */
-    _applyBounceEasing : function() {
-      qx.bom.element.Style.set(this._scrollContainer.getContainerElement(),"transition", "all 400ms ease-in-out");
-    },
-    
-    
-    /**
-     * Activates the scroll bounce easing for the scrollContainer.
-     * Used when momentum scrolling is activated, and the momentum calculates an
-     * endpoint outside of the viewport.
-     * Causes the effect that scrollContainers scrolls to far, and bounces back to right position.
-     */
-    _applyScrollBounceEasing : function() {
-       qx.bom.element.Style.set(this._scrollContainer.getContainerElement(),"transition", "all 1000ms cubic-bezier(0.000, 0.075, 0.000, 1.50)");
+      this.scrollTo(this.__currentOffset[0], this.__currentOffset[1]);
     },
     
     
@@ -284,8 +249,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      */
     scrollTo : function(positionX, positionY) {
       var targetElement = this._scrollContainer.getContainerElement();
-      var lowerLimitY = targetElement.scrollHeight - targetElement.offsetHeight-4;
-      var lowerLimitX = targetElement.scrollWidth - targetElement.offsetWidth-4;
+      var lowerLimitY = targetElement.scrollHeight - targetElement.offsetHeight - 4;
+      var lowerLimitX = targetElement.scrollWidth - targetElement.offsetWidth - 4;
 
       var oldY = this._scrollContainer.getTranslateY();
 
@@ -327,13 +292,14 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       
       if(this.isScrollableX()) {
          this._scrollContainer.setTranslateX(positionX);
+         this.__lastOffset[0] = positionX;
       }
       if(this.isScrollableY()) {
          this._scrollContainer.setTranslateY(positionY);
+         this.__lastOffset[1] = positionY;
       }
-
-      this.__targetOffset[0] = positionX;
-      this.__targetOffset[1] = positionY;
+      
+      this._updateScrollIndicator();
     },
 
 
@@ -418,6 +384,43 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       this._unhandleSize(children[index]);
 
       this._scrollContainer.removeAt(index);
+    },
+    
+    
+        /**
+     * Deactivates any scroll easing for the scrollContainer.
+     */
+    _applyNoEasing : function() {
+       qx.bom.element.Style.set(this._scrollContainer.getContainerElement(),"transition", null);
+    },
+    
+    
+    /**
+     * Activates momentum scrolling for the scrollContainer.
+     * Appears like a "ease-out" easing function. 
+     */
+    _applyMomentumEasing : function() {
+      qx.bom.element.Style.set(this._scrollContainer.getContainerElement(),"transition", "all 1500ms cubic-bezier(0.000, 0.075, 0.000, 1.00)");
+    },
+    
+    
+    /**
+     * Activates bounce easing for the scrollContainer.
+     * Used when user drags the scrollContainer over the edge manually.
+     */
+    _applyBounceEasing : function() {
+      qx.bom.element.Style.set(this._scrollContainer.getContainerElement(),"transition", "all 400ms ease-in-out");
+    },
+    
+    
+    /**
+     * Activates the scroll bounce easing for the scrollContainer.
+     * Used when momentum scrolling is activated, and the momentum calculates an
+     * endpoint outside of the viewport.
+     * Causes the effect that scrollContainers scrolls to far, and bounces back to right position.
+     */
+    _applyScrollBounceEasing : function() {
+       qx.bom.element.Style.set(this._scrollContainer.getContainerElement(),"transition", "all 1000ms cubic-bezier(0.000, 0.075, 0.000, 1.50)");
     },
 
 

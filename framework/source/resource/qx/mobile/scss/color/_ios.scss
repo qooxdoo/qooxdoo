@@ -165,7 +165,7 @@ $scShadowColor:rgba(0,0,0,0.3);
 $scShadowColorLight:rgba(0,0,0,0.2);
 $scGradientVerticalOffset:15px;
 
-.scrollContainer {
+.scroll-container {
   @include border-radius(8px);
   border: 1px solid $button-border-color;
   background-color:white;
@@ -176,13 +176,13 @@ $scGradientVerticalOffset:15px;
   );
 }
 
-.scrollContainer textarea {
+.scroll-container textarea {
   border:none;
   padding:2px;
   background:none;
 }
 
-.scrollContainer:before {
+.scroll-container:before {
   @include border-radius-top(8px);
   position:absolute;
   top:0px;
@@ -198,11 +198,11 @@ $scGradientVerticalOffset:15px;
   height:0px;
 }
 
-.scrollContainer.scrollableTop:before {
+.scroll-container.scrollable-top:before {
   height:30px;
 }
 
-.scrollContainer:after {
+.scroll-container:after {
   @include border-radius-bottom(8px);
   position:absolute;
   bottom:0px;
@@ -218,8 +218,8 @@ $scGradientVerticalOffset:15px;
   height:0px;
 }
 
-.scrollContainer.scrollableBottom:after {
-    height:30px;
+.scroll-container.scrollable-bottom:after {
+  height:30px;
 }
 
 //

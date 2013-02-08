@@ -174,7 +174,7 @@ $scShadowColor: rgba(0,0,0,0.3);
 $scShadowColorLight: rgba(0,0,0,0.2);
 $scGradientVerticalOffset: 15px;
 
-.scrollContainer {
+.scroll-container {
   background-color:white;
 
   @include box-inset-multi-shadow (
@@ -183,13 +183,13 @@ $scGradientVerticalOffset: 15px;
   );
 }
 
-.scrollContainer textarea {
+.scroll-container textarea {
   padding:2px;
   border:none;
   background:none;
 }
 
-.scrollContainer:before {
+.scroll-container:before {
   position:absolute;
   top:0px;
   z-index:500;
@@ -204,11 +204,11 @@ $scGradientVerticalOffset: 15px;
   height:0px;
 }
 
-.scrollContainer.scrollableTop:before {
+.scroll-container.scrollable-top:before {
   height:30px;
 }
 
-.scrollContainer:after {
+.scroll-container:after {
   position:absolute;
   bottom:0px;
   z-index:500;
@@ -223,7 +223,7 @@ $scGradientVerticalOffset: 15px;
   height:0px;
 }
 
-.scrollContainer.scrollableBottom:after {
+.scroll-container.scrollable-bottom:after {
   height:30px;
 }
 
