@@ -409,6 +409,11 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
      *       The image's width and height.  These are used only if both are
      *       specified.
      *     </dd>
+     *     <dt>cellInfo {Map}</dt>
+     *     <dd>
+     *       Contains information about cell for which image will be added.
+     *       See {@link qx.ui.table.ICellRenderer#createDataCellHtml} for details.
+     *     </dd>
      *     <dt>imageSpec</dt>
      *     <dd>
      *       Object that specifies how to render image.
@@ -557,7 +562,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
             height      : imageHeight
           },
           imageWidth  : imageWidth,
-          imageHeight : imageHeight
+          imageHeight : imageHeight,
+          cellInfo : cellInfo
         });
         pos += imageWidth + rightPadding;
       }
@@ -672,7 +678,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           height      : imageHeight
         },
         imageWidth  : imageWidth,
-        imageHeight : imageHeight
+        imageHeight : imageHeight,
+        cellInfo : cellInfo
       });
 
       return (
