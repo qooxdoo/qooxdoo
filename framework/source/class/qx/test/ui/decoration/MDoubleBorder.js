@@ -38,6 +38,7 @@ qx.Class.define("qx.test.ui.decoration.MDoubleBorder", {
 
     /**
      * http://bugzilla.qooxdoo.org/show_bug.cgi?id=7215
+     * @lint ignoreUndefined(TestDecorator)
      */
     testCombinedDecorations : function()
     {
@@ -69,13 +70,13 @@ qx.Class.define("qx.test.ui.decoration.MDoubleBorder", {
       this.flush();
 
       var shadowProp = qx.core.Environment.get("css.boxshadow");
-      outerDecorator = w.getContainerElement().getDomElement().childNodes[1];
+      var outerDecorator = w.getContainerElement().getDomElement().childNodes[1];
       this.assertTrue(qx.bom.element.Style.get(outerDecorator, shadowProp).length > 0);
 
       outerDecorator = w.getDecoratorElement().getDomElement();
       this.assertMatch(qx.bom.element.Style.get(outerDecorator, shadowProp), /4px 4px 3px 0px/);
 
-      innerDecorator = outerDecorator.firstChild;
+      var innerDecorator = outerDecorator.firstChild;
       this.assertEquals("none", qx.bom.element.Style.get(innerDecorator, shadowProp));
     }
   }

@@ -144,21 +144,25 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
      */
     __styleDoubleBorder : function(styles)
     {
+      var colorTop,
+          colorRight,
+          colorBottom,
+          colorLeft;
       if (qx.core.Environment.get("qx.theme"))
       {
         var Color = qx.theme.manager.Color.getInstance();
 
-        var colorTop = Color.resolve(this.getColorTop());
-        var colorRight = Color.resolve(this.getColorRight());
-        var colorBottom = Color.resolve(this.getColorBottom());
-        var colorLeft = Color.resolve(this.getColorLeft());
+        colorTop = Color.resolve(this.getColorTop());
+        colorRight = Color.resolve(this.getColorRight());
+        colorBottom = Color.resolve(this.getColorBottom());
+        colorLeft = Color.resolve(this.getColorLeft());
       }
       else
       {
-        var colorTop = this.getColorTop();
-        var colorRight = this.getColorRight();
-        var colorBottom = this.getColorBottom();
-        var colorLeft = this.getColorLeft();
+        colorTop = this.getColorTop();
+        colorRight = this.getColorRight();
+        colorBottom = this.getColorBottom();
+        colorLeft = this.getColorLeft();
       }
 
       // Add inner borders
@@ -167,17 +171,17 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
         styles["border-top"] = width + "px " + this.getStyleTop() + " " + colorTop;
       }
 
-      var width = this.getWidthRight();
+      width = this.getWidthRight();
       if (width > 0) {
         styles["border-right"] = width + "px " + this.getStyleRight() + " " + colorRight;
       }
 
-      var width = this.getWidthBottom();
+      width = this.getWidthBottom();
       if (width > 0) {
         styles["border-bottom"] = width + "px " + this.getStyleBottom() + " " + colorBottom;
       }
 
-      var width = this.getWidthLeft();
+      width = this.getWidthLeft();
       if (width > 0) {
         styles["border-left"] = width + "px " + this.getStyleLeft() + " " + colorLeft;
       }
@@ -219,25 +223,33 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
      * @return {String} The generated decorator HTML.
      */
     __generateMarkupDoubleBorder : function(styles) {
-
+      var colorTop,
+          colorRight,
+          colorBottom,
+          colorLeft;
       if (qx.core.Environment.get("qx.theme"))
       {
         var Color = qx.theme.manager.Color.getInstance();
 
-        var colorTop = Color.resolve(this.getInnerColorTop());
-        var colorRight = Color.resolve(this.getInnerColorRight());
-        var colorBottom = Color.resolve(this.getInnerColorBottom());
-        var colorLeft = Color.resolve(this.getInnerColorLeft());
+        colorTop = Color.resolve(this.getInnerColorTop());
+        colorRight = Color.resolve(this.getInnerColorRight());
+        colorBottom = Color.resolve(this.getInnerColorBottom());
+        colorLeft = Color.resolve(this.getInnerColorLeft());
       }
       else
       {
-        var colorTop = this.getInnerColorTop();
-        var colorRight = this.getInnerColorRight();
-        var colorBottom = this.getInnerColorBottom();
-        var colorLeft = this.getInnerColorLeft();
+        colorTop = this.getInnerColorTop();
+        colorRight = this.getInnerColorRight();
+        colorBottom = this.getInnerColorBottom();
+        colorLeft = this.getInnerColorLeft();
       }
 
-      var innerStyles = {};
+      var innerStyles = qx.lang.Object.clone(styles);
+      for (var style in innerStyles) {
+        if (style.indexOf("box-shadow") != -1) {
+          delete innerStyles[style];
+        }
+      }
 
       // Inner styles
       // Inner image must be relative to be compatible with qooxdoo 0.8.x
@@ -249,17 +261,17 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
         innerStyles["border-top"] = width + "px " + this.getStyleTop() + " " + colorTop;
       }
 
-      var width = this.getInnerWidthRight();
+      width = this.getInnerWidthRight();
       if (width > 0) {
         innerStyles["border-right"] = width + "px " + this.getStyleRight() + " " + colorRight;
       }
 
-      var width = this.getInnerWidthBottom();
+      width = this.getInnerWidthBottom();
       if (width > 0) {
         innerStyles["border-bottom"] = width + "px " + this.getStyleBottom() + " " + colorBottom;
       }
 
-      var width = this.getInnerWidthLeft();
+      width = this.getInnerWidthLeft();
       if (width > 0) {
         innerStyles["border-left"] = width + "px " + this.getStyleLeft() + " " + colorLeft;
       }
