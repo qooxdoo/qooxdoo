@@ -24,7 +24,6 @@ import os, sys, re, types, string, copy
 
 from misc.ExtMap import ExtMap
 from generator.config.Lang import Key
-from generator.config.Defaults import Defaults
 from generator.config.Lang import Let
 
 console = None
@@ -288,6 +287,8 @@ class Job(object):
         # Add system supplied features to Job
         # call this on fully expanded jobs *before* macro expansion is called,
         # so default let macros can take effect
+
+        from generator.config.Defaults import Defaults  # late import, so Defaults is not evaluated when importing Job
 
         # add default let macros
         defaultLet = Defaults.let

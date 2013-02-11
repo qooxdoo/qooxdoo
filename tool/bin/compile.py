@@ -139,7 +139,7 @@ Default action is to compress the JS code. All output is written to STDOUT.
     return options, args
 
 def read_config(options):
-    Context.console = Log()
+    Context.console = Log()  # some module down the way looks for Context.console...
     config = Config(Context.console, options.config)
     config.resolveIncludes()
     default_job = config.get("default-job", "default")
