@@ -450,7 +450,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       }
       
       if(qx.bom.Viewport.isLandscape()) {
-        this.__masterContainer.setShowTransition(false);
+        this.__masterContainer.setTransitionDuration(0);
         
         if(!this.isMasterContainerHidden()) {
           this._createDetailContainerGap();
@@ -460,7 +460,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
         }
         this.__masterContainer.setHideOnParentTouch(false);
       } else {
-        this.__masterContainer.setShowTransition(true);
+        this.__masterContainer.setTransitionDuration(500);
         this.__masterContainer.setHideOnParentTouch(true);
         this.__masterContainer.hide();
         this._removeDetailContainerGap();
