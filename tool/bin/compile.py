@@ -42,9 +42,12 @@ from ecmascript.frontend import treegenerator, treegenerator_3
 from ecmascript.transform.optimizer import basecalloptimizer, privateoptimizer, stringoptimizer, variableoptimizer, variantoptimizer, inlineoptimizer
 from ecmascript.backend import api
 from misc import filetool
+from generator import Context
 from generator.runtime.Log import Log
 from generator.runtime.Cache import Cache
 from generator.runtime.InterruptRegistry import InterruptRegistry
+from generator.config.Config import Config
+from generator.runtime.Log import Log
 
 #sys.setrecursionlimit(1500)
 
@@ -95,7 +98,7 @@ def get_args():
 
     usage_str = '''%prog [options] [main_action] file.js,...
     
-Default action is to compress the JS code. Output is written to STDOUT.
+Default action is to compress the JS code. All output is written to STDOUT.
 '''
     parser.set_usage(usage_str)
     
@@ -103,7 +106,8 @@ Default action is to compress the JS code. Output is written to STDOUT.
     option_group = optparse.OptionGroup(parser, "General Options")
     option_group.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="verbose output mode (extra verbose)")
     option_group.add_option("-q", "--quiet", action="store_true", dest="quiet", default=False, help="quiet output")
-    option_group.add_option("-c", "--cache", dest="cache", metavar="CACHEPATH", type="string", default="", help="path to cache directory")
+    option_group.add_option("-c", "--config", dest="config", metavar="CONFIGFILE", type="string", default="", help="path to a config.json file (opt.)")
+    option_group.add_option("--cache", dest="cache", metavar="CACHEPATH", type="string", default="", help="path to cache directory")
     parser.add_option_group(option_group)
 
     # Optimization flags
@@ -128,13 +132,25 @@ Default action is to compress the JS code. Output is written to STDOUT.
     option_group.add_option("--deps", action="store_true", dest="dependencies", default=False, help="unresolved symbols of file")
     parser.add_option_group(option_group)
 
-    
-    
     #
     # Process arguments
     #
     (options, args) = parser.parse_args(sys.argv[1:])
     return options, args
+
+def read_config(options):
+    Context.console = Log()
+    config = Config(Context.console, options.config)
+    config.resolveIncludes()
+    default_job = config.get("default-job", "default")
+    expandedjobs = config.resolveExtendsAndRuns([default_job])
+    config.includeSystemDefaults(expandedjobs)
+    config.resolveLibs(expandedjobs)
+    config.checkSchema(expandedjobs, checkJobTypes=True)
+    config.cleanUpJobs(expandedjobs)
+    options.config = config
+    return
+
 
 def run_lint(fileName, fileContent, options, args):
     if not options.quiet:
@@ -241,6 +257,9 @@ def main():
         print ">>> Parsing file..."
     fileName = args[0]
     fileContent = filetool.read(fileName, "utf-8")
+
+    if options.config:
+        read_config(options)
 
     if options.lint:
         run_lint(fileName, fileContent, options, args)
