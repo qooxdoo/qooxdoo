@@ -138,6 +138,12 @@ Default action is to compress the JS code. All output is written to STDOUT.
     (options, args) = parser.parse_args(sys.argv[1:])
     return options, args
 
+##
+# You can supply a config.json via '-c|--config' to the program. The config will
+# be parsed and a default job will be expanded (as if this were the job to run
+# for the generator). This job's settings can then be exploited in the actions
+# (e.g. pretty-print options, lint options, compile options).
+#
 def read_config(options):
     Context.console = Log()  # some module down the way looks for Context.console...
     config = Config(Context.console, options.config)
@@ -253,24 +259,25 @@ def main():
         print ">>> Missing filename!"
         return
 
-    if not options.quiet:
-        print ">>> Parsing file..."
-    fileName = args[0]
-    fileContent = filetool.read(fileName, "utf-8")
+    for fileName in args:
+        if not options.quiet:
+            print fileName, ":"
+            print ">>> Parsing file..."
+        fileContent = filetool.read(fileName, "utf-8")
 
-    if options.config:
-        read_config(options)
+        if options.config:
+            read_config(options)
 
-    if options.lint:
-        run_lint(fileName, fileContent, options, args)
-    elif options.pretty:
-        run_pretty(fileName, fileContent, options, args)
-    elif options.tree:
-        run_tree(fileName, fileContent, options, args)
-    elif options.dependencies:
-        run_dependencies(fileName, fileContent, options, args)
-    else:
-        run_compile(fileName, fileContent, options, args)
+        if options.lint:
+            run_lint(fileName, fileContent, options, args)
+        elif options.pretty:
+            run_pretty(fileName, fileContent, options, args)
+        elif options.tree:
+            run_tree(fileName, fileContent, options, args)
+        elif options.dependencies:
+            run_dependencies(fileName, fileContent, options, args)
+        else:
+            run_compile(fileName, fileContent, options, args)
          
     return
             
