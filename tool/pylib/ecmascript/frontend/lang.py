@@ -266,6 +266,15 @@ QXGLOBALS = [
     "qx.$$",    # qx.$$domReady, qx.$$libraries, ...
     ]
 
+QX_CLASS_FACTORIES = [
+    "qx.Bootstrap.define",
+    "qx.Class.define",
+    "qx.Mixin.define",
+    "qx.Interface.define",
+    "qx.Theme.define",
+    "q.define",
+    "qxWeb.define",
+    ]
 
 SPACE_BEFORE = ["INSTANCEOF", "IN"]
 SPACE_AFTER = ["VAR", "NEW", "GOTO", "INSTANCEOF", "TYPEOF", "DELETE", "IN", "THROW", "CASE", "VOID"]
