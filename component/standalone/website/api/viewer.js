@@ -230,6 +230,8 @@ q.ready(function() {
 
 
   var renderListModule = function(name, data, prefix) {
+    var checkMissing = q.$$qx.core.Environment.get("apiviewer.check.missingmethods");
+
     var list = q("#list");
     if (prefix && prefix != "event." && prefix != "normalize.") {
       list.append(q.create("<a href='#" + name + "'><h1>" + name + "</h1></a>"));
@@ -240,7 +242,10 @@ q.ready(function() {
     var ul = q.create("<ul></ul>").appendTo(list);
     data["static"].forEach(function(ast) {
       var name = getMethodName(ast, prefix);
-      var missing = isMethodMissing(name, data.classname);
+      var missing = false;
+      if (checkMissing !== false) {
+        missing = isMethodMissing(name, data.classname);
+      }
       q.template.get("list-item", {
         name: name + "()",
         missing: missing,
