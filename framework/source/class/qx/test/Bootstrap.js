@@ -53,7 +53,7 @@ qx.Class.define("qx.test.Bootstrap",
     testAlternativeRoot : function() {
       var myRoot = {};
       qx.Bootstrap.setRoot(myRoot);
-      var c = qx.Bootstrap.define("qx.test.ROOT");
+      var c = qx.Bootstrap.define("qx.test.ROOT", {});
       this.assertUndefined(qx.test.ROOT);
       this.assertEquals(c, myRoot.qx.test.ROOT);
       qx.Bootstrap.setRoot(undefined);
