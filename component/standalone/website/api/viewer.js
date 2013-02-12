@@ -163,7 +163,7 @@ q.ready(function() {
       }
       onContentReady();
     });
-  }
+  };
 
 
 
@@ -259,7 +259,7 @@ q.ready(function() {
           return q.type.get(parent[name[i]]) !== "Function";
         }
         parent = parent[name[i]];
-      };
+      }
     }
     // member methods of q
     if (name[0] == "") {
@@ -278,10 +278,10 @@ q.ready(function() {
           return missing;
         }
         parent = parent[classname[i]];
-      };
+      }
     }
     return false;
-  }
+  };
 
   /**
    * CONTENT
@@ -330,16 +330,16 @@ q.ready(function() {
          if (types[i] == "*") {
            types[i] = "all";
          }
-       };
+       }
        var typesEl = renderTypes(types);
        module.append(typesEl);
      }
 
      data["static"].forEach(function(method) {
-       renderMethod(method, prefix);
+       module.append(renderMethod(method, prefix));
      });
      data["member"].forEach(function(method) {
-       renderMethod(method, prefix);
+       module.append(renderMethod(method, prefix));
      });
    };
 
@@ -398,20 +398,20 @@ q.ready(function() {
         if (type.attributes.dimensions > 0) {
           for (var i=0; i < type.attributes.dimensions; i++) {
             typeString += "[]";
-          };
+          }
         }
         paramData.types.push(typeString);
-      };
+      }
       paramData.printTypes = printTypes;
       data.params.push(paramData);
-    };
+    }
     data.printParams = printParams;
     data.paramsExist = data.params.length > 0;
 
     data.plugin = isPluginMethod(data.name);
 
-    q("#content").append(q.template.get("method", data));
-  }
+    return q.template.get("method", data);
+  };
 
 
   var addClassDoc = function(name, parent) {
@@ -526,7 +526,7 @@ q.ready(function() {
         module.types = constant.attributes.value;
         break;
       }
-    };
+    }
 
     module.desc = getByType(ast, "desc").attributes.text || "";
     module.events = getEvents(ast);
@@ -573,31 +573,42 @@ q.ready(function() {
     }
     // enable syntax highlighting
     if (useHighlighter) {
-      q('pre').forEach(function(el) {hljs.highlightBlock(el)});
+      q('pre').forEach(function(el) {hljs.highlightBlock(el);});
     }
 
     loadSamples();
-  }
+  };
 
+  var appendSample = function(sample, header) {
+      if (header[0]) {
+        if (useHighlighter) {
+          var sampleEl;
+          var precedingSamples = header.getSiblings("pre");
+          if (precedingSamples.length > 0) {
+            sampleEl = q.create("<pre>").insertAfter(precedingSamples.eq(precedingSamples.length - 1));
+          }
+          else {
+            sampleEl = q.create("<pre>").insertAfter(header);
+          }
+          hljs.highlightBlock(sampleEl.setHtml(sample)[0]);
+        }
+      } else {
+        console && console.warn("Sample could not be attached for '", method, "'.");
+      }
+  };
 
   var loadSamples = function() {
     q.io.script("samples.js").send().on("loadend", function() {
       for (var method in samples) {
         var selector = "#" + method.replace(/\./g, "\\.");
-        q(selector).append(q.create("<h4>Examples</h4>"));
+        var parent = q(selector);
+        var header = q.create("<h4>Examples</h4>");
+        parent.append(header);
         for (var i=0; i < samples[method].length; i++) {
           var sample = samples[method][i].toString();
           sample = sample.substring(sample.indexOf("\n") + 1, sample.length - 2);
-          var sampleElement = q(selector);
-          if (sampleElement[0]) {
-            if (useHighlighter) {
-              hljs.highlightBlock(q.create("<pre>").appendTo(sampleElement).setHtml(sample)[0]);
-            }
-
-          } else {
-            console && console.warn("Sample could not be attached for '", method, "'.")
-          }
-        };
+          appendSample(sample, header);
+        }
       }
       // finally, jump to the selected item
       if (location.hash) {
@@ -635,7 +646,7 @@ q.ready(function() {
         if (item.type == type) {
           return item;
         }
-      };
+      }
     }
     return {attributes: {}, children: []};
   };
@@ -652,7 +663,7 @@ q.ready(function() {
   var getModuleNameFromClassName = function(name) {
     name = name.split(".");
     return name[name.length -1];
-  }
+  };
 
   var isInternal = function(item) {
     return item.attributes.isInternal ||
@@ -730,4 +741,35 @@ q.ready(function() {
     q("#content").setStyles({position: "absolute", bottom: "auto"});
     q("#header-wrapper").setStyle("position", "absolute");
   }
+
+  /**
+   * Adds sample code to a method's documentation.
+   *
+   * @param methodName {String} Name of the method, e.g. ".before" or "q.create"
+   * @param sample {String} Sample code
+   */
+  window.addSample = function(methodName, sample) {
+    // Find the doc element for the method
+    var method = q("#" + methodName.replace(/\./g, "\\."));
+    if (method.length === 0) {
+      console && console.warn("Unable to add sample: No doc element found for method", methodName);
+    }
+
+    // Find existing "Examples" heading
+    var headerElement = null;
+    var subHeaders = method.getChildren("h4");
+    for (var i=0, l=subHeaders.length; i<l; i++) {
+      var header = subHeaders.eq(i);
+      if (header.getHtml() == "Examples") {
+        headerElement = header;
+        break;
+      }
+    }
+    // No heading found, create one
+    if (!headerElement) {
+      headerElement = q.create("<h4>Examples</h4>");
+      method.append(headerElement);
+    }
+    appendSample(sample, headerElement);
+  };
 });
