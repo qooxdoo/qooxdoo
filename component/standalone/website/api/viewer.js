@@ -292,12 +292,12 @@ q.ready(function() {
   /**
    * CONTENT
    */
-   var renderContent = function() {
-     var keys = getDataKeys();
-     for (var i = 0; i < keys.length; i++) {
-       renderModule(keys[i], data[keys[i]]);
-     }
-   };
+  var renderContent = function() {
+    var keys = getDataKeys();
+    for (var i = 0; i < keys.length; i++) {
+      renderModule(keys[i], data[keys[i]]);
+    }
+  };
 
 
    var renderModule = function(name, data, prefix) {
@@ -434,13 +434,19 @@ q.ready(function() {
         var ast = JSON.parse(xhr.responseText);
         // class doc
         var desc = getByType(ast, "desc");
+        var classDoc;
         if (desc && desc.attributes && desc.attributes.text) {
-          parent.append(parse(desc.attributes.text));
+          classDoc = q.create(parse(desc.attributes.text));
+          classDoc.insertAfter(parent.find("h1"));
         }
 
         var eventsEl = renderEvents(getEvents(ast));
         if (eventsEl) {
-          parent.append(eventsEl);
+          if (classDoc) {
+            eventsEl.insertAfter(classDoc);
+          } else {
+            eventsEl.insertAfter(parent.find("h1"));
+          }
         }
       } else {
         parent.append(
@@ -772,6 +778,7 @@ q.ready(function() {
     var method = q("#" + methodName.replace(/\./g, "\\."));
     if (method.length === 0) {
       console && console.warn("Unable to add sample: No doc element found for method", methodName);
+      return;
     }
 
     // Find existing "Examples" heading
