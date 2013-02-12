@@ -58,6 +58,12 @@ q.ready(function() {
       loadEventNorm();
       loadPolyfills();
       onContentReady();
+      attachOnScroll();
+      if (location.hash) {
+        location.href = location.href;
+      } else {
+        location.href = location.href + "#Core";
+      }
     } else {
       q("#warning").setStyle("display", "block");
       if (location.protocol.indexOf("file") == 0) {
@@ -443,7 +449,7 @@ q.ready(function() {
       }
       onContentReady();
     });
-  }
+  };
 
 
   var getEvents = function(ast) {
@@ -575,46 +581,41 @@ q.ready(function() {
     if (useHighlighter) {
       q('pre').forEach(function(el) {hljs.highlightBlock(el);});
     }
-
-    loadSamples();
   };
 
-  var appendSample = function(sample, header) {
-      if (header[0]) {
-        if (useHighlighter) {
-          var sampleEl;
-          var precedingSamples = header.getSiblings("pre");
-          if (precedingSamples.length > 0) {
-            sampleEl = q.create("<pre>").insertAfter(precedingSamples.eq(precedingSamples.length - 1));
-          }
-          else {
-            sampleEl = q.create("<pre>").insertAfter(header);
-          }
-          hljs.highlightBlock(sampleEl.setHtml(sample)[0]);
-        }
-      } else {
-        console && console.warn("Sample could not be attached for '", method, "'.");
-      }
+  // load sample code as modules are scrolled into view
+  var seenModules = [];
+  var loadModuleSamples = function(module) {
+    var moduleName = module.getChildren("h1").getHtml();
+    var sampleUri = "./samples/" + moduleName + ".js";
+    q.io.script(sampleUri).send();
   };
 
-  var loadSamples = function() {
-    q.io.script("samples.js").send().on("loadend", function() {
-      for (var method in samples) {
-        var selector = "#" + method.replace(/\./g, "\\.");
-        var parent = q(selector);
-        var header = q.create("<h4>Examples</h4>");
-        parent.append(header);
-        for (var i=0; i < samples[method].length; i++) {
-          var sample = samples[method][i].toString();
-          sample = sample.substring(sample.indexOf("\n") + 1, sample.length - 2);
-          appendSample(sample, header);
+  var attachOnScroll = function() {
+    var modules = q(".module");
+    var content = q("#content");
+    var lastCheck;
+
+    var onScroll = function(ev) {
+      if (lastCheck && Date.now() - lastCheck < 500) {
+        return;
+      }
+      modules.forEach(function(item, index) {
+        var module = modules.eq(index);
+        if (seenModules.indexOf(module[0]) == -1) {
+          var pos = module.getPosition();
+          var isVisible = pos.top < content.getHeight() && (pos.bottom > 0 ||
+            (pos.bottom + content.getHeight()) > 0);
+          if (isVisible) {
+            loadModuleSamples(module);
+            seenModules.push(module[0]);
+          }
         }
-      }
-      // finally, jump to the selected item
-      if (location.hash) {
-        location.href = location.href;
-      }
-    });
+      });
+      lastCheck = Date.now();
+    };
+
+    q("#content").on("scroll", onScroll);
   };
 
 
@@ -742,11 +743,29 @@ q.ready(function() {
     q("#header-wrapper").setStyle("position", "absolute");
   }
 
+  var appendSample = function(sample, header) {
+    if (header[0]) {
+      if (useHighlighter) {
+        var sampleEl;
+        var precedingSamples = header.getSiblings("pre");
+        if (precedingSamples.length > 0) {
+          sampleEl = q.create("<pre class='javascript'>").insertAfter(precedingSamples.eq(precedingSamples.length - 1));
+        }
+        else {
+          sampleEl = q.create("<pre class='javascript'>").insertAfter(header);
+        }
+        hljs.highlightBlock(sampleEl.setHtml(sample)[0]);
+      }
+    } else {
+      console && console.warn("Sample could not be attached for '", method, "'.");
+    }
+  };
+
   /**
    * Adds sample code to a method's documentation.
    *
    * @param methodName {String} Name of the method, e.g. ".before" or "q.create"
-   * @param sample {String} Sample code
+   * @param sample {Function|String} Sample code
    */
   window.addSample = function(methodName, sample) {
     // Find the doc element for the method
@@ -770,6 +789,12 @@ q.ready(function() {
       headerElement = q.create("<h4>Examples</h4>");
       method.append(headerElement);
     }
+
+    if (typeof sample == "function") {
+      sample = sample.toString();
+      sample = sample.substring(sample.indexOf("\n") + 1, sample.length - 2);
+    }
+
     appendSample(sample, headerElement);
   };
 });
