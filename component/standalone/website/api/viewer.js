@@ -262,6 +262,10 @@ q.ready(function() {
 
 
   var isMethodMissing = function(name, classname) {
+    var checkMissing = q.$$qx.core.Environment.get("apiviewer.check.missingmethods");
+    if (checkMissing === false) {
+      return false;
+    }
     name = name.split(".");
     // static methods attached to q
     if (name[0] == "q") {
