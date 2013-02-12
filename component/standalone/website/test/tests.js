@@ -905,11 +905,46 @@ testrunner.define({
     this.assertEquals(window, q.getWindow(q("#sandbox")[0]));
   },
 
+  testIsWindow : function()
+  {
+    this.assertTrue(q.isWindow(window));
+    this.assertFalse(q.isWindow(document));
+    this.assertFalse(q.isWindow(document.body));
+  },
+
   testGetDocument : function()
   {
     this.assertEquals(document, q.getDocument(q("#sandbox")[0]));
     this.assertEquals(document, q.getDocument(window));
     this.assertEquals(document, q.getDocument(document));
+  },
+
+  testGetNodeName : function()
+  {
+    this.assertEquals("html", q.getNodeName(document.documentElement));
+  },
+
+  testGetNodeText : function()
+  {
+    this.assertEquals("monkeycheese", q.getNodeText(q.create("<div>monkey<p>cheese</p></div>")[0]));
+  },
+
+  testIsBlockNode : function()
+  {
+    this.assertTrue(q.isBlockNode(document.createElement("p")));
+    this.assertFalse(q.isBlockNode(document.createElement("span")));
+  },
+
+  testIsNodeName : function()
+  {
+    this.assertTrue(q.isNodeName(document.createElement("p"), "p"));
+    this.assertTrue(q.isNodeName(document.createTextNode("bla"), "#text"));
+  },
+
+  testIsTextNode : function()
+  {
+    this.assertTrue(q.isTextNode(document.createTextNode("bla")));
+    this.assertFalse(q.isTextNode(document.createElement("p")));
   }
 });
 
