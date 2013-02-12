@@ -24,9 +24,15 @@ q.ready(function() {
   // remove the warning
   q("#warning").setStyle("display", "none");
 
-  var version = q.$$qx.core.Environment.get("qx.version");
-  if (version) {
-    q("h1").setHtml("qx.Website " + version + " API Documentation");
+  var customTitle = q.$$qx.core.Environment.get("apiviewer.title");
+  if (customTitle) {
+    q("h1").setHtml(customTitle);
+  }
+  else {
+    var version = q.$$qx.core.Environment.get("qx.version");
+    if (version) {
+      q("h1").setHtml("qx.Website " + version + " API Documentation");
+    }
   }
 
   // global storage for the method index
