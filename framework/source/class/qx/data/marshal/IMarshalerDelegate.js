@@ -73,11 +73,12 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      *
      * @param properties {String} A sorted order of propertynames
      *   separated by ".
+     * @param object {Map} The object for which an class is needed.
      * @return {Class|null} Returns the class containing the properties
      *   corresponding to the given hash of the properties. If <code>null</code>
      *   will be returned, the marshaler will create a class.
      */
-    getModelClass : function(properties) {},
+    getModelClass : function(properties, object) {},
 
 
     /**
