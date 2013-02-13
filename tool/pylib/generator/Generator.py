@@ -34,7 +34,7 @@ from generator.code.Part             import Part
 from generator.action.CodeGenerator  import CodeGenerator
 from generator.action.ActionLib      import ActionLib
 from generator.action.Locale         import Locale as LocaleCls
-from generator.action                import ApiLoader, Locale, CodeMaintenance, Testing, Validation
+from generator.action                import ApiLoader, Locale, CodeMaintenance, Testing, JsonValidation
 from generator.action                import CodeProvider, Logging, FileSystem, Resources
 from generator.action                import MiniWebServer
 from generator.runtime.Cache         import Cache
@@ -502,7 +502,7 @@ class Generator(object):
         if takeout(jobTriggers, "clean-files"):
             FileSystem.runClean(self._job, self._config, self._cache)
         if takeout(jobTriggers, "manifest-validate"):
-            Validation.validateManifest(self._job, self._config)
+            JsonValidation.validateManifest(self._job, self._config)
         if takeout(jobTriggers, "migrate-files"):
             CodeMaintenance.runMigration(self._job, config.get("library"))
         if takeout(jobTriggers, "shell"):
