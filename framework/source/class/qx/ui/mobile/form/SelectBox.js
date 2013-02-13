@@ -315,8 +315,8 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      */
     __showSelectionDialog : function () {
       // Set index before items, because setItems() triggers rendering.
-      this.__selectionDialog.setItems(this.getModel());
       this.__selectionDialog.setSelectedIndex(this.getSelection());
+      this.__selectionDialog.setItems(this.getModel());
       this.__selectionDialog.show();
     },
 
