@@ -58,13 +58,10 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     }
 
     var menuContainer = new qx.ui.mobile.container.Composite();
-    var clearButton = this.__clearButton = new qx.ui.mobile.form.Button(this.getClearButtonLabel());
-    clearButton.addListener("tap", this.__onClearButtonTap, this);
-    clearButton.addListener("touchstart", this._preventClickEvent, this);
-    clearButton.setVisibility("excluded");
-
+    this.__clearButton = this._createClearButton(); 
+    
     menuContainer.add(this.__selectionList);
-    menuContainer.add(clearButton);
+    menuContainer.add(this.__clearButton);
 
     this.base(arguments, menuContainer, anchor);
 
@@ -158,7 +155,18 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       init : "None",
       check : "String",
       apply : "_applyClearButtonLabel"
-    }
+    },
+    
+    
+    /**
+     * The selected index of this menu.
+     */
+    selectedIndex :
+    {
+      check : "Integer",
+      apply : "_applySelectedIndex",
+      nullable : true
+    }  
   },
 
 
@@ -171,7 +179,6 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
   members :
   {
     __selectionList: null,
-    __selectedIndex: null,
     __clearButton : null,
 
      
@@ -186,9 +193,23 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     
     
     /**
+     * Creates the clearButton. Override this to customize the widget.
+     *
+     * @return {qx.ui.mobile.form.Button} the clearButton of this menu.
+     */
+    _createClearButton : function() {
+      var clearButton = new qx.ui.mobile.form.Button(this.getClearButtonLabel());
+      clearButton.addListener("tap", this.__onClearButtonTap, this);
+      clearButton.addListener("touchstart", this._preventClickEvent, this);
+      clearButton.exclude();
+      return clearButton;
+    },
+    
+    
+    /**
      * Creates the selection list. Override this to customize the widget.
      *
-     * @return {qx.ui.mobile.list.List} The selection list
+     * @return {qx.ui.mobile.list.List} The selectionList of this menu.
      */
     _createSelectionList : function() {
       var self = this;
@@ -198,7 +219,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
           item.setTitle(data);
           item.setShowArrow(false);
 
-          var isItemSelected = (self.__selectedIndex == row);
+          var isItemSelected = (self.getSelectedIndex() == row);
 
           if(isItemSelected) {
             item.removeCssClass(self.getUnselectedItemClass());
@@ -225,9 +246,8 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
 
 
     /**
-     *  Sets the choosable items of the menu.
-     *
-     *  @param itemsModel {qx.data.Array}, the model of choosable items in the menu.
+     * Sets the choosable items of the menu.
+     * @param itemsModel {qx.data.Array}, the model of choosable items in the menu.
      */
     setItems : function (itemsModel) {
       if(this.__selectionList) {
@@ -238,29 +258,15 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
 
 
     /**
-     * Sets the pre-selected item.
-     * Set selectedIndex before model, because changing model triggers rendering of list.
-     * @param selectedIndex {Number}, the index of the item which should be pre-selected.
-     */
-    setSelectedIndex : function (selectedIndex) {
-      this.__selectedIndex = selectedIndex;
-    },
-
-
-    /**
      * Hides the menu, fires an event which contains index and data.
      * @param evt {qx.event.type.Data}, contains the selected index number.
      */
     __onListChangeSelection : function (evt) {
-      var selectedIndex = evt.getData();
-      var selectedItem = this.__selectionList.getModel().getItem(selectedIndex);
-      this.setSelectedIndex(selectedIndex);
+      this.setSelectedIndex(evt.getData());
       this._render();
-
-      this.fireDataEvent("changeSelection", {index: selectedIndex, item: selectedItem});
     },
-
-
+    
+    
     /**
      * Reacts on blocker tap.
      */
@@ -277,8 +283,17 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
      */
     __onClearButtonTap : function() {
       this.fireDataEvent("changeSelection", {index: null, item: null});
-      
       this.hide();
+    },
+    
+    
+    // property apply
+    _applySelectedIndex : function(value, old) {
+      var listModel = this.__selectionList.getModel();
+      if(listModel != null) {
+        var selectedItem = listModel.getItem(value);
+        this.fireDataEvent("changeSelection", {index: value, item: selectedItem});
+      }
     },
 
 
