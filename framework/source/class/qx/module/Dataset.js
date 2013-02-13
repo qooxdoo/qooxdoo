@@ -109,4 +109,4 @@ qx.Bootstrap.define("qx.module.Dataset", {
 		      "getAllData" : statics.getAllData
 		  });
 	  }
-};
+});
