@@ -53,7 +53,7 @@ qx.Class.define("qx.test.mobile.container.Drawer",
     {
       var drawer = new qx.ui.mobile.container.Drawer();
       
-      drawer.setShowTransition(false);
+      drawer.setTransitionDuration(0);
       
       // Initial hidden.
       this.assertTrue(drawer.isHidden(),"Drawer is asserted to be initially hidden.");
@@ -76,7 +76,7 @@ qx.Class.define("qx.test.mobile.container.Drawer",
     {
       var drawer = new qx.ui.mobile.container.Drawer();
       
-      drawer.setShowTransition(false);
+      drawer.setTransitionDuration(0);
       
       // Initial hidden.
       this.assertTrue(drawer.isHidden(),"Drawer is asserted to be initially hidden.");

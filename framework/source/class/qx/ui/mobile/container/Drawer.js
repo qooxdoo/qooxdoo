@@ -165,7 +165,8 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     /** The duration time of the transition between shown/hidden state in ms. */
     transitionDuration : {
       check : "Integer",
-      init : 500
+      init : 500,
+      apply : "_applyTransitionDuration"
     },
     
     
@@ -188,6 +189,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     __touchStartPosition : null,
     __parent : null,
     __inAnimation : null,
+    __transitionEnabled : true,
   
   
     // property apply
@@ -238,6 +240,12 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     },
     
     
+    // property apply
+    _applyTransitionDuration : function(value,old) {
+      this.__transitionEnabled = value > 0;
+    },
+    
+    
     /**
      * Shows the drawer.
      */
@@ -279,9 +287,14 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       
       // Delayed removal of hidden class, needed for iOS
       // soft keyboard bug.
-      qx.event.Timer.once(function() {
+      if(this.__transitionEnabled) {
+        qx.event.Timer.once(function() {
         this.removeCssClass("hidden");
-      }, this, 0);
+        }, this, 0);
+      } else {
+        this.removeCssClass("hidden");
+      }
+      
       
       qx.event.Timer.once(this._disableTransition, this, this.getTransitionDuration());
     },
@@ -349,6 +362,10 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
      * Enables the transition on this drawer.
      */
     _enableTransition : function() {
+      if(!this.__transitionEnabled) {
+        return;
+      }
+      
       this.__inAnimation = true;
 
       var target = null;
@@ -357,7 +374,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       } else {
         target = this.getContentElement();
       }
-
+      
       qx.bom.element.Style.set(target, "transition", "all "+this.getTransitionDuration()+"ms ease-in-out");
     },
     
@@ -366,6 +383,10 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
      * Disables the transition on this drawer.
      */
     _disableTransition : function() {
+      if(!this.__transitionEnabled) {
+        return;
+      }
+      
       this.__inAnimation = false;
       
       qx.bom.element.Style.set(this.getContentElement(),"transition", null);
