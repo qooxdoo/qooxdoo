@@ -216,9 +216,9 @@ def execGenerator(argv, config=None, extra_config=None, appname=None):
 
     # Load application configuration
     if config is not None:
-        config = Config(console, config, argv=argv, **options.letmacros)
+        config = Config(console, config, **options.letmacros)
     else:
-        config = Config(console, options.config, argv=argv, **options.letmacros)
+        config = Config(console, options.config, **options.letmacros)
 
     # Load user configuration (preferences)
     config = getUserConfig(config)

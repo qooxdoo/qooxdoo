@@ -27,7 +27,6 @@ from generator.config.Lang import Key, Let
 from generator.resource.Library import Library
 from generator.runtime.ShellCmd import ShellCmd
 from generator.config.ConfigurationError import ConfigurationError
-from generator.config.Defaults import Defaults
 from misc.NameSpace import NameSpace
 from misc import json
 # see late imports at the bottom of this file
@@ -38,18 +37,16 @@ class Config(object):
 
     global console
 
-    def __init__(self, console_, data, path="", argv=None, **letKwargs):
+    def __init__(self, console_, data, path="", **letKwargs):
         global console
         # init members
         self._console  = console_
         self._data     = None
-        self._argv     = argv
         self._fname    = None
         self._shellCmd = ShellCmd()
         self._includedConfigs = []  # to record included configs
         self._shadowedJobs    = {}  # to record shadowed jobs, of the form {<shadowed_job_obj>: <shadowing_job_obj>}
 
-        self.defaults = Defaults(self)
         console = console_
 
         # dispatch on argument
@@ -398,7 +395,7 @@ class Config(object):
                 else:
                     namespace = ""
 
-                econfig = Config(self._console, fapath.decode('utf-8'), argv=self._argv)
+                econfig = Config(self._console, fapath.decode('utf-8'))
                 econfig.resolveIncludes(includeTree)   # recursive include
                 # check include/import
                 if 'import' in incspec:

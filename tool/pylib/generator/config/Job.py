@@ -291,10 +291,10 @@ class Job(object):
         from generator.config.Defaults import Defaults  # late import, so Defaults is not evaluated when importing Job
 
         # add default let macros
-        defaults = self.getConfig().defaults
-        if defaults and defaults.let:
+        defaultLet = Defaults.let
+        if defaultLet:
             mylet = self.getFeature(Key.LET_KEY, {})
-            mylet = self.mergeValues(defaults.let, mylet) # existing values in mylet will take precedence
+            mylet = self.mergeValues(defaultLet, mylet) # existing values in mylet will take precedence
             self.setFeature(Key.LET_KEY, mylet)
 
 

@@ -51,30 +51,28 @@ def getUserHome(default=""):
     else:
         return default
 
-def getGenOpts(sysargv):
+def getGenOpts():
     opts = getattr(Context, "generator_opts", [])
     opts_string = u" ".join(opts)
     return opts_string
 
 class Defaults(object):
 
-    def __init__(self, config):
-
-        self.let = {
-            ##
-            # GENERATOR_OPTS
-            # You can use the generator options string returned here for the invocation
-            # of child generator (or other, of course) processes. Putting this macro
-            # first you can override options subsequently, like
-            # "generate.py ${GENERATOR_OPTS} -c otherconfig.json -m FOO:baz"
-            # will insert all options passed to this generator invocation, but
-            # overriding the config file and the FOO macro.
-            u"GENERATOR_OPTS"  : getGenOpts(config._argv),
-            u"HOME"            : getUserHome("."),
-            u"PYTHON_CMD"      : sys.executable,
-            u"TMPDIR"          : tempfile.gettempdir(),
-            u"QOOXDOO_VERSION" : getQooxdooVersion(),
-            u"QOOXDOO_REVISION": getQooxdooRevision(),
-            u"USERNAME"        : os.getenv("USERNAME"),
-        }
+    let = {
+        ##
+        # GENERATOR_OPTS
+        # You can use the generator options string returned here for the invocation
+        # of child generator (or other, of course) processes. Putting this macro
+        # first you can override options subsequently, like
+        # "generate.py ${GENERATOR_OPTS} -c otherconfig.json -m FOO:baz"
+        # will insert all options passed to this generator invocation, but
+        # overriding the config file and the FOO macro.
+        u"GENERATOR_OPTS"  : getGenOpts(),
+        u"HOME"            : getUserHome("."),
+        u"PYTHON_CMD"      : sys.executable,
+        u"TMPDIR"          : tempfile.gettempdir(),
+        u"QOOXDOO_VERSION" : getQooxdooVersion(),
+        u"QOOXDOO_REVISION": getQooxdooRevision(),
+        u"USERNAME"        : os.getenv("USERNAME"),
+    }
 
