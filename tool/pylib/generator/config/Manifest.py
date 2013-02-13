@@ -120,6 +120,7 @@ class Manifest(object):
         TODO:
             * adapt config.json skeletons to export job
             * adapt Manifest.json skeletons to adhere schema after create-application.py
+            * write docs for "default_jobs_actions" and "generator_config_ref" pages
         """
         patterns = {
             "semver": r"^latest$|^\d+\.\d+(\.\d+)?(-[0-9]+-?)?([-a-zA-Z+][-a-zA-Z0-9\.:-]*)?$",
