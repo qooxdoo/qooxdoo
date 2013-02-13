@@ -70,9 +70,16 @@ q.ready(function() {
       attachOnScroll();
       if (location.hash) {
         location.href = location.href;
-      } else {
-        location.href = location.href + "#Core";
       }
+      // force a scroll event so the topmost module's samples are loaded
+      window.setTimeout(function() {
+        var cont = document.getElementById("content");
+        if (cont.scrollTop == 0) {
+          cont.scrollTop = 1;
+          cont.scrollTop = 0;
+        }
+      }, 100);
+
     } else {
       q("#warning").setStyle("display", "block");
       if (location.protocol.indexOf("file") == 0) {
@@ -793,7 +800,7 @@ q.ready(function() {
    */
   window.addSample = function(methodName, sample) {
     // Find the doc element for the method
-    var method = q("#" + methodName.replace(/\./g, "\\."));
+    var method = q("#" + methodName.replace(/\./g, "\\.").replace(/\$/g, "\\$"));
     if (method.length === 0) {
       console && console.warn("Unable to add sample: No doc element found for method", methodName);
       return;
