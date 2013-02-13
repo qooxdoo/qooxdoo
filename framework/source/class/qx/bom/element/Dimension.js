@@ -47,30 +47,10 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
      * @param element {Element} element to query
      * @return {Integer} width of the element
      */
-    getWidth : qx.core.Environment.select("engine.name",
-    {
-      "gecko" : function(element)
-      {
-        // offsetWidth in Firefox does not always return the rendered pixel size
-        // of an element.
-        // Starting with Firefox 3 the rendered size can be determined by using
-        // getBoundingClientRect
-        // https://bugzilla.mozilla.org/show_bug.cgi?id=450422
-        if (element.getBoundingClientRect)
-        {
-          var rect = element.getBoundingClientRect();
-          return Math.round(rect.right) - Math.round(rect.left);
-        }
-        else
-        {
-          return element.offsetWidth;
-        }
-      },
-
-      "default" : function(element) {
-        return element.offsetWidth;
-      }
-    }),
+    getWidth: function(element) {
+      var rect = element.getBoundingClientRect();
+      return Math.round(rect.right) - Math.round(rect.left);
+    },
 
 
     /**
@@ -84,25 +64,10 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
      * @param element {Element} element to query
      * @return {Integer} height of the element
      */
-    getHeight : qx.core.Environment.select("engine.name",
-    {
-      "gecko" : function(element)
-      {
-        if (element.getBoundingClientRect)
-        {
-          var rect = element.getBoundingClientRect();
-          return Math.round(rect.bottom) - Math.round(rect.top);
-        }
-        else
-        {
-          return element.offsetHeight;
-        }
-      },
-
-      "default" : function(element) {
-        return element.offsetHeight;
-      }
-    }),
+    getHeight: function(element) {
+      var rect = element.getBoundingClientRect();
+      return Math.round(rect.bottom) - Math.round(rect.top);
+    },
 
 
     /**
