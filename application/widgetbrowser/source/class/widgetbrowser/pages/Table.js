@@ -66,7 +66,7 @@ qx.Class.define("widgetbrowser.pages.Table",
 
     __createTable : function()
     {
-      var rowData = this.__createRandomRows(50);
+      var rowData = this.__createRandomRows(500);
 
       var tableModel = new qx.ui.table.model.Simple();
       tableModel.setColumns([ "ID", "A number", "A date", "Boolean" ]);

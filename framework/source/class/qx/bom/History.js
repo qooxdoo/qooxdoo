@@ -90,7 +90,7 @@
  * This module is based on the ideas behind the YUI Browser History Manager
  * by Julien Lecomte (Yahoo), which is described at
  * http://yuiblog.com/blog/2007/02/21/browser-history-manager/. The Yahoo
- * implementation can be found at http://developer.yahoo.com/yui/history.
+ * implementation can be found at http://developer.yahoo.com/yui/history/.
  * The original code is licensed under a BSD license
  * (http://developer.yahoo.com/yui/license.txt).
  */

@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2013 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,6 +14,7 @@
 
    Authors:
      * Tino Butz (tbtz)
+     * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
 
@@ -53,12 +54,17 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
   */
 
   /**
-   * @param value {Boolean?null} The value of the checkbox.
+   * @param value {Boolean?false} The value of the checkbox.
    */
   construct : function(value)
   {
     this.base(arguments);
-    qx.event.Registration.addListener(this, "appear", this.__onAppear, this);
+    
+    if(typeof value != undefined) {
+      this._state = value;
+    }
+    
+    this.addListener("tap", this._onTap, this);
   },
 
   /*
@@ -73,31 +79,36 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
     defaultCssClass :
     {
       refine : true,
-      init : "checkBox"
+      init : "checkbox"
     }
 
   },
 
   members :
   {
+    _state : null,
+    
+    
+    // overridden
+    _getTagName : function()
+    {
+      return "span";
+    },
+    
+  
     // overridden
     _getType : function()
     {
-      return "checkbox";
+      return null;
     },
 
-
+    
     /**
-     * Event handler, when CheckBox appears on screen.
+     * Handler for tap events.
      */
-    __onAppear : function() {
-      var label = qx.dom.Element.create("label");
-      qx.bom.element.Attribute.set(label, "for", this.getId());
-      qx.bom.element.Class.add(label, "checkbox-label");
-
-      qx.dom.Element.insertAfter(label, this.getContentElement());
-
-      qx.event.Registration.removeListener(this, "appear", this.__onAppear, this);
+    _onTap : function() {
+      // Toggle State.
+      this.setValue(!this.getValue());
     },
 
 
@@ -107,8 +118,17 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
      * @param value {Boolean} the new value of the checkbox
      */
     _setValue : function(value) {
+      if(value == true) {
+        this.addCssClass("checked");
+      } else {
+        this.removeCssClass("checked");
+      }
+      
       this._setAttribute("checked", value);
+      
+      this._state = value;
     },
+
 
     /**
      * Gets the value [true/false] of this checkbox.
@@ -116,7 +136,7 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
      * @return {Boolean} the value of the checkbox
      */
     _getValue : function() {
-      return this._getAttribute("checked");
+      return this._state;
     }
   },
 
@@ -128,6 +148,6 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
   */
   destruct : function()
   {
-      qx.event.Registration.removeListener(this, "appear", this.__onAppear, this);
+    this.removeListener("tap", this._onTap, this);
   }
 });

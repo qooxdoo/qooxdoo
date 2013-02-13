@@ -2456,7 +2456,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         } else {
           for (var i=0; i < padding.length; i++) {
             padding[i] += 1;
-          };
+          }
           // reduce the size by 1 because we have different decorator border width
           if (states.barTop) {
             padding[2] -= 1;

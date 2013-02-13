@@ -60,9 +60,16 @@ qx.Class.define("qx.event.handler.Mouse",
     this.__root = this.__window.document;
 
     // Initialize observers
-    this._initButtonObserver();
-    this._initMoveObserver();
-    this._initWheelObserver();
+    if (!(qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse"))) {
+      this._initButtonObserver();
+      this._initMoveObserver();
+      this._initWheelObserver();
+    }
+
+    // Include the dependency to the emulatemouse handler
+    if (qx.core.Environment.get("qx.emulatemouse")) {
+      qx.event.handler.MouseEmulation;
+    }
   },
 
 
@@ -120,7 +127,7 @@ qx.Class.define("qx.event.handler.Mouse",
     __manager : null,
     __window : null,
     __root : null,
-
+    __preventNextClick: null,
 
 
 
@@ -216,7 +223,13 @@ qx.Class.define("qx.event.handler.Mouse",
     },
 
 
-
+    /**
+     * Helper to prevent the next click.
+     * @internal
+     */
+    preventNextClick : function() {
+      this.__preventNextClick = true;
+    },
 
 
 
@@ -366,6 +379,11 @@ qx.Class.define("qx.event.handler.Mouse",
     {
       var type = domEvent.type;
       var target = qx.bom.Event.getTarget(domEvent);
+
+      if (type == "click" && this.__preventNextClick) {
+        delete this.__preventNextClick;
+        return;
+      }
 
       // Safari (and maybe gecko) takes text nodes as targets for events
       // See: http://www.quirksmode.org/js/events_properties.html
@@ -579,9 +597,11 @@ qx.Class.define("qx.event.handler.Mouse",
 
   destruct : function()
   {
-    this._stopButtonObserver();
-    this._stopMoveObserver();
-    this._stopWheelObserver();
+    if (!(qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse"))) {
+      this._stopButtonObserver();
+      this._stopMoveObserver();
+      this._stopWheelObserver();
+    }
 
     this.__manager = this.__window = this.__root =
       this.__lastMouseDownTarget = null;

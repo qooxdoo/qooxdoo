@@ -517,6 +517,19 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
 
     /**
+     * Whether the node has the given node name
+     *
+     * @attachStatic{qxWeb}
+     * @param node {Node} the node to check
+     * @param  nodeName {String} the node name to check for
+     * @return {Boolean} <code>true</code> if the node has the given name
+     */
+    isNodeName : function(node, nodeName) {
+      return qx.dom.Node.isNodeName(node, nodeName);
+    },
+
+
+    /**
      * Checks if the given object is a DOM document object
      *
      * @attachStatic{qxWeb}
@@ -539,16 +552,75 @@ qx.Bootstrap.define("qx.module.Traversing", {
       return qx.dom.Node.getWindow(node);
     },
 
+    /**
+     * Checks whether the given object is a DOM text node
+     *
+     * @attachStatic{qxWeb}
+     * @param obj {Object} the object to be tested
+     * @return {Boolean} <code>true</code> if the object is a textNode
+     */
+    isTextNode : function(obj) {
+      return qx.dom.Node.isText(obj);
+    },
+
+
+    /**
+     * Check whether the given object is a browser window object.
+     *
+     * @attachStatic{qxWeb}
+     * @param obj {Object} the object to be tested
+     * @return {Boolean} <code>true</code> if the object is a window object
+     */
+    isWindow : function(obj) {
+      return qx.dom.Node.isWindow(obj);
+    },
+
 
     /**
      * Returns the owner document of the given node
      *
      * @attachStatic{qxWeb}
-     * @param node {Node } Node to get the document for
+     * @param node {Node} Node to get the document for
      * @return {Document|null} The document of the given DOM node
      */
     getDocument : function(node) {
       return qx.dom.Node.getDocument(node);
+    },
+
+    /**
+     * Get the DOM node's name as a lowercase string
+     *
+     * @attachStatic{qxWeb}
+     * @param node {Node} DOM Node
+     * @return {String} node name
+     */
+    getNodeName : function(node) {
+      return qx.dom.Node.getName(node);
+    },
+
+    /**
+     * Returns the text content of a node where the node type may be one of
+     * NODE_ELEMENT, NODE_ATTRIBUTE, NODE_TEXT, NODE_CDATA
+     *
+     * @attachStatic{qxWeb}
+     * @param node {Node} the node from where the search should start. If the
+     * node has subnodes the text contents are recursively retreived and joined
+     * @return {String} the joined text content of the given node or null if not
+     * appropriate.
+     */
+    getNodeText : function(node) {
+      return qx.dom.Node.getText(node);
+    },
+
+    /**
+     * Checks if the given node is a block node
+     *
+     * @attachStatic{qxWeb}
+     * @param node {Node} the node to check
+     * @return {Boolean} <code>true</code> if the node is a block node
+     */
+    isBlockNode : function(node) {
+      return qx.dom.Node.isBlockNode(node);
     },
 
 
@@ -620,9 +692,15 @@ qx.Bootstrap.define("qx.module.Traversing", {
     qxWeb.$attachStatic({
       "isElement" : statics.isElement,
       "isNode" : statics.isNode,
+      "isNodeName" : statics.isNodeName,
       "isDocument" : statics.isDocument,
       "getDocument" : statics.getDocument,
-      "getWindow" : statics.getWindow
+      "getWindow" : statics.getWindow,
+      "isWindow" : statics.isWindow,
+      "isBlockNode" : statics.isBlockNode,
+      "getNodeName" : statics.getNodeName,
+      "getNodeText" : statics.getNodeText,
+      "isTextNode" : statics.isTextNode
     });
   }
 });

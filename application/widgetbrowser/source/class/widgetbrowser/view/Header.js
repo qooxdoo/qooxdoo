@@ -17,13 +17,6 @@
      * Tristan Koch (tristankoch)
 
 ************************************************************************ */
-/* ************************************************************************
-#use(qx.theme.Indigo);
-#use(qx.theme.Simple);
-#use(qx.theme.Classic);
-#use(qx.theme.Modern)
-************************************************************************ */
-
 /**
  * The Application's header
  */
@@ -56,26 +49,30 @@ qx.Class.define("widgetbrowser.view.Header",
 
     // Build select-box
     var select = new qx.ui.form.SelectBox("Theme");
-    qx.core.Init.getApplication().getThemes().forEach(function(theme) {
-      var name = Object.keys(theme)[0];
+    var themes = qx.core.Init.getApplication().getThemes()
+    var currentThemeItem;
+    for (var name in themes) {
       var item = new qx.ui.form.ListItem(name + " Theme");
-      item.setUserData("value", theme[name]);
+      item.setUserData("value", themes[name]);
       select.add(item);
 
-      var value = theme[name];
+      var value = themes[name];
       if (value == qx.core.Environment.get("qx.theme")) {
-        select.setSelection( [item] );
+        currentThemeItem = item;
       }
-    });
+    }
 
     select.setFont("default");
 
     // Find current theme from URL search param
-    var currentThemeItem = select.getSelectables().filter(function(item) {
+    var currThemeItem = select.getSelectables().filter(function(item) {
       if (window.location.search) {
         return window.location.search.match(item.getUserData("value"));
       }
     })[0];
+    if (currThemeItem) {
+      currentThemeItem = currThemeItem;
+    }
 
     select.setTextColor("black");
 
@@ -94,7 +91,7 @@ qx.Class.define("widgetbrowser.view.Header",
         var listItem = evt.getData()[0];
         var oldText = listItem.getLabel();
         listItem.setLabel("Loading ...");
-        qx.Part.require(part, function() {
+        qx.io.PartLoader.require([part], function() {
           qx.theme.manager.Meta.getInstance().setTheme(
             qx.Theme.getByName(selected)
           );
@@ -105,9 +102,7 @@ qx.Class.define("widgetbrowser.view.Header",
     });
 
     // Set current theme
-    if (currentThemeItem) {
-      select.setSelection([currentThemeItem]);
-    }
+    select.setSelection([currentThemeItem]);
 
     // Finally assemble header
     this.add(title);

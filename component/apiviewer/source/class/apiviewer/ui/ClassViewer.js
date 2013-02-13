@@ -304,18 +304,16 @@ qx.Class.define("apiviewer.ui.ClassViewer",
      */
     _getTitleHtml : function(classNode)
     {
+      var objectName = "Class";
+
       switch (classNode.getType())
       {
         case "mixin" :
-          var objectName = "Mixin";
+          objectName = "Mixin";
           break;
 
         case "interface" :
-          var objectName = "Interface";
-          break;
-
-        default:
-          var objectName = "Class";
+          objectName = "Interface";
           break;
       }
 
@@ -446,27 +444,24 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
     _getDescriptionHtml : function(classNode)
     {
+      var subObjectsName = "sub classes";
+      var desc = classNode.getDescription();
+
       switch (classNode.getType())
       {
         case "mixin" :
-          var subObjectsName = "sub mixins"
+          subObjectsName = "sub mixins";
           break;
 
         case "interface" :
-          var subObjectsName = "sub interfaces"
-          break;
-
-        default:
-          var subObjectsName = "sub classes"
+          subObjectsName = "sub interfaces";
           break;
       }
 
       var classHtml = new qx.util.StringBuilder();
 
       // Add the class description
-      var desc = classNode.getDescription();
-
-      if (desc != "") {
+      if (desc !== "") {
         classHtml.add(
           '<div class="class-description">',
           apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(desc, classNode),
@@ -484,15 +479,10 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
 
       // Add the class hierarchy
-      switch (classNode.getType())
-      {
-        case "interface" :
+      if (classNode.getType() === "interface") {
           classHtml.add(this.__getInterfaceHierarchyHtml(classNode));
-          break;
-
-        default:
+      } else {
           classHtml.add(this.__getClassHierarchyHtml(classNode));
-          break;
       }
 
       classHtml.add(this.__getDependentClassesHtml(classNode.getChildClasses(), "Direct " + subObjectsName + ":"));
@@ -510,9 +500,11 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       {
         classHtml.add('<h2 class="warning">', "Deprecated:", '</h2>');
         classHtml.add('<p>');
-        var desc = classNode.getDeprecationText();
+        desc = classNode.getDeprecationText();
         if (desc) {
-          classHtml.add(desc);
+          classHtml.add(
+            apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(desc, classNode)
+          );
         } else {
           classHtml.add("This ", classNode.getType(), " is deprecated!");
         }
@@ -545,21 +537,21 @@ qx.Class.define("apiviewer.ui.ClassViewer",
      */
     __getDependentClassesHtml : function(dependentClasses, title)
     {
+      var result = "";
+
       if (dependentClasses.length > 0)
       {
-        var result = new qx.util.StringBuilder("<h2>", title, "</h2>");
+        result = new qx.util.StringBuilder("<h2>", title, "</h2>");
 
         for (var i=0; i<dependentClasses.length; i++)
         {
-          if (i != 0) {
+          if (i !== 0) {
             result.add(", ");
           }
           result.add(apiviewer.ui.panels.InfoPanel.createItemLinkHtml(dependentClasses[i], null, true, false));
         }
 
         result = result.get();
-      } else {
-        result = "";
       }
       return result;
     },
@@ -594,7 +586,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
           !apiviewer.dao.Class.isNativeObject(classHierarchy[i]) ? ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classHierarchy[i])) : ClassViewer.createImageHtml("apiviewer/image/class18.gif")
         );
 
-        if (i != 0) {
+        if (i !== 0) {
           if(!apiviewer.dao.Class.isNativeObject(classHierarchy[i]))
           {
             classHtml.add(apiviewer.ui.panels.InfoPanel.createItemLinkHtml(classHierarchy[i].getFullName(), null, false));
@@ -646,7 +638,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
         if (hierarchy[i].getSuperInterfaces().length > 0) {
           html.add(ClassViewer.createImageHtml("apiviewer/image/nextlevel.gif", null, "margin-left:" + indent + "px"));
           html.add(ClassViewer.createImageHtml(icon));
-          html.add(i != 0 ? InfoPanel.createItemLinkHtml(name, null, false) : name);
+          html.add(i !== 0 ? InfoPanel.createItemLinkHtml(name, null, false) : name);
           indent += 18;
         }
         else {

@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
     this.__pickerContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
 
-    // Set PickerContainer anonymous on IE, because of pointer-events, which should be ignored.
+    // Set PickerContainer anonymous on IE, because of pointer-events which should be ignored.
     if(qx.core.Environment.get("engine.name") == "mshtml") {
       this.__pickerContainer.setAnonymous(true);
     }
@@ -192,20 +192,36 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       this._fireConfirmSelection();
     },
 
-
+    
+    /**
+     * Getter for the selectedIndex of a picker slot, identified by its index.
+     * @param slotIndex {Integer} the index of the target picker slot.
+     * @return {Integer} the index of the target picker slot, or null if slotIndex is unknown.
+     */
+    getSelectedIndex : function(slotIndex) {
+      var slotElement = this.__slotElements[slotIndex];
+      if(slotElement) {
+        return this.__selectedIndexBySlot[slotIndex];
+      }
+      return null;
+    },
+    
+    
     /**
      * Setter for the selectedIndex of a picker slot, identified by its index.
      * @param slotIndex {Integer} the index of the target picker slot.
      * @param value {Integer} the selectedIndex of the slot.
+     * @param useTransition {Boolean ? true} flag which indicates whether a 
+     * transition should be used on update or not.
      */
-    setSelectedIndex : function(slotIndex, value) {
+    setSelectedIndex : function(slotIndex, value, useTransition) {
       var slotElement = this.__slotElements[slotIndex];
       if(slotElement) {
         if(this._isSelectedIndexValid(slotElement, value)) {
           this.__selectedIndex[slotElement.id] = value;
           this.__selectedIndexBySlot[slotIndex] = value;
-
-          this._updateSlot(slotElement);
+          
+          this._updateSlot(slotElement, useTransition);
         }
       }
     },
@@ -242,7 +258,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     addSlot : function(slotData) {
       if(slotData != null && slotData instanceof qx.data.Array) {
         this.__pickerModel.push(slotData);
-        slotData.addListener("changeBubble",this._render,this);
+        slotData.addListener("changeBubble", this._render, this);
         this._render();
       }
     },
@@ -253,13 +269,26 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
      * @param slotIndex {Integer} the index of the target picker slot.
      */
     removeSlot : function(slotIndex) {
-      if(this.__pickerModel.getLength() > slotIndex && slotIndex > -1){
+      if(this.__pickerModel.getLength() > slotIndex && slotIndex > -1) {
         var slotData = this.__pickerModel.getItem(slotIndex);
-        slotData.removeListener("changeBubble",this._render,this);
+        slotData.removeListener("changeBubble", this._render, this);
 
         this.__pickerModel.removeAt(slotIndex);
         this._render();
       }
+    },
+    
+    
+    /**
+     * Disposes the picker model, and removes all "changeBubble" listeners from it.
+     */
+    _disposePickerModel : function() {
+      for(var i = 0; i < this.__pickerModel.length; i++) {
+        var slotData = this.__pickerModel.getItem(i);
+        slotData.removeListener("changeBubble", this._render, this);
+      }
+      
+      this.__pickerModel.dispose();
     },
 
 
@@ -381,7 +410,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       var labelCount = target.children.length;
       var pickerSlotHeight = labelCount * this.__labelHeight;
       
-      qx.bom.element.Style.set(target,"height",pickerSlotHeight+"px");
+      qx.bom.element.Style.set(target, "height", pickerSlotHeight+"px");
     },
 
 
@@ -399,7 +428,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
       qx.bom.element.Style.set(target,"transitionDuration","0s");
 
-      this.__slotTouchStartPoints[targetId] = {x:touchX,y:touchY};
+      this.__slotTouchStartPoints[targetId] = {x:touchX, y:touchY};
 
       this._fixPickerSlotHeight(target);
 
@@ -453,9 +482,9 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       var selectedIndex = this.__selectedIndex[targetId];
       var selectedValue = model.getItem(selectedIndex);
         
-      this.fireDataEvent("changeSelection", {index: selectedIndex, item: selectedValue, slot: slotIndex});
-
       this._updateSlot(target);
+      
+      this.fireDataEvent("changeSelection", {index: selectedIndex, item: selectedValue, slot: slotIndex});
     },
 
 
@@ -504,15 +533,27 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
      * Updates the visual position of the picker slot element,
      * according to the current selectedIndex of the slot.
      * @param targetElement {Element} the slot target element.
+     * @param useTransition {Boolean ? true} flag which indicates whether a 
+     * transition should be used on update or not.
      */
-     _updateSlot : function(targetElement) {
-       qx.bom.element.Style.set(targetElement,"transitionDuration",".2s");
+    _updateSlot : function(targetElement, useTransition) {
+      this._fixPickerSlotHeight(targetElement);
 
-       var selectedIndex = this.__selectedIndex[targetElement.id];
+      if(typeof useTransition == undefined) {
+        useTransition = true;
+      }
+      var transitionDuration = ".2s";
+      
+      if(useTransition == false) {
+        transitionDuration = "0s";
+      }
+      qx.bom.element.Style.set(targetElement,"transitionDuration", transitionDuration);
 
-       var offsetTop = -selectedIndex * this.__labelHeight;
+      var selectedIndex = this.__selectedIndex[targetElement.id];
 
-       qx.bom.element.Style.set(targetElement,"transform","translate3d(0px,"+offsetTop+"px,0px)");
+      var offsetTop = -selectedIndex * this.__labelHeight;
+
+      qx.bom.element.Style.set(targetElement,"transform","translate3d(0px,"+offsetTop+"px,0px)");
     },
 
 
@@ -522,7 +563,6 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     _updateAllSlots : function() {
       for(var i = 0; i < this.__slotElements.length; i++) {
         var slotElement = this.__slotElements[i];
-        this._fixPickerSlotHeight(slotElement);
         this._updateSlot(slotElement);
       }
     },
@@ -532,16 +572,12 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
      * Renders this picker widget.
      */
     _render : function() {
-      var pickerContainersChildren = this.__pickerContainer.getChildren();
-      if(pickerContainersChildren.length>0) {
-        // Re-rendering.
-        this.__pickerContainer.removeAll();
+      this._removePickerSlots();
 
-        this.__selectedIndexBySlot = [];
-        this.__slotElements = [];
-        this.__modelToSlotMap = {};
-        this.__selectedIndex = {};
-      }
+      this.__selectedIndexBySlot = [];
+      this.__slotElements = [];
+      this.__modelToSlotMap = {};
+      this.__selectedIndex = {};
 
       var model = this.__pickerModel;
       var slotCounter = (model ? model.getLength() : 0);
@@ -590,6 +626,24 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
       return pickerSlot;
     },
+    
+    
+    /**
+     * Remove all listeners from the picker slot composites and destroys them.
+     */
+    _removePickerSlots : function() {
+      var children = this.__pickerContainer.getChildren();
+      
+      for(var i = children.length-1; i >= 0 ; i--) {
+        var pickerSlot = children[i];
+        
+        pickerSlot.removeListener("touchstart", this._onTouchStart, this);
+        pickerSlot.removeListener("touchmove", this._onTouchMove, this);
+        pickerSlot.removeListener("touchend", this._onTouchEnd, this);
+        
+        pickerSlot.destroy();
+      }
+    },
 
 
     /**
@@ -613,10 +667,17 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
   destruct : function()
   {
-    this._disposeObjects("__pickerModel","__pickerContainer", "__pickerButtonContainer", "__pickerConfirmButton","__pickerCancelButton","__pickerContent");
+    this._disposePickerModel();
+    
+    this._removePickerSlots();
     
     this.__pickerConfirmButton.removeListener("touchstart", this._preventClickEvent, this);
+    this.__pickerConfirmButton.removeListener("tap", this.confirm, this);
+    
     this.__pickerCancelButton.removeListener("touchstart", this._preventClickEvent, this);
+    this.__pickerCancelButton.removeListener("tap", this.hide, this);
+    
+    this._disposeObjects("__pickerContainer", "__pickerButtonContainer", "__pickerConfirmButton","__pickerCancelButton","__pickerContent");
   }
 
 });

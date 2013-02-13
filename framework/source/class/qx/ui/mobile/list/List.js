@@ -150,8 +150,6 @@ qx.Class.define("qx.ui.mobile.list.List",
   },
 
 
-
-
  /*
   *****************************************************************************
      MEMBERS
@@ -215,7 +213,15 @@ qx.Class.define("qx.ui.mobile.list.List",
       if (value != null) {
         value.addListener("change", this.__onModelChange, this);
       }
-
+      
+      if (old != null) {
+        old.removeListener("changeLength", this.__onModelChangeLength, this);
+      }
+      if (value != null) {
+        value.addListener("changeLength", this.__onModelChangeLength, this);
+      }
+      
+      
       this.__render();
     },
 
@@ -223,6 +229,15 @@ qx.Class.define("qx.ui.mobile.list.List",
     // property apply
     _applyDelegate : function(value, old) {
       this.__provider.setDelegate(value);
+    },
+    
+    
+    /**
+     * Listen on model 'changeLength' event.
+     * @param evt {qx.event.type.Data} data event which contains model change data.
+     */
+    __onModelChangeLength : function(evt) {
+      this.__render();
     },
 
     /**
@@ -247,12 +262,8 @@ qx.Class.define("qx.ui.mobile.list.List",
      * @param evt {qx.event.type.Data} data event which contains model change data.
      */
     __onModelChange : function(evt) {
-      if(evt && evt.getData() && evt.getData().type) {
-        var changeType = evt.getData().type;
-
-        if(changeType == "order" || changeType == "add" || changeType == "remove") {
-          this.__render();
-        }
+      if(evt && evt.getData() && evt.getData().type == "order") {
+        this.__render();
       }
     },
 
@@ -265,19 +276,63 @@ qx.Class.define("qx.ui.mobile.list.List",
     {
       if(evt) {
         var data = evt.getData();
-        var isRowCountEqual = (data.old.length == data.value.length);
-
-        if(isRowCountEqual) {
-          var row = data.name;
-          if(row) {
-            row = parseInt(row,10);
-            this.__renderRow(row);
-          } else {
-            // FALLBACK
-            this.__render();
+        if(data.name && data.old.length == data.value.length) {
+          var rows = this._extractRowsToRender(data.name);
+          
+          for (var i=0; i < rows.length; i++) {
+            this.__renderRow(rows[i]);
           }
         }
       }
+    },
+    
+    
+    /**
+     * Extracts all rows, which should be rendered from "changeBubble" event's
+     * data.name.
+     * @param name {String} The 'data.name' String of the "changeBubble" event,
+     *    which contains the rows that should be rendered.
+     * @return {Integer[]} An array with integer values, representing the rows which should
+     *  be rendered.
+     */
+    _extractRowsToRender : function(name) {
+      var rows = [];
+      
+      // "[0-2].propertyName" | "[0].propertyName" | "0"
+      var containsPoint = (name.indexOf(".")!=-1);
+      if(containsPoint) {
+        // "[0-2].propertyName" | "[0].propertyName"
+        var candidate = name.split(".")[0];
+        
+        // Normalize
+        candidate = candidate.replace("[","");
+        candidate = candidate.replace("]","");
+        // "[0-2]" | "[0]"
+        var isRange = (candidate.indexOf("-") != -1);
+        
+        if(isRange) {
+          var rangeMembers = candidate.split("-");
+          // 0
+          var startRange = parseInt(rangeMembers[0],10);
+          // 2
+          var endRange = parseInt(rangeMembers[1],10);
+          
+          for(var i = startRange; i <= endRange; i++) {
+            rows.push(i);
+          }
+        } else {
+          // "[0]"
+          rows.push(parseInt(candidate.match(/\d+/)[0], 10));
+        }
+      } else {
+        // "0"
+        var match = name.match(/\d+/);
+        if(match.length == 1) {
+          rows.push(parseInt(match[0], 10));
+        }
+      }
+      
+      return rows;
     },
 
 

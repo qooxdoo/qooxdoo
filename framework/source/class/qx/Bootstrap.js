@@ -47,7 +47,7 @@ qx.Bootstrap = {
   createNamespace : function(name, object)
   {
     var splits = name.split(".");
-    var parent = window;
+    var parent = this.__root || window;
     var part = splits[0];
 
     for (var i=0, len=splits.length-1; i<len; i++, part=splits[i])
@@ -175,6 +175,10 @@ qx.Bootstrap.define("qx.Bootstrap",
 {
   statics :
   {
+    /** Root for create namespace. **/
+    __root : null,
+
+
     /** Timestamp of qooxdoo based application startup */
     LOADSTART : qx.$$start || new Date(),
 
@@ -240,6 +244,18 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @throws {Error} when the given object already exists.
      */
     createNamespace : qx.Bootstrap.createNamespace,
+
+
+    /**
+     * Offers the ability to change the root for creating namespaces from window to
+     * whatever object is given.
+     *
+     * @param root {Object} The root to use.
+     * @internal
+     */
+    setRoot : function(root) {
+      this.__root = root;
+    },
 
 
     /**

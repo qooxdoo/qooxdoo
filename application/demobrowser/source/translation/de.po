@@ -3,79 +3,79 @@ msgid ""
 msgstr ""
 
 msgid "A date:"
-msgstr ""
+msgstr "Ein Datum:"
 
 msgid "API Viewer"
 msgstr ""
 
 msgid "Choose a locale:"
-msgstr ""
+msgstr "Wählen Sie eine Locale"
 
 msgid "Command Menu (keyboard shortcuts)"
-msgstr ""
+msgstr "Kommando Menu (Tastaturkürzel)"
 
 msgid "Copy"
-msgstr ""
+msgstr "Kopieren"
 
 msgid "Could not open the Playground."
-msgstr ""
+msgstr "Playground konnte nicht geöffnet werden."
 
 msgid "Cut"
-msgstr ""
+msgstr "Ausschneiden"
 
 msgid "Date format full:"
-msgstr ""
+msgstr "Datum (Vollformat):"
 
 msgid "Date format long:"
-msgstr ""
+msgstr "Datum (Langformat):"
 
 msgid "Date format medium:"
-msgstr ""
+msgstr "Datum (mittleres Format):"
 
 msgid "Date format short:"
-msgstr ""
+msgstr "Datum (Kurzformat):"
 
 msgid "Date full:"
-msgstr ""
+msgstr "Datum, voll:"
 
 msgid "Date long:"
-msgstr ""
+msgstr "Datum, lang:"
 
 msgid "Date medium:"
-msgstr ""
+msgstr "Datum, mittel:"
 
 msgid "Date short:"
-msgstr ""
+msgstr "Datum, kurz:"
 
 msgid "Debug"
 msgstr ""
 
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 msgid "Demo Link"
 msgstr ""
 
 msgid "Demo has been disposed."
-msgstr ""
+msgstr "Das Demo wurde entfernt."
 
 msgid "Dispose Demo"
-msgstr ""
+msgstr "Demo entfernen"
 
 msgid "Form Elements"
-msgstr ""
+msgstr "Form Elemente"
 
 msgid "Format of %1:"
-msgstr ""
+msgstr "Format von %1:"
 
 msgid "Get Demo Link"
-msgstr ""
+msgstr "Demo Link erzeugen"
 
 msgid "Hello World"
 msgstr "Hallo Welt"
 
 msgid "Hide/Show Tests Demos"
-msgstr ""
+msgstr "Zeige/Verberge Test Demos"
 
 msgid "I have an apple"
 msgid_plural "I have %1 apples"
@@ -86,19 +86,19 @@ msgid "Info"
 msgstr ""
 
 msgid "Locale information"
-msgstr ""
+msgstr "Locale Information"
 
 msgid "Locale:"
 msgstr ""
 
 msgid "Localized ComboBox:"
-msgstr ""
+msgstr "Lokalisierte ComboBox:"
 
 msgid "Manual"
 msgstr ""
 
 msgid "Next"
-msgstr ""
+msgstr "Nächstes"
 
 msgid "OK"
 msgstr ""
@@ -107,43 +107,43 @@ msgid "Object Summary"
 msgstr ""
 
 msgid "Open Color Popup"
-msgstr ""
+msgstr "Farbdialog öffnen"
 
 msgid "Open the qooxdoo API Viewer"
-msgstr ""
+msgstr "qooxdoo API Viewer öffnen"
 
 msgid "Open the qooxdoo Manual"
-msgstr ""
+msgstr "qooxdoo Handbuch öffnen"
 
 msgid "Orange"
 msgstr ""
 
 msgid "Own Window"
-msgstr ""
+msgstr "In eigenem Fenster"
 
 msgid "Paste"
-msgstr ""
+msgstr "Einfügen"
 
 msgid "Previous"
-msgstr ""
+msgstr "Vorhergehendes"
 
 msgid "Redo"
-msgstr ""
+msgstr "Nochmal"
 
 msgid "Run"
-msgstr ""
+msgstr "Ausführen"
 
 msgid "Search"
-msgstr ""
+msgstr "Suche"
 
 msgid "Search Again"
-msgstr ""
+msgstr "Such' nochmal"
 
 msgid "Select All"
-msgstr ""
+msgstr "Alles auswählen"
 
 msgid "Territory code:"
-msgstr ""
+msgstr "Territorialer Code"
 
 #. The mammal fox that is.
 msgid "The quick brown fox"
@@ -153,25 +153,25 @@ msgid "Theme"
 msgstr ""
 
 msgid "Time format long:"
-msgstr ""
+msgstr "Zeit (Langformat):"
 
 msgid "Time format short:"
-msgstr ""
+msgstr "Zeit (Kurzformat):"
 
 msgid "Time long:"
-msgstr ""
+msgstr "Zeit, lang:"
 
 msgid "Time short:"
-msgstr ""
+msgstr "Zeit, kurz:"
 
 msgid "To Playground"
-msgstr ""
+msgstr "Zum Playground"
 
 msgid "Unable to access application."
-msgstr ""
+msgstr "Anwendung ist nicht erreichbar."
 
 msgid "Undo"
-msgstr ""
+msgstr "Zurück"
 
 msgid "Week start:"
-msgstr ""
+msgstr "Wochenanfang:"

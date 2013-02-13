@@ -82,9 +82,9 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     this.__parent = this.getLayoutParent();
     this.__parent.addCssClass("drawer-parent");
     
-    this.__parent.addListener("swipe",this._onParentSwipe,this);
-    this.__parent.addListener("touchstart",this._onParentTouchStart,this);
-    this.__parent.addListener("back",this.forceHide, this);
+    this.__parent.addListener("swipe", this._onParentSwipe,this);
+    this.__parent.addListener("touchstart", this._onParentTouchStart,this);
+    this.__parent.addListener("back", this.forceHide, this);
     
     this.__touchStartPosition = [0,0];
     this.__inAnimation = false;
@@ -162,11 +162,11 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     },
     
     
-    /** Flag is transition should be used when opening/closing the drawer. */
-    showTransition : {
-      check : "Boolean",
-      init : true,
-      apply : "_disableTransition"
+    /** The duration time of the transition between shown/hidden state in ms. */
+    transitionDuration : {
+      check : "Integer",
+      init : 500,
+      apply : "_applyTransitionDuration"
     },
     
     
@@ -189,6 +189,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     __touchStartPosition : null,
     __parent : null,
     __inAnimation : null,
+    __transitionEnabled : true,
   
   
     // property apply
@@ -239,6 +240,12 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     },
     
     
+    // property apply
+    _applyTransitionDuration : function(value,old) {
+      this.__transitionEnabled = value > 0;
+    },
+    
+    
     /**
      * Shows the drawer.
      */
@@ -278,9 +285,18 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
         }
       }
       
-      this.removeCssClass("hidden");
-      qx.event.Timer.once(this._disableTransition, this, 500);
+      // Delayed removal of hidden class, needed for iOS
+      // soft keyboard bug.
+      if(this.__transitionEnabled) {
+        qx.event.Timer.once(function() {
+        this.removeCssClass("hidden");
+        }, this, 0);
+      } else {
+        this.removeCssClass("hidden");
+      }
       
+      
+      qx.event.Timer.once(this._disableTransition, this, this.getTransitionDuration());
     },
     
     
@@ -289,11 +305,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
      * Blocked means that no pointer events are received anymore.
      */
     _toggleParentBlockedState : function() {
-      if(this.__parent.hasCssClass("blocked")) {
-        this.__parent.removeCssClass("blocked");
-      } else {
-        this.__parent.addCssClass("blocked");
-      }
+      this.__parent.toggleCssClass("blocked");
     },
     
     
@@ -314,8 +326,9 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       
       this.addCssClass("hidden");
       
-      qx.event.Timer.once(this._toggleParentBlockedState, this, 500);
-      qx.event.Timer.once(this._disableTransition, this, 500);
+      qx.event.Timer.once(this._toggleParentBlockedState, this, this.getTransitionDuration());
+      qx.event.Timer.once(this._disableTransition, this, this.getTransitionDuration());
+      qx.event.Timer.once(this.exclude, this, this.getTransitionDuration());
     },
     
     
@@ -335,6 +348,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       this.__parent.removeCssClass("blocked");
       
       this.addCssClass("hidden");
+      this.exclude();
     },
     
     
@@ -348,15 +362,20 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
      * Enables the transition on this drawer.
      */
     _enableTransition : function() {
-      if(this.isShowTransition()) {
-        this.__inAnimation = true;
-        
-        if (this.getPositionZ() == "below") {
-          qx.bom.element.Style.set(this.__parent.getContentElement(),"transition", "all .5s ease-in-out");
-        } else {
-          qx.bom.element.Style.set(this.getContentElement(),"transition", "all .5s ease-in-out");
-        }
+      if(!this.__transitionEnabled) {
+        return;
       }
+      
+      this.__inAnimation = true;
+
+      var target = null;
+      if (this.getPositionZ() == "below") {
+        target = this.__parent.getContentElement();
+      } else {
+        target = this.getContentElement();
+      }
+      
+      qx.bom.element.Style.set(target, "transition", "all "+this.getTransitionDuration()+"ms ease-in-out");
     },
     
     
@@ -364,6 +383,10 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
      * Disables the transition on this drawer.
      */
     _disableTransition : function() {
+      if(!this.__transitionEnabled) {
+        return;
+      }
+      
       this.__inAnimation = false;
       
       qx.bom.element.Style.set(this.getContentElement(),"transition", null);
@@ -376,17 +399,13 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
      * @return {Boolean} the new visibility state.
      */
     toggleVisibility : function() {
-      var newValue = false;
-      
       if(this.isHidden()) {
         this.show();
-        newValue = true;
+        return true;
       } else {
         this.hide();
-        newValue = false;
+        return false;
       }
-      
-      return newValue;
     },
     
     

@@ -178,6 +178,10 @@ def execGenerator(argv, config=None, extra_config=None, appname=None):
     else:
         options.jobs = []
 
+    # Save cli options to Context
+    gen_opts = [x for x in sys.argv[1:] if x not in args]  # cli options without jobs list
+    Context.generator_opts = gen_opts  # as list
+
     # Initialize console
     if options.verbose:
         level = "debug"

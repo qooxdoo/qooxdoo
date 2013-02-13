@@ -35,8 +35,8 @@
  * For reference:
  *
  * * http://www.ecma-international.org/publications/standards/Ecma-262.htm
- * * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference
- * * http://developer.mozilla.org/en/docs/New_in_JavaScript_1.6
+ * * https://developer.mozilla.org/en-US/docs/Core_JavaScript_1.5_Reference
+ * * https://developer.mozilla.org/en-US/docs/JavaScript/New_in_JavaScript/1.6
  *
  * The following methods are added if they are not supported natively:
  *
@@ -82,7 +82,7 @@ qx.Bootstrap.define("qx.lang.Core",
      * triple-equals, operator).
      *
      * Natively supported in Gecko since version 1.8.
-     * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:indexOf
+     * https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/forEach
      *
      * @signature function(searchElement, fromIndex)
      * @param searchElement {var} Element to locate in the array.
@@ -125,7 +125,7 @@ qx.Bootstrap.define("qx.lang.Core",
      * (the same method used by the <code>===</code>, or triple-equals, operator).
      *
      * Natively supported in Gecko since version 1.8.
-     * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:lastIndexOf
+     * https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/lastIndexOf
      *
      * @signature function(searchElement, fromIndex)
      * @param searchElement {var} Element to locate in the array.
@@ -188,7 +188,7 @@ qx.Bootstrap.define("qx.lang.Core",
      * the value at the time <code>forEach</code> visits them; elements that are deleted are not visited.
      *
      * Natively supported in Gecko since version 1.8.
-     * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:forEach
+     * https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/forEach
      *
      * @signature function(callback, obj)
      * @param callback {Function} Function to execute for each element.
@@ -241,7 +241,7 @@ qx.Bootstrap.define("qx.lang.Core",
      * are not visited.
      *
      * Natively supported in Gecko since version 1.8.
-     * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:filter
+     * https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/filter
      *
      * @signature function(callback, obj)
      * @param callback {Function} Function to test each element of the array.
@@ -298,7 +298,7 @@ qx.Bootstrap.define("qx.lang.Core",
      * <code>map</code> visits them; elements that are deleted are not visited.
      *
      * Natively supported in Gecko since version 1.8.
-     * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:map
+     * https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/map
      *
      * @signature function(callback, obj)
      * @param callback {Function} Function produce an element of the new Array from an element of the current one.
@@ -355,7 +355,7 @@ qx.Bootstrap.define("qx.lang.Core",
      * deleted are not visited.
      *
      * Natively supported in Gecko since version 1.8.
-     * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:some
+     * https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/some
      *
      * @signature function(callback, obj)
      * @param callback {Function} Function to test for each element.
@@ -413,7 +413,7 @@ qx.Bootstrap.define("qx.lang.Core",
      * that are deleted are not visited.
      *
      * Natively supported in Gecko since version 1.8.
-     * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:every
+     * https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/every
      *
      * @signature function(callback, obj)
      * @param callback {Function} Function to test for each element.

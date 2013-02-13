@@ -24,3 +24,6 @@
 ##
 
 console = None
+config = None
+jobconf = None
+generator_opts = []

@@ -27,7 +27,7 @@
  * file that will be loaded and executed in the background.
  *
  * For more information see:
- * http://www.w3.org/TR/workers
+ * http://www.w3.org/TR/workers/
  */
 qx.Class.define("qx.bom.WebWorker",
 {

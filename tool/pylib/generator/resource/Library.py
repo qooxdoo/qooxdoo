@@ -195,7 +195,6 @@ class Library(object):
         return self.__youngest
 
 
-    _codeExpr = re.compile(r'''(q|qxWeb|(qx.Bootstrap|qx.Class|qx.Mixin|qx.Interface|qx.Theme)).define\s*\(\s*["']((?u)[^"']+)["']''', re.M)
     _illegalIdentifierExpr = re.compile(lang.IDENTIFIER_ILLEGAL_CHARS)
     _ignoredDirEntries = re.compile(r'%s' % '|'.join(filetool.VERSIONCONTROL_DIR_PATTS), re.I)
     _docFilename = "__init__.js"
@@ -270,17 +269,6 @@ class Library(object):
         self._dependencies[classId] = deps
         # should probably write back to file, with locking
         return
-
-    def _getCodeId1(self, fileContent):
-        for item in self._codeExpr.findall(fileContent):
-            illegal = self._illegalIdentifierExpr.search(item[1])
-            if illegal:
-                raise ValueError, "Item name '%s' contains illegal character '%s'" % (item[1],illegal.group(0))
-            #print "found", item[1]
-            return item[1]
-
-        return None
-
 
     def _getCodeId(self, clazz):
         className = None  # not-found return value
@@ -609,9 +597,6 @@ class Library(object):
         fileCodeId = u''
         try:
             fileCodeId = self._getCodeId(classObj)
-            ## use regexp
-            #fileContent = filetool.read(filePath, self.encoding)
-            #fileCodeId = self._getCodeId1(fileContent)
         except ValueError, e:
             argsList = []
             for arg in e.args:

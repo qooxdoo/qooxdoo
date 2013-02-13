@@ -288,6 +288,8 @@ class Job(object):
         # call this on fully expanded jobs *before* macro expansion is called,
         # so default let macros can take effect
 
+        from generator.config.Defaults import Defaults  # late import, so Defaults is not evaluated when importing Job
+
         # add default let macros
         defaults = self.getConfig().defaults
         if defaults and defaults.let:

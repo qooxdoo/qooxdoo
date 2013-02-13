@@ -59,7 +59,7 @@ qx.Class.define("widgetbrowser.view.TabPage",
       // Require part
       var part = classname.split(".").pop().toLowerCase();
 
-      qx.Part.require(part, function() {
+      qx.io.PartLoader.require([part], function() {
 
         // Finally, instantiate class
         var clazz = qx.Class.getByName(classname);

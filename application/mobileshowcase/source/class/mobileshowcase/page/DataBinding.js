@@ -60,7 +60,7 @@ qx.Class.define("mobileshowcase.page.DataBinding",
   */
   events :
   {
-    /** The page to show */
+    /** Event which occurs when the listData is updated. */
     "updateListData" : "qx.event.type.Data"
   },
 
@@ -232,6 +232,8 @@ qx.Class.define("mobileshowcase.page.DataBinding",
     *****************************************************************************
     */
     destruct : function() {
+      this.__timer.removeListener("interval", this.__onInterval, this);
+      
       this._disposeObjects("__increaseMode", "__decreaseButton",
         "__increaseButton", "__stopTimeButton", "__timer", "__dataLabel",
         "__slider", "__form", "__list");

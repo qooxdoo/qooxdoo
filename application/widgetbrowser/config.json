@@ -15,6 +15,7 @@
     "APPLICATION"  : "widgetbrowser",
     "QOOXDOO_PATH" : "../..",
     "QXTHEME"      : "qx.theme.Indigo",
+    "QXICONTHEME"  : ["Oxygen", "Tango"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : ".",
@@ -48,15 +49,24 @@
       ],
       "environment"  :
       {
-        "qx.nativeScrollBars" : true
+        "qx.nativeScrollBars" : true,
+        "widgetbrowser.themes": "qx.theme.Indigo qx.theme.Modern qx.theme.Simple qx.theme.Classic",
+        "qx.emulatemouse" : true
       },
+      "include" :[
+        "${APPLICATION}.Application",
+        "qx.theme.Indigo",
+        "qx.theme.Modern",
+        "qx.theme.Simple",
+        "qx.theme.Classic"
+      ],
       "packages" :
       {
         "parts" :
         {
           "boot" :
           {
-            "include" : [ "widgetbrowser.Application" ]
+            "include" : [ "${APPLICATION}.Application", "${QXTHEME}" ]
           },
 
           "tree" :
@@ -120,7 +130,7 @@
             },
 
 
-          // Themes
+          // Themes (non-default)
           "modern" :
           {
             "include" : [ "qx.theme.Modern" ]

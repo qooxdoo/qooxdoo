@@ -10,9 +10,9 @@ Resources comprise images, icons, style sheets, Flash files, helper HTML files, 
 Technical overview
 ==================
 
-Resources live in the ``source/resource/<namespace>`` subtree of each library. You explicitly reference a resource in your application code by just naming the path of the corresponding file **under** this root (This is also referred to as the **resource id**). 
+Resources live in the ``source/resource/<namespace>`` subtree of each library. You explicitly reference a resource in your application code by just naming the path of the corresponding file **under** this root (This is also referred to as the **resource id**).
 
-So if there is a resource in your "myapp" application under the path ``myapp/source/resource/myapp/icons/tray.png`` you would refer to it in your application code with ``myapp/icons/tray.png``. 
+So if there is a resource in your "myapp" application under the path ``myapp/source/resource/myapp/icons/tray.png`` you would refer to it in your application code with ``myapp/icons/tray.png``.
 
 To find the corresponding file during a build, qooxdoo searches all those paths of all the libraries your application is using. The first hit will be regarded as the resource you want to use. (During the generation of a ``build`` version of your app, these resource files will be copied to the ``build`` folder, so your build version will be self-contained).
 
@@ -67,27 +67,49 @@ Here's an example:
 Using qooxdoo icons with widgets
 ================================
 
-If you want to use some of the icons as resources that are part of the icon themes that come with qooxdoo, there are the following three ways to do so:
+If you want to use some of the icons as resources that are part of the
+icon themes that come with qooxdoo, there are the following ways
+to do so:
 
-(1) Copy the icons you are interested in from the original location in the qooxdoo framework to the local resource folder of your application. You are now independent of the qooxdoo icon theme folders and can manage these icons as you would any other custom images.
-(2) Use a fully-qualified path that points to the qooxdoo resource folder. This solution would contain the icon theme's name explicitly.
-(3) Use a macro to get the icons from the current theme. This would allow for a later change of icon themes at the config file level, without the need to adjust any resource URIs in your application code. The :ref:`Generator documentation <pages/tool/generator/generator_config_articles#asset-let_key>` explains how to declare these macros. 
+(#) Use the explicit resource ID of the icons from the `qx` namespace.
+    The icons are then taken from the framework resource folder, and
+    contain the icons' theme name explicitly.
+(#) Use a macro to get the icons from the current theme. This would
+    allow for a later change of icon themes at the config file level,
+    without the need to adjust any resource IDs in your application code.
+    The :ref:`Generator documentation
+    <pages/tool/generator/generator_config_articles#asset-let_key>`
+    explains how to declare these macros.
+(#) Copy the icons you are interested in from the original location in
+    the %{qooxdoo} framework to the local resource folder of your
+    application. You are now independent of the qooxdoo icon theme folders
+    and can manage these icons as you would with any other custom images.
 
 ::
 
     /*
-    #asset(myapp/icons/16/utilities-dictionary.png)
     #asset(qx/icon/Oxygen/16/apps/utilities-dictionary.png)
     #asset(qx/icon/${qx.icontheme}/16/apps/utilities-dictionary.png)
+    #asset(myapp/icons/16/utilities-dictionary.png)
     */
 
     ...
 
-    var button1 = new qx.ui.form.Button("First Button", "myapp/icons/16/utilities-dictionary.png");
-    var button2 = new qx.ui.form.Button("Second Button", "qx/icon/Oxygen/16/apps/utilities-dictionary.png");
-    var button3 = new qx.ui.form.Button("Third Button", "icon/16/apps/utilities-dictionary.png");
+    var button1 = new qx.ui.form.Button("First Button", 
+           "qx/icon/Oxygen/16/apps/utilities-dictionary.png");
+    var button2 = new qx.ui.form.Button("Second Button", 
+           "icon/16/apps/utilities-dictionary.png");
+    var button3 = new qx.ui.form.Button("Third Button", 
+           "myapp/icons/16/utilities-dictionary.png");
 
-When you use the third method above and you do not use the *Modern* theme, you must edit ``config.json`` in order to have the meta theme's icons and the explicitly given icon theme in sync:
+(The constructor call for `button2` also relies on a resource alias to
+hide the current icon theme).
+
+When you use the asset macro variant the used theme and the used icon
+theme need to be in sync. The default icon set for most themes is
+*Tango*, but if you want to use the *Classic* theme make sure that
+icons from the *Oxygen* icon theme are used. You can achieve this by
+editing your `config.json` like this:
 
 ::
 

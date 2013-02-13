@@ -25,7 +25,7 @@ import qxenviron
 from misc.ExtendAction import ExtendAction
 from misc import filetool, textutil, json
 from misc.ExtMap import ExtMap
-from ecmascript.frontend import tokenizer
+from ecmascript.frontend import tokenizer, lang
 from ecmascript.frontend import treegenerator_3 as treegenerator
 from ecmascript.backend  import formatter_3 as formatter_
 
@@ -91,12 +91,20 @@ LOGGING_READY = False
 # QOOXDOO HEADER SUPPORT
 #
 
+def class_defines():
+    s = [r'(']
+    s.append('|'.join([re.escape(x) for x in lang.QX_CLASS_FACTORIES]))
+    s.append(r''')\s*\(\s*["'](%(id_chars)s+)["']?''' % {'id_chars': lang.IDENTIFIER_CHARS})
+    # r'''(qx.Class.define|...|q.define)\s*\(\s*["']((?u)[\.\w$]+)["']?'''
+    return re.compile(u''.join(s), re.M|re.U)
+
 QXHEAD = {
     # 0.6 class style
     "defineClass" : re.compile('qx.OO.defineClass\s*\(\s*["\']([\.a-zA-Z0-9_]+)["\'](\s*\,\s*([\.a-zA-Z0-9_]+))?', re.M),
 
     # 0.7 class style
-    "classDefine" : re.compile('qx.(Bootstrap|List|Class|Locale|Mixin|Interface|Theme).define\s*\(\s*["\']([\.a-zA-Z0-9_]+)["\']?', re.M),
+    #"classDefine" : re.compile('qx.(Bootstrap|List|Class|Locale|Mixin|Interface|Theme).define\s*\(\s*["\']([\.a-zA-Z0-9_]+)["\']?', re.M),
+    "classDefine" : class_defines(),
 
     # Loader hints
     "module"   : re.compile(r"^\s*#module\(\s*([\.a-zA-Z0-9_-]+?)\s*\)", re.M),
@@ -110,13 +118,6 @@ QXHEAD = {
     "embed"    : re.compile(r"^\s*#embed\(\s*([a-zA-Z0-9]+?)\.([a-zA-Z0-9]+?)/(.+?)\s*\)", re.M)
 }
 
-
-
-def extractFileContentId(data, fileId=""):
-    for item in QXHEAD["classDefine"].findall(data):
-        return item[1]
-
-    return None
 
 
 ##

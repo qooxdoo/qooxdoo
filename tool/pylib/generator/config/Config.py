@@ -26,7 +26,6 @@ import graph
 from generator.config.Lang import Key, Let
 from generator.resource.Library import Library
 from generator.runtime.ShellCmd import ShellCmd
-from generator.action.ContribLoader import ContribLoader
 from generator.config.ConfigurationError import ConfigurationError
 from generator.config.Defaults import Defaults
 from misc.NameSpace import NameSpace
@@ -52,7 +51,7 @@ class Config(object):
 
         self.defaults = Defaults(self)
         console = console_
-        
+
         # dispatch on argument
         if isinstance(data, (types.DictType, types.ListType)):
             #self._console.debug("Creating config from data")
@@ -66,7 +65,7 @@ class Config(object):
         # make sure there is at least an empty jobs map (for later filling)
         if isinstance(self._data, types.DictType) and Key.JOBS_KEY not in self._data:
             self._data[Key.JOBS_KEY] = {}
-        
+
         # incorporate let macros from letkwargs
         if letKwargs:
             if not Key.LET_KEY in self._data:
@@ -103,7 +102,7 @@ class Config(object):
         self._fname = os.path.abspath(fname)
         self._dirname = os.path.dirname(self._fname)
 
-    
+
     def expandTopLevelKeys(self):
         if Key.LET_KEY in self._data:
             letDict = self._data[Key.LET_KEY]
@@ -149,12 +148,12 @@ class Config(object):
     def get(self, key, default=None, confmap=None):
         """Returns a (possibly nested) data element from dict <conf>
         """
-        
+
         if confmap:
             data = confmap
         else:
             data = self._data
-            
+
         if key in data:
             return data[key]
 
@@ -195,7 +194,7 @@ class Config(object):
 
         container[splits[-1]] = content
         return True
-        
+
 
     def getJob(self, job, withIncludes=False, default=None):
         ''' takes jobname or job object ref, and returns job object ref or default;
@@ -243,13 +242,13 @@ class Config(object):
             return True
         else:
             return False
-        
+
     def getJobsMap(self, default=None):
         if Key.JOBS_KEY in self._data:
             return self._data[Key.JOBS_KEY]
         else:
             return default
-        
+
     def getJobsList(self):
         jM = self.getJobsMap([])
         return [x for x in jM.keys() if isinstance(jM[x], (types.DictType, Job))]
@@ -368,7 +367,7 @@ class Config(object):
         if self._fname:   # we stem from a file
             if self._fname not in includeTree:
                 includeTree.add_node(self._fname) # only for the top-level config - others will be inserted by the parent
-            
+
         if 'include' in config:
             for i in range(len(config['include'])):
                 incspec = config['include'][i] # need this indirection so that later macro expansions in config['inlcude'] take effect
@@ -392,7 +391,7 @@ class Config(object):
                 cycle_nodes = includeTree.find_cycle()
                 if cycle_nodes:
                     raise RuntimeError("Detected circular inclusion of config files: %r" % cycle_nodes)
-        
+
                 # see if we use a namespace prefix for the imported jobs
                 if isinstance(incspec, types.DictType) and 'as' in incspec:
                     namespace = incspec['as']
@@ -420,11 +419,11 @@ class Config(object):
     def _integrateExternalConfig(self, extConfig, namespace, impJobsList=None, blockJobsList=None):
 
         # Some helper functions
-        
+
         ##
         # Construct new job name for the imported job
         def createNewJobName(extJobEntry):
-            if (importJobsList and extJobEntry in importJobsList 
+            if (importJobsList and extJobEntry in importJobsList
                 and isinstance(importJobsList[extJobEntry], types.DictType)):
                 newjobname = namepfx + importJobsList[extJobEntry]['as']
             else:
@@ -521,7 +520,7 @@ class Config(object):
             if blockJobsList and extJobEntry in blockJobsList:
                 continue
             newjobname = createNewJobName(extJobEntry)
-            
+
             # Check for name clashes
             if self.hasJob(newjobname):
                 clashCase.name_clashed = True
@@ -549,7 +548,7 @@ class Config(object):
             # Now process a possible name clash
             if clashCase.name_clashed:
                 clashProcess(clashCase)
-        
+
         # Fix job references, but only for the jobs from the just imported config
         # go through the list of just added jobs again
         for job in newList:  # there is no easy way to get newList from other data
@@ -557,7 +556,7 @@ class Config(object):
             for key in Key.KEYS_WITH_JOB_REFS:
                 if job.hasFeature(key):
                     patchJobReferences(job, key, renamedJobs)
-        
+
         return
 
 
@@ -567,7 +566,7 @@ class Config(object):
         console.indent()
 
         # while there are still 'run' jobs or unresolved jobs in the job list...
-        while ([x for x in jobList if self.getJob(x).hasFeature(Key.RUN_KEY)] or 
+        while ([x for x in jobList if self.getJob(x).hasFeature(Key.RUN_KEY)] or
                [y for y in jobList if not self.getJob(y).hasFeature(Key.RESOLVED_KEY)]):
             jobList = self._resolveExtends(jobList)
             jobList = self._resolveRuns(jobList)
@@ -581,7 +580,7 @@ class Config(object):
     #
     # @param     self self
     # @param     jobs    (IN)  list of job names
-    # @return    jobs    (OUT) to have a similar interface as _resolveRuns, 
+    # @return    jobs    (OUT) to have a similar interface as _resolveRuns,
     #                    although the list is actually not modified here
     ##
     def _resolveExtends(self, jobNames):
@@ -591,13 +590,13 @@ class Config(object):
                 raise RuntimeError, "No such job: \"%s\"" % jobName
             else:
                 job.resolveExtend(cfg=self)
-        
+
         return jobNames    # return list unchanged
 
 
-    ##                                                                              
+    ##
     # _resolveRuns -- resolve the 'run' key in jobs
-    #                                                                               
+    #
     # @param     self     (IN) self
     # @param     jobs     (IN) list of names of jobs that might be 'run'-extended
     # @return    newjobs  (OUT) new list of jobs to run
@@ -605,7 +604,7 @@ class Config(object):
     #
     # DESCRIPTION
     #  The 'run' key of a job is a list of jobs to be run in its place, e.g.
-    #  'run' : ['jobA', 'jobB']. 
+    #  'run' : ['jobA', 'jobB'].
     #  If a job in the input list has an 'run' key this is done:
     #  - for each subjob in the 'run' list, a new job is created ("synthetic jobs")
     #  - the original job serves as a template for the synthetic job
@@ -689,20 +688,20 @@ class Config(object):
         console.outdent()
 
 
-    def _download_contrib(self, libs, contrib, contribCache):
+    #def _download_contrib(self, libs, contrib, contribCache):
 
-        self._console.debug("Checking network-based contrib: %s" % contrib)
-        self._console.indent()
+    #    self._console.debug("Checking network-based contrib: %s" % contrib)
+    #    self._console.indent()
 
-        dloader = ContribLoader()
-        (updatedP, revNo) = dloader.download(contrib, contribCache)
+    #    dloader = ContribLoader()
+    #    (updatedP, revNo) = dloader.download(contrib, contribCache)
 
-        if updatedP:
-            self._console.info("downloaded contrib: %s" % contrib)
-        else:
-            self._console.debug("using cached version")
-        self._console.outdent()
-        return
+    #    if updatedP:
+    #        self._console.info("downloaded contrib: %s" % contrib)
+    #    else:
+    #        self._console.debug("using cached version")
+    #    self._console.outdent()
+    #    return
 
 
     def getConfigDir(self):
@@ -736,7 +735,7 @@ class Config(object):
         keyRegex = re.compile(keyPatt)
 
         for path, key in self.walk(self._data, "."):
-            if keyRegex.match(key):    
+            if keyRegex.match(key):
                 if mode=="rel":
                     yield key
                 else:

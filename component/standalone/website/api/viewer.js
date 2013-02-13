@@ -24,10 +24,19 @@ q.ready(function() {
   // remove the warning
   q("#warning").setStyle("display", "none");
 
-  var version = q.$$qx.core.Environment.get("qx.version");
-  if (version) {
-    q("h1").setHtml("qx.Website " + version + " API Documentation");
+  var title = "qx.Website API Documentation";
+  var customTitle = q.$$qx.core.Environment.get("apiviewer.title");
+  if (customTitle) {
+    title = customTitle;
   }
+  else {
+    var version = q.$$qx.core.Environment.get("qx.version");
+    if (version) {
+      title = "qx.Website " + version + " API Documentation";
+    }
+  }
+  q("h1").setHtml(title);
+  document.title = title;
 
   // global storage for the method index
   var data = {};
@@ -58,6 +67,19 @@ q.ready(function() {
       loadEventNorm();
       loadPolyfills();
       onContentReady();
+      attachOnScroll();
+      if (location.hash) {
+        location.href = location.href;
+      }
+      // force a scroll event so the topmost module's samples are loaded
+      window.setTimeout(function() {
+        var cont = document.getElementById("content");
+        if (cont.scrollTop == 0) {
+          cont.scrollTop = 1;
+          cont.scrollTop = 0;
+        }
+      }, 100);
+
     } else {
       q("#warning").setStyle("display", "block");
       if (location.protocol.indexOf("file") == 0) {
@@ -163,7 +185,7 @@ q.ready(function() {
       }
       onContentReady();
     });
-  }
+  };
 
 
 
@@ -218,6 +240,8 @@ q.ready(function() {
 
 
   var renderListModule = function(name, data, prefix) {
+    var checkMissing = q.$$qx.core.Environment.get("apiviewer.check.missingmethods");
+
     var list = q("#list");
     if (prefix && prefix != "event." && prefix != "normalize.") {
       list.append(q.create("<a href='#" + name + "'><h1>" + name + "</h1></a>"));
@@ -228,7 +252,10 @@ q.ready(function() {
     var ul = q.create("<ul></ul>").appendTo(list);
     data["static"].forEach(function(ast) {
       var name = getMethodName(ast, prefix);
-      var missing = isMethodMissing(name, data.classname);
+      var missing = false;
+      if (checkMissing !== false) {
+        missing = isMethodMissing(name, data.classname);
+      }
       q.template.get("list-item", {
         name: name + "()",
         missing: missing,
@@ -250,6 +277,10 @@ q.ready(function() {
 
 
   var isMethodMissing = function(name, classname) {
+    var checkMissing = q.$$qx.core.Environment.get("apiviewer.check.missingmethods");
+    if (checkMissing === false) {
+      return false;
+    }
     name = name.split(".");
     // static methods attached to q
     if (name[0] == "q") {
@@ -259,7 +290,7 @@ q.ready(function() {
           return q.type.get(parent[name[i]]) !== "Function";
         }
         parent = parent[name[i]];
-      };
+      }
     }
     // member methods of q
     if (name[0] == "") {
@@ -278,20 +309,20 @@ q.ready(function() {
           return missing;
         }
         parent = parent[classname[i]];
-      };
+      }
     }
     return false;
-  }
+  };
 
   /**
    * CONTENT
    */
-   var renderContent = function() {
-     var keys = getDataKeys();
-     for (var i = 0; i < keys.length; i++) {
-       renderModule(keys[i], data[keys[i]]);
-     }
-   };
+  var renderContent = function() {
+    var keys = getDataKeys();
+    for (var i = 0; i < keys.length; i++) {
+      renderModule(keys[i], data[keys[i]]);
+    }
+  };
 
 
    var renderModule = function(name, data, prefix) {
@@ -330,16 +361,16 @@ q.ready(function() {
          if (types[i] == "*") {
            types[i] = "all";
          }
-       };
+       }
        var typesEl = renderTypes(types);
        module.append(typesEl);
      }
 
      data["static"].forEach(function(method) {
-       renderMethod(method, prefix);
+       module.append(renderMethod(method, prefix));
      });
      data["member"].forEach(function(method) {
-       renderMethod(method, prefix);
+       module.append(renderMethod(method, prefix));
      });
    };
 
@@ -398,20 +429,20 @@ q.ready(function() {
         if (type.attributes.dimensions > 0) {
           for (var i=0; i < type.attributes.dimensions; i++) {
             typeString += "[]";
-          };
+          }
         }
         paramData.types.push(typeString);
-      };
+      }
       paramData.printTypes = printTypes;
       data.params.push(paramData);
-    };
+    }
     data.printParams = printParams;
     data.paramsExist = data.params.length > 0;
 
     data.plugin = isPluginMethod(data.name);
 
-    q("#content").append(q.template.get("method", data));
-  }
+    return q.template.get("method", data);
+  };
 
 
   var addClassDoc = function(name, parent) {
@@ -428,13 +459,19 @@ q.ready(function() {
         var ast = JSON.parse(xhr.responseText);
         // class doc
         var desc = getByType(ast, "desc");
+        var classDoc;
         if (desc && desc.attributes && desc.attributes.text) {
-          parent.append(parse(desc.attributes.text));
+          classDoc = q.create(parse(desc.attributes.text));
+          classDoc.insertAfter(parent.find("h1"));
         }
 
         var eventsEl = renderEvents(getEvents(ast));
         if (eventsEl) {
-          parent.append(eventsEl);
+          if (classDoc) {
+            eventsEl.insertAfter(classDoc);
+          } else {
+            eventsEl.insertAfter(parent.find("h1"));
+          }
         }
       } else {
         parent.append(
@@ -443,7 +480,7 @@ q.ready(function() {
       }
       onContentReady();
     });
-  }
+  };
 
 
   var getEvents = function(ast) {
@@ -526,7 +563,7 @@ q.ready(function() {
         module.types = constant.attributes.value;
         break;
       }
-    };
+    }
 
     module.desc = getByType(ast, "desc").attributes.text || "";
     module.events = getEvents(ast);
@@ -573,37 +610,43 @@ q.ready(function() {
     }
     // enable syntax highlighting
     if (useHighlighter) {
-      q('pre').forEach(function(el) {hljs.highlightBlock(el)});
+      q('pre').forEach(function(el) {hljs.highlightBlock(el);});
     }
+  };
 
-    loadSamples();
-  }
+  // load sample code as modules are scrolled into view
+  var seenModules = [];
+  var loadModuleSamples = function(module) {
+    var moduleName = module.getChildren("h1").getHtml();
+    var sampleUri = "./samples/" + moduleName + ".js";
+    q.io.script(sampleUri).send();
+  };
 
+  var attachOnScroll = function() {
+    var modules = q(".module");
+    var content = q("#content");
+    var lastCheck;
 
-  var loadSamples = function() {
-    q.io.script("samples.js").send().on("loadend", function() {
-      for (var method in samples) {
-        var selector = "#" + method.replace(/\./g, "\\.");
-        q(selector).append(q.create("<h4>Examples</h4>"));
-        for (var i=0; i < samples[method].length; i++) {
-          var sample = samples[method][i].toString();
-          sample = sample.substring(sample.indexOf("\n") + 1, sample.length - 2);
-          var sampleElement = q(selector);
-          if (sampleElement[0]) {
-            if (useHighlighter) {
-              hljs.highlightBlock(q.create("<pre>").appendTo(sampleElement).setHtml(sample)[0]);
-            }
-
-          } else {
-            console && console.warn("Sample could not be attached for '", method, "'.")
+    var onScroll = function(ev) {
+      if (lastCheck && Date.now() - lastCheck < 500) {
+        return;
+      }
+      modules.forEach(function(item, index) {
+        var module = modules.eq(index);
+        if (seenModules.indexOf(module[0]) == -1) {
+          var pos = module.getPosition();
+          var isVisible = pos.top < content.getHeight() && (pos.bottom > 0 ||
+            (pos.bottom + content.getHeight()) > 0);
+          if (isVisible) {
+            loadModuleSamples(module);
+            seenModules.push(module[0]);
           }
-        };
-      }
-      // finally, jump to the selected item
-      if (location.hash) {
-        location.href = location.href;
-      }
-    });
+        }
+      });
+      lastCheck = Date.now();
+    };
+
+    q("#content").on("scroll", onScroll);
   };
 
 
@@ -635,7 +678,7 @@ q.ready(function() {
         if (item.type == type) {
           return item;
         }
-      };
+      }
     }
     return {attributes: {}, children: []};
   };
@@ -652,7 +695,7 @@ q.ready(function() {
   var getModuleNameFromClassName = function(name) {
     name = name.split(".");
     return name[name.length -1];
-  }
+  };
 
   var isInternal = function(item) {
     return item.attributes.isInternal ||
@@ -730,4 +773,60 @@ q.ready(function() {
     q("#content").setStyles({position: "absolute", bottom: "auto"});
     q("#header-wrapper").setStyle("position", "absolute");
   }
+
+  var appendSample = function(sample, header) {
+    if (header[0]) {
+      if (useHighlighter) {
+        var sampleEl;
+        var precedingSamples = header.getSiblings("pre");
+        if (precedingSamples.length > 0) {
+          sampleEl = q.create("<pre class='javascript'>").insertAfter(precedingSamples.eq(precedingSamples.length - 1));
+        }
+        else {
+          sampleEl = q.create("<pre class='javascript'>").insertAfter(header);
+        }
+        hljs.highlightBlock(sampleEl.setHtml(sample)[0]);
+      }
+    } else {
+      console && console.warn("Sample could not be attached for '", method, "'.");
+    }
+  };
+
+  /**
+   * Adds sample code to a method's documentation.
+   *
+   * @param methodName {String} Name of the method, e.g. ".before" or "q.create"
+   * @param sample {Function|String} Sample code
+   */
+  window.addSample = function(methodName, sample) {
+    // Find the doc element for the method
+    var method = q("#" + methodName.replace(/\./g, "\\.").replace(/\$/g, "\\$"));
+    if (method.length === 0) {
+      console && console.warn("Unable to add sample: No doc element found for method", methodName);
+      return;
+    }
+
+    // Find existing "Examples" heading
+    var headerElement = null;
+    var subHeaders = method.getChildren("h4");
+    for (var i=0, l=subHeaders.length; i<l; i++) {
+      var header = subHeaders.eq(i);
+      if (header.getHtml() == "Examples") {
+        headerElement = header;
+        break;
+      }
+    }
+    // No heading found, create one
+    if (!headerElement) {
+      headerElement = q.create("<h4>Examples</h4>");
+      method.append(headerElement);
+    }
+
+    if (typeof sample == "function") {
+      sample = sample.toString();
+      sample = sample.substring(sample.indexOf("\n") + 1, sample.length - 2);
+    }
+
+    appendSample(sample, headerElement);
+  };
 });

@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.menu.Manager",
     Registration.addListener(el, "keypress", this._onKeyPress, this, true);
 
     // only use the blur event to hide windows on non touch devices [BUG #4033]
-    // When the menu is locaed on top of an iFrame, the select will fail
+    // When the menu is located on top of an iFrame, the select will fail
     if (!qx.core.Environment.get("event.touch")) {
       // Hide all when the window is blurred
       qx.bom.Element.addListener(window, "blur", this.hideAll, this);
@@ -825,7 +825,12 @@ qx.Class.define("qx.ui.menu.Manager",
      * @param e {qx.event.type.MouseWheel} The mouse wheel event.
      */
     _onMouseWheel : function(e) {
-      this.hideAll();
+      var target = e.getTarget();
+      target = qx.ui.core.Widget.getWidgetByElement(target, true);
+
+      if (this.__objects.length > 0 && !this._isInMenu(target)) {
+        this.hideAll();
+      }
     }
   },
 

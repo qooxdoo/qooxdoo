@@ -71,14 +71,17 @@ input::-webkit-inner-spin-button {
   position: absolute;
   padding-bottom: 10px; }
 
-.scrollContainer {
+.scroll-container {
   -webkit-perspective: 1000;
   -webkit-backface-visibility: hidden;
   position: relative;
   overflow: hidden; }
 
-.scrollContainerChild {
+.scroll-container-child {
   position: relative; }
+
+.scroll-container.scrollable-top:before, .scroll-container.scrollable-bottom:after {
+  pointer-events: none; }
 
 .animationParent {
   -webkit-perspective: 800;
@@ -155,8 +158,9 @@ input::-webkit-inner-spin-button {
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
 
-.hbox, .selectbox, .toolbar-button {
-  width: 100%; }
+@-moz-document url-prefix() {
+  .hbox, .selectbox, .toolbar-button {
+    width: 100%; } }
 
 .vbox {
   width: 100%;
@@ -342,17 +346,13 @@ input::-webkit-inner-spin-button {
   line-height: 30px;
   font-size: 15px; }
 
-input[type="checkbox"] {
-  visibility: hidden;
-  position: absolute; }
-
-.checkbox-label {
+.checkbox {
   display: inline-block;
   cursor: pointer;
   width: 32px;
   height: 32px; }
 
-.checkbox-label:before {
+.checkbox:before {
   content: "";
   display: block;
   position: absolute;
@@ -415,7 +415,7 @@ input[type="checkbox"], input[type="radio"] {
   margin: 0;
   padding: 10px 10px; }
 
-ul.form li .scrollContainer {
+ul.form li .scroll-container {
   height: 140px; }
 
 textarea {
@@ -536,6 +536,13 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
 .menu {
   min-width: 200px; }
 
+.menu .list {
+  border: none !important;
+  background: none; }
+
+.menu .list .list-item {
+  background: none; }
+
 .popup, .menu, .picker {
   -webkit-border-radius: 0.5em;
   -moz-border-radius: 0.5em;
@@ -649,7 +656,7 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   width: 15px;
   height: 8px;
   background: transparent;
-  right: 4px;
+  right: 2px;
   border: 4px solid black;
   border-top: 0;
   border-right: 0;
@@ -1163,7 +1170,7 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   margin-left: 0px;
   min-width: 75px; }
 
-.scrollContainer {
+.scroll-container {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border-radius: 8px;
@@ -1173,12 +1180,12 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   -webkit-box-shadow: inset 0px 10px 10px -10px rgba(0, 0, 0, 0.2), inset 0px -10px 10px -10px rgba(0, 0, 0, 0.2);
   box-shadow: inset 0px 10px 10px -10px rgba(0, 0, 0, 0.2), inset 0px -10px 10px -10px rgba(0, 0, 0, 0.2); }
 
-.scrollContainer textarea {
+.scroll-container textarea {
   border: none;
   padding: 2px;
   background: none; }
 
-.scrollContainer:before {
+.scroll-container:before {
   -moz-border-radius-topleft: 8px;
   -moz-border-radius-topright: 8px;
   -webkit-border-radius-topleft: 8px;
@@ -1195,10 +1202,10 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   width: 100%;
   height: 0px; }
 
-.scrollContainer.scrollableTop:before {
+.scroll-container.scrollable-top:before {
   height: 30px; }
 
-.scrollContainer:after {
+.scroll-container:after {
   -moz-border-radius-bottomleft: 8px;
   -moz-border-radius-bottomright: 8px;
   -webkit-border-radius-bottomleft: 8px;
@@ -1215,7 +1222,7 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   width: 100%;
   height: 0px; }
 
-.scrollContainer.scrollableBottom:after {
+.scroll-container.scrollable-bottom:after {
   height: 30px; }
 
 .formSeparationRow {
@@ -1384,7 +1391,7 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   background-image: -moz-linear-gradient(left, #62666a, #65696c);
   background-image: linear-gradient(to right, #62666a, #65696c); }
 
-input[type="checkbox"] + label {
+.checkbox {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#fefefe), to(#cecece));
   /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #fefefe, #cecece);
@@ -1398,7 +1405,7 @@ input[type="checkbox"] + label {
   border-radius: 0.5em;
   border: 2px solid #4c4c4c; }
 
-.disabled input[type="checkbox"]:disabled + label {
+.disabled .checkbox:disabled {
   background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#ebebeb));
   /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, white, #ebebeb);
@@ -1409,7 +1416,7 @@ input[type="checkbox"] + label {
   /* Standard (in flux) */
   border: 2px solid #b8b8b8; }
 
-input[type="checkbox"]:checked + label {
+.checkbox.checked {
   background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -moz-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
   background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-gradient(linear, left top, left bottom, from(#353535), to(#8f8f8f)) 0px 0px no-repeat;
   background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
@@ -1603,8 +1610,11 @@ div.checked .toggleButtonSwitch:before {
   background: linear-gradient(top, #2591ed 0%, #2591ed 56%, #6db5f3 100%);
   color: white; }
 
-.selectbox-selected > div > .list-itemlabel {
+.selectbox-selected .list-itemlabel {
   color: #2a4880; }
+
+.selectbox-unselected .list-itemlabel, .selectbox-selected .list-itemlabel {
+  padding-right: 35px; }
 
 .selectbox-selected > div > .list-itemlabel:after {
   border-color: #2a4880; }

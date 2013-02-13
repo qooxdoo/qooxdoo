@@ -9,6 +9,7 @@
 #
 #  Copyright:
 #    2009 Sebastian Werner, sebastian-werner.net
+#    2010 - 2013 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -23,13 +24,10 @@
 
 ##
 #
-# Operates on single file basis to do one of the following actions:
+# Single-file Compile Interface for the qooxdoo Tool Chain.
 #
-# * compile the file
-# * pretty print the file
-# * generate the abstract syntax tree
-# * generate an API file
-# * ecmalint the file
+#   Command-line utility to invoke compiling, pretty-printing, linting, AST
+# output, etc. on a single JS file.
 #
 ##
 
@@ -44,149 +42,16 @@ from ecmascript.frontend import treegenerator, treegenerator_3
 from ecmascript.transform.optimizer import basecalloptimizer, privateoptimizer, stringoptimizer, variableoptimizer, variantoptimizer, inlineoptimizer
 from ecmascript.backend import api
 from misc import filetool
+from generator import Context
 from generator.runtime.Log import Log
 from generator.runtime.Cache import Cache
 from generator.runtime.InterruptRegistry import InterruptRegistry
+from generator.config.Config import Config
+from generator.runtime.Log import Log
 
 #sys.setrecursionlimit(1500)
 
             
-def main():
-    parser = optparse.OptionParser(option_class=ExtendAction)
-
-    usage_str = '''%prog [options] file.js,...'''
-    parser.set_usage(usage_str)
-    
-    # General flags
-    parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="verbose output mode (extra verbose)")
-    parser.add_option("-q", "--quiet", action="store_true", dest="quiet", default=False, help="quiet output")
-
-    # Optimization flags
-    parser.add_option("-n", "--variables", action="store_true", dest="variables", default=False, help="optimize variables")
-    parser.add_option("-s", "--strings", action="store_true", dest="strings", default=False, help="optimize strings")
-    parser.add_option("-p", "--privates", action="store_true", dest="privates", default=False, help="optimize privates")
-    parser.add_option("-b", "--basecalls", action="store_true", dest="basecalls", default=False, help="optimize basecalls")            
-    parser.add_option("-i", "--inline", action="store_true", dest="inline", default=False, help="optimize inline")
-    parser.add_option("-r", "--variants", action="store_true", dest="variantsopt", default=False, help="optimize variants")
-    parser.add_option("-m", "--comments", action="store_true", dest="comments", default=False, help="optimize comments")
-    parser.add_option("--all", action="store_true", dest="all", default=False, help="optimize all")            
-
-    # Variant support
-    parser.add_option("--variant", action="extend", dest="variants", metavar="KEY:VALUE", type="string", default=[], help="Selected variants")
-    
-    # Action modifier
-    parser.add_option("--pretty", action="store_true", dest="pretty", default=False, help="print out pretty printed")            
-    parser.add_option("--tree", action="store_true", dest="tree", default=False, help="print out tree")
-    parser.add_option("--lint", action="store_true", dest="lint", default=False, help="ecmalint the file")
-
-    # Cache support
-    parser.add_option("-c", "--cache", dest="cache", metavar="CACHEPATH", type="string", default="", help="path to cache directory")
-    parser.add_option("--privateskey", dest="privateskey", metavar="CACHEKEY", type="string", default="", help="cache key for privates")
-    
-    
-    #
-    # Process arguments
-    #
-    (options, args) = parser.parse_args(sys.argv[1:])
-    
-    if len(args) == 0:
-        print ">>> Missing filename!"
-        return
-
-    if not options.quiet:
-        print ">>> Parsing file..."
-    fileName = args[0]
-    fileContent = filetool.read(fileName, "utf-8")
-    fileId = "xxx"
-    tokens = tokenizer.Tokenizer().parseStream(fileContent, fileName)
-    
-    if not options.quiet:
-        print ">>> Creating tree..."
-    tree = treegenerator.createFileTree(tokens)
-    # treegenerator_3
-    #print repr(tree)
-    #return
-    # - treegenerator_3
-    
-    
-    #
-    # Optimizing tree
-    #
-    
-    if len(options.variants) > 0:
-        if not options.quiet:
-            print ">>> Selecting variants..."
-        varmap = {}
-        for entry in options.variants:
-            pos = entry.index(":")
-            varmap[entry[0:pos]] = entry[pos+1:]
-            
-        variantoptimizer.search(tree, varmap, fileId)
-    
-    if options.all or options.basecalls:
-        if not options.quiet:
-            print ">>> Optimizing basecalls..."
-        basecalloptimizer.patch(tree)   
-
-    if options.all or options.inline:
-        if not options.quiet:
-            print ">>> Optimizing inline..."
-        inlineoptimizer.patch(tree)   
-
-    if options.all or options.strings:
-        if not options.quiet:
-            print ">>> Optimizing strings..."
-        _optimizeStrings(tree, fileId)
-
-    if options.all or options.variables:
-        if not options.quiet:
-            print ">>> Optimizing variables..."
-        variableoptimizer.search(tree)
-
-    if options.all or options.privates:
-        if not options.quiet:
-            print ">>> Optimizing privates..."
-        privates = {}
-        if options.cache:
-            cache = Cache(options.cache, 
-                interruptRegistry=interruptRegistry
-            )
-            privates, _ = cache.read(options.privateskey)
-            if privates == None:
-                privates = {}
-        privateoptimizer.patch(tree, fileId, privates)
-        if options.cache:
-            cache.write(options.privateskey, privates)
-         
-         
-    #
-    # Output the result
-    #
-            
-    if options.lint:
-        if not options.quiet:
-            print ">>> Executing ecmalint..."
-        print "Needs implementation"
-    
-    elif options.tree:
-        if not options.quiet:
-            print ">>> Printing out tree..."
-        print tree.toXml().encode('utf-8')
-        
-    #elif options.pretty:  # for testing formatter_2
-    #    options = formatter.FormatterOptions()
-    #    options = formatter.defaultOptions(options)
-    #    print formatter.formatStream(tokens, options)
-
-    else:
-        if not options.quiet:
-            print ">>> Compiling..."
-        if options.pretty:
-            tree = treegenerator_3.createFileTree(tokens) # use special tree
-        compiled = _compileTree(tree, options.pretty)
-        print compiled.encode('utf-8')
-            
-
 #        
 # A copy from the TreeCompiler module            
 #
@@ -220,25 +85,6 @@ def _optimizeStrings(tree, id):
 
 
            
-#
-# Wrapper around the ugly compiler interface            
-#
-
-def _compileTree(tree, prettyFlag):
-    result = [u'']
-
-    if prettyFlag:
-        # Set options
-        def optns(): pass
-        optns = formatter.defaultOptions(optns)
-        optns.prettypCommentsBlockAdd = False
-        result = formatter.formatNode(tree, optns, result)
-    else:
-        result =  Packer().serializeNode(tree, None, result, True)
-
-    return u''.join(result)
-     
-
 def interruptCleanup(interruptRegistry):
     for func in interruptRegistry.Callbacks:
         try:
@@ -247,9 +93,196 @@ def interruptCleanup(interruptRegistry):
             print >>sys.stderr, e  # just keep on with the others
     
 
+def get_args():
+    parser = optparse.OptionParser(option_class=ExtendAction)
+
+    usage_str = '''%prog [options] [main_action] file.js,...
+    
+Default action is to compress the JS code. All output is written to STDOUT.
+'''
+    parser.set_usage(usage_str)
+    
+    # General flags
+    option_group = optparse.OptionGroup(parser, "General Options")
+    option_group.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="verbose output mode (extra verbose)")
+    option_group.add_option("-q", "--quiet", action="store_true", dest="quiet", default=False, help="quiet output")
+    option_group.add_option("-c", "--config", dest="config", metavar="CONFIGFILE", type="string", default="", help="path to a config.json file (opt.)")
+    option_group.add_option("--cache", dest="cache", metavar="CACHEPATH", type="string", default="", help="path to cache directory")
+    parser.add_option_group(option_group)
+
+    # Optimization flags
+    option_group = optparse.OptionGroup(parser, "Compile Options")
+    option_group.add_option("-n", "--variables", action="store_true", dest="variables", default=False, help="optimize variables")
+    option_group.add_option("-s", "--strings", action="store_true", dest="strings", default=False, help="optimize strings")
+    option_group.add_option("-p", "--privates", action="store_true", dest="privates", default=False, help="optimize privates")
+    option_group.add_option("--privateskey", dest="privateskey", metavar="CACHEKEY", type="string", default="", help="cache key for privates")
+    option_group.add_option("-b", "--basecalls", action="store_true", dest="basecalls", default=False, help="optimize basecalls")            
+    #option_group.add_option("-i", "--inline", action="store_true", dest="inline", default=False, help="optimize inline")
+    option_group.add_option("-r", "--variants", action="store_true", dest="variantsopt", default=False, help="optimize variants")
+    option_group.add_option("--variant", action="extend", dest="variants", metavar="KEY:VALUE", type="string", default=[], help="Selected variants")
+    option_group.add_option("-m", "--comments", action="store_true", dest="comments", default=False, help="optimize comments")
+    option_group.add_option("--all", action="store_true", dest="all", default=False, help="optimize all")            
+    parser.add_option_group(option_group)
+    
+    # Action modifier
+    option_group = optparse.OptionGroup(parser, "Main Actions")
+    option_group.add_option("--pretty", action="store_true", dest="pretty", default=False, help="print out pretty printed")            
+    option_group.add_option("--tree", action="store_true", dest="tree", default=False, help="print out tree")
+    option_group.add_option("--lint", action="store_true", dest="lint", default=False, help="ecmalint the file")
+    option_group.add_option("--deps", action="store_true", dest="dependencies", default=False, help="unresolved symbols of file")
+    parser.add_option_group(option_group)
+
+    #
+    # Process arguments
+    #
+    (options, args) = parser.parse_args(sys.argv[1:])
+    return options, args
+
+##
+# You can supply a config.json via '-c|--config' to the program. The config will
+# be parsed and a default job will be expanded (as if this were the job to run
+# for the generator). This job's settings can then be exploited in the actions
+# (e.g. pretty-print options, lint options, compile options).
 #
-# Main routine
-#            
+def read_config(options):
+    Context.console = Log()  # some module down the way looks for Context.console...
+    config = Config(Context.console, options.config)
+    config.resolveIncludes()
+    default_job = config.get("default-job", "default")
+    expandedjobs = config.resolveExtendsAndRuns([default_job])
+    config.includeSystemDefaults(expandedjobs)
+    config.resolveLibs(expandedjobs)
+    config.checkSchema(expandedjobs, checkJobTypes=True)
+    config.cleanUpJobs(expandedjobs)
+    options.config = config
+    return
+
+
+def run_lint(fileName, fileContent, options, args):
+    if not options.quiet:
+        print ">>> Executing ecmalint..."
+    print "Needs implementation"
+
+def run_tree(fileName, fileContent, options, args):
+    tokens = tokenizer.Tokenizer().parseStream(fileContent, fileName)
+    if not options.quiet: print ">>> Creating tree..."
+    tree = treegenerator.createFileTree(tokens)
+    if not options.quiet: print ">>> Printing out tree..."
+    print tree.toXml().encode('utf-8')
+    return
+
+def run_pretty(fileName, fileContent, options, args):
+    #elif options.pretty:  # for testing formatter_2
+    #    options = formatter.FormatterOptions()
+    #    options = formatter.defaultOptions(options)
+    #    print formatter.formatStream(tokens, options)
+    tokens = tokenizer.Tokenizer().parseStream(fileContent, fileName)
+    tree = treegenerator_3.createFileTree(tokens) # use special tree
+    optns = formatter.defaultOptions()
+    optns.prettypCommentsBlockAdd = False
+    result = [u'']
+    result = formatter.formatNode(tree, optns, result)
+    result = u''.join(result)
+    print result
+    return
+
+def run_dependencies(fileName, fileContent, options, args):
+    pass
+
+def run_compile(fileName, fileContent, options, args):
+    fileId = fileName
+    tokens = tokenizer.Tokenizer().parseStream(fileContent, fileName)
+    if not options.quiet:
+        print ">>> Creating tree..."
+    tree = treegenerator.createFileTree(tokens)
+    
+    # optimizing tree
+    if len(options.variants) > 0:
+        if not options.quiet:
+            print ">>> Selecting variants..."
+        varmap = {}
+        for entry in options.variants:
+            pos = entry.index(":")
+            varmap[entry[0:pos]] = entry[pos+1:]
+            
+        variantoptimizer.search(tree, varmap, fileId)
+    
+    if options.all or options.basecalls:
+        if not options.quiet:
+            print ">>> Optimizing basecalls..."
+        basecalloptimizer.patch(tree)   
+
+    #if options.all or options.inline:
+    #    if not options.quiet:
+    #        print ">>> Optimizing inline..."
+    #    inlineoptimizer.patch(tree)   
+
+    if options.all or options.strings:
+        if not options.quiet:
+            print ">>> Optimizing strings..."
+        _optimizeStrings(tree, fileId)
+
+    if options.all or options.variables:
+        if not options.quiet:
+            print ">>> Optimizing variables..."
+        variableoptimizer.search(tree)
+
+    if options.all or options.privates:
+        if not options.quiet:
+            print ">>> Optimizing privates..."
+        privates = {}
+        if options.cache:
+            cache = Cache(options.cache, 
+                interruptRegistry=interruptRegistry
+            )
+            privates, _ = cache.read(options.privateskey)
+            if privates == None:
+                privates = {}
+        privateoptimizer.patch(tree, fileId, privates)
+        if options.cache:
+            cache.write(options.privateskey, privates)
+         
+    if not options.quiet:
+        print ">>> Compiling..."
+    result = [u'']
+    result = Packer().serializeNode(tree, None, result, True)
+    result = u''.join(result)
+    print result.encode('utf-8')
+    
+    return
+
+
+def main():
+    (options, args) = get_args()
+    
+    if len(args) == 0:
+        print ">>> Missing filename!"
+        return
+
+    for fileName in args:
+        if not options.quiet:
+            print fileName, ":"
+            print ">>> Parsing file..."
+        fileContent = filetool.read(fileName, "utf-8")
+
+        if options.config:
+            read_config(options)
+
+        if options.lint:
+            run_lint(fileName, fileContent, options, args)
+        elif options.pretty:
+            run_pretty(fileName, fileContent, options, args)
+        elif options.tree:
+            run_tree(fileName, fileContent, options, args)
+        elif options.dependencies:
+            run_dependencies(fileName, fileContent, options, args)
+        else:
+            run_compile(fileName, fileContent, options, args)
+         
+    return
+            
+
+# ------------------------------------------------------------------------------
 
 interruptRegistry = InterruptRegistry()
             

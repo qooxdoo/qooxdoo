@@ -56,7 +56,7 @@ $scShadowColor:rgba(0,0,0,0.3);
 $scShadowColorLight:rgba(0,0,0,0.2);
 $scGradientVerticalOffset:15px;
 
-.scrollContainer {
+.scroll-container {
   border: $border-thickness solid $navigationpage-border-color;
   background-color:white;
 
@@ -68,7 +68,7 @@ $scGradientVerticalOffset:15px;
   );
 }
 
-.scrollContainer:before {
+.scroll-container:before {
   @include border-radius-top($input-border-radius);
   position:absolute;
   top:0px;
@@ -84,11 +84,11 @@ $scGradientVerticalOffset:15px;
   height:0px;
 }
 
-.scrollContainer.scrollableTop:before {
+.scroll-container.scrollable-top:before {
   height:30px;
 }
 
-.scrollContainer:after {
+.scroll-container:after {
   @include border-radius-bottom($input-border-radius);
   position:absolute;
   bottom:0px;
@@ -104,7 +104,7 @@ $scGradientVerticalOffset:15px;
   height:0px;
 }
 
-.scrollContainer.scrollableBottom:after {
+.scroll-container.scrollable-bottom:after {
   height:30px;
 }
 
@@ -119,7 +119,7 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   @include border-radius($input-border-radius);
 }
 
-.scrollContainer textarea {
+.scroll-container textarea {
   @include border-radius(0);
   border:2px solid transparent;
   background:none;
@@ -492,13 +492,13 @@ div.checked .toggleButtonSwitch:before {
 // CHECKBOX
 //
 
-.checkbox-label:before {
+.checkbox:before {
   @include gradient-vertical (darken($checkbox-background-inner-color,10%), lighten($checkbox-background-inner-color,10%));
 
   @include border-radius($checkbox-border-radius);
 }
 
-input[type="checkbox"] + label {
+.checkbox {
   position:relative;
   @include border-radius($checkbox-border-radius*3);
   border:$border-thickness solid $checkbox-border-color;
@@ -509,7 +509,7 @@ input[type="checkbox"] + label {
   @include gradient-vertical(lighten($checkbox-background-color, 20%), darken($checkbox-background-color, 20%));
 }
 
-input[type="checkbox"] + label:after {
+.checkbox:after {
   opacity: 0;
   content:"";;
   position: absolute;
@@ -528,7 +528,7 @@ input[type="checkbox"] + label:after {
 }
 
 
-input[type="checkbox"]:checked + label:after {
+.checkbox.checked:after {
     opacity: 1;
 }
 

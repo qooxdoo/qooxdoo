@@ -226,7 +226,8 @@ class Node(object):
                 if pos==spec or child.type==spec:
                     return child
         if mandatory:
-            raise NodeAccessException("Node " + self.type + " has no child with type or position" + spec, self)
+            raise NodeAccessException("Node '%s' has no child with type or position '%s'" 
+                % (self.type, str(spec)), self)
 
     def hasChildRecursive(self, ntype):
         if isinstance(ntype, basestring):
@@ -465,7 +466,10 @@ class Node(object):
         if mandatory:
             raise NodeAccessException("Node " + self.type + " has no child as position %s" % pos, self)
 
-
+    ##
+    # List-valued!
+    def getChildsByTypes(self, type_list):
+        return [c for c in self.children if c.type in type_list]
 
     def getChildByAttribute(self, key, value, mandatory = True):
         if self.children:

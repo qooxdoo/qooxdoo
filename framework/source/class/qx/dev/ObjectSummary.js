@@ -109,7 +109,7 @@ qx.Class.define("qx.dev.ObjectSummary",
           }
           ar = mHashCode[sClassName];
           if (ar == null) {
-            ar = mHashCode[sClassName] = new Array();
+            ar = mHashCode[sClassName] = [];
           }
           ar[ar.length] = vObject.toHashCode();
           vCounter++;

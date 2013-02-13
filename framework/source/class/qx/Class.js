@@ -604,10 +604,10 @@ qx.Bootstrap.define("qx.Class",
 
 
     /**
-     * Returns a list of all mixins available in a class.
+     * Returns a list of all interfaces a given class has to implement.
      *
      * @param clazz {Class} class which should be inspected
-     * @return {Mixin[]} array of mixins this class uses
+     * @return {Interface[]} array of interfaces this class implements
      */
     getInterfaces : function(clazz)
     {
@@ -643,7 +643,7 @@ qx.Bootstrap.define("qx.Class",
 
 
     /**
-     * Whether a given class to an interface.
+     * Whether a given class complies to an interface.
      *
      * Checks whether all methods defined in the interface are
      * implemented. The class does not need to implement
@@ -1559,7 +1559,7 @@ qx.Bootstrap.define("qx.Class",
     {
       function defaultConstructor() {
         defaultConstructor.base.apply(this, arguments);
-      };
+      }
 
       return defaultConstructor;
     },

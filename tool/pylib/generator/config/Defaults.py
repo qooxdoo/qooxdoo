@@ -22,6 +22,7 @@
 
 import os, sys, re, types, string, codecs, copy, tempfile
 from misc.ExtendAction import ExtendAction
+from generator import Context
 from generator.runtime.ShellCmd import ShellCmd
 from generator.config.GeneratorArguments import GeneratorArguments
 
@@ -51,9 +52,7 @@ def getUserHome(default=""):
         return default
 
 def getGenOpts(sysargv):
-    opts_string = ""
-    _,args = GeneratorArguments(option_class=ExtendAction).parse_args(sysargv[:])
-    opts = [x for x in sysargv if x not in args] # remove the jobs list
+    opts = getattr(Context, "generator_opts", [])
     opts_string = u" ".join(opts)
     return opts_string
 

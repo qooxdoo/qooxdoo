@@ -476,8 +476,9 @@ qx.Bootstrap.define("qx.bom.element.Style",
             return element.currentStyle[name] || "";
 
           default:
-            // Read cascaded style
-            var currentStyle = element.currentStyle[name] || "";
+            // Read cascaded style. Shorthand properties like "border" are not available
+            // on the currentStyle object.
+            var currentStyle = element.currentStyle[name] || element.style[name] || "";
 
             // Pixel values are always OK
             if (/^-?[\.\d]+(px)?$/i.test(currentStyle)) {
@@ -555,7 +556,10 @@ qx.Bootstrap.define("qx.bom.element.Style",
 
             // All relevant browsers expose the configured style properties to
             // the CSSStyleDeclaration objects
-            return computed ? computed[name] : "";
+            if (computed && computed[name]) {
+              return computed[name];
+            }
+            return element.style[name] || "";
         }
       }
     })

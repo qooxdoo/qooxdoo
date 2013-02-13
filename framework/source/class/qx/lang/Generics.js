@@ -29,7 +29,7 @@
  * Support string/array generics as introduced with JavaScript 1.6 for
  * all browsers.
  *
- * http://developer.mozilla.org/en/docs/New_in_JavaScript_1.6#Array_and_String_generics
+ * https://developer.mozilla.org/en-US/docs/JavaScript/New_in_JavaScript/1.6#Array_and_String_generics
  *
  * *Array*
  *

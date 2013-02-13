@@ -53,6 +53,12 @@
   margin-bottom: 0;
 }
 
+#content h4 {
+  color: #3d72c9;
+  font-weight: bold;
+  font-size: 12px;
+}
+
 #content div {
   margin-bottom: 20px;
 }

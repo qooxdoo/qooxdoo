@@ -34,7 +34,7 @@ from generator.code.Part             import Part
 from generator.action.CodeGenerator  import CodeGenerator
 from generator.action.ActionLib      import ActionLib
 from generator.action.Locale         import Locale as LocaleCls
-from generator.action                import ApiLoader, Locale, CodeMaintenance, Testing
+from generator.action                import ApiLoader, Locale, CodeMaintenance, Testing, Validation
 from generator.action                import CodeProvider, Logging, FileSystem, Resources
 from generator.action                import MiniWebServer
 from generator.runtime.Cache         import Cache
@@ -148,6 +148,11 @@ class Generator(object):
               "type" : "JCompileJob",
             },
 
+            "manifest-validate" :
+            {
+              "type"   : "JSimpleJob"
+            },
+
             "migrate-files" :
             {
               "type"   : "JSimpleJob",           # this might change once we stop to shell exit to an external script
@@ -243,7 +248,7 @@ class Generator(object):
             self._partBuilder = PartBuilder(self._console, self._depLoader)
 
             # Check for a 'packages' configuration in the job
-            if 0: 
+            if 0:
                 # this branch should work, but doesn't;
                 # create a synthetic job key and let evalPackagesConfig do the rest
                 if not self._job.get("packages"):
@@ -496,6 +501,8 @@ class Generator(object):
             Resources.runImageCombining(self._job, self._config)
         if takeout(jobTriggers, "clean-files"):
             FileSystem.runClean(self._job, self._config, self._cache)
+        if takeout(jobTriggers, "manifest-validate"):
+            Validation.validateManifest(self._job, self._config)
         if takeout(jobTriggers, "migrate-files"):
             CodeMaintenance.runMigration(self._job, config.get("library"))
         if takeout(jobTriggers, "shell"):

@@ -26,7 +26,7 @@
 ##
 
 import re, types
-from ecmascript.frontend import tree, tokenizer, treegenerator, Comment
+from ecmascript.frontend import tree, tokenizer, treegenerator, Comment, lang
 from ecmascript.frontend.treegenerator import PackerFlags as pp
 
 
@@ -68,8 +68,6 @@ def findEnclosingQxDefine(node):
 ##
 # Checks if the given node is the operand of a qx.*.define function invocation.
 #
-DefiningClasses = "q qxWeb qx.Bootstrap qx.Class qx.Interface qx.Mixin qx.Theme".split()
-
 def isQxDefine(node):
     if node.type in tree.NODE_VARIABLE_TYPES:
         try:
@@ -77,7 +75,7 @@ def isQxDefine(node):
         except tree.NodeAccessException:
             return False, None, ""
 
-        if variableName in [x+".define" for x in DefiningClasses]:
+        if variableName in lang.QX_CLASS_FACTORIES:
             if node.hasParentContext("call/operand"):
                 className = selectNode(node, "../../arguments/1")
                 if className and className.type == "constant":
@@ -104,7 +102,7 @@ def isQxDefineParent(node):
         except tree.NodeAccessException:
             return False, None, ""
 
-        if variableName in [x+".define" for x in DefiningClasses]:
+        if variableName in lang.QX_CLASS_FACTORIES:
             className = selectNode(node, "arguments/1")
             if className and className.type == "constant":
                 className = className.get("value", None)
@@ -164,72 +162,72 @@ def selectNode(node, path, ignoreComments=False):
     re_indexedNode = re.compile("^(.*)\[(\d+)\]$")
     re_attributeNode = re.compile("^(.*)\[@(.+)=\'(.*)\'\]$")
 
-    try:
-            pathParts = path.split("/")
-            for part in pathParts:
-                # parent node
-                if part == "..":
-                    node = node.parent
-                else:
-                    # only index
-                    try:
-                        position = int(part)-1
-                        node = node.getChildByPosition(position, ignoreComments)
-                        continue
-                    except ValueError:
-                        pass
+    def is_number(a):
+        try: int(a); return True
+        except ValueError: return False
 
-                    # indexed node "[1]"
-                    match = re_indexedNode.match(part)
-                    if match:
-                        nodetype = match.group(1)
-                        index = int(match.group(2))-1
-                        i = 0
-                        found = False
-                        for child in node.children:
-                            if child.type == nodetype:
-                                if index == i:
-                                    node = child
-                                    found = True
-                                    break
-                                i += 1
-                        if not found:
-                            return None
-                        else:
-                            continue
+    def is_indexed(a):
+        return re_indexedNode.match(a)
 
-                    # attributed node "[@key=val]"
-                    match = re_attributeNode.match(part)
-                    if match:
-                        nodetype = match.group(1)
-                        attribName = match.group(2)
-                        attribValue = match.group(3)
-                        found = False
-                        for child in node.children:
-                            if child.type == nodetype:
-                                if child.get(attribName) == attribValue:
-                                    node = child
-                                    found = True
-                                    break
-                        if not found:
-                            return None
+    def is_attributed(a):
+        return re_attributeNode.match(a)
 
-                    # attribute
-                    elif part[0] == "@":
-                        try:
-                            val = node.get(part[1:])
-                        except tree.NodeAccessException:
-                            return None
-                        return val
+    def _selectNode(node, pathParts, ignoreComments):
+        if not pathParts or not node:
+            return node
+        else:
+            # Dispatch on current selector part
+            nextn = None
+            part = pathParts[0]
 
-                    # type
-                    else:
-                        node = node.getChild(part)
+            # parent
+            if part == '..':
+                nextn = node.parent 
+            
+            # attribute -- ends recursion
+            elif part[0] == "@":
+                try:
+                    val = node.get(part[1:])
+                    return val
+                except tree.NodeAccessException:
+                    return None
 
-    except tree.NodeAccessException:
-            return None
+            # index, e.g. "2"
+            elif is_number(part):
+                pos = int(part) - 1
+                nextn = node.getChildByPosition(pos, ignoreComments) 
+            
+            # indexed node, e.g. "arguments[3]"
+            elif is_indexed(part):
+                match = re_indexedNode.match(part)
+                nodetype = match.group(1)
+                index = int(match.group(2))-1
+                childsOfType = node.getChildsByTypes([nodetype])
+                if len(childsOfType) > index:
+                    nextn = childsOfType[index]
+                     
+            # attributed node, e.g. "arguments[@key=val]"
+            elif is_attributed(part):
+                match = re_attributeNode.match(part)
+                nodetype = match.group(1)
+                attribName = match.group(2)
+                attribValue = match.group(3)
+                childsOfType = node.getChildsByTypes([nodetype])
+                for cld in childsOfType:
+                    if cld.get(attribName) == attribValue:
+                        nextn = cld
+                        break
 
-    return node
+            # type
+            else:
+                nextn = node.getChild(part, mandatory=False)
+
+            return _selectNode(nextn, pathParts[1:], ignoreComments)
+
+    # --------------------------------------------------------------------------
+
+    pathParts = path.split("/")
+    return _selectNode(node, pathParts, ignoreComments)
 
 
 def nodeIterator(node, nodetypes):

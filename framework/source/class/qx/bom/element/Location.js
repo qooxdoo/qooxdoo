@@ -201,131 +201,22 @@ qx.Bootstrap.define("qx.bom.element.Location",
     /**
      * Computes the sum of all offsets of the given element node.
      *
-     * Traditionally this is a loop which goes up the whole parent tree
-     * and sums up all found offsets.
-     *
-     * But both <code>mshtml</code> and <code>gecko >= 1.9</code> support
-     * <code>getBoundingClientRect</code> which allows a
-     * much faster access to the offset position.
-     *
-     * Please note: When gecko 1.9 does not use the <code>getBoundingClientRect</code>
-     * implementation, and therefore use the traditional offset calculation
-     * the gecko 1.9 fix in <code>__computeBody</code> must not be applied.
-     *
      * @signature function(elem)
      * @param elem {Element} DOM element to query
      * @return {Map} Map which contains the <code>left</code> and <code>top</code> offsets
      */
-    __computeOffset : qx.core.Environment.select("engine.name",
+    __computeOffset : function(elem)
     {
-      "gecko" : function(elem)
-      {
-        // Use faster getBoundingClientRect() if available (gecko >= 1.9)
-        if (elem.getBoundingClientRect)
-        {
-          var rect = elem.getBoundingClientRect();
+      var rect = elem.getBoundingClientRect();
 
-          // Firefox 3.0 alpha 6 (gecko 1.9) returns floating point numbers
-          // use Math.round() to round them to style compatible numbers
-          // MSHTML returns integer numbers
-          var left = Math.round(rect.left);
-          var top = Math.round(rect.top);
-        }
-        else
-        {
-          var left = 0;
-          var top = 0;
-
-          // Stop at the body
-          var body = qx.dom.Node.getDocument(elem).body;
-          var box = qx.bom.element.BoxSizing;
-
-          if (box.get(elem) !== "border-box")
-          {
-            left -= this.__num(elem, "borderLeftWidth");
-            top -= this.__num(elem, "borderTopWidth");
-          }
-
-          while (elem && elem !== body)
-          {
-            // Add node offsets
-            left += elem.offsetLeft;
-            top += elem.offsetTop;
-
-            // Mozilla does not add the borders to the offset
-            // when using box-sizing=content-box
-            if (box.get(elem) !== "border-box")
-            {
-              left += this.__num(elem, "borderLeftWidth");
-              top += this.__num(elem, "borderTopWidth");
-            }
-
-            // Mozilla does not add the border for a parent that has
-            // overflow set to anything but visible
-            if (elem.parentNode && this.__style(elem.parentNode, "overflow") != "visible")
-            {
-              left += this.__num(elem.parentNode, "borderLeftWidth");
-              top += this.__num(elem.parentNode, "borderTopWidth");
-            }
-
-            // One level up (offset hierarchy)
-            elem = elem.offsetParent;
-          }
-        }
-
-        return {
-          left : left,
-          top : top
-        }
-      },
-
-      "default" : function(elem)
-      {
-        var doc = qx.dom.Node.getDocument(elem);
-
-        // Use faster getBoundingClientRect() if available
-        if (elem.getBoundingClientRect)
-        {
-          var rect = elem.getBoundingClientRect();
-
-          var left = Math.round(rect.left);
-          var top = Math.round(rect.top);
-        }
-        else
-        {
-          // Offset of the incoming element
-          var left = elem.offsetLeft;
-          var top = elem.offsetTop;
-
-          // Start with the first offset parent
-          elem = elem.offsetParent;
-
-          // Stop at the body
-          var body = doc.body;
-
-          // Border correction is only needed for each parent
-          // not for the incoming element itself
-          while (elem && elem != body)
-          {
-            // Add node offsets
-            left += elem.offsetLeft;
-            top += elem.offsetTop;
-
-            // Fix missing border
-            left += this.__num(elem, "borderLeftWidth");
-            top += this.__num(elem, "borderTopWidth");
-
-            // One level up (offset hierarchy)
-            elem = elem.offsetParent;
-          }
-        }
-
-        return {
-          left : left,
-          top : top
-        }
-      }
-    }),
+      // Firefox 3.0 alpha 6 (gecko 1.9) returns floating point numbers
+      // use Math.round() to round them to style compatible numbers
+      // MSHTML returns integer numbers
+      return {
+        left : Math.round(rect.left),
+        top : Math.round(rect.top)
+      };
+    },
 
 
     /**

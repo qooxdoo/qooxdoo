@@ -9,6 +9,7 @@ qooxdoo Desktop is the component to build rich and interactive, desktop-like app
 .. toctree::
 
    desktop/ui_overview
+   desktop/develop_how_to
 
 
 Widgets Introduction

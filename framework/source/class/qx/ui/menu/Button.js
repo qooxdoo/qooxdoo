@@ -108,6 +108,7 @@ qx.Class.define("qx.ui.menu.Button",
 
         // don't close menus if the button is a sub menu button
         if (this.getMenu()) {
+          this.getMenu().open();
           return;
         }
       } else {

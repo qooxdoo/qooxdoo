@@ -1,0 +1,10 @@
+To comply with the terms of the Python Software License for the 'argparse'
+module we have to supply a brief history of changes we made to the module for
+the qooxdoo project. So after making changes include the output of the command
+`git log --format=format:"%ai: %an: %s" argparse.py`, run in this directory, in
+this file.
+--------------------------------------------------------------------------------
+
+<replace everything below this line with `git log --format=format:"%ai: %an: %s" argparse.py` output>
+
+2013-02-13 14:45:23 +0100: thron7: adding argparse module for 'subcommand' CLIs

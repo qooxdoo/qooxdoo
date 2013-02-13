@@ -30,7 +30,7 @@
 ************************************************************************ */
 /**
  * @ignore(qx.test.Construct, qx.test.ExtendError, qx.test.ExtendNull)
- * @ignore(qx.test.ExtendQxObject, qx.test.ExtendSuper, qx.test.Super)
+ * @ignore(qx.test.ExtendQxObject, qx.test.ExtendSuper, qx.test.Super, qx.test.ROOT)
  */
 
 qx.Class.define("qx.test.Bootstrap",
@@ -47,6 +47,16 @@ qx.Class.define("qx.test.Bootstrap",
       }});
 
       this.assertTrue(clazz.test());
+    },
+
+
+    testAlternativeRoot : function() {
+      var myRoot = {};
+      qx.Bootstrap.setRoot(myRoot);
+      var c = qx.Bootstrap.define("qx.test.ROOT", {});
+      this.assertUndefined(qx.test.ROOT);
+      this.assertEquals(c, myRoot.qx.test.ROOT);
+      qx.Bootstrap.setRoot(undefined);
     },
 
 

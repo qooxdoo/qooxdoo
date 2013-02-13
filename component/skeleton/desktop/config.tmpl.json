@@ -19,19 +19,23 @@
     "info",
     "inspector",
     "lint",
+    "manifest-validation",
     "migration",
     "pretty",
     "profiling",
     "source",
     "source-all",
-    "source-hybrid",    
+    "source-hybrid",
+    "source-server",
+    "source-httpd-config",
+    "source-hybrid",
     "simulation-build",
     "simulation-run",
     "test",
     "test-source",
     "translation"
   ],
-  
+
   "default-job" : "source-hybrid",
 
   "let" :
@@ -55,7 +59,7 @@
     // using a contrib: library, it will be downloaded into the path specified
     // by the 'cache/downloads' config key
     /*
-    "libraries" : 
+    "libraries" :
     {
       "library" :
       [
@@ -72,7 +76,7 @@
 	/*
     ,"build-script" :
     {
-      "compile-options" : 
+      "compile-options" :
       {
         "code" :
         {

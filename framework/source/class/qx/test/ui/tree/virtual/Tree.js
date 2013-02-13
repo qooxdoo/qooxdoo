@@ -305,6 +305,18 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
     },
 
 
+    testNoChangeBubblesAddChild : function()
+    {
+      var root = this.createModelAndSetModel(3);
+
+      var spy = this.spy(this.tree, "buildLookupTable");
+
+      var newItem = new qx.test.ui.tree.virtual.Node("test");
+      root.getChildren().getItem(2).getChildren().getItem(0).getChildren().push(newItem);
+      this.assertNotCalled(spy);
+    },
+
+
     testGetOpenNodes : function()
     {
       var root = this.createModelAndSetModel(1);

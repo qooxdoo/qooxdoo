@@ -95,6 +95,13 @@ qx.Mixin.define("qx.ui.core.MMovable",
       widget.addListener("mouseup", this._onMoveMouseUp, this);
       widget.addListener("mousemove", this._onMoveMouseMove, this);
       widget.addListener("losecapture", this.__onMoveLoseCapture, this);
+
+      if (qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse")) {
+        widget.addListener("mousewheel", function(e) {
+          e.stopPropagation();
+        }, this);
+      }
+
     },
 
 

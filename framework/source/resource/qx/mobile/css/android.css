@@ -71,14 +71,17 @@ input::-webkit-inner-spin-button {
   position: absolute;
   padding-bottom: 10px; }
 
-.scrollContainer {
+.scroll-container {
   -webkit-perspective: 1000;
   -webkit-backface-visibility: hidden;
   position: relative;
   overflow: hidden; }
 
-.scrollContainerChild {
+.scroll-container-child {
   position: relative; }
+
+.scroll-container.scrollable-top:before, .scroll-container.scrollable-bottom:after {
+  pointer-events: none; }
 
 .animationParent {
   -webkit-perspective: 800;
@@ -155,8 +158,9 @@ input::-webkit-inner-spin-button {
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
 
-.hbox, .selectbox, .toolbar-button {
-  width: 100%; }
+@-moz-document url-prefix() {
+  .hbox, .selectbox, .toolbar-button {
+    width: 100%; } }
 
 .vbox {
   width: 100%;
@@ -342,17 +346,13 @@ input::-webkit-inner-spin-button {
   line-height: 30px;
   font-size: 15px; }
 
-input[type="checkbox"] {
-  visibility: hidden;
-  position: absolute; }
-
-.checkbox-label {
+.checkbox {
   display: inline-block;
   cursor: pointer;
   width: 32px;
   height: 32px; }
 
-.checkbox-label:before {
+.checkbox:before {
   content: "";
   display: block;
   position: absolute;
@@ -415,7 +415,7 @@ input[type="checkbox"], input[type="radio"] {
   margin: 0;
   padding: 10px 10px; }
 
-ul.form li .scrollContainer {
+ul.form li .scroll-container {
   height: 140px; }
 
 textarea {
@@ -477,6 +477,13 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
 
 .menu {
   min-width: 200px; }
+
+.menu .list {
+  border: none !important;
+  background: none; }
+
+.menu .list .list-item {
+  background: none; }
 
 .navigationbar {
   height: 45px;
@@ -656,7 +663,7 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   width: 15px;
   height: 8px;
   background: transparent;
-  right: 4px;
+  right: 2px;
   border: 4px solid black;
   border-top: 0;
   border-right: 0;
@@ -1050,7 +1057,7 @@ div.checked .toggleButtonSwitch:before {
   margin: 0 auto;
   width: 70%; }
 
-.clickable, .toggleButton, .button, .navigationbar-button, .navigationbar-backbutton, input[type="checkbox"] + label, .toolbar-button, .selectbox {
+.clickable, .toggleButton, .button, .navigationbar-button, .navigationbar-backbutton, .checkbox, .toolbar-button, .selectbox {
   color: #222222;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), to(#c1c1c1));
   /* Safari 4+, Chrome 2+ */
@@ -1155,18 +1162,18 @@ input[type="text"]:not(.selectbox):not(.invalid), input[type="number"]:not(.inva
 .formRowContent {
   padding: 5px 10px 5px 10px; }
 
-.scrollContainer {
+.scroll-container {
   background-color: white;
   -moz-box-shadow: inset 0px 10px 10px -10px rgba(0, 0, 0, 0.2), inset 0px -10px 10px -10px rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: inset 0px 10px 10px -10px rgba(0, 0, 0, 0.2), inset 0px -10px 10px -10px rgba(0, 0, 0, 0.2);
   box-shadow: inset 0px 10px 10px -10px rgba(0, 0, 0, 0.2), inset 0px -10px 10px -10px rgba(0, 0, 0, 0.2); }
 
-.scrollContainer textarea {
+.scroll-container textarea {
   padding: 2px;
   border: none;
   background: none; }
 
-.scrollContainer:before {
+.scroll-container:before {
   position: absolute;
   top: 0px;
   z-index: 500;
@@ -1177,10 +1184,10 @@ input[type="text"]:not(.selectbox):not(.invalid), input[type="number"]:not(.inva
   width: 100%;
   height: 0px; }
 
-.scrollContainer.scrollableTop:before {
+.scroll-container.scrollable-top:before {
   height: 30px; }
 
-.scrollContainer:after {
+.scroll-container:after {
   position: absolute;
   bottom: 0px;
   z-index: 500;
@@ -1191,7 +1198,7 @@ input[type="text"]:not(.selectbox):not(.invalid), input[type="number"]:not(.inva
   width: 100%;
   height: 0px; }
 
-.scrollContainer.scrollableBottom:after {
+.scroll-container.scrollable-bottom:after {
   height: 30px; }
 
 .formSeparationRow {
@@ -1280,14 +1287,14 @@ input[type="text"]:not(.selectbox):not(.invalid), input[type="number"]:not(.inva
   /* Standard (in flux) */
   border: 1px solid #000; }
 
-input[type="checkbox"] + label {
+.checkbox {
   position: relative;
   box-sizing: border-box;
   -webkit-border-radius: 0.3em;
   -moz-border-radius: 0.3em;
   border-radius: 0.3em; }
 
-.checkbox-label:before {
+.checkbox:before {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#5b5b5b), to(#8e8e8e));
   /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #5b5b5b, #8e8e8e);
@@ -1300,7 +1307,7 @@ input[type="checkbox"] + label {
   -moz-border-radius: 0.1em;
   border-radius: 0.1em; }
 
-input[type="checkbox"] + label:after {
+.checkbox:after {
   opacity: 0;
   content: '';
   position: absolute;
@@ -1319,7 +1326,7 @@ input[type="checkbox"] + label:after {
   -moz-box-shadow: -1px 1px 1px 0px #e89c00;
   box-shadow: -1px 1px 1px 0px #e89c00; }
 
-input[type="checkbox"]:checked + label:after {
+.checkbox.checked:after {
   opacity: 1; }
 
 input[type=radio] + label {
@@ -1461,6 +1468,9 @@ input[type=radio] + label:after {
 
 .menu ul {
   border: 1px solid #6b6d6b; }
+
+.menu-scroller {
+  background-color: black; }
 
 .master-detail-master {
   border-right: 1px solid #6b6d6b; }

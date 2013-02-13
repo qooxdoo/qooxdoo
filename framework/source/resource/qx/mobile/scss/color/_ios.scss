@@ -165,7 +165,7 @@ $scShadowColor:rgba(0,0,0,0.3);
 $scShadowColorLight:rgba(0,0,0,0.2);
 $scGradientVerticalOffset:15px;
 
-.scrollContainer {
+.scroll-container {
   @include border-radius(8px);
   border: 1px solid $button-border-color;
   background-color:white;
@@ -176,13 +176,13 @@ $scGradientVerticalOffset:15px;
   );
 }
 
-.scrollContainer textarea {
+.scroll-container textarea {
   border:none;
   padding:2px;
   background:none;
 }
 
-.scrollContainer:before {
+.scroll-container:before {
   @include border-radius-top(8px);
   position:absolute;
   top:0px;
@@ -198,11 +198,11 @@ $scGradientVerticalOffset:15px;
   height:0px;
 }
 
-.scrollContainer.scrollableTop:before {
+.scroll-container.scrollable-top:before {
   height:30px;
 }
 
-.scrollContainer:after {
+.scroll-container:after {
   @include border-radius-bottom(8px);
   position:absolute;
   bottom:0px;
@@ -218,8 +218,8 @@ $scGradientVerticalOffset:15px;
   height:0px;
 }
 
-.scrollContainer.scrollableBottom:after {
-    height:30px;
+.scroll-container.scrollable-bottom:after {
+  height:30px;
 }
 
 //
@@ -418,19 +418,19 @@ $scGradientVerticalOffset:15px;
 // CHECKBOX
 //
 
-input[type="checkbox"] + label {
+.checkbox {
   @include gradient-vertical(#fefefe, #cecece);
   @include border-radius(.5em);
   border: 2px solid #4c4c4c;
 }
 
-.disabled input[type="checkbox"]:disabled + label {
+.disabled .checkbox:disabled {
   @include gradient-vertical(#ffffff, #ebebeb);
   border: 2px solid #b8b8b8; 
 }
 
 // Webkit only, see BUG #5982: only webkit can style checkboxes.
-input[type="checkbox"]:checked + label {
+.checkbox.checked {
   background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -moz-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
   background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-gradient(linear,left top,left bottom,from(#353535), to(#8f8f8f)) 0px 0px no-repeat;
   background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
@@ -619,8 +619,13 @@ $selection-foreground-color:#2a4880;
 // SELECTBOX MENU DIALOG
 //
 
-.selectbox-selected > div > .list-itemlabel {
+.selectbox-selected .list-itemlabel {
   color:$selection-foreground-color;
+}
+
+.selectbox-unselected .list-itemlabel, .selectbox-selected .list-itemlabel {
+  // Space for tick...
+  padding-right: 35px;
 }
 
 .selectbox-selected > div > .list-itemlabel:after {

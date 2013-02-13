@@ -905,11 +905,46 @@ testrunner.define({
     this.assertEquals(window, q.getWindow(q("#sandbox")[0]));
   },
 
+  testIsWindow : function()
+  {
+    this.assertTrue(q.isWindow(window));
+    this.assertFalse(q.isWindow(document));
+    this.assertFalse(q.isWindow(document.body));
+  },
+
   testGetDocument : function()
   {
     this.assertEquals(document, q.getDocument(q("#sandbox")[0]));
     this.assertEquals(document, q.getDocument(window));
     this.assertEquals(document, q.getDocument(document));
+  },
+
+  testGetNodeName : function()
+  {
+    this.assertEquals("html", q.getNodeName(document.documentElement));
+  },
+
+  testGetNodeText : function()
+  {
+    this.assertEquals("monkeycheese", q.getNodeText(q.create("<div>monkey<p>cheese</p></div>")[0]));
+  },
+
+  testIsBlockNode : function()
+  {
+    this.assertTrue(q.isBlockNode(document.createElement("p")));
+    this.assertFalse(q.isBlockNode(document.createElement("span")));
+  },
+
+  testIsNodeName : function()
+  {
+    this.assertTrue(q.isNodeName(document.createElement("p"), "p"));
+    this.assertTrue(q.isNodeName(document.createTextNode("bla"), "#text"));
+  },
+
+  testIsTextNode : function()
+  {
+    this.assertTrue(q.isTextNode(document.createTextNode("bla")));
+    this.assertFalse(q.isTextNode(document.createElement("p")));
   }
 });
 
@@ -1465,6 +1500,24 @@ testrunner.define({
     this.wait(200, function() {
       this.assertEquals(1, ctx.ready);
     }, this);
+  },
+
+  testAllOffWithType : function() {
+    var test = q.create('<h1>Foo</h1><div></div>').appendTo("#sandbox");
+    test.eq(0).on("mouseup", function() {});
+    test.eq(1).on("mousedown", function() {});
+    test.allOff("mousedown");
+    this.assertTrue(test.eq(0).hasListener("mouseup"));
+    this.assertFalse(test.eq(1).hasListener("mousedown"));
+  },
+
+  testAllOff : function() {
+    var test = q.create('<h1>Foo</h1><div></div>').appendTo("#sandbox");
+    test.eq(0).on("mouseup", function() {});
+    test.eq(1).on("mousedown", function() {});
+    test.allOff();
+    this.assertFalse(test.eq(0).hasListener("mouseup"));
+    this.assertFalse(test.eq(1).hasListener("mousedown"));
   }
 });
 
@@ -2514,6 +2567,79 @@ testrunner.define({
     this.assertEquals(1, called2);
     this.assertEquals(2, calledAny);
   }
+});
+
+testrunner.define({
+	 classname : "Dataset",
+	 
+	 setUp : function(){		
+		 testrunner.globalSetup.call(this);		
+		 this.__element = q.create("<div id='testEl'></div>");
+		 this.__element.appendTo(this.sandbox[0]);	
+	 },	 
+	
+	 tearDown : testrunner.globalTeardown,
+	 
+	 testSetDataAttribute : function(){
+		
+		 this.__element.setData("type","domelement");
+		 this.__element.setData("option","test");
+		    
+		 var datatype = this.__element.getAttribute("data-type");
+		 var dataoption = this.__element.getAttribute("data-option");
+		 
+		 this.assertEquals(datatype, "domelement");
+		 this.assertEquals(dataoption, "test");
+	 },
+	 
+	 testSetDataAttributeHyphenated : function(){
+		
+		 this.__element.setData("hyphenated-data-attribute","hyphenated");
+		 
+		 var hyphenatedExpected = this.__element.getAttribute("data-hyphenated-data-attribute");
+		 var hyphenatedFound = this.__element.getData("hyphenatedDataAttribute"); 
+		 
+		 this.assertEquals(hyphenatedExpected,hyphenatedFound);
+		 
+	 },
+	 
+	 testGetDataAttribute : function(){
+		 
+		 var expected = this.__element.getAttribute("data-type");
+		 var found = this.__element.getData("type");
+		 
+		 this.assertEquals(expected,found);
+		 
+		 var expected2 = this.__element.getAttribute("data-option");
+		 var found2 = q("#testEl").getData("option");
+		 
+		 this.assertEquals(expected2,found2);		
+		 
+	 },
+	 
+	 testGetAllData : function(){		
+		 
+		 this.__element.setData("type","domelement");
+		 this.__element.setData("option","test");
+		 this.__element.setData("hyphenated-data-attribute","hyphenated");
+		 
+		 var expected = q("#testEl").getAllData();
+		
+		 var datatype = "domelement";
+		 var dataoption = "test";
+		 var dataHyphenated = "hyphenated";
+		 
+		 this.assertEquals(expected.type,datatype);
+		 this.assertEquals(expected.option,dataoption);
+		 this.assertEquals(expected.hyphenatedDataAttribute,dataHyphenated);			 
+	 },
+	 
+	 testRemoveData : function(){		 
+		 q("#testEl").removeData("hyphenatedDataAttribute");
+		 var found = q("#testEl").getData("hyphenatedDataAttribute");		
+		 this.assertNull(this.__element.getAttribute("data-hyphenated-data-attribute"));
+	 }	
+	 
 });
 
 

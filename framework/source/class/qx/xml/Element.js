@@ -26,7 +26,7 @@
  *
  * Further information:
  *
- * * <a href="http://developer.mozilla.org/en/docs/Parsing_and_serializing_XML">MDN Parsing and Serializing XML</a>
+ * * <a href="https://developer.mozilla.org/en-US/docs/Parsing_and_serializing_XML">MDN Parsing and Serializing XML</a>
  *
  * Please note that nodes selected using the <code>selectSingleNode()</code> and
  * <code>selectNodes()</code> methods remain in their document context so
@@ -197,13 +197,13 @@ qx.Class.define("qx.xml.Element",
      * Returns a list of elements with the given tag name belonging to the given namespace
      *
      * (See
-     * <a href="http://developer.mozilla.org/en/DOM/element.getElementsByTagNameNS">MDN
+     * <a href="https://developer.mozilla.org/en-US/docs/DOM/element.getElementsByTagNameNS">MDN
      * Reference</a>).
      *
      * @param element {Element | Document} the element from where the search should start.
      *       Note that only the descendants of this element are included in the search, not the node itself.
      * @param namespaceURI {var} is the namespace URI of elements to look for . For example, if you need to look
-     *       for XHTML elements, use the XHTML namespace URI, <tt>http://www.w3.org/1999/xhtml</tt>.
+     *       for XHTML elements, use the XHTML namespace URI, <tt>http://www.w3.org/1999/xhtml/</tt>.
      * @param tagname {String} the tagname to look for
      * @return {Element[]} a list of found elements in the order they appear in the tree.
      */

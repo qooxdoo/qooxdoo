@@ -36,8 +36,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 {
   extend : qx.ui.core.Widget,
   include : qx.core.Environment.filter({
-      "true"        : qx.ui.core.scroll.MScrollBarFactory,
-      "event.touch" : qx.ui.core.scroll.MTouchScroll
+      "event.touch" : qx.ui.core.scroll.MTouchScroll,
+      "true"        : qx.ui.core.scroll.MScrollBarFactory
     }),
 
 
@@ -866,7 +866,12 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       } else if (delta < 0 && delta > -1) {
         delta = -1;
       }
-      this.__verScrollBar.scrollBySteps(delta);
+      if (qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse")) {
+        this.__verScrollBar.scrollBy(delta);
+      } else {
+        this.__verScrollBar.scrollBySteps(delta);
+      }
+
 
       // horizontal scrolling
       delta = e.getWheelDelta("x");
@@ -876,7 +881,11 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       } else if (delta < 0 && delta > -1) {
         delta = -1;
       }
-      this.__horScrollBar.scrollBySteps(delta);
+      if (qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse")) {
+        this.__horScrollBar.scrollBy(delta);
+      } else {
+        this.__horScrollBar.scrollBySteps(delta);
+      }
 
       // Update the focus
       if (this.__lastMousePageX && this.getFocusCellOnMouseMove()) {
