@@ -27,3 +27,11 @@ addSample("q.define", function() {
     }
   });
 });
+
+addSample("q.$attach",function(){
+  q.$attach({"test" : 123}); // q("#id").test == 123
+});
+
+addSample("q.$attachStatic",function(){
+  q.$attachStatic({"test" : 123}); // q.test == 123
+});
