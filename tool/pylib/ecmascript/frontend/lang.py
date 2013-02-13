@@ -258,6 +258,7 @@ RESERVED = {
 }
 
 
+##
 # Global qx symbols, but also start strings of such (qx.$$...)
 QXGLOBALS = [
     #"clazz",
@@ -266,6 +267,8 @@ QXGLOBALS = [
     "qx.$$",    # qx.$$domReady, qx.$$libraries, ...
     ]
 
+##
+# qx.*.define methods
 QX_CLASS_FACTORIES = [
     "qx.Bootstrap.define",
     "qx.Class.define",

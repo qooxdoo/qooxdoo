@@ -26,7 +26,7 @@
 ##
 
 import re, types
-from ecmascript.frontend import tree, tokenizer, treegenerator, Comment
+from ecmascript.frontend import tree, tokenizer, treegenerator, Comment, lang
 from ecmascript.frontend.treegenerator import PackerFlags as pp
 
 
@@ -68,8 +68,6 @@ def findEnclosingQxDefine(node):
 ##
 # Checks if the given node is the operand of a qx.*.define function invocation.
 #
-DefiningClasses = "q qxWeb qx.Bootstrap qx.Class qx.Interface qx.Mixin qx.Theme".split()
-
 def isQxDefine(node):
     if node.type in tree.NODE_VARIABLE_TYPES:
         try:
@@ -77,7 +75,7 @@ def isQxDefine(node):
         except tree.NodeAccessException:
             return False, None, ""
 
-        if variableName in [x+".define" for x in DefiningClasses]:
+        if variableName in lang.QX_CLASS_FACTORIES:
             if node.hasParentContext("call/operand"):
                 className = selectNode(node, "../../arguments/1")
                 if className and className.type == "constant":
@@ -104,7 +102,7 @@ def isQxDefineParent(node):
         except tree.NodeAccessException:
             return False, None, ""
 
-        if variableName in [x+".define" for x in DefiningClasses]:
+        if variableName in lang.QX_CLASS_FACTORIES:
             className = selectNode(node, "arguments/1")
             if className and className.type == "constant":
                 className = className.get("value", None)
