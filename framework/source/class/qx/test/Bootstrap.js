@@ -30,7 +30,7 @@
 ************************************************************************ */
 /**
  * @ignore(qx.test.Construct, qx.test.ExtendError, qx.test.ExtendNull)
- * @ignore(qx.test.ExtendQxObject, qx.test.ExtendSuper, qx.test.Super)
+ * @ignore(qx.test.ExtendQxObject, qx.test.ExtendSuper, qx.test.Super, qx.test.ROOT)
  */
 
 qx.Class.define("qx.test.Bootstrap",
