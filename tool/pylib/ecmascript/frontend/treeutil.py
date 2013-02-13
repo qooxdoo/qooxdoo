@@ -220,7 +220,7 @@ def selectNode(node, path, ignoreComments=False):
 
             # type
             else:
-                nextn = node.getChild(part)
+                nextn = node.getChild(part, mandatory=False)
 
             return _selectNode(nextn, pathParts[1:], ignoreComments)
 
