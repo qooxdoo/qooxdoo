@@ -272,7 +272,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
 
     // override
     resetForm : function() {
-      for(var i=0; i<this.__errorMessageContainers.length; i++) {
+      for(var i=0; i < this.__errorMessageContainers.length; i++) {
         qx.dom.Element.remove(this.__errorMessageContainers[i]);
       }
     }
