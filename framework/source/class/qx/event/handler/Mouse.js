@@ -127,7 +127,7 @@ qx.Class.define("qx.event.handler.Mouse",
     __manager : null,
     __window : null,
     __root : null,
-
+    __preventNextClick: null,
 
 
 
@@ -223,7 +223,13 @@ qx.Class.define("qx.event.handler.Mouse",
     },
 
 
-
+    /**
+     * Helper to prevent the next click.
+     * @internal
+     */
+    preventNextClick : function() {
+      this.__preventNextClick = true;
+    },
 
 
 
@@ -373,6 +379,11 @@ qx.Class.define("qx.event.handler.Mouse",
     {
       var type = domEvent.type;
       var target = qx.bom.Event.getTarget(domEvent);
+
+      if (type == "click" && this.__preventNextClick) {
+        delete this.__preventNextClick;
+        return;
+      }
 
       // Safari (and maybe gecko) takes text nodes as targets for events
       // See: http://www.quirksmode.org/js/events_properties.html

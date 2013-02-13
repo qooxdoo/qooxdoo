@@ -24,16 +24,19 @@ q.ready(function() {
   // remove the warning
   q("#warning").setStyle("display", "none");
 
+  var title = "qx.Website API Documentation";
   var customTitle = q.$$qx.core.Environment.get("apiviewer.title");
   if (customTitle) {
-    q("h1").setHtml(customTitle);
+    title = customTitle;
   }
   else {
     var version = q.$$qx.core.Environment.get("qx.version");
     if (version) {
-      q("h1").setHtml("qx.Website " + version + " API Documentation");
+      title = "qx.Website " + version + " API Documentation";
     }
   }
+  q("h1").setHtml(title);
+  document.title = title;
 
   // global storage for the method index
   var data = {};
@@ -67,9 +70,16 @@ q.ready(function() {
       attachOnScroll();
       if (location.hash) {
         location.href = location.href;
-      } else {
-        location.href = location.href + "#Core";
       }
+      // force a scroll event so the topmost module's samples are loaded
+      window.setTimeout(function() {
+        var cont = document.getElementById("content");
+        if (cont.scrollTop == 0) {
+          cont.scrollTop = 1;
+          cont.scrollTop = 0;
+        }
+      }, 100);
+
     } else {
       q("#warning").setStyle("display", "block");
       if (location.protocol.indexOf("file") == 0) {
@@ -230,6 +240,8 @@ q.ready(function() {
 
 
   var renderListModule = function(name, data, prefix) {
+    var checkMissing = q.$$qx.core.Environment.get("apiviewer.check.missingmethods");
+
     var list = q("#list");
     if (prefix && prefix != "event." && prefix != "normalize.") {
       list.append(q.create("<a href='#" + name + "'><h1>" + name + "</h1></a>"));
@@ -240,7 +252,10 @@ q.ready(function() {
     var ul = q.create("<ul></ul>").appendTo(list);
     data["static"].forEach(function(ast) {
       var name = getMethodName(ast, prefix);
-      var missing = isMethodMissing(name, data.classname);
+      var missing = false;
+      if (checkMissing !== false) {
+        missing = isMethodMissing(name, data.classname);
+      }
       q.template.get("list-item", {
         name: name + "()",
         missing: missing,
@@ -785,7 +800,7 @@ q.ready(function() {
    */
   window.addSample = function(methodName, sample) {
     // Find the doc element for the method
-    var method = q("#" + methodName.replace(/\./g, "\\."));
+    var method = q("#" + methodName.replace(/\./g, "\\.").replace(/\$/g, "\\$"));
     if (method.length === 0) {
       console && console.warn("Unable to add sample: No doc element found for method", methodName);
       return;

@@ -87,7 +87,16 @@ qx.Class.define("qx.test.bom.element.Style",
       var style = ["1px", "solid", "red"];
 
       qx.bom.element.Style.set(this.__element, name, style.join(" "));
-      this.assertEquals(style.join(" "), this.__element.style.border);
+
+      if (qx.core.Environment.get("engine.name") == "mshtml" &&
+          qx.core.Environment.get("browser.documentmode") < 9)
+      {
+        this.assertEquals("red 1px solid", this.__element.style.border);
+      }
+      else {
+        this.assertEquals(style.join(" "), this.__element.style.border);
+      }
+
       this.assertEquals(style[0], this.__element.style.borderWidth);
       this.assertEquals(style[1], this.__element.style.borderStyle);
       this.assertEquals(style[2], this.__element.style.borderColor);
@@ -100,24 +109,23 @@ qx.Class.define("qx.test.bom.element.Style",
       var style = "1px solid red";
 
       var engine = qx.core.Environment.get("engine.name");
-      var expected;
-      switch(engine) {
-        case "opera":
-        case "webkit":
-          if (qx.core.Environment.get("browser.name") == "safari" &&
-              qx.core.Environment.get("browser.version") < 6) {
-            expected = ["1px", "solid", "red"];
-          }
-          else {
-            expected = ["1px", "solid", "rgb(255, 0, 0)"];
-          }
-          break;
-        default:
-          expected = ["1px", "solid", "red"];
+      var expected = ["1px", "solid", "red"];
+      var isOldSafari = (qx.core.Environment.get("browser.name") == "safari" &&
+                         qx.core.Environment.get("browser.version") < 6);
+
+      if (engine == "opera" || (engine == "webkit" && !isOldSafari)) {
+        expected = ["1px", "solid", "rgb(255, 0, 0)"];
       }
 
       qx.bom.element.Style.set(this.__element, name, style);
-      this.assertEquals(expected.join(" "), qx.bom.element.Style.get(this.__element, name));
+      if (qx.core.Environment.get("engine.name") == "mshtml" &&
+          qx.core.Environment.get("browser.documentmode") < 9)
+      {
+        this.assertEquals("red 1px solid", qx.bom.element.Style.get(this.__element, name));
+      }
+      else {
+        this.assertEquals(expected.join(" "), qx.bom.element.Style.get(this.__element, name));
+      }
       this.assertEquals(expected[0], qx.bom.element.Style.get(this.__element, "borderWidth"));
       this.assertEquals(expected[1], qx.bom.element.Style.get(this.__element, "borderStyle"));
       this.assertEquals(expected[2], qx.bom.element.Style.get(this.__element, "borderColor"));
