@@ -475,6 +475,13 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
 .menu {
   min-width: 200px; }
 
+.menu .list {
+  border: none !important;
+  background: none; }
+
+.menu .list .list-item {
+  background: none; }
+
 .navigationbar {
   height: 45px;
   padding-left: 10px;
@@ -1458,6 +1465,9 @@ input[type=radio] + label:after {
 
 .menu ul {
   border: 1px solid #6b6d6b; }
+
+.menu-scroller {
+  background-color: black; }
 
 .master-detail-master {
   border-right: 1px solid #6b6d6b; }

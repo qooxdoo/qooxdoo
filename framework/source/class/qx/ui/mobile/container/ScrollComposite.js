@@ -124,7 +124,16 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     __lastOffset : null,
     __currentOffset : null,
     __isVerticalScroll : null,
-
+    
+    
+    /**
+     * Getter for the inner scrollContainer of this scrollComposite.
+     * @return {qx.ui.mobile.container.Composite} a composite which represents the scrollContainer.
+     */
+    getScrollContainer : function() {
+      return this._scrollContainer;
+    },
+    
     
     /**
      * Factory method for the scrollContainer.
@@ -248,7 +257,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      */
     scrollTo : function(positionX, positionY) {
       var targetElement = this._scrollContainer.getContainerElement();
-      var lowerLimitY = targetElement.scrollHeight - targetElement.offsetHeight - 4;
+      var lowerLimitY = targetElement.scrollHeight - targetElement.offsetHeight;
       var lowerLimitX = targetElement.scrollWidth - targetElement.offsetWidth - 4;
 
       var oldY = this._scrollContainer.getTranslateY();

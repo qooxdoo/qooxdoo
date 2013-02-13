@@ -125,7 +125,7 @@ qx.Class.define("mobileshowcase.page.Form",
       form.add(this.__radio2, "Female");
 
       form.addGroupHeader("Feedback");
-      var dd = new qx.data.Array(["Web search", "From a friend", "Offline ad"]);
+      var dd = new qx.data.Array(["Web search", "From a friend", "Offline ad","Magazine","Twitter","Other"]);
       var selQuestion = "How did you hear about us ?";
       this.__sel = new qx.ui.mobile.form.SelectBox();
       this.__sel.set({required: true});

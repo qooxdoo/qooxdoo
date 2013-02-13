@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2011-2012 1&1 Internet AG, Germany, http://www.1und1.de
+     2011-2013 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -59,8 +59,9 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
 
     var menuContainer = new qx.ui.mobile.container.Composite();
     this.__clearButton = this._createClearButton(); 
+    this.__listScroller = this._createListScroller(this.__selectionList);
     
-    menuContainer.add(this.__selectionList);
+    menuContainer.add(this.__listScroller);
     menuContainer.add(this.__clearButton);
 
     this.base(arguments, menuContainer, anchor);
@@ -180,6 +181,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
   {
     __selectionList: null,
     __clearButton : null,
+    __listScroller : null,
 
      
     // overidden
@@ -189,6 +191,8 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       if(this.getHideOnBlockerClick()) {
         this._getBlocker().addListenerOnce("tap", this.hide, this);
       }
+      
+      this.scrollToItem(this.getSelectedIndex());
     },
     
     
@@ -203,6 +207,20 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       clearButton.addListener("touchstart", this._preventClickEvent, this);
       clearButton.exclude();
       return clearButton;
+    },
+    
+    
+    /**
+     * Creates the scrollComposite for the selectionList. Override this to customize the widget.
+     * @param selectionList {qx.ui.mobile.list.List} The selectionList of this menu.
+     * @return {qx.ui.mobile.container.ScrollComposite} the scrollComposite which contains selectionList of this menu.
+     */
+    _createListScroller : function(selectionList) {
+      var listScroller = new qx.ui.mobile.container.ScrollComposite();
+      listScroller.add(selectionList, {flex:1});
+      listScroller.addCssClass("menu-scroller");
+      qx.bom.element.Style.set(listScroller.getContainerElement(), "max-height", "200px");
+      return listScroller;
     },
     
     
@@ -258,7 +276,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
 
 
     /**
-     * Hides the menu, fires an event which contains index and data.
+     * Fires an event which contains index and data.
      * @param evt {qx.event.type.Data}, contains the selected index number.
      */
     __onListChangeSelection : function (evt) {
@@ -279,6 +297,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     // property apply
     _applySelectedIndex : function(value, old) {
       var listModel = this.__selectionList.getModel();
+      
       if(listModel != null) {
         var selectedItem = listModel.getItem(value);
         this.fireDataEvent("changeSelection", {index: value, item: selectedItem});
@@ -309,6 +328,27 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       var tmpModel = this.__selectionList.getModel();
       this.__selectionList.setModel(null);
       this.__selectionList.setModel(tmpModel);
+    },
+    
+    
+    /**
+     * Scrolls the scroll wrapper of the selectionList to the item with given index.
+     * @param index {Integer}, the index of the listItem to which the listScroller should scroll to.
+     */
+    scrollToItem : function(index) {
+      if(this.__selectionList.getModel()!= null) {
+        var listScrollChild = this.__listScroller.getScrollContainer();
+        var listScrollHeight = listScrollChild.getContainerElement().scrollHeight;
+        var listItemHeight = listScrollHeight/this.__selectionList.getModel().length;
+      }
+     
+      
+      var scrollY = 0;
+      if(index != null) {
+        scrollY = index * listItemHeight;
+      }
+      
+      this.__listScroller.scrollTo(0,-scrollY);
     }
   },
 
@@ -323,7 +363,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     this.__selectionList.removeListener("tap", this._onSelectionListTap, this);
     this.__clearButton.removeListener("touchstart", this._preventClickEvent, this);
     
-    this._disposeObjects("__selectionList","__clearButton");
+    this._disposeObjects("__selectionList","__clearButton","__listScroller");
   }
 
 });
