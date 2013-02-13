@@ -24,3 +24,7 @@
 .scroll-container-child {
   position:relative;
 }
+
+.scroll-container.scrollable-top:before, .scroll-container.scrollable-bottom:after {
+  pointer-events:none;
+}
