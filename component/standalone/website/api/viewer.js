@@ -24,16 +24,19 @@ q.ready(function() {
   // remove the warning
   q("#warning").setStyle("display", "none");
 
+  var title = "qx.Website API Documentation";
   var customTitle = q.$$qx.core.Environment.get("apiviewer.title");
   if (customTitle) {
-    q("h1").setHtml(customTitle);
+    title = customTitle;
   }
   else {
     var version = q.$$qx.core.Environment.get("qx.version");
     if (version) {
-      q("h1").setHtml("qx.Website " + version + " API Documentation");
+      title = "qx.Website " + version + " API Documentation";
     }
   }
+  q("h1").setHtml(title);
+  document.title = title;
 
   // global storage for the method index
   var data = {};
