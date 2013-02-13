@@ -2569,6 +2569,79 @@ testrunner.define({
   }
 });
 
+testrunner.define({
+	 classname : "Dataset",
+	 
+	 setUp : function(){		
+		 testrunner.globalSetup.call(this);		
+		 this.__element = q.create("<div id='testEl'></div>");
+		 this.__element.appendTo(this.sandbox[0]);	
+	 },	 
+	
+	 tearDown : testrunner.globalTeardown,
+	 
+	 testSetDataAttribute : function(){
+		
+		 this.__element.setData("type","domelement");
+		 this.__element.setData("option","test");
+		    
+		 var datatype = this.__element.getAttribute("data-type");
+		 var dataoption = this.__element.getAttribute("data-option");
+		 
+		 this.assertEquals(datatype, "domelement");
+		 this.assertEquals(dataoption, "test");
+	 },
+	 
+	 testSetDataAttributeHyphenated : function(){
+		
+		 this.__element.setData("hyphenated-data-attribute","hyphenated");
+		 
+		 var hyphenatedExpected = this.__element.getAttribute("data-hyphenated-data-attribute");
+		 var hyphenatedFound = this.__element.getData("hyphenatedDataAttribute"); 
+		 
+		 this.assertEquals(hyphenatedExpected,hyphenatedFound);
+		 
+	 },
+	 
+	 testGetDataAttribute : function(){
+		 
+		 var expected = this.__element.getAttribute("data-type");
+		 var found = this.__element.getData("type");
+		 
+		 this.assertEquals(expected,found);
+		 
+		 var expected2 = this.__element.getAttribute("data-option");
+		 var found2 = q("#testEl").getData("option");
+		 
+		 this.assertEquals(expected2,found2);		
+		 
+	 },
+	 
+	 testGetAllData : function(){		
+		 
+		 this.__element.setData("type","domelement");
+		 this.__element.setData("option","test");
+		 this.__element.setData("hyphenated-data-attribute","hyphenated");
+		 
+		 var expected = q("#testEl").getAllData();
+		
+		 var datatype = "domelement";
+		 var dataoption = "test";
+		 var dataHyphenated = "hyphenated";
+		 
+		 this.assertEquals(expected.type,datatype);
+		 this.assertEquals(expected.option,dataoption);
+		 this.assertEquals(expected.hyphenatedDataAttribute,dataHyphenated);			 
+	 },
+	 
+	 testRemoveData : function(){		 
+		 q("#testEl").removeData("hyphenatedDataAttribute");
+		 var found = q("#testEl").getData("hyphenatedDataAttribute");		
+		 this.assertNull(this.__element.getAttribute("data-hyphenated-data-attribute"));
+	 }	
+	 
+});
+
 
 testrunner.define({
   classname : "Placeholder",
