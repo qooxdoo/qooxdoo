@@ -192,10 +192,16 @@ class Config(object):
         container[splits[-1]] = content
         return True
 
-
+    ##
+    # Takes jobname or job object ref, and returns job object ref or default;
+    # searches recursively through imported configs
+    #
+    # @param job jobname|jobObj
+    # @param withIncludes
+    # @param default
+    # @return jobObj|default param
+    #
     def getJob(self, job, withIncludes=False, default=None):
-        ''' takes jobname or job object ref, and returns job object ref or default;
-            searches recursively through imported configs'''
 
         if isinstance(job, Job): # you already found it :)
             return job
