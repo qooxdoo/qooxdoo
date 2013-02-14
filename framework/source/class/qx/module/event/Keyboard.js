@@ -23,7 +23,11 @@
 ************************************************************************ */
 
 /**
- * Normalization for native keyboard events
+ * Normalization for native keyboard events.
+ *
+ * NOTE: Some browsers won't fire the <code>keypress</code> event for all keys.
+ * It's generally better to listen for <code>keyup</code> or <code>keydown</code>
+ * instead.
  */
 qx.Bootstrap.define("qx.module.event.Keyboard", {
   statics :
