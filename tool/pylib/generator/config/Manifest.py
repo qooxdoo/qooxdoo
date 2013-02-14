@@ -56,8 +56,10 @@ class Manifest(object):
         self.type        = self.libprovides['type'] if 'type' in self.libprovides else None
 
 
+    ##
+    # Patches a "library" entry with the information from Manifest
+    #
     def patchLibEntry(self, libentry):
-        '''Patches a "library" entry with the information from Manifest'''
         libinfo       = self._manifest['info']
         libprovides   = self._manifest['provides']
         #uriprefix = libentry['uri']
@@ -86,13 +88,14 @@ class Manifest(object):
 
         return libentry
 
+    ##
+    # Validates catalog entry via JSON Schema.
+    #
+    # @see http://json-schema.org/
+    # @see http://tools.ietf.org/html/draft-zyp-json-schema-03
+    # @see https://github.com/json-schema/json-schema
+    #
     def validateAgainst(self, schema):
-        """Validates catalog entry via JSON Schema.
-
-        .. seealso:: http://json-schema.org/
-        .. seealso:: http://tools.ietf.org/html/draft-zyp-json-schema-03
-        .. seealso:: https://github.com/json-schema/json-schema
-        """
         from jsonschema.jsonschema import Draft3Validator
 
         errors = []
@@ -106,22 +109,23 @@ class Manifest(object):
 
         return errors
 
+    ##
+    # Catalog entry schema for catalog v1.0.
+    #
+    # The regexes strive to be lax (and understandable => part of err msg) but valuable
+    # at the same time, cause we don't want to adapt them over and over again.
+    #
+    # Notes:
+    #     * currently a query-string (?...) isn't allowed within an URL => change if needed
+    #     * currently a fragment-identifier (#...) isn't allowed within an URL => change if needed
+    #
+    # TODO:
+    #     * adapt config.json skeletons to export job
+    #     * adapt Manifest.json skeletons to adhere schema after create-application.py
+    #     * write docs for "default_jobs_actions" and "generator_config_ref" pages
+    #
     @classmethod
     def schema_v1_0(self):
-        """Catalog entry schema for catalog v1.0.
-
-        The regexes strive to be lax (and understandable => part of err msg) but valuable
-        at the same time, cause we don't want to adapt them over and over again.
-
-        Notes:
-            * currently a query-string (?...) isn't allowed within an URL => change if needed
-            * currently a fragment-identifier (#...) isn't allowed within an URL => change if needed
-
-        TODO:
-            * adapt config.json skeletons to export job
-            * adapt Manifest.json skeletons to adhere schema after create-application.py
-            * write docs for "default_jobs_actions" and "generator_config_ref" pages
-        """
         patterns = {
             "semver": r"^latest$|^\d+\.\d+(\.\d+)?(-[0-9]+-?)?([-a-zA-Z+][-a-zA-Z0-9\.:-]*)?$",
             "url": r"^https?://([a-z0-9\.-]+)\.([a-z\.]{2,6})[/\w\.-]*\/?$",

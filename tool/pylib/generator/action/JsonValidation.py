@@ -22,13 +22,13 @@
 from generator import Context
 from generator.config.Manifest import Manifest
 
-
+##
+# Validates Manifest and prints to stdOut.
+#
+# @param jobconf generator.config.Job.Job
+# @param confObj generator.config.Config.Config
+#
 def validateManifest(jobconf, confObj):
-    """ Validates Manifest and prints to stdOut.
-
-    :param jobconf: generator.config.Job.Job
-    :param confObj: generator.config.Config.Config
-    """
     errors = []
     console = Context.console
 
@@ -48,14 +48,14 @@ def validateManifest(jobconf, confObj):
         console.log("%s validates successful against used JSON Schema." % mnfst.path)
 
 
+##
+# Converts ["info", "authors", 0, "name"] into $.info.authors[0].name (JSONPath).
+#
+# @param path list
+# @return string (JSONPath)
+# @see http://goessner.net/articles/JsonPath/
+#
 def __convertToJSONPath(path):
-    """ Converts ["info", "authors", 0, "name"] into $.info.authors[0].name (JSONPath).
-
-    :param path: list
-    :rtype: string (JSONPath)
-
-    .. seealso:: http://goessner.net/articles/JsonPath/
-    """
     jsonPath = ""
 
     for i, elem in enumerate(path):
