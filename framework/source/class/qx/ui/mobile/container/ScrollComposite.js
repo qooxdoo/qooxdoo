@@ -198,8 +198,10 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * Updates the visibility of the vertical scroll indicator (top or bottom).
      */
     _updateScrollIndicator : function() {
-      if(this.isScrollableY() && this.isShowScrollIndicator()) {
-        var targetElement =  this._scrollContainer.getContainerElement();
+      var targetElement =  this._scrollContainer.getContainerElement();
+      var needsScrolling = targetElement.scrollHeight > targetElement.offsetHeight;
+      
+      if(this.isScrollableY() && this.isShowScrollIndicator() && needsScrolling) {
         var lowerLimit = targetElement.scrollHeight - targetElement.offsetHeight - 4;
         
         // Upper Limit Y
