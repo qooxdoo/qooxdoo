@@ -36,7 +36,7 @@ These are components that are integrated into the %{JS} class code.
 
   * - `parseUri <http://blog.stevenlevithan.com/archives/parseuri>`_
     - `MIT`_
-    
+
   * - `iScroll <http://cubiq.org/iscroll-4/>`_
     - `MIT`_
 
@@ -78,10 +78,10 @@ Static resource files, like images, CSS, etc..
 
   * - `CLDR Data <http://cldr.unicode.org/>`_
     - `Unicode Terms of Use <http://www.unicode.org/copyright.html>`_
-    
+
   * - `JQTouch Project <http://www.jqtouch.com/>`_
     - `MIT`_
-    
+
   * - `iScroll <http://cubiq.org/iscroll-4/>`_
     - `MIT`_
 
@@ -101,25 +101,28 @@ These are the Python modules we use that are not self-written, nor part of a van
 
    * - `cssmin <http://pypi.python.org/pypi/cssmin/>`_
      - `BSD-compat <https://github.com/zacharyvoase/cssmin/blob/master/LICENSE>`_
- 
+
    * - `demjson <http://deron.meranda.us/python/demjson/>`_
      - `LGPL 3 <http://www.gnu.org/licenses/lgpl-3.0.html>`_
 
    * - `elementtree <http://effbot.org/zone/element-index.htm>`_
      - `old-style Python <http://effbot.org/zone/copyright.htm>`_ `(HPND) <http://www.opensource.org/licenses/historical.php>`_
- 
+
    * - `graph <http://pypi.python.org/pypi/python-graph>`_
      - `MIT`_
- 
+
+   * - `jsonschema <http://pypi.python.org/pypi/jsonschema/>`_
+     - `MIT`_
+
    * - `polib <http://pypi.python.org/pypi/polib>`_
      - `MIT`_
- 
+
    * - `pyparsing <http://pypi.python.org/pypi/pyparsing/>`_
      - `MIT`_
- 
+
    * - `simplejson <http://pypi.python.org/pypi/simplejson>`_
      - `MIT`_
- 
+
    * - `textile <http://pypi.python.org/pypi/textile/>`_
      - `new BSD <http://www.opensource.org/licenses/bsd-license.php>`_
 
@@ -136,7 +139,7 @@ Components or tools that are not included with the SDK
    * - Tool
      - License
 
-   * - `ImageMagick <http://www.imagemagick.org/script/index.php>`_ 
+   * - `ImageMagick <http://www.imagemagick.org/script/index.php>`_
      - `GPL-compat <http://www.imagemagick.org/script/license.php>`_
 
    * - `Make <http://www.gnu.org/s/make/>`_
