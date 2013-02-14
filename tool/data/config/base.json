@@ -725,6 +725,8 @@
 
     "manifest-validation" :
     {
+      "extend" : ["scan-local-lib"],
+
       "desc" : "validates the given filepath as manifest (defaults to './Manifest.json')",
       "manifest-validate" : {}
     }

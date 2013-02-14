@@ -28,24 +28,37 @@ from generator.config.Manifest import Manifest
 # @param jobconf generator.config.Job.Job
 # @param confObj generator.config.Config.Config
 #
-def validateManifest(jobconf, confObj):
+def validateManifest(jobObj, confObj):
     errors = []
     console = Context.console
 
-    mnfst = None
+    manifests = []
+
+    # detect manifest path(s) as cli arg, ...
     global_let = confObj.get("let")
     if "ARGS" in global_let and len(global_let["ARGS"]) == 1:
-        mnfst = Manifest(global_let["ARGS"][0])
+        manifests.append(Manifest(global_let["ARGS"][0]))
     else:
-        mnfst = Manifest("Manifest.json")
+      # ... from base.json ...
+      libs = jobObj.get("library")
+      for lib in libs:
+          manifests.append(Manifest(lib.manipath))
 
-    errors = mnfst.validateAgainst(Manifest.schema_v1_0())
+      # ... or default location.
+      if not manifests:
+          manifests.append(Manifest("Manifest.json"))
 
-    if errors:
-        for error in errors:
-            console.warn(error["msg"] + " in '%s' (JSONPath)" % __convertToJSONPath(error["path"]))
-    else:
-        console.log("%s validates successful against used JSON Schema." % mnfst.path)
+    for mnfst in manifests:
+        errors = mnfst.validateAgainst(Manifest.schema_v1_0())
+
+        if errors:
+            console.warn("Errors found in " + mnfst.path)
+            console.indent()
+            for error in errors:
+                console.warn(error["msg"] + " in '%s' (JSONPath)" % __convertToJSONPath(error["path"]))
+            console.outdent()
+        else:
+            console.log("%s validates successful against used JSON Schema." % mnfst.path)
 
 
 ##
