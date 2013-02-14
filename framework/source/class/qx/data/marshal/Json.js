@@ -155,7 +155,7 @@ qx.Class.define("qx.data.marshal.Json",
       if (
         this.__delegate
         && this.__delegate.getModelClass
-        && this.__delegate.getModelClass(hash) != null
+        && this.__delegate.getModelClass(hash, data) != null
       ) {
         return;
       }
@@ -270,13 +270,14 @@ qx.Class.define("qx.data.marshal.Json",
      *
      * @param hash {String} The hash of the data for which an instance should
      *   be created.
+     * @param data {Map} The data for which an instance should be created.
      * @return {qx.core.Object} An instance of the corresponding class.
      */
-    __createInstance: function(hash) {
+    __createInstance: function(hash, data) {
       var delegateClass;
       // get the class from the delegate
       if (this.__delegate && this.__delegate.getModelClass) {
-        delegateClass = this.__delegate.getModelClass(hash);
+        delegateClass = this.__delegate.getModelClass(hash, data);
       }
       if (delegateClass != null) {
         return (new delegateClass());
@@ -354,7 +355,7 @@ qx.Class.define("qx.data.marshal.Json",
       } else if (isObject) {
         // create an instance for the object
         var hash = this.__jsonToHash(data);
-        var model = this.__createInstance(hash);
+        var model = this.__createInstance(hash, data);
 
         // go threw all element in the data
         for (var key in data) {
