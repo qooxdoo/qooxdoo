@@ -28,6 +28,26 @@ addSample("q.define", function() {
   });
 });
 
+addSample("q.define", function() {
+  q.define("MyObject", {
+    statics : {
+      method : function() {}
+    }
+  });
+});
+
+addSample("q.define", function() {
+  q.define("MyObject", {
+    statics : {
+      method : function() {
+        // call another static method of this class
+        this.otherMethod();
+      },
+      otherMethod : function() {}
+    }
+  });
+});
+
 addSample("q.$attach",function(){
   q.$attach({"test" : 123}); // q("#id").test == 123
 });

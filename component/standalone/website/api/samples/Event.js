@@ -22,3 +22,19 @@ addSample(".on", function() {
     q("div#myTarget" + i).on("click", listenerFunction.bind(this, i));
   }
 });
+
+addSample(".on", function() {
+  // handle keyup event with scope correction
+  var handleFilterInput = function(ev) {
+    // event object
+    console.log(ev);
+
+    // get input value
+    var value = q(ev.getTarget()).getValue();
+
+    // if target is a checkbox you could do something like this when handling the change event
+    q(ev.getTarget()).getAttribute('checked');
+  };
+
+  q('#someElement').on('keyup', handleFilterInput, this);
+});
