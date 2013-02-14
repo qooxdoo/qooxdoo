@@ -88,7 +88,6 @@ qx.Class.define("mobileshowcase.page.Form",
      */
     __createForm : function()
     {
-
       var form = new qx.ui.mobile.form.Form();
 
       this.__name = new qx.ui.mobile.form.TextField().set({placeholder:"Username"});
@@ -126,14 +125,13 @@ qx.Class.define("mobileshowcase.page.Form",
       form.addGroupHeader("Feedback");
       var dd = new qx.data.Array(["Web search", "From a friend", "Offline ad","Magazine","Twitter","Other"]);
       var selQuestion = "How did you hear about us ?";
+      
       this.__sel = new qx.ui.mobile.form.SelectBox();
       this.__sel.set({required: true});
       this.__sel.set({placeholder:"Unknown"});
       this.__sel.setClearButtonLabel("Clear");
-      this.__sel.setNullable(true);
       this.__sel.setDialogTitle(selQuestion);
       this.__sel.setModel(dd);
-      this.__sel.setSelection(null);
 
       form.add(this.__sel, selQuestion);
 

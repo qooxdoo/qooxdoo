@@ -78,7 +78,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     this.base(arguments);
 
     // This text node is for compatibility reasons, because Firefox can not
-    // change appearance of select boxes.
+    // change appearance of SelectBoxes.
     this._setAttribute("type","text");
     this.setReadOnly(true);
 
@@ -130,11 +130,11 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
 
     /**
-     * Defines if the selectBox has a clearButton, which resets the selection.
+     * Defines if the SelectBox has a clearButton, which resets the selection.
      */
     nullable :
     {
-      init : false,
+      init : true,
       check : "Boolean",
       apply : "_applyNullable"
     },
@@ -159,7 +159,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     selection :
     {
       init : null,
-      check : "Integer",
+      validate : "_validateSelection",
       apply : "_applySelection",
       nullable : true
     }
@@ -203,7 +203,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     _createSelectionDialog : function() {
       var menu = new qx.ui.mobile.dialog.Menu();
       
-      // Special appearance for select box menu items.
+      // Special appearance for SelectBox menu items.
       menu.setSelectedItemClass("selectbox-selected");
       menu.setUnselectedItemClass("selectbox-unselected");
 
@@ -242,20 +242,18 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
 
     /**
-     * Sets the selected text value of this select box.
+     * Sets the selected text value of this SelectBox.
      * @param value {String} the text value which should be selected.
      */
     _setValue : function(value) {
-      if(value == null){
-        this._setAttribute("value", null);
+      if(!this.isNullable() && value == null || this.getModel() == null) {
+        return;
+      }
+      
+      if(value != null) {
+        this.setSelection(this.getModel().indexOf(value));
       } else {
-        if(this.getModel()) {
-          var indexOfValue = this.getModel().indexOf(value);
-          if(indexOfValue > -1) {
-            this.setSelection(indexOfValue);
-            this._setAttribute("value",value);
-          }
-        }
+        this.setSelection(null);
       }
     },
 
@@ -263,7 +261,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     /**
      * Get the text value of this
      * It is called by setValue method of qx.ui.mobile.form.MValue mixin.
-     * @return {Number} the new selected index of the select box.
+     * @return {Number} the new selected index of the SelectBox.
      */
     _getValue : function() {
       return this._getAttribute("value");
@@ -271,23 +269,12 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
 
     /**
-     * Renders the selectbox. Override this if you would like to display the
-     * values of the select box in a different way than the default.
+     * Renders this SelectBox. Override this if you would like to display the
+     * values of the SelectBox in a different way than the default.
      */
     _render : function() {
-      if(this.getModel() && this.getModel().length > 0) {
-        var selectedItem = null;
-
-        if(this.getSelection() == null) {
-          if(!this.isNullable()) {
-            // Default selected index is 0.
-            this.setSelection(0);
-            selectedItem = this.getModel().getItem(0);
-          }
-        } else {
-          selectedItem = this.getModel().getItem(this.getSelection());
-        }
-
+      if(this.getModel() != null && this.getModel().length > 0) {
+        var selectedItem = this.getModel().getItem(this.getSelection());
         this._setAttribute("value", selectedItem);
       }
 
@@ -327,33 +314,45 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      */
     _onChangeSelection : function (evt) {
       this.setSelection(evt.getData().index);
-      
       this._render();
+    },
+    
+    
+    // property validation
+    _validateSelection : function(value) {
+      if(this.getModel() === null) {
+        throw new qx.core.ValidationError(
+          "Validation Error: Please apply model before selection"
+        );
+      }
+      
+      if(!this.isNullable() && value === null ) {
+        throw new qx.core.ValidationError(
+          "Validation Error: SelectBox is not nullable"
+        );
+      } 
+      
+      if(value != null && (value < 0 || value >= this.getModel().getLength())) {
+        throw new qx.core.ValidationError(
+          "Validation Error: Input value is out of model range"
+        );
+      }
     },
     
     
     // property apply
     _applySelection : function(value, old) {
-      if(this.getModel() != null) {
-        var selectedItem = this.getModel().getItem(value);
-        
-        if(value == null) {
-          this._setAttribute("value", null);
-        } else {
-          this._setAttribute("value", this.getModel().getItem(value));
-        }
-        
-        this.fireDataEvent("changeSelection", {index: value, item: selectedItem});
-      }
+      var selectedItem = this.getModel().getItem(value);
+      this.fireDataEvent("changeSelection", {index: value, item: selectedItem});
+
+      this._render();
     },
     
     
     // property apply
-    _applyNullable : function(isNullable) {
+    _applyNullable : function(value, old) {
       // Delegate nullable property.
-      if(this.__selectionDialog) {
-        this.__selectionDialog.setNullable(isNullable);
-      }
+      this.__selectionDialog.setNullable(value);
     }
   },
 
