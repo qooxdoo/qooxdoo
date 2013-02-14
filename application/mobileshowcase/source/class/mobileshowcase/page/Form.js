@@ -90,7 +90,6 @@ qx.Class.define("mobileshowcase.page.Form",
     {
 
       var form = new qx.ui.mobile.form.Form();
-      var validationManager = form.getValidationManager();
 
       this.__name = new qx.ui.mobile.form.TextField().set({placeholder:"Username"});
       this.__name.setRequired(true);
@@ -149,7 +148,18 @@ qx.Class.define("mobileshowcase.page.Form",
       this.__save = new qx.ui.mobile.form.ToggleButton(false,"Agree","Reject",13);
       this.__save.addListener("changeValue", this._enableFormSubmitting, this);
       form.add(this.__save, "Agree? ");
-
+      
+      this._createValidationRules(form.getValidationManager());
+      
+      return form;
+    },
+    
+    
+    /**
+     * Adds all validation rules of the form.
+     * @param validationManager {qx.ui.form.validation.Manager} the created form.
+     */
+    _createValidationRules : function(validationManager) {
       // USERNAME validation
       validationManager.add(this.__name, function(value, item){
         var valid = value != null && value.length>3;
@@ -168,16 +178,20 @@ qx.Class.define("mobileshowcase.page.Form",
         return valid;
       }, this);
 
-       // AGE validation
-      validationManager.add(this.__numberField, function(value, item){
-        var valid = value != null && value!="0";
-        if(!valid) {
+      // AGE validation
+      validationManager.add(this.__numberField, function(value, item) {
+        var valid = true;
+        if(value == null || value =="0") {
           item.setInvalidMessage("Please enter your age.");
+          valid = false;
+        }
+        
+        if(value < item.getMinimum() || value > item.getMaximum()) {
+          item.setInvalidMessage("Value out of range: "+ item.getMinimum()+"-"+item.getMaximum());
+          valid = false;
         }
         return valid;
       }, this);
-
-      return form;
     },
 
 
