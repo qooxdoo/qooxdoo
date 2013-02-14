@@ -71,14 +71,16 @@ q.ready(function() {
       if (location.hash) {
         location.href = location.href;
       }
-      // force a scroll event so the topmost module's samples are loaded
-      window.setTimeout(function() {
-        var cont = document.getElementById("content");
-        if (cont.scrollTop == 0) {
-          cont.scrollTop = 1;
-          cont.scrollTop = 0;
-        }
-      }, 100);
+      else {
+        // force a scroll event so the topmost module's samples are loaded
+        window.setTimeout(function() {
+          var cont = document.getElementById("content");
+          if (cont.scrollTop == 0) {
+            cont.scrollTop = 1;
+            cont.scrollTop = 0;
+          }
+        }, 100);
+      }
 
     } else {
       q("#warning").setStyle("display", "block");
