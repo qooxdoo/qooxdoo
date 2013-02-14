@@ -625,18 +625,17 @@ q.ready(function() {
   };
 
   var attachOnScroll = function() {
-    var modules = q(".module");
-    var content = q("#content");
     var lastCheck;
 
     var onScroll = function(ev) {
       if (lastCheck && Date.now() - lastCheck < 500) {
         return;
       }
-      modules.forEach(function(item, index) {
+      q(".module").forEach(function(item, index, modules) {
         var module = modules.eq(index);
         if (seenModules.indexOf(module[0]) == -1) {
           var pos = module.getPosition();
+          var content = q("#content");
           var isVisible = pos.top < content.getHeight() && (pos.bottom > 0 ||
             (pos.bottom + content.getHeight()) > 0);
           if (isVisible) {
