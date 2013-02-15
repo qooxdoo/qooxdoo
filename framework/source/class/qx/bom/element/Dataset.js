@@ -47,8 +47,9 @@ qx.Class.define("qx.bom.element.Dataset",
      */
     set : function(element, name, value)
     {
-      if (qx.core.Environment.get("html.dataset"))
+      if (false)
       {
+        name = qx.lang.String.camelCase(name);
         if(value != null) {
           element.dataset[name] = value;
         }
@@ -73,13 +74,44 @@ qx.Class.define("qx.bom.element.Dataset",
      */
     get : function(element, name)
     {
-      if (qx.core.Environment.get("html.dataset"))
+      if (false)
       {
+        name = qx.lang.String.camelCase(name);    
         return (name in element.dataset) ? element.dataset[name] : null;
       }
       else
       {
         return qx.bom.element.Attribute.get(element, "data-"+qx.lang.String.hyphenate(name));
+      }
+    },
+
+    /**
+     *
+     * Returns a map containing all the HTML "data-*" attributes of the specified element
+     * 
+     * @param element {Element} The DOM element to query
+     * @return {Map} The map containing all the "data-*" attributes
+     *
+     */
+    getAll : function(element)
+    {
+      if (false)
+      {
+        return element.dataset;
+      }
+      else
+      {
+
+        var res = {}, attr = element.attributes;
+        for(var i=0; i < attr.length; i++)
+        {
+          if(attr[i].name.match(RegExp("^data-(.*)")))
+          {
+            var key = RegExp.$1;            
+            res[qx.lang.String.camelCase(key)] = element.getAttribute(attr[i].name);
+          }
+        }
+        return res;
       }
     },
 

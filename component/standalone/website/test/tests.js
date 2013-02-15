@@ -2605,6 +2605,9 @@ testrunner.define({
 	 
 	 testGetDataAttribute : function(){
 		 
+     this.__element.setData("type","domelement");
+     this.__element.setData("option","test");
+
 		 var expected = this.__element.getAttribute("data-type");
 		 var found = this.__element.getData("type");
 		 
@@ -2620,21 +2623,23 @@ testrunner.define({
 	 testGetAllData : function(){		
 		 
 		 this.__element.setData("type","domelement");
-		 this.__element.setData("option","test");
+		 this.__element.setData("option","test");    
 		 this.__element.setData("hyphenated-data-attribute","hyphenated");
 		 
-		 var expected = q("#testEl").getAllData();
+		 var expected = q("#testEl").getAllData();   
 		
 		 var datatype = "domelement";
 		 var dataoption = "test";
 		 var dataHyphenated = "hyphenated";
+
 		 
 		 this.assertEquals(expected.type,datatype);
 		 this.assertEquals(expected.option,dataoption);
 		 this.assertEquals(expected.hyphenatedDataAttribute,dataHyphenated);			 
 	 },
 	 
-	 testRemoveData : function(){		 
+	 testRemoveData : function(){	
+     this.__element.setData("hyphenated-data-attribute","hyphenated");	 
 		 q("#testEl").removeData("hyphenatedDataAttribute");
 		 var found = q("#testEl").getData("hyphenatedDataAttribute");		
 		 this.assertNull(this.__element.getAttribute("data-hyphenated-data-attribute"));
