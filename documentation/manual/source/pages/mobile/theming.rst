@@ -20,7 +20,7 @@ changes.
 .. _pages/mobile/theming#scss-compilation:
 
 SCSS Compilation
-=================
+================
 
 %{Mobile} comes with a built-in SCSS compiler that can be used to leverage the changes
 you make to your application's \*.scss files. You can either invoke it manually
@@ -42,8 +42,8 @@ of SCSS, you might want to install the `SCSS reference implementation
 your machine. You can use the Ruby compiler everywhere you would use the qooxdoo
 built-in compiler.
 
-Watching SCSS files
---------------------
+Watching SCSS files with qooxdoo's built-in SCSS compiler
+---------------------------------------------------------
 
 Layout design through CSS is typically done by experimentation. You often change a stylesheet and reload the corresponding application to see the effect. Using SCSS you would need to compile the SCSS file after each change of your stylesheet files.
 
@@ -56,6 +56,22 @@ To automatically compile the SCSS files on change/save, you can use the generato
 
 It recognizes any changes made to the SCSS files in your qx.Mobile application and triggers the 
 compilation to CSS automatically.
+
+Watching SCSS files with SASS tool
+----------------------------------
+
+If you decide to use the official SASS compiler, please follow these steps for watching changes:
+
+1. Switch to ``<APP_ROOT>/source/resource/<APP_NAME>/mobile/scss``
+
+2. Start the built-in sass watching tool with:
+
+::
+
+    sass --watch .:../css
+
+As mentioned before, it needs the official SASS compiler installed on your system.
+
 
 qx.Mobile Themes 
 ================
