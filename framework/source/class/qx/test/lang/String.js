@@ -173,6 +173,16 @@ qx.Class.define("qx.test.lang.String",
       this.assertEquals("i-like-cookies", qx.lang.String.hyphenate("iLikeCookies"));
     },
 
+    // Check for bug #7234
+    testCombineCamelCaseAndHyphenate : function()
+    {
+      qx.lang.String.hyphenate("padding-top");
+      this.assertEquals("paddingTop", qx.lang.String.camelCase("padding-top"));
+
+      qx.lang.String.camelCase("marginTop");
+      this.assertEquals("margin-top", qx.lang.String.hyphenate("marginTop"));
+    },
+
     testClean: function()
     {
       var str = "  a  b\tc\rd\fe\vf\n\ng\nh\ri ";
