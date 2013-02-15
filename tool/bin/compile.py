@@ -34,6 +34,7 @@
 import sys, os, optparse, string, types, pprint, copy
 import qxenviron
 
+from argparser import argparse
 from misc.ExtendAction import ExtendAction
 from ecmascript.backend.Packer      import Packer
 from ecmascript.backend             import formatter_3 as formatter
@@ -93,7 +94,7 @@ def interruptCleanup(interruptRegistry):
             print >>sys.stderr, e  # just keep on with the others
     
 
-def get_args():
+def get_args_1():
     parser = optparse.OptionParser(option_class=ExtendAction)
 
     usage_str = '''%prog [options] [main_action] file.js,...
@@ -131,6 +132,44 @@ Default action is to compress the JS code. All output is written to STDOUT.
     option_group.add_option("--lint", action="store_true", dest="lint", default=False, help="ecmalint the file")
     option_group.add_option("--deps", action="store_true", dest="dependencies", default=False, help="unresolved symbols of file")
     parser.add_option_group(option_group)
+
+    #
+    # Process arguments
+    #
+    (options, args) = parser.parse_args(sys.argv[1:])
+    return options, args
+
+def get_args():
+    usage_str = '''%(prog)s [options] [main_action] file.js,...
+    
+Default action is to compress the JS code. All output is written to STDOUT.
+'''
+    parser = argparse.ArgumentParser()
+    #parser = argparse.ArgumentParser(usage=usage_str)
+    
+    # General flags
+    parser.add_argument("-v", "--verbose", action="store_true", dest="verbose", default=False, help="verbose output mode (extra verbose)")
+    parser.add_argument("-q", "--quiet", action="store_true", dest="quiet", default=False, help="quiet output")
+    parser.add_argument("-c", "--config", dest="config", metavar="CONFIGFILE", type=str, default="", help="path to a config.json file (opt.)")
+    parser.add_argument("--cache", dest="cache", metavar="CACHEPATH", type=str, default="", help="path to cache directory")
+
+    # Optimization flags
+    parser.add_argument("-n", "--variables", action="store_true", dest="variables", default=False, help="optimize variables")
+    parser.add_argument("-s", "--strings", action="store_true", dest="strings", default=False, help="optimize strings")
+    parser.add_argument("-p", "--privates", action="store_true", dest="privates", default=False, help="optimize privates")
+    parser.add_argument("--privateskey", dest="privateskey", metavar="CACHEKEY", type=str, default="", help="cache key for privates")
+    parser.add_argument("-b", "--basecalls", action="store_true", dest="basecalls", default=False, help="optimize basecalls")            
+    #parser.add_argument("-i", "--inline", action="store_true", dest="inline", default=False, help="optimize inline")
+    parser.add_argument("-r", "--variants", action="store_true", dest="variantsopt", default=False, help="optimize variants")
+    parser.add_argument("--variant", dest="variants", metavar="KEY:VALUE", type=str, default=[], help="Selected variants")
+    parser.add_argument("-m", "--comments", action="store_true", dest="comments", default=False, help="optimize comments")
+    parser.add_argument("--all", action="store_true", dest="all", default=False, help="optimize all")            
+    
+    # Action modifier
+    parser.add_argument("--pretty", action="store_true", dest="pretty", default=False, help="print out pretty printed")            
+    parser.add_argument("--tree", action="store_true", dest="tree", default=False, help="print out tree")
+    parser.add_argument("--lint", action="store_true", dest="lint", default=False, help="ecmalint the file")
+    parser.add_argument("--deps", action="store_true", dest="dependencies", default=False, help="unresolved symbols of file")
 
     #
     # Process arguments
