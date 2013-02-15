@@ -171,11 +171,14 @@ Default action is to compress the JS code. All output is written to STDOUT.
     parser.add_argument("--lint", action="store_true", dest="lint", default=False, help="ecmalint the file")
     parser.add_argument("--deps", action="store_true", dest="dependencies", default=False, help="unresolved symbols of file")
 
+    # Arguments
+    parser.add_argument("args", nargs='*')
+
     #
     # Process arguments
     #
-    (options, args) = parser.parse_args(sys.argv[1:])
-    return options, args
+    options = parser.parse_args(sys.argv[1:])
+    return options, options.args
 
 ##
 # You can supply a config.json via '-c|--config' to the program. The config will
