@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     this._setLayout(new qx.ui.mobile.layout.VBox());
     this._add(this._scrollContainer, {flex:1});
     
-    this._updateScrollIndicator();
+    this._updateScrollIndicator(this.__lastOffset[1]);
   },
 
 
@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       this.__currentOffset[1] = this.__lastOffset[1] + distanceY;
       this._scrollContainer.setTranslateY(this.__currentOffset[1]);
       
-      this._updateScrollIndicator();
+      this._updateScrollIndicator(this.__currentOffset[1]);
       
       evt.stopPropagation();
     },
@@ -196,8 +196,9 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     
     /**
      * Updates the visibility of the vertical scroll indicator (top or bottom).
+     * @param positionY {Integer} current offset of the scrollContainer.
      */
-    _updateScrollIndicator : function() {
+    _updateScrollIndicator : function(positionY) {
       var targetElement =  this._scrollContainer.getContainerElement();
       var needsScrolling = targetElement.scrollHeight > targetElement.offsetHeight;
       
@@ -205,14 +206,14 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
         var lowerLimit = targetElement.scrollHeight - targetElement.offsetHeight - 4;
         
         // Upper Limit Y
-        if(this.__currentOffset[1] >= 0) {
+        if(positionY >= 0) {
           this.removeCssClass("scrollable-top");
         } else {
           this.addCssClass("scrollable-top");
         }
 
         // Lower Limit Y
-        if(this.__currentOffset[1] < -lowerLimit) {
+        if(positionY < -lowerLimit) {
           this.removeCssClass("scrollable-bottom");
         } else {
           this.addCssClass("scrollable-bottom");
@@ -230,7 +231,6 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      */
     _onTouchEnd : function(evt) {
       this._applyMomentumEasing();
-      
       evt.stopPropagation();
     },
     
@@ -309,7 +309,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
          this.__lastOffset[1] = positionY;
       }
       
-      this._updateScrollIndicator();
+      this._updateScrollIndicator(this.__lastOffset[1]);
     },
 
 
@@ -392,16 +392,15 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     removeAt : function(index) {
       var children = this.getChildren();
       this._unhandleSize(children[index]);
-
       this._scrollContainer.removeAt(index);
     },
     
     
-        /**
+    /**
      * Deactivates any scroll easing for the scrollContainer.
      */
     _applyNoEasing : function() {
-       qx.bom.element.Style.set(this._scrollContainer.getContainerElement(),"transition", null);
+       this._applyEasing(null);
     },
     
     
@@ -410,7 +409,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * Appears like a "ease-out" easing function. 
      */
     _applyMomentumEasing : function() {
-      qx.bom.element.Style.set(this._scrollContainer.getContainerElement(),"transition", "all 1500ms cubic-bezier(0.000, 0.075, 0.000, 1.00)");
+      this._applyEasing("all 1500ms cubic-bezier(0.000, 0.075, 0.000, 1.00)");
     },
     
     
@@ -419,18 +418,27 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * Used when user drags the scrollContainer over the edge manually.
      */
     _applyBounceEasing : function() {
-      qx.bom.element.Style.set(this._scrollContainer.getContainerElement(),"transition", "all 400ms ease-in-out");
+      this._applyEasing("all 400ms ease-in-out");
     },
     
     
     /**
      * Activates the scroll bounce easing for the scrollContainer.
-     * Used when momentum scrolling is activated, and the momentum calculates an
+     * Used when momentum scrolling is activated and the momentum calculates an
      * endpoint outside of the viewport.
-     * Causes the effect that scrollContainers scrolls to far, and bounces back to right position.
+     * Causes the effect that scrollContainers scrolls to far and bounces back to right position.
      */
     _applyScrollBounceEasing : function() {
-       qx.bom.element.Style.set(this._scrollContainer.getContainerElement(),"transition", "all 1000ms cubic-bezier(0.000, 0.075, 0.000, 1.50)");
+      this._applyEasing("all 1000ms cubic-bezier(0.000, 0.075, 0.000, 1.50)");
+    },
+    
+    
+    /**
+     * Applies an transition easing to the scrollContainer.
+     * @param easing {String} the css transition easing value
+     */
+    _applyEasing : function(easing) {
+      qx.bom.element.Style.set(this._scrollContainer.getContainerElement(),"transition", easing);
     },
 
 
@@ -442,10 +450,9 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      */
     _handleSize : function(child) {
       // If item is a text area, then it needs a special treatment.
-      // Install listener to the textArea, for syncing the scrollHeight to
+      // Install listener to the textArea for syncing the scrollHeight to
       // textAreas height.
       if(child instanceof qx.ui.mobile.form.TextArea) {
-        // Check for Listener TODO
         child.addListener("appear", this._fixChildElementsHeight, child);
         child.addListener("input", this._fixChildElementsHeight, child);
         child.addListener("changeValue", this._fixChildElementsHeight, child);
@@ -459,10 +466,9 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      */
     _unhandleSize : function(child) {
       // If item is a text area, then it needs a special treatment.
-      // Install listener to the textArea, for syncing the scrollHeight to
+      // Install listener to the textArea for syncing the scrollHeight to
       // textAreas height.
       if(child instanceof qx.ui.mobile.form.TextArea) {
-        // Check for Listener TODO
         child.removeListener("appear", this._fixChildElementsHeight, child);
         child.removeListener("input", this._fixChildElementsHeight, child);
         child.removeListener("changeValue", this._fixChildElementsHeight, child);
@@ -476,8 +482,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * @param evt {qx.event.type.Data} a custom event.
      */
     _fixChildElementsHeight : function(evt) {
-        this.getContainerElement().style.height = 'auto';
-        this.getContainerElement().style.height = this.getContainerElement().scrollHeight+'px';
+      this.getContainerElement().style.height = 'auto';
+      this.getContainerElement().style.height = this.getContainerElement().scrollHeight+'px';
     }
   },
 
