@@ -1010,7 +1010,7 @@ h2 {
 
 .toggleButton {
   position: relative;
-  height: auto;
+  height: 45px;
   width: 60px;
   overflow-y: visible;
   font-size: 14px;
@@ -1018,9 +1018,6 @@ h2 {
   -webkit-border-radius: 0.4em;
   -moz-border-radius: 0.4em;
   border-radius: 0.4em; }
-
-.toggleButton {
-  height: 45px; }
 
 .toggleButton:before {
   width: 60px;
