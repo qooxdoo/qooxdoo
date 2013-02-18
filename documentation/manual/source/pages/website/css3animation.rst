@@ -83,6 +83,6 @@ account. But you can also animate transforms, which brings both technologies
 together.
 
 Take a look at `this demo
-<http://demo.qooxdoo.org/%{version}/demobrowser/demo/bom/Animation.html>`_,
+<http://demo.qooxdoo.org/%{version}/demobrowser/#animation~Animation_3d.html>`_,
 showing a 3D rotation which you can try yourself. It shows the best results if
 you use a webkit-based browser like Safari or Chrome.
