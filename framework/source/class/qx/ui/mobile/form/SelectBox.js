@@ -318,7 +318,10 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     },
     
     
-    // property validation
+    /**
+     * Validates the selection value.
+     * @param value {Integer} the selection value to validate.
+     */
     _validateSelection : function(value) {
       if(this.getModel() === null) {
         throw new qx.core.ValidationError(
