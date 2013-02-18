@@ -386,6 +386,22 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
     },
 
 
+    /**
+     * Updates the position property considering the minimum and maximum values.
+     * @param position {Number} The new position.
+     */
+    updatePosition : function(position) {
+      this.getChildControl("slider").updatePosition(position);
+    },
+
+
+    /**
+     * If a scroll animation is running, it will be stopped.
+     */
+    stopScrollAnimation : function() {
+      this.getChildControl("slider").stopSlideAnimation();
+    },
+
 
     /*
     ---------------------------------------------------------------------------

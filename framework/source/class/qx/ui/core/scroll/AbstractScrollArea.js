@@ -443,6 +443,28 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
     },
 
 
+    /**
+     * In case a scroll animation is currently running in X direction,
+     * it will be stopped. If not, the method does nothing.
+     */
+    stopScrollAnimationX : function() {
+      var scrollbar = this.getChildControl("scrollbar-x", true);
+      if (scrollbar) {
+        scrollbar.stopScrollAnimation();
+      }
+    },
+
+
+    /**
+     * In case a scroll animation is currently running in X direction,
+     * it will be stopped. If not, the method does nothing.
+     */
+    stopScrollAnimationY : function() {
+      var scrollbar = this.getChildControl("scrollbar-y", true);
+      if (scrollbar) {
+        scrollbar.stopScrollAnimation();
+      }
+    },
 
 
 
@@ -486,7 +508,10 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * @param e {qx.event.type.Data} The scroll event object
      */
     _onScrollPaneX : function(e) {
-      this.scrollToX(e.getData());
+      var scrollbar = this.getChildControl("scrollbar-x");
+      if (scrollbar) {
+        scrollbar.updatePosition(e.getData());
+      }
     },
 
 
@@ -496,7 +521,10 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
      * @param e {qx.event.type.Data} The scroll event object
      */
     _onScrollPaneY : function(e) {
-      this.scrollToY(e.getData());
+      var scrollbar = this.getChildControl("scrollbar-y");
+      if (scrollbar) {
+        scrollbar.updatePosition(e.getData());
+      }
     },
 
 

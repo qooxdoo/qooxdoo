@@ -397,12 +397,9 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
         value = max;
       }
 
-      if (duration) {
-        // finish old animation before starting a new one
-        if (this.__frame) {
-          return;
-        }
+      this.stopScrollAnimation();
 
+      if (duration) {
         var from = this.getScrollX();
         this.__frame = new qx.bom.AnimationFrame();
         this.__frame.on("end", function() {
@@ -438,12 +435,9 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
         value = max;
       }
 
-      if (duration) {
-        // finish old animation before starting a new one
-        if (this.__frame) {
-          return;
-        }
+      this.stopScrollAnimation();
 
+      if (duration) {
         var from = this.getScrollY();
         this.__frame = new qx.bom.AnimationFrame();
         this.__frame.on("end", function() {
@@ -485,7 +479,15 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
     },
 
 
-
+    /**
+     * If an scroll animation is running, it will be stopped with that method.
+     */
+    stopScrollAnimation : function() {
+      if (this.__frame) {
+        this.__frame.cancelSequence();
+        this.__frame = null;
+      }
+    },
 
     /*
     ---------------------------------------------------------------------------

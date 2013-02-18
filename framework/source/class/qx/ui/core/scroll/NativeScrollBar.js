@@ -146,6 +146,9 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     __scrollPaneElement : null,
     __requestId : null,
 
+    __scrollAnimationframe : null,
+
+
     /**
      * Get the scroll pane html element.
      *
@@ -293,38 +296,44 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
         height: (isHorizontal ? 1 : innerSize) + "px"
       });
 
-      this.scrollTo(this.getPosition());
+      this.updatePosition(this.getPosition());
     },
 
 
     // interface implementation
     scrollTo : function(position, duration) {
-      if (duration) {
-        // finish old animation before starting a new one
-        if (this.__requestId) {
-          return;
-        }
+      // if a user sets a new position, stop any animation
+      this.stopScrollAnimation();
 
-        var start = +(new Date());
+      if (duration) {
         var from = this.getPosition();
 
-        var clb = function(time) {
-          // final call
-          if (time >= start + duration) {
-            this.setPosition(Math.max(0, Math.min(this.getMaximum(), position)));
-            this.__requestId = null;
-            this.fireEvent("scrollAnimationEnd");
-          } else {
-            var timePassed = time - start;
-            var newPos = parseInt(timePassed/duration * (position - from) + from);
-            this.setPosition(Math.max(0, Math.min(this.getMaximum(), newPos)));
-            qx.bom.AnimationFrame.request(clb, this);
-          }
-        };
-        qx.bom.AnimationFrame.request(clb, this);
+        this.__scrollAnimationframe = new qx.bom.AnimationFrame();
+
+        this.__scrollAnimationframe.on("frame", function(timePassed) {
+          var newPos = parseInt(timePassed/duration * (position - from) + from);
+          this.updatePosition(newPos);
+        }, this);
+
+        this.__scrollAnimationframe.on("end", function() {
+          this.setPosition(Math.max(0, Math.min(this.getMaximum(), position)));
+          this.__scrollAnimationframe = null;
+          this.fireEvent("scrollAnimationEnd");
+        }, this);
+
+        this.__scrollAnimationframe.startSequence(duration);
       } else {
-        this.setPosition(Math.max(0, Math.min(this.getMaximum(), position)));
+        this.updatePosition(position);
       }
+    },
+
+
+    /**
+     * Helper to set the new position taking care of min and max values.
+     * @param position {Number} The new position.
+     */
+    updatePosition : function(position) {
+      this.setPosition(Math.max(0, Math.min(this.getMaximum(), position)));
     },
 
 
@@ -339,6 +348,17 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     {
       var size = this.getSingleStep();
       this.scrollBy(steps * size, duration);
+    },
+
+
+    /**
+     * If a scroll animation is running, it will be stopped.
+     */
+    stopScrollAnimation : function() {
+      if (this.__scrollAnimationframe) {
+        this.__scrollAnimationframe.cancelSequence();
+        this.__scrollAnimationframe = null;
+      }
     },
 
 
