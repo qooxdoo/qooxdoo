@@ -210,6 +210,7 @@ class Scope(object):
         self.parent = None
         self.node = node
         self.children = []  # nested scopes
+        self.protect_variable_optimization = False # some scopes need to be protected (bug#1966)
         self.is_load_time = False # whether this scope's symbols are evaluated at load time
         self.is_defer = False # whether this is the scope of a 'defer' function (is checked in load_time.py anyway)
                               # the information goes beyond is_load_time, as e.g. 'statics' references the class name
@@ -259,6 +260,9 @@ class Scope(object):
 
     def globals(self):
         return dict([(x,y) for x,y in self.vars.items() if not y.decl])
+
+    def locals(self):
+        return dict([(x,y) for x,y in self.vars.items() if y.decl])
 
     ##
     # Return all nested scopes
