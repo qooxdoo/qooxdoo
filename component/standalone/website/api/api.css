@@ -130,7 +130,7 @@ p {
   margin-left: 0px !important;
 }
 
-.box, .javascript {
+.box {
   background-color: #F6F6F6;
   border: 1px solid #DDD;
   border-radius: 3px;
@@ -153,4 +153,54 @@ p {
 
 .desktop {
   display: none;
+}
+
+.fiddleframe {
+  width: 200px;
+  height: 50px;
+  margin: 0;
+  padding: 0;
+}
+
+.sample {
+  padding: 0;
+}
+
+.samplecode {
+  border: 1px solid #DDD;
+  border-radius: 3px;
+  margin-bottom: 0px !important;
+  padding: 0;
+  border-spacing: 0;
+}
+
+.samplecode pre,
+.samplecode .sample pre {
+  margin-top: 0;
+  border-right: 1px solid #DDD;
+  padding: 5px;
+  vertical-align: top;
+}
+
+.samplecode pre:before,
+.samplecode .sample  {
+  display: block;
+  margin: -5px -5px 5px -5px;
+  padding: 2px;
+  font-size: 10px;
+  font-weight: bold;
+  background-color: #F6F6F6;
+  color: #000;
+}
+
+.html:before {
+  content: "HTML";
+}
+
+.css:before {
+  content: "CSS";
+}
+
+.javascript:before {
+  content: "JS";
 }

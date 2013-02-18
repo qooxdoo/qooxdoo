@@ -776,34 +776,165 @@ q.ready(function() {
   }
 
   var appendSample = function(sample, header) {
-    if (header[0]) {
-      if (useHighlighter) {
-        var sampleEl;
-        var precedingSamples = header.getSiblings("pre");
-        if (precedingSamples.length > 0) {
-          sampleEl = q.create("<pre class='javascript'>").insertAfter(precedingSamples.eq(precedingSamples.length - 1));
-        }
-        else {
-          sampleEl = q.create("<pre class='javascript'>").insertAfter(header);
-        }
-        hljs.highlightBlock(sampleEl.setHtml(sample)[0]);
-      }
-    } else {
+    if (!header[0]) {
       console && console.warn("Sample could not be attached for '", method, "'.");
+      return;
+    }
+
+    // container element
+    var sampleEl = q.create("<div class='sample'></div>");
+    var htmlEl,
+        cssEl,
+        jsEl;
+
+    var precedingSamples = header.getSiblings(".sample");
+    if (precedingSamples.length > 0) {
+      sampleEl.insertAfter(precedingSamples.eq(precedingSamples.length - 1));
+    }
+    else {
+      sampleEl.insertAfter(header);
+    }
+
+    var codeContainer = q.create("<div class='samplecode'></div>").appendTo(sampleEl);
+
+    var boxes = 0;
+
+    // HTML
+    if (sample.html) {
+      boxes++;
+      htmlEl = q.create("<pre class='html'><code></code></pre>")[0];
+      htmlEl.innerText = sample.html;
+      codeContainer.append(htmlEl);
+    }
+
+    // CSS
+    if (sample.css) {
+      boxes++;
+      cssEl = q.create("<pre class='css'><code></code></pre>").setHtml(sample.css)[0];
+      codeContainer.append(cssEl);
+    }
+
+    // JavaScript
+    if (sample.javascript) {
+      boxes++;
+      sample.javascript = sample.javascript.toString();
+      sample.javascript = sample.javascript.replace(/^function.*?\{/, "");
+      sample.javascript = sample.javascript.substr(0, sample.javascript.length - 1);
+      sample.javascript = sample.javascript.replace(/\n/, "");
+      sample.javascript = sample.javascript.replace(/[\s]+$/, "");
+
+      jsEl = q.create("<pre class='javascript'><code></code></pre>").setHtml(sample.javascript)[0];
+      codeContainer.append(jsEl);
+    }
+
+    var codeBoxes = codeContainer.find("pre");
+    if (boxes > 1) {
+      codeContainer.setStyles({display: "table",
+                              width: "100%"});
+      codeBoxes.setStyle("display", "table-cell");
+    }
+
+    if (boxes == 2) {
+      codeBoxes.eq(0).setStyle("width", "50%");
+      codeBoxes.eq(1).setStyle("width", "50%");
+    }
+    else if (boxes == 3) {
+      codeBoxes.eq(0).setStyle("width", "25%");
+      codeBoxes.eq(1).setStyle("width", "25%");
+      codeBoxes.eq(2).setStyle("width", "50%");
+    }
+
+    codeBoxes.getFirst().setStyle("borderTopLeftRadius", codeContainer.getStyle("borderTopLeftRadius"));
+    codeBoxes.getLast().setStyles({
+      borderTopRightRadius: codeContainer.getStyle("borderTopRightRadius"),
+      borderRight: "none"
+    });
+
+    if (useHighlighter) {
+      htmlEl && hljs.highlightBlock(htmlEl);
+      cssEl && hljs.highlightBlock(cssEl);
+      jsEl && hljs.highlightBlock(jsEl);
+    }
+
+    /* TODO: Once we know the name of the POST parameter described here:
+    https://github.com/jsfiddle/jsfiddle-issues/issues/123
+
+    * enable this code:
+    var qUrl = "http://demo.qooxdoo.org/devel/framework/q-" +
+    q.env.get("qx.version") + ".min.js";
+    var qScript = '<script type="text/javascript" src="' + qUrl + '"></script>';
+
+    * add the parameter with value "onLoad" to the iframe's form
+    *
+    * activate the commented lines below:
+    */
+
+    if (sample.executable) {
+      q.create("<iframe></iframe>").setAttribute("src", "fiddleframe.html")
+      .addClass("fiddleframe").appendTo(sampleEl).on("load", function(ev) {
+        var iframeBody = q(this[0].contentWindow.document.body);
+
+        //iframeBody.find("form").setAttribute("action", "http://jsfiddle.net/api/post/library/pure");
+
+        if (sample.javascript) {
+          if (sample.javascript.indexOf("q.ready(") == -1) {
+            sample.javascript = 'q.ready(function() {\n  ' + sample.javascript + '\n});';
+          }
+          iframeBody.find("#js").setHtml(sample.javascript);
+        }
+
+        if (sample.css) {
+          iframeBody.find("#css").setHtml(sample.css);
+        }
+
+        if (sample.html) {
+          iframeBody.find("#html").setHtml(sample.html);
+          //iframeBody.find("#html").setHtml(qScript + '\n' + sample.html);
+        }
+        /*
+        else {
+          iframeBody.find("#html").setHtml(qScript);
+        }
+        */
+
+        var button = iframeBody.find("button");
+        this.setStyles({
+          width: button.getWidth() + "px",
+          height: button.getHeight() + "px"
+        });
+      });
     }
   };
 
   /**
-   * Adds sample code to a method's documentation.
+   * Adds sample code to a method's documentation. Code can be supplied wrapped in
+   * a function or as a map with one or more of the keys js, css and html.
+   * Additionally, a key named executable is supported: If the value is true, a
+   * button will be created that posts the sample's code to jsFiddle for live
+   * editing.
    *
    * @param methodName {String} Name of the method, e.g. ".before" or "q.create"
-   * @param sample {Function|String} Sample code
+   * @param sample {Function|Map} Sample code.
    */
   window.addSample = function(methodName, sample) {
     // Find the doc element for the method
     var method = q("#" + methodName.replace(/\./g, "\\.").replace(/\$/g, "\\$"));
     if (method.length === 0) {
       console && console.warn("Unable to add sample: No doc element found for method", methodName);
+      return;
+    }
+
+    var sampleMap;
+    if (typeof sample == "object" && sample.javascript) {
+      sampleMap = sample;
+    }
+    else if (typeof sample === "function") {
+      sampleMap = {
+        javascript: sample
+      };
+    }
+
+    if (!sampleMap.javascript) {
       return;
     }
 
@@ -823,11 +954,7 @@ q.ready(function() {
       method.append(headerElement);
     }
 
-    if (typeof sample == "function") {
-      sample = sample.toString();
-      sample = sample.substring(sample.indexOf("\n") + 1, sample.length - 2);
-    }
 
-    appendSample(sample, headerElement);
+    appendSample(sampleMap, headerElement);
   };
 });
