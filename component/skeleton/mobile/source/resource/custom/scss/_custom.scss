@@ -2,6 +2,11 @@
 // Application-specific theming template for qx.Mobile Applications
 //
 
+// Application
+
+$application-font:  Helvetica;
+$application-text-color:  black;
+
 // Page
 
 $navigationpage-background-color: #F4F4F4;
@@ -86,6 +91,8 @@ $tabbar-border-radius:  4px;
 
 // ToggleButton
 
+$togglebutton-text-color:  #333333; 
+$togglebutton-background-color:  #F4F4F4;
 $togglebutton-active-background-color:  #3D72C9;
 $togglebutton-active-text-color:  white;
 $togglebutton-border-radius:  30px;

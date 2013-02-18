@@ -69,17 +69,24 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
   {
     this.base(arguments);
 
-    if(labelChecked && labelUnchecked){
+    if(labelChecked && labelUnchecked) {
        this.__labelUnchecked = labelUnchecked;
        this.__labelChecked = labelChecked;
     }
+    
+    this._setAttribute("data-label-checked", this.__labelChecked);
+    this._setAttribute("data-label-unchecked", this.__labelUnchecked);
 
     if(fontSize) {
-      this.__fontSize = parseInt(fontSize,10);
+      this.__fontSize = parseInt(fontSize, 10);
+    }
+    
+    if(this.__fontSize) {
+      qx.bom.element.Style.set(this._getContentElement(),"fontSize",this.__fontSize+"px");
     }
 
-    this.__child = this._createChild();
-    this._add(this.__child);
+    this.__switch = this._createSwitch();
+    this._add(this.__switch);
 
     if (value) {
       this.setValue(value);
@@ -117,7 +124,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
 
   members :
   {
-    __child : null,
+    __switch : null,
     __value : false,
     __labelUnchecked : "OFF",
     __labelChecked : "ON",
@@ -131,30 +138,18 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
      * @return {qx.ui.mobile.container.Composite} the child control.
      */
     _getChild : function() {
-      return this.__child;
+      return this.__switch;
     },
 
 
     /**
-     * Creates the child control of the widget. Needed to display the toggle
-     * button.
-     * @return {qx.ui.mobile.container.Composite} The child control
+     * Creates the switch control of the widget.
+     * @return {qx.ui.mobile.container.Composite} The switch control.
      */
-    _createChild : function() {
-      var composite = new qx.ui.mobile.container.Composite();
-
+    _createSwitch : function() {
       var toggleButtonSwitch = new qx.ui.mobile.container.Composite();
       toggleButtonSwitch.addCssClass("toggleButtonSwitch");
-      toggleButtonSwitch._setAttribute("data-label-checked", this.__labelChecked);
-      toggleButtonSwitch._setAttribute("data-label-unchecked", this.__labelUnchecked);
-
-      if(this.__fontSize) {
-        qx.bom.element.Style.set(toggleButtonSwitch._getContentElement(),"fontSize",this.__fontSize+"px");
-      }
-
-      composite.add(toggleButtonSwitch);
-
-      return composite;
+      return toggleButtonSwitch;
     },
 
 
@@ -169,9 +164,9 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
         throw new Error("value for "+this+" should be boolean");
       }
       if (value) {
-        this._getChild().addCssClass("checked");
+        this.addCssClass("checked");
       } else {
-        this._getChild().removeCssClass("checked");
+        this.removeCssClass("checked");
       }
        this.__value = value;
     },
@@ -266,6 +261,6 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     this.removeListener("tap", this._onTap, this);
     this.removeListener("swipe", this._onSwipe, this);
 
-    this._disposeObjects("__child","__labelUnchecked","__labelChecked", "__fontSize");
+    this._disposeObjects("__switch","__labelUnchecked","__labelChecked", "__fontSize");
   }
 });

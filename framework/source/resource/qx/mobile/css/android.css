@@ -398,7 +398,6 @@ input, select {
   vertical-align: middle; }
 
 input, select, textarea {
-  font-family: Helvetica;
   font-size: 0.9em; }
 
 input[type="text"], input[type="password"], input[type="number"], textarea {
@@ -974,7 +973,6 @@ h2 {
   font-size: 1em; }
 
 .root {
-  font-family: Helvetica;
   font-weight: normal;
   font-size: 0.9em; }
 
@@ -1011,6 +1009,7 @@ h2 {
   border-radius: 0.4em; }
 
 .toggleButton {
+  position: relative;
   height: auto;
   width: 60px;
   overflow-y: visible;
@@ -1020,41 +1019,33 @@ h2 {
   -moz-border-radius: 0.4em;
   border-radius: 0.4em; }
 
-.toggleButton > div {
-  padding-top: 24px;
-  padding-bottom: 10px;
-  height: auto; }
+.toggleButton {
+  height: 45px; }
 
-div.checked .toggleButtonSwitch:before {
-  display: block;
-  position: relative;
-  top: -25px;
-  line-height: 25px;
-  left: -10px;
+.toggleButton:before {
+  width: 60px;
   text-align: center;
-  content: " " attr(data-label-checked);
-  width: 60px; }
+  display: block;
+  line-height: 30px; }
 
-.toggleButtonSwitch:before {
-  display: block;
-  position: relative;
-  top: -25px;
-  line-height: 25px;
-  left: -10px;
-  text-align: center;
-  content: " " attr(data-label-unchecked);
-  width: 60px; }
+.toggleButton.checked:before {
+  content: " " attr(data-label-checked); }
+
+.toggleButton:not(.checked):before {
+  content: " " attr(data-label-unchecked); }
 
 .toggleButtonSwitch {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-color: #ffffff;
   -moz-box-shadow: inset 0 1px 1px #999999;
   -webkit-box-shadow: inset 0 1px 1px #999999;
   box-shadow: inset 0 1px 1px #999999;
-  background-color: #ffffff;
   -webkit-border-radius: 7px;
   -moz-border-radius: 7px;
   border-radius: 7px;
   height: 7px;
-  margin: 0 auto;
   width: 70%; }
 
 .clickable, .toggleButton, .button, .navigationbar-button, .navigationbar-backbutton, .checkbox, .toolbar-button, .selectbox {
@@ -1069,7 +1060,7 @@ div.checked .toggleButtonSwitch:before {
   /* Standard (in flux) */
   border: 1px solid #555555; }
 
-.clickable-active, div.checked .toggleButtonSwitch, .button.active, ul li.active, ul li.selected, .navigationbar-button.active, .navigationbar-backbutton.active, .toolbar-button.active, .selectbox-selected, .item-selected {
+.clickable-active, .toggleButton.checked .toggleButtonSwitch, .button.active, ul li.active, ul li.selected, .navigationbar-button.active, .navigationbar-backbutton.active, .toolbar-button.active, .selectbox-selected, .item-selected {
   color: black;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#ffdb66), color-stop(50%, #e89c00), to(#fdd824));
   background-image: -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
@@ -1084,7 +1075,8 @@ div.checked .toggleButtonSwitch:before {
 
 .root {
   background: #181818;
-  color: #ffffff; }
+  color: #ffffff;
+  font-family: Helvetica; }
 
 a, a:active, a:visited {
   color: #e89c00; }
@@ -1130,9 +1122,6 @@ ul {
 ul li {
   color: #ffffff;
   border-top: 1px #313431 solid; }
-
-ul li.arrow {
-  background: url("../icon/android/arrow.png") no-repeat right center; }
 
 ul li.active.arrow, ul li.selected.arrow {
   background-image: url("../icon/android/arrow_pressed.png"), -webkit-gradient(linear, center top, center bottom, color-stop(0%, #ffdb66), color-stop(50%, #e89c00), color-stop(100%, #fdd824));

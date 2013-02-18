@@ -307,7 +307,6 @@ input::-webkit-inner-spin-button {
   opacity: 0 !important; }
 
 .root {
-  font-family: Helvetica;
   font-weight: normal;
   font-size: 0.9em; }
 
@@ -515,7 +514,6 @@ input, select {
   vertical-align: middle; }
 
 input, select, textarea {
-  font-family: Helvetica;
   font-size: 0.9em; }
 
 input[type="text"], input[type="password"], input[type="number"], textarea {
@@ -986,47 +984,40 @@ input[type=radio]:checked + label:after {
   margin-right: 4px; }
 
 .toggleButton {
+  position: relative;
+  display: block;
   cursor: pointer;
   width: 84px;
-  height: 29px;
-  display: block;
+  height: 100%;
+  line-height: 27px;
   font-size: 15.5px;
   font-weight: bold;
-  overflow: hidden; }
+  text-align: center; }
 
-.toggleButton > div {
-  margin: 0;
-  height: 27px;
-  width: 80px;
-  overflow: hidden; }
-
-div.checked .toggleButtonSwitch {
-  position: relative;
-  left: 53px; }
-
-div.checked .toggleButtonSwitch:before {
-  position: absolute;
+.toggleButton.checked:before {
   content: " " attr(data-label-checked);
-  width: 52px;
-  left: -51px;
-  line-height: 26px;
-  text-align: center; }
+  padding-right: 25px; }
 
-.toggleButtonSwitch:after {
-  position: absolute;
+.toggleButton:not(.checked):before {
   content: " " attr(data-label-unchecked);
-  left: 25px;
-  line-height: 26px;
-  width: 52px;
-  text-align: center; }
+  padding-left: 25px; }
 
 .toggleButtonSwitch {
-  position: relative;
+  position: absolute;
+  z-index: 1;
+  display: block;
+  top: 0px;
   height: 25px;
   width: 25px;
   -webkit-border-radius: 25px;
   -moz-border-radius: 25px;
   border-radius: 25px; }
+
+.toggleButton:not(.checked) .toggleButtonSwitch {
+  left: 0px; }
+
+.toggleButton.checked .toggleButtonSwitch {
+  left: 57px; }
 
 .toolbar-button {
   -webkit-background-clip: padding-box;
@@ -1073,7 +1064,9 @@ body {
   background-color: #f4f4f4; }
 
 .root, .scroll {
-  background-color: #f4f4f4; }
+  background-color: #f4f4f4;
+  font-family: Helvetica;
+  color: black; }
 
 h2 {
   color: #3d72c9;
@@ -1492,37 +1485,38 @@ ul li.active {
   -moz-border-radius: 30px;
   border-radius: 30px; }
 
-.toggleButton > div {
-  -moz-box-shadow: inset 0 2px 2px #999999, inset 0 14px 1px #eaeaea;
-  -webkit-box-shadow: inset 0 2px 2px #999999, inset 0 14px 1px #eaeaea;
-  box-shadow: inset 0 2px 2px #999999, inset 0 14px 1px #eaeaea;
+.toggleButton {
+  background-color: white;
+  -moz-box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.4), inset 0 14px 1px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.4), inset 0 14px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.4), inset 0 14px 1px rgba(0, 0, 0, 0.1);
   border: 1px solid #9e9e9e;
   -webkit-border-radius: 30px;
   -moz-border-radius: 30px;
   border-radius: 30px; }
 
-.toggleButton > div.checked {
-  -moz-box-shadow: inset 0px 3px 2px #23457d, inset 0px 14px 0px #3d72c9;
-  -webkit-box-shadow: inset 0px 3px 2px #23457d, inset 0px 14px 0px #3d72c9;
-  box-shadow: inset 0px 3px 2px #23457d, inset 0px 14px 0px #3d72c9;
-  background-color: #658fd4; }
+.toggleButton.checked {
+  -moz-box-shadow: inset 0px 3px 2px rgba(0, 0, 0, 0.4), inset 0px 14px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 0px 3px 2px rgba(0, 0, 0, 0.4), inset 0px 14px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0px 3px 2px rgba(0, 0, 0, 0.4), inset 0px 14px 0px rgba(0, 0, 0, 0.1);
+  background-color: #3d72c9; }
 
-div.checked .toggleButtonSwitch {
-  -webkit-box-shadow: -1px 0 2px #4b4b4b;
-  -moz-box-shadow: -1px 0 2px #4b4b4b;
-  box-shadow: -1px 0 2px #4b4b4b; }
+.toggleButton.checked .toggleButtonSwitch {
+  -webkit-box-shadow: -1px 0px 2px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: -1px 0px 2px rgba(0, 0, 0, 0.7);
+  box-shadow: -1px 0px 2px rgba(0, 0, 0, 0.7); }
 
-div.checked .toggleButtonSwitch:before {
+.toggleButton.checked:before {
   color: white; }
 
-.toggleButtonSwitch:after {
-  color: #888888; }
+.toggleButton:not(.checked):before {
+  color: gray; }
 
 .toggleButtonSwitch {
   border: 1px solid #e8e8e8;
-  -webkit-box-shadow: 1px 0 2px #4b4b4b;
-  -moz-box-shadow: 1px 0 2px #4b4b4b;
-  box-shadow: 1px 0 2px #4b4b4b;
+  -webkit-box-shadow: 1px 0 2px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 1px 0 2px rgba(0, 0, 0, 0.7);
+  box-shadow: 1px 0 2px rgba(0, 0, 0, 0.7);
   background: #cfcfcf;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#cfcfcf), to(#fdfdfd));
   /* Safari 4+, Chrome 2+ */

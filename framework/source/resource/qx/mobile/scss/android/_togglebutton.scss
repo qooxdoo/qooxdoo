@@ -5,54 +5,46 @@
 $toggleButtonWidth: 60px;
 
 .toggleButton {
+  position: relative;
   @extend .clickable;
-  height:auto;
-  width:$toggleButtonWidth;
+  height: 45px;
+  width: $toggleButtonWidth;
 
-  overflow-y:visible;
-  font-size:14px;
-  font-weight:normal;
+  overflow-y: visible;
+  font-size: 14px;
+  font-weight: normal;
 
   @include border-radius(0.4em);
 }
 
-.toggleButton > div {
-  padding-top:24px;
-  padding-bottom:10px;
-  height:auto;
-}
-
-div.checked .toggleButtonSwitch {
+.toggleButton.checked .toggleButtonSwitch {
   @extend .clickable-active;
 }
 
-div.checked .toggleButtonSwitch:before {
-  display: block;
-  position:relative;
-  top:-25px;
-  line-height:25px;
-  left:-10px;
-  text-align:center;
-  content: ' 'attr(data-label-checked);
+.toggleButton:before {
   width: $toggleButtonWidth;
+  text-align:center;
+  display:block;
+  line-height:30px;
 }
 
-.toggleButtonSwitch:before {
-  display: block;
-  position:relative;
-  top:-25px;
-  line-height:25px;
-  left:-10px;
-  text-align:center;
+.toggleButton.checked:before {
+  content: ' 'attr(data-label-checked);
+}
+
+.toggleButton:not(.checked):before {
   content: ' 'attr(data-label-unchecked);
-  width: $toggleButtonWidth;
 }
 
 .toggleButtonSwitch {
-  @include box-inset-shadow(0 1px 1px #999);
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+
   background-color: #ffffff;
+  @include box-inset-shadow(0 1px 1px #999);
   @include border-radius(7px);
-  height:7px;
-  margin: 0 auto;
-  width:70%;
+
+  height: 7px;
+  width: 70%;
 }

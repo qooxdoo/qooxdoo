@@ -398,7 +398,6 @@ input, select {
   vertical-align: middle; }
 
 input, select, textarea {
-  font-family: Helvetica;
   font-size: 0.9em; }
 
 input[type="text"], input[type="password"], input[type="number"], textarea {
@@ -719,47 +718,40 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   display: inline; }
 
 .toggleButton {
+  position: relative;
+  display: block;
   cursor: pointer;
   width: 84px;
-  height: 29px;
-  display: block;
+  height: 100%;
+  line-height: 27px;
   font-size: 15.5px;
   font-weight: bold;
-  overflow: hidden; }
+  text-align: center; }
 
-.toggleButton > div {
-  margin: 0;
-  height: 27px;
-  width: 80px;
-  overflow: hidden; }
-
-div.checked .toggleButtonSwitch {
-  position: relative;
-  left: 53px; }
-
-div.checked .toggleButtonSwitch:before {
-  position: absolute;
+.toggleButton.checked:before {
   content: " " attr(data-label-checked);
-  width: 52px;
-  left: -51px;
-  line-height: 26px;
-  text-align: center; }
+  padding-right: 25px; }
 
-.toggleButtonSwitch:after {
-  position: absolute;
+.toggleButton:not(.checked):before {
   content: " " attr(data-label-unchecked);
-  left: 25px;
-  line-height: 26px;
-  width: 52px;
-  text-align: center; }
+  padding-left: 25px; }
 
 .toggleButtonSwitch {
-  position: relative;
+  position: absolute;
+  z-index: 1;
+  display: block;
+  top: 0px;
   height: 25px;
   width: 25px;
   -webkit-border-radius: 25px;
   -moz-border-radius: 25px;
   border-radius: 25px; }
+
+.toggleButton:not(.checked) .toggleButtonSwitch {
+  left: 0px; }
+
+.toggleButton.checked .toggleButtonSwitch {
+  left: 57px; }
 
 .toolbar-button {
   -webkit-background-clip: padding-box;
@@ -923,7 +915,6 @@ input[type="radio"] {
   position: inline; }
 
 .root {
-  font-family: Helvetica;
   font-weight: normal;
   font-size: 0.9em; }
 
@@ -1055,7 +1046,8 @@ h1, h2 {
 
 .root, .scroll {
   background: #c5ccd3 url(../icon/ios/pinstripes.png);
-  color: #666; }
+  color: #666;
+  font-family: Helvetica; }
 
 h1 {
   color: #fff;
@@ -1532,7 +1524,7 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   border-bottom: 12px solid transparent;
   border-left: 12px solid #1d3566; }
 
-.toggleButton > div {
+.toggleButton {
   -moz-box-shadow: inset 0 2px 2px #999999, inset 0 14px 1px #eaeaea;
   -webkit-box-shadow: inset 0 2px 2px #999999, inset 0 14px 1px #eaeaea;
   box-shadow: inset 0 2px 2px #999999, inset 0 14px 1px #eaeaea;
@@ -1542,7 +1534,7 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   -moz-border-radius: 30px;
   border-radius: 30px; }
 
-.toggleButton > div.checked {
+.toggleButton.checked {
   -moz-box-shadow: inset 0 3px 2px #0056a1, inset 0 14px 0px #007fea;
   -webkit-box-shadow: inset 0 3px 2px #0056a1, inset 0 14px 0px #007fea;
   box-shadow: inset 0 3px 2px #0056a1, inset 0 14px 0px #007fea;
@@ -1555,15 +1547,15 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   background: -webkit-linear-gradient(top, #2591ed 0%, #2591ed 56%, #6db5f3 100%);
   background: linear-gradient(top, #2591ed 0%, #2591ed 56%, #6db5f3 100%); }
 
-div.checked .toggleButtonSwitch {
+.toggleButton.checked .toggleButtonSwitch {
   -webkit-box-shadow: -1px 0 2px #4b4b4b;
   -moz-box-shadow: -1px 0 2px #4b4b4b;
   box-shadow: -1px 0 2px #4b4b4b; }
 
-div.checked .toggleButtonSwitch:before {
+.toggleButton.checked {
   color: #ffffff; }
 
-.toggleButtonSwitch:after {
+.toggleButton:not(.checked) {
   color: #888888; }
 
 .toggleButtonSwitch {

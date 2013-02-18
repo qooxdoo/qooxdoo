@@ -49,6 +49,8 @@ $highlighted-text-color: $android-orange;
 .root {
   background: $background-color;
   color: #ffffff;
+
+  font-family: Helvetica;
 }
 
 a, a:active, a:visited {
@@ -109,10 +111,6 @@ ul {
 ul li {
   color: #ffffff;
   border-top: 1px #313431 solid;
-}
-
-ul li.arrow {
-  background: url("../icon/android/arrow.png") no-repeat right center;
 }
 
 ul li.active.arrow, ul li.selected.arrow {

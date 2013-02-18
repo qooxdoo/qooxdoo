@@ -22,6 +22,11 @@ $font-color-light-background: #333333;
 
 $border-radius: 4px; 
 
+// Application
+
+$application-font: Helvetica;
+$application-text-color:  black;
+
 // Page
 
 $navigationpage-background-color: $light-grey;
@@ -106,6 +111,8 @@ $tabbar-border-radius:  $border-radius;
 
 // ToggleButton
 
+$togglebutton-text-color:  $grey;
+$togglebutton-background-color: white;
 $togglebutton-active-background-color:  $main-theme-color;
 $togglebutton-active-text-color:  $font-color-dark-background;
 $togglebutton-border-radius:  30px;

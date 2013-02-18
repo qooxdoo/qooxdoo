@@ -32,7 +32,8 @@ $button-border-color:#B4B4B4;
 
 .root, .scroll {
   background: rgb(197,204,211) url(../icon/ios/pinstripes.png);
-  color : #666;
+  color: #666;
+  font-family: Helvetica;
 }
 
 h1 {
@@ -541,7 +542,7 @@ $arrow-shadow:rgba(0,0,0,0.3);
 // TOGGLEBUTTON
 //
 
-.toggleButton > div {
+.toggleButton {
   // Light inset border.
   @include box-inset-multi-shadow(0 2px 2px #999, 0 14px 1px #EAEAEA);
   
@@ -551,7 +552,7 @@ $arrow-shadow:rgba(0,0,0,0.3);
   @include border-radius(30px);
 }
 
-.toggleButton > div.checked {
+.toggleButton.checked {
   // Light inset border.
   @include box-inset-multi-shadow(0 3px 2px #0056A1, 0 14px 0px #007FEA);
 
@@ -566,15 +567,15 @@ $arrow-shadow:rgba(0,0,0,0.3);
   background: linear-gradient(top,  #2591ed 0%,#2591ed 56%,#6db5f3 100%); 
 }
 
-div.checked .toggleButtonSwitch {
+.toggleButton.checked .toggleButtonSwitch {
   @include box-shadow(-1px 0 2px #4b4b4b);
 }
 
-div.checked .toggleButtonSwitch:before {
+.toggleButton.checked {
   color: #ffffff;
 }
 
-.toggleButtonSwitch:after {
+.toggleButton:not(.checked) {
   color: #888888;
 }
 

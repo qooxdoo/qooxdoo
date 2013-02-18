@@ -2,56 +2,50 @@
 // TOGGLEBUTTON 
 //
 
-$toggleButtonSize:25px;
+$toggleSwitchButtonSize: 25px;
+$toggleButtonWidth:  84px;
 
 .toggleButton {
-  cursor:pointer;
+  position:relative;
+  display: block;
+
+  cursor: pointer;
 
   width: 84px;
-  height: 29px;
-  display: block;
-  font-size:15.5px;
+  height: 100%;
+  line-height:27px;
+  font-size: 15.5px;
   font-weight:bold;
 
-  overflow:hidden;
+  text-align:center;
 }
 
-.toggleButton > div {
-  margin: 0;
-  height: 27px;
-  width: 80px;
-  overflow:hidden;
-}
-
-div.checked .toggleButtonSwitch {
-  position:relative;
-  left: 53px;
-}
-
-div.checked .toggleButtonSwitch:before {
-  position:absolute;
+.toggleButton.checked:before {
   content: ' 'attr(data-label-checked);
-  width:52px;
-  left:-51px;
-  line-height:26px;
-  text-align:center;
+  padding-right:$toggleSwitchButtonSize;
 }
 
-.toggleButtonSwitch:after {
-  position:absolute;
+.toggleButton:not(.checked):before {
   content: ' 'attr(data-label-unchecked);
-  left: 25px;
-  line-height:26px;
-  width:52px;
-  text-align:center;
+  padding-left: $toggleSwitchButtonSize;
 }
 
 .toggleButtonSwitch {
-  position:relative;
-  
-  height:$toggleButtonSize;
-  width:$toggleButtonSize;
+  position: absolute;
+  z-index:1;
+  display: block;
+  top:0px;
 
-  @include border-radius($toggleButtonSize);
-  
+  height: $toggleSwitchButtonSize;
+  width: $toggleSwitchButtonSize;
+
+  @include border-radius($toggleSwitchButtonSize);
+}
+
+.toggleButton:not(.checked) .toggleButtonSwitch {
+  left:0px;
+}
+
+.toggleButton.checked .toggleButtonSwitch {
+  left:$toggleButtonWidth - $toggleSwitchButtonSize - 2;
 }
