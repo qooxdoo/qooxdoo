@@ -212,10 +212,10 @@
       "extend" : ["cache"],
       "watch-files" :
       {
-        "path"    : ["source/resource/$${APPLICATION_PATH}/scss/styles.scss"],
+        "paths"    : ["source/resource/$${APPLICATION_PATH}/scss"],
         "command" :
         {
-          "line"  : "$${PYTHON_CMD} $${QOOXDOO_PATH}/tool/bin/scss.py %(FILE) -o source/resource/$${APPLICATION_PATH}/css/%(FILENAME).css",
+          "line"  : "$${PYTHON_CMD} $${QOOXDOO_PATH}/tool/bin/scss.py %(FILE) -o source/resource/$${APPLICATION_PATH}/css/%(FILENAME).css --load-path=$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss",
           "per-file" : true
         }
       }
