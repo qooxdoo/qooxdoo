@@ -35,12 +35,12 @@ reservedWords = set(())
 reservedWords.update(lang.GLOBALS)
 reservedWords.update(lang.RESERVED.keys())
 
-protected_globals = "eval Function".split()
+unoptimize_scopes_with = "eval Function".split()
 
 class ProtectionVisitor(scopes.ScopeVisitor):
 
     def visit(self, scopeNode):
-        if 'eval' in scopeNode.vars: # TODO: use protected_globals
+        if 'eval' in scopeNode.vars: # TODO: use unoptimize_scopes_with
             scopeNode.protect_variable_optimization = True
         for child in scopeNode.children:
             res = self.visit(child)
