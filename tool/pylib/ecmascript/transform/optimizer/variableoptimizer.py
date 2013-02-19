@@ -30,8 +30,6 @@ from ecmascript.transform.check import scopes
 from ecmascript.frontend import lang
 from misc.util import convert
 
-counter = 0
-
 # Create a blacklist of words to leave untouched
 reservedWords = set(())
 reservedWords.update(lang.GLOBALS)
@@ -53,15 +51,16 @@ class ProtectionVisitor(scopes.ScopeVisitor):
 
 class OptimizerVisitor(scopes.ScopeVisitor):
     
-    def __init__(self, check_set):
+    def __init__(self, node, check_set=None):
         scopes.ScopeVisitor.__init__(self)
-        self.check_set = check_set or set()
+        self.check_set = check_set or self.get_check_set(node)
+        self.counter = 0
 
     def visit(self, scopeNode):
         for var_name in scopeNode.locals():
             if var_name in reservedWords or len(var_name) < 2:
                 continue
-            new_name = mapper(var_name, self.check_set)
+            new_name = self.mapper(var_name, self.check_set)
             self.update_occurrences(scopeNode, var_name, new_name)
         for child in scopeNode.children:
             self.visit(child)
@@ -75,32 +74,26 @@ class OptimizerVisitor(scopes.ScopeVisitor):
         for node in scopeVar.occurrences():
             node.set("value", new_name)
         
+    def get_check_set(self, node):
+        check_set = set()
+        for scope_vars in node.scope.vars_iterator():
+            check_set.update(scope_vars.keys())
+        return check_set
 
-def mapper(name, checkset):
-    global counter
-    repl = convert(counter)
-    counter += 1
-    while repl in checkset or repl in reservedWords:   # checkset is not updated, since we never generate the same repl twice
-        repl = convert(counter)
-        counter += 1
-    return repl
-
-
-def get_check_set(node):
-    check_set = set()
-    for scope_vars in node.scope.vars_iterator():
-        check_set.update(scope_vars.keys())
-    return check_set
+    def mapper(self, name, checkset):
+        repl = convert(self.counter)
+        self.counter += 1
+        while repl in checkset or repl in reservedWords:   # checkset is not updated, since we never generate the same repl twice
+            repl = convert(self.counter)
+            self.counter += 1
+        return repl
 
 
 # -- Interface function --------------------------------------------------------
 
 def search(node):
-    global counter
-    counter = 0 # reset repl name generation
-    check_set = get_check_set(node)
-    var_optimizer = OptimizerVisitor(check_set)
     if not hasattr(node,'scope'):
         print sys.stderr, "Cannot variable-optimize tree without scope annotation"
         return
+    var_optimizer = OptimizerVisitor(node)
     var_optimizer.visit(node.scope)
