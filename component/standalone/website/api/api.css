@@ -193,14 +193,14 @@ p {
   color: #000;
 }
 
-.html:before {
+.samplecode .html:before {
   content: "HTML";
 }
 
-.css:before {
+.samplecode .css:before {
   content: "CSS";
 }
 
-.javascript:before {
+.samplecode .javascript:before {
   content: "JS";
 }
