@@ -7,7 +7,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2010 1&1 Internet AG, Germany, http://www.1und1.de
+#    2006-2013 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -16,14 +16,18 @@
 #
 #  Authors:
 #    * Thomas Herchenroeder (thron7)
-#    * Sebastian Werner (wpbasti)
 #
 ################################################################################
 
+##
+# A variable optimizer based on the new scopes
+# (ecmascript.transform.check.scopes.Scope)
+##
+
 import sys, os, re, types
 
-from ecmascript.frontend.Script import Script
-from ecmascript.frontend import lang, treeutil
+from ecmascript.transform.check import scopes
+from ecmascript.frontend import lang
 from misc.util import convert
 
 counter = 0
@@ -33,6 +37,44 @@ reservedWords = set(())
 reservedWords.update(lang.GLOBALS)
 reservedWords.update(lang.RESERVED.keys())
 
+protected_globals = "eval Function".split()
+
+class ProtectionVisitor(scopes.ScopeVisitor):
+
+    def visit(self, scopeNode):
+        if 'eval' in scopeNode.vars: # TODO: use protected_globals
+            scopeNode.protect_variable_optimization = True
+        for child in scopeNode.children:
+            res = self.visit(child)
+            scopeNode.protect_variable_optimization = ( res or
+                scopeNode.protect_variable_optimization )
+        return scopeNode.protect_variable_optimization
+
+
+class OptimizerVisitor(scopes.ScopeVisitor):
+    
+    def __init__(self, check_set):
+        scopes.ScopeVisitor.__init__(self)
+        self.check_set = check_set or set()
+
+    def visit(self, scopeNode):
+        for var_name in scopeNode.locals():
+            if var_name in reservedWords or len(var_name) < 2:
+                continue
+            new_name = mapper(var_name, self.check_set)
+            self.update_occurrences(scopeNode, var_name, new_name)
+        for child in scopeNode.children:
+            self.visit(child)
+
+    def update_occurrences(self, scopeNode, var_name, new_name):
+        # patch Scope object
+        scopeVar = scopeNode.vars[var_name]
+        scopeNode.vars[new_name] = scopeVar
+        del scopeNode.vars[var_name]
+        # go through corresp. AST nodes
+        for node in scopeVar.occurrences():
+            node.set("value", new_name)
+        
 
 def mapper(name, checkset):
     global counter
@@ -44,69 +86,21 @@ def mapper(name, checkset):
     return repl
 
 
-def update(node, newname):
-
-    if node.type == "identifier":
-        name = node.get("value", False)
-        if name is not False:
-            node.set("value", newname)
-
-    # Handle function definition
-    # TODO: the new scopes attach the vardecl directly to the function's
-    # (identifier) child, so this would be covered by the above clause
-    elif node.type == "function":
-        if node.getChild("identifier",0):
-            id_node = node.getChild("identifier")
-            id_node.set("value", newname)
+def get_check_set(node):
+    check_set = set()
+    for scope_vars in node.scope.vars_iterator():
+        check_set.update(scope_vars.keys())
+    return check_set
 
 
 # -- Interface function --------------------------------------------------------
 
 def search(node):
-
-    def updateOccurences(var, newname):
-        # Replace variable definition
-        for node in var.nodes:
-            update(node, newname)
-
-        # Replace variable references
-        for varUse in var.uses:  # varUse is a VariableUse object
-            update(varUse.node, newname)
-
-    def getAllVarOccurrences(script):
-        # Collect the set of all used and declared ('var' + params) variables
-        varset = set(())
-        for scope in script.iterScopes():
-            varset.update((x.name for x in scope.arguments + scope.variables + scope.uses))
-        return varset
-
     global counter
     counter = 0 # reset repl name generation
-
-    script   = Script(node)
-    checkSet = getAllVarOccurrences(script)  # set of var names already in use, to check new names against
-
-    # loop through declared vars of scopes
-    for scope in script.iterScopes():
-        allvars = scope.arguments + scope.variables
-
-        for var in allvars:
-            if var.name in reservedWords or len(var.name)<2:
-                continue
-
-            # get replacement name
-            newname = mapper(var.name, checkSet)
-
-            # update all occurrences in scope
-            updateOccurences(var, newname)
-
-            # if var is param, patch local vars of same name in one go
-            if (var in scope.arguments):
-                # get declared vars of same name
-                lvars = [x for x in scope.variables if x.name == var.name]
-                for lvar in lvars:
-                    updateOccurences(lvar, newname)
-                    # don't re-process
-                    allvars.remove(lvar)
-
-
+    check_set = get_check_set(node)
+    var_optimizer = OptimizerVisitor(check_set)
+    if not hasattr(node,'scope'):
+        print sys.stderr, "Cannot variable-optimize tree without scope annotation"
+        return
+    var_optimizer.visit(node.scope)

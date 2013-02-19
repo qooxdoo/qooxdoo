@@ -27,7 +27,7 @@
 import sys, os, re, types
 
 from ecmascript.transform.check import scopes
-from ecmascript.frontend import lang, treeutil
+from ecmascript.frontend import lang
 from misc.util import convert
 
 counter = 0
@@ -55,20 +55,22 @@ class OptimizerVisitor(scopes.ScopeVisitor):
     
     def __init__(self, check_set):
         scopes.ScopeVisitor.__init__(self)
-        self.check_set = check_set
+        self.check_set = check_set or set()
 
     def visit(self, scopeNode):
         for var_name in scopeNode.locals():
+            if var_name in reservedWords or len(var_name) < 2:
+                continue
             new_name = mapper(var_name, self.check_set)
             self.update_occurrences(scopeNode, var_name, new_name)
+        for child in scopeNode.children:
+            self.visit(child)
 
     def update_occurrences(self, scopeNode, var_name, new_name):
         # patch Scope object
-        assert new_name not in scopeNode.vars
         scopeVar = scopeNode.vars[var_name]
         scopeNode.vars[new_name] = scopeVar
         del scopeNode.vars[var_name]
-
         # go through corresp. AST nodes
         for node in scopeVar.occurrences():
             node.set("value", new_name)
@@ -86,7 +88,7 @@ def mapper(name, checkset):
 
 def get_check_set(node):
     check_set = set()
-    for scope_vars in node.scope_node.vars_iterator():
+    for scope_vars in node.scope.vars_iterator():
         check_set.update(scope_vars.keys())
     return check_set
 
@@ -98,4 +100,7 @@ def search(node):
     counter = 0 # reset repl name generation
     check_set = get_check_set(node)
     var_optimizer = OptimizerVisitor(check_set)
-    var_optimizer.visit(node)
+    if not hasattr(node,'scope'):
+        print sys.stderr, "Cannot variable-optimize tree without scope annotation"
+        return
+    var_optimizer.visit(node.scope)

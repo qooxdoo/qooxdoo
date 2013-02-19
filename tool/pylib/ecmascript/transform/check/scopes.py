@@ -92,7 +92,7 @@ class VarsCollector(ScopeVisitor):
         # now move scopeVars up the scope chain (realizing the "leak")
         for id_, scopeVar in scopeNode.vars.items():
             if id_ != catch_param_id:
-                scopeNode.parent.add_scope_var(id_, scopeVar)
+                scopeNode.mv_scope_var(id_, scopeVar, scopeNode.parent)
 
         # restore old scope and visit body
         for child in scopeNode.children:
@@ -236,6 +236,19 @@ class Scope(object):
             self.vars[name] = scopeVar
         else:
             self.vars[name] = self.vars[name].merge(scopeVar)
+
+    ##
+    # Move a scopeVar object from one scope to another.
+    #
+    # - updates scope pointers of tree nodes
+    # - TODO: It might be better to link to the ScopeVar() object directly from the tree nodes,
+    #   instead of to the Scope() object, so relocation of ScopeVar() objects is transparent
+    #   to the tree nodes; would require to maintain a link from ScopeVar to its Scope object.
+    def mv_scope_var(self, var_name, scopeVar, other):
+        other.add_scope_var(var_name, scopeVar)
+        del self.vars[var_name]
+        for var_occur in scopeVar.occurrences():
+            var_occur.scope = other
 
     def lookup_decl(self, name):
         if name in self.vars and self.vars[name].decl:

@@ -328,6 +328,7 @@ class symbol_base(Node):
         self.comments = []   # [Node(comment)] of comments preceding the node ("commentsBefore")
         self.commentsIn    = []
         self.commentsAfter = []
+        #self.scope = None  # pot. link to Scope() object
 
     ##
     # thin wrapper around .children, to maintain .parent in them

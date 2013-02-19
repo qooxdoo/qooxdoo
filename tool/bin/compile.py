@@ -40,7 +40,9 @@ from ecmascript.backend.Packer      import Packer
 from ecmascript.backend             import formatter_3 as formatter
 from ecmascript.frontend import tokenizer, treeutil
 from ecmascript.frontend import treegenerator, treegenerator_3
-from ecmascript.transform.optimizer import basecalloptimizer, privateoptimizer, stringoptimizer, variableoptimizer, variantoptimizer, inlineoptimizer
+from ecmascript.transform.optimizer import basecalloptimizer, privateoptimizer, stringoptimizer, variantoptimizer, inlineoptimizer
+from ecmascript.transform.optimizer import variableoptimizer
+from ecmascript.transform.check     import scopes
 from ecmascript.backend import api
 from misc import filetool
 from generator import Context
@@ -237,6 +239,7 @@ def run_compile(fileName, fileContent, options, args):
     if not options.quiet:
         print ">>> Creating tree..."
     tree = treegenerator.createFileTree(tokens)
+    tree = scopes.create_scopes(tree)
     
     # optimizing tree
     if len(options.variants) > 0:
