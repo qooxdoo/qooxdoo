@@ -26,7 +26,7 @@
  * the multiple implementations.
  *
  */
-qx.Class.define("qx.bom.element.Dataset",
+qx.Bootstrap.define("qx.bom.element.Dataset",
 {
   /*
   *****************************************************************************
@@ -76,7 +76,7 @@ qx.Class.define("qx.bom.element.Dataset",
     {
       if (false)
       {
-        name = qx.lang.String.camelCase(name);    
+        name = qx.lang.String.camelCase(name);
         return (name in element.dataset) ? element.dataset[name] : null;
       }
       else
@@ -88,7 +88,7 @@ qx.Class.define("qx.bom.element.Dataset",
     /**
      *
      * Returns a map containing all the HTML "data-*" attributes of the specified element
-     * 
+     *
      * @param element {Element} The DOM element to query
      * @return {Map} The map containing all the "data-*" attributes
      *
@@ -107,7 +107,7 @@ qx.Class.define("qx.bom.element.Dataset",
         {
           if(attr[i].name.match(RegExp("^data-(.*)")))
           {
-            var key = RegExp.$1;            
+            var key = RegExp.$1;
             res[qx.lang.String.camelCase(key)] = element.getAttribute(attr[i].name);
           }
         }
