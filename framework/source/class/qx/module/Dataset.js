@@ -20,81 +20,79 @@
 /**
  * Module for handling of HTML5 data-* attributes
  */
-qx.Bootstrap.define("qx.module.Dataset", {	
-	
-	statics: {
+qx.Bootstrap.define("qx.module.Dataset", {
 
-		/**
-	   * Sets an HTML "data-*" attribute on each item in the collection
-	   * 
-	   * @attach {qxWeb}  
-	   * @param name {String} Name of the attribute [CamelCase variant]
-	   * @param value {var} New value of the attribute
-	   * @return {qxWeb} The collection for chaining
-	   */
-	  setData : function(name, value)
-	  {
-			
-			for (var i = 0; i < this.length; i++)
-			{
-				qx.bom.element.Dataset.set(this[0],name,value);
-			}	
-	      
-			return this;
-	  },
-    
-	   
-	  /**
-	   *
-	   * Returns the value of the given HTML "data-*" attribute for the first item in the collection
-	   * 
-	   * @attach {qxWeb}
-	   * @param name {String} Name of the attribute [CamelCase variant]
-	   * @return {var} The value of the attribute
-	   *
-	   */
-	  getData : function(name)
-	  {		  		
-	    return qx.bom.element.Dataset.get(this[0],name);
-	  },
+  statics: {
 
-	  /**
-	   * Returns a map containing all the HTML "data-*" attributes of the specified element
-	   * 
-	   * @attach {qxWeb}
-	   * @return {Map} The map containing the "data-*" attributes
-	   *
-	   */
-	  getAllData : function()
-	  {
-	  	
-	  	return qx.bom.element.Dataset.getAll(this[0]); 		    
-	  },
+    /**
+     * Sets an HTML "data-*" attribute on each item in the collection
+     *
+     * @attach {qxWeb}
+     * @param name {String} Name of the attribute [CamelCase variant]
+     * @param value {var} New value of the attribute
+     * @return {qxWeb} The collection for chaining
+     */
+    setData : function(name, value)
+    {
+      for (var i = 0; i < this.length; i++)
+      {
+        qx.bom.element.Dataset.set(this[0],name,value);
+      }
+
+      return this;
+    },
 
 
-	  /**
-	   * Remove an HTML "data-*" attribute from the given DOM element
-	   *
-	   * @attach {qxWeb}	  
-	   * @param name {String} Name of the attribute
-	   * @return {qxWeb} The collection for chaining
-	   */
-	  removeData : function(name)
-	  {
-	    qx.bom.element.Dataset.remove(this[0],name); 
-	  	return this;
-	  }
+    /**
+     *
+     * Returns the value of the given HTML "data-*" attribute for the first item in the collection
+     *
+     * @attach {qxWeb}
+     * @param name {String} Name of the attribute [CamelCase variant]
+     * @return {var} The value of the attribute
+     *
+     */
+    getData : function(name)
+    {
+      return qx.bom.element.Dataset.get(this[0],name);
+    },
 
-	},
-	
-	defer : function(statics)
-	{
-		qxWeb.$attach({
-			"getData" : statics.getData,
-		  "setData" : statics.setData,
-		  "removeData" : statics.removeData,
-		  "getAllData" : statics.getAllData
-		});
+    /**
+     * Returns a map containing all the HTML "data-*" attributes of the specified element
+     *
+     * @attach {qxWeb}
+     * @return {Map} The map containing the "data-*" attributes
+     *
+     */
+    getAllData : function()
+    {
+      return qx.bom.element.Dataset.getAll(this[0]);
+    },
 
-	 }
+
+    /**
+     * Remove an HTML "data-*" attribute from the given DOM element
+     *
+     * @attach {qxWeb}
+     * @param name {String} Name of the attribute
+     * @return {qxWeb} The collection for chaining
+     */
+    removeData : function(name)
+    {
+      qx.bom.element.Dataset.remove(this[0],name);
+      return this;
+    }
+
+  },
+
+  defer : function(statics)
+  {
+    qxWeb.$attach({
+      "getData" : statics.getData,
+      "setData" : statics.setData,
+      "removeData" : statics.removeData,
+      "getAllData" : statics.getAllData
+    });
+
+   }
 });
