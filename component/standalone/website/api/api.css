@@ -158,7 +158,7 @@ p {
 .fiddleframe {
   width: 200px;
   height: 50px;
-  margin: 0;
+  margin: 2px 0 0 0;
   padding: 0;
 }
 
@@ -193,14 +193,14 @@ p {
   color: #000;
 }
 
-.html:before {
+.samplecode .html:before {
   content: "HTML";
 }
 
-.css:before {
+.samplecode .css:before {
   content: "CSS";
 }
 
-.javascript:before {
+.samplecode .javascript:before {
   content: "JS";
 }
