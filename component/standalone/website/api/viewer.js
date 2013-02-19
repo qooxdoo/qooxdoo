@@ -856,6 +856,20 @@ q.ready(function() {
       jsEl && hljs.highlightBlock(jsEl);
     }
 
+    // wrap method names in the code sample with links to the method's documentation
+    var methodNames = jsEl.innerHTML.replace(/\n/g, "").match(/(q?\.[a-z]+)/gi);
+    if (methodNames) {
+      methodNames.forEach(function(methodName) {
+        if (methodName !== header.getParents().getAttribute("id")) {
+          var method = q("#" + methodName.replace(/\./g, "\\.").replace(/\$/g, "\\$"));
+          if (method.length > 0) {
+            jsEl.innerHTML = jsEl.innerHTML.replace(methodName,
+              '<a href="#' + methodName + '">' + methodName + '</a>');
+          }
+        }
+      });
+    }
+
     /* TODO: Once we know the name of the POST parameter described here:
     https://github.com/jsfiddle/jsfiddle-issues/issues/123
 
@@ -953,7 +967,6 @@ q.ready(function() {
       headerElement = q.create("<h4>Examples</h4>");
       method.append(headerElement);
     }
-
 
     appendSample(sampleMap, headerElement);
   };
