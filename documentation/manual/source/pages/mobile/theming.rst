@@ -3,7 +3,7 @@
 Theming
 *******
 
-CSS and SCSS   
+CSS and SCSS
 ============
 
 Theming in qooxdoo mobile is done with `SCSS <http://www.sass-lang.com/>`_. SCSS is an extension for CSS to enable style sheets to be more modular and maintainable.
@@ -32,7 +32,6 @@ language, with some omissions. Some of the issues we have come across are:
 
 * Data URLs get broken across lines.
 * The ``...`` syntax for variable arguments in mixin *calls* is not supported.
-* ``@-moz-document`` and ``@-*-keyframes`` statements are not understood (the subkeys are taken to be nested selectors).
 * If the first argument to ``linear-gradient`` is a degree value (like ``-45deg``), an error will be printed (but the instruction is processed alright).
 
 If you find you want to use one of those features, or want to use newer features
@@ -43,7 +42,7 @@ your machine. You can use the Ruby compiler everywhere you would use the qooxdoo
 built-in compiler.
 
 Watching SCSS files with qooxdoo's built-in SCSS compiler
----------------------------------------------------------
+========================================================= 
 
 Layout design through CSS is typically done by experimentation. You often change a stylesheet and reload the corresponding application to see the effect. Using SCSS you would need to compile the SCSS file after each change of your stylesheet files.
 
@@ -58,20 +57,19 @@ It recognizes any changes made to the SCSS files in your qx.Mobile application a
 compilation to CSS automatically.
 
 Watching SCSS files with SASS tool
-----------------------------------
+==================================
 
 If you decide to use the official SASS compiler, please follow these steps for watching changes:
 
 1. Switch to ``<APP_ROOT>/source/resource/<APP_NAME>/mobile/scss``
 
-2. Start the built-in sass watching tool with:
+2. Start the SASS watching tool with:
 
 ::
 
-    sass --watch .:../css
+    sass -I <QOOXDOO_PATH>/framework/source/resource/qx/mobile/scss/ --watch .:../css
 
 As mentioned before, it needs the official SASS compiler installed on your system.
-
 
 qx.Mobile Themes 
 ================
