@@ -1,28 +1,3 @@
-addSample("q", {
-  html: '<div id="affe">Initial Text</div>',
-
-  css: '#affe {\n  color: red;\n}',
-
-  javascript: function() {
-q("#affe").setStyle("border", "1px solid blue")
-.setHtml("Hello q!");
-  },
-
-  executable: true
-});
-
-addSample("q", {
-  html: '<span id="affe">Look Ma no CSS!</span>',
-
-  javascript: function() {
-q.ready(function() {
-  q("#affe").wrap("&lt;div&gt;&lt;/div&gt;");
-});
-  },
-
-  executable: true
-});
-
 addSample("q", function() {
   q("#myId"); // containing the element with the id 'myId'
 });
