@@ -794,6 +794,31 @@ def isDeferFunction(node):
 def isKeyValue(node):
     return node.hasParentContext("map/keyvalue/value")
 
+##
+# Check, and if not present create, a closure wrapper for the syntax tree.
+#
+# The resulting tree will look like 
+#    (function(){ ...[passed-in trees]...})()
+# (with a leading <file> node).
+#
+# <nodes> - [node1, node2, ...]
+#           nodeX is assumed to start with a <file> node
+#
+wrapper_statements_path = "statements/call/operand/group/function/body/block/statements"
+def has_closure_wrapper(node):
+    return selectNode(node, wrapper_statements_path)  # if this succeeds, there is a top-level wrapper
+def ensureClosureWrapper(nodes):
+    if not nodes:
+        return None, None
+    if len(nodes) == 1:
+        closure_statements = has_closure_wrapper(nodes[0])
+        if closure_statements:
+            return nodes[0], closure_statements
+    new_tree = treegenerator.createFileTree_from_string("(function(){})();")
+    closure_statements = selectNode(new_tree, wrapper_statements_path)
+    for node in nodes:
+        closure_statements.append(node)
+    return new_tree, closure_statements
 
 ##
 # NodeVisitor class

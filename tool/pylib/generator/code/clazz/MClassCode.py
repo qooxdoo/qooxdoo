@@ -416,6 +416,7 @@ class MClassCode(object):
         stringList = stringoptimizer.sort(stringMap)
         stringoptimizer.replace(statementsNode, stringList)
 
+        # TODO: Re-write this using treeutil.ensureClosureWrapper()
         # Build JS string fragments
         stringStart = "(function(){"
         stringReplacement = stringoptimizer.replacement(stringList)
