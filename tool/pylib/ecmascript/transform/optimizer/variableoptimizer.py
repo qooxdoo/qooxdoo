@@ -92,8 +92,8 @@ class OptimizerVisitor(scopes.ScopeVisitor):
 # -- Interface function --------------------------------------------------------
 
 def search(node):
-    if not hasattr(node,'scope'):
-        print sys.stderr, "Cannot variable-optimize tree without scope annotation"
-        return
+    # we'll have to scope-analyze again, as other optimizations might have
+    # changed the original tree (variants, strings, ... optimizations)
+    node = scopes.create_scopes(node)
     var_optimizer = OptimizerVisitor(node)
     var_optimizer.visit(node.scope)
