@@ -131,9 +131,10 @@ qx.Class.define("testrunner.view.mobile.Mobile", {
       var el = item.getContentElement();
       qx.bom.element.Class.removeClasses(el, ["start", "success", "failure", "skip"]);
       var testState = data.getState();
+      var hasExceptions = data.getExceptions().length > 0;
 
       var cssClass, selectable;
-      var subtitle = testState;
+      var subtitle = "<strong>" + testState + "</strong>";
       switch(testState) {
         case "start":
           cssClass = "start";
@@ -161,6 +162,10 @@ qx.Class.define("testrunner.view.mobile.Mobile", {
       }
       item.setSelectable(selectable);
       item.setShowArrow(selectable);
+
+      if (hasExceptions) {
+        subtitle += "<br/>" + this._getExceptionSummary(data.getExceptions());
+      }
       item.setSubtitle(subtitle);
 
       item.setTitle(data.getFullName());
@@ -171,6 +176,19 @@ qx.Class.define("testrunner.view.mobile.Mobile", {
         self.__testListWidget.getModel().setItem(idx, null);
         self.__testListWidget.getModel().setItem(idx, data);
       });
+    },
+
+    /**
+     * Returns the string representations of the given exceptions, joined with
+     * "<br/>"
+     * @param exceptions {Map[]} List of exception maps
+     * @return {String} Exception summary
+     */
+    _getExceptionSummary : function(exceptions)
+    {
+      return exceptions.map(function(ex) {
+        return (ex.exception.message || ex.exception.toString()).replace(/\n/g, "<br/>");
+      }).join("<br/>");
     },
 
     /**
@@ -397,6 +415,7 @@ qx.Class.define("testrunner.view.mobile.Mobile", {
      */
     _onListChangeSelection : function(ev)
     {
+      this.__detailPage.removeAll();
       var testName = qx.lang.Object.getKeyFromValue(this.__testRows, ev.getData());
       for (var i=0,l=this.__testList.length; i<l; i++) {
         if (this.__testList.getItem(i).getFullName() == testName) {
@@ -409,15 +428,15 @@ qx.Class.define("testrunner.view.mobile.Mobile", {
             msgLabel.setWrap(true);
             var stackLabel = new qx.ui.mobile.basic.Label(stack.join("<br/>"));
             stackLabel.setWrap(true);
-            this.__detailPage.removeAll();
             var detailContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
             detailContainer.add(msgLabel);
             detailContainer.add(stackLabel);
             var detailGroup = new qx.ui.mobile.form.Group([detailContainer]);
             this.__detailPage.add(detailGroup);
+          }
+          if (exceptions.length > 0) {
             this.__detailPage.show();
           }
-
           break;
         }
       }
