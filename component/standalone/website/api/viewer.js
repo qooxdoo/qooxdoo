@@ -799,9 +799,24 @@ q.ready(function() {
 
     var boxes = 0;
 
+    var stringifyArraySnippet = function (snippet) {
+        // allow multiline array code snippets like:
+        // ["<ul>",
+        //  "  <li>item 1</li>",
+        //  "  <li>item 2</li>",
+        //  "</ul>"],
+
+        var isArray = q.$$qx.Bootstrap.isArray;
+        if (isArray && isArray(snippet)) {
+            return snippet.join('\n');
+        }
+        return snippet;
+    };
+
     // HTML
     if (sample.html) {
       boxes++;
+      sample.html = stringifyArraySnippet(sample.html);
       htmlEl = q.create("<pre class='html'><code></code></pre>")[0];
       htmlEl.innerText = sample.html;
       codeContainer.append(htmlEl);
@@ -810,6 +825,7 @@ q.ready(function() {
     // CSS
     if (sample.css) {
       boxes++;
+      sample.css = stringifyArraySnippet(sample.css);
       cssEl = q.create("<pre class='css'><code></code></pre>").setHtml(sample.css)[0];
       codeContainer.append(cssEl);
     }
@@ -817,9 +833,20 @@ q.ready(function() {
     // JavaScript
     if (sample.javascript) {
       boxes++;
+
+      var outdentWhitespace = function (snippet) {
+        var firstNonWhitespacePos = snippet.search(/\S/);
+        if (firstNonWhitespacePos !== -1) {
+          var outdentRegex = new RegExp("^ {"+(firstNonWhitespacePos-1)+"}", "mg");
+          return snippet.replace(outdentRegex, "");
+        }
+        return snippet;
+      };
+
       sample.javascript = sample.javascript.toString();
       sample.javascript = sample.javascript.replace(/^function.*?\{/, "");
       sample.javascript = sample.javascript.substr(0, sample.javascript.length - 1);
+      sample.javascript = outdentWhitespace(sample.javascript);
       sample.javascript = sample.javascript.replace(/\n/, "");
       sample.javascript = sample.javascript.replace(/[\s]+$/, "");
 
@@ -891,8 +918,11 @@ q.ready(function() {
         //iframeBody.find("form").setAttribute("action", "http://jsfiddle.net/api/post/library/pure");
 
         if (sample.javascript) {
+          // add indentation again
+          sample.javascript = sample.javascript.replace(/^(.*)/mg, "  $1");
+
           if (sample.javascript.indexOf("q.ready(") == -1) {
-            sample.javascript = 'q.ready(function() {\n  ' + sample.javascript + '\n});';
+            sample.javascript = 'q.ready(function() {\n' + sample.javascript + '\n});';
           }
           iframeBody.find("#js").setHtml(sample.javascript);
         }
