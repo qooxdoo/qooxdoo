@@ -272,10 +272,10 @@ class Scope(object):
             cld.prrnt(indent=indent+'  ')
 
     def globals(self):
-        return dict([(x,y) for x,y in self.vars.items() if not y.decl])
+        return dict([(x,y) for x,y in self.vars.items() if y.is_global()])
 
     def locals(self):
-        return dict([(x,y) for x,y in self.vars.items() if y.decl])
+        return dict([(x,y) for x,y in self.vars.items() if y.is_scoped()])
 
     ##
     # Return all nested scopes
@@ -304,6 +304,16 @@ class ScopeVar(object):
         self.decl = []    # var decl node(s)
         self.uses = []    # var occurrences (excluding decl occurrence(s))
         self.is_param = False # is var decl'ed as parameter?
+
+    ##
+    # Is in a lexical scope
+    def is_scoped(self):
+        return bool(self.decl)
+
+    ##
+    # Is in the global scope
+    def is_global(self):
+        return not self.is_scoped()
 
     def add_use(self, node):
         self.uses.append(node)

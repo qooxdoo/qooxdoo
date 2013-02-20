@@ -35,13 +35,49 @@ reservedWords = set(())
 reservedWords.update(lang.GLOBALS)
 reservedWords.update(lang.RESERVED.keys())
 
-unoptimize_scopes_with = "eval Function".split()
-
 class ProtectionVisitor(scopes.ScopeVisitor):
+    
+    ##
+    # If code of scope contains 'eval()'
+    def has_eval_call(self, scopeNode):
+        return 'eval' in scopeNode.vars
+
+    ##
+    # If code of scope contains 'new Function()'
+    def has_new_Function(self, scopeNode):
+        if 'Function' not in scopeNode.vars:
+            return False
+        scopeVar = scopeNode.vars['Function']
+        if scopeVar.is_scoped(): # eliminate scoped vars
+            return False
+        # check for 'new' use
+        for use_node in scopeVar.uses:
+            if ( use_node.hasParentContext("operation/call/operand")
+                and use_node.parent.parent.parent.get("operator","") == "NEW" ):
+                return True
+        return False
+
+    ##
+    # If code of scope contains 'with()'
+    def has_with_stmt(self, scopeNode):
+        code = scopeNode.node
+        res = code.getChildByTypeAndAttribute("loop", "loopType", "WITH", mandatory=False, recursive=True)
+        return bool(res)
+
 
     def visit(self, scopeNode):
-        if 'eval' in scopeNode.vars: # TODO: use unoptimize_scopes_with
+        # Inspect current scope
+        # eval()
+        if self.has_eval_call(scopeNode):
             scopeNode.protect_variable_optimization = True
+        # new Function()
+        elif self.has_new_Function(scopeNode):
+            scopeNode.protect_variable_optimization = True
+        # with()
+        elif self.has_with_stmt(scopeNode):
+            scopeNode.protect_variable_optimization = True
+
+        # Trickle up value from child scopes
         for child in scopeNode.children:
             res = self.visit(child)
             scopeNode.protect_variable_optimization = ( res or
@@ -57,11 +93,13 @@ class OptimizerVisitor(scopes.ScopeVisitor):
         self.counter = 0
 
     def visit(self, scopeNode):
-        for var_name in scopeNode.locals():
-            if var_name in reservedWords or len(var_name) < 2:
-                continue
-            new_name = self.mapper(var_name, self.check_set)
-            self.update_occurrences(scopeNode, var_name, new_name)
+        if not scopeNode.protect_variable_optimization:
+            for var_name in scopeNode.locals():
+                if var_name in reservedWords or len(var_name) < 2:
+                    continue
+                new_name = self.mapper(var_name, self.check_set)
+                self.update_occurrences(scopeNode, var_name, new_name)
+        # there might still be child scopes that can be optimized
         for child in scopeNode.children:
             self.visit(child)
 
@@ -92,8 +130,12 @@ class OptimizerVisitor(scopes.ScopeVisitor):
 # -- Interface function --------------------------------------------------------
 
 def search(node):
-    # we'll have to scope-analyze again, as other optimizations might have
+    # we have to scope-analyze again, as other optimizations might have
     # changed the original tree (variants, strings, ... optimizations)
     node = scopes.create_scopes(node)
+    # protect certain scopes from optimization
+    protect_visitor = ProtectionVisitor()
+    protect_visitor.visit(node.scope)
+    # optimize scopes
     var_optimizer = OptimizerVisitor(node)
     var_optimizer.visit(node.scope)
