@@ -47,6 +47,21 @@ qx.Class.define("qx.dev.unit.MeasurementResult", {
     __ownTime : null,
     __renderTime : null,
 
+
+    /**
+     * Returns the stored data as a map.
+     * @return {Map} The stored data.
+     */
+    getData : function() {
+      return {
+        message : this.__message,
+        iterations : this.__iterations,
+        ownTime : this.__ownTime,
+        renderTime : this.__renderTime
+      };
+    },
+
+
     /**
      * Returns a readable summary of this result
      *

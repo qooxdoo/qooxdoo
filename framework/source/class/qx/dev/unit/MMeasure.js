@@ -166,6 +166,7 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
         this.debug([msg, "Iterations: " + iterations, "Time: " + ownTime + "ms",
           "Render time: " + renderTime + "ms"].join("; "));
       }
+
       throw new qx.dev.unit.MeasurementResult(msg, iterations, ownTime, renderTime);
     }
   }
