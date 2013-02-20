@@ -103,12 +103,31 @@ class VarsCollector(ScopeVisitor):
 # AST visitor that assigns vardecl and varuses to a given Scope (and pot. its 
 # parents), but doesn't descend into subscopes ("breadth-only search").
 #
+# Registering of identifiers (head symbols):
+#
+# - 'declaring' occurrence ('var' statement): 
+#   - register with (pot. new) ScopeVar in enclosing Scope
+#
+# - 'use' occurrence (any other occurrence):
+#   - register with ScopeVar in enclosing Scope, it is also declared in this
+#     Scope
+#   - else search the Scope chain upward for the declaring ScopeVar, register it
+#     there when found
+#   - else if no declaring ScopeVar is found it is a global symbol, register it
+#     with the Scope where the occurrence *was found*
+#     (this means global symbols are currently not propagated to the top-level
+#     Scope or something; this retains globals where they are used across tree
+#     transformations)
+#
 class AssignScopeVarsVisitor(treeutil.NodeVisitor):
 
     def __init__(self, curr_scope):
         super(AssignScopeVarsVisitor, self).__init__()
         self.curr_scope = curr_scope
 
+    ##
+    # "function foo(){}" declaration.
+    #
     def visit_function(self, node):
         # handle pot. function name that goes into this scope
         if node.getChild("identifier",0) and node.isStatement():
@@ -121,13 +140,17 @@ class AssignScopeVarsVisitor(treeutil.NodeVisitor):
     def visit_catch(self, node):
         return
 
-    def visit_params(self, node): # formal params are like local decls
-        #print "params visitor", node
+    ##
+    # Formal params are treated like local vars.
+    #
+    def visit_params(self, node):
         for id_node in node.children:
             self._new_var(id_node)
 
-    def visit_var(self, node):  # var declaration
-        #print "var decl visitor", node
+    ##
+    # "var foo;" declaration.
+    #
+    def visit_var(self, node):
         # go through the definitions
         for def_node in node.children:
             self._new_var(def_node.getDefinee())
@@ -142,9 +165,12 @@ class AssignScopeVarsVisitor(treeutil.NodeVisitor):
         scopeVar = self.curr_scope.add_decl(var_name, id_node)  # returns the corresp. ScopeVariable()
         id_node.scope = self.curr_scope
 
-    def visit_identifier(self, node):  # var reference
-        #print "var use visitor", node
-        if treeutil.checkFirstChainChild(node):  # only treat leftmost identifier (e.g. in a dotaccessor expression)
+    ##
+    # "foo" symbol reference.
+    #
+    def visit_identifier(self, node):  
+        # only treat leftmost identifier (e.g. in a dotaccessor expression)
+        if treeutil.checkFirstChainChild(node):
             var_name = node.get('value')
             # lookup var
             var_scope = self.curr_scope.lookup_decl(var_name)
