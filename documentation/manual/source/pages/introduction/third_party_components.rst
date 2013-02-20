@@ -90,7 +90,7 @@ Static resource files, like images, CSS, etc..
 Tool Chain
 ===========
 
-These are the Python modules we use that are not self-written, nor part of a vanilla Python 2.x SDK:
+These are the Python modules we use that are not self-written, nor part of a vanilla Python 2.5 SDK:
 
 .. list-table::
    :header-rows: 1
@@ -98,6 +98,9 @@ These are the Python modules we use that are not self-written, nor part of a van
 
    * - Module
      - License
+
+   * - `argparse <https://pypi.python.org/pypi/argparse/>`_
+     - `Python License 2 <http://opensource.org/licenses/Python-2.0>`_
 
    * - `cssmin <http://pypi.python.org/pypi/cssmin/>`_
      - `BSD-compat <https://github.com/zacharyvoase/cssmin/blob/master/LICENSE>`_
