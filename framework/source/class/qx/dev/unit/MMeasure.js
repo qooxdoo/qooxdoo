@@ -56,7 +56,7 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
      * iterations
      *
      * @param msg {String} Description of the measured operation
-     * @param before {Function} A function that will be called before every
+     * @param prepare {Function} A function that will be called before every
      * iteration. Its execution time is not included in the measurement
      * @param callback {Function} Callback containing the code to be measured.
      * Must return the number of completed iterations.
@@ -72,7 +72,9 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
           var i = 0;
           var testTime = 0;
           while (testTime < time) {
-            before();
+            if (prepare) {
+              prepare();
+            }
             var startIter = Date.now();
             callback(i);
             testTime += Date.now() - startIter;
