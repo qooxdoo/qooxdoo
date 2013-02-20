@@ -51,6 +51,36 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
       );
     },
 
+    /**
+     * Repeatedly runs code for a given amount of time and measures completed
+     * iterations
+     *
+     * @param msg {String} Description of the measured operation
+     * @param callback {Function} Callback containing the code to be measured.
+     * Must return the number of completed iterations.
+     * @param finalize {Function} Finalize function called once after measuring,
+     * e.g. for cleanup. Will not be measured.
+     * @param time {Number} Amount of time in milliseconds
+     */
+    measureIterations : function(msg, callback, finalize, time)
+    {
+      this.measure(
+        msg,
+        function() {
+          var i = 0;
+          var start = Date.now();
+          while (Date.now() - start <= time) {
+            callback(i);
+            i++;
+          }
+          return i;
+        },
+        finalize,
+        null,
+        time
+      );
+    },
+
 
     /**
      * Executes a given callback function once and measures JavaScript execution
@@ -62,8 +92,11 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
      * e.g. for cleanup. Will not be measured.
      * @param displayIterations {Number?} Iterations to be displayed instead of
      * <code>iterations</code>
+     * @param maxTime {Number?} Maximum amount of time the test will run. Only used
+     * for {@link #measureIterations}. If undefined, the test will be aborted after
+     * ten seconds.
      */
-    measure : function(msg, callback, finalize, displayIterations)
+    measure : function(msg, callback, finalize, displayIterations, maxTime)
     {
       // profiling
       var profilingEnabled;
@@ -82,9 +115,9 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
         console.profile(msg);
       }
 
-      var start = new Date();
-      callback();
-      var end = new Date();
+      var start = Date.now();
+      var iterations = callback();
+      var end = Date.now();
 
       // profiling
       if (profilingActive) {
@@ -93,22 +126,22 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
 
       var time = end-start;
 
-      var renderStart = new Date();
+      var renderStart = Date.now();
 
       var self = this;
       setTimeout(function() { self.resume(function()
       {
-        var renderTime = new Date() - renderStart;
+        var renderTime = Date.now() - renderStart;
         self.log(
           msg,
-          displayIterations,
+          iterations || displayIterations,
           time,
           renderTime
         );
         finalize.call(self);
       }); }, 0);
 
-      this.wait(10000);
+      this.wait(maxTime ? maxTime + 5000 : 10000);
     },
 
 
