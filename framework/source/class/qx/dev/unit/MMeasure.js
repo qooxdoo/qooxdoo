@@ -56,21 +56,26 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
      * iterations
      *
      * @param msg {String} Description of the measured operation
+     * @param before {Function} A function that will be called before every
+     * iteration. Its execution time is not included in the measurement
      * @param callback {Function} Callback containing the code to be measured.
      * Must return the number of completed iterations.
      * @param finalize {Function} Finalize function called once after measuring,
      * e.g. for cleanup. Will not be measured.
      * @param time {Number} Amount of time in milliseconds
      */
-    measureIterations : function(msg, callback, finalize, time)
+    measureIterations : function(msg, prepare, callback, finalize, time)
     {
       this.measure(
         msg,
         function() {
           var i = 0;
-          var start = Date.now();
-          while (Date.now() - start <= time) {
+          var testTime = 0;
+          while (testTime < time) {
+            before();
+            var startIter = Date.now();
             callback(i);
+            testTime += Date.now() - startIter;
             i++;
           }
           return i;
@@ -135,7 +140,7 @@ qx.Mixin.define("qx.dev.unit.MMeasure",
         self.log(
           msg,
           iterations || displayIterations,
-          time,
+          maxTime || time,
           renderTime
         );
         finalize.call(self);
