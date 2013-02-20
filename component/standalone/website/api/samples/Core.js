@@ -18,6 +18,23 @@ addSample("q", function() {
   q("#list :header"); // finds all header elements in the element with the id 'list'
 });
 
+addSample("q", {
+  html: ['<div id="main">',
+         '  <h2>first header</h2>',
+         '  <p>para 1 (within)</p>',
+         '  <p>para 2 (within)</p>',
+         '  <div>div 1</div>',
+         '</div>',
+         '<p>para 3 (outside)</p>'],
+  javascript: function() {
+    // example for context element
+
+    q("p", q("#main")[0]).setStyle("color", "red");
+    // also possible:
+    // q("p", document.getElementById("#main")).setStyle("color", "red");
+  },
+  executable: true
+});
 
 addSample("q.define", function() {
   q.define("MyObject", {
@@ -46,6 +63,110 @@ addSample("q.define", function() {
       otherMethod : function() {}
     }
   });
+});
+
+addSample(".concat", {
+  html: ['<ul>',
+         '  <li class="info">item 1</li>',
+         '  <li class="info">item 2</li>',
+         '  <li class="desc">item 3</li>',
+         '  <li>item 4</li>',
+         '</ul>'],
+  javascript: function() {
+    // combine two collections and add class 'combined'
+    q(".info").concat(q(".desc")).addClass("combined");
+  },
+  css: ['.combined {',
+        '  color: red;',
+        '}'],
+  executable: true
+});
+
+addSample(".filter", {
+  html: ['<ul>',
+         '  <li>item 1</li>',
+         '  <li>item 2</li>',
+         '  <li>item 3</li>',
+         '  <li>item 4</li>',
+         '</ul>'],
+  javascript: function() {
+    // change the style of all even elements
+    q("li").filter(":even").addClass("even");
+  },
+  css: ['.even {',
+        '  color: red;',
+        '}'],
+  executable: true
+});
+
+addSample(".map", {
+  html: ['<ul id="list-one">',
+         '  <li>item 1</li>',
+         '  <li class="desc">item 2</li>',
+         '</ul>',
+         '<ul id="list-two">',
+         '  <li>item 1</li>',
+         '  <li class="desc">item 2</li>',
+         '</ul>',
+         '<ul id="result">',
+         '  <!-- append result goes here -->',
+         '</ul>'],
+  javascript: function() {
+    // q.map() => map method which operates on collections
+    var parentNodes = q('.desc').map(function(elem) {
+      return elem.parentNode;
+    }).toArray();
+
+    // Array.map() => map method which operates on arrays
+    var ids = parentNodes.map(function(elem) {
+      return elem.id;
+    });
+
+    q("#result").append("&lt;li&gt;"+ids.join(" *** ")+"&lt;/li&gt;");
+  },
+  css: ['#list-one {',
+        '  color: pink;',
+        '}',
+        '#list-two {',
+        '  color: red;',
+        '}',
+        '#result {',
+        '  color: firebrick;',
+        '}'],
+  executable: true
+});
+
+addSample(".slice", {
+  html: ['<ul>',
+         '  <li>item 1</li>',
+         '  <li>item 2</li>',
+         '  <li>item 3</li>',
+         '  <li>item 4</li>',
+         '</ul>'],
+  javascript: function() {
+    var collection = q("li").slice(1,3).addClass("selected");
+    // (collection.length == 2) => item 2, item 3
+  },
+  css: ['.selected {',
+        '  color: red;',
+        '}'],
+  executable: true
+});
+
+addSample(".splice", {
+  html: ['<ul>',
+         '  <li>item 1</li>',
+         '  <li>item 2</li>',
+         '  <li>item 3</li>',
+         '  <li>item 4</li>',
+         '</ul>'],
+  javascript: function() {
+    var collection = q("li");
+    // (collection.length == 4)
+    var removed = collection.splice(1,2);
+    // (removed.length == 3) => item 2, item 3, item 4
+    // (collection.length == 1) => item 1
+  }
 });
 
 addSample("q.$attach",function(){
