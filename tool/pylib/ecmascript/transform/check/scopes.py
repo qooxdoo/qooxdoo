@@ -105,7 +105,7 @@ class VarsCollector(ScopeVisitor):
 #
 # Registering of identifiers (head symbols):
 #
-# - 'declaring' occurrence ('var' statement): 
+# - 'declaring' occurrence (in 'var' statements): 
 #   - register with (pot. new) ScopeVar in enclosing Scope
 #
 # - 'use' occurrence (any other occurrence):
