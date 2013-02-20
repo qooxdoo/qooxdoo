@@ -48,7 +48,7 @@ qx.Class.define("qx.test.performance.widget.AbstractWidget",
       var that = this;
       var widget;
       this.measureIterations(
-        "render and flush widgets", 
+        "render and flush widgets",
         function() {
           widget = that._createWidget();
         },
@@ -69,7 +69,7 @@ qx.Class.define("qx.test.performance.widget.AbstractWidget",
     {
       var that = this;
       var widgets = [];
-      this.measureRepeated(
+      this.measureIterations(
         "resize and flush widgets",
         function() {
           var widget = that._createWidget();
@@ -125,11 +125,11 @@ qx.Class.define("qx.test.performance.widget.AbstractWidget",
 
       var widgets = [];
       var that = this;
-      this.measureRepeated(
+      this.measureIterations(
         "dispose rendered widgets",
         function() {
-          widgets.push(this._createWidget());
-          this.getRoot().add(widgets[widgets.length - 1]);
+          widgets.push(that._createWidget());
+          that.getRoot().add(widgets[widgets.length - 1]);
         },
         function() {
           widgets[widgets.length - 1].destroy();
