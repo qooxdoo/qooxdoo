@@ -22,6 +22,9 @@ var http = require('http');
 var url = require('url');
 var fs = require("fs");
 
+var port = process.argv[2] || 8800;
+var hostname = process.argv[3] || undefined;
+
 http.createServer(function (req, res) {
   var parsedUrl = url.parse(req.url, true);
   if (parsedUrl.pathname == "/save") {
@@ -39,8 +42,8 @@ http.createServer(function (req, res) {
   }
 
   res.end("");
-}).listen(1337, '127.0.0.1');
-console.log('Server running at http://127.0.0.1:1337/');
+}).listen(port, hostname);
+console.log('Server listening on port', port);
 
 
 function updateJson(filename, row) {
