@@ -169,6 +169,7 @@ Files = {
         ],
     "./component/standalone/website/index.html" : [
         r'q-(%s).min.js' % qxversion_regexp,
+        r'q-(%s).js' % qxversion_regexp,
         ],
     "./component/standalone/website/api/index.html" : [
         r'q-(%s).min.js' % qxversion_regexp,
