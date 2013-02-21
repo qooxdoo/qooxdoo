@@ -174,11 +174,11 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
         this.__isVerticalScroll = Math.abs(cosDelta) < 2;
       } 
       
-      if(!this.isScrollableX() || this.__isVerticalScroll) {
+      if(Math.abs(distanceX) < 3 || !this.isScrollableX() || this.__isVerticalScroll) {
         distanceX = 0;
       }
       
-      if(!this.isScrollableY() || !this.__isVerticalScroll) {
+      if(Math.abs(distanceY) < 3 || !this.isScrollableY() || !this.__isVerticalScroll) {
         distanceY = 0;
       }
       
@@ -418,7 +418,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * Used when user drags the scrollContainer over the edge manually.
      */
     _applyBounceEasing : function() {
-      this._applyEasing("all 400ms ease-in-out");
+      this._applyEasing("all 400ms cubic-bezier(0.33, 0.66, 0.66, 1)");
     },
     
     
