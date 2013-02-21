@@ -14,6 +14,7 @@
     "TESTRUNNER_ROOT" : ".",
     "TESTRUNNER"   : "testrunner",
     "REPORT_SERVER" : false,
+    "PERFORMANCE_REPORT_SERVER" : false,
     "TEST_NAMESPACE" : "${APPLICATION}.test",
     "TEST_INCLUDE" : "${TEST_NAMESPACE}.*",
     "TEST_EXCLUDE" : "",
@@ -230,6 +231,7 @@
         "testrunner.title" : "${APPLICATION}",
         "testrunner.testParts" : false,
         "testrunner.reportServer" : "${REPORT_SERVER}",
+        "testrunner.reportPerfResultUrl": "${PERFORMANCE_REPORT_SERVER}",
         "testrunner.performance" : true
       },
 
