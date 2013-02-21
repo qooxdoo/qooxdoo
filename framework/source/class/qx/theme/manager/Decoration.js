@@ -133,8 +133,14 @@ qx.Class.define("qx.theme.manager.Decoration",
       if (clazz instanceof Array) {
         var names = clazz.concat([]);
         for (var i=0; i < names.length; i++) {
+          // only mixins are allowed in array
+          if (qx.core.Environment.get("qx.debug")) {
+            if (names[i].$$type !== "Mixin") {
+              throw new Error("Invalid declaration of decorator " + value + " has been found. Only mixins can be enclosed in [] brackets. Found " + names[i] + " in declaration.");
+            }
+          }        
           names[i] = names[i].basename.replace(".", "");
-        }
+        };
         var name = "qx.ui.decoration.dynamic." + names.join("_");
         if (!qx.Class.getByName(name)) {
           qx.Class.define(name, {
