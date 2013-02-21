@@ -72,30 +72,31 @@ addSample(".concat", {
          '  <li class="desc">item 3</li>',
          '  <li>item 4</li>',
          '</ul>'],
+  css: ['.combined {',
+        '  color: red;',
+        '}'],
   javascript: function() {
     // combine two collections and add class 'combined'
     q(".info").concat(q(".desc")).addClass("combined");
   },
-  css: ['.combined {',
-        '  color: red;',
-        '}'],
   executable: true
 });
 
 addSample(".filter", {
   html: ['<ul>',
+         '  <li>item 0</li>',
          '  <li>item 1</li>',
          '  <li>item 2</li>',
          '  <li>item 3</li>',
-         '  <li>item 4</li>',
          '</ul>'],
-  javascript: function() {
-    // change the style of all even elements
-    q("li").filter(":even").addClass("even");
-  },
   css: ['.even {',
         '  color: red;',
         '}'],
+  javascript: function() {
+    // change the style of all even elements
+    // remember regarding odd/even: counting begins at 0
+    q("li").filter(":even").addClass("even");
+  },
   executable: true
 });
 
@@ -111,6 +112,15 @@ addSample(".map", {
          '<ul id="result">',
          '  <!-- append result goes here -->',
          '</ul>'],
+  css: ['#list-one {',
+        '  color: pink;',
+        '}',
+        '#list-two {',
+        '  color: red;',
+        '}',
+        '#result {',
+        '  color: firebrick;',
+        '}'],
   javascript: function() {
     // q.map() => map method which operates on collections
     var parentNodes = q('.desc').map(function(elem) {
@@ -124,15 +134,6 @@ addSample(".map", {
 
     q("#result").append("&lt;li&gt;"+ids.join(" *** ")+"&lt;/li&gt;");
   },
-  css: ['#list-one {',
-        '  color: pink;',
-        '}',
-        '#list-two {',
-        '  color: red;',
-        '}',
-        '#result {',
-        '  color: firebrick;',
-        '}'],
   executable: true
 });
 
@@ -143,13 +144,13 @@ addSample(".slice", {
          '  <li>item 3</li>',
          '  <li>item 4</li>',
          '</ul>'],
+  css: ['.selected {',
+        '  color: red;',
+        '}'],
   javascript: function() {
     var collection = q("li").slice(1,3).addClass("selected");
     // (collection.length == 2) => item 2, item 3
   },
-  css: ['.selected {',
-        '  color: red;',
-        '}'],
   executable: true
 });
 
