@@ -2243,12 +2243,15 @@ class TreeGenerator(object):
     # To pass a tokenArr rather than a text string is due to the current usage
     # in the generator, which does the tokenization on its own, and then calls
     # 'createFileTree'.
-    def parse(self, tokenArr):
+    def parse(self, tokenArr, expr=False):
         global token, next, tokenStream
         tokenStream = TokenStream(tokenArr) # TODO: adapt TokenStream to token array arg
         next   = iter(tokenStream).next
         token  = next()
-        return statements()
+        if expr:
+            return expression()
+        else:
+            return statements()
 
 
 # - Interface -----------------------------------------------------------------
@@ -2265,9 +2268,9 @@ def createFileTree_from_string(string_, fileId=''):
     return createFileTree(ts, fileId)
 
 # quick high-level frontend
-def parse(string_):
+def parse(string_, expr=False):
     ts = tokenizer.Tokenizer().parseStream(string_)
-    return TreeGenerator().parse(ts)
+    return TreeGenerator().parse(ts,expr)
 
 # - Main ----------------------------------------------------------------------
 
