@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Performance Graphs</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/qooxdoo/2.1/q.min.js"></script>
+  <script type="text/javascript">
+  var callback = function(files) {
+    files.forEach(function(file) {
+      //chrome-24.0-testrunner.test.Performance.testRepeated.rrd.png
+      var parts = file.split("-");
+      var testName = parts[2].match(/(.*?)\.png/)[1];
+      var view = {
+        testName: testName,
+        browserName: parts[0],
+        browserVersion: parts[1],
+        imgSrc: "graphs/" + file
+      };
+      q.template.get("graphTmpl", view).appendTo(document.body);
+    });
+
+  };
+  q.ready(function() {
+    q.io.jsonp ("http://localhost:1337/graphs").send();
+  });
+  </script>
+  <link href="http://resources.qooxdoo.org/stylesheets/base.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <h1>Widget Rendering Performance Results</h1>
+  <script id="graphTmpl" type="text/template">
+  <div>
+  <h2>{{testName}}</h2>
+  <h4>{{browserName}} {{browserVersion}}</h4>
+  <img src="{{imgSrc}}" />
+  </div>
+  </script>
+</body>
+</html>

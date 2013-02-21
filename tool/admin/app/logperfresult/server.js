@@ -1,17 +1,41 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2013 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Martin Wittemann (wittemann)
+     * Daniel Wagner (danielwagner)
+
+************************************************************************ */
+
 var http = require('http');
 var url = require('url');
 var fs = require("fs");
 
 http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/javascript'});
   var parsedUrl = url.parse(req.url, true);
   if (parsedUrl.pathname == "/save") {
-
+    res.writeHead(200, {'Content-Type': 'text/javascript'});
     var now = new Date();
     parsedUrl.query.date = now.getTime();
-    var filename = "perf-data-" + now.toISOString().substr(0, 10) + ".json";
+    var filename = "data/perf-data-" + now.toISOString().substr(0, 10) + ".json";
 
     updateJson(filename, parsedUrl.query);
+  }
+  else if (parsedUrl.pathname == "/graphs") {
+    res.writeHead(200, {'Content-Type': 'text/javascript'});
+    var files = fs.readdirSync("./graphs");
+    res.write('callback(' + JSON.stringify(files) + ');');
   }
 
   res.end("");
@@ -20,10 +44,11 @@ console.log('Server running at http://127.0.0.1:1337/');
 
 
 function updateJson(filename, row) {
+  var data;
   if (fs.existsSync(filename)) {
-    var data = JSON.parse(fs.readFileSync(filename, "utf8"));
+    data = JSON.parse(fs.readFileSync(filename, "utf8"));
   } else {
-    var data = [];
+    data = [];
   }
   data.push(row);
   fs.writeFileSync(filename, JSON.stringify(data), "utf8");
