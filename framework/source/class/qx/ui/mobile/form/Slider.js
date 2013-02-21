@@ -148,9 +148,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
   members :
   {
-    _isMovingKnob : false,
     _knobElement : null,
-    _knobWidth : null,
     _containerElementWidth : null,
     _containerElementLeft : null,
     _pixelPerStep : null,
@@ -242,11 +240,9 @@ qx.Class.define("qx.ui.mobile.form.Slider",
      */
     _updateSizes : function()
     {
-      var knobElement = this._getKnobElement();
       var containerElement = this.getContainerElement();
       this._containerElementWidth = qx.bom.element.Dimension.getWidth(containerElement);
       this._containerElementLeft = qx.bom.element.Location.getLeft(containerElement);
-      this._knobWidth = qx.bom.element.Dimension.getWidth(knobElement);
       this._pixelPerStep = this._getPixelPerStep(this._containerElementWidth);
     },
 
@@ -258,24 +254,15 @@ qx.Class.define("qx.ui.mobile.form.Slider",
      */
     _onTouchStart: function(evt)
     {
-      this._isMovingKnob = false;
       this._lastPosition = 0;
       if (!evt.isMultiTouch())
       {
         this._updateSizes();
         var position = this._lastPosition =  this._getPosition(evt.getDocumentLeft());
 
-        var knobElement = this._getKnobElement();
-        if (evt.getTarget() == knobElement)
-        {
-          this._isMovingKnob = true;
-          evt.stopPropagation();
-        } else {
-          var element = this.getContainerElement();
-          qx.bom.element.Style.set(knobElement, "-webkit-transition", "left .15s, margin-left .15s");
-          qx.bom.element.Style.set(element, "-webkit-transition", "background-position .15s");
-          this.setValue(this._positionToValue(position));
-        }
+        this.setValue(this._positionToValue(position));
+        
+        evt.stopPropagation();
       }
     },
 
@@ -288,10 +275,10 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _onTransitionEnd : function(evt)
     {
       var knobElement = this._getKnobElement();
-      qx.bom.element.Style.set(knobElement, "-webkit-transition", null);
+      qx.bom.element.Style.set(knobElement, "transition", null);
 
       var element = this.getContainerElement();
-      qx.bom.element.Style.set(element, "-webkit-transition", null);
+      qx.bom.element.Style.set(element, "transition", null);
     },
 
 
@@ -302,18 +289,15 @@ qx.Class.define("qx.ui.mobile.form.Slider",
      */
     _onTouchMove : function(evt)
     {
-      if (this._isMovingKnob)
+      var position = this._getPosition(evt.getDocumentLeft());
+      // Optimize Performance - only update the position when needed
+      if (Math.abs(this._lastPosition - position) > this._pixelPerStep /2)
       {
-        var position = this._getPosition(evt.getDocumentLeft());
-        // Optimize Performance - only update the position when needed
-        if (Math.abs(this._lastPosition - position) > this._pixelPerStep /2)
-        {
-          this._lastPosition = position;
-          this.setValue(this._positionToValue(position));
-        }
-        evt.stopPropagation();
-        evt.preventDefault();
+        this._lastPosition = position;
+        this.setValue(this._positionToValue(position));
       }
+      evt.stopPropagation();
+      evt.preventDefault();
     },
 
 
@@ -372,46 +356,34 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _updateKnobPosition : function()
     {
       var percent = this._valueToPercent(this.getValue());
-      this._setKnobPosition(percent);
-      this._setProgressIndicatorPosition(percent);
-    },
-
-
-    /**
-     * Sets the indicator positon based on the give percent value.
-     *
-     * @param percent {Float} The knob position
-     */
-    _setProgressIndicatorPosition : function(percent)
-    {
+      
       var width = this._containerElementWidth;
-      // Center the indicator to the knob element
-      var position = this._percentToPosition(width, percent) + (this._knobWidth / 2);
-      var element = this.getContainerElement();
-
-      // Fix the indicator position, corresponding to the knob position
-      var marginLeft = this._knobWidth * (percent / 100);
-      var backgroundPositionValue = (position - marginLeft) + 'px 0px, 0px 0px';
-      qx.bom.element.Style.set(element, "backgroundPosition", backgroundPositionValue);
+      var position = Math.floor(this._percentToPosition(width, percent));
+      var element = this._getKnobElement();
+      
+      position = this._getOffsetForKnob(position);
+      
+      qx.bom.element.Style.set(element, "width", width - (width - position) + "px");
     },
 
 
     /**
-     * Sets the knob positon based on the give percent value.
-     *
-     * @param percent {Float} The knob position
+     * Determines whether the knob position needs an offset.
+     * This offset is needed for preventing the knob to be shown outside the
+     * range.
+     * 
+     * @param position {Integer} The knob position
+     * @return {Integer} The adjusted knob position.
      */
-    _setKnobPosition : function(percent)
-    {
-      var knobElement = this._getKnobElement();
-      if (knobElement)
-      {
-        qx.bom.element.Style.set(knobElement, "left", percent + "%");
-        // Fix knob position, so that it can't be moved over the slider area
-        var knobWidth = this._knobWidth || qx.bom.element.Dimension.getWidth(knobElement);
-        var marginLeft = knobWidth * (percent / 100);
-        qx.bom.element.Style.set(knobElement, "marginLeft", "-" + marginLeft + "px");
-      }
+    _getOffsetForKnob : function(position) {
+      var offset = 10;
+      if(position < offset) {
+        return offset;
+      } else if (position > this._containerElementWidth - offset) {
+        return this._containerElementWidth - offset;
+      } 
+      
+      return position;
     },
 
 

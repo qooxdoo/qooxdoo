@@ -672,11 +672,10 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
 .selectbox-unselected > .list-itemimage {
   display: none; }
 
+.ios .slider {
+  -webkit-backface-visibility: hidden; }
+
 .slider {
-  -webkit-backface-visibility: hidden;
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding-box;
-  background-clip: padding-box;
   position: relative;
   top: 6px;
   overflow: visible;
@@ -687,16 +686,22 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   height: 15px; }
 
 .slider > div {
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding-box;
-  background-clip: padding-box;
+  -webkit-border-radius: 0.6em;
+  -moz-border-radius: 0.6em;
+  border-radius: 0.6em;
+  height: 100%;
+  pointer-events: none;
+  position: relative; }
+
+.slider > div:after {
+  content: "";
+  display: block;
   position: absolute;
   background-color: #fff;
-  position: relative;
-  top: -6px;
-  left: 0%;
   height: 25px;
   width: 25px;
+  top: -6px;
+  right: -12.5px;
   -webkit-border-radius: 50px;
   -moz-border-radius: 50px;
   border-radius: 50px; }
@@ -722,7 +727,7 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   display: block;
   cursor: pointer;
   width: 84px;
-  height: 100%;
+  height: 27px;
   line-height: 27px;
   font-size: 15.5px;
   font-weight: bold;
@@ -1267,18 +1272,22 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   margin-top: 20px; }
 
 .slider {
-  border-bottom: 1px solid #d6d6d6;
-  border-top: 1px solid #929292;
-  border-left: 1px solid #b5b5b5;
-  border-right: 1px solid #b5b5b5;
-  height: 15px;
-  background: -webkit-gradient(linear, left top, left bottom, from(#929292), color-stop(0.05, #bbbbbb), color-stop(0.5, #f6f6f6), to(#f9f9f9)) 0px 0px no-repeat, -webkit-gradient(linear, left top, left bottom, from(#007fea), color-stop(0.05, #6db5f3), color-stop(0.8, #007fea), to(#0056a1)) 0px 0px no-repeat;
-  background: -webkit-linear-gradient(top, #929292, #bbbbbb 5%, #f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -webkit-linear-gradient(top, #007fea, #6db5f3 5%, #007fea 90%, #0056a1) 0px 0px no-repeat;
-  background: -moz-linear-gradient(top, #929292, #bbbbbb 5%, #f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -moz-linear-gradient(top, #007fea, #6db5f3 5%, #007fea 90%, #0056a1) 0px 0px no-repeat;
-  background: linear-gradient(to bottom, #929292, #bbbbbb 5%, #f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, linear-gradient(to bottom, #007fea, #6db5f3 5%, #007fea 90%, #0056a1) 0px 0px no-repeat; }
+  -moz-box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.4), inset 0 8px 1px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.4), inset 0 8px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.4), inset 0 8px 1px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  border: 1px solid #d6d6d6; }
 
 .slider > div {
-  border: 1px solid #E8E8E8;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#007fea), color-stop(5%, #6db5f3), color-stop(90%, #007fea), to(#0056a1));
+  background-image: -webkit-linear-gradient(top, #007fea, #6db5f3 5%, #007fea 90%, #0056a1);
+  background-image: -moz-linear-gradient(top, #007fea, #6db5f3 5%, #007fea 90%, #0056a1);
+  background-image: linear-gradient(to bottom, #007fea, #6db5f3 5%, #007fea 90%, #0056a1); }
+
+.slider > div:after {
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
   -webkit-box-shadow: 0 0 2px black;
   -moz-box-shadow: 0 0 2px black;
   box-shadow: 0 0 2px black;
@@ -1289,7 +1298,8 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   background-image: -moz-linear-gradient(top, #cfcfcf, #fdfdfd);
   /* FF 3@mixin 6+ */
   background-image: linear-gradient(to bottom, #cfcfcf, #fdfdfd);
-  /* Standard (in flux) */ }
+  /* Standard (in flux) */
+  border: 1px solid #E8E8E8; }
 
 .tabBar {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#232323), color-stop(50%, #111111), color-stop(51%, black), to(black));

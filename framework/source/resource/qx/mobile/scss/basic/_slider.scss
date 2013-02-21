@@ -2,11 +2,12 @@
 // SLIDER
 //
 
-.slider {
+.ios .slider {
   // iOS6 flickering bug fix
   -webkit-backface-visibility: hidden;
- 
-  @include background-clip(padding-box);
+}
+
+.slider {
   position: relative;
   top:6px;
   overflow: visible;
@@ -16,18 +17,29 @@
   height: 15px;
 }
 
+// Progress Indicator
 .slider > div {
-  @include background-clip(padding-box);
+  @include border-radius(.6em);
+
+  height: 100%;
+  pointer-events:none;
+  position:relative;
+}
+
+// Knob
+.slider > div:after { 
+  content: "";
+  display: block;
+
   position: absolute;
   background-color:#fff;
-
-  position:relative;
-  top: -6px;
-  left: 0%;  
 
   $size:25px;
   height:$size;
   width:$size;
+
+  top: -6px;
+  right: -1*$size/2;
 
   @include border-radius($size*2);
 }

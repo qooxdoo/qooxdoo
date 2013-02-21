@@ -279,29 +279,22 @@ $scGradientVerticalOffset:15px;
 //
 
 .slider {
-  border-bottom: 1px solid #d6d6d6;
-  border-top: 1px solid #929292;
-  border-left: 1px solid #b5b5b5;
-  border-right: 1px solid #b5b5b5;
-  height: 15px;
+  @include box-inset-multi-shadow(0 2px 2px rgba(0,0,0,0.4), 0 8px 1px rgba(0,0,0,0.1));
 
-  $color-stop-active-1: #007FEA;
-  $color-stop-active-2: #6db5f3;
-  $color-stop-active-3: #007FEA;
-  $color-stop-active-4: #0056A1;
-
-  background: -webkit-gradient(linear, left top, left bottom, from(#929292), color-stop(0.05, #bbbbbb), color-stop(0.5, #f6f6f6), to(#f9f9f9)) 0px 0px no-repeat, -webkit-gradient(linear,left top,left bottom,from( $color-stop-active-1), color-stop(0.05,  $color-stop-active-2), color-stop(0.8,  $color-stop-active-3), to( $color-stop-active-4)) 0px 0px no-repeat;
-  background: -webkit-linear-gradient(top, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -webkit-linear-gradient(top,  $color-stop-active-1,  $color-stop-active-2 5%, $color-stop-active-3 90%, $color-stop-active-4) 0px 0px no-repeat;
-  background: -moz-linear-gradient(top, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, -moz-linear-gradient(top, $color-stop-active-1, $color-stop-active-2 5%,$color-stop-active-3 90%, $color-stop-active-4) 0px 0px no-repeat;
-  background: linear-gradient(to bottom, #929292, #bbbbbb 5%,#f6f6f6 50%, #f9f9f9) 0px 0px no-repeat, linear-gradient(to bottom, $color-stop-active-1, $color-stop-active-2 5%,$color-stop-active-3 90%, $color-stop-active-4) 0px 0px no-repeat;
+  background-color: white;
+  border: 1px solid #d6d6d6;
 }
 
 .slider > div {
-  border: 1px solid #E8E8E8;
+  @include gradient-vertical-four(#007FEA, #6db5f3,#007FEA,#0056A1, 5%, 90%);
+}
 
+.slider > div:after {
+  @include border-radius(50px);
   @include box-shadow(0 0 2px $shadow-color);
+  @include gradient-vertical(#cfcfcf, #fdfdfd);
   
-  @include gradient-vertical(#cfcfcf,#fdfdfd);
+  border: 1px solid #E8E8E8;
 }
 
 //

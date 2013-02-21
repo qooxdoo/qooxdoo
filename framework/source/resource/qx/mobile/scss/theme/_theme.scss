@@ -121,6 +121,10 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   @include border-radius($input-border-radius);
 }
 
+input, textarea { 
+  font-family: $application-font; 
+}
+
 .scroll-container textarea {
   @include border-radius(0);
   border:2px solid transparent;
@@ -397,8 +401,8 @@ $arrow-size: 12px;
 .tabButton.active, .tabButton.selected {
   border: $border-thickness solid $tabbar-active-background-color;
  
-  $tab-stop-1: lighten($tabbar-active-background-color,20%);
-  $tab-stop-2: lighten($tabbar-active-background-color,5%);
+  $tab-stop-1: lighten($tabbar-active-background-color, 20%);
+  $tab-stop-2: lighten($tabbar-active-background-color, 5%);
   $tab-stop-3: $tabbar-active-background-color;
   
   @include gradient-vertical-five($tab-stop-1, $tab-stop-2, $tab-stop-2, $tab-stop-3, $tab-stop-3, 4%, 49%, 53%);
@@ -408,48 +412,33 @@ $arrow-size: 12px;
 // SLIDER
 //
 
-.slider > div {
-  @include border-radius($slider-knob-border-radius);
-  
- @include box-shadow(0 0 2px $shadow-color);
-  
-  border: $border-thickness solid #E8E8E8;
-  
-  @include gradient-vertical(#cfcfcf, #fdfdfd);
-}
 
 .slider {
   @include border-radius($slider-border-radius);
+  @include box-inset-multi-shadow(0 2px 2px rgba(0,0,0,0.4), 0 8px 1px rgba(0,0,0,0.1));
 
-  $color-stop-active-1: $slider-active-area-color;
-  $color-stop-active-2: lighten($slider-active-area-color, 20%);
-  $color-stop-active-3: $color-stop-active-1;
-  $color-stop-active-4: $color-stop-active-2;
+  background-color: $slider-background-color;
+  border: $border-thickness solid $slider-border-color;
+}
 
-  $color-stop-inactive-1: #929292;
-  $color-stop-inactive-2: #bbbbbb;
-  $color-stop-inactive-3: #f6f6f6;
-  $color-stop-inactive-4: #f9f9f9;
+.slider > div {
+  $color-stop-active-1: lighten($slider-active-area-color, 20%);
+  $color-stop-active-2: $slider-active-area-color;
+  @include gradient-vertical($color-stop-active-1, $color-stop-active-2);
+}
 
-  border-bottom: $border-thickness solid #d6d6d6;
-  border-top: $border-thickness solid #929292;
-  border-left: $border-thickness solid #b5b5b5;
-  border-right: $border-thickness solid #b5b5b5;
+.slider > div:after {
+  @include border-radius($slider-knob-border-radius);
+  @include box-shadow(0 0 2px $shadow-color);
+  @include gradient-vertical(#cfcfcf, #fdfdfd);
+  
+  border: $border-thickness solid $slider-border-color;
 
-  background: -webkit-gradient(linear, left top, left bottom, from($color-stop-inactive-1), color-stop(0.05, $color-stop-inactive-2), color-stop(0.5, $color-stop-inactive-3), to($color-stop-inactive-4)) 0px 0px no-repeat, -webkit-gradient(linear,left top,left bottom,from( $color-stop-active-1), color-stop(0.05,  $color-stop-active-2), color-stop(0.8,  $color-stop-active-3), to( $color-stop-active-4)) 0px 0px no-repeat;
-  background: -webkit-linear-gradient(top, $color-stop-inactive-1, $color-stop-inactive-2 5%,$color-stop-inactive-3 50%, $color-stop-inactive-4) 0px 0px no-repeat, -webkit-linear-gradient(top,  $color-stop-active-1,  $color-stop-active-2 5%, $color-stop-active-3 90%, $color-stop-active-4) 0px 0px no-repeat;
-  background: -moz-linear-gradient(top, $color-stop-inactive-1, $color-stop-inactive-2 5%,$color-stop-inactive-3 50%, $color-stop-inactive-4) 0px 0px no-repeat, -moz-linear-gradient(top, $color-stop-active-1, $color-stop-active-2 5%,$color-stop-active-3 90%, $color-stop-active-4) 0px 0px no-repeat;
-  background: linear-gradient(to bottom, $color-stop-inactive-1, $color-stop-inactive-2 5%,$color-stop-inactive-3 50%, $color-stop-inactive-4) 0px 0px no-repeat, linear-gradient(to bottom, $color-stop-active-1, $color-stop-active-2 5%,$color-stop-active-3 90%, $color-stop-active-4) 0px 0px no-repeat;
 }
 
 //
 // TOGGLEBUTTON
 //
-
-.togglebutton {
-  background-color: $togglebutton-background-color;
-  @include border-radius($togglebutton-border-radius);
-}
 
 .toggleButton {
   background-color: $togglebutton-background-color;
@@ -479,14 +468,14 @@ $arrow-size: 12px;
 }
 
 .toggleButtonSwitch {
+  @include border-radius($togglebutton-border-radius);
+  
   border: $border-thickness solid #E8E8E8;
 
   @include box-shadow(1px 0 2px rgba(0,0,0,0.7));
 
   background: #cfcfcf;
   @include gradient-vertical (#cfcfcf, #fdfdfd);
-  
-  @include border-radius($togglebutton-border-radius);
 }
 
 //
