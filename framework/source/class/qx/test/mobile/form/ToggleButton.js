@@ -30,7 +30,7 @@ qx.Class.define("qx.test.mobile.form.ToggleButton",
 
       this.assertBoolean(button.getValue());
       this.assertTrue(button.getValue());
-      this.assertTrue(qx.bom.element.Class.has(button.getContentElement().childNodes[0], "checked"));
+      this.assertTrue(qx.bom.element.Class.has(button.getContentElement(), "checked"));
 
       this.assertEventFired(button, "changeValue", function() {
         button.setValue(false);
