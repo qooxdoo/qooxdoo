@@ -38,6 +38,9 @@ http.createServer(function (req, res) {
   else if (parsedUrl.pathname == "/graphs") {
     res.writeHead(200, {'Content-Type': 'text/javascript'});
     var files = fs.readdirSync("./graphs");
+    files = files.filter(function(file) {
+      return !!file.match(/\.png$/);
+    });
     res.write('callback(' + JSON.stringify(files) + ');');
   }
 
