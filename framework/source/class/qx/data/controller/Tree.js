@@ -454,13 +454,14 @@ qx.Class.define("qx.data.controller.Tree",
 
       // only build up a new tree if a model is given
       if (this.getModel() != null) {
-        // add a new root node
+        // create a new root node
         var rootNode = this._createItem();
         rootNode.setModel(this.getModel());
-        this.getTarget().setRoot(rootNode);
         // bind the root node
         this.__addBinding(this.getModel(), rootNode);
         this.__updateTreeChildren(rootNode, this.getModel());
+        // assign the new root once the tree has been built
+        this.getTarget().setRoot(rootNode);
       }
     },
 
