@@ -892,11 +892,12 @@ q.ready(function() {
     // wrap method names in the code sample with links to the method's documentation
     var methodNames = jsEl.innerHTML.replace(/\n/g, "").match(/(q?\.[a-z]+)/gi);
     if (methodNames) {
-      methodNames.forEach(function(methodName) {
+      q.array.unique(methodNames).forEach(function(methodName) {
         if (methodName !== header.getParents().getAttribute("id")) {
           var method = q("#" + methodName.replace(/\./g, "\\.").replace(/\$/g, "\\$"));
           if (method.length > 0) {
-            jsEl.innerHTML = jsEl.innerHTML.replace(methodName,
+            var codeEl = q(jsEl).find("code")[0];
+            codeEl.innerHTML = codeEl.innerHTML.replace(methodName,
               '<a href="#' + methodName + '">' + methodName + '</a>');
           }
         }
