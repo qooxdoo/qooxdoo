@@ -93,7 +93,6 @@ addSample(".filter", {
         '  color: red;',
         '}'],
   javascript: function() {
-    // change the style of all even elements
     // remember regarding odd/even: counting begins at 0
     q("li").filter(":even").addClass("even");
   },
@@ -149,7 +148,7 @@ addSample(".slice", {
         '}'],
   javascript: function() {
     var collection = q("li").slice(1,3).addClass("selected");
-    // (collection.length == 2) => item 2, item 3
+    // (collection.length === 2) => item 2, item 3
   },
   executable: true
 });
@@ -163,10 +162,10 @@ addSample(".splice", {
          '</ul>'],
   javascript: function() {
     var collection = q("li");
-    // (collection.length == 4)
+    // (collection.length === 4)
     var removed = collection.splice(1,2);
-    // (removed.length == 3) => item 2, item 3, item 4
-    // (collection.length == 1) => item 1
+    // (removed.length === 3) => item 2, item 3, item 4
+    // (collection.length === 1) => item 1
   }
 });
 
