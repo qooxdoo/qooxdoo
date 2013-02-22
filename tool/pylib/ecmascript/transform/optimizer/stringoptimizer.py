@@ -162,3 +162,42 @@ def replacement(stringList):
     repl += [';']
 
     return ''.join(repl)
+
+##
+# Interface function.
+#
+def stringOptimizer(tree, id_):
+    # string optimization works over a list of statements,
+    # so extract the <file>'s <statements> node
+    statementsNode = tree.getChild("statements")
+    stringMap = search(statementsNode)
+
+    if len(stringMap) == 0:
+        return tree
+
+    stringList = sort(stringMap)
+    replace(statementsNode, stringList)
+
+    # TODO: Re-write this using treeutil.ensureClosureWrapper()
+    # Build JS string fragments
+    stringStart = "(function(){"
+    stringReplacement = replacement(stringList)
+    stringStop = "})();"
+
+    # Compile wrapper node
+    wrapperNode = treeutil.compileString(stringStart+stringReplacement+stringStop, id_ + "||stringopt")
+
+    # Reorganize structure
+    funcStatements = (wrapperNode.getChild("operand").getChild("group").getChild("function")
+                .getChild("body").getChild("block").getChild("statements"))
+    if statementsNode.hasChildren():
+        for child in statementsNode.children[:]:
+            statementsNode.removeChild(child)
+            funcStatements.addChild(child)
+
+    # Add wrapper to now empty statements node
+    statementsNode.addChild(wrapperNode)
+
+    return tree
+
+

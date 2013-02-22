@@ -348,14 +348,14 @@ class MClassCode(object):
                 privateoptimizer.patch(tree, id, privatesMap)
                 write_privates(privatesMap)
 
+            if "globals" in optimize:
+                tree = globalsoptimizer.process(tree) # need to re-assign as this optimizer might change the root node
+
             if "strings" in optimize:
-                tree = self._stringOptimizer(tree)
+                tree = stringoptimizer.stringOptimizer(tree, self.id)
 
             if "variables" in optimize:
                 variableoptimizer.search(tree)
-
-            if "globals" in optimize:
-                tree = globalsoptimizer.process(tree) # need to re-assign as this optimizer might change the root node
 
             return tree
 
@@ -406,41 +406,6 @@ class MClassCode(object):
         optimize = copy.copy(optimize)
         optimize.sort()
         return "[%s]" % ("-".join(optimize))
-
-
-    def _stringOptimizer(self, tree):
-        # string optimization works over a list of statements,
-        # so extract the <file>'s <statements> node
-        statementsNode = tree.getChild("statements")
-        stringMap = stringoptimizer.search(statementsNode)
-
-        if len(stringMap) == 0:
-            return tree
-
-        stringList = stringoptimizer.sort(stringMap)
-        stringoptimizer.replace(statementsNode, stringList)
-
-        # TODO: Re-write this using treeutil.ensureClosureWrapper()
-        # Build JS string fragments
-        stringStart = "(function(){"
-        stringReplacement = stringoptimizer.replacement(stringList)
-        stringStop = "})();"
-
-        # Compile wrapper node
-        wrapperNode = treeutil.compileString(stringStart+stringReplacement+stringStop, self.id + "||stringopt")
-
-        # Reorganize structure
-        funcStatements = (wrapperNode.getChild("operand").getChild("group").getChild("function")
-                    .getChild("body").getChild("block").getChild("statements"))
-        if statementsNode.hasChildren():
-            for child in statementsNode.children[:]:
-                statementsNode.removeChild(child)
-                funcStatements.addChild(child)
-
-        # Add wrapper to now empty statements node
-        statementsNode.addChild(wrapperNode)
-
-        return tree
 
 
 
