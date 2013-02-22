@@ -1,29 +1,37 @@
-addSample(".addClass", function() {
-  if (active) {
-    // show loading indicator
-    q('#dependency-loading-indicator').removeClass('hidden');
-  } else {
-    // hide loading indicator
-    q('#dependency-loading-indicator').addClass('hidden');
-  }
+addSample(".addClass", {
+  html: ['<ul>',
+         '  <li class="pristine">item 1</li>',
+         '  <li>item 2</li>',
+         '  <li>item 3</li>',
+         '</ul>'],
+  css: ['.pristine {',
+        '  color: blue;',
+        '}',
+        '.edited {',
+        '  color: red;',
+        '}'],
+  javascript: function() {
+    q(":not(li.pristine)").addClass("edited");
+  },
+  executable: true
 });
 
 addSample(".addClasses", {
   html: ['<ul>',
-         '  <li>item 0</li>',
+         '  <li class="hint">item 0</li>',
          '  <li>item 1</li>',
          '  <li>item 2</li>',
-         '  <li class="hint">item 3</li>',
+         '  <li>item 3</li>',
          '</ul>'],
   css: ['.hint {',
         '  color: red;',
         '}',
-        '.hint.even {',
-        '  color: blue;',
+        '.hint.odd {',
+        '  background-color: #ffe;',
         '}'],
   javascript: function() {
     // remember regarding odd/even: counting begins at 0
-    q("li:even").addClasses(["hint", "even"]);
+    q("li:odd").addClasses(["hint", "odd"]);
   },
   executable: true
 });
@@ -76,7 +84,122 @@ addSample(".getStyles", {
         '}'],
   javascript: function() {
     var styles = q("li").getStyles(["color", "padding-left"]);
-    // styles === {"color":"rgb(255, 0, 0)", "padding-left": "10px"} => wtf :D
+    // styles === {"color":"rgb(255, 0, 0)",
+    //             "padding-left": "10px"}
+  },
+  executable: true
+});
+
+addSample(".hasClass", {
+  html: ['<ul>',
+         '  <li class="selected">item 1</li>',
+         '  <li>item 2</li>',
+         '  <li>item 3</li>',
+         '</ul>'],
+  css: [
+        '.selected {',
+        '  color: red;',
+        '}'],
+  javascript: function() {
+    var isFirstSelected = q("li").hasClass("selected");
+    // (isFirstSelected === true)
+    var isLastSelected = q("li:last").hasClass("selected");
+    // (isLastSelected === false)
+  }
+});
+
+addSample(".hide", {
+  html: ['<ul>',
+         '  <li>item 1</li>',
+         '  <li>item 2</li>',
+         '  <li>item 3</li>',
+         '</ul>'],
+  javascript: function() {
+    q("li:nth(1)").hide();
+  },
+  executable: true
+});
+
+addSample(".removeClass", {
+  html: ['<ul>',
+         '  <li class="hint red">item 1</li>',
+         '  <li class="red">item 2</li>',
+         '  <li class="blue">item 3</li>',
+         '  <li>item 4</li>',
+         '</ul>'],
+  css: [
+        '.hint {',
+        '  background-color: #ffe;',
+        '}',
+        '.red {',
+        '  color: red;',
+        '}',
+        '.blue {',
+        '  color: blue;',
+        '}'],
+  javascript: function() {
+    q("li").removeClass("red");
+  },
+  executable: true
+});
+
+addSample(".removeClasses", {
+  html: ['<ul>',
+         '  <li class="hint red">item 1</li>',
+         '  <li class="red">item 2</li>',
+         '  <li class="blue">item 3</li>',
+         '  <li>item 4</li>',
+         '</ul>'],
+  css: [
+        '.hint {',
+        '  background-color: #ffe;',
+        '}',
+        '.red {',
+        '  color: red;',
+        '}',
+        '.blue {',
+        '  color: blue;',
+        '}'],
+  javascript: function() {
+    q("li").removeClasses(["red", "blue"]);
+  },
+  executable: true
+});
+
+addSample(".replaceClass", {
+  html: ['<ul>',
+         '  <li class="hint red">item 1</li>',
+         '  <li class="red">item 2</li>',
+         '  <li class="blue">item 3</li>',
+         '  <li>item 4</li>',
+         '</ul>'],
+  css: [
+        '.hint {',
+        '  background-color: #ffe;',
+        '}',
+        '.red {',
+        '  color: red;',
+        '}',
+        '.blue {',
+        '  color: blue;',
+        '}',
+        '.green {',
+        '  color: green;',
+        '}'],
+  javascript: function() {
+    q("li").replaceClass("red", "green");
+  },
+  executable: true
+});
+
+addSample(".setStyle", {
+  html: ['<ul>',
+         '  <li>item one</li>',
+         '  <li>item two</li>',
+         '  <li>item three</li>',
+         '</ul>'],
+  javascript: function() {
+    q("li:contains(two)").setStyle("color", "red");
   },
   executable: true
 });
@@ -94,6 +217,39 @@ addSample(".setStyles", {
       "background-color": "#ffe"
     };
     q("li").setStyles(stylesMap);
+  },
+  executable: true
+});
+
+addSample(".toggleClass", {
+  html: ['<ul>',
+         '  <li class="selected">item 1</li>',
+         '  <li class="selected">item 2</li>',
+         '  <li>item 3</li>',
+         '  <li>item 4</li>',
+         '</ul>'],
+  css: ['.selected {',
+        '  color: red;',
+        '}'],
+  javascript: function() {
+    q("li").toggleClass("selected");
+  },
+  executable: true
+});
+
+addSample(".show", {
+  html: ['<ul>',
+         '  <li>item 1</li>',
+         '  <li>item 2</li>',
+         '  <li class="hidden">item 3</li>',
+         '  <li>item 4</li>',
+         '</ul>'],
+  css: ['.hidden {',
+        '  display: none;',
+        '}'],
+  javascript: function() {
+    q("li:first").hide();
+    q("li").show();
   },
   executable: true
 });
