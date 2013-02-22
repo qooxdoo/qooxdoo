@@ -96,8 +96,12 @@ class GlobalsOptimizer(scopes.ScopeVisitor):
             self.visit(child)
 
 def propagate_new_globals(node, new_symbols, globals_map):
+    #  assuming a container <node>, like <file> or <block>
     # make sure there is a wrapping closure
-    node, closure_block = treeutil.ensureClosureWrapper([node])
+    stmtsNode = node.getChild("statements")
+    new_node, closure_block = treeutil.ensureClosureWrapper(stmtsNode.children)
+    stmtsNode.removeAllChildren()
+    stmtsNode.addChild(new_node)
 
     # add new statements at end
     for new_symbol in new_symbols:

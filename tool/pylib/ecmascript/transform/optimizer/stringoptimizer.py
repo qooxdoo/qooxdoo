@@ -48,7 +48,8 @@ def search_loop(node, stringMap={}, verbose=False):
         else:
             stringMap[value] = 1
 
-    if check(node, verbose):
+    #if check(node, verbose):
+    if 1:
         for child in node.children:
             search_loop(child, stringMap, verbose)
 
@@ -75,16 +76,18 @@ def check(node, verbose=True):
         cu = node
         nx = cu.getChild("operand", False)
 
-        if nx != None:
-            cu = nx
+        if nx.isVar():
 
-        all_ = cu.getAllChildrenOfType("identifier")
+            if nx != None:
+                cu = nx
 
-        for ch in all_:
-            if ch.get("value", '') in ["debug", "info", "warn", "error", "fatal", "Error", "alert"]:
-                if verbose:
-                    print "      - Ignore output statement at line: %s" % ch.get("line")
-                return False
+            all_ = cu.getAllChildrenOfType("identifier")
+
+            for ch in all_:
+                if ch.get("value", '') in ["debug", "info", "warn", "error", "fatal", "Error", "alert"]:
+                    if verbose:
+                        print "      - Ignore output statement at line: %s" % ch.get("line")
+                    return False
 
     # Try to find all constant assignments (ns.UPPER = string)
     elif node.type == "assignment":
@@ -145,7 +148,8 @@ def replace(node, stringList, var="$", verbose=False):
                 node.parent.replaceChild(node, replacement_ident)
                 break
 
-    if check(node, verbose):
+    #if check(node, verbose):
+    if 1:
         for child in node.children:
             replace(child, stringList, var, verbose)
 
@@ -167,36 +171,29 @@ def replacement(stringList):
 # Interface function.
 #
 def stringOptimizer(tree, id_):
-    # string optimization works over a list of statements,
-    # so extract the <file>'s <statements> node
+    # assuming a <file> or <block> node
     statementsNode = tree.getChild("statements")
-    stringMap = search(statementsNode)
 
+    # create a map for strings to var names
+    stringMap = search(statementsNode)
     if len(stringMap) == 0:
         return tree
 
+    # apply the vars
     stringList = sort(stringMap)
     replace(statementsNode, stringList)
 
-    # TODO: Re-write this using treeutil.ensureClosureWrapper()
-    # Build JS string fragments
-    stringStart = "(function(){"
+    # create a 'var' decl for the string vars
     stringReplacement = replacement(stringList)
-    stringStop = "})();"
+    repl_tree = treeutil.compileString(stringReplacement, id_ + "||stringopt")
 
-    # Compile wrapper node
-    wrapperNode = treeutil.compileString(stringStart+stringReplacement+stringStop, id_ + "||stringopt")
+    # ensure a wrapping closure
+    closure, closure_block = treeutil.ensureClosureWrapper(statementsNode.children)
+    statementsNode.removeAllChildren()
+    statementsNode.addChild(closure)
 
-    # Reorganize structure
-    funcStatements = (wrapperNode.getChild("operand").getChild("group").getChild("function")
-                .getChild("body").getChild("block").getChild("statements"))
-    if statementsNode.hasChildren():
-        for child in statementsNode.children[:]:
-            statementsNode.removeChild(child)
-            funcStatements.addChild(child)
-
-    # Add wrapper to now empty statements node
-    statementsNode.addChild(wrapperNode)
+    # add 'var' decl to closure
+    closure_block.addChild(repl_tree, 0)  # 'var ...'; decl to front of statement list
 
     return tree
 

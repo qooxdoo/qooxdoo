@@ -206,7 +206,11 @@ class Node(object):
     def removeChild(self, childNode):
         if self.children:
             self.children.remove(childNode)
-            childNode.parent = None
+            #childNode.parent = None
+
+    def removeAllChildren(self):
+        for child in self.children[:]:
+            self.children.remove(child)
 
     def replaceChild(self, oldChild, newChild):
         if self.children:

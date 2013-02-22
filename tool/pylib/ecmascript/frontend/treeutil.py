@@ -807,19 +807,24 @@ def isKeyValue(node):
 # <nodes> - [node1, node2, ...]
 #           nodeX is assumed to start with a <file> node
 #
-wrapper_statements_path = "statements/call/operand/group/function/body/block/statements"
-def has_closure_wrapper(node):
-    return selectNode(node, wrapper_statements_path)  # if this succeeds, there is a top-level wrapper
+wrapper_statements_path = "operand/group/function/body/block/statements"
+
+def is_closure_wrapped(node):
+    return (node.type == "call"
+        and selectNode(node, wrapper_statements_path))  # if this succeeds, there is a top-level wrapper
+
 def ensureClosureWrapper(nodes):
     if not nodes:
         return None, None
+    # check if we have a closure wrapper already
     if len(nodes) == 1:
-        closure_statements = has_closure_wrapper(nodes[0])
+        closure_statements = is_closure_wrapped(nodes[0])
         if closure_statements:
             return nodes[0], closure_statements
-    new_tree = treegenerator.createFileTree_from_string("(function(){})();")
+    # create a closure wrapper and attach argument nodes
+    new_tree = treegenerator.parse("(function(){})();").getChild("call")
     closure_statements = selectNode(new_tree, wrapper_statements_path)
-    for node in nodes:
+    for node in nodes[:]:
         closure_statements.addChild(node)
     return new_tree, closure_statements
 
