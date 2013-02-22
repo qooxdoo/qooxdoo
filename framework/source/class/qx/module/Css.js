@@ -281,8 +281,8 @@ qx.Bootstrap.define("qx.module.Css", {
      * document dimensions.
      *
      * @attach {qxWeb}
-     * @return {Map} A map with the keys <code>left<code/>, <code>top<code/>,
-     * <code>right<code/> and <code>bottom<code/> which contains the distance
+     * @return {Map} A map with the keys <code>left</code>, <code>top</code>,
+     * <code>right</code> and <code>bottom</code> which contains the distance
      * of the element relative to the document.
      */
     getOffset : function() {
