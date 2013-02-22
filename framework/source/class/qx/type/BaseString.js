@@ -387,7 +387,8 @@ qx.Class.define("qx.type.BaseString",
        'toLowerCase',
        'toUpperCase',
        'toLocaleLowerCase',
-       'toLocaleUpperCase'
+       'toLocaleUpperCase',
+       'trim'
      ];
 
      // feature/bug detection:
