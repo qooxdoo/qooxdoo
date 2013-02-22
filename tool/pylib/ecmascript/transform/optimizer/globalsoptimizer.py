@@ -132,6 +132,10 @@ def seed_globals_map(check_set=None, globals_map=None):
         gmap.add(symbol)
     return gmap
 
+##
+# Global values that may be aliased and are available cross-browser.
+#
+# these make actually only sense if the alias is not longer as the original symbol!
 universal_globals = [
     'window',
     'Boolean',
@@ -146,6 +150,7 @@ universal_globals = [
     'Object',
     'RegExp',
     'String',
+    'undefined',
 ]
 def reverse_globals_map():
     gmap = GlobalsMap(template='%s')
