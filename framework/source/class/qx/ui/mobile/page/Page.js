@@ -399,7 +399,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
      * Fires the <code>wait</code> event.
      */
     wait : function() {
-      this._resume();
+      this._wait();
       this.fireEvent("wait");
     },
 
