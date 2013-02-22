@@ -152,7 +152,10 @@ qx.Class.define("qx.ui.mobile.page.Page",
     "back" : "qx.event.type.Data",
 
     /** Fired when the method {@link #menu} is called */
-    "menu" : "qx.event.type.Event"
+    "menu" : "qx.event.type.Event",
+    
+    /** Fired when the method {@link #wait} is called */
+    "wait" : "qx.event.type.Event"
   },
 
 
@@ -385,6 +388,29 @@ qx.Class.define("qx.ui.mobile.page.Page",
      * @see #resume
      */
     _resume : function()
+    {
+
+    },
+    
+    
+    /**
+     * Lifecycle method. Not used right now. Should be called when the current page
+     * waits for data request etc.
+     * Fires the <code>wait</code> event.
+     */
+    wait : function() {
+      this._resume();
+      this.fireEvent("wait");
+    },
+
+
+    /**
+     * Override this method if you would like to perform a certain action when wait
+     * is called.
+     *
+     * @see #wait
+     */
+    _wait : function()
     {
 
     }
