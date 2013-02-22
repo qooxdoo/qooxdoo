@@ -132,7 +132,7 @@ addSample(".map", {
       return elem.id;
     });
 
-    q("#result").append("&lt;li&gt;"+ids.join(" *** ")+"&lt;/li&gt;");
+    q("#result").append("<li>"+ids.join(" *** ")+"</li>");
   },
   executable: true
 });
