@@ -35,6 +35,7 @@ from ecmascript.frontend        import tokenizer, treegenerator, treegenerator_3
 from ecmascript.backend         import formatter_3
 from ecmascript.backend.Packer  import Packer
 from ecmascript.transform.optimizer    import privateoptimizer
+#from ecmascript.transform.optimizer    import globalsoptimizer
 from misc                       import filetool, json, Path, securehash as sha, util
 from misc.ExtMap                import ExtMap
 from misc.Path                  import OsPath, Uri
@@ -102,6 +103,11 @@ class CodeGenerator(object):
             vals["Resources"]    = json.dumpsCode({})  # just init with empty map
             vals["Translations"] = json.dumpsCode(dict((l,None) for l in script.locales))  # init with configured locales
             vals["Locales"]      = json.dumpsCode(dict((l,None) for l in script.locales))
+
+            # A table of alias names to global symbols like 'Date', 'Array', etc.
+            # (for 'globals' optimization) - currently not used as the list of those
+            # global symbols that are truely cross-browser is rather short.
+            #vals["GlobalsTable"] = loaderGlobalsTable(script)
 
             # Name of the boot part
             vals["Boot"] = loaderBootName(script, compConf)
@@ -237,6 +243,20 @@ class CodeGenerator(object):
 
         def loaderBootName(script, compConf):
             return '"%s"' % script.boot
+
+
+        #def loaderGlobalsTable(script):
+        #    if "globals" not in script.optimize:
+        #        return "{}"
+        #    else:
+        #        gm = globalsoptimizer.reverse_globals_map()
+        #        gm_str = ['{']
+        #        items = []
+        #        for k,v in gm.items():
+        #            items.append("%s:%s" % (k,v))
+        #        gm_str.append( u','.join(items))
+        #        gm_str.append('}')
+        #        return u''.join(gm_str)
 
 
         ##
@@ -1257,6 +1277,7 @@ class CodeGenerator(object):
         return variats
 
 
+
     ##
     # Get translation and locale data from all involved classes, and attach it
     # to the corresponding packages.
@@ -1309,7 +1330,6 @@ class CodeGenerator(object):
 
         self._console.outdent()
         return
-
 
 
     def generateLibInfoCode(self, libs, format, forceResourceUri=None, forceScriptUri=None):

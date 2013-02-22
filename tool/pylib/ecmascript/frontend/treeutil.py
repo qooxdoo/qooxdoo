@@ -78,9 +78,12 @@ def isQxDefine(node):
         if variableName in lang.QX_CLASS_FACTORIES:
             if node.hasParentContext("call/operand"):
                 className = selectNode(node, "../../arguments/1")
-                if className and className.type == "constant":
-                    className = className.get("value", None)
-                    className = None if className == False else className
+                if className:
+                    if className.type == "constant":
+                        className = className.get("value", None)
+                        className = None if className == False else className
+                    else:
+                        className = None
                 return True, className, variableName
 
     return False, None, ""
@@ -817,7 +820,7 @@ def ensureClosureWrapper(nodes):
     new_tree = treegenerator.createFileTree_from_string("(function(){})();")
     closure_statements = selectNode(new_tree, wrapper_statements_path)
     for node in nodes:
-        closure_statements.append(node)
+        closure_statements.addChild(node)
     return new_tree, closure_statements
 
 ##

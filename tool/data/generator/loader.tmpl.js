@@ -16,6 +16,7 @@ qx.$$resources = %{Resources};
 qx.$$translations = %{Translations};
 qx.$$locales = %{Locales};
 qx.$$packageData = {};
+qx.$$g = {}
 
 qx.$$loader = {
   parts : %{Parts},

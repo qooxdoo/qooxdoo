@@ -33,6 +33,7 @@ from ecmascript.transform.check     import scopes, lint, load_time
 from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, commentoptimizer
 from ecmascript.transform.optimizer import stringoptimizer, basecalloptimizer, privateoptimizer
 from ecmascript.transform.optimizer import featureoptimizer
+from ecmascript.transform.optimizer import globalsoptimizer
 from generator import Context
 from misc import util, filetool
 
@@ -352,6 +353,9 @@ class MClassCode(object):
 
             if "variables" in optimize:
                 variableoptimizer.search(tree)
+
+            if "globals" in optimize:
+                tree = globalsoptimizer.process(tree) # need to re-assign as this optimizer might change the root node
 
             return tree
 

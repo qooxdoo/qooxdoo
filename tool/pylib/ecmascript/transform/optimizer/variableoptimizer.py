@@ -118,6 +118,7 @@ class OptimizerVisitor(scopes.ScopeVisitor):
             check_set.update(scope_vars.keys())
         return check_set
 
+    # TODO: re-implement using NameMapper class
     def mapper(self, name, checkset):
         repl = convert(self.counter)
         self.counter += 1
