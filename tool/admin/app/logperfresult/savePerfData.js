@@ -30,6 +30,11 @@ var fs = require("fs");
 // read json file
 var now = new Date();
 var jsonFileName = "data/perf-data-" + now.toISOString().substr(0, 10) + ".json";
+
+if (!fs.existsSync(jsonFileName)) {
+  var yesterday = new Date(now.getTime() - (24 * 60 * 60 * 1000));
+  jsonFileName = "data/perf-data-" + yesterday.toISOString().substr(0, 10) + ".json";
+}
 debug && console.log("Reading perfomance data file", jsonFileName);
 var data = JSON.parse(fs.readFileSync(jsonFileName, "utf8"));
 
