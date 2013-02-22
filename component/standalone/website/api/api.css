@@ -204,3 +204,10 @@ p {
 .samplecode .javascript:before {
   content: "JS";
 }
+
+.samplecode .html code,
+.samplecode .css code,
+.samplecode .javascript code {
+  background-color: #fff;
+  padding: 0;
+}

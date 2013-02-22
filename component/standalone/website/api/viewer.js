@@ -783,7 +783,8 @@ q.ready(function() {
 
     // container element
     var sampleEl = q.create("<div class='sample'></div>");
-    var htmlEl,
+    var pre,
+        htmlEl,
         cssEl,
         jsEl;
 
@@ -817,8 +818,9 @@ q.ready(function() {
     if (sample.html) {
       boxes++;
       sample.html = stringifyArraySnippet(sample.html);
-      htmlEl = q.create("<pre class='html'><code></code></pre>")[0];
-      htmlEl.innerText = sample.html;
+      pre = q.create("<pre class='html'></pre>");
+      q.create("<code>").appendTo(pre)[0].appendChild(document.createTextNode(sample.html));
+      htmlEl = pre[0];
       codeContainer.append(htmlEl);
     }
 
@@ -826,7 +828,9 @@ q.ready(function() {
     if (sample.css) {
       boxes++;
       sample.css = stringifyArraySnippet(sample.css);
-      cssEl = q.create("<pre class='css'><code></code></pre>").setHtml(sample.css)[0];
+      pre = q.create("<pre class='css'></pre>");
+      q.create("<code>").appendTo(pre)[0].appendChild(document.createTextNode(sample.css));
+      cssEl = pre[0];
       codeContainer.append(cssEl);
     }
 
@@ -850,7 +854,9 @@ q.ready(function() {
       sample.javascript = sample.javascript.replace(/\n/, "");
       sample.javascript = sample.javascript.replace(/[\s]+$/, "");
 
-      jsEl = q.create("<pre class='javascript'><code></code></pre>").setHtml(sample.javascript)[0];
+      pre = q.create("<pre class='javascript'></pre>");
+      q.create("<code>").appendTo(pre)[0].appendChild(document.createTextNode(sample.javascript));
+      jsEl = pre[0];
       codeContainer.append(jsEl);
     }
 
