@@ -24,11 +24,13 @@
 ##
 
 from misc.util import convert
+from ecmascript.frontend import lang
 
 class NameMapper(object):
 
     def __init__(self, check_set=None):
         self.check_set = check_set or set()
+        self.check_set.update(lang.RESERVED.keys())  # make sure these are in
         self.counter = 0
 
     def mapper(self, name, check_set=None):

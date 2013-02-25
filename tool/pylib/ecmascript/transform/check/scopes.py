@@ -319,6 +319,14 @@ class Scope(object):
             for vars_ in cld.vars_iterator():
                 yield vars_
 
+    ##
+    # Return a collection of all the var names of nested scopes
+    def all_var_names(self):
+        all_vars = set()
+        for var_map in self.vars_iterator():
+            all_vars.update(var_map.keys())
+        return all_vars
+
 ##
 # A variable occurring in a scope has several places where it is mentioned ('uses'),
 # and among those mentionings potentially one where it is declared.

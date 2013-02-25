@@ -352,7 +352,7 @@ class MClassCode(object):
                 tree = globalsoptimizer.process(tree) # need to re-assign as this optimizer might change the root node
 
             if "strings" in optimize:
-                tree = stringoptimizer.stringOptimizer(tree, self.id)
+                tree = stringoptimizer.process(tree, self.id)
 
             if "variables" in optimize:
                 variableoptimizer.search(tree)

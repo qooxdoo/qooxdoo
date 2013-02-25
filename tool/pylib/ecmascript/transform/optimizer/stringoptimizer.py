@@ -17,41 +17,33 @@
 #  Authors:
 #    * Sebastian Werner (wpbasti)
 #    * Fabian Jakobs (fjakobs)
+#    *Thomas Herchenroeder (thron7)
 #
 ################################################################################
 
 import operator
-from ecmascript.frontend import treeutil
+from misc.NameMapper import NameMapper
+from ecmascript.frontend import treeutil, lang
+from ecmascript.transform.check import scopes
 
 def search(node, verbose=False):
     return search_loop(node, {}, verbose)
 
-
+##
+# Returns {"code_string" : ["", [constant_node,...]]}, {}[0] being a placeholder for the var_name
 def search_loop(node, stringMap={}, verbose=False):
-    #if stringMap is None:
-    #    stringMap = {}
     if node.type == "constant" and node.get("constantType") == "string":
-        if verbose:
-            pvalue = node.get("value")
-            if isinstance(pvalue, unicode):
-                pvalue = pvalue.encode("utf-8")
-            print "      - Found: '%s'" % pvalue
-
-        if node.get("detail") == "singlequotes":
-            quote = "'"
-        elif node.get("detail") == "doublequotes":
-            quote = '"'
-        value = "%s%s%s" % (quote, node.get("value"), quote)
-
-        if value in stringMap:
-            stringMap[value] += 1  # occurrence count?!
+        code_string = node.toJS(None)
+        if code_string in stringMap:
+            stringMap[code_string][1].append(node)
         else:
-            stringMap[value] = 1
+            stringMap[code_string] = ['',[node]]
+        if verbose:
+            print "      - Found: '%s'" % code_string.encode("utf-8")
 
     #if check(node, verbose):
-    if 1:
-        for child in node.children:
-            search_loop(child, stringMap, verbose)
+    for child in node.children:
+        search_loop(child, stringMap, verbose)
 
     return stringMap
 
@@ -113,64 +105,36 @@ def check(node, verbose=True):
     return True
 
 
-def sort(stringMap):
-    stringList = [{"value":x, "number":y} for x,y in stringMap.items()]
-    return sorted(stringList, key=operator.itemgetter("number"))
+def replace(node, stringMap, check_set=set(), verbose=False):
+    mapper = NameMapper(check_set)
+    for cstring,value in stringMap.items():
+        var_name = mapper.mapper(cstring)
+        value[0] = var_name  # memoize var_name in stringMap
+        for node in value[1]:
+            repl_ident = treeutil.compileString(var_name)
+            repl_ident.set("line", node.get("line"))
+            repl_ident.set("column", node.get("column"))
+            node.parent.replaceChild(node, repl_ident)
 
 
-def replace(node, stringList, var="$", verbose=False):
-    if node.type == "constant" and node.get("constantType") == "string":
-        if node.get("detail") == "singlequotes":
-            quote = "'"
-        elif node.get("detail") == "doublequotes":
-            quote = '"'
-        oldvalue = "%s%s%s" % (quote, node.get("value"), quote)
-
-        for pos,item in enumerate(stringList):
-            if item["value"] == oldvalue:
-                newvalue = "%s[%s]" % (var, pos)  # this is only for output, and is bogus
-
-                if verbose:
-                    poldvalue = oldvalue
-                    if isinstance(poldvalue, unicode):
-                        poldvalue = poldvalue.encode("utf-8")
-                    print "    - Replace: %s => %s" % (poldvalue, newvalue)
-
-                line = node.get("line")
-
-
-                # generate identifier
-                replacement_ident = treeutil.compileString("SSSS_%s" % pos)
-                replacement_ident.set("line", node.get("line"))
-                replacement_ident.set("column", node.get("column"))
-
-                # replace node
-                node.parent.replaceChild(node, replacement_ident)
-                break
-
-    #if check(node, verbose):
-    if 1:
-        for child in node.children:
-            replace(child, stringList, var, verbose)
-
-
-
-def replacement(stringList):
-    if len(stringList) == 0:
-        return ""
-
-    repl = []
-    repl += ["var "]
-    a = [('SSSS_%s=%s' % (pos, item["value"])) for pos, item in enumerate(stringList)]
+def replacement(stringMap):
+    repl = ['var ']
+    a = []
+    for cstring, (repl_name,_) in stringMap.items():
+        a.append('%s=%s' % (repl_name,cstring))
     repl += [','.join(a)]
     repl += [';']
-
-    return ''.join(repl)
+    return u''.join(repl)
 
 ##
 # Interface function.
 #
-def stringOptimizer(tree, id_):
+def process(tree, id_):
+    # refresh scopes to get a check-set
+    tree = scopes.create_scopes(tree)
+    check_set = tree.scope.all_var_names()
+    check_set.update(lang.RESERVED.keys())
+
     # assuming a <file> or <block> node
     statementsNode = tree.getChild("statements")
 
@@ -180,11 +144,11 @@ def stringOptimizer(tree, id_):
         return tree
 
     # apply the vars
-    stringList = sort(stringMap)
-    replace(statementsNode, stringList)
+    #stringList = sort(stringMap)
+    replace(statementsNode, stringMap, check_set)
 
     # create a 'var' decl for the string vars
-    stringReplacement = replacement(stringList)
+    stringReplacement = replacement(stringMap)
     repl_tree = treeutil.compileString(stringReplacement, id_ + "||stringopt")
 
     # ensure a wrapping closure
