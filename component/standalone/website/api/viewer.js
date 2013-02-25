@@ -897,7 +897,7 @@ q.ready(function() {
           var method = q("#" + methodName.replace(/\./g, "\\.").replace(/\$/g, "\\$"));
           if (method.length > 0) {
             var codeEl = q(jsEl).find("code")[0];
-            codeEl.innerHTML = codeEl.innerHTML.replace(methodName,
+            codeEl.innerHTML = codeEl.innerHTML.replace(new RegExp(methodName + '\\b'),
               '<a href="#' + methodName + '">' + methodName + '</a>');
           }
         }
