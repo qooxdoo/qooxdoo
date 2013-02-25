@@ -587,8 +587,8 @@ input[type=radio] + label:after {
 
 .toolbar-button {
   color: $toolbar-text-color;
-
-  @include gradient-vertical(lighten($toolbar-background-color, 20%),darken($toolbar-background-color, 20%));
+ 
+  @include gradient-vertical(lighten($toolbar-background-color, 10%), darken($toolbar-background-color, 10%));
   border: $border-thickness solid $toolbar-border-color;
 
   @include border-radius($toolbar-border-radius); 
@@ -596,7 +596,7 @@ input[type=radio] + label:after {
 
 .toolbar-button.active {
   color: $toolbar-active-text-color;
-  @include gradient-vertical(lighten($toolbar-active-background-color, 20%),darken($toolbar-active-background-color, 20%));
+  @include gradient-vertical(lighten($toolbar-active-background-color, 20%),$toolbar-active-background-color); 
 }
 
 //
