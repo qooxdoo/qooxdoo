@@ -27,7 +27,7 @@ addSample(".addClasses", {
         '  color: red;',
         '}',
         '.hint.odd {',
-        '  background-color: #ffe;',
+        '  background-color: #ffd;',
         '}'],
   javascript: function() {
     // remember regarding odd/even: counting begins at 0
@@ -129,7 +129,7 @@ addSample(".removeClass", {
          '</ul>'],
   css: [
         '.hint {',
-        '  background-color: #ffe;',
+        '  background-color: #ffd;',
         '}',
         '.red {',
         '  color: red;',
@@ -152,7 +152,7 @@ addSample(".removeClasses", {
          '</ul>'],
   css: [
         '.hint {',
-        '  background-color: #ffe;',
+        '  background-color: #ffd;',
         '}',
         '.red {',
         '  color: red;',
@@ -175,7 +175,7 @@ addSample(".replaceClass", {
          '</ul>'],
   css: [
         '.hint {',
-        '  background-color: #ffe;',
+        '  background-color: #ffd;',
         '}',
         '.red {',
         '  color: red;',
@@ -214,7 +214,7 @@ addSample(".setStyles", {
     var stylesMap = {
       "color": "red",
       "padding-left": "10px",
-      "background-color": "#ffe"
+      "background-color": "#ffd"
     };
     q("li").setStyles(stylesMap);
   },
@@ -265,7 +265,7 @@ addSample(".toggleClasses", {
         '  color: red;',
         '}',
         '.edited {',
-        '  background-color: #ffe;',
+        '  background-color: #ffd;',
         '}'],
   javascript: function() {
     q("li").toggleClasses(["selected", "edited"]);
