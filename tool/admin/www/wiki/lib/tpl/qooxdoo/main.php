@@ -9,7 +9,7 @@
     <link href="<?php print $conf['assetshost'] ?>/stylesheets/base.css" rel="stylesheet" type="text/css" />
     <link href="<?php print $conf['assetshost'] ?>/stylesheets/layout.css" rel="stylesheet" type="text/css" />
     <link href="<?php print $conf['assetshost'] ?>/stylesheets/pages.css" rel="stylesheet" type="text/css" />
-    
+
     <!-- TODO: Load from script on demand -->
     <link href="<?php print $conf['assetshost'] ?>/stylesheets/shCore.css" rel="stylesheet" type="text/css" />
     <link href="<?php print $conf['assetshost'] ?>/stylesheets/shThemeDefault.css" rel="stylesheet" type="text/css" />
@@ -17,12 +17,30 @@
     <!--[if lt IE 9]>
     <script src="<?php print $conf['assetshost'] ?>/javascripts/html5shiv.js">
     <![endif]-->
-    
+
     <!-- Dokuwiki -->
     <?php tpl_metaheaders()?>
     <link rel="shortcut icon" href="http://resources.qooxdoo.org/images/qx-favicon.png" />
 
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+     <?php if ($ACT == 'show')
+      {
+        // Google Analytics Integration
+        print "<script type='text/javascript'>
+          var _gaq = _gaq || [];
+          _gaq.push(['_setAccount', 'UA-415440-1']);
+          _gaq.push(['_setDomainName', 'qooxdoo.org']);
+          _gaq.push(['_trackPageview']);
+
+          (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+          })();
+        </script>";
+      }
+     ?>
   </head>
   <body id="<?php print str_replace(":", "-", $INFO['id']) ?>" class="<?php print str_replace(":", " ", $INFO['id']) ?> dokuwiki">
 
@@ -105,13 +123,7 @@
     <script src="<?php print $conf['assetshost'] ?>/javascripts/shCore.js"></script>
     <script src="<?php print $conf['assetshost'] ?>/javascripts/shBrushJScript.js"></script>
     <script src="<?php print $conf['assetshost'] ?>/javascripts/application.js"></script>
-    <?php if ($ACT == 'show')
-      {
-        // Google Analytics Integration
-        print '<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>';
-        print '<script type="text/javascript">_uacct = "UA-415440-1"; urchinTracker();</script>';
-      }
-
+    <?php
       // DokuWiki Search Engine?
       //print '<p style="visibility:hidden;height:0">';
       //tpl_indexerWebBug();
