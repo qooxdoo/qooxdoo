@@ -139,7 +139,7 @@ def process(tree, id_):
     statementsNode = tree.getChild("statements")
 
     # create a map for strings to var names
-    stringMap = search(statementsNode)
+    stringMap = search(statementsNode, verbose=False)
     if len(stringMap) == 0:
         return tree
 
