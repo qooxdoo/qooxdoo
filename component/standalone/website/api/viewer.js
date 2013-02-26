@@ -69,6 +69,7 @@ q.ready(function() {
       attachOnScroll();
       if (location.hash) {
         location.href = location.href;
+        __lastHashChange = Date.now();
       }
       else {
         // force a scroll event so the topmost module's samples are loaded
@@ -87,6 +88,11 @@ q.ready(function() {
         q("#warning em").setHtml("File protocol not supported. Please load the application via HTTP.");
       }
     }
+  });
+
+  var __lastHashChange = null;
+  q(window).on("hashchange", function(ev) {
+    __lastHashChange = Date.now();
   });
 
   var loadEventNorm = function() {
@@ -790,6 +796,8 @@ q.ready(function() {
     return snippet;
   };
 
+  __sampleFinalizeTimeout = null;
+
   var appendSample = function(sample, header) {
     if (!header[0]) {
       console && console.warn("Sample could not be attached for '", method, "'.");
@@ -867,6 +875,15 @@ q.ready(function() {
     if (useHighlighter && sample.executable) {
       createFiddleButton(sample).appendTo(sampleEl);
     }
+
+    if (__sampleFinalizeTimeout) {
+      clearTimeout(__sampleFinalizeTimeout);
+    }
+    __sampleFinalizeTimeout = setTimeout(function() {
+      if (__lastHashChange && (Date.now() - __lastHashChange) <= 2000) {
+        fixScrollPosition();
+      }
+    }, 500);
   };
 
   /**
@@ -970,10 +987,16 @@ q.ready(function() {
 
       var button = iframeBody.find("button");
       this.setStyles({
-        width: button.getWidth() + "px",
+        width: (button.getWidth() + 2) + "px",
         height: button.getHeight() + "px"
       });
     });
+  };
+
+  var fixScrollPosition = function() {
+    var hash = window.location.hash;
+    window.location.hash = '';
+    window.location.hash = hash;
   };
 
   /**
