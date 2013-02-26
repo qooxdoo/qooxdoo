@@ -50,7 +50,6 @@ q.ready(function() {
     q("li.plugin").setStyle("display", hide ? "list-item" : "none");
   });
 
-
   // load API data of q
   q.io.xhr("script/qxWeb.json").send().on("loadend", function(xhr) {
     if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
@@ -89,7 +88,6 @@ q.ready(function() {
       }
     }
   });
-
 
   var loadEventNorm = function() {
     var norm = q.env.get("q.eventtypes");
@@ -775,6 +773,23 @@ q.ready(function() {
     q("#header-wrapper").setStyle("position", "absolute");
   }
 
+  var outdentWhitespace = function (snippet) {
+    var firstNonWhitespacePos = snippet.search(/\S/);
+    if (firstNonWhitespacePos !== -1) {
+      var outdentRegex = new RegExp("^ {"+(firstNonWhitespacePos-1)+"}", "mg");
+      return snippet.replace(outdentRegex, "");
+    }
+    return snippet;
+  };
+
+  var formatJavascript = function(snippet) {
+    snippet = snippet.toString().replace(/^function.*?\{/, "");
+    snippet = snippet.substr(0, snippet.length - 1);
+    snippet = outdentWhitespace(snippet);
+    snippet = snippet.replace(/\n/, "").replace(/[\s]+$/, "");
+    return snippet;
+  };
+
   var appendSample = function(sample, header) {
     if (!header[0]) {
       console && console.warn("Sample could not be attached for '", method, "'.");
@@ -798,8 +813,6 @@ q.ready(function() {
 
     var codeContainer = q.create("<div class='samplecode'></div>").appendTo(sampleEl);
 
-    var boxes = 0;
-
     var stringifyArraySnippet = function (snippet) {
         // allow multiline array code snippets like:
         // ["<ul>",
@@ -816,7 +829,6 @@ q.ready(function() {
 
     // HTML
     if (sample.html) {
-      boxes++;
       sample.html = stringifyArraySnippet(sample.html);
       pre = q.create("<pre class='html'></pre>");
       q.create("<code>").appendTo(pre)[0].appendChild(document.createTextNode(sample.html));
@@ -826,7 +838,6 @@ q.ready(function() {
 
     // CSS
     if (sample.css) {
-      boxes++;
       sample.css = stringifyArraySnippet(sample.css);
       pre = q.create("<pre class='css'></pre>");
       q.create("<code>").appendTo(pre)[0].appendChild(document.createTextNode(sample.css));
@@ -836,42 +847,45 @@ q.ready(function() {
 
     // JavaScript
     if (sample.javascript) {
-      boxes++;
-
-      var outdentWhitespace = function (snippet) {
-        var firstNonWhitespacePos = snippet.search(/\S/);
-        if (firstNonWhitespacePos !== -1) {
-          var outdentRegex = new RegExp("^ {"+(firstNonWhitespacePos-1)+"}", "mg");
-          return snippet.replace(outdentRegex, "");
-        }
-        return snippet;
-      };
-
-      sample.javascript = sample.javascript.toString();
-      sample.javascript = sample.javascript.replace(/^function.*?\{/, "");
-      sample.javascript = sample.javascript.substr(0, sample.javascript.length - 1);
-      sample.javascript = outdentWhitespace(sample.javascript);
-      sample.javascript = sample.javascript.replace(/\n/, "");
-      sample.javascript = sample.javascript.replace(/[\s]+$/, "");
-
       pre = q.create("<pre class='javascript'></pre>");
+      sample.javascript = formatJavascript(sample.javascript);
       q.create("<code>").appendTo(pre)[0].appendChild(document.createTextNode(sample.javascript));
       jsEl = pre[0];
       codeContainer.append(jsEl);
     }
 
+    styleCodeBoxes(codeContainer);
+
+    if (useHighlighter) {
+      htmlEl && hljs.highlightBlock(htmlEl);
+      cssEl && hljs.highlightBlock(cssEl);
+      jsEl && hljs.highlightBlock(jsEl);
+    }
+
+    addMethodLinks(jsEl, header.getParents().getAttribute("id"));
+
+    if (useHighlighter && sample.executable) {
+      createFiddleButton(sample).appendTo(sampleEl);
+    }
+  };
+
+  /**
+   * Styles the sample container based on the amount of code elements
+   * @param codeContainer {qxWeb} Collection containing the container element
+   */
+  var styleCodeBoxes = function(codeContainer) {
     var codeBoxes = codeContainer.find("pre");
-    if (boxes > 1) {
+    if (codeBoxes.length > 1) {
       codeContainer.setStyles({display: "table",
                               width: "100%"});
       codeBoxes.setStyle("display", "table-cell");
     }
 
-    if (boxes == 2) {
+    if (codeBoxes.length == 2) {
       codeBoxes.eq(0).setStyle("width", "50%");
       codeBoxes.eq(1).setStyle("width", "50%");
     }
-    else if (boxes == 3) {
+    else if (codeBoxes.length == 3) {
       codeBoxes.eq(0).setStyle("width", "25%");
       codeBoxes.eq(1).setStyle("width", "25%");
       codeBoxes.eq(2).setStyle("width", "50%");
@@ -882,18 +896,19 @@ q.ready(function() {
       borderTopRightRadius: codeContainer.getStyle("borderTopRightRadius"),
       borderRight: "none"
     });
+  };
 
-    if (useHighlighter) {
-      htmlEl && hljs.highlightBlock(htmlEl);
-      cssEl && hljs.highlightBlock(cssEl);
-      jsEl && hljs.highlightBlock(jsEl);
-    }
-
-    // wrap method names in the code sample with links to the method's documentation
+  /**
+   * wrap method names in the JS sample code with links to the method's documentation
+   * @param jsEl {Element} DOM element containing the code
+   * @param parentMethod {String} Name of the method the sample is attached to.
+   * No links will be added to this method
+   */
+  var addMethodLinks = function(jsEl, parentMethod) {
     var methodNames = jsEl.innerHTML.replace(/\n/g, "").match(/(q?\.[a-z]+)/gi);
     if (methodNames) {
       q.array.unique(methodNames).forEach(function(methodName) {
-        if (methodName !== header.getParents().getAttribute("id")) {
+        if (methodName !== parentMethod) {
           var method = q("#" + methodName.replace(/\./g, "\\.").replace(/\$/g, "\\$"));
           if (method.length > 0) {
             var codeEl = q(jsEl).find("code")[0];
@@ -903,7 +918,9 @@ q.ready(function() {
         }
       });
     }
+  };
 
+  var createFiddleButton = function(sample) {
     /* TODO: Once we know the name of the POST parameter described here:
     https://github.com/jsfiddle/jsfiddle-issues/issues/123
 
@@ -916,45 +933,47 @@ q.ready(function() {
     *
     * activate the commented lines below:
     */
+    return q.create("<iframe></iframe>").setAttributes({
+      src: "fiddleframe.html",
+      marginheight: 0,
+      marginwidth: 0,
+      frameborder: 0
+    })
+    .addClass("fiddleframe").on("load", function(ev) {
+      var iframeBody = q(this[0].contentWindow.document.body);
 
-    if (sample.executable) {
-      q.create("<iframe></iframe>").setAttribute("src", "fiddleframe.html")
-      .addClass("fiddleframe").appendTo(sampleEl).on("load", function(ev) {
-        var iframeBody = q(this[0].contentWindow.document.body);
+      //iframeBody.find("form").setAttribute("action", "http://jsfiddle.net/api/post/library/pure");
 
-        //iframeBody.find("form").setAttribute("action", "http://jsfiddle.net/api/post/library/pure");
+      if (sample.javascript) {
+        // add indentation again
+        sample.javascript = sample.javascript.replace(/^(.*)/mg, "  $1");
 
-        if (sample.javascript) {
-          // add indentation again
-          sample.javascript = sample.javascript.replace(/^(.*)/mg, "  $1");
-
-          if (sample.javascript.indexOf("q.ready(") == -1) {
-            sample.javascript = 'q.ready(function() {\n' + sample.javascript + '\n});';
-          }
-          iframeBody.find("#js").setHtml(sample.javascript);
+        if (sample.javascript.indexOf("q.ready(") == -1) {
+          sample.javascript = 'q.ready(function() {\n' + sample.javascript + '\n});';
         }
+        iframeBody.find("#js").setAttribute("value", sample.javascript);
+      }
 
-        if (sample.css) {
-          iframeBody.find("#css").setHtml(sample.css);
-        }
+      if (sample.css) {
+        iframeBody.find("#css").setAttribute("value", sample.css);
+      }
 
-        if (sample.html) {
-          iframeBody.find("#html").setHtml(sample.html);
-          //iframeBody.find("#html").setHtml(qScript + '\n' + sample.html);
-        }
-        /*
-        else {
-          iframeBody.find("#html").setHtml(qScript);
-        }
-        */
+      if (sample.html) {
+        iframeBody.find("#html").setAttribute("value", sample.html);
+        //iframeBody.find("#html").setAttribute("value", qScript + '\n' + sample.html);
+      }
+      /*
+      else {
+        iframeBody.find("#html").setAttribute("value", qScript);
+      }
+      */
 
-        var button = iframeBody.find("button");
-        this.setStyles({
-          width: button.getWidth() + "px",
-          height: button.getHeight() + "px"
-        });
+      var button = iframeBody.find("button");
+      this.setStyles({
+        width: button.getWidth() + "px",
+        height: button.getHeight() + "px"
       });
-    }
+    });
   };
 
   /**
