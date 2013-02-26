@@ -115,6 +115,7 @@ addSample(".hide", {
          '  <li>item 3</li>',
          '</ul>'],
   javascript: function() {
+    // index is 0-based
     q("li:nth(1)").hide();
   },
   executable: true
