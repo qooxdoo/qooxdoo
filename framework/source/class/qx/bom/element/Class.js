@@ -245,6 +245,10 @@ qx.Bootstrap.define("qx.bom.element.Class",
      */
     replace : function(element, oldName, newName)
     {
+      if (!this.has(element, oldName)) {
+        return "";
+      }
+
       this.remove(element, oldName);
       return this.add(element, newName);
     },
