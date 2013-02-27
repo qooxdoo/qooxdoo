@@ -1,3 +1,15 @@
+addSample("q.getDocument", {
+  html: ['<ul>',
+         '  <li>item 1</li>',
+         '  <li>item 2</li>',
+         '</ul>'],
+  javascript: function() {
+    var doc = q.getDocument(q("li:first")[0]);
+    q("ul").append("<li>"+doc.title+"</li>");
+  },
+  executable: true
+});
+
 addSample("q.getNodeName", {
   html: ['<ul>',
          '  <li id="info">item 1</li>',
@@ -12,12 +24,26 @@ addSample("q.getNodeName", {
 
 addSample("q.getNodeText", {
   html: ['<ul>',
+         '  <li id="less">text 1</li>',
+         '  <li id="more">text 2 <span>span</span> text 2</li>',
+         '</ul>'],
+  javascript: function() {
+    var nodeTextLess = q.getNodeText(q("#less")[0]);
+    // (nodeTextLess === "text 1")
+    var nodeTextMore = q.getNodeText(q("#more")[0]);
+    // (nodeTextMore === "text 2 span text 2")
+  },
+  executable: true
+});
+
+addSample("q.getWindow", {
+  html: ['<ul>',
          '  <li id="info">item 1</li>',
          '  <li>item 2</li>',
          '</ul>'],
   javascript: function() {
-    var nodeText = q.getNodeText(q("#info")[0]);
-    // (nodeText === "item 1")
+    var wndw = q.getWindow(q("#info")[0]);
+    q("ul").append("<li>"+wndw.location.href+"</li>");
   },
   executable: true
 });
@@ -34,10 +60,25 @@ addSample("q.isBlockNode", {
     // (isBlockNode2 === false)
 
     // note:
-    var isBlockNode4 = q.isBlockNode({});
-    // (isBlockNode4 === false)
-    var isBlockNode5 = q.isBlockNode(null);
-    // (isBlockNode5 === false)
+    // (q.isBlockNode({}) === false)
+    // (q.isBlockNode(null) === false)
+  },
+  executable: true
+});
+
+addSample("q.isDocument", {
+  html: ['<ul>',
+         '  <li id="info">item 1</li>',
+         '  <li>item 2</li>',
+         '</ul>'],
+  javascript: function() {
+    var doc = q.getDocument(q("#info")[0]);
+    var isDoc = q.isDocument(doc);
+    // (isDoc === true)
+
+    // note:
+    // (q.isDocument({}) === false);
+    // (q.isDocument(null) === false;
   },
   executable: true
 });
@@ -54,10 +95,8 @@ addSample("q.isElement", {
     // (isElement2 === true)
 
     // note:
-    var isElement3 = q.isElement({});
-    // (isElement3 === false)
-    var isElement4 = q.isElement(null);
-    // (isElement4 === false)
+    // (q.isElement({}) === false)
+    // (q.isElement(null) === false)
   },
   executable: true
 });
@@ -72,10 +111,8 @@ addSample("q.isNode", {
     // (isNode1 === true)
 
     // note:
-    var isNode2 = q.isNode({});
-    // (isNode2 === false)
-    var isNode3 = q.isNode(null);
-    // (isNode3 === false)
+    // (q.isNode({}) === false)
+    // (q.isNode(null) === false)
   },
   executable: true
 });
@@ -90,10 +127,45 @@ addSample("q.isNodeName", {
     // (isNodeName1 === true)
 
     // note:
-    var isNodeName2 = q.isNodeName({}, "li");
-    // (isNodeName2 === false)
-    var isNodeName3 = q.isNodeName(null, "li");
-    // (isNodeName3 === false)
+    // (q.isNodeName({}, "li") === false)
+    // (q.isNodeName(null, "li") === false)
+  },
+  executable: true
+});
+
+addSample("q.isTextNode", {
+  html: ['<ul>',
+         '  <li id="less">text</li>',
+         '  <li id="more">text <span>span</span> text</li>',
+         '</ul>'],
+  javascript: function() {
+    var lessContents = q("#less").getContents()[0];
+    var isTextNode1 = q.isTextNode(lessContents);
+    // (isTextNode1 === true)
+
+    var moreContents = q("#more").getChildren().getContents()[0];
+    var isTextNode2 = q.isTextNode(moreContents);
+    // (isTextNode2 === true)
+
+    // note:
+    // (q.isTextNode("") === false)
+    // (q.isTextNode(null) === false)
+  },
+  executable: true
+});
+
+addSample("q.isWindow", {
+  html: ['<ul>',
+         '  <li id="info">item 1</li>',
+         '  <li>item 2</li>',
+         '</ul>'],
+  javascript: function() {
+    var isWindow = q.isWindow(q.getWindow(q("#info")[0]));
+    // (isWindow === true)
+
+    // note:
+    // (q.isWindow({}) === false)
+    // (q.isWindow(null) === false)
   },
   executable: true
 });
@@ -177,6 +249,62 @@ addSample(".forEach", {
   executable: true
 });
 
+addSample(".getAncestors", {
+  html: ['<ul id="level1">',
+         '  <li>item 1.1</li>',
+         '  <li>item 1.2',
+         '    <ul id="level2">',
+         '      <li>item 1.2.1</li>',
+         '      <li>item 1.2.2',
+         '       <ul id="level3">',
+         '         <li>item 1.2.2.1</li>',
+         '       </ul>',
+         '      </li>',
+         '    </ul>',
+         '  </li>',
+         '</ul>'],
+  css: ['.ancestor {',
+        '  color: red;',
+        '}',
+        '.sublist {',
+        '  background-color: #ffd;',
+        '}'],
+  javascript: function() {
+    var col = q("#level3");
+    col.getAncestors("li > ul").addClass("sublist");
+    col.getAncestors().addClass("ancestor");
+  },
+  executable: true
+});
+
+addSample(".getAncestorsUntil", {
+  html: ['<ul id="level1">',
+         '  <li>item 1.1</li>',
+         '  <li>item 1.2',
+         '    <ul id="level2">',
+         '      <li>item 1.2.1</li>',
+         '      <li>item 1.2.2',
+         '       <ul id="level3">',
+         '         <li>item 1.2.2.1</li>',
+         '       </ul>',
+         '      </li>',
+         '    </ul>',
+         '  </li>',
+         '</ul>'],
+  css: ['.ancestor {',
+        '  color: red;',
+        '}',
+        '.until {',
+        '  background-color: #ffd;',
+        '}'],
+  javascript: function() {
+    var col = q("#level3");
+    col.getAncestorsUntil("#level2").addClass("until");
+    col.getAncestorsUntil().addClass("ancestor");
+  },
+  executable: true
+});
+
 addSample(".getChildren", {
   html: ['<ul>',
          '  <li>text',
@@ -200,6 +328,52 @@ addSample(".getChildren", {
 
     // only children which match '.desc'
     q("li").getChildren(".desc").addClass("selected");
+  },
+  executable: true
+});
+
+addSample(".getClosest", {
+  html: ['<ul id="level1">',
+         '  <li>item 1.1</li>',
+         '  <li>item 1.2',
+         '    <ul id="level2">',
+         '      <li>item 1.2.1</li>',
+         '      <li>item 1.2.2',
+         '       <ul id="level3">',
+         '         <li>item 1.2.2.1</li>',
+         '       </ul>',
+         '      </li>',
+         '    </ul>',
+         '  </li>',
+         '</ul>'],
+  css: ['.closest-ul {',
+        '  color: red;',
+        '}',
+        '.closest-li {',
+        '  background-color: #ffd;',
+        '}'],
+  javascript: function() {
+    var col = q("#level3");
+    col.getClosest("ul").addClass("closest-ul");
+    col.getClosest("li").addClass("closest-li");
+  },
+  executable: true
+});
+
+addSample(".getContents", {
+  html: ['<ul>',
+         '  <li id="less">text</li>',
+         '  <li id="more">text <span>span</span> text</li>',
+         '</ul>'],
+  javascript: function() {
+    var lessContents = q("#less").getContents();
+    // (lessContents.length === 1) => [tn]
+    var moreContents = q("#more").getContents();
+    // (lessContents.length === 3) => [tn, eln, tn]
+
+    // legend:
+    // tn = textNodeObj
+    // eln = elementNodeObj (e.g. HTMLSpanElement)
   },
   executable: true
 });
@@ -367,6 +541,50 @@ addSample(".getNextUntil", {
 
     q("p").getNextAll().addClass("color");
     // (length === 3)
+  },
+  executable: true
+});
+
+addSample(".getOffsetParent", {
+  html: ['<ul id="level1">',
+         '  <li>item 1.1</li>',
+         '  <li class="positioned">item 1.2',
+         '    <ul id="level2">',
+         '      <li>item 1.2.1</li>',
+         '      <li>item 1.2.2',
+         '       <ul id="level3">',
+         '         <li>item 1.2.2.1</li>',
+         '       </ul>',
+         '      </li>',
+         '    </ul>',
+         '  </li>',
+         '</ul>'],
+  css: ['.positioned {',
+        '  position: relative;',
+        '}',
+        '.selected {',
+        '  background-color: #ffd;',
+        '}'],
+  javascript: function() {
+    q("#level3").getOffsetParent().addClass("selected");
+  },
+  executable: true
+});
+
+addSample(".getParents", {
+  html: ['<div>',
+         '  <p>para <span>span 1</span> para</p>',
+         '  <span>span 2</span>',
+         '</div>'],
+  css: ['.selected {',
+        '  color: red;',
+        '}',
+        '.featured {',
+        '  background-color: #ffd;',
+        '}'],
+  javascript: function() {
+    q("span").getParents().addClass("selected");
+    q("span").getParents("div > p").addClass("featured");
   },
   executable: true
 });
