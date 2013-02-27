@@ -40,7 +40,7 @@
     {
       "watch-files" : 
       {
-        "=paths" : [ "source/pages" ],
+        "=paths" : [ "source" ],
         "command" : 
         {
           "line" : "sphinx-build -b html -d build/doctrees source build/html %(FILE)",
