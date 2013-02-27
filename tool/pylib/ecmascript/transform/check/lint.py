@@ -495,7 +495,7 @@ def defaultOptions():
     class LintOptions(object): pass
     opts = LintOptions()
     opts.library_classes = [] # with library classes, more exact checks beneath the left-most global are possible
-    opts.class_namespaces = []
+    opts.class_namespaces = [] # TODO: could be computed?!
     opts.allowed_globals = []
     opts.ignore_catch_param = False
     opts.ignore_deprecated_symbols = False
