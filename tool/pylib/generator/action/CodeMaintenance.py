@@ -34,7 +34,7 @@ def runLint(jobconf, classes):
 
     def getFilteredClassList(classes, includePatt_, excludePatt_):
         # Although lint-check doesn't work with dependencies, we allow
-        # '=' in class pattern for convenience; stripp those now
+        # '=' in class pattern for convenience; strip those now
         intelli, explicit = textutil.splitPrefixedStrings(includePatt_)
         includePatt = intelli + explicit
         intelli, explicit = textutil.splitPrefixedStrings(excludePatt_)
