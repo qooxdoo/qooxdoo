@@ -29,7 +29,7 @@ from ecmascript.backend             import formatter
 from ecmascript.frontend import treeutil, tokenizer
 from ecmascript.frontend import treegenerator, lang
 from ecmascript.frontend.SyntaxException import SyntaxException
-from ecmascript.transform.check     import scopes, lint, load_time
+from ecmascript.transform.check     import scopes, load_time
 from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, commentoptimizer
 from ecmascript.transform.optimizer import stringoptimizer, basecalloptimizer, privateoptimizer
 from ecmascript.transform.optimizer import featureoptimizer
@@ -112,15 +112,6 @@ class MClassCode(object):
                     console.debug("Annotating scopes with load time information: %s..." % self.id)
                     console.indent()
                     load_time.load_time_check(tree.scope)
-
-            # lint check
-            if False:  # currently done in MClassDependencies, due to global classList
-                console.outdent()
-                console.debug("Checking JavaScript source code: %s..." % self.id)
-                console.indent()
-                # construct parse-level check options
-                opts = lint.defaultOptions()
-                lint.lint_check(tree, self.id, opts)
 
             # store unoptimized tree
             cache.write(cacheId, tree, memory=tradeSpaceForSpeed)

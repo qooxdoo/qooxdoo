@@ -28,6 +28,7 @@ from generator.config.Lang      import Key
 from generator.code.Part        import Part
 from generator.code.Package     import Package
 from generator.code.Class       import Class, ClassMatchList, CompileOptions
+from generator.code.ClassList   import ClassList
 from generator.code.Script      import Script
 from generator.action           import Locale
 import generator.resource.Library # just need the .Library type
@@ -36,6 +37,7 @@ from ecmascript.backend         import formatter_3
 from ecmascript.backend.Packer  import Packer
 from ecmascript.transform.optimizer    import privateoptimizer
 #from ecmascript.transform.optimizer    import globalsoptimizer
+from ecmascript.transform.check    import lint
 from misc                       import filetool, json, Path, securehash as sha, util
 from misc.ExtMap                import ExtMap
 from misc.Path                  import OsPath, Uri
@@ -957,63 +959,83 @@ class CodeGenerator(object):
             script = self.generateI18NParts(script, locales, per_file_prefix)
             self.writePackages([p for p in script.packages if getattr(p, "__localeflag", False)], script)
 
+        # Lint-check classes
+        self.lint_classes(script.classesObj)
+
         # ---- create script files ---------------------------------------------
-        if script.buildType in ("source", "hybrid", "build"):
 
-            # - Generating packages ---------------------
-            self._console.info("Generate packages  ", feed=False)
-            #self._console.indent()
+        # - Generating packages ---------------------
+        self._console.info("Generate packages  ", feed=False)
+        #self._console.indent()
 
-            if not len(packages):
-                raise RuntimeError("No valid boot package generated.")
+        if not len(packages):
+            raise RuntimeError("No valid boot package generated.")
 
-            variantKeys      = set(script.variants.keys())
-            allClassVariants = script.classVariants()
-            allClassVariants.difference_update(variantKeys)
-            
-            # do "statics" optimization out of line (needs script.classes);
-            # passes results to compileAndWritePackage via Class._tmp_tree
-            compOpts = CompileOptions(compConf.get("code/optimize",[]), script.variants, compConf.get("code/format",False)) 
-            if "statics" in compOpts.optimize:
-                script.classesObj = optimizeDeadCode(script.classesObj, script._featureMap, 
-                    compOpts, treegen=treegenerator, log_progress=log_progress)
-                # make package.classes consistent with script.classesObj
-                for package in packages:
-                    for clz in package.classes[:]:
-                        if clz not in script.classesObj:
-                            package.classes.remove(clz)
+        variantKeys      = set(script.variants.keys())
+        allClassVariants = script.classVariants()
+        allClassVariants.difference_update(variantKeys)
+        
+        # do "statics" optimization out of line (needs script.classes);
+        # passes results to compileAndWritePackage via Class._tmp_tree
+        compOpts = CompileOptions(compConf.get("code/optimize",[]), script.variants, compConf.get("code/format",False)) 
+        if "statics" in compOpts.optimize:
+            script.classesObj = optimizeDeadCode(script.classesObj, script._featureMap, 
+                compOpts, treegen=treegenerator, log_progress=log_progress)
+            # make package.classes consistent with script.classesObj
+            for package in packages:
+                for clz in package.classes[:]:
+                    if clz not in script.classesObj:
+                        package.classes.remove(clz)
 
-            # write packages to disk
-            for packageIndex, package in enumerate(packages):
-                package = compileAndWritePackage(package, compConf, allClassVariants, per_file_prefix)
+        # write packages to disk
+        for packageIndex, package in enumerate(packages):
+            package = compileAndWritePackage(package, compConf, allClassVariants, per_file_prefix)
 
-            #self._console.outdent()
-            self._console.dotclear()
+        #self._console.outdent()
+        self._console.dotclear()
 
-            # generate loader
-            if inlineBoot(script, compConf):
-                # read first script file from script dir
-                bfile = packages[0].files[0]  # "__out__:fo%c3%b6bar.js"
-                bfile = bfile.split(':')[1]   # "fo%c3%b6bar.js"
-                bfile = urllib.unquote(bfile) # "foöbar.js"
-                bfile = os.path.join(os.path.dirname(script.baseScriptPath), os.path.basename(bfile))
-                if bfile.endswith(".gz"):  # code/path/gzip:true
-                    bcode = filetool.gunzip(bfile)
-                else:
-                    bcode = filetool.read(bfile)
-                os.unlink(bfile)
+        # generate loader
+        if inlineBoot(script, compConf):
+            # read first script file from script dir
+            bfile = packages[0].files[0]  # "__out__:fo%c3%b6bar.js"
+            bfile = bfile.split(':')[1]   # "fo%c3%b6bar.js"
+            bfile = urllib.unquote(bfile) # "foöbar.js"
+            bfile = os.path.join(os.path.dirname(script.baseScriptPath), os.path.basename(bfile))
+            if bfile.endswith(".gz"):  # code/path/gzip:true
+                bcode = filetool.gunzip(bfile)
             else:
-                bcode = u''
-            loaderCode = generateLoader(script, compConf, globalCodes, bcode)
-            loaderCode = per_file_prefix + loaderCode
-            fname = self._computeFilePath(script, isLoader=1)
-            self.writePackage(loaderCode, fname, script, isLoader=1)
+                bcode = filetool.read(bfile)
+            os.unlink(bfile)
+        else:
+            bcode = u''
+        loaderCode = generateLoader(script, compConf, globalCodes, bcode)
+        loaderCode = per_file_prefix + loaderCode
+        fname = self._computeFilePath(script, isLoader=1)
+        self.writePackage(loaderCode, fname, script, isLoader=1)
 
 
         self._console.outdent()
 
         return  # runCompiled()
 
+
+    def lint_classes(self, classesObj):
+    
+        opts = lint.defaultOptions()
+        opts.library_classes = [x.id for x in classesObj]
+        opts.class_namespaces = ClassList.namespaces_from_classnames(opts.library_classes)
+        # some sensible settings (deviating from defaultOptions)
+        opts.ignore_no_loop_block = True
+        opts.ignore_reference_fields = True
+        opts.ignore_undeclared_privates = True
+        opts.ignore_unused_variables = True
+        # override from config
+        jobConf = self._job
+        for option, value in jobConf.get("lint-check", {}).items():
+            setattr(opts, option.replace("-","_"), value)
+        
+        for clazz in classesObj:
+            lint.lint_check(clazz.tree(), clazz.id, opts)
 
     ##
     # Pretty-print set of classes.

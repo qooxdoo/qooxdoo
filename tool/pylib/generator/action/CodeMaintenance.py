@@ -75,13 +75,21 @@ def runLint(jobconf, classes):
     # the next requires that the config keys and option attributes be identical (modulo "-"_")
     for option, value in lintJob.get("lint-check").items():
         setattr(opts, option.replace("-","_"), value)
-
-    for pos, classId in enumerate(classesToCheck):
-        console.debug("Checking %s" % classId)
-        tree = classes[classId].tree()
-        lint.lint_check(tree, classId, opts)
-
+    lint_classes((classes[name] for name in classesToCheck), opts)
     console.outdent()
+
+##
+# Mid-level interface for Generator actions that want lint checking, mainly for
+# the types of the arguments.
+#
+# classesObj  - list of Class() objects
+# opts        - read-to use lint options
+def lint_classes(classesObj, opts):
+    console = Context.console
+    for classObj in classesObj:
+        console.debug("Checking %s" % classObj.id)
+        tree = classObj.tree()
+        lint.lint_check(tree, classObj.id, opts)
 
 
 def runMigration(jobconf, libs):
