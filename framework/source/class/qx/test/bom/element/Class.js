@@ -160,6 +160,13 @@ qx.Class.define("qx.test.bom.element.Class",
       this.assertFalse(Class.has(this._el, "kinners"));
       this.assertTrue(Class.has(this._el, "foo"));
       this.assertTrue(Class.has(this._el, "bar"));
+
+      this.assertEquals("", Class.replace(this._el, "i-dont-exist", "baz"));
+      this.assertFalse(Class.has(this._el, "juhu"));
+      this.assertFalse(Class.has(this._el, "kinners"));
+      this.assertTrue(Class.has(this._el, "foo"));
+      this.assertTrue(Class.has(this._el, "bar"));
+      this.assertFalse(Class.has(this._el, "baz"));
     },
 
 
