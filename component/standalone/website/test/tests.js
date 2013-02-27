@@ -94,6 +94,32 @@ testrunner.define({
     this.assertInstance(collection, q);
     this.assertEquals(1, collection.length);
     this.assertEquals(document.getElementById("foo"), collection[0]);
+  },
+
+  testContext : function() {
+    var container1 = document.createElement("div");
+    var inner1 = document.createElement("h2");
+    inner1.id = "inner1";
+    container1.appendChild(inner1);
+    document.getElementById("sandbox").appendChild(container1);
+
+    var container2 = document.createElement("div");
+    var inner2 = document.createElement("h2");
+    inner2.id = "inner2";
+    container2.appendChild(inner2);
+    document.getElementById("sandbox").appendChild(container2);
+
+    // no context
+    this.assertEquals(2, q("#sandbox h2").length);
+    // element as context
+    var coll1 = q("h2", container1);
+    this.assertEquals(1, coll1.length);
+    this.assertEquals("inner1", coll1[0].id);
+
+    // collection as context
+    var coll2 = q("h2", q(container1));
+    this.assertEquals(1, coll2.length);
+    this.assertEquals("inner1", coll2[0].id);
   }
 });
 
@@ -2571,80 +2597,80 @@ testrunner.define({
 
 testrunner.define({
 	 classname : "Dataset",
-	 
-	 setUp : function(){		
-		 testrunner.globalSetup.call(this);		
+
+	 setUp : function(){
+		 testrunner.globalSetup.call(this);
 		 this.__element = q.create("<div id='testEl'></div>");
-		 this.__element.appendTo(this.sandbox[0]);	
-	 },	 
-	
+		 this.__element.appendTo(this.sandbox[0]);
+	 },
+
 	 tearDown : testrunner.globalTeardown,
-	 
+
 	 testSetDataAttribute : function(){
-		
+
 		 this.__element.setData("type","domelement");
 		 this.__element.setData("option","test");
-		    
+
 		 var datatype = this.__element.getAttribute("data-type");
 		 var dataoption = this.__element.getAttribute("data-option");
-		 
+
 		 this.assertEquals(datatype, "domelement");
 		 this.assertEquals(dataoption, "test");
 	 },
-	 
+
 	 testSetDataAttributeHyphenated : function(){
-		
+
 		 this.__element.setData("hyphenated-data-attribute","hyphenated");
-		 
+
 		 var hyphenatedExpected = this.__element.getAttribute("data-hyphenated-data-attribute");
-		 var hyphenatedFound = this.__element.getData("hyphenatedDataAttribute"); 
-		 
+		 var hyphenatedFound = this.__element.getData("hyphenatedDataAttribute");
+
 		 this.assertEquals(hyphenatedExpected,hyphenatedFound);
-		 
+
 	 },
-	 
+
 	 testGetDataAttribute : function(){
-		 
+
      this.__element.setData("type","domelement");
      this.__element.setData("option","test");
 
 		 var expected = this.__element.getAttribute("data-type");
 		 var found = this.__element.getData("type");
-		 
+
 		 this.assertEquals(expected,found);
-		 
+
 		 var expected2 = this.__element.getAttribute("data-option");
 		 var found2 = q("#testEl").getData("option");
-		 
-		 this.assertEquals(expected2,found2);		
-		 
+
+		 this.assertEquals(expected2,found2);
+
 	 },
-	 
-	 testGetAllData : function(){		
-		 
+
+	 testGetAllData : function(){
+
 		 this.__element.setData("type","domelement");
-		 this.__element.setData("option","test");    
+		 this.__element.setData("option","test");
 		 this.__element.setData("hyphenated-data-attribute","hyphenated");
-		 
-		 var expected = q("#testEl").getAllData();   
-		
+
+		 var expected = q("#testEl").getAllData();
+
 		 var datatype = "domelement";
 		 var dataoption = "test";
 		 var dataHyphenated = "hyphenated";
 
-		 
+
 		 this.assertEquals(expected.type,datatype);
 		 this.assertEquals(expected.option,dataoption);
-		 this.assertEquals(expected.hyphenatedDataAttribute,dataHyphenated);			 
+		 this.assertEquals(expected.hyphenatedDataAttribute,dataHyphenated);
 	 },
-	 
-	 testRemoveData : function(){	
-     this.__element.setData("hyphenated-data-attribute","hyphenated");	 
+
+	 testRemoveData : function(){
+     this.__element.setData("hyphenated-data-attribute","hyphenated");
 		 q("#testEl").removeData("hyphenatedDataAttribute");
-		 var found = q("#testEl").getData("hyphenatedDataAttribute");		
+		 var found = q("#testEl").getData("hyphenatedDataAttribute");
 		 this.assertNull(this.__element.getAttribute("data-hyphenated-data-attribute"));
-	 }	
-	 
+	 }
+
 });
 
 
