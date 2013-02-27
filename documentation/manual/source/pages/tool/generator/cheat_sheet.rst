@@ -41,117 +41,112 @@ Command-line Options
 Default Jobs
 =============
 
-+-----------------------+----------------------------------------------------------------------------------------+
-|api 	                  | create api doc for the current library                                                 |
-+-----------------------+----------------------------------------------------------------------------------------+
-|api-data 	            | create api doc json data files                                                         |
-+-----------------------+----------------------------------------------------------------------------------------+
-|build 	                | create build version of current application                                            |
-+-----------------------+----------------------------------------------------------------------------------------+
-|clean 	                | remove local cache and generated .js files (source/build)                              |
-+-----------------------+----------------------------------------------------------------------------------------+
-|distclean 	            | remove the cache and all generated artefacts of this library (source, build, ...)      |
-+-----------------------+----------------------------------------------------------------------------------------+
-|fix 	                  | normalize whitespace in .js files of the current library (tabs, eol, ...)              |
-+-----------------------+----------------------------------------------------------------------------------------+
-|info 	                | collects environment information like the qooxdoo version etc., and prints it out      |
-+-----------------------+----------------------------------------------------------------------------------------+
-|inspector 	            | create an inspector instance in the current library                                    |
-+-----------------------+----------------------------------------------------------------------------------------+
-|lint 	                | check the source code of the .js files of the current library                          |
-+-----------------------+----------------------------------------------------------------------------------------+
-|manifest-validation 	  | validates the given filepath as manifest (defaults to './Manifest.json')               |
-+-----------------------+----------------------------------------------------------------------------------------+
-|migration 	            | migrate the .js files of the current library to the current qooxdoo version            |
-+-----------------------+----------------------------------------------------------------------------------------+
-|pretty 	              | pretty-formatting of the source code of the current library                            |
-+-----------------------+----------------------------------------------------------------------------------------+
-|profiling 	            | includer job, to activate profiling                                                    |
-+-----------------------+----------------------------------------------------------------------------------------+
-|simulation-build 	    | create a runner app for simulated interaction tests                                    |
-+-----------------------+----------------------------------------------------------------------------------------+
-|simulation-run 	      | launches simulated interaction tests generated with simulation-build                   |
-+-----------------------+----------------------------------------------------------------------------------------+
-|source 	              | create source version of current application                                           |
-+-----------------------+----------------------------------------------------------------------------------------+
-|source-all 	          | create source version of current application, with all classes                         |
-+-----------------------+----------------------------------------------------------------------------------------+
-|source-httpd-config 	  | generate a httpd configuration for the source version                                  |
-+-----------------------+----------------------------------------------------------------------------------------+
-|source-hybrid  	      | create a hybrid application (application classes as individual files, others catenated)|
-+-----------------------+----------------------------------------------------------------------------------------+
-|source-hybrid  	      | create a hybrid application (application classes as individual files, others catenated)|
-+-----------------------+----------------------------------------------------------------------------------------+
-|source-server  	      | start a lightweight web server that exports the source version                         |
-+-----------------------+----------------------------------------------------------------------------------------+
-|test 	                | create a test runner app for unit tests of the current library                         |
-+-----------------------+----------------------------------------------------------------------------------------+
-|test-source 	          | create a test runner app for unit tests (source version) of the current library        |
-+-----------------------+----------------------------------------------------------------------------------------+
-|translation 	          | create .po files for current library                                                   |
-+-----------------------+----------------------------------------------------------------------------------------+
+.. list-table::
+
+
+    * - api                    
+      - create api doc for the current library
+    * - api-data               
+      - create api doc json data files
+    * - build                  
+      - create build version of current application
+    * - clean                  
+      - remove local cache and generated .js files (source/build)
+    * - distclean              
+      - remove the cache and all generated artefacts of this library (source, build, ...)
+    * - fix                    
+      - normalize whitespace in .js files of the current library (tabs, eol, ...)
+    * - info                   
+      - collects environment information like the qooxdoo version etc., and prints it out
+    * - inspector              
+      - create an inspector instance in the current library
+    * - lint                   
+      - check the source code of the .js files of the current library
+    * - manifest-validation    
+      - validates the given filepath as manifest (defaults to './Manifest.json')
+    * - migration              
+      - migrate the .js files of the current library to the current qooxdoo version
+    * - pretty                 
+      - pretty-formatting of the source code of the current library
+    * - profiling              
+      - includer job, to activate profiling
+    * - simulation-build       
+      - create a runner app for simulated interaction tests
+    * - simulation-run         
+      - launches simulated interaction tests generated with simulation-build
+    * - source                 
+      - create source version of current application
+    * - source-all             
+      - create source version of current application, with all classes
+    * - source-httpd-config    
+      - generate a httpd configuration for the source version
+    * - source-hybrid          
+      - create a hybrid application (application classes as individual files, others catenated)
+    * - source-hybrid          
+      - create a hybrid application (application classes as individual files, others catenated)
+    * - source-server          
+      - start a lightweight web server that exports the source version
+    * - test                   
+      - create a test runner app for unit tests of the current library
+    * - test-source            
+      - create a test runner app for unit tests (source version) of the current library
+    * - translation            
+      - create .po files for current library
 
 
 Config File Layout
 =====================
-This is the general layout of a configuration file:
+This is an overview of the available configuration keys with their corresponding nesting level.
 
-::
+* **name** - A name or descriptive text for the configuration file.
+* **include** - Include external config files. Takes a list of maps, where each map specifies an external configuration file, and options how to include it.
+* **let** - Define default macros. Takes a map (see the description of the job-level 'let' further down). This let map is included automatically into every job run. There is no explicit reference to it, so be aware of side effects.
+* **export** - List of jobs to be exported if this config file is included by another.
+* **default-job** - The name of a job to be run as default, i.e. when invoking the generator without job arguments.
+* **config-warnings** - *(experimental)* Suppress warnings from configuration aspects which you know are ok.
+* **jobs** - Map of jobs. Each key is the name of a job.
 
-    * :ref:`name <pages/tool/generator/generator_config_ref#name>` A name or descriptive text for the configuration file.
+  * **<jobname>** Each job's value is a map describing the job. The describing map can have any number of the following keys:
 
-    * :ref:`include <pages/tool/generator/generator_config_ref#include_top-level>` Include external config files. Takes a list of maps, where each map specifies an external configuration file, and options how to include it. (See special section on the :ref:`include key <pages/tool/generator/generator_config_articles#include_key_top-level_-_adding_features>`)
-
-    * :ref:`let <pages/tool/generator/generator_config_ref#let_top-level>` Define default macros. Takes a map (see the description of the job-level 'let' further down). This let map is included automatically into every job run. There is no explicit reference to it, so be aware of side effects.
-
-    * :ref:`export <pages/tool/generator/generator_config_ref#export>` List of jobs to be exported if this config file is included by another.
-
-    * :ref:`default-job <pages/tool/generator/generator_config_ref#default-job>` The name of a job to be run as default, i.e. when invoking the generator without job arguments.
-
-    * :ref:`config-warnings <pages/tool/generator/generator_config_ref#config-warnings>` *(experimental)* Suppress warnings from configuration aspects which you know are ok.
-
-    * :ref:`jobs <pages/tool/generator/generator_config_ref#jobs>` Map of jobs. Each key is the name of a job.
-
-      * **<jobname>** Each job's value is a map describing the job. The describing map can have any number of the following keys:
-
-        * :ref:`add-script <pages/tool/generator/generator_config_ref#api>` A list of URIs that will be loaded first thing when the app starts.
-        * :ref:`api <pages/tool/generator/generator_config_ref#api>` Triggers the generation of a custom Apiviewer application.
-        * :ref:`asset-let <pages/tool/generator/generator_config_ref#asset-let>` Defines macros that will be replaced in #asset hints in source files. (See special section on the :ref:`"asset-let" key <pages/tool/generator/generator_config_articles#asset-let_key>`).
-        * :ref:`cache <pages/tool/generator/generator_config_ref#cache>` Define the path to cache directories, most importantly to the compile cache. (See special section on the :ref:`pages/tool/generator/generator_config_articles#cache_key` key).
-        * :ref:`clean-files <pages/tool/generator/generator_config_ref#clean-files>` Triggers clean-up of files and directories within a project and the framework, e.g. deletion of generated files, cache contents, etc.
-        * :ref:`collect-environment-info <pages/tool/generator/generator_config_ref#collect-environment-info>` Collects various information about the qooxdoo environment (like version, cache, etc.) and prints it to the console.
-        * :ref:`combine-images <pages/tool/generator/generator_config_ref#combine-images>` Triggers creation of a combined image file that contains various images.
-        * :ref:`compile <pages/tool/generator/generator_config_ref#compile>` Triggers the generation of a source or build version of the application.
-        * :ref:`compile-options <pages/tool/generator/generator_config_ref#compile-options>` Define various options that influence compile runs (both source and build version).
-        * :ref:`config-warnings <pages/tool/generator/generator_config_ref#config-warnings>` *(experimental)* Suppress warnings from configuration aspects which you know are ok.
-        * :ref:`copy-files <pages/tool/generator/generator_config_ref#copy-files>` Triggers files/directories to be copied, usually between source and build version.
-        * :ref:`copy-resources <pages/tool/generator/generator_config_ref#copy-resources>` Triggers the copying of resources, usually between source and build version.
-        * :ref:`dependencies <pages/tool/generator/generator_config_ref#dependencies>` Fine-tune the processing of class dependencies.
-        * :ref:`desc <pages/tool/generator/generator_config_ref#desc>` A string describing the job.
-        * :ref:`environment <pages/tool/generator/generator_config_ref#environment>` Define key:value pairs for the application, covering settings, variants and features.
-        * :ref:`exclude <pages/tool/generator/generator_config_ref#exclude>` List classes to be excluded from the job. Takes an array of class specifiers.
-        * :ref:`extend <pages/tool/generator/generator_config_ref#extend>` Extend the current job with other jobs. Takes an array of job names. The information of these jobs are merged into the current job description, so the current job sort of "inherits" their settings. (See the special section on :ref:`"extend" semantics <pages/tool/generator/generator_config_articles#extend_key>`).
-        * :ref:`fix-files <pages/tool/generator/generator_config_ref#fix-files>` Fix white space in source files.
-        * :ref:`include <pages/tool/generator/generator_config_ref#include>` List classes to be processed in the job. Takes an array of class specifiers.
-        * :ref:`let <pages/tool/generator/generator_config_ref#let>` Define macros. Takes a map where each key defines a macro and the value its expansion. (See the special section on :ref:`macros <pages/tool/generator/generator_config_articles#let_key>`).
-        * :ref:`library <pages/tool/generator/generator_config_ref#library>` Define libraries to be taken into account for this job. Takes an array of maps, each map specifying one library to consider. The most important part therein is the "manifest" specification. (See special section on :ref:`Manifest files <pages/tool/generator/generator_config_articles#manifest_files>`).
-        * :ref:`lint-check <pages/tool/generator/generator_config_ref#lint-check>` Check source code with a lint-like utility.
-        * :ref:`log <pages/tool/generator/generator_config_ref#log>` Tailor log output of job.
-        * :ref:`migrate-files <pages/tool/generator/generator_config_ref#migrate-files>` Migrate source code to the current qooxdoo version.
-        * :ref:`packages <pages/tool/generator/generator_config_ref#packages>` Define packages for the application. (See special section on :ref:`packages <pages/tool/generator/generator_config_articles#packages_key>`).
-        * :ref:`pretty-print <pages/tool/generator/generator_config_ref#pretty-print>` Triggers code beautification of source class files (in-place-editing). An empty map value triggers default formatting, but further keys can tailor the output.
-        * :ref:`provider <pages/tool/generator/generator_config_ref#provider>` Collects classes, resources and dependency information and puts them in a specific directory structure under the ``provider`` root.
-        * :ref:`require <pages/tool/generator/generator_config_ref#require>` Define prerequisite classes needed at load time. Takes a map, where the keys are class names and the values lists of prerequisite classes.
-        * :ref:`run <pages/tool/generator/generator_config_ref#run>` Define a list of jobs to run in place of the current job. (See the special section on :ref:`"run" semantics <pages/tool/generator/generator_config_articles#run_key>`).
-        * :ref:`shell <pages/tool/generator/generator_config_ref#shell>` Triggers the execution of one or more external command(s).
-        * :ref:`simulate <pages/tool/generator/generator_config_ref#simulate>` Triggers the execution of a GUI test (simulated interaction) suite.
-        * :ref:`slice-images <pages/tool/generator/generator_config_ref#slice-images>` Triggers cutting images into regions.
-        * :ref:`translate <pages/tool/generator/generator_config_ref#translate>` Re-)generate .po files from source classes.
-        * :ref:`use <pages/tool/generator/generator_config_ref#use>` Define prerequisite classes needed at run time. Takes a map, where the keys are class names and the values lists of prerequisite classes.
+    * **add-script** - A list of URIs that will be loaded first thing when the app starts.
+    * **api** - Triggers the generation of a custom Apiviewer application.
+    * **asset-let** - Defines macros that will be replaced in #asset hints in source files.
+    * **cache** - Define the path to cache directories, most importantly to the compile cache.
+    * **clean-files** - Triggers clean-up of files and directories within a project and the framework, e.g. deletion of generated files, cache contents, etc.
+    * **collect-environment-info** - Collects various information about the qooxdoo environment (like version, cache, etc.) and prints it to the console.
+    * **combine-images** - Triggers creation of a combined image file that contains various images.
+    * **compile** - Triggers the generation of a source or build version of the application.
+    * **compile-options** - Define various options that influence compile runs (both source and build version).
+    * **config-warnings** - *(experimental)* Suppress warnings from configuration aspects which you know are ok.
+    * **copy-files** - Triggers files/directories to be copied, usually between source and build version.
+    * **copy-resources** - Triggers the copying of resources, usually between source and build version.
+    * **dependencies** - Fine-tune the processing of class dependencies.
+    * **desc** - A string describing the job.
+    * **environment** - Define key:value pairs for the application, covering settings, variants and features.
+    * **exclude** - List classes to be excluded from the job. Takes an array of class specifiers.
+    * **extend** - Extend the current job with other jobs. Takes an array of job names. The information of these jobs are merged into the current job description, so the current job sort of "inherits" their settings.
+    * **fix-files** - Fix white space in source files.
+    * **include** - List classes to be processed in the job. Takes an array of class specifiers.
+    * **let** - Define macros. Takes a map where each key defines a macro and the value its expansion.
+    * **library** - Define libraries to be taken into account for this job. Takes an array of maps, each map specifying one library to consider. The most important part therein is the "manifest" specification.
+    * **lint-check** - Check source code with a lint-like utility.
+    * **log** - Tailor log output of job.
+    * **migrate-files** - Migrate source code to the current qooxdoo version.
+    * **packages** - Define packages for the application.
+    * **pretty-print** - Triggers code beautification of source class files (in-place-editing). An empty map value triggers default formatting, but further keys can tailor the output.
+    * **provider** - Collects classes, resources and dependency information and puts them in a specific directory structure under the provider root.
+    * **require** - Define prerequisite classes needed at load time. Takes a map, where the keys are class names and the values lists of prerequisite classes.
+    * **run** - Define a list of jobs to run in place of the current job.
+    * **shell** - Triggers the execution of one or more external command(s).
+    * **simulate** - Triggers the execution of a GUI test (simulated interaction) suite.
+    * **slice-images** - Triggers cutting images into regions.
+    * **translate** - Re-generate .po files from source classes.
+    * **use** - Define prerequisite classes needed at run time. Takes a map, where the keys are class names and the values lists of prerequisite classes.
 
 
 Configuration Keys
 ====================
+Here are the configuration keys with their individual value syntax.
 
 ::
 
@@ -162,14 +157,12 @@ Configuration Keys
     }
   ]
 
-
   "add-script" :
   [
     {
       "uri" : "<script-uri>"
     }
   ]
-
 
   "api" :
   {
@@ -186,12 +179,10 @@ Configuration Keys
     }
   }
 
-
   "asset-let" :
   {
     "<macro_name>" : [ "foo", "bar", "baz" ]
   }
-
 
   "cache" :
   {
@@ -199,7 +190,6 @@ Configuration Keys
     "downloads"   : "<path>",
     "invalidate-on-tool-change" : (true|false)
   }
-
 
   "clean-files" :
   {
@@ -210,9 +200,7 @@ Configuration Keys
     ]
   }
 
-
   "collect-environment-info" : {}
-
 
   "combine-images" :
   {
@@ -234,12 +222,10 @@ Configuration Keys
     }
   }
 
-
   "compile" :
   {
     "type" : "(source|build|hybrid)"
   }
-
 
   "compile-options" :
   {
@@ -267,7 +253,6 @@ Configuration Keys
     }
   }
 
-
   "config-warnings" :
   {
     "job-shadowing"    : ["source-script"],
@@ -276,14 +261,12 @@ Configuration Keys
     "<config_key>"     : ["*"]
   }
 
-
   "copy-files" :
   {
     "files"     : [ "<path>", "<path>" ],
     "source" : "<path>",
     "target"  : "<path>"
   }
-
 
   "copy-resources" :
   {
@@ -292,7 +275,6 @@ Configuration Keys
 
   "default-job" : "source"
 
-
   "dependencies" :
   {
     "follow-static-initializers"  : (true|false),
@@ -300,7 +282,6 @@ Configuration Keys
   }
 
   "desc" : "Some text."
-
 
   "environment" :
   {
@@ -312,7 +293,6 @@ Configuration Keys
 
   "extend" : [ "job1", "job2", "job3" ]
 
-
   "fix-files" :
   {
     "eol-style" : "(LF|CR|CRLF)",
@@ -320,7 +300,6 @@ Configuration Keys
   }
 
   "include" : ["qx.util.*"]
-
 
   "include" :
   [
@@ -332,12 +311,10 @@ Configuration Keys
     }
   ]
 
-
   "jobs" :
   {
     "<job_name>" : { <job_definition> }
   }
-
 
   "let" :
   {
@@ -346,7 +323,6 @@ Configuration Keys
     "<macro_name2>" : { ... }
   }
 
-
   "library" :
   [
     {
@@ -354,7 +330,6 @@ Configuration Keys
       "uri"        : "<from_html_to_manifest_dir>"
     }
   ]
-
 
   "lint-check" :
   {
@@ -375,7 +350,6 @@ Configuration Keys
     "warn-unknown-jsdoc-keys"       : (true|false),
     "warn-jsdoc-key-syntax"         : (true|false)
   }
-
 
   "log" :
   {
@@ -424,7 +398,6 @@ Configuration Keys
     }
   }
 
-
   "migrate-files" :
   {
      "from-version" : "0.7",
@@ -432,7 +405,6 @@ Configuration Keys
   }
 
   "name" : "Some text."
-
 
   "packages" :
   {
@@ -456,7 +428,6 @@ Configuration Keys
     "additional-merge-constraints" : (true|false),
     "verifier-bombs-on-error"      : (true|false)
   }
-
 
   "pretty-print" :
   {
@@ -489,14 +460,12 @@ Configuration Keys
     }
   }
 
-
   "provider" :
   {
     "app-root" : "./provider",
     "include"  : ["${APPLICATION}.*"],
     "exclude"  : ["${APPLICATION}.test.*"]
   }
-
 
   "require" :
   {
@@ -505,12 +474,10 @@ Configuration Keys
 
   "run" : [ "<job1>", "<job2>", "<job3>" ]
 
-
   "shell" :
   {
     "command" : ("echo foo bar baz"|["echo foo", "echo bar", "echo baz"])
   }
-
 
   "simulate" :
   {
@@ -519,7 +486,6 @@ Configuration Keys
     "rhino-class" : "org.mozilla.javascript.tools.shell.Main",
     "simulator-script" : "${BUILD_PATH}/script/simulator.js"
   }
-
 
   "slice-images" :
   {
@@ -535,7 +501,6 @@ Configuration Keys
     }
   }
 
-
   "translate" :
   {
     "namespaces"               : [ "qx.util" ],
@@ -544,12 +509,10 @@ Configuration Keys
     "poentry-with-occurrences" : (true|false)
   }
 
-
   "use" :
   {
     "<class_name>" : [ "qx.util", "qx.fx" ]
   }
-
 
   "watch-files" :
   {
@@ -565,22 +528,19 @@ Configuration Keys
     "exit-on-retcode" : (true|false)
   }
 
+  "web-server" :
+  {
+    "document-root" : "",
+    "server-port"  : 8080,
+    "log-level"    : "error",
+    "allow-remote-access" : false
+  }
 
-    "web-server" :
-    {
-      "document-root" : "",
-      "server-port"  : 8080,
-      "log-level"    : "error",
-      "allow-remote-access" : false
-    }
-
-
-    "web-server-config" :
-    {
-      "output-dir"     : ".",
-      "template-dir"   : "<path>",
-      "httpd-type"     : "apache2",
-      "httpd-host-url" : "http://localhost:8080"
-    }
-
+  "web-server-config" :
+  {
+    "output-dir"     : ".",
+    "template-dir"   : "<path>",
+    "httpd-type"     : "apache2",
+    "httpd-host-url" : "http://localhost:8080"
+  }
 
