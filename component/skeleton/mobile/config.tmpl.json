@@ -51,7 +51,8 @@
     "CSS_COMB_URI" : "./resource/$${APPLICATION_PATH}/css/$${MOBILE_THEME}-style-min.css",
     "CSS_COMBINED" : "$${BUILD_PATH}/$${CSS_COMB_URI}",
     "ROOT"         : ".",
-    "QXTHEME"      : "" // preventing mobile app to load desktop icons
+    "QXTHEME"      : "", // preventing mobile app to load desktop icons
+    "TEST_LOADER" : "testrunner.TestLoaderMobile"
   },
 
   "config-warnings" :
