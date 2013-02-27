@@ -67,7 +67,7 @@ qx.Bootstrap.define("qx.bom.element.Class",
     add :{
       "native" : function(element, name)
       {
-        element.classList.add(name)
+        element.classList.add(name);
         return name;
       },
 
@@ -94,7 +94,7 @@ qx.Bootstrap.define("qx.bom.element.Class",
       "native" : function(element, classes)
       {
         for (var i=0; i<classes.length; i++) {
-          element.classList.add(classes[i])
+          element.classList.add(classes[i]);
         }
         return element.className;
       },
@@ -222,7 +222,7 @@ qx.Bootstrap.define("qx.bom.element.Class",
       "native" : function(element, classes)
       {
         for (var i=0; i<classes.length; i++) {
-          element.classList.remove(classes[i])
+          element.classList.remove(classes[i]);
         }
         return element.className;
       },
