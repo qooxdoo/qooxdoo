@@ -494,7 +494,7 @@ def get_at_hints(node, at_hints=None):
 def defaultOptions():
     class LintOptions(object): pass
     opts = LintOptions()
-    opts.library_classes = []
+    opts.library_classes = [] # with library classes, more exact checks beneath the left-most global are possible
     opts.class_namespaces = []
     opts.allowed_globals = []
     opts.ignore_catch_param = False
