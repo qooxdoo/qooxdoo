@@ -901,7 +901,6 @@ qx.Class.define("qx.ui.core.Widget",
     __containerElement : null,
     __contentElement : null,
     __decoratorElement : null,
-    __protectorElement : null,
     __initialAppearanceApplied : null,
     __toolTipTextListenerId : null,
 
@@ -1092,18 +1091,6 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (inner || this._updateInsets) {
         content.setStyles(contentStyles);
-      }
-
-      if (changes.size)
-      {
-        var protector = this.__protectorElement;
-        if (protector)
-        {
-          protector.setStyles({
-            width : width + "px",
-            height : height + "px"
-          });
-        }
       }
 
       if (changes.size || this._updateInsets)
@@ -1312,7 +1299,6 @@ qx.Class.define("qx.ui.core.Widget",
           }
         }
       }
-
 
       // Build size hint and return
       return {
@@ -2296,61 +2282,6 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Creates the protector element used to block mouse events
-     * from the decoration.
-     *
-     * This is needed because of the way the decorations work. Most
-     * of them tend to replace the underlying HTML of a widget
-     * dynamically on mouse over. But this also means that the
-     * native mouse out is not fired on the new content with which
-     * the old content is replaced. This is a fact given through
-     * the native behavior of the browser.
-     *
-     * The protector is placed between the content and the decoration.
-     */
-    _createProtectorElement : function()
-    {
-      if (this.__protectorElement) {
-        return;
-      }
-
-      var protect = this.__protectorElement = new qx.html.Element;
-
-      if (qx.core.Environment.get("qx.debug")) {
-        protect.setAttribute("qxType", "protector");
-      }
-
-      protect.setStyles(
-      {
-        position: "absolute",
-        top: 0,
-        left: 0,
-        zIndex: 7
-      });
-
-      var bounds = this.getBounds();
-      if (bounds)
-      {
-        this.__protectorElement.setStyles({
-          width : bounds.width + "px",
-          height : bounds.height + "px"
-        });
-      }
-
-      // IE needs some extra love here to convince it to block events.
-      if ((qx.core.Environment.get("engine.name") == "mshtml"))
-      {
-        protect.setStyles({
-          backgroundImage: "url(" + qx.util.ResourceManager.getInstance().toUri("qx/static/blank.gif") + ")",
-          backgroundRepeat: "repeat"
-        });
-      }
-
-      this.getContainerElement().add(protect);
-    },
-
-
     // property apply
     _applyDecorator : function(value, old)
     {
@@ -2368,13 +2299,6 @@ qx.Class.define("qx.ui.core.Widget",
       var pool = qx.ui.core.Widget.__decoratorPool;
       var container = this.getContainerElement();
 
-      // Create protector
-
-      // if the browser supports pointer events the decorator will never receive
-      // any mouse events so the protector is not required.
-      if (!this.__protectorElement && !qx.core.Environment.get("event.pointer")) {
-        this._createProtectorElement();
-      }
 
       // Process old value
       if (old)
@@ -2417,11 +2341,6 @@ qx.Class.define("qx.ui.core.Widget",
         {
           elem.resize(bounds.width, bounds.height);
 
-          // Update protector element
-          this.__protectorElement && this.__protectorElement.setStyles({
-            width : bounds.width + "px",
-            height : bounds.height + "px"
-          });
         }
       }
 
