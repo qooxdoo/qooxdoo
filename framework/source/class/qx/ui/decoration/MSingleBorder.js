@@ -259,8 +259,6 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
 
       // Add basic styles
       styles.position = "absolute";
-      styles.top = 0;
-      styles.left = 0;
     },
 
 

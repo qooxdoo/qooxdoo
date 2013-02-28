@@ -200,11 +200,6 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
         styles["line-height"] = '';
       }
 
-      // final default styles
-      styles["position"] = "absolute";
-      styles["top"] = 0;
-      styles["left"] = 0;
-
       if (qx.core.Environment.get("qx.debug"))
       {
         if (!styles["border-top"] && !styles["border-right"] &&
