@@ -138,7 +138,7 @@ qx.Class.define("qx.theme.manager.Decoration",
             if (names[i].$$type !== "Mixin") {
               throw new Error("Invalid declaration of decorator " + value + " has been found. Only mixins can be enclosed in [] brackets. Found " + names[i] + " in declaration.");
             }
-          }        
+          }
           names[i] = names[i].basename.replace(".", "");
         };
         var name = "qx.ui.decoration.dynamic." + names.join("_");
@@ -180,8 +180,8 @@ qx.Class.define("qx.theme.manager.Decoration",
     /**
      * Whether a value is interpreted dynamically
      *
-     * @param value {String} dynamically interpreted idenfier
-     * @return {Boolean} returns true if the value is interpreted dynamically
+     * @param value {String} dynamically interpreted identifier
+     * @return {Boolean} returns <code>true</code> if the value is interpreted dynamically
      */
     isDynamic : function(value)
     {

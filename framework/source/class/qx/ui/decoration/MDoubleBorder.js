@@ -217,7 +217,7 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
 
     /**
      * Special generator for the markup which creates the containing div and
-     * the sourrounding div as well.
+     * the surrounding div as well.
      *
      * @param styles {Map} The styles for the inner
      * @return {String} The generated decorator HTML.

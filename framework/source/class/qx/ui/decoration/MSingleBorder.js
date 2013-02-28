@@ -73,7 +73,7 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
     styleTop :
     {
       nullable : true,
-      check : [ "solid", "dotted", "dashed", "double"],
+      check : [ "solid", "dotted", "dashed", "double", "inset", "outset", "ridge", "groove"],
       init : "solid",
       apply : "_applyStyle"
     },
@@ -82,7 +82,7 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
     styleRight :
     {
       nullable : true,
-      check : [ "solid", "dotted", "dashed", "double"],
+      check : [ "solid", "dotted", "dashed", "double", "inset", "outset", "ridge", "groove"],
       init : "solid",
       apply : "_applyStyle"
     },
@@ -91,7 +91,7 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
     styleBottom :
     {
       nullable : true,
-      check : [ "solid", "dotted", "dashed", "double"],
+      check : [ "solid", "dotted", "dashed", "double", "inset", "outset", "ridge", "groove"],
       init : "solid",
       apply : "_applyStyle"
     },
@@ -100,7 +100,7 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
     styleLeft :
     {
       nullable : true,
-      check : [ "solid", "dotted", "dashed", "double"],
+      check : [ "solid", "dotted", "dashed", "double", "inset", "outset", "ridge", "groove"],
       init : "solid",
       apply : "_applyStyle"
     },
