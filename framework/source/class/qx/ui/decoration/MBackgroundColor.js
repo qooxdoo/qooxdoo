@@ -36,25 +36,15 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundColor",
 
   members :
   {
-    /**
-     * Tint function for the background color. This is suitable for the
-     * {@link qx.ui.decoration.DynamicDecorator}.
-     *
-     * @param element {Element} The element which could be resized.
-     * @param bgcolor {Color} The new background color.
-     * @param styles {Map} A map of styles to apply.
-     */
-    _tintBackgroundColor : function(element, bgcolor, styles) {
-      if (bgcolor == null) {
-        bgcolor = this.getBackgroundColor();
-      }
 
-      if (qx.core.Environment.get("qx.theme"))
-      {
+    _styleBackgroundColor : function(styles) {
+      var bgcolor = this.getBackgroundColor();
+
+      if (qx.core.Environment.get("qx.theme")) {
         bgcolor = qx.theme.manager.Color.getInstance().resolve(bgcolor);
       }
 
-      styles.backgroundColor = bgcolor || "";
+      styles.backgroundColor = bgcolor;
     },
 
 
