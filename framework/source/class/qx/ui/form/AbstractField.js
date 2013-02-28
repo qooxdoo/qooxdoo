@@ -305,14 +305,9 @@ qx.Class.define("qx.ui.form.AbstractField",
       var inner = changes.size || updateInsets;
       var pixel = "px";
 
-      if (inner || changes.local || changes.margin)
-      {
-        var insets = this.getInsets();
-        var innerWidth = width - insets.left - insets.right;
-        var innerHeight = height - insets.top - insets.bottom;
-        // ensure that the width and height never get negative
-        innerWidth = innerWidth < 0 ? 0 : innerWidth;
-        innerHeight = innerHeight < 0 ? 0 : innerHeight;
+      if (inner || changes.local || changes.margin) {
+        var innerWidth = width;
+        var innerHeight = height;
       }
 
       var input = this.getContentElement();
@@ -320,6 +315,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       // we don't need to update positions on native placeholders
       if (updateInsets && this.__useQxPlaceholder)
       {
+        var insets = this.getInsets();
         // render the placeholder
         this.__getPlaceholderElement().setStyles({
           "left": insets.left + pixel,

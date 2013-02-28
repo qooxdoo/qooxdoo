@@ -900,7 +900,6 @@ qx.Class.define("qx.ui.core.Widget",
   {
     __containerElement : null,
     __contentElement : null,
-    __decoratorElement : null,
     __initialAppearanceApplied : null,
     __toolTipTextListenerId : null,
 
@@ -1065,45 +1064,25 @@ qx.Class.define("qx.ui.core.Widget",
         container.setStyles(containerStyles);
       }
 
-      if (inner || changes.local || changes.margin)
-      {
-        var insets = this.getInsets();
-        var innerWidth = width - insets.left - insets.right;
-        var innerHeight = height - insets.top - insets.bottom;
-        // ensure that the width and height never get negative
-        innerWidth = innerWidth < 0 ? 0 : innerWidth;
-        innerHeight = innerHeight < 0 ? 0 : innerHeight;
-      }
-
       var contentStyles = {};
 
-      if (this._updateInsets)
+      if (inner || changes.local || changes.margin)
       {
-        contentStyles.left = insets.left + pixel;
-        contentStyles.top = insets.top + pixel;
-      }
-
-      if (inner)
-      {
-        contentStyles.width = innerWidth + pixel;
-        contentStyles.height = innerHeight + pixel;
+        contentStyles.width = width + pixel;
+        contentStyles.height = height + pixel;
       }
 
       if (inner || this._updateInsets) {
         content.setStyles(contentStyles);
       }
 
-      if (changes.size || this._updateInsets)
-      {
-        if (this.__decoratorElement) {
-          this.__decoratorElement.resize(width, height);
-        }
-      }
-
       if (inner || changes.local || changes.margin)
       {
         if (this.__layoutManager && this.hasLayoutChildren()) {
-          this.__layoutManager.renderLayout(innerWidth, innerHeight);
+          var inset = this.getInsets();
+          var innerWidth = width - inset.left - inset.right;
+          var innerHeight = height - inset.top - inset.bottom;
+          this.__layoutManager.renderLayout(innerWidth, innerHeight, this.getPaddingLeft() || 0, this.getPaddingTop() || 0);
         } else if (this.hasLayoutChildren()) {
           throw new Error("At least one child in control " +
             this._findTopControl() +
@@ -1434,9 +1413,9 @@ qx.Class.define("qx.ui.core.Widget",
       var right = this.getPaddingRight();
       var bottom = this.getPaddingBottom();
       var left = this.getPaddingLeft();
-      if (this.__decoratorElement)
-      {
-        var inset = this.__decoratorElement.getInsets();
+      if (this.getDecorator()) {
+        var decorator = qx.theme.manager.Decoration.getInstance().resolve(this.getDecorator());
+        var inset = decorator.getInsets();
 
         if (qx.core.Environment.get("qx.debug"))
         {
@@ -1725,17 +1704,6 @@ qx.Class.define("qx.ui.core.Widget",
      */
     getContentElement : function() {
       return this.__contentElement;
-    },
-
-
-    /**
-     * Returns the element wrapper of the widget's decorator element.
-     * This method exposes widget internals and must be used with caution!
-     *
-     * @return {qx.html.Decorator|null} The widget's decorator element (may be null)
-     */
-    getDecoratorElement : function() {
-      return this.__decoratorElement || null;
     },
 
 
@@ -2271,6 +2239,9 @@ qx.Class.define("qx.ui.core.Widget",
     {
       this._updateInsets = true;
       qx.ui.core.queue.Layout.add(this);
+
+      var content = this.getContentElement();
+      content.setStyle(name, value + "px");
     },
 
 
@@ -2296,54 +2267,21 @@ qx.Class.define("qx.ui.core.Widget",
         }
       }
 
-      var pool = qx.ui.core.Widget.__decoratorPool;
-      var container = this.getContainerElement();
 
+      var content = this.getContentElement();
 
-      // Process old value
-      if (old)
-      {
-        container.remove(this.__decoratorElement);
-        pool.poolDecorator(this.__decoratorElement);
-      }
-
-      // Process new value
-      if (value)
-      {
-        var elem = this.__decoratorElement = pool.getDecoratorElement(value);
-        elem.setStyle("zIndex", 5);
-
-        // Add to container
-        container.add(elem);
-      }
-      else
-      {
-        delete this.__decoratorElement;
-      }
-
-      // Apply background color
-      this._applyBackgroundColor(this.getBackgroundColor());
-
-      // Apply change
-      if (this.__checkInsetsModified(old, value))
-      {
-        // We have changes to the insets, which means we
-        // delegate the resize to the layout system.
-        this._updateInsets = true;
-        qx.ui.core.queue.Layout.add(this);
-      }
-      else if (value)
-      {
-        // When bounds are existing directly resize the decorator
-        // otherwise wait for initial resize through layouter
-        var bounds = this.getBounds();
-        if (bounds)
-        {
-          elem.resize(bounds.width, bounds.height);
-
+      // remove old styles
+      if (old) {
+        old = qx.theme.manager.Decoration.getInstance().resolve(old);
+        var oldStyles = old.getStyles();
+        for (var style in oldStyles) {
+          content.removeStyle(style);
         }
       }
 
+      if (value) {
+        value = qx.theme.manager.Decoration.getInstance().resolve(value);
+        content.setStyles(value.getStyles());
       }
     },
 
@@ -2446,23 +2384,12 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     // property apply
-    _applyBackgroundColor : function(value, old)
-    {
+    _applyBackgroundColor : function(value, old) {
       var color = this.getBackgroundColor();
-      var container = this.getContainerElement();
+      var content = this.getContentElement();
 
-      if (this.__decoratorElement)
-      {
-        // Apply to decoration element
-        this.__decoratorElement.tint(color);
-        container.setStyle("backgroundColor", null);
-      }
-      else
-      {
-        // Add color to container
-        var resolved = qx.theme.manager.Color.getInstance().resolve(color);
-        container.setStyle("backgroundColor", resolved);
-      }
+      var resolved = qx.theme.manager.Color.getInstance().resolve(color);
+      content.setStyle("backgroundColor", resolved);
     },
 
 
@@ -3998,22 +3925,12 @@ qx.Class.define("qx.ui.core.Widget",
       var clazz = qx.ui.core.Widget;
       var container = this.getContainerElement();
 
-      if (this.__decoratorElement)
-      {
-        container.remove(this.__decoratorElement);
-        clazz.__decoratorPool.poolDecorator(this.__decoratorElement);
-      }
-
       this.clearSeparators();
-      this.__decoratorElement = this.__shadowElement = this.__separators = null;
+      this.__separators = null;
     }
     else
     {
       this._disposeArray("__separators");
-      this._disposeObjects(
-        "__decoratorElement",
-        "__shadowElement"
-      );
     }
 
     // Clear children array
@@ -4028,8 +3945,7 @@ qx.Class.define("qx.ui.core.Widget",
     this._disposeObjects(
       "__layoutManager",
       "__containerElement",
-      "__contentElement",
-      "__protectorElement"
+      "__contentElement"
     );
   }
 });
