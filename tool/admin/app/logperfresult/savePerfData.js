@@ -42,7 +42,7 @@ data.forEach(processEntry);
 
 function processEntry(entry, id) {
   var filename = entry.browsername + "-" +
-    entry.browserversion + "-" +
+    //entry.browserversion + "-" +
     entry.testname.replace(/:/g, ".");
     debug && console.log("DB filename:", filename);
   createDataBase(filename, function() {

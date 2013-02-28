@@ -7,15 +7,14 @@
   <script type="text/javascript">
   var callback = function(files) {
     files.forEach(function(file) {
-      //chrome-24.0-testrunner.test.Performance.testRepeated.rrd.png
+      //chrome-testrunner.test.Performance.testRepeated.rrd.png
       var parts = file.split("-");
-      var testName = parts[2].match(/(.*?)\.png/)[1];
+      var testName = parts[1].match(/(.*?)\.png/)[1];
       var testId = testName.split(".")[testName.split(".").length - 1];
       var browserName = parts[0];
       var view = {
         testName: testName,
         browserName: browserName,
-        browserVersion: parts[1],
         imgSrc: "graphs/" + file,
         testId: testId
       };
@@ -62,7 +61,7 @@
   <script id="graphTmpl" type="text/template">
     <div class="{{browserName}} {{testId}}">
       <h2>{{testName}}</h2>
-      <h4>{{browserName}} {{browserVersion}}</h4>
+      <h4>{{browserName}}</h4>
       <img src="{{imgSrc}}" />
     </div>
   </script>
