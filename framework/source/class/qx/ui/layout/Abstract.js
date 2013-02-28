@@ -74,8 +74,10 @@ qx.Class.define("qx.ui.layout.Abstract",
      * @abstract
      * @param availWidth {Integer} Final width available for the content (in pixel)
      * @param availHeight {Integer} Final height available for the content (in pixel)
+     * @param left {Integer} The left position to start from.
+     * @param top {Integer} The top position to start from.
      */
-    renderLayout : function(availWidth, availHeight) {
+    renderLayout : function(availWidth, availHeight, left, top) {
       this.warn("Missing renderLayout() implementation!");
     },
 

@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.layout.Atom",
 
 
     // overridden
-    renderLayout : function(availWidth, availHeight)
+    renderLayout : function(availWidth, availHeight, left, top)
     {
       var Util = qx.ui.layout.Util;
 
@@ -125,7 +125,7 @@ qx.Class.define("qx.ui.layout.Atom",
       var children = this._getLayoutChildren();
       var length = children.length;
 
-      var left, top, width, height;
+      var width, height;
       var child, hint;
       var gap = this.getGap();
       var center = this.getCenter();
@@ -165,11 +165,7 @@ qx.Class.define("qx.ui.layout.Atom",
             }
           }
 
-          top = Math.round((availHeight - allocatedHeight) / 2);
-        }
-        else
-        {
-          top = 0;
+          top += Math.round((availHeight - allocatedHeight) / 2);
         }
 
         for (var i=start; i!=end; i+=increment)
@@ -180,7 +176,7 @@ qx.Class.define("qx.ui.layout.Atom",
           width = Math.min(hint.maxWidth, Math.max(availWidth, hint.minWidth));
           height = hint.height;
 
-          left = Util.computeHorizontalAlignOffset("center", width, availWidth);
+          left += Util.computeHorizontalAlignOffset("center", width, availWidth);
           child.renderLayout(left, top, width, height);
 
           // Ignore pseudo invisible elements
@@ -229,9 +225,7 @@ qx.Class.define("qx.ui.layout.Atom",
         }
 
         if (center && remainingWidth > 0) {
-          left = Math.round(remainingWidth / 2);
-        } else {
-          left = 0;
+          left += Math.round(remainingWidth / 2);
         }
 
         for (var i=start; i!=end; i+=increment)
@@ -253,7 +247,7 @@ qx.Class.define("qx.ui.layout.Atom",
           } else if (iconPosition == "bottom-left" || iconPosition == "bottom-right") {
             align = "bottom";
           }
-          top = Util.computeVerticalAlignOffset(align, hint.height, availHeight);
+          top += Util.computeVerticalAlignOffset(align, hint.height, availHeight);
           child.renderLayout(left, top, width, height);
 
           // Ignore pseudo invisible childs for gap e.g.
