@@ -98,7 +98,7 @@ qx.Theme.define("qx.theme.indigo.Decoration",
 
     "statusbar" :
     {
-      decorator : qx.ui.decoration.Single,
+      decorator : [qx.ui.decoration.MSingleBorder],
 
       style :
       {
