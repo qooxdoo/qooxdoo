@@ -464,29 +464,6 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * The decorator used to render the widget's outline/shadow. The decorator's
-     * insets are interpreted as the amount of pixels the shadow extends the
-     * widget's size.
-     *
-     * This can be a decorator object or a string pointing to a decorator
-     * defined in the decoration theme.
-     *
-     * Note that shadows work only properly in top level widgets like menus, windows
-     * or tooltips. If used in inner widgets the shadow may not be cut by the
-     * parent widget.
-     */
-    shadow :
-    {
-      nullable : true,
-      init : null,
-      apply : "_applyShadow",
-      event : "changeShadow",
-      check : "Decorator",
-      themeable : true
-    },
-
-
-    /**
      * The background color the rendered widget.
      */
     backgroundColor :
@@ -924,7 +901,6 @@ qx.Class.define("qx.ui.core.Widget",
     __containerElement : null,
     __contentElement : null,
     __decoratorElement : null,
-    __shadowElement : null,
     __protectorElement : null,
     __initialAppearanceApplied : null,
     __toolTipTextListenerId : null,
@@ -1134,25 +1110,6 @@ qx.Class.define("qx.ui.core.Widget",
       {
         if (this.__decoratorElement) {
           this.__decoratorElement.resize(width, height);
-        }
-      }
-
-      if (changes.size)
-      {
-        if (this.__shadowElement)
-        {
-          var insets = this.__shadowElement.getInsets();
-
-          var shadowWidth = width + insets.left + insets.right;
-          var shadowHeight = height + insets.top + insets.bottom;
-
-          this.__shadowElement.resize(shadowWidth, shadowHeight);
-
-          // Move out of container by top/left inset
-          this.__shadowElement.setStyles({
-            left: -insets.left + "px",
-            top: -insets.top + "px"
-          }, true);
         }
       }
 
@@ -1793,17 +1750,6 @@ qx.Class.define("qx.ui.core.Widget",
      */
     getDecoratorElement : function() {
       return this.__decoratorElement || null;
-    },
-
-
-    /**
-     * Returns the element wrapper of the widget's shadow element.
-     * This method exposes widget internals and must be used with caution!
-     *
-     * @return {qx.html.Decorator|null} The widget's shadow element (may be null)
-     */
-    getShadowElement : function() {
-      return this.__shadowElement || null;
     },
 
 
@@ -2478,53 +2424,7 @@ qx.Class.define("qx.ui.core.Widget",
           });
         }
       }
-    },
 
-
-    // property apply
-    _applyShadow : function(value, old)
-    {
-      var pool = qx.ui.core.Widget.__shadowPool;
-      var container = this.getContainerElement();
-
-      // Clear old value
-      if (old)
-      {
-        container.remove(this.__shadowElement);
-        pool.poolDecorator(this.__shadowElement);
-      }
-
-      // Apply new value
-      if (value)
-      {
-        var elem = this.__shadowElement = pool.getDecoratorElement(value);
-
-        // Add to container
-        container.add(elem);
-
-        var insets = elem.getInsets();
-
-        // Directly update for size when possible
-        var bounds = this.getBounds();
-        if (bounds)
-        {
-          var shadowWidth = bounds.width + insets.left + insets.right;
-          var shadowHeight = bounds.height + insets.top + insets.bottom;
-
-          elem.resize(shadowWidth, shadowHeight);
-
-          // Move out of container by top/left inset
-          elem.setStyles({
-            left: -insets.left + "px",
-            top: -insets.top + "px"
-          }, true);
-        }
-
-        elem.tint(null);
-      }
-      else
-      {
-        delete this.__shadowElement;
       }
     },
 
@@ -4183,12 +4083,6 @@ qx.Class.define("qx.ui.core.Widget",
       {
         container.remove(this.__decoratorElement);
         clazz.__decoratorPool.poolDecorator(this.__decoratorElement);
-      }
-
-      if (this.__shadowElement)
-      {
-        container.remove(this.__shadowElement);
-        clazz.__shadowPool.poolDecorator(this.__shadowElement);
       }
 
       this.clearSeparators();
