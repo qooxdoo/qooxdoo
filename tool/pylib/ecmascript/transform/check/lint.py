@@ -509,6 +509,9 @@ def defaultOptions():
     opts.ignore_undefined_globals = False
     opts.ignore_unused_parameter = True
     opts.ignore_unused_variables = False
+    opts.warn_unknown_jsdoc_keys = False
+    opts.warn_jsdoc_key_syntax   = True
+ 
 
     return opts
 

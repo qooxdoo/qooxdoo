@@ -581,20 +581,22 @@
 
       "lint-check" :
       {
-        "allowed-globals" : [ "q", "qxWeb", "qxsettings", "qxvariants" ]
-        ,"ignore-catch-param" : false
-        ,"ignore-deprecated-symbols" : false
-        ,"ignore-environment-nonlit-key" : false
-        ,"ignore-finally-without-catch" : false
-        ,"ignore-multiple-mapkeys" : false
-        ,"ignore-multiple-vardecls": true
-        ,"ignore-no-loop-block" : false
-        ,"ignore-reference-fields" : false
-        ,"ignore-undeclared-privates" : false
-        ,"ignore-undefined-globals" : false
-        ,"ignore-unused-parameter" : true
-        ,"ignore-unused-variables" : false
+        "allowed-globals"   : [ "q", "qxWeb", "qxsettings", "qxvariants" ]
+        ,"ignore-catch-param"               : false
+        ,"ignore-deprecated-symbols"        : false
+        ,"ignore-environment-nonlit-key"    : false
+        ,"ignore-finally-without-catch"     : false
+        ,"ignore-multiple-mapkeys"          : false
+        ,"ignore-multiple-vardecls"         : true
+        ,"ignore-no-loop-block"             : false
+        ,"ignore-reference-fields"          : false
+        ,"ignore-undeclared-privates"       : false
+        ,"ignore-undefined-globals"         : false
+        ,"ignore-unused-parameter"          : true
+        ,"ignore-unused-variables"          : false
         ,"run" : true
+        ,"warn-unknown-jsdoc-keys"          : false
+        ,"warn-jsdoc-key-syntax"            : true
       }
     },
 
