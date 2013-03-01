@@ -36,7 +36,7 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
      */
     getStyles : function()
     {
-      var jsStyles = {"box-sizing": "border-box"};
+      var jsStyles = {};
       var cssStyles = this._getStyles();
 
       for (var property in cssStyles)
