@@ -40,6 +40,11 @@
  *
  * This class uses a {@link qx.ui.layout.Canvas} as fixed layout. The layout
  * cannot be changed.
+ *
+ * @ignore(qx.ui.popup)
+ * @ignore(qx.ui.popup.Manager)
+ * @ignore(qx.ui.menu)
+ * @ignore(qx.ui.menu.Manager)
  */
 qx.Class.define("qx.ui.root.Application",
 {

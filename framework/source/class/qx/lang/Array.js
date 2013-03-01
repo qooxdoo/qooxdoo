@@ -47,6 +47,10 @@
  * The native JavaScript Array is not modified by this class. However,
  * there are modifications to the native Array in {@link qx.lang.normalize.Array} for
  * browsers that do not support certain JavaScript features natively .
+ *
+ * @ignore(qx.data)
+ * @ignore(qx.Class)
+ * @require(qx.lang.normalize.Date)
  */
 qx.Bootstrap.define("qx.lang.Array",
 {

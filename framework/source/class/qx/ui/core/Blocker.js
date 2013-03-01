@@ -30,6 +30,8 @@
  *
  * The second set of methods ({@link #blockContent}, {@link #unblockContent})
  * can be used to block child widgets with a zIndex below a certain value.
+ *
+ * @ignore(qx.ui.root.Page)
  */
 qx.Class.define("qx.ui.core.Blocker",
 {
