@@ -362,7 +362,7 @@ class Comment(object):
                 # unknown tag
                 else:
                     entry = self.parse_at__default_(line)
-                    if opts.warn_unknown_jsdoc_keys==[] or hint_key in opts.warn_unknown_jsdoc_keys:
+                    if opts.warn_unknown_jsdoc_keys:
                         #entry["error"] = "parseError",
                         #entry["message"] = "Unknown '@' hint in JSDoc comment"
                         context.console.warn("Unknown '@' hint in JSDoc comment: " + hint_key)
