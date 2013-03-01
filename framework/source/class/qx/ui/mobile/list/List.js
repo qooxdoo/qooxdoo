@@ -299,6 +299,10 @@ qx.Class.define("qx.ui.mobile.list.List",
     _extractRowsToRender : function(name) {
       var rows = [];
       
+      if(!name) {
+        return rows;
+      }
+      
       // "[0-2].propertyName" | "[0].propertyName" | "0"
       var containsPoint = (name.indexOf(".")!=-1);
       if(containsPoint) {
