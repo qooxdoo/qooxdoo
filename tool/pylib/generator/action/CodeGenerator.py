@@ -743,6 +743,7 @@ class CodeGenerator(object):
 
 
         def compileClasses(classList, compConf, log_progress=lambda:None):
+            lint_opts = self.lint_opts(classList)
             num_proc = self._job.get('run-time/num-processes', 0)
             result = []
             # warn qx.allowUrlSettings - variants optim. conflict (bug#6141)
@@ -757,15 +758,22 @@ class CodeGenerator(object):
                     tmp_optimize.remove("variants") # has been done in optimizeDeadCode
                 # do the rest
                 for clazz in classList:
+                    lint.lint_check(clazz._tmp_tree, clazz.id, lint_opts) # this has to run *before* other optimizations, as trees get changed there
                     tree = clazz.optimize(clazz._tmp_tree, tmp_optimize)
                     code = clazz.serializeTree(tree, tmp_optimize, compConf.format)
                     result.append(code)
-                    #clazz._tmp_tree = None # reset _tmp_tree
                     log_progress()
                 result = u''.join(result)
             else:
                 if num_proc == 0:
                     for clazz in classList:
+                        if "variants" in compConf.optimize: # do variant opt. ahead for lint_check
+                            tree = clazz.optimize(None, ["variants"], compConf.variantset)
+                        else:
+                            tree = clazz.tree()
+                        lint.lint_check(tree, clazz.id, lint_opts)  # has to run before the other optimizations 
+                        #tree = clazz.optimize(None, compConf.optimize, compConf.variants, script._featureMap)
+                        #code = clazz.serializeTree(tree, compConf.optimize, compConf.format)
                         code = clazz.getCode(compConf, treegen=treegenerator, featuremap=script._featureMap) # choose parser frontend
                         result.append(code)
                         log_progress()
@@ -959,9 +967,6 @@ class CodeGenerator(object):
             script = self.generateI18NParts(script, locales, per_file_prefix)
             self.writePackages([p for p in script.packages if getattr(p, "__localeflag", False)], script)
 
-        # Lint-check classes
-        self.lint_classes(script.classesObj)
-
         # ---- create script files ---------------------------------------------
 
         # - Generating packages ---------------------
@@ -1013,6 +1018,9 @@ class CodeGenerator(object):
         fname = self._computeFilePath(script, isLoader=1)
         self.writePackage(loaderCode, fname, script, isLoader=1)
 
+        # Lint-check classes
+        #self.lint_classes(script.classesObj)
+
 
         self._console.outdent()
 
@@ -1021,6 +1029,11 @@ class CodeGenerator(object):
 
     def lint_classes(self, classesObj):
     
+        opts = self.lint_opts(classesObj)
+        for clazz in classesObj:
+            lint.lint_check(clazz.tree(), clazz.id, opts)
+
+    def lint_opts(self, classesObj):
         opts = lint.defaultOptions()
         opts.library_classes = [x.id for x in classesObj]
         opts.class_namespaces = ClassList.namespaces_from_classnames(opts.library_classes)
@@ -1033,10 +1046,8 @@ class CodeGenerator(object):
         jobConf = self._job
         for option, value in jobConf.get("lint-check", {}).items():
             setattr(opts, option.replace("-","_"), value)
+        return opts
         
-        for clazz in classesObj:
-            lint.lint_check(clazz.tree(), clazz.id, opts)
-
     ##
     # Pretty-print set of classes.
     # Collects options and invokes ecmascript.backend.formatter

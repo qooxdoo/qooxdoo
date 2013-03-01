@@ -172,7 +172,16 @@
       "compile-options" :
       {
         "code" : {
-          "=optimize" : ["basecalls", "comments", "privates", "strings", "variables", "variants", "statics", "whitespace"],
+          "=optimize" : [
+            "basecalls",
+            "comments",
+            "privates",
+            "strings",
+            "variables",
+            "variants",
+            "statics",
+            "whitespace"
+          ],
           "format" : false
         },
         "paths"  :

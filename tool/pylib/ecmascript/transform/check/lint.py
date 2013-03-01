@@ -548,5 +548,6 @@ def extension_match_in(name, name_list, name_spaces):
 # - ---------------------------------------------------------------------------
 
 def lint_check(node, file_name, opts):
+    node = scopes.create_scopes(node)  # update scopes
     lint = LintChecker(node, file_name, opts)
     lint.visit(node)
