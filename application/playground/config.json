@@ -21,8 +21,14 @@
 
   "config-warnings" :
   {
-    "job-shadowing" : ["source", "source-hybrid", "build-resources", "build-script", "translation"],
-
+    "job-shadowing" : 
+    [
+      "source",
+      "source-hybrid",
+      "build-resources",
+      "build-script",
+      "translation"
+    ],
     "environment" : [ "non-literal-keys" ]
   },
 
@@ -54,6 +60,7 @@
       [
         "qx.test.*",
         "qx.dev.unit.*",
+        "qx.dev.FakeServer",  // as this depends on qx.dev.unit classes
         "playground.test.*",
         "qx.core.MEvents",
         "qx.lang.Core"

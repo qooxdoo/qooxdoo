@@ -30,6 +30,8 @@
  * <code>qx.mobile.nativescroll</code> is set to "off". Uses the iScroll script to simulate
  * the CSS position:fixed style. Position fixed is not available in iOS and
  * Android < 2.2.
+ *
+ * @ignore(iScroll)
  */
 qx.Mixin.define("qx.ui.mobile.container.MIScroll",
 {

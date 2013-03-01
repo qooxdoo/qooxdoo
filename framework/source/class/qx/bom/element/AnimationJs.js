@@ -31,6 +31,8 @@
  * feature detection for CSS animations and decides which implementation
  * (CSS or JavaScript) should be used. Most likely, this implementation should
  * be the one to use.
+ *
+ * @ignore(qx.bom.element.Style)
  */
 qx.Bootstrap.define("qx.bom.element.AnimationJs",
 {

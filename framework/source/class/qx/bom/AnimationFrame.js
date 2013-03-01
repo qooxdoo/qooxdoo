@@ -58,6 +58,9 @@
  * }, this);
  * frame.startSequence(duration);
  * </pre>
+ *
+ * @ignore(performance)
+ * @ignore(performance.timing)
  */
 qx.Bootstrap.define("qx.bom.AnimationFrame",
 {

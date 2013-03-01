@@ -144,6 +144,7 @@
  * </table>
  *
  * @internal
+ * @ignore(qx.Interface)
  */
 qx.Bootstrap.define("qx.core.Property",
 {

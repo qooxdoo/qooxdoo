@@ -27,6 +27,7 @@
  * or more parts.
  *
  * @internal
+ * @ignore(qx.util.ResourceManager)
  */
 qx.Bootstrap.define("qx.io.part.Package",
 {

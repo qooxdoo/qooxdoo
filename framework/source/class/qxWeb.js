@@ -35,6 +35,8 @@
  *
  * For further details, take a look at the documentation in the
  * <a href='http://manual.qooxdoo.org/${qxversion}/pages/website.html' target='_blank'>user manual</a>.
+ *
+ * @ignore(q)
  */
 qx.Bootstrap.define("qxWeb", {
   extend : qx.type.BaseArray,

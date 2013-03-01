@@ -23,6 +23,8 @@
 
 /**
  * Methods to get information about the JavaScript call stack.
+ *
+ * @ignore(qx.bom.client.EcmaScript)
  */
 qx.Bootstrap.define("qx.dev.StackTrace",
 {
