@@ -255,6 +255,15 @@
       }
     }
     
+    ,"lint" : 
+    {
+      "log" : {
+        "filter" : {
+          "debug" : [ "generator.action.CodeMaintenance.lint_classes" ]
+        }
+      }
+    }
+
     ,"translation" :
     {
       "extend" : ["cache"],

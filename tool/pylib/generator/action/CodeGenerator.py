@@ -743,7 +743,9 @@ class CodeGenerator(object):
 
 
         def compileClasses(classList, compConf, log_progress=lambda:None):
-            lint_opts = self.lint_opts(classList)
+            lint_check = self._job.get('compile-options/code/lint-check', False)
+            if lint_check:
+                lint_opts = self.lint_opts(classList)
             num_proc = self._job.get('run-time/num-processes', 0)
             result = []
             # warn qx.allowUrlSettings - variants optim. conflict (bug#6141)
@@ -758,7 +760,8 @@ class CodeGenerator(object):
                     tmp_optimize.remove("variants") # has been done in optimizeDeadCode
                 # do the rest
                 for clazz in classList:
-                    lint.lint_check(clazz._tmp_tree, clazz.id, lint_opts) # this has to run *before* other optimizations, as trees get changed there
+                    if lint_check:
+                        lint.lint_check(clazz._tmp_tree, clazz.id, lint_opts) # this has to run *before* other optimizations, as trees get changed there
                     tree = clazz.optimize(clazz._tmp_tree, tmp_optimize)
                     code = clazz.serializeTree(tree, tmp_optimize, compConf.format)
                     result.append(code)
@@ -767,11 +770,12 @@ class CodeGenerator(object):
             else:
                 if num_proc == 0:
                     for clazz in classList:
-                        if "variants" in compConf.optimize: # do variant opt. ahead for lint_check
-                            tree = clazz.optimize(None, ["variants"], compConf.variantset)
-                        else:
-                            tree = clazz.tree()
-                        lint.lint_check(tree, clazz.id, lint_opts)  # has to run before the other optimizations 
+                        if lint_check:
+                            if "variants" in compConf.optimize: # do variant opt. ahead for lint_check
+                                tree = clazz.optimize(None, ["variants"], compConf.variantset)
+                            else:
+                                tree = clazz.tree()
+                            lint.lint_check(tree, clazz.id, lint_opts)  # has to run before the other optimizations 
                         #tree = clazz.optimize(None, compConf.optimize, compConf.variants, script._featureMap)
                         #code = clazz.serializeTree(tree, compConf.optimize, compConf.format)
                         code = clazz.getCode(compConf, treegen=treegenerator, featuremap=script._featureMap) # choose parser frontend
