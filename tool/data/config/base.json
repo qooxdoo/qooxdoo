@@ -27,6 +27,7 @@
     "LOCALES"      : [ "en" ],
     "APPLICATION_MAIN_CLASS" : "${APPLICATION}.Application",
     "ADD_NOCACHE_PARAM"      : false,
+    "COMPILE_WITH_LINT"      : true,
     "SOURCE_PATH"  : "${ROOT}/source",
     "BUILD_PATH"   : "${ROOT}/build"
   },
@@ -119,7 +120,7 @@
         "code" :
         {
           "locales"    : "${LOCALES}",
-          "lint-check" : true
+          "lint-check" : "${COMPILE_WITH_LINT}"
         }
       }
     },
@@ -269,7 +270,7 @@
           "locales"  : "${LOCALES}",
           "except"   : [],
           "optimize" : "${OPTIMIZE}",
-          "lint-check" : true
+          "lint-check" : "${COMPILE_WITH_LINT}"
         }
       },
 

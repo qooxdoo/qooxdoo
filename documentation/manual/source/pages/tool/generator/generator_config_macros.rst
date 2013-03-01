@@ -60,10 +60,16 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
       - takes the value of a complete :ref:`cache <pages/tool/generator/generator_config_ref#cache>` configuration key (i.e. a map)
       - { "compile" : "${CACHE}", "downloads" : "${CACHE}/downloads", "invalidate-on-tool-change" : true }
   
+    * - .. _pages/tool/generator/generator_config_macros#compile_with_lint:
+        
+        COMPILE_WITH_LINT
+      - turn :ref:`lint-check <pages/tool/generator/generator_config_ref#compile-options>` on/off during compile runs
+      - true
+  
     * - .. _pages/tool/generator/generator_config_macros#generator_opts:
         
         GENERATOR_OPTS
-      - *(experimental)* (read-only) string with the command line options the generator was invoked with (e.g. *"-c myconf.json -q"*)
+      - (read-only) string with the command line options the generator was invoked with (e.g. *"-c myconf.json -q"*)
       - <undef>
       
     * - .. _pages/tool/generator/generator_config_macros#home:
