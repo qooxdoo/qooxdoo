@@ -118,7 +118,8 @@
         },
         "code" :
         {
-          "locales" : "${LOCALES}"
+          "locales"    : "${LOCALES}",
+          "lint-check" : true
         }
       }
     },
@@ -267,7 +268,8 @@
           "format"   : false,
           "locales"  : "${LOCALES}",
           "except"   : [],
-          "optimize" : "${OPTIMIZE}"
+          "optimize" : "${OPTIMIZE}",
+          "lint-check" : true
         }
       },
 

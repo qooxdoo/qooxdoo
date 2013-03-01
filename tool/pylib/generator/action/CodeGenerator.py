@@ -743,9 +743,7 @@ class CodeGenerator(object):
 
 
         def compileClasses(classList, compConf, log_progress=lambda:None):
-            lint_check = self._job.get('compile-options/code/lint-check', False)
-            if lint_check:
-                lint_opts = self.lint_opts(classList)
+            lint_check, lint_opts = self.lint_opts(classList)
             num_proc = self._job.get('run-time/num-processes', 0)
             result = []
             # warn qx.allowUrlSettings - variants optim. conflict (bug#6141)
@@ -821,6 +819,7 @@ class CodeGenerator(object):
             # Write the package data and the compiled class code in so many
             # .js files, skipping source files.
             def write_uris(package_data, package_classes, per_file_prefix):
+                lint_check, lint_opts = self.lint_opts(script.classesObj)
                 sourceFilter = ClassMatchList(compConf.get("code/except", []))
                 compiled_classes = []  # to accumulate classes that are compiled and can go into one .js file
                 package_uris = []      # the uri's of the .js files of this package
@@ -845,6 +844,8 @@ class CodeGenerator(object):
                         shortUri = Uri(relpath.toUri())
                         entry    = "%s:%s" % (clazz.library.namespace, shortUri.encodedValue())
                         package_uris.append(entry)
+                        if lint_check: # compiled classes are lint'ed in compileClasses()
+                            lint.lint_check(clazz.tree(), clazz.id, lint_opts)
                         log_progress()
 
                     # register it to be lumped together with other classes
@@ -1038,19 +1039,22 @@ class CodeGenerator(object):
             lint.lint_check(clazz.tree(), clazz.id, opts)
 
     def lint_opts(self, classesObj):
-        opts = lint.defaultOptions()
-        opts.library_classes = [x.id for x in classesObj]
-        opts.class_namespaces = ClassList.namespaces_from_classnames(opts.library_classes)
-        # some sensible settings (deviating from defaultOptions)
-        opts.ignore_no_loop_block = True
-        opts.ignore_reference_fields = True
-        opts.ignore_undeclared_privates = True
-        opts.ignore_unused_variables = True
-        # override from config
-        jobConf = self._job
-        for option, value in jobConf.get("lint-check", {}).items():
-            setattr(opts, option.replace("-","_"), value)
-        return opts
+        do_check = self._job.get('compile-options/code/lint-check', True)
+        opts = None
+        if do_check:
+            opts = lint.defaultOptions()
+            opts.library_classes = [x.id for x in classesObj]
+            opts.class_namespaces = ClassList.namespaces_from_classnames(opts.library_classes)
+            # some sensible settings (deviating from defaultOptions)
+            opts.ignore_no_loop_block = True
+            opts.ignore_reference_fields = True
+            opts.ignore_undeclared_privates = True
+            opts.ignore_unused_variables = True
+            # override from config
+            jobConf = self._job
+            for option, value in jobConf.get("lint-check", {}).items():
+                setattr(opts, option.replace("-","_"), value)
+        return do_check, opts
         
     ##
     # Pretty-print set of classes.
