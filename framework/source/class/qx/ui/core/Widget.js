@@ -877,12 +877,8 @@ qx.Class.define("qx.ui.core.Widget",
       return false;
     },
 
-
-    /** {Map} Contains all pooled decorators for reuse */
-    __decoratorPool : new qx.ui.core.DecoratorFactory(),
-
-    /** {Map} Contains all pooled shadows for reuse */
-    __shadowPool : new qx.ui.core.DecoratorFactory()
+    /** {Map} Contains all pooled separators for reuse */
+    __separatorPool : new qx.util.ObjectPool()
   },
 
 
@@ -1136,14 +1132,14 @@ qx.Class.define("qx.ui.core.Widget",
         return;
       }
 
-      var pool = qx.ui.core.Widget.__decoratorPool;
+      var pool = qx.ui.core.Widget.__separatorPool;
       var content = this.getContentElement();
       var elem;
 
       for (var i=0, l=reg.length; i<l; i++)
       {
         elem = reg[i];
-        pool.poolDecorator(elem);
+        pool.poolObject(elem);
         content.remove(elem);
       }
 
@@ -1156,11 +1152,12 @@ qx.Class.define("qx.ui.core.Widget",
     renderSeparator : function(separator, bounds)
     {
       // Insert
-      var elem = qx.ui.core.Widget.__decoratorPool.getDecoratorElement(separator);
+      var widget = qx.ui.core.Widget.__separatorPool.getObject(qx.ui.core.Widget);
+      widget.set({
+        decorator: separator
+      });
+      var elem = widget.getContentElement();
       this.getContentElement().add(elem);
-
-      // Resize
-      elem.resize(bounds.width, bounds.height);
 
       // Move
       var domEl = elem.getDomElement();
@@ -1169,19 +1166,22 @@ qx.Class.define("qx.ui.core.Widget",
       if (domEl) {
         domEl.style.top = bounds.top + "px";
         domEl.style.left = bounds.left + "px";
+        domEl.style.width = bounds.width + "px";
+        domEl.style.height = bounds.height + "px";
       } else {
         elem.setStyles({
           left : bounds.left + "px",
-          top : bounds.top + "px"
+          top : bounds.top + "px",
+          width : bounds.width + "px",
+          height : bounds.height + "px"
         });
       }
 
       // Remember element
       if (!this.__separators) {
-        this.__separators = [elem];
-      } else {
-        this.__separators.push(elem);
+        this.__separators = [];
       }
+      this.__separators.push(widget);
     },
 
 
@@ -2416,10 +2416,6 @@ qx.Class.define("qx.ui.core.Widget",
     _onChangeTheme : function() {
       this.base(arguments);
 
-      // empty the pool after the reset of the decorator and the shadow properties
-      qx.ui.core.Widget.__decoratorPool.invalidatePool();
-      qx.ui.core.Widget.__shadowPool.invalidatePool();
-
       // update the appearance
       this.updateAppearance();
 
@@ -2429,7 +2425,6 @@ qx.Class.define("qx.ui.core.Widget",
       if (qx.lang.Type.isString(value)) {
         // make sure to update the decorator
         this._applyDecorator(null, value);
-        qx.ui.core.Widget.__decoratorPool.invalidatePool();
         this._applyDecorator(value);
       }
 
@@ -2439,7 +2434,6 @@ qx.Class.define("qx.ui.core.Widget",
       if (qx.lang.Type.isString(value)) {
         // make sure to update the shadow
         this._applyShadow(null, value);
-        qx.ui.core.Widget.__shadowPool.invalidatePool();
         this._applyShadow(value);
       }
 
