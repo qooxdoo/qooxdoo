@@ -1045,6 +1045,10 @@ class CodeGenerator(object):
             opts = lint.defaultOptions()
             opts.library_classes = [x.id for x in classesObj]
             opts.class_namespaces = ClassList.namespaces_from_classnames(opts.library_classes)
+            # add config 'exclude' to allowed_globals
+            opts.allowed_globals = self._job.get('exclude', [])
+            # and sanitize meta characters
+            opts.allowed_globals = [x.replace('=','').replace('.*','') for x in opts.allowed_globals]
             # some sensible settings (deviating from defaultOptions)
             opts.ignore_no_loop_block = True
             opts.ignore_reference_fields = True
