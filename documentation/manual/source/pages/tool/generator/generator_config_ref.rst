@@ -511,9 +511,21 @@ Exclude classes from processing in the job. Takes an array of class specifiers.
 
   "exclude" : ["qx.util.*"]
 
-Classes specified through the *exclude* key are excluded from the job processing, e.g. from the generated build output. The class specifiers can include simple wildcards like ``"qx.util.*"`` denoting class id's matching this pattern, including those from sub-name spaces.
+Classes specified through the *exclude* key are excluded from the job
+processing, e.g. from the generated build output. The class specifiers can
+include simple wildcards like ``"qx.util.*"`` denoting class id's matching this
+pattern, including those from sub-name spaces.
 
-A leading ``=`` in front of a class specifier (like in ``"=qx.util.*"``) means to also remove all  dependencies of the specified classes from the build, irrespective of whether they are required by other classes as well. So this will create builds that are no longer self-contained, and will break at runtime unless the required classes are provided otherwise.
+A leading ``=`` in front of a class specifier (like in ``"=qx.util.*"``) means
+to also remove all  dependencies of the specified classes from the build,
+irrespective of whether they are required by other classes as well. So this will
+create builds that are no longer self-contained, and will break at runtime
+unless the required classes are provided otherwise.
+
+When building an application the class patterns given in the *exclude* key will
+automatically be added to the list of
+:ref:`allowed globals <pages/tool/generator/generator_config_ref#lint-check>` when
+checking for unknown global symbols, so they will not be warned about.
 
 
 .. _pages/tool/generator/generator_config_ref#export:
