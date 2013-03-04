@@ -240,7 +240,7 @@ qx.Class.define("qx.ui.layout.Flow",
      * @param availWidth {Integer} Final width available for the content (in pixel)
      * @param availHeight {Integer} Final height available for the content (in pixel)
      */
-    renderLayout : function(availWidth, availHeight)
+    renderLayout : function(availWidth, availHeight, padding)
     {
       var children = this._getLayoutChildren();
 
@@ -253,11 +253,11 @@ qx.Class.define("qx.ui.layout.Flow",
         this.getSpacingX()
       );
 
-      var lineTop = 0;
+      var lineTop = padding.top;
       while (lineCalculator.hasMoreLines())
       {
         var line = lineCalculator.computeNextLine(availWidth);
-        this.__renderLine(line, lineTop, availWidth);
+        this.__renderLine(line, lineTop, availWidth, padding);
         lineTop += line.height + this.getSpacingY();
       }
     },
@@ -271,15 +271,15 @@ qx.Class.define("qx.ui.layout.Flow",
      * @param lineTop {Integer} The line's top position
      * @param availWidth {Integer} The available line width
      */
-    __renderLine : function(line, lineTop, availWidth)
+    __renderLine : function(line, lineTop, availWidth, padding)
     {
       var util = qx.ui.layout.Util;
 
-      var left = 0;
+      var left = padding.left;
       if (this.getAlignX() != "left") {
-        left = availWidth - line.width;
+        left = padding.left + availWidth - line.width;
         if (this.getAlignX() == "center") {
-          left = Math.round(left / 2);
+          left = padding.left + Math.round((availWidth - line.width) / 2);
         }
       }
 

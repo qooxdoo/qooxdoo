@@ -143,7 +143,7 @@ qx.Class.define("qx.ui.layout.Canvas",
 
 
     // overridden
-    renderLayout : function(availWidth, availHeight)
+    renderLayout : function(availWidth, availHeight, padding)
     {
       var children = this._getLayoutChildren();
 
@@ -284,6 +284,9 @@ qx.Class.define("qx.ui.layout.Canvas",
             top += marginTop;
           }
         }
+
+        left += padding.left;
+        top += padding.top;
 
         // Apply layout
         child.renderLayout(left, top, width, height);

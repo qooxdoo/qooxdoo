@@ -1082,7 +1082,13 @@ qx.Class.define("qx.ui.core.Widget",
           var inset = this.getInsets();
           var innerWidth = width - inset.left - inset.right;
           var innerHeight = height - inset.top - inset.bottom;
-          this.__layoutManager.renderLayout(innerWidth, innerHeight, this.getPaddingLeft() || 0, this.getPaddingTop() || 0);
+          var padding = {
+            top: this.getPaddingTop() || 0,
+            right: this.getPaddingRight() || 0,
+            bottom: this.getPaddingBottom() || 0,
+            left: this.getPaddingLeft() || 0
+          };
+          this.__layoutManager.renderLayout(innerWidth, innerHeight, padding);
         } else if (this.hasLayoutChildren()) {
           throw new Error("At least one child in control " +
             this._findTopControl() +

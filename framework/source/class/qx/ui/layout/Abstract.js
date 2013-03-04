@@ -74,10 +74,10 @@ qx.Class.define("qx.ui.layout.Abstract",
      * @abstract
      * @param availWidth {Integer} Final width available for the content (in pixel)
      * @param availHeight {Integer} Final height available for the content (in pixel)
-     * @param left {Integer} The left position to start from.
-     * @param top {Integer} The top position to start from.
+     * @param padding {Map} Map containing the padding values. Keys:
+     * <code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code>
      */
-    renderLayout : function(availWidth, availHeight, left, top) {
+    renderLayout : function(availWidth, availHeight, padding) {
       this.warn("Missing renderLayout() implementation!");
     },
 
