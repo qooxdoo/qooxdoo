@@ -44,7 +44,9 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundColor",
         bgcolor = qx.theme.manager.Color.getInstance().resolve(bgcolor);
       }
 
-      styles.backgroundColor = bgcolor;
+      if (bgcolor) {
+        styles.backgroundColor = bgcolor;
+      }
     },
 
 
