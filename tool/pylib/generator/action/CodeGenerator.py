@@ -743,7 +743,7 @@ class CodeGenerator(object):
 
 
         def compileClasses(classList, compConf, log_progress=lambda:None):
-            lint_check, lint_opts = self.lint_opts(classList)
+            lint_check, lint_opts = self.lint_opts(script.classesObj)
             num_proc = self._job.get('run-time/num-processes', 0)
             result = []
             # warn qx.allowUrlSettings - variants optim. conflict (bug#6141)
