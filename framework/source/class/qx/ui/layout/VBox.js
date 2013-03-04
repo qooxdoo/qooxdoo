@@ -433,8 +433,8 @@ qx.Class.define("qx.ui.layout.VBox",
 
             // then render the separator at this position
             this._renderSeparator(separator, {
-              top : top,
-              left : 0,
+              top : top + padding.top,
+              left : padding.left,
               height : separatorHeight,
               width : availWidth
             });

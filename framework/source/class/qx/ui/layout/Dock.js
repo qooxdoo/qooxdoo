@@ -649,8 +649,8 @@ qx.Class.define("qx.ui.layout.Dock",
               }
 
               this._renderSeparator(separatorY, {
-                left : separatorLeft,
-                top : separatorTop,
+                left : separatorLeft + padding.left,
+                top : separatorTop + padding.top,
                 width : separatorWidth,
                 height : separatorWidths.y
               });
@@ -715,8 +715,8 @@ qx.Class.define("qx.ui.layout.Dock",
               }
 
               this._renderSeparator(separatorX, {
-                left : separatorLeft,
-                top : separatorTop,
+                left : separatorLeft + padding.left,
+                top : separatorTop + padding.top,
                 width : separatorWidths.x,
                 height : separatorHeight
               });
