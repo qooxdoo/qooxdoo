@@ -147,7 +147,11 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
       var colorTop,
           colorRight,
           colorBottom,
-          colorLeft;
+          colorLeft,
+          innerColorTop,
+          innerColorRight,
+          innerColorBottom,
+          innerColorWidth;
       if (qx.core.Environment.get("qx.theme"))
       {
         var Color = qx.theme.manager.Color.getInstance();
@@ -156,6 +160,10 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
         colorRight = Color.resolve(this.getColorRight());
         colorBottom = Color.resolve(this.getColorBottom());
         colorLeft = Color.resolve(this.getColorLeft());
+        innerColorTop = Color.resolve(this.getInnerColorTop());
+        innerColorRight = Color.resolve(this.getInnerColorRight());
+        innerColorBottom = Color.resolve(this.getInnerColorBottom());
+        innerColorLeft = Color.resolve(this.getInnerColorLeft());
       }
       else
       {
@@ -165,7 +173,7 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
         colorLeft = this.getColorLeft();
       }
 
-      // Add inner borders
+      // Add outer borders
       var width = this.getWidthTop();
       if (width > 0) {
         styles["border-top"] = width + "px " + this.getStyleTop() + " " + colorTop;
@@ -186,8 +194,21 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
         styles["border-left"] = width + "px " + this.getStyleLeft() + " " + colorLeft;
       }
 
-      // Generate outer HTML
-      styles["line-height"] = 0;
+      // Add inner borders
+      var shadowStyle = [];
+      if (innerColorTop) {
+        shadowStyle.push("inset 0 " + (this.getInnerWidthTop() || 0) + "px " + innerColorTop);
+      }
+      if (innerColorRight) {
+        shadowStyle.push("inset -" + (this.getInnerWidthRight() || 0) + "px 0 " + innerColorRight);
+      }
+      if (innerColorBottom) {
+        shadowStyle.push("inset 0 -" + (this.getInnerWidthBottom() || 0) + "px " + innerColorBottom);
+      }
+      if (innerColorLeft) {
+        shadowStyle.push("inset " + (this.getInnerWidthLeft() || 0) + "px 0 " + innerColorLeft);
+      }
+      styles["box-shadow"] = shadowStyle.join(",");
 
       // Do not set the line-height on IE6, IE7, IE8 in Quirks Mode and IE8 in IE7 Standard Mode
       // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=3450 for details
