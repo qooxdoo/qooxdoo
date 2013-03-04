@@ -301,7 +301,7 @@ qx.Class.define("qx.ui.layout.HBox",
 
 
     // overridden
-    renderLayout : function(availWidth, availHeight)
+    renderLayout : function(availWidth, availHeight, padding)
     {
       // Rebuild flex/width caches
       if (this._invalidChildrenCache) {
@@ -450,7 +450,7 @@ qx.Class.define("qx.ui.layout.HBox",
         }
 
         // Layout child
-        child.renderLayout(left, top, width, height);
+        child.renderLayout(left + padding.left, top + padding.top, width, height);
 
         // Add width
         left += width;

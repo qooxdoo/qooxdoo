@@ -302,7 +302,7 @@ qx.Class.define("qx.ui.layout.VBox",
 
 
     // overridden
-    renderLayout : function(availWidth, availHeight)
+    renderLayout : function(availWidth, availHeight, padding)
     {
       // Rebuild flex/height caches
       if (this._invalidChildrenCache) {
@@ -450,7 +450,7 @@ qx.Class.define("qx.ui.layout.VBox",
         }
 
         // Layout child
-        child.renderLayout(left, top, width, height);
+        child.renderLayout(left + padding.left, top + padding.top, width, height);
 
         // Add height
         top += height;

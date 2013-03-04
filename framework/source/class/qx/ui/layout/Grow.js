@@ -86,7 +86,7 @@ qx.Class.define("qx.ui.layout.Grow",
 
 
     // overridden
-    renderLayout : function(availWidth, availHeight)
+    renderLayout : function(availWidth, availHeight, padding)
     {
       var children = this._getLayoutChildren();
       var child, size, width, height;
@@ -111,7 +111,7 @@ qx.Class.define("qx.ui.layout.Grow",
           height = size.maxHeight;
         }
 
-        child.renderLayout(0, 0, width, height);
+        child.renderLayout(padding.left, padding.top, width, height);
       }
     },
 
