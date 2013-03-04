@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     this.__lastOffset = [0,0];
     this.__currentOffset = [0,0];
     this.__touchStartPoints = [0,0];
-
+    
     this._scrollContainer = this._createScrollContainer();
     
     this.addListener("touchstart", this._onTouchStart, this);
@@ -75,6 +75,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     this._add(this._scrollContainer, {flex:1});
     
     this._updateScrollIndicator(this.__lastOffset[1]);
+    
+    this.initHeight();
   },
 
 
@@ -113,6 +115,18 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       init : true,
       check : "Boolean",
       apply : "_updateScrollIndicator"
+    },
+    
+    /**
+     * The height of this widget.
+     * Allowed values are length or percentage values according to <a src="https://developer.mozilla.org/en-US/docs/CSS/height" target="_blank">CSS height syntax</a>.
+     */
+    height :
+    {
+      init : "150px",
+      check : "String",
+      nullable : true,
+      apply : "_applyHeight"
     }
   },
 
@@ -397,6 +411,12 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       var children = this.getChildren();
       this._unhandleSize(children[index]);
       this._scrollContainer.removeAt(index);
+    },
+    
+    
+    // Property apply
+    _applyHeight : function(value, old) {
+      qx.bom.element.Style.set(this._scrollContainer.getContainerElement(), "height", value);
     },
     
     
