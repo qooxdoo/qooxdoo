@@ -21,22 +21,11 @@
 /**
  * A basic decorator featuring background colors and simple borders based on
  * CSS styles.
+ * @deprecated{3.0}
  */
 qx.Class.define("qx.ui.decoration.Single",
 {
-  extend : qx.ui.decoration.Abstract,
-  include : [
-    qx.ui.decoration.MBackgroundImage,
-    qx.ui.decoration.MBackgroundColor,
-    qx.ui.decoration.MSingleBorder
-  ],
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
+  extend : qx.ui.decoration.Decorator,
 
   /**
    * @param width {Integer} Width of the border
@@ -59,85 +48,10 @@ qx.Class.define("qx.ui.decoration.Single",
     if (color != null) {
       this.setColor(color);
     }
-  },
 
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-    _markup : null,
-
-
-    /*
-    ---------------------------------------------------------------------------
-      INTERFACE IMPLEMENTATION
-    ---------------------------------------------------------------------------
-    */
-
-    // interface implementation
-    getMarkup : function()
-    {
-      if (this._markup) {
-        return this._markup;
-      }
-
-      var styles = {};
-
-      // get the single border styles
-      this._styleBorder(styles);
-
-      var html = this._generateBackgroundMarkup(styles);
-
-      return this._markup = html;
-    },
-
-
-    // interface implementation
-    resize : function(element, width, height) {
-      // get the width and height of the mixins
-      var pos = this._resizeBorder(element, width, height);
-
-      element.style.width = pos.width + "px";
-      element.style.height = pos.height + "px";
-
-      element.style.left = pos.left + "px";
-      element.style.top = pos.top + "px";
-    },
-
-
-    // interface implementation
-    tint : function(element, bgcolor) {
-      this._tintBackgroundColor(element, bgcolor, element.style);
-    },
-
-
-    // overridden
-    _isInitialized: function() {
-      return !!this._markup;
-    },
-
-
-    // overridden
-    _getDefaultInsets : function() {
-      return this._getDefaultInsetsForBorder();
+    if (qx.core.Environment.get("qx.debug")) {
+      qx.log.Logger.deprecatedClassWarning(this.constructor,
+       "Use 'qx.ui.decoration.Decorator' instead.");
     }
-  },
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._markup = null;
   }
 });
