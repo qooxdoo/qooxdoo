@@ -251,12 +251,6 @@ qx.Class.define("qx.ui.decoration.GridDiv",
     },
 
 
-    // interface implementation
-    tint : function(element, bgcolor) {
-      // not implemented
-    },
-
-
 
     /*
     ---------------------------------------------------------------------------

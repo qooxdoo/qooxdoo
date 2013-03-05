@@ -296,7 +296,6 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
     },
 
 
-
     /**
      * Implementation of the interface for the single border.
      *

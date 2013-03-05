@@ -285,12 +285,6 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
     },
 
 
-    // interface implementation
-    tint : function(element, bgcolor) {
-      // not implemented
-    },
-
-
 
     /*
     ---------------------------------------------------------------------------

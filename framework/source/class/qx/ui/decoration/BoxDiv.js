@@ -229,12 +229,6 @@ qx.Class.define("qx.ui.decoration.BoxDiv",
     },
 
 
-    // interface implementation
-    tint : function(element, bgcolor) {
-      // not implemented
-    },
-
-
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES

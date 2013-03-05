@@ -229,12 +229,6 @@ qx.Class.define("qx.ui.decoration.Grid",
 
 
     // interface implementation
-    tint : function(element, bgcolor) {
-      // do nothing
-    },
-
-
-    // interface implementation
     getInsets : function() {
       return this.__impl.getInsets();
     },

@@ -29,9 +29,6 @@
  * {@link #resize} method must be called to give the decoration the proper size.
  * The first parameter of this call is the root DOM element of the decoration.
  * The resize call can be repeated as needed.
- *
- * It is also possible to alter the background color of an decoration using the
- * {@link #tint} method.
  */
 qx.Interface.define("qx.ui.decoration.IDecorator",
 {
@@ -56,17 +53,6 @@ qx.Interface.define("qx.ui.decoration.IDecorator",
      * @param height {Integer} Height of the element
      */
     resize : function(element, width, height) {},
-
-
-    /**
-     * Applies the given background color to the element
-     * or fallback to the background color defined
-     * by the decoration itself.
-     *
-     * @param element {qx.html.Element} The element to update
-     * @param bgcolor {Color} The color to apply or <code>null</code>
-     */
-    tint : function(element, bgcolor) {},
 
 
     /**

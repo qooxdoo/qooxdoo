@@ -112,12 +112,6 @@ qx.Class.define("qx.ui.decoration.Background",
 
       element.style.left = -insets.left + "px";
       element.style.top = -insets.top + "px";
-    },
-
-
-    // interface implementation
-    tint : function(element, bgcolor) {
-      this._tintBackgroundColor(element, bgcolor, element.style);
     }
   },
 

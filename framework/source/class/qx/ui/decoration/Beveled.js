@@ -274,12 +274,6 @@ qx.Class.define("qx.ui.decoration.Beveled",
       var innerOverlay = element.childNodes[4].style;
       innerOverlay.width = innerWidth + pixel;
       innerOverlay.height = innerHeight + pixel;
-    },
-
-
-    // interface implementation
-    tint : function(element, bgcolor) {
-      this._tintBackgroundColor(element, bgcolor, element.childNodes[3].style);
     }
   },
 
