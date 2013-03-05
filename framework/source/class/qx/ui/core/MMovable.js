@@ -262,7 +262,9 @@ qx.Mixin.define("qx.ui.core.MMovable",
       if (this.getUseMoveFrame()) {
         this.__getMoveFrame().setDomPosition(coords.viewportLeft, coords.viewportTop);
       } else {
-        this.setDomPosition(coords.parentLeft, coords.parentTop);
+        var insets = this.getLayoutParent().getInsets();
+        this.setDomPosition(coords.parentLeft - (insets.left || 0),
+          coords.parentTop - (insets.top || 0));
       }
 
       e.stopPropagation();
@@ -306,9 +308,10 @@ qx.Mixin.define("qx.ui.core.MMovable",
 
       // Apply them to the layout
       var coords = this.__computeMoveCoordinates(e);
+      var insets = this.getLayoutParent().getInsets();
       this.setLayoutProperties({
-        left: coords.parentLeft,
-        top: coords.parentTop
+        left: coords.parentLeft - (insets.left || 0),
+        top: coords.parentTop - (insets.top || 0)
       });
 
       // Hide frame afterwards
