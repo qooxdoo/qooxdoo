@@ -24,7 +24,7 @@ qx.Class.define("qx.test.performance.decorator.Single",
   members :
   {
     createDecorator : function() {
-      return new qx.ui.decoration.Single(5, "solid", "red");
+      return new qx.ui.decoration.Decorator(5, "solid", "red");
     }
   }
 });

@@ -49,10 +49,10 @@ qx.Class.define("qx.test.performance.decorator.AbstractDecorator",
     {
       var self = this;
       this.measureRepeated(
-        "create and initial getMarkup",
+        "create and initial getStyles",
         function() {
           var decorator = self.createDecorator();
-          decorator.getMarkup();
+          decorator.getStyles();
         },
         function() {},
         this.CREATE_ITTERATIONS
@@ -64,13 +64,12 @@ qx.Class.define("qx.test.performance.decorator.AbstractDecorator",
     {
       // warmup the decorator
       var decorator = this.createDecorator();
-      decorator.getMarkup();
 
       var divs = this.createDivs(this.RENDER_ITTERATIONS);
       this.measureRepeated(
-        "set inner HTML to markup",
+        "apply styles",
         function(i) {
-          divs[i].innerHTML = decorator.getMarkup();
+          qx.bom.element.Style.setStyles(divs[i], decorator.getStyles());
         },
         function() {},
         this.RENDER_ITTERATIONS
@@ -84,7 +83,7 @@ qx.Class.define("qx.test.performance.decorator.AbstractDecorator",
 
       var decorator = this.createDecorator();
       for (var i = 0; i < divs.length; i++) {
-        divs[i].innerHTML = decorator.getMarkup();
+        qx.bom.element.Style.setStyles(divs[i], decorator.getStyles());
       }
       var size = [100, 200];
 
@@ -92,7 +91,7 @@ qx.Class.define("qx.test.performance.decorator.AbstractDecorator",
         "resize decorator",
         function(i) {
           var currentSize = size[i % 2];
-          decorator.resize(divs[i].firstChild, currentSize, currentSize);
+          qx.bom.element.Style.set(divs[i], "width", currentSize);
         },
         function() {},
         this.RESIZE_ITTERATIONS
