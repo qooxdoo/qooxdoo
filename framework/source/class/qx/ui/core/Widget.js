@@ -1083,7 +1083,7 @@ qx.Class.define("qx.ui.core.Widget",
           var decoratorPadding = {left: 0, right: 0, top: 0, bottom: 0};
           if (decorator) {
             decorator = qx.theme.manager.Decoration.getInstance().resolve(decorator);
-            decoratorPadding = decorator.getPadddding();
+            decoratorPadding = decorator.getPadding();
           }
 
           var padding = {
