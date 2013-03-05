@@ -34,25 +34,13 @@ qx.Interface.define("qx.ui.decoration.IDecorator",
 {
   members :
   {
-    /**
-     * Returns the basic markup structure used for this decoration.
-     * This later updated on DOM to resize or tint the element.
-     *
-     * @return {String} Basic markup
-     */
-    getMarkup : function() {},
 
     /**
-     * Resizes the element respecting the configured borders
-     * to the given width and height. Should automatically
-     * respect the box model of the client to correctly
-     * compute the dimensions.
+     * Returns the decorator's styles.
      *
-     * @param element {qx.html.Element} The element to update
-     * @param width {Integer} Width of the element
-     * @param height {Integer} Height of the element
+     * @return {Map} Map of decoration styles
      */
-    resize : function(element, width, height) {},
+    getStyles : function() {},
 
 
     /**

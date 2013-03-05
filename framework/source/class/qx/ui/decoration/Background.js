@@ -84,23 +84,6 @@ qx.Class.define("qx.ui.decoration.Background",
     ---------------------------------------------------------------------------
     */
 
-    // interface implementation
-    getMarkup : function()
-    {
-      if (this.__markup) {
-        return this.__markup;
-      }
-
-      var styles = {
-        position: "absolute",
-        top: 0,
-        left: 0
-      };
-      var html = this._generateBackgroundMarkup(styles);
-
-      // Store
-      return this.__markup = html;
-    },
 
 
     // interface implementation

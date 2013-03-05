@@ -177,12 +177,6 @@ qx.Class.define("qx.ui.decoration.AbstractBox",
 
 
     // interface implementation
-    getMarkup : function() {
-      return this.__impl.getMarkup();
-    },
-
-
-    // interface implementation
     resize : function(element, width, height) {
       this.__impl.resize(element, width, height);
     },

@@ -67,32 +67,6 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
       return styles;
     },
 
-    // overridden
-    getMarkup : function() {
-      if (this._markup) {
-        return this._markup;
-      }
-
-      // get the styles
-      var styles = this._getStyles();
-
-      // build the markup
-      if (!this._generateMarkup) {
-        var html = ['<div style="'];
-        html.push(qx.bom.element.Style.compile(styles));
-        html.push('">');
-        if (this._getContent) {
-          html.push(this._getContent());
-        }
-        html.push('</div>');
-        html = html.join("");
-      } else {
-        var html = this._generateMarkup(styles);
-      }
-
-      return this._markup = html;
-    },
-
 
     // overridden
     resize : function(element, width, height) {
