@@ -323,10 +323,10 @@ qx.Mixin.define("qx.ui.core.MResizable",
      */
     __getLocation : function()
     {
-      var decorator = this.getDecoratorElement();
+      var container = this.getContainerElement();
       // use the decorator location if available (belongs to the resizable box)
-      if (decorator && decorator.getDomElement()) {
-        return qx.bom.element.Location.get(decorator.getDomElement());
+      if (container && container.getDomElement()) {
+        return qx.bom.element.Location.get(container.getDomElement());
       } else {
         return this.getContentLocation();
       }
