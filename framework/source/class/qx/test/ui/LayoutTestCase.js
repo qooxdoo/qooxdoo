@@ -279,12 +279,11 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
     {
       this.flush();
 
-      if (!value && !widget.getDecoratorElement()) {
+      if (!value) {
         return;
       }
 
-      this.assertNotNull(widget.getDecoratorElement(), msg);
-      var widgetStyle = widget.getDecoratorElement().getDomElement().style[style];
+      var widgetStyle = widget.getContentElement().getDomElement().style[style];
       if (value && style.match(/color/i)) {
         this.assertCssColor(value, widgetStyle, msg);
       } else {
@@ -296,6 +295,5 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
     clickOn: function(widget) {
       widget.fireEvent("click", qx.event.type.Mouse, [{}, widget, widget, false, true]);
     }
-
   }
 });

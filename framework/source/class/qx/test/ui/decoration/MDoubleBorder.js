@@ -73,7 +73,7 @@ qx.Class.define("qx.test.ui.decoration.MDoubleBorder", {
       var outerDecorator = w.getContainerElement().getDomElement().childNodes[1];
       this.assertTrue(qx.bom.element.Style.get(outerDecorator, shadowProp).length > 0);
 
-      outerDecorator = w.getDecoratorElement().getDomElement();
+      outerDecorator = w.getContentElement().getDomElement();
       this.assertMatch(qx.bom.element.Style.get(outerDecorator, shadowProp), /4px 4px 3px 0px/);
 
       var innerDecorator = outerDecorator.firstChild;
