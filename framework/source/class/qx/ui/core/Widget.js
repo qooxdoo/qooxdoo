@@ -1666,7 +1666,9 @@ qx.Class.define("qx.ui.core.Widget",
       el.setStyles({
         "position": "absolute",
         "zIndex": 10,
-        "box-sizing": "border-box"
+        "box-sizing": "border-box",
+        "-moz-box-sizing": "border-box",
+        "-webkit-box-sizing": "border-box"
       });
 
       return el;
