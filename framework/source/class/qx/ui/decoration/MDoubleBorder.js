@@ -151,7 +151,7 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
           innerColorTop,
           innerColorRight,
           innerColorBottom,
-          innerColorWidth;
+          innerColorLeft;
       if (qx.core.Environment.get("qx.theme"))
       {
         var Color = qx.theme.manager.Color.getInstance();
@@ -219,14 +219,6 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
          qx.core.Environment.get("browser.documentmode") < 8)
       ) {
         styles["line-height"] = '';
-      }
-
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        if (!styles["border-top"] && !styles["border-right"] &&
-          !styles["border-bottom"] && !styles["border-left"]) {
-          throw new Error("Invalid Double decorator (zero outer border width). Use qx.ui.decoration.Single instead!");
-        }
       }
     },
 
