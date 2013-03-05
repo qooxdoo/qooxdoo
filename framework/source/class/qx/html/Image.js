@@ -96,10 +96,6 @@ qx.Class.define("qx.html.Image",
           qx.bom.element.Decoration.update(elem, source, repeat, styles);
         }
       }
-
-      if (name.indexOf("padding") == 0) {
-        debugger;
-      }
     },
 
     // overridden
