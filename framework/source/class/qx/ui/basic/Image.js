@@ -224,6 +224,15 @@ qx.Class.define("qx.ui.basic.Image",
     },
 
 
+    // overridden
+    _applyPadding : function(value, old, name)
+    {
+      this.base(arguments, value, old, name);
+      this.getContentElement().setPadding(
+        this.getPaddingLeft() || 0, this.getPaddingTop() || 0
+      );
+    },
+
 
 
 
@@ -503,6 +512,7 @@ qx.Class.define("qx.ui.basic.Image",
       }
 
       // Apply source
+
       el.setSource(source);
 
       // Compare with old sizes and relayout if necessary

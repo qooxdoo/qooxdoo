@@ -43,6 +43,20 @@ qx.Class.define("qx.html.Image",
     // See Bug #3894 for more details
     tagNameHint : null,
 
+
+    /**
+     * Maps padding to background-position if the widget is rendered as a
+     * background image
+     * @param paddingLeft {Integer} left padding value
+     * @param paddingTop {Integer} top padding value
+     */
+    setPadding : function(paddingLeft, paddingTop)
+    {
+      if (this.getNodeName() == "div") {
+        this.setStyle("backgroundPosition", paddingLeft + "px " + paddingTop + "px");
+      }
+    },
+
     /*
     ---------------------------------------------------------------------------
       ELEMENT API
@@ -66,7 +80,6 @@ qx.Class.define("qx.html.Image",
 
         if (this.getNodeName() == "div" && this.getStyle("backgroundImage"))
         {
-          styles.backgroundPosition = null;
           styles.backgroundRepeat = null;
         }
 
@@ -82,6 +95,10 @@ qx.Class.define("qx.html.Image",
 
           qx.bom.element.Decoration.update(elem, source, repeat, styles);
         }
+      }
+
+      if (name.indexOf("padding") == 0) {
+        debugger;
       }
     },
 
