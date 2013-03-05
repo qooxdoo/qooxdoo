@@ -240,6 +240,7 @@ qx.Class.define("qx.ui.form.Slider",
 
   members :
   {
+
     __sliderLocation : null,
     __knobLocation : null,
     __knobSize : null,
@@ -784,8 +785,10 @@ qx.Class.define("qx.ui.form.Slider",
       // Use DOM Element
       var container = this.getChildControl("knob").getContainerElement();
       if (this.__isHorizontal) {
-        container.setStyle("left", position+"px", true);
+        position = position + (this.getPaddingLeft() || 0);
+        container.setStyle("left", position +"px", true);
       } else {
+        position = position + (this.getPaddingTop() || 0);
         container.setStyle("top", position+"px", true);
       }
     },
