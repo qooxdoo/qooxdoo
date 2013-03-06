@@ -93,7 +93,11 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
 
       var source = qx.util.AliasManager.getInstance().resolve(image);
       source = qx.util.ResourceManager.getInstance().toUri(source);
-      styles["background-image"] = 'url(' + source + ')';
+      if (styles["background-image"]) {
+        styles["background-image"] +=  ', url(' + source + ')';
+      } else {
+        styles["background-image"] = 'url(' + source + ')';
+      }
 
       var repeat = this.getBackgroundRepeat();
       if (repeat === "scale") {

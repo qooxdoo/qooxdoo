@@ -116,6 +116,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
       var colors = this.__getColors();
       var startColor = colors.start;
       var endColor = colors.end;
+      var value;
 
       if (!startColor || !endColor) {
         return;
@@ -140,7 +141,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
           "from(" + startColor +
           "),to(" + endColor + ")";
 
-        var value = "-webkit-gradient(linear," + startPos + "," + endPos + "," + color + ")";
+        value = "-webkit-gradient(linear," + startPos + "," + endPos + "," + color + ")";
         styles["background"] = value;
 
       } else if (qx.core.Environment.get("css.gradient.filter") &&
@@ -163,8 +164,13 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
           deg = this.getOrientation() == "horizontal" ? deg + 90 : deg - 90;
         }
 
-        styles["background-image"] =
-          prefixedName + "(" + deg + "deg, " + start + "," + end + ")";
+        value = prefixedName + "(" + deg + "deg, " + start + "," + end + ")";
+        if (styles["background-image"]) {
+          styles["background-image"] += ", " + value;
+        }
+        else {
+          styles["background-image"] = value;
+        }
       }
     },
 
