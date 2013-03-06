@@ -117,6 +117,10 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
       var startColor = colors.start;
       var endColor = colors.end;
 
+      if (!startColor || !endColor) {
+        return;
+      }
+
       var unit = this.getColorPositionUnit();
 
       // new implementation for webkit is available since chrome 10 --> version
