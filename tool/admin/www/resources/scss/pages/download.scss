@@ -1,8 +1,8 @@
 body#download {
 
   #domains {
-    .columns(24);
-    .first();
+    @include columns(24);
+    @include first();
 
     .row {
       @include clearfix();
@@ -13,8 +13,8 @@ body#download {
     }
 
     .domain {
-      .inset(10px);
-      .columns(12);
+      @include inset(10px);
+      @include columns(12);
 
       border-top: $bar solid transparent;
       background-color: $lightShade;

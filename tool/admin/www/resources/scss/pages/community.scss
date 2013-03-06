@@ -23,7 +23,7 @@ body#community {
     overflow: hidden;
 
     & > a {
-      .columns(3);
+      @include columns(3);
 
       & > img {
         width: 64px;

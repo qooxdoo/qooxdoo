@@ -43,7 +43,7 @@ a.button {
 
 .action {
   .button {
-    .span(5);
+    @include span(5);
     float: left;
     background-color: $lightShade;
 
@@ -75,7 +75,7 @@ a.button {
   $fg: darken($shade, 15%);
   $hl: #ffffff;
 
-  .container();
+  @include container();
   margin: 0 auto;
   min-height: 30px;
   padding-top: 20px;
@@ -84,7 +84,7 @@ a.button {
 
   // Logo
   h1 {
-    .columns(6);
+    @include columns(6);
     font-size: 32px;
     // font-weight: 300;  // Museo Slab, 300
     font-weight: normal;
@@ -95,7 +95,7 @@ a.button {
   }
 
   nav {
-    .columns(12);
+    @include columns(12);
     font-size: $fontSize + 1;
 
     ul, ol {
@@ -132,9 +132,9 @@ a.button {
     }
 
     input[type=search] {
-      .columns(4);
-      .appearance(none);
-      .border-radius(8px);
+      @include columns(4);
+      @include appearance(none);
+      @include border-radius(8px);
       font-size: $fontSize - 2;
       margin: 0;
       padding: 2px;
@@ -147,7 +147,7 @@ a.button {
     }
 
     select {
-      .columns(3);
+      @include columns(3);
       margin-top: 2px;
       visibility: visible;
     }
@@ -160,7 +160,7 @@ a.button {
 }
 
 #main {
-  .container();
+  @include container();
   position: relative;
   padding-top: round($line * 3 - 5px);
   padding-bottom: round($line * 5);
@@ -188,7 +188,7 @@ a.button {
   }
 
   #sidebar {
-    .columns(6);
+    @include columns(6);
     margin-left: 0;
     padding-left: $gridWidth * 2;
 
@@ -203,8 +203,8 @@ a.button {
   }
 
   #content {
-    .columns(16);
-    .first();
+    @include columns(16);
+    @include first();
     clear: both;  // Force to new row
 
     pre {
@@ -246,13 +246,13 @@ a.button {
 
 #footer {
   $fg: darken($shade, 15%);
-  .container();
+  @include container();
   margin: 0 auto;
   padding-top: $line;
   color: $fg;
 
   #supported-by {
-    .columns(5);
+    @include columns(5);
 
     img {
       float: left;
@@ -272,8 +272,8 @@ a.button {
   }
 
   #sitemap {
-    .push(1);
-    .columns(12);
+    @include push(1);
+    @include columns(12);
 
     h3 {
       font-weight: bold;
@@ -284,12 +284,12 @@ a.button {
     }
 
     div {
-      .columns(4);
+      @include columns(4);
     }
   }
 
   #meta {
-    .columns(6);
+    @include columns(6);
     margin-left: $gridGutterWidth;
     font-size: 10px;
 

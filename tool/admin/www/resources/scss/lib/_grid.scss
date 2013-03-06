@@ -22,7 +22,7 @@
   margin-left: $gridGutterWidth;
 
   &:first-child {
-    .first();
+    @include first();
   }
 }
 

@@ -94,7 +94,7 @@ body#home {
     }
 
     section.domain {
-      .columns(6);
+      @include columns(6);
       $bleedingHeight: 85px;  // Hovering icons hovers header
       position: relative;
       top: -$bleedingHeight;
@@ -104,7 +104,7 @@ body#home {
       color: #000;
 
       &#website {
-        .first();
+        @include first();
       }
 
       &:hover header h2 {
@@ -116,7 +116,7 @@ body#home {
       }
 
       header {
-        .columns(6);
+        @include columns(6);
         position: relative;
         top: 1px;
         height: 54px;
@@ -146,8 +146,8 @@ body#home {
       }
 
       div.description {
-        .columns(6);
-        .first();
+        @include columns(6);
+        @include first();
         height: 243px;
         padding: 8px 0 10px 0;
         position: relative;
@@ -180,7 +180,7 @@ body#home {
         }
 
         div.introduction, div.sample {
-          .columns(6);
+          @include columns(6);
         }
 
         div.introduction div.feature {
@@ -189,7 +189,7 @@ body#home {
         }
 
         div.sample {
-          .columns(12);
+          @include columns(12);
           display: none;
 
           .container {
@@ -208,7 +208,7 @@ body#home {
         }
 
         div.action {
-          .columns(5);
+          @include columns(5);
           display: none;
           margin-top: 6px;
         }
@@ -223,8 +223,8 @@ body#home {
       }
 
       &.active div.description {
-        .columns(24);
-        .first();
+        @include columns(24);
+        @include first();
 
         div.sample, div.action {
           display: block;
@@ -237,17 +237,17 @@ body#home {
       }
 
       &#mobile.active div.description {
-        .pull(6);
+        @include pull(6);
         padding-left: $gridGutterWidth;
       }
 
       &#desktop.active div.description {
-        .pull(12);
+        @include pull(12);
         padding-left: $gridGutterWidth;
       }
 
       &#server.active div.description {
-        .pull(18);
+        @include pull(18);
         padding-left: $gridGutterWidth;
       }
     }
@@ -264,7 +264,7 @@ body#home {
       @include clearfix();
 
       #content {
-        .columns(14);
+        @include columns(14);
 
         h2 {
           font-weight: bold;
@@ -277,8 +277,8 @@ body#home {
       }
 
       .action {
-        .push(4);
-        .columns(5);
+        @include push(4);
+        @include columns(5);
       }
     }
 

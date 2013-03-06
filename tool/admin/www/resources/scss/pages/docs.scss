@@ -2,8 +2,8 @@ body.docs {
 
   #main #content {
     position: relative;
-    .columns(24);
-    .first();
+    @include columns(24);
+    @include first();
   }
 
   code {
@@ -28,8 +28,8 @@ body.docs {
   #boxes {
     position: relative;
     padding-top: $line * 1;
-    .columns(20);
-    .first();
+    @include columns(20);
+    @include first();
 
     #versions-hint {
       position: absolute;
@@ -79,7 +79,7 @@ body.docs {
     }
 
     .teaser {
-      .columns(10);
+      @include columns(10);
       background-color: $lightShade;
       margin-bottom: $gridGutterWidth;
       height: $line * 10;
@@ -94,7 +94,7 @@ body.docs {
 
       &.row {
         clear: both;
-        .first();
+        @include first();
       }
 
       p {

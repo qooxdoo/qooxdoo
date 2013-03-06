@@ -3,14 +3,14 @@ body.demos {
     @include clearfix();
 
     .tool {
-      .columns(12);
-      .first();
+      @include columns(12);
+      @include first();
       margin-bottom: $line;
     }
 
     .screenshot {
-      .push(3);
-      .columns(9);
+      @include push(3);
+      @include columns(9);
 
       a {
         @include clearfix();
@@ -36,7 +36,7 @@ body.demos {
     }
 
     ul {
-      .columns(3);
+      @include columns(3);
       margin-top: 0;
 
       &.last {
@@ -53,7 +53,7 @@ body#demos {
   }
 
   #domains section.domain {
-    .container();
+    @include container();
     background-color: $lightShade;
     margin-bottom: $line * 1;
     border-left: $bar solid transparent;
@@ -81,7 +81,7 @@ body#demos {
     }
 
     .title, .demo {
-      .inset();
+      @include inset();
 
       & > h2 {
         padding-top: 10px;
@@ -89,11 +89,11 @@ body#demos {
     }
 
     .title {
-      .columns(6);
+      @include columns(6);
     }
 
     .demo {
-      .columns(9);
+      @include columns(9);
 
       &.first {
         margin-left: ($gridColumnWidth + $gridGutterWidth) * 6;
@@ -113,7 +113,7 @@ body#demos {
       }
 
       .left, .right {
-        .columns(4);
+        @include columns(4);
         display: none;
         margin-top: -0.5em;
         margin-bottom: 1em;
@@ -125,7 +125,7 @@ body#demos {
       }
 
       .right {
-        .push(1);
+        @include push(1);
       }
 
       img {
