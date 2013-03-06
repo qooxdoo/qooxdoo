@@ -1,10 +1,12 @@
 html {
   height: 100%;
 }
+
 body {
   min-width: 930px;
   height: 100%;
 }
+
 a.button {
   line-height: 32px;
   font-size: 12px;
@@ -12,12 +14,15 @@ a.button {
   display: block;
   margin-bottom: 11px;
 }
+
 .large {
   font-size: 14px;
 }
+
 .note {
   font-size: 11px;
 }
+
 .alert {
   background-color: #ffee00;
   padding: 5px 20px;
@@ -31,6 +36,7 @@ a.button {
 .alert a:hover {
   text-decoration: underline;
 }
+
 .action .button {
   width: 165px;
   position: relative;
@@ -41,6 +47,7 @@ a.button {
   background-color: #dddddd;
   text-decoration: none !important;
 }
+
 #header-wrapper {
   background-color: #323335;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#505154), to(#323335));
@@ -58,6 +65,7 @@ a.button {
   background-image: -o-linear-gradient(to bottom, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
   background-image: linear-gradient(to bottom, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
 }
+
 #header {
   width: 830px;
   margin: 0 auto;
@@ -85,7 +93,7 @@ a.button {
   line-height: 1;
   margin-top: 0;
   margin-bottom: 0;
-  color: #ffffff;
+  color: white;
 }
 #header h1:first-child {
   margin-left: 0;
@@ -100,29 +108,22 @@ a.button {
 #header nav:first-child {
   margin-left: 0;
 }
-#header nav ul,
-#header nav ol {
+#header nav ul, #header nav ol {
   margin: 0;
   margin-top: 8px;
 }
-#header nav ul li,
-#header nav ol li {
+#header nav ul li, #header nav ol li {
   margin-right: 20px;
   display: inline-block;
 }
-#header nav ul li a,
-#header nav ol li a {
+#header nav ul li a, #header nav ol li a {
   border-bottom: 2px solid transparent;
 }
-#header nav ul li a:hover,
-#header nav ol li a:hover,
-#header nav ul li a.active:hover,
-#header nav ol li a.active:hover {
-  color: #ffffff;
-  border-color: #ffffff;
+#header nav ul li a:hover, #header nav ul li a.active:hover, #header nav ol li a:hover, #header nav ol li a.active:hover {
+  color: white;
+  border-color: white;
 }
-#header nav ul li a.active,
-#header nav ol li a.active {
+#header nav ul li a.active, #header nav ol li a.active {
   border-color: #b7b7b7;
 }
 #header #search {
@@ -137,8 +138,7 @@ a.button {
   clear: both;
   content: ".";
 }
-#header #search select,
-#header #search input {
+#header #search select, #header #search input {
   height: 21.6px;
 }
 #header #search input[type=search] {
@@ -152,11 +152,10 @@ a.button {
   -moz-border-radius: 8px;
   border-radius: 8px;
   -webkit-box-sizing: content-box;
-  height: 15.600000000000001px;
+  height: 15.6px;
   font-size: 10px;
   margin: 0;
-  padding: 0;
-  border: none;
+  padding: 0px;
   border: 3px solid transparent;
   background-color: #dddddd;
 }
@@ -178,10 +177,12 @@ a.button {
 #header #search select:first-child {
   margin-left: 0;
 }
+
 #main-wrapper {
   min-height: 100%;
   padding-bottom: 194px;
 }
+
 #main {
   width: 830px;
   margin: 0 auto;
@@ -246,8 +247,7 @@ a.button {
 #main #content:first-child {
   margin-left: 0;
 }
-#main #content  > div h2,
-#main #content  > section h2 {
+#main #content > div h2, #main #content > section h2 {
   font-size: 19px;
   margin-bottom: 2px;
 }
@@ -261,8 +261,7 @@ a.button {
 #main #content table td {
   vertical-align: middle;
 }
-#main #content .no-border table tr,
-#main #content table.no-border tr {
+#main #content .no-border table tr, #main #content table.no-border tr {
   border-top-color: transparent;
 }
 #main #content dd {
@@ -270,7 +269,7 @@ a.button {
 }
 #main #content .toggle {
   position: absolute;
-  top: -32.400000000000006px;
+  top: -32.4px;
   right: 0;
 }
 #main #content .toggle a {
@@ -280,12 +279,12 @@ a.button {
 #main #content .toggle a:hover {
   color: #3d72c9;
 }
-#main #content .toggle a.active,
-#main #content .toggle a.active:hover {
+#main #content .toggle a.active, #main #content .toggle a.active:hover {
   cursor: default;
   text-decoration: none;
   color: inherit;
 }
+
 #footer-wrapper {
   border-top: 1px solid #7c7f84;
   background-color: #323335;
@@ -293,9 +292,11 @@ a.button {
   margin-top: -194px;
   padding-bottom: 21.6px;
 }
+
 #footer-wrapper + img {
   display: none;
 }
+
 #footer {
   width: 830px;
   margin: 0 auto;
