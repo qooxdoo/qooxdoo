@@ -105,6 +105,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
 
       var top = this.getBackgroundPositionY() || 0;
       var left = this.getBackgroundPositionX() || 0;
+
       styles.backgroundPosition = left + "px " + top + "px";
     },
 

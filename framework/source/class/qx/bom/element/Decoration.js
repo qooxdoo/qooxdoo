@@ -125,8 +125,7 @@ qx.Class.define("qx.bom.element.Decoration",
       }
 
       // Apply new styles
-      var Style = qx.bom.element.Style;
-      Style.setStyles(element, ret.style);
+      qx.bom.element.Style.setStyles(element, ret.style);
 
       // we need to apply the filter to prevent black rendering artifacts
       // http://blog.hackedbrain.com/archive/2007/05/21/6110.aspx
@@ -501,6 +500,17 @@ qx.Class.define("qx.bom.element.Decoration",
           var uri  = ResourceManager.toUri(combinedid);
           var offx = data[5];
           var offy = data[6];
+
+          // honor padding for combined images
+          if (style.paddingTop || style.paddingLeft) {
+            var top = style.paddingTop || 0;
+            var left = style.paddingLeft || 0;
+
+            offx += style.paddingLeft || 0;
+            offy += style.paddingTop || 0;
+
+            style.clip = {left: left, top: top, width: dimension.width, height: dimension.height};
+          }
         }
 
         var bg = qx.bom.element.Background.getStyles(uri, repeat, offx, offy);
