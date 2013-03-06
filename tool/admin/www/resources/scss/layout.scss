@@ -60,14 +60,14 @@ a.button {
 
 #header-wrapper {
   background-color: $darkShade;
-  #gradient > .vertical(lighten($darkShade, 12%), $darkShade);
+  @include gradient-vertical(lighten($darkShade, 12%), $darkShade);
 
   .decoration {
     $lightSpot: lighten($spot, 6%);
     height: 10px;
     background-color: $spot;
     // border-top: 1px solid $lightSpot;
-    #gradient > .vertical-four($lightSpot, $lightSpot, $spot, $spot, 1px, 1px);
+    @include gradient-vertical-four($lightSpot, $lightSpot, $spot, $spot, 1px, 1px);
   }
 }
 
