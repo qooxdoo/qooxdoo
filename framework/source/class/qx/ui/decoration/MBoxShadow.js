@@ -117,9 +117,16 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
         var inset = this.getInset() ? "inset " : "";
         var value = inset + hLength + "px " + vLength + "px " + blur + "px " + spread + "px " + color;
 
-        styles["-moz-box-shadow"] = value;
-        styles["-webkit-box-shadow"] = value;
-        styles["box-shadow"] = value;
+        // apply or append the box shadow styles
+        if (!styles["box-shadow"]) {
+          styles["box-shadow"] = value;
+          styles["-moz-box-shadow"] = value;
+          styles["-webkit-box-shadow"] = value;
+        } else {
+          styles["box-shadow"] += "," + value;
+          styles["-moz-box-shadow"] += "," + value;
+          styles["-webkit-box-shadow"] += "," + value;
+        }
       }
     },
 

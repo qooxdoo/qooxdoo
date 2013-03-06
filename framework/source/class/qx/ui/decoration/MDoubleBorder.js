@@ -208,7 +208,17 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
       if (innerColorLeft) {
         shadowStyle.push("inset " + (this.getInnerWidthLeft() || 0) + "px 0 " + innerColorLeft);
       }
-      styles["box-shadow"] = shadowStyle.join(",");
+
+      // apply or append the box shadow styles
+      if (!styles["box-shadow"]) {
+        styles["box-shadow"] = shadowStyle.join(",");
+        styles["-moz-box-shadow"] = shadowStyle.join(",");
+        styles["-webkit-box-shadow"] = shadowStyle.join(",");
+      } else {
+        styles["box-shadow"] += "," + shadowStyle.join(",");
+        styles["-moz-box-shadow"] += "," + shadowStyle.join(",");
+        styles["-webkit-box-shadow"] += "," + shadowStyle.join(",");
+      }
 
       // Do not set the line-height on IE6, IE7, IE8 in Quirks Mode and IE8 in IE7 Standard Mode
       // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=3450 for details
