@@ -47,8 +47,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "main" :
     {
-      decorator: qx.ui.decoration.Uniform,
-
       style :
       {
         width : 1,
@@ -58,8 +56,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "selected" :
     {
-      decorator : qx.ui.decoration.Background,
-
       style :
       {
         backgroundImage  : "decoration/selection.png",
@@ -69,10 +65,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "selected-css" :
     {
-      decorator : [
-        qx.ui.decoration.MLinearBackgroundGradient
-      ],
-
       style :
       {
         startColorPosition : 0,
@@ -84,8 +76,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "selected-dragover" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         backgroundImage  : "decoration/selection.png",
@@ -96,8 +86,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "dragover" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         bottom: [2, "solid", "border-dragover"]
@@ -106,8 +94,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "pane" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style :
       {
         baseImage : "decoration/pane/pane.png",
@@ -115,13 +101,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "pane-css" : {
-      decorator : [
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MBoxShadow,
-        qx.ui.decoration.MLinearBackgroundGradient
-      ],
+    "pane-css" :
+    {
       style : {
         width: 1,
         color: "tabview-background",
@@ -136,8 +117,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "group" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style : {
         baseImage : "decoration/groupbox/groupbox.png"
       }
@@ -145,12 +124,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "group-css" :
     {
-      decorator : [
-        qx.ui.decoration.MBackgroundColor,
-        qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MSingleBorder
-      ],
-
       style : {
         backgroundColor : "group-background",
         radius : 4,
@@ -161,11 +134,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "border-invalid" :
     {
-      decorator : qx.ui.decoration.Beveled,
-
       style :
       {
-        outerColor : "invalid",
+        color : "invalid",
         innerColor : "border-inner-input",
         innerOpacity : 0.5,
         backgroundImage : "decoration/form/input.png",
@@ -177,8 +148,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "keyboard-focus" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         width : 1,
@@ -193,12 +162,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
     ---------------------------------------------------------------------------
     */
     "radiobutton" : {
-      decorator : [
-        qx.ui.decoration.MDoubleBorder,
-        qx.ui.decoration.MBackgroundColor,
-        qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MBoxShadow
-      ],
       style : {
         backgroundColor : "radiobutton-background",
         radius : 5,
@@ -321,8 +284,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "separator-horizontal" :
     {
-      decorator: qx.ui.decoration.Single,
-
       style :
       {
         widthLeft : 1,
@@ -332,8 +293,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "separator-vertical" :
     {
-      decorator: qx.ui.decoration.Single,
-
       style :
       {
         widthTop : 1,
@@ -351,8 +310,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "tooltip-error" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style : {
         baseImage : "decoration/form/tooltip-error.png",
         insets    : [ 2, 0, 2, 2 ]
@@ -361,12 +318,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "tooltip-error-css" :
     {
-      decorator : [
-        qx.ui.decoration.MBackgroundColor,
-        qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MBoxShadow
-      ],
-
       style : {
         backgroundColor : "tooltip-error",
         radius : 4,
@@ -398,8 +349,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "tooltip-error-arrow" :
     {
-      decorator: qx.ui.decoration.Background,
-
       style: {
         backgroundImage: "decoration/form/tooltip-error-arrow.png",
         backgroundPositionY: "top",
@@ -411,8 +360,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "tooltip-error-arrow-left" :
     {
-      decorator: qx.ui.decoration.Background,
-
       style: {
         backgroundImage: "decoration/form/tooltip-error-arrow-right.png",
         backgroundPositionY: "top",
@@ -425,8 +372,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "tooltip-error-arrow-left-css" :
     {
-      decorator: qx.ui.decoration.Background,
-
       style: {
         backgroundImage: "decoration/form/tooltip-error-arrow-right.png",
         backgroundPositionY: "top",
@@ -445,8 +390,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "shadow-window" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style : {
         baseImage : "decoration/shadow/shadow.png",
         insets    : [ 0, 8, 8, 0 ]
@@ -455,11 +398,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "shadow-window-css" :
     {
-      decorator : [
-        qx.ui.decoration.MBoxShadow,
-        qx.ui.decoration.MBackgroundColor
-      ],
-
       style : {
         shadowColor : "shadow",
         shadowBlurRadius : 2,
@@ -469,8 +407,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "shadow-popup" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style : {
         baseImage : "decoration/shadow/shadow-small.png",
         insets    : [ 0, 3, 3, 0 ]
@@ -479,12 +415,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "popup-css" :
     {
-      decorator: [
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MBoxShadow,
-        qx.ui.decoration.MBackgroundColor
-      ],
-
       style :
       {
         width : 1,
@@ -505,8 +435,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "scrollbar-horizontal" :
     {
-      decorator : qx.ui.decoration.Background,
-
       style :
       {
         backgroundImage : "decoration/scrollbar/scrollbar-bg-horizontal.png",
@@ -516,8 +444,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "scrollbar-vertical" :
     {
-      decorator : qx.ui.decoration.Background,
-
       style :
       {
         backgroundImage : "decoration/scrollbar/scrollbar-bg-vertical.png",
@@ -527,25 +453,24 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "scrollbar-slider-horizontal" :
     {
-      decorator : qx.ui.decoration.Beveled,
-
       style : {
         backgroundImage : "decoration/scrollbar/scrollbar-button-bg-horizontal.png",
         backgroundRepeat : "scale",
-        outerColor : "border-main",
+        color : "border-main",
         innerColor : "border-inner-scrollbar",
+        width : 1,
+        radius: 2,
+        innerWidth: [0, 1, 1, 0],
         innerOpacity : 0.5
       }
     },
 
     "scrollbar-slider-horizontal-disabled" :
     {
-      decorator : qx.ui.decoration.Beveled,
-
       style : {
         backgroundImage : "decoration/scrollbar/scrollbar-button-bg-horizontal.png",
         backgroundRepeat : "scale",
-        outerColor : "border-disabled",
+        color : "border-disabled",
         innerColor : "border-inner-scrollbar",
         innerOpacity : 0.3
       }
@@ -553,12 +478,10 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "scrollbar-slider-vertical" :
     {
-      decorator : qx.ui.decoration.Beveled,
-
       style : {
         backgroundImage : "decoration/scrollbar/scrollbar-button-bg-vertical.png",
         backgroundRepeat : "scale",
-        outerColor : "border-main",
+        color : "border-main",
         innerColor : "border-inner-scrollbar",
         innerOpacity : 0.5
       }
@@ -566,20 +489,18 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "scrollbar-slider-vertical-disabled" :
     {
-      decorator : qx.ui.decoration.Beveled,
-
       style : {
         backgroundImage : "decoration/scrollbar/scrollbar-button-bg-vertical.png",
         backgroundRepeat : "scale",
-        outerColor : "border-disabled",
+        color : "border-disabled",
         innerColor : "border-inner-scrollbar",
         innerOpacity : 0.3
       }
     },
 
     // PLAIN CSS SCROLLBAR
-    "scrollbar-horizontal-css" : {
-      decorator : [qx.ui.decoration.MLinearBackgroundGradient],
+    "scrollbar-horizontal-css" :
+    {
       style : {
         gradientStart : ["scrollbar-start", 0],
         gradientEnd : ["scrollbar-end", 100]
@@ -595,11 +516,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "scrollbar-slider-horizontal-css" :
     {
-      decorator : [
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MLinearBackgroundGradient
-      ],
-
       style : {
         gradientStart : ["scrollbar-slider-start", 0],
         gradientEnd : ["scrollbar-slider-end", 100],
@@ -642,12 +558,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
     */
     "button-css" :
     {
-      decorator : [
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MLinearBackgroundGradient,
-        qx.ui.decoration.MBorderRadius
-      ],
-
       style :
       {
         radius: 3,
@@ -698,12 +608,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
     },
 
     "button-focused-css" : {
-      decorator : [
-        qx.ui.decoration.MDoubleBorder,
-        qx.ui.decoration.MLinearBackgroundGradient,
-        qx.ui.decoration.MBorderRadius
-      ],
-
       style :
       {
         radius: 3,
@@ -790,8 +694,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "button" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style :
       {
         baseImage : "decoration/form/button.png",
@@ -801,8 +703,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "button-disabled" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style :
       {
         baseImage : "decoration/form/button-disabled.png",
@@ -812,8 +712,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "button-focused" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style :
       {
         baseImage : "decoration/form/button-focused.png",
@@ -823,8 +721,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "button-hovered" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style :
       {
         baseImage : "decoration/form/button-hovered.png",
@@ -834,8 +730,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "button-pressed" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style :
       {
         baseImage : "decoration/form/button-pressed.png",
@@ -845,8 +739,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "button-checked" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style :
       {
         baseImage : "decoration/form/button-checked.png",
@@ -856,8 +748,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "button-checked-focused" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style :
       {
         baseImage : "decoration/form/button-checked-focused.png",
@@ -867,8 +757,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "button-invalid-shadow" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         color : "invalid",
@@ -887,11 +775,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "checkbox-invalid-shadow" :
     {
-      decorator : qx.ui.decoration.Beveled,
-
       style :
       {
-        outerColor : "invalid",
+        color : "invalid",
         innerColor : "border-focused-invalid",
         insets: [0]
       }
@@ -903,12 +789,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
     ---------------------------------------------------------------------------
     */
     "checkbox" : {
-      decorator : [
-        qx.ui.decoration.MDoubleBorder,
-        qx.ui.decoration.MLinearBackgroundGradient,
-        qx.ui.decoration.MBoxShadow
-      ],
-
       style : {
         width: 1,
         color: "checkbox-border",
@@ -988,12 +868,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "input-css" :
     {
-      decorator : [
-        qx.ui.decoration.MDoubleBorder,
-        qx.ui.decoration.MLinearBackgroundGradient,
-        qx.ui.decoration.MBackgroundColor
-      ],
-
       style :
       {
         color : "border-input",
@@ -1050,11 +924,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "input" :
     {
-      decorator : qx.ui.decoration.Beveled,
-
       style :
       {
-        outerColor : "border-input",
+        color : "border-input",
         innerColor : "border-inner-input",
         innerOpacity : 0.5,
         backgroundImage : "decoration/form/input.png",
@@ -1065,11 +937,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "input-focused" :
     {
-      decorator : qx.ui.decoration.Beveled,
-
       style :
       {
-        outerColor : "border-input",
+        color : "border-input",
         innerColor : "border-focused",
         backgroundImage : "decoration/form/input-focused.png",
         backgroundRepeat : "repeat-x",
@@ -1079,11 +949,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "input-focused-invalid" :
     {
-      decorator : qx.ui.decoration.Beveled,
-
       style :
       {
-        outerColor : "invalid",
+        color : "invalid",
         innerColor : "border-focused-invalid",
         backgroundImage : "decoration/form/input-focused.png",
         backgroundRepeat : "repeat-x",
@@ -1095,11 +963,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "input-disabled" :
     {
-      decorator : qx.ui.decoration.Beveled,
-
       style :
       {
-        outerColor : "border-disabled",
+        color : "border-disabled",
         innerColor : "border-inner-input",
         innerOpacity : 0.5,
         backgroundImage : "decoration/form/input.png",
@@ -1120,8 +986,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "toolbar" :
     {
-      decorator : qx.ui.decoration.Background,
-
       style :
       {
         backgroundImage : "decoration/toolbar/toolbar-gradient.png",
@@ -1131,7 +995,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "toolbar-css" :
     {
-      decorator : [qx.ui.decoration.MLinearBackgroundGradient],
       style : {
         startColorPosition : 40,
         endColorPosition : 60,
@@ -1142,11 +1005,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "toolbar-button-hovered" :
     {
-      decorator : qx.ui.decoration.Beveled,
-
       style :
       {
-        outerColor : "border-toolbar-button-outer",
+        color : "border-toolbar-button-outer",
         innerColor : "border-toolbar-border-inner",
         backgroundImage : "decoration/form/button-c.png",
         backgroundRepeat : "scale"
@@ -1155,11 +1016,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "toolbar-button-checked" :
     {
-      decorator : qx.ui.decoration.Beveled,
-
       style :
       {
-        outerColor : "border-toolbar-button-outer",
+        color : "border-toolbar-button-outer",
         innerColor : "border-toolbar-border-inner",
         backgroundImage : "decoration/form/button-checked-c.png",
         backgroundRepeat : "scale"
@@ -1168,12 +1027,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "toolbar-button-hovered-css" :
     {
-      decorator : [
-        qx.ui.decoration.MDoubleBorder,
-        qx.ui.decoration.MLinearBackgroundGradient,
-        qx.ui.decoration.MBorderRadius
-      ],
-
       style :
       {
         color : "border-toolbar-button-outer",
@@ -1199,8 +1052,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "toolbar-separator" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         widthLeft : 1,
@@ -1216,8 +1067,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "toolbar-part" :
     {
-      decorator : qx.ui.decoration.Background,
-
       style :
       {
         backgroundImage  : "decoration/toolbar/toolbar-part.gif",
@@ -1236,8 +1085,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "tabview-pane" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style :
       {
         baseImage : "decoration/tabview/tabview-pane.png",
@@ -1247,12 +1094,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "tabview-pane-css" :
     {
-      decorator : [
-        qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MLinearBackgroundGradient,
-        qx.ui.decoration.MSingleBorder
-      ],
-
       style : {
         width: 1,
         color: "window-border",
@@ -1264,8 +1105,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "tabview-page-button-top-active" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style : {
         baseImage : "decoration/tabview/tab-button-top-active.png"
       }
@@ -1273,8 +1112,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "tabview-page-button-top-inactive" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style : {
         baseImage : "decoration/tabview/tab-button-top-inactive.png"
       }
@@ -1282,8 +1119,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "tabview-page-button-bottom-active" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style : {
         baseImage : "decoration/tabview/tab-button-bottom-active.png"
       }
@@ -1291,8 +1126,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "tabview-page-button-bottom-inactive" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style : {
         baseImage : "decoration/tabview/tab-button-bottom-inactive.png"
       }
@@ -1300,8 +1133,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "tabview-page-button-left-active" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style : {
         baseImage : "decoration/tabview/tab-button-left-active.png"
       }
@@ -1309,8 +1140,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "tabview-page-button-left-inactive" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style : {
         baseImage : "decoration/tabview/tab-button-left-inactive.png"
       }
@@ -1318,8 +1147,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "tabview-page-button-right-active" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style : {
         baseImage : "decoration/tabview/tab-button-right-active.png"
       }
@@ -1327,8 +1154,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "tabview-page-button-right-inactive" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style : {
         baseImage : "decoration/tabview/tab-button-right-inactive.png"
       }
@@ -1338,13 +1163,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
     // CSS TABVIEW BUTTONS
     "tabview-page-button-top-active-css" :
     {
-      decorator : [
-        qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MBackgroundColor,
-        qx.ui.decoration.MBoxShadow
-      ],
-
       style : {
         radius : [3, 3, 0, 0],
         width: [1, 1, 0, 1],
@@ -1358,12 +1176,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "tabview-page-button-top-inactive-css" :
     {
-      decorator : [
-        qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MLinearBackgroundGradient
-      ],
-
       style : {
         radius : [3, 3, 0, 0],
         color: "tabview-inactive",
@@ -1459,8 +1271,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "splitpane" :
     {
-      decorator : qx.ui.decoration.Uniform,
-
       style :
       {
         backgroundColor : "background-pane",
@@ -1483,8 +1293,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "window" :
     {
-      decorator: qx.ui.decoration.Single,
-
       style :
       {
         backgroundColor : "background-pane",
@@ -1497,8 +1305,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "window-captionbar-active" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style : {
         baseImage : "decoration/window/captionbar-active.png"
       }
@@ -1506,8 +1312,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "window-captionbar-inactive" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style : {
         baseImage : "decoration/window/captionbar-inactive.png"
       }
@@ -1515,8 +1319,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "window-statusbar" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style : {
         baseImage : "decoration/window/statusbar.png"
       }
@@ -1524,12 +1326,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
 
     // CSS WINDOW
-    "window-css" : {
-      decorator : [
-        qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MBoxShadow,
-        qx.ui.decoration.MSingleBorder
-      ],
+    "window-css" :
+    {
       style : {
         radius : [5, 5, 0, 0],
         shadowBlurRadius : 4,
@@ -1545,11 +1343,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
        }
     },
 
-    "window-resize-frame-css" : {
-      decorator : [
-        qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MSingleBorder
-      ],
+    "window-resize-frame-css" :
+    {
       style : {
         radius : [5, 5, 0, 0],
         width : 1,
@@ -1557,19 +1352,16 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "window-resize-frame-incl-statusbar-css" : {
+    "window-resize-frame-incl-statusbar-css" :
+    {
        include : "window-resize-frame-css",
        style : {
          radius : [5, 5, 5, 5]
        }
     },
 
-    "window-captionbar-active-css" : {
-      decorator : [
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MLinearBackgroundGradient
-      ],
+    "window-captionbar-active-css" :
+    {
       style : {
         width : 1,
         color : "window-border",
@@ -1580,7 +1372,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "window-captionbar-inactive-css" : {
+    "window-captionbar-inactive-css" :
+    {
       include : "window-captionbar-active-css",
       style : {
         gradientStart : ["window-caption-inactive-start", 30],
@@ -1590,12 +1383,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "window-statusbar-css" :
     {
-      decorator : [
-        qx.ui.decoration.MBackgroundColor,
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MBorderRadius
-      ],
-
       style : {
         backgroundColor : "window-statusbar-background",
         width: [0, 1, 1, 1],
@@ -1606,11 +1393,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "window-pane-css" :
     {
-      decorator: [
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MBackgroundColor
-      ],
-
       style :
       {
         backgroundColor : "background-pane",
@@ -1630,8 +1412,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "table" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         width : 1,
@@ -1642,8 +1422,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "table-statusbar" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         widthTop : 1,
@@ -1654,8 +1432,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "table-scroller-header" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         backgroundImage  : "decoration/table/header-cell.png",
@@ -1669,11 +1445,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "table-scroller-header-css" :
     {
-      decorator : [
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MLinearBackgroundGradient
-      ],
-
       style :
       {
         gradientStart : ["table-header-start", 10],
@@ -1686,8 +1457,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "table-header-cell" :
     {
-      decorator :  qx.ui.decoration.Single,
-
       style :
       {
         widthRight : 1,
@@ -1699,8 +1468,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "table-header-cell-hovered" :
     {
-      decorator :  qx.ui.decoration.Single,
-
       style :
       {
         widthRight : 1,
@@ -1715,8 +1482,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "table-scroller-focus-indicator" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         width : 2,
@@ -1737,8 +1502,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "progressive-table-header" :
     {
-       decorator : qx.ui.decoration.Single,
-
        style :
        {
          width       : 1,
@@ -1749,8 +1512,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "progressive-table-header-cell" :
     {
-      decorator :  qx.ui.decoration.Single,
-
       style :
       {
         backgroundImage  : "decoration/table/header-cell.png",
@@ -1764,11 +1525,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "progressive-table-header-cell-css" :
     {
-      decorator :  [
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MLinearBackgroundGradient
-      ],
-
       style :
       {
         gradientStart : ["table-header-start", 10],
@@ -1788,8 +1544,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "menu" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         backgroundImage  : "decoration/menu/background.png",
@@ -1801,12 +1555,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "menu-css" : {
-      decorator : [
-        qx.ui.decoration.MLinearBackgroundGradient,
-        qx.ui.decoration.MBoxShadow,
-        qx.ui.decoration.MSingleBorder
-      ],
+    "menu-css" :
+    {
       style : {
         gradientStart : ["menu-start", 0],
         gradientEnd : ["menu-end", 100],
@@ -1820,8 +1570,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "menu-separator" :
     {
-      decorator :  qx.ui.decoration.Single,
-
       style :
       {
         widthTop    : 1,
@@ -1841,8 +1589,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "menubar" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         backgroundImage  : "decoration/menu/bar-background.png",
@@ -1856,11 +1602,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "menubar-css" :
     {
-      decorator : [
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MLinearBackgroundGradient
-      ],
-
       style :
       {
         gradientStart : ["menubar-start", 0],
@@ -1879,8 +1620,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "app-header":
     {
-      decorator : qx.ui.decoration.Background,
-
       style :
       {
         backgroundImage : "decoration/app-header.png",
@@ -1897,7 +1636,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "progressbar" :
     {
-      decorator: qx.ui.decoration.Single,
 
       style:
       {
@@ -1914,8 +1652,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "group-item" :
     {
-      decorator : qx.ui.decoration.Background,
-
       style :
       {
         backgroundImage  : "decoration/group-item.png",
@@ -1925,10 +1661,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "group-item-css" :
     {
-      decorator : [
-        qx.ui.decoration.MLinearBackgroundGradient
-      ],
-
       style :
       {
         startColorPosition : 0,

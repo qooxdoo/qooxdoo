@@ -142,8 +142,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
         return {
           decorator : useCSS ? "popup-css" : "main",
-          backgroundColor : "background-light",
-          shadow : useCSS ? undefined : "shadow-popup"
+          backgroundColor : "background-light"
+          //shadow : useCSS ? undefined : "shadow-popup"
         };
       }
     },
@@ -222,7 +222,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           decorator : decorator,
           textColor : textColor,
-          shadow : shadow,
+          //shadow : shadow,
           padding : padding,
           margin : [1, 0]
         };
@@ -429,9 +429,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           decorator : decorator,
           padding : padding,
-          width: 12, // use 12 to allow the inset of the decorator to be applied
+          width: 10,
           height: 10
-        }
+        };
       }
     },
 
@@ -512,9 +512,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
         return {
           decorator : decorator,
-          width: 12, // use 12 to allow the inset of the decorator to be applied
+          width: 10,
           height: 10
-        }
+        };
       }
     },
 
@@ -636,7 +636,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           icon : "decoration/arrows/up-small.png",
           padding : [superStyles.padding[0] - 1, superStyles.padding[1] - 5],
-          shadow: undefined,
+          //shadow: undefined,
           margin : 0
         };
       }
@@ -652,7 +652,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           icon : "decoration/arrows/down-small.png",
           padding : [superStyles.padding[0] - 1, superStyles.padding[1] - 5],
-          shadow: undefined,
+          //shadow: undefined,
           margin : 0
         };
       }
@@ -993,7 +993,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           decorator : states.disabled ? "scrollbar-slider-horizontal-disabled" :
                                         "scrollbar-slider-horizontal",
-          shadow: undefined,
+          //shadow: undefined,
           height : 14,
           width : 14,
           padding: 0
@@ -1368,8 +1368,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          padding : [0, 1, 0, 1],
-          margin : states.focused ? 0 : 1,
+          padding : states.focused ? [0, 1, 0, 1] : [1, 2, 1, 2],
+          //margin : states.focused ? 0 : 1,
           decorator : states.focused ? "keyboard-focus" : undefined
         };
       }
@@ -1857,7 +1857,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           position: "right-top",
           showTimeout: 100,
           hideTimeout: 10000,
-          shadow: shadow,
+          //shadow: shadow,
           decorator: decorator,
           font: "bold",
           padding: padding,
@@ -1896,7 +1896,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
         return {
           decorator : decorator,
-          shadow : shadow,
+          //shadow : shadow,
           contentPadding : [ 10, 10, 10, 10 ],
           margin : states.maximized ? 0 : [0, 5, 5, 0]
         };
@@ -2256,7 +2256,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         var result = {
           padding : [ 2, 4 ],
-          shadow : undefined
+          //shadow : undefined
         };
 
         if (states.lastYear) {
@@ -2412,7 +2412,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         var ret = {
           icon : "decoration/arrows/down.png",
           padding : [superStyles.padding[0], superStyles.padding[1] - 6],
-          shadow : undefined,
+          //shadow : undefined,
           margin : undefined
         };
 
@@ -2457,7 +2457,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         var result =
         {
           decorator : useCSS ? "menu-css" : "menu",
-          shadow : useCSS ? undefined : "shadow-popup",
+          //shadow : useCSS ? undefined : "shadow-popup",
           spacingX : 6,
           spacingY : 1,
           iconColumnWidth : 16,
@@ -2705,7 +2705,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function() {
         return {
           paddingTop: 20
-        }
+        };
       }
     },
 
@@ -2715,7 +2715,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function() {
         return {
           paddingTop: 20
-        }
+        };
       }
     },
 
@@ -3145,7 +3145,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states) {
         return {
           padding: 0
-        }
+        };
       }
     },
 
@@ -3281,7 +3281,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           backgroundColor: "progressbar-background",
           width : 200,
           height: 20
-        }
+        };
       }
     },
 
@@ -3296,7 +3296,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
         return {
           decorator: decorator
-        }
+        };
       }
     }
   }
