@@ -185,7 +185,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
 
       if (this.isNamedColor(str))
       {
-        return this.NAMED[str];
+        return this.NAMED[str].concat();
       }
       else if (this.isSystemColor(str))
       {
@@ -265,11 +265,12 @@ qx.Bootstrap.define("qx.util.ColorUtil",
     /**
      * Converts a RGB array to an RGB string
      *
-     * @param rgb {Array} an array with red, green and blue
-     * @return {String} a RGB string
+     * @param rgb {Array} an array with red, green and blue values and optionally
+     * an alpha value
+     * @return {String} an RGB string
      */
     rgbToRgbString : function(rgb) {
-      return "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
+      return "rgb" + (rgb[3] ? "a" : "") +  "(" + rgb.join(",") + ")";
     },
 
 

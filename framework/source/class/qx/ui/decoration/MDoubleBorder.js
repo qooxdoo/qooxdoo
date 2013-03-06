@@ -127,6 +127,15 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
     {
       group : [ "innerColorTop", "innerColorRight", "innerColorBottom", "innerColorLeft" ],
       mode : "shorthand"
+    },
+
+    /**
+     * The opacity of the inner border.
+     */
+    innerOpacity :
+    {
+      check : "Number",
+      init : 1
     }
   },
 
@@ -144,85 +153,103 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
      */
     __styleDoubleBorder : function(styles)
     {
-      var colorTop,
-          colorRight,
-          colorBottom,
-          colorLeft,
-          innerColorTop,
-          innerColorRight,
-          innerColorBottom,
-          innerColorLeft;
+      var color,
+          innerColor,
+          innerWidth;
       if (qx.core.Environment.get("qx.theme"))
       {
         var Color = qx.theme.manager.Color.getInstance();
 
-        colorTop = Color.resolve(this.getColorTop());
-        colorRight = Color.resolve(this.getColorRight());
-        colorBottom = Color.resolve(this.getColorBottom());
-        colorLeft = Color.resolve(this.getColorLeft());
-        innerColorTop = Color.resolve(this.getInnerColorTop());
-        innerColorRight = Color.resolve(this.getInnerColorRight());
-        innerColorBottom = Color.resolve(this.getInnerColorBottom());
-        innerColorLeft = Color.resolve(this.getInnerColorLeft());
+        color = {
+          top : Color.resolve(this.getColorTop()),
+          right : Color.resolve(this.getColorRight()),
+          bottom : Color.resolve(this.getColorBottom()),
+          left : Color.resolve(this.getColorLeft())
+        };
+
+        innerColor = {
+          top : Color.resolve(this.getInnerColorTop()),
+          right : Color.resolve(this.getInnerColorRight()),
+          bottom : Color.resolve(this.getInnerColorBottom()),
+          left : Color.resolve(this.getInnerColorLeft())
+        };
       }
       else
       {
-        colorTop = this.getColorTop();
-        colorRight = this.getColorRight();
-        colorBottom = this.getColorBottom();
-        colorLeft = this.getColorLeft();
+        color = {
+          top : this.getColorTop(),
+          right : this.getColorRight(),
+          bottom : this.getColorBottom(),
+          left : this.getColorLeft()
+        };
+
+        innerColor = {
+          top : this.getInnerColorTop(),
+          right : this.getInnerColorRight(),
+          bottom : this.getInnerColorBottom(),
+          left : this.getInnerColorLeft()
+        };
       }
 
-      var innerWidthTop = this.getInnerWidthTop();
-      var innerWidthRight = this.getInnerWidthRight();
-      var innerWidthBottom = this.getInnerWidthBottom();
-      var innerWidthLeft = this.getInnerWidthLeft();
+      innerWidth = {
+        top : this.getInnerWidthTop(),
+        right : this.getInnerWidthRight(),
+        bottom : this.getInnerWidthBottom(),
+        left : this.getInnerWidthLeft()
+      };
 
       // Add outer borders
       var width = this.getWidthTop();
       if (width > 0) {
-        styles["border-top"] = width + "px " + this.getStyleTop() + " " + colorTop;
+        styles["border-top"] = width + "px " + this.getStyleTop() + " " + color.top;
       }
 
       width = this.getWidthRight();
       if (width > 0) {
-        styles["border-right"] = width + "px " + this.getStyleRight() + " " + colorRight;
+        styles["border-right"] = width + "px " + this.getStyleRight() + " " + color.right;
       }
 
       width = this.getWidthBottom();
       if (width > 0) {
-        styles["border-bottom"] = width + "px " + this.getStyleBottom() + " " + colorBottom;
+        styles["border-bottom"] = width + "px " + this.getStyleBottom() + " " + color.bottom;
       }
 
       width = this.getWidthLeft();
       if (width > 0) {
-        styles["border-left"] = width + "px " + this.getStyleLeft() + " " + colorLeft;
+        styles["border-left"] = width + "px " + this.getStyleLeft() + " " + color.left;
+      }
+
+      var innerOpacity = this.getInnerOpacity();
+      var CUtil = qx.util.ColorUtil;
+
+      if (innerOpacity < 1) {
+        this.__processInnerOpacity(innerColor, innerOpacity);
       }
 
       // Add inner borders
       var shadowStyle = [];
 
-      if (innerColorTop == innerColorBottom &&
-          innerColorTop == innerColorRight &&
-          innerColorTop == innerColorLeft &&
-          innerWidthTop == innerWidthBottom &&
-          innerWidthTop == innerWidthRight &&
-          innerWidthTop == innerWidthLeft)
+      if (innerColor.top == innerColor.bottom &&
+          innerColor.top == innerColor.right &&
+          innerColor.top == innerColor.left &&
+          innerWidth.top == innerWidth.bottom &&
+          innerWidth.top == innerWidth.right &&
+          innerWidth.top == innerWidth.left)
       {
-        shadowStyle.push("inset 0 0 0 " + this.getInnerWidthTop() + "px " + innerColorTop);
+        shadowStyle.push("inset 0 0 0 " + innerWidth.top + "px " + innerColor.top);
       }
       else {
-        if (innerColorTop) {
-          shadowStyle.push("inset 0 " + (this.getInnerWidthTop() || 0) + "px " + innerColorTop);
+        if (innerColor.top) {
+          shadowStyle.push("inset 0 " + (innerWidth.top || 0) + "px " + innerColor.top);
         }
-        if (innerColorRight) {
-          shadowStyle.push("inset -" + (this.getInnerWidthRight() || 0) + "px 0 " + innerColorRight);
+        if (innerColor.right) {
+          shadowStyle.push("inset -" + (innerWidth.right || 0) + "px 0 " + innerColor.right);
         }
-        if (innerColorBottom) {
-          shadowStyle.push("inset 0 -" + (this.getInnerWidthBottom() || 0) + "px " + innerColorBottom);
+        if (innerColor.bottom) {
+          shadowStyle.push("inset 0 -" + (innerWidth.bottom || 0) + "px " + innerColor.bottom);
         }
-        if (innerColorLeft) {
-          shadowStyle.push("inset " + (this.getInnerWidthLeft() || 0) + "px 0 " + innerColorLeft);
+        if (innerColor.left) {
+          shadowStyle.push("inset " + (innerWidth.left || 0) + "px 0 " + innerColor.left);
         }
       }
 
@@ -246,6 +273,30 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
          qx.core.Environment.get("browser.documentmode") < 8)
       ) {
         styles["line-height"] = '';
+      }
+    },
+
+
+    /**
+     * Converts the inner border's colors to rgba.
+     *
+     * @param innerColor {Map} map of top, right, bottom and left colors
+     * @param innerOpacity {Number} alpha value
+     */
+    __processInnerOpacity : function(innerColor, innerOpacity)
+    {
+      if (!qx.core.Environment.get("css.rgba")) {
+          if (qx.core.Environment.get("qx.debug")) {
+          qx.log.Logger.warn("innerOpacity is configured but the browser doesn't support RGBA colors.");
+        }
+        return;
+      }
+
+      for (var edge in innerColor) {
+        var rgb = qx.util.ColorUtil.stringToRgb(innerColor[edge]);
+        rgb.push(innerOpacity);
+        var rgbString = qx.util.ColorUtil.rgbToRgbString(rgb);
+        innerColor[edge] = rgbString;
       }
     },
 
