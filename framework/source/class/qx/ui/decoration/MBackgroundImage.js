@@ -93,11 +93,11 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
 
       var source = qx.util.AliasManager.getInstance().resolve(image);
       source = qx.util.ResourceManager.getInstance().toUri(source);
-      styles.backgroundImage = 'url(' + source + ')';
+      styles["background-image"] = 'url(' + source + ')';
 
       var repeat = this.getBackgroundRepeat();
       if (repeat === "scale") {
-        styles.backgroundSize = "100% 100%";
+        styles["background-size"] = "100% 100%";
       }
       else {
         styles.backgroundRepeat = repeat;
@@ -105,8 +105,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
 
       var top = this.getBackgroundPositionY() || 0;
       var left = this.getBackgroundPositionX() || 0;
-
-      styles.backgroundPosition = left + "px " + top + "px";
+      styles["background-position"] = left + "px " + top + "px";
     },
 
 
