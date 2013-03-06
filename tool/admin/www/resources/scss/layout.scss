@@ -5,31 +5,31 @@ html {
 }
 
 body {
-  min-width: @siteWidth + 100px;
+  min-width: $siteWidth + 100px;
   height: 100%;
 }
 
 a.button {
-  line-height: round(@line * 1.5);
-  font-size: @fontSize;
+  line-height: round($line * 1.5);
+  font-size: $fontSize;
   text-align: center;
   display: block;
-  margin-bottom: round(@line * 0.5);
+  margin-bottom: round($line * 0.5);
 }
 
 .large {
-  font-size: @fontSize + 2;
+  font-size: $fontSize + 2;
 }
 
 .note {
-  font-size: @fontSize - 1;
+  font-size: $fontSize - 1;
 }
 
 .alert {
-  background-color: @attention;
+  background-color: $attention;
   padding: 5px 20px;
   color: #000;
-  font-size: @fontSize - 2;
+  font-size: $fontSize - 2;
 
   a {
     color: inherit;
@@ -45,10 +45,10 @@ a.button {
   .button {
     .span(5);
     float: left;
-    background-color: @lightShade;
+    background-color: $lightShade;
 
     &:hover {
-     background-color: @shade;
+     background-color: $shade;
      text-decoration: none !important;
     }
   }
@@ -59,28 +59,28 @@ a.button {
 // }
 
 #header-wrapper {
-  background-color: @darkShade;
-  #gradient > .vertical(lighten(@darkShade, 12%), @darkShade);
+  background-color: $darkShade;
+  #gradient > .vertical(lighten($darkShade, 12%), $darkShade);
 
   .decoration {
-    @lightSpot: lighten(@spot, 6%);
+    $lightSpot: lighten($spot, 6%);
     height: 10px;
-    background-color: @spot;
-    // border-top: 1px solid @lightSpot;
-    #gradient > .vertical-four(@lightSpot, @lightSpot, @spot, @spot, 1px, 1px);
+    background-color: $spot;
+    // border-top: 1px solid $lightSpot;
+    #gradient > .vertical-four($lightSpot, $lightSpot, $spot, $spot, 1px, 1px);
   }
 }
 
 #header {
-  @fg: darken(@shade, 15%);
-  @hl: #ffffff;
+  $fg: darken($shade, 15%);
+  $hl: #ffffff;
 
   .container();
   margin: 0 auto;
   min-height: 30px;
   padding-top: 20px;
   padding-bottom: 20px;
-  color: @fg;
+  color: $fg;
 
   // Logo
   h1 {
@@ -91,12 +91,12 @@ a.button {
     line-height: 1;
     margin-top: 0;
     margin-bottom: 0;
-    color: @hl;
+    color: $hl;
   }
 
   nav {
     .columns(12);
-    font-size: @fontSize + 1;
+    font-size: $fontSize + 1;
 
     ul, ol {
       margin: 0;
@@ -107,15 +107,15 @@ a.button {
         display: inline-block;
 
         a {
-          border-bottom: @bar solid transparent;
+          border-bottom: $bar solid transparent;
 
           &:hover, &.active:hover {
-            color: @hl;
-            border-color: @hl;
+            color: $hl;
+            border-color: $hl;
           }
 
           &.active {
-            border-color: @fg;
+            border-color: $fg;
           }
         }
       }
@@ -123,23 +123,23 @@ a.button {
   }
 
   #search {
-    .clearfix();
+    @include clearfix();
     margin-top: 8px;
-    margin-right: -(@gridColumnWidth+10px); // Allow search to bleed
+    margin-right: -($gridColumnWidth+10px); // Allow search to bleed
 
     select, input {
-      height: @line;
+      height: $line;
     }
 
     input[type=search] {
       .columns(4);
       .appearance(none);
       .border-radius(8px);
-      font-size: @fontSize - 2;
+      font-size: $fontSize - 2;
       margin: 0;
       padding: 2px;
       border: none;
-      background-color: @shade;
+      background-color: $shade;
     }
 
     input[type=search]:focus {
@@ -156,14 +156,14 @@ a.button {
 
 #main-wrapper {
   min-height: 100%;
-  padding-bottom: round(@footerLineCount * @line);
+  padding-bottom: round($footerLineCount * $line);
 }
 
 #main {
   .container();
   position: relative;
-  padding-top: round(@line * 3 - 5px);
-  padding-bottom: round(@line * 5);
+  padding-top: round($line * 3 - 5px);
+  padding-bottom: round($line * 5);
 
   ul {
     list-style-type: disc;
@@ -179,8 +179,8 @@ a.button {
 
   #breadcrumb {
     position: absolute;
-    top: @line - 5px;
-    color: @mediumShade;
+    top: $line - 5px;
+    color: $mediumShade;
 
     a {
       text-decoration: none;
@@ -190,7 +190,7 @@ a.button {
   #sidebar {
     .columns(6);
     margin-left: 0;
-    padding-left: @gridWidth * 2;
+    padding-left: $gridWidth * 2;
 
     aside {
       margin-bottom: 1em;
@@ -208,13 +208,13 @@ a.button {
     clear: both;  // Force to new row
 
     pre {
-      padding: @gridGutterWidth;
-      background-color: @lightShade;
+      padding: $gridGutterWidth;
+      background-color: $lightShade;
     }
 
     table {
       tr + tr {
-        border-top: 1px solid @shade;
+        border-top: 1px solid $shade;
       }
 
       td {
@@ -232,11 +232,11 @@ a.button {
 }
 
 #footer-wrapper {
-  border-top: 1px solid lighten(@darkShade, 30);
-  background-color: @darkShade;
-  height: round(@footerLineCount * @line);
-  margin-top: round(-@footerLineCount * @line);
-  padding-bottom: @line;
+  border-top: 1px solid lighten($darkShade, 30);
+  background-color: $darkShade;
+  height: round($footerLineCount * $line);
+  margin-top: round(-$footerLineCount * $line);
+  padding-bottom: $line;
 }
 
 // Avoid Typekit badge to break layout
@@ -245,11 +245,11 @@ a.button {
 }
 
 #footer {
-  @fg: darken(@shade, 15%);
+  $fg: darken($shade, 15%);
   .container();
   margin: 0 auto;
-  padding-top: @line;
-  color: @fg;
+  padding-top: $line;
+  color: $fg;
 
   #supported-by {
     .columns(5);
@@ -262,12 +262,12 @@ a.button {
     p {
       margin-left: 6px;
       margin-top: 3px;
-      font-size: round(@fontSize * 0.8);
+      font-size: round($fontSize * 0.8);
     }
 
     .legal {
       padding-top: 2px;
-      color: darken(@fg, 30%);
+      color: darken($fg, 30%);
     }
   }
 
@@ -290,12 +290,12 @@ a.button {
 
   #meta {
     .columns(6);
-    margin-left: @gridGutterWidth;
+    margin-left: $gridGutterWidth;
     font-size: 10px;
 
     .social {
       overflow: hidden;
-      margin-bottom: @line * 0.5;
+      margin-bottom: $line * 0.5;
     }
 
     img {

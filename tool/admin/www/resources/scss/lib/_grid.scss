@@ -1,4 +1,4 @@
-.clearfix() {
+@mixin clearfix() {
   zoom: 1;
 	&:after {
     display: block;
@@ -9,35 +9,35 @@
 	}
 }
 
-.container() {
-  width: @siteWidth;
+@mixin container() {
+  width: $siteWidth;
   margin: 0 auto;
-  .clearfix();
+  @include clearfix();
 }
 
-.columns(@columnSpan: 1) {
+@mixin columns($columnSpan: 1) {
   display: block;
   float: left;
-  width: (@gridColumnWidth * @columnSpan) + (@gridGutterWidth * (@columnSpan - 1));
-  margin-left: @gridGutterWidth;
+  width: ($gridColumnWidth * $columnSpan) + ($gridGutterWidth * ($columnSpan - 1));
+  margin-left: $gridGutterWidth;
 
   &:first-child {
     .first();
   }
 }
 
-.first() {
+@mixin first() {
   margin-left: 0;
 }
 
-.span(@columnSpan: 1) {
-  width: (@gridColumnWidth * @columnSpan) + (@gridGutterWidth * (@columnSpan - 1));
+@mixin span($columnSpan: 1) {
+  width: ($gridColumnWidth * $columnSpan) + ($gridGutterWidth * ($columnSpan - 1));
 }
 
-.push(@columnOffset: 1) {
-  margin-left: (@gridColumnWidth * @columnOffset) + (@gridGutterWidth * (@columnOffset + 1)) !important;
+@mixin push($columnOffset: 1) {
+  margin-left: ($gridColumnWidth * $columnOffset) + ($gridGutterWidth * ($columnOffset + 1)) !important;
 }
 
-.pull(@columnOffset: 1) {
-  margin-left: -((@gridColumnWidth * @columnOffset) + (@gridGutterWidth * (@columnOffset + 1))) !important;
+@mixin pull($columnOffset: 1) {
+  margin-left: -(($gridColumnWidth * $columnOffset) + ($gridGutterWidth * ($columnOffset + 1))) !important;
 }

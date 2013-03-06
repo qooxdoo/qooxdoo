@@ -5,20 +5,20 @@ body#download {
     .first();
 
     .row {
-      .clearfix();
+      @include clearfix();
     }
 
     .row + .row {
-      margin-top: @gridGutterWidth;
+      margin-top: $gridGutterWidth;
     }
 
     .domain {
       .inset(10px);
       .columns(12);
 
-      border-top: @bar solid transparent;
-      background-color: @lightShade;
-      height: round(@line * 12);
+      border-top: $bar solid transparent;
+      background-color: $lightShade;
+      height: round($line * 12);
 
       h2 {
         font-weight: bold;
@@ -29,7 +29,7 @@ body#download {
       }
 
       ul {
-        margin-bottom: @line;
+        margin-bottom: $line;
       }
     }
   }

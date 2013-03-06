@@ -30,9 +30,9 @@
 
 body {
   font-family: "Lucida Grande", "Verdana";
-  font-size: @fontSize;
-  line-height: @lineHeight;
-  color: @fg;
+  font-size: $fontSize;
+  line-height: $lineHeight;
+  color: $fg;
 }
 
 a,
@@ -65,15 +65,15 @@ h2 {
 }
 
 h1 {
-  color: @spot;
-  font-size: round(@fontSize * 1.6);
-  margin-bottom: round(@line * 0.5);
+  color: $spot;
+  font-size: round($fontSize * 1.6);
+  margin-bottom: round($line * 0.5);
 }
 
 h2 {
-  font-size: round(@fontSize * 1.3);
-  margin-top: round(@line);
-  margin-bottom: round(@line * 0.5);
+  font-size: round($fontSize * 1.3);
+  margin-top: round($line);
+  margin-bottom: round($line * 0.5);
 }
 
 h3 {
@@ -102,7 +102,7 @@ pre {
 }
 
 code {
-  font-size: @fontSize - 1px;
+  font-size: $fontSize - 1px;
 }
 
 sub {
@@ -116,15 +116,15 @@ sup {
 blockquote {
   margin-left: 2px;
   padding-left: 4px;
-  border-left: 2px solid @shade;
+  border-left: 2px solid $shade;
 }
 
 blockquote blockquote {
-  border-left: 2px solid darken(@shade, 20);
+  border-left: 2px solid darken($shade, 20);
 }
 
 blockquote blockquote blockquote {
-  border-left: 2px solid darken(@shade, 40);
+  border-left: 2px solid darken($shade, 40);
 }
 
 ul, ol {
@@ -132,8 +132,8 @@ ul, ol {
 }
 
 table {
-  font-size: @fontSize - 2px;
-  margin-bottom: @line;
+  font-size: $fontSize - 2px;
+  margin-bottom: $line;
 
   th {
     font-weight: bold;
@@ -148,14 +148,14 @@ table {
   a {
     // Make slightly lighter to compensate
     // darker gray level of underlined glyphs
-    color: lighten(@fg, 5);
+    color: lighten($fg, 5);
     text-decoration: underline;
   }
 
   a:hover {
     // Make slightly darker to compensate
     // lighter gray level of small glyphs
-    color: darken(@spot, 3);
+    color: darken($spot, 3);
     text-decoration: underline;
   }
 

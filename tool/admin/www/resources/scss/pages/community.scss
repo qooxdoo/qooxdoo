@@ -1,10 +1,10 @@
 body.community {
 
   .community {
-    background-color: @attention;
+    background-color: $attention;
     padding: 5px 20px;
     color: #000;
-    font-size: @fontSize - 2;
+    font-size: $fontSize - 2;
 
     a {
       color: inherit;

@@ -1,11 +1,11 @@
 body.demos {
   #tools {
-    .clearfix();
+    @include clearfix();
 
     .tool {
       .columns(12);
       .first();
-      margin-bottom: @line;
+      margin-bottom: $line;
     }
 
     .screenshot {
@@ -13,21 +13,21 @@ body.demos {
       .columns(9);
 
       a {
-        .clearfix();
+        @include clearfix();
       }
 
       img {
         padding-left: 20px;
-        margin-bottom: @line;
+        margin-bottom: $line;
       }
     }
   }
 
   .versions {
-    .clearfix();
+    @include clearfix();
 
     .line {
-      .clearfix();
+      @include clearfix();
       clear: both;
     }
 
@@ -49,17 +49,17 @@ body.demos {
 body#demos {
 
   #domains {
-    margin-bottom: @line;
+    margin-bottom: $line;
   }
 
   #domains section.domain {
     .container();
-    background-color: @lightShade;
-    margin-bottom: @line * 1;
-    border-left: @bar solid transparent;
+    background-color: $lightShade;
+    margin-bottom: $line * 1;
+    border-left: $bar solid transparent;
 
     &.expanded {
-      background-color: @lightShade;
+      background-color: $lightShade;
 
       .demo {
         ul, .left, .right, .note {
@@ -76,7 +76,7 @@ body#demos {
 
       &:hover {
         cursor: pointer;
-        background-color: @shade;
+        background-color: $shade;
       }
     }
 
@@ -96,7 +96,7 @@ body#demos {
       .columns(9);
 
       &.first {
-        margin-left: (@gridColumnWidth + @gridGutterWidth) * 6;
+        margin-left: ($gridColumnWidth + $gridGutterWidth) * 6;
       }
 
       & > a {
@@ -108,7 +108,7 @@ body#demos {
         display: none;
 
         span {
-          font-size: @fontSize - 2;
+          font-size: $fontSize - 2;
         }
       }
 

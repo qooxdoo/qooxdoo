@@ -1,7 +1,7 @@
 body#home {
 
   #callout {
-    width: @siteWidth;
+    width: $siteWidth;
     margin: 50px auto;
     padding-left: 10px;
 
@@ -29,16 +29,16 @@ body#home {
     }
 
     span {
-      color: @lightShade;
+      color: $lightShade;
     }
   }
 
   #domains {
-    .clearfix();
+    @include clearfix();
     clear: both;
     position: relative;
     height: 458px;
-    margin-bottom: round(@line * 2);
+    margin-bottom: round($line * 2);
     background: url(../../images/domains-bg.png) repeat-x #f4f4f4;
 
     &.active {
@@ -54,14 +54,14 @@ body#home {
     */
 
     .container {
-      .clearfix();
+      @include clearfix();
       position: relative;
       left: -10px;
-      width: @siteWidth;
+      width: $siteWidth;
       margin: 0 auto;
 
       .icons {
-        .clearfix();
+        @include clearfix();
         height: 105px;
         margin-right: -10px;
 
@@ -95,12 +95,12 @@ body#home {
 
     section.domain {
       .columns(6);
-      @bleedingHeight: 85px;  // Hovering icons hovers header
+      $bleedingHeight: 85px;  // Hovering icons hovers header
       position: relative;
-      top: -@bleedingHeight;
-      padding-top: @bleedingHeight;
+      top: -$bleedingHeight;
+      padding-top: $bleedingHeight;
       cursor: pointer;
-      font-size: @fontSize - 1;
+      font-size: $fontSize - 1;
       color: #000;
 
       &#website {
@@ -141,7 +141,7 @@ body#home {
         }
 
         div.tagline {
-          color: lighten(@fg, 20%);
+          color: lighten($fg, 20%);
         }
       }
 
@@ -154,9 +154,9 @@ body#home {
 
         div {
           & > * {
-            color: @fg;
+            color: $fg;
             padding: 0 10px;
-            line-height: @fontSize + 6;
+            line-height: $fontSize + 6;
           }
         }
 
@@ -164,7 +164,7 @@ body#home {
           position: absolute;
           height: 110px;
           top: 76px;
-          margin-top: round(@line * 0.5);
+          margin-top: round($line * 0.5);
 
           & > * {
             padding: 0;
@@ -172,7 +172,7 @@ body#home {
         }
 
         p:first-child {
-          min-height: (@fontSize + 4) * 4;
+          min-height: ($fontSize + 4) * 4;
         }
 
         h3 {
@@ -202,7 +202,7 @@ body#home {
             padding: 10px !important;
             margin: 0 !important;
             margin-left: -10px !important;
-            font-size: @fontSize - 1 !important;
+            font-size: $fontSize - 1 !important;
             height: 195px;
           }
         }
@@ -238,17 +238,17 @@ body#home {
 
       &#mobile.active div.description {
         .pull(6);
-        padding-left: @gridGutterWidth;
+        padding-left: $gridGutterWidth;
       }
 
       &#desktop.active div.description {
         .pull(12);
-        padding-left: @gridGutterWidth;
+        padding-left: $gridGutterWidth;
       }
 
       &#server.active div.description {
         .pull(18);
-        padding-left: @gridGutterWidth;
+        padding-left: $gridGutterWidth;
       }
     }
   }
@@ -258,10 +258,10 @@ body#home {
     padding-top: 0;
 
     section#about {
-      color: @fg;
-      margin-top: @line / 2;
+      color: $fg;
+      margin-top: $line / 2;
       // clear: both;
-      .clearfix();
+      @include clearfix();
 
       #content {
         .columns(14);
