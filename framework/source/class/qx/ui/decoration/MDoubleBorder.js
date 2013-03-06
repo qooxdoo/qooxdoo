@@ -173,6 +173,11 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
         colorLeft = this.getColorLeft();
       }
 
+      var innerWidthTop = this.getInnerWidthTop();
+      var innerWidthRight = this.getInnerWidthRight();
+      var innerWidthBottom = this.getInnerWidthBottom();
+      var innerWidthLeft = this.getInnerWidthLeft();
+
       // Add outer borders
       var width = this.getWidthTop();
       if (width > 0) {
@@ -196,17 +201,29 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
 
       // Add inner borders
       var shadowStyle = [];
-      if (innerColorTop) {
-        shadowStyle.push("inset 0 " + (this.getInnerWidthTop() || 0) + "px " + innerColorTop);
+
+      if (innerColorTop == innerColorBottom &&
+          innerColorTop == innerColorRight &&
+          innerColorTop == innerColorLeft &&
+          innerWidthTop == innerWidthBottom &&
+          innerWidthTop == innerWidthRight &&
+          innerWidthTop == innerWidthLeft)
+      {
+        shadowStyle.push("inset 0 0 0 " + this.getInnerWidthTop() + "px " + innerColorTop);
       }
-      if (innerColorRight) {
-        shadowStyle.push("inset -" + (this.getInnerWidthRight() || 0) + "px 0 " + innerColorRight);
-      }
-      if (innerColorBottom) {
-        shadowStyle.push("inset 0 -" + (this.getInnerWidthBottom() || 0) + "px " + innerColorBottom);
-      }
-      if (innerColorLeft) {
-        shadowStyle.push("inset " + (this.getInnerWidthLeft() || 0) + "px 0 " + innerColorLeft);
+      else {
+        if (innerColorTop) {
+          shadowStyle.push("inset 0 " + (this.getInnerWidthTop() || 0) + "px " + innerColorTop);
+        }
+        if (innerColorRight) {
+          shadowStyle.push("inset -" + (this.getInnerWidthRight() || 0) + "px 0 " + innerColorRight);
+        }
+        if (innerColorBottom) {
+          shadowStyle.push("inset 0 -" + (this.getInnerWidthBottom() || 0) + "px " + innerColorBottom);
+        }
+        if (innerColorLeft) {
+          shadowStyle.push("inset " + (this.getInnerWidthLeft() || 0) + "px 0 " + innerColorLeft);
+        }
       }
 
       // apply or append the box shadow styles
