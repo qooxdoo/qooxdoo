@@ -1,8 +1,10 @@
-body#download {
+body#downloads {
 
   #domains {
     @include columns(24);
     @include first();
+    position: relative;
+    margin-bottom: 21.6px;
 
     .row {
       @include clearfix();
@@ -18,20 +20,24 @@ body#download {
 
       border-top: $bar solid transparent;
       background-color: $lightShade;
-      height: round($line * 12);
+      height: round($line * 14);
+
+      ul {
+        list-style-type: none;
+        margin-left: 0;
+      }
 
       h2 {
-        font-weight: bold;
+        margin-bottom: 10.8px;
       }
 
       p {
         margin-bottom: 0;
       }
 
-      ul {
-        margin-bottom: $line;
+      .highlight {
+        background-color: transparent;
       }
     }
   }
-
 }
