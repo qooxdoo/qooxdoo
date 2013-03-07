@@ -784,11 +784,17 @@ qx.Class.define("qx.ui.form.Slider",
     {
       // Use DOM Element
       var container = this.getChildControl("knob").getContainerElement();
+      var decorator = this.getDecorator();
+      decorator = qx.theme.manager.Decoration.getInstance().resolve(decorator);
       if (this.__isHorizontal) {
-        position = position + (this.getPaddingLeft() || 0);
+        var decoratorPadding = decorator ? decorator.getPadding().left : 0;
+        var padding = (this.getPaddingLeft() || 0) + decoratorPadding;
+        position = position + (padding);
         container.setStyle("left", position +"px", true);
       } else {
-        position = position + (this.getPaddingTop() || 0);
+        var decoratorPadding = decorator ? decorator.getPadding().top : 0;
+        var padding = (this.getPaddingTop() || 0) + decoratorPadding;
+        position = position + (padding);
         container.setStyle("top", position+"px", true);
       }
     },
