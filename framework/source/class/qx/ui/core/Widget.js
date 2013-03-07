@@ -2299,7 +2299,12 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (value) {
         value = qx.theme.manager.Decoration.getInstance().resolve(value);
-        content.setStyles(value.getStyles());
+        var styles = value.getStyles();
+        var bgCol = this.getBackgroundColor();
+        if (bgCol) {
+          styles.backgroundColor = qx.theme.manager.Color.getInstance().resolve(bgCol);
+        }
+        content.setStyles(styles);
       }
     },
 
