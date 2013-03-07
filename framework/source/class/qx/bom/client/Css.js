@@ -30,6 +30,7 @@
  * directly. Please check its class comment for details how to use it.
  *
  * @internal
+ * @ignore(WebKitCSSMatrix)
  */
 qx.Bootstrap.define("qx.bom.client.Css",
 {

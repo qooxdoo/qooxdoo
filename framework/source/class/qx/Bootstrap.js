@@ -29,6 +29,10 @@
 
 /**
  * Create namespace
+ *
+ * @ignore(qx.data)
+ * @ignore(qx.data.IListData)
+ * @ignore(qx.util.OOUtil)
  */
 if (!window.qx) {
   window.qx = {};

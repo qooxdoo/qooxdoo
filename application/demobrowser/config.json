@@ -68,7 +68,7 @@
 
   "config-warnings" : 
   {
-    "job-shadowing" : ["simulation-run", "translation"],
+    "job-shadowing" : ["simulation-run", "translation", "lint"],
     
     "environment" : [ "non-literal-keys" ]
   },
@@ -255,6 +255,15 @@
       }
     }
     
+    ,"lint" : 
+    {
+      "log" : {
+        "filter" : {
+          "debug" : [ "generator.action.CodeMaintenance.lint_classes" ]
+        }
+      }
+    }
+
     ,"translation" :
     {
       "extend" : ["cache"],

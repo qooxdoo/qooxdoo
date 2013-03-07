@@ -32,6 +32,8 @@
  *  be enabled and an error handler must be registered.
  *  Further each JavaScript "entry point" must be wrapped with a call to
  *  {@link qx.event.GlobalError#observeMethod}.
+ *
+ * @ignore(qx.core.Environment)
  */
 qx.Bootstrap.define("qx.event.GlobalError",
 {

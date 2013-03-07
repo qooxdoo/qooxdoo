@@ -54,6 +54,8 @@
  *  req.send();
  * </pre>
  * </div>
+ *
+ * @ignore(XDomainRequest)
  */
 qx.Bootstrap.define("qx.bom.request.Xhr",
 {

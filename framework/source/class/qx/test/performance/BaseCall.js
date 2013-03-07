@@ -6,6 +6,11 @@
 
 ************************************************************************ */
 
+/**
+ * @ignore(qx.test.performance.Base)
+ * @ignore(qx.test.performance.Extend)
+ */
+
 qx.Class.define("qx.test.performance.BaseCall",
 {
   extend : qx.dev.unit.TestCase,

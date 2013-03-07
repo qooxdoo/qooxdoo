@@ -71,6 +71,7 @@
     [
       "api",
       "common",
+      "dependencies",
       "lint",
       "provider-deps",
       "provider-classes",
@@ -315,6 +316,11 @@
     {
       "desc" : "This is just to test pretty-printing - don't commit after running.",
       "extend" : ["pretty"]
+    }
+
+    ,"dependencies" : 
+    {
+      "=exclude" : [ "${APPLICATION}.test.*" ]
     }
   }
 }

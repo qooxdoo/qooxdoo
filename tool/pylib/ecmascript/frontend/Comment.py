@@ -320,7 +320,7 @@ class Comment(object):
         def getOpts():
             class COpts(object): pass
             opts = COpts()
-            opts.warn_unknown_jsdoc_keys = context.jobconf.get("lint-check/warn-unknown-jsdoc-keys", [None])
+            opts.warn_unknown_jsdoc_keys = context.jobconf.get("lint-check/warn-unknown-jsdoc-keys", False)
             opts.warn_jsdoc_key_syntax = context.jobconf.get("lint-check/warn-jsdoc-key-syntax", True)
             return opts
 
@@ -346,30 +346,26 @@ class Comment(object):
                         entry = getattr(self, "parse_at_"+hint_key)(line)
                     except py.ParseException, e:
                         if opts.warn_jsdoc_key_syntax:
-                            entry = {
-                              "error" : "parseError",
-                              "message" : "Unable to parse JSDoc entry",
-                              "category": hint_key,
-                              "text": line.strip()
-                            }
-                        #continue
-                elif hint_key in ( # temporarily, to see what we have in the framework
-                        'protected', # ?
-                    ):
-                    continue
+                            #entry = {
+                            #  "error" : "parseError",
+                            #  "message" : "Unable to parse JSDoc entry",
+                            #  "category": hint_key,
+                            #  "text": line.strip() }
+                            context.console.warn("Unable to parse JSDoc entry: '%s'" % line.strip())
+                            continue # don't add those
                 # known tag with default parsing
                 elif hint_key in (
                         'abstract', # @abstract; pend. bug#6738
-                        'tag',  # @tag foo; in Demobrowser
+                        'tag',      # @tag foo; in Demobrowser
                     ):
                     entry = self.parse_at__default_(line)
                 # unknown tag
                 else:
-                    #raise Exception("Unknown '@' hint in JSDoc comment: " + hint_key)
                     entry = self.parse_at__default_(line)
-                    if opts.warn_unknown_jsdoc_keys==[] or hint_key in opts.warn_unknown_jsdoc_keys:
-                        entry["error"] = "parseError",
-                        entry["message"] = "Unknown '@' hint in JSDoc comment"
+                    if opts.warn_unknown_jsdoc_keys:
+                        #entry["error"] = "parseError",
+                        #entry["message"] = "Unknown '@' hint in JSDoc comment"
+                        context.console.warn("Unknown '@' hint in JSDoc comment: " + hint_key)
                 attribs.append(entry)
             # description
             else:

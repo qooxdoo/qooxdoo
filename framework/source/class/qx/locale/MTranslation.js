@@ -28,6 +28,8 @@
 /**
  * This mixin contains the methods needed to use the translation features
  * of qooxdoo.
+ *
+ * @ignore(qx.locale.Manager)
  */
 qx.Mixin.define("qx.locale.MTranslation",
 {

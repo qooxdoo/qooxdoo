@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     this.__lastOffset = [0,0];
     this.__currentOffset = [0,0];
     this.__touchStartPoints = [0,0];
-
+    
     this._scrollContainer = this._createScrollContainer();
     
     this.addListener("touchstart", this._onTouchStart, this);
@@ -75,6 +75,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     this._add(this._scrollContainer, {flex:1});
     
     this._updateScrollIndicator(this.__lastOffset[1]);
+    
+    this.initHeight();
   },
 
 
@@ -113,6 +115,18 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       init : true,
       check : "Boolean",
       apply : "_updateScrollIndicator"
+    },
+    
+    /**
+     * The height of this widget.
+     * Allowed values are length or percentage values according to <a src="https://developer.mozilla.org/en-US/docs/CSS/height" target="_blank">CSS height syntax</a>.
+     */
+    height :
+    {
+      init : "150px",
+      check : "String",
+      nullable : true,
+      apply : "_applyHeight"
     }
   },
 
@@ -124,6 +138,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     __lastOffset : null,
     __currentOffset : null,
     __isVerticalScroll : null,
+    __distanceX : null,
+    __distanceY : null,
     
     
     /**
@@ -151,7 +167,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     * @param evt {qx.event.type.Touch} The touch event
     */
     _onTouchStart : function(evt){
-      this.__isVerticalScroll = null;
+      this.__isVerticalScroll = (this.getScrollableX() && this.getScrollableY()) ? null : this.getScrollableY();
       
       this._applyNoEasing();
       this.__touchStartPoints[0] = evt.getAllTouches()[0].screenX;
@@ -166,26 +182,26 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * @param evt {qx.event.type.Touch} The touch event
      */
     _onTouchMove : function(evt) {
-      var distanceX = evt.getAllTouches()[0].screenX - this.__touchStartPoints[0];  
-      var distanceY = evt.getAllTouches()[0].screenY - this.__touchStartPoints[1];
+      this.__distanceX = evt.getAllTouches()[0].screenX - this.__touchStartPoints[0];  
+      this.__distanceY = evt.getAllTouches()[0].screenY - this.__touchStartPoints[1];
 
       if(this.__isVerticalScroll == null) {
-        var cosDelta = distanceX / distanceY;
+        var cosDelta = this.__distanceX / this.__distanceY;
         this.__isVerticalScroll = Math.abs(cosDelta) < 2;
       } 
       
-      if(Math.abs(distanceX) < 3 || !this.isScrollableX() || this.__isVerticalScroll) {
-        distanceX = 0;
+      if(Math.abs(this.__distanceX) < 3 || !this.isScrollableX() || this.__isVerticalScroll) {
+        this.__distanceX = 0;
       }
       
-      if(Math.abs(distanceY) < 3 || !this.isScrollableY() || !this.__isVerticalScroll) {
-        distanceY = 0;
+      if(Math.abs(this.__distanceY) < 3 || !this.isScrollableY() || !this.__isVerticalScroll) {
+        this.__distanceY = 0;
       }
       
-      this.__currentOffset[0] = this.__lastOffset[0] + distanceX;
+      this.__currentOffset[0] = this.__lastOffset[0] + this.__distanceX;
       this._scrollContainer.setTranslateX(this.__currentOffset[0]);
       
-      this.__currentOffset[1] = this.__lastOffset[1] + distanceY;
+      this.__currentOffset[1] = this.__lastOffset[1] + this.__distanceY;
       this._scrollContainer.setTranslateY(this.__currentOffset[1]);
       
       this._updateScrollIndicator(this.__currentOffset[1]);
@@ -230,7 +246,6 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * @param evt {qx.event.type.Touch} The touch event.
      */
     _onTouchEnd : function(evt) {
-      this._applyMomentumEasing();
       evt.stopPropagation();
     },
     
@@ -241,10 +256,13 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      */
     _onSwipe : function(evt) {
       var velocity = Math.abs(evt.getVelocity());
-      var hasMomentum = (velocity > 1);
       
-      if(this.isScrollableY() && this.__isVerticalScroll && hasMomentum) {
-        this.__currentOffset[1] = this.__currentOffset[1] + (2+velocity) * evt.getDistance();
+      var swipeDuration = new Date().getTime() - evt.getStartTime();
+      
+      if(this.isScrollableY() && this.__isVerticalScroll && swipeDuration < 500) {
+        this._applyMomentumEasing();
+        
+        this.__currentOffset[1] = this.__currentOffset[1] + (velocity * 1.5 * this.__distanceY);
       }
       
       this.scrollTo(this.__currentOffset[0], this.__currentOffset[1]);
@@ -393,6 +411,12 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       var children = this.getChildren();
       this._unhandleSize(children[index]);
       this._scrollContainer.removeAt(index);
+    },
+    
+    
+    // Property apply
+    _applyHeight : function(value, old) {
+      qx.bom.element.Style.set(this._scrollContainer.getContainerElement(), "height", value);
     },
     
     

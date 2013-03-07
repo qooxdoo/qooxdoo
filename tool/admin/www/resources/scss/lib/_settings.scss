@@ -1,0 +1,24 @@
+// Font
+$fontSize: 12px;
+$lineHeight: 1.8;
+$line: $fontSize * $lineHeight;
+
+// Grid
+$gridColumns: 24;
+$gridColumnWidth: 25px;
+$gridGutterWidth: 10px;
+$gridWidth: $gridColumnWidth + $gridGutterWidth;
+$siteWidth: ($gridColumns * $gridColumnWidth) + ($gridGutterWidth * ($gridColumns - 1));
+
+// Colors
+$fg: #262626;
+$shade: #dddddd;
+$darkShade: #323335;
+$mediumShade: #707070;
+$lightShade: #f0f0f0;
+$spot: #3d72c9;
+$attention: #ffee00;
+
+// Other
+$bar: 2px;
+$footerLineCount: 9;

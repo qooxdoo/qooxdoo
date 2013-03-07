@@ -42,6 +42,9 @@
 
 /**
  * Collection of helper methods operating on functions.
+ *
+ * @ignore(qx.core.Object)
+ * @ignore(qx.event.GlobalError)
  */
 qx.Bootstrap.define("qx.lang.Function",
 {

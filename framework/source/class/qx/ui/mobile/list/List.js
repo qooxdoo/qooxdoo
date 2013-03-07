@@ -276,9 +276,10 @@ qx.Class.define("qx.ui.mobile.list.List",
     {
       if(evt) {
         var data = evt.getData();
-        if(data.name && data.old.length == data.value.length) {
+        var isArray = (qx.lang.Type.isArray(data.old) && qx.lang.Type.isArray(data.value));
+        if(!isArray || (isArray && data.old.length == data.value.length)) {
           var rows = this._extractRowsToRender(data.name);
-          
+
           for (var i=0; i < rows.length; i++) {
             this.__renderRow(rows[i]);
           }
@@ -297,6 +298,10 @@ qx.Class.define("qx.ui.mobile.list.List",
      */
     _extractRowsToRender : function(name) {
       var rows = [];
+      
+      if(!name) {
+        return rows;
+      }
       
       // "[0-2].propertyName" | "[0].propertyName" | "0"
       var containsPoint = (name.indexOf(".")!=-1);

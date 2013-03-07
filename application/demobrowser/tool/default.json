@@ -59,6 +59,7 @@
         "code" : {
           "locales"  : "${LOCALES}",
           "except"   : "${EXCEPT}",
+          "lint-check" : false,
           "format"   : true
         }
       }

@@ -38,6 +38,8 @@
 /**
  * This class is mainly a convenience wrapper for DOM elements to
  * qooxdoo's event system.
+ *
+ * @ignore(qxWeb)
  */
 qx.Bootstrap.define("qx.bom.Html",
 {

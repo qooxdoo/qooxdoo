@@ -20,9 +20,9 @@
 /* *********************************************************************
 #asset(qx/test/xmlhttp/php_version.php)
 #use(feature-checks)
-#optional(qx.application.Standalone)
-#optional(qx.application.Inline)
-#optional(qx.application.Native)
+#ignore(qx.application.Standalone)
+#ignore(qx.application.Inline)
+#ignore(qx.application.Native)
 ************************************************************************ */
 
 /**
@@ -35,6 +35,10 @@
  *   // test code goes here
  * }
  * </pre>
+ *
+ * @ignore(qx.application.Standalone)
+ * @ignore(qx.application.Inline)
+ * @ignore(qx.application.Native)
  */
 qx.Mixin.define("qx.dev.unit.MRequirements", {
 

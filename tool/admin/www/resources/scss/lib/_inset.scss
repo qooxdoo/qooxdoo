@@ -1,11 +1,11 @@
-.inset(@size: 5px) {
+@mixin inset($size: 5px) {
   & > h1, & > h2, & > h3, & > h4, & > a, & > p, & > ul,
   & > div > h1, & > div > h2, & > div > h3, & > div > h4,
   & > div > a, & > div > p, & > div > ul {
-   padding: 0 @size;
+   padding: 0 $size;
   }
 
   & > a:first-child {
-    padding-top: @size + 5px;
+    padding-top: $size + 5px;
   }
 }

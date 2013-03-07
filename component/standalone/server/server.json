@@ -32,6 +32,11 @@
         "exclude" : ["qx.event.GlobalError"]
       },
 
+      "lint-check" : 
+      {
+        "allowed-globals" : [ "qx.event.GlobalError" ]
+      },
+
       "library" :
       [
         {

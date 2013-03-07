@@ -1,0 +1,37 @@
+body#download {
+
+  #domains {
+    @include columns(24);
+    @include first();
+
+    .row {
+      @include clearfix();
+    }
+
+    .row + .row {
+      margin-top: $gridGutterWidth;
+    }
+
+    .domain {
+      @include inset(10px);
+      @include columns(12);
+
+      border-top: $bar solid transparent;
+      background-color: $lightShade;
+      height: round($line * 12);
+
+      h2 {
+        font-weight: bold;
+      }
+
+      p {
+        margin-bottom: 0;
+      }
+
+      ul {
+        margin-bottom: $line;
+      }
+    }
+  }
+
+}

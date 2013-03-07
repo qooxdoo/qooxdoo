@@ -39,6 +39,8 @@ class LintChecker(treeutil.NodeVisitor):
         self.root_node = root_node
         self.file_name = file_name_  # it's a warning module, so i need a proper file name
         self.opts = opts
+        self.known_globals_bases = (
+            self.opts.library_classes + self.opts.allowed_globals + lang.QXGLOBALS )
         global file_name
         file_name = file_name_
 
@@ -143,7 +145,7 @@ class LintChecker(treeutil.NodeVisitor):
                     var_top = treeutil.findVarRoot(var_node)
                     full_name = (treeutil.assembleVariable(var_top))[0]
                     ok = False
-                    if extension_match_in(full_name, self.opts.library_classes + lang.QXGLOBALS,
+                    if extension_match_in(full_name, self.known_globals_bases, 
                         self.opts.class_namespaces): # known classes (classList + their namespaces)
                         ok = True
                     else:
@@ -509,6 +511,9 @@ def defaultOptions():
     opts.ignore_undefined_globals = False
     opts.ignore_unused_parameter = True
     opts.ignore_unused_variables = False
+    opts.warn_unknown_jsdoc_keys = False
+    opts.warn_jsdoc_key_syntax   = True
+ 
 
     return opts
 
@@ -545,5 +550,6 @@ def extension_match_in(name, name_list, name_spaces):
 # - ---------------------------------------------------------------------------
 
 def lint_check(node, file_name, opts):
+    node = scopes.create_scopes(node)  # update scopes
     lint = LintChecker(node, file_name, opts)
     lint.visit(node)

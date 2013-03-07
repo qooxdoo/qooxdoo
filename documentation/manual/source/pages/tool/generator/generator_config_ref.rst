@@ -301,9 +301,15 @@ Specify various options for compile (and other) keys. Takes a map.
       "locales"         : ["de", "en"],
       "optimize"        : ["basecalls", "comments", "privates", "strings", "variables", "variants", "whitespace"],
       "decode-uris-plug"  : "<path>",
-      "except"          : ["myapp.classA", "myapp.util.*"]
+      "except"          : ["myapp.classA", "myapp.util.*"],
+      "lint-check"      : (true|false)
     }
   }
+
+.. note::
+
+  peer-keys: :ref:`pages/tool/generator/generator_config_ref#compile`, 
+  :ref:`pages/tool/generator/generator_config_ref#lint-check`
 
 The *compile-options* key informs all compile actions of the generator. Settings of this key are used e.g. by the jobs that create the source and the build version of an application, though in varying degrees (e.g. the source job only utilizes a few of the settings in this key, and ignores the others). Output Javascript file(s) are generated into the directory of the *paths/file* value, with *path/file* itself being the primary output file. If *paths/file* is not given, the ``APPLICATION`` macro has to be set in the global :ref:`let <pages/tool/generator/generator_config#listing_of_keys_in_context>` section with a proper name, in order to determine a default output file name. For further information see the individual key descriptions to find out which build type utilizes it (in the descriptions, *(<type>)* refers to the :ref:`compile/type <pages/tool/generator/generator_config_ref#compile>`, e.g. *source* or *build*)
 
@@ -330,6 +336,8 @@ Possible keys are
   * **optimize** : list of dimensions for optimization, max. ["basecalls", "comments", "privates", "strings", "variables", "variants", "whitespace"] (default: *[<all>]*) :ref:`special section <pages/tool/generator/generator_config_articles#optimize_key>`
   * **decode-uris-plug** : path to a file containing JS code, which will be plugged into the loader script, into the ``qx.$$loader.decodeUris()`` method. This allows you to post-process script URIs, e.g. through pattern matching. The current produced script URI is available and can be modified in the variable ``euri``.
   * **except** : (*hybrid*) exclude the classes specified in the class pattern list from compilation when creating a :ref:`hybrid <pages/tool/generator/generator_config_ref#compile>` version of the application
+  * **lint-check** : (*experimental*) whether to perform lint checking during compile 
+    (default: *true*)
 
 
 .. _pages/tool/generator/generator_config_ref#config-warnings:
@@ -503,9 +511,21 @@ Exclude classes from processing in the job. Takes an array of class specifiers.
 
   "exclude" : ["qx.util.*"]
 
-Classes specified through the *exclude* key are excluded from the job processing, e.g. from the generated build output. The class specifiers can include simple wildcards like ``"qx.util.*"`` denoting class id's matching this pattern, including those from sub-name spaces.
+Classes specified through the *exclude* key are excluded from the job
+processing, e.g. from the generated build output. The class specifiers can
+include simple wildcards like ``"qx.util.*"`` denoting class id's matching this
+pattern, including those from sub-name spaces.
 
-A leading ``=`` in front of a class specifier (like in ``"=qx.util.*"``) means to also remove all  dependencies of the specified classes from the build, irrespective of whether they are required by other classes as well. So this will create builds that are no longer self-contained, and will break at runtime unless the required classes are provided otherwise.
+A leading ``=`` in front of a class specifier (like in ``"=qx.util.*"``) means
+to also remove all  dependencies of the specified classes from the build,
+irrespective of whether they are required by other classes as well. So this will
+create builds that are no longer self-contained, and will break at runtime
+unless the required classes are provided otherwise.
+
+When building an application the class patterns given in the *exclude* key will
+automatically be added to the list of
+:ref:`allowed globals <pages/tool/generator/generator_config_ref#lint-check>` when
+checking for unknown global symbols, so they will not be warned about.
 
 
 .. _pages/tool/generator/generator_config_ref#export:

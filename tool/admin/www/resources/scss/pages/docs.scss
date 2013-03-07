@@ -2,8 +2,8 @@ body.docs {
 
   #main #content {
     position: relative;
-    .columns(24);
-    .first();
+    @include columns(24);
+    @include first();
   }
 
   code {
@@ -27,13 +27,13 @@ body.docs {
 
   #boxes {
     position: relative;
-    padding-top: @line * 1;
-    .columns(20);
-    .first();
+    padding-top: $line * 1;
+    @include columns(20);
+    @include first();
 
     #versions-hint {
       position: absolute;
-      top: -(@line * 0.5);
+      top: -($line * 0.5);
       right: 0;
 
       a {
@@ -41,7 +41,7 @@ body.docs {
         cursor: pointer;
 
         &:hover {
-          color: @spot;
+          color: $spot;
         }
 
         &.active {
@@ -53,14 +53,14 @@ body.docs {
 
     .versions {
       display: none;
-      color: @mediumShade;
+      color: $mediumShade;
 
       &:hover {
-        color: @fg;
+        color: $fg;
         cursor: pointer;
 
         a {
-          color: @fg;
+          color: $fg;
         }
       }
 
@@ -69,20 +69,20 @@ body.docs {
       }
 
       a {
-        color: @mediumShade;
+        color: $mediumShade;
         padding: 0 1px;
 
         &:hover {
-          color: @spot;
+          color: $spot;
         }
       }
     }
 
     .teaser {
-      .columns(10);
-      background-color: @lightShade;
-      margin-bottom: @gridGutterWidth;
-      height: @line * 10;
+      @include columns(10);
+      background-color: $lightShade;
+      margin-bottom: $gridGutterWidth;
+      height: $line * 10;
 
       & > div {
         padding: 10px;
@@ -94,7 +94,7 @@ body.docs {
 
       &.row {
         clear: both;
-        .first();
+        @include first();
       }
 
       p {

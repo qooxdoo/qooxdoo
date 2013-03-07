@@ -27,6 +27,8 @@
 
 /**
  * This mixin implements the key methods of the {@link qx.ui.window.IDesktop}.
+ *
+ * @ignore(qx.ui.window.Window)
  */
 qx.Mixin.define("qx.ui.window.MDesktop",
 {

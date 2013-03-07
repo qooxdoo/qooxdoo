@@ -1,0 +1,43 @@
+@mixin clearfix() {
+  zoom: 1;
+	&:after {
+    display: block;
+    visibility: hidden;
+    height: 0;
+    clear: both;
+    content: ".";
+	}
+}
+
+@mixin container() {
+  width: $siteWidth;
+  margin: 0 auto;
+  @include clearfix();
+}
+
+@mixin columns($columnSpan: 1) {
+  display: block;
+  float: left;
+  width: ($gridColumnWidth * $columnSpan) + ($gridGutterWidth * ($columnSpan - 1));
+  margin-left: $gridGutterWidth;
+
+  &:first-child {
+    @include first();
+  }
+}
+
+@mixin first() {
+  margin-left: 0;
+}
+
+@mixin span($columnSpan: 1) {
+  width: ($gridColumnWidth * $columnSpan) + ($gridGutterWidth * ($columnSpan - 1));
+}
+
+@mixin push($columnOffset: 1) {
+  margin-left: ($gridColumnWidth * $columnOffset) + ($gridGutterWidth * ($columnOffset + 1)) !important;
+}
+
+@mixin pull($columnOffset: 1) {
+  margin-left: -(($gridColumnWidth * $columnOffset) + ($gridGutterWidth * ($columnOffset + 1))) !important;
+}

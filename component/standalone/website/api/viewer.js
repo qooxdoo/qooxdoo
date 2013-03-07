@@ -938,18 +938,10 @@ q.ready(function() {
   };
 
   var createFiddleButton = function(sample) {
-    /* TODO: Once we know the name of the POST parameter described here:
-    https://github.com/jsfiddle/jsfiddle-issues/issues/123
-
-    * enable this code:
     var qUrl = "http://demo.qooxdoo.org/devel/framework/q-" +
     q.env.get("qx.version") + ".min.js";
     var qScript = '<script type="text/javascript" src="' + qUrl + '"></script>';
 
-    * add the parameter with value "onLoad" to the iframe's form
-    *
-    * activate the commented lines below:
-    */
     return q.create("<iframe></iframe>").setAttributes({
       src: "fiddleframe.html",
       marginheight: 0,
@@ -959,15 +951,7 @@ q.ready(function() {
     .addClass("fiddleframe").on("load", function(ev) {
       var iframeBody = q(this[0].contentWindow.document.body);
 
-      //iframeBody.find("form").setAttribute("action", "http://jsfiddle.net/api/post/library/pure");
-
       if (sample.javascript) {
-        // add indentation again
-        sample.javascript = sample.javascript.replace(/^(.*)/mg, "  $1");
-
-        if (sample.javascript.indexOf("q.ready(") == -1) {
-          sample.javascript = 'q.ready(function() {\n' + sample.javascript + '\n});';
-        }
         iframeBody.find("#js").setAttribute("value", sample.javascript);
       }
 
@@ -977,13 +961,11 @@ q.ready(function() {
 
       if (sample.html) {
         iframeBody.find("#html").setAttribute("value", sample.html);
-        //iframeBody.find("#html").setAttribute("value", qScript + '\n' + sample.html);
+        iframeBody.find("#html").setAttribute("value", qScript + '\n' + sample.html);
       }
-      /*
       else {
         iframeBody.find("#html").setAttribute("value", qScript);
       }
-      */
 
       var button = iframeBody.find("button");
       this.setStyles({
