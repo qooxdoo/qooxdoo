@@ -322,7 +322,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           icon: icon,
           minWidth : 14,
-          gap: 8
+          gap: 8,
+          paddingLeft: 2
         };
       }
     },
@@ -344,11 +345,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
         decorator += states.invalid && !states.disabled ? "-invalid" : "";
 
-        var padding;
-        // Undetermined
-        if (states.undetermined) {
-          padding = [2, 0];
-        }
+        var padding = states.undetermined ? [3, 1] : 1;
 
         return {
           decorator : decorator,
@@ -359,7 +356,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "radiobutton":
+    "radiobutton" :
     {
       alias : "atom",
 
@@ -367,7 +364,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           icon: "qx/static/blank.gif",
-          gap : 8
+          gap : 8,
+          paddingLeft: 2
         };
       }
     },

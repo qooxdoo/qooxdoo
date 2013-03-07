@@ -171,8 +171,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         innerColor : "radiobutton-background",
         shadowLength : 0,
         shadowBlurRadius : 0,
-        shadowColor : "checkbox-focus",
-        insetLeft: 5 // used for the shadow (3 border + 2 extra for the shadow)
+        shadowColor : "checkbox-focus"
       }
     },
 
@@ -795,14 +794,11 @@ qx.Theme.define("qx.theme.modern.Decoration",
         innerWidth : 1,
         innerColor : "checkbox-inner",
 
-        gradientStart : ["checkbox-start", 0],
-        gradientEnd : ["checkbox-end", 100],
+        backgroundColor: "checkbox-end",
 
         shadowLength : 0,
         shadowBlurRadius : 0,
-        shadowColor : "checkbox-focus",
-
-        insetLeft: 4 // (2 for the border and two for the glow effect)
+        shadowColor : "checkbox-focus"
       }
     },
 
@@ -810,9 +806,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       include : "checkbox",
       style : {
         innerColor : "checkbox-hovered-inner",
-        // use the same color to get a single colored background
-        gradientStart : ["checkbox-hovered", 0],
-        gradientEnd : ["checkbox-hovered", 100]
+        backgroundColor: "checkbox-hovered"
       }
     },
 
@@ -828,8 +822,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style : {
         color : "checkbox-disabled-border",
         innerColor : "checkbox-disabled-inner",
-        gradientStart : ["checkbox-disabled-start", 0],
-        gradientEnd : ["checkbox-disabled-end", 100]
+        backgroundColor : "checkbox-disabled-end"
       }
     },
 
@@ -845,8 +838,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style : {
         color : "invalid",
         innerColor : "checkbox-hovered-inner-invalid",
-        gradientStart : ["checkbox-hovered-invalid", 0],
-        gradientEnd : ["checkbox-hovered-invalid", 100]
+        backgroundColor: "checkbox-hovered-invalid"
       }
     },
 
