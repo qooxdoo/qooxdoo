@@ -229,7 +229,8 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
       // Add inner borders
       var shadowStyle = [];
 
-      if (innerColor.top == innerColor.bottom &&
+      if (innerColor.top && innerWidth.top &&
+          innerColor.top == innerColor.bottom &&
           innerColor.top == innerColor.right &&
           innerColor.top == innerColor.left &&
           innerWidth.top == innerWidth.bottom &&
