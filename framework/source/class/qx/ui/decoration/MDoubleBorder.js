@@ -220,7 +220,6 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
       }
 
       var innerOpacity = this.getInnerOpacity();
-      var CUtil = qx.util.ColorUtil;
 
       if (innerOpacity < 1) {
         this.__processInnerOpacity(innerColor, innerOpacity);

@@ -3934,9 +3934,6 @@ qx.Class.define("qx.ui.core.Widget",
     // pool decorators if not in global shutdown
     if (!qx.core.ObjectRegistry.inShutDown)
     {
-      var clazz = qx.ui.core.Widget;
-      var container = this.getContainerElement();
-
       this.clearSeparators();
       this.__separators = null;
     }
