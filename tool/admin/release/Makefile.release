@@ -509,12 +509,23 @@ tutorials-build:
 # RESOURCE TARGETS
 ################################################################################
 
-build-resources:
+resources-build:
 	@echo "  * Compiling style sheets..."
 	@cd tool/admin/www/resources/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
 		echo "     - $$SCSS_FILE..."; \
 		$(CMD_SCSS) $(CMD_SCSS_OPTS) ../stylesheets/$${SCSS_FILE/%.scss/.css} $$SCSS_FILE; \
 	done
+
+resources-check:
+	@cd tool/admin/www/resources/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
+		F="../stylesheets/$${SCSS_FILE/%.scss/.css}"; \
+		[ $$F -nt $$SCSS_FILE ] || ( echo "Outdated $$F; run 'make resources-build' first!"; exit 1 ) || exit 1; \
+	done
+
+resources-publish:
+	@echo "  * Syncing resources..."
+	@$(CMD_SYNC_ONLINE) tool/admin/www/resources/stylesheets/ $(STAGING_HOST):/var/www/qooxdoo/resources/stylesheets/ || exit 1;
+	@$(CMD_SYNC_ONLINE) tool/admin/www/resources/javascripts/ $(STAGING_HOST):/var/www/qooxdoo/resources/javascripts/ || exit 1;
 
 ################################################################################
 # DOCUMENTATION TARGETS
@@ -535,9 +546,9 @@ build-docs-pdf:
 build-docs: build-docs-clean build-docs-html build-docs-pdf
 
 publish-docs:
-	@echo "  * Publishing HTML docs to staging host..."
+	@echo "  * Syncing HTML docs..."
 	@$(CMD_SYNC_ONLINE) documentation/manual/build/html/* $(STAGING_HOST):/var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/
-	@echo "  * Publishing PDF doc to staging host..."
+	@echo "  * Syncing PDF doc..."
 	@$(CMD_SYNC_ONLINE) documentation/manual/build/latex/qooxdoo.pdf $(STAGING_HOST):/var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/
 
 check-docs: check-docs-html check-docs-pdf
@@ -554,7 +565,7 @@ check-docs-pdf:
 # PUBLISH TARGETS
 ################################################################################
 
-publish-build: build-apps publish-build-components tutorials-build build-framework build-docs
+publish-build: build-apps publish-build-components tutorials-build build-framework resources-build build-docs
 
 publish-build-components:
 	@( cd component/inspector && $(CMD_GENERATOR) build ) || exit 1
@@ -569,7 +580,7 @@ publish-build-components:
 	@( cd component/standalone/server && $(CMD_GENERATOR) build ) || exit 1
 	@( cd component/standalone/server && $(CMD_GENERATOR) build-min ) || exit 1
 
-publish-check: check-banner check-apps check-components check-framework check-docs
+publish-check: check-banner check-apps check-components check-framework check-docs resources-check
 	@echo "    - Looks good"
 
 check-banner:
@@ -692,11 +703,6 @@ publish-apps:
 		fi; \
 	done
 
-publish-resources:
-	@echo "  * Syncing resources..."
-	@$(CMD_SYNC_ONLINE) tool/admin/www/resources/stylesheets/ $(STAGING_HOST):/var/www/qooxdoo/resources/stylesheets/ || exit 1;
-	@$(CMD_SYNC_ONLINE) tool/admin/www/resources/javascripts/ $(STAGING_HOST):/var/www/qooxdoo/resources/javascripts/ || exit 1;
-
 publish-production:
 	@echo "  * Pushing to production host..."
 	@ssh -A $(STAGING_HOST) /var/www/qooxdoo/bin/webtechfe01.mirror.sh
@@ -705,7 +711,7 @@ publish-backup:
 	@echo "  * Backing up devel version on server; this will take some time..."
 	@ssh $(STAGING_HOST) "$(CMD_SYNC_BACKUP) /var/www/qooxdoo/demo/devel /var/www/qooxdoo/demo/0.0.devel_backlog/"
 
-publish-staging: publish-check publish-backup publish-index publish-apps publish-docs publish-resources
+publish-staging: publish-check publish-backup publish-index publish-apps resources-publish publish-docs
 
 publish: publish-staging publish-production
 
