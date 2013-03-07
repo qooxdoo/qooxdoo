@@ -1635,57 +1635,53 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "tooltip/atom" : "atom",
 
-    "tooltip-error" :
-    {
-      include : "tooltip",
-
+    "tooltip-error" : {
       style : function(states)
       {
-        //TODO: replace shadow
-        var shadow = "tooltip-error";
-        shadow += "-css";
-        if (states.placementLeft) {
-          shadow += "-left";
-        }
-
-        var decorator = "tooltip-error-arrow";
-        if (states.placementLeft) {
-          decorator = "tooltip-error-arrow-left";
-          decorator += "-css";
-        }
-
-        // disable the right arrow in case of non CSS and alpah image loader
-        /*
-        if (
-          !useCSS &&
-          states.placementLeft &&
-          qx.core.Environment.get("engine.name") == "mshtml" &&
-          qx.core.Environment.get("browser.documentmode") < 9
-        ) {
-          decorator = undefined;
-          padding = [5, 10];
-        }
-        */
-
         return {
-          textColor: "text-selected",
-          backgroundColor : undefined,
           placeMethod: "widget",
-          offset: [0, 14, 0, 14],
-          marginTop: -2,
+          offset: [-3, 1, 0, 0],
+          arrowPosition : states.placementLeft ? "left" : "right",
           position: "right-top",
           showTimeout: 100,
           hideTimeout: 10000,
-          //shadow: shadow,
-          decorator: decorator,
+          padding: [0, 4, 4, 0]
+        };
+      }
+    },
+
+    "tooltip-error/arrow" : {
+      include : "image",
+
+      style : function(states)
+      {
+        var source = states.placementLeft ?
+          "decoration/form/tooltip-error-arrow-right.png" : "decoration/form/tooltip-error-arrow.png";
+        return {
+          source : source,
+          padding : [6, 0, 0, 0],
+          zIndex : 10000001
+        };
+      }
+    },
+
+    "tooltip-error/atom" :
+    {
+      include : "popup",
+
+      style : function(states)
+      {
+        return {
+          textColor: "text-selected",
+          backgroundColor : undefined,
+          decorator: "tooltip-error-css",
           font: "bold",
-          padding: states.placementLeft ? [9, 20, 3, 6] : [6, 6, 7, -8],
+          padding: [3, 4, 4, 4],
           maxWidth: 333
         };
       }
     },
 
-    "tooltip-error/atom" : "atom",
 
     /*
     ---------------------------------------------------------------------------
@@ -2179,7 +2175,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
         var ret = {
           icon : "decoration/arrows/down.png",
           padding : [superStyles.padding[0], superStyles.padding[1] - 6],
-          //shadow : undefined,
           margin : undefined
         };
 
