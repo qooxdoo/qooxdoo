@@ -2258,11 +2258,26 @@ qx.Class.define("qx.ui.core.Widget",
       this._updateInsets = true;
       qx.ui.core.queue.Layout.add(this);
 
-      var content = this.getContentElement();
-      content.setStyle(name, value + "px");
+      this.__updateContentPadding(name, value);
     },
 
 
+    /**
+     * Helper to updated the css padding of the content element considering the
+     * padding of the decorator.
+     * @param style {String} The name of the css padding property e.g. <code>paddingTop</code>
+     * @param value {Number} The value to set.
+     */
+    __updateContentPadding : function(style, value) {
+      var content = this.getContentElement();
+      var decorator = this.getDecorator();
+      decorator = qx.theme.manager.Decoration.getInstance().resolve(decorator);
+      if (decorator) {
+        var direction = qx.Bootstrap.firstLow(style.replace("padding", ""));
+        value += decorator.getPadding()[direction] || 0;
+      }
+      content.setStyle(style, value + "px");
+    },
 
 
     /*
