@@ -1,7 +1,4 @@
-# CAUTION: .css files have been updated without changing the corresponding .less file!!
-# before activating .gitignore, make sure changes are reflected back to .less!
-
-# these are overwritten by lessc
+# these are generated from .scss files
 /base.css
 /layout.css
 /pages.css
