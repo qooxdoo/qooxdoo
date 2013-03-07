@@ -2457,15 +2457,6 @@ qx.Class.define("qx.ui.core.Widget",
         this._applyDecorator(value);
       }
 
-      // SHADOW //
-      // if its a user value and a string which should be resolved
-      value = qx.util.PropertyUtil.getUserValue(this, "shadow");
-      if (qx.lang.Type.isString(value)) {
-        // make sure to update the shadow
-        this._applyShadow(null, value);
-        this._applyShadow(value);
-      }
-
       // FONT //
       value = this.getFont();
       if (qx.lang.Type.isString(value)) {
