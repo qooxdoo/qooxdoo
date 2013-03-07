@@ -45,8 +45,12 @@ qx.Class.define("widgetbrowser.pages.Window",
   {
     this.base(arguments);
 
+    var decorator = new qx.ui.decoration.Decorator().set({
+      width: 10,
+      color: "#ddd"
+    });
     this.__desktop = new qx.ui.window.Desktop().set({
-      decorator: new qx.ui.decoration.Single(10, null, "#ddd")
+      decorator: decorator
     });
     this.add(this.__desktop, {edge: 0, top: 0});
 
