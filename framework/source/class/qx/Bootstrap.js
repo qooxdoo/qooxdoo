@@ -51,8 +51,8 @@ qx.Bootstrap = {
   createNamespace : function(name, object)
   {
     var splits = name.split(".");
-    var parent = this.__root || window;
     var part = splits[0];
+    var parent = this.__root && this.__root[part] ? this.__root : window;
 
     for (var i=0, len=splits.length-1; i<len; i++, part=splits[i])
     {
