@@ -1141,13 +1141,13 @@ qx.Class.define("qx.ui.core.Widget",
 
       var pool = qx.ui.core.Widget.__separatorPool;
       var content = this.getContentElement();
-      var elem;
+      var widget;
 
       for (var i=0, l=reg.length; i<l; i++)
       {
-        elem = reg[i];
-        pool.poolObject(elem);
-        content.remove(elem);
+        widget = reg[i];
+        pool.poolObject(widget);
+        content.remove(widget.getContentElement());
       }
 
       // Clear registry
