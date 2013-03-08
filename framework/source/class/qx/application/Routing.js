@@ -259,14 +259,9 @@ qx.Bootstrap.define("qx.application.Routing", {
       {
         if (!customData)
         {
-          if (fromEvent) {
-            customData = history.data.customData;
-            customData.fromHistory = true;
-            customData.action = history.action;
-          } else {
-            customData = {};
-          }
-         
+          customData = history.data.customData || {};
+          customData.fromHistory = true;
+          customData.action = history.action;
           customData.fromEvent = fromEvent;
         } else {
           this.__replaceCustomData(path, customData);
