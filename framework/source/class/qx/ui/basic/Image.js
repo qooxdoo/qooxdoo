@@ -333,7 +333,8 @@ qx.Class.define("qx.ui.basic.Image",
       element.setScale(scale);
       element.setStyles({
         "overflowX": "hidden",
-        "overflowY": "hidden"
+        "overflowY": "hidden",
+        "boxSizing": "border-box"
       });
 
       return element;
