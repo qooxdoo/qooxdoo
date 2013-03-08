@@ -598,7 +598,11 @@ qx.Class.define("inspector.property.PropertyList", {
           layout.getLayout().setAlignY("middle");
           // create the color field and set the initial color
           var colorField = new qx.ui.core.Widget();
-          colorField.setDecorator(new qx.ui.decoration.Single(1, "solid", "#969696"));
+          colorField.setDecorator(new qx.ui.decoration.Decorator().set({
+            width: 1,
+            style: "solid",
+            color: "#969696"
+          }));
           colorField.setBackgroundColor("white");
           colorField.setHeight(20);
           colorField.setWidth(20);

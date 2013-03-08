@@ -250,7 +250,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       var labelBoth = new qx.ui.basic.Label("Reorderable");
       container.add(labelBoth, { left : 600, top: 20 });
 
-      var both = this.__list = new qx.ui.form.List;
+      var both = this.__list = new qx.ui.form.List();
       both.setDraggable(true);
       both.setDroppable(true);
       both.setSelectionMode("multi");
@@ -262,9 +262,11 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
 
 
       // Create drag indicator
-      var indicator = new qx.ui.core.Widget;
-      indicator.setDecorator(new qx.ui.decoration.Single().set({
-        top : [ 1, "solid", "#33508D" ]
+      var indicator = new qx.ui.core.Widget();
+      indicator.setDecorator(new qx.ui.decoration.Decorator().set({
+        widthTop: 1,
+        styleTop: "solid",
+        colorTop: "black"
       }));
       indicator.setHeight(0);
       indicator.setOpacity(0.5);

@@ -32,7 +32,11 @@ qx.Class.define("demobrowser.demo.layout.Basic",
       this.base(arguments);
 
       var borderColor = "black";
-      var border = new qx.ui.decoration.Single(3, "solid", borderColor);
+      var border = new qx.ui.decoration.Decorator().set({
+        width: 3,
+        style: "solid",
+        color: borderColor
+      });
 
       var w1 = new qx.ui.core.Widget().set({
         backgroundColor: "red",

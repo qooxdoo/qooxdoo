@@ -29,7 +29,11 @@ qx.Class.define("demobrowser.demo.ui.Font",
       this.base(arguments);
 
       var label = new qx.ui.basic.Label("Hello World").set({
-        decorator: new qx.ui.decoration.Single(1, "solid", "red")
+        decorator: new qx.ui.decoration.Decorator().set({
+          width: 1,
+          style: "solid",
+          color: "red"
+        })
       });
       this.getRoot().add(label, {left:20, top:20});
 

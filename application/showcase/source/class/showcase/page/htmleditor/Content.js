@@ -425,9 +425,11 @@ qx.Class.define("showcase.page.htmleditor.Content",
       this.createCommands();
 
       var menubar = new qx.ui.menubar.MenuBar().set({
-        decorator: new qx.ui.decoration.Single().set({
-          backgroundRepeat : "scale",
-          bottom: [1, "solid", "border-separator"]
+        decorator: new qx.ui.decoration.Decorator().set({
+          widthBottom: 1,
+          styleBottom: "solid",
+          colorBottom: "black",
+          backgroundRepeat: "scale"
         })
       });
 

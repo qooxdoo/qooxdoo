@@ -193,10 +193,11 @@ qx.Class.define("inspector.components.Selector",
      * @return {qx.ui.core.Widget} the created highlighter.
      */
     __createHighlighter : function() {
-      var highlightDecorator = new this.__applicationWindow.qx.ui.decoration.Single(
-        this.self(arguments).BORDER,
-        "solid",
-        this.self(arguments).BORDER_COLOR);
+      var highlightDecorator = new this.__applicationWindow.qx.ui.decoration.Decorator().set({
+        width: this.self(arguments).BORDER,
+        style: "solid",
+        color: this.self(arguments).BORDER_COLOR
+      });
       this.__model.addToExcludes(highlightDecorator);
 
       var highlightOverlay = new this.__applicationWindow.qx.ui.core.Widget();
