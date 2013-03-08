@@ -394,7 +394,7 @@ qx.Bootstrap.define("qx.dom.Element",
     },
 
 
-        /**
+    /**
      * Creates and returns a DOM helper element.
      *
      * @param win {Window?} Window to create the element for
