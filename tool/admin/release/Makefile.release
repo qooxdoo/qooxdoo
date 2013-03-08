@@ -35,6 +35,7 @@ CMD_LINE = echo "---------------------------------------------------------------
 CMD_NICE = nice -n 10
 export PYTHONPATH = $(CURDIR)/tool/pylib
 PATH_TOOL_BIN = $(CURDIR)/tool/bin
+PATH_TOOL_RESOURCES = $(CURDIR)/tool/admin/www/resources
 CMD_PYTHON = $(CMD_NICE) python -t -O
 CMD_REMOVE = $(CMD_NICE) rm -rf
 CMD_MV = $(CMD_NICE) mv
@@ -71,7 +72,7 @@ FILES_TEMP = \( -name "*.rej" -o -name "*.orig" -o -name "*.pyc" -o -name "*.pyo
 FILES_EXEC = \( -name "*.py" -o -name "*.sh" \)
 
 CMD_SYNC_ONLINE = $(CMD_NICE) rsync --checksum --recursive --delete --inplace --links --safe-links --exclude='.git*'
-CMD_SYNC_OFFLINE = $(CMD_NICE) rsync --recursive --delete --inplace --links --safe-links --exclude .git*
+CMD_SYNC_OFFLINE = $(CMD_NICE) rsync --recursive --delete --inplace --links --safe-links --exclude='.git*'
 CMD_SYNC_BACKUP = $(CMD_NICE) rsync --recursive --delete --inplace --copy-links
 
 # Directories
@@ -91,7 +92,7 @@ TUTORIALS = mobiletweets tweets website
 release: release-sdk
 
 release-sdk: distclean release-sdk-sans-clean
-release-sdk-sans-clean: release-sdk-info apiviewer apiviewer-website website server showcase build-docs release-sdk-svn-collect release-sdk-archive
+release-sdk-sans-clean: release-sdk-info apiviewer apiviewer-website website server showcase manual-build release-sdk-svn-collect release-sdk-archive
 
 
 release-sdk-info:
@@ -511,61 +512,82 @@ tutorials-build:
 
 resources-build:
 	@echo "  * Compiling style sheets..."
-	@cd tool/admin/www/resources/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
+	@cd $(PATH_TOOL_RESOURCES)/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
 		echo "     - $$SCSS_FILE..."; \
 		$(CMD_SCSS) $(CMD_SCSS_OPTS) ../stylesheets/$${SCSS_FILE/%.scss/.css} $$SCSS_FILE; \
 	done
 
 resources-check:
-	@cd tool/admin/www/resources/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
+	@cd $(PATH_TOOL_RESOURCES)/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
 		F="../stylesheets/$${SCSS_FILE/%.scss/.css}"; \
 		[ $$F -nt $$SCSS_FILE ] || ( echo "Outdated $$F; run 'make resources-build' first!"; exit 1 ) || exit 1; \
 	done
 
 resources-publish:
 	@echo "  * Syncing resources..."
-	@$(CMD_SYNC_ONLINE) tool/admin/www/resources/stylesheets/ $(STAGING_HOST):/var/www/qooxdoo/resources/stylesheets/ || exit 1;
-	@$(CMD_SYNC_ONLINE) tool/admin/www/resources/javascripts/ $(STAGING_HOST):/var/www/qooxdoo/resources/javascripts/ || exit 1;
+	@$(CMD_SYNC_ONLINE) $(PATH_TOOL_RESOURCES)/stylesheets/ $(STAGING_HOST):/var/www/qooxdoo/resources/stylesheets/ || exit 1;
+	@$(CMD_SYNC_ONLINE) $(PATH_TOOL_RESOURCES)/javascripts/ $(STAGING_HOST):/var/www/qooxdoo/resources/javascripts/ || exit 1;
 
 ################################################################################
 # DOCUMENTATION TARGETS
 ################################################################################
 
-# the next is necessary as we're changing conf.py values for release
-build-docs-clean:
-	@(cd documentation/manual && make clean)
+PATH_MANUAL = documentation/manual
+MANUAL_CSS = base.css layout.css reset.css
+MANUAL_JS = application.js html5shiv.js q.js q.placeholder.js q.sticky.js
+MANUAL_THEME = _theme.indigo
 
-build-docs-html:
-	@(cd documentation/manual && $(QOOXDOO_RELEASE) make html)
-	@(cd documentation/tech_manual && make html)
-
-build-docs-pdf:
-	@(cd documentation/manual && $(QOOXDOO_RELEASE) make latex)
-	@(cd documentation/manual/build/latex && make all-pdf)
-
-build-docs: build-docs-clean build-docs-html build-docs-pdf
-
-publish-docs:
-	@echo "  * Syncing HTML docs..."
-	@$(CMD_SYNC_ONLINE) documentation/manual/build/html/* $(STAGING_HOST):/var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/
-	@echo "  * Syncing PDF doc..."
-	@$(CMD_SYNC_ONLINE) documentation/manual/build/latex/qooxdoo.pdf $(STAGING_HOST):/var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/
-
-check-docs: check-docs-html check-docs-pdf
-
-check-docs-html:
-	@for TARGET in `echo "index.html pages/core.html pages/development.html pages/desktop.html"`; do \
-		F="documentation/manual/build/html/$$TARGET"; [ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
+manual-resources:
+	@echo "  * Syncing manual css..."
+	@for F in $(MANUAL_CSS); do \
+		$(CMD_SYNC_OFFLINE) $(PATH_TOOL_RESOURCES)/stylesheets/$$F \
+			$(PATH_MANUAL)/source/$(MANUAL_THEME)/copies; \
+	done
+	@echo "  * Syncing manual javascript..."
+	@for F in $(MANUAL_JS); do \
+		$(CMD_SYNC_OFFLINE) $(PATH_TOOL_RESOURCES)/javascripts/$$F \
+			$(PATH_MANUAL)/source/$(MANUAL_THEME)/copies; \
 	done
 
-check-docs-pdf:
-	@F="documentation/manual/build/latex/qooxdoo.pdf"; [ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 );
+# the next is necessary as we're changing conf.py values for release
+manual-build-clean:
+	@(cd documentation/manual && make clean)
+
+manual-build-html:
+	@(cd $(PATH_MANUAL) && $(QOOXDOO_RELEASE) make html)
+	@(cd documentation/tech_manual && make html)
+
+manual-build-pdf:
+	@(cd $(PATH_MANUAL) && $(QOOXDOO_RELEASE) make latex)
+	@(cd $(PATH_MANUAL)/build/latex && make all-pdf)
+
+manual-build: manual-build-clean manual-build-html manual-build-pdf
+
+manual-publish:
+	@echo "  * Syncing HTML docs..."
+	@$(CMD_SYNC_ONLINE) $(PATH_MANUAL)/build/html/* \
+		$(STAGING_HOST):/var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/
+	@echo "  * Syncing PDF doc..."
+	@$(CMD_SYNC_ONLINE) $(PATH_MANUAL)/build/latex/qooxdoo.pdf \
+		$(STAGING_HOST):/var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/
+
+manual-check: manual-check-html manual-check-pdf
+
+manual-check-html:
+	@for TARGET in `echo "index.html pages/core.html pages/development.html pages/desktop.html"`; do \
+		F="$(PATH_MANUAL)/build/html/$$TARGET"; \
+		[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
+	done
+
+manual-check-pdf:
+	@F="$(PATH_MANUAL)/build/latex/qooxdoo.pdf"; \
+		[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 );
 
 ################################################################################
 # PUBLISH TARGETS
 ################################################################################
 
-publish-build: build-apps publish-build-components tutorials-build build-framework resources-build build-docs
+publish-build: build-apps publish-build-components tutorials-build build-framework resources-build manual-build
 
 publish-build-components:
 	@( cd component/inspector && $(CMD_GENERATOR) build ) || exit 1
@@ -580,7 +602,7 @@ publish-build-components:
 	@( cd component/standalone/server && $(CMD_GENERATOR) build ) || exit 1
 	@( cd component/standalone/server && $(CMD_GENERATOR) build-min ) || exit 1
 
-publish-check: check-banner check-apps check-components check-framework check-docs resources-check
+publish-check: check-banner check-apps check-components check-framework manual-check resources-check
 	@echo "    - Looks good"
 
 check-banner:
@@ -711,7 +733,7 @@ publish-backup:
 	@echo "  * Backing up devel version on server; this will take some time..."
 	@ssh $(STAGING_HOST) "$(CMD_SYNC_BACKUP) /var/www/qooxdoo/demo/devel /var/www/qooxdoo/demo/0.0.devel_backlog/"
 
-publish-staging: publish-check publish-backup publish-index publish-apps resources-publish publish-docs
+publish-staging: publish-check publish-backup publish-index publish-apps resources-publish manual-publish
 
 publish: publish-staging publish-production
 

@@ -43,20 +43,28 @@ a.button {
 }
 #header-wrapper {
   background-color: #323335;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#505154), to(#323335));
-  background-image: -webkit-linear-gradient(top, #505154, #323335);
-  background-image: -moz-linear-gradient(top, #505154, #323335);
-  background-image: -o-linear-gradient(to bottom, #505154, #323335);
-  background-image: linear-gradient(to bottom, #505154, #323335);
+  background-image: -webkit-gradient(linear, center top, center bottom, from(rgb(31.258%,
+    31.883%, 33.134%)), to(#323335));
+  background-image: -webkit-linear-gradient(top, rgb(31.258%, 31.883%, 33.134%), #323335);
+  background-image: -moz-linear-gradient(top, rgb(31.258%, 31.883%, 33.134%), #323335);
+  background-image: -o-linear-gradient(to bottom, rgb(31.258%, 31.883%, 33.134%), #323335);
+  background-image: linear-gradient(bottom, rgb(31.258%, 31.883%, 33.134%) 0%,
+    #323335 100%);
 }
 #header-wrapper .decoration {
   height: 10px;
   background-color: #3d72c9;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#5583d0), color-stop(1px, #5583d0), color-stop(1px, #5583d0), to(#3d72c9));
-  background-image: -webkit-linear-gradient(top, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
-  background-image: -moz-linear-gradient(top, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
-  background-image: -o-linear-gradient(to bottom, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
-  background-image: linear-gradient(to bottom, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
+  background-image: -webkit-gradient(linear, center top, center bottom, from(rgb(33.309%,
+    51.528%, 81.436%)), color-stop(1px, rgb(33.309%, 51.528%, 81.436%)),
+    color-stop(1px, rgb(33.309%, 51.528%, 81.436%)), to(#3d72c9));
+  background-image: -webkit-linear-gradient(top, rgb(33.309%, 51.528%, 81.436%),
+    rgb(33.309%, 51.528%, 81.436%) 1px, #3d72c9 1px, #3d72c9);
+  background-image: -moz-linear-gradient(top, rgb(33.309%, 51.528%, 81.436%), rgb(33.309%,
+    51.528%, 81.436%) 1px, #3d72c9 1px, #3d72c9);
+  background-image: -o-linear-gradient(to bottom, rgb(33.309%, 51.528%, 81.436%),
+    rgb(33.309%, 51.528%, 81.436%) 1px, #3d72c9 1px, #3d72c9);
+  background-image: linear-gradient(bottom, rgb(33.309%, 51.528%, 81.436%) 0px,
+    rgb(33.309%, 51.528%, 81.436%) 1px, #3d72c9 1px, #3d72c9 1px);
 }
 #header {
   width: 830px;
@@ -100,29 +108,23 @@ a.button {
 #header nav:first-child {
   margin-left: 0;
 }
-#header nav ul,
-#header nav ol {
+#header nav ol, #header nav ul {
   margin: 0;
   margin-top: 8px;
 }
-#header nav ul li,
-#header nav ol li {
+#header nav ol li, #header nav ul li {
   margin-right: 20px;
   display: inline-block;
 }
-#header nav ul li a,
-#header nav ol li a {
+#header nav ol li a, #header nav ul li a {
   border-bottom: 2px solid transparent;
 }
-#header nav ul li a:hover,
-#header nav ol li a:hover,
-#header nav ul li a.active:hover,
-#header nav ol li a.active:hover {
+#header nav ol li a.active:hover, #header nav ol li a:hover,
+#header nav ul li a.active:hover, #header nav ul li a:hover {
   color: #ffffff;
   border-color: #ffffff;
 }
-#header nav ul li a.active,
-#header nav ol li a.active {
+#header nav ol li a.active, #header nav ul li a.active {
   border-color: #b7b7b7;
 }
 #header #search {
@@ -137,8 +139,7 @@ a.button {
   clear: both;
   content: ".";
 }
-#header #search select,
-#header #search input {
+#header #search input, #header #search select {
   height: 21.6px;
 }
 #header #search input[type=search] {
@@ -152,11 +153,10 @@ a.button {
   -moz-border-radius: 8px;
   border-radius: 8px;
   -webkit-box-sizing: content-box;
-  height: 15.600000000000001px;
+  height: 15.6px;
   font-size: 10px;
   margin: 0;
-  padding: 0;
-  border: none;
+  padding: 0px;
   border: 3px solid transparent;
   background-color: #dddddd;
 }
@@ -246,8 +246,7 @@ a.button {
 #main #content:first-child {
   margin-left: 0;
 }
-#main #content  > div h2,
-#main #content  > section h2 {
+#main #content > div h2, #main #content > section h2 {
   font-size: 19px;
   margin-bottom: 2px;
 }
@@ -270,7 +269,7 @@ a.button {
 }
 #main #content .toggle {
   position: absolute;
-  top: -32.400000000000006px;
+  top: -32.4px;
   right: 0;
 }
 #main #content .toggle a {
@@ -287,7 +286,7 @@ a.button {
   color: inherit;
 }
 #footer-wrapper {
-  border-top: 1px solid #7c7f84;
+  border-top: 1px solid rgb(48.745%, 49.713%, 51.647%);
   background-color: #323335;
   height: 194px;
   margin-top: -194px;
@@ -347,7 +346,7 @@ a.button {
   margin-left: 0;
 }
 #footer #sitemap h3 {
-  color: white;
+  color: #ffffff;
   font-weight: bold;
 }
 #footer #sitemap a:hover {
@@ -366,7 +365,6 @@ a.button {
   display: block;
   float: left;
   width: 200px;
-  margin-left: 10px;
   margin-left: 10px;
   font-size: 10px;
 }

@@ -28,28 +28,19 @@ body {
   line-height: 1.8;
   color: #262626;
 }
-a,
-a:visited,
-a:focus,
-a:hover,
-a:active {
+a, a:active, a:focus, a:hover, a:visited {
   text-decoration: none;
   color: inherit;
 }
-strong,
-b {
+b, strong {
   font-weight: bold;
 }
-em,
-i {
+em, i {
   font-style: italic;
 }
-h1,
-h2,
-h3 {
+h1, h2, h3 {
   font-family: "JosefinSlab", "DejaVu Sans", "Lucida Grande", "Verdana", sans-serif;
   font-style: normal;
-  /* line-height: 1; */
 }
 h1 {
   color: #3d72c9;
@@ -76,10 +67,9 @@ h4 {
 p {
   margin-bottom: 1em;
 }
-pre,
-code,
-.literal {
-  font-family: "Andale Mono", "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important;
+.literal, code, pre {
+  font-family: "Andale Mono", "Consolas", "Bitstream Vera Sans Mono", "Courier New",
+    Courier, monospace !important;
 }
 pre {
   font-size: 12px;
@@ -108,9 +98,6 @@ dt {
 blockquote {
   margin-left: 30px;
   padding-left: 4px;
-  /*
-  border-left: 2px solid #dddddd;
-  */
 }
 blockquote blockquote {
   border-left: 2px solid #aaaaaa;
@@ -118,66 +105,44 @@ blockquote blockquote {
 blockquote blockquote blockquote {
   border-left: 2px solid #777777;
 }
-ul,
-ol {
+ol, ul {
   margin-bottom: 1em;
 }
 table {
-  /* font-size: 12px; */
   text-align: left;
   margin-bottom: 21.6px;
 }
 table th {
   font-weight: bold;
 }
-table td,
-table th {
+table td, table th {
   padding: 3px;
 }
-#main a,
-.main a {
+#main a, .main a {
   color: #333333;
   text-decoration: underline;
 }
-#main a:hover,
-.main a:hover {
-  color: #366ac1;
+#main a:hover, .main a:hover {
+  color: rgb(21.065%, 41.741%, 75.68%);
   text-decoration: underline;
 }
-#main .highlight,
-.main .highlight {
+#main .highlight, .main .highlight {
   font-weight: bold;
 }
-#main a.button,
-.main a.button {
+#main a.button, .main a.button {
   text-decoration: none;
 }
-#main a.button:hover,
-.main a.button:hover {
+#main a.button:hover, .main a.button:hover {
   color: inherit;
 }
-#main h1 a,
-.main h1 a,
-#main h2 a,
-.main h2 a,
-#main h3 a,
-.main h3 a,
-#main h4 a,
-.main h4 a,
-#main h5 a,
-.main h5 a {
+#main h1 a, #main h2 a, #main h3 a, #main h4 a, #main h5 a,
+.main h1 a, .main h2 a, .main h3 a, .main h4 a, .main h5 a {
   color: inherit;
   text-decoration: none;
 }
-#main h1 a:hover,
-.main h1 a:hover,
-#main h2 a:hover,
-.main h2 a:hover,
-#main h3 a:hover,
-.main h3 a:hover,
-#main h4 a:hover,
-.main h4 a:hover,
-#main h5 a:hover,
+#main h1 a:hover, #main h2 a:hover, #main h3 a:hover,
+#main h4 a:hover, #main h5 a:hover, .main h1 a:hover,
+.main h2 a:hover, .main h3 a:hover, .main h4 a:hover,
 .main h5 a:hover {
   text-decoration: none;
 }
