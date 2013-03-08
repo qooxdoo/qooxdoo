@@ -561,7 +561,7 @@ manual-build-pdf:
 	@(cd $(PATH_MANUAL) && $(QOOXDOO_RELEASE) make latex)
 	@(cd $(PATH_MANUAL)/build/latex && make all-pdf)
 
-manual-build: manual-build-clean manual-build-html manual-build-pdf
+manual-build: manual-build-clean manual-resources manual-build-html manual-build-pdf
 
 manual-publish:
 	@echo "  * Syncing HTML docs..."
