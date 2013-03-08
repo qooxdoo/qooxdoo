@@ -65,12 +65,9 @@ qx.Class.define("testrunner.view.widget.Widget", {
     mainsplit.setAppearance("app-splitpane");
     mainContainer.add(mainsplit, {flex : 1});
 
-    this.__labelDeco = null;
-    try {
-      this.__labelDeco = new qx.ui.decoration.Background().set({
-        backgroundColor : "white"
-      });
-    } catch(ex) {}
+    this.__labelDeco = new qx.ui.decoration.Decorator().set({
+      backgroundColor: "white"
+    });
 
     var leftPane = this.__createTestList();
     mainsplit.add(leftPane, 0);
