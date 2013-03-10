@@ -414,9 +414,6 @@ input[type="checkbox"], input[type="radio"] {
   margin: 0;
   padding: 10px 10px; }
 
-ul.form li .scroll-container {
-  height: 140px; }
-
 textarea {
   resize: none;
   padding-top: 4px;
@@ -1279,7 +1276,7 @@ input[type="text"]:not(.selectbox):not(.invalid), input[type="number"]:not(.inva
   /* FF 3@mixin 6+ */
   background-image: linear-gradient(to bottom, #b5b6b5, #949294);
   /* Standard (in flux) */
-  border: 1px solid #000; }
+  border: 1px solid black; }
 
 .checkbox {
   position: relative;
@@ -1358,11 +1355,11 @@ input[type=radio] + label:after {
 
 .popup, .menu, .picker {
   background-color: #424242;
-  border: 2px solid #ffffff; }
+  border: 2px solid white; }
 
 .dialog {
   background-color: #424242;
-  border: 2px solid #ffffff; }
+  border: 2px solid white; }
 
 .popupAnchorPointerTop:before, .popupAnchorPointerTopRight:before {
   position: absolute;
