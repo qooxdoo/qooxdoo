@@ -1,3 +1,5 @@
+$navigationbar-height: 45px;
+
 @import "common/base";
 
 @import "basic/blocker";
@@ -24,6 +26,6 @@
 @import "android/main";
 @import "android/togglebutton";
 
-@import "color/android"; 
+@import "color/android";  
 
 
