@@ -245,6 +245,13 @@ qx.Class.define("qx.theme.manager.Decoration",
     {
       var aliasManager = qx.util.AliasManager.getInstance();
 
+      // remove old rules
+      for (var i=0; i < this.__rules.length; i++) {
+        var selector = this.__rules[i];
+        qx.ui.style.Stylesheet.getInstance().removeRule(selector);
+      };
+      this.__rules = [];
+
       if (old)
       {
         for (var alias in old.aliases) {

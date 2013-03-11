@@ -2426,13 +2426,9 @@ qx.Class.define("qx.ui.core.Widget",
       this.updateAppearance();
 
       // DECORATOR //
-      // if its a user value and a string which should be resolved
-      var value = qx.util.PropertyUtil.getUserValue(this, "decorator");
-      if (qx.lang.Type.isString(value)) {
-        // make sure to update the decorator
-        this._applyDecorator(null, value);
-        this._applyDecorator(value);
-      }
+      var value = this.getDecorator();
+      this._applyDecorator(null, value);
+      this._applyDecorator(value);
 
       // FONT //
       value = this.getFont();
