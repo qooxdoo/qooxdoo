@@ -532,6 +532,11 @@ qx.Class.define("qx.bom.element.Decoration",
       }
       else
       {
+        // honor padding
+        var top = style.paddingTop || 0;
+        var left = style.paddingLeft || 0;
+        style.backgroundPosition = left + "px " + top + "px";
+
         if (qx.core.Environment.get("qx.debug"))
         {
           if (repeat !== "repeat") {
