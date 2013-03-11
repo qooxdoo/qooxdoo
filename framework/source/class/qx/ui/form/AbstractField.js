@@ -48,12 +48,6 @@ qx.Class.define("qx.ui.form.AbstractField",
      * Adds the CSS rules needed to style the native placeholder element.
      */
     __addPlaceholderRules : function() {
-      if (this.__stylesheet) {
-        return;
-      }
-
-      this.__stylesheet = qx.bom.Stylesheet.createElement();
-
       var colorManager = qx.theme.manager.Color.getInstance();
       var color = colorManager.resolve("text-placeholder");
 
@@ -65,13 +59,13 @@ qx.Class.define("qx.ui.form.AbstractField",
         } else {
           selector = "input:-moz-placeholder, textarea:-moz-placeholder";
         }
-        qx.bom.Stylesheet.addRule(this.__stylesheet, selector, "color: " + color + " !important");
+        qx.ui.style.Stylesheet.getInstance().addRule(selector, "color: " + color + " !important");
       } else if (qx.core.Environment.get("engine.name") == "webkit") {
         selector = "input.qx-placeholder-color::-webkit-input-placeholder, textarea.qx-placeholder-color::-webkit-input-placeholder";
-        qx.bom.Stylesheet.addRule(this.__stylesheet, selector, "color: " + color);
+        qx.ui.style.Stylesheet.getInstance().addRule(selector, "color: " + color);
       } else if (qx.core.Environment.get("engine.name") == "mshtml") {
         selector = "input.qx-placeholder-color:-ms-input-placeholder, textarea.qx-placeholder-color:-ms-input-placeholder";
-        qx.bom.Stylesheet.addRule(this.__stylesheet, selector, "color: " + color + " !important");
+        qx.ui.style.Stylesheet.getInstance().addRule(selector, "color: " + color + " !important");
       }
     }
   },
@@ -364,20 +358,6 @@ qx.Class.define("qx.ui.form.AbstractField",
       // create and add the input element
       var el = this._createInputElement();
 
-      // Apply styles
-      el.setStyles(
-      {
-        "border": "none",
-        "padding": 0,
-        "margin": 0,
-        "display" : "block",
-        "background" : "transparent",
-        "outline": "none",
-        "appearance": "none",
-        "position": "absolute",
-        "autoComplete": "off"
-      });
-
       // initialize the html input
       el.setSelectable(this.getSelectable());
       el.setEnabled(this.getEnabled());
@@ -387,9 +367,6 @@ qx.Class.define("qx.ui.form.AbstractField",
 
       // Disable HTML5 spell checking
       el.setAttribute("spellcheck", "false");
-
-      // Block resize handle
-      el.setStyle("resize", "none");
 
       // IE8 in standard mode needs some extra love here to receive events.
       if ((qx.core.Environment.get("engine.name") == "mshtml"))
@@ -967,6 +944,23 @@ qx.Class.define("qx.ui.form.AbstractField",
       }
     }
 
+  },
+
+
+  defer : function(statics)
+  {
+    var css = "border: none;" +
+      "padding: 0;" +
+      "margin: 0;" +
+      "display : block;" +
+      "background : transparent;" +
+      "outline: none;" +
+      "appearance: none;" +
+      "position: absolute;" +
+      "autoComplete: off;" +
+      "resize: none;";
+
+    qx.ui.style.Stylesheet.getInstance().addRule("input, textarea", css);
   },
 
 
