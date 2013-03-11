@@ -149,19 +149,13 @@ qx.Class.define("qx.ui.embed.Html",
 
       // Insert HTML content
       elem.setAttribute("html", value||"");
-
-      // Local style override problematic sections applied through
-      // an optional classname
-      elem.setStyles({
-        "padding": "0px",
-        "border": "none"
-      });
     },
 
 
     // property apply
     _applyCssClass : function (value, old) {
-      this.getContentElement().setAttribute("class", value);
+      this.getContentElement().removeClass(old);
+      this.getContentElement().addClass(value);
     },
 
 
