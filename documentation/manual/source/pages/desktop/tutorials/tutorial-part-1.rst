@@ -98,5 +98,5 @@ At this point, your application should look like this.
 .. |step 1| image:: /pages/desktop/tutorials/step11.png
 
 Thats it for the first part. If you want to have the `code from the tutorial <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step1>`_, take a look at the project at Github and just fork the project.
-The next part of the tutorial will contain the building the other parts of the UI. If you have feedback or want to see something special in further tutorials, just let us know!
+The next part of the tutorial will contain the building of the other parts of the UI. If you have feedback or want to see something special in further tutorials, just let us know!
 

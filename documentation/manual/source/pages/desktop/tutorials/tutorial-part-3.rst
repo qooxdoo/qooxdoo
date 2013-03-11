@@ -206,7 +206,7 @@ Posting tweets
 
 As you have seen in the last paragraphs, creating the data access layer is not that hard using qooxdoo's data binding. That is why we want you to implement the rest of the application: Posting of tweets. But we will give you some hints so it does not take that much time for you.
 
-* identica uses OAuth authentification for postings. Don't make your self too much work by implementing the whole OAuth thing.
+* identica uses OAuth authentification for postings. Don't make yourself too much work by implementing the whole OAuth thing.
 * Tweets can be set to identica's web view by just giving a decoded parameter to the URL, like in ``http://identi.ca/?action=newnotice&status_textarea=123``.
 
 That should be possible for you right now! If you need to take a look at an implementation, you can always take a look at the `code on github <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step3>`_ or fork the project.

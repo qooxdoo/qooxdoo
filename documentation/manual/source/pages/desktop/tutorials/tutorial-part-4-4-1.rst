@@ -34,7 +34,7 @@ The test browser will load the application under test (AUT) over HTTP, so make s
 
   python -m SimpleHTTPServer
 
-You should now be able to open the tutorial application by browsing to ``http://localhost:8000/qooxdoo-tutorial/build/index.html``.
+You should now be able to open the tutorial application by browsing to ``http://localhost:8000/qooxdoo-tutorial/build/index.html``. Make sure to use ``generate.py build`` to create the build version of your application, which doesn't have any dependencies to your local qooxdoo sdk anymore. 
 
 Also, a regular Java Runtime Environment (JRE) is necessary on your machine to run Selenium.
 
