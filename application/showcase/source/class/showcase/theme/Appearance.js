@@ -113,7 +113,7 @@ qx.Theme.define("showcase.theme.Appearance",
       style : function(states)
       {
         return {
-          decorator: new qx.ui.decoration.HBox("showcase/images/tag-hor.png"),
+          decorator : "previewlist-scrollbar-knob",
           opacity: qx.core.Environment.get("engine.name") == "mshtml" ? 1 : (states.hovered ? 0.2 : 0.1),
           height: 12
         };
