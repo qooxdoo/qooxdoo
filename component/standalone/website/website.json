@@ -17,6 +17,12 @@
     {
       "path" : "${QOOXDOO_PATH}/component/testrunner/portable.json",
       "as" : "testrunner-portable"
+    },
+    {
+      "path" : "builds.json",
+      "block" : [
+        "build-separate-min"
+      ]
     }
   ],
 
@@ -32,11 +38,11 @@
     "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
     "TEST_SCRIPT_PATH"  : "./test/script",
     "API_SCRIPT_PATH" : "api/script",
-    "Q_INCLUDES" : [
+    "QXWEB_ALL" : [
       "qx.module.*",
       "qxWeb"
     ],
-    "API_INCLUDE" : "${Q_INCLUDES}"
+    "API_INCLUDE" : "${QXWEB_ALL}"
   },
 
   "config-warnings" :
@@ -48,40 +54,13 @@
 
   "jobs" :
   {
-    "website-libraries" :
-    {
-      "=library" :
-      [
-        {
-           "manifest": "${QOOXDOO_PATH}/framework/Manifest.json"
-        }
-      ]
-    },
-
-    "website-common" :
-    {
-      "extend" : ["website-libraries"],
-
-      "=include" : "${Q_INCLUDES}",
-
-      "environment" :
-      {
-        "qx.version" : "${QOOXDOO_VERSION}",
-        "qx.debug"   : false,
-        "json" : true
-      },
-      "compile-options" :
-      {
-        "paths" :
-        {
-          "file-prefix" : "${QOOXDOO_PATH}/tool/data/generator/copyright.include.js"
-        }
-      }
-    },
-
     "log-deps" :
     {
       "extend" : ["build-min"],
+
+      "let" : {
+        "Q_INCLUDES" : "${QXWEB_ALL}"
+      },
 
       "log" :
       {
@@ -98,132 +77,6 @@
         }
       }
     },
-
-    "build" :
-    {
-      "extend" : ["website-common", "build-script"],
-
-      "let" :
-      {
-        "OPTIMIZE" : ["variants"]
-      },
-
-      "compile-options" :
-      {
-
-        "code" : {
-          "format" : true
-        },
-
-        "paths"  :
-        {
-          "file" : "${BUILD_PATH}/q-${QOOXDOO_VERSION}.js",
-          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.tmpl.js"
-        }
-      }
-    },
-
-
-    "build-core" :
-    {
-      "extend" : ["build"],
-      "let" : {
-        "Q_INCLUDES" : ["qx.module.Core"]
-      },
-      "compile-options" :
-      {
-        "paths"  :
-        {
-          "file" : "${BUILD_PATH}/q-core-${QOOXDOO_VERSION}.js"
-        }
-      }
-    },
-
-
-    "build-core-min" :
-    {
-      "extend" : ["build-min"],
-      "let" : {
-        "Q_INCLUDES" : [
-          "qx.module.Core",
-          "qx.bom.Event",
-          "qx.bom.Stylesheet",
-          "qx.lang.Array",
-          "qx.util.Uri",
-          "qx.lang.Type",
-          "qx.lang.String",
-          "qx.lang.Object",
-          "qx.Bootstrap"
-        ]
-      },
-      "compile-options" :
-      {
-        "paths"  :
-        {
-          "file" : "${BUILD_PATH}/q-core-${QOOXDOO_VERSION}.min.js"
-        }
-      }
-    },
-
-    "build-min" :
-    {
-      "extend" : ["build"],
-
-      "compile-options" :
-      {
-        "code" : {
-          "=optimize" : [
-            "basecalls",
-            "comments",
-            "privates",
-            "strings",
-            "variables",
-            "variants",
-            "statics",
-            "whitespace"
-          ],
-          "format" : false
-        },
-        "paths"  :
-        {
-          "file" : "${BUILD_PATH}/q-${QOOXDOO_VERSION}.min.js"
-        }
-      }
-    },
-
-
-    "build-extras" :
-    {
-      "extend" : ["build"],
-
-      "exclude" : ["=qx.module.Core"],
-
-      "compile-options" :
-      {
-        "paths"  :
-        {
-          "file" : "${BUILD_PATH}/q-extras-${QOOXDOO_VERSION}.js",
-          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.extras.tmpl.js"
-        }
-      }
-    },
-
-    "build-extras-min" :
-    {
-      "extend" : ["build-min"],
-
-      "exclude" : ["=qx.module.Core"],
-
-      "compile-options" :
-      {
-        "paths"  :
-        {
-          "file" : "${BUILD_PATH}/q-extras-${QOOXDOO_VERSION}.min.js",
-          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.extras.tmpl.js"
-        }
-      }
-    },
-
 
     "source" :
     {
@@ -271,7 +124,7 @@
         "qx.debug" : true
       },
 
-      "include" : "${Q_INCLUDES}",
+      "include" : "${QXWEB_ALL}",
 
       "compile-options" :
       {
@@ -289,6 +142,10 @@
     "build-min-test" :
     {
       "extend" : ["build-min"],
+
+      "let" : {
+        "Q_INCLUDES" : "${QXWEB_ALL}"
+      },
 
       "compile-options" :
       {
@@ -316,18 +173,18 @@
 
     "testrunner-portable::build-script" :
     {
-      "exclude" : "${Q_INCLUDES}",
+      "exclude" : "${QXWEB_ALL}",
 
       "config-warnings" :
       {
-        "exclude" : "${Q_INCLUDES}"
+        "exclude" : "${QXWEB_ALL}"
       }
     },
 
 
     "api" :
     {
-      "run" : ["build-api", "api-data"]
+      "run" : ["build-api", "api-data"],
     },
 
 
@@ -335,9 +192,12 @@
     {
       "extend" : ["build-min"],
 
+      "let" : {
+        "Q_INCLUDES" : "${QXWEB_ALL}"
+      },
       "environment" :
       {
-        "q.eventtypes" : "qx.module.event.Mouse,qx.module.event.Keyboard,qx.module.event.Native,qx.module.event.Orientation,qx.module.event.Touch"
+        "q.eventtypes" : "qx.module.event.Mouse,qx.module.event.Keyboard,qx.module.event.Native,qx.module.event.Orientation,qx.module.event.Touch",
       },
       "compile-options" :
       {

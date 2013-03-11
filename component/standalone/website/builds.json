@@ -1,0 +1,337 @@
+{
+  "name"    : "module-builds",
+
+  "jobs" :
+  {
+    // generic build jobs
+    // ------------------------------------------------------------------
+
+    "website-libraries" :
+    {
+      "=library" :
+      [
+        {
+           "manifest": "${QOOXDOO_PATH}/framework/Manifest.json"
+        }
+      ]
+    },
+
+    "website-common" :
+    {
+      "extend" : ["website-libraries"],
+
+      "=include" : "${Q_INCLUDES}",
+
+      "environment" :
+      {
+        "qx.version" : "${QOOXDOO_VERSION}",
+        "qx.debug"   : false,
+        "json" : true
+      },
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "file-prefix" : "${QOOXDOO_PATH}/tool/data/generator/copyright.include.js"
+        }
+      }
+    },
+
+    "build" :
+    {
+      "extend" : ["website-common", "build-script"],
+
+      "let" :
+      {
+        "OPTIMIZE" : ["variants"]
+      },
+
+      "compile-options" :
+      {
+
+        "code" : {
+          "format" : true
+        },
+
+        "paths"  :
+        {
+          "file" : "${BUILD_PATH}/q-${QOOXDOO_VERSION}.js",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.tmpl.js"
+        }
+      }
+    },
+
+    "build-min" :
+    {
+      "extend" : ["build"],
+
+      "let" : {
+        "Q_INCLUDES" : "${QXWEB_ALL}"
+      },
+
+      "compile-options" :
+      {
+        "code" : {
+          "=optimize" : [
+            "basecalls",
+            "comments",
+            "strings",
+            "variables",
+            "variants",
+            "statics",
+            "whitespace"
+          ],
+          "format" : false
+        },
+        "paths"  :
+        {
+          "file" : "${BUILD_PATH}/q-${QOOXDOO_VERSION}.min.js"
+        }
+      }
+    },
+
+    // build separate modules (slice qxWeb into separate js-files)
+    // ------------------------------------------------------------------
+    //
+    // qx.module.Core + <extras> = original qxWeb   // <extras> = all non-core modules
+    // => original qxWeb but in two js-files (core + extras)
+    //
+    // XOR
+    //
+    // qx.module.Core + qx.module.Animation + ... = tailored qxWeb
+    // => tailored qxWeb in n-js-files (core + ...)
+
+    "build-core" :
+    {
+      "extend" : ["build"],
+      "let" : {
+        "Q_INCLUDES": ["qx.module.Core"]
+      },
+      "compile-options" :
+      {
+        "paths"  :
+        {
+          "file" : "${BUILD_PATH}/q-core-${QOOXDOO_VERSION}.js"
+        }
+      }
+    },
+
+    "build-core-min" :
+    {
+      "extend" : ["build-min"],
+      "let" : {
+        "Q_INCLUDES" : [
+          "qx.module.Core",
+          "qx.module.event.*",
+          "qx.bom.Event",
+          "qx.bom.Stylesheet",
+          "qx.dom.Element",
+          "qx.lang.Array",
+          "qx.util.Uri",
+          "qx.lang.Type",
+          "qx.lang.String",
+          "qx.lang.Object",
+          "qx.Bootstrap"
+        ]
+      },
+      "compile-options" :
+      {
+        "paths"  :
+        {
+          "file" : "${BUILD_PATH}/q-core-${QOOXDOO_VERSION}.min.js"
+        }
+      }
+    },
+
+    "build-extras" :
+    {
+      "extend" : ["build"],
+      // qx.module.event.* already in Core
+      "exclude" : ["=qx.module.Core", "qx.module.event.*"],
+      "let" : {
+        "Q_INCLUDES" : [
+          "qx.module.*",
+        ]
+      },
+      "compile-options" :
+      {
+        "code": {
+          "format": true,
+        },
+        "paths"  :
+        {
+          "file" : "${BUILD_PATH}/q-extras-${QOOXDOO_VERSION}.js",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.extras.tmpl.js"
+        }
+      }
+    },
+
+    "build-extras-min" :
+    {
+      "extend" : ["build-min"],
+      // qx.module.event.* already in Core
+      "exclude" : ["=qx.module.Core", "qx.module.event.*"],
+      "let" : {
+        "Q_INCLUDES" : [
+          "qx.module.*",
+        ]
+      },
+      "compile-options" :
+      {
+        "paths"  :
+        {
+          "file" : "${BUILD_PATH}/q-extras-${QOOXDOO_VERSION}.min.js",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.extras.tmpl.js"
+        }
+      }
+    },
+
+    "build-separate-min" :
+    {
+      // 'abstract' job (requires ${MODULE_FILE_NAME})
+
+      "extend" : ["build-min"],
+      "exclude" : ["=qx.module.Core"],
+      "compile-options" :
+      {
+        "paths"  :
+        {
+          "file" : "${BUILD_PATH}/q-${MODULE_FILE_NAME}-${QOOXDOO_VERSION}.min.js",
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.extras.tmpl.js"
+        }
+      }
+    },
+
+    "build-separate-all-min" :
+    {
+      "run" : [
+        "build-core-min",
+        "build-extras-min",
+        "build-separate-animation-min",
+        "build-separate-blocker-min",
+        "build-separate-cookie-min",
+        "build-separate-dataset-min",
+        "build-separate-io-min",
+        "build-separate-messaging-min",
+        "build-separate-placeholder-min",
+        "build-separate-placement-min",
+        "build-separate-storage-min",
+        "build-separate-template-min",
+        "build-separate-transform-min",
+        "build-separate-util-min"
+      ]
+    },
+
+    "build-separate-animation-min" :
+    {
+      "extend" : ["build-separate-min"],
+      "let" : {
+        "Q_INCLUDES": ["qx.module.Animation"],
+        "MODULE_FILE_NAME" : "animation"
+      },
+    },
+
+    "build-separate-blocker-min" :
+    {
+      "extend" : ["build-separate-min"],
+      "let" : {
+        "Q_INCLUDES": ["qx.module.Blocker"],
+        "MODULE_FILE_NAME" : "blocker"
+      }
+    },
+
+    "build-separate-cookie-min" :
+    {
+      "extend" : ["build-separate-min"],
+      "let" : {
+        "Q_INCLUDES": ["qx.module.Cookie"],
+        "MODULE_FILE_NAME" : "cookie"
+      }
+    },
+
+    "build-separate-dataset-min" :
+    {
+      "extend" : ["build-separate-min"],
+      "let" : {
+        "Q_INCLUDES": ["qx.module.Dataset"],
+        "MODULE_FILE_NAME" : "dataset"
+      }
+    },
+
+    "build-separate-io-min" :
+    {
+      "extend" : ["build-separate-min"],
+      "let" : {
+        "Q_INCLUDES": ["qx.module.Io"],
+        "MODULE_FILE_NAME" : "io"
+      }
+    },
+
+    "build-separate-messaging-min" :
+    {
+      "extend" : ["build-separate-min"],
+      "let" : {
+        "Q_INCLUDES": ["qx.module.Messaging"],
+        "MODULE_FILE_NAME" : "messaging"
+      }
+    },
+
+    "build-separate-placeholder-min" :
+    {
+      "extend" : ["build-separate-min"],
+      "let" : {
+        "Q_INCLUDES": ["qx.module.Placeholder"],
+        "MODULE_FILE_NAME" : "placeholder"
+      }
+    },
+
+    "build-separate-placement-min" :
+    {
+      "extend" : ["build-separate-min"],
+      "let" : {
+        "Q_INCLUDES": ["qx.module.Placement"],
+        "MODULE_FILE_NAME" : "placement"
+      }
+    },
+
+    "build-separate-storage-min" :
+    {
+      "extend" : ["build-separate-min"],
+      "let" : {
+        "Q_INCLUDES": ["qx.module.Storage"],
+        "MODULE_FILE_NAME" : "storage"
+      }
+    },
+
+    "build-separate-template-min" :
+    {
+      "extend" : ["build-separate-min"],
+      "let" : {
+        "Q_INCLUDES": ["qx.module.Template"],
+        "MODULE_FILE_NAME" : "template"
+      }
+    },
+
+    "build-separate-transform-min" :
+    {
+      "extend" : ["build-separate-min"],
+      "let" : {
+        "Q_INCLUDES": ["qx.module.Transform"],
+        "MODULE_FILE_NAME" : "transform"
+      }
+    },
+
+    "build-separate-util-min" :
+    {
+      "extend" : ["build-separate-min"],
+      "let" : {
+        "Q_INCLUDES" : [
+          "qx.module.util.Array",
+          "qx.module.util.String",
+          "qx.module.util.Type"
+        ],
+        "MODULE_FILE_NAME" : "util"
+      }
+    }
+  }
+}
