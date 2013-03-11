@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.decoration.Decorator", {
       var bottom = this.getInsetBottom();
 
       return {
-        top : left ? left - this.getWidthLeft() : this.getInnerWidthTop(),
+        top : top ? top - this.getWidthTop() : this.getInnerWidthTop(),
         right : right ? right - this.getWidthRight() : this.getInnerWidthRight(),
         bottom : bottom ? bottom - this.getWidthBottom() : this.getInnerWidthBottom(),
         left : left ? left - this.getWidthLeft() : this.getInnerWidthLeft()
@@ -75,8 +75,12 @@ qx.Class.define("qx.ui.decoration.Decorator", {
      *
      * @return {Map} style information
      */
-    getStyles : function()
+    getStyles : function(css)
     {
+      if (css) {
+        return this._getStyles();
+      }
+
       var jsStyles = {};
       var cssStyles = this._getStyles();
 
