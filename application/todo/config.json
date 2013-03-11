@@ -10,14 +10,15 @@
 
   "export" :
   [
-    "build-min"
+    "build-min",
+    "build-separate-all-min"
   ],
 
   "default-job" : "build-min",
 
-  "config-warnings" : 
+  "config-warnings" :
   {
-    "job-shadowing" : ["api"] 
+    "job-shadowing" : ["api"]
   },
 
   "let" :
