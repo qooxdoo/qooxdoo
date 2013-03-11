@@ -60,6 +60,25 @@ qx.Class.define("qx.test.Bootstrap",
     },
 
 
+    testAlternativeRootAdvanced : function() {
+      window.foobar = {};
+      var myRoots = { "qx": window.qx, "foobar": window.foobar };
+      qx.Bootstrap.setRoot(myRoots);
+
+      var qxClass = qx.Bootstrap.define("qx.test.ROOT", {});
+      var foobarClass = qx.Bootstrap.define("foobar.test.ROOT", {});
+      var vanillebaerClass = qx.Bootstrap.define("vanillebaer.test.ROOT", {});
+
+      this.assertEquals(qxClass, window.qx.test.ROOT);
+      this.assertEquals(foobarClass, window.foobar.test.ROOT);
+      this.assertEquals(vanillebaerClass, window.vanillebaer.test.ROOT);
+
+      qx.Bootstrap.setRoot(undefined);
+      delete window.foobar;
+      delete window.vanillebaer;
+    },
+
+
     "test: define class with contructor" : function()
     {
       var c = qx.Bootstrap.define("qx.test.Construct",

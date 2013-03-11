@@ -134,7 +134,7 @@ OK, time to build the AUT again. This time, run ``generate.py test-source`` inst
 Asynchronous Tests
 ==================
 
-As with many GUI applications, the various components of the tweets app use events to communicate. The ``tweets.TweetService`` class, for example, has a method ``fetchTweets`` that causes a ``changeTweets`` event to fire once the data store has finished (re)loading. We can't know in advance just how long this takes, so we need some way to instruct the test to wait until the event fires. This is where asynchronous testing comes in.
+As with many GUI applications, the various components of the tweets app use events to communicate. The ``tweets.IdenticaService`` class, for example, has a method ``fetchTweets`` that causes a ``changeTweets`` event to fire once the data store has finished (re)loading. We can't know in advance just how long this takes, so we need some way to instruct the test to wait until the event fires. This is where asynchronous testing comes in.
 
 Once again, create a new test class named **tweets.test.IdenticaService**. The ``setUp`` and ``tearDown`` methods are mostly identical to the ones from tweets.test.TweetView, except of course they initialize/destroy an instance of tweets.IdenticaService instead. Here's the actual test function:
 

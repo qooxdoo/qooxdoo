@@ -414,9 +414,6 @@ input[type="checkbox"], input[type="radio"] {
   margin: 0;
   padding: 10px 10px; }
 
-ul.form li .scroll-container {
-  height: 140px; }
-
 textarea {
   resize: none;
   padding-top: 4px;
@@ -1299,7 +1296,7 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   /* FF 3@mixin 6+ */
   background-image: linear-gradient(to bottom, #cfcfcf, #fdfdfd);
   /* Standard (in flux) */
-  border: 1px solid #E8E8E8; }
+  border: 1px solid #e8e8e8; }
 
 .tabBar {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#232323), color-stop(50%, #111111), color-stop(51%, black), to(black));
@@ -1569,7 +1566,7 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   color: #888888; }
 
 .toggleButtonSwitch {
-  border: 1px solid #E8E8E8;
+  border: 1px solid #e8e8e8;
   -webkit-box-shadow: 1px 0 2px #4b4b4b;
   -moz-box-shadow: 1px 0 2px #4b4b4b;
   box-shadow: 1px 0 2px #4b4b4b;

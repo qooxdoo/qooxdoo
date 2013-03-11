@@ -138,7 +138,7 @@ input, textarea {
 .navigationbar {
    @include gradient-vertical(lighten($navigationbar-background-color, 10%), darken($navigationbar-background-color, 10%));
    color: $navigationbar-text-color; 
-   height: $navigationbar-height; 
+   height: $navigationbar-height;
 }
 
 // 

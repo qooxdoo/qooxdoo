@@ -1,5 +1,9 @@
 body#home {
 
+  section#wrapper > h1 {
+    display: none;  
+  }
+
   #callout {
     width: $siteWidth;
     margin: 50px auto;
@@ -12,16 +16,16 @@ body#home {
     h1 {
       position: relative;
       font-size: 32px;
-      font-weight: 700;
       letter-spacing: 1px;
       margin-bottom: 5px;
+      font-weight: 800;
     }
 
     h2 {
       font-size: 22px;
       font-style: normal;
       // font-weight: 100; // Museo Slab, 100
-      font-weight: lighter;
+      font-weight: normal;
     }
 
     em {
@@ -98,8 +102,7 @@ body#home {
       $bleedingHeight: 85px;  // Hovering icons hovers header
       position: relative;
       top: -$bleedingHeight;
-      padding-top: $bleedingHeight;
-      cursor: pointer;
+      margin-top: $bleedingHeight;
       font-size: $fontSize - 1;
       color: #000;
 
@@ -131,10 +134,9 @@ body#home {
         }
 
         h2 {
-          font-size: 17px;
-          // font-family: museo-sans-1, museo-sans-2, sans-serif;  // Museo Sans, 500
-          // font-style: normal;
-          // font-weight: 500;
+          font-family: inherit;
+          font-size: 13px;
+          color: #262626;
           letter-spacing: 0.9px;
           line-height: 1.1;
           margin-top: 9px;
@@ -203,7 +205,31 @@ body#home {
             margin: 0 !important;
             margin-left: -10px !important;
             font-size: $fontSize - 1 !important;
-            height: 195px;
+            height: 144px;
+          }
+
+          .run {
+            zoom: 1;
+            margin-left: -10px;
+
+            &:after {
+              display: block;
+              visibility: hidden;
+              height: 0;
+              clear: both;
+              content: ".";
+            }
+
+            .button {
+              @include columns(2);
+              margin-top: 11px;
+              line-height: 32px;
+              background-color: #3d72c9;
+              background-image: url("../../images/arrow-left-light.png");
+              background-position: 14% 48%;
+              background-repeat: no-repeat;
+              color: #fff;
+            }
           }
         }
 
@@ -211,13 +237,40 @@ body#home {
           @include columns(5);
           display: none;
           margin-top: 6px;
-        }
 
-        .button {
-          &.download {
-            background-image: url("../../images/arrow.png");
-            background-position:  6% 48%;
-            background-repeat: no-repeat;
+          .button {
+            &.download {
+              background-image: url("../../images/arrow.png");
+              background-position:  6% 48%;
+              background-repeat: no-repeat;
+              padding-bottom: 3px;
+
+              & > span {
+                position: relative;
+                top: -4px;
+              }
+
+              .note {
+                display: inline-block;
+                position: absolute;
+                top: 8px;
+                left: 0;
+                width: 100%;
+                text-indent: 2px;
+                color: #4b4c4f;
+                font-size: 9px;
+              }
+            }
+          }
+
+          .alternative {
+            position: relative;
+            top: -8px;
+            font-size: 10px;
+
+            a {
+              text-decoration: underline;
+            }
           }
         }
       }

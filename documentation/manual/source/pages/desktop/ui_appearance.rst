@@ -8,7 +8,7 @@ Appearance
 What is it?
 ===========
 
-An appearance theme is the main part of the theme. It contains all appearance definitions which are responsible for holding all styling informations for the wigets. Usually the apperance theme is the biggest theme and uses all other theme classes like the Decorator- or Font-theme.
+An appearance theme is the main part of the theme. It contains all appearance definitions which are responsible for holding all styling informations for the widgets. Usually the apperance theme is the biggest theme and uses all other theme classes like the Decorator- or Font-theme.
 
 .. _pages/desktop/ui_appearance#theme_structure:
 
@@ -48,7 +48,7 @@ It is also possible that a widget, which is a child control itself, uses another
       - level2
         - level3
 
-the generated selector would be ``pane/level1/level2/level3``. For ``pane`` which is not a child control of any other widget the appearance ID is used. For all others the child control ID is used. Again ``pane`` is not managed by any other widget so it is basically added by the developer of the application to another widget while ``level1`` to ``level3`` are managed by some type of combined widget and are added to each other without the work of the application developer. 
+the generated selector would be ``pane/level1/level2/level3``. For ``pane`` which is not a child control of any other widget the appearance ID is used. For all others the child control ID is used. Again ``pane`` is not managed by any other widget so it is basically added by the developer of the application to another widget while ``level1`` to ``level3`` are managed by some type of combined widget and are added to each other without the work of the application developer.
 
 A classic example for this is the ``Spinner`` widget. A ``Spinner`` is basically a Grid layout with a ``TextField`` and two ``RepeatButtons``. The three internal widgets are available under the sub control IDs ``textfield``, ``upbutton`` and ``downbutton``. The selectors for these kind of child controls are then:
 
@@ -100,7 +100,7 @@ This is super convenient for simple cases and additionally it is still possible 
     {
       [...],
 
-      "myimage" : [...],    
+      "myimage" : [...],
 
       "spinner/upbutton" : "button",
       "spinner/upbutton/icon" : "myimage",
@@ -112,7 +112,7 @@ This is super convenient for simple cases and additionally it is still possible 
 Internally the above results into the following remapping:
 
 ::
-  
+
   "spinner/upbutton" => "button"
   "spinner/upbutton/icon" => "myimage"
   "spinner/upbutton/label" => "button/label"
@@ -132,13 +132,13 @@ The more complex full entry is a map with several sub entries where all are opti
     {
       [...],
 
-      "spinner/textfield" : 
+      "spinner/textfield" :
       {
         base : true/false,
         include : String,
         alias : String,
 
-        style : function(states, styles) 
+        style : function(states, styles)
         {
           return {
             property : states.hovered ? value1 : value2,
@@ -194,7 +194,7 @@ Instead, you should always define the else case:
 
 .. note::
 
-  The ``undefined`` value means that no value should be applied. When qooxdoo runs through the returned map it calls the ``reset`` method for properties with a value of ``undefined``. In most cases it would be also perfectly valid to use ``null`` instead of ``undefined``, but keep in mind that ``null`` is stored using the setter (explicit null) and this way it overrides values given through the inheritance or through the init values. In short this means that ``undefined`` is the better choice in almost all cases. 
+  The ``undefined`` value means that no value should be applied. When qooxdoo runs through the returned map it calls the ``reset`` method for properties with a value of ``undefined``. In most cases it would be also perfectly valid to use ``null`` instead of ``undefined``, but keep in mind that ``null`` is stored using the setter (explicit null) and this way it overrides values given through the inheritance or through the init values. In short this means that ``undefined`` is the better choice in almost all cases.
 
 One thing we have also seen in the example is that it is perfectly possible to create the return map using standard JavaScript and fill in keys during the runtime of the ``style`` method. This allows to use more complex statements to solve the requirements of today's themes were a lot of states or dependencies between states can have great impact on the result map.
 
@@ -263,7 +263,7 @@ As you can see the ``spinner/upbutton`` is kept in its original state. This allo
         alias : "button",
         include : "button",
 
-        style : function(states) 
+        style : function(states)
         {
           return {
             padding : 2,
@@ -297,7 +297,7 @@ Priority is quite an important topic when dealing with so many sources to fill a
 States
 ======
 
-A state is used for every visual state a widget may have. Every state has flag character. It could only be enabled or disabled via the API ``addState`` or ``removeState``. 
+A state is used for every visual state a widget may have. Every state has flag character. It could only be enabled or disabled via the API ``addState`` or ``removeState``.
 
 .. _pages/desktop/ui_appearance#performance:
 
@@ -311,7 +311,7 @@ qooxdoo has a lot of impressive caching ideas behind the whole appearance handli
 Appearance Queue
 ----------------
 
-First of all we have the appearance queue. Widgets which are visible and inserted into a visible parent are automatically processed by this queue when changes happen or on the initial display of the widget. Otherwise the change is delayed until the widget gets visible (again). 
+First of all we have the appearance queue. Widgets which are visible and inserted into a visible parent are automatically processed by this queue when changes happen or on the initial display of the widget. Otherwise the change is delayed until the widget gets visible (again).
 
 The queue also minimizes the effect of multiple state changes when they happen at once. All changes are combined into one lookup to the theme e.g. changing ``hovered`` and ``focused`` directly after each other would only result into one update instead of two. In a modern GUI typically each click influence a few widgets at once and in these widgets a few states at once so this optimization really pays of.
 

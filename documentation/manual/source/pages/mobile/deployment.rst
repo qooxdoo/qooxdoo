@@ -10,9 +10,9 @@ You developed a great %{Mobile} application, and want to use or test it on your 
 
 For this purpose, we propose using `Apache Cordova`_.
 
-It gives you the possibility to deploy native applications, that run the qooxdoo mobile JavaScript code in an wrapped native browser, in the App Stores or directly on your mobile device. A free distribution of Cordova is also available, it is called "PhoneGap". 
+It gives you the possibility to deploy native applications, that run the qooxdoo mobile JavaScript code in an wrapped native browser directly on your mobile device. Mobile applications, created with "Apache Cordova", can be published to the various App Stores and Marketplaces. A free distribution of Cordova is also available, it is called "PhoneGap". 
 
-On Cordova website you find detailed tutorials available which describe the deployment on different mobile platforms:
+On the Cordova website you find detailed tutorials which describe the deployment on different mobile platforms:
 
 `Cordova Getting Started Tutorial`_
 

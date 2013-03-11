@@ -44,6 +44,7 @@ a.button {
 .action {
   .button {
     @include span(5);
+    position: relative;
     float: left;
     background-color: $lightShade;
 
@@ -60,14 +61,14 @@ a.button {
 
 #header-wrapper {
   background-color: $darkShade;
-  #gradient > .vertical(lighten($darkShade, 12%), $darkShade);
+  @include gradient-vertical(lighten($darkShade, 12%), $darkShade);
 
   .decoration {
     $lightSpot: lighten($spot, 6%);
     height: 10px;
     background-color: $spot;
     // border-top: 1px solid $lightSpot;
-    #gradient > .vertical-four($lightSpot, $lightSpot, $spot, $spot, 1px, 1px);
+    @include gradient-vertical-four($lightSpot, $lightSpot, $spot, $spot, 1px, 1px);
   }
 }
 
@@ -87,7 +88,7 @@ a.button {
     @include columns(6);
     font-size: 32px;
     // font-weight: 300;  // Museo Slab, 300
-    font-weight: normal;
+    font-weight: bold;
     line-height: 1;
     margin-top: 0;
     margin-bottom: 0;
@@ -135,15 +136,18 @@ a.button {
       @include columns(4);
       @include appearance(none);
       @include border-radius(8px);
+      -webkit-box-sizing: content-box;
+      height: 15.6px;
       font-size: $fontSize - 2;
       margin: 0;
-      padding: 2px;
-      border: none;
+      padding: 0px;
+      border: 3px solid transparent;
       background-color: $shade;
     }
 
     input[type=search]:focus {
       outline: none;
+      background-color: #f0f0f0;
     }
 
     select {
@@ -200,12 +204,21 @@ a.button {
     ul > li > ul > li > ul {
       display: none;
     }
+
+    ul > li > ul {
+      margin-bottom: 0;
+    }
   }
 
   #content {
     @include columns(16);
     @include first();
     clear: both;  // Force to new row
+
+    > div h2, > section h2 {
+      font-size: 19px;
+      margin-bottom: 2px;
+    }
 
     pre {
       padding: $gridGutterWidth;
@@ -228,6 +241,30 @@ a.button {
       }
     }
 
+    dd {
+      margin-bottom: 21.6px;
+    }
+
+    .toggle {
+      position: absolute;
+      top: -32.4px;
+      right: 0;
+
+      a {
+        display: inline-block;
+        cursor: pointer;
+      }
+
+      a:hover {
+        color: #3d72c9;
+      }
+
+      a.active, a.active:hover {
+        cursor: default;
+        text-decoration: none;
+        color: inherit;
+      }
+    }
   }
 }
 
@@ -265,6 +302,10 @@ a.button {
       font-size: round($fontSize * 0.8);
     }
 
+    .claim {
+      margin-right: -15px;
+    }
+
     .legal {
       padding-top: 2px;
       color: darken($fg, 30%);
@@ -276,6 +317,7 @@ a.button {
     @include columns(12);
 
     h3 {
+      color: white;
       font-weight: bold;
     }
 
@@ -296,6 +338,10 @@ a.button {
     .social {
       overflow: hidden;
       margin-bottom: $line * 0.5;
+
+      img {
+        padding: 0 2px;
+      }
     }
 
     img {

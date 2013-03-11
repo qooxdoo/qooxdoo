@@ -138,6 +138,8 @@ qx.Class.define("qx.ui.popup.Popup",
   */
 
   destruct : function() {
-    qx.ui.popup.Manager.getInstance().remove(this);
+    if (!qx.ui.popup.Manager.getInstance().isDisposed()) {
+      qx.ui.popup.Manager.getInstance().remove(this);
+    }
   }
 });

@@ -34,29 +34,29 @@ As mentioned above, it is common to define the decorators in a decorator theme. 
   "main" :
   {
     decorator: qx.ui.decoration.Uniform,
-  
+
     style :
     {
       width : 1,
       color : "background-selected"
     }
   },
-  
+
 The first thing you see is the name of the decorator, in this case, ``main``. The specified decorator is available using that name in the whole application code, especially in the appearance theme. The next thing you see in the map is the ``decorator`` key, that defines the decorator to use. The last thing is the styles map which contains values for the properties of the given decorator.
 
 This is the way using prebuild decorators. You can also use the decorator mixins in the theme:
 
 ::
 
-  "scroll-knob" : 
+  "scroll-knob" :
   {
     decorator : [
       qx.ui.decoration.MBorderRadius,
       qx.ui.decoration.MSingleBorder,
       qx.ui.decoration.MBackgroundColor
     ],
-    
-    style : 
+
+    style :
     {
       radius : 3,
       width : 1,
@@ -64,18 +64,18 @@ This is the way using prebuild decorators. You can also use the decorator mixins
       backgroundColor : "scrollbar-bright"
     }
   },
-  
+
 The main difference here is that not a reference to a prebuild decorator is given. Instead, an array containing mixins implementing single features are used. The theming system combines those mixins in a decorator. The styles map should now containg values for properties defined by the mixins.
 
-Sometimes it is very handy to change change only little details about the decorator. Imagine a special decorator for hovered buttons. Inheritance comes in very handy in such a case.
+Sometimes it is very handy to change only little details about the decorator. Imagine a special decorator for hovered buttons. Inheritance comes in very handy in such a case.
 
 ::
 
-  "scroll-knob-pressed" : 
+  "scroll-knob-pressed" :
   {
     include : "scroll-knob",
-    
-    style : 
+
+    style :
     {
       backgroundColor : "scrollbar-dark"
     }

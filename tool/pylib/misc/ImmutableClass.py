@@ -27,6 +27,12 @@
 # or
 #  class MyImmutable(...):
 #      __metaclass__ = ImmutableClass
+#
+# CAVEATS
+# - An issue with an immutable class is how *new* instance members are treated;
+#   should they be rejected?! I.e. if an object is considered immutable,
+#   existing members cannot be changed. But should you be able to add new object
+#   members?
 ##
 
 
@@ -40,7 +46,7 @@ class MutationError(RuntimeError):
 ##
 # Meta-class for classes with single-assignment semantics
 
-class ImmutableClass(type):
+class SingleAssignmentClass(type):
 
     def __init__(cls, name, bases, attrd):
 
@@ -52,7 +58,7 @@ class ImmutableClass(type):
                 raise MutationError(
                     "Attempt to change an immutable member: %s.%s" % (self.__class__.__name__, attr))
 
-        super(ImmutableClass, cls).__init__(
+        super(SingleAssignmentClass, cls).__init__(
             name, bases, attrd)
         setattr(cls, "__setattr__", singlesetattr)
 
@@ -60,8 +66,8 @@ class ImmutableClass(type):
 ##
 # Inheritable immutable class
 
-class Immutable(object):
-    __metaclass__ = ImmutableClass
+class SingleAssignment(object):
+    __metaclass__ = SingleAssignmentClass
 
 
 ##

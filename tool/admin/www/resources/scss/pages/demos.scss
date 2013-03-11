@@ -17,6 +17,8 @@ body.demos {
       }
 
       img {
+        width: 285px;
+        height: 177px;
         padding-left: 20px;
         margin-bottom: $line;
       }
@@ -48,90 +50,128 @@ body.demos {
 
 body#demos {
 
-  #domains {
-    margin-bottom: $line;
+  #content {
+    width: auto;
   }
 
-  #domains section.domain {
-    @include container();
-    background-color: $lightShade;
-    margin-bottom: $line * 1;
-    border-left: $bar solid transparent;
+  #domains {
+    margin-bottom: $line;
+    position: relative;
+  }
 
-    &.expanded {
+  #show-all {
+    display: none;
+  }
+
+  #domains {
+    section.domain {
+      @include container();
       background-color: $lightShade;
+      margin-bottom: $line * 1;
+      border-left: $bar solid transparent;
+
+      &.expanded {
+        background-color: $shade;
+
+        .hint {
+          display: block;
+        }
+
+        .demo {
+          ul, .primary, .secondary, .note {
+            display: block !important;
+          }
+
+          img {
+            width: 285px;
+            height: 177px;
+            display: block;
+          }
+        }
+      }
+
+      &.compact {
+        background-image: url(../../images/expand.png);
+        background-repeat: no-repeat;
+        background-position: 98% bottom;
+
+        &:hover {
+          cursor: pointer;
+          background-color: $shade;
+        }
+      }
+
+      .title, .demo {
+        @include inset();
+
+        & > h2 {
+          padding-top: 10px;
+        }
+      }
+
+      .title {
+        @include columns(6);
+      }
+
+      .hint {
+        display: none;
+        clear: both;
+        padding-left: 210px;
+      }
 
       .demo {
-        ul, .left, .right, .note {
-          display: block !important;
+        @include columns(9);
+
+        &.first {
+          margin-left: ($gridColumnWidth + $gridGutterWidth) * 6;
+        }
+
+        & > p {
+          padding-right: 50px;
+          height: 43.2px;
+        }
+
+        & > a {
+          display: block;
+        }
+
+        ul {
+          display: none;
+
+          span {
+            font-size: $fontSize - 2;
+          }
+        }
+
+        .primary, .secondary {
+          @include columns(4);
+          display: none;
+          margin-bottom: 1em;
+
+          h3 {
+            font-weight: normal;
+          }
+        }
+
+        .primary {
+          margin-left: 0;
+        }
+
+        .secondary {
+          @include push(1);
         }
 
         img {
-          display: block;
+          display: none;
+          padding-top: 5px;
+          padding-bottom: 5px;
         }
       }
     }
 
-    &.compact {
-
-      &:hover {
-        cursor: pointer;
-        background-color: $shade;
-      }
-    }
-
-    .title, .demo {
-      @include inset();
-
-      & > h2 {
-        padding-top: 10px;
-      }
-    }
-
-    .title {
-      @include columns(6);
-    }
-
-    .demo {
-      @include columns(9);
-
-      &.first {
-        margin-left: ($gridColumnWidth + $gridGutterWidth) * 6;
-      }
-
-      & > a {
-        display: block;
-        width: 0px;
-      }
-
-      ul {
-        display: none;
-
-        span {
-          font-size: $fontSize - 2;
-        }
-      }
-
-      .left, .right {
-        @include columns(4);
-        display: none;
-        margin-top: -0.5em;
-        margin-bottom: 1em;
-      }
-
-      .left {
-        margin-left: 0;
-        font-weight: bold;
-      }
-
-      .right {
-        @include push(1);
-      }
-
-      img {
-        display: none;
-        padding-top: 5px;
-        padding-bottom: 5px;
+    &.all {
+      .expanded {
+        background-color: $lightShade !important;
       }
     }
   }

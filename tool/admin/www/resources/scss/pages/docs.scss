@@ -1,4 +1,4 @@
-body.docs {
+body#docs {
 
   #main #content {
     position: relative;
@@ -27,41 +27,15 @@ body.docs {
 
   #boxes {
     position: relative;
-    padding-top: $line * 1;
-    @include columns(20);
+    @include columns(24);
     @include first();
-
-    #versions-hint {
-      position: absolute;
-      top: -($line * 0.5);
-      right: 0;
-
-      a {
-        display: inline-block;
-        cursor: pointer;
-
-        &:hover {
-          color: $spot;
-        }
-
-        &.active {
-          cursor: default;
-          text-decoration: none;
-        }
-      }
-    }
 
     .versions {
       display: none;
       color: $mediumShade;
 
       &:hover {
-        color: $fg;
         cursor: pointer;
-
-        a {
-          color: $fg;
-        }
       }
 
       &.show {
@@ -79,7 +53,7 @@ body.docs {
     }
 
     .teaser {
-      @include columns(10);
+      @include columns(12);
       background-color: $lightShade;
       margin-bottom: $gridGutterWidth;
       height: $line * 10;

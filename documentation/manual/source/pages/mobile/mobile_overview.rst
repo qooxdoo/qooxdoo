@@ -33,7 +33,7 @@ Features
 .. index:: animation, mobile, widget, theme, ios, android, touch, page, scroll, iscroll, phonegap
 
 * `Mobile widget set <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile>`_
-* :doc:`Theming via CSS and LESS <theming>`
+* :doc:`Theming via CSS and SCSS <theming>`
 * iOS theme
 * Android theme
 * Indigo theme
@@ -84,8 +84,8 @@ The following environment keys are available:
 * ``qx.mobile.nativescroll: true|false`` - Whether to use native scrolling or
   `iScroll <http://cubiq.org/iscroll>`_ for scrolling.
 
-Differences between Desktop Widgets
-===================================
+Differences to Desktop Widgets
+==============================
 
 The qooxdoo mobile widget set is optimized for the use on mobile devices. In fact,
 the qooxdoo mobile widget set is up to six times faster than the desktop widget set
@@ -104,10 +104,10 @@ could be retained. There are some differences, listed below:
   should set all other styles of a widget via CSS, using the ``addCssClass`` method of a widget.
 * No queues: Elements are created directly. There is no element, layout, display queue. Keep this in
   mind when you create and add widgets.
-* Layouts: Layouts are done vis CSS(3). HBox / VBox layouts are implemented using the
+* Layouts: Layouts are done via CSS(3). HBox / VBox layouts are implemented using the
   `flexible box layout <http://www.w3.org/TR/css3-flexbox/>`_
 * `qx.ui.mobile.page.Page <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile.page.Page>`_:
-  A page is a widget which provides a screen with which users can interact in order to do something. Most times a page provides a single task or a group of related tasks. A qooxdoo mobile application is usually composed of one or more loosely bound pages.
+  A page is a widget that provides a screen which users can interact with in order to do something. Most times a page provides a single task or a group of related tasks. A qooxdoo mobile application is usually composed of one or more loosely bound pages.
   Typically there is one page that presents the “main” view.
   
   
