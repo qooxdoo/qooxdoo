@@ -29,6 +29,11 @@ qx.Class.define("qx.theme.manager.Decoration",
 
 
 
+  construct : function() {
+    this.base(arguments);
+    this.__rules = [];
+  },
+
 
   /*
   *****************************************************************************
@@ -60,6 +65,59 @@ qx.Class.define("qx.theme.manager.Decoration",
   members :
   {
     __dynamic : null,
+    __rules : null,
+
+
+    /**
+     * Returns the name which will be / is used as css class name.
+     * @param value {Decorator} The decorator string or instance.
+     * @return {String} The css class name.
+     */
+    getCssClassName : function(value) {
+      if (qx.lang.Type.isString(value)) {
+        return value;
+      } else {
+        return "qx-decorator-" + value.toHashCode();
+      }
+    },
+
+
+    /**
+     * Adds a css class to the global stylesheet for the given decorator.
+     * This includes resolving the decorator if it's a string.
+     * @param value {Decorator} The decorator string or instance.
+     * @return {String} the css class name.
+     */
+    addCssClass : function(value) {
+      var sheet = qx.ui.style.Stylesheet.getInstance();
+
+      var instance;
+      if (qx.lang.Type.isString(value)) {
+        instance = this.resolve(value);
+      } else {
+        instance = value;
+      }
+
+      value = this.getCssClassName(value);
+      var selector = "." + value;
+
+      if (sheet.hasRule(selector)) {
+        return value;
+      }
+
+      // create and add a CSS rule
+      var css = "";
+      var styles = instance.getStyles(true);
+      for (var key in styles) {
+        css += key + ":" + styles[key] + ";";
+      }
+
+      sheet.addRule(selector, css);
+      this.__rules.push(selector);
+
+      return value;
+    },
+
 
     /**
      * Returns the dynamically interpreted result for the incoming value

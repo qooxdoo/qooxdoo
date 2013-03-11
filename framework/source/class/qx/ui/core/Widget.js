@@ -2285,37 +2285,16 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyDecorator : function(value, old)
     {
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        if (value && typeof value === "object") {
-          if (qx.ui.core.Widget.DEBUG) {
-            this.warn("Decorator instances may increase memory usage and " +
-              "processing time. Often it is better to lay them out to a " +
-              "theme file. Hash code of decorator object: " + value);
-          }
-        }
-      }
-
-
       var content = this.getContentElement();
 
-      // remove old styles
       if (old) {
-        old = qx.theme.manager.Decoration.getInstance().resolve(old);
-        var oldStyles = old.getStyles();
-        for (var style in oldStyles) {
-          content.removeStyle(style);
-        }
+        old = qx.theme.manager.Decoration.getInstance().getCssClassName(old);
+        content.removeClass(old);
       }
 
       if (value) {
-        value = qx.theme.manager.Decoration.getInstance().resolve(value);
-        var styles = value.getStyles();
-        var bgCol = this.getBackgroundColor();
-        if (bgCol) {
-          styles.backgroundColor = qx.theme.manager.Color.getInstance().resolve(bgCol);
-        }
-        content.setStyles(styles);
+        value = qx.theme.manager.Decoration.getInstance().addCssClass(value);
+        content.addClass(value);
       }
     },
 
