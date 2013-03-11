@@ -128,14 +128,16 @@ qx.Bootstrap = {
     else
     {
       clazz = config.statics || {};
+
+      // merge class into former class
+      // needed when 'optimize: ["statics"]' is enabled
+      if (qx.Bootstrap.$$registry && qx.Bootstrap.$$registry[name]) {
+        for (var prop in clazz) {
+          qx.Bootstrap.$$registry[name][prop] = clazz[prop];
+        }
+        return;
+      }
     }
-
-    // Create namespace
-    var basename = name ? this.createNamespace(name, clazz) : "";
-
-    // Store names in constructor/object
-    clazz.name = clazz.classname = name;
-    clazz.basename = basename;
 
     // Store type info
     clazz.$$type = "Class";
@@ -144,6 +146,13 @@ qx.Bootstrap = {
     if (!clazz.hasOwnProperty("toString")) {
       clazz.toString = this.genericToString;
     }
+
+    // Create namespace
+    var basename = name ? this.createNamespace(name, clazz) : "";
+
+    // Store names in constructor/object
+    clazz.name = clazz.classname = name;
+    clazz.basename = basename;
 
     // Execute defer section
     if (config.defer) {
@@ -662,7 +671,7 @@ qx.Bootstrap.define("qx.Bootstrap",
     {
       // Added "value !== null" because IE throws an exception "Object expected"
       // by executing "value instanceof String" if value is a DOM element that
-      // doesn't exist. It seems that there is an internal different between a
+      // doesn't exist. It seems that there is an internal difference between a
       // JavaScript null and a null returned from calling DOM.
       // e.q. by document.getElementById("ReturnedNull").
       return (
@@ -685,7 +694,7 @@ qx.Bootstrap.define("qx.Bootstrap",
     {
       // Added "value !== null" because IE throws an exception "Object expected"
       // by executing "value instanceof Array" if value is a DOM element that
-      // doesn't exist. It seems that there is an internal different between a
+      // doesn't exist. It seems that there is an internal difference between a
       // JavaScript null and a null returned from calling DOM.
       // e.q. by document.getElementById("ReturnedNull").
       return (
