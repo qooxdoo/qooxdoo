@@ -233,6 +233,36 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
     ---------------------------------------------------------------------------
     */
 
+    getStyles : function() {
+      var source = this._resolveImageUrl(this.getBorderImage());
+      var slice = [
+        this.getSliceTop(),
+        this.getSliceRight(),
+        this.getSliceBottom(),
+        this.getSliceLeft()
+      ];
+
+      var repeat = [
+        this.getRepeatX(),
+        this.getRepeatY()
+      ].join(" ")
+
+      var fill = this.getFill() ? " fill" : "";
+
+      var styles = {
+        "borderImage" : 'url("' + source + '") ' + slice.join(" ") + fill + " " + repeat,
+        "borderStyle" : "solid",
+        "borderColor" : "transparent",
+        position: "absolute",
+        lineHeight: 0,
+        fontSize: 0,
+        overflow: "hidden",
+        boxSizing: "border-box",
+        borderWidth: slice.join("px ") + "px"
+      };
+      return styles;
+    },
+
     // interface implementation
     getMarkup : function()
     {
