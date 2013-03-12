@@ -823,6 +823,7 @@ class CodeGenerator(object):
                 sourceFilter = ClassMatchList(compConf.get("code/except", []))
                 compiled_classes = []  # to accumulate classes that are compiled and can go into one .js file
                 package_uris = []      # the uri's of the .js files of this package
+                app_namespace = self._job.get("let/APPLICATION")
                 for pos,clazz in enumerate(package_classes):
 
                     # class is taken from the source file
@@ -844,7 +845,8 @@ class CodeGenerator(object):
                         shortUri = Uri(relpath.toUri())
                         entry    = "%s:%s" % (clazz.library.namespace, shortUri.encodedValue())
                         package_uris.append(entry)
-                        if lint_check: # compiled classes are lint'ed in compileClasses()
+                         # compiled classes are lint'ed in compileClasses()
+                        if lint_check and clazz.library.namespace == app_namespace:
                             lint.lint_check(clazz.tree(), clazz.id, lint_opts)
                         log_progress()
 
