@@ -10,12 +10,13 @@
 
   "export" :
   [
-    "build-min",
     "build",
+    "build-min",
     "build-core",
     "build-core-min",
     "build-extras",
     "build-extras-min",
+    "build-module-all",
     "build-module-all-min",
     "source",
     "test-source",
