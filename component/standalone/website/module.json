@@ -43,7 +43,8 @@
 
       "let" :
       {
-        "OPTIMIZE" : ["variants"]
+        "OPTIMIZE" : ["variants"],
+        "Q_INCLUDES" : "${QXWEB_ALL}"
       },
 
       "compile-options" :
