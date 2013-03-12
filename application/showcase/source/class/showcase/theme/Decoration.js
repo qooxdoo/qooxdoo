@@ -32,7 +32,8 @@ qx.Theme.define("showcase.theme.Decoration",
       style :
       {
         borderImage : "showcase/images/tag-hor.png",
-        borderImageMode : "horizontal"
+        borderImageMode : "horizontal",
+        backgroundColor: "#1C1C1C"
       }
     }
   }

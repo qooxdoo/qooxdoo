@@ -110,10 +110,14 @@ qx.Theme.define("showcase.page.theme.calc.theme.appearance.Black",
 
       style : function(states)
       {
-       return {
-         textColor : states.pressed ?
+        var textColor = states.pressed ?
            "black-button-text-pressed" :
-           "black-button-text",
+           "black-button-text";
+        if (!qx.core.Environment.get("css.borderimage")) {
+          textColor += "-fallback";
+        }
+       return {
+         textColor : textColor,
          decorator : states.pressed ?
            "calc-button-pressed" :
            "calc-button",
