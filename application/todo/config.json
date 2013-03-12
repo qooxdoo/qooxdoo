@@ -11,7 +11,7 @@
   "export" :
   [
     "build-min",
-    "build-separate-all-min"
+    "build-module-all-min"
   ],
 
   "default-job" : "build-min",
