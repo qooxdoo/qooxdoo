@@ -119,6 +119,9 @@
     "build-core-min" :
     {
       "extend" : ["build-min"],
+      "lint-check" : {
+        "allowed-globals" : [ "qx.Bootstrap" ],
+      },
       "let" : {
         "Q_INCLUDES" : [
           "qx.module.Core",
@@ -148,6 +151,18 @@
       "extend" : ["build"],
       // qx.module.event.* already in Core
       "exclude" : ["=qx.module.Core", "qx.module.event.*"],
+      "lint-check" : {
+        "allowed-globals" : [
+            "qx.Bootstrap",
+            "qxWeb",
+            "qx",
+            "qx.core",
+            "qx.lang",
+            "qx.bom",
+            "qx.event",
+            "qx.util"
+        ],
+      },
       "let" : {
         "Q_INCLUDES" : [
           "qx.module.*",
@@ -171,6 +186,18 @@
       "extend" : ["build-min"],
       // qx.module.event.* already in Core
       "exclude" : ["=qx.module.Core", "qx.module.event.*"],
+      "lint-check" : {
+        "allowed-globals" : [
+            "qx.Bootstrap",
+            "qxWeb",
+            "qx",
+            "qx.core",
+            "qx.lang",
+            "qx.bom",
+            "qx.event",
+            "qx.util"
+        ],
+      },
       "let" : {
         "Q_INCLUDES" : [
           "qx.module.*",
@@ -190,6 +217,9 @@
     {
       "extend" : ["build-min"],
       "desc": "abstract job (requires ${MODULE_FILENAME})",
+      "lint-check" : {
+        "allowed-globals" : [ "qx.Bootstrap", "qxWeb" ],
+      },
       "exclude" : ["=qx.module.Core"],
       "compile-options" :
       {
@@ -224,6 +254,9 @@
     "build-module-animation-min" :
     {
       "extend" : ["build-module-min"],
+      "lint-check" : {
+        "allowed-globals" : [ "qx.core", "qx.lang", "qx.bom", "qx.event" ],
+      },
       "let" : {
         "Q_INCLUDES": ["qx.module.Animation"],
         "MODULE_FILENAME" : "animation"
@@ -251,6 +284,9 @@
     "build-module-dataset-min" :
     {
       "extend" : ["build-module-min"],
+      "lint-check" : {
+        "allowed-globals" : [ "qx.lang", "qx.bom" ],
+      },
       "let" : {
         "Q_INCLUDES": ["qx.module.Dataset"],
         "MODULE_FILENAME" : "dataset"
@@ -260,6 +296,9 @@
     "build-module-io-min" :
     {
       "extend" : ["build-module-min"],
+      "lint-check" : {
+        "allowed-globals" : [ "qx", "qx.core", "qx.bom", "qx.event", "qx.util" ],
+      },
       "let" : {
         "Q_INCLUDES": ["qx.module.Io"],
         "MODULE_FILENAME" : "io"
@@ -269,6 +308,9 @@
     "build-module-messaging-min" :
     {
       "extend" : ["build-module-min"],
+      "lint-check" : {
+        "allowed-globals" : [ "qx.lang" ],
+      },
       "let" : {
         "Q_INCLUDES": ["qx.module.Messaging"],
         "MODULE_FILENAME" : "messaging"
@@ -296,6 +338,9 @@
     "build-module-storage-min" :
     {
       "extend" : ["build-module-min"],
+      "lint-check" : {
+        "allowed-globals" : [ "qx.core", "qx.lang" ],
+      },
       "let" : {
         "Q_INCLUDES": ["qx.module.Storage"],
         "MODULE_FILENAME" : "storage"
@@ -305,6 +350,9 @@
     "build-module-template-min" :
     {
       "extend" : ["build-module-min"],
+      "lint-check" : {
+        "allowed-globals" : [ "qx.dom.Element" ],
+      },
       "let" : {
         "Q_INCLUDES": ["qx.module.Template"],
         "MODULE_FILENAME" : "template"
@@ -314,6 +362,9 @@
     "build-module-transform-min" :
     {
       "extend" : ["build-module-min"],
+      "lint-check" : {
+        "allowed-globals" : [ "qx.bom", "qx.core" ],
+      },
       "let" : {
         "Q_INCLUDES": ["qx.module.Transform"],
         "MODULE_FILENAME" : "transform"
@@ -323,6 +374,9 @@
     "build-module-util-min" :
     {
       "extend" : ["build-module-min"],
+      "lint-check" : {
+        "allowed-globals" : [ "qx.lang.String", "qx.lang.Array" ],
+      },
       "let" : {
         "Q_INCLUDES" : [
           "qx.module.util.Array",
