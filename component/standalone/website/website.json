@@ -19,7 +19,7 @@
       "as" : "testrunner-portable"
     },
     {
-      "path" : "builds.json",
+      "path" : "module.json",
       "block" : [
         "build-separate-min"
       ]
