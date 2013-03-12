@@ -44,13 +44,13 @@ qx.Class.define("showcase.page.theme.Content",
       new showcase.page.theme.calc.Presenter(calc, model);
 
 
-      var calc = new showcase.page.theme.calc.view.Calculator(false);
+      calc = new showcase.page.theme.calc.view.Calculator(false);
 
       view.add(calc);
       calc.moveTo(340, 40);
       calc.open();
 
-      var model = new showcase.page.theme.calc.Model();
+      model = new showcase.page.theme.calc.Model();
       new showcase.page.theme.calc.Presenter(calc, model);
 
       this.__monkeyDance(calc);
