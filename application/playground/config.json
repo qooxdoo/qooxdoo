@@ -16,6 +16,15 @@
     "QOOXDOO_PATH" : "../..",
     "QXTHEME"      : "playground.theme.Theme",
     "LOCALES"      : [ "en", "de", "ro", "sv", "cs"],
+    "OPTIMIZE"     : [
+       "basecalls",
+       "comments",
+       "privates",
+       "strings",
+       "variables",
+       "variants",
+       "whitespace"
+    ],
     "ROOT"         : "."
   },
 
