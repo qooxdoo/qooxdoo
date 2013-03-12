@@ -1,5 +1,5 @@
 {
-  "name"    : "module-builds",
+  "name"    : "module",
 
   "jobs" :
   {
@@ -186,151 +186,150 @@
       }
     },
 
-    "build-separate-min" :
+    "build-module-min" :
     {
-      // 'abstract' job (requires ${MODULE_FILE_NAME})
-
       "extend" : ["build-min"],
+      "desc": "abstract job (requires ${MODULE_FILENAME})",
       "exclude" : ["=qx.module.Core"],
       "compile-options" :
       {
         "paths"  :
         {
-          "file" : "${BUILD_PATH}/q-${MODULE_FILE_NAME}-${QOOXDOO_VERSION}.min.js",
+          "file" : "${BUILD_PATH}/q-${MODULE_FILENAME}-${QOOXDOO_VERSION}.min.js",
           "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.extras.tmpl.js"
         }
       }
     },
 
-    "build-separate-all-min" :
+    "build-module-all-min" :
     {
       "run" : [
         "build-core-min",
         "build-extras-min",
-        "build-separate-animation-min",
-        "build-separate-blocker-min",
-        "build-separate-cookie-min",
-        "build-separate-dataset-min",
-        "build-separate-io-min",
-        "build-separate-messaging-min",
-        "build-separate-placeholder-min",
-        "build-separate-placement-min",
-        "build-separate-storage-min",
-        "build-separate-template-min",
-        "build-separate-transform-min",
-        "build-separate-util-min"
+        "build-module-animation-min",
+        "build-module-blocker-min",
+        "build-module-cookie-min",
+        "build-module-dataset-min",
+        "build-module-io-min",
+        "build-module-messaging-min",
+        "build-module-placeholder-min",
+        "build-module-placement-min",
+        "build-module-storage-min",
+        "build-module-template-min",
+        "build-module-transform-min",
+        "build-module-util-min"
       ]
     },
 
-    "build-separate-animation-min" :
+    "build-module-animation-min" :
     {
-      "extend" : ["build-separate-min"],
+      "extend" : ["build-module-min"],
       "let" : {
         "Q_INCLUDES": ["qx.module.Animation"],
-        "MODULE_FILE_NAME" : "animation"
+        "MODULE_FILENAME" : "animation"
       },
     },
 
-    "build-separate-blocker-min" :
+    "build-module-blocker-min" :
     {
-      "extend" : ["build-separate-min"],
+      "extend" : ["build-module-min"],
       "let" : {
         "Q_INCLUDES": ["qx.module.Blocker"],
-        "MODULE_FILE_NAME" : "blocker"
+        "MODULE_FILENAME" : "blocker"
       }
     },
 
-    "build-separate-cookie-min" :
+    "build-module-cookie-min" :
     {
-      "extend" : ["build-separate-min"],
+      "extend" : ["build-module-min"],
       "let" : {
         "Q_INCLUDES": ["qx.module.Cookie"],
-        "MODULE_FILE_NAME" : "cookie"
+        "MODULE_FILENAME" : "cookie"
       }
     },
 
-    "build-separate-dataset-min" :
+    "build-module-dataset-min" :
     {
-      "extend" : ["build-separate-min"],
+      "extend" : ["build-module-min"],
       "let" : {
         "Q_INCLUDES": ["qx.module.Dataset"],
-        "MODULE_FILE_NAME" : "dataset"
+        "MODULE_FILENAME" : "dataset"
       }
     },
 
-    "build-separate-io-min" :
+    "build-module-io-min" :
     {
-      "extend" : ["build-separate-min"],
+      "extend" : ["build-module-min"],
       "let" : {
         "Q_INCLUDES": ["qx.module.Io"],
-        "MODULE_FILE_NAME" : "io"
+        "MODULE_FILENAME" : "io"
       }
     },
 
-    "build-separate-messaging-min" :
+    "build-module-messaging-min" :
     {
-      "extend" : ["build-separate-min"],
+      "extend" : ["build-module-min"],
       "let" : {
         "Q_INCLUDES": ["qx.module.Messaging"],
-        "MODULE_FILE_NAME" : "messaging"
+        "MODULE_FILENAME" : "messaging"
       }
     },
 
-    "build-separate-placeholder-min" :
+    "build-module-placeholder-min" :
     {
-      "extend" : ["build-separate-min"],
+      "extend" : ["build-module-min"],
       "let" : {
         "Q_INCLUDES": ["qx.module.Placeholder"],
-        "MODULE_FILE_NAME" : "placeholder"
+        "MODULE_FILENAME" : "placeholder"
       }
     },
 
-    "build-separate-placement-min" :
+    "build-module-placement-min" :
     {
-      "extend" : ["build-separate-min"],
+      "extend" : ["build-module-min"],
       "let" : {
         "Q_INCLUDES": ["qx.module.Placement"],
-        "MODULE_FILE_NAME" : "placement"
+        "MODULE_FILENAME" : "placement"
       }
     },
 
-    "build-separate-storage-min" :
+    "build-module-storage-min" :
     {
-      "extend" : ["build-separate-min"],
+      "extend" : ["build-module-min"],
       "let" : {
         "Q_INCLUDES": ["qx.module.Storage"],
-        "MODULE_FILE_NAME" : "storage"
+        "MODULE_FILENAME" : "storage"
       }
     },
 
-    "build-separate-template-min" :
+    "build-module-template-min" :
     {
-      "extend" : ["build-separate-min"],
+      "extend" : ["build-module-min"],
       "let" : {
         "Q_INCLUDES": ["qx.module.Template"],
-        "MODULE_FILE_NAME" : "template"
+        "MODULE_FILENAME" : "template"
       }
     },
 
-    "build-separate-transform-min" :
+    "build-module-transform-min" :
     {
-      "extend" : ["build-separate-min"],
+      "extend" : ["build-module-min"],
       "let" : {
         "Q_INCLUDES": ["qx.module.Transform"],
-        "MODULE_FILE_NAME" : "transform"
+        "MODULE_FILENAME" : "transform"
       }
     },
 
-    "build-separate-util-min" :
+    "build-module-util-min" :
     {
-      "extend" : ["build-separate-min"],
+      "extend" : ["build-module-min"],
       "let" : {
         "Q_INCLUDES" : [
           "qx.module.util.Array",
           "qx.module.util.String",
           "qx.module.util.Type"
         ],
-        "MODULE_FILE_NAME" : "util"
+        "MODULE_FILENAME" : "util"
       }
     }
   }
