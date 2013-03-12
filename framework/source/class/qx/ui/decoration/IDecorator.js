@@ -40,7 +40,7 @@ qx.Interface.define("qx.ui.decoration.IDecorator",
      *
      * @return {Map} Map of decoration styles
      */
-    getStyles : function() {},
+    //getStyles : function() {},
 
 
     /**

@@ -75,9 +75,9 @@ qx.Class.define("qx.theme.manager.Decoration",
      */
     getCssClassName : function(value) {
       if (qx.lang.Type.isString(value)) {
-        return value;
+        return "qx-" + value;
       } else {
-        return "qx-decorator-" + value.toHashCode();
+        return "qx-" + value.toHashCode();
       }
     },
 
