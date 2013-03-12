@@ -147,11 +147,11 @@ qx.Class.define("qx.ui.decoration.DynamicDecorator",
             if (defaultInsets[direction] == undefined) {
               defaultInsets[direction] = currentInsets[direction];
             }
-            // take the smallest inset
-            if (currentInsets[direction] < defaultInsets[direction]) {
+            // take the largest inset
+            if (currentInsets[direction] > defaultInsets[direction]) {
               defaultInsets[direction] = currentInsets[direction];
             }
-          };
+          }
         }
       }
 
