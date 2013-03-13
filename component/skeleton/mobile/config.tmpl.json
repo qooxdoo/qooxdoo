@@ -34,7 +34,8 @@
     "test-mobile-source",
     "translation",
     "minify-css",
-    "watch-scss"
+    "watch-scss",
+    "watch"
   ],
 
   "default-job" : "source-hybrid",

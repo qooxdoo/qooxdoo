@@ -30,7 +30,8 @@
     "source",
     "test",
     "test-source",
-    "translation"
+    "translation",
+    "watch"
   ],
   
   "default-job" : "source",

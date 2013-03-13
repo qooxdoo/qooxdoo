@@ -33,7 +33,8 @@
     "simulation-run",
     "test",
     "test-source",
-    "translation"
+    "translation",
+    "watch"
   ],
 
   "default-job" : "source-hybrid",
