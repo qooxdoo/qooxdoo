@@ -28,7 +28,6 @@
     "source-hybrid",
     "source-server",
     "source-httpd-config",
-    "source-hybrid",
     "simulation-build",
     "simulation-run",
     "test",
