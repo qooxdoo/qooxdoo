@@ -25,6 +25,7 @@
  * * One pixel rounded border
  * * Inner glow color with optional transparency
  * * Repeated or scaled background image
+ * @deprecated{3.0}
  */
 qx.Class.define("qx.ui.decoration.Beveled",
 {
@@ -58,6 +59,11 @@ qx.Class.define("qx.ui.decoration.Beveled",
 
     if (innerOpacity != null) {
       this.setInnerOpacity(innerOpacity);
+    }
+
+    if (qx.core.Environment.get("qx.debug")) {
+      qx.log.Logger.deprecatedClassWarning(this.constructor,
+       "Use 'qx.ui.decoration.Decorator' instead.");
     }
   },
 

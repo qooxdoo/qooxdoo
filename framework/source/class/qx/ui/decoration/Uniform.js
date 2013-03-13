@@ -21,6 +21,7 @@
 /**
  * A simple decorator featuring background images and colors and a simple
  * uniform border based on CSS styles.
+ * @deprecated{3.0}
  */
 qx.Class.define("qx.ui.decoration.Uniform",
 {
@@ -53,6 +54,11 @@ qx.Class.define("qx.ui.decoration.Uniform",
 
     if (color != null) {
       this.setColor(color);
+    }
+
+    if (qx.core.Environment.get("qx.debug")) {
+      qx.log.Logger.deprecatedClassWarning(this.constructor,
+       "Use 'qx.ui.decoration.Decorator' instead.");
     }
   }
 });

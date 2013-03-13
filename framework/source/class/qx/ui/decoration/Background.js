@@ -21,6 +21,7 @@
 /**
  * A very simple decorator featuring background images and colors. No
  * border is supported.
+ * @deprecated{3.0}
  */
 qx.Class.define("qx.ui.decoration.Background",
 {
@@ -47,6 +48,11 @@ qx.Class.define("qx.ui.decoration.Background",
 
     if (backgroundColor != null) {
       this.setBackgroundColor(backgroundColor);
+    }
+
+    if (qx.core.Environment.get("qx.debug")) {
+      qx.log.Logger.deprecatedClassWarning(this.constructor,
+       "Use 'qx.ui.decoration.Decorator' instead.");
     }
   },
 
