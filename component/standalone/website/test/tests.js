@@ -1555,8 +1555,7 @@ testrunner.define({
   tearDown : testrunner.globalTeardown,
 
     __registerNormalization : function(type, normalizer) {
-    var now = new Date().getTime();
-    q.define("EventNormalize" + now.toString(), {
+    q.define("EventNormalize" + Math.random().toString().substr(2), {
       statics :
       {
         normalize : normalizer
