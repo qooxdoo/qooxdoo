@@ -26,8 +26,7 @@ qx.Theme.define("showcase.page.theme.calc.theme.Decoration",
       style :
       {
         borderImage : "showcase/theme/button.png",
-        insets : [3, 3, 5, 3],
-        backgroundColor: "#D1D1D1"
+        insets : [3, 3, 5, 3]
       }
     },
 
@@ -36,8 +35,7 @@ qx.Theme.define("showcase.page.theme.calc.theme.Decoration",
       style :
       {
         borderImage : "showcase/theme/button-pressed.png",
-        insets : [3, 3, 5, 3],
-        backgroundColor: "#009600"
+        insets : [3, 3, 5, 3]
       }
     },
 
@@ -46,8 +44,7 @@ qx.Theme.define("showcase.page.theme.calc.theme.Decoration",
       style :
       {
         borderImage : "showcase/theme/display.png",
-        insets : [5, 5, 5, 4],
-        backgroundColor: "#F4F4F4"
+        insets : [5, 5, 5, 4]
       }
     },
 
@@ -56,8 +53,7 @@ qx.Theme.define("showcase.page.theme.calc.theme.Decoration",
       style :
       {
         borderImage : "showcase/theme/window.png",
-        insets : [6, 2, 2, 2],
-        backgroundColor : "#757575"
+        insets : [6, 2, 2, 2]
       }
     }
   }
