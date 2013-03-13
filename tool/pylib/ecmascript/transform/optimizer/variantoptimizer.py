@@ -24,6 +24,7 @@
 import re, sys, operator as operators, types
 from ecmascript.frontend          import treeutil
 from ecmascript.frontend.treegenerator  import symbol, PackerFlags as pp
+from ecmascript.frontend            import Scanner as scan
 from ecmascript.transform.evaluate  import evaluate
 from ecmascript.transform.optimizer import reducer
 
@@ -224,7 +225,9 @@ def set_node_type_from_value(valueNode, value):
     valueNode.set("value", str(value))  # init value attrib
     if isinstance(value, types.StringTypes):
         valueNode.set("constantType","string")
-        valueNode.set("detail", "doublequotes")
+        quotes, escaped_value = escape_quotes(str(value))
+        valueNode.set("value", escaped_value)
+        valueNode.set("detail", quotes)
     # this has to come first, as isinstance(True, types.IntType) is also true!
     elif isinstance(value, types.BooleanType):
         valueNode.set("constantType","boolean")
@@ -241,6 +244,29 @@ def set_node_type_from_value(valueNode, value):
     else:
         raise ValueError("Illegal value for JS constant: %s" % str(value))
     return valueNode
+
+
+##
+# Determine the quoting to be used on that string in code ('singlequotes',
+# 'doublequotes'), and escape pot. embedded quotes correspondingly.
+# (The string might result from a concat operation that combined differently
+# quoted strings, like 'fo"o"bar' + "ba"\z\"boing").
+#
+def escape_quotes(s):
+    quotes = 'singlequotes'  # aribtrary choice
+    result = s
+    # only if we have embedded quotes we have to check escaping
+    if "'" in s:
+        result = []
+        chunks = s.split("'")
+        for chunk in chunks[:-1]:
+            result.append(chunk)
+            if not scan.is_last_escaped(chunk + "'"):
+                result.append('\\')
+            result.append("'")
+        result.append(chunks[-1])
+        result = u''.join(result)
+    return quotes, result
 
 ##
 # 1. pass:
