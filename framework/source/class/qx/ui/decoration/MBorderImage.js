@@ -203,9 +203,17 @@ qx.Mixin.define("qx.ui.decoration.MBorderImage", {
         this.getRepeatY()
       ].join(" ");
 
-      var fill = this.getFill() ? " fill" : "";
+      var fill = this.getFill() &&
+        qx.core.Environment.get("css.borderimage.standardsyntax") ? " fill" : "";
 
-      styles["border-image"] = 'url("' + source + '") ' + slice.join(" ") + fill + " " + repeat;
+      var styleName = qx.bom.Style.getPropertyName("borderImage");
+      if (styleName) {
+        var cssName = qx.bom.Style.getCssName(styleName);
+        styles[cssName] = 'url("' + source + '") ' + slice.join(" ") + fill + " " + repeat;
+      }
+      // Apply border styles even if we couldn't determine the borderImage property name
+      // (e.g. because the browser doesn't support it). This is needed to keep
+      // the layout intact.
       styles["border-style"] = "solid";
       styles["border-color"] = "transparent";
       styles["border-width"] = slice.join("px ") + "px";
