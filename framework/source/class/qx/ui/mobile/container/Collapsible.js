@@ -34,7 +34,7 @@
  *  collapsible.setCollapsed(false);
  *
  *  var label = new qx.ui.mobile.basic.Label("This is the content of the Collapsible.");
- *  collapsible.getContent().add(label);
+ *  collapsible.add(label);
  *
  * </pre>
  *
@@ -51,18 +51,16 @@ qx.Class.define("qx.ui.mobile.container.Collapsible",
   */
 
   /**
-  * @param headerText {String?} the text which should be displayed in the Collapsible's header label.
+  * @param title {String?} the text which should be displayed in the Collapsible's header label.
   */
-  construct : function(headerText)
+  construct : function(title)
   {
     this.base(arguments);
    
     this._header = this._createHeader();
-    if(this._header instanceof qx.ui.mobile.basic.Label) {
-      this._header.setValue(headerText);
-    }
     this._header.addCssClass("collapsible-header");
     this._header.addListener("tap", this.toggleCollapsed, this);
+    this.setTitle(title);
 
     this._content = this._createContent();
     this._content.addCssClass("collapsible-content");
@@ -118,6 +116,29 @@ qx.Class.define("qx.ui.mobile.container.Collapsible",
   {
     _header : null,
     _content : null,
+
+
+    /**
+    * Adds a new child widget to the Collapsible's content composite.
+    * @param child {qx.ui.mobile.core.Widget} the widget to add. 
+    * @param layoutProperties {Map?} (default:null) Optional layout data for widget.  
+    */
+    add : function(child, layoutProperties) {
+      if(child && this._content instanceof qx.ui.mobile.container.Composite) {
+        this._content.add(child);
+      }  
+    },
+
+
+    /**
+    * Setter for the Collapsible's header title.
+    * @param title {String} the Collapsible's title.
+    */
+    setTitle : function(title) {
+      if(title && this._header instanceof qx.ui.mobile.basic.Label) {
+        this._header.setValue(title);
+      }
+    },
 
 
     /**
