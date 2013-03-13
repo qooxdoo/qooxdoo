@@ -713,6 +713,7 @@
 
     "watch" :
     {
+      "desc" : "watch source files for changes and run the default job automatically",
       "extend" : ["cache"],
 
       "watch-files" :
