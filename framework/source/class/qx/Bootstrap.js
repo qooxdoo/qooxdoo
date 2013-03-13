@@ -129,13 +129,17 @@ qx.Bootstrap = {
     {
       clazz = config.statics || {};
 
-      // merge class into former class
-      // needed when 'optimize: ["statics"]' is enabled
+      // Merge class into former class (nedded for 'optimize: ["statics"]')
       if (qx.Bootstrap.$$registry && qx.Bootstrap.$$registry[name]) {
-        for (var prop in clazz) {
-          qx.Bootstrap.$$registry[name][prop] = clazz[prop];
+        var formerClass = qx.Bootstrap.$$registry[name];
+        // Only add|overwrite and return early if necessary
+        if (this.keys(clazz).length !== 0 &&
+            this.keys(formerClass).sort().join() !== this.keys(clazz).sort().join()) {
+          for (var prop in clazz) {
+            formerClass[prop] = clazz[prop];
+          }
+          return;
         }
-        return;
       }
     }
 
