@@ -239,6 +239,8 @@ qx.Class.define("qx.ui.layout.Flow",
      *
      * @param availWidth {Integer} Final width available for the content (in pixel)
      * @param availHeight {Integer} Final height available for the content (in pixel)
+     * @param padding {Map} Map containing the padding values. Keys:
+     * <code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code>
      */
     renderLayout : function(availWidth, availHeight, padding)
     {
@@ -270,6 +272,8 @@ qx.Class.define("qx.ui.layout.Flow",
      *    {@link LineSizeIterator#computeNextLine}.
      * @param lineTop {Integer} The line's top position
      * @param availWidth {Integer} The available line width
+     * @param padding {Map} Map containing the padding values. Keys:
+     * <code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code>
      */
     __renderLine : function(line, lineTop, availWidth, padding)
     {
