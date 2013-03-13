@@ -361,6 +361,119 @@ input::-webkit-inner-spin-button {
   top: 4px;
   left: 4px; }
 
+.collapsible-content {
+  background-color: #181818;
+  border: 1px solid #6b6d6b;
+  overflow: hidden; }
+
+.collapsible.combined:not(.collapsed) .collapsible-header {
+  -moz-border-radius-topleft: 4px;
+  -moz-border-radius-topright: 4px;
+  -webkit-border-radius-topleft: 4px;
+  -webkit-border-radius-topright: 4px;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px; }
+
+.collapsible.combined.collapsed .collapsible-header {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px; }
+
+.collapsible.combined .collapsible-content {
+  -moz-border-radius-bottomleft: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -webkit-border-radius-bottomleft: 4px;
+  -webkit-border-radius-bottomright: 4px;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  padding: 10px; }
+
+.collapsible.combined:not(.collapsed) .collapsible-content {
+  border-top: 0px solid transparent; }
+
+.collapsible:not(.combined) .collapsible-header {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  margin-bottom: 10px; }
+
+.collapsible:not(.combined) .collapsible-content {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  padding: 10px; }
+
+.collapsible-header {
+  position: relative;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#dbdbdb));
+  /* Safari 4+, Chrome 2+ */
+  background-image: -webkit-linear-gradient(top, white, #dbdbdb);
+  /* Safari 5@mixin 1+, Chrome 10+ */
+  background-image: -moz-linear-gradient(top, white, #dbdbdb);
+  /* FF 3@mixin 6+ */
+  background-image: linear-gradient(to bottom, white, #dbdbdb);
+  /* Standard (in flux) */
+  padding: 10px;
+  border: 1px solid #888888; }
+
+.collapsible-header:not(.active) {
+  color: #333333; }
+
+.collapsible-header.active {
+  color: #333333;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#ffb51c), to(#b57a00));
+  /* Safari 4+, Chrome 2+ */
+  background-image: -webkit-linear-gradient(top, #ffb51c, #b57a00);
+  /* Safari 5@mixin 1+, Chrome 10+ */
+  background-image: -moz-linear-gradient(top, #ffb51c, #b57a00);
+  /* FF 3@mixin 6+ */
+  background-image: linear-gradient(to bottom, #ffb51c, #b57a00);
+  /* Standard (in flux) */ }
+
+.collapsible.collapsed .collapsible-header.label:after {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  margin-top: -4px;
+  display: block;
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #333333; }
+
+.collapsible.collapsed .collapsible-header.active.label:after {
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #333333; }
+
+.collapsible:not(.collapsed) .collapsible-header.label:after {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  margin-top: -4px;
+  display: block;
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #333333; }
+
+.collapsible:not(.collapsed) .collapsible-header.active.label:after {
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #333333; }
+
 ul.form {
   margin-bottom: 10px;
   background-color: transparent;
@@ -1276,7 +1389,7 @@ input[type="text"]:not(.selectbox):not(.invalid), input[type="number"]:not(.inva
   /* FF 3@mixin 6+ */
   background-image: linear-gradient(to bottom, #b5b6b5, #949294);
   /* Standard (in flux) */
-  border: 1px solid black; }
+  border: 1px solid #000; }
 
 .checkbox {
   position: relative;
@@ -1355,11 +1468,11 @@ input[type=radio] + label:after {
 
 .popup, .menu, .picker {
   background-color: #424242;
-  border: 2px solid white; }
+  border: 2px solid #ffffff; }
 
 .dialog {
   background-color: #424242;
-  border: 2px solid white; }
+  border: 2px solid #ffffff; }
 
 .popupAnchorPointerTop:before, .popupAnchorPointerTopRight:before {
   position: absolute;
