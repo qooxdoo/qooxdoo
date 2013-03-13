@@ -125,7 +125,7 @@ qx.Class.define("qx.ui.mobile.container.Collapsible",
     */
     add : function(child, layoutProperties) {
       if(child && this._content instanceof qx.ui.mobile.container.Composite) {
-        this._content.add(child);
+        this._content.add(child, layoutProperties);
       }  
     },
 
