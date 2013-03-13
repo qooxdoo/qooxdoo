@@ -30,7 +30,7 @@
 ************************************************************************ */
 /**
  * @ignore(qx.test.Construct, qx.test.ExtendError, qx.test.ExtendNull)
- * @ignore(qx.test.ExtendQxObject, qx.test.ExtendSuper, qx.test.Super, qx.test.ROOT)
+ * @ignore(qx.test.ExtendQxObject, qx.test.ExtendSuper, qx.test.Super, qx.test.ROOT, qx.test.MyClass)
  */
 
 qx.Class.define("qx.test.Bootstrap",
@@ -78,6 +78,27 @@ qx.Class.define("qx.test.Bootstrap",
       delete window.vanillebaer;
     },
 
+    "test: merge methods of same class (for statics optimization)" : function() {
+      qx.Bootstrap.define("qx.test.MyClass", {
+        statics : {
+          methodA : function() {
+            return true;
+          }
+        }
+      });
+
+      qx.Bootstrap.define("qx.test.MyClass", {
+        statics : {
+          methodB : function() {
+            return true;
+          }
+        }
+      });
+
+      this.assertNotUndefined(qx.test.MyClass.methodA);
+      this.assertNotUndefined(qx.test.MyClass.methodB);
+      delete qx.test;
+    },
 
     "test: define class with contructor" : function()
     {
