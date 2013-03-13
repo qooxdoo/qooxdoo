@@ -84,7 +84,8 @@
 
       "let" :
       {
-        "OPTIMIZE" : []
+        "OPTIMIZE" : [],
+        "Q_INCLUDES" : "${QXWEB_ALL}"
       },
 
       "compile-options" :
