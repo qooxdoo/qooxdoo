@@ -37,6 +37,10 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundColor",
   members :
   {
 
+    /**
+     * Adds the background-color styles to the given map
+     * @param styles {Map} CSS style map
+     */
     _styleBackgroundColor : function(styles) {
       var bgcolor = this.getBackgroundColor();
 

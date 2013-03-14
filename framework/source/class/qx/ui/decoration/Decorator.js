@@ -81,6 +81,7 @@ qx.Class.define("qx.ui.decoration.Decorator", {
      * Returns the styles of the decorator as a map with property names written
      * in javascript style (e.g. <code>fontWeight</code> instead of <code>font-weight</code>).
      *
+     * @param css {Boolean?} <code>true</code> if hyphenated CSS names should be returned.
      * @return {Map} style information
      */
     getStyles : function(css)

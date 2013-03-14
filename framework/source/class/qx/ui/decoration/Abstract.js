@@ -19,11 +19,9 @@
 ************************************************************************ */
 /**
  * This class acts as abstract class for all decorators. It offers the
- * properties for the insets handling. Every decorator has to define its own
+ * properties for the insets handling. Each decorator has to define its own
  * default insets by implementing the template method
  * (http://en.wikipedia.org/wiki/Template_Method) <code>_getDefaultInsets</code>
- * . Another template method called <code>_isInitialized</code> should return
- * weather the decorator is initialized of not.
  */
 qx.Class.define("qx.ui.decoration.Abstract",
 {
