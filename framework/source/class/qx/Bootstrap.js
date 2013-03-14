@@ -132,11 +132,11 @@ qx.Bootstrap = {
       // Merge class into former class (nedded for 'optimize: ["statics"]')
       if (qx.Bootstrap.$$registry && qx.Bootstrap.$$registry[name]) {
         var formerClass = qx.Bootstrap.$$registry[name];
-        // Only add|overwrite and return early if necessary
-        if (this.keys(clazz).length !== 0 &&
-            this.keys(formerClass).sort().join() !== this.keys(clazz).sort().join()) {
-          for (var prop in clazz) {
-            formerClass[prop] = clazz[prop];
+
+        // Add/overwrite properties and return early if necessary
+        if (this.keys(clazz).length !== 0) {
+          for (var curProp in clazz) {
+            formerClass[curProp] = clazz[curProp];
           }
           return;
         }
