@@ -33,6 +33,13 @@ from generator.runtime.InterruptRegistry import InterruptRegistry
 #import warnings
 #warnings.filterwarnings("error") # turn warnings into errors - e.g. for UnicodeWarning
 
+## TODO: The next on is a hack, and should be removed once all string handling is
+## properly done in unicode; it is advisable to comment out the call to setdefaultencoding()
+## when working on string handling in other parts of the generator
+reload(sys)
+sys.setdefaultencoding('utf-8')
+sys.setrecursionlimit(3500)  # due to bug#2922; increased with bug#5265
+
 # Fix for Jython
 if os.name == 'java':
   # Java GC cannot be disabled, see http://bugs.jython.org/issue1175
@@ -42,13 +49,6 @@ if os.name == 'java':
     gc.enable()
   except NotImplementedError:
     gc.disable = gc.enable
-
-## TODO: The next on is a hack, and should be removed once all string handling is
-## properly done in unicode; it is advisable to comment out the call to setdefaultencoding()
-## when working on string handling in other parts of the generator
-reload(sys)
-sys.setdefaultencoding('utf-8')
-sys.setrecursionlimit(3500)  # due to bug#2922; increased with bug#5265
 
 interruptRegistry = InterruptRegistry()
 
@@ -174,6 +174,8 @@ def main():
                 listJobs(console, availableJobs, config)
                 sys.exit(1)
 
+    elif '_all_' in options.jobs:
+        options.jobs = availableJobs
     else:
         for job in options.jobs:
             if job not in availableJobs:
