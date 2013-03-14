@@ -84,6 +84,10 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
 
   members :
   {
+    /**
+     * Adds the background-image styles to the given map
+     * @param styles {Map} CSS style map
+     */
     _styleBackgroundImage : function(styles)
     {
       var image = this.getBackgroundImage();
