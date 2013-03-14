@@ -49,6 +49,7 @@ qx.Class.define("qx.ui.decoration.Decorator", {
 
   members :
   {
+    __initialized : false,
 
     /**
      * Returns the configured padding minus the border width.
@@ -117,7 +118,14 @@ qx.Class.define("qx.ui.decoration.Decorator", {
         }
       }
 
+      this.__initialized = true;
       return styles;
+    },
+
+
+    // overridden
+    _isInitialized: function() {
+      return this.__initialized;
     }
   }
 });
