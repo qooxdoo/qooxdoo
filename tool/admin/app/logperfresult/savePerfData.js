@@ -27,14 +27,34 @@ var graphHeight = 300;
 var exec  = require('child_process').exec;
 var fs = require("fs");
 
-// read json file
 var now = new Date();
-var jsonFileName = "data/perf-data-" + now.toISOString().substr(0, 10) + ".json";
+
+// read json file
+var jsonFileName;
+
+var fileArg = process.argv[2];
+if (fileArg) {
+  // file name from command line argument
+  if (fs.existsSync(fileArg)) {
+    jsonFileName = fileArg;
+  } else {
+    console.error("Data file does not exist: " + fileArg)
+    process.exit(1);
+  }
+} else {
+  // today's data file
+  jsonFileName = "data/perf-data-" + now.toISOString().substr(0, 10) + ".json";
+  if (!fs.existsSync(jsonFileName)) {
+    var yesterday = new Date(now.getTime() - (24 * 60 * 60 * 1000));
+    jsonFileName = "data/perf-data-" + yesterday.toISOString().substr(0, 10) + ".json";
+  }
+}
 
 if (!fs.existsSync(jsonFileName)) {
-  var yesterday = new Date(now.getTime() - (24 * 60 * 60 * 1000));
-  jsonFileName = "data/perf-data-" + yesterday.toISOString().substr(0, 10) + ".json";
+  console.error("No data file found!")
+  process.exit(1);
 }
+
 debug && console.log("Reading perfomance data file", jsonFileName);
 var data = JSON.parse(fs.readFileSync(jsonFileName, "utf8"));
 
