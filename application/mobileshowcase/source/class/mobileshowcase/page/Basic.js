@@ -143,7 +143,7 @@ qx.Class.define("mobileshowcase.page.Basic",
 
     _createCollapsible : function() {
       var collapsible = new qx.ui.mobile.container.Collapsible("Collapsible Header");
-      label = new qx.ui.mobile.basic.Label("This is the content of the Collapsible.");
+      var label = new qx.ui.mobile.basic.Label("This is the content of the Collapsible.");
       collapsible.add(label);
       return collapsible;
     },
