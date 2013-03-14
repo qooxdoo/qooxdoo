@@ -33,6 +33,13 @@ from generator.runtime.InterruptRegistry import InterruptRegistry
 #import warnings
 #warnings.filterwarnings("error") # turn warnings into errors - e.g. for UnicodeWarning
 
+# - Config section -------------------------------------------------------------
+
+# for the '_all_' job, skip jobs that require manual intervention
+_ALL_SKIP_JOBS = set('migration watch source-server simulation-run'.split())
+
+# - Config end -----------------------------------------------------------------
+
 ## TODO: The next on is a hack, and should be removed once all string handling is
 ## properly done in unicode; it is advisable to comment out the call to setdefaultencoding()
 ## when working on string handling in other parts of the generator
@@ -175,7 +182,10 @@ def main():
                 sys.exit(1)
 
     elif '_all_' in options.jobs:
-        options.jobs = availableJobs
+        options.jobs = []
+        for job in availableJobs:
+            if job not in _ALL_SKIP_JOBS:
+                options.jobs.append(job)
     else:
         for job in options.jobs:
             if job not in availableJobs:
