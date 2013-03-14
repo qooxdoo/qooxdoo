@@ -767,12 +767,15 @@ class CodeGenerator(object):
                 result = u''.join(result)
             else:
                 if num_proc == 0:
+                    hybrid = self._job.get("compile-options/code/except")
                     for clazz in classList:
-                        if lint_check:
+                        # skip lint checking for hybrid jobs
+                        if lint_check and not hybrid:
                             if "variants" in compConf.optimize: # do variant opt. ahead for lint_check
                                 tree = clazz.optimize(None, ["variants"], compConf.variantset)
                             else:
                                 tree = clazz.tree()
+                            self._console.debug("Linting %s" % clazz.id)
                             lint.lint_check(tree, clazz.id, lint_opts)  # has to run before the other optimizations 
                         #tree = clazz.optimize(None, compConf.optimize, compConf.variants, script._featureMap)
                         #code = clazz.serializeTree(tree, compConf.optimize, compConf.format)
@@ -847,6 +850,7 @@ class CodeGenerator(object):
                         package_uris.append(entry)
                          # compiled classes are lint'ed in compileClasses()
                         if lint_check and clazz.library.namespace == app_namespace:
+                            self._console.debug("Linting %s" % clazz.id)
                             lint.lint_check(clazz.tree(), clazz.id, lint_opts)
                         log_progress()
 
