@@ -44,9 +44,9 @@ qx.Mixin.define("qx.ui.decoration.MBorderImage", {
     {
       check : "Integer",
       nullable : true,
-      init : null
+      init : null,
+      apply : "_applySlices"
     },
-
 
     /**
      * The right slice line of the base image. The slice properties divide the
@@ -57,7 +57,8 @@ qx.Mixin.define("qx.ui.decoration.MBorderImage", {
     {
       check : "Integer",
       nullable : true,
-      init : null
+      init : null,
+      apply : "_applySlices"
     },
 
 
@@ -70,7 +71,8 @@ qx.Mixin.define("qx.ui.decoration.MBorderImage", {
     {
       check : "Integer",
       nullable : true,
-      init : null
+      init : null,
+      apply : "_applySlices"
     },
 
 
@@ -83,7 +85,8 @@ qx.Mixin.define("qx.ui.decoration.MBorderImage", {
     {
       check : "Integer",
       nullable : true,
-      init : null
+      init : null,
+      apply : "_applySlices"
     },
 
 
@@ -156,7 +159,8 @@ qx.Mixin.define("qx.ui.decoration.MBorderImage", {
     fill :
     {
       check : "Boolean",
-      init : true
+      init : true,
+      apply : "_applyFill"
     },
 
 
@@ -247,6 +251,24 @@ qx.Mixin.define("qx.ui.decoration.MBorderImage", {
         left: this.getSliceLeft() || computedSlices[3]
       };
     },
+
+
+    /**
+     * Needed for backwards compatibility with old-style decorator classes.
+     * @param value {Integer} new value
+     * @param old {Integer} previous value
+     */
+    _applySlices : function(value, old)
+    {},
+
+
+    /**
+     * Needed for backwards compatibility with old-style decorator classes.
+     * @param value {Boolean} new value
+     * @param old {Boolean} previous value
+     */
+    _applyFill : function(value, old)
+    {},
 
 
     /**

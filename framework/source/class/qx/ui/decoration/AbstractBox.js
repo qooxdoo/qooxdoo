@@ -26,7 +26,7 @@
 
 qx.Class.define("qx.ui.decoration.AbstractBox",
 {
-  extend: qx.ui.decoration.Abstract,
+  extend: qx.ui.decoration.Decorator,
   implement : [qx.ui.decoration.IDecorator],
 
 
@@ -102,52 +102,6 @@ qx.Class.define("qx.ui.decoration.AbstractBox",
       check : "String",
       nullable : true,
       apply : "_applyBaseImage"
-    },
-
-    /** Width of the left slice */
-    sliceLeft :
-    {
-      check : "Number",
-      nullable: true,
-      apply : "_applySlices"
-    },
-
-    /** Width of the right slice */
-    sliceRight :
-    {
-      check : "Number",
-      nullable: true,
-      apply : "_applySlices"
-    },
-
-    /** Width of the bottom slice */
-    sliceBottom :
-    {
-      check : "Number",
-      nullable: true,
-      apply : "_applySlices"
-    },
-
-    /** Width of the top slice */
-    sliceTop :
-    {
-      check : "Number",
-      nullable: true,
-      apply : "_applySlices"
-    },
-
-    /** Property group for slices */
-    slices :
-    {
-      group : [ "sliceTop", "sliceRight", "sliceBottom", "sliceLeft" ],
-      mode  : "shorthand"
-    },
-
-
-    /** Only used for the CSS3 implementation, see {@link qx.ui.decoration.css3.BorderImage#fill} **/
-    fill :
-    {
-      apply : "_applyFill"
     }
   },
 

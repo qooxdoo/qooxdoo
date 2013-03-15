@@ -155,46 +155,6 @@ qx.Class.define("qx.ui.decoration.Grid",
     },
 
 
-    /** Width of the left slice */
-    sliceLeft :
-    {
-      check : "Number",
-      nullable: true,
-      apply : "_applySlices"
-    },
-
-    /** Width of the right slice */
-    sliceRight :
-    {
-      check : "Number",
-      nullable: true,
-      apply : "_applySlices"
-    },
-
-    /** Width of the bottom slice */
-    sliceBottom :
-    {
-      check : "Number",
-      nullable: true,
-      apply : "_applySlices"
-    },
-
-    /** Width of the top slice */
-    sliceTop :
-    {
-      check : "Number",
-      nullable: true,
-      apply : "_applySlices"
-    },
-
-    /** Property group for slices */
-    slices :
-    {
-      group : [ "sliceTop", "sliceRight", "sliceBottom", "sliceLeft" ],
-      mode  : "shorthand"
-    },
-
-
     /** Only used for the CSS3 implementation, see {@link qx.ui.decoration.css3.BorderImage#fill} **/
     fill :
     {
@@ -232,6 +192,11 @@ qx.Class.define("qx.ui.decoration.Grid",
     getInsets : function() {
       return this.__impl.getInsets();
     },
+
+
+    // interface implementation
+    getStyles : function()
+    {},
 
 
     // property apply

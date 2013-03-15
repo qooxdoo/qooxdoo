@@ -34,7 +34,7 @@
  */
 qx.Class.define("qx.ui.decoration.GridDiv",
 {
-  extend : qx.ui.decoration.Abstract,
+  extend : qx.ui.decoration.Decorator,
 
 
   /*

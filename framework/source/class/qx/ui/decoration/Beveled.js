@@ -29,7 +29,7 @@
  */
 qx.Class.define("qx.ui.decoration.Beveled",
 {
-  extend : qx.ui.decoration.Abstract,
+  extend : qx.ui.decoration.Decorator,
   include : [qx.ui.decoration.MBackgroundImage, qx.ui.decoration.MBackgroundColor],
 
 
@@ -78,27 +78,6 @@ qx.Class.define("qx.ui.decoration.Beveled",
 
   properties :
   {
-    /**
-     * The color of the inner frame.
-     */
-    innerColor :
-    {
-      check : "Color",
-      nullable : true,
-      apply : "_applyStyle"
-    },
-
-    /**
-     * The opacity of the inner frame. As this inner frame
-     * is rendered above the background image this may be
-     * intersting to configure as semi-transparent e.g. <code>0.4</code>.
-     */
-    innerOpacity :
-    {
-      check : "Number",
-      init : 1,
-      apply : "_applyStyle"
-    },
 
     /**
      * Color of the outer frame. The corners are automatically
@@ -107,8 +86,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
     outerColor :
     {
       check : "Color",
-      nullable : true,
-      apply : "_applyStyle"
+      nullable : true
     }
   },
 

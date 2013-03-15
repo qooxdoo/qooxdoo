@@ -27,7 +27,7 @@
  */
 qx.Class.define("qx.ui.decoration.BoxDiv",
 {
-  extend : qx.ui.decoration.Abstract,
+  extend : qx.ui.decoration.Decorator,
 
 
   /*
