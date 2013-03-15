@@ -132,6 +132,11 @@ input[type="text"]:not(.selectbox):not(.invalid), input[type="number"]:not(.inva
   border: 0px solid #242424;
 }
 
+input.invalid {
+  border: 1px solid red !important;
+}
+
+
 .formRowContent {
   $ul-padding:5px;
   padding: $ul-padding $ul-padding*2 $ul-padding $ul-padding*2;
