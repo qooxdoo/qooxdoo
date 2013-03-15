@@ -18,7 +18,7 @@
 ************************************************************************ */
 /**
  * Mixin for the linear background gradient CSS property.
- * This mixin is usually used by {@link qx.ui.decoration.DynamicDecorator}.
+ * This mixin is usually used by {@link qx.ui.decoration.Decorator}.
  *
  * Keep in mind that this is not supported by all browsers:
  *
@@ -108,7 +108,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
     /**
      * Takes a styles map and adds the linear background styles in place to the
      * given map. This is the needed behavior for
-     * {@link qx.ui.decoration.DynamicDecorator}.
+     * {@link qx.ui.decoration.Decorator}.
      *
      * @param styles {Map} A map to add the styles.
      */
@@ -262,7 +262,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
 
     /**
      * Resize function for the background color. This is suitable for the
-     * {@link qx.ui.decoration.DynamicDecorator}.
+     * {@link qx.ui.decoration.Decorator}.
      *
      * @param element {Element} The element which could be resized.
      * @param width {Number} The new width.

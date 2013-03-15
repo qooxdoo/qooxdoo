@@ -34,7 +34,7 @@
  */
 qx.Class.define("qx.ui.decoration.Decorator", {
 
-  extend : qx.ui.decoration.DynamicDecorator,
+  extend : qx.ui.decoration.Abstract,
 
   implement : [qx.ui.decoration.IDecorator],
 
@@ -120,6 +120,38 @@ qx.Class.define("qx.ui.decoration.Decorator", {
 
       this.__initialized = true;
       return styles;
+    },
+
+
+    // overridden
+    _getDefaultInsets : function() {
+      var directions = ["top", "right", "bottom", "left"];
+      var defaultInsets = {};
+
+      for (var name in this) {
+        if (name.indexOf("_getDefaultInsetsFor") == 0 && this[name] instanceof Function) {
+          var currentInsets = this[name]();
+
+          for (var i=0; i < directions.length; i++) {
+            var direction = directions[i];
+            // initialize with the first insets found
+            if (defaultInsets[direction] == undefined) {
+              defaultInsets[direction] = currentInsets[direction];
+            }
+            // take the largest inset
+            if (currentInsets[direction] > defaultInsets[direction]) {
+              defaultInsets[direction] = currentInsets[direction];
+            }
+          }
+        }
+      }
+
+      // check if the mixins have created a default insets
+      if (defaultInsets["top"] != undefined) {
+        return defaultInsets;
+      }
+      // return a fallback which is 0 for all insets
+      return {top: 0, right: 0, bottom: 0, left: 0};
     },
 
 

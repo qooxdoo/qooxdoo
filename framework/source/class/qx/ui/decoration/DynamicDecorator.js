@@ -20,11 +20,23 @@
  * This class is an abstract base calls and used by
  * {@link qx.theme.manager.Decoration}. It's main purpose is to combine the
  * included mixins into one working decorator.
+ *
+ * @deprecated{3.0}
  */
 qx.Class.define("qx.ui.decoration.DynamicDecorator",
 {
   extend : qx.ui.decoration.Abstract,
   type: "abstract",
+
+  construct : function()
+  {
+    this.base(arguments);
+
+    if (qx.core.Environment.get("qx.debug")) {
+      qx.log.Logger.deprecatedClassWarning(this.constructor,
+       "Use 'qx.ui.decoration.Decorator' instead.");
+    }
+  },
 
   members :
   {

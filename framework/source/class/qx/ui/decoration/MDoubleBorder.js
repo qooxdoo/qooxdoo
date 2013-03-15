@@ -19,7 +19,7 @@
 /**
  * Border implementation with two CSS borders. Both borders can be styled
  * independent of each other.
- * This mixin is usually used by {@link qx.ui.decoration.DynamicDecorator}.
+ * This mixin is usually used by {@link qx.ui.decoration.Decorator}.
  */
 qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
 {
@@ -147,7 +147,7 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
     /**
      * Takes a styles map and adds the outer border styles in place
      * to the given map. This is the needed behavior for
-     * {@link qx.ui.decoration.DynamicDecorator}.
+     * {@link qx.ui.decoration.Decorator}.
      *
      * @param styles {Map} A map to add the styles.
      */
@@ -379,7 +379,7 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
 
     /**
      * Resize function for the decorator. This is suitable for the
-     * {@link qx.ui.decoration.DynamicDecorator}.
+     * {@link qx.ui.decoration.Decorator}.
      *
      * @param element {Element} The element which could be resized.
      * @param width {Number} The new width.
