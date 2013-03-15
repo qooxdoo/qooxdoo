@@ -183,7 +183,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
     stringToRgb : function(str)
     {
       if (this.supportsThemes() && this.isThemedColor(str)) {
-        var str = qx.theme.manager.Color.getInstance().resolveDynamic(str);
+        str = qx.theme.manager.Color.getInstance().resolveDynamic(str);
       }
 
       if (this.isNamedColor(str))
@@ -193,6 +193,9 @@ qx.Bootstrap.define("qx.util.ColorUtil",
       else if (this.isSystemColor(str))
       {
         throw new Error("Could not convert system colors to RGB: " + str);
+      }
+      else if ( this.isRgbaString(str)) {
+        return this.__rgbaStringToRgb(str);
       }
       else if (this.isRgbString(str))
       {
@@ -396,6 +399,11 @@ qx.Bootstrap.define("qx.util.ColorUtil",
       var red = parseInt(RegExp.$1, 10);
       var green = parseInt(RegExp.$2, 10);
       var blue = parseInt(RegExp.$3, 10);
+      var alpha = parseInt(RegExp.$4, 10);
+
+      if (red === 0 && green === 0 & blue === 0 && alpha === 0) {
+        return [-1, -1, -1];
+      }
 
       return [red, green, blue];
     },
