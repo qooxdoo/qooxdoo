@@ -81,7 +81,7 @@ function createDataBase(filename, callback) {
     " --step 86400" + // 24h update interval
     //" --step 60" +
     //" --start " + Math.floor(new Date(now.getTime() - (24 * 60 * 60 * 1000)).getTime() / 1000) + // yesterday
-    " --start -1days" +
+    " --start 1361717677" +
     " DS:iterations:GAUGE:172800:U:U" + // max interval 72hrs
     " DS:ownTime:GAUGE:172800:U:U" +
     " DS:renderTime:GAUGE:172800:U:U" +
