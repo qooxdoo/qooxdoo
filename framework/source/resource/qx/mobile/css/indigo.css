@@ -1259,6 +1259,9 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   -moz-border-radius: 4px;
   border-radius: 4px; }
 
+input.invalid {
+  border: 1px solid red !important; }
+
 input, textarea {
   font-family: Helvetica; }
 

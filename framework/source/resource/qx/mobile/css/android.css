@@ -1253,6 +1253,9 @@ input[type="text"]:not(.selectbox), input[type="number"], input[type="password"]
 input[type="text"]:not(.selectbox):not(.invalid), input[type="number"]:not(.invalid), input[type="password"]:not(.invalid), textarea:not(.invalid) {
   border: 0px solid #242424; }
 
+input.invalid {
+  border: 1px solid red !important; }
+
 .formRowContent {
   padding: 5px 10px 5px 10px; }
 

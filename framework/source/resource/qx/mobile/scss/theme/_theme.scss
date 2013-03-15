@@ -121,6 +121,10 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   @include border-radius($input-border-radius);
 }
 
+input.invalid {
+  border: $border-thickness solid $input-invalid-border-color !important;
+}
+
 input, textarea { 
   font-family: $application-font; 
 }

@@ -1277,6 +1277,9 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   margin-left: 0px;
   min-width: 75px; }
 
+input.invalid {
+  border: 1px solid red !important; }
+
 .scroll-container {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
