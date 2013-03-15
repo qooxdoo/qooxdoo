@@ -253,41 +253,13 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
     assertStyle : function(widget, style, value, msg)
     {
       this.flush();
-      var widgetStyle = widget.getContainerElement().getDomElement().style[style];
+      var element = widget.getContentElement().getDomElement();
+      var computedStyle = qx.bom.element.Style.get(element, style);
 
       if (value && style.match(/color/i)) {
-        this.assertCssColor(value, widgetStyle, msg);
+        this.assertCssColor(value, computedStyle, msg);
       } else {
-        this.assertEquals(value, widgetStyle, msg);
-      }
-    },
-
-
-    assertContentStyle : function(widget, style, value, msg)
-    {
-      this.flush();
-      var widgetStyle = widget.getContentElement().getDomElement().style[style];
-      if (value && style.match(/color/i)) {
-        this.assertCssColor(value, widgetStyle, msg);
-      } else {
-        this.assertEquals(value, widgetStyle, msg);
-      }
-    },
-
-
-    assertDecoratorStyle : function(widget, style, value, msg)
-    {
-      this.flush();
-
-      if (!value) {
-        return;
-      }
-
-      var widgetStyle = widget.getContentElement().getDomElement().style[style];
-      if (value && style.match(/color/i)) {
-        this.assertCssColor(value, widgetStyle, msg);
-      } else {
-        this.assertEquals(value, widgetStyle, msg);
+        this.assertEquals(value, computedStyle, msg);
       }
     },
 
