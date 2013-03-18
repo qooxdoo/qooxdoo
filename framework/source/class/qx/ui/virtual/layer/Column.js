@@ -62,7 +62,6 @@ qx.Class.define("qx.ui.virtual.layer.Column",
       var html = [];
 
       var height = qx.lang.Array.sum(rowSizes);
-      var decorations = [];
 
       var left = 0;
       var column = firstColumn;
@@ -71,46 +70,25 @@ qx.Class.define("qx.ui.virtual.layer.Column",
       for (var x=0; x<columnSizes.length; x++)
       {
 
-        var decorator = this.getBackground(column);
-        if (decorator)
-        {
-          decorations.push({
-            childIndex: childIndex,
-            decorator: decorator,
-            width: columnSizes[x],
-            height: height
-          });
+        var color = this.getColor(column);
+        var backgroundColor = color ? "background-color:" + color + ";" : "";
 
-          html.push(
-            "<div style='",
-            "position: absolute;",
-            "top: 0;",
-            "left:", left, "px;",
-            "'>",
-            decorator.getMarkup(),
-            "</div>"
-          );
-          childIndex++;
-        }
-        else
-        {
-          var color = this.getColor(column);
-          if (color)
-          {
-            html.push(
-              "<div style='",
-              "position: absolute;",
-              "top: 0;",
-              "left:", left, "px;",
-              "width:", columnSizes[x], "px;",
-              "height:", height, "px;",
-              "background-color:", color,
-              "'>",
-              "</div>"
-            );
-            childIndex++
-          }
-        }
+        var decorator = this.getBackground(column);
+        var styles = decorator ? qx.bom.element.Style.compile(decorator.getStyles()) : "";
+
+        html.push(
+          "<div style='",
+          "position: absolute;",
+          "top: 0;",
+          "left:", left, "px;",
+          "width:", columnSizes[x], "px;",
+          "height:", height, "px;",
+          backgroundColor,
+          styles,
+          "'>",
+          "</div>"
+        );
+        childIndex++;
 
         left += columnSizes[x];
         column += 1;
@@ -120,18 +98,9 @@ qx.Class.define("qx.ui.virtual.layer.Column",
       // hide element before changing the child nodes to avoid
       // premature reflow calculations
       el.style.display = "none";
+      window.affe = el;
       el.innerHTML = html.join("");
 
-      // set size of decorated columns
-      for (var i=0, l=decorations.length; i<l; i++)
-      {
-        var deco = decorations[i];
-        deco.decorator.resize(
-          el.childNodes[deco.childIndex].firstChild,
-          deco.width,
-          deco.height
-        );
-      }
       el.style.display = "block";
 
       this._height = height;
