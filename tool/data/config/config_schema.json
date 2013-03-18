@@ -1,10 +1,6 @@
 {
-
   // TODO:
-  //  * if several values from array are allowed how to define in schema (e.g. api job)
-  //    => enum with all distinct permutations possible but cumbersome
   //  * enforce empty keys? (e.g. collect-environment-info job)
-  //  * how to escape keywords? (e.g. dependencies job)
   //  * allow two types (e.g. shell job string|array)
   //    * also problem with macros (macro is string and expands to array => "${LOCALES} not of type array" :/)
   //    => expand macros first (before schema check)
@@ -12,6 +8,8 @@
   //    * http://demo.qooxdoo.org/current/apiviewer/#qx.core.Environment
   //  * regex
   //    * global let (let job => uppercase)? how to define constraints for keys?
+
+  // jshint --extra-ext=json tool/data/config/config_schema.json
 
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "http://qooxdoo.org",
@@ -137,8 +135,8 @@
             "=copy-resources":           { "$ref": "#/definitions/copy-resources" },
             "default-job":               { "$ref": "#/definitions/default-job" },
             "=default-job":              { "$ref": "#/definitions/default-job" },
-            "dependencies~":             { "$ref": "#/definitions/dependencies~" },
-            "=dependencies~":            { "$ref": "#/definitions/dependencies~" },
+            "dependencies":              { "$ref": "#/definitions/dependencies" },
+            "=dependencies":             { "$ref": "#/definitions/dependencies" },
             "desc":                      { "$ref": "#/definitions/desc" },
             "=desc":                     { "$ref": "#/definitions/desc" },
             "environment":               { "$ref": "#/definitions/environment" },
@@ -294,16 +292,15 @@
           }
         },
         "verify": {
-          "enum": [ ["links"], ["types"], ["statistics"],
-                     ["links", "types"], ["links", "statistics"], ["types", "statistics"],
-                     ["links", "types", "statistics"] ]
+          "type": "array",
+          "items": { "enum": ["links", "types", "statistics"] }
         },
         "warnings": {
           "type": "object",
           "properties": {
             "output": {
               "type": "array",
-              "items": { "type": "string" }
+              "items": { "enum": ["data", "console"] }
             }
           }
         }
@@ -419,7 +416,7 @@
             },
             "optimize": {
               "type": "array",
-              "items": { "type": "string" }
+              "items": { "enum": [ "basecalls", "comments", "privates", "strings", "variables", "variants", "whitespace" ] }
             },
             "decode-uris-plug": { "type": "string" },
             "except": {
@@ -456,7 +453,7 @@
     "default-job": {
       "type": "string"
     },
-    "dependencies~": {
+    "dependencies": {
       "type": "object",
       "properties": {
         "follow-static-initializers": { "type": "boolean" },
@@ -547,7 +544,7 @@
           "type": "array",
           "items": { "type": "string" }
         },
-        "dependencies~": {
+        "dependencies": {
           "type": "object",
           "properties": {
             "type": { "enum": ["using", "used-by"] },

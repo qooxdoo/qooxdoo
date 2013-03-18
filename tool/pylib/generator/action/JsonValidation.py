@@ -129,7 +129,7 @@ def __printResults(console, errors, validatedFileName, exitOnErrors=False):
             console.warn(error["msg"] + " in '%s' (JSON Pointer)" % __convertToJSONPointer(error["path"]))
         console.outdent()
     else:
-        console.log("%s validates successful against used JSON Schema." % validatedFileName)
+        console.log("%s validates successful against JSON Schema." % validatedFileName)
 
     if exitOnErrors:
         sys.exit(1)
