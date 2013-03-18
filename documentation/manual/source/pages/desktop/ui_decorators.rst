@@ -10,8 +10,6 @@ Introduction
 
 Decorations are used to style widgets. The idea is to have an independent layer around the widget content that can be freely styled. This way you can have separate decorators that define all kinds of decoration (colors, background image, corners, ...), and apply them to existing widgets, without interfering with the widget code itself.
 
-Decorations are used for both, the ``shadow`` and the ``decorator`` property. They could be applied separately or together. There is no dependency between them.
-
 .. _pages/desktop/ui_decorators#using_decorators:
 
 Using Decorators
@@ -33,8 +31,6 @@ As mentioned above, it is common to define the decorators in a decorator theme. 
 
   "main" :
   {
-    decorator: qx.ui.decoration.Uniform,
-
     style :
     {
       width : 1,
@@ -42,30 +38,7 @@ As mentioned above, it is common to define the decorators in a decorator theme. 
     }
   },
 
-The first thing you see is the name of the decorator, in this case, ``main``. The specified decorator is available using that name in the whole application code, especially in the appearance theme. The next thing you see in the map is the ``decorator`` key, that defines the decorator to use. The last thing is the styles map which contains values for the properties of the given decorator.
-
-This is the way using prebuild decorators. You can also use the decorator mixins in the theme:
-
-::
-
-  "scroll-knob" :
-  {
-    decorator : [
-      qx.ui.decoration.MBorderRadius,
-      qx.ui.decoration.MSingleBorder,
-      qx.ui.decoration.MBackgroundColor
-    ],
-
-    style :
-    {
-      radius : 3,
-      width : 1,
-      color : "button-border",
-      backgroundColor : "scrollbar-bright"
-    }
-  },
-
-The main difference here is that not a reference to a prebuild decorator is given. Instead, an array containing mixins implementing single features are used. The theming system combines those mixins in a decorator. The styles map should now containg values for properties defined by the mixins.
+The first thing you see is the name of the decorator, in this case, ``main``. The specified decorator is available using that name in the entire application code, especially in the appearance theme. Then there's the styles map which contains values for decorator properties.
 
 Sometimes it is very handy to change only little details about the decorator. Imagine a special decorator for hovered buttons. Inheritance comes in very handy in such a case.
 
@@ -81,23 +54,23 @@ Sometimes it is very handy to change only little details about the decorator. Im
     }
   },
 
-As you can see here, we include the previously defined decorator and override the backgroundColor property. Thats all you need to do!
+As you can see here, we include the previously defined decorator and override the backgroundColor property. That's all you need to do!
 
 .. _pages/desktop/ui_decorators#custom_decorators:
 
 Custom Decorators
 =================
 
-Custom decorators are created by extending the decorator theme and adding new ones or overwriting existing ones. Each decorator class comes with a set of properties for configuration of the instance. Following a short description of the available decorators:
+Custom decorators are created by extending the decorator theme and adding new ones or overwriting existing ones. Each decorator class comes with a set of properties for configuration of the instance. These properties are defined by mixins in the `qx.ui.decoration namespace <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.decoration>`_. Following is a short description of the available mixins:
 
-* **Background**: Renders a background image or color
-* **Uniform**: Like ``Background``, but adds support for a uniform border which is identical for all edges.
-* **Single**: Like ``Background``, but adds support for separate borders for each edge.
-* **Double**: Like ``Single`` but with the option to add two separate border to each edge.
-* **Beveled**: Pseudo (lightweight) rounded border with support for inner glow. May contain a background image / gradient.
-* **HBox**: Uses three images in a row with a center image which is stretched horizontally. Useful for widgets with a fixed height, which can be stretched horizontally.
-* **VBox**: Uses three images in a column with a center image which is stretched vertically. Useful for widgets with a fixed width, which can be stretched vertically.
-* **Grid**: Complex decorator based on nine images. Allows very customized styles (rounded borders, alpha transparency, gradients, ...). Optionally make use of image sprites to reduce image number.
+* **MBackgroundColor**: Renders a background color.
+* **MBackgroundImage**: Renders a background image.
+* **MSingleBorder**: Renders a single border.
+* **MDoubleBorder**: Renders an outer and an inner border, e.g. to achieve a bevel effect.
+* **MBorderImage**: Uses an image to create a border.
+* **MBorderRadius**: Used to render rounded corners.
+* **MBoxShadow**: Renders a shadow.
+* **MLinearBackgroundGradient**: Renders a linear color gradient.
 
 Each entry of the theme is automatically made available using the ``setDecorator``/``setShadow`` functions of the widget class. The instances needed are automatically created when required initially. This mechanism keeps instance numbers down and basically ignores decorators which are defined but never used.
 
