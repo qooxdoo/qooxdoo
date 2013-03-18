@@ -30,7 +30,6 @@
 qx.Class.define("qx.ui.decoration.Beveled",
 {
   extend : qx.ui.decoration.Decorator,
-  include : [qx.ui.decoration.MBackgroundImage, qx.ui.decoration.MBackgroundColor],
 
 
   /*

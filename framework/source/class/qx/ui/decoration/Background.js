@@ -26,10 +26,6 @@
 qx.Class.define("qx.ui.decoration.Background",
 {
   extend : qx.ui.decoration.Decorator,
-  include : [
-    qx.ui.decoration.MBackgroundImage,
-    qx.ui.decoration.MBackgroundColor
-  ],
 
 
 
