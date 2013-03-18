@@ -197,8 +197,14 @@ def main():
     context = {'config': config, 'console':console, 'jobconf':None, 'interruptRegistry':interruptRegistry}
     Context.config = config # TODO: clean up overlap between context dict and Context module
 
+    should_validate = config.get('let/VALIDATE_CONFIG', False)
+    if should_validate:
+        from generator.action import JsonValidation
+        JsonValidation.validateConfig(config)
+
     # CLI mode
     if not options.daemon:
+
         # Resolve "extend"- and "run"-Keys
         expandedjobs = config.resolveExtendsAndRuns(options.jobs[:])
 
@@ -212,7 +218,7 @@ def main():
         config.resolveLibs(expandedjobs)
 
         # To see fully expanded config:
-        #console.info(pprint.pformat(config.get(".")))
+        # console.info(pprint.pformat(config.get(".")))
 
         # Do some config schema checking
         config.checkSchema(expandedjobs, checkJobTypes=True)

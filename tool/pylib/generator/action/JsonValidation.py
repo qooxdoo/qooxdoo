@@ -22,6 +22,7 @@
 import sys
 
 from generator import Context
+from generator.config.Config import Config
 from generator.config.Manifest import Manifest
 from jsonschema.jsonschema import Draft4Validator
 
@@ -55,6 +56,35 @@ def validateManifest(jobObj, confObj):
     for mnfst in manifests:
         errors = __validate(mnfst._manifest, Manifest.schema_v1_0())
         __printResults(console, errors, mnfst.path)
+
+
+##
+# Validates 'config.json' and prints to stdout/stderr.
+#
+# @param confObj generator.config.Config.Config
+# @param isRootConf boolean
+#
+def validateConfig(confObj, isRootConf=True):
+    confDict = confObj._rawdata
+    jobKeys = confDict["jobs"].keys() if "jobs" in confDict else []
+    schema = confObj.getSchema(customJobs=jobKeys)
+    if not isRootConf:
+        # don't require top level keys in included configs
+        del schema["required"]
+
+    # process custom includes recursive
+    for extConf in confObj._includedConfigs:
+        extConfPath = extConf._fname
+
+        # makes no sense to check qx base configs every time
+        # maybe introduce separate dedicated job for this
+        if extConfPath.endswith("base.json") or extConfPath.endswith("application.json"):
+           continue
+
+        validateConfig(extConf, isRootConf=False)
+
+    errors = __validate(confDict, schema)
+    __printResults(Context.console, errors, confObj._fname, bool(errors))
 
 
 ##

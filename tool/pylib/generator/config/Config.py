@@ -21,8 +21,9 @@
 #
 ################################################################################
 
-import os, sys, re, types, string, copy
+import os, sys, re, types, string, copy, codecs
 import graph
+from copy import deepcopy
 from generator.config.Lang import Key, Let
 from generator.resource.Library import Library
 from generator.runtime.ShellCmd import ShellCmd
@@ -42,6 +43,7 @@ class Config(object):
         # init members
         self._console  = console_
         self._data     = None
+        self._rawdata  = None
         self._fname    = None
         self._shellCmd = ShellCmd()
         self._includedConfigs = []  # to record included configs
@@ -50,6 +52,7 @@ class Config(object):
         console = console_
 
         # dispatch on argument
+
         if isinstance(data, (types.DictType, types.ListType)):
             #self._console.debug("Creating config from data")
             self.__init__data(data, path)
@@ -95,7 +98,8 @@ class Config(object):
             e.args = (e.args[0] + "\nFile: %s" % fname,) + e.args[1:]
             raise e
 
-        self._data  = data
+        self._data = data
+        self._rawdata = deepcopy(data)
         self._fname = os.path.abspath(fname)
         self._dirname = os.path.dirname(self._fname)
 
@@ -752,6 +756,39 @@ class Config(object):
                 for path1, key in self.walk(data[child], "/".join((path, child))):
                     yield path1, key
 
+    ##
+    # Schema for 'config.json'.
+    #
+    # @param customJobs list
+    # @return schema dict
+    #
+    def getSchema(self, customJobs):
+        relPathToSchema = "/../../../data/config/config_schema.json"
+        schemaPath = os.path.abspath(os.path.dirname(__file__) + relPathToSchema)
+
+        try:
+            file = codecs.open(schemaPath, "r", "utf-8")
+            schema = json.loads(file.read())
+            file.close()
+        except Exception, e:
+            msg = "Reading of schema file failed: '%s'" % schemaPath + (
+                "\n%s" % e.args[0] if e.args else "")
+            e.args = (msg,) + e.args[1:]
+            raise
+
+        jobDefs = schema["properties"]["jobs"]["properties"]
+
+        # add custom jobs
+        for job in customJobs:
+            if job not in jobDefs:
+              jobDefs[job] = {}
+
+        # adopt '{{template}}' definition for all jobs
+        templateDict = jobDefs["{{template}}"]
+        for jobSchema in jobDefs:
+            jobDefs[jobSchema] = templateDict
+
+        return schema
 
 # Late imports, for cross-importing
 from generator.config.Job import Job

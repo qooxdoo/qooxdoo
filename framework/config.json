@@ -1,4 +1,6 @@
 {
+  "name" : "qooxdoo framework configuration",
+
   "include" :
   [
     {
@@ -62,7 +64,8 @@
        "sl",  // Slovene
        "sv"   // Swedish
     ],
-    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache"
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "VALIDATE_CONFIG": true
   },
 
   "config-warnings" :
@@ -117,7 +120,7 @@
         },
         "code"  :
         {
-          "format"   : "on",
+          "format"   : true,
           "except"   : [],
           "optimize" : ["basecalls", "variables", "privates", "strings", "whitespace"]
         }
@@ -318,7 +321,7 @@
       "extend" : ["pretty"]
     }
 
-    ,"dependencies" : 
+    ,"dependencies" :
     {
       "=exclude" : [ "${APPLICATION}.test.*" ]
     }
