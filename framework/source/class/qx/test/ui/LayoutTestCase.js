@@ -232,21 +232,17 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
       this.assertNotNull(widget.getContainerElement());
       this.assertNotNull(widget.getContainerElement().getDomElement());
 
-      var container = widget.getContainerElement().getDomElement();
-      var width = parseInt(container.style.width, 10) || 0;
-      var height = parseInt(container.style.height, 10) || 0;
-
       var content = widget.getContentElement().getDomElement();
-      var innerWidth = parseInt(content.style.width, 10) || 0;
-      var innerHeight = parseInt(content.style.height, 10) || 0;
-      var innerTop = parseInt(content.style.top, 10) || 0;
-      var innerLeft = parseInt(content.style.left, 10) || 0;
 
-      this.assertEquals(top, innerTop, msg);
-      this.assertEquals(right, width-innerWidth-left, msg);
+      var paddingTop = parseInt(qx.bom.element.Style.get(content, "paddingTop"), 10) || 0;
+      var paddingRight = parseInt(qx.bom.element.Style.get(content, "paddingRight"), 10) || 0;
+      var paddingBottom = parseInt(qx.bom.element.Style.get(content, "paddingBottom"), 10) || 0;
+      var paddingLeft = parseInt(qx.bom.element.Style.get(content, "paddingLeft"), 10) || 0;
 
-      this.assertEquals(bottom, height-innerHeight-top, msg);
-      this.assertEquals(left, innerLeft, msg);
+      this.assertEquals(top, paddingTop, msg);
+      this.assertEquals(right, paddingRight, msg);
+      this.assertEquals(bottom, paddingBottom, msg);
+      this.assertEquals(left, paddingLeft, msg);
     },
 
 

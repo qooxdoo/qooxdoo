@@ -68,12 +68,12 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
         top: top,
         width: width,
         height: height
-      }
+      };
 
       if (changes.size || changes.local || changes.margin)
       {
         if (this.__layout && this.getLayoutChildren().length > 0) {
-          this.__layout.renderLayout(width, height);
+          this.__layout.renderLayout(width, height, {top: 0, right: 0, bottom: 0, left: 0});
         }
       }
 

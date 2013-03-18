@@ -68,26 +68,33 @@ qx.Class.define("qx.test.ui.Insets",
 
       this.assertPadding(widget, 0, 0, 0, 0);
 
-      deco = new qx.ui.decoration.Single(1);
+      deco = new qx.ui.decoration.Decorator().set({width: 1});
       widget.setDecorator(deco);
-      this.assertPadding(widget, 1, 1, 1, 1);
+      this.assertPadding(widget, 0, 0, 0, 0);
 
       deco.dispose();
-      deco = new qx.ui.decoration.Single(1);
-      deco.setWidth(2);
+      deco = new qx.ui.decoration.Decorator().set({width: 2});
       widget.setDecorator(deco);
-      widget.setPadding(2)
-      this.assertPadding(widget, 4, 4, 4, 4);
+      widget.setPadding(2);
+      this.assertPadding(widget, 2, 2, 2, 2);
 
       deco.dispose();
-      deco = new qx.ui.decoration.Single(1);
-      deco.setWidth(2, 3, 5, 7);
+      deco = new qx.ui.decoration.Decorator().set({width: [2, 3, 5, 7]});
       widget.setDecorator(deco);
-      widget.setPadding(1, 4, 16, 64)
-      this.assertPadding(widget, 3, 7, 21, 71);
+      widget.setPadding(1, 4, 16, 64);
+      this.assertPadding(widget, 1, 4, 16, 64);
 
       widget.setDecorator(null);
       this.assertPadding(widget, 1, 4, 16, 64);
+
+      deco.dispose();
+      deco = new qx.ui.decoration.Decorator().set({
+        width: 2,
+        innerWidth: 2
+      });
+      widget.setDecorator(deco);
+      widget.setPadding(2);
+      this.assertPadding(widget, 4, 4, 4, 4);
 
       this.getRoot().remove(widget);
       widget.dispose();
