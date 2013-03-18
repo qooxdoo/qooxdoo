@@ -1,19 +1,15 @@
 {
   // TODO:
-  //  * enforce empty keys? (e.g. collect-environment-info job)
-  //  * allow two types (e.g. shell job string|array)
-  //    * also problem with macros (macro is string and expands to array => "${LOCALES} not of type array" :/)
-  //    => expand macros first (before schema check)
+  //  * issue with macros (macro is string and expands to array => "${LOCALES} not of type array" :/)
+  //    => expand macros first (before schema check) or allow both array/object/... and string
   //  * add all env keys?
   //    * http://demo.qooxdoo.org/current/apiviewer/#qx.core.Environment
-  //  * regex
-  //    * global let (let job => uppercase)? how to define constraints for keys?
 
   // jshint --extra-ext=json tool/data/config/config_schema.json
 
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "http://qooxdoo.org",
-  "name": "config.json",
+  "title": "config.json",
   "type": "object",
   "required": ["name", "include", "let"],
   "properties": {
@@ -54,6 +50,10 @@
     "let": {
       "description": "A global map of macros; this will be included in every job.",
       "type": "object",
+      "patternProperties": {
+        "^[A-Z0-9_]+$": { "type": ["array", "boolean", "number", "object", "string"] }
+      },
+      "additionalProperties": false,
       "properties": {
         "ROOT": { "type": "string" },
         "QOOXDOO_PATH": { "type": "string" },
@@ -335,7 +335,10 @@
          "items": { "type": "string" }
       }
     },
-    "collect-environment-info": { "type": "object" },
+    "collect-environment-info": {
+      "type": "object",
+      "additionalProperties": false
+    },
     "combine-images": {
       "description": "Triggers creation of a combined image file that contains various images.",
       "type": "object",
@@ -498,7 +501,11 @@
     },
     "let": {
       "description": "Define macros. Takes a map where each key defines a macro and the value its expansion.",
-      "type": "object"
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[A-Z0-9_]+$": { "type": ["array", "boolean", "number", "object", "string"] }
+      }
     },
     "library": {
       "description": "Define libraries to be taken into account for this job. Takes an array of maps, each map specifying one library to consider. The most important part therein is the “manifest” specification. (See special section on Manifest files).",
@@ -692,7 +699,12 @@
     },
     "shell": {
       "description": "Triggers the execution of an external command.",
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "command": {
+          "type": ["string", "array"]
+        }
+      }
     },
     "simulate": {
       "type": "object",
