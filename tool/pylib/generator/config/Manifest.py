@@ -110,7 +110,7 @@ class Manifest(object):
     @classmethod
     def schema_v1_0(self):
         patterns = {
-            "semver": r"^latest$|^\d+\.\d+(\.\d+)?(-[0-9]+-?)?([-a-zA-Z+][-a-zA-Z0-9\.:-]*)?$",
+            "semver": r"^trunk$|latest$|^\d+\.\d+(\.\d+)?(-[0-9]+-?)?([-a-zA-Z+][-a-zA-Z0-9\.:-]*)?$",
             "url": r"^https?://([a-z0-9\.-]+)\.([a-z\.]{2,6})[/\w\.-]*\/?$",
             "url_and_placeholder": r"^https?://([a-z0-9\.-]+)\.([a-z\.]{2,6})[/\w.%{}-]*(#[/\w.%{}-]*)?\/?$",
             "url_archive": r"^(https?|ftp)://.*(tar.(gz|bz2)|zip)$",
@@ -126,9 +126,8 @@ class Manifest(object):
             "properties": {
                 "info": {
                     "type": "object",
-                    "required": ["name", "description", "category", "homepage",
-                                 "license", "authors", "download", "checksum"
-                                 "version", "qooxdoo-versions"],
+                    "required": ["name", "description", "homepage", "license",
+                                 "authors", "version", "qooxdoo-versions"],
                     "properties": {
                         "name": {
                             "type": "string",
@@ -139,11 +138,11 @@ class Manifest(object):
                         "description": {
                             "type": "string",
                         },
-                        "category": {
-                            "type": "string",
-                            "enum": ["Themes", "Widgets", "Drawing", "Misc",
-                                     "Tool", "Backend"]
-                        },
+                        # "category": {
+                        #     "type": "string",
+                        #     "enum": ["Themes", "Widgets", "Drawing", "Misc",
+                        #              "Tool", "Backend"]
+                        # },
                         "keywords": {
                             "type": "array",
                             "uniqueItems": True,
@@ -176,14 +175,14 @@ class Manifest(object):
                                 }
                             }
                         },
-                        "download": {
-                            "type": "string",
-                            "pattern": patterns["url_archive"]
-                        },
-                        "checksum": {
-                            "type": "string",
-                            "pattern": patterns["checksum"]
-                        },
+                        # "download": {
+                        #     "type": "string",
+                        #     "pattern": patterns["url_archive"]
+                        # },
+                        # "checksum": {
+                        #     "type": "string",
+                        #     "pattern": patterns["checksum"]
+                        # },
                         "version": {
                             "type": "string",
                             "pattern": patterns["semver"]
