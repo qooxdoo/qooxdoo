@@ -102,7 +102,7 @@
       }
     },
     "jobs": {
-      "description" : "A map of job entries.",
+      "description": "A map of job entries.",
       "type": "object",
       "properties": {
         "{{template}}": {
@@ -282,7 +282,7 @@
       }
     },
     "api": {
-      "description" : "Triggers the generation of a custom Apiviewer application.",
+      "description": "Triggers the generation of a custom Apiviewer application.",
       "type": "object",
       "properties": {
         "path": { "type": "string" },
@@ -294,7 +294,7 @@
           }
         },
         "verify": {
-          "enum" : [ ["links"], ["types"], ["statistics"],
+          "enum": [ ["links"], ["types"], ["statistics"],
                      ["links", "types"], ["links", "statistics"], ["types", "statistics"],
                      ["links", "types", "statistics"] ]
         },
@@ -310,7 +310,7 @@
       }
     },
     "asset-let": {
-      "description" : "Defines theme keys that will be replaced in #asset hints in source files. (See special section on the 'themes' key).",
+      "description": "Defines theme keys that will be replaced in #asset hints in source files. (See special section on the 'themes' key).",
       "type": "object"
     },
     "cache": {
@@ -388,7 +388,7 @@
       }
     },
     "compile-options": {
-      "description" : "General compile options, a super-set of source and build options.",
+      "description": "General compile options, a super-set of source and build options.",
       "type": "object",
       "properties": {
         "paths": {
@@ -550,10 +550,10 @@
         "dependencies~": {
           "type": "object",
           "properties": {
-            "type": { "enum" : ["using", "used-by"] },
-            "phase": { "enum" : ["runtime", "loadtime", null] },
+            "type": { "enum": ["using", "used-by"] },
+            "phase": { "enum": ["runtime", "loadtime", null] },
             "include-transitive-load-deps": { "type": "boolean" },
-            "format": { "enum" : ["txt", "dot", "json", "provider", "flare", "term"] },
+            "format": { "enum": ["txt", "dot", "json", "provider", "flare", "term"] },
             "dot": {
               "type": "object",
               "properties": {
@@ -626,11 +626,39 @@
       "type": "object"
     },
     "packages": {
-      "description" : "Define packages for the application. (See special section on packages).",
-      "type": "object"
+      "description": "Define packages for the application. (See special section on packages).",
+      "type": "object",
+      "properties": {
+        "parts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "include": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "expected-load-order": { "type": "number" },
+              "no-merge-private-package": { "type": "boolean" }
+            }
+          }
+        },
+        "sizes": {
+          "type": "object",
+          "properties": {
+            "min-package": { "type": "number" },
+            "min-package-unshared": { "type": "number" }
+          }
+        },
+        "init": { "type": "string" },
+        "separate-loader": { "type": "boolean" },
+        "i18n-as-parts": { "type": "boolean" },
+        "additional-merge-constraints": { "type": "boolean" },
+        "verifier-bombs-on-error": { "type": "boolean" }
+      }
     },
     "pretty-print": {
-      "description" : "Triggers code beautification of source class files (in-place-editing). An empty map value triggers default formatting, but further keys can tailor the output.",
+      "description": "Triggers code beautification of source class files (in-place-editing). An empty map value triggers default formatting, but further keys can tailor the output.",
       "type": "object"
     },
     "provider": {
@@ -661,12 +689,12 @@
       }
     },
     "run": {
-      "description" : "Define a list of jobs to run in place of the current job. (See the special section on 'run' semantics).",
+      "description": "Define a list of jobs to run in place of the current job. (See the special section on 'run' semantics).",
       "type": "array",
       "items": { "type": "string" }
     },
     "shell": {
-      "description" : "Triggers the execution of an external command.",
+      "description": "Triggers the execution of an external command.",
       "type": "object"
     },
     "simulate": {
@@ -682,7 +710,7 @@
       }
     },
     "slice-images": {
-      "description" : "Triggers cutting images into regions.",
+      "description": "Triggers cutting images into regions.",
       "type": "object",
       "properties": {
         "converter-cmd": { "type": "string" },
@@ -692,7 +720,7 @@
       }
     },
     "translate": {
-      "description" : "(Re-)generate .po files from source classes.",
+      "description": "(Re-)generate .po files from source classes.",
       "type": "object",
       "properties": {
         "namespaces": {
