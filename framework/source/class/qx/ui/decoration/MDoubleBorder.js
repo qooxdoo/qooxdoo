@@ -254,10 +254,12 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
       }
 
       // apply or append the box shadow styles
-      if (!styles["box-shadow"]) {
-        styles["box-shadow"] = shadowStyle.join(",");
-      } else {
-        styles["box-shadow"] += "," + shadowStyle.join(",");
+      if (shadowStyle.length > 0) {
+        if (!styles["box-shadow"]) {
+          styles["box-shadow"] = shadowStyle.join(",");
+        } else {
+          styles["box-shadow"] += "," + shadowStyle.join(",");
+        }
       }
 
       // Do not set the line-height on IE6, IE7, IE8 in Quirks Mode and IE8 in IE7 Standard Mode
