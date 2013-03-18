@@ -28,12 +28,6 @@ qx.Class.define("qx.ui.decoration.Uniform",
   extend : qx.ui.decoration.Single,
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   /**
    * @param width {Integer} Width of the border
    * @param style {String} Any supported border style

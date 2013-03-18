@@ -31,7 +31,8 @@ qx.Mixin.define("qx.ui.decoration.MBorderImage", {
     borderImage :
     {
       check : "String",
-      nullable : true
+      nullable : true,
+      apply : "_applyBorderImage"
     },
 
 
@@ -45,7 +46,7 @@ qx.Mixin.define("qx.ui.decoration.MBorderImage", {
       check : "Integer",
       nullable : true,
       init : null,
-      apply : "_applySlices"
+      apply : "_applyBorderImage"
     },
 
     /**
@@ -58,7 +59,7 @@ qx.Mixin.define("qx.ui.decoration.MBorderImage", {
       check : "Integer",
       nullable : true,
       init : null,
-      apply : "_applySlices"
+      apply : "_applyBorderImage"
     },
 
 
@@ -72,7 +73,7 @@ qx.Mixin.define("qx.ui.decoration.MBorderImage", {
       check : "Integer",
       nullable : true,
       init : null,
-      apply : "_applySlices"
+      apply : "_applyBorderImage"
     },
 
 
@@ -86,7 +87,7 @@ qx.Mixin.define("qx.ui.decoration.MBorderImage", {
       check : "Integer",
       nullable : true,
       init : null,
-      apply : "_applySlices"
+      apply : "_applyBorderImage"
     },
 
 
@@ -117,7 +118,8 @@ qx.Mixin.define("qx.ui.decoration.MBorderImage", {
     repeatX :
     {
       check : ["stretch", "repeat", "round"],
-      init : "stretch"
+      init : "stretch",
+      apply : "_applyBorderImage"
     },
 
 
@@ -137,7 +139,8 @@ qx.Mixin.define("qx.ui.decoration.MBorderImage", {
     repeatY :
     {
       check : ["stretch", "repeat", "round"],
-      init : "stretch"
+      init : "stretch",
+      apply : "_applyBorderImage"
     },
 
 
@@ -160,7 +163,7 @@ qx.Mixin.define("qx.ui.decoration.MBorderImage", {
     {
       check : "Boolean",
       init : true,
-      apply : "_applyFill"
+      apply : "_applyBorderImage"
     },
 
 
@@ -253,22 +256,15 @@ qx.Mixin.define("qx.ui.decoration.MBorderImage", {
     },
 
 
-    /**
-     * Needed for backwards compatibility with old-style decorator classes.
-     * @param value {Integer} new value
-     * @param old {Integer} previous value
-     */
-    _applySlices : function(value, old)
-    {},
-
-
-    /**
-     * Needed for backwards compatibility with old-style decorator classes.
-     * @param value {Boolean} new value
-     * @param old {Boolean} previous value
-     */
-    _applyFill : function(value, old)
-    {},
+    _applyBorderImage : function()
+    {
+      if (qx.core.Environment.get("qx.debug"))
+      {
+        if (this._isInitialized()) {
+          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
+        }
+      }
+    },
 
 
     /**

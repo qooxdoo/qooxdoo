@@ -28,9 +28,7 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
   construct : function() {
     // override the methods of single border and background image
     this._getDefaultInsetsForBorder = this.__getDefaultInsetsForDoubleBorder;
-    this._resizeBorder = this.__resizeDoubleBorder;
     this._styleBorder = this.__styleDoubleBorder;
-    this._generateMarkup = this.__generateMarkupDoubleBorder;
   },
 
 
@@ -52,28 +50,32 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
     innerWidthTop :
     {
       check : "Number",
-      init : 0
+      init : 0,
+      apply : "_applyDoubleBorder"
     },
 
     /** right width of border */
     innerWidthRight :
     {
       check : "Number",
-      init : 0
+      init : 0,
+      apply : "_applyDoubleBorder"
     },
 
     /** bottom width of border */
     innerWidthBottom :
     {
       check : "Number",
-      init : 0
+      init : 0,
+      apply : "_applyDoubleBorder"
     },
 
     /** left width of border */
     innerWidthLeft :
     {
       check : "Number",
-      init : 0
+      init : 0,
+      apply : "_applyDoubleBorder"
     },
 
     /** Property group to set the inner border width of all sides */
@@ -96,28 +98,32 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
     innerColorTop :
     {
       nullable : true,
-      check : "Color"
+      check : "Color",
+      apply : "_applyDoubleBorder"
     },
 
     /** right inner color of border */
     innerColorRight :
     {
       nullable : true,
-      check : "Color"
+      check : "Color",
+      apply : "_applyDoubleBorder"
     },
 
     /** bottom inner color of border */
     innerColorBottom :
     {
       nullable : true,
-      check : "Color"
+      check : "Color",
+      apply : "_applyDoubleBorder"
     },
 
     /** left inner color of border */
     innerColorLeft :
     {
       nullable : true,
-      check : "Color"
+      check : "Color",
+      apply : "_applyDoubleBorder"
     },
 
     /**
@@ -135,14 +141,14 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
     innerOpacity :
     {
       check : "Number",
-      init : 1
+      init : 1,
+      apply : "_applyDoubleBorder"
     }
   },
 
 
   members :
   {
-    __ownMarkup : null,
 
     /**
      * Takes a styles map and adds the outer border styles in place
@@ -299,119 +305,14 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
     },
 
 
-    /**
-     * Special generator for the markup which creates the containing div and
-     * the surrounding div as well.
-     *
-     * @param styles {Map} The styles for the inner
-     * @return {String} The generated decorator HTML.
-     */
-    __generateMarkupDoubleBorder : function(styles) {
-      var colorTop,
-          colorRight,
-          colorBottom,
-          colorLeft;
-      if (qx.core.Environment.get("qx.theme"))
-      {
-        var Color = qx.theme.manager.Color.getInstance();
-
-        colorTop = Color.resolve(this.getInnerColorTop());
-        colorRight = Color.resolve(this.getInnerColorRight());
-        colorBottom = Color.resolve(this.getInnerColorBottom());
-        colorLeft = Color.resolve(this.getInnerColorLeft());
-      }
-      else
-      {
-        colorTop = this.getInnerColorTop();
-        colorRight = this.getInnerColorRight();
-        colorBottom = this.getInnerColorBottom();
-        colorLeft = this.getInnerColorLeft();
-      }
-
-      var innerStyles = qx.lang.Object.clone(styles);
-      for (var style in innerStyles) {
-        if (style.indexOf("box-shadow") != -1) {
-          delete innerStyles[style];
-        }
-      }
-
-      // Inner styles
-      // Inner image must be relative to be compatible with qooxdoo 0.8.x
-      // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=3450 for details
-      innerStyles.position = "relative";
-
-      var width = this.getInnerWidthTop();
-      if (width > 0) {
-        innerStyles["border-top"] = width + "px " + this.getStyleTop() + " " + colorTop;
-      }
-
-      width = this.getInnerWidthRight();
-      if (width > 0) {
-        innerStyles["border-right"] = width + "px " + this.getStyleRight() + " " + colorRight;
-      }
-
-      width = this.getInnerWidthBottom();
-      if (width > 0) {
-        innerStyles["border-bottom"] = width + "px " + this.getStyleBottom() + " " + colorBottom;
-      }
-
-      width = this.getInnerWidthLeft();
-      if (width > 0) {
-        innerStyles["border-left"] = width + "px " + this.getStyleLeft() + " " + colorLeft;
-      }
-
+    _applyDoubleBorder : function()
+    {
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (innerStyles["border-top"] == '' && innerStyles["border-right"] == '' &&
-          innerStyles["border-bottom"] == '' && innerStyles["border-left"] == '') {
-          throw new Error("Invalid Double decorator (zero inner border width). Use qx.ui.decoration.Single instead!");
+        if (this._isInitialized()) {
+          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
         }
       }
-
-      var innerHtml = this._generateBackgroundMarkup(
-        innerStyles, this._getContent ? this._getContent() : ""
-      );
-
-      // Store
-      return this.__ownMarkup = this._generateBackgroundMarkup(styles, innerHtml);
-    },
-
-
-
-
-    /**
-     * Resize function for the decorator. This is suitable for the
-     * {@link qx.ui.decoration.Decorator}.
-     *
-     * @param element {Element} The element which could be resized.
-     * @param width {Number} The new width.
-     * @param height {Number} The new height.
-     * @return {Map} A map containing the desired position and dimension and a
-     *   emelent to resize.
-     *   (width, height, top, left, elementToApplyDimensions).
-     */
-    __resizeDoubleBorder : function(element, width, height)
-    {
-      var insets = this.getInsets();
-      width -= insets.left + insets.right;
-      height -= insets.top + insets.bottom;
-
-      var left =
-        insets.left -
-        this.getWidthLeft() -
-        this.getInnerWidthLeft();
-      var top =
-        insets.top -
-        this.getWidthTop() -
-        this.getInnerWidthTop();
-
-      return {
-        left: left,
-        top: top,
-        width: width,
-        height: height,
-        elementToApplyDimensions : element.firstChild
-      };
     },
 
 

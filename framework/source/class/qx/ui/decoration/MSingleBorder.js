@@ -263,40 +263,6 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
 
 
     /**
-     * Resize function for the decorator. This is suitable for the
-     * {@link qx.ui.decoration.Decorator}.
-     *
-     * @param element {Element} The element which could be resized.
-     * @param width {Number} The new width.
-     * @param height {Number} The new height.
-     * @return {Map} A map containing the desired position and dimension.
-     *   (width, height, top, left).
-     */
-    _resizeBorder : function(element, width, height) {
-      var insets = this.getInsets();
-      width -= insets.left + insets.right;
-      height -= insets.top + insets.bottom;
-
-      // Fix to keep applied size above zero
-      // Makes issues in IE7 when applying value like '-4px'
-      if (width < 0) {
-        width = 0;
-      }
-
-      if (height < 0) {
-        height = 0;
-      }
-
-      return {
-        left : insets.left - this.getWidthLeft(),
-        top : insets.top - this.getWidthTop(),
-        width : width,
-        height : height
-      };
-    },
-
-
-    /**
      * Implementation of the interface for the single border.
      *
      * @return {Map} A map containing the default insets.
@@ -333,7 +299,7 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
     {
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (this._markup) {
+        if (this._isInitialized()) {
           throw new Error("This decorator is already in-use. Modification is not possible anymore!");
         }
       }

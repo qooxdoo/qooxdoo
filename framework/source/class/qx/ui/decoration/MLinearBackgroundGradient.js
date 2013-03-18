@@ -260,29 +260,6 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
     },
 
 
-    /**
-     * Resize function for the background color. This is suitable for the
-     * {@link qx.ui.decoration.Decorator}.
-     *
-     * @param element {Element} The element which could be resized.
-     * @param width {Number} The new width.
-     * @param height {Number} The new height.
-     * @return {Map} A map containing the desired position and dimension
-     *   (width, height, top, left).
-     */
-    _resizeLinearBackgroundGradient : function(element, width, height) {
-      var insets = this.getInsets();
-      width -= insets.left + insets.right;
-      height -= insets.top + insets.bottom;
-      return {
-        left : insets.left,
-        top : insets.top,
-        width : width,
-        height : height
-      };
-    },
-
-
     // property apply
     _applyLinearBackgroundGradient : function()
     {

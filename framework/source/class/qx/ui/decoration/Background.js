@@ -28,13 +28,6 @@ qx.Class.define("qx.ui.decoration.Background",
   extend : qx.ui.decoration.Decorator,
 
 
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   /**
    * @param backgroundColor {Color} Initialize with background color
    */
@@ -53,16 +46,8 @@ qx.Class.define("qx.ui.decoration.Background",
   },
 
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
-    __markup : null,
-
     // overridden
     _getDefaultInsets : function()
     {
@@ -72,43 +57,6 @@ qx.Class.define("qx.ui.decoration.Background",
         bottom : 0,
         left : 0
       };
-    },
-
-
-    // overridden
-    _isInitialized: function() {
-      return !!this.__markup;
-    },
-
-    /*
-    ---------------------------------------------------------------------------
-      INTERFACE IMPLEMENTATION
-    ---------------------------------------------------------------------------
-    */
-
-
-
-    // interface implementation
-    resize : function(element, width, height)
-    {
-      var insets = this.getInsets();
-      element.style.width = (width - insets.left - insets.right) + "px";
-      element.style.height = (height - insets.top - insets.bottom) + "px";
-
-      element.style.left = -insets.left + "px";
-      element.style.top = -insets.top + "px";
     }
-  },
-
-
-
-  /*
-   *****************************************************************************
-      DESTRUCTOR
-   *****************************************************************************
-   */
-
-   destruct : function() {
-     this.__markup = null;
-   }
+  }
 });

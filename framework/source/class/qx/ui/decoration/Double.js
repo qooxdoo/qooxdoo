@@ -29,12 +29,6 @@ qx.Class.define("qx.ui.decoration.Double",
   extend : qx.ui.decoration.Decorator,
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   /**
    * @param width {Integer} Width of the border
    * @param style {String} Any supported border style
