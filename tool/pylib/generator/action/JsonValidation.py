@@ -19,11 +19,15 @@
 #
 ###########################################################################
 
+import sys
+
 from generator import Context
 from generator.config.Manifest import Manifest
+from jsonschema.jsonschema import Draft4Validator
+
 
 ##
-# Validates Manifest and prints to stdOut.
+# Validates Manifest and prints to stdout/stderr.
 #
 # @param jobconf generator.config.Job.Job
 # @param confObj generator.config.Config.Config
@@ -39,41 +43,80 @@ def validateManifest(jobObj, confObj):
     if "ARGS" in global_let and len(global_let["ARGS"]) == 1:
         manifests.append(Manifest(global_let["ARGS"][0]))
     else:
-      # ... from base.json ...
-      libs = jobObj.get("library")
-      for lib in libs:
-          manifests.append(Manifest(lib.manipath))
+        # ... from base.json ...
+        libs = jobObj.get("library")
+        for lib in libs:
+            manifests.append(Manifest(lib.manipath))
 
-      # ... or default location.
-      if not manifests:
-          manifests.append(Manifest("Manifest.json"))
+        # ... or default location.
+        if not manifests:
+            manifests.append(Manifest("Manifest.json"))
 
     for mnfst in manifests:
-        errors = mnfst.validateAgainst(Manifest.schema_v1_0())
-
-        if errors:
-            console.warn("Errors found in " + mnfst.path)
-            console.indent()
-            for error in errors:
-                console.warn(error["msg"] + " in '%s' (JSONPath)" % __convertToJSONPath(error["path"]))
-            console.outdent()
-        else:
-            console.log("%s validates successful against used JSON Schema." % mnfst.path)
+        errors = __validate(mnfst._manifest, Manifest.schema_v1_0())
+        __printResults(console, errors, mnfst.path)
 
 
 ##
-# Converts ["info", "authors", 0, "name"] into $.info.authors[0].name (JSONPath).
+# Validates given dict against JSON Schema dict.
+#
+# @see http://json-schema.org/
+# @see http://tools.ietf.org/html/draft-zyp-json-schema-04
+# @see https://github.com/json-schema/json-schema
+#
+# @param dictToValidate
+# @param schema
+# @return errors list
+#
+def __validate(dictToValidate, schema):
+    # fail fast => check schema first / shouldn't raise errors in production
+    Draft4Validator.check_schema(schema)
+
+    errors = []
+    validator = Draft4Validator(schema)
+
+    for e in validator.iter_errors(dictToValidate):
+        # hack to replace 'u' before fieldname *within* string
+        e.message = e.message.replace("u'", "'")
+        errors.append({"msg": e.message, "path": e.path})
+
+    return errors
+
+
+##
+# Print results on stderr and exit if desired
+
+# @param console generator.context.Console
+# @param errors list
+# @param validatedFileName string
+# @param exitOnErrors boolean
+#
+def __printResults(console, errors, validatedFileName, exitOnErrors=False):
+    if errors:
+        console.warn("Errors found in " + validatedFileName)
+        console.indent()
+        for error in errors:
+            console.warn(error["msg"] + " in '%s' (JSON Pointer)" % __convertToJSONPointer(error["path"]))
+        console.outdent()
+    else:
+        console.log("%s validates successful against used JSON Schema." % validatedFileName)
+
+    if exitOnErrors:
+        sys.exit(1)
+
+
+##
+# Converts ["info", "authors", 0] into '/info/authors/0' (JSON Pointer).
+#
+# @see http://tools.ietf.org/html/draft-ietf-appsawg-json-pointer-09
 #
 # @param path list
-# @return string (JSONPath)
-# @see http://goessner.net/articles/JsonPath/
-#
-def __convertToJSONPath(path):
-    jsonPath = ""
+# @return string (JSON Pointer)
+def __convertToJSONPointer(path):
+    jsonPointer = ""
 
-    for i, elem in enumerate(path):
-        if isinstance(elem, int):
-            path[i-1] = path[i-1] + "[" + str(path[i])  + "]"
-            del path[i]
-    jsonPath = "$." + ".".join(path)
-    return jsonPath
+    for i, item in enumerate(path):
+        if isinstance(item, int):
+            path[i] = str(path[i])
+    jsonPointer = "/" + "/".join(path)
+    return jsonPointer
