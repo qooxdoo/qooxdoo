@@ -47,7 +47,7 @@
 
   "config-warnings" :
   {
-    "job-shadowing" : ["source", "build-resources", "build-script", "build-files", "api"]
+    "job-shadowing" : ["source", "build-resources", "build-script", "build-files", "api-data"]
   },
 
   // You only need to edit the remainder of this file, if you want to customize
@@ -191,7 +191,7 @@
       "extend" : ["test-basic-source"]
     },
 
-    "api" :
+    "api-data" :
     {
       "let" :
       {
