@@ -162,7 +162,7 @@ qx.Class.define("qx.ui.root.Inline",
 
 
     // overridden
-    _createContainerElement : function()
+    _createContentElement : function()
     {
       var el = this.__elem;
 

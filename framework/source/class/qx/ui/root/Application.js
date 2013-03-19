@@ -115,7 +115,7 @@ qx.Class.define("qx.ui.root.Application",
      * @lint ignoreDeprecated(alert)
      * @return {qx.html.Element} The container HTML element
      */
-    _createContainerElement : function()
+    _createContentElement : function()
     {
       var doc = this.__doc;
 

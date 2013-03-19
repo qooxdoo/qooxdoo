@@ -30,11 +30,6 @@
 /**
  * This is the base class for all widgets.
  *
- * A widget consists of at least two HTML elements. The container element,
- * which is added to the parent widget has one child element: The "content"
- * element is positioned inside the "container" element to respect paddings and
- * contains the "real" widget element.
- *
  * *External Documentation*
  *
  * <a href='http://manual.qooxdoo.org/${qxversion}/pages/widget.html' target='_blank'>
@@ -56,10 +51,8 @@ qx.Class.define("qx.ui.core.Widget",
   {
     this.base(arguments);
 
-    // Create basic element structure
-    this.__containerElement = this._createContainerElement();
+    // Create basic element
     this.__contentElement = this.__createContentElement();
-    this.__containerElement.add(this.__contentElement);
 
     // Initialize properties
     this.initFocusable();
@@ -876,7 +869,6 @@ qx.Class.define("qx.ui.core.Widget",
 
   members :
   {
-    __containerElement : null,
     __contentElement : null,
     __initialAppearanceApplied : null,
     __toolTipTextListenerId : null,
@@ -936,16 +928,16 @@ qx.Class.define("qx.ui.core.Widget",
         return;
       }
 
-      var container = this.getContainerElement();
+      var content = this.getContentElement();
 
       if (this.$$parent && !this.$$parent.$$disposed) {
-        this.$$parent.getContentElement().remove(container);
+        this.$$parent.getContentElement().remove(content);
       }
 
       this.$$parent = parent || null;
 
       if (parent && !parent.$$disposed) {
-        this.$$parent.getContentElement().add(container);
+        this.$$parent.getContentElement().add(content);
       }
 
       // Update inheritable properties
@@ -1017,32 +1009,17 @@ qx.Class.define("qx.ui.core.Widget",
         return null;
       }
 
-      var container = this.getContainerElement();
       var content = this.getContentElement();
       var inner = changes.size || this._updateInsets;
       var pixel = "px";
 
-      var containerStyles = {};
-
-      // Move container to new position
+      var contentStyles = {};
+      // Move content to new position
       if (changes.position)
       {
-        containerStyles.left = left + pixel;
-        containerStyles.top = top + pixel;
+        contentStyles.left = left + pixel;
+        contentStyles.top = top + pixel;
       }
-
-      // Update container size
-      if (changes.size)
-      {
-        containerStyles.width = width + pixel;
-        containerStyles.height = height + pixel;
-      }
-
-      if (changes.position || changes.size) {
-        container.setStyles(containerStyles);
-      }
-
-      var contentStyles = {};
 
       if (inner || changes.local || changes.margin)
       {
@@ -1050,7 +1027,7 @@ qx.Class.define("qx.ui.core.Widget",
         contentStyles.height = height + pixel;
       }
 
-      if (inner || this._updateInsets) {
+      if (Object.keys(contentStyles).length > 0) {
         content.setStyles(contentStyles);
       }
 
@@ -1398,8 +1375,7 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /**
-     * Return the insets of the widget's inner element relative to its
-     * container element. The inset is the sum of the padding and border width.
+     * Returns the sum of the widget's padding and border width.
      *
      * @return {Map} Contains the keys <code>top</code>, <code>right</code>,
      *   <code>bottom</code> and <code>left</code>. All values are integers.
@@ -1500,7 +1476,7 @@ qx.Class.define("qx.ui.core.Widget",
      *   the fade animation.
      */
     fadeOut : function(duration) {
-      return this.getContainerElement().fadeOut(duration);
+      return this.getContentElement().fadeOut(duration);
     },
 
     /**
@@ -1510,7 +1486,7 @@ qx.Class.define("qx.ui.core.Widget",
      *   the fade animation.
      */
     fadeIn : function(duration) {
-      return this.getContainerElement().fadeIn(duration);
+      return this.getContentElement().fadeIn(duration);
     },
 
 
@@ -1597,7 +1573,7 @@ qx.Class.define("qx.ui.core.Widget",
       // queues need to be flushed (see bug #5254)
       qx.ui.core.queue.Manager.flush();
       // if the element is already rendered, a check for the offsetWidth is enough
-      var element = this.getContainerElement().getDomElement();
+      var element = this.getContentElement().getDomElement();
       if (element) {
         // will also be 0 if the parents are not visible
         return element.offsetWidth > 0;
@@ -1615,31 +1591,6 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Create the widget's container HTML element.
-     *
-     * @return {qx.html.Element} The container HTML element
-     */
-    _createContainerElement : function()
-    {
-      var attributes = {
-        "$$widget": this.toHashCode()
-      }
-
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        attributes.qxType = "container";
-        attributes.qxClass = this.classname;
-      }
-
-      var styles = {
-        zIndex: 0,
-        position: "absolute"
-      };
-
-      return new qx.html.Element("div", styles, attributes);
-    },
-
 
     /**
      * Create the widget's content HTML element.
@@ -1650,8 +1601,10 @@ qx.Class.define("qx.ui.core.Widget",
     {
       var el = this._createContentElement();
 
+      el.setAttribute("$$widget", this.toHashCode());
+
       if (qx.core.Environment.get("qx.debug")) {
-        el.setAttribute("qxType", "content");
+        el.setAttribute("qxClass", this.classname);
       }
 
       el.setStyles({
@@ -1688,9 +1641,10 @@ qx.Class.define("qx.ui.core.Widget",
      * This method exposes widget internal and must be used with caution!
      *
      * @return {qx.html.Element} The widget's container element
+     * TODO: remove
      */
     getContainerElement : function() {
-      return this.__containerElement;
+      return this.__contentElement;
     },
 
 
@@ -2204,15 +2158,15 @@ qx.Class.define("qx.ui.core.Widget",
      * Enables mouse event capturing. All mouse events will dispatched on this
      * widget until capturing is disabled using {@link #releaseCapture} or a
      * mouse button is clicked. If the widgets becomes the capturing widget the
-     * {@link #capture} event is fired. Once it looses capture mode the
+     * {@link #capture} event is fired. Once it loses capture mode the
      * {@link #losecapture} event is fired.
      *
-     * @param containerCapture {Boolean?true} If true all events originating in
+     * @param capture {Boolean?true} If true all events originating in
      *   the container are captured. If false events originating in the container
      *   are not captured.
      */
-    capture : function(containerCapture) {
-      this.getContainerElement().capture(containerCapture);
+    capture : function(capture) {
+      this.getContentElement().capture(capture);
     },
 
 
@@ -2220,7 +2174,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Disables mouse capture mode enabled by {@link #capture}.
      */
     releaseCapture : function() {
-      this.getContainerElement().releaseCapture();
+      this.getContentElement().releaseCapture();
     },
 
 
@@ -2319,19 +2273,19 @@ qx.Class.define("qx.ui.core.Widget",
 
     // property apply
     _applyZIndex : function(value, old) {
-      this.getContainerElement().setStyle("zIndex", value == null ? 0 : value);
+      this.getContentElement().setStyle("zIndex", value == null ? 0 : value);
     },
 
 
     // property apply
     _applyVisibility : function(value, old)
     {
-      var container = this.getContainerElement();
+      var content = this.getContentElement();
 
       if (value === "visible") {
-        container.show();
+        content.show();
       } else {
-        container.hide();
+        content.hide();
       }
 
       // only force a layout update if visibility change from/to "exclude"
@@ -2348,7 +2302,7 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyOpacity : function(value, old)
     {
-      this.getContainerElement().setStyle("opacity", value == 1 ? null : value);
+      this.getContentElement().setStyle("opacity", value == 1 ? null : value);
 
       // Fix for AlphaImageLoader - see Bug #1894 for details
       if ((qx.core.Environment.get("engine.name") == "mshtml") &&
@@ -2374,7 +2328,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       // In Opera the cursor must be set directly.
       // http://bugzilla.qooxdoo.org/show_bug.cgi?id=1729
-      this.getContainerElement().setStyle(
+      this.getContentElement().setStyle(
         "cursor", value, qx.core.Environment.get("engine.name") == "opera"
       );
     },
@@ -2859,7 +2813,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {qx.html.Element} The html element to focus.
      */
     getFocusElement : function() {
-      return this.getContainerElement();
+      return this.getContentElement();
     },
 
 
@@ -2873,7 +2827,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {Boolean} Whether the element is tabable.
      */
     isTabable : function() {
-      return (!!this.getContainerElement().getDomElement()) && this.isFocusable();
+      return (!!this.getContentElement().getDomElement()) && this.isFocusable();
     },
 
 
@@ -2926,7 +2880,7 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyKeepActive : function(value)
     {
-      var target = this.getContainerElement();
+      var target = this.getContentElement();
       target.setAttribute("qxKeepActive", value ? "on" : null);
     },
 
@@ -3152,7 +3106,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // Sync DOM attribute
-      this.getContainerElement().setAttribute("qxDraggable", value ? "on" : null);
+      this.getContentElement().setAttribute("qxDraggable", value ? "on" : null);
     },
 
 
@@ -3164,7 +3118,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // Sync DOM attribute
-      this.getContainerElement().setAttribute("qxDroppable", value ? "on" : null);
+      this.getContentElement().setAttribute("qxDroppable", value ? "on" : null);
     },
 
 
@@ -3329,7 +3283,7 @@ qx.Class.define("qx.ui.core.Widget",
      *   directly when possible
      */
     scrollChildIntoViewX : function(child, align, direct) {
-      this.getContentElement().scrollChildIntoViewX(child.getContainerElement(), align, direct);
+      this.getContentElement().scrollChildIntoViewX(child.getContentElement(), align, direct);
     },
 
 
@@ -3345,7 +3299,7 @@ qx.Class.define("qx.ui.core.Widget",
      *   directly when possible
      */
     scrollChildIntoViewY : function(child, align, direct) {
-      this.getContentElement().scrollChildIntoViewY(child.getContainerElement(), align, direct);
+      this.getContentElement().scrollChildIntoViewY(child.getContentElement(), align, direct);
     },
 
 
@@ -3391,7 +3345,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      */
     activate : function() {
-      this.getContainerElement().activate();
+      this.getContentElement().activate();
     },
 
 
@@ -3400,7 +3354,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      */
     deactivate : function() {
-      this.getContainerElement().deactivate();
+      this.getContentElement().deactivate();
     },
 
 
@@ -3695,7 +3649,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     getContainerLocation : function(mode)
     {
-      var domEl = this.getContainerElement().getDomElement();
+      var domEl = this.getContentElement().getDomElement();
       return domEl ? qx.bom.element.Location.get(domEl, mode) : null;
     },
 
@@ -3741,7 +3695,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     setDomLeft : function(value)
     {
-      var domEl = this.getContainerElement().getDomElement();
+      var domEl = this.getContentElement().getDomElement();
       if (domEl) {
         domEl.style.left = value + "px";
       } else {
@@ -3762,7 +3716,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     setDomTop : function(value)
     {
-      var domEl = this.getContainerElement().getDomElement();
+      var domEl = this.getContentElement().getDomElement();
       if (domEl) {
         domEl.style.top = value + "px";
       } else {
@@ -3784,7 +3738,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     setDomPosition : function(left, top)
     {
-      var domEl = this.getContainerElement().getDomElement();
+      var domEl = this.getContentElement().getDomElement();
       if (domEl)
       {
         domEl.style.left = left + "px";
@@ -3881,7 +3835,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // Remove widget pointer from DOM
-      this.getContainerElement().setAttribute("$$widget", null, true);
+      this.getContentElement().setAttribute("$$widget", null, true);
 
       // Clean up all child controls
       this._disposeChildControls();
@@ -3919,7 +3873,6 @@ qx.Class.define("qx.ui.core.Widget",
     // Dispose layout manager and HTML elements
     this._disposeObjects(
       "__layoutManager",
-      "__containerElement",
       "__contentElement"
     );
   }
