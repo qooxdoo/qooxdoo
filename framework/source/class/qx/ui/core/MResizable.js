@@ -418,8 +418,8 @@ qx.Mixin.define("qx.ui.core.MResizable",
       var borderTB = 0;
       if (decorator) {
         decorator = qx.theme.manager.Decoration.getInstance().resolve(decorator);
-        broderLR = (decorator.getWidthLeft() || 0) + (decorator.getWidthRight() || 0);
-        broderTB = (decorator.getWidthTop() || 0) + (decorator.getWidthBottom() || 0);
+        borderLR = (decorator.getWidthLeft() || 0) + (decorator.getWidthRight() || 0);
+        borderTB = (decorator.getWidthTop() || 0) + (decorator.getWidthBottom() || 0);
       }
 
       this.__resizeStart = {
