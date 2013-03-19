@@ -13,7 +13,7 @@ Besides foreign files we have included in the project, we also want to list the 
 Framework %{JS} Code
 ============================
 
-These are components that are integrated into the %{JS} class code.
+These are components that are integrated into the framework class code.
 
 .. list-table::
   :header-rows: 1
@@ -43,7 +43,7 @@ These are components that are integrated into the %{JS} class code.
 Application %{JS} Code
 ============================
 
-These are components that are integrated into the %{JS} class code from our demo apps.
+These are components that are integrated into the %{JS} code of our demo apps.
 
 .. list-table::
   :header-rows: 1
@@ -54,6 +54,9 @@ These are components that are integrated into the %{JS} class code from our demo
 
   * - `ACE <http://ajaxorg.github.com/ace/>`_
     - `BSD (mod.) <https://github.com/ajaxorg/ace/blob/master/LICENSE>`_
+
+  * - `highlight.js <http://highlightjs.org/>`_
+    - `BSD (3-Clause) <http://opensource.org/licenses/BSD-3-Clause>`_
 
 
 .. _pages/introduction/third_party_components#resources:
@@ -127,7 +130,7 @@ These are the Python modules we use that are not self-written, nor part of a van
      - `MIT`_
 
    * - `textile <http://pypi.python.org/pypi/textile/>`_
-     - `new BSD <http://www.opensource.org/licenses/bsd-license.php>`_
+     - `BSD <http://www.opensource.org/licenses/bsd-license.php>`_
 
 
 .. _pages/introduction/third_party_components#other:
@@ -158,7 +161,7 @@ Components or tools that are not included with the SDK
      - `Apache License 2.0 <http://www.apache.org/licenses/LICENSE-2.0>`_
 
    * - `Sphinx <http://sphinx.pocoo.org/>`_
-     - `BSD <http://www.opensource.org/licenses/bsd-license.php>`_
+     - `BSD`_
 
    * - `TeX Live <http://www.tug.org/texlive/>`_
      - `mixed free licenses <http://tug.org/texlive/LICENSE.TL>`_
