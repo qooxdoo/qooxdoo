@@ -71,6 +71,10 @@ qx.Class.define("qx.ui.embed.HtmlArea",
 
     this._setLayout(new qx.ui.layout.Grow);
 
+    // Wrapper for the Iframe DOM element created by bom.HtmlArea. Needed to
+    // prevent the element queue from removing the Iframe.
+    var tempElement = new qx.html.Element();
+    this.getContentElement().add(tempElement);
     this.__addAppearListener();
 
     this.__initValues = { content: value,
@@ -493,7 +497,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
      */
     __setupEditorComponent : function()
     {
-      var domElement = this.getContentElement().getDomElement();
+      var domElement = this.getContentElement().getChildren()[0].getDomElement();
       this.__editorComponent = new qx.bom.htmlarea.HtmlArea(domElement,
                                                            this.__initValues.content,
                                                            this.__initValues.styleInfo,
