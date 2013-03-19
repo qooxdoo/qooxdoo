@@ -609,8 +609,12 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
         measureData.osname = qx.core.Environment.get("os.name");
         measureData.osversion = qx.core.Environment.get("os.version");
 
-        var delim = url.indexOf("?") == -1 ? "?" : "&";
-        url += delim + qx.util.Uri.toParameter(measureData, false);
+        var parsedUri = qx.util.Uri.parseUri(location.href);
+        if (parsedUri.queryKey && parsedUri.queryKey.branch) {
+          measureData.branch = parsedUri.queryKey.branch;
+        }
+
+        url += "?" + qx.util.Uri.toParameter(measureData, false);
         var req = new qx.bom.request.Script();
         req.open("GET", url);
         req.send();
