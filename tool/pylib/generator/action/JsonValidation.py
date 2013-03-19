@@ -66,8 +66,7 @@ def validateManifest(jobObj, confObj):
 #
 def validateConfig(confObj, isRootConf=True):
     confDict = confObj._rawdata
-    jobKeys = confDict["jobs"].keys() if "jobs" in confDict else []
-    schema = confObj.getSchema(customJobs=jobKeys)
+    schema = confObj.getSchema(confObj.getJobsList())
     if not isRootConf:
         # don't require top level keys in included configs
         del schema["required"]

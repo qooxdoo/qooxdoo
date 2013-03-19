@@ -5,7 +5,12 @@
   //  * add all env keys?
   //    * http://demo.qooxdoo.org/current/apiviewer/#qx.core.Environment
 
-  // jshint --extra-ext=json tool/data/config/config_schema.json
+  // Check JSON syntax compliance of this schema:
+  //   jshint --extra-ext=json tool/data/config/config_schema.json
+
+  // Dynamic macro processing which has to take place in order to use this schema:
+  //  * replace {{jobnames}} with all possible jobnames as comma-seperated list (e.g. "job1, job2, job3")
+  //  * use {{template}} as template definition for all other jobs
 
   "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "http://qooxdoo.org",
@@ -28,15 +33,11 @@
           "as": { "type": "string" },
           "import": {
             "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "items": { "enum": ["{{jobnames}}"] }
           },
           "block": {
             "type": "array",
-            "items": {
-              "type": "string"
-            }
+            "items": { "enum": ["{{jobnames}}"] }
           }
         }
       }
@@ -44,7 +45,7 @@
     "export": {
       "description": "A list of job names exported by this configuration.",
       "type": "array",
-       "items": { "type": "string" }
+      "items": { "enum": ["{{jobnames}}"] }
     },
     "default-job": { "type": "string" },
     "let": {
@@ -432,7 +433,21 @@
       }
     },
     "config-warnings": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+          "job-shadowing": {
+            "type": "array",
+            "items": { "enum": ["{{jobnames}}"] }
+          },
+          "tl-unknown-keys": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "job-unknown-keys": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+      }
     },
     "copy-files": {
       "description": "Triggers files/directories to be copied, usually between source and build version.",
@@ -474,12 +489,12 @@
     },
     "export": {
       "type": "array",
-      "items": { "type": "string" }
+      "items": { "enum": ["{{jobnames}}"] }
     },
     "extend": {
       "description": "Extend the current job with other jobs. Takes an array of job names. The information of these jobs are merged into the current job description, so the current job sort of “inherits” their settings. (See the special section on 'extend' semantics).",
       "type": "array",
-      "items": { "type": "string" }
+      "items": { "enum": ["{{jobnames}}"] }
     },
     "fix-files": {
       "type": "object",
@@ -695,7 +710,7 @@
     "run": {
       "description": "Define a list of jobs to run in place of the current job. (See the special section on 'run' semantics).",
       "type": "array",
-      "items": { "type": "string" }
+      "items": { "enum": ["{{jobnames}}"] }
     },
     "shell": {
       "description": "Triggers the execution of an external command.",

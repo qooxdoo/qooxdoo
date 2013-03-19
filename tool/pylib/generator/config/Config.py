@@ -762,7 +762,7 @@ class Config(object):
     # @param customJobs list
     # @return schema dict
     #
-    def getSchema(self, customJobs):
+    def getSchema(self, customAndIncludedJobs):
         relPathToSchema = "/../../../data/config/config_schema.json"
         schemaPath = os.path.abspath(os.path.dirname(__file__) + relPathToSchema)
 
@@ -776,17 +776,32 @@ class Config(object):
             e.args = (msg,) + e.args[1:]
             raise
 
-        jobDefs = schema["properties"]["jobs"]["properties"]
+        jobsSchema = schema["properties"]["jobs"]["properties"]
 
         # add custom jobs
-        for job in customJobs:
-            if job not in jobDefs:
-              jobDefs[job] = {}
+        for job in customAndIncludedJobs:
+            if job not in jobsSchema:
+              jobsSchema[job] = {}
+
+        allKnownJobs = list(set(jobsSchema.keys() + customAndIncludedJobs))
+        allKnownJobs.remove("{{template}}")
+
+        # replace '{{jobnames}}' with all known jobs in schema
+        def replaceJobNames(d, jobNames):
+            for k, v in d.iteritems():
+                if v == ["{{jobnames}}"]:
+                    d[k] = jobNames
+                if isinstance(v, dict):
+                    r = replaceJobNames(d[k], jobNames)
+                    d[k] = r
+            return d
+
+        schema = replaceJobNames(schema, allKnownJobs)
 
         # adopt '{{template}}' definition for all jobs
-        templateDict = jobDefs["{{template}}"]
-        for jobSchema in jobDefs:
-            jobDefs[jobSchema] = templateDict
+        templateDict = jobsSchema["{{template}}"]
+        for jobSchema in jobsSchema:
+            jobsSchema[jobSchema] = templateDict
 
         return schema
 
