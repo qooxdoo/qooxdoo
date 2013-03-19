@@ -606,8 +606,8 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
         measureData.testname = this.currentTestData.getFullName();
         measureData.browsername = qx.core.Environment.get("browser.name");
         measureData.browserversion = qx.core.Environment.get("browser.version");
-        measureData.osname = qx.core.Environment.get("os.name");
-        measureData.osversion = qx.core.Environment.get("os.version");
+        measureData.osname = qx.core.Environment.get("os.name") || "unknown";
+        measureData.osversion = qx.core.Environment.get("os.version") || "unknown";
 
         var parsedUri = qx.util.Uri.parseUri(location.href);
         if (parsedUri.queryKey && parsedUri.queryKey.branch) {
