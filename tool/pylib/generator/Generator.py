@@ -34,7 +34,7 @@ from generator.code.Part             import Part
 from generator.action.CodeGenerator  import CodeGenerator
 from generator.action.ActionLib      import ActionLib
 from generator.action.Locale         import Locale as LocaleCls
-from generator.action                import ApiLoader, Locale, CodeMaintenance, Testing, JsonValidation
+from generator.action                import ApiLoader, Locale, CodeMaintenance, Testing
 from generator.action                import CodeProvider, Logging, FileSystem, Resources
 from generator.action                import MiniWebServer
 from generator.runtime.Cache         import Cache
@@ -502,7 +502,11 @@ class Generator(object):
         if takeout(jobTriggers, "clean-files"):
             FileSystem.runClean(self._job, self._config, self._cache)
         if takeout(jobTriggers, "manifest-validate"):
-            JsonValidation.validateManifest(self._job, self._config)
+            if sys.version_info >= (2, 6) and sys.version_info < (3, 0):
+                from generator.action import JsonValidation
+                JsonValidation.validateManifest(self._job, self._config)
+            else:
+               self._console.info("No 'Manifest.json' schema check possible - validation requires Python 2.6+.")
         if takeout(jobTriggers, "migrate-files"):
             CodeMaintenance.runMigration(self._job, config.get("library"))
         if takeout(jobTriggers, "shell"):

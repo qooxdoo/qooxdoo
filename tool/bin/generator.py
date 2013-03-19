@@ -199,8 +199,11 @@ def main():
 
     should_validate = config.get('let/VALIDATE_CONFIG', False)
     if should_validate:
-        from generator.action import JsonValidation
-        JsonValidation.validateConfig(config)
+        if sys.version_info >= (2, 6) and sys.version_info < (3, 0):
+            from generator.action import JsonValidation
+            JsonValidation.validateConfig(config)
+        else:
+            console.info("No 'config.json' schema check possible - validation requires Python 2.6+.")
 
     # CLI mode
     if not options.daemon:
