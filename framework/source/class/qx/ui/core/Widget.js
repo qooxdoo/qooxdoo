@@ -412,7 +412,7 @@ qx.Class.define("qx.ui.core.Widget",
     zIndex :
     {
       nullable : true,
-      init : null,
+      init : 10,
       apply : "_applyZIndex",
       event : "changeZIndex",
       check : "Integer",
