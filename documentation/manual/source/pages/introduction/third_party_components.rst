@@ -13,7 +13,10 @@ Besides foreign files we have included in the project, we also want to list the 
 Framework %{JS} Code
 ============================
 
-These are components that are integrated into the framework class code.
+These are components that are integrated into the framework class code. I.e. if
+you are using classes from the framework to create your custom application,
+chances are that these components will make it into the deploy version of your
+application.
 
 .. list-table::
   :header-rows: 1
@@ -43,7 +46,9 @@ These are components that are integrated into the framework class code.
 Application %{JS} Code
 ============================
 
-These are components that are integrated into the %{JS} code of our demo apps.
+These are components that are used by the %{JS} code of our demo apps.  I.e. if
+you are using classes from the framework to create your custom application none
+of these components will ever make it into your application.
 
 .. list-table::
   :header-rows: 1
@@ -64,7 +69,9 @@ These are components that are integrated into the %{JS} code of our demo apps.
 Resources
 =========
 
-Static resource files, like images, CSS, etc..
+Static resource files, like images, CSS, etc. Static resources are frequently
+included in custom application, so it is very likely some of them will make it
+into your own custom application.
 
 .. list-table::
   :header-rows: 1
@@ -93,7 +100,10 @@ Static resource files, like images, CSS, etc..
 Tool Chain
 ===========
 
-These are the Python modules we use that are not self-written, nor part of a vanilla Python 2.5 SDK:
+These are the Python modules we use that are not self-written nor part of a
+vanilla Python 2.5 SDK. While they are shipped with our SDK they are only used
+while the tool chain runs, and never become part of the resulting custom
+application.
 
 .. list-table::
    :header-rows: 1
@@ -137,6 +147,11 @@ These are the Python modules we use that are not self-written, nor part of a van
 
 Components or tools that are not included with the SDK
 =======================================================
+
+These tools we use on our development machines, e.g. to prepare the %{qooxdoo}
+SDK, run automated tests, create reports, and the like. They are not required to
+use any of %{qooxdoo}'s deliverables, but can be interesting for users that
+pursue specific interests.
 
 .. list-table::
    :header-rows: 1
