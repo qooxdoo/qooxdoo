@@ -413,11 +413,20 @@ qx.Mixin.define("qx.ui.core.MResizable",
       // Cache bounds
       var location = this.getContentLocation();
       var bounds   = this.getBounds();
+      var decorator = this.getDecorator();
+      var borderLR = 0;
+      var borderTB = 0;
+      if (decorator) {
+        decorator = qx.theme.manager.Decoration.getInstance().resolve(decorator);
+        broderLR = (decorator.getWidthLeft() || 0) + (decorator.getWidthRight() || 0);
+        broderTB = (decorator.getWidthTop() || 0) + (decorator.getWidthBottom() || 0);
+      }
+
       this.__resizeStart = {
         top : location.top,
         left : location.left,
-        width : location.right - location.left,
-        height : location.bottom - location.top,
+        width : location.right - location.left - borderLR,
+        height : location.bottom - location.top - borderTB,
         bounds : qx.lang.Object.clone(bounds)
       };
 
