@@ -43,10 +43,10 @@ body#home {
     position: relative;
     height: 458px;
     margin-bottom: round($line * 2);
-    background: url(../../images/domains-bg.png) repeat-x #f4f4f4;
+    background: url(../images/domains-bg.png) repeat-x #f4f4f4;
 
     &.active {
-      background: url(../../images/domains-bg-active.png) repeat-x #f4f4f4;
+      background: url(../images/domains-bg-active.png) repeat-x #f4f4f4;
     }
 
     /*
