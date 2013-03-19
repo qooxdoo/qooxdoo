@@ -108,7 +108,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
         styles["background-size"] = "100% 100%";
       }
       else {
-        styles.backgroundRepeat = repeat;
+        styles["background-repeat"] = repeat;
       }
 
       var top = this.getBackgroundPositionY() || 0;
