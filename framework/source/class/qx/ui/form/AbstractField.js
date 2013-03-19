@@ -958,7 +958,8 @@ qx.Class.define("qx.ui.form.AbstractField",
       "appearance: none;" +
       "position: absolute;" +
       "autoComplete: off;" +
-      "resize: none;";
+      "resize: none;" +
+      "border-radius: 0;";
 
     qx.ui.style.Stylesheet.getInstance().addRule("input, textarea", css);
   },
