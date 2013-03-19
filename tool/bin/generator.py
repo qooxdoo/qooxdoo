@@ -263,7 +263,8 @@ if __name__ == '__main__':
                 #print >> sys.stderr, e
                 print >> sys.stderr, type(e), ":",
                 for el in e.args:
-                    print >> sys.stderr, str(el)[:300]
+                    maxlen = min(len(el), 300)
+                    print >> sys.stderr, str(el)[:maxlen]
             else:
                 print >> sys.stderr, "\nTerminating on unprintable exception; please re-run with -s."
             sys.exit(1)
