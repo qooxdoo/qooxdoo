@@ -120,6 +120,7 @@ class Manifest(object):
 
         return {
             "$schema": "http://json-schema.org/draft-04/schema#",
+            "title": "Manifest.json",
             "type": "object",
             "required": ["info", "provides"],
             "properties": {
