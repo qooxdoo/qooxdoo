@@ -181,6 +181,8 @@ qx.Class.define("qx.html.Flash",
         throw new Error("The attributes cannot be modified after initial creation");
       }
 
+      this.base(arguments, key, value);
+
       if (value === null || value === undefined) {
         delete this.__attributes[key];
       } else {
