@@ -62,9 +62,8 @@
       }
     },
 
-    "build-min" :
+    "min-options" :
     {
-      "extend" : ["build"],
 
       "let" : {
         "Q_INCLUDES" : "${QXWEB_ALL}"
@@ -89,6 +88,11 @@
           "file" : "${BUILD_PATH}/q-${QOOXDOO_VERSION}.min.js"
         }
       }
+    },
+
+    "build-min" :
+    {
+      "extend" : ["min-options", "build"],
     },
 
     // build separate modules (slice qxWeb into separate js-files)
@@ -131,24 +135,9 @@
 
     "build-core-min" :
     {
-      "extend" : ["build-min"],
+      "extend" : ["build-core", "min-options"],
       "lint-check" : {
         "allowed-globals" : [ "qx.Bootstrap" ],
-      },
-      "let" : {
-        "Q_INCLUDES" : [
-          "qx.module.Core",
-          "qx.module.event.*",
-          "qx.bom.Event",
-          "qx.bom.Stylesheet",
-          "qx.dom.Element",
-          "qx.lang.Array",
-          "qx.util.Uri",
-          "qx.lang.Type",
-          "qx.lang.String",
-          "qx.lang.Object",
-          "qx.Bootstrap"
-        ]
       },
       "compile-options" :
       {
@@ -196,32 +185,16 @@
 
     "build-extras-min" :
     {
-      "extend" : ["build-min"],
-      // qx.module.event.* already in Core
-      "exclude" : ["=qx.module.Core", "qx.module.event.*"],
-      "lint-check" : {
-        "allowed-globals" : [
-            "qx.Bootstrap",
-            "qxWeb",
-            "qx",
-            "qx.core",
-            "qx.lang",
-            "qx.bom",
-            "qx.event",
-            "qx.util"
-        ],
-      },
-      "let" : {
-        "Q_INCLUDES" : [
-          "qx.module.*",
-        ]
-      },
+      "extend" : ["build-extras", "min-options"],
       "compile-options" :
       {
         "paths"  :
         {
           "file" : "${BUILD_PATH}/q-extras-${QOOXDOO_VERSION}.min.js",
           "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.extras.tmpl.js"
+        },
+        "code" : {
+          "format" : false
         }
       }
     },
