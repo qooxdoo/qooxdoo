@@ -868,7 +868,8 @@ qx.Theme.define("qx.theme.simple.Decoration",
         shadowBlurRadius : 2,
         shadowColor : "#999999",
         radius: 7,
-        backgroundColor : "white"
+        backgroundColor : "white",
+        shadowLength: 0
       }
     },
 
