@@ -609,7 +609,8 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
         measureData.osname = qx.core.Environment.get("os.name");
         measureData.osversion = qx.core.Environment.get("os.version");
 
-        url += "?" + qx.util.Uri.toParameter(measureData, false);
+        var delim = url.indexOf("?") == -1 ? "?" : "&";
+        url += delim + qx.util.Uri.toParameter(measureData, false);
         var req = new qx.bom.request.Script();
         req.open("GET", url);
         req.send();
