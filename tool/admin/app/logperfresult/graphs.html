@@ -9,9 +9,9 @@
     files.forEach(function(file) {
       //chrome-testrunner.test.Performance.testRepeated.rrd.png
       var parts = file.split("-");
-      var testName = parts[1].match(/(.*?)\.png/)[1];
+      var testName = parts[2].match(/(.*?)\.png/)[1];
       var testId = testName.split(".")[testName.split(".").length - 1];
-      var browserName = parts[0];
+      var browserName = parts[1];
       var view = {
         testName: testName,
         browserName: browserName,

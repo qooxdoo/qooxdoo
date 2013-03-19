@@ -18,9 +18,14 @@
 
 ************************************************************************ */
 
-var debug = false;
+var debug = true;
 var graphWidth = 800;
 var graphHeight = 300;
+var colors = {
+  master: "#FF0000",
+  diet : "#0000FF",
+  unknown : "#AFAFAF"
+};
 
 // -----------------------------------------------------------------------------
 
@@ -57,18 +62,21 @@ if (!fs.existsSync(jsonFileName)) {
 
 debug && console.log("Reading perfomance data file", jsonFileName);
 var data = JSON.parse(fs.readFileSync(jsonFileName, "utf8"));
+var branches = {};
 
 data.forEach(processEntry);
 
 function processEntry(entry, id) {
-  var filename = entry.browsername + "-" +
+  var branch = entry.branch || "unknown";
+  branches[branch] = true;
+  var filename = branch + "-" + entry.browsername + "-" +
     //entry.browserversion + "-" +
     entry.testname.replace(/:/g, ".");
     debug && console.log("DB filename:", filename);
   createDataBase(filename, function() {
     writeData(filename, entry, function() {
       createGraph(filename, function() {
-        console.log("All done");
+        console.log("Entry done:", filename);
       });
     });
   });
@@ -119,13 +127,20 @@ function writeData(filename, entry, callback) {
 }
 
 function createGraph(filename, callback) {
-  var rrdFilename = "./rrd/" + filename + ".rrd";
-  filename = "./graphs/" + filename + ".png";
-  var startDate = "-14days";
+  var baseFileName = filename.split("-");
+  baseFileName.shift();
+  baseFileName = baseFileName.join("-");
+  filename = "./graphs/" + baseFileName + ".png";
+  var startDate = "-30days";
   var graphCmd = "rrdtool graph -w " + graphWidth + " -h " + graphHeight +
   " " + filename + " --start " + startDate +
-  " --vertical-label \"Iterations\"" +
-  " DEF:iterations=" + rrdFilename + ":iterations:AVERAGE LINE2:iterations#FF0000:Iterations";
+  " --vertical-label \"Iterations\"";
+
+  for (var branch in branches) {
+    var rrdFilename = "./rrd/" + branch + "-" + baseFileName + ".rrd";
+    graphCmd += " DEF:iterations=" + rrdFilename + ":iterations:AVERAGE LINE2:iterations" + colors[branch] + ":" + branch;
+  }
+
   debug && console.log("Creating graph:", graphCmd);
   exec(graphCmd, function(error, stdout, stderr) {
     if (error) {
