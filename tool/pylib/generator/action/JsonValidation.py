@@ -19,13 +19,45 @@
 #
 ###########################################################################
 
-import sys
+import sys, re
+
+from copy import deepcopy
 
 from generator import Context
-from generator.config.Config import Config
+from generator.config.Job import Job
 from generator.config.Manifest import Manifest
 from jsonschema.jsonschema import Draft4Validator
 
+# base.json let dict
+baseJsonLetDefaults = {
+    "API_EXCLUDE" : ["qx.test.*", "$${APPLICATION}.theme.*", "$${APPLICATION}.test.*", "$${APPLICATION}.simulation.*"],
+    "ROOT" : ".",
+    "QOOXDOO_PATH" : "../../..",
+    "CACHE" : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "CACHE_KEY" :
+    {
+      "compile" : "${CACHE}",
+      "downloads" : "${CACHE}/downloads",
+      "invalidate-on-tool-change" : True
+    },
+    "QXTHEME" : "qx.theme.Modern",
+    "QXICONTHEME" : ["Tango"],
+    "OPTIMIZE" : [
+       "basecalls",
+       "comments",
+       "privates",
+       "strings",
+       "variables",
+       "variants",
+       "whitespace"
+    ],
+    "LOCALES" : [ "en" ],
+    "APPLICATION_MAIN_CLASS" : "${APPLICATION}.Application",
+    "ADD_NOCACHE_PARAM" : False,
+    "COMPILE_WITH_LINT" : True,
+    "SOURCE_PATH" : "${ROOT}/source",
+    "BUILD_PATH" : "${ROOT}/build"
+}
 
 ##
 # Validates Manifest and prints to stdout/stderr.
@@ -65,11 +97,73 @@ def validateManifest(jobObj, confObj):
 # @param isRootConf boolean
 #
 def validateConfig(confObj, isRootConf=True):
-    confDict = confObj._rawdata
+    confDict = deepcopy(confObj._rawdata)
+
+    if "let" in confDict:
+        baseJsonLetDefaults.update(confDict["let"])
+
     schema = confObj.getSchema(confObj.getJobsList())
     if not isRootConf:
         # don't require top level keys in included configs
         del schema["required"]
+
+    # memorize jobs which need to be 'macro expanded' later on
+    def collectJobsWithMacros(d, curJob="", jobsToExpand=set()):
+        for k, v in d.iteritems():
+            if (isinstance(v, unicode) or isinstance(v, str)) and "${" in v:
+                jobsToExpand.add(re.sub(r'^/jobs/([^/]+)(/.*$|$)', r'\1', curJob))
+            if isinstance(v, dict):
+                if curJob == "" and k in ["let", "config-warnings", "export", "include", "name"]:
+                    # ignore global keys cause mainly jobs are interesting
+                    continue
+
+                collectJobsWithMacros(d[k], curJob+"/"+k, jobsToExpand)
+        return jobsToExpand
+
+    # replace 'None' with schema data type to enable schema checking
+    def replaceNoneWithEmptyString(d):
+        for k, v in d.iteritems():
+            if isinstance(v, dict):
+                replaceNoneWithEmptyString(d[k])
+            if v is None:
+                d[k] = ""
+        return d
+
+    # flatten extends for schema check
+    def flattenExtendValue(d):
+        if "extend" in d:
+            for i, extend in enumerate(d["extend"]):
+                if not (isinstance(extend, unicode) or isinstance(extend, str)):
+                    d["extend"][i] = extend.name
+        return d
+
+    # remove internal props to be as close as possible to flat file
+    def removeInternalProps(d):
+        d.pop("__resolved__", None)
+        d.pop("__override__", None)
+        d.pop("config-warnings", None)
+        return d
+
+    jobsWithMacros = collectJobsWithMacros(confDict)
+    for jobName in jobsWithMacros:
+        jobObj = Job(jobName, confDict["jobs"][jobName], Context.console, confObj)
+
+        if "let" in jobObj._data:
+            baseJsonLetDefaults.update(jobObj._data["let"])
+            jobObj._data["let"] = baseJsonLetDefaults
+        else:
+            jobObj._data["let"] = baseJsonLetDefaults
+
+        jobObj.includeGlobalDefaults()
+        jobObj.includeSystemDefaults()
+        jobObj.resolveExtend()
+        jobObj.resolveMacros()
+
+        expandedData = removeInternalProps(jobObj._data)
+        expandedData = flattenExtendValue(expandedData)
+        expandedData = replaceNoneWithEmptyString(expandedData)
+
+        confDict["jobs"][jobName] = expandedData
 
     # process custom includes recursive
     for extConf in confObj._includedConfigs:
