@@ -1,8 +1,4 @@
 {
-  // TODO:
-  //  * issue with macros (macro is string and expands to array => "${LOCALES} not of type array" :/)
-  //    => expand macros first (before schema check) or allow both array/object/... and string
-
   // Check JSON syntax compliance of this schema:
   //   $ jshint --extra-ext=json tool/data/config/config_schema.json
 
@@ -480,7 +476,6 @@
     "environment": {
       "description": "Define global key:value pairs for the generated application.",
       "type": "object",
-      "additionalProperties": false,
       "properties": {
         "browser.documentmode": { "type": "integer" },
         "browser.name": { "type": "string" },
