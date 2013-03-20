@@ -119,6 +119,7 @@ function writeData(filename, entry, callback) {
   exec(updateCmd, function(error, stdout, stderr) {
     if (error) {
       console.error("Error while updating database:", error, stdout, stderr);
+      callback();
     } else {
       debug && console.log("Database updated", stdout ? ": " + stdout : "");
       callback();
