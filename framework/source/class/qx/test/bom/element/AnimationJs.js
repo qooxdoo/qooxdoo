@@ -39,6 +39,29 @@ qx.Class.define("qx.test.bom.element.AnimationJs",
       this.wait(500, function() {
         this.assertNotCalled(spy);
       }, this);
+    },
+
+    "test animate properties which are CSS properties and element attributes" : function() {
+      var el = qx.dom.Element.create("img");
+      qx.bom.element.Style.setStyles(el, { width: "200px", height: "200px" });
+
+      document.body.appendChild(el);
+
+      var handle = qx.bom.element.Animation.animate(el, {
+        "duration": 100,
+        "keyFrames": {
+          0 : { "width": "200px", "height": "200px" },
+          100 : { "width": "400px", "height": "400px" }
+        },
+        "keep" : 100
+      });
+
+      this.wait(500, function() {
+        this.assertEquals("400px", qx.bom.element.Style.get(el, "width"));
+        this.assertEquals("400px", qx.bom.element.Style.get(el, "height"));
+      }, this);
+
+      document.body.removeChild(el);
     }
   }
 });
