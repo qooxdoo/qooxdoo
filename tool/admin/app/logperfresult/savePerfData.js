@@ -67,7 +67,7 @@ var branches = {};
 data.forEach(processEntry);
 
 function processEntry(entry, id) {
-  var branch = entry.branch || "unknown";
+  var branch = entry.branch || "master";
   branches[branch] = true;
   var filename = branch + "-" + entry.browsername + "-" +
     //entry.browserversion + "-" +
