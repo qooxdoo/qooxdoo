@@ -3835,7 +3835,10 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // Remove widget pointer from DOM
-      this.getContentElement().setAttribute("$$widget", null, true);
+      var contentEl = this.getContentElement();
+      if (contentEl) {
+        contentEl.setAttribute("$$widget", null, true);
+      }
 
       // Clean up all child controls
       this._disposeChildControls();

@@ -348,6 +348,10 @@ qx.Class.define("qx.ui.basic.Image",
      */
     __getSuitableContentElement : function()
     {
+      if (this.$$disposed) {
+        return null;
+      }
+
       var mode = this.__getMode();
 
       if (this.__contentElements[mode] == null) {
