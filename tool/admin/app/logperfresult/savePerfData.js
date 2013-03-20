@@ -138,7 +138,8 @@ function createGraph(filename, callback) {
 
   for (var branch in branches) {
     var rrdFilename = "./rrd/" + branch + "-" + baseFileName + ".rrd";
-    graphCmd += " DEF:iterations=" + rrdFilename + ":iterations:AVERAGE LINE2:iterations" + colors[branch] + ":" + branch;
+    graphCmd += " DEF:iterations-" + branch + "=" + rrdFilename + ":iterations" +
+    ":AVERAGE LINE2:iterations-" + branch + colors[branch] + ":" + branch;
   }
 
   debug && console.log("Creating graph:", graphCmd);
