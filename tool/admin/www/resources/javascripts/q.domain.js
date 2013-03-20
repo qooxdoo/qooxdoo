@@ -40,7 +40,7 @@ var Domain = q.define({
 
     // Expand domain on click
     onClick: function(evt) {
-      var target = q.wrap(evt.getTarget()),
+      var target = q(evt.getTarget()),
           domain = target.getClosest(this.childrenSelector);
 
       if (target.getClosest(".domain.active header").length) {
@@ -52,7 +52,7 @@ var Domain = q.define({
     },
 
     onDocumentClick: function(evt) {
-      var target = q.wrap(evt.getTarget());
+      var target = q(evt.getTarget());
 
       // Ignore clicks when inside domains
       if (target.getClosest(this.containerSelector).length) {
@@ -71,7 +71,7 @@ var Domain = q.define({
     },
 
     onClickIcon: function(evt) {
-      var target = q.wrap(evt.getTarget());
+      var target = q(evt.getTarget());
       if (target.filter("img").length) {
         var domain = target.getAttribute("data-domain");
         if (domain) {
@@ -159,7 +159,7 @@ var Domain = q.define({
 
       // Determine feature with greatest height
       var height = max(this.domains.find(".introduction").map(function(description) {
-        return q.wrap(description).getHeight();
+        return q(description).getHeight();
       }));
 
       this.domains.find(".feature")
@@ -180,7 +180,7 @@ var Domain = q.define({
   }
 });
 
-q.attach({
+q.$attach({
   domain: function(childrenSelector, iconsSelector) {
     if (!this.length) {
       return this;
