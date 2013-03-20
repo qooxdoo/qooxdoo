@@ -122,6 +122,8 @@ qx.Class.define("inspector.selenium.SeleniumWindow", {
     this._model.removeListenerById(this.__changeInspectedListenerID);
     this.__view.dispose();
     this.__view = null;
-    this.__appChangeTimer.dispose();
+    if (this.__appChangeTimer) {
+      this.__appChangeTimer.dispose();
+    }
   }
 });
