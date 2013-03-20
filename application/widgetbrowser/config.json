@@ -22,9 +22,9 @@
     "SELENIUM_SERVER" : "localhost",
     "SELENIUM_PORT" : 4444,
     "SELENIUM_BROWSER" : "*googlechrome",
-    "AUT_HOST" : null,
-    "AUT_PATH" : null,
-    "SIMULATOR_REPORTSERVER" : null
+    "AUT_HOST" : "",
+    "AUT_PATH" : "",
+    "SIMULATOR_REPORTSERVER" : false
   },
 
   "config-warnings" :
