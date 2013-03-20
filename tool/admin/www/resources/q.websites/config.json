@@ -13,16 +13,19 @@
   ],
 
   /*
+  */
   "export" :
   [
     "api",
     "api-data",
+    "copy-to-resources",
+    "copy-generated",
+    "copy-edited",
     "q-build",
     "q-build-min",
     "test",
     "test-source"
   ],
-  */
 
   "default-job" : "q-build",
 
@@ -48,6 +51,7 @@
   {
     "q-build" : 
     {
+      "desc" : "Create a custom q library in ./script",
       "extend" : ["build-core"],
       "include" : ["qx.module.Placeholder"],
       "compile-options" : {
@@ -59,6 +63,7 @@
     
     "q-build-min" : 
     {
+      "desc" : "Create a minified custom q library in ./script",
       "extend" : ["q-build", "min-options"],
       "compile-options" : {
         "paths" : {
@@ -94,6 +99,7 @@
 
     ,"copy-to-resources" :
     {
+      "desc" : "Copy all export script files to ../javascripts",
       "run" : [
         "copy-generated",
         "copy-edited"
@@ -102,6 +108,7 @@
 
     ,"copy-generated" :
     {
+      "desc" : "Copy ./script/q.js to ../javascripts",
       "extend" : ["cache"],
       "copy-files" : {
         "files" : [ "q.js" ],
@@ -112,6 +119,7 @@
 
     ,"copy-edited" :
     {
+      "desc" : "Copy ./source/*.js to ../javascripts",
       "extend" : ["cache"],
       "copy-files" : {
         "files" : [ "*.js" ],
