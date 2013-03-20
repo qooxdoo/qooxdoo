@@ -30,9 +30,13 @@ CSS Generation
 Several files in stylesheets/ are generated. Currently, the way to generate all
 of them from their scss/ sources is to go to the repo's root directory and issue
 
+::
+
   make -f tool/admin/release/Makefile.release resources-build-css
 
 Manual generation of each individual file is of course possible, e.g. with
+
+::
 
   scss -t expanded scss/base.scss css/base.css (Ruby-Sass)
   scss.py -C scss/base.scss -o css/base.css    (pyScss)
