@@ -8,28 +8,27 @@ scripts, some of them custom scripts maintained in the repo.
 Files
 ------------
 
-Custom
-~~~~~~~
-* Custom q, q plugins and scripts; maintained in ../q.websites/.
+application.js
+	Main custom script using q and q plugins; maintained in ../q.websites.
+q.js
+	Custom q build (q.core + addtl. modules); maintained in ../q.websites.
+q.domain.js
+  q plugin, handles the qx components display (tabs, code, etc.)on the homepage;
+  maintained in ../q.websitese.
+q.placeholder.js
+	q plugin; maintained in ../q.websites.
+q.sticky.js
+  q plugin, handles the controls of the right side bar so they are always
+  visible; maintained in ../q.websites.
 
-  * application.js -- Main custom script using q and q plugins.
-  * q.js -- Custom q build (q.core + addtl. modules)
-  * q.domain.js -- q plugin, handles the qx components display (tabs,
-    code, etc.)on the homepage
-  * q.placeholder.js -- q plugin.
-  * q.sticky.js -- q plugin, handles the controls of the right side bar
-    so they are always visible.
-
-Third-party
-~~~~~~~~~~~
-* html5shiv.js
+html5shiv.js
   3rd party. Helper for HTML5 elements in older IEs.
-* SyntaxHighlighter
-  3rd party. Syntax highlighter.
-
-  * shBrushJScript.js
-  * shCore.js
-  * sh.LICENSE
+shBrushJScript.js
+  3rd party. SyntaxHighlighter file.
+shCore.js
+  3rd party. SyntaxHighlighter file.
+sh.LICENSE
+  3rd party. SyntaxHighlighter file.
 
 
 Maintenance
