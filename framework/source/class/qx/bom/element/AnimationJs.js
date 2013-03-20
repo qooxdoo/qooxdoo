@@ -399,8 +399,9 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
           continue;
         }
 
-        // apply element property value
-        if (key in el) {
+        // apply element property value - only if a CSS property
+        // is *not* available
+        if (typeof el.style[key] === "undefined" && key in el) {
           el[key] = styles[key];
           continue;
         }
