@@ -418,7 +418,7 @@
             },
             "optimize": {
               "type": "array",
-              "items": { "enum": [ "basecalls", "comments", "privates", "strings", "variables", "variants", "whitespace" ] }
+              "items": { "enum": [ "basecalls", "comments", "privates", "strings", "variables", "variants", "whitespace", "statics" ] }
             },
             "decode-uris-plug": { "type": "string" },
             "except": {
@@ -622,9 +622,11 @@
         "qx.debug.ui.queue": { "type": "boolean" },
         "qx.dynamicmousewheel": { "type": "boolean" },
         "qx.dynlocale": { "type": "boolean" },
+        "qx.emulatemouse": { "type": "boolean" },
         "qx.globalErrorHandling": { "type": "boolean" },
         "qx.mobile.emulatetouch": { "type": "boolean" },
         "qx.mobile.nativescroll": { "type": "boolean" },
+        "qx.nativeScrollBars": { "type": "boolean" },
         "qx.optimization.basecalls": { "type": "boolean" },
         "qx.optimization.comments": { "type": "boolean" },
         "qx.optimization.privates": { "type": "boolean" },
@@ -634,6 +636,7 @@
         "qx.revision": { "type": "string" },
         "qx.test.bool_true": { "type": "boolean" },
         "qx.test.bool_false": { "type": "boolean" },
+        "qx.testNameSpace": { "type": "string" },
         "qx.theme": { "type": "string" },
         "qx.version": { "type": "string" },
         "qx.blankpage": { "type": "string" },
@@ -641,7 +644,33 @@
         "module.logger": { "type": "boolean" },
         "module.property": { "type": "boolean" },
         "module.events": { "type": "boolean" },
-        "html.dataurl": { "type": "boolean" }
+        "html.dataurl": { "type": "boolean" },
+        // additions from apps/components
+        "simulator.selServer":  { "type": "string" },
+        "simulator.selPort":  { "type": "integer" },
+        "simulator.testBrowser":  { "type": "string" },
+        "simulator.autHost":  { "type": "string" },
+        "simulator.autPath":  { "type": "string" },
+        "simulator.reportServer":  { "type": "boolean" },
+        "simulator.logFile":  { "type": "boolean" },
+        "simulator.applicationLog":  { "type": "boolean" },
+        "simulator.globalErrorLogging":  { "type": "boolean" },
+        "simulator.testEvents":  { "type": "boolean" },
+        "simulator.disposerDebug":  { "type": "boolean" },
+        "simulator.threadSafe":  { "type": "boolean" },
+        "fce.reportServerHost": { "type": "string" },
+        "fce.reportServerGetUrl": { "type": "string" },
+        "fce.reportServerAddUrl": { "type": "string" },
+        "testrunner.view": { "type": "string" },
+        "testrunner.testOrigin": { "type": "string" },
+        "testrunner.title": { "type": "string" },
+        "testrunner.testParts": { "type": "boolean" },
+        "testrunner.reportServer": { "type": "string" },
+        "testrunner.performance": { "type": "boolean" },
+        "json": { "type": "boolean" },
+        "widgetbrowser.themes": { "type": "string" },
+        "inspector.selenium.core": { "type": "string" },
+        "inspector.selenium.extensions": { "type": "string" }
       }
     },
     "exclude": {
@@ -659,9 +688,10 @@
     },
     "fix-files": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "eol-style": { "enum": ["LF", "CR", "CRLF"] },
-        "tab-width": { "type": "number" }
+        "tab-width": { "type": "integer" }
       }
     },
     "include": {
@@ -722,6 +752,7 @@
     },
     "log": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "classes-unused": {
           "type": "array",
@@ -797,17 +828,17 @@
     "manifest-validate": { "type": "object" },
     "migrate-files": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "from-version": { "type": "string" },
         "migrate-html": { "type": "boolean" }
       }
     },
-    "name": {
-      "type": "object"
-    },
+    "name": { "type": "string" },
     "packages": {
       "description": "Define packages for the application. (See special section on packages).",
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "parts": {
           "type": "object",
@@ -839,7 +870,54 @@
     },
     "pretty-print": {
       "description": "Triggers code beautification of source class files (in-place-editing). An empty map value triggers default formatting, but further keys can tailor the output.",
-      "type": "object"
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "general": {
+          "type": "object",
+          "properties": {
+            "indent-string": { "type": "string" },
+            "text-width": { "type": "integer" }
+          }
+        },
+        "comments": {
+          "type": "object",
+          "properties": {
+            "block": {
+              "type": "object",
+              "properties": {
+                "add": { "type": "string" }
+              }
+            },
+            "trailing": {
+              "type": "object",
+              "properties": {
+                "keep-column": { "type": "string" },
+                "comment-cols": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "padding": { "type": "string" }
+              }
+            }
+          }
+        },
+        "code": {
+          "type": "object",
+          "properties": {
+            "align-with-curlies": { "type": "boolean" },
+            "open-curly": {
+              "type": "object",
+              "properties": {
+                "newline-before": {
+                  "enum": ["a", "A", "n", "N", "m", "M"]
+                },
+                "indent-before": { "type": "boolean" }
+              }
+            }
+          }
+        }
+      }
     },
     "provider": {
       "type": "object",
@@ -876,6 +954,7 @@
     "shell": {
       "description": "Triggers the execution of an external command.",
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "command": {
           "type": ["string", "array"]
@@ -884,6 +963,7 @@
     },
     "simulate": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "java-classpath": {
           "type": "array",
@@ -907,6 +987,7 @@
     "translate": {
       "description": "(Re-)generate .po files from source classes.",
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "namespaces": {
           "type": "array",
@@ -917,7 +998,7 @@
           "items": { "type": "string" }
         },
         "profiles-with-metadata": { "type": "boolean" },
-        "poentry-with-occurences": { "type": "boolean" }
+        "poentry-with-occurrences": { "type": "boolean" }
       }
     },
     "use": {
@@ -928,13 +1009,48 @@
       }
     },
     "watch-files": {
-      "type": "object"
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "paths": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "command": {
+          "type": "object",
+          "properties": {
+            "line": { "type": "string" },
+            "per-file": { "type": "boolean" }
+          }
+        },
+        "include": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "include-dirs": { "type": "boolean" },
+        "check-interval": { "type": "integer" },
+        "exit-on-retcode": { "type": "boolean" }
+      }
     },
     "web-server": {
-      "type": "object"
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "document-root": { "type": "string" },
+        "server-port": { "type": "integer" },
+        "log-level": { "type": "string" },
+        "allow-remote-access": { "type": "boolean" }
+      }
     },
     "web-server-config": {
-      "type": "object"
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "output-dir": { "type": "string" },
+        "template-dir": { "type": "string" },
+        "httpd-type": { "type": "string" },
+        "httpd-host-url": { "type": "string" }
+      }
     }
   }
 }
