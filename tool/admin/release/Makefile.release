@@ -65,6 +65,7 @@ QOOXDOO_RELEASE = QOOXDOO_RELEASE=1
 endif
 
 CMD_GENERATOR := $(CMD_PYTHON) "$(CURDIR)/tool/bin/generator.py" $(OPT_GENERATOR)
+CMD_GENERATOR_NOOPTS := $(CMD_PYTHON) "$(CURDIR)/tool/bin/generator.py"
 STAGING_HOST = qooxdoo@webtechfe-test01.schlund.de
 
 FILES_TEXT = \( -name "*.py" -o -name "*.sh" -o -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO \)
@@ -508,14 +509,31 @@ tutorials-build:
 
 ################################################################################
 # RESOURCE TARGETS
+#
+# Re-creates files in the distribution directories of tool/admin/www/resources
+# which will then be published to the production websites (among others).
 ################################################################################
 
-resources-build:
+resources-build: resources-build-css
+
+##
+# Generates the .css files in the distribution directory from the .scss files.
+resources-build-css:
 	@echo "  * Compiling style sheets..."
 	@cd $(PATH_TOOL_RESOURCES)/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
 		echo "     - $$SCSS_FILE..."; \
 		$(CMD_SCSS) $(CMD_SCSS_OPTS) ../stylesheets/$${SCSS_FILE/%.scss/.css} $$SCSS_FILE; \
 	done
+
+##
+# Generates the custom q.js, copies it and the q plugins to the distrib.
+# directory.
+# Needs CMD_GENERATOR_NOOPTS so the result will not depend on the git revision.
+# -- currently not used! --  (so has to be called manually)
+resources-build-js:
+	@echo "  * Creating custom q and plugins..."
+	@( cd $(PATH_TOOL_RESOURCES)/q.websites/ && $(CMD_GENERATOR_NOOPTS) q-build-min ) || exit 1
+	@( cd $(PATH_TOOL_RESOURCES)/q.websites/ && $(CMD_GENERATOR_NOOPTS) copy-to-resources ) || exit 1
 
 resources-check:
 	@cd $(PATH_TOOL_RESOURCES)/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \

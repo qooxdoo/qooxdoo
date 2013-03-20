@@ -1,0 +1,5 @@
+A custom q.core++ for our websites
+===================================
+
+Rather than using separate libs q.core + q.extras + ..., here is a custom q lib
+which is taylor-made. Generates directly into ../javascripts.
