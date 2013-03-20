@@ -1,5 +1,5 @@
-About
-======
+JavaScript Resources
+=======================
 
 This directory is copied with its contents to our online website. It holds an
 assortment of JavaScript files which are used there, some of them 3rd party
