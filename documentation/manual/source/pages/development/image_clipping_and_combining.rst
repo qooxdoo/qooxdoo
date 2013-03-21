@@ -2,27 +2,31 @@
 
 Image clipping and combining
 ****************************
-qooxdoo integrates the support for clipping and combining images in the framework and both features are heavily used within the framework mainly in the different themes like :doc:`appearance or decoration theme </pages/desktop/ui_theming>`.
+
+qooxdoo integrates the support for clipped and combined images in the
+framework where both features are heavily used, mainly in the
+different themes like :doc:`appearance or decoration themes
+</pages/desktop/ui_theming>`.
 
 .. _pages/image_clipping_and_combining#setup:
 
-Setup
-=====
+Configuration
+==============
 
 .. note::
 
-    To be able to use image clipping and combining you need an installed :doc:`ImageMagick </pages/introduction/third_party_components>` package. The latest version known to work is 6.6.1.
+    To be able to use image clipping and combining you need a locally installed
+    :doc:`ImageMagick </pages/introduction/third_party_components>` package. The
+    latest version known to work is 6.6.1.
 
 
-To use the two features you have to create a config file which can be used by the generator to clip or combine images. Altough it is possible to integrate the jobs for clipping and combining in your ``config.json`` file of your application, **the better way** is to create an own config file for the image manipuations to separate it from the application configuration. 
+To use the two features you have to configure dedicated generator jobs.  the
+generator to clip or combine images. You can add those jobs to your standard
+``config.json`` file, or, as the configuration for these tasks is fairly
+self-contained, put them in an own file like ``image.json``, as we do in the
+framework.
 
-.. note::
-
-    It is recommended to use the same file name for the config file as in the core framework to better reflect its purpose: ``image.json``
-
-At the first look the configuration file for the image jobs is basically the same as a normal application configuration file.
-
-::
+Here is the general layout for the image manipulating jobs configuration::
 
     {
       "jobs" :
@@ -38,21 +42,26 @@ At the first look the configuration file for the image jobs is basically the sam
           {
              "compile" : "../../cache"
           }
-        }
+        },
+
+        "image-clipping" : { ... },
+
+        "image-combining": { ... }
       }
     }
 
-The described ``common`` is used to setup the basic settings which are used by the specific jobs ``image-clipping`` and ``image-combine`` which are described at the following sections.
+The ``common`` job is used to set up the basic settings which are shared between
+the specific jobs ``image-clipping`` and ``image-combine``, described
+in the following sections.
 
 .. _pages/image_clipping_and_combining#image_clipping:
 
 Image clipping
 --------------
-Clipping images is needed whenever you have a base image, e.g. a complete image for your button with rounded borders, to strip them into several parts. 
 
-.. note::
-
-    Mainly, the clipping is needed to prepare the source image for the use as a ``baseImage`` for the ``grid`` decorator. All clipped images of the core framework are used as baseImages for grid decorators.
+Clipping images is needed whenever you have a base image, e.g. a complete image
+for your button with rounded borders, and want to cut it into several parts. A
+common use case in the framework is to use such images for ``grid`` decorators.
 
 ::
 
@@ -62,6 +71,8 @@ Clipping images is needed whenever you have a base image, e.g. a complete image 
 
        "slice-images" :
        {
+          "convert-cmd" : "convert %(infile)s -crop \
+              %(xoff)sx%(yoff)s+%(xorig)s+%(yorig)s +repage %(outfile)s",
           "images" :
           {
              "${RESPATH}/image/source/groupBox.png" :
@@ -73,32 +84,51 @@ Clipping images is needed whenever you have a base image, e.g. a complete image 
        }
     }
 
+(Mind that you cannot split a string across lines in Json, so the ``\`` in the
+value of ``convert-cmd`` is only for better readability here in the manual.)
 Each entry in the ``images`` block represents one source image to clip. 
 
- * value of the key has to be the path to this image
- * the ``prefix`` entry will set the filename for all of your splitted images. The resulting images will follow the rule ``prefix+imagepart`` where ``imagepart`` will be e.g. ``tl`` or ``br`` (for top-left and bottom-right)
- * the entry ``border-width`` is to define the part of the image which the rounded border occupies. If you look at your baseImage you can determine the "border-width" by select a rectangle (which your graphic tool) which occupies the rounded border completely
+* The key has to be the path to the *source* image.
+* The ``prefix`` entry will set the base file path for all the result images.
+  The resulting file paths will follow the rule ``prefix + imagepart +
+  extension`` where imagepart will specify the spacial location from which
+  the clip has been taken, e.g. ``tl`` for top-left or ``br`` for bottom-right
+  etc. So one result image will be *"../../clipped/groupBox-tl.png"*.
+* The entry ``border-width`` defines how deep from the border into the image the
+  cut will run. If you look at your source image you can determine the
+  border-width by selecting a rectangle (which your graphic tool) which encloses
+  the corner of the image completely. The edge of the rectangle is your
+  border-width (see further).
 
-For the case ``border-width``: One image says more than thousand words :)
+See the :ref:`slice-images reference
+<pages/tool/generator/generator_config_ref#slice-images>` for all configuration
+details.
+
+Visual example
+~~~~~~~~~~~~~~~~~~
+
+Here is an example illustration for the border-width case.
 
 |groupbox_clipping.png|
 
 .. |groupbox_clipping.png| image:: groupbox_clipping.png
 
-The selection rectangle has the size of 4 x 4 pixels, thus the ``border-width`` value of 4. Differing border width values for each of the four sides are also supported. In that case, the value for border-width must be an array containing the four values in this order: top, right, bottom, left.
-
-.. note::
-
-    For more information see the :ref:`slice-image <pages/tool/generator/generator_config_ref#slice-images>` section.
+The selection rectangle has the size of 4 x 4 pixels (a single pixel is
+indicated by the embedded square at the bottom-right corner), thus the
+``border-width`` value is 4. Differing border width values for each of the four
+sides are also supported. In that case, the value for border-width must be an
+array containing the four values in the order: top, right, bottom, left.
 
 
 .. _pages/image_clipping_and_combining#image_combining:
 
 Image combining
 ---------------
-Opposite to image clipping the image combining takes multiple images as source and generates one ``combined`` image out of them. 
 
-::
+Complementary to image clipping image combining takes multiple images as sources
+and generates a single image out of them. The result image is like a box that
+contains the input images side by side. Here is a configuration sample::
+
 
     "image-combine" :
     {
@@ -106,6 +136,8 @@ Opposite to image clipping the image combining takes multiple images as source a
 
        "combine-images" :
        {
+          "montage-cmd" : "montage @%(tempfile)s -geometry +0+0 -gravity \
+            NorthWest -tile %(orientation)s -background None %(combinedfile)s",
           "images" :
           {
              "${RESPATH}/image-combined/combined.png":
@@ -124,25 +156,37 @@ Opposite to image clipping the image combining takes multiple images as source a
        }
     }
 
-Basically the structure is the same as for the ``image-clipping`` jobs. Let's take a look at the details.
+(Mind that you cannot split a string across lines in Json, so the ``\`` in the
+value of ``montage-cmd`` is only for better readability here in the manual.)
+Basically the structure is the same as for the ``image-clipping`` job. Let's
+take a look at the details.
 
-* value of the key has to the path of the combined image to create
-* ``files`` is an array which takes the several images to combine as arguments - the use of wildcards like ``*`` or ``[tb]`` are allowed
-* the ``layout`` key takes the two possible values ``horizontal`` or ``vertical`` and determines the alignment of the source images inside the combined images
+* The key has to be the path of the *result* image.
+* The ``layout`` key takes the two possible values "horizontal" or
+  "vertical" and determines the alignment of the source images inside the
+  combined image.
+* ``files`` is an array which takes several input images that share the same
+  path prefix. (This is relevant as the ``prefix`` will be stripped from the index
+  which is also generated together with the output image. The individual files in
+  the index are only identified by their paths *after* the prefix.)
 
-.. note::
+The layout depends on the sizes of the source images and their intended purpose.
+Combining images of same sizes saves white space "noise" in the result image,
+thus decreasing transfer size. If the combined image contains images that need
+to be stretched *horizontally* by the browser, the images need to be aligned
+*vertically*, and vice versa. If you are free in this respect the horizontal
+layout is usually the better choice
 
-    The layout depends on the sizes of the source images. Best suited for combining are always images with the same sizes. For most cases the ``horizontal`` layout is the better choice
-
-.. note::
-
-    For more information take a look at the :ref:`combine-images <pages/tool/generator/generator_config_ref#combine-images>` section.
+For more information see the
+:ref:`combine-images <pages/tool/generator/generator_config_ref#combine-images>`
+reference section.
 
 
 .. _pages/image_clipping_and_combining#run_image_jobs:
 
-Run image jobs
-==============
+Running Image Jobs
+===================
+
 If you are finished with the definition of your images to clip and/or to combine you can use the ``generator`` to actually let them created for you.
 
 ::
@@ -174,9 +218,14 @@ will run both jobs at once.
 
 Benefits
 ========
-There are several benefits for setting the image clipping and combining up
+There are several benefits for setting up the image clipping and combining.
 
-* less HTTP requests meaning better performance when using combined images
-* widgets using the ``grid`` decorator are easier to use. If you do not use clipping you have to slice the baseImage and name the parts manually
-* state changes are faster with combined images as the browser does not have to change the source if the displayed image. Instead he only changes the value of the CSS property ``background-position`` to display the desired part of the combined image
+* Fewer HTTP requests mean better performance when using combined images.
+* Widgets using the ``grid`` decorator are easier to use. If you do not use
+  the tool-based clipping you have to slice the source image and name the parts
+  manually.
+* State changes are faster with combined images as the browser does not have to
+  change the source of the displayed image. Instead it only changes the value of
+  the CSS property ``background-position`` to display the desired part of the
+  combined image.
 
