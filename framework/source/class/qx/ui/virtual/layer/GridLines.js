@@ -36,7 +36,7 @@ qx.Class.define("qx.ui.virtual.layer.GridLines",
   construct : function(orientation, lineColor, lineSize)
   {
     this.base(arguments);
-    this.setZIndex(1);
+    this.setZIndex(11);
 
     if (lineColor) {
       this.setDefaultLineColor(lineColor);

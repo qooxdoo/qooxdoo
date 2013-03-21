@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
   construct : function(widgetCellProvider)
   {
     this.base(arguments);
-    this.setZIndex(2);
+    this.setZIndex(12);
 
     if (qx.core.Environment.get("qx.debug")) {
       this.assertInterface(
