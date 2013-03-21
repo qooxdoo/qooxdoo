@@ -1021,7 +1021,7 @@ qx.Class.define("qx.ui.core.Widget",
         contentStyles.top = top + pixel;
       }
 
-      if (inner || changes.local || changes.margin)
+      if (inner || changes.margin)
       {
         contentStyles.width = width + pixel;
         contentStyles.height = height + pixel;
