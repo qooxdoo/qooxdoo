@@ -74,7 +74,8 @@ qx.Class.define("qx.bom.webfonts.Validator", {
       width: "auto",
       height: "auto",
       lineHeight: "normal",
-      fontVariant: "normal"
+      fontVariant: "normal",
+      visibility: "hidden"
     },
 
 
