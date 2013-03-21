@@ -201,7 +201,7 @@ def main():
     if should_validate:
         if sys.version_info >= (2, 6) and sys.version_info < (3, 0):
             from generator.action import JsonValidation
-            JsonValidation.validateConfig(config)
+            JsonValidation.validateConfig(config, config.getSchema())
         else:
             console.info("No 'config.json' schema check possible - validation requires Python 2.6+.")
 

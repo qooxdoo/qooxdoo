@@ -65,13 +65,8 @@ def validateManifest(jobObj, confObj):
 # @param confObj generator.config.Config.Config
 # @param isRootConf boolean
 #
-def validateConfig(confObj, isRootConf=True):
+def validateConfig(confObj, schema):
     confDict = deepcopy(confObj._rawdata)
-
-    schema = confObj.getSchema(confObj.getJobsList())
-    if not isRootConf:
-        # don't require top level keys in included configs
-        del schema["required"]
 
     # process custom includes recursive
     for extConf in confObj._includedConfigs:
@@ -82,7 +77,7 @@ def validateConfig(confObj, isRootConf=True):
         if extConfPath.endswith("base.json") or extConfPath.endswith("application.json"):
            continue
 
-        validateConfig(extConf, isRootConf=False)
+        validateConfig(extConf, schema)
 
     errors = __validate(confDict, schema)
     __printResults(Context.console, errors, confObj._fname, bool(errors))

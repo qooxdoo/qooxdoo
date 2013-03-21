@@ -762,7 +762,7 @@ class Config(object):
     # @param customJobs list
     # @return schema dict
     #
-    def getSchema(self, customAndIncludedJobs):
+    def getSchema(self):
         relPathToSchema = "/../../../data/config/config_schema.json"
         schemaPath = os.path.abspath(os.path.dirname(__file__) + relPathToSchema)
 
@@ -775,18 +775,6 @@ class Config(object):
                 "\n%s" % e.args[0] if e.args else "")
             e.args = (msg,) + e.args[1:]
             raise
-
-        jobsSchema = schema["properties"]["jobs"]["properties"]
-
-        # add custom jobs
-        for job in customAndIncludedJobs:
-            if job not in jobsSchema:
-              jobsSchema[job] = {}
-
-        # adopt '{{template}}' definition for all jobs
-        templateDict = jobsSchema["{{template}}"]
-        for jobSchema in jobsSchema:
-            jobsSchema[jobSchema] = templateDict
 
         return schema
 
