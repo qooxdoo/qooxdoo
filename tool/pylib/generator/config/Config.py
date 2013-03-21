@@ -783,21 +783,6 @@ class Config(object):
             if job not in jobsSchema:
               jobsSchema[job] = {}
 
-        allKnownJobs = list(set(jobsSchema.keys() + customAndIncludedJobs))
-        allKnownJobs.remove("{{template}}")
-
-        # replace '{{jobnames}}' with all known jobs in schema
-        def replaceJobNames(d, jobNames):
-            for k, v in d.iteritems():
-                if v == ["{{jobnames}}"]:
-                    d[k] = jobNames
-                if isinstance(v, dict):
-                    r = replaceJobNames(d[k], jobNames)
-                    d[k] = r
-            return d
-
-        schema = replaceJobNames(schema, allKnownJobs)
-
         # adopt '{{template}}' definition for all jobs
         templateDict = jobsSchema["{{template}}"]
         for jobSchema in jobsSchema:

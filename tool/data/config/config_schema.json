@@ -27,11 +27,11 @@
           "as": { "type": "string" },
           "import": {
             "type": "array",
-            "items": { "enum": ["{{jobnames}}"] }
+            "items": { "type": "string" }
           },
           "block": {
             "type": "array",
-            "items": { "enum": ["{{jobnames}}"] }
+            "items": { "type": "string" }
           }
         }
       }
@@ -39,7 +39,7 @@
     "export": {
       "description": "A list of job names exported by this configuration.",
       "type": "array",
-      "items": { "enum": ["{{jobnames}}"] }
+      "items": { "type": "string" }
     },
     "default-job": { "type": "string" },
     "let": {
@@ -431,7 +431,7 @@
       "properties": {
           "job-shadowing": {
             "type": "array",
-            "items": { "enum": ["{{jobnames}}"] }
+            "items": { "type": "string" }
           },
           "tl-unknown-keys": {
             "type": "array",
@@ -674,12 +674,12 @@
     },
     "export": {
       "type": "array",
-      "items": { "enum": ["{{jobnames}}"] }
+      "items": { "type": "string" }
     },
     "extend": {
       "description": "Extend the current job with other jobs. Takes an array of job names. The information of these jobs are merged into the current job description, so the current job sort of “inherits” their settings. (See the special section on 'extend' semantics).",
       "type": "array",
-      "items": { "enum": ["{{jobnames}}"] }
+      "items": { "type": "string" }
     },
     "fix-files": {
       "type": "object",
@@ -944,7 +944,7 @@
     "run": {
       "description": "Define a list of jobs to run in place of the current job. (See the special section on 'run' semantics).",
       "type": "array",
-      "items": { "enum": ["{{jobnames}}"] }
+      "items": { "type": "string" }
     },
     "shell": {
       "description": "Triggers the execution of an external command.",
