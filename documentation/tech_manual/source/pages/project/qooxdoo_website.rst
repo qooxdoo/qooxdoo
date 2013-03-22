@@ -17,7 +17,7 @@ Moreover, the website points to tools, demo apps and downloadable assets found o
 Assets
 ======
 
-All sub systems retrieve stylesheets and script files from the `resources <http://resources.qooxdoo.org>`_ host. Stylesheets are in LESS format and need to be compiled to CSS when changed.
+All sub systems retrieve stylesheets and script files from the `resources <http://resources.qooxdoo.org>`_ host. See :doc:`resources.qooxdoo.org` for more information.
 
 Screenshots
 ===========
@@ -28,3 +28,11 @@ Thumbnails
 ----------
 
 Thumbnails of screenshots are used on the `demos <http://qooxdoo.org/demos>`_ and `tools <http://qooxdoo.org/demos/tools>`_ page. The thumbnails dimensions are 285px/177px. Their scale factor is 0.5 compared to the original screenshot.
+
+Sub-pages
+=========
+
+.. toctree::
+   :maxdepth: 1
+
+   resources.qooxdoo.org
