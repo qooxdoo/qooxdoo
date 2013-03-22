@@ -1,7 +1,7 @@
 {
   "name"    : "includer for portable testrunner",
 
-  "include" : 
+  "include" :
   [
     {
       "path" : "${QOOXDOO_PATH}/tool/data/config/base.json",
@@ -17,7 +17,7 @@
       "build-script",
       "build-resources"
     ],
-    
+
     "exclude" : [
       "testrunner.view.widget.*",
       "testrunner.TestLoader",
@@ -26,7 +26,7 @@
       "qx.dev.unit.TestLoaderInline"
     ]
   },
-  
+
   "let" :
   {
     "APPLICATION"  : "testrunner",
@@ -37,8 +37,6 @@
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : ".",
     "BUILD_PATH"   : "build",
-    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
-    
     "TESTRUNNER_ROOT" : ".",
     "TESTRUNNER_ORIGIN" : "external",
     "TESTRUNNER_MAIN_CLASS" : "testrunner.Application",
@@ -46,7 +44,7 @@
     "TESTRUNNER_SCRIPT" : "testrunner-portable.js",
     "BUILD_SCRIPT_FILE" : "${BUILD_PATH}/script/${TESTRUNNER_SCRIPT}"
   },
-  
+
   "jobs" :
   {
     "portable-common" :
@@ -65,7 +63,7 @@
         "testrunner.reportServer" : null,
         "testrunner.performance" : true
       },
-      
+
       "library" :
       [
         {
@@ -80,13 +78,13 @@
           "manifest" : "${TESTRUNNER_ROOT}/Manifest.json"
         }
       ],
-      
+
       "=include" :
       [
         "${TESTRUNNER_MAIN_CLASS}",
         "${TESTRUNNER_VIEW}"
       ],
-      
+
       "exclude" :
       [
         "testrunner.view.widget.*",
@@ -96,13 +94,13 @@
         "qx.dev.unit.TestLoaderInline"
       ]
     },
-    
+
     "source-script" :
     {
       "desc"    : "create a source loader (all classes as source files)",
 
       "extend" : [ "portable-common", "base::cache" ],
-      
+
       "compile-options" :
       {
         "paths" :
@@ -111,7 +109,7 @@
           "file" : "source/script/${TESTRUNNER_SCRIPT}",
           "loader-template" : "${TESTRUNNER_ROOT}/tool/portable.loader.tmpl.js"
         },
-        "uris" : 
+        "uris" :
         {
           "add-nocache-param" : "${ADD_NOCACHE_PARAM}"
         },
@@ -124,12 +122,12 @@
 
       "compile" : { "type" : "source" }
     },
-    
+
     "build-script" :
     {
       "desc"    : "portable testrunner build script",
       "extend" : [ "portable-common", "base::cache" ],
-      
+
       "environment" :
       {
         "qx.debug" : false,
@@ -157,11 +155,11 @@
           "except"   : [],
           "=optimize" : []
         }
-      }, 
+      },
 
       "compile" : { "type" : "build" }
     },
-    
+
     "gen-css" :
     {
       "extend" : ["base::cache"],
@@ -174,12 +172,12 @@
         ]
       }
     },
-    
+
     "build-resources" :
     {
       "extend" : [ "portable-common", "base::build-resources" ]
     },
-    
+
     "build" :
     {
       "=run" : [

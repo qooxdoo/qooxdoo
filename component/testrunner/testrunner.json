@@ -640,7 +640,7 @@
         "target" : "${BUILD_PATH}",
         "source" : "${TESTRUNNER_ROOT}/source"
       }
-    },
+    }
 
   }
 }

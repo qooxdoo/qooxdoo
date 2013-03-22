@@ -186,7 +186,7 @@
     "api" :
     {
       "desc" : "Create a qx.Website Apiviewer",
-      "run" : ["build-api", "api-data"],
+      "run" : ["build-api", "api-data"]
     },
 
 
@@ -199,7 +199,7 @@
       },
       "environment" :
       {
-        "q.eventtypes" : "qx.module.event.Mouse,qx.module.event.Keyboard,qx.module.event.Native,qx.module.event.Orientation,qx.module.event.Touch",
+        "q.eventtypes" : "qx.module.event.Mouse,qx.module.event.Keyboard,qx.module.event.Native,qx.module.event.Orientation,qx.module.event.Touch"
       },
       "compile-options" :
       {
@@ -265,7 +265,7 @@
         "Cleaning up build-min" :
         [
           "${BUILD_PATH}/q-${QOOXDOO_VERSION}.min.js"
-        ],
+        ]
       }
     }
   }

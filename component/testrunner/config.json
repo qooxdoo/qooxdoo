@@ -94,7 +94,7 @@
     {
       "let" :
       {
-        "BUILD_PATH"     : "${ROOT}/api",
+        "BUILD_PATH"     : "${ROOT}/api"
       }
     },
 

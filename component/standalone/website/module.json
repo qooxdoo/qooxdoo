@@ -92,7 +92,7 @@
 
     "build-min" :
     {
-      "extend" : ["min-options", "build"],
+      "extend" : ["min-options", "build"]
     },
 
     // build separate modules (slice qxWeb into separate js-files)
@@ -137,7 +137,7 @@
     {
       "extend" : ["build-core", "min-options"],
       "lint-check" : {
-        "allowed-globals" : [ "qx.Bootstrap" ],
+        "allowed-globals" : [ "qx.Bootstrap" ]
       },
       "compile-options" :
       {
@@ -163,17 +163,17 @@
             "qx.bom",
             "qx.event",
             "qx.util"
-        ],
+        ]
       },
       "let" : {
         "Q_INCLUDES" : [
-          "qx.module.*",
+          "qx.module.*"
         ]
       },
       "compile-options" :
       {
         "code": {
-          "format": true,
+          "format": true
         },
         "paths"  :
         {
@@ -204,7 +204,7 @@
       "extend" : ["build"],
       "desc": "abstract job (requires ${MODULE_FILENAME})",
       "lint-check" : {
-        "allowed-globals" : [ "qx.Bootstrap", "qxWeb" ],
+        "allowed-globals" : [ "qx.Bootstrap", "qxWeb" ]
       },
       "exclude" : ["=qx.module.Core"],
       "compile-options" :
@@ -222,7 +222,7 @@
       "extend" : ["build-min"],
       "desc": "abstract job (requires ${MODULE_FILENAME})",
       "lint-check" : {
-        "allowed-globals" : [ "qx.Bootstrap", "qxWeb" ],
+        "allowed-globals" : [ "qx.Bootstrap", "qxWeb" ]
       },
       "exclude" : ["=qx.module.Core"],
       "compile-options" :
@@ -279,24 +279,24 @@
     {
       "extend" : ["build-module"],
       "lint-check" : {
-        "allowed-globals" : [ "qx.core", "qx.lang", "qx.bom", "qx.event" ],
+        "allowed-globals" : [ "qx.core", "qx.lang", "qx.bom", "qx.event" ]
       },
       "let" : {
         "Q_INCLUDES": ["qx.module.Animation"],
         "MODULE_FILENAME" : "animation"
-      },
+      }
     },
 
     "build-module-animation-min" :
     {
       "extend" : ["build-module-min"],
       "lint-check" : {
-        "allowed-globals" : [ "qx.core", "qx.lang", "qx.bom", "qx.event" ],
+        "allowed-globals" : [ "qx.core", "qx.lang", "qx.bom", "qx.event" ]
       },
       "let" : {
         "Q_INCLUDES": ["qx.module.Animation"],
         "MODULE_FILENAME" : "animation"
-      },
+      }
     },
 
     "build-module-blocker" :
@@ -339,7 +339,7 @@
     {
       "extend" : ["build-module"],
       "lint-check" : {
-        "allowed-globals" : [ "qx.lang", "qx.bom" ],
+        "allowed-globals" : [ "qx.lang", "qx.bom" ]
       },
       "let" : {
         "Q_INCLUDES": ["qx.module.Dataset"],
@@ -351,7 +351,7 @@
     {
       "extend" : ["build-module-min"],
       "lint-check" : {
-        "allowed-globals" : [ "qx.lang", "qx.bom" ],
+        "allowed-globals" : [ "qx.lang", "qx.bom" ]
       },
       "let" : {
         "Q_INCLUDES": ["qx.module.Dataset"],
@@ -363,7 +363,7 @@
     {
       "extend" : ["build-module"],
       "lint-check" : {
-        "allowed-globals" : [ "qx", "qx.core", "qx.bom", "qx.event", "qx.util" ],
+        "allowed-globals" : [ "qx", "qx.core", "qx.bom", "qx.event", "qx.util" ]
       },
       "let" : {
         "Q_INCLUDES": ["qx.module.Io"],
@@ -375,7 +375,7 @@
     {
       "extend" : ["build-module-min"],
       "lint-check" : {
-        "allowed-globals" : [ "qx", "qx.core", "qx.bom", "qx.event", "qx.util" ],
+        "allowed-globals" : [ "qx", "qx.core", "qx.bom", "qx.event", "qx.util" ]
       },
       "let" : {
         "Q_INCLUDES": ["qx.module.Io"],
@@ -387,7 +387,7 @@
     {
       "extend" : ["build-module"],
       "lint-check" : {
-        "allowed-globals" : [ "qx.lang" ],
+        "allowed-globals" : [ "qx.lang" ]
       },
       "let" : {
         "Q_INCLUDES": ["qx.module.Messaging"],
@@ -399,7 +399,7 @@
     {
       "extend" : ["build-module-min"],
       "lint-check" : {
-        "allowed-globals" : [ "qx.lang" ],
+        "allowed-globals" : [ "qx.lang" ]
       },
       "let" : {
         "Q_INCLUDES": ["qx.module.Messaging"],
@@ -447,7 +447,7 @@
     {
       "extend" : ["build-module"],
       "lint-check" : {
-        "allowed-globals" : [ "qx.core", "qx.lang" ],
+        "allowed-globals" : [ "qx.core", "qx.lang" ]
       },
       "let" : {
         "Q_INCLUDES": ["qx.module.Storage"],
@@ -459,7 +459,7 @@
     {
       "extend" : ["build-module-min"],
       "lint-check" : {
-        "allowed-globals" : [ "qx.core", "qx.lang" ],
+        "allowed-globals" : [ "qx.core", "qx.lang" ]
       },
       "let" : {
         "Q_INCLUDES": ["qx.module.Storage"],
@@ -471,7 +471,7 @@
     {
       "extend" : ["build-module"],
       "lint-check" : {
-        "allowed-globals" : [ "qx.dom.Element" ],
+        "allowed-globals" : [ "qx.dom.Element" ]
       },
       "let" : {
         "Q_INCLUDES": ["qx.module.Template"],
@@ -483,7 +483,7 @@
     {
       "extend" : ["build-module-min"],
       "lint-check" : {
-        "allowed-globals" : [ "qx.dom.Element" ],
+        "allowed-globals" : [ "qx.dom.Element" ]
       },
       "let" : {
         "Q_INCLUDES": ["qx.module.Template"],
@@ -495,7 +495,7 @@
     {
       "extend" : ["build-module"],
       "lint-check" : {
-        "allowed-globals" : [ "qx.bom", "qx.core" ],
+        "allowed-globals" : [ "qx.bom", "qx.core" ]
       },
       "let" : {
         "Q_INCLUDES": ["qx.module.Transform"],
@@ -507,7 +507,7 @@
     {
       "extend" : ["build-module-min"],
       "lint-check" : {
-        "allowed-globals" : [ "qx.bom", "qx.core" ],
+        "allowed-globals" : [ "qx.bom", "qx.core" ]
       },
       "let" : {
         "Q_INCLUDES": ["qx.module.Transform"],
@@ -519,7 +519,7 @@
     {
       "extend" : ["build-module"],
       "lint-check" : {
-        "allowed-globals" : [ "qx.lang.String", "qx.lang.Array" ],
+        "allowed-globals" : [ "qx.lang.String", "qx.lang.Array" ]
       },
       "let" : {
         "Q_INCLUDES" : [
@@ -535,7 +535,7 @@
     {
       "extend" : ["build-module-min"],
       "lint-check" : {
-        "allowed-globals" : [ "qx.lang.String", "qx.lang.Array" ],
+        "allowed-globals" : [ "qx.lang.String", "qx.lang.Array" ]
       },
       "let" : {
         "Q_INCLUDES" : [

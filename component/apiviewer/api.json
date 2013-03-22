@@ -204,7 +204,7 @@
       "lint-check" : {
         "warn-unknown-jsdoc-keys" : false,
         "warn-jsdoc-key-syntax" : true
-      },
+      }
     }
   }
 }
