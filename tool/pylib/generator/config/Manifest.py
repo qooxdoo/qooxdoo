@@ -114,7 +114,7 @@ class Manifest(object):
             "url": r"^https?://([a-z0-9\.-]+)\.([a-z\.]{2,6})[/\w\.-]*\/?$",
             "url_and_placeholder": r"^https?://([a-z0-9\.-]+)\.([a-z\.]{2,6})[/\w.%{}-]*(#[/\w.%{}-]*)?\/?$",
             "url_archive": r"^(https?|ftp)://.*(tar.(gz|bz2)|zip)$",
-            "name_and_github_uid": r"^.*\([A-Za-z0-9]+\)$",
+            "name_and_github_uid": r"^.*\([A-Za-z0-9._-]+\)$",
             "checksum": "^[a-f0-9]{32,40}$"  # md5 or sha1
         }
 
@@ -225,7 +225,7 @@ class Manifest(object):
                         },
                         "type": {
                             "type": "string",
-                            "enum": ["library", "application"]
+                            "enum": ["library", "application", "add-in"]
                         }
                     }
                 }
