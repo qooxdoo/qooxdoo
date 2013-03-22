@@ -102,8 +102,6 @@
           "=lint-check":               { "$ref": "#/definitions/lint-check" },
           "log":                       { "$ref": "#/definitions/log" },
           "=log":                      { "$ref": "#/definitions/log" },
-          "manifest-validate":         { "$ref": "#/definitions/manifest-validate" },
-          "=manifest-validate":        { "$ref": "#/definitions/manifest-validate" },
           "migrate-files":             { "$ref": "#/definitions/migrate-files" },
           "=migrate-files":            { "$ref": "#/definitions/migrate-files" },
           "name":                      { "$ref": "#/definitions/name" },
@@ -128,6 +126,10 @@
           "=translate":                { "$ref": "#/definitions/translate" },
           "use":                       { "$ref": "#/definitions/use" },
           "=use":                      { "$ref": "#/definitions/use" },
+          "validation-manifest":       { "$ref": "#/definitions/validation-manifest" },
+          "=validation-manifest":      { "$ref": "#/definitions/validation-manifest" },
+          "validation-config":         { "$ref": "#/definitions/validation-config" },
+          "=validation-config":        { "$ref": "#/definitions/validation-config" },
           "watch-files":               { "$ref": "#/definitions/watch-files" },
           "=watch-files":              { "$ref": "#/definitions/watch-files" },
           "web-server":                { "$ref": "#/definitions/web-server" },
@@ -511,7 +513,6 @@
         }
       }
     },
-    "manifest-validate": { "type": "object" },
     "migrate-files": {
       "type": "object",
       "additionalProperties": false,
@@ -694,6 +695,8 @@
         "items": { "type": "string" }
       }
     },
+    "validation-manifest": { "type": "object" },
+    "validation-config": { "type": "object" },
     "watch-files": {
       "type": "object",
       "additionalProperties": false,

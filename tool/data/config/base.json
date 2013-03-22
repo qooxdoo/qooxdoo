@@ -731,12 +731,18 @@
       }
     },
 
-    "manifest-validation" :
+    "validate-manifest" :
     {
       "extend" : ["scan-local-lib"],
 
       "desc" : "validates the given filepath as manifest (defaults to './Manifest.json')",
-      "manifest-validate" : {}
+      "validation-manifest" : {}
+    },
+
+    "validate-config" :
+    {
+      "desc" : "validates the 'config.json' itself.",
+      "validation-config" : {}
     }
   }
 }

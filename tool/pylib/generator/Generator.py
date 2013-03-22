@@ -36,7 +36,7 @@ from generator.action.ActionLib      import ActionLib
 from generator.action.Locale         import Locale as LocaleCls
 from generator.action                import ApiLoader, Locale, CodeMaintenance, Testing
 from generator.action                import CodeProvider, Logging, FileSystem, Resources
-from generator.action                import MiniWebServer
+from generator.action                import MiniWebServer, JsonValidation
 from generator.runtime.Cache         import Cache
 from generator                       import Context
 
@@ -148,7 +148,12 @@ class Generator(object):
               "type" : "JCompileJob",
             },
 
-            "manifest-validate" :
+            "validation-manifest" :
+            {
+              "type"   : "JSimpleJob"
+            },
+
+            "validation-config" :
             {
               "type"   : "JSimpleJob"
             },
@@ -501,12 +506,10 @@ class Generator(object):
             Resources.runImageCombining(self._job, self._config)
         if takeout(jobTriggers, "clean-files"):
             FileSystem.runClean(self._job, self._config, self._cache)
-        if takeout(jobTriggers, "manifest-validate"):
-            if sys.version_info >= (2, 6) and sys.version_info < (3, 0):
-                from generator.action import JsonValidation
-                JsonValidation.validateManifest(self._job, self._config)
-            else:
-               self._console.info("No 'Manifest.json' schema check possible - validation requires Python 2.6+.")
+        if takeout(jobTriggers, "validation-config"):
+            JsonValidation.validateConfig(self._config, self._config.getSchema())
+        if takeout(jobTriggers, "validation-manifest"):
+            JsonValidation.validateManifest(self._job, self._config)
         if takeout(jobTriggers, "migrate-files"):
             CodeMaintenance.runMigration(self._job, config.get("library"))
         if takeout(jobTriggers, "shell"):

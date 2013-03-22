@@ -197,14 +197,6 @@ def main():
     context = {'config': config, 'console':console, 'jobconf':None, 'interruptRegistry':interruptRegistry}
     Context.config = config # TODO: clean up overlap between context dict and Context module
 
-    should_validate = config.get('let/VALIDATE_CONFIG', False)
-    if should_validate:
-        if sys.version_info >= (2, 6) and sys.version_info < (3, 0):
-            from generator.action import JsonValidation
-            JsonValidation.validateConfig(config, config.getSchema())
-        else:
-            console.info("No 'config.json' schema check possible - validation requires Python 2.6+.")
-
     # CLI mode
     if not options.daemon:
 

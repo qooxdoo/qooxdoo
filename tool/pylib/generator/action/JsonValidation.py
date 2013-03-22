@@ -25,8 +25,19 @@ from copy import deepcopy
 
 from generator import Context
 from generator.config.Manifest import Manifest
-from jsonschema.jsonschema import Draft4Validator
 
+##
+# Assure that sufficient Python version is present.
+#
+# @param fn function
+#
+def __assurePython26(fn):
+    def _fn(arg1, arg2):
+        if sys.version_info >= (2, 6) and sys.version_info < (3, 0):
+            fn(arg1, arg2)
+        else:
+            Context.console.warn("No schema check possible - validation requires Python 2.6+.")
+    return _fn
 
 ##
 # Validates Manifest and prints to stdout/stderr.
@@ -34,6 +45,7 @@ from jsonschema.jsonschema import Draft4Validator
 # @param jobconf generator.config.Job.Job
 # @param confObj generator.config.Config.Config
 #
+@__assurePython26
 def validateManifest(jobObj, confObj):
     errors = []
     console = Context.console
@@ -65,23 +77,31 @@ def validateManifest(jobObj, confObj):
 # @param confObj generator.config.Config.Config
 # @param isRootConf boolean
 #
+@__assurePython26
 def validateConfig(confObj, schema):
     confDict = deepcopy(confObj._rawdata)
+    global_let = confObj.get("let")
+    jobname = ""
 
-    # process custom includes recursive
-    for extConf in confObj._includedConfigs:
-        extConfPath = extConf._fname
+    # check only provided jobname (cli arg)
+    if "ARGS" in global_let and len(global_let["ARGS"]) == 1:
+        jobname = global_let["ARGS"][0]
 
-        # makes no sense to check qx base configs every time
-        # maybe introduce separate dedicated job for this
-        if extConfPath.endswith("base.json") or extConfPath.endswith("application.json"):
-           continue
-
-        validateConfig(extConf, schema)
+        if "jobs" in confDict and jobname in confDict["jobs"]:
+            jobToCheck = confDict["jobs"][jobname].copy()
+            confDict["jobs"] = {}
+            confDict["jobs"][jobname] = jobToCheck
+        else:
+            Context.console.warn("Given job '" +jobname+ "' doesn't exist. Aborting.")
+            sys.exit(1)
+    # check whole config (and included configs)
+    else:
+        # process custom includes recursive
+        for extConf in confObj._includedConfigs:
+            validateConfig(extConf, schema)
 
     errors = __validate(confDict, schema)
-    __printResults(Context.console, errors, confObj._fname, bool(errors))
-
+    __printResults(Context.console, errors, confObj._fname, jobname)
 
 ##
 # Validates given dict against JSON Schema dict.
@@ -95,6 +115,9 @@ def validateConfig(confObj, schema):
 # @return errors list
 #
 def __validate(dictToValidate, schema):
+    # lazy import for earlier python2.6+ check
+    from jsonschema.jsonschema import Draft4Validator
+
     # fail fast => check schema first / shouldn't raise errors in production
     Draft4Validator.check_schema(schema)
 
@@ -130,20 +153,21 @@ def __isUnexpandedMacrosError(msg):
 # @param console generator.context.Console
 # @param errors list
 # @param validatedFileName string
+# @param jobname string
 # @param exitOnErrors boolean
 #
-def __printResults(console, errors, validatedFileName, exitOnErrors=False):
+def __printResults(console, errors, validatedFileName, jobname=""):
     if errors:
-        console.warn("Errors found in " + validatedFileName)
+        console.warn("Errors found in " + validatedFileName+":")
         console.indent()
         for error in errors:
-            console.warn(error["msg"] + " in '%s'" % __convertToJSONPointer(error["path"]))
+            console.warn(error["msg"] + " in '%s'." % __convertToJSONPointer(error["path"]))
         console.outdent()
     else:
-        console.log("%s validates successful against Config Schema." % validatedFileName)
-
-    if exitOnErrors:
-        sys.exit(1)
+        if jobname:
+            console.log("Job '"+jobname+"' in %s validates successful against schema." % validatedFileName)
+        else:
+            console.log("%s validates successful against schema." % validatedFileName)
 
 
 ##
