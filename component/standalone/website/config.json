@@ -25,7 +25,8 @@
     "api-data",
     "api",
     "distclean",
-    "clean"
+    "clean",
+    "validate-config"
   ],
 
   "config-warnings" :

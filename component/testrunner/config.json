@@ -47,7 +47,9 @@
     "source-basic",
     "source-mobile",
     "source-widget",
-    "translation"
+    "translation",
+    "validate-config",
+    "validate-manifest"
   ],
 
   "default-job" : "source",

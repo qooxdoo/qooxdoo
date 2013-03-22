@@ -26,7 +26,6 @@
     "info",
     "lint",
     "lint-test",
-    "manifest-validation",
     "provider",
     "pretty-test",
     "test",
@@ -37,6 +36,8 @@
     "test-mobile",
     "test-mobile-source",
     "translation",
+    "validate-config",
+    "validate-manifest",
     "watch-scss"
   ],
 
