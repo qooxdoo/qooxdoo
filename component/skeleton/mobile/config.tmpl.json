@@ -34,6 +34,8 @@
     "test-mobile-source",
     "translation",
     "minify-css",
+    "validate-config",
+    "validate-manifest",
     "watch-scss",
     "watch"
   ],

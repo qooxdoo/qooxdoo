@@ -19,7 +19,6 @@
     "info",
     "inspector",
     "lint",
-    "manifest-validation",
     "migration",
     "pretty",
     "profiling",
@@ -33,6 +32,8 @@
     "test",
     "test-source",
     "translation",
+    "validate-config",
+    "validate-manifest",
     "watch"
   ],
 

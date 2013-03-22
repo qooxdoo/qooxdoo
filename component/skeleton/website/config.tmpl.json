@@ -15,14 +15,15 @@
     "build",
     "build-min",
     "test",
-    "test-source"
+    "test-source",
+    "validate-config"
   ],
 
   "default-job" : "build-min",
 
-  "config-warnings" : 
+  "config-warnings" :
   {
-    "job-shadowing" : ["api"] 
+    "job-shadowing" : ["api"]
   },
 
   "let" :
@@ -50,7 +51,7 @@
       "extend" : ["cache"],
       "copy-files" :
       {
-        "files" : 
+        "files" :
         [
           "api.css",
           "default.highlight.css",
