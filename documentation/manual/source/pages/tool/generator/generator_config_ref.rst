@@ -1422,7 +1422,7 @@ Create a web server configuration for the local source version.
 * **template-dir** : Directory path where to look for web server-specific
   configuration templates. The file name itself is constructed as ``"httpd.<httpd-type>.tmpl.conf"``. (default: *${QOOXDOO_PATH}/tool/data/generator/*)
 
-  Templates can make use of several macros that will expanded during the
+  Templates can make use of several macros that will be expanded during the
   generation process. Macros are referenced in the template with
   ``${<macro_name>}``. The following macros are supported:
 
