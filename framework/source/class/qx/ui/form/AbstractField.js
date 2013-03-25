@@ -310,20 +310,22 @@ qx.Class.define("qx.ui.form.AbstractField",
       if (updateInsets && this.__useQxPlaceholder)
       {
         var insets = this.getInsets();
-        // render the placeholder
         this.__getPlaceholderElement().setStyles({
-          "left": insets.left + pixel,
-          "top": insets.top + pixel
+          paddingTop : insets.top + pixel,
+          paddingRight : insets.right + pixel,
+          paddingBottom : insets.bottom + pixel,
+          paddingLeft : insets.left + pixel
         });
       }
 
-      if (inner)
+      if (inner || changes.margin)
       {
         // we don't need to update dimensions on native placeholders
         if (this.__useQxPlaceholder) {
+          var insets = this.getInsets();
           this.__getPlaceholderElement().setStyles({
-            "width": innerWidth + pixel,
-            "height": innerHeight + pixel
+            "width": (innerWidth - insets.left - insets.right) + pixel,
+            "height": (innerHeight - insets.top - insets.bottom) + pixel
           });
         }
 
@@ -334,6 +336,15 @@ qx.Class.define("qx.ui.form.AbstractField",
 
         this._renderContentElement(innerHeight, input);
 
+      }
+
+      if (changes.position) {
+        if (this.__useQxPlaceholder) {
+          this.__getPlaceholderElement().setStyles({
+            "left": left + pixel,
+            "top": top + pixel
+          });
+        }
       }
     },
 
@@ -809,6 +820,16 @@ qx.Class.define("qx.ui.form.AbstractField",
 
 
     /**
+     * Remove the fake placeholder
+     */
+    _onMouseDownPlaceholder : function() {
+      window.setTimeout(function() {
+        this.focus();
+      }.bind(this), 0);
+    },
+
+
+    /**
      * Helper to remove the placeholder. Deletes the placeholder text from the
      * field and removes the state.
      */
@@ -842,13 +863,15 @@ qx.Class.define("qx.ui.form.AbstractField",
         var colorManager = qx.theme.manager.Color.getInstance();
         this._placeholder.setStyles({
           "visibility" : "hidden",
-          "zIndex" : 6,
+          "zIndex" : 11,
           "position" : "absolute",
           "color" : colorManager.resolve("text-placeholder"),
-          "whiteSpace": "normal" // enable wrap by default
+          "whiteSpace": "normal", // enable wrap by default
+          "cursor": "text"
         });
 
-        this.getContainerElement().add(this._placeholder);
+        this._placeholder.addListener("mousedown", this._onMouseDownPlaceholder, this);
+        qx.core.Init.getApplication().getRoot().getContentElement().add(this._placeholder);
       }
       return this._placeholder;
     },
@@ -980,6 +1003,12 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     if (this.__font && this.__webfontListenerId) {
       this.__font.removeListenerById(this.__webfontListenerId);
+    }
+
+    if (this._placeholder) {
+      this._placeholder.removeListener("mousedown", this._onMouseDownPlaceholder, this);
+      qx.core.Init.getApplication().getRoot().getContentElement().remove(this._placeholder);
+      this._placeholder.dispose();
     }
   }
 });
