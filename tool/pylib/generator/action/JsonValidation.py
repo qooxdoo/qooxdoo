@@ -166,9 +166,9 @@ def __printResults(console, errors, validatedFileName, jobname=""):
         console.outdent()
     else:
         if jobname:
-            console.log("Job '"+jobname+"' in %s validates successful against schema." % validatedFileName)
+            console.log("Job '"+jobname+"' in %s successfully validated." % validatedFileName)
         else:
-            console.log("%s validates successful against schema." % validatedFileName)
+            console.log("%s successfully validated." % validatedFileName)
 
 
 ##
