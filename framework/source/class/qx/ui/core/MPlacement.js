@@ -265,7 +265,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       // Add the rendered location of the root widget
       if (widget.isRootWidget())
       {
-        var rootCoords = widget.getContainerLocation();
+        var rootCoords = widget.getContentLocation();
         if (rootCoords)
         {
           left += rootCoords.left;
@@ -380,7 +380,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
 
       }
 
-      var coords = target.getContainerLocation() || this.getLayoutLocation(target);
+      var coords = target.getContentLocation() || this.getLayoutLocation(target);
 
       if(coords != null) {
         this.__place(coords);

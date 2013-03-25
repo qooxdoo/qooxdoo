@@ -3646,11 +3646,17 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {Map} Returns a map with <code>left</code>, <code>top</code>,
      *   <code>right</code> and <code>bottom</code> which contains the distance
      *   of the element relative to the document.
+     *
+     *  @deprecated{3.0}
      */
     getContainerLocation : function(mode)
     {
-      var domEl = this.getContentElement().getDomElement();
-      return domEl ? qx.bom.element.Location.get(domEl, mode) : null;
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
+         "Please use 'getContentLocation' instead.");
+      }
+
+      return this.getContentLocation(mode);
     },
 
 

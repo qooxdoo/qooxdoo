@@ -302,7 +302,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
           return;
         }
 
-        var origCoords = orig.getContainerLocation();
+        var origCoords = orig.getContentLocation();
 
         indicator.setWidth(orig.getBounds().width);
         indicator.setDomPosition(origCoords.left, origCoords.top);

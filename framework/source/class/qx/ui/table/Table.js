@@ -1894,7 +1894,7 @@ qx.Class.define("qx.ui.table.Table",
 
       for (var i=0; i<scrollerArr.length; i++)
       {
-        var pos = scrollerArr[i].getContainerLocation();
+        var pos = scrollerArr[i].getContentLocation();
 
         if (pageX >= pos.left && pageX <= pos.right) {
           return i;

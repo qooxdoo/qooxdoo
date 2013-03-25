@@ -403,7 +403,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var splitter = this.getChildControl("splitter");
 
       // Store offset between mouse event coordinates and splitter
-      var splitterLocation = splitter.getContainerLocation();
+      var splitterLocation = splitter.getContentLocation();
       var paneLocation = this.getContentLocation();
       this.__splitterOffset = this.__isHorizontal ?
         e.getDocumentLeft() - splitterLocation.left + paneLocation.left :

@@ -90,7 +90,7 @@ qx.Class.define("demobrowser.demo.virtual.RowHeader",
     __isNear : function()
     {
       var bounds = this.getBounds();
-      var location = this.getContainerLocation();
+      var location = this.getContentLocation();
       var min = 6;
 
       // TOOD:
@@ -175,7 +175,7 @@ qx.Class.define("demobrowser.demo.virtual.RowHeader",
       if (this.__activeDragSession)
       {
         var bounds = this.getBounds();
-        var location = this.getContainerLocation();
+        var location = this.getContentLocation();
 
         this.__lastMouseX = e.getDocumentLeft();
         this.__lastMouseY = e.getDocumentTop();

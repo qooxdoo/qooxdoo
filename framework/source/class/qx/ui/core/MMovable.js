@@ -131,7 +131,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
      */
     __showMoveFrame : function()
     {
-      var location = this.getContainerLocation();
+      var location = this.getContentLocation();
       var bounds = this.getBounds();
       var frame = this.__getMoveFrame();
       frame.setUserBounds(location.left, location.top, bounds.width, bounds.height);
@@ -221,7 +221,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
       };
 
       // Compute drag positions
-      var widgetLocation = this.getContainerLocation();
+      var widgetLocation = this.getContentLocation();
       this.__parentLeft = parentLocation.left;
       this.__parentTop = parentLocation.top;
 

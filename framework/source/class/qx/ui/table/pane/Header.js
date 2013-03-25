@@ -193,7 +193,7 @@ qx.Class.define("qx.ui.table.pane.Header",
      */
     showColumnMoveFeedback : function(col, x)
     {
-      var pos = this.getContainerLocation();
+      var pos = this.getContentLocation();
 
       if (this.__moveFeedback == null)
       {
