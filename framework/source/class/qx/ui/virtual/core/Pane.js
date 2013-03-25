@@ -619,7 +619,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      */
     _onResize : function()
     {
-      if (this.getContainerElement().getDomElement())
+      if (this.getContentElement().getDomElement())
       {
         this.__dontFireUpdate = true;
         this._updateScrollPosition();

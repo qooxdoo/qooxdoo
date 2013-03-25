@@ -184,7 +184,7 @@ qx.Class.define("qx.ui.core.EventHandler",
 
       // don't activate anonymous widgets!
       if (widgetTarget && targetChanged && domEvent.getType() == "activate") {
-        widgetTarget.getContainerElement().activate();
+        widgetTarget.getContentElement().activate();
       }
 
 
@@ -307,10 +307,8 @@ qx.Class.define("qx.ui.core.EventHandler",
 
       if (type === "focus" || type === "blur") {
         elem = target.getFocusElement();
-      } else if (type === "load" || type === "input") {
-        elem = target.getContentElement();
       } else {
-        elem = target.getContainerElement();
+        elem = target.getContentElement();
       }
 
       if (elem) {
@@ -326,10 +324,8 @@ qx.Class.define("qx.ui.core.EventHandler",
 
       if (type === "focus" || type === "blur") {
         elem = target.getFocusElement();
-      } else if (type === "load" || type === "input") {
-        elem = target.getContentElement();
       } else {
-        elem = target.getContainerElement();
+        elem = target.getContentElement();
       }
 
       if (elem) {

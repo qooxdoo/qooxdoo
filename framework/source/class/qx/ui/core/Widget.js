@@ -1641,9 +1641,13 @@ qx.Class.define("qx.ui.core.Widget",
      * This method exposes widget internal and must be used with caution!
      *
      * @return {qx.html.Element} The widget's container element
-     * TODO: remove
+     * @deprecated{3.0}
      */
     getContainerElement : function() {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
+         "Please use 'getContentElement' instead.");
+      }
       return this.__contentElement;
     },
 

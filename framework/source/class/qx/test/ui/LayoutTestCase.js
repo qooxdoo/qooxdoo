@@ -217,7 +217,7 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
     assertSize : function(widget, width, height, msg)
     {
       this.flush();
-      var el = widget.getContainerElement().getDomElement();
+      var el = widget.getContentElement().getDomElement();
       var elHeight = parseInt(el.style.height, 10);
       var elWidth = parseInt(el.style.width, 10);
       this.assertEquals(width, elWidth, msg);
@@ -229,8 +229,8 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
     {
       this.flush();
 
-      this.assertNotNull(widget.getContainerElement());
-      this.assertNotNull(widget.getContainerElement().getDomElement());
+      this.assertNotNull(widget.getContentElement());
+      this.assertNotNull(widget.getContentElement().getDomElement());
 
       var content = widget.getContentElement().getDomElement();
 

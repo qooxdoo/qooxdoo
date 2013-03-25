@@ -282,7 +282,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var splitter = this.getChildControl("splitter");
       var offset = this.getOffset();
       var splitterBounds = splitter.getBounds();
-      var splitterElem = splitter.getContainerElement().getDomElement();
+      var splitterElem = splitter.getContentElement().getDomElement();
 
       // do nothing if the splitter is not ready
       if (!splitterElem) {

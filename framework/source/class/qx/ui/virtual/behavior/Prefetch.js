@@ -185,7 +185,7 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
 
       if (value)
       {
-        if (!value.getContainerElement().getDomElement())
+        if (!value.getContentElement().getDomElement())
         {
           this.__timer.stop();
           value.addListenerOnce("appear", this.__timer.start, this.__timer);

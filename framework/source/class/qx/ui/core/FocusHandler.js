@@ -328,8 +328,8 @@ qx.Class.define("qx.ui.core.FocusHandler",
       }
 
       // Computing location
-      var el1 = widget1.getContainerElement().getDomElement();
-      var el2 = widget2.getContainerElement().getDomElement();
+      var el1 = widget1.getContentElement().getDomElement();
+      var el2 = widget2.getContentElement().getDomElement();
 
       var Location = qx.bom.element.Location;
 

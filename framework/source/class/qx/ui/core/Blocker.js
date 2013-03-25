@@ -298,7 +298,7 @@ qx.Class.define("qx.ui.core.Blocker",
       {
         this.__blocker = this.__createBlockerElement();
         this.__blocker.setStyle("zIndex", 15);
-        this._widget.getContainerElement().add(this.__blocker);
+        this._widget.getContentElement().add(this.__blocker);
         this.__blocker.exclude();
       }
       return this.__blocker;
@@ -517,7 +517,7 @@ qx.Class.define("qx.ui.core.Blocker",
      */
     __syncBlocker : function()
     {
-      var containerEl = this._widget.getContainerElement().getDomElement();
+      var containerEl = this._widget.getContentElement().getDomElement();
       var doc = qx.dom.Node.getDocument(containerEl);
 
       this.getContentBlockerElement().setStyles({

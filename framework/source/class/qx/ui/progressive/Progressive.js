@@ -309,7 +309,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
       else
       {
         // Ensure we leave enough time that 'this' has been rendered, so that
-        // this.getContainerElement().getDomElement() is valid and has
+        // this.getContentElement().getDomElement() is valid and has
         // properties.  It's needed by some renderers.
         //
         // FIXME: Why isn't an event listener for "appear" an adequate delay???

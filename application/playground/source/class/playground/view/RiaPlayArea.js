@@ -108,7 +108,7 @@ qx.Class.define("playground.view.RiaPlayArea",
       }
       qx.html.Element.flush();
 
-      var playRootEl = this._dummy.getContainerElement().getDomElement();
+      var playRootEl = this._dummy.getContentElement().getDomElement();
       this._playRoot = new qx.ui.root.Inline(playRootEl);
       this._playRoot._setLayout(new qx.ui.layout.Canvas());
 

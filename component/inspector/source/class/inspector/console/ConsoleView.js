@@ -289,7 +289,7 @@ qx.Class.define("inspector.console.ConsoleView",
           try {
             // get the position for the popup
             var left = qx.bom.element.Location.getLeft(
-              this.getContainerElement().getDomElement()
+              this.getContentElement().getDomElement()
             );
             var top = qx.bom.element.Location.getTop(
               this._inputTextField.getContentElement().getDomElement()

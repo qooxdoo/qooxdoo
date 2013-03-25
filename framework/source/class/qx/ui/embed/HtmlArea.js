@@ -580,7 +580,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     {
       this.__onDOMNodeRemoved = qx.lang.Function.bind(this.__invalidateEditor, this);
 
-      var element = this.getContainerElement().getDomElement();
+      var element = this.getContentElement().getDomElement();
       qx.bom.Event.addNativeListener(element, "DOMNodeRemoved", this.__onDOMNodeRemoved);
     },
 
@@ -1312,8 +1312,8 @@ qx.Class.define("qx.ui.embed.HtmlArea",
         this._initBlockerElement();
       }
 
-      if (!this.getContainerElement().hasChild(this.__blockerElement)) {
-        this.getContainerElement().add(this.__blockerElement);
+      if (!this.getContentElement().hasChild(this.__blockerElement)) {
+        this.getContentElement().add(this.__blockerElement);
       }
 
       this.__blockerElement.setStyle("display", "block");
@@ -1389,7 +1389,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     qx.event.Registration.removeListener(document.body, "mouseup", this.release, this, true);
     qx.event.Registration.removeListener(document.body, "losecapture", this.release, this, true);
 
-    var element = this.getContainerElement().getDomElement();
+    var element = this.getContentElement().getDomElement();
     if (element) {
       qx.bom.Event.removeNativeListener(element, "DOMNodeRemoved", this.__onDOMNodeRemoved);
     }

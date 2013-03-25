@@ -16,7 +16,7 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-qx.Class.define("playground.view.WebsiteContent", 
+qx.Class.define("playground.view.WebsiteContent",
 {
   extend : qx.ui.core.Widget,
 
@@ -58,7 +58,7 @@ qx.Class.define("playground.view.WebsiteContent",
       container.setMarginLeft(-parseInt(bounds.width/2));
 
       // rotate a bit
-      var el = container.getContainerElement().getDomElement();
+      var el = container.getContentElement().getDomElement();
       qx.bom.element.Transform.rotate(el, "-2deg");
 
     });

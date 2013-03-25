@@ -308,7 +308,13 @@ qx.Class.define("inspector.components.Selector",
           widget.setWidth(qx.bom.Document.getWidth(win));
         }
         else {
-          var el = widget.getContainerElement();
+          var el;
+          if (this.__isMobileApp) {
+            el = widget.getContainerElement();
+          } else {
+            el = widget.getContentElement();
+          }
+
           el.style.width = qx.bom.Document.getHeight(win) + "px";
           el.style.height = qx.bom.Document.getWidth(win) + "px";
         }
@@ -412,7 +418,7 @@ qx.Class.define("inspector.components.Selector",
 
         var domElement = null;
         if (this.__isWidget(childWidget)) {
-          domElement = childWidget.getContainerElement().getDomElement();
+          domElement = childWidget.getContentElement().getDomElement();
         } else if (this.__isMobileWidget(childWidget)) {
           domElement = childWidget.getContainerElement();
         } else if (this.__isQxHtmlElement(childWidget)) {
@@ -472,7 +478,7 @@ qx.Class.define("inspector.components.Selector",
 
       var element = null;
       if (this.__isWidget(object) && !this.__isRootElement(object)) {
-        element = object.getContainerElement().getDomElement();
+        element = object.getContentElement().getDomElement();
       } else if (this.__isMobileWidget(object)) {
         element = object.getContainerElement();
       } else if (this.__isQxHtmlElement(object)) {
