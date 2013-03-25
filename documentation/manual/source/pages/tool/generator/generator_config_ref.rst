@@ -1408,6 +1408,7 @@ Create a web server configuration for the local source version.
 
     "web-server-config" :
     {
+      "document-root" : "",
       "output-dir"     : ".",
       "template-dir"   : "<path>",
       "httpd-type"     : "apache2",
@@ -1418,9 +1419,17 @@ Create a web server configuration for the local source version.
 
   peer-keys: :ref:`pages/tool/generator/generator_config_ref#cache`, :ref:`pages/tool/generator/generator_config_ref#library`
 
-* **output-dir** : Directory path where the configuration file is stored. The file itself is named as ``"<httpd-type>.conf"`` so the name already exposes for which server it is being generated. (default: *.*)
+* **document-root** : File system path to use as the application's document root.
+  Best left empty, so the Generator calculates a common root path of all involved
+  %{qooxdoo} libraries. For this to work, your libraries should be collected in
+  the :ref:`"libraries" <pages/tool/generator/generator_default_jobs#libraries>`
+  default job. (default: *""*)
+* **output-dir** : Directory path where the configuration file is stored. The
+  file itself is named as ``"<httpd-type>.conf"`` so the name already exposes for
+  which server it is being generated. (default: *.*)
 * **template-dir** : Directory path where to look for web server-specific
-  configuration templates. The file name itself is constructed as ``"httpd.<httpd-type>.tmpl.conf"``. (default: *${QOOXDOO_PATH}/tool/data/generator/*)
+  configuration templates. The file name itself is constructed as
+  ``"httpd.<httpd-type>.tmpl.conf"``. (default: *${QOOXDOO_PATH}/tool/data/generator/*)
 
   Templates can make use of several macros that will be expanded during the
   generation process. Macros are referenced in the template with

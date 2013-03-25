@@ -144,7 +144,6 @@ def generateHttpdConfig(jobconf, confObj):
     jconf_httpd_hosturl = jobconf.get("web-server-config/httpd-host-url", "http://localhost")
 
     libs = jobconf.get("library", [])
-    assert libs
     for lib in libs:
         lib._init_from_manifest()
 
@@ -162,7 +161,8 @@ def generateHttpdConfig(jobconf, confObj):
 
     value_map['APP_HTTPD_CONFIG'] = config_path
 
-    doc_root = get_doc_root(jobconf, confObj)
+    doc_root = jobconf.get("web-server-server/document-root", "") or get_doc_root(jobconf, confObj)
+    doc_root = os.path.normpath(confObj.absPath(doc_root)) # important to normpath() coz '\' vs. '/'
     value_map['APP_DOCUMENT_ROOT'] = ensure_trailing_slash(doc_root)
 
     app_web_path = from_doc_root_to_app_root(jobconf, confObj, doc_root)

@@ -10,6 +10,8 @@
         "test",
         "build",
         "source",
+        "source-server",
+        "source-httpd-config",
         "api-data",
         "api"
       ]
@@ -266,6 +268,35 @@
         [
           "${BUILD_PATH}/q-${QOOXDOO_VERSION}.min.js"
         ]
+      }
+    }
+
+    ,"source-server" :
+    {
+      "desc"  : "start a lightweight web server that exports the source version"
+      ,"extend" : ["cache"]
+      ,"compile-options" : { "paths" : { "app-root" : "." }}
+      ,"web-server" :
+      {
+        "document-root" : "."   // calculate dynamically from libraries
+        ,"server-port"  : 0
+        ,"log-level"    : "error"  // use "info" for more console logging, "fatal" for none
+        ,"allow-remote-access" : false
+      }
+    }
+    
+    ,"source-httpd-config":
+    {
+      "desc"  : "generate a httpd configuration for the source version"
+      ,"extend" : ["cache"]
+      ,"compile-options" : { "paths" : { "app-root" : "." }}
+      ,"web-server-config" :
+      {
+        "output-dir" : "."
+        ,"document-root" : "."
+        ,"template-dir" : "${QOOXDOO_PATH}/tool/data/generator"
+        ,"httpd-type" : "apache2"
+        ,"httpd-host-url" : "http://localhost"
       }
     }
   }
