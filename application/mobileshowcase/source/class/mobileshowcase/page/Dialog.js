@@ -89,7 +89,11 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.__anchorpopup = this.__createAnchorPopup(showAnchorButton);
 
       // MENU DIALOG
-      var menuModel = new qx.data.Array(["Action 1", "Action 2", "Action 3", "Action 4", "Action 5", "Action 6"]);
+      var menuModel = new qx.data.Array();
+      for (var i = 0; i < 50; i++) {
+        menuModel.push("Action "+i);
+      };
+
       this.__menu = new qx.ui.mobile.dialog.Menu(menuModel);
       this.__menu.setTitle("Menu");
       
