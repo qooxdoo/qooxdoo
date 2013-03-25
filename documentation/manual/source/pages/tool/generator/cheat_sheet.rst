@@ -15,7 +15,7 @@ Command-line Options
     Arguments:
       job,...               a list of jobs (like 'source' or 'copy-files',
                             without the quotes) to run
-      x                     use 'x' (or some undefined job name) to get a 
+      x                     use 'x' (or some undefined job name) to get a
                             list of all available jobs from the configuration file
 
     Options:
@@ -44,54 +44,56 @@ Default Jobs
 .. list-table::
 
 
-    * - api                    
+    * - api
       - create api doc for the current library
-    * - api-data               
+    * - api-data
       - create api doc json data files
-    * - build                  
+    * - build
       - create build version of current application
-    * - clean                  
+    * - clean
       - remove local cache and generated .js files (source/build)
-    * - distclean              
+    * - distclean
       - remove the cache and all generated artefacts of this library (source, build, ...)
-    * - fix                    
+    * - fix
       - normalize whitespace in .js files of the current library (tabs, eol, ...)
-    * - info                   
+    * - info
       - collects environment information like the qooxdoo version etc., and prints it out
-    * - inspector              
+    * - inspector
       - create an inspector instance in the current library
-    * - lint                   
+    * - lint
       - check the source code of the .js files of the current library
-    * - manifest-validation    
-      - validates the given filepath as manifest (defaults to './Manifest.json')
-    * - migration              
+    * - migration
       - migrate the .js files of the current library to the current qooxdoo version
-    * - pretty                 
+    * - pretty
       - pretty-formatting of the source code of the current library
-    * - profiling              
+    * - profiling
       - includer job, to activate profiling
-    * - simulation-build       
+    * - simulation-build
       - create a runner app for simulated interaction tests
-    * - simulation-run         
+    * - simulation-run
       - launches simulated interaction tests generated with simulation-build
-    * - source                 
+    * - source
       - create source version of current application
-    * - source-all             
+    * - source-all
       - create source version of current application, with all classes
-    * - source-httpd-config    
+    * - source-httpd-config
       - generate a httpd configuration for the source version
-    * - source-hybrid          
+    * - source-hybrid
       - create a hybrid application (application classes as individual files, others catenated)
-    * - source-hybrid          
+    * - source-hybrid
       - create a hybrid application (application classes as individual files, others catenated)
-    * - source-server          
+    * - source-server
       - start a lightweight web server that exports the source version
-    * - test                   
+    * - test
       - create a test runner app for unit tests of the current library
-    * - test-source            
+    * - test-source
       - create a test runner app for unit tests (source version) of the current library
-    * - translation            
+    * - translation
       - create .po files for current library
+    * - validate-config
+      - validates the *config.json* itself - if jobname arg is given checks dedicated job only
+    * - validate-manifest
+      - validates the given filepath as manifest (defaults to *./Manifest.json*)
 
 
 Config File Layout
@@ -517,7 +519,7 @@ Here are the configuration keys with their individual value syntax.
   "watch-files" :
   {
     "paths"   : [ "file/or/dir/to/watch" ],
-    "command" : 
+    "command" :
     {
       "line"  : "generate.py source",
       "per-file" : (true|false)

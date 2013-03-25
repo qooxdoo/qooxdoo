@@ -53,8 +53,8 @@ The Manifest.json file is exactly the Manifest file you know from qooxdoo
 libraries. The intent is that you can copy it straight over from your project to
 the catalog repo. You need to make sure, though, that all necessary fields in it will be
 filled, particularly the *info/download* field. A Generator job
-\:ref:`manifest-validation <pages/tool/generator/default_jobs_actions#manifest-validation>` will help
-you with that.  
+\:ref:`validate-manifest <pages/tool/generator/default_jobs_actions#validate-manifest>` will help
+you with that.
 
 In practice that means that if you want to maintain a contribution, you need a Github
 account, then fork the %{qooxdoo}-contrib repo, make suitable changes like
@@ -67,7 +67,7 @@ Web Interface to the Catalog
 
 We're planning to have also a web interface to the catalog that
 might be a bit nicer than using Github's code browsing facility, maybe together
-with searching and sorting capabilities.  
+with searching and sorting capabilities.
 
 Providing Contributions
 ==========================

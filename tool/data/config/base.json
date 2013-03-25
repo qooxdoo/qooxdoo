@@ -741,7 +741,7 @@
 
     "validate-config" :
     {
-      "desc" : "validates the 'config.json' itself.",
+      "desc" : "validates the 'config.json' itself - if jobname arg is given checks dedicated job only",
       "validation-config" : {}
     }
   }

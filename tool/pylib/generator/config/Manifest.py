@@ -102,11 +102,6 @@ class Manifest(object):
     #     * currently a query-string (?...) isn't allowed within an URL => change if needed
     #     * currently a fragment-identifier (#...) isn't allowed within an URL => change if needed
     #
-    # TODO:
-    #     * adapt config.json skeletons to export job
-    #     * adapt Manifest.json skeletons to adhere schema after create-application.py
-    #     * write docs for "default_jobs_actions" and "generator_config_ref" pages
-    #
     @classmethod
     def schema_v1_0(self):
         patterns = {
