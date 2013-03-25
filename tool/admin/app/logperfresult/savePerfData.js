@@ -87,13 +87,11 @@ function createDataBase(filename, callback) {
   if (!fs.existsSync(filename)) {
     var createCmd = "rrdtool create " + filename +
     " --step 86400" + // 24h update interval
-    //" --step 60" +
-    //" --start " + Math.floor(new Date(now.getTime() - (24 * 60 * 60 * 1000)).getTime() / 1000) + // yesterday
-    " --start 1361717677" +
-    " DS:iterations:GAUGE:172800:U:U" + // max interval 72hrs
-    " DS:ownTime:GAUGE:172800:U:U" +
-    " DS:renderTime:GAUGE:172800:U:U" +
-    " RRA:AVERAGE:0.5:1:28" + // Individual values, keep for 1 month
+    " --start 1363800997" +
+    " DS:iterations:GAUGE:172800:0:U" + // max interval 72hrs
+    " DS:ownTime:GAUGE:172800:0:U" +
+    " DS:renderTime:GAUGE:172800:0:U" +
+    " RRA:LAST:0.5:1:28" + // Individual values, keep for 1 month
     " RRA:AVERAGE:0.5:7:180 "; // Average over 7 days, keep for 6 months
     debug && console.log("Creating database:", createCmd);
 
@@ -113,7 +111,7 @@ function createDataBase(filename, callback) {
 function writeData(filename, entry, callback) {
   filename = "./rrd/" + filename + ".rrd";
   debug && console.log("Write: ", entry);
-  var updateCmd = "rrdtool update " + filename +
+  var updateCmd = "rrdtool updatev " + filename +
   " " + [Math.floor(entry.date / 1000), entry.iterations, entry.ownTime, entry.renderTime].join(":");
   debug && console.log("Updating database: ", updateCmd);
   exec(updateCmd, function(error, stdout, stderr) {
@@ -140,7 +138,7 @@ function createGraph(filename, callback) {
   for (var branch in branches) {
     var rrdFilename = "./rrd/" + branch + "-" + baseFileName + ".rrd";
     graphCmd += " DEF:iterations-" + branch + "=" + rrdFilename + ":iterations" +
-    ":AVERAGE LINE2:iterations-" + branch + colors[branch] + ":" + branch;
+    ":LAST LINE2:iterations-" + branch + colors[branch] + ":" + branch;
   }
 
   debug && console.log("Creating graph:", graphCmd);
