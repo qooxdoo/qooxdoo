@@ -187,12 +187,13 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     // overidden
     show : function() {
       this.base(arguments);
-      
+
       if(this.getHideOnBlockerClick()) {
         this._getBlocker().addListenerOnce("tap", this.hide, this);
       }
       
       this.scrollToItem(this.getSelectedIndex());
+      
     },
     
     
@@ -220,8 +221,18 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       listScroller.add(selectionList, {flex:1});
       listScroller.addCssClass("menu-scroller");
       listScroller.setHeight(null);
-      qx.bom.element.Style.set(listScroller.getContainerElement(), "max-height", "200px");
       return listScroller;
+    },
+
+
+    // overridden
+    _updatePosition : function() {
+       // Menu max height has to be smaller than screen height.
+      var titleWidgetElement = this.getTitleWidget().getContainerElement();
+      var titleHeight = qx.bom.element.Dimension.getHeight(titleWidgetElement);
+      var maxHeight = qx.bom.Viewport.getHeight();
+      this.__listScroller.setHeight(maxHeight-titleHeight*3+"px");
+      this.base(arguments);
     },
     
     

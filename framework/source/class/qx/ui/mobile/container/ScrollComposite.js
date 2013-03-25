@@ -416,7 +416,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     
     // Property apply
     _applyHeight : function(value, old) {
-      qx.bom.element.Style.set(this._scrollContainer.getContainerElement(), "height", value);
+      qx.bom.element.Style.set(this._scrollContainer.getContainerElement(), "max-height", value);
     },
     
     
@@ -433,7 +433,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * Appears like a "ease-out" easing function. 
      */
     _applyMomentumEasing : function() {
-      this._applyEasing("all 1500ms cubic-bezier(0.000, 0.075, 0.000, 1.00)");
+      this._applyEasing("1500ms cubic-bezier(0.000, 0.075, 0.000, 1.00)");
     },
     
     
@@ -442,7 +442,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * Used when user drags the scrollContainer over the edge manually.
      */
     _applyBounceEasing : function() {
-      this._applyEasing("all 400ms cubic-bezier(0.33, 0.66, 0.66, 1)");
+      this._applyEasing("400ms cubic-bezier(0.33, 0.66, 0.66, 1)");
     },
     
     
@@ -453,7 +453,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * Causes the effect that scrollContainers scrolls to far and bounces back to right position.
      */
     _applyScrollBounceEasing : function() {
-      this._applyEasing("all 1000ms cubic-bezier(0.000, 0.075, 0.000, 1.50)");
+      this._applyEasing("1000ms cubic-bezier(0.000, 0.075, 0.000, 1.50)");
     },
     
     
@@ -462,6 +462,11 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * @param easing {String} the css transition easing value
      */
     _applyEasing : function(easing) {
+      if(easing != null) {
+        var transformPropertyName = qx.bom.Style.getPropertyName("transform");
+        var transformCssName = qx.bom.Style.getCssName(transformPropertyName);
+        easing = transformCssName+" "+easing; 
+      }
       qx.bom.element.Style.set(this._scrollContainer.getContainerElement(),"transition", easing);
     },
 
