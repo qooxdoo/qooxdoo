@@ -72,10 +72,8 @@ qx.Class.define("qx.ui.mobile.form.Form",
 
 
     /**
-     *
-     * setter for the renderer private variable
+     * Setter for the renderer private variable
      * @param renderer {qx.ui.mobile.form.renderer.AbstractRenderer} the renderer
-     *
      */
     setRenderer : function(renderer)
     {

@@ -56,7 +56,6 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
     __errorMessageContainers : null,
 
 
-
     // override
     _getTagName : function()
     {
@@ -137,26 +136,26 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      * @param name {String} A name for the form item.
      */
     _addInSeparateLines : function(item, name) {
-        var labelRow = new qx.ui.mobile.form.Row();
-        labelRow.addCssClass("formRowContent");
+      var labelRow = new qx.ui.mobile.form.Row();
+      labelRow.addCssClass("formRowContent");
 
-        var itemRow = new qx.ui.mobile.form.Row();
-        itemRow.addCssClass("formRowContent");
+      var itemRow = new qx.ui.mobile.form.Row();
+      itemRow.addCssClass("formRowContent");
 
-        if(name) {
-          var label = new qx.ui.mobile.form.Label(name);
-          label.setLabelFor(item.getId());
+      if(name) {
+        var label = new qx.ui.mobile.form.Label(name);
+        label.setLabelFor(item.getId());
 
-          labelRow.add(label);
-          this.__labels.push(label);
+        labelRow.add(label);
+        this.__labels.push(label);
 
-          this._add(labelRow);
-          this.__rows.push(labelRow);
-        }
+        this._add(labelRow);
+        this.__rows.push(labelRow);
+      }
 
-        itemRow.add(item);
-        this._add(itemRow);
-        this.__rows.push(itemRow);
+      itemRow.add(item);
+      this._add(itemRow);
+      this.__rows.push(itemRow);
     },
 
 
@@ -166,18 +165,18 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      * @param name {String} A name for the form item.
      */
     _addInOneLine : function(item, name) {
-        var row = new qx.ui.mobile.form.Row(new qx.ui.mobile.layout.HBox());
-        row.addCssClass("formRowContent");
+      var row = new qx.ui.mobile.form.Row(new qx.ui.mobile.layout.HBox());
+      row.addCssClass("formRowContent");
 
-        if(name != null) {
-          var label = new qx.ui.mobile.form.Label(name);
-          label.setLabelFor(item.getId());
-          row.add(label, {flex:1});
-          this.__labels.push(label);
-        }
-        row.add(item);
-        this._add(row);
-        this.__rows.push(row);
+      if(name != null) {
+        var label = new qx.ui.mobile.form.Label(name);
+        label.setLabelFor(item.getId());
+        row.add(label, {flex:1});
+        this.__labels.push(label);
+      }
+      row.add(item);
+      this._add(row);
+      this.__rows.push(row);
     },
 
 
