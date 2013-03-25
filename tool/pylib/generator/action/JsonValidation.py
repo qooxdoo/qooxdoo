@@ -59,8 +59,9 @@ def validateManifest(jobObj, confObj):
     else:
         # ... from base.json ...
         libs = jobObj.get("library")
-        for lib in libs:
-            manifests.append(Manifest(lib.manipath))
+        if libs:
+            for lib in libs:
+                manifests.append(Manifest(lib.manipath))
 
         # ... or default location.
         if not manifests:
