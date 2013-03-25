@@ -67,7 +67,7 @@ qx.Class.define("qx.ui.embed.Iframe",
     qx.event.Registration.addListener(document.body, "losecapture", this.release, this, true);
 
     this.__blockerElement = this._createBlockerElement();
-    this.getContainerElement().add(this.__blockerElement);
+    qx.core.Init.getApplication().getRoot().getContentElement().add(this.__blockerElement);
 
     if ((qx.core.Environment.get("engine.name") == "gecko"))
     {
@@ -155,8 +155,8 @@ qx.Class.define("qx.ui.embed.Iframe",
       var insets = this.getInsets();
 
       this.__blockerElement.setStyles({
-        "left": insets.left + pixel,
-        "top": insets.top + pixel,
+        "left": (left + insets.left) + pixel,
+        "top": (top + insets.top) + pixel,
         "width": (width - insets.left - insets.right) + pixel,
         "height": (height - insets.top - insets.bottom) + pixel
       });
@@ -358,6 +358,7 @@ qx.Class.define("qx.ui.embed.Iframe",
 
   destruct : function()
   {
+    qx.core.Init.getApplication().getRoot().getContentElement().remove(this.__blockerElement);
     this._disposeObjects("__blockerElement");
 
     qx.event.Registration.removeListener(document.body, "mousedown", this.block, this, true);
