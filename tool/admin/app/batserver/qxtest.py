@@ -583,7 +583,7 @@ class QxTest:
             jsonData = json.dumps(buildResult, sort_keys=True, indent=2)
             buildId = self.testConf['testId']
             if buildId != "":
-                buildId = "-" + buildId
+                buildId = "_" + buildId
             fPath = os.path.join(logDir, 'buildStatus_%s%s.json' % (self.startTimeString, buildId))
         else:
             jsonData = json.dumps(self.buildStatus, sort_keys=True, indent=2)
