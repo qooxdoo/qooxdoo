@@ -88,8 +88,18 @@ def lint_classes(classesObj, opts):
     console = Context.console
     for classObj in classesObj:
         console.debug("Checking %s" % classObj.id)
-        tree = classObj.tree()
-        lint.lint_check(tree, classObj.id, opts)
+        lint_check(classObj, opts)
+        warns = lint_check(classObj, opts)
+        for warn in warns:
+            console.warn("%s (%d, %d): %s" % (classObj.id, warn.line, warn.column, 
+                warn.msg % tuple(warn.args)))
+
+##
+# Single interface to the ecmascript 'lint' module; handles caching; doesn't do
+# outputs.
+def lint_check(classObj, opts):
+    tree = classObj.tree()
+    return lint.lint_check(tree, classObj.id, opts)
 
 
 def runMigration(jobconf, libs):

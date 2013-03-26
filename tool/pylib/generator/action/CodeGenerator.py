@@ -31,6 +31,7 @@ from generator.code.Class       import Class, ClassMatchList, CompileOptions
 from generator.code.ClassList   import ClassList
 from generator.code.Script      import Script
 from generator.action           import Locale
+from generator.action           import CodeMaintenance as codeMaintenance
 import generator.resource.Library # just need the .Library type
 from ecmascript.frontend        import tokenizer, treegenerator, treegenerator_3
 from ecmascript.backend         import formatter_3
@@ -759,7 +760,10 @@ class CodeGenerator(object):
                 # do the rest
                 for clazz in classList:
                     if lint_check:
-                        lint.lint_check(clazz._tmp_tree, clazz.id, lint_opts) # this has to run *before* other optimizations, as trees get changed there
+                        warns = lint.lint_check(clazz._tmp_tree, clazz.id, lint_opts) # this has to run *before* other optimizations, as trees get changed there
+                        for warn in warns:
+                            console.warn("%s (%d, %d): %s" % (classObj.id, warn.line, warn.column, 
+                                warn.msg % tuple(warn.args)))
                     tree = clazz.optimize(clazz._tmp_tree, tmp_optimize)
                     code = clazz.serializeTree(tree, tmp_optimize, compConf.format)
                     result.append(code)
@@ -775,8 +779,10 @@ class CodeGenerator(object):
                                 tree = clazz.optimize(None, ["variants"], compConf.variantset)
                             else:
                                 tree = clazz.tree()
-                            self._console.debug("Linting %s" % clazz.id)
                             lint.lint_check(tree, clazz.id, lint_opts)  # has to run before the other optimizations 
+                            for warn in warns:
+                                console.warn("%s (%d, %d): %s" % (clazz.id, warn.line, warn.column, 
+                                    warn.msg % tuple(warn.args)))
                         #tree = clazz.optimize(None, compConf.optimize, compConf.variants, script._featureMap)
                         #code = clazz.serializeTree(tree, compConf.optimize, compConf.format)
                         code = clazz.getCode(compConf, treegen=treegenerator, featuremap=script._featureMap) # choose parser frontend
@@ -850,8 +856,7 @@ class CodeGenerator(object):
                         package_uris.append(entry)
                          # compiled classes are lint'ed in compileClasses()
                         if lint_check and clazz.library.namespace == app_namespace:
-                            self._console.debug("Linting %s" % clazz.id)
-                            lint.lint_check(clazz.tree(), clazz.id, lint_opts)
+                            self.lint_check(clazz, lint_opts)
                         log_progress()
 
                     # register it to be lumped together with other classes
@@ -1029,20 +1034,17 @@ class CodeGenerator(object):
         fname = self._computeFilePath(script, isLoader=1)
         self.writePackage(loaderCode, fname, script, isLoader=1)
 
-        # Lint-check classes
-        #self.lint_classes(script.classesObj)
-
-
         self._console.outdent()
 
         return  # runCompiled()
 
 
-    def lint_classes(self, classesObj):
-    
-        opts = self.lint_opts(classesObj)
-        for clazz in classesObj:
-            lint.lint_check(clazz.tree(), clazz.id, opts)
+    def lint_check(self, classObj, opts):
+        warns = codeMaintenance.lint_check(classObj, opts)
+        for warn in warns:
+            console.warn("%s (%d, %d): %s" % (classObj.id, warn.line, warn.column, 
+                warn.msg % tuple(warn.args)))
+
 
     def lint_opts(self, classesObj):
         do_check = self._job.get('compile-options/code/lint-check', True)
