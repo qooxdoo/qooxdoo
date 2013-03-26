@@ -227,9 +227,13 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
 
     // overridden
     _updatePosition : function() {
-       // Menu max height has to be smaller than screen height.
-      var titleWidgetElement = this.getTitleWidget().getContainerElement();
-      var titleHeight = qx.bom.element.Dimension.getHeight(titleWidgetElement);
+      var titleHeight = 0;
+      var titleWidget = this.getTitleWidget();
+      if(titleWidget != null) {
+         titleHeight = qx.bom.element.Dimension.getHeight(titleWidget.getContainerElement());
+      }
+      
+      // Menu max height has to be smaller than screen height.
       var maxHeight = qx.bom.Viewport.getHeight();
       this.__listScroller.setHeight(maxHeight-titleHeight*3+"px");
       this.base(arguments);
