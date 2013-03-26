@@ -835,7 +835,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      */
     _removePlaceholder: function() {
       if (this.hasState("showingPlaceholder")) {
-        this.__getPlaceholderElement().setStyle("visibility", "hidden");
+        this.getLayoutParent().getContentElement().remove(this.__getPlaceholderElement());
         this.removeState("showingPlaceholder");
       }
     },
@@ -847,7 +847,11 @@ qx.Class.define("qx.ui.form.AbstractField",
     _syncPlaceholder : function ()
     {
       if (this.hasState("showingPlaceholder")) {
-        this.__getPlaceholderElement().setStyle("visibility", "visible");
+        var parentElement = this.getLayoutParent().getContentElement();
+        var placeholder = this.__getPlaceholderElement();
+        if (!parentElement.hasChild(placeholder)) {
+          parentElement.add(placeholder);
+        }
       }
     },
 
@@ -862,7 +866,6 @@ qx.Class.define("qx.ui.form.AbstractField",
         this._placeholder = new qx.html.Label();
         var colorManager = qx.theme.manager.Color.getInstance();
         this._placeholder.setStyles({
-          "visibility" : "hidden",
           "zIndex" : 11,
           "position" : "absolute",
           "color" : colorManager.resolve("text-placeholder"),
@@ -871,7 +874,6 @@ qx.Class.define("qx.ui.form.AbstractField",
         });
 
         this._placeholder.addListener("mousedown", this._onMouseDownPlaceholder, this);
-        qx.core.Init.getApplication().getRoot().getContentElement().add(this._placeholder);
       }
       return this._placeholder;
     },
