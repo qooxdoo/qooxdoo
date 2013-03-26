@@ -282,8 +282,8 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
       {
         var bounds = this.getBounds();
         this.getContentElement().setStyles({
-          left: isHorizontal ? "0" : "-1px",
-          top: isHorizontal ? "-1px" : "0",
+          left: isHorizontal ? bounds.left : (bounds.left -1) + "px",
+          top: isHorizontal ? (bounds.top - 1) + "px" : "0",
           width: (isHorizontal ? bounds.width : bounds.width + 1) + "px",
           height: (isHorizontal ? bounds.height + 1 : bounds.height) + "px"
         });
