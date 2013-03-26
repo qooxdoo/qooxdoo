@@ -24,6 +24,7 @@ import os, sys, string, types, re, zlib, time, codecs
 import urllib, copy
 import graph
 
+from generator                  import Context
 from generator.config.Lang      import Key
 from generator.code.Part        import Part
 from generator.code.Package     import Package
@@ -744,7 +745,7 @@ class CodeGenerator(object):
 
 
         def compileClasses(classList, compConf, log_progress=lambda:None):
-            lint_check, lint_opts = self.lint_opts(script.classesObj)
+            lint_check, lint_opts = self.lint_opts(script.classesObj, only_globals=True)
             num_proc = self._job.get('run-time/num-processes', 0)
             result = []
             # warn qx.allowUrlSettings - variants optim. conflict (bug#6141)
@@ -771,15 +772,14 @@ class CodeGenerator(object):
                 result = u''.join(result)
             else:
                 if num_proc == 0:
-                    hybrid = self._job.get("compile-options/code/except")
                     for clazz in classList:
                         # skip lint checking for hybrid jobs
-                        if lint_check and not hybrid:
+                        if lint_check:
                             if "variants" in compConf.optimize: # do variant opt. ahead for lint_check
                                 tree = clazz.optimize(None, ["variants"], compConf.variantset)
                             else:
                                 tree = clazz.tree()
-                            lint.lint_check(tree, clazz.id, lint_opts)  # has to run before the other optimizations 
+                            warns = lint.lint_check(tree, clazz.id, lint_opts)  # has to run before the other optimizations 
                             for warn in warns:
                                 console.warn("%s (%d, %d): %s" % (clazz.id, warn.line, warn.column, 
                                     warn.msg % tuple(warn.args)))
@@ -828,7 +828,7 @@ class CodeGenerator(object):
             # Write the package data and the compiled class code in so many
             # .js files, skipping source files.
             def write_uris(package_data, package_classes, per_file_prefix):
-                lint_check, lint_opts = self.lint_opts(script.classesObj)
+                lint_check, lint_opts = self.lint_opts(script.classesObj, only_globals=True)
                 sourceFilter = ClassMatchList(compConf.get("code/except", []))
                 compiled_classes = []  # to accumulate classes that are compiled and can go into one .js file
                 package_uris = []      # the uri's of the .js files of this package
@@ -855,7 +855,7 @@ class CodeGenerator(object):
                         entry    = "%s:%s" % (clazz.library.namespace, shortUri.encodedValue())
                         package_uris.append(entry)
                          # compiled classes are lint'ed in compileClasses()
-                        if lint_check and clazz.library.namespace == app_namespace:
+                        if lint_check:
                             self.lint_check(clazz, lint_opts)
                         log_progress()
 
@@ -1046,15 +1046,16 @@ class CodeGenerator(object):
                 warn.msg % tuple(warn.args)))
 
 
-    def lint_opts(self, classesObj):
-        do_check = self._job.get('compile-options/code/lint-check', True)
+    @staticmethod
+    def lint_opts(classesObj, only_globals=False):
+        do_check = Context.jobconf.get('compile-options/code/lint-check', True)
         opts = None
         if do_check:
             opts = lint.defaultOptions()
             opts.library_classes = [x.id for x in classesObj]
             opts.class_namespaces = ClassList.namespaces_from_classnames(opts.library_classes)
             # add config 'exclude' to allowed_globals
-            opts.allowed_globals = self._job.get('exclude', [])
+            opts.allowed_globals = Context.jobconf.get('exclude', [])
             # and sanitize meta characters
             opts.allowed_globals = [x.replace('=','').replace('.*','') for x in opts.allowed_globals]
             # some sensible settings (deviating from defaultOptions)
@@ -1063,9 +1064,17 @@ class CodeGenerator(object):
             opts.ignore_undeclared_privates = True
             opts.ignore_unused_variables = True
             # override from config
-            jobConf = self._job
+            jobConf = Context.jobconf
             for option, value in jobConf.get("lint-check", {}).items():
                 setattr(opts, option.replace("-","_"), value)
+            # construct a globals-only check
+            if only_globals:
+                protected = 'library_classes class_namespaces allowed_globals ignore_undefined_globals warn_unknown_jsdoc_keys warn_jsdoc_key_syntax'.split()
+                for item in vars(opts):
+                    if item=='ignore_undefined_globals':
+                        setattr(opts, item, False)
+                    elif item not in protected:
+                        setattr(opts, item, True)
         return do_check, opts
         
     ##

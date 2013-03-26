@@ -43,10 +43,11 @@ from operator import attrgetter
 import graph
 
 from misc.ExtMap                import ExtMap
-from misc                       import util
 from ecmascript.frontend        import lang
-from generator.code.Class       import Class, DependencyError, CompileOptions
+from generator.code.Class       import DependencyError
 from generator.code.DependencyItem  import DependencyItem
+from generator.action.CodeGenerator import CodeGenerator
+from generator.action           import CodeMaintenance as codeMaintenance
 
 class DependencyLoader(object):
 
@@ -149,6 +150,12 @@ class DependencyLoader(object):
             self._console.indent()
             classObj = self._classesObj[depsItem.name] # get class from depsItem
             deps, cached = classObj.getCombinedDeps(self._classesObj, variants, self._jobconf, genProxy=genProxyIter.next())
+            # lint-check freshly parsed classes
+            if lint_check and not cached and is_app_code(classObj):
+                warns = codeMaintenance.lint_check(classObj, lint_opts)
+                for warn in warns:
+                    self._console.warn("%s (%d, %d): %s" % (classObj.id, warn.line, warn.column, 
+                        warn.msg % tuple(warn.args)))
             self._console.outdent()
             if logInfos: self._console.dot("%s" % "." if cached else "*")
 
@@ -239,14 +246,15 @@ class DependencyLoader(object):
 
             return
 
+        def is_app_code(classObj):
+            return classObj.library.namespace == app_namespace
         # -------------------------------------------
 
-        buildType = script.buildType  # source/build, for classlistFromClassRecursive
         result = []
         warn_deps = []
         logInfos = self._console.getLevel() == "info"
         ignored_names = set()
-        firstTime = [True]
+        app_namespace = self._jobconf.get("let/APPLICATION", u'')
 
         # Pyro servers
         #import Pyro.core
@@ -262,6 +270,9 @@ class DependencyLoader(object):
         #genProxyIter = itertools.cycle(genProxies)
         genProxyIter = itertools.repeat(None)
 
+        # Lint stuff
+        lint_check, lint_opts = CodeGenerator.lint_opts([])
+        lint_opts.ignore_undefined_globals = True # do compile-level checks *except* unknown globals (done in CodeGenerator)
 
         # No dependency calculation
         if len(includeWithDeps) == 0:
@@ -272,6 +283,8 @@ class DependencyLoader(object):
             # because all classes are included like an explicit include.
             for classId in excludeWithDeps:
                 result.remove(classId)
+
+            # TODO: use lint_check
 
         # Calculate dependencies
         else:
