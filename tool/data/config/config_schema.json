@@ -735,6 +735,7 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
+        "document-root": { "type": "string" },
         "output-dir": { "type": "string" },
         "template-dir": { "type": "string" },
         "httpd-type": { "type": "string" },
