@@ -272,7 +272,8 @@ class DependencyLoader(object):
 
         # Lint stuff
         lint_check, lint_opts = CodeGenerator.lint_opts([])
-        lint_opts.ignore_undefined_globals = True # do compile-level checks *except* unknown globals (done in CodeGenerator)
+        if lint_check:
+            lint_opts.ignore_undefined_globals = True # do compile-level checks *except* unknown globals (done in CodeGenerator)
 
         # No dependency calculation
         if len(includeWithDeps) == 0:
