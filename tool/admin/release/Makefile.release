@@ -433,7 +433,7 @@ build-apps:
 		if [ "$$APPLICATION" = "feedreader" ]; then \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) build,build-mobile,build-website ) || exit 1; \
 			elif [ "$$APPLICATION" = "todo" ]; then \
-				( cd application/$$APPLICATION && $(CMD_GENERATOR) build-min ) || exit 1; \
+				( cd application/$$APPLICATION && $(CMD_GENERATOR) build-mini ) || exit 1; \
 		elif [ "$$APPLICATION" = "mobileshowcase" ]; then \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) build-indigo ) || exit 1; \
 		else \
@@ -628,17 +628,17 @@ check-banner:
 
 check-apps:
 	@for TARGET in $(APPLICATIONS); do \
-	if [ "$$TARGET" = "featureconfigeditor" ] ; then \
-		F="application/$$TARGET/build/script/fce.js"; \
-	elif [ "$$TARGET" = "mobileshowcase" ] ; then \
-		F="application/$$TARGET/build-indigo/script/$$TARGET.js"; \
-	elif [ "$$TARGET" = "todo" ] ; then \
-		F="application/$$TARGET/$$TARGET.js"; \
-	else \
-		F="application/$$TARGET/build/script/$$TARGET.js"; \
-	fi; \
-	[ -s $$F ] || [ "$$TARGET" = "widgetbrowser" ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-  done
+		if [ "$$TARGET" = "featureconfigeditor" ] ; then \
+			F="application/$$TARGET/build/script/fce.js"; \
+		elif [ "$$TARGET" = "mobileshowcase" ] ; then \
+			F="application/$$TARGET/build-indigo/script/$$TARGET.js"; \
+		elif [ "$$TARGET" = "todo" ] ; then \
+			F="application/$$TARGET/$$TARGET.js"; \
+		else \
+			F="application/$$TARGET/build/script/$$TARGET.js"; \
+		fi; \
+		[ -s $$F ] || [ "$$TARGET" = "widgetbrowser" ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
+	done
 
 check-components:
 	@for TARGET in $(COMPONENTS); do \
