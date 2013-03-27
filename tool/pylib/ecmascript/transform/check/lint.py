@@ -49,7 +49,7 @@ class LintChecker(treeutil.NodeVisitor):
     def visit_file(self, node):
         # we can run the basic scope checks as with function nodes
         if not self.opts.ignore_undefined_globals:
-            self.function_unknown_globals(node)
+            self.unknown_globals(node.scope)
         self.function_unused_vars(node)
         if not self.opts.ignore_deprecated_symbols:
             self.function_used_deprecated(node)
@@ -88,7 +88,7 @@ class LintChecker(treeutil.NodeVisitor):
     def visit_function(self, node):
         #print "visiting", node.type
         if not self.opts.ignore_undefined_globals:
-            self.function_unknown_globals(node)
+            self.unknown_globals(node.scope)
         self.function_unused_vars(node)  # self.opts are applied in the function
         if not self.opts.ignore_deprecated_symbols:
             self.function_used_deprecated(node)
@@ -133,9 +133,8 @@ class LintChecker(treeutil.NodeVisitor):
                     issue = warn("Deprecated global symbol used: '%s'" % full_name, self.file_name, var_node)
                     self.issues.append(issue)
 
-    def function_unknown_globals(self, funcnode):
+    def unknown_globals(self, scope):
         # take advantage of Scope() objects
-        scope = funcnode.scope
         for id_, scopeVar in scope.globals().items():
             if id_ in self.opts.allowed_globals:
                 continue
