@@ -149,7 +149,7 @@ class DependencyLoader(object):
             self._console.debug("Gathering dependencies: %s" % depsItem.name)
             self._console.indent()
             classObj = self._classesObj[depsItem.name] # get class from depsItem
-            deps, cached = classObj.getCombinedDeps(self._classesObj, variants, self._jobconf, genProxy=genProxyIter.next())
+            deps, cached = classObj.getCombinedDeps(self._classesObj, variants, self._jobconf)
             # lint-check freshly parsed classes
             if lint_check and not cached and is_app_code(classObj):
                 warns = codeMaintenance.lint_check(classObj, lint_opts)
@@ -221,7 +221,7 @@ class DependencyLoader(object):
                 return node
 
             def getNodeChildren(depsItem):
-                deps, cached = self._classesObj[depsItem.name].getCombinedDeps(self._classesObj, variants, self._jobconf, genProxy=genProxyIter.next())
+                deps, cached = self._classesObj[depsItem.name].getCombinedDeps(self._classesObj, variants, self._jobconf)
 
                 # and evaluate them
                 deps["warn"] = self._checkDepsAreKnown(deps)  # add 'warn' key to deps
@@ -255,20 +255,6 @@ class DependencyLoader(object):
         logInfos = self._console.getLevel() == "info"
         ignored_names = set()
         app_namespace = self._jobconf.get("let/APPLICATION", u'')
-
-        # Pyro servers
-        #import Pyro.core
-        #genProxies = [
-        #    Pyro.core.getProxyForURI("PYRONAME://genworker0"),
-        #    Pyro.core.getProxyForURI("PYRONAME://genworker1"),
-        #    Pyro.core.getProxyForURI("PYRONAME://genworker2"),
-        #    Pyro.core.getProxyForURI("PYRONAME://genworker3"),
-        #    Pyro.core.getProxyForURI("PYRONAME://genworker4"),
-        #    Pyro.core.getProxyForURI("PYRONAME://genworker5"),
-        #]
-        import itertools
-        #genProxyIter = itertools.cycle(genProxies)
-        genProxyIter = itertools.repeat(None)
 
         # Lint stuff
         lint_check, lint_opts = CodeGenerator.lint_opts([])
