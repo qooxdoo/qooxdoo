@@ -39,7 +39,7 @@ from ecmascript.backend         import formatter_3
 from ecmascript.backend.Packer  import Packer
 from ecmascript.transform.optimizer    import privateoptimizer
 #from ecmascript.transform.optimizer    import globalsoptimizer
-from ecmascript.transform.check    import lint
+from ecmascript.transform.check    import lint, check_globals
 from misc                       import filetool, json, Path, securehash as sha, util
 from misc.ExtMap                import ExtMap
 from misc.Path                  import OsPath, Uri
@@ -761,9 +761,9 @@ class CodeGenerator(object):
                 # do the rest
                 for clazz in classList:
                     if lint_check:
-                        warns = lint.lint_check(clazz._tmp_tree, clazz.id, lint_opts) # this has to run *before* other optimizations, as trees get changed there
+                        warns = check_globals.globals_check(clazz._tmp_tree, clazz.id, lint_opts) # this has to run *before* other optimizations, as trees get changed there
                         for warn in warns:
-                            console.warn("%s (%d, %d): %s" % (classObj.id, warn.line, warn.column, 
+                            console.warn("%s (%d, %d): %s" % (clazz.id, warn.line, warn.column, 
                                 warn.msg % tuple(warn.args)))
                     tree = clazz.optimize(clazz._tmp_tree, tmp_optimize)
                     code = clazz.serializeTree(tree, tmp_optimize, compConf.format)
@@ -773,13 +773,12 @@ class CodeGenerator(object):
             else:
                 if num_proc == 0:
                     for clazz in classList:
-                        # skip lint checking for hybrid jobs
                         if lint_check:
                             if "variants" in compConf.optimize: # do variant opt. ahead for lint_check
                                 tree = clazz.optimize(None, ["variants"], compConf.variantset)
                             else:
                                 tree = clazz.tree()
-                            warns = lint.lint_check(tree, clazz.id, lint_opts)  # has to run before the other optimizations 
+                            warns = check_globals.globals_check(tree, clazz.id, lint_opts)  # has to run before the other optimizations 
                             for warn in warns:
                                 console.warn("%s (%d, %d): %s" % (clazz.id, warn.line, warn.column, 
                                     warn.msg % tuple(warn.args)))
@@ -856,7 +855,11 @@ class CodeGenerator(object):
                         package_uris.append(entry)
                          # compiled classes are lint'ed in compileClasses()
                         if lint_check:
-                            self.lint_check(clazz, lint_opts)
+                            #self.lint_check(clazz, lint_opts)
+                            warns = check_globals.globals_check(clazz.tree(), clazz.id, lint_opts)  # has to run before the other optimizations 
+                            for warn in warns:
+                                console.warn("%s (%d, %d): %s" % (clazz.id, warn.line, warn.column, 
+                                    warn.msg % tuple(warn.args)))
                         log_progress()
 
                     # register it to be lumped together with other classes
