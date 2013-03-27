@@ -48,7 +48,6 @@ Arguments:
         self.add_option("-l", "--logfile", dest="logfile", metavar="FILENAME", default=None, type="string", help="log file")
         self.add_option("-s", "--stacktrace", action="store_true", dest="stacktrace", default=False, help="enable stack traces on fatal exceptions")
         self.add_option("-m", "--macro", dest="letmacros", metavar="KEY:VAL", action="map", type="string", default={}, help="define/overwrite a global 'let' macro KEY with value VAL")
-        self.add_option("-d", "--daemon", dest="daemon", action="store_true", default=False, help="(EXPERIMENTAL - DON'T USE) puts the generator in daemon mode")
         self.add_option("-I", "--no-progress-indicator", dest="show_progress_indicator", action="store_false", default=True, help="suppress animated progress indication")
         
         # Dynamic options (currently not supported)
