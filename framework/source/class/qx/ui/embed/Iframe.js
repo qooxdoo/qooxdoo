@@ -67,7 +67,6 @@ qx.Class.define("qx.ui.embed.Iframe",
     qx.event.Registration.addListener(document.body, "losecapture", this.release, this, true);
 
     this.__blockerElement = this._createBlockerElement();
-    qx.core.Init.getApplication().getRoot().getContentElement().add(this.__blockerElement);
 
     if ((qx.core.Environment.get("engine.name") == "gecko"))
     {
@@ -346,6 +345,16 @@ qx.Class.define("qx.ui.embed.Iframe",
     // property apply
     _applyScrollbar : function(value) {
       this.getContentElement().setAttribute("scrolling", value);
+    },
+
+
+    // overridden
+    setLayoutParent : function(parent)
+    {
+      this.base(arguments, parent);
+      if (parent) {
+        this.getLayoutParent().getContentElement().add(this.__blockerElement);
+      }
     }
   },
 
@@ -358,7 +367,9 @@ qx.Class.define("qx.ui.embed.Iframe",
 
   destruct : function()
   {
-    qx.core.Init.getApplication().getRoot().getContentElement().remove(this.__blockerElement);
+    if (this.getLayoutParent()) {
+      this.getLayoutParent().getContentElement().remove(this.__blockerElement);
+    }
     this._disposeObjects("__blockerElement");
 
     qx.event.Registration.removeListener(document.body, "mousedown", this.block, this, true);
