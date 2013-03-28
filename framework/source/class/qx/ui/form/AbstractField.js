@@ -787,9 +787,17 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     /*
     ---------------------------------------------------------------------------
-      PLACEHOLDER HELPER
+      PLACEHOLDER HELPERS
     ---------------------------------------------------------------------------
     */
+
+    // overridden
+    setLayoutParent : function(parent)
+    {
+      this.base(arguments, parent);
+      this.getLayoutParent().getContentElement().add(this.__getPlaceholderElement());
+    },
+
 
     /**
      * Helper to show the placeholder text in the field. It checks for all
@@ -835,7 +843,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      */
     _removePlaceholder: function() {
       if (this.hasState("showingPlaceholder")) {
-        this.getLayoutParent().getContentElement().remove(this.__getPlaceholderElement());
+        this.__getPlaceholderElement().setStyle("visibility", "hidden");
         this.removeState("showingPlaceholder");
       }
     },
@@ -847,11 +855,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     _syncPlaceholder : function ()
     {
       if (this.hasState("showingPlaceholder")) {
-        var parentElement = this.getLayoutParent().getContentElement();
-        var placeholder = this.__getPlaceholderElement();
-        if (!parentElement.hasChild(placeholder)) {
-          parentElement.add(placeholder);
-        }
+        this.__getPlaceholderElement().setStyle("visibility", "visible");
       }
     },
 
