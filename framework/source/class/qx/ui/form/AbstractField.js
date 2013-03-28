@@ -795,7 +795,9 @@ qx.Class.define("qx.ui.form.AbstractField",
     setLayoutParent : function(parent)
     {
       this.base(arguments, parent);
-      this.getLayoutParent().getContentElement().add(this.__getPlaceholderElement());
+      if (parent) {
+        this.getLayoutParent().getContentElement().add(this.__getPlaceholderElement());
+      }
     },
 
 
