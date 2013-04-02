@@ -112,8 +112,10 @@ qx.Class.define("qx.theme.manager.Decoration",
         css += key + ":" + styles[key] + ";";
       }
 
-      sheet.addRule(selector, css);
-      this.__rules.push(selector);
+      if (css) {
+        sheet.addRule(selector, css);
+        this.__rules.push(selector);
+      }
 
       return value;
     },
