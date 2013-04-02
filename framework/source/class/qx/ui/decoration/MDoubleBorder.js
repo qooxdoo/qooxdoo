@@ -159,6 +159,8 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
      */
     __styleDoubleBorder : function(styles)
     {
+      var propName = qx.core.Environment.get("css.boxshadow");
+
       var color,
           innerColor,
           innerWidth;
@@ -260,8 +262,8 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
       }
 
       // apply or append the box shadow styles
-      if (shadowStyle.length > 0) {
-        var propName = qx.bom.Style.getCssName(qx.bom.Style.getPropertyName("boxShadow"));
+      if (shadowStyle.length > 0 && propName) {
+        propName = qx.bom.Style.getCssName(propName);
         if (!styles[propName]) {
           styles[propName] = shadowStyle.join(",");
         } else {

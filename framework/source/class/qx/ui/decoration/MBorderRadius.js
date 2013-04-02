@@ -83,6 +83,9 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius",
      */
     _styleBorderRadius : function(styles)
     {
+      if (!qx.core.Environment.get("css.borderradius")) {
+        return;
+      }
       // radius handling
       var hasRadius = false;
       var radius = this.getRadiusTopLeft();
