@@ -290,7 +290,7 @@ qx.Class.define("qx.ui.basic.Image",
           isPng = qx.lang.String.endsWith(source, ".png");
         }
 
-        if (this.getScale() && isPng && qx.bom.element.Decoration.isAlphaImageLoaderEnabled()) {
+        if (this.getScale() && isPng && qx.core.Environment.get("css.alphaimageloaderneeded")) {
           this.__mode = "alphaScaled";
         } else if (this.getScale()) {
           this.__mode = "scaled";
@@ -407,7 +407,7 @@ qx.Class.define("qx.ui.basic.Image",
     {
       "mshtml" : function(source)
       {
-        var alphaImageLoader = qx.bom.element.Decoration.isAlphaImageLoaderEnabled();
+        var alphaImageLoader = qx.core.Environment.get("css.alphaimageloaderneeded");
         var isPng = qx.lang.String.endsWith(source, ".png");
 
         if (alphaImageLoader && isPng)

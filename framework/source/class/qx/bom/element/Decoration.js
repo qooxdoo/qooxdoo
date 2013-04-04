@@ -41,26 +41,6 @@ qx.Class.define("qx.bom.element.Decoration",
     /** {Map} Collect warnings for potential clipped images */
     __warnings : {},
 
-    /**
-     * {Boolean} Whether the alpha image loader is needed.
-     * We enable this for all IE browser because of issues reported by Maria
-     * Siebert and others in combination with the opacity filter applied
-     * to e.g. disabled icons. Thanks Maria.
-     *
-     * To prevent these issues use the "disabled" images. This is done by adding
-     * a special second image which is already in a disabled state. In order to
-     * make use of this feature the image has to follow the convention "-disabled".
-     * (e.g. "button.png" -> "button-disabled.png")
-     *
-     * The situation for IE8 is that running in "IE8 Standards Mode" IE8 has a
-     * runtime performance issue. The updates are compared to IE7 really slow.
-     * The cause for this is the dynamic adding/removing of the IMG elements
-     * which are part of the decorator. Using the alpha image loader does change
-     * this DOM structure to only use DIV elements which do not have a negative
-     * performance impact. See Bug #2185 for details.
-     */
-    __enableAlphaFix : (qx.core.Environment.get("engine.name") == "mshtml") && qx.core.Environment.get("engine.version") < 9,
-
 
     /** {Map} List of repeat modes which supports the IE AlphaImageLoader */
     __alphaFixRepeats : qx.core.Environment.select("engine.name",
@@ -129,7 +109,7 @@ qx.Class.define("qx.bom.element.Decoration",
 
       // we need to apply the filter to prevent black rendering artifacts
       // http://blog.hackedbrain.com/archive/2007/05/21/6110.aspx
-      if (this.__enableAlphaFix)
+      if (qx.core.Environment.get("css.alphaimageloaderneeded"))
       {
         try {
           element.filters["DXImageTransform.Microsoft.AlphaImageLoader"].apply();
@@ -175,7 +155,9 @@ qx.Class.define("qx.bom.element.Decoration",
      */
     getTagName : function(repeat, source)
     {
-      if (source && this.__enableAlphaFix && this.__alphaFixRepeats[repeat] && qx.lang.String.endsWith(source, ".png")) {
+      if (source && qx.core.Environment.get("css.alphaimageloaderneeded") &&
+          this.__alphaFixRepeats[repeat] && qx.lang.String.endsWith(source, ".png"))
+      {
         return "div";
       }
 
@@ -227,7 +209,9 @@ qx.Class.define("qx.bom.element.Decoration",
       var result;
 
       // Enable AlphaImageLoader in IE6/IE7/IE8
-      if (this.__enableAlphaFix && this.__alphaFixRepeats[repeat] && format === "png") {
+      if (qx.core.Environment.get("css.alphaimageloaderneeded") &&
+          this.__alphaFixRepeats[repeat] && format === "png")
+      {
         result = this.__processAlphaFix(style, repeat, source);
       }
       else
@@ -621,10 +605,15 @@ qx.Class.define("qx.bom.element.Decoration",
      * loader is enabled.
      *
      * @return {Boolean} <code>true</code> when the AlphaImageLoader is used, <code>false</code> otherwise.
+     * @deprecated{3.0}
      */
     isAlphaImageLoaderEnabled : function ()
     {
-      return qx.bom.element.Decoration.__enableAlphaFix;
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
+         "Please use 'qx.core.Environment.get(\"css.alphaimageloaderneeded\")' instead.");
+      }
+      return qx.core.Environment.get("css.alphaimageloaderneeded");
     }
   }
 });

@@ -144,7 +144,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
         if (this._isInitialized()) {
           throw new Error("This decorator is already in-use. Modification is not possible anymore!");
         }
-        if (qx.bom.element.Decoration.isAlphaImageLoaderEnabled() && !this.__infoDisplayed)
+        if (qx.core.Environment.get("css.alphaimageloaderneeded") && !this.__infoDisplayed)
         {
           this.info("Applying a background-position value has no impact when using the 'AlphaImageLoader' to display PNG images!");
           this.__infoDisplayed = true;

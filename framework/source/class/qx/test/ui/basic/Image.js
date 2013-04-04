@@ -44,7 +44,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       this.flush();
 
       var tagNameAfter = image.getContentElement().getNodeName();
-      if (qx.bom.element.Decoration.isAlphaImageLoaderEnabled()) {
+      if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
         this.assertTrue(tagNameAfter == "div");
       } else {
         this.assertTrue(tagNameAfter == "img");
@@ -87,7 +87,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       this.flush();
 
       var tagNameAfter = image.getContentElement().getNodeName();
-      if (qx.bom.element.Decoration.isAlphaImageLoaderEnabled()) {
+      if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
         this.assertTrue(tagNameAfter == "div");
       } else {
         this.assertTrue(tagNameAfter == "img");

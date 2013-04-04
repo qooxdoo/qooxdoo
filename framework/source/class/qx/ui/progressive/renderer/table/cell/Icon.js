@@ -135,7 +135,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
       html.push('<img ');
 
       // Add magic to make png images work in IE
-      if (qx.bom.element.Decoration.isAlphaImageLoaderEnabled() &&
+      if (qx.core.Environment.get("css.alphaimageloaderneeded") &&
           /\.png$/i.test(imageData.url))
       {
         html.push('src="', this.__imageBlank, '" style="filter:',

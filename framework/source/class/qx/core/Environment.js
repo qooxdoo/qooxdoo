@@ -189,6 +189,10 @@
  *       <td>{@link qx.bom.client.Css#getFilterTextShadow}</td>
  *     </tr>
  *     <tr>
+ *       <td>css.alphaimageloaderneeded</td><td><i>Boolean</i></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Css#getAlphaImageLoaderNeeded}</td>
+ *     </tr>
+ *     <tr>
  *       <td colspan="4"><b>device</b></td>
  *     </tr>
  *     <tr>
@@ -892,6 +896,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "css.overflowxy" : "qx.bom.client.Css.getOverflowXY",    // @deprecated {2.1}
       "css.textShadow" : "qx.bom.client.Css.getTextShadow",
       "css.textShadow.filter" : "qx.bom.client.Css.getFilterTextShadow",
+      "css.alphaimageloaderneeded" : "qx.bom.client.Css.getAlphaImageLoaderNeeded",
       "phonegap"                    : "qx.bom.client.PhoneGap.getPhoneGap",
       "phonegap.notification"       : "qx.bom.client.PhoneGap.getNotification",
       "xml.implementation"          : "qx.bom.client.Xml.getImplementation",

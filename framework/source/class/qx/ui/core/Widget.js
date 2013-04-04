@@ -2309,8 +2309,7 @@ qx.Class.define("qx.ui.core.Widget",
       this.getContentElement().setStyle("opacity", value == 1 ? null : value);
 
       // Fix for AlphaImageLoader - see Bug #1894 for details
-      if ((qx.core.Environment.get("engine.name") == "mshtml") &&
-          qx.bom.element.Decoration.isAlphaImageLoaderEnabled())
+      if (qx.core.Environment.get("css.alphaimageloaderneeded"))
       {
         // Do not apply this fix on images - see Bug #2748
         if (!qx.Class.isSubClassOf(this.getContentElement().constructor, qx.html.Image))
