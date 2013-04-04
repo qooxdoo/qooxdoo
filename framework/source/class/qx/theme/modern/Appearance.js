@@ -1222,7 +1222,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
           qx.core.Environment.get("css.borderradius");
         return {
           decorator : useCSS ? "tabview-pane-css" : "tabview-pane",
-          minHeight : 100,
 
           marginBottom : states.barBottom ? -1 : 0,
           marginTop : states.barTop ? -1 : 0,
