@@ -187,6 +187,7 @@ qx.Class.define("qx.ui.basic.Image",
     __height : null,
     __mode : null,
     __contentElements : null,
+    __wrapper : null,
 
 
     //overridden
@@ -228,9 +229,33 @@ qx.Class.define("qx.ui.basic.Image",
     _applyPadding : function(value, old, name)
     {
       this.base(arguments, value, old, name);
-      this.getContentElement().setPadding(
-        this.getPaddingLeft() || 0, this.getPaddingTop() || 0
-      );
+
+      var element = this.getContentElement();
+      if (this.__wrapper) {
+        element.getChild(0).setStyles({
+          top: this.getPaddingTop() || 0,
+          left: this.getPaddingLeft() || 0
+        });
+      } else {
+        element.setPadding(
+          this.getPaddingLeft() || 0, this.getPaddingTop() || 0
+        );
+      }
+
+    },
+
+    renderLayout : function(left, top, width, height) {
+      this.base(arguments, left, top, width, height);
+
+      var element = this.getContentElement();
+      if (this.__wrapper) {
+        element.getChild(0).setStyles({
+          width: width - (this.getPaddingLeft() || 0) - (this.getPaddingRight() || 0),
+          height: height - (this.getPaddingTop() || 0) - (this.getPaddingBottom() || 0),
+          top: this.getPaddingTop() || 0,
+          left: this.getPaddingLeft() || 0
+        });
+      }
     },
 
 
@@ -337,6 +362,12 @@ qx.Class.define("qx.ui.basic.Image",
         "boxSizing": "border-box"
       });
 
+      if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
+        var wrapper = this.__wrapper = new qx.html.Element("div");
+        wrapper.add(element);
+        return wrapper;
+      }
+
       return element;
     },
 
@@ -371,9 +402,14 @@ qx.Class.define("qx.ui.basic.Image",
     {
       var source = qx.util.AliasManager.getInstance().resolve(this.getSource());
 
+      var element = this.getContentElement();
+      if (this.__wrapper) {
+        element = element.getChild(0);
+      }
+
       if (!source)
       {
-        this.getContentElement().resetSource();
+        element.resetSource();
         return;
       }
 
@@ -383,16 +419,16 @@ qx.Class.define("qx.ui.basic.Image",
         parseInt(qx.core.Environment.get("engine.version"), 10) < 9)
       {
         var repeat = this.getScale() ? "scale" : "no-repeat";
-        this.getContentElement().tagNameHint = qx.bom.element.Decoration.getTagName(repeat, source);
+        element.tagNameHint = qx.bom.element.Decoration.getTagName(repeat, source);
       }
 
       // Detect if the image registry knows this image
       if (qx.util.ResourceManager.getInstance().has(source)) {
-        this.__setManagedImage(this.getContentElement(), source);
+        this.__setManagedImage(element, source);
       } else if (qx.io.ImageLoader.isLoaded(source)) {
-        this.__setUnmanagedImage(this.getContentElement(), source);
+        this.__setUnmanagedImage(element, source);
       } else {
-        this.__loadUnmanagedImage(this.getContentElement(), source);
+        this.__loadUnmanagedImage(element, source);
       }
     },
 
@@ -450,8 +486,11 @@ qx.Class.define("qx.ui.basic.Image",
      */
     __checkForContentElementReplacement : function(elementToAdd)
     {
-      var container = this.getContainerElement();
-      var currentContentElement = container.getChild(0);
+      var currentContentElement = this.getContentElement();
+      if (this.__wrapper) {
+        currentContentElement = currentContentElement.getChild(0);
+        elementToAdd = elementToAdd.getChild(0);
+      }
 
       if (currentContentElement != elementToAdd)
       {
