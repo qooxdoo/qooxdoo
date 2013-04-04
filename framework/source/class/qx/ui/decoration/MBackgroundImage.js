@@ -95,8 +95,8 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
         return;
       }
 
-      var source = qx.util.AliasManager.getInstance().resolve(image);
-      source = qx.util.ResourceManager.getInstance().toUri(source);
+      var id = qx.util.AliasManager.getInstance().resolve(image);
+      var source = qx.util.ResourceManager.getInstance().toUri(id);
       if (styles["background-image"]) {
         styles["background-image"] +=  ', url(' + source + ')';
       } else {
@@ -114,6 +114,10 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
       var top = this.getBackgroundPositionY() || 0;
       var left = this.getBackgroundPositionX() || 0;
       styles["background-position"] = left + "px " + top + "px";
+
+      if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
+        qx.bom.element.Decoration.processAlphaFix(styles, repeat, id);
+      }
     },
 
 

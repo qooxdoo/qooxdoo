@@ -212,7 +212,9 @@ qx.Class.define("qx.bom.element.Decoration",
       if (qx.core.Environment.get("css.alphaimageloaderneeded") &&
           this.__alphaFixRepeats[repeat] && format === "png")
       {
-        result = this.__processAlphaFix(style, repeat, source);
+        var dimension = this.__getDimension(source);
+        this.__normalizeWidthHeight(style, dimension.width, dimension.height);
+        result = this.processAlphaFix(style, repeat, source);
       }
       else
       {
@@ -282,11 +284,8 @@ qx.Class.define("qx.bom.element.Decoration",
      *
      * @return {Map} style infos
      */
-    __processAlphaFix : function(style, repeat, source)
+    processAlphaFix : function(style, repeat, source)
     {
-      var dimension = this.__getDimension(source);
-      this.__normalizeWidthHeight(style, dimension.width, dimension.height);
-
       var sizingMethod = repeat == "no-repeat" ? "crop" : "scale";
       var filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +
                    qx.util.ResourceManager.getInstance().toUri(source) +
@@ -294,6 +293,8 @@ qx.Class.define("qx.bom.element.Decoration",
 
       style.filter = filter;
       style.backgroundImage = style.backgroundRepeat = "";
+      delete style["background-image"];
+      delete style["background-repeat"];
 
       return {
         style : style
