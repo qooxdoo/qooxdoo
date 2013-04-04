@@ -100,7 +100,7 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
     _styleBoxShadow : function(styles) {
       var propName = qx.core.Environment.get("css.boxshadow");
       if (!propName ||
-          this.getShadowVerticalLength() == null ||
+          this.getShadowVerticalLength() == null &&
           this.getShadowHorizontalLength() == null)
       {
         return;
