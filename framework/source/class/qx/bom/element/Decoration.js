@@ -216,6 +216,7 @@ qx.Class.define("qx.bom.element.Decoration",
       }
       else
       {
+        delete style.clip;
         if (repeat === "scale") {
           result = this.__processScale(style, repeat, source);
         } else  if (repeat === "scale-x" || repeat === "scale-y") {
