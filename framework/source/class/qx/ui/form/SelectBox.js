@@ -36,7 +36,7 @@
  * });
  *
  * // now the 'changeSelection' event is fired
- * selectBox.add(new qx.ui.form.ListItem("Item 1");
+ * selectBox.add(new qx.ui.form.ListItem("Item 1"));
  * </pre>
  *
  * @childControl spacer {qx.ui.core.Spacer} flexible spacer widget
