@@ -105,6 +105,9 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
 
   members :
   {
+    __canvas : null,
+
+
     /**
      * Takes a styles map and adds the linear background styles in place to the
      * given map. This is the needed behavior for
@@ -143,6 +146,40 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
 
         value = "-webkit-gradient(linear," + startPos + "," + endPos + "," + color + ")";
         styles["background"] = value;
+
+      // IE9 canvas solution
+      } else if (qx.core.Environment.get("css.gradient.filter") &&
+        !qx.core.Environment.get("css.gradient.linear") && qx.core.Environment.get("css.borderradius")) {
+
+          if (!this.__canvas) {
+            this.__canvas = document.createElement("canvas");
+          }
+
+          var isVertical = this.getOrientation() == "vertical";
+
+          var colors = this.__getColors();
+          var height = isVertical ? 200 : 1;
+          var width = isVertical ? 1 : 200;
+
+          this.__canvas.width = width;
+          this.__canvas.height = height;
+          var ctx = this.__canvas.getContext('2d');
+
+          if (isVertical) {
+            var lingrad = ctx.createLinearGradient(0, 0, 0, height);
+          } else {
+            var lingrad = ctx.createLinearGradient(0, 0, width, 0);
+          }
+
+          lingrad.addColorStop(this.getStartColorPosition() / 100, colors.start);
+          lingrad.addColorStop(this.getEndColorPosition() / 100, colors.end);
+
+          ctx.fillStyle = lingrad;
+          ctx.fillRect(0, 0, width, height);
+
+          var value = "url(" + this.__canvas.toDataURL() + ")";
+          styles["background-image"] = value;
+          styles["background-size"] = "100% 100%";
 
       // old IE filter fallback
       } else if (qx.core.Environment.get("css.gradient.filter") &&
