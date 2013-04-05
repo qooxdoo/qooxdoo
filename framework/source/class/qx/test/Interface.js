@@ -68,6 +68,85 @@ qx.Class.define("qx.test.Interface",
       });
 
       var audi = new qx.test.i.Audi("audi");
+      
+      this.assertTrue(qx.Interface.classImplements(qx.test.i.Audi, qx.test.i.ICar));
+      
+      // Everything implemented
+      qx.Class.define("qx.test.i.Bmw1",
+        {
+          extend : Object,
+          construct : function() {},
+
+          members :
+          {
+            startEngine : function() {
+              return "start";
+            }
+          },
+
+          statics :
+          {
+            honk : function() {
+              return "honk";
+            }
+          },
+
+          properties : { color : { } }
+        });
+      this.assertTrue(qx.Interface.classImplements(qx.test.i.Bmw1, qx.test.i.ICar));
+      
+      // Missing members
+      qx.Class.define("qx.test.i.Bmw2",
+        {
+          extend : Object,
+          construct : function() {},
+          statics :
+          {
+            honk : function() {
+              return "honk";
+            }
+          },
+
+          properties : { color : { } }
+        });
+      this.assertFalse(qx.Interface.classImplements(qx.test.i.Bmw2, qx.test.i.ICar));
+
+      // Missing statics (ie it does implement all necessary)
+      qx.Class.define("qx.test.i.Bmw3",
+        {
+          extend : Object,
+          construct : function() {},
+          members :
+          {
+            startEngine : function() {
+              return "start";
+            }
+          },
+
+          properties : { color : { } }
+        });
+      this.assertTrue(qx.Interface.classImplements(qx.test.i.Bmw3, qx.test.i.ICar));
+
+      // Missing properties
+      qx.Class.define("qx.test.i.Bmw4",
+        {
+          extend : Object,
+          construct : function() {},
+          members :
+          {
+            startEngine : function() {
+              return "start";
+            }
+          },
+
+          statics :
+          {
+            honk : function() {
+              return "honk";
+            }
+          }
+        });
+      this.assertFalse(qx.Interface.classImplements(qx.test.i.Bmw4, qx.test.i.ICar));
 
       if (this.isDebugOn())
       {
