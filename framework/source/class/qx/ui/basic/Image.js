@@ -389,7 +389,13 @@ qx.Class.define("qx.ui.basic.Image",
         this.__contentElements[mode] = this.__createSuitableContentElement(mode);
       }
 
-      return this.__contentElements[mode];
+      var element = this.__contentElements[mode];
+
+      if (!this.__currentContentElement) {
+        this.__currentContentElement = element;
+      }
+
+      return element;
     },
 
 
@@ -422,13 +428,17 @@ qx.Class.define("qx.ui.basic.Image",
         element.tagNameHint = qx.bom.element.Decoration.getTagName(repeat, source);
       }
 
+      var contentEl = this.__currentContentElement;
+      if (this.__wrapper) {
+        contentEl = contentEl.getChild(0);
+      }
       // Detect if the image registry knows this image
       if (qx.util.ResourceManager.getInstance().has(source)) {
-        this.__setManagedImage(element, source);
+        this.__setManagedImage(contentEl, source);
       } else if (qx.io.ImageLoader.isLoaded(source)) {
-        this.__setUnmanagedImage(element, source);
+        this.__setUnmanagedImage(contentEl, source);
       } else {
-        this.__loadUnmanagedImage(element, source);
+        this.__loadUnmanagedImage(contentEl, source);
       }
     },
 
@@ -486,11 +496,8 @@ qx.Class.define("qx.ui.basic.Image",
      */
     __checkForContentElementReplacement : function(elementToAdd)
     {
-      var currentContentElement = this.getContentElement();
-      if (this.__wrapper) {
-        currentContentElement = currentContentElement.getChild(0);
-        elementToAdd = elementToAdd.getChild(0);
-      }
+      //debugger;
+      var currentContentElement = this.__currentContentElement;
 
       if (currentContentElement != elementToAdd)
       {
@@ -515,11 +522,17 @@ qx.Class.define("qx.ui.basic.Image",
           // since these would otherwise cover the content element
           styles.zIndex = 10;
 
-          elementToAdd.setStyles(styles, true);
-          elementToAdd.setSelectable(this.getSelectable());
+          var el = this.__wrapper ? elementToAdd.getChild(0) : elementToAdd;
+          el.setStyles(styles, true);
+          el.setSelectable(this.getSelectable());
 
-          container.removeAt(0);
-          container.addAt(elementToAdd, 0);
+          var container = currentContentElement.getParent();
+          if (container) {
+            var index = container.getChildren().indexOf(currentContentElement);
+            container.removeAt(index);
+            container.addAt(elementToAdd, index);
+            this.__currentContentElement = elementToAdd;
+          }
         }
       }
     },
