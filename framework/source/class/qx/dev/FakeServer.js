@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * A wrapper around SinonJS's FakeXMLHttpRequest and FakeServer features that
+ * A wrapper around Sinon.JS's FakeXMLHttpRequest and FakeServer features that
  * allows quick and simple configuration of mock HTTP backends for testing and
  * development.
  * Automatically creates URL filtering rules to ensure that only configured

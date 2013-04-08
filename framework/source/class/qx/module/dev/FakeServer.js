@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 /**
- * A wrapper around SinonJS's FakeXMLHttpRequest and FakeServer features that
+ * A wrapper around Sinon.JS's FakeXMLHttpRequest and FakeServer features that
  * allows quick and simple configuration of mock HTTP backends for testing and
  * development.
  * Automatically creates URL filtering rules to ensure that only configured
@@ -37,7 +37,7 @@
  *         var responseData = {
  *           description: "Mock REST response for resource " + request.url
  *         };
- *         var body = qx.lang.Json.stringify(responseData);
+ *         var body = JSON.stringify(responseData);
  *         request.respond(status, headers, body);
  *       }
  *     },
@@ -47,7 +47,7 @@
  *       response: [
  *         200,
  *         { "Content-Type": "application/json" },
- *         qx.lang.Json.stringify({userId: 'someUser'})
+ *         JSON.stringify({userId: 'someUser'})
  *       ]
  *     }
  *   ];
@@ -81,6 +81,7 @@ qx.Bootstrap.define("qx.module.dev.FakeServer", {
      *   </li>
      * </ul>
      *
+     * @attachStatic {qxWeb, dev.fakeServer.configure}
      * @param responseData {Map[]} An array of response description maps.
      */
     configure : function(responseData) {
@@ -93,6 +94,7 @@ qx.Bootstrap.define("qx.module.dev.FakeServer", {
      * See {@link http://sinonjs.org/docs/#filtered-requests}
      * for details.
      *
+     * @attachStatic {qxWeb, dev.fakeServer.addFilter}
      * @param filter {Function} URL filter function. Will be called with the
      * following arguments: <code>method</code>, <code>url</code>, <code>async</code>,
      * <code>username</code>, <code>password</code>. Must return <code>true</code>
@@ -106,6 +108,7 @@ qx.Bootstrap.define("qx.module.dev.FakeServer", {
     /**
      * Defines a fake XHR response to a matching request.
      *
+     * @attachStatic {qxWeb, dev.fakeServer.respondWith}
      * @param method {String} HTTP method to respond to, e.g. "GET"
      * @param urlRegExp {RegExp} Request URL must match match this expression
      * @param response {Function|Array|String} Response to send. See
@@ -119,6 +122,7 @@ qx.Bootstrap.define("qx.module.dev.FakeServer", {
     /**
      * Creates and configures a FakeServer if necessary and returns it.
      *
+     * @attachStatic {qxWeb, dev.fakeServer.getFakeServer}
      * @return {Object} FakeServer object
      */
     getFakeServer : function() {
@@ -128,6 +132,8 @@ qx.Bootstrap.define("qx.module.dev.FakeServer", {
 
     /**
      * Stops the FakeServer
+
+     * @attachStatic {qxWeb, dev.fakeServer.restore}
      */
     restore: function() {
       qx.dev.FakeServer.getInstance().restore();
@@ -142,8 +148,7 @@ qx.Bootstrap.define("qx.module.dev.FakeServer", {
           "addFilter" : statics.addFilter,
           "respondWith" : statics.respondWith,
           "getFakeServer" : statics.getFakeServer,
-          "restore" : statics.restore,
-          "getInstance" : statics.getInstance
+          "restore" : statics.restore
         }
       }
     });
