@@ -244,6 +244,7 @@
         "build-module-blocker",
         "build-module-cookie",
         "build-module-dataset",
+        "build-module-dev",
         "build-module-io",
         "build-module-messaging",
         "build-module-placeholder",
@@ -264,6 +265,7 @@
         "build-module-blocker-min",
         "build-module-cookie-min",
         "build-module-dataset-min",
+        "build-module-dev-min",
         "build-module-io-min",
         "build-module-messaging-min",
         "build-module-placeholder-min",
@@ -380,6 +382,30 @@
       "let" : {
         "Q_INCLUDES": ["qx.module.Io"],
         "MODULE_FILENAME" : "io"
+      }
+    },
+
+    "build-module-dev" :
+    {
+      "extend" : ["build-module"],
+      "lint-check" : {
+        "allowed-globals" : [ "qx.lang" ]
+      },
+      "let" : {
+        "Q_INCLUDES": ["qx.module.dev.FakeServer"],
+        "MODULE_FILENAME" : "dev"
+      }
+    },
+
+    "build-module-dev-min" :
+    {
+      "extend" : ["build-module-min"],
+      "lint-check" : {
+        "allowed-globals" : [ "qx.lang" ]
+      },
+      "let" : {
+        "Q_INCLUDES": ["qx.module.dev.FakeServer"],
+        "MODULE_FILENAME" : "dev"
       }
     },
 

@@ -13,10 +13,9 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Daniel Wagner (danielwagner)
+     * Richard Sternagel (rsternagel)
 
 ************************************************************************ */
-
 /**
  * A wrapper around SinonJS's FakeXMLHttpRequest and FakeServer features that
  * allows quick and simple configuration of mock HTTP backends for testing and
@@ -53,55 +52,12 @@
  *     }
  *   ];
  *
- *   qx.dev.FakeServer.getInstance().configure(responseData);
+ *   q.fakeServer.configure(responseData);
  * </pre>
  */
-qx.Bootstrap.define("qx.dev.FakeServer", {
-
-  extend : Object,
-
-  construct : function() {
-    var clazz = qx.dev.FakeServer;
-
-    if (!clazz.$$allowconstruct) {
-        var msg = clazz+" is a singleton! It is not possible to instantiate it directly." +
-                  "Use the static getInstance() method instead.";
-        throw new Error(msg);
-    }
-
-    this.getFakeServer();
-    this.__urlRegExps = [];
-  },
-
-  statics : {
-    $$instance : null,
-    $$allowconstruct : false,
-
-    /**
-     * Helper method to handle singletons
-     *
-     * @internal
-     * @return {Object} The singleton instance
-     */
-    getInstance : function()
-    {
-      if (!this.$$instance)
-      {
-        this.$$allowconstruct = true;
-        this.$$instance = new this();
-        delete this.$$allowconstruct;
-      }
-
-      return this.$$instance;
-    }
-  },
-
-  members :
+qx.Bootstrap.define("qx.module.dev.FakeServer", {
+  statics :
   {
-    __sinon : null,
-    __fakeServer: null,
-    __urlRegExps: null,
-
     /**
      * Configures a set of fake HTTP responses. Each response is defined as a map
      * that must provide the following keys:
@@ -128,28 +84,8 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
      * @param responseData {Map[]} An array of response description maps.
      */
     configure : function(responseData) {
-      responseData.forEach(function(item) {
-        var urlRegExp = item.url instanceof RegExp ? item.url : this._getRegExp(item.url);
-        if (!qx.lang.Array.contains(this.__urlRegExps, urlRegExp)) {
-          this.__urlRegExps.push([item.method, urlRegExp]);
-        }
-        this.respondWith(item.method, urlRegExp, item.response);
-      }.bind(this));
-
-      var regExps = this.__urlRegExps;
-      var filter = function(method, url, async, username, password) {
-        for (var i=0, l=regExps.length; i<l; i++) {
-          var filterMethod = regExps[i][0];
-          var regExp = regExps[i][1];
-          if (method == filterMethod && regExp.test(url)) {
-            return false;
-          }
-        }
-        return true;
-      };
-      this.addFilter(filter);
+      qx.dev.FakeServer.getInstance().configure(responseData);
     },
-
 
     /**
      * Adds a URL filtering function to decide whether a request should be handled
@@ -163,11 +99,7 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
      * if the request should not be faked.
      */
     addFilter : function(filter) {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.core.Assert.assertFunction(filter);
-      }
-
-      this.__sinon.FakeXMLHttpRequest.addFilter(filter);
+      qx.dev.FakeServer.getInstance().addFilter(filter);
     },
 
 
@@ -180,52 +112,40 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
      * {@link http://sinonjs.org/docs/#fakeServer} for details.
      */
     respondWith : function(method, urlRegExp, response) {
-      this.__fakeServer.respondWith(method, urlRegExp, response);
+      qx.dev.FakeServer.getInstance().respondWith(method, urlRegExp, response);
     },
 
 
     /**
      * Creates and configures a FakeServer if necessary and returns it.
-
+     *
      * @return {Object} FakeServer object
      */
     getFakeServer : function() {
-      if (!this.__fakeServer) {
-        var sinon = this.__sinon = qx.dev.unit.Sinon.getSinon();
-        sinon.FakeXMLHttpRequest.useFilters = true;
-        this.__fakeServer = sinon.sandbox.useFakeServer();
-        this.__fakeServer.autoRespond = true;
-      }
-      return this.__fakeServer;
+      return qx.dev.FakeServer.getInstance().getFakeServer();
     },
 
 
     /**
      * Stops the FakeServer
      */
-    restore : function() {
-      if (this.__fakeServer) {
-        this.__fakeServer.restore();
-      }
-    },
-
-
-    /**
-     * Returns a RegExp using the given pattern. Curly brackets and anything
-     * between are replaced with wildcards (.*?)
-     *
-     * @param pattern {String} RegExp pattern
-     * @return {RegExp} Regular Expression
-     */
-    _getRegExp : function(pattern) {
-      pattern = pattern.replace(/\{[^\/]*?\}/g, ".*?");
-      return new RegExp(pattern);
+    restore: function() {
+      qx.dev.FakeServer.getInstance().restore();
     }
   },
 
-  destruct: function() {
-    this.restore();
-    this.__fakeServer = this.__sinon = null;
+  defer : function(statics) {
+    qxWeb.$attachStatic({
+      "dev": {
+        "fakeServer" : {
+          "configure" : statics.configure,
+          "addFilter" : statics.addFilter,
+          "respondWith" : statics.respondWith,
+          "getFakeServer" : statics.getFakeServer,
+          "restore" : statics.restore,
+          "getInstance" : statics.getInstance
+        }
+      }
+    });
   }
-
 });
