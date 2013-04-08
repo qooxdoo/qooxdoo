@@ -361,30 +361,6 @@
       }
     },
 
-    "build-module-io" :
-    {
-      "extend" : ["build-module"],
-      "lint-check" : {
-        "allowed-globals" : [ "qx", "qx.core", "qx.bom", "qx.event", "qx.util" ]
-      },
-      "let" : {
-        "Q_INCLUDES": ["qx.module.Io"],
-        "MODULE_FILENAME" : "io"
-      }
-    },
-
-    "build-module-io-min" :
-    {
-      "extend" : ["build-module-min"],
-      "lint-check" : {
-        "allowed-globals" : [ "qx", "qx.core", "qx.bom", "qx.event", "qx.util" ]
-      },
-      "let" : {
-        "Q_INCLUDES": ["qx.module.Io"],
-        "MODULE_FILENAME" : "io"
-      }
-    },
-
     "build-module-dev" :
     {
       "extend" : ["build-module"],
@@ -406,6 +382,30 @@
       "let" : {
         "Q_INCLUDES": ["qx.module.dev.FakeServer"],
         "MODULE_FILENAME" : "dev"
+      }
+    },
+
+    "build-module-io" :
+    {
+      "extend" : ["build-module"],
+      "lint-check" : {
+        "allowed-globals" : [ "qx", "qx.core", "qx.bom", "qx.event", "qx.util" ]
+      },
+      "let" : {
+        "Q_INCLUDES": ["qx.module.Io"],
+        "MODULE_FILENAME" : "io"
+      }
+    },
+
+    "build-module-io-min" :
+    {
+      "extend" : ["build-module-min"],
+      "lint-check" : {
+        "allowed-globals" : [ "qx", "qx.core", "qx.bom", "qx.event", "qx.util" ]
+      },
+      "let" : {
+        "Q_INCLUDES": ["qx.module.Io"],
+        "MODULE_FILENAME" : "io"
       }
     },
 
