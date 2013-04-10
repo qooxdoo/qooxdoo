@@ -159,10 +159,12 @@ qx.Class.define("qx.theme.manager.Appearance",
         // value is 'null' and something went wrong with the id lookup.
         if (qx.core.Environment.get("qx.debug"))
         {
-          this.debug("Cannot find a matching appearance for '" + chain.join("/") + "'.");
+          if (typeof chain !== "undefined") {
+            this.debug("Cannot find a matching appearance for '" + chain.join("/") + "'.");
 
-          if (chain.length > 1) {
-            this.info("Hint: This may be an issue with nested child controls and a missing alias definition in the appearance theme.");
+            if (chain.length > 1) {
+              this.info("Hint: This may be an issue with nested child controls and a missing alias definition in the appearance theme.");
+            }
           }
         }
 
