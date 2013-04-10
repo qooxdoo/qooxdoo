@@ -591,7 +591,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       }
 
       // Stop event
-      if (this.__sessionActive) {
+      if (this.__sessionActive && e.getTarget() == this.__dragTarget) {
         e.stopPropagation();
         this.__preventNextClick();
       }
