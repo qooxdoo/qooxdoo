@@ -101,7 +101,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "pane-css" :
+    "tabview-pane-css" :
     {
       style : {
         width: 1,
