@@ -332,6 +332,25 @@ qx.Class.define("qx.ui.layout.Flow",
 
 
     /**
+     * Returns the list of children fitting in the first row of the given width.
+     * @param width {Number} The width to use for the calculation.
+     * @return {Array} List of children in the first row.
+     */
+    getLineChildren : function(width) {
+      var lineCalculator = new qx.ui.layout.LineSizeIterator(
+        this._getLayoutChildren(),
+        this.getSpacingX()
+      );
+
+      if (lineCalculator.hasMoreLines()) {
+        return lineCalculator.computeNextLine(width).children;
+      }
+
+      return [];
+    },
+
+
+    /**
      * Compute the preferred size optionally constrained by the available width
      *
      * @param availWidth {Integer} The available width
