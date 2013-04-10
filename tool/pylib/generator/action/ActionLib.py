@@ -55,11 +55,11 @@ class ActionLib(object):
     def watch(self, jobconf, confObj):
         console = Context.console
         since = time.time()
+        watcher = Watcher(jobconf, confObj)
         interval = jobconf.get("watch-files/interval", 2)
         paths = jobconf.get("watch-files/paths", [])
         if not paths:
             return
-        include_dirs = jobconf.get("watch-files/include-dirs", False)
         exit_on_retcode = jobconf.get("watch-files/exit-on-retcode", False)
         command = jobconf.get("watch-files/command/line", "")
         if not command:
@@ -68,14 +68,9 @@ class ActionLib(object):
         per_file = jobconf.get("watch-files/command/per-file", False)
         console.info("Watching changes of '%s'..." % paths)
         console.info("Press Ctrl-C to terminate.")
-        pattern = self._watch_pattern(jobconf.get("watch-files/include",[])) 
         while True:
             time.sleep(interval)
-            ylist = []
-            for path in paths:
-                console.debug("checking path '%s'" % path)
-                part_list = filetool.findYoungest(path, pattern=pattern, includedirs=include_dirs, since=since)
-                ylist.extend(part_list)
+            ylist = watcher.check(since)
             since = time.time()
             if ylist:     # ylist =[(fpath,fstamp)]
                 flist = [f[0] for f in ylist]
@@ -100,15 +95,6 @@ class ActionLib(object):
                     else:
                         pass
         return
-
-    def _watch_pattern(self, include):
-        pattern = u''
-        a = []
-        for entry in include:
-            e = textutil.toRegExpS(entry)
-            a.append(e)
-        pattern = '|'.join(a)
-        return pattern
 
     def runShellCommands(self, jobconf):
         if not jobconf.get("shell/command"):
@@ -149,4 +135,38 @@ class CommandLineTemplate(string.Template):
               'delim': re.escape(delimiter),
               'id'   : idpattern
             } 
+
+##
+# Exposes a .check() method to check for changes in the configured paths.
+# - Only concerned with the file checking, no timing, no actions.
+#
+class Watcher(object):
+
+    def __init__(self, jobconf, confObj):
+        self.jobconf = jobconf
+        self.confObj = confObj
+        self.paths = jobconf.get("watch-files/paths", [])
+        self.paths = [confObj.absPath(p) for p in self.paths]
+        self.with_dirs = jobconf.get("watch-files/include-dirs", False)
+        self.pattern = self._watch_pattern(jobconf.get("watch-files/include", []))
+        self.console = Context.console
+
+    def _watch_pattern(self, include):
+        pattern = u''
+        a = []
+        for entry in include:
+            e = textutil.toRegExpS(entry)
+            a.append(e)
+        pattern = '|'.join(a)
+        return pattern
+
+    def check(self, since):
+        ylist = []
+        for path in self.paths:
+            self.console.debug("checking path '%s'" % path)
+            part_list = filetool.findYoungest(path, pattern=self.pattern,
+                includedirs=self.with_dirs, since=since)
+            ylist.extend(part_list)
+        return ylist
+            
 
