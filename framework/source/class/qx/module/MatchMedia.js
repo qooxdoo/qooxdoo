@@ -1,3 +1,21 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2013 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Romeo Kenfack Tsakem (rkenfack)
+
+************************************************************************ */
 
 /**
  * Module for mediaqueries evaluation. The module is a wrapper for media.match.js,
@@ -5,14 +23,17 @@
  *
  * Usage:
  *
+ * <pre class="javascript">
  * qxWeb.matchMedia("screen and (min-width: 480px)").matches; // true or false
+ * </pre>
  *
  * or
- *
+ * <pre class="javascript">
  * var mql = qxWeb.matchMedia("screen and (min-width: 480px)"); 
  * mql.on("change",function(mql){
  *  //Do your stuff
  * });
+ * <pre>
  *
  */
 qx.Bootstrap.define("qx.module.MatchMedia", {
