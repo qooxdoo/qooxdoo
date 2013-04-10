@@ -10,6 +10,8 @@
         "test",
         "build",
         "source",
+        "source-server",
+        "source-httpd-config",
         "api-data",
         "api"
       ]
@@ -17,6 +19,12 @@
     {
       "path" : "${QOOXDOO_PATH}/component/testrunner/portable.json",
       "as" : "testrunner-portable"
+    },
+    {
+      "path" : "module.json",
+      "block" : [
+        "build-module-min"
+      ]
     }
   ],
 
@@ -32,11 +40,11 @@
     "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
     "TEST_SCRIPT_PATH"  : "./test/script",
     "API_SCRIPT_PATH" : "api/script",
-    "Q_INCLUDES" : [
+    "QXWEB_ALL" : [
       "qx.module.*",
       "qxWeb"
     ],
-    "API_INCLUDE" : "${Q_INCLUDES}"
+    "API_INCLUDE" : "${QXWEB_ALL}"
   },
 
   "config-warnings" :
@@ -48,40 +56,13 @@
 
   "jobs" :
   {
-    "website-libraries" :
-    {
-      "=library" :
-      [
-        {
-           "manifest": "${QOOXDOO_PATH}/framework/Manifest.json"
-        }
-      ]
-    },
-
-    "website-common" :
-    {
-      "extend" : ["website-libraries"],
-
-      "=include" : "${Q_INCLUDES}",
-
-      "environment" :
-      {
-        "qx.version" : "${QOOXDOO_VERSION}",
-        "qx.debug"   : false,
-        "json" : true
-      },
-      "compile-options" :
-      {
-        "paths" :
-        {
-          "file-prefix" : "${QOOXDOO_PATH}/tool/data/generator/copyright.include.js"
-        }
-      }
-    },
-
     "log-deps" :
     {
       "extend" : ["build-min"],
+
+      "let" : {
+        "Q_INCLUDES" : "${QXWEB_ALL}"
+      },
 
       "log" :
       {
@@ -99,139 +80,14 @@
       }
     },
 
-    "build" :
-    {
-      "extend" : ["website-common", "build-script"],
-
-      "let" :
-      {
-        "OPTIMIZE" : ["variants"]
-      },
-
-      "compile-options" :
-      {
-
-        "code" : {
-          "format" : true
-        },
-
-        "paths"  :
-        {
-          "file" : "${BUILD_PATH}/q-${QOOXDOO_VERSION}.js",
-          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.tmpl.js"
-        }
-      }
-    },
-
-
-    "build-core" :
-    {
-      "extend" : ["build"],
-      "let" : {
-        "Q_INCLUDES" : ["qx.module.Core"]
-      },
-      "compile-options" :
-      {
-        "paths"  :
-        {
-          "file" : "${BUILD_PATH}/q-core-${QOOXDOO_VERSION}.js"
-        }
-      }
-    },
-
-
-    "build-core-min" :
-    {
-      "extend" : ["build-min"],
-      "let" : {
-        "Q_INCLUDES" : [
-          "qx.module.Core",
-          "qx.bom.Event",
-          "qx.bom.Stylesheet",
-          "qx.lang.Array",
-          "qx.util.Uri",
-          "qx.lang.Type",
-          "qx.lang.String",
-          "qx.lang.Object",
-          "qx.Bootstrap"
-        ]
-      },
-      "compile-options" :
-      {
-        "paths"  :
-        {
-          "file" : "${BUILD_PATH}/q-core-${QOOXDOO_VERSION}.min.js"
-        }
-      }
-    },
-
-    "build-min" :
-    {
-      "extend" : ["build"],
-
-      "compile-options" :
-      {
-        "code" : {
-          "=optimize" : [
-            "basecalls",
-            "comments",
-            "privates",
-            "strings",
-            "variables",
-            "variants",
-            "statics",
-            "whitespace"
-          ],
-          "format" : false
-        },
-        "paths"  :
-        {
-          "file" : "${BUILD_PATH}/q-${QOOXDOO_VERSION}.min.js"
-        }
-      }
-    },
-
-
-    "build-extras" :
-    {
-      "extend" : ["build"],
-
-      "exclude" : ["=qx.module.Core"],
-
-      "compile-options" :
-      {
-        "paths"  :
-        {
-          "file" : "${BUILD_PATH}/q-extras-${QOOXDOO_VERSION}.js",
-          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.extras.tmpl.js"
-        }
-      }
-    },
-
-    "build-extras-min" :
-    {
-      "extend" : ["build-min"],
-
-      "exclude" : ["=qx.module.Core"],
-
-      "compile-options" :
-      {
-        "paths"  :
-        {
-          "file" : "${BUILD_PATH}/q-extras-${QOOXDOO_VERSION}.min.js",
-          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.extras.tmpl.js"
-        }
-      }
-    },
-
-
     "source" :
     {
       "extend" : ["website-common", "source-script"],
 
       "let" :
       {
-        "OPTIMIZE" : []
+        "OPTIMIZE" : [],
+        "Q_INCLUDES" : "${QXWEB_ALL}"
       },
 
       "compile-options" :
@@ -271,7 +127,7 @@
         "qx.debug" : true
       },
 
-      "include" : "${Q_INCLUDES}",
+      "include" : "${QXWEB_ALL}",
 
       "compile-options" :
       {
@@ -289,6 +145,10 @@
     "build-min-test" :
     {
       "extend" : ["build-min"],
+
+      "let" : {
+        "Q_INCLUDES" : "${QXWEB_ALL}"
+      },
 
       "compile-options" :
       {
@@ -316,17 +176,18 @@
 
     "testrunner-portable::build-script" :
     {
-      "exclude" : "${Q_INCLUDES}",
+      "exclude" : "${QXWEB_ALL}",
 
       "config-warnings" :
       {
-        "exclude" : "${Q_INCLUDES}"
+        "exclude" : "${QXWEB_ALL}"
       }
     },
 
 
     "api" :
     {
+      "desc" : "Create a qx.Website Apiviewer",
       "run" : ["build-api", "api-data"]
     },
 
@@ -335,6 +196,9 @@
     {
       "extend" : ["build-min"],
 
+      "let" : {
+        "Q_INCLUDES" : "${QXWEB_ALL}"
+      },
       "environment" :
       {
         "q.eventtypes" : "qx.module.event.Mouse,qx.module.event.Keyboard,qx.module.event.Native,qx.module.event.Orientation,qx.module.event.Touch"
@@ -350,6 +214,8 @@
 
 
     "api-data" : {
+      "desc" : "Create API data for the qx.Website API viewer",
+      "extend" : ["cache"],
       "library" : [
         {"manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"}
       ],
@@ -358,18 +224,13 @@
 
       "api" : {
         "path" : "${API_SCRIPT_PATH}"
-      },
-      "cache" :     {
-        "compile"      : "${CACHE}",
-        "invalidate-on-tool-change" : true
       }
     },
 
     "distclean" :
     {
       "desc"    : "remove local cache and generated .js files (source/build/build-min/test/test-source/api)",
-
-      "cache"   : "${CACHE_KEY}",
+      "extend"  : ["cache"],
 
       "=clean-files" :
       {
@@ -391,8 +252,7 @@
     "clean" :
     {
       "desc"    : "remove local cache and generated .js files (source/build/build-min/test/api)",
-
-      "cache"   : "${CACHE_KEY}",
+      "extend"  : ["cache"],
 
       "=clean-files" :
       {
@@ -407,7 +267,36 @@
         "Cleaning up build-min" :
         [
           "${BUILD_PATH}/q-${QOOXDOO_VERSION}.min.js"
-        ],
+        ]
+      }
+    }
+
+    ,"source-server" :
+    {
+      "desc"  : "start a lightweight web server that exports the source version"
+      ,"extend" : ["cache"]
+      ,"compile-options" : { "paths" : { "app-root" : "." }}
+      ,"web-server" :
+      {
+        "document-root" : "."   // calculate dynamically from libraries
+        ,"server-port"  : 0
+        ,"log-level"    : "error"  // use "info" for more console logging, "fatal" for none
+        ,"allow-remote-access" : false
+      }
+    }
+    
+    ,"source-httpd-config":
+    {
+      "desc"  : "generate a httpd configuration for the source version"
+      ,"extend" : ["cache"]
+      ,"compile-options" : { "paths" : { "app-root" : "." }}
+      ,"web-server-config" :
+      {
+        "output-dir" : "."
+        ,"document-root" : "."
+        ,"template-dir" : "${QOOXDOO_PATH}/tool/data/generator"
+        ,"httpd-type" : "apache2"
+        ,"httpd-host-url" : "http://localhost"
       }
     }
   }

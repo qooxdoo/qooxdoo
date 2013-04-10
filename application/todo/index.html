@@ -1,18 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta charset="utf-8">
   <title>ToDo</title>
-  <script type="text/javascript" src="script/q-2.2.min.js"></script>
-  <script type="text/javascript" src="todo.js"></script>
-  <script type="text/javascript" charset="utf-8">
+  <script src="script/q-core-2.2.min.js"></script>
+
+  <script src="script/q-storage-2.2.min.js"></script>
+  <script src="script/q-template-2.2.min.js"></script>
+
+  <!--
+  <script src="script/q-cookie-2.2.min.js"></script>
+  <script src="script/q-animation-2.2.min.js"></script>
+  <script src="script/q-blocker-2.2.min.js"></script>
+  <script src="script/q-dataset-2.2.min.js"></script>
+  <script src="script/q-io-2.2.min.js"></script>
+  <script src="script/q-messaging-2.2.min.js"></script>
+  <script src="script/q-placeholder-2.2.min.js"></script>
+  <script src="script/q-placement-2.2.min.js"></script>
+  <script src="script/q-transform-2.2.min.js"></script>
+  <script src="script/q-util-2.2.min.js"></script>
+
+  <script src="script/q-extras-2.2.min.js"></script>
+  -->
+  <script src="todo.js"></script>
+  <script>
     q.ready(function() {
       q.startTodo();
     });
   </script>
   <link href='http://fonts.googleapis.com/css?family=Gochi+Hand' rel='stylesheet' type='text/css'>
   <link href='todo.css' rel='stylesheet' type='text/css'>
-  <script type="text/javascript">
+  <script>
   if (location.hostname === "demo.qooxdoo.org") {
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-415440-1']);
@@ -32,7 +50,7 @@
     <h1>ToDo</h1>
     <div class="button" id="add">Add</div>
     <div class="button" id="clear">Clear</div>
-    <ul id="tasks">Loading...</ul>
+    <ul id="tasks"><li>Loading...</li></ul>
   </div>
 
   <script type="template" id="task">

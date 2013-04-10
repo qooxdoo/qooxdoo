@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <meta charset="utf-8" />
+        <script type="text/javascript" src="../script/q-2.2.min.js"></script>        
+        <script>
+            q.ready(function(){            
+              qxWeb(window).on('message', receiver);
+                function receiver(e) {                
+                  var match = qxWeb.matchMedia(e.data).matches ? "true" : "false";
+                  window.parent.postMessage(match,'*');                                        
+                }
+            }); 
+        </script>      
+    </head>
+    <body>
+    </body>
+</html>

@@ -1080,8 +1080,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "tabview-pane-css",
-          minHeight : 100,
+          decorator : "tabview-pane-css"
 
           marginBottom : states.barBottom ? -1 : 0,
           marginTop : states.barTop ? -1 : 0,

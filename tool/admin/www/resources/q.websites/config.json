@@ -1,0 +1,132 @@
+{
+  "name"    : "q.websites - A custom q build for our websites",
+
+  "include" :
+  [
+    {
+      "path" : "${WEBSITE}/website.json",
+      "block" : [
+        "build",
+        "build-min"
+      ]
+    }
+  ],
+
+  /*
+  */
+  "export" :
+  [
+    "api",
+    "api-data",
+    "copy-to-resources",
+    "copy-generated",
+    "copy-edited",
+    "q-build",
+    "q-build-min",
+    "test",
+    "test-source"
+  ],
+
+  "default-job" : "q-build",
+
+  "config-warnings" : 
+  {
+    "job-shadowing" : ["api"] 
+  },
+
+  "let" :
+  {
+    "APPLICATION"  : "q.websites",
+    "QOOXDOO_PATH" : "../../../../..",
+    "WEBSITE"      : "${QOOXDOO_PATH}/component/standalone/website",
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "BUILD_PATH"   : "./script",
+    "ROOT"         : "."
+  },
+
+  // You only need to edit the remainder of this file, if you want to customize
+  // specific jobs, or add own job definitions.
+
+  "jobs" :
+  {
+    "q-build" : 
+    {
+      "desc" : "Create a custom q library in ./script",
+      "extend" : ["build-core"],
+      "include" : ["qx.module.Placeholder"],
+      "compile-options" : {
+        "paths" : {
+          "file" : "${BUILD_PATH}/q.js"
+        }
+      }
+    },
+    
+    "q-build-min" : 
+    {
+      "desc" : "Create a minified custom q library in ./script",
+      "extend" : ["q-build", "min-options"],
+      "compile-options" : {
+        "paths" : {
+          "file" : "${BUILD_PATH}/q.js"
+        }
+      }
+    },
+
+    "api" :
+    {
+      "run" : ["api-files"]
+    },
+
+    "api-files" :
+    {
+      "extend" : ["cache"],
+      "copy-files" :
+      {
+        "files" : 
+        [
+          "api.css",
+          "default.highlight.css",
+          "highlight.LICENSE",
+          "highlight.pack.js",
+          "index.html",
+          "samples.js",
+          "viewer.js"
+        ],
+        "source" : "${WEBSITE}/api",
+        "target" : "api"
+      }
+    }
+
+    ,"copy-to-resources" :
+    {
+      "desc" : "Copy all export script files to ../javascripts",
+      "run" : [
+        "copy-generated",
+        "copy-edited"
+      ]
+    }
+
+    ,"copy-generated" :
+    {
+      "desc" : "Copy ./script/q.js to ../javascripts",
+      "extend" : ["cache"],
+      "copy-files" : {
+        "files" : [ "q.js" ],
+        "source" : "./script",
+        "target" : "../javascripts"
+      }
+    }
+
+    ,"copy-edited" :
+    {
+      "desc" : "Copy ./source/*.js to ../javascripts",
+      "extend" : ["cache"],
+      "copy-files" : {
+        "files" : [ "*.js" ],
+        "source" : "./source",
+        "target" : "../javascripts"
+      }
+    }
+  }
+}
+

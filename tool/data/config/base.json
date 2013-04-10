@@ -657,6 +657,7 @@
     "profiling" :
     {
       "desc"    : "includer job, to activate profiling",
+      "extend"  : [ "cache" ],
 
       "environment" :
       {
@@ -713,6 +714,7 @@
 
     "watch" :
     {
+      "desc" : "watch source files for changes and run the default job automatically",
       "extend" : ["cache"],
 
       "watch-files" :
@@ -729,12 +731,18 @@
       }
     },
 
-    "manifest-validation" :
+    "validate-manifest" :
     {
       "extend" : ["scan-local-lib"],
 
       "desc" : "validates the given filepath as manifest (defaults to './Manifest.json')",
-      "manifest-validate" : {}
+      "validation-manifest" : {}
+    },
+
+    "validate-config" :
+    {
+      "desc" : "validates the 'config.json' itself - if jobname arg is given checks dedicated job only",
+      "validation-config" : {}
     }
   }
 }

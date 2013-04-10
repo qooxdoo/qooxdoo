@@ -58,7 +58,7 @@ top-level 'index.html' file next to this readme).
 
 
 Contributing
-============
+=============
 
 There are many ways you can contribute to qooxdoo, ranging from providing
 feedback, making translations, providing a custom library to full-blown patches

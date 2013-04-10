@@ -123,20 +123,46 @@ The most crucial and at the same time most difficult aspect of using parts is co
 Advanced Usage: Part Collapsing
 ===============================
 
-This section reflects part collapsing as it is realized in qooxdoo version 0.8.3 and above.
+This section reflects part collapsing, i.e. the merging of one package into
+another which reduces the number of packages a part depends on.
 
 .. _pages/parts_using#motivation_and_background:
 
 Motivation and Background
 -------------------------
 
-You as the application developer define *parts* to partition your application. qooxdoo's build system then partitions each part into *packages*, so that each part is made up of some of the set of all packages. Each package contains class code, and maybe some more information that pertains to it. So the classes making up a part are spread over a set of packages. Several parts can share one or more packages. This way you obtain maximum flexibility for loading parts in your application code. Whenever a part is requested through the *PartLoader* it checks which packages have already been loaded with earlier parts, and loads the remaining to make the part complete. No class is loaded twice, and no unnecessary classes are loaded with each part.
+You as the application developer define *parts* to partition your application.
+%{qooxdoo}'s build system then partitions each part into *packages*, so that each
+part is made up of some of the set of all packages. Each package contains class
+code, and maybe some more information that pertains to it. So the classes making
+up a part are spread over a set of packages. Several parts can share one or more
+packages. 
 
-But there are situations where you might want to give up on this optimal distribution of classes across packages:
+This way we obtain maximum flexibility for loading parts in your
+application. Whenever a part is requested through the *PartLoader* it
+checks which packages have already been loaded with earlier parts, and loads the
+remaining packages that complete the requested part. No class is loaded twice, and no
+unnecessary classes are loaded with each part.
 
-* when packages become **too small**; sometimes packages derived with the basic procedure turn out to be too small, and the benefit of loading no unnecessary classes is outweight by the fact that you have to make an additional net request to retrieve them.
+The upper limit for the number of packages which are initially constructed from
+the definition of the parts is **(2 ^ number_of(parts)) - 1** (That is two to
+the power of the number of parts, minus one). E.g. if you have defined 3 parts,
+the initial number of packages can be 7. (This is due to the fact that each
+package is defined by the set of classes that are required by the same parts).
+But there are situations where you might want to give up on this optimal
+distribution of classes across packages:
 
-* when you know the **order** in which parts are loaded during run time in advance; then it makes sense to be "greedy" in retrieving as many classes as possible in a single package, as other parts needing the same classes of the (now bigger) package, but are known to load later, can rely on those classes being loaded already, without being affected by the extra classes that get loaded. 
+* when packages become **too small**; sometimes packages derived with the basic
+  procedure turn out to be too small, and the benefit of loading no unnecessary
+  classes is outweight by the fact that you have to make an additional net request
+  to retrieve them.
+
+* when you know the **order** in which parts are loaded during run time in
+  advance; then it makes sense to be "greedy" in retrieving as many classes as
+  possible in a single package, as other parts needing the same classes of the
+  (now bigger) package, but are known to load later, can rely on those classes
+  being loaded already, without being affected by the extra classes that get
+  loaded. 
 
 These are situations where *part collapsing* is usefull, where packages are merged into one another. This is discussed in the next sections.
 

@@ -308,7 +308,7 @@ Specify various options for compile (and other) keys. Takes a map.
 
 .. note::
 
-  peer-keys: :ref:`pages/tool/generator/generator_config_ref#compile`, 
+  peer-keys: :ref:`pages/tool/generator/generator_config_ref#compile`,
   :ref:`pages/tool/generator/generator_config_ref#lint-check`
 
 The *compile-options* key informs all compile actions of the generator. Settings of this key are used e.g. by the jobs that create the source and the build version of an application, though in varying degrees (e.g. the source job only utilizes a few of the settings in this key, and ignores the others). Output Javascript file(s) are generated into the directory of the *paths/file* value, with *path/file* itself being the primary output file. If *paths/file* is not given, the ``APPLICATION`` macro has to be set in the global :ref:`let <pages/tool/generator/generator_config#listing_of_keys_in_context>` section with a proper name, in order to determine a default output file name. For further information see the individual key descriptions to find out which build type utilizes it (in the descriptions, *(<type>)* refers to the :ref:`compile/type <pages/tool/generator/generator_config_ref#compile>`, e.g. *source* or *build*)
@@ -336,7 +336,7 @@ Possible keys are
   * **optimize** : list of dimensions for optimization, max. ["basecalls", "comments", "privates", "strings", "variables", "variants", "whitespace"] (default: *[<all>]*) :ref:`special section <pages/tool/generator/generator_config_articles#optimize_key>`
   * **decode-uris-plug** : path to a file containing JS code, which will be plugged into the loader script, into the ``qx.$$loader.decodeUris()`` method. This allows you to post-process script URIs, e.g. through pattern matching. The current produced script URI is available and can be modified in the variable ``euri``.
   * **except** : (*hybrid*) exclude the classes specified in the class pattern list from compilation when creating a :ref:`hybrid <pages/tool/generator/generator_config_ref#compile>` version of the application
-  * **lint-check** : (*experimental*) whether to perform lint checking during compile 
+  * **lint-check** : (*experimental*) whether to perform lint checking during compile
     (default: *true*)
 
 
@@ -1274,6 +1274,32 @@ Each key is a
 
 .. _pages/tool/generator/generator_config_ref#watch-files:
 
+
+validation-config
+=================
+
+Triggers the validation of the Config (*config.json*) against a schema and prints it to the console. Takes a map.
+
+::
+
+  "validation-config" : {}
+
+
+This key currently takes no subkeys, but you still have to provide an empty map.
+
+validation-manifest
+===================
+
+Triggers the validation of the Manifest (*Manifest.json*) against a schema and prints it to the console. Takes a map.
+
+::
+
+  "validation-manifest" : {}
+
+
+This key currently takes no subkeys, but you still have to provide an empty map.
+
+
 watch-files
 ===========
 
@@ -1284,7 +1310,7 @@ Watch arbitrary files or directories for changes.
   "watch-files" :
   {
     "paths"   : [ "file/or/dir/to/watch" ],
-    "command" : 
+    "command" :
     {
       "line"  : "generate.py source",
       "per-file" : (true|false)
@@ -1310,24 +1336,24 @@ Watch arbitrary files or directories for changes.
 
       * - Key
         - Description
-      * - ``FILELIST`` 
+      * - ``FILELIST``
         - the (space-separated) list of file paths that have changed (e.g. *foo/bar/baz.js foo/bar/yeo.js*)
-      * - ``FILE`` 
+      * - ``FILE``
         - the individual file path that has changed (e.g. *foo/bar/baz.js*; interesting when *per-file* is true)
-      * - ``DIRNAME`` 
+      * - ``DIRNAME``
         - the directory path of an individual file (e.g. *foo/bar* in *foo/bar/baz.js*)
-      * - ``BASENAME`` 
+      * - ``BASENAME``
         - just the basename of an individual file including extension (e.g. *baz.js* in *foo/bar/baz.js*)
-      * - ``FILENAME`` 
+      * - ``FILENAME``
         - the file name without path and extension (e.g. *baz* in *foo/bar/baz.js*)
-      * - ``EXTENSION`` 
+      * - ``EXTENSION``
         - the file extension (e.g. *.js* in *foo/bar/baz.js*)
 
 
     For example, this can be used to create a command line like this ::
-    
+
       sass %(FILE) > path/to/css/%(FILENAME).css
-    
+
     which runs an SCSS compiler on a .scss file (assuming these files are watched), and redirects the output to a file with same name but a .css extension, in a different path.
 
     Mind that if you specified multiple ``paths`` the command will be applied if *any* of them change, but for all the execution context will be the same, e.g. have the same current directory. There is currently no implicit ``cd`` or calculation of file paths relative to their watched roots or similar.
@@ -1382,6 +1408,7 @@ Create a web server configuration for the local source version.
 
     "web-server-config" :
     {
+      "document-root" : "",
       "output-dir"     : ".",
       "template-dir"   : "<path>",
       "httpd-type"     : "apache2",
@@ -1392,11 +1419,19 @@ Create a web server configuration for the local source version.
 
   peer-keys: :ref:`pages/tool/generator/generator_config_ref#cache`, :ref:`pages/tool/generator/generator_config_ref#library`
 
-* **output-dir** : Directory path where the configuration file is stored. The file itself is named as ``"<httpd-type>.conf"`` so the name already exposes for which server it is being generated. (default: *.*)
+* **document-root** : File system path to use as the application's document root.
+  Best left empty, so the Generator calculates a common root path of all involved
+  %{qooxdoo} libraries. For this to work, your libraries should be collected in
+  the :ref:`"libraries" <pages/tool/generator/generator_default_jobs#libraries>`
+  default job. (default: *""*)
+* **output-dir** : Directory path where the configuration file is stored. The
+  file itself is named as ``"<httpd-type>.conf"`` so the name already exposes for
+  which server it is being generated. (default: *.*)
 * **template-dir** : Directory path where to look for web server-specific
-  configuration templates. The file name itself is constructed as ``"httpd.<httpd-type>.tmpl.conf"``. (default: *${QOOXDOO_PATH}/tool/data/generator/*)
+  configuration templates. The file name itself is constructed as
+  ``"httpd.<httpd-type>.tmpl.conf"``. (default: *${QOOXDOO_PATH}/tool/data/generator/*)
 
-  Templates can make use of several macros that will expanded during the
+  Templates can make use of several macros that will be expanded during the
   generation process. Macros are referenced in the template with
   ``${<macro_name>}``. The following macros are supported:
 
@@ -1406,17 +1441,17 @@ Create a web server configuration for the local source version.
 
     * - Macro
       - Description
-    * - ``APP_DOCUMENT_ROOT`` 
+    * - ``APP_DOCUMENT_ROOT``
       - the common root path of all libraries making up the application; this is
         usually mapped to an alias in the web server, so that all relative URLs to
         application files continue to work under the web server
-    * - ``APP_NAMESPACE_AS_PATH`` 
+    * - ``APP_NAMESPACE_AS_PATH``
       - the application's namespace, but with "/" in place of "." if it is a
         complex name; this is usually used as a web server alias in the
         configuration
-    * - ``APP_HTTPD_CONFIG`` 
+    * - ``APP_HTTPD_CONFIG``
       - the absolute path to the generated configuration file
-    * - ``LOCALHOST_APP_URL`` 
+    * - ``LOCALHOST_APP_URL``
       - the URL with which the source version can be loaded
 
 * **httpd-type** : The web server implementation. Currently supported types are

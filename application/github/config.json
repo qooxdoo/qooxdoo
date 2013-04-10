@@ -29,7 +29,9 @@
     "simulation-run",
     "test",
     "test-source",
-    "translation"
+    "translation",
+    "validate-config",
+    "validate-manifest"
   ],
 
   "default-job" : "source-hybrid",

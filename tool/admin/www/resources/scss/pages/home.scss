@@ -43,10 +43,10 @@ body#home {
     position: relative;
     height: 458px;
     margin-bottom: round($line * 2);
-    background: url(../../images/domains-bg.png) repeat-x #f4f4f4;
+    background: url(../images/domains-bg.png) repeat-x #f4f4f4;
 
     &.active {
-      background: url(../../images/domains-bg-active.png) repeat-x #f4f4f4;
+      background: url(../images/domains-bg-active.png) repeat-x #f4f4f4;
     }
 
     /*
@@ -225,7 +225,7 @@ body#home {
               margin-top: 11px;
               line-height: 32px;
               background-color: #3d72c9;
-              background-image: url("../../images/arrow-left-light.png");
+              background-image: url("../images/arrow-left-light.png");
               background-position: 14% 48%;
               background-repeat: no-repeat;
               color: #fff;
@@ -240,7 +240,7 @@ body#home {
 
           .button {
             &.download {
-              background-image: url("../../images/arrow.png");
+              background-image: url("../images/arrow.png");
               background-position:  6% 48%;
               background-repeat: no-repeat;
               padding-bottom: 3px;
@@ -285,7 +285,7 @@ body#home {
       }
 
       &.active header {
-        background: url("../../images/close.png") no-repeat scroll 94% 29% #fff;
+        background: url("../images/close.png") no-repeat scroll 94% 29% #fff;
         border-color: #e0e0e0;
       }
 

@@ -1,4 +1,6 @@
 {
+  "name" : "qooxdoo framework configuration",
+
   "include" :
   [
     {
@@ -24,7 +26,6 @@
     "info",
     "lint",
     "lint-test",
-    "manifest-validation",
     "provider",
     "pretty-test",
     "test",
@@ -35,6 +36,8 @@
     "test-mobile",
     "test-mobile-source",
     "translation",
+    "validate-config",
+    "validate-manifest",
     "watch-scss"
   ],
 
@@ -62,7 +65,8 @@
        "sl",  // Slovene
        "sv"   // Swedish
     ],
-    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache"
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "VALIDATE_CONFIG": true
   },
 
   "config-warnings" :
@@ -117,7 +121,7 @@
         },
         "code"  :
         {
-          "format"   : "on",
+          "format"   : true,
           "except"   : [],
           "optimize" : ["basecalls", "variables", "privates", "strings", "whitespace"]
         }
@@ -301,7 +305,7 @@
       "extend" : ["cache"],
       "watch-files" :
       {
-        "path" : "source/resource/qx/mobile/scss",
+        "paths" : ["source/resource/qx/mobile/scss"],
         "command" :
         {
           // this is sort of missing the point, as most scss implementations
@@ -310,15 +314,15 @@
           "per-file" : false
         }
       }
-    }
+    },
 
-    ,"pretty-test" :
+    "pretty-test" :
     {
       "desc" : "This is just to test pretty-printing - don't commit after running.",
       "extend" : ["pretty"]
-    }
+    },
 
-    ,"dependencies" : 
+    "dependencies" :
     {
       "=exclude" : [ "${APPLICATION}.test.*" ]
     }

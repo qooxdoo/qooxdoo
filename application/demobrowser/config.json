@@ -3,7 +3,7 @@
 
   /*
    * Main Demobrowser config file; runs external Python processes, to generate data
-   * and dynamic config file for demos; the actual compile jobs are delegated to 
+   * and dynamic config file for demos; the actual compile jobs are delegated to
    * config.demobrowser.json, which includes the generated config.demo.json.
    */
 
@@ -11,11 +11,11 @@
   [
     {
       "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
-      "block" : 
-      [ 
+      "block" :
+      [
         "common",
-        "source", 
-        "source-script", 
+        "source",
+        "source-script",
         "source-hybrid",
         "build",
         "build-script",
@@ -53,9 +53,11 @@
     "translation",
     "migration",
     "simulation-build",
-    "simulation-run"
+    "simulation-run",
+    "validate-config",
+    "validate-manifest"
   ],
-  
+
   "default-job" : "source",
 
   "let" :
@@ -66,10 +68,10 @@
     "THEME"        : "demobrowser.Theme"
   },
 
-  "config-warnings" : 
+  "config-warnings" :
   {
     "job-shadowing" : ["simulation-run", "translation", "lint"],
-    
+
     "environment" : [ "non-literal-keys" ]
   },
 
@@ -147,9 +149,9 @@
 
       "run" :
       [
-        // preparations  
+        // preparations
         "source-data",
-        // do the compiling with a different config 
+        // do the compiling with a different config
         "source-demobrowser"
       ]
     },
@@ -201,7 +203,7 @@
       {
         "command" : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/generator.py ${GENERATOR_OPTS} -c ./config.demobrowser.json build"
       }
-      
+
     },
 
 
@@ -217,12 +219,12 @@
         "build-demobrowser"
       ]
     },
-    
+
     // -------------------------------------------------------------------------
 
     "simulation-run" :
     {
-      "let" : 
+      "let" :
       {
         "SELENIUM_SERVER" : "localhost",
         "SELENIUM_PORT" : 4444,
@@ -232,7 +234,7 @@
         "SIMULATOR_APPLICATION" : "simulator.reporter.Application",
         "SIMULATOR_REPORTSERVER" : false
       },
-      
+
       "environment" :
       {
         "simulator.selServer"   : "${SELENIUM_SERVER}",
@@ -246,7 +248,7 @@
       }
     }
 
-    ,"info" : 
+    ,"info" :
     {
       "extend" : ["cache"],
       "shell" :
@@ -254,8 +256,8 @@
         "command" : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/generator.py ${GENERATOR_OPTS} -c ./config.demobrowser.json info"
       }
     }
-    
-    ,"lint" : 
+
+    ,"lint" :
     {
       "log" : {
         "filter" : {

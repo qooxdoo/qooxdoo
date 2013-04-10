@@ -315,6 +315,19 @@ next = None   # produce next node into 'token'
 token= None   # current symbol_base() node
 tokenStream = None # stream of symbol_base() nodes
 
+# Debugging helpers (node mutation, here for the .parent attribute)
+
+def _set_parent(self, p):
+    if hasattr(self, 'attributes') and self.get("value", '')=='xxx':
+        pass
+    self._parent = p
+
+def _get_parent(self):
+    return self._parent
+
+def _del_parent(self):
+    del self._parent
+
 class symbol_base(Node):
 
     def __init__(self, line=None, column=None):  # to override Node.__init__(self,type)
@@ -329,6 +342,10 @@ class symbol_base(Node):
         self.commentsIn    = []
         self.commentsAfter = []
         #self.scope = None  # pot. link to Scope() object
+
+    # For debugging (attribute as property, to trace setter calls)
+    #_parent = None
+    #parent = property(_get_parent, _set_parent, _del_parent)
 
     ##
     # thin wrapper around .children, to maintain .parent in them
@@ -757,15 +774,8 @@ symbol("constant").pfix = lambda self: self
 def toJS(self, opts):
     r = u''
     if self.get("constantType") == "string":
-        if self.get("detail") == "singlequotes":
-            r += self.write("'")
-        else:
-            r += self.write('"')
-        r += self.write(self.get("value"))
-        if self.get("detail") == "singlequotes":
-            r += self.write("'")
-        else:
-            r += self.write('"')
+        quote = "'" if self.get("detail")=="singlequotes" else '"'
+        r += quote + self.write(self.get("value")) + quote
     else:
         r += self.write(self.get("value"))
     return r
@@ -2292,7 +2302,6 @@ def test(x, program):
         print res.toXml()
     else:
         raise RuntimeError("Wrong test parameter: %s" % x)
-
 
 if __name__ == "__main__":
     if len(sys.argv)>1:

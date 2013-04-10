@@ -33,6 +33,20 @@ from generator.runtime.InterruptRegistry import InterruptRegistry
 #import warnings
 #warnings.filterwarnings("error") # turn warnings into errors - e.g. for UnicodeWarning
 
+# - Config section -------------------------------------------------------------
+
+# for the '_all_' job, skip jobs that require manual intervention
+_ALL_SKIP_JOBS = set('migration watch watch-scss source-server simulation-run'.split())
+
+# - Config end -----------------------------------------------------------------
+
+## TODO: The next on is a hack, and should be removed once all string handling is
+## properly done in unicode; it is advisable to comment out the call to setdefaultencoding()
+## when working on string handling in other parts of the generator
+reload(sys)
+sys.setdefaultencoding('utf-8')
+sys.setrecursionlimit(3500)  # due to bug#2922; increased with bug#5265
+
 # Fix for Jython
 if os.name == 'java':
   # Java GC cannot be disabled, see http://bugs.jython.org/issue1175
@@ -42,13 +56,6 @@ if os.name == 'java':
     gc.enable()
   except NotImplementedError:
     gc.disable = gc.enable
-
-## TODO: The next on is a hack, and should be removed once all string handling is
-## properly done in unicode; it is advisable to comment out the call to setdefaultencoding()
-## when working on string handling in other parts of the generator
-reload(sys)
-sys.setdefaultencoding('utf-8')
-sys.setrecursionlimit(3500)  # due to bug#2922; increased with bug#5265
 
 interruptRegistry = InterruptRegistry()
 
@@ -174,6 +181,11 @@ def main():
                 listJobs(console, availableJobs, config)
                 sys.exit(1)
 
+    elif '_all_' in options.jobs:
+        options.jobs = []
+        for job in availableJobs:
+            if job not in _ALL_SKIP_JOBS:
+                options.jobs.append(job)
     else:
         for job in options.jobs:
             if job not in availableJobs:
@@ -185,58 +197,48 @@ def main():
     context = {'config': config, 'console':console, 'jobconf':None, 'interruptRegistry':interruptRegistry}
     Context.config = config # TODO: clean up overlap between context dict and Context module
 
-    # CLI mode
-    if not options.daemon:
-        # Resolve "extend"- and "run"-Keys
-        expandedjobs = config.resolveExtendsAndRuns(options.jobs[:])
+    # Resolve "extend"- and "run"-Keys
+    expandedjobs = config.resolveExtendsAndRuns(options.jobs[:])
 
-        # Include system defaults
-        config.includeSystemDefaults(expandedjobs)
+    # Include system defaults
+    config.includeSystemDefaults(expandedjobs)
 
-        # Resolve "let"-Keys
-        config.resolveMacros(expandedjobs)
+    # Resolve "let"-Keys
+    config.resolveMacros(expandedjobs)
 
-        # Resolve libs/Manifests
-        config.resolveLibs(expandedjobs)
+    # Resolve libs/Manifests
+    config.resolveLibs(expandedjobs)
 
-        # To see fully expanded config:
-        #console.info(pprint.pformat(config.get(".")))
+    # To see fully expanded config:
+    # console.info(pprint.pformat(config.get(".")))
 
-        # Do some config schema checking
-        config.checkSchema(expandedjobs, checkJobTypes=True)
+    # Do some config schema checking
+    config.checkSchema(expandedjobs, checkJobTypes=True)
 
-        # Clean-up config
-        config.cleanUpJobs(expandedjobs)
+    # Clean-up config
+    config.cleanUpJobs(expandedjobs)
 
-        # Reset console level
-        console.setLevel(level)
-        console.resetFilter()
+    # Reset console level
+    console.setLevel(level)
+    console.resetFilter()
 
-        # Processing jobs...
-        for job in expandedjobs:
-            console.head("Executing: %s" % job.name, True)
-            if options.config_verbose:
-                console.setLevel("debug")
-                console.debug("Expanded job config:")
-                console.debug(pprint.pformat(config.getJob(job).getData()))
-                console.setLevel(level)
+    # Processing jobs...
+    for job in expandedjobs:
+        console.head("Executing: %s" % job.name, True)
+        if options.config_verbose:
+            console.setLevel("debug")
+            console.debug("Expanded job config:")
+            console.debug(pprint.pformat(config.getJob(job).getData()))
+            console.setLevel(level)
 
-            ctx = context.copy()
-            ctx['jobconf'] = config.getJob(job)
-            Context.jobconf = ctx['jobconf']
+        ctx = context.copy()
+        ctx['jobconf'] = config.getJob(job)
+        Context.jobconf = ctx['jobconf']
 
-            generatorObj = Generator(ctx)
-            generatorObj.run()
+        generatorObj = Generator(ctx)
+        generatorObj.run()
 
-    # Daemon mode
-    else:
-        from generator.runtime.Generatord import Generatord
-        console.head("Executing: Daemon Mode", True)
-        generatord = Generatord(context)
-        console.info("Opening port %s on %s, serving in background..." % (generatord.servAddr[1],
-            generatord.servAddr[0] if generatord.servAddr[0] else 'localhost')
-        )
-        generatord.serve()
+    return
 
 
 if __name__ == '__main__':

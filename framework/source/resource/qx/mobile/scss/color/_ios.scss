@@ -1,32 +1,4 @@
 //
-// iOS theme for qx.Mobile
-//
-
-//
-// SETTINGS
-// 
-
-$ios-button-bordercolor: #2d3f57;
-$ios-button-backgroundcolor: #50709a;
-$ios-button-gradient-stop-1: #7c97bb;
-$ios-button-gradient-stop-2: #5a7caa;
-$ios-button-gradient-stop-3: #476999;
-$ios-button-gradient-stop-4: #4A6C9B;
-
-$ios-button-active-bordercolor: #243346;
-$ios-button-active-backgroundcolor: #476489;
-$ios-button-active-gradient-stop-1: #6b89b2;
-$ios-button-active-gradient-stop-2: #50709a;
-$ios-button-active-gradient-stop-3: #476489;
-$ios-button-active-gradient-stop-4: #3e5779;
-
-$shadow-color: black;
-
-$dialog-border-color: #c7d1e3;
-
-$button-border-color:#B4B4B4;
-
-//
 // GLOBAL
 // 
 
@@ -154,6 +126,10 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   display: inline-block;
   margin-left: 0px;
   min-width:75px;
+}
+
+input.invalid {
+  border: 1px solid red !important;
 }
 
 
@@ -782,3 +758,8 @@ $picker-overlay-color: #6D84A2;
   background: rgb(197,204,211) url(../icon/ios/pinstripes.png);
   color : #666;
 }
+
+
+
+
+

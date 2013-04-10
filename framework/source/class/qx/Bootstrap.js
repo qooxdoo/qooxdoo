@@ -128,14 +128,20 @@ qx.Bootstrap = {
     else
     {
       clazz = config.statics || {};
+
+      // Merge class into former class (nedded for 'optimize: ["statics"]')
+      if (qx.Bootstrap.$$registry && qx.Bootstrap.$$registry[name]) {
+        var formerClass = qx.Bootstrap.$$registry[name];
+
+        // Add/overwrite properties and return early if necessary
+        if (this.keys(clazz).length !== 0) {
+          for (var curProp in clazz) {
+            formerClass[curProp] = clazz[curProp];
+          }
+          return;
+        }
+      }
     }
-
-    // Create namespace
-    var basename = name ? this.createNamespace(name, clazz) : "";
-
-    // Store names in constructor/object
-    clazz.name = clazz.classname = name;
-    clazz.basename = basename;
 
     // Store type info
     clazz.$$type = "Class";
@@ -144,6 +150,13 @@ qx.Bootstrap = {
     if (!clazz.hasOwnProperty("toString")) {
       clazz.toString = this.genericToString;
     }
+
+    // Create namespace
+    var basename = name ? this.createNamespace(name, clazz) : "";
+
+    // Store names in constructor/object
+    clazz.name = clazz.classname = name;
+    clazz.basename = basename;
 
     // Execute defer section
     if (config.defer) {
@@ -662,7 +675,7 @@ qx.Bootstrap.define("qx.Bootstrap",
     {
       // Added "value !== null" because IE throws an exception "Object expected"
       // by executing "value instanceof String" if value is a DOM element that
-      // doesn't exist. It seems that there is an internal different between a
+      // doesn't exist. It seems that there is an internal difference between a
       // JavaScript null and a null returned from calling DOM.
       // e.q. by document.getElementById("ReturnedNull").
       return (
@@ -685,7 +698,7 @@ qx.Bootstrap.define("qx.Bootstrap",
     {
       // Added "value !== null" because IE throws an exception "Object expected"
       // by executing "value instanceof Array" if value is a DOM element that
-      // doesn't exist. It seems that there is an internal different between a
+      // doesn't exist. It seems that there is an internal difference between a
       // JavaScript null and a null returned from calling DOM.
       // e.q. by document.getElementById("ReturnedNull").
       return (

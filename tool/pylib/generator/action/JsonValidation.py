@@ -19,15 +19,33 @@
 #
 ###########################################################################
 
+import sys, re
+
+from copy import deepcopy
+
 from generator import Context
 from generator.config.Manifest import Manifest
 
 ##
-# Validates Manifest and prints to stdOut.
+# Assure that sufficient Python version is present.
+#
+# @param fn function
+#
+def __assurePython26(fn):
+    def _fn(arg1, arg2):
+        if sys.version_info >= (2, 6) and sys.version_info < (3, 0):
+            fn(arg1, arg2)
+        else:
+            Context.console.warn("No schema check possible - validation requires Python 2.6+.")
+    return _fn
+
+##
+# Validates Manifest and prints to stdout/stderr.
 #
 # @param jobconf generator.config.Job.Job
 # @param confObj generator.config.Config.Config
 #
+@__assurePython26
 def validateManifest(jobObj, confObj):
     errors = []
     console = Context.console
@@ -39,41 +57,132 @@ def validateManifest(jobObj, confObj):
     if "ARGS" in global_let and len(global_let["ARGS"]) == 1:
         manifests.append(Manifest(global_let["ARGS"][0]))
     else:
-      # ... from base.json ...
-      libs = jobObj.get("library")
-      for lib in libs:
-          manifests.append(Manifest(lib.manipath))
+        # ... from base.json ...
+        libs = jobObj.get("library")
+        if libs:
+            for lib in libs:
+                manifests.append(Manifest(lib.manipath))
 
-      # ... or default location.
-      if not manifests:
-          manifests.append(Manifest("Manifest.json"))
+        # ... or default location.
+        if not manifests:
+            manifests.append(Manifest("Manifest.json"))
 
     for mnfst in manifests:
-        errors = mnfst.validateAgainst(Manifest.schema_v1_0())
-
-        if errors:
-            console.warn("Errors found in " + mnfst.path)
-            console.indent()
-            for error in errors:
-                console.warn(error["msg"] + " in '%s' (JSONPath)" % __convertToJSONPath(error["path"]))
-            console.outdent()
-        else:
-            console.log("%s validates successful against used JSON Schema." % mnfst.path)
+        errors = __validate(mnfst._manifest, Manifest.schema_v1_0())
+        __printResults(console, errors, mnfst.path)
 
 
 ##
-# Converts ["info", "authors", 0, "name"] into $.info.authors[0].name (JSONPath).
+# Validates 'config.json' and prints to stdout/stderr.
+#
+# @param confObj generator.config.Config.Config
+# @param isRootConf boolean
+#
+@__assurePython26
+def validateConfig(confObj, schema):
+    confDict = deepcopy(confObj._rawdata)
+    global_let = confObj.get("let")
+    jobname = ""
+
+    # check only provided jobname (cli arg)
+    if "ARGS" in global_let and len(global_let["ARGS"]) == 1:
+        jobname = global_let["ARGS"][0]
+
+        if "jobs" in confDict and jobname in confDict["jobs"]:
+            jobToCheck = confDict["jobs"][jobname].copy()
+            confDict["jobs"] = {}
+            confDict["jobs"][jobname] = jobToCheck
+        else:
+            Context.console.warn("Given job '" +jobname+ "' doesn't exist. Aborting.")
+            sys.exit(1)
+    # check whole config (and included configs)
+    else:
+        # process custom includes recursive
+        for extConf in confObj._includedConfigs:
+            validateConfig(extConf, schema)
+
+    errors = __validate(confDict, schema)
+    __printResults(Context.console, errors, confObj._fname, jobname)
+
+##
+# Validates given dict against JSON Schema dict.
+#
+# @see http://json-schema.org/
+# @see http://tools.ietf.org/html/draft-zyp-json-schema-04
+# @see https://github.com/json-schema/json-schema
+#
+# @param dictToValidate
+# @param schema
+# @return errors list
+#
+def __validate(dictToValidate, schema):
+    # lazy import for earlier python2.6+ check
+    from jsonschema.jsonschema import Draft4Validator
+
+    # fail fast => check schema first / shouldn't raise errors in production
+    Draft4Validator.check_schema(schema)
+
+    errors = []
+    validator = Draft4Validator(schema)
+
+    for e in validator.iter_errors(dictToValidate):
+        # hack to replace 'u' before fieldname *within* string
+        e.message = e.message.replace("u'", "'")
+
+        if __isUnexpandedMacrosError(e.message):
+            continue
+
+        errors.append({"msg": e.message, "path": e.path})
+
+    return errors
+
+
+##
+# Originates error message from unexpanded macro
+# (e.g. '${LOCALES}' is not of type array)?
+#
+# @param msg string
+# @return boolean
+#
+def __isUnexpandedMacrosError(msg):
+    return bool(re.search(r"^'\$\{[^}]+\}' is not (one of|of type).*", msg))
+
+
+##
+# Print results on stderr and exit if desired
+#
+# @param console generator.context.Console
+# @param errors list
+# @param validatedFileName string
+# @param jobname string
+# @param exitOnErrors boolean
+#
+def __printResults(console, errors, validatedFileName, jobname=""):
+    if errors:
+        console.warn("Errors found in " + validatedFileName+":")
+        console.indent()
+        for error in errors:
+            console.warn(error["msg"] + " in '%s'." % __convertToJSONPointer(error["path"]))
+        console.outdent()
+    else:
+        if jobname:
+            console.log("Job '"+jobname+"' in %s successfully validated." % validatedFileName)
+        else:
+            console.log("%s successfully validated." % validatedFileName)
+
+
+##
+# Converts ["info", "authors", 0] into '/info/authors/0' (JSON Pointer).
+#
+# @see http://tools.ietf.org/html/draft-ietf-appsawg-json-pointer-09
 #
 # @param path list
-# @return string (JSONPath)
-# @see http://goessner.net/articles/JsonPath/
-#
-def __convertToJSONPath(path):
-    jsonPath = ""
+# @return string (JSON Pointer)
+def __convertToJSONPointer(path):
+    jsonPointer = ""
 
-    for i, elem in enumerate(path):
-        if isinstance(elem, int):
-            path[i-1] = path[i-1] + "[" + str(path[i])  + "]"
-            del path[i]
-    jsonPath = "$." + ".".join(path)
-    return jsonPath
+    for i, item in enumerate(path):
+        if isinstance(item, int):
+            path[i] = str(path[i])
+    jsonPointer = "/" + "/".join(path)
+    return jsonPointer

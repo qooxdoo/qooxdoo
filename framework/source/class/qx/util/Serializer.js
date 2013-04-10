@@ -234,11 +234,11 @@ qx.Class.define("qx.util.Serializer",
      * Serializes the properties of the given qooxdoo object into a json object.
      *
      * @param object {qx.core.Object} Any qooxdoo object
-     * @param qxSerializer {Function} Function used for serializing qooxdoo
+     * @param qxSerializer {Function?} Function used for serializing qooxdoo
      *   objects stored in the propertys of the object. Check for the type of
      *   classes <ou want to serialize and return the serialized value. In all
      *   other cases, just return nothing.
-     * @param dateFormat {qx.util.format.DateFormat} If a date formater is given,
+     * @param dateFormat {qx.util.format.DateFormat?} If a date formater is given,
      *   the format method of this given formater is used to convert date
      *   objects into strings.
      * @return {String} The serialized object.

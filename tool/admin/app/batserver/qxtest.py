@@ -59,6 +59,7 @@ class QxTest:
         }
 
         defaultTestConf = {
+            'testId' : '',
             'runType': '',
             'qxBranch': 'trunk',
             'simulateTest': False,
@@ -580,7 +581,10 @@ class QxTest:
 
         if buildResult:
             jsonData = json.dumps(buildResult, sort_keys=True, indent=2)
-            fPath = os.path.join(logDir, 'buildStatus_%s.json' % self.startTimeString)
+            buildId = self.testConf['testId']
+            if buildId != "":
+                buildId = "_" + buildId
+            fPath = os.path.join(logDir, 'buildStatus_%s%s.json' % (self.startTimeString, buildId))
         else:
             jsonData = json.dumps(self.buildStatus, sort_keys=True, indent=2)
             fPath = os.path.join(logDir, 'buildStatus.json')

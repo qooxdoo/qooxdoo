@@ -65,6 +65,7 @@ QOOXDOO_RELEASE = QOOXDOO_RELEASE=1
 endif
 
 CMD_GENERATOR := $(CMD_PYTHON) "$(CURDIR)/tool/bin/generator.py" $(OPT_GENERATOR)
+CMD_GENERATOR_NOOPTS := $(CMD_PYTHON) "$(CURDIR)/tool/bin/generator.py"
 STAGING_HOST = qooxdoo@webtechfe-test01.schlund.de
 
 FILES_TEXT = \( -name "*.py" -o -name "*.sh" -o -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO \)
@@ -432,7 +433,7 @@ build-apps:
 		if [ "$$APPLICATION" = "feedreader" ]; then \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) build,build-mobile,build-website ) || exit 1; \
 			elif [ "$$APPLICATION" = "todo" ]; then \
-				( cd application/$$APPLICATION && $(CMD_GENERATOR) build-min ) || exit 1; \
+				( cd application/$$APPLICATION && $(CMD_GENERATOR) build-mini ) || exit 1; \
 		elif [ "$$APPLICATION" = "mobileshowcase" ]; then \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) build-indigo ) || exit 1; \
 		else \
@@ -508,14 +509,31 @@ tutorials-build:
 
 ################################################################################
 # RESOURCE TARGETS
+#
+# Re-creates files in the distribution directories of tool/admin/www/resources
+# which will then be published to the production websites (among others).
 ################################################################################
 
-resources-build:
+resources-build: resources-build-css
+
+##
+# Generates the .css files in the distribution directory from the .scss files.
+resources-build-css:
 	@echo "  * Compiling style sheets..."
 	@cd $(PATH_TOOL_RESOURCES)/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
 		echo "     - $$SCSS_FILE..."; \
 		$(CMD_SCSS) $(CMD_SCSS_OPTS) ../stylesheets/$${SCSS_FILE/%.scss/.css} $$SCSS_FILE; \
 	done
+
+##
+# Generates the custom q.js, copies it and the q plugins to the distrib.
+# directory.
+# Needs CMD_GENERATOR_NOOPTS so the result will not depend on the git revision.
+# -- currently not used! --  (so has to be called manually)
+resources-build-js:
+	@echo "  * Creating custom q and plugins..."
+	@( cd $(PATH_TOOL_RESOURCES)/q.websites/ && $(CMD_GENERATOR_NOOPTS) q-build-min ) || exit 1
+	@( cd $(PATH_TOOL_RESOURCES)/q.websites/ && $(CMD_GENERATOR_NOOPTS) copy-to-resources ) || exit 1
 
 resources-check:
 	@cd $(PATH_TOOL_RESOURCES)/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
@@ -610,17 +628,17 @@ check-banner:
 
 check-apps:
 	@for TARGET in $(APPLICATIONS); do \
-	if [ "$$TARGET" = "featureconfigeditor" ] ; then \
-		F="application/$$TARGET/build/script/fce.js"; \
-	elif [ "$$TARGET" = "mobileshowcase" ] ; then \
-		F="application/$$TARGET/build-indigo/script/$$TARGET.js"; \
-	elif [ "$$TARGET" = "todo" ] ; then \
-		F="application/$$TARGET/$$TARGET.js"; \
-	else \
-		F="application/$$TARGET/build/script/$$TARGET.js"; \
-	fi; \
-	[ -s $$F ] || [ "$$TARGET" = "widgetbrowser" ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-  done
+		if [ "$$TARGET" = "featureconfigeditor" ] ; then \
+			F="application/$$TARGET/build/script/fce.js"; \
+		elif [ "$$TARGET" = "mobileshowcase" ] ; then \
+			F="application/$$TARGET/build-indigo/script/$$TARGET.js"; \
+		elif [ "$$TARGET" = "todo" ] ; then \
+			F="application/$$TARGET/$$TARGET.js"; \
+		else \
+			F="application/$$TARGET/build/script/$$TARGET.js"; \
+		fi; \
+		[ -s $$F ] || [ "$$TARGET" = "widgetbrowser" ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
+	done
 
 check-components:
 	@for TARGET in $(COMPONENTS); do \

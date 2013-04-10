@@ -53,7 +53,6 @@
 ************************************************************************ */
 
 /**
- *
  * Exposes Sinon.JS to qooxdoo.
  *
  * This class exposes Sinon.JS (http://sinonjs.org/) and is not to be used
@@ -65,11 +64,8 @@
  * @lint ignoreDeprecated(eval)
  *
  */
-qx.Class.define("qx.dev.unit.Sinon",
+qx.Bootstrap.define("qx.dev.unit.Sinon",
 {
-
-  type : "static",
-
   statics :
   {
     /**

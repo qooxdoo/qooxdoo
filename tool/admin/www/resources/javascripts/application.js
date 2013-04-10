@@ -1,3 +1,22 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2012 - 2013 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Tristan Koch (tristankoch)
+
+************************************************************************ */
+
 var app = {
   getType: function() {
     if (q("body.dokuwiki").length) return "site";
@@ -13,7 +32,7 @@ q.ready(function() {
 
   // "Latest / All" toggle
   q("#versions-hint").on("click", function(e) {
-    $target = q.wrap(e.getTarget());
+    $target = q(e.getTarget());
     if (!$target.is("a")) return;
     $target.hasClass("all") ?
       q(".versions").addClass("show") :
@@ -41,7 +60,7 @@ q.ready(function() {
 
   // Update search view on type change
   q("#search").on("change", function(evt) {
-    if (!q.wrap(evt.getTarget()).is("select")) return;
+    if (!q(evt.getTarget()).is("select")) return;
     var type = q("#search select").getValue().toLowerCase();
     var value = q("#search input[type=search]").getValue();
     searchView.render(type, value);
@@ -74,7 +93,7 @@ q.ready(function() {
 
     var expandAll = function() {
       domains.forEach(function(domain) {
-        domain = q.wrap(domain);
+        domain = q(domain);
         domain.removeClass("compact");
         domain.addClass("expanded");
         domains.getParents().addClass("all");
@@ -84,7 +103,7 @@ q.ready(function() {
 
     if (chosenDomain) {
       domains.forEach(function(domain) {
-        domain = q.wrap(domain);
+        domain = q(domain);
         if (!domain.hasClass(chosenDomain)) {
           compact(domain);
         } else {
@@ -96,7 +115,7 @@ q.ready(function() {
       showAllButton.on("click", expandAll);
       domains.getParents().removeClass("all");
       domains.filter(".compact").on("click", function(evt) {
-        target = q.wrap(evt.getTarget());
+        target = q(evt.getTarget());
         if (!target.is("h3")) {
           expandAll();
         }

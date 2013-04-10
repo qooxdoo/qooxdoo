@@ -1,21 +1,4 @@
 //
-// ANDROID THEME 
-//
-
-$android-orange: #e89c00;
-$android-light-orange: #ffdb66;
-$android-light-orange-2: #fdd824;
-$android-dark-grey: #636363;
-
-$button-color: #f4f4f4;
-$border-color: #6b6d6b;
-$background-color:#181818;
-
-$dialog-background-color: #424242;
-
-$highlighted-text-color: $android-orange;
-
-//
 // ANDROID CLICKABLE STYLE
 //
 
@@ -148,6 +131,11 @@ input[type="text"]:not(.selectbox), input[type="number"], input[type="password"]
 input[type="text"]:not(.selectbox):not(.invalid), input[type="number"]:not(.invalid), input[type="password"]:not(.invalid), textarea:not(.invalid) {
   border: 0px solid #242424;
 }
+
+input.invalid {
+  border: 1px solid red !important;
+}
+
 
 .formRowContent {
   $ul-padding:5px;

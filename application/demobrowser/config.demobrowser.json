@@ -27,7 +27,7 @@
     "THEME"        : "demobrowser.Theme"
   },
 
-  "config-warnings" : 
+  "config-warnings" :
   {
     "job-shadowing" : ["info", "translation"]
   },
@@ -92,7 +92,7 @@
 
       "compile-options" :
       {
-        "code" : 
+        "code" :
         {
           "locales" : "${LOCALES}"
         }
@@ -145,8 +145,8 @@
 
 
     // Repeating this job from base.json, as the original draws in too many
-    // macros from base.json's global 'let' (!) 
-    "source-hybrid" : 
+    // macros from base.json's global 'let' (!)
+    "source-hybrid" :
     {
       "extend"  : [ "source" ],
 
@@ -167,7 +167,7 @@
 
       "config-warnings" :
       {
-        "environment" : [ 
+        "environment" : [
           "non-literal-keys",
           "variants-and-url-settings"
         ]
@@ -218,7 +218,7 @@
       "extend" : ["db-common"],
 
       // adding libraries that are used by demos, so resources are being picked up
-      "library" : 
+      "library" :
       [
         { "manifest"   : "${QOOXDOO_PATH}/component/library/formdemo/Manifest.json" },
         { "manifest"   : "${QOOXDOO_PATH}/component/library/datademo/Manifest.json" }
@@ -270,12 +270,11 @@
       "translate" : { "poentry-with-occurrences" : false  }
     },
 
-    "info" : 
+    "info" :
     {
       "let" : {
         "APPLICATION"  : "demobrowser"  // to not disturb varying APPLICATION of demos
-      },
-      
+      }
     },
 
     // -- Debug jobs ----------------------------------------------------------

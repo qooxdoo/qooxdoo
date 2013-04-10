@@ -258,7 +258,7 @@ def timestampFromLogname(logname, prefix, extension):
 ##
 # Log file elements
 prefix = "buildStatus_"
-extension = ".json"
+extension = "_nightly.json"
 
 
 ##
@@ -268,15 +268,13 @@ extension = ".json"
 def getLatestLogURL():
     baseurl = build_server_logs
     # calculate the next:
-    # logfile = "testLog_2010-12-16_22-00-02.txt"
-    #logpatt = "testLog_"
     # logfile = "buildStatus_2011-05-10_22-40-01.json"
     logpatt = prefix
     # we assume to run the day after the latest build run has been started
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     logpatt += yesterday.strftime("%Y-%m-%d")
-    logpatt += "_23-..-.."
-    #logpatt += r"\.txt"
+    #logpatt += "_23-..-.."
+    logpatt += "_.*?"
     logpatt += extension.replace('.',r'\.')
     logpattr = re.compile(logpatt)
     # get yesterday's log file name

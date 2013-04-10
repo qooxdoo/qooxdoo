@@ -1,10 +1,46 @@
+//
+// ANDROID THEME 
+//
+
 $navigationbar-height: 45px;
+
+$android-orange: #e89c00;
+$android-light-orange: #ffdb66;
+$android-light-orange-2: #fdd824;
+$android-dark-grey: #636363;
+
+$button-color: #f4f4f4;
+$border-color: #6b6d6b;
+$background-color:#181818;
+
+$dialog-background-color: #424242;
+
+$highlighted-text-color: $android-orange;
+
+// Collapsible
+
+$collapsible-border-radius: 4px;
+$collapsible-header-border-color: #888888;
+$collapsible-header-text-color: #333333;
+$collapsible-header-active-text-color: #333333;
+$collapsible-header-background-color: #F4F4F4;
+$collapsible-header-active-background-color: $android-orange;
+$collapsible-header-padding: 10px;
+$collapsible-header-content-distance: 10px;
+$collapsible-content-border-color: #6b6d6b;
+$collapsible-content-padding: 10px;
+$collapsible-content-background-color: $background-color;
+$collapsible-arrow-size: 8px;
+$collapsible-arrow-color: #333333;
+$collapsible-active-arrow-color: #333333;
+
 
 @import "common/base";
 
 @import "basic/blocker";
 @import "basic/button";
 @import "basic/checkbox";
+@import "basic/collapsible";
 @import "basic/form";
 @import "basic/list";
 @import "basic/masterdetail";

@@ -245,7 +245,7 @@ class MClassDependencies(object):
 
 
 
-    def getCombinedDeps(self, classesAll_, variants, config, stripSelfReferences=True, projectClassNames=True, genProxy=None, force=False, tree=None):
+    def getCombinedDeps(self, classesAll_, variants, config, stripSelfReferences=True, projectClassNames=True, force=False, tree=None):
 
         # init lists
         global ClassesAll
@@ -254,10 +254,7 @@ class MClassDependencies(object):
         runFinal  = []
 
         # add static dependencies
-        if genProxy == None:
-            static, cached = self.dependencies (variants, force, tree=tree)
-        else:
-            static, cached = genProxy.dependencies(self.id, self.path, variants)
+        static, cached = self.dependencies (variants, force, tree=tree)
 
         loadFinal.extend(static["load"])
         runFinal.extend(static["run"])

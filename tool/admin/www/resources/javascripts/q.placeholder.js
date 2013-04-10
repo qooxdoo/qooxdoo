@@ -1,6 +1,6 @@
 (function() {
 
-q.attach({
+q.$attach({
   placeholder: function() {
     this
       // Remove placeholder

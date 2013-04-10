@@ -10,12 +10,14 @@
 
   "export" :
   [
-    "build-min",
     "build",
-    "build-core-min",
+    "build-min",
     "build-core",
+    "build-core-min",
     "build-extras",
     "build-extras-min",
+    "build-module-all",
+    "build-module-all-min",
     "source",
     "test-source",
     "test",
@@ -23,7 +25,8 @@
     "api-data",
     "api",
     "distclean",
-    "clean"
+    "clean",
+    "validate-config"
   ],
 
   "config-warnings" :

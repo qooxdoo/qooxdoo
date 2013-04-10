@@ -34,7 +34,10 @@
     "test-mobile-source",
     "translation",
     "minify-css",
-    "watch-scss"
+    "validate-config",
+    "validate-manifest",
+    "watch-scss",
+    "watch"
   ],
 
   "default-job" : "source-hybrid",
@@ -194,6 +197,7 @@
       "extend" : ["cache"],
       "let" :
       {
+        "MKDIRCMD"   : "$${PYTHON_CMD} $${QOOXDOO_PATH}/tool/bin/mkdir.py",
         "CATCMD"     : "$${PYTHON_CMD} $${QOOXDOO_PATH}/tool/bin/cat.py",
         "CSSMIN_CMD" : "$${PYTHON_CMD} $${QOOXDOO_PATH}/tool/bin/cssmin.py"
       },
@@ -202,6 +206,7 @@
       {
         "command" :
         [
+          "$${MKDIRCMD} $${BUILD_PATH}/resource/$${APPLICATION}/css",
           "$${CATCMD} $${ROOT}/source/resource/$${APPLICATION_CSS} | $${CSSMIN_CMD} > $${BUILD_PATH}/resource/$${APPLICATION_CSS}"
         ]
       }

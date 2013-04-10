@@ -10,15 +10,10 @@
 
   "export" :
   [
-    "build-min"
+    "build-mini"
   ],
 
-  "default-job" : "build-min",
-
-  "config-warnings" : 
-  {
-    "job-shadowing" : ["api"] 
-  },
+  "default-job" : "build-mini",
 
   "let" :
   {
@@ -28,5 +23,17 @@
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "BUILD_PATH"   : "script",
     "ROOT"         : "."
+  }
+
+  ,"jobs" : 
+  {
+    "build-mini" : // cannot use 'build-min' b.o. cyclic extends
+    {
+      "run" : [
+        "build-core-min",
+        "build-module-storage-min",
+        "build-module-template-min"
+      ]
+    }
   }
 }

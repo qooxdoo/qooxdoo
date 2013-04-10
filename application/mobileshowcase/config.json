@@ -36,10 +36,12 @@
     "build-ios",
     "build-android",
     "build-indigo",
+    "validate-config",
+    "validate-manifest",
     "watch",
     "watch-scss"
   ],
-  
+
   "default-job" : "source-hybrid",
 
   "let" :
@@ -56,17 +58,17 @@
     "QXTHEME"      : ""
   },
 
-  "config-warnings" : 
+  "config-warnings" :
   {
     "job-shadowing" : [
       "source",
       "build",
-      "source-all-script", 
-      "build-files", 
-      "build-script", 
+      "source-all-script",
+      "build-files",
+      "build-script",
       "source-script"
     ],
-    
+
     "environment" : [ "non-literal-keys" ]
   },
 
@@ -80,7 +82,7 @@
     // using a contrib: library, it will be downloaded into the path specified
     // by the 'cache/downloads' config key
     /*
-    , "libraries" : 
+    , "libraries" :
     {
       "library" :
       [
@@ -97,7 +99,7 @@
       [
         "${APPLICATION}.Application"
       ],
-      
+
       "environment" :
       {
         "qx.version"     : "${APPLICATION}",
@@ -107,7 +109,7 @@
         "qx.theme" : "${THEME}"
       }
     },
-    
+
     "source-ios" :
     {
       "extend" : ["source"],
@@ -119,13 +121,13 @@
       "extend" : ["source"],
       "let" : { "THEME" : "android" }
     },
-    
+
     "source-indigo" :
     {
       "extend" : ["source"],
       "let" : { "THEME" : "indigo" }
     },
-    
+
     "build-ios" :
     {
       "extend" : ["build"],
@@ -137,7 +139,7 @@
       "extend" : ["build"],
       "let" : { "THEME" : "android" }
     },
-    
+
     "build-indigo" :
     {
       "extend" : ["build"],
@@ -146,7 +148,7 @@
 
     "source" :
     {
-      "let" : { 
+      "let" : {
         "BUILD_PATH" : "${ROOT}/source"
       },
       "asset-let" : {
@@ -157,8 +159,8 @@
 
     "build" :
     {
-      "let" : { 
-        "BUILD_PATH" : "${ROOT}/build-${THEME}" 
+      "let" : {
+        "BUILD_PATH" : "${ROOT}/build-${THEME}"
       },
       "asset-let" : {
         "qx.mobile.platform" : [ "${THEME}" ]
@@ -170,7 +172,7 @@
     "source-script" :
     {
       "extend" : ["mobile-common"],
-      "add-css" : [ 
+      "add-css" : [
         { "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${THEME}.css" },
         { "uri" : "./resource/${APPLICATION_CSS}" }
       ]
@@ -180,7 +182,7 @@
     {
       "extend" : ["mobile-common"],
       //"add-css" : [ { "uri" : "${CSS_COMB_URI}" } ]
-      "add-css" : [ 
+      "add-css" : [
         { "uri" : "./resource/qx/mobile/css/${THEME}.css" },
         { "uri" : "./resource/${APPLICATION_CSS}" }
       ]
@@ -204,7 +206,7 @@
     "source-all-script" :
     {
       "extend" : ["mobile-common"],
-      "=exclude" : 
+      "=exclude" :
       [
         "qx.test.*",
         "${APPLICATION}.test.*",
@@ -213,7 +215,7 @@
       "asset-let" : {
         "qx.mobile.platform" : [ "${THEME}" ]
       },
-      "add-css" : [ 
+      "add-css" : [
         { "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${THEME}.css" },
         { "uri" : "./resource/${APPLICATION_CSS}" }
       ]
@@ -254,8 +256,8 @@
         ]
       }
     },
-    
-    
+
+
     "watch-scss" :
     {
       "desc"   : "Watch and compile the theme scss",

@@ -19,7 +19,6 @@
     "info",
     "inspector",
     "lint",
-    "manifest-validation",
     "migration",
     "pretty",
     "profiling",
@@ -28,12 +27,14 @@
     "source-hybrid",
     "source-server",
     "source-httpd-config",
-    "source-hybrid",
     "simulation-build",
     "simulation-run",
     "test",
     "test-source",
-    "translation"
+    "translation",
+    "validate-config",
+    "validate-manifest",
+    "watch"
   ],
 
   "default-job" : "source-hybrid",

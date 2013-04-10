@@ -138,7 +138,7 @@ Files = {
         r'"homepage"\s*:\s*"http://manual.qooxdoo.org/(%s)/pages/core.html"' % qxversion_regexp,
         ],
     "./tool/data/generator/copyright.include.js" : [
-        r'qooxdoo v.(%s) \|' % qxversion_regexp,
+        r'qooxdoo v(%s) \|' % qxversion_regexp,
         ],
     "./component/standalone/server/test/rhino.js" : [
         r'qx-oo-(%s).js' % qxversion_regexp,

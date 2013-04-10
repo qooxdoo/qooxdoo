@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * A wrapper around SinonJS's FakeXMLHttpRequest and FakeServer features that
+ * A wrapper around Sinon.JS's FakeXMLHttpRequest and FakeServer features that
  * allows quick and simple configuration of mock HTTP backends for testing and
  * development.
  * Automatically creates URL filtering rules to ensure that only configured
@@ -56,15 +56,44 @@
  *   qx.dev.FakeServer.getInstance().configure(responseData);
  * </pre>
  */
-qx.Class.define("qx.dev.FakeServer", {
+qx.Bootstrap.define("qx.dev.FakeServer", {
 
-  type: "singleton",
-
-  extend: qx.core.Object,
+  extend : Object,
 
   construct : function() {
+    var clazz = qx.dev.FakeServer;
+
+    if (!clazz.$$allowconstruct) {
+        var msg = clazz+" is a singleton! It is not possible to instantiate it directly." +
+                  "Use the static getInstance() method instead.";
+        throw new Error(msg);
+    }
+
     this.getFakeServer();
     this.__urlRegExps = [];
+  },
+
+  statics : {
+    $$instance : null,
+    $$allowconstruct : false,
+
+    /**
+     * Helper method to handle singletons
+     *
+     * @internal
+     * @return {Object} The singleton instance
+     */
+    getInstance : function()
+    {
+      if (!this.$$instance)
+      {
+        this.$$allowconstruct = true;
+        this.$$instance = new this();
+        delete this.$$allowconstruct;
+      }
+
+      return this.$$instance;
+    }
   },
 
   members :
@@ -72,7 +101,6 @@ qx.Class.define("qx.dev.FakeServer", {
     __sinon : null,
     __fakeServer: null,
     __urlRegExps: null,
-
 
     /**
      * Configures a set of fake HTTP responses. Each response is defined as a map
@@ -175,7 +203,7 @@ qx.Class.define("qx.dev.FakeServer", {
     /**
      * Stops the FakeServer
      */
-    restore: function() {
+    restore : function() {
       if (this.__fakeServer) {
         this.__fakeServer.restore();
       }
@@ -194,7 +222,6 @@ qx.Class.define("qx.dev.FakeServer", {
       return new RegExp(pattern);
     }
   },
-
 
   destruct: function() {
     this.restore();

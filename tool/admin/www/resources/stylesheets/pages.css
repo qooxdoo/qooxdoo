@@ -154,7 +154,7 @@ body#demos #domains section.domain.expanded .demo img {
   display: block;
 }
 body#demos #domains section.domain.compact {
-  background-image: url(../../images/expand.png);
+  background-image: url(../images/expand.png);
   background-repeat: no-repeat;
   background-position: 98% bottom;
 }
@@ -456,7 +456,7 @@ body#home #domains {
   position: relative;
   height: 458px;
   margin-bottom: 43px;
-  background: url(../../images/domains-bg.png) repeat-x #f4f4f4;
+  background: url(../images/domains-bg.png) repeat-x #f4f4f4;
 }
 body#home #domains:after {
   display: block;
@@ -466,7 +466,7 @@ body#home #domains:after {
   content: ".";
 }
 body#home #domains.active {
-  background: url(../../images/domains-bg-active.png) repeat-x #f4f4f4;
+  background: url(../images/domains-bg-active.png) repeat-x #f4f4f4;
 }
 body#home #domains .container {
   zoom: 1;
@@ -659,7 +659,7 @@ body#home #domains section.domain div.description div.sample .run .button {
   margin-top: 11px;
   line-height: 32px;
   background-color: #3d72c9;
-  background-image: url("../../images/arrow-left-light.png");
+  background-image: url("../images/arrow-left-light.png");
   background-position: 14% 48%;
   background-repeat: no-repeat;
   color: #fff;
@@ -679,7 +679,7 @@ body#home #domains section.domain div.description div.action:first-child {
   margin-left: 0;
 }
 body#home #domains section.domain div.description div.action .button.download {
-  background-image: url("../../images/arrow.png");
+  background-image: url("../images/arrow.png");
   background-position: 6% 48%;
   background-repeat: no-repeat;
   padding-bottom: 3px;
@@ -721,7 +721,7 @@ body#home #domains section.domain.active div.description div.sample {
   display: block;
 }
 body#home #domains section.domain.active header {
-  background: url("../../images/close.png") no-repeat scroll 94% 29% #ffffff;
+  background: url("../images/close.png") no-repeat scroll 94% 29% #ffffff;
   border-color: #e0e0e0;
 }
 body#home #domains section.domain#mobile.active div.description {

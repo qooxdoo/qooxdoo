@@ -361,6 +361,119 @@ input::-webkit-inner-spin-button {
   top: 4px;
   left: 4px; }
 
+.collapsible-content {
+  background-color: white;
+  border: 1px solid #b4b4b4;
+  overflow: hidden; }
+
+.collapsible.combined:not(.collapsed) .collapsible-header {
+  -moz-border-radius-topleft: 4px;
+  -moz-border-radius-topright: 4px;
+  -webkit-border-radius-topleft: 4px;
+  -webkit-border-radius-topright: 4px;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px; }
+
+.collapsible.combined.collapsed .collapsible-header {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px; }
+
+.collapsible.combined .collapsible-content {
+  -moz-border-radius-bottomleft: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -webkit-border-radius-bottomleft: 4px;
+  -webkit-border-radius-bottomright: 4px;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  padding: 10px; }
+
+.collapsible.combined:not(.collapsed) .collapsible-content {
+  border-top: 0px solid transparent; }
+
+.collapsible:not(.combined) .collapsible-header {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  margin-bottom: 10px; }
+
+.collapsible:not(.combined) .collapsible-content {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  padding: 10px; }
+
+.collapsible-header {
+  position: relative;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#e6e6e6));
+  /* Safari 4+, Chrome 2+ */
+  background-image: -webkit-linear-gradient(top, white, #e6e6e6);
+  /* Safari 5@mixin 1+, Chrome 10+ */
+  background-image: -moz-linear-gradient(top, white, #e6e6e6);
+  /* FF 3@mixin 6+ */
+  background-image: linear-gradient(to bottom, white, #e6e6e6);
+  /* Standard (in flux) */
+  padding: 10px;
+  border: 1px solid #b4b4b4; }
+
+.collapsible-header:not(.active) {
+  color: #666666; }
+
+.collapsible-header.active {
+  color: white;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#8c9eb6), to(#566b86));
+  /* Safari 4+, Chrome 2+ */
+  background-image: -webkit-linear-gradient(top, #8c9eb6, #566b86);
+  /* Safari 5@mixin 1+, Chrome 10+ */
+  background-image: -moz-linear-gradient(top, #8c9eb6, #566b86);
+  /* FF 3@mixin 6+ */
+  background-image: linear-gradient(to bottom, #8c9eb6, #566b86);
+  /* Standard (in flux) */ }
+
+.collapsible.collapsed .collapsible-header.label:after {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  margin-top: -4px;
+  display: block;
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid #666666; }
+
+.collapsible.collapsed .collapsible-header.active.label:after {
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid white; }
+
+.collapsible:not(.collapsed) .collapsible-header.label:after {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  margin-top: -4px;
+  display: block;
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #666666; }
+
+.collapsible:not(.collapsed) .collapsible-header.active.label:after {
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid white; }
+
 ul.form {
   margin-bottom: 10px;
   background-color: transparent;
@@ -1164,6 +1277,9 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   margin-left: 0px;
   min-width: 75px; }
 
+input.invalid {
+  border: 1px solid red !important; }
+
 .scroll-container {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
@@ -1296,7 +1412,7 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   /* FF 3@mixin 6+ */
   background-image: linear-gradient(to bottom, #cfcfcf, #fdfdfd);
   /* Standard (in flux) */
-  border: 1px solid #e8e8e8; }
+  border: 1px solid #E8E8E8; }
 
 .tabBar {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#232323), color-stop(50%, #111111), color-stop(51%, black), to(black));
@@ -1566,7 +1682,7 @@ input[type="text"]:not(.selectbox), input[type="password"], input[type="number"]
   color: #888888; }
 
 .toggleButtonSwitch {
-  border: 1px solid #e8e8e8;
+  border: 1px solid #E8E8E8;
   -webkit-box-shadow: 1px 0 2px #4b4b4b;
   -moz-box-shadow: 1px 0 2px #4b4b4b;
   box-shadow: 1px 0 2px #4b4b4b;

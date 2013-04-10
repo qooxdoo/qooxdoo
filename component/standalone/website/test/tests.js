@@ -1555,8 +1555,7 @@ testrunner.define({
   tearDown : testrunner.globalTeardown,
 
     __registerNormalization : function(type, normalizer) {
-    var now = new Date().getTime();
-    q.define("EventNormalize" + now.toString(), {
+    q.define("EventNormalize" + Math.random().toString().substr(2), {
       statics :
       {
         normalize : normalizer
@@ -2594,6 +2593,230 @@ testrunner.define({
     this.assertEquals(2, calledAny);
   }
 });
+
+
+testrunner.define({
+
+  classname : "MatchMedia",
+
+  setUp : function(){
+    testrunner.globalSetup.call(this);
+    this.__iframe = q.create('<iframe src="media.html" width="500" height="400" name="Testframe"></iframe>');
+    this.__iframe.appendTo(this.sandbox[0]);
+  },
+
+  tearDown : testrunner.globalTeardown,
+  
+  testLandscape : function(){
+    
+    var iframe = this.__iframe[0];
+    
+    iframe.width = "500px";
+    iframe.height = "400px";
+
+    qxWeb(window).once('message',function(e){
+      this.resume(function() {
+        this.assertEquals(e.data, "true");
+      }, this);
+    },this);  
+
+    window.setTimeout(function(){               
+      iframe.contentWindow.postMessage("all and (orientation:landscape)",'*');
+    },100);
+
+    this.wait(200);
+  },
+
+  testMinWidth : function(){
+    
+    var iframe = this.__iframe[0];
+    
+    iframe.width = "500px";
+    iframe.height = "400px";
+
+    qxWeb(window).once('message',function(e){
+      this.resume(function() {
+        this.assertEquals(e.data, "true");
+      }, this);
+    },this);  
+
+    window.setTimeout(function(){               
+      iframe.contentWindow.postMessage("all and (min-width:500px)",'*');
+    },100);
+
+    this.wait(200);
+  },
+
+  testMaxWidth : function(){
+
+    var iframe = this.__iframe[0];
+    
+    iframe.width = "500px";
+    iframe.height = "400px";
+
+    qxWeb(window).once('message',function(e){
+      this.resume(function() {
+        this.assertEquals(e.data, "true");
+      }, this);
+    },this);  
+
+    window.setTimeout(function(){               
+      iframe.contentWindow.postMessage("all and (max-width:500px)",'*');
+    },100);
+
+    this.wait(200);
+  },
+
+  testAnd : function(){    
+
+    var iframe = this.__iframe[0];
+    
+    iframe.width = "300px";
+    iframe.height = "400px";
+
+    qxWeb(window).once('message',function(e){
+      this.resume(function() {
+        this.assertEquals(e.data, "false");
+      }, this);
+    },this);  
+
+    window.setTimeout(function(){               
+      iframe.contentWindow.postMessage("screen and (min-width: 400px) and (max-width: 700px)",'*');
+    },100);
+
+    this.wait(200);
+  },
+
+  testMinHeight : function(){
+    var iframe = this.__iframe[0];
+    
+    iframe.width = "500px";
+    iframe.height = "400px";
+
+    qxWeb(window).once('message',function(e){
+      this.resume(function() {
+        this.assertEquals(e.data, "false");
+      }, this);
+    },this);  
+
+    window.setTimeout(function(){               
+      iframe.contentWindow.postMessage("all and (min-height:500px)",'*');
+    },100);
+
+    this.wait(200);
+  },
+
+  testColor : function(){
+    var iframe = this.__iframe[0];
+    
+    iframe.width = "500px";
+    iframe.height = "400px";
+
+    qxWeb(window).once('message',function(e){
+      this.resume(function() {
+        this.assertEquals(e.data, "true");
+      }, this);
+    },this);  
+
+    window.setTimeout(function(){               
+      iframe.contentWindow.postMessage("all and (min-color: 1)",'*');
+    },100);
+
+    this.wait(200);
+  },
+
+  testCombined : function(){    
+
+    var iframe = this.__iframe[0];
+    
+    iframe.width = "800px";
+    iframe.height = "400px";
+
+    qxWeb(window).once('message',function(e){
+      this.resume(function() {
+        this.assertEquals(e.data, "true");
+      }, this);
+    },this);  
+
+    window.setTimeout(function(){               
+      iframe.contentWindow.postMessage("(min-width: 700px) and (orientation: landscape)",'*');
+    },100);
+
+    this.wait(200);
+  },
+
+  testDeviceWidth : function(){
+    var iframe = this.__iframe[0];  
+
+    qxWeb(window).once('message',function(e){
+      this.resume(function() {
+        var dw = window.screen.width;
+        var match = dw <= 799 ? "true" : "false";
+        this.assertEquals(e.data, match);
+      }, this);
+    },this);  
+
+    window.setTimeout(function(){               
+      iframe.contentWindow.postMessage("screen and (max-device-width: 799px)",'*');
+    },100);
+
+    this.wait(200);
+  },
+
+  testWidth : function(){
+    var iframe = this.__iframe[0];
+    iframe.width = "800px";  
+
+    qxWeb(window).once('message',function(e){
+      this.resume(function() {        
+        this.assertEquals(e.data, "true");
+      }, this);
+    },this);  
+
+    window.setTimeout(function(){               
+      iframe.contentWindow.postMessage("screen and (width: 800px)",'*');
+    },100);
+
+    this.wait(200);
+  },
+
+  testPixelratio : function(){
+    var iframe = this.__iframe[0];
+    iframe.width = "800px";  
+
+    qxWeb(window).once('message',function(e){
+      this.resume(function() {        
+        this.assertEquals(e.data, "true");
+      }, this);
+    },this);  
+
+    window.setTimeout(function(){               
+      iframe.contentWindow.postMessage("screen and (width: 800px)",'*');
+    },100);
+
+    this.wait(200);
+  },
+
+  testNot : function(){
+    var iframe = this.__iframe[0];
+    iframe.width = "500px";  
+
+    qxWeb(window).once('message',function(e){
+      this.resume(function() {        
+        this.assertEquals(e.data, "true");
+      }, this);
+    },this);  
+
+    window.setTimeout(function(){               
+      iframe.contentWindow.postMessage("not screen and (min-width: 800px)",'*');
+    },100);
+
+    this.wait(200);
+  }
+
+});
+
+
 
 testrunner.define({
 	 classname : "Dataset",

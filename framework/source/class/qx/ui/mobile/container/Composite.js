@@ -30,7 +30,7 @@
  *
  * <pre class='javascript'>
  *   // create the composite
- *   var composite = new qx.ui.mobile.container.Composite()
+ *   var composite = new qx.ui.mobile.container.Composite();
  *
  *   composite.setLayout(new qx.ui.mobile.layout.HBox());
  *

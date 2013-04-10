@@ -8,8 +8,8 @@
     },
     {
       "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
-      "block"   : 
-      [ 
+      "block"   :
+      [
         "libraries",
         "common",
         "build",
@@ -19,9 +19,9 @@
       ]
     }
   ],
-  
+
   "default-job" : "source",
-  
+
   "let" :
   {
     "APPLICATION"  : "inspector",
@@ -32,14 +32,14 @@
     "LOCALES"      : [ "en" ],
     "ROOT"         : "."
   },
-  
-  "config-warnings" : 
+
+  "config-warnings" :
   {
     "job-shadowing" : ["source", "common", "inspector::common", "translation"],
 
     "environment" : [ "non-literal-keys" ]
   },
-  
+
   "jobs" :
   {
     "common" :
@@ -54,7 +54,7 @@
     {
       "environment" :
       {
-        "inspector.selenium.extensions" : false
+        "inspector.selenium.extensions" : ""
       }
     }
 

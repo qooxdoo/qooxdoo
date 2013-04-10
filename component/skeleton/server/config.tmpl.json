@@ -30,9 +30,12 @@
     "source",
     "test",
     "test-source",
-    "translation"
+    "translation",
+    "validate-config",
+    "validate-manifest",
+    "watch"
   ],
-  
+
   "default-job" : "source",
 
   "let" :
@@ -46,7 +49,7 @@
 
   "config-warnings" :
   {
-    "job-shadowing" : ["source", "build-resources", "build-script", "build-files", "api"]
+    "job-shadowing" : ["source", "build-resources", "build-script", "build-files", "api-data"]
   },
 
   // You only need to edit the remainder of this file, if you want to customize
@@ -73,8 +76,8 @@
       ],
 
       "extend" : [ "cache" ],
-      
-      "=include" : 
+
+      "=include" :
       [
         //"qx.Class",
         //"qx.Mixin",
@@ -82,7 +85,7 @@
         "qx.core.BaseInit",
         "$${APPLICATION}.Application"
       ],
-      
+
       "exclude" :
       [
         "qx.event.GlobalError",
@@ -135,9 +138,9 @@
       },
       "compile-options" :
       {
-        "uris" : 
-        { 
-          "script" : "." 
+        "uris" :
+        {
+          "script" : "."
         }
       }
     },
@@ -149,12 +152,12 @@
     },
 
 
-    "build-files" : 
+    "build-files" :
     {
       "extend" : [ "basic-common" ]
     },
 
-    "library" : 
+    "library" :
     {
       "desc" : "create a local 'server' library",
       "extend" : ["server::build-min"],
@@ -163,7 +166,7 @@
       }
     },
 
-    "run" : 
+    "run" :
     {
       "shell" : {
         "command" : "java -cp js.jar org.mozilla.javascript.tools.shell.Main $${BUILD}/script/${Namespace}.js"
@@ -190,7 +193,7 @@
       "extend" : ["test-basic-source"]
     },
 
-    "api" :
+    "api-data" :
     {
       "let" :
       {

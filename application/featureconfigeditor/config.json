@@ -5,8 +5,8 @@
   [
     {
       "path" : "${QOOXDOO_PATH}/tool/data/config/application.json",
-      "block" : 
-      [ 
+      "block" :
+      [
         "build",
         "source",
         "source-hybrid",
@@ -36,9 +36,11 @@
     "simulation-run",
     "test",
     "test-source",
-    "translation"
+    "translation",
+    "validate-config",
+    "validate-manifest"
   ],
-  
+
   "default-job" : "source",
 
   "let" :
@@ -51,17 +53,17 @@
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : "."
   },
-  
-  "config-warnings" : 
+
+  "config-warnings" :
   {
     "job-shadowing" : ["libraries", "build-script", "build-files", "common", "translation"],
-    
+
     "environment" : [ "non-literal-keys" ]
   },
 
   "jobs" :
   {
-    
+
     "libraries" :
     {
       "library" : [
@@ -81,10 +83,10 @@
         }
       }
     },
-  
+
     "source" :
     {
-      "compile-options" : 
+      "compile-options" :
       {
         "code" : { "except" : [ "*" ] }
       },
@@ -94,20 +96,20 @@
         "source-lowlevel-script"
       ]
     },
-    
+
     "source-hybrid" :
     {
-      "compile-options" : 
+      "compile-options" :
       {
         "code" : { "except" : [ "${APPLICATION}.*" ] }
       },
-    
+
       "run" : [
         "source-script",
         "source-lowlevel-script"
       ]
     },
-    
+
     "source-all" :
     {
       "run" : [
@@ -115,11 +117,11 @@
         "source-lowlevel-script"
       ]
     },
-    
+
     "source-lowlevel-script" :
     {
       "extend" : ["source-script"],
-      
+
       "let" :
       {
         "APPLICATION_MAIN_CLASS" : "${APPLICATION}.ApplicationLowLevel"
@@ -132,23 +134,23 @@
           "file" : "${ROOT}/source/script/${APPLICATION}-lowlevel.js"
         }
       },
-      
+
       "exclude" :
       [
         "${APPLICATION}.theme.*",
         "${APPLICATION}.test.*",
         "${APPLICATION}.simulation.*"
       ],
-      
+
       "config-warnings" :
       {
-        "exclude" : 
+        "exclude" :
         [ "${APPLICATION}.theme.*",
           "${APPLICATION}.test.*",
-          "${APPLICATION}.simulation.*" ] 
+          "${APPLICATION}.simulation.*" ]
       }
     },
-    
+
     "build" :
     {
       "run" : [
@@ -159,28 +161,28 @@
         "build-lowlevel-script"
       ]
     },
-    
+
     "build-lowlevel-resources" :
     {
-    
+
       "extend" : ["build-resources"],
-      
+
       "let" :
       {
         "APPLICATION_MAIN_CLASS" : "${APPLICATION}.ApplicationLowLevel"
       },
-      
+
       "environment" :
       {
         "qx.application" : "${APPLICATION_MAIN_CLASS}"
       }
     },
-    
+
     "build-lowlevel-script" :
     {
-    
+
       "extend" : ["build-script"],
-      
+
       "let" :
       {
         "APPLICATION_MAIN_CLASS" : "${APPLICATION}.ApplicationLowLevel"
@@ -192,29 +194,29 @@
         {
           "file" : "${BUILD_PATH}/script/${APPLICATION}-lowlevel.js"
         },
-        
+
         "code"   :
         {
           "=optimize" : ["basecalls", "variables", "privates", "strings", "comments", "whitespace"]
         }
       },
-      
+
       "exclude" :
       [
         "${APPLICATION}.theme.*",
         "${APPLICATION}.test.*",
         "${APPLICATION}.simulation.*"
       ],
-      
+
       "config-warnings" :
       {
-        "exclude" : 
+        "exclude" :
         [ "${APPLICATION}.theme.*",
           "${APPLICATION}.test.*",
-          "${APPLICATION}.simulation.*" ] 
+          "${APPLICATION}.simulation.*" ]
       }
     },
-    
+
     "build-files" :
     {
       "copy-files" :
@@ -230,14 +232,14 @@
         "target" : "${BUILD_PATH}"
       }
     },
-    
+
     "common" :
     {
       "environment" :
       {
         "qx.allowUrlSettings" : true,
         "qx.mobile.nativescroll" : true,
-        "fce.reportServerHost" : null,
+        "fce.reportServerHost" : "",
         "fce.reportServerGetUrl" : "/reports/features/get",
         "fce.reportServerAddUrl" : "/reports/features/add"
       }
