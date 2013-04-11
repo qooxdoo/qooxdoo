@@ -322,6 +322,23 @@ the source version. This overcomes e.g. restrictions by modern browsers that do
 not allow XHR requests over the *file://* protocol by default.
 
 
+.. _pages/tool/generator/generator_default_jobs#source-server-reload:
+
+source-server-reload
+----------------------
+
+*(experimental)*
+
+Same as `source-server`_, but adds an automatic reload feature. The web server
+watches the loader file of the exported source version (usually
+*source/script/<application>.js*), and triggers an automatic reload of the
+application in the browser if this changes. Can conveniently be used together
+with the `watch`_ job that automatically re-generates the loader file if the
+application classes change. This way, both jobs work hand in hand to reload the
+most up-to-date version of the application in the browser whenever the source
+files change. If the generation fails, e.g. due to a syntax error, the loader is
+not updated and hence the browser not reloaded.
+
 .. _pages/tool/generator/generator_default_jobs#source-httpd-config:
 
 source-httpd-config
