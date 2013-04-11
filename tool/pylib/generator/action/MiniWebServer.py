@@ -23,10 +23,12 @@
 # Start a Mini Web Server to export applications and their libraries.
 ##
 
-import sys, os, re, types, codecs, string, socket
+import sys, os, re, types, codecs, string, socket, time
 import BaseHTTPServer, CGIHTTPServer
 
 from misc import Path, filetool
+from misc.NameSpace import NameSpace
+from generator.action import ActionLib
 from generator import Context
 
 log_levels = {
@@ -38,7 +40,7 @@ log_levels = {
 }
 log_level = "error"
 
-
+live_reload = NameSpace()
 
 class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
     # idea: restrict access from 'localhost' only (parse RequestHandler.request), 
@@ -59,8 +61,65 @@ class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
         if self.path == "/favicon.ico":
             self.send_response(404)
             self.finish()
+
+        # support for live reload
+        elif self.path == "/_lreload/sentinel.json":
+            # atm, changes are signaled through the ret code
+            #print "checking reload necessity"
+            ret = 200 if self.check_reload() else 304  # 304=not modified
+            self.send_response(ret)
+            self.finish()
+        elif ( hasattr(live_reload, "lreload_watcher") and 
+            self.path == live_reload.app_url ):
+            # insert lreload.js text into index.html
+            file_path = self.translate_path(self.path)
+            indexfile = codecs.open(file_path, "r", "utf-8")
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+            #indexfile = self.send_head()  # sets Content-Length!
+            scriptfile = codecs.open(live_reload.lreload_script, "r", "utf-8")
+            out = self.wfile
+            for line in indexfile:
+                if "</body>" in line:
+                    before, after = line.split("</body>",1)
+                    out.write(before)
+                    out.write('<script type="text/javascript">')
+                    for line1 in scriptfile:
+                        if "{{interval}}" in line1:
+                            line1 = line1.replace("{{interval}}", str(live_reload.lreload_interval
+                                * 1000))
+                        if line1.strip():
+                            out.write(line1)
+                    out.write('</script>')
+                    out.write("</body>")
+                    out.write(after)
+                else:
+                    out.write(line)
+            indexfile.close()
+            scriptfile.close()
+            self.finish()
+
+        # normal file serving
         else:
             CGIHTTPServer.CGIHTTPRequestHandler.do_GET(self)
+
+    def check_reload(self):
+        ylist = live_reload.lreload_watcher.check(live_reload.lreload_since)
+        live_reload.lreload_since = time.time()
+        if ylist:
+            return True
+        else:
+            return False
+
+def activate_lreload(obj, jobconf, confObj, app_url):
+    obj.app_url = app_url
+    obj.lreload_watcher = ActionLib.Watcher(jobconf, confObj)
+    obj.lreload_since = time.time()
+    obj.lreload_interval = jobconf.get("watch-files/check-interval", 2)
+    obj.lreload_script = jobconf.get("web-server/active-reload/client-script", None)
+    assert(obj.lreload_script)
+    obj.lreload_script = confObj.absPath(live_reload.lreload_script)
 
 
 def get_doc_root(jobconf, confObj):
@@ -126,6 +185,9 @@ def runWebServer(jobconf, confObj):
         console.warn("This server allows remote file access and indexes for the document root and beneath!")
     console.info("Access your source application under 'http://localhost:%d/%s'" % (server_port, app_web_path))
     console.info("Terminate the web server with Ctrl-C")
+
+    if jobconf.get("watch-files", None):
+        activate_lreload(live_reload, jobconf, confObj, "/"+app_web_path)
     server.serve_forever()
 
 ##

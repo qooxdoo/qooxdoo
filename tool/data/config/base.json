@@ -455,6 +455,28 @@
       }
     },
 
+    "source-server-reload" :
+    {
+      "desc"  : "web server for source version, with active reload (requires running 'watch' job)"
+      ,"extend" : ["cache", "libraries", "source-script-compopts"]
+      ,"web-server" :
+      {
+        "document-root" : ""
+        ,"server-port"  : 0
+        ,"log-level"    : "error"
+        ,"allow-remote-access" : false
+        ,"active-reload" : {
+          "client-script" : "${QOOXDOO_PATH}/tool/data/generator/active_reload.js"
+        }
+      }
+      // has an extra 'watch-files' key - 'web-server' needs to evaluate first in Generator!
+      ,"watch-files" : {
+        // watch the application script file
+        "paths" : ["${SOURCE_PATH}/script/${APPLICATION}.js"]
+        ,"check-interval" : 2
+      }
+    },
+
     "source-httpd-config":
     {
       "desc"  : "generate a httpd configuration for the source version"
