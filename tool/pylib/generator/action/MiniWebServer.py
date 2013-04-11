@@ -39,8 +39,8 @@ log_levels = {
   "fatal"   : 50,
 }
 log_level = "error"
-ar_check_url = "/_active_reload/sentinel.json"
-ar_script_url = "/_active_reload/active_reload.js"
+AR_Check_Url = "/_active_reload/sentinel.json"
+AR_Script_Url = "/_active_reload/active_reload.js"
 
 live_reload = NameSpace()
 
@@ -59,21 +59,35 @@ class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
             self.log_message(format, *args)
 
     def do_GET(self):
-        # mute error messages for favicon.ico requests
+        # Mute error messages for favicon.ico requests
         if self.path == "/favicon.ico":
             self.send_response(404)
             self.finish()
 
-        # support for live reload
-        elif self.path == ar_check_url:
+        # Support for active reload
+        
+        # perform a check when the sentinel url is requested
+        elif (self.ar_is_active() and self.path == AR_Check_Url):
             # atm, changes are signaled through the ret code
             #print "checking reload necessity"
             ret = 200 if self.check_reload() else 304  # 304=not modified
             self.send_response(ret)
             self.finish()
-        elif ( hasattr(live_reload, "lreload_watcher") and 
-            self.path == live_reload.app_url ):
-            # insert lreload.js text into index.html
+
+        # deliver the active_reload.js when the script url is requested
+        # - this is interesting when the main app is run through different web server
+        elif (self.ar_is_active() and self.path == AR_Script_Url):
+            scriptfile = codecs.open(live_reload.lreload_script, "r", "utf-8")
+            self.send_response(200)
+            self.send_header('Content-type', 'text/javascript')
+            self.end_headers()
+            self.insert_ar_script(scriptfile, self.wfile)
+            scriptfile.close()
+            self.finish()
+
+        # insert active_reload.js text into index.html
+        # - this is interesting when serving the main app through this web server
+        elif ( self.ar_is_active() and self.path == live_reload.app_url ):
             file_path = self.translate_path(self.path)
             indexfile = codecs.open(file_path, "r", "utf-8")
             self.send_response(200)
@@ -87,13 +101,7 @@ class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
                     before, after = line.split("</body>",1)
                     out.write(before)
                     out.write('<script type="text/javascript">')
-                    for line1 in scriptfile:
-                        if "{{check_interval}}" in line1:
-                            line1 = line1.replace("{{check_interval}}", str(live_reload.lreload_interval
-                                * 1000))
-                        if "{{check_url}}" in line1:
-                            line1 = line1.replace("{{check_url}}", str(live_reload.lreload_check_url))
-                        out.write(line1)
+                    self.insert_ar_script(scriptfile, out)
                     out.write('</script>')
                     out.write("</body>")
                     out.write(after)
@@ -106,6 +114,18 @@ class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
         # normal file serving
         else:
             CGIHTTPServer.CGIHTTPRequestHandler.do_GET(self)
+
+    def ar_is_active(self):
+        return hasattr(live_reload, "lreload_watcher")
+
+    def insert_ar_script(self, scriptfile, out):
+        for line1 in scriptfile:
+            if "{{check_interval}}" in line1:
+                line1 = line1.replace("{{check_interval}}", str(live_reload.lreload_interval
+                    * 1000))
+            if "{{check_url}}" in line1:
+                line1 = line1.replace("{{check_url}}", str(live_reload.lreload_check_url))
+            out.write(line1)
 
     def check_reload(self):
         ylist = live_reload.lreload_watcher.check(live_reload.lreload_since)
@@ -123,7 +143,7 @@ def activate_lreload(obj, jobconf, confObj, app_url, server_url):
     obj.lreload_script = jobconf.get("web-server/active-reload/client-script", None)
     assert(obj.lreload_script)
     obj.lreload_script = confObj.absPath(live_reload.lreload_script)
-    obj.lreload_check_url = server_url + ar_check_url
+    obj.lreload_check_url = server_url + AR_Check_Url
 
 
 def get_doc_root(jobconf, confObj):
