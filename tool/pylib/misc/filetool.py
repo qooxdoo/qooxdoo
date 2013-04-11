@@ -20,7 +20,7 @@
 #
 ################################################################################
 
-import os, codecs, cPickle, sys, re, time, base64
+import os, codecs, cPickle, sys, re, time, base64, itertools as itert
 import gzip as sys_gzip
 import textutil
 
@@ -195,18 +195,18 @@ def findYoungest(rootpath, pattern=None, includedirs=True, since=0):
 
     youngest = rootpath
     ymodified= lastModified(rootpath)
-    files = []
+    newer_files = []
 
-    for path in find(rootpath, pattern, includedirs=includedirs):
+    for path in itert.chain([rootpath], find(rootpath, pattern, includedirs=includedirs)):
         m = lastModified(path)
         if m > ymodified:
             ymodified = m
             youngest  = path
         if since and m > since:
-            files.append((path, m))
+            newer_files.append((path, m))
 
     if since:
-        return files
+        return newer_files
     else:
         return (youngest, ymodified)
 
