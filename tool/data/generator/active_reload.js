@@ -1,8 +1,8 @@
 /** qooxdoo v2.2 | (c) 2013 1&1 Internet AG, http://1und1.de | http://qooxdoo.org/license */
 // Active reload support
 // Content will be injected into index.html when run through source-server.
-var CheckUrl = "/_lreload/sentinel.json";
-var TimeOut = {{interval}};
+var CheckUrl = "{{check_url}}";
+var TimeOut = {{check_interval}};
 
 function doReloadIf(request) {
   if (request.status == 200) {  // alternatively, 304 will be returned

@@ -39,6 +39,8 @@ log_levels = {
   "fatal"   : 50,
 }
 log_level = "error"
+ar_check_url = "/_active_reload/sentinel.json"
+ar_script_url = "/_active_reload/active_reload.js"
 
 live_reload = NameSpace()
 
@@ -63,7 +65,7 @@ class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
             self.finish()
 
         # support for live reload
-        elif self.path == "/_lreload/sentinel.json":
+        elif self.path == ar_check_url:
             # atm, changes are signaled through the ret code
             #print "checking reload necessity"
             ret = 200 if self.check_reload() else 304  # 304=not modified
@@ -86,11 +88,12 @@ class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
                     out.write(before)
                     out.write('<script type="text/javascript">')
                     for line1 in scriptfile:
-                        if "{{interval}}" in line1:
-                            line1 = line1.replace("{{interval}}", str(live_reload.lreload_interval
+                        if "{{check_interval}}" in line1:
+                            line1 = line1.replace("{{check_interval}}", str(live_reload.lreload_interval
                                 * 1000))
-                        if line1.strip():
-                            out.write(line1)
+                        if "{{check_url}}" in line1:
+                            line1 = line1.replace("{{check_url}}", str(live_reload.lreload_check_url))
+                        out.write(line1)
                     out.write('</script>')
                     out.write("</body>")
                     out.write(after)
@@ -112,7 +115,7 @@ class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
         else:
             return False
 
-def activate_lreload(obj, jobconf, confObj, app_url):
+def activate_lreload(obj, jobconf, confObj, app_url, server_url):
     obj.app_url = app_url
     obj.lreload_watcher = ActionLib.Watcher(jobconf, confObj)
     obj.lreload_since = time.time()
@@ -120,6 +123,7 @@ def activate_lreload(obj, jobconf, confObj, app_url):
     obj.lreload_script = jobconf.get("web-server/active-reload/client-script", None)
     assert(obj.lreload_script)
     obj.lreload_script = confObj.absPath(live_reload.lreload_script)
+    obj.lreload_check_url = server_url + ar_check_url
 
 
 def get_doc_root(jobconf, confObj):
@@ -187,7 +191,7 @@ def runWebServer(jobconf, confObj):
     console.info("Terminate the web server with Ctrl-C")
 
     if jobconf.get("watch-files", None):
-        activate_lreload(live_reload, jobconf, confObj, "/"+app_web_path)
+        activate_lreload(live_reload, jobconf, confObj, "/"+app_web_path, "http://localhost:%d" % server_port)
     server.serve_forever()
 
 ##
