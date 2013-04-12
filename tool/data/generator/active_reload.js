@@ -1,68 +1,69 @@
 /** qooxdoo v2.2 | (c) 2013 1&1 Internet AG, http://1und1.de | http://qooxdoo.org/license */
 // Active reload support
-// Content will be injected into index.html when run through source-server.
-var CheckUrl = "{{check_url}}";
-var TimeOut = {{check_interval}};
-var ScriptTag = null;
+qx_AR = {
+  CheckUrl : "{{check_url}}",
+  TimeOut  : {{check_interval}},
+  ScriptTag : null,
 
-function AR_script_callback(data) {
-  var request = {status:200};
-  if (data.changed == true) {
-    doReloadIf(request);
-  } else {
-    document.body.removeChild(ScriptTag);
-  }
-}
-
-function doReloadIf(request) {
-  if (request.status == 200) {  // alternatively, 304 will be returned
-    //console.log("reloading page...");
-    window.document.location.reload();
-  }
-}
-
-// cf. Wenz, JavaScript Phrasebook, p.206
-function getXHR() {
-  var request = null;
-  if (window.XMLHttpRequest) {
-    try {
-      request = new XMLHttpRequest();
-    } catch (ex) {}
-  } else if (window.ActiveXObject) {
-    try {
-      request = new ActiveXObject("Msxml2.XMLHTTP");
-    } catch (ex) {
-      try {
-        request = new ActiveXObject("Microsoft.XMLHTTP");
-      } catch (ex) {}
+  script_callback : function script_callback(data) {
+    var request = {status:200};
+    if (data.changed == true) {
+      qx_AR.doReloadIf(request);
+    } else {
+      document.body.removeChild(qx_AR.ScriptTag);
     }
-  }
-  return request;
-}
+  },
 
-function fetchSentinel_stag() {
-  var stag = document.createElement("script");
-  stag.charset = "utf-8";
-  stag.src = CheckUrl;
-  ScriptTag = stag;
-  document.body.appendChild(stag);
-}
+  doReloadIf : function doReloadIf(request) {
+    if (request.status == 200) {  // alternatively, 304 will be returned
+      //console.log("reloading page...");
+      window.document.location.reload();
+    }
+  },
 
-function fetchSentinel() {
-  var request = getXHR();
-  if (request!=null) {
-    request.onreadystatechange = function (){
-      if (request.readyState == 4 ) {
-        doReloadIf(request);
+  // cf. Wenz, JavaScript Phrasebook, p.206
+  getXHR : function getXHR() {
+    var request = null;
+    if (window.XMLHttpRequest) {
+      try {
+        request = new XMLHttpRequest();
+      } catch (ex) {}
+    } else if (window.ActiveXObject) {
+      try {
+        request = new ActiveXObject("Msxml2.XMLHTTP");
+      } catch (ex) {
+        try {
+          request = new ActiveXObject("Microsoft.XMLHTTP");
+        } catch (ex) {}
       }
     }
-    request.open("GET", CheckUrl);
-    request.send(null);
+    return request;
+  },
+
+  fetchSentinel_stag : function fetchSentinel_stag() {
+    var stag = document.createElement("script");
+    stag.charset = "utf-8";
+    stag.src = qx_AR.CheckUrl;
+    qx_AR.ScriptTag = stag;
+    document.body.appendChild(stag);
+  },
+
+  fetchSentinel : function fetchSentinel() {
+    var request = qx_AR.getXHR();
+    if (request!=null) {
+      request.onreadystatechange = function (){
+        if (request.readyState == 4 ) {
+          qx_AR.doReloadIf(request);
+        }
+      }
+      request.open("GET", qx_AR.CheckUrl);
+      request.send(null);
+    }
+  },
+
+  startTimer : function startTimer() {
+     qx_AR.tid = setInterval(qx_AR.fetchSentinel_stag, qx_AR.TimeOut);
   }
-}
+};
 
-function startTimer() {
-  return setInterval(fetchSentinel_stag, TimeOut);
-}
-
-var tid = startTimer();
+qx_AR.startTimer();

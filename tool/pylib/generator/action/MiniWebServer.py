@@ -75,7 +75,7 @@ class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
             resp_data = {"changed":False}
             if self.check_reload():
                 resp_data["changed"] = True
-            resp_string = "AR_script_callback(%s)" % json.dumpsCode(resp_data)
+            resp_string = "qx_AR.script_callback(%s)" % json.dumpsCode(resp_data)
             self.send_response(200)
             self.send_header('Content-type', 'text/javascript')
             self.end_headers()
