@@ -536,7 +536,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
       // If OS is Android, and version is below 4.1 >> quirksmode active
       var isAndroidQuirksMode = (osName == "android")
-        && ((parseInt(osVersionParts[0]) < 4) || (parseInt(osVersionParts[0]) == 4 && parseInt(osVersionParts[1]) < 1));
+        && ((parseInt(osVersionParts[0]) < 4) || (parseInt(osVersionParts[0]) == 4 & parseInt(osVersionParts[1]) < 1));
 
       if(isAndroidQuirksMode == true) {
         return new qx.ui.mobile.container.Scroll({useTransform: false});
