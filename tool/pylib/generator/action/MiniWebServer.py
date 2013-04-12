@@ -74,7 +74,7 @@ class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
                 self.path, self.query = self.path.split('?', 1)
             else:
                 self.query = ''
-            query_map = dict(cgi.parse_qsl(self.query))
+            query_map = cgi.parse_qs(self.query)
             assert query_map["since"]
             since = float(query_map["since"])
             #ret = 200 if self.check_reload() else 304  # 304=not modified
