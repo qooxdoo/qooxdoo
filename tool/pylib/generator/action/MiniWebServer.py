@@ -68,8 +68,6 @@ class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
         
         # perform a check when the sentinel url is requested
         elif (self.ar_is_active() and self.path == AR_Check_Url):
-            # atm, changes are signaled through the ret code
-            #print "checking reload necessity"
             #ret = 200 if self.check_reload() else 304  # 304=not modified
             # Return Json data
             resp_data = {"changed":False}
