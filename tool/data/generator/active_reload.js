@@ -3,6 +3,16 @@
 // Content will be injected into index.html when run through source-server.
 var CheckUrl = "{{check_url}}";
 var TimeOut = {{check_interval}};
+var ScriptTag = null;
+
+function AR_script_callback(data) {
+  var request = {status:200};
+  if (data.changed == true) {
+    doReloadIf(request);
+  } else {
+    document.body.removeChild(ScriptTag);
+  }
+}
 
 function doReloadIf(request) {
   if (request.status == 200) {  // alternatively, 304 will be returned
@@ -30,6 +40,14 @@ function getXHR() {
   return request;
 }
 
+function fetchSentinel_stag() {
+  var stag = document.createElement("script");
+  stag.charset = "utf-8";
+  stag.src = CheckUrl;
+  ScriptTag = stag;
+  document.body.appendChild(stag);
+}
+
 function fetchSentinel() {
   var request = getXHR();
   if (request!=null) {
@@ -44,7 +62,7 @@ function fetchSentinel() {
 }
 
 function startTimer() {
-  return setInterval(fetchSentinel, TimeOut);
+  return setInterval(fetchSentinel_stag, TimeOut);
 }
 
 var tid = startTimer();

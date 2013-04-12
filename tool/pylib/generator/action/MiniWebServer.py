@@ -26,7 +26,7 @@
 import sys, os, re, types, codecs, string, socket, time
 import BaseHTTPServer, CGIHTTPServer
 
-from misc import Path, filetool
+from misc import Path, filetool, json
 from misc.NameSpace import NameSpace
 from generator.action import ActionLib
 from generator import Context
@@ -70,8 +70,16 @@ class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
         elif (self.ar_is_active() and self.path == AR_Check_Url):
             # atm, changes are signaled through the ret code
             #print "checking reload necessity"
-            ret = 200 if self.check_reload() else 304  # 304=not modified
-            self.send_response(ret)
+            #ret = 200 if self.check_reload() else 304  # 304=not modified
+            # Return Json data
+            resp_data = {"changed":False}
+            if self.check_reload():
+                resp_data["changed"] = True
+            resp_string = "AR_script_callback(%s)" % json.dumpsCode(resp_data)
+            self.send_response(200)
+            self.send_header('Content-type', 'text/javascript')
+            self.end_headers()
+            self.wfile.write(resp_string)
             self.finish()
 
         # deliver the active_reload.js when the script url is requested
