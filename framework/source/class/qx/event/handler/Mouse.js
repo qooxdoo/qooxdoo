@@ -62,7 +62,9 @@ qx.Class.define("qx.event.handler.Mouse",
     this.__root = this.__window.document;
 
     // Initialize observers
-    if (!(qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse"))) {
+    if (!((qx.core.Environment.get("event.touch") || qx.core.Environment.get("event.mspointer")) &&
+        qx.core.Environment.get("qx.emulatemouse")))
+    {
       this._initButtonObserver();
       this._initMoveObserver();
       this._initWheelObserver();
@@ -599,7 +601,9 @@ qx.Class.define("qx.event.handler.Mouse",
 
   destruct : function()
   {
-    if (!(qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse"))) {
+    if (!((qx.core.Environment.get("event.touch") || qx.core.Environment.get("event.mspointer")) &&
+        qx.core.Environment.get("qx.emulatemouse")))
+    {
       this._stopButtonObserver();
       this._stopMoveObserver();
       this._stopWheelObserver();
