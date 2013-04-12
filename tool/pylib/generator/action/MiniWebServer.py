@@ -23,7 +23,7 @@
 # Start a Mini Web Server to export applications and their libraries.
 ##
 
-import sys, os, re, types, codecs, string, socket, time
+import sys, os, re, types, codecs, string, socket, time, datetime
 import BaseHTTPServer, CGIHTTPServer
 
 from misc import Path, filetool, json
@@ -68,11 +68,13 @@ class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
         
         # perform a check when the sentinel url is requested
         elif (self.ar_is_active() and self.path == AR_Check_Url):
+            console = Context.console
             #ret = 200 if self.check_reload() else 304  # 304=not modified
             # Return Json data
             resp_data = {"changed":False}
             if self.check_reload():
                 resp_data["changed"] = True
+                console.debug("%s - Signalling reload" % (datetime.datetime.now(),))
             resp_string = "qx_AR.script_callback(%s)" % json.dumpsCode(resp_data)
             self.send_response(200)
             self.send_header('Content-type', 'text/javascript')
@@ -100,21 +102,20 @@ class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
             self.send_header('Content-type', 'text/html')
             self.end_headers()
             #indexfile = self.send_head()  # sets Content-Length!
-            scriptfile = codecs.open(live_reload.lreload_script, "r", "utf-8")
             out = self.wfile
+            insert_before_tag = "</head>"
             for line in indexfile:
-                if "</body>" in line:
-                    before, after = line.split("</body>",1)
+                if insert_before_tag in line:
+                    before, after = line.split(insert_before_tag,1)
                     out.write(before)
-                    out.write('<script type="text/javascript">')
-                    self.insert_ar_script(scriptfile, out)
-                    out.write('</script>')
-                    out.write("</body>")
+                    out.write('  <script type="text/javascript" ')
+                    out.write('src="%s%s">' % (live_reload.server_url, AR_Script_Url))
+                    out.write("</script>\n")
+                    out.write(insert_before_tag)
                     out.write(after)
                 else:
                     out.write(line)
             indexfile.close()
-            scriptfile.close()
             self.finish()
 
         # normal file serving
@@ -143,6 +144,7 @@ class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
 
 def activate_lreload(obj, jobconf, confObj, app_url, server_url):
     obj.app_url = app_url
+    obj.server_url = server_url
     obj.lreload_watcher = ActionLib.Watcher(jobconf, confObj)
     obj.lreload_since = time.time()
     obj.lreload_interval = jobconf.get("watch-files/check-interval", 2)
