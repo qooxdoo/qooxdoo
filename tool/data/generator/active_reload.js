@@ -12,9 +12,8 @@ if (typeof(qx_AR) === "undefined" ) {
       if (data.changed == true) {
         qx_AR.doReloadIf(request);
       } else {
-        if (console) {
-          console.log(qx_AR.ScriptTags.length);
-        }
+        //console.log(qx_AR.ScriptTags.length, data);
+        console.log(qx_AR.ScriptTags.length);
         while (qx_AR.ScriptTags.length) {
           var el = qx_AR.ScriptTags.shift();
           el.parentNode.removeChild(el);
@@ -50,8 +49,11 @@ if (typeof(qx_AR) === "undefined" ) {
 
     fetchSentinel_stag : function fetchSentinel_stag() {
       var stag = document.createElement("script");
+      var since = qx_AR.CheckTStamp;
+      //var now = qx_AR.now();
+      //qx_AR.CheckTStamp = now;
       stag.charset = "utf-8";
-      stag.src = qx_AR.CheckUrl;
+      stag.src = qx_AR.CheckUrl + "?since=" + since.toString();
       qx_AR.ScriptTags.push(stag);
       document.body.appendChild(stag);
     },
@@ -69,10 +71,15 @@ if (typeof(qx_AR) === "undefined" ) {
       }
     },
 
+    now : function () {
+      return new Date() / 1000;  
+    },
+
     startTimer : function startTimer() {
        qx_AR.tid = setInterval(qx_AR.fetchSentinel_stag, qx_AR.TimeOut);
     }
   };
 
+  qx_AR.CheckTStamp = qx_AR.now();
   qx_AR.startTimer();
 }

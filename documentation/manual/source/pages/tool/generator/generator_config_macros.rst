@@ -150,6 +150,12 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
       - path to the framework's simulator component
       - "${QOOXDOO_PATH}/ component/ simulator"
 
+    * - .. _pages/tool/generator/generator_config_macros#source_server_port:
+        
+        SOURCE_SERVER_PORT
+      - port the :ref:`pages/tool/generator/generator_default_jobs#source-server` should run on
+      - 0 (meaning an arbitrary free port will be picked)
+
     * - .. _pages/tool/generator/generator_config_macros#test_include:
         
         TEST_INCLUDE 

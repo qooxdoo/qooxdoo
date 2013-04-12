@@ -321,6 +321,9 @@ server will export as document root a root path common to all libraries used by
 the source version. This overcomes e.g. restrictions by modern browsers that do
 not allow XHR requests over the *file://* protocol by default.
 
+By default the server will randomly pick a free port on the local machine to run
+at. You can assign it a fixed port by setting the :ref:`SOURCE_SERVER_PORT <pages/tool/generator/generator_config_macros#source_server_port>` macro, e.g. like ``generate.py source-server -m SOURCE_SERVER_PORT:44161``.
+
 
 .. _pages/tool/generator/generator_default_jobs#source-server-reload:
 
@@ -338,6 +341,20 @@ application classes change. This way, both jobs work hand in hand to reload the
 most up-to-date version of the application in the browser whenever the source
 files change. If the generation fails, e.g. due to a syntax error, the loader is
 not updated and hence the browser not reloaded.
+
+The reload feature can also be used when running the main application from the
+file system (with the *file://* protocol) or over a separate web server like
+Apache. In this case you just have to add the URL of the reload client script in
+the app's ``index.html``. E.g.
+
+::
+
+  <script type="text/javascript" src="http://localhost:44161/_active_reload/active_reload.js"/>
+
+assuming that ``44161`` is the port where the source server runs on.
+``/_active_reload/active_reload.js`` is the path to the reload client script.
+You then load the application over you standard web server. Just the reload
+notification is handled over the source server.
 
 .. _pages/tool/generator/generator_default_jobs#source-httpd-config:
 

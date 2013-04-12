@@ -24,7 +24,7 @@
 ##
 
 import sys, os, re, types, codecs, string, socket, time, datetime
-import BaseHTTPServer, CGIHTTPServer
+import BaseHTTPServer, CGIHTTPServer, cgi
 
 from misc import Path, filetool, json
 from misc.NameSpace import NameSpace
@@ -67,14 +67,22 @@ class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
         # Support for active reload
         
         # perform a check when the sentinel url is requested
-        elif (self.ar_is_active() and self.path == AR_Check_Url):
+        elif (self.ar_is_active() and self.path.startswith(AR_Check_Url)):
             console = Context.console
+            # Get 'since' query parm
+            if self.path.find('?') != -1:
+                self.path, self.query = self.path.split('?', 1)
+            else:
+                self.query = ''
+            query_map = dict(cgi.parse_qsl(self.query))
+            assert query_map["since"]
+            since = float(query_map["since"])
             #ret = 200 if self.check_reload() else 304  # 304=not modified
             # Return Json data
             resp_data = {"changed":False}
-            if self.check_reload():
+            if self.check_reload(since):
                 resp_data["changed"] = True
-                console.debug("%s - Signalling reload" % (datetime.datetime.now(),))
+                console.info("%s - Signalling reload" % (datetime.datetime.now(),))
             resp_string = "qx_AR.script_callback(%s)" % json.dumpsCode(resp_data)
             self.send_response(200)
             self.send_header('Content-type', 'text/javascript')
@@ -134,9 +142,11 @@ class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
                 line1 = line1.replace("{{check_url}}", str(live_reload.lreload_check_url))
             out.write(line1)
 
-    def check_reload(self):
-        ylist = live_reload.lreload_watcher.check(live_reload.lreload_since)
-        live_reload.lreload_since = time.time()
+    def check_reload(self, since):
+        last_since = since
+        ylist = live_reload.lreload_watcher.check(last_since)
+        #ymod = os.stat(live_reload.watch_path).st_mtime
+        #print "file mtime:", ymod, "now:", now, "diff:", now - ymod
         if ylist:
             return True
         else:
@@ -145,8 +155,8 @@ class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
 def activate_lreload(obj, jobconf, confObj, app_url, server_url):
     obj.app_url = app_url
     obj.server_url = server_url
+    obj.watch_path = confObj.absPath(jobconf.get("watch-files/paths")[0])
     obj.lreload_watcher = ActionLib.Watcher(jobconf, confObj)
-    obj.lreload_since = time.time()
     obj.lreload_interval = jobconf.get("watch-files/check-interval", 2)
     obj.lreload_script = jobconf.get("web-server/active-reload/client-script", None)
     assert(obj.lreload_script)
@@ -191,6 +201,7 @@ def runWebServer(jobconf, confObj):
     owd = os.getcwdu()
     log_level = jobconf.get("web-server/log-level", "error")
     server_port = jobconf.get("web-server/server-port", False)
+    server_port = int(server_port)
     if server_port in (False, 0):
         server_port = search_free_port()
     if jobconf.get("web-server/allow-remote-access", False):
