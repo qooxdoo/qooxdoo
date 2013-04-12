@@ -76,7 +76,7 @@ class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
                 self.query = ''
             query_map = cgi.parse_qs(self.query)
             assert query_map["since"]
-            since = float(query_map["since"])
+            since = float(query_map["since"][0])
             #ret = 200 if self.check_reload() else 304  # 304=not modified
             # Return Json data
             resp_data = {"changed":False}
