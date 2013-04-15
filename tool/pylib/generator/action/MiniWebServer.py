@@ -229,7 +229,7 @@ def runWebServer(jobconf, confObj):
     console.info("Access your source application under 'http://localhost:%d/%s'" % (server_port, app_web_path))
     console.info("Terminate the web server with Ctrl-C")
 
-    if jobconf.get("watch-files", None):
+    if jobconf.get("web-server/active-reload", None):
         activate_lreload(live_reload, jobconf, confObj, "/"+app_web_path, "http://localhost:%d" % server_port)
     server.serve_forever()
 

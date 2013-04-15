@@ -1313,22 +1313,28 @@ Watch arbitrary files or directories for changes.
     "command" :
     {
       "line"  : "generate.py source",
-      "per-file" : (true|false)
+      "per-file" : (true|false),
+      "exec-on-startup" : (true|false),
+      "exit-on-retcode" : (true|false)
     }
     "include" : [ "*.js" ],
     "include-dirs"    : (true|false),
     "check-interval"  : 10,
-    "exit-on-retcode" : (true|false)
   }
 
 .. note::
 
   peer-keys: :ref:`pages/tool/generator/generator_config_ref#cache`
 
-* **paths** *(required)* : List of  paths to files or directories which should be watched. If an entry is a directory, it is watched recursively (directories themselves are included according to the ``include-dirs`` key).
+* **paths** *(required)* : List of  paths to files or directories which should
+  be watched. If an entry is a directory, it is watched recursively (directories
+  themselves are included according to the ``include-dirs`` key).
 * **command** :
 
-  * **line** : *(required)* : Shell command line to be executed when a change is detected. There are a couple of placeholders available that can be interpolated into the command string with ``%(<KEY>)``. The different keys are:
+  * **line** : *(required)* : Shell command line to be executed when a change is
+    detected. There are a couple of placeholders available that can be
+    interpolated into the command string with ``%(<KEY>)``. The different keys
+    are:
 
     .. list-table::
       :widths: 10 90
@@ -1337,13 +1343,17 @@ Watch arbitrary files or directories for changes.
       * - Key
         - Description
       * - ``FILELIST``
-        - the (space-separated) list of file paths that have changed (e.g. *foo/bar/baz.js foo/bar/yeo.js*)
+        - the (space-separated) list of file paths that have changed (e.g.
+          *foo/bar/baz.js foo/bar/yeo.js*)
       * - ``FILE``
-        - the individual file path that has changed (e.g. *foo/bar/baz.js*; interesting when *per-file* is true)
+        - the individual file path that has changed (e.g. *foo/bar/baz.js*;
+          interesting when *per-file* is true)
       * - ``DIRNAME``
-        - the directory path of an individual file (e.g. *foo/bar* in *foo/bar/baz.js*)
+        - the directory path of an individual file (e.g. *foo/bar* in
+          *foo/bar/baz.js*)
       * - ``BASENAME``
-        - just the basename of an individual file including extension (e.g. *baz.js* in *foo/bar/baz.js*)
+        - just the basename of an individual file including extension (e.g.
+          *baz.js* in *foo/bar/baz.js*)
       * - ``FILENAME``
         - the file name without path and extension (e.g. *baz* in *foo/bar/baz.js*)
       * - ``EXTENSION``
@@ -1354,16 +1364,26 @@ Watch arbitrary files or directories for changes.
 
       sass %(FILE) > path/to/css/%(FILENAME).css
 
-    which runs an SCSS compiler on a .scss file (assuming these files are watched), and redirects the output to a file with same name but a .css extension, in a different path.
+    which runs an SCSS compiler on a .scss file (assuming these files are
+    watched), and redirects the output to a file with same name but a .css
+    extension, in a different path.
 
-    Mind that if you specified multiple ``paths`` the command will be applied if *any* of them change, but for all the execution context will be the same, e.g. have the same current directory. There is currently no implicit ``cd`` or calculation of file paths relative to their watched roots or similar.
+    Mind that if you specified multiple ``paths`` the command will be applied if
+    *any* of them change, but for all the execution context will be the same,
+    e.g. have the same current directory. There is currently no implicit ``cd``
+    or calculation of file paths relative to their watched roots or similar.
 
-  * **per-file** : Whether the command should be executed for each file that has been changed. If true, command will be invoked for each file that has changed since the last check. (default: *false*)
+  * **per-file** : Whether the command should be executed for each file that has
+    been changed. If true, command will be invoked for each file that has changed
+    since the last check. (default: *false*)
+  * **exec-on-startup**: Whether to execute the given command once when the watch job
+    starts; this is only possible when *per-file* is false. (default *false*)
+  * **exit-on-retcode**: Whether to terminate when the given command returns a
+    return code != 0, or to continue in this case. (default *false*)
 
 * **include** : List of file globs to be selected when watching a directory tree. (default: *[\*]*)
 * **include-dirs** : Whether to include directories in the list of changed files when watching a directory tree. (default: *false*)
 * **check-interval** : Seconds of elapsed time between checks for changes. (default: *2*)
-* **exit-on-retcode**: Whether to terminate when the given command returns a return code != 0, or to continue in this case. (default *false*)
 
 
 .. _pages/tool/generator/generator_config_ref#web-server:
@@ -1382,17 +1402,35 @@ Start a mini web server to serve local files.
       "document-root" : "",
       "server-port"  : 8080,
       "log-level"    : "error",
-      "allow-remote-access" : false
+      "allow-remote-access" : false,
+      "active-reload" :
+      {
+        "client-script" : "<path>" 
+      }
     }
 
 .. note::
 
   peer-keys: :ref:`pages/tool/generator/generator_config_ref#cache`, :ref:`pages/tool/generator/generator_config_ref#library`
 
-* **document-root** : File system path to use as the web server's document root. Best left empty, so the Generator calculates a common root path of all involved %{qooxdoo} libraries. For this to work, your libraries should be collected in the :ref:`"libraries" <pages/tool/generator/generator_default_jobs#libraries>` default job. (default: *""*)
-* **server-port** : The port the server should listen on. (default: *8080*)
-* **log-level** : Log level of the server, ``"error"`` for errors, ``"info"`` for more verbose logging, ``"fatal"`` for no logging. (default: *"error"*)
-* **allow-remote-access** : Whether the web server allows access from other hosts. If set to false, access is only allowed from *localhost*. This is recommended as the web server might expose a substantial part of your hard disk, including directory indexes. (default: *false*)
+* **document-root** : File system path to use as the web server's document root.
+  Best left empty, so the Generator calculates a common root path of all involved
+  %{qooxdoo} libraries. For this to work, your libraries should be collected in
+  the :ref:`"libraries" <pages/tool/generator/generator_default_jobs#libraries>`
+  default job. (default: *""*)
+* **server-port** : The port the server should listen on. ``0`` means to pick an
+  arbitrary free port. (default: *0*)
+* **log-level** : Log level of the server, ``"error"`` for errors, ``"info"``
+  for more verbose logging, ``"fatal"`` for no logging. (default: *"error"*)
+* **allow-remote-access** : Whether the web server allows access from other
+  hosts. If set to false, access is only allowed from *localhost*. This is
+  recommended as the web server might expose a substantial part of your hard disk,
+  including directory indexes. (default: *false*)
+* **active-reload** : Enabling active reload of the app in the browser.
+
+  * **client-script** : The path to the client script which reloads the
+    application in the browser if it has changed on disk. (default:
+    *${QOOXDOO_PATH}/tool/data/generator/active_reload.js"*)
 
 
 .. _pages/tool/generator/generator_config_ref#web-server-config:

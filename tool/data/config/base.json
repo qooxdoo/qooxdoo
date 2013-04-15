@@ -743,12 +743,13 @@
         "command" :
         {
           "line"     : "${PYTHON_CMD} generate.py -q -I",
-          "per-file" : false
+          "per-file" : false,
+          "exec-on-startup" : false,
+          "exit-on-retcode" : false
         },
         "paths"    : ["${SOURCE_PATH}/class"],
         "include" : [ "*.js" ],
-        "check-interval" : 2,
-        "exit-on-retcode" : false
+        "check-interval" : 2
       }
     },
 
