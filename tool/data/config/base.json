@@ -744,7 +744,7 @@
         {
           "line"     : "${PYTHON_CMD} generate.py -q -I",
           "per-file" : false,
-          "exec-on-startup" : false,
+          "exec-on-startup" : true,
           "exit-on-retcode" : false
         },
         "paths"    : ["${SOURCE_PATH}/class"],
