@@ -60,19 +60,24 @@ class ActionLib(object):
         paths = jobconf.get("watch-files/paths", [])
         if not paths:
             return
-        exit_on_retcode = jobconf.get("watch-files/command/exit-on-retcode", False)
         command = jobconf.get("watch-files/command/line", "")
         if not command:
             return
         command_tmpl = CommandLineTemplate(command)
         per_file = jobconf.get("watch-files/command/per-file", False)
+        exit_on_retcode = jobconf.get("watch-files/command/exit-on-retcode", False)
+        exec_on_startup = jobconf.get("watch-files/command/exec-on-startup", False)
+        if exec_on_startup and per_file:
+            console.warn("No sense to exec_on_startup with no file argument; skipping ...")
+            exec_on_startup = False
         console.info("Watching changes of '%s'..." % paths)
         console.info("Press Ctrl-C to terminate.")
         while True:
-            time.sleep(interval)
-            ylist = watcher.check(since)
+            osince = since
             since = time.time()
-            if ylist:     # ylist =[(fpath,fstamp)]
+            ylist = watcher.check(osince)
+            if ylist or exec_on_startup:     # ylist =[(fpath,fstamp)]
+                if exec_on_startup: exec_on_startup = False
                 flist = [f[0] for f in ylist]
                 cmd_args = {'FILELIST': ' '.join(flist)}
                 console.debug("found changed files: %s" % flist)
@@ -94,6 +99,7 @@ class ActionLib(object):
                         raise
                     else:
                         pass
+            time.sleep(interval)
         return
 
     def runShellCommands(self, jobconf):
