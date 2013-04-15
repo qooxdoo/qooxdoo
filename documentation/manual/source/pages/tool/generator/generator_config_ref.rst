@@ -1376,8 +1376,13 @@ Watch arbitrary files or directories for changes.
   * **per-file** : Whether the command should be executed for each file that has
     been changed. If true, command will be invoked for each file that has changed
     since the last check. (default: *false*)
-  * **exec-on-startup**: Whether to execute the given command once when the watch job
-    starts; this is only possible when *per-file* is false. (default *false*)
+  * **exec-on-startup**: Whether to execute the given command once when the
+    watch job starts. This works independent of the *per-file* setting, but
+    **Note**: If you are watching a lot of files, your shell's command line
+    capacity might become exhausted for the first execution of command if you use
+    the *%(FILELIST)* command macro in a *per-file:false* setting, as the
+    Generator will try to pass *all watched files* on the command line.  (default
+    *false*)
   * **exit-on-retcode**: Whether to terminate when the given command returns a
     return code != 0, or to continue in this case. (default *false*)
 
