@@ -148,7 +148,7 @@ class DependencyLoader(object):
             # reading dependencies
             self._console.debug("Gathering dependencies: %s" % depsItem.name)
             self._console.indent()
-            classObj = self._classesObj[depsItem.name] # get class from depsItem
+            classObj = self._classesObj[depsItem.name] # get class from depsItem - throws KeyError
             deps, cached = classObj.getCombinedDeps(self._classesObj, variants, self._jobconf)
             # lint-check freshly parsed classes
             if lint_check and not cached and is_app_code(classObj):
@@ -203,8 +203,8 @@ class DependencyLoader(object):
             except DependencyError, detail:
                 raise ValueError("Attempt to block load-time dependency of class %s to %s" % (depsItem.name, subitem.name))
 
-            except NameError, detail:
-                raise NameError("Could not resolve dependencies of class: %s \n%s" % (depsItem.name, detail))
+            except KeyError, detail:
+                raise NameError("Could not resolve dependencies of class '%s': %s" % (depsItem.name, detail))
 
             return
 
@@ -306,9 +306,9 @@ class DependencyLoader(object):
                 continue # not interested in bare class names
             classnamespace = classid[:nsindex]
             ignored_names.add(classnamespace)
-        #for dep in warn_deps:
-        #    if dep.name not in ignored_names:
-        #        self._console.warn("Hint: Unknown global symbol referenced: %s (%s:%s)" % (dep.name, dep.requestor, dep.line))
+        for dep in warn_deps:
+            if dep.name not in ignored_names:
+                self._console.warn("%s (%d): Unknown global symbol used: %s" % (dep.requestor, dep.line, dep.name))
 
 
         return result
