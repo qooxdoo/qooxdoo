@@ -483,7 +483,7 @@ def warn(msg, fname, node):
 def get_at_hints(node, at_hints=None):
     if at_hints is None:
         at_hints = defaultdict(dict)
-    commentsArray = Comment.parseNode(node)  # searches comment "around" this node
+    commentsArray = Comment.parseNode(node, process_txt=False)  # searches comment "around" this node
     for commentAttributes in commentsArray:
         for entry in commentAttributes:
              # {'arguments': ['a', 'b'],
