@@ -613,7 +613,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     this.removeAll();
     this._removeListeners();
     
-    this._disposeObjects("__carouselScroller, __pagination");
+    this._disposeObjects("__carouselScroller"," __pagination");
     qx.util.DisposeUtil.disposeArray(this,"__paginationLabels");
 
     this.__pages = this.__paginationLabels = this.__touchStartPosition = this.__snapPointsX = this.__onMoveOffset = this.__lastOffset = this.__boundsX = this.__isPageScrollTarget = null;
