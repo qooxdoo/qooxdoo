@@ -520,8 +520,9 @@ class Comment(object):
             'type' : types, # [{'dimensions': 0, 'type': u'Boolean'}]
             'text' : presult.text.strip()
         }
-        if 'texp_optional' in presult and 'texp_defval' in presult:
-            res['defaultValue'] = presult['texp_defval']
+        if 'texp_optional':
+            res['defaultValue'] = (presult['texp_defval'] if 'texp_defval' in presult
+                else None)
         return res
 
     gr_at_childControl = ( py.Suppress('@') + py.Word(py.alphas)('category') +
