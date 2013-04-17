@@ -44,6 +44,11 @@
  * <li><strong>lineBreak</strong> <em>(Boolean)</em>: If set to <code>true</code>
  *   a forced line break will happen after this child widget.
  * </li>
+ * <li><strong>stretch</strong> <em>(Boolean)</em>: If set to <code>true</code>
+ *   the widget will be stretched to the remaining line width. This requires
+ *   lineBreak to be true.
+ * </li>
+
  * </ul>
  *
  * *Example*
@@ -207,7 +212,8 @@ qx.Class.define("qx.ui.layout.Flow",
     verifyLayoutProperty : qx.core.Environment.select("qx.debug",
     {
       "true" : function(item, name, value) {
-        this.assertEquals("lineBreak", name, "The property '"+name+"' is not supported by the flow layout!" );
+        var validProperties = ["lineBreak", "stretch"];
+        this.assertInArray(name, validProperties, "The property '"+name+"' is not supported by the flow layout!" );
       },
 
       "false" : null
@@ -301,6 +307,11 @@ qx.Class.define("qx.ui.layout.Flow",
           marginTop, marginBottom
         );
 
+        var layoutProps = child.getLayoutProperties();
+        if (layoutProps.stretch && layoutProps.stretch) {
+          size.width += availWidth - line.width;
+        }
+
         child.renderLayout(
           left + line.gapsBefore[i],
           lineTop + top,
@@ -332,21 +343,22 @@ qx.Class.define("qx.ui.layout.Flow",
 
 
     /**
-     * Returns the list of children fitting in the first row of the given width.
+     * Returns the list of children fitting in the last row of the given width.
      * @param width {Number} The width to use for the calculation.
      * @return {Array} List of children in the first row.
      */
-    getLineChildren : function(width) {
+    getLastLineChildren : function(width) {
       var lineCalculator = new qx.ui.layout.LineSizeIterator(
         this._getLayoutChildren(),
         this.getSpacingX()
       );
 
-      if (lineCalculator.hasMoreLines()) {
-        return lineCalculator.computeNextLine(width).children;
+      var lineData = [];
+      while (lineCalculator.hasMoreLines()) {
+        lineData = lineCalculator.computeNextLine(width).children;
       }
 
-      return [];
+      return lineData;
     },
 
 
