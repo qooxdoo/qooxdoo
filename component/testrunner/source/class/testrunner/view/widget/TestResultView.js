@@ -37,7 +37,8 @@ qx.Class.define("testrunner.view.widget.TestResultView",
     this.base(arguments);
     this.set({
       overflowX : "auto",
-      overflowY : "auto"
+      overflowY : "auto",
+      selectable: true
     });
   },
 
