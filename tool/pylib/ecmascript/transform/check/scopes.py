@@ -25,6 +25,9 @@
 
 from ecmascript.frontend import treeutil
 
+##
+# Scope visitor that dispatches on the type of the linked AST node.
+#
 class ScopeVisitor(object):
 
     def visit(self, scopeNode):

@@ -477,6 +477,97 @@ class MClassDependencies(object):
     _analyzeClassDepsNode = _analyzeClassDepsNode_2
 
     ##
+    # Find dependencies of a code tree, purely looking at identifier head-symbols
+    # that are not covered by the current scope chain.
+    # (Most of this started as a copy of _analyzeClassDepsNode_2.)
+    #
+    # Returns a list of depsItems.
+    # 
+    def dependencies_from_ast(self, node):
+        result = []
+
+        if node.type in ('file', 'function', 'catch'):
+            top_scope = node.scope
+        else:
+            top_scope = scopes.find_enclosing(node)
+        # walk through enclosing and all nested scopes
+        for scope in top_scope.scope_iterator():
+            if scope.is_load_time:
+                # e.g. in 'defer' handle locals like 'statics' as dependency with recursion
+                vars_ = scope.vars
+            else:
+                # only consider global syms
+                vars_ = scope.globals()
+            for name, scopeVar in vars_.items():  # { sym_name: ScopeVar }
+                # create a depsItem for all its uses
+                for var_node in scopeVar.uses:
+                    if treeutil.hasAncestor(var_node, node): # var_node is not disconnected through optimization
+                        depsItem = self.depsItem_from_node(var_node)
+                        result.append(depsItem)
+        return result
+
+
+    def depsItem_from_node(self, node):
+        scope = node.scope
+        # some initializations (might get refined later)
+        depsItem = DependencyItem('', '', '')
+        depsItem.name           = ''
+        depsItem.attribute      = ''
+        depsItem.requestor      = self.id
+        depsItem.line           = node.get("line", -1)
+        depsItem.isLoadDep      = scope.is_load_time
+        depsItem.needsRecursion = False
+        depsItem.isCall         = False
+        is_qx_class             = False
+        var_root = treeutil.findVarRoot(node)  # various of the tests need the var (dot) root, rather than the head symbol (like 'qx')
+
+        # .isCall
+        if var_root.hasParentContext("call/operand"): # it's a function call
+            depsItem.isCall = True  # interesting when following transitive deps
+
+        # .name, .attribute
+        assembled = (treeutil.assembleVariable(node))[0]
+        className, classAttribute = self._splitQxClass(assembled)
+        if not className: 
+            className = assembled
+            is_qx_class = True
+        # we allow self-references, to be able to track method dependencies within the same class
+        if className == 'this':
+            className = self.id
+        elif scope.is_defer and className in DEFER_ARGS:
+            className = self.id
+        if not classAttribute:  # see if we have to provide 'construct'
+            if treeutil.isNEWoperand(var_root):
+                classAttribute = 'construct'
+        depsItem.name = className
+        depsItem.attribute = classAttribute
+
+        # .needsRecursion
+        # Mark items that need recursive analysis of their dependencies (bug#1455)
+        if self.followCallDeps(var_root, self.id, className, isLoadTime):
+            depsItem.needsRecursion = True
+
+        if depsItem.name:
+            return depsItem
+        else:
+            return None
+        
+
+    def _getCombinedDeps(self, node):
+        depsList = []
+        lexical_globals =  self.dependencies_from_ast(node)
+        lexical_globals =  self.add_environment_dependencies(lexical_globals)
+        filtered_globals = gs.globals_filter_by_hints(lexical_globals)
+        filtered_globals = gs.globals_filter_by_builtins(filtered_globals)
+        filtered_globals = gs.globals_filter_by_libclasses(filtered_globals)
+        filtered_globals = gs.filter_self_references(filtered_globals)
+        filtered_globals = gs.filter_multple_occurrences(filtered_globals)
+        depsList = self.depsItems_from_nodes(filtered_globals)
+        depsList = self.add_config_dependencies(depsList)
+        return depsList
+        
+
+    ##
     # Does all the tests to qualify a DependencyItem (inLoad, needsRecursion, ...).
     def qualify_deps_item(self, node, isLoadTime, inDefer, depsItem=None):
         if not depsItem:
@@ -509,7 +600,7 @@ class MClassDependencies(object):
             elif inDefer and className in DEFER_ARGS:
                 className = self.id
             if not classAttribute:  # see if we have to provide 'construct'
-                if treeutil.isNEWoperand(node):
+                if treeutil.isNEWoperand(var_root):
                     classAttribute = 'construct'
             # Can't do the next; it's catching too many occurrences of 'getInstance' that have
             # nothing to do with the singleton 'getInstance' method (just grep in the framework)
@@ -723,7 +814,7 @@ class MClassDependencies(object):
             for entryId in ClassesAll:
                 if assembled.startswith(entryId) and re.match(r'%s\b' % entryId, assembled):
                     if len(entryId) > len(className): # take the longest match
-                        className      = entryId
+                        className = entryId
                         classAttribute = assembled[ len(entryId) +1 :]  # skip entryId + '.'
                         # see if classAttribute is chained, too
                         dotidx = classAttribute.find(".")
