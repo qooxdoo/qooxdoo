@@ -235,9 +235,8 @@ class MClassDependencies(object):
         result = {'run':[], 'load':[], 'ignore':[]}
         for category in ('run', 'load'):
             for classId in deps_json[category]:
-                if (classId.startswith('/resource/')
-                    or classId.startswith('/translation/')):
-                    continue  # sorting out resource and msgid dependencies
+                if any([classId.startswith(x) for x in ('/resource/', '/translation/', '/locale/')]):
+                    continue  # sorting out resource, locale and msgid dependencies
                 depsItem = DependencyItem(classId, '', '|dependency.json|')
                 depsItem.isLoadDep = category == 'load'
                 result[category].append(depsItem)
