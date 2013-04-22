@@ -62,7 +62,7 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel",
           '</span> <code>', param.getName(), '</code>'
         );
 
-        if (param.getDefaultValue()!==undefined) {
+        if (param.isOptional()) {
           titleHtml.add("?");
         }
       }
@@ -147,8 +147,11 @@ qx.Class.define("apiviewer.ui.panels.MethodPanel",
             textHtml.add("<code>", param.getName(), "</code>");
 
             if (defaultValue) {
-              textHtml.add(" (default: ", defaultValue, ") ", '</span>');
+              textHtml.add(" (" + (param.isOptional() ? "optional; " : "") + "default: ", defaultValue, ") ");
+            } else if (param.isOptional()) {
+              textHtml.add(" (optional) ");
             }
+            textHtml.add("</span>");
 
             var desc = param.getDescription();
 

@@ -1139,6 +1139,9 @@ def addTypeInfo(node, commentAttrib=None, item=None):
             # print "defaultValue: %s" % defaultValue
             node.set("defaultValue", defaultValue)
 
+    # optional parameter?
+    if "optional" in commentAttrib and commentAttrib["optional"]:
+        node.set("optional", commentAttrib["optional"])
 
 
 def addEventNode(classNode, classItem, commentAttrib):
