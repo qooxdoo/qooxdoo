@@ -70,6 +70,11 @@ qx.Class.define("apiviewer.dao.Param", {
     getDefaultValue : function()
     {
       return this._docNode.attributes.defaultValue;
+    },
+
+    isOptional : function()
+    {
+      return !!this._docNode.attributes.optional;
     }
 
   },
