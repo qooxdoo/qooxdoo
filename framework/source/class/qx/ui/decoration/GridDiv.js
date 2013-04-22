@@ -218,7 +218,8 @@ qx.Class.define("qx.ui.decoration.GridDiv",
         if (
           parseFloat(qx.core.Environment.get("engine.version")) < 7 ||
           (qx.core.Environment.get("browser.quirksmode") &&
-           parseFloat(qx.core.Environment.get("engine.version")) < 8)
+           (parseFloat(qx.core.Environment.get("engine.version")) < 8) ||
+            qx.core.Environment.get("browser.documentmode") < 8)
         )
         {
           if (width%2==1)

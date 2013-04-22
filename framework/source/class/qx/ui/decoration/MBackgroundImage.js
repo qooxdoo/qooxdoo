@@ -151,7 +151,8 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
            * style is added.
            * */
           if (parseFloat(qx.core.Environment.get("engine.version")) < 7 ||
-            qx.core.Environment.get("browser.quirksmode"))
+            qx.core.Environment.get("browser.quirksmode") ||
+            qx.core.Environment.get("browser.documentmode") < 7)
           {
             // Add additionally style
             styles.overflow = "hidden";
