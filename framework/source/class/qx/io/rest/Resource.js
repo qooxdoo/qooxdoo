@@ -110,9 +110,9 @@
  * Action specific events follow the pattern "&lt;action&gt;Success" and
  * "&lt;action&gt;Error", e.g. "indexSuccess".
  */
-qx.Class.define("qx.io.rest.Resource",
+qx.Bootstrap.define("qx.io.rest.Resource",
 {
-  extend: qx.core.Object,
+  extend: qx.event.Emitter,
 
   /**
    * @param description {Map?} Each key of the map is interpreted as
@@ -128,8 +128,6 @@ qx.Class.define("qx.io.rest.Resource",
    */
   construct: function(description)
   {
-    this.base(arguments);
-
     this.__requests = {};
     this.__routes = {};
     this.__pollTimers = {};
@@ -158,7 +156,7 @@ qx.Class.define("qx.io.rest.Resource",
      * Additionally, an action specific event is fired that follows the pattern
      * "<action>Success", e.g. "indexSuccess".
      */
-    "success": "qx.event.type.Rest",
+    "success": "qx.io.rest.Resource",
 
     /**
      * Fired when request associated to action given in prefix was successful.
@@ -166,7 +164,7 @@ qx.Class.define("qx.io.rest.Resource",
      * For example, "indexSuccess" is fired when <code>index()</code> was
      * successful.
      */
-     "actionSuccess": "qx.event.type.Rest",
+     "actionSuccess": "qx.io.rest.Resource",
 
     /**
      * Fired when any request fails.
@@ -176,14 +174,14 @@ qx.Class.define("qx.io.rest.Resource",
      * Additionally, an action specific event is fired that follows the pattern
      * "<action>Error", e.g. "indexError".
      */
-    "error": "qx.event.type.Rest",
+    "error": "qx.io.rest.Resource",
 
     /**
      * Fired when any request associated to action given in prefix fails.
      *
      * For example, "indexError" is fired when <code>index()</code> failed.
      */
-     "actionError": "qx.event.type.Rest"
+     "actionError": "qx.io.rest.Resource"
   },
 
   statics:
@@ -260,10 +258,10 @@ qx.Class.define("qx.io.rest.Resource",
      * Get request.
      *
      * May be overriden to change type of request.
-     * @return {qx.io.request.Xhr} Xhr object
+     * @return {qx.bom.request.SmartXhr} Xhr object
      */
     _getRequest: function() {
-      return new qx.io.request.Xhr();
+      return new qx.bom.request.SimpleXhr();
     },
 
     /**
@@ -379,22 +377,22 @@ qx.Class.define("qx.io.rest.Resource",
       this.__configureJsonRequest(req, config, data);
 
       // Handle successful request
-      req.addListenerOnce("success", function successHandler() {
-        var props = [req.getResponse(), null, false, req, action, req.getPhase()];
-        this.fireEvent(action + "Success", qx.event.type.Rest, props);
-        this.fireEvent("success", qx.event.type.Rest, props);
+      req.once("success", function successHandler() {
+        var response = {"response": req.getResponse(), "request": req, "action": action};
+        this.emit(action + "Success", response);
+        this.emit("success", response);
       }, this);
 
       // Handle erroneous request
-      req.addListenerOnce("fail", function failHandler() {
-        var props = [req.getResponse(), null, false, req, action, req.getPhase()];
-        this.fireEvent(action + "Error", qx.event.type.Rest, props);
-        this.fireEvent("error", qx.event.type.Rest, props);
+      req.once("fail", function failHandler() {
+        var response = {"response": req.getResponse(), "request": req, "action": action};
+        this.emit(action + "Error", response);
+        this.emit("error", response);
       }, this);
 
       // Dispose request on loadEnd
       // (Note that loadEnd is fired after "success")
-      req.addListenerOnce("loadEnd", function loadEndHandler() {
+      req.once("loadEnd", function loadEndHandler() {
         req.dispose();
       }, this);
 
@@ -465,7 +463,8 @@ qx.Class.define("qx.io.rest.Resource",
      * @param data {Map} Data.
      */
     __configureRequest: function(req, config, data) {
-      req.set({method: config.method, url: config.url});
+      req.setMethod(config.method);
+      req.setUrl(config.url);
 
       if (data) {
         req.setRequestData(data);
@@ -501,7 +500,7 @@ qx.Class.define("qx.io.rest.Resource",
      *   // Abort all invocations of action
      *   res.get({id: 1});
      *   res.get({id: 2});
-     *   res.abort();
+     *   res.abort("get");
      *
      *   // Abort specific invocation of action (by id)
      *   var actionId = res.get({id: 1});
@@ -512,7 +511,6 @@ qx.Class.define("qx.io.rest.Resource",
      *  (when string), or a single invocation of an action to abort (when number)
      */
     abort: function(varargs) {
-
       if (qx.lang.Type.isNumber(varargs)) {
         var id = varargs;
         var post = qx.core.ObjectRegistry.getPostId();
@@ -529,7 +527,6 @@ qx.Class.define("qx.io.rest.Resource",
           });
         }
       }
-
     },
 
     /**
@@ -572,7 +569,7 @@ qx.Class.define("qx.io.rest.Resource",
     poll: function(action, interval, params, immediately) {
       // Dispose timer previously created for action
       if (this.__pollTimers[action]) {
-        this.__pollTimers[action].dispose();
+        this.stopPollByAction(action);
       }
 
       // Fallback to previous params
@@ -585,20 +582,53 @@ qx.Class.define("qx.io.rest.Resource",
         this.invoke(action, params);
       }
 
-      var timer = this.__pollTimers[action] = new qx.event.Timer(interval);
-      timer.addListener("interval", function intervalListener() {
-        var req = this.__requests[action][0];
-        if (!immediately && !req) {
-          this.invoke(action, params);
-          return;
-        }
-        if (req.isDone() || req.isDisposed()) {
-          this.refresh(action);
-        }
-      }, this);
-      timer.start();
+      var intervalListener = (function(scope) {
+        return function() {
+          var req = scope.__requests[action][0];
+          if (!immediately && !req) {
+            scope.invoke(action, params);
+            return;
+          }
+          if (req.isDone() || req.isDisposed()) {
+            scope.refresh(action);
+          }
+        };
+      })(this);
 
-      return timer;
+      this._startPoll(action, intervalListener, interval);
+    },
+
+
+    /**
+     *
+     */
+    _startPoll: function(action, listener, interval) {
+      this.__pollTimers[action] = {
+        "id": window.setInterval(listener, interval),
+        "interval": interval,
+        "listener": listener
+      };
+    },
+
+    /**
+     *
+     */
+    stopPollByAction: function(action) {
+      if (action in this.__pollTimers) {
+        var intervalId = this.__pollTimers[action].id;
+        window.clearInterval(intervalId);
+      }
+    },
+
+    /**
+     *
+     */
+    restartPollByAction: function(action) {
+      if (action in this.__pollTimers) {
+        var timer = this.__pollTimers[action];
+        this.stopPollByAction(action);
+        this._startPoll(action, timer.listener, timer.interval);
+      }
     },
 
     /**
@@ -625,7 +655,6 @@ qx.Class.define("qx.io.rest.Resource",
      */
     longPoll: function(action) {
       var res = this,
-          context = true,             // Work-around disposed context warning
           lastResponse,               // Keep track of last response
           immediateResponseCount = 0; // Count immediate responses
 
@@ -639,7 +668,7 @@ qx.Class.define("qx.io.rest.Resource",
           immediateResponseCount += 1;
           if (immediateResponseCount > res._getThrottleCount()) {
             if (qx.core.Environment.get("qx.debug")) {
-              res.debug("Received successful response more than " +
+              qx.Bootstrap.debug("Received successful response more than " +
                 res._getThrottleCount() + " times subsequently, each within " +
                 res._getThrottleLimit() + " ms. Throttling.");
             }
@@ -665,8 +694,7 @@ qx.Class.define("qx.io.rest.Resource",
             lastResponse = new Date();
             res.refresh(action);
           }
-        },
-      context);
+        });
 
       this.invoke(action);
       return handlerId;
@@ -771,35 +799,121 @@ qx.Class.define("qx.io.rest.Resource",
       if (!this.constructor.$$events[type]) {
         this.constructor.$$events[type] = "qx.event.type.Rest";
       }
-    }
-  },
+    },
 
-  destruct: function() {
-    var action;
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSER
+    ---------------------------------------------------------------------------
+    */
 
-    for (action in this.__requests) {
-      if (this.__requests[action]) {
-        this.__requests[action].forEach(function(req) {
-          req.dispose();
-        });
+    /**
+     * Returns true if the object is disposed.
+     *
+     * @return {Boolean} Whether the object has been disposed
+     */
+    isDisposed : function() {
+      return this.$$disposed || false;
+    },
+
+
+    /**
+     * Dispose this object
+     *
+     */
+    dispose : function()
+    {
+      // Check first
+      if (this.$$disposed) {
+        return;
       }
-    }
 
-    if (this.__pollTimers) {
-      for (action in this.__pollTimers) {
-        var timer = this.__pollTimers[action];
-        timer.stop();
-        timer.dispose();
+      // Mark as disposed (directly, not at end, to omit recursions)
+      this.$$disposed = true;
+
+      // Debug output
+      if (qx.core.Environment.get("qx.debug"))
+      {
+        if (qx.core.Environment.get("qx.debug.dispose.level") > 2) {
+          qx.Bootstrap.debug(this, "Disposing " + this.classname + "[" + this.toHashCode() + "]");
+        }
       }
-    }
 
-    if (this.__longPollHandlers) {
-      for (action in this.__longPollHandlers) {
-        var id = this.__longPollHandlers[action];
-        this.removeListenerById(id);
+      this.destruct();
+
+      // remove all property references for IE6 and FF2
+      if (this.__removePropertyReferences) {
+        this.__removePropertyReferences();
       }
-    }
 
-    this.__requests = this.__routes = this.__pollTimers = null;
+      // Additional checks
+      if (qx.core.Environment.get("qx.debug"))
+      {
+        if (qx.core.Environment.get("qx.debug.dispose.level") > 0)
+        {
+          var key, value;
+          for (key in this)
+          {
+            value = this[key];
+
+            // Check for Objects but respect values attached to the prototype itself
+            if (value !== null && typeof value === "object" && !(qx.Bootstrap.isString(value)))
+            {
+              // Check prototype value
+              // undefined is the best, but null may be used as a placeholder for
+              // private variables (hint: checks in qx.Class.define). We accept both.
+              if (this.constructor.prototype[key] != null) {
+                continue;
+              }
+
+              var ff2 = navigator.userAgent.indexOf("rv:1.8.1") != -1;
+              var ie6 = navigator.userAgent.indexOf("MSIE 6.0") != -1;
+              // keep the old behavior for IE6 and FF2
+              if (ff2 || ie6) {
+                if (value instanceof qx.core.Object || qx.core.Environment.get("qx.debug.dispose.level") > 1) {
+                  qx.Bootstrap.warn(this, "Missing destruct definition for '" + key + "' in " + this.classname + "[" + this.toHashCode() + "]: " + value);
+                  delete this[key];
+                }
+              } else {
+                if (qx.core.Environment.get("qx.debug.dispose.level") > 1) {
+                  qx.Bootstrap.warn(this, "Missing destruct definition for '" + key + "' in " + this.classname + "[" + this.toHashCode() + "]: " + value);
+                  delete this[key];
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    /**
+     *
+     */
+    destruct: function() {
+      var action;
+
+      for (action in this.__requests) {
+        if (this.__requests[action]) {
+          this.__requests[action].forEach(function(req) {
+            req.dispose();
+          });
+        }
+      }
+
+      if (this.__pollTimers) {
+        for (action in this.__pollTimers) {
+          this.stopPollByAction(action);
+        }
+      }
+
+      if (this.__longPollHandlers) {
+        for (action in this.__longPollHandlers) {
+          var id = this.__longPollHandlers[action];
+          this.removeListenerById(id);
+        }
+      }
+
+      this.__requests = this.__routes = this.__pollTimers = null;
+    }
   }
 });
