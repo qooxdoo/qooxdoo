@@ -30,7 +30,7 @@
  *
  * @ignore(qx.dev.Debug)
  */
-qx.Class.define("qx.core.ObjectRegistry",
+qx.Bootstrap.define("qx.core.ObjectRegistry",
 {
   /*
   *****************************************************************************
