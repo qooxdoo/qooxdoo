@@ -92,7 +92,7 @@ qx.Bootstrap.define("qx.event.Emitter",
           qx.event.Emitter.__storage[entry.id] = null;
           return entry.id;
         }
-      };
+      }
       return null;
     },
 
@@ -102,10 +102,15 @@ qx.Bootstrap.define("qx.event.Emitter",
      * will be return on attaching the listener and can be stored for removing.
      *
      * @param id {Integer} The id of the listener.
+     * @return {Integer|null} The listener's id if it was removed or
+     * <code>null</code> if it wasn't found
      */
     offById : function(id) {
       var entry = qx.event.Emitter.__storage[id];
-      this.off(entry.name, entry.listener, entry.ctx);
+      if (entry) {
+        this.off(entry.name, entry.listener, entry.ctx);
+      }
+      return null;
     },
 
 
@@ -172,13 +177,13 @@ qx.Bootstrap.define("qx.event.Emitter",
           storage.splice(i, 1);
           i--;
         }
-      };
+      }
       // call on any
       storage = this.__getStorage("*");
       for (var i = storage.length - 1; i >= 0; i--) {
         var entry = storage[i];
         entry.listener.call(entry.ctx, data);
-      };
+      }
     },
 
 
