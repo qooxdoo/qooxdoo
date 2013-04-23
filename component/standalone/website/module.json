@@ -249,7 +249,6 @@
         "build-module-messaging",
         "build-module-placeholder",
         "build-module-placement",
-        "build-module-rest",
         "build-module-storage",
         "build-module-template",
         "build-module-transform",
@@ -271,7 +270,6 @@
         "build-module-messaging-min",
         "build-module-placeholder-min",
         "build-module-placement-min",
-        "build-module-rest-min",
         "build-module-storage-min",
         "build-module-template-min",
         "build-module-transform-min",
@@ -468,30 +466,6 @@
       "let" : {
         "Q_INCLUDES": ["qx.module.Placement"],
         "MODULE_FILENAME" : "placement"
-      }
-    },
-
-    "build-module-rest" :
-    {
-      "extend" : ["build-module"],
-      "lint-check" : {
-        "allowed-globals" : []
-      },
-      "let" : {
-        "Q_INCLUDES": ["qx.module.Rest"],
-        "MODULE_FILENAME" : "rest"
-      }
-    },
-
-    "build-module-rest-min" :
-    {
-      "extend" : ["build-module-min"],
-      "lint-check" : {
-        "allowed-globals" : []
-      },
-      "let" : {
-        "Q_INCLUDES": ["qx.module.Rest"],
-        "MODULE_FILENAME" : "rest"
       }
     },
 
