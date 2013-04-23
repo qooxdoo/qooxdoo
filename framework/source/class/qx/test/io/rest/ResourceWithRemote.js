@@ -51,7 +51,7 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
       res.map("get", "GET", url);
       res.addListener("getSuccess", function(e) {
         this.resume(function() {
-          this.assertEquals("SAMPLE", e.getData());
+          this.assertEquals("SAMPLE", e.response);
         }, this);
       }, this);
 
@@ -60,16 +60,13 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
     },
 
     "test: invoke action and handle failure": function() {
-      this.require(["http"]);
-
       var url = "/not-found",
           res = this.res;
 
       res.map("get", "GET", url);
       res.addListener("error", function(e) {
         this.resume(function() {
-          this.assertEquals("statusError", e.getPhase());
-          this.assertEquals("get", e.getAction());
+          this.assertEquals("get", e.action);
         }, this);
       }, this);
 
@@ -89,7 +86,7 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
       // Response headers must contain explicit cache control for this
       // to work in IE
       res.addListener("getSuccess", function(e) {
-        var response = e.getData();
+        var response = e.response;
         count++;
 
         this.assert(response.length === 32, "Response must be MD5");
@@ -115,7 +112,7 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
 
       res.map("get", "GET", url);
       res.addListener("getSuccess", function(e) {
-        var response = e.getData();
+        var response = e.response;
         responses.push(response);
 
         if (++count >= 5) {
