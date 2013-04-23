@@ -367,20 +367,15 @@ qx.Mixin.define("qx.dev.unit.MMock",
     /**
      * EXPERIMENTAL - NOT READY FOR PRODUCTION
      *
-     * Shallowly stub all methods (except excluded) that belong to classes found in inheritance
+     * Shallowly stub methods that belong to classes found in inheritance
      * chain up to (but including) the given class.
      *
      * @param object {Object} Object to stub shallowly.
      * @param targetClazz {Object} Class which marks the end of the chain.
-     * @param propsToExclude {Array} Array with properties which shouldn't be stubbed.
      * @return {Object} A stub.
      */
-    shallowStub: function(object, targetClazz, propsToExclude) {
+    shallowStub: function(object, targetClazz) {
       this.__getOwnProperties(object, targetClazz).forEach(function(prop) {
-        if (propsToExclude && propsToExclude.indexOf(prop) >= 0) {
-          // don't stub excluded prop
-          return;
-        }
         this.__stubProperty(object, prop);
       }, this);
 
