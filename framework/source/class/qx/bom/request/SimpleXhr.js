@@ -508,8 +508,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      */
     _getParser: function() {
       var parser = this.__parser,
-          contentTypeOrig = "",
-          contentType = "";
+          contentType;
 
       // Use user-provided parser, if any
       if (parser) {
