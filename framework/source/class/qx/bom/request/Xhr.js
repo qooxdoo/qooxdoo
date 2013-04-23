@@ -60,8 +60,6 @@
 qx.Bootstrap.define("qx.bom.request.Xhr",
 {
 
-  extend: Object,
-
   construct: function() {
     this.__onNativeReadyStateChangeBound = qx.Bootstrap.bind(this.__onNativeReadyStateChange, this);
     this.__onNativeAbortBound = qx.Bootstrap.bind(this.__onNativeAbort, this);
@@ -76,6 +74,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.__onUnloadBound = qx.Bootstrap.bind(this.__onUnload, this);
       window.attachEvent("onunload", this.__onUnloadBound);
     }
+
   },
 
   statics :
@@ -440,9 +439,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * @param event {String} The name of the event.
      */
     _emit: function(event) {
-      if (this["on" + event]) {
-        this["on" + event]();
-      }
+      this["on" + event]();
       this._emitter.emit(event, this);
     },
 
