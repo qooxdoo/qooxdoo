@@ -65,7 +65,7 @@ qx.Class.define("qx.test.util.DisposeUtil",
           this.assertTrue(child5.isDisposed(), "child5 not disposed!");
           this.assertTrue(childContainer4.isDisposed(), "childContainer4 not disposed!");
         }, self);
-      }, 10);
+      }, 25);
       this.wait();
     }
   }
