@@ -68,7 +68,7 @@ qx.Class.define("qx.test.Bootstrap",
       delete window.vanillebaer;
     },
 
-    "test: merge methods of same class (for statics optimization)" : function() {
+    "test: merge methods of same class (statics optimization)" : function() {
       qx.Bootstrap.define("qx.test.MyClass", {
         statics : {
           methodA : function() {
@@ -87,7 +87,36 @@ qx.Class.define("qx.test.Bootstrap",
 
       this.assertNotUndefined(qx.test.MyClass.methodA);
       this.assertNotUndefined(qx.test.MyClass.methodB);
-      delete qx.test;
+
+      qx.Class.undefine("qx.test.MyClass");
+    },
+
+    "test: merge methods of same class (statics optimization) respect defer" : function() {
+      qx.Bootstrap.define("qx.test.MyClass", {
+        statics : {
+          methodA : function() {
+            return true;
+          },
+          methodB : function() {
+            return true;
+          }
+        }
+      });
+
+      qx.Bootstrap.define("qx.test.MyClass", {
+        statics : {
+          methodA : null
+        },
+        defer : function(statics)
+        {
+          statics.methodA = function() { return true; };
+        }
+      });
+
+      this.assertNotNull(qx.test.MyClass.methodA);
+      this.assertNotUndefined(qx.test.MyClass.methodB);
+
+      qx.Class.undefine("qx.test.MyClass");
     },
 
     "test: define class with contructor" : function()
