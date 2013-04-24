@@ -48,6 +48,8 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     transport.onabort = qx.lang.Function.bind(this._onAbort, this);
 
     qx.core.ObjectRegistry.register(this);
+
+    this.__requestHeaders = [];
   },
 
   statics:
