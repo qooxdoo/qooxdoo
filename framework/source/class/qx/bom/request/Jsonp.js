@@ -95,6 +95,11 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
     __customCallbackCreated: null,
 
     /**
+     * {String} The generated URL for the current request
+     */
+    __generatedUrl: null,
+
+    /**
      * {Boolean} Whether request was disposed.
      */
     __disposed: null,
@@ -128,7 +133,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
 
       callbackParam = this.__callbackParam || "callback";
       callbackName = this.__callbackName || this.__prefix +
-        "qx.bom.request.Jsonp[" + this.__id + "].callback";
+        "qx.bom.request.Jsonp." + this.__id + ".callback";
 
       // Default callback
       if (!this.__callbackName) {
@@ -162,7 +167,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
       }
 
       query[callbackParam] = callbackName;
-      url = qx.util.Uri.appendParamsToUrl(url, query);
+      this.__generatedUrl = url = qx.util.Uri.appendParamsToUrl(url, query);
 
       this.__callBase("open", [method, url]);
     },
@@ -255,6 +260,17 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
     },
 
 
+    /**
+     * Returns the generated URL for the current / last request
+     *
+     * @internal
+     * @return {String} The current generated URL for the request
+     */
+    getGeneratedUrl : function() {
+      return this.__generatedUrl;
+    },
+
+
     dispose: function() {
       // In case callback was not called
       this.__deleteCustomCallback();
@@ -304,7 +320,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
     __generateId: function() {
       // Add random digits to date to allow immediately following requests
       // that may be send at the same time
-      this.__id = (new Date().valueOf()) + ("" + Math.random()).substring(2,5);
+      this.__id = "qx" + (new Date().valueOf()) + ("" + Math.random()).substring(2,5);
     }
   }
 });
