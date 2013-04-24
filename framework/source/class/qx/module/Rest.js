@@ -22,7 +22,7 @@
  * Each instance represents a resource in terms of REST. A number of actions
  * (usually HTTP methods) unique to the resource can be defined and invoked.
  * A resource with its actions is configured declaratively by passing a resource
- * description to the constructor, or programatically using {@link #map}.
+ * description to the constructor, or programatically using {@link qx.io.rest.Resource#map}.
  *
  * Each action is associated to a route. A route is a combination of method,
  * URL pattern and optional parameter constraints.
@@ -34,7 +34,7 @@
  *
  * When an action is invoked, a request is configured according to the associated
  * route, is passed the URL parameters, request body data, and finally send.
- * What kind of request is send can be configured by overwriting {@link #_getRequest}.
+ * What kind of request is send can be configured by overwriting {@link qx.io.rest.Resource#_getRequest}.
  *
  * No contraints on the action's name or the scope of the URLs are imposed. However,
  * if you want to follow RESTful design patterns it is recommended to name actions
@@ -60,7 +60,7 @@
  * </pre>
  *
  * To check for existence of URL parameters or constrain them to a certain format, you
- * can add a <code>check</code> property to the description. See {@link #map} for details.
+ * can add a <code>check</code> property to the description. See {@link qx.io.rest.Resource#map} for details.
  *
  * <pre class="javascript">
  * var description = {
@@ -116,13 +116,15 @@ qx.Bootstrap.define("qx.module.Rest", {
      * @param description {Map?} Each key of the map is interpreted as
      *  <code>action</code> name. The value associated to the key must be a map
      *  with the properties <code>method</code> and <code>url</code>.
-     *  <code>check</code> is optional. Also see {@link #map}.
+     *  <code>check</code> is optional. Also see {@link qx.io.rest.Resource#map}.
      *
      * For example:
      *
      * <pre class="javascript">
      * { get: {method: "GET", url: "/photos/{id}", check: { id: /\d+/ } }
      * </pre>
+     *
+     * @return {qx.io.rest.Resource} The resource object.
      */
     resource : function(description) {
       return new qx.io.rest.Resource(description);

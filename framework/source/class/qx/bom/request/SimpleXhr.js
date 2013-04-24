@@ -72,6 +72,13 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Sets a request header.
+     *
+     * @param key {String} Key of the header.
+     * @param value {String} Value of the header.
+     * @return {qx.bom.request.SimpleXhr} Self for chaining.
+     */
     setRequestHeader: function(key, value) {
       this._transport.__checkDisposed();
 
@@ -86,7 +93,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     },
 
     /**
-     * Get a request header.
+     * Gets a request header.
      *
      * @param key {String} Key of the header.
      * @return {String} The value of the header.
@@ -96,7 +103,10 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     },
 
     /**
+     * Sets the URL.
      *
+     * @param url {String} URL to be requested.
+     * @return {qx.bom.request.SimpleXhr} Self for chaining.
      */
     setUrl: function(url) {
       if (qx.lang.Type.isString(url)) {
@@ -106,14 +116,19 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     },
 
     /**
+     * Gets the URL.
      *
+     * @return {String} URL to be requested.
      */
     getUrl: function() {
       return this.__url;
     },
 
     /**
+     * Sets the HTTP-Method.
      *
+     * @param method {String} The method.
+     * @return {qx.bom.request.SimpleXhr} Self for chaining.
      */
     setMethod: function(method) {
       var knownMethods = ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS", "TRACE", "CONNECT", "PATCH"];
@@ -124,14 +139,25 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     },
 
     /**
+     * Gets the HTTP-Method.
      *
+     * @return {String} The method.
      */
     getMethod: function() {
       return this.__method;
     },
 
     /**
+     * Sets the request data to be send as part of the request.
      *
+     * The request data is transparently included as URL query parameters or embedded in the
+     * request body as form data.
+     *
+     * If a string is given the user must make sure it is properly formatted and
+     * escaped. See {@link qx.lang.Object#toUriParameter}.
+     *
+     * @param data {String|Object} The request data.
+     * @return {qx.bom.request.SimpleXhr} Self for chaining.
      */
     setRequestData: function(data) {
       if (qx.lang.Type.isString(data) || qx.lang.Type.isObject(data)) {
@@ -141,14 +167,19 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     },
 
     /**
+     * Gets the request data (optionally serialized).
      *
+     * @param asSerialized {Boolean} Whether the request data should be serialized.
+     * @return {String} The serialized data.
      */
     getRequestData: function(asSerialized) {
       return (asSerialized) ? this._serializeData(this.__requestData) : this.__requestData;
     },
 
     /**
+     * Gets parsed response.
      *
+     * @return {String} The parsed response of the request.
      */
     getResponse: function() {
       if (this.__response !== null) {
@@ -159,7 +190,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     },
 
     /**
-     * Get low-level transport.
+     * Gets low-level transport.
      *
      * Note: To be used with caution!
      *
@@ -171,7 +202,6 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @return {Object} An instance of a class found in
      *  <code>qx.bom.request.*</code>
      */
-
      // This method mainly exists so that some methods found in the
      // low-level transport can be deliberately omitted here,
      // but still be accessed should it be absolutely necessary.
@@ -186,13 +216,15 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
 
     /**
      * Whether request completed (is done).
+
+     * @return {Boolean} Whether request is completed.
      */
     isDone: function() {
       return this._transport.readyState === qx.bom.request.Xhr.DONE;
     },
 
     /**
-     * Return unique hash code of object
+     * Returns unique hash code of object.
      *
      * @return {Integer} unique hash code of the object
      */
@@ -201,7 +233,9 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     },
 
     /**
+     * Returns true if the object is disposed.
      *
+     * @return {Boolean} Whether the object has been disposed
      */
     isDisposed: function() {
       return this._transport.__disposed;
@@ -210,7 +244,11 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     /**
      * Sends request.
      *
-     * @return {qx.bom.request.SimpleXhr} Self for chaining.
+     * Relies on set before:
+     * * a HTTP method
+     * * an URL
+     * * optional request headers
+     * * optional request data
      */
     send: function() {
       // initialize request
@@ -230,7 +268,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     },
 
     /**
-     * Abort request.
+     * Aborts request.
      *
      * Cancels any network activity.
      * @return {qx.bom.request.SimpleXhr} Self for chaining.
@@ -241,7 +279,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     },
 
     /**
-     * Dispose object and wrapped transport.
+     * Disposes object and wrapped transport.
      * @return {Boolean} <code>true</code> if the object was successfully disposed
      */
     dispose: function() {
@@ -255,10 +293,13 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Holds transport.
+     */
     _transport: null,
 
     /**
-     * Create XHR transport.
+     * Creates XHR transport.
      *
      * @return {qx.bom.request.Xhr} Transport.
      */
@@ -267,17 +308,19 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     },
 
     /**
+     * Sets the response.
      *
+     * @param response {String} The parsed response of the request.
      */
     _setResponse: function(response) {
       this.__response = response;
     },
 
     /**
-     * Serialize data
+     * Serializes data.
      *
      * @param data {String|Map} Data to serialize.
-     * @return {String} Serialized data.
+     * @return {String|undefined} Serialized data.
      */
     _serializeData: function(data) {
       var isPost = this.getMethod() === "POST";
@@ -303,19 +346,23 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     */
 
     /**
-     * Request headers.
+     * {Array} Request headers.
      */
-    __requestHeaders: [],
+    __requestHeaders: null,
     /**
-     * Request data (i.e. body).
+     * {Object} Request data (i.e. body).
      */
     __requestData: null,
     /**
-     * HTTP method to use for request.
+     * {String} HTTP method to use for request.
      */
     __method: "",
     /**
-     * Response data.
+     * {String} Requested URL.
+     */
+    __url: "",
+    /**
+     * {Object} Response data.
      */
     __response: null,
     /**
@@ -330,7 +377,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     */
 
     /**
-     * Add an event listener for the given event name which is executed only once.
+     * Adds an event listener for the given event name which is executed only once.
      *
      * @param name {String} The name of the event to listen to.
      * @param listener {Function} The function to execute when the event is fired
@@ -343,7 +390,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     },
 
     /**
-     * Handle "readyStateChange" event.
+     * Handles "readyStateChange" event.
      */
     _onReadyStateChange: function() {
       if (qx.core.Environment.get("qx.debug.io")) {
@@ -392,21 +439,21 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     },
 
     /**
-     * Handle "loadEnd" event.
+     * Handles "loadEnd" event.
      */
     _onLoadEnd: function() {
       this._transport._emit("loadEnd");
     },
 
     /**
-     * Handle "abort" event.
+     * Handles "abort" event.
      */
     _onAbort: function() {
       this._transport._emit("abort");
     },
 
     /**
-     * Handle "timeout" event.
+     * Handles "timeout" event.
      */
     _onTimeout: function() {
       this._transport._emit("timeout");
@@ -416,7 +463,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     },
 
     /**
-     * Handle "error" event.
+     * Handles "error" event.
      */
     _onError: function() {
       this._transport._emit("error");
@@ -494,7 +541,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
 
 
     /**
-     * Get the parser.
+     * Gets the parser.
      *
      * If not defined explicitly using {@link #setParser},
      * the parser is inferred from the content type.

@@ -75,7 +75,7 @@ qx.Bootstrap.define("qx.module.dev.FakeServer", {
      *       </li>
      *       <li>a function: This will be called with a FakeXMLHttpRequest object as
      *       the only argument. Its <code>respond</code> method must be called to send a response.
-     *       See {@link http://sinonjs.org/docs/#respond} for details.
+     *       See <a href="http://sinonjs.org/docs/#respond">Sinon.JS: Respond</a> for details.
      *       </li>
      *     </ul>
      *   </li>
@@ -91,7 +91,7 @@ qx.Bootstrap.define("qx.module.dev.FakeServer", {
     /**
      * Adds a URL filtering function to decide whether a request should be handled
      * by the FakeServer or passed to the regular XMLHttp implementation.
-     * See {@link http://sinonjs.org/docs/#filtered-requests}
+     * See <a href="http://sinonjs.org/docs/#filtered-requests">Sinon.JS: Filtered Requests</a>
      * for details.
      *
      * @attachStatic {qxWeb, dev.fakeServer.addFilter}
@@ -112,7 +112,7 @@ qx.Bootstrap.define("qx.module.dev.FakeServer", {
      * @param method {String} HTTP method to respond to, e.g. "GET"
      * @param urlRegExp {RegExp} Request URL must match match this expression
      * @param response {Function|Array|String} Response to send. See
-     * {@link http://sinonjs.org/docs/#fakeServer} for details.
+     * <a href="http://sinonjs.org/docs/#fakeServer">Sinon.JS: Fake Server</a> for details.
      */
     respondWith : function(method, urlRegExp, response) {
       qx.dev.FakeServer.getInstance().respondWith(method, urlRegExp, response);

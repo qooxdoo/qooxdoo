@@ -258,7 +258,7 @@ qx.Bootstrap.define("qx.io.rest.Resource",
      * Get request.
      *
      * May be overriden to change type of request.
-     * @return {qx.bom.request.SmartXhr} Xhr object
+     * @return {qx.bom.request.SimpleXhr} Xhr object
      */
     _getRequest: function() {
       return new qx.bom.request.SimpleXhr();
@@ -563,8 +563,6 @@ qx.Bootstrap.define("qx.io.rest.Resource",
      * @param params {Map?} Map of parameters. See {@link #invoke}.
      * @param immediately {Boolean?false} <code>true</code>, if the poll should
      *   invoke a call immediately.
-     * @return {qx.event.Timer} Timer that periodically invokes action. Use to
-     *  stop or resume. Is automatically disposed on disposal of object.
      */
     poll: function(action, interval, params, immediately) {
       // Dispose timer previously created for action
@@ -600,7 +598,11 @@ qx.Bootstrap.define("qx.io.rest.Resource",
 
 
     /**
+     * Start a poll process.
      *
+     * @param action {String} Action to poll.
+     * @param listener {Function} The function to repeatedly execute at the given interval.
+     * @param interval {Number} Interval in ms.
      */
     _startPoll: function(action, listener, interval) {
       this.__pollTimers[action] = {
@@ -611,7 +613,9 @@ qx.Bootstrap.define("qx.io.rest.Resource",
     },
 
     /**
+     * Stops a poll process by the associated action.
      *
+     * @param action {String} Action to poll.
      */
     stopPollByAction: function(action) {
       if (action in this.__pollTimers) {
@@ -621,7 +625,9 @@ qx.Bootstrap.define("qx.io.rest.Resource",
     },
 
     /**
+     * Restarts a poll process by the associated action.
      *
+     * @param action {String} Action to poll.
      */
     restartPollByAction: function(action) {
       if (action in this.__pollTimers) {
@@ -841,11 +847,6 @@ qx.Bootstrap.define("qx.io.rest.Resource",
 
       this.destruct();
 
-      // remove all property references for IE6 and FF2
-      if (this.__removePropertyReferences) {
-        this.__removePropertyReferences();
-      }
-
       // Additional checks
       if (qx.core.Environment.get("qx.debug"))
       {
@@ -887,7 +888,9 @@ qx.Bootstrap.define("qx.io.rest.Resource",
     },
 
     /**
+     * Desctructs the Resource.
      *
+     * All created requests, routes and pollTimers will be disposed.
      */
     destruct: function() {
       var action;
