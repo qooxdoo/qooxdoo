@@ -1,12 +1,16 @@
 Migration from %{Desktop} 2.x
 *****************************
 
+%{Desktop} 3.0 introduced some major changes to the internals of qooxdoo's desktop widget system: Before, each Widget consisted of (at least) three DOM elements and their `JavaScript object representations <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.html.Element>`_: Container, content and decorator. In an effort to improve UI performance and decrease memory load, this was reduced to **just one content element**.
+
+While most modifications were made "under the hood", affecting mostly internal APIs, some manual adjustments to existing applications based on 2.x may be required if custom themes and/or layouts are used.
+
 General Information
 ===================
 
 * Widgets no longer have decorator, container or protector elements
-* IE 7 is no longer supported since ``box-sizing: border-box`` is used to size DOM elements
-* Some theming features no longer have fallback implementations for legacy browsers
+* **Internet Explorer 7 is no longer supported** since ``box-sizing: border-box`` is used extensively
+* Some theming features no longer have fallback implementations for legacy browsers (see below for details)
 
 Custom Themes
 =============
@@ -14,21 +18,23 @@ Custom Themes
 Decoration Theme
 ----------------
 
-* ``inset`` keys should be replaced with ``padding`` TODO: More info
-* The 'decorator' theme key will be ignored. All decorations now use ``qx.ui.decoration.Decorator``, which supports all decoration features
-* removed decoration classes:
-  * ``Grid``, ``GridDiv``, ``BoxDiv``, AbstractBox, ``HBox``, ``VBox`` and ``css3.BorderImage`` -> borderImage
-* Deprecated decoration classes:
-  * DynamicDecorator, Beveled (MSingleBorder#style), Uniform, Background
-* Removed decoration fallbacks:
-  * ``borderImage`` (IE 8, 9, 10)
-  * double border/``boxShadow`` (IE < 9)
-  * ``baseImage`` renamed to ``borderImage``
+``inset`` keys should be replaced with ``padding`` TODO: More info
+
+The ``decorator`` theme key will be ignored. All decorations now use `a common class <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.decoration.Decorator>`_, which supports all decoration features
+
+``qx.ui.decoration.Grid``, ``GridDiv``, ``BoxDiv``, AbstractBox, ``HBox``, ``VBox`` have been removed. These classes were responsible for providing image-based fallback implementations for border-image and background-gradient decorators, meaning **border-image decorations are no longer available in Internet Explorer 8 - 10**.
+The properties of `MLinearGradient <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.decoration.MLinearGradient>`_ and `MBorderImage <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.decoration.MBorderImage>`_ provide these features for all modern browsers. `borderImage <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.decoration.MBorderImage~borderImage!property>`_ is the new equivalent of the old ``baseImage`` property.
+
+``qx.ui.decoration.Beveled`` and ``Uniform`` are deprecated. Use the `width <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.decoration.MSingleBorder~width!property>`_, `style <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.decoration.MSingleBorder~style!property>`_, `color <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.decoration.MSingleBorder~color!property>`_ and `backgroundImage <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.decoration.MBackgroundImage~backgroundImage!property>`_ properties instead.
+
+``qx.ui.decoration.Double`` is also deprecated. Use the properties of `MDoubleBorder <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.decoration.MDoubleBorder>`_ instead. This uses CSS3 box shadows so **double borders are no longer supported in IE 8**.
+
+``qx.ui.decoration.DynamicDecorator`` has been deprecated in favor of `decoration.Decoration <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.decoration.Decoration>`_.
 
 Custom Decorators
 -----------------
 
-  * ``qx.ui.decoration.IDecoration``: ``getMarku``, ``tint`` and ``resize`` were removed. ``getStyles`` was added
+  * ``qx.ui.decoration.IDecoration``: ``getMarkup``, ``tint`` and ``resize`` were removed. ``getStyles`` was added
 
 Appearance Theme
 ----------------
