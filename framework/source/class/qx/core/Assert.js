@@ -852,6 +852,21 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
+     * Assert that the value is an instance of {@link qx.ui.mobile.core.Widget}.
+     *
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertQxMobileWidget : function(value, msg)
+    {
+      this.__isQxInstance(value, "qx.ui.mobile.core.Widget") || this.__fail(
+        msg || "",
+        "Expected value to be a qooxdoo mobile widget but found ", value, "!"
+      );
+    },
+
+
+    /**
      * Internal helper for checking the instance of a qooxdoo object using the
      * classname.
      *

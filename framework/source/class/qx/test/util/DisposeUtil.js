@@ -23,6 +23,32 @@ qx.Class.define("qx.test.util.DisposeUtil",
 
   members :
   {
+
+    testDestroyMobileContainer : function() {
+      var self = this;
+
+      var container = new qx.ui.mobile.container.Composite();
+      var childContainer1 = new qx.ui.mobile.container.Composite();
+
+      var child1 = new qx.ui.mobile.basic.Atom();
+
+      childContainer1.add(child1);
+     
+      container.add(childContainer1);
+
+      qx.util.DisposeUtil.destroyMobileContainer(container);
+
+      window.setTimeout(function() {
+        self.resume(function() {
+          this.assertTrue(container.isDisposed(), "container not disposed!");
+          this.assertTrue(childContainer1.isDisposed(), "childContainer1 not disposed!");
+          this.assertTrue(child1.isDisposed(), "child1 not disposed!");
+        }, self);
+      }, 10);
+      this.wait();
+    },
+    
+
     testDestroyContainer : function()
     {
       var self = this;

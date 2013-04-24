@@ -191,13 +191,40 @@ qx.Class.define("qx.util.DisposeUtil",
     {
       if(qx.core.Environment.get("qx.debug"))
       {
-        qx.core.Assert.assertQxWidget(container, "First argument must be a container widget!");
+        qx.core.Assert.assertQxWidget(container, "First argument must be a qooxdoo widget!");
         qx.core.Assert.assertTrue(this.__isChildrenContainer(container),
           "Container must be a instance of qx.ui.container.Composite or " +
           "qx.ui.container.Scroll or qx.ui.container.Resizer or " +
-          "qx.ui.container.SlideBar or qx.ui.container.Stack!");
+          "qx.ui.container.SlideBar or qx.ui.container.Stack!!");
       }
 
+      this._destroyContainer(container);
+    },
+
+
+    /**
+     * Destroys a qx.Mobile container and all of its children recursivly.
+     * @param container {qx.ui.mobile.container.Composite} qx.Mobile Container to be destroyed
+     */
+    destroyMobileContainer : function(container) 
+    {
+      if(qx.core.Environment.get("qx.debug"))
+      {
+        qx.core.Assert.assertQxMobileWidget(container, "First argument must be a qx.Mobile widget!");
+        qx.core.Assert.assertTrue(this.__isChildrenContainer(container),
+          "Container must be a instance of qx.ui.mobile.container.Composite!!");
+      }
+
+      this._destroyContainer(container);
+    },
+
+
+    /**
+     * Destroys a container and all of its children recursivly.
+     * @param container {qx.ui.container.Composite | qx.ui.container.Scroll |
+     *   qx.ui.container.SlideBar | qx.ui.container.Stack} Container to be destroyed
+     */
+    _destroyContainer : function(container) {
       var arr=[];
       this._collectContainerChildren(container, arr);
 
@@ -241,7 +268,7 @@ qx.Class.define("qx.util.DisposeUtil",
     __isChildrenContainer : function(obj)
     {
       var classes = [qx.ui.container.Composite, qx.ui.container.Scroll,
-      qx.ui.container.SlideBar, qx.ui.container.Stack];
+      qx.ui.container.SlideBar, qx.ui.container.Stack, qx.ui.mobile.container.Composite];
 
       for (var i=0,l=classes.length; i<l; i++) {
         if (typeof classes[i] !== "undefined" &&

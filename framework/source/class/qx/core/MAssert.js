@@ -512,6 +512,17 @@ qx.Mixin.define("qx.core.MAssert",
      */
     assertQxWidget : function(value, msg) {
       qx.core.Assert.assertQxWidget(value, msg);
+    },
+
+
+    /**
+     * Assert that the value is an instance of {@link qx.ui.core.Widget}.
+     *
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertQxMobileWidget : function(value, msg) {
+      qx.core.Assert.assertQxMobileWidget(value, msg);
     }
   }
 });
