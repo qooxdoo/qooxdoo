@@ -2366,6 +2366,17 @@ testrunner.define({
       }, this);
     }, this).send();
     this.wait();
+  },
+
+
+  testAutomatedJsonPCallback : function() {
+    var jsonp = q.io.jsonp("jsonpload");
+
+    var checkForReserverdURLChars = /[\!#\$%&'\(\)\*\+,\/\:;\=\?@\[\]]/;
+    var url = jsonp.getGeneratedUrl();
+    var callbackPart = url.substr(url.indexOf("=") + 1);
+
+    this.assertFalse(checkForReserverdURLChars.test(callbackPart), "Generated URL is not valid");
   }
 });
 
