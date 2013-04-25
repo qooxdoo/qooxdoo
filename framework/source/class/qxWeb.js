@@ -203,7 +203,8 @@ qx.Bootstrap.define("qxWeb", {
      */
     slice : function(begin, end) {
       // Old IEs return an empty array if the second argument is undefined
-      if (end) {
+      // check 'end' explicit for "undefined" [BUG #7322]
+      if (end !== "undefined") {
         return qxWeb.$init(Array.prototype.slice.call(this, begin, end));
       }
       else {
