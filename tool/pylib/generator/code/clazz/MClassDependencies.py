@@ -99,7 +99,7 @@ class MClassDependencies(object):
             run_hint_names = [str(x) for x in run_hints]
             for dep in run1:
                 if str(dep) in run_hint_names:
-                    console.warn("%s: #use(%s) is auto-detected" % (self.id, item))
+                    console.warn("%s: #use(%s) is auto-detected" % (self.id, dep))
                 run.append(dep)
             ignore.extend(ignore1)
 
