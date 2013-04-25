@@ -31,6 +31,7 @@ from generator.code.PartBuilder      import PartBuilder
 from generator.code.Script           import Script
 from generator.code.Package          import Package
 from generator.code.Part             import Part
+from generator.code.qcEnvClass       import qcEnvClass
 from generator.action.CodeGenerator  import CodeGenerator
 from generator.action.ActionLib      import ActionLib
 from generator.action.Locale         import Locale as LocaleCls
@@ -462,9 +463,7 @@ class Generator(object):
             # distribute environment checks map
             # TODO : this could also be passed as a parameter to Class.dependencies()
             if "qx.core.Environment" in self._classesObj:
-                envChecksMap = self._classesObj["qx.core.Environment"].extractChecksMap()
-                for clazz in self._classesObj.values():
-                    clazz.context['envchecksmap'] = envChecksMap
+                self._classesObj["qx.core.Environment"].init_checksMap()
 
 
 

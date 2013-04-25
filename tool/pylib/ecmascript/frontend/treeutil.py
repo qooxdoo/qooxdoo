@@ -687,13 +687,31 @@ def findChainRoot(node):
 ##
 # Find the root <dotaccessor> of a dotted variable expression
 # ("a.b.c"), starting from any variable expression within this tree.
+#
 def findVarRoot(node):
     # node can be var or constant ('{}.toString')
     current = node
     while current.parent and current.parent.isVar():
         current = current.parent
     return current
-        
+
+##
+# Find the root node a comment refers to.
+#
+# Example: Comments are always attached to the lexically next token. This might
+# be the left-hand identifier of an assignment. But the comment actually scopes
+# the entire statement, so the <assignment> node would be the actual commented
+# root. List:
+#
+# - lhs of assignment -> <assignment>
+# - map key -> <keyvalue>
+# - 'function' keyword -> <function>
+# - 'var' keyword -> <var>
+#
+def findCommentedRoot(node):
+    pass
+
+
 ##
 # Find the leftmost child downward the tree of the passed node
 # 
