@@ -23,10 +23,12 @@
 # Start a Mini Web Server to export applications and their libraries.
 ##
 
-import sys, os, re, types, codecs, string, socket
-import BaseHTTPServer, CGIHTTPServer
+import sys, os, re, types, codecs, string, socket, time, datetime
+import BaseHTTPServer, CGIHTTPServer, cgi
 
-from misc import Path, filetool
+from misc import Path, filetool, json
+from misc.NameSpace import NameSpace
+from generator.action import ActionLib
 from generator import Context
 
 log_levels = {
@@ -37,8 +39,10 @@ log_levels = {
   "fatal"   : 50,
 }
 log_level = "error"
+AR_Check_Url = "/_active_reload/sentinel.json"
+AR_Script_Url = "/_active_reload/active_reload.js"
 
-
+live_reload = NameSpace()
 
 class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
     # idea: restrict access from 'localhost' only (parse RequestHandler.request), 
@@ -55,12 +59,109 @@ class RequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
             self.log_message(format, *args)
 
     def do_GET(self):
-        # mute error messages for favicon.ico requests
+        # Mute error messages for favicon.ico requests
         if self.path == "/favicon.ico":
             self.send_response(404)
             self.finish()
+
+        # Support for active reload
+        
+        # perform a check when the sentinel url is requested
+        elif (self.ar_is_active() and self.path.startswith(AR_Check_Url)):
+            console = Context.console
+            # Get 'since' query parm
+            if self.path.find('?') != -1:
+                self.path, self.query = self.path.split('?', 1)
+            else:
+                self.query = ''
+            query_map = cgi.parse_qs(self.query)
+            assert query_map["since"]
+            since = float(query_map["since"][0])
+            #ret = 200 if self.check_reload() else 304  # 304=not modified
+            # Return Json data
+            resp_data = {"changed":False}
+            if self.check_reload(since):
+                resp_data["changed"] = True
+                console.info("%s - Signalling reload" % (datetime.datetime.now(),))
+            resp_string = "qx_AR.script_callback(%s)" % json.dumpsCode(resp_data)
+            self.send_response(200)
+            self.send_header('Content-type', 'text/javascript')
+            self.end_headers()
+            self.wfile.write(resp_string)
+            self.finish()
+
+        # deliver the active_reload.js when the script url is requested
+        # - this is interesting when the main app is run through different web server
+        elif (self.ar_is_active() and self.path == AR_Script_Url):
+            scriptfile = codecs.open(live_reload.lreload_script, "r", "utf-8")
+            self.send_response(200)
+            self.send_header('Content-type', 'text/javascript')
+            self.end_headers()
+            self.insert_ar_script(scriptfile, self.wfile)
+            scriptfile.close()
+            self.finish()
+
+        # insert active_reload.js text into index.html
+        # - this is interesting when serving the main app through this web server
+        elif ( self.ar_is_active() and self.path == live_reload.app_url ):
+            file_path = self.translate_path(self.path)
+            indexfile = codecs.open(file_path, "r", "utf-8")
+            self.send_response(200)
+            self.send_header('Content-type', 'text/html')
+            self.end_headers()
+            #indexfile = self.send_head()  # sets Content-Length!
+            out = self.wfile
+            insert_before_tag = "</head>"
+            for line in indexfile:
+                if insert_before_tag in line:
+                    before, after = line.split(insert_before_tag,1)
+                    out.write(before)
+                    out.write('  <script type="text/javascript" ')
+                    out.write('src="%s%s">' % (live_reload.server_url, AR_Script_Url))
+                    out.write("</script>\n")
+                    out.write(insert_before_tag)
+                    out.write(after)
+                else:
+                    out.write(line)
+            indexfile.close()
+            self.finish()
+
+        # normal file serving
         else:
             CGIHTTPServer.CGIHTTPRequestHandler.do_GET(self)
+
+    def ar_is_active(self):
+        return hasattr(live_reload, "lreload_watcher")
+
+    def insert_ar_script(self, scriptfile, out):
+        for line1 in scriptfile:
+            if "{{check_interval}}" in line1:
+                line1 = line1.replace("{{check_interval}}", str(live_reload.lreload_interval
+                    * 1000))
+            if "{{check_url}}" in line1:
+                line1 = line1.replace("{{check_url}}", str(live_reload.lreload_check_url))
+            out.write(line1)
+
+    def check_reload(self, since):
+        last_since = since
+        ylist = live_reload.lreload_watcher.check(last_since)
+        #ymod = os.stat(live_reload.watch_path).st_mtime
+        #print "file mtime:", ymod, "now:", now, "diff:", now - ymod
+        if ylist:
+            return True
+        else:
+            return False
+
+def activate_lreload(obj, jobconf, confObj, app_url, server_url):
+    obj.app_url = app_url
+    obj.server_url = server_url
+    obj.watch_path = confObj.absPath(jobconf.get("watch-files/paths")[0])
+    obj.lreload_watcher = ActionLib.Watcher(jobconf, confObj)
+    obj.lreload_interval = jobconf.get("watch-files/check-interval", 2)
+    obj.lreload_script = jobconf.get("web-server/active-reload/client-script", None)
+    assert(obj.lreload_script)
+    obj.lreload_script = confObj.absPath(live_reload.lreload_script)
+    obj.lreload_check_url = server_url + AR_Check_Url
 
 
 def get_doc_root(jobconf, confObj):
@@ -100,6 +201,7 @@ def runWebServer(jobconf, confObj):
     owd = os.getcwdu()
     log_level = jobconf.get("web-server/log-level", "error")
     server_port = jobconf.get("web-server/server-port", False)
+    server_port = int(server_port)
     if server_port in (False, 0):
         server_port = search_free_port()
     if jobconf.get("web-server/allow-remote-access", False):
@@ -126,6 +228,9 @@ def runWebServer(jobconf, confObj):
         console.warn("This server allows remote file access and indexes for the document root and beneath!")
     console.info("Access your source application under 'http://localhost:%d/%s'" % (server_port, app_web_path))
     console.info("Terminate the web server with Ctrl-C")
+
+    if jobconf.get("web-server/active-reload", None):
+        activate_lreload(live_reload, jobconf, confObj, "/"+app_web_path, "http://localhost:%d" % server_port)
     server.serve_forever()
 
 ##

@@ -20,9 +20,10 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/mimetypes/media-audio.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/office-calendar.png)
-#asset(qx/icon/${qx.icontheme}/16/status/dialog-warning.png)
+#asset(qx/icon/${qx.icontheme}/16/mimetypes/media-video.png)
+#asset(qx/icon/${qx.icontheme}/16/apps/preferences-clock.png)
+#asset(qx/icon/${qx.icontheme}/16/apps/preferences-users.png)
+#asset(qx/icon/${qx.icontheme}/16/places/folder.png)
 
 ************************************************************************ */
 
@@ -39,7 +40,9 @@ qx.Class.define("showcase.page.table.Content",
   {
     saveResult: function(result) {
       this._result = result;
-    }
+    },
+
+    QUERY : "Curious George"
   },
 
 
@@ -48,11 +51,11 @@ qx.Class.define("showcase.page.table.Content",
     _addWindowContent : function(win)
     {
       // Create the initial data
-      var rowData = [[0, "loading ...", "loading ...", 0, false]];
+      var rowData = [[0, "loading data...", "", 0, "", ""]];
 
       // table model
       var tableModel = this._tableModel = new qx.ui.table.model.Simple();
-      tableModel.setColumns([ "Chart Pos.", "Title", "Artist", "Year", "Explicit" ]);
+      tableModel.setColumns(["", "Title", "Author", "Duration", "Category", "URL"]);
       tableModel.setData(rowData);
       tableModel.setColumnEditable(1, true);
       tableModel.setColumnEditable(2, true);
@@ -69,7 +72,7 @@ qx.Class.define("showcase.page.table.Content",
       var table = new qx.ui.table.Table(tableModel, custom);
 
       table.set({
-        width: 540,
+        width: 640,
         height: 400,
         decorator : null,
         headerCellHeight : null,
@@ -82,22 +85,32 @@ qx.Class.define("showcase.page.table.Content",
 
       var tcm = table.getTableColumnModel();
       tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Number());
+      tcm.setDataCellRenderer(1, new qx.ui.table.cellrenderer.Html());
       tcm.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Number());
-      tcm.setDataCellRenderer(4, new qx.ui.table.cellrenderer.Boolean());
+      tcm.setColumnVisible(5, false);
+
 
       tcm.setHeaderCellRenderer(1,
         new qx.ui.table.headerrenderer.Icon(
-          "icon/16/mimetypes/media-audio.png", "Title"
+          "icon/16/mimetypes/media-video.png", "Title"
         )
       );
+
+      tcm.setHeaderCellRenderer(2,
+        new qx.ui.table.headerrenderer.Icon(
+          "icon/16/apps/preferences-users.png", "Author"
+        )
+      );
+
       tcm.setHeaderCellRenderer(3,
         new qx.ui.table.headerrenderer.Icon(
-          "icon/16/apps/office-calendar.png", "Year"
+          "icon/16/apps/preferences-clock.png", "Duration"
         )
       );
+
       tcm.setHeaderCellRenderer(4,
         new qx.ui.table.headerrenderer.Icon(
-          "icon/16/status/dialog-warning.png", "Explicit"
+          "icon/16/places/folder.png", "Category"
         )
       );
 
@@ -106,15 +119,24 @@ qx.Class.define("showcase.page.table.Content",
       var resizeBehavior = tcm.getBehavior();
 
       // This uses the set() method to set all attriutes at once; uses flex
-      resizeBehavior.set(1, {width: "2*", minWidth: 60});
+      resizeBehavior.set(1, {width: "3*", minWidth: 60});
       resizeBehavior.set(2, {width: "1*", minWidth: 60});
 
       // We could also set them individually:
-      resizeBehavior.setWidth(0, 80);
-      resizeBehavior.setWidth(3, 70);
-      resizeBehavior.setWidth(4, 85);
+      resizeBehavior.setWidth(0, 40);
+      resizeBehavior.setWidth(3, 90);
+      resizeBehavior.setWidth(4, 95);
 
-      win.setCaption("Popular Music Tracks");
+      table.addListener("cellClick", function(e) {
+        if (e.getColumn() === 1) {
+          table.getSelectionModel().iterateSelection(function(index) {
+            var url = tableModel.getRowData(index)[5];
+            window.open(url);
+          });
+        }
+      }, this);
+
+      win.setCaption(showcase.page.table.Content.QUERY + " Videos on YouTube");
       win.setLayout(new qx.ui.layout.Grow());
       win.add(table);
 
@@ -124,7 +146,8 @@ qx.Class.define("showcase.page.table.Content",
 
     _loadData : function(tableModel)
     {
-      var query = "select * from music.track.popular";
+      var query = "select * from youtube.search where query=\"" +
+      showcase.page.table.Content.QUERY + "\" AND max_results=50";
       var url = "http://query.yahooapis.com/v1/public/yql?q=" +
       encodeURIComponent(query) +
       "&format=json&diagnostics=false&" +
@@ -134,39 +157,26 @@ qx.Class.define("showcase.page.table.Content",
       var loader = new qx.bom.request.Script();
 
       loader.on("load", function() {
-        var result = showcase.page.table.Content._result.query.results;
-
+        var result = showcase.page.table.Content._result;
         var rows = [];
-        if (result == null) {
-          var rawData = [];
-          rows.push([0, "Failed to load the data", "---", 0, false]);
+        var rawData;
+        if (result.query && result.query.results && result.query.results.video &&
+            result.query.results.video.length > 0) {
+          rawData = result.query.results.video;
         } else {
-          var rawData = result.Track;
+          rawData = [];
+          rows.push([0, "Failed to load the data", "---", 0, false]);
         }
 
         for (var i = 0; i < rawData.length; i++) {
           var row = [];
-          row.push(parseInt(rawData[i].ItemInfo.ChartPosition["this"]));
-          row.push(rawData[i].title || "");
-          if (rawData[i].Artist instanceof Array) {
-            var artists = "";
-            for (var j = 0; j < rawData[i].Artist.length; j++) {
-              if (j != 0) {
-                 artists += ", ";
-              }
-              artists += rawData[i].Artist[j].name;
-            };
-            row.push(artists);
-          } else {
-            if (rawData[i].Artist) {
-              row.push(rawData[i].Artist.name || "");
-            } else {
-              row.push("---");
-            }
-
-          }
-          row.push(parseInt(rawData[i].releaseYear));
-          row.push(rawData[i].explicit !== "0");
+          row.push(i+1);
+          row.push("<span style=\"text-decoration:underline;cursor:pointer\">" +
+                   rawData[i].title + "</span>");
+          row.push(rawData[i].author);
+          row.push(parseInt(rawData[i].duration, 10));
+          row.push(rawData[i].categories.category);
+          row.push(rawData[i].url);
           rows.push(row);
         };
         tableModel.setData(rows);

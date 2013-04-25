@@ -709,7 +709,9 @@
           "type": "object",
           "properties": {
             "line": { "type": "string" },
-            "per-file": { "type": "boolean" }
+            "per-file": { "type": "boolean" },
+            "exec-on-startup": { "type": "boolean" },
+            "exit-on-retcode": { "type": "boolean" }
           }
         },
         "include": {
@@ -717,8 +719,7 @@
           "items": { "type": "string" }
         },
         "include-dirs": { "type": "boolean" },
-        "check-interval": { "type": "integer" },
-        "exit-on-retcode": { "type": "boolean" }
+        "check-interval": { "type": "integer" }
       }
     },
     "web-server": {
@@ -728,7 +729,14 @@
         "document-root": { "type": "string" },
         "server-port": { "type": "integer" },
         "log-level": { "type": "string" },
-        "allow-remote-access": { "type": "boolean" }
+        "allow-remote-access": { "type": "boolean" },
+        "active-reload" : {
+          "type" : "object",
+          "additionalProperties" : false,
+          "properties" : {
+              "client-script" : { "type" : "string" }
+          }
+        }
       }
     },
     "web-server-config": {

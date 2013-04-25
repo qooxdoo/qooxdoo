@@ -292,8 +292,6 @@ qx.Class.define("qx.ui.form.Button",
       }
       else
       {
-        this.addState("hovered");
-
         if (hasPressed) {
           this.execute();
         }

@@ -26,6 +26,7 @@
     "source-all",
     "source-hybrid",
     "source-server",
+    "source-server-reload",
     "source-httpd-config",
     "simulation-build",
     "simulation-run",

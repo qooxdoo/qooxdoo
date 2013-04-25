@@ -235,9 +235,8 @@ class MClassDependencies(object):
         result = {'run':[], 'load':[], 'ignore':[]}
         for category in ('run', 'load'):
             for classId in deps_json[category]:
-                if (classId.startswith('/resource/')
-                    or classId.startswith('/translation/')):
-                    continue  # sorting out resource and msgid dependencies
+                if any([classId.startswith(x) for x in ('/resource/', '/translation/', '/locale/')]):
+                    continue  # sorting out resource, locale and msgid dependencies
                 depsItem = DependencyItem(classId, '', '|dependency.json|')
                 depsItem.isLoadDep = category == 'load'
                 result[category].append(depsItem)
@@ -429,23 +428,33 @@ class MClassDependencies(object):
 
         # end:_analyzeClassDepsNode
 
+    ##
+    # Alternative implementation using Scope()s.
+    #
     def _analyzeClassDepsNode_2(self, node, depsList, inLoadContext, inDefer=False):
+        # Lexical dependencies
         if node.type in ('file', 'function', 'catch'):
             top_scope = node.scope
         else:
-            top_scope = scopes.find_enclosing(node)  # get enclosing scope of node
-        for scope in top_scope.scope_iterator(): # walk through this and all nested scopes
-            for global_name, scopeVar in scope.globals().items():  # get the global symbols { sym_name: ScopeVar }
-                for var_node in scopeVar.uses:       # create a depsItem for all its uses
+            top_scope = scopes.find_enclosing(node)
+        # walk through enclosing and all nested scopes
+        for scope in top_scope.scope_iterator():
+            if scope.is_load_time:
+                # e.g. in 'defer' handle locals like 'statics' as dependency with recursion
+                vars_ = scope.vars
+            else:
+                # only consider global syms
+                vars_ = scope.globals()
+            for name, scopeVar in vars_.items():  # { sym_name: ScopeVar }
+                # create a depsItem for all its uses
+                for var_node in scopeVar.uses:
                     if treeutil.hasAncestor(var_node, node): # var_node is not disconnected through optimization
                         depsItem = self.qualify_deps_item(var_node, scope.is_load_time, scope.is_defer)
                         # as this also does filtering
                         if depsItem:
-                            depsList.append(depsItem)    # and qualify them
-                            #if depsItem.name == "qx.log.appender.Console":
-                            #    import pydb; pydb.debugger()
+                            depsList.append(depsItem)
 
-        # Augment with feature dependencies introduces with qx.core.Environment.get("...") calls
+        # qx.core.Environment.*() feature dependencies
         for env_operand in variantoptimizer.findVariantNodes(node):
             call_node = env_operand.parent.parent
             env_key = call_node.getChild("arguments").children[0].get("value", "")
@@ -455,8 +464,7 @@ class MClassDependencies(object):
                 depsItem = DependencyItem(className, classAttribute, self.id, env_operand.get('line', -1))
                 depsItem.isCall = True  # treat as if actual call, to collect recursive deps
                 # .inLoadContext
-                # get 'qx' node of 'qx.core.Environment....'
-                qx_idnode = treeutil.findFirstChainChild(env_operand)
+                qx_idnode = treeutil.findFirstChainChild(env_operand) # 'qx' node of 'qx.core.Environment....'
                 scope = qx_idnode.scope
                 inLoadContext = scope.is_load_time # get its scope's .is_load_time
                 depsItem.isLoadDep = inLoadContext
@@ -466,7 +474,151 @@ class MClassDependencies(object):
 
         return
 
-    _analyzeClassDepsNode = _analyzeClassDepsNode_1
+    _analyzeClassDepsNode = _analyzeClassDepsNode_2
+
+    ##
+    # Find dependencies of a code tree, purely looking at identifier head-symbols
+    # that are not covered by the current scope chain.
+    # (Most of this started as a copy of _analyzeClassDepsNode_2.)
+    #
+    # Returns a list of depsItems.
+    # 
+    def dependencies_from_ast(self, node):
+        result = []
+
+        if node.type in ('file', 'function', 'catch'):
+            top_scope = node.scope
+        else:
+            top_scope = scopes.find_enclosing(node)
+        # walk through enclosing and all nested scopes
+        for scope in top_scope.scope_iterator():
+            if scope.is_defer:
+                # e.g. in 'defer' handle locals like 'statics' as dependency with recursion
+                vars_ = dict(scope.globals().items() +
+                    [(x,y) for x,y in scope.locals().items() if y.is_param])
+            else:
+                # only consider global syms
+                vars_ = scope.globals()
+            for name, scopeVar in vars_.items():  # { sym_name: ScopeVar }
+                # create a depsItem for all its uses
+                for var_node in scopeVar.uses:
+                    if treeutil.hasAncestor(var_node, node): # var_node is not disconnected through optimization
+                        depsItem = self.depsItem_from_node(var_node)
+                        #if self.id=='qx.Bootstrap' and depsItem.name=='debug':
+                        #    import pydb; pydb.debugger()
+                        result.append(depsItem)
+        return result
+
+
+    def depsItem_from_node(self, node):
+        scope = node.scope
+        # some initializations (might get refined later)
+        depsItem = DependencyItem('', '', '')
+        depsItem.name           = ''
+        depsItem.attribute      = ''
+        depsItem.requestor      = self.id
+        depsItem.line           = node.get("line", -1)
+        depsItem.isLoadDep      = scope.is_load_time
+        depsItem.needsRecursion = False
+        depsItem.isCall         = False
+        is_lib_class             = False
+        var_root = treeutil.findVarRoot(node)  # various of the tests need the var (dot) root, rather than the head symbol (like 'qx')
+
+        # .isCall
+        if treeutil.isCallOperand(var_root): # it's a function call or new op.
+            depsItem.isCall = True  # interesting when following transitive deps
+
+        # .name, .attribute
+        assembled = (treeutil.assembleVariable(node))[0]
+        className, classAttribute = self._splitQxClass(assembled)
+        if not className: 
+            if "." in assembled:
+                className, classAttribute = assembled.split('.')[:2]
+            else:
+                className = assembled
+        else:
+            is_lib_class = True
+        # we allow self-references, to be able to track method dependencies within the same class
+        if self.is_this(className):
+            if className.find('.')>-1:
+                classAttribute = className.split('.')[1]
+            className = self.id
+            is_lib_class = True
+        elif scope.is_defer and className in DEFER_ARGS:
+            className = self.id
+            is_lib_class = True
+        if is_lib_class and not classAttribute:  # see if we have to provide 'construct'
+            if treeutil.isNEWoperand(var_root):
+                classAttribute = 'construct'
+        depsItem.name = className
+        depsItem.attribute = classAttribute
+
+        # .needsRecursion
+        # Mark items that need recursive analysis of their dependencies (bug#1455)
+        #if self.followCallDeps(var_root, self.id, className, isLoadTime):
+        #if self.id=='qx.bom.element.Style' and depsItem.attribute=='__detectVendorProperties':
+        #    import pydb; pydb.debugger()
+        if (is_lib_class and
+            scope.is_load_time and
+            (treeutil.isCallOperand(var_root) or 
+             treeutil.isNEWoperand(var_root))):
+            depsItem.needsRecursion = True
+
+        return depsItem
+        
+
+    ##
+    # qx.core.Environment.*() feature dependencies
+    #
+    def environment_dependencies(self, node):
+        depsList = []
+        for env_operand in variantoptimizer.findVariantNodes(node):
+            call_node = env_operand.parent.parent
+            env_key = call_node.getChild("arguments").children[0].get("value", "")
+            className, classAttribute = self.getClassNameFromEnvKey(env_key)
+            if className:
+                #print className
+                depsItem = DependencyItem(className, classAttribute, self.id, env_operand.get('line', -1))
+                depsItem.isCall = True  # treat as if actual call, to collect recursive deps
+                # .inLoadContext
+                qx_idnode = treeutil.findFirstChainChild(env_operand) # 'qx' node of 'qx.core.Environment....'
+                scope = qx_idnode.scope
+                depsItem.isLoadDep = scope.is_load_time
+                if depsItem.isLoadDep:
+                    depsItem.needsRecursion = True
+                depsList.append(depsItem)
+        return depsList
+
+    def symbols_filter_by_builtins(self, depsList):
+        return [deps for deps in depsList if not GlobalSymbolsCombinedPatt.search(deps.name)]
+
+    def is_this(self, strrng):
+        if strrng[:4] == "this":
+            if len(strrng)==4 or (
+                len(strrng)>4 and strrng[4]=='.'):
+                return True
+        return False
+
+    def _analyzeClassDepsNode(self, node, depsList, inLoadContext, inDefer=False):
+        lexical_globals  =  self.dependencies_from_ast(node)
+        lexical_globals +=  self.environment_dependencies(node)
+        filtered_globals =  self.symbols_filter_by_builtins(lexical_globals)
+        depsList.extend(filtered_globals)
+        return
+
+    def _getCombinedDeps(self, node):
+        depsList = []
+        lexical_globals  =  self.dependencies_from_ast(node)
+        lexical_globals +=  self.environment_dependencies(node)
+        filtered_globals = gs.globals_filter_by_hints(lexical_globals)
+        filtered_globals = gs.globals_filter_by_builtins(filtered_globals)
+        filtered_globals = gs.globals_filter_by_libclasses(filtered_globals)
+        filtered_globals = gs.filter_self_references(filtered_globals)
+        filtered_globals = gs.filter_multple_occurrences(filtered_globals)
+        depsList = self.depsItems_from_nodes(filtered_globals)
+        depsList = self.add_config_dependencies(depsList)
+        return depsList
+        
 
     ##
     # Does all the tests to qualify a DependencyItem (inLoad, needsRecursion, ...).
@@ -501,7 +653,7 @@ class MClassDependencies(object):
             elif inDefer and className in DEFER_ARGS:
                 className = self.id
             if not classAttribute:  # see if we have to provide 'construct'
-                if treeutil.isNEWoperand(node):
+                if treeutil.isNEWoperand(var_root):
                     classAttribute = 'construct'
             # Can't do the next; it's catching too many occurrences of 'getInstance' that have
             # nothing to do with the singleton 'getInstance' method (just grep in the framework)
@@ -715,7 +867,7 @@ class MClassDependencies(object):
             for entryId in ClassesAll:
                 if assembled.startswith(entryId) and re.match(r'%s\b' % entryId, assembled):
                     if len(entryId) > len(className): # take the longest match
-                        className      = entryId
+                        className = entryId
                         classAttribute = assembled[ len(entryId) +1 :]  # skip entryId + '.'
                         # see if classAttribute is chained, too
                         dotidx = classAttribute.find(".")
@@ -979,9 +1131,6 @@ class MClassDependencies(object):
             # Process own deps
             console.debug("%s#%s dependencies:" % (classId, methodId))
             console.indent()
-
-            #if (classId,methodId) == ('qx.Class','define'):
-            #    import pydb; pydb.debugger()
 
             if isinstance(attribNode, Node):
 

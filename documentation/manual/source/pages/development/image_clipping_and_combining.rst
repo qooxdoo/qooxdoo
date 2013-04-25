@@ -35,7 +35,7 @@ Here is the general layout for the image manipulating jobs configuration::
         {
           "let" :
           {
-             "RESPATH" : "./source/resource/APPLICATION_NAME"
+             "RESPATH" : "./source/resource"
           },
 
           "cache" :
@@ -75,7 +75,7 @@ common use case in the framework is to use such images for ``grid`` decorators.
               %(xoff)sx%(yoff)s+%(xorig)s+%(yorig)s +repage %(outfile)s",
           "images" :
           {
-             "${RESPATH}/image/source/groupBox.png" :
+             "${RESPATH}/custom/image/source/groupBox.png" :
              {
                 "prefix" : "../../clipped/groupBox",
                 "border-width" : 4
@@ -140,7 +140,7 @@ contains the input images side by side. Here is a configuration sample::
             NorthWest -tile %(orientation)s -background None %(combinedfile)s",
           "images" :
           {
-             "${RESPATH}/image-combined/combined.png":
+             "${RESPATH}/custom/image-combined/combined.png":
              {
                 "prefix" : [ "${RESPATH}" ],
                 "layout" : "vertical",
@@ -148,7 +148,7 @@ contains the input images side by side. Here is a configuration sample::
                 [
                   {
                     "prefix" : [ "${RESPATH}" ],
-                    "files" : [ "${RESPATH}/image/clipped/groupBox*.png" ]
+                    "files" : [ "${RESPATH}/custom/image/clipped/groupBox*.png" ]
                   }
                 ]
              }

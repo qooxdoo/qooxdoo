@@ -904,6 +904,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
     /**
      * Removes all children from the widget.
+     * @return {Array} An Array including the removed children.
      */
     _removeAll : function()
     {
@@ -912,6 +913,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       for (var i = 0, l=children.length; i < l; i++) {
         this._remove(children[i]);
       }
+      return children;
     },
 
 

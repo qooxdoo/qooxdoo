@@ -1052,6 +1052,7 @@ class CodeGenerator(object):
     @staticmethod
     def lint_opts(classesObj, only_globals=False):
         do_check = Context.jobconf.get('compile-options/code/lint-check', True)
+        do_check = False
         opts = None
         if do_check:
             opts = lint.defaultOptions()

@@ -192,6 +192,18 @@ testrunner.define({
     this.assertEquals(1, called);
   },
 
+
+  testCloneWithNestedDomStructure : function() {
+    var orig = q.create("<span id='container'><span id='subcontainer'><a href='#' title='test' class='foo'></a></span></span>");
+    
+    var clone = orig.getChildren().clone();
+    var secondClone = orig.getChildren().clone(true);
+
+    this.assertEquals(1, clone.length, "Cloning without events failed!");
+    this.assertEquals(1, secondClone.length, "Cloning with events failed!");
+  },
+
+
   testAppendToRemove : function() {
     var test = q.create("<div/>");
     test.appendTo(this.sandbox[0]);
@@ -2424,6 +2436,17 @@ testrunner.define({
       }, this);
     }, this).send();
     this.wait();
+  },
+
+
+  testAutomatedJsonPCallback : function() {
+    var jsonp = q.io.jsonp("jsonpload");
+
+    var checkForReserverdURLChars = /[\!#\$%&'\(\)\*\+,\/\:;\=\?@\[\]]/;
+    var url = jsonp.getGeneratedUrl();
+    var callbackPart = url.substr(url.indexOf("=") + 1);
+
+    this.assertFalse(checkForReserverdURLChars.test(callbackPart), "Generated URL is not valid");
   }
 });
 

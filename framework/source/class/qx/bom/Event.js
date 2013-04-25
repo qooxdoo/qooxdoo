@@ -268,7 +268,10 @@ qx.Bootstrap.define("qx.bom.Event",
      */
     supportsEvent : function(target, type)
     {
-      var eventName = "on" + type;
+      // Using the lowercase representation is important for the 
+      // detection of events like 'MSPointer*'. They have to detected
+      // using the lower case name of the event.
+      var eventName = "on" + type.toLowerCase();
 
       var supportsEvent = (eventName in target);
 

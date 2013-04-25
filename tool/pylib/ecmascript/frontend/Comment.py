@@ -287,7 +287,7 @@ class Comment(object):
     #    'text': u'<p>true if the mixin is compatible to the given class</p>',
     #      'type': [{'dimensions': 0, 'type': u'Boolean'}]}]
     #
-    def parse(self, format_=True):
+    def parse(self, format_=True, process_txt=False):
 
         hint_sign = re.compile(r'^\s*@(\w+)')
 
@@ -376,7 +376,7 @@ class Comment(object):
 
         # format texts
         for entry in attribs:
-            if 'text' in entry and len(entry['text'])>0:
+            if process_txt and 'text' in entry and len(entry['text'])>0:
                 if format_:
                     entry["text"] = self.formatText(entry["text"])
                 else:
@@ -444,7 +444,6 @@ class Comment(object):
     ##
     # "@return {Type} msg"
     gr_at_return = ( py.Suppress('@') + py.Literal('return')  +
-        #py.Optional(py_type_expression.copy())("type") +   # TODO: remove leading py.Optional
         py_type_expression.copy()("type") +
         py.restOfLine("text") )
     def parse_at_return(self, line):
@@ -520,8 +519,10 @@ class Comment(object):
             'type' : types, # [{'dimensions': 0, 'type': u'Boolean'}]
             'text' : presult.text.strip()
         }
-        if 'texp_optional' in presult and 'texp_defval' in presult:
-            res['defaultValue'] = presult['texp_defval']
+        if 'texp_optional' in presult:
+            res['optional'] = True
+            if 'texp_defval' in presult:
+                res['defaultValue'] = presult['texp_defval']
         return res
 
     gr_at_childControl = ( py.Suppress('@') + py.Word(py.alphas)('category') +
@@ -928,7 +929,7 @@ def findComment(node):
 # Takes the last doc comment from the commentsBefore child, parses it and
 # returns a Node representing the doc comment
 #
-def parseNode(node):
+def parseNode(node, process_txt=False):
 
     # the intended meaning of <node> is "the node that has comments preceding
     # it"; in the ast, this might not be <node> itself, but the lexically first
@@ -943,7 +944,7 @@ def parseNode(node):
         for comment in commentsNode.comments:
             #if comment.get("detail") in ["javadoc", "qtdoc"]:
             if comment.get("detail") in ["javadoc"]:
-                result.append( Comment(comment.get("value", "")).parse() )
+                result.append( Comment(comment.get("value", "")).parse(process_txt=process_txt) )
     if not result:
         result = [[]]  # to always have a result[-1] element in caller
     return result

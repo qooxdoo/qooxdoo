@@ -36,7 +36,7 @@ from generator.runtime.InterruptRegistry import InterruptRegistry
 # - Config section -------------------------------------------------------------
 
 # for the '_all_' job, skip jobs that require manual intervention
-_ALL_SKIP_JOBS = set('migration watch watch-scss source-server simulation-run'.split())
+_ALL_SKIP_JOBS = set('migration watch watch-scss source-server source-server-reload simulation-run'.split())
 
 # - Config end -----------------------------------------------------------------
 

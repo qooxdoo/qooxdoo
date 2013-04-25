@@ -446,12 +446,33 @@
     {
       "desc"  : "start a lightweight web server that exports the source version"
       ,"extend" : ["cache", "libraries", "source-script-compopts"]
+      ,"let"  : {
+        "SOURCE_SERVER_PORT" : 0
+      }
       ,"web-server" :
       {
         "document-root" : ""   // calculate dynamically from libraries
-        ,"server-port"  : 0
+        ,"server-port"  : "${SOURCE_SERVER_PORT}"
         ,"log-level"    : "error"  // use "info" for more console logging, "fatal" for none
         ,"allow-remote-access" : false
+      }
+    },
+
+    "source-server-reload" :
+    {
+      "desc"  : "web server for source version, with active reload (requires running 'watch' job)"
+      ,"extend" : [ "source-server" ]
+      ,"web-server" :
+      {
+        "active-reload" : {
+          "client-script" : "${QOOXDOO_PATH}/tool/data/generator/active_reload.js"
+        }
+      }
+      // has an extra 'watch-files' key - 'web-server' needs to evaluate first in Generator!
+      ,"watch-files" : {
+        // watch the application script file
+        "paths" : ["${SOURCE_PATH}/script/${APPLICATION}.js"]
+        ,"check-interval" : 2
       }
     },
 
@@ -722,12 +743,13 @@
         "command" :
         {
           "line"     : "${PYTHON_CMD} generate.py -q -I",
-          "per-file" : false
+          "per-file" : false,
+          "exec-on-startup" : true,
+          "exit-on-retcode" : false
         },
         "paths"    : ["${SOURCE_PATH}/class"],
         "include" : [ "*.js" ],
-        "check-interval" : 2,
-        "exit-on-retcode" : false
+        "check-interval" : 2
       }
     },
 

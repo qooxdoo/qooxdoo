@@ -62,6 +62,19 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       this._scrollProperties = scrollProperties;
     }
   },
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /** Fired when the user scrolls to the end of scroll area. */
+    pageEnd : "qx.event.type.Event"
+  },
   
   
   /*
@@ -98,6 +111,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       if (scrollElement) {
         element.appendChild(scrollElement);
       }
+
       return element;
     },
 
@@ -106,7 +120,13 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
     _getContentElement : function()
     {
       var contentElement = this.base(arguments);
+
       var scrollContentElement = this._getScrollContentElement();
+
+      qx.bom.Element.addListener(contentElement,"iscrollpageend",function() {
+        this.fireEvent("pageEnd");
+      }, this);
+
       return scrollContentElement || contentElement;
     },
 

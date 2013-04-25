@@ -762,6 +762,9 @@ def findFirstChainChild(node):
     leftmostIdentifier = findLeftmostChild(chainRoot)
     return leftmostIdentifier
 
+##
+# <node> must be the top-level .isVar.
+#
 def isNEWoperand(node):
     operation = None
     if node.hasParentContext("operation/call/operand"):
@@ -770,6 +773,11 @@ def isNEWoperand(node):
         operation = node.parent
     return operation and operation.type=="operation" and operation.get("operator","")=="NEW"
 
+def isCallOperand(node):
+    return (
+        node.hasParentContext("call/operand") or 
+        isNEWoperand(node)
+    )
 
 ##
 # Check if node is the (function) value of the 'defer' class member
