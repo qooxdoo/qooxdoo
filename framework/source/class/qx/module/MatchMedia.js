@@ -42,7 +42,7 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
     /**
     * Evaluates the specified mediaquery list
     * 
-    * @attachStatic {qxWeb, matchMedia.match}
+    * @attachStatic {qxWeb, matchMedia}
     * @return {qx.bom.MediaQueryListener}  The mediaquery listener
     */
     match : function(query){
