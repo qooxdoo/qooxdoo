@@ -299,7 +299,7 @@ qx.Class.define("qx.util.Serializer",
       }
 
       // localized strings
-      if (object instanceof qx.locale.LocalizedString) {
+      if (qx.locale && qx.locale.LocalizedString && object instanceof qx.locale.LocalizedString) {
         object = object.toString();
         // no return here because we want to have the string checks as well!
       }
