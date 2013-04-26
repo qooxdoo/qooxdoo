@@ -195,7 +195,7 @@ testrunner.define({
 
   testCloneWithNestedDomStructure : function() {
     var orig = q.create("<span id='container'><span id='subcontainer'><a href='#' title='test' class='foo'></a></span></span>");
-    
+
     var clone = orig.getChildren().clone();
     var secondClone = orig.getChildren().clone(true);
 
@@ -2629,11 +2629,11 @@ testrunner.define({
   },
 
   tearDown : testrunner.globalTeardown,
-  
+
   testLandscape : function(){
-    
+
     var iframe = this.__iframe[0];
-    
+
     iframe.width = "500px";
     iframe.height = "400px";
 
@@ -2641,9 +2641,9 @@ testrunner.define({
       this.resume(function() {
         this.assertEquals(e.data, "true");
       }, this);
-    },this);  
+    },this);
 
-    window.setTimeout(function(){               
+    window.setTimeout(function(){
       iframe.contentWindow.postMessage("all and (orientation:landscape)",'*');
     },100);
 
@@ -2651,9 +2651,9 @@ testrunner.define({
   },
 
   testMinWidth : function(){
-    
+
     var iframe = this.__iframe[0];
-    
+
     iframe.width = "500px";
     iframe.height = "400px";
 
@@ -2661,9 +2661,9 @@ testrunner.define({
       this.resume(function() {
         this.assertEquals(e.data, "true");
       }, this);
-    },this);  
+    },this);
 
-    window.setTimeout(function(){               
+    window.setTimeout(function(){
       iframe.contentWindow.postMessage("all and (min-width:500px)",'*');
     },100);
 
@@ -2673,7 +2673,7 @@ testrunner.define({
   testMaxWidth : function(){
 
     var iframe = this.__iframe[0];
-    
+
     iframe.width = "500px";
     iframe.height = "400px";
 
@@ -2681,19 +2681,19 @@ testrunner.define({
       this.resume(function() {
         this.assertEquals(e.data, "true");
       }, this);
-    },this);  
+    },this);
 
-    window.setTimeout(function(){               
+    window.setTimeout(function(){
       iframe.contentWindow.postMessage("all and (max-width:500px)",'*');
     },100);
 
     this.wait(200);
   },
 
-  testAnd : function(){    
+  testAnd : function(){
 
     var iframe = this.__iframe[0];
-    
+
     iframe.width = "300px";
     iframe.height = "400px";
 
@@ -2701,9 +2701,9 @@ testrunner.define({
       this.resume(function() {
         this.assertEquals(e.data, "false");
       }, this);
-    },this);  
+    },this);
 
-    window.setTimeout(function(){               
+    window.setTimeout(function(){
       iframe.contentWindow.postMessage("screen and (min-width: 400px) and (max-width: 700px)",'*');
     },100);
 
@@ -2712,7 +2712,7 @@ testrunner.define({
 
   testMinHeight : function(){
     var iframe = this.__iframe[0];
-    
+
     iframe.width = "500px";
     iframe.height = "400px";
 
@@ -2720,9 +2720,9 @@ testrunner.define({
       this.resume(function() {
         this.assertEquals(e.data, "false");
       }, this);
-    },this);  
+    },this);
 
-    window.setTimeout(function(){               
+    window.setTimeout(function(){
       iframe.contentWindow.postMessage("all and (min-height:500px)",'*');
     },100);
 
@@ -2731,7 +2731,7 @@ testrunner.define({
 
   testColor : function(){
     var iframe = this.__iframe[0];
-    
+
     iframe.width = "500px";
     iframe.height = "400px";
 
@@ -2739,19 +2739,19 @@ testrunner.define({
       this.resume(function() {
         this.assertEquals(e.data, "true");
       }, this);
-    },this);  
+    },this);
 
-    window.setTimeout(function(){               
+    window.setTimeout(function(){
       iframe.contentWindow.postMessage("all and (min-color: 1)",'*');
     },100);
 
     this.wait(200);
   },
 
-  testCombined : function(){    
+  testCombined : function(){
 
     var iframe = this.__iframe[0];
-    
+
     iframe.width = "800px";
     iframe.height = "400px";
 
@@ -2759,9 +2759,9 @@ testrunner.define({
       this.resume(function() {
         this.assertEquals(e.data, "true");
       }, this);
-    },this);  
+    },this);
 
-    window.setTimeout(function(){               
+    window.setTimeout(function(){
       iframe.contentWindow.postMessage("(min-width: 700px) and (orientation: landscape)",'*');
     },100);
 
@@ -2769,7 +2769,7 @@ testrunner.define({
   },
 
   testDeviceWidth : function(){
-    var iframe = this.__iframe[0];  
+    var iframe = this.__iframe[0];
 
     qxWeb(window).once('message',function(e){
       this.resume(function() {
@@ -2777,9 +2777,9 @@ testrunner.define({
         var match = dw <= 799 ? "true" : "false";
         this.assertEquals(e.data, match);
       }, this);
-    },this);  
+    },this);
 
-    window.setTimeout(function(){               
+    window.setTimeout(function(){
       iframe.contentWindow.postMessage("screen and (max-device-width: 799px)",'*');
     },100);
 
@@ -2788,15 +2788,15 @@ testrunner.define({
 
   testWidth : function(){
     var iframe = this.__iframe[0];
-    iframe.width = "800px";  
+    iframe.width = "800px";
 
     qxWeb(window).once('message',function(e){
-      this.resume(function() {        
+      this.resume(function() {
         this.assertEquals(e.data, "true");
       }, this);
-    },this);  
+    },this);
 
-    window.setTimeout(function(){               
+    window.setTimeout(function(){
       iframe.contentWindow.postMessage("screen and (width: 800px)",'*');
     },100);
 
@@ -2805,15 +2805,15 @@ testrunner.define({
 
   testPixelratio : function(){
     var iframe = this.__iframe[0];
-    iframe.width = "800px";  
+    iframe.width = "800px";
 
     qxWeb(window).once('message',function(e){
-      this.resume(function() {        
+      this.resume(function() {
         this.assertEquals(e.data, "true");
       }, this);
-    },this);  
+    },this);
 
-    window.setTimeout(function(){               
+    window.setTimeout(function(){
       iframe.contentWindow.postMessage("screen and (width: 800px)",'*');
     },100);
 
@@ -2822,15 +2822,15 @@ testrunner.define({
 
   testNot : function(){
     var iframe = this.__iframe[0];
-    iframe.width = "500px";  
+    iframe.width = "500px";
 
     qxWeb(window).once('message',function(e){
-      this.resume(function() {        
+      this.resume(function() {
         this.assertEquals(e.data, "true");
       }, this);
-    },this);  
+    },this);
 
-    window.setTimeout(function(){               
+    window.setTimeout(function(){
       iframe.contentWindow.postMessage("not screen and (min-width: 800px)",'*');
     },100);
 
@@ -2978,4 +2978,73 @@ testrunner.define({
 
     all.remove();
   }
+});
+
+testrunner.define({
+  classname : "FakeServer",
+
+  tearDown : function() {
+    q.dev.fakeServer.restore();
+  },
+
+  testConfiguredResponse : function() {
+    var url = "/doesnotexist" + Date.now();
+    var expectedResponse = "OK";
+
+    q.dev.fakeServer.configure([
+      {
+        method: "GET",
+        url: url,
+        response: expectedResponse
+      }
+    ]);
+
+    var req = q.io.xhr(url).on("readystatechange", function(xhr) {
+      if (xhr.status == 200 && xhr.readyState == 4 && xhr.responseText == expectedResponse) {
+        this.resume();
+      }
+    }, this).send();
+
+    this.wait();
+  },
+
+  testRemoveResponse : function() {
+    var url = "/doesnotexist" + Date.now();
+    var expectedResponse = "OK";
+
+    q.dev.fakeServer.configure([
+      {
+        method: "GET",
+        url: url,
+        response: expectedResponse
+      }
+    ]);
+
+    q.dev.fakeServer.removeResponse("GET", url);
+
+    var req = q.io.xhr(url).on("readystatechange", function(xhr) {
+      console.log(xhr.status, xhr.readyState);
+      if (xhr.status == 404 && xhr.readyState == 4) {
+        this.resume();
+      }
+    }, this).send();
+
+    this.wait();
+  }
+  /*,
+
+  testRespondWith : function() {
+    var url = "/doesnotexist" + Date.now();
+    var expectedResponse = "OK";
+    q.dev.fakeServer.respondWith("GET", url, expectedResponse);
+
+    var req = q.io.xhr(url).on("readystatechange", function(xhr) {
+      if (xhr.status == 200 && xhr.readyState == 4 && xhr.responseText == expectedResponse) {
+        this.resume();
+      }
+    }, this).send();
+
+    this.wait();
+  }*/
+
 });
