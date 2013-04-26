@@ -70,7 +70,7 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
     }
 
     this.getFakeServer();
-    this.__urlRegExps = [];
+    this.__responses = [];
   },
 
   statics : {
@@ -99,8 +99,9 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
   members :
   {
     __sinon : null,
-    __fakeServer: null,
-    __urlRegExps: null,
+    __fakeServer : null,
+    __responses : null,
+    __filter : null,
 
     /**
      * Configures a set of fake HTTP responses. Each response is defined as a map
@@ -119,7 +120,7 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
      *       </li>
      *       <li>a function: This will be called with a FakeXMLHttpRequest object as
      *       the only argument. Its <code>respond</code> method must be called to send a response.
-     *       See {@link http://sinonjs.org/docs/#respond} for details.
+     *       See the <a href="http://sinonjs.org/docs/#respond" target="_blank">Sinon docs</a> for details.
      *       </li>
      *     </ul>
      *   </li>
@@ -130,23 +131,19 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
     configure : function(responseData) {
       responseData.forEach(function(item) {
         var urlRegExp = item.url instanceof RegExp ? item.url : this._getRegExp(item.url);
-        if (!qx.lang.Array.contains(this.__urlRegExps, urlRegExp)) {
-          this.__urlRegExps.push([item.method, urlRegExp]);
+        var response = [item.method, urlRegExp];
+        var hasResponse = false;
+        for (var i=0, l=this.__responses.length; i<l; i++) {
+          var old = this.__responses[i];
+          hasResponse = (old[0] == response[0] && old[1] == response[1]);
+        }
+        if (!hasResponse) {
+          this.__responses.push(response);
         }
         this.respondWith(item.method, urlRegExp, item.response);
       }.bind(this));
 
-      var regExps = this.__urlRegExps;
-      var filter = function(method, url, async, username, password) {
-        for (var i=0, l=regExps.length; i<l; i++) {
-          var filterMethod = regExps[i][0];
-          var regExp = regExps[i][1];
-          if (method == filterMethod && regExp.test(url)) {
-            return false;
-          }
-        }
-        return true;
-      };
+      var filter = this.__filter = this.__getCombinedFilter();
       this.addFilter(filter);
     },
 
@@ -154,7 +151,7 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
     /**
      * Adds a URL filtering function to decide whether a request should be handled
      * by the FakeServer or passed to the regular XMLHttp implementation.
-     * See {@link http://sinonjs.org/docs/#filtered-requests}
+     * See the <a href="http://sinonjs.org/docs/#filtered-requests" target="_blank">Sinon docs</a>
      * for details.
      *
      * @param filter {Function} URL filter function. Will be called with the
@@ -172,12 +169,43 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
 
 
     /**
+     * Remove a filter that was added with {@link #addFilter}
+     * @param filter {Function} filter function to remove
+     */
+    removeFilter : function(filter) {
+     qx.lang.Array.remove(this.__sinon.FakeXMLHttpRequest.filters, filter);
+    },
+
+
+    /**
+     * Removes a response that was configured with {@link #configure}
+     * @param method {String} HTTP method of the response
+     * @param url {String|RegEx} URL of the response
+     */
+    removeResponse : function(method, url) {
+      qx.lang.Array.remove(this.__sinon.FakeXMLHttpRequest.filters, this.__filter);
+      var urlRegExp = url instanceof RegExp ? url : this._getRegExp(url);
+      this.__responses = this.__responses.filter(function(response) {
+        return (response[0] != method ||
+                response[1].toString() != urlRegExp.toString());
+      });
+      this.__fakeServer.responses = this.__fakeServer.responses.filter(function(response) {
+        return (response.method != method ||
+                response.url.toString() != urlRegExp.toString());
+      });
+      this.__filter = this.__getCombinedFilter();
+      this.addFilter(this.__filter);
+    },
+
+
+    /**
      * Defines a fake XHR response to a matching request.
      *
      * @param method {String} HTTP method to respond to, e.g. "GET"
      * @param urlRegExp {RegExp} Request URL must match match this expression
-     * @param response {Function|Array|String} Response to send. See
-     * {@link http://sinonjs.org/docs/#fakeServer} for details.
+     * @param response {Function|Array|String} Response to send. See the
+     * <a href="http://sinonjs.org/docs/#fakeServer" target="_blank">Sinon docs</a>
+     * for details.
      */
     respondWith : function(method, urlRegExp, response) {
       this.__fakeServer.respondWith(method, urlRegExp, response);
@@ -220,6 +248,26 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
     _getRegExp : function(pattern) {
       pattern = pattern.replace(/\{[^\/]*?\}/g, ".*?");
       return new RegExp(pattern);
+    },
+
+
+    /**
+     * Returns a filter function that ensures only requests matching configured
+     * fake responses will be intercepted.
+     * @return {Function} filter function
+     */
+    __getCombinedFilter : function() {
+      var responses = this.__responses;
+      return function(method, url, async, username, password) {
+        for (var i=0, l=responses.length; i<l; i++) {
+          var filterMethod = responses[i][0];
+          var regExp = responses[i][1];
+          if (method == filterMethod && regExp.test(url)) {
+            return false;
+          }
+        }
+        return true;
+      };
     }
   },
 
