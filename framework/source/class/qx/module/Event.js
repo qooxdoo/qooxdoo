@@ -247,7 +247,11 @@ qx.Bootstrap.define("qx.module.Event", {
      * @param target {Element} Element to attach the copied listeners to
      */
     copyEventsTo : function(target) {
+      // Copy both arrays to make sure the original collections are not manipulated.
+      // If e.g. the 'target' array contains a DOM node with child nodes we run into
+      // problems because the 'target' array is flattened within this method.
       var source = this.concat();
+      var targetCopy = target.concat();
 
       // get all children of source and target
       for (var i = source.length - 1; i >= 0; i--) {
@@ -257,14 +261,14 @@ qx.Bootstrap.define("qx.module.Event", {
         };
       }
 
-      for (var i = target.length -1; i >= 0; i--) {
-        var descendants = target[i].getElementsByTagName("*");
+      for (var i = targetCopy.length -1; i >= 0; i--) {
+        var descendants = targetCopy[i].getElementsByTagName("*");
         for (var j=0; j < descendants.length; j++) {
-          target.push(descendants[j]);
+          targetCopy.push(descendants[j]);
         };
       }
       // make sure no emitter object has been copied
-      target.forEach(function(el) {
+      targetCopy.forEach(function(el) {
         el.__emitter = null;
       });
 
@@ -280,7 +284,7 @@ qx.Bootstrap.define("qx.module.Event", {
             if (listener.original) {
               listener = listener.original;
             }
-            qxWeb(target[i]).on(name, listener, storage[name][j].ctx);
+            qxWeb(targetCopy[i]).on(name, listener, storage[name][j].ctx);
           };
         }
       };
