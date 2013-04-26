@@ -63,7 +63,7 @@ qx.Mixin.define("testrunner.view.MPerformance", {
      * Whether the browser's built-in profiling capabilities (console.profile)
      * should (additionally) be used for performance tests
      *
-     * @deprecated since 2.0
+     * @deprecated {2.0} since 2.0
      * @return {Boolean} <code>true</code> if native profiling should be used
      */
     getProfile : function()
