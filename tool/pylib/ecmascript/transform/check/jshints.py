@@ -27,6 +27,7 @@
 import os, sys, re, types
 from ecmascript.frontend import treeutil, Comment
 from ecmascript.transform.check.lint import LintChecker
+from generator.code.HintArgument import HintArgument
 
 ##
 # A visitor on a Scope() tree to collect identifier nodes with global scope.
@@ -40,30 +41,12 @@ class CreateHintsVisitor(treeutil.NodeVisitor):
     @staticmethod
     def find_enclosing_hint(node):
         while True:
-            if node.hints:
-                return node.hints
+            if hasattr(node, 'hint'):
+                return node.hint
             elif node.parent:
                 node = node.parent
             else:
                 return None
-
-    def search_upwards(self):
-        yield self
-        if self.parent:
-            for hint in self.parent.search_upwards():
-                yield hint
-
-    def ident_matches(self, name, cat_and_sub):
-        cat, subcat = cat_and_sub
-        if cat not in self.hints:
-            return False
-        elif subcat not in self.hints[cat]:
-            return False
-        else:
-            if any([LintChecker.extension_match(name,x) for x in
-                self.hints[cat][subcat]]):
-                return True
-        return False
 
     # -----------------------------------------------------------------
 
@@ -95,13 +78,8 @@ class CreateHintsVisitor(treeutil.NodeVisitor):
                 cat = entry['category']
                 if cat not in ('ignore', 'lint'):
                     continue
-                if cat not in hint.hints:
-                    hint.hints[cat] = {}
                 functor = entry.get('functor') # will be None for @ignore
-                if functor not in hint.hints[cat]:
-                    # that's a poor-man's normalisation between @lint and @ignore!
-                    hint.hints[cat][functor] = set()
-                hint.hints[cat][functor].update(entry['arguments'])  # hint.hints['lint']['ignoreUndefined']{'foo','bar'}
+                hint.add_entries((cat,functor), entry['arguments'])  # hint.hints['lint']['ignoreUndefined']{'foo','bar'}
                                                                      # hint.hints['ignore'][None]{'foo','bar'}
         return hint
 
@@ -109,8 +87,38 @@ class CreateHintsVisitor(treeutil.NodeVisitor):
 class Hint(object):
     def __init__(self):
         self.hints = {}
+        self.node = None   # link to ast node
         self.parent = None
         self.children = []
+
+    def search_upward(self):
+        yield self
+        if self.parent:
+            for hint in self.parent.search_upward():
+                yield hint
+
+    def ident_matches(self, name, cat_and_sub):
+        cat, subcat = cat_and_sub
+        if cat not in self.hints:
+            return False
+        elif subcat not in self.hints[cat]:
+            return False
+        elif name in self.hints[cat][subcat]: # HintArgument.__eq__ does the matching
+            return True
+        return False
+
+    ##
+    # Add ['foo'] to hints[lint][ignoreUndefined], turning each into a 
+    # HintArgument().
+    #
+    def add_entries(self, cat_and_subcat, entries):
+        cat, subcat = cat_and_subcat
+        if cat not in self.hints:
+            self.hints[cat] = {}
+        if subcat not in self.hints[cat]:
+            self.hints[cat][subcat] = set()
+        for entry in entries:
+            self.hints[cat][subcat].add(HintArgument(entry))
 
 # - ---------------------------------------------------------------------------
 
@@ -120,9 +128,9 @@ class Hint(object):
 def find_hints_upward(node):
     hint_node = CreateHintsVisitor.find_enclosing_hint(node)
     if hint_node:
-        return hint_node.search_upwards()
+        return hint_node.search_upward()
     else:
-        return []
+        return iter([])
 
 
 ##

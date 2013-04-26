@@ -27,8 +27,9 @@ import sys, os, types, re, string, time
 from ecmascript.frontend import treeutil, lang
 from ecmascript.frontend.tree       import Node, NODE_VARIABLE_TYPES
 from ecmascript.transform.optimizer import variantoptimizer
-from ecmascript.transform.check     import scopes #, jshints, global_symbols
+from ecmascript.transform.check     import scopes, jshints, global_symbols
 from generator.code.DependencyItem  import DependencyItem
+from generator.code.HintArgument    import HintArgument
 from generator                      import Context
 from misc import util
 
@@ -76,9 +77,7 @@ class MClassDependencies(object):
                     tree = self.tree()
 
             # Get deps from compiler hints
-            #if self.id=='qxWeb':
-            #    import pydb; pydb.debugger()
-            load_hints, run_hints, ignore_hints = self.dependencies_from_comphints(tree) # ignore_hints=[MetaMatch]
+            load_hints, run_hints, ignore_hints = self.dependencies_from_comphints(tree) # ignore_hints=[HintArgument]
             load.extend(load_hints)
             run.extend(run_hints)
 
@@ -295,7 +294,7 @@ class MClassDependencies(object):
     # 
     def dependencies_from_ast(self, node):
         result = []
-        #node = jshints.create_hints_tree(node)
+        node = jshints.create_hints_tree(node)
 
         if node.type in ('file', 'function', 'catch'):
             top_scope = node.scope
@@ -314,7 +313,7 @@ class MClassDependencies(object):
                 # create a depsItem for all its uses
                 for var_node in scopeVar.uses:
                     if (treeutil.hasAncestor(var_node, node) # var_node is not disconnected through optimization
-                        #and not global_symbols.ident_is_ignored(node)
+                        and not global_symbols.ident_is_ignored(var_node)
                        ):
                         depsItem = self.depsItem_from_node(var_node)
                         result.append(depsItem)
@@ -459,7 +458,7 @@ class MClassDependencies(object):
     # @return
     #  load [DepsItem]     DepsItems from load hints
     #  run  [DepsItem]     DepsItems from run hints
-    #  ignore [MetaMatch]  MetaMatch items from ignore hints
+    #  ignore [HintArgument]  HintArgument items from ignore hints
     #
     def dependencies_from_comphints(self, node):
         load, run = [], []
@@ -472,7 +471,7 @@ class MClassDependencies(object):
         metaIgnore.extend(metaOptional)
 
         # regexify globs in metaignore
-        metaIgnore = map(MetaMatch, metaIgnore)
+        metaIgnore = map(HintArgument, metaIgnore)
 
         # Turn strings into DependencyItems()
         for target,metaHint in ((load,metaLoad), (run,metaRun)):
@@ -781,7 +780,7 @@ class MClassDependencies(object):
 
                     # This depends on attribNode belonging to current class
                     my_ignores = self.getHints("ignoreDeps") + self.getHints("optionalDeps")
-                    my_ignores = map(MetaMatch, my_ignores)
+                    my_ignores = map(HintArgument, my_ignores)
 
                     for depsItem in depslist:
                         if depsItem in totalDeps:
@@ -813,25 +812,4 @@ class MClassDependencies(object):
         deps = getTransitiveDepsR(depsItem, variantString, checkset) # checkset is currently not used, leaving it for now
 
         return deps
-
-
-
-##
-# #ignore hints can have globs (like 'qx.test.*')
-# This class provides a wrapper around those entries so you can immediately match
-# agaist the regexp.
-class MetaMatch(object):
-
-    def __init__ (self, source=""):
-        self.source   = source  # "qx/test/*"
-        so = re.escape(source)  # for '.', '$'
-        so = so.replace(r'\*', '.*')  # re-activate '*'
-        self.regex    = re.compile(r'^%s$' % so) # re.compile("qx\.test\.*")
-
-    ##
-    # Overloading __eq__ so that 'in' tests will use a regex match
-    def __eq__ (self, other):
-        return self.regex.match(other)
-
-
 

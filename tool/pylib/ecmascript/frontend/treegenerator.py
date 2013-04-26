@@ -342,6 +342,7 @@ class symbol_base(Node):
         self.commentsIn    = []
         self.commentsAfter = []
         #self.scope = None  # pot. link to Scope() object
+        #self.hint = None  # pot. link to Hint() object
 
     # For debugging (attribute as property, to trace setter calls)
     #_parent = None

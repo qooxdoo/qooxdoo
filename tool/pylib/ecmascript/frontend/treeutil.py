@@ -709,7 +709,23 @@ def findVarRoot(node):
 # - 'var' keyword -> <var>
 #
 def findCommentedRoot(node):
-    pass
+    # var a=1, function(){}, ...
+    if node.hasParentContext("statements"):
+        return node
+    # a = 1;
+    elif node.hasParentContext("statements/assignment"):
+        return node.parent
+    # a : 1,
+    elif node.type == 'keyvalue':
+        return node
+    # xxx(), (xxx)()
+    elif node.hasParentContext("statements/call/operand"):
+        return node.parent.parent
+    # (xxx).call()
+    elif node.hasParentContext("statements/call/operand/dotaccessor"):
+        return node.parent.parent.parent
+    else:
+        return node
 
 
 ##
