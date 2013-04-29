@@ -348,7 +348,7 @@ class MClassDependencies(object):
         className, classAttribute = self._splitQxClass(assembled)
         if not className: 
             if "." in assembled:
-                className, classAttribute = assembled.split('.')[:2]
+                className, classAttribute = assembled.rsplit('.',1)
             else:
                 className = assembled
         else:
@@ -436,7 +436,7 @@ class MClassDependencies(object):
         result = []
         tree = jshints.create_hints_tree(tree)
         for depsItem in depsItems:
-            #if self.id == 'qx.test.ui.decoration.MDoubleBorder' and depsItem.name=='TestDecorator':
+            #if self.id == 'demobrowser.demo.data.Github' and depsItem.name=='github':
             #    import pydb; pydb.debugger()
             deps_repr = depsItem.name
             if depsItem.attribute:

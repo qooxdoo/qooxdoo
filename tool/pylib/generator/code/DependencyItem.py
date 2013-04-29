@@ -44,5 +44,10 @@ class DependencyItem(object):
                 )
     def __hash__(self):
         return hash(self.name + self.attribute)
+    def assembled(self):
+        r = self.name
+        if self.attribute:
+            r += '.' + self.attribute
+        return r
 
 
