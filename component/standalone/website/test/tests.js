@@ -233,10 +233,20 @@ testrunner.define({
     this.assertEquals(2, q("#sandbox .child").length);
   },
 
-  testEmpty : function() {
+  "test empty" : function() {
     var test = q.create("<div><p>test</p></div>");
     test.empty();
     this.assertEquals("", test[0].innerHTML);
+  },
+
+  "test empty and don't destroy children in IE" : function() {
+    var el = q.create("<div>foo<p>bar</p></div>");
+
+    // see [BUG #7323]
+    q('#sandbox').empty().append(el);
+    this.assertEquals("foo<p>bar</p>", el.getHtml());
+    q('#sandbox').empty().append(el);
+    this.assertEquals("foo<p>bar</p>", el.getHtml());
   },
 
   testAppendHtmlString : function() {
