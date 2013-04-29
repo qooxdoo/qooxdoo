@@ -42,6 +42,7 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
     /**
     * Evaluates the specified mediaquery list
     *
+    * @param query {String} TODOC
     * @attachStatic {qxWeb, matchMedia}
     * @return {qx.bom.MediaQueryListener}  The mediaquery listener
     */

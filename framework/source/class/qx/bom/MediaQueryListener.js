@@ -28,6 +28,9 @@ qx.Bootstrap.define("qx.bom.MediaQueryListener", {
 
   extend : qx.event.Emitter,
 
+  /**
+   * @param query {String} TODOC
+   */
   construct : function(query){
 
     this.__mql = window.matchMedia(query);

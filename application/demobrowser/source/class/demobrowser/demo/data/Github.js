@@ -17,17 +17,9 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#ignore(GITHUB)
-#ignore(github.rest)
-#ignore(github.view)
-
-************************************************************************ */
-
 /**
  * @tag noPlayground
- * @lint ignoreUndefined(github)
+ * @lint ignoreUndefined(github.*)
  */
 qx.Class.define("demobrowser.demo.data.Github", {
   extend: qx.application.Standalone,
@@ -147,14 +139,12 @@ qx.Class.define("demobrowser.demo.data.Github", {
 
 /**
  * A GitHub REST API resource
- *
- * @lint ignoreUndefined(github)
  */
 qx.Class.define("github.rest.Resource", {
   extend: qx.io.rest.Resource,
 
   /**
-   * @lint ignoreUndefined(GITHUB)
+   * @lint ignoreUndefined(GITHUB.*)
    */
   construct: function(description) {
     this.base(arguments, description);
@@ -169,8 +159,6 @@ qx.Class.define("github.rest.Resource", {
 
 /**
  * Gist view
- *
- * @lint ignoreUndefined(github)
  */
 qx.Class.define("github.view.Gist", {
   extend: qx.ui.container.Composite,
