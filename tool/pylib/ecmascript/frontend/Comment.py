@@ -403,6 +403,9 @@ class Comment(object):
     #identi = py.Word(u''.join(lang.IDENTIFIER_CHARS_START), u''.join(lang.IDENTIFIER_CHARS_BODY))
     # but using regex, to be consistent with the parser
     py_js_identifier = py.Regex(lang.IDENTIFIER_REGEXP)
+    # next: Ugly hack to add '*' to identifier globs
+    __idx = lang.IDENTIFIER_REGEXP.rfind(']')
+    py_js_identifier_glob = py.Regex(lang.IDENTIFIER_REGEXP[:__idx] + '\\*' + lang.IDENTIFIER_REGEXP[__idx:])
 
     py_simple_type = py.Suppress('{') + py_js_identifier.copy()('type_name') + py.Suppress('}')
 
@@ -431,7 +434,7 @@ class Comment(object):
     ##
     # "@ignore(foo,bar)"
     gr_at_ignore = ( py.Suppress('@') + py.Literal('ignore') + py.Suppress('(') +
-        py.delimitedList(py_js_identifier)('arguments') + py.Suppress(')') )
+        py.delimitedList(py_js_identifier_glob)('arguments') + py.Suppress(')') )
     def parse_at_ignore(self, line):
         grammar = self.gr_at_ignore
         presult = grammar.parseString(line)
@@ -575,8 +578,9 @@ class Comment(object):
         }
         return res
 
-    py_comment_term = py_js_identifier.copy().setResultsName('t_functor') + py.Suppress('(') + \
-        py.Optional(py.delimitedList(py_js_identifier)).setResultsName('t_arguments') + py.Suppress(')')
+    py_comment_term = (py_js_identifier.copy().setResultsName('t_functor') + py.Suppress('(') + 
+        py.Optional(py.delimitedList(py_js_identifier_glob)) # TODO: when retiring ignoreUndefined -> py_js_identifier
+        .setResultsName('t_arguments') + py.Suppress(')'))
 
     gr_at_lint = py.Suppress('@') + py.Literal('lint') + py_comment_term
     ##

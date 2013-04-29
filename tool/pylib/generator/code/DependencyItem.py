@@ -33,6 +33,7 @@ class DependencyItem(object):
         self.isLoadDep      = isLoadDep  # True       [static load or run dependency]
         self.needsRecursion = False      # draws transitive deps (could be static load-deps *or* run-deps)
         self.isCall         = False      # whether the reference is a function call
+        self.node           = None       # (temp.) link to corresponding AST node
     def __repr__(self):
         return "<DepItem>:" + self.name + "#" + self.attribute
     def __str__(self):

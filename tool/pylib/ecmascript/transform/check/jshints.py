@@ -103,7 +103,7 @@ class Hint(object):
             return False
         elif subcat not in self.hints[cat]:
             return False
-        elif name in self.hints[cat][subcat]: # HintArgument.__eq__ does the matching
+        elif [hint for hint in self.hints[cat][subcat] if hint==name]: # HintArgument.__eq__ does the matching
             return True
         return False
 

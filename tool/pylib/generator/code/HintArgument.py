@@ -33,14 +33,23 @@ class HintArgument(object):
 
     def __init__ (self, source=""):
         self.source = source  # "qx/test/*"
-        so = re.escape(source)  # for '.', '$'
+        if source.endswith('.*'):
+            end_wildcard = True
+            so = source[:-2]
+        else:
+            end_wildcard = False
+            so = source
+        so = re.escape(so)  # for '.', '$'
         so = so.replace(r'\*', '.*')  # re-activate '*'
-        self.regex = re.compile(r'^%s$' % so) # re.compile("qx\.test\.*")
+        if end_wildcard:
+            so += r'(?:\..*|$)'
+        else:
+            so += '$'
+        self.regex = re.compile(r'^%s' % so) # re.compile("qx\.test\.*")
 
     ##
-    # Overloading __eq__ so that 'in' tests will use a regex match
+    # Overloading __eq__ with regex match (but mind that 'in' uses hashes first!)
     def __eq__ (self, other):
         return self.regex.match(other)
-
 
 

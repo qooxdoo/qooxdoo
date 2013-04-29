@@ -77,9 +77,11 @@ class MClassDependencies(object):
                     tree = self.tree()
 
             # Get deps from compiler hints
-            load_hints, run_hints, ignore_hints = self.dependencies_from_comphints(tree) # ignore_hints=[HintArgument]
+            load_hints, run_hints, ignore_hints, all_feature_checks = self.dependencies_from_comphints(tree) # ignore_hints=[HintArgument]
             load.extend(load_hints)
             run.extend(run_hints)
+            load_feature_checks = all_feature_checks[0]
+            run_feature_checks = all_feature_checks[1]
 
             # Analyze tree
             treeDeps  = []  # will be filled by _analyzeClassDepsNode
@@ -92,12 +94,12 @@ class MClassDependencies(object):
             # integrate into existing lists
             load_hint_names = [str(x) for x in load_hints]
             for dep in load1:
-                if str(dep) in load_hint_names:
+                if str(dep) in load_hint_names and not load_feature_checks:
                     console.warn("%s: #require(%s) is auto-detected" % (self.id, dep))
                 load.append(dep)
             run_hint_names = [str(x) for x in run_hints]
             for dep in run1:
-                if str(dep) in run_hint_names:
+                if str(dep) in run_hint_names and not run_feature_checks:
                     console.warn("%s: #use(%s) is auto-detected" % (self.id, dep))
                 run.append(dep)
             ignore.extend(ignore1)
@@ -292,14 +294,13 @@ class MClassDependencies(object):
     #
     # Returns a list of depsItems.
     # 
-    def dependencies_from_ast(self, node):
+    def dependencies_from_ast(self, tree):
         result = []
-        node = jshints.create_hints_tree(node)
 
-        if node.type in ('file', 'function', 'catch'):
-            top_scope = node.scope
+        if tree.type in ('file', 'function', 'catch'):
+            top_scope = tree.scope
         else:
-            top_scope = scopes.find_enclosing(node)
+            top_scope = scopes.find_enclosing(tree)
         # walk through enclosing and all nested scopes
         for scope in top_scope.scope_iterator():
             if scope.is_defer:
@@ -312,8 +313,7 @@ class MClassDependencies(object):
             for name, scopeVar in vars_.items():  # { sym_name: ScopeVar }
                 # create a depsItem for all its uses
                 for var_node in scopeVar.uses:
-                    if (treeutil.hasAncestor(var_node, node) # var_node is not disconnected through optimization
-                        and not global_symbols.ident_is_ignored(var_node)
+                    if (treeutil.hasAncestor(var_node, tree) # var_node is not disconnected through optimization
                        ):
                         depsItem = self.depsItem_from_node(var_node)
                         result.append(depsItem)
@@ -335,6 +335,7 @@ class MClassDependencies(object):
         depsItem.isLoadDep      = scope.is_load_time
         depsItem.needsRecursion = False
         depsItem.isCall         = False
+        depsItem.node           = node
         is_lib_class             = False
         var_root = treeutil.findVarRoot(node)  # various of the tests need the var (dot) root, rather than the head symbol (like 'qx')
 
@@ -423,10 +424,26 @@ class MClassDependencies(object):
     #
     def _analyzeClassDepsNode(self, node, depsList, inLoadContext, inDefer=False):
         lexical_globals  =  self.dependencies_from_ast(node)
+        lexical_globals  =  self.filter_symbols_by_jshints(node, lexical_globals)
         lexical_globals +=  self.dependencies_from_envcalls(node)
         filtered_globals =  self.filter_symbols_by_builtins(lexical_globals)
+        [setattr(x,'node',None) for x in filtered_globals]  # remove AST links (for easier caching)
         depsList.extend(filtered_globals)
         return
+
+
+    def filter_symbols_by_jshints(self, tree, depsItems):
+        result = []
+        tree = jshints.create_hints_tree(tree)
+        for depsItem in depsItems:
+            #if self.id == 'qx.test.ui.decoration.MDoubleBorder' and depsItem.name=='TestDecorator':
+            #    import pydb; pydb.debugger()
+            deps_repr = depsItem.name
+            if depsItem.attribute:
+                deps_repr += '.' + depsItem.attribute
+            if not global_symbols.ident_is_ignored(deps_repr, depsItem.node):
+                result.append(depsItem)
+        return result
 
 
     def filter_symbols_by_comphints(self, treeDeps, ignore_hints):
@@ -475,9 +492,11 @@ class MClassDependencies(object):
 
         # Turn strings into DependencyItems()
         for target,metaHint in ((load,metaLoad), (run,metaRun)):
+            all_feature_checks = [False, False]  # load_feature_checks, run_feature_checks
             for key in metaHint:
                 # add all feature checks if requested
-                if key == "feature-checks" and metaHint in (metaLoad, metaRun):
+                if key == "feature-checks":
+                    all_feature_checks[bool(metaHint==metaRun)] = True
                     target.extend(self.depsitems_from_envchecks(-1, metaHint==metaLoad))
                 # turn an entry into a DependencyItem
                 elif isinstance(key, types.StringTypes):
@@ -486,7 +505,7 @@ class MClassDependencies(object):
                     attrName  = sig[1] if len(sig)>1 else ''
                     target.append(DependencyItem(className, attrName, self.id, "|hints|"))
 
-        return load, run, metaIgnore
+        return load, run, metaIgnore, all_feature_checks
 
 
     ##
