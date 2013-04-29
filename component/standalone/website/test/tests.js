@@ -52,6 +52,9 @@ testrunner.define({
 
     this.assertTrue(this.sandbox.slice(0).testInit);
     this.assertEquals(2, this.sandbox.slice(0).length);
+    this.assertEquals(1, this.sandbox.slice(1).length);
+    this.assertEquals(0, this.sandbox.slice(0,0).length);
+    this.assertEquals(1, this.sandbox.slice(0,1).length);
 
     var clone = this.sandbox.clone().splice(0, 2);
     this.assertTrue(clone.testInit);
