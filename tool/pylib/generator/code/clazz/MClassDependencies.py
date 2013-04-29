@@ -27,8 +27,9 @@ import sys, os, types, re, string, time
 from ecmascript.frontend import treeutil, lang
 from ecmascript.frontend.tree       import Node, NODE_VARIABLE_TYPES
 from ecmascript.transform.optimizer import variantoptimizer
-from ecmascript.transform.check     import scopes
+from ecmascript.transform.check     import scopes, jshints, global_symbols
 from generator.code.DependencyItem  import DependencyItem
+from generator.code.HintArgument    import HintArgument
 from generator                      import Context
 from misc import util
 
@@ -62,36 +63,11 @@ class MClassDependencies(object):
         #   run time  = after class  = use
         def buildShallowDeps(tree=None):
 
-            load   = []
-            run    = []
+            load, run   = [], []
             ignore = [DependencyItem(x, '', "|DefaultIgnoredNamesDynamic|") for x in self.defaultIgnoredNamesDynamic]
 
-            console.debug("Analyzing tree: %s" % self.id)
+            console.debug("Getting shallow deps of: %s" % self.id)
             console.indent()
-
-            # Read meta data
-            meta         = self.getHints()
-            metaLoad     = meta.get("loadtimeDeps", [])
-            metaRun      = meta.get("runtimeDeps" , [])
-            metaOptional = meta.get("optionalDeps", [])
-            metaIgnore   = meta.get("ignoreDeps"  , [])
-            metaIgnore.extend(metaOptional)
-
-            # regexify globs in metaignore
-            metaIgnore = map(MetaIgnore, metaIgnore)
-
-            # Turn strings into DependencyItems()
-            for target,metaHint in ((load,metaLoad), (run,metaRun), (ignore,metaIgnore)):
-                for key in metaHint:
-                    # add all feature checks if requested
-                    if key == "feature-checks" and metaHint in (metaLoad, metaRun):
-                        target.extend(self.getAllEnvChecks(-1, metaHint==metaLoad))
-                    # turn an entry into a DependencyItem
-                    elif isinstance(key, types.StringTypes):
-                        sig = key.split('#',1)
-                        className = sig[0]
-                        attrName  = sig[1] if len(sig)>1 else ''
-                        target.append(DependencyItem(className, attrName, self.id, "|hints|"))
 
             # Read source tree data
             if not tree:
@@ -100,35 +76,31 @@ class MClassDependencies(object):
                 else:
                     tree = self.tree()
 
-            # analyze tree
+            # Get deps from compiler hints
+            load_hints, run_hints, ignore_hints = self.dependencies_from_comphints(tree) # ignore_hints=[HintArgument]
+            load.extend(load_hints)
+            run.extend(run_hints)
+
+            # Analyze tree
             treeDeps  = []  # will be filled by _analyzeClassDepsNode
             self._analyzeClassDepsNode(tree, treeDeps, inLoadContext=True)
 
-            # Process source tree data
-            for dep in treeDeps:
-                if dep.isLoadDep:
-                    if "auto-require" not in metaIgnore:
-                        item = dep.name
-                        if item in metaIgnore:
-                            pass
-                        elif item in metaLoad:
-                            console.warn("%s: #require(%s) is auto-detected" % (self.id, item))
-                        else:
-                            # adding all items to list (the second might have needsRecursion)
-                            load.append(dep)
+            # Filter lexical deps through ignore_hints
+            load1, run1, ignore1 = self.filter_symbols_by_comphints(treeDeps, ignore_hints)
+                # load and run are being filtered, ignore contains the actually filtered depsItems
 
-                else: # runDep
-                    if "auto-use" not in metaIgnore:
-                        item = dep.name
-                        if item in metaIgnore:
-                            pass
-                        #elif item in (x.name for x in load):
-                        #    pass
-                        elif item in metaRun:
-                            console.warn("%s: #use(%s) is auto-detected" % (self.id, item))
-                        else:
-                            # adding all items to list (to comply with the 'load' deps)
-                            run.append(dep)
+            # integrate into existing lists
+            load_hint_names = [str(x) for x in load_hints]
+            for dep in load1:
+                if str(dep) in load_hint_names:
+                    console.warn("%s: #require(%s) is auto-detected" % (self.id, dep))
+                load.append(dep)
+            run_hint_names = [str(x) for x in run_hints]
+            for dep in run1:
+                if str(dep) in run_hint_names:
+                    console.warn("%s: #use(%s) is auto-detected" % (self.id, dep))
+                run.append(dep)
+            ignore.extend(ignore1)
 
             console.outdent()
 
@@ -244,6 +216,20 @@ class MClassDependencies(object):
 
 
 
+    def _getCombinedDeps(self, node):
+        depsList = []
+        lexical_globals  =  self.dependencies_from_ast(node)
+        lexical_globals +=  self.dependencies_from_envcalls(node)
+        filtered_globals = gs.globals_filter_by_hints(lexical_globals)
+        filtered_globals = gs.globals_filter_by_builtins(filtered_globals)
+        filtered_globals = gs.globals_filter_by_libclasses(filtered_globals)
+        filtered_globals = gs.filter_self_references(filtered_globals)
+        filtered_globals = gs.filter_multple_occurrences(filtered_globals)
+        depsList = self.depsItems_from_nodes(filtered_globals)
+        depsList = self.add_config_dependencies(depsList)
+        return depsList
+
+
     def getCombinedDeps(self, classesAll_, variants, config, stripSelfReferences=True, projectClassNames=True, force=False, tree=None):
 
         # init lists
@@ -299,192 +285,16 @@ class MClassDependencies(object):
 
 
     # ----------------------------------------------------------------------------------
-    # -- all methods below this line up to _analyzeClassDepsNode() are only used by that
-
-    ##
-    # Only applies to qx.*.define calls, checks for a 'defer' child in class map
-    def checkDeferNode(self, assembled, node):
-        deferNode = None
-        if assembled in lang.QX_CLASS_FACTORIES:
-            if node.hasParentContext("call/operand"):
-                deferNode = treeutil.selectNode(node, "../../arguments/2/keyvalue[@key='defer']/value/function/body/block")
-        return deferNode
-
-
-    ##
-    # Checks if the required class is known, and the reference to it is in a
-    # context that is executed at load-time
-    def followCallDeps(self, node, fileId, depClassName, inLoadContext):
-        
-        def hasFollowContext(node):
-            pchn = node.getParentChain()
-            pchain = "/".join(pchn)
-            return (
-                pchain.endswith("call/operand")  # it's a function call
-                or treeutil.isNEWoperand(node)   # it's a 'new' operation
-                )
-
-        # ----------------------------------------------------------------
-
-        if (inLoadContext
-            and depClassName
-            and depClassName in ClassesAll  # we have a class id
-            and hasFollowContext(node)
-           ):
-            return True
-        else:
-            return False
-
-
-    ##
-    # analyze a class AST for dependencies (compiler hints not treated here)
-    # does not follow dependencies to other classes (ie. it's a "shallow" analysis)!
-    # the "variants" param is only to support getTransitiveDeps()!
-    #
-    # i tried an iterative version once, wrapping the main function body into a
-    # loop over treeutil.nodeIteratorNonRec(); surprisingly, it seem slightly
-    # slower than the recursive version on first measurements; also, it still
-    # needed a recursive call when coming across a 'defer' node, and i'm not
-    # sure how to handle this sub-recursion when the main body is an iteration.
-    # TODO:
-    # - <recurse> seems artificial, and should be removed when cleaning up dependencies1()
-    def _analyzeClassDepsNode_1(self, node, depsList, inLoadContext, inDefer=False):
-
-        if node.isVar():
-            if node.dep:
-                depsList.append(node.dep)
-                return
-                
-            assembled = (treeutil.assembleVariable(node))[0]
-
-            # treat dependencies in defer as requires
-            deferNode = self.checkDeferNode(assembled, node)
-            if deferNode != None:
-                self._analyzeClassDepsNode(deferNode, depsList, inLoadContext=True, inDefer=True)
-
-            (context, className, classAttribute) = self._isInterestingReference(assembled, node, self.id, inDefer)
-            # postcond: 
-            # - if className != '' it is an interesting reference
-            # - might be a known qooxdoo class, or an unknown class (use 'className in self._classes')
-            # - if assembled contained ".", classAttribute will contain approx. non-class part
-
-            if className:
-                # we allow self-references, to be able to track method dependencies within the same class
-                if className == 'this':
-                    className = self.id
-                elif inDefer and className in DEFER_ARGS:
-                    className = self.id
-                if not classAttribute:  # see if we have to provide 'construct'
-                    if treeutil.isNEWoperand(node):
-                        classAttribute = 'construct'
-                # Can't do the next; it's catching too many occurrences of 'getInstance' that have
-                # nothing to do with the singleton 'getInstance' method (just grep in the framework)
-                #elif classAttribute == 'getInstance':  # erase 'getInstance' and introduce 'construct' dependency
-                #    classAttribute = 'construct'
-                line = node.get('line',0)
-                depsItem = DependencyItem(className, classAttribute, self.id, line if line else -1, inLoadContext)
-                #print "-- adding: %s (%s:%s)" % (className, treeutil.getFileFromSyntaxItem(node), node.get('line',False))
-                if node.hasParentContext("call/operand"): # it's a function call
-                    depsItem.isCall = True  # interesting when following transitive deps
-
-                # Adding all items to list; let caller sort things out
-                depsList.append(depsItem)
-                node.dep = depsItem
-
-                # Mark items that need recursive analysis of their dependencies (bug#1455)
-                if self.followCallDeps(node, self.id, className, inLoadContext):
-                    depsItem.needsRecursion = True
-
-        # check e.g. qx.core.Environment.get("runtime.name")
-        elif node.type == "constant" and node.hasParentContext("call/arguments"):
-            if node.dep:
-                depsList.append(node.dep)
-                return
-            callnode = treeutil.selectNode(node, "../..")
-            if variantoptimizer.isEnvironmentCall(callnode):
-                className, classAttribute = self.getClassNameFromEnvKey(node.get("value", ""))
-                if className:
-                    depsItem = DependencyItem(className, classAttribute, self.id, node.get('line', -1), inLoadContext)
-                    depsItem.isCall = True  # treat as if actual call, to collect recursive deps
-                    if inLoadContext:
-                        depsItem.needsRecursion = True
-                    depsList.append(depsItem)
-                    node.dep = depsItem
-
-
-        elif node.type == "body" and node.parent.type == "function":
-            if (node.parent.hasParentContext("call/operand") 
-                or node.parent.hasParentContext("call/operand/group")):
-                # if the function is immediately called, it's still load context (if that's what it was before)
-                pass
-            else:
-                inLoadContext = False
-
-        if node.hasChildren():
-            for child in node.children:
-                self._analyzeClassDepsNode(child, depsList, inLoadContext, inDefer)
-
-        return
-
-        # end:_analyzeClassDepsNode
-
-    ##
-    # Alternative implementation using Scope()s.
-    #
-    def _analyzeClassDepsNode_2(self, node, depsList, inLoadContext, inDefer=False):
-        # Lexical dependencies
-        if node.type in ('file', 'function', 'catch'):
-            top_scope = node.scope
-        else:
-            top_scope = scopes.find_enclosing(node)
-        # walk through enclosing and all nested scopes
-        for scope in top_scope.scope_iterator():
-            if scope.is_load_time:
-                # e.g. in 'defer' handle locals like 'statics' as dependency with recursion
-                vars_ = scope.vars
-            else:
-                # only consider global syms
-                vars_ = scope.globals()
-            for name, scopeVar in vars_.items():  # { sym_name: ScopeVar }
-                # create a depsItem for all its uses
-                for var_node in scopeVar.uses:
-                    if treeutil.hasAncestor(var_node, node): # var_node is not disconnected through optimization
-                        depsItem = self.qualify_deps_item(var_node, scope.is_load_time, scope.is_defer)
-                        # as this also does filtering
-                        if depsItem:
-                            depsList.append(depsItem)
-
-        # qx.core.Environment.*() feature dependencies
-        for env_operand in variantoptimizer.findVariantNodes(node):
-            call_node = env_operand.parent.parent
-            env_key = call_node.getChild("arguments").children[0].get("value", "")
-            className, classAttribute = self.getClassNameFromEnvKey(env_key)
-            if className:
-                #print className
-                depsItem = DependencyItem(className, classAttribute, self.id, env_operand.get('line', -1))
-                depsItem.isCall = True  # treat as if actual call, to collect recursive deps
-                # .inLoadContext
-                qx_idnode = treeutil.findFirstChainChild(env_operand) # 'qx' node of 'qx.core.Environment....'
-                scope = qx_idnode.scope
-                inLoadContext = scope.is_load_time # get its scope's .is_load_time
-                depsItem.isLoadDep = inLoadContext
-                if inLoadContext:
-                    depsItem.needsRecursion = True
-                depsList.append(depsItem)
-
-        return
-
-    _analyzeClassDepsNode = _analyzeClassDepsNode_2
 
     ##
     # Find dependencies of a code tree, purely looking at identifier head-symbols
     # that are not covered by the current scope chain.
-    # (Most of this started as a copy of _analyzeClassDepsNode_2.)
     #
     # Returns a list of depsItems.
     # 
     def dependencies_from_ast(self, node):
         result = []
+        node = jshints.create_hints_tree(node)
 
         if node.type in ('file', 'function', 'catch'):
             top_scope = node.scope
@@ -502,14 +312,18 @@ class MClassDependencies(object):
             for name, scopeVar in vars_.items():  # { sym_name: ScopeVar }
                 # create a depsItem for all its uses
                 for var_node in scopeVar.uses:
-                    if treeutil.hasAncestor(var_node, node): # var_node is not disconnected through optimization
+                    if (treeutil.hasAncestor(var_node, node) # var_node is not disconnected through optimization
+                        and not global_symbols.ident_is_ignored(var_node)
+                       ):
                         depsItem = self.depsItem_from_node(var_node)
-                        #if self.id=='qx.Bootstrap' and depsItem.name=='debug':
-                        #    import pydb; pydb.debugger()
                         result.append(depsItem)
         return result
 
 
+    ##
+    # DepsItem Factory: Create a DependencyItem() from an AST node, setting
+    # various of its features.
+    #
     def depsItem_from_node(self, node):
         scope = node.scope
         # some initializations (might get refined later)
@@ -568,15 +382,16 @@ class MClassDependencies(object):
         
 
     ##
-    # qx.core.Environment.*() feature dependencies
+    # DepsItems from qx.core.Environment.*() feature dependencies
     #
-    def environment_dependencies(self, node):
+    def dependencies_from_envcalls(self, node):
         depsList = []
+        qcEnvClass = ClassesAll['qx.core.Environment']
         for env_operand in variantoptimizer.findVariantNodes(node):
             call_node = env_operand.parent.parent
             env_key = call_node.getChild("arguments").children[0].get("value", "")
-            className, classAttribute = self.getClassNameFromEnvKey(env_key)
-            if className:
+            className, classAttribute = qcEnvClass.classNameFromEnvKey(env_key)
+            if className and className in ClassesAll:
                 #print className
                 depsItem = DependencyItem(className, classAttribute, self.id, env_operand.get('line', -1))
                 depsItem.isCall = True  # treat as if actual call, to collect recursive deps
@@ -589,8 +404,10 @@ class MClassDependencies(object):
                 depsList.append(depsItem)
         return depsList
 
-    def symbols_filter_by_builtins(self, depsList):
+
+    def filter_symbols_by_builtins(self, depsList):
         return [deps for deps in depsList if not GlobalSymbolsCombinedPatt.search(deps.name)]
+
 
     def is_this(self, strrng):
         if strrng[:4] == "this":
@@ -599,262 +416,89 @@ class MClassDependencies(object):
                 return True
         return False
 
+
+    ##
+    # Return a list of dependency items, gleaned from an AST node, with some filters
+    # applied.
+    #
     def _analyzeClassDepsNode(self, node, depsList, inLoadContext, inDefer=False):
         lexical_globals  =  self.dependencies_from_ast(node)
-        lexical_globals +=  self.environment_dependencies(node)
-        filtered_globals =  self.symbols_filter_by_builtins(lexical_globals)
+        lexical_globals +=  self.dependencies_from_envcalls(node)
+        filtered_globals =  self.filter_symbols_by_builtins(lexical_globals)
         depsList.extend(filtered_globals)
         return
 
-    def _getCombinedDeps(self, node):
-        depsList = []
-        lexical_globals  =  self.dependencies_from_ast(node)
-        lexical_globals +=  self.environment_dependencies(node)
-        filtered_globals = gs.globals_filter_by_hints(lexical_globals)
-        filtered_globals = gs.globals_filter_by_builtins(filtered_globals)
-        filtered_globals = gs.globals_filter_by_libclasses(filtered_globals)
-        filtered_globals = gs.filter_self_references(filtered_globals)
-        filtered_globals = gs.filter_multple_occurrences(filtered_globals)
-        depsList = self.depsItems_from_nodes(filtered_globals)
-        depsList = self.add_config_dependencies(depsList)
-        return depsList
-        
+
+    def filter_symbols_by_comphints(self, treeDeps, ignore_hints):
+        load, run, ignored = [], [], []
+        # Process source tree data
+        for dep in treeDeps:
+            # load deps
+            if dep.isLoadDep:
+                if "auto-require" not in ignore_hints:
+                    if dep.name in ignore_hints:
+                        ignored.append(dep)
+                    else:
+                        # adding all items to list (the second might have needsRecursion)
+                        load.append(dep)
+            # run deps
+            else:
+                if "auto-use" not in ignore_hints:
+                    if dep.name in ignore_hints:
+                        ignored.append(dep)
+                    else:
+                        # adding all items to list (to comply with the 'load' deps)
+                        run.append(dep)
+        return load, run, ignored
+
 
     ##
-    # Does all the tests to qualify a DependencyItem (inLoad, needsRecursion, ...).
-    def qualify_deps_item(self, node, isLoadTime, inDefer, depsItem=None):
-        if not depsItem:
-            depsItem = DependencyItem('', '', '')
-        depsItem.name = ''
-        depsItem.attribute = ''
-        depsItem.requestor = self.id
-        depsItem.line = node.get("line", -1)
-        depsItem.isLoadDep = isLoadTime
-        depsItem.needsRecursion = False
-        depsItem.isCall = False
-        var_root = treeutil.findVarRoot(node)  # various of the tests need the var (dot) root, rather than the head symbol (like 'qx')
+    # This still covers #-hints.
+    #
+    # @return
+    #  load [DepsItem]     DepsItems from load hints
+    #  run  [DepsItem]     DepsItems from run hints
+    #  ignore [HintArgument]  HintArgument items from ignore hints
+    #
+    def dependencies_from_comphints(self, node):
+        load, run = [], []
+        # Read meta data
+        meta         = self.getHints()
+        metaLoad     = meta.get("loadtimeDeps", [])
+        metaRun      = meta.get("runtimeDeps" , [])
+        metaOptional = meta.get("optionalDeps", [])
+        metaIgnore   = meta.get("ignoreDeps"  , [])
+        metaIgnore.extend(metaOptional)
 
-        # .isCall
-        if var_root.hasParentContext("call/operand"): # it's a function call
-            depsItem.isCall = True  # interesting when following transitive deps
+        # regexify globs in metaignore
+        metaIgnore = map(HintArgument, metaIgnore)
 
-        # .name
-        assembled = (treeutil.assembleVariable(node))[0]
-        _, className, classAttribute = self._isInterestingReference(assembled, var_root, self.id, inDefer)
-        # postcond: 
-        # - className != '' must always be true, as we know it is an interesting reference
-        # - might be a known qooxdoo class, or an unknown class (use 'className in self._classes')
-        # - if assembled contained ".", classAttribute will contain approx. non-class part
+        # Turn strings into DependencyItems()
+        for target,metaHint in ((load,metaLoad), (run,metaRun)):
+            for key in metaHint:
+                # add all feature checks if requested
+                if key == "feature-checks" and metaHint in (metaLoad, metaRun):
+                    target.extend(self.depsitems_from_envchecks(-1, metaHint==metaLoad))
+                # turn an entry into a DependencyItem
+                elif isinstance(key, types.StringTypes):
+                    sig = key.split('#',1)
+                    className = sig[0]
+                    attrName  = sig[1] if len(sig)>1 else ''
+                    target.append(DependencyItem(className, attrName, self.id, "|hints|"))
 
-        if className:
-            # we allow self-references, to be able to track method dependencies within the same class
-            if className == 'this':
-                className = self.id
-            elif inDefer and className in DEFER_ARGS:
-                className = self.id
-            if not classAttribute:  # see if we have to provide 'construct'
-                if treeutil.isNEWoperand(var_root):
-                    classAttribute = 'construct'
-            # Can't do the next; it's catching too many occurrences of 'getInstance' that have
-            # nothing to do with the singleton 'getInstance' method (just grep in the framework)
-            #elif classAttribute == 'getInstance':  # erase 'getInstance' and introduce 'construct' dependency
-            #    classAttribute = 'construct'
-            depsItem.name = className
-            depsItem.attribute = classAttribute
-
-            # .needsRecursion
-            # Mark items that need recursive analysis of their dependencies (bug#1455)
-            if self.followCallDeps(var_root, self.id, className, isLoadTime):
-                depsItem.needsRecursion = True
-
-        if depsItem.name:
-            return depsItem
-        else:
-            return None
-        
-        
+        return load, run, metaIgnore
 
 
-    def getAllEnvChecks(self, nodeline, inLoadContext):
+    ##
+    # Turn all feature classes into depsItems.
+    #
+    def depsitems_from_envchecks(self, nodeline, inLoadContext):
         result = []
-        envmappings = self.context['envchecksmap']
-        for key in envmappings:
-            clsname, clsattribute = self.getClassNameFromEnvKey(key)
+        qcEnvClass = ClassesAll['qx.core.Environment']
+        for key in qcEnvClass.checksMap:
+            clsname, clsattribute = qcEnvClass.classNameFromEnvKey(key)
             result.append(DependencyItem(clsname, clsattribute, self.id, nodeline, inLoadContext))
         return result
-
-
-    ##
-    # Looks up the environment key in a map that yields the full class plus
-    # method name as a string.
-    def getClassNameFromEnvKey(self, key):
-        result = '',''
-        envmappings = self.context['envchecksmap']
-        if key in envmappings:
-            implementation = envmappings[key]
-            fullname, methname = implementation.rsplit(".", 1)
-            if fullname in ClassesAll:
-                result = fullname, methname
-        return result
-
-
-    def _isInterestingReference(self, assembled, node, fileId, inDefer):
-
-        ##
-        # try to qualify the syntactical context of the given variable node (call, instantiation,
-        # ...); also, filter for the "head" symbol of a complex var expression (like 'a.b.c').
-        def checkNodeContext(node):
-
-            ##
-            # Getting the longest left-most dotaccessor in the expression <node>
-            # is in, e.g. the 'a.b' in 'a.b().c.d[0].e'.
-            #
-            # The idea is to only treat 'a.b' as interesting, and ignore all
-            # other vars in such an expression. So the check is to see whether
-            # <node> represents 'a.b'.
-            #
-            # To get this we 
-            # (a) use the leftmostChild of <node> ("downwards")
-            #     (If <node> represents 'a.b', this should be 'a', but would
-            #     be 'c' if in 'c.d'). The leftmostChild is also used
-            #     elsewhere, so it is passed in as a param.
-            # (b) from that search upwards the tree to get the highest enclosing
-            #     dotaccessor node.
-            # If this is identical to <node>, <node> is interesting.
-            #
-            def is_leftmost_and_highest_pure_dotaccessor(node, leftmost_child):
-
-                res = False
-
-                # as _isInterestingReference is run on *any* var node while
-                # traversing the tree intermediate occurrences var nodes like
-                # in 'a.b().c[d].e' are run through it as well; but it is enough to treat
-                # the longest left-most expression, so we restrict ourself to the "head" var
-                # expression like 'a.b' here, and skip other occurrences (like 'c', 'd'
-                # and 'e' in the example)
-                #myFirst = node.getFirstChild(mandatory=False, ignoreComments=True)
-                #if not treeutil.checkFirstChainChild(myFirst): # see if myFirst is the first identifier in a chain
-                #    context = ''
-
-
-                # get the top-most dotaccessor of this identifier/constant(?)
-                ##localTop = treeutil.findVarRoot(leftmostChild)
-                
-                # testing for the 'a.b' in 'a.b().c[d].e'; bare 'a' in 'a' is also caught
-                ##if localTop != node:
-                ##    context = ''
-
-                # ----------------------------------------------------
-
-                # assumption: not is_right_dot_operand(node), so
-                # we're on the 'left' axis of the (left-leaning) expression
-                var_root = treeutil.findVarRoot(leftmost_child) # get the highest pur dotaccessor above it
-                res = var_root == node
-
-                return res
-
-            def is_right_dot_operand(node):
-                return node.parent.type == "dotaccessor" and node.parent.getChild(1) == node
-
-            # ------------------------------------------------------------------
-
-            context = 'interesting' # every context is interesting, maybe we get more specific or reset to ''
-
-            # don't treat label references
-            if node.parent.type in ("break", "continue"):
-                context = ''
-
-            # skip right dot operands (the 'b' in 'a.b')
-            elif is_right_dot_operand(node):
-                context = ''
-
-            else:
-                leftmost_child = treeutil.findLeftmostChild(node) # get left-most child
-
-                # skip inner parts of a complex dotaccessor chain ('.c' in 'a.b().c.d[3].f')
-                if not is_leftmost_and_highest_pure_dotaccessor(node, leftmost_child):
-                    context = ''
-
-                # '/^\s*$/.test(value)' or '[].push' or '{}.toString'
-                elif leftmost_child.type in ("constant", "array", "map"):
-                    context = ''
-
-                # check name in 'new ...' position
-                elif treeutil.isNEWoperand(node):
-                    context = 'new'
-
-                # check name in call position
-                elif (node.hasParentContext("call/operand")):
-                    context = 'call'
-
-                # check name in "'extend' : ..." position
-                elif (node.hasParentContext("keyvalue/*") and node.parent.parent.get('key') in ['extend']): #, 'include']):
-                    #print "-- found context: %s" % node.parent.parent.get('key')
-                    context = 'extend'
-
-            return context
-
-        def isInterestingIdentifier(assembled):
-            # accept 'this', as we want to track dependencies within the same class
-            if assembled[:4] == "this":
-                if len(assembled) == 4 or (len(assembled) > 4 and assembled[4] == "."):
-                    return True
-            # skip built-in classes (Error, document, RegExp, ...); GLOBALS contains 'this' and 'arguments'
-            if GlobalSymbolsCombinedPatt.search(assembled):
-                return False
-            firstDot = assembled.find(".")
-            if firstDot > -1:
-                firstElement = assembled[:firstDot]
-            else:
-                firstElement = assembled
-            if inDefer and firstElement in DEFER_ARGS:
-                return True
-            # skip scoped vars - expensive, therefore last test
-            elif self._isScopedVar(assembled, node, fileId):
-                return False
-            else:
-                return True
-
-        def attemptSplitIdentifier(context, assembled):
-            # try qooxdoo classes first
-            className, classAttribute = self._splitQxClass(assembled)
-            if className:
-                return className, classAttribute
-
-            # check some scoped vars that equal 'this'
-            parts = assembled.split(".")  # split on ".", if any
-            if parts[0] in (("this",) + DEFER_ARGS):
-                className, classAttribute = parts[0], (parts[1] if len(parts)>1 else '') # this also strips parts[>1]
-                return className, classAttribute
-            
-            # now handle non-qooxdoo classes
-            className, classAttribute = assembled, ''
-            if context == 'new':
-                className = assembled
-            elif context == 'extend':
-                className = assembled
-            #elif context in ('call', 'accessor'):
-            else:
-                # try split at last dot
-                lastDotIdx = assembled.rfind('.')
-                if lastDotIdx > -1:
-                    className   = assembled[:lastDotIdx]
-                    classAttribute = assembled[lastDotIdx + 1:]
-                else:
-                    className = assembled
-
-            return className, classAttribute
-
-        # ---------------------------------------------------------------------
-        context = nameBase = nameExtension = ''
-        context = checkNodeContext(node)
-        if context: 
-            if isInterestingIdentifier(assembled): # filter some local or build-in names
-                nameBase, nameExtension = attemptSplitIdentifier(context, assembled)
-
-        return context, nameBase, nameExtension
-
-        # end:_isInterestingReference()
 
 
     ##
@@ -874,20 +518,6 @@ class MClassDependencies(object):
                         if dotidx > -1:
                             classAttribute = classAttribute[:dotidx]    # only use the first component
         return className, classAttribute
-
-
-    ##
-    # Check if the detected (pot. complex) identifier <idStr>, with corresponding
-    # AST node <node>, is a lexically scoped identifier in <fileId>.
-    #
-    def _isScopedVar(self, idStr, node, fileId):
-        res = False
-        head_node = treeutil.findFirstChainChild(node)
-        assert head_node and hasattr(head_node, 'scope')
-        var_name = head_node.get('value')
-        var_scope = head_node.scope.lookup_decl(var_name)
-        res = bool(var_scope)
-        return res
 
 
 
@@ -1150,7 +780,7 @@ class MClassDependencies(object):
 
                     # This depends on attribNode belonging to current class
                     my_ignores = self.getHints("ignoreDeps") + self.getHints("optionalDeps")
-                    my_ignores = map(MetaIgnore, my_ignores)
+                    my_ignores = map(HintArgument, my_ignores)
 
                     for depsItem in depslist:
                         if depsItem in totalDeps:
@@ -1182,25 +812,4 @@ class MClassDependencies(object):
         deps = getTransitiveDepsR(depsItem, variantString, checkset) # checkset is currently not used, leaving it for now
 
         return deps
-
-
-
-##
-# #ignore hints can have globs (like 'qx.test.*')
-# This class provides a wrapper around those entries so you can immediately match
-# agaist the regexp.
-class MetaIgnore(object):
-
-    def __init__ (self, source=""):
-        self.source   = source  # "qx/test/*"
-        so = re.escape(source)  # for '.', '$'
-        so = so.replace(r'\*', '.*')  # re-activate '*'
-        self.regex    = re.compile(r'^%s$' % so) # re.compile("qx\.test\.*")
-
-    ##
-    # Overloading __eq__ so that 'in' tests will use a regex match
-    def __eq__ (self, other):
-        return self.regex.match(other)
-
-
 

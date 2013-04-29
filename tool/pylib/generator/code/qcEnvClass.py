@@ -29,6 +29,9 @@ from ecmascript.frontend.tree  import NodeAccessException
 
 class qcEnvClass(Class):
 
+    def init_checksMap(self):
+        self.checksMap = self.extractChecksMap()
+
     def extractChecksMap(self):
         tree = self.tree()
         checksMap = None
@@ -49,4 +52,17 @@ class qcEnvClass(Class):
                                   "expected string value for key '%s' (found %s)") % 
                                   (self.id, key, checksMap[key].children[0].type))
         return checksMap
+
+    ##
+    # Looks up the environment key in a map that yields the full class plus
+    # method name as a string.
+    def classNameFromEnvKey(self, key):
+        result = '',''
+        if key in self.checksMap:
+            implementation = self.checksMap[key]
+            fullname, methname = implementation.rsplit(".", 1)
+            result = fullname, methname
+        return result
+
+
 

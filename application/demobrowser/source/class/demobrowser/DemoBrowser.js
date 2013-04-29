@@ -61,9 +61,6 @@ qx.Class.define("demobrowser.DemoBrowser",
   *****************************************************************************
   */
 
-  /**
-   * @lint ignoreUndefined(qxc)
-   */
   construct : function()
   {
     this.base(arguments);
@@ -1710,8 +1707,6 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     /**
      * Creates the application header.
-     *
-     * @lint ignoreUndefined(qxc)
      */
     _createHeader : function()
     {

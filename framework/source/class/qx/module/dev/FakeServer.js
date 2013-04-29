@@ -88,6 +88,18 @@ qx.Bootstrap.define("qx.module.dev.FakeServer", {
       qx.dev.FakeServer.getInstance().configure(responseData);
     },
 
+
+    /**
+     * Removes a response that was configured with {@link #configure}
+     * @param method {String} HTTP method of the response
+     * @param url {String|RegEx} URL of the response
+     *
+     * @attachStatic {qxWeb, dev.fakeServer.removeResponse}
+     */
+    removeResponse : function(method, url) {
+      qx.dev.FakeServer.getInstance().removeResponse(method, url);
+    },
+
     /**
      * Adds a URL filtering function to decide whether a request should be handled
      * by the FakeServer or passed to the regular XMLHttp implementation.
@@ -102,6 +114,17 @@ qx.Bootstrap.define("qx.module.dev.FakeServer", {
      */
     addFilter : function(filter) {
       qx.dev.FakeServer.getInstance().addFilter(filter);
+    },
+
+
+    /**
+     * Remove a filter that was added with {@link #addFilter}
+     * @param filter {Function} filter function to remove
+     *
+     * @attachStatic {qxWeb, dev.fakeServer.removeFilter}
+     */
+    removeFilter : function(filter) {
+      qx.dev.FakeServer.getInstance().removeFilter(filter);
     },
 
 
@@ -145,7 +168,9 @@ qx.Bootstrap.define("qx.module.dev.FakeServer", {
       "dev": {
         "fakeServer" : {
           "configure" : statics.configure,
+          "removeResponse" : statics.removeResponse,
           "addFilter" : statics.addFilter,
+          "removeFilter" : statics.removeFilter,
           "respondWith" : statics.respondWith,
           "getFakeServer" : statics.getFakeServer,
           "restore" : statics.restore

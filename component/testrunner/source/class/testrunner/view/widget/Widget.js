@@ -233,7 +233,6 @@ qx.Class.define("testrunner.view.widget.Widget", {
      * Returns the application header
      *
      * @return {qx.ui.container.Composite} The application header
-     * @lint ignoreUndefined(qxc)
      */
     __createHeader : function()
     {
@@ -772,7 +771,6 @@ qx.Class.define("testrunner.view.widget.Widget", {
     /**
      * Returns a container with the AUT log element
      *
-     * @lint ignoreUndefined(qxc)
      * @return {log.LogView} The log container
      */
     __createLogContainer : function()

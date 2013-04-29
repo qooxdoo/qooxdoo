@@ -28,9 +28,6 @@ qx.Class.define("demobrowser.demo.showcase.Form",
 
   members :
   {
-    /**
-     * @lint ignoreUndefined(qxc)
-     */
     main: function()
     {
       this.base(arguments);

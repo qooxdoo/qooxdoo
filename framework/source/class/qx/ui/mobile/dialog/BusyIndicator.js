@@ -155,6 +155,6 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
       this.__animationHandle.stop();
     }
     
-    this._disposeObjects("__spinnerAnimation", "__animationHandle");
+    this.__spinnerAnimation = this.__animationHandle = null;
   }
 });

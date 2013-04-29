@@ -20,14 +20,12 @@
 
 /* ************************************************************************
 #ignore(qx.bom.element.AnimationJs)
-#ignore(qx.bom)
 ************************************************************************ */
 
 /**
  * DOM manipulation module
  *
  * @ignore(qx.bom.element.AnimationJs)
- * @ignore(qx.bom)
  */
 qx.Bootstrap.define("qx.module.Manipulating", {
   statics :
