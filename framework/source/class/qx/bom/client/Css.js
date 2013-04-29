@@ -402,20 +402,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
-     * Checks if the overflowX and overflowY style properties are supported
-     *
-     * @internal
-     * @return {Boolean} <code>true</code> if overflow-x and overflow-y can be
-     * used
-     * @deprecated {2.1}
-     */
-    getOverflowXY : function() {
-      return (typeof document.documentElement.style.overflowX == "string") &&
-        (typeof document.documentElement.style.overflowY == "string");
-    },
-
-
-    /**
      * Checks if CSS texShadow is supported
      *
      * @internal

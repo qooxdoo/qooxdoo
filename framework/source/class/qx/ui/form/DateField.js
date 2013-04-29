@@ -256,15 +256,6 @@ qx.Class.define("qx.ui.form.DateField",
     },
 
 
-    /**
-     * @deprecated { since 2.1 } use _addLocaleChangeListener instead
-     */
-    _addLocaleChangeLeistener : function() {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Use _addLocaleChangeListener instead.");
-
-      this._addLocaleChangeListener();
-    },
-
     /*
     ---------------------------------------------------------------------------
       PUBLIC METHODS
