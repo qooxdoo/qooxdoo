@@ -112,7 +112,7 @@ qx.Class.define("demobrowser.demo.table.Table_Context_Menu",
      * @param dataModel {qx.ui.table.model.Simple}
      *   Complete data model of the table
      *
-     * @param contextMenu
+     * @param contextMenu {qx.ui.menu.Menu}
      *   Menu in which buttons can be added to implement this context menu.
      */
     _contextMenuHandlerBoolean : function(col,
@@ -156,7 +156,7 @@ qx.Class.define("demobrowser.demo.table.Table_Context_Menu",
      * @param dataModel {qx.ui.table.model.Simple}
      *   Complete data model of the table
      *
-     * @param contextMenu
+     * @param contextMenu {qx.ui.menu.Menu}
      *   Menu in which buttons can be added to implement this context menu.
      */
     _contextMenuHandlerNull : function(col,
