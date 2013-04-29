@@ -193,6 +193,7 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
         return (response.method != method ||
                 response.url.toString() != urlRegExp.toString());
       });
+      this.removeFilter(this.__filter);
       this.__filter = this.__getCombinedFilter();
       this.addFilter(this.__filter);
     },
@@ -229,12 +230,15 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
 
 
     /**
-     * Stops the FakeServer
+     * Stops the FakeServer and removes all configured responses and/or filters.
      */
     restore : function() {
-      if (this.__fakeServer) {
-        this.__fakeServer.restore();
-      }
+      this.__responses = [];
+      this.removeFilter(this.__filter);
+      this.__filter = null;
+      this.__fakeServer.restore();
+      this.__fakeServer = null,
+      this.getFakeServer();
     },
 
 
@@ -266,6 +270,7 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
             return false;
           }
         }
+        console.log("don't fake", url);
         return true;
       };
     }

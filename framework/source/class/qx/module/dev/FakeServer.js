@@ -155,7 +155,7 @@ qx.Bootstrap.define("qx.module.dev.FakeServer", {
 
 
     /**
-     * Stops the FakeServer
+     * Stops the FakeServer and removes all configured responses and/or filters.
 
      * @attachStatic {qxWeb, dev.fakeServer.restore}
      */

@@ -3026,15 +3026,13 @@ testrunner.define({
     q.dev.fakeServer.removeResponse("GET", url);
 
     var req = q.io.xhr(url).on("readystatechange", function(xhr) {
-      console.log(xhr.status, xhr.readyState);
       if (xhr.status == 404 && xhr.readyState == 4) {
         this.resume();
       }
     }, this).send();
 
     this.wait();
-  }
-  /*,
+  },
 
   testRespondWith : function() {
     var url = "/doesnotexist" + Date.now();
@@ -3048,6 +3046,6 @@ testrunner.define({
     }, this).send();
 
     this.wait();
-  }*/
+  }
 
 });
