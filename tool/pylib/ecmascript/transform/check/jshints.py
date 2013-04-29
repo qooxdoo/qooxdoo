@@ -35,8 +35,12 @@ from generator.code.HintArgument import HintArgument
 class CreateHintsVisitor(treeutil.NodeVisitor):
 
     def __init__(self, tree):
-        self.curr_hint = Hint() # provide an inital, empty top-level Hint() object
-        tree.hint = self.curr_hint
+        hint = self.process_comments(tree)
+        if not hint:
+            hint = Hint() # provide an inital, empty top-level Hint() object
+        self.curr_hint = hint
+        tree.hint = hint
+        hint.node = tree
 
     @staticmethod
     def find_enclosing_hint(node):
@@ -52,34 +56,35 @@ class CreateHintsVisitor(treeutil.NodeVisitor):
 
     def visit(self, node):
 
+        hint = self.process_comments(node)
+        if hint:
+            # maintain hint tree
+            self.curr_hint.children.append(hint)
+            hint.parent = self.curr_hint
+            # get main node from node
+            main_node = treeutil.findCommentedRoot(node)
+            # cross-link hint and node
+            main_node.hint = hint
+            hint.node = main_node # node?!
+            # scope nested hints
+            self.curr_hint = hint
+        for cld in node.children:
+            self.visit(cld)
+
+    def process_comments(self, node):
+        hint = None
         if node.comments:
             commentsArray = Comment.parseNode(node)
             if any(commentsArray):
                 hint = Hint()
-                # maintain hint tree
-                self.curr_hint.children.append(hint)
-                hint.parent = self.curr_hint
                 # fill hint from commentAttributes
-                hint = self.commentAttributes_to_hint(commentsArray, hint)
-                # get main node from node
-                main_node = treeutil.findCommentedRoot(node)
-                # cross-link hint and node
-                main_node.hint = hint
-                hint.node = main_node # node?!
-                # scope nested hints
-                self.curr_hint = hint
-        for cld in node.children:
-            self.visit(cld)
-
-    def commentAttributes_to_hint(self, commentsArray, hintObj):
-        hint = hintObj
-        for commentAttributes in commentsArray:
-            for entry in commentAttributes:
-                cat = entry['category']
-                if cat not in ('ignore', 'lint'):
-                    continue
-                functor = entry.get('functor') # will be None for @ignore
-                hint.add_entries((cat,functor), entry['arguments'])  # hint.hints['lint']['ignoreUndefined']{'foo','bar'}
+                for commentAttributes in commentsArray:
+                    for entry in commentAttributes:
+                        cat = entry['category']
+                        if cat not in ('ignore', 'lint'):
+                            continue
+                        functor = entry.get('functor') # will be None for @ignore
+                        hint.add_entries((cat,functor), entry['arguments'])  # hint.hints['lint']['ignoreUndefined']{'foo','bar'}
                                                                      # hint.hints['ignore'][None]{'foo','bar'}
         return hint
 
