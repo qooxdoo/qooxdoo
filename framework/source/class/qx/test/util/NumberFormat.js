@@ -17,10 +17,6 @@
 
 ************************************************************************ */
 
-/*
-#require qx.locale.data.de_DE
-*/
-
 qx.Class.define("qx.test.util.NumberFormat",
 {
   extend : qx.dev.unit.TestCase,
