@@ -346,9 +346,11 @@ class MClassDependencies(object):
         # .name, .attribute
         assembled = (treeutil.assembleVariable(node))[0]
         className, classAttribute = self._splitQxClass(assembled)
+        assembled_parts = assembled.split('.')
         if not className: 
             if "." in assembled:
-                className, classAttribute = assembled.rsplit('.',1)
+                className = '.'.join(assembled_parts[:-1])
+                classAttribute = assembled_parts[-1]
             else:
                 className = assembled
         else:
@@ -359,7 +361,7 @@ class MClassDependencies(object):
                 classAttribute = className.split('.')[1]
             className = self.id
             is_lib_class = True
-        elif scope.is_defer and className in DEFER_ARGS:
+        elif scope.is_defer and assembled_parts[0] in DEFER_ARGS:
             className = self.id
             is_lib_class = True
         if is_lib_class and not classAttribute:  # see if we have to provide 'construct'
