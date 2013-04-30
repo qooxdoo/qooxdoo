@@ -478,7 +478,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.boxsizing", statics.getBoxSizing);
     qx.core.Environment.add("css.inlineblock", statics.getInlineBlock);
     qx.core.Environment.add("css.opacity", statics.getOpacity);
-    qx.core.Environment.add("css.overflowxy", statics.getOverflowXY);
     qx.core.Environment.add("css.textShadow", statics.getTextShadow);
     qx.core.Environment.add("css.textShadow.filter", statics.getFilterTextShadow);
   }
