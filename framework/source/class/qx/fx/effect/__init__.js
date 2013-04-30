@@ -1,4 +1,0 @@
-/**
- * qx.fx.effect package
- *
- */
