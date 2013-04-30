@@ -92,7 +92,7 @@ qx.Bootstrap.define("qx.module.dev.FakeServer", {
     /**
      * Removes a response that was configured with {@link #configure}
      * @param method {String} HTTP method of the response
-     * @param url {String|RegEx} URL of the response
+     * @param url {String|RegExp} URL of the response
      *
      * @attachStatic {qxWeb, dev.fakeServer.removeResponse}
      */
