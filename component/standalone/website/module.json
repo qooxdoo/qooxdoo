@@ -151,8 +151,17 @@
     "build-extras" :
     {
       "extend" : ["build"],
+      "let" : {
+        "Q_INCLUDES" : [
+          "qx.module.*"
+        ],
+        "_EXCLUDES_" : ["=qx.module.Core", "qx.module.event.*"]
+      },
       // qx.module.event.* already in Core
-      "exclude" : ["=qx.module.Core", "qx.module.event.*"],
+      "config-warnings" : {
+        "exclude" : "${_EXCLUDES_}"
+      },
+      "exclude" : "${_EXCLUDES_}",
       "lint-check" : {
         "allowed-globals" : [
             "qx.Bootstrap",
@@ -163,11 +172,6 @@
             "qx.bom",
             "qx.event",
             "qx.util"
-        ]
-      },
-      "let" : {
-        "Q_INCLUDES" : [
-          "qx.module.*"
         ]
       },
       "compile-options" :
@@ -205,6 +209,9 @@
       "desc": "abstract job (requires ${MODULE_FILENAME})",
       "lint-check" : {
         "allowed-globals" : [ "qx.Bootstrap", "qxWeb" ]
+      },
+      "config-warnings" : {
+        "exclude" : ["=qx.module.Core"]
       },
       "exclude" : ["=qx.module.Core"],
       "compile-options" :
