@@ -187,6 +187,7 @@ qx.Class.define("qx.ui.basic.Image",
     __height : null,
     __mode : null,
     __contentElements : null,
+    __currentContentElement : null,
     __wrapper : null,
 
 
@@ -703,6 +704,7 @@ qx.Class.define("qx.ui.basic.Image",
   */
 
   destruct : function() {
+    delete this.__currentContentElement;
     this._disposeMap("__contentElements");
   }
 });
