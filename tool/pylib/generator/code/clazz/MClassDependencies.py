@@ -351,19 +351,22 @@ class MClassDependencies(object):
             if "." in assembled:
                 className = '.'.join(assembled_parts[:-1])
                 classAttribute = assembled_parts[-1]
+                #className, classAttribute = assembled.split('.')[:2]
             else:
                 className = assembled
         else:
             is_lib_class = True
         # we allow self-references, to be able to track method dependencies within the same class
-        if self.is_this(className):
-            if className.find('.')>-1:
-                classAttribute = className.split('.')[1]
+        if assembled_parts[0] == 'this':
             className = self.id
             is_lib_class = True
+            if '.' in assembled:
+                classAttribute = assembled_parts[1]
         elif scope.is_defer and assembled_parts[0] in DEFER_ARGS:
             className = self.id
             is_lib_class = True
+            if '.' in assembled:
+                classAttribute = assembled_parts[1]
         if is_lib_class and not classAttribute:  # see if we have to provide 'construct'
             if treeutil.isNEWoperand(var_root):
                 classAttribute = 'construct'
