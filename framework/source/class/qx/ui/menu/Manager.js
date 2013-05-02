@@ -162,17 +162,16 @@ qx.Class.define("qx.ui.menu.Manager",
 
 
     /**
-     * Whether the given widget is one of the menu opener.
+     * Whether the given widget is one of the menu openers.
      *
      * @param widget {qx.ui.core.Widget} Any widget
-     * @return {Boolean} <code>true</code> when the widget is a menu opener
+     * @return {Boolean} <code>true</code> if the widget is a menu opener
      */
-    _isInMenuOpener : function(widget)
+    _isMenuOpener : function(widget)
     {
       var menus = this.__objects;
-      // check their opener with widget
-      for (var i=0; i<menus.length; i++)
-      {
+
+      for (var i = 0; i < menus.length; i++) {
         if (menus[i].getOpener() === widget) {
           return true;
         }
@@ -850,9 +849,9 @@ qx.Class.define("qx.ui.menu.Manager",
       target = qx.ui.core.Widget.getWidgetByElement(target, true);
 
       if (
-        this.__objects.length > 0 
-        && !this._isInMenu(target) 
-        && !this._isInMenuOpener(target)
+        this.__objects.length > 0
+        && !this._isInMenu(target)
+        && !this._isMenuOpener(target)
       ) {
         this.hideAll();
       }
