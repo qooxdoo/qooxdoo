@@ -27,7 +27,7 @@ qx.Class.define("qx.test.performance.decorator.Beveled",
       return new qx.ui.decoration.Decorator().set({
         outerColor : "invalid",
         innerColor : "border-focused-invalid",
-        insets: [1]
+        width: 1
       });
     }
   }

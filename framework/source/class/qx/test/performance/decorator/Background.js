@@ -28,7 +28,7 @@ qx.Class.define("qx.test.performance.decorator.Background",
         backgroundImage: "decoration/form/tooltip-error-arrow.png",
         backgroundPositionY: "center",
         backgroundRepeat: "no-repeat",
-        insets: [0, 0, 0, 10]
+        slice: [0, 0, 0, 10]
       });
     }
   }
