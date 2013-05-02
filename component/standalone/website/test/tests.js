@@ -199,13 +199,19 @@ testrunner.define({
   },
 
   "test empty and don't destroy children in IE" : function() {
-    var el = q.create("<div>foo<p>bar</p></div>");
-
     // see [BUG #7323]
+
+    var el = q.create("<div>foo<p>bar</p></div>");
+    var ieSpecialTreatment = function(html) {
+      // IE uses uppercase tag names and inserts whitespace
+      return html.toLowerCase().replace(/\s+/, "");
+    };
+
     q('#sandbox').empty().append(el);
-    this.assertEquals("foo<p>bar</p>", el.getHtml());
+    this.assertEquals("foo<p>bar</p>", ieSpecialTreatment(el.getHtml()));
     q('#sandbox').empty().append(el);
-    this.assertEquals("foo<p>bar</p>", el.getHtml());
+    this.assertEquals("foo<p>bar</p>", ieSpecialTreatment(el.getHtml()));
+    this.assertEquals("<div>foo<p>bar</p></div>", ieSpecialTreatment(q('#sandbox').getHtml()));
   },
 
   testAppendHtmlString : function() {
