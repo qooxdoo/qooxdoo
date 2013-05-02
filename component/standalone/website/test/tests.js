@@ -1959,6 +1959,18 @@ testrunner.define({
     this.assertEquals("george", result);
   },
 
+  testRenderToNodeTmplTextOnly : function() {
+    var result = q.template.renderToNode("{{affe}}", {affe: "george"});
+    this.assertEquals(1, result.length);
+    this.assertEquals("george", result[0].data);
+  },
+
+  testRenderToNodeTmplWithNodes : function() {
+    var result = q.template.renderToNode("<div><span>{{affe}}</span></div>", {affe: "george"});
+    this.assertEquals(1, result.length);
+    this.assertEquals("george", result[0].firstChild.firstChild.data);
+  },
+
   testGet : function() {
     var template = q.create("<div id='tmp'>{{affe}}</div>");
     template.appendTo(document.body);
