@@ -92,15 +92,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "pane" :
-    {
-      style :
-      {
-        baseImage : "decoration/pane/pane.png",
-        insets    : [0, 2, 3, 0]
-      }
-    },
-
     "tabview-pane-css" :
     {
       style : {
@@ -306,15 +297,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
       TOOLTIP
     ---------------------------------------------------------------------------
     */
-
-    "tooltip-error" :
-    {
-      style : {
-        baseImage : "decoration/form/tooltip-error.png",
-        insets    : [ 2, 0, 2, 2 ]
-      }
-    },
-
     "tooltip-error-css" :
     {
       style : {
@@ -322,95 +304,16 @@ qx.Theme.define("qx.theme.modern.Decoration",
         radius : 4,
         shadowColor : "shadow",
         shadowBlurRadius : 2,
-        shadowLength : 1,
-        insets: [2, 0, 0, 2]
-      }
-    },
-
-    "tooltip-error-left" :
-    {
-      include : "tooltip-error",
-
-      style : {
-        insets : [2, 5, 5, 2]
-      }
-    },
-
-    "tooltip-error-css-left" :
-    {
-      include : "tooltip-error-css",
-
-      style : {
-        insets : [-1, 0, 0, -2]
-      }
-    },
-
-
-    "tooltip-error-arrow" :
-    {
-      style: {
-        backgroundImage: "decoration/form/tooltip-error-arrow.png",
-        backgroundPositionY: "top",
-        backgroundRepeat: "no-repeat",
-        insets: [-4, 0, 0, 13]
-      }
-    },
-
-
-    "tooltip-error-arrow-left" :
-    {
-      style: {
-        backgroundImage: "decoration/form/tooltip-error-arrow-right.png",
-        backgroundPositionY: "top",
-        backgroundPositionX: "right",
-        backgroundRepeat: "no-repeat",
-        insets: [-4, -13, 0, 0]
-      }
-    },
-
-
-    "tooltip-error-arrow-left-css" :
-    {
-      style: {
-        backgroundImage: "decoration/form/tooltip-error-arrow-right.png",
-        backgroundPositionY: "top",
-        backgroundPositionX: "right",
-        backgroundRepeat: "no-repeat",
-        insets: [-6, -13, 0, 0]
+        shadowLength : 1
       }
     },
 
 
     /*
     ---------------------------------------------------------------------------
-      SHADOWS
+      POPUP
     ---------------------------------------------------------------------------
     */
-
-    "shadow-window" :
-    {
-      style : {
-        baseImage : "decoration/shadow/shadow.png",
-        insets    : [ 0, 8, 8, 0 ]
-      }
-    },
-
-    "shadow-window-css" :
-    {
-      style : {
-        shadowColor : "shadow",
-        shadowBlurRadius : 2,
-        shadowLength : 1
-      }
-    },
-
-    "shadow-popup" :
-    {
-      style : {
-        baseImage : "decoration/shadow/shadow-small.png",
-        insets    : [ 0, 3, 3, 0 ]
-      }
-    },
 
     "popup-css" :
     {
@@ -552,10 +455,10 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     /*
     ---------------------------------------------------------------------------
-      PLAIN CSS BUTTON
+      BUTTON
     ---------------------------------------------------------------------------
     */
-    "button-css" :
+    "button" :
     {
       style :
       {
@@ -569,9 +472,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "button-disabled-css" :
+    "button-disabled" :
     {
-      include : "button-css",
+      include : "button",
       style : {
         color : "button-border-disabled",
         startColor: "button-disabled-start",
@@ -579,34 +482,34 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "button-hovered-css" :
+    "button-hovered" :
     {
-      include : "button-css",
+      include : "button",
       style : {
         startColor : "button-hovered-start",
         endColor : "button-hovered-end"
       }
     },
 
-    "button-checked-css" :
+    "button-checked" :
     {
-      include : "button-css",
+      include : "button",
       style : {
         endColor: "button-start",
         startColor: "button-end"
       }
     },
 
-    "button-pressed-css" :
+    "button-pressed" :
     {
-      include : "button-css",
+      include : "button",
       style : {
         endColor : "button-hovered-start",
         startColor : "button-hovered-end"
       }
     },
 
-    "button-focused-css" : {
+    "button-focused" : {
       style :
       {
         radius: 3,
@@ -621,8 +524,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "button-checked-focused-css" : {
-      include : "button-focused-css",
+    "button-checked-focused" : {
+      include : "button-focused",
       style : {
         endColor: "button-start",
         startColor: "button-end"
@@ -630,161 +533,63 @@ qx.Theme.define("qx.theme.modern.Decoration",
     },
 
     // invalid
-    "button-invalid-css" : {
-      include : "button-css",
+    "button-invalid" : {
+      include : "button",
       style : {
         color: "border-invalid"
       }
     },
 
-    "button-disabled-invalid-css" :
+    "button-disabled-invalid" :
     {
-      include : "button-disabled-css",
+      include : "button-disabled",
       style : {
         color : "border-invalid"
       }
     },
 
-    "button-hovered-invalid-css" :
+    "button-hovered-invalid" :
     {
-      include : "button-hovered-css",
+      include : "button-hovered",
       style : {
         color : "border-invalid"
       }
     },
 
-    "button-checked-invalid-css" :
+    "button-checked-invalid" :
     {
-      include : "button-checked-css",
+      include : "button-checked",
       style : {
         color : "border-invalid"
       }
     },
 
-    "button-pressed-invalid-css" :
+    "button-pressed-invalid" :
     {
-      include : "button-pressed-css",
+      include : "button-pressed",
       style : {
         color : "border-invalid"
       }
     },
 
-    "button-focused-invalid-css" : {
-      include : "button-focused-css",
+    "button-focused-invalid" : {
+      include : "button-focused",
       style : {
         color : "border-invalid"
       }
     },
 
-    "button-checked-focused-invalid-css" : {
-      include : "button-checked-focused-css",
+    "button-checked-focused-invalid" : {
+      include : "button-checked-focused",
       style : {
         color : "border-invalid"
       }
     },
-
 
 
     /*
     ---------------------------------------------------------------------------
-      BUTTON
-    ---------------------------------------------------------------------------
-    */
-
-    "button" :
-    {
-      style :
-      {
-        baseImage : "decoration/form/button.png",
-        insets    : 2
-      }
-    },
-
-    "button-disabled" :
-    {
-      style :
-      {
-        baseImage : "decoration/form/button-disabled.png",
-        insets    : 2
-      }
-    },
-
-    "button-focused" :
-    {
-      style :
-      {
-        baseImage : "decoration/form/button-focused.png",
-        insets    : 2
-      }
-    },
-
-    "button-hovered" :
-    {
-      style :
-      {
-        baseImage : "decoration/form/button-hovered.png",
-        insets    : 2
-      }
-    },
-
-    "button-pressed" :
-    {
-      style :
-      {
-        baseImage : "decoration/form/button-pressed.png",
-        insets    : 2
-      }
-    },
-
-    "button-checked" :
-    {
-      style :
-      {
-        baseImage : "decoration/form/button-checked.png",
-        insets    : 2
-      }
-    },
-
-    "button-checked-focused" :
-    {
-      style :
-      {
-        baseImage : "decoration/form/button-checked-focused.png",
-        insets    : 2
-      }
-    },
-
-    "button-invalid-shadow" :
-    {
-      style :
-      {
-        color : "invalid",
-        width : 1,
-        insets : 0
-      }
-    },
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      CHECKBOX
-    ---------------------------------------------------------------------------
-    */
-
-    "checkbox-invalid-shadow" :
-    {
-      style :
-      {
-        color : "invalid",
-        innerColor : "border-focused-invalid",
-        insets: [0]
-      }
-    },
-
-    /*
-    ---------------------------------------------------------------------------
-      PLAIN CSS CHECK BOX
+      CHECK BOX
     ---------------------------------------------------------------------------
     */
     "checkbox" : {
@@ -854,11 +659,11 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     /*
     ---------------------------------------------------------------------------
-      PLAIN CSS TEXT FIELD
+      TEXT FIELD
     ---------------------------------------------------------------------------
     */
 
-    "input-css" :
+    "input" :
     {
       style :
       {
@@ -875,15 +680,15 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "border-invalid-css" : {
-      include : "input-css",
+    "border-invalid" : {
+      include : "input",
       style : {
         color : "border-invalid"
       }
     },
 
-    "input-focused-css" : {
-      include : "input-css",
+    "input-focused" : {
+      include : "input",
       style : {
         startColor : "input-focused-start",
         innerColor : "input-focused-end",
@@ -891,82 +696,20 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "input-focused-invalid-css" : {
-      include : "input-focused-css",
+    "input-focused-invalid" : {
+      include : "input-focused",
       style : {
         innerColor : "input-focused-inner-invalid",
         color : "border-invalid"
       }
     },
 
-    "input-disabled-css" : {
-      include : "input-css",
+    "input-disabled" : {
+      include : "input",
       style : {
         color: "input-border-disabled"
       }
     },
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      TEXT FIELD
-    ---------------------------------------------------------------------------
-    */
-
-    "input" :
-    {
-      style :
-      {
-        color : "border-input",
-        innerColor : "border-inner-input",
-        innerOpacity : 0.5,
-        backgroundImage : "decoration/form/input.png",
-        backgroundRepeat : "repeat-x",
-        backgroundColor : "background-light"
-      }
-    },
-
-    "input-focused" :
-    {
-      style :
-      {
-        color : "border-input",
-        innerColor : "border-focused",
-        backgroundImage : "decoration/form/input-focused.png",
-        backgroundRepeat : "repeat-x",
-        backgroundColor : "background-light"
-      }
-    },
-
-    "input-focused-invalid" :
-    {
-      style :
-      {
-        color : "invalid",
-        innerColor : "border-focused-invalid",
-        backgroundImage : "decoration/form/input-focused.png",
-        backgroundRepeat : "repeat-x",
-        backgroundColor : "background-light",
-        insets: [2]
-      }
-    },
-
-
-    "input-disabled" :
-    {
-      style :
-      {
-        color : "border-disabled",
-        innerColor : "border-inner-input",
-        innerOpacity : 0.5,
-        backgroundImage : "decoration/form/input.png",
-        backgroundRepeat : "repeat-x",
-        backgroundColor : "background-light"
-      }
-    },
-
-
 
 
 
@@ -1076,15 +819,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
     */
 
     "tabview-pane" :
-    {
-      style :
-      {
-        baseImage : "decoration/tabview/tabview-pane.png",
-        insets : [ 4, 6, 7, 4 ]
-      }
-    },
-
-    "tabview-pane-css" :
     {
       style : {
         width: 1,

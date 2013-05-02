@@ -207,7 +207,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
 
         return {
-          decorator : decorator + "-css",
+          decorator : decorator,
           textColor : textColor,
           padding : padding,
           margin : [1, 0]
@@ -435,7 +435,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
 
         return {
-          decorator : decorator + "-css",
+          decorator : decorator,
           padding : [ 2, 4, 1 ],
           textColor : textColor
         };
@@ -486,7 +486,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
 
         return {
-          decorator : decorator + "-css"
+          decorator : decorator
         };
       }
     },
@@ -837,7 +837,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
 
         return {
-          decorator : decorator + "-css"
+          decorator : decorator
         };
       }
     },
@@ -894,7 +894,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
         return {
           backgroundColor : "background-light",
-          decorator : decorator + "-css"
+          decorator : decorator
         };
       }
     },
@@ -1080,7 +1080,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "tabview-pane-css",
+          decorator : "tabview-pane",
 
           marginBottom : states.barBottom ? -1 : 0,
           marginTop : states.barTop ? -1 : 0,
@@ -1676,6 +1676,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator: "tooltip-error-css",
           font: "bold",
           padding: [3, 4, 4, 4],
+          margin: [1, 0, 0, 0],
           maxWidth: 333
         };
       }
@@ -2004,7 +2005,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
         return {
           padding : 2,
-          decorator : decorator + "-css",
+          decorator : decorator,
           backgroundColor : "background-light"
         };
       }
@@ -2149,8 +2150,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
         } else {
           decorator = "input";
         }
-
-        decorator += "-css";
 
         return {
           decorator : decorator
