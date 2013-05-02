@@ -31,7 +31,7 @@ qx.Theme.define("showcase.page.theme.calc.theme.appearance.Black",
         return {
           backgroundColor : backgroundColor,
           decorator : "calc-window",
-          contentPadding : [6, 8, 8 ,8]
+          contentPadding : [4, 4]
         };
       }
     },
