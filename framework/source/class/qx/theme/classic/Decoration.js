@@ -212,17 +212,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
     },
 
 
-    "checkbox-invalid-shadow" :
-    {
-      style :
-      {
-        outerColor : "invalid",
-        innerColor : "border-focused-invalid",
-        insets: [0]
-      }
-    },
-
-
     /*
     ---------------------------------------------------------------------------
       LIST ITEM
