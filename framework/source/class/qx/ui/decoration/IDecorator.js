@@ -35,11 +35,19 @@ qx.Interface.define("qx.ui.decoration.IDecorator",
     getStyles : function() {},
 
 
+
     /**
-     * Get the amount of space, the decoration needs for its border on each
-     * side.
+     * Returns the configured padding minus the border width.
+     * @return {Map} Map of top, right, bottom and left padding values
+     */
+    getPadding : function() {},
+
+
+    /**
+     * Get the amount of space the decoration needs for its border and padding
+     * on each side.
      *
-     * @return {Map} the desired insed a map with the keys <code>top</code>,
+     * @return {Map} the desired inset as a map with the keys <code>top</code>,
      *     <code>right</code>, <code>bottom</code>, <code>left</code>.
      */
     getInsets : function() {}

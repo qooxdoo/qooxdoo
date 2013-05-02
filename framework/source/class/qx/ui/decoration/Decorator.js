@@ -57,23 +57,19 @@ qx.Class.define("qx.ui.decoration.Decorator", {
      */
     getPadding : function()
     {
-      var left = this.getInsetLeft();
-      var right = this.getInsetRight();
-      var top = this.getInsetTop();
-      var bottom = this.getInsetBottom();
-
+      var insets = this.getInset();
       var slices = this._getDefaultInsetsForBorderImage();
 
-      var borderTop = top - (slices.top ? slices.top : this.getWidthTop());
-      var borderRight = right - (slices.right ? slices.right : this.getWidthRight());
-      var borderBottom = bottom - (slices.bottom ? slices.bottom : this.getWidthBottom());
-      var borderLeft = left - (slices.left ? slices.left : this.getWidthLeft());
+      var borderTop = insets.top - (slices.top ? slices.top : this.getWidthTop());
+      var borderRight = insets.right - (slices.right ? slices.right : this.getWidthRight());
+      var borderBottom = insets.bottom - (slices.bottom ? slices.bottom : this.getWidthBottom());
+      var borderLeft = insets.left - (slices.left ? slices.left : this.getWidthLeft());
 
       return {
-        top : top ? borderTop : this.getInnerWidthTop(),
-        right : right ? borderRight : this.getInnerWidthRight(),
-        bottom : bottom ? borderBottom : this.getInnerWidthBottom(),
-        left : left ? borderLeft : this.getInnerWidthLeft()
+        top : insets.top ? borderTop : this.getInnerWidthTop(),
+        right : insets.right ? borderRight : this.getInnerWidthRight(),
+        bottom : insets.bottom ? borderBottom : this.getInnerWidthBottom(),
+        left : insets.left ? borderLeft : this.getInnerWidthLeft()
       };
     },
 
