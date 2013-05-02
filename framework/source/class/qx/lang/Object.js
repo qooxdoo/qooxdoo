@@ -70,41 +70,6 @@ qx.Bootstrap.define("qx.lang.Object",
 
 
     /**
-     * Check whether the number of objects in the maps is at least "length"
-     *
-     * @signature function(map, minLength)
-     * @param map {Object} the map to check
-     * @param minLength {Integer} minimum number of objects in the map
-     * @deprecated {2.1} Please use a check and 'qx.lang.Object.getLength'.
-     * @return {Boolean} whether the map contains at least "length" objects.
-     * @lint ignoreUnused(key)
-     */
-    hasMinLength : function(map, minLength)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
-        qx.core.Assert && qx.core.Assert.assertInteger(minLength, "Invalid argument 'minLength'");
-      }
-
-      if (minLength <= 0) {
-        return true;
-      }
-
-      var length = 0;
-
-      for (var key in map)
-      {
-        if ((++length) >= minLength) {
-          return true;
-        }
-      }
-
-      return false;
-    },
-
-
-    /**
      * Get the number of objects in the map
      *
      * @signature function(map)
@@ -112,29 +77,6 @@ qx.Bootstrap.define("qx.lang.Object",
      * @return {Integer} number of objects in the map
      */
     getLength : qx.Bootstrap.objectGetLength,
-
-
-    /**
-     * Get the keys of a map as array as returned by a "for ... in" statement.
-     *
-     * @deprecated {2.1.} Please use Object.keys instead.
-     * @signature function(map)
-     * @param map {Object} the map
-     * @return {Array} array of the keys of the map
-     */
-    getKeys : qx.Bootstrap.getKeys,
-
-
-    /**
-     * Get the keys of a map as string
-     *
-     * @signature function(map)
-     * @param map {Object} the map
-     * @deprecated {2.1} Object.keys(map).join().
-     * @return {String} String of the keys of the map
-     *         The keys are separated by ", "
-     */
-    getKeysAsString : qx.Bootstrap.getKeysAsString,
 
 
     /**
@@ -171,59 +113,6 @@ qx.Bootstrap.define("qx.lang.Object",
      * @return {Object} Target with merged values from the source object
      */
     mergeWith : qx.Bootstrap.objectMergeWith,
-
-
-    /**
-     * Inserts all key/value pairs of the source object into the
-     * target object but doesn't override existing keys
-     *
-     * @param target {Object} target object
-     * @param source {Object} object to be merged
-     * @return {Object} target with merged values from source
-     * @deprecated {2.1} please use mergeWith instead with override set to false
-     */
-    carefullyMergeWith : function(target, source)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        qx.core.Assert && qx.core.Assert.assertMap(target, "Invalid argument 'target'");
-        qx.core.Assert && qx.core.Assert.assertMap(source, "Invalid argument 'source'");
-        qx.Bootstrap.warn(
-          "'qx.lang.Object.carefullyMergeWith' is deprecated." +
-          " Please use 'qx.lang.Object.mergeWith' with override set to false instead"
-        );
-      }
-
-      return qx.lang.Object.mergeWith(target, source, false);
-    },
-
-
-    /**
-     * Merge a number of objects.
-     *
-     * @param target {Object} target object
-     * @param varargs {Object} variable number of objects to merged with target
-     * @return {Object} target with merged values from the other objects
-     * @deprecated {2.1} Please use mergeWith instead.
-     */
-    merge : function(target, varargs)
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.core.Assert && qx.core.Assert.assertMap(target, "Invalid argument 'target'");
-        qx.Bootstrap.warn(
-          "'qx.lang.Object.merge' is deprecated." +
-          " Please use 'qx.lang.Object.mergeWith' several times instead"
-        );
-      }
-
-      var len = arguments.length;
-
-      for (var i=1; i<len; i++) {
-        qx.lang.Object.mergeWith(target, arguments[i]);
-      }
-
-      return target;
-    },
 
 
     /**
@@ -331,26 +220,6 @@ qx.Bootstrap.define("qx.lang.Object",
 
 
     /**
-    * Selects the value with the given key from the map.
-    *
-    * @param key {String} name of the key to get the value from
-    * @param map {Object} map to get the value from
-    * @return {var} value for the given key from the map
-    * @deprecated {2.1}
-    */
-    select: function(key, map)
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
-      }
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.Bootstrap.warn("'qx.lang.Object.select()' is deprecated. Please use map[key] instead.");
-      }
-      return map[key];
-    },
-
-
-    /**
     * Convert an array into a map.
     *
     * All elements of the array become keys of the returned map by
@@ -385,33 +254,6 @@ qx.Bootstrap.define("qx.lang.Object",
       }
 
       return obj;
-    },
-
-
-    /**
-     * Serializes an object to URI parameters (also known as query string).
-     *
-     * Escapes characters that have a special meaning in URIs as well as
-     * umlauts. Uses the global function encodeURIComponent, see
-     * https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/encodeURIComponent
-     *
-     * Note: For URI parameters that are to be sent as
-     * application/x-www-form-urlencoded (POST), spaces should be encoded
-     * with "+".
-     *
-     * @param obj {Object}   Object to serialize.
-     * @param post {Boolean} Whether spaces should be encoded with "+".
-     * @return {String}      Serialized object. Safe to append to URIs or send as
-     *                       URL encoded string.
-     * @deprecated {2.1} Please use qx.util.Uri.toParameter instead.
-     */
-    toUriParameter: function(obj, post) {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.Bootstrap.warn(
-          "'qx.util.Uri.toParameter' has been moved to 'qx.util.Uri.toParameter'."
-        );
-      }
-      return qx.util.Uri.toParameter(obj, post);
     }
   }
 });

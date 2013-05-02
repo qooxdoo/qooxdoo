@@ -20,14 +20,12 @@
 
 /* ************************************************************************
 #ignore(qx.bom.element.AnimationJs)
-#ignore(qx.bom)
 ************************************************************************ */
 
 /**
  * DOM manipulation module
  *
  * @ignore(qx.bom.element.AnimationJs)
- * @ignore(qx.bom)
  */
 qx.Bootstrap.define("qx.module.Manipulating", {
   statics :
@@ -303,7 +301,10 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      */
     empty : function() {
       for (var i=0; i < this.length; i++) {
-        this[i].innerHTML = "";
+        if (this[i].nodeType === 1) {
+          // don't use innerHTML because of [BUG #7323]
+          this[i].textContent = "";
+        }
       }
       return this;
     },

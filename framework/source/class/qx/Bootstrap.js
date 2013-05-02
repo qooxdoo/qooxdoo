@@ -453,24 +453,6 @@ qx.Bootstrap.define("qx.Bootstrap",
     /**
      * Get the keys of a map as array as returned by a "for ... in" statement.
      *
-     * @deprecated {2.1.} Please use Object.keys instead.
-     * @param map {Object} the map
-     * @return {Array} array of the keys of the map
-     */
-    getKeys : function(map) {
-      if (qx.Bootstrap.DEBUG) {
-        qx.Bootstrap.warn(
-          "'qx.Bootstrap.getKeys' is deprecated. " +
-          "Please use the native 'Object.keys()' instead."
-        );
-      }
-      return qx.Bootstrap.keys(map);
-    },
-
-
-    /**
-     * Get the keys of a map as array as returned by a "for ... in" statement.
-     *
      * @signature function(map)
      * @internal
      * @param map {Object} the map
@@ -529,31 +511,6 @@ qx.Bootstrap.define("qx.Bootstrap",
       typeof(Object.keys) == "function" ? "ES5" :
         (function() {for (var key in {toString : 1}) { return key }})() !== "toString" ? "BROKEN_IE" : "default"
     ],
-
-
-    /**
-     * Get the keys of a map as string
-     *
-     * @param map {Object} the map
-     * @deprecated {2.1} Object.keys(map).join('\", "').
-     * @return {String} String of the keys of the map
-     *         The keys are separated by ", "
-     */
-    getKeysAsString : function(map)
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.Bootstrap.warn(
-          "'qx.Bootstrap.getKeysAsString' is deprecared. " +
-          "Please use 'Object.keys(map).join()' instead."
-        );
-      }
-      var keys = qx.Bootstrap.keys(map);
-      if (keys.length == 0) {
-        return "";
-      }
-
-      return '"' + keys.join('\", "') + '"';
-    },
 
 
     /**

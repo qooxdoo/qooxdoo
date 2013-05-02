@@ -581,22 +581,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
 
 
     /**
-     * Checks if the given node is a block node
-     *
-     * @param node {Node} Node
-     * @return {Boolean} whether it is a block node
-     */
-    isBlockNode : function(node)
-    {
-      var deprecatedFunction = qx.bom.htmlarea.HtmlArea.isBlockNode;
-      var deprecationMessage = "Please use the method 'qx.dom.Node.isBlockNode' instead.";
-      qx.log.Logger.deprecatedMethodWarning(deprecatedFunction, deprecationMessage);
-
-      return qx.dom.Node.isBlockNode(node);
-    },
-
-
-    /**
      * Checks if one element is in the list of elements that are allowed to contain a paragraph in HTML
      *
      * @param node {Node} node to check

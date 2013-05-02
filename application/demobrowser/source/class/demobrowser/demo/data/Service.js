@@ -28,9 +28,6 @@ qx.Class.define("demobrowser.demo.data.Service",
 
   members :
   {
-    /**
-     * @lint ignoreUndefined(qxc)
-     */
     main: function()
     {
       this.base(arguments);

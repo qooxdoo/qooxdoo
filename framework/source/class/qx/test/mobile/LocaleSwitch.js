@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#require(qx.locale.data.de_DE)
-#require(qx.locale.data.C)
 #require(qxWeb)
 #require(qx.module.Attribute)
 #require(qx.module.Traversing)

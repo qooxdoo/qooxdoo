@@ -391,7 +391,6 @@ qx.Class.define("apiviewer.Viewer",
 
     /**
      * Creates the application header.
-     * @lint ignoreUndefined(qxc)
      */
     __createHeader : function()
     {

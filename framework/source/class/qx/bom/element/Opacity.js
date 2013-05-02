@@ -69,13 +69,6 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
   statics :
   {
     /**
-     * {Boolean} <code>true</code> when the style attribute "opacity" is supported,
-     * <code>false</code> otherwise.
-     * @deprecated {2.1} Please use qx.core.Environment.get("css.opacity") instead.
-     */
-    SUPPORT_CSS3_OPACITY : false,
-
-    /**
      * Compiles the given opacity value into a cross-browser CSS string.
      * Accepts numbers between zero and one
      * where "0" means transparent, "1" means opaque.
@@ -246,19 +239,5 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
         return 1.0;
       }
     })
-  },
-
-  // @deprecated {2.1}
-  defer : function(statics) {
-    statics.SUPPORT_CSS3_OPACITY = qx.core.Environment.get("css.opacity");
   }
 });
-
-// @deprecated {2.1}
-if (qx.core.Environment.get("qx.debug")) {
-  qx.log.Logger.deprecatedConstantWarning(
-    qx.bom.element.Opacity,
-    "SUPPORT_CSS3_OPACITY",
-    "Please use 'qx.core.Environment.get(\"css.opacity\")' instead."
-  );
-}

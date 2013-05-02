@@ -17,7 +17,7 @@
 /**
  * View for performance tests.
  *
- * @deprecated since 2.0
+ * @deprecated {2.0} since 2.0
  */
 qx.Class.define("testrunner.view.Performance", {
 

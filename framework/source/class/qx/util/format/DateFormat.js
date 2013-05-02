@@ -203,12 +203,6 @@ qx.Class.define("qx.util.format.DateFormat",
      */
     ASSUME_YEAR_2000_THRESHOLD : 30,
 
-    /**
-     * {String} The date format used for logging.
-     * @deprecated {2.1}
-     */
-    LOGGING_DATE_TIME__format : "yyyy-MM-dd HH:mm:ss",
-
     /** Special masks of patterns that are used frequently*/
     ISO_MASKS : {
       isoDate :        "yyyy-MM-dd",
@@ -1796,12 +1790,3 @@ qx.Class.define("qx.util.format.DateFormat",
     this.__formatTree = this.__parseFeed = this.__parseRules = null;
   }
 });
-
-// @deprecated {2.1}
-if (qx.core.Environment.get("qx.debug")) {
-  qx.log.Logger.deprecatedConstantWarning(
-    qx.util.format.DateFormat,
-    "LOGGING_DATE_TIME__format",
-    "The constant 'LOGGING_DATE_TIME__format' will be removed (hasn't been used anyway!)"
-  );
-}

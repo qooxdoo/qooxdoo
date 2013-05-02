@@ -30,6 +30,9 @@ qx.Class.define("qx.test.bom.Template",
       }
     },
 
+    /**
+     * render()
+     */
 
     testReplace : function() {
       var template = "{{name}} xyz";
@@ -94,7 +97,7 @@ qx.Class.define("qx.test.bom.Template",
         b: function() {
           return function(text, render) {
             return "!" + render(text) + "!";
-          }
+          };
         }
       };
       var result = qx.bom.Template.render(template, view);
@@ -132,7 +135,52 @@ qx.Class.define("qx.test.bom.Template",
 
 
     /**
-     * TEST THE GET METHOD
+     * renderToNode()
+     */
+
+    testRenderToNode : function() {
+      var el = qx.bom.Template.renderToNode("<div>{{a}}</div>", {a: 123});
+
+      this.assertEquals("DIV", el.tagName);
+      this.assertEquals("123", el.innerHTML);
+    },
+
+
+    testRenderToNodePlainText : function() {
+      var tmpl = "{{a}}.{{b}}";
+      var el = qx.bom.Template.renderToNode(tmpl, {a: 123, b: 234});
+
+      this.assertEquals("123.234", el.data);
+    },
+
+
+    testRenderToNodeMixed : function() {
+      var tmpl = "<div>{{a}}<span>{{b}}</span></div>";
+      var el = qx.bom.Template.renderToNode(tmpl, {a: 123, b: 234});
+
+      this.assertEquals("123<span>234</span>", el.innerHTML);
+    },
+
+    /**
+     * __createNodeFromTemplate()
+     */
+
+    testCreateNodeFromTemplateTextNode : function() {
+      var tmpl = "{{a}}.{{b}}";
+      var el = qx.bom.Template.__createNodeFromTemplate(tmpl);
+
+      this.assertEquals(Node.TEXT_NODE, el.nodeType);
+    },
+
+    testCreateNodeFromTemplateElementNode : function() {
+      var tmpl = "<div>{{a}}</div>";
+      var el = qx.bom.Template.__createNodeFromTemplate(tmpl);
+
+      this.assertEquals(Node.ELEMENT_NODE, el.nodeType);
+    },
+
+    /**
+     * get()
      */
 
     testGet : function() {

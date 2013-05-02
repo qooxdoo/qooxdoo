@@ -24,6 +24,9 @@
 #asset(tutorial/highlight.pack.js)
 ************************************************************************ */
 
+/**
+ * @ignore(hljs.*)
+ */
 qx.Class.define("tutorial.view.Description",
 {
   extend : qx.ui.container.Composite,
@@ -34,9 +37,6 @@ qx.Class.define("tutorial.view.Description",
   *****************************************************************************
   */
 
-  /**
-   * @lint ignoreUndefined(qxc, hljs)
-   */
   construct : function()
   {
     this.base(arguments);
@@ -121,9 +121,6 @@ qx.Class.define("tutorial.view.Description",
       qx.bom.Stylesheet.includeFile(uri);
     },
 
-    /**
-     * @lint ignoreUndefined(hljs)
-     */
     updateView : function() {
       if (!this.getTutorial()) {
         return;

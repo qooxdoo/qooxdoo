@@ -57,28 +57,6 @@ qx.Bootstrap.define("qx.lang.Array",
   statics :
   {
     /**
-     * Converts array like constructions like the <code>argument</code> object,
-     * node collections like the ones returned by <code>getElementsByTagName</code>
-     * or extended array objects like <code>qx.type.BaseArray</code> to an
-     * native Array instance.
-     *
-     * @deprecated {2.1} Please use cast with 'Array' as constructor.
-     * @param object {var} any array like object
-     * @param offset {Integer?0} position to start from
-     * @return {Array} New array with the content of the incoming object
-     */
-    toArray : function(object, offset) {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.Bootstrap.warn(
-          "'qx.lang.Array.toArray' is deprecared. " +
-          "Please use 'qx.lang.Array.cast' instead."
-        );
-      }
-      return this.cast(object, Array, offset);
-    },
-
-
-    /**
      * Converts an array like object to any other array like
      * object.
      *

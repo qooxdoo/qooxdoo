@@ -17,8 +17,8 @@
 /**
  * A simple, reusable information display window.
  *
- * @param caption The caption text
- * @param icon The URL of the caption bar icon
+ * @param caption {String} The caption text
+ * @param icon {String} The URL of the caption bar icon
  */
 qx.Class.define("demobrowser.InfoWindow", {
 

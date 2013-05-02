@@ -1,4 +1,0 @@
-/**
- * qx.fx.queue package
- *
- */

@@ -250,7 +250,7 @@ qx.Class.define("qx.test.Class",
       {
         extend : qx.core.Object,
 
-        defer : function(statics, prot, properties)
+        defer : function(statics, members, properties)
         {
           statics.FOO = 12;
 
@@ -258,7 +258,7 @@ qx.Class.define("qx.test.Class",
             return "Hello";
           };
 
-          prot.sayJuhu = function() {
+          members.sayJuhu = function() {
             return "Juhu";
           };
 

@@ -69,13 +69,32 @@ qx.Bootstrap.define("qx.module.Template", {
      */
     render : function(template, view, partials) {
       return qx.bom.Template.render(template, view, partials);
+    },
+
+    /**
+     * Combines {@link #render} and {@link #get}. Input is equal to {@link #render}
+     * and output is equal to {@link #get}. The advantage over {@link #get}
+     * is that you don't need a HTML template but can use a template
+     * string and still get a collection. Keep in mind that templates
+     * can only have one root element.
+     *
+     * @attachStatic{qxWeb, template.renderToNode}
+     * @param template {String} The String containing the template.
+     * @param view {Object} The object holding the data to render.
+     * @param partials {Object} Object holding parts of a template.
+     * @return {qxWeb} Collection containing a single DOM element with the parsed
+     * template data.
+     */
+    renderToNode : function(template, view, partials) {
+      var el = qx.bom.Template.renderToNode(template, view, partials);
+      return qxWeb.$init([el]);
     }
   },
 
 
   defer : function(statics) {
     qxWeb.$attachStatic({
-      "template" : {get: statics.get, render: statics.render}
+      "template" : {get: statics.get, render: statics.render, renderToNode: statics.renderToNode}
     });
   }
 });

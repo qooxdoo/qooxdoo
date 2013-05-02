@@ -29,11 +29,11 @@
  *
  * or
  * <pre class="javascript">
- * var mql = qxWeb.matchMedia("screen and (min-width: 480px)"); 
+ * var mql = qxWeb.matchMedia("screen and (min-width: 480px)");
  * mql.on("change",function(mql){
  *  //Do your stuff
  * });
- * <pre>
+ * </pre>
  *
  */
 qx.Bootstrap.define("qx.module.MatchMedia", {
@@ -41,8 +41,9 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
   statics : {
     /**
     * Evaluates the specified mediaquery list
-    * 
-    * @attachStatic {qxWeb, matchMedia.match}
+    *
+    * @param query {String} TODOC
+    * @attachStatic {qxWeb, matchMedia}
     * @return {qx.bom.MediaQueryListener}  The mediaquery listener
     */
     match : function(query){
@@ -52,7 +53,7 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
 
   defer : function(statics){
     qxWeb.$attachStatic({
-      matchMedia : statics.match      
+      matchMedia : statics.match
     });
   }
 });

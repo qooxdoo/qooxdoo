@@ -81,7 +81,8 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
 
 
 /**
- * @ignore(module, require, global, process, setImmediate, msSetImmediate)
+ * @ignore(module, require, global, process.*, setImmediate)
+ * @lint ignoreUndefined(msSetImmediate.*)
  * @lint ignoreUnused(alen, requestMethod, index)
  * @lint ignoreNoLoopBlock()
  */

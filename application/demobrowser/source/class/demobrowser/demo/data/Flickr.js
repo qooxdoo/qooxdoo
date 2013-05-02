@@ -21,7 +21,7 @@
 #ignore(demobrowser.demo.data.store)
 ************************************************************************ */
 /**
- * @ignore(demobrowser.demo.data.store)
+ * @ignore(demobrowser.demo.data.store.Flickr)
  */
 
 /**

@@ -687,7 +687,7 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
      * Get the selected item. This method does only work in <code>single</code>
      * selection mode.
      *
-     * @deprecated Use 'getSelected' instead!
+     * @deprecated {2.2} Use 'getSelected' instead!
      * @return {Object} The selected item.
      */
     getSelectedItem : function() {
