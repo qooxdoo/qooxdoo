@@ -270,7 +270,6 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
             return false;
           }
         }
-        console.log("don't fake", url);
         return true;
       };
     }
