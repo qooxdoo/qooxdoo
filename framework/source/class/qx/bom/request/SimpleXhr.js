@@ -18,27 +18,45 @@
 ************************************************************************ */
 
 /**
- * A wrapper of "qx.bom.request.Xhr" which adds on top:
- *  - set/get method, url, request data and headers at any time
- *  - retrieve the parsed response (content-type recognition)
+ * A wrapper of "qx.bom.request.Xhr" which offers:
+ *  - set/get HTTP method, URL, request data and headers at any time
+ *  - retrieve the parsed response as object (content-type recognition)
  *  - more fine-grained events such as success, fail, ...
+ *
+ * It does *not* comply the interface defined by qx.bom.request.IRequest.
  *
  * <div class="desktop">
  * Example:
  *
  * <pre class="javascript">
- *   ...
+ *  var req = new qx.bom.request.SimpleXhr("/some/path/file.json");
+ *  req.setRequestData({"a":"b"});
+ *  req.once("success", function successHandler() {
+ *    var response = req.getResponse();
+ *  }, this);
+ *  req.once("fail", function successHandler() {
+ *    var response = req.getResponse();
+ *  }, this);
+ *  req.send();
  * </pre>
  * </div>
- *
- * @ignore(XDomainRequest)
  */
 qx.Bootstrap.define("qx.bom.request.SimpleXhr",
 {
 
   extend: Object,
 
-  construct: function() {
+  /**
+   * @param url {String?} The URL of the resource to request.
+   * @param method {String?"GET"} The HTTP method.
+   */
+  construct: function(url, method) {
+    if (url !== undefined) {
+      this.setUrl(url);
+    }
+
+    this.setMethod((method !== undefined) ? method : "GET");
+
     var transport = this._transport = this._createTransport();
 
     transport.onreadystatechange = qx.lang.Function.bind(this._onReadyStateChange, this);
@@ -253,6 +271,11 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * * optional request data
      */
     send: function() {
+      // add GET params if needed
+      if (this.getMethod() === "GET" && this.getRequestData() !== null) {
+        this.setUrl(qx.util.Uri.appendParamsToUrl(this.getUrl(), this.getRequestData(true)));
+      }
+
       // initialize request
       this._transport.open(this.getMethod(), this.getUrl(), true);
 
