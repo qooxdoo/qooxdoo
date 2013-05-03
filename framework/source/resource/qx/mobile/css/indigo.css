@@ -1064,7 +1064,11 @@ input[type=radio]:checked + label:after {
 .spinnerContainer {
   margin: 0 auto;
   height: 100%;
-  text-align: center; }
+  text-align: center;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform-style: preserve-3d;
+  -webkit-transform: translate3d(0, 0, 0);
+  -webkit-perspective: 1000; }
 
 .spinnerContainer > div {
   display: inline; }
