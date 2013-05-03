@@ -112,7 +112,7 @@ qx.Bootstrap.define("qx.bom.Template", {
      */
     renderToNode : function(template, view, partials) {
        var renderedTmpl = this.render(template, view, partials);
-       return this.__createNodeFromTemplate(renderedTmpl);
+       return this._createNodeFromTemplate(renderedTmpl);
     },
 
     /**
@@ -143,7 +143,7 @@ qx.Bootstrap.define("qx.bom.Template", {
      * @param template {String} The String containing the template.
      * @return {Element} A DOM element holding the parsed template data.
      */
-    __createNodeFromTemplate : function(template) {
+    _createNodeFromTemplate : function(template) {
       // template is text only (no html elems) so use text node
       if (template.search(/<|>/) === -1) {
         return document.createTextNode(template);
