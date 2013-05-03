@@ -179,7 +179,7 @@ qx.Class.define("qx.ui.layout.Atom",
           width = Math.min(hint.maxWidth, Math.max(availWidth, hint.minWidth));
           height = hint.height;
 
-          left += Util.computeHorizontalAlignOffset("center", width, availWidth);
+          left = Util.computeHorizontalAlignOffset("center", width, availWidth) + padding.left;
           child.renderLayout(left, childTop, width, height);
 
           // Ignore pseudo invisible elements
