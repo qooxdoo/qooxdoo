@@ -76,6 +76,7 @@ qx.Class.define("qx.io.request.Xhr",
     }
 
     this.base(arguments, url);
+    this._parser = this._createResponseParser();
   },
 
   // Only document events with transport specific details.
@@ -116,20 +117,6 @@ qx.Class.define("qx.io.request.Xhr",
      * status considered successful.
      */
     "statusError": "qx.event.type.Event"
-  },
-
-  statics:
-  {
-    /**
-     * {Map} Map of parser functions. Parsers defined here can be
-     * referenced symbolically, e.g. with {@link #setParser}.
-     *
-     * Known parsers are: <code>"json"</code> and <code>"xml"</code>.
-     */
-    PARSER: {
-      json: qx.lang.Json.parse,
-      xml: qx.xml.Document.fromString
-    }
   },
 
   properties:
@@ -208,9 +195,9 @@ qx.Class.define("qx.io.request.Xhr",
   {
 
     /**
-     * {Function} Parser.
+     * Holds the response parser.
      */
-    __parser: null,
+    _parser: null,
 
     /*
     ---------------------------------------------------------------------------
@@ -300,115 +287,37 @@ qx.Class.define("qx.io.request.Xhr",
     */
 
     /**
-     * Returns response parsed with parser determined by
-     * {@link #_getParser}.
+     * Create response parser.
+     *
+     * @return {qx.util.ResponseParser} parser.
+     */
+    _createResponseParser: function() {
+        return new qx.util.ResponseParser();
+    },
+
+    /**
+     * Returns response parsed with parser determined by content type.
      *
      * @return {String|Object} The parsed response of the request.
      */
     _getParsedResponse: function() {
       var response = this._transport.responseText,
-          parser = this._getParser();
+          contentType = this.getResponseContentType() || "";
 
-      if (typeof parser === "function") {
-        if (response !== "") {
-          return parser.call(this, response);
-        }
-      }
-
-      return response;
+      return this._parser.parse(response, contentType);
     },
 
     /**
      * Set parser used to parse response once request has
      * completed successfully.
      *
-     * Usually, the parser is correctly inferred from the
-     * content type of the response. This method allows to force the
-     * parser being used, e.g. if the content type returned from
-     * the backend is wrong or the response needs special parsing.
-     *
-     * Parsers most typically used can be referenced symbolically.
-     * To cover edge cases, a function can be given. When parsing
-     * the response, this function is called with the raw response as
-     * first argument.
+     * @see qx.util.ResponseParser
      *
      * @param parser {String|Function}
-     *
-     *        <br>Can be:
-     *
-     *         * A parser defined in {@link qx.io.request.Xhr#PARSER},
-     *           referenced by string.
-     *
-     *         * The function to invoke.
-     *           Receives the raw response as argument.
-     *
      * @return {Function} The parser function
      */
     setParser: function(parser) {
-      var Xhr = qx.io.request.Xhr;
-
-      // Symbolically given known parser
-      if (typeof Xhr.PARSER[parser] === "function") {
-        return this.__parser = Xhr.PARSER[parser];
-      }
-
-      // If parser is not a symbol, it must be a function
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.core.Assert.assertFunction(parser);
-      }
-
-      return this.__parser = parser;
-    },
-
-
-    /**
-     * Get the parser.
-     *
-     * If not defined explicitly using {@link #setParser},
-     * the parser is inferred from the content type.
-     *
-     * Override this method to extend the list of content types
-     * being handled.
-     *
-     * @return {Function|null} The parser function or <code>null</code> if the
-     * content type is undetermined.
-     *
-     */
-    _getParser: function() {
-      var parser = this.__parser,
-          contentType;
-
-      // Use user-provided parser, if any
-      if (parser) {
-        return parser;
-      }
-
-      // Content type undetermined
-      if (!this.isDone()) {
-        return null;
-      }
-
-      // See http://restpatterns.org/Glossary/MIME_Type
-
-      contentType = this.getResponseContentType() || "";
-
-      // Ignore parameters (e.g. the character set)
-      contentType = contentType.replace(/;.*$/, "");
-
-      if ((/^application\/(\w|\.)*\+?json$/).test(contentType)) {
-        parser = qx.io.request.Xhr.PARSER["json"];
-      }
-
-      if ((/^application\/xml$/).test(contentType)) {
-        parser = qx.io.request.Xhr.PARSER["xml"];
-      }
-
-      // Deprecated
-      if ((/[^\/]+\/[^\+]+\+xml$/).test(this.getResponseContentType())) {
-        parser = qx.io.request.Xhr.PARSER["xml"];
-      }
-
-      return parser;
+      return this._parser.setParser(parser);
     }
   }
 });

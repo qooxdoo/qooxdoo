@@ -380,7 +380,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.stub(req, "getResponseContentType").returns(contentType);
 
       var msg = "Content type '" + contentType + "' handled incorrectly";
-      this.assertEquals(parser, req._getParser(), msg);
+      this.assertEquals(parser, req._parser._getParser(contentType), msg);
 
       req.isDone.restore();
       req.getResponseContentType.restore();
@@ -388,7 +388,7 @@ qx.Class.define("qx.test.io.request.Xhr",
 
     "test: getParser() returns silently when not DONE": function() {
       var req = this.req;
-      req._getParser();
+      req._parser._getParser();
     },
 
     "test: getParser() returns undefined for unknown": function() {
@@ -405,7 +405,8 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: getParser() detects json": function() {
-      var json = qx.io.request.Xhr.PARSER["json"];
+      debugger;
+      var json = qx.util.ResponseParser.FORMAT.json;
       this.__assertParser("application/json", json);
       this.__assertParser("application/vnd.affe+json", json);
       this.__assertParser("application/prs.affe+json", json);
@@ -413,19 +414,19 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: getParser() detects xml": function() {
-      var xml = qx.io.request.Xhr.PARSER["xml"];
+      var xml = qx.util.ResponseParser.FORMAT.xml;
       this.__assertParser("application/xml", xml);
       this.__assertParser("application/vnd.oneandone.domains.domain+xml", xml);
       this.__assertParser("text/xml");  // Deprecated
     },
 
     "test: getParser() detects deprecated xml": function() {
-      var xml = qx.io.request.Xhr.PARSER["xml"];
+      var xml = qx.util.ResponseParser.FORMAT.xml;
       this.__assertParser("text/xml");
     },
 
     "test: getParser() handles character set": function() {
-      var json = qx.io.request.Xhr.PARSER["json"];
+      var json = qx.util.ResponseParser.FORMAT.json;
       this.__assertParser("application/json; charset=utf-8", json);
     },
 
@@ -434,13 +435,13 @@ qx.Class.define("qx.test.io.request.Xhr",
           parser = function() {};
       req.setParser(parser);
       this.stub(req, "getResponseContentType").returns("text/javascript");
-      this.assertEquals(parser, req._getParser());
+      this.assertEquals(parser, req._parser._getParser());
     },
 
     "test: setParser() symbolically": function() {
       var req = this.req;
       req.setParser("json");
-      this.assertFunction(req._getParser());
+      this.assertFunction(req._parser._getParser());
     },
 
     "test: not parse empty response": function() {
@@ -450,7 +451,7 @@ qx.Class.define("qx.test.io.request.Xhr",
           parser = this.spy();
 
       req.send();
-      this.stub(req, "_getParser").returns(parser);
+      this.stub(req._parser, "_getParser").returns(parser);
       this.getFakeReq().respond(200, {}, "");
 
       this.assertNotCalled(parser);
@@ -466,7 +467,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       req.send();
       server.respond();
 
-      this.assertNull(req._getParser());
+      this.assertNull(req._parser._getParser());
     },
 
     // JSON
@@ -477,20 +478,20 @@ qx.Class.define("qx.test.io.request.Xhr",
           server = this.server,
           that = this;
 
-      this.stub(qx.io.request.Xhr.PARSER, "json");
+      this.stub(qx.util.ResponseParser.FORMAT, "json");
 
       req.setUrl("/found.json");
       req.send();
       server.respond();
 
-      this.assertCalledWith(qx.io.request.Xhr.PARSER.json, "JSON");
+      this.assertCalledWith(qx.util.ResponseParser.FORMAT.json, "JSON");
     },
 
     // XML
 
     respondXml: function(contentType) {
       this.setUpFakeXhr();
-      this.stub(qx.io.request.Xhr.PARSER, "xml");
+      this.stub(qx.util.ResponseParser.FORMAT, "xml");
       var body = "XML: " + contentType;
 
       this.req.setUrl("/found.xml");
@@ -500,12 +501,12 @@ qx.Class.define("qx.test.io.request.Xhr",
 
     "test: parse xml response": function() {
       this.respondXml("application/xml");
-      this.assertCalledWith(qx.io.request.Xhr.PARSER.xml, "XML: application/xml");
+      this.assertCalledWith(qx.util.ResponseParser.FORMAT.xml, "XML: application/xml");
     },
 
     "test: parse arbitrary xml response": function() {
       this.respondXml("animal/affe+xml");
-      this.assertCalledWith(qx.io.request.Xhr.PARSER.xml, "XML: animal/affe+xml");
+      this.assertCalledWith(qx.util.ResponseParser.FORMAT.xml, "XML: animal/affe+xml");
     },
 
     //

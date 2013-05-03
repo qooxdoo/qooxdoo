@@ -68,20 +68,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     qx.core.ObjectRegistry.register(this);
 
     this.__requestHeaders = [];
-  },
-
-  statics:
-  {
-    /**
-     * {Map} Map of parser functions. Parsers defined here can be
-     * referenced symbolically, e.g. with {@link #setParser}.
-     *
-     * Known parsers are: <code>"json"</code> and <code>"xml"</code>.
-     */
-    PARSER: {
-      json: qx.lang.Json.parse,
-      xml: qx.xml.Document.fromString
-    }
+    this.__parser = this._createResponseParser();
   },
 
   members :
@@ -235,6 +222,25 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     },
 
     /**
+     * Gets the response parser.
+     *
+     * @return {Object?qx.util.ResponseParser}
+     */
+    getParser: function() {
+      return this.__parser;
+    },
+
+    /**
+     * Sets (i.e. override) the parser for the response parsing.
+     *
+     * @return {qx.bom.request.SimpleXhr} Self for chaining.
+     */
+    setParser: function(parser) {
+      this.__parser = parser;
+      return this;
+    },
+
+    /**
      * Whether request completed (is done).
 
      * @return {Boolean} Whether request is completed.
@@ -330,6 +336,15 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      */
     _createTransport: function() {
       return new qx.bom.request.Xhr();
+    },
+
+    /**
+     * Creates response parser.
+     *
+     * @return {qx.util.ResponseParser} parser.
+     */
+    _createResponseParser: function() {
+        return new qx.util.ResponseParser();
     },
 
     /**
@@ -435,6 +450,9 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
         qx.Bootstrap.debug("Request completed with HTTP status: " + this._transport.status);
       }
 
+      var response = this._transport.responseText;
+      var contentType = this._transport.getResponseHeader("Content-Type");
+
       // Successful HTTP status
       if (qx.util.Request.isSuccessful(this._transport.status)) {
 
@@ -443,7 +461,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
           qx.Bootstrap.debug("Response is of type: '" + this.getResponseContentType() + "'");
         }
 
-        this._setResponse(this._getParsedResponse());
+        this._setResponse(this.__parser.parse(response, contentType));
 
         this._transport._emit("success");
 
@@ -451,7 +469,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
       } else {
 
         try {
-          this._setResponse(this._getParsedResponse());
+          this._setResponse(this.__parser.parse(response, contentType));
         } catch (e) {
           // ignore if it does not work
         }
@@ -495,125 +513,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
 
       // A network error failure
       this._transport._emit("fail");
-    },
-
-    /*
-    ---------------------------------------------------------------------------
-      PARSING
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Returns response parsed with parser determined by
-     * {@link #_getParser}.
-     *
-     * @return {String|Object} The parsed response of the request.
-     */
-    _getParsedResponse: function() {
-      var response = this._transport.responseText,
-          parser = this._getParser();
-
-      if (typeof parser === "function") {
-        if (response !== "") {
-          return parser.call(this, response);
-        }
-      }
-
-      return response;
-    },
-
-    /**
-     * Set parser used to parse response once request has
-     * completed successfully.
-     *
-     * Usually, the parser is correctly inferred from the
-     * content type of the response. This method allows to force the
-     * parser being used, e.g. if the content type returned from
-     * the backend is wrong or the response needs special parsing.
-     *
-     * Parsers most typically used can be referenced symbolically.
-     * To cover edge cases, a function can be given. When parsing
-     * the response, this function is called with the raw response as
-     * first argument.
-     *
-     * @param parser {String|Function}
-     *
-     *        <br>Can be:
-     *
-     *         * A parser defined in {@link qx.io.request.Xhr#PARSER},
-     *           referenced by string.
-     *
-     *         * The function to invoke.
-     *           Receives the raw response as argument.
-     *
-     * @return {Function} The parser function
-     */
-    setParser: function(parser) {
-      var Xhr = qx.bom.request.SimpleXhr;
-
-      // Symbolically given known parser
-      if (typeof Xhr.PARSER[parser] === "function") {
-        return this.__parser = Xhr.PARSER[parser];
-      }
-
-      // If parser is not a symbol, it must be a function
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.core.Assert.assertFunction(parser);
-      }
-
-      return this.__parser = parser;
-    },
-
-
-    /**
-     * Gets the parser.
-     *
-     * If not defined explicitly using {@link #setParser},
-     * the parser is inferred from the content type.
-     *
-     * Override this method to extend the list of content types
-     * being handled.
-     *
-     * @return {Function|null} The parser function or <code>null</code> if the
-     * content type is undetermined.
-     *
-     */
-    _getParser: function() {
-      var parser = this.__parser,
-          contentTypeOrig = "",
-          contentType = "";
-
-      // Use user-provided parser, if any
-      if (parser) {
-        return parser;
-      }
-
-      // Content type undetermined
-      if (!this.isDone()) {
-        return null;
-      }
-
-      // See http://restpatterns.org/Glossary/MIME_Type
-
-      contentTypeOrig = this._transport.getResponseHeader("Content-Type") || "";
-
-      // Ignore parameters (e.g. the character set)
-      contentType = contentTypeOrig.replace(/;.*$/, "");
-
-      if ((/^application\/(\w|\.)*\+?json$/).test(contentType)) {
-        parser = qx.bom.request.SimpleXhr.PARSER["json"];
-      }
-
-      if ((/^application\/xml$/).test(contentType)) {
-        parser = qx.bom.request.SimpleXhr.PARSER["xml"];
-      }
-
-      // Deprecated
-      if ((/[^\/]+\/[^\+]+\+xml$/).test(contentTypeOrig)) {
-        parser = qx.bom.request.SimpleXhr.PARSER["xml"];
-      }
-
-      return parser;
     }
+
   }
 });

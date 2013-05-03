@@ -245,7 +245,7 @@ qx.Bootstrap.define("qx.io.rest.Resource",
      * <pre class="javascript">
      * res.configureRequest(function(req, action, params, data) {
      *   if (action === "index") {
-     *     req.setAccept("application/json");
+     *     req.setRequestHeader("Accept", "application/json");
      *   }
      * });
      * </pre>
