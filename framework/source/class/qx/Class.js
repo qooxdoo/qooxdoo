@@ -30,8 +30,6 @@
 #require(qx.lang.normalize.String)
 #require(qx.lang.normalize.Object)
 
-#use(qx.lang.Generics) // deprecated since 2.1
-
 ************************************************************************ */
 
 /**

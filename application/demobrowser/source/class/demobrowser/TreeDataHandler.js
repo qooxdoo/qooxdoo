@@ -53,7 +53,7 @@ qx.Class.define("demobrowser.TreeDataHandler",
      *
      * @param testRep {var} TODOC
      * @return {var} TODOC
-     * @throws TODOC
+     * @throws {Error} TODOC
      */
     __readTestRep : function(testRep)
     {

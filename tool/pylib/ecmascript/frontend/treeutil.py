@@ -709,6 +709,8 @@ def findVarRoot(node):
 # - 'var' keyword -> <var>
 #
 def findCommentedRoot(node):
+    if node.isVar(): # if it's a dotaccessor make sure we look at the highest dot
+        node = findVarRoot(node)
     # var a=1, function(){}, ...
     if node.hasParentContext("statements"):
         return node

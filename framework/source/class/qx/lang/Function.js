@@ -149,63 +149,6 @@ qx.Bootstrap.define("qx.lang.Function",
 
 
     /**
-     * empty function
-     * @deprecated {2.1} Please use a new empty function.
-     */
-    empty : function() {},
-
-
-    /**
-     * Simply return true.
-     * @deprecated {2.1} Please use a custom function.
-     * @return {Boolean} Always returns true.
-     */
-    returnTrue : function() {
-      return true;
-    },
-
-
-    /**
-     * Simply return false.
-     * @deprecated {2.1} Please use a custom function.
-     * @return {Boolean} Always returns false.
-     */
-    returnFalse : function() {
-      return false;
-    },
-
-
-    /**
-     * Simply return null.
-     * @deprecated {2.1} Please use a custom function.
-     * @return {var} Always returns null.
-     */
-    returnNull : function() {
-      return null;
-    },
-
-
-    /**
-     * Return "this".
-     * @deprecated {2.1} Please use a custom function.
-     * @return {Object} Always returns "this".
-     */
-    returnThis : function() {
-      return this;
-    },
-
-
-    /**
-     * Simply return 0.
-     * @deprecated {2.1} Please use a custom function.
-     * @return {Number} Always returns 0.
-     */
-    returnZero : function() {
-      return 0;
-    },
-
-
-    /**
      * Base function for creating functional closures which is used by most other methods here.
      *
      * *Syntax*

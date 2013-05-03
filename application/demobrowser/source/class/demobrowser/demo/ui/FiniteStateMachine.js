@@ -43,8 +43,6 @@ qx.Class.define("demobrowser.demo.ui.FiniteStateMachine",
   {
     /**
      * TODOC
-     *
-     * @type member
      */
     main : function()
     {
@@ -139,8 +137,6 @@ qx.Class.define("demobrowser.demo.ui.FiniteStateMachine",
 
     /**
      * TODOC
-     *
-     * @type member
      */
     close : function()
     {
@@ -150,8 +146,6 @@ qx.Class.define("demobrowser.demo.ui.FiniteStateMachine",
 
     /**
      * TODOC
-     *
-     * @type member
      */
     terminate : function() {
       this.base(arguments);

@@ -301,7 +301,11 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      */
     empty : function() {
       for (var i=0; i < this.length; i++) {
-        this[i].innerHTML = "";
+        // don't use innerHTML="" because of [BUG #7323]
+        // and don't use textContent="" because of missing IE8 support
+        while (this[i].firstChild) {
+          this[i].removeChild(this[i].firstChild);
+        }
       }
       return this;
     },

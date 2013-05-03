@@ -508,7 +508,7 @@ qx.Class.define("inspector.components.Selector",
      * Helper method to check if the passed object is a root element.
      *
      * @param object {qx.core.Object} object to check.
-     * @return <code>true</code> if root element, <code>false</code> otherwise.
+     * @return {Boolean} <code>true</code> if root element, <code>false</code> otherwise.
      */
     __isRootElement : function (object)
     {
@@ -525,7 +525,7 @@ qx.Class.define("inspector.components.Selector",
      * Helper method to check if the passed object is a widget.
      *
      * @param object {qx.core.Object} object to check.
-     * @return <code>true</code> if widget, <code>false</code> otherwise.
+     * @return {Boolean} <code>true</code> if widget, <code>false</code> otherwise.
      */
     __isWidget : function (object)
     {
@@ -542,7 +542,7 @@ qx.Class.define("inspector.components.Selector",
      * Helper method to check if the passed object is a mobile widget.
      *
      * @param object {qx.core.Object} object to check.
-     * @return <code>true</code> if widget, <code>false</code> otherwise.
+     * @return {Boolean} <code>true</code> if widget, <code>false</code> otherwise.
      */
     __isMobileWidget : function(object)
     {
@@ -559,7 +559,7 @@ qx.Class.define("inspector.components.Selector",
      * Helper method to check if the passed object is a <code>qx.html.Element</code>.
      *
      * @param object {qx.core.Object} object to check.
-     * @return <code>true</code> if <code>qx.html.Element</code>, <code>false</code> otherwise.
+     * @return {Boolean} <code>true</code> if <code>qx.html.Element</code>, <code>false</code> otherwise.
      */
     __isQxHtmlElement : function (object)
     {

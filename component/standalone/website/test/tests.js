@@ -52,6 +52,9 @@ testrunner.define({
 
     this.assertTrue(this.sandbox.slice(0).testInit);
     this.assertEquals(2, this.sandbox.slice(0).length);
+    this.assertEquals(1, this.sandbox.slice(1).length);
+    this.assertEquals(0, this.sandbox.slice(0,0).length);
+    this.assertEquals(1, this.sandbox.slice(0,1).length);
 
     var clone = this.sandbox.clone().splice(0, 2);
     this.assertTrue(clone.testInit);
@@ -230,10 +233,26 @@ testrunner.define({
     this.assertEquals(2, q("#sandbox .child").length);
   },
 
-  testEmpty : function() {
+  "test empty" : function() {
     var test = q.create("<div><p>test</p></div>");
     test.empty();
     this.assertEquals("", test[0].innerHTML);
+  },
+
+  "test empty and don't destroy children in IE" : function() {
+    // see [BUG #7323]
+
+    var el = q.create("<div>foo<p>bar</p></div>");
+    var ieSpecialTreatment = function(html) {
+      // IE uses uppercase tag names and inserts whitespace
+      return html.toLowerCase().replace(/\s+/, "");
+    };
+
+    q('#sandbox').empty().append(el);
+    this.assertEquals("foo<p>bar</p>", ieSpecialTreatment(el.getHtml()));
+    q('#sandbox').empty().append(el);
+    this.assertEquals("foo<p>bar</p>", ieSpecialTreatment(el.getHtml()));
+    this.assertEquals("<div>foo<p>bar</p></div>", ieSpecialTreatment(q('#sandbox').getHtml()));
   },
 
   testAppendHtmlString : function() {
@@ -1946,6 +1965,18 @@ testrunner.define({
     this.assertEquals("george", result);
   },
 
+  testRenderToNodeTmplTextOnly : function() {
+    var result = q.template.renderToNode("{{affe}}", {affe: "george"});
+    this.assertEquals(1, result.length);
+    this.assertEquals("george", result[0].data);
+  },
+
+  testRenderToNodeTmplWithNodes : function() {
+    var result = q.template.renderToNode("<div><span>{{affe}}</span></div>", {affe: "george"});
+    this.assertEquals(1, result.length);
+    this.assertEquals("george", result[0].firstChild.firstChild.data);
+  },
+
   testGet : function() {
     var template = q.create("<div id='tmp'>{{affe}}</div>");
     template.appendTo(document.body);
@@ -3023,15 +3054,13 @@ testrunner.define({
     q.dev.fakeServer.removeResponse("GET", url);
 
     var req = q.io.xhr(url).on("readystatechange", function(xhr) {
-      console.log(xhr.status, xhr.readyState);
       if (xhr.status == 404 && xhr.readyState == 4) {
         this.resume();
       }
     }, this).send();
 
     this.wait();
-  }
-  /*,
+  },
 
   testRespondWith : function() {
     var url = "/doesnotexist" + Date.now();
@@ -3045,6 +3074,6 @@ testrunner.define({
     }, this).send();
 
     this.wait();
-  }*/
+  }
 
 });

@@ -61,9 +61,8 @@ def scope_globals(node):
 #
 # Assumes Hint() tree is present.
 #
-def ident_is_ignored(node):
+def ident_is_ignored(name, node):
     result = []
-    name = treeutil.assembleVariable(node)[0]
     for hint in jshints.find_hints_upward(node):
         for cat in (('ignore',None), ('lint','ignoreUndefined')):
             if hint.ident_matches(name, cat):

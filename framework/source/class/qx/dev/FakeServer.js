@@ -180,7 +180,7 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
     /**
      * Removes a response that was configured with {@link #configure}
      * @param method {String} HTTP method of the response
-     * @param url {String|RegEx} URL of the response
+     * @param url {String|RegExp} URL of the response
      */
     removeResponse : function(method, url) {
       qx.lang.Array.remove(this.__sinon.FakeXMLHttpRequest.filters, this.__filter);
@@ -193,6 +193,7 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
         return (response.method != method ||
                 response.url.toString() != urlRegExp.toString());
       });
+      this.removeFilter(this.__filter);
       this.__filter = this.__getCombinedFilter();
       this.addFilter(this.__filter);
     },
@@ -228,12 +229,15 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
 
 
     /**
-     * Stops the FakeServer
+     * Stops the FakeServer and removes all configured responses and/or filters.
      */
     restore : function() {
-      if (this.__fakeServer) {
-        this.__fakeServer.restore();
-      }
+      this.__responses = [];
+      this.removeFilter(this.__filter);
+      this.__filter = null;
+      this.__fakeServer.restore();
+      this.__fakeServer = null,
+      this.getFakeServer();
     },
 
 

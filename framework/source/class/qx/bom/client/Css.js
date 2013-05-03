@@ -402,20 +402,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
-     * Checks if the overflowX and overflowY style properties are supported
-     *
-     * @internal
-     * @return {Boolean} <code>true</code> if overflow-x and overflow-y can be
-     * used
-     * @deprecated {2.1}
-     */
-    getOverflowXY : function() {
-      return (typeof document.documentElement.style.overflowX == "string") &&
-        (typeof document.documentElement.style.overflowY == "string");
-    },
-
-
-    /**
      * Checks if CSS texShadow is supported
      *
      * @internal
@@ -492,7 +478,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.boxsizing", statics.getBoxSizing);
     qx.core.Environment.add("css.inlineblock", statics.getInlineBlock);
     qx.core.Environment.add("css.opacity", statics.getOpacity);
-    qx.core.Environment.add("css.overflowxy", statics.getOverflowXY);
     qx.core.Environment.add("css.textShadow", statics.getTextShadow);
     qx.core.Environment.add("css.textShadow.filter", statics.getFilterTextShadow);
   }
