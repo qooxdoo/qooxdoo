@@ -1,9 +1,31 @@
 Migration from %{Desktop} 2.x
 *****************************
 
-%{Desktop} 3.0 introduced some major changes to the internals of qooxdoo's desktop widget system: Before, each Widget consisted of (at least) three DOM elements and their `JavaScript object representations <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.html.Element>`_: Container, content and decorator. In an effort to improve UI performance and decrease memory load, this was reduced to **just one content element**. This means Widgets no longer have decorator, container or protector elements. To achieve this, the new implementation is based on ``box-sizing: border-box``. As a consequence, **Internet Explorer 7 is no longer supported**. Additionally, some theming features no longer have fallback implementations for legacy browsers (see below for details).
+%{Desktop} 3.0 introduces some major improvements to the internals of qooxdoo's desktop widget system. This was made possible by taking advantage of  features in modern browsers while trying to implement graceful degradation in older browsers and discontinuing support for some legacy browsers.
 
-While most modifications were made "under the hood", affecting mostly internal APIs, some manual adjustments to existing applications based on 2.x may be required if custom themes and/or layouts are used.
+In order to improve UI performance and decrease memory load, every widget now consists of **just one content element**. Before, each desktop widget consisted of (at least) three DOM elements and their `JavaScript object representations <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.html.Element>`_: container, content and decorator. Now widgets no longer have decorator, container or protector elements. 
+
+Most modifications were made "under the hood", affecting mostly internal APIs. Therefore regular users should immediately benefit from those improvements without being required to adjust their application code. If custom themes and/or custom layouts are used however, some manual adjustments to existing applications based on %{Desktop} 2.x may be required. Additionally, some theming features no longer have fallback implementations for legacy browsers (see below for details).
+
+
+Legacy Browsers
+===============
+
+Some browsers unfortunately lack built-in functionality for some features common to modern browsers. To work around those technical limitations is either too complex or simply impossible. Therefore browser support in %{Desktop} 3.0 had to be adjusted accordingly:
+
+* IE 6, 7: no longer supported
+* IE 8: double borders and border-image decorations no longer supported
+* IE 9, 10: border-image decorations no longer supported
+
+
+Built-in Themes
+===============
+
+Along with the changes in the %{Desktop} GUI toolkit, also the themes that ship with the SDK have been adjusted. They no longer contain the image-based fallbacks for legacy browsers that used to workaround missing CSS3 features.
+
+* Indigo: no limitations to previous releases
+* Modern: rounded borders no longer available in IE 8
+* Classic: t.b.d.
 
 
 Custom Themes
@@ -14,7 +36,7 @@ The following information applies to user-defined themes. The frameworks built-i
 Decoration Theme
 ----------------
 
-* The ``inset`` properties of the decorators have been set to read-only. Any inset definitions in your decoration theme or application code should be removed and replaced with padding and / or margin in the appearance theme.
+* The ``inset`` properties of the decorators have been set to read-only. Any inset definitions in your decoration theme or application code should be removed and replaced with the corresponding ``padding`` and/or ``margin`` in the appearance theme.
 
 * The ``decorator`` theme key will be ignored. All decorations now use `a common class <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.decoration.Decorator>`_, which supports all decoration features. You can simply remove any ``decorator`` keys from your custom theme.
 
@@ -34,7 +56,7 @@ The ``qx.ui.decoration.IDecoration`` interface has been updated. The methods ``g
 Appearance Theme
 ----------------
 
-* The key ``shadow`` is no longer supported in the map returned by the ``style`` function. Use ``qx.ui.decoration.MBoxShadow``'s properties instead (in the decoration theme).
+* The key ``shadow`` is no longer supported in the map returned by the ``style`` function. Use the properties of ``qx.ui.decoration.MBoxShadow`` instead (in the decoration theme).
 
 
 Custom Layouts
@@ -49,7 +71,7 @@ Custom Widgets
 
 The following information is only relevant for authors of custom widgets using the ``qx.html`` layer directly.
 
-* With the removal of the decorator element, the method ``qx.ui.core.Widget.getDecoratorElement`` was also removed. For most use cases it should be possible to use the content element instead, which can be accessed by ``qx.ui.core.Widget.getContentElement``.
+* With the removal of the decorator element, the method ``qx.ui.core.Widget.getDecoratorElement`` was also removed. For most use cases it should be sufficient to use the content element instead, which can be accessed by ``qx.ui.core.Widget.getContentElement``.
 
 * The same applies to the container element and ``qx.ui.core.Widget.getContainerElement``. This method is deprecated and returns the content element. Use ``qx.ui.core.Widget.getContentElement`` instead.
 
@@ -59,20 +81,21 @@ The following information is only relevant for authors of custom widgets using t
 
 
 
-Implementation changes
+Implementation Details
 ======================
 
-This section lists all internal changes which should not be relevant for you as an application developer. Nevertheless, this information could be useful for anyone interested in the frameworks internals.
+This section lists all further internal changes. They should not be relevant for you as an application developer. Nevertheless, this information could be useful for anyone interested in the frameworks internals.
 
-* Decorations are compiled as CSS classes and applied to a central style sheet
-* background gradients are rendered using Canvas in IE9
-* CSS clip is used to apply padding to combined images
-* For the legacy browser fallback implementation of the text fields' placeholder property, the placeholder element is attached to the field's layout parent
-* ``qx.ui.embed.Iframe``'s blocker element is now attached to the application root
-* The default ``zIndex`` value for Widgets is now 10
-* ``qx.html.Element`` now supports addition and removal of CSS classes
-* ``qx.ui.tooltip.ToolTip`` offers a new child control named ``arrow``. It is used to render an arrow for error tooltips in the modern theme
-* The non-CSS3 fallbacks from the Modern and Classic themes have been removed
-* The padding of ``qx.ui.basic.Image`` instances is applied as background-position
+* The new implementation is based on ``box-sizing: border-box``. As a consequence, **Internet Explorer 6 and 7 is no longer supported**. 
+* Decorations are compiled as CSS classes and applied to a central style sheet.
+* Background gradients are rendered using Canvas in IE9.
+* CSS clip is used to apply padding to combined images.
+* For the legacy browser fallback implementation of the text fields' placeholder property, the placeholder element is attached to the field's layout parent.
+* The blocker element of ``qx.ui.embed.Iframe`` is now attached to the application root.
+* The default ``zIndex`` value for Widgets is now 10.
+* ``qx.html.Element`` now supports addition and removal of CSS classes.
+* ``qx.ui.tooltip.ToolTip`` offers a new child control named ``arrow``. It is used to render an arrow for error tooltips in the Modern theme.
+* The non-CSS3 fallbacks have been removed from the Modern and Classic themes.
+* The padding of ``qx.ui.basic.Image`` instances is applied as background-position.
 * Separators are now instances of ``qx.ui.core.Widget`` instead of ``qx.html.Element``.
 * The infrastructure classes ``qx.ui.core.DecoratorFactory`` and ``qx.html.Decorator`` have been removed.
