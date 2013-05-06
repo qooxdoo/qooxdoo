@@ -309,13 +309,15 @@ qx.Class.define("qx.ui.form.AbstractField",
       // we don't need to update positions on native placeholders
       if (updateInsets && this.__useQxPlaceholder)
       {
-        var insets = this.getInsets();
-        this.__getPlaceholderElement().setStyles({
-          paddingTop : insets.top + pixel,
-          paddingRight : insets.right + pixel,
-          paddingBottom : insets.bottom + pixel,
-          paddingLeft : insets.left + pixel
-        });
+        if (this.__useQxPlaceholder) {
+          var insets = this.getInsets();
+          this.__getPlaceholderElement().setStyles({
+            paddingTop : insets.top + pixel,
+            paddingRight : insets.right + pixel,
+            paddingBottom : insets.bottom + pixel,
+            paddingLeft : insets.left + pixel
+          });
+        }
       }
 
       if (inner || changes.margin)
@@ -795,11 +797,13 @@ qx.Class.define("qx.ui.form.AbstractField",
     setLayoutParent : function(parent)
     {
       this.base(arguments, parent);
-      if (parent) {
-        this.getLayoutParent().getContentElement().add(this.__getPlaceholderElement());
-      } else {
-        var placeholder = this.__getPlaceholderElement();
-        placeholder.getParent().remove(placeholder);
+      if (this.__useQxPlaceholder) {
+        if (parent) {
+          this.getLayoutParent().getContentElement().add(this.__getPlaceholderElement());
+        } else {
+          var placeholder = this.__getPlaceholderElement();
+          placeholder.getParent().remove(placeholder);
+        }
       }
     },
 
@@ -848,7 +852,9 @@ qx.Class.define("qx.ui.form.AbstractField",
      */
     _removePlaceholder: function() {
       if (this.hasState("showingPlaceholder")) {
-        this.__getPlaceholderElement().setStyle("visibility", "hidden");
+        if (this.__useQxPlaceholder) {
+          this.__getPlaceholderElement().setStyle("visibility", "hidden");
+        }
         this.removeState("showingPlaceholder");
       }
     },
@@ -859,7 +865,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      */
     _syncPlaceholder : function ()
     {
-      if (this.hasState("showingPlaceholder")) {
+      if (this.hasState("showingPlaceholder") && this.__useQxPlaceholder) {
         this.__getPlaceholderElement().setStyle("visibility", "visible");
       }
     },
@@ -1006,6 +1012,15 @@ qx.Class.define("qx.ui.form.AbstractField",
   */
   destruct : function()
   {
+    if (this._placeholder) {
+      this._placeholder.removeListener("mousedown", this._onMouseDownPlaceholder, this);
+      var parent = this._placeholder.getParent();
+      if (parent) {
+        parent.remove(this._placeholder);
+      }
+      this._placeholder.dispose();
+    }
+
     this._placeholder = this.__font = null;
 
     if (qx.core.Environment.get("qx.dynlocale")) {
@@ -1014,12 +1029,6 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     if (this.__font && this.__webfontListenerId) {
       this.__font.removeListenerById(this.__webfontListenerId);
-    }
-
-    if (this._placeholder) {
-      this._placeholder.removeListener("mousedown", this._onMouseDownPlaceholder, this);
-      qx.core.Init.getApplication().getRoot().getContentElement().remove(this._placeholder);
-      this._placeholder.dispose();
     }
   }
 });
