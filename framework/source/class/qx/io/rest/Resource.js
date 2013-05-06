@@ -238,7 +238,16 @@ qx.Bootstrap.define("qx.io.rest.Resource",
      * @deprecated {3.0} Please use qx.io.rest.Resource.constructor.call(this, description) instead.
      */
     base : function(args, varags) {
-      // TODO: Move this to qx.Bootstrap generally??
+      // TODO: Should this method be available in qx.Bootstrap generally for easier
+      // qx.Class to qx.Bootstrap migrations??
+
+      if (qx.Bootstrap.DEBUG) {
+        qx.Bootstrap.warn(
+          "'this.base(arguments, description)' is deprecated. " +
+          "Please use 'qx.io.rest.Resource.constructor.call(this, description)' instead."
+        );
+      }
+
       if (qx.core.Environment.get("qx.debug"))
       {
         if (!qx.Bootstrap.isFunction(args.callee.base)) {
