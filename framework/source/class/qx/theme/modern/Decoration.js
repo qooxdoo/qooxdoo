@@ -123,19 +123,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "border-invalid" :
-    {
-      style :
-      {
-        color : "invalid",
-        innerColor : "border-inner-input",
-        innerOpacity : 0.5,
-        backgroundImage : "decoration/form/input.png",
-        backgroundRepeat : "repeat-x",
-        backgroundColor : "background-light"
-      }
-    },
-
 
     "keyboard-focus" :
     {
