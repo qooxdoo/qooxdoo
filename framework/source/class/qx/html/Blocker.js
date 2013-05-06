@@ -39,10 +39,6 @@ qx.Class.define("qx.html.Blocker",
 
     var styles = {
       position: "absolute",
-      width: "100%",
-      height: "100%",
-      left: 0,
-      top: 0,
       opacity : opacity || 0,
       backgroundColor : backgroundColor
     };
