@@ -19,9 +19,10 @@
 
 /**
  * A wrapper of "qx.bom.request.Xhr" which offers:
- *  - set/get HTTP method, URL, request data and headers at any time
+ *  - set/get HTTP method, URL, request data and headers
  *  - retrieve the parsed response as object (content-type recognition)
  *  - more fine-grained events such as success, fail, ...
+ *  - supports hash code for request identification
  *
  * It does *not* comply the interface defined by qx.bom.request.IRequest.
  *
