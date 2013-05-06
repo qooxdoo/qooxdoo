@@ -143,7 +143,7 @@ from warnings import warn
 import urllib2 as urllib
 
 # - Config section -------------------------------------------------------------
-rrd_db_name = "nightly_builds.rrd"
+rrd_db_name = "./nightly_builds.rrd"
 #build_server_logs  = "http://172.17.12.142/~dwagner/workspace/qooxdoo-schlund/project/testing/logs/"
 #build_server_logs  = "http://172.17.12.229/qx/log/build/"
 build_server_logs  = "http://172.17.14.65/qx/log/build/"
@@ -338,8 +338,7 @@ def updateRRD(apps, tstamp=None):
         ("inspector", "MobileShowcase"),
         )
 
-    rrd_db = "nightly_builds.rrd"
-    upd_cmd ="rrdtool update %s " % rrd_db
+    upd_cmd ="rrdtool update %s " % rrd_db_name
     timestamp = tstamp if tstamp else 'N'  # 'N' is rrd for now (e.g. int(time.time()))
     pdp = [ '%s' % timestamp ]
     mirror_line = [" "*len(upd_cmd) + "timestamp"]
@@ -381,21 +380,21 @@ def graph(args, opts):
     #template += "echo "
     template += '''rrdtool graph %(outpng)s --start %(fromepoch)d --end %(toepoch)d \
     --vertical-label "build duration (min)" --zoom 1.3 %(y_scale)s --units=si \
-    DEF:feedreader=nightly_builds.rrd:feedreader:AVERAGE \
+    DEF:feedreader=%(rrd_db)s:feedreader:AVERAGE \
     CDEF:mfeedreader=feedreader,60,/ LINE2:mfeedreader#FF0000:Feedreader \
-    DEF:showcase=nightly_builds.rrd:showcase:AVERAGE \
+    DEF:showcase=%(rrd_db)s:showcase:AVERAGE \
     CDEF:mshowcase=showcase,60,/ LINE2:mshowcase#0000FF:Showcase \
-    DEF:framework-tests=nightly_builds.rrd:framework-tests:AVERAGE \
+    DEF:framework-tests=%(rrd_db)s:framework-tests:AVERAGE \
     CDEF:mframework-tests=framework-tests,60,/ LINE2:mframework-tests#FF00FF:"Framework Testrunner" \
-    DEF:playground=nightly_builds.rrd:playground:AVERAGE \
+    DEF:playground=%(rrd_db)s:playground:AVERAGE \
     CDEF:mplayground=playground,60,/ LINE2:mplayground#555555:Playground \
-    DEF:apiviewer=nightly_builds.rrd:apiviewer:AVERAGE \
+    DEF:apiviewer=%(rrd_db)s:apiviewer:AVERAGE \
     CDEF:mapiviewer=apiviewer,60,/ LINE2:mapiviewer#9933FF:Apiviewer \
-    DEF:portal=nightly_builds.rrd:portal:AVERAGE \
+    DEF:portal=%(rrd_db)s:portal:AVERAGE \
     CDEF:mportal=portal,60,/ LINE2:mportal#00FFFF:Widgetbrowser  \
-    DEF:inspector=nightly_builds.rrd:inspector:AVERAGE \
+    DEF:inspector=%(rrd_db)s:inspector:AVERAGE \
     CDEF:minspector=inspector,60,/ LINE2:minspector#FF9933:MobileShowcase \
-    DEF:demobrowser=nightly_builds.rrd:demobrowser:AVERAGE \
+    DEF:demobrowser=%(rrd_db)s:demobrowser:AVERAGE \
     CDEF:mdemobrowser=demobrowser,60,/ LINE2:mdemobrowser#00FF00:Demobrowser \
     '''
 
@@ -405,7 +404,13 @@ def graph(args, opts):
     # last 4 weeks graph
     now = int(time.time())
     since = now - 28 * 24 * 60 * 60
-    four_week_stats = template % {'rrd_db': rrd_db_name, 'outpng':'four_week_stats.png', 'fromepoch': since, 'toepoch': now, 'y_scale': ''}
+    four_week_stats = template % {
+        'rrd_db': rrd_db_name,
+        'outpng':'four_week_stats.png',
+        'fromepoch': since,
+        'toepoch': now,
+        'y_scale': ''
+    }
     #print four_week_stats
     rc = os.system(four_week_stats)
     assert rc == 0
@@ -413,7 +418,13 @@ def graph(args, opts):
 
     # last year graph
     since = now - 365 * 24 * 60 * 60
-    one_year_stats = template % {'rrd_db': rrd_db_name, 'outpng':'one_year_stats.png', 'fromepoch': since, 'toepoch': now, 'y_scale': '--logarithmic'}
+    one_year_stats = template % {
+        'rrd_db': rrd_db_name,
+        'outpng':'one_year_stats.png',
+        'fromepoch': since,
+        'toepoch': now,
+        'y_scale': '--logarithmic'
+    }
     #print one_year_stats
     rc = os.system(one_year_stats)
     assert rc == 0
