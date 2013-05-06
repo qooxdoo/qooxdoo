@@ -797,6 +797,9 @@ qx.Class.define("qx.ui.form.AbstractField",
       this.base(arguments, parent);
       if (parent) {
         this.getLayoutParent().getContentElement().add(this.__getPlaceholderElement());
+      } else {
+        var placeholder = this.__getPlaceholderElement();
+        placeholder.getParent().remove(placeholder);
       }
     },
 
