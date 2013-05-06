@@ -72,13 +72,7 @@
       [
         "qx.test.*",
         "qx.dev.unit.*",
-<<<<<<< HEAD
-        "qx.dev.FakeServer",
-        "qx.core.MEvent",
-        "qx.lang.Core"
-=======
         "qx.dev.FakeServer"
->>>>>>> [BUG #6865] Removed exclude of removed classes.
       ],
 
       "environment" :
