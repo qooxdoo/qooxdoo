@@ -92,35 +92,27 @@ For details about styling please refer to :doc:`the theming article <ui_theming>
 HTML Elements
 =============
 
-A normal qooxdoo widget consists of at least two HTML Elements (`API <http://api.qooxdoo.org/#qx.html.Element>`_). The first one is the container element which is the outer frame of each widget. The inner one is the content element which is the target for children added to the widget. The content element is also used for the iframe element of the ``Iframe`` widget and the image element of the ``Image`` widget. This means it may contain children or may be used by a native DOM element which does not allow any children.
+A normal qooxdoo widget consists of one HTML Element (`API <http://api.qooxdoo.org/#qx.html.Element>`_), the content element.
 
-There might be some other elements depending on the configuration:
+This elements is an instances of ``qx.html.Element`` so it come with a cross-browser fixed API to apply styles and attributes to the DOM node. All of these things can be done without the DOM element needing to be created or inserted. For details on ``qx.html.Element`` please have a look at :doc:`the technical documentation </pages/desktop/html_element_handling>`.
 
-* shadow: Placed into the container with negative offsets to be visible behind the original widget.
-* decorator: Placed into the container with the same size as the container. Used to render all kinds of decorators. 
-* protector: Helper to fix certain hover issues when changing decorators during event sequences, e.g. hover effects.
-
-For widget authors, the content element is normally the most important, followed by the container element. The other elements are quite uninteresting. It is good to know that they are there, but one typically has little to do with them.
-
-Both elements are instances of ``qx.html.Element`` so they come with a cross-browser fixed API to apply styles and attributes to the DOM nodes. All of these things can be done without the DOM element needing to be created or inserted. For details on ``qx.html.Element`` please have a look at :doc:`the technical documentation </pages/desktop/html_element_handling>`.
-
-The elements are accessible through the functions ``getContentElement()`` and ``getContainerElement()``, respectively. The elements are stored privately in each widget instance and are only accessible through these methods in derived classes.
+The element is accessible through the functions ``getContentElement()`` and is stored privately in each widget instance.
 
 .. _pages/desktop/ui_develop#custom_elements:
 
 Custom Elements
 ===============
 
-qooxdoo normally generates a bunch of styled ``div`` elements. Some widgets like iframes or images need other elements, though. Normally the only element which is replaced is the content element. To achieve this, the method ``_createContentElement`` needs to be overwritten. The overwritten method should create an instance of ``qx.html.Element`` (or a derived class), configure it with some static attributes or styles, and finally return it. For most natively supported types there exists a class which can be used already. In special cases the widget author also needs to write a special low-level class which is derived from ``qx.html.Element``.
+qooxdoo normally generates a bunch of styled ``div`` elements. Some widgets like iframes or images need other elements, though. To use a different DOM element, the method ``_createContentElement`` needs to be overwritten. The overwritten method should create an instance of ``qx.html.Element`` (or a derived class), configure it with some static attributes or styles, and finally return it. For most natively supported types there exists a class which can be used already. In special cases the widget author also needs to write a special low-level class which is derived from ``qx.html.Element``.
 
 .. _pages/desktop/ui_develop#working_with_events:
 
 Working with Events
 ===================
 
-Events can be added to the HTML elements as well as to the child controls. The names of the methods assigned should follow the following names for convention. 
+Events can be added to the HTML element as well as to the child controls. The names of the methods assigned should follow the following names for convention.
 
-* For the HTML elements use: ``_onContentXXX`` or ``_onContainerXXX``
+* For the HTML elements use: ``_onContentXXX``
 * For the child controls use: ``_onIconXXX`` or ``_onFieldXXX`` etc.
 
 Where ``XXX`` stands for the name of the event or of the change that happens. This will result in names like ``_onIframeLoad`` or ``_onContentInput``.

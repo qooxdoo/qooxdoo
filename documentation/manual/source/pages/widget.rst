@@ -1,4 +1,4 @@
-.. _pages/widget/widget#widget:
+ww.. _pages/widget/widget#widget:
 
 Widget
 ******
@@ -24,18 +24,7 @@ Features
 Description
 -----------
 
-The widget is the base class for all qooxdoo widgets. It contains the widget system's core functionality.
-
-.. _pages/widget/widget#diagram:
-
-Diagram
--------
-
-|widget/widget.png|
-
-.. |widget/widget.png| image:: /pages/widget/widget.png
-
-A widget consists of at least three HTML elements. The container element, which is added to the parent widget, has two child Elements: The "decoration" element and the "content" element. The decoration element has a lower z-Index and contains markup to render the widget's background and border using an implementation of ``qx.ui.decoration.IDecorator``. The content element is positioned inside the "container" element to respect paddings and contains the "real" widget element.
+The widget is the base class for all qooxdoo widgets. It contains the widget system's core functionality and usually consists of exactly one DOM element. Depending on its type, this element can be an image element, an iframe element or, as in most cases, a DIV element.
 
 .. _pages/widget/widget#demos:
 
