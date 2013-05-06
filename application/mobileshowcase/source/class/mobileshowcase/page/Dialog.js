@@ -146,7 +146,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       var busyIndicatorButton = new qx.ui.mobile.form.Button("Show Busy Indicator");
       busyIndicatorButton.addListener("tap", function(e) {
         this.__busypopup.toggleVisibility();
-        //qx.lang.Function.delay(this.__busypopup.hide, 3000, this.__busypopup);
+        qx.lang.Function.delay(this.__busypopup.hide, 3000, this.__busypopup);
       }, this);
 
       var showMenuButton = new qx.ui.mobile.form.Button("Show Menu");
