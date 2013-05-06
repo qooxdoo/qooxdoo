@@ -173,8 +173,6 @@ qx.Class.define("simulator.Simulation", {
      * Repeatedly tries to find a visible widget using the given locator until
      * the timeout is reached.
      *
-     * @throws an Error if no visible widget is found before the timeout is
-     * reached
      * @param locator {String} (Qx)Selenium locator string
      * @param timeout {Integer?} Timeout in milliseconds. Default: 5000
      */
