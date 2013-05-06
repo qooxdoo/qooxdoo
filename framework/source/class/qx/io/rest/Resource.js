@@ -232,6 +232,30 @@ qx.Bootstrap.define("qx.io.rest.Resource",
     __longPollHandlers: null,
     __configureRequestCallback: null,
 
+    /**
+     * Support this.base() calls which extending classes may still use (reminiscence of "qx.Class.define").
+     *
+     * @deprecated {3.0} Please use qx.io.rest.Resource.constructor.call(this, description) instead.
+     */
+    base : function(args, varags) {
+      // TODO: Move this to qx.Bootstrap generally??
+      if (qx.core.Environment.get("qx.debug"))
+      {
+        if (!qx.Bootstrap.isFunction(args.callee.base)) {
+          throw new Error(
+            "Cannot call super class. Method is not derived: " +
+            args.callee.displayName
+          );
+        }
+      }
+
+      if (arguments.length === 1) {
+        return args.callee.base.call(this);
+      } else {
+        return args.callee.base.apply(this, Array.prototype.slice.call(arguments, 1));
+      }
+    },
+
     //
     // Request
     //
