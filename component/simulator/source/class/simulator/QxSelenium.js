@@ -400,10 +400,10 @@ qx.Class.define("simulator.QxSelenium", {
      *
      * @param locator {String} an element locator that finds a qooxdoo widget's
      * DOM element
-     * @param options an element whose location (i.e., whose
+     * @param destination {String} locator for an element whose location (i.e., whose
      * center-most pixel) will be the point where the dragged element is dropped
      */
-    qxDragAndDropToObject : function(locator, options) {},
+    qxDragAndDropToObject : function(locator, destination) {},
 
 
     /**

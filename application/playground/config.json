@@ -30,7 +30,7 @@
 
   "config-warnings" :
   {
-    "job-shadowing" : 
+    "job-shadowing" :
     [
       "source",
       "source-hybrid",
@@ -70,9 +70,13 @@
         "qx.test.*",
         "qx.dev.unit.*",
         "qx.dev.FakeServer",  // as this depends on qx.dev.unit classes
+<<<<<<< HEAD
         "playground.test.*",
-        "qx.core.MEvents",
+        "qx.core.MEvent",
         "qx.lang.Core"
+=======
+        "playground.test.*"
+>>>>>>> [BUG #6865] Removed exclude of removed classes.
       ],
 
       "environment" :

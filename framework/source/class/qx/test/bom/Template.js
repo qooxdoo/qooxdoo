@@ -162,19 +162,19 @@ qx.Class.define("qx.test.bom.Template",
     },
 
     /**
-     * __createNodeFromTemplate()
+     * _createNodeFromTemplate()
      */
 
     testCreateNodeFromTemplateTextNode : function() {
       var tmpl = "{{a}}.{{b}}";
-      var el = qx.bom.Template.__createNodeFromTemplate(tmpl);
+      var el = qx.bom.Template._createNodeFromTemplate(tmpl);
 
       this.assertEquals(Node.TEXT_NODE, el.nodeType);
     },
 
     testCreateNodeFromTemplateElementNode : function() {
       var tmpl = "<div>{{a}}</div>";
-      var el = qx.bom.Template.__createNodeFromTemplate(tmpl);
+      var el = qx.bom.Template._createNodeFromTemplate(tmpl);
 
       this.assertEquals(Node.ELEMENT_NODE, el.nodeType);
     },
