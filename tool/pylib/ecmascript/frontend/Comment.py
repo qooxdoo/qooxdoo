@@ -287,8 +287,8 @@ class Comment(object):
     #    'text': u'<p>true if the mixin is compatible to the given class</p>',
     #      'type': [{'dimensions': 0, 'type': u'Boolean'}]}]
     #
-    def parse(self, format_=True, process_txt=False):
-
+    def parse(self, format_=True, process_txt=True):
+        
         hint_sign = re.compile(r'^\s*@(\w+)')
 
         def remove_decoration(text):
@@ -933,7 +933,7 @@ def findComment(node):
 # Takes the last doc comment from the commentsBefore child, parses it and
 # returns a Node representing the doc comment
 #
-def parseNode(node, process_txt=False):
+def parseNode(node, process_txt=True):
 
     # the intended meaning of <node> is "the node that has comments preceding
     # it"; in the ast, this might not be <node> itself, but the lexically first

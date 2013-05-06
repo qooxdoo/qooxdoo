@@ -74,7 +74,7 @@ class CreateHintsVisitor(treeutil.NodeVisitor):
     def process_comments(self, node):
         hint = None
         if node.comments:
-            commentsArray = Comment.parseNode(node)
+            commentsArray = Comment.parseNode(node, process_txt=False)
             if any(commentsArray):
                 hint = Hint()
                 # fill hint from commentAttributes
