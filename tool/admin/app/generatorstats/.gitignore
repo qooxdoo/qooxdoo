@@ -5,4 +5,4 @@ one_year_stats.png
 # You can still git add changes of the file. To undo the ignore action, issue
 # 'git update-index --no-assume-unchanged' (but maybe that's only relevant on
 # the staging host).
-#nightly_builds.rrd
+nightly_builds.rrd
