@@ -420,14 +420,15 @@ class Comment(object):
         ) + py.Suppress('}')
 
     ##
-    # "@type {Map}
-    gr_at_type = py.Suppress('@') + py.Literal('type') + py_simple_type
+    # "@type {Map} blah
+    gr_at_type = py.Suppress('@') + py.Literal('type') + py_simple_type + py.restOfLine("text")
     def parse_at_type(self, line):
         grammar = self.gr_at_type
         presult = grammar.parseString(line)
         res = {
             'category' : 'type',
             'type' : presult.type_name,
+            'text' : presult.text.strip()
         }
         return res
 
