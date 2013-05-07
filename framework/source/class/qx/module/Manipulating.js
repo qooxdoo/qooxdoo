@@ -71,7 +71,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * a single DOM element or an array of elements
      *
      * @attach{qxWeb}
-     * @param html {String|Element[]} HTML string or DOM element(s) to append
+     * @param html {String|Element[]|qxWeb} HTML string or DOM element(s) to append
      * @return {qxWeb} The collection for chaining
      */
     append : function(html) {
@@ -100,7 +100,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * clones of the items will be appended to subsequent parents.
      *
      * @attach{qxWeb}
-     * @param parent {String|Element[]} Parent selector expression or list of
+     * @param parent {String|Element[]|qxWeb} Parent selector expression or list of
      * parent elements
      * @return {qxWeb} The collection for chaining
      */
@@ -129,7 +129,8 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * clones of the collection items are created and inserted.
      *
      * @attach{qxWeb}
-     * @param target {String|Element} Selector expression or DOM element
+     * @param target {String|Element|Element[]|qxWeb} Selector expression, DOM element,
+     * Array of DOM elements or collection
      * @return {qxWeb} The collection for chaining
      */
     insertBefore : function(target)
@@ -159,7 +160,8 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * clones of the collection items are created and inserted.
      *
      * @attach{qxWeb}
-     * @param target {String|Element} Selector expression or DOM element
+     * @param target {String|Element|Element[]|qxWeb} Selector expression, DOM element,
+     * Array of DOM elements or collection
      * @return {qxWeb} The collection for chaining
      */
     insertAfter : function(target)
@@ -206,7 +208,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * as determined by a depth-first search.
      *
      * @attach{qxWeb}
-     * @param wrapper {var} Selector expression, HTML string, DOM element or
+     * @param wrapper {String|Element|Element[]|qxWeb} Selector expression, HTML string, DOM element or
      * list of DOM elements
      * @return {qxWeb} The collection for chaining
      */
@@ -317,7 +319,8 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * array of elements.
      *
      * @attach{qxWeb}
-     * @param content {String[]|Element[]} HTML string(s) or DOM element(s)
+     * @param content {String|String[]|Element|Element[]|qxWeb} HTML string(s),
+     * DOM element(s) or collection to insert
      * @return {qxWeb} The collection for chaining
      */
     before : function(content) {
@@ -350,7 +353,8 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * array of elements.
      *
      * @attach{qxWeb}
-     * @param content {String[]|Element[]} HTML string(s) or DOM element(s)
+     * @param content {String|String[]|Element|Element[]|qxWeb} HTML string(s),
+     * DOM element(s) or collection to insert
      * @return {qxWeb} The collection for chaining
      */
     after : function(content) {
