@@ -29,7 +29,7 @@ Along with the changes in the %{Desktop} GUI toolkit, the themes that ship with 
 
 * Indigo, Simple: no changes from previous releases
 * Modern: shadows and rounded borders no longer available in IE 8
-* Classic: shadows no longer available in IE 8
+* Classic: shadows no longer available in IE 8, text field and text areas are missing the double border
 
 
 Custom Themes
