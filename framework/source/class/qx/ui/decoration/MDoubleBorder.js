@@ -233,41 +233,78 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
         this.__processInnerOpacity(innerColor, innerOpacity);
       }
 
-      // Add inner borders
-      var shadowStyle = [];
 
-      if (innerColor.top && innerWidth.top &&
-          innerColor.top == innerColor.bottom &&
-          innerColor.top == innerColor.right &&
-          innerColor.top == innerColor.left &&
-          innerWidth.top == innerWidth.bottom &&
-          innerWidth.top == innerWidth.right &&
-          innerWidth.top == innerWidth.left)
-      {
-        shadowStyle.push("inset 0 0 0 " + innerWidth.top + "px " + innerColor.top);
-      }
-      else {
-        if (innerColor.top) {
-          shadowStyle.push("inset 0 " + (innerWidth.top || 0) + "px " + innerColor.top);
-        }
-        if (innerColor.right) {
-          shadowStyle.push("inset -" + (innerWidth.right || 0) + "px 0 " + innerColor.right);
-        }
-        if (innerColor.bottom) {
-          shadowStyle.push("inset 0 -" + (innerWidth.bottom || 0) + "px " + innerColor.bottom);
-        }
-        if (innerColor.left) {
-          shadowStyle.push("inset " + (innerWidth.left || 0) + "px 0 " + innerColor.left);
-        }
-      }
+      // inner border
+      if (
+        innerWidth.top > 0 ||
+        innerWidth.right > 0 ||
+        innerWidth.bottom > 0 ||
+        innerWidth.left > 0
+      ) {
 
-      // apply or append the box shadow styles
-      if (shadowStyle.length > 0 && propName) {
-        propName = qx.bom.Style.getCssName(propName);
-        if (!styles[propName]) {
-          styles[propName] = shadowStyle.join(",");
-        } else {
-          styles[propName] += "," + shadowStyle.join(",");
+        var borderTop = (innerWidth.top || 0) + "px solid " + innerColor.top;
+        var borderRight = (innerWidth.right || 0) + "px solid " + innerColor.right;
+        var borderBottom = (innerWidth.bottom || 0) + "px solid " + innerColor.bottom;
+        var borderLeft = (innerWidth.left || 0) + "px solid " + innerColor.left;
+
+        styles[":before"] = {
+          "width" : "100%",
+          "height" : "100%",
+          "position" : "absolute",
+          "content" : '""',
+          "border-top" : borderTop,
+          "border-right" : borderRight,
+          "border-bottom" : borderBottom,
+          "border-left" : borderLeft,
+          "left": 0,
+          "top" : 0
+        };
+        var boxSizingKey = qx.bom.Style.getCssName(qx.core.Environment.get("css.boxsizing"));
+        styles[":before"][boxSizingKey] = "border-box";
+
+        // make sure to apply the border radius as well
+        var borderRadiusKey = qx.core.Environment.get("css.borderradius");
+        if (borderRadiusKey) {
+          borderRadiusKey = qx.bom.Style.getCssName(borderRadiusKey);
+          styles[":before"][borderRadiusKey] = "inherit";
+        }
+
+        // Add inner borders as shadows
+        var shadowStyle = [];
+
+        if (innerColor.top && innerWidth.top &&
+            innerColor.top == innerColor.bottom &&
+            innerColor.top == innerColor.right &&
+            innerColor.top == innerColor.left &&
+            innerWidth.top == innerWidth.bottom &&
+            innerWidth.top == innerWidth.right &&
+            innerWidth.top == innerWidth.left)
+        {
+          shadowStyle.push("inset 0 0 0 " + innerWidth.top + "px " + innerColor.top);
+        }
+        else {
+          if (innerColor.top) {
+            shadowStyle.push("inset 0 " + (innerWidth.top || 0) + "px " + innerColor.top);
+          }
+          if (innerColor.right) {
+            shadowStyle.push("inset -" + (innerWidth.right || 0) + "px 0 " + innerColor.right);
+          }
+          if (innerColor.bottom) {
+            shadowStyle.push("inset 0 -" + (innerWidth.bottom || 0) + "px " + innerColor.bottom);
+          }
+          if (innerColor.left) {
+            shadowStyle.push("inset " + (innerWidth.left || 0) + "px 0 " + innerColor.left);
+          }
+        }
+
+        // apply or append the box shadow styles
+        if (shadowStyle.length > 0 && propName) {
+          propName = qx.bom.Style.getCssName(propName);
+          if (!styles[propName]) {
+            styles[propName] = shadowStyle.join(",");
+          } else {
+            styles[propName] += "," + shadowStyle.join(",");
+          }
         }
       }
     },

@@ -109,6 +109,18 @@ qx.Class.define("qx.theme.manager.Decoration",
       var css = "";
       var styles = instance.getStyles(true);
       for (var key in styles) {
+
+        // if we find a map value, use it as pseudo class
+        if (qx.Bootstrap.isObject(styles[key])) {
+          var innerCss = "";
+          var innerStyles = styles[key];
+          for (var innerKey in innerStyles) {
+            innerCss += innerKey + ":" + innerStyles[innerKey] + ";";
+          }
+          this.__rules.push(selector + key);
+          sheet.addRule(selector + key, innerCss);
+          continue;
+        }
         css += key + ":" + styles[key] + ";";
       }
 
