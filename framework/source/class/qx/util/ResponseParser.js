@@ -33,7 +33,7 @@ qx.Bootstrap.define("qx.util.ResponseParser",
      *
      * Known parsers are: <code>"json"</code> and <code>"xml"</code>.
      */
-    FORMAT: {
+    PARSER: {
       json: qx.lang.Json.parse,
       xml: qx.xml.Document.fromString
     }
@@ -44,10 +44,11 @@ qx.Bootstrap.define("qx.util.ResponseParser",
     __parser: null,
 
     /**
-     * Returns response parsed with parser determined by
-     * {@link #_getParser}.
+     * Returns given response parsed with parser
+     * determined by {@link #_getParser}.
      *
-     * @param response {String}
+     * @param response {String} response (e.g JSON/XML string)
+     * @param contentType {String} contentType (e.g. 'application/json')
      * @return {String|Object} The parsed response of the request.
      */
     parse: function(response, contentType) {
@@ -91,8 +92,8 @@ qx.Bootstrap.define("qx.util.ResponseParser",
      */
     setParser: function(parser) {
       // Symbolically given known parser
-      if (typeof qx.util.ResponseParser.FORMAT[parser] === "function") {
-        return this.__parser = qx.util.ResponseParser.FORMAT[parser];
+      if (typeof qx.util.ResponseParser.PARSER[parser] === "function") {
+        return this.__parser = qx.util.ResponseParser.PARSER[parser];
       }
 
       // If parser is not a symbol, it must be a function
@@ -136,16 +137,16 @@ qx.Bootstrap.define("qx.util.ResponseParser",
       contentTypeNormalized = contentTypeOrig.replace(/;.*$/, "");
 
       if ((/^application\/(\w|\.)*\+?json$/).test(contentTypeNormalized)) {
-        parser = qx.util.ResponseParser.FORMAT.json;
+        parser = qx.util.ResponseParser.PARSER.json;
       }
 
       if ((/^application\/xml$/).test(contentTypeNormalized)) {
-        parser = qx.util.ResponseParser.FORMAT.xml;
+        parser = qx.util.ResponseParser.PARSER.xml;
       }
 
       // Deprecated
       if ((/[^\/]+\/[^\+]+\+xml$/).test(contentTypeOrig)) {
-        parser = qx.util.ResponseParser.FORMAT.xml;
+        parser = qx.util.ResponseParser.PARSER.xml;
       }
 
       return parser;

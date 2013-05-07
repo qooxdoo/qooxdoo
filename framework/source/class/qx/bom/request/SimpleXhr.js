@@ -19,12 +19,13 @@
 
 /**
  * A wrapper of "qx.bom.request.Xhr" which offers:
- *  - set/get HTTP method, URL, request data and headers
- *  - retrieve the parsed response as object (content-type recognition)
- *  - more fine-grained events such as success, fail, ...
- *  - supports hash code for request identification
  *
- * It does *not* comply the interface defined by qx.bom.request.IRequest.
+ * * set/get HTTP method, URL, request data and headers
+ * * retrieve the parsed response as object (content-type recognition)
+ * * more fine-grained events such as success, fail, ...
+ * * supports hash code for request identification
+ *
+ * It does *not* comply the interface defined by {@link qx.bom.request.IRequest}.
  *
  * <div class="desktop">
  * Example:
@@ -234,6 +235,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     /**
      * Sets (i.e. override) the parser for the response parsing.
      *
+     * @param parser {String|Function} See {@link qx.util.ResponseParser#setParser}.
      * @return {qx.bom.request.SimpleXhr} Self for chaining.
      */
     setParser: function(parser) {
