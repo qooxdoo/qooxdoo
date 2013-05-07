@@ -25,6 +25,15 @@
 qx.Bootstrap.define("qx.util.ResponseParser",
 {
 
+  /**
+   * @param parser {String|Function} See {@link #setParser}.
+   */
+  construct: function(parser) {
+    if (parser !== undefined) {
+      this.setParser(parser);
+    }
+  },
+
   statics:
   {
     /**

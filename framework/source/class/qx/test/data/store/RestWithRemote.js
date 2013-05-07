@@ -38,7 +38,8 @@ qx.Class.define("qx.test.data.store.RestWithRemote",
           store = this.store = new qx.data.store.Rest(res, "index");
 
       res.configureRequest(function(req) {
-        req.setParser("json");
+        var parser = new qx.util.ResponseParser("json");
+        req.setParser(parser);
       });
 
       this.require(["http"]);
