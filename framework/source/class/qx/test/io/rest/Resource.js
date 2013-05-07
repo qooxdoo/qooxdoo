@@ -1049,8 +1049,22 @@ qx.Class.define("qx.test.io.rest.Resource",
       var response = response || "",
           validReqIdx = (reqIdx !== undefined);
 
-      if (validReqIdx && "get" in this.res.__requests) {
-        var reqWithin = this.res.__requests.get[reqIdx];
+      // this.res.__requests isn't available after 'privates' optimization
+      // so find it by some kind of feature detection - this isn't beautiful,
+      // but adding a protected getter just for that is worse
+      var requests = "";
+      Object.keys(this.res).forEach(function(propName) {
+        if (propName.indexOf("__") === 0 &&
+            "get" in this.res[propName] &&
+            qx.lang.Type.isArray(this.res[propName].get) &&
+            qx.lang.Type.isObject(this.res[propName].get[0]) &&
+            "$$hash" in this.res[propName].get[0]) {
+          requests = propName;
+        }
+      }, this);
+
+      if (validReqIdx && requests) {
+        var reqWithin = this.res[requests].get[reqIdx];
         if (shouldStubResp) {
           this.stub(reqWithin, "isDone");
           this.stub(reqWithin, "getResponse");
@@ -1059,7 +1073,7 @@ qx.Class.define("qx.test.io.rest.Resource",
         }
         reqWithin.getTransport()._emit("success");
         reqWithin.getTransport()._emit("loadEnd");
-        this.res.__requests.get[reqIdx] = reqWithin;
+        this.res[requests].get[reqIdx] = reqWithin;
       }
     },
 

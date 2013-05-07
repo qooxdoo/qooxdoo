@@ -89,14 +89,6 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @return {qx.bom.request.SimpleXhr} Self for chaining.
      */
     setRequestHeader: function(key, value) {
-      this._transport.__checkDisposed();
-
-      // Detect conditional requests
-      if (key == "If-Match" || key == "If-Modified-Since" ||
-        key == "If-None-Match" || key == "If-Range") {
-        this._transport.__conditional = true;
-      }
-
       this.__requestHeaders[key] = value;
       return this;
     },
@@ -267,7 +259,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @return {Boolean} Whether the object has been disposed
      */
     isDisposed: function() {
-      return this._transport.__disposed;
+      return (this.__disposed) ? true : false;
     },
 
     /**
@@ -290,7 +282,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
 
       // set all previously stored headers on initialized request
       for (var key in this.__requestHeaders) {
-        this._transport.__nativeXhr.setRequestHeader(key, this.__requestHeaders[key]);
+        this._transport.setRequestHeader(key, this.__requestHeaders[key]);
       }
 
       // send
@@ -317,8 +309,12 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @return {Boolean} <code>true</code> if the object was successfully disposed
      */
     dispose: function() {
-      this.__parser = null;
-      return this._transport.dispose();
+      if (this._transport.dispose()) {
+        this.__parser = null;
+        this.__disposed = true;
+        return true;
+      }
+      return false;
     },
 
     /*
@@ -412,6 +408,10 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * {Function} Parser.
      */
     __parser: null,
+    /**
+     * {Boolean} Whether object has been disposed.
+     */
+    __disposed: null,
 
     /*
     ---------------------------------------------------------------------------
