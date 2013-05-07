@@ -72,9 +72,7 @@
       [
         "qx.test.*",
         "qx.dev.unit.*",
-        "qx.dev.FakeServer",
-        "qx.core.MEvents",
-        "qx.lang.Core"
+        "qx.dev.FakeServer"
       ],
 
       "environment" :

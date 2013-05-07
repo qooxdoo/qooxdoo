@@ -30,7 +30,7 @@
 
   "config-warnings" :
   {
-    "job-shadowing" : 
+    "job-shadowing" :
     [
       "source",
       "source-hybrid",
@@ -70,9 +70,7 @@
         "qx.test.*",
         "qx.dev.unit.*",
         "qx.dev.FakeServer",  // as this depends on qx.dev.unit classes
-        "playground.test.*",
-        "qx.core.MEvents",
-        "qx.lang.Core"
+        "playground.test.*"
       ],
 
       "environment" :

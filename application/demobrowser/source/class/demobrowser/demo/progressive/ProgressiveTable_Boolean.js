@@ -67,8 +67,8 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_Boolean",
 
       progressive.set(
         {
-          width : 200 + qx.bom.element.Overflow.getScrollbarWidth(),
-          maxWidth : 200 + qx.bom.element.Overflow.getScrollbarWidth()
+          width : 200 + qx.bom.element.Scroll.getScrollbarWidth(),
+          maxWidth : 200 + qx.bom.element.Scroll.getScrollbarWidth()
         });
       this.getRoot().add(progressive, { left : 50, top : 50, bottom : 50 });
 

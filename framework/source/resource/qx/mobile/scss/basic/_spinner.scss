@@ -3,16 +3,21 @@
 //
 
 .spinner {
+  -webkit-backface-visibility: hidden;
   background-image: url(../icon/common/spinner.png);
   margin: 0 auto; 
   vertical-align: middle;  
 }
 
-  
 .spinnerContainer {
   margin: 0 auto;  
   height: 100%; 
   text-align: center;
+  
+  // Fix for Rendering Bug in Android 4.1.2 
+  -webkit-transform-style: preserve-3d;
+  -webkit-transform:translate3d(0,0,0);
+  -webkit-perspective: 1000;
 } 
 
 .spinnerContainer > div {

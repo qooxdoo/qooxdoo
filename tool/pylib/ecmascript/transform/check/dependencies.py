@@ -194,7 +194,7 @@ def warn(msg, fname, node):
 ##
 # Get the JSDoc comments in a nested dict structure
 def get_at_hints(node):
-    commentAttributes = Comment.parseNode(node)  # searches comment "around" this node
+    commentAttributes = Comment.parseNode(node, process_txt=False)  # searches comment "around" this node
     at_hints = {}
     for entry in commentAttributes:
         cat = entry['category']

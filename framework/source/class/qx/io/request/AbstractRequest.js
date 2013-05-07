@@ -187,7 +187,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * request body as form data.
      *
      * If a string is given the user must make sure it is properly formatted and
-     * escaped. See {@link qx.lang.Object#toUriParameter}.
+     * escaped. See {@link qx.util.Serializer#toUriParameter}.
      *
      */
     requestData: {
