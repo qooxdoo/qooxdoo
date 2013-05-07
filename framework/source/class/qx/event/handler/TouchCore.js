@@ -92,6 +92,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     __startPageY : null,
     __startTime : null,
     __isSingleTouchGesture : null,
+    __isTapGesture : null,
     __onMove : null,
     
     __beginScalingDistance : null,
@@ -226,6 +227,8 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       if (type == "touchstart") {
         this.__originalTarget = this._getTarget(domEvent);
         
+        this.__isTapGesture = true;
+
         if(domEvent.touches && domEvent.touches.length > 1) {
           this.__beginScalingDistance = this._getScalingDistance(domEvent.touches[0],domEvent.touches[1]);
           this.__beginRotation = this._getRotationAngle(domEvent.touches[0],domEvent.touches[1]);
@@ -245,10 +248,34 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
           var currentRotation = this._getRotationAngle(domEvent.changedTouches[0],domEvent.changedTouches[1]);
           domEvent.rotation = currentRotation - this.__beginRotation;
         }
+
+        if (this.__isTapGesture) {
+          this.__isTapGesture = this._isBelowTapMaxDistance(domEvent.changedTouches[0]);
+        }
       }
       
       this._fireEvent(domEvent, type);
       this.__checkAndFireGesture(domEvent, type);
+    },
+
+
+    /**
+     * Checks if the distance between the x/y coordinates of "touchstart" and "touchmove" event
+     * exceeds TAP_MAX_DISTANCE and returns the result.
+     *
+     * @param touch {Event} The "touchmove" event from the browser.
+     * @return {Boolean} true if distance is below TAP_MAX_DISTANCE.
+     */
+    _isBelowTapMaxDistance: function(touch) {
+      var deltaCoordinates = {
+        x: touch.screenX - this.__startPageX,
+        y: touch.screenY - this.__startPageY
+      };
+
+      var clazz = qx.event.handler.TouchCore;
+
+      return (Math.abs(deltaCoordinates.x) <= clazz.TAP_MAX_DISTANCE &&
+              Math.abs(deltaCoordinates.y) <= clazz.TAP_MAX_DISTANCE);
     },
 
 
@@ -418,16 +445,12 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
             y : touch.screenY - this.__startPageY
         };
 
-        var clazz = qx.event.handler.TouchCore;
         var eventType;
 
-        if (this.__originalTarget == target
-            && Math.abs(deltaCoordinates.x) <= clazz.TAP_MAX_DISTANCE
-            && Math.abs(deltaCoordinates.y) <= clazz.TAP_MAX_DISTANCE) {
+        if (this.__originalTarget == target && this.__isTapGesture) {
           if (qx.event && qx.event.type && qx.event.type.Tap) {
             eventType = qx.event.type.Tap;
           }
-
           this._fireEvent(domEvent, "tap", target, eventType);
         }
         else
