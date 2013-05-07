@@ -13,13 +13,14 @@ Legacy Browsers
 
 Some browsers unfortunately lack built-in functionality for some features common to modern browsers. To work around those technical limitations is either too complex or simply impossible. Therefore browser support in %{Desktop} 3.0 had to be adjusted accordingly:
 
-* no longer supported
+* Browser versions no longer supported:
    * IE 6, 7
-   * Firefox < 3.6
-   * Safari < 4
-   * Opera < 12
-* IE 8: double borders on input element and border-image decorations no longer supported
-* IE 9, 10: border-image decorations no longer supported
+   * Firefox 3.5 and below
+   * Safari 3
+   * Opera 11 and below
+* Browser versions with limited support:
+   * IE 8: double borders on input element and border-image decorations no longer supported
+   * IE 9, 10: border-image decorations no longer supported
 
 
 Built-in Themes
@@ -29,7 +30,7 @@ Along with the changes in the %{Desktop} GUI toolkit, the themes that ship with 
 
 * Indigo, Simple: no changes from previous releases
 * Modern: shadows and rounded borders no longer available in IE 8
-* Classic: shadows no longer available in IE 8, text field and text areas are missing the double border
+* Classic: shadows no longer available in IE 8; text fields and text areas only with single not double borders
 
 
 Custom Themes
