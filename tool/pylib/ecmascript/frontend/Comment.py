@@ -406,6 +406,8 @@ class Comment(object):
     # next: Ugly hack to add '*' to identifier globs
     __idx = lang.IDENTIFIER_REGEXP.rfind(']')
     py_js_identifier_glob = py.Regex(lang.IDENTIFIER_REGEXP[:__idx] + '\\*' + lang.IDENTIFIER_REGEXP[__idx:])
+    # next: still wider, matching more elements
+    py_term_argument = py.Regex(r'(?u)[^\s,)]+')
 
     py_simple_type = py.Suppress('{') + py_js_identifier.copy()('type_name') + py.Suppress('}')
 
@@ -580,7 +582,8 @@ class Comment(object):
         return res
 
     py_comment_term = (py_js_identifier.copy().setResultsName('t_functor') + py.Suppress('(') + 
-        py.Optional(py.delimitedList(py_js_identifier_glob)) # TODO: when retiring ignoreUndefined -> py_js_identifier
+        #py.Optional(py.delimitedList(py_js_identifier_glob)) # TODO: when retiring ignoreUndefined -> py_js_identifier
+        py.Optional(py.delimitedList(py_term_argument)) # 'foo.Bar#baz'
         .setResultsName('t_arguments') + py.Suppress(')'))
 
     gr_at_lint = py.Suppress('@') + py.Literal('lint') + py_comment_term
