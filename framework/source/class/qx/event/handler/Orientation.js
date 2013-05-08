@@ -194,7 +194,7 @@ qx.Class.define("qx.event.handler.Orientation",
       if (qx.core.Environment.get("os.name") == "android") {
         // On Android Devices the detection of orientation mode has to be delayed.
         // See: http://stackoverflow.com/questions/8985805/orientation-change-in-android-using-javascript
-        detectOrientationChangeDelay = 100;
+        detectOrientationChangeDelay = 300;
       }
 
       qx.lang.Function.delay(this._onOrientationChange, detectOrientationChangeDelay, this, domEvent);
