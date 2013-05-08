@@ -144,8 +144,6 @@ import urllib2 as urllib
 
 # - Config section -------------------------------------------------------------
 rrd_db_name = "./nightly_builds.rrd"
-#build_server_logs  = "http://172.17.12.142/~dwagner/workspace/qooxdoo-schlund/project/testing/logs/"
-#build_server_logs  = "http://172.17.12.229/qx/log/build/"
 build_server_logs  = "http://172.17.14.65/qx/log/build/"
 # customize graph colors and line types directly in the 'template' var
 # - Config end -----------------------------------------------------------------

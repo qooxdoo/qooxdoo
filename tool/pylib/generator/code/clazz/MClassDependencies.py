@@ -77,6 +77,7 @@ class MClassDependencies(object):
                     tree = self.tree()
 
             # Get deps from compiler hints
+            tree = jshints.create_hints_tree(tree) # this will be used by some of the subsequent method calls
             load_hints, run_hints, ignore_hints, all_feature_checks = self.dependencies_from_comphints(tree) # ignore_hints=[HintArgument]
             load.extend(load_hints)
             run.extend(run_hints)
@@ -439,10 +440,7 @@ class MClassDependencies(object):
 
     def filter_symbols_by_jshints(self, tree, depsItems):
         result = []
-        tree = jshints.create_hints_tree(tree)
         for depsItem in depsItems:
-            #if self.id == 'demobrowser.demo.data.Github' and depsItem.name=='github':
-            #    import pydb; pydb.debugger()
             deps_repr = depsItem.name
             if depsItem.attribute:
                 deps_repr += '.' + depsItem.attribute
@@ -491,13 +489,13 @@ class MClassDependencies(object):
         metaOptional = meta.get("optionalDeps", [])
         metaIgnore   = meta.get("ignoreDeps"  , [])
         metaIgnore.extend(metaOptional)
+        all_feature_checks = [False, False]  # load_feature_checks, run_feature_checks
 
         # regexify globs in metaignore
         metaIgnore = map(HintArgument, metaIgnore)
 
         # Turn strings into DependencyItems()
         for target,metaHint in ((load,metaLoad), (run,metaRun)):
-            all_feature_checks = [False, False]  # load_feature_checks, run_feature_checks
             for key in metaHint:
                 # add all feature checks if requested
                 if key == "feature-checks":
@@ -509,6 +507,22 @@ class MClassDependencies(object):
                     className = sig[0]
                     attrName  = sig[1] if len(sig)>1 else ''
                     target.append(DependencyItem(className, attrName, self.id, "|hints|"))
+
+        # Add JSDoc Hints
+        for hint in node.hint.iterator():
+            for target,hintKey in ((load,'require'), (run,'use')):
+                if hintKey in hint.hints:
+                    for arg in hint.hints[hintKey][None]:
+                        # add all feature checks if requested
+                        if arg == "feature-checks":
+                            all_feature_checks[bool(hintKey=='use')] = True
+                            target.extend(self.depsitems_from_envchecks(hint.node.get('line',-1), metaHint==metaLoad))
+                        # turn the HintArgument into a DependencyItem
+                        else:
+                            sig = arg.split('#',1)
+                            className = sig[0]
+                            attrName  = sig[1] if len(sig)>1 else ''
+                            target.append(DependencyItem(className, attrName, self.id, hint.node.get('line',-1)))
 
         return load, run, metaIgnore, all_feature_checks
 

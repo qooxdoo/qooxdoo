@@ -1057,6 +1057,7 @@ input[type=radio]:checked + label:after {
   border-radius: 50px; }
 
 .spinner {
+  -webkit-backface-visibility: hidden;
   background-image: url(../icon/common/spinner.png);
   margin: 0 auto;
   vertical-align: middle; }
@@ -1065,7 +1066,6 @@ input[type=radio]:checked + label:after {
   margin: 0 auto;
   height: 100%;
   text-align: center;
-  -webkit-backface-visibility: hidden;
   -webkit-transform-style: preserve-3d;
   -webkit-transform: translate3d(0, 0, 0);
   -webkit-perspective: 1000; }

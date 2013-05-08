@@ -87,6 +87,22 @@ qx.Class.define("qx.ui.form.Button",
 
     // Stop events
     this.addListener("dblclick", this._onStopEvent);
+
+    // handle the pressed states on emulate mouse because we
+    // don't get mouseover / mouseout events
+    if (qx.core.Environment.get("qx.emulatemouse")) {
+      this.addListener("mousemove", function(e) {
+        var bounds = this.getBounds();
+        var pos = {left: e.getDocumentLeft(), top: e.getDocumentTop()};
+        var inX = pos.left > bounds.left && pos.left < bounds.left + bounds.width;
+        var inY = pos.top > bounds.top && pos.top < bounds.top + bounds.height;
+        if (inX && inY) {
+          this.addState("pressed");
+        } else {
+          this.removeState("pressed");
+        }
+      });
+    }
   },
 
 

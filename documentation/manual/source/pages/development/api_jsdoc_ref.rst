@@ -155,7 +155,9 @@ A JSDoc comment consists of different sections, where a section is either a lead
    * - Lint Checking
      - * `@lint`_
    * - Compiler
-     - * `@attach`_
+     - * `@cldr`_
+       * `@asset`_
+       * `@attach`_
        * `@attachStatic`_
        * `@ignore`_
        * `@require`_
@@ -645,6 +647,69 @@ Description
   ::
 
     @lint environmentNonLiteralKey(foo)
+
+
+.. _pages/development/api_jsdoc_ref#cldr:
+
+.. rst-class:: api-ref
+
+@cldr
+-------------------------------------------
+
+**Scope**
+
+  Class
+
+**Description**
+
+  This hint indicates that the class needs CLDR data (e.g. names of months or week-days).
+
+**Syntax**
+
+  ``@cldr``
+
+**Example**
+
+  ``@cldr``
+
+
+.. _pages/development/api_jsdoc_ref#asset:
+
+.. rst-class:: api-ref
+
+@asset
+-------------------------------------------
+
+**Scope**
+
+  Class
+
+**Description**
+
+  Request resources that this class uses to be included in a build.
+
+**Syntax**
+
+  ``@asset ( <resource_id> , [<resource_id>] )``
+
+**Parameters**
+
+    .. list-table::
+      :stub-columns: 1
+      :widths: 30 70
+
+      * - resource_id
+        - The resource ID or resource pattern to be added.
+
+**Example**
+
+  ``@asset(custom/test.png)``
+
+  This will add the image ``custom/test.png`` to the build.
+
+  ``@asset(custom/*)``
+
+  Add all resources under the ``custom`` name space to the build.
 
 
 .. _pages/development/api_jsdoc_ref#attach:

@@ -790,6 +790,7 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   display: none; }
 
 .spinner {
+  -webkit-backface-visibility: hidden;
   background-image: url(../icon/common/spinner.png);
   margin: 0 auto;
   vertical-align: middle; }
@@ -798,7 +799,6 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   margin: 0 auto;
   height: 100%;
   text-align: center;
-  -webkit-backface-visibility: hidden;
   -webkit-transform-style: preserve-3d;
   -webkit-transform: translate3d(0, 0, 0);
   -webkit-perspective: 1000; }

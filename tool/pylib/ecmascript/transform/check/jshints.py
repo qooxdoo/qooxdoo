@@ -81,9 +81,9 @@ class CreateHintsVisitor(treeutil.NodeVisitor):
                 for commentAttributes in commentsArray:
                     for entry in commentAttributes:
                         cat = entry['category']
-                        if cat not in ('ignore', 'lint'):
+                        if cat not in ('ignore', 'lint', 'require', 'use'):
                             continue
-                        functor = entry.get('functor') # will be None for @ignore
+                        functor = entry.get('functor') # will be None for non-functor keys like @ignore, @require, ...
                         hint.add_entries((cat,functor), entry['arguments'])  # hint.hints['lint']['ignoreUndefined']{'foo','bar'}
                                                                      # hint.hints['ignore'][None]{'foo','bar'}
         return hint
@@ -124,6 +124,12 @@ class Hint(object):
             self.hints[cat][subcat] = set()
         for entry in entries:
             self.hints[cat][subcat].add(HintArgument(entry))
+
+    def iterator(self):
+        yield self
+        for cld in self.children:
+            for hint in cld.iterator():
+                yield hint
 
 # - ---------------------------------------------------------------------------
 
