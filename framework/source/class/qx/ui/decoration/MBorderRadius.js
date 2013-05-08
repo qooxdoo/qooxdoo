@@ -86,6 +86,7 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius",
       // Fixing the background bleed in Webkits
       // http://tumble.sneak.co.nz/post/928998513/fixing-the-background-bleed
       styles["-webkit-background-clip"] = "padding-box";
+      styles["background-clip"] = "padding-box";
 
       // radius handling
       var radius = this.getRadiusTopLeft();
