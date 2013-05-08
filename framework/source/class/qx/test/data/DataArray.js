@@ -549,6 +549,66 @@ qx.Class.define("qx.test.data.DataArray",
         self.assertEquals(1, e.getData().items.length, "Wrong amount of items in the event.");
       }, "Change event not fired!");
       a.dispose();
+      
+      // test for add to only list new elements
+      a = new qx.data.Array(1, 2, 3);
+      var addFired = false, removeFired = false, orderedFired = false;
+      this.assertEventFired(a, "change", function () {
+        a.splice(1, 1, 0, 2).dispose();
+      }, function(e) {
+    	if (e.getData().type == "add") {
+          self.assertEquals(1, e.getData().start, "Wrong start index in the event.");
+          self.assertEquals(3, e.getData().end, "Wrong end index in the event.");
+          self.assertArrayEquals([0], e.getData().items, "Wrong items in the event.");
+          addFired = true;
+    	} else if (e.getData().type == "remove") {
+          removeFired = true;
+    	} else if (e.getData().type == "order") {
+    	  orderedFired = true;
+    	}
+      }, "Change event not fired!");
+      this.assertTrue(addFired && !removeFired && !orderedFired, "splice does not send correct change events");
+      a.dispose();
+      
+      // test for remove to only list deleted elements
+      a = new qx.data.Array(1, 2, 3);
+      var addFired = false, removeFired = false, orderedFired = false;
+      this.assertEventFired(a, "change", function () {
+        a.splice(1, 2, 3).dispose();
+      }, function(e) {
+      	if (e.getData().type == "add") {
+            addFired = true;
+      	} else if (e.getData().type == "remove") {
+            self.assertEquals(1, e.getData().start, "Wrong start index in the event.");
+            self.assertEquals(1, e.getData().end, "Wrong end index in the event.");
+            self.assertArrayEquals([2], e.getData().items, "Wrong items in the event.");
+            removeFired = true;
+      	} else if (e.getData().type == "order") {
+    	  orderedFired = true;
+    	}
+      }, "Change event not fired!");
+      this.assertTrue(!addFired && removeFired && !orderedFired, "splice does not send correct change events");
+      a.dispose();
+      
+      // test for reordering
+      a = new qx.data.Array(1, 2, 3);
+      var addFired = false, removeFired = false, orderedFired = false;
+      this.assertEventFired(a, "change", function () {
+        a.splice(0, 3, 3, 2, 1).dispose();
+      }, function(e) {
+      	if (e.getData().type == "add") {
+            addFired = true;
+      	} else if (e.getData().type == "remove") {
+            self.assertEquals(1, e.getData().start, "Wrong start index in the event.");
+            self.assertEquals(1, e.getData().end, "Wrong end index in the event.");
+            self.assertArrayEquals([2], e.getData().items, "Wrong items in the event.");
+            removeFired = true;
+      	} else if (e.getData().type == "order") {
+    	  orderedFired = true;
+    	}
+      }, "Change event not fired!");
+      this.assertTrue(!addFired && !removeFired && orderedFired, "splice does not send correct change events");
+      a.dispose();      
     },
 
     testSetItemEvent: function() {
