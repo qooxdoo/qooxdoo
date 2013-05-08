@@ -497,7 +497,6 @@ qx.Class.define("qx.ui.basic.Image",
      */
     __checkForContentElementReplacement : function(elementToAdd)
     {
-      //debugger;
       var currentContentElement = this.__currentContentElement;
 
       if (currentContentElement != elementToAdd)
@@ -516,8 +515,8 @@ qx.Class.define("qx.ui.basic.Image",
           }
 
           var insets = this.getInsets();
-          styles.left = insets.left + pixel;
-          styles.top = insets.top + pixel;
+          styles.left = parseInt(currentContentElement.getStyle("left") || insets.left) + pixel;
+          styles.top = parseInt(currentContentElement.getStyle("top") || insets.top) + pixel;
 
           // Set the default zIndex to avoid any issues with decorators
           // since these would otherwise cover the content element
@@ -528,12 +527,13 @@ qx.Class.define("qx.ui.basic.Image",
           el.setSelectable(this.getSelectable());
 
           var container = currentContentElement.getParent();
+
           if (container) {
             var index = container.getChildren().indexOf(currentContentElement);
             container.removeAt(index);
             container.addAt(elementToAdd, index);
-            this.__currentContentElement = elementToAdd;
           }
+          this.__currentContentElement = elementToAdd;
         }
       }
     },

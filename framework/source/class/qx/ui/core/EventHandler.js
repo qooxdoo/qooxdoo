@@ -335,9 +335,6 @@ qx.Class.define("qx.ui.core.EventHandler",
   },
 
 
-
-
-
   /*
   *****************************************************************************
      DESTRUCTOR
@@ -347,9 +344,6 @@ qx.Class.define("qx.ui.core.EventHandler",
   destruct : function() {
     this.__manager = null;
   },
-
-
-
 
 
   /*
