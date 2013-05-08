@@ -17,9 +17,9 @@
 
 ************************************************************************ */
 
-/*
-#use(qx.theme.Classic)
-*/
+/**
+ * @use(qx.theme.Classic)
+ */
 
 qx.Class.define("qx.test.ui.LayoutTestCase",
 {

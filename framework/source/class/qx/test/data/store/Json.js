@@ -22,11 +22,9 @@
 #asset(qx/test/*)
 ************************************************************************ */
 
-/* ************************************************************************
-#require(qx.io.request.Xhr)
-************************************************************************ */
 /**
  * @ignore(qx.data.model, qx.test.O, qx.test.M, qx.test.M1, qx.test.M2)
+ * @require(qx.io.request.Xhr)
  */
 
 qx.Class.define("qx.test.data.store.Json",

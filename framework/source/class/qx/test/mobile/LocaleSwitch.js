@@ -17,11 +17,11 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#require(qxWeb)
-#require(qx.module.Attribute)
-#require(qx.module.Traversing)
-************************************************************************ */
+/**
+ * @require(qxWeb)
+ * @require(qx.module.Attribute)
+ * @require(qx.module.Traversing)
+ */
 
 qx.Class.define("qx.test.mobile.LocaleSwitch",
 {

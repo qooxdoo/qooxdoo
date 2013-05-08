@@ -18,20 +18,15 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.event.Manager)
-#require(qx.dom.Node)
-#require(qx.lang.Function)
-
-************************************************************************ */
-
 /**
  * Wrapper for browser generic event handling.
  *
  * Supported events differ from target to target. Generally the handlers
  * in {@link qx.event.handler} defines the available features.
  *
+ * @require(qx.event.Manager)
+ * @require(qx.dom.Node)
+ * @require(qx.lang.Function)
  */
 qx.Class.define("qx.event.Registration",
 {

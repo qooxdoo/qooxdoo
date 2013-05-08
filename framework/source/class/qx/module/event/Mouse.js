@@ -17,13 +17,11 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#require(qx.module.Environment)
-#require(qx.module.Event)
-************************************************************************ */
-
 /**
  * Normalization for native mouse events
+ *
+ * @require(qx.module.Environment)
+ * @require(qx.module.Event)
  */
 qx.Bootstrap.define("qx.module.event.Mouse", {
   statics :

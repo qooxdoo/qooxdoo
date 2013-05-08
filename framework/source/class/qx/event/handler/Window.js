@@ -18,13 +18,12 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
-/*
- #require(qx.event.type.Native)
- #require(qx.event.Pool)
-*/
 
 /**
  * This handler provides event for the window object.
+ *
+ * @require(qx.event.type.Native)
+ * @require(qx.event.Pool)
  */
 qx.Class.define("qx.event.handler.Window",
 {

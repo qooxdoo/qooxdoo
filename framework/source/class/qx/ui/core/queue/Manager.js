@@ -18,14 +18,10 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.event.handler.UserAction)
-
-************************************************************************ */
-
 /**
  * This class performs the auto flush of all layout relevant queues.
+ *
+ * @require(qx.event.handler.UserAction)
  */
 qx.Class.define("qx.ui.core.queue.Manager",
 {

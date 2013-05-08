@@ -19,10 +19,6 @@
 
 /* *********************************************************************
 #asset(qx/test/xmlhttp/php_version.php)
-#use(feature-checks)
-#ignore(qx.application.Standalone)
-#ignore(qx.application.Inline)
-#ignore(qx.application.Native)
 ************************************************************************ */
 
 /**
@@ -36,6 +32,7 @@
  * }
  * </pre>
  *
+ * @use(feature-checks)
  * @ignore(qx.application.Standalone)
  * @ignore(qx.application.Inline)
  * @ignore(qx.application.Native)

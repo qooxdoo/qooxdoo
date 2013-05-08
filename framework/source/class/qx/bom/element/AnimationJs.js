@@ -16,12 +16,6 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-/* ************************************************************************
-
-#ignore(qx.bom.element.Style)
-#use(qx.bom.element.AnimationJs#play)
-
-************************************************************************ */
 
 /**
  * This class offers the same API as the CSS3 animation layer in
@@ -33,6 +27,7 @@
  * be the one to use.
  *
  * @ignore(qx.bom.element.Style)
+ * @use(qx.bom.element.AnimationJs#play)
  */
 qx.Bootstrap.define("qx.bom.element.AnimationJs",
 {

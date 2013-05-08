@@ -18,13 +18,11 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#require(qx.bom.Stylesheet)
-************************************************************************ */
-
 /**
  * An abstract data cell renderer that does the basic coloring
  * (borders, selected look, ...).
+ *
+ * @require(qx.bom.Stylesheet)
  */
 qx.Class.define("qx.ui.table.cellrenderer.Abstract",
 {

@@ -17,17 +17,11 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.log.appender.Util)
-#ignore(debug)
-
-************************************************************************ */
-
 /**
  * Processes the incoming log entry and displays it using the PhoneGap
  * logging capabilities.
  *
+ * @require(qx.log.appender.Util)
  * @ignore(debug)
  */
 qx.Class.define("qx.log.appender.PhoneGap",

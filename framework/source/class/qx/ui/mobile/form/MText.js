@@ -16,15 +16,12 @@
      * Tino Butz (tbtz)
 
 ************************************************************************ */
-/* ************************************************************************
-
-#require(qx.event.handler.Input)
-
-************************************************************************ */
 
 /**
  * The mixin contains all functionality to provide common properties for
  * text fields.
+ *
+ * @require(qx.event.handler.Input)
  */
 qx.Mixin.define("qx.ui.mobile.form.MText",
 {

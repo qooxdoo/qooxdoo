@@ -17,16 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#require(qx.module.Manipulating)
-#require(qx.module.Css)
-#require(qx.module.Attribute)
-#require(qx.module.Event)
-#require(qx.module.Environment)
-#require(qx.module.Polyfill)
-#require(qx.module.Traversing)
-************************************************************************ */
-
 /**
  * The module supplies a fallback implementation for placeholders, which is
  * used on input and textarea elements. If the browser supports native placeholders
@@ -37,6 +27,14 @@
  *  * <a href="http://dev.w3.org/html5/spec/single-page.html#the-placeholder-attribute">HTML Spec</a>
  *
  *  * <a href="http://caniuse.com/#feat=input-placeholder">Browser Support</a>
+ *
+ * @require(qx.module.Manipulating)
+ * @require(qx.module.Css)
+ * @require(qx.module.Attribute)
+ * @require(qx.module.Event)
+ * @require(qx.module.Environment)
+ * @require(qx.module.Polyfill)
+ * @require(qx.module.Traversing)
  */
 qx.Bootstrap.define("qx.module.Placeholder", {
   statics :

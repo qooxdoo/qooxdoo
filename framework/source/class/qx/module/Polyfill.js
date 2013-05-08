@@ -17,15 +17,15 @@
      * Daniel Wagner (danielwagner)
 
 ************************************************************************ */
-/* ************************************************************************
-#require(qx.lang.normalize.Function)
-#require(qx.lang.normalize.String)
-#require(qx.lang.normalize.Date)
-#require(qx.lang.normalize.Array)
-#require(qx.lang.normalize.Error)
-#require(qx.lang.normalize.Object)
-************************************************************************ */
+
 /**
  * Adds JavaScript features that may not be supported by all clients.
+ *
+ * @require(qx.lang.normalize.Function)
+ * @require(qx.lang.normalize.String)
+ * @require(qx.lang.normalize.Date)
+ * @require(qx.lang.normalize.Array)
+ * @require(qx.lang.normalize.Error)
+ * @require(qx.lang.normalize.Object)
  */
 qx.Bootstrap.define("qx.module.Polyfill", {});

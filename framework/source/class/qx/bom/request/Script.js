@@ -43,18 +43,14 @@
  * </div>
  *
  * @ignore(qx.core.Environment)
+ * @require(qx.bom.request.Script#_success)
+ * @require(qx.bom.request.Script#abort)
+ * @require(qx.bom.request.Script#dispose)
+ * @require(qx.bom.request.Script#getAllResponseHeaders)
+ * @require(qx.bom.request.Script#getResponseHeader)
+ * @require(qx.bom.request.Script#setDetermineSuccess)
+ * @require(qx.bom.request.Script#setRequestHeader)
  */
-
-/* ************************************************************************
-#ignore(qx.core.Environment)
-#require(qx.bom.request.Script#_success)
-#require(qx.bom.request.Script#abort)
-#require(qx.bom.request.Script#dispose)
-#require(qx.bom.request.Script#getAllResponseHeaders)
-#require(qx.bom.request.Script#getResponseHeader)
-#require(qx.bom.request.Script#setDetermineSuccess)
-#require(qx.bom.request.Script#setRequestHeader)
-************************************************************************ */
 
 qx.Bootstrap.define("qx.bom.request.Script",
 {

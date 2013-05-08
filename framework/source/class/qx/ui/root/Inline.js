@@ -19,15 +19,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#use(qx.event.handler.ElementResize)
-#ignore(qx.ui.popup.Manager)
-#ignore(qx.ui.menu.Manager)
-
-************************************************************************ */
-
-
 /**
  * This classes could be used to insert qooxdoo islands into existing
  * web pages. You can use the isles to place any qooxdoo powered widgets
@@ -43,6 +34,7 @@
  *
  * To position popups and tooltips please have a look at {@link qx.ui.root.Page}.
  *
+ * @use(qx.event.handler.ElementResize)
  * @ignore(qx.ui.popup, qx.ui.popup.Manager)
  * @ignore(qx.ui.menu, qx.ui.menu.Manager)
  */

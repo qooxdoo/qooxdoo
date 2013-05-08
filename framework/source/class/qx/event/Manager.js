@@ -18,14 +18,10 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.bom.Event)
-
-************************************************************************ */
-
 /**
  * Wrapper for browser DOM event handling for each browser window/frame.
+ *
+ * @require(qx.bom.Event)
  */
 qx.Class.define("qx.event.Manager",
 {

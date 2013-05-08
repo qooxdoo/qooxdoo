@@ -32,12 +32,10 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#require(qx.lang.Array#contains)
-************************************************************************ */
-
 /**
  * Cross browser abstractions to work with input elements.
+ *
+ * @require(qx.lang.Array#contains)
  */
 qx.Bootstrap.define("qx.bom.Input",
 {

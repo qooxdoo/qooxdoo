@@ -18,14 +18,12 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#require(qx.dom.Hierarchy#getSiblings)
-#require(qx.dom.Hierarchy#getNextSiblings)
-#require(qx.dom.Hierarchy#getPreviousSiblings)
-************************************************************************ */
-
 /**
  * DOM traversal module
+ *
+ * @require(qx.dom.Hierarchy#getSiblings)
+ * @require(qx.dom.Hierarchy#getNextSiblings)
+ * @require(qx.dom.Hierarchy#getPreviousSiblings)
  */
 qx.Bootstrap.define("qx.module.Traversing", {
   statics :

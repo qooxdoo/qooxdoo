@@ -16,16 +16,14 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-/* ************************************************************************
 
-#require(qx.module.Css)
-#require(qx.module.Event)
-
-************************************************************************ */
 /**
  * Cross browser animation layer. It uses feature detection to check if CSS
  * animations are available and ready to use. If not, a JavaScript-based
  * fallback will be used.
+ *
+ * @require(qx.module.Css)
+ * @require(qx.module.Event)
  */
 qx.Bootstrap.define("qx.module.Animation", {
   events : {

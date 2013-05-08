@@ -18,15 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.event.handler.Window)
-#ignore(qx.ui.popup.Manager)
-#ignore(qx.ui.menu.Manager)
-#ignore(qx.ui)
-
-************************************************************************ */
-
 /**
  * This is the root widget for qooxdoo applications with an
  * "application" like behaviour. The widget will span the whole viewport
@@ -41,10 +32,12 @@
  * This class uses a {@link qx.ui.layout.Canvas} as fixed layout. The layout
  * cannot be changed.
  *
+ * @require(qx.event.handler.Window)
  * @ignore(qx.ui.popup)
  * @ignore(qx.ui.popup.Manager)
  * @ignore(qx.ui.menu)
  * @ignore(qx.ui.menu.Manager)
+ * @ignore(qx.ui)
  */
 qx.Class.define("qx.ui.root.Application",
 {
