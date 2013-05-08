@@ -409,6 +409,11 @@ class Comment(object):
     # next: still wider, matching more elements
     py_term_argument = py.Regex(r'(?u)[^\s,)]+')
 
+    py_comment_term = (py_js_identifier.copy().setResultsName('t_functor') + py.Suppress('(') + 
+        #py.Optional(py.delimitedList(py_js_identifier_glob)) # TODO: when retiring ignoreUndefined -> py_js_identifier
+        py.Optional(py.delimitedList(py_term_argument)) # 'foo.Bar#baz'
+        .setResultsName('t_arguments') + py.Suppress(')'))
+
     py_simple_type = py.Suppress('{') + py_js_identifier.copy()('type_name') + py.Suppress('}')
 
     py_single_type = py_js_identifier.copy().setResultsName('type_name') + \
@@ -436,14 +441,13 @@ class Comment(object):
 
     ##
     # "@ignore(foo,bar)"
-    gr_at_ignore = ( py.Suppress('@') + py.Literal('ignore') + py.Suppress('(') +
-        py.delimitedList(py_js_identifier_glob)('arguments') + py.Suppress(')') )
+    gr_at_ignore = py.Suppress('@') + py_comment_term
     def parse_at_ignore(self, line):
         grammar = self.gr_at_ignore
         presult = grammar.parseString(line)
         res = {
             'category' : 'ignore',
-            'arguments': presult.arguments.asList()  # 'arguments'=(['foo','bar'],{})!?
+            'arguments': presult.t_arguments.asList()  # 'arguments'=(['foo','bar'],{})!?
         }
         return res
 
@@ -580,11 +584,6 @@ class Comment(object):
             'arguments' : presult.arguments.asList() if presult.arguments else []
         }
         return res
-
-    py_comment_term = (py_js_identifier.copy().setResultsName('t_functor') + py.Suppress('(') + 
-        #py.Optional(py.delimitedList(py_js_identifier_glob)) # TODO: when retiring ignoreUndefined -> py_js_identifier
-        py.Optional(py.delimitedList(py_term_argument)) # 'foo.Bar#baz'
-        .setResultsName('t_arguments') + py.Suppress(')'))
 
     gr_at_lint = py.Suppress('@') + py.Literal('lint') + py_comment_term
     ##
