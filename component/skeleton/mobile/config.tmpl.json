@@ -223,6 +223,7 @@
         "command" :
         {
           "line"  : "$${PYTHON_CMD} $${QOOXDOO_PATH}/tool/bin/scss.py source/resource/$${APPLICATION_PATH}/scss/styles.scss -o source/resource/$${APPLICATION_PATH}/css/styles.css --load-path=source/resource/$${APPLICATION_PATH}/scss,$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss",
+          "exec-on-startup" : true,
           "per-file" : false
         }
       }
