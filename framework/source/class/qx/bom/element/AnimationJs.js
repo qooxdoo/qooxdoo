@@ -26,7 +26,7 @@
  * (CSS or JavaScript) should be used. Most likely, this implementation should
  * be the one to use.
  *
- * @ignore(qx.bom.element.Style)
+ * @ignore(qx.bom.element.Style.*)
  * @use(qx.bom.element.AnimationJs#play)
  */
 qx.Bootstrap.define("qx.bom.element.AnimationJs",

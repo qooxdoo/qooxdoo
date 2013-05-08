@@ -35,8 +35,8 @@
  * To position popups and tooltips please have a look at {@link qx.ui.root.Page}.
  *
  * @use(qx.event.handler.ElementResize)
- * @ignore(qx.ui.popup, qx.ui.popup.Manager)
- * @ignore(qx.ui.menu, qx.ui.menu.Manager)
+ * @ignore(qx.ui.popup, qx.ui.popup.Manager.*)
+ * @ignore(qx.ui.menu, qx.ui.menu.Manager.*)
  */
 qx.Class.define("qx.ui.root.Inline",
 {

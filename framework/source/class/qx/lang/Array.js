@@ -42,7 +42,7 @@
  *
  * @ignore(qx.data)
  * @ignore(qx.data.IListData)
- * @ignore(qx.Class)
+ * @ignore(qx.Class.*)
  * @require(qx.lang.normalize.Date)
  */
 qx.Bootstrap.define("qx.lang.Array",

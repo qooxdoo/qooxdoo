@@ -22,7 +22,6 @@
  * logging capabilities.
  *
  * @require(qx.log.appender.Util)
- * @ignore(debug)
  */
 qx.Class.define("qx.log.appender.PhoneGap",
 {
@@ -38,7 +37,7 @@ qx.Class.define("qx.log.appender.PhoneGap",
      * Processes a single log entry
      * @param entry {Map} The entry to process
      *
-     * @lint ignoreUndefined(debug)
+     * @ignore(debug.*)
      */
     process : function(entry)
     {

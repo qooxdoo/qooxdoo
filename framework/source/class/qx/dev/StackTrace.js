@@ -21,7 +21,7 @@
  * Methods to get information about the JavaScript call stack.
  *
  * @require(qx.lang.normalize.String)
- * @ignore(qx.bom.client.EcmaScript)
+ * @ignore(qx.bom.client.EcmaScript.*)
  */
 qx.Bootstrap.define("qx.dev.StackTrace",
 {
