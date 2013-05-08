@@ -402,6 +402,7 @@ class MClassDependencies(object):
                 #print className
                 depsItem = DependencyItem(className, classAttribute, self.id, env_operand.get('line', -1))
                 depsItem.isCall = True  # treat as if actual call, to collect recursive deps
+                depsItem.node = call_node
                 # .inLoadContext
                 qx_idnode = treeutil.findFirstChainChild(env_operand) # 'qx' node of 'qx.core.Environment....'
                 scope = qx_idnode.scope
@@ -429,9 +430,13 @@ class MClassDependencies(object):
     # applied.
     #
     def _analyzeClassDepsNode(self, node, depsList, inLoadContext, inDefer=False):
+        # ensure a complete hint tree for ignore checking
+        root_node = node.getRoot()
+        if not hasattr(root_node, 'hint'):
+            root_node = jshints.create_hints_tree(root_node)
         lexical_globals  =  self.dependencies_from_ast(node)
-        lexical_globals  =  self.filter_symbols_by_jshints(node, lexical_globals)
         lexical_globals +=  self.dependencies_from_envcalls(node)
+        lexical_globals  =  self.filter_symbols_by_jshints(node, lexical_globals)
         filtered_globals =  self.filter_symbols_by_builtins(lexical_globals)
         [setattr(x,'node',None) for x in filtered_globals]  # remove AST links (for easier caching)
         depsList.extend(filtered_globals)
@@ -441,6 +446,8 @@ class MClassDependencies(object):
     def filter_symbols_by_jshints(self, tree, depsItems):
         result = []
         for depsItem in depsItems:
+            #if self.id=='qx.dev.StackTrace' and depsItem.name=='qx.bom.client.EcmaScript':
+            #    import pydb; pydb.debugger()
             deps_repr = depsItem.name
             if depsItem.attribute:
                 deps_repr += '.' + depsItem.attribute
