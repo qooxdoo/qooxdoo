@@ -210,7 +210,6 @@ qx.Class.define("qx.event.handler.Orientation",
       var orientation = Viewport.getOrientation(domEvent.target);
 
       if (this._currentOrientation != orientation) {
-        console.log("_onOrientationChange");
         this._currentOrientation = orientation;
         var mode = Viewport.isLandscape(domEvent.target) ? "landscape" : "portrait";
         qx.event.Registration.fireEvent(
