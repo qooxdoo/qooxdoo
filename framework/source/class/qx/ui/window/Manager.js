@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.window.Manager",
      */
     syncWidget : function()
     {
-      this.__desktop.forceUnblockContent();
+      this.__desktop.forceUnblock();
 
       var windows = this.__desktop.getWindows();
       // z-index for all three window kinds
@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.window.Manager",
         // top of Normal Windows.
         if (win.isModal()) {
           win.setZIndex(zIndexModal);
-          this.__desktop.blockContent(zIndexModal - 1);
+          this.__desktop.block(zIndexModal - 1);
           zIndexModal +=2;
           //just activate it if it's modal
           active = win;
