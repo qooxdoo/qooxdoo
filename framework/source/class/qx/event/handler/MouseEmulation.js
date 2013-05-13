@@ -354,6 +354,8 @@ qx.Class.define("qx.event.handler.MouseEmulation",
 
 
   defer : function(statics) {
-    qx.event.Registration.addHandler(statics);
+    if (qx.core.Environment.get("qx.emulatemouse")) {
+      qx.event.Registration.addHandler(statics);
+    }
   }
 });
