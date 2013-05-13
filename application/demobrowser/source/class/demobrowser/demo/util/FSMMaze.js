@@ -191,7 +191,7 @@ qx.Class.define("demobrowser.demo.util.FSMMaze",
           ~neighbor.neighborWall;
 
         // Step 3: Actually remove the wall on the current cell
-        var currentWall = new qx.ui.decorationDecorator().set({
+        var currentWall = new qx.ui.decoration.Decorator().set({
           width: 1,
           style: "solid",
           color: "black"
