@@ -16,9 +16,9 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-/* ************************************************************************
-#require(qx.module.Placeholder)
-************************************************************************ */
+/**
+ * @require(qx.module.Placeholder)
+ */
 
 qx.Class.define("demobrowser.demo.bom.Placeholder",
 {

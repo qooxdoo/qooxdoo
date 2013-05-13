@@ -20,13 +20,14 @@
 /* ************************************************************************
 
 #asset(playground/*)
-#ignore(require)
-#ignore(ace)
 
 ************************************************************************ */
 
 /**
  * Container for the examples.
+ *
+ * @ignore(require)
+ * @ignore(ace)
  */
 qx.Class.define("playground.view.Samples",
 {

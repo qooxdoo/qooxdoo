@@ -20,12 +20,13 @@
 /* ************************************************************************
 
 #asset(qx/icon/Tango/16/actions/help-contents.png)
-#use(feature-checks)
 
 ************************************************************************ */
 
 /**
  * Tool used to create configuration maps for feature-based builds
+ *
+ * @use(feature-checks)
  */
 qx.Class.define("fce.Application",
 {

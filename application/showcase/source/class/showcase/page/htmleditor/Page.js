@@ -18,12 +18,8 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#use(showcase.page.htmleditor.Content)
-
-************************************************************************ */
 /**
+ * @use(showcase.page.htmleditor.Content)
  * @lint ignoreReferenceField(__descriptionText, __tryThis,
  *   __features, __manual, __demos, __api)
  */

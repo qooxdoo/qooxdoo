@@ -18,12 +18,8 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#use(showcase.page.databinding.Content)
-
-************************************************************************ */
 /**
+ * @use(showcase.page.databinding.Content)
  * @lint ignoreReferenceField(__descriptionText, __tryThis,
  *   __features, __manual, __demos, __api)
  */

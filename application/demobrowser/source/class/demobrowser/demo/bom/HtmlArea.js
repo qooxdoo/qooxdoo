@@ -26,7 +26,6 @@
 #asset(qx/icon/Oxygen/16/actions/insert-link.png)
 #asset(qx/icon/Oxygen/16/actions/insert-text.png)
 #asset(demobrowser/demo/icons/htmlarea/*)
-#require(qx.module.Core)
 
 ************************************************************************ */
 
@@ -34,6 +33,8 @@
  * This is the main application class of your custom application "native"
  *
  * @tag noPlayground
+ *
+ * @require(qx.module.Core)
  */
 qx.Class.define("demobrowser.demo.bom.HtmlArea",
 {

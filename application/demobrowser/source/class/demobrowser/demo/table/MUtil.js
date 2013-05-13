@@ -1,6 +1,6 @@
-/*
-#require(qx.ui.table.selection.Manager)
-*/
+/**
+ * @require(qx.ui.table.selection.Manager)
+ */
 
 qx.Mixin.define("demobrowser.demo.table.MUtil",
 {
