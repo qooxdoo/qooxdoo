@@ -92,6 +92,19 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
+    "pane" : {
+      style : {
+        width: 1,
+        color: "tabview-background",
+        radius : 3,
+        shadowColor : "shadow",
+        shadowBlurRadius : 2,
+        shadowLength : 0,
+        gradientStart : ["pane-start", 0],
+        gradientEnd : ["pane-end", 100]
+      }
+    },
+
     "group" :
     {
       style : {

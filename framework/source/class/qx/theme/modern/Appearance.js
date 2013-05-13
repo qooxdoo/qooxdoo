@@ -1880,7 +1880,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "pane-css"
+          decorator : "pane"
         };
       }
     },
