@@ -34,13 +34,13 @@ qx.Class.define("qx.ui.core.Blocker",
   events :
   {
     /**
-     * Fires after {@link #block} or {@link #blockContent} executed.
+     * Fires after {@link #block} executed.
      */
     blocked : "qx.event.type.Event",
 
 
     /**
-     * Fires after {@link #unblock} or {@link #unblockContent} executed.
+     * Fires after {@link #unblock} executed.
      */
     unblocked : "qx.event.type.Event"
   },
@@ -311,6 +311,14 @@ qx.Class.define("qx.ui.core.Blocker",
       {
         this.__blocker = this.__createBlockerElement();
         this.__blocker.setStyle("zIndex", 15);
+
+        if (!widget) {
+          if (this._isRoot) {
+            widget = this._widget;
+          } else {
+            widget = this._widget.getLayoutParent();
+          }
+        }
 
         widget.getContentElement().add(this.__blocker);
         this.__blocker.exclude();
