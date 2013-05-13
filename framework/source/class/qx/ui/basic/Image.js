@@ -507,19 +507,17 @@ qx.Class.define("qx.ui.basic.Image",
           var styles = {};
 
           // Copy dimension and location of the current content element
-          var innerSize = this.getInnerSize();
-          if (innerSize != null)
+          var bounds = this.getBounds();
+          if (bounds != null)
           {
-            styles.width = innerSize.width + pixel;
-            styles.height = innerSize.height + pixel;
+            styles.width = bounds.width + pixel;
+            styles.height = bounds.height + pixel;
           }
 
           var insets = this.getInsets();
           styles.left = parseInt(currentContentElement.getStyle("left") || insets.left) + pixel;
           styles.top = parseInt(currentContentElement.getStyle("top") || insets.top) + pixel;
 
-          // Set the default zIndex to avoid any issues with decorators
-          // since these would otherwise cover the content element
           styles.zIndex = 10;
 
           var el = this.__wrapper ? elementToAdd.getChild(0) : elementToAdd;
@@ -533,6 +531,7 @@ qx.Class.define("qx.ui.basic.Image",
             container.removeAt(index);
             container.addAt(elementToAdd, index);
           }
+          elementToAdd.setAttribute("class", this.__currentContentElement.getAttribute("class"));
           this.__currentContentElement = elementToAdd;
         }
       }
