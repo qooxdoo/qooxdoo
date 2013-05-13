@@ -446,13 +446,13 @@ qx.Class.define("qx.ui.menu.Menu",
       {
         if (this.getBlockBackground()) {
           var zIndex = this.getZIndex();
-          this._blocker.blockContent(zIndex - 1);
+          this._blocker.block(zIndex - 1);
         }
       }
       else
       {
-        if (this._blocker.isContentBlocked()) {
-          this._blocker.unblockContent();
+        if (this._blocker.isBlocked()) {
+          this._blocker.unblock();
         }
       }
     },
