@@ -301,24 +301,18 @@ qx.Class.define("qx.ui.core.Blocker",
     /**
      * Get/create the blocker element
      *
+     * @param widget {qx.ui.core.Widget} The blocker will be added to this
+     * widget's content element
      * @return {qx.html.Element} The blocker element
      */
-    getBlockerElement : function()
+    getBlockerElement : function(widget)
     {
       if (!this.__blocker)
       {
         this.__blocker = this.__createBlockerElement();
         this.__blocker.setStyle("zIndex", 15);
 
-        var parent;
-        if (this._isRoot) {
-          parent = this._widget;
-        } else {
-          parent = this._widget.getLayoutParent();
-        }
-
-        //TODO: no parent
-        parent.getContentElement().add(this.__blocker);
+        widget.getContentElement().add(this.__blocker);
         this.__blocker.exclude();
       }
       return this.__blocker;
@@ -331,9 +325,32 @@ qx.Class.define("qx.ui.core.Blocker",
      */
     block : function()
     {
+      this._block();
+    },
+
+
+    /**
+     * Adds the blocker to the appropriate element and includes it.
+     *
+     * @param zIndex {Number} All child widgets with a zIndex below this value will be blocked
+     * @param blockContent {Boolean} append the blocker to the widget's content if true
+     */
+    _block : function(zIndex, blockContent) {
       if (!this._isRoot && !this._widget.getLayoutParent()) {
-        this.__appearListener = this._widget.addListenerOnce("appear", this.block, this);
+        this.__appearListener = this._widget.addListenerOnce("appear", this._block.bind(this, zIndex));
         return;
+      }
+
+      var parent;
+      if (this._isRoot || blockContent) {
+        parent = this._widget;
+      } else {
+        parent = this._widget.getLayoutParent();
+      }
+
+      var blocker = this.getBlockerElement(parent);
+      if (zIndex != null) {
+        blocker.setStyle("zIndex", zIndex);
       }
 
       this.__blockerCount++;
@@ -341,7 +358,6 @@ qx.Class.define("qx.ui.core.Blocker",
       {
         this._backupActiveWidget();
 
-        var blocker = this.getBlockerElement();
         var bounds = this._widget.getBounds();
         // no bounds -> widget not yet rendered -> bounds will be set on resize
         if (bounds) {
@@ -433,8 +449,7 @@ qx.Class.define("qx.ui.core.Blocker",
      * @return {qx.html.Element} The blocker element
      * @deprecated{3.0}
      */
-    getContentBlockerElement : function()
-    {
+    getContentBlockerElement : function() {
       if (qx.core.Environment.get("qx.debug")) {
         qx.log.Logger.deprecatedMethodWarning(arguments.callee,
          "Please use 'getBlockerElement' instead.");
@@ -449,16 +464,9 @@ qx.Class.define("qx.ui.core.Blocker",
      *
      * @param zIndex {Integer} All child widgets with a zIndex below this value
      *     will be blocked
-     * @deprecated{3.0}
      */
-    blockContent : function(zIndex)
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-         "Please use 'block' instead.");
-      }
-
-      this.block();
+    blockContent : function(zIndex) {
+      this._block(zIndex, true);
     },
 
 

@@ -85,13 +85,22 @@ The following information is only relevant for authors of custom widgets using t
 * The ``shadow`` property has been removed. Use a decorator setting the properties of ``qx.ui.decoration.MBoxShadow`` instead.
 
 
+Other Code Changes
+==================
+
+The blocking implementation (``qx.ui.core.Blocker``, ``qx.ui.core.MBlocker``) was simplified:
+
+* ``unblockContent`` was removed. Use ``unblock`` instead.
+* ``isContentBlocked`` was removed. Use ``isBlocked`` instead.
+* ``forceUnblockContent`` was removed. Use ``forceUnblock`` instead.
+
 
 Implementation Details
 ======================
 
 This section lists all further internal changes. They should not be relevant for you as an application developer. Nevertheless, this information could be useful for anyone interested in the framework's internals.
 
-* The new implementation is based on ``box-sizing: border-box``. As a consequence, **Internet Explorer 6 and 7 is no longer supported**. 
+* The new implementation is based on ``box-sizing: border-box``. As a consequence, **Internet Explorer 6 and 7 is no longer supported**.
 * Decorations are compiled as CSS classes and applied to a central style sheet.
 * Background gradients are rendered using Canvas in IE9.
 * CSS clip is used to apply padding to combined images.

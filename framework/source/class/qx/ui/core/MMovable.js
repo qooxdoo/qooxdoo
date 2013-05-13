@@ -200,7 +200,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
 
       // Added a blocker, this solves the issue described in [BUG #1462]
       if (qx.Class.implementsInterface(parent, qx.ui.window.IDesktop)) {
-        if (!parent.isContentBlocked()) {
+        if (!parent.isBlocked()) {
           this.__oldBlockerColor = parent.getBlockerColor();
           this.__oldBlockerOpacity = parent.getBlockerOpacity();
           parent.setBlockerColor(null);
@@ -292,7 +292,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
       var parent = this.getLayoutParent();
       if (qx.Class.implementsInterface(parent, qx.ui.window.IDesktop)) {
         if (this.__blockerAdded) {
-          parent.unblockContent();
+          parent.unblock();
 
           parent.setBlockerColor(this.__oldBlockerColor);
           parent.setBlockerOpacity(this.__oldBlockerOpacity);

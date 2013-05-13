@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.window.Manager",
         // top of Normal Windows.
         if (win.isModal()) {
           win.setZIndex(zIndexModal);
-          this.__desktop.block(zIndexModal - 1);
+          this.__desktop.blockContent(zIndexModal - 1);
           zIndexModal +=2;
           //just activate it if it's modal
           active = win;

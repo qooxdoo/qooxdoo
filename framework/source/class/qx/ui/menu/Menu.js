@@ -446,7 +446,7 @@ qx.Class.define("qx.ui.menu.Menu",
       {
         if (this.getBlockBackground()) {
           var zIndex = this.getZIndex();
-          this._blocker.block(zIndex - 1);
+          this._blocker.blockContent(zIndex - 1);
         }
       }
       else
