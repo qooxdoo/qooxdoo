@@ -108,7 +108,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
     "group" :
     {
       style : {
-        baseImage : "decoration/groupbox/groupbox.png"
+        borderImage : "decoration/groupbox/groupbox.png"
       }
     },
 
