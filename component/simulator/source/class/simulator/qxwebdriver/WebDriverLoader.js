@@ -17,14 +17,10 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#ignore(require)
-************************************************************************ */
-
 /**
  * Loads the WebDriverJs module and exposes it as simulator.webdriver
- * @lint ignoreUndefined(require)
- * @lint ignoreUndefined(simulator.webdriver)
+ * @ignore(require)
+ * @ignore(simulator.webdriver)
  */
 qx.Class.define("simulator.qxwebdriver.WebDriverLoader", {
 

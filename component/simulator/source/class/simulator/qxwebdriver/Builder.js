@@ -18,15 +18,14 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#ignore(simulator.webdriver)
-#ignore(simulator.webdriver.*)
-#require(simulator.qxwebdriver.WebDriverLoader)
 ************************************************************************ */
 
 /**
  * Overrides <code>webdriver.Builder.build</code> so that it returns a
  * {@link simulator.qxwebdriver.WebDriver} object.
- * @lint ignoreUndefined(simulator.webdriver.Builder)
+ *
+ * @ignore(simulator.webdriver.*)
+ * @require(simulator.qxwebdriver.WebDriverLoader)
  */
 qx.Class.define("simulator.qxwebdriver.Builder",
 {

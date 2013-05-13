@@ -18,12 +18,13 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#ignore(selenium)
 ************************************************************************ */
 
 /**
  * Allows GUI tests to access exceptions caught by the tested application's
  * global error handler.
+ *
+ * @ignore(selenium)
  */
 
 qx.Mixin.define("simulator.MGlobalErrorHandling",

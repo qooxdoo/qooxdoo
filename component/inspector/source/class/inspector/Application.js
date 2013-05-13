@@ -20,12 +20,13 @@
 /* ************************************************************************
 
 #asset(inspector/*)
-#ignore(qxinspector)
 
 ************************************************************************ */
 
 /**
  * This is the main application class of your custom application "inspector"
+ *
+ * @ignore(qxinspector)
  */
 qx.Class.define("inspector.Application",
 {

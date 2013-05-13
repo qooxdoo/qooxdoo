@@ -18,13 +18,14 @@
 
 /* ************************************************************************
 
-#ignore(environment)
-#ignore(process)
 
 ************************************************************************ */
 
 /**
  * This is the main application class of your custom application "${Name}"
+ *
+ * @ignore(environment)
+ * @ignore(process)
  */
 qx.Class.define("${Namespace}.Application",
 {
