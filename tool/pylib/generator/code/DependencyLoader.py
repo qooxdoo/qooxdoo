@@ -275,26 +275,16 @@ class DependencyLoader(object):
 
         # Calculate dependencies
         else:
-            #self._console.info(" ", feed=False)
-
-            # Multiple loop over class list calculation
-            processedEnvironment = False
-            result      = []          # reset any previous results for this iteration
+            result = []  # reset any previous results for this iteration
             resultNames = []
 
             # calculate class list recursively
             for item in includeWithDeps:
                 depsItem = DependencyItem(item, '', '|config|')
-                # calculate dependencies and add required classes
                 classlistFromClassRecursive(depsItem, excludeWithDeps, variants, result, warn_deps, [], allowBlockLoaddeps)
-                #classlistFromClassIterative(depsItem, excludeWithDeps, variants, result, warn_deps, [], allowBlockLoaddeps)
 
             self._console.dotclear()
                     
-            if self._console.getLevel() is "info":
-                #self._console.nl()
-                pass
-
             # extract names of depsItems
             result = [x.name for x in result]
 
