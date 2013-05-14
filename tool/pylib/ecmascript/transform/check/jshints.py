@@ -82,7 +82,7 @@ class CreateHintsVisitor(treeutil.NodeVisitor):
                 for commentAttributes in commentsArray:
                     for entry in commentAttributes:
                         cat = entry['category']
-                        if cat not in ('ignore', 'lint', 'require', 'use'):
+                        if cat not in ('ignore', 'lint', 'require', 'use', 'asset', 'cldr'):
                             continue
                         # the next is currently not used (Comment.parseNode doesn't return error commentAttributes)
                         # but would be suitable for error reporting with file and line number

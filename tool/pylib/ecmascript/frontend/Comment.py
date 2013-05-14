@@ -634,28 +634,33 @@ class Comment(object):
         }
         return res
 
-    gr_at_require = py.Suppress('@') + py_comment_term
+    gr_at_require = py.Suppress('@') + py_comment_term + py.restOfLine("text")
     ##
     # "@require(foo, bar)"
     def parse_at_require(self, line):
         grammar = self.gr_at_require
         presult = grammar.parseString(line)
         res = {
-            'category' : 'require',
+            'category' : presult.t_functor,
             'arguments' : presult.t_arguments.asList(),
+            'text' : presult.text.strip(),
         }
         return res
 
     ##
     # "@use(foo,bar)"
     def parse_at_use(self, line):
-        grammar = self.gr_at_require
-        presult = grammar.parseString(line)
-        res = {
-            'category' : 'use',
-            'arguments' : presult.t_arguments.asList(),
-        }
-        return res
+        return self.parse_at_require(line)
+
+    ##
+    # "@asset(custom/*)"
+    def parse_at_asset(self, line):
+        return self.parse_at_require(line)
+
+    ##
+    # "@cldr()"
+    def parse_at_cldr(self, line):
+        return self.parse_at_require(line)
 
 
     def cleanupText(self, text):
