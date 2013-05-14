@@ -664,15 +664,16 @@ Description
 
 **Description**
 
-  This hint indicates that the class needs CLDR data (e.g. names of months or week-days).
+  This hint indicates that the class needs CLDR data (e.g. names of months or
+  week-days). It takes no arguments.
 
 **Syntax**
 
-  ``@cldr``
+  ``@cldr()``
 
 **Example**
 
-  ``@cldr``
+  ``@cldr()``
 
 
 .. _pages/development/api_jsdoc_ref#asset:
