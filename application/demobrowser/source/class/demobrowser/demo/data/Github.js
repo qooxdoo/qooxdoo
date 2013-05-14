@@ -147,7 +147,7 @@ qx.Class.define("github.rest.Resource", {
    * @lint ignoreUndefined(GITHUB.*)
    */
   construct: function(description) {
-    qx.io.rest.Resource.constructor.call(this, description);
+    this.base(arguments, description);
 
     this.configureRequest(function(req) {
       req.setRequestHeader("Accept", "application/json");
