@@ -18,11 +18,12 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#ignore(simulator.webdriver.By)
 ************************************************************************ */
 
 /**
  * Interactions for {@link qx.ui.form.SelectBox} and derived widgets
+ *
+ * @ignore(simulator.webdriver.By)
  */
 qx.Class.define("simulator.qxwebdriver.interaction.form.SelectBox", {
 

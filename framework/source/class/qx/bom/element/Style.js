@@ -55,38 +55,34 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.lang.String)
-#require(qx.bom.client.Css)
-
-#require(qx.bom.element.Clip#set)
-#require(qx.bom.element.Cursor#set)
-#require(qx.bom.element.Opacity#set)
-#require(qx.bom.element.BoxSizing#set)
-
-#require(qx.bom.element.Clip#get)
-#require(qx.bom.element.Cursor#get)
-#require(qx.bom.element.Opacity#get)
-#require(qx.bom.element.BoxSizing#get)
-
-#require(qx.bom.element.Clip#reset)
-#require(qx.bom.element.Cursor#reset)
-#require(qx.bom.element.Opacity#reset)
-#require(qx.bom.element.BoxSizing#reset)
-
-#require(qx.bom.element.Clip#compile)
-#require(qx.bom.element.Cursor#compile)
-#require(qx.bom.element.Opacity#compile)
-#require(qx.bom.element.BoxSizing#compile)
-
-************************************************************************ */
-
 /**
  * Style querying and modification of HTML elements.
  *
  * Automatically normalizes cross-browser differences for setting and reading
  * CSS attributes. Optimized for performance.
+ *
+ * @require(qx.lang.String)
+ * @require(qx.bom.client.Css)
+
+ * @require(qx.bom.element.Clip#set)
+ * @require(qx.bom.element.Cursor#set)
+ * @require(qx.bom.element.Opacity#set)
+ * @require(qx.bom.element.BoxSizing#set)
+
+ * @require(qx.bom.element.Clip#get)
+ * @require(qx.bom.element.Cursor#get)
+ * @require(qx.bom.element.Opacity#get)
+ * @require(qx.bom.element.BoxSizing#get)
+
+ * @require(qx.bom.element.Clip#reset)
+ * @require(qx.bom.element.Cursor#reset)
+ * @require(qx.bom.element.Opacity#reset)
+ * @require(qx.bom.element.BoxSizing#reset)
+
+ * @require(qx.bom.element.Clip#compile)
+ * @require(qx.bom.element.Cursor#compile)
+ * @require(qx.bom.element.Opacity#compile)
+ * @require(qx.bom.element.BoxSizing#compile)
  */
 qx.Bootstrap.define("qx.bom.element.Style",
 {

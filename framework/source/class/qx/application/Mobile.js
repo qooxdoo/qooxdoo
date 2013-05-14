@@ -19,12 +19,13 @@
 /* ************************************************************************
 
 #asset(qx/mobile/css)
-#require(qx.core.Init)
 
 ************************************************************************ */
 
 /**
  * For a mobile application. Supports the mobile widget set.
+ *
+ * @require(qx.core.Init)
  */
 qx.Class.define("qx.application.Mobile",
 {

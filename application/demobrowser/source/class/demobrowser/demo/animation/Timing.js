@@ -17,11 +17,12 @@
 
 ************************************************************************ */
 /* ************************************************************************
-#require(qx.module.Traversing)
-#require(qx.module.Animation)
 ************************************************************************ */
 /**
  * @tag noPlayground
+ *
+ * @require(qx.module.Traversing)
+ * @require(qx.module.Animation)
  */
 qx.Class.define("demobrowser.demo.animation.Timing",
 {

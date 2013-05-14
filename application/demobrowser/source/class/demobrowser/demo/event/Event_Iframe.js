@@ -20,16 +20,17 @@
 
 /* ************************************************************************
 
-#use(qx.event.dispatch.Direct)
-#use(qx.event.dispatch.DomBubbling)
-#use(qx.event.handler.Keyboard)
-#use(qx.event.handler.Mouse)
-#use(qx.event.handler.Element)
 
 ************************************************************************ */
 
 /**
  * @tag noPlayground
+ *
+ * @use(qx.event.dispatch.Direct)
+ * @use(qx.event.dispatch.DomBubbling)
+ * @use(qx.event.handler.Keyboard)
+ * @use(qx.event.handler.Mouse)
+ * @use(qx.event.handler.Element)
  */
 qx.Class.define("demobrowser.demo.event.Event_Iframe",
 {

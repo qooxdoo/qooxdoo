@@ -66,8 +66,9 @@ qx.Class.define("qx.test.Bootstrap",
       this.assertEquals(vanillebaerClass, window.vanillebaer.test.ROOT);
 
       qx.Bootstrap.setRoot(undefined);
-      delete window.foobar;
-      delete window.vanillebaer;
+
+      delete foobar;
+      qx.Class.undefine("vanillebaer.test.ROOT");
     },
 
     "test: merge methods of same class (statics optimization)" : function() {

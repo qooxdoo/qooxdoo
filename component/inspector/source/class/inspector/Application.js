@@ -20,12 +20,12 @@
 /* ************************************************************************
 
 #asset(inspector/*)
-#ignore(qxinspector)
 
 ************************************************************************ */
 
 /**
  * This is the main application class of your custom application "inspector"
+ *
  */
 qx.Class.define("inspector.Application",
 {
@@ -79,7 +79,7 @@ qx.Class.define("inspector.Application",
      * This method contains the initial application code and gets called
      * during startup of the application
      *
-     * @lint ignoreUndefined(qxinspector)
+     * @ignore(qxinspector.local)
      */
     main : function()
     {

@@ -528,10 +528,18 @@ testrunner.define({
     this.assertFalse(q.create("<div>").isRendered());
   },
 
-  testAdd : function() {
+  testAddElement : function() {
     var test = q.create("<div id='testdiv'/>");
     this.assertEquals(1, test.length);
     test.add(document.body);
+    this.assertEquals(2, test.length);
+  },
+
+  testAddCollection : function() {
+    var test = q.create("<div id='testdiv'/>");
+    var toAdd = q.create("<h2>Foo</h2>");
+    this.assertEquals(1, test.length);
+    test.add(toAdd);
     this.assertEquals(2, test.length);
   },
 

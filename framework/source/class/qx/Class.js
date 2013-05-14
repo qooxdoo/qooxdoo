@@ -18,20 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.Interface)
-#require(qx.Mixin)
-
-#require(qx.lang.normalize.Array)
-#require(qx.lang.normalize.Date)
-#require(qx.lang.normalize.Error)
-#require(qx.lang.normalize.Function)
-#require(qx.lang.normalize.String)
-#require(qx.lang.normalize.Object)
-
-************************************************************************ */
-
 /**
  * This class is one of the most important parts of qooxdoo's
  * object-oriented features.
@@ -74,6 +60,15 @@
  *
  * By using <code>qx.Class</code> within an app, the native JS data types are
  * conveniently polyfilled according to {@link qx.lang.normalize}.
+ *
+ * @require(qx.Interface)
+ * @require(qx.Mixin)
+ * @require(qx.lang.normalize.Array)
+ * @require(qx.lang.normalize.Date)
+ * @require(qx.lang.normalize.Error)
+ * @require(qx.lang.normalize.Function)
+ * @require(qx.lang.normalize.String)
+ * @require(qx.lang.normalize.Object)
  */
 qx.Bootstrap.define("qx.Class",
 {

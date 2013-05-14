@@ -21,12 +21,13 @@
 /* ************************************************************************
 
 #asset(qx/icon/Tango/48/devices/drive-optical.png)
-#require(qx.module.Core)
 
 ************************************************************************ */
 
 /**
  * @tag noPlayground
+ *
+ * @require(qx.module.Core)
  */
 qx.Class.define("demobrowser.demo.bom.Background",
 {

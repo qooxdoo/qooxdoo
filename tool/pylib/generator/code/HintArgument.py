@@ -52,4 +52,8 @@ class HintArgument(object):
     def __eq__ (self, other):
         return self.regex.match(other)
 
+    ##
+    # Let self behave like a string in most situations
+    def __getattr__(self, name):
+        return getattr(self.source, name)
 

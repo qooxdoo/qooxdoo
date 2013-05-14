@@ -17,11 +17,11 @@
      * Andreas Ecker (ecker)
 
 ************************************************************************ */
-/* ************************************************************************
-#require(qx.lang.normalize.Object)
-************************************************************************ */
+
 /**
  * Helper functions to handle Object as a Hash map.
+ *
+ * @require(qx.lang.normalize.Object)
  */
 qx.Bootstrap.define("qx.lang.Object",
 {

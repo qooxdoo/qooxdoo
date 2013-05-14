@@ -19,12 +19,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#use(qx.event.dispatch.DomBubbling)
-
-************************************************************************ */
-
 /**
  * This handler is used to normalize all focus/activation requirements
  * and normalize all cross browser quirks in this area.
@@ -37,6 +31,8 @@
  * * TabIndex is normally 0, which means all naturally focusable elements are focusable.
  * * TabIndex > 0 means that the element is focusable and tabable
  * * TabIndex < 0 means that the element, even if naturally possible, is not focusable.
+ *
+ * @use(qx.event.dispatch.DomBubbling)
  */
 qx.Class.define("qx.event.handler.Focus",
 {

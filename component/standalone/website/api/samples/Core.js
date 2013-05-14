@@ -29,7 +29,7 @@ addSample("q", {
   javascript: function() {
     // example for context element
 
-    q("p", q("#main")[0]).setStyle("color", "red");
+    q("p", q("#main")).setStyle("color", "red");
     // also possible:
     // q("p", document.getElementById("#main")).setStyle("color", "red");
   },

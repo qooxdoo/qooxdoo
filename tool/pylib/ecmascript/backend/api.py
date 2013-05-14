@@ -753,7 +753,17 @@ def handleConstantDefinition(item, classNode):
 
     commentAttributes = Comment.parseNode(item)[-1]
     description = Comment.getAttrib(commentAttributes, "description")
-    addTypeInfo(node, description, item)
+    typeAttr = Comment.getAttrib(commentAttributes, "type")
+    if not typeAttr:
+        typeAttr = {}
+
+    if description and "text" in description:
+        if "text" in typeAttr:
+            typeAttr["text"] = typeAttr["text"] + " " + description["text"]
+        else:
+            typeAttr["text"] = description["text"]
+
+    addTypeInfo(node, typeAttr, item)
 
     handleDeprecated(node, commentAttributes)
     handleAccess(node, commentAttributes)

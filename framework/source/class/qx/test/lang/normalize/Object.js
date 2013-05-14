@@ -16,9 +16,10 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-/* ************************************************************************
-#require(qx.lang.normalize.Object)
-************************************************************************ */
+
+/**
+ * @require(qx.lang.normalize.Object)
+ */
 qx.Class.define("qx.test.lang.normalize.Object",
 {
   extend : qx.dev.unit.TestCase,

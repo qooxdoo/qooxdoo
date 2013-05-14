@@ -17,13 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.event.handler.Touch)
-#require(qx.event.handler.TouchCore)
-
-************************************************************************ */
-
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
@@ -34,6 +27,9 @@
  * 'touchend' and 'tap' the events for 'mousedown', 'mousemove', 'mouseup' and 'click'.
  * As additional feature, it fakes 'mousewheel' events for swipe gestures including the
  * momentum scrolling.
+ *
+ * @require(qx.event.handler.Touch)
+ * @require(qx.event.handler.TouchCore)
  */
 qx.Class.define("qx.event.handler.MouseEmulation",
 {
@@ -358,6 +354,8 @@ qx.Class.define("qx.event.handler.MouseEmulation",
 
 
   defer : function(statics) {
-    qx.event.Registration.addHandler(statics);
+    if (qx.core.Environment.get("qx.emulatemouse")) {
+      qx.event.Registration.addHandler(statics);
+    }
   }
 });

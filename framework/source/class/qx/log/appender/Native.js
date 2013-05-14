@@ -17,15 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.log.appender.Util)
-#require(qx.bom.client.Html)  -- defer calls Logger.register which calls
-                                 Native.process which needs "html.console"
-                                 implementation
-
-************************************************************************ */
-
 /**
  * Processes the incoming log entry and displays it by means of the native
  * logging capabilities of the client.
@@ -39,6 +30,9 @@
  *
  * Currently unsupported browsers:
  * * Opera <10.60
+ *
+ * @require(qx.log.appender.Util)
+ * @require(qx.bom.client.Html)
  */
 qx.Class.define("qx.log.appender.Native",
 {

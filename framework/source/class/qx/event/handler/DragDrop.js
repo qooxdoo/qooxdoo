@@ -18,16 +18,12 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.event.handler.Mouse)
-#require(qx.event.handler.Keyboard)
-#require(qx.event.handler.Capture)
-
-************************************************************************ */
-
 /**
  * Event handler, which supports drag events on DOM elements.
+ *
+ * @require(qx.event.handler.Mouse)
+ * @require(qx.event.handler.Keyboard)
+ * @require(qx.event.handler.Capture)
  */
 qx.Class.define("qx.event.handler.DragDrop",
 {

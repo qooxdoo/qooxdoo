@@ -17,14 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#require(qx.module.Environment)
-#require(qx.module.Manipulating)
-#require(qx.module.Traversing)
-#require(qx.module.Css)
-#require(qx.module.Attribute)
-************************************************************************ */
-
 /**
  * Provides a way to block elements so they will no longer receive (native)
  * events by overlaying them with a div.
@@ -36,6 +28,12 @@
  * <pre class="javascript">
  * q(document).block();
  * </pre>
+ *
+ * @require(qx.module.Environment)
+ * @require(qx.module.Manipulating)
+ * @require(qx.module.Traversing)
+ * @require(qx.module.Css)
+ * @require(qx.module.Attribute)
  */
 qxWeb.define("qx.module.Blocker", {
   statics :

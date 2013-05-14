@@ -16,12 +16,6 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-/* ************************************************************************
-#require(qx.event.Messaging#on)
-#require(qx.event.Messaging#onAny)
-#require(qx.event.Messaging#remove)
-#require(qx.event.Messaging#emit)
-************************************************************************ */
 
 /**
  * Define messages to react on certain channels.
@@ -29,6 +23,11 @@
  * The channel names will be used in the q.messaging.on method to define handlers which will
  * be called on certain channels and routes. The q.messaging.emit method can be used
  * to execute a given route on a channel. q.messaging.onAny defines a handler on any channel.
+ *
+ * @require(qx.event.Messaging#on)
+ * @require(qx.event.Messaging#onAny)
+ * @require(qx.event.Messaging#remove)
+ * @require(qx.event.Messaging#emit)
  */
 qx.Bootstrap.define("qx.module.Messaging", {
   statics: {

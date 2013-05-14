@@ -377,6 +377,23 @@ qx.Theme.define("qx.theme.simple.Appearance",
       }
     },
 
+    "progressive-table-header" : {
+      style : function(states) {
+        return {
+          decorator: "progressive-table-header"
+        };
+      }
+    },
+
+    "progressive-table-header-cell" : {
+      style : function(states) {
+        return {
+          decorator: "progressive-table-header-cell",
+          padding : [5, 6, 5, 6]
+        };
+      }
+    },
+
 
     /*
     ---------------------------------------------------------------------------

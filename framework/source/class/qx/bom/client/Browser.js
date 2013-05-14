@@ -48,15 +48,12 @@
 ************************************************************************ */
 
 /**
-#require(qx.bom.client.OperatingSystem#getVersion)
-*/
-
-/**
  * Basic browser detection for qooxdoo.
  *
  * This class is used by {@link qx.core.Environment} and should not be used
  * directly. Please check its class comment for details how to use it.
  *
+ * @require(qx.bom.client.OperatingSystem#getVersion)
  * @internal
  */
 qx.Bootstrap.define("qx.bom.client.Browser",

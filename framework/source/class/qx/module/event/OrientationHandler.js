@@ -17,13 +17,11 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#require(qx.module.Event)
-************************************************************************ */
-
 /**
  * Orientation handler which is responsible for registering and unregistering a
  * {@link qx.event.handler.OrientationCore} handler for each given element.
+ *
+ * @require(qx.module.Event)
  */
 qx.Bootstrap.define("qx.module.event.OrientationHandler", {
 

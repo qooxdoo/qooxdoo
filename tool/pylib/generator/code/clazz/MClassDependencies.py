@@ -77,6 +77,7 @@ class MClassDependencies(object):
                     tree = self.tree()
 
             # Get deps from compiler hints
+            tree = jshints.create_hints_tree(tree) # this will be used by some of the subsequent method calls
             load_hints, run_hints, ignore_hints, all_feature_checks = self.dependencies_from_comphints(tree) # ignore_hints=[HintArgument]
             load.extend(load_hints)
             run.extend(run_hints)
@@ -401,6 +402,7 @@ class MClassDependencies(object):
                 #print className
                 depsItem = DependencyItem(className, classAttribute, self.id, env_operand.get('line', -1))
                 depsItem.isCall = True  # treat as if actual call, to collect recursive deps
+                depsItem.node = call_node
                 # .inLoadContext
                 qx_idnode = treeutil.findFirstChainChild(env_operand) # 'qx' node of 'qx.core.Environment....'
                 scope = qx_idnode.scope
@@ -428,9 +430,13 @@ class MClassDependencies(object):
     # applied.
     #
     def _analyzeClassDepsNode(self, node, depsList, inLoadContext, inDefer=False):
+        # ensure a complete hint tree for ignore checking
+        root_node = node.getRoot()
+        if not hasattr(root_node, 'hint'):
+            root_node = jshints.create_hints_tree(root_node)
         lexical_globals  =  self.dependencies_from_ast(node)
-        lexical_globals  =  self.filter_symbols_by_jshints(node, lexical_globals)
         lexical_globals +=  self.dependencies_from_envcalls(node)
+        lexical_globals  =  self.filter_symbols_by_jshints(node, lexical_globals)
         filtered_globals =  self.filter_symbols_by_builtins(lexical_globals)
         [setattr(x,'node',None) for x in filtered_globals]  # remove AST links (for easier caching)
         depsList.extend(filtered_globals)
@@ -439,9 +445,8 @@ class MClassDependencies(object):
 
     def filter_symbols_by_jshints(self, tree, depsItems):
         result = []
-        tree = jshints.create_hints_tree(tree)
         for depsItem in depsItems:
-            #if self.id == 'demobrowser.demo.data.Github' and depsItem.name=='github':
+            #if self.id=='qx.dev.StackTrace' and depsItem.name=='qx.bom.client.EcmaScript':
             #    import pydb; pydb.debugger()
             deps_repr = depsItem.name
             if depsItem.attribute:
@@ -491,13 +496,13 @@ class MClassDependencies(object):
         metaOptional = meta.get("optionalDeps", [])
         metaIgnore   = meta.get("ignoreDeps"  , [])
         metaIgnore.extend(metaOptional)
+        all_feature_checks = [False, False]  # load_feature_checks, run_feature_checks
 
         # regexify globs in metaignore
         metaIgnore = map(HintArgument, metaIgnore)
 
         # Turn strings into DependencyItems()
         for target,metaHint in ((load,metaLoad), (run,metaRun)):
-            all_feature_checks = [False, False]  # load_feature_checks, run_feature_checks
             for key in metaHint:
                 # add all feature checks if requested
                 if key == "feature-checks":
@@ -509,6 +514,22 @@ class MClassDependencies(object):
                     className = sig[0]
                     attrName  = sig[1] if len(sig)>1 else ''
                     target.append(DependencyItem(className, attrName, self.id, "|hints|"))
+
+        # Add JSDoc Hints
+        for hint in node.hint.iterator():
+            for target,hintKey in ((load,'require'), (run,'use')):
+                if hintKey in hint.hints:
+                    for arg in hint.hints[hintKey][None]:
+                        # add all feature checks if requested
+                        if arg == "feature-checks":
+                            all_feature_checks[bool(hintKey=='use')] = True
+                            target.extend(self.depsitems_from_envchecks(hint.node.get('line',-1), metaHint==metaLoad))
+                        # turn the HintArgument into a DependencyItem
+                        else:
+                            sig = arg.split('#',1)
+                            className = sig[0]
+                            attrName  = sig[1] if len(sig)>1 else ''
+                            target.append(DependencyItem(className, attrName, self.id, hint.node.get('line',-1)))
 
         return load, run, metaIgnore, all_feature_checks
 

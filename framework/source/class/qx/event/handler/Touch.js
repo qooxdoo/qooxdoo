@@ -19,27 +19,20 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.event.handler.UserAction)
-#require(qx.event.handler.Orientation)
-#require(qx.event.type.Tap)
-#require(qx.event.type.Swipe)
-
-************************************************************************ */
-
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * This class provides a unified touch event handler.
+ *
+ * @require(qx.event.handler.UserAction)
+ * @require(qx.event.handler.Orientation)
+ * @require(qx.event.type.Tap)
+ * @require(qx.event.type.Swipe)
  */
 qx.Class.define("qx.event.handler.Touch",
 {
   extend : qx.event.handler.TouchCore,
   implement : qx.event.IEventHandler,
-
-
-
 
   /*
   *****************************************************************************

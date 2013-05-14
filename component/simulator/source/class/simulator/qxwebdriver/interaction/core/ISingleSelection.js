@@ -18,11 +18,12 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#ignore(ITEM)
 ************************************************************************ */
 
 /**
  * Interactions for widgets implementing {@link qx.ui.core.ISingleSelection}
+ *
+ * @ignore(ITEM)
  */
 qx.Class.define("simulator.qxwebdriver.interaction.core.ISingleSelection", {
 

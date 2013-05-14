@@ -17,14 +17,10 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.core.Init)
-
-************************************************************************ */
-
 /**
  * Abstract base class for GUI applications using qooxdoo widgets.
+ *
+ * @require(qx.core.Init)
  */
 qx.Class.define("qx.application.AbstractGui",
 {

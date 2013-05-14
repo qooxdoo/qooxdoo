@@ -17,13 +17,10 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#ignore(testrunner.testDefinitions)
-************************************************************************ */
-
 /**
  * The TestRunner is responsible for loading the test classes and keeping track
  * of the test suite's state.
+ *
  */
 qx.Class.define("testrunner.runner.TestRunnerBasic", {
 
@@ -265,7 +262,8 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
     /**
      * Create a new test suite from the class definitions in
      * window.testrunner.testDefinitions
-     * @lint ignoreUndefined(testrunner.testDefinitions)
+     *
+     * @ignore(testrunner.testDefinitions.*)
      */
     _loadExternalTests : function()
     {

@@ -16,17 +16,7 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-/* ************************************************************************
 
-#require(qx.module.Attribute)
-#require(qx.module.Css)
-#require(qx.module.Environment)
-#require(qx.module.Event)
-#require(qx.module.Manipulating)
-#require(qx.module.Polyfill)
-#require(qx.module.Traversing)
-
-************************************************************************ */
 /**
  * Placeholder class which simply defines and includes the core of qxWeb.
  * The core modules are:
@@ -38,5 +28,13 @@
  * * {@link qx.module.Manipulating}
  * * {@link qx.module.Polyfill}
  * * {@link qx.module.Traversing}
+ *
+ * @require(qx.module.Attribute)
+ * @require(qx.module.Css)
+ * @require(qx.module.Environment)
+ * @require(qx.module.Event)
+ * @require(qx.module.Manipulating)
+ * @require(qx.module.Polyfill)
+ * @require(qx.module.Traversing)
  */
 qx.Bootstrap.define("qx.module.Core", {});

@@ -17,15 +17,13 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#require(qx.util.placement.KeepAlignAxis#computeStart)
-#require(qx.util.placement.BestFitAxis#computeStart)
-#require(qx.util.placement.DirectAxis#computeStart)
-************************************************************************ */
-
 /**
  * The Placement module provides a convenient way to align two elements relative
  * to each other using various pre-defined algorithms.
+ *
+ * @require(qx.util.placement.KeepAlignAxis#computeStart)
+ * @require(qx.util.placement.BestFitAxis#computeStart)
+ * @require(qx.util.placement.DirectAxis#computeStart)
  */
 qxWeb.define("qx.module.Placement", {
 

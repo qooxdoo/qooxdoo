@@ -18,14 +18,11 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#use(showcase.page.form.Content)
-
-************************************************************************ */
 /**
  * @lint ignoreReferenceField(__descriptionText, __tryThis,
  *   __features, __manual, __demos, __api)
+ *
+ * @use(showcase.page.form.Content)
  */
 qx.Class.define("showcase.page.form.Page",
 {

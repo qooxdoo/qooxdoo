@@ -17,14 +17,10 @@
 
 ************************************************************************ */
 
-/*
-#ignore(inspector.$$inspector)
-*/
-
 /**
  * Util class for console.
  *
- * @ignore(inspector.$$inspector)
+ * @ignore(inspector.$$inspector.call)
  */
 qx.Class.define("inspector.console.Util",
 {

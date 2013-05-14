@@ -23,22 +23,21 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#use(widgetbrowser.pages.Tree)
-#use(widgetbrowser.pages.List)
-#use(widgetbrowser.pages.Table)
-#use(widgetbrowser.pages.Form)
-#use(widgetbrowser.pages.ToolBar)
-#use(widgetbrowser.pages.Window)
-#use(widgetbrowser.pages.Tab)
-#use(widgetbrowser.pages.Control)
-#use(widgetbrowser.pages.Embed)
-#use(widgetbrowser.pages.EmbedFrame)
-#use(widgetbrowser.pages.Basic)
-#use(widgetbrowser.pages.Misc)
-
-************************************************************************ */
+/**
+ *
+ * @use(widgetbrowser.pages.Tree)
+ * @use(widgetbrowser.pages.List)
+ * @use(widgetbrowser.pages.Table)
+ * @use(widgetbrowser.pages.Form)
+ * @use(widgetbrowser.pages.ToolBar)
+ * @use(widgetbrowser.pages.Window)
+ * @use(widgetbrowser.pages.Tab)
+ * @use(widgetbrowser.pages.Control)
+ * @use(widgetbrowser.pages.Embed)
+ * @use(widgetbrowser.pages.EmbedFrame)
+ * @use(widgetbrowser.pages.Basic)
+ * @use(widgetbrowser.pages.Misc)
+ */
 
 qx.Class.define("widgetbrowser.view.TabPage",
 {

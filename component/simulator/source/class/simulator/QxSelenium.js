@@ -18,9 +18,6 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#ignore(importClass)
-#ignore(QxSelenium)
-#ignore(ThreadSafeSeleniumSessionStorage)
 ************************************************************************ */
 
 
@@ -56,7 +53,9 @@
  * be converted to a JavaScript string for comparisons or string operations,
  * e.g. by calling String(qxSeleniumReturnValue)
  *
- * @lint ignoreUndefined(importClass,QxSelenium,ThreadSafeSeleniumSessionStorage)
+ * @ignore(importClass)
+ * @ignore(QxSelenium)
+ * @ignore(ThreadSafeSeleniumSessionStorage)
  */
 qx.Class.define("simulator.QxSelenium", {
 

@@ -17,9 +17,9 @@
 
 ************************************************************************ */
 
-/*
-#use(qx.test.event.MockBubblingHandler)
-*/
+/**
+ * @use(qx.test.event.MockBubblingHandler)
+ */
 
 qx.Class.define("qx.test.event.Bubbling",
 {

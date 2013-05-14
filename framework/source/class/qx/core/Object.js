@@ -19,12 +19,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.core.ObjectRegistry)
-
-************************************************************************ */
-
 /**
  * The qooxdoo root class. All other classes are direct or indirect subclasses of this one.
  *
@@ -35,6 +29,8 @@
  * * generic setter/getter support
  * * interfaces for logging console
  * * user friendly OO interfaces like {@link #self} or {@link #base}
+ *
+ * @require(qx.core.ObjectRegistry)
  */
 qx.Class.define("qx.core.Object",
 {

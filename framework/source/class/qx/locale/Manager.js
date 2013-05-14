@@ -20,14 +20,15 @@
 ************************************************************************ */
 
 /*
-#require(qx.event.dispatch.Direct)
-#require(qx.locale.LocalizedString)
 #cldr
 */
 
 /**
  * The qx.locale.Manager provides static translation methods (like tr()) and
  * general locale information.
+ *
+ * @require(qx.event.dispatch.Direct)
+ * @require(qx.locale.LocalizedString)
  */
 
 qx.Class.define("qx.locale.Manager",

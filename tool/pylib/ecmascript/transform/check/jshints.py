@@ -28,6 +28,7 @@ import os, sys, re, types
 from ecmascript.frontend import treeutil, Comment
 from ecmascript.transform.check.lint import LintChecker
 from generator.code.HintArgument import HintArgument
+from generator import Context as context
 
 ##
 # A visitor on a Scope() tree to collect identifier nodes with global scope.
@@ -74,18 +75,26 @@ class CreateHintsVisitor(treeutil.NodeVisitor):
     def process_comments(self, node):
         hint = None
         if node.comments:
-            commentsArray = Comment.parseNode(node, process_txt=False)
+            commentsArray = Comment.parseNode(node, process_txt=False) #, want_errors=True)
             if any(commentsArray):
                 hint = Hint()
                 # fill hint from commentAttributes
                 for commentAttributes in commentsArray:
                     for entry in commentAttributes:
                         cat = entry['category']
-                        if cat not in ('ignore', 'lint'):
+                        if cat not in ('ignore', 'lint', 'require', 'use', 'asset', 'cldr'):
                             continue
-                        functor = entry.get('functor') # will be None for @ignore
-                        hint.add_entries((cat,functor), entry['arguments'])  # hint.hints['lint']['ignoreUndefined']{'foo','bar'}
-                                                                     # hint.hints['ignore'][None]{'foo','bar'}
+                        # the next is currently not used (Comment.parseNode doesn't return error commentAttributes)
+                        # but would be suitable for error reporting with file and line number
+                        elif hasattr(entry, 'error'):
+                            filename = node.getRoot().get('file', '<Unknown>')
+                            lineno = node.get('line')
+                            msg = "%s (%s): %s: %s" % (filename, lineno, entry['message'], entry['text'])
+                            context.console.warn(msg)
+                        else:
+                            functor = entry.get('functor') # will be None for non-functor keys like @ignore, @require, ...
+                            hint.add_entries((cat,functor), entry['arguments'])  # hint.hints['lint']['ignoreUndefined']{'foo','bar'}
+                                                                         # hint.hints['ignore'][None]{'foo','bar'}
         return hint
 
 
@@ -124,6 +133,12 @@ class Hint(object):
             self.hints[cat][subcat] = set()
         for entry in entries:
             self.hints[cat][subcat].add(HintArgument(entry))
+
+    def iterator(self):
+        yield self
+        for cld in self.children:
+            for hint in cld.iterator():
+                yield hint
 
 # - ---------------------------------------------------------------------------
 

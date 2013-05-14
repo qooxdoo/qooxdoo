@@ -18,14 +18,12 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#require(qx.dom.Hierarchy#getSiblings)
-#require(qx.dom.Hierarchy#getNextSiblings)
-#require(qx.dom.Hierarchy#getPreviousSiblings)
-************************************************************************ */
-
 /**
  * DOM traversal module
+ *
+ * @require(qx.dom.Hierarchy#getSiblings)
+ * @require(qx.dom.Hierarchy#getNextSiblings)
+ * @require(qx.dom.Hierarchy#getPreviousSiblings)
  */
 qx.Bootstrap.define("qx.module.Traversing", {
   statics :
@@ -34,10 +32,14 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * Adds an element to the collection
      *
      * @attach {qxWeb}
-     * @param el {Element} DOM element to add to the collection
+     * @param el {Element|qxWeb} DOM element to add to the collection.
+     * If a collection is given, only the first element will be added
      * @return {qxWeb} The collection for chaining
      */
     add : function(el) {
+      if (el instanceof qxWeb) {
+        el = el[0];
+      }
       this.push(el);
       return this;
     },

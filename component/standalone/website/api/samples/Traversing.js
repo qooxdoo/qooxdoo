@@ -183,7 +183,7 @@ addSample(".add", {
         '}'],
   javascript: function() {
     // remember regarding odd/even: counting begins at 0
-    q("li:odd").add(q("li:first")[0]).addClass("selected");
+    q("li:odd").add(q("li:first")).addClass("selected");
   },
   executable: true
 });

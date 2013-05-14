@@ -17,11 +17,11 @@
      * Daniel Wagner (danielwagner)
 
 ************************************************************************ */
-/* ************************************************************************
-#require(qx.module.Polyfill)
-************************************************************************ */
+
 /**
  * Support for native and custom events.
+ *
+ * @require(qx.module.Polyfill)
  */
 qx.Bootstrap.define("qx.module.Event", {
   statics :

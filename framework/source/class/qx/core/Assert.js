@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.lang.Type)
-
-************************************************************************ */
-
 /**
  * A collection of assertions.
  *
@@ -30,6 +24,8 @@
  * If an assertion fails an {@link AssertionError} is thrown.
  *
  * Assertions are used in unit tests as well.
+ *
+ * @require(qx.lang.Type)
  */
 qx.Class.define("qx.core.Assert",
 {

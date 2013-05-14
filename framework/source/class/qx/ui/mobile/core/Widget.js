@@ -17,14 +17,10 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#use(qx.ui.mobile.core.EventHandler)
-
-************************************************************************ */
-
 /**
  * This is the base class for all mobile widgets.
+ *
+ * @use(qx.ui.mobile.core.EventHandler)
  */
 qx.Class.define("qx.ui.mobile.core.Widget",
 {

@@ -17,17 +17,15 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#require(qx.module.Event)
-#require(qx.module.Environment)
-************************************************************************ */
-
 /**
  * Normalization for native keyboard events.
  *
  * NOTE: Some browsers won't fire the <code>keypress</code> event for all keys.
  * It's generally better to listen for <code>keyup</code> or <code>keydown</code>
  * instead.
+ *
+ * @require(qx.module.Event)
+ * @require(qx.module.Environment)
  */
 qx.Bootstrap.define("qx.module.event.Keyboard", {
   statics :

@@ -14,16 +14,12 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#ignore(selenium)
-************************************************************************ */
-
 /**
  * Loads all demos for which no custom test classes are defined and logs any
  * errors.
 
- * @lint ignoreUndefined(simulator)
- * @lint ignoreUndefined(selenium)
+ * @ignore(simulator)
+ * @ignore(selenium)
  */
 qx.Class.define("demobrowser.simulation.demo.Dummy", {
 

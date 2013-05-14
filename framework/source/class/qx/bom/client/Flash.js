@@ -37,18 +37,13 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.bom.client.OperatingSystem)
-
-************************************************************************ */
-
 /**
  * This class contains all Flash detection.
  *
  * It is used by {@link qx.core.Environment} and should not be used
  * directly. Please check its class comment for details how to use it.
  *
+ * @require(qx.bom.client.OperatingSystem)
  * @internal
  */
 qx.Bootstrap.define("qx.bom.client.Flash",

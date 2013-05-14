@@ -22,15 +22,13 @@
  * following line to make use of them.
 
 #asset(qx/mobile/css/*)
-#ignore(OpenLayers)
-#ignore(OpenLayers.Layer)
 
 ************************************************************************ */
 
 /**
  * Mobile page showing an OpenStreetMap map.
  *
- * @ignore(OpenLayers)
+ * @ignore(OpenLayers.*)
  */
 qx.Class.define("mobileshowcase.page.Maps",
 {

@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#ignore(simulator.webdriver)
-#ignore(simulator.webdriver.*)
 ************************************************************************ */
 
 /**
@@ -30,7 +28,8 @@
  * returns a webdriver.WebElement.
  * If the locator finds a DOM element that is part of a qooxdoo widget, special
  * methods called 'interactions' will be added to the returned WebElement.
- * @lint ignoreUndefined(simulator.webdriver.WebDriver)
+ *
+ * @ignore(simulator.webdriver.*)
  *
  */
 qx.Class.define("simulator.qxwebdriver.WebDriver",

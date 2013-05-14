@@ -22,18 +22,12 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-*#use(qx.io.remote.transport.XmlHttp)
-#use(qx.io.remote.transport.Iframe)
-#use(qx.io.remote.transport.Script)
-
-************************************************************************ */
-
 /**
  * Transport layer to control which transport class (XmlHttp, Iframe or Script)
  * can be used.
  *
+ * @use(qx.io.remote.transport.Iframe)
+ * @use(qx.io.remote.transport.Script)
  * @internal
  */
 qx.Class.define("qx.io.remote.Exchange",

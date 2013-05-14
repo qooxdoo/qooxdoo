@@ -39,14 +39,6 @@
 
 ************************************************************************ */
 
-
-/* ************************************************************************
-
-#require(qx.bom.client.Engine)
-#require(qx.lang.normalize.Array)
-
-************************************************************************ */
-
 /**
  * This class is the common superclass for most array classes in
  * qooxdoo. It supports all of the shiny 1.6 JavaScript array features
@@ -59,6 +51,9 @@
  *
  * Through the ability to extend from this class one could add even
  * more utility features on top of it.
+ *
+ * @require(qx.bom.client.Engine)
+ * @require(qx.lang.normalize.Array)
  */
 qx.Bootstrap.define("qx.type.BaseArray",
 {

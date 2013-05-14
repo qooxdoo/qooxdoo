@@ -20,15 +20,11 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.event.handler.UserAction)
-
-************************************************************************ */
-
 /**
  * This class provides unified key event handler for Internet Explorer,
  * Firefox, Opera and Safari.
+ *
+ * @require(qx.event.handler.UserAction)
  */
 qx.Class.define("qx.event.handler.Keyboard",
 {
