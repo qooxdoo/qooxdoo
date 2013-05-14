@@ -2448,6 +2448,20 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "progressive-table-header" : {
+      alias: "table-scroller/header"
+    },
+
+    "progressive-table-header-cell" : {
+      style : function(states) {
+        return {
+          decorator: "table-header-cell",
+          backgroundColor: "table-header-cell",
+          padding: [0, 6, 0, 6]
+        };
+      }
+    },
+
 
     /*
     ---------------------------------------------------------------------------
