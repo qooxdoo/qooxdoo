@@ -20,9 +20,9 @@
 
 /**
  * @lint ignoreReferenceField(__descriptionText, __tryThis,
+ *   __features, __manual, __demos, __api)
  *
  * @use(showcase.page.form.Content)
- *   __features, __manual, __demos, __api)
  */
 qx.Class.define("showcase.page.form.Page",
 {
