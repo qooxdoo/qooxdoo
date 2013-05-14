@@ -165,9 +165,6 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * The request data is transparently included as URL query parameters or embedded in the
      * request body as form data.
      *
-     * If a string is given the user must make sure it is properly formatted and
-     * escaped. See {@link qx.lang.Object#toUriParameter}.
-     *
      * @param data {String|Object} The request data.
      * @return {qx.bom.request.SimpleXhr} Self for chaining.
      */
