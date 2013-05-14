@@ -324,7 +324,7 @@ qx.Class.define("qx.ui.basic.Label",
     */
 
     /**
-     * {Map} Internal fallback of label size when no font is defined
+     * @type {Map} Internal fallback of label size when no font is defined
      *
      * @lint ignoreReferenceField(__contentSize)
      */

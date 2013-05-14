@@ -26,7 +26,7 @@ qx.Bootstrap.define("qx.dom.Element",
   statics :
   {
     /**
-     * {Map} A list of all attributes which needs to be part of the initial element to work correctly
+     * @type {Map} A list of all attributes which needs to be part of the initial element to work correctly
      *
      * @internal
      */

@@ -28,7 +28,7 @@ qx.Mixin.define("qx.core.MEvent",
 {
   members :
   {
-    /** {Class} Pointer to the regular event registration class */
+    /** @type {Class} Pointer to the regular event registration class */
     __Registration : qx.event.Registration,
 
 

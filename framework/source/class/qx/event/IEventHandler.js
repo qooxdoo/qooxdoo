@@ -27,16 +27,16 @@ qx.Interface.define("qx.event.IEventHandler",
 {
   statics :
   {
-    /** {Integer} The event target must be a dom node */
+    /** @type {Integer} The event target must be a dom node */
     TARGET_DOMNODE: 1,
 
-    /** {Integer} The event target must be a window object */
+    /** @type {Integer} The event target must be a window object */
     TARGET_WINDOW : 2,
 
-    /** {Integer} The event target must be a qooxdoo object */
+    /** @type {Integer} The event target must be a qooxdoo object */
     TARGET_OBJECT: 4,
 
-    /** {Integer} The event target must be a document node */
+    /** @type {Integer} The event target must be a document node */
     TARGET_DOCUMENT: 8
   },
 

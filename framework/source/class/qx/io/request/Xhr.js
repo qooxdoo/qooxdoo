@@ -121,7 +121,7 @@ qx.Class.define("qx.io.request.Xhr",
   statics:
   {
     /**
-     * {Map} Map of parser functions. Parsers defined here can be
+     * @type {Map} Map of parser functions. Parsers defined here can be
      * referenced symbolically, e.g. with {@link #setParser}.
      *
      * Known parsers are: <code>"json"</code> and <code>"xml"</code>.
@@ -208,7 +208,7 @@ qx.Class.define("qx.io.request.Xhr",
   {
 
     /**
-     * {Function} Parser.
+     * @type {Function} Parser.
      */
     __parser: null,
 

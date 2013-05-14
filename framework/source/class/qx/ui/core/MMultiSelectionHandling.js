@@ -123,7 +123,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
 
   members :
   {
-    /** {qx.ui.core.selection.Abstract} The selection manager */
+    /** @type {qx.ui.core.selection.Abstract} The selection manager */
     __manager : null,
 
 

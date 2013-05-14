@@ -37,7 +37,7 @@ qx.Bootstrap.define("qx.dom.Node",
     */
 
     /**
-     * {Map} Node type:
+     * @type {Map} Node type:
      *
      * * ELEMENT
      * * ATTRIBUTE

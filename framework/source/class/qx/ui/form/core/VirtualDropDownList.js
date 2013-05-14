@@ -98,22 +98,22 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
 
   members :
   {
-    /** {qx.ui.form.core.AbstractVirtualBox} The composite widget. */
+    /** @type {qx.ui.form.core.AbstractVirtualBox} The composite widget. */
     _target : null,
 
 
-    /** {var} The pre-selected model item. */
+    /** @type {var} The pre-selected model item. */
     _preselected : null,
 
 
     /**
-     * {Boolean} Indicator to ignore selection changes from the
+     * @type {Boolean} Indicator to ignore selection changes from the
      * {@link #selection} array.
      */
     __ignoreSelection : false,
 
 
-    /** {Boolean} Indicator to ignore selection changes from the list. */
+    /** @type {Boolean} Indicator to ignore selection changes from the list. */
     __ignoreListSelection : false,
 
 

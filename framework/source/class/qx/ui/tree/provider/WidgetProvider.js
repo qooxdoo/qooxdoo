@@ -52,11 +52,11 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
 
   members :
   {
-    /** {qx.ui.tree.VirtualTree} tree to provide. */
+    /** @type {qx.ui.tree.VirtualTree} tree to provide. */
     _tree : null,
 
 
-    /** {qx.ui.virtual.cell.WidgetCell} the used item renderer. */
+    /** @type {qx.ui.virtual.cell.WidgetCell} the used item renderer. */
     _renderer : null,
 
 

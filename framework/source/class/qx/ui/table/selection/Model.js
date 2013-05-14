@@ -69,29 +69,29 @@ qx.Class.define("qx.ui.table.selection.Model",
   statics :
   {
 
-    /** {int} The selection mode "none". Nothing can ever be selected. */
+    /** @type {int} The selection mode "none". Nothing can ever be selected. */
     NO_SELECTION                : 1,
 
-    /** {int} The selection mode "single". This mode only allows one selected item. */
+    /** @type {int} The selection mode "single". This mode only allows one selected item. */
     SINGLE_SELECTION            : 2,
 
 
     /**
-     * (int) The selection mode "single interval". This mode only allows one
+     * @type {int} The selection mode "single interval". This mode only allows one
      * continuous interval of selected items.
      */
     SINGLE_INTERVAL_SELECTION   : 3,
 
 
     /**
-     * (int) The selection mode "multiple interval". This mode only allows any
+     * @type {int} The selection mode "multiple interval". This mode only allows any
      * selection.
      */
     MULTIPLE_INTERVAL_SELECTION : 4,
 
 
     /**
-     * (int) The selection mode "multiple interval". This mode only allows any
+     * @type {int} The selection mode "multiple interval". This mode only allows any
      * selection. The difference with the previous one, is that multiple
      * selection is eased. A click on an item, toggles its selection state.
      * On the other hand, MULTIPLE_INTERVAL_SELECTION does this behavior only

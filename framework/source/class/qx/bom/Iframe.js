@@ -36,7 +36,7 @@ qx.Class.define("qx.bom.Iframe",
   statics :
   {
     /**
-     * {Map} Default attributes for creation {@link #create}.
+     * @type {Map} Default attributes for creation {@link #create}.
      */
     DEFAULT_ATTRIBUTES :
     {

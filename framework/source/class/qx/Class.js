@@ -716,7 +716,7 @@ qx.Bootstrap.define("qx.Class",
     $$registry : qx.Bootstrap.$$registry,
 
 
-    /** {Map} allowed keys in non-static class definition */
+    /** @type {Map} allowed keys in non-static class definition */
     __allowedKeys : qx.core.Environment.select("qx.debug",
     {
       "true":
@@ -739,7 +739,7 @@ qx.Bootstrap.define("qx.Class",
     }),
 
 
-    /** {Map} allowed keys in static class definition */
+    /** @type {Map} allowed keys in static class definition */
     __staticAllowedKeys : qx.core.Environment.select("qx.debug",
     {
       "true":

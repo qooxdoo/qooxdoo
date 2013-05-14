@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
 
   members :
   {
-    /** {Pane} Virtual pane. */
+    /** @type {Pane} Virtual pane. */
     __pane : null,
 
 

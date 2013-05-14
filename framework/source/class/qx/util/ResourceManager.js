@@ -46,10 +46,10 @@ qx.Class.define("qx.util.ResourceManager",
 
   statics :
   {
-    /** {Map} the shared image registry */
+    /** @type {Map} the shared image registry */
     __registry : qx.$$resources || {},
 
-    /** {Map} prefix per library used in HTTPS mode for IE */
+    /** @type {Map} prefix per library used in HTTPS mode for IE */
     __urlPrefix : {}
   },
 

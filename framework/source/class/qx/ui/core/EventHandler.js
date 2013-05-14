@@ -51,10 +51,10 @@ qx.Class.define("qx.ui.core.EventHandler",
 
   statics :
   {
-    /** {Integer} Priority of this handler */
+    /** @type {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_FIRST,
 
-    /** {Map} Supported event types. Identical to events map of qx.ui.core.Widget */
+    /** @type {Map} Supported event types. Identical to events map of qx.ui.core.Widget */
     SUPPORTED_TYPES :
     {
       // mouse events
@@ -109,7 +109,7 @@ qx.Class.define("qx.ui.core.EventHandler",
       swipe : 1
     },
 
-    /** {Integer} Whether the method "canHandleEvent" must be called */
+    /** @type {Integer} Whether the method "canHandleEvent" must be called */
     IGNORE_CAN_HANDLE : false
   },
 
@@ -128,7 +128,7 @@ qx.Class.define("qx.ui.core.EventHandler",
 
 
     /**
-     * {Map} Supported focus event types
+     * @type {Map} Supported focus event types
      *
      * @lint ignoreReferenceField(__focusEvents)
      */
@@ -142,7 +142,7 @@ qx.Class.define("qx.ui.core.EventHandler",
 
 
     /**
-     * {Map} Map of events which should be fired independently from being disabled
+     * @type {Map} Map of events which should be fired independently from being disabled
      *
      * @lint ignoreReferenceField(__ignoreDisabled)
      */

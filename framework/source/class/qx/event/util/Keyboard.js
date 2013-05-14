@@ -33,7 +33,7 @@ qx.Bootstrap.define("qx.event.util.Keyboard", {
     */
 
     /**
-     * {Map} maps the charcodes of special printable keys to key identifiers
+     * @type {Map} maps the charcodes of special printable keys to key identifiers
      *
      * @lint ignoreReferenceField(specialCharCodeMap)
      */
@@ -50,7 +50,7 @@ qx.Bootstrap.define("qx.event.util.Keyboard", {
     },
 
     /**
-     * {Map} maps the keycodes of the numpad keys to the right charcodes
+     * @type {Map} maps the keycodes of the numpad keys to the right charcodes
      *
      * @lint ignoreReferenceField(numpadToCharCode)
      */
@@ -74,7 +74,7 @@ qx.Bootstrap.define("qx.event.util.Keyboard", {
     },
 
     /**
-     * {Map} maps the keycodes of non printable keys to key identifiers
+     * @type {Map} maps the keycodes of non printable keys to key identifiers
      *
      * @lint ignoreReferenceField(keyCodeToIdentifierMap)
      */

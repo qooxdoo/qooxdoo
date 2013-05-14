@@ -51,7 +51,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
 
   statics :
   {
-    /** {Integer} Priority of this dispatcher */
+    /** @type {Integer} Priority of this dispatcher */
     PRIORITY : qx.event.Registration.PRIORITY_FIRST
   },
 

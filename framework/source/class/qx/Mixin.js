@@ -326,7 +326,7 @@ qx.Bootstrap.define("qx.Mixin",
     $$registry : {},
 
 
-    /** {Map} allowed keys in mixin definition */
+    /** @type {Map} allowed keys in mixin definition */
     __allowedKeys : qx.core.Environment.select("qx.debug",
     {
       "true":

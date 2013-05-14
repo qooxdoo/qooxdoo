@@ -95,7 +95,7 @@ qx.Class.define("qx.util.ObjectPool",
 
   members :
   {
-    /** {Map} Stores arrays of instances for all managed classes */
+    /** @type {Map} Stores arrays of instances for all managed classes */
     __pool : null,
 
 

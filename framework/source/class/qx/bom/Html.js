@@ -66,7 +66,7 @@ qx.Bootstrap.define("qx.bom.Html",
     },
 
 
-    /** {Map} Contains wrap fragments for specific HTML matches */
+    /** @type {Map} Contains wrap fragments for specific HTML matches */
     __convertMap :
     {
       opt : [ 1, "<select multiple='multiple'>", "</select>" ], // option or optgroup

@@ -35,7 +35,7 @@ qx.Bootstrap.define("qx.bom.element.BoxSizing",
 
   statics :
   {
-    /** {Map} Internal data structure for __usesNativeBorderBox() */
+    /** @type {Map} Internal data structure for __usesNativeBorderBox() */
     __nativeBorderBox :
     {
       tags :

@@ -266,7 +266,7 @@ qx.Class.define("qx.ui.menu.Menu",
     __scheduledOpen : null,
     __onAfterSlideBarAdd : null,
 
-    /** {qx.ui.core.Blocker} blocker for background blocking */
+    /** @type {qx.ui.core.Blocker} blocker for background blocking */
     _blocker : null,
 
     /*

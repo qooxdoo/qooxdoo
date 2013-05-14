@@ -635,7 +635,7 @@ qx.Bootstrap.define("qx.core.Property",
     },
 
 
-    /** {Map} Internal data field for error messages used by {@link #error} */
+    /** @type {Map} Internal data field for error messages used by {@link #error} */
     __errors :
     {
       0 : 'Could not change or apply init value after constructing phase!',

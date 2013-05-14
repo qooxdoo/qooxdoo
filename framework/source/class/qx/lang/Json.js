@@ -43,7 +43,7 @@ qx.Bootstrap.define("qx.lang.Json",
   statics :
   {
     /**
-     * {JSON} The JSON object to use. If the browser has native JSON support
+     * @type {JSON} The JSON object to use. If the browser has native JSON support
      *   this member points to <code>window.JSON</code>. Otherwise it points to
      *   the qooxdoo implementation {@link JsonImpl}.
      */

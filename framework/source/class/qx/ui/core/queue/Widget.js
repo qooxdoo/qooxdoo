@@ -30,12 +30,12 @@ qx.Class.define("qx.ui.core.queue.Widget",
 {
   statics :
   {
-    /** {Array} This contains all the queued widgets for the next flush. */
+    /** @type {Array} This contains all the queued widgets for the next flush. */
     __queue : [],
 
 
     /**
-     * {Object} This contains a map of widgets hash ($$hash) and their
+     * @type {Object} This contains a map of widgets hash ($$hash) and their
      * corresponding map of jobs.
      */
     __jobs : {},

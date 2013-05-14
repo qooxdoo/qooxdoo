@@ -252,7 +252,7 @@ qx.Class.define("qx.ui.layout.Dock",
 
 
     /**
-     * {Map} Maps edge IDs to numeric values
+     * @type {Map} Maps edge IDs to numeric values
      *
      * @lint ignoreReferenceField(__edgeMap)
      */
@@ -267,7 +267,7 @@ qx.Class.define("qx.ui.layout.Dock",
 
 
     /**
-     * {Map} Maps edges to align values
+     * @type {Map} Maps edges to align values
      *
      * @lint ignoreReferenceField(__alignMap)
      */

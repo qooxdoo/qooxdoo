@@ -38,16 +38,16 @@ qx.Class.define("qx.event.handler.Object",
 
   statics :
   {
-    /** {Integer} Priority of this handler */
+    /** @type {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_LAST,
 
-    /** {Map} Supported event types */
+    /** @type {Map} Supported event types */
     SUPPORTED_TYPES : null,
 
-    /** {Integer} Which target check to use */
+    /** @type {Integer} Which target check to use */
     TARGET_CHECK : qx.event.IEventHandler.TARGET_OBJECT,
 
-    /** {Integer} Whether the method "canHandleEvent" must be called */
+    /** @type {Integer} Whether the method "canHandleEvent" must be called */
     IGNORE_CAN_HANDLE : false
   },
 

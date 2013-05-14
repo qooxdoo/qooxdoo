@@ -105,16 +105,16 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
   statics :
   {
 
-    /** {Integer} the default width of a column in pixels. */
+    /** @type {Integer} the default width of a column in pixels. */
     DEFAULT_WIDTH           : 100,
 
-    /** {qx.ui.table.headerrenderer.Default} the default header cell renderer. */
+    /** @type {qx.ui.table.headerrenderer.Default} the default header cell renderer. */
     DEFAULT_HEADER_RENDERER : qx.ui.table.headerrenderer.Default,
 
-    /** {qx.ui.table.cellrenderer.Default} the default data cell renderer. */
+    /** @type {qx.ui.table.cellrenderer.Default} the default data cell renderer. */
     DEFAULT_DATA_RENDERER   : qx.ui.table.cellrenderer.Default,
 
-    /** {qx.ui.table.celleditor.TextField} the default editor factory. */
+    /** @type {qx.ui.table.celleditor.TextField} the default editor factory. */
     DEFAULT_EDITOR_FACTORY  : qx.ui.table.celleditor.TextField
   },
 

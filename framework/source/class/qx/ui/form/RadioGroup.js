@@ -166,7 +166,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
 
   members :
   {
-    /** {qx.ui.form.IRadioItem[]} The items of the radio group */
+    /** @type {qx.ui.form.IRadioItem[]} The items of the radio group */
     __items : null,
 
 

@@ -69,7 +69,7 @@ qx.Class.define("qx.event.type.Mouse",
 
 
     /**
-     * {Map} Contains the button ID to identifier data.
+     * @type {Map} Contains the button ID to identifier data.
      *
      * @lint ignoreReferenceField(__buttonsDom2EventModel)
      */
@@ -82,7 +82,7 @@ qx.Class.define("qx.event.type.Mouse",
 
 
     /**
-     * {Map} Contains the button ID to identifier data.
+     * @type {Map} Contains the button ID to identifier data.
      *
      * @lint ignoreReferenceField(__buttonsMshtmlEventModel)
      */

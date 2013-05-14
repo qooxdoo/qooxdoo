@@ -364,25 +364,25 @@ qx.Class.define("qx.ui.core.LayoutItem",
     ---------------------------------------------------------------------------
     */
 
-    /** {Integer} The computed height */
+    /** @type {Integer} The computed height */
     __computedHeightForWidth : null,
 
-    /** {Map} The computed size of the layout item */
+    /** @type {Map} The computed size of the layout item */
     __computedLayout : null,
 
-    /** {Boolean} Whether the current layout is valid */
+    /** @type {Boolean} Whether the current layout is valid */
     __hasInvalidLayout : null,
 
-    /** {Map} Cached size hint */
+    /** @type {Map} Cached size hint */
     __sizeHint : null,
 
-    /** {Boolean} Whether the margins have changed and must be updated */
+    /** @type {Boolean} Whether the margins have changed and must be updated */
     __updateMargin : null,
 
-    /** {Map} user provided bounds of the widget, which override the layout manager */
+    /** @type {Map} user provided bounds of the widget, which override the layout manager */
     __userBounds : null,
 
-    /** {Map} The item's layout properties */
+    /** @type {Map} The item's layout properties */
     __layoutProperties : null,
 
 
@@ -813,7 +813,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     */
 
     /**
-     * {Map} Empty storage pool
+     * @type {Map} Empty storage pool
      *
      * @lint ignoreReferenceField(__emptyProperties)
      */

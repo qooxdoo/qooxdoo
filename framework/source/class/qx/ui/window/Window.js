@@ -119,7 +119,7 @@ qx.Class.define("qx.ui.window.Window",
 
   statics :
   {
-    /** {Class} The default window manager class. */
+    /** @type {Class} The default window manager class. */
     DEFAULT_MANAGER_CLASS : qx.ui.window.Manager
   },
 
@@ -390,10 +390,10 @@ qx.Class.define("qx.ui.window.Window",
 
   members :
   {
-    /** {Integer} Original top value before maximation had occoured */
+    /** @type {Integer} Original top value before maximation had occoured */
     __restoredTop : null,
 
-    /** {Integer} Original left value before maximation had occoured */
+    /** @type {Integer} Original left value before maximation had occoured */
     __restoredLeft : null,
 
 

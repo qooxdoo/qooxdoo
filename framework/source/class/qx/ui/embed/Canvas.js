@@ -162,7 +162,7 @@ qx.Class.define("qx.ui.embed.Canvas",
 
   members :
   {
-    /** {qx.util.DeferredCall} */
+    /** @type {qx.util.DeferredCall} */
     __deferredDraw : null,
 
     /*

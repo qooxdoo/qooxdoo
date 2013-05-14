@@ -29,7 +29,7 @@ qx.Class.define("qx.util.LibraryManager", {
 
   statics :
   {
-    /** {Map} The libraries used by this application */
+    /** @type {Map} The libraries used by this application */
     __libs : qx.$$libraries || {}
   },
 

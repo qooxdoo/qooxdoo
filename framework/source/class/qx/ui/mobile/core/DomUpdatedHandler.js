@@ -63,22 +63,22 @@ qx.Class.define("qx.ui.mobile.core.DomUpdatedHandler",
 
   statics :
   {
-    /** {Integer} Priority of this handler */
+    /** @type {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
 
 
-    /** {Map} Supported event types */
+    /** @type {Map} Supported event types */
     SUPPORTED_TYPES :
     {
       domupdated : 1
     },
 
 
-    /** {Integer} Whether the method "canHandleEvent" must be called */
+    /** @type {Integer} Whether the method "canHandleEvent" must be called */
     IGNORE_CAN_HANDLE : false,
 
 
-    /** {Map} Stores all domUpdated manager instances */
+    /** @type {Map} Stores all domUpdated manager instances */
     __instances : {},
 
 
