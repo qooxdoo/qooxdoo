@@ -89,6 +89,26 @@ qx.Bootstrap = {
   },
 
 
+  base : function(args, varags)
+  {
+    if (qx.core.Environment.get("qx.debug"))
+    {
+      if (!qx.Bootstrap.isFunction(args.callee.base)) {
+        throw new Error(
+          "Cannot call super class. Method is not derived: " +
+          args.callee.displayName
+        );
+      }
+    }
+
+    if (arguments.length === 1) {
+      return args.callee.base.call(this);
+    } else {
+      return args.callee.base.apply(this, Array.prototype.slice.call(arguments, 1));
+    }
+  },
+
+
   define : function(name, config)
   {
     if (!config) {
@@ -118,11 +138,24 @@ qx.Bootstrap = {
       }
 
       proto = clazz.prototype;
+      // Enable basecalls within constructor
+      proto.base = qx.Bootstrap.base;
+
       var members = config.members || {};
+      var key, member;
+
       // use keys to include the shadowed in IE
       for (var i=0, keys=qx.Bootstrap.keys(members), l=keys.length; i<l; i++) {
-        var key = keys[i];
-        proto[key] = members[key];
+        key = keys[i];
+        member = members[key];
+
+        // Enable basecalls for methods
+        // Hint: proto[key] is not yet overwritten here
+        if (member instanceof Function && proto[key]) {
+          member.base = proto[key];
+        }
+
+        proto[key] = member;
       }
     }
     else
@@ -279,6 +312,14 @@ qx.Bootstrap.define("qx.Bootstrap",
       this.__root = root;
     },
 
+    /**
+     * Call the same method of the super class.
+     *
+     * @param args {arguments} the arguments variable of the calling method
+     * @param varags {var} variable number of arguments passed to the overwritten function
+     * @return {var} the return value of the method of the base class.
+     */
+    base : qx.Bootstrap.base,
 
     /**
      * Define a new class using the qooxdoo class system.

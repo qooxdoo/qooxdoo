@@ -27,6 +27,8 @@
 #ignore(qx.test.ExtendQxObject)
 #ignore(qx.test.ExtendError)
 #ignore(qx.test.Construct)
+#ignore(qx.test.Car)
+#ignore(qx.test.Bmw)
 ************************************************************************ */
 /**
  * @ignore(qx.test.Construct, qx.test.ExtendError, qx.test.ExtendNull)
@@ -232,6 +234,87 @@ qx.Class.define("qx.test.Bootstrap",
       qx.Class.undefine("qx.test.ExtendSuper");
     },
 
+    "test: superclass calls aka basecalls (constructor and methods)" : function()
+    {
+      qx.Bootstrap.define("qx.test.Car",
+      {
+        construct : function(name) {
+          this._name = name;
+        },
+
+        members :
+        {
+          startEngine : function() {
+            return "start";
+          },
+
+          stopEngine : function() {
+            return "stop";
+          },
+
+          getName : function() {
+            return this._name;
+          }
+        }
+      });
+
+      var car = new qx.test.Car("Audi");
+      this.assertEquals("start", car.startEngine());
+      this.assertEquals("stop", car.stopEngine());
+      this.assertEquals("Audi", car.getName());
+
+      qx.Bootstrap.define("qx.test.Bmw",
+      {
+        extend : qx.test.Car,
+
+        construct : function(name, prize) {
+          this.base(arguments, name);
+        },
+
+        members :
+        {
+          startEngine : function()
+          {
+            var ret = this.base(arguments);
+            return "brrr " + ret;
+          },
+
+          stopEngine : function()
+          {
+            var ret = arguments.callee.base.call();
+            return "brrr " + ret;
+          },
+
+          getWheels : function() {
+            return qx.test.Bmw.WHEELS;
+          },
+
+          getMaxSpeed : function()
+          {
+            // call base in non overridden method
+            this.base(arguments);
+          }
+        },
+
+        statics : { WHEELS : 4 }
+      });
+
+      var bmw = new qx.test.Bmw("bmw", 44000);
+      this.assertEquals("bmw", bmw.getName());
+      this.assertEquals("brrr start", bmw.startEngine());
+      this.assertEquals("brrr stop", bmw.stopEngine());
+      this.assertEquals(4, bmw.getWheels());
+
+      if (this.isDebugOn())
+      {
+        this.assertException(function() {
+          bmw.getMaxSpeed();
+        }, Error);
+      }
+
+      qx.Class.undefine("qx.test.Car");
+      qx.Class.undefine("qx.test.Bmw");
+    },
 
     testFunctionWrap : function()
     {
