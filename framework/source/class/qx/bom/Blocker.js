@@ -17,11 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#require(qx.bom.Element)
-#require(qx.bom.Iframe)
- ************************************************************************ */
-
 /**
  * This class provides an unified blocker which offers three different modes.
  *
@@ -46,6 +41,9 @@
  * value for the blocker zIndex or for your DOM element to block. If you want
  * to block the content of your DOM element it has to have at least the zIndex
  * value of "10001" with default blocker values.
+ *
+ * @require(qx.bom.Element)
+ * @require(qx.bom.Iframe)
  */
 qx.Class.define("qx.bom.Blocker",
 {

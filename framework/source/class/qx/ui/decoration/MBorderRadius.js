@@ -83,9 +83,11 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius",
      */
     _styleBorderRadius : function(styles)
     {
-      if (!qx.core.Environment.get("css.borderradius")) {
-        return;
-      }
+      // Fixing the background bleed in Webkits
+      // http://tumble.sneak.co.nz/post/928998513/fixing-the-background-bleed
+      styles["-webkit-background-clip"] = "padding-box";
+      styles["background-clip"] = "padding-box";
+
       // radius handling
       var hasRadius = false;
       var radius = this.getRadiusTopLeft();
@@ -124,6 +126,8 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius",
       // http://tumble.sneak.co.nz/post/928998513/fixing-the-background-bleed
       if (hasRadius && qx.core.Environment.get("engine.name") == "webkit") {
         styles["-webkit-background-clip"] = "padding-box";
+      } else {
+		styles["background-clip"] = "padding-box";
       }
     },
 

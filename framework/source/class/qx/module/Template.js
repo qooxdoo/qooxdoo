@@ -59,7 +59,7 @@ qx.Bootstrap.define("qx.module.Template", {
 
     /**
      * Original and only template method of mustache.js. For further
-     * documentation, please visit https://github.com/janl/mustache.js
+     * documentation, please visit <a href="https://github.com/janl/mustache.js">mustache.js</a>.
      *
      * @attachStatic{qxWeb, template.render}
      * @param template {String} The String containing the template.

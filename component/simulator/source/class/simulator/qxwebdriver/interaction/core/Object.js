@@ -18,12 +18,13 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#ignore(qxwebdriver)
-#ignore(qxwebdriver.util)
 ************************************************************************ */
 
 /**
  * Common interactions for widgets that inherit from {@link qx.core.Object}
+ *
+ * @ignore(qxwebdriver)
+ * @ignore(qxwebdriver.util)
  */
 qx.Class.define("simulator.qxwebdriver.interaction.core.Object", {
 

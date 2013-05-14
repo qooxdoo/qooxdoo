@@ -158,7 +158,7 @@ qx.Class.define("qx.test.bom.Template",
       var tmpl = "<div>{{a}}<span>{{b}}</span></div>";
       var el = qx.bom.Template.renderToNode(tmpl, {a: 123, b: 234});
 
-      this.assertEquals("123<span>234</span>", el.innerHTML);
+      this.assertEquals("123<span>234</span>", el.innerHTML.toLowerCase());
     },
 
     /**
@@ -169,14 +169,16 @@ qx.Class.define("qx.test.bom.Template",
       var tmpl = "{{a}}.{{b}}";
       var el = qx.bom.Template._createNodeFromTemplate(tmpl);
 
-      this.assertEquals(Node.TEXT_NODE, el.nodeType);
+      // Node.TEXT_NODE === 3 (IE <= 8 doesn't know 'Node')
+      this.assertEquals(3, el.nodeType);
     },
 
     testCreateNodeFromTemplateElementNode : function() {
       var tmpl = "<div>{{a}}</div>";
       var el = qx.bom.Template._createNodeFromTemplate(tmpl);
 
-      this.assertEquals(Node.ELEMENT_NODE, el.nodeType);
+      // Node.ELEMENT_NODE === 1 (IE <= 8 doesn't know 'Node')
+      this.assertEquals(1, el.nodeType);
     },
 
     /**

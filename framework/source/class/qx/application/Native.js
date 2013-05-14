@@ -17,15 +17,11 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.core.Init)
-
-************************************************************************ */
-
 /**
  * For a Non-GUI application, supporting low-level DOM operations and AJAX
  * communication.
+ *
+ * @require(qx.core.Init)
  */
 qx.Class.define("qx.application.Native",
 {

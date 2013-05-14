@@ -18,14 +18,11 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#use(showcase.page.dragdrop.Content)
-
-************************************************************************ */
 /**
  * @lint ignoreReferenceField(__descriptionText, __tryThis,
  *   __features, __manual, __demos, __api)
+ *
+ * @use(showcase.page.dragdrop.Content)
  */
 qx.Class.define("showcase.page.dragdrop.Page",
 {

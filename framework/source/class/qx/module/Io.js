@@ -16,9 +16,7 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-/* ************************************************************************
-#require(qx.bom.request.Xhr#open)
-************************************************************************ */
+
 /**
  * This module provides basic IO functionality. It contains three ways to load
  * data:
@@ -26,6 +24,8 @@
  * * XMLHttpRequest: {@link #xhr}
  * * Script tag: {@link #script}
  * * Script tag using JSONP: {@link #jsonp}
+ *
+ * @require(qx.bom.request.Xhr#open)
  */
 qx.Bootstrap.define("qx.module.Io", {
   statics :

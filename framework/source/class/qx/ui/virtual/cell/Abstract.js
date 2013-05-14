@@ -17,15 +17,13 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#require(qx.bom.Stylesheet)
-************************************************************************ */
-
 /**
  * Abstract base class for HTML based cell renderer.
  *
  * HTML cell renderer are used to construct an HTML string, which is used to
  * render the cell.
+ *
+ * @require(qx.bom.Stylesheet)
  *
  * EXPERIMENTAL!
  */

@@ -18,11 +18,12 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#ignore(ITEM)
 ************************************************************************ */
 
 /**
  * Interaction helpers for widgets that implement {@link qx.ui.core.MRemoteChildrenHandling}
+ *
+ * @ignore(ITEM)
  */
 qx.Class.define("simulator.qxwebdriver.interaction.core.MRemoteChildrenHandling", {
 

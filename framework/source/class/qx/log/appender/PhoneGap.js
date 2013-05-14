@@ -17,18 +17,11 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.log.appender.Util)
-#ignore(debug)
-
-************************************************************************ */
-
 /**
  * Processes the incoming log entry and displays it using the PhoneGap
  * logging capabilities.
  *
- * @ignore(debug)
+ * @require(qx.log.appender.Util)
  */
 qx.Class.define("qx.log.appender.PhoneGap",
 {
@@ -44,7 +37,7 @@ qx.Class.define("qx.log.appender.PhoneGap",
      * Processes a single log entry
      * @param entry {Map} The entry to process
      *
-     * @lint ignoreUndefined(debug)
+     * @ignore(debug.*)
      */
     process : function(entry)
     {

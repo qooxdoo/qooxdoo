@@ -17,17 +17,13 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.core.Assert)
-
-************************************************************************ */
-
 /**
  * This mixin includes all assertions from {@link qx.core.Assert} to conveniently
  * call assertions. It is included into {@link qx.core.Object} if debugging code
  * is enabled. It is further included into all unit tests
  * {@link qx.dev.unit.TestCase}.
+ *
+ * @require(qx.core.Assert)
  */
 qx.Mixin.define("qx.core.MAssert",
 {

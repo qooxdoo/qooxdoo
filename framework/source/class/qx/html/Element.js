@@ -17,10 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#require(qx.module.Animation)
-************************************************************************ */
-
 /**
  * High-performance, high-level DOM element creation and management.
  *
@@ -40,6 +36,8 @@
  * {@link #getParent}, {@link #free},
  * {@link #insertInto}, {@link #insertBefore}, {@link #insertAfter},
  * {@link #moveTo}, {@link #moveBefore}, {@link #moveAfter},
+ *
+ * @require(qx.module.Animation)
  */
 qx.Class.define("qx.html.Element",
 {

@@ -17,19 +17,17 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#require(qx.bom.storage.Web#getLength)
-#require(qx.bom.storage.Web#setItem)
-#require(qx.bom.storage.Web#getItem)
-#require(qx.bom.storage.Web#removeItem)
-#require(qx.bom.storage.Web#clear)
-#require(qx.bom.storage.Web#getKey)
-#require(qx.bom.storage.Web#forEach)
-************************************************************************ */
-
 /**
  * Storage implementation using HTML web storage:
  * http://www.w3.org/TR/webstorage/
+ *
+ * @require(qx.bom.storage.Web#getLength)
+ * @require(qx.bom.storage.Web#setItem)
+ * @require(qx.bom.storage.Web#getItem)
+ * @require(qx.bom.storage.Web#removeItem)
+ * @require(qx.bom.storage.Web#clear)
+ * @require(qx.bom.storage.Web#getKey)
+ * @require(qx.bom.storage.Web#forEach)
  */
 qx.Bootstrap.define("qx.bom.storage.Web", {
   statics : {

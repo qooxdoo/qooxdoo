@@ -188,23 +188,36 @@ qx.Class.define("qx.event.handler.Orientation",
      * @signature function(domEvent)
      * @param domEvent {Event} The touch event from the browser.
      */
-    _onNative : qx.event.GlobalError.observeMethod(function(domEvent)
-    {
+    _onNative: qx.event.GlobalError.observeMethod(function(domEvent) {
+      var detectOrientationChangeDelay = 0;
+
+      if (qx.core.Environment.get("os.name") == "android") {
+        // On Android Devices the detection of orientation mode has to be delayed.
+        // See: http://stackoverflow.com/questions/8985805/orientation-change-in-android-using-javascript
+        detectOrientationChangeDelay = 300;
+      }
+
+      qx.lang.Function.delay(this._onOrientationChange, detectOrientationChangeDelay, this, domEvent);
+    }),
+
+
+    /**
+     * Handler for the detection of an orientation change.
+     * @param domEvent {Event} The touch event from the browser.
+     */
+    _onOrientationChange: function(domEvent) {
       var Viewport = qx.bom.Viewport;
       var orientation = Viewport.getOrientation(domEvent.target);
 
-      if (this._currentOrientation != orientation)
-      {
+      if (this._currentOrientation != orientation) {
         this._currentOrientation = orientation;
         var mode = Viewport.isLandscape(domEvent.target) ? "landscape" : "portrait";
         qx.event.Registration.fireEvent(
-            this.__window,
-            "orientationchange",
-            qx.event.type.Orientation,
-            [orientation, mode]
-        );
+        this.__window,
+          "orientationchange",
+        qx.event.type.Orientation, [orientation, mode]);
       }
-    })
+    }
   },
 
 

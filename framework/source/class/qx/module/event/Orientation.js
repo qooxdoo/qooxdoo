@@ -17,10 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#require(qx.module.Event)
-************************************************************************ */
-
 /**
  * Normalization for orientationchange events
  * Example:
@@ -30,6 +26,8 @@
  *     ev.isLandscape();
  *   });
  * </pre>
+ *
+ * @require(qx.module.Event)
  */
 qx.Bootstrap.define("qx.module.event.Orientation", {
   statics :

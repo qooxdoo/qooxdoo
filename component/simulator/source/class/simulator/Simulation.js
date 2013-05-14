@@ -18,13 +18,14 @@
 ************************************************************************ */
 
 /* ************************************************************************
- #ignore(environment)
  ************************************************************************ */
 
 /**
  * Automated GUI test of a qooxdoo application using QxSelenium. Provides access
  * to the AUT's log messages and any exceptions caught by qooxdoo's global error
  * handling. Also supports event testing.
+ *
+ * @ignore(environment)
  */
 
 qx.Class.define("simulator.Simulation", {

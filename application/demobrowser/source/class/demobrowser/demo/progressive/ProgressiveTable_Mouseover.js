@@ -1,13 +1,9 @@
-/*
+/**
  * Example of Progressive rendering of a table with fancy handling of
  * mouseover.  Try moving the mouse over the date column.  The
  * DateCellRenderer class which does the fancy handling is defined in the
  * source file of this example.  Note that row height need not be constant!
- */
-/*
- #ignore(demobrowser.demo.progressive.DateCellRenderer)
- */
-/**
+ *
  * @ignore(demobrowser.demo.progressive.DateCellRenderer)
  */
 qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_Mouseover",

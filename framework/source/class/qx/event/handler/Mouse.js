@@ -20,17 +20,11 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.event.handler.UserAction)
-#ignore(qx.event.handler.DragDrop)
-
-************************************************************************ */
-
 /**
  * This class provides an unified mouse event handler for Internet Explorer,
  * Firefox, Opera and Safari
  *
+ * @require(qx.event.handler.UserAction)
  * @ignore(qx.event.handler.DragDrop)
  */
 qx.Class.define("qx.event.handler.Mouse",

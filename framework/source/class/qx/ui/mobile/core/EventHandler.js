@@ -16,14 +16,13 @@
      * Tino Butz (tbtz)
 
 ************************************************************************ */
-/* ************************************************************************
-#require(qx.event.handler.Touch)
-#require(qx.event.dispatch.DomBubbling)
-#require(qx.ui.mobile.core.Widget)
-************************************************************************ */
 
 /**
  * Connects the widgets to the browser DOM events.
+ *
+ * @require(qx.event.handler.Touch)
+ * @require(qx.event.dispatch.DomBubbling)
+ * @require(qx.ui.mobile.core.Widget)
  */
 qx.Class.define("qx.ui.mobile.core.EventHandler",
 {

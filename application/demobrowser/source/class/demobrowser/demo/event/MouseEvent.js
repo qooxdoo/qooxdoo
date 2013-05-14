@@ -20,13 +20,14 @@
 
 /* ************************************************************************
 
-#use(qx.event.handler.Input)
 
 ************************************************************************ */
 
 /**
  * Native mouse events
  * @tag noPlayground
+ *
+ * @use(qx.event.handler.Input)
  */
 qx.Class.define("demobrowser.demo.event.MouseEvent",
 {

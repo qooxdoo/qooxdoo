@@ -16,9 +16,10 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
-/* ************************************************************************
-#require(qx.lang.normalize.Function)
-************************************************************************ */
+
+/**
+ * @require(qx.lang.normalize.Function)
+ */
 qx.Class.define("qx.test.lang.normalize.Function",
 {
   extend : qx.dev.unit.TestCase,

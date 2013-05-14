@@ -17,18 +17,14 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.core.Init)
-
-************************************************************************ */
-
 /**
  * For a GUI application on a traditional, HTML-dominated web page.
  *
  * The ideal environment for typical portal sites which use just a few qooxdoo
  * widgets. {@link qx.ui.root.Inline} can be used to embed qooxdoo widgets
  * into the page flow.
+ *
+ * @require(qx.core.Init)
  */
 qx.Class.define("qx.application.Inline",
 {

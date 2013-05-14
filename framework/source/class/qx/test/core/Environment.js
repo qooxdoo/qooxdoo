@@ -17,13 +17,11 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.bom.htmlarea.HtmlArea)
-#require(qx.io.remote.Request)
-#require(qx.ui.core.scroll.MScrollBarFactory)
-
-************************************************************************ */
+/**
+ * @require(qx.bom.htmlarea.HtmlArea)
+ * @require(qx.io.remote.Request)
+ * @require(qx.ui.core.scroll.MScrollBarFactory)
+ */
 
 qx.Class.define("qx.test.core.Environment",
 {

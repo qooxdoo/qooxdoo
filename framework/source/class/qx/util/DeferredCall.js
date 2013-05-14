@@ -17,18 +17,14 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.util.DeferredCallManager)
-
-************************************************************************ */
-
 /**
  * This class represents a wrapper for functions, which should be called after
  * the current thread of JavaScript has finished and the control is returned to
  * the browser. The wrapped function will at most be called once after the control
  * has been given back to the browser, independent of the number of {@link #call}
  * calls.
+ *
+ * @require(qx.util.DeferredCallManager)
  */
 qx.Class.define("qx.util.DeferredCall",
 {

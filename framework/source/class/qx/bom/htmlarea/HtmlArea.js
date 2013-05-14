@@ -25,7 +25,6 @@
 /* ************************************************************************
 
 #asset(qx/static/blank.html)
-#require(qx.lang.normalize.String)
 
 ************************************************************************ */
 
@@ -35,8 +34,9 @@
  * This component does not contain any {@link qx.ui} code resulting in a
  * smaller footprint.
  *
- *
  * Optimized for the use at a traditional webpage.
+ *
+ * @require(qx.lang.normalize.String)
  */
 qx.Class.define("qx.bom.htmlarea.HtmlArea",
 {

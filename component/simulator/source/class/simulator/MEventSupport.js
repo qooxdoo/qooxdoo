@@ -18,12 +18,13 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#ignore(selenium)
-#ignore(qx.Simulation.eventStore)
 ************************************************************************ */
 
 /**
  * Provides event testing support.
+ *
+ * @ignore(selenium)
+ * @ignore(qx.Simulation.eventStore)
  */
 
 qx.Mixin.define("simulator.MEventSupport",

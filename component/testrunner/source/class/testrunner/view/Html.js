@@ -21,21 +21,22 @@
 
 #asset(testrunner/view/html/*)
 #asset(indigo/css/*)
-#require(q)
-#require(qx.module.Polyfill)
-#require(qx.module.Traversing)
-#require(qx.module.Manipulating)
-#require(qx.module.Attribute)
-#require(qx.module.Event)
-#require(qx.module.event.Native)
-#require(qx.module.Css)
-#require(qx.module.Cookie)
-#require(qx.module.Template)
 
 ************************************************************************ */
 
 /**
  * Plain HTML TestRunner view.
+ *
+ * @require(q)
+ * @require(qx.module.Polyfill)
+ * @require(qx.module.Traversing)
+ * @require(qx.module.Manipulating)
+ * @require(qx.module.Attribute)
+ * @require(qx.module.Event)
+ * @require(qx.module.event.Native)
+ * @require(qx.module.Css)
+ * @require(qx.module.Cookie)
+ * @require(qx.module.Template)
  *
  */
 qx.Class.define("testrunner.view.Html", {

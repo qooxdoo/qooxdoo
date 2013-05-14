@@ -16,13 +16,13 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-/* ************************************************************************
-#require(qx.module.Animation)
-#require(qx.module.Manipulating)
-#require(qx.module.Template)
-************************************************************************ */
+
 /**
  * @tag noPlayground
+ *
+ * @require(qx.module.Animation)
+ * @require(qx.module.Manipulating)
+ * @require(qx.module.Template)
  */
 qx.Class.define("demobrowser.demo.animation.Scroll",
 {

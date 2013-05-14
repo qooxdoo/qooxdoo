@@ -32,19 +32,12 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.lang.Array)
-#ignore(qx.core.Object)
-#ignore(qx.event.GlobalError)
-
-************************************************************************ */
-
 /**
  * Collection of helper methods operating on functions.
  *
  * @ignore(qx.core.Object)
- * @ignore(qx.event.GlobalError)
+ * @ignore(qx.event.GlobalError.*)
+ * @require(qx.lang.Array)
  */
 qx.Bootstrap.define("qx.lang.Function",
 {

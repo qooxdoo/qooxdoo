@@ -29,9 +29,8 @@
  * * Supports buffering of the last 50 messages (configurable)
  * * Supports different debug levels ("debug", "info", "warn" or "error")
  * * Simple data serialization for incoming messages
- */
-/*
- #require(qx.dev.StackTrace)
+ *
+ * @require(qx.dev.StackTrace)
  */
 qx.Class.define("qx.log.Logger",
 {

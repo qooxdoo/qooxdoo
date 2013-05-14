@@ -46,9 +46,6 @@
        * Steven Levithan
 
 ************************************************************************ */
-/* ************************************************************************
-#require(qx.lang.normalize.String)
-************************************************************************ */
 
 /**
  * String helper functions
@@ -56,6 +53,8 @@
  * The native JavaScript String is not modified by this class. However,
  * there are modifications to the native String in {@link qx.lang.normalize.String} for
  * browsers that do not support certain features.
+ *
+ * @require(qx.lang.normalize.String)
  */
 qx.Bootstrap.define("qx.lang.String",
 {

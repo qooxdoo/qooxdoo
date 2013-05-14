@@ -20,13 +20,14 @@
 /* ************************************************************************
 
 #asset(playground/*)
-#ignore(require)
-#ignore(ace)
 
 ************************************************************************ */
 
 /**
  * Container for the source code editor.
+ *
+ * @ignore(require)
+ * @ignore(ace)
  */
 qx.Class.define("playground.view.Editor",
 {

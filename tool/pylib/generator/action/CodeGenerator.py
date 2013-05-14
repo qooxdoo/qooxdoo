@@ -745,7 +745,6 @@ class CodeGenerator(object):
 
 
         def compileClasses(classList, compConf, log_progress=lambda:None):
-            lint_check, lint_opts = self.lint_opts(script.classesObj, only_globals=True)
             num_proc = self._job.get('run-time/num-processes', 0)
             result = []
             # warn qx.allowUrlSettings - variants optim. conflict (bug#6141)
@@ -760,30 +759,16 @@ class CodeGenerator(object):
                     tmp_optimize.remove("variants") # has been done in optimizeDeadCode
                 # do the rest
                 for clazz in classList:
-                    if lint_check:
-                        warns = check_globals.globals_check(clazz._tmp_tree, clazz.id, lint_opts) # this has to run *before* other optimizations, as trees get changed there
-                        for warn in warns:
-                            console.warn("%s (%d, %d): %s" % (clazz.id, warn.line, warn.column, 
-                                warn.msg % tuple(warn.args)))
                     tree = clazz.optimize(clazz._tmp_tree, tmp_optimize)
                     code = clazz.serializeTree(tree, tmp_optimize, compConf.format)
                     result.append(code)
                     log_progress()
                 result = u''.join(result)
+
+            # no 'statics' optimization
             else:
                 if num_proc == 0:
                     for clazz in classList:
-                        if lint_check:
-                            if "variants" in compConf.optimize: # do variant opt. ahead for lint_check
-                                tree = clazz.optimize(None, ["variants"], compConf.variantset)
-                            else:
-                                tree = clazz.tree()
-                            warns = check_globals.globals_check(tree, clazz.id, lint_opts)  # has to run before the other optimizations 
-                            for warn in warns:
-                                console.warn("%s (%d, %d): %s" % (clazz.id, warn.line, warn.column, 
-                                    warn.msg % tuple(warn.args)))
-                        #tree = clazz.optimize(None, compConf.optimize, compConf.variants, script._featureMap)
-                        #code = clazz.serializeTree(tree, compConf.optimize, compConf.format)
                         code = clazz.getCode(compConf, treegen=treegenerator, featuremap=script._featureMap) # choose parser frontend
                         result.append(code)
                         log_progress()
@@ -827,11 +812,9 @@ class CodeGenerator(object):
             # Write the package data and the compiled class code in so many
             # .js files, skipping source files.
             def write_uris(package_data, package_classes, per_file_prefix):
-                lint_check, lint_opts = self.lint_opts(script.classesObj, only_globals=True)
                 sourceFilter = ClassMatchList(compConf.get("code/except", []))
                 compiled_classes = []  # to accumulate classes that are compiled and can go into one .js file
                 package_uris = []      # the uri's of the .js files of this package
-                app_namespace = self._job.get("let/APPLICATION")
                 for pos,clazz in enumerate(package_classes):
 
                     # class is taken from the source file
@@ -853,13 +836,6 @@ class CodeGenerator(object):
                         shortUri = Uri(relpath.toUri())
                         entry    = "%s:%s" % (clazz.library.namespace, shortUri.encodedValue())
                         package_uris.append(entry)
-                         # compiled classes are lint'ed in compileClasses()
-                        if lint_check:
-                            #self.lint_check(clazz, lint_opts)
-                            warns = check_globals.globals_check(clazz.tree(), clazz.id, lint_opts)  # has to run before the other optimizations 
-                            for warn in warns:
-                                console.warn("%s (%d, %d): %s" % (clazz.id, warn.line, warn.column, 
-                                    warn.msg % tuple(warn.args)))
                         log_progress()
 
                     # register it to be lumped together with other classes
@@ -1042,17 +1018,10 @@ class CodeGenerator(object):
         return  # runCompiled()
 
 
-    def lint_check(self, classObj, opts):
-        warns = codeMaintenance.lint_check(classObj, opts)
-        for warn in warns:
-            console.warn("%s (%d, %d): %s" % (classObj.id, warn.line, warn.column, 
-                warn.msg % tuple(warn.args)))
-
-
     @staticmethod
     def lint_opts(classesObj, only_globals=False):
         do_check = Context.jobconf.get('compile-options/code/lint-check', True)
-        do_check = False
+        #do_check = False
         opts = None
         if do_check:
             opts = lint.defaultOptions()
@@ -1073,7 +1042,14 @@ class CodeGenerator(object):
                 setattr(opts, option.replace("-","_"), value)
             # construct a globals-only check
             if only_globals:
-                protected = 'library_classes class_namespaces allowed_globals ignore_undefined_globals warn_unknown_jsdoc_keys warn_jsdoc_key_syntax'.split()
+                protected = '''
+                    allowed_globals 
+                    class_namespaces 
+                    ignore_undefined_globals 
+                    library_classes 
+                    warn_jsdoc_key_syntax
+                    warn_unknown_jsdoc_keys 
+                    '''.split()
                 for item in vars(opts):
                     if item=='ignore_undefined_globals':
                         setattr(opts, item, False)

@@ -20,14 +20,10 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.event.handler.Iframe)
-
-************************************************************************ */
-
 /**
  * Cross browser abstractions to work with iframes.
+ *
+ * @require(qx.event.handler.Iframe)
  */
 qx.Class.define("qx.bom.Iframe",
 {

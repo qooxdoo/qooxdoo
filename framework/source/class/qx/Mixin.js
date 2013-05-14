@@ -18,12 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.lang.normalize.Array)
-
-************************************************************************ */
-
 /**
  * This class is used to define mixins (similar to mixins in Ruby).
  *
@@ -31,6 +25,8 @@
  * other classes. They are similar to classes but don't support inheritance.
  *
  * See the description of the {@link #define} method how a mixin is defined.
+ *
+ * @require(qx.lang.normalize.Array)
  */
 qx.Bootstrap.define("qx.Mixin",
 {

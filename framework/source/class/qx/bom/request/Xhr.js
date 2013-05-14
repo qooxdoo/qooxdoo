@@ -17,22 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#ignore(XDomainRequest)
-#require(qx.bom.request.Xhr#open)
-#require(qx.bom.request.Xhr#send)
-#require(qx.bom.request.Xhr#on)
-#require(qx.bom.request.Xhr#onreadystatechange)
-#require(qx.bom.request.Xhr#onload)
-#require(qx.bom.request.Xhr#onloadend)
-#require(qx.bom.request.Xhr#onerror)
-#require(qx.bom.request.Xhr#onabort)
-#require(qx.bom.request.Xhr#ontimeout)
-#require(qx.bom.request.Xhr#setRequestHeader)
-#require(qx.bom.request.Xhr#getAllResponseHeaders)
-#require(qx.bom.request.Xhr#getRequest)
-************************************************************************ */
-
 /**
  * A wrapper of the XMLHttpRequest host object (or equivalent). The interface is
  * similar to <a href="http://www.w3.org/TR/XMLHttpRequest/">XmlHttpRequest</a>.
@@ -56,6 +40,18 @@
  * </div>
  *
  * @ignore(XDomainRequest)
+ * @require(qx.bom.request.Xhr#open)
+ * @require(qx.bom.request.Xhr#send)
+ * @require(qx.bom.request.Xhr#on)
+ * @require(qx.bom.request.Xhr#onreadystatechange)
+ * @require(qx.bom.request.Xhr#onload)
+ * @require(qx.bom.request.Xhr#onloadend)
+ * @require(qx.bom.request.Xhr#onerror)
+ * @require(qx.bom.request.Xhr#onabort)
+ * @require(qx.bom.request.Xhr#ontimeout)
+ * @require(qx.bom.request.Xhr#setRequestHeader)
+ * @require(qx.bom.request.Xhr#getAllResponseHeaders)
+ * @require(qx.bom.request.Xhr#getRequest)
  */
 qx.Bootstrap.define("qx.bom.request.Xhr",
 {

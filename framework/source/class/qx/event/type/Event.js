@@ -19,12 +19,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#use(qx.event.Registration)
-
-************************************************************************ */
-
 /**
  * Basic event object.
  *
@@ -35,6 +29,8 @@
  *
  * The interface is modeled after the DOM level 2 event interface:
  * http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-interface
+ *
+ * @use(qx.event.Registration)
  */
 qx.Class.define("qx.event.type.Event",
 {

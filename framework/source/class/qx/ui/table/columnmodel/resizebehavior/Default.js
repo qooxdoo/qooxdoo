@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.ui.core.ColumnData)
-
-************************************************************************ */
-
 /**
  * The default resize behavior.  Until a resize model is loaded, the default
  * behavior is to:
@@ -53,6 +47,8 @@
  * A resize model may be loaded to provide more guidance on how to adjust
  * column width upon each of the events: initial appear, window resize, and
  * column resize. *** TO BE FILLED IN ***
+ *
+ * @require(qx.ui.core.ColumnData)
  */
 qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
 {

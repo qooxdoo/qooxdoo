@@ -17,19 +17,17 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#require(qx.bom.storage.Memory#getLength)
-#require(qx.bom.storage.Memory#setItem)
-#require(qx.bom.storage.Memory#getItem)
-#require(qx.bom.storage.Memory#removeItem)
-#require(qx.bom.storage.Memory#clear)
-#require(qx.bom.storage.Memory#getKey)
-#require(qx.bom.storage.Memory#forEach)
-************************************************************************ */
-
 /**
  * Fallback storage implementation which offers the same API as every other storage
  * but is not persistent. Basically, its just a storage API on a JavaScript map.
+ *
+ * @require(qx.bom.storage.Memory#getLength)
+ * @require(qx.bom.storage.Memory#setItem)
+ * @require(qx.bom.storage.Memory#getItem)
+ * @require(qx.bom.storage.Memory#removeItem)
+ * @require(qx.bom.storage.Memory#clear)
+ * @require(qx.bom.storage.Memory#getKey)
+ * @require(qx.bom.storage.Memory#forEach)
  */
 qx.Bootstrap.define("qx.bom.storage.Memory", {
   statics : {
