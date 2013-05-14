@@ -373,7 +373,9 @@ qx.Class.define("qx.ui.core.Blocker",
         }
 
         blocker.include();
-        blocker.activate();
+        if (!blockContent) {
+          blocker.activate();
+        }
 
         blocker.addListener("deactivate", this.__activateBlockerElement, this);
         blocker.addListener("keypress", this.__stopTabEvent, this);
