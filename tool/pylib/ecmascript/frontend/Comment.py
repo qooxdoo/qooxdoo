@@ -414,7 +414,6 @@ class Comment(object):
     py_term_argument = py.Regex(r'(?u)[^\s,)]+')
 
     py_comment_term = (py_js_identifier.copy().setResultsName('t_functor') + py.Suppress('(') + 
-        #py.Optional(py.delimitedList(py_js_identifier_glob)) # TODO: when retiring ignoreUndefined -> py_js_identifier
         py.Optional(py.delimitedList(py_term_argument)) # 'foo.Bar#baz'
         .setResultsName('t_arguments') + py.Suppress(')'))
 
@@ -643,7 +642,7 @@ class Comment(object):
         presult = grammar.parseString(line)
         res = {
             'category' : presult.t_functor,
-            'arguments' : presult.t_arguments.asList(),
+            'arguments' : presult.t_arguments.asList() if presult.t_arguments else [],
             'text' : presult.text.strip(),
         }
         return res
@@ -661,7 +660,9 @@ class Comment(object):
     ##
     # "@cldr()"
     def parse_at_cldr(self, line):
-        return self.parse_at_require(line)
+        res = self.parse_at_require(line)
+        res['arguments'] = ['true']  # put something in, to comply with old metaHints where [] means no
+        return res
 
 
     def cleanupText(self, text):

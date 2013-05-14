@@ -25,6 +25,7 @@
 
 import re
 from ecmascript.frontend import lang
+from ecmascript.transform.check import jshints
 from misc import filetool
 
 class MClassHints(object):
@@ -154,6 +155,22 @@ class MClassHints(object):
 
             return meta
 
+
+        ##
+        # Currently only adds @asset, @cldr
+        def get_hint_jsdocs(meta):
+            tree = self.tree()
+            if not hasattr(tree, 'hint'):
+                tree = jshints.create_hints_tree(tree)
+            for hint in tree.hint.iterator():
+                for target,hintKey in (('assetDeps','asset'), ('cldr','cldr')):
+                    if hintKey in hint.hints:
+                        #meta[target].extend(hint.hints[hintKey][None])
+                        # for now only use HintArgument.source, to comply with old #asset hints
+                        if hint.hints[hintKey][None]:
+                            meta[target].extend([x.source for x in hint.hints[hintKey][None]])
+            return meta
+
         # ----------------------------------------------------------
 
         fileEntry = self
@@ -167,7 +184,11 @@ class MClassHints(object):
         else:
             # no cached information? => build hint meta data now
             meta = classInfo['hint_meta'] = get_hint_meta()
+            meta = get_hint_jsdocs(meta)  # update with JSDoc hints
             self._writeClassCache(classInfo)
+            #from pprint import pprint
+            #print self.id,
+            #pprint(meta)
 
         if metatype:
             return meta[metatype]
