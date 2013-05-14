@@ -434,7 +434,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
                                  rule);
 
       // Compute the column widths
-      this.__layout.renderLayout(width, 100);
+      this.__layout.renderLayout(width, 100, {top: 0, right: 0, bottom: 0, left: 0});
 
       // Get the column data
       var columnData = this.__columnWidths.getData();

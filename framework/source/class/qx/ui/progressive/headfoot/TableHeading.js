@@ -143,7 +143,13 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
 
       // Compute the column widths
       this.__bCalculateWidths = true;
-      this.__layout.renderLayout(width, 100);
+      var padding = {
+        top : this.getPaddingTop(),
+        right : this.getPaddingRight(),
+        bottom : this.getPaddingBottom(),
+        left : this.getPaddingLeft()
+      }
+      this.__layout.renderLayout(width, 100, padding);
       this.__bCalculateWidths = false;
 
       // Get the column data
