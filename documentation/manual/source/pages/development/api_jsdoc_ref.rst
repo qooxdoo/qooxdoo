@@ -218,7 +218,7 @@ Description
 
 **Syntax**
 
-  ``@childControl <name> { <type> } <description>``
+  ``@childControl <name> { <type> } [<description>]``
 
 **Parameters**
 
@@ -231,7 +231,7 @@ Description
       * - type
         - The :ref:`type specification <pages/development/api_jsdoc_ref#types_syntax>` of the child control widget
       * - description
-        - What the child control is used for in the context of this widget
+        - *(opt.)* What the child control is used for in the context of this widget
   
 **Example**
 
@@ -258,7 +258,7 @@ Description
 
 **Syntax**
 
-  ``@param <name> { <type> } <description>``
+  ``@param <name> { <type> } [<description>]``
 
 **Parameters**
 
@@ -271,7 +271,7 @@ Description
       * - type
         - A :ref:`type specification <pages/development/api_jsdoc_ref#types_syntax>` like ``{Boolean | Integer ? 0}``
       * - description
-        - Descriptive text of the parameter
+        - *(opt.)* Descriptive text of the parameter
   
 **Example**
 
@@ -294,11 +294,11 @@ Description
 
 **Description**
 
-  ``@type`` is usually used to document data items, esp. when the type is not immediately apparent in the code. This is for example the case when a class member is initialized with ``null`` and a map value is assigned in the constructor, so as to not share a single map accross multiple instances.
+  ``@type`` is usually used to document data items, esp. when the type is not immediately apparent in the code. This is for example the case when a class member is initialized with ``null`` and a value of some other type is then assigned in the constructor, so as to not share a single data value accross multiple instances.
 
 **Syntax**
 
-  ``@type { <type> }``
+  ``@type { <type> } [<description>]``
 
 **Parameters**
 
@@ -308,6 +308,8 @@ Description
 
       * - type
         - A :ref:`type indicator <pages/development/api_jsdoc_ref#types_syntax>` like ``Map``
+      * - description
+        - *(opt.)* Descriptive text of the type
   
 **Example**
 
@@ -334,7 +336,7 @@ Description
 
 **Syntax**
 
-  ``@return { <type> } <description>``
+  ``@return { <type> } [<description>]``
 
 **Parameters**
 
@@ -345,7 +347,7 @@ Description
       * - type
         - The :ref:`type <pages/development/api_jsdoc_ref#types_syntax>` of the return value.
       * - description
-        - Descriptive text
+        - *(opt.)* Descriptive text
 
 **Example**
 
@@ -372,7 +374,7 @@ Description
 
 **Syntax**
 
-  ``@throws { <type> } <description>``
+  ``@throws { <type> } [<description>]``
 
 **Parameters**
 
@@ -383,7 +385,7 @@ Description
     * - type
       - The :ref:`type <pages/development/api_jsdoc_ref#types_syntax>` of the exception
     * - description
-      - Descriptive text under which circumstances this exception is thrown.
+      - *(opt.)* Descriptive text under which circumstances this exception is thrown.
 
 **Example**
 
@@ -557,7 +559,7 @@ Description
 
 **Syntax**
 
-  ``@deprecated { <since_version> } <description>``
+  ``@deprecated { <since_version> } [<description>]``
 
 **Parameters**
 
@@ -568,7 +570,7 @@ Description
       * - since_version
         - qooxdoo version with which the corresponding item was deprecated
       * - description
-        - Descriptive text of the deprecation
+        - *(opt.)* Descriptive text of the deprecation
   
 **Example**
 
@@ -739,8 +741,8 @@ Description
 
       * - class
         - Class ID where the function should be attached.
-      * - feature_name *(opt)*
-        - Feature name under which the function should be attached; if missing, the original function name is used.
+      * - feature_name
+        - *(opt.)* Feature name under which the function should be attached; if missing, the original function name is used.
 
 **Example**
 
@@ -776,8 +778,8 @@ Description
 
       * - class
         - Class ID where the function should be attached.
-      * - feature_name *(opt)*
-        - Feature name under which the function should be attached; if missing, the original function name is used.
+      * - feature_name
+        - *(opt.)* Feature name under which the function should be attached; if missing, the original function name is used.
 
 **Example**
 
