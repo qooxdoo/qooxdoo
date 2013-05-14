@@ -113,7 +113,16 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
 
       var top = this.getBackgroundPositionY() || 0;
       var left = this.getBackgroundPositionX() || 0;
-      styles["background-position"] = left + "px " + top + "px";
+
+      if (!isNaN(top)) {
+        top += "px";
+      }
+
+      if (!isNaN(left)) {
+        left += "px";
+      }
+
+      styles["background-position"] = left + " " + top;
 
       if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
         qx.bom.element.Decoration.processAlphaFix(styles, repeat, id);
