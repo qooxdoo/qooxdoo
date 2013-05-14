@@ -271,8 +271,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     /**
     * @deprecated {3.0} Please use property "currentIndex" instead.
     */
-    scrollToPage : function() {
-      this._scrollToPage(pageIndex, showTransition);
+    scrollToPage : function(pageIndex) {
+      this._scrollToPage(pageIndex);
     },
 
 
