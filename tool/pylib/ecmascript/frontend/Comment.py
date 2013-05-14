@@ -432,13 +432,14 @@ class Comment(object):
 
     ##
     # "@type {Map} blah
-    gr_at_type = py.Suppress('@') + py.Literal('type') + py_simple_type + py.restOfLine("text")
+    gr_at_type = py.Suppress('@') + py.Literal('type') + py_type_expression + py.restOfLine("text")
     def parse_at_type(self, line):
         grammar = self.gr_at_type
         presult = grammar.parseString(line)
+        types = self._typedim_list_to_typemaps(presult.texp_types.asList() if presult.texp_types else [])
         res = {
             'category' : 'type',
-            'type' : presult.type_name,
+            'type' : types,
             'text' : presult.text.strip()
         }
         return res
