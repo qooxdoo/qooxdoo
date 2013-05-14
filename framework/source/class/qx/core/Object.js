@@ -122,10 +122,10 @@ qx.Class.define("qx.core.Object",
      * Call the same method of the super class.
      *
      * @param args {arguments} the arguments variable of the calling method
-     * @param varags {var} variable number of arguments passed to the overwritten function
+     * @param varargs {var} variable number of arguments passed to the overwritten function
      * @return {var} the return value of the method of the base class.
      */
-    base : function(args, varags)
+    base : function(args, varargs)
     {
       if (qx.core.Environment.get("qx.debug"))
       {
