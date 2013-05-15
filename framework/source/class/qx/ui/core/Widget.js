@@ -2809,16 +2809,7 @@ qx.Class.define("qx.ui.core.Widget",
         target.setAttribute("tabIndex", tabIndex);
 
         // Omit native dotted outline border
-        if (
-          (qx.core.Environment.get("engine.name") == "mshtml" &&
-           parseFloat(qx.core.Environment.get("engine.version")) < 8) ||
-          (qx.core.Environment.get("engine.name") == "mshtml" &&
-           qx.core.Environment.get("browser.documentmode") < 8)
-        ) {
-          target.setAttribute("hideFocus", "true");
-        } else {
-          target.setStyle("outline", "none");
-        }
+        target.setStyle("outline", "none");
       }
       else
       {

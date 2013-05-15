@@ -131,7 +131,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
 
 
     /**
-     * Whether an info was already displayed for browsers using the AlphaImageLoader (IE6 - IE9)
+     * Whether an info was already displayed for browsers using the AlphaImageLoader (IE8 - IE9)
      * together with the 'backgroundPosition' property. The AlphaImageLoader is not able to make use
      * of this CSS property. So the developer should be informed about this *once*.
      */

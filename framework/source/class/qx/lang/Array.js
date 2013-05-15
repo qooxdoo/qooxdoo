@@ -539,7 +539,6 @@ qx.Bootstrap.define("qx.lang.Array",
       {
         try
         {
-          // TODO: The following delete seems to fail in IE7
           delete doneObjects[hash][key];
         }
         catch(ex)
