@@ -225,6 +225,12 @@ qx.Class.define("qx.ui.basic.Image",
       };
     },
 
+    // overridden
+    _applyDecorator : function(value, old) {
+      this.base(arguments, value, old);
+      this.__setSource(this.getContentElement(), this.getSource());
+    },
+
 
     // overridden
     _applyPadding : function(value, old, name)
@@ -531,6 +537,8 @@ qx.Class.define("qx.ui.basic.Image",
             container.removeAt(index);
             container.addAt(elementToAdd, index);
           }
+          // force re-application of source so __setSource is called again
+          elementToAdd.setSource(null);
           elementToAdd.setAttribute("class", this.__currentContentElement.getAttribute("class"));
           this.__currentContentElement = elementToAdd;
         }
@@ -569,8 +577,7 @@ qx.Class.define("qx.ui.basic.Image",
       }
 
       // Apply source
-
-      el.setSource(source);
+      this.__setSource(el, source);
 
       // Compare with old sizes and relayout if necessary
       this.__updateContentHint(ResourceManager.getImageWidth(source),
@@ -589,7 +596,7 @@ qx.Class.define("qx.ui.basic.Image",
       var ImageLoader = qx.io.ImageLoader;
 
       // Apply source
-      el.setSource(source);
+      this.__setSource(el, source);
 
       // Compare with old sizes and relayout if necessary
       var width = ImageLoader.getWidth(source);
@@ -639,6 +646,60 @@ qx.Class.define("qx.ui.basic.Image",
           el.resetSource();
         }
       }
+    },
+
+
+    /**
+     * Combines the decorator's image styles with our own image to make sure
+     * gradient and backgroundImage decorators work on Images.
+     *
+     * @param el {Element} image DOM element
+     * @param source {String} source path
+     */
+    __setSource : function(el, source) {
+      if (el.getNodeName() == "div") {
+        var dec = qx.theme.manager.Decoration.getInstance().resolve(this.getDecorator());
+        // if the decorator defines any CSS background-image
+        if (dec) {
+          var hasGradient = (dec.getStartColor() && dec.getEndColor());
+          var hasBackground = dec.getBackgroundImage();
+          if (hasGradient || hasBackground) {
+            var repeat = this.getScale() ? "scale" : "no-repeat";
+
+            // get the style attributes for the given source
+            var attr = qx.bom.element.Decoration.getAttributes(source, repeat);
+            // get the background image(s) defined by the decorator
+            var decStyle = dec.getStyles(true);
+
+            var combinedStyles = {
+              "backgroundImage":  attr.style.backgroundImage,
+              "backgroundPosition": (attr.style.backgroundPosition || "0 0"),
+              "backgroundRepeat": (attr.style.backgroundRepeat || "no-repeat")
+            };
+
+            if (hasBackground) {
+              combinedStyles["backgroundPosition"] += "," + decStyle["background-position"] || "0 0";
+              combinedStyles["backgroundRepeat"] += ", " + dec.getBackgroundRepeat();
+            }
+
+            if (hasGradient) {
+              combinedStyles["backgroundPosition"] += ", 0 0";
+              combinedStyles["backgroundRepeat"] += ", no-repeat";
+            }
+
+            combinedStyles["backgroundImage"] += "," + decStyle["background-image"];
+
+            // apply combined background images
+            el.setStyles(combinedStyles);
+
+            return;
+          }
+        } else {
+          // force re-apply to remove old decorator styles
+          el.setSource(null);
+        }
+      }
+      el.setSource(source);
     },
 
 
