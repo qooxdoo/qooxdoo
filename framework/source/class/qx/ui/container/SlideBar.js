@@ -191,16 +191,6 @@ qx.Class.define("qx.ui.container.SlideBar",
         case "content":
           control = new qx.ui.container.Composite();
 
-          /*
-           * Gecko < 2 does not update the scroll position after removing an
-           * element. So we have to do this by hand.
-           */
-          if (qx.core.Environment.get("engine.name") == "gecko" &&
-            parseInt(qx.core.Environment.get("engine.version")) < 2)
-          {
-            control.addListener("removeChildWidget", this._onRemoveChild, this);
-          }
-
           this.getChildControl("scrollpane").add(control);
           break;
 
@@ -444,28 +434,6 @@ qx.Class.define("qx.ui.container.SlideBar",
      */
     _onExecuteForward : function() {
       this.scrollBy(this.getScrollStep());
-    },
-
-
-    /**
-     * Helper function for Gecko. Modifies the scroll offset when a child is
-     * removed.
-     */
-    _onRemoveChild : function()
-    {
-      qx.event.Timer.once(
-        function()
-        {
-          // It might happen that the child control is already disposed in very
-          // seldom cases - anyway check against that (Bug #5339)
-          var scrollpane = this.getChildControl("scrollpane");
-          if (!scrollpane.isDisposed()) {
-            this.scrollBy(scrollpane.getScrollX());
-          }
-        },
-        this,
-        50
-      );
     },
 
 
