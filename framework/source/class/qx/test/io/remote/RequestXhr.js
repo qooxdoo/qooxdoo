@@ -41,11 +41,6 @@ qx.Class.define("qx.test.io.remote.RequestXhr",
         return;
       }
 
-      if (this.buggyBrowser) {
-        this.warn("Tests skipped in Safari 3/FF 1.5, see bug #2529");
-        return;
-      }
-
       var completedCount = 0;
 
       for (var i = 0; i < this._getRequests().length; i++)
@@ -75,11 +70,6 @@ qx.Class.define("qx.test.io.remote.RequestXhr",
     {
       if (this.isLocal()) {
         this.needsPHPWarning();
-        return;
-      }
-
-      if (this.buggyBrowser) {
-        this.warn("Tests skipped in Safari 3/FF 1.5, see bug #2529");
         return;
       }
 

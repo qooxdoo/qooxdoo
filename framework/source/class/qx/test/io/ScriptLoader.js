@@ -67,8 +67,7 @@ qx.Class.define("qx.test.io.ScriptLoader",
       var url = this.getUrl("qx/test/xmlhttp/404.php");
 
       this.loader.load(url, function(status) { this.resume(function() {
-        if (qx.core.Environment.get("engine.name") == "mshtml" || (qx.core.Environment.get("engine.name") == "webkit" &&
-          parseFloat(qx.core.Environment.get("engine.version")) < 531)) {
+        if (qx.core.Environment.get("engine.name") == "mshtml") {
           // Error state does not work in IE and Safari 3!
           this.assertEquals("success", status);
         } else {

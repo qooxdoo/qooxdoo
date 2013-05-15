@@ -45,18 +45,6 @@ qx.Class.define("qx.test.io.remote.AbstractRequest",
 
         this._requests[i] = request;
       }
-
-      // These tests will always fail in Safari 3/FF1.5 due to the behavior
-      // described in qooxdoo bug #2529, so they will be skipped.
-      this.buggyBrowser = false;
-      var engineString = qx.core.Environment.get("engine.version");
-      var engineFloat = parseFloat(engineString);
-      if ( (qx.core.Environment.get("engine.name") == "webkit" &&
-            engineFloat < 526)
-            || (qx.core.Environment.get("engine.name") == "gecko" &&
-            engineString.indexOf("1.8.0") == 0 ) ) {
-        this.buggyBrowser = true;
-      }
     },
 
 
@@ -82,12 +70,9 @@ qx.Class.define("qx.test.io.remote.AbstractRequest",
       {
         this.resume(function()
         {
-          if (!this.buggyBrowser)
-          {
-            this.fail("Response error: " + type + " " +
-              request.getStatusCode()
-            );
-          }
+          this.fail("Response error: " + type + " " +
+            request.getStatusCode()
+          );
         }, this);
       }, this);
     },
@@ -97,11 +82,6 @@ qx.Class.define("qx.test.io.remote.AbstractRequest",
     {
       if (this.isLocal()) {
         this.needsPHPWarning();
-        return;
-      }
-
-      if (this.buggyBrowser) {
-        this.warn("Tests skipped in Safari 3/FF 1.5, see bug #2529");
         return;
       }
 
@@ -138,11 +118,6 @@ qx.Class.define("qx.test.io.remote.AbstractRequest",
     {
       if (this.isLocal()) {
         this.needsPHPWarning();
-        return;
-      }
-
-      if (this.buggyBrowser) {
-        this.warn("Tests skipped in Safari 3/FF 1.5, see bug #2529");
         return;
       }
 
