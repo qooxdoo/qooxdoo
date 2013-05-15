@@ -149,7 +149,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      */
     transitionDuration : {
       check : "Number",
-      init : 0.4,
+      init : 0.4
     }
   },
 
