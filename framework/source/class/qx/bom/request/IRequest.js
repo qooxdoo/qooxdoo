@@ -54,7 +54,7 @@ qx.Interface.define("qx.bom.request.IRequest",
     readyState: 0,
 
     /**
-     * {Number} The status code.
+     * @type {Number} The status code.
      */
     status: 0,
 

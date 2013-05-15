@@ -318,7 +318,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     __lookupTable : null,
 
 
-    /** {Array} HashMap which contains all open nodes. */
+    /** @type {Array} HashMap which contains all open nodes. */
     __openNodes : null,
 
 
