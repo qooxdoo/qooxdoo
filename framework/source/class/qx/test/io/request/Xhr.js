@@ -373,139 +373,34 @@ qx.Class.define("qx.test.io.request.Xhr",
     // Parsing
     //
 
-    __assertParser: function(contentType, parser) {
-      var req = this.req;
+    "test: _getParsedResponse": function() {
+      var req = this.req,
+          json = '{"animals": 3}',
+          contentType = "application/json",
+          stubbedParser = req._createResponseParser();
 
-      this.stub(req, "isDone").returns(true);
+      req._transport.responseText = json;
       this.stub(req, "getResponseContentType").returns(contentType);
 
-      var msg = "Content type '" + contentType + "' handled incorrectly";
-      this.assertEquals(parser, req._parser._getParser(contentType), msg);
+      // replace real parser with stub
+      this.stub(stubbedParser, "parse");
+      req._parser = stubbedParser;
 
-      req.isDone.restore();
-      req.getResponseContentType.restore();
+      req._getParsedResponse();
+      this.assertCalledWith(stubbedParser.parse, json, contentType);
     },
 
-    "test: getParser() returns silently when not DONE": function() {
-      var req = this.req;
-      req._parser._getParser();
-    },
-
-    "test: getParser() returns undefined for unknown": function() {
-      this.__assertParser("text/html", undefined);
-      this.__assertParser("application/pdf", undefined);
-    },
-
-    "test: getParser() returns undefined for malformed": function() {
-      this.__assertParser("", undefined);
-      this.__assertParser("json", undefined);
-      this.__assertParser("text/foo+json", undefined);
-      this.__assertParser("application/foo+jsonish", undefined);
-      this.__assertParser("application/foo+xmlish", undefined);
-    },
-
-    "test: getParser() detects json": function() {
-      var json = qx.util.ResponseParser.PARSER.json;
-      this.__assertParser("application/json", json);
-      this.__assertParser("application/vnd.affe+json", json);
-      this.__assertParser("application/prs.affe+json", json);
-      this.__assertParser("application/vnd.oneandone.onlineoffice.email+json", json);
-    },
-
-    "test: getParser() detects xml": function() {
-      var xml = qx.util.ResponseParser.PARSER.xml;
-      this.__assertParser("application/xml", xml);
-      this.__assertParser("application/vnd.oneandone.domains.domain+xml", xml);
-      this.__assertParser("text/xml");  // Deprecated
-    },
-
-    "test: getParser() detects deprecated xml": function() {
-      var xml = qx.util.ResponseParser.PARSER.xml;
-      this.__assertParser("text/xml");
-    },
-
-    "test: getParser() handles character set": function() {
-      var json = qx.util.ResponseParser.PARSER.json;
-      this.__assertParser("application/json; charset=utf-8", json);
-    },
-
-    "test: setParser() function": function() {
+    "test: setParser": function() {
       var req = this.req,
-          parser = function() {};
-      req.setParser(parser);
-      this.stub(req, "getResponseContentType").returns("text/javascript");
-      this.assertEquals(parser, req._parser._getParser());
-    },
+          customParser = function() {},
+          stubbedParser = req._createResponseParser();
 
-    "test: setParser() symbolically": function() {
-      var req = this.req;
-      req.setParser("json");
-      this.assertFunction(req._parser._getParser());
-    },
+      // replace real parser with stub
+      this.stub(stubbedParser, "setParser");
+      req._parser = stubbedParser;
 
-    "test: not parse empty response": function() {
-      this.setUpFakeXhr();
-
-      var req = this.req,
-          parser = this.spy();
-
-      req.send();
-      this.stub(req._parser, "_getParser").returns(parser);
-      this.getFakeReq().respond(200, {}, "");
-
-      this.assertNotCalled(parser);
-    },
-
-    "test: not parse unknown response": function() {
-      this.setUpFakeServer();
-      var req = this.req,
-          server = this.server,
-          that = this;
-
-      req.setUrl("/found.other");
-      req.send();
-      server.respond();
-
-      this.assertNull(req._parser._getParser());
-    },
-
-    // JSON
-
-    "test: parse json response": function() {
-      this.setUpFakeServer();
-      var req = this.req,
-          server = this.server,
-          that = this;
-
-      this.stub(qx.util.ResponseParser.PARSER, "json");
-
-      req.setUrl("/found.json");
-      req.send();
-      server.respond();
-
-      this.assertCalledWith(qx.util.ResponseParser.PARSER.json, "JSON");
-    },
-
-    // XML
-
-    respondXml: function(contentType) {
-      this.setUpFakeXhr();
-      this.stub(qx.util.ResponseParser.PARSER, "xml");
-      var body = "XML: " + contentType;
-
-      this.req.setUrl("/found.xml");
-      this.req.send();
-      this.getFakeReq().respond(200, {"Content-Type": contentType}, body);
-    },
-
-    "test: parse xml response": function() {
-      this.respondXml("application/xml");
-      this.assertCalledWith(qx.util.ResponseParser.PARSER.xml, "XML: application/xml");
-    },
-
-    "test: parse arbitrary xml response": function() {
-      this.respondXml("animal/affe+xml");
-      this.assertCalledWith(qx.util.ResponseParser.PARSER.xml, "XML: animal/affe+xml");
+      req.setParser(customParser);
+      this.assertCalledWith(stubbedParser.setParser, customParser);
     },
 
     //
