@@ -1,3 +1,5 @@
+.. _pages/on_mobile#using_deskltop_on_mobile_devices:
+
 Using %{Desktop} on Mobile Devices
 **********************************
 
@@ -24,3 +26,7 @@ As you might have already guessed, emulation mouse events based on touch events 
 * ``touchend``: triggers a ``mouseup`` event.
 
 * ``tap``: is a qooxdoo based event which is already normalized and will be fired on a user tap. This results into a ``click`` event.
+
+|emulatemouse.png|
+
+.. |emulatemouse.png| image:: emulatemouse.png
