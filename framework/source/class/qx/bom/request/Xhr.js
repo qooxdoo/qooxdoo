@@ -585,6 +585,16 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       return true;
     },
 
+
+    /**
+     * Check if the request has already beed disposed.
+     * @return {Boolean} <code>true</code>, if the request has been disposed.
+     */
+    isDisposed : function() {
+      return !!this.__disposed;
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       PROTECTED

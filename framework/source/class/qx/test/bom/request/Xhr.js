@@ -833,6 +833,14 @@ qx.Class.define("qx.test.bom.request.Xhr",
       this.assertCalled(req.abort);
     },
 
+
+    "test: isDisposed()": function() {
+      this.assertFalse(this.req.isDisposed());
+      this.req.dispose();
+      this.assertTrue(this.req.isDisposed());
+    },
+
+
     "test: invoking public method throws when disposed": function() {
       var req = this.req;
       var assertDisposedException = qx.lang.Function.bind(function(callback) {
