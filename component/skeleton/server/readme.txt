@@ -32,5 +32,5 @@ system. The build version of the application is analogously written to build/scr
 
 # The following is only required during execution of 'create-application.py'
 short:: for non-browser run times like Rhino, node.js
-copy_file:: component/standalone/server/script/qx-oo-2.2.min.js     script/qx-oo-2.2.min.js
+copy_file:: component/standalone/server/script/qx-oo-3.0.min.js     script/qx-oo-3.0.min.js
 copy_file:: tool/data/generator/needs_generation_server.js  source/script/custom.js
