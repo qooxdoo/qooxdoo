@@ -69,14 +69,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     }
 
     this.setMethod((method !== undefined) ? method : "GET");
-
-    var transport = this._transport = this._createTransport();
-
-    transport.onreadystatechange = qx.lang.Function.bind(this._onReadyStateChange, this);
-    transport.onloadend = qx.lang.Function.bind(this._onLoadEnd, this);
-    transport.ontimeout = qx.lang.Function.bind(this._onTimeout, this);
-    transport.onerror = qx.lang.Function.bind(this._onError, this);
-    transport.onabort = qx.lang.Function.bind(this._onAbort, this);
+    this._transport = this._registerTransportListener(this._createTransport());
 
     qx.core.ObjectRegistry.register(this);
 
@@ -188,7 +181,9 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     /**
      * Gets parsed response.
      *
-     * @return {String} The parsed response of the request.
+     * If problems occured an empty string ("") is more likely to be returned (instead of null).
+     *
+     * @return {String|null} The parsed response of the request.
      */
     getResponse: function() {
       if (this.__response !== null) {
@@ -196,6 +191,8 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
       } else {
         return (this._transport.responseXML !== null) ? this._transport.responseXML : this._transport.responseText;
       }
+
+      return null;
     },
 
     /**
@@ -224,23 +221,15 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     },
 
     /**
-     * Gets the response parser.
-     *
-     * @return {Object?qx.util.ResponseParser}
-     */
-    getParser: function() {
-      return this.__parser;
-    },
-
-    /**
      * Sets (i.e. override) the parser for the response parsing.
      *
-     * @param parser {String|Function} See {@link qx.util.ResponseParser#setParser}.
-     * @return {qx.bom.request.SimpleXhr} Self for chaining.
+     * @see {@link qx.util.ResponseParser#setParser}
+     *
+     * @param parser {String|Function}
+     * @return {Function} The parser function
      */
     setParser: function(parser) {
-      this.__parser = parser;
-      return this;
+      return this.__parser.setParser(parser);
     },
 
     /**
@@ -249,7 +238,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @return {Boolean} Whether request is completed.
      */
     isDone: function() {
-      return this._transport.readyState === qx.bom.request.Xhr.DONE;
+      return (this._transport.readyState === qx.bom.request.Xhr.DONE);
     },
 
     /**
@@ -267,7 +256,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @return {Boolean} Whether the object has been disposed
      */
     isDisposed: function() {
-      return (this.__disposed) ? true : false;
+      return !!this.__disposed;
     },
 
     /**
@@ -339,10 +328,25 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     /**
      * Creates XHR transport.
      *
-     * @return {qx.bom.request.Xhr} Transport.
+     * @return {qx.bom.request.IRequest} Transport.
      */
     _createTransport: function() {
       return new qx.bom.request.Xhr();
+    },
+
+    /**
+     * Registers common listeners on given transport.
+     *
+     * @param transport {qx.bom.request.IRequest} Transport.
+     * @return {qx.bom.request.IRequest} Transport.
+     */
+    _registerTransportListener: function(transport) {
+      transport.onreadystatechange = qx.lang.Function.bind(this._onReadyStateChange, this);
+      transport.onloadend = qx.lang.Function.bind(this._onLoadEnd, this);
+      transport.ontimeout = qx.lang.Function.bind(this._onTimeout, this);
+      transport.onerror = qx.lang.Function.bind(this._onError, this);
+      transport.onabort = qx.lang.Function.bind(this._onAbort, this);
+      return transport;
     },
 
     /**
