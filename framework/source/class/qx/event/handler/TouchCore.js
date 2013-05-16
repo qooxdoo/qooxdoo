@@ -39,14 +39,14 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
 
   statics :
   {
-    /** {Integer} The maximum distance of a tap. Only if the x or y distance of
+    /** @type {Integer} The maximum distance of a tap. Only if the x or y distance of
      *      the performed tap is less or equal the value of this constant, a tap
      *      event is fired.
      */
     TAP_MAX_DISTANCE : qx.core.Environment.get("os.name") != "android" ? 10 : 40,
 
 
-    /** {Map} The direction of a swipe relative to the axis */
+    /** @type {Map} The direction of a swipe relative to the axis */
     SWIPE_DIRECTION :
     {
       x : ["left", "right"],
@@ -54,13 +54,13 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     },
 
 
-    /** {Integer} The minimum distance of a swipe. Only if the x or y distance
+    /** @type {Integer} The minimum distance of a swipe. Only if the x or y distance
      *      of the performed swipe is greater as or equal the value of this
      *      constant, a swipe event is fired.
      */
     SWIPE_MIN_DISTANCE : qx.core.Environment.get("os.name") != "android" ? 11 : 41,
 
-    /** {Integer} The minimum velocity of a swipe. Only if the velocity of the
+    /** @type {Integer} The minimum velocity of a swipe. Only if the velocity of the
      *      performed swipe is greater as or equal the value of this constant, a
      *      swipe event is fired.
      */

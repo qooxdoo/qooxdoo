@@ -168,10 +168,10 @@ qx.Class.define("qx.ui.form.List",
     __pressedString : null,
     __lastKeyPress : null,
 
-    /** {qx.ui.core.Widget} The children container */
+    /** @type {qx.ui.core.Widget} The children container */
     __content : null,
 
-    /** {Class} Pointer to the selection manager to use */
+    /** @type {Class} Pointer to the selection manager to use */
     SELECTION_MANAGER : qx.ui.core.selection.ScrollArea,
 
 

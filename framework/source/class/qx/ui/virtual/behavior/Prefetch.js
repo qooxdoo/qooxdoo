@@ -90,7 +90,7 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
 
    properties :
    {
-    /** {qx.ui.virtual.core.Scroller} The scroller to prefetch */
+    /** @type {qx.ui.virtual.core.Scroller} The scroller to prefetch */
      scroller :
      {
        check : "qx.ui.virtual.core.Scroller",
@@ -99,7 +99,7 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
        apply : "_applyScroller"
      },
 
-     /** {Integer} Polling interval */
+     /** @type {Integer} Polling interval */
      interval :
      {
        check : "Integer",

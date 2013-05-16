@@ -75,6 +75,14 @@ qx.Class.define("qx.test.bom.request.Script",
       this.assertFalse(this.isInDom(script));
     },
 
+
+    "test: isDisposed()": function() {
+      this.assertFalse(this.req.isDisposed());
+      this.req.dispose();
+      this.assertTrue(this.req.isDisposed());
+    },
+
+
     "test: allow many requests with same object": function() {
       var count = 0,
           that = this;

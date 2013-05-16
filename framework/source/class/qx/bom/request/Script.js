@@ -101,7 +101,7 @@ qx.Bootstrap.define("qx.bom.request.Script",
   {
 
     /**
-     * {Number} Ready state.
+     * @type {Number} Ready state.
      *
      * States can be:
      * UNSENT:           0,
@@ -117,14 +117,14 @@ qx.Bootstrap.define("qx.bom.request.Script",
     readyState: null,
 
     /**
-     * {Number} The status code.
+     * @type {Number} The status code.
      *
      * Note: The script transport cannot determine the HTTP status code.
      */
     status: null,
 
     /**
-     * {String} The status text.
+     * @type {String} The status text.
      *
      * The script transport does not receive response headers. For compatibility,
      * the statusText property is set to the status casted to string.
@@ -132,14 +132,14 @@ qx.Bootstrap.define("qx.bom.request.Script",
     statusText: null,
 
     /**
-     * {Number} Timeout limit in milliseconds.
+     * @type {Number} Timeout limit in milliseconds.
      *
      * 0 (default) means no timeout.
      */
     timeout: null,
 
     /**
-     * {Function} Function that is executed once the script was loaded.
+     * @type {Function} Function that is executed once the script was loaded.
      */
     __determineSuccess: null,
 
@@ -416,6 +416,16 @@ qx.Bootstrap.define("qx.bom.request.Script",
       }
     },
 
+
+    /**
+     * Check if the request has already beed disposed.
+     * @return {Boolean} <code>true</code>, if the request has been disposed.
+     */
+    isDisposed : function() {
+      return !!this.__disposed;
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       PROTECTED
@@ -532,47 +542,47 @@ qx.Bootstrap.define("qx.bom.request.Script",
     */
 
     /**
-     * {Element} Script element
+     * @type {Element} Script element
      */
     __scriptElement: null,
 
     /**
-     * {Element} Head element
+     * @type {Element} Head element
      */
     __headElement: null,
 
     /**
-     * {String} URL
+     * @type {String} URL
      */
     __url: "",
 
     /**
-     * {Function} Bound _onNativeLoad handler.
+     * @type {Function} Bound _onNativeLoad handler.
      */
     __onNativeLoadBound: null,
 
     /**
-     * {Function} Bound _onNativeError handler.
+     * @type {Function} Bound _onNativeError handler.
      */
     __onNativeErrorBound: null,
 
     /**
-     * {Function} Bound _onTimeout handler.
+     * @type {Function} Bound _onTimeout handler.
      */
     __onTimeoutBound: null,
 
     /**
-     * {Number} Timeout timer iD.
+     * @type {Number} Timeout timer iD.
      */
     __timeoutId: null,
 
     /**
-     * {Boolean} Whether request was aborted.
+     * @type {Boolean} Whether request was aborted.
      */
     __abort: null,
 
     /**
-     * {Boolean} Whether request was disposed.
+     * @type {Boolean} Whether request was disposed.
      */
     __disposed: null,
 

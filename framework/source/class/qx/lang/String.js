@@ -72,7 +72,7 @@ qx.Bootstrap.define("qx.lang.String",
     __unicodeFirstLetterInWordRegexp : null,
 
     /**
-     * {Map} Cache for often used string operations [camelCasing and hyphenation]
+     * @type {Map} Cache for often used string operations [camelCasing and hyphenation]
      * e.g. marginTop => margin-top
      */
     __stringsMap : {},

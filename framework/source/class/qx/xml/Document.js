@@ -39,10 +39,10 @@ qx.Bootstrap.define("qx.xml.Document",
 {
   statics :
   {
-    /** {String} ActiveX class name of DOMDocument (IE specific) */
+    /** @type {String} ActiveX class name of DOMDocument (IE specific) */
     DOMDOC : null,
 
-    /** {String} ActiveX class name of XMLHttpRequest (IE specific) */
+    /** @type {String} ActiveX class name of XMLHttpRequest (IE specific) */
     XMLHTTP : null,
 
 

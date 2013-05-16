@@ -38,7 +38,7 @@ qx.Bootstrap.define("qx.core.Aspect",
 {
   statics :
   {
-    /** {Array} Registry for all known aspect wishes */
+    /** @type {Array} Registry for all known aspect wishes */
     __registry : [],
 
 

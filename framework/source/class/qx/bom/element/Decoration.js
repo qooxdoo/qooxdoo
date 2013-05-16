@@ -35,14 +35,14 @@ qx.Class.define("qx.bom.element.Decoration",
 
   statics :
   {
-    /** {Boolean} Whether clipping hints should be logged */
+    /** @type {Boolean} Whether clipping hints should be logged */
     DEBUG : false,
 
-    /** {Map} Collect warnings for potential clipped images */
+    /** @type {Map} Collect warnings for potential clipped images */
     __warnings : {},
 
     /**
-     * {Boolean} Whether the alpha image loader is needed.
+     * @type {Boolean} Whether the alpha image loader is needed.
      * We enable this for all IE browser because of issues reported by Maria
      * Siebert and others in combination with the opacity filter applied
      * to e.g. disabled icons. Thanks Maria.
@@ -62,7 +62,7 @@ qx.Class.define("qx.bom.element.Decoration",
     __enableAlphaFix : (qx.core.Environment.get("engine.name") == "mshtml") && qx.core.Environment.get("engine.version") < 9,
 
 
-    /** {Map} List of repeat modes which supports the IE AlphaImageLoader */
+    /** @type {Map} List of repeat modes which supports the IE AlphaImageLoader */
     __alphaFixRepeats : qx.core.Environment.select("engine.name",
     {
       "mshtml" :
@@ -77,7 +77,7 @@ qx.Class.define("qx.bom.element.Decoration",
     }),
 
 
-    /** {Map} Mapping between background repeat and the tag to create */
+    /** @type {Map} Mapping between background repeat and the tag to create */
     __repeatToTagname :
     {
       "scale-x" : "img",

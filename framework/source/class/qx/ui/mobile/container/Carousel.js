@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
   {
     this.base(arguments);
     if(transitionDuration) {
-      this.__transitionDuration = transitionDuration;
+      this.setTransitionDuration(transitionDuration);
     }
 
     this.__touchStartPosition = [0,0];
@@ -131,6 +131,25 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       check : "Number",
       init : 200,
       apply : "_updateCarouselLayout"
+    },
+
+
+    /**
+     * The current visible page index.
+     */
+    currentIndex : {
+      check : "Number",
+      init : 0,
+      apply : "_applyCurrentIndex"
+    },
+
+
+    /**
+     * Duration of the carousel page transition.
+     */
+    transitionDuration : {
+      check : "Number",
+      init : 0.4
     }
   },
 
@@ -151,10 +170,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     __lastOffset : null,
     __boundsX : null,
     __pages : null,
-    __shownPageIndex : 0,
     __pageWidth : 0,
     __showTransition : null,
-    __transitionDuration : 0.4,
     __swipeVelocityLimit : 0.25,
     __isPageScrollTarget : null,
 
@@ -181,9 +198,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       this.__paginationLabels.push(paginationLabel);
       this.__pagination.add(paginationLabel);
 
-      this._updatePagination(0, this.__shownPageIndex);
       this._updateCarouselLayout();
-
     },
     
     
@@ -196,19 +211,20 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
         var targetPage = this.__pages[pageIndex];
         var paginationLabel = this.__paginationLabels[pageIndex];
 
-        this._updatePagination(0,this.__shownPageIndex);
-        
         this.__carouselScroller.remove(targetPage);
         this.__pagination.remove(paginationLabel);
         
-        paginationLabel.removeListener("tap",this._onPaginationLabelTap,{self: this, targetIndex: pageIndex-1});
+        paginationLabel.removeListener("tap", this._onPaginationLabelTap, {
+          self: this,
+          targetIndex: pageIndex - 1
+        });
         paginationLabel.dispose();
         
         this.__pages.splice(pageIndex,1);
         this.__paginationLabels.splice(pageIndex,1);
         
-        if(pageIndex == this.__shownPageIndex) {
-          this.scrollToPage(this.__shownPageIndex - 1);
+        if(pageIndex == this.getCurrentIndex()) {
+          this.previousPage();
         }
       }
     },
@@ -228,12 +244,12 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * Scrolls the carousel to next page.
      */
     nextPage : function() {
-      if(this.__shownPageIndex == this.__pages.length-1) {
-        if(this.isScrollLoop()) {
+      if (this.getCurrentIndex() == this.__pages.length - 1) {
+        if (this.isScrollLoop()) {
           this._doScrollLoop(0);
         }
       } else {
-        this.scrollToPage(this.__shownPageIndex + 1);
+        this.setCurrentIndex(this.getCurrentIndex() + 1);
       }
     },
 
@@ -242,13 +258,29 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * Scrolls the carousel to previous page.
      */
     previousPage : function() {
-      if(this.__shownPageIndex == 0) {
-        if(this.isScrollLoop()) {
+      if (this.getCurrentIndex() == 0) {
+        if (this.isScrollLoop()) {
           this._doScrollLoop(this.__pages.length - 1);
         }
       } else {
-        this.scrollToPage(this.__shownPageIndex - 1);
+        this.setCurrentIndex(this.getCurrentIndex() - 1);
       }
+    },
+
+
+    /**
+    * @deprecated {3.0} Please use property "currentIndex" instead.
+    */
+    scrollToPage : function(pageIndex) {
+      this._scrollToPage(pageIndex);
+    },
+
+
+    /**
+    * @deprecated {3.0} Please use method "getCurrentIndex()" instead.
+    */
+    getShownPageIndex : function() {
+      return this.getCurrentIndex();
     },
 
 
@@ -257,34 +289,22 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param pageIndex {Integer} the target page index, which should be visible
      * @param showTransition {Boolean ? true} flag if a transition should be shown or not
      */
-    scrollToPage : function(pageIndex, showTransition) {
-      if(pageIndex >= this.__pages.length || pageIndex < 0) {
+    _scrollToPage : function(pageIndex, showTransition) {
+      if (pageIndex >= this.__pages.length || pageIndex < 0) {
         return
       }
 
-      if(showTransition == null) {
+      if (showTransition == null) {
         this._setShowTransition(true);
       } else {
         this._setShowTransition(showTransition);
       }
-
-      this._updatePagination(this.__shownPageIndex,pageIndex);
-      this.__shownPageIndex = pageIndex;
 
       var snapPoint = -pageIndex * this.__pageWidth;
       this._updateScrollerPosition(snapPoint, 0);
 
       // Update lastOffset, because snapPoint has changed.
       this.__lastOffset[0] = snapPoint;
-    },
-
-
-    /**
-     * Returns the current visible page index.
-     * @return {Integer} page index of the {@link  qx.ui.mobile.container.Composite} which is shown.
-     */
-    getShownPageIndex : function() {
-      return this.__shownPageIndex;
     },
 
 
@@ -297,15 +317,15 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     _doScrollLoop : function(pageIndex) {
       this._setScrollersOpacity(0);
 
-      var delayForLayoutUpdate = this.__transitionDuration * 1000;
+      var delayForLayoutUpdate = this.getTransitionDuration() * 1000;
 
       qx.event.Timer.once(function() {
-        this.scrollToPage(pageIndex);
-      },this, delayForLayoutUpdate);
+        this.setCurrentIndex(pageIndex);
+      }, this, delayForLayoutUpdate);
 
       qx.event.Timer.once(function() {
         this._setScrollersOpacity(1);
-      },this, delayForLayoutUpdate*2);
+      }, this, delayForLayoutUpdate * 2);
     },
     
     
@@ -330,7 +350,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param opacity {Integer} the target value of the opacity.
      */
     _setScrollersOpacity : function(opacity) {
-      qx.bom.element.Style.set(this.__carouselScroller.getContainerElement(),"opacity",opacity);
+      qx.bom.element.Style.set(this.__carouselScroller.getContainerElement(), "opacity", opacity);
     },
 
 
@@ -347,11 +367,18 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     },
 
 
+    // property apply
+    _applyCurrentIndex : function(value, old) {
+      this._updatePagination(old, value);
+      this._scrollToPage(value);
+    },
+
+
     /**
      * Handles a tap on paginationLabel.
      */
     _onPaginationLabelTap : function() {
-      this.self.scrollToPage(this.targetIndex);
+      this.self.setCurrentIndex(this.targetIndex);
     },
 
 
@@ -360,26 +387,26 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      */
     _updateCarouselLayout : function() {
       var carouselContainerElement = this.getContainerElement();
-      if(!carouselContainerElement) {
+      if (!carouselContainerElement) {
         return;
       }
-      
+
       var carouselWidth = qx.bom.element.Dimension.getWidth(this.getContainerElement());
 
-      var carouselScrollerWidth = this.__pages.length*carouselWidth;
+      var carouselScrollerWidth = this.__pages.length * carouselWidth;
       var carouselScrollerElement = this.__carouselScroller.getContentElement();
 
-      qx.bom.element.Style.set(carouselScrollerElement,"width",carouselScrollerWidth+"px");
+      qx.bom.element.Style.set(carouselScrollerElement, "width", carouselScrollerWidth + "px");
 
       this.__pageWidth = carouselWidth;
 
-      for(var i = 0; i < this.__pages.length; i++) {
+      for (var i = 0; i < this.__pages.length; i++) {
         var pageContentElement = this.__pages[i].getContentElement();
-        qx.bom.element.Style.set(pageContentElement,"width",carouselWidth+"px");
-        qx.bom.element.Style.set(pageContentElement,"height",this.getHeight()+"px");
+        qx.bom.element.Style.set(pageContentElement, "width", carouselWidth + "px");
+        qx.bom.element.Style.set(pageContentElement, "height", this.getHeight() + "px");
       }
 
-      this.scrollToPage(this.__shownPageIndex, false);
+      this._updatePagination(this.getCurrentIndex(), this.getCurrentIndex());
     },
 
 
@@ -453,20 +480,10 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
       var velocityAbs = Math.abs(evt.getVelocity());
       if(velocityAbs > this.__swipeVelocityLimit) {
-        var direction = evt.getDirection();
-
-        if(direction == "left") {
-          if(this.__shownPageIndex < this.__pages.length - 1) {
-            this.scrollToPage(this.__shownPageIndex + 1);
-          } else if(this.isScrollLoop()) {
-            this._doScrollLoop(0);
-          }
-        } else if(direction == "right") {
-          if(this.__shownPageIndex > 0) {
-            this.scrollToPage(this.__shownPageIndex - 1);
-          } else if(this.isScrollLoop()) {
-            this._doScrollLoop(this.__pages.length - 1);
-          }
+        if(evt.getDirection() == "left") {
+          this.nextPage();
+        } else if(evt.getDirection() == "right") {
+          this.previousPage();
         }
       } else {
         this._snapCarouselPage();
@@ -500,10 +517,10 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
       var targetValue = "0s";
       if(showTransition == true) {
-        targetValue = this.__transitionDuration+"s";
+        targetValue = this.getTransitionDuration()+"s";
       }
 
-      qx.bom.element.Style.set(this.__carouselScroller.getContentElement(),"transitionDuration",targetValue);
+      qx.bom.element.Style.set(this.__carouselScroller.getContentElement(), "transitionDuration", targetValue);
 
       this.__showTransition = showTransition;
     },
@@ -530,27 +547,24 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      */
     _snapCarouselPage : function() {
       var leastDistance = 10000;
-      var nearestSnapPoint = 0;
+      var nearestPageIndex = 0;
 
       // Determine nearest snapPoint.
-      for(var i =0;i < this.__pages.length; i++) {
+      for (var i = 0; i < this.__pages.length; i++) {
         var snapPoint = -i * this.__pageWidth;
         var distance = this.__onMoveOffset[0] - snapPoint;
-        if(Math.abs(distance) < leastDistance) {
+        if (Math.abs(distance) < leastDistance) {
           leastDistance = Math.abs(distance);
-
-          nearestSnapPoint = snapPoint;
-
-          this._updatePagination(this.__shownPageIndex, i);
-
-          this.__shownPageIndex = i;
+          nearestPageIndex = i;
         }
       }
 
-      this._updateScrollerPosition(nearestSnapPoint, this.__onMoveOffset[1]);
-
-      this.__lastOffset[0] = nearestSnapPoint;
-      this.__lastOffset[1] = this.__onMoveOffset[1];
+      var hasChanged = (this.getCurrentIndex() != nearestPageIndex);
+      if(hasChanged) {
+        this.setCurrentIndex(nearestPageIndex);
+      } else {
+        this._scrollToPage(nearestPageIndex);
+      }
     },
 
 
@@ -561,7 +575,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param oldActiveIndex {Integer} Index of paginationLabel which should loose active state
      * @param newActiveIndex {Integer} Index of paginationLabel which should have active state
      */
-    _updatePagination : function(oldActiveIndex,newActiveIndex) {
+    _updatePagination : function(oldActiveIndex, newActiveIndex) {
       var oldActiveLabel = this.__paginationLabels[oldActiveIndex];
       var newActiveLabel = this.__paginationLabels[newActiveIndex];
       

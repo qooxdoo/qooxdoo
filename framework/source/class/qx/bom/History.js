@@ -144,7 +144,7 @@ qx.Class.define("qx.bom.History",
   statics :
   {
     /**
-     * {Boolean} Whether the browser supports the 'hashchange' event natively.
+     * @type {Boolean} Whether the browser supports the 'hashchange' event natively.
      */
     SUPPORTS_HASH_CHANGE_EVENT : qx.core.Environment.get("event.hashchange"),
 

@@ -620,10 +620,11 @@ def handleProperties(item, classNode):
         if classNode.get("type", False) == "mixin":
             node.set("isMixin", True)
 
-        # If the description has a type specified then take this type
-        # (and not the one extracted from the paramsMap)
         commentAttributes = Comment.parseNode(keyvalue)[-1]
-        addTypeInfo(node, Comment.getAttrib(commentAttributes, "description"), item)
+
+        for attrib in commentAttributes:
+            addTypeInfo(node, attrib, item)
+
         handleDeprecated(node, commentAttributes)
         handleAccess(node, commentAttributes)
 
@@ -752,18 +753,8 @@ def handleConstantDefinition(item, classNode):
             node.set("type", "Array")
 
     commentAttributes = Comment.parseNode(item)[-1]
-    description = Comment.getAttrib(commentAttributes, "description")
-    typeAttr = Comment.getAttrib(commentAttributes, "type")
-    if not typeAttr:
-        typeAttr = {}
-
-    if description and "text" in description:
-        if "text" in typeAttr:
-            typeAttr["text"] = typeAttr["text"] + " " + description["text"]
-        else:
-            typeAttr["text"] = description["text"]
-
-    addTypeInfo(node, typeAttr, item)
+    for attr in commentAttributes:
+        addTypeInfo(node, attr, item)
 
     handleDeprecated(node, commentAttributes)
     handleAccess(node, commentAttributes)
@@ -1048,10 +1039,16 @@ def addTypeInfo(node, commentAttrib=None, item=None):
 
     # add description
     if "text" in commentAttrib:
-        node.addChild(tree.Node("desc").set("text", commentAttrib["text"]))
+        descNode = treeutil.findChild(node, "desc")
+        if descNode:
+            # add any additional text attributes (e.g. type description) to the
+            # existing desc node
+            descNode.set("text", descNode.get("text") + commentAttrib["text"])
+        else:
+            node.addChild(tree.Node("desc").set("text", commentAttrib["text"]))
 
     # add types
-    if "type" in commentAttrib and commentAttrib["type"]:
+    if "type" in commentAttrib and commentAttrib["type"] and not commentAttrib["category"] == "throws":
         typesNode = tree.Node("types")
         node.addChild(typesNode)
 

@@ -24,7 +24,7 @@ qx.Mixin.define("qx.core.MLogging",
 {
   members :
   {
-    /** {Class} Pointer to the regular logger class */
+    /** @type {Class} Pointer to the regular logger class */
     __Logger : qx.log.Logger,
 
 

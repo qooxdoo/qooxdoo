@@ -296,15 +296,15 @@ qx.Bootstrap.define("qx.Theme",
     },
 
 
-    /** {Map} Internal theme registry */
+    /** @type {Map} Internal theme registry */
     $$registry : {},
 
 
-    /** {Array} Keys which support inheritance */
+    /** @type {Array} Keys which support inheritance */
     __inheritableKeys : [ "colors", "borders", "decorations", "fonts", "icons", "widgets", "appearances", "meta" ],
 
 
-    /** {Map} allowed keys in theme definition */
+    /** @type {Map} allowed keys in theme definition */
     __allowedKeys : qx.core.Environment.select("qx.debug",
     {
       "true":
@@ -328,7 +328,7 @@ qx.Bootstrap.define("qx.Theme",
       "default" : null
     }),
 
-    /** {Map} allowed keys inside a meta theme block */
+    /** @type {Map} allowed keys inside a meta theme block */
     __metaKeys :qx.core.Environment.select("qx.debug",
     {
       "true":

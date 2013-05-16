@@ -37,7 +37,7 @@ qx.Bootstrap.define("qx.util.ResponseParser",
   statics:
   {
     /**
-     * {Map} Map of parser functions. Parsers defined here can be
+     * @type {Map} Map of parser functions. Parsers defined here can be
      * referenced symbolically, e.g. with {@link #setParser}.
      *
      * Known parsers are: <code>"json"</code> and <code>"xml"</code>.

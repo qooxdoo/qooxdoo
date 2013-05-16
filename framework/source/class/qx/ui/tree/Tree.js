@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.tree.Tree",
   {
     __content : null,
 
-    /** {Class} Pointer to the selection manager to use */
+    /** @type {Class} Pointer to the selection manager to use */
     SELECTION_MANAGER : qx.ui.tree.selection.SelectionManager,
 
 

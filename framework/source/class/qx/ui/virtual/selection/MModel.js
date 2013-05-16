@@ -122,15 +122,15 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
 
   members :
   {
-    /** {qx.ui.virtual.selection.Row} selection manager */
+    /** @type {qx.ui.virtual.selection.Row} selection manager */
     _manager : null,
 
 
-    /** {Boolean} flag to ignore the selection change from {@link #selection} */
+    /** @type {Boolean} flag to ignore the selection change from {@link #selection} */
     __ignoreChangeSelection : false,
 
 
-    /** {Boolean} flag to ignore the selection change from <code>_manager</code> */
+    /** @type {Boolean} flag to ignore the selection change from <code>_manager</code> */
     __ignoreManagerChangeSelection : false,
 
     __defaultSelection : null,

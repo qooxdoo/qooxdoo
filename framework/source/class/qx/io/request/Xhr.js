@@ -195,7 +195,7 @@ qx.Class.define("qx.io.request.Xhr",
   {
 
     /**
-     * Holds the response parser.
+     * @type {Function} Parser.
      */
     _parser: null,
 

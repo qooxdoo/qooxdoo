@@ -85,7 +85,7 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
     },
 
 
-    /** {Map} Contains all overflow values where scrollbars are invisible */
+    /** @type {Map} Contains all overflow values where scrollbars are invisible */
     __hiddenScrollbars :
     {
       visible : true,

@@ -71,21 +71,21 @@ qx.Class.define("qx.test.mobile.container.Carousel",
 
       this.getRoot().add(carousel);
 
-      this.assertEquals(0,carousel.getShownPageIndex());
+      this.assertEquals(0,carousel.getCurrentIndex());
 
       carousel.nextPage();
-      this.assertEquals(1, carousel.getShownPageIndex());
+      this.assertEquals(1, carousel.getCurrentIndex());
 
       // OVERFLOW
       carousel.nextPage();
-      this.assertEquals(1, carousel.getShownPageIndex());
+      this.assertEquals(1, carousel.getCurrentIndex());
 
       carousel.previousPage();
-      this.assertEquals(0,carousel.getShownPageIndex());
+      this.assertEquals(0,carousel.getCurrentIndex());
 
       // OVERFLOW
       carousel.previousPage();
-      this.assertEquals(0,carousel.getShownPageIndex());
+      this.assertEquals(0,carousel.getCurrentIndex());
 
       carousel.destroy();
       carouselPage1.destroy();
@@ -104,10 +104,10 @@ qx.Class.define("qx.test.mobile.container.Carousel",
 
       this.getRoot().add(carousel);
 
-      this.assertEquals(0,carousel.getShownPageIndex());
+      this.assertEquals(0,carousel.getCurrentIndex());
 
-      carousel.scrollToPage(1);
-      this.assertEquals(1, carousel.getShownPageIndex());
+      carousel.setCurrentIndex(1);
+      this.assertEquals(1, carousel.getCurrentIndex());
       
       window.setTimeout(function() {
           carousel.destroy();

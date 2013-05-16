@@ -105,7 +105,7 @@ qx.Mixin.define("qx.ui.core.MContentPadding",
   members :
   {
     /**
-     * {Map} Maps property names of content padding to the setter of the padding
+     * @type {Map} Maps property names of content padding to the setter of the padding
      *
      * @lint ignoreReferenceField(__contentPaddingSetter)
      */
@@ -119,7 +119,7 @@ qx.Mixin.define("qx.ui.core.MContentPadding",
 
 
     /**
-     * {Map} Maps property names of content padding to the themed setter of the padding
+     * @type {Map} Maps property names of content padding to the themed setter of the padding
      *
      * @lint ignoreReferenceField(__contentPaddingThemedSetter)
      */
@@ -133,7 +133,7 @@ qx.Mixin.define("qx.ui.core.MContentPadding",
 
 
     /**
-     * {Map} Maps property names of content padding to the resetter of the padding
+     * @type {Map} Maps property names of content padding to the resetter of the padding
      *
      * @lint ignoreReferenceField(__contentPaddingResetter)
      */

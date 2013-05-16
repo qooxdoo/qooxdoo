@@ -97,17 +97,17 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
   members :
   {
-    /** {String} The search value to {@link #__preselect} an item. */
+    /** @type {String} The search value to {@link #__preselect} an item. */
     __searchValue : "",
 
 
     /**
-     * {qx.event.Timer} The time which triggers the search for pre-selection.
+     * @type {qx.event.Timer} The time which triggers the search for pre-selection.
      */
     __searchTimer : null,
 
 
-    /** {Array} Contains the id from all bindings. */
+    /** @type {Array} Contains the id from all bindings. */
     __bindings : null,
 
 

@@ -900,10 +900,10 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    /** {Map} Contains all pooled decorators for reuse */
+    /** @type {Map} Contains all pooled decorators for reuse */
     __decoratorPool : new qx.ui.core.DecoratorFactory(),
 
-    /** {Map} Contains all pooled shadows for reuse */
+    /** @type {Map} Contains all pooled shadows for reuse */
     __shadowPool : new qx.ui.core.DecoratorFactory()
   },
 
@@ -936,7 +936,7 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /**
-     * {qx.ui.layout.Abstract} The connected layout manager
+     * @type {qx.ui.layout.Abstract} The connected layout manager
      */
     __layoutManager : null,
 
@@ -1003,7 +1003,7 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    /** {Boolean} Whether insets have changed and must be updated */
+    /** @type {Boolean} Whether insets have changed and must be updated */
     _updateInsets : null,
 
 
@@ -1812,7 +1812,7 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /** {qx.ui.core.LayoutItem[]} List of all child widgets */
+    /** @type {qx.ui.core.LayoutItem[]} List of all child widgets */
     __widgetChildren : null,
 
 
@@ -1911,7 +1911,7 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * {Array} Placeholder for children list in empty widgets.
+     * @type {Array} Placeholder for children list in empty widgets.
      *     Mainly to keep instance number low.
      *
      * @lint ignoreReferenceField(__emptyChildren)
@@ -2716,15 +2716,15 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /** {Map} The current widget states */
+    /** @type {Map} The current widget states */
     __states : null,
 
 
-    /** {Boolean} Whether the widget has state changes which are not yet queued */
+    /** @type {Boolean} Whether the widget has state changes which are not yet queued */
     $$stateChanges : null,
 
 
-    /** {Map} Can be overridden to forward states to the child controls. */
+    /** @type {Map} Can be overridden to forward states to the child controls. */
     _forwardStates : null,
 
 
@@ -2885,11 +2885,11 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /** {String} The currently compiled selector to lookup the matching appearance */
+    /** @type {String} The currently compiled selector to lookup the matching appearance */
     __appearanceSelector : null,
 
 
-    /** {Boolean} Whether the selectors needs to be recomputed before updating appearance */
+    /** @type {Boolean} Whether the selectors needs to be recomputed before updating appearance */
     __updateSelector : null,
 
 
@@ -3719,7 +3719,7 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    /** {Map} Map of instantiated child controls */
+    /** @type {Map} Map of instantiated child controls */
     __childControls : null,
 
 

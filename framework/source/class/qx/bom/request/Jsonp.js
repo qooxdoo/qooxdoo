@@ -63,42 +63,42 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
   members :
   {
     /**
-     * {Object} Parsed JSON response.
+     * @type {Object} Parsed JSON response.
      */
     responseJson: null,
 
     /**
-     * {Number} Identifier of this instance.
+     * @type {Number} Identifier of this instance.
      */
     __id: null,
 
     /**
-     * {String} Callback parameter.
+     * @type {String} Callback parameter.
      */
     __callbackParam: null,
 
     /**
-     * {String} Callback name.
+     * @type {String} Callback name.
      */
     __callbackName: null,
 
     /**
-     * {Boolean} Whether callback was called.
+     * @type {Boolean} Whether callback was called.
      */
     __callbackCalled: null,
 
     /**
-     * {Boolean} Whether a custom callback was created automatically.
+     * @type {Boolean} Whether a custom callback was created automatically.
      */
     __customCallbackCreated: null,
 
     /**
-     * {String} The generated URL for the current request
+     * @type {String} The generated URL for the current request
      */
     __generatedUrl: null,
 
     /**
-     * {Boolean} Whether request was disposed.
+     * @type {Boolean} Whether request was disposed.
      */
     __disposed: null,
 

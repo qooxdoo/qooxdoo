@@ -48,7 +48,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
   */
   statics :
   {
-    /** {Boolean} Result of {@link #hasPhp}. Stored as class member to avoid
+    /** @type {Boolean} Result of {@link #hasPhp}. Stored as class member to avoid
      * repeating the check. */
     __hasPhp : null
   },

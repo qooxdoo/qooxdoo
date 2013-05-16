@@ -128,17 +128,17 @@ qx.Class.define("qx.ui.control.DateChooser",
   statics :
   {
     /**
-     * {string} The format for the date year label at the top center.
+     * @type {string} The format for the date year label at the top center.
      */
     MONTH_YEAR_FORMAT : null,
 
     /**
-     * {string} The format for the weekday labels (the headers of the date table).
+     * @type {string} The format for the weekday labels (the headers of the date table).
      */
     WEEKDAY_FORMAT : "EE",
 
     /**
-     * {string} The format for the week numbers (the labels of the left column).
+     * @type {string} The format for the week numbers (the labels of the left column).
      */
     WEEK_FORMAT : "ww"
   },

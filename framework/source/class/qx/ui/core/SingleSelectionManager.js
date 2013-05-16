@@ -102,10 +102,10 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
 
   members :
   {
-    /** {qx.ui.core.Widget} The selected widget. */
+    /** @type {qx.ui.core.Widget} The selected widget. */
     __selected : null,
 
-    /** {qx.ui.core.ISingleSelectionProvider} The provider for selection management */
+    /** @type {qx.ui.core.ISingleSelectionProvider} The provider for selection management */
     __selectionProvider : null,
 
 
