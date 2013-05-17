@@ -57,6 +57,9 @@
  *
  * // Additionally sets request data
  * // In a RESTful environment this adds a new resource to the resource collection 'photos'
+ * photo.configureRequest(function(req) {
+ *  req.setRequestHeader("Content-Type", "application/json");
+ * });
  * photo.post(null, {title: "Monkey"});
  * </pre>
  *
