@@ -43,7 +43,7 @@ qx.Class.define("qx.test.bom.History", {
 
     testInstance : function()
     {
-      if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml" && qx.core.Environment.get("browser.version") >= 9) {
+      if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml" && qx.core.Environment.get("browser.documentmode") >= 9) {
         this.assertInstance(this.__history, qx.bom.HashHistory);
       } else if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml") {
         this.assertInstance(this.__history, qx.bom.IframeHistory);
