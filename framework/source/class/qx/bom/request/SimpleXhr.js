@@ -169,13 +169,12 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     },
 
     /**
-     * Gets the request data (optionally serialized).
+     * Gets the request data.
      *
-     * @param asSerialized {Boolean} Whether the request data should be serialized.
-     * @return {String} The serialized data.
+     * @return {String} The request data.
      */
-    getRequestData: function(asSerialized) {
-      return (asSerialized) ? this._serializeData(this.__requestData) : this.__requestData;
+    getRequestData: function() {
+      return this.__requestData;
     },
 
     /**
@@ -269,9 +268,14 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * * optional request data
      */
     send: function() {
+      var hasRequestData = (this.getRequestData() !== null),
+          isBodyForMethodAllowed = qx.util.Request.methodAllowsRequestBody(this.getMethod()),
+          curContentType = this.getRequestHeader("Content-Type"),
+          serializedData = this._serializeData(this.getRequestData(), curContentType);
+
       // add GET params if needed
-      if (this.getMethod() === "GET" && this.getRequestData() !== null) {
-        this.setUrl(qx.util.Uri.appendParamsToUrl(this.getUrl(), this.getRequestData(true)));
+      if (this.getMethod() === "GET" && hasRequestData) {
+        this.setUrl(qx.util.Uri.appendParamsToUrl(this.getUrl(), serializedData));
       }
 
       // initialize request
@@ -283,10 +287,17 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
       }
 
       // send
-      if (this.getMethod() === "GET") {
+      if (!isBodyForMethodAllowed) {
+        // GET & HEAD
         this._transport.send();
       } else {
-        this._transport.send(this.getRequestData(true));
+        // POST & PUT ...
+        if (typeof curContentType === "undefined") {
+          // by default, set content-type urlencoded for requests with body
+          this._transport.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        }
+
+        this._transport.send(serializedData);
       }
     },
 
@@ -371,13 +382,16 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * Serializes data.
      *
      * @param data {String|Map} Data to serialize.
-     * @return {String|undefined} Serialized data.
+     * @param contentType {String?} Content-Type which influences the serialisation.
+     * @return {String|null} Serialized data.
      */
-    _serializeData: function(data) {
-      var isPost = this.getMethod() === "POST";
+    _serializeData: function(data, contentType) {
+      var isPost = this.getMethod() === "POST",
+          isJson = (/application\/.*\+?json/).test(contentType),
+          serializedData = "";
 
       if (!data) {
-        return;
+        return null;
       }
 
       if (qx.lang.Type.isString(data)) {
@@ -385,10 +399,11 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
       }
 
       if (qx.lang.Type.isObject(data)) {
-        return qx.util.Uri.toParameter(data, isPost);
+        serializedData = (isJson) ? qx.lang.Json.stringify(data)
+                                  : qx.util.Uri.toParameter(data, isPost);
+        return serializedData;
       }
     },
-
 
     /*
     ---------------------------------------------------------------------------

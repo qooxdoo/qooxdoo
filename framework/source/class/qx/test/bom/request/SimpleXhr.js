@@ -79,7 +79,6 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
       var data = {"abc": "def", "uvw": "xyz"};
 
       this.assertEquals(data, this.req.setRequestData(data).getRequestData());
-      this.assertEquals("abc=def&uvw=xyz", this.req.setRequestData(data).getRequestData(true));
     },
 
     //
@@ -114,6 +113,21 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
 
       acceptedParser = req.setParser(customParser);
       this.assertEquals(customParser, acceptedParser);
+    },
+
+    //
+    // _serializeData()
+    //
+
+    "test: serialize data": function() {
+      var data = {"abc": "def", "uvw": "xyz"},
+          contentType = "application/json";
+
+      this.assertNull(this.req._serializeData(null));
+      this.assertEquals("leaveMeIntact", this.req._serializeData("leaveMeIntact"));
+      this.assertEquals("abc=def&uvw=xyz", this.req._serializeData(data));
+      this.assertEquals("abc=def&uvw=xyz", this.req._serializeData(data, "arbitrary/contentType"));
+      this.assertEquals('{"abc":"def","uvw":"xyz"}', this.req._serializeData(data, contentType));
     },
 
     //
@@ -163,7 +177,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
       this.assertCalledWith(stubbedTransport.send);
     },
 
-    "test: send() POST w/ data": function() {
+    "test: send() POST w/ data (default content-type)": function() {
       var req = this.req,
           method = "POST",
           url = "http://example.org",
@@ -173,11 +187,30 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
       req.setUrl(url);
       req.setMethod(method);
       req.setRequestData(obj);
-      stubbedTransport = this.stubTransportMethods(["open", "send"]);
+      stubbedTransport = this.stubTransportMethods(["open", "setRequestHeader", "send"]);
       req.send();
 
       this.assertCalledWith(stubbedTransport.open, method, url, true);
+      this.assertCalledWith(stubbedTransport.setRequestHeader, "Content-Type", "application/x-www-form-urlencoded");
       this.assertCalledWith(stubbedTransport.send, "a=b");
+    },
+
+    "test: send() POST w/ data (application/json)": function() {
+      var req = this.req,
+          method = "POST",
+          url = "http://example.org",
+          obj = {a:"b"},
+          stubbedTransport = {};
+
+      req.setUrl(url);
+      req.setMethod(method);
+      req.setRequestData(obj);
+      req.setRequestHeader("Content-Type", "application/json");
+      stubbedTransport = this.stubTransportMethods(["open", "setRequestHeader", "send"]);
+      req.send();
+
+      this.assertCalledWith(stubbedTransport.open, method, url, true);
+      this.assertCalledWith(stubbedTransport.send, qx.lang.Json.stringify(obj));
     },
 
     //
