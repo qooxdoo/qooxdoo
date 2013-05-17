@@ -6,7 +6,9 @@
   -webkit-backface-visibility: hidden;
   background-image: url(../icon/common/spinner.png);
   margin: 0 auto; 
-  vertical-align: middle;  
+  display:inline !important;
+  vertical-align: middle;
+  @include transform-origin(50% 50%);
 }
 
 .spinnerContainer {

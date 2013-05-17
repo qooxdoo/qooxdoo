@@ -10,6 +10,7 @@
   width:100%;
   position:absolute;
   padding-bottom:10px; // TODO: Experimental
+  @include transform(scale(1));
 }
 
 .scroll-container {

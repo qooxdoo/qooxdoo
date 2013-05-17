@@ -18,8 +18,6 @@
 ************************************************************************ */
 /* ************************************************************************
 
-#asset(qx/icon/Tango/22/apps/internet-mail.png)
-
 ************************************************************************ */
 
 /**
@@ -51,7 +49,7 @@ qx.Class.define("mobileshowcase.page.List",
       var list = new qx.ui.mobile.list.List({
         configureItem : function(item, data, row)
         {
-          item.setImage("qx/icon/Tango/22/apps/internet-mail.png");
+          item.setImage("mobileshowcase/icon/internet-mail.png");
           item.setTitle(row<4 ? ("Selectable " + data.title) : data.title);
           item.setSubtitle(data.subtitle);
           item.setSelectable(row<4);

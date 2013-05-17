@@ -71,17 +71,32 @@ li:last-child, li:last-child a {
 ul li {
   color: #666;
   border-top: 1px solid $button-border-color;
+  position:relative;
 }
 
-ul li.arrow {
-  background: url("../icon/common/arrow.png") no-repeat right center;
+$list-arrow-size: 3px;
+$list-arrow-color: gray;
+$list-active-arrow-color: white;
+
+ul li.arrow:after {
+  content:'';
+  @include transform(rotate(45deg));
+  @include transform-origin(50% 50%);
+
+  border-top: $list-arrow-size solid $list-arrow-color;
+  border-right: $list-arrow-size solid $list-arrow-color;
+  
+  width: $list-arrow-size*2;
+  height: $list-arrow-size*2;
+  position: absolute;
+  right:15px;
+  
+  top: 50%;
+  margin-top:-1.5*($list-arrow-size);
 }
 
-ul li.active.arrow,  ul li.selected.arrow {
-  background: url("../icon/common/arrow_pressed.png") no-repeat right center, -webkit-gradient(linear, left top, left bottom, from(#4583fd), to(#194ae4));
-  background: url("../icon/common/arrow_pressed.png") no-repeat right center, -webkit-linear-gradient(top, #4583fd, #194ae4);
-  background: url("../icon/common/arrow_pressed.png") no-repeat right center, -moz-linear-gradient(top, #4583fd, #194ae4);
-  background: url("../icon/common/arrow_pressed.png") no-repeat right center, linear-gradient(to bottom, #4583fd, #194ae4);
+ul li.arrow.active:after {
+  border-color: $list-active-arrow-color;
 }
 
 ul li.active,  ul li.selected {
