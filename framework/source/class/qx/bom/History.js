@@ -158,7 +158,7 @@ qx.Class.define("qx.bom.History",
     {
       if (!this.$$instance)
       {
-        if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml" && qx.core.Environment.get("browser.version") >= 9) {
+        if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml" && qx.core.Environment.get("browser.documentmode") >= 9) {
           this.$$instance = new qx.bom.HashHistory();
         } else if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml") {
           this.$$instance = new qx.bom.IframeHistory();
