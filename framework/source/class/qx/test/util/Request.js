@@ -55,6 +55,19 @@ qx.Class.define("qx.test.util.Request",
       this.assertFalse(isSuccessful(500));
     },
 
+    "test: isMethod() returns true if HTTP method is known": function() {
+      var isMethod = qx.util.Request.isMethod;
+
+      this.assertTrue(isMethod("GET"));
+      this.assertTrue(isMethod("POST"));
+
+      this.assertFalse(isMethod(1));
+      this.assertFalse(isMethod(null));
+      this.assertFalse(isMethod(undefined));
+      this.assertFalse(isMethod([]));
+      this.assertFalse(isMethod({}));
+    },
+
     "test: methodAllowsRequestBody() returns false when GET": function() {
       this.assertFalse(qx.util.Request.methodAllowsRequestBody("GET"));
     },

@@ -136,8 +136,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @return {qx.bom.request.SimpleXhr} Self for chaining.
      */
     setMethod: function(method) {
-      var knownMethods = ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS", "TRACE", "CONNECT", "PATCH"];
-      if (qx.lang.Type.isString(method) && knownMethods.indexOf(method) !== -1) {
+      if (qx.util.Request.isMethod(method)) {
         this.__method = method;
       }
       return this;

@@ -14,11 +14,12 @@
 
    Authors:
      * Tristan Koch (tristankoch)
+     * Richard Sternagel (rsternagel)
 
 ************************************************************************ */
 
 /**
- * Static helpers for handling requests.
+ * Static helpers for handling HTTP requests.
  */
 qx.Bootstrap.define("qx.util.Request",
 {
@@ -63,6 +64,17 @@ qx.Bootstrap.define("qx.util.Request",
      */
     isSuccessful: function(status) {
       return (status >= 200 && status < 300 || status === 304);
+    },
+
+    /**
+     * Determine if given HTTP method is valid.
+     *
+     * @param method {String} HTTP method.
+     * @return {Boolean} Whether method is a valid HTTP method.
+     */
+    isMethod: function(method) {
+      var knownMethods = ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS", "TRACE", "CONNECT", "PATCH"];
+      return (knownMethods.indexOf(method) !== -1) ? true : false;
     },
 
     /**
