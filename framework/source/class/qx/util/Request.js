@@ -86,7 +86,7 @@ qx.Bootstrap.define("qx.util.Request",
      * @return {Boolean} Whether request may contain body.
      */
     methodAllowsRequestBody: function(method) {
-      return !((/^(GET)|(HEAD)$/).test(method));
+      return !((/^GET|HEAD$/).test(method));
     }
   }
 });
