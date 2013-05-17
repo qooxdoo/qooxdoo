@@ -2623,6 +2623,12 @@ qx.Class.define("qx.ui.core.Widget",
       this.getContainerElement().setStyle(
         "cursor", value, qx.core.Environment.get("engine.name") == "opera"
       );
+
+      if (value) {
+        this.getContentElement().setStyle(
+          "cursor", "inherit", qx.core.Environment.get("engine.name") == "opera"
+        );
+      }
     },
 
 
