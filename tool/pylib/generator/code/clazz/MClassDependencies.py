@@ -219,20 +219,6 @@ class MClassDependencies(object):
 
 
 
-    def _getCombinedDeps(self, node):
-        depsList = []
-        lexical_globals  =  self.dependencies_from_ast(node)
-        lexical_globals +=  self.dependencies_from_envcalls(node)
-        filtered_globals = gs.globals_filter_by_hints(lexical_globals)
-        filtered_globals = gs.globals_filter_by_builtins(filtered_globals)
-        filtered_globals = gs.globals_filter_by_libclasses(filtered_globals)
-        filtered_globals = gs.filter_self_references(filtered_globals)
-        filtered_globals = gs.filter_multple_occurrences(filtered_globals)
-        depsList = self.depsItems_from_nodes(filtered_globals)
-        depsList = self.add_config_dependencies(depsList)
-        return depsList
-
-
     def getCombinedDeps(self, classesAll_, variants, config, stripSelfReferences=True, projectClassNames=True, force=False, tree=None):
 
         # init lists
