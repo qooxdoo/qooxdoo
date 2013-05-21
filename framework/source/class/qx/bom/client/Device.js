@@ -44,6 +44,15 @@ qx.Bootstrap.define("qx.bom.client.Device",
     },
 
 
+    /** Maps device pixel ratios to media queries used to detect them */
+    __pixelRatioResolutions: {
+      "1" : "(-webkit-min-device-pixel-ratio: 1), (min-resolution: 96dpi)",
+      "1.3" : "(-webkit-min-device-pixel-ratio: 1.3), (min-resolution: 124.8dpi)",
+      "1.5" : "(-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi)",
+      "2" : "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)"
+    },
+
+
     /**
      * Returns the name of the current device if detectable. It falls back to
      * <code>pc</code> if the detection for other devices fails.
@@ -112,8 +121,37 @@ qx.Bootstrap.define("qx.bom.client.Device",
     detectTabletDevice : function(userAgentString){
        var isIE10Tablet = (/MSIE 10/i.test(userAgentString)) && (/ARM/i.test(userAgentString)) && !(/windows phone/i.test(userAgentString));
        var isCommonTablet = (!(/Fennec|HTC.Magic|Nexus|android.+mobile|Tablet PC/i.test(userAgentString)) && (/Android|ipad|tablet|playbook|silk|kindle|psp/i.test(userAgentString)));
-      
+
        return  isIE10Tablet || isCommonTablet;
+    },
+
+
+    /**
+     * Detects the device's pixel ratio. If window.devicePixelRatio is not
+     * supported, media queries will be used to detect the following pixel ratios:
+     *
+     * 1 (96dpi)
+     * 1.3 (124.8dpi)
+     * 1.5 (144dpi)
+     * 2 (192dpi)
+     *
+     * @return {Number} The device pixel ratio
+     */
+    getDevicePixelRatio : function() {
+      if (typeof window.devicePixelRatio !== "undefined") {
+        return window.devicePixelRatio;
+      }
+
+      var ratios = qx.bom.client.Device.__pixelRatioResolutions;
+      var detectedRatio = 1;
+      for (var ratio in ratios) {
+        var mql = new qx.bom.MediaQueryListener(ratios[ratio]);
+        ratio = parseFloat(ratio);
+        if (mql.matches && ratio > detectedRatio) {
+          detectedRatio = ratio;
+        }
+      }
+      return detectedRatio;
     }
 
   },
@@ -122,5 +160,6 @@ qx.Bootstrap.define("qx.bom.client.Device",
   defer : function(statics) {
       qx.core.Environment.add("device.name", statics.getName);
       qx.core.Environment.add("device.type", statics.getType);
+      qx.core.Environment.add("device.pixelRatio", statics.getDevicePixelRatio);
   }
 });

@@ -61,7 +61,6 @@ qx.Class.define("qx.ui.mobile.basic.Image",
 
 
 
-
   /*
   *****************************************************************************
      EVENTS
@@ -130,8 +129,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
         var resourceManager = qx.util.ResourceManager.getInstance();
 
         // If a high resolution display is available
-        var pixelRatio = !! window.devicePixelRatio ? window.devicePixelRatio : 1;
-        if (pixelRatio > 1) {
+        if (qx.core.Environment.get("device.pixelRatio") > 1) {
           // Search for high resolution image source
           var highResolutionSource = this._findHighResolutionSource(source);
 
@@ -157,10 +155,10 @@ qx.Class.define("qx.ui.mobile.basic.Image",
 
     /**
     * Detects whether there is a high resolution image available.
-    * A high resolution image is assumed to have the same file name as 
-    * the parameter source, but with "@2x" before the file extension. 
+    * A high resolution image is assumed to have the same file name as
+    * the parameter source, but with "@2x" before the file extension.
     * Low Resolution: "example.png", High Resolution: "example@2x.png"
-    * 
+    *
     * @param source {String} Image source of the low resolution image.
     * @return {String} Image source of the high resolution image if available or null.
     */
