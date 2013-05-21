@@ -228,7 +228,10 @@ qx.Class.define("qx.ui.basic.Image",
     // overridden
     _applyDecorator : function(value, old) {
       this.base(arguments, value, old);
-      this.__setSource(this.getContentElement(), this.getSource());
+
+      var source = this.getSource();
+      source = qx.util.AliasManager.getInstance().resolve(source);
+      this.__setSource(this.getContentElement(), source);
     },
 
 
@@ -439,6 +442,7 @@ qx.Class.define("qx.ui.basic.Image",
       if (this.__wrapper) {
         contentEl = contentEl.getChild(0);
       }
+
       // Detect if the image registry knows this image
       if (qx.util.ResourceManager.getInstance().has(source)) {
         this.__setManagedImage(contentEl, source);
