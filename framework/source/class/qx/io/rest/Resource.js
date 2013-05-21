@@ -51,11 +51,14 @@
  * // Can also be written: photo.invoke("get", {id: 1});
  * photo.get({id: 1});
  *
- * // Additionally sets request data
+ * // Additionally sets request data (provide it as string or set the content type)
  * // In a RESTful environment this creates a new resource with the given 'id'
+ * photo.configureRequest(function(req) {
+ *  req.setRequestHeader("Content-Type", "application/json");
+ * });
  * photo.put({id: 1}, {title: "Monkey"});
  *
- * // Additionally sets request data
+ * // Additionally sets request data (provide it as string or set the content type)
  * // In a RESTful environment this adds a new resource to the resource collection 'photos'
  * photo.configureRequest(function(req) {
  *  req.setRequestHeader("Content-Type", "application/json");
