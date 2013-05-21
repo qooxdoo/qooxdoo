@@ -17,10 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-************************************************************************ */
-
-
 /**
  * Imports the com.thoughtworks.selenium.QxSelenium Java class and creates
  * an instance. If the "simulator.threadSafe" setting is active, a session
@@ -55,7 +51,7 @@
  *
  * @ignore(importClass)
  * @ignore(QxSelenium)
- * @ignore(ThreadSafeSeleniumSessionStorage)
+ * @ignore(ThreadSafeSeleniumSessionStorage.*)
  */
 qx.Class.define("simulator.QxSelenium", {
 

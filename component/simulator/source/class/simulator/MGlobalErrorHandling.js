@@ -17,14 +17,9 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-************************************************************************ */
-
 /**
  * Allows GUI tests to access exceptions caught by the tested application's
  * global error handler.
- *
- * @ignore(selenium)
  */
 
 qx.Mixin.define("simulator.MGlobalErrorHandling",
@@ -38,7 +33,7 @@ qx.Mixin.define("simulator.MGlobalErrorHandling",
      *
      * @param win {String?} JavaScript snippet that evaluates as a Window object
      * accessible from the current Selenium instance. Default: The AUT's window.
-     * @lint ignoreUndefined(selenium)
+     * @ignore(selenium.qxStoredVars)
      */
     _addGlobalErrorHandler : function(win)
     {
@@ -92,7 +87,7 @@ qx.Mixin.define("simulator.MGlobalErrorHandling",
      * @param win {String?} JavaScript snippet that evaluates as a Window object
      * accessible from the current Selenium instance. Default: The AUT's window.
      *
-     * @lint ignoreUndefined(selenium)
+     * @ignore(selenium.qxStoredVars)
      */
     _addGlobalErrorGetter : function(win)
     {
