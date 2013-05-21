@@ -384,14 +384,24 @@ qx.Bootstrap.define("qx.io.rest.Resource",
 
       // Handle successful request
       req.once("success", function successHandler() {
-        var response = {"response": req.getResponse(), "request": req, "action": action};
+        var response = {
+            "id": parseInt(req.toHashCode(), 10),
+            "response": req.getResponse(),
+            "request": req,
+            "action": action
+        };
         this.emit(action + "Success", response);
         this.emit("success", response);
       }, this);
 
       // Handle erroneous request
       req.once("fail", function failHandler() {
-        var response = {"response": req.getResponse(), "request": req, "action": action};
+        var response = {
+            "id": parseInt(req.toHashCode(), 10),
+            "response": req.getResponse(),
+            "request": req,
+            "action": action
+        };
         this.emit(action + "Error", response);
         this.emit("error", response);
       }, this);
