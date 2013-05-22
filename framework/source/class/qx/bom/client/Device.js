@@ -118,7 +118,9 @@ qx.Bootstrap.define("qx.bom.client.Device",
 
 
     /**
-     * Detects the device's pixel ratio.
+     * Detects the device's pixel ratio. Returns 1 if detection is not possible.
+     *
+     * @return {Number} The device's pixel ratio
      */
     getDevicePixelRatio : function() {
       if (typeof window.devicePixelRatio !== "undefined") {
