@@ -14,9 +14,9 @@ Like any font that should be used in a qooxdoo application, web fonts are define
 
 ::
 
-    /* ************************************************************************
-      #asset(custom/fonts/*)
-    ************************************************************************ */
+    /**
+     * @asset(custom/fonts/*)
+     */
     
     qx.Theme.define("custom.theme.Font",
     {

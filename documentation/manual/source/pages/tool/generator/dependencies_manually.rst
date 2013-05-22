@@ -16,9 +16,9 @@ with normal %{JS} syntax. For example
 
 ::
 
-  /*
-   #require(qx.module.Animation)
-   #use(qx.module.Cookie)
+  /**
+   * @require(qx.module.Animation)
+   * @use(qx.module.Cookie)
    */
 
 Mind the difference between ``require`` and ``use``. ``use`` should be preferred

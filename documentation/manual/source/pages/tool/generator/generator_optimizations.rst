@@ -83,10 +83,13 @@ As removing a method reduces the dependencies this method has to other classes, 
 
 In the context of a dynamic language this is a very aggressive optimization, and the problem is the occurrence of false positives. I.e. methods are judged as "not used" when in fact they are. This hinges on the highly dynamic nature of %{JS} where methods can be aliased, passed around as parameters to other functions, stored as map values, and so forth, all of which is hard to detect at compile time. 
 
-The cure is to add ``#require`` hints to force the inclusion of those methods that you know are used, although the generator cannot detect this. E.g. in a class that has an undetected runtime dependency on ``qx.bom.Cookie.get()`` you should add an appropriate hint in the this class::
+The cure is to add ``@require`` hints to force the inclusion of those methods
+that you know are used, although the generator cannot detect this. E.g. in a
+class that has an undetected runtime dependency on ``qx.bom.Cookie.get()`` you
+should add an appropriate hint in the this class::
 
   /*
-  #require(qx.bom.Cookie#get)
+  @require(qx.bom.Cookie#get)
   */
 
 .. warning::
