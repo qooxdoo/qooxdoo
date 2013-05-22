@@ -689,7 +689,11 @@ Description
 
 **Description**
 
-  Request resources that this class uses to be included in a build.
+  Request resources, like images, that this class uses to be included in a build.
+
+  You can also use ``*`` as a wildcard character, to request entire
+  resource namespaces: ``@asset(foo/*)`` will request all resources found under
+  the "foo/" namespace.
 
 **Syntax**
 
@@ -802,7 +806,13 @@ Description
 
 **Description**
 
-  Enforce the inclusion of a required class *before* the current code. Use this only if the generator cannot determine the dependency automatically.
+  Enforce the inclusion of a required class *before* the current code. Use this
+  only if the generator cannot determine the dependency automatically.
+
+  There is one special name, ``feature-checks``, which is reserved for internal
+  use and shouldn't be used in normal application code. This will add all known
+  feature check classes as load time dependencies to the current class.
+
 
 **Syntax**
 
@@ -835,7 +845,12 @@ Description
 
 **Description**
 
-  Enforce the inclusion of a required class. Use this only if the generator cannot determine the dependency automatically.
+  Enforce the inclusion of a required class. Use this only if the generator
+  cannot determine the dependency automatically. 
+
+  There is one special name, ``feature-checks``, which is reserved for internal
+  use and shouldn't be used in normal application code. This will add all known
+  feature check classes as run time dependencies to the current class.
 
 **Syntax**
 
@@ -870,8 +885,27 @@ Description
 
   Ignore the occurrence of global symbols. This @ hint has two implications:
 
-  * Don't warn about if the symbol is unknown (i.e. is not in any known library or a known built-in), i.e. it influences the lint system.
-  * Don't include the symbol in the build, i.e. it influences the compiler system, which also doesn't follow the symbol's dependencies.
+  * Don't warn about it if the symbol is unknown (i.e. is not in any known library
+    or a known built-in), i.e. it influences the lint system.
+  * Don't include the symbol in the build, i.e. it influences the compiler
+    system which then also doesn't follow the symbol's dependencies.
+
+  There are two special names that may be used in application code:
+
+  * **auto-require** : Ignore all load time dependencies detected by the
+    automatic analysis; they will not be added to the class' load dependencies.
+    *This effectively turns off the automatic processing of load time
+    dependencies for this class*.
+  * **auto-use** : Ignore all run time dependencies detected by the automatic
+    analysis; they will not be added to the class' run dependencies. *This
+    effectively turns off the automatic processing of run time dependencies for
+    this class*.
+
+  You can also use ``*`` as a wildcard character, to ignore entire
+  class APIs or namespaces: ``@ignore(foo.*)`` will ignore "foo"
+  and any symbol starting with "foo.". Otherwise, matches are exact so
+  `@ignore(foo)` will only ignore "foo", but not "foo.bar".
+
 
 **Syntax**
 
@@ -884,7 +918,9 @@ Description
       :widths: 30 70
 
       * - name
-        - Class name to include. The name can include trailing wildcards, to ignore entire namespaces, e.g. ``qx.dev.*``.
+        - Class name to include. The name can include trailing wildcards, to
+          ignore entire class APIs or namespaces, e.g. ``qx.dev.Debug.*`` or
+          ``qx.dev.unit.*``.
 
 **Example**
 
