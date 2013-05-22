@@ -151,6 +151,13 @@ class MClassHints(object):
             for item in _unknown_:
                 console.warn(u"Unknown compiler hint '#%s' in %s" % (item, self.id))
 
+            ##
+            # @deprecated {2.2} use @-hints in place of #-hints
+            if any([meta[x] for x in "loadtimeDeps runtimeDeps optionalDeps ignoreDeps assetDeps cldr".split()]
+                + _unknown_):
+                console.warn((u"%s: '#' compiler hints are deprecated." + 
+                    " Use the corresponding '@' JSDoc hints instead (see manual).") % self.id)
+
             console.outdent()
 
             return meta
