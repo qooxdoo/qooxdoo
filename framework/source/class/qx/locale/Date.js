@@ -19,13 +19,11 @@
 
 ************************************************************************ */
 
-/*
-#cldr
-*/
-
 /**
  * Static class that provides localized date information (like names of week
  * days, AM/PM markers, start of week, etc.).
+ *
+ * @cldr()
  */
 qx.Class.define("qx.locale.Date",
 {

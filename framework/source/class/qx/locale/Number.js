@@ -19,13 +19,11 @@
 
 ************************************************************************ */
 
-/*
-#cldr
-*/
-
 /**
  * Provides information about locale-dependent number formatting (like the decimal
  * separator).
+ *
+ * @cldr()
  */
 
 qx.Class.define("qx.locale.Number",
