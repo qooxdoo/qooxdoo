@@ -21,7 +21,6 @@
 /* ************************************************************************
 
 
-#asset(qx/static/blank.gif)
 
 ************************************************************************ */
 
@@ -56,6 +55,7 @@
  *
  * @use(qx.ui.core.EventHandler)
  * @use(qx.event.handler.DragDrop)
+ * @asset(qx/static/blank.gif)
  */
 qx.Class.define("qx.ui.core.Widget",
 {

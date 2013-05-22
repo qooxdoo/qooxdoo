@@ -18,7 +18,6 @@
 ************************************************************************ */
 
 /* *********************************************************************
-#asset(qx/test/xmlhttp/php_version.php)
 ************************************************************************ */
 
 /**
@@ -36,6 +35,8 @@
  * @ignore(qx.application.Standalone)
  * @ignore(qx.application.Inline)
  * @ignore(qx.application.Native)
+ *
+ * @asset(qx/test/xmlhttp/php_version.php)
  */
 qx.Mixin.define("qx.dev.unit.MRequirements", {
 

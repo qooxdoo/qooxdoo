@@ -18,11 +18,12 @@
 ************************************************************************ */
 /* ************************************************************************
 
-#asset(qx/decoration/Simple/*)
 
 ************************************************************************* */
 /**
  * Mapping class for all images used in the simple theme.
+ *
+ * @asset(qx/decoration/Simple/*)
  */
 qx.Class.define("qx.theme.simple.Image",
 {

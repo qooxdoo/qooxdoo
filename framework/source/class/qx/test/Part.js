@@ -19,12 +19,11 @@ Authors:
 
 /* ************************************************************************
 
-#asset(qx/test/*)
-#ignore(qx.test.PART_FILES)
 
 ************************************************************************ */
 /**
- * @ignore(qx.test.PART_FILES)
+ * @asset(qx/test/*)
+ * @ignore(qx.test.PART_FILES.*)
  */
 
 qx.Class.define("qx.test.Part",

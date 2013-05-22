@@ -24,12 +24,13 @@
 
 /* ************************************************************************
 
-#asset(qx/decoration/Modern/*)
 
 ************************************************************************ */
 
 /**
  * The modern decoration theme.
+ *
+ * @asset(qx/decoration/Modern/*)
  */
 qx.Theme.define("qx.theme.modern.Decoration",
 {

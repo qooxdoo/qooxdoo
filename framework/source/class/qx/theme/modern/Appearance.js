@@ -24,33 +24,34 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Tango/16/places/folder-open.png)
-#asset(qx/icon/Tango/16/places/folder.png)
-#asset(qx/icon/Tango/16/mimetypes/office-document.png)
-
-#asset(qx/icon/Tango/16/actions/window-close.png)
-
-#asset(qx/icon/Tango/22/places/folder-open.png)
-#asset(qx/icon/Tango/22/places/folder.png)
-#asset(qx/icon/Tango/22/mimetypes/office-document.png)
-
-#asset(qx/icon/Tango/32/places/folder-open.png)
-#asset(qx/icon/Tango/32/places/folder.png)
-#asset(qx/icon/Tango/32/mimetypes/office-document.png)
-
-#asset(qx/icon/Tango/16/apps/office-calendar.png)
-#asset(qx/icon/Tango/16/apps/utilities-color-chooser.png)
-#asset(qx/icon/Tango/16/actions/view-refresh.png)
-
-#asset(qx/icon/Tango/16/actions/dialog-cancel.png)
-#asset(qx/icon/Tango/16/actions/dialog-ok.png)
-
-#asset(qx/decoration/Modern/*)
 
 ************************************************************************* */
 
 /**
  * The modern appearance theme.
+ *
+ * @asset(qx/icon/Tango/16/places/folder-open.png)
+ * @asset(qx/icon/Tango/16/places/folder.png)
+ * @asset(qx/icon/Tango/16/mimetypes/office-document.png)
+
+ * @asset(qx/icon/Tango/16/actions/window-close.png)
+
+ * @asset(qx/icon/Tango/22/places/folder-open.png)
+ * @asset(qx/icon/Tango/22/places/folder.png)
+ * @asset(qx/icon/Tango/22/mimetypes/office-document.png)
+
+ * @asset(qx/icon/Tango/32/places/folder-open.png)
+ * @asset(qx/icon/Tango/32/places/folder.png)
+ * @asset(qx/icon/Tango/32/mimetypes/office-document.png)
+
+ * @asset(qx/icon/Tango/16/apps/office-calendar.png)
+ * @asset(qx/icon/Tango/16/apps/utilities-color-chooser.png)
+ * @asset(qx/icon/Tango/16/actions/view-refresh.png)
+
+ * @asset(qx/icon/Tango/16/actions/dialog-cancel.png)
+ * @asset(qx/icon/Tango/16/actions/dialog-ok.png)
+
+ * @asset(qx/decoration/Modern/*)
  */
 qx.Theme.define("qx.theme.modern.Appearance",
 {

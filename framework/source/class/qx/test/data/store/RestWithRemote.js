@@ -19,9 +19,12 @@
 
 /* ************************************************************************
 
-#asset(qx/test/primitive.json)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/test/primitive.json)
+ */
 
 qx.Class.define("qx.test.data.store.RestWithRemote",
 {

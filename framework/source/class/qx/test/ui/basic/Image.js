@@ -17,12 +17,11 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#asset(qx/icon/Tango/48/places/folder.png)
-#asset(qx/icon/Tango/32/places/folder.png)
-#asset(qx/static/blank.gif)
-************************************************************************ */
-
+/**
+ * @asset(qx/icon/Tango/48/places/folder.png)
+ * @asset(qx/icon/Tango/32/places/folder.png)
+ * @asset(qx/static/blank.gif)
+ */
 
 qx.Class.define("qx.test.ui.basic.Image",
 {
