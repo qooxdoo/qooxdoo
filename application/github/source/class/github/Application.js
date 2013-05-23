@@ -25,7 +25,7 @@
  * application. Specifically, this application relies on a .php index file and
  * therefore needs a runtime environment with PHP enabled.
  *
- * @lint ignoreUndefined(demobrowser)
+ * @ignore(demobrowser)
  */
 qx.Class.define("github.Application",
 {
