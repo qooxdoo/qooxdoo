@@ -13,17 +13,13 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(${NamespacePath}/*)
-
-************************************************************************ */
-
 /**
  * This is the main class of contribution "${Name}"
  * 
  * TODO: Replace the sample code of a custom button with the actual code of 
  * your contribution.
+ *
+ * @asset(${NamespacePath}/*)
  */
 qx.Class.define("${Namespace}.Contribution",
 {

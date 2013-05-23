@@ -10,12 +10,13 @@
 
 /* ************************************************************************
 
-#asset(${NamespacePath}/demo/*)
 
 ************************************************************************ */
 
 /**
  * This is the main application class of your custom application "${Namespace}"
+ *
+ * @asset(${NamespacePath}/demo/*)
  */
 qx.Class.define("${Namespace}.demo.Application",
 {

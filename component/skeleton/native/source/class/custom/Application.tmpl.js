@@ -8,16 +8,12 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
- * If you have added resources to your app, remove the leading '*' in the 
- * following line to make use of them.
- 
- * #asset(${Namespace}/*)
-
-************************************************************************ */
-
 /**
  * This is the main application class of your custom application "${Name}"
+ *
+ * If you have added resources to your app, remove the first '@' in the 
+ * following line to make use of them.
+ * @@asset(${Namespace}/*)
  */
 qx.Class.define("${Namespace}.Application",
 {
