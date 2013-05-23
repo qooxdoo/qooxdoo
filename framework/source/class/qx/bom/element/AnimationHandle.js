@@ -133,7 +133,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
         this.el.$$animation.__ended = true;
       }
       // in case the animation is based on JS
-      if (qx.bom.element.AnimationJs) {
+      else if (qx.bom.element.AnimationJs) {
         qx.bom.element.AnimationJs.stop(this);
       }
     }
