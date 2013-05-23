@@ -22,7 +22,7 @@
  * application. See the manual for details:
  * {@link http://manual.qooxdoo.org/${qxversion}/pages/development/simulator.html}
  *
- * @lint ignoreUndefined(simulator)
+ * @ignore(simulator)
  */
 qx.Class.define("fce.simulation.Environment", {
 

@@ -18,11 +18,12 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#asset(qx/icon/Tango/16/actions/window-new.png)
 ************************************************************************ */
 
 /**
  * Allows the user to add an environment features map to the display.
+ *
+ * @asset(qx/icon/Tango/16/actions/window-new.png)
  */
 
 qx.Class.define("fce.view.ImportWindow", {
