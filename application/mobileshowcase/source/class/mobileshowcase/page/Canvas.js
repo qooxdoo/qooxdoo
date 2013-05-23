@@ -18,17 +18,10 @@
 
 ************************************************************************ */
 
-/*
- * If you have added resources to your app remove the leading '*' in the
- * following line to make use of them.
-
-#asset(qx/mobile/css/*)
-
-************************************************************************ */
-
-
 /**
  * Mobile page showing a HTML5 canvas example.
+ *
+ * @asset(qx/mobile/css/*)
  */
 qx.Class.define("mobileshowcase.page.Canvas",
 {

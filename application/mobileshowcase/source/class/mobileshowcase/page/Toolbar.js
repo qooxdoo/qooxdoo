@@ -19,11 +19,12 @@
 
 /* ************************************************************************
 
-#asset(mobileshowcase/icon/camera.png)
 
 ************************************************************************ */
 /**
  * Mobile page responsible for showing the different showcases.
+ *
+ * @asset(mobileshowcase/icon/camera.png)
  */
 qx.Class.define("mobileshowcase.page.Toolbar",
 {
