@@ -23,12 +23,13 @@
 
 /* ************************************************************************
 
-#asset(apiviewer/*)
 
 ************************************************************************ */
 
 /**
  * Your apiviewer application
+ *
+ * @asset(apiviewer/*)
  */
 qx.Class.define("apiviewer.Application",
 {

@@ -1217,7 +1217,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      * @param panel {InfoPanel} the info panel of the item.
      * @param name {String} the item's name.
      * @return {Element} the HTML element showing the details of the item.
-     * @lint ignoreUndefined(getElementsByTagName)
+     * @ignore(getElementsByTagName)
      */
     getItemElement : function(name)
     {
