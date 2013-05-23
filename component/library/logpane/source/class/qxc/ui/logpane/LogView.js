@@ -19,13 +19,16 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Tango/16/actions/edit-clear.png)
-#asset(qx/icon/Tango/16/categories/system.png)
-#asset(qx/icon/Tango/16/status/dialog-information.png)
-#asset(qx/icon/Tango/16/status/dialog-warning.png)
-#asset(qx/icon/Tango/16/status/dialog-error.png)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/Tango/16/actions/edit-clear.png)
+ * @asset(qx/icon/Tango/16/categories/system.png)
+ * @asset(qx/icon/Tango/16/status/dialog-information.png)
+ * @asset(qx/icon/Tango/16/status/dialog-warning.png)
+ * @asset(qx/icon/Tango/16/status/dialog-error.png)
+ */
 
 qx.Class.define("qxc.ui.logpane.LogView", {
   extend : qx.ui.container.Composite,
