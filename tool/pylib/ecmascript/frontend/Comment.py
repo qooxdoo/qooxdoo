@@ -289,7 +289,7 @@ class Comment(object):
     #
     def parse(self, format_=True, process_txt=True, want_errors=False):
         
-        hint_sign = re.compile(r'^\s*@(\w+)')
+        hint_sign = re.compile(r'^\s*@(@?\w+)')
 
         def remove_decoration(text):
             # Strip "/**", "/*!" and "*/"
@@ -340,6 +340,8 @@ class Comment(object):
             # @<hint> entry
             if mo:
                 hint_key = mo.group(1)
+                if hint_key[0] == '@': # escaped @@hint
+                    continue
                 # specific parsing
                 if hasattr(self, "parse_at_"+hint_key):
                     try:
