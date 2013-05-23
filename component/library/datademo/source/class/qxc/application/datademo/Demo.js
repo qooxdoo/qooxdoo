@@ -19,9 +19,12 @@
 
 /* ************************************************************************
 
-#asset(qxc/application/datademo/*)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qxc/application/datademo/*)
+ */
 
 qx.Class.define("qxc.application.datademo.Demo", {
   extend : qx.ui.container.Composite,
