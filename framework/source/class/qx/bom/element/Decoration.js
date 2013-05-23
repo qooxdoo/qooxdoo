@@ -41,31 +41,6 @@ qx.Class.define("qx.bom.element.Decoration",
     /** @type {Map} Collect warnings for potential clipped images */
     __warnings : {},
 
-<<<<<<< HEAD
-=======
-    /**
-     * @type {Boolean} Whether the alpha image loader is needed.
-     * We enable this for all IE browser because of issues reported by Maria
-     * Siebert and others in combination with the opacity filter applied
-     * to e.g. disabled icons. Thanks Maria.
-     *
-     * To prevent these issues use the "disabled" images. This is done by adding
-     * a special second image which is already in a disabled state. In order to
-     * make use of this feature the image has to follow the convention "-disabled".
-     * (e.g. "button.png" -> "button-disabled.png")
-     *
-     * The situation for IE8 is that running in "IE8 Standards Mode" IE8 has a
-     * runtime performance issue. The updates are compared to IE7 really slow.
-     * The cause for this is the dynamic adding/removing of the IMG elements
-     * which are part of the decorator. Using the alpha image loader does change
-     * this DOM structure to only use DIV elements which do not have a negative
-     * performance impact. See Bug #2185 for details.
-     */
-    __enableAlphaFix : (qx.core.Environment.get("engine.name") == "mshtml") &&
-      (qx.core.Environment.get("engine.version") < 9 || qx.core.Environment.get("browser.documentmode") < 9 ),
-
->>>>>>> master
-
     /** @type {Map} List of repeat modes which supports the IE AlphaImageLoader */
     __alphaFixRepeats : qx.core.Environment.select("engine.name",
     {
