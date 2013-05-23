@@ -19,10 +19,13 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Tango/16/actions/view-refresh.png)
-#asset(qx/icon/Tango/16/actions/media-seek-forward.png)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/Tango/16/actions/view-refresh.png)
+ * @asset(qx/icon/Tango/16/actions/media-seek-forward.png)
+ */
 
 qx.Class.define("inspector.view.ToolBar",
 {

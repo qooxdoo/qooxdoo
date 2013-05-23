@@ -19,7 +19,6 @@
 
 /* ************************************************************************
 
-#asset(inspector/*)
 
 ************************************************************************ */
 
@@ -28,6 +27,8 @@
  *
  * This popup contains a table which will be filled with suggestions to enter
  * in the console.
+ *
+ * @asset(inspector/*)
  */
 qx.Class.define("inspector.console.AutoCompletePopup", {
 

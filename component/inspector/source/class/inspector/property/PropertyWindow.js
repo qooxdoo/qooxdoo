@@ -20,9 +20,12 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Tango/22/actions/view-refresh.png)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/Tango/22/actions/view-refresh.png)
+ */
 
 qx.Class.define("inspector.property.PropertyWindow",
 {

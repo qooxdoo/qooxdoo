@@ -18,11 +18,6 @@
 
 ************************************************************************ */
 /* ************************************************************************
-#asset(inspector/images/close.png)
-#asset(inspector/images/open.png)
-#asset(inspector/images/null.png)
-#asset(inspector/images/shell/errorIcon.png)
-#asset(qx/icon/Tango/16/actions/go-next.png)
 ************************************************************************ */
 /**
  * The class is a implementation of the abstract {@link inspector.propertyEditor.PropertyList}
@@ -31,6 +26,12 @@
  * It implements all functions and makes the displayed properties accessible to the user.
  * This includes an easy to use interface for all types of properties like boolean, colors
  * or strings
+ *
+ * @asset(inspector/images/close.png)
+ * @asset(inspector/images/open.png)
+ * @asset(inspector/images/null.png)
+ * @asset(inspector/images/shell/errorIcon.png)
+ * @asset(qx/icon/Tango/16/actions/go-next.png)
  */
 qx.Class.define("inspector.property.PropertyList", {
 

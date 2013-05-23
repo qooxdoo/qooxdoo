@@ -19,12 +19,13 @@
 ************************************************************************ */
 /* ************************************************************************
 
-#asset(inspector/*)
 
 ************************************************************************ */
 
 /**
  * This is the main application class of your custom application "inspector"
+ *
+ * @asset(inspector/*)
  *
  */
 qx.Class.define("inspector.Application",
