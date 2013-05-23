@@ -21,11 +21,12 @@
 
 /* ************************************************************************
 
-#asset(demobrowser/demo/flash/fo_tester.swf)
 
 ************************************************************************ */
 
 /**
+ *
+ * @asset(demobrowser/demo/flash/fo_tester.swf)
  * @tag noPlayground
  */
 qx.Class.define("demobrowser.demo.bom.Flash",

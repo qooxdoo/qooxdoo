@@ -19,11 +19,14 @@
 
 /* ************************************************************************
 
-#asset(demobrowser/demo/flash/fo_tester.swf)
-#asset(demobrowser/demo/flash/TestFlash.swf)
-#asset(demobrowser/demo/flash/FlashVersion.swf)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(demobrowser/demo/flash/fo_tester.swf)
+ * @asset(demobrowser/demo/flash/TestFlash.swf)
+ * @asset(demobrowser/demo/flash/FlashVersion.swf)
+ */
 qx.Class.define("demobrowser.demo.widget.Flash",
 {
   extend : qx.application.Standalone,

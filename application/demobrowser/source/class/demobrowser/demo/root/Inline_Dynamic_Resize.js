@@ -20,9 +20,12 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/48/devices/*)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/${qx.icontheme}/48/devices/*)
+ */
 
 qx.Class.define("demobrowser.demo.root.Inline_Dynamic_Resize",
 {

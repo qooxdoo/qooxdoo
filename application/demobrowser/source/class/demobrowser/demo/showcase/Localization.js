@@ -19,7 +19,6 @@
 ************************************************************************ */
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/*)
 
 ************************************************************************ */
 
@@ -27,6 +26,8 @@
  * This is the main application class of your custom application "showcase_i18n"
  *
  * @tag showcase
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/*)
  */
 qx.Class.define("demobrowser.demo.showcase.Localization",
 {

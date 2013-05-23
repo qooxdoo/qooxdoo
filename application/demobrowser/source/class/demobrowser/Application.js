@@ -21,12 +21,13 @@
 
 /* ************************************************************************
 
-#asset(demobrowser/*)
 
 ************************************************************************ */
 
 /**
  * The main application class.
+ *
+ * @asset(demobrowser/*)
  */
 qx.Class.define("demobrowser.Application",
 {

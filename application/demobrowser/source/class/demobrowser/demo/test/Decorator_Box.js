@@ -19,11 +19,12 @@
 
 /* ************************************************************************
 
-#asset(demobrowser/demo/theme/*)
 
 ************************************************************************ */
 
 /**
+ *
+ * @asset(demobrowser/demo/theme/*)
  * @tag test
  */
 qx.Class.define("demobrowser.demo.test.Decorator_Box",

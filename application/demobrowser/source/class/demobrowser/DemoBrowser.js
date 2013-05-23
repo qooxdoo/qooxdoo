@@ -22,31 +22,28 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Tango/22/actions/media-playback-start.png)
-#asset(qx/icon/Tango/16/actions/edit-find.png)
-#asset(qx/icon/Tango/22/actions/go-previous.png)
-#asset(qx/icon/Tango/22/actions/go-next.png)
-#asset(qx/icon/Tango/22/actions/edit-redo.png)
-#asset(qx/icon/Tango/22/actions/edit-clear.png)
-#asset(qx/icon/Tango/22/actions/application-exit.png)
-
-#asset(qx/icon/Tango/22/apps/utilities-color-chooser.png)
-#asset(qx/icon/Tango/22/apps/office-spreadsheet.png)
-
-#asset(qx/icon/Tango/22/apps/utilities-log-viewer.png)
-#asset(qx/icon/Tango/22/apps/internet-web-browser.png)
-#asset(qx/icon/Tango/22/mimetypes/executable.png)
-
-#asset(qx/icon/Tango/22/actions/help-contents.png)
-#asset(qx/icon/Tango/22/actions/help-about.png)
-#asset(qx/icon/Tango/22/actions/media-seek-forward.png)
-
-#asset(qx/icon/Tango/22/mimetypes/text-html.png)
 
 ************************************************************************ */
 
 /**
  * The GUI definition of the qooxdoo unit test runner.
+ *
+ * @asset(qx/icon/Tango/22/actions/media-playback-start.png)
+ * @asset(qx/icon/Tango/16/actions/edit-find.png)
+ * @asset(qx/icon/Tango/22/actions/go-previous.png)
+ * @asset(qx/icon/Tango/22/actions/go-next.png)
+ * @asset(qx/icon/Tango/22/actions/edit-redo.png)
+ * @asset(qx/icon/Tango/22/actions/edit-clear.png)
+ * @asset(qx/icon/Tango/22/actions/application-exit.png)
+ * @asset(qx/icon/Tango/22/apps/utilities-color-chooser.png)
+ * @asset(qx/icon/Tango/22/apps/office-spreadsheet.png)
+ * @asset(qx/icon/Tango/22/apps/utilities-log-viewer.png)
+ * @asset(qx/icon/Tango/22/apps/internet-web-browser.png)
+ * @asset(qx/icon/Tango/22/mimetypes/executable.png)
+ * @asset(qx/icon/Tango/22/actions/help-contents.png)
+ * @asset(qx/icon/Tango/22/actions/help-about.png)
+ * @asset(qx/icon/Tango/22/actions/media-seek-forward.png)
+ * @asset(qx/icon/Tango/22/mimetypes/text-html.png)
  */
 qx.Class.define("demobrowser.DemoBrowser",
 {
@@ -1517,7 +1514,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      * @param e {Event} TODOC
      * @return {void}
      *
-     * @lint ignoreUndefined(getChildren)
+     * @ignore(getChildren)
      */
     playNext : function(e)
     {

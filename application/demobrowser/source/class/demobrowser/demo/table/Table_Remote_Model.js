@@ -19,7 +19,6 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/22/actions/view-refresh.png)
 
 ************************************************************************ */
 
@@ -27,6 +26,8 @@
  * Table using the Remote table model. For this demo, a modified Remote model is
  * used that generates row data itself instead of making calls to a backend.
  * @tag noPlayground
+ *
+ * @asset(qx/icon/${qx.icontheme}/22/actions/view-refresh.png)
  */
 qx.Class.define("demobrowser.demo.table.Table_Remote_Model",
 {

@@ -19,13 +19,14 @@
 
 /* ************************************************************************
 
-#asset(demobrowser/demo/media/qx.m4v)
-#asset(demobrowser/demo/media/qx.ogv)
-#asset(demobrowser/demo/media/qx.webm)
 
 ************************************************************************ */
 
 /**
+ *
+ * @asset(demobrowser/demo/media/qx.m4v)
+ * @asset(demobrowser/demo/media/qx.ogv)
+ * @asset(demobrowser/demo/media/qx.webm)
  * @tag noPlayground
  */
 qx.Class.define("demobrowser.demo.bom.Video",

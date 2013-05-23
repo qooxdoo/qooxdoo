@@ -19,8 +19,6 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
-#asset(qx/icon/${qx.icontheme}/16/actions/dialog-cancel.png)
 
 ************************************************************************ */
 
@@ -30,6 +28,9 @@
  * ranges using varying colors; and the ImageDataCellRenderer to display
  * varying images.
  *
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-cancel.png)
  * @tag noPlayground
  */
 qx.Class.define("demobrowser.demo.table.Table_Conditional",

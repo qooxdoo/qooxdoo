@@ -19,11 +19,6 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/22/actions/list-add.png)
-#asset(qx/icon/${qx.icontheme}/22/actions/list-remove.png)
-#asset(qx/icon/${qx.icontheme}/22/actions/edit-undo.png)
-#asset(qx/icon/${qx.icontheme}/22/status/dialog-information.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/office-calendar.png)
 
 ************************************************************************ */
 
@@ -32,6 +27,12 @@
  * editing, sorting, column resizing, column reordering,
  * column hiding.
  *
+ *
+ * @asset(qx/icon/${qx.icontheme}/22/actions/list-add.png)
+ * @asset(qx/icon/${qx.icontheme}/22/actions/list-remove.png)
+ * @asset(qx/icon/${qx.icontheme}/22/actions/edit-undo.png)
+ * @asset(qx/icon/${qx.icontheme}/22/status/dialog-information.png)
+ * @asset(qx/icon/${qx.icontheme}/16/apps/office-calendar.png)
  * @tag noPlayground
  * @tag showcase
  */

@@ -19,15 +19,15 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/apps/internet-feed-reader.png)
-#asset(qx/icon/${qx.icontheme}/32/apps/utilities-notes.png)
-
-#asset(qx/icon/${qx.icontheme}/16/emotes/face-smile.png)
-#asset(qx/icon/${qx.icontheme}/16/emotes/face-sad.png)
 
 ************************************************************************ */
 
 /**
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/apps/internet-feed-reader.png)
+ * @asset(qx/icon/${qx.icontheme}/32/apps/utilities-notes.png)
+ * @asset(qx/icon/${qx.icontheme}/16/emotes/face-smile.png)
+ * @asset(qx/icon/${qx.icontheme}/16/emotes/face-sad.png)
  * @tag test
  */
 qx.Class.define("demobrowser.demo.virtual.Cells",

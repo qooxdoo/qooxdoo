@@ -19,14 +19,15 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/emotes/*)
 
 ************************************************************************ */
 
 /**
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/emotes/*)
  * @tag noPlayground
  * @tag databinding
- * tag delegate
+ * @tag delegate
  */
 qx.Class.define("demobrowser.demo.data.ListControllerWithObjects",
 {

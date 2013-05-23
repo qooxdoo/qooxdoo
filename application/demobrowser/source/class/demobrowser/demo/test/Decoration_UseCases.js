@@ -19,13 +19,14 @@
 
 /* ************************************************************************
 
-#asset(demobrowser/demo/test/*)
-#asset(qx/decoration/Modern/form/checkbox-focused.png)
-#asset(qx/decoration/Modern/app-header.png)
 
 ************************************************************************ */
 
 /**
+ *
+ * @asset(demobrowser/demo/test/*)
+ * @asset(qx/decoration/Modern/form/checkbox-focused.png)
+ * @asset(qx/decoration/Modern/app-header.png)
  * @tag test
  * @tag noPlayground
  *

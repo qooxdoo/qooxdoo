@@ -19,9 +19,12 @@
 ************************************************************************ */
 /* ************************************************************************
 
-#asset(demobrowser/backend/remote_table.php)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(demobrowser/backend/remote_table.php)
+ */
 
 qx.Class.define('demobrowser.demo.table.RemoteTableModel', {
 

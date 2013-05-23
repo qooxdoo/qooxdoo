@@ -20,9 +20,12 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/32/actions/go-home.png)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/${qx.icontheme}/32/actions/go-home.png)
+ */
 
 qx.Class.define("demobrowser.demo.widget.Desktop",
 {

@@ -21,11 +21,14 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/places/folder.png)
-#asset(qx/icon/${qx.icontheme}/48/places/folder.png)
-#asset(qx/icon/${qx.icontheme}/48/devices/*)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/places/folder.png)
+ * @asset(qx/icon/${qx.icontheme}/48/places/folder.png)
+ * @asset(qx/icon/${qx.icontheme}/48/devices/*)
+ */
 
 qx.Class.define("demobrowser.demo.widget.List",
 {

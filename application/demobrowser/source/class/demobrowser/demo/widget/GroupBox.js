@@ -21,9 +21,12 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/apps/utilities-text-editor.png)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/apps/utilities-text-editor.png)
+ */
 
 qx.Class.define("demobrowser.demo.widget.GroupBox",
 {

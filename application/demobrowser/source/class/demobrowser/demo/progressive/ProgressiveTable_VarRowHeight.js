@@ -1,12 +1,13 @@
 /*
-#asset(demobrowser/demo/icons/format-justify-left.png)
-#asset(demobrowser/demo/icons/multimedia-player.png)
 */
 
 /*
  * Example of using the Image cell renderer with Progressive''s Table.
  * This also demonstrates how the minimum row height can be set by a
  * cell renderer.
+ *
+ * @asset(demobrowser/demo/icons/format-justify-left.png)
+ * @asset(demobrowser/demo/icons/multimedia-player.png)
  */
 qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_VarRowHeight",
 {

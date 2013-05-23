@@ -394,7 +394,7 @@ qx.Class.define("demobrowser.TreeDataHandler",
      * @param node {Node} TODOC
      * @return {var} TODOC
      * @lint ignoreUnused(tests)
-     * @lint ignoreUndefined(classloop) Workaround for bug #2221
+     * @ignore(classloop) Workaround for bug #2221
      */
     classFromTest : function(node)
     {

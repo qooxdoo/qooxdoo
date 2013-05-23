@@ -19,11 +19,12 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/48/devices/computer.png)
 
 ************************************************************************ */
 
 /**
+ *
+ * @asset(qx/icon/${qx.icontheme}/48/devices/computer.png)
  * Simple demo app that uses FlowLayout.
  */
 qx.Class.define("demobrowser.demo.layout.Flow",

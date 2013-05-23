@@ -19,7 +19,7 @@
 
 /**
  * @tag noPlayground
- * @lint ignoreUndefined(github.*)
+ * @ignore(github.*)
  */
 qx.Class.define("demobrowser.demo.data.Github", {
   extend: qx.application.Standalone,
@@ -34,7 +34,7 @@ qx.Class.define("demobrowser.demo.data.Github", {
     __gist: null,
 
     /**
-     * @lint ignoreUndefined(GITHUB)
+     * @ignore(GITHUB)
      */
     main: function() {
 
@@ -144,7 +144,7 @@ qx.Class.define("github.rest.Resource", {
   extend: qx.io.rest.Resource,
 
   /**
-   * @lint ignoreUndefined(GITHUB.*)
+   * @ignore(GITHUB.*)
    */
   construct: function(description) {
     this.base(arguments, description);

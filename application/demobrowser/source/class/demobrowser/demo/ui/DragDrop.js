@@ -20,12 +20,13 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/places/folder.png)
 
 ************************************************************************ */
 
 /**
  * @tag showcase
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/places/folder.png)
  */
 qx.Class.define("demobrowser.demo.ui.DragDrop",
 {

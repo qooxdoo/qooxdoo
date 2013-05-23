@@ -20,9 +20,12 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/places/*)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/places/*)
+ */
 
 qx.Class.define("demobrowser.demo.virtual.DemoLayer",
 {

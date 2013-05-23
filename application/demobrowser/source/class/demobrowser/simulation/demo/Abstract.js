@@ -17,8 +17,8 @@
 /**
  * Base class for Demo simulations.
  *
- * @lint ignoreUndefined(simulator)
- * @lint ignoreUndefined(selenium)
+ * @ignore(simulator)
+ * @ignore(selenium)
  */
 qx.Class.define("demobrowser.simulation.demo.Abstract", {
 
@@ -93,7 +93,7 @@ qx.Class.define("demobrowser.simulation.demo.Abstract", {
     /**
      * Prepares the demo application for testing.
      *
-     *  @lint ignoreUndefined(simulator)
+     *  @ignore(simulator)
      */
     prepareDemo : function()
     {

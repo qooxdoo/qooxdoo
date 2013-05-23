@@ -20,16 +20,17 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Oxygen/16/actions/format-*.png)
-#asset(qx/icon/Oxygen/16/actions/edit-*.png)
-#asset(qx/icon/Oxygen/16/actions/insert-image.png)
-#asset(qx/icon/Oxygen/16/actions/insert-link.png)
-#asset(qx/icon/Oxygen/16/actions/insert-text.png)
-#asset(demobrowser/demo/icons/htmlarea/*)
 
 ************************************************************************ */
 /**
  * htmlarea Example application
+ *
+ * @asset(qx/icon/Oxygen/16/actions/format-*.png)
+ * @asset(qx/icon/Oxygen/16/actions/edit-*.png)
+ * @asset(qx/icon/Oxygen/16/actions/insert-image.png)
+ * @asset(qx/icon/Oxygen/16/actions/insert-link.png)
+ * @asset(qx/icon/Oxygen/16/actions/insert-text.png)
+ * @asset(demobrowser/demo/icons/htmlarea/*)
  */
 qx.Class.define("demobrowser.demo.widget.HtmlArea",
 {

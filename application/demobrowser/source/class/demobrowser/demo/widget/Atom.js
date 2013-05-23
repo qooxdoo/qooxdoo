@@ -20,15 +20,18 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/32/actions/go-previous.png)
-#asset(qx/icon/${qx.icontheme}/32/actions/go-up.png)
-#asset(qx/icon/${qx.icontheme}/32/actions/go-next.png)
-#asset(qx/icon/${qx.icontheme}/32/actions/go-down.png)
-
-#asset(qx/icon/${qx.icontheme}/32/apps/internet-feed-reader.png)
-#asset(qx/icon/${qx.icontheme}/32/apps/utilities-notes.png)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/${qx.icontheme}/32/actions/go-previous.png)
+ * @asset(qx/icon/${qx.icontheme}/32/actions/go-up.png)
+ * @asset(qx/icon/${qx.icontheme}/32/actions/go-next.png)
+ * @asset(qx/icon/${qx.icontheme}/32/actions/go-down.png)
+
+ * @asset(qx/icon/${qx.icontheme}/32/apps/internet-feed-reader.png)
+ * @asset(qx/icon/${qx.icontheme}/32/apps/utilities-notes.png)
+ */
 
 qx.Class.define("demobrowser.demo.widget.Atom",
 {

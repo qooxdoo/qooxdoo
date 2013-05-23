@@ -20,13 +20,16 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/apps/utilities-terminal.png)
-#asset(qx/icon/${qx.icontheme}/32/apps/utilities-terminal.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/utilities-notes.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/utilities-calculator.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/utilities-help.png)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/apps/utilities-terminal.png)
+ * @asset(qx/icon/${qx.icontheme}/32/apps/utilities-terminal.png)
+ * @asset(qx/icon/${qx.icontheme}/16/apps/utilities-notes.png)
+ * @asset(qx/icon/${qx.icontheme}/16/apps/utilities-calculator.png)
+ * @asset(qx/icon/${qx.icontheme}/16/apps/utilities-help.png)
+ */
 
 qx.Class.define("demobrowser.demo.widget.TabView",
 {
