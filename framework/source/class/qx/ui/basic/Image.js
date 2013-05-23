@@ -231,7 +231,11 @@ qx.Class.define("qx.ui.basic.Image",
 
       var source = this.getSource();
       source = qx.util.AliasManager.getInstance().resolve(source);
-      this.__setSource(this.getContentElement(), source);
+      var el = this.getContentElement();
+      if (this.__wrapper) {
+        el = el.getChild(0);
+      }
+      this.__setSource(el, source);
     },
 
 
@@ -704,6 +708,7 @@ qx.Class.define("qx.ui.basic.Image",
           el.setSource(null);
         }
       }
+
       el.setSource(source);
     },
 
