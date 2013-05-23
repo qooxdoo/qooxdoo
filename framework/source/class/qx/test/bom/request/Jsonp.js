@@ -99,7 +99,7 @@ qx.Class.define("qx.test.bom.request.Jsonp",
     },
 
     /**
-     * @lint ignoreUndefined(myExistingCallback)
+     * @ignore(myExistingCallback)
      */
     "test: not overwrite existing callback": function() {
       var that = this;

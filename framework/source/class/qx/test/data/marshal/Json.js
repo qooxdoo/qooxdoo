@@ -731,7 +731,7 @@ qx.Class.define("qx.test.data.marshal.Json",
 
 
     /**
-     * @lint ignoreUndefined(qx.test.model)
+     * @ignore(qx.test.model)
      */
     testGetModelClass: function() {
       qx.Class.define("qx.test.model.C", {

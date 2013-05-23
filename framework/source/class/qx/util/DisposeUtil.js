@@ -17,17 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#ignore(qx.log.Logger)
-#ignore(qx.log)
-#ignore(qx.ui.container.Composite)
-#ignore(qx.ui.container.Scroll)
-#ignore(qx.ui.container.SlideBar)
-#ignore(qx.ui.container.Stack)
-
-************************************************************************ */
-
 /**
  * Methods to cleanup fields from maps/objects.
  *

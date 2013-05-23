@@ -17,13 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#ignore(qx.Patch1)
-#ignore(qx.Patch2)
-#ignore(qx.UseLog1)
-#ignore(qx.Mix)
-#ignore(qx.MMix1)
-************************************************************************ */
 /**
  * @ignore(qx.ExtendUseLog1, qx.Mix, qx.MLogger, qx.MMix1, qx.MMix1.foo)
  * @ignore(qx.MMix2, qx.MPatch, qx.Patch1, qx.Patch2, qx.UseLog1, qx.UseLog2)

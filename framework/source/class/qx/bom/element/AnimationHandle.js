@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#ignore(qx.bom.element.AnimationJs)
-
-************************************************************************ */
-
 /**
  * This is a simple handle, which will be returned when an animation is
  * started using the {@link qx.bom.element.Animation#animate} method. It

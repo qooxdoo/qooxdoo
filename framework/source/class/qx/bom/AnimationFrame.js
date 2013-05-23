@@ -17,13 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#ignore(performance)
-#ignore(performance.timing)
-
-************************************************************************* */
-
 /**
  * This is a cross browser wrapper for requestAnimationFrame. For further
  * information about the feature, take a look at spec:
@@ -59,8 +52,6 @@
  * frame.startSequence(duration);
  * </pre>
  *
- * @ignore(performance)
- * @ignore(performance.timing)
  */
 qx.Bootstrap.define("qx.bom.AnimationFrame",
 {
@@ -172,7 +163,7 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
      * 30ms delay. The HighResolutionTime will be used if supported but the time given
      * to the callback will still be a timestamp starting at 1 January 1970 00:00:00 UTC.
      *
-     * @lint ignoreUndefined(performance)
+     * @ignore(performance.timing.*)
      * @param callback {Function} The callback function which will get the current
      *   time as argument (which could be a float for higher precision).
      * @param context {var} The context of the callback.

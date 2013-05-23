@@ -41,17 +41,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#ignore(module)
-#ignore(require)
-#ignore(global)
-#ignore(require.paths)
-#ignore(__dirname)
-#ignore(module.exports)
-
-************************************************************************ */
-
 /**
  * Exposes Sinon.JS to qooxdoo.
  *
@@ -62,6 +51,7 @@
  * @internal
  * @ignore(module, require, global)
  * @lint ignoreDeprecated(eval)
+ * @ignore(module.exports.*)
  *
  */
 qx.Bootstrap.define("qx.dev.unit.Sinon",
@@ -82,7 +72,7 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
 
 /**
  * @ignore(module, require, global, process.*, setImmediate)
- * @lint ignoreUndefined(msSetImmediate.*)
+ * @ignore(msSetImmediate.*)
  * @lint ignoreUnused(alen, requestMethod, index)
  * @lint ignoreNoLoopBlock()
  */

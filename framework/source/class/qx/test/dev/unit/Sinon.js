@@ -17,13 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#ignore(qx.test.Animal)
-#ignore(qx.test.Affe)
-#ignore(qx.test.Gibbon)
-
-************************************************************************ */
 /**
  * @ignore(qx.test.PROP, qx.test.Affe, qx.test.Gibbon)
  */
@@ -45,9 +38,9 @@ qx.Class.define("qx.test.dev.unit.Sinon",
     sinon: null,
 
     /**
-     * @lint ignoreUndefined(qx.test.Animal)
-     * @lint ignoreUndefined(qx.test.Affe)
-     * @lint ignoreUndefined(qx.test.Gibbon)
+     * @ignore(qx.test.Animal)
+     * @ignore(qx.test.Affe)
+     * @ignore(qx.test.Gibbon)
      */
     setUp : function()
     {

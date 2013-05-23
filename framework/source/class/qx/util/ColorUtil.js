@@ -19,18 +19,10 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#ignore(qx.theme.*)
-#ignore(qx.theme)
-#ignore(qx.Class)
-
-************************************************************************ */
-
 /**
  * Methods to convert colors between different color spaces.
  *
- * @ignore(qx.theme)
+ * @ignore(qx.theme.*)
  * @ignore(qx.Class)
  */
 qx.Bootstrap.define("qx.util.ColorUtil",

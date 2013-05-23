@@ -135,7 +135,7 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     /**
-     * @lint ignoreUndefined(SCRIPT_LOADED)
+     * @ignore(SCRIPT_LOADED)
      */
     "test: status indicates success when determineSuccess returns true": function() {
       var that = this;

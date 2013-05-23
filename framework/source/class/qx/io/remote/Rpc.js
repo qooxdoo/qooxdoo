@@ -77,18 +77,9 @@
  * <p>
  * You may also find the server writer's guide helpful:
  *   http://manual.qooxdoo.org/${qxversion}/pages/communication/rpc_server_writer_guide.html
+ *
+ * @ignore(qx.core.ServerSettings.*)
 */
-
-/* ************************************************************************
-  #ignore(qx.core.ServerSettings)
-  #ignore(qx.core.ServerSettings.serverPathSuffix)
-  #ignore(qx.core.ServerSettings.serverPathPrefix)
-  #ignore(qx.core.ServerSettings.lastSessionRefresh)
-  #ignore(qx.core.ServerSettings.sessionTimeoutInSeconds)
-************************************************************************ */
-/**
- * @ignore(qx.core.ServerSettings)
- */
 
 qx.Class.define("qx.io.remote.Rpc",
 {

@@ -19,12 +19,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#ignore(qx.Interface)
-
-************************************************************************ */
-
 /**
  * Internal class for handling of dynamic properties. Should only be used
  * through the methods provided by {@link qx.Class}.

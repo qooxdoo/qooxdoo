@@ -20,18 +20,11 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#ignore(qx.event.type.Tap)
-#ignore(qx.event.type.Swipe)
-#ignore(qx.event.type)
-#ignore(qx.event)
-************************************************************************ */
-
 /**
  * Listens for native touch events and fires composite events like "tap" and
  * "swipe"
  *
- * @ignore(qx.event)
+ * @ignore(qx.event.*)
  */
 qx.Bootstrap.define("qx.event.handler.TouchCore", {
 

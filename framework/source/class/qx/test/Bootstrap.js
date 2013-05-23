@@ -18,16 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#ignore(qx.test.ExtendSuper)
-#ignore(qx.test.ExtendSuper.prototype)
-#ignore(qx.test.Super.prototype)
-#ignore(qx.test.Super)
-#ignore(qx.test.ExtendNull)
-#ignore(qx.test.ExtendQxObject)
-#ignore(qx.test.ExtendError)
-#ignore(qx.test.Construct)
-************************************************************************ */
 /**
  * @ignore(qx.test.Construct, qx.test.ExtendError, qx.test.ExtendNull)
  * @ignore(qx.test.ExtendQxObject, qx.test.ExtendSuper, qx.test.Super, qx.test.ROOT, qx.test.MyClass.*)
