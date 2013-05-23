@@ -20,18 +20,21 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/22/places/*)
-#asset(qx/icon/${qx.icontheme}/22/mimetypes/media-image.png)
-#asset(qx/icon/${qx.icontheme}/22/apps/office-chart.png)
-#asset(qx/icon/${qx.icontheme}/22/apps/internet-mail.png)
-#asset(qx/icon/${qx.icontheme}/22/actions/document-send.png)
-#asset(qx/icon/${qx.icontheme}/22/actions/mail-mark-junk.png)
-#asset(qx/icon/${qx.icontheme}/22/actions/mail-mark-important.png)
-#asset(qx/icon/${qx.icontheme}/22/actions/mail-message-new.png)
-#asset(qx/icon/${qx.icontheme}/22/devices/drive-harddisk.png)
-#asset(qx/icon/${qx.icontheme}/22/devices/drive-optical.png)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/${qx.icontheme}/22/places/*)
+ * @asset(qx/icon/${qx.icontheme}/22/mimetypes/media-image.png)
+ * @asset(qx/icon/${qx.icontheme}/22/apps/office-chart.png)
+ * @asset(qx/icon/${qx.icontheme}/22/apps/internet-mail.png)
+ * @asset(qx/icon/${qx.icontheme}/22/actions/document-send.png)
+ * @asset(qx/icon/${qx.icontheme}/22/actions/mail-mark-junk.png)
+ * @asset(qx/icon/${qx.icontheme}/22/actions/mail-mark-important.png)
+ * @asset(qx/icon/${qx.icontheme}/22/actions/mail-message-new.png)
+ * @asset(qx/icon/${qx.icontheme}/22/devices/drive-harddisk.png)
+ * @asset(qx/icon/${qx.icontheme}/22/devices/drive-optical.png)
+ */
 
 qx.Class.define("showcase.page.tree.Content",
 {

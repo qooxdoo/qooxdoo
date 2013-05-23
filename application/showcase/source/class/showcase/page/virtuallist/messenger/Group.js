@@ -19,10 +19,13 @@
 
 /* ************************************************************************
 
-#asset(showcase/virtuallist/down.png)
-#asset(showcase/virtuallist/right.png)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(showcase/virtuallist/down.png)
+ * @asset(showcase/virtuallist/right.png)
+ */
 
 qx.Class.define("showcase.page.virtuallist.messenger.Group",
 {

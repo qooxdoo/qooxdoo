@@ -20,10 +20,13 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/actions/*)
-#asset(qx/icon/${qx.icontheme}/16/apps/utilities-help.png)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/actions/*)
+ * @asset(qx/icon/${qx.icontheme}/16/apps/utilities-help.png)
+ */
 qx.Class.define("showcase.page.htmleditor.Content",
 {
   extend : showcase.page.AbstractDesktopContent,
