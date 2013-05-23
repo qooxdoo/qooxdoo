@@ -23,21 +23,22 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Oxygen/16/apps/office-calendar.png)
-#asset(qx/icon/Oxygen/16/places/folder-open.png)
-#asset(qx/icon/Oxygen/16/places/folder.png)
-#asset(qx/icon/Oxygen/16/mimetypes/text-plain.png)
-#asset(qx/icon/Oxygen/16/actions/view-refresh.png)
-#asset(qx/icon/Oxygen/16/actions/window-close.png)
-#asset(qx/icon/Oxygen/16/actions/dialog-cancel.png)
-#asset(qx/icon/Oxygen/16/actions/dialog-ok.png)
-
-#asset(qx/decoration/Classic/*)
 
 ************************************************************************* */
 
 /**
  * The classic qooxdoo appearance theme.
+ *
+ * @asset(qx/icon/Oxygen/16/apps/office-calendar.png)
+ * @asset(qx/icon/Oxygen/16/places/folder-open.png)
+ * @asset(qx/icon/Oxygen/16/places/folder.png)
+ * @asset(qx/icon/Oxygen/16/mimetypes/text-plain.png)
+ * @asset(qx/icon/Oxygen/16/actions/view-refresh.png)
+ * @asset(qx/icon/Oxygen/16/actions/window-close.png)
+ * @asset(qx/icon/Oxygen/16/actions/dialog-cancel.png)
+ * @asset(qx/icon/Oxygen/16/actions/dialog-ok.png)
+
+ * @asset(qx/decoration/Classic/*)
  */
 qx.Theme.define("qx.theme.classic.Appearance",
 {
@@ -2438,6 +2439,20 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           decorator : undefined
+        };
+      }
+    },
+
+    "progressive-table-header" : {
+      alias: "table-scroller/header"
+    },
+
+    "progressive-table-header-cell" : {
+      style : function(states) {
+        return {
+          decorator: "table-header-cell",
+          backgroundColor: "table-header-cell",
+          padding: [0, 6, 0, 6]
         };
       }
     },

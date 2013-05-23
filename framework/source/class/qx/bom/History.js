@@ -69,7 +69,6 @@
 
 /* ************************************************************************
 
-#asset(qx/static/blank.html)
 
 ************************************************************************ */
 
@@ -93,6 +92,8 @@
  * implementation can be found at http://developer.yahoo.com/yui/history/.
  * The original code is licensed under a BSD license
  * (http://developer.yahoo.com/yui/license.txt).
+ *
+ * @asset(qx/static/blank.html)
  */
 qx.Class.define("qx.bom.History",
 {
@@ -144,7 +145,7 @@ qx.Class.define("qx.bom.History",
   statics :
   {
     /**
-     * {Boolean} Whether the browser supports the 'hashchange' event natively.
+     * @type {Boolean} Whether the browser supports the 'hashchange' event natively.
      */
     SUPPORTS_HASH_CHANGE_EVENT : qx.core.Environment.get("event.hashchange"),
 
@@ -158,7 +159,7 @@ qx.Class.define("qx.bom.History",
     {
       if (!this.$$instance)
       {
-        if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml" && qx.core.Environment.get("browser.version") >= 9) {
+        if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml" && qx.core.Environment.get("browser.documentmode") >= 9) {
           this.$$instance = new qx.bom.HashHistory();
         } else if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml") {
           this.$$instance = new qx.bom.IframeHistory();

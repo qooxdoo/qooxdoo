@@ -26,7 +26,7 @@ qx.Class.define("qx.ui.core.queue.Appearance",
 {
   statics :
   {
-    /** {Array} This contains all the queued widgets for the next flush. */
+    /** @type {Array} This contains all the queued widgets for the next flush. */
     __queue : [],
 
 

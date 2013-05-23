@@ -186,10 +186,10 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
 
   members :
   {
-    /** {Array} List of all non CSS themable properties */
+    /** @type {Array} List of all non CSS themable properties */
     __themableProperties : null,
 
-    /** {String} Unique key over the current set of states */
+    /** @type {String} Unique key over the current set of states */
     __statesKey : null,
 
     __states : null,

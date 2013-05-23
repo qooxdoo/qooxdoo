@@ -55,7 +55,7 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
 
   members :
   {
-    /** {qx.ui.core.SingleSelectionManager} the single selection manager */
+    /** @type {qx.ui.core.SingleSelectionManager} the single selection manager */
     __manager : null,
 
 

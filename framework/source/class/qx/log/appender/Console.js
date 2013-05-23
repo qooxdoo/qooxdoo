@@ -194,7 +194,7 @@ qx.Class.define("qx.log.appender.Console",
     ---------------------------------------------------------------------------
     */
 
-    /** {Boolean} Flag to store last visibility status */
+    /** @type {Boolean} Flag to store last visibility status */
     __visible : true,
 
 
@@ -240,7 +240,7 @@ qx.Class.define("qx.log.appender.Console",
     ---------------------------------------------------------------------------
     */
 
-    /** {Array} List of all previous commands. */
+    /** @type {Array} List of all previous commands. */
     __history : [],
 
 

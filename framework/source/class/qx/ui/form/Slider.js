@@ -632,12 +632,12 @@ qx.Class.define("qx.ui.form.Slider",
     ---------------------------------------------------------------------------
     */
 
-    /** {Boolean} Whether the slider is laid out horizontally */
+    /** @type {Boolean} Whether the slider is laid out horizontally */
     __isHorizontal : false,
 
 
     /**
-     * {Integer} Available space for knob to slide on, computed on resize of
+     * @type {Integer} Available space for knob to slide on, computed on resize of
      * the widget
      */
     __slidingSpace : 0,

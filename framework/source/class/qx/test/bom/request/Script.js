@@ -17,19 +17,13 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(qx/test/jsonp_primitive.php)
-#asset(qx/test/script.js)
-#asset(qx/test/xmlhttp/sample.txt)
-
-************************************************************************ */
-
-/* ************************************************************************
-
-#ignore(SCRIPT_LOADED)
-
-************************************************************************ */
+/**
+ *
+ * @asset(qx/test/jsonp_primitive.php)
+ * @asset(qx/test/script.js)
+ * @asset(qx/test/xmlhttp/sample.txt)
+ * @ignore(SCRIPT_LOADED)
+ */
 
 qx.Class.define("qx.test.bom.request.Script",
 {
@@ -74,6 +68,14 @@ qx.Class.define("qx.test.bom.request.Script",
 
       this.assertFalse(this.isInDom(script));
     },
+
+
+    "test: isDisposed()": function() {
+      this.assertFalse(this.req.isDisposed());
+      this.req.dispose();
+      this.assertTrue(this.req.isDisposed());
+    },
+
 
     "test: allow many requests with same object": function() {
       var count = 0,

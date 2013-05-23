@@ -256,53 +256,53 @@ qx.Class.define("qx.ui.list.List",
 
   members :
   {
-    /** {qx.ui.virtual.layer.Row} background renderer */
+    /** @type {qx.ui.virtual.layer.Row} background renderer */
     _background : null,
 
 
-    /** {qx.ui.list.provider.IListProvider} provider for cell rendering */
+    /** @type {qx.ui.list.provider.IListProvider} provider for cell rendering */
     _provider : null,
 
 
-    /** {qx.ui.virtual.layer.Abstract} layer which contains the items. */
+    /** @type {qx.ui.virtual.layer.Abstract} layer which contains the items. */
     _layer : null,
 
 
     /**
-     * {Array} lookup table to get the model index from a row. To get the
-     * correct value after applying filter, sorter, group.
+     * @type {Array} lookup table to get the model index from a row. To get the
+     *   correct value after applying filter, sorter, group.
      *
      * Note the value <code>-1</code> indicates that the value is a group item.
      */
     __lookupTable : null,
 
 
-    /** {Array} lookup table for getting the group index from the row */
+    /** @type {Array} lookup table for getting the group index from the row */
     __lookupTableForGroup : null,
 
 
     /**
-     * {Map} contains all groups with the items as children. The key is
-     * the group name and the value is an <code>Array</code> containing each
-     * item's model index.
+     * @type {Map} contains all groups with the items as children. The key is
+     *   the group name and the value is an <code>Array</code> containing each
+     *   item's model index.
      */
     __groupHashMap : null,
 
 
     /**
-     * {Boolean} indicates when one or more <code>String</code> are used for grouping.
+     * @type {Boolean} indicates when one or more <code>String</code> are used for grouping.
      */
     __groupStringsUsed : false,
 
 
     /**
-     * {Boolean} indicates when one or more <code>Object</code> are used for grouping.
+     * @type {Boolean} indicates when one or more <code>Object</code> are used for grouping.
      */
     __groupObjectsUsed : false,
 
 
     /**
-     * {Boolean} indicates when a default group is used for grouping.
+     * @type {Boolean} indicates when a default group is used for grouping.
      */
     __defaultGroupUsed : false,
 

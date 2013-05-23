@@ -101,7 +101,7 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
 
   members :
   {
-    /** {Array} which contains the bounded items */
+    /** @type {Array} which contains the bounded items */
     __boundItems : null,
 
 

@@ -37,12 +37,12 @@ qx.Interface.define("qx.bom.request.IRequest",
     //
 
     /**
-     * {Object} Native transport.
+     * @type {Object} Native transport.
      */
     transport: null,
 
     /**
-     * {Number} Ready state.
+     * @type {Number} Ready state.
      *
      * States can be:
      * UNSENT:           0,
@@ -54,22 +54,22 @@ qx.Interface.define("qx.bom.request.IRequest",
     readyState: 0,
 
     /**
-     * {Number} The status code.
+     * @type {Number} The status code.
      */
     status: 0,
 
     /**
-     * {String} The status text.
+     * @type {String} The status text.
      */
     statusText: "",
 
     /**
-     * {String} The response of the request as text.
+     * @type {String} The response of the request as text.
      */
     responseText: "",
 
     /**
-     * {Number} Timeout limit in milliseconds.
+     * @type {Number} Timeout limit in milliseconds.
      *
      * 0 (default) means no timeout.
      */

@@ -473,6 +473,10 @@ qx.Class.define("qx.test.core.Environment",
       this.assertString(qx.core.Environment.get("device.type"));
     },
 
+    testDevicePixelRatio : function() {
+      this.assertNumber(qx.core.Environment.get("device.pixelRatio"));
+    },
+
     testJson : function() {
       this.assertBoolean(qx.core.Environment.get("json"));
     },

@@ -282,7 +282,12 @@ In the overall queue of jobs to be performed, the initial job is replaced by the
 
 .. index:: compiler hint
 
-The ``asset-let`` key is basically a :ref:`macro <pages/tool/generator/generator_config_articles#let_key>` definition for ``#asset`` compiler hints, but with a special semantics. Keys defined in the "asset-let" map will be looked for in *#asset* hints in source files. Like with macros, references have to be in curly braces and prefixed with ``$``. So a "asset-let" entry in the config might look like this:
+The ``asset-let`` key is basically a :ref:`macro
+<pages/tool/generator/generator_config_articles#let_key>` definition for
+``@asset`` compiler hints, but with a special semantics. Keys defined in the
+"asset-let" map will be looked for in *@asset* hints in source files. Like with
+macros, references have to be in curly braces and prefixed with ``$``. So a
+"asset-let" entry in the config might look like this:
 
 ::
 
@@ -292,20 +297,20 @@ The ``asset-let`` key is basically a :ref:`macro <pages/tool/generator/generator
         "mySizes" : ["16", "32"]
       }
 
-and a corresponding *#asset* hint might use it as:
+and a corresponding *@asset* hint might use it as:
 
 ::
 
-    #asset(qx/icon/${qx.icontheme}/${mySizes}/*)
+    @asset(qx/icon/${qx.icontheme}/${mySizes}/*)
 
 The values of these macros are lists, and each reference will be expanded into all possible values with all possible combinations. So the above asset declaration would essentially be expanded into:
 
 ::
 
-    #asset(qx/icon/Tango/16/*)
-    #asset(qx/icon/Tango/32/*)
-    #asset(qx/icon/Oxygen/16/*)
-    #asset(qx/icon/Oxygen/32/*)
+    @asset(qx/icon/Tango/16/*)
+    @asset(qx/icon/Tango/32/*)
+    @asset(qx/icon/Oxygen/16/*)
+    @asset(qx/icon/Oxygen/32/*)
 
 .. _pages/tool/generator/generator_config_articles#library_key_and_manifest_files:
 

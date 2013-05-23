@@ -101,7 +101,7 @@ Triggers the generation of a custom Apiviewer application. Takes a map.
 asset-let
 =========
 
-Defines macros that will be replaced in #asset hints. Takes a map.
+Defines macros that will be replaced in :ref:`pages/development/api_jsdoc_ref#asset` hints. Takes a map.
 
 ::
 
@@ -112,7 +112,10 @@ Defines macros that will be replaced in #asset hints. Takes a map.
 
 Each entry is
 
-* <macro_name> : [<list of replacement strings>] Like with macros, references (through '${macro_name}') to these keys in #asset hints in source files will be replaced. Unlike macros, each listed value will be used, and the result is the list of all ensuing expressions, so that all resulting assets will be honored.
+* <macro_name> : [<list of replacement strings>] Like with macros, references
+  (through '${macro_name}') to these keys in @asset hints in source files will be
+  replaced. Unlike macros, each listed value will be used, and the result is the
+  list of all ensuing expressions, so that all resulting assets will be honored.
 
 :ref:`Special section <pages/tool/generator/generator_config_articles#asset-let_key>`
 
@@ -424,9 +427,21 @@ Triggers the copying of resources. Takes a map.
 
 Possible keys are
 
-* **target** : root target directory to copy resources to; may be relative to the config file location (default: "build")
+* **target** : root target directory to copy resources to; may be relative to
+  the config file location (default: "build")
 
-Unlike :ref:`pages/tool/generator/generator_config_ref#copy-files`, ``copy-resources`` does not take either a "source" key, nor a "files" key. Rather, a bit of implicit knowledge is applied. Resources will be copied from the involved libraries' ``source/resource`` directories (this obviates a "source" key). The list of needed resources is derived from the class files (e.g. from ``#asset`` hints - this obviates the "files" key), and then the libraries are searched for in order. From the first library that provides a certain resource, this resource is copied to the target folder. This way you can use most resources from a standard library (like the qooxdoo framework library), but still "shadow" a few of them by resources of the same path from a different library, just by tweaking the order in which these libraries are listed in the :ref:`pages/tool/generator/generator_config_ref#library` key.
+Unlike :ref:`pages/tool/generator/generator_config_ref#copy-files`,
+``copy-resources`` does not take either a "source" key, nor a "files" key.
+Rather, a bit of implicit knowledge is applied. Resources will be copied from
+the involved libraries' ``source/resource`` directories (this obviates a
+"source" key). The list of needed resources is derived from the class files
+(e.g. from ``@asset`` hints - this obviates the "files" key), and then the
+libraries are searched for in order. From the first library that provides a
+certain resource, this resource is copied to the target folder. This way you can
+use most resources from a standard library (like the qooxdoo framework library),
+but still "shadow" a few of them by resources of the same path from a different
+library, just by tweaking the order in which these libraries are listed in the
+:ref:`pages/tool/generator/generator_config_ref#library` key.
 
 
 .. _pages/tool/generator/generator_config_ref#default-job:

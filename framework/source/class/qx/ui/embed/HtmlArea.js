@@ -24,7 +24,6 @@
 
 /* ************************************************************************
 
-#asset(qx/static/blank.html)
 
 ************************************************************************ */
 
@@ -32,8 +31,9 @@
  * Rich text editor widget which encapsulates the low-level {@link qx.bom.htmlarea.HtmlArea}
  * component to offer editing features.
  *
+ * Optimized for the use in a RIA.
  *
- * Optimized for the use at a RIA.
+ * @asset(qx/static/blank.html)
  */
 qx.Class.define("qx.ui.embed.HtmlArea",
 {

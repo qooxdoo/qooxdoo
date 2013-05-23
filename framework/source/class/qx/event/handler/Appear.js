@@ -62,11 +62,11 @@ qx.Class.define("qx.event.handler.Appear",
 
   statics :
   {
-    /** {Integer} Priority of this handler */
+    /** @type {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
 
 
-    /** {Map} Supported event types */
+    /** @type {Map} Supported event types */
     SUPPORTED_TYPES :
     {
       appear : true,
@@ -74,15 +74,15 @@ qx.Class.define("qx.event.handler.Appear",
     },
 
 
-    /** {Integer} Which target check to use */
+    /** @type {Integer} Which target check to use */
     TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE,
 
 
-    /** {Integer} Whether the method "canHandleEvent" must be called */
+    /** @type {Integer} Whether the method "canHandleEvent" must be called */
     IGNORE_CAN_HANDLE : true,
 
 
-    /** {Map} Stores all appear manager instances */
+    /** @type {Map} Stores all appear manager instances */
     __instances : {},
 
 

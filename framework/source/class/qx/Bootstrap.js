@@ -384,7 +384,7 @@ qx.Bootstrap.define("qx.Bootstrap",
     },
 
 
-    /** {Map} Stores all defined classes */
+    /** @type {Map} Stores all defined classes */
     $$registry : {},
 
 

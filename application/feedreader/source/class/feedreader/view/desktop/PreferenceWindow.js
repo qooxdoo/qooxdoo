@@ -19,18 +19,14 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
-#asset(qx/icon/${qx.icontheme}/16/actions/dialog-cancel.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/preferences-theme.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/preferences-display.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/preferences-locale.png)
-
-************************************************************************ */
-
 /**
  * The feed reader preference window
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-cancel.png)
+ * @asset(qx/icon/${qx.icontheme}/16/apps/preferences-theme.png)
+ * @asset(qx/icon/${qx.icontheme}/16/apps/preferences-display.png)
+ * @asset(qx/icon/${qx.icontheme}/16/apps/preferences-locale.png)
  */
 qx.Class.define("feedreader.view.desktop.PreferenceWindow",
 {

@@ -218,7 +218,7 @@ Description
 
 **Syntax**
 
-  ``@childControl <name> { <type> } <description>``
+  ``@childControl <name> { <type> } [<description>]``
 
 **Parameters**
 
@@ -231,7 +231,7 @@ Description
       * - type
         - The :ref:`type specification <pages/development/api_jsdoc_ref#types_syntax>` of the child control widget
       * - description
-        - What the child control is used for in the context of this widget
+        - *(opt.)* What the child control is used for in the context of this widget
   
 **Example**
 
@@ -258,7 +258,7 @@ Description
 
 **Syntax**
 
-  ``@param <name> { <type> } <description>``
+  ``@param <name> { <type> } [<description>]``
 
 **Parameters**
 
@@ -271,7 +271,7 @@ Description
       * - type
         - A :ref:`type specification <pages/development/api_jsdoc_ref#types_syntax>` like ``{Boolean | Integer ? 0}``
       * - description
-        - Descriptive text of the parameter
+        - *(opt.)* Descriptive text of the parameter
   
 **Example**
 
@@ -294,11 +294,11 @@ Description
 
 **Description**
 
-  ``@type`` is usually used to document data items, esp. when the type is not immediately apparent in the code. This is for example the case when a class member is initialized with ``null`` and a map value is assigned in the constructor, so as to not share a single map accross multiple instances.
+  ``@type`` is usually used to document data items, esp. when the type is not immediately apparent in the code. This is for example the case when a class member is initialized with ``null`` and a value of some other type is then assigned in the constructor, so as to not share a single data value accross multiple instances.
 
 **Syntax**
 
-  ``@type { <type> }``
+  ``@type { <type> } [<description>]``
 
 **Parameters**
 
@@ -308,6 +308,8 @@ Description
 
       * - type
         - A :ref:`type indicator <pages/development/api_jsdoc_ref#types_syntax>` like ``Map``
+      * - description
+        - *(opt.)* Descriptive text of the type
   
 **Example**
 
@@ -334,7 +336,7 @@ Description
 
 **Syntax**
 
-  ``@return { <type> } <description>``
+  ``@return { <type> } [<description>]``
 
 **Parameters**
 
@@ -345,7 +347,7 @@ Description
       * - type
         - The :ref:`type <pages/development/api_jsdoc_ref#types_syntax>` of the return value.
       * - description
-        - Descriptive text
+        - *(opt.)* Descriptive text
 
 **Example**
 
@@ -372,7 +374,7 @@ Description
 
 **Syntax**
 
-  ``@throws { <type> } <description>``
+  ``@throws { <type> } [<description>]``
 
 **Parameters**
 
@@ -383,7 +385,7 @@ Description
     * - type
       - The :ref:`type <pages/development/api_jsdoc_ref#types_syntax>` of the exception
     * - description
-      - Descriptive text under which circumstances this exception is thrown.
+      - *(opt.)* Descriptive text under which circumstances this exception is thrown.
 
 **Example**
 
@@ -557,7 +559,7 @@ Description
 
 **Syntax**
 
-  ``@deprecated { <since_version> } <description>``
+  ``@deprecated { <since_version> } [<description>]``
 
 **Parameters**
 
@@ -568,7 +570,7 @@ Description
       * - since_version
         - qooxdoo version with which the corresponding item was deprecated
       * - description
-        - Descriptive text of the deprecation
+        - *(opt.)* Descriptive text of the deprecation
   
 **Example**
 
@@ -662,15 +664,16 @@ Description
 
 **Description**
 
-  This hint indicates that the class needs CLDR data (e.g. names of months or week-days).
+  This hint indicates that the class needs CLDR data (e.g. names of months or
+  week-days). It takes no arguments.
 
 **Syntax**
 
-  ``@cldr``
+  ``@cldr()``
 
 **Example**
 
-  ``@cldr``
+  ``@cldr()``
 
 
 .. _pages/development/api_jsdoc_ref#asset:
@@ -686,7 +689,11 @@ Description
 
 **Description**
 
-  Request resources that this class uses to be included in a build.
+  Request resources, like images, that this class uses to be included in a build.
+
+  You can also use ``*`` as a wildcard character, to request entire
+  resource namespaces: ``@asset(foo/*)`` will request all resources found under
+  the "foo/" namespace.
 
 **Syntax**
 
@@ -739,8 +746,8 @@ Description
 
       * - class
         - Class ID where the function should be attached.
-      * - feature_name *(opt)*
-        - Feature name under which the function should be attached; if missing, the original function name is used.
+      * - feature_name
+        - *(opt.)* Feature name under which the function should be attached; if missing, the original function name is used.
 
 **Example**
 
@@ -776,8 +783,8 @@ Description
 
       * - class
         - Class ID where the function should be attached.
-      * - feature_name *(opt)*
-        - Feature name under which the function should be attached; if missing, the original function name is used.
+      * - feature_name
+        - *(opt.)* Feature name under which the function should be attached; if missing, the original function name is used.
 
 **Example**
 
@@ -799,7 +806,13 @@ Description
 
 **Description**
 
-  Enforce the inclusion of a required class *before* the current code. Use this only if the generator cannot determine the dependency automatically.
+  Enforce the inclusion of a required class *before* the current code. Use this
+  only if the generator cannot determine the dependency automatically.
+
+  There is one special name, ``feature-checks``, which is reserved for internal
+  use and shouldn't be used in normal application code. This will add all known
+  feature check classes as load time dependencies to the current class.
+
 
 **Syntax**
 
@@ -832,7 +845,12 @@ Description
 
 **Description**
 
-  Enforce the inclusion of a required class. Use this only if the generator cannot determine the dependency automatically.
+  Enforce the inclusion of a required class. Use this only if the generator
+  cannot determine the dependency automatically. 
+
+  There is one special name, ``feature-checks``, which is reserved for internal
+  use and shouldn't be used in normal application code. This will add all known
+  feature check classes as run time dependencies to the current class.
 
 **Syntax**
 
@@ -867,8 +885,27 @@ Description
 
   Ignore the occurrence of global symbols. This @ hint has two implications:
 
-  * Don't warn about if the symbol is unknown (i.e. is not in any known library or a known built-in), i.e. it influences the lint system.
-  * Don't include the symbol in the build, i.e. it influences the compiler system, which also doesn't follow the symbol's dependencies.
+  * Don't warn about it if the symbol is unknown (i.e. is not in any known library
+    or a known built-in), i.e. it influences the lint system.
+  * Don't include the symbol in the build, i.e. it influences the compiler
+    system which then also doesn't follow the symbol's dependencies.
+
+  There are two special names that may be used in application code:
+
+  * **auto-require** : Ignore all load time dependencies detected by the
+    automatic analysis; they will not be added to the class' load dependencies.
+    *This effectively turns off the automatic processing of load time
+    dependencies for this class*.
+  * **auto-use** : Ignore all run time dependencies detected by the automatic
+    analysis; they will not be added to the class' run dependencies. *This
+    effectively turns off the automatic processing of run time dependencies for
+    this class*.
+
+  You can also use ``*`` as a wildcard character, to ignore entire
+  class APIs or namespaces: ``@ignore(foo.*)`` will ignore "foo"
+  and any symbol starting with "foo.". Otherwise, matches are exact so
+  `@ignore(foo)` will only ignore "foo", but not "foo.bar".
+
 
 **Syntax**
 
@@ -881,7 +918,9 @@ Description
       :widths: 30 70
 
       * - name
-        - Class name to include. The name can include trailing wildcards, to ignore entire namespaces, e.g. ``qx.dev.*``.
+        - Class name to include. The name can include trailing wildcards, to
+          ignore entire class APIs or namespaces, e.g. ``qx.dev.Debug.*`` or
+          ``qx.dev.unit.*``.
 
 **Example**
 

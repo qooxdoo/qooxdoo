@@ -25,6 +25,7 @@
 
 import re
 from ecmascript.frontend import lang
+from ecmascript.transform.check import jshints
 from misc import filetool
 
 class MClassHints(object):
@@ -150,8 +151,31 @@ class MClassHints(object):
             for item in _unknown_:
                 console.warn(u"Unknown compiler hint '#%s' in %s" % (item, self.id))
 
+            ##
+            # @deprecated {2.2} use @-hints in place of #-hints
+            if any([meta[x] for x in "loadtimeDeps runtimeDeps optionalDeps ignoreDeps assetDeps cldr".split()]
+                + _unknown_):
+                console.warn((u"%s: '#' compiler hints are deprecated." + 
+                    " Use the corresponding '@' JSDoc hints instead (see manual).") % self.id)
+
             console.outdent()
 
+            return meta
+
+
+        ##
+        # Currently only adds @asset, @cldr
+        def get_hint_jsdocs(meta):
+            tree = self.tree()
+            if not hasattr(tree, 'hint'):
+                tree = jshints.create_hints_tree(tree)
+            for hint in tree.hint.iterator():
+                for target,hintKey in (('assetDeps','asset'), ('cldr','cldr')):
+                    if hintKey in hint.hints:
+                        #meta[target].extend(hint.hints[hintKey][None])
+                        # for now only use HintArgument.source, to comply with old #asset hints
+                        if hint.hints[hintKey][None]:
+                            meta[target].extend([x.source for x in hint.hints[hintKey][None]])
             return meta
 
         # ----------------------------------------------------------
@@ -167,7 +191,11 @@ class MClassHints(object):
         else:
             # no cached information? => build hint meta data now
             meta = classInfo['hint_meta'] = get_hint_meta()
+            meta = get_hint_jsdocs(meta)  # update with JSDoc hints
             self._writeClassCache(classInfo)
+            #from pprint import pprint
+            #print self.id,
+            #pprint(meta)
 
         if metatype:
             return meta[metatype]

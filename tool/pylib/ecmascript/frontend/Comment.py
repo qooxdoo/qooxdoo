@@ -287,7 +287,7 @@ class Comment(object):
     #    'text': u'<p>true if the mixin is compatible to the given class</p>',
     #      'type': [{'dimensions': 0, 'type': u'Boolean'}]}]
     #
-    def parse(self, format_=True, process_txt=True):
+    def parse(self, format_=True, process_txt=True, want_errors=False):
         
         hint_sign = re.compile(r'^\s*@(\w+)')
 
@@ -346,13 +346,16 @@ class Comment(object):
                         entry = getattr(self, "parse_at_"+hint_key)(line)
                     except py.ParseException, e:
                         if opts.warn_jsdoc_key_syntax:
-                            #entry = {
-                            #  "error" : "parseError",
-                            #  "message" : "Unable to parse JSDoc entry",
-                            #  "category": hint_key,
-                            #  "text": line.strip() }
                             context.console.warn("Unable to parse JSDoc entry: '%s'" % line.strip())
-                            continue # don't add those
+                            if want_errors:
+                                entry = {
+                                  "error" : "parseError",
+                                  "message" : "Unable to parse JSDoc entry",
+                                  "category": hint_key,
+                                  "text": line.strip() 
+                                }
+                            else:
+                                continue # don't add those
                 # known tag with default parsing
                 elif hint_key in (
                         'abstract', # @abstract; pend. bug#6738
@@ -363,9 +366,10 @@ class Comment(object):
                 else:
                     entry = self.parse_at__default_(line)
                     if opts.warn_unknown_jsdoc_keys:
-                        #entry["error"] = "parseError",
-                        #entry["message"] = "Unknown '@' hint in JSDoc comment"
                         context.console.warn("Unknown '@' hint in JSDoc comment: " + hint_key)
+                        if want_errors:
+                            entry["error"] = "parseError",
+                            entry["message"] = "Unknown '@' hint in JSDoc comment"
                 attribs.append(entry)
             # description
             else:
@@ -410,7 +414,6 @@ class Comment(object):
     py_term_argument = py.Regex(r'(?u)[^\s,)]+')
 
     py_comment_term = (py_js_identifier.copy().setResultsName('t_functor') + py.Suppress('(') + 
-        #py.Optional(py.delimitedList(py_js_identifier_glob)) # TODO: when retiring ignoreUndefined -> py_js_identifier
         py.Optional(py.delimitedList(py_term_argument)) # 'foo.Bar#baz'
         .setResultsName('t_arguments') + py.Suppress(')'))
 
@@ -428,13 +431,14 @@ class Comment(object):
 
     ##
     # "@type {Map} blah
-    gr_at_type = py.Suppress('@') + py.Literal('type') + py_simple_type + py.restOfLine("text")
+    gr_at_type = py.Suppress('@') + py.Literal('type') + py_type_expression + py.restOfLine("text")
     def parse_at_type(self, line):
         grammar = self.gr_at_type
         presult = grammar.parseString(line)
+        types = self._typedim_list_to_typemaps(presult.texp_types.asList() if presult.texp_types else [])
         res = {
             'category' : 'type',
-            'type' : presult.type_name,
+            'type' : types,
             'text' : presult.text.strip()
         }
         return res
@@ -630,27 +634,34 @@ class Comment(object):
         }
         return res
 
-    gr_at_require = py.Suppress('@') + py_comment_term
+    gr_at_require = py.Suppress('@') + py_comment_term + py.restOfLine("text")
     ##
     # "@require(foo, bar)"
     def parse_at_require(self, line):
         grammar = self.gr_at_require
         presult = grammar.parseString(line)
         res = {
-            'category' : 'require',
-            'arguments' : presult.t_arguments.asList(),
+            'category' : presult.t_functor,
+            'arguments' : presult.t_arguments.asList() if presult.t_arguments else [],
+            'text' : presult.text.strip(),
         }
         return res
 
     ##
     # "@use(foo,bar)"
     def parse_at_use(self, line):
-        grammar = self.gr_at_require
-        presult = grammar.parseString(line)
-        res = {
-            'category' : 'use',
-            'arguments' : presult.t_arguments.asList(),
-        }
+        return self.parse_at_require(line)
+
+    ##
+    # "@asset(custom/*)"
+    def parse_at_asset(self, line):
+        return self.parse_at_require(line)
+
+    ##
+    # "@cldr()"
+    def parse_at_cldr(self, line):
+        res = self.parse_at_require(line)
+        res['arguments'] = ['true']  # put something in, to comply with old metaHints where [] means no
         return res
 
 
@@ -936,7 +947,7 @@ def findComment(node):
 # Takes the last doc comment from the commentsBefore child, parses it and
 # returns a Node representing the doc comment
 #
-def parseNode(node, process_txt=True):
+def parseNode(node, process_txt=True, want_errors=False):
 
     # the intended meaning of <node> is "the node that has comments preceding
     # it"; in the ast, this might not be <node> itself, but the lexically first
@@ -951,7 +962,8 @@ def parseNode(node, process_txt=True):
         for comment in commentsNode.comments:
             #if comment.get("detail") in ["javadoc", "qtdoc"]:
             if comment.get("detail") in ["javadoc"]:
-                result.append( Comment(comment.get("value", "")).parse(process_txt=process_txt) )
+                result.append( Comment(comment.get("value", "")).parse(
+                    process_txt=process_txt, want_errors=want_errors) )
     if not result:
         result = [[]]  # to always have a result[-1] element in caller
     return result

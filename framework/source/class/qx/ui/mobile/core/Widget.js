@@ -386,16 +386,16 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
   statics :
   {
-    /** {String} Prefix for the auto id */
+    /** @type {String} Prefix for the auto id */
     ID_PREFIX : "qx_id_",
 
-    /** {Map} Internal data structure to store widgets */
+    /** @type {Map} Internal data structure to store widgets */
     __registry : {},
 
-    /** {Integer} Incremental counter of the current id */
+    /** @type {Integer} Incremental counter of the current id */
     __idCounter : 0,
 
-    /** {Integer} ID of the timeout for the DOM update */
+    /** @type {Integer} ID of the timeout for the DOM update */
     __domUpdatedScheduleId : null,
 
     /**

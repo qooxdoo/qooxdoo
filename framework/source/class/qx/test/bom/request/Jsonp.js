@@ -19,16 +19,20 @@
 
 /* ************************************************************************
 
-#asset(qx/test/script.js)
-#asset(qx/test/jsonp_primitive.php)
 
 ************************************************************************ */
 
 /* ************************************************************************
 
-#ignore(myExistingCallback)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/test/script.js)
+ * @asset(qx/test/jsonp_primitive.php)
+ *
+ * @ignore(myExistingCallback)
+ */
 
 qx.Class.define("qx.test.bom.request.Jsonp",
 {

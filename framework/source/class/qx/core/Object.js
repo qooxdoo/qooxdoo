@@ -203,7 +203,7 @@ qx.Class.define("qx.core.Object",
     ---------------------------------------------------------------------------
     */
 
-    /** {Map} stored user data */
+    /** @type {Map} stored user data */
     __userData : null,
 
 

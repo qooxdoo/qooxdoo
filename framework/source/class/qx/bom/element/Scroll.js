@@ -31,7 +31,7 @@ qx.Class.define("qx.bom.element.Scroll",
 
   statics :
   {
-    /** {Integer} The typical native scrollbar size in the environment */
+    /** @type {Integer} The typical native scrollbar size in the environment */
     __scrollbarSize : null,
 
     /**

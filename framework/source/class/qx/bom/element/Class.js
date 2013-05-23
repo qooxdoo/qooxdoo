@@ -49,10 +49,10 @@ qx.Bootstrap.define("qx.bom.element.Class",
 
   statics :
   {
-    /** {RegExp} Regular expressions to split class names */
+    /** @type {RegExp} Regular expressions to split class names */
     __splitter : /\s+/g,
 
-    /** {RegExp} String trim regular expression. */
+    /** @type {RegExp} String trim regular expression. */
     __trim : /^\s+|\s+$/g,
 
     /**

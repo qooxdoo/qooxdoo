@@ -432,7 +432,8 @@ qx.Class.define("qx.ui.basic.Image",
       this.__checkForContentElementSwitch(source);
 
       if ((qx.core.Environment.get("engine.name") == "mshtml") &&
-        parseInt(qx.core.Environment.get("engine.version"), 10) < 9)
+        (parseInt(qx.core.Environment.get("engine.version"), 10) < 9 ||
+         qx.core.Environment.get("browser.documentmode") < 9))
       {
         var repeat = this.getScale() ? "scale" : "no-repeat";
         element.tagNameHint = qx.bom.element.Decoration.getTagName(repeat, source);

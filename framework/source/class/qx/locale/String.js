@@ -19,13 +19,11 @@
 
 ************************************************************************ */
 
-/*
-#cldr
-*/
-
 /**
  * Provides information about locale-dependent string formatting (like quotation
  * signs).
+ *
+ * @cldr()
  */
 
 qx.Class.define("qx.locale.String",

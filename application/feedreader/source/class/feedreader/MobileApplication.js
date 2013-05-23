@@ -18,16 +18,13 @@
      * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
-/* ************************************************************************
-
-#asset(qx/mobile/icon/android/*)
-#asset(qx/mobile/icon/ios/*)
-#asset(qx/mobile/icon/common/*)
-
-************************************************************************ */
 
 /**
  * The feed reader's mobile main application class.
+ *
+ * @asset(qx/mobile/icon/android/*)
+ * @asset(qx/mobile/icon/ios/*)
+ * @asset(qx/mobile/icon/common/*)
  */
 qx.Class.define("feedreader.MobileApplication",
 {

@@ -19,18 +19,14 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(feedreader/*)
-#asset(qx/icon/${qx.icontheme}/22/apps/internet-feed-reader.png)
-#asset(qx/icon/${qx.icontheme}/22/actions/process-stop.png)
-#asset(qx/icon/${qx.icontheme}/22/apps/preferences-clock.png)
-#asset(qx/icon/${qx.icontheme}/22/places/folder.png)
-
-************************************************************************ */
-
 /**
  * The feed reader's main application class.
+ *
+ * @asset(feedreader/*)
+ * @asset(qx/icon/${qx.icontheme}/22/apps/internet-feed-reader.png)
+ * @asset(qx/icon/${qx.icontheme}/22/actions/process-stop.png)
+ * @asset(qx/icon/${qx.icontheme}/22/apps/preferences-clock.png)
+ * @asset(qx/icon/${qx.icontheme}/22/places/folder.png)
  */
 qx.Class.define("feedreader.Application",
 {

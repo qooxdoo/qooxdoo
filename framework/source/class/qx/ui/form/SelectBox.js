@@ -108,7 +108,7 @@ qx.Class.define("qx.ui.form.SelectBox",
 
   members :
   {
-    /** {qx.ui.form.ListItem} instance */
+    /** @type {qx.ui.form.ListItem} instance */
     __preSelectedItem : null,
 
 

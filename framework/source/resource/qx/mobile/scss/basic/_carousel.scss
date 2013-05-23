@@ -8,6 +8,7 @@
 
 .carousel-scroller {
   @include transition(all ease-out);
+  @include transform(translate3d(0,0,0));
   vertical-align:top;
 
 }

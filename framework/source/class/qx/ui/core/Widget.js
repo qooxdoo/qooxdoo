@@ -21,7 +21,6 @@
 /* ************************************************************************
 
 
-#asset(qx/static/blank.gif)
 
 ************************************************************************ */
 
@@ -35,6 +34,7 @@
  *
  * @use(qx.ui.core.EventHandler)
  * @use(qx.event.handler.DragDrop)
+ * @asset(qx/static/blank.gif)
  */
 qx.Class.define("qx.ui.core.Widget",
 {
@@ -853,7 +853,7 @@ qx.Class.define("qx.ui.core.Widget",
       return false;
     },
 
-    /** {Map} Contains all pooled separators for reuse */
+    /** @type {Map} Contains all pooled separators for reuse */
     __separatorPool : new qx.util.ObjectPool()
   },
 
@@ -882,7 +882,7 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /**
-     * {qx.ui.layout.Abstract} The connected layout manager
+     * @type {qx.ui.layout.Abstract} The connected layout manager
      */
     __layoutManager : null,
 
@@ -949,7 +949,7 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    /** {Boolean} Whether insets have changed and must be updated */
+    /** @type {Boolean} Whether insets have changed and must be updated */
     _updateInsets : null,
 
 
@@ -1628,7 +1628,7 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /** {qx.ui.core.LayoutItem[]} List of all child widgets */
+    /** @type {qx.ui.core.LayoutItem[]} List of all child widgets */
     __widgetChildren : null,
 
 
@@ -1727,7 +1727,7 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * {Array} Placeholder for children list in empty widgets.
+     * @type {Array} Placeholder for children list in empty widgets.
      *     Mainly to keep instance number low.
      *
      * @lint ignoreReferenceField(__emptyChildren)
@@ -2357,15 +2357,15 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /** {Map} The current widget states */
+    /** @type {Map} The current widget states */
     __states : null,
 
 
-    /** {Boolean} Whether the widget has state changes which are not yet queued */
+    /** @type {Boolean} Whether the widget has state changes which are not yet queued */
     $$stateChanges : null,
 
 
-    /** {Map} Can be overridden to forward states to the child controls. */
+    /** @type {Map} Can be overridden to forward states to the child controls. */
     _forwardStates : null,
 
 
@@ -2526,11 +2526,11 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /** {String} The currently compiled selector to lookup the matching appearance */
+    /** @type {String} The currently compiled selector to lookup the matching appearance */
     __appearanceSelector : null,
 
 
-    /** {Boolean} Whether the selectors needs to be recomputed before updating appearance */
+    /** @type {Boolean} Whether the selectors needs to be recomputed before updating appearance */
     __updateSelector : null,
 
 
@@ -3035,7 +3035,8 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyDraggable : function(value, old)
     {
-      if (qx.core.Environment.get("qx.emulatemouse")) {
+      var hasTouch = qx.core.Environment.get("event.touch") || qx.core.Environment.get("event.mspointer");
+      if (hasTouch && qx.core.Environment.get("qx.emulatemouse")) {
         return;
       }
       if (!this.isEnabled() && value === true) {
@@ -3351,7 +3352,7 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    /** {Map} Map of instantiated child controls */
+    /** @type {Map} Map of instantiated child controls */
     __childControls : null,
 
 

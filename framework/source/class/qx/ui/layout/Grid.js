@@ -155,7 +155,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
   members :
   {
-    /** {Array} 2D array of grid cell data */
+    /** @type {Array} 2D array of grid cell data */
     __grid : null,
     __rowData : null,
     __colData : null,
@@ -165,10 +165,10 @@ qx.Class.define("qx.ui.layout.Grid",
     __maxRowIndex : null,
     __maxColIndex : null,
 
-    /** {Array} cached row heights */
+    /** @type {Array} cached row heights */
     __rowHeights : null,
 
-    /** {Array} cached column widths */
+    /** @type {Array} cached column widths */
     __colWidths : null,
 
 

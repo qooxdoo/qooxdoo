@@ -20,8 +20,6 @@
 
 /* ************************************************************************
 
-#asset(qx/mobile/js/iscroll*.js)
-#ignore(iScroll)
 
 ************************************************************************ */
 
@@ -32,6 +30,7 @@
  * Android < 2.2.
  *
  * @ignore(iScroll)
+ * @asset(qx/mobile/js/iscroll*.js)
  */
 qx.Mixin.define("qx.ui.mobile.container.MIScroll",
 {

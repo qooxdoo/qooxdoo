@@ -24,7 +24,7 @@ qx.Class.define("qx.test.event.MockBubblingHandler",
 
   statics :
   {
-    /** {Integer} Priority of this handler */
+    /** @type {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_LAST
   },
 

@@ -68,7 +68,7 @@ qx.Class.define("qx.ui.window.Manager",
     },
 
 
-    /** {Integer} Minimum zIndex to start with for windows */
+    /** @type {Integer} Minimum zIndex to start with for windows */
     _minZIndex : 1e5,
 
 

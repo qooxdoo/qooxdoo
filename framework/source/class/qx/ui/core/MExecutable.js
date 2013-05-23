@@ -76,7 +76,7 @@ qx.Mixin.define("qx.ui.core.MExecutable",
 
 
     /**
-     * {Map} Set of properties, which will by synced from the command to the
+     * @type {Map} Set of properties, which will by synced from the command to the
      *    including widget
      *
      * @lint ignoreReferenceField(_bindableProperties)

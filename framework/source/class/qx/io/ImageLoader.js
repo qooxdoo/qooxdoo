@@ -31,21 +31,21 @@ qx.Bootstrap.define("qx.io.ImageLoader",
 {
   statics :
   {
-    /** {Map} Internal data structure to cache image sizes */
+    /** @type {Map} Internal data structure to cache image sizes */
     __data : {},
 
 
-    /** {Map} Default image size */
+    /** @type {Map} Default image size */
     __defaultSize :
     {
       width : null,
       height : null
     },
 
-    /** {RegExp} Known image types */
+    /** @type {RegExp} Known image types */
     __knownImageTypesRegExp : /\.(png|gif|jpg|jpeg|bmp)\b/i,
 
-    /** {RegExp} Image types of a data URL */
+    /** @type {RegExp} Image types of a data URL */
     __dataUrlRegExp : /^data:image\/(png|gif|jpg|jpeg|bmp)\b/i,
 
     /**

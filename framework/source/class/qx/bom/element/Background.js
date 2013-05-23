@@ -28,7 +28,7 @@ qx.Class.define("qx.bom.element.Background",
 {
   statics :
   {
-    /** {Array} Internal helper to improve compile performance */
+    /** @type {Array} Internal helper to improve compile performance */
     __tmpl :
     [
       "background-image:url(", null, ");",
@@ -37,7 +37,7 @@ qx.Class.define("qx.bom.element.Background",
     ],
 
 
-    /** {Map} Empty styles when no image is given */
+    /** @type {Map} Empty styles when no image is given */
     __emptyStyles :
     {
       backgroundImage : null,

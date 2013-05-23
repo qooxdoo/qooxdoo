@@ -31,7 +31,7 @@ qx.Bootstrap.define("qx.bom.Label",
 
   statics :
   {
-    /** {Map} Contains all supported styles */
+    /** @type {Map} Contains all supported styles */
     __styles :
     {
       fontFamily : 1,

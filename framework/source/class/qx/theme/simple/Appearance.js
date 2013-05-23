@@ -19,19 +19,20 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Tango/16/apps/office-calendar.png)
-#asset(qx/icon/Tango/16/places/folder-open.png)
-#asset(qx/icon/Tango/16/places/folder.png)
-#asset(qx/icon/Tango/16/mimetypes/text-plain.png)
-#asset(qx/icon/Tango/16/actions/view-refresh.png)
-#asset(qx/icon/Tango/16/actions/window-close.png)
-#asset(qx/icon/Tango/16/actions/dialog-cancel.png)
-#asset(qx/icon/Tango/16/actions/dialog-ok.png)
 
 ************************************************************************* */
 
 /**
  * The simple qooxdoo appearance theme.
+ *
+ * @asset(qx/icon/Tango/16/apps/office-calendar.png)
+ * @asset(qx/icon/Tango/16/places/folder-open.png)
+ * @asset(qx/icon/Tango/16/places/folder.png)
+ * @asset(qx/icon/Tango/16/mimetypes/text-plain.png)
+ * @asset(qx/icon/Tango/16/actions/view-refresh.png)
+ * @asset(qx/icon/Tango/16/actions/window-close.png)
+ * @asset(qx/icon/Tango/16/actions/dialog-cancel.png)
+ * @asset(qx/icon/Tango/16/actions/dialog-ok.png)
  */
 qx.Theme.define("qx.theme.simple.Appearance",
 {
@@ -373,6 +374,23 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           decorator : undefined
+        };
+      }
+    },
+
+    "progressive-table-header" : {
+      style : function(states) {
+        return {
+          decorator: "progressive-table-header"
+        };
+      }
+    },
+
+    "progressive-table-header-cell" : {
+      style : function(states) {
+        return {
+          decorator: "progressive-table-header-cell",
+          padding : [5, 6, 5, 6]
         };
       }
     },

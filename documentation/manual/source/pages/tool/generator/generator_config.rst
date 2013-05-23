@@ -184,7 +184,7 @@ First, here is an overview table, to list all possible keys in a job (if the key
   * - add-script
     - Includes aritrary URIs to be loaded by the app.
   * - asset-let
-    - Defines macros that will be replaced in #asset hints.    
+    - Defines macros that will be replaced in @asset hints.
   * - compile-options
     - Various options that taylor the *compile* action.
   * - dependencies
@@ -251,7 +251,7 @@ This shows the complete possible contents of the top-level configuration map. Fu
 
     * :ref:`add-script <pages/tool/generator/generator_config_ref#api>` A list of URIs that will be loaded first thing when the app starts.
     * :ref:`api <pages/tool/generator/generator_config_ref#api>` Triggers the generation of a custom Apiviewer application.
-    * :ref:`asset-let <pages/tool/generator/generator_config_ref#asset-let>` Defines macros that will be replaced in #asset hints in source files. (See special section on the :ref:`"asset-let" key <pages/tool/generator/generator_config_articles#asset-let_key>`).
+    * :ref:`asset-let <pages/tool/generator/generator_config_ref#asset-let>` Defines macros that will be replaced in @asset hints in source files. (See special section on the :ref:`"asset-let" key <pages/tool/generator/generator_config_articles#asset-let_key>`).
     * :ref:`cache <pages/tool/generator/generator_config_ref#cache>` Define the path to cache directories, most importantly to the compile cache. (See special section on the :ref:`pages/tool/generator/generator_config_articles#cache_key` key).
     * :ref:`clean-files <pages/tool/generator/generator_config_ref#clean-files>` Triggers clean-up of files and directories within a project and the framework, e.g. deletion of generated files, cache contents, etc.
     * :ref:`collect-environment-info <pages/tool/generator/generator_config_ref#collect-environment-info>` Collects various information about the qooxdoo environment (like version, cache, etc.) and prints it to the console.

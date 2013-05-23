@@ -58,11 +58,11 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
 
   members :
   {
-    /** {qx.ui.virtual.cell.WidgetCell} the used item renderer */
+    /** @type {qx.ui.virtual.cell.WidgetCell} the used item renderer */
     _itemRenderer : null,
 
 
-    /** {qx.ui.virtual.cell.WidgetCell} the used group renderer */
+    /** @type {qx.ui.virtual.cell.WidgetCell} the used group renderer */
     _groupRenderer : null,
 
 

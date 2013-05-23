@@ -27,7 +27,7 @@ qx.Class.define("qx.ui.core.queue.Dispose",
 {
   statics :
   {
-    /** {Array} This contains all the queued widgets for the next flush. */
+    /** @type {Array} This contains all the queued widgets for the next flush. */
     __queue : [],
 
 

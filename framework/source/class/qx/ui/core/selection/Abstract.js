@@ -1336,7 +1336,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     */
 
     /**
-     * {Map} All supported navigation keys
+     * @type {Map} All supported navigation keys
      *
      * @lint ignoreReferenceField(__navigationKeys)
      */

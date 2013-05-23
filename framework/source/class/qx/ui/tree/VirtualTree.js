@@ -303,44 +303,44 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
   members :
   {
-    /** {qx.ui.tree.provider.WidgetProvider} Provider for widget rendering. */
+    /** @type {qx.ui.tree.provider.WidgetProvider} Provider for widget rendering. */
     _provider : null,
 
 
-    /** {qx.ui.virtual.layer.Abstract} Layer which contains the items. */
+    /** @type {qx.ui.virtual.layer.Abstract} Layer which contains the items. */
     _layer : null,
 
 
     /**
-     * {qx.data.Array} The internal lookup table data structure to get the model item
+     * @type {qx.data.Array} The internal lookup table data structure to get the model item
      * from a row.
      */
     __lookupTable : null,
 
 
-    /** {Array} HashMap which contains all open nodes. */
+    /** @type {Array} HashMap which contains all open nodes. */
     __openNodes : null,
 
 
     /**
-     * {Array} The internal data structure to get the nesting level from a
+     * @type {Array} The internal data structure to get the nesting level from a
      * row.
      */
     __nestingLevel : null,
 
 
     /**
-     * {qx.util.DeferredCall} Adds this instance to the widget queue on a
+     * @type {qx.util.DeferredCall} Adds this instance to the widget queue on a
      * deferred call.
      */
     __deferredCall : null,
 
 
-    /** {Integer} Holds the max item width from a rendered widget. */
+    /** @type {Integer} Holds the max item width from a rendered widget. */
     __itemWidth : 0,
 
 
-    /** {Array} internal parent chain form the last selected node */
+    /** @type {Array} internal parent chain form the last selected node */
     __parentChain : null,
 
 

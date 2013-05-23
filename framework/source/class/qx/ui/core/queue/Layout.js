@@ -27,7 +27,7 @@ qx.Class.define("qx.ui.core.queue.Layout",
 {
   statics :
   {
-    /** {Map} This contains all the queued widgets for the next flush. */
+    /** @type {Map} This contains all the queued widgets for the next flush. */
     __queue : {},
 
 

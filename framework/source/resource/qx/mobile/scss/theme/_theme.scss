@@ -175,6 +175,7 @@ ul {
 }
 
 ul li {
+  position:relative;
   color:  $list-title-text-color;
   border-top: $border-thickness solid $list-border-color;
 }
@@ -195,24 +196,29 @@ ul li.active * {
   color: $list-active-text-color;
 }
 
-ul li.arrow {
-  background: url("../icon/common/arrow.png") no-repeat right center;
+ul li.arrow:after {
+  content:'';
+  @include transform(rotate(45deg));
+  @include transform-origin(50% 50%);
+
+  border-top: $list-arrow-size solid $list-arrow-color;
+  border-right: $list-arrow-size solid $list-arrow-color;
+  
+  width: $list-arrow-size*2;
+  height: $list-arrow-size*2;
+  position: absolute;
+  right:15px;
+  
+  top: 50%;
+  margin-top:-1.5*($list-arrow-size);
 }
 
-$list-active-gradient-start: lighten($list-active-background-color, 20%);
-$list-active-gradient-stop: $list-active-background-color; 
-
-ul li.active.arrow, ul li.selected.arrow {
-  background-image: url("../icon/common/arrow_pressed.png"), -webkit-gradient(linear, center top, center bottom, color-stop(0%,$list-active-gradient-start), color-stop(100%,$list-active-gradient-stop));
-  background-image: url("../icon/common/arrow_pressed.png"), -webkit-linear-gradient(top, $list-active-gradient-start, $list-active-gradient-stop 100%);
-  background-image: url("../icon/common/arrow_pressed.png"), -moz-linear-gradient(top, $list-active-gradient-start, $list-active-gradient-stop 100%);
-  background-image: url("../icon/common/arrow_pressed.png"), linear-gradient(to bottom, $list-active-gradient-start, $list-active-gradient-stop 100%);
-  background-position: right center;
-  background-repeat: no-repeat;
+ul li.arrow.active:after {
+  border-color: $list-active-arrow-color;
 }
 
 ul li.active {
-  @include gradient-vertical($list-active-gradient-start, $list-active-gradient-stop);
+  @include gradient-vertical(lighten($list-active-background-color, 20%), $list-active-background-color);
 }
 
 //

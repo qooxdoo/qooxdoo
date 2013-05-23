@@ -25,9 +25,6 @@
 
 /**
  * Container for the source code editor.
- *
- * @ignore(require)
- * @ignore(ace)
  */
 qx.Class.define("playground.view.Editor",
 {
@@ -86,8 +83,6 @@ qx.Class.define("playground.view.Editor",
     /**
      * The constructor was spit up to make the included mixin available during
      * the init process.
-     *
-     * @lint ignoreUndefined(require)
      */
     init: function()
     {
@@ -166,7 +161,7 @@ qx.Class.define("playground.view.Editor",
      * This code part uses the ajax.org code editor library to add a
      * syntax-highlighting editor as an textarea replacement
      *
-     * @lint ignoreUndefined(ace,require)
+     * @ignore(ace.edit, require)
      */
     __onEditorAppear : function() {
       // timout needed for chrome to not get the ACE layout wrong and show the

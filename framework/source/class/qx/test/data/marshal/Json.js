@@ -19,16 +19,15 @@
 
 /* ************************************************************************
 
-#asset(qx/test/*)
-#ignore(qx.Test)
-#ignore(qx.test.model)
 
 ************************************************************************ */
 /**
+ * @asset(qx/test/*)
+ *
  * @lint ignoreDeprecated(eval)
  * @ignore(qx.data.model)
- * @ignore(qx.Test)
  * @ignore(qx.test.model)
+ * @ignore(qx.Test)
  */
 qx.Class.define("qx.test.data.marshal.Json",
 {

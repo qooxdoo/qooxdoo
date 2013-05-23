@@ -52,21 +52,19 @@ qx.Class.define("qx.test.util.DisposeUtil",
 
       qx.util.DisposeUtil.destroyContainer(container);
 
-      window.setTimeout(function() {
-        self.resume(function() {
-          this.assertTrue(container.isDisposed(), "container not disposed!");
-          this.assertTrue(childContainer1.isDisposed(), "childContainer1 not disposed!");
-          this.assertTrue(childContainer2.isDisposed(), "childContainer2 not disposed!");
-          this.assertTrue(childContainer3.isDisposed(), "childContainer3 not disposed!");
-          this.assertTrue(child1.isDisposed(), "child1 not disposed!");
-          this.assertTrue(child2.isDisposed(), "child2 not disposed!");
-          this.assertTrue(child3.isDisposed(), "child3 not disposed!");
-          this.assertTrue(child4.isDisposed(), "child4 not disposed!");
-          this.assertTrue(child5.isDisposed(), "child5 not disposed!");
-          this.assertTrue(childContainer4.isDisposed(), "childContainer4 not disposed!");
-        }, self);
-      }, 25);
-      this.wait();
+      // flush the dispose queue
+      qx.ui.core.queue.Dispose.flush();
+
+      this.assertTrue(container.isDisposed(), "container not disposed!");
+      this.assertTrue(childContainer1.isDisposed(), "childContainer1 not disposed!");
+      this.assertTrue(childContainer2.isDisposed(), "childContainer2 not disposed!");
+      this.assertTrue(childContainer3.isDisposed(), "childContainer3 not disposed!");
+      this.assertTrue(child1.isDisposed(), "child1 not disposed!");
+      this.assertTrue(child2.isDisposed(), "child2 not disposed!");
+      this.assertTrue(child3.isDisposed(), "child3 not disposed!");
+      this.assertTrue(child4.isDisposed(), "child4 not disposed!");
+      this.assertTrue(child5.isDisposed(), "child5 not disposed!");
+      this.assertTrue(childContainer4.isDisposed(), "childContainer4 not disposed!");
     }
   }
 });

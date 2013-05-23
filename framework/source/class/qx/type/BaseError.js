@@ -80,7 +80,7 @@ qx.Class.define("qx.type.BaseError",
     __sTrace : null,
     __comment : null,
 
-    /** {String} Fail message provided by the assertion */
+    /** @type {String} Fail message provided by the assertion */
     message : null,
 
 

@@ -71,10 +71,10 @@ qx.Class.define("qx.event.handler.Touch",
 
   statics :
   {
-    /** {Integer} Priority of this handler */
+    /** @type {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
 
-    /** {Map} Supported event types */
+    /** @type {Map} Supported event types */
     SUPPORTED_TYPES :
     {
       touchstart : 1,
@@ -85,13 +85,13 @@ qx.Class.define("qx.event.handler.Touch",
       swipe : 1
     },
 
-    /** {Integer} Which target check to use */
+    /** @type {Integer} Which target check to use */
     TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE + qx.event.IEventHandler.TARGET_DOCUMENT,
 
-    /** {Integer} Whether the method "canHandleEvent" must be called */
+    /** @type {Integer} Whether the method "canHandleEvent" must be called */
     IGNORE_CAN_HANDLE : true,
 
-    /** {Map} Mapping of mouse events to touch events */
+    /** @type {Map} Mapping of mouse events to touch events */
     MOUSE_TO_TOUCH_MAPPING :
     {
       "mousedown" : "touchstart",

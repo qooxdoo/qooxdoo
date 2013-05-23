@@ -25,11 +25,11 @@ qx.Class.define("qx.ui.core.queue.Visibility",
 {
   statics :
   {
-    /** {Array} This contains all the queued widgets for the next flush. */
+    /** @type {Array} This contains all the queued widgets for the next flush. */
     __queue : [],
 
 
-    /** {Map} Maps hash codes to visibility */
+    /** @type {Map} Maps hash codes to visibility */
     __data : {},
 
 

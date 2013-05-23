@@ -19,9 +19,12 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Tango/22/emotes/face-angel.png)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/Tango/22/emotes/face-angel.png)
+ */
 
 qx.Class.define("qx.test.ui.virtual.cell.WidgetCell",
 {

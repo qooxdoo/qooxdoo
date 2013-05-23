@@ -291,19 +291,19 @@ qx.Bootstrap.define("qx.bom.element.Style",
     },
 
 
-    /** {Integer} Computed value of a style property. Compared to the cascaded style,
+    /** @type {Integer} Computed value of a style property. Compared to the cascaded style,
      * this one also interprets the values e.g. translates <code>em</code> units to
      * <code>px</code>.
      */
     COMPUTED_MODE : 1,
 
 
-    /** {Integer} Cascaded value of a style property. */
+    /** @type {Integer} Cascaded value of a style property. */
     CASCADED_MODE : 2,
 
 
     /**
-     * {Integer} Local value of a style property. Ignores inheritance cascade.
+     * @type {Integer} Local value of a style property. Ignores inheritance cascade.
      *   Does not interpret values.
      */
     LOCAL_MODE : 3,

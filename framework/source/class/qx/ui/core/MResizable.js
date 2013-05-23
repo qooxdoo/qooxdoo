@@ -284,7 +284,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
 
     /**
-     * {Map} Maps internal states to cursor symbols to use
+     * @type {Map} Maps internal states to cursor symbols to use
      *
      * @lint ignoreReferenceField(__resizeCursors)
      */

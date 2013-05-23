@@ -125,7 +125,7 @@ qx.Class.define("qx.ui.tabview.TabView",
 
   members :
   {
-    /** {qx.ui.form.RadioGroup} instance containing the radio group */
+    /** @type {qx.ui.form.RadioGroup} instance containing the radio group */
     __radioGroup : null,
 
 
@@ -363,7 +363,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     */
 
 
-    /** {Map} Maps the bar position to an appearance state */
+    /** @type {Map} Maps the bar position to an appearance state */
     __barPositionToState : null,
 
     /**

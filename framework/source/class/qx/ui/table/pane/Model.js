@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.table.pane.Model",
   statics :
   {
 
-    /** {string} The type of the event fired when the model changed. */
+    /** @type {string} The type of the event fired when the model changed. */
     EVENT_TYPE_MODEL_CHANGED : "modelChanged"
   },
 

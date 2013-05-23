@@ -19,14 +19,15 @@
 
 /* ************************************************************************
 
-#asset(qx/decoration/Indigo/font/JosefinSlab-SemiBold.woff)
-#asset(qx/decoration/Indigo/font/JosefinSlab-SemiBold.ttf)
 
 ************************************************************************* */
 
 
 /**
  * The simple qooxdoo font theme.
+ *
+ * @asset(qx/decoration/Indigo/font/JosefinSlab-SemiBold.woff)
+ * @asset(qx/decoration/Indigo/font/JosefinSlab-SemiBold.ttf)
  */
 qx.Theme.define("qx.theme.indigo.Font",
 {

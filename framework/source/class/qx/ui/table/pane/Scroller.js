@@ -139,10 +139,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
   statics :
   {
 
-    /** {int} The minimum width a column could get in pixels. */
+    /** @type {int} The minimum width a column could get in pixels. */
     MIN_COLUMN_WIDTH         : 10,
 
-    /** {int} The radius of the resize region in pixels. */
+    /** @type {int} The radius of the resize region in pixels. */
     RESIZE_REGION_RADIUS     : 5,
 
 

@@ -39,7 +39,7 @@ qx.Class.define("qx.application.AbstractGui",
 
   members :
   {
-    /** {qx.ui.core.Widget} The root widget */
+    /** @type {qx.ui.core.Widget} The root widget */
     __root : null,
 
 

@@ -79,7 +79,7 @@ qx.Class.define("qx.event.Manager",
 
   statics :
   {
-    /** {Integer} Last used ID for an event */
+    /** @type {Integer} Last used ID for an event */
     __lastUnique : 0,
 
 

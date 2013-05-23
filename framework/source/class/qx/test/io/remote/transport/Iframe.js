@@ -18,8 +18,11 @@ Authors:
 ************************************************************************ */
 
 /*
-#asset(qx/test/xmlhttp/echo_get_request.php)
 */
+/**
+ *
+ * @asset(qx/test/xmlhttp/echo_get_request.php)
+ */
 
 qx.Class.define("qx.test.io.remote.transport.Iframe",
 {

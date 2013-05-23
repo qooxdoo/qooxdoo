@@ -58,16 +58,16 @@ qx.Class.define("qx.html.Flash",
   members :
   {
 
-    /** {Map} The attributes for the Flash movie. */
+    /** @type {Map} The attributes for the Flash movie. */
     __params : null,
 
-    /** {Map} the attributes for the object tag */
+    /** @type {Map} the attributes for the object tag */
     __attributes : null,
 
-    /** {Map} The <code>FlashVars</code> to pass variables to the Flash movie. */
+    /** @type {Map} The <code>FlashVars</code> to pass variables to the Flash movie. */
     __variables : null,
 
-    /** {qx.bom.Flash} The DOM Flash element. */
+    /** @type {qx.bom.Flash} The DOM Flash element. */
     __flash : null,
 
     // overridden

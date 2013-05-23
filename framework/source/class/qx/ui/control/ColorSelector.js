@@ -186,12 +186,12 @@ qx.Class.define("qx.ui.control.ColorSelector",
     */
 
     /**
-     * {String} The context in which an update has occurred.
+     * @type {String} The context in which an update has occurred.
      */
     __updateContext : null,
 
     /**
-     * {Array} Map containing the preset colors.
+     * @type {Array} Map containing the preset colors.
      * @lint ignoreReferenceField(__presetTable)
      */
     __presetTable : [ "maroon", "red", "orange", "yellow", "olive", "purple",
@@ -199,22 +199,22 @@ qx.Class.define("qx.ui.control.ColorSelector",
       "#333", "#666", "#999", "#BBB", "#EEE", "white" ],
 
     /**
-     * {String} Name of child control which is captured.
+     * @type {String} Name of child control which is captured.
      */
     __capture : "",
 
     /**
-     * {Number} Numeric brightness value
+     * @type {Number} Numeric brightness value
      */
     __brightnessSubtract : 0,
 
     /**
-     * {Integer} HueSaturation's X coordinate
+     * @type {Integer} HueSaturation's X coordinate
      */
     __hueSaturationSubtractTop : 0,
 
     /**
-     * {Integer} HueSaturation's Y coordinate
+     * @type {Integer} HueSaturation's Y coordinate
      */
     __hueSaturationSubtractLeft : 0,
 

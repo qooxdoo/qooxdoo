@@ -1229,6 +1229,28 @@ qx.Theme.define("qx.theme.simple.Decoration",
       }
     },
 
+    "progressive-table-header" :
+    {
+      include : "button-box",
+
+      style :
+      {
+        radius : 0,
+        width : [1, 0, 1, 1]
+      }
+    },
+
+    "progressive-table-header-cell" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        widthRight: 1,
+        color : "button-border"
+      }
+    },
+
 
     /*
     ---------------------------------------------------------------------------

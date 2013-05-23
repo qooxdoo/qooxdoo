@@ -39,15 +39,15 @@ qx.Class.define("qx.ui.layout.Abstract",
 
   members :
   {
-    /** {Map} The cached size hint */
+    /** @type {Map} The cached size hint */
     __sizeHint : null,
 
-    /** {Boolean} Whether the children cache is valid. This field is protected
+    /** @type {Boolean} Whether the children cache is valid. This field is protected
      *    because sub classes must be able to access it quickly.
      */
     _invalidChildrenCache : null,
 
-    /** {qx.ui.core.Widget} The connected widget */
+    /** @type {qx.ui.core.Widget} The connected widget */
     __widget : null,
 
 

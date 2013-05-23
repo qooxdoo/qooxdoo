@@ -61,7 +61,6 @@ qx.Class.define("qx.ui.mobile.basic.Image",
 
 
 
-
   /*
   *****************************************************************************
      EVENTS
@@ -126,15 +125,55 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     _applySource : function(value, old)
     {
       var source = value;
-      if (source && source.indexOf('data:')!=0)
-      {
-        source = qx.util.ResourceManager.getInstance().toUri(source);
+      if (source && source.indexOf('data:') != 0) {
+        var resourceManager = qx.util.ResourceManager.getInstance();
+
+        // If a high resolution display is available
+        if (qx.core.Environment.get("device.pixelRatio") > 1) {
+          // Search for high resolution image source
+          var highResolutionSource = this._findHighResolutionSource(source);
+
+          if (highResolutionSource) {
+            // Fix image size to low resolution image size.
+            this._setAttribute("height", resourceManager.getImageHeight(source));
+            this._setAttribute("width", resourceManager.getImageWidth(source));
+
+            // Set new high resolution source.
+            source = highResolutionSource;
+          }
+        }
+
+        source = resourceManager.toUri(source);
         var ImageLoader = qx.io.ImageLoader;
-        if(!ImageLoader.isFailed(source) && !ImageLoader.isLoaded(source)) {
+        if (!ImageLoader.isFailed(source) && !ImageLoader.isLoaded(source)) {
           ImageLoader.load(source, this.__loaderCallback, this);
         }
       }
       this._setSource(source);
+    },
+
+
+    /**
+    * Detects whether there is a high resolution image available.
+    * A high resolution image is assumed to have the same file name as
+    * the parameter source, but with "@2x" before the file extension.
+    * Low Resolution: "example.png", High Resolution: "example@2x.png"
+    *
+    * @param source {String} Image source of the low resolution image.
+    * @return {String} Image source of the high resolution image if available or null.
+    */
+    _findHighResolutionSource : function(source) {
+      if (source) {
+        var fileExtIndex = source.lastIndexOf('.');
+        if (fileExtIndex > -1) {
+          var highResolutionSource = source.slice(0, fileExtIndex) + "@2x" + source.slice(fileExtIndex);
+          if (qx.util.ResourceManager.getInstance().has(highResolutionSource)) {
+            return highResolutionSource;
+          }
+        }
+      }
+
+      return null;
     },
 
 
