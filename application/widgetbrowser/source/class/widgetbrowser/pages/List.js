@@ -19,7 +19,6 @@
 
 /* ************************************************************************
 
-#asset(widgetbrowser/people.json)
 
 ************************************************************************ */
 
@@ -28,6 +27,8 @@
  *
  * List
  *
+ *
+ * @asset(widgetbrowser/people.json)
  */
 
 qx.Class.define("widgetbrowser.pages.List",

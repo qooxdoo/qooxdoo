@@ -25,7 +25,7 @@
  * RadioButtonGroup, RepeatButton, SelectBox, Slider, Spinner, SplitButton,
  * TextArea, TextField, ToggleButton
  *
- * @lint ignoreUndefined(qxc)
+ * @ignore(qxc)
  */
 qx.Class.define("widgetbrowser.pages.Form",
 {

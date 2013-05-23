@@ -19,12 +19,12 @@
 
 /* ************************************************************************
 
-#asset(widgetbrowser/loading66.gif)
 
 ************************************************************************ */
 
 /**
  *
+ * @asset(widgetbrowser/loading66.gif)
  * @use(widgetbrowser.pages.Tree)
  * @use(widgetbrowser.pages.List)
  * @use(widgetbrowser.pages.Table)

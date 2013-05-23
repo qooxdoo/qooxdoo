@@ -19,8 +19,6 @@
 
 /* ************************************************************************
 
-#asset(widgetbrowser/fo_tester.swf)
-#asset(widgetbrowser/blank.html)
 
 ************************************************************************ */
 
@@ -31,6 +29,9 @@
  * embed.Flash
  * embed.Html
  *
+ *
+ * @asset(widgetbrowser/fo_tester.swf)
+ * @asset(widgetbrowser/blank.html)
  */
 
 qx.Class.define("widgetbrowser.pages.Embed",
