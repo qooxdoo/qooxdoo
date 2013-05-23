@@ -605,7 +605,6 @@ class Comment(object):
         if res['functor'] == 'ignoreUndefined':
             context.console.warn((u"'@lint ignoreUndefined' is deprecated." + 
                 " Use '@ignore' (same arguments) instead."))
-            import pydb; pydb.debugger()
         return res
 
     gr_at_attach = ( py.Suppress('@') + py.Literal('attach') + py.Suppress('{') +
