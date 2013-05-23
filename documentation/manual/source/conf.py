@@ -49,7 +49,7 @@ version = '3.0'
 # The full version, including alpha/beta/rc tags.
 release = '3.0'
 # The current git branch (used for github links)
-git_branch = "diet"
+git_branch = "master"
 
 # qooxdoo Source Text Macros
 # use e.g. as "%{version}" anywhere in .rst files
