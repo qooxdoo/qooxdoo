@@ -21,8 +21,8 @@
  * Alternative TestCase that can automatically log test results using
  * {@link simulator.autounit.JunitLog}
  *
- * @lint ignoreUndefined(simulator)
- * @lint ignoreUndefined(selenium)
+ * @ignore(simulator)
+ * @ignore(selenium)
  */
 qx.Class.define("simulator.autounit.AutoUnit", {
 

@@ -24,7 +24,7 @@ qx.Class.define("simulator.reporter.Application", {
   members :
   {
     /**
-     * @lint ignoreUndefined(testrunner)
+     * @ignore(testrunner)
      */
     main : function()
     {

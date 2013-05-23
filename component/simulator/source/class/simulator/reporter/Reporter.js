@@ -33,7 +33,7 @@ qx.Class.define("simulator.reporter.Reporter", {
      *
      * The 'A' is needed because without it Textile will interpret the following
      * line as an acronym definition:
-     * @lint ignoreUndefined(readUrl, A)
+     * @ignore(readUrl, A)
      */
     log : function(logMessage, level)
     {
@@ -120,7 +120,7 @@ qx.Class.define("simulator.reporter.Reporter", {
      * Collects environment information and sends initial test data to the
      * server.
      *
-     * @lint ignoreUndefined(readUrl, A)
+     * @ignore(readUrl, A)
      */
     __createReport : function()
     {

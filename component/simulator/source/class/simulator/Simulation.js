@@ -338,7 +338,7 @@ qx.Class.define("simulator.Simulation", {
      * Logs the Simulation's start date, URL of the AUT and the operating system
      * platform.
      *
-     * @lint ignoreUndefined(environment)
+     * @ignore(environment)
      */
     logEnvironment : function()
     {
