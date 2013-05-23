@@ -2263,21 +2263,8 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     // property apply
-    _applyOpacity : function(value, old)
-    {
+    _applyOpacity : function(value, old) {
       this.getContentElement().setStyle("opacity", value == 1 ? null : value);
-
-      // Fix for AlphaImageLoader - see Bug #1894 for details
-      if (qx.core.Environment.get("css.alphaimageloaderneeded"))
-      {
-        // Do not apply this fix on images - see Bug #2748
-        if (!qx.Class.isSubClassOf(this.getContentElement().constructor, qx.html.Image))
-        {
-          // 0.99 is necessary since 1.0 is ignored and not being applied
-          var contentElementOpacity = (value == 1 || value == null) ? null : 0.99;
-          this.getContentElement().setStyle("opacity", contentElementOpacity);
-        }
-      }
     },
 
 
