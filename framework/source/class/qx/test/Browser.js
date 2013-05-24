@@ -38,7 +38,7 @@ qx.Class.define("qx.test.Browser",
         (qx.core.Environment.get("browser.name") == "opera" &&
          qx.core.Environment.get("browser.version") >= 10.5) ||
         (qx.core.Environment.get("browser.name") == "ie" &&
-         qx.core.Environment.get("browser.version") >= 9)
+         qx.core.Environment.get("browser.documentmode") >= 9)
       ) {
         var i = 0;
         // is in a sorted order

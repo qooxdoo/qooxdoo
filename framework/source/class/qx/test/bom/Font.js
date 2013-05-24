@@ -157,7 +157,7 @@ qx.Class.define("qx.test.bom.Font",
       var useRgbValue = true;
 
       if (qx.core.Environment.get("browser.name") == "ie" &&
-          qx.core.Environment.get("browser.version") < 9) {
+          qx.core.Environment.get("browser.documentmode") < 9) {
         useRgbValue = false;
       }
 

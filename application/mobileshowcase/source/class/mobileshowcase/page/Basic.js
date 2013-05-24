@@ -81,12 +81,12 @@ qx.Class.define("mobileshowcase.page.Basic",
       var exLabel = new qx.ui.mobile.basic.Label(labelText);
       exLabel.addCssClass("space-top");
 
-      var exImage = new qx.ui.mobile.basic.Image("mobileshowcase/icon/arrowleft.png");
+      var exImage = new qx.ui.mobile.basic.Image("mobileshowcase/icon/mobile.png");
 
       // ATOMS
       var positions = [ "left", "right", "top", "bottom" ]
 
-      var iconSrc = "mobileshowcase/icon/camera.png";
+      var iconSrc = "mobileshowcase/icon/mobile.png";
       var exAtomLeft = new qx.ui.mobile.basic.Atom("Icon Position: left", iconSrc);
       exAtomLeft.setIconPosition(positions[0]);
       exAtomLeft.addCssClass("space-top");

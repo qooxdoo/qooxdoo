@@ -69,7 +69,10 @@ input::-webkit-inner-spin-button {
 .iscroll {
   width: 100%;
   position: absolute;
-  padding-bottom: 10px; }
+  padding-bottom: 10px;
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  transform: scale(1); }
 
 .scroll-container {
   -webkit-perspective: 1000;
@@ -793,7 +796,11 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   -webkit-backface-visibility: hidden;
   background-image: url(../icon/common/spinner.png);
   margin: 0 auto;
-  vertical-align: middle; }
+  display: inline !important;
+  vertical-align: middle;
+  -webkit-transform-origin: 50% 50%;
+  -moz-transform-origin: 50% 50%;
+  transform-origin: 50% 50%; }
 
 .spinnerContainer {
   margin: 0 auto;
@@ -965,6 +972,9 @@ input[type=radio]:checked + label:after {
   -webkit-transition: all ease-out;
   -moz-transition: all ease-out;
   transition: all ease-out;
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
   vertical-align: top; }
 
 .carousel-page {
