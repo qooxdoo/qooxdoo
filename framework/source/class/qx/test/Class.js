@@ -18,9 +18,9 @@
 ************************************************************************ */
 
 /**
- * @ignore(qx.AbstractCar, qx.Bmw, qx.Car, qx.ConcreteCar, qx.Defer)
+ * @ignore(qx.AbstractCar, qx.Bmw, qx.Car, qx.ConcreteCar, qx.Defer.*)
  * @ignore(qx.DeferFoo, qx.Empty, qx.FuncName, qx.MyClass, qx.MyMixin)
- * @ignore(qx.Single1, qx.test.u.u)
+ * @ignore(qx.Single1.*, qx.test.u.u.*)
 
  */
 

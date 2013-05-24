@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * @ignore(qx.test.Single)
+ * @ignore(qx.test.Single.getInstance)
  */
 
 qx.Class.define("qx.test.core.Object",

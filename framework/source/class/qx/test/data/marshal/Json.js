@@ -26,7 +26,7 @@
  *
  * @lint ignoreDeprecated(eval)
  * @ignore(qx.data.model)
- * @ignore(qx.test.model)
+ * @ignore(qx.test.model.*)
  * @ignore(qx.Test)
  */
 qx.Class.define("qx.test.data.marshal.Json",

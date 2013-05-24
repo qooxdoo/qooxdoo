@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * @ignore(qx.test.i)
+ * @ignore(qx.test.i.*)
  */
 qx.Class.define("qx.test.Interface",
 {

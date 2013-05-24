@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * @ignore(qx.demo)
+ * @ignore(qx.demo.Kid, qx.demo.Parent)
  */
 
 qx.Class.define("qx.test.data.controller.List",

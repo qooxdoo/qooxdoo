@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * @ignore(qx.test.Name)
+ * @ignore(qx.test.Name.*)
  */
 
 qx.Class.define("qx.test.lang.Function",
