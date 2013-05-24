@@ -84,7 +84,7 @@ specification. Attributes may stretch across multiple lines. Lines following an
 attribute key are logically appended to the first line (i.e. the effect is as if
 you had written one longe line).
 
-You can comment out an attribute by just prefixing it with another ``@``, like
+You can **comment out** an attribute by just prefixing it with another ``@``, like
 
 ::
   
