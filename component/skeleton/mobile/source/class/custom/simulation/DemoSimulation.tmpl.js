@@ -13,7 +13,7 @@
  * application. See the manual for details:
  * {@link http://manual.qooxdoo.org/${QOOXDOO_VERSION}/pages/development/simulator.html}
  * 
- * @lint ignoreUndefined(simulator)
+ * @ignore(simulator)
  */
 qx.Class.define("${Namespace}.simulation.DemoSimulation", {
 
