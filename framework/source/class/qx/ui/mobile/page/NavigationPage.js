@@ -134,6 +134,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     {
       check : "String",
       init : null,
+      nullable : true,
       apply : "_applyActionButtonIcon"
     },
 
