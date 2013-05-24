@@ -46,16 +46,17 @@ qx.Class.define("qx.test.data.store.Rest",
     },
 
     setUpDoubleRequest: function() {
-      var req = this.req = new qx.bom.request.SimpleXhr(),
+      var req = this.req = new qx.io.request.Xhr(),
           res = this.res;
 
-      // Stub request methods, but
-      // - leave event system intact (once)
-      // - leave transport intact
-      req = this.shallowStub(req, qx.bom.request.SimpleXhr, ["once", "getTransport"]);
+      // Stub request methods, leave event system intact
+      req = this.shallowStub(req, qx.io.request.AbstractRequest);
+
+      // Not dispose stub yet
+      this.stub(req, "dispose");
 
       // Inject double and return
-      this.injectStub(qx.bom.request, "SimpleXhr", req);
+      this.injectStub(qx.io.request, "Xhr", req);
 
       return req;
     },
@@ -166,14 +167,8 @@ qx.Class.define("qx.test.data.store.Rest",
       var res = this.res,
           req = this.req;
 
-      // usage of [g|s]etRequestHeader is arbitrary here
-      // it's used to manipulate the req and serve as a
-      // configureRequest delegate example
-      req.setRequestHeader.restore();
-      req.getRequestHeader.restore();
-
       var configureRequest = this.spy(function(req) {
-        req.setRequestHeader("affe", true);
+        req.setUserData("affe", true);
       });
 
       var delegate = {
@@ -187,7 +182,7 @@ qx.Class.define("qx.test.data.store.Rest",
 
       res.index();
       this.assertCalledWith(configureRequest, req);
-      this.assertTrue(req.getRequestHeader("affe"));
+      this.assertTrue(req.getUserData("affe"));
       this.assertCalled(req.send);
 
       store.dispose();
@@ -224,11 +219,12 @@ qx.Class.define("qx.test.data.store.Rest",
     respond: function(response) {
       var req = this.req;
       response = response || "";
+      req.getPhase.returns("success");
 
       // Set parsed response
       req.getResponse.returns(response);
 
-      req.getTransport()._emit("success");
+      req.fireEvent("success");
     },
 
     skip: function(msg) {

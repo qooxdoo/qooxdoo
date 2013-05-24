@@ -116,10 +116,10 @@ qx.Class.define("qx.data.store.Rest",
      *
      * Updates model with marshaled response.
      *
-     * @param e {Map} Rest event.
+     * @param e {qx.event.type.Rest} Rest event.
      */
     __onActionSuccess: function(e) {
-      var data = e.response,
+      var data = e.getData(),
           marshaler = this._marshaler,
           model,
           oldModel = this.getModel(),
