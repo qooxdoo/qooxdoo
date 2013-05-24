@@ -17,14 +17,11 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(qx/test/xmlhttp/random.php)
-#asset(qx/test/xmlhttp/long_poll.php)
-#asset(qx/test/xmlhttp/sample.txt)
-
-************************************************************************ */
-
+/**
+ * @asset(qx/test/xmlhttp/random.php)
+ * @asset(qx/test/xmlhttp/long_poll.php)
+ * @asset(qx/test/xmlhttp/sample.txt)
+ */
 qx.Class.define("qx.test.bom.rest.ResourceWithRemote",
 {
   extend : qx.dev.unit.TestCase,
