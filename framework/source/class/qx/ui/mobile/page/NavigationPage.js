@@ -309,7 +309,6 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
       * Creates the scroll container.
       *
       * @return {qx.ui.mobile.navigationbar.BackButton} The created back button widget
-      * @return {qx.ui.mobile.container.Scroll} The created scroll container
       */
     _createBackButton : function() {
       return new qx.ui.mobile.navigationbar.BackButton(this.getBackButtonText());
@@ -322,10 +321,9 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
       * Creates the content container.
       *
       * @return {qx.ui.mobile.navigationbar.Button} The created button widget
-      * @return {qx.ui.mobile.container.Composite} The created content container
       */
     _createButton : function() {
-     return new qx.ui.mobile.navigationbar.Button(this.getButtonText());
+     return new qx.ui.mobile.navigationbar.Button(this.getButtonText(), this.getButtonIcon());
     },
 
 
