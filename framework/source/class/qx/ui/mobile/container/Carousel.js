@@ -270,6 +270,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
     /**
     * @deprecated {3.0} Please use property "currentIndex" instead.
+    * @param pageIndex {Integer} the target page index, which should be visible
     */
     scrollToPage : function(pageIndex) {
       this._scrollToPage(pageIndex);
@@ -278,6 +279,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
     /**
     * @deprecated {3.0} Please use method "getCurrentIndex()" instead.
+    * @return {Integer} the current shown page index.
     */
     getShownPageIndex : function() {
       return this.getCurrentIndex();
