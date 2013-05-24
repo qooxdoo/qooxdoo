@@ -178,7 +178,9 @@ Files = {
         r'q-(%s).min.js' % qxversion_regexp,
         ],
     "./application/todo/index.html" : [
-        r'q-(%s).min.js' % qxversion_regexp,
+        r'q-core-(%s).min.js' % qxversion_regexp,
+        r'q-storage-(%s).min.js' % qxversion_regexp,
+        r'q-template-(%s).min.js' % qxversion_regexp
         ],
     "./component/tutorials/website/step1/notification.html" : [
         r'q-(%s).min.js' % qxversion_regexp,
