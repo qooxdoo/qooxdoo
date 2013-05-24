@@ -14,6 +14,7 @@
 
    Authors:
      * Tristan Koch (tristankoch)
+     * Richard Sternagel (rsternagel)
 
 ************************************************************************ */
 
@@ -39,19 +40,17 @@ qx.Class.define("qx.test.io.rest.Resource",
 
     setUpDoubleRequest: function() {
       // Restore Xhr when wrapped before
-      if (typeof qx.bom.request.SimpleXhr.restore == "function") {
-        qx.bom.request.SimpleXhr.restore();
+      if (typeof qx.io.request.Xhr.restore == "function") {
+        qx.io.request.Xhr.restore();
       }
 
-      var req = this.req = new qx.bom.request.SimpleXhr();
+      var req = this.req = new qx.io.request.Xhr();
 
-      // Stub request methods, but
-      // - leave event system intact (once)
-      // - leave disposable intact, cause test methods stub it themselves (dispose)
-      req = this.shallowStub(req, qx.bom.request.SimpleXhr, ["dispose", "once", "getTransport"]);
+      // Stub request methods, leave event system intact
+      req = this.shallowStub(req, qx.io.request.AbstractRequest);
 
       // Inject double and return
-      this.injectStub(qx.bom.request, "SimpleXhr", req);
+      this.injectStub(qx.io.request, "Xhr", req);
 
       // Remember request for later disposal
       this.__reqs = this.__reqs || [];
@@ -269,8 +268,6 @@ qx.Class.define("qx.test.io.rest.Resource",
     "test: invoke action returns id of request": function() {
       var res = this.res,
           req = this.req;
-
-      req.toHashCode.restore();
 
       this.assertNumber(res.invoke("get"));
     },
@@ -559,8 +556,6 @@ qx.Class.define("qx.test.io.rest.Resource",
       var res = this.res,
           req = this.req;
 
-      req.toHashCode.restore();
-
       var id = res.get();
       res.abort(id);
 
@@ -599,14 +594,14 @@ qx.Class.define("qx.test.io.rest.Resource",
           sandbox = this.getSandbox();
 
       sandbox.useFakeTimers();
-      this.spy(res, "refresh");
+      this.spy(res._resource, "refresh");
 
       res.poll("get", 10);
       this.respond();
       sandbox.clock.tick(20);
 
-      this.assertCalledWith(res.refresh, "get");
-      this.assertCalledOnce(res.refresh);
+      this.assertCalledWith(res._resource.refresh, "get");
+      this.assertCalledOnce(res._resource.refresh);
     },
 
     "test: not poll action when no response received yet": function() {
@@ -625,19 +620,19 @@ qx.Class.define("qx.test.io.rest.Resource",
     "test: poll action immediately": function() {
       var res = this.res;
 
-      this.spy(res, "invoke");
+      this.spy(res._resource, "invoke");
       res.poll("get", 10, undefined, true);
-      this.assertCalled(res.invoke);
+      this.assertCalled(res._resource.invoke);
     },
 
     "test: poll action sets initial params": function() {
       var res = this.res;
 
       res.map("get", "GET", "/photos/{id}");
-      this.stub(res, "invoke");
+      this.stub(res._resource, "invoke");
 
       res.poll("get", 10, {id: "1"}, true);
-      this.assertCalledWith(res.invoke, "get", {id: "1"});
+      this.assertCalledWith(res._resource.invoke, "get", {id: "1"});
     },
 
     "test: poll action replaying previous params": function() {
@@ -658,7 +653,7 @@ qx.Class.define("qx.test.io.rest.Resource",
           msg;
 
       sandbox.useFakeTimers();
-      this.stub(res, "refresh");
+      this.stub(res._resource, "refresh");
 
       res.poll("get", 10);
       this.respond();
@@ -668,7 +663,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.respond();
       sandbox.clock.tick(100);
 
-      this.assertCalledTwice(res.refresh);
+      this.assertCalledTwice(res._resource.refresh);
     },
 
     "test: poll many actions": function() {
@@ -681,7 +676,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.stub(this.req, "dispose");
       sandbox.useFakeTimers();
 
-      spy = this.spy(res, "refresh");
+      spy = this.spy(res._resource, "refresh");
       get = spy.withArgs("get");
       post = spy.withArgs("post");
 
@@ -700,21 +695,20 @@ qx.Class.define("qx.test.io.rest.Resource",
     "test: end poll action": function() {
       var res = this.res,
           sandbox = this.getSandbox(),
-          timer,
-          numCalled;
+          timer;
 
       sandbox.useFakeTimers();
 
-      this.spy(res, "refresh");
-      res.poll("get", 10);
+      this.spy(res._resource, "refresh");
+      timer = res.poll("get", 10);
       this.respond();
 
       // 10ms invoke, 20ms refresh, 30ms refresh
       sandbox.clock.tick(30);
-      res.stopPollByAction("get");
+      timer.stop();
       sandbox.clock.tick(100);
 
-      this.assertCalledTwice(res.refresh);
+      this.assertCalledTwice(res._resource.refresh);
     },
 
     "test: end poll action does not end polling of other action": function() {
@@ -724,13 +718,13 @@ qx.Class.define("qx.test.io.rest.Resource",
           spy;
 
       sandbox.useFakeTimers();
-      spy = this.spy(res, "refresh").withArgs("get");
+      spy = this.spy(res._resource, "refresh").withArgs("get");
       this.respond();
 
       res.poll("get", 10);
-      res.poll("post", 10);
+      timer = res.poll("post", 10);
       sandbox.clock.tick(20);
-      res.stopPollByAction("post");
+      timer.stop();
       sandbox.clock.tick(10);
 
       this.assertCalledTwice(spy);
@@ -744,14 +738,14 @@ qx.Class.define("qx.test.io.rest.Resource",
       sandbox.useFakeTimers();
       this.respond();
 
-      res.poll("get", 10);
+      timer = res.poll("get", 10);
       sandbox.clock.tick(10);
-      res.stopPollByAction("get");
+      timer.stop();
 
-      this.spy(res, "refresh");
-      res.restartPollByAction("get");
+      this.spy(res._resource, "refresh");
+      timer.restart();
       sandbox.clock.tick(10);
-      this.assertCalled(res.refresh);
+      this.assertCalled(res._resource.refresh);
     },
 
     "test: long poll action": function() {
@@ -759,23 +753,17 @@ qx.Class.define("qx.test.io.rest.Resource",
           req = this.req,
           responses = [];
 
-      // undo this line from setUp() ...
-      // this.injectStub(qx.bom.request, "SimpleXhr", req);
-      // ... in order to have uniqe reqs instead of always
-      //     the same stubbed req from the setUp method.
-      qx.bom.request.SimpleXhr.restore();
-
       this.stub(req, "dispose");
 
       res.addListener("getSuccess", function(e) {
-        responses.push(e.response);
+        responses.push(e.getData());
       }, this);
       res.longPoll("get");
 
       // longPoll() sets up new request when receiving a response
-      this.respondSubsequent("1", 0, true);
-      this.respondSubsequent("2", 1, true);
-      this.respondSubsequent("3", 2, true);
+      this.respond("1");
+      this.respond("2");
+      this.respond("3");
 
       this.assertArrayEquals(["1", "2", "3"], responses);
     },
@@ -809,12 +797,6 @@ qx.Class.define("qx.test.io.rest.Resource",
           req = this.req,
           sandbox = this.getSandbox();
 
-      // undo this line from setUp() ...
-      // this.injectStub(qx.bom.request, "SimpleXhr", req);
-      // ... in order to have uniqe reqs instead of always
-      //     the same stubbed req from the setUp method.
-      qx.bom.request.SimpleXhr.restore();
-
       this.stub(req, "dispose");
 
       sandbox.useFakeTimers();
@@ -823,13 +805,13 @@ qx.Class.define("qx.test.io.rest.Resource",
       // A number of delayed responses, above count
       for (var i=0; i < 31; i++) {
         sandbox.clock.tick(101);
-        this.respondSubsequent(null, i);
+        this.respond();
       }
 
       this.spy(res, "refresh");
       sandbox.clock.tick(101);
 
-      this.respondSubsequent(null, i);
+      this.respond();
       this.assertCalled(res.refresh);
     },
 
@@ -838,12 +820,6 @@ qx.Class.define("qx.test.io.rest.Resource",
           req = this.req,
           sandbox = this.getSandbox();
 
-      // undo this line from setUp() ...
-      // this.injectStub(qx.bom.request, "SimpleXhr", req);
-      // ... in order to have uniqe reqs instead of always
-      //     the same stubbed req from the setUp method.
-      qx.bom.request.SimpleXhr.restore();
-
       this.stub(req, "dispose");
 
       sandbox.useFakeTimers();
@@ -851,17 +827,17 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       // A number of immediate responses
       for (var i=0; i < 30; i++) {
-        this.respondSubsequent(null, i);
+        this.respond();
       }
 
       // Delayed response
       sandbox.clock.tick(101);
-      this.respondSubsequent(null, i++);
+      this.respond();
 
-      // // More immediate responses, total count above limit
+      // More immediate responses, total count above limit
       this.spy(res, "refresh");
-      for (var j=0; j < 10; j++) {
-        this.respondSubsequent(null, (i+j));
+      for (i=0; i < 10; i++) {
+        this.respond();
       }
 
       this.assertCallCount(res.refresh, 10);
@@ -873,24 +849,18 @@ qx.Class.define("qx.test.io.rest.Resource",
           handlerId,
           msg;
 
-      // undo this line from setUp() ...
-      // this.injectStub(qx.bom.request, "SimpleXhr", req);
-      // ... in order to have uniqe reqs instead of always
-      //     the same stubbed req from the setUp method.
-      qx.bom.request.SimpleXhr.restore();
-
       this.stub(req, "dispose");
-      this.spy(res, "refresh");
+      this.spy(res._resource, "refresh");
 
       handlerId = res.longPoll("get");
 
-      this.respondSubsequent(null, 0);
-      this.respondSubsequent(null, 1);
+      this.respond();
+      this.respond();
 
       res.removeListenerById(handlerId);
-      this.respondSubsequent(null, 2);
+      this.respond();
 
-      this.assertCalledTwice(res.refresh);
+      this.assertCalledTwice(res._resource.refresh);
     },
 
     //
@@ -906,9 +876,10 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertEventFired(res, "getSuccess", function() {
         that.respond("Affe");
       }, function(e) {
-        that.assertEquals("Affe", e.response);
-        that.assertIdentical(req, e.request);
-        that.assertEquals("get", e.action);
+        that.assertEquals("Affe", e.getData());
+        that.assertEquals("get", e.getAction());
+        that.assertIdentical(req, e.getRequest());
+        that.assertInteger(e.getId());
       });
     },
 
@@ -921,9 +892,10 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.assertEventFired(res, "success", function() {
         that.respond("Affe");
       }, function(e) {
-        that.assertEquals("Affe", e.response);
-        that.assertIdentical(req, e.request);
-        that.assertEquals("get", e.action);
+        that.assertEquals("Affe", e.getData());
+        that.assertEquals("get", e.getAction());
+        that.assertIdentical(req, e.getRequest());
+        that.assertInteger(e.getId());
       });
     },
 
@@ -934,10 +906,10 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       res.get();
       this.assertEventFired(res, "getError", function() {
-        that.respondError();
+        that.respondError("statusError");
       }, function(e) {
-        that.assertIdentical(req, e.request);
-        that.assertEquals("get", e.action);
+        that.assertEquals("statusError", e.getPhase());
+        that.assertIdentical(req, e.getRequest());
       });
     },
 
@@ -948,10 +920,10 @@ qx.Class.define("qx.test.io.rest.Resource",
 
       res.get();
       this.assertEventFired(res, "error", function() {
-        that.respondError();
+        that.respondError("statusError");
       }, function(e) {
-        that.assertIdentical(req, e.request);
-        that.assertEquals("get", e.action);
+        that.assertEquals("statusError", e.getPhase());
+        that.assertIdentical(req, e.getRequest());
       });
     },
 
@@ -1034,54 +1006,22 @@ qx.Class.define("qx.test.io.rest.Resource",
 
     // Fake response
     respond: function(response, req) {
-      req = req || this.req;
+      var req = req || this.req;
       response = response || "";
-
       req.isDone.returns(true);
+      req.getPhase.returns("success");
       req.getResponse.returns(response);
-      req.getTransport()._emit("success");
-      req.getTransport()._emit("loadEnd");
-    },
-
-    // Fake response but find and manipulate matching requests *within* res
-    // which is important for tests with more than one request (e.g. poll and long poll)
-    respondSubsequent: function(response, reqIdx, shouldStubResp) {
-      var response = response || "",
-          validReqIdx = (reqIdx !== undefined);
-
-      // this.res.__requests isn't available after 'privates' optimization
-      // so find it by some kind of feature detection - this isn't beautiful,
-      // but adding a protected getter just for that is worse
-      var requests = "";
-      Object.keys(this.res).forEach(function(propName) {
-        if (propName.indexOf("__") === 0 &&
-            "get" in this.res[propName] &&
-            qx.lang.Type.isArray(this.res[propName].get) &&
-            qx.lang.Type.isObject(this.res[propName].get[0]) &&
-            "$$hash" in this.res[propName].get[0]) {
-          requests = propName;
-        }
-      }, this);
-
-      if (validReqIdx && requests) {
-        var reqWithin = this.res[requests].get[reqIdx];
-        if (shouldStubResp) {
-          this.stub(reqWithin, "isDone");
-          this.stub(reqWithin, "getResponse");
-          reqWithin.isDone.returns(true);
-          reqWithin.getResponse.returns(response);
-        }
-        reqWithin.getTransport()._emit("success");
-        reqWithin.getTransport()._emit("loadEnd");
-        this.res[requests].get[reqIdx] = reqWithin;
-      }
+      req.fireEvent("success");
+      req.fireEvent("loadEnd");
     },
 
     // Fake erroneous response
-    respondError: function() {
+    respondError: function(phase) {
       var req = this.req;
-      req.getTransport()._emit("fail");
-      req.getTransport()._emit("loadEnd");
+      phase = phase || "statusError";
+      req.getPhase.returns(phase);
+      req.fireEvent("fail");
+      req.fireEvent("loadEnd");
     }
 
   }
