@@ -125,7 +125,16 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     {
       check : "String",
       init : "",
-      apply : "_applyButtonText"
+      apply : "_applyActionButtonText"
+    },
+
+
+    /** The action button icon */
+    buttonIcon :
+    {
+      check : "String",
+      init : null,
+      apply : "_applyActionButtonIcon"
     },
 
 
@@ -207,7 +216,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     _isTablet : false,
     _wrapContentByGroup : true,
     __backButton : null,
-    __button : null,
+    __actionButton : null,
     __content : null,
     __scrollContainer : null,
     __title : null,
@@ -287,10 +296,10 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
       var layout = new qx.ui.mobile.layout.HBox();
       var container = new qx.ui.mobile.container.Composite(layout);
       container.addCssClass("right-container");
-      this.__button = this._createButton();
-      this.__button.addListener("tap", this._onButtonTap, this);
+      this.__actionButton = this._createButton();
+      this.__actionButton.addListener("tap", this._onButtonTap, this);
       this._showButton();
-      container.add(this.__button);
+      container.add(this.__actionButton);
       return container;
     },
 
@@ -383,7 +392,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
      */
     _getButton : function()
     {
-      return this.__button;
+      return this.__actionButton;
     },
 
 
@@ -438,10 +447,19 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
 
     // property apply
-    _applyButtonText : function(value, old)
+    _applyActionButtonText : function(value, old)
     {
-      if (this.__button) {
-        this.__button.setValue(value);
+      if (this.__actionButton) {
+        this.__actionButton.setValue(value);
+      }
+    },
+
+
+    // property apply
+    _applyActionButtonIcon : function(value, old)
+    {
+      if (this.__actionButton) {
+        this.__actionButton.setIcon(value);
       }
     },
 
@@ -490,12 +508,12 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
      */
     _showButton : function()
     {
-      if (this.__button)
+      if (this.__actionButton)
       {
         if (this.getShowButton()) {
-          this.__button.show();
+          this.__actionButton.show();
         } else {
-          this.__button.exclude();
+          this.__actionButton.exclude();
         }
       }
     },
@@ -602,8 +620,8 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
   destruct : function()
   {
     this._disposeObjects("__leftContainer", "__rightContainer", "__backButton",
-      "__button", "__title");
-    this.__leftContainer = this.__rightContainer = this.__backButton = this.__button = null;
+      "__actionButton", "__title");
+    this.__leftContainer = this.__rightContainer = this.__backButton = this.__actionButton = null;
     this.__title = this.__content = this.__scrollContainer = null;
     this._isTablet = null;
   }
