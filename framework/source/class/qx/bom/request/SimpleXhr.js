@@ -338,6 +338,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     /**
      * Creates XHR transport.
      *
+     * May be overriden to change type of resource.
      * @return {qx.bom.request.IRequest} Transport.
      */
     _createTransport: function() {
@@ -453,7 +454,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @param ctx {var?} The context of the listener.
      * @return {qx.bom.request.Xhr} Self for chaining.
      */
-    once: function(name, listener, ctx) {
+    addListenerOnce: function(name, listener, ctx) {
       this._transport._emitter.once(name, listener, ctx);
       return this;
     },

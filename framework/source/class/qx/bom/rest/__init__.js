@@ -1,0 +1,4 @@
+/**
+ * qx.bom.rest package
+ *
+ */

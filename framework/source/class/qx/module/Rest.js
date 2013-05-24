@@ -29,7 +29,7 @@ qx.Bootstrap.define("qx.module.Rest", {
      * @param description {Map?} Each key of the map is interpreted as
      *  <code>action</code> name. The value associated to the key must be a map
      *  with the properties <code>method</code> and <code>url</code>.
-     *  <code>check</code> is optional. Also see {@link qx.io.rest.Resource#map}.
+     *  <code>check</code> is optional. Also see {@link qx.bom.rest.Resource#map}.
      *
      * For example:
      *
@@ -38,10 +38,10 @@ qx.Bootstrap.define("qx.module.Rest", {
      * </pre>
      *
      * @attachStatic {qxWeb, rest.resource}
-     * @return {qx.io.rest.Resource} The resource object.
+     * @return {qx.bom.rest.Resource} The resource object.
      */
     resource : function(description) {
-      return new qx.io.rest.Resource(description);
+      return new qx.bom.rest.Resource(description);
     }
   },
 
