@@ -10,12 +10,13 @@
 
 /* ************************************************************************
 
-#asset(tweets/*)
 
 ************************************************************************ */
 
 /**
  * This is the main application class of your custom application "tweets"
+ *
+ * @asset(tweets/*)
  */
 qx.Class.define("tweets.Application",
 {

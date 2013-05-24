@@ -19,15 +19,16 @@
 
 /* ************************************************************************
 
-#asset(mobiletweets/css/styles.css)
-#asset(qx/mobile/icon/android/*)
-#asset(qx/mobile/icon/ios/*)
-#asset(qx/mobile/icon/common/*)
 
 ************************************************************************ */
 
 /**
  * This is the main application class of your custom application "mobiletweets"
+ *
+ * @asset(mobiletweets/css/styles.css)
+ * @asset(qx/mobile/icon/android/*)
+ * @asset(qx/mobile/icon/ios/*)
+ * @asset(qx/mobile/icon/common/*)
  */
 qx.Class.define("mobiletweets.Application",
 {
