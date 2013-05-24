@@ -46,6 +46,7 @@
  * @require(qx.bom.request.Script#_success)
  * @require(qx.bom.request.Script#abort)
  * @require(qx.bom.request.Script#dispose)
+ * @require(qx.bom.request.Script#isDisposed)
  * @require(qx.bom.request.Script#getAllResponseHeaders)
  * @require(qx.bom.request.Script#getResponseHeader)
  * @require(qx.bom.request.Script#setDetermineSuccess)
