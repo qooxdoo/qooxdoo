@@ -1,13 +1,5 @@
-/* ************************************************************************
-
-#ignore(qx.test.performance.Base)
-#ignore(qx.test.performance.Extend)
-#ignore(qx.test.performance.Base.prototype.foo_base)
-
-************************************************************************ */
-
 /**
- * @ignore(qx.test.performance.Base)
+ * @ignore(qx.test.performance.Base.*)
  * @ignore(qx.test.performance.Extend)
  */
 

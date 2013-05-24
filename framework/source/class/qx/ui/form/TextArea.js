@@ -331,7 +331,7 @@ qx.Class.define("qx.ui.form.TextArea",
       clone.setStyles({
         position: "absolute",
         top: 0,
-        left: -9999,
+        left: "-9999px",
         height: 0,
         overflow: "hidden"
       }, true);

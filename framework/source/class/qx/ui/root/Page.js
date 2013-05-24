@@ -96,7 +96,7 @@ qx.Class.define("qx.ui.root.Page",
     __doc : null,
 
     // overridden
-    _createContainerElement : function()
+    _createContentElement : function()
     {
       var elem = this.__doc.createElement("div");
       this.__doc.body.appendChild(elem);
@@ -120,14 +120,6 @@ qx.Class.define("qx.ui.root.Page",
       }
 
       return root;
-    },
-
-
-    // overridden
-    _createContentElement : function()
-    {
-      // we do not want overflow=hidden for the page root
-      return new qx.html.Element("div");
     },
 
 
@@ -157,10 +149,6 @@ qx.Class.define("qx.ui.root.Page",
     {
       // set the size to 0 so make the content element invisible
       // this works because the content element has overflow "show"
-      this.getContainerElement().setStyles({
-        width: 0,
-        height: 0
-      });
       this.getContentElement().setStyles({
         width: 0,
         height: 0
@@ -186,21 +174,6 @@ qx.Class.define("qx.ui.root.Page",
         throw new Error("The root widget does not support 'left', or 'top' paddings!");
       }
       this.base(arguments, value, old, name);
-    },
-
-
-    // overridden
-    _applyDecorator : function(value, old)
-    {
-      this.base(arguments, value, old);
-      if (!value) {
-        return;
-      }
-
-      var insets = this.getDecoratorElement().getInsets();
-      if (insets.left || insets.top) {
-        throw new Error("The root widget does not support decorators with 'left', or 'top' insets!");
-      }
     }
   },
 

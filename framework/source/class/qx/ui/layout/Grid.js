@@ -1265,7 +1265,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
 
     // overridden
-    renderLayout : function(availWidth, availHeight)
+    renderLayout : function(availWidth, availHeight, padding)
     {
       if (this._invalidChildrenCache) {
         this.__buildGrid();
@@ -1356,8 +1356,8 @@ qx.Class.define("qx.ui.layout.Grid",
           var cellTop = top + Util.computeVerticalAlignOffset(cellAlign.vAlign, cellHeight, spanHeight, marginTop, marginBottom);
 
           widget.renderLayout(
-            cellLeft,
-            cellTop,
+            cellLeft + padding.left,
+            cellTop + padding.top,
             cellWidth,
             cellHeight
           );

@@ -20,9 +20,12 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/22/places/user-desktop.png)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/${qx.icontheme}/22/places/user-desktop.png)
+ */
 
 qx.Class.define("demobrowser.demo.widget.Tree",
 {

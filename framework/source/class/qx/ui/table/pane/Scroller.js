@@ -1637,7 +1637,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       var paneModel = this.getTablePaneModel();
       var columnModel = this.getTable().getTableColumnModel();
-      var paneLeft = this.__tablePane.getContainerLocation().left;
+      var paneLeft = this.__tablePane.getContentLocation().left;
       var colCount = paneModel.getColumnCount();
 
       var targetXPos = 0;
@@ -1659,7 +1659,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       }
 
       // Ensure targetX is visible
-      var scrollerLeft = this.__paneClipper.getContainerLocation().left;
+      var scrollerLeft = this.__paneClipper.getContentLocation().left;
       var scrollerWidth = this.__paneClipper.getBounds().width;
       var scrollX = scrollerLeft - paneLeft;
 
@@ -2027,7 +2027,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var columnModel = this.getTable().getTableColumnModel();
       var paneModel = this.getTablePaneModel();
       var colCount = paneModel.getColumnCount();
-      var currX = this.__header.getContainerLocation().left;
+      var currX = this.__header.getContentLocation().left;
       var regionRadius = qx.ui.table.pane.Scroller.RESIZE_REGION_RADIUS;
 
       for (var x=0; x<colCount; x++)
@@ -2084,7 +2084,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         return (row < rowCount) ? row : null;
       }
 
-      var headerPos = this.__header.getContainerLocation();
+      var headerPos = this.__header.getContentLocation();
 
       if (
         pageY >= headerPos.top &&

@@ -50,7 +50,7 @@ qx.Class.define("qx.ui.menu.ButtonLayout",
 
 
     // overridden
-    renderLayout : function(availWidth, availHeight)
+    renderLayout : function(availWidth, availHeight, padding)
     {
       var children = this._getLayoutChildren();
       var child;
@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.menu.ButtonLayout",
       }
 
 
-      var left=0, top=0;
+      var left = padding.left, top = padding.top;
       var Util = qx.ui.layout.Util;
 
       for (var i=0, l=columns.length; i<l; i++)
@@ -86,9 +86,9 @@ qx.Class.define("qx.ui.menu.ButtonLayout",
         if (child)
         {
           var hint = child.getSizeHint();
-          var top = Util.computeVerticalAlignOffset(child.getAlignY()||"middle", hint.height, availHeight, 0, 0);
+          var childTop = top + Util.computeVerticalAlignOffset(child.getAlignY()||"middle", hint.height, availHeight, 0, 0);
           var offsetLeft = Util.computeHorizontalAlignOffset(child.getAlignX()||"left", hint.width, columns[i], child.getMarginLeft(), child.getMarginRight());
-          child.renderLayout(left + offsetLeft, top, hint.width, hint.height);
+          child.renderLayout(left + offsetLeft, childTop, hint.width, hint.height);
         }
 
         if (columns[i] > 0) {

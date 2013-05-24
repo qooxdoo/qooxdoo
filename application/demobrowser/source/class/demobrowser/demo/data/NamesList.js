@@ -19,11 +19,12 @@
 
 /* ************************************************************************
 
-#asset(demobrowser/demo/data/persons.json)
 
 ************************************************************************ */
 
 /**
+ *
+ * @asset(demobrowser/demo/data/persons.json)
  * @tag databinding
  * @tag noPlayground
  */

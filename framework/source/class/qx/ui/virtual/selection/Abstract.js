@@ -98,7 +98,7 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
      */
     attachMouseEvents : function()
     {
-      var paneElement = this._pane.getContainerElement();
+      var paneElement = this._pane.getContentElement();
       paneElement.addListener("mousedown", this.handleMouseDown, this);
       paneElement.addListener("mouseup", this.handleMouseUp, this);
       paneElement.addListener("mouseover", this.handleMouseOver, this);
@@ -112,7 +112,7 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
      */
     detatchMouseEvents : function()
     {
-      var paneElement = this._pane.getContainerElement();
+      var paneElement = this._pane.getContentElement();
       paneElement.removeListener("mousedown", this.handleMouseDown, this);
       paneElement.removeListener("mouseup", this.handleMouseUp, this);
       paneElement.removeListener("mouseover", this.handleMouseOver, this);

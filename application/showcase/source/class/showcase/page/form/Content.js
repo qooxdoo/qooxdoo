@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 /**
- * @lint ignoreUndefined(qxc)
+ * @ignore(qxc)
  */
 qx.Class.define("showcase.page.form.Content",
 {

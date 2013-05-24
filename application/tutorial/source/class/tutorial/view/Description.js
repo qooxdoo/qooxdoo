@@ -17,15 +17,16 @@
 
 ************************************************************************ */
 /* ************************************************************************
-#asset(qx/icon/Tango/22/actions/media-skip-backward.png)
-#asset(qx/icon/Tango/22/actions/media-playback-start.png)
-#asset(qx/icon/Tango/22/actions/media-skip-forward.png)
-#asset(tutorial/default.highlight.css)
-#asset(tutorial/highlight.pack.js)
 ************************************************************************ */
 
 /**
  * @ignore(hljs.*)
+ *
+ * @asset(qx/icon/Tango/22/actions/media-skip-backward.png)
+ * @asset(qx/icon/Tango/22/actions/media-playback-start.png)
+ * @asset(qx/icon/Tango/22/actions/media-skip-forward.png)
+ * @asset(tutorial/default.highlight.css)
+ * @asset(tutorial/highlight.pack.js)
  */
 qx.Class.define("tutorial.view.Description",
 {

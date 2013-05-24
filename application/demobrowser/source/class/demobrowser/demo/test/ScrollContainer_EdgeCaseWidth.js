@@ -116,7 +116,11 @@ qx.Class.define("demobrowser.demo.test.ScrollContainer_EdgeCaseWidth",
         backgroundColor: "blue",
         textColor: "white",
         padding: 10,
-        decorator: new qx.ui.decoration.Single(4, "solid", "black")
+        decorator: new qx.ui.decoration.Decorator().set({
+          width: 4,
+          style: "solid",
+          color: "black"
+        })
       });
       return box;
     },

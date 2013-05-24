@@ -20,11 +20,14 @@
 
 /* ************************************************************************
 
-#asset(demobrowser/demo/icons/multimedia-player.png)
-#asset(qx/icon/${qx.icontheme}/32/actions/format-*)
-#asset(qx/icon/${qx.icontheme}/32/actions/go-home.png)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(demobrowser/demo/icons/multimedia-player.png)
+ * @asset(qx/icon/${qx.icontheme}/32/actions/format-*)
+ * @asset(qx/icon/${qx.icontheme}/32/actions/go-home.png)
+ */
 
 qx.Class.define("demobrowser.demo.widget.Image",
 {

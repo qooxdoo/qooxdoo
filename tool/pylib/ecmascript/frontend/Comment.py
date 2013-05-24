@@ -289,7 +289,7 @@ class Comment(object):
     #
     def parse(self, format_=True, process_txt=True, want_errors=False):
         
-        hint_sign = re.compile(r'^\s*@(\w+)')
+        hint_sign = re.compile(r'^\s*@(@?\w+)')
 
         def remove_decoration(text):
             # Strip "/**", "/*!" and "*/"
@@ -340,6 +340,8 @@ class Comment(object):
             # @<hint> entry
             if mo:
                 hint_key = mo.group(1)
+                if hint_key[0] == '@': # escaped @@hint
+                    continue
                 # specific parsing
                 if hasattr(self, "parse_at_"+hint_key):
                     try:
@@ -600,6 +602,11 @@ class Comment(object):
             'functor' : presult.t_functor,
             'arguments' : presult.t_arguments.asList() if presult.t_arguments else []
         }
+        ##
+        # @deprecated {3.0} use @ignore(foo) instead of @lint ignoreUndefined
+        if res['functor'] == 'ignoreUndefined':
+            context.console.warn((u"'@lint ignoreUndefined' is deprecated." + 
+                " Use '@ignore' (same arguments) instead."))
         return res
 
     gr_at_attach = ( py.Suppress('@') + py.Literal('attach') + py.Suppress('{') +

@@ -19,8 +19,6 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/22/actions/list-remove.png)
-#asset(qx/icon/${qx.icontheme}/22/actions/edit-undo.png)
 
 ************************************************************************ */
 
@@ -29,6 +27,9 @@
  * client side. You can specify to filter rows based on numeric values or on
  * regex matching.
  * @tag noPlayground
+ *
+ * @asset(qx/icon/${qx.icontheme}/22/actions/list-remove.png)
+ * @asset(qx/icon/${qx.icontheme}/22/actions/edit-undo.png)
  */
 qx.Class.define("demobrowser.demo.table.Table_Filtered_Model",
 {

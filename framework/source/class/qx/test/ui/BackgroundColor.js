@@ -28,7 +28,7 @@ qx.Class.define("qx.test.ui.BackgroundColor",
       var widget = new qx.ui.container.Composite();
       this.getRoot().add(widget);
 
-      this.assertStyle(widget, "backgroundColor", "");
+      this.assertStyle(widget, "backgroundColor", "transparent");
 
       widget.setBackgroundColor("red");
       this.assertStyle(widget, "backgroundColor", "red");
@@ -37,7 +37,7 @@ qx.Class.define("qx.test.ui.BackgroundColor",
       this.assertStyle(widget, "backgroundColor", "green");
 
       widget.setBackgroundColor(null);
-      this.assertStyle(widget, "backgroundColor", "");
+      this.assertStyle(widget, "backgroundColor", "transparent");
 
       this.getRoot().remove(widget);
       widget.destroy();
@@ -49,81 +49,20 @@ qx.Class.define("qx.test.ui.BackgroundColor",
       var widget = new qx.ui.container.Composite();
       this.getRoot().add(widget);
 
-      var deco = new qx.ui.decoration.Single(1);
+      var deco = new qx.ui.decoration.Decorator().set({
+        width:  1
+      });
       widget.setDecorator(deco);
-      this.assertStyle(widget, "backgroundColor", "", "no bg color");
-      this.assertDecoratorStyle(widget, "backgroundColor", "", "no bg color");
+      this.assertStyle(widget, "backgroundColor", "transparent", "no bg color");
 
       widget.setBackgroundColor("red");
-      this.assertStyle(widget, "backgroundColor", "", "red bg color");
-      this.assertDecoratorStyle(widget, "backgroundColor", "red", "red bg color");
+      this.assertStyle(widget, "backgroundColor", "red", "red bg color");
 
       widget.setBackgroundColor("green");
-      this.assertStyle(widget, "backgroundColor", "", "green bg color");
-      this.assertDecoratorStyle(widget, "backgroundColor", "green", "green bg color");
+      this.assertStyle(widget, "backgroundColor", "green", "green bg color");
 
       widget.setBackgroundColor(null);
-      this.assertStyle(widget, "backgroundColor", "", "null bg color");
-      this.assertDecoratorStyle(widget, "backgroundColor", "", "null bg color");
-
-      this.getRoot().remove(widget);
-      widget.dispose();
-      deco.dispose();
-    },
-
-
-    testSetColorInContainer : function()
-    {
-      var widget = new qx.ui.container.Composite();
-      this.getRoot().add(widget);
-
-      widget.setBackgroundColor("red");
-      this.assertStyle(widget, "backgroundColor", "red");
-
-      // only create on demand
-      this.assertNull(widget.getDecoratorElement());
-
-      // set decoration
-      var deco = new qx.ui.decoration.Single(1);
-      widget.setDecorator(deco);
-      this.assertStyle(widget, "backgroundColor", "");
-      this.assertDecoratorStyle(widget, "backgroundColor", "red");
-
-      // remove decoration
-      widget.setDecorator(null);
-      this.assertDecoratorStyle(widget, "backgroundColor", "");
-      this.assertStyle(widget, "backgroundColor", "red");
-
-      this.getRoot().remove(widget);
-      widget.dispose();
-      deco.dispose();
-    },
-
-
-    testSetColorInDecorator : function()
-    {
-      var widget = new qx.ui.container.Composite();
-      this.getRoot().add(widget);
-      this.assertStyle(widget, "backgroundColor", "");
-
-      // only create on demand
-      this.assertNull(widget.getDecoratorElement());
-
-      // set decoration
-      var deco = new qx.ui.decoration.Single(1);
-      widget.setDecorator(deco);
-      this.assertStyle(widget, "backgroundColor", "");
-      this.assertDecoratorStyle(widget, "backgroundColor", "");
-
-      // set background color with decoration
-      widget.setBackgroundColor("red");
-      this.assertDecoratorStyle(widget, "backgroundColor", "red");
-      this.assertStyle(widget, "backgroundColor", "");
-
-      // remove decoration
-      widget.setDecorator(null);
-      this.assertDecoratorStyle(widget, "backgroundColor", "");
-      this.assertStyle(widget, "backgroundColor", "red");
+      this.assertStyle(widget, "backgroundColor", "transparent", "null bg color");
 
       this.getRoot().remove(widget);
       widget.dispose();
@@ -135,26 +74,28 @@ qx.Class.define("qx.test.ui.BackgroundColor",
     {
       var widget = new qx.ui.container.Composite();
       this.getRoot().add(widget);
-      this.assertStyle(widget, "backgroundColor", "");
+      this.assertStyle(widget, "backgroundColor", "transparent");
 
       // set decoration
-      var deco = new qx.ui.decoration.Single(1);
+      var deco = new qx.ui.decoration.Decorator().set({
+        width:  1
+      });
       widget.setDecorator(deco);
 
       // set background color
       widget.setBackgroundColor("red");
-      this.assertDecoratorStyle(widget, "backgroundColor", "red");
-      this.assertStyle(widget, "backgroundColor", "");
+      this.assertStyle(widget, "backgroundColor", "red");
 
       // change decorator
-      var repl = new qx.ui.decoration.Double(1, "solid", "green", 1, "black");
+      //var repl = new qx.ui.decoration.Double(1, "solid", "green", 1, "black");
+      var repl = new qx.ui.decoration.Decorator().set({
+        width: 1,
+        style: "solid",
+        color: "green",
+        innerWidth: 1,
+        innerColor: "black"
+      });
       widget.setDecorator(repl);
-      this.assertDecoratorStyle(widget, "backgroundColor", "red");
-      this.assertStyle(widget, "backgroundColor", "");
-
-      // remove decoration
-      widget.setDecorator(null);
-      this.assertDecoratorStyle(widget, "backgroundColor", "");
       this.assertStyle(widget, "backgroundColor", "red");
 
       widget.destroy();
@@ -167,29 +108,24 @@ qx.Class.define("qx.test.ui.BackgroundColor",
     {
       var widget = new qx.ui.container.Composite();
       this.getRoot().add(widget);
-      this.assertStyle(widget, "backgroundColor", "");
+      this.assertStyle(widget, "backgroundColor", "transparent");
 
       widget.setBackgroundColor("green");
       this.assertStyle(widget, "backgroundColor", "green");
 
       // set decoration
-      var deco = new qx.ui.decoration.Single(1);
-      deco.setBackgroundColor("red");
+      var deco = new qx.ui.decoration.Decorator().set({
+        width: 1,
+        backgroundColor: "red"
+      });
       widget.setDecorator(deco);
-      // widget color taks preference over decorator color
+      // widget color takes precedence over decorator color
 
-      this.assertDecoratorStyle(widget, "backgroundColor", "green");
-      this.assertStyle(widget, "backgroundColor", "");
+      this.assertStyle(widget, "backgroundColor", "green");
 
       // reset widget bg color
       widget.setBackgroundColor(null);
-      this.assertDecoratorStyle(widget, "backgroundColor", "red");
-      this.assertStyle(widget, "backgroundColor", "");
-
-      // remove decoration
-      widget.setDecorator(null);
-      this.assertDecoratorStyle(widget, "backgroundColor", "");
-      this.assertStyle(widget, "backgroundColor", "");
+      this.assertStyle(widget, "backgroundColor", "red");
 
       this.getRoot().remove(widget);
       widget.dispose();

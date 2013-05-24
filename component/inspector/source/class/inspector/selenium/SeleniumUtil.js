@@ -139,7 +139,7 @@ qx.Class.define("inspector.selenium.SeleniumUtil",
      */
     getInlineIsleId : function(inlineRoot)
     {
-      var isleElem = inlineRoot.getContainerElement().getDomElement();
+      var isleElem = inlineRoot.getContentElement().getDomElement();
       if (isleElem.id) {
         return isleElem.id;
       } else if (isleElem.parentNode && isleElem.parentNode.id) {

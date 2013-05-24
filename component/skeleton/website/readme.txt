@@ -14,5 +14,5 @@ documentation.
 
 # The following is only required during execution of 'create-application.py'
 short:: can be used to build low-level qooxdoo applications
-copy_file:: component/standalone/website/script/q-2.2.js  script/q-2.2.js
-copy_file:: component/standalone/website/script/q-2.2.min.js  script/q-2.2.min.js
+copy_file:: component/standalone/website/script/q-3.0.js  script/q-3.0.js
+copy_file:: component/standalone/website/script/q-3.0.min.js  script/q-3.0.min.js

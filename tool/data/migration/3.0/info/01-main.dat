@@ -1,0 +1,16 @@
+\bqx\.ui\.decoration\.Grid\b=The class 'qx.ui.decoration.Grid' has been removed. Please use 'qx.ui.decoration.Decorator' and set the properties defined by 'qx.ui.decoration.MBorderImage'.
+\bqx\.ui\.decoration\.GridDiv\b=The class 'qx.ui.decoration.GridDiv' has been removed. Please use 'qx.ui.decoration.Decorator' and set the properties defined by 'qx.ui.decoration.MBorderImage'.
+\bqx\.ui\.decoration\.BoxDiv\b=The class 'qx.ui.decoration.BoxDiv' has been removed. Please use 'qx.ui.decoration.Decorator' and set the properties defined by 'qx.ui.decoration.MBorderImage'.
+\bqx\.ui\.decoration\.AbstractBox\b=The class 'qx.ui.decoration.AbstractBox' has been removed. Please use 'qx.ui.decoration.Decorator' and set the properties defined by 'qx.ui.decoration.MBorderImage'.
+\bqx\.ui\.decoration\.HBox\b=The class 'qx.ui.decoration.HBox' has been removed. Please use 'qx.ui.decoration.Decorator' and set the properties defined by 'qx.ui.decoration.MBorderImage'.
+\bqx\.ui\.decoration\.VBox\b=The class 'qx.ui.decoration.VBox' has been removed. Please use 'qx.ui.decoration.Decorator' and set the properties defined by 'qx.ui.decoration.MBorderImage'.
+\bqx\.ui\.decoration\.Beveled\b=The class 'qx.ui.decoration.Beveled' is deprecated. Please use 'qx.ui.decoration.Decorator' and set the properties defined by 'qx.ui.decoration.MSingleBorder'.
+\bqx\.ui\.decoration\.Uniform\b=The class 'qx.ui.decoration.Uniform' is deprecated. Please use 'qx.ui.decoration.Decorator' and set the properties defined by 'qx.ui.decoration.MSingleBorder'.
+\bqx\.ui\.decoration\.Double\b=The class 'qx.ui.decoration.Double' is deprecated. Please use 'qx.ui.decoration.Decorator' and set the properties defined by 'qx.ui.decoration.MDoubleBorder'.
+\bqx\.ui\.decoration\.DynamicDecorator\b=The class 'qx.ui.decoration.DynamicDecorator' is deprecated. Please use 'qx.ui.decoration.Decorator' instead.
+\bgetDecoratorElement\b=The method 'qx.ui.core.Widget.getDecoratorElement' has been removed. Depending on the use case, 'qx.ui.core.Widget.getContentElement' can be used instead.
+\bgetContainerElement\b=The method 'qx.ui.core.Widget.getContainerElement' is deprecated. Please use 'getContentElement' instead.
+\bgetContainerLocation\b=The method 'qx.ui.core.Widget.getContainerLocation' is deprecated. Please use 'getContentLocation' instead.
+\bunblockContent\b=The methods 'qx.ui.core.Blocker.unblockContent', 'qx.ui.core.MBlocker.unblockContent' and 'qx.ui.window.IDesktop.unblockContent' are deprecated. Please use 'unblock' instead.
+\isContentBlocked\b=The methods 'qx.ui.core.Blocker.isContentBlocked' and 'qx.ui.core.MBlocker.isContentBlocked' are deprecated. Please use 'isBlocked' instead.
+\forceUnblockContent\b=The methods 'qx.ui.core.Blocker.forceUnblockContnet' and 'qx.ui.core.MBlocker.forceUnblockContnet' are deprecated. Please use 'forceUnblock' instead.

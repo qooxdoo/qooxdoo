@@ -20,10 +20,13 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/places/user-desktop.png)
-#asset(qx/icon/${qx.icontheme}/16/status/dialog-information.png)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/places/user-desktop.png)
+ * @asset(qx/icon/${qx.icontheme}/16/status/dialog-information.png)
+ */
 
 qx.Class.define("demobrowser.demo.data.Tree_Columns",
 {

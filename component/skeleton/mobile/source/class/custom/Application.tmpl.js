@@ -8,16 +8,12 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(${Namespace}/*)
-#asset(qx/mobile/icon/$${qx.mobile.platform}/*)
-#asset(qx/mobile/icon/common/*)
-
-************************************************************************ */
-
 /**
  * This is the main application class of your custom application "${Name}"
+ *
+ * @asset(${Namespace}/*)
+ * @asset(qx/mobile/icon/$${qx.mobile.platform}/*)
+ * @asset(qx/mobile/icon/common/*)
  */
 qx.Class.define("${Namespace}.Application",
 {

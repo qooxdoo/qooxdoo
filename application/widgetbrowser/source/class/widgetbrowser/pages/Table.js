@@ -19,7 +19,6 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/apps/office-calendar.png)
 
 ************************************************************************ */
 
@@ -36,6 +35,8 @@
  * pane.Pane
  * pane.Scroller
  *
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/apps/office-calendar.png)
  */
 
 qx.Class.define("widgetbrowser.pages.Table",

@@ -18,21 +18,10 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#ignore(qx.test.ExtendSuper)
-#ignore(qx.test.ExtendSuper.prototype)
-#ignore(qx.test.Super.prototype)
-#ignore(qx.test.Super)
-#ignore(qx.test.ExtendNull)
-#ignore(qx.test.ExtendQxObject)
-#ignore(qx.test.ExtendError)
-#ignore(qx.test.Construct)
-#ignore(qx.test.Car)
-#ignore(qx.test.Bmw)
-************************************************************************ */
 /**
- * @ignore(qx.test.Construct, qx.test.ExtendError, qx.test.ExtendNull)
- * @ignore(qx.test.ExtendQxObject, qx.test.ExtendSuper, qx.test.Super, qx.test.ROOT, qx.test.MyClass.*)
+ * @ignore(qx.test.Construct.*, qx.test.ExtendError, qx.test.ExtendNull)
+ * @ignore(qx.test.ExtendQxObject, qx.test.ExtendSuper.*, qx.test.Super.*)
+ * @ignore(qx.test.ROOT, qx.test.MyClass.*)
  */
 
 qx.Class.define("qx.test.Bootstrap",
@@ -331,15 +320,7 @@ qx.Class.define("qx.test.Bootstrap",
       context = null;
       result = add(1, 2);
 
-      // The assertEquals test fails in Safari 3 but is fixed in WebKit nightly
-      if (qx.core.Environment.get("browser.version") == "safari" &&
-        qx.core.Environment.get("browser.version") < 4 )
-      {
-        this.assertNotEquals(context, window, "This test fails if the issue is "
-        + "fixed in Safari 3.");
-      } else {
-        this.assertEquals(context, window);
-      }
+      this.assertEquals(context, window);
       this.assertEquals(3, result);
 
       context = null;

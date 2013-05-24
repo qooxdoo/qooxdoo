@@ -20,10 +20,13 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/actions/*)
-#asset(qx/icon/${qx.icontheme}/16/apps/utilities-help.png)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/actions/*)
+ * @asset(qx/icon/${qx.icontheme}/16/apps/utilities-help.png)
+ */
 qx.Class.define("showcase.page.htmleditor.Content",
 {
   extend : showcase.page.AbstractDesktopContent,
@@ -425,9 +428,11 @@ qx.Class.define("showcase.page.htmleditor.Content",
       this.createCommands();
 
       var menubar = new qx.ui.menubar.MenuBar().set({
-        decorator: new qx.ui.decoration.Single().set({
-          backgroundRepeat : "scale",
-          bottom: [1, "solid", "border-separator"]
+        decorator: new qx.ui.decoration.Decorator().set({
+          widthBottom: 1,
+          styleBottom: "solid",
+          colorBottom: "black",
+          backgroundRepeat: "scale"
         })
       });
 

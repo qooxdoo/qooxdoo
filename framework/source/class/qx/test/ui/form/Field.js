@@ -18,8 +18,11 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#asset(qx/test/webfonts/*)
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/test/webfonts/*)
+ */
 
 qx.Class.define("qx.test.ui.form.Field",
 {
@@ -55,7 +58,7 @@ qx.Class.define("qx.test.ui.form.Field",
 
       this.flush();
 
-      // test this asynchron because opera 9.x seems to cache the creation of DOM elements
+      // test this asynchronous because opera 9.x seems to cache the creation of DOM elements
       var self = this;
       this.wait(1000, function() {
         self.assertEquals("affe", textfield.getTextSelection());
@@ -74,7 +77,7 @@ qx.Class.define("qx.test.ui.form.Field",
 
       textfield.selectAllText();
 
-      // test this asynchron because opera 9.x seems to cache the creation of DOM elements
+      // test this asynchronous because opera 9.x seems to cache the creation of DOM elements
       var self = this;
       this.wait(1000, function() {
         self.assertEquals("affe", textfield.getTextSelection());
@@ -94,7 +97,7 @@ qx.Class.define("qx.test.ui.form.Field",
 
       this.flush();
 
-      // test this asynchron because opera 9.x seems to cache the creation of DOM elements
+      // test this asynchronous because opera 9.x seems to cache the creation of DOM elements
       var self = this;
       this.wait(100, function() {
         self.assertEquals("", textfield.getTextSelection());
@@ -111,7 +114,7 @@ qx.Class.define("qx.test.ui.form.Field",
       textfield.focus();
       this.flush();
 
-      // test this asynchron because opera 9.x seems to cache the creation of DOM elements
+      // test this asynchronous because opera 9.x seems to cache the creation of DOM elements
       var self = this;
       this.wait(1000, function() {
         textfield.selectAllText();
@@ -130,7 +133,7 @@ qx.Class.define("qx.test.ui.form.Field",
       textfield.focus();
       this.flush();
 
-      // test this asynchron because opera 9.x seems to cache the creation of DOM elements
+      // test this asynchronous because opera 9.x seems to cache the creation of DOM elements
       var self = this;
       this.wait(1000, function() {
         textfield.setTextSelection(1, 2);
@@ -151,7 +154,7 @@ qx.Class.define("qx.test.ui.form.Field",
 
       this.flush();
 
-      // test this asynchron because opera 9.x seems to cache the creation of DOM elements
+      // test this asynchronous because opera 9.x seems to cache the creation of DOM elements
       var self = this;
       this.wait(100, function() {
         self.assertEquals(2, textfield.getTextSelectionStart());

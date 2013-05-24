@@ -24,7 +24,7 @@ qx.Class.define("qx.test.performance.decorator.BackgroundScale",
   members :
   {
     createDecorator : function() {
-      return new qx.ui.decoration.Background().set({
+      return new qx.ui.decoration.Decorator().set({
         backgroundImage  : "decoration/selection.png",
         backgroundRepeat : "scale"
       });

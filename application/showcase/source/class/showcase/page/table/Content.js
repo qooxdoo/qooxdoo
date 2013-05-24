@@ -20,12 +20,15 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/mimetypes/media-video.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/preferences-clock.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/preferences-users.png)
-#asset(qx/icon/${qx.icontheme}/16/places/folder.png)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/mimetypes/media-video.png)
+ * @asset(qx/icon/${qx.icontheme}/16/apps/preferences-clock.png)
+ * @asset(qx/icon/${qx.icontheme}/16/apps/preferences-users.png)
+ * @asset(qx/icon/${qx.icontheme}/16/places/folder.png)
+ */
 
 qx.Class.define("showcase.page.table.Content",
 {

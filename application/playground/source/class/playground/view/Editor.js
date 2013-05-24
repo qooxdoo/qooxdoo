@@ -17,14 +17,10 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(playground/*)
-
-************************************************************************ */
-
 /**
  * Container for the source code editor.
+ *
+ * @asset(playground/*)
  */
 qx.Class.define("playground.view.Editor",
 {
@@ -91,7 +87,6 @@ qx.Class.define("playground.view.Editor",
       // If widgets are added to the container, the zIndex of the editor blocker
       // is set to 100. This makes possible to resize the splitpanes
       this.addListener("addChildWidget", function() {
-        this.getBlocker().getContentBlockerElement().setStyles({ "zIndex" : 100 });
         this.getBlocker().getBlockerElement().setStyles({ "zIndex" : 100 });
       }, this);
 

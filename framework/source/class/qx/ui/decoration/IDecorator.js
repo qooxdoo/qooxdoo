@@ -19,61 +19,35 @@
 ************************************************************************ */
 
 /**
- * A decorator is responsible for rendering a widget's background and
- * border. It is passed the widget's decoration element {@link qx.html.Element}
- * and configures it to display the decoration.
+ * A decorator is responsible for computing a widget's decoration styles.
  *
- * To use the decorator first call the {@link #getMarkup} method. This method
- * will return an HTML fragment containing the decoration. After the decoration
- * has been inserted into the DOM e.g. by using <code>innerHTML</code> the
- * {@link #resize} method must be called to give the decoration the proper size.
- * The first parameter of this call is the root DOM element of the decoration.
- * The resize call can be repeated as needed.
- *
- * It is also possible to alter the background color of an decoration using the
- * {@link #tint} method.
  */
 qx.Interface.define("qx.ui.decoration.IDecorator",
 {
   members :
   {
+
     /**
-     * Returns the basic markup structure used for this decoration.
-     * This later updated on DOM to resize or tint the element.
+     * Returns the decorator's styles.
      *
-     * @return {String} Basic markup
+     * @return {Map} Map of decoration styles
      */
-    getMarkup : function() {},
+    getStyles : function() {},
+
+
 
     /**
-     * Resizes the element respecting the configured borders
-     * to the given width and height. Should automatically
-     * respect the box model of the client to correctly
-     * compute the dimensions.
-     *
-     * @param element {qx.html.Element} The element to update
-     * @param width {Integer} Width of the element
-     * @param height {Integer} Height of the element
+     * Returns the configured padding minus the border width.
+     * @return {Map} Map of top, right, bottom and left padding values
      */
-    resize : function(element, width, height) {},
+    getPadding : function() {},
 
 
     /**
-     * Applies the given background color to the element
-     * or fallback to the background color defined
-     * by the decoration itself.
+     * Get the amount of space the decoration needs for its border and padding
+     * on each side.
      *
-     * @param element {qx.html.Element} The element to update
-     * @param bgcolor {Color} The color to apply or <code>null</code>
-     */
-    tint : function(element, bgcolor) {},
-
-
-    /**
-     * Get the amount of space, the decoration needs for its border on each
-     * side.
-     *
-     * @return {Map} the desired insed a map with the keys <code>top</code>,
+     * @return {Map} the desired inset as a map with the keys <code>top</code>,
      *     <code>right</code>, <code>bottom</code>, <code>left</code>.
      */
     getInsets : function() {}

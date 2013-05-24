@@ -18,17 +18,18 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#asset(qx/icon/Tango/16/actions/edit-find.png)
-#asset(qx/icon/Tango/16/actions/window-new.png)
-#asset(qx/icon/Tango/16/actions/go-next.png)
-#asset(qx/icon/Tango/16/actions/go-previous.png)
-#asset(qx/icon/Tango/16/actions/view-restore.png)
 ************************************************************************ */
 
 /**
  * Visualizes one or more feature sets. Individual features can be added to a
  * list where their values can be edited. The selected features are displayed in
  * JSON-serialized form so they can be copied into an application config file.
+ *
+ * @asset(qx/icon/Tango/16/actions/edit-find.png)
+ * @asset(qx/icon/Tango/16/actions/window-new.png)
+ * @asset(qx/icon/Tango/16/actions/go-next.png)
+ * @asset(qx/icon/Tango/16/actions/go-previous.png)
+ * @asset(qx/icon/Tango/16/actions/view-restore.png)
  */
 qx.Class.define("fce.view.FeatureSelector", {
 

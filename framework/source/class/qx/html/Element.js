@@ -2373,6 +2373,32 @@ qx.Class.define("qx.html.Element",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      CSS CLASS SUPPORT
+    ---------------------------------------------------------------------------
+    */
+    /**
+     * Adds a css class to the element.
+     * @param name {String} Name of the CSS class.
+     */
+    addClass : function(name) {
+      var value = ((this.getAttribute("class") || "") + " " + name).trim();
+      this.setAttribute("class", value);
+    },
+
+
+    /**
+     * Removes a CSS class from the current element.
+     * @param name {String} Name of the CSS class.
+     */
+    removeClass : function(name) {
+      var currentClass = this.getAttribute("class");
+      if (currentClass) {
+        this.setAttribute("class", (currentClass.replace(name, "")).trim());
+      }
+    },
+
 
 
     /*

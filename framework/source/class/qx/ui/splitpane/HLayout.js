@@ -65,12 +65,14 @@ qx.Class.define("qx.ui.splitpane.HLayout",
 
 
     // overridden
-    renderLayout : function(availWidth, availHeight)
+    renderLayout : function(availWidth, availHeight, padding)
     {
       var children = this._getLayoutChildren();
       var length = children.length;
       var child, type;
       var begin, splitter, slider, end;
+      var paddingLeft = padding.left || 0;
+      var paddingTop = padding.top || 0;
 
       for (var i=0; i<length; i++)
       {
@@ -146,9 +148,9 @@ qx.Class.define("qx.ui.splitpane.HLayout",
           }
         }
 
-        begin.renderLayout(0, 0, beginWidth, availHeight);
-        splitter.renderLayout(beginWidth, 0, splitterWidth, availHeight);
-        end.renderLayout(beginWidth+splitterWidth, 0, endWidth, availHeight);
+        begin.renderLayout(paddingLeft, paddingTop, beginWidth, availHeight);
+        splitter.renderLayout(beginWidth + paddingLeft, paddingTop, splitterWidth, availHeight);
+        end.renderLayout(beginWidth+splitterWidth + paddingLeft, paddingTop, endWidth, availHeight);
       }
       else
       {
@@ -157,9 +159,9 @@ qx.Class.define("qx.ui.splitpane.HLayout",
 
         // Render one child
         if (begin) {
-          begin.renderLayout(0, 0, availWidth, availHeight);
+          begin.renderLayout(paddingLeft, paddingTop, availWidth, availHeight);
         } else if (end) {
-          end.renderLayout(0, 0, availWidth, availHeight);
+          end.renderLayout(paddingLeft, paddingTop, availWidth, availHeight);
         }
       }
     },

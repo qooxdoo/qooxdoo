@@ -20,16 +20,17 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Oxygen/16/actions/format-*.png)
-#asset(qx/icon/Oxygen/16/actions/edit-*.png)
-#asset(qx/icon/Oxygen/16/actions/insert-image.png)
-#asset(qx/icon/Oxygen/16/actions/insert-link.png)
-#asset(qx/icon/Oxygen/16/actions/insert-text.png)
-#asset(demobrowser/demo/icons/htmlarea/*)
 
 ************************************************************************ */
 /**
  * htmlarea Example application
+ *
+ * @asset(qx/icon/Oxygen/16/actions/format-*.png)
+ * @asset(qx/icon/Oxygen/16/actions/edit-*.png)
+ * @asset(qx/icon/Oxygen/16/actions/insert-image.png)
+ * @asset(qx/icon/Oxygen/16/actions/insert-link.png)
+ * @asset(qx/icon/Oxygen/16/actions/insert-text.png)
+ * @asset(demobrowser/demo/icons/htmlarea/*)
  */
 qx.Class.define("demobrowser.demo.widget.HtmlArea",
 {
@@ -67,7 +68,11 @@ qx.Class.define("demobrowser.demo.widget.HtmlArea",
       var demoContent = '<h1>About</h1><p>qooxdoo (pronounced [ku:ksdu:]) is a comprehensive and innovative Ajax application framework. Leveraging object-oriented JavaScript allows developers to build impressive cross-browser applications. No <acronym title="HyperText Markup Language">HTML</acronym>, <acronym title="Cascading Style Sheets">CSS</acronym> nor <acronym title="Document Object Model">DOM</acronym> knowledge is needed. qooxdoo includes a platform-independent development tool chain, a state-of-the-art <acronym title="Graphical User Interface">GUI</acronym> toolkit and an advanced client-server communication layer. It is Open Source under an <acronym title="GNU Lesser General Public License">LGPL</acronym>/<acronym title="Eclipse Public License">EPL</acronym> dual <a href="http://qooxdoo.org/license" class="wikilink1" title="license">license</a>.</p>';
       var doc = this.getRoot();
 
-      var htmlDecorator = new qx.ui.decoration.Single(1, "solid", "border-main");
+      var htmlDecorator = new qx.ui.decoration.Decorator().set({
+        width: 1,
+        style: "solid",
+        color: "border-main"
+      });
       htmlDecorator.setWidthTop(0);
 
       this.__htmlArea = new qx.ui.embed.HtmlArea(demoContent, null, "blank.html");

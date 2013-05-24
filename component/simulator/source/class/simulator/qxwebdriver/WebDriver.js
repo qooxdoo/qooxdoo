@@ -41,7 +41,7 @@ qx.Class.define("simulator.qxwebdriver.WebDriver",
    * known session or a promise that will be resolved to a session.
    * @param executor {webdriver.CommandExecutor} The executor to use when
    * sending commands to the browser.
-   * @lint ignoreUndefined(simulator.webdriver.WebDriver)
+   * @ignore(simulator.webdriver.WebDriver)
    */
   construct : function(session, executor)
   {
@@ -59,8 +59,8 @@ qx.Class.define("simulator.qxwebdriver.WebDriver",
      * querying for session details.
      * @param sessionId {String} ID of the session to attach to.
      * @return {simulator.qxwebdriver.WebDriver} A new client for the specified session.
-     * @lint ignoreUndefined(simulator.webdriver.Command)
-     * @lint ignoreUndefined(simulator.webdriver.CommandName)
+     * @ignore(simulator.webdriver.Command)
+     * @ignore(simulator.webdriver.CommandName)
      */
     attachToSession : function(executor, sessionId) {
       return simulator.qxwebdriver.WebDriver.acquireSession_(executor,
@@ -76,8 +76,8 @@ qx.Class.define("simulator.qxwebdriver.WebDriver",
      * @param desiredCapabilities {Map} The desired capabilities for the new
      * session.
      * @return {simulator.qxwebdriver.WebDriver} The driver for the newly created session.
-     * @lint ignoreUndefined(simulator.webdriver.Command)
-     * @lint ignoreUndefined(simulator.webdriver.CommandName)
+     * @ignore(simulator.webdriver.Command)
+     * @ignore(simulator.webdriver.CommandName)
      */
     createSession : function(executor, desiredCapabilities)
     {
@@ -97,8 +97,8 @@ qx.Class.define("simulator.qxwebdriver.WebDriver",
      * details.
      * @param description {String} A descriptive debug label for this action.
      * @return {simulator.qxwebdriver.WebDriver} A new WebDriver client for the session.
-     * @lint ignoreUndefined(simulator.webdriver.promise)
-     * @lint ignoreUndefined(simulator.webdriver.Session)
+     * @ignore(simulator.webdriver.promise)
+     * @ignore(simulator.webdriver.Session)
      */
     acquireSession_ : function(executor, command, description)
     {
@@ -127,7 +127,7 @@ qx.Class.define("simulator.qxwebdriver.WebDriver",
      * @param locator {webdriver.Locator} locator strategy to search for a widget's
      * DOM element
      * @return {webdriver.WebElement} WebElement object
-     * @lint ignoreUndefined(simulator.webdriver.promise)
+     * @ignore(simulator.webdriver.promise)
      */
     findWidget : function(locator)
     {

@@ -61,13 +61,13 @@ qx.Class.define("demobrowser.simulation.demo.Dummy", {
      * Looks at the demo tree items' labels to get a list of category/demo names
      *
      * @return {String[]} List of demos (format: categoryName.demoName)
-     * @lint ignoreUndefined(simulator)
-     * @lint ignoreUndefined(selenium)
+     * @ignore(simulator)
+     * @ignore(selenium)
      */
     _getDemoList : function()
     {
       /**
-       * @lint ignoreUndefined(selenium)
+       * @ignore(selenium)
        */
       var getDemoNames = function() {
         var items = selenium.qxStoredVars['autWindow'].qx.core.Init.getApplication().viewer.tree.getItems();

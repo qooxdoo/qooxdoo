@@ -41,28 +41,6 @@ qx.Class.define("qx.bom.element.Decoration",
     /** @type {Map} Collect warnings for potential clipped images */
     __warnings : {},
 
-    /**
-     * @type {Boolean} Whether the alpha image loader is needed.
-     * We enable this for all IE browser because of issues reported by Maria
-     * Siebert and others in combination with the opacity filter applied
-     * to e.g. disabled icons. Thanks Maria.
-     *
-     * To prevent these issues use the "disabled" images. This is done by adding
-     * a special second image which is already in a disabled state. In order to
-     * make use of this feature the image has to follow the convention "-disabled".
-     * (e.g. "button.png" -> "button-disabled.png")
-     *
-     * The situation for IE8 is that running in "IE8 Standards Mode" IE8 has a
-     * runtime performance issue. The updates are compared to IE7 really slow.
-     * The cause for this is the dynamic adding/removing of the IMG elements
-     * which are part of the decorator. Using the alpha image loader does change
-     * this DOM structure to only use DIV elements which do not have a negative
-     * performance impact. See Bug #2185 for details.
-     */
-    __enableAlphaFix : (qx.core.Environment.get("engine.name") == "mshtml") &&
-      (qx.core.Environment.get("engine.version") < 9 || qx.core.Environment.get("browser.documentmode") < 9 ),
-
-
     /** @type {Map} List of repeat modes which supports the IE AlphaImageLoader */
     __alphaFixRepeats : qx.core.Environment.select("engine.name",
     {
@@ -126,12 +104,11 @@ qx.Class.define("qx.bom.element.Decoration",
       }
 
       // Apply new styles
-      var Style = qx.bom.element.Style;
-      Style.setStyles(element, ret.style);
+      qx.bom.element.Style.setStyles(element, ret.style);
 
       // we need to apply the filter to prevent black rendering artifacts
       // http://blog.hackedbrain.com/archive/2007/05/21/6110.aspx
-      if (this.__enableAlphaFix)
+      if (qx.core.Environment.get("css.alphaimageloaderneeded"))
       {
         try {
           element.filters["DXImageTransform.Microsoft.AlphaImageLoader"].apply();
@@ -177,7 +154,9 @@ qx.Class.define("qx.bom.element.Decoration",
      */
     getTagName : function(repeat, source)
     {
-      if (source && this.__enableAlphaFix && this.__alphaFixRepeats[repeat] && qx.lang.String.endsWith(source, ".png")) {
+      if (source && qx.core.Environment.get("css.alphaimageloaderneeded") &&
+          this.__alphaFixRepeats[repeat] && qx.lang.String.endsWith(source, ".png"))
+      {
         return "div";
       }
 
@@ -229,11 +208,16 @@ qx.Class.define("qx.bom.element.Decoration",
       var result;
 
       // Enable AlphaImageLoader in IE6/IE7/IE8
-      if (this.__enableAlphaFix && this.__alphaFixRepeats[repeat] && format === "png") {
-        result = this.__processAlphaFix(style, repeat, source);
+      if (qx.core.Environment.get("css.alphaimageloaderneeded") &&
+          this.__alphaFixRepeats[repeat] && format === "png")
+      {
+        var dimension = this.__getDimension(source);
+        this.__normalizeWidthHeight(style, dimension.width, dimension.height);
+        result = this.processAlphaFix(style, repeat, source);
       }
       else
       {
+        delete style.clip;
         if (repeat === "scale") {
           result = this.__processScale(style, repeat, source);
         } else  if (repeat === "scale-x" || repeat === "scale-y") {
@@ -299,11 +283,8 @@ qx.Class.define("qx.bom.element.Decoration",
      *
      * @return {Map} style infos
      */
-    __processAlphaFix : function(style, repeat, source)
+    processAlphaFix : function(style, repeat, source)
     {
-      var dimension = this.__getDimension(source);
-      this.__normalizeWidthHeight(style, dimension.width, dimension.height);
-
       var sizingMethod = repeat == "no-repeat" ? "crop" : "scale";
       var filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +
                    qx.util.ResourceManager.getInstance().toUri(source) +
@@ -311,6 +292,8 @@ qx.Class.define("qx.bom.element.Decoration",
 
       style.filter = filter;
       style.backgroundImage = style.backgroundRepeat = "";
+      delete style["background-image"];
+      delete style["background-repeat"];
 
       return {
         style : style
@@ -502,6 +485,17 @@ qx.Class.define("qx.bom.element.Decoration",
           var uri  = ResourceManager.toUri(combinedid);
           var offx = data[5];
           var offy = data[6];
+
+          // honor padding for combined images
+          if (style.paddingTop || style.paddingLeft) {
+            var top = style.paddingTop || 0;
+            var left = style.paddingLeft || 0;
+
+            offx += style.paddingLeft || 0;
+            offy += style.paddingTop || 0;
+
+            style.clip = {left: left, top: top, width: dimension.width, height: dimension.height};
+          }
         }
 
         var bg = qx.bom.element.Background.getStyles(uri, repeat, offx, offy);
@@ -523,6 +517,11 @@ qx.Class.define("qx.bom.element.Decoration",
       }
       else
       {
+        // honor padding
+        var top = style.paddingTop || 0;
+        var left = style.paddingLeft || 0;
+        style.backgroundPosition = left + "px " + top + "px";
+
         if (qx.core.Environment.get("qx.debug"))
         {
           if (repeat !== "repeat") {
@@ -607,10 +606,15 @@ qx.Class.define("qx.bom.element.Decoration",
      * loader is enabled.
      *
      * @return {Boolean} <code>true</code> when the AlphaImageLoader is used, <code>false</code> otherwise.
+     * @deprecated{3.0}
      */
     isAlphaImageLoaderEnabled : function ()
     {
-      return qx.bom.element.Decoration.__enableAlphaFix;
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
+         "Please use 'qx.core.Environment.get(\"css.alphaimageloaderneeded\")' instead.");
+      }
+      return qx.core.Environment.get("css.alphaimageloaderneeded");
     }
   }
 });

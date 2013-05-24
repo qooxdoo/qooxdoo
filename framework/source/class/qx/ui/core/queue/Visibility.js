@@ -166,8 +166,7 @@ qx.Class.define("qx.ui.core.queue.Visibility",
         }
       }
 
-      // Recreate the array is cheaper compared to keep a holey array over time
-      // This is especially true for IE7
+      // Recreate the array is cheaper compared to keep a sparse array over time
       this.__queue = [];
     }
   }

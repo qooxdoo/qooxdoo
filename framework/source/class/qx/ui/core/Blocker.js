@@ -17,10 +17,6 @@
 
 ************************************************************************ */
 
-/*
-#ignore(qx.ui.root.Page)
-*/
-
 /**
  * This class blocks events and can be included into all widgets.
  *
@@ -28,10 +24,7 @@
  * to block any event from the widget. When blocked,
  * the blocker widget overlays the widget to block, including the padding area.
  *
- * The second set of methods ({@link #blockContent}, {@link #unblockContent})
- * can be used to block child widgets with a zIndex below a certain value.
- *
- * @ignore(qx.ui.root.Page)
+ * @ignore(qx.ui.root.Abstract)
  */
 qx.Class.define("qx.ui.core.Blocker",
 {
@@ -41,13 +34,13 @@ qx.Class.define("qx.ui.core.Blocker",
   events :
   {
     /**
-     * Fires after {@link #block} or {@link #blockContent} executed.
+     * Fires after {@link #block} executed.
      */
     blocked : "qx.event.type.Event",
 
 
     /**
-     * Fires after {@link #unblock} or {@link #unblockContent} executed.
+     * Fires after {@link #unblock} executed.
      */
     unblocked : "qx.event.type.Event"
   },
@@ -63,17 +56,13 @@ qx.Class.define("qx.ui.core.Blocker",
     this.base(arguments);
     this._widget = widget;
 
-    this._isPageRoot = (
-      qx.Class.isDefined("qx.ui.root.Page") &&
-      widget instanceof qx.ui.root.Page
-    );
+    widget.addListener("resize", this.__onBoundsChange, this);
+    widget.addListener("move", this.__onBoundsChange, this);
+    widget.addListener("disappear", this.__onWidgetDisappear, this);
 
-    if (this._isPageRoot) {
-      widget.addListener("resize", this.__onResize, this);
-    }
-
-    if (qx.Class.isDefined("qx.ui.root.Application") &&
-        widget instanceof qx.ui.root.Application) {
+    if (qx.Class.isDefined("qx.ui.root.Abstract") &&
+        widget instanceof qx.ui.root.Abstract) {
+      this._isRoot = true;
       this.setKeepBlockerActive(true);
     }
 
@@ -84,7 +73,6 @@ qx.Class.define("qx.ui.core.Blocker",
 
     this.__activeElements = [];
     this.__focusElements = [];
-    this.__contentBlockerCount = [];
   },
 
   /*
@@ -148,18 +136,16 @@ qx.Class.define("qx.ui.core.Blocker",
   {
     __blocker : null,
     __blockerCount : 0,
-    __contentBlocker : null,
-    __contentBlockerCount : null,
 
     __activeElements  : null,
     __focusElements   : null,
 
-    __oldAnonymous : null,
-
     __timer : null,
 
-    _isPageRoot : false,
     _widget : null,
+    _isRoot : false,
+
+    __appearListener : null,
 
 
     /**
@@ -167,24 +153,50 @@ qx.Class.define("qx.ui.core.Blocker",
      *
      * @param e {qx.event.type.Data} event object
      */
-    __onResize : function(e)
+    __onBoundsChange : function(e)
     {
       var data = e.getData();
 
-      if (this.isContentBlocked())
-      {
-        this.getContentBlockerElement().setStyles({
-          width: data.width,
-          height: data.height
-        });
+      if (this.isBlocked()) {
+        this._updateBlockerBounds(data);
       }
-      if (this.isBlocked())
-      {
-        this.getBlockerElement().setStyles({
-          width: data.width,
-          height: data.height
-        });
+    },
+
+
+    /**
+     * Widget re-appears: Update blocker size/position and attach to (new) parent
+     */
+    __onWidgetAppear : function()
+    {
+      this._updateBlockerBounds(this._widget.getBounds());
+      this._widget.getLayoutParent().getContentElement().add(this.getBlockerElement());
+    },
+
+
+    /**
+     * Remove the blocker if the widget disappears
+     */
+    __onWidgetDisappear : function()
+    {
+      if (this.isBlocked()) {
+        this.getBlockerElement().getParent().remove(this.getBlockerElement());
+        this._widget.addListenerOnce("appear", this.__onWidgetAppear, this);
       }
+    },
+
+
+    /**
+     * set the blocker's size and position
+     * @param bounds {Map} Map with the new width, height, left and top values
+     */
+    _updateBlockerBounds : function(bounds)
+    {
+      this.getBlockerElement().setStyles({
+        width: bounds.width + "px",
+        height: bounds.height + "px",
+        left: bounds.left + "px",
+        top: bounds.top + "px"
+      });
     },
 
 
@@ -221,7 +233,6 @@ qx.Class.define("qx.ui.core.Blocker",
     {
       var blockers = [];
       this.__blocker && blockers.push(this.__blocker);
-      this.__contentBlocker && blockers.push(this.__contentBlocker);
 
       for (var i = 0; i < blockers.length; i++) {
         blockers[i].setStyle(key, value);
@@ -290,15 +301,26 @@ qx.Class.define("qx.ui.core.Blocker",
     /**
      * Get/create the blocker element
      *
+     * @param widget {qx.ui.core.Widget} The blocker will be added to this
+     * widget's content element
      * @return {qx.html.Element} The blocker element
      */
-    getBlockerElement : function()
+    getBlockerElement : function(widget)
     {
       if (!this.__blocker)
       {
         this.__blocker = this.__createBlockerElement();
         this.__blocker.setStyle("zIndex", 15);
-        this._widget.getContainerElement().add(this.__blocker);
+
+        if (!widget) {
+          if (this._isRoot) {
+            widget = this._widget;
+          } else {
+            widget = this._widget.getLayoutParent();
+          }
+        }
+
+        widget.getContentElement().add(this.__blocker);
         this.__blocker.exclude();
       }
       return this.__blocker;
@@ -311,14 +333,49 @@ qx.Class.define("qx.ui.core.Blocker",
      */
     block : function()
     {
+      this._block();
+    },
+
+
+    /**
+     * Adds the blocker to the appropriate element and includes it.
+     *
+     * @param zIndex {Number} All child widgets with a zIndex below this value will be blocked
+     * @param blockContent {Boolean} append the blocker to the widget's content if true
+     */
+    _block : function(zIndex, blockContent) {
+      if (!this._isRoot && !this._widget.getLayoutParent()) {
+        this.__appearListener = this._widget.addListenerOnce("appear", this._block.bind(this, zIndex));
+        return;
+      }
+
+      var parent;
+      if (this._isRoot || blockContent) {
+        parent = this._widget;
+      } else {
+        parent = this._widget.getLayoutParent();
+      }
+
+      var blocker = this.getBlockerElement(parent);
+      if (zIndex != null) {
+        blocker.setStyle("zIndex", zIndex);
+      }
+
       this.__blockerCount++;
       if (this.__blockerCount < 2)
       {
         this._backupActiveWidget();
 
-        var blocker = this.getBlockerElement();
+        var bounds = this._widget.getBounds();
+        // no bounds -> widget not yet rendered -> bounds will be set on resize
+        if (bounds) {
+          this._updateBlockerBounds(bounds);
+        }
+
         blocker.include();
-        blocker.activate();
+        if (!blockContent) {
+          blocker.activate();
+        }
 
         blocker.addListener("deactivate", this.__activateBlockerElement, this);
         blocker.addListener("keypress", this.__stopTabEvent, this);
@@ -347,6 +404,10 @@ qx.Class.define("qx.ui.core.Blocker",
      */
     unblock : function()
     {
+      if (this.__appearListener) {
+        this._widget.removeListenerById(this.__appearListener);
+      }
+
       if (!this.isBlocked()){
         return;
       }
@@ -396,16 +457,15 @@ qx.Class.define("qx.ui.core.Blocker",
      * Get/create the content blocker element
      *
      * @return {qx.html.Element} The blocker element
+     * @deprecated{3.0}
      */
-    getContentBlockerElement : function()
-    {
-      if (!this.__contentBlocker)
-      {
-        this.__contentBlocker = this.__createBlockerElement();
-        this._widget.getContentElement().add(this.__contentBlocker);
-        this.__contentBlocker.exclude();
+    getContentBlockerElement : function() {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
+         "Please use 'getBlockerElement' instead.");
       }
-      return this.__contentBlocker;
+
+      return this.getBlockerElement();
     },
 
 
@@ -415,32 +475,8 @@ qx.Class.define("qx.ui.core.Blocker",
      * @param zIndex {Integer} All child widgets with a zIndex below this value
      *     will be blocked
      */
-    blockContent : function(zIndex)
-    {
-      var blocker = this.getContentBlockerElement();
-      blocker.setStyle("zIndex", zIndex);
-
-      this.__contentBlockerCount.push(zIndex);
-      if (this.__contentBlockerCount.length < 2)
-      {
-        blocker.include();
-
-        if (this._isPageRoot)
-        {
-          // to block interaction we need to cover the HTML page with a div as well.
-          // we do so by placing a div parallel to the page root with a slightly
-          // lower zIndex and keep the size of this div in sync with the body
-          // size.
-          if (!this.__timer)
-          {
-            this.__timer = new qx.event.Timer(300);
-            this.__timer.addListener("interval", this.__syncBlocker, this);
-          }
-          this.__timer.start();
-          this.__syncBlocker();
-        }
-        this.fireEvent("blocked", qx.event.type.Event);
-      }
+    blockContent : function(zIndex) {
+      this._block(zIndex, true);
     },
 
 
@@ -448,9 +484,15 @@ qx.Class.define("qx.ui.core.Blocker",
      * Whether the content is blocked
      *
      * @return {Boolean} Whether the content is blocked
+     * @deprecated{3.0}
      */
     isContentBlocked : function() {
-      return this.__contentBlockerCount.length > 0;
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
+         "Please use 'isBlocked' instead.");
+      }
+
+      return this.isBlocked();
     },
 
 
@@ -459,22 +501,16 @@ qx.Class.define("qx.ui.core.Blocker",
      * the amount of {@link #blockContent} calls. The blocker is only removed if
      * the numer of {@link #unblockContent} calls is identical to
      * {@link #blockContent} calls.
+     * @deprecated{3.0}
      */
     unblockContent : function()
     {
-      if (!this.isContentBlocked()) {
-        return;
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
+         "Please use 'unblock' instead.");
       }
 
-      this.__contentBlockerCount.pop();
-      var zIndex = this.__contentBlockerCount[this.__contentBlockerCount.length - 1];
-      var contentBlocker = this.getContentBlockerElement();
-      contentBlocker.setStyle("zIndex", zIndex);
-
-      if (this.__contentBlockerCount.length < 1) {
-        this.__unblockContent();
-        this.__contentBlockerCount = [];
-      }
+      this.unblock();
     },
 
 
@@ -482,48 +518,16 @@ qx.Class.define("qx.ui.core.Blocker",
      * Unblock the content blocked by {@link #blockContent}, but it doesn't take
      * care of the amount of {@link #blockContent} calls. The blocker is
      * directly removed.
+     * @deprecated{3.0}
      */
     forceUnblockContent : function()
     {
-      if (!this.isContentBlocked()) {
-        return;
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
+         "Please use 'forceUnblock' instead.");
       }
 
-      this.__contentBlockerCount = [];
-      var contentBlocker = this.getContentBlockerElement();
-      contentBlocker.setStyle("zIndex", null);
-
-      this.__unblockContent();
-    },
-
-
-    /**
-     * Unblock the content blocked by {@link #blockContent}.
-     */
-    __unblockContent : function()
-    {
-     this.getContentBlockerElement().exclude();
-
-      if (this._isPageRoot) {
-        this.__timer.stop();
-      }
-      this.fireEvent("unblocked", qx.event.type.Event);
-    },
-
-
-    /**
-     * Synchronize the size of the background blocker with the size of the
-     * body element
-     */
-    __syncBlocker : function()
-    {
-      var containerEl = this._widget.getContainerElement().getDomElement();
-      var doc = qx.dom.Node.getDocument(containerEl);
-
-      this.getContentBlockerElement().setStyles({
-        height: doc.documentElement.scrollHeight + "px",
-        width: doc.documentElement.scrollWidth + "px"
-      });
+      this.forceUnblock();
     },
 
 
@@ -562,11 +566,18 @@ qx.Class.define("qx.ui.core.Blocker",
     qx.theme.manager.Appearance.getInstance().removeListener(
       "changeTheme", this._onChangeTheme, this
     );
-    if (this._isPageRoot) {
-      this._widget.removeListener("resize", this.__onResize, this);
+
+    this._widget.removeListener("resize", this.__onBoundsChange, this);
+    this._widget.removeListener("move", this.__onBoundsChange, this);
+    this._widget.removeListener("appear", this.__onWidgetAppear, this);
+    this._widget.removeListener("disappear", this.__onWidgetDisappear, this);
+
+    if (this.__appearListener) {
+      this._widget.removeListenerById(this.__appearListener);
     }
-    this._disposeObjects("__contentBlocker", "__blocker", "__timer");
-    this.__oldAnonymous = this.__activeElements = this.__focusElements =
-      this._widget = this.__contentBlockerCount = null;
+
+    this._disposeObjects("__blocker", "__timer");
+    this.__activeElements = this.__focusElements =
+      this._widget = null;
   }
 });

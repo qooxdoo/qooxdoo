@@ -185,6 +185,10 @@
  *       <td>{@link qx.bom.client.Css#getFilterTextShadow}</td>
  *     </tr>
  *     <tr>
+ *       <td>css.alphaimageloaderneeded</td><td><i>Boolean</i></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Css#getAlphaImageLoaderNeeded}</td>
+ *     </tr>
+ *     <tr>
  *       <td colspan="4"><b>device</b></td>
  *     </tr>
  *     <tr>
@@ -194,6 +198,10 @@
  *     <tr>
  *       <td>device.type</td><td><i>String</i></td><td><code>mobile</code></td>
  *       <td>{@link qx.bom.client.Device#getType}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>device.pixelRatio</td><td><i>Number</i></td><td><code>2</code></td>
+ *       <td>{@link qx.bom.client.Device#getDevicePixelRatio}</td>
  *     </tr>
 
  *     <tr>
@@ -780,6 +788,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "runtime.name"                : "qx.bom.client.Runtime.getName",
       "device.name"                 : "qx.bom.client.Device.getName",
       "device.type"                 : "qx.bom.client.Device.getType",
+      "device.pixelRatio"           : "qx.bom.client.Device.getPixelRatio",
       "locale"                      : "qx.bom.client.Locale.getLocale",
       "locale.variant"              : "qx.bom.client.Locale.getVariant",
       "os.name"                     : "qx.bom.client.OperatingSystem.getName",
@@ -886,6 +895,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "css.opacity" : "qx.bom.client.Css.getOpacity",
       "css.textShadow" : "qx.bom.client.Css.getTextShadow",
       "css.textShadow.filter" : "qx.bom.client.Css.getFilterTextShadow",
+      "css.alphaimageloaderneeded" : "qx.bom.client.Css.getAlphaImageLoaderNeeded",
       "phonegap"                    : "qx.bom.client.PhoneGap.getPhoneGap",
       "phonegap.notification"       : "qx.bom.client.PhoneGap.getNotification",
       "xml.implementation"          : "qx.bom.client.Xml.getImplementation",

@@ -20,8 +20,6 @@
 
 /* ************************************************************************
 
-#asset(qx/mobile/js/iscroll*.js)
-#ignore(iScroll)
 
 ************************************************************************ */
 
@@ -32,6 +30,7 @@
  * Android < 2.2.
  *
  * @ignore(iScroll)
+ * @asset(qx/mobile/js/iscroll*.js)
  */
 qx.Mixin.define("qx.ui.mobile.container.MIScroll",
 {
@@ -118,7 +117,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     /**
      * Loads and inits the iScroll instance.
      *
-     * @lint ignoreUndefined(iScroll)
+     * @ignore(iScroll)
      */
     __initScroll : function()
     {
@@ -149,7 +148,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
      * Creates the iScroll instance.
      *
      * @return {Object} The iScroll instance
-     * @lint ignoreUndefined(iScroll)
+     * @ignore(iScroll)
      */
     __createScrollInstance : function()
     {

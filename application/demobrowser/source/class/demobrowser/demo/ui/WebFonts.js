@@ -16,9 +16,12 @@
 
 /* ************************************************************************
 
-#asset(demobrowser/demo/fonts/*)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(demobrowser/demo/fonts/*)
+ */
 
 qx.Class.define("demobrowser.demo.ui.WebFonts",
 {

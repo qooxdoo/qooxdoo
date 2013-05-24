@@ -112,8 +112,22 @@ qx.Bootstrap.define("qx.bom.client.Device",
     detectTabletDevice : function(userAgentString){
        var isIE10Tablet = (/MSIE 10/i.test(userAgentString)) && (/ARM/i.test(userAgentString)) && !(/windows phone/i.test(userAgentString));
        var isCommonTablet = (!(/Fennec|HTC.Magic|Nexus|android.+mobile|Tablet PC/i.test(userAgentString)) && (/Android|ipad|tablet|playbook|silk|kindle|psp/i.test(userAgentString)));
-      
+
        return  isIE10Tablet || isCommonTablet;
+    },
+
+
+    /**
+     * Detects the device's pixel ratio. Returns 1 if detection is not possible.
+     *
+     * @return {Number} The device's pixel ratio
+     */
+    getDevicePixelRatio : function() {
+      if (typeof window.devicePixelRatio !== "undefined") {
+        return window.devicePixelRatio;
+      }
+
+      return 1;
     }
 
   },
@@ -122,5 +136,6 @@ qx.Bootstrap.define("qx.bom.client.Device",
   defer : function(statics) {
       qx.core.Environment.add("device.name", statics.getName);
       qx.core.Environment.add("device.type", statics.getType);
+      qx.core.Environment.add("device.pixelRatio", statics.getDevicePixelRatio);
   }
 });

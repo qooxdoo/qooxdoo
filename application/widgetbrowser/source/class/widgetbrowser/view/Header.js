@@ -32,7 +32,7 @@ qx.Class.define("widgetbrowser.view.Header",
   */
 
   /**
-   * @lint ignoreUndefined(qxc)
+   * @ignore(qxc)
    */
   construct : function()
   {

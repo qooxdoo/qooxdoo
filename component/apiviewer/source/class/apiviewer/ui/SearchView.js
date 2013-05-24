@@ -123,19 +123,15 @@ qx.Class.define("apiviewer.ui.SearchView",
         var paddingLeft = 0;
         var paddingBottom = 0;
         var paddingTop = 0;
-        if(["class", "interface"].indexOf(iconNamePart)!=-1)
-        {
+        if(["class", "interface"].indexOf(iconNamePart)!=-1) {
           paddingLeft = 2;
         }
-        else if(["package", "childcontrol"].indexOf(iconNamePart)!=-1)
-        {
+        else if(["package", "childcontrol"].indexOf(iconNamePart)!=-1) {
            paddingLeft = 1;
            if(iconNamePart === "childcontrol") {
              paddingBottom = 2;
            }
-        }
-        else if (iconNamePart === "constant")
-        {
+        } else if (iconNamePart === "constant") {
           paddingTop = 1;
         }
         typeToggleButton.setFocusable(false);

@@ -19,11 +19,12 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/places/folder.png)
 
 ************************************************************************ */
 
 /**
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/places/folder.png)
  * @tag test
  */
 qx.Class.define("demobrowser.demo.test.Opacity",

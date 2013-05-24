@@ -19,9 +19,12 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#asset(qx/icon/Tango/22/actions/view-refresh.png)
-#asset(qx/icon/Tango/22/actions/document-properties.png)
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/Tango/22/actions/view-refresh.png)
+ * @asset(qx/icon/Tango/22/actions/document-properties.png)
+ */
 
 qx.Class.define("inspector.widgets.View",
 {

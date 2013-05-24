@@ -45,7 +45,11 @@ qx.Class.define("demobrowser.demo.ui.Opacity",
 
     getGrid1 : function()
     {
-      var border = new qx.ui.decoration.Single(1, "solid", "black");
+      var border = new qx.ui.decoration.Decorator().set({
+        width: 1,
+        style: "solid",
+        color: "black"
+      });
 
       var columns = 30;
       var rows = 30;

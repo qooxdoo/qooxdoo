@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#ignore(WebKitCSSMatrix)
-
-************************************************************************ */
-
 /**
  * The purpose of this class is to contain all checks about css.
  *
@@ -234,7 +228,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * Checks if translate3d can be used.
      * @return {Boolean} <code>true</code>, if it could be used.
      * @internal
-     * @lint ignoreUndefined(WebKitCSSMatrix)
+     * @ignore(WebKitCSSMatrix)
      */
     getTranslate3d : function() {
       return 'WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix();
@@ -452,6 +446,18 @@ qx.Bootstrap.define("qx.bom.client.Css",
       document.body.removeChild(el);
 
       return supported;
+    },
+
+
+    /**
+     * Checks if the Alpha Image Loader must be used to display transparent PNGs.
+     *
+     * @return {Boolean} <code>true</code> if the Alpha Image Loader is required
+     */
+    getAlphaImageLoaderNeeded : function()
+    {
+      return qx.bom.client.Engine.getName() == "mshtml" &&
+             qx.bom.client.Browser.getDocumentMode() < 9;
     }
   },
 
@@ -480,5 +486,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.opacity", statics.getOpacity);
     qx.core.Environment.add("css.textShadow", statics.getTextShadow);
     qx.core.Environment.add("css.textShadow.filter", statics.getFilterTextShadow);
+    qx.core.Environment.add("css.alphaimageloaderneeded", statics.getAlphaImageLoaderNeeded);
   }
 });

@@ -24,8 +24,8 @@
  * to block any event from the widget. When blocked,
  * the blocker widget overlays the widget to block, including the padding area.
  *
- * The second set of methods ({@link #blockContent}, {@link #unblockContent})
- * can be used to block child widgets with a zIndex below a certain value.
+ * The ({@link #blockContent} method can be used to block child widgets with a
+ * zIndex below a certain value.
  */
 qx.Mixin.define("qx.ui.core.MBlocker",
 {
@@ -140,9 +140,16 @@ qx.Mixin.define("qx.ui.core.MBlocker",
      * Whether the content is blocked
      *
      * @return {Boolean} Whether the content is blocked
+     *
+     * @deprecated{3.0}
      */
     isContentBlocked : function() {
-      return this.__blocker.isContentBlocked();
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
+         "Please use 'isBlocked' instead.");
+      }
+
+      return this.__blocker.isBlocked();
     },
 
 
@@ -151,9 +158,16 @@ qx.Mixin.define("qx.ui.core.MBlocker",
      * the amount of {@link #blockContent} calls. The blocker is only removed if
      * the numer of {@link #unblockContent} calls is identical to
      * {@link #blockContent} calls.
+     *
+     * @deprecated{3.0}
      */
     unblockContent : function() {
-      this.__blocker.unblockContent();
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
+         "Please use 'unblock' instead.");
+      }
+
+      this.__blocker.unblock();
     },
 
 
@@ -161,9 +175,16 @@ qx.Mixin.define("qx.ui.core.MBlocker",
      * Unblock the content blocked by {@link #blockContent}, but it doesn't take
      * care of the amount of {@link #blockContent} calls. The blocker is
      * directly removed.
+
+     * @deprecated{3.0}
      */
     forceUnblockContent : function() {
-      this.__blocker.forceUnblockContent();
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
+         "Please use 'forceUnblock' instead.");
+      }
+
+      this.__blocker.forceUnblock();
     },
 
 

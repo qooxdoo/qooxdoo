@@ -370,44 +370,21 @@ qx.Class.define("qx.event.handler.Keyboard",
         var charCode = 0;
         var type = domEvent.type;
 
-        // starting with Safari 3.1 (version 525.13) Apple switched the key
-        // handling to match the IE behaviour.
-        if (parseFloat(qx.core.Environment.get("engine.version")) < 525.13)
+        keyCode = domEvent.keyCode;
+
+        this._idealKeyHandler(keyCode, charCode, type, domEvent);
+
+        // On non print-able character be sure to add a keypress event
+        if (type == "keydown")
         {
-          if (type == "keyup" || type == "keydown")
-          {
-            keyCode = this._charCode2KeyCode[domEvent.charCode] || domEvent.keyCode;
+          // non-printable, backspace or tab
+          if (qx.event.util.Keyboard.isNonPrintableKeyCode(keyCode) || this._emulateKeyPress[keyCode]) {
+            this._idealKeyHandler(keyCode, charCode, "keypress", domEvent);
           }
-          else
-          {
-            if (this._charCode2KeyCode[domEvent.charCode]) {
-              keyCode = this._charCode2KeyCode[domEvent.charCode];
-            } else {
-              charCode = domEvent.charCode;
-            }
-          }
-
-          this._idealKeyHandler(keyCode, charCode, type, domEvent);
-        }
-        else
-        {
-          keyCode = domEvent.keyCode;
-
-          this._idealKeyHandler(keyCode, charCode, type, domEvent);
-
-          // On non print-able character be sure to add a keypress event
-          if (type == "keydown")
-          {
-            // non-printable, backspace or tab
-            if (qx.event.util.Keyboard.isNonPrintableKeyCode(keyCode) || this._emulateKeyPress[keyCode]) {
-              this._idealKeyHandler(keyCode, charCode, "keypress", domEvent);
-            }
-          }
-
-          // Store last type
-          this.__lastUpDownType[keyCode] = type;
         }
 
+        // Store last type
+        this.__lastUpDownType[keyCode] = type;
       },
 
       "opera" : function(domEvent)
@@ -496,36 +473,10 @@ qx.Class.define("qx.event.handler.Keyboard",
 
       "webkit" : function(domEvent)
       {
-        // starting with Safari 3.1 (version 525.13) Apple switched the key
-        // handling to match the IE behaviour.
-        if (parseFloat(qx.core.Environment.get("engine.version")) < 525.13)
-        {
-          var keyCode = 0;
-          var charCode = 0;
-          var type = domEvent.type;
-
-          if (type == "keyup" || type == "keydown")
-          {
-            keyCode = this._charCode2KeyCode[domEvent.charCode] || domEvent.keyCode;
-          }
-          else
-          {
-            if (this._charCode2KeyCode[domEvent.charCode]) {
-              keyCode = this._charCode2KeyCode[domEvent.charCode];
-            } else {
-              charCode = domEvent.charCode;
-            }
-          }
-
-          this._idealKeyHandler(keyCode, charCode, type, domEvent);
-        }
-        else
-        {
-          if (this._charCode2KeyCode[domEvent.keyCode]) {
-            this._idealKeyHandler(this._charCode2KeyCode[domEvent.keyCode], 0, domEvent.type, domEvent);
-          } else {
-            this._idealKeyHandler(0, domEvent.keyCode, domEvent.type, domEvent);
-          }
+        if (this._charCode2KeyCode[domEvent.keyCode]) {
+          this._idealKeyHandler(this._charCode2KeyCode[domEvent.keyCode], 0, domEvent.type, domEvent);
+        } else {
+          this._idealKeyHandler(0, domEvent.keyCode, domEvent.type, domEvent);
         }
       },
 
@@ -682,60 +633,14 @@ qx.Class.define("qx.event.handler.Keyboard",
     // register at the event handler
     qx.event.Registration.addHandler(statics);
 
-    if ((qx.core.Environment.get("engine.name") == "mshtml"))
+    if ((qx.core.Environment.get("engine.name") == "mshtml") ||
+      qx.core.Environment.get("engine.name") == "webkit")
     {
       members._charCode2KeyCode =
       {
         13 : 13,
         27 : 27
       };
-    }
-    else if ((qx.core.Environment.get("engine.name") == "webkit"))
-    {
-      // starting with Safari 3.1 (version 525.13) Apple switched the key
-      // handling to match the IE behaviour.
-      if (parseFloat(qx.core.Environment.get("engine.version")) < 525.13 )
-      {
-        members._charCode2KeyCode =
-        {
-          // Safari/Webkit Mappings
-          63289 : members._identifierToKeyCode("NumLock"),
-          63276 : members._identifierToKeyCode("PageUp"),
-          63277 : members._identifierToKeyCode("PageDown"),
-          63275 : members._identifierToKeyCode("End"),
-          63273 : members._identifierToKeyCode("Home"),
-          63234 : members._identifierToKeyCode("Left"),
-          63232 : members._identifierToKeyCode("Up"),
-          63235 : members._identifierToKeyCode("Right"),
-          63233 : members._identifierToKeyCode("Down"),
-          63272 : members._identifierToKeyCode("Delete"),
-          63302 : members._identifierToKeyCode("Insert"),
-          63236 : members._identifierToKeyCode("F1"),
-          63237 : members._identifierToKeyCode("F2"),
-          63238 : members._identifierToKeyCode("F3"),
-          63239 : members._identifierToKeyCode("F4"),
-          63240 : members._identifierToKeyCode("F5"),
-          63241 : members._identifierToKeyCode("F6"),
-          63242 : members._identifierToKeyCode("F7"),
-          63243 : members._identifierToKeyCode("F8"),
-          63244 : members._identifierToKeyCode("F9"),
-          63245 : members._identifierToKeyCode("F10"),
-          63246 : members._identifierToKeyCode("F11"),
-          63247 : members._identifierToKeyCode("F12"),
-          63248 : members._identifierToKeyCode("PrintScreen"),
-          3     : members._identifierToKeyCode("Enter"),
-          12    : members._identifierToKeyCode("NumLock"),
-          13    : members._identifierToKeyCode("Enter")
-        };
-      }
-      else
-      {
-        members._charCode2KeyCode =
-        {
-          13 : 13,
-          27 : 27
-        };
-      }
     }
   }
 });

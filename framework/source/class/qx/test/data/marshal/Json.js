@@ -19,16 +19,15 @@
 
 /* ************************************************************************
 
-#asset(qx/test/*)
-#ignore(qx.Test)
-#ignore(qx.test.model)
 
 ************************************************************************ */
 /**
+ * @asset(qx/test/*)
+ *
  * @lint ignoreDeprecated(eval)
  * @ignore(qx.data.model)
+ * @ignore(qx.test.model.*)
  * @ignore(qx.Test)
- * @ignore(qx.test.model)
  */
 qx.Class.define("qx.test.data.marshal.Json",
 {
@@ -732,7 +731,7 @@ qx.Class.define("qx.test.data.marshal.Json",
 
 
     /**
-     * @lint ignoreUndefined(qx.test.model)
+     * @ignore(qx.test.model)
      */
     testGetModelClass: function() {
       qx.Class.define("qx.test.model.C", {

@@ -35,6 +35,10 @@ qx.Class.define("qx.html.Image",
 
   members :
   {
+    __paddingTop : null,
+    __paddingLeft: null,
+
+
     // this member variable is only used for IE browsers to be able
     // to the tag name which will be set. This is heavily connected to the runtime
     // change of decorators and the use of external (=unmanaged images). It is
@@ -42,6 +46,24 @@ qx.Class.define("qx.html.Image",
     // ImageLoader has finished its loading of an external image.
     // See Bug #3894 for more details
     tagNameHint : null,
+
+
+    /**
+     * Maps padding to background-position if the widget is rendered as a
+     * background image
+     * @param paddingLeft {Integer} left padding value
+     * @param paddingTop {Integer} top padding value
+     */
+    setPadding : function(paddingLeft, paddingTop)
+    {
+      this.__paddingLeft = paddingLeft;
+      this.__paddingTop = paddingTop;
+
+      if (this.getNodeName() == "div") {
+        this.setStyle("backgroundPosition", paddingLeft + "px " + paddingTop + "px");
+      }
+    },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -66,7 +88,6 @@ qx.Class.define("qx.html.Image",
 
         if (this.getNodeName() == "div" && this.getStyle("backgroundImage"))
         {
-          styles.backgroundPosition = null;
           styles.backgroundRepeat = null;
         }
 
@@ -79,6 +100,9 @@ qx.Class.define("qx.html.Image",
         if (source != null) {
           // Normalize "" to null
           source = source || null;
+
+          styles.paddingTop = this.__paddingTop;
+          styles.paddingLeft = this.__paddingLeft;
 
           qx.bom.element.Decoration.update(elem, source, repeat, styles);
         }

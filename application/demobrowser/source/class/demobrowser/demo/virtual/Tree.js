@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 /**
-#asset(qx/icon/${qx.icontheme}/48/places/folder.png)
+ * @asset(qx/icon/${qx.icontheme}/48/places/folder.png)
  */
 qx.Class.define("demobrowser.demo.virtual.Tree",
 {

@@ -25,10 +25,13 @@ qx.Theme.define("showcase.page.theme.calc.theme.appearance.Black",
     {
       style : function(states)
       {
+        var backgroundColor = qx.core.Environment.get("css.borderimage") ?
+          "transparent" : "black-window-bg";
+        //backgroundColor : "#757575"
         return {
-          backgroundColor : "black-window-bg",
+          backgroundColor : backgroundColor,
           decorator : "calc-window",
-          contentPadding : [6, 8, 8 ,8]
+          contentPadding : [4, 4]
         };
       }
     },
@@ -62,12 +65,17 @@ qx.Theme.define("showcase.page.theme.calc.theme.appearance.Black",
     {
       style : function(states)
       {
+        var backgroundColor = "transparent";
+        if (!qx.core.Environment.get("css.borderimage")) {
+          backgroundColor = "#F4F4F4";
+        }
         return {
+          backgroundColor : backgroundColor,
           decorator : "calc-display",
           marginBottom : 8,
           height: 51,
           padding : [0, 20]
-        }
+        };
       }
     },
 
@@ -98,7 +106,7 @@ qx.Theme.define("showcase.page.theme.calc.theme.appearance.Black",
       {
         return {
           marginLeft: 50
-        }
+        };
       }
     },
 
@@ -110,10 +118,17 @@ qx.Theme.define("showcase.page.theme.calc.theme.appearance.Black",
 
       style : function(states)
       {
-       return {
-         textColor : states.pressed ?
+        var backgroundColor = "transparent";
+        var textColor = states.pressed ?
            "black-button-text-pressed" :
-           "black-button-text",
+           "black-button-text";
+        if (!qx.core.Environment.get("css.borderimage")) {
+          textColor += "-fallback";
+          backgroundColor = states.pressed ? "#009600" : "#D1D1D1";
+        }
+       return {
+         backgroundColor : backgroundColor,
+         textColor : textColor,
          decorator : states.pressed ?
            "calc-button-pressed" :
            "calc-button",

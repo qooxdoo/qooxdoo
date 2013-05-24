@@ -19,14 +19,6 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/apps/office-calendar.png)
-#asset(qx/icon/${qx.icontheme}/32/apps/office-address-book.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/internet-feed-reader.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/internet-telephony.png)
-#asset(qx/icon/${qx.icontheme}/22/apps/utilities-calculator.png)
-#asset(qx/icon/${qx.icontheme}/32/status/dialog-error.png)
-#asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
-#asset(qx/icon/${qx.icontheme}/16/actions/dialog-cancel.png)
 
 ************************************************************************ */
 
@@ -35,6 +27,15 @@
  *
  * Desktop, Window
  *
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/apps/office-calendar.png)
+ * @asset(qx/icon/${qx.icontheme}/32/apps/office-address-book.png)
+ * @asset(qx/icon/${qx.icontheme}/16/apps/internet-feed-reader.png)
+ * @asset(qx/icon/${qx.icontheme}/16/apps/internet-telephony.png)
+ * @asset(qx/icon/${qx.icontheme}/22/apps/utilities-calculator.png)
+ * @asset(qx/icon/${qx.icontheme}/32/status/dialog-error.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-cancel.png)
  */
 
 qx.Class.define("widgetbrowser.pages.Window",
@@ -45,8 +46,12 @@ qx.Class.define("widgetbrowser.pages.Window",
   {
     this.base(arguments);
 
+    var decorator = new qx.ui.decoration.Decorator().set({
+      width: 10,
+      color: "#ddd"
+    });
     this.__desktop = new qx.ui.window.Desktop().set({
-      decorator: new qx.ui.decoration.Single(10, null, "#ddd")
+      decorator: decorator
     });
     this.add(this.__desktop, {edge: 0, top: 0});
 

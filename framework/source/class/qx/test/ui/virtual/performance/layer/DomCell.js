@@ -31,7 +31,7 @@ qx.Class.define("qx.test.ui.virtual.performance.layer.DomCell",
   {
     _fullUpdate : function(firstRow, firstColumn, rowSizes, columnSizes)
     {
-      var el = this.getContainerElement().getDomElement();
+      var el = this.getContentElement().getDomElement();
       el.innerHTML = "";
 
       var Style = qx.bom.element.Style;

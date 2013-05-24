@@ -101,7 +101,7 @@ Abundandly "requiring" other classes
 "requires" in the qooxdoo context are dependencies of a class to other classes which have to be available at *load-time*, i.e. at the time the class code is read and evaluated by qooxdoo's class factory (currently ``qx.Class.define``). This is in contrast to dependencies which come into play only at *run-time* of the class code, e.g. when its constructor or member functions are invoked. (Run-time dependencies are usually easy to fullfill since they don't impose an order in which classes are loaded into the browser's Javascript interpreter; in general, they just have to be loaded eventually).
 
 There are exactly 4 ways to establish a load-time requirement of a class:
-  * **#require() hint**:Explicitly requiring another class by using a ``#require`` hint in the source file of the class.
+  * **@require() hint**: Explicitly requiring another class by using a ``@require`` hint in the source file of the class.
   * **statics section**:Initializing a ``statics`` member in the class definition with a class instance (using the ``new`` operator) or by calling a static class method makes the referenced class a requirement of the referencing class.
   * **properties section**:Instantiating another class or calling one of its static methods, in order to provide a value for the ``init`` attribute of a property definition, makes the other class a required class.
   * **defer section**:All references to other classes (instantiations, static method invocations) in the ``defer`` section of a class makes those other classes "requires" of the current class.

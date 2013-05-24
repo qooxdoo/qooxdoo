@@ -24,11 +24,11 @@ qx.Class.define("qx.test.performance.decorator.Background",
   members :
   {
     createDecorator : function() {
-      return new qx.ui.decoration.Background().set({
+      return new qx.ui.decoration.Decorator().set({
         backgroundImage: "decoration/form/tooltip-error-arrow.png",
         backgroundPositionY: "center",
         backgroundRepeat: "no-repeat",
-        insets: [0, 0, 0, 10]
+        slice: [0, 0, 0, 10]
       });
     }
   }

@@ -112,7 +112,7 @@ This is an overview of the available configuration keys with their corresponding
 
     * **add-script** - A list of URIs that will be loaded first thing when the app starts.
     * **api** - Triggers the generation of a custom Apiviewer application.
-    * **asset-let** - Defines macros that will be replaced in #asset hints in source files.
+    * **asset-let** - Defines macros that will be replaced in @asset hints in source files.
     * **cache** - Define the path to cache directories, most importantly to the compile cache.
     * **clean-files** - Triggers clean-up of files and directories within a project and the framework, e.g. deletion of generated files, cache contents, etc.
     * **collect-environment-info** - Collects various information about the qooxdoo environment (like version, cache, etc.) and prints it to the console.

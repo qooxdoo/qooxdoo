@@ -18,12 +18,13 @@
 ************************************************************************ */
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/apps/office-calendar.png)
-#asset(qx/icon/${qx.icontheme}/32/apps/office-address-book.png)
 
 ************************************************************************ */
 
 /**
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/apps/office-calendar.png)
+ * @asset(qx/icon/${qx.icontheme}/32/apps/office-address-book.png)
  * @tag test
  */
 qx.Class.define("demobrowser.demo.test.UIDeclaration",

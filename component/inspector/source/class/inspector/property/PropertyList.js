@@ -18,11 +18,6 @@
 
 ************************************************************************ */
 /* ************************************************************************
-#asset(inspector/images/close.png)
-#asset(inspector/images/open.png)
-#asset(inspector/images/null.png)
-#asset(inspector/images/shell/errorIcon.png)
-#asset(qx/icon/Tango/16/actions/go-next.png)
 ************************************************************************ */
 /**
  * The class is a implementation of the abstract {@link inspector.propertyEditor.PropertyList}
@@ -31,6 +26,12 @@
  * It implements all functions and makes the displayed properties accessible to the user.
  * This includes an easy to use interface for all types of properties like boolean, colors
  * or strings
+ *
+ * @asset(inspector/images/close.png)
+ * @asset(inspector/images/open.png)
+ * @asset(inspector/images/null.png)
+ * @asset(inspector/images/shell/errorIcon.png)
+ * @asset(qx/icon/Tango/16/actions/go-next.png)
  */
 qx.Class.define("inspector.property.PropertyList", {
 
@@ -598,7 +599,11 @@ qx.Class.define("inspector.property.PropertyList", {
           layout.getLayout().setAlignY("middle");
           // create the color field and set the initial color
           var colorField = new qx.ui.core.Widget();
-          colorField.setDecorator(new qx.ui.decoration.Single(1, "solid", "#969696"));
+          colorField.setDecorator(new qx.ui.decoration.Decorator().set({
+            width: 1,
+            style: "solid",
+            color: "#969696"
+          }));
           colorField.setBackgroundColor("white");
           colorField.setHeight(20);
           colorField.setWidth(20);

@@ -19,10 +19,11 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/32/places/*)
 
 ************************************************************************ */
 /**
+ *
+ * @asset(qx/icon/${qx.icontheme}/32/places/*)
  * @ignore(demobrowser.demo.virtual.GalleryCell)
  * @ignore(demobrowser.demo.virtual.HtmlGallery)
  * @ignore(demobrowser.demo.virtual.WidgetGallery)

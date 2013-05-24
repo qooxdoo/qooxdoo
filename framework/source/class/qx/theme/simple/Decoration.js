@@ -36,7 +36,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "border-blue" :
     {
-      decorator: qx.ui.decoration.Uniform,
+      decorator: [qx.ui.decoration.MSingleBorder],
 
       style :
       {
@@ -48,7 +48,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "main" :
     {
-      decorator: qx.ui.decoration.Uniform,
+      decorator: [qx.ui.decoration.MSingleBorder],
 
       style :
       {
@@ -59,7 +59,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "main-dark" :
     {
-      decorator: qx.ui.decoration.Uniform,
+      decorator: [qx.ui.decoration.MSingleBorder],
 
       style :
       {
@@ -90,7 +90,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "dragover" :
     {
-      decorator : qx.ui.decoration.Single,
+      decorator : [qx.ui.decoration.MSingleBorder],
 
       style : {
         bottom: [2, "solid", "dark-blue"]
@@ -705,7 +705,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "separator-horizontal" :
     {
-      decorator: qx.ui.decoration.Single,
+      decorator: [qx.ui.decoration.MSingleBorder],
 
       style :
       {
@@ -716,7 +716,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "separator-vertical" :
     {
-      decorator: qx.ui.decoration.Single,
+      decorator: [qx.ui.decoration.MSingleBorder],
 
       style :
       {
@@ -837,7 +837,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
 
     "window-caption" : {
-      decorator : qx.ui.decoration.Single,
+      decorator : [qx.ui.decoration.MSingleBorder],
 
       style :
       {
@@ -868,7 +868,8 @@ qx.Theme.define("qx.theme.simple.Decoration",
         shadowBlurRadius : 2,
         shadowColor : "#999999",
         radius: 7,
-        backgroundColor : "white"
+        backgroundColor : "white",
+        shadowLength: 0
       }
     },
 
@@ -880,7 +881,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
     */
     "inset" :
     {
-      decorator : qx.ui.decoration.Single,
+      decorator : [qx.ui.decoration.MSingleBorder],
 
       style :
       {
@@ -891,7 +892,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "focused-inset" :
     {
-      decorator: qx.ui.decoration.Uniform,
+      decorator: [qx.ui.decoration.MSingleBorder],
 
       style :
       {
@@ -902,7 +903,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "border-invalid" :
     {
-      decorator: qx.ui.decoration.Uniform,
+      decorator: [qx.ui.decoration.MSingleBorder],
 
       style :
       {
@@ -920,7 +921,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "lead-item" :
     {
-      decorator : qx.ui.decoration.Uniform,
+      decorator : [qx.ui.decoration.MSingleBorder],
 
       style :
       {
@@ -982,7 +983,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "toolbar-separator" :
     {
-      decorator : qx.ui.decoration.Single,
+      decorator : [qx.ui.decoration.MSingleBorder],
 
       style :
       {
@@ -999,7 +1000,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
     */
     "menu-separator" :
     {
-      decorator : qx.ui.decoration.Single,
+      decorator : [qx.ui.decoration.MSingleBorder],
 
       style :
       {
@@ -1052,7 +1053,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "datechooser-date-pane" :
     {
-      decorator : qx.ui.decoration.Single,
+      decorator : [qx.ui.decoration.MSingleBorder],
 
       style :
       {
@@ -1065,7 +1066,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "datechooser-weekday" :
     {
-      decorator : qx.ui.decoration.Single,
+      decorator : [qx.ui.decoration.MSingleBorder],
 
       style :
       {
@@ -1077,7 +1078,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "datechooser-week" :
     {
-      decorator : qx.ui.decoration.Single,
+      decorator : [qx.ui.decoration.MSingleBorder],
 
       style :
       {
@@ -1089,7 +1090,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "datechooser-week-header" :
     {
-      decorator : qx.ui.decoration.Single,
+      decorator : [qx.ui.decoration.MSingleBorder],
 
       style :
       {
@@ -1167,7 +1168,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "statusbar" :
     {
-      decorator : qx.ui.decoration.Single,
+      decorator : [qx.ui.decoration.MSingleBorder],
 
       style :
       {
@@ -1179,7 +1180,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "table-scroller-focus-indicator" :
     {
-      decorator : qx.ui.decoration.Single,
+      decorator : [qx.ui.decoration.MSingleBorder],
 
       style :
       {
@@ -1211,7 +1212,7 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "table-header-cell" :
     {
-      decorator : qx.ui.decoration.Single,
+      decorator : [qx.ui.decoration.MSingleBorder],
 
       style :
       {
@@ -1259,7 +1260,10 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "progressbar" :
     {
-      decorator: qx.ui.decoration.Single,
+      decorator: [
+        qx.ui.decoration.MSingleBorder,
+        qx.ui.decoration.MBackgroundColor
+      ],
 
       style:
       {

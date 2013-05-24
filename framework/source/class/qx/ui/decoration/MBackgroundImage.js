@@ -18,7 +18,7 @@
 ************************************************************************ */
 /**
  * Mixin for supporting the background images on decorators.
- * This mixin is usually used by {@link qx.ui.decoration.DynamicDecorator}.
+ * This mixin is usually used by {@link qx.ui.decoration.Decorator}.
  */
 qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
 {
@@ -85,89 +85,57 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
   members :
   {
     /**
-     * Whether an info was already displayed for browsers using the AlphaImageLoader (IE6 - IE9)
+     * Adds the background-image styles to the given map
+     * @param styles {Map} CSS style map
+     */
+    _styleBackgroundImage : function(styles)
+    {
+      var image = this.getBackgroundImage();
+      if(!image) {
+        return;
+      }
+
+      var id = qx.util.AliasManager.getInstance().resolve(image);
+      var source = qx.util.ResourceManager.getInstance().toUri(id);
+      if (styles["background-image"]) {
+        styles["background-image"] +=  ', url(' + source + ')';
+      } else {
+        styles["background-image"] = 'url(' + source + ')';
+      }
+
+      var repeat = this.getBackgroundRepeat();
+      if (repeat === "scale") {
+        styles["background-size"] = "100% 100%";
+      }
+      else {
+        styles["background-repeat"] = repeat;
+      }
+
+      var top = this.getBackgroundPositionY() || 0;
+      var left = this.getBackgroundPositionX() || 0;
+
+      if (!isNaN(top)) {
+        top += "px";
+      }
+
+      if (!isNaN(left)) {
+        left += "px";
+      }
+
+      styles["background-position"] = left + " " + top;
+
+      if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
+        qx.bom.element.Decoration.processAlphaFix(styles, repeat, id);
+      }
+    },
+
+
+    /**
+     * Whether an info was already displayed for browsers using the AlphaImageLoader (IE8 - IE9)
      * together with the 'backgroundPosition' property. The AlphaImageLoader is not able to make use
      * of this CSS property. So the developer should be informed about this *once*.
      */
     __infoDisplayed : false,
-
-    /**
-     * Mapping for the dynamic decorator.
-     *
-     * @param styles {Map} CSS styles as map
-     * @param content {String?null} The content of the created div as HTML
-     * @return {String} The generated HTML fragment
-     */
-    _generateMarkup : function(styles, content) {
-      return this._generateBackgroundMarkup(styles, content);
-    },
-
-
-    /**
-     * Responsible for generating the markup for the background.
-     * This method just uses the settings in the properties to generate
-     * the markup.
-     *
-     * @param styles {Map} CSS styles as map
-     * @param content {String?null} The content of the created div as HTML
-     * @return {String} The generated HTML fragment
-     */
-    _generateBackgroundMarkup: function(styles, content)
-    {
-      var markup = "";
-
-      var image = this.getBackgroundImage();
-      var repeat = this.getBackgroundRepeat();
-
-      var top = this.getBackgroundPositionY();
-      if (top == null) {
-        top = 0;
-      }
-
-      var left = this.getBackgroundPositionX();
-      if (left == null) {
-        left = 0;
-      }
-
-      styles.backgroundPosition = left + " " + top;
-
-      // Support for images
-      if (image)
-      {
-        var resolved = qx.util.AliasManager.getInstance().resolve(image);
-        markup = qx.bom.element.Decoration.create(resolved, repeat, styles);
-      }
-      else
-      {
-        if ((qx.core.Environment.get("engine.name") == "mshtml"))
-        {
-          /*
-           * Internet Explorer as of version 6 for quirks and standards mode,
-           * or version 7 in quirks mode adds an empty string to the "div"
-           * node. This behavior causes rendering problems, because the node
-           * would then have a minimum size determined by the font size.
-           * To be able to set the "div" node height to a certain (small)
-           * value independent of the minimum font size, an "overflow:hidden"
-           * style is added.
-           * */
-          if (parseFloat(qx.core.Environment.get("engine.version")) < 7 ||
-            qx.core.Environment.get("browser.quirksmode") ||
-            qx.core.Environment.get("browser.documentmode") < 7)
-          {
-            // Add additionally style
-            styles.overflow = "hidden";
-          }
-        }
-
-        if (!content) {
-          content = "";
-        }
-
-        markup = '<div style="' + qx.bom.element.Style.compile(styles) + '">' + content + '</div>';
-      }
-
-      return markup;
-    },
 
 
     // property apply
@@ -186,7 +154,10 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
     {
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (qx.bom.element.Decoration.isAlphaImageLoaderEnabled() && !this.__infoDisplayed)
+        if (this._isInitialized()) {
+          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
+        }
+        if (qx.core.Environment.get("css.alphaimageloaderneeded") && !this.__infoDisplayed)
         {
           this.info("Applying a background-position value has no impact when using the 'AlphaImageLoader' to display PNG images!");
           this.__infoDisplayed = true;

@@ -34,7 +34,7 @@ qx.Class.define("simulator.qxwebdriver.interaction.form.VirtualComboBox", {
      * @param item {String|Integer} The index or label of the list item to click
      * @return {webdriver.Promise} A promise that will be resolved when the
      * target item is selected
-     * @lint ignoreUndefined(simulator.webdriver.By)
+     * @ignore(simulator.webdriver.By)
      */
     selectItem : function(item)
     {

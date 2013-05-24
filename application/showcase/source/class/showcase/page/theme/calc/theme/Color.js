@@ -24,6 +24,8 @@ qx.Theme.define("showcase.page.theme.calc.theme.Color",
     "black-window-bg": "#969696",
     "black-window-caption": "#DDD",
     "black-button-text": "white",
-    "black-button-text-pressed": "#AAA"
+    "black-button-text-pressed": "#AAA",
+    "black-button-text-fallback": "#1C1C1C",
+    "black-button-text-pressed-fallback": "white"
   }
 });

@@ -27,5 +27,13 @@ qx.Theme.define("showcase.theme.Decoration",
 
   decorations :
   {
+    "previewlist-scrollbar-knob" :
+    {
+      style :
+      {
+        radius: 10,
+        backgroundColor: "#1C1C1C"
+      }
+    }
   }
 });

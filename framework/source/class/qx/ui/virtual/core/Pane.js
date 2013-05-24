@@ -619,7 +619,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
      */
     _onResize : function()
     {
-      if (this.getContainerElement().getDomElement())
+      if (this.getContentElement().getDomElement())
       {
         this.__dontFireUpdate = true;
         this._updateScrollPosition();
@@ -783,8 +783,8 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       }
 
       this.__layerContainer.setUserBounds(
-        this.__layerWindow.left - this.__scrollLeft,
-        this.__layerWindow.top - this.__scrollTop,
+        (this.getPaddingLeft() || 0) + (this.__layerWindow.left - this.__scrollLeft),
+        (this.getPaddingTop() || 0) + (this.__layerWindow.top - this.__scrollTop),
         layerWidth, layerHeight
       );
 
@@ -927,8 +927,8 @@ qx.Class.define("qx.ui.virtual.core.Pane",
       {
         // only update layer container offset
         this.__layerContainer.setUserBounds(
-          this.__layerWindow.left - paneWindow.left,
-          this.__layerWindow.top - paneWindow.top,
+          (this.getPaddingLeft() || 0) + (this.__layerWindow.left - paneWindow.left),
+          (this.getPaddingTop() || 0) + (this.__layerWindow.top - paneWindow.top),
           this.__layerWindow.right - this.__layerWindow.left,
           this.__layerWindow.bottom - this.__layerWindow.top
         );

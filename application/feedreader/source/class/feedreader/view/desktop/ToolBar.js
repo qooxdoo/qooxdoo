@@ -19,19 +19,15 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(qx/icon/${qx.icontheme}/22/actions/dialog-ok.png)
-#asset(qx/icon/${qx.icontheme}/22/actions/dialog-cancel.png)
-#asset(qx/icon/${qx.icontheme}/22/actions/view-refresh.png)
-#asset(qx/icon/${qx.icontheme}/22/apps/preferences-theme.png)
-#asset(qx/icon/${qx.icontheme}/22/actions/help-about.png)
-#asset(qx/icon/${qx.icontheme}/22/actions/media-seek-forward.png)
-
-************************************************************************ */
-
 /**
  * The main tool bar widget
+ *
+ * @asset(qx/icon/${qx.icontheme}/22/actions/dialog-ok.png)
+ * @asset(qx/icon/${qx.icontheme}/22/actions/dialog-cancel.png)
+ * @asset(qx/icon/${qx.icontheme}/22/actions/view-refresh.png)
+ * @asset(qx/icon/${qx.icontheme}/22/apps/preferences-theme.png)
+ * @asset(qx/icon/${qx.icontheme}/22/actions/help-about.png)
+ * @asset(qx/icon/${qx.icontheme}/22/actions/media-seek-forward.png)
  */
 qx.Class.define("feedreader.view.desktop.ToolBar",
 {

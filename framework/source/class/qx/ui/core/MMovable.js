@@ -131,7 +131,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
      */
     __showMoveFrame : function()
     {
-      var location = this.getContainerLocation();
+      var location = this.getContentLocation();
       var bounds = this.getBounds();
       var frame = this.__getMoveFrame();
       frame.setUserBounds(location.left, location.top, bounds.width, bounds.height);
@@ -200,7 +200,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
 
       // Added a blocker, this solves the issue described in [BUG #1462]
       if (qx.Class.implementsInterface(parent, qx.ui.window.IDesktop)) {
-        if (!parent.isContentBlocked()) {
+        if (!parent.isBlocked()) {
           this.__oldBlockerColor = parent.getBlockerColor();
           this.__oldBlockerOpacity = parent.getBlockerOpacity();
           parent.setBlockerColor(null);
@@ -221,7 +221,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
       };
 
       // Compute drag positions
-      var widgetLocation = this.getContainerLocation();
+      var widgetLocation = this.getContentLocation();
       this.__parentLeft = parentLocation.left;
       this.__parentTop = parentLocation.top;
 
@@ -262,7 +262,9 @@ qx.Mixin.define("qx.ui.core.MMovable",
       if (this.getUseMoveFrame()) {
         this.__getMoveFrame().setDomPosition(coords.viewportLeft, coords.viewportTop);
       } else {
-        this.setDomPosition(coords.parentLeft, coords.parentTop);
+        var insets = this.getLayoutParent().getInsets();
+        this.setDomPosition(coords.parentLeft - (insets.left || 0),
+          coords.parentTop - (insets.top || 0));
       }
 
       e.stopPropagation();
@@ -290,7 +292,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
       var parent = this.getLayoutParent();
       if (qx.Class.implementsInterface(parent, qx.ui.window.IDesktop)) {
         if (this.__blockerAdded) {
-          parent.unblockContent();
+          parent.unblock();
 
           parent.setBlockerColor(this.__oldBlockerColor);
           parent.setBlockerOpacity(this.__oldBlockerOpacity);
@@ -306,9 +308,10 @@ qx.Mixin.define("qx.ui.core.MMovable",
 
       // Apply them to the layout
       var coords = this.__computeMoveCoordinates(e);
+      var insets = this.getLayoutParent().getInsets();
       this.setLayoutProperties({
-        left: coords.parentLeft,
-        top: coords.parentTop
+        left: coords.parentLeft - (insets.left || 0),
+        top: coords.parentTop - (insets.top || 0)
       });
 
       // Hide frame afterwards

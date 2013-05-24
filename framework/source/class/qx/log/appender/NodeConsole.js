@@ -18,12 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#ignore(process)
-
-************************************************************************ */
-
 /**
  * Log appender for qooxdoo applications running in Node.js. Writes log
  * messages to STDOUT/STDERR.
@@ -122,7 +116,7 @@ qx.Class.define("qx.log.appender.NodeConsole", {
   },
 
   /**
-   * @lint ignoreUndefined(process)
+   * @ignore(process.*)
    */
   defer : function(statics)
   {

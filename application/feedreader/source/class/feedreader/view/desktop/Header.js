@@ -32,7 +32,7 @@ qx.Class.define("feedreader.view.desktop.Header",
   */
 
   /**
-   * @lint ignoreUndefined(qxc)
+   * @ignore(qxc)
    */
   construct : function()
   {

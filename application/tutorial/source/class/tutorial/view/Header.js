@@ -29,7 +29,7 @@ qx.Class.define("tutorial.view.Header",
   },
 
   /**
-   * @lint ignoreUndefined(qxc)
+   * @ignore(qxc)
    */
   construct : function()
   {

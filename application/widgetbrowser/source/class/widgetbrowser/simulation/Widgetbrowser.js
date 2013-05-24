@@ -17,8 +17,8 @@
 /**
  * Widgetbrowser GUI tests
  *
- * @lint ignoreUndefined(simulator)
- * @lint ignoreUndefined(selenium)
+ * @ignore(simulator)
+ * @ignore(selenium)
  */
 qx.Class.define("widgetbrowser.simulation.Widgetbrowser", {
 

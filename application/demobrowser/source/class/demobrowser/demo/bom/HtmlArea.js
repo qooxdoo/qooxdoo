@@ -20,18 +20,19 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Oxygen/16/actions/format-*.png)
-#asset(qx/icon/Oxygen/16/actions/edit-*.png)
-#asset(qx/icon/Oxygen/16/actions/insert-image.png)
-#asset(qx/icon/Oxygen/16/actions/insert-link.png)
-#asset(qx/icon/Oxygen/16/actions/insert-text.png)
-#asset(demobrowser/demo/icons/htmlarea/*)
 
 ************************************************************************ */
 
 /**
  * This is the main application class of your custom application "native"
  *
+ *
+ * @asset(qx/icon/Oxygen/16/actions/format-*.png)
+ * @asset(qx/icon/Oxygen/16/actions/edit-*.png)
+ * @asset(qx/icon/Oxygen/16/actions/insert-image.png)
+ * @asset(qx/icon/Oxygen/16/actions/insert-link.png)
+ * @asset(qx/icon/Oxygen/16/actions/insert-text.png)
+ * @asset(demobrowser/demo/icons/htmlarea/*)
  * @tag noPlayground
  *
  * @require(qx.module.Core)

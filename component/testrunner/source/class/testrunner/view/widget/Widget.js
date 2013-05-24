@@ -14,25 +14,23 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#asset(qx/icon/Tango/22/actions/media-playback-start.png)
-#asset(qx/icon/Tango/22/actions/media-playback-stop.png)
-#asset(qx/icon/Tango/22/actions/view-refresh.png)
-#asset(qx/icon/Tango/16/categories/system.png)
-#asset(qx/icon/Tango/22/categories/system.png)
-#asset(qx/icon/Tango/22/actions/system-run.png)
-#asset(qx/icon/Tango/22/status/dialog-information.png)
-#asset(qx/icon/Tango/22/status/dialog-warning.png)
-#asset(qx/icon/Tango/22/status/dialog-error.png)
-#asset(qx/icon/Tango/16/actions/document-properties.png)
-#asset(qx/icon/Tango/22/actions/media-seek-forward.png)
-#asset(qx/icon/Tango/22/actions/document-open-recent.png)
-
-#asset(testrunner/view/widget/css/testrunner.css)
-#asset(testrunner/view/widget/image/*)
-************************************************************************ */
 /**
  * Widget-based Testrunner view
+ *
+ * @asset(qx/icon/Tango/22/actions/media-playback-start.png)
+ * @asset(qx/icon/Tango/22/actions/media-playback-stop.png)
+ * @asset(qx/icon/Tango/22/actions/view-refresh.png)
+ * @asset(qx/icon/Tango/16/categories/system.png)
+ * @asset(qx/icon/Tango/22/categories/system.png)
+ * @asset(qx/icon/Tango/22/actions/system-run.png)
+ * @asset(qx/icon/Tango/22/status/dialog-information.png)
+ * @asset(qx/icon/Tango/22/status/dialog-warning.png)
+ * @asset(qx/icon/Tango/22/status/dialog-error.png)
+ * @asset(qx/icon/Tango/16/actions/document-properties.png)
+ * @asset(qx/icon/Tango/22/actions/media-seek-forward.png)
+ * @asset(qx/icon/Tango/22/actions/document-open-recent.png)
+ * @asset(testrunner/view/widget/css/testrunner.css)
+ * @asset(testrunner/view/widget/image/*)
  */
 qx.Class.define("testrunner.view.widget.Widget", {
 
@@ -65,12 +63,9 @@ qx.Class.define("testrunner.view.widget.Widget", {
     mainsplit.setAppearance("app-splitpane");
     mainContainer.add(mainsplit, {flex : 1});
 
-    this.__labelDeco = null;
-    try {
-      this.__labelDeco = new qx.ui.decoration.Background().set({
-        backgroundColor : "white"
-      });
-    } catch(ex) {}
+    this.__labelDeco = new qx.ui.decoration.Decorator().set({
+      backgroundColor: "white"
+    });
 
     var leftPane = this.__createTestList();
     mainsplit.add(leftPane, 0);

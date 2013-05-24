@@ -19,7 +19,6 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/32/status/dialog-information.png)
 
 ************************************************************************ */
 
@@ -27,6 +26,8 @@
  * Demonstrates qx.ui.basic(...):
  *
  * Label, Image, Atom
+ *
+ * @asset(qx/icon/${qx.icontheme}/32/status/dialog-information.png)
  *
  */
 

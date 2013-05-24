@@ -18,11 +18,12 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#asset(qx/icon/Tango/16/actions/help-contents.png)
 ************************************************************************ */
 
 /**
  * Displays instructions for the Feature Config Editor
+ *
+ * @asset(qx/icon/Tango/16/actions/help-contents.png)
  */
 
 qx.Class.define("fce.view.HelpWindow", {

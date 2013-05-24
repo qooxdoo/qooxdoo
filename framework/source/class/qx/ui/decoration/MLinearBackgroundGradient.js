@@ -18,7 +18,7 @@
 ************************************************************************ */
 /**
  * Mixin for the linear background gradient CSS property.
- * This mixin is usually used by {@link qx.ui.decoration.DynamicDecorator}.
+ * This mixin is usually used by {@link qx.ui.decoration.Decorator}.
  *
  * Keep in mind that this is not supported by all browsers:
  *
@@ -105,10 +105,13 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
 
   members :
   {
+    __canvas : null,
+
+
     /**
      * Takes a styles map and adds the linear background styles in place to the
      * given map. This is the needed behavior for
-     * {@link qx.ui.decoration.DynamicDecorator}.
+     * {@link qx.ui.decoration.Decorator}.
      *
      * @param styles {Map} A map to add the styles.
      */
@@ -116,6 +119,11 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
       var colors = this.__getColors();
       var startColor = colors.start;
       var endColor = colors.end;
+      var value;
+
+      if (!startColor || !endColor) {
+        return;
+      }
 
       var unit = this.getColorPositionUnit();
 
@@ -136,14 +144,68 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
           "from(" + startColor +
           "),to(" + endColor + ")";
 
-        var value = "-webkit-gradient(linear," + startPos + "," + endPos + "," + color + ")";
+        value = "-webkit-gradient(linear," + startPos + "," + endPos + "," + color + ")";
         styles["background"] = value;
 
+      // IE9 canvas solution
+      } else if (qx.core.Environment.get("css.gradient.filter") &&
+        !qx.core.Environment.get("css.gradient.linear") && qx.core.Environment.get("css.borderradius")) {
+
+          if (!this.__canvas) {
+            this.__canvas = document.createElement("canvas");
+          }
+
+          var isVertical = this.getOrientation() == "vertical";
+
+          var colors = this.__getColors();
+          var height = isVertical ? 200 : 1;
+          var width = isVertical ? 1 : 200;
+
+          this.__canvas.width = width;
+          this.__canvas.height = height;
+          var ctx = this.__canvas.getContext('2d');
+
+          if (isVertical) {
+            var lingrad = ctx.createLinearGradient(0, 0, 0, height);
+          } else {
+            var lingrad = ctx.createLinearGradient(0, 0, width, 0);
+          }
+
+          lingrad.addColorStop(this.getStartColorPosition() / 100, colors.start);
+          lingrad.addColorStop(this.getEndColorPosition() / 100, colors.end);
+
+          ctx.fillStyle = lingrad;
+          ctx.fillRect(0, 0, width, height);
+
+          var value = "url(" + this.__canvas.toDataURL() + ")";
+          styles["background-image"] = value;
+          styles["background-size"] = "100% 100%";
+
+      // old IE filter fallback
       } else if (qx.core.Environment.get("css.gradient.filter") &&
         !qx.core.Environment.get("css.gradient.linear")) {
 
-        // make sure the overflow is hidden for border radius usage [BUG #6318]
-        styles["overflow"] = "hidden";
+          var colors = this.__getColors();
+          var type = this.getOrientation() == "horizontal" ? 1 : 0;
+
+          // convert all hex3 to hex6
+          var startColor = qx.util.ColorUtil.hex3StringToHex6String(colors.start);
+          var endColor = qx.util.ColorUtil.hex3StringToHex6String(colors.end);
+
+          // get rid of the starting '#'
+          startColor = startColor.substring(1, startColor.length);
+          endColor = endColor.substring(1, endColor.length);
+
+          value = "progid:DXImageTransform.Microsoft.Gradient" +
+            "(GradientType=" + type + ", " +
+            "StartColorStr='#FF" + startColor + "', " +
+            "EndColorStr='#FF" + endColor + "';)";
+          if (styles["filter"]) {
+            styles["filter"] += ", " + value;
+          } else {
+            styles["filter"] = value;
+          }
+
       // spec like syntax
       } else {
         // WebKit, Opera and Gecko interpret 0deg as "to right"
@@ -159,8 +221,13 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
           deg = this.getOrientation() == "horizontal" ? deg + 90 : deg - 90;
         }
 
-        styles["background-image"] =
-          prefixedName + "(" + deg + "deg, " + start + "," + end + ")";
+        value = prefixedName + "(" + deg + "deg, " + start + "," + end + ")";
+        if (styles["background-image"]) {
+          styles["background-image"] += ", " + value;
+        }
+        else {
+          styles["background-image"] = value;
+        }
       }
     },
 
@@ -227,29 +294,6 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
           "EndColorStr='#FF" + endColor + "';)\">" + shadow + "</div>";
       }
       return "";
-    },
-
-
-    /**
-     * Resize function for the background color. This is suitable for the
-     * {@link qx.ui.decoration.DynamicDecorator}.
-     *
-     * @param element {Element} The element which could be resized.
-     * @param width {Number} The new width.
-     * @param height {Number} The new height.
-     * @return {Map} A map containing the desired position and dimension
-     *   (width, height, top, left).
-     */
-    _resizeLinearBackgroundGradient : function(element, width, height) {
-      var insets = this.getInsets();
-      width -= insets.left + insets.right;
-      height -= insets.top + insets.bottom;
-      return {
-        left : insets.left,
-        top : insets.top,
-        width : width,
-        height : height
-      };
     },
 
 

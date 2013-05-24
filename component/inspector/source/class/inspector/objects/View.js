@@ -19,11 +19,12 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#asset(qx/icon/Tango/22/actions/view-refresh.png)
 ************************************************************************ */
 
 /**
  * The view for the objects view. The view shows all registered qooxdoo objects.
+ *
+ * @asset(qx/icon/Tango/22/actions/view-refresh.png)
  */
 qx.Class.define("inspector.objects.View",
 {

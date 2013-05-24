@@ -20,12 +20,15 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/22/apps/media-video-player.png)
-#asset(qx/icon/${qx.icontheme}/22/apps/internet-mail.png)
-#asset(qx/icon/${qx.icontheme}/22/apps/internet-web-browser.png)
-#asset(qx/icon/${qx.icontheme}/22/actions/list-add.png)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/${qx.icontheme}/22/apps/media-video-player.png)
+ * @asset(qx/icon/${qx.icontheme}/22/apps/internet-mail.png)
+ * @asset(qx/icon/${qx.icontheme}/22/apps/internet-web-browser.png)
+ * @asset(qx/icon/${qx.icontheme}/22/actions/list-add.png)
+ */
 
 qx.Class.define("demobrowser.demo.widget.Button",
 {

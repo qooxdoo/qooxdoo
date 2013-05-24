@@ -18,7 +18,7 @@
 ************************************************************************ */
 /**
  * Mixin for the border radius CSS property.
- * This mixin is usually used by {@link qx.ui.decoration.DynamicDecorator}.
+ * This mixin is usually used by {@link qx.ui.decoration.Decorator}.
  *
  * Keep in mind that this is not supported by all browsers:
  *
@@ -77,7 +77,7 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius",
     /**
      * Takes a styles map and adds the border radius styles in place to the
      * given map. This is the needed behavior for
-     * {@link qx.ui.decoration.DynamicDecorator}.
+     * {@link qx.ui.decoration.Decorator}.
      *
      * @param styles {Map} A map to add the styles.
      */
@@ -89,8 +89,10 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius",
       styles["background-clip"] = "padding-box";
 
       // radius handling
+      var hasRadius = false;
       var radius = this.getRadiusTopLeft();
       if (radius > 0) {
+        hasRadius = true;
         styles["-moz-border-radius-topleft"] = radius + "px";
         styles["-webkit-border-top-left-radius"] = radius + "px";
         styles["border-top-left-radius"] = radius + "px";
@@ -98,6 +100,7 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius",
 
       radius = this.getRadiusTopRight();
       if (radius > 0) {
+        hasRadius = true;
         styles["-moz-border-radius-topright"] = radius + "px";
         styles["-webkit-border-top-right-radius"] = radius + "px";
         styles["border-top-right-radius"] = radius + "px";
@@ -105,6 +108,7 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius",
 
       radius = this.getRadiusBottomLeft();
       if (radius > 0) {
+        hasRadius = true;
         styles["-moz-border-radius-bottomleft"] = radius + "px";
         styles["-webkit-border-bottom-left-radius"] = radius + "px";
         styles["border-bottom-left-radius"] = radius + "px";
@@ -112,9 +116,18 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius",
 
       radius = this.getRadiusBottomRight();
       if (radius > 0) {
+        hasRadius = true;
         styles["-moz-border-radius-bottomright"] = radius + "px";
         styles["-webkit-border-bottom-right-radius"] = radius + "px";
         styles["border-bottom-right-radius"] = radius + "px";
+      }
+
+      // Fixing the background bleed in Webkits
+      // http://tumble.sneak.co.nz/post/928998513/fixing-the-background-bleed
+      if (hasRadius && qx.core.Environment.get("engine.name") == "webkit") {
+        styles["-webkit-background-clip"] = "padding-box";
+      } else {
+		styles["background-clip"] = "padding-box";
       }
     },
 

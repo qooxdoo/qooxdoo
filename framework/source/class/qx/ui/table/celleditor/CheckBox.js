@@ -66,7 +66,7 @@ qx.Class.define("qx.ui.table.celleditor.CheckBox",
         if (e.getKeyIdentifier() == "Enter")
         {
           var clone = qx.event.Pool.getInstance().getObject(qx.event.type.KeySequence);
-          var target = editor.getContainerElement().getDomElement();
+          var target = editor.getContentElement().getDomElement();
           clone.init(e.getNativeEvent(), target, e.getKeyIdentifier());
           clone.setType("keypress");
           qx.event.Registration.dispatchEvent(target, clone);

@@ -20,11 +20,12 @@
 
 /* ************************************************************************
 
-#asset(demobrowser/demo/html/ModalWindow.html)
 
 ************************************************************************ */
 
 /**
+ *
+ * @asset(demobrowser/demo/html/ModalWindow.html)
  * @tag noPlayground
  */
 qx.Class.define("demobrowser.demo.bom.Window",

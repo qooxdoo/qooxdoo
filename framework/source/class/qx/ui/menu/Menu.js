@@ -451,8 +451,8 @@ qx.Class.define("qx.ui.menu.Menu",
       }
       else
       {
-        if (this._blocker.isContentBlocked()) {
-          this._blocker.unblockContent();
+        if (this._blocker.isBlocked()) {
+          this._blocker.unblock();
         }
       }
     },

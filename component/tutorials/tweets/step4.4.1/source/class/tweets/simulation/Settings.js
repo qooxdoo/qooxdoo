@@ -1,5 +1,5 @@
 /**
- * @lint ignoreUndefined(simulator)
+ * @ignore(simulator)
 */
 qx.Class.define("tweets.simulation.Settings", {
 

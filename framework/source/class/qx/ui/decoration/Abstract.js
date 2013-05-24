@@ -19,59 +19,15 @@
 ************************************************************************ */
 /**
  * This class acts as abstract class for all decorators. It offers the
- * properties for the insets handling. Every decorator has to define its own
+ * properties for the insets handling. Each decorator has to define its own
  * default insets by implementing the template method
  * (http://en.wikipedia.org/wiki/Template_Method) <code>_getDefaultInsets</code>
- * . Another template method called <code>_isInitialized</code> should return
- * weather the decorator is initialized of not.
  */
 qx.Class.define("qx.ui.decoration.Abstract",
 {
   extend: qx.core.Object,
   implement : [qx.ui.decoration.IDecorator],
   type: "abstract",
-
-  properties :
-  {
-    /** Width of the left inset (keep this margin to the outer box) */
-    insetLeft :
-    {
-      check : "Number",
-      nullable: true,
-      apply : "_applyInsets"
-    },
-
-    /** Width of the right inset (keep this margin to the outer box) */
-    insetRight :
-    {
-      check : "Number",
-      nullable: true,
-      apply : "_applyInsets"
-    },
-
-    /** Width of the bottom inset (keep this margin to the outer box) */
-    insetBottom :
-    {
-      check : "Number",
-      nullable: true,
-      apply : "_applyInsets"
-    },
-
-    /** Width of the top inset (keep this margin to the outer box) */
-    insetTop :
-    {
-      check : "Number",
-      nullable: true,
-      apply : "_applyInsets"
-    },
-
-    /** Property group for insets */
-    insets :
-    {
-      group : [ "insetTop", "insetRight", "insetBottom", "insetLeft" ],
-      mode  : "shorthand"
-    }
-  },
 
 
   members :
@@ -122,29 +78,7 @@ qx.Class.define("qx.ui.decoration.Abstract",
         return this.__insets;
       }
 
-      var defaults = this._getDefaultInsets();
-
-      return this.__insets =
-      {
-        left : this.getInsetLeft() == null ? defaults.left : this.getInsetLeft(),
-        right : this.getInsetRight() == null ? defaults.right : this.getInsetRight(),
-        bottom : this.getInsetBottom() == null ? defaults.bottom : this.getInsetBottom(),
-        top : this.getInsetTop() == null ? defaults.top : this.getInsetTop()
-      };
-    },
-
-
-    // property apply
-    _applyInsets : function()
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        if (this._isInitialized()) {
-          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
-        }
-      }
-
-      this.__insets = null;
+      return this._getDefaultInsets();
     }
   },
 

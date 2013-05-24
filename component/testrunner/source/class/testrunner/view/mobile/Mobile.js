@@ -17,14 +17,12 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#asset(qx/icon/Tango/22/actions/media-playback-start.png)
-#asset(qx/icon/Tango/22/actions/media-playback-stop.png)
-#asset(testrunner/view/mobile/*)
-************************************************************************ */
-
 /**
  * Test Runner mobile view
+ *
+ * @asset(qx/icon/Tango/22/actions/media-playback-start.png)
+ * @asset(qx/icon/Tango/22/actions/media-playback-stop.png)
+ * @asset(testrunner/view/mobile/*)
  */
 qx.Class.define("testrunner.view.mobile.Mobile", {
 

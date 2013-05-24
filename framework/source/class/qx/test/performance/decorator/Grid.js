@@ -24,9 +24,8 @@ qx.Class.define("qx.test.performance.decorator.Grid",
   members :
   {
     createDecorator : function() {
-      return new qx.ui.decoration.Grid().set({
-        baseImage : "decoration/tabview/tabview-pane.png",
-        insets : [ 4, 6, 7, 4 ]
+      return new qx.ui.decoration.Decorator().set({
+        baseImage : "decoration/tabview/tabview-pane.png"
       });
     }
   }

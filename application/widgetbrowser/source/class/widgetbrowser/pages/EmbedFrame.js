@@ -19,7 +19,6 @@
 
 /* ************************************************************************
 
-#asset(widgetbrowser/blank.html)
 
 ************************************************************************ */
 
@@ -28,6 +27,8 @@
  *
  * Iframe
  * ThemedIframe
+ *
+ * @asset(widgetbrowser/blank.html)
  */
 
 qx.Class.define("widgetbrowser.pages.EmbedFrame",

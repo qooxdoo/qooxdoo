@@ -159,7 +159,7 @@ qx.Bootstrap.define("qx.bom.Viewport",
     {
       var win = win ? win : window;
 
-      if (typeof win.pageYOffeset !== "undefined") {
+      if (typeof win.pageYOffset !== "undefined") {
         return win.pageYOffset;
       }
 

@@ -29,7 +29,7 @@
 #  bumpqxversion.py 2.1.4-pre
 #
 # DESCRIPTION
-#  Run through a set of files (maintained in this script) and replace occurrences of 
+#  Run through a set of files (maintained in this script) and replace occurrences of
 #  version strings with the new string from the command-line.
 #
 # NOTE
@@ -69,10 +69,10 @@ def npm_version_string(vers_parts):
 ##
 # Files to change:
 #
-# Files = { 
+# Files = {
 #     "path_from_QXROOT": [
-#         <regex_to_replace>, 
-#         (<regex_to_replace>, <version_part>), 
+#         <regex_to_replace>,
+#         (<regex_to_replace>, <version_part>),
 #         ...
 #         ],
 #     ...
@@ -83,7 +83,7 @@ def npm_version_string(vers_parts):
 # the old version string. If only the regex is given, the replacement will be the
 # entire new version string, as passed in the command-line argument.
 # If it is a tuple of (regex, number), the matched location will be replaced with
-# only the corresponding *part* of the new version string (see further). This 
+# only the corresponding *part* of the new version string (see further). This
 # allows you to only replace the major, minor or patch number.
 #
 # <regex_to_replace> -- provide a regexp that captures some occurrences of the
@@ -101,10 +101,10 @@ Files = {
     "./index.html"  : [
         r'var qxversion = "(%s)"'    % qxversion_regexp
         ],
-    "./readme.rst"  : [ 
+    "./readme.rst"  : [
         r'manual.qooxdoo.org/(%s)\b' % qxversion_regexp,
         r'api.qooxdoo.org/(%s)\b' % qxversion_regexp,
-        r'qooxdoo.org/project/release_notes/(%s)\b' % qxversion_regexp 
+        r'qooxdoo.org/project/release_notes/(%s)\b' % qxversion_regexp
         ],
     "./framework/Manifest.json" : [
         r'"version"\s*:\s*"(%s)"'              % qxversion_regexp,
@@ -178,9 +178,14 @@ Files = {
         r'q-(%s).min.js' % qxversion_regexp,
         ],
     "./application/todo/index.html" : [
-        r'q-(%s).min.js' % qxversion_regexp,
+        r'q-core-(%s).min.js' % qxversion_regexp,
+        r'q-storage-(%s).min.js' % qxversion_regexp,
+        r'q-template-(%s).min.js' % qxversion_regexp
         ],
     "./component/tutorials/website/step1/notification.html" : [
+        r'q-(%s).min.js' % qxversion_regexp,
+        ],
+    "./component/standalone/website/test/media.html" : [
         r'q-(%s).min.js' % qxversion_regexp,
         ],
 }

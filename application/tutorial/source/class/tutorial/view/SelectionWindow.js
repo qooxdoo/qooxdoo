@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * @lint ignoreUndefined(tutorial)
+ * @ignore(tutorial)
  */
 qx.Class.define("tutorial.view.SelectionWindow",
 {

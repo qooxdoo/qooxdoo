@@ -25,12 +25,11 @@ Here is a code template which you may copy to your application namespace and ada
      *
      */
 
-    /* ************************************************************************
-
-    #require(qx.core.Aspect)
-    #ignore(auto-require)
-
-    ************************************************************************ */
+    /**
+     *
+     * @require(qx.core.Aspect)
+     * @ignore(auto-require)
+     */
 
     /** Adapt the name of the class */
     qx.Bootstrap.define("your.namespace.YourAspectClass", {

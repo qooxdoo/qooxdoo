@@ -23,12 +23,13 @@
 
 /* ************************************************************************
 
-#asset(qx/decoration/Classic/*)
 
 ************************************************************************* */
 
 /**
  * The classic qooxdoo decoration theme.
+ *
+ * @asset(qx/decoration/Classic/*)
  */
 qx.Theme.define("qx.theme.classic.Decoration",
 {
@@ -46,8 +47,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "main" :
     {
-      decorator: qx.ui.decoration.Uniform,
-
       style :
       {
         width : 1,
@@ -58,8 +57,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "keyboard-focus" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         width : 1,
@@ -78,8 +75,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "inset" :
     {
-      decorator : qx.ui.decoration.Double,
-
       style :
       {
         width : 1,
@@ -91,8 +86,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "outset" :
     {
-      decorator : qx.ui.decoration.Double,
-
       style :
       {
         width : 1,
@@ -104,8 +97,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "groove" :
     {
-      decorator : qx.ui.decoration.Double,
-
       style :
       {
         width : 1,
@@ -117,8 +108,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "ridge" :
     {
-      decorator : qx.ui.decoration.Double,
-
       style :
       {
         width : 1,
@@ -130,8 +119,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "inset-thin" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         width : 1,
@@ -141,8 +128,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "outset-thin" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         width : 1,
@@ -152,8 +137,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "focused-inset" :
     {
-      decorator : qx.ui.decoration.Double,
-
       style :
       {
         width : 1,
@@ -165,8 +148,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "focused-outset" :
     {
-      decorator : qx.ui.decoration.Double,
-
       style :
       {
         width : 1,
@@ -178,8 +159,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "border-invalid" :
     {
-      decorator: qx.ui.decoration.Double,
-
       style :
       {
         width : 1,
@@ -199,8 +178,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "separator-horizontal" :
     {
-      decorator: qx.ui.decoration.Single,
-
       style :
       {
         widthLeft : 1,
@@ -210,8 +187,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "separator-vertical" :
     {
-      decorator: qx.ui.decoration.Single,
-
       style :
       {
         widthTop : 1,
@@ -223,50 +198,17 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     /*
     ---------------------------------------------------------------------------
-      SHADOWS
+      WINDOW
     ---------------------------------------------------------------------------
     */
 
-    "shadow" :
+    "window" :
     {
-      decorator : qx.ui.decoration.Grid,
-
+      include: "outset",
       style : {
-        baseImage : "decoration/shadow/shadow.png",
-        insets    : [ 4, 8, 8, 4 ]
-      }
-    },
-
-    "shadow-window" :
-    {
-      decorator : qx.ui.decoration.Grid,
-
-      style : {
-        baseImage : "decoration/shadow/shadow.png",
-        insets    : [ 4, 8, 8, 4 ]
-      }
-    },
-
-
-    "shadow-small" :
-    {
-      decorator : qx.ui.decoration.Grid,
-
-      style : {
-        baseImage : "decoration/shadow/shadow-small.png",
-        insets    : [ 0, 3, 3, 0 ]
-      }
-    },
-
-    "checkbox-invalid-shadow" :
-    {
-      decorator : qx.ui.decoration.Beveled,
-
-      style :
-      {
-        outerColor : "invalid",
-        innerColor : "border-focused-invalid",
-        insets: [0]
+        shadowLength : 1,
+        shadowBlurRadius : 2,
+        shadowColor : "shadow"
       }
     },
 
@@ -279,8 +221,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "lead-item" :
     {
-      decorator : qx.ui.decoration.Uniform,
-
       style :
       {
         width : 1,
@@ -294,33 +234,45 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     /*
     ---------------------------------------------------------------------------
-      TOOL TIP
+      TOOL TIP / POPUP
     ---------------------------------------------------------------------------
     */
 
     "tooltip" :
     {
-      decorator: qx.ui.decoration.Uniform,
-
       style :
       {
         width : 1,
-        color : "tooltip-text"
+        color : "tooltip-text",
+        shadowLength : 1,
+        shadowBlurRadius : 5,
+        shadowColor : "shadow"
       }
     },
 
 
     "tooltip-error" :
     {
-      decorator : qx.ui.decoration.Uniform,
-
       style : {
         width : 1,
-        color : "tooltip-text"
+        color : "tooltip-text",
+        shadowLength : 1,
+        shadowBlurRadius : 5,
+        shadowColor : "shadow"
       }
     },
 
 
+    "popup" :
+    {
+      include : "main",
+
+      style : {
+        shadowLength : 2,
+        shadowBlurRadius : 2,
+        shadowColor : "shadow"
+      }
+    },
 
 
     /*
@@ -331,8 +283,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "toolbar-separator" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         widthLeft : 1,
@@ -342,8 +292,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "toolbar-part-handle" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         width : 1,
@@ -366,10 +314,20 @@ qx.Theme.define("qx.theme.classic.Decoration",
     ---------------------------------------------------------------------------
     */
 
+    "menu" :
+    {
+      include : "outset",
+      style :
+      {
+        shadowLength : 1,
+        shadowBlurRadius : 3,
+        shadowColor : "shadow"
+      }
+    },  
+
+
     "menu-separator" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         widthTop: 1,
@@ -391,8 +349,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "datechooser-date-pane" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         widthTop: 1,
@@ -404,8 +360,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "datechooser-weekday" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         widthBottom: 1,
@@ -416,8 +370,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "datechooser-week" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         widthRight: 1,
@@ -428,8 +380,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "datechooser-week-header" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         widthBottom : 1,
@@ -453,8 +403,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "tabview-page-button-top" :
     {
-      decorator : qx.ui.decoration.Double,
-
       style :
       {
         width : 1,
@@ -470,8 +418,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "tabview-page-button-bottom" :
     {
-      decorator : qx.ui.decoration.Double,
-
       style :
       {
         width : 1,
@@ -487,8 +433,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "tabview-page-button-left" :
     {
-      decorator : qx.ui.decoration.Double,
-
       style :
       {
         width : 1,
@@ -504,8 +448,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "tabview-page-button-right" :
     {
-      decorator : qx.ui.decoration.Double,
-
       style :
       {
         width : 1,
@@ -531,8 +473,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "table-statusbar" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         widthTop : 1,
@@ -543,8 +483,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "table-scroller-header" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         widthBottom : 1,
@@ -555,8 +493,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "table-scroller-focus-indicator" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         width : 2,
@@ -567,8 +503,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "table-header-cell" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         widthRight : 1,
@@ -579,8 +513,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "table-header-cell-hovered" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         widthRight : 1,
@@ -601,8 +533,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "progressbar" :
     {
-      decorator: qx.ui.decoration.Single,
-
       style:
       {
         backgroundColor: "#FFF",

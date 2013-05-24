@@ -17,24 +17,10 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#ignore(qx.DeferFoo)
-#ignore(qx.MyClass)
-#ignore(qx.test.u.u)
-#ignore(qx.FuncName)
-#ignore(qx.Defer)
-#ignore(qx.Single1)
-#ignore(qx.ConcreteCar)
-#ignore(qx.AbstractCar)
-#ignore(qx.Bmw)
-#ignore(qx.Car)
-#ignore(qx.Empty)
-#ignore(qx.DeferFoo)
-************************************************************************ */
 /**
- * @ignore(qx.AbstractCar, qx.Bmw, qx.Car, qx.ConcreteCar, qx.Defer)
+ * @ignore(qx.AbstractCar, qx.Bmw, qx.Car, qx.ConcreteCar, qx.Defer.*)
  * @ignore(qx.DeferFoo, qx.Empty, qx.FuncName, qx.MyClass, qx.MyMixin)
- * @ignore(qx.Single1, qx.test.u.u)
+ * @ignore(qx.Single1.*, qx.test.u.u.*)
 
  */
 

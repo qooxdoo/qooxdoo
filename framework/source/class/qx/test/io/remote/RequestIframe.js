@@ -18,8 +18,11 @@ Authors:
 ************************************************************************ */
 
 /*
-#asset(qx/test/*)
 */
+/**
+ *
+ * @asset(qx/test/*)
+ */
 
 qx.Class.define("qx.test.io.remote.RequestIframe",
 {
@@ -39,11 +42,6 @@ qx.Class.define("qx.test.io.remote.RequestIframe",
     {
       if (this.isLocal()) {
         this.needsPHPWarning();
-        return;
-      }
-
-      if (this.buggyBrowser) {
-        this.warn("Tests skipped in Safari 3/FF 1.5, see bug #2529");
         return;
       }
 

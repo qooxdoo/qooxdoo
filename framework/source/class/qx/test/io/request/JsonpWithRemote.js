@@ -19,9 +19,12 @@
 
 /* ************************************************************************
 
-#asset(qx/test/jsonp_primitive.php)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/test/jsonp_primitive.php)
+ */
 
 qx.Class.define("qx.test.io.request.JsonpWithRemote",
 {

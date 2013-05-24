@@ -25,15 +25,14 @@ Declaring resources in the code
 
 .. index:: compiler hint
 
-You have to declare the resources you wish to use in your application code in an ``#asset`` compiler hint near the top of your source file.
+You have to declare the resources you wish to use in your application code in an ``@asset`` compiler hint near the top of your source file.
 
 ::
 
-    /* ***
-
-    #asset(myapp/icons/16/folder-open.png)
-
-    */
+    /**
+     *
+     * @asset(myapp/icons/16/folder-open.png)
+     */
 
 This is essential, since these hints are evaluated during the compile step, which searches for the corresponding files, generates appropriate URIs to them and copies them to the ``build`` folder.
 
@@ -41,11 +40,10 @@ Instead of adding meta information for each individual resource, you may as well
 
 ::
 
-    /* ***
-
-    #asset(myapp/icons/16/*)
-
-    */
+    /**
+     *
+     * @asset(myapp/icons/16/*)
+     */
 
 This is all you need to configure if your application code uses any of the icons in the given folder.
 
@@ -87,11 +85,11 @@ to do so:
 
 ::
 
-    /*
-    #asset(qx/icon/Oxygen/16/apps/utilities-dictionary.png)
-    #asset(qx/icon/${qx.icontheme}/16/apps/utilities-dictionary.png)
-    #asset(myapp/icons/16/utilities-dictionary.png)
-    */
+    /**
+     * @asset(qx/icon/Oxygen/16/apps/utilities-dictionary.png)
+     * @asset(qx/icon/${qx.icontheme}/16/apps/utilities-dictionary.png)
+     * @asset(myapp/icons/16/utilities-dictionary.png)
+     */
 
     ...
 

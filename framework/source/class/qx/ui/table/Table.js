@@ -1876,9 +1876,9 @@ qx.Class.define("qx.ui.table.Table",
     {
       var scrollerArr = this._getPaneScrollerArr();
       for (var i=0; i<scrollerArr.length; i++) {
-        scrollerArr[i].getHeader().getBlocker().unblockContent();
+        scrollerArr[i].getHeader().getBlocker().unblock();
       }
-      this.getChildControl("column-button").getBlocker().unblockContent();
+      this.getChildControl("column-button").getBlocker().unblock();
     },
 
     /**
@@ -1894,7 +1894,7 @@ qx.Class.define("qx.ui.table.Table",
 
       for (var i=0; i<scrollerArr.length; i++)
       {
-        var pos = scrollerArr[i].getContainerLocation();
+        var pos = scrollerArr[i].getContentLocation();
 
         if (pageX >= pos.left && pageX <= pos.right) {
           return i;

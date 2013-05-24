@@ -18,7 +18,7 @@
 ************************************************************************ */
 /**
  * A basic decorator featuring simple borders based on CSS styles.
- * This mixin is usually used by {@link qx.ui.decoration.DynamicDecorator}.
+ * This mixin is usually used by {@link qx.ui.decoration.Decorator}.
  */
 qx.Mixin.define("qx.ui.decoration.MSingleBorder",
 {
@@ -205,7 +205,7 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
     /**
      * Takes a styles map and adds the border styles styles in place
      * to the given map. This is the needed behavior for
-     * {@link qx.ui.decoration.DynamicDecorator}.
+     * {@link qx.ui.decoration.Decorator}.
      *
      * @param styles {Map} A map to add the styles.
      */
@@ -259,44 +259,7 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
 
       // Add basic styles
       styles.position = "absolute";
-      styles.top = 0;
-      styles.left = 0;
     },
-
-
-    /**
-     * Resize function for the decorator. This is suitable for the
-     * {@link qx.ui.decoration.DynamicDecorator}.
-     *
-     * @param element {Element} The element which could be resized.
-     * @param width {Number} The new width.
-     * @param height {Number} The new height.
-     * @return {Map} A map containing the desired position and dimension.
-     *   (width, height, top, left).
-     */
-    _resizeBorder : function(element, width, height) {
-      var insets = this.getInsets();
-      width -= insets.left + insets.right;
-      height -= insets.top + insets.bottom;
-
-      // Fix to keep applied size above zero
-      // Makes issues in IE7 when applying value like '-4px'
-      if (width < 0) {
-        width = 0;
-      }
-
-      if (height < 0) {
-        height = 0;
-      }
-
-      return {
-        left : insets.left - this.getWidthLeft(),
-        top : insets.top - this.getWidthTop(),
-        width : width,
-        height : height
-      };
-    },
-
 
 
     /**
@@ -336,7 +299,7 @@ qx.Mixin.define("qx.ui.decoration.MSingleBorder",
     {
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (this._markup) {
+        if (this._isInitialized()) {
           throw new Error("This decorator is already in-use. Modification is not possible anymore!");
         }
       }

@@ -24,7 +24,6 @@
 
 /* ************************************************************************
 
-#asset(qx/static/blank.html)
 
 ************************************************************************ */
 
@@ -32,8 +31,9 @@
  * Rich text editor widget which encapsulates the low-level {@link qx.bom.htmlarea.HtmlArea}
  * component to offer editing features.
  *
+ * Optimized for the use in a RIA.
  *
- * Optimized for the use at a RIA.
+ * @asset(qx/static/blank.html)
  */
 qx.Class.define("qx.ui.embed.HtmlArea",
 {
@@ -71,6 +71,10 @@ qx.Class.define("qx.ui.embed.HtmlArea",
 
     this._setLayout(new qx.ui.layout.Grow);
 
+    // Wrapper for the Iframe DOM element created by bom.HtmlArea. Needed to
+    // prevent the element queue from removing the Iframe.
+    var tempElement = new qx.html.Element();
+    this.getContentElement().add(tempElement);
     this.__addAppearListener();
 
     this.__initValues = { content: value,
@@ -477,7 +481,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
      */
     __setupEditorComponent : function()
     {
-      var domElement = this.getContentElement().getDomElement();
+      var domElement = this.getContentElement().getChildren()[0].getDomElement();
       this.__editorComponent = new qx.bom.htmlarea.HtmlArea(domElement,
                                                            this.__initValues.content,
                                                            this.__initValues.styleInfo,
@@ -560,7 +564,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     {
       this.__onDOMNodeRemoved = qx.lang.Function.bind(this.__invalidateEditor, this);
 
-      var element = this.getContainerElement().getDomElement();
+      var element = this.getContentElement().getDomElement();
       qx.bom.Event.addNativeListener(element, "DOMNodeRemoved", this.__onDOMNodeRemoved);
     },
 
@@ -1292,8 +1296,8 @@ qx.Class.define("qx.ui.embed.HtmlArea",
         this._initBlockerElement();
       }
 
-      if (!this.getContainerElement().hasChild(this.__blockerElement)) {
-        this.getContainerElement().add(this.__blockerElement);
+      if (!this.getContentElement().hasChild(this.__blockerElement)) {
+        this.getContentElement().add(this.__blockerElement);
       }
 
       this.__blockerElement.setStyle("display", "block");
@@ -1369,7 +1373,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     qx.event.Registration.removeListener(document.body, "mouseup", this.release, this, true);
     qx.event.Registration.removeListener(document.body, "losecapture", this.release, this, true);
 
-    var element = this.getContainerElement().getDomElement();
+    var element = this.getContentElement().getDomElement();
     if (element) {
       qx.bom.Event.removeNativeListener(element, "DOMNodeRemoved", this.__onDOMNodeRemoved);
     }

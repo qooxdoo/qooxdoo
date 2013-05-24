@@ -19,13 +19,16 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#asset(qx/icon/Tango/22/actions/view-refresh.png)
-#asset(inspector/images/icons/api.png)
-#asset(inspector/images/icons/setnull.png)
-#asset(inspector/images/icons/setinit.png)
-#asset(inspector/images/icons/highlight.png)
-#asset(inspector/images/icons/goto.png)
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/Tango/22/actions/view-refresh.png)
+ * @asset(inspector/images/icons/api.png)
+ * @asset(inspector/images/icons/setnull.png)
+ * @asset(inspector/images/icons/setinit.png)
+ * @asset(inspector/images/icons/highlight.png)
+ * @asset(inspector/images/icons/goto.png)
+ */
 
 qx.Class.define("inspector.property.View",
 {

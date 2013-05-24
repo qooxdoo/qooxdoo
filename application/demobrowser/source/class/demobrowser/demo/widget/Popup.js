@@ -20,9 +20,12 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/32/apps/media-photo-album.png)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/${qx.icontheme}/32/apps/media-photo-album.png)
+ */
 
 qx.Class.define("demobrowser.demo.widget.Popup",
 {

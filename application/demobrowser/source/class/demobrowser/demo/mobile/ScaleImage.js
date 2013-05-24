@@ -19,10 +19,11 @@
 ************************************************************************ */
 
 /* ************************************************************************
- #asset(demobrowser/demo/mobile/qooxdoo-logo.png)
 ************************************************************************ */
 
 /**
+ *
+ * @asset(demobrowser/demo/mobile/qooxdoo-logo.png)
  * @tag noPlayground
  */
 qx.Class.define("demobrowser.demo.mobile.ScaleImage",

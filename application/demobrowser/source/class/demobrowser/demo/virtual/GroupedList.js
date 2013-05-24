@@ -19,14 +19,15 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/categories/system.png)
-#asset(qx/icon/${qx.icontheme}/16/categories/office.png)
-#asset(qx/icon/${qx.icontheme}/16/emotes/face-laugh.png)
 
 ************************************************************************ */
 
 /**
  * @tag noPlayground
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/categories/system.png)
+ * @asset(qx/icon/${qx.icontheme}/16/categories/office.png)
+ * @asset(qx/icon/${qx.icontheme}/16/emotes/face-laugh.png)
  */
 qx.Class.define("demobrowser.demo.virtual.GroupedList",
 {

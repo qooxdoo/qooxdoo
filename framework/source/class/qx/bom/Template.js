@@ -56,11 +56,6 @@
    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ************************************************************************ */
-/* ************************************************************************
-
-#ignore(module)
-
-************************************************************************ */
 
 /**
  * The is a template class which can be used for HTML templating. In fact,
@@ -163,7 +158,7 @@ qx.Bootstrap.define("qx.bom.Template", {
 /**
  * Below is the original mustache.js code. Snapshot date is mentioned in
  * the head of this file.
- * @lint ignoreUndefined(module)
+ * @ignore(module)
  */
  /*!
  * mustache.js - Logic-less {{mustache}} templates with JavaScript
@@ -174,7 +169,7 @@ qx.Bootstrap.define("qx.bom.Template", {
 
 var Mustache;
 /**
- * @lint ignoreUndefined(module,define)
+ * @ignore(module,define)
  */
 (function (exports) {
     Mustache = exports;

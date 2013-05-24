@@ -784,8 +784,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
       this.__capture = "brightness-handle";
 
       // Calculate subtract: Position of Brightness Field - Current Mouse Offset
-      var locationBrightnessField = this.getChildControl("brightness-field").getContainerLocation();
-      var locationBrightnessHandle = this.getChildControl("brightness-handle").getContainerLocation();
+      var locationBrightnessField = this.getChildControl("brightness-field").getContentLocation();
+      var locationBrightnessHandle = this.getChildControl("brightness-handle").getContentLocation();
       var fieldBounds = this.getChildControl("brightness-field").getBounds();
 
       this.__brightnessSubtract = locationBrightnessField.top +
@@ -835,7 +835,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
     _onBrightnessFieldMouseDown : function(e)
     {
       // Calculate substract: Half height of handler
-      var location  = this.getChildControl("brightness-field").getContainerLocation();
+      var location  = this.getChildControl("brightness-field").getContentLocation();
       var bounds = this.getChildControl("brightness-handle").getBounds();
       this.__brightnessSubtract = location.top + (bounds.height / 2);
 
@@ -936,7 +936,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
     _onHueSaturationFieldMouseDown : function(e)
     {
       // Calculate substract: Half width/height of handler
-      var location = this.getChildControl("hue-saturation-field").getContainerLocation();
+      var location = this.getChildControl("hue-saturation-field").getContentLocation();
       var handleBounds = this.getChildControl("hue-saturation-handle").getBounds();
       var fieldBounds = this.getChildControl("hue-saturation-field").getBounds();
 

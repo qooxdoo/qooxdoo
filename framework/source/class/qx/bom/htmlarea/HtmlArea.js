@@ -24,7 +24,6 @@
 
 /* ************************************************************************
 
-#asset(qx/static/blank.html)
 
 ************************************************************************ */
 
@@ -36,6 +35,7 @@
  *
  * Optimized for the use at a traditional webpage.
  *
+ * @asset(qx/static/blank.html)
  * @require(qx.lang.normalize.String)
  */
 qx.Class.define("qx.bom.htmlarea.HtmlArea",

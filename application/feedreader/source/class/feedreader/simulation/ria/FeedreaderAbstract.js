@@ -17,8 +17,8 @@
 /**
  * Base class for Feedreader GUI tests
  *
- * @lint ignoreUndefined(simulator)
- * @lint ignoreUndefined(selenium)
+ * @ignore(simulator)
+ * @ignore(selenium)
  */
 qx.Class.define("feedreader.simulation.ria.FeedreaderAbstract", {
 
@@ -74,7 +74,7 @@ qx.Class.define("feedreader.simulation.ria.FeedreaderAbstract", {
      * still displaying the "loading" icon after 30 seconds, the "Reload"
      * button is clicked and we wait for another 30 seconds.
      *
-     * @lint ignoreUndefined(selenium)
+     * @ignore(selenium)
      */
     waitForFeeds : function()
     {

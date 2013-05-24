@@ -19,10 +19,6 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/22/actions/media-record.png)
-#asset(qx/icon/${qx.icontheme}/16/actions/edit-cut.png)
-#asset(qx/icon/${qx.icontheme}/16/actions/edit-copy.png)
-#asset(qx/icon/${qx.icontheme}/16/actions/edit-paste.png)
 
 ************************************************************************ */
 
@@ -31,6 +27,11 @@
  * editing, sorting, column resizing, column reordering,
  * column hiding.
  * @tag noPlayground
+ *
+ * @asset(qx/icon/${qx.icontheme}/22/actions/media-record.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/edit-cut.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/edit-copy.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/edit-paste.png)
  */
 qx.Class.define("demobrowser.demo.table.Table_Events",
 {

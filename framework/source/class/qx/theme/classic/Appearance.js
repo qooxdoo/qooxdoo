@@ -23,21 +23,22 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Oxygen/16/apps/office-calendar.png)
-#asset(qx/icon/Oxygen/16/places/folder-open.png)
-#asset(qx/icon/Oxygen/16/places/folder.png)
-#asset(qx/icon/Oxygen/16/mimetypes/text-plain.png)
-#asset(qx/icon/Oxygen/16/actions/view-refresh.png)
-#asset(qx/icon/Oxygen/16/actions/window-close.png)
-#asset(qx/icon/Oxygen/16/actions/dialog-cancel.png)
-#asset(qx/icon/Oxygen/16/actions/dialog-ok.png)
-
-#asset(qx/decoration/Classic/*)
 
 ************************************************************************* */
 
 /**
  * The classic qooxdoo appearance theme.
+ *
+ * @asset(qx/icon/Oxygen/16/apps/office-calendar.png)
+ * @asset(qx/icon/Oxygen/16/places/folder-open.png)
+ * @asset(qx/icon/Oxygen/16/places/folder.png)
+ * @asset(qx/icon/Oxygen/16/mimetypes/text-plain.png)
+ * @asset(qx/icon/Oxygen/16/actions/view-refresh.png)
+ * @asset(qx/icon/Oxygen/16/actions/window-close.png)
+ * @asset(qx/icon/Oxygen/16/actions/dialog-cancel.png)
+ * @asset(qx/icon/Oxygen/16/actions/dialog-ok.png)
+
+ * @asset(qx/decoration/Classic/*)
  */
 qx.Theme.define("qx.theme.classic.Appearance",
 {
@@ -92,9 +93,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator : "main",
-          backgroundColor : "background-pane",
-          shadow : "shadow-small"
+          decorator : "popup",
+          backgroundColor : "background-pane"
         }
       }
     },
@@ -109,7 +109,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor : "tooltip",
           textColor : "tooltip-text",
           decorator : "tooltip",
-          shadow : "shadow-small",
           padding : [ 1, 3, 2, 3 ],
           offset : [ 15, 5, 5, 5 ]
         };
@@ -504,8 +503,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         var invalid = states.invalid && !states.disabled ? "-invalid" : "";
 
         return {
-          icon: "decoration/form/" + icon + invalid + ".png",
-          shadow: undefined
+          icon: "decoration/form/" + icon + invalid + ".png"
         }
       }
     },
@@ -1060,8 +1058,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          padding : [0, 1, 0, 1],
-          margin : states.focused ? 0 : 1,
+          padding : states.focused ? [0, 1, 0, 1] : [1, 2, 1, 2],
           decorator : states.focused ? "keyboard-focus" : undefined
         };
       }
@@ -1481,8 +1478,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           contentPadding : [ 10, 10, 10, 10 ],
           backgroundColor : "background",
-          decorator : states.maximized ? undefined : "outset",
-          shadow : states.maximized ? undefined : "shadow-small"
+          decorator : states.maximized ? undefined : "window"
         };
       }
     },
@@ -1930,8 +1926,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         var result =
         {
           backgroundColor : "background",
-          shadow : "shadow-small",
-          decorator : "outset",
+          decorator : "menu",
           spacingX : 6,
           spacingY : 1,
           iconColumnWidth : 16,

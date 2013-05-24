@@ -21,12 +21,15 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/actions/*)
-#asset(qx/icon/${qx.icontheme}/22/actions/*)
-#asset(qx/icon/${qx.icontheme}/32/actions/*)
-#asset(qx/icon/${qx.icontheme}/48/actions/*)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/actions/*)
+ * @asset(qx/icon/${qx.icontheme}/22/actions/*)
+ * @asset(qx/icon/${qx.icontheme}/32/actions/*)
+ * @asset(qx/icon/${qx.icontheme}/48/actions/*)
+ */
 
 qx.Class.define("demobrowser.demo.widget.ToolBar",
 {

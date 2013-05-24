@@ -31,7 +31,11 @@ qx.Class.define("demobrowser.demo.layout.Canvas_Fixed",
     {
       this.base(arguments);
 
-      var border = new qx.ui.decoration.Single(3, "solid", "black");
+      var border = new qx.ui.decoration.Decorator().set({
+        width: 3,
+        style: "solid",
+        color: "black"
+      });
 
       var w1 = new qx.ui.core.Widget().set({
         backgroundColor: "red",

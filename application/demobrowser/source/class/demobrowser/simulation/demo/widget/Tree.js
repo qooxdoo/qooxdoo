@@ -17,7 +17,7 @@
 /**
  * QxSelenium test case for the widget.Tree demo.
  *
- * @lint ignoreUndefined(simulator)
+ * @ignore(simulator)
  */
 qx.Class.define("demobrowser.simulation.demo.widget.Tree", {
 

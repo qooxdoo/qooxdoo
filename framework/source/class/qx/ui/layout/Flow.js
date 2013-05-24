@@ -44,6 +44,11 @@
  * <li><strong>lineBreak</strong> <em>(Boolean)</em>: If set to <code>true</code>
  *   a forced line break will happen after this child widget.
  * </li>
+ * <li><strong>stretch</strong> <em>(Boolean)</em>: If set to <code>true</code>
+ *   the widget will be stretched to the remaining line width. This requires
+ *   lineBreak to be true.
+ * </li>
+
  * </ul>
  *
  * *Example*
@@ -207,7 +212,8 @@ qx.Class.define("qx.ui.layout.Flow",
     verifyLayoutProperty : qx.core.Environment.select("qx.debug",
     {
       "true" : function(item, name, value) {
-        this.assertEquals("lineBreak", name, "The property '"+name+"' is not supported by the flow layout!" );
+        var validProperties = ["lineBreak", "stretch"];
+        this.assertInArray(name, validProperties, "The property '"+name+"' is not supported by the flow layout!" );
       },
 
       "false" : null
@@ -239,8 +245,10 @@ qx.Class.define("qx.ui.layout.Flow",
      *
      * @param availWidth {Integer} Final width available for the content (in pixel)
      * @param availHeight {Integer} Final height available for the content (in pixel)
+     * @param padding {Map} Map containing the padding values. Keys:
+     * <code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code>
      */
-    renderLayout : function(availWidth, availHeight)
+    renderLayout : function(availWidth, availHeight, padding)
     {
       var children = this._getLayoutChildren();
 
@@ -253,11 +261,11 @@ qx.Class.define("qx.ui.layout.Flow",
         this.getSpacingX()
       );
 
-      var lineTop = 0;
+      var lineTop = padding.top;
       while (lineCalculator.hasMoreLines())
       {
         var line = lineCalculator.computeNextLine(availWidth);
-        this.__renderLine(line, lineTop, availWidth);
+        this.__renderLine(line, lineTop, availWidth, padding);
         lineTop += line.height + this.getSpacingY();
       }
     },
@@ -270,16 +278,18 @@ qx.Class.define("qx.ui.layout.Flow",
      *    {@link LineSizeIterator#computeNextLine}.
      * @param lineTop {Integer} The line's top position
      * @param availWidth {Integer} The available line width
+     * @param padding {Map} Map containing the padding values. Keys:
+     * <code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code>
      */
-    __renderLine : function(line, lineTop, availWidth)
+    __renderLine : function(line, lineTop, availWidth, padding)
     {
       var util = qx.ui.layout.Util;
 
-      var left = 0;
+      var left = padding.left;
       if (this.getAlignX() != "left") {
-        left = availWidth - line.width;
+        left = padding.left + availWidth - line.width;
         if (this.getAlignX() == "center") {
-          left = Math.round(left / 2);
+          left = padding.left + Math.round((availWidth - line.width) / 2);
         }
       }
 
@@ -296,6 +306,11 @@ qx.Class.define("qx.ui.layout.Flow",
           line.height,
           marginTop, marginBottom
         );
+
+        var layoutProps = child.getLayoutProperties();
+        if (layoutProps.stretch && layoutProps.stretch) {
+          size.width += availWidth - line.width;
+        }
 
         child.renderLayout(
           left + line.gapsBefore[i],
@@ -324,6 +339,26 @@ qx.Class.define("qx.ui.layout.Flow",
     // overridden
     getHeightForWidth : function(width) {
       return this.__computeSize(width).height;
+    },
+
+
+    /**
+     * Returns the list of children fitting in the last row of the given width.
+     * @param width {Number} The width to use for the calculation.
+     * @return {Array} List of children in the first row.
+     */
+    getLastLineChildren : function(width) {
+      var lineCalculator = new qx.ui.layout.LineSizeIterator(
+        this._getLayoutChildren(),
+        this.getSpacingX()
+      );
+
+      var lineData = [];
+      while (lineCalculator.hasMoreLines()) {
+        lineData = lineCalculator.computeNextLine(width).children;
+      }
+
+      return lineData;
     },
 
 

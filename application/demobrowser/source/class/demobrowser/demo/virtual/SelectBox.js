@@ -20,9 +20,12 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/devices/*)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/devices/*)
+ */
 
 qx.Class.define("demobrowser.demo.virtual.SelectBox",
 {

@@ -17,12 +17,11 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-#asset(qx/icon/Tango/48/places/folder.png)
-#asset(qx/icon/Tango/32/places/folder.png)
-#asset(qx/static/blank.gif)
-************************************************************************ */
-
+/**
+ * @asset(qx/icon/Tango/48/places/folder.png)
+ * @asset(qx/icon/Tango/32/places/folder.png)
+ * @asset(qx/static/blank.gif)
+ */
 
 qx.Class.define("qx.test.ui.basic.Image",
 {
@@ -44,7 +43,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       this.flush();
 
       var tagNameAfter = image.getContentElement().getNodeName();
-      if (qx.bom.element.Decoration.isAlphaImageLoaderEnabled()) {
+      if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
         this.assertTrue(tagNameAfter == "div");
       } else {
         this.assertTrue(tagNameAfter == "img");
@@ -87,7 +86,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       this.flush();
 
       var tagNameAfter = image.getContentElement().getNodeName();
-      if (qx.bom.element.Decoration.isAlphaImageLoaderEnabled()) {
+      if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
         this.assertTrue(tagNameAfter == "div");
       } else {
         this.assertTrue(tagNameAfter == "img");

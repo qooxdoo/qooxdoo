@@ -20,12 +20,13 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/emotes/*)
 
 ************************************************************************ */
 
 /**
  * @tag noPlayground
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/emotes/*)
  */
 qx.Class.define("demobrowser.demo.virtual.ExtendedList",
 {

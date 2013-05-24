@@ -54,6 +54,9 @@ qx.Theme.define("qx.theme.classic.Color",
 
     "border-separator" : "#808080",
 
+    // shadows
+    "shadow" : qx.core.Environment.get("css.rgba") ? "rgba(0, 0, 0, 0.4)" : "#666666",
+
     "invalid" : "#990000",
     "border-focused-invalid" : "#FF9999",
 

@@ -44,13 +44,13 @@ qx.Class.define("showcase.page.theme.Content",
       new showcase.page.theme.calc.Presenter(calc, model);
 
 
-      var calc = new showcase.page.theme.calc.view.Calculator(false);
+      calc = new showcase.page.theme.calc.view.Calculator(false);
 
       view.add(calc);
       calc.moveTo(340, 40);
       calc.open();
 
-      var model = new showcase.page.theme.calc.Model();
+      model = new showcase.page.theme.calc.Model();
       new showcase.page.theme.calc.Presenter(calc, model);
 
       this.__monkeyDance(calc);
@@ -68,12 +68,12 @@ qx.Class.define("showcase.page.theme.Content",
       var showMonkey = true;
       var monkeyImage = new qx.ui.basic.Image("showcase/theme/affe.png").set({
         backgroundColor: "#525252",
-        padding: [50, 5, 5, 0]
+        padding: [65, 0, 0, 10]
       });
 
       calc.addListener("dblclick", function(e)
       {
-        var el = calc.getContainerElement().getDomElement();
+        var el = calc.getContentElement().getDomElement();
         el.style.WebkitTransition = "-webkit-transform 0.3s ease-in";
 
         if (showMonkey) {

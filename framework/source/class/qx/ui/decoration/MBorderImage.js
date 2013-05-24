@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2013 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -13,55 +13,15 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Fabian Jakobs (fjakobs)
+     * Martin Wittemann (martinwittemann)
+     * Daniel Wagner (danielwagner)
 
 ************************************************************************ */
 
 /**
- * Decorator, which uses the CSS3 border image properties.
- *
- * This decorator can be used as replacement for {@link qx.ui.layout.Grid},
- * {@link qx.ui.layout.HBox} and {@link qx.ui.layout.VBox} decorators in
- * browsers, which support it.
- *
- * Supported browsers are:
- * <ul>
- *   <li>Firefox >= 3.5</li>
- *   <li>Safari >= 4</li>
- *   <li>Chrome >= 3</li>
- * <ul>
+ * Decorator which uses the CSS3 border image properties.
  */
-qx.Class.define("qx.ui.decoration.css3.BorderImage",
-{
-  extend : qx.ui.decoration.Abstract,
-
-  /**
-   * @param borderImage {String} Base image to use
-   * @param slice {Integer|Array} Sets the {@link #slice} property
-   */
-  construct : function(borderImage, slice)
-  {
-    this.base(arguments);
-
-    // Initialize properties
-    if (borderImage != null) {
-      this.setBorderImage(borderImage);
-    }
-
-    if (slice != null) {
-      this.setSlice(slice);
-    }
-  },
-
-
-  statics :
-  {
-    /**
-     * Whether the browser supports this decorator
-     */
-    IS_SUPPORTED : qx.bom.element.Style.isPropertySupported("borderImage")
-  },
-
+qx.Mixin.define("qx.ui.decoration.MBorderImage", {
 
   properties :
   {
@@ -72,7 +32,7 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
     {
       check : "String",
       nullable : true,
-      apply : "_applyStyle"
+      apply : "_applyBorderImage"
     },
 
 
@@ -84,10 +44,10 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
     sliceTop :
     {
       check : "Integer",
-      init : 0,
-      apply : "_applyStyle"
+      nullable : true,
+      init : null,
+      apply : "_applyBorderImage"
     },
-
 
     /**
      * The right slice line of the base image. The slice properties divide the
@@ -97,8 +57,9 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
     sliceRight :
     {
       check : "Integer",
-      init : 0,
-      apply : "_applyStyle"
+      nullable : true,
+      init : null,
+      apply : "_applyBorderImage"
     },
 
 
@@ -110,8 +71,9 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
     sliceBottom :
     {
       check : "Integer",
-      init : 0,
-      apply : "_applyStyle"
+      nullable : true,
+      init : null,
+      apply : "_applyBorderImage"
     },
 
 
@@ -123,8 +85,9 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
     sliceLeft :
     {
       check : "Integer",
-      init : 0,
-      apply : "_applyStyle"
+      nullable : true,
+      init : null,
+      apply : "_applyBorderImage"
     },
 
 
@@ -156,7 +119,7 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
     {
       check : ["stretch", "repeat", "round"],
       init : "stretch",
-      apply : "_applyStyle"
+      apply : "_applyBorderImage"
     },
 
 
@@ -177,7 +140,7 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
     {
       check : ["stretch", "repeat", "round"],
       init : "stretch",
-      apply : "_applyStyle"
+      apply : "_applyBorderImage"
     },
 
 
@@ -199,108 +162,101 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
     fill :
     {
       check : "Boolean",
-      init : true
+      init : true,
+      apply : "_applyBorderImage"
+    },
+
+
+    /**
+     * Configures the border image mode. Supported values:
+     * <ul>
+     *   <li>horizontal: left and right border images</li>
+     *   <li>vertical: top and bottom border images</li>
+     *   <li>grid: border images for all edges</li>
+     * </ul>
+     */
+    borderImageMode :
+    {
+      check : ["horizontal", "vertical", "grid"],
+      init : "grid"
     }
   },
 
-
   members :
   {
-    __markup : null,
-
-
-    // overridden
-    _getDefaultInsets : function()
+    /**
+     * Adds the border-image styles to the given map
+     * @param styles {Map} CSS style map
+     */
+    _styleBorderImage : function(styles)
     {
-      return {
-        top : 0,
-        right : 0,
-        bottom : 0,
-        left : 0
-      };
-    },
-
-
-    // overridden
-    _isInitialized: function() {
-      return !!this.__markup;
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      INTERFACE IMPLEMENTATION
-    ---------------------------------------------------------------------------
-    */
-
-    // interface implementation
-    getMarkup : function()
-    {
-      if (this.__markup) {
-        return this.__markup;
+      if (!this.getBorderImage()) {
+        return;
       }
+      var resolvedImage = qx.util.AliasManager.getInstance().resolve(this.getBorderImage());
+      var source = qx.util.ResourceManager.getInstance().toUri(resolvedImage);
 
-      var source = this._resolveImageUrl(this.getBorderImage());
+      var computedSlices = this._getDefaultInsetsForBorderImage();
+
       var slice = [
-        this.getSliceTop(),
-        this.getSliceRight(),
-        this.getSliceBottom(),
-        this.getSliceLeft()
+        computedSlices.top,
+        computedSlices.right,
+        computedSlices.bottom,
+        computedSlices.left
       ];
 
       var repeat = [
         this.getRepeatX(),
         this.getRepeatY()
-      ].join(" ")
+      ].join(" ");
 
       var fill = this.getFill() &&
         qx.core.Environment.get("css.borderimage.standardsyntax") ? " fill" : "";
 
-      this.__markup = [
-        "<div style='",
-        qx.bom.element.Style.compile({
-          "borderImage" : 'url("' + source + '") ' + slice.join(" ") + fill + " " + repeat,
-          "borderStyle" : "solid",
-          "borderColor" : "transparent",
-          position: "absolute",
-          lineHeight: 0,
-          fontSize: 0,
-          overflow: "hidden",
-          boxSizing: "border-box",
-          borderWidth: slice.join("px ") + "px"
-        }),
-        ";'></div>"
-      ].join("");
-
-      // Store
-      return this.__markup;
+      var styleName = qx.bom.Style.getPropertyName("borderImage");
+      if (styleName) {
+        var cssName = qx.bom.Style.getCssName(styleName);
+        styles[cssName] = 'url("' + source + '") ' + slice.join(" ") + fill + " " + repeat;
+      }
+      // Apply border styles even if we couldn't determine the borderImage property name
+      // (e.g. because the browser doesn't support it). This is needed to keep
+      // the layout intact.
+      styles["border-style"] = "solid";
+      styles["border-color"] = "transparent";
+      styles["border-width"] = slice.join("px ") + "px";
     },
 
 
-    // interface implementation
-    resize : function(element, width, height)
+    /**
+     * Computes the inset values based on the border image slices (defined in the
+     * decoration theme or computed from the fallback image sizes).
+     *
+     * @return {Map} Map with the top, right, bottom and left insets
+     */
+    _getDefaultInsetsForBorderImage : function()
     {
-      element.style.width = width + "px";
-      element.style.height = height + "px";
+      if (!this.getBorderImage()) {
+        return {
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0
+        };
+      }
+
+      var resolvedImage = qx.util.AliasManager.getInstance().resolve(this.getBorderImage());
+      var computedSlices = this.__getSlices(resolvedImage);
+
+      return {
+        top : this.getSliceTop() || computedSlices[0],
+        right: this.getSliceRight() || computedSlices[1],
+        bottom: this.getSliceBottom() || computedSlices[2],
+        left: this.getSliceLeft() || computedSlices[3]
+      };
     },
 
 
-    // interface implementation
-    tint : function(element, bgcolor) {
-      // not implemented
-    },
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-
-    // property apply
-    _applyStyle : function(value, old, name)
+    _applyBorderImage : function()
     {
       if (qx.core.Environment.get("qx.debug"))
       {
@@ -312,21 +268,36 @@ qx.Class.define("qx.ui.decoration.css3.BorderImage",
 
 
     /**
-     * Resolve the url of the given image
+     * Gets the slice sizes from the fallback border images.
      *
-     * @param image {String} base image URL
-     * @return {String} the resolved image URL
+     * @param baseImage {String} Resource Id of the base border image
+     * @return {Integer[]} Array with the top, right, bottom and left slice widths
      */
-    _resolveImageUrl : function(image)
+    __getSlices : function(baseImage)
     {
-      return qx.util.ResourceManager.getInstance().toUri(
-        qx.util.AliasManager.getInstance().resolve(image)
-      );
+      var mode = this.getBorderImageMode();
+      var topSlice = 0;
+      var rightSlice = 0;
+      var bottomSlice = 0;
+      var leftSlice = 0;
+
+      var split = /(.*)(\.[a-z]+)$/.exec(baseImage);
+      var prefix = split[1];
+      var ext = split[2];
+
+      var ResourceManager = qx.util.ResourceManager.getInstance();
+
+      if (mode == "grid" || mode == "vertical") {
+        topSlice = ResourceManager.getImageHeight(prefix + "-t" + ext);
+        bottomSlice = ResourceManager.getImageHeight(prefix + "-b" + ext);
+      }
+
+      if (mode == "grid" || mode == "horizontal") {
+        rightSlice = ResourceManager.getImageWidth(prefix + "-r" + ext);
+        leftSlice = ResourceManager.getImageWidth(prefix + "-l" + ext);
+      }
+
+      return [topSlice, rightSlice, bottomSlice, leftSlice];
     }
-  },
-
-
-  destruct : function() {
-    this.__markup = null;
   }
 });

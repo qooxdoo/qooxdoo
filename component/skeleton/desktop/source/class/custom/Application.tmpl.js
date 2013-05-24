@@ -8,14 +8,10 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(${NamespacePath}/*)
-
-************************************************************************ */
-
 /**
  * This is the main application class of your custom application "${Name}"
+ *
+ * @asset(${NamespacePath}/*)
  */
 qx.Class.define("${Namespace}.Application",
 {

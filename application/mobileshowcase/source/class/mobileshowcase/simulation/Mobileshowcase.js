@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * @lint ignoreUndefined(simulator)
+ * @ignore(simulator)
  */
 qx.Class.define("mobileshowcase.simulation.Mobileshowcase", {
 

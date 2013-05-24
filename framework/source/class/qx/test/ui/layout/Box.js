@@ -60,11 +60,11 @@ qx.Class.define("qx.test.ui.layout.Box",
       // flush again to render it
       this.flush();
       if (test == "height") {
-        var computedHeight = parseInt(c1.getContainerElement().getStyle("height"), 10);
+        var computedHeight = parseInt(c1.getContentElement().getStyle("height"), 10);
         var height = c1.getSizeHint().height;
         this.assertEquals(height, computedHeight, "height");
       } else if (test == "width") {
-        var computedWidth = parseInt(c1.getContainerElement().getStyle("width"), 10);
+        var computedWidth = parseInt(c1.getContentElement().getStyle("width"), 10);
         var width = c1.getSizeHint().width;
         this.assertEquals(width, computedWidth, "width");
       }

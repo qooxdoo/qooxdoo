@@ -59,7 +59,6 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       var html = [];
 
       var width = qx.lang.Array.sum(columnSizes);
-      var decorations = [];
 
       var top = 0;
       var row = firstRow;
@@ -67,46 +66,25 @@ qx.Class.define("qx.ui.virtual.layer.Row",
 
       for (var y=0; y<rowSizes.length; y++)
       {
-        var decorator = this.getBackground(row);
-        if (decorator)
-        {
-          decorations.push({
-            childIndex: childIndex,
-            decorator: decorator,
-            width: width,
-            height: rowSizes[y]
-          });
+        var color = this.getColor(row);
+        var backgroundColor = color ? "background-color:" + color + ";" : "";
 
-          html.push(
-            "<div style='",
-            "position: absolute;",
-            "left: 0;",
-            "top:", top, "px;",
-            "'>",
-            decorator.getMarkup(),
-            "</div>"
-          );
-          childIndex++
-        }
-        else
-        {
-          var color = this.getColor(row);
-          if (color)
-          {
-            html.push(
-              "<div style='",
-              "position: absolute;",
-              "left: 0;",
-              "top:", top, "px;",
-              "height:", rowSizes[y], "px;",
-              "width:", width, "px;",
-              "background-color:", color,
-              "'>",
-              "</div>"
-            );
-            childIndex++
-          }
-        }
+        var decorator = this.getBackground(row);
+        var styles = decorator ? qx.bom.element.Style.compile(decorator.getStyles()) : "";
+
+        html.push(
+          "<div style='",
+          "position: absolute;",
+          "left: 0;",
+          "top:", top, "px;",
+          "height:", rowSizes[y], "px;",
+          "width:", width, "px;",
+          backgroundColor,
+          styles,
+          "'>",
+          "</div>"
+        );
+        childIndex++;
 
         top += rowSizes[y];
         row += 1;
@@ -118,16 +96,6 @@ qx.Class.define("qx.ui.virtual.layer.Row",
       el.style.display = "none";
       el.innerHTML = html.join("");
 
-      // set size of decorated rows
-      for (var i=0, l=decorations.length; i<l; i++)
-      {
-        var deco = decorations[i];
-        deco.decorator.resize(
-          el.childNodes[deco.childIndex].firstChild,
-          deco.width,
-          deco.height
-        );
-      }
       el.style.display = "block";
       this._width = width;
     },

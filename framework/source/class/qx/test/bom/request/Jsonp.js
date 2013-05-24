@@ -19,16 +19,20 @@
 
 /* ************************************************************************
 
-#asset(qx/test/script.js)
-#asset(qx/test/jsonp_primitive.php)
 
 ************************************************************************ */
 
 /* ************************************************************************
 
-#ignore(myExistingCallback)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/test/script.js)
+ * @asset(qx/test/jsonp_primitive.php)
+ *
+ * @ignore(myExistingCallback)
+ */
 
 qx.Class.define("qx.test.bom.request.Jsonp",
 {
@@ -95,7 +99,7 @@ qx.Class.define("qx.test.bom.request.Jsonp",
     },
 
     /**
-     * @lint ignoreUndefined(myExistingCallback)
+     * @ignore(myExistingCallback)
      */
     "test: not overwrite existing callback": function() {
       var that = this;

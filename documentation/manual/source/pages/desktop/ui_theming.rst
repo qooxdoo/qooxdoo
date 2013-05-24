@@ -125,14 +125,10 @@ What a decoration theme can look like:
 
 ::
 
-    /* *********************************************
-
-    #asset(sample/decoration/myDecorationTheme/*)
-
-    ************************************************/
-
     /**
-     * sample decoration theme.
+     * Sample decoration theme.
+     *
+     * @asset(sample/decoration/myDecorationTheme/*)
      */
     qx.Theme.define("myApplication.theme.sample.Decoration",
     {
@@ -184,7 +180,7 @@ What a decoration theme can look like:
         }
     });
 
-Noted the ``#asset`` at the top and the ``aliases`` key inside the theme declaration? This is needed to for the images used within the theme. A description of how to work with resources is available :ref:`here <pages/ui_resources#declaring_resources_in_the_code>`.
+Noted the ``@asset`` at the top and the ``aliases`` key inside the theme declaration? This is needed to for the images used within the theme. A description of how to work with resources is available :ref:`here <pages/ui_resources#declaring_resources_in_the_code>`.
 
 .. note::
 
@@ -360,8 +356,8 @@ provides multiple themes that can be switched at runtime.
      snippets to illustrate that.
 
   For 1. add macro definitions to your config.json
-  which can later be used in the :ref:`#asset
-  <pages/tool/sdk/code_structure#asset>` hints of class code. E.g.::
+  which can later be used in the :ref:`@asset
+  <pages/development/api_jsdoc_ref#asset>` hints of class code. E.g.::
 
     // config.json :
 
@@ -377,8 +373,8 @@ provides multiple themes that can be switched at runtime.
     // Application class:
 
     // Use the asset macro "qx.icontheme" to register icons from both themes.
-    /*
-     #asset(myapp/icontheme/${qx.icontheme}/16/apps/utilities-terminal.png)
+    /**
+     * @asset(myapp/icontheme/${qx.icontheme}/16/apps/utilities-terminal.png)
      */
 
   For 2. use an alias in application code to reference icons transparently::

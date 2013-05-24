@@ -18,9 +18,12 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#asset(showcase/virtuallist/imicons/*)
-#asset(qx/icon/${qx.icontheme}/22/emotes/*)
 ************************************************************************ */
+/**
+ *
+ * @asset(showcase/virtuallist/imicons/*)
+ * @asset(qx/icon/${qx.icontheme}/22/emotes/*)
+ */
 
 qx.Class.define("showcase.page.virtuallist.messenger.BuddyModel",
 {

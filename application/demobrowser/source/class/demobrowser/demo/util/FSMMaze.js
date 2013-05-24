@@ -84,7 +84,11 @@ qx.Class.define("demobrowser.demo.util.FSMMaze",
         this.add(this.cells[row][col], {row: row, column: col});
 
         // Apply the border on the cell
-        this.cells[row][col].setDecorator(new qx.ui.decoration.Single(1, "solid", "black"));
+        this.cells[row][col].setDecorator(new qx.ui.decoration.Decorator().set({
+          width: 1,
+          style: "solid",
+          color: "black"
+        }));
 
         // We're starting with all walls intact.  Note that.
         // See // demobrowser.demo.util.FSMMaze.Direction.* for the bit field values.
@@ -187,7 +191,11 @@ qx.Class.define("demobrowser.demo.util.FSMMaze",
           ~neighbor.neighborWall;
 
         // Step 3: Actually remove the wall on the current cell
-        var currentWall = new qx.ui.decoration.Single(1, "solid", "black");
+        var currentWall = new qx.ui.decoration.Decorator().set({
+          width: 1,
+          style: "solid",
+          color: "black"
+        });
         var previousWall = this.cells[currentCell.row][currentCell.col].getDecorator();
         currentWall.set({
           widthLeft: previousWall.getWidthLeft(),
@@ -216,7 +224,11 @@ qx.Class.define("demobrowser.demo.util.FSMMaze",
         this.cells[currentCell.row][currentCell.col].setDecorator(currentWall);
 
         // Step 4: Actually remove the wall on the neighbor cell
-        var neighborWall = new qx.ui.decoration.Single(1, "solid", "black");
+        var neighborWall = new qx.ui.decoration.Decorator().set({
+          width: 1,
+          style: "solid",
+          color: "black"
+        });
         var previousNeighborWall = this.cells[neighbor.row][neighbor.col].getDecorator();
         neighborWall.set({
           widthLeft: previousNeighborWall.getWidthLeft(),

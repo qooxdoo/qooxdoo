@@ -52,6 +52,8 @@
  * @require(qx.bom.request.Xhr#setRequestHeader)
  * @require(qx.bom.request.Xhr#getAllResponseHeaders)
  * @require(qx.bom.request.Xhr#getRequest)
+ * @require(qx.bom.request.Xhr#dispose)
+ * @require(qx.bom.request.Xhr#isDisposed)
  */
 qx.Bootstrap.define("qx.bom.request.Xhr",
 {
@@ -155,7 +157,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     /**
      * Initializes (prepares) request.
      *
-     * @lint ignoreUndefined(XDomainRequest)
+     * @ignore(XDomainRequest)
      *
      * @param method {String?"GET"}
      *  The HTTP method to use.

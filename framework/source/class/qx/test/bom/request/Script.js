@@ -17,19 +17,13 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(qx/test/jsonp_primitive.php)
-#asset(qx/test/script.js)
-#asset(qx/test/xmlhttp/sample.txt)
-
-************************************************************************ */
-
-/* ************************************************************************
-
-#ignore(SCRIPT_LOADED)
-
-************************************************************************ */
+/**
+ *
+ * @asset(qx/test/jsonp_primitive.php)
+ * @asset(qx/test/script.js)
+ * @asset(qx/test/xmlhttp/sample.txt)
+ * @ignore(SCRIPT_LOADED)
+ */
 
 qx.Class.define("qx.test.bom.request.Script",
 {
@@ -141,7 +135,7 @@ qx.Class.define("qx.test.bom.request.Script",
     },
 
     /**
-     * @lint ignoreUndefined(SCRIPT_LOADED)
+     * @ignore(SCRIPT_LOADED)
      */
     "test: status indicates success when determineSuccess returns true": function() {
       var that = this;

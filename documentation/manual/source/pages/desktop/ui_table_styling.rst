@@ -211,8 +211,6 @@ A bigger change of the header cells might be to change the background color at h
 
     "table-header-cell-hovered" :
     {
-      decorator :  qx.ui.decoration.Background,
-
       style :
       {
         backgroundColor : "orange"

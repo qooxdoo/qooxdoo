@@ -19,13 +19,14 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/actions/document-save.png)
 
 ************************************************************************ */
 
 /**
  * @lint ignoreDeprecated(alert)
  * @tag showcase
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/actions/document-save.png)
  */
 qx.Class.define("demobrowser.demo.ui.Command",
 {

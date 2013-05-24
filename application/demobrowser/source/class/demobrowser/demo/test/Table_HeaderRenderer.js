@@ -20,11 +20,12 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/apps/internet-feed-reader.png)
 
 ************************************************************************ */
 
 /**
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/apps/internet-feed-reader.png)
  * @tag noPlayground
  * @tag test
  */

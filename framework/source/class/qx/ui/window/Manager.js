@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.window.Manager",
      */
     syncWidget : function()
     {
-      this.__desktop.forceUnblockContent();
+      this.__desktop.forceUnblock();
 
       var windows = this.__desktop.getWindows();
       // z-index for all three window kinds

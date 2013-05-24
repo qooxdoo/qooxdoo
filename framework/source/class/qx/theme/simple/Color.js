@@ -67,7 +67,7 @@ qx.Theme.define("qx.theme.simple.Color",
     // group box
     "white-box-border" : "#BCBCBC",
 
-    // shaddows
+    // shadows
     "shadow" : qx.core.Environment.get("css.rgba") ? "rgba(0, 0, 0, 0.4)" : "#666666",
 
     // borders

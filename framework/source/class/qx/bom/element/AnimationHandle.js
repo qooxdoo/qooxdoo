@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#ignore(qx.bom.element.AnimationJs)
-
-************************************************************************ */
-
 /**
  * This is a simple handle, which will be returned when an animation is
  * started using the {@link qx.bom.element.Animation#animate} method. It
@@ -133,7 +127,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
         this.el.$$animation.__ended = true;
       }
       // in case the animation is based on JS
-      if (qx.bom.element.AnimationJs) {
+      else if (qx.bom.element.AnimationJs) {
         qx.bom.element.AnimationJs.stop(this);
       }
     }

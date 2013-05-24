@@ -17,16 +17,12 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(testrunner/view/html/*)
-#asset(indigo/css/*)
-
-************************************************************************ */
-
 /**
  * Plain HTML TestRunner view.
  *
+ *
+ * @asset(testrunner/view/html/*)
+ * @asset(indigo/css/*)
  * @require(q)
  * @require(qx.module.Polyfill)
  * @require(qx.module.Traversing)

@@ -309,16 +309,9 @@ qx.Class.define("qx.test.ui.form.TextArea",
     },
 
     __supportsLiveWrap: function() {
-      // Opera and older versions of IE ignore changes to wrap settings
+      // Opera ignores changes to wrap settings
       // once the textarea is in the DOM
-      if (
-        qx.core.Environment.get("engine.name") == "opera" ||
-        (qx.core.Environment.get("engine.name") == "mshtml" &&
-        parseFloat(qx.core.Environment.get("engine.version")) < 7))
-      {
-        return false;
-      }
-      return true;
+      return qx.core.Environment.get("engine.name") != "opera";
     },
 
     skip: function(msg) {

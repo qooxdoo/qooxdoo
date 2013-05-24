@@ -17,18 +17,14 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(qx/icon/${qx.icontheme}/16/apps/utilities-terminal.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/utilities-notes.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/utilities-calculator.png)
-
-************************************************************************ */
-
 /**
  * Demonstrates qx.ui.tabview(...):
  *
  * TabView, Page
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/apps/utilities-terminal.png)
+ * @asset(qx/icon/${qx.icontheme}/16/apps/utilities-notes.png)
+ * @asset(qx/icon/${qx.icontheme}/16/apps/utilities-calculator.png)
  *
  */
 

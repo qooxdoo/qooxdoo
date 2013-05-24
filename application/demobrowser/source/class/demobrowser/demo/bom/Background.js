@@ -20,11 +20,12 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Tango/48/devices/drive-optical.png)
 
 ************************************************************************ */
 
 /**
+ *
+ * @asset(qx/icon/Tango/48/devices/drive-optical.png)
  * @tag noPlayground
  *
  * @require(qx.module.Core)

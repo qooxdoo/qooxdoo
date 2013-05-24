@@ -23,45 +23,37 @@ qx.Theme.define("showcase.page.theme.calc.theme.Decoration",
   {
     "calc-button" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style :
       {
-        baseImage : "showcase/theme/button.png",
-        insets : [3, 3, 5, 3]
+        borderImage : "showcase/theme/button.png",
+        slice : [3, 3, 5, 3]
       }
     },
 
     "calc-button-pressed" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style :
       {
-        baseImage : "showcase/theme/button-pressed.png",
-        insets : [3, 3, 5, 3]
+        borderImage : "showcase/theme/button-pressed.png",
+        slice : [3, 3, 5, 3]
       }
     },
 
     "calc-display" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style :
       {
-        baseImage : "showcase/theme/display.png",
-        insets : [5, 5, 5, 4]
+        borderImage : "showcase/theme/display.png",
+        slice : [5, 5, 5, 4]
       }
     },
 
     "calc-window" :
     {
-      decorator : qx.ui.decoration.Grid,
-
       style :
       {
-        baseImage : "showcase/theme/window.png",
-        insets : 2
+        borderImage : "showcase/theme/window.png",
+        slice : [6, 6]
       }
     }
   }

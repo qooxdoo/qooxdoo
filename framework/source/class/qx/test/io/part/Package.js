@@ -19,11 +19,12 @@ Authors:
 
 /* ************************************************************************
 
-#asset(qx/test/*)
 
 ************************************************************************ */
 /**
  * @ignore(qx.test.PART_FILES)
+ *
+ * @asset(qx/test/*)
  */
 
 qx.Class.define("qx.test.io.part.Package",
@@ -121,9 +122,7 @@ qx.Class.define("qx.test.io.part.Package",
 
       // test don't work in IE, Safari 3 and Opera
       if ( qx.core.Environment.get("engine.name") == "opera" ||
-           qx.core.Environment.get("engine.name") == "mshtml" ||
-           (qx.core.Environment.get("engine.name") == "webkit" &&
-           parseFloat(qx.core.Environment.get("engine.version")) < 531) )
+           qx.core.Environment.get("engine.name") == "mshtml")
        {
         return;
       }

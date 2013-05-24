@@ -18,13 +18,14 @@
 ************************************************************************ */
 /* ************************************************************************
 
-#asset(qx/static/blank.gif)
 
 ************************************************************************ */
 /**
  * A special blocker element for the splitpane which is based on
  * {@link qx.html.Element} and takes care of the positioning of the div.
+ *
  * @internal
+ * @asset(qx/static/blank.gif)
  */
 qx.Class.define("qx.ui.splitpane.Blocker",
 {

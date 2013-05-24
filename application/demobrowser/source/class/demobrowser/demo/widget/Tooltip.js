@@ -20,10 +20,13 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/actions/help-about.png)
-#asset(qx/icon/${qx.icontheme}/32/actions/help-about.png)
 
 ************************************************************************ */
+/**
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/actions/help-about.png)
+ * @asset(qx/icon/${qx.icontheme}/32/actions/help-about.png)
+ */
 
 qx.Class.define("demobrowser.demo.widget.Tooltip",
 {

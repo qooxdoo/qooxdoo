@@ -20,18 +20,19 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/apps/office-calendar.png)
-#asset(qx/icon/${qx.icontheme}/32/apps/office-address-book.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/internet-feed-reader.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/internet-telephony.png)
-#asset(qx/icon/${qx.icontheme}/22/apps/utilities-calculator.png)
-#asset(qx/icon/${qx.icontheme}/32/status/dialog-error.png)
-#asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
-#asset(qx/icon/${qx.icontheme}/16/actions/dialog-cancel.png)
 
 ************************************************************************ */
 /**
  * @tag showcase
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/apps/office-calendar.png)
+ * @asset(qx/icon/${qx.icontheme}/32/apps/office-address-book.png)
+ * @asset(qx/icon/${qx.icontheme}/16/apps/internet-feed-reader.png)
+ * @asset(qx/icon/${qx.icontheme}/16/apps/internet-telephony.png)
+ * @asset(qx/icon/${qx.icontheme}/22/apps/utilities-calculator.png)
+ * @asset(qx/icon/${qx.icontheme}/32/status/dialog-error.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-cancel.png)
  */
 qx.Class.define("demobrowser.demo.widget.Window",
 {

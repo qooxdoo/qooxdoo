@@ -30,7 +30,7 @@ But which class adds this method? The API Viewer can tell you that. Just `open t
 
 ::
 
-  #use(qx.module.Animation)
+  @use(qx.module.Animation)
 
 (assuming the call to ``fadeIn`` is executed after the entire application has been
 loaded). Once loaded the ``qx.module.Animation`` module will register itself

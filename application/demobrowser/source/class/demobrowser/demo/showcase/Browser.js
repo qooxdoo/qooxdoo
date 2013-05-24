@@ -20,15 +20,16 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/actions/go-previous.png)
-#asset(qx/icon/${qx.icontheme}/16/actions/go-next.png)
-#asset(qx/icon/${qx.icontheme}/16/actions/media-playback-start.png)
-#asset(qx/icon/${qx.icontheme}/16/categories/internet.png)
 
 ************************************************************************ */
 
 /**
  * @tag showcase
+ *
+ * @asset(qx/icon/${qx.icontheme}/16/actions/go-previous.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/go-next.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/media-playback-start.png)
+ * @asset(qx/icon/${qx.icontheme}/16/categories/internet.png)
  */
 qx.Class.define("demobrowser.demo.showcase.Browser",
 {

@@ -19,11 +19,12 @@
 
 /* ************************************************************************
 
-#asset(demobrowser/demo/data/finder.json)
 
 ************************************************************************ */
 
 /**
+ *
+ * @asset(demobrowser/demo/data/finder.json)
  * @tag databinding
  */
 qx.Class.define("demobrowser.demo.data.Finder",

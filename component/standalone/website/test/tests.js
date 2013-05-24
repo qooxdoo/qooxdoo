@@ -1212,7 +1212,7 @@ testrunner.define({
 
   testIncludeStylesheet : function()
   {
-    var styleSheet = "../../../../framework/source/resource/qx/test/style2.css";
+    var styleSheet = "./style2.css";
     q.includeStylesheet(styleSheet);
     q.create('<div id="affe"></div>').appendTo(this.sandbox[0]);
 

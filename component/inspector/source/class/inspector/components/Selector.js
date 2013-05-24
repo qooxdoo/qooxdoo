@@ -193,10 +193,11 @@ qx.Class.define("inspector.components.Selector",
      * @return {qx.ui.core.Widget} the created highlighter.
      */
     __createHighlighter : function() {
-      var highlightDecorator = new this.__applicationWindow.qx.ui.decoration.Single(
-        this.self(arguments).BORDER,
-        "solid",
-        this.self(arguments).BORDER_COLOR);
+      var highlightDecorator = new this.__applicationWindow.qx.ui.decoration.Decorator().set({
+        width: this.self(arguments).BORDER,
+        style: "solid",
+        color: this.self(arguments).BORDER_COLOR
+      });
       this.__model.addToExcludes(highlightDecorator);
 
       var highlightOverlay = new this.__applicationWindow.qx.ui.core.Widget();
@@ -307,7 +308,13 @@ qx.Class.define("inspector.components.Selector",
           widget.setWidth(qx.bom.Document.getWidth(win));
         }
         else {
-          var el = widget.getContainerElement();
+          var el;
+          if (this.__isMobileApp) {
+            el = widget.getContainerElement();
+          } else {
+            el = widget.getContentElement();
+          }
+
           el.style.width = qx.bom.Document.getHeight(win) + "px";
           el.style.height = qx.bom.Document.getWidth(win) + "px";
         }
@@ -411,7 +418,7 @@ qx.Class.define("inspector.components.Selector",
 
         var domElement = null;
         if (this.__isWidget(childWidget)) {
-          domElement = childWidget.getContainerElement().getDomElement();
+          domElement = childWidget.getContentElement().getDomElement();
         } else if (this.__isMobileWidget(childWidget)) {
           domElement = childWidget.getContainerElement();
         } else if (this.__isQxHtmlElement(childWidget)) {
@@ -471,7 +478,7 @@ qx.Class.define("inspector.components.Selector",
 
       var element = null;
       if (this.__isWidget(object) && !this.__isRootElement(object)) {
-        element = object.getContainerElement().getDomElement();
+        element = object.getContentElement().getDomElement();
       } else if (this.__isMobileWidget(object)) {
         element = object.getContainerElement();
       } else if (this.__isQxHtmlElement(object)) {

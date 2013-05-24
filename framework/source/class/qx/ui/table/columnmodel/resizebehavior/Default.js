@@ -382,7 +382,12 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       this.__clearLayoutCaches();
 
       // Use a horizontal box layout to determine the available width.
-      this.__layout.renderLayout(width, 100);
+      this.__layout.renderLayout(width, 100, {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
+      });
 
       // Now that we've calculated the width, set it.
       for (i=0,l=columns.length; i<l; i++)

@@ -18,7 +18,7 @@
 ************************************************************************ */
 /**
  * Mixin for the box shadow CSS property.
- * This mixin is usually used by {@link qx.ui.decoration.DynamicDecorator}.
+ * This mixin is usually used by {@link qx.ui.decoration.Decorator}.
  *
  * Keep in mind that this is not supported by all browsers:
  *
@@ -93,11 +93,19 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
     /**
      * Takes a styles map and adds the box shadow styles in place to the
      * given map. This is the needed behavior for
-     * {@link qx.ui.decoration.DynamicDecorator}.
+     * {@link qx.ui.decoration.Decorator}.
      *
      * @param styles {Map} A map to add the styles.
      */
     _styleBoxShadow : function(styles) {
+      var propName = qx.core.Environment.get("css.boxshadow");
+      if (!propName ||
+          this.getShadowVerticalLength() == null &&
+          this.getShadowHorizontalLength() == null)
+      {
+        return;
+      }
+
       if (qx.core.Environment.get("qx.theme"))
       {
         var Color = qx.theme.manager.Color.getInstance();
@@ -117,9 +125,13 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
         var inset = this.getInset() ? "inset " : "";
         var value = inset + hLength + "px " + vLength + "px " + blur + "px " + spread + "px " + color;
 
-        styles["-moz-box-shadow"] = value;
-        styles["-webkit-box-shadow"] = value;
-        styles["box-shadow"] = value;
+        // apply or append the box shadow styles
+        propName = qx.bom.Style.getCssName(propName);
+        if (!styles[propName]) {
+          styles[propName] = value;
+        } else {
+          styles[propName] += "," + value;
+        }
       }
     },
 

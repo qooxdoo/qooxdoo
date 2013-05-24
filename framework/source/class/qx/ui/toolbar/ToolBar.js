@@ -262,7 +262,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
             margins = Math.max(margins, this.getSpacing());
 
             // check if the element has been rendered before [BUG #4542]
-            if (removedChild.getDecoratorElement() == null) {
+            if (removedChild.getContentElement().getDomElement() == null) {
               // if not, apply the decorator element because it can change the
               // width of the child with padding e.g.
               removedChild.syncAppearance();

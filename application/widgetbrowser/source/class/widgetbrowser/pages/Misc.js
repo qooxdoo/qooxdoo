@@ -19,9 +19,6 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/32/apps/media-photo-album.png)
-#asset(qx/icon/${qx.icontheme}/48/devices/*)
-#asset(qx/icon/${qx.icontheme}/16/places/folder.png)
 
 ************************************************************************ */
 
@@ -30,6 +27,10 @@
  *
  * indicator.ProgressBar
  * popup.Popup
+ *
+ * @asset(qx/icon/${qx.icontheme}/32/apps/media-photo-album.png)
+ * @asset(qx/icon/${qx.icontheme}/48/devices/*)
+ * @asset(qx/icon/${qx.icontheme}/16/places/folder.png)
  *
  */
 
