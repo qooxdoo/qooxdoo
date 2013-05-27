@@ -346,24 +346,30 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     /**
      * Centers this widget to window's center position.
      */
-    _positionToCenter : function() {
-      var childDimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
+    _positionToCenter : function()
+    {
+      var container = this.getContainerElement();
 
-      this.getContainerElement().style.left = "50%";
-      this.getContainerElement().style.top = "50%";
-      this.getContainerElement().style.marginLeft = -(childDimension.width/2) + "px";
-      this.getContainerElement().style.marginTop = -(childDimension.height/2) + "px";
+      container.style.position = "absolute";
+      var childDimension = qx.bom.element.Dimension.getSize(container);
+
+      container.style.left = "50%";
+      container.style.top = "50%";
+      container.style.marginLeft = -(childDimension.width/2) + "px";
+      container.style.marginTop = -(childDimension.height/2) + "px";
     },
 
 
     /**
      * Resets the position of this element (left, top, margins...)
      */
-    _resetPosition : function() {
-      this.getContainerElement().style.left = "0px";
-      this.getContainerElement().style.top = "0px";
-      this.getContainerElement().style.marginLeft = null;
-      this.getContainerElement().style.marginTop = null;
+    _resetPosition : function()
+    {
+      var container = this.getContainerElement();
+      container.style.left = "0px";
+      container.style.top = "0px";
+      container.style.marginLeft = null;
+      container.style.marginTop = null;
     },
 
 
