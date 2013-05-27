@@ -547,8 +547,8 @@ qx.Class.define("qx.ui.basic.Image",
             container.addAt(elementToAdd, index);
           }
           // force re-application of source so __setSource is called again
-          elementToAdd.setSource(null);
-          elementToAdd.setAttribute("class", this.__currentContentElement.getAttribute("class"));
+          el.setSource(null);
+          el.setAttribute("class", this.__currentContentElement.getAttribute("class"));
           this.__currentContentElement = elementToAdd;
         }
       }
