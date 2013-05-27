@@ -432,12 +432,11 @@ class MClassDependencies(object):
     def filter_symbols_by_jshints(self, tree, depsItems):
         result = []
         for depsItem in depsItems:
-            #if self.id=='qx.dev.StackTrace' and depsItem.name=='qx.bom.client.EcmaScript':
-            #    import pydb; pydb.debugger()
             deps_repr = depsItem.name
             if depsItem.attribute:
                 deps_repr += '.' + depsItem.attribute
-            if not global_symbols.ident_is_ignored(deps_repr, depsItem.node):
+            is_ignored = global_symbols.ident_is_ignored(deps_repr, depsItem.node)
+            if not is_ignored:
                 result.append(depsItem)
         return result
 

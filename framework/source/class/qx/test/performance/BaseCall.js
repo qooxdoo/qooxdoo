@@ -70,6 +70,9 @@ qx.Class.define("qx.test.performance.Base", {
   }
 });
 
+/**
+ * @ignore(qx.test.performance.Base.*)
+ */
 qx.Class.define("qx.test.performance.Extend", {
   extend : qx.test.performance.Base,
 
