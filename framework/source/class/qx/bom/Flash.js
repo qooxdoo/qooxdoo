@@ -312,7 +312,11 @@ qx.Class.define("qx.bom.Flash",
 
         // Apply attributes
         for (var name in attributes) {
-          element.firstChild.setAttribute(name, attributes[name]);
+          // IE doesn't like dollar signs in attribute names.
+          // Setting the attribute using innerHTML above works fine, though...
+          if (name != "$$widget") {
+            element.firstChild.setAttribute(name, attributes[name]);
+          }
         }
 
         return element.firstChild;
