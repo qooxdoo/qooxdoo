@@ -21,9 +21,8 @@
 /**
  * @ignore(qx.test.Construct.*, qx.test.ExtendError, qx.test.ExtendNull)
  * @ignore(qx.test.ExtendQxObject, qx.test.ExtendSuper.*, qx.test.Super.*)
- * @ignore(qx.test.ROOT, qx.test.MyClass.*)
+ * @ignore(qx.test.ROOT, qx.test.MyClass.*, qx.test.Bmw.*)
  */
-
 qx.Class.define("qx.test.Bootstrap",
 {
   extend : qx.dev.unit.TestCase,
