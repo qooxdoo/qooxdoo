@@ -38,9 +38,19 @@ Generator
    tool/generator/generator
    tool/generator/features
    tool/generator/generator_usage
-   tool/generator/generator_config
    tool/generator/generator_optimizations
    tool/generator/dependencies_manually
+
+Configuration
+--------------
+
+.. toctree::
+   :maxdepth: 1
+
+   tool/generator/generator_config
+   tool/generator/config_usage
+   tool/generator/config_tweaking
+   tool/generator/config_branching
    tool/generator/generator_config_articles
    tool/generator/generator_config_background
 
