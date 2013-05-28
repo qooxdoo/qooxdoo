@@ -606,7 +606,13 @@
 
       "lint-check" :
       {
-        "allowed-globals"   : [ "q", "qxWeb", "qxsettings", "qxvariants" ]
+        "allowed-globals"   : [ 
+          "q",
+          "qxWeb",
+          "qxsettings",
+          "qxvariants",
+          "simulator"      // for skeletons that have simulation.* classes
+        ]
         ,"ignore-catch-param"               : false
         ,"ignore-deprecated-symbols"        : false
         ,"ignore-environment-nonlit-key"    : false

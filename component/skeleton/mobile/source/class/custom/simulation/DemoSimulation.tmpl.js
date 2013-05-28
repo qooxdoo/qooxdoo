@@ -12,8 +12,6 @@
  * This class demonstrates how to define simulated interaction tests for your 
  * application. See the manual for details:
  * {@link http://manual.qooxdoo.org/${QOOXDOO_VERSION}/pages/development/simulator.html}
- * 
- * @ignore(simulator)
  */
 qx.Class.define("${Namespace}.simulation.DemoSimulation", {
 
