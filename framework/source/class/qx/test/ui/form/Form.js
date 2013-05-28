@@ -82,11 +82,7 @@ qx.Class.define("qx.test.ui.form.Form",
       // set the widget to invalid
       widget.setValid(false);
 
-      if (where == "shadow") {
-        this.__testInvalidShadow(widget);
-      } else if (where == "dont") {
-        // ignore thiese tests
-      } else {
+      if (where !== "dont") {
         // needs to be tests async because of a strange behavior in opera 9
         var self = this;
         window.setTimeout(function() {
@@ -102,7 +98,6 @@ qx.Class.define("qx.test.ui.form.Form",
       widget.destroy();
     },
 
-
     __testInvalidBorder: function(widget) {
       this.flush();
 
@@ -114,17 +109,6 @@ qx.Class.define("qx.test.ui.form.Form",
       this.flush();
       this.assertNotEquals(-1, widget.getDecorator().indexOf("invalid"), "Decorator not set!");
     },
-
-
-    __testInvalidShadow: function(widget) {
-      this.flush();
-      this.flush();
-
-      // check for the invalid shadow
-      this.assertMatch(widget.getShadow(), new RegExp("-invalid-shadow$") ,"Shadow not set!");
-    },
-
-
 
     testRequiredSpinner: function() {
       this.__testRequired(new qx.ui.form.Spinner());
@@ -179,9 +163,7 @@ qx.Class.define("qx.test.ui.form.Form",
     },
 
     testValidSelectBox: function() {
-      var testShadow = qx.core.Environment.get("css.borderradius") &&
-          qx.core.Environment.get("css.gradient.linear");
-      this.__testValid(new qx.ui.form.SelectBox(), testShadow ? undefined : "shadow");
+      this.__testValid(new qx.ui.form.SelectBox());
     },
 
     testRequiredCheckBox: function() {
