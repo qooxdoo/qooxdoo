@@ -27,19 +27,23 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
   extend : qx.ui.mobile.core.Widget,
   type : "singleton",
 
-  
+
+  statics:
+  {
+    ROOT : null
+  },
+
+
   construct : function()
   {
     this.base(arguments);
-    qx.core.Init.getApplication().getRoot().add(this);
+
+    if(qx.ui.mobile.core.Blocker.ROOT == null) {
+      qx.ui.mobile.core.Blocker.ROOT = qx.core.Init.getApplication().getRoot();
+    } 
+    qx.ui.mobile.core.Blocker.ROOT.add(this);
   },
   
-  
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
 
   properties :
   {
@@ -51,12 +55,6 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
     }
   },
 
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -122,7 +120,7 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
      */
     _updateSize : function()
     {
-      if(qx.core.Init.getApplication().getRoot() == this.getLayoutParent())
+      if(qx.ui.mobile.core.Blocker.ROOT == this.getLayoutParent())
       {
         this.getContainerElement().style.top = qx.bom.Viewport.getScrollTop() + "px";
         this.getContainerElement().style.left = qx.bom.Viewport.getScrollLeft() + "px";
@@ -186,14 +184,9 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
   },
 
 
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
   destruct : function()
   {
-    qx.core.Init.getApplication().getRoot().remove(this);
+    qx.ui.mobile.core.Blocker.ROOT.remove(this);
     this.__unregisterEventListener();
   }
 });

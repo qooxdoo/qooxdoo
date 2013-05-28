@@ -53,6 +53,9 @@ qx.Class.define("playground.view.MobilePlayArea",
 
       this._playRoot = new qx.ui.mobile.core.Root(playRootEl);
 
+      qx.ui.mobile.dialog.Popup.ROOT = this._playRoot;
+      qx.ui.mobile.core.Blocker.ROOT = this._playRoot;
+
       var self = this;
 
       this._playApp = new qx.application.Mobile();

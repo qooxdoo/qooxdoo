@@ -100,6 +100,24 @@ qx.Class.define("qx.ui.mobile.core.Root",
     _applyShowScrollbarY : function(value, old) {
       this._setStyle("overflow-y", value ? "auto" : "hidden");
     },
+
+
+    /**
+    * Returns the rendered width.
+    * @return {Integer} the width of the container element.
+    */
+    getWidth : function() {
+      return qx.bom.element.Dimension.getWidth(this.__root);
+    },
+
+
+    /**
+    * Returns the rendered height.
+    * @return {Integer} the height of the container element.
+    */
+    getHeight : function() {
+      return qx.bom.element.Dimension.getHeight(this.__root);
+    },
     
     
     /**
