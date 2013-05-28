@@ -1004,6 +1004,11 @@ Description
   ``@ignore(qx.dev.unit.TestSuite)``
 
 
+**See**
+
+  Special section on :doc:`/pages/development/api_jsdoc_at_ignore`.
+
+
 .. _pages/development/api_jsdoc_ref#tag:
 
 .. rst-class:: api-ref
