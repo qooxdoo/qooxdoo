@@ -380,6 +380,7 @@ qx.Class.define("qx.ui.form.AbstractField",
 
       // Disable HTML5 spell checking
       el.setAttribute("spellcheck", "false");
+      el.addClass("qx-abstract-field");
 
       // IE8 in standard mode needs some extra love here to receive events.
       if ((qx.core.Environment.get("engine.name") == "mshtml"))
@@ -987,8 +988,7 @@ qx.Class.define("qx.ui.form.AbstractField",
   },
 
 
-  defer : function(statics)
-  {
+  defer : function(statics) {
     var css = "border: none;" +
       "padding: 0;" +
       "margin: 0;" +
@@ -1001,7 +1001,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       "resize: none;" +
       "border-radius: 0;";
 
-    qx.ui.style.Stylesheet.getInstance().addRule("input, textarea", css);
+    qx.ui.style.Stylesheet.getInstance().addRule("qx-abstract-field", css);
   },
 
 
