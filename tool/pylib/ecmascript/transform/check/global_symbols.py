@@ -83,12 +83,9 @@ def globals_filter_by_hints(global_nodes, tree):
 ##
 # Filter names if they match a built-in.
 #
+GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % re.escape(x) for x in lang.GLOBALS + lang.QXGLOBALS))
 def globals_filter_by_builtins(global_names):
-    result = []
-    for name in global_names:
-        if name not in lang.GLOBALS:  # TODO: fork out test?!
-            result.append(name)
-    return result
+    return [name for name in global_names if not GlobalSymbolsCombinedPatt.search(name)]
 
 ##
 # Filter names if they match a library class.

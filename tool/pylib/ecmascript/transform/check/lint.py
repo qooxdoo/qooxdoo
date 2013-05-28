@@ -28,9 +28,9 @@ from collections import defaultdict
 from ecmascript.frontend import treeutil, lang, Comment
 from ecmascript.frontend import tree, treegenerator
 from ecmascript.transform.optimizer import variantoptimizer
-from ecmascript.transform.evaluate  import evaluate
 from ecmascript.transform.check  import scopes
-from generator import Context
+from ecmascript.transform.check  import jshints
+from ecmascript.transform.check  import global_symbols as gs
 from generator.runtime.CodeIssue import CodeIssue
 
 class LintChecker(treeutil.NodeVisitor):
@@ -133,7 +133,7 @@ class LintChecker(treeutil.NodeVisitor):
                     issue = warn("Deprecated global symbol used: '%s'" % full_name, self.file_name, var_node)
                     self.issues.append(issue)
 
-    def unknown_globals(self, scope):
+    def unknown_globals_(self, scope):
         # take advantage of Scope() objects
         for id_, scopeVar in scope.globals().items():
             if id_ in self.opts.allowed_globals:
@@ -158,6 +158,38 @@ class LintChecker(treeutil.NodeVisitor):
                     if not ok:
                         issue = warn("Unknown global symbol used: '%s'" % full_name, self.file_name, var_node)
                         self.issues.append(issue)
+
+    def unknown_globals(self, scope):
+        # collect scope's global use locations
+        global_nodes = defaultdict(list)  # {assembled: [node]}
+        for id_, scopeVar in scope.globals().items():
+            for head_node in scopeVar.uses:
+                var_top = treeutil.findVarRoot(head_node)
+                full_name = (treeutil.assembleVariable(var_top))[0]
+                global_nodes[full_name].append(head_node)
+        # filter allowed globals
+        # - from config
+        global_nodes = dict([(key,nodes) for (key,nodes) in global_nodes.items()
+            if key not in self.opts.allowed_globals])
+        # - from known classes and namespaces
+        global_nodes = dict([(key,nodes) for (key,nodes) in global_nodes.items()
+            if not extension_match_in(key, self.known_globals_bases,self.opts.class_namespaces)]) # known classes (classList + their namespaces)
+        # - from built-ins
+        new_keys = gs.globals_filter_by_builtins(global_nodes.keys())
+        global_nodes = dict([(key,nodes) for (key,nodes) in global_nodes.items()
+            if key in new_keys])
+        # - with jshints
+        for key, nodes in global_nodes.items():
+            global_nodes[key] = [node for node in nodes 
+                if not gs.ident_is_ignored(key, node)]
+        # warn remaining
+        for key, nodes in global_nodes.items():
+            for node in nodes:
+                issue = warn("Unknown global symbol used: '%s'" % key, self.file_name, node)
+                self.issues.append(issue)
+
+
+
 
     def function_unused_vars(self, funcnode):
         scope = funcnode.scope
@@ -566,6 +598,8 @@ def extension_match_in(name, name_list, name_spaces):
 
 def lint_check(node, file_name, opts):
     node = scopes.create_scopes(node)  # update scopes
+    if not hasattr(node, 'hint'):
+        node = jshints.create_hints_tree(node)
     lint = LintChecker(node, file_name, opts)
     lint.visit(node)
     return lint.issues

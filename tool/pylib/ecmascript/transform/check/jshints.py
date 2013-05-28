@@ -26,7 +26,6 @@
 
 import os, sys, re, types
 from ecmascript.frontend import treeutil, Comment
-from ecmascript.transform.check.lint import LintChecker
 from generator.code.HintArgument import HintArgument
 from generator import Context as context
 
