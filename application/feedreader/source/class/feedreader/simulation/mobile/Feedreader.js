@@ -16,9 +16,6 @@
 
 /**
  * Mobile Feedreader GUI tests
- *
- * @ignore(simulator)
- * @ignore(selenium)
  */
 qx.Class.define("feedreader.simulation.mobile.Feedreader", {
 
