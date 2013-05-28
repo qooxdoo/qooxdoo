@@ -121,6 +121,7 @@
           "qx.lang.Type",
           "qx.lang.String",
           "qx.lang.Object",
+          "qx.lang.Function",
           "qx.Bootstrap"
         ]
       },

@@ -21,6 +21,8 @@
  * Parsers for parsing response strings (especially for XHR).
  *
  * Known parsers are: <code>"json"</code> and <code>"xml"</code>.
+ *
+ * @require(qx.util.ResponseParser#parse)
  */
 qx.Bootstrap.define("qx.util.ResponseParser",
 {
