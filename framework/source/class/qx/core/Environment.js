@@ -680,6 +680,11 @@
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
  *     <tr>
+ *       <td>qx.dyntheme</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>true</code></td>
+ *     </tr>
+
+ *     <tr>
  *       <td>qx.globalErrorHandling</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
@@ -1228,6 +1233,7 @@ qx.Bootstrap.define("qx.core.Environment",
       this.add("qx.debug.ui.queue", function() {return true;});
       this.add("qx.aspects", function() {return false;});
       this.add("qx.dynlocale", function() {return true;});
+      this.add("qx.dyntheme", function() {return true;});
       this.add("qx.mobile.emulatetouch", function() {return false;});
       this.add("qx.emulatemouse", function() {return false;});
       this.add("qx.mobile.nativescroll", function() {return false;});

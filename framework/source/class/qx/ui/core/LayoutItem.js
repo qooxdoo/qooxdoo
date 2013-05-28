@@ -31,9 +31,11 @@ qx.Class.define("qx.ui.core.LayoutItem",
     this.base(arguments);
 
     // dynamic theme switch
-    qx.theme.manager.Appearance.getInstance().addListener(
-      "changeTheme", this._onChangeTheme, this
-    );
+    if (qx.core.Environment.get("qx.dyntheme")) {
+      qx.theme.manager.Appearance.getInstance().addListener(
+        "changeTheme", this._onChangeTheme, this
+      );
+    }
   },
 
 
@@ -339,21 +341,26 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
     /**
      * Handler for the dynamic theme change.
+     * @signature function()
      */
-    _onChangeTheme : function() {
-      // reset all themeabled properties
-      var props = qx.util.PropertyUtil.getAllProperties(this.constructor);
-      for (var name in props) {
-        var desc = props[name];
-        // only themeable properties not having a user value
-        if (desc.themeable) {
-          var userValue = qx.util.PropertyUtil.getUserValue(this, name);
-          if (userValue == null) {
-            qx.util.PropertyUtil.resetThemed(this, name);
+    _onChangeTheme : qx.core.Environment.select("qx.dyntheme",
+    {
+      "true" : function() {
+        // reset all themeabled properties
+        var props = qx.util.PropertyUtil.getAllProperties(this.constructor);
+        for (var name in props) {
+          var desc = props[name];
+          // only themeable properties not having a user value
+          if (desc.themeable) {
+            var userValue = qx.util.PropertyUtil.getUserValue(this, name);
+            if (userValue == null) {
+              qx.util.PropertyUtil.resetThemed(this, name);
+            }
           }
         }
-      }
-    },
+      },
+      "false" : null
+    }),
 
 
 
@@ -1028,10 +1035,11 @@ qx.Class.define("qx.ui.core.LayoutItem",
   destruct : function()
   {
     // remove dynamic theme listener
-    qx.theme.manager.Appearance.getInstance().removeListener(
-      "changeTheme", this._onChangeTheme, this
-    );
-
+    if (qx.core.Environment.get("qx.dyntheme")) {
+      qx.theme.manager.Appearance.getInstance().removeListener(
+        "changeTheme", this._onChangeTheme, this
+      );
+    }
     this.$$parent = this.$$subparent = this.__layoutProperties =
       this.__computedLayout = this.__userBounds = this.__sizeHint = null;
   }

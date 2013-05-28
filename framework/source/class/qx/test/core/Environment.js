@@ -498,6 +498,7 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("qx.mobile.emulatetouch"), "14");
       this.assertBoolean(qx.core.Environment.get("qx.mobile.nativescroll"), "15");
       this.assertBoolean(qx.core.Environment.get("qx.emulatemouse"), "16");
+      this.assertBoolean(qx.core.Environment.get("qx.dynlocale"), "17");
     },
 
 
