@@ -195,6 +195,7 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
       if(widget.isNavigationBarHidden()){
         this.addCssClass("hidden");
       } else {
+        navigationBar.show();
         this.removeCssClass("hidden");
       }
 

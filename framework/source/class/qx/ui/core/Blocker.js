@@ -67,9 +67,11 @@ qx.Class.define("qx.ui.core.Blocker",
     }
 
     // dynamic theme switch
-    qx.theme.manager.Appearance.getInstance().addListener(
-      "changeTheme", this._onChangeTheme, this
-    );
+    if (qx.core.Environment.get("qx.dyntheme")) {
+      qx.theme.manager.Appearance.getInstance().addListener(
+        "changeTheme", this._onChangeTheme, this
+      );
+    }
 
     this.__activeElements = [];
     this.__focusElements = [];
@@ -217,10 +219,15 @@ qx.Class.define("qx.ui.core.Blocker",
 
     /**
      * Handler for the theme change.
+     * @signature function()
      */
-    _onChangeTheme : function() {
-      this._applyColor(this.getColor());
-    },
+    _onChangeTheme : qx.core.Environment.select("qx.dyntheme",
+    {
+      "true" : function() {
+        this._applyColor(this.getColor());
+      },
+      "false" : null
+    }),
 
 
     /**
@@ -563,9 +570,11 @@ qx.Class.define("qx.ui.core.Blocker",
   destruct : function()
   {
     // remove dynamic theme listener
-    qx.theme.manager.Appearance.getInstance().removeListener(
-      "changeTheme", this._onChangeTheme, this
-    );
+    if (qx.core.Environment.get("qx.dyntheme")) {
+      qx.theme.manager.Appearance.getInstance().removeListener(
+        "changeTheme", this._onChangeTheme, this
+      );
+    }
 
     this._widget.removeListener("resize", this.__onBoundsChange, this);
     this._widget.removeListener("move", this.__onBoundsChange, this);

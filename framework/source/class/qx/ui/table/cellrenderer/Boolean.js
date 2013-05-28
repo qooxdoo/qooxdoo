@@ -44,9 +44,11 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
     this.initIconFalse();
 
     // dynamic theme switch
-    qx.theme.manager.Appearance.getInstance().addListener(
-      "changeTheme", this._onChangeTheme, this
-    );
+    if (qx.core.Environment.get("qx.dyntheme")) {
+      qx.theme.manager.Appearance.getInstance().addListener(
+        "changeTheme", this._onChangeTheme, this
+      );
+    }
   },
 
 
@@ -95,11 +97,16 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
 
     /**
      * Handler for theme changes.
+     * @signature function()
      */
-    _onChangeTheme : function() {
-      this._applyIconTrue(this.getIconTrue());
-      this._applyIconFalse(this.getIconFalse());
-    },
+    _onChangeTheme : qx.core.Environment.select("qx.dyntheme",
+    {
+      "true" : function() {
+        this._applyIconTrue(this.getIconTrue());
+        this._applyIconFalse(this.getIconFalse());
+      },
+      "false" : null
+    }),
 
     // property apply
     _applyIconTrue : function(value) {
@@ -159,8 +166,10 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
   destruct : function() {
     this.__aliasManager = null;
     // remove dynamic theme listener
-    qx.theme.manager.Appearance.getInstance().removeListener(
-      "changeTheme", this._onChangeTheme, this
-    );
+    if (qx.core.Environment.get("qx.dyntheme")) {
+      qx.theme.manager.Appearance.getInstance().removeListener(
+        "changeTheme", this._onChangeTheme, this
+      );
+    }
   }
 });

@@ -73,9 +73,11 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     }
 
     this.__detailNavigation = this._createDetailNavigation();
+    this.__detailNavigation.getNavigationBar().hide();
 
     if (this.__isTablet) {
       this.__masterNavigation = this._createMasterNavigation();
+      this.__masterNavigation.getNavigationBar().hide();
 
       this.__masterContainer = this._createMasterContainer();
       this.__detailContainer = this._createDetailContainer();

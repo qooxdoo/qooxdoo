@@ -60,9 +60,11 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
     this.__layout.connectToWidget(this);
 
     // dynamic theme switch
-    qx.theme.manager.Appearance.getInstance().addListener(
-      "changeTheme", this.__linkColors, this
-    );
+    if (qx.core.Environment.get("qx.dyntheme")) {
+      qx.theme.manager.Appearance.getInstance().addListener(
+        "changeTheme", this.__linkColors, this
+      );
+    }
   },
 
 

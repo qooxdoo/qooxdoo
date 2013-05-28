@@ -35,9 +35,11 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
     this.__resolveImages();
 
     // dynamic theme switch
-    qx.theme.manager.Appearance.getInstance().addListener(
-      "changeTheme", this.__resolveImages, this
-    );
+    if (qx.core.Environment.get("qx.dyntheme")) {
+      qx.theme.manager.Appearance.getInstance().addListener(
+        "changeTheme", this.__resolveImages, this
+      );
+    }
   },
 
 
@@ -191,8 +193,10 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
     this.__iconUrlTrue = this.__iconUrlFalse = null;
 
     // remove dynamic theme listener
-    qx.theme.manager.Appearance.getInstance().removeListener(
-      "changeTheme", this.__resolveImages, this
-    );
+    if (qx.core.Environment.get("qx.dyntheme")) {
+      qx.theme.manager.Appearance.getInstance().removeListener(
+        "changeTheme", this.__resolveImages, this
+      );
+    }
   }
 });
