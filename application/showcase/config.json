@@ -29,14 +29,14 @@
 
   "config-warnings" : 
   {
-    "job-shadowing" : ["build-files", "common", "translation"],
+    "job-shadowing" : ["build-files", "common", "translation", "libraries"],
     
     "environment" : [ "non-literal-keys" ]
   },
 
   "jobs" :
   {
-    "common" :
+    "libraries" : 
     {
       "library" : 
       [
@@ -52,8 +52,11 @@
         {
           "manifest" : "${QOOXDOO_PATH}/component/library/indigo/Manifest.json"
         }
-      ],
-      
+      ]
+    },
+
+    "common" :
+    {
       "environment" :
       {
         "qx.mobile.nativescroll" : true
