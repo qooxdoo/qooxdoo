@@ -611,7 +611,7 @@
           "qxWeb",
           "qxsettings",
           "qxvariants",
-          "simulator"      // for skeletons that have simulation.* classes
+          "simulator", "selenium"  // for skeletons that have simulation.* classes
         ]
         ,"ignore-catch-param"               : false
         ,"ignore-deprecated-symbols"        : false

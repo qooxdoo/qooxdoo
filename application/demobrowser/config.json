@@ -22,7 +22,8 @@
         "build-files",
         "build-resources",
         "translation",
-        "info"
+        "info",
+        "lint"
       ]
     },
     {
@@ -259,10 +260,10 @@
 
     ,"lint" :
     {
-      "log" : {
-        "filter" : {
-          "debug" : [ "generator.action.CodeMaintenance.lint_classes" ]
-        }
+      "extend" : ["cache"],
+      "shell" :
+      {
+        "command" : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/generator.py ${GENERATOR_OPTS} -c ./config.demobrowser.json lint"
       }
     }
 

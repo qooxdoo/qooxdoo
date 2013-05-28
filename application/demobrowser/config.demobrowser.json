@@ -13,6 +13,7 @@
         "info"
         ,"cache"
         ,"translation"
+        ,"lint"
       ]
     }
 
@@ -29,38 +30,46 @@
 
   "config-warnings" :
   {
-    "job-shadowing" : ["info", "translation"]
+    "job-shadowing" : [
+      "info", 
+      "translation",
+      "lint"
+    ]
   },
 
   "jobs" :
   {
-    "db-common" :
-    {
-      "desc"    : "common settings for Demobrowser jobs",
-
-      "let" :
-      {
-        "APPLICATION"  : "demobrowser"
-      },
+    "libraries" : {
 
       "library" :
       [
         {
           "manifest" : "${QOOXDOO_PATH}/component/library/logpane/Manifest.json"
         },
-
         {
           "manifest" : "${QOOXDOO_PATH}/component/library/versionlabel/Manifest.json"
         },
-
         {
           "manifest" : "${QOOXDOO_PATH}/framework/Manifest.json"
         },
-
         {
           "manifest" : "Manifest.json"
         }
-      ],
+      ]
+    },
+
+    "application-name" : {
+      "let" :
+      {
+        "APPLICATION"  : "demobrowser"
+      }
+    },
+
+    "db-common" :
+    {
+      "desc"    : "common settings for Demobrowser jobs",
+
+      "extend"  : [ "libraries", "application-name" ],
 
       "include" :
       [
@@ -272,8 +281,18 @@
 
     "info" :
     {
-      "let" : {
-        "APPLICATION"  : "demobrowser"  // to not disturb varying APPLICATION of demos
+      "extend"  : [ "application-name" ]  // to not disturb varying APPLICATION of demos
+    },
+
+    "lint" :
+    {
+      "extend"  : [ "application-name" ]  // to not disturb varying APPLICATION of demos
+      ,"lint-check" : {
+        "allowed-globals" : [
+          // these are from var. demos, e.g. source/demo/showcase/Form.json
+          "qxc.application.datademo.Demo",
+          "qxc.application.formdemo.FormItems"
+        ]
       }
     },
 
