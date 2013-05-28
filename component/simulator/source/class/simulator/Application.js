@@ -17,8 +17,6 @@
 ************************************************************************ */
 /**
  * Simulator main application class.
- *
- * @ignore(quit)
  */
 qx.Class.define("simulator.Application", {
 
@@ -28,7 +26,7 @@ qx.Class.define("simulator.Application", {
   {
 
     /**
-     * @ignore(testrunner)
+     * @ignore(testrunner.*)
      */
     main : function()
     {

@@ -42,10 +42,6 @@ qx.Class.define("simulator.qxwebdriver.Builder",
      * Builds a new {@link simulator.qxwebdriver.WebDriver} instance using this
      * builder's current configuration.
      * @return {simulator.qxwebdriver.WebDriver} A new WebDriver client.
-     * @ignore(simulator.webdriver.FirefoxDomExecutor)
-     * @ignore(simulator.webdriver.process)
-     * @ignore(simulator.webdriver.node)
-     * @ignore(simulator.webdriver.http)
      */
     build : function()
     {

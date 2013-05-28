@@ -24,7 +24,7 @@ qx.Class.define("simulator.reporter.Application", {
   members :
   {
     /**
-     * @ignore(testrunner)
+     * @ignore(testrunner.runner.TestRunnerBasic)
      */
     main : function()
     {

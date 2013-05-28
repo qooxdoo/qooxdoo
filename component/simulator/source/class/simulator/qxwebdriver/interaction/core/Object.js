@@ -22,9 +22,6 @@
 
 /**
  * Common interactions for widgets that inherit from {@link qx.core.Object}
- *
- * @ignore(qxwebdriver)
- * @ignore(qxwebdriver.util)
  */
 qx.Class.define("simulator.qxwebdriver.interaction.core.Object", {
 
@@ -36,7 +33,7 @@ qx.Class.define("simulator.qxwebdriver.interaction.core.Object", {
      * @param propertyName {String} Name of the property
      * @return {webdriver.promise.Promise} A promise that will resolve to
      * the value of the property
-     * @ignore(qxwebdriver)
+     * @ignore(qxwebdriver.util.*)
      */
     get : function(propertyName)
     {
