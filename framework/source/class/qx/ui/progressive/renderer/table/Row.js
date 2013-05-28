@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
     // dynamic theme switch
     if (qx.core.Environment.get("qx.dyntheme")) {
-      qx.theme.manager.Appearance.getInstance().addListener(
+      qx.theme.manager.Color.getInstance().addListener(
         "changeTheme", this.__linkColors, this
       );
     }
@@ -505,7 +505,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
   destruct : function()
   {
     // remove dynamic theme listener
-    qx.theme.manager.Appearance.getInstance().removeListener(
+    qx.theme.manager.Color.getInstance().removeListener(
       "changeTheme", this.__linkColors, this
     );
 

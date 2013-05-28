@@ -35,6 +35,9 @@ qx.Class.define("qx.ui.core.LayoutItem",
       qx.theme.manager.Appearance.getInstance().addListener(
         "changeTheme", this._onChangeTheme, this
       );
+      qx.theme.manager.Color.getInstance().addListener(
+        "changeTheme", this._onChangeTheme, this
+      );
     }
   },
 
@@ -346,7 +349,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     _onChangeTheme : qx.core.Environment.select("qx.dyntheme",
     {
       "true" : function() {
-        // reset all themeabled properties
+        // reset all themeable properties
         var props = qx.util.PropertyUtil.getAllProperties(this.constructor);
         for (var name in props) {
           var desc = props[name];
@@ -1037,6 +1040,9 @@ qx.Class.define("qx.ui.core.LayoutItem",
     // remove dynamic theme listener
     if (qx.core.Environment.get("qx.dyntheme")) {
       qx.theme.manager.Appearance.getInstance().removeListener(
+        "changeTheme", this._onChangeTheme, this
+      );
+      qx.theme.manager.Color.getInstance().removeListener(
         "changeTheme", this._onChangeTheme, this
       );
     }

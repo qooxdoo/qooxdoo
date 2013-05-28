@@ -68,7 +68,7 @@ qx.Class.define("qx.ui.core.Blocker",
 
     // dynamic theme switch
     if (qx.core.Environment.get("qx.dyntheme")) {
-      qx.theme.manager.Appearance.getInstance().addListener(
+      qx.theme.manager.Color.getInstance().addListener(
         "changeTheme", this._onChangeTheme, this
       );
     }
@@ -571,7 +571,7 @@ qx.Class.define("qx.ui.core.Blocker",
   {
     // remove dynamic theme listener
     if (qx.core.Environment.get("qx.dyntheme")) {
-      qx.theme.manager.Appearance.getInstance().removeListener(
+      qx.theme.manager.Color.getInstance().removeListener(
         "changeTheme", this._onChangeTheme, this
       );
     }
