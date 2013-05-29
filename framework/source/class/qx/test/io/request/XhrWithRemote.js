@@ -166,6 +166,25 @@ qx.Class.define("qx.test.io.request.XhrWithRemote",
       this.wait();
     },
 
+    "test: timeout with header call": function() {
+      var req = this.req,
+          url = this.noCache(this.getUrl("qx/test/xmlhttp/loading.php")) + "&duration=100";
+
+      req.addListener("timeout", function() {
+        this.resume(function() {
+          try {
+            req.getResponseHeader("X-UI-My-Header");
+            throw new Error("DOM exception expected!");
+          } catch (ex) {}
+        });
+      }, this);
+
+      req.setUrl(url);
+      req.setTimeout(1/1000);
+      req.send();
+      this.wait();
+    },
+
     // "test: fetch resources simultaneously": function() {
     //   this.require(["php"]);
     //
