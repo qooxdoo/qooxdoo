@@ -660,6 +660,7 @@ qx.Class.define("qx.data.controller.List",
         this.__onUpdate[targetProperty] = null;
       }
       options.onUpdate =  qx.lang.Function.bind(this._onBindingSet, this, index);
+      options.ignoreConverter = "model"
 
       // build up the path for the binding
       var bindPath = "model[" + index + "]";

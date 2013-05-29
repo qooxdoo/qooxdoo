@@ -90,6 +90,8 @@ qx.Class.define("qx.data.SingleValueBinding",
      *       the target object and the data as third parameter.</li>
      *   <li>onSetFail: A callback function can be given here. This method will
      *       be called if the set of the value fails.</li>
+     *   <li>ignoreConverter: A string which will be matched using the current
+     *       property chain. If it matches, the converter will not be called.</li>
      *
      * @return {var} Returns the internal id for that binding. This can be used
      *   for referencing the binding or e.g. for removing. This is not an atomic
@@ -285,7 +287,24 @@ qx.Class.define("qx.data.SingleValueBinding",
         if (!source) {
           // use the converter if the property chain breaks [BUG# 6880]
           if (context.options && context.options.converter) {
-            var data = context.options.converter();
+
+            var ignoreConverter = false;
+            // take care of the ignore pattern used for the controller
+            if (context.options.ignoreConverter) {
+              // the current property chain as string
+              var currentSourceChain = context.propertyNames.slice(0,j).join(".");
+              // match for the current patten given in the options
+              var match = currentSourceChain.match(
+                new RegExp("^" + context.options.ignoreConverter)
+              );
+              ignoreConverter = match ? match.length > 0 : false;
+            }
+
+            var data = null;
+            if (!ignoreConverter) {
+              data = context.options.converter();
+            }
+
             this.__setTargetValue(
               context.targetObject,
               context.targetPropertyChain,
