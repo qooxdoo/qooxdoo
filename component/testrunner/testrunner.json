@@ -182,15 +182,8 @@
       "extend" : ["source-script", "tests-common"]
     },
 
-    "testrunner-common" :
-    {
-      "let" :
-      {
-        "TESTRUNNER_VIEW" : "testrunner.view.Html",
-        "TESTRUNNER_ORIGIN" : "iframe",
-        "TESTRUNNER_MAIN_CLASS" : "testrunner.Application"
-      },
-
+    "libraries" : {
+      
       "library" :
       [
         {
@@ -212,7 +205,19 @@
         {
           "manifest" : "${TESTRUNNER_ROOT}/Manifest.json"
         }
-      ],
+      ]
+    },
+
+    "testrunner-common" :
+    {
+      "extend" : [ "libraries" ],
+
+      "let" :
+      {
+        "TESTRUNNER_VIEW" : "testrunner.view.Html",
+        "TESTRUNNER_ORIGIN" : "iframe",
+        "TESTRUNNER_MAIN_CLASS" : "testrunner.Application"
+      },
 
       "include" :
       [
