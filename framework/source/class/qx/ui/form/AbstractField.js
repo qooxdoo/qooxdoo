@@ -311,7 +311,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       {
         if (this.__useQxPlaceholder) {
           var insets = this.getInsets();
-          this.__getPlaceholderElement().setStyles({
+          this._getPlaceholderElement().setStyles({
             paddingTop : insets.top + pixel,
             paddingRight : insets.right + pixel,
             paddingBottom : insets.bottom + pixel,
@@ -325,7 +325,7 @@ qx.Class.define("qx.ui.form.AbstractField",
         // we don't need to update dimensions on native placeholders
         if (this.__useQxPlaceholder) {
           var insets = this.getInsets();
-          this.__getPlaceholderElement().setStyles({
+          this._getPlaceholderElement().setStyles({
             "width": (innerWidth - insets.left - insets.right) + pixel,
             "height": (innerHeight - insets.top - insets.bottom) + pixel
           });
@@ -342,7 +342,7 @@ qx.Class.define("qx.ui.form.AbstractField",
 
       if (changes.position) {
         if (this.__useQxPlaceholder) {
-          this.__getPlaceholderElement().setStyles({
+          this._getPlaceholderElement().setStyles({
             "left": left + pixel,
             "top": top + pixel
           });
@@ -472,7 +472,7 @@ qx.Class.define("qx.ui.form.AbstractField",
         // don't apply the color to the placeholder
         delete styles["color"];
         // apply the font to the placeholder
-        this.__getPlaceholderElement().setStyles(styles);
+        this._getPlaceholderElement().setStyles(styles);
       }
 
       // Compute text size
@@ -800,9 +800,9 @@ qx.Class.define("qx.ui.form.AbstractField",
       this.base(arguments, parent);
       if (this.__useQxPlaceholder) {
         if (parent) {
-          this.getLayoutParent().getContentElement().add(this.__getPlaceholderElement());
+          this.getLayoutParent().getContentElement().add(this._getPlaceholderElement());
         } else {
-          var placeholder = this.__getPlaceholderElement();
+          var placeholder = this._getPlaceholderElement();
           placeholder.getParent().remove(placeholder);
         }
       }
@@ -854,7 +854,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     _removePlaceholder: function() {
       if (this.hasState("showingPlaceholder")) {
         if (this.__useQxPlaceholder) {
-          this.__getPlaceholderElement().setStyle("visibility", "hidden");
+          this._getPlaceholderElement().setStyle("visibility", "hidden");
         }
         this.removeState("showingPlaceholder");
       }
@@ -867,7 +867,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     _syncPlaceholder : function ()
     {
       if (this.hasState("showingPlaceholder") && this.__useQxPlaceholder) {
-        this.__getPlaceholderElement().setStyle("visibility", "visible");
+        this._getPlaceholderElement().setStyle("visibility", "visible");
       }
     },
 
@@ -875,7 +875,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     /**
      * Returns the placeholder label and creates it if necessary.
      */
-    __getPlaceholderElement : function()
+    _getPlaceholderElement : function()
     {
       if (this._placeholder == null) {
         // create the placeholder
@@ -886,7 +886,8 @@ qx.Class.define("qx.ui.form.AbstractField",
           "position" : "absolute",
           "color" : colorManager.resolve("text-placeholder"),
           "whiteSpace": "normal", // enable wrap by default
-          "cursor": "text"
+          "cursor": "text",
+          "visibility" : "hidden"
         });
 
         this._placeholder.addListener("mousedown", this._onMouseDownPlaceholder, this);
@@ -941,7 +942,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     _applyPlaceholder : function(value, old)
     {
       if (this.__useQxPlaceholder) {
-        this.__getPlaceholderElement().setValue(value);
+        this._getPlaceholderElement().setValue(value);
         if (value != null) {
           this.addListener("focusin", this._removePlaceholder, this);
           this.addListener("focusout", this._showPlaceholder, this);

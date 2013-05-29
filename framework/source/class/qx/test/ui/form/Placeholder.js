@@ -177,9 +177,9 @@ qx.Class.define("qx.test.ui.form.Placeholder",
         }
       } else {
         if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
-          return widget.getContainerElement().getChildren()[1].getValue();
+          return widget._getPlaceholderElement().getValue();
         } else if (this.__hasTextfieldChildControl(widget)) {
-          return widget.getChildControl("textfield").getContainerElement().getChildren()[1].getValue();
+          return widget.getChildControl("textfield")._getPlaceholderElement().getValue();
         }
       }
     },
@@ -205,9 +205,9 @@ qx.Class.define("qx.test.ui.form.Placeholder",
         }
       } else {
         if (qx.Class.isSubClassOf(widget.constructor, qx.ui.form.AbstractField)) {
-          return widget.getContainerElement().getChildren()[1].getStyle("visibility") != "hidden";
+          return widget._getPlaceholderElement().getStyle("visibility") != "hidden";
         } else if (this.__hasTextfieldChildControl(widget)) {
-          return widget.getChildControl("textfield").getContainerElement().getChildren()[1].getStyle("visibility") != "hidden";
+          return widget.getChildControl("textfield")._getPlaceholderElement().getStyle("visibility") != "hidden";
         }
       }
     },
