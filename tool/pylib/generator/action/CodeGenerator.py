@@ -1018,45 +1018,6 @@ class CodeGenerator(object):
         return  # runCompiled()
 
 
-    @staticmethod
-    def lint_opts(classesObj, only_globals=False):
-        do_check = Context.jobconf.get('compile-options/code/lint-check', True)
-        #do_check = False
-        opts = None
-        if do_check:
-            opts = lint.defaultOptions()
-            opts.library_classes = [x.id for x in classesObj]
-            opts.class_namespaces = ClassList.namespaces_from_classnames(opts.library_classes)
-            # add config 'exclude' to allowed_globals
-            opts.allowed_globals = Context.jobconf.get('exclude', [])
-            # and sanitize meta characters
-            opts.allowed_globals = [x.replace('=','').replace('.*','') for x in opts.allowed_globals]
-            # some sensible settings (deviating from defaultOptions)
-            opts.ignore_no_loop_block = True
-            opts.ignore_reference_fields = True
-            opts.ignore_undeclared_privates = True
-            opts.ignore_unused_variables = True
-            # override from config
-            jobConf = Context.jobconf
-            for option, value in jobConf.get("lint-check", {}).items():
-                setattr(opts, option.replace("-","_"), value)
-            # construct a globals-only check
-            if only_globals:
-                protected = '''
-                    allowed_globals 
-                    class_namespaces 
-                    ignore_undefined_globals 
-                    library_classes 
-                    warn_jsdoc_key_syntax
-                    warn_unknown_jsdoc_keys 
-                    '''.split()
-                for item in vars(opts):
-                    if item=='ignore_undefined_globals':
-                        setattr(opts, item, False)
-                    elif item not in protected:
-                        setattr(opts, item, True)
-        return do_check, opts
-        
     ##
     # Pretty-print set of classes.
     # Collects options and invokes ecmascript.backend.formatter

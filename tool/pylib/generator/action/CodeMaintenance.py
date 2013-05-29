@@ -101,6 +101,26 @@ def lint_check(classObj, opts):
     tree = classObj.tree()
     return lint.lint_check(tree, classObj.id, opts)
 
+def lint_comptime_opts():
+    do_check = Context.jobconf.get('compile-options/code/lint-check', True)
+    opts = lint.defaultOptions()
+    opts.ignore_undefined_globals = True # do compile-level checks without unknown globals
+    # add config 'exclude' to allowed_globals
+    opts.allowed_globals = Context.jobconf.get('exclude', [])
+    # and sanitize meta characters
+    opts.allowed_globals = [x.replace('=','').replace('.*','') for x in opts.allowed_globals]
+    # some sensible settings (deviating from defaultOptions)
+    opts.ignore_no_loop_block = True
+    opts.ignore_reference_fields = True
+    opts.ignore_undeclared_privates = True
+    opts.ignore_unused_variables = True
+    # override from config
+    jobConf = Context.jobconf
+    for option, value in jobConf.get("lint-check", {}).items():
+        setattr(opts, option.replace("-","_"), value)
+    return do_check, opts
+        
+
 
 def runMigration(jobconf, libs):
 

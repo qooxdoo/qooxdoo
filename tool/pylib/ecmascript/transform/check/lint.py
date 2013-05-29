@@ -524,7 +524,6 @@ def defaultOptions():
     opts.ignore_unused_variables = False
     opts.warn_unknown_jsdoc_keys = False
     opts.warn_jsdoc_key_syntax   = True
- 
 
     return opts
 
