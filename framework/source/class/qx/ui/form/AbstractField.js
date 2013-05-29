@@ -102,7 +102,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       // add rules for native placeholder color
       qx.ui.form.AbstractField.__addPlaceholderRules();
       // add a class to the input to restict the placeholder color
-      this.getContentElement().setAttribute("class", "qx-placeholder-color");
+      this.getContentElement().addClass("qx-placeholder-color");
     }
 
     // translation support
@@ -383,8 +383,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       el.addClass("qx-abstract-field");
 
       // IE8 in standard mode needs some extra love here to receive events.
-      if ((qx.core.Environment.get("engine.name") == "mshtml"))
-      {
+      if ((qx.core.Environment.get("engine.name") == "mshtml")) {
         el.setStyles({
           backgroundImage: "url(" + qx.util.ResourceManager.getInstance().toUri("qx/static/blank.gif") + ")"
         });
@@ -1002,7 +1001,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       "resize: none;" +
       "border-radius: 0;";
 
-    qx.ui.style.Stylesheet.getInstance().addRule("qx-abstract-field", css);
+    qx.ui.style.Stylesheet.getInstance().addRule(".qx-abstract-field", css);
   },
 
 
