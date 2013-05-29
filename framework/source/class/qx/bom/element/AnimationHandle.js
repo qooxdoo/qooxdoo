@@ -124,14 +124,14 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
      * Stops the animation if running.
      */
     stop : function() {
-      if (this.el && qx.core.Environment.get("css.animation") && !this.animationId) {
+      if (this.el && qx.core.Environment.get("css.animation") && !this.jsAnimation) {
         this.el.style[this.__playState] = "";
         this.el.style[qx.core.Environment.get("css.animation").name] = "";
         this.el.$$animation.__playing = false;
         this.el.$$animation.__ended = true;
       }
       // in case the animation is based on JS
-      else if (qx.bom.element.AnimationJs) {
+      else if (this.jsAnimation) {
         qx.bom.element.AnimationJs.stop(this);
       }
     }
