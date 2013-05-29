@@ -42,7 +42,10 @@
 
   "config-warnings" :
   {
-    "job-shadowing" : ["translation"]
+    "job-shadowing" : [
+      "translation",
+      "libraries"
+    ]
   },
 
   "jobs" :
