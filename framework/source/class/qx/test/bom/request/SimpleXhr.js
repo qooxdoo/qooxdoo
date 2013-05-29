@@ -103,6 +103,15 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
     },
 
     //
+    // setTimeout()
+    // getTimeout()
+    //
+
+    "test: set/get timeout in millis": function() {
+      this.assertEquals(150, this.req.setTimeout(150).getTimeout());
+    },
+
+    //
     //  useCaching
     //  isCaching
     //
@@ -153,6 +162,22 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
       }
       this.req._transport = stubbedTransport;
       return stubbedTransport;
+    },
+
+    "test: send() w/ timeout": function() {
+      var req = this.req,
+          method = "GET",
+          url = "http://example.org",
+          stubbedTransport = {};
+
+      req.setUrl(url);
+      req.setTimeout(150);
+      stubbedTransport = this.stubTransportMethods(["open", "send"]);
+      req.send();
+
+      this.assertCalledWith(stubbedTransport.open, method, url, true);
+      this.assertCalledWith(stubbedTransport.send);
+      this.assertEquals(stubbedTransport.timeout, req.getTimeout());
     },
 
     "test: send() w/o data and w/o headers": function() {

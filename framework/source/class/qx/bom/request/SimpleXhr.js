@@ -232,6 +232,28 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     },
 
     /**
+     * Sets the timout limit in milliseconds.
+     *
+     * @param millis {Number} limit in milliseconds.
+     * @return {qx.bom.request.SimpleXhr} Self for chaining.
+     */
+    setTimeout: function(millis) {
+      if (qx.lang.Type.isNumber(millis)) {
+        this.__timeout = millis;
+      }
+      return this;
+    },
+
+    /**
+     * The current timeout in milliseconds.
+     *
+     * @return {Number} The current timeout in milliseconds.
+     */
+    getTimeout: function() {
+      return this.__timeout;
+    },
+
+    /**
      * Whether to allow request to be answered from cache.
      *
      * Allowed values:
@@ -275,7 +297,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     /**
      * Whether requests are cached.
      *
-     * @return {Boolean}
+     * @return {Boolean} Whether requests are cached.
      */
     isCaching: function() {
       return this.__cache;
@@ -318,7 +340,8 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * * optional request data
      */
     send: function() {
-      var hasRequestData = (this.getRequestData() !== null),
+      var curTimeout = this.getTimeout(),
+          hasRequestData = (this.getRequestData() !== null),
           hasCacheControlHeader = this.__requestHeaders.hasOwnProperty("Cache-Control"),
           isBodyForMethodAllowed = qx.util.Request.methodAllowsRequestBody(this.getMethod()),
           curContentType = this.getRequestHeader("Content-Type"),
@@ -333,6 +356,11 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
       if (this.isCaching() === false && !hasCacheControlHeader) {
         // Make sure URL cannot be served from cache and new request is made
         this.setUrl(qx.util.Uri.appendParamsToUrl(this.getUrl(), {nocache: new Date().valueOf()}));
+      }
+
+      // set timeout
+      if (curTimeout) {
+        this._transport.timeout = curTimeout;
       }
 
       // initialize request
@@ -497,6 +525,10 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * {Boolean} Whether caching will be enabled.
      */
     __cache: null,
+    /**
+     * {Number} The current timeout in milliseconds.
+     */
+    __timeout: null,
     /**
      * {Boolean} Whether object has been disposed.
      */
