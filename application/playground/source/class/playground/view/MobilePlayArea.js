@@ -43,12 +43,20 @@ qx.Class.define("playground.view.MobilePlayArea",
     sizeSelect.add(new qx.ui.form.ListItem("Fit to viewport"));
 
     var resolutions = [
-      [320, 480], [480, 320]
+      [320, 480, "iPhone 3+4, Android"], 
+      [480, 320, "iPhone 3+4, Android"],
+      [320, 568, "iPhone 5"], 
+      [568, 320, "iPhone 5"],
+      [480, 800, "Android"], 
+      [800, 480, "Android"],
+      [380, 685, "Android"], 
+      [685, 320, "Android"]
     ];
 
     for (var i = 0; i < resolutions.length; i++) {
       var res = resolutions[i];
-      var item = new qx.ui.form.ListItem(res[0] + " x " + res[1]);
+      var listItemText = "[" + res[0] + " x " + res[1] + "] " + res[2];
+      var item = new qx.ui.form.ListItem(listItemText);
       item.setModel(res);
       sizeSelect.add(item);
     }
