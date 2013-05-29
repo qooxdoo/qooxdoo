@@ -47,6 +47,10 @@
 
   "jobs" :
   {
+    "libraries" : {
+      "extend" : [ "apicnf::libraries" ]  
+    },
+
     "source" :
     {
       "extend" : [ "apicnf::source" ],

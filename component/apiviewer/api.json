@@ -3,8 +3,7 @@
 
   "jobs" :
   {
-    "common" :
-    {
+    "lets" : {
       "let" :
       {
         "APIVIEWER_ROOT" : ".",
@@ -15,7 +14,12 @@
         "API_EXCLUDE"    : [],
         "BUILD_PATH"     : "${APIVIEWER_ROOT}/build",
         "CACHE"          : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache"
-      },
+      }
+    },
+
+    "libraries" : {
+
+      "extend" : [ "lets" ],
 
       "library" :
       [
@@ -30,7 +34,12 @@
         {
           "manifest" : "${QOOXDOO_PATH}/component/library/versionlabel/Manifest.json"
         }
-      ],
+      ]
+    },
+
+    "common" :
+    {
+      "extend" : [ "lets", "libraries" ],
 
       "environment" :
       {
