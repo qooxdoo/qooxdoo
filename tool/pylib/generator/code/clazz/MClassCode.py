@@ -23,18 +23,19 @@
 # generator.code.Class Mixin: class code (tree and compile)
 ##
 
-import sys, os, types, re, string, copy
+import sys, os, types, re, string, copy, time
 from ecmascript.backend.Packer      import Packer
 from ecmascript.backend             import formatter
 from ecmascript.frontend import treeutil, tokenizer
 from ecmascript.frontend import treegenerator, lang
 from ecmascript.frontend.SyntaxException import SyntaxException
-from ecmascript.transform.check     import scopes, load_time
+from ecmascript.transform.check     import scopes, load_time, lint
 from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, commentoptimizer
 from ecmascript.transform.optimizer import stringoptimizer, basecalloptimizer, privateoptimizer
 from ecmascript.transform.optimizer import featureoptimizer
 from ecmascript.transform.optimizer import globalsoptimizer
 from generator import Context
+from generator.action               import CodeMaintenance
 from misc import util, filetool
 
 
@@ -67,7 +68,7 @@ class MClassCode(object):
             console.debug("Parsing file: %s..." % self.id)
             console.indent()
 
-            # tokenize
+            # Tokenize
             fileContent = filetool.read(self.path, self.encoding)
             fileId = self.path if self.path else self.id
             try:
@@ -77,10 +78,7 @@ class MClassCode(object):
                 e.args = (e.args[0] + "\nFile: %s" % fileId,) + e.args[1:]
                 raise e
             
-            # parse
-            console.outdent()
-            console.debug("Generating tree: %s..." % self.id)
-            console.indent()
+            # Parse
             try:
                 tree = treegen.createFileTree(tokens, fileId)
             except SyntaxException, e:
@@ -88,7 +86,7 @@ class MClassCode(object):
                 e.args = (e.args[0] + "\nFile: %s" % fileId,) + e.args[1:]
                 raise
 
-            # check class id against file id
+            # Check class id against file id
             try:
                 self.checkClassId(tree)
             except ValueError, e:
@@ -96,27 +94,22 @@ class MClassCode(object):
                 e.args = (e.args[0] + "\nFile: %s" % fileId,) + e.args[1:]
                 raise
 
-            # annotate with scopes
+            # Annotate with scopes
             if True:
-                console.outdent()
-                console.debug("Calculating scopes: %s..." % self.id)
-                console.indent()
                 tree = scopes.create_scopes(tree)  # checks for suitable treegenerator_tag
                 #tree.scope.prrnt()
                 #print self.id, " (globals):", [c for s in tree.scope.scope_iterator() for c in s.globals()]
 
-            # annotate scopes reg. load time evaluation
+            # Annotate scopes reg. load time evaluation
             if True:
                 if hasattr(tree,'scope') and tree.scope:
-                    console.outdent()
-                    console.debug("Annotating scopes with load time information: %s..." % self.id)
-                    console.indent()
                     load_time.load_time_check(tree.scope)
 
-            # store unoptimized tree
+            # Store unoptimized tree
             cache.write(cacheId, tree, memory=tradeSpaceForSpeed)
 
             console.outdent()
+
         return tree
 
 
@@ -164,13 +157,12 @@ class MClassCode(object):
 
         classinfo, _ = self._getClassCache()
         classvariants = None
-        if classinfo == None or 'svariants' not in classinfo:  # 'svariants' = supported variants
+        if not classinfo or 'svariants' not in classinfo:  # 'svariants' = supported variants
             if generate:
                 # TODO: it might be better to work on the variant tree, as config variants have already been pruned?!
                 tree = self.tree()  # get complete tree
                 classvariants = self._variantsFromTree(tree) # get list of variant keys
-                if classinfo == None:
-                    classinfo = {}
+                classinfo, _ = self._getClassCache()  # re-read, b.o. self.tree()
                 classinfo['svariants'] = classvariants
                 self._writeClassCache (classinfo)
         else:
@@ -406,6 +398,19 @@ class MClassCode(object):
     def getCompiledSize(self, compOptions, treegen=treegenerator, featuremap={}):
         code = self.getCode(compOptions, treegen, featuremap)
         return len(code)
+
+
+    ##
+    # Lint the source
+    def lint_warnings(self, lint_opts):
+        classInfo, mTime = self._getClassCache()
+        if (not 'lint-basics' in classInfo
+            or True):  # not up-to-date?! when is the class cache invalidated?!
+            warns = lint.lint_check(self.tree(), self.id, lint_opts)
+            classInfo['lint-basics'] = (warns, time.time())
+            self._writeClassCache(classInfo)
+        return classInfo['lint-basics'][0]
+
 
 
 

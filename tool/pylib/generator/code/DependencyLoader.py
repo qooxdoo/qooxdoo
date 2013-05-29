@@ -46,8 +46,7 @@ from misc.ExtMap                import ExtMap
 from ecmascript.frontend        import lang
 from generator.code.Class       import DependencyError
 from generator.code.DependencyItem  import DependencyItem
-from generator.action.CodeGenerator import CodeGenerator
-from generator.action           import CodeMaintenance as codeMaintenance
+from generator.action           import CodeMaintenance
 
 class DependencyLoader(object):
 
@@ -150,9 +149,9 @@ class DependencyLoader(object):
             self._console.indent()
             classObj = self._classesObj[depsItem.name] # get class from depsItem - throws KeyError
             deps, cached = classObj.getCombinedDeps(self._classesObj, variants, self._jobconf)
-            # lint-check freshly parsed classes
-            if lint_check and not cached and is_app_code(classObj):
-                warns = codeMaintenance.lint_check(classObj, lint_opts)
+            # lint-check
+            if lint_check and is_app_code(classObj):
+                warns = classObj.lint_warnings(lint_opts)
                 for warn in warns:
                     self._console.warn("%s (%d, %d): %s" % (classObj.id, warn.line, warn.column, 
                         warn.msg % tuple(warn.args)))
@@ -257,9 +256,7 @@ class DependencyLoader(object):
         app_namespace = self._jobconf.get("let/APPLICATION", u'')
 
         # Lint stuff
-        lint_check, lint_opts = CodeGenerator.lint_opts([])
-        if lint_check:
-            lint_opts.ignore_undefined_globals = True # do compile-level checks *except* unknown globals (done in CodeGenerator)
+        lint_check, lint_opts = CodeMaintenance.lint_comptime_opts()
 
         # No dependency calculation
         if len(includeWithDeps) == 0:
@@ -289,7 +286,7 @@ class DependencyLoader(object):
             result = [x.name for x in result]
 
         # warn about unknown references
-        # add the list of name spaces of the selected classes
+        # - late, because adding the list of name spaces of the selected classes
         for classid in result:
             nsindex = classid.rfind(".")
             if nsindex == -1:
