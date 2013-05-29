@@ -107,6 +107,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
 
       var delta = this.__calculateDelta(steps, stepTime, keys, keyFrames, duration, desc.timing);
       var handle = new qx.bom.element.AnimationHandle();
+      handle.jsAnimation = true;
 
       if (reverse) {
         delta.reverse();
