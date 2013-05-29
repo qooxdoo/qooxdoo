@@ -35,7 +35,7 @@ qx.Class.define("playground.view.MobilePlayArea",
 
     this.setBackgroundColor("#d4d4d4");
 
-    sizeSelect = new qx.ui.form.SelectBox();
+    var sizeSelect = new qx.ui.form.SelectBox();
     sizeSelect.setMaxHeight(21);
     sizeSelect.setMarginTop(7);
     sizeSelect.setPaddingTop(0);
