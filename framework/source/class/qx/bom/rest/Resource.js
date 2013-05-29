@@ -256,7 +256,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * Set a request factory function to switch the request implementation.
      * The created requests have to implement {@link qx.io.request.AbstractRequest}.
      *
-     * @param fn {Function} The function which returns request instances.
+     * @param fn {Function} Function which returns request instances.
      *
      * @internal
      */
@@ -274,15 +274,15 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * <pre class="javascript">
      * {
      *   onsuccess: {
-     *    callback: function() { ... },
+     *    callback: function(req, action) { ... },
      *    context: obj
      *   }
      *   onfail: {
-     *    callback: function() { ... },
+     *    callback: function(req, action) { ... },
      *    context: obj
      *   }
      *   onloadend: {
-     *    callback: function() { ... },
+     *    callback: function(req, action) { ... },
      *    context: obj
      *   }
      * }
@@ -304,15 +304,15 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * <pre class="javascript">
      * {
      *   onsuccess: {
-     *    callback: function() { ... },
+     *    callback: function(req, action) { ... },
      *    context: obj
      *   }
      *   onfail: {
-     *    callback: function() { ... },
+     *    callback: function(req, action) { ... },
      *    context: obj
      *   }
      *   onloadend: {
-     *    callback: function() { ... },
+     *    callback: function(req, action) { ... },
      *    context: obj
      *   }
      * }
