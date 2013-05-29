@@ -164,10 +164,10 @@ class MClassDependencies(object):
 
         console = self.context['console']
 
-        classVariants    = self.classVariants()
+        classVariants = self.classVariants()
         relevantVariants = self.projectClassVariantsToCurrent(classVariants, variantSet)
-        cacheId          = "deps-%s-%s" % (self.path, util.toString(relevantVariants))
-        cached           = True
+        cacheId = "deps-%s-%s" % (self.path, util.toString(relevantVariants))
+        cached = True
 
         # try compile cache
         classInfo, classInfoMTime = self._getClassCache()
