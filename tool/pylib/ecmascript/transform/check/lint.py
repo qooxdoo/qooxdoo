@@ -133,32 +133,6 @@ class LintChecker(treeutil.NodeVisitor):
                     issue = warn("Deprecated global symbol used: '%s'" % full_name, self.file_name, var_node)
                     self.issues.append(issue)
 
-    def unknown_globals_(self, scope):
-        # take advantage of Scope() objects
-        for id_, scopeVar in scope.globals().items():
-            if id_ in self.opts.allowed_globals:
-                continue
-            elif id_ in lang.GLOBALS: # JS built-ins ('alert' etc.)
-                continue
-            else:
-                # we want to be more specific than just the left-most symbol,
-                # like "qx", so let's look at the var uses
-                for var_node in scopeVar.uses:
-                    var_top = treeutil.findVarRoot(var_node)
-                    full_name = (treeutil.assembleVariable(var_top))[0]
-                    ok = False
-                    if extension_match_in(full_name, self.known_globals_bases, 
-                        self.opts.class_namespaces): # known classes (classList + their namespaces)
-                        ok = True
-                    else:
-                        at_hints = get_at_hints(var_node) # check full_name against @ignore hints
-                        if at_hints:
-                            ok = ( self.is_name_ignore_filtered(full_name, at_hints)
-                                or self.is_name_lint_filtered(full_name, at_hints, "ignoreUndefined")) # /**deprecated*/
-                    if not ok:
-                        issue = warn("Unknown global symbol used: '%s'" % full_name, self.file_name, var_node)
-                        self.issues.append(issue)
-
     def unknown_globals(self, scope):
         # collect scope's global use locations
         global_nodes = defaultdict(list)  # {assembled: [node]}
@@ -187,8 +161,6 @@ class LintChecker(treeutil.NodeVisitor):
             for node in nodes:
                 issue = warn("Unknown global symbol used: '%s'" % key, self.file_name, node)
                 self.issues.append(issue)
-
-
 
 
     def function_unused_vars(self, funcnode):
@@ -232,14 +204,6 @@ class LintChecker(treeutil.NodeVisitor):
                 if any([self.extension_match(var_name, x) for x in at_hints['lint'][filter_key]]):
                     filtered = True
         return filtered
-
-
-    ##
-    # Checks @ignore(...)
-    #
-    def is_name_ignore_filtered(self, var_name, at_hints):
-        return ('ignore' in at_hints and 
-            any([self.extension_match(var_name, x) for x in at_hints['ignore']]))
 
 
     ##
