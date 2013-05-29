@@ -103,6 +103,16 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
     },
 
     //
+    //  useCaching
+    //  isCaching
+    //
+
+    "test: use/is caching": function() {
+      this.assertTrue(this.req.useCaching(true).isCaching());
+      this.assertFalse(this.req.useCaching(false).isCaching());
+    },
+
+    //
     // setParser()
     //
 
@@ -174,6 +184,38 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
 
       this.assertCalledWith(stubbedTransport.open, method, url+"?a=b", true);
       this.assertCalledWith(stubbedTransport.setRequestHeader, "Accept", "application/json");
+      this.assertCalledWith(stubbedTransport.send);
+    },
+
+    "test: send() GET w/ enabled caching sets nocache param": function() {
+      var req = this.req,
+          method = "GET",
+          url = "http://example.org",
+          expectedUrl = new RegExp(url+"\\?nocache=[0-9]{13,}"),
+          stubbedTransport = {};
+
+      req.setUrl(url);
+      req.useCaching(false);
+      stubbedTransport = this.stubTransportMethods(["open", "send"]);
+      req.send();
+
+      this.assertCalledWithMatch(stubbedTransport.open, method, expectedUrl, true);
+      this.assertCalledWith(stubbedTransport.send);
+    },
+
+    "test: send() GET w/ caching header overrides cache prevention": function() {
+      var req = this.req,
+          method = "GET",
+          url = "http://example.org",
+          stubbedTransport = {};
+
+      req.setUrl(url);
+      req.setRequestHeader("Cache-Control", "no-cache");
+      stubbedTransport = this.stubTransportMethods(["open", "setRequestHeader", "send"]);
+      req.send();
+
+      this.assertCalledWith(stubbedTransport.open, method, url, true);
+      this.assertCalledWith(stubbedTransport.setRequestHeader, "Cache-Control", "no-cache");
       this.assertCalledWith(stubbedTransport.send);
     },
 

@@ -68,6 +68,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
       this.setUrl(url);
     }
 
+    this.useCaching(true);
     this.setMethod((method !== undefined) ? method : "GET");
     this._transport = this._registerTransportListener(this._createTransport());
 
@@ -231,6 +232,56 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     },
 
     /**
+     * Whether to allow request to be answered from cache.
+     *
+     * Allowed values:
+     *
+     * * <code>true</code>: Allow caching (Default)
+     * * <code>false</code>: Prohibit caching. Appends 'nocache' parameter to URL.
+     *
+     * Consider setting a Cache-Control header instead. A request’s Cache-Control
+     * header may contain a number of directives controlling the behavior of
+     * any caches in between client and origin server and allows therefore a more
+     * fine grained control over caching. If such a header is provided, the setting
+     * of setCache() will be ignored.
+     *
+     * * <code>"no-cache"</code>: Force caches to submit request in order to
+     * validate the freshness of the representation. Note that the requested
+     * resource may still be served from cache if the representation is
+     * considered fresh. Use this directive to ensure freshness but save
+     * bandwidth when possible.
+     * * <code>"no-store"</code>: Do not keep a copy of the representation under
+     * any conditions.
+     *
+     * See <a href="http://www.mnot.net/cache_docs/#CACHE-CONTROL">
+     * Caching tutorial</a> for an excellent introduction to Caching in general.
+     * Refer to the corresponding section in the
+     * <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9">
+     * HTTP 1.1 specification</a> for more details and advanced directives.
+     *
+     * It is recommended to choose an appropriate Cache-Control directive rather
+     * than prohibit caching using the nocache parameter.
+     *
+     * @param value {Boolean}
+     * @return {qx.bom.request.SimpleXhr} Self for chaining.
+     */
+    useCaching: function(value) {
+      if (qx.lang.Type.isBoolean(value)) {
+        this.__cache = value;
+      }
+      return this;
+    },
+
+    /**
+     * Whether requests are cached.
+     *
+     * @return {Boolean}
+     */
+    isCaching: function() {
+      return this.__cache;
+    },
+
+    /**
      * Whether request completed (is done).
 
      * @return {Boolean} Whether request is completed.
@@ -268,6 +319,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      */
     send: function() {
       var hasRequestData = (this.getRequestData() !== null),
+          hasCacheControlHeader = this.__requestHeaders.hasOwnProperty("Cache-Control"),
           isBodyForMethodAllowed = qx.util.Request.methodAllowsRequestBody(this.getMethod()),
           curContentType = this.getRequestHeader("Content-Type"),
           serializedData = this._serializeData(this.getRequestData(), curContentType);
@@ -275,6 +327,12 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
       // add GET params if needed
       if (this.getMethod() === "GET" && hasRequestData) {
         this.setUrl(qx.util.Uri.appendParamsToUrl(this.getUrl(), serializedData));
+      }
+
+      // cache prevention
+      if (this.isCaching() === false && !hasCacheControlHeader) {
+        // Make sure URL cannot be served from cache and new request is made
+        this.setUrl(qx.util.Uri.appendParamsToUrl(this.getUrl(), {nocache: new Date().valueOf()}));
       }
 
       // initialize request
@@ -435,6 +493,10 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * {Function} Parser.
      */
     __parser: null,
+    /**
+     * {Boolean} Whether caching will be enabled.
+     */
+    __cache: null,
     /**
      * {Boolean} Whether object has been disposed.
      */
