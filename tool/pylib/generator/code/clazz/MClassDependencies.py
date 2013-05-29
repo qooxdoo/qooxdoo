@@ -201,24 +201,6 @@ class MClassDependencies(object):
         # end:dependencies()
 
 
-    ##
-    # Create depsItems from dependencies.json entry.
-    #
-    # deps_json = {'load':['qx.util.OOUtil', ...], 'run':['qx.util.DisposeUtil',...]}
-    #
-    def depsItems_from_Json(self, deps_json):
-        result = {'run':[], 'load':[], 'ignore':[]}
-        for category in ('run', 'load'):
-            for classId in deps_json[category]:
-                if any([classId.startswith(x) for x in ('/resource/', '/translation/', '/locale/')]):
-                    continue  # sorting out resource, locale and msgid dependencies
-                depsItem = DependencyItem(classId, '', '|dependency.json|')
-                depsItem.isLoadDep = category == 'load'
-                result[category].append(depsItem)
-        return result
-
-
-
     def getCombinedDeps(self, classesAll_, variants, config, stripSelfReferences=True, projectClassNames=True, force=False, tree=None):
 
         # init lists
@@ -308,8 +290,87 @@ class MClassDependencies(object):
 
 
     ##
-    # DepsItem Factory: Create a DependencyItem() from an AST node, setting
-    # various of its features.
+    # DepsItems from qx.core.Environment.*() feature dependencies
+    #
+    def dependencies_from_envcalls(self, node):
+        depsList = []
+        qcEnvClass = ClassesAll['qx.core.Environment']
+        for env_operand in variantoptimizer.findVariantNodes(node):
+            call_node = env_operand.parent.parent
+            env_key = call_node.getChild("arguments").children[0].get("value", "")
+            className, classAttribute = qcEnvClass.classNameFromEnvKey(env_key)
+            if className and className in ClassesAll:
+                #print className
+                depsItem = DependencyItem(className, classAttribute, self.id, env_operand.get('line', -1))
+                depsItem.isCall = True  # treat as if actual call, to collect recursive deps
+                depsItem.node = call_node
+                # .inLoadContext
+                qx_idnode = treeutil.findFirstChainChild(env_operand) # 'qx' node of 'qx.core.Environment....'
+                scope = qx_idnode.scope
+                depsItem.isLoadDep = scope.is_load_time
+                if depsItem.isLoadDep:
+                    depsItem.needsRecursion = True
+                depsList.append(depsItem)
+        return depsList
+
+
+    ##
+    # This still covers #-hints.
+    #
+    # @return
+    #  load [DepsItem]     DepsItems from load hints
+    #  run  [DepsItem]     DepsItems from run hints
+    #  ignore [HintArgument]  HintArgument items from ignore hints
+    #
+    def dependencies_from_comphints(self, node):
+        load, run = [], []
+        # Read meta data
+        meta         = self.getHints()
+        metaLoad     = meta.get("loadtimeDeps", [])
+        metaRun      = meta.get("runtimeDeps" , [])
+        metaOptional = meta.get("optionalDeps", [])
+        metaIgnore   = meta.get("ignoreDeps"  , [])
+        metaIgnore.extend(metaOptional)
+        all_feature_checks = [False, False]  # load_feature_checks, run_feature_checks
+
+        # regexify globs in metaignore
+        metaIgnore = map(HintArgument, metaIgnore)
+
+        # Turn strings into DependencyItems()
+        for target,metaHint in ((load,metaLoad), (run,metaRun)):
+            for key in metaHint:
+                # add all feature checks if requested
+                if key == "feature-checks":
+                    all_feature_checks[bool(metaHint==metaRun)] = True
+                    target.extend(self.depsItems_from_envchecks(-1, metaHint==metaLoad))
+                # turn an entry into a DependencyItem
+                elif isinstance(key, types.StringTypes):
+                    sig = key.split('#',1)
+                    className = sig[0]
+                    attrName  = sig[1] if len(sig)>1 else ''
+                    target.append(DependencyItem(className, attrName, self.id, "|hints|"))
+
+        # Add JSDoc Hints
+        for hint in node.hint.iterator():
+            for target,hintKey in ((load,'require'), (run,'use')):
+                if hintKey in hint.hints:
+                    for arg in hint.hints[hintKey][None]:
+                        # add all feature checks if requested
+                        if arg == "feature-checks":
+                            all_feature_checks[bool(hintKey=='use')] = True
+                            target.extend(self.depsItems_from_envchecks(hint.node.get('line',-1), metaHint==metaLoad))
+                        # turn the HintArgument into a DependencyItem
+                        else:
+                            sig = arg.split('#',1)
+                            className = sig[0]
+                            attrName  = sig[1] if len(sig)>1 else ''
+                            target.append(DependencyItem(className, attrName, self.id, hint.node.get('line',-1)))
+
+        return load, run, metaIgnore, all_feature_checks
+
+
+    ##
+    # DepsItem Factory: Create a DependencyItem() from an AST node.
     #
     def depsItem_from_node(self, node):
         scope = node.scope
@@ -362,9 +423,6 @@ class MClassDependencies(object):
 
         # .needsRecursion
         # Mark items that need recursive analysis of their dependencies (bug#1455)
-        #if self.followCallDeps(var_root, self.id, className, isLoadTime):
-        #if self.id=='qx.bom.element.Style' and depsItem.attribute=='__detectVendorProperties':
-        #    import pydb; pydb.debugger()
         if (is_lib_class and
             scope.is_load_time and
             (treeutil.isCallOperand(var_root) or 
@@ -375,32 +433,32 @@ class MClassDependencies(object):
         
 
     ##
-    # DepsItems from qx.core.Environment.*() feature dependencies
+    # DepsItem Factory: Create a DependencyItem() for each Feature Check class.
     #
-    def dependencies_from_envcalls(self, node):
-        depsList = []
+    def depsItems_from_envchecks(self, nodeline, inLoadContext):
+        result = []
         qcEnvClass = ClassesAll['qx.core.Environment']
-        for env_operand in variantoptimizer.findVariantNodes(node):
-            call_node = env_operand.parent.parent
-            env_key = call_node.getChild("arguments").children[0].get("value", "")
-            className, classAttribute = qcEnvClass.classNameFromEnvKey(env_key)
-            if className and className in ClassesAll:
-                #print className
-                depsItem = DependencyItem(className, classAttribute, self.id, env_operand.get('line', -1))
-                depsItem.isCall = True  # treat as if actual call, to collect recursive deps
-                depsItem.node = call_node
-                # .inLoadContext
-                qx_idnode = treeutil.findFirstChainChild(env_operand) # 'qx' node of 'qx.core.Environment....'
-                scope = qx_idnode.scope
-                depsItem.isLoadDep = scope.is_load_time
-                if depsItem.isLoadDep:
-                    depsItem.needsRecursion = True
-                depsList.append(depsItem)
-        return depsList
+        for key in qcEnvClass.checksMap:
+            clsname, clsattribute = qcEnvClass.classNameFromEnvKey(key)
+            result.append(DependencyItem(clsname, clsattribute, self.id, nodeline, inLoadContext))
+        return result
 
 
-    def filter_symbols_by_builtins(self, depsList):
-        return [deps for deps in depsList if not GlobalSymbolsCombinedPatt.search(deps.name)]
+    ##
+    # Create depsItems from dependencies.json entry.
+    #
+    # deps_json = {'load':['qx.util.OOUtil', ...], 'run':['qx.util.DisposeUtil',...]}
+    #
+    def depsItems_from_Json(self, deps_json):
+        result = {'run':[], 'load':[], 'ignore':[]}
+        for category in ('run', 'load'):
+            for classId in deps_json[category]:
+                if any([classId.startswith(x) for x in ('/resource/', '/translation/', '/locale/')]):
+                    continue  # sorting out resource, locale and msgid dependencies
+                depsItem = DependencyItem(classId, '', '|dependency.json|')
+                depsItem.isLoadDep = category == 'load'
+                result[category].append(depsItem)
+        return result
 
 
     def is_this(self, strrng):
@@ -427,6 +485,10 @@ class MClassDependencies(object):
         [setattr(x,'node',None) for x in filtered_globals]  # remove AST links (for easier caching)
         depsList.extend(filtered_globals)
         return
+
+
+    def filter_symbols_by_builtins(self, depsList):
+        return [deps for deps in depsList if not GlobalSymbolsCombinedPatt.search(deps.name)]
 
 
     def filter_symbols_by_jshints(self, tree, depsItems):
@@ -462,73 +524,6 @@ class MClassDependencies(object):
                         # adding all items to list (to comply with the 'load' deps)
                         run.append(dep)
         return load, run, ignored
-
-
-    ##
-    # This still covers #-hints.
-    #
-    # @return
-    #  load [DepsItem]     DepsItems from load hints
-    #  run  [DepsItem]     DepsItems from run hints
-    #  ignore [HintArgument]  HintArgument items from ignore hints
-    #
-    def dependencies_from_comphints(self, node):
-        load, run = [], []
-        # Read meta data
-        meta         = self.getHints()
-        metaLoad     = meta.get("loadtimeDeps", [])
-        metaRun      = meta.get("runtimeDeps" , [])
-        metaOptional = meta.get("optionalDeps", [])
-        metaIgnore   = meta.get("ignoreDeps"  , [])
-        metaIgnore.extend(metaOptional)
-        all_feature_checks = [False, False]  # load_feature_checks, run_feature_checks
-
-        # regexify globs in metaignore
-        metaIgnore = map(HintArgument, metaIgnore)
-
-        # Turn strings into DependencyItems()
-        for target,metaHint in ((load,metaLoad), (run,metaRun)):
-            for key in metaHint:
-                # add all feature checks if requested
-                if key == "feature-checks":
-                    all_feature_checks[bool(metaHint==metaRun)] = True
-                    target.extend(self.depsitems_from_envchecks(-1, metaHint==metaLoad))
-                # turn an entry into a DependencyItem
-                elif isinstance(key, types.StringTypes):
-                    sig = key.split('#',1)
-                    className = sig[0]
-                    attrName  = sig[1] if len(sig)>1 else ''
-                    target.append(DependencyItem(className, attrName, self.id, "|hints|"))
-
-        # Add JSDoc Hints
-        for hint in node.hint.iterator():
-            for target,hintKey in ((load,'require'), (run,'use')):
-                if hintKey in hint.hints:
-                    for arg in hint.hints[hintKey][None]:
-                        # add all feature checks if requested
-                        if arg == "feature-checks":
-                            all_feature_checks[bool(hintKey=='use')] = True
-                            target.extend(self.depsitems_from_envchecks(hint.node.get('line',-1), metaHint==metaLoad))
-                        # turn the HintArgument into a DependencyItem
-                        else:
-                            sig = arg.split('#',1)
-                            className = sig[0]
-                            attrName  = sig[1] if len(sig)>1 else ''
-                            target.append(DependencyItem(className, attrName, self.id, hint.node.get('line',-1)))
-
-        return load, run, metaIgnore, all_feature_checks
-
-
-    ##
-    # Turn all feature classes into depsItems.
-    #
-    def depsitems_from_envchecks(self, nodeline, inLoadContext):
-        result = []
-        qcEnvClass = ClassesAll['qx.core.Environment']
-        for key in qcEnvClass.checksMap:
-            clsname, clsattribute = qcEnvClass.classNameFromEnvKey(key)
-            result.append(DependencyItem(clsname, clsattribute, self.id, nodeline, inLoadContext))
-        return result
 
 
     ##

@@ -300,7 +300,6 @@ class DependencyLoader(object):
             if dep.name not in ignored_names:
                 self._console.warn("%s (%s): Unknown global symbol used: %s" % (dep.requestor, dep.line, dep.assembled()))
 
-
         return result
 
 
