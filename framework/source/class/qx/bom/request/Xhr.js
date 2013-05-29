@@ -61,7 +61,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
   extend: Object,
 
   construct: function() {
-    this.__onNativeReadyStateChangeBound = qx.Bootstrap.bind(this.__onNativeReadyStateChange, this);
+    var boundFunc = qx.Bootstrap.bind(this.__onNativeReadyStateChange, this);
+    this.__onNativeReadyStateChangeBound = qx.event.GlobalError.observeMethod(boundFunc);
+
     this.__onNativeAbortBound = qx.Bootstrap.bind(this.__onNativeAbort, this);
     this.__onTimeoutBound = qx.Bootstrap.bind(this.__onTimeout, this);
 

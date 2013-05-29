@@ -48,7 +48,8 @@ qx.Class.define("qx.bom.NativeHistory",
     {
       if (qx.bom.History.SUPPORTS_HASH_CHANGE_EVENT)
       {
-        this.__checkOnHashChange = qx.lang.Function.bind(this.__onHashChange, this);
+        var boundFunc = qx.lang.Function.bind(this.__onHashChange, this);
+        this.__checkOnHashChange = qx.event.GlobalError.observeMethod(boundFunc);
         qx.bom.Event.addNativeListener(window, "hashchange", this.__checkOnHashChange);
       }
       else
