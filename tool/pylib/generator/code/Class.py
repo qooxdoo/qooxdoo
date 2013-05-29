@@ -117,10 +117,12 @@ class Class(Resource, MClassHints, MClassI18N, MClassDependencies, MClassCode, M
     def _getClassCache(self):
         cache = self.context['cache']
         classInfo, modTime = cache.read(self.cacheId, self.path, memory=True)
+        if self.writeCond():
+            print "\nReading %s " % self.cacheId , 
         if classInfo:
             if self.writeCond():
-                print "\nReading %s (keys: %s)" % (self.cacheId, 
-                    ["%s:%s" % (i,self.foo(classInfo[i][1]) if len(classInfo[i])>1 else "-") for i in classInfo])
+                print "(keys: %s)" % ( 
+                    ["%s:%s" % (i,self.foo(classInfo[i][1]) if (type(classInfo[i])==tuple and len(classInfo[i])>1) else "-") for i in classInfo])
                 for k in classInfo.keys():
                     if k.startswith("deps-"):
                         data = classInfo[k][0]['load']
@@ -128,14 +130,15 @@ class Class(Resource, MClassHints, MClassI18N, MClassDependencies, MClassCode, M
                         print "len:", len(data)
             return classInfo, modTime
         else:
+            if self.writeCond():
+                print "()"
             return {}, None
  
     def _writeClassCache(self, classInfo):
         cache = self.context['cache']
         if self.writeCond():
-            import time
             print "\nWriting %s (keys: %s)" % (self.cacheId, 
-                ["%s:%s" % (i,self.foo(classInfo[i][1]) if len(classInfo[i])>1 else "-") for i in classInfo])
+                ["%s:%s" % (i,self.foo(classInfo[i][1]) if (type(classInfo[i])==tuple and len(classInfo[i])>1) else "-") for i in classInfo])
             for k in classInfo.keys():
                 if k.startswith("deps-"):
                     data = classInfo[k][0]['load']
