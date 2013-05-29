@@ -73,7 +73,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
 
     qx.core.ObjectRegistry.register(this);
 
-    this.__requestHeaders = [];
+    this.__requestHeaders = {};
     this.__parser = this._createResponseParser();
   },
 
