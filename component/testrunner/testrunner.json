@@ -27,7 +27,9 @@
 
   "config-warnings" :
   {
-    "environment" : [ "non-literal-keys" ]
+    "environment" : [ "non-literal-keys" ],
+    "job-shadowing" : [
+    ]
   },
 
   "jobs" :

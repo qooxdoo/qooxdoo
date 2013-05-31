@@ -64,6 +64,7 @@
       "testrunner::build-basic",
       "testrunner::source-basic",
       "portable::build-script",
+      "libraries",
       "translation"
     ],
 
