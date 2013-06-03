@@ -27,7 +27,9 @@
 ##
 
 import sys, os, re, types
-import urllib, shutil
+import urllib, shutil, hashlib
+from zipfile import ZipFile
+import tarfile
 from Wget import Wget
 from HTMLParser import HTMLParser
 from misc import json, filetool
@@ -127,7 +129,17 @@ class ContribLoader(object):
         rc = dloader.wget(url, os.path.join(contrib_cache,contrib), {'recursive':True})
         return rc
 
-    def archive_download(self, url, contrib_cache, contrib):
+    def copy_and_hash(self, fp1, fp2, length=16*1024):  # length from shutil.py#copyfileobj
+        hashobj = hashlib.sha1()
+        while 1:
+            buf = fp1.read(length)
+            if not buf:
+                break
+            hashobj.update(buf)
+            fp2.write(buf)
+        return hashobj
+
+    def archive_download(self, url, contrib_cache, contrib, checksum):
         rc = 0
         # Download
         arcfile = os.path.join(contrib_cache, contrib, os.path.basename(url))
@@ -137,18 +149,17 @@ class ContribLoader(object):
         #(fname, urlinfo) = urllib.urlretrieve(url, arcfile)
         urlobj = urllib.urlopen(url)
         assert urlobj.getcode() == 200, "Could not the download contrib archive: %s" % url
-        shutil.copyfileobj(urlobj.fp, tfp)
+        hashobj = self.copy_and_hash(urlobj.fp, tfp)
+        assert hashobj.hexdigest()==checksum, "Checksum of archive does not validate (should be: %s): %s" % (checksum, arcfile)
         urlobj.close()
         tfp.close()
 
         # Extract
         if url.endswith('.zip'):
-            from zipfile import ZipFile
             zipf = ZipFile(arcfile, 'r')
             zipf.extractall(tdir)
             zipf.close()
         else: # .tar, .tgz(?), .tar.gz, .tar.bz2
-            import tarfile
             tar = tarfile.open(arcfile)
             tar.extractall(tdir)
             tar.close
@@ -195,7 +206,7 @@ class ContribLoader(object):
         # download data
         if download_url.endswith(tuple(".zip .tar.gz .tgz".split())):
             # do archive download and unpack
-            rc = self.archive_download(download_url, contrib_cache, contrib)
+            rc = self.archive_download(download_url, contrib_cache, contrib, ext_rev)
         elif sf_svn_server in download_url:
             # spider - only for sourceforge SVN!
             rc = self.sf_spider(download_url, contrib_cache, contrib)
