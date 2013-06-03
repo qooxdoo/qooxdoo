@@ -28,18 +28,22 @@
 
 import sys, os, re, types
 import urllib, shutil
-import optparse, misc
 from Wget import Wget
 from HTMLParser import HTMLParser
+from misc import json, filetool
+from misc.ExtMap import ExtMap
 
-# -- Defaults -----
+# -- Defaults ------------------------------------------------------------------
 
+# Allura SVN URL scheme - sample url:
+# http://svn.code.sf.net/p/qooxdoo-contrib/code/trunk/qooxdoo-contrib/UploadWidget/trunk/
+# - Wget cannot handle HTTPS currently
+sf_svn_server = 'svn.code.sf.net'
+svn_url_schema = 'http://%s/p/%%(project)s/code/trunk/%%(project)s/%%(cName)s/%%(cBranch)s/' % sf_svn_server
 project = 'qooxdoo-contrib'
-# Allura SVN URL scheme
-# sample url: http://svn.code.sf.net/p/dosbox/code-0/dosbox/trunk/src/lib/ - Wget cannot handle HTTPS currently
-svn_url_schema = 'http://svn.code.sf.net/p/%(project)s/code/trunk/%(project)s/%(cName)s/%(cBranch)s/'
+catalog_url_schema = 'https://github.com/qooxdoo/contrib-catalog/raw/master/%(cName)s/%(cBranch)s/Manifest.json'
 
-# -----------------
+# -- Defaults-end --------------------------------------------------------------
 
 ##
 # This is to parse Allura's view code HTML interface, to extract a dir revision from
@@ -78,16 +82,17 @@ class AlluraSVNView(HTMLParser):
 #
 class ContribLoader(object):
 
-    def __init__(self, proj=project, uschema=svn_url_schema):
+    def __init__(self, proj=project, uschema=svn_url_schema, cschema=catalog_url_schema):
         self.project = proj
         self.svn_url_schema = uschema
+        self.catalog_url_schema = cschema
 
-    #def getRevision(self, contribName, contribBranch):
+    #def get_sf_revision(self, contribName, contribBranch):
     #    svnView = AlluraSVNView()
     #    rev = svnView.get_revision(html, contribName, contribBranch)
     #    return rev
 
-    def getRevision(self, cName, cBranch):
+    def get_sf_revision(self, cName, cBranch):
         cUrl =  self.svn_url_schema % {
                     'project' : self.project, 
                     'cName' : cName,
@@ -105,43 +110,97 @@ class ContribLoader(object):
             return mo.group(1)
         return ''
 
+    def catalogLookup(self, cName, cBranch):
+        url = self.catalog_url_schema % {
+            'project' : self.project,
+            'cName'   : cName,
+            'cBranch' : cBranch
+        }
+        urlobj = urllib.urlopen(url) # urllib does handle https
+        assert urlobj.getcode() == 200, "Could not access the contrib catalog URL: %s" % url
+        manifest = urlobj.read()
+        manifest = ExtMap(json.loads(manifest))
+        return manifest
 
+    def sf_spider(self, url, contrib_cache, contrib):
+        dloader = Wget()
+        rc = dloader.wget(url, os.path.join(contrib_cache,contrib), {'recursive':True})
+        return rc
+
+    def archive_download(self, url, contrib_cache, contrib):
+        rc = 0
+        # Download
+        arcfile = os.path.join(contrib_cache, contrib, os.path.basename(url))
+        tdir = os.path.dirname(arcfile)
+        filetool.directory(tdir)
+        tfp = open(arcfile, "wb")
+        #(fname, urlinfo) = urllib.urlretrieve(url, arcfile)
+        urlobj = urllib.urlopen(url)
+        assert urlobj.getcode() == 200, "Could not the download contrib archive: %s" % url
+        shutil.copyfileobj(urlobj.fp, tfp)
+        urlobj.close()
+        tfp.close()
+
+        # Extract
+        if url.endswith('.zip'):
+            from zipfile import ZipFile
+            zipf = ZipFile(arcfile, 'r')
+            zipf.extractall(tdir)
+            zipf.close()
+        else: # .tar, .tgz(?), .tar.gz, .tar.bz2
+            import tarfile
+            tar = tarfile.open(arcfile)
+            tar.extractall(tdir)
+            tar.close
+
+        # Eliminate archive top-dir
+        _, archive_dirs, _ = os.walk(tdir).next()
+        assert archive_dirs, "The downloaded archive is not in single top-dir format: %s" % arcfile
+        archive_top = os.path.join(tdir, archive_dirs[0]) # just take the first dir entry
+        for item in os.listdir(archive_top):
+            shutil.move(os.path.join(archive_top, item), tdir)
+        os.rmdir(archive_top)
+        os.unlink(arcfile)
+
+        return rc
 
     def download(self, contrib, contrib_cache):
-
         cName, cBranch = contrib.split('/',1)
-        # get external revision nr
-        externalRevision = ""
-        if True:  # enable version check since sf.net ViewVC is back again (20aug08)
-            try:
-                externalRevision = self.getRevision(cName, cBranch)
-            except IOError:
-                print >> sys.stderr, "Could not connect to the internet."
-                return (False, -1)
-            if not externalRevision:
-                print >> sys.stderr, "Could not determine current revision of \"%s\"" % contrib
-                return (False, -1)
 
-        # get local revision nr
+        # catalog lookup
+        manifestObj = self.catalogLookup(cName, cBranch)
+        download_url = manifestObj.get("info/download")
+
+        # get local revision
         revisionFile = os.path.join(contrib_cache.replace("\ ", " "), contrib, "revision.txt")
         if os.path.exists(revisionFile):
-            rev = open(revisionFile).readline()
-            if rev == externalRevision: # we're up-to-date
-                return (False, rev)
-            else: # clear for download
-                shutil.rmtree(os.path.dirname(revisionFile))
+            loc_rev = open(revisionFile).readline()
+        else:
+            loc_rev = ''
 
-        dloader = Wget()
-        #url = "http://qooxdoo-contrib.svn.sourceforge.net/svnroot/qooxdoo-contrib/trunk/qooxdoo-contrib/%s/" % contrib  # Wget cannot currently handle 'https' scheme
-        url =  self.svn_url_schema % {
-                    'project' : self.project, 
-                    'cName' : cName,
-                    'cBranch' : cBranch
-                    }
-        dloader.wget(url, os.path.join(contrib_cache,contrib), {'recursive':True})
+        # get external revision
+        if sf_svn_server in download_url:
+            ext_rev = self.get_sf_revision(cName, cBranch)
+        else:
+            ext_rev = manifestObj.get("info/checksum", "")
+        if not ext_rev:
+            print >> sys.stderr, "Could not determine current revision of \"%s\"; forcing download" % contrib
 
-        # store new revision nr
-        open(revisionFile, "w").write(externalRevision)
-        return (True, externalRevision)
+        # test freshness
+        if loc_rev and loc_rev == ext_rev: # we're up-to-date
+            return (False, loc_rev)
+        else: # clear for download
+            shutil.rmtree(os.path.dirname(revisionFile), ignore_errors=True)
 
+        # download data
+        if download_url.endswith(tuple(".zip .tar.gz .tgz".split())):
+            # do archive download and unpack
+            rc = self.archive_download(download_url, contrib_cache, contrib)
+        elif sf_svn_server in download_url:
+            # spider - only for sourceforge SVN!
+            rc = self.sf_spider(download_url, contrib_cache, contrib)
 
+        # store new revision
+        open(revisionFile, "w").write(ext_rev)
+
+        return (True, ext_rev)
