@@ -44,9 +44,9 @@ The handler also manages the focus state of the top-level window. It fires the `
 Text Selection
 ==============
 
-Focus handling in qooxdoo also solves a lot of related issues. For example the whole support for unelectable text is done with the focus handler as well. Normally all text content on a page is selectable (with some exceptions like native form buttons etc.). In a typical GUI or during drag&drop sessions it is highly needed to stop the user from being able to select any text. 
+Focus handling in qooxdoo also solves a lot of related issues. For example the whole support for unselectable text is done with the focus handler as well. Normally all text content on a page is selectable (with some exceptions like native form buttons etc.). In a typical GUI or during drag&drop sessions it is highly needed to stop the user from being able to select any text.
 
-The only thing needed for the focus handler here is to add an attribute ``qxSelectable`` with the value ``off`` to the node which should not be selectable. I don't know about a way which is easier to solve this need. 
+The only thing needed for the focus handler here is to add an attribute ``qxSelectable`` with the value ``off`` to the node which should not be selectable. I don't know about a way which is easier to solve this need.
 
 Behind the scenes qooxdoo dynamically applies styles like ``user-select`` or attributes like ``unselectable``. There are a lot of bugs in the browser when keeping these attributes or styles statically applied to the nodes so they are applied as needed dynamically which works surprisingly well. In Internet Explorer the handler stops the event ``selectstart`` for the affected elements.
 
@@ -55,7 +55,7 @@ Behind the scenes qooxdoo dynamically applies styles like ``user-select`` or att
 Prevent Defaults
 ================
 
-One thing we needed especially for the widget system, which is built on top, was support for preventing a widget or in this case a DOM node from being able to get the focus. This sounds simpler at first than it is. The major issue is to also keep the focus where it is while clicking somewhere else. 
+One thing we needed especially for the widget system, which is built on top, was support for preventing a widget or in this case a DOM node from being able to get the focus. This sounds simpler at first than it is. The major issue is to also keep the focus where it is while clicking somewhere else.
 
 This is especially interesting when working with a text selection. Unfortunately in a browser the selection could only be where the focus is. This is a major issue when trying to apply any change to the currently selected text like needed for most kinds of editors (like a rich text editor used by a mail application for example). The type of fix we apply in qooxdoo is not to allow the browser to focus a specific DOM node e.g. the "Bold" button of the text editor. This makes it easy to add listeners to the button which work with the still existing selection of the editor field. The feature could be applied easily to a DOM node like such a button just through an attribute ``qxKeepFocus`` with the value ``on``. It affects all children of the element as well, as long as these do not define anything else.
 
