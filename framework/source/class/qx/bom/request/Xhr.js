@@ -40,6 +40,8 @@
  * </div>
  *
  * @ignore(XDomainRequest)
+ * @ignore(qx.event.GlobalError.*)
+ *
  * @require(qx.bom.request.Xhr#open)
  * @require(qx.bom.request.Xhr#send)
  * @require(qx.bom.request.Xhr#on)
@@ -62,7 +64,14 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
   construct: function() {
     var boundFunc = qx.Bootstrap.bind(this.__onNativeReadyStateChange, this);
-    this.__onNativeReadyStateChangeBound = qx.event.GlobalError.observeMethod(boundFunc);
+
+    // GlobalError shouldn't be included in qx.Website builds so use it
+    // if it's available but otherwise ignore it (see ignore stated above).
+    if (qx.event && qx.event.GlobalError && qx.event.GlobalError.observeMethod) {
+      this.__onNativeReadyStateChangeBound = qx.event.GlobalError.observeMethod(boundFunc);
+    } else {
+      this.__onNativeReadyStateChangeBound = boundFunc;
+    }
 
     this.__onNativeAbortBound = qx.Bootstrap.bind(this.__onNativeAbort, this);
     this.__onTimeoutBound = qx.Bootstrap.bind(this.__onTimeout, this);
