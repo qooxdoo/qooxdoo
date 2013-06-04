@@ -150,7 +150,7 @@ class DependencyLoader(object):
             classObj = self._classesObj[depsItem.name] # get class from depsItem - throws KeyError
             deps, cached = classObj.getCombinedDeps(self._classesObj, variants, self._jobconf)
             # lint-check
-            if lint_check and is_app_code(classObj):
+            if lint_check and is_app_code(classObj): # opt: and not cached
                 warns = classObj.lint_warnings(lint_opts)
                 for warn in warns:
                     self._console.warn("%s (%d, %d): %s" % (classObj.id, warn.line, warn.column, 
