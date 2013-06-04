@@ -36,13 +36,14 @@ Features
 * :doc:`Theming via CSS and SCSS <theming>`
 * iOS theme
 * Android theme
-* Indigo theme
+* Custom theme
 * Touch events: touchstart, touchmove, touchend, touchcancel 
 * Gesture events: swipe, tap
 * Animations between pages
 * Touch event emulation for debugging in desktop browsers
 * Fixed toolbars and momentum scrolling via `iScroll <http://cubiq.org/iscroll>`_
 * Basic `PhoneGap <http://www.phonegap.com/>`_ support
+* Support for high-resolution displays ("Retina display support")
 
 
 .. _pages/mobile_overview#api:
@@ -83,6 +84,9 @@ The following environment keys are available:
   Enable this option if you want to debug the application in your desktop browser.
 * ``qx.mobile.nativescroll: true|false`` - Whether to use native scrolling or
   `iScroll <http://cubiq.org/iscroll>`_ for scrolling.
+* ``device.pixelRatio: Number`` - the ratio between physical pixels and device-independent pixels (dips) on the device.
+* ``device.type: String`` - Determines on what type of device the application is running. Valid values are: “mobile”, “tablet” or “desktop”.
+
 
 Differences to Desktop Widgets
 ==============================
