@@ -356,7 +356,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
 
       // if we should keep a frame
       var keep = desc.keep;
-      if (keep != undefined) {
+      if (keep != undefined && !handle.stopped) {
         if (handle.reverse || (desc.alternate && desc.repeat && desc.repeat % 2 == 0)) {
           keep = 100 - keep;
         }
