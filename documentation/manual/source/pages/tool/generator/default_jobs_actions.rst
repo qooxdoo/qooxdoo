@@ -451,7 +451,7 @@ translation
 -----------
 Create .po files for the current library.
 
-.. _pages/tool/generator/generator_default_jobs#watch:
+.. _pages/tool/generator/generator_default_jobs#validate-config:
 
 validate-config
 ---------------
@@ -463,13 +463,19 @@ This job helps especially with nested config keys, where a misconfiguration
 might be silently disregarded by the Generator which eventually leads to
 unexpected behaviour.
 
+.. _pages/tool/generator/default_jobs_actions#validate-manifest:
+
 validate-manifest
 -----------------
 Validates the *Manifest.json* against a schema.
 
-The *Manifest.json* contains meta information only, so not adhering to the schema
-has no consequences. However we might programmatically use the provided
-information in the future.
+Some entries in :doc:`Manifest </pages/tool/sdk/manifest>` files are
+informational and therefore optional, others are required to successfully use
+the current library with the Generator. The job is especially helpful for
+developers of :doc:`contributions </pages/development/contrib>`, as those
+require some extra keys.
+
+.. _pages/tool/generator/default_jobs_actions#watch:
 
 watch
 -----------
@@ -492,7 +498,7 @@ check interval is configurable. There are technological alternatives that hook
 into OS kernel events, but these approaches come with a certain overhead and are
 more difficult to maintain cross-platform.
 
-.. _pages/tool/generator/generator_default_jobs#watch-scss:
+.. _pages/tool/generator/default_jobs_actions#watch-scss:
 
 watch-scss
 -----------

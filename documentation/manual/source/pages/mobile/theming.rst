@@ -46,7 +46,7 @@ Watching SCSS files with qooxdoo's built-in SCSS compiler
 
 Layout design through CSS is typically done by experimentation. You often change a stylesheet and reload the corresponding application to see the effect. Using SCSS you would need to compile the SCSS file after each change of your stylesheet files.
 
-To automatically compile the SCSS files on change/save, you can use the generator :ref:`watch-scss <pages/tool/generator/generator_default_jobs#watch-scss>` job: 
+To automatically compile the SCSS files on change/save, you can use the generator :ref:`watch-scss <pages/tool/generator/default_jobs_actions#watch-scss>` job: 
 
 ::
 

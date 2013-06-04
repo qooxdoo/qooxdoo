@@ -98,6 +98,15 @@ Documenting Code
    development/api_jsdoc_ref
    development/api_jsdoc_at_ignore
 
+Contributions
+==============
+
+.. toctree::
+   :maxdepth: 2
+
+   development/contrib
+
+
 Miscellaneous
 =============
 
