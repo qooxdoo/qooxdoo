@@ -20,7 +20,7 @@
  * This modules eases the communication with a RESTful web service by providing
  * a client-side wrapper of a REST resource.
  *
- * See {@link Resource}.
+ * See {@link qx.bom.rest.Resource}.
  */
 qx.Bootstrap.define("qx.module.Rest", {
   statics :
