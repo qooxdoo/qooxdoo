@@ -217,7 +217,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     
     /**
      * Getter for the Detail Container
-     * @return {qx.ui.mobile.container.Composite} The Metail Container.
+     * @return {qx.ui.mobile.container.Composite} The Detail Container.
      */
     getDetailContainer : function() {
       return this.__detailContainer;
