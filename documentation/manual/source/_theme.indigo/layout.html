@@ -93,6 +93,18 @@
 {%- block extrahead %}
     <link rel="shortcut icon" href="http://resources.qooxdoo.org/images/qx-favicon.png" />
     <script type="text/javascript">
+      // decorate jQuery.getQueryParameters to always process search words
+      // as *lower case* due to a bug in sphinx (see qooxdoo BUG #7292) -
+      // this ensures that for example "FILENAME" and "filename" produces
+      // the same amount of results.
+      var originalGetQueryParameters = jQuery.getQueryParameters;
+      jQuery.getQueryParameters = function(s) {
+        var result = originalGetQueryParameters(s);
+        if (result.q) { result.q = [result.q[0].toLowerCase()]; }
+        return result;
+      };
+    </script>
+    <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-415440-1']);
       _gaq.push(['_setDomainName', 'qooxdoo.org']);
