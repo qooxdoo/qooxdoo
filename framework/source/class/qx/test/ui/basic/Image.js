@@ -79,13 +79,21 @@ qx.Class.define("qx.test.ui.basic.Image",
       this.getRoot().add(image);
       this.flush();
 
-      var tagName = image.getContentElement().getNodeName();
+      var contentElement = image.getContentElement();
+      if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
+        contentElement = contentElement.getChildren()[0];
+      }
+      var tagName = contentElement.getNodeName();
       this.assertTrue(tagName == "img");
 
       image.setSource("qx/icon/Tango/48/places/folder.png");
       this.flush();
 
-      var tagNameAfter = image.getContentElement().getNodeName();
+      contentElement = image.getContentElement();
+      if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
+        contentElement = contentElement.getChildren()[0];
+      }
+      var tagNameAfter = contentElement.getNodeName();
       if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
         this.assertTrue(tagNameAfter == "div");
       } else {
@@ -104,14 +112,22 @@ qx.Class.define("qx.test.ui.basic.Image",
       image.set({ width: 100, height: 100 });
       this.flush();
 
-      var width = image.getContentElement().getStyle("width");
-      var height = image.getContentElement().getStyle("height");
+      var contentElement = image.getContentElement();
+      if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
+        contentElement = contentElement.getChildren()[0];
+      }
+      var width = contentElement.getStyle("width");
+      var height = contentElement.getStyle("height");
 
       image.setScale(true);
       this.flush();
 
-      this.assertEquals(image.getContentElement().getStyle("width"), width);
-      this.assertEquals(image.getContentElement().getStyle("height"), height);
+      contentElement = image.getContentElement();
+      if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
+        contentElement = contentElement.getChildren()[0];
+      }
+      this.assertEquals(parseInt(contentElement.getStyle("width")), parseInt(width));
+      this.assertEquals(parseInt(contentElement.getStyle("height")), parseInt(height));
 
       image.destroy();
     },
