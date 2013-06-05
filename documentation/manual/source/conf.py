@@ -133,7 +133,7 @@ html_theme = '_theme.indigo'
 
 # A dict passed to the HTML templating engine (like {% set ... *})
 html_context = {
-  "version" : qxmacros["version"],  
+  "version" : qxmacros["version"],
 }
 
 # Theme options are theme-specific and customize the look and feel of a theme
@@ -252,7 +252,7 @@ qxcomponents = 'all'
 def setup(app):
     app.connect('source-read', qxmacro_resolve)
     app.add_config_value('qxcomponents', 'all', 'env')
-    
+
 ##
 # qooxdoo macro extension
 import string
@@ -264,3 +264,15 @@ def qxmacro_resolve(app, docname, source):
     templ     = MyTemplate(source[0])
     source[0] = templ.safe_substitute(qxmacros)
 
+
+# -- Custom processing ---------------------------------------------------------
+
+##
+# qooxdoo sphinx index file augmentation
+#
+# overwrite word regex to also pick up words such as "qx.util.ColorUtil" or "watch-files"
+# when feeding the index for the later client side search (BUG #7292)
+import re
+from sphinx.search import SearchLanguage
+if hasattr(SearchLanguage, '_word_re'):
+  SearchLanguage._word_re = re.compile(r'[a-zA-Z0-9_.-]+\w(?u)')
