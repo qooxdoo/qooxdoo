@@ -43,7 +43,7 @@ from misc.ExtMap import ExtMap
 sf_svn_server = 'svn.code.sf.net'
 svn_url_schema = 'http://%s/p/%%(project)s/code/trunk/%%(project)s/%%(cName)s/%%(cBranch)s/' % sf_svn_server
 project = 'qooxdoo-contrib'
-catalog_url_schema = 'https://github.com/qooxdoo/contrib-catalog/raw/master/%(cName)s/%(cBranch)s/Manifest.json'
+catalog_url_schema = 'https://github.com/qooxdoo/contrib-catalog/raw/master/contributions/%(cName)s/%(cBranch)s/Manifest.json'
 
 # -- Defaults-end --------------------------------------------------------------
 
