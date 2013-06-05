@@ -63,7 +63,6 @@ Tutorials
    tool/tutorial_basics
 
 .. tool/generator/generator_config_howto
-.. :download:`Generator Cheat Sheet (PDF) <pages/tool/generator/generator_cheat_sheet_1.0.0-1.pdf>`
 
 .. _pages/tool#references:
 
