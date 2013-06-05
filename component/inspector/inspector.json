@@ -7,9 +7,9 @@
     "QOOXDOO_PATH" : "../..",
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "THEME"        : "inspector.theme.Theme",
-    "ICONTHEME"    : ["Tango"],    
+    "ICONTHEME"    : ["Tango"],
     "INSPECTOR_ROOT"  : ".",
-    "INSPECTOR_PATH"   : "${ROOT}/build",    
+    "INSPECTOR_PATH"   : "${ROOT}/build",
     "OPTIMIZE"     : ["basecalls", "variables", "privates", "strings", "whitespace"]
   },
 
@@ -58,14 +58,14 @@
         "qx.application" : "inspector.Application",
         "inspector.selenium.core" : "http://selenium.googlecode.com/svn/tags/selenium-core/REL-1.0.1/src/main/resources/"
       },
-      
+
       "asset-let" :
       {
         "qx.icontheme" : "${ICONTHEME}"
       }
     },
 
-    
+
     // -- build jobs ---------------------------------------------------
 
     "build-script" :
@@ -99,7 +99,7 @@
           "except"   : []
         }
       },
-      
+
       "compile" : { "type" : "build" }
     },
 
@@ -121,8 +121,8 @@
         "source" : "${INSPECTOR_ROOT}/source"
       }
     },
-    
-    
+
+
     "build-files-simulator" :
     {
       "desc"    : "copy the user extensions file from the simulator component to build dir",
@@ -167,10 +167,18 @@
         "build-files",
         "build-files-simulator"
       ],
-      
+
       "environment" :
       {
         "inspector.selenium.extensions" : "script/user-extensions.js"
+      }
+    },
+
+    "source" :
+    {
+      "environment" :
+      {
+        "inspector.selenium.extensions" : null
       }
     }
   }
