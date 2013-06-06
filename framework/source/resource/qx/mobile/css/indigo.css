@@ -350,9 +350,9 @@ h2 {
   height: 100%;
   left: 0;
   top: 0;
-  opacity: 0.7;
   color: black;
-  background-color: #818181; }
+  background-color: rgba(0, 0, 0, 0.3);
+  -webkit-backface-visibility: hidden; }
 
 .standard-button, .button, .navigationbar-button, .navigationbar-backbutton, .toolbar-button {
   -webkit-border-radius: 4px;

@@ -528,7 +528,6 @@ $arrow-size: 12px;
   -webkit-font-smoothing: antialiased;
 
   @include transform(rotate(-45deg));
-
   @include box-shadow(-1px 1px 1px 0px $checkbox-tick-color);
 }
 
