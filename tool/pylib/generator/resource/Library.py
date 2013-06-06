@@ -65,7 +65,7 @@ class Library(object):
     def _init_from_manifest(self):
 
         # check contrib:// URI
-        if self.manipath.startswith("contrib://"):
+        if self.manipath.startswith(("contrib://", "http://", "https://")):
             newmanipath = self._download_contrib(self.manipath)
             if not newmanipath:
                 raise RuntimeError("Unable to get contribution from internet: %s" % self.manipath)
@@ -111,29 +111,23 @@ class Library(object):
 
 
     def _download_contrib(self, contribUri):
-        manifest = contribUri.replace("contrib://", "")
-        contrib  = os.path.dirname(manifest)
-        manifile = os.path.basename(manifest)
         cacheMap = context.jobconf.getFeature("cache")
         if cacheMap and 'downloads' in cacheMap:
             contribCachePath = cacheMap['downloads']
             contribCachePath = context.config.absPath(contribCachePath)
         else:
             contribCachePath = "cache-downloads"
-
         self._console.info("Checking network-based contrib: %s" % contribUri)
         self._console.indent()
 
         dloader = ContribLoader()
-        (updatedP, revNo) = dloader.download(contrib, contribCachePath)
+        (updatedP, revNo, manipath) = dloader.download(contribUri, contribCachePath)
 
         if updatedP:
-            self._console.info("downloaded contrib: %s" % contrib)
+            self._console.info("downloaded contrib: %s" % contribUri)
         else:
             self._console.debug("using cached version")
         self._console.outdent()
-
-        manipath = os.path.join(contribCachePath, contrib, manifile)
 
         return manipath
 

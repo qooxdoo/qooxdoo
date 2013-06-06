@@ -629,7 +629,6 @@ class Config(object):
 
 
     def resolveLibs(self, jobs):
-        config  = self.get("jobs")
         console = self._console
 
         console.debug("Resolving libs/manifests...")
@@ -649,7 +648,7 @@ class Config(object):
                         if 'manifest' not in lib:
                             self.raiseConfigError("Attribute 'manifest' is mandatory in config key 'library'")
                         manipath = lib.get('manifest')
-                        if not manipath.startswith("contrib://"):
+                        if not manipath.startswith(("contrib://","http://","https://")):
                             manipath = self.absPath(manipath)
                         libObj = Library(manipath, self._console)  # fresh Library() object; Generator.py handles cached versions
                         libObj.uri = lib.get('uri', None)

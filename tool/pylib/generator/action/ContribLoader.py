@@ -27,7 +27,7 @@
 ##
 
 import sys, os, re, types
-import urllib, shutil, hashlib
+import urllib, shutil, hashlib, urlparse
 from zipfile import ZipFile
 import tarfile
 from Wget import Wget
@@ -43,7 +43,8 @@ from misc.ExtMap import ExtMap
 sf_svn_server = 'svn.code.sf.net'
 svn_url_schema = 'http://%s/p/%%(project)s/code/trunk/%%(project)s/%%(cName)s/%%(cBranch)s/' % sf_svn_server
 project = 'qooxdoo-contrib'
-catalog_url_schema = 'https://github.com/qooxdoo/contrib-catalog/raw/master/contributions/%(cName)s/%(cBranch)s/Manifest.json'
+catalog_url_schema = 'https://github.com/qooxdoo/contrib-catalog/raw/master/contributions/%(cName)s/%(cBranch)s/%(maniFile)s'
+archive_extensions = tuple(".zip .tar.gz .tar.bz2".split())
 
 # -- Defaults-end --------------------------------------------------------------
 
@@ -112,22 +113,31 @@ class ContribLoader(object):
             return mo.group(1)
         return ''
 
-    def catalogLookup(self, cName, cBranch):
-        url = self.catalog_url_schema % {
-            'project' : self.project,
+    def url_from_catalog_schema(self, project, cName, cBranch, maniFile="Manifest.json"):
+        maniUri = self.catalog_url_schema % {
+            'project' : project,
             'cName'   : cName,
-            'cBranch' : cBranch
+            'cBranch' : cBranch,
+            'maniFile': maniFile, 
         }
+        return maniUri
+
+    def manifest_from_url(self, url):
         urlobj = urllib.urlopen(url) # urllib does handle https
         assert urlobj.getcode() == 200, "Could not access the contrib catalog URL: %s" % url
         manifest = urlobj.read()
         manifest = ExtMap(json.loads(manifest))
         return manifest
 
-    def sf_spider(self, url, contrib_cache, contrib):
-        dloader = Wget()
-        rc = dloader.wget(url, os.path.join(contrib_cache,contrib), {'recursive':True})
-        return rc
+    def contrib_from_path(self, path):
+        # ".../foo/bar/baz"
+        cName, cBranch = path.split('/')[-3:-1]
+        return cName, cBranch
+
+    def contrib_from_manifest(self, maniObj):
+        cName = maniObj.get("info/name",'')
+        cBranch = maniObj.get("info/version",'')
+        return cName, cBranch
 
     def copy_and_hash(self, fp1, fp2, length=16*1024):  # length from shutil.py#copyfileobj
         hashobj = hashlib.sha1()
@@ -139,10 +149,34 @@ class ContribLoader(object):
             fp2.write(buf)
         return hashobj
 
-    def archive_download(self, url, contrib_cache, contrib, checksum):
+    def get_local_rev(self, contrib, cache_root):
+        revisionFile = os.path.join(cache_root.replace("\ ", " "), contrib, "revision.txt")
+        if os.path.exists(revisionFile):
+            loc_rev = open(revisionFile).readline()
+        else:
+            loc_rev = ''
+        return loc_rev
+
+    def update_local_rev(self, contrib, contrib_cache, rev):
+        revisionFile = os.path.join(contrib_cache.replace("\ ", " "), contrib, "revision.txt")
+        open(revisionFile, "w").write(rev)
+
+    def needs_update(self, loc_rev, ext_rev, cache_path):
+        if loc_rev and loc_rev == ext_rev: # we're up-to-date
+            return (False, loc_rev)
+        else: # clear for download
+            shutil.rmtree(cache_path, ignore_errors=True)
+            return (True, ext_rev)
+        
+    def sf_spider(self, url, cache_path):
+        dloader = Wget()
+        rc = dloader.wget(url, cache_path, {'recursive':True})
+        return rc
+
+    def archive_download(self, url, cache_path, checksum):
         rc = 0
         # Download
-        arcfile = os.path.join(contrib_cache, contrib, os.path.basename(url))
+        arcfile = os.path.join(cache_path, os.path.basename(url))
         tdir = os.path.dirname(arcfile)
         filetool.directory(tdir)
         tfp = open(arcfile, "wb")
@@ -175,43 +209,91 @@ class ContribLoader(object):
 
         return rc
 
-    def download(self, contrib, contrib_cache):
-        cName, cBranch = contrib.split('/',1)
-
-        # catalog lookup
-        manifestObj = self.catalogLookup(cName, cBranch)
-        download_url = manifestObj.get("info/download")
-
+    def download_sf(self, download_url, cache_root):
+        url_part = urlparse.urlparse(download_url)
+        # use the last url path directories for contrib and version
+        cName, cBranch = self.contrib_from_path(url_part.path)
+        contrib = os.path.join(cName, cBranch)
+        contrib_cache = os.path.join(cache_root, contrib)
         # get local revision
-        revisionFile = os.path.join(contrib_cache.replace("\ ", " "), contrib, "revision.txt")
-        if os.path.exists(revisionFile):
-            loc_rev = open(revisionFile).readline()
-        else:
-            loc_rev = ''
-
+        loc_rev = self.get_local_rev(contrib, cache_root)
         # get external revision
-        if sf_svn_server in download_url:
-            ext_rev = self.get_sf_revision(cName, cBranch)
-        else:
-            ext_rev = manifestObj.get("info/checksum", "")
+        ext_rev = self.get_sf_revision(cName, cBranch)
         if not ext_rev:
             print >> sys.stderr, "Could not determine current revision of \"%s\"; forcing download" % contrib
-
         # test freshness
-        if loc_rev and loc_rev == ext_rev: # we're up-to-date
-            return (False, loc_rev)
-        else: # clear for download
-            shutil.rmtree(os.path.dirname(revisionFile), ignore_errors=True)
+        needs_update = self.needs_update(loc_rev, ext_rev, contrib_cache)
+        if needs_update[0]:
+            # download data
+            rc = self.sf_spider(download_url, contrib_cache)
+            # store new revision
+            self.update_local_rev(contrib, cache_root, ext_rev)
+        return needs_update + (contrib_cache,)
 
-        # download data
-        if download_url.endswith(tuple(".zip .tar.gz .tgz".split())):
-            # do archive download and unpack
-            rc = self.archive_download(download_url, contrib_cache, contrib, ext_rev)
-        elif sf_svn_server in download_url:
-            # spider - only for sourceforge SVN!
-            rc = self.sf_spider(download_url, contrib_cache, contrib)
+    def download_via_catalog(self, manifestUrl, cache_root):
+        manifestObj = self.manifest_from_url(manifestUrl)
+        # download URL
+        download_url = manifestObj.get("info/download")
+        assert download_url, "Catalog Manifest doesn't provide an 'info/download' URL: %s" % manifestUrl
+        # name and version
+        #cName, cBranch = self.contrib_from_manifest(manifestObj)
+        cName, cBranch = self.contrib_from_path(manifestUrl)
+        contrib = "%s/%s" % (cName,cBranch)
+        contrib_cache = os.path.join(cache_root,contrib)
+        assert all((cName,cBranch)), "Need a contribution name and version in Manifest.json: %s" % manifestUrl
 
-        # store new revision
-        open(revisionFile, "w").write(ext_rev)
+        # dispatch by download method (archive or spidering)
+        if sf_svn_server in download_url:
+            res = self.download_sf(download_url, cache_root)
+        else:
+            res = self.download_archive(download_url, cache_root, manifestObj.get("info/checksum",""), contrib)
+        return res + (contrib_cache,)
 
-        return (True, ext_rev)
+    def download_archive(self, download_url, cache_root, ext_rev='', contrib=''):
+        if not contrib:
+            contrib = self.contrib_from_path(download_url)
+        cName, cBranch = contrib.split('/',1)
+        contrib_cache = os.path.join(cache_root, contrib)
+        # local revision
+        loc_rev = self.get_local_rev(contrib, cache_root)
+        # get external revision
+        if not ext_rev:
+            print >> sys.stderr, "Could not determine current revision of \"%s\"; forcing download" % contrib
+        # test freshness
+        needs_update = self.needs_update(loc_rev, ext_rev, contrib_cache)
+        if needs_update[0]:
+            assert download_url.endswith(archive_extensions), \
+                "Unsupported archive format: %s" % download_url
+            # download data
+            rc = self.archive_download(download_url, contrib_cache, ext_rev)
+            # store new revision
+            self.update_local_rev(contrib, cache_root, ext_rev)
+        return needs_update + (contrib_cache,)
+
+    def download(self, contribUri, cache_root):
+        url_part = urlparse.urlparse(contribUri)
+
+        if url_part.scheme in ("http","https"):
+            manifile = "Manifest.json"
+
+            if url_part.path.endswith(".json"):
+                res = self.download_via_catalog(contribUri, cache_root)
+
+            elif url_part.path.endswith(archive_extensions):
+                res = self.download_archive(contribUri, cache_root)
+
+            elif url_part.hostname==sf_svn_server:
+                res = self.download_sf(contribUri, cache_root)
+
+        elif url_part.scheme in ("contrib",):
+
+            cName = url_part.netloc  # ugly, but that's how it is parsed
+            cBranch = (url_part.path.split("/"))[1] # '/0.9/Manifest.json' -> 0.9
+            manifile = os.path.basename(url_part.path)
+            maniUri = self.url_from_catalog_schema(self.project, cName, cBranch, manifile)
+            res = self.download_via_catalog(maniUri, cache_root)
+
+        manipath = os.path.join(res[2],manifile)
+        assert os.path.exists(manipath), "Contribution doesn't contain a Manifest.json: %s" % manipath
+        return res[:2] + (manipath,)
+
