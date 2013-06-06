@@ -1361,9 +1361,9 @@ ul li.active * {
 
 ul li.arrow:after {
   content: '';
-  -webkit-transform: rotate(45deg);
-  -moz-transform: rotate(45deg);
-  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg) translate3d(0, 0, 0);
+  -moz-transform: rotate(45deg) translate3d(0, 0, 0);
+  transform: rotate(45deg) translate3d(0, 0, 0);
   -webkit-transform-origin: 50% 50%;
   -moz-transform-origin: 50% 50%;
   transform-origin: 50% 50%;
@@ -1718,9 +1718,9 @@ ul li.active {
   border: 3.5px solid #658fd4;
   border-top: 0;
   border-right: 0;
-  -webkit-transform: rotate(-45deg);
-  -moz-transform: rotate(-45deg);
-  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg) translate3d(0, 0, 0);
+  -moz-transform: rotate(-45deg) translate3d(0, 0, 0);
+  transform: rotate(-45deg) translate3d(0, 0, 0);
   -webkit-box-shadow: -1px 1px 1px 0px #3d72c9;
   -moz-box-shadow: -1px 1px 1px 0px #3d72c9;
   box-shadow: -1px 1px 1px 0px #3d72c9; }
