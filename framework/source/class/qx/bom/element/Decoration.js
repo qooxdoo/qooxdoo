@@ -285,6 +285,9 @@ qx.Class.define("qx.bom.element.Decoration",
      */
     processAlphaFix : function(style, repeat, source)
     {
+      if (repeat == "repeat" || repeat == "repeat-x" || repeat == "repeat-y") {
+        return style;
+      }
       var sizingMethod = repeat == "no-repeat" ? "crop" : "scale";
       var filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +
                    qx.util.ResourceManager.getInstance().toUri(source) +
