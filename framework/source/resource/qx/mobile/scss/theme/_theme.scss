@@ -198,8 +198,10 @@ ul li.active * {
 
 ul li.arrow:after {
   content:'';
-  @include transform(rotate(45deg) translate3d(0,0,0));
+  @include transform(rotate(45deg));
   @include transform-origin(50% 50%);
+
+  -webkit-font-smoothing: antialiased;
 
   border-top: $list-arrow-size solid $list-arrow-color;
   border-right: $list-arrow-size solid $list-arrow-color;
@@ -522,7 +524,10 @@ $arrow-size: 12px;
   border: 3.5px solid lighten($checkbox-tick-color,10%);
   border-top: 0;
   border-right: 0;
-  @include transform(rotate(-45deg) translate3d(0,0,0));
+
+  -webkit-font-smoothing: antialiased;
+
+  @include transform(rotate(-45deg));
 
   @include box-shadow(-1px 1px 1px 0px $checkbox-tick-color);
 }

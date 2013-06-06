@@ -1361,12 +1361,13 @@ ul li.active * {
 
 ul li.arrow:after {
   content: '';
-  -webkit-transform: rotate(45deg) translate3d(0, 0, 0);
-  -moz-transform: rotate(45deg) translate3d(0, 0, 0);
-  transform: rotate(45deg) translate3d(0, 0, 0);
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  transform: rotate(45deg);
   -webkit-transform-origin: 50% 50%;
   -moz-transform-origin: 50% 50%;
   transform-origin: 50% 50%;
+  -webkit-font-smoothing: antialiased;
   border-top: 3px solid gray;
   border-right: 3px solid gray;
   width: 6px;
@@ -1718,9 +1719,10 @@ ul li.active {
   border: 3.5px solid #658fd4;
   border-top: 0;
   border-right: 0;
-  -webkit-transform: rotate(-45deg) translate3d(0, 0, 0);
-  -moz-transform: rotate(-45deg) translate3d(0, 0, 0);
-  transform: rotate(-45deg) translate3d(0, 0, 0);
+  -webkit-font-smoothing: antialiased;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  transform: rotate(-45deg);
   -webkit-box-shadow: -1px 1px 1px 0px #3d72c9;
   -moz-box-shadow: -1px 1px 1px 0px #3d72c9;
   box-shadow: -1px 1px 1px 0px #3d72c9; }
