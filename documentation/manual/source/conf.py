@@ -243,7 +243,7 @@ latex_elements = {
 #latex_use_modindex = True
 
 
-# -- Custom options ------------------------------------------------------------
+# -- Custom qooxdoo processing ------------------------------------------------
 
 # config vars
 qxcomponents = 'all'
@@ -264,9 +264,6 @@ def qxmacro_resolve(app, docname, source):
     templ     = MyTemplate(source[0])
     source[0] = templ.safe_substitute(qxmacros)
 
-
-# -- Custom processing ---------------------------------------------------------
-
 ##
 # qooxdoo sphinx index file augmentation
 #
@@ -276,7 +273,7 @@ import re
 try:
     from sphinx.search import SearchLanguage
     if hasattr(SearchLanguage, '_word_re'):
-        SearchLanguage._word_re = re.compile(r'[a-zA-Z0-9_.-]+\w(?u)')
+        SearchLanguage._word_re = re.compile(r'[\w.-]+\w', re.UNICODE)
 except ImportError:
     # sphinx <= v1.0.8 has no package 'search'
     pass
