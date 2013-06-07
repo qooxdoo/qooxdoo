@@ -83,8 +83,8 @@ The Catalog - A Github Repo
 The central piece of the contrib infrastructure is the catalog, it is like the
 index of known contributions. To make maintenance of the catalog simple and
 straight-forward, we decided to implement it as a Github repository. It will
-have the same top-level directory structure you might know from the Sourceforge
-%{qooxdoo}-contrib repo, namely
+basically have the same directory structure you might know from the Sourceforge
+%{qooxdoo}-contrib repo. Under a root path
 
 * the *contribution names* are top-level
 * beneath each contribution there is a set of directories with *version names*,
