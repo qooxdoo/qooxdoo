@@ -407,7 +407,20 @@ qx.Class.define("qx.ui.form.Slider",
       var locationProperty = isHorizontal ? "left" : "top";
 
       var cursorLocation = isHorizontal ? e.getDocumentLeft() : e.getDocumentTop();
+
+      var decorator = this.getDecorator();
+      decorator = qx.theme.manager.Decoration.getInstance().resolve(decorator);
+      if (isHorizontal) {
+        var decoratorPadding = decorator ? decorator.getInsets().left : 0;
+        var padding = (this.getPaddingLeft() || 0) + decoratorPadding;
+      } else {
+        var decoratorPadding = decorator ? decorator.getInsets().top : 0;
+        var padding = (this.getPaddingTop() || 0) + decoratorPadding;
+      }
+
       var sliderLocation = this.__sliderLocation = qx.bom.element.Location.get(this.getContentElement().getDomElement())[locationProperty];
+      sliderLocation += padding;
+
       var knobLocation = this.__knobLocation = qx.bom.element.Location.get(knob.getContentElement().getDomElement())[locationProperty];
 
       if (e.getTarget() === knob)
@@ -782,20 +795,11 @@ qx.Class.define("qx.ui.form.Slider",
      */
     _setKnobPosition : function(position)
     {
-      // Use DOM Element
-      var content = this.getChildControl("knob").getContentElement();
-      var decorator = this.getDecorator();
-      decorator = qx.theme.manager.Decoration.getInstance().resolve(decorator);
+      var knob = this.getChildControl("knob");
       if (this.__isHorizontal) {
-        var decoratorPadding = decorator ? decorator.getPadding().left : 0;
-        var padding = (this.getPaddingLeft() || 0) + decoratorPadding;
-        position = position + (padding);
-        content.setStyle("left", position +"px", true);
+        knob.setLayoutProperties({left: position});
       } else {
-        var decoratorPadding = decorator ? decorator.getPadding().top : 0;
-        var padding = (this.getPaddingTop() || 0) + decoratorPadding;
-        position = position + (padding);
-        content.setStyle("top", position+"px", true);
+        knob.setLayoutProperties({top: position});
       }
     },
 
