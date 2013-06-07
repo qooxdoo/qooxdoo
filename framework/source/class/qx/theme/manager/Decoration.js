@@ -114,10 +114,12 @@ qx.Class.define("qx.theme.manager.Decoration",
         if (qx.Bootstrap.isObject(styles[key])) {
           var innerCss = "";
           var innerStyles = styles[key];
+          var inner = false;
           for (var innerKey in innerStyles) {
+            inner = true;
             innerCss += innerKey + ":" + innerStyles[innerKey] + ";";
           }
-          this.__rules.push(selector + key);
+          this.__rules.push(selector + (inner ? ":" : "") + key);
           sheet.addRule(selector + key, innerCss);
           continue;
         }
