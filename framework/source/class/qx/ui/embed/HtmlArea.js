@@ -74,6 +74,10 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     // Wrapper for the Iframe DOM element created by bom.HtmlArea. Needed to
     // prevent the element queue from removing the Iframe.
     var tempElement = new qx.html.Element();
+    tempElement.setStyles({
+      width: "100%",
+      height: "100%"
+    });
     this.getContentElement().add(tempElement);
     this.__addAppearListener();
 
