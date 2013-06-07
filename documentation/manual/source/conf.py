@@ -273,6 +273,10 @@ def qxmacro_resolve(app, docname, source):
 # overwrite word regex to also pick up words such as "qx.util.ColorUtil" or "watch-files"
 # when feeding the index for the later client side search (BUG #7292)
 import re
-from sphinx.search import SearchLanguage
-if hasattr(SearchLanguage, '_word_re'):
-  SearchLanguage._word_re = re.compile(r'[a-zA-Z0-9_.-]+\w(?u)')
+try:
+    from sphinx.search import SearchLanguage
+    if hasattr(SearchLanguage, '_word_re'):
+        SearchLanguage._word_re = re.compile(r'[a-zA-Z0-9_.-]+\w(?u)')
+except ImportError:
+    # sphinx <= v1.0.8 has no package 'search'
+    pass
