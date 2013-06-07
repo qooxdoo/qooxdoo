@@ -83,9 +83,9 @@ the precedence for macros is:
 
 * Macros defined directly in the job have highest priority.
 * Then macros defined in the global "let" section of the enclosing configuration
-file.
+  file.
 * Then macros included in the job definition by incorporating other job
-definitions (e.g. through extending), in the order the jobs are incorporated
-(e.g. are listed in the "extend" key).
+  definitions (e.g. through extending), in the order the jobs are incorporated
+  (e.g. are listed in the "extend" key).
 
 
