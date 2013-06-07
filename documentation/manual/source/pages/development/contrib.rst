@@ -143,11 +143,12 @@ contribution::
 Supported Archive Formats
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The following archive formats are supported:
+The following archive formats/extensions are supported:
 
 * .zip
 * .tar
 * .tar.gz
+* .tgz
 * .tar.bz2
 
 Sourceforge-based Contributions

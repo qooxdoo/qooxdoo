@@ -44,7 +44,7 @@ sf_svn_server = 'svn.code.sf.net'
 svn_url_schema = 'http://%s/p/%%(project)s/code/trunk/%%(project)s/%%(cName)s/%%(cBranch)s/' % sf_svn_server
 project = 'qooxdoo-contrib'
 catalog_url_schema = 'https://github.com/qooxdoo/contrib-catalog/raw/master/contributions/%(cName)s/%(cBranch)s/%(maniFile)s'
-archive_extensions = tuple(".zip .tar.gz .tar.bz2".split())
+archive_extensions = tuple(".zip .tar.gz .tgz .tar.bz2".split())
 
 # -- Defaults-end --------------------------------------------------------------
 
@@ -193,7 +193,7 @@ class ContribLoader(object):
             zipf = ZipFile(arcfile, 'r')
             zipf.extractall(tdir)
             zipf.close()
-        else: # .tar, .tgz(?), .tar.gz, .tar.bz2
+        else: # .tar, .tgz, .tar.gz, .tar.bz2
             tar = tarfile.open(arcfile)
             tar.extractall(tdir)
             tar.close
