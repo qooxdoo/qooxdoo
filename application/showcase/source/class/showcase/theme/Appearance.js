@@ -81,41 +81,14 @@ qx.Theme.define("showcase.theme.Appearance",
 
     "preview-list":
     {
+      alias : "list",
+
       style : function(states)
       {
         return {
           backgroundColor: "#f0f0f0",
           zIndex : 111,
           padding: 0
-        };
-      }
-    },
-
-    "preview-list/scrollbar-x/slider" : "widget",
-    "preview-list/scrollbar-x" : "widget",
-
-    "preview-list/scrollbar-x/button" :
-    {
-      style : function(states)
-      {
-        return {
-          width: 0,
-          height: 0
-        };
-      }
-    },
-
-    "preview-list/scrollbar-x/button-begin" : "preview-list/scrollbar-x/button",
-    "preview-list/scrollbar-x/button-end" : "preview-list/scrollbar-x/button",
-
-    "preview-list/scrollbar-x/slider/knob" :
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "previewlist-scrollbar-knob",
-          opacity: qx.core.Environment.get("engine.name") == "mshtml" ? 1 : (states.hovered ? 0.2 : 0.1),
-          height: 12
         };
       }
     },
