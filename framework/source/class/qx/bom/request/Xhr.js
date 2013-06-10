@@ -414,9 +414,16 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     },
 
     /**
-     * Abort request.
+     * Abort request - i.e. cancels any network activity.
      *
-     * Cancels any network activity.
+     * Note:
+     *  On Windows 7 every browser strangely skips the loading phase
+     *  when this method is called (because readyState never gets 3).
+     *
+     *  So keep this in mind if you rely on the phases which are
+     *  passed through. They will be "opened", "sent", "abort"
+     *  instead of normally "opened", "sent", "loading", "abort".
+     *
      * @return {qx.bom.request.Xhr} Self for chaining.
      */
     abort: function() {
