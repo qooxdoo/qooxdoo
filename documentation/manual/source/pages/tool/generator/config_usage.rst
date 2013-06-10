@@ -52,7 +52,7 @@ Job Definitions
 ----------------
 
 Job definitions are the main "meat" of every configuration. Job definitions make
-use of the basic configuration keys provided the config system, this is how they
+use of the basic configuration keys provided by the config system, this is how they
 achieve their effect.
 
 Jobs can *extend* each other. Think of "extending" as one job inheriting the
@@ -61,17 +61,46 @@ customize them, or "abstract" common properties into jobs that are extended by
 several others.
 
 There are two basic mechanisms of job extension. One is explicit, using the
-"extend" keyword in the job definition. The other is implicit, by defining a job
-in your configuration file that has the same name as a job you are importing
+``extend`` keyword in the job definition. The other is implicit, by defining a job
+in your configuration file that has the *same name* as a job you are importing
 from another file.
 
-In the "extend" key you refer to other jobs by name. The resolution of such
+In the *extend* key you refer to other jobs by name. The resolution of such
 names is done *late*. That means, if you are importing a job "foo" from another
 file, which in turn extends a job "bar" then if you have a local job "bar" this
 one will be used. Otherwise, the job "bar" from the imported file will be used.
 
 Macros
 -------
+
+Macros allow you to define values, and then refer to those values in other
+places of the configuration, by referring to the macro's name. Values can
+basically be any allowed JSON value type (strings, numbers, boolean, ...).
+Macros can only be defined with the
+:ref:`pages/tool/generator/generator_config_ref#let` configuration key. It takes
+a map, the map keys are the macro names, each key's value is the macro value.
+
+To reference a macro, surround it with curly braces and put a ``$`` in front.
+Referencing macros is *always done in string literals* (otherwise you would
+break JSON syntax). If the macro's value is itself a string, this value will be
+interpolated into the string it is referenced. An example::
+
+  "let" : {
+    "foo" : "bar"
+  },
+  "descr" : "This is the ${foo} job"
+
+If the macro has some other value the reference to it must be the only contents
+of the string::
+
+  "let" : {
+    "foo" : true
+  },
+  "compile-options" : {
+    "uris" : {
+      "add-nocache-param" : "${foo}"
+    }
+  }
 
 The resolution of macros is *late*. That means, a job is first expanded as much
 as possible ("extend" and "run" keys resolved), before the macros that are used
