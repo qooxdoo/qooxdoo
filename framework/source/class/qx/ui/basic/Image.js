@@ -378,6 +378,7 @@ qx.Class.define("qx.ui.basic.Image",
 
       if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
         var wrapper = this.__wrapper = new qx.html.Element("div");
+        wrapper.setStyle("position", "absolute");
         wrapper.add(element);
         return wrapper;
       }
