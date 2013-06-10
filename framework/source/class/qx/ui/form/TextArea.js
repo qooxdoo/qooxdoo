@@ -174,7 +174,7 @@ qx.Class.define("qx.ui.form.TextArea",
 
           var scrolledHeight = this._getScrolledAreaHeight();
 
-          // Show scoll-bar when above maxHeight, if defined
+          // Show scroll-bar when above maxHeight, if defined
           if (this.getMaxHeight()) {
             var insets = this.getInsets();
             var innerMaxHeight = -insets.top + this.getMaxHeight() - insets.bottom;
@@ -266,17 +266,27 @@ qx.Class.define("qx.ui.form.TextArea",
 
         // IE >= 8 needs overflow "visible" in order to correctly compute height
         if (qx.core.Environment.get("engine.name") == "mshtml" &&
-          qx.core.Environment.get("browser.documentmode") >= 8) {
+          qx.core.Environment.get("browser.documentmode") == 8) {
           cloneDom.style.overflow = "visible";
         }
 
         // Update value
+        if (qx.core.Environment.get("engine.name") == "mshtml" &&
+            qx.core.Environment.get("browser.documentmode") == 8) {
+          clone.setStyle("lineHeight", this.getValue() ? "normal" : 0);
+        }
         clone.setValue(this.getValue());
+
+        // Force IE > 8 to update size measurements
+        if (qx.core.Environment.get("engine.name") == "mshtml") {
+          clone.getDomElement().offsetHeight;
+        }
 
         // Recompute
         this.__scrollCloneToBottom(clone);
 
-        if (qx.core.Environment.get("engine.name") == "mshtml") {
+        if (qx.core.Environment.get("engine.name") == "mshtml" &&
+            qx.core.Environment.get("browser.documentmode") == 8) {
           // Flush required for scrollTop to return correct value
           // when initial value should be taken into consideration
           if (!cloneDom.scrollTop) {
