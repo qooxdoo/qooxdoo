@@ -473,8 +473,8 @@ Allows you to influence the way class dependencies are processed by the generato
     "sort-topological"            : (true|false)
   }
 
-* **follow-static-initializers** *(experimental!)*: Try to resolve dependencies introduced in class definitions when calling static methods to initialize map keys (default: *false*).
-* **sort-topological** *(experimental!)*: Sort the classes using a topological sorting of the load-time dependency graph (default: *false*).
+* **follow-static-initializers** *(not used!)*: Try to resolve dependencies introduced in class definitions when calling static methods to initialize map keys (default: *false*).
+* **sort-topological** *(not used!)*: Sort the classes using a topological sorting of the load-time dependency graph (default: *false*).
 
 .. _pages/tool/generator/generator_config_ref#desc:
 
@@ -1287,8 +1287,7 @@ Each key is a
 * **<class_name>** : each value is an array of used classes of this class.
 
 
-.. _pages/tool/generator/generator_config_ref#watch-files:
-
+.. _pages/tool/generator/generator_config_ref#validation-config:
 
 validation-config
 =================
@@ -1299,8 +1298,9 @@ Triggers the validation of the Config (*config.json*) against a schema and print
 
   "validation-config" : {}
 
-
 This key currently takes no subkeys, but you still have to provide an empty map.
+
+.. _pages/tool/generator/generator_config_ref#validation-manifest:
 
 validation-manifest
 ===================
@@ -1314,6 +1314,8 @@ Triggers the validation of the Manifest (*Manifest.json*) against a schema and p
 
 This key currently takes no subkeys, but you still have to provide an empty map.
 
+
+.. _pages/tool/generator/generator_config_ref#watch-files:
 
 watch-files
 ===========
