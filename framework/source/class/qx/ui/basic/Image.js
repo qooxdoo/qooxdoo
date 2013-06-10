@@ -369,6 +369,7 @@ qx.Class.define("qx.ui.basic.Image",
       }
 
       var element = new qx.html.Image(tagName);
+      element.setAttribute("$$widget", this.toHashCode());
       element.setScale(scale);
       element.setStyles({
         "overflowX": "hidden",
@@ -378,6 +379,7 @@ qx.Class.define("qx.ui.basic.Image",
 
       if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
         var wrapper = this.__wrapper = new qx.html.Element("div");
+        wrapper.setAttribute("$$widget", this.toHashCode());
         wrapper.setStyle("position", "absolute");
         wrapper.add(element);
         return wrapper;
@@ -550,6 +552,19 @@ qx.Class.define("qx.ui.basic.Image",
           // force re-application of source so __setSource is called again
           el.setSource(null);
           el.setAttribute("class", this.__currentContentElement.getAttribute("class"));
+
+          // Flush elements to make sure the DOM elements are created.
+          qx.html.Element.flush();
+          var currentDomEl = this.__currentContentElement.getDomElement();
+          var newDomEl = elementToAdd.getDomElement();
+          if (currentDomEl && newDomEl) {
+            // Switch the DOM elements' hash codes. This is required for the event
+            // layer to work [BUG #7447]
+            var currentHash = currentDomEl.$$hash;
+            currentDomEl.$$hash = newDomEl.$$hash;
+            newDomEl.$$hash = currentHash;
+          }
+
           this.__currentContentElement = elementToAdd;
         }
       }
