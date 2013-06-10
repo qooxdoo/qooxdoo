@@ -119,9 +119,12 @@ qx.Class.define("qx.test.io.request.XhrWithRemote",
     },
 
     "test: progress phases when abort after loading": function() {
-      // Breaks in Selenium and IE because no intermediate loading event is fired
-      // while requesting "loading.php"
-      this.require(["noSelenium", "noIe"]);
+      // Note:
+      //   * Breaks in Selenium and IE because no intermediate loading event
+      //     is fired while requesting "loading.php"
+      //   * Breaks on Windows 7 in every browser because the loading phase
+      //     is never entered
+      this.require(["noSelenium", "noIe", "noWin7"]);
 
       var req = this.req,
           phases = [],

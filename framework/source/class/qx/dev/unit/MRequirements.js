@@ -250,6 +250,18 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
       catch(ex) {
         return win.name.indexOf("selenium") < 0;
       }
+    },
+
+
+    /**
+     * Checks if the application is running on Windows 7
+     *
+     * @return {Boolean} <code>false</code> if operating system is Windows 7
+     */
+    hasNoWin7 : function()
+    {
+      var isWin7 = (qx.core.Environment.get("os.name") === "win" && qx.core.Environment.get("os.version") === "7");
+      return (isWin7 ? false : true);
     }
   }
 
