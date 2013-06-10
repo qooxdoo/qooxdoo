@@ -251,7 +251,7 @@ qx.Class.define("qx.io.rest.Resource",
       // inject different request implementation
       resource.setRequestFactory(this._getRequest);
 
-      // inject different request request handling
+      // inject different request handling
       resource.setRequestHandler({
           onsuccess: {
             callback: function(req, action) {
