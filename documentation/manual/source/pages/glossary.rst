@@ -32,7 +32,7 @@ Glossary
 
    Constructor
       A class method that is run everytime a new instance of the class is created. Used to do initialisation on the class instance. In qooxdoo this method is named *construct*.
-       
+
 
    .. D ..............................................................
 
@@ -60,7 +60,7 @@ Glossary
 
    Generator
       The generator is the backbone of qooxdoo's build process. It is the main tool that drives various other tools to achieve the various goals of the build process, like dependency checking, compression and resource management.
-   
+
 
    .. H ..............................................................
 
@@ -82,12 +82,10 @@ Glossary
 
    Key
       Keys are the "left-hand side" of the key-value pairs in a map. Map keys have to be unique within the map.
-   
+
 
    .. L ..............................................................
 
-   Layout
-   
 
    .. M ..............................................................
 
@@ -96,11 +94,11 @@ Glossary
 
    Member
       A class attribute, usually a method. Within qooxdoo, members usually refer to instance methods (as opposed to static methods).
-   
+
 
    Meta-Theme
       A theme that only references other themes.
-   
+
 
    Mixin
       A Mixin is a class you cannot instantiate, but provides a certain set of features. Mixins are the included in "proper" classes to add this feature set without the necessity to re-implement it. It is created with ``qx.Mixin.define()``.
@@ -116,15 +114,15 @@ Glossary
 
    Package
       A JavaScript file that is loaded by an application.
-   
+
 
    Pollution
       Application-specific variables that are added to the global name space in the JavaScript interpreter.
-   
+
 
    Property
       A class attribute that is not accessed directly, but rather through automatic accessor methods (getters/setters/resetters, initializers, ...).
-   
+
 
    .. Q ..............................................................
 
@@ -140,24 +138,24 @@ Glossary
 
    Ribbon
       *"The ribbon is a graphical user interface widget composed of a strip across the top of the window that exposes all functions the program can perform in a single place, with additional ribbons appearing based on the context of the data."* [`Wikipedia <http://en.wikipedia.org/wiki/Ribbon_(computing)>`__]
-       
+
 
    .. S ..............................................................
 
    Skeleton
       A minimal qooxdoo application that serves as a starting point for custom applications. qooxdoo provides several skeleton applications, according to intended application domain.
-   
+
 
    Source Version
       The "source version" of a qooxdoo application is the version where all class files are loaded individually and in their original source form. This is less efficient when loaded into the browser, but much better for debugging and error tracing. Hence, it is the preferred development version.
-   
+
 
    Style
       A set of visual attributes that determin how a certain element is displayed. This encompasses things like foreground and background colors, background images, font types and border styles.
 
 
    .. T ..............................................................
-   
+
    Theme
       A comprehensive set of style definitions that can be used to give an application a consistent look and feel through all of its visual elements.
 
@@ -169,10 +167,10 @@ Glossary
 
 
    .. W ..............................................................
-   
+
    Widget
       Visual user interface element, like a button, a text input field or a scroll bar. Usually, widgets have their own specific behaviours, i.e. a way of reacting to user interaction, but there are also pure display widgets.
-   
+
 
    Window
       A distinct rectangular region on the screen, usually with borders and a top bar that allows to drag it around. More specifically a browser window.
