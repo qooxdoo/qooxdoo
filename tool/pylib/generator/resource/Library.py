@@ -112,6 +112,7 @@ class Library(object):
 
     def _download_contrib(self, contribUri):
         cacheMap = context.jobconf.getFeature("cache")
+        catalogBase = context.jobconf.getFeature("let/CONTRIB_CATALOG_BASEURL")
         if cacheMap and 'downloads' in cacheMap:
             contribCachePath = cacheMap['downloads']
             contribCachePath = context.config.absPath(contribCachePath)
@@ -120,7 +121,7 @@ class Library(object):
         self._console.info("Checking network-based contrib: %s" % contribUri)
         self._console.indent()
 
-        dloader = ContribLoader()
+        dloader = ContribLoader(catalog_base_url=catalogBase)
         (updatedP, revNo, manipath) = dloader.download(contribUri, contribCachePath)
 
         if updatedP:

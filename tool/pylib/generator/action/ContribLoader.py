@@ -43,7 +43,8 @@ from misc.ExtMap import ExtMap
 sf_svn_server = 'svn.code.sf.net'
 svn_url_schema = 'http://%s/p/%%(project)s/code/trunk/%%(project)s/%%(cName)s/%%(cBranch)s/' % sf_svn_server
 project = 'qooxdoo-contrib'
-catalog_url_schema = 'https://github.com/qooxdoo/contrib-catalog/raw/master/contributions/%(cName)s/%(cBranch)s/%(maniFile)s'
+catalog_url_schema = '%(catalogBase)s/%(cName)s/%(cBranch)s/%(maniFile)s'
+catalog_base_url = 'https://github.com/qooxdoo/contrib-catalog/raw/master/contributions' # just a fall-back
 archive_extensions = tuple(".zip .tar.gz .tgz .tar.bz2".split())
 
 # -- Defaults-end --------------------------------------------------------------
@@ -85,10 +86,12 @@ class AlluraSVNView(HTMLParser):
 #
 class ContribLoader(object):
 
-    def __init__(self, proj=project, uschema=svn_url_schema, cschema=catalog_url_schema):
+    def __init__(self, proj=project, uschema=svn_url_schema, 
+        cschema=catalog_url_schema, catalog_base_url=catalog_base_url):
         self.project = proj
         self.svn_url_schema = uschema
         self.catalog_url_schema = cschema
+        self.catalog_base_url = catalog_base_url
 
     #def get_sf_revision(self, contribName, contribBranch):
     #    svnView = AlluraSVNView()
@@ -115,6 +118,7 @@ class ContribLoader(object):
 
     def url_from_catalog_schema(self, project, cName, cBranch, maniFile="Manifest.json"):
         maniUri = self.catalog_url_schema % {
+            'catalogBase' : self.catalog_base_url,
             'project' : project,
             'cName'   : cName,
             'cBranch' : cBranch,
