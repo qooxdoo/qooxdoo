@@ -135,12 +135,22 @@
       }
     },
 
+    // suppress addtl. lint checks when building with framework classes
+    "no-compile-lint" : {
+      "compile-options" : {
+        "code" : {
+          "lint-check" : false
+        }
+      }
+    },
+
 
     // -- Test Jobs ------------------------------------------------------------
 
     // This one is used in all jobs relating to the generated AUT
     "testrunner::tests-common" :
     {
+      "extend" : [ "no-compile-lint" ],
       "environment" :
       {
         "qx.test.bool_true" : true,
@@ -150,6 +160,7 @@
 
     "test" :
     {
+      "extend" : [ "no-compile-lint" ],
       "config-warnings" : {
         "environment" : ["non-literal-keys"]
       },
@@ -188,6 +199,7 @@
 
     "test-source" :
     {
+      "extend" : [ "no-compile-lint" ],
       "let" :
       {
         "LOCALES" : ["de", "de_DE", "en", "en_GB", "en_US"],
@@ -279,6 +291,7 @@
 
     "api" :
     {
+      "extend" : [ "no-compile-lint" ],
       "config-warnings" :
       {
         "environment" : [ "non-literal-keys" ]
