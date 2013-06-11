@@ -695,15 +695,30 @@ Define libraries to be taken into account for this job. Takes an array of maps.
   "library" :
   [
     {
-      "manifest"   : "<path>",
+      "manifest"   : "<path_or_url>",
       "uri"        : "<from_html_to_manifest_dir>"
     }
   ]
 
 Each map can contain the keys
 
-* **manifest** *(required)* : path to the "Manifest" file of the library; may be relative to config file location; may use ``contrib://`` scheme
-* **uri** : URI prefix from your HTML file to the directory of the library's "Manifest" file
+* **manifest** *(required)* : specifies the qooxdoo library to use; can take
+  several forms:
+
+  * *a local file system path*: This must reference the Manifest file of
+    the library; may be relative to config file location.
+  * ``contrib://`` *URL*: This must reference the catalog Manifest file of a
+    contribution's version, as available in the :doc:`qooxdoo-contrib
+    </pages/development/contrib>` catalog.
+  * ``http(s)://`` *URL*: This must reference one of two things:
+    
+    * *a downloadeable archive*: The URL ends in an archive extension (like
+      *.zip*), the archive contains the contribution library.
+    * *a .json file*: The referenced JSON file is a catalog-style Manifest file which
+      contains a download URL.
+
+* **uri** : URI prefix from your HTML file to the directory of the library's
+  "Manifest" file
 
 :ref:`Special section <pages/tool/generator/generator_config_articles#library_key_and_manifest_files>`
 
