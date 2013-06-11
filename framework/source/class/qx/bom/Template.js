@@ -154,11 +154,14 @@ qx.Bootstrap.define("qx.bom.Template", {
 });
 
 (function() {
+var root = {};
 
 /**
  * Below is the original mustache.js code. Snapshot date is mentioned in
  * the head of this file.
- * @ignore(module)
+ * @ignore(exports)
+ * @ignore(define.*)
+ * @ignore(module.*)
  */
  /*!
  * mustache.js - Logic-less {{mustache}} templates with JavaScript
@@ -166,7 +169,6 @@ qx.Bootstrap.define("qx.bom.Template", {
  */
 
 /*global define: false*/
-
 (function (root, factory) {
   if (typeof exports === "object" && exports) {
     module.exports = factory; // CommonJS
@@ -175,7 +177,7 @@ qx.Bootstrap.define("qx.bom.Template", {
   } else {
     root.Mustache = factory; // <script>
   }
-}(this, (function () {
+}(root, (function () {
 
   var exports = {};
 
@@ -775,7 +777,7 @@ qx.Bootstrap.define("qx.bom.Template", {
  */
 
 // EXPOSE qooxdoo variant
-qx.bom.Template.version = Mustache.version;
-qx.bom.Template.render = Mustache.render;
+qx.bom.Template.version = root.version;
+qx.bom.Template.render = root.render;
 
 })();
