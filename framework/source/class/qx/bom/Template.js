@@ -154,7 +154,6 @@ qx.Bootstrap.define("qx.bom.Template", {
 });
 
 (function() {
-var root = {};
 
 /**
  * Below is the original mustache.js code. Snapshot date is mentioned in
@@ -177,7 +176,7 @@ var root = {};
   } else {
     root.Mustache = factory; // <script>
   }
-}(root, (function () {
+}(this, (function () {
 
   var exports = {};
 
@@ -777,7 +776,7 @@ var root = {};
  */
 
 // EXPOSE qooxdoo variant
-qx.bom.Template.version = root.version;
-qx.bom.Template.render = root.render;
+qx.bom.Template.version = this.Mustache.version;
+qx.bom.Template.render = this.Mustache.render;
 
-})();
+}).call({});
