@@ -100,7 +100,8 @@ qx.Class.define("playground.view.Editor",
         padding    : 5,
         allowGrowX : true,
         allowGrowY : true,
-        backgroundColor: "white"
+        backgroundColor: "white",
+        decorator : "separator-vertical-bottom"
       });
       this.add(caption);
       // configure caption
@@ -113,14 +114,13 @@ qx.Class.define("playground.view.Editor",
       this.__textarea = new qx.ui.form.TextArea().set({
         wrap      : false,
         font      : qx.bom.Font.fromString("14px monospace"),
-        decorator : "separator-vertical",
         backgroundColor: "white",
-        padding   : [0,0,0,5]
+        padding   : [0,0,0,5],
+        decorator : null
       });
       this.add(this.__textarea, { flex : 1 });
 
       this.__editor = new qx.ui.core.Widget();
-      this.__editor.setDecorator("separator-vertical");
       var highlightDisabled = false;
       var badIE = qx.core.Environment.get("engine.name") == "mshtml";
       if (badIE) {
