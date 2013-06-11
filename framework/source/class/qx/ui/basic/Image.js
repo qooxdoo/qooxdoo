@@ -538,9 +538,9 @@ qx.Class.define("qx.ui.basic.Image",
 
           styles.zIndex = 10;
 
-          var el = this.__wrapper ? elementToAdd.getChild(0) : elementToAdd;
-          el.setStyles(styles, true);
-          el.setSelectable(this.getSelectable());
+          var newEl = this.__wrapper ? elementToAdd.getChild(0) : elementToAdd;
+          newEl.setStyles(styles, true);
+          newEl.setSelectable(this.getSelectable());
 
           var container = currentContentElement.getParent();
 
@@ -550,12 +550,15 @@ qx.Class.define("qx.ui.basic.Image",
             container.addAt(elementToAdd, index);
           }
           // force re-application of source so __setSource is called again
-          el.setSource(null);
-          el.setAttribute("class", this.__currentContentElement.getAttribute("class"));
+          var hint = newEl.getNodeName();
+          newEl.setSource(null);
+          var currentEl = this.__wrapper ? this.__currentContentElement.getChild(0) : this.__currentContentElement;
+          newEl.tagNameHint = hint;
+          newEl.setAttribute("class", currentEl.getAttribute("class"));
 
           // Flush elements to make sure the DOM elements are created.
           qx.html.Element.flush();
-          var currentDomEl = this.__currentContentElement.getDomElement();
+          var currentDomEl = currentEl.getDomElement();
           var newDomEl = elementToAdd.getDomElement();
           if (currentDomEl && newDomEl) {
             // Switch the DOM elements' hash codes. This is required for the event
