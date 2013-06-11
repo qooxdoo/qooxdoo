@@ -29,32 +29,49 @@ Library-style Contributions
 
 There are basically two aspects to contributions
 
-* the *maintainer view*, meaning how to provide and maintain a particular
-  contribution
 * the *user view*, meaning how to use a particular contribution in application
   development
+* the *maintainer view*, meaning how to provide and maintain a particular
+  contribution
+
+.. _pages/tool/generator/generator_config_articles#contrib_libraries:
 
 User View
 ------------
 
-The user view is easy. Using %{qooxdoo} library-style contributions in a custom
-application is directly supported by the Generator. You just have to edit your
-``config.json`` configuration file.  You integrate a contribution by giving it
-an entry in the :ref:`pages/tool/generator/generator_config_ref#library`
-configuration key, preferably in the context of the :ref:`pages/tool/generator/generator_default_jobs#libraries` includer job. The value of
-the corresponding *manifest* property for a contribution has to start with the
-``contrib://`` URL pseudo-scheme, followed by the name of the contribution,
-followed by the version you want to use, followed by the Manifest file name of
-this library, resulting for example in something like
-``contrib://UploadMgr/0.2/Manifest.json``.
+Contributions can be included in a configuration like any other libraries: You
+add an appropriate entry in the ``library`` array of your configuration. Like
+other libraries, the contribution must provide a :ref:`Manifest.json
+<pages/application_structure/manifest#manifest.json>` file with appropriate
+contents.
 
-With running a compile job (e.g. *source*, *build*) the Generator will now query the
+If the contribution resides on your local file system, there is actually no
+difference to any other library. Specify the relative path to its Manifest file
+and you're basically set. 
+
+The really new part comes when the contribution resides online, and needs to be
+downloaded to be used. This is directly supported by the Generator.  With
+running a compile job (e.g. *source*, *build*) the Generator will now query the
 catalog for that version of the contribution, evaluate the corresponding Json
 file, and access the download value. The corresponding contribution will be
 downloaded to the local disk and used as a library as usual.
 
+In such a case you use a special syntax to specify the location a catalog
+Manifest file that pertains to the contrib's particular version. It is URL-like
+with a ``contrib`` scheme and will usually look like this:
+
+::
+
+    contrib://<ContributionName>/<Version>/<ManifestFile>
+
+The contribution source tree will then be downloaded from the repository, the
+generator will adjust to the local path, and the contribution is then used just
+like a local library. The local path where the contribution is placed is a
+subdirectory of the :ref:`cache/downloads <pages/tool/generator/generator_config_ref#cache>`
+config key, which you can adapt.
+
 When re-running the build job, the Generator will check if the contribution has
-changed, and will re-load it if that is the case.
+changed, and will re-download it if that is the case. 
 
 Putting it all together here is an sample *config.json* snippet:
 
@@ -72,6 +89,64 @@ Putting it all together here is an sample *config.json* snippet:
 
 (The wrapping in the predefined *libraries* includer job makes it easily
 available to build jobs).
+
+Mind that this is **not** the Manifest file that is part of the library, but the
+catalog entry. Though they can be almost identical, the catalog Manifest will
+only be searched for the *info/download* key, and a few others related to downloading
+the contribution. The Manifest in the actual contribution library is then
+searched for e.g the *provides/class* key, to find the class path in the
+library.
+
+
+contrib:// URIs and Internet Access
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+As contrib libraries are downloaded from an online location you need Internet
+access to use them. Here are some tips on how to address offline usage and
+Internet proxies.
+
+
+Avoiding Online Access
+++++++++++++++++++++++
+
+If you need to work with a contrib offline, it is best to download it to your
+hard disk, and then use it like any local qooxdoo library. The simplest way to
+do this to download it using its *contrib://* URL once, then move the entire
+contribution from the download cache (use *generate.py info* to locate this) to
+some other path, and then adjust your *config.json* to match the new local path
+on disk. Moving it away from the download cache is so that it is not deleted
+when you run *generate.py distclean*.
+
+Alternatively, you can download the archive directly. To find its download URL
+you go to the catalog repo, locate the catalog Manifest for the contrib's
+version, and pick the *info/download* URL from it. Then download and unpack the
+archive on your local disk, and adjust the *config.json* to reflect its path.
+
+In any case you are now using the contribution like a local library.  The only
+thing you are missing this way is the automatic online check for updates, where
+a newer version of the contrib would be detected and downloaded.  You need to do
+this by hand, re-checking when you can, and re-downloading a newer version if
+there is one.
+
+
+Accessing Online from behind a Proxy
+++++++++++++++++++++++++++++++++++++
+
+If you are sitting behind a proxy, here is what you can do. The generator uses
+the *urllib* module of Python to access web-based resources. This module honors
+proxies:
+
+* It checks for a *http_proxy* environment variable in the shell running the
+  generator. On Bash-like shells you can set it like this::
+
+    http_proxy="http://www.someproxy.com:3128"; export http_proxy
+
+* If there is no such shell setting on Windows, the registry is queried for the
+  Internet Options.
+* On MacOS, the Internet Config is queried in this case.
+* See the `module documentation
+  <http://docs.python.org/release/2.5.4/lib/module-urllib.html>`__ for more
+  details.
 
 The remainder of this chapter now details the maintainer view, or how to provide
 a contribution.

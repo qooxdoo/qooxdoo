@@ -317,7 +317,16 @@ The values of these macros are lists, and each reference will be expanded into a
 "library" Key and Manifest Files
 ================================
 
-The :ref:`pages/tool/generator/generator_config_ref#library` key of a configuration holds information about source locations that will be considered in a job (much like the CLASSPATH in Java). Each element specifies one such library. The term "library" is meant here in the broadest sense; everything that has a qooxdoo application structure with a *Manifest.json* file can be considered a library in this context. This includes applications like the Showcase or the Feedreader, add-ins like the Testrunner or the Apiviewer, contribs from the qooxdoo-contrib repository, or of course the qooxdoo framework library itself. The main purpose of any *library* entry in the configuration is to provide the path to the library's "Manifest" file.
+The :ref:`pages/tool/generator/generator_config_ref#library` key of a
+configuration holds information about source locations that will be considered
+in a job (much like the CLASSPATH in Java). Each element specifies one such
+library. The term "library" is meant here in the broadest sense; everything that
+has a qooxdoo application structure with a *Manifest.json* file can be
+considered a library in this context. This includes applications like the
+Showcase or the Feedreader, add-ins like the Testrunner or the Apiviewer,
+contribs from the qooxdoo-contrib repository, or of course the qooxdoo framework
+library itself. The main purpose of any *library* entry in the configuration is
+to provide the path to the library's "Manifest" file.
 
 .. _pages/tool/generator/generator_config_articles#manifest_files:
 
@@ -326,72 +335,24 @@ Manifest files
 
 Manifest files serve to provide meta information for a library in a structured way. Their syntax is again JSON, and part of them is read by the generator, particularly the ``provides`` section. See :ref:`here <pages/application_structure/manifest#manifest.json>` for more information about manifest files.
 
-.. _pages/tool/generator/generator_config_articles#contrib_libraries:
-
-Contrib libraries
------------------
-
-Contributions can be included in a configuration like any other libraries: You add an appropriate entry in the ``library`` array of your configuration. Like other libraries, the contribution must provide a :ref:`Manifest.json <pages/application_structure/manifest#manifest.json>` file with appropriate contents.
-
-If the contribution resides on your local file system, there is actually no difference to any other library. Specify the relative path to its Manifest file and you're basically set. The really new part comes when the contribution resides online, in the `qooxdoo-contrib <http://qooxdoo.org/contrib>`_ repository. Then you use a special syntax to specify the location of the Manifest file. It is URL-like with a ``contrib`` scheme and will usually look like this:
-
-::
-
-    contrib://<ContributionName>/<Version>/<ManifestFile>
-
-The contribution source tree will then be downloaded from the repository, the generator will adjust to the local path, and the contribution is then used just like a local library. A consideration that comes into play here is where the files are placed locally. The default location is a subdirectory from your cache path named ``downloads``. You can modify this through the *downloads* attribute of the :ref:`pages/tool/generator/generator_config_ref#cache` key in your config.
-
-So, for example an entry for the "trunk" version of the "Dialog" contribution would look like this:
-
-::
-
-    {
-      "manifest" : "contrib://Dialog/trunk/Manifest.json"
-    }
-
-You will rarely need to set the ``uri`` attribute of a library entry. This is only necessary if the relative path to the library (which is automatically calculated) does not represent a valid URL path when running the **source** version of the final app. (This can be the case if your try to run the source version from a web server that requires you to set up different document roots). It is not relevant for the *build* version of your app, as here all resources from the various libraries are collected under a common directory. For more on URI handling, see the next section.
-
-
-"contrib://" URIs and Internet Access
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-As contrib libraries are downloaded from an online repository, you need Internet access to use them. Here are some tips on how to address offline usage and Internet proxies.
-
-
-Avoiding Online Access
-++++++++++++++++++++++
-
-If you need to work with a contrib offline, it is best to download it to your hard disk, and then use it like any local qooxdoo library. Sourceforge offers the "ViewVC" online repository browser, so you can browse the contrib online, e.g.
-
-::
-
-  http://qooxdoo-contrib.svn.sourceforge.net/viewvc/qooxdoo-contrib/trunk/qooxdoo-contrib/Dialog/
-
-Browse to the desired contrib version, like *trunk*, and hit the *"Download GNU tarball"* link. This will download an archive of this part of the repository tree. Unpack it to a local directory, and enter the relative path to it in the corresponding *manifest* config entry. Now you are using the contrib like a local library.
-
-The only thing you are missing this way is the automatic online check for updates, where a newer version of the contrib would be detected and downloaded. You need to do this by hand, re-checking the repository when you can, and re-downloading a newer version if you find one.
-
-
-Accessing Online from behind a Proxy
-++++++++++++++++++++++++++++++++++++
-
-If you are sitting behind a proxy, here is what you can do. The generator uses the *urllib* module of Python to access web-based resources. This module honors proxies:
-
-* It checks for a *http_proxy* environment variable in the shell running the generator. On Bash-like shells you can set it like this::
-
-    http_proxy="http://www.someproxy.com:3128"; export http_proxy
-
-* If there is no such shell setting on Windows, the registry is queried for the Internet Options.
-* On MacOS, the Internet Config is queried in this case.
-* See the `module documentation <http://docs.python.org/release/2.5.4/lib/module-urllib.html>`__ for more details.
-
-
 .. _pages/tool/generator/generator_config_articles#uri_handling:
 
 URI handling
 ------------
 
-URIs are used in a qooxdoo application to refer from one part to other parts like resources. There are places within the generator configuration where you can specify *uri* parameters. What they mean and how this all connects is explained in this section.
+URIs are used in a qooxdoo application to refer from one part to other parts
+like resources. There are places within the generator configuration where you
+can specify *uri* parameters. What they mean and how this all connects is
+explained in this section.
+
+You will rarely need to set the ``uri`` attribute of a library entry. This is
+only necessary if the relative path to the library (which is automatically
+calculated) does not represent a valid URL path when running the **source**
+version of the final app. (This can be the case if your try to run the source
+version from a web server that requires you to set up different document roots).
+It is not relevant for the *build* version of your app, as here all resources
+from the various libraries are collected under a common directory. For more on
+URI handling, see the next section.
 
 .. _pages/tool/generator/generator_config_articles#where_uris_are_used:
 
