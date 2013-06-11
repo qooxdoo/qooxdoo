@@ -54,7 +54,7 @@ file, and access the download value. The corresponding contribution will be
 downloaded to the local disk and used as a library as usual.
 
 When re-running the build job, the Generator will check if the contribution has
-changed, and will re-load it if that is the case. 
+changed, and will re-load it if that is the case.
 
 Putting it all together here is an sample *config.json* snippet:
 
@@ -119,13 +119,13 @@ Contributions come as Archives
 
 The actual contribution code, i.e. the code somebody would download and use,
 needs to be provided through the Manifest's *info/download* URL. The value should be
-a HTTP(S) URL to an archive (like zip or tar.gz) ready to be downloaded. 
+a HTTP(S) URL to an archive (like zip or tar.gz) ready to be downloaded.
 
 The archive should contain a single root folder with arbitrary name, and beneath
 that the contents of the contribution. I.e. for a standard qooxdoo library the
 second level should contain its Manifest.json.
 
-A Sha1 checksum must then be calculated over the archive file, and the result be
+A SHA-1 checksum must then be calculated over the archive file, and the result be
 entered in the catalog's *Manifest.json/info/checksum* field (At this point the
 catalog's and the contrib's Manifest.json necessarily deviate from each other).
 This checksum is used to verify the downloaded archive later on the client side,
@@ -170,16 +170,40 @@ example::
 The *checksum* for such a contribution is not used. Rather, the SVN revision
 number from SourceForge will be used to detect updates.
 
+Further manual keys
+-------------------
+
+We added a *info/category* field to the Manifest file which allows you
+to label your contrib with one or more of these supported categories:
+
+* theme
+* widget
+* drawing
+* tool
+* backend
+
+We will use this information to categorize the contribs in a future
+web interface. If you provide more than one category, the first one
+will be regarded as primary category.
+
+So an example would be::
+
+  "info" : {
+    "category" : ["theme"],
+    ...
+  }
+
+
 Maintainer's Workflow
 -----------------------
 
 So the basic workflow for an author having a new revision of his contribution’s
-version is: 
+version is:
 
 * Create an *archive* containing the contribution and put it *online*.
 * Edit the contribution’s Manifest.json to contain the *download* location and a
-  Sha1 *checksum* over the archive.  
-* Copy this Manifest.json to the appropriate path in the *catalog* repo.  
+  SHA-1 *checksum* over the archive.
+* Copy this Manifest.json to the appropriate path in the *catalog* repo.
 * Send a *pull request* for the catalog.
 
 For an author choosing Github to host his contribution all this can be quite
@@ -189,8 +213,8 @@ offers. You just use an URL like
 
 ::
 
-  https://github.com/<user>/<contrib>/archive/<branch_name><archive_suffix> 
-  
+  https://github.com/<user>/<contrib>/archive/<branch_name><archive_suffix>
+
 as the Manifest’s download URL, with e.g. *branch_name* being *master* and *suffix*
 being *.zip*.
 
