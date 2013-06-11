@@ -4389,12 +4389,6 @@ return sinon;}.call(typeof window != 'undefined' && window || {}));
  * End of original code.
  */
 
-  // Expose to qooxdoo
-  var Sinon = qx.dev.unit.Sinon;
-  Sinon.getSinon = function() {
-    return sinon;
-  };
-
   // Every assertion in Sinon.JS fails by calling this method.
   //
   // (In fact, in vanilla Sinon.JS 1.0.0. this is not really the case,
@@ -4406,8 +4400,17 @@ return sinon;}.call(typeof window != 'undefined' && window || {}));
   // that the wrapped fail method is called and ensures that
   // the entire body of each test function is executed.
   //
-  sinon.assert.fail = function(msg) {
+  this.sinon.assert.fail = function(msg) {
     this.fail(msg, true);
   };
+
+  var origSinon = this.sinon;
+
+  // Expose to qooxdoo
+  var Sinon = qx.dev.unit.Sinon;
+  Sinon.getSinon = function() {
+    return origSinon;
+  };
+
 
 }).call(this);
