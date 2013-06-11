@@ -105,12 +105,12 @@ class Manifest(object):
     @classmethod
     def schema_v1_0(self):
         patterns = {
-            "semver": r"^trunk$|latest$|^\d+\.\d+(\.\d+)?(-[0-9]+-?)?([-a-zA-Z+][-a-zA-Z0-9\.:-]*)?$",
+            "semver": r"^trunk$|master$|^\d+\.\d+(\.\d+)?(-[0-9]+-?)?([-a-zA-Z+][-a-zA-Z0-9.:-]*)?$",
             "url": r"^https?://([a-z0-9\.-]+)\.([a-z\.]{2,6})[/\w\.-]*\/?$",
             "url_and_placeholder": r"^https?://([a-z0-9\.-]+)\.([a-z\.]{2,6})[/\w.%{}-]*(#[/\w.%{}-]*)?\/?$",
-            "url_archive": r"^(https?|ftp)://.*(tar.(gz|bz2)|zip)$",
-            "name_and_github_uid": r"^.*\([A-Za-z0-9._-]+\)$",
-            "checksum": "^[a-f0-9]{32,40}$"  # md5 or sha1
+            "url_archive": r"^(https?|ftp)://.*(tar(\.gz|\.bz2)?|tgz|zip)$",
+            "name_and_github_uid": r"^.*\([\w.-]+\)$",
+            "checksum": "^[a-f0-9]{40}$"  # has to be SHA-1
         }
 
         return {
@@ -133,11 +133,11 @@ class Manifest(object):
                         "description": {
                             "type": "string",
                         },
-                        # "category": {
-                        #     "type": "string",
-                        #     "enum": ["Themes", "Widgets", "Drawing", "Misc",
-                        #              "Tool", "Backend"]
-                        # },
+                        "category": {
+                             "type": "array",
+                             "items": { "enum": ["theme", "widget", "drawing",
+                                                 "tool", "backend"] }
+                        },
                         "keywords": {
                             "type": "array",
                             "uniqueItems": True,
@@ -170,14 +170,14 @@ class Manifest(object):
                                 }
                             }
                         },
-                        # "download": {
-                        #     "type": "string",
-                        #     "pattern": patterns["url_archive"]
-                        # },
-                        # "checksum": {
-                        #     "type": "string",
-                        #     "pattern": patterns["checksum"]
-                        # },
+                        "download": {
+                            "type": "string",
+                            "pattern": patterns["url_archive"]
+                        },
+                        "checksum": {
+                            "type": "string",
+                            "pattern": patterns["checksum"]
+                        },
                         "version": {
                             "type": "string",
                             "pattern": patterns["semver"]
