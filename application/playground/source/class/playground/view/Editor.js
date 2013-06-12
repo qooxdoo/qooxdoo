@@ -96,12 +96,16 @@ qx.Class.define("playground.view.Editor",
       this.setDecorator("main");
 
       // caption
+      var dec = new qx.ui.decoration.Decorator().set({
+        widthBottom : 1,
+        colorBottom : "border-separator"
+      });
       var caption = new qx.ui.container.Composite().set({
         padding    : 5,
         allowGrowX : true,
         allowGrowY : true,
         backgroundColor: "white",
-        decorator : "separator-vertical-bottom"
+        decorator : dec
       });
       this.add(caption);
       // configure caption

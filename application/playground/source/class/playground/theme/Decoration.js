@@ -36,14 +36,6 @@ qx.Theme.define("playground.theme.Decoration",
         color : "highlight-shade",
         backgroundColor: "background-selected"
       }
-    },
-
-    "separator-vertical-bottom" : {
-      style :
-      {
-        widthBottom : 1,
-        colorBottom : "border-separator"
-      }
     }
   }
 });
