@@ -647,7 +647,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
           url = this.getUrl("qx/test/xmlhttp/loading.php"),
           that = this;
 
-      req.ontimeout = function() {
+      req.onloadend = function() {
         that.resume(function() {
           that.assertEquals(4, req.readyState);
           that.assertIdentical("", req.responseText);
