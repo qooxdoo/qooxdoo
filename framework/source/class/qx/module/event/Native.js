@@ -82,6 +82,45 @@ qx.Bootstrap.define("qx.module.event.Native", {
     },
 
     /**
+     * Returns the target of the event.
+     * Example:
+     * <pre class="javascript">
+     *   var collection = q("div.inline");
+     *   collection.on("click", function(e) {
+     *     var clickedElement = e.getTarget();
+     *   });
+     * </pre>
+     *
+     * @return {Object} Any valid native event target
+     */
+    getTarget : function() {},
+
+    /**
+     * Computes the related target from the native DOM event
+     *
+     * Example:
+     * <pre class="javascript">
+     *   var collection = q("div.inline");
+     *   collection.on("mouseout", function(e) {
+     *     // when using 'mouseout' events the 'relatedTarget' is pointing to the DOM element 
+     *     //  the device exited to.
+     *     // Useful for scenarios you only interested if e.g. the user moved away from a 
+     *     // section at the website
+     *     var exitTarget = e.getRelatedTarget();
+     *   });
+     *
+     *   collection.on("mouseover", function(e){
+     *      // when using 'mouseover' events the 'relatedTarget' is pointing to the DOM element
+     *      // the device entered from.
+     *      var earlierElement = e.getRelatedTarget();
+     *   });
+     * </pre>
+     *
+     * @return {Element} The related target
+     */
+    getRelatedTarget : function() {},
+
+    /**
      * Manipulates the native event object, adding methods if they're not
      * already present
      *
