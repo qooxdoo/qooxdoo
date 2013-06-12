@@ -618,6 +618,23 @@ q.ready(function() {
     if (useHighlighter) {
       q('pre').forEach(function(el) {hljs.highlightBlock(el);});
     }
+
+    fixInternalLinks();
+  };
+
+  // replace links to qx classes with internal targets, e.g.
+  // #qx.bom.rest.Resource -> #Resource
+  var fixInternalLinks = function() {
+    q("a").forEach(function(lnk) {
+      var href = lnk.getAttribute("href");
+      if (href.indexOf("#qx") === 0) {
+        var target = href.substr(1);
+        var tmp = href.split(".");
+        href = "#" + tmp[tmp.length - 1];
+        lnk.setAttribute("href", href);
+        lnk.innerHTML = lnk.innerHTML.replace(target, href.substr(1));
+      }
+    });
   };
 
   // load sample code as modules are scrolled into view
