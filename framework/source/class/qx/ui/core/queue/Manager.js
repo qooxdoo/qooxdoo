@@ -246,14 +246,6 @@ qx.Class.define("qx.ui.core.queue.Manager",
           self.__inFlush = false;
           self.__retries += 1;
 
-          // this hack is used to fix [BUG #3688]
-          if(
-            qx.core.Environment.get("browser.name") == 'ie' &&
-            qx.core.Environment.get("browser.version") <= 7
-          ) {
-            finallyCode();
-          }
-
           if (self.__retries <= self.MAX_RETRIES) {
             self.scheduleFlush();
           } else {
