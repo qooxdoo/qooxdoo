@@ -298,7 +298,13 @@ qx.Class.define("inspector.components.Selector",
       var applicationRoot = this.__model.getApplication().getRoot();
       var win = this.__applicationWindow;
 
-      if (win.qx.ui.root && win.qx.Class.isSubClassOf(widget.constructor, win.qx.ui.root.Application)) {
+      var root;
+      if (win.qx.ui.root && win.qx.ui.root.Page) {
+        root = win.qx.ui.root.Page;
+      } else if (win.qx.ui.root && win.qx.ui.root.Application) {
+        root = win.qx.ui.root.Application;
+      }
+      if (root && win.qx.Class.isSubClassOf(widget.constructor, root)) {
         applicationRoot.add(widget, {edge: 0});
       }
       else
