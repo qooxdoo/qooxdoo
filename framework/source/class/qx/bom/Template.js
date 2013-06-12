@@ -161,6 +161,7 @@ qx.Bootstrap.define("qx.bom.Template", {
  * @ignore(exports)
  * @ignore(define.*)
  * @ignore(module.*)
+ * @lint ignoreNoLoopBlock()
  */
  /*!
  * mustache.js - Logic-less {{mustache}} templates with JavaScript
