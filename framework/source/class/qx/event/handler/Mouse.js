@@ -56,7 +56,7 @@ qx.Class.define("qx.event.handler.Mouse",
     this.__root = this.__window.document;
 
     // Initialize observers
-    if (!((qx.core.Environment.get("event.touch") || qx.core.Environment.get("event.mspointer")) &&
+    if (!(qx.core.Environment.get("event.touch") &&
         qx.core.Environment.get("qx.emulatemouse")))
     {
       this._initButtonObserver();

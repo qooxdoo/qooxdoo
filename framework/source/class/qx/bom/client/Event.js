@@ -37,7 +37,7 @@ qx.Bootstrap.define("qx.bom.client.Event",
      * @return {Boolean} <code>true</code> if touch events are supported.
      */
     getTouch : function() {
-      return ("ontouchstart" in window);
+      return ("ontouchstart" in window) || window.navigator.msMaxTouchPoints > 1;
     },
 
 
