@@ -113,22 +113,22 @@ qx.Class.define("qx.bom.webfonts.Manager", {
       }
 
       // old IEs need a break in between adding @font-face rules
-      if (!(qx.core.Environment.get("browser.name") == "ie" &&
-      qx.bom.client.Browser.getVersion() < 9)) {
+      if (qx.core.Environment.get("engine.name") == "mshtml" && (
+          parseInt(qx.core.Environment.get("engine.version")) < 9) ||
+          qx.core.Environment.get("browser.documentmode") < 9) {
+        if (!this.__queueInterval) {
+          this.__queueInterval = new qx.event.Timer(100);
+          this.__queueInterval.addListener("interval", this.__flushQueue, this);
+        }
+
+        if (!this.__queueInterval.isEnabled()) {
+          this.__queueInterval.start();
+        }
+
+        this.__queue.push([familyName, sources, callback, context]);
+      } else {
         this.__require(familyName, sources, callback, context);
-        return;
       }
-
-      if (!this.__queueInterval) {
-        this.__queueInterval = new qx.event.Timer(100);
-        this.__queueInterval.addListener("interval", this.__flushQueue, this);
-      }
-
-      if (!this.__queueInterval.isEnabled()) {
-        this.__queueInterval.start();
-      }
-
-      this.__queue.push([familyName, sources, callback, context]);
     },
 
 
