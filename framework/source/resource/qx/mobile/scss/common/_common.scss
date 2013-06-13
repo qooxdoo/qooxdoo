@@ -57,6 +57,24 @@ img:not([src]) {
   display:none;
 }
 
+img:before {
+  content:'';
+  display:block; 
+  position:absolute;
+};
+
+img.no-content {
+  content: '';
+  display: block; 
+  position:relative;
+}
+
+// Bugfix for Android 2.x, adds a scale(1) to the element,
+// to enable to transform child elements.
+.fix-scale {
+  @include transform(scale(1));
+}
+
 // WEBKIT ONLY
 
 input::-webkit-input-placeholder {

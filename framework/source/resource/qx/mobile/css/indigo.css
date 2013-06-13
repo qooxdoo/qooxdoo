@@ -48,6 +48,21 @@ a:hover, a:active {
 img:not([src]) {
   display: none; }
 
+img:before {
+  content: '';
+  display: block;
+  position: absolute; }
+
+img.no-content {
+  content: '';
+  display: block;
+  position: relative; }
+
+.fix-scale {
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  transform: scale(1); }
+
 input::-webkit-input-placeholder {
   line-height: normal; }
 
