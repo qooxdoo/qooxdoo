@@ -89,6 +89,7 @@ qx.Bootstrap.define("qx.module.event.Native", {
      *   });
      * </pre>
      *
+     * @signature function ()
      * @return {Object} Any valid native event target
      */
     getTarget : function() {},
@@ -100,9 +101,9 @@ qx.Bootstrap.define("qx.module.event.Native", {
      * <pre class="javascript">
      *   var collection = q("div.inline");
      *   collection.on("mouseout", function(e) {
-     *     // when using 'mouseout' events the 'relatedTarget' is pointing to the DOM element 
+     *     // when using 'mouseout' events the 'relatedTarget' is pointing to the DOM element
      *     //  the device exited to.
-     *     // Useful for scenarios you only interested if e.g. the user moved away from a 
+     *     // Useful for scenarios you only interested if e.g. the user moved away from a
      *     // section at the website
      *     var exitTarget = e.getRelatedTarget();
      *   });
@@ -114,6 +115,7 @@ qx.Bootstrap.define("qx.module.event.Native", {
      *   });
      * </pre>
      *
+     * @signature function ()
      * @return {Element} The related target
      */
     getRelatedTarget : function() {},
