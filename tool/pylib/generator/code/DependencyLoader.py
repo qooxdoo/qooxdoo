@@ -257,6 +257,8 @@ class DependencyLoader(object):
 
         # Lint stuff
         lint_check, lint_opts = CodeMaintenance.lint_comptime_opts()
+        if lint_check:
+            lint_opts.library_classes = self._classesObj.keys() # for globals shadowing check
 
         # No dependency calculation
         if len(includeWithDeps) == 0:

@@ -744,6 +744,7 @@ Check Javscript source code with a lint-like utility. Takes a map.
     "ignore-reference-fields"       : (true|false),
     "ignore-undeclared-privates"    : (true|false),
     "ignore-undefined-globals"      : (true|false),
+    "ignore-shadowing-locals"       : (true|false),
     "ignore-unused-parameter"       : (true|false),
     "ignore-unused-variables"       : (true|false),
     "run"                           : (true|false),
@@ -790,6 +791,16 @@ Keys are:
 
 * **ignore-undefined-globals** *(experimental)*      :
     Ignore symbols that belong to the global scope, and are not recognized as known built-in symbols or class names (You usually want to avoid those). With this option set to *false*, i.e. those globals being warned about, you can still silence the warning for symbols given in the ``allowed-globals`` option. *(default: false)*
+
+* **ignore-shadowing-locals** *(experimental)*      :
+    Ignore variables declared in a local scope (function) that shadow global
+    library symbols (such as *qx*, *q*, *qxWeb*). With this options set to
+    *false*, code places like ::
+    
+      var qx = "foo";
+      
+    are warned about. (With such a code line you wouldn't be able to use any
+    %{qooxdoo} framework class in this function anymore).  *(default: false)*
 
 * **ignore-unused-parameter** *(experimental)*       :
     Ignore parameters of functions or catch statements that are not used in their respective body. *(default: true)*

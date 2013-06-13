@@ -346,6 +346,7 @@ Here are the configuration keys with their individual value syntax.
     "ignore-reference-fields"       : (true|false),
     "ignore-undeclared-privates"    : (true|false),
     "ignore-undefined-globals"      : (true|false),
+    "ignore-shadowing-locals"       : (true|false),
     "ignore-unused-parameter"       : (true|false),
     "ignore-unused-variables"       : (true|false),
     "run"                           : (true|false),

@@ -23,7 +23,7 @@
 # AST checking, for unknown globals etc.
 ##
 
-import os, sys, re, types
+import os, sys, re, types, itertools
 from collections import defaultdict
 from ecmascript.frontend import treeutil, lang, Comment
 from ecmascript.frontend import tree, treegenerator
@@ -50,6 +50,8 @@ class LintChecker(treeutil.NodeVisitor):
         # we can run the basic scope checks as with function nodes
         if not self.opts.ignore_undefined_globals:
             self.unknown_globals(node.scope)
+        if not self.opts.ignore_shadowing_locals:
+            self.locals_shadowing_globals(node.scope)
         self.function_unused_vars(node)
         if not self.opts.ignore_deprecated_symbols:
             self.function_used_deprecated(node)
@@ -89,6 +91,8 @@ class LintChecker(treeutil.NodeVisitor):
         #print "visiting", node.type
         if not self.opts.ignore_undefined_globals:
             self.unknown_globals(node.scope)
+        if not self.opts.ignore_shadowing_locals:
+            self.locals_shadowing_globals(node.scope)
         self.function_unused_vars(node)  # self.opts are applied in the function
         if not self.opts.ignore_deprecated_symbols:
             self.function_used_deprecated(node)
@@ -161,6 +165,28 @@ class LintChecker(treeutil.NodeVisitor):
             for node in nodes:
                 issue = warn("Unknown global symbol used: '%s'" % key, self.file_name, node)
                 self.issues.append(issue)
+
+
+    def locals_shadowing_globals(self, scope):
+        result = []
+        # collect scope's locals
+        local_nodes = dict(scope.locals().items())
+        # - match known top-level library symbols
+        known_qx_names = set([x.split('.')[0] for x in self.opts.library_classes]) # includes q, qxWeb
+        r = [key for key in local_nodes.keys() if key in known_qx_names]
+        result.extend(r)
+
+        # - match built-ins -- currently disabled
+        #free_names = gs.globals_filter_by_builtins(local_nodes.keys())
+        #r = [key for key in local_nodes.keys() if key not in free_names]
+        #result.extend(r)
+
+        # warn what we have
+        for key, scopeVar in local_nodes.items():
+            if key in result:
+                for node in scopeVar.occurrences():
+                    issue = warn("Local var shadowing a library symbol: '%s'" % key, self.file_name, node)
+                    self.issues.append(issue)
 
 
     def function_unused_vars(self, funcnode):
@@ -520,6 +546,7 @@ def defaultOptions():
     opts.ignore_reference_fields = False
     opts.ignore_undeclared_privates = False
     opts.ignore_undefined_globals = False
+    opts.ignore_shadowing_locals = False
     opts.ignore_unused_parameter = True
     opts.ignore_unused_variables = False
     opts.warn_unknown_jsdoc_keys = False

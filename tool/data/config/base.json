@@ -624,6 +624,7 @@
         ,"ignore-reference-fields"          : false
         ,"ignore-undeclared-privates"       : false
         ,"ignore-undefined-globals"         : false
+        ,"ignore-shadowing-locals"          : false
         ,"ignore-unused-parameter"          : true
         ,"ignore-unused-variables"          : false
         ,"run" : true
