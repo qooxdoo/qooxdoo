@@ -50,13 +50,14 @@ qx.Bootstrap.define("qxWeb", {
      *
      * @param arg {var} An array of Elements which will
      *   be initialized as {@link q}. All items in the array which are not
-     *   either a window object or a node object will be ignored.
+     *   either a window object, a DOM element node or a DOM document node will
+     *   be ignored.
      * @return {q} A new initialized collection.
      */
     $init : function(arg) {
       var clean = [];
       for (var i = 0; i < arg.length; i++) {
-        var isNode = !!(arg[i] && arg[i].nodeType != null);
+        var isNode = !!(arg[i] && (arg[i].nodeType === 1 || arg[i].nodeType === 9));
         if (isNode) {
           clean.push(arg[i]);
           continue;

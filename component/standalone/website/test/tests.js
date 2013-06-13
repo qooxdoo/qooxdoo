@@ -689,13 +689,9 @@ testrunner.define({
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
     var contents = q(".container").getContents();
-    this.assertEquals(6, contents.length);
+    this.assertEquals(2, contents.length);
     this.assertEquals(1, contents[0].nodeType);
-    this.assertEquals(8, contents[1].nodeType);
-    this.assertEquals(3, contents[2].nodeType);
-    this.assertEquals(1, contents[3].nodeType);
-    this.assertEquals(8, contents[4].nodeType);
-    this.assertEquals(3, contents[5].nodeType);
+    this.assertEquals(1, contents[1].nodeType);
     test.remove();
   },
 
@@ -1976,7 +1972,7 @@ testrunner.define({
   testRenderToNodeTmplTextOnly : function() {
     var result = q.template.renderToNode("{{affe}}", {affe: "george"});
     this.assertEquals(1, result.length);
-    this.assertEquals("george", result[0].data);
+    this.assertEquals("george", result[0].innerHTML);
   },
 
   testRenderToNodeTmplWithNodes : function() {
@@ -1988,10 +1984,9 @@ testrunner.define({
   testGet : function() {
     var template = q.create("<div id='tmp'>{{affe}}</div>");
     template.appendTo(document.body);
-
     var result = q.template.get("tmp", {affe: "george"});
     this.assertEquals(1, result.length);
-    this.assertEquals("george", result[0].data);
+    this.assertEquals("george", result[0].innerHTML);
     template.remove();
   }
 });
@@ -2877,7 +2872,6 @@ testrunner.define({
   }
 
 });
-
 
 
 testrunner.define({

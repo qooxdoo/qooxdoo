@@ -38,7 +38,7 @@ qx.Bootstrap.define("qx.module.Template", {
     /**
      * Helper method which provides direct access to templates stored as HTML in
      * the DOM. The DOM node with the given ID will be treated as a template,
-     * parsed and a new DOM node will be returned containing the parsed data.
+     * parsed and a new DOM element will be returned containing the parsed data.
      * Keep in mind that templates can only have one root element.
      * Additionally, you should not put the template into a regular, hidden
      * DOM element because the template may not be valid HTML due to the containing
@@ -54,6 +54,7 @@ qx.Bootstrap.define("qx.module.Template", {
      */
     get : function(id, view, partials) {
       var el = qx.bom.Template.get(id, view, partials);
+      el = qx.module.Template.__wrap(el);
       return qxWeb.$init([el]);
     },
 
@@ -87,7 +88,24 @@ qx.Bootstrap.define("qx.module.Template", {
      */
     renderToNode : function(template, view, partials) {
       var el = qx.bom.Template.renderToNode(template, view, partials);
+      el = qx.module.Template.__wrap(el);
       return qxWeb.$init([el]);
+    },
+
+
+    /**
+     * If the given node is a DOM text node, wrap it in a span element and return
+     * the wrapper.
+     * @param el {Node} a DOM node
+     * @return {Element} Original element or wrapper
+     */
+    __wrap : function(el) {
+      if (q.isTextNode(el)) {
+        var wrapper = document.createElement("span");
+        wrapper.appendChild(el);
+        el = wrapper;
+      }
+      return el;
     }
   },
 
