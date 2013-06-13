@@ -3459,12 +3459,18 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       var pos = id.indexOf("#");
-      if (pos == -1) {
-        var control = this._createChildControlImpl(id);
-      } else {
-        var control = this._createChildControlImpl(
-          id.substring(0, pos), id.substring(pos + 1, id.length)
-        );
+      try {
+        if (pos == -1) {
+          var control = this._createChildControlImpl(id);
+        } else {
+          var control = this._createChildControlImpl(
+            id.substring(0, pos), id.substring(pos + 1, id.length)
+          );
+        }
+      } catch(exc) {
+        exc.message = "Exception while creating child control '" + id +
+        "' of widget " + this.toString() + ": " + exc.message;
+        throw exc;
       }
 
       if (!control) {
