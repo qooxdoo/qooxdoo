@@ -5,15 +5,14 @@ In various introductions and tutorials you were using the qooxdoo tool chain
 casually along the way. Now it's about time to take a more systematical
 look. The main interface to invoke the tool chain is the *generate.py*
 script that is part of every skeleton, often colloquially referred to as
-"the generator". In each qooxdoo library or application, it sits next to
+"the Generator". In each qooxdoo library or application, it sits next to
 the library's *Manifest.json* and the default configuration file,
 *config.json*. The *Manifest.json* file is the main declaration file for
 any qooxdoo app, it's constitutional document if you will. *config.json*
-is the configuration file that steers the generator and its actions.
-When invoked, the generator looks for a file of this name in the current
+is the configuration file that steers the Generator and its actions.
+When invoked, the Generator looks for a file of this name in the current
 directory for default instructions, but you can supply an alternative
-configuration file with a command line option. Invoking
-::
+configuration file with a command line option. Invoking ::
 
     generate.py -h |--help
 
@@ -21,9 +20,12 @@ gives you a complete list of those options.
 
 |image0|
 
-In the simplest case the generator takes the name of a *job* to perform
-as its sole argument. Supplying a non-existing job name will result in
-the generator providing a list of known jobs which it can perform. You
+In the general case the Generator takes the name of a *job* to perform
+as its sole argument. You can even invoke it without any argument, and it will
+run the "default job" if the configuration defines one. 
+
+Supplying a non-existing job name will result in
+the Generator providing a list of known jobs which it can perform. You
 can try this by using a made-up job name like "*x*"::
 
     generate.py x
@@ -36,7 +38,7 @@ important jobs here.
 Generating a Runnable App
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The most important job of the generator is to create a version of your
+The most important job of the Generator is to create a version of your
 application that you can run in the browser. This is surprising for many
 people at first. Why do I need to "generate" a working application, when
 I have written my JavaScript and have an index.html handy? Why not just
@@ -47,7 +49,7 @@ necessary to run it. This avoids any overhead of carrying unnecessary
 code with your app. To achieve this, an individual piece of JavaScript
 code is generated, the so-called *loader*. For any qooxdoo application,
 this loader is the first file to be loaded and evaluated in the browser,
-and it makes sure all necessary component of the application get loaded
+and it makes sure all necessary components of the application get loaded
 after it as well. Besides many other benefits that can be achieved, this
 is the central reason to have a generation step before a qooxdoo app can
 be run.
@@ -55,9 +57,10 @@ be run.
 Use the Source, Luke
 ~~~~~~~~~~~~~~~~~~~~
 
-The tool chain is able to generate your application in various flavors.
-This is reflected by the available generation jobs, "source", "hybrid", "source-all" and "build". The most important for starting and
-building up your app, are the source jobs. Running ::
+The tool chain is able to generate your application in various flavors.  This is
+reflected by the available generation jobs, "source", "source-hybrid",
+"source-all" and "build". The most important for starting and building up your
+app, are the source jobs. Running ::
 
     generate.py
 
@@ -73,12 +76,12 @@ Chrome Developer Tools, you can identify each of your custom files individually,
 its code and comments, set breakpoints, inspect variables and so forth.
 This job is particular interesting when you want to debug classes outside your custom application, e.g. if you are debugging another library along the way.
 
-You only have to re-run this generator job when you introduce new
+You only have to re-run this Generator job when you introduce new
 dependencies, e.g. by instantiating a class you haven't used before.
 This changes the set of necessary classes for your application, and the
-generator has to re-create the corresponding loader. 
+Generator has to re-create the corresponding loader. 
 
-In the :ref:`source-hybrid <pages/tool/generator/generator_default_jobs#source-hybrid>` version, the generator will concatenate class files into a bunch of script files, except for your application classes, which are loaded directly from their original path on the file system. This allows for a reasonable loading speed of your application in the browser, while still providing convenient debug access to your own class files.
+In the :ref:`source-hybrid <pages/tool/generator/generator_default_jobs#source-hybrid>` version, the Generator will concatenate class files into a bunch of script files, except for your application classes which are loaded directly from their original path on the file system. This allows for a reasonable loading speed of your application in the browser while still providing convenient debug access to your own class files.
 
 With :ref:`source-all <pages/tool/generator/generator_default_jobs#source-all>` all existing classes will be included, be they
 part of your application, the qooxdoo framework, or any other qooxdoo
@@ -119,12 +122,13 @@ required resources, such as icons and images, are collected together
 under a common root directory, usually named ``build``. The good thing
 here is that this makes the contents of this directory self-contained so
 you can copy it to the document tree of a web server, zip it up and send
-it by mail, and so forth. All necessary content will come along, and the
-app will just run when the contained *index.hmtl* is loaded. For an
-example let's suppose you have an application ``myapp`` and a web server
-instance running on a machine called ``fooserv``. Then, given suitable
-network connection and setup, the following command will copy your build
-version to the web server::
+it by mail, and so forth. All necessary content will be included, and the
+app will just run when the contained *index.hmtl* is loaded. 
+
+For an example let's suppose you have an application ``myapp`` and a web server
+instance running on a machine called ``fooserv``. Then, given suitable network
+connection and setup, the following command will copy your build version to the
+web server::
 
     scp -r build bar@fooserv:~/public_html/myapp
 
@@ -136,10 +140,10 @@ Non-App-Generating Jobs
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 So now you know about the basic jobs to create a runnable application
-using the generator. There is a whole bunch of jobs that is not
+using the Generator. There is a whole bunch of jobs that is not
 concerned with creating a runnable version of your app, but do other
 things. One of those is addressed in the :doc:`tweets tutorial </pages/desktop/tutorials/tutorial-part-4-3>` which is
-concerned with internationalization of an application. The generator job
+concerned with internationalization of an application. The Generator job
 in this context is ``translation``, and extracts translatable strings
 from your JavaScript source files into *.po* files. Here is a quick
 topical overview of those kinds of jobs: 
@@ -167,11 +171,11 @@ Files:
 
 -  ``clean`` -- clean up generated files for this app
 -  ``distclean`` -- clean up generated files for this app, and delete
-   the generator cache
+   the Generator cache
 
 As mentioned before, for a full list of available jobs with short
 descriptions run ``generate.py x``, or see the
-the list of `default jobs <generator_default_jobs>`_.
+the list of :doc:`default jobs </pages/tool/generator/default_jobs_actions>`.
 
 Tweaking Jobs
 ~~~~~~~~~~~~~
@@ -186,23 +190,8 @@ built-in functionality that can be drawn upon by job definitions, and
 jobs can be freely defined or altered. The system is in fact so
 configurable that we have thought of means of limiting its flexibility,
 for the sake of an easier user interface. If you feel you want to change
-the way in which the generator works, try the following three levels
-which go from simple (but less powerful) to advanced (but more
-challenging):
-
-#. **Macros** The first and simplest level to tweak the generator are
-   configuration macros. These are simple strings that can have a value,
-   and that are used in job definitions where they are eventually
-   replaced by their value.
-#. **Overriding Existing Jobs** The next level would be to take an
-   existing job (one that comes predefined with qooxdoo), and change
-   some of its settings so it better suits your needs. This is achieved
-   by overriding or "shadowing" an existing job in your own config.json.
-#. **Custom Jobs** You can of course define entirely new jobs from
-   scratch. This is the most challenging approach, and requires you to
-   understand a bit about how the generator works internally, and what
-   settings you have to specify in your job definition to make
-   everything work out.
+the way in which a particular Generator job works, or define one from scratch,
+see a :doc:`dedicated page </pages/tool/generator/config_tweaking>` on this topic.
 
 .. |image0| image:: tutorial_basics/generate_h12.png
 .. |image1| image:: tutorial_basics/generate_x1.png
