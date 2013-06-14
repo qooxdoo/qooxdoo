@@ -190,8 +190,8 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       var y = touch0.pageY - touch1.pageY;
       return(Math.atan2(y, x)*180/Math.PI);	
     },
-    
-    
+
+
     /**
      * Called by an event handler.
      *
@@ -221,7 +221,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
 
       if (type == "touchstart") {
         this.__originalTarget = this._getTarget(domEvent);
-        
+
         this.__isTapGesture = true;
 
         if(domEvent.touches && domEvent.touches.length > 1) {
@@ -229,15 +229,15 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
           this.__beginRotation = this._getRotationAngle(domEvent.touches[0],domEvent.touches[1]);
         }
       }
-      
+
       if(type =="touchmove") {
         // Polyfill for scale 
         if(typeof domEvent.scale == "undefined" && domEvent.changedTouches.length > 1) {
-          
+
           var currentScalingDistance = this._getScalingDistance(domEvent.changedTouches[0],domEvent.changedTouches[1]);
           domEvent.scale = currentScalingDistance / this.__beginScalingDistance;
         }
-        
+
          // Polyfill for rotation 
         if(typeof domEvent.rotation == "undefined" && domEvent.changedTouches.length > 1) {
           var currentRotation = this._getRotationAngle(domEvent.changedTouches[0],domEvent.changedTouches[1]);
@@ -248,7 +248,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
           this.__isTapGesture = this._isBelowTapMaxDistance(domEvent.changedTouches[0]);
         }
       }
-      
+
       this._fireEvent(domEvent, type);
       this.__checkAndFireGesture(domEvent, type);
     },

@@ -250,7 +250,10 @@ qx.Class.define("qx.event.handler.Mouse",
 
       Event.addNativeListener(this.__root, "mousedown", this.__onButtonEventWrapper);
       Event.addNativeListener(this.__root, "mouseup", this.__onButtonEventWrapper);
-      Event.addNativeListener(this.__root, "click", this.__onButtonEventWrapper);
+      // do not register click events on IE with emulate mouse on
+      if (!(qx.core.Environment.get("qx.emulatemouse") && qx.core.Environment.get("event.mspointer"))) {
+        Event.addNativeListener(this.__root, "click", this.__onButtonEventWrapper);
+      }
       Event.addNativeListener(this.__root, "dblclick", this.__onButtonEventWrapper);
       Event.addNativeListener(this.__root, "contextmenu", this.__onButtonEventWrapper);
     },
@@ -309,7 +312,10 @@ qx.Class.define("qx.event.handler.Mouse",
 
       Event.removeNativeListener(this.__root, "mousedown", this.__onButtonEventWrapper);
       Event.removeNativeListener(this.__root, "mouseup", this.__onButtonEventWrapper);
-      Event.removeNativeListener(this.__root, "click", this.__onButtonEventWrapper);
+      // do not unregister click events on IE with emulate mouse on
+      if (!(qx.core.Environment.get("qx.emulatemouse") && qx.core.Environment.get("event.mspointer"))) {
+        Event.removeNativeListener(this.__root, "click", this.__onButtonEventWrapper);
+      }
       Event.removeNativeListener(this.__root, "dblclick", this.__onButtonEventWrapper);
       Event.removeNativeListener(this.__root, "contextmenu", this.__onButtonEventWrapper);
     },
@@ -595,7 +601,7 @@ qx.Class.define("qx.event.handler.Mouse",
 
   destruct : function()
   {
-    if (!((qx.core.Environment.get("event.touch") || qx.core.Environment.get("event.mspointer")) &&
+    if (!(qx.core.Environment.get("event.touch") &&
         qx.core.Environment.get("qx.emulatemouse")))
     {
       this._stopButtonObserver();

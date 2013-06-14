@@ -49,8 +49,9 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     this.__root = this.__window.document;
 
     // Initialize observers
-    if (qx.core.Environment.get("qx.emulatemouse")) {
+    if (qx.core.Environment.get("qx.emulatemouse") && qx.core.Environment.get("device.touch")) {
       this._initObserver();
+      document.documentElement.style.msTouchAction = "none";
     }
   },
 
@@ -235,8 +236,11 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     __onTouchStart : function(e) {
       var target = e.getTarget();
       var nativeEvent = this.__getDefaultFakeEvent(target, e.getAllTouches()[0]);
-      if (!this.__fireEvent(nativeEvent, "mousedown", target)) {
-        e.preventDefault();
+      // do not fake mousedown on IE (Mouse Handler can take original event)
+      if (qx.core.Environment.get("event.touch")) {
+        if (!this.__fireEvent(nativeEvent, "mousedown", target)) {
+          e.preventDefault();
+        }
       }
       this.__lastPos = {x: nativeEvent.screenX, y: nativeEvent.screenY};
       this.__startPos = {x: nativeEvent.screenX, y: nativeEvent.screenY};
@@ -251,8 +255,12 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     __onTouchMove : function(e) {
       var target = e.getTarget();
       var nativeEvent = this.__getDefaultFakeEvent(target, e.getChangedTargetTouches()[0]);
-      if (!this.__fireEvent(nativeEvent, "mousemove", target)) {
-        e.preventDefault();
+
+      // do not fake mousemove on IE (Mouse Handler can take original event)
+      if (qx.core.Environment.get("event.touch")) {
+        if (!this.__fireEvent(nativeEvent, "mousemove", target)) {
+          e.preventDefault();
+        }
       }
 
       // calculate the delta for the wheel event
@@ -262,20 +270,24 @@ qx.Class.define("qx.event.handler.MouseEmulation",
       // take a new position. wheel events require the delta to the last event
       this.__lastPos = {x: nativeEvent.screenX, y: nativeEvent.screenY};
 
-      var finger = e.getChangedTargetTouches()[0];
-      this.__fireWheelEvent(deltaX, deltaY, finger, target);
+      // only react on touch events
+      // http://www.w3.org/Submission/pointer-events/#pointerevent-interface
+      if (e.getNativeEvent().pointerType != 4) {
+        var finger = e.getChangedTargetTouches()[0];
+        this.__fireWheelEvent(deltaX, deltaY, finger, target);
 
-      // if we have an old timeout for the current direction, clear it
-      if (this.__impulseTimerId) {
-        clearTimeout(this.__impulseTimerId);
-        this.__impulseTimerId = null;
+        // if we have an old timeout for the current direction, clear it
+        if (this.__impulseTimerId) {
+          clearTimeout(this.__impulseTimerId);
+          this.__impulseTimerId = null;
+        }
+
+        // set up a new timer for the current direction
+        this.__impulseTimerId =
+          setTimeout(qx.lang.Function.bind(function(deltaX, deltaY, finger, target) {
+            this.__handleScrollImpulse(deltaX, deltaY, finger, target);
+          }, this, deltaX, deltaY, finger, target), 100);
       }
-
-      // set up a new timer for the current direction
-      this.__impulseTimerId =
-        setTimeout(qx.lang.Function.bind(function(deltaX, deltaY, finger, target) {
-          this.__handleScrollImpulse(deltaX, deltaY, finger, target);
-        }, this, deltaX, deltaY, finger, target), 100);
     },
 
 
@@ -287,8 +299,11 @@ qx.Class.define("qx.event.handler.MouseEmulation",
       var target = e.getTarget();
       var nativeEvent = this.__getDefaultFakeEvent(target, e.getChangedTargetTouches()[0]);
 
-      if (!this.__fireEvent(nativeEvent, "mouseup", target)) {
-        e.preventDefault();
+      // do not fake mouseup on IE (Mouse Handler can take original event)
+      if (qx.core.Environment.get("event.touch")) {
+        if (!this.__fireEvent(nativeEvent, "mouseup", target)) {
+          e.preventDefault();
+        }
       }
     },
 

@@ -203,7 +203,10 @@
  *       <td>device.pixelRatio</td><td><i>Number</i></td><td><code>2</code></td>
  *       <td>{@link qx.bom.client.Device#getDevicePixelRatio}</td>
  *     </tr>
-
+ *     <tr>
+ *       <td>device.touch</td><td><i>String</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Device#getTouch}</td>
+ *     </tr>
  *     <tr>
  *       <td colspan="4"><b>ecmascript</b></td>
  *     </tr>
@@ -794,6 +797,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "device.name"                 : "qx.bom.client.Device.getName",
       "device.type"                 : "qx.bom.client.Device.getType",
       "device.pixelRatio"           : "qx.bom.client.Device.getPixelRatio",
+      "device.touch"                : "qx.bom.client.Device.getTouch",
       "locale"                      : "qx.bom.client.Locale.getLocale",
       "locale.variant"              : "qx.bom.client.Locale.getVariant",
       "os.name"                     : "qx.bom.client.OperatingSystem.getName",
@@ -821,6 +825,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "io.xhr"                      : "qx.bom.client.Transport.getXmlHttpRequest",
       "event.touch"                 : "qx.bom.client.Event.getTouch",
       "event.pointer"               : "qx.bom.client.Event.getPointer",
+      "event.mspointer"             : "qx.bom.client.Engine.getMsPointer",
       "event.help"                  : "qx.bom.client.Event.getHelp",
       "event.hashchange"            : "qx.bom.client.Event.getHashChange",
       "ecmascript.error.stacktrace"       : "qx.bom.client.EcmaScript.getStackTrace",

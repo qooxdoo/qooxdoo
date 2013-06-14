@@ -128,6 +128,17 @@ qx.Bootstrap.define("qx.bom.client.Device",
       }
 
       return 1;
+    },
+
+
+    /**
+     * Detects if either touch events or pointer events are supported.
+     * Additionally it checks if touch is enabled for pointer events.
+     *
+     * @return {Boolean} <code>true</code>, if the device supports touch
+     */
+    getTouch : function() {
+      return ("ontouchstart" in window) || window.navigator.msMaxTouchPoints > 1;
     }
 
   },
