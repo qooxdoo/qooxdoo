@@ -57,13 +57,6 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     } else {
       this.initSource();
     }
-
-    // Fix for Android 2.x devices. Enables transforms on CSS pseudo element.
-    if(qx.core.Environment.get("os.name") == "android") {
-      if(qx.core.Environment.get("os.version").charAt(0) == "2") {
-        this.addCssClass("fix-scale");
-      }
-    }
   },
 
 

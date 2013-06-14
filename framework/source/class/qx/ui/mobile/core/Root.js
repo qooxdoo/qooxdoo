@@ -43,7 +43,8 @@ qx.Class.define("qx.ui.mobile.core.Root",
     
     this.addCssClass("mobile");
     this.addCssClass(qx.core.Environment.get("os.name"));
-    
+    this.addCssClass("v"+qx.core.Environment.get("os.version").charAt(0));
+
     qx.event.Registration.addListener(window, "orientationchange", this._onOrientationChange, this);
 
     this._onOrientationChange();

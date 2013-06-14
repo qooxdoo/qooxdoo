@@ -58,7 +58,7 @@ img.no-content {
   display: block;
   position: relative; }
 
-.fix-scale {
+.root.android.v2 img {
   -webkit-transform: scale(1);
   -moz-transform: scale(1);
   transform: scale(1); }
@@ -84,7 +84,9 @@ input::-webkit-inner-spin-button {
 .iscroll {
   width: 100%;
   position: absolute;
-  padding-bottom: 10px;
+  padding-bottom: 10px; }
+
+.root.android.v2 .iscroll {
   -webkit-transform: scale(1);
   -moz-transform: scale(1);
   transform: scale(1); }
