@@ -431,6 +431,7 @@
         "ignore-reference-fields": { "type": "boolean" },
         "ignore-undeclared-privates": { "type": "boolean" },
         "ignore-undefined-globals": { "type": "boolean" },
+        "ignore-shadowing-locals": { "type": "boolean" },
         "ignore-unused-parameter": { "type": "boolean" },
         "ignore-unused-variables": { "type": "boolean" },
         "run": { "type": "boolean" },
