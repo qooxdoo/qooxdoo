@@ -164,11 +164,11 @@ qx.Mixin.define("qx.ui.core.MMovable",
       var viewportTop = this.__dragTop + mouseTop;
 
       return {
-        viewportLeft : viewportLeft,
-        viewportTop : viewportTop,
+        viewportLeft : parseInt(viewportLeft, 10),
+        viewportTop : parseInt(viewportTop, 10),
 
-        parentLeft : viewportLeft - this.__parentLeft,
-        parentTop : viewportTop - this.__parentTop
+        parentLeft : parseInt(viewportLeft - this.__parentLeft, 10),
+        parentTop : parseInt(viewportTop - this.__parentTop, 10)
       };
     },
 
