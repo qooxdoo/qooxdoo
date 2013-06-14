@@ -200,27 +200,32 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     _createHighResolutionOverlay : function(pixelRatio, source, highResSource) {
       var resourceManager = qx.util.ResourceManager.getInstance();
 
-      // Fix image size to low resolution image size.
-      var scale = 1 / pixelRatio;
+      var scale = (1 / pixelRatio);
       scale = (Math.round(scale * 100) / 100);
+
+      // Activate sub-pixel rendering on iOS
+      if (qx.core.Environment.get("os.name") == "ios") {
+        scale = scale +0.01;
+      }
 
       var srcWidth = resourceManager.getImageWidth(source);
       var srcHeight = resourceManager.getImageHeight(source);
-      var hiSrcWidth = resourceManager.getImageWidth(highResSource);
-      var hiSrcHeight = resourceManager.getImageHeight(highResSource);
+      var highResSrcWidth = resourceManager.getImageWidth(highResSource);
+      var highResSrcHeight = resourceManager.getImageHeight(highResSource);
 
-      var offsetX = (hiSrcWidth - srcWidth) / 2;
-      var offsetY = (hiSrcHeight - srcHeight) / 2;
+      var offsetX = (highResSrcWidth - srcWidth) / 2;
+      var offsetY = (highResSrcHeight - srcHeight) / 2;
 
+      // Fix image size to lower resolution image size.
       this._setAttribute("width", srcWidth);
       this._setAttribute("height", srcHeight);
 
       var selector = "#" + this.getId() + ":before";
       var entry = "{";
-      entry += "width:" + hiSrcWidth + "px; height:" + hiSrcHeight + "px; ";
+      entry += "width:" + highResSrcWidth + "px; height:" + highResSrcHeight + "px; ";
       entry += "background-image: url(" + resourceManager.toUri(highResSource) + ");";
       entry += "top:" + (-offsetY) + "px; left:" + (-offsetX) + "px;";
-      entry += qx.ui.mobile.basic.Image.TRANSFORM_CSS_NAME + ": scaleX(" + scale + ") scaleY(" + scale + ");";
+      entry += qx.ui.mobile.basic.Image.TRANSFORM_CSS_NAME + ": scale(" + scale + ");";
       entry += "}";
 
       document.styleSheets[1].insertRule(selector + entry, 0);
