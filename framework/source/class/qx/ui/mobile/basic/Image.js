@@ -89,7 +89,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
   },
 
 
-  statics : 
+  statics :
   {
     /** @type {Array} Possible pixel ratios of the current device operating system */
     PIXEL_RATIOS : null,
@@ -295,7 +295,9 @@ qx.Class.define("qx.ui.mobile.basic.Image",
       }
     }
 
-    var transformPropertyName = qx.bom.Style.getPropertyName("transform");
-    statics.TRANSFORM_CSS_NAME = qx.bom.Style.getCssName(transformPropertyName);
+    var transform = qx.core.Environment.get("css.transform");
+    if (transform) {
+      statics.TRANSFORM_CSS_NAME = qx.bom.Style.getCssName(transform.name);
+    }
   }
 });
