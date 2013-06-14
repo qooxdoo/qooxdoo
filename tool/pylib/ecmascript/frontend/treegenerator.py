@@ -667,9 +667,9 @@ def prepostfix(id_, bp):  # pre-/post-fix operators (++, --)
         operator = self.get("value")
         operand = self.children[0].toJS(opts)
         if self.get("left", 0) == "true":
-            r = [operator, operand]
+            r = [' ', operator, operand]
         else:
-            r = [operand, operator]
+            r = [operand, operator, ' ']
         return u''.join(r)
     symbol(id_).toJS = toJS
 
