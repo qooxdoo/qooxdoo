@@ -131,6 +131,9 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
    * <pre class="javascript">
    * { get: {method: "GET", url: "/photos/{id}", check: { id: /\d+/ }} }
    * </pre>
+   *
+   * @see qx.bom.rest
+   * @see qx.io.rest
    */
   construct: function(description)
   {

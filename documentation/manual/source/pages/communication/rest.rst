@@ -1,9 +1,23 @@
 REST (Representational State Transfer)
 **************************************
 
+``qx.io.rest.Resource`` allows to encapsulate the specifics of a REST
+interface. Rather than requesting URLs with a specific HTTP method manually, a
+resource representing the remote resource is instantiated and **actions** are
+invoked on this resource. A resource with its actions can be configured
+declaratively or programatically.
+
 .. note::
 
-  ``qx.io.rest.Resource`` allows to encapsulate the specifics of a REST interface. Rather than requesting URLs with a specific HTTP method manually, a resource representing the remote resource is instantiated and **actions** are invoked on this resource. A resource with its actions can be configured declaratively or programatically.
+  When to use ``qx.bom.rest.Resource``? Mostly ``qx.io.rest.Resource`` delegates
+  to ``qx.bom.rest.Resource`` and adds some features in top. For **qx.Desktop**
+  apps you probably want to use ``qx.io.rest.Resource`` but when developing an
+  app/website with **qx.Website** only ``qx.bom.rest.Resource`` is avalaible
+  (i.e. exposed as website module).
+
+  See the package description for a detailed comparison:
+  `qx.bom.rest <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.bom.rest>`_ .
+
 
 Configuring actions
 ===================
@@ -23,7 +37,8 @@ Note ``{id}`` stands for a placeholder.
 
 This interface comprises of two resources: ``photo`` and ``photos``.
 
-To declare the specifics of the REST interface declaratively, pass a description to the constructor.
+To declare the specifics of the REST interface declaratively, pass a description
+to the constructor.
 
 ::
 
@@ -73,7 +88,8 @@ Or programmatically, for each action.
 Invoking actions
 ================
 
-Once configured, actions can be invoked. They are invoked by calling a method that is dynamically added to the resource on configuration of the action.
+Once configured, actions can be invoked. They are invoked by calling a method
+that is dynamically added to the resource on configuration of the action.
 
 ::
 
@@ -90,7 +106,10 @@ When an action is invoked, an appropriate request is configured and send automat
 Parameters
 ==========
 
-If the URL contains parameters, the position where the parameters should be inserted can be specified by using `URI templates <http://tools.ietf.org/html/draft-gregorio-uritemplate-07>`_. Parameters are optional unless a check is defined. A default value can be provided.
+If the URL contains parameters, the position where the parameters should be
+inserted can be specified by using `URI templates
+<http://tools.ietf.org/html/draft-gregorio-uritemplate-07>`_. Parameters are
+optional unless a check is defined. A default value can be provided.
 
 ::
 
@@ -109,7 +128,10 @@ If the URL contains parameters, the position where the parameters should be inse
 Data
 ====
 
-Data that should be included in the request’s body can be given as second parameter. All types accepted by `qx.io.request.AbstractRequest#requestData <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.io.request.AbstractRequest~requestData>`_ are supported.
+Data that should be included in the request’s body can be given as second
+parameter. All types accepted by `qx.io.request.AbstractRequest#requestData
+<http://demo.qooxdoo.org/%{version}/apiviewer/#qx.io.request.AbstractRequest~requestData>`_
+are supported.
 
 ::
 
@@ -131,7 +153,10 @@ Note that the behavior changes when the request body content type is switched to
 Events
 ======
 
-Events are fired by the resource when the request was successful or any kind of error occurred. There are general resource events and action specific events. Handlers receive a ``qx.event.type.Rest`` event that, among other properties, includes the response.
+Events are fired by the resource when the request was successful or any kind of
+error occurred. There are general resource events and action specific events.
+Handlers receive a ``qx.event.type.Rest`` event that, among other properties,
+includes the response.
 
 ::
 
@@ -150,7 +175,9 @@ Events are fired by the resource when the request was successful or any kind of 
     // --> "get"
   });
 
-If the same action should be invoked multiple times and the events fired for each request be handled differently, it is possible to remember the id of the action’s invocation. The ``Rest`` event includes this id.
+If the same action should be invoked multiple times and the events fired for
+each request be handled differently, it is possible to remember the id of the
+action’s invocation. The ``Rest`` event includes this id.
 
 ::
 
@@ -174,7 +201,9 @@ Helpers make it easy to accomplish common tasks when working with requests.
 Data binding
 ============
 
-A ``qx.data.store.Rest`` store can be attached to an action. Whenever a response is received, the model property of the store is updated with the marshaled response.
+A ``qx.data.store.Rest`` store can be attached to an action. Whenever a response
+is received, the model property of the store is updated with the marshaled
+response.
 
 ::
 
