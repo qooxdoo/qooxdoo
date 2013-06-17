@@ -73,6 +73,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     this.__boundsX = [0,0];
     this.__pages = [];
     this.__paginationLabels = [];
+    this.__timers = [];
 
     var carouselScroller = this.__carouselScroller = new qx.ui.mobile.container.Composite();
     carouselScroller.addCssClass("carousel-scroller");
@@ -80,7 +81,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     carouselScroller.addListener("touchstart", this._onTouchStart, this);
     carouselScroller.addListener("touchmove", this._onTouchMove, this);
     carouselScroller.addListener("swipe", this._onSwipe, this);
-    
+
     this.addListener("appear", this._onContainerUpdate, this);
 
     qx.event.Registration.addListener(window, "orientationchange", this._onContainerUpdate, this);
@@ -122,8 +123,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       check : "Boolean",
       init : true
     },
-    
-    
+
+
     /**
      * Defines the height of the carousel.
      */
@@ -174,6 +175,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     __showTransition : null,
     __swipeVelocityLimit : 0.25,
     __isPageScrollTarget : null,
+    __timers : null,
 
 
     // overridden
@@ -190,7 +192,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       }
 
       page.addCssClass("carousel-page");
-      
+
       this.__pages.push(page);
       this.__carouselScroller.add(page);
 
@@ -200,8 +202,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
       this._updateCarouselLayout();
     },
-    
-    
+
+
     /**
      * Removes a carousel page from carousel identified by its index.
      * @param pageIndex {Integer} The page index which should be removed from carousel.
@@ -213,33 +215,33 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
         this.__carouselScroller.remove(targetPage);
         this.__pagination.remove(paginationLabel);
-        
+
         paginationLabel.removeListener("tap", this._onPaginationLabelTap, {
           self: this,
           targetIndex: pageIndex - 1
         });
         paginationLabel.dispose();
-        
+
         this.__pages.splice(pageIndex,1);
         this.__paginationLabels.splice(pageIndex,1);
-        
+
         if(pageIndex == this.getCurrentIndex()) {
           this.previousPage();
         }
       }
     },
-    
-    
+
+
     // overridden
     removeAll : function() {
       if(this.__pages) {
         for(var i = this.__pages.length - 1; i >= 0 ; i--) {
-          this.removePageByIndex(i); 
+          this.removePageByIndex(i);
         }
       }
     },
-    
-    
+
+
     /**
      * Scrolls the carousel to next page.
      */
@@ -321,16 +323,16 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
       var delayForLayoutUpdate = this.getTransitionDuration() * 1000;
 
-      qx.event.Timer.once(function() {
+      this.__timers.push(qx.event.Timer.once(function() {
         this.setCurrentIndex(pageIndex);
-      }, this, delayForLayoutUpdate);
+      }, this, delayForLayoutUpdate));
 
-      qx.event.Timer.once(function() {
+      this.__timers.push(qx.event.Timer.once(function() {
         this._setScrollersOpacity(1);
-      }, this, delayForLayoutUpdate * 2);
+      }, this, delayForLayoutUpdate * 2));
     },
-    
-    
+
+
     /**
      * Factory method for a paginationLabel.
      * @return {qx.ui.mobile.container.Composite} the created pagination label.
@@ -491,12 +493,12 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
         this._snapCarouselPage();
       }
     },
-    
-    
+
+
     /**
      * Handles the native scroll event on the carousel container.
      * This is needed for preventing "scrollIntoView" method.
-     * 
+     *
      * @param evt {qx.event.type.Native} the native scroll event.
      */
     _onNativeScroll : function(evt) {
@@ -580,7 +582,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     _updatePagination : function(oldActiveIndex, newActiveIndex) {
       var oldActiveLabel = this.__paginationLabels[oldActiveIndex];
       var newActiveLabel = this.__paginationLabels[newActiveIndex];
-      
+
       if(oldActiveLabel && oldActiveLabel.getContainerElement()) {
         oldActiveLabel.removeCssClass("active");
       }
@@ -604,8 +606,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       this.__carouselScroller.setTranslateX(x);
       this.__carouselScroller.setTranslateY(y);
     },
-    
-    
+
+
     /**
      * Remove all listeners.
      */
@@ -628,7 +630,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
   {
     this.removeAll();
     this._removeListeners();
-    
+    qx.util.DisposeUtil.disposeArray(this,"__timers");
+
     this._disposeObjects("__carouselScroller"," __pagination");
     qx.util.DisposeUtil.disposeArray(this,"__paginationLabels");
 
