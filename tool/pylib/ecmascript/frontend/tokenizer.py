@@ -201,11 +201,16 @@ class Tokenizer(object):
                                 break
                         # regex literal
                         if (len(self.out_stream) == 0 or (
-                                (prev_token['type']   != 'number') and
-                                (prev_token['detail'] != 'RP')     and
-                                (prev_token['detail'] != 'RB')     and
-                                (prev_token['type']   != 'name'))):
-                            regexp = self.parseRegexp(self.scanner)
+                                (prev_token['type'] not in ['number',   # divison of number
+                                                            'name',     # var holding a number
+                                                            'string'])  # string representing a number
+                                and (prev_token['detail'] not in ['RP', # call returning a number
+                                                                  'RB'])# <can't remember>
+                                )):
+                            try:
+                                regexp = self.parseRegexp(self.scanner)
+                            except SyntaxException, e:
+                                self.raiseSyntaxException(token, e.args[0])
                             token['type'] = 'regexp'
                             token['source'] = tok.value + regexp
                         # div, div-assign
@@ -295,12 +300,14 @@ class Tokenizer(object):
     def parseString(self, scanner, sstart):
         # parse string literals
         result = []
-        while True:
-            part = scanner.next(sstart)
-            result.append(part.value)
-            if not Scanner.is_last_escaped(part.value):  # be aware of escaped quotes
-                break
-            # run-away strings bomb in the above scanner.next()
+        try:
+            while True:
+                part = scanner.next(sstart)
+                result.append(part.value)
+                if not Scanner.is_last_escaped(part.value):  # be aware of escaped quotes
+                    break
+        except StopIteration:
+            raise SyntaxException("Unterminated string: '%s'" % u''.join(result))
         return u"".join(result)
 
 
@@ -311,23 +318,28 @@ class Tokenizer(object):
         rexp = ""
         in_char_class = False
         token = scanner.next()
-        while True:
-            rexp += token.value      # accumulate token strings
+        try:
+            while True:
+                rexp += token.value      # accumulate token strings
 
-            # -- Check last token
-            # character classes
-            if token.value == "[":
-                if not Scanner.is_last_escaped(rexp): # i.e. not preceded by an odd number of "\"
-                    in_char_class = True
-            elif token.value == "]" and in_char_class:
-                if not Scanner.is_last_escaped(rexp):
-                    in_char_class = False
-            # check for termination of rexp
-            elif rexp[-1] == "/" and not in_char_class:  # rexp[-1] != token.value if token.value == "//"
-                if not Scanner.is_last_escaped(rexp):
-                    break
+                # -- Check last token
+                # character classes
+                if token.value == "[":
+                    if not Scanner.is_last_escaped(rexp): # i.e. not preceded by an odd number of "\"
+                        in_char_class = True
+                elif token.value == "]" and in_char_class:
+                    if not Scanner.is_last_escaped(rexp):
+                        in_char_class = False
+                elif token.name in ['nl','eof']:
+                    raise StopIteration
+                # check for termination of rexp
+                elif rexp[-1] == "/" and not in_char_class:  # rexp[-1] != token.value if token.value == "//"
+                    if not Scanner.is_last_escaped(rexp):
+                        break
+                token = scanner.next()
 
-            token = scanner.next()
+        except StopIteration:
+            raise SyntaxException("Unterminated regexp literal: '%s'" % rexp)
 
         # regexp modifiers
         try:
@@ -351,12 +363,14 @@ class Tokenizer(object):
     # parse a multiline comment /* ... */
     def parseCommentM(self, scanner):
         res = []
-        while True:
-            token = scanner.next(r'\*/')  # inform the low-level scanner to switch to commentM
-            res.append(token.value)
-            if not Scanner.is_last_escaped(token.value):
-                break
-            # run-away comments bomb in the above scanner.next()
+        try:
+            while True:
+                token = scanner.next(r'\*/')  # inform the low-level scanner to switch to commentM
+                res.append(token.value)
+                if not Scanner.is_last_escaped(token.value):
+                    break
+        except StopIteration:
+            raise SyntaxException("Unterminated multi-line comment:\n '%s'" % u''.join(res))
         return u"".join(res)
 
 
@@ -376,7 +390,6 @@ class Tokenizer(object):
             raise SyntaxException ("Run-away element", res)
 
         return tokens
-
 
 
     ##

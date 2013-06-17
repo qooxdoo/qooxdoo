@@ -94,9 +94,6 @@ def lint_classes(classesObj, opts):
 
         ##
         # @deprecated {3.0} deprecation support for #ignore
-        if classObj.id == "gui.Application":
-            #import pydb; pydb.debugger()
-            pass
         hash_ignores = classObj.getHints('ignoreDeps')
         hash_ignores = map(HintArgument, hash_ignores)
         warns_ = warns[:]
