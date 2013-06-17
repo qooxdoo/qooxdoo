@@ -28,6 +28,7 @@ from misc          import textutil, filetool
 from misc.ExtMap   import ExtMap
 from ecmascript.transform.check      import lint
 from generator     import Context
+from generator.code.HintArgument     import HintArgument
 from generator.runtime.ShellCmd      import ShellCmd
 
 def runLint(jobconf, classes):
@@ -90,6 +91,22 @@ def lint_classes(classesObj, opts):
         console.debug("Checking %s" % classObj.id)
         lint_check(classObj, opts)
         warns = lint_check(classObj, opts)
+
+        ##
+        # @deprecated {3.0} deprecation support for #ignore
+        if classObj.id == "gui.Application":
+            #import pydb; pydb.debugger()
+            pass
+        hash_ignores = classObj.getHints('ignoreDeps')
+        hash_ignores = map(HintArgument, hash_ignores)
+        warns_ = warns[:]
+        warns = []
+        for warn in warns_:
+            if (hasattr(warn, 'name') and
+                warn.name in hash_ignores):
+                continue
+            warns.append(warn)
+
         for warn in warns:
             console.warn("%s (%d, %d): %s" % (classObj.id, warn.line, warn.column, 
                 warn.msg % tuple(warn.args)))
