@@ -207,6 +207,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       this._updateScrollIndicator(this.__currentOffset[1]);
       
       evt.stopPropagation();
+      evt.preventDefault();
     },
     
     

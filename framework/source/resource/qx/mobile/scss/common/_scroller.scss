@@ -34,3 +34,9 @@
 .scroll-container.scrollable-top:before, .scroll-container.scrollable-bottom:after {
   pointer-events:none;
 }
+
+.scroll.native {
+  -webkit-overflow-scrolling:touch;
+  overflow:scroll;
+}
+

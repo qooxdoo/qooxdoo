@@ -24,14 +24,42 @@
 qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
 {
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
+
+  construct : function()
+  {
+    this.addCssClass("native");
+    if(qx.core.Environment.get("os.name") == "ios") {
+      this.addListener("touchstart", this._onTouchStart, this);
+    }
+  },
+
 
   members :
   {
+     /**
+     * Handler for "touchstart" event.
+     * Prevents "rubber-banding" effect of page.
+     * @param evt {qx.event.type.Touch} The touch event.
+     */
+    _onTouchStart : function(evt) {
+      var parentContentElementHeight = this.getLayoutParent().getContentElement().offsetHeight;
+      var contentElementHeight = this.getContentElement().scrollHeight;
+
+      // If scroll container is scrollable
+      if (contentElementHeight > parentContentElementHeight) {
+        var scrollTop = this.getContentElement().scrollTop;
+        var maxScrollTop = contentElementHeight - parentContentElementHeight;
+        if (scrollTop == 0) {
+          this.getContentElement().scrollTop = 1;
+        } else if (scrollTop == maxScrollTop) {
+          this.getContentElement().scrollTop = maxScrollTop - 1;
+        }
+      } else {
+        evt.preventDefault();
+      }
+    },
+
+
     /**
      * Mixin method. Creates the scroll element.
      *

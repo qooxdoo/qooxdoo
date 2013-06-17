@@ -103,6 +103,10 @@ input::-webkit-inner-spin-button {
 .scroll-container.scrollable-top:before, .scroll-container.scrollable-bottom:after {
   pointer-events: none; }
 
+.scroll.native {
+  -webkit-overflow-scrolling: touch;
+  overflow: scroll; }
+
 .animationParent {
   -webkit-perspective: 800;
   -moz-perspective: 800;

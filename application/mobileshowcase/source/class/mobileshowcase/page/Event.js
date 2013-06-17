@@ -183,6 +183,8 @@ qx.Class.define("mobileshowcase.page.Event",
       }
 
       qx.bom.AnimationFrame.request(this._render, this);
+
+      evt.preventDefault();
     },
 
 
@@ -267,7 +269,7 @@ qx.Class.define("mobileshowcase.page.Event",
         this.__label.setValue("");
       } else if (type == "touchend") {
         // Remove all touches out of visible area
-        for(var i = 0; i < this.__touchCircleLeft.length; i++) {
+        for (var i = 0; i < this.__touchCircleLeft.length; i++) {
           this.__touchCircleLeft[i] = -1000;
           this.__touchCircleTop[i] = -1000;
         }
@@ -275,7 +277,7 @@ qx.Class.define("mobileshowcase.page.Event",
         // Re-enable iScroll after touchend event
         if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
           this._getScrollContainer().enable();
-      }
+        }
       }
 
       // Text output of event
@@ -285,6 +287,8 @@ qx.Class.define("mobileshowcase.page.Event",
       this.__lastEventType = evt.getType();
 
       qx.bom.AnimationFrame.request(this._render, this);
+
+      evt.preventDefault();
     },
 
 
