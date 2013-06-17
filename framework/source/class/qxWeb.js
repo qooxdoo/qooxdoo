@@ -146,16 +146,21 @@ qx.Bootstrap.define("qxWeb", {
 
 
   /**
-   * Accepts a selector string and returns a set of found items. The optional context
+   * Primary usage:
+   * Accepts a selector string and returns a collection of found items. The optional context
    * element can be used to reduce the amount of found elements to children of the
    * context element. If the context object is a collection, its first item is used.
+   *
+   * Secondary usage:
+   * Creates a collection from an existing DOM element, document node or window object
+   * (or an Array containing any such objects)
    *
    * <a href="http://sizzlejs.com/" target="_blank">Sizzle</a> is used as selector engine.
    * Check out the <a href="https://github.com/jquery/sizzle/wiki/Sizzle-Home" target="_blank">documentation</a>
    * for more details.
    *
-   * @param selector {String|Element|Array} Valid selector (CSS3 + extensions)
-   *   or DOM element or Array of DOM Elements.
+   * @param selector {String|Element|Document|Window|Array} Valid selector (CSS3 + extensions),
+   *   window object, DOM element/document or Array of DOM Elements.
    * @param context {Element|q} Only the children of this element are considered.
    * @return {q} A collection of DOM elements.
    */
