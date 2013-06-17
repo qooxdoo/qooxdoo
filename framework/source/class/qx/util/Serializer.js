@@ -87,6 +87,15 @@ qx.Class.define("qx.util.Serializer",
      */
     __toUriParameter : function(name, value, qxSerializer)
     {
+
+      if (value && value.$$type == "Class") {
+        value = value.classname;
+      }
+
+      if (value && (value.$$type == "Interface" || value.$$type == "Mixin")) {
+        value = value.name;
+      }
+
       if (value instanceof qx.core.Object && qxSerializer != null) {
         var encValue = encodeURIComponent(qxSerializer(value));
         if (encValue === undefined) {
@@ -153,6 +162,16 @@ qx.Class.define("qx.util.Serializer",
         }
 
         return result;
+      }
+
+      // return names for qooxdoo classes
+      if (object.$$type == "Class") {
+        return object.classname;
+      }
+
+      // return names for qooxdoo interfaces and mixins
+      if (object.$$type == "Interface" || object.$$type == "Mixin") {
+        return object.name;
       }
 
       // qooxdoo object
@@ -267,6 +286,17 @@ qx.Class.define("qx.util.Serializer",
         }
         return result + "]";
       }
+
+      // return names for qooxdoo classes
+      if (object.$$type == "Class") {
+        return '"' + object.classname + '"';
+      }
+
+      // return names for qooxdoo interfaces and mixins
+      if (object.$$type == "Interface" || object.$$type == "Mixin") {
+        return '"' + object.name + '"';
+      }
+
 
       // qooxdoo object
       if (object instanceof qx.core.Object) {
