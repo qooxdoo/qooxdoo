@@ -343,6 +343,20 @@ qx.Class.define("qx.data.Array",
       // fire a change event for the length
       if (this.__array.length != oldLength) {
         this.__updateLength();
+      } else if (amount == arguments.length - 2) {
+        // if we added as much items as we removed
+        var addedItems = qx.lang.Array.fromArguments(arguments, 2)
+        // check if the array content equals the content before the operation
+        for (var i = 0; i < addedItems.length; i++) {
+          if (addedItems[i] !== returnArray[i]) {
+            break;
+          }
+          // if all added and removed items are queal
+          if (i == addedItems.length -1) {
+            // prevent all events and return a new array
+            return new qx.data.Array();
+          }
+        }
       }
       // fire an event for the change
       var removed = amount > 0;

@@ -551,6 +551,18 @@ qx.Class.define("qx.test.data.DataArray",
       a.dispose();
     },
 
+
+    testSpliceEventEqualContent: function() {
+      var a = new qx.data.Array(1, 2, 3);
+      var self = this;
+      this.assertEventNotFired(a, "change", function () {
+        a.splice(0, 2, 1, 2).dispose();
+      }, "Change event fired!");
+
+      a.dispose();
+    },
+
+
     testSetItemEvent: function() {
       // test for the event
       var a = new qx.data.Array(1, 2, 3);
