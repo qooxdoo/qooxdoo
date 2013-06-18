@@ -686,7 +686,7 @@ def prepostfix(id_, bp):  # pre-/post-fix operators (++, --)
 def advance(id_=None):
     global token
     if id_ and token.id != id_:
-        raise SyntaxException("Expected %r (pos %r)" % (id_, (token.get("line"),token.get("column"))))
+        raise SyntaxException("Syntax error: Expected %r (pos %r)" % (id_, (token.get("line"),token.get("column"))))
     if token.id != "eof":
         token = next()
 
