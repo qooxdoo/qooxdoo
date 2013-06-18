@@ -26,8 +26,7 @@ qx.Class.define("qx.test.Interface",
 
   members :
   {
-    testInterface : function()
-    {
+    setUp : function() {
       qx.Interface.define("qx.test.i.ICar",
       {
         members :
@@ -39,7 +38,16 @@ qx.Class.define("qx.test.Interface",
 
         properties : { color : {} }
       });
+    },
 
+
+    tearDown : function() {
+      qx.Class.undefine("qx.test.i.ICar");
+    },
+
+
+    testClassImplements : function()
+    {
       // test correct implementations
       qx.Class.define("qx.test.i.Audi",
       {
@@ -65,10 +73,13 @@ qx.Class.define("qx.test.Interface",
       });
 
       var audi = new qx.test.i.Audi("audi");
-      
+
       this.assertTrue(qx.Interface.classImplements(qx.test.i.Audi, qx.test.i.ICar));
-      
-      // Everything implemented
+      qx.Class.undefine("qx.test.i.Audi");
+    },
+
+
+    testEverythingImplemented : function() {
       qx.Class.define("qx.test.i.Bmw1",
         {
           extend : Object,
@@ -91,8 +102,11 @@ qx.Class.define("qx.test.Interface",
           properties : { color : { } }
         });
       this.assertTrue(qx.Interface.classImplements(qx.test.i.Bmw1, qx.test.i.ICar));
-      
-      // Missing members
+      qx.Class.undefine("qx.test.i.Bmw1");
+    },
+
+
+    testMissingMembers : function() {
       qx.Class.define("qx.test.i.Bmw2",
         {
           extend : Object,
@@ -107,8 +121,12 @@ qx.Class.define("qx.test.Interface",
           properties : { color : { } }
         });
       this.assertFalse(qx.Interface.classImplements(qx.test.i.Bmw2, qx.test.i.ICar));
+      qx.Class.undefine("qx.test.i.Bmw2");
+    },
 
-      // Missing statics (ie it does implement all necessary)
+
+    testMissingStatics : function() {
+      // (ie it does implement all necessary)
       qx.Class.define("qx.test.i.Bmw3",
         {
           extend : Object,
@@ -123,8 +141,11 @@ qx.Class.define("qx.test.Interface",
           properties : { color : { } }
         });
       this.assertTrue(qx.Interface.classImplements(qx.test.i.Bmw3, qx.test.i.ICar));
+      qx.Class.undefine("qx.test.i.Bmw3");
+    },
 
-      // Missing properties
+
+    testMissingProperties : function() {
       qx.Class.define("qx.test.i.Bmw4",
         {
           extend : Object,
@@ -144,6 +165,11 @@ qx.Class.define("qx.test.Interface",
           }
         });
       this.assertFalse(qx.Interface.classImplements(qx.test.i.Bmw4, qx.test.i.ICar));
+      qx.Class.undefine("qx.test.i.Bmw4");
+    },
+
+
+    testWithDebug : function() {
 
       if (this.isDebugOn())
       {
