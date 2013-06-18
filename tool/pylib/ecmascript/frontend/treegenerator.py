@@ -1101,11 +1101,15 @@ def pfix(self):
                     raise SyntaxException("Illegal dangling comma in map (pos %r)" % ((token.get("line"),token.get("column")),))
                 break
             is_after_comma = 0
-            # key
-            keyname = expression()
             map_item = symbol("keyvalue")(token.get("line"), token.get("column"))
-            # the <keyname> node is not entered into the ast, but resolved into <keyvalue>
             mmap.childappend(map_item)
+            # key
+            keyname = token
+            assert (keyname.type=='identifier' or
+                (keyname.type=='constant' and keyname.get('constantType','') in ('number','string'))
+                ), "Illegal map key: %s" % keyname.get('value')
+            advance()
+            # the <keyname> node is not entered into the ast, but resolved into <keyvalue>
             map_item.set("key", keyname.get("value"))
             quote_type = keyname.get("detail", False)
             map_item.set("quote", quote_type if quote_type else '')
@@ -1222,7 +1226,7 @@ def pfix(self):
         opt_name = token
         advance()
     # params
-    assert token.id == "("
+    assert token.id == "(", "Function definition requires parameter list"
     params = symbol("params")()
     token.patch(params)
     self.childappend(params)
@@ -2128,7 +2132,6 @@ def argument_list(list):
         advance(",")
 
 
-
 # - Output/Packer methods for AST nodes ----------------------------------------
 
 # 'opening'/'closing' methods for output generation.
@@ -2260,9 +2263,15 @@ class TreeGenerator(object):
         next   = iter(tokenStream).next
         token  = next()
         if expr:
-            return expression()
+            entry_rule = expression
         else:
-            return statements()
+            entry_rule = statements
+        try:
+            res = entry_rule()
+        except AssertionError, e:
+            #raise
+            raiseSyntaxException("Syntax error%s" % ((": %s" % e.args[0]) if len(e.args) else ''), token)
+        return res
 
 
 # - Interface -----------------------------------------------------------------
