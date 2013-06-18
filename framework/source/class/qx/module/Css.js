@@ -36,9 +36,9 @@ qx.Bootstrap.define("qx.module.Css", {
       if (/\w-\w/.test(name)) {
         name = qx.lang.String.camelCase(name);
       }
-      for (var i=0; i < this.length; i++) {
-        qx.bom.element.Style.set(this[i], name, value);
-      }
+      this._forEachElement(function(item) {
+        qx.bom.element.Style.set(item, name, value);
+      });
       return this;
     },
 
@@ -52,7 +52,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * @return {var} Style property value
      */
     getStyle : function(name) {
-      if (this[0]) {
+      if (this[0] && qx.dom.Node.isElement(this[0])) {
         if (/\w-\w/.test(name)) {
           name = qx.lang.String.camelCase(name);
         }
@@ -102,9 +102,9 @@ qx.Bootstrap.define("qx.module.Css", {
      * @return {qxWeb} The collection for chaining
      */
     addClass : function(name) {
-      for (var i=0; i < this.length; i++) {
-        qx.bom.element.Class.add(this[i], name);
-      }
+      this._forEachElement(function(item) {
+        qx.bom.element.Class.add(item, name);
+      });
       return this;
     },
 
@@ -117,9 +117,9 @@ qx.Bootstrap.define("qx.module.Css", {
      * @return {qxWeb} The collection for chaining
      */
     addClasses : function(names) {
-      for (var i=0; i < this.length; i++) {
-        qx.bom.element.Class.addClasses(this[i], names);
-      }
+      this._forEachElement(function(item) {
+        qx.bom.element.Class.addClasses(item, names);
+      });
       return this;
     },
 
@@ -132,9 +132,9 @@ qx.Bootstrap.define("qx.module.Css", {
      * @return {qxWeb} The collection for chaining
      */
     removeClass : function(name) {
-      for (var i=0; i < this.length; i++) {
-        qx.bom.element.Class.remove(this[i], name);
-      }
+      this._forEachElement(function(item) {
+        qx.bom.element.Class.remove(item, name);
+      });
       return this;
     },
 
@@ -147,9 +147,9 @@ qx.Bootstrap.define("qx.module.Css", {
      * @return {qxWeb} The collection for chaining
      */
     removeClasses : function(names) {
-      for (var i=0; i < this.length; i++) {
-        qx.bom.element.Class.removeClasses(this[i], names);
-      }
+      this._forEachElement(function(item) {
+        qx.bom.element.Class.removeClasses(item, names);
+      });
       return this;
     },
 
@@ -162,7 +162,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * @return {Boolean} <code>true</code> if the first item has the given class name
      */
     hasClass : function(name) {
-      if (!this[0]) {
+      if (!this[0] || !qx.dom.Node.isElement(this[0])) {
         return false;
       }
       return qx.bom.element.Class.has(this[0], name);
@@ -176,7 +176,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * @return {String} Class name
      */
     getClass : function() {
-      if (!this[0]) {
+      if (!this[0] || !qx.dom.Node.isElement(this[0])) {
         return "";
       }
       return qx.bom.element.Class.get(this[0]);
@@ -192,11 +192,11 @@ qx.Bootstrap.define("qx.module.Css", {
      */
     toggleClass : function(name) {
       var bCls = qx.bom.element.Class;
-      for (var i=0, l=this.length; i<l; i++) {
-        bCls.has(this[i], name) ?
-          bCls.remove(this[i], name) :
-          bCls.add(this[i], name);
-      }
+      this._forEachElement(function(item) {
+        bCls.has(item, name) ?
+          bCls.remove(item, name) :
+          bCls.add(item, name);
+      });
       return this;
     },
 
@@ -225,9 +225,9 @@ qx.Bootstrap.define("qx.module.Css", {
      * @return {qxWeb} The collection for chaining
      */
     replaceClass : function(oldName, newName) {
-      for (var i=0, l=this.length; i<l; i++) {
-        qx.bom.element.Class.replace(this[i], oldName, newName);
-      }
+      this._forEachElement(function(item) {
+        qx.bom.element.Class.replace(item, oldName, newName);
+      });
       return this;
     },
 
@@ -288,7 +288,7 @@ qx.Bootstrap.define("qx.module.Css", {
     getOffset : function() {
       var elem = this[0];
 
-      if (elem) {
+      if (elem && qx.dom.Node.isElement(elem)) {
         return qx.bom.element.Location.get(elem);
       }
 
@@ -372,14 +372,15 @@ qx.Bootstrap.define("qx.module.Css", {
      * @return {qxWeb} The collection for chaining
      */
     hide : function() {
-      for (var i=0, l=this.length; i<l; i++) {
-        var item = this.slice(i, i + 1);
+      this._forEachElement(function(entry, idx) {
+        var item = this.eq(idx);
         var prevStyle = item.getStyle("display");
         if (prevStyle !== "none") {
           item[0].$$qPrevDisp = prevStyle;
           item.setStyle("display", "none");
         }
-      }
+      });
+
       return this;
     },
 
@@ -394,8 +395,8 @@ qx.Bootstrap.define("qx.module.Css", {
      * @return {qxWeb} The collection for chaining
      */
     show : function() {
-      for (var i=0, l=this.length; i<l; i++) {
-        var item = this.slice(i, i + 1);
+      this._forEachElement(function(entry, idx) {
+        var item = this.eq(idx);
         var currentVal = item.getStyle("display");
         var prevVal = item[0].$$qPrevDisp;
         var newVal;
@@ -410,7 +411,8 @@ qx.Bootstrap.define("qx.module.Css", {
           item.setStyle("display", newVal);
           item[0].$$qPrevDisp = "none";
         }
-      }
+      });
+
       return this;
     },
 

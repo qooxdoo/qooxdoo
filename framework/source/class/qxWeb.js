@@ -57,6 +57,7 @@ qx.Bootstrap.define("qxWeb", {
     $init : function(arg) {
       var clean = [];
       for (var i = 0; i < arg.length; i++) {
+        // check for node or window object
         var isNode = !!(arg[i] && (arg[i].nodeType === 1 || arg[i].nodeType === 9));
         if (isNode) {
           clean.push(arg[i]);
@@ -68,7 +69,6 @@ qx.Bootstrap.define("qxWeb", {
         }
       }
 
-      // check for node or window object
       var col = qx.lang.Array.cast(clean, qxWeb);
       for (var i=0; i < qxWeb.__init.length; i++) {
         qxWeb.__init[i].call(col);
@@ -257,8 +257,26 @@ qx.Bootstrap.define("qxWeb", {
         } else {
           clone.push(arguments[i]);
         }
-      };
+      }
       return qxWeb.$init(clone);
+    },
+
+
+    /**
+     * Calls a function for each DOM element node in the collection. This is used
+     * for DOM manipulations which can't be applied to document nodes or window
+     * objects.
+     *
+     * @param func {Function} Callback function. Will be called with three arguments:
+     * The element, the element's index within the collection and the collection itself.
+     * @param ctx {Object} The context for the callback function (default: The collection)
+     */
+    _forEachElement : function(func, ctx) {
+      for (var i=0, l=this.length; i<l; i++) {
+        if (this[i] && this[i].nodeType === 1) {
+          func.apply(ctx || this, [this[i], i, this]);
+        }
+      }
     }
   },
 

@@ -50,7 +50,7 @@ qx.Bootstrap.define("qx.module.Animation", {
       var animationHandles = [];
       for (var i=0; i < this.length; i++) {
         animationHandles[i] = this[i].$$animation;
-      };
+      }
       return animationHandles;
     },
 
@@ -153,17 +153,17 @@ qx.Bootstrap.define("qx.module.Animation", {
      * @param reverse {Boolean} <code>true</code>, if the animation should be reversed
      */
     _animate : function(desc, duration, reverse) {
-      for (var i=0; i < this.length; i++) {
-        var el = this[i];
+      this._forEachElement(function(el, i) {
         // stop all running animations
         if (el.$$animation) {
           el.$$animation.stop();
         }
 
+        var handle;
         if (reverse) {
-          var handle = qx.bom.element.Animation.animateReverse(el, desc, duration);
+          handle = qx.bom.element.Animation.animateReverse(el, desc, duration);
         } else {
-          var handle = qx.bom.element.Animation.animate(el, desc, duration);
+          handle = qx.bom.element.Animation.animate(el, desc, duration);
         }
 
         var self = this;
@@ -183,10 +183,10 @@ qx.Bootstrap.define("qx.module.Animation", {
             if (self[i].$$animation) {
               return;
             }
-          };
+          }
           self.emit("animationEnd");
         }, el);
-      };
+      });
     },
 
 
@@ -202,7 +202,7 @@ qx.Bootstrap.define("qx.module.Animation", {
         if (handle) {
           handle.play();
         }
-      };
+      }
       return this;
     },
 
@@ -219,7 +219,7 @@ qx.Bootstrap.define("qx.module.Animation", {
         if (handle) {
           handle.pause();
         }
-      };
+      }
 
       return this;
     },
@@ -236,7 +236,7 @@ qx.Bootstrap.define("qx.module.Animation", {
         if (handle) {
           handle.stop();
         }
-      };
+      }
 
       return this;
     },
@@ -253,7 +253,7 @@ qx.Bootstrap.define("qx.module.Animation", {
         if (handle && handle.isPlaying()) {
           return true;
         }
-      };
+      }
 
       return false;
     },
@@ -270,7 +270,7 @@ qx.Bootstrap.define("qx.module.Animation", {
         if (handle && !handle.isEnded()) {
           return false;
         }
-      };
+      }
 
       return true;
     },

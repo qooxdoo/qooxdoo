@@ -30,7 +30,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @return {String|null} HTML content or null if the collection is empty
      */
     getHtml : function() {
-      if (this[0]) {
+      if (this[0] && this[0].nodeType === 1) {
         return qx.bom.element.Attribute.get(this[0], "html");
       }
       return null;
@@ -45,9 +45,9 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @return {qxWeb} The collection for chaining
      */
     setHtml : function(html) {
-      for (var i=0; i < this.length; i++) {
-        qx.bom.element.Attribute.set(this[i], "html", html);
-      };
+      this._forEachElement(function(item) {
+        qx.bom.element.Attribute.set(item, "html", html);
+      });
       return this;
     },
 
@@ -61,9 +61,9 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @return {qxWeb} The collection for chaining
      */
     setAttribute : function(name, value) {
-      for (var i=0; i < this.length; i++) {
-        qx.bom.element.Attribute.set(this[i], name, value);
-      };
+      this._forEachElement(function(item) {
+        qx.bom.element.Attribute.set(item, name, value);
+      });
       return this;
     },
 
@@ -77,7 +77,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @return {var} Attribute value
      */
     getAttribute : function(name) {
-      if (this[0]) {
+      if (this[0] && this[0].nodeType === 1) {
         return qx.bom.element.Attribute.get(this[0], name);
       }
       return null;
@@ -92,9 +92,9 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @return {qxWeb} The collection for chaining
      */
     removeAttribute : function(name) {
-      for (var i=0; i < this.length; i++) {
-        qx.bom.element.Attribute.set(this[i], name, null);
-      };
+      this._forEachElement(function(item) {
+        qx.bom.element.Attribute.set(item, name, null);
+      });
       return this;
     },
 
@@ -125,7 +125,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
       var attributes = {};
       for (var i=0; i < names.length; i++) {
         attributes[names[i]] = this.getAttribute(names[i]);
-      };
+      }
       return attributes;
     },
 
@@ -156,7 +156,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
     setProperty : function(name, value) {
       for (var i=0; i < this.length; i++) {
         this[i][name] = value;
-      };
+      }
       return this;
     },
 
@@ -203,7 +203,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
       var properties = {};
       for (var i=0; i < names.length; i++) {
         properties[names[i]] = this.getProperty(names[i]);
-      };
+      }
       return properties;
     },
 
@@ -218,7 +218,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @return {String|Array}
      */
     getValue : function() {
-      if (this[0]) {
+      if (this[0] && this[0].nodeType === 1) {
         return qx.bom.Input.getValue(this[0]);
       }
       return null;
@@ -241,9 +241,9 @@ qx.Bootstrap.define("qx.module.Attribute", {
      */
     setValue : function(value)
     {
-      for (var i=0, l=this.length; i<l; i++) {
-        qx.bom.Input.setValue(this[i], value);
-      }
+      this._forEachElement(function(item) {
+        qx.bom.Input.setValue(item, value);
+      });
 
       return this;
     }

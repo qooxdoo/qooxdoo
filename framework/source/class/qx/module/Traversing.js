@@ -40,7 +40,12 @@ qx.Bootstrap.define("qx.module.Traversing", {
       if (el instanceof qxWeb) {
         el = el[0];
       }
-      this.push(el);
+      if (qx.module.Traversing.isElement(el) ||
+          qx.module.Traversing.isDocument(el) ||
+          qx.module.Traversing.isWindow(el))
+      {
+        this.push(el);
+      }
       return this;
     },
 
@@ -231,9 +236,9 @@ qx.Bootstrap.define("qx.module.Traversing", {
      */
     getContents : function() {
       var found = [];
-      for (var i=0; i < this.length; i++) {
-        found = found.concat(qx.lang.Array.fromCollection(this[i].childNodes));
-      }
+      this._forEachElement(function(item) {
+        found = found.concat(qx.lang.Array.fromCollection(item.childNodes));
+      });
       return qxWeb.$init(found);
     },
 
@@ -299,19 +304,20 @@ qx.Bootstrap.define("qx.module.Traversing", {
      */
     has : function(selector) {
       var found = [];
-      for (var i=0; i < this.length; i++) {
-        var descendants = qx.bom.Selector.matches(selector, this.eq(i).getContents())
+      this._forEachElement(function(item, index) {
+        var descendants = qx.bom.Selector.matches(selector, this.eq(index).getContents());
         if (descendants.length > 0) {
-          found.push(this[i]);
+          found.push(item);
         }
-      }
+      });
+
       return qxWeb.$init(found);
     },
 
 
     /**
      * Gets a collection containing the next sibling element of each item in
-     * the current set (ignoring text and comment nodes).
+     * the current set.
      * This set can be filtered with an optional expression that will cause only
      * elements matching the selector to be collected.
      *
@@ -330,7 +336,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
     /**
      * Gets a collection containing all following sibling elements of each
-     * item in the current set (ignoring text and comment nodes).
+     * item in the current set.
      * This set can be filtered with an optional expression that will cause only
      * elements matching the selector to be collected.
      *
@@ -346,8 +352,8 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
     /**
      * Gets a collection containing the following sibling elements of each
-     * item in the current set (ignoring text and comment nodes) up to but not
-     * including any element that matches the given selector.
+     * item in the current set up to but not including any element that matches
+     * the given selector.
      *
      * @attach {qxWeb}
      * @param selector {String?} Optional selector expression
@@ -371,7 +377,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
     /**
      * Gets a collection containing the previous sibling element of each item in
-     * the current set (ignoring text and comment nodes).
+     * the current set.
      * This set can be filtered with an optional expression that will cause only
      * elements matching the selector to be collected.
      *
@@ -390,7 +396,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
     /**
      * Gets a collection containing all preceding sibling elements of each
-     * item in the current set (ignoring text and comment nodes).
+     * item in the current set.
      * This set can be filtered with an optional expression that will cause only
      * elements matching the selector to be collected.
      *
@@ -406,8 +412,8 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
     /**
      * Gets a collection containing the preceding sibling elements of each
-     * item in the current set (ignoring text and comment nodes) up to but not
-     * including any element that matches the given selector.
+     * item in the current set up to but not including any element that matches
+     * the given selector.
      *
      * @attach {qxWeb}
      * @param selector {String?} Optional selector expression

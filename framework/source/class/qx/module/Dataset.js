@@ -34,10 +34,9 @@ qx.Bootstrap.define("qx.module.Dataset", {
      */
     setData : function(name, value)
     {
-      for (var i = 0; i < this.length; i++)
-      {
-        qx.bom.element.Dataset.set(this[0],name,value);
-      }
+      this._forEachElement(function(item) {
+        qx.bom.element.Dataset.set(item, name, value);
+      });
 
       return this;
     },
@@ -54,7 +53,10 @@ qx.Bootstrap.define("qx.module.Dataset", {
      */
     getData : function(name)
     {
-      return qx.bom.element.Dataset.get(this[0],name);
+      if (this[0] && this[0].nodeType === 1) {
+        return qx.bom.element.Dataset.get(this[0], name);
+      }
+      return null;
     },
 
     /**
@@ -66,7 +68,10 @@ qx.Bootstrap.define("qx.module.Dataset", {
      */
     getAllData : function()
     {
-      return qx.bom.element.Dataset.getAll(this[0]);
+      if (this[0] && this[0].nodeType === 1) {
+        return qx.bom.element.Dataset.getAll(this[0]);
+      }
+      return null;
     },
 
 
@@ -79,7 +84,9 @@ qx.Bootstrap.define("qx.module.Dataset", {
      */
     removeData : function(name)
     {
-      qx.bom.element.Dataset.remove(this[0],name);
+      if (this[0] && this[0].nodeType === 1) {
+        qx.bom.element.Dataset.remove(this[0], name);
+      }
       return this;
     }
 

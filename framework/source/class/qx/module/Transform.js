@@ -45,7 +45,7 @@ qx.Bootstrap.define("qx.module.Transform",
      * @return {qxWeb} This reference for chaining.
      */
     transform : function(transforms) {
-      this.forEach(function(el) {
+      this._forEachElement(function(el) {
         qx.bom.element.Transform.transform(el, transforms);
       });
       return this;
@@ -113,7 +113,7 @@ qx.Bootstrap.define("qx.module.Transform",
      * @return {qxWeb} This reference for chaining.
      */
     setTransformOrigin : function(value) {
-      this.forEach(function(el) {
+      this._forEachElement(function(el) {
         qx.bom.element.Transform.setOrigin(el, value);
       });
       return this;
@@ -130,7 +130,7 @@ qx.Bootstrap.define("qx.module.Transform",
      *   of the collection is empty.
      */
     getTransformOrigin : function() {
-      if (this[0]) {
+      if (this[0] && this[0].nodeType === 1) {
         return qx.bom.element.Transform.getOrigin(this[0]);
       }
       return "";
@@ -147,7 +147,7 @@ qx.Bootstrap.define("qx.module.Transform",
      * @return {qxWeb} This reference for chaining.
      */
     setTransformStyle : function(value) {
-      this.forEach(function(el) {
+      this._forEachElement(function(el) {
         qx.bom.element.Transform.setStyle(el, value);
       });
       return this;
@@ -164,7 +164,7 @@ qx.Bootstrap.define("qx.module.Transform",
      *   <code>preserve-3d</code>.
      */
     getTransformStyle : function() {
-      if (this[0]) {
+      if (this[0] && this[0].nodeType === 1) {
         return qx.bom.element.Transform.getStyle(this[0]);
       }
       return "";
@@ -182,7 +182,7 @@ qx.Bootstrap.define("qx.module.Transform",
      * @return {qxWeb} This reference for chaining.
      */
     setTransformPerspective : function(value) {
-      this.forEach(function(el) {
+      this._forEachElement(function(el) {
         qx.bom.element.Transform.setPerspective(el, value);
       });
       return this;
@@ -198,7 +198,7 @@ qx.Bootstrap.define("qx.module.Transform",
      * @return {String} The set property, e.g. <code>500</code>
      */
     getTransformPerspective : function() {
-      if (this[0]) {
+      if (this[0] && this[0].nodeType === 1) {
         return qx.bom.element.Transform.getPerspective(this[0]);
       }
       return "";
@@ -216,7 +216,7 @@ qx.Bootstrap.define("qx.module.Transform",
      * @return {qxWeb} This reference for chaining.
      */
     setTransformPerspectiveOrigin : function(value) {
-      this.forEach(function(el) {
+      this._forEachElement(function(el) {
         qx.bom.element.Transform.setPerspectiveOrigin(el, value);
       });
       return this;
@@ -232,7 +232,7 @@ qx.Bootstrap.define("qx.module.Transform",
      * @return {String} The set property, e.g. <code>50% 50%</code>
      */
     getTransformPerspectiveOrigin : function() {
-      if (this[0]) {
+      if (this[0] && this[0].nodeType === 1) {
         return qx.bom.element.Transform.getPerspectiveOrigin(this[0]);
       }
       return "";
@@ -249,7 +249,7 @@ qx.Bootstrap.define("qx.module.Transform",
      * @return {qxWeb} This reference for chaining.
      */
     setTransformBackfaceVisibility : function(value) {
-      this.forEach(function(el) {
+      this._forEachElement(function(el) {
         qx.bom.element.Transform.setBackfaceVisibility(el, value);
       });
       return this;
@@ -265,7 +265,7 @@ qx.Bootstrap.define("qx.module.Transform",
      * @return {Boolean} <code>true</code>, if the backface is visible.
      */
     getTransformBackfaceVisibility : function() {
-      if (this[0]) {
+      if (this[0] && this[0].nodeType === 1) {
         return qx.bom.element.Transform.getBackfaceVisibility(this[0]);
       }
       return "";

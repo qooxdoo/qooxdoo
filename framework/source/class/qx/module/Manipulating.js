@@ -50,8 +50,10 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     clone : function(events) {
       var clones = [];
       for (var i=0; i < this.length; i++) {
-        clones[i] = this[i].cloneNode(true);
-      };
+        if (this[i] && this[i].nodeType === 1) {
+          clones[i] = this[i].cloneNode(true);
+        }
+      }
 
       if (events === true && this.copyEventsTo) {
         this.copyEventsTo(clones);
@@ -74,17 +76,17 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       var arr = qx.bom.Html.clean([html]);
       var children = qxWeb.$init(arr);
 
-      for (var i=0, l=this.length; i < l; i++) {
+      this._forEachElement(function(item, index) {
         for (var j=0, m=children.length; j < m; j++) {
-          if (i == 0) {
+          if (index == 0) {
             // first parent: move the target node(s)
-            qx.dom.Element.insertEnd(children[j], this[i]);
+            qx.dom.Element.insertEnd(children[j], item);
           }
           else {
-            qx.dom.Element.insertEnd(children.eq(j).clone(true)[0], this[i]);
+            qx.dom.Element.insertEnd(children.eq(j).clone(true)[0], item);
           }
         }
-      }
+      });
 
       return this;
     },
@@ -101,18 +103,20 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @return {qxWeb} The collection for chaining
      */
     appendTo : function(parent) {
+      //var func = ;
+
       parent = qx.module.Manipulating.__getElementArray(parent);
       for (var i=0, l=parent.length; i < l; i++) {
-        for (var j=0, m=this.length; j < m; j++) {
-          if (i == 0) {
-            // first parent: move the target node(s)
-            qx.dom.Element.insertEnd(this[j], parent[i]);
-          }
-          else {
-            // further parents: clone the target node(s)
-            qx.dom.Element.insertEnd(this.eq(j).clone(true)[0], parent[i]);
-          }
+        this._forEachElement(function(item, j) {
+        if (i == 0) {
+          // first parent: move the target node(s)
+          qx.dom.Element.insertEnd(this[j], parent[i]);
         }
+        else {
+          // further parents: clone the target node(s)
+          qx.dom.Element.insertEnd(this.eq(j).clone(true)[0], parent[i]);
+        }
+      })
       }
 
       return this;
@@ -133,16 +137,16 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     {
       target = qx.module.Manipulating.__getElementArray(target);
       for (var i=0, l=target.length; i < l; i++) {
-        for (var j=0, m=this.length; j < m; j++) {
+        this._forEachElement(function(item, index) {
           if (i == 0) {
             // first target: move the target node(s)
-            qx.dom.Element.insertBefore(this[j], target[i]);
+            qx.dom.Element.insertBefore(item, target[i]);
           }
           else {
             // further targets: clone the target node(s)
-            qx.dom.Element.insertBefore(this.eq(j).clone(true)[0], target[i]);
+            qx.dom.Element.insertBefore(this.eq(index).clone(true)[0], target[i]);
           }
-        }
+        });
       }
 
       return this;
@@ -165,6 +169,9 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       target = qx.module.Manipulating.__getElementArray(target);
       for (var i=0, l=target.length; i < l; i++) {
         for (var j=this.length - 1; j >= 0; j--) {
+          if (!this[j] || this[j].nodeType !== 1) {
+            continue;
+          }
           if (i == 0) {
             // first target: move the target node(s)
             qx.dom.Element.insertAfter(this[j], target[i]);
@@ -194,7 +201,10 @@ qx.Bootstrap.define("qx.module.Manipulating", {
         var fromSelector = qxWeb(arg);
         arg = fromSelector.length > 0 ? fromSelector : [arg];
       }
-      return arg;
+
+      return arg.filter(function(item) {
+        return (item && item.nodeType === 1);
+      });
     },
 
 
@@ -209,18 +219,18 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @return {qxWeb} The collection for chaining
      */
     wrap : function(wrapper) {
-      var wrapper = qx.module.Manipulating.__getCollectionFromArgument(wrapper);
+      wrapper = qx.module.Manipulating.__getCollectionFromArgument(wrapper);
 
-      if (wrapper.length == 0 || !qx.dom.Node.isElement(wrapper[0])) {
+      if (wrapper.length == 0) {
         return this;
       }
 
-      for (var i=0,l=this.length; i < l; i++) {
+      this._forEachElement(function(item) {
         var clonedwrapper = wrapper.eq(0).clone(true);
-        qx.dom.Element.insertAfter(clonedwrapper[0], this[i]);
+        qx.dom.Element.insertAfter(clonedwrapper[0], item);
         var innermost = qx.module.Manipulating.__getInnermostElement(clonedwrapper[0]);
-        qx.dom.Element.insertEnd(this[i], innermost);
-      }
+        qx.dom.Element.insertEnd(item, innermost);
+      });
 
       return this;
     },
@@ -284,9 +294,9 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @return {qxWeb} The collection for chaining
      */
     remove : function() {
-      for (var i=0; i < this.length; i++) {
-        qx.dom.Element.remove(this[i]);
-      };
+      this._forEachElement(function(item) {
+        qx.dom.Element.remove(item);
+      });
       return this;
     },
 
@@ -298,13 +308,13 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @return {qxWeb} The collection for chaining
      */
     empty : function() {
-      for (var i=0; i < this.length; i++) {
+      this._forEachElement(function(item) {
         // don't use innerHTML="" because of [BUG #7323]
         // and don't use textContent="" because of missing IE8 support
-        while (this[i].firstChild) {
-          this[i].removeChild(this[i].firstChild);
+        while (item.firstChild) {
+          item.removeChild(item.firstChild);
         }
-      }
+      });
       return this;
     },
 
@@ -325,7 +335,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       }
       var fragment = document.createDocumentFragment();
       qx.bom.Html.clean(content, document, fragment);
-      this.forEach(function(item, index) {
+      this._forEachElement(function(item, index) {
         var kids = qx.lang.Array.cast(fragment.childNodes, Array);
         for (var i=0,l=kids.length; i<l; i++) {
           var child;
@@ -359,7 +369,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       }
       var fragment = document.createDocumentFragment();
       qx.bom.Html.clean(content, document, fragment);
-      this.forEach(function(item, index) {
+      this._forEachElement(function(item, index) {
         var kids = qx.lang.Array.cast(fragment.childNodes, Array);
         for (var i=kids.length-1; i>=0; i--) {
           var child;

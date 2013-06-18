@@ -52,6 +52,10 @@ qxWeb.define("qx.module.Blocker", {
       var win = qxWeb.getWindow(item);
       var isDocument = qxWeb.isDocument(item);
 
+      if (!isDocument && !qxWeb.isElement(item)) {
+        return;
+      }
+
       if (!item.__blocker) {
         item.__blocker = {
           div : qxWeb.create("<div/>")

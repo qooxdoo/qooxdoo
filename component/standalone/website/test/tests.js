@@ -153,6 +153,9 @@ testrunner.define({
     this.assertNotEquals(orig[0], clone[0]);
     this.assertEquals(orig.getAttribute("id"), clone.getAttribute("id"));
     this.assertEquals(orig.getHtml(), clone.getHtml());
+
+    //must be ignored:
+    q([window, document]).clone();
   },
 
 
@@ -215,6 +218,9 @@ testrunner.define({
     // In legacy IEs, nodes removed from the DOM will have a document fragment
     // parent (node type 11)
     this.assert(!test[0].parentNode || test[0].parentNode.nodeType !== 1);
+
+    // must be ignored:
+    q([window, document]).remove();
   },
 
   "test appendTo with cloned collection" : function() {
@@ -231,12 +237,18 @@ testrunner.define({
     var test = q.create('<span class="child">foo</span><span class="child">foo</span');
     test.appendTo("#sandbox");
     this.assertEquals(2, q("#sandbox .child").length);
+
+    //must be ignored:
+    q([window, document]).appendTo("#sandbox");
   },
 
   "test empty" : function() {
     var test = q.create("<div><p>test</p></div>");
     test.empty();
     this.assertEquals("", test[0].innerHTML);
+
+    //must be ignored:
+    q([window, document]).empty();
   },
 
   "test empty and don't destroy children in IE" : function() {
@@ -262,6 +274,9 @@ testrunner.define({
     q("#sandbox li").append('<h2>Hello</h2><span>Affe</span>');
     this.assertEquals(2, q("#sandbox li").has("h2").length);
     this.assertEquals(2, q("#sandbox li").has("span").length);
+
+    //must be ignored:
+    q([window, document]).append("<h2>Foo</h2>");
   },
 
   testAppendCollection : function() {
@@ -323,6 +338,9 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     q("#sandbox p").before('<h2>Juhu</h2>');
     this.assertEquals(2, q("#sandbox h2 + p").length);
+
+    //must be ignored:
+    q([window, document]).before("<p>Foo</p>");
   },
 
   "test before with array of HTML strings": function()
@@ -348,6 +366,9 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     q("#sandbox p").after('<h2>Juhu</h2>');
     this.assertEquals(2, q("#sandbox p + h2").length);
+
+    //must be ignored:
+    q([window, document]).after("<p>Foo</p>");
   },
 
   "test after with array of HTML strings": function()
@@ -429,6 +450,9 @@ testrunner.define({
     appendTo("#sandbox");
     q.create('<h2>Bar</h2><h3>Baz</h3>').insertAfter(q("#sandbox h1")[0]);
     this.assertEquals(1, q("#sandbox h1 + h2 + h3").length);
+
+    //must be ignored:
+    q([window, document]).insertAfter(q("#sandbox h1")[0]);
   },
 
   "testInsertAfter with collection" : function()
@@ -445,6 +469,9 @@ testrunner.define({
     appendTo("#sandbox");
     q.create('<h2>Bar</h2><h3>Baz</h3>').insertBefore(q("#sandbox h1")[0]);
     this.assertEquals(1, q("#sandbox h2 + h3 + h1").length);
+
+    //must be ignored:
+    q([window, document]).insertBefore(q("#sandbox h1")[0]);
   },
 
   "testInsertBefore with collection" : function()
@@ -461,6 +488,9 @@ testrunner.define({
     .appendTo("#sandbox");
     test.wrap('<div class="foo"><p class="bar"/></div>');
     this.assertEquals(2, q("#sandbox .foo .bar .baz").length);
+
+    //must be ignored:
+    q([window, document]).wrap("<div></div>");
   },
 
   "test wrap with element" : function()
@@ -541,6 +571,17 @@ testrunner.define({
     this.assertEquals(1, test.length);
     test.add(toAdd);
     this.assertEquals(2, test.length);
+  },
+
+  testAddIllegal : function() {
+    var test = q.create("<div id='testdiv'/>")
+    .add(window)
+    .add(document)
+    .add("affe")
+    .add(42)
+    .add(true)
+    .add({});
+    this.assertEquals(3, test.length);
   },
 
   testGetChildren : function() {
@@ -662,18 +703,6 @@ testrunner.define({
     test.remove();
   },
 
-  /*
-  testFilterByElement : function() {
-    var test = q.create("<div id='test' class='item'/><div class='item'/>");
-    test.appendTo(this.sandbox[0]);
-    var collection = q(".item");
-    this.assertEquals(q("#test")[0], collection.filter(document.getElementById("test"))[0],
-      "Element mismatch");
-    this.assertEquals(1, collection.filter("#test").length);
-    test.remove();
-  },
-  */
-
   testFind : function() {
     var test = q.create("<div id='outer'><div><div id='test'/><div/></div></div>");
     test.appendTo(this.sandbox[0]);
@@ -693,6 +722,9 @@ testrunner.define({
     this.assertEquals(1, contents[0].nodeType);
     this.assertEquals(1, contents[1].nodeType);
     test.remove();
+
+    //must be ignored:
+    q(window).getContents();
   },
 
   testIs : function() {
@@ -742,16 +774,16 @@ testrunner.define({
   },
 
   testHas : function() {
-    var html = '<ul class="test">'
-    + '  <li>Foo</li>'
-    + '  <li id="target1"><a class="affe" href="#">Bar</a></li>'
-    + '  <li>Baz</li>'
-    + '</ul>'
-    + '<ul class="test">'
-    + '  <li>Foo</li>'
-    + '  <li id="target2"><a class="affe" href="#">Bar</a></li>'
-    + '  <li>Baz</li>'
-    + '</ul>';
+    var html = '<ul class="test">'+
+    '  <li>Foo</li>' +
+    '  <li id="target1"><a class="affe" href="#">Bar</a></li>' +
+    '  <li>Baz</li>' +
+    '</ul>' +
+    '<ul class="test">' +
+    '  <li>Foo</li>' +
+    '  <li id="target2"><a class="affe" href="#">Bar</a></li>' +
+    '  <li>Baz</li>' +
+    '</ul>';
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
     this.assertEquals(6, q(".test li").length);
@@ -759,6 +791,7 @@ testrunner.define({
     this.assertEquals("target1", q(".test li").has(".affe")[0].id);
     this.assertEquals("target2", q(".test li").has(".affe")[1].id);
     test.remove();
+    this.assertEquals(0, q(window).has("body").length);
   },
 
   testGetNext : function() {
@@ -1026,6 +1059,14 @@ testrunner.define({
     this.assertEquals("5px", test.getStyle("padding-top"));
     this.assertEquals("5px", test.getStyle("paddingTop"));
     test.remove();
+
+    this.assertNull(q(window).getStyle("padding-top"));
+    this.assertNull(q(document).getStyle("padding-top"));
+
+    // must be ignored:
+    q([window, document]).setStyle("padding-right", "10px");
+    this.assertNull(q(window).getStyle("padding-right"));
+    this.assertNull(q(document).getStyle("padding-right"));
   },
 
   testStyles : function() {
@@ -1091,6 +1132,16 @@ testrunner.define({
     this.assertTrue(test.eq(0).hasClass("foo"));
     this.assertTrue(test.eq(1).hasClass("foo"));
     this.assertEquals("foo", test.getClass());
+
+    // must be ignored:
+    q([window, document]).addClass("test");
+    this.assertEquals("", q(window).getClass("test"));
+    this.assertEquals("", q(document).getClass("test"));
+    this.assertFalse(q(window).hasClass("test"));
+    this.assertFalse(q(document).hasClass("test"));
+    q([window, document]).removeClass("test");
+    q([window, document]).replaceClass("foo", "bar");
+    q([window, document]).toggleClass("bar");
   },
 
   testClasses : function() {
@@ -1123,6 +1174,11 @@ testrunner.define({
     this.assertFalse(test.eq(1).hasClass("bar"));
     this.assertTrue(test.eq(1).hasClass("baz"));
     this.assertMatch(test.getClass(), "foo baz");
+
+    // must be ignored:
+    q([window, document]).addClasses(["foo", "bar"]);
+    q([window, document]).removeClasses(["foo", "bar"]);
+    q([window, document]).toggleClasses(["foo", "bar", "baz"]);
   },
 
   testGetHeightElement : function() {
@@ -1165,6 +1221,8 @@ testrunner.define({
     this.assertNumber(test.getOffset().bottom);
     this.assertNumber(test.getOffset().left);
     this.assertEquals(100, test.getOffset().top);
+    this.assertNull(q(window).getOffset());
+    this.assertNull(q(document).getOffset());
   },
 
   testGetContentHeight : function() {
@@ -1244,6 +1302,9 @@ testrunner.define({
     .appendTo(this.sandbox[0]);
     test2.show();
     this.assertEquals("inline", test2.getStyle("display"));
+
+    // must be ignored:
+    q([window, document]).hide().show();
   }
 });
 
@@ -1260,6 +1321,12 @@ testrunner.define({
     test.setHtml("affe");
     this.assertEquals("affe", test[0].innerHTML);
     this.assertEquals("affe", test.getHtml());
+
+    // must be ignored:
+    q(window).setHtml("no way");
+    q(document).setHtml("no way");
+    this.assertNull(q(window).getHtml());
+    this.assertNull(q(document).getHtml());
   },
 
   testAttribute : function() {
@@ -1276,6 +1343,12 @@ testrunner.define({
       this.assertNull(test[0].getAttribute("id"));
       this.assertNull(test.getAttribute("id"));
     }
+
+    // must be ignored:
+    q([window, document]).setAttribute("id", "affe");
+    this.assertNull(q(window).getAttribute("id"));
+    this.assertNull(q(document).getAttribute("id"));
+    q([window, document]).removeAttribute("id");
   },
 
   testAttributes : function() {
@@ -1335,12 +1408,18 @@ testrunner.define({
     // setting the same value again sets the 'checked' attribute
     q("#sandbox input[type=checkbox]").setValue("affe");
     q("#sandbox select").setValue("foo");
-    q("#multiple").setValue(["bar", "boing"])
+    q("#multiple").setValue(["bar", "boing"]);
 
     this.assertEquals("fnord", q("#sandbox input[type=text]").getValue());
     this.assertTrue(q("#sandbox input[type=checkbox]").getAttribute("checked"));
     this.assertEquals("foo", q("#sandbox select").getValue());
     this.assertArrayEquals(["bar", "boing"], q("#multiple").getValue());
+
+    // must not throw exceptions:
+    q(window).setValue("no way");
+    q(document).setValue("no way");
+    this.assertNull(q(document).getValue());
+    this.assertNull(q(window).getValue());
   }
 });
 
@@ -1383,6 +1462,11 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     test.fadeIn();
     this.assertTrue(q("#testdiv").isPlaying());
+  },
+
+  testNonElement : function() {
+    // non-element node objects should be ignored (no error)
+    q(window, document).fadeOut();
   }
 });
 
@@ -2181,6 +2265,10 @@ testrunner.define({
     if (q.env.get("engine.name") == "mshtml") {
       this.assertFalse(q.$$qx.dom.Hierarchy.isRendered(blockerIframe[0]));
     }
+  },
+
+  testBlockWindow : function() {
+    q(window).block();
   }
 });
 
@@ -2895,6 +2983,12 @@ testrunner.define({
 
 		 this.assertEquals(datatype, "domelement");
 		 this.assertEquals(dataoption, "test");
+
+     //must be ignored:
+     q(document).setData("foo", "bar");
+     this.assertNull(q(document).getAttribute("data-foo"));
+     q(window).setData("foo", "bar");
+     this.assertNull(q(window).getAttribute("data-foo"));
 	 },
 
 	 testSetDataAttributeHyphenated : function(){
@@ -2948,6 +3042,10 @@ testrunner.define({
 		 q("#testEl").removeData("hyphenatedDataAttribute");
 		 var found = q("#testEl").getData("hyphenatedDataAttribute");
 		 this.assertNull(this.__element.getAttribute("data-hyphenated-data-attribute"));
+
+     //must be ignored:
+     q(window).removeData("fooBar");
+     q(document).removeData("fooBar");
 	 }
 
 });
