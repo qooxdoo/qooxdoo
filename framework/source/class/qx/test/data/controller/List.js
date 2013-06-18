@@ -74,6 +74,28 @@ qx.Class.define("qx.test.data.controller.List",
     },
 
 
+    testChangeSelectionOnPush : function() {
+      var selectBox = new qx.ui.form.SelectBox();
+      var model = new qx.data.Array(["a", "b", "c"]);
+
+      var controller = new qx.data.controller.List(model, selectBox);
+      var change = false;
+      controller.getSelection().addListener("change", function() {
+        change = true;
+      });
+
+      model.push("d");
+
+      this.wait(function() {
+        this.assertFalse(change, "Change event has been fired.")
+
+        selectBox.destroy();
+        model.dispose();
+        controller.dispose();
+      }, 200, this);
+    },
+
+
     testNumberModel : function() {
       var selectBox = new qx.ui.form.SelectBox();
 
