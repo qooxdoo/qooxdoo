@@ -313,7 +313,7 @@ class Config(object):
         for jobName in jobList:
             job = self.getJob(jobName)
             if not job:
-                raise RuntimeError, "No such job: \"%s\"" % jobname
+                raise RuntimeError, "No such job: \"%s\"" % jobName
             else:
                 job.cleanUpJob()
 
@@ -330,7 +330,6 @@ class Config(object):
             if key not in Key.TOP_LEVEL_KEYS.keys():
                 if key not in tl_ignored_keys:
                     self._console.warn("! Unknown top-level config key \"%s\" - ignored." % key)
-                #raise RuntimeError("! Unknown top-level config key \"%s\" - ignored." % key)
             # does it have a correct value type?
             elif not isinstance(configMap[key], Key.TOP_LEVEL_KEYS[key]):
                 self.raiseConfigError("Incorrect value for top-level config key \"%s\" (expected %s)" % (key, Key.TOP_LEVEL_KEYS[key]))
@@ -339,6 +338,8 @@ class Config(object):
         jobEntries = configMap[Key.JOBS_KEY]
         jobType    = types.DictType
         for jobentry in jobEntries:
+            if jobentry in Key.META_KEYS:
+                continue
             if not isinstance(jobEntries[jobentry], (jobType, Job)):
                 self.warnConfigError("! Not a valid job definition: \"%s\" - ignored." % jobentry)
                 continue
@@ -455,7 +456,7 @@ class Config(object):
                 (clashCase.name not in jobMap[Key.OVERRIDE_KEY])):
                 # put shaddowed job in the local 'extend'
                 if not newJob:
-                    raise Error, "unsuitable new job"
+                    raise Exception, "unsuitable new job"
                 localjob = self.getJob(clashCase.name)
                 extList = localjob.getFeature('extend', [])
                 extList.append(newJob)
