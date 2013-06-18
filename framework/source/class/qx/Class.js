@@ -654,19 +654,13 @@ qx.Bootstrap.define("qx.Class",
         return true;
       }
 
-      try
-      {
-        qx.Interface.assertObject(obj, iface);
-        return true;
+      if (qx.Interface.objectImplements(obj, iface)) {
+    	  return true;
       }
-      catch(ex) {}
 
-      try
-      {
-        qx.Interface.assert(clazz, iface, false);
-        return true;
+      if (qx.Interface.classImplements(clazz, iface)) {
+    	  return true;
       }
-      catch(ex) {}
 
       return false;
     },
