@@ -275,8 +275,9 @@ qx.Class.define("tutorial.Application",
       var req = new qx.io.request.Xhr(htmlFileName);
       req.addListener("success", function(e) {
         var req = e.getTarget();
-        var tutorial = this.parseTutorial(name, type, req.getResponse());
-        this.__description.setTutorial(tutorial);
+        this.__description.setTutorial(
+          this.parseTutorial(name, type, req.getResponse())
+        );
         this.__playArea.updateCaption(name.replace(/_/g, " ") + " (" + type + ")");
         this.__playArea.setMode(type !== "desktop" ? "mobile" : "ria")
         this.__actionArea.setOrientation(type == "desktop" ? "vertical" : "horizontal");
