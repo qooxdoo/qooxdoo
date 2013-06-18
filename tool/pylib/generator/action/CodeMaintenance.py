@@ -30,6 +30,7 @@ from ecmascript.transform.check      import lint
 from generator     import Context
 from generator.code.HintArgument     import HintArgument
 from generator.runtime.ShellCmd      import ShellCmd
+from ecmascript.frontend.SyntaxException import SyntaxException
 
 def runLint(jobconf, classes):
 
@@ -89,8 +90,11 @@ def lint_classes(classesObj, opts):
     console = Context.console
     for classObj in classesObj:
         console.debug("Checking %s" % classObj.id)
-        lint_check(classObj, opts)
-        warns = lint_check(classObj, opts)
+        try:
+            warns = lint_check(classObj, opts)
+        except SyntaxException, e:
+            console.error(e)
+            continue
 
         ##
         # @deprecated {3.0} deprecation support for #ignore
