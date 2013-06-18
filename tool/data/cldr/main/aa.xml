@@ -1,51 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!-- Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
 <ldml>
 	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
+		<version number="$Revision: 8245 $"/>
+		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
 		<language type="aa"/>
 	</identity>
 	<localeDisplayNames>
 		<languages>
 			<language type="aa" draft="unconfirmed">Qafar</language>
-			<language type="ar" draft="unconfirmed">Arabic</language>
-			<language type="de" draft="unconfirmed">German</language>
-			<language type="en" draft="unconfirmed">English</language>
-			<language type="es" draft="unconfirmed">Spanish</language>
-			<language type="fr" draft="unconfirmed">French</language>
-			<language type="hi" draft="unconfirmed">Hindi</language>
-			<language type="it" draft="unconfirmed">Italian</language>
-			<language type="ja" draft="unconfirmed">Japanese</language>
-			<language type="pt" draft="unconfirmed">Portuguese</language>
-			<language type="ru" draft="unconfirmed">Russian</language>
-			<language type="zh" draft="unconfirmed">Chinese</language>
 		</languages>
-		<scripts>
-			<script type="Latn" draft="unconfirmed">Latin</script>
-		</scripts>
 		<territories>
-			<territory type="BR" draft="unconfirmed">Brazil</territory>
-			<territory type="CN" draft="unconfirmed">China</territory>
-			<territory type="DE" draft="unconfirmed">Germany</territory>
 			<territory type="DJ" draft="unconfirmed">Yabuuti</territory>
 			<territory type="ER" draft="unconfirmed">Eretria</territory>
 			<territory type="ET" draft="unconfirmed">Otobbia</territory>
-			<territory type="FR" draft="unconfirmed">France</territory>
-			<territory type="GB" draft="unconfirmed">United Kingdom</territory>
-			<territory type="IN" draft="unconfirmed">India</territory>
-			<territory type="IT" draft="unconfirmed">Italy</territory>
-			<territory type="JP" draft="unconfirmed">Japan</territory>
-			<territory type="RU" draft="unconfirmed">Russia</territory>
-			<territory type="US" draft="unconfirmed">United States</territory>
 		</territories>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters draft="unconfirmed">[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="unconfirmed">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplarCharacters>
+		<exemplarCharacters>[a b t s e c k x i d q r f g o l m n u w h y]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[j p v z]</exemplarCharacters>
+		<exemplarCharacters type="index">[A B T S E C K X I D Q R F G O L M N U W H Y]</exemplarCharacters>
 	</characters>
 	<dates>
 		<calendars>
+			<calendar type="generic">
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern draft="unconfirmed">EEEE, MMMM dd, y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern draft="unconfirmed">dd MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern draft="unconfirmed">dd-MMM-y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern draft="unconfirmed">dd/MM/yy GGGGG</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+			</calendar>
 			<calendar type="gregorian">
 				<months>
 					<monthContext type="format">
@@ -204,3 +209,4 @@
 		</currencies>
 	</numbers>
 </ldml>
+

@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!-- Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
 <ldml>
 	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
+		<version number="$Revision: 8671 $"/>
+		<generation date="$Date: 2013-05-03 14:17:48 -0500 (Fri, 03 May 2013) $"/>
 		<language type="mr"/>
 	</identity>
 	<localeDisplayNames>
 		<localeDisplayPattern>
+			<localePattern>{0} ({1})</localePattern>
 			<localeSeparator>,</localeSeparator>
 		</localeDisplayPattern>
 		<languages>
@@ -22,7 +27,7 @@
 			<language type="afa">अफ्रो-अशियाई भाषा</language>
 			<language type="afh">अफ्रिहिली</language>
 			<language type="ain">ऐनू</language>
-			<language type="ak">अकन</language>
+			<language type="ak">अकान</language>
 			<language type="akk">अक्कादिआन</language>
 			<language type="ale">अलेउत</language>
 			<language type="alg">अ‍ॅल्गोक्वियन भाषा</language>
@@ -69,7 +74,7 @@
 			<language type="bn">बंगाली</language>
 			<language type="bnt">बन्टु</language>
 			<language type="bo">तिबेटी</language>
-			<language type="br">ब्रेटन</language>
+			<language type="br">ब्रेतॉन</language>
 			<language type="bra">ब्रज</language>
 			<language type="bs">बोस्नियन</language>
 			<language type="btk">बटाक</language>
@@ -93,10 +98,11 @@
 			<language type="chn">चिनूक जारगॉन</language>
 			<language type="cho">चोक्तौ</language>
 			<language type="chp">शिपेव्यान</language>
-			<language type="chr">चेरूकी</language>
+			<language type="chr">चेरोकी</language>
 			<language type="chy">शेयेन्न</language>
+			<language type="ckb">सोरानी कुर्दिश</language>
 			<language type="cmc">चामिक भाषा</language>
-			<language type="co">कोर्सिकन</language>
+			<language type="co">कॉर्सिकन</language>
 			<language type="cop">कॉप्टिक</language>
 			<language type="cpe">इंग्रजी-आधारित क्रेओल वा पिजिन</language>
 			<language type="cpf">फ्रेंच-आधारित क्रेओल वा पिजिन</language>
@@ -129,7 +135,7 @@
 			<language type="dv">दिवेही</language>
 			<language type="dyu">ड्युला</language>
 			<language type="dz">झोंगखा</language>
-			<language type="ee">इवे</language>
+			<language type="ee">यू</language>
 			<language type="efi">एफिक</language>
 			<language type="egy">प्राचीन इजिप्शियन</language>
 			<language type="eka">एकाजुक</language>
@@ -144,7 +150,7 @@
 			<language type="eo">एस्परान्टो</language>
 			<language type="es">स्पॅनिश</language>
 			<language type="es_419">लॅटिन अमेरिकन स्पॅनिश</language>
-			<language type="es_ES">इबेरियन स्पॅनिश</language>
+			<language type="es_ES">युरोपियन स्पॅनिश</language>
 			<language type="et">इस्टोनियन</language>
 			<language type="eu">बास्क</language>
 			<language type="ewo">इवोन्डो</language>
@@ -168,7 +174,7 @@
 			<language type="fur">फ्रियुलियान</language>
 			<language type="fy">पाश्चात्य फ्रिशियन</language>
 			<language type="ga">आयरिश</language>
-			<language type="gaa">गा</language>
+			<language type="gaa">Ga</language>
 			<language type="gay">गायो</language>
 			<language type="gba">बाया</language>
 			<language type="gd">स्कॉट्स गेलिक</language>
@@ -205,7 +211,7 @@
 			<language type="hup">हूपा</language>
 			<language type="hy">आर्मेनियन</language>
 			<language type="hz">हरेरो</language>
-			<language type="ia">इन्टरलिंग्वा</language>
+			<language type="ia">इंटरलिंग्वा</language>
 			<language type="iba">इबान</language>
 			<language type="id">इंडोनेशियन</language>
 			<language type="ie">इन्टरलिंग</language>
@@ -277,10 +283,10 @@
 			<language type="ln">लिंगाला</language>
 			<language type="lo">लाओ</language>
 			<language type="lol">मोंगो</language>
-			<language type="loz">लोझी</language>
+			<language type="loz">लोझि</language>
 			<language type="lt">लिथुआनियन</language>
 			<language type="lu">ल्यूबा-कटांगा</language>
-			<language type="lua">लूबा-लुलुआ</language>
+			<language type="lua">लुबा-लुलुआ</language>
 			<language type="lui">लुइसेनो</language>
 			<language type="lun">लुन्डा</language>
 			<language type="luo">ल्युओ</language>
@@ -296,6 +302,7 @@
 			<language type="mdf">मोक्ष</language>
 			<language type="mdr">मंडार</language>
 			<language type="men">मेन्डे</language>
+			<language type="mfe">मोरिस्येन</language>
 			<language type="mg">मलागसी</language>
 			<language type="mga">मिडल आयरिश</language>
 			<language type="mh">मार्शलीज</language>
@@ -354,7 +361,7 @@
 			<language type="nyn">न्यानकोल</language>
 			<language type="nyo">न्योरो</language>
 			<language type="nzi">न्झिमा</language>
-			<language type="oc">ऑक्सिटान</language>
+			<language type="oc">ऑक्सितान</language>
 			<language type="oj">ओजिब्वा</language>
 			<language type="om">ओरोमो</language>
 			<language type="or">उडिया</language>
@@ -381,7 +388,7 @@
 			<language type="ps" alt="variant">पुश्तो</language>
 			<language type="pt">पोर्तुगीज</language>
 			<language type="pt_BR">ब्राझिलियन पोर्तुगीज</language>
-			<language type="pt_PT">इबेरियन पोर्तुगीज</language>
+			<language type="pt_PT">युरोपियन पोर्तुगीज</language>
 			<language type="qu">क्वेचुआ</language>
 			<language type="raj">राजस्थानी</language>
 			<language type="rap">रापानुई</language>
@@ -463,18 +470,18 @@
 			<language type="tk">तुर्कमेन</language>
 			<language type="tkl">टोकेलाऊ</language>
 			<language type="tl">टागालोग</language>
-			<language type="tlh">क्लिंगॉन</language>
+			<language type="tlh">क्लिंगोन</language>
 			<language type="tli">लिंगित</language>
 			<language type="tmh">तामाशेक</language>
 			<language type="tn">त्स्वाना</language>
-			<language type="to">टोंगा</language>
+			<language type="to">टोंगन</language>
 			<language type="tog">न्यासा टोन्गा</language>
 			<language type="tpi">टोक पिसिन</language>
 			<language type="tr">तुर्की</language>
 			<language type="ts">सोंगा</language>
 			<language type="tsi">सिम्शियन</language>
 			<language type="tt">ततार</language>
-			<language type="tum">तम्बूका</language>
+			<language type="tum">तुम्बुका</language>
 			<language type="tup">ट्यूपी भाषा</language>
 			<language type="tut">अल्टॅइक भाषा</language>
 			<language type="tvl">टुवालु</language>
@@ -677,7 +684,7 @@
 			<territory type="034">दक्षिण अशिया</territory>
 			<territory type="035">दक्षिण पूर्व अशिया</territory>
 			<territory type="039">दक्षिण युरोप</territory>
-			<territory type="053">ऑस्ट्रेलिया आणि न्यूझीलंड</territory>
+			<territory type="053">ऑस्‍ट्रेलेशिया</territory>
 			<territory type="054">मेलानेशिया</territory>
 			<territory type="057">मायक्रोनेशियन रीजन</territory>
 			<territory type="061">पॉलिनेशिया</territory>
@@ -720,6 +727,7 @@
 			<territory type="BM">बर्मुडा</territory>
 			<territory type="BN">ब्रुनेई</territory>
 			<territory type="BO">बोलिव्हिया</territory>
+			<territory type="BQ">कॅरिबियन नेदरलँड्स</territory>
 			<territory type="BR">ब्राझिल</territory>
 			<territory type="BS">बहामाज</territory>
 			<territory type="BT">भूतान</territory>
@@ -744,9 +752,9 @@
 			<territory type="CO">कोलम्बिया</territory>
 			<territory type="CP">क्लिपरटोन बेट</territory>
 			<territory type="CR">कोस्टारिका</territory>
-			<territory type="CS">सर्बिया आणि माँटेनेग्रो</territory>
 			<territory type="CU">क्यूबा</territory>
 			<territory type="CV">केप व्हर्डे</territory>
+			<territory type="CW">कुरॅको</territory>
 			<territory type="CX">ख्रिसमस बेट</territory>
 			<territory type="CY">सायप्रस</territory>
 			<territory type="CZ">झेक प्रजासत्ताक</territory>
@@ -885,6 +893,7 @@
 			<territory type="PN">पिटकैर्न</territory>
 			<territory type="PR">पोर्टो रिको</territory>
 			<territory type="PS">पॅलेस्टिनी प्रदेश</territory>
+			<territory type="PS" alt="short">पॅलेस्टाईन</territory>
 			<territory type="PT">पोर्तुगाल</territory>
 			<territory type="PW">पलाऊ</territory>
 			<territory type="PY">पराग्वे</territory>
@@ -910,8 +919,10 @@
 			<territory type="SN">सेनेगल</territory>
 			<territory type="SO">सोमालिया</territory>
 			<territory type="SR">सुरिनाम</territory>
+			<territory type="SS">दक्षिण सुदान</territory>
 			<territory type="ST">साओ टोम आणि प्रिंसिपे</territory>
 			<territory type="SV">अल साल्वाडोर</territory>
+			<territory type="SX">सिंट मार्टेन</territory>
 			<territory type="SY">सीरिया</territory>
 			<territory type="SZ">स्वाझिलँड</territory>
 			<territory type="TA">ट्रिस्टन दा कन्हा</territory>
@@ -947,6 +958,7 @@
 			<territory type="VU">वानौटु</territory>
 			<territory type="WF">वालिस आणि फ्यूचूना</territory>
 			<territory type="WS">सामोआ</territory>
+			<territory type="XK">कोसोव्हो</territory>
 			<territory type="YE">येमेन</territory>
 			<territory type="YT">मायोट्टे</territory>
 			<territory type="ZA">दक्षिण अफ्रिका</territory>
@@ -960,9 +972,20 @@
 		</variants>
 		<keys>
 			<key type="calendar">दिनदर्शिका</key>
-			<key type="collation">कोलेशन</key>
+			<key type="colAlternate">प्रतीक क्रमवारीकडे दुर्लक्ष करा</key>
+			<key type="colBackwards">उलट उच्चार क्रमवारी</key>
+			<key type="colCaseFirst">अपरकेस/लोअरकेस क्रम</key>
+			<key type="colCaseLevel">केस संवेदी क्रमवारी</key>
+			<key type="colHiraganaQuaternary">काना क्रमवारी</key>
+			<key type="collation">क्रमाची क्रमवारी लावा</key>
+			<key type="colNormalization">सामान्य क्रमवारी</key>
+			<key type="colNumeric">अंकीय क्रमवारी</key>
+			<key type="colStrength">क्रमवारी सामर्थ्य</key>
 			<key type="currency">चलन</key>
 			<key type="numbers">संख्या</key>
+			<key type="timezone">टाइम झोन</key>
+			<key type="va">लोकेल व्हेरियंट</key>
+			<key type="variableTop">प्रतीक म्हणून क्रमवारी लावा</key>
 			<key type="x">खासगी-वापर</key>
 		</keys>
 		<types>
@@ -971,7 +994,7 @@
 			<type type="armn" key="numbers">अमेरिकन अंक</type>
 			<type type="armnlow" key="numbers">अमेरिकी छोटी लिपी अंक</type>
 			<type type="beng" key="numbers">बंगाली अंक</type>
-			<type type="big5han" key="collation">पारंपारिक चीनी अनुक्रम - Big5</type>
+			<type type="big5han" key="collation">पारंपारिक चिनी क्रमवारी क्रम - Big5</type>
 			<type type="buddhist" key="calendar">बौद्ध दिनदर्शिका</type>
 			<type type="chinese" key="calendar">चीनी दिनदर्शिका</type>
 			<type type="coptic" key="calendar">कॉप्टिक दिनदर्शिका</type>
@@ -981,8 +1004,9 @@
 			<type type="ethi" key="numbers">इथिओपिक अंक</type>
 			<type type="ethiopic" key="calendar">इथिओपिक दिनदर्शिका</type>
 			<type type="ethiopic-amete-alem" key="calendar">इतिओपिक अमेटे अलेम दिनदर्शिका</type>
+			<type type="finance" key="numbers">वित्तीय संख्‍या</type>
 			<type type="fullwide" key="numbers">पूर्ण रुंदीचे अंक</type>
-			<type type="gb2312han" key="collation">सरलीकृत चीनी अनुक्रम - GB2312</type>
+			<type type="gb2312han" key="collation">सरलीकृत चिनी क्रमवारी क्रम - GB2312</type>
 			<type type="geor" key="numbers">जॉर्जियन अंक</type>
 			<type type="gregorian" key="calendar">ग्रेगोरियन दिनदर्शिका</type>
 			<type type="grek" key="numbers">ग्रीक अंक</type>
@@ -996,6 +1020,7 @@
 			<type type="hantfin" key="numbers">पारेपारिक चीनी वित्तीय अंक</type>
 			<type type="hebr" key="numbers">यहूदी अंक</type>
 			<type type="hebrew" key="calendar">यहूदी दिनदर्शिका</type>
+			<type type="identical" key="colStrength">सर्व क्रमवारी लावा</type>
 			<type type="indian" key="calendar">भारतीय राष्ट्रीय दिनदर्शिका</type>
 			<type type="islamic" key="calendar">मुस्लिम दिनदर्शिका</type>
 			<type type="islamic-civil" key="calendar">मुस्लिम- नागरी दिनदर्शिका</type>
@@ -1006,29 +1031,55 @@
 			<type type="knda" key="numbers">कन्नड अंक</type>
 			<type type="laoo" key="numbers">लाओ अंक</type>
 			<type type="latn" key="numbers">पश्चिमी अंक</type>
+			<type type="lower" key="colCaseFirst">प्रथम लोअरकेस क्रमवारी लावा</type>
 			<type type="mlym" key="numbers">मल्याळम अंक</type>
 			<type type="mong" key="numbers">मंगोलियन अंक</type>
 			<type type="mymr" key="numbers">म्यानमार अंक</type>
+			<type type="native" key="numbers">मूळ अंक</type>
+			<type type="no" key="colBackwards">सामान्यपणे उच्चार क्रमवारी करा</type>
+			<type type="no" key="colCaseFirst">सामान्य केस क्रमाची क्रमवारी लावा</type>
+			<type type="no" key="colCaseLevel">केस संवेदी क्रमवारी लावा</type>
+			<type type="no" key="colHiraganaQuaternary">काना विभक्तपणे क्रमवारी लावा</type>
+			<type type="no" key="colNormalization">नेहमीसारखे न करता क्रमवारी लावा</type>
+			<type type="no" key="colNumeric">अंकांची वैयक्तिकरित्या क्रमवारी लावा</type>
+			<type type="non-ignorable" key="colAlternate">प्रतीकांची क्रमवारी लावा</type>
 			<type type="orya" key="numbers">उडिया अंक</type>
 			<type type="persian" key="calendar">फारसी दिनदर्शिका</type>
 			<type type="phonebook" key="collation">फोनबुक अनुक्रम</type>
+			<type type="phonetic" key="collation">ध्वनीविचार क्रमवारी क्रम</type>
 			<type type="pinyin" key="collation">पिनयिन अनुक्रम</type>
+			<type type="primary" key="colStrength">केवळ मूळ अक्षरांची क्रमवारी लावा</type>
+			<type type="quaternary" key="colStrength">उच्चार/केस/रुंदी/काना क्रमवारी लावा</type>
 			<type type="reformed" key="collation">पुनर्स्वरूपित अनुक्रम</type>
 			<type type="roc" key="calendar">मिनदोउ दिनदर्शिका</type>
 			<type type="roman" key="numbers">रोमन अंक</type>
 			<type type="romanlow" key="numbers">रोमन लहान लिपीचे अंक</type>
 			<type type="search" key="collation">सामान्य हेतु शोध</type>
+			<type type="searchjl" key="collation">हँगुल प्रारंभिक व्यंजनानुसार शोधा</type>
+			<type type="secondary" key="colStrength">उच्चार क्रमवारी लावा</type>
+			<type type="shifted" key="colAlternate">दुर्लक्षित प्रतीकांची क्रमवारी लावा</type>
 			<type type="stroke" key="collation">स्ट्रोक अनुक्रम</type>
 			<type type="taml" key="numbers">तामिळ अंक</type>
 			<type type="telu" key="numbers">तेलगु अंक</type>
+			<type type="tertiary" key="colStrength">उच्चार/केस/रुंदीची क्रमवारी लावा</type>
 			<type type="thai" key="numbers">थाई अंक</type>
 			<type type="tibt" key="numbers">तिबेटी अंक</type>
 			<type type="traditional" key="collation">पारंपारिक अनुक्रम</type>
+			<type type="traditional" key="numbers">पारंपारिक संख्‍या</type>
 			<type type="unihan" key="collation">रॅडिकल-स्ट्रोक अनुक्रम</type>
+			<type type="upper" key="colCaseFirst">प्रथम अपरकेस क्रमवारी लावा</type>
+			<type type="vaii" key="numbers">व्हाई अंक</type>
+			<type type="yes" key="colBackwards">उलट उच्चार क्रमवारी लावा</type>
+			<type type="yes" key="colCaseLevel">केस संवेदी क्रमवारी लावा</type>
+			<type type="yes" key="colHiraganaQuaternary">काना भिन्नपणे क्रमवारी लावा</type>
+			<type type="yes" key="colNormalization">युनिकोड सामान्यीकृत क्रमवारी लावा</type>
+			<type type="yes" key="colNumeric">अंकांची संख्‍याक्रमानुसार क्रमवारी लावा</type>
 		</types>
 		<transformNames>
+			<transformName type="BGN">BGN</transformName>
 			<transformName type="Numeric">अंकीय</transformName>
 			<transformName type="Tone">स्वर</transformName>
+			<transformName type="UNGEGN">UNGEGN</transformName>
 			<transformName type="x-Accents">गडद-फिकेपणा</transformName>
 			<transformName type="x-Fullwidth">पूर्णरुंदी</transformName>
 			<transformName type="x-Halfwidth">अर्धीरुंदी</transformName>
@@ -1039,16 +1090,17 @@
 		<measurementSystemNames>
 			<measurementSystemName type="metric">मेट्रिक</measurementSystemName>
 			<measurementSystemName type="UK">यूके</measurementSystemName>
+			<measurementSystemName type="US">US</measurementSystemName>
 		</measurementSystemNames>
 	</localeDisplayNames>
 	<characters>
 		<exemplarCharacters>[\u093C ० १ २ ३ ४ ५ ६ ७ ८ ९ ॐ \u0902 \u0901 ः अ आ इ ई उ ऊ ऋ ऌ ऍ ए ऐ ऑ ओ औ क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण त थ द ध न प फ ब भ म य र ल व श ष स ह ळ ऽ ा ि ी \u0941 \u0942 \u0943 \u0944 \u0945 \u0947 \u0948 ॉ ो ौ \u094D]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[\u200C\u200D]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol">[र \u0941]</exemplarCharacters>
 		<exemplarCharacters type="index">[\u200D ॐ \u0902 ः अ आ इ ई उ ऊ ऋ ऌ ए ऐ ऑ ओ औ क ख ग घ ङ च छ ज झ ञ ट ठ ड ढ ण त थ द ध न प फ ब भ म य र ल व श ष स ह ळ ऽ \u0945 \u094D]</exemplarCharacters>
-		<stopwords>
-			<stopwordList type="collation" draft="provisional">एक, तो, ती, ते</stopwordList>
-		</stopwords>
+		<ellipsis type="final">{0}…</ellipsis>
+		<ellipsis type="initial">…{0}</ellipsis>
+		<ellipsis type="medial">{0}…{1}</ellipsis>
+		<moreInformation>?</moreInformation>
 	</characters>
 	<delimiters>
 		<quotationStart>“</quotationStart>
@@ -1058,6 +1110,177 @@
 	</delimiters>
 	<dates>
 		<calendars>
+			<calendar type="generic">
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE d MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>d MMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>d-M-yy GGGGG</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats>
+					<dateTimeFormatLength type="full">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="long">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="medium">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="short">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<availableFormats>
+						<dateFormatItem id="d">d</dateFormatItem>
+						<dateFormatItem id="Ed">E d</dateFormatItem>
+						<dateFormatItem id="h">h a</dateFormatItem>
+						<dateFormatItem id="H">HH</dateFormatItem>
+						<dateFormatItem id="hm">h:mm a</dateFormatItem>
+						<dateFormatItem id="Hm">H-mm</dateFormatItem>
+						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms">H-mm-ss</dateFormatItem>
+						<dateFormatItem id="M">M</dateFormatItem>
+						<dateFormatItem id="Md">d/M</dateFormatItem>
+						<dateFormatItem id="MEd">E, d/M</dateFormatItem>
+						<dateFormatItem id="MMdd">dd-MM</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">E, d MMM</dateFormatItem>
+						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
+						<dateFormatItem id="ms">mm:ss</dateFormatItem>
+						<dateFormatItem id="y">y</dateFormatItem>
+						<dateFormatItem id="yM">M/y</dateFormatItem>
+						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
+						<dateFormatItem id="yMEd">E, M/d/y</dateFormatItem>
+						<dateFormatItem id="yMM">MM-y</dateFormatItem>
+						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, MMM d, y</dateFormatItem>
+						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
+						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
+						<dateFormatItem id="yQQQQ">QQQQ y</dateFormatItem>
+					</availableFormats>
+					<intervalFormats>
+						<intervalFormatFallback>{0} – {1}</intervalFormatFallback>
+						<intervalFormatItem id="d">
+							<greatestDifference id="d">d–d</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="h">
+							<greatestDifference id="a">h a – h a</greatestDifference>
+							<greatestDifference id="h">h–h a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="H">
+							<greatestDifference id="H">HH–HH</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hm">
+							<greatestDifference id="a">h:mm a – h:mm a</greatestDifference>
+							<greatestDifference id="h">h:mm–h:mm a</greatestDifference>
+							<greatestDifference id="m">h:mm–h:mm a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hm">
+							<greatestDifference id="H">HH:mm–HH:mm</greatestDifference>
+							<greatestDifference id="m">HH:mm–HH:mm</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hmv">
+							<greatestDifference id="a">h:mm a – h:mm a v</greatestDifference>
+							<greatestDifference id="h">h:mm–h:mm a v</greatestDifference>
+							<greatestDifference id="m">h:mm–h:mm a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hmv">
+							<greatestDifference id="H">HH:mm–HH:mm v</greatestDifference>
+							<greatestDifference id="m">HH:mm–HH:mm v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hv">
+							<greatestDifference id="a">h a – h a v</greatestDifference>
+							<greatestDifference id="h">h–h a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hv">
+							<greatestDifference id="H">HH–HH v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="M">
+							<greatestDifference id="M">M–M</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Md">
+							<greatestDifference id="d">d/M - d/M</greatestDifference>
+							<greatestDifference id="M">d/M - d/M</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MEd">
+							<greatestDifference id="d">E, d/M - E, d/M</greatestDifference>
+							<greatestDifference id="M">E, d/M - E, d/M</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMM">
+							<greatestDifference id="M">MMM–MMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMd">
+							<greatestDifference id="d">d-d MMM</greatestDifference>
+							<greatestDifference id="M">d MMM - d MMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMEd">
+							<greatestDifference id="d">E, d MMM - E, d MMM</greatestDifference>
+							<greatestDifference id="M">E, d MMM - E, d MMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="y">
+							<greatestDifference id="y">y–y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yM">
+							<greatestDifference id="M">M/y – M/y</greatestDifference>
+							<greatestDifference id="y">M/y – M/y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMd">
+							<greatestDifference id="d">d/M/y - d/M/y</greatestDifference>
+							<greatestDifference id="M">d/M/y - d/M/y</greatestDifference>
+							<greatestDifference id="y">d/M/y - d/M/y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMEd">
+							<greatestDifference id="d">E, d/M/y - E, d/M/y</greatestDifference>
+							<greatestDifference id="M">E, d/M/y - E, d/M/y</greatestDifference>
+							<greatestDifference id="y">E, d/M/y - E, d/M/y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMM">
+							<greatestDifference id="M">MMM–MMM y</greatestDifference>
+							<greatestDifference id="y">MMM y - MMM y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMd">
+							<greatestDifference id="d">d-d MMM y</greatestDifference>
+							<greatestDifference id="M">d MMM - d MMM y</greatestDifference>
+							<greatestDifference id="y">d MMM y - d MMM y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMEd">
+							<greatestDifference id="d">E, d MMM y - E, d MMM y</greatestDifference>
+							<greatestDifference id="M">E, d MMM - E, d MMM y</greatestDifference>
+							<greatestDifference id="y">E, d MMM y - E, d MMM y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMM">
+							<greatestDifference id="M">MMMM–MMMM y</greatestDifference>
+							<greatestDifference id="y">MMMM y – MMMM y</greatestDifference>
+						</intervalFormatItem>
+					</intervalFormats>
+				</dateTimeFormats>
+			</calendar>
 			<calendar type="gregorian">
 				<months>
 					<monthContext type="format">
@@ -1071,6 +1294,7 @@
 							<month type="7">जुलै</month>
 							<month type="8">ऑग</month>
 							<month type="9">सेप्टें</month>
+							<month type="10">ऑक्ट</month>
 							<month type="11">नोव्हें</month>
 							<month type="12">डिसें</month>
 						</monthWidth>
@@ -1100,6 +1324,7 @@
 							<month type="7">जुलै</month>
 							<month type="8">ऑग</month>
 							<month type="9">सेप्टें</month>
+							<month type="10">ऑक्ट</month>
 							<month type="11">नोव्हें</month>
 							<month type="12">डिसें</month>
 						</monthWidth>
@@ -1121,11 +1346,13 @@
 							<month type="1">जानेवारी</month>
 							<month type="2">फेब्रुवारी</month>
 							<month type="3">मार्च</month>
+							<month type="4">एप्रिल</month>
 							<month type="5">मे</month>
 							<month type="6">जून</month>
 							<month type="7">जुलै</month>
 							<month type="8">ऑगस्ट</month>
 							<month type="9">सप्टेंबर</month>
+							<month type="10">ऑक्टोबर</month>
 							<month type="11">नोव्हेंबर</month>
 							<month type="12">डिसेंबर</month>
 						</monthWidth>
@@ -1141,6 +1368,15 @@
 							<day type="thu">गुरु</day>
 							<day type="fri">शुक्र</day>
 							<day type="sat">शनि</day>
+						</dayWidth>
+						<dayWidth type="short">
+							<day type="sun">र</day>
+							<day type="mon">सो</day>
+							<day type="tue">मं</day>
+							<day type="wed">बु</day>
+							<day type="thu">गु</day>
+							<day type="fri">शु</day>
+							<day type="sat">श</day>
 						</dayWidth>
 						<dayWidth type="wide">
 							<day type="sun">रविवार</day>
@@ -1171,6 +1407,15 @@
 							<day type="fri">शु</day>
 							<day type="sat">श</day>
 						</dayWidth>
+						<dayWidth type="short">
+							<day type="sun">र</day>
+							<day type="mon">सो</day>
+							<day type="tue">मं</day>
+							<day type="wed">बु</day>
+							<day type="thu">गु</day>
+							<day type="fri">शु</day>
+							<day type="sat">श</day>
+						</dayWidth>
 						<dayWidth type="wide">
 							<day type="sun">रविवार</day>
 							<day type="mon">सोमवार</day>
@@ -1186,7 +1431,7 @@
 					<quarterContext type="format">
 						<quarterWidth type="abbreviated">
 							<quarter type="1">ति 1</quarter>
-							<quarter type="2">2 री तिमाही</quarter>
+							<quarter type="2">ति 2</quarter>
 							<quarter type="3">ति 3</quarter>
 							<quarter type="4">ति 4</quarter>
 						</quarterWidth>
@@ -1210,6 +1455,12 @@
 							<quarter type="3">ति 3</quarter>
 							<quarter type="4">ति 4</quarter>
 						</quarterWidth>
+						<quarterWidth type="narrow">
+							<quarter type="1">1</quarter>
+							<quarter type="2">2</quarter>
+							<quarter type="3">3</quarter>
+							<quarter type="4">4</quarter>
+						</quarterWidth>
 					</quarterContext>
 				</quarters>
 				<dayPeriods>
@@ -1219,12 +1470,12 @@
 							<dayPeriod type="pm">PM</dayPeriod>
 						</dayPeriodWidth>
 						<dayPeriodWidth type="narrow">
-							<dayPeriod type="am">a</dayPeriod>
-							<dayPeriod type="pm">p</dayPeriod>
+							<dayPeriod type="am">AM</dayPeriod>
+							<dayPeriod type="pm">PM</dayPeriod>
 						</dayPeriodWidth>
 						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">म.पू.</dayPeriod>
-							<dayPeriod type="pm">म.नं.</dayPeriod>
+							<dayPeriod type="am">AM</dayPeriod>
+							<dayPeriod type="pm">PM</dayPeriod>
 						</dayPeriodWidth>
 					</dayPeriodContext>
 				</dayPeriods>
@@ -1283,30 +1534,96 @@
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
+					<dateTimeFormatLength type="full">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="long">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="medium">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="short">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
 					<availableFormats>
+						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">E d</dateFormatItem>
+						<dateFormatItem id="h">h a</dateFormatItem>
+						<dateFormatItem id="H">HH</dateFormatItem>
+						<dateFormatItem id="hm">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">H-mm</dateFormatItem>
+						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
 						<dateFormatItem id="Hms">H-mm-ss</dateFormatItem>
 						<dateFormatItem id="M">M</dateFormatItem>
 						<dateFormatItem id="Md">d/M</dateFormatItem>
 						<dateFormatItem id="MEd">E, d/M</dateFormatItem>
 						<dateFormatItem id="MMdd">dd-MM</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E, d MMM</dateFormatItem>
 						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
+						<dateFormatItem id="ms">mm:ss</dateFormatItem>
+						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">M/y</dateFormatItem>
 						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">E, d/M/y</dateFormatItem>
+						<dateFormatItem id="yMEd">E, M/d/y</dateFormatItem>
+						<dateFormatItem id="yMM">MM-y</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, d MMM y</dateFormatItem>
-						<dateFormatItem id="yQ">Q y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, MMM d, y</dateFormatItem>
+						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
-						<dateFormatItem id="yyyyMM">MM-yyyy</dateFormatItem>
-						<dateFormatItem id="yyyyMMMM">MMMM y</dateFormatItem>
+						<dateFormatItem id="yQQQQ">QQQQ y</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
+						<intervalFormatFallback>{0} – {1}</intervalFormatFallback>
+						<intervalFormatItem id="d">
+							<greatestDifference id="d">d–d</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="h">
+							<greatestDifference id="a">h a – h a</greatestDifference>
+							<greatestDifference id="h">h–h a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="H">
+							<greatestDifference id="H">HH–HH</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hm">
+							<greatestDifference id="a">h:mm a – h:mm a</greatestDifference>
+							<greatestDifference id="h">h:mm–h:mm a</greatestDifference>
+							<greatestDifference id="m">h:mm–h:mm a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hm">
+							<greatestDifference id="H">HH:mm–HH:mm</greatestDifference>
+							<greatestDifference id="m">HH:mm–HH:mm</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hmv">
+							<greatestDifference id="a">h:mm a – h:mm a v</greatestDifference>
+							<greatestDifference id="h">h:mm–h:mm a v</greatestDifference>
+							<greatestDifference id="m">h:mm–h:mm a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hmv">
+							<greatestDifference id="H">HH:mm–HH:mm v</greatestDifference>
+							<greatestDifference id="m">HH:mm–HH:mm v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hv">
+							<greatestDifference id="a">h a – h a v</greatestDifference>
+							<greatestDifference id="h">h–h a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hv">
+							<greatestDifference id="H">HH–HH v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="M">
+							<greatestDifference id="M">M–M</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="Md">
 							<greatestDifference id="d">d/M - d/M</greatestDifference>
 							<greatestDifference id="M">d/M - d/M</greatestDifference>
@@ -1326,19 +1643,22 @@
 							<greatestDifference id="d">E, d MMM - E, d MMM</greatestDifference>
 							<greatestDifference id="M">E, d MMM - E, d MMM</greatestDifference>
 						</intervalFormatItem>
+						<intervalFormatItem id="y">
+							<greatestDifference id="y">y–y</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="yM">
-							<greatestDifference id="M">M/yy – M/yy</greatestDifference>
-							<greatestDifference id="y">M/yy – M/yy</greatestDifference>
+							<greatestDifference id="M">M/y – M/y</greatestDifference>
+							<greatestDifference id="y">M/y – M/y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMd">
-							<greatestDifference id="d">d/M/yy - d/M/yy</greatestDifference>
-							<greatestDifference id="M">d/M/yy - d/M/yy</greatestDifference>
-							<greatestDifference id="y">d/M/yy - d/M/yy</greatestDifference>
+							<greatestDifference id="d">d/M/y - d/M/y</greatestDifference>
+							<greatestDifference id="M">d/M/y - d/M/y</greatestDifference>
+							<greatestDifference id="y">d/M/y - d/M/y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d">E, d/M/yy - E, d/M/yy</greatestDifference>
-							<greatestDifference id="M">E, d/M/yy - E, d/M/yy</greatestDifference>
-							<greatestDifference id="y">E, d/M/yy - E, d/M/yy</greatestDifference>
+							<greatestDifference id="d">E, d/M/y - E, d/M/y</greatestDifference>
+							<greatestDifference id="M">E, d/M/y - E, d/M/y</greatestDifference>
+							<greatestDifference id="y">E, d/M/y - E, d/M/y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMM">
 							<greatestDifference id="M">MMM–MMM y</greatestDifference>
@@ -1360,63 +1680,62 @@
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
-				<fields>
-					<field type="era">
-						<displayName>युग</displayName>
-					</field>
-					<field type="year">
-						<displayName>वर्ष</displayName>
-						<relative type="-1">मागील वर्ष</relative>
-						<relative type="0">या वर्षी</relative>
-						<relative type="1">पुढील वर्ष</relative>
-					</field>
-					<field type="month">
-						<displayName>महिना</displayName>
-						<relative type="-1">मागील महिना</relative>
-						<relative type="0">हा महिना</relative>
-						<relative type="1">पुढील महिना</relative>
-					</field>
-					<field type="week">
-						<displayName>आठव़डा</displayName>
-						<relative type="-1">मागील आठवडा</relative>
-						<relative type="0">हा आठवडा</relative>
-						<relative type="1">पुढील आठवडा</relative>
-					</field>
-					<field type="day">
-						<displayName>दिवस</displayName>
-						<relative type="-2">परवा</relative>
-						<relative type="-1">काल</relative>
-						<relative type="0">आज</relative>
-						<relative type="1">उद्या</relative>
-						<relative type="2">परवा</relative>
-					</field>
-					<field type="weekday">
-						<displayName>आठवड्याचा दिवस</displayName>
-					</field>
-					<field type="dayperiod">
-						<displayName>AM/PM</displayName>
-					</field>
-					<field type="hour">
-						<displayName>तास</displayName>
-					</field>
-					<field type="minute">
-						<displayName>मिनिट</displayName>
-					</field>
-					<field type="second">
-						<displayName>सेकंद</displayName>
-					</field>
-					<field type="zone">
-						<displayName>झोन</displayName>
-					</field>
-				</fields>
 			</calendar>
 		</calendars>
+		<fields>
+			<field type="era">
+				<displayName>युग</displayName>
+			</field>
+			<field type="year">
+				<displayName>वर्ष</displayName>
+				<relative type="-1">मागील वर्ष</relative>
+				<relative type="0">या वर्षी</relative>
+				<relative type="1">पुढील वर्ष</relative>
+			</field>
+			<field type="month">
+				<displayName>महिना</displayName>
+				<relative type="-1">मागील महिना</relative>
+				<relative type="0">हा महिना</relative>
+				<relative type="1">पुढील महिना</relative>
+			</field>
+			<field type="week">
+				<displayName>आठव़डा</displayName>
+				<relative type="-1">मागील आठवडा</relative>
+				<relative type="0">हा आठवडा</relative>
+				<relative type="1">पुढील आठवडा</relative>
+			</field>
+			<field type="day">
+				<displayName>दिवस</displayName>
+				<relative type="-1">काल</relative>
+				<relative type="0">आज</relative>
+				<relative type="1">उद्या</relative>
+			</field>
+			<field type="weekday">
+				<displayName>आठवड्याचा दिवस</displayName>
+			</field>
+			<field type="dayperiod">
+				<displayName>AM/PM</displayName>
+			</field>
+			<field type="hour">
+				<displayName>तास</displayName>
+			</field>
+			<field type="minute">
+				<displayName>मिनिट</displayName>
+			</field>
+			<field type="second">
+				<displayName>सेकंद</displayName>
+			</field>
+			<field type="zone">
+				<displayName>झोन</displayName>
+			</field>
+		</fields>
 		<timeZoneNames>
+			<hourFormat>+HH:mm;-HH:mm</hourFormat>
+			<gmtFormat>GMT{0}</gmtFormat>
+			<gmtZeroFormat>GMT</gmtZeroFormat>
 			<regionFormat>{0} वेळ</regionFormat>
+			<fallbackFormat>{1} ({0})</fallbackFormat>
 			<fallbackRegionFormat>{1} वेळ ({0})</fallbackRegionFormat>
-			<zone type="America/North_Dakota/Beulah">
-				<exemplarCity>ब्यूयुला, उत्तर डकोटा</exemplarCity>
-			</zone>
 			<zone type="Etc/Unknown">
 				<exemplarCity>अज्ञात शहर</exemplarCity>
 			</zone>
@@ -1440,9 +1759,6 @@
 			</zone>
 			<zone type="Asia/Yerevan">
 				<exemplarCity>येरेवन</exemplarCity>
-			</zone>
-			<zone type="America/Curacao">
-				<exemplarCity>कुराकाओ</exemplarCity>
 			</zone>
 			<zone type="Africa/Luanda">
 				<exemplarCity>लुआंडा</exemplarCity>
@@ -1592,7 +1908,7 @@
 				<exemplarCity>पोर्टो-नोव्हो</exemplarCity>
 			</zone>
 			<zone type="America/St_Barthelemy">
-				<exemplarCity>सेंट बार्थलेमी</exemplarCity>
+				<exemplarCity>सेंट बार्थेलेमी</exemplarCity>
 			</zone>
 			<zone type="Atlantic/Bermuda">
 				<exemplarCity>बर्मुडा</exemplarCity>
@@ -1806,6 +2122,9 @@
 			</zone>
 			<zone type="Atlantic/Cape_Verde">
 				<exemplarCity>केप व्हर्डे</exemplarCity>
+			</zone>
+			<zone type="America/Curacao">
+				<exemplarCity>कुराकाओ</exemplarCity>
 			</zone>
 			<zone type="Indian/Christmas">
 				<exemplarCity>ख्रिसमस</exemplarCity>
@@ -2300,13 +2619,13 @@
 				<exemplarCity>पलाऊ</exemplarCity>
 			</zone>
 			<zone type="America/Asuncion">
-				<exemplarCity>अ‍ॅसुनसिऑन</exemplarCity>
+				<exemplarCity>आसुन्सियोन</exemplarCity>
 			</zone>
 			<zone type="Asia/Qatar">
 				<exemplarCity>कतार</exemplarCity>
 			</zone>
 			<zone type="Indian/Reunion">
-				<exemplarCity>रीयूनियन</exemplarCity>
+				<exemplarCity>रियुनियन</exemplarCity>
 			</zone>
 			<zone type="Europe/Bucharest">
 				<exemplarCity>बुखारेस्ट</exemplarCity>
@@ -2408,10 +2727,13 @@
 				<exemplarCity>पारमरीबो</exemplarCity>
 			</zone>
 			<zone type="Africa/Sao_Tome">
-				<exemplarCity>साओ टोम</exemplarCity>
+				<exemplarCity>साओ तोमे</exemplarCity>
 			</zone>
 			<zone type="America/El_Salvador">
 				<exemplarCity>एल साल्वाडोर</exemplarCity>
+			</zone>
+			<zone type="America/Lower_Princes">
+				<exemplarCity>लोअर प्रिन्स क्वार्टर</exemplarCity>
 			</zone>
 			<zone type="Asia/Damascus">
 				<exemplarCity>दमास्कस</exemplarCity>
@@ -2523,6 +2845,9 @@
 			</zone>
 			<zone type="America/Denver">
 				<exemplarCity>डेन्वर</exemplarCity>
+			</zone>
+			<zone type="America/North_Dakota/Beulah">
+				<exemplarCity>ब्यूयुला, उत्तर डकोटा</exemplarCity>
 			</zone>
 			<zone type="America/North_Dakota/New_Salem">
 				<exemplarCity>न्यू सालेम, उत्तर डकोटा</exemplarCity>
@@ -2637,31 +2962,24 @@
 			</metazone>
 			<metazone type="Africa_Central">
 				<long>
-					<standard>मध्य अफ्रिका प्रमाणवेळ</standard>
+					<standard>मध्‍य आफ्रिका वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Africa_Eastern">
 				<long>
-					<standard>पूर्व अफ्रिका प्रमाणवेळ</standard>
+					<standard>पूर्व आफ्रिका वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Africa_Southern">
 				<long>
-					<standard>दक्षिण अफ्रिका प्रमाणवेळ</standard>
+					<standard>दक्षिण आफ्रिका मानक वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Africa_Western">
 				<long>
-					<generic>पश्चिम अफ्रिका वेळ</generic>
-					<standard>पश्चिम अफ्रिका प्रमाणवेळ</standard>
-					<daylight>पश्चिम अफ्रिका ग्रीष्म प्रमाणवेळ</daylight>
-				</long>
-			</metazone>
-			<metazone type="Aktyubinsk">
-				<long>
-					<generic>अ‍ॅक्ट्युबिन्स्क वेळ</generic>
-					<standard>अ‍ॅक्ट्युबिन्स्क प्रमाणवेळ</standard>
-					<daylight>अ‍ॅक्ट्युबिन्स्क ग्रीष्मकालीन वेळ</daylight>
+					<generic>पश्चिम आफ्रिका वेळ</generic>
+					<standard>पश्चिम आफ्रिका मानक वेळ</standard>
+					<daylight>पश्चिम आफ्रिका उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Alaska">
@@ -2669,13 +2987,6 @@
 					<generic>अलास्का वेळ</generic>
 					<standard>अलास्का प्रमाणवेळ</standard>
 					<daylight>अलास्का दिवस वेळ</daylight>
-				</long>
-			</metazone>
-			<metazone type="Alaska_Hawaii">
-				<long>
-					<generic>अलास्का-हवाई वेळ</generic>
-					<standard>अलास्का-हवाई प्रमाणवेळ</standard>
-					<daylight>अलास्का-हवाई दिवस वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Almaty">
@@ -2688,8 +2999,8 @@
 			<metazone type="Amazon">
 				<long>
 					<generic>अॅमेझॉन वेळ</generic>
-					<standard>अॅमेझॉन प्रमाणवेळ</standard>
-					<daylight>अॅमेझॉन दिवस वेळ</daylight>
+					<standard>अ‍ॅमेझॉन मानक वेळ</standard>
+					<daylight>अ‍ॅमेझॉन उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Central">
@@ -2743,37 +3054,30 @@
 			</metazone>
 			<metazone type="Arabian">
 				<long>
-					<generic>अरबी वेळ</generic>
-					<standard>अरबी प्रमाणवेळ</standard>
-					<daylight>अरबी दिवस वेळ</daylight>
+					<generic>अरेबियन वेळ</generic>
+					<standard>अरेबियन मानक वेळ</standard>
+					<daylight>अरेबियन सूर्यप्रकाश वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Argentina">
 				<long>
 					<generic>अर्जेंटिना वेळ</generic>
-					<standard>अर्जेंटिना प्रमाणवेळ</standard>
+					<standard>अर्जेंटिना मानक वेळ</standard>
 					<daylight>अर्जेंटिना ग्रीष्मकालीन वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Argentina_Western">
 				<long>
-					<generic>अर्जेंटिना पश्चिमी वेळ</generic>
-					<standard>पश्चिमी अर्जेंटिना वेळ</standard>
-					<daylight>अर्जेंटिना पश्चिमी ग्रीष्म वेळ</daylight>
+					<generic>पश्चिम अर्जेंटिना वेळ</generic>
+					<standard>पश्चिम अर्जेंटिना मानक वेळ</standard>
+					<daylight>पश्चिम अर्जेंटिना उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Armenia">
 				<long>
 					<generic>आर्मेनिया वेळ</generic>
-					<standard>आर्मेनिया प्रमाणवेळ</standard>
-					<daylight>आर्मेनिया ग्रीष्मकालीन वेळ</daylight>
-				</long>
-			</metazone>
-			<metazone type="Ashkhabad">
-				<long>
-					<generic>अश्खाबाद वेळ</generic>
-					<standard>अश्खाबाद प्रमाणवेळ</standard>
-					<daylight>अश्खाबाद ग्रीष्मकालीन वेळ</daylight>
+					<standard>आर्मेनिया मानक वेळ</standard>
+					<daylight>आर्मेनिया उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Atlantic">
@@ -2814,36 +3118,22 @@
 			<metazone type="Azerbaijan">
 				<long>
 					<generic>अझरबैजान वेळ</generic>
-					<standard>अझरबैजान प्रमाणवेळ</standard>
-					<daylight>अझरबैजान ग्रीष्मकालीन वेळ</daylight>
+					<standard>अझरबैजान मानक वेळ</standard>
+					<daylight>अझरबैजान उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Azores">
 				<long>
-					<generic>अ‍ॅझोरस वेळ</generic>
-					<standard>अ‍ॅझोरस प्रमाणवेळ</standard>
-					<daylight>अ‍ॅझोरस ग्रीष्मकालीन वेळ</daylight>
-				</long>
-			</metazone>
-			<metazone type="Baku">
-				<long>
-					<generic>बाकू वेळ</generic>
-					<standard>बाकू प्रमाणवेळ</standard>
-					<daylight>बाकू ग्रीष्मकालीन वेळ</daylight>
+					<generic>अ‍ॅझोरेस वेळ</generic>
+					<standard>अ‍ॅझोरेस मानक वेळ</standard>
+					<daylight>अ‍ॅझोरेस उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Bangladesh">
 				<long>
-					<generic>बांगलादेश वेळ</generic>
-					<standard>बांगलादेश प्रमाणवेळ</standard>
-					<daylight>बांगलादेश ग्रीष्मकालीन वेळ</daylight>
-				</long>
-			</metazone>
-			<metazone type="Bering">
-				<long>
-					<generic>बेरिंग वेळ</generic>
-					<standard>बेरिंग प्रमाणवेळ</standard>
-					<daylight>बेरिंग दिवस वेळ</daylight>
+					<generic>बांग्लादेश वेळ</generic>
+					<standard>बांग्लादेश मानक वेळ</standard>
+					<daylight>बांग्लादेश उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Bhutan">
@@ -2856,67 +3146,55 @@
 					<standard>बोलिव्हिया वेळ</standard>
 				</long>
 			</metazone>
-			<metazone type="Borneo">
-				<long>
-					<generic>बोर्नेओ वेळ</generic>
-					<standard>बोर्नेओ प्रमाणवेळ</standard>
-					<daylight>बोर्नेओ ग्रीष्मकालीन वेळ</daylight>
-				</long>
-			</metazone>
 			<metazone type="Brasilia">
 				<long>
 					<generic>ब्रासिलिया वेळ</generic>
-					<standard>ब्रासिलिया प्रमाणवेळ</standard>
+					<standard>ब्राझिलिया मानक वेळ</standard>
 					<daylight>ब्रासिलिया ग्रीष्मकालीन वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Brunei">
 				<long>
-					<standard>ब्रुनेई दारुसलाम वेळ</standard>
+					<standard>ब्रुनेई दारूसलाम वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Cape_Verde">
 				<long>
 					<generic>केप व्हर्डे वेळ</generic>
-					<standard>केप व्हर्डे प्रमाणवेळ</standard>
-					<daylight>केप व्हर्डे ग्रीष्मकालीन वेळ</daylight>
+					<standard>केप व्हर्डे मानक वेळ</standard>
+					<daylight>केप व्हर्डे उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Chamorro">
 				<long>
-					<standard>चॅमोरो वेळ</standard>
-				</long>
-			</metazone>
-			<metazone type="Changbai">
-				<long>
-					<standard>चांगबाय वेळ</standard>
+					<standard>चमारो मानक वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Chatham">
 				<long>
-					<generic>चॅटहॅम वेळ</generic>
-					<standard>चॅटहॅम प्रमाणवेळ</standard>
-					<daylight>चॅटहॅम दिवस वेळ</daylight>
+					<generic>चॅथम वेळ</generic>
+					<standard>चॅथम मानक वेळ</standard>
+					<daylight>चॅथम सूर्यप्रकाश वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Chile">
 				<long>
 					<generic>चिली वेळ</generic>
-					<standard>चिली प्रमाणवेळ</standard>
-					<daylight>चिली ग्रीष्मकालीन वेळ</daylight>
+					<standard>चिली मानक वेळ</standard>
+					<daylight>चिली उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="China">
 				<long>
-					<generic>चीन वेळ</generic>
-					<standard>चीन प्रमाणवेळ</standard>
-					<daylight>चीन दिवस वेळ</daylight>
+					<generic>चिनी वेळ</generic>
+					<standard>चिनी मानक वेळ</standard>
+					<daylight>चिनी सूर्यप्रकाश वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Choibalsan">
 				<long>
 					<generic>चोईबाल्सन वेळ</generic>
-					<standard>चोइबाल्सन प्रमाणवेळ</standard>
+					<standard>चोईबल्सान मानक वेळ</standard>
 					<daylight>चोइबाल्सन ग्रीष्मकालीन वेळ</daylight>
 				</long>
 			</metazone>
@@ -2927,33 +3205,28 @@
 			</metazone>
 			<metazone type="Cocos">
 				<long>
-					<standard>कोकोस बेट वेळ</standard>
+					<standard>कॉकोस बेटे वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Colombia">
 				<long>
 					<generic>कोलंबिया वेळ</generic>
-					<standard>कोलंबिया प्रमाणवेळ</standard>
-					<daylight>कोलंबिया ग्रीष्मकालीन वेळ</daylight>
+					<standard>कोलंबिया मानक वेळ</standard>
+					<daylight>कोलंबिया उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Cook">
 				<long>
 					<generic>कुक बेटे वेळ</generic>
-					<standard>कुक बेटे प्रमाणवेळ</standard>
-					<daylight>कुक बेटे अर्ध ग्रीष्मकालीन वेळ</daylight>
+					<standard>कुक बेटे मानक वेळ</standard>
+					<daylight>कुक बेटे अर्ध उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Cuba">
 				<long>
 					<generic>क्यूबा वेळ</generic>
-					<standard>क्यूबा प्रमाणवेळ</standard>
-					<daylight>क्यूबा दिवस वेळ</daylight>
-				</long>
-			</metazone>
-			<metazone type="Dacca">
-				<long>
-					<standard>ढाका वेळ</standard>
+					<standard>क्यूबा मानक वेळ</standard>
+					<daylight>क्यूबा सूर्यप्रकाश वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Davis">
@@ -2963,19 +3236,7 @@
 			</metazone>
 			<metazone type="DumontDUrville">
 				<long>
-					<standard>ड्यूमाँट डी' उरव्हिले वेळ</standard>
-				</long>
-			</metazone>
-			<metazone type="Dushanbe">
-				<long>
-					<generic>दुशांबे वेळ</generic>
-					<standard>दुशांबे प्रमाणवेळ</standard>
-					<daylight>दुशांबे ग्रीष्मकालीन वेळ</daylight>
-				</long>
-			</metazone>
-			<metazone type="Dutch_Guiana">
-				<long>
-					<standard>डच गयाना वेळ</standard>
+					<standard>डरमाँट-डी'उर्व्हिले वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="East_Timor">
@@ -2985,47 +3246,49 @@
 			</metazone>
 			<metazone type="Easter">
 				<long>
-					<daylight>ईस्टर बेट ग्रीष्मकालीन वेळ</daylight>
+					<generic>इस्टर बेट वेळ</generic>
+					<standard>इस्टर बेट मानक वेळ</standard>
+					<daylight>इस्टर बेट उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Ecuador">
 				<long>
-					<standard>इक्वाडोर वेळ</standard>
+					<standard>इक्वेडोर वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Europe_Central">
 				<long>
-					<generic>मध्य यूरोपीय वेळ</generic>
-					<standard>मध्य यूरोपीय प्रमाणवेळ</standard>
-					<daylight>मध्य यूरोपीय ग्रीष्मकालीन वेळ</daylight>
+					<generic>मध्‍य युरोपियन वेळ</generic>
+					<standard>मध्‍य युरोपियन मानक वेळ</standard>
+					<daylight>मध्‍य युरोपियन उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
-					<generic>पूर्व यूरोपीय वेळ</generic>
-					<standard>पूर्व यूरोपीय प्रमाणवेळ</standard>
-					<daylight>पूर्व यूरोपीय ग्रीष्मकालीन वेळ</daylight>
+					<generic>पूर्व युरोपियन वेळ</generic>
+					<standard>पूर्व युरोपियन मानक वेळ</standard>
+					<daylight>पूर्व युरोपियन उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
-					<generic>पश्चिम यूरोपीय वेळ</generic>
-					<standard>पश्चिम यूरोपीय प्रमाणवेळ</standard>
-					<daylight>पश्चिम यूरोपीय ग्रीष्मकालीन वेळ</daylight>
+					<generic>पश्चिम युरोपियन वेळ</generic>
+					<standard>पश्चिम युरोपियन मानक वेळ</standard>
+					<daylight>पश्चिम युरोपियन उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Falkland">
 				<long>
 					<generic>फॉकलंड बेटे वेळ</generic>
-					<standard>फॉकलंड बेटे प्रमाणवेळ</standard>
-					<daylight>फॉकलंड बेटे ग्रीष्मकालीन वेळ</daylight>
+					<standard>फॉकलंड बेटे मानक वेळ</standard>
+					<daylight>फॉकलंड बेटे उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Fiji">
 				<long>
 					<generic>फिजी वेळ</generic>
-					<standard>फिजी प्रमाणवेळ</standard>
-					<daylight>फिजी ग्रीष्मकालीन वेळ</daylight>
+					<standard>फिजी मानक वेळ</standard>
+					<daylight>फिजी उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="French_Guiana">
@@ -3035,14 +3298,7 @@
 			</metazone>
 			<metazone type="French_Southern">
 				<long>
-					<standard>फ्रेंच दाक्षिणात्य आणि अंटार्क्टिक वेळ</standard>
-				</long>
-			</metazone>
-			<metazone type="Frunze">
-				<long>
-					<generic>फ्रंझे वेळ</generic>
-					<standard>फ्रंझे प्रमाणवेळ</standard>
-					<daylight>फ्रंझे ग्रीष्मकालीन वेळ</daylight>
+					<standard>फ्रेंच दक्षिण आणि अंटार्कक्टिक वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Galapagos">
@@ -3058,39 +3314,32 @@
 			<metazone type="Georgia">
 				<long>
 					<generic>जॉर्जिया वेळ</generic>
-					<standard>जॉर्जिया प्रमाणवेळ</standard>
-					<daylight>जॉर्जिया ग्रीष्मकालीन वेळ</daylight>
+					<standard>जॉर्जिया मानक वेळ</standard>
+					<daylight>जॉर्जिया उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Gilbert_Islands">
 				<long>
-					<standard>गिलबर्ट बेटे वेळ</standard>
+					<standard>गिल्बर्ट बेटे वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="GMT">
 				<long>
-					<standard>ग्रिनिच मध्यमान वेळ</standard>
-				</long>
-			</metazone>
-			<metazone type="Greenland_Central">
-				<long>
-					<generic>मध्य ग्रीनलँड वेळ</generic>
-					<standard>मध्य ग्रीनलँड प्रमाणवेळ</standard>
-					<daylight>मध्य ग्रीनलँड ग्रीष्मकालीन वेळ</daylight>
+					<standard>ग्रीनीच प्रमाण वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Greenland_Eastern">
 				<long>
 					<generic>पूर्व ग्रीनलँड वेळ</generic>
-					<standard>पूर्व ग्रीनलँड प्रमाणवेळ</standard>
-					<daylight>पूर्व ग्रीनलँड ग्रीष्मकालीन वेळ</daylight>
+					<standard>पूर्व ग्रीनलँड मानक वेळ</standard>
+					<daylight>पूर्व ग्रीनलँड उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Greenland_Western">
 				<long>
 					<generic>पश्चिम ग्रीनलँड वेळ</generic>
-					<standard>पश्चिम ग्रीनलँड प्रमाणवेळ</standard>
-					<daylight>पश्चिम ग्रीनलँड ग्रीष्मकालीन वेळ</daylight>
+					<standard>पश्चिम ग्रीनलँड मानक वेळ</standard>
+					<daylight>पश्चिम ग्रीनलँड उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Guam">
@@ -3100,7 +3349,7 @@
 			</metazone>
 			<metazone type="Gulf">
 				<long>
-					<standard>गल्फ प्रमाणवेळ</standard>
+					<standard>खाडी मानक वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Guyana">
@@ -3110,28 +3359,28 @@
 			</metazone>
 			<metazone type="Hawaii_Aleutian">
 				<long>
-					<generic>हवाई एल्युशियन वेळ</generic>
-					<standard>हवाई- अ‍ॅल्यूटियन प्रमाणवेळ</standard>
-					<daylight>हवाई एल्युशियन ग्रीष्मकालीन वेळ</daylight>
+					<generic>हवाई-अल्युशन वेळ</generic>
+					<standard>हवाई-अ‍ॅलेयुटियन मानक वेळ</standard>
+					<daylight>हवाई-अ‍ॅलेयुटियन सूर्यप्रकाश वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hong_Kong">
 				<long>
-					<generic>हाँगकाँग वेळ</generic>
-					<standard>हाँगकाँग प्रमाणवेळ'</standard>
-					<daylight>हाँगकाँग ग्रीष्मकालीन वेळ</daylight>
+					<generic>हाँग काँग वेळ</generic>
+					<standard>हाँग काँग मानक वेळ</standard>
+					<daylight>हाँग काँग उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hovd">
 				<long>
 					<generic>हॉव्ड वेळ</generic>
-					<standard>हॉव्ड प्रमाणवेळ</standard>
+					<standard>होव्ह्ड मानक वेळ</standard>
 					<daylight>हॉव्ड ग्रीष्मकालीन वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="India">
 				<long>
-					<standard>भारतीय प्रमाणवेळ</standard>
+					<standard>भारतीय मानक वेळ</standard>
 				</long>
 				<short>
 					<standard>IST</standard>
@@ -3139,17 +3388,17 @@
 			</metazone>
 			<metazone type="Indian_Ocean">
 				<long>
-					<standard>हिंदी महासागर वेळ</standard>
+					<standard>हिंदमहासागर वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Indochina">
 				<long>
-					<standard>इंडोचायना प्रमाणवेळ</standard>
+					<standard>इंडोचायना वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Central">
 				<long>
-					<standard>मध्य इंडोनेशिया वेळ</standard>
+					<standard>मध्‍य इंडोनेशिया वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Eastern">
@@ -3164,30 +3413,30 @@
 			</metazone>
 			<metazone type="Iran">
 				<long>
-					<generic>ईराण वेळ</generic>
-					<standard>ईराण प्रमाणवेळ</standard>
-					<daylight>ईराण दिवस वेळ</daylight>
+					<generic>इराण वेळ</generic>
+					<standard>इराण मानक वेळ</standard>
+					<daylight>इराण सूर्यप्रकाश वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Irkutsk">
 				<long>
 					<generic>इर्कुत्स्क वेळ</generic>
-					<standard>इर्कुट्स्क प्रमाणवेळ</standard>
+					<standard>इर्कुत्सक मानक वेळ</standard>
 					<daylight>इर्कुट्स्क ग्रीष्मकालीन वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Israel">
 				<long>
-					<generic>इस्त्राइल वेळ</generic>
-					<standard>इस्त्राइल प्रमाणवेळ</standard>
-					<daylight>इस्त्राइल दिवस वेळ</daylight>
+					<generic>इस्राएल वेळ</generic>
+					<standard>इस्राएल मानक वेळ</standard>
+					<daylight>इस्राएल सूर्यप्रकाश वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Japan">
 				<long>
 					<generic>जपान वेळ</generic>
-					<standard>जपान प्रमाण वेळ</standard>
-					<daylight>जपान दिवस वेळ</daylight>
+					<standard>जपान मानक वेळ</standard>
+					<daylight>जपान सूर्यप्रकाश वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kamchatka">
@@ -3195,16 +3444,6 @@
 					<generic>पेट्रोपाव्हलोस्क- कामचाट्स्की वेळ</generic>
 					<standard>पेट्रोपाव्हलोस्क- कामचाट्स्की प्रमाणवेळ</standard>
 					<daylight>पेट्रोपाव्हलोस्क- कामचाट्स्की ग्रीष्मकालीन वेळ</daylight>
-				</long>
-			</metazone>
-			<metazone type="Karachi">
-				<long>
-					<standard>कराची वेळ</standard>
-				</long>
-			</metazone>
-			<metazone type="Kashgar">
-				<long>
-					<standard>कश्गार वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Eastern">
@@ -3217,40 +3456,28 @@
 					<standard>पश्चिम कझाकस्तान वेळ</standard>
 				</long>
 			</metazone>
-			<metazone type="Kizilorda">
-				<long>
-					<generic>किझिलोर्डा वेळ</generic>
-					<standard>किझिलोर्डा प्रमाणवेळ</standard>
-					<daylight>किझिलोर्डा ग्रीष्मकालीन वेळ</daylight>
-				</long>
-			</metazone>
 			<metazone type="Korea">
 				<long>
 					<generic>कोरियन वेळ</generic>
-					<standard>कोरियन प्रमाण वेळ</standard>
-					<daylight>कोरियन दिवस वेळ</daylight>
+					<standard>कोरियन मानक वेळ</standard>
+					<daylight>कोरियन सूर्यप्रकाश वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kosrae">
 				<long>
-					<standard>कोशर्‍ये वेळ</standard>
+					<standard>कोस्राई वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Krasnoyarsk">
 				<long>
 					<generic>क्रोस्नोयार्स्क वेळ</generic>
-					<standard>क्रास्नोयार्क्स प्रमाणवेळ</standard>
+					<standard>क्रास्नोयार्स्क मानक वेळ</standard>
 					<daylight>क्रास्नोयार्क्स ग्रीष्मकालीन वेळ</daylight>
-				</long>
-			</metazone>
-			<metazone type="Kwajalein">
-				<long>
-					<standard>क्वाजालेइन वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Kyrgystan">
 				<long>
-					<standard>किरगीस्तान वेळ</standard>
+					<standard>किरगिस्तान वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Lanka">
@@ -3261,11 +3488,6 @@
 			<metazone type="Line_Islands">
 				<long>
 					<standard>लाइन बेटे वेळ</standard>
-				</long>
-			</metazone>
-			<metazone type="Long_Shu">
-				<long>
-					<standard>लोंग-शू वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Lord_Howe">
@@ -3284,19 +3506,14 @@
 			</metazone>
 			<metazone type="Macquarie">
 				<long>
-					<standard>मक्वारे वेळ</standard>
+					<standard>मॅक्वेरी बेट वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Magadan">
 				<long>
 					<generic>मेगाडन वेळ</generic>
-					<standard>मॅगाडन प्रमाणवेळ</standard>
+					<standard>मागाडन मानक वेळ</standard>
 					<daylight>मॅगाडन ग्रीष्मकालीन वेळ</daylight>
-				</long>
-			</metazone>
-			<metazone type="Malaya">
-				<long>
-					<standard>मलाया वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Malaysia">
@@ -3306,12 +3523,12 @@
 			</metazone>
 			<metazone type="Maldives">
 				<long>
-					<standard>मालदीव्ज वेळ</standard>
+					<standard>मालदिव्ज वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Marquesas">
 				<long>
-					<standard>मार्क्वीसास वेळ</standard>
+					<standard>मार्क्वेसास वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Marshall_Islands">
@@ -3322,8 +3539,8 @@
 			<metazone type="Mauritius">
 				<long>
 					<generic>मॉरिशस वेळ</generic>
-					<standard>मॉरिशस प्रमाणवेळ</standard>
-					<daylight>मॉरिशस ग्रीष्मकालीन वेळ</daylight>
+					<standard>मॉरीशस मानक वेळ</standard>
+					<daylight>मॉरीशस उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Mawson">
@@ -3333,8 +3550,8 @@
 			</metazone>
 			<metazone type="Mongolia">
 				<long>
-					<generic>उलान बातोर वेळ</generic>
-					<standard>उलान बातोर प्रमाणवेळ</standard>
+					<generic>उलान बाटोर वेळ</generic>
+					<standard>उलान बाटोर मानक वेळ</standard>
 					<daylight>उलान बातोर ग्रीष्मकालीन वेळ</daylight>
 				</long>
 			</metazone>
@@ -3363,15 +3580,15 @@
 			<metazone type="New_Caledonia">
 				<long>
 					<generic>न्यू कॅलेडोनिया वेळ</generic>
-					<standard>न्यू कॅलेडोनिया प्रमाणवेळ</standard>
-					<daylight>न्यू कॅलेडोनिया ग्रीष्मकालीन वेळ</daylight>
+					<standard>नवीन कॅलेडोनिया मानक वेळ</standard>
+					<daylight>न्यू कॅलेडोनिया उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="New_Zealand">
 				<long>
 					<generic>न्यूझीलंड वेळ</generic>
-					<standard>न्यूझीलंड प्रमाणवेळ</standard>
-					<daylight>न्यूझीलंड दिवस वेळ</daylight>
+					<standard>न्यूझीलंड मानक वेळ</standard>
+					<daylight>न्यूझीलंड सूर्यप्रकाश वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Newfoundland">
@@ -3383,7 +3600,7 @@
 			</metazone>
 			<metazone type="Niue">
 				<long>
-					<standard>नियू वेळ</standard>
+					<standard>निऊइ वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Norfolk">
@@ -3394,7 +3611,7 @@
 			<metazone type="Noronha">
 				<long>
 					<generic>फर्नांडो दी नोरोन्हा वेळ</generic>
-					<standard>फर्नांडो दी नोरोन्हा प्रमाणवेळ</standard>
+					<standard>फर्नांडो दी नोरोन्हा मानक वेळ</standard>
 					<daylight>फर्नांडो दी नोरोन्हा ग्रीष्मकालीन वेळ</daylight>
 				</long>
 			</metazone>
@@ -3406,27 +3623,27 @@
 			<metazone type="Novosibirsk">
 				<long>
 					<generic>नोवोसोबिर्स्क वेळ</generic>
-					<standard>नोवोसिबिर्स्क प्रमाणवेळ</standard>
+					<standard>नोवोसिबिर्स्क मानक वेळ</standard>
 					<daylight>नोवोसिबिर्स्क ग्रीष्मकालीन वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Omsk">
 				<long>
 					<generic>ओम्स्क वेळ</generic>
-					<standard>ओम्स्क प्रमाणवेळ</standard>
+					<standard>ऑम्स्क मानक वेळ</standard>
 					<daylight>ओम्स्क ग्रीष्मकालीन वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Pakistan">
 				<long>
 					<generic>पाकिस्तान वेळ</generic>
-					<standard>पाकिस्तान प्रमाणवेळ</standard>
-					<daylight>पाकिस्तान ग्रीष्मकालीन वेळ</daylight>
+					<standard>पाकिस्तान मानक वेळ</standard>
+					<daylight>पाकिस्तान उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Palau">
 				<long>
-					<standard>पलाउ वेळ</standard>
+					<standard>पलाऊ वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Papua_New_Guinea">
@@ -3436,35 +3653,35 @@
 			</metazone>
 			<metazone type="Paraguay">
 				<long>
-					<generic>पराग्वे वेळ</generic>
-					<standard>पराग्वे प्रमाणवेळ</standard>
-					<daylight>पराग्वे ग्रीष्मकालीन वेळ</daylight>
+					<generic>पॅराग्वे वेळ</generic>
+					<standard>पॅराग्वे मानक वेळ</standard>
+					<daylight>पॅराग्वे उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Peru">
 				<long>
 					<generic>पेरु वेळ</generic>
-					<standard>पेरु प्रमाणवेळ</standard>
-					<daylight>पेरु ग्रीष्मकालीन वेळ</daylight>
+					<standard>पेरु मानक वेळ</standard>
+					<daylight>पेरु उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Philippines">
 				<long>
-					<generic>फिलिपिनी वेळ</generic>
-					<standard>फिलिपिनी प्रमाणवेळ</standard>
-					<daylight>फिलिपिनी ग्रीष्मकालीन वेळ</daylight>
+					<generic>फिलिपाइन वेळ</generic>
+					<standard>फिलिपाइन मानक वेळ</standard>
+					<daylight>फिलिपाइन उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Phoenix_Islands">
 				<long>
-					<standard>फोनिक्स बेटे वेळ</standard>
+					<standard>‍फोनिक्स बेटे वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Pierre_Miquelon">
 				<long>
-					<generic>पियरे आणि मिक्वेलोन वेळ</generic>
-					<standard>पियरे आणि मिक्वेलोन प्रमाणवेळ</standard>
-					<daylight>पियरे आणि मिक्वेलोन दिवस वेळ</daylight>
+					<generic>सेंट पियर आणि मिक्वेलोन वेळ</generic>
+					<standard>सेंट पियर आणि मिक्वेलोन मानक वेळ</standard>
+					<daylight>सेंट पियर आणि मिक्वेलोन सूर्यप्रकाश वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Pitcairn">
@@ -3474,7 +3691,7 @@
 			</metazone>
 			<metazone type="Ponape">
 				<long>
-					<standard>पोनापे वेळ</standard>
+					<standard>पोनॅपे वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Qyzylorda">
@@ -3486,18 +3703,18 @@
 			</metazone>
 			<metazone type="Reunion">
 				<long>
-					<standard>रीयूनियन वेळ</standard>
+					<standard>रियुनियन वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Rothera">
 				<long>
-					<standard>रॉथेरा वेळ</standard>
+					<standard>रोथेरा वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Sakhalin">
 				<long>
 					<generic>सखलिन वेळ</generic>
-					<standard>सखलिन प्रमाणवेळ</standard>
+					<standard>साखालिन मानक वेळ</standard>
 					<daylight>सखलिन ग्रीष्मकालीन वेळ</daylight>
 				</long>
 			</metazone>
@@ -3508,16 +3725,11 @@
 					<daylight>सामरा ग्रीष्मकालीन वेळ</daylight>
 				</long>
 			</metazone>
-			<metazone type="Samarkand">
-				<long>
-					<generic>समरकंद वेळ</generic>
-					<standard>समरकंद प्रमाणवेळ</standard>
-					<daylight>समरकंद ग्रीष्मकालीन वेळ</daylight>
-				</long>
-			</metazone>
 			<metazone type="Samoa">
 				<long>
-					<standard>सामोआ प्रमाणवेळ</standard>
+					<generic>सामोआ वेळ</generic>
+					<standard>सामोआ मानक वेळ</standard>
+					<daylight>सामोआ ग्रीष्मकालीन वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Seychelles">
@@ -3525,21 +3737,14 @@
 					<standard>सेशेल्स वेळ</standard>
 				</long>
 			</metazone>
-			<metazone type="Shevchenko">
-				<long>
-					<generic>शेवचेन्को वेळ</generic>
-					<standard>शेवचेन्को प्रमाणवेळ</standard>
-					<daylight>शेवचेन्को ग्रीष्मकालीन वेळ</daylight>
-				</long>
-			</metazone>
 			<metazone type="Singapore">
 				<long>
-					<standard>सिंगापूर प्रमाणवेळ</standard>
+					<standard>सिंगापूर मानक वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Solomon">
 				<long>
-					<standard>सोलोमन बेटे वेळ</standard>
+					<standard>सोलोमॉन बेटे वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="South_Georgia">
@@ -3549,14 +3754,7 @@
 			</metazone>
 			<metazone type="Suriname">
 				<long>
-					<standard>सुरीमान वेळ</standard>
-				</long>
-			</metazone>
-			<metazone type="Sverdlovsk">
-				<long>
-					<generic>स्वर्डलोव्हस्क वेळ</generic>
-					<standard>स्वर्डलोव्हस्क प्रमाणवेळ</standard>
-					<daylight>स्वर्डलोव्हस्क ग्रीष्मकालीन वेळ</daylight>
+					<standard>सुरिनाम वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Syowa">
@@ -3571,28 +3769,14 @@
 			</metazone>
 			<metazone type="Taipei">
 				<long>
-					<generic>ताइपेई वेळ</generic>
-					<standard>ताइपेई प्रमाणवेळ</standard>
-					<daylight>ताइपेई दिवस वेळ</daylight>
+					<generic>तैपेई वेळ</generic>
+					<standard>तैपेई मानक वेळ</standard>
+					<daylight>तैपेई सूर्यप्रकाश वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Tajikistan">
 				<long>
-					<standard>ताजिकीस्तान वेळ</standard>
-				</long>
-			</metazone>
-			<metazone type="Tashkent">
-				<long>
-					<generic>ताश्कंद वेळ</generic>
-					<standard>ताश्कंद प्रमाणवेळ</standard>
-					<daylight>ताश्कंद ग्रीष्मकालीन वेळ</daylight>
-				</long>
-			</metazone>
-			<metazone type="Tbilisi">
-				<long>
-					<generic>बिलिसी वेळ</generic>
-					<standard>बिलिसी प्रमाणवेळ</standard>
-					<daylight>बिलिसी ग्रीष्मकालीन वेळ</daylight>
+					<standard>ताजिकिस्तान वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Tokelau">
@@ -3603,65 +3787,46 @@
 			<metazone type="Tonga">
 				<long>
 					<generic>टोंगा वेळ</generic>
-					<standard>टोंगा प्रमाणवेळ</standard>
-					<daylight>टोंगा ग्रीष्मकालीन वेळ</daylight>
+					<standard>टोंगा मानक वेळ</standard>
+					<daylight>टोंगा उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Truk">
 				<long>
-					<standard>ट्रक वेळ</standard>
-				</long>
-			</metazone>
-			<metazone type="Turkey">
-				<long>
-					<generic>तुर्की वेळ</generic>
-					<standard>तुर्की प्रमाणवेळ</standard>
-					<daylight>तुर्की ग्रीष्मकालीन वेळ</daylight>
+					<standard>छूक वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Turkmenistan">
 				<long>
 					<generic>तुर्कमेनिस्तान वेळ</generic>
-					<standard>तुर्कमेनिस्तान प्रमाणवेळ</standard>
-					<daylight>तुर्कमेनिस्तान ग्रीष्मकालीन वेळ</daylight>
+					<standard>तुर्कमेनिस्तान मानक वेळ</standard>
+					<daylight>तुर्कमेनिस्तान उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Tuvalu">
 				<long>
-					<standard>टुवालु वेळ</standard>
-				</long>
-			</metazone>
-			<metazone type="Uralsk">
-				<long>
-					<generic>उराल्स्क वेळ</generic>
-					<standard>उराल्स्क प्रमाणवेळ</standard>
-					<daylight>उराल्स्क ग्रीष्मकालीन वेळ</daylight>
+					<standard>तुवालू वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Uruguay">
 				<long>
 					<generic>उरुग्वे वेळ</generic>
-					<standard>उरुग्वे प्रमाणवेळ</standard>
-					<daylight>उरुग्वे ग्रीष्मकालीन वेळ</daylight>
-				</long>
-			</metazone>
-			<metazone type="Urumqi">
-				<long>
-					<standard>उरुमची वेळ</standard>
+					<standard>उरुग्वे मानक वेळ</standard>
+					<daylight>उरुग्वे उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Uzbekistan">
 				<long>
 					<generic>उझबेकिस्तान वेळ</generic>
-					<standard>उझबेकिस्तान प्रमाणवेळ</standard>
-					<daylight>उझबेकिस्तान ग्रीष्मकालीन वेळ</daylight>
+					<standard>उझबेकिस्तान मानक वेळ</standard>
+					<daylight>उझबेकिस्तान उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Vanuatu">
 				<long>
-					<generic>वानाटु वेळ</generic>
-					<standard>वानाटु प्रमाणवेळ</standard>
-					<daylight>वानाटु ग्रीष्मकालीन वेळ</daylight>
+					<generic>वनातू वेळ</generic>
+					<standard>वनातू मानक वेळ</standard>
+					<daylight>वनातू उन्हाळी वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Venezuela">
@@ -3672,20 +3837,20 @@
 			<metazone type="Vladivostok">
 				<long>
 					<generic>व्लादिवोस्तोक</generic>
-					<standard>व्लादिवोस्तोक प्रमाणवेळ</standard>
+					<standard>व्लादिवोस्तॉक मानक वेळ</standard>
 					<daylight>व्लादिवोस्तोक ग्रीष्मकालीन वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Volgograd">
 				<long>
 					<generic>व्होल्गोग्राड वेळ</generic>
-					<standard>व्होल्गोग्राड प्रमाणवेळ</standard>
+					<standard>वोल्गोग्राद मानक वेळ</standard>
 					<daylight>व्होल्गोग्राड ग्रीष्मकालीन वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Vostok">
 				<long>
-					<standard>वोस्टोक वेळ</standard>
+					<standard>व्होस्टॉक वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Wake">
@@ -3695,84 +3860,127 @@
 			</metazone>
 			<metazone type="Wallis">
 				<long>
-					<standard>वालिस आणि फुटुना वेळ</standard>
+					<standard>वॉल‍िस आणि फुटुना वेळ</standard>
 				</long>
 			</metazone>
 			<metazone type="Yakutsk">
 				<long>
 					<generic>यकुत्स्क</generic>
-					<standard>युकुट्स्क प्रमाणवेळ</standard>
+					<standard>याकुत्सक मानक वेळ</standard>
 					<daylight>युकुट्स्क ग्रीष्मकालीन वेळ</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yekaterinburg">
 				<long>
 					<generic>येक्तेरिनबर्ग वेळ</generic>
-					<standard>येकतरिनबर्ग प्रमाणवेळ</standard>
+					<standard>येकातेरिनबर्ग मानक वेळ</standard>
 					<daylight>येकतरिनबर्ग ग्रीष्मकालीन वेळ</daylight>
-				</long>
-			</metazone>
-			<metazone type="Yerevan">
-				<long>
-					<generic>येरेवन वेळ</generic>
-					<standard>येरेवन प्रमाणवेळ</standard>
-					<daylight>येरेवन ग्रीष्मकालीन वेळ</daylight>
-				</long>
-			</metazone>
-			<metazone type="Yukon">
-				<long>
-					<generic>युकोन वेळ</generic>
-					<standard>युकोन प्रमाणवेळ</standard>
-					<daylight>युकोन दिवस वेळ</daylight>
 				</long>
 			</metazone>
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<defaultNumberingSystem>latn</defaultNumberingSystem>
+		<defaultNumberingSystem>deva</defaultNumberingSystem>
 		<otherNumberingSystems>
 			<native>deva</native>
 		</otherNumberingSystems>
 		<symbols numberSystem="latn">
-			<exponential>पू</exponential>
-			<nan>नान</nan>
+			<decimal>.</decimal>
+			<group>,</group>
+			<list>;</list>
+			<percentSign>%</percentSign>
+			<plusSign>+</plusSign>
+			<minusSign>-</minusSign>
+			<exponential>E</exponential>
+			<perMille>‰</perMille>
+			<infinity>∞</infinity>
+			<nan>NaN</nan>
 		</symbols>
 		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
 				<decimalFormat>
-					<pattern>#,##,##0.###</pattern>
+					<pattern>#,##0.###</pattern>
+				</decimalFormat>
+			</decimalFormatLength>
+			<decimalFormatLength type="long">
+				<decimalFormat>
+					<pattern type="1000" count="one">0 हजार</pattern>
+					<pattern type="1000" count="other">0 हजार</pattern>
+					<pattern type="10000" count="one">00 हजार</pattern>
+					<pattern type="10000" count="other">00 हजार</pattern>
+					<pattern type="100000" count="one">000 हजार</pattern>
+					<pattern type="100000" count="other">000 हजार</pattern>
+					<pattern type="1000000" count="one">0 दशलक्ष</pattern>
+					<pattern type="1000000" count="other">0 दशलक्ष</pattern>
+					<pattern type="10000000" count="one">00 दशलक्ष</pattern>
+					<pattern type="10000000" count="other">00 दशलक्ष</pattern>
+					<pattern type="100000000" count="one">000 दशलक्ष</pattern>
+					<pattern type="100000000" count="other">000 दशलक्ष</pattern>
+					<pattern type="1000000000" count="one">0 महापद्म</pattern>
+					<pattern type="1000000000" count="other">0 महापद्म</pattern>
+					<pattern type="10000000000" count="one">00 महापद्म</pattern>
+					<pattern type="10000000000" count="other">00 महापद्म</pattern>
+					<pattern type="100000000000" count="one">000 महापद्म</pattern>
+					<pattern type="100000000000" count="other">000 महापद्म</pattern>
+					<pattern type="1000000000000" count="one">0 दहा खरब</pattern>
+					<pattern type="1000000000000" count="other">0 दहा खरब</pattern>
+					<pattern type="10000000000000" count="one">00 दहा खरब</pattern>
+					<pattern type="10000000000000" count="other">00 दहा खरब</pattern>
+					<pattern type="100000000000000" count="one">000 दहा खरब</pattern>
+					<pattern type="100000000000000" count="other">000 दहा खरब</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 			<decimalFormatLength type="short">
 				<decimalFormat>
-					<pattern type="1000" draft="contributed">0.0K</pattern>
-					<pattern type="10000" draft="contributed">00K</pattern>
-					<pattern type="100000" draft="contributed">000K</pattern>
-					<pattern type="1000000" draft="contributed">0.0M</pattern>
-					<pattern type="10000000" draft="contributed">00M</pattern>
-					<pattern type="100000000" draft="contributed">000M</pattern>
-					<pattern type="1000000000" draft="contributed">0.0B</pattern>
-					<pattern type="10000000000" draft="contributed">00B</pattern>
-					<pattern type="100000000000" draft="contributed">000B</pattern>
-					<pattern type="1000000000000" draft="contributed">0.0T</pattern>
-					<pattern type="10000000000000" draft="contributed">00T</pattern>
-					<pattern type="100000000000000" draft="contributed">000T</pattern>
+					<pattern type="1000" count="one" draft="contributed">0K</pattern>
+					<pattern type="1000" count="other" draft="contributed">0K</pattern>
+					<pattern type="10000" count="one" draft="contributed">00K</pattern>
+					<pattern type="10000" count="other" draft="contributed">00K</pattern>
+					<pattern type="100000" count="one" draft="contributed">000K</pattern>
+					<pattern type="100000" count="other" draft="contributed">000K</pattern>
+					<pattern type="1000000" count="one" draft="contributed">0M</pattern>
+					<pattern type="1000000" count="other" draft="contributed">0M</pattern>
+					<pattern type="10000000" count="one" draft="contributed">00M</pattern>
+					<pattern type="10000000" count="other" draft="contributed">00M</pattern>
+					<pattern type="100000000" count="one" draft="contributed">000M</pattern>
+					<pattern type="100000000" count="other" draft="contributed">000M</pattern>
+					<pattern type="1000000000" count="one" draft="contributed">0B</pattern>
+					<pattern type="1000000000" count="other" draft="contributed">0B</pattern>
+					<pattern type="10000000000" count="one" draft="contributed">00B</pattern>
+					<pattern type="10000000000" count="other" draft="contributed">00B</pattern>
+					<pattern type="100000000000" count="one" draft="contributed">000B</pattern>
+					<pattern type="100000000000" count="other" draft="contributed">000B</pattern>
+					<pattern type="1000000000000" count="one" draft="contributed">0T</pattern>
+					<pattern type="1000000000000" count="other" draft="contributed">0T</pattern>
+					<pattern type="10000000000000" count="one" draft="contributed">00T</pattern>
+					<pattern type="10000000000000" count="other" draft="contributed">00T</pattern>
+					<pattern type="100000000000000" count="one" draft="contributed">000T</pattern>
+					<pattern type="100000000000000" count="other" draft="contributed">000T</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
+		<scientificFormats numberSystem="latn">
+			<scientificFormatLength>
+				<scientificFormat>
+					<pattern>#E0</pattern>
+				</scientificFormat>
+			</scientificFormatLength>
+		</scientificFormats>
 		<percentFormats numberSystem="latn">
 			<percentFormatLength>
 				<percentFormat>
-					<pattern>#,##,##0%</pattern>
+					<pattern>#,##0%</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
-					<pattern>¤ #,##,##0.00</pattern>
+					<pattern>¤#,##0.00;(¤#,##0.00)</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
+			<unitPattern count="one">{0} {1}</unitPattern>
+			<unitPattern count="other">{0} {1}</unitPattern>
 		</currencyFormats>
 		<currencies>
 			<currency type="AED">
@@ -4069,6 +4277,9 @@
 			<currency type="MYR">
 				<displayName>मलेशियन रिंगिट</displayName>
 			</currency>
+			<currency type="MZN">
+				<displayName>मोझांबिकन मेटिकल</displayName>
+			</currency>
 			<currency type="NAD">
 				<displayName>नमिबियन डॉलर</displayName>
 			</currency>
@@ -4114,6 +4325,9 @@
 			<currency type="QAR">
 				<displayName>कतारी रियाल</displayName>
 			</currency>
+			<currency type="RON">
+				<displayName>रोमानियन लिऊ</displayName>
+			</currency>
 			<currency type="RSD">
 				<displayName>सर्बियन दिनार</displayName>
 			</currency>
@@ -4152,6 +4366,9 @@
 			</currency>
 			<currency type="SRD">
 				<displayName>सुरिनामी डॉलर</displayName>
+			</currency>
+			<currency type="SSP">
+				<displayName>दक्षिण सुदानी पाऊंड</displayName>
 			</currency>
 			<currency type="STD">
 				<displayName>साओ टोम आणि प्रिन्सिपे डोबरा</displayName>
@@ -4238,135 +4455,110 @@
 				<displayName>दक्षिण अफ्रिकी रँड</displayName>
 			</currency>
 			<currency type="ZMK">
+				<displayName>झांबियन क्वाचा (1968-2012)</displayName>
+			</currency>
+			<currency type="ZMW">
 				<displayName>झांबियन क्वाचा</displayName>
 			</currency>
 		</currencies>
 	</numbers>
 	<units>
 		<unit type="day">
-			<unitPattern count="0">0 दिवस</unitPattern>
-			<unitPattern count="0" alt="short">0 दिवस</unitPattern>
-			<unitPattern count="1">1 दिवस</unitPattern>
-			<unitPattern count="1" alt="short">1 दिवस</unitPattern>
+			<unitPattern count="one">{0} दिवस</unitPattern>
+			<unitPattern count="one" alt="short">{0} दिवस</unitPattern>
 			<unitPattern count="other">{0} दिवस</unitPattern>
 			<unitPattern count="other" alt="short">{0} दिवस</unitPattern>
 		</unit>
 		<unit type="day-future">
-			<unitPattern count="0">0 दिवसांत</unitPattern>
-			<unitPattern count="1">1 दिवसात</unitPattern>
+			<unitPattern count="one">{0} दिवसात</unitPattern>
 			<unitPattern count="other">{0} दिवसांत</unitPattern>
 		</unit>
 		<unit type="day-past">
-			<unitPattern count="0">0 दिवसांपूर्वी</unitPattern>
-			<unitPattern count="1">1 दिवसापूर्वी</unitPattern>
+			<unitPattern count="one">{0} दिवसापूर्वी</unitPattern>
 			<unitPattern count="other">{0} दिवसांपूर्वी</unitPattern>
 		</unit>
 		<unit type="hour">
-			<unitPattern count="0">0 तास</unitPattern>
-			<unitPattern count="0" alt="short">0 तास</unitPattern>
-			<unitPattern count="1">1 तास</unitPattern>
-			<unitPattern count="1" alt="short">1 तास</unitPattern>
+			<unitPattern count="one">{0} तास</unitPattern>
+			<unitPattern count="one" alt="short">{0} तास</unitPattern>
 			<unitPattern count="other">{0} तास</unitPattern>
 			<unitPattern count="other" alt="short">{0} तास</unitPattern>
 		</unit>
 		<unit type="hour-future">
-			<unitPattern count="0">0 तासांत</unitPattern>
-			<unitPattern count="1">1 तासात</unitPattern>
+			<unitPattern count="one">{0} तासात</unitPattern>
 			<unitPattern count="other">{0} तासांत</unitPattern>
 		</unit>
 		<unit type="hour-past">
-			<unitPattern count="0">0 तासांपूर्वी</unitPattern>
-			<unitPattern count="1">1 तासापूर्वी</unitPattern>
+			<unitPattern count="one">{0} तासापूर्वी</unitPattern>
 			<unitPattern count="other">{0} तासांपूर्वी</unitPattern>
 		</unit>
 		<unit type="minute">
-			<unitPattern count="0">0 मिनिटे</unitPattern>
-			<unitPattern count="0" alt="short">0 मि</unitPattern>
-			<unitPattern count="1">1 मिनिट</unitPattern>
-			<unitPattern count="1" alt="short">1 मि</unitPattern>
+			<unitPattern count="one">{0} मिनिट</unitPattern>
+			<unitPattern count="one" alt="short">{0} मि</unitPattern>
 			<unitPattern count="other">{0} मिनिटे</unitPattern>
 			<unitPattern count="other" alt="short">{0} मि</unitPattern>
 		</unit>
 		<unit type="minute-future">
-			<unitPattern count="0">0 मिनिटांत</unitPattern>
-			<unitPattern count="1">1 मिनिटात</unitPattern>
+			<unitPattern count="one">{0} मिनिटात</unitPattern>
 			<unitPattern count="other">{0} मिनिटांत</unitPattern>
 		</unit>
 		<unit type="minute-past">
-			<unitPattern count="0">0 मिनिटांपूर्वी</unitPattern>
-			<unitPattern count="1">1 मिनिटापूर्वी</unitPattern>
+			<unitPattern count="one">{0} मिनिटापूर्वी</unitPattern>
 			<unitPattern count="other">{0} मिनिटांपूर्वी</unitPattern>
 		</unit>
 		<unit type="month">
-			<unitPattern count="0">0 महिने</unitPattern>
-			<unitPattern count="0" alt="short">0 महिने</unitPattern>
-			<unitPattern count="1">1 महिना</unitPattern>
-			<unitPattern count="1" alt="short">1 महिना</unitPattern>
+			<unitPattern count="one">{0} महिना</unitPattern>
+			<unitPattern count="one" alt="short">{0} महिना</unitPattern>
 			<unitPattern count="other">{0} महिने</unitPattern>
 			<unitPattern count="other" alt="short">{0} महिने</unitPattern>
 		</unit>
 		<unit type="month-future">
-			<unitPattern count="0">0 महिन्यांत</unitPattern>
-			<unitPattern count="1">1 महिन्यात</unitPattern>
+			<unitPattern count="one">{0} महिन्यात</unitPattern>
 			<unitPattern count="other">{0} महिन्यांत</unitPattern>
 		</unit>
 		<unit type="month-past">
-			<unitPattern count="0">0 महिन्यांपूर्वी</unitPattern>
-			<unitPattern count="1">1 महिन्यापूर्वी</unitPattern>
+			<unitPattern count="one">{0} महिन्यापूर्वी</unitPattern>
 			<unitPattern count="other">{0} महिन्यांपूर्वी</unitPattern>
 		</unit>
 		<unit type="second">
-			<unitPattern count="0">0 सेकंद</unitPattern>
-			<unitPattern count="0" alt="short">0 से</unitPattern>
-			<unitPattern count="1">1 सेकंद</unitPattern>
-			<unitPattern count="1" alt="short">1 सेकंद</unitPattern>
+			<unitPattern count="one">{0} सेकंद</unitPattern>
+			<unitPattern count="one" alt="short">{0} सेकंद</unitPattern>
 			<unitPattern count="other">{0} सेकंद</unitPattern>
 			<unitPattern count="other" alt="short">{0} से</unitPattern>
 		</unit>
 		<unit type="second-future">
-			<unitPattern count="0">0 सेकंदांत</unitPattern>
-			<unitPattern count="1">1 सेकंदात</unitPattern>
+			<unitPattern count="one">{0} सेकंदात</unitPattern>
 			<unitPattern count="other">{0} सेकंदांत</unitPattern>
 		</unit>
 		<unit type="second-past">
-			<unitPattern count="0">0 सेकंदांपूर्वी</unitPattern>
-			<unitPattern count="1">1 सेकंदापूर्वी</unitPattern>
+			<unitPattern count="one">{0} सेकंदापूर्वी</unitPattern>
 			<unitPattern count="other">{0} सेकंदांपूर्वी</unitPattern>
 		</unit>
 		<unit type="week">
-			<unitPattern count="0">0 आठवडे</unitPattern>
-			<unitPattern count="0" alt="short">0 आठवडे</unitPattern>
-			<unitPattern count="1">1 आठवडा</unitPattern>
-			<unitPattern count="1" alt="short">1 आ</unitPattern>
+			<unitPattern count="one">{0} आठवडा</unitPattern>
+			<unitPattern count="one" alt="short">{0} आ</unitPattern>
 			<unitPattern count="other">{0} आठवडे</unitPattern>
 			<unitPattern count="other" alt="short">{0} आ</unitPattern>
 		</unit>
 		<unit type="week-future">
-			<unitPattern count="0">0 आठवड्यांत</unitPattern>
-			<unitPattern count="1">1 आठवड्यात</unitPattern>
+			<unitPattern count="one">{0} आठवड्यात</unitPattern>
 			<unitPattern count="other">{0} आठवड्यांत</unitPattern>
 		</unit>
 		<unit type="week-past">
-			<unitPattern count="0">0 आठवड्यांपूर्वी</unitPattern>
-			<unitPattern count="1">1 आठवड्या पूर्वी</unitPattern>
+			<unitPattern count="one">{0} आठवड्या पूर्वी</unitPattern>
 			<unitPattern count="other">{0} आठवड्यांपूर्वी</unitPattern>
 		</unit>
 		<unit type="year">
-			<unitPattern count="0">0 वर्षे</unitPattern>
-			<unitPattern count="0" alt="short">0 वर्षे</unitPattern>
-			<unitPattern count="1">1 वर्ष</unitPattern>
-			<unitPattern count="1" alt="short">1 वर्ष</unitPattern>
+			<unitPattern count="one">{0} वर्ष</unitPattern>
+			<unitPattern count="one" alt="short">{0} वर्ष</unitPattern>
 			<unitPattern count="other">{0} वर्षे</unitPattern>
 			<unitPattern count="other" alt="short">{0} वर्षे</unitPattern>
 		</unit>
 		<unit type="year-future">
-			<unitPattern count="0">10 वर्षांमध्ये</unitPattern>
-			<unitPattern count="1">1 वर्षात</unitPattern>
+			<unitPattern count="one">{0} वर्षात</unitPattern>
 			<unitPattern count="other">{0} वर्षांमध्ये</unitPattern>
 		</unit>
 		<unit type="year-past">
-			<unitPattern count="0">0 वर्षांपूर्वी</unitPattern>
-			<unitPattern count="1">1 वर्षापूर्वी</unitPattern>
+			<unitPattern count="one">{0} वर्षापूर्वी</unitPattern>
 			<unitPattern count="other">{0} वर्षांपूर्वी</unitPattern>
 		</unit>
 	</units>
@@ -4374,6 +4566,8 @@
 		<listPattern>
 			<listPatternPart type="2">{0} आणि {1}</listPatternPart>
 			<listPatternPart type="end">{0} आणि {1}</listPatternPart>
+			<listPatternPart type="middle">{0}, {1}</listPatternPart>
+			<listPatternPart type="start">{0}, {1}</listPatternPart>
 		</listPattern>
 	</listPatterns>
 	<posix>

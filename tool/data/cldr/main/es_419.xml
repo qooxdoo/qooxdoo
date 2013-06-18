@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!-- Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
 <ldml>
 	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
+		<version number="$Revision: 8245 $"/>
+		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
 		<language type="es"/>
 		<territory type="419"/>
 	</identity>
@@ -72,13 +76,15 @@
 			<measurementSystemName type="UK" draft="contributed">Reino Unido</measurementSystemName>
 		</measurementSystemNames>
 	</localeDisplayNames>
-	<characters>
-		<stopwords>
-			<stopwordList type="collation" draft="provisional">artículos</stopwordList>
-		</stopwords>
-	</characters>
 	<dates>
 		<calendars>
+			<calendar type="generic">
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="yMEd" draft="contributed">E d/M/y G</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
 			<calendar type="gregorian">
 				<days>
 					<dayContext type="stand-alone">
@@ -103,26 +109,40 @@
 						</quarterWidth>
 					</quarterContext>
 				</quarters>
-				<fields>
-					<field type="year">
-						<relative type="-1" draft="contributed">Año pasado</relative>
-						<relative type="0" draft="contributed">Este año</relative>
-						<relative type="1" draft="contributed">Año próximo</relative>
-					</field>
-					<field type="month">
-						<relative type="-1" draft="contributed">El mes pasado</relative>
-						<relative type="0" draft="contributed">Este mes</relative>
-						<relative type="1" draft="contributed">Mes próximo</relative>
-					</field>
-					<field type="week">
-						<relative type="-1" draft="contributed">Semana pasada</relative>
-						<relative type="0" draft="contributed">Esta semana</relative>
-						<relative type="1" draft="contributed">Próxima semana</relative>
-					</field>
-				</fields>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="yMEd" draft="contributed">E d/M/y</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
 			</calendar>
 		</calendars>
+		<fields>
+			<field type="year">
+				<relative type="-1" draft="contributed">Año pasado</relative>
+				<relative type="0" draft="contributed">Este año</relative>
+				<relative type="1" draft="contributed">Año próximo</relative>
+			</field>
+			<field type="month">
+				<relative type="-1" draft="contributed">El mes pasado</relative>
+				<relative type="0" draft="contributed">Este mes</relative>
+				<relative type="1" draft="contributed">Mes próximo</relative>
+			</field>
+			<field type="week">
+				<relative type="-1" draft="contributed">Semana pasada</relative>
+				<relative type="0" draft="contributed">Esta semana</relative>
+				<relative type="1" draft="contributed">Próxima semana</relative>
+			</field>
+		</fields>
 		<timeZoneNames>
+			<zone type="America/Coral_Harbour">
+				<exemplarCity draft="contributed">Atikokan</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Winamac">
+				<exemplarCity draft="contributed">Winamac, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Kentucky/Monticello">
+				<exemplarCity draft="contributed">Monticello, Kentucky</exemplarCity>
+			</zone>
 			<metazone type="America_Central">
 				<short>
 					<generic>CT</generic>
@@ -161,18 +181,30 @@
 		<decimalFormats numberSystem="latn">
 			<decimalFormatLength type="short">
 				<decimalFormat>
-					<pattern type="1000" draft="contributed">0000</pattern>
-					<pattern type="10000" draft="contributed">00k</pattern>
-					<pattern type="100000" draft="contributed">000k</pattern>
-					<pattern type="1000000" draft="contributed">0.0 M</pattern>
-					<pattern type="10000000" draft="contributed">00 M</pattern>
-					<pattern type="100000000" draft="contributed">000 M</pattern>
-					<pattern type="1000000000" draft="contributed">0.0k M</pattern>
-					<pattern type="10000000000" draft="contributed">00k M</pattern>
-					<pattern type="100000000000" draft="contributed">000k M</pattern>
-					<pattern type="1000000000000" draft="contributed">0.0 B</pattern>
-					<pattern type="10000000000000" draft="contributed">00 B</pattern>
-					<pattern type="100000000000000" draft="contributed">000 B</pattern>
+					<pattern type="1000" count="one" draft="contributed">0</pattern>
+					<pattern type="1000" count="other" draft="contributed">0</pattern>
+					<pattern type="10000" count="one" draft="contributed">00k</pattern>
+					<pattern type="10000" count="other" draft="contributed">00k</pattern>
+					<pattern type="100000" count="one" draft="contributed">000k</pattern>
+					<pattern type="100000" count="other" draft="contributed">000k</pattern>
+					<pattern type="1000000" count="one" draft="contributed">0 M</pattern>
+					<pattern type="1000000" count="other" draft="contributed">0 M</pattern>
+					<pattern type="10000000" count="one" draft="contributed">00 M</pattern>
+					<pattern type="10000000" count="other" draft="contributed">00 M</pattern>
+					<pattern type="100000000" count="one" draft="contributed">000 M</pattern>
+					<pattern type="100000000" count="other" draft="contributed">000 M</pattern>
+					<pattern type="1000000000" count="one" draft="contributed">0k M</pattern>
+					<pattern type="1000000000" count="other" draft="contributed">0k M</pattern>
+					<pattern type="10000000000" count="one" draft="contributed">00k M</pattern>
+					<pattern type="10000000000" count="other" draft="contributed">00k M</pattern>
+					<pattern type="100000000000" count="one" draft="contributed">000k M</pattern>
+					<pattern type="100000000000" count="other" draft="contributed">000k M</pattern>
+					<pattern type="1000000000000" count="one" draft="contributed">0 B</pattern>
+					<pattern type="1000000000000" count="other" draft="contributed">0 B</pattern>
+					<pattern type="10000000000000" count="one" draft="contributed">00 B</pattern>
+					<pattern type="10000000000000" count="other" draft="contributed">00 B</pattern>
+					<pattern type="100000000000000" count="one" draft="contributed">000 B</pattern>
+					<pattern type="100000000000000" count="other" draft="contributed">000 B</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
@@ -186,44 +218,30 @@
 	</numbers>
 	<units>
 		<unit type="day-future">
-			<unitPattern count="0" draft="contributed">En 0 días</unitPattern>
-			<unitPattern count="1" draft="contributed">En 1 día</unitPattern>
 			<unitPattern count="one" draft="contributed">En {0} día</unitPattern>
 			<unitPattern count="other" draft="contributed">En {0} días</unitPattern>
 		</unit>
 		<unit type="hour-future">
-			<unitPattern count="0" draft="contributed">En 0 horas</unitPattern>
-			<unitPattern count="1" draft="contributed">En 1 hora</unitPattern>
 			<unitPattern count="one" draft="contributed">En {0} hora</unitPattern>
 			<unitPattern count="other" draft="contributed">En {0} horas</unitPattern>
 		</unit>
 		<unit type="minute-future">
-			<unitPattern count="0" draft="contributed">En 0 minutos</unitPattern>
-			<unitPattern count="1" draft="contributed">En 1 minuto</unitPattern>
 			<unitPattern count="one" draft="contributed">En {0} minuto</unitPattern>
 			<unitPattern count="other" draft="contributed">En {0} minutos</unitPattern>
 		</unit>
 		<unit type="month-future">
-			<unitPattern count="0" draft="contributed">En 0 meses</unitPattern>
-			<unitPattern count="1" draft="contributed">En 1 mes</unitPattern>
 			<unitPattern count="one" draft="contributed">En {0} mes</unitPattern>
 			<unitPattern count="other" draft="contributed">En {0} meses</unitPattern>
 		</unit>
 		<unit type="second-future">
-			<unitPattern count="0" draft="contributed">En 0 segundos</unitPattern>
-			<unitPattern count="1" draft="contributed">En 1 segundo</unitPattern>
 			<unitPattern count="one" draft="contributed">En {0} segundo</unitPattern>
 			<unitPattern count="other" draft="contributed">En {0} segundos</unitPattern>
 		</unit>
 		<unit type="week-future">
-			<unitPattern count="0" draft="contributed">En 0 semanas</unitPattern>
-			<unitPattern count="1" draft="contributed">En 1 semana</unitPattern>
 			<unitPattern count="one" draft="contributed">En {0} semana</unitPattern>
 			<unitPattern count="other" draft="contributed">En {0} semanas</unitPattern>
 		</unit>
 		<unit type="year-future">
-			<unitPattern count="0" draft="contributed">En 0 años</unitPattern>
-			<unitPattern count="1" draft="contributed">En 1 año</unitPattern>
 			<unitPattern count="one" draft="contributed">En {0} año</unitPattern>
 			<unitPattern count="other" draft="contributed">En {0} años</unitPattern>
 		</unit>

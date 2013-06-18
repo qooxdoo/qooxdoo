@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!-- Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
 <ldml>
 	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
+		<version number="$Revision: 8671 $"/>
+		<generation date="$Date: 2013-05-03 14:17:48 -0500 (Fri, 03 May 2013) $"/>
 		<language type="hu"/>
 	</identity>
 	<localeDisplayNames>
 		<localeDisplayPattern>
 			<localePattern>{0} ({1})</localePattern>
 			<localeSeparator>, </localeSeparator>
+			<localeKeyTypePattern draft="contributed">{0}: {1}</localeKeyTypePattern>
 		</localeDisplayPattern>
 		<languages>
 			<language type="aa">afar</language>
@@ -22,6 +27,7 @@
 			<language type="af">afrikaans</language>
 			<language type="afa">afroázsiai nyelv</language>
 			<language type="afh">afrihili</language>
+			<language type="agq" draft="contributed">agem</language>
 			<language type="ain">ainu</language>
 			<language type="ak">akan</language>
 			<language type="akk">akkád</language>
@@ -56,17 +62,21 @@
 			<language type="ban">balinéz</language>
 			<language type="bas">basza</language>
 			<language type="bat">balti nyelv</language>
+			<language type="bax" draft="contributed">bamun</language>
+			<language type="bbj" draft="contributed">gomala</language>
 			<language type="be">belorusz</language>
 			<language type="bej">bedzsa</language>
 			<language type="bem">bemba</language>
 			<language type="ber">berber</language>
 			<language type="bez" draft="contributed">bena</language>
+			<language type="bfd" draft="contributed">bafut</language>
 			<language type="bg">bolgár</language>
 			<language type="bh">bihari</language>
 			<language type="bho">bodzspuri</language>
 			<language type="bi">bislama</language>
 			<language type="bik">bikol</language>
 			<language type="bin">bini</language>
+			<language type="bkm" draft="contributed">kom</language>
 			<language type="bla">siksika</language>
 			<language type="bm">bambara</language>
 			<language type="bn">bengáli</language>
@@ -76,19 +86,24 @@
 			<language type="bra">braj</language>
 			<language type="brx" draft="contributed">bodo</language>
 			<language type="bs">bosnyák</language>
+			<language type="bss" draft="contributed">koszi</language>
 			<language type="btk">batak</language>
 			<language type="bua">burját</language>
 			<language type="bug">buginéz</language>
+			<language type="bum" draft="contributed">bulu</language>
 			<language type="byn">blin</language>
+			<language type="byv" draft="contributed">medumba</language>
 			<language type="ca">katalán</language>
 			<language type="cad">caddo</language>
 			<language type="cai">egyéb közép-amerikai indián</language>
 			<language type="car">karib</language>
 			<language type="cau">egyéb kaukázusi</language>
+			<language type="cay" draft="contributed">kajuga</language>
 			<language type="cch">atszam</language>
 			<language type="ce">csecsen</language>
 			<language type="ceb">cebui</language>
 			<language type="cel">egyéb kelta</language>
+			<language type="cgg" draft="contributed">kiga</language>
 			<language type="ch">csamoró</language>
 			<language type="chb">csibcsa</language>
 			<language type="chg">csagatáj</language>
@@ -99,6 +114,7 @@
 			<language type="chp">csipevé</language>
 			<language type="chr">cseroki</language>
 			<language type="chy">csejen</language>
+			<language type="ckb" draft="contributed">szoráni kurd</language>
 			<language type="cmc">csam nyelv</language>
 			<language type="co">korzikai</language>
 			<language type="cop">kopt</language>
@@ -117,6 +133,7 @@
 			<language type="da">dán</language>
 			<language type="dak">dakota</language>
 			<language type="dar">dargva</language>
+			<language type="dav" draft="contributed">taita</language>
 			<language type="day">dajak</language>
 			<language type="de">német</language>
 			<language type="de_AT">osztrák német</language>
@@ -125,14 +142,17 @@
 			<language type="den">szlevi</language>
 			<language type="dgr">dogrib</language>
 			<language type="din">dinka</language>
+			<language type="dje" draft="contributed">zarma</language>
 			<language type="doi">dogri</language>
 			<language type="dra">egyéb dravida</language>
 			<language type="dsb">alsó szorb</language>
 			<language type="dua">duala</language>
 			<language type="dum">közép holland</language>
 			<language type="dv">divehi</language>
+			<language type="dyo" draft="contributed">jola-fonyi</language>
 			<language type="dyu">diula</language>
 			<language type="dz">butáni</language>
+			<language type="dzg" draft="contributed">dazaga</language>
 			<language type="ebu" draft="contributed">embu</language>
 			<language type="ee">eve</language>
 			<language type="efi">efik</language>
@@ -149,7 +169,7 @@
 			<language type="eo">eszperantó</language>
 			<language type="es">spanyol</language>
 			<language type="es_419">latin-amerikai spanyol</language>
-			<language type="es_ES">ibériai spanyol</language>
+			<language type="es_ES">európai spanyol</language>
 			<language type="et">észt</language>
 			<language type="eu">baszk</language>
 			<language type="ewo">evondo</language>
@@ -191,6 +211,7 @@
 			<language type="grc">ógörög</language>
 			<language type="gsw">svájci német</language>
 			<language type="gu">gudzsarati</language>
+			<language type="guz" draft="contributed">guszii</language>
 			<language type="gv">Man-szigeti</language>
 			<language type="gwi">gvicsin</language>
 			<language type="ha">hausza</language>
@@ -212,6 +233,7 @@
 			<language type="hz">herero</language>
 			<language type="ia">interlingva</language>
 			<language type="iba">iban</language>
+			<language type="ibb" draft="contributed">ibibió</language>
 			<language type="id">indonéz</language>
 			<language type="ie">interlingue</language>
 			<language type="ig">igbó</language>
@@ -230,6 +252,7 @@
 			<language type="iu">inuktitut</language>
 			<language type="ja">japán</language>
 			<language type="jbo">lojban</language>
+			<language type="jmc" draft="contributed">machame</language>
 			<language type="jpr">zsidó-perzsa</language>
 			<language type="jrb">zsidó-arab</language>
 			<language type="jv">jávai</language>
@@ -242,17 +265,22 @@
 			<language type="kar">karen</language>
 			<language type="kaw">kawi</language>
 			<language type="kbd">kabardi</language>
+			<language type="kbl" draft="contributed">kanembu</language>
 			<language type="kcg">tyap</language>
+			<language type="kde" draft="contributed">makonde</language>
 			<language type="kea" draft="contributed">kabuverdianu</language>
 			<language type="kfo">koro</language>
 			<language type="kg">kongo</language>
 			<language type="kha">kaszi</language>
 			<language type="khi">egyéb koiszan</language>
 			<language type="kho">kotanéz</language>
+			<language type="khq" draft="contributed">kojra-csíni</language>
 			<language type="ki">kikuju</language>
 			<language type="kj">kuanyama</language>
 			<language type="kk">kazah</language>
+			<language type="kkj" draft="contributed">kakó</language>
 			<language type="kl">grönlandi</language>
+			<language type="kln" draft="contributed">kalendzsin</language>
 			<language type="km">kambodzsai</language>
 			<language type="kmb">kimbundu</language>
 			<language type="kn">kannada</language>
@@ -266,6 +294,9 @@
 			<language type="kro">kru</language>
 			<language type="kru">kuruh</language>
 			<language type="ks">kásmíri</language>
+			<language type="ksb" draft="contributed">sambala</language>
+			<language type="ksf" draft="contributed">bafia</language>
+			<language type="ksh" draft="contributed">kölsch</language>
 			<language type="ku">kurd</language>
 			<language type="kum">kumük</language>
 			<language type="kut">kutenai</language>
@@ -274,6 +305,7 @@
 			<language type="ky">kirgiz</language>
 			<language type="la">latin</language>
 			<language type="lad">ladino</language>
+			<language type="lag" draft="contributed">langi</language>
 			<language type="lah">lahnda</language>
 			<language type="lam">lamba</language>
 			<language type="lb">luxemburgi</language>
@@ -294,17 +326,22 @@
 			<language type="luy" draft="contributed">lujia</language>
 			<language type="lv">lett</language>
 			<language type="mad">madurai</language>
+			<language type="maf" draft="contributed">mafa</language>
 			<language type="mag">magahi</language>
 			<language type="mai">maithili</language>
 			<language type="mak">makaszar</language>
 			<language type="man">mandingó</language>
 			<language type="map">ausztronéz</language>
 			<language type="mas">masai</language>
+			<language type="mde" draft="contributed">maba</language>
 			<language type="mdf">moksán</language>
 			<language type="mdr">mandar</language>
 			<language type="men">mende</language>
+			<language type="mer" draft="contributed">meru</language>
+			<language type="mfe" draft="contributed">mauritiusi kreol</language>
 			<language type="mg">málgas</language>
 			<language type="mga">közép ír</language>
+			<language type="mgh" draft="contributed">makua-metó</language>
 			<language type="mh">marshalli</language>
 			<language type="mi">maori</language>
 			<language type="mic">mikmak</language>
@@ -323,18 +360,21 @@
 			<language type="mr">marathi</language>
 			<language type="ms">maláj</language>
 			<language type="mt">máltai</language>
+			<language type="mua" draft="contributed">mundang</language>
 			<language type="mul">többszörös nyelvek</language>
 			<language type="mun">munda nyelvek</language>
 			<language type="mus">krík</language>
 			<language type="mwl">mirandéz</language>
 			<language type="mwr">marvari</language>
 			<language type="my">burmai</language>
+			<language type="mye" draft="contributed">myene</language>
 			<language type="myn">maja nyelvek</language>
 			<language type="myv">erzjány</language>
 			<language type="na">naurui</language>
 			<language type="nah">nahuati</language>
 			<language type="nai">észak-amerikai indián nyelv</language>
 			<language type="nap">nápolyi</language>
+			<language type="naq" draft="contributed">nama</language>
 			<language type="nb">norvég bokmal</language>
 			<language type="nd">északi ndebele</language>
 			<language type="nds">alsónémet</language>
@@ -346,7 +386,9 @@
 			<language type="niu">niui</language>
 			<language type="nl">holland</language>
 			<language type="nl_BE">flamand</language>
+			<language type="nmg" draft="contributed">ngumba</language>
 			<language type="nn">norvég nynorsk</language>
+			<language type="nnh" draft="contributed">ngiemboon</language>
 			<language type="no">norvég</language>
 			<language type="nog">nogaj</language>
 			<language type="non">óskandináv</language>
@@ -354,6 +396,7 @@
 			<language type="nr">déli ndebele</language>
 			<language type="nso">északi szotó</language>
 			<language type="nub">núbiai nyelv</language>
+			<language type="nus" draft="contributed">nuer</language>
 			<language type="nv">navahó</language>
 			<language type="nwc">klasszikus newari</language>
 			<language type="ny">nyanja</language>
@@ -385,10 +428,10 @@
 			<language type="pra">prakrit nyelvek</language>
 			<language type="pro">óprovánszi</language>
 			<language type="ps">pastu</language>
-			<language type="ps" alt="variant">Pastu</language>
+			<language type="ps" alt="variant">pastu</language>
 			<language type="pt">portugál</language>
 			<language type="pt_BR">brazíliai portugál</language>
-			<language type="pt_PT">ibériai portugál</language>
+			<language type="pt_PT">európai portugál</language>
 			<language type="qu">kecsua</language>
 			<language type="raj">radzsasztáni</language>
 			<language type="rap">rapanui</language>
@@ -410,20 +453,28 @@
 			<language type="sai">dél-amerikai indián nyelv</language>
 			<language type="sal">szelis nyelv</language>
 			<language type="sam">szamaritánus arámi</language>
+			<language type="saq" draft="contributed">szamburu</language>
 			<language type="sas">sasak</language>
 			<language type="sat">szantáli</language>
+			<language type="sba" draft="contributed">ngambay</language>
+			<language type="sbp" draft="contributed">szangu</language>
 			<language type="sc">szardíniai</language>
 			<language type="scn">szicíliai</language>
 			<language type="sco">skót</language>
 			<language type="sd">szindhi</language>
 			<language type="se">északi számi</language>
+			<language type="see" draft="contributed">szeneka</language>
+			<language type="seh" draft="contributed">szena</language>
 			<language type="sel">szölkup</language>
 			<language type="sem">egyéb szemita</language>
+			<language type="ses" draft="contributed">kojra-szenni</language>
 			<language type="sg">szangó</language>
 			<language type="sga">óír</language>
 			<language type="sgn">jelnyelv</language>
 			<language type="sh">szerbhorvát</language>
+			<language type="shi" draft="contributed">tachelhit</language>
 			<language type="shn">san</language>
+			<language type="shu" draft="contributed">csádi arab</language>
 			<language type="si">szingaléz</language>
 			<language type="sid">szidamó</language>
 			<language type="sio">sziú nyelvek</language>
@@ -448,6 +499,7 @@
 			<language type="srr">szerer</language>
 			<language type="ss">sziszuati</language>
 			<language type="ssa">nílusi-szaharai nyelv</language>
+			<language type="ssy" draft="contributed">szahó</language>
 			<language type="st">szeszotó</language>
 			<language type="su">szundanéz</language>
 			<language type="suk">szukuma</language>
@@ -456,12 +508,14 @@
 			<language type="sv">svéd</language>
 			<language type="sw">szuahéli</language>
 			<language type="swb">comorei</language>
+			<language type="swc" draft="contributed">kongói szuahéli</language>
 			<language type="syc">klasszikus szír</language>
 			<language type="syr">szíriai</language>
 			<language type="ta">tamil</language>
 			<language type="tai">thai nyelv</language>
 			<language type="te">telugu</language>
 			<language type="tem">temne</language>
+			<language type="teo" draft="contributed">teszó</language>
 			<language type="ter">terenó</language>
 			<language type="tet">tetum</language>
 			<language type="tg">tadzsik</language>
@@ -480,6 +534,7 @@
 			<language type="tog">nyasa tonga</language>
 			<language type="tpi">tok pisin</language>
 			<language type="tr">török</language>
+			<language type="trv" draft="contributed">tarokó</language>
 			<language type="ts">conga</language>
 			<language type="tsi">csimsiáni</language>
 			<language type="tt">tatár</language>
@@ -488,11 +543,13 @@
 			<language type="tut">altáji nyelv</language>
 			<language type="tvl">tuvalu</language>
 			<language type="tw">twi</language>
+			<language type="twq" draft="contributed">szavák</language>
 			<language type="ty">tahiti</language>
 			<language type="tyv">tuvai</language>
+			<language type="tzm" draft="contributed">közép-marokkói tamazigt</language>
 			<language type="udm">udmurt</language>
 			<language type="ug">ujgur</language>
-			<language type="ug" alt="variant">Ujgur</language>
+			<language type="ug" alt="variant">ujgur</language>
 			<language type="uga">ugariti</language>
 			<language type="uk">ukrán</language>
 			<language type="umb">umbundu</language>
@@ -504,6 +561,7 @@
 			<language type="vi">vietnami</language>
 			<language type="vo">volapük</language>
 			<language type="vot">votják</language>
+			<language type="vun" draft="contributed">vunjo</language>
 			<language type="wa">vallon</language>
 			<language type="wae" draft="contributed">walser</language>
 			<language type="wak">vakas nyelv</language>
@@ -514,8 +572,11 @@
 			<language type="wo">volof</language>
 			<language type="xal">kalmük</language>
 			<language type="xh">hosza</language>
+			<language type="xog" draft="contributed">szoga</language>
 			<language type="yao">jaó</language>
 			<language type="yap">japi</language>
+			<language type="yav" draft="contributed">jangben</language>
+			<language type="ybb" draft="contributed">jemba</language>
 			<language type="yi">jiddis</language>
 			<language type="yo">joruba</language>
 			<language type="ypk">jupik nyelv</language>
@@ -686,7 +747,7 @@
 			<territory type="034">Dél-Ázsia</territory>
 			<territory type="035">Délkelet-Ázsia</territory>
 			<territory type="039">Dél-Európa</territory>
-			<territory type="053">Ausztrália és Új-Zéland</territory>
+			<territory type="053">Ausztrálázsia</territory>
 			<territory type="054">Melanézia</territory>
 			<territory type="057">Mikronéziai régió</territory>
 			<territory type="061">Polinézia</territory>
@@ -714,7 +775,7 @@
 			<territory type="AT">Ausztria</territory>
 			<territory type="AU">Ausztrália</territory>
 			<territory type="AW">Aruba</territory>
-			<territory type="AX">Aland-szigetek</territory>
+			<territory type="AX">Åland-szigetek</territory>
 			<territory type="AZ">Azerbajdzsán</territory>
 			<territory type="BA">Bosznia-Hercegovina</territory>
 			<territory type="BB">Barbados</territory>
@@ -729,6 +790,7 @@
 			<territory type="BM">Bermuda</territory>
 			<territory type="BN">Brunei</territory>
 			<territory type="BO">Bolívia</territory>
+			<territory type="BQ">Holland Karib-térség</territory>
 			<territory type="BR">Brazília</territory>
 			<territory type="BS">Bahama-szigetek</territory>
 			<territory type="BT">Bhután</territory>
@@ -753,9 +815,9 @@
 			<territory type="CO">Kolumbia</territory>
 			<territory type="CP">Clipperton-sziget</territory>
 			<territory type="CR">Costa Rica</territory>
-			<territory type="CS">Szerbia és Montenegró</territory>
 			<territory type="CU">Kuba</territory>
 			<territory type="CV">Zöld-foki Köztársaság</territory>
+			<territory type="CW">Curaçao</territory>
 			<territory type="CX">Karácsony-szigetek</territory>
 			<territory type="CY">Ciprus</territory>
 			<territory type="CZ">Csehország</territory>
@@ -894,6 +956,7 @@
 			<territory type="PN">Pitcairn-szigetek</territory>
 			<territory type="PR">Puerto Rico</territory>
 			<territory type="PS">Palesztin Terület</territory>
+			<territory type="PS" alt="short">Palesztina</territory>
 			<territory type="PT">Portugália</territory>
 			<territory type="PW">Palau</territory>
 			<territory type="PY">Paraguay</territory>
@@ -919,8 +982,10 @@
 			<territory type="SN">Szenegál</territory>
 			<territory type="SO">Szomália</territory>
 			<territory type="SR">Suriname</territory>
+			<territory type="SS">Dél-Szudán</territory>
 			<territory type="ST">Sao Tomé és Príncipe</territory>
 			<territory type="SV">Salvador</territory>
+			<territory type="SX">Sint Maarten</territory>
 			<territory type="SY">Szíria</territory>
 			<territory type="SZ">Szváziföld</territory>
 			<territory type="TA">Tristan da Cunha</territory>
@@ -956,6 +1021,7 @@
 			<territory type="VU">Vanuatu</territory>
 			<territory type="WF">Wallis- és Futuna-szigetek</territory>
 			<territory type="WS">Szamoa</territory>
+			<territory type="XK">Koszovó</territory>
 			<territory type="YE">Jemen</territory>
 			<territory type="YT">Mayotte</territory>
 			<territory type="ZA">Dél-afrikai Köztársaság</territory>
@@ -1023,9 +1089,20 @@
 		</variants>
 		<keys>
 			<key type="calendar">Naptár</key>
+			<key type="colAlternate" draft="contributed">Szimbólumokat figyelmen kívül hagyó rendezés</key>
+			<key type="colBackwards" draft="contributed">Ékezetek fordított rendezése</key>
+			<key type="colCaseFirst" draft="contributed">Rendezés nagy- vagy kisbetűk szerint</key>
+			<key type="colCaseLevel" draft="contributed">Kisbetű-nagybetű érzékeny rendezés</key>
+			<key type="colHiraganaQuaternary" draft="contributed">Kanák szerinti rendezés</key>
 			<key type="collation">Rendezés</key>
+			<key type="colNormalization" draft="contributed">Normalizált rendezés</key>
+			<key type="colNumeric" draft="contributed">Numerikus rendezés</key>
+			<key type="colStrength" draft="contributed">Rendezés erőssége</key>
 			<key type="currency">Pénznem</key>
 			<key type="numbers">Számok</key>
+			<key type="timezone" draft="contributed">Időzóna</key>
+			<key type="va" draft="contributed">Földrajzi helyvariáns</key>
+			<key type="variableTop" draft="contributed">Rendezés szimbólumok szerint</key>
 			<key type="x">Privát használatra</key>
 		</keys>
 		<types>
@@ -1035,8 +1112,8 @@
 			<type type="armnlow" key="numbers">Örmény kisbetűs számok</type>
 			<type type="beng" key="numbers">Bengáli számjegyek</type>
 			<type type="big5han" key="collation">Hagyományos kínai sorrend - Big5</type>
-			<type type="buddhist" key="calendar">buddhista naptár</type>
-			<type type="chinese" key="calendar">kínai naptár</type>
+			<type type="buddhist" key="calendar">Buddhista naptár</type>
+			<type type="chinese" key="calendar">Kínai naptár</type>
 			<type type="coptic" key="calendar">Kopt naptár</type>
 			<type type="deva" key="numbers">Dévanágari számjegyek</type>
 			<type type="dictionary" key="collation">Szótári rendezési sorrend</type>
@@ -1044,6 +1121,7 @@
 			<type type="ethi" key="numbers">Etióp számok</type>
 			<type type="ethiopic" key="calendar">Etióp naptár</type>
 			<type type="ethiopic-amete-alem" key="calendar">Etióp amete alem naptár</type>
+			<type type="finance" key="numbers" draft="contributed">Pénzügyi számok</type>
 			<type type="fullwide" key="numbers">Teljes szélességű számjegyek</type>
 			<type type="gb2312han" key="collation">Egyszerűsített kínai sorrend - GB2312</type>
 			<type type="geor" key="numbers">Grúz számok</type>
@@ -1058,40 +1136,68 @@
 			<type type="hant" key="numbers">Hagyományos kínai számok</type>
 			<type type="hantfin" key="numbers">Hagyományos kínai pénzügyi számok</type>
 			<type type="hebr" key="numbers">Héber számok</type>
-			<type type="hebrew" key="calendar">héber naptár</type>
+			<type type="hebrew" key="calendar">Héber naptár</type>
+			<type type="identical" key="colStrength" draft="contributed">Összes rendezése</type>
 			<type type="indian" key="calendar">Indiai nemzeti naptár</type>
-			<type type="islamic" key="calendar">iszlám naptár</type>
-			<type type="islamic-civil" key="calendar">iszlám civil naptár</type>
-			<type type="japanese" key="calendar">japán naptár</type>
+			<type type="islamic" key="calendar">Iszlám naptár</type>
+			<type type="islamic-civil" key="calendar">Iszlám civil naptár</type>
+			<type type="japanese" key="calendar">Japán naptár</type>
 			<type type="jpan" key="numbers">Japán számok</type>
 			<type type="jpanfin" key="numbers">Japán pénzügyi számok</type>
 			<type type="khmr" key="numbers">Khmer számjegyek</type>
 			<type type="knda" key="numbers">Kannada számjegyek</type>
 			<type type="laoo" key="numbers">Lao számjegyek</type>
 			<type type="latn" key="numbers">Nyugati számjegyek</type>
+			<type type="lower" key="colCaseFirst" draft="contributed">Kisbetűs szavak rendezése előre</type>
 			<type type="mlym" key="numbers">Malajálam számjegyek</type>
 			<type type="mong" key="numbers">Mongol számjegyek</type>
 			<type type="mymr" key="numbers">Mianmari számjegyek</type>
+			<type type="native" key="numbers" draft="contributed">Natív számjegyek</type>
+			<type type="no" key="colBackwards" draft="contributed">Ékezetek normál rendezése</type>
+			<type type="no" key="colCaseFirst" draft="contributed">Kisbetűs-nagybetűs szavak normál rendezése</type>
+			<type type="no" key="colCaseLevel" draft="contributed">Kis- és nagybetűket meg nem különböztető rendezés</type>
+			<type type="no" key="colHiraganaQuaternary" draft="contributed">Kanák rendezése külön</type>
+			<type type="no" key="colNormalization" draft="contributed">Rendezés normalizálás nélkül</type>
+			<type type="no" key="colNumeric" draft="contributed">Számjegyek egyedi rendezése</type>
+			<type type="non-ignorable" key="colAlternate" draft="contributed">Szimbólumok rendezése</type>
 			<type type="orya" key="numbers">Orija számjegyek</type>
 			<type type="persian" key="calendar">Perzsa naptár</type>
 			<type type="phonebook" key="collation">Telefonkönyv sorrend</type>
+			<type type="phonetic" key="collation" draft="contributed">Fonetikus rendezési sorrend</type>
 			<type type="pinyin" key="collation">Pinyin sorrend</type>
+			<type type="primary" key="colStrength" draft="contributed">Csak az alapbetűk rendezése</type>
+			<type type="quaternary" key="colStrength" draft="contributed">Ékezetek/kisbetű-nagybetű/szélesség/kanák rendezése</type>
 			<type type="reformed" key="collation">Átalakított rendezési elv</type>
 			<type type="roc" key="calendar">Kínai köztársasági naptár</type>
 			<type type="roman" key="numbers">Római számok</type>
 			<type type="romanlow" key="numbers">Római kisbetűs számok</type>
 			<type type="search" key="collation">Általános célú keresés</type>
+			<type type="searchjl" key="collation" draft="contributed">Keresés hangul kezdő mássalhangzó szerint</type>
+			<type type="secondary" key="colStrength" draft="contributed">Ékezetek rendezése</type>
+			<type type="shifted" key="colAlternate" draft="contributed">Rendezés szimbólumok figyelmen kívül hagyásával</type>
 			<type type="stroke" key="collation">Vonássorrend</type>
 			<type type="taml" key="numbers">Tamil számok</type>
+			<type type="tamldec" key="numbers">Tamil számjegyek</type>
 			<type type="telu" key="numbers">Telugu számjegyek</type>
+			<type type="tertiary" key="colStrength" draft="contributed">Ékezetek/kisbetű-nagybetű/szélesség rendezése</type>
 			<type type="thai" key="numbers">Thai számjegyek</type>
 			<type type="tibt" key="numbers">Tibeti számjegyek</type>
 			<type type="traditional" key="collation">Hagyományos</type>
-			<type type="unihan" key="collation">szótővonás rendezési sorrend</type>
+			<type type="traditional" key="numbers" draft="contributed">Hagyományos számok</type>
+			<type type="unihan" key="collation">Szótővonás rendezési sorrend</type>
+			<type type="upper" key="colCaseFirst" draft="contributed">Nagybetűs szavak rendezése előre</type>
+			<type type="vaii" key="numbers" draft="contributed">Vai számjegyek</type>
+			<type type="yes" key="colBackwards" draft="contributed">Ékezetek szerinti fordított rendezés</type>
+			<type type="yes" key="colCaseLevel" draft="contributed">Rendezés kisbetű-nagybetű szerint</type>
+			<type type="yes" key="colHiraganaQuaternary" draft="contributed">Kanák megkülönböztető rendezése</type>
+			<type type="yes" key="colNormalization" draft="contributed">Unicode szerinti normalizált rendezés</type>
+			<type type="yes" key="colNumeric" draft="contributed">Számjegyek numerikus rendezése</type>
 		</types>
 		<transformNames>
+			<transformName type="BGN" draft="contributed">BGN</transformName>
 			<transformName type="Numeric" draft="contributed">Szám</transformName>
 			<transformName type="Tone" draft="contributed">Hangsúly</transformName>
+			<transformName type="UNGEGN" draft="contributed">UNGEGN</transformName>
 			<transformName type="x-Accents" draft="contributed">Ékezetek</transformName>
 			<transformName type="x-Fullwidth" draft="contributed">Teljes szélesség</transformName>
 			<transformName type="x-Halfwidth" draft="contributed">Fél szélesség</transformName>
@@ -1113,12 +1219,12 @@
 	<characters>
 		<exemplarCharacters>[a á b c {cs} {ccs} d {dz} {ddz} {dzs} {ddzs} e é f g {gy} {ggy} h i í j k l {ly} {lly} m n {ny} {nny} o ó ö ő p r s {sz} {ssz} t {ty} {tty} u ú ü ű v z {zs} {zzs}]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[à ă â å ä ã ā æ ç è ĕ ê ë ē ì ĭ î ï ī ñ ò ŏ ô ø ō œ q ù ŭ û ū w x y ÿ]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol" draft="unconfirmed">[a á b c d e é f g h i í j k l m n o º ó ö ő p q r s t u ú ü ű v w x y z]</exemplarCharacters>
 		<exemplarCharacters type="index">[A Á B C {CS} D {DZ} {DZS} E É F G {GY} H I Í J K L {LY} M N {NY} O Ó Ö Ő P Q R S {SZ} T {TY} U Ú Ü Ű V W X Y Z {ZS}]</exemplarCharacters>
 		<exemplarCharacters type="punctuation">[\- – , ; \: ! ? . … ' ’ &quot; ” „ « » ( ) \[ \] \{ \} 〈 〉 § @ * / \&amp; # ⸓ ~]</exemplarCharacters>
-		<stopwords>
-			<stopwordList type="collation" draft="provisional">a az egy</stopwordList>
-		</stopwords>
+		<ellipsis type="final">{0}…</ellipsis>
+		<ellipsis type="initial">…{0}</ellipsis>
+		<ellipsis type="medial">{0}…{1}</ellipsis>
+		<moreInformation>?</moreInformation>
 	</characters>
 	<delimiters>
 		<quotationStart>„</quotationStart>
@@ -1134,14 +1240,6 @@
 						<era type="0">BK</era>
 					</eraAbbr>
 				</eras>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="h" draft="contributed">a h</dateFormatItem>
-						<dateFormatItem id="hm" draft="contributed">a h:mm</dateFormatItem>
-						<dateFormatItem id="hms" draft="contributed">a h:mm:ss</dateFormatItem>
-						<dateFormatItem id="Md" draft="contributed">M.d.</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
 			</calendar>
 			<calendar type="chinese">
 				<months>
@@ -1343,6 +1441,180 @@
 					</monthContext>
 				</months>
 			</calendar>
+			<calendar type="generic">
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>G y. MMMM d., EEEE</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>G y. MMMM d.</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>G y.MM.dd.</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>GGGGG y.MM.dd.</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats>
+					<dateTimeFormatLength type="full">
+						<dateTimeFormat>
+							<pattern draft="provisional">{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="long">
+						<dateTimeFormat>
+							<pattern draft="provisional">{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="medium">
+						<dateTimeFormat>
+							<pattern draft="provisional">{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="short">
+						<dateTimeFormat>
+							<pattern draft="provisional">{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<availableFormats>
+						<dateFormatItem id="d">d</dateFormatItem>
+						<dateFormatItem id="Ed">d., E</dateFormatItem>
+						<dateFormatItem id="Gy">G y</dateFormatItem>
+						<dateFormatItem id="GyMMM">G y. MMM</dateFormatItem>
+						<dateFormatItem id="GyMMMd">G y. MMM d.</dateFormatItem>
+						<dateFormatItem id="GyMMMEd">G y. MMM d., E</dateFormatItem>
+						<dateFormatItem id="h">a h</dateFormatItem>
+						<dateFormatItem id="H">H</dateFormatItem>
+						<dateFormatItem id="hm">a h:mm</dateFormatItem>
+						<dateFormatItem id="Hm">H:mm</dateFormatItem>
+						<dateFormatItem id="hms">a h:mm:ss</dateFormatItem>
+						<dateFormatItem id="Hms">H:mm:ss</dateFormatItem>
+						<dateFormatItem id="M">L</dateFormatItem>
+						<dateFormatItem id="Md">M. d.</dateFormatItem>
+						<dateFormatItem id="MEd">M. d., E</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">MMM d.</dateFormatItem>
+						<dateFormatItem id="MMMEd">MMM d., E</dateFormatItem>
+						<dateFormatItem id="MMMMd">MMMM d.</dateFormatItem>
+						<dateFormatItem id="ms">mm:ss</dateFormatItem>
+						<dateFormatItem id="y">G y</dateFormatItem>
+						<dateFormatItem id="yyyy">G y</dateFormatItem>
+						<dateFormatItem id="yyyyM">G y.M.</dateFormatItem>
+						<dateFormatItem id="yyyyMd">G y.MM.dd.</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">G y.MM.dd., E</dateFormatItem>
+						<dateFormatItem id="yyyyMMM">G y. MMM</dateFormatItem>
+						<dateFormatItem id="yyyyMMMd">G y. MMM d.</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">G y. MMM d., E</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM">G y. MMMM</dateFormatItem>
+						<dateFormatItem id="yyyyQQQ">G y. QQQ</dateFormatItem>
+						<dateFormatItem id="yyyyQQQQ">G y. QQQQ</dateFormatItem>
+					</availableFormats>
+					<intervalFormats>
+						<intervalFormatFallback>{0} - {1}</intervalFormatFallback>
+						<intervalFormatItem id="d">
+							<greatestDifference id="d">d-d.</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="h">
+							<greatestDifference id="a">a h – a h</greatestDifference>
+							<greatestDifference id="h">a h–h</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="H">
+							<greatestDifference id="H">H-H</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hm">
+							<greatestDifference id="a">a h:mm – a h:mm</greatestDifference>
+							<greatestDifference id="h">a h:mm–h:mm</greatestDifference>
+							<greatestDifference id="m">a h:mm–h:mm</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hm">
+							<greatestDifference id="H">H:mm-H:mm</greatestDifference>
+							<greatestDifference id="m">H:mm-H:mm</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hmv">
+							<greatestDifference id="a">a h:mm – a h:mm v</greatestDifference>
+							<greatestDifference id="h">a h:mm–h:mm v</greatestDifference>
+							<greatestDifference id="m">a h:mm–h:mm v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hmv">
+							<greatestDifference id="H">H:mm-H:mm v</greatestDifference>
+							<greatestDifference id="m">H:mm-H:mm v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hv">
+							<greatestDifference id="a">a h – a h v</greatestDifference>
+							<greatestDifference id="h">a h–h v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hv">
+							<greatestDifference id="H">H-H v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="M">
+							<greatestDifference id="M">M-M.</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Md">
+							<greatestDifference id="d">MM.dd-dd.</greatestDifference>
+							<greatestDifference id="M">MM.dd. - MM.dd.</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MEd">
+							<greatestDifference id="d">MM.dd., E - MM.dd., E</greatestDifference>
+							<greatestDifference id="M">MM.dd., E - MM.dd., E</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMM">
+							<greatestDifference id="M">MMM-MMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMd">
+							<greatestDifference id="d">MMM d-d.</greatestDifference>
+							<greatestDifference id="M">MMM d. - MMM d.</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMEd">
+							<greatestDifference id="d">MMM d., E - d., E</greatestDifference>
+							<greatestDifference id="M">MMM d., E - MMM d., E</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="y">
+							<greatestDifference id="y">G y-y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yM">
+							<greatestDifference id="M">G y.MM-MM.</greatestDifference>
+							<greatestDifference id="y">G y.MM. - y.MM.</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMd">
+							<greatestDifference id="d">G y.MM.dd-dd.</greatestDifference>
+							<greatestDifference id="M">G y.MM.dd. - MM.dd.</greatestDifference>
+							<greatestDifference id="y">G y.MM.dd. - y.MM.dd.</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMEd">
+							<greatestDifference id="d">G y.MM.dd., E - dd., E</greatestDifference>
+							<greatestDifference id="M">G y.MM.dd., E - MM.dd., E</greatestDifference>
+							<greatestDifference id="y">G y.MM.dd., E - y.MM.dd., E</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMM">
+							<greatestDifference id="M">G y. MMM-MMM</greatestDifference>
+							<greatestDifference id="y">G y. MMM - y. MMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMd">
+							<greatestDifference id="d">G y. MMM d-d.</greatestDifference>
+							<greatestDifference id="M">G y. MMM d. - MMM d.</greatestDifference>
+							<greatestDifference id="y">G y. MMM d. - y. MMM d.</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMEd">
+							<greatestDifference id="d">G y. MMM d., E - d., E</greatestDifference>
+							<greatestDifference id="M">G y. MMM d., E - MMM d., E</greatestDifference>
+							<greatestDifference id="y">G y. MMM d., E - y. MMM d., E</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMM">
+							<greatestDifference id="M">G y. MMMM-MMMM</greatestDifference>
+							<greatestDifference id="y">G y. MMMM - y. MMMM</greatestDifference>
+						</intervalFormatItem>
+					</intervalFormats>
+				</dateTimeFormats>
+			</calendar>
 			<calendar type="gregorian">
 				<months>
 					<monthContext type="format">
@@ -1454,6 +1726,15 @@
 							<day type="fri" draft="contributed">P</day>
 							<day type="sat" draft="contributed">Sz</day>
 						</dayWidth>
+						<dayWidth type="short">
+							<day type="sun" draft="provisional">V</day>
+							<day type="mon" draft="provisional">H</day>
+							<day type="tue" draft="provisional">K</day>
+							<day type="wed" draft="provisional">Sze</day>
+							<day type="thu" draft="provisional">Cs</day>
+							<day type="fri" draft="provisional">P</day>
+							<day type="sat" draft="provisional">Szo</day>
+						</dayWidth>
 						<dayWidth type="wide">
 							<day type="sun">vasárnap</day>
 							<day type="mon">hétfő</day>
@@ -1482,6 +1763,15 @@
 							<day type="thu">Cs</day>
 							<day type="fri">P</day>
 							<day type="sat">Sz</day>
+						</dayWidth>
+						<dayWidth type="short">
+							<day type="sun">V</day>
+							<day type="mon">H</day>
+							<day type="tue">K</day>
+							<day type="wed">Sze</day>
+							<day type="thu">Cs</day>
+							<day type="fri">P</day>
+							<day type="sat">Szo</day>
 						</dayWidth>
 						<dayWidth type="wide">
 							<day type="sun" draft="contributed">vasárnap</day>
@@ -1521,6 +1811,12 @@
 							<quarter type="2" draft="contributed">N2</quarter>
 							<quarter type="3" draft="contributed">N3</quarter>
 							<quarter type="4" draft="contributed">N4</quarter>
+						</quarterWidth>
+						<quarterWidth type="narrow">
+							<quarter type="1">1.</quarter>
+							<quarter type="2">2.</quarter>
+							<quarter type="3">3.</quarter>
+							<quarter type="4">4.</quarter>
 						</quarterWidth>
 						<quarterWidth type="wide">
 							<quarter type="1">1. negyedév</quarter>
@@ -1569,12 +1865,12 @@
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern>yyyy.MM.dd.</pattern>
+							<pattern>y.MM.dd.</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern>yyyy.MM.dd.</pattern>
+							<pattern>y.MM.dd.</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
@@ -1601,9 +1897,33 @@
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
+					<dateTimeFormatLength type="full">
+						<dateTimeFormat>
+							<pattern draft="provisional">{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="long">
+						<dateTimeFormat>
+							<pattern draft="provisional">{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="medium">
+						<dateTimeFormat>
+							<pattern draft="provisional">{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="short">
+						<dateTimeFormat>
+							<pattern draft="provisional">{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">d., E</dateFormatItem>
+						<dateFormatItem id="Gy">G y</dateFormatItem>
+						<dateFormatItem id="GyMMM">G y. MMM</dateFormatItem>
+						<dateFormatItem id="GyMMMd">G y. MMM d.</dateFormatItem>
+						<dateFormatItem id="GyMMMEd">G y. MMM d., E</dateFormatItem>
 						<dateFormatItem id="h">a h</dateFormatItem>
 						<dateFormatItem id="H">H</dateFormatItem>
 						<dateFormatItem id="hm">a h:mm</dateFormatItem>
@@ -1613,22 +1933,22 @@
 						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">M. d.</dateFormatItem>
 						<dateFormatItem id="MEd">M. d., E</dateFormatItem>
-						<dateFormatItem id="MMdd">MM.dd.</dateFormatItem>
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">MMM d.</dateFormatItem>
 						<dateFormatItem id="MMMEd">MMM d., E</dateFormatItem>
 						<dateFormatItem id="MMMMd">MMMM d.</dateFormatItem>
 						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
+						<dateFormatItem id="ms">mm:ss</dateFormatItem>
+						<dateFormatItem id="y" draft="provisional">y</dateFormatItem>
 						<dateFormatItem id="yM">y.M.</dateFormatItem>
-						<dateFormatItem id="yMd">yyyy.MM.dd.</dateFormatItem>
-						<dateFormatItem id="yMEd">yyyy.MM.dd., E</dateFormatItem>
+						<dateFormatItem id="yMd">y.MM.dd.</dateFormatItem>
+						<dateFormatItem id="yMEd">y.MM.dd., E</dateFormatItem>
 						<dateFormatItem id="yMMM">y. MMM</dateFormatItem>
 						<dateFormatItem id="yMMMd">y. MMM d.</dateFormatItem>
 						<dateFormatItem id="yMMMEd">y. MMM d., E</dateFormatItem>
+						<dateFormatItem id="yMMMM">y. MMMM</dateFormatItem>
 						<dateFormatItem id="yQQQ">y. QQQ</dateFormatItem>
-						<dateFormatItem id="yyQ">yy/Q</dateFormatItem>
-						<dateFormatItem id="yyyyMM">yyyy.MM</dateFormatItem>
-						<dateFormatItem id="yyyyMMMM">y. MMMM</dateFormatItem>
+						<dateFormatItem id="yQQQQ">y. QQQQ</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback>{0} - {1}</intervalFormatFallback>
@@ -1636,39 +1956,35 @@
 							<greatestDifference id="d">d-d.</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="h">
-							<greatestDifference id="a">a h - a h</greatestDifference>
-							<greatestDifference id="h">h a - h a</greatestDifference>
+							<greatestDifference id="a">a h – a h</greatestDifference>
+							<greatestDifference id="h">a h–h</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="H">
-							<greatestDifference id="a">HH-HH</greatestDifference>
 							<greatestDifference id="H">H-H</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hm">
-							<greatestDifference id="a">a h:mm - a h:mm</greatestDifference>
-							<greatestDifference id="h">h:mm-h:mm a</greatestDifference>
-							<greatestDifference id="m">h:mm-h:mm a</greatestDifference>
+							<greatestDifference id="a">a h:mm – a h:mm</greatestDifference>
+							<greatestDifference id="h">a h:mm–h:mm</greatestDifference>
+							<greatestDifference id="m">a h:mm–h:mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="Hm">
-							<greatestDifference id="a">HH:mm-HH:mm</greatestDifference>
 							<greatestDifference id="H">H:mm-H:mm</greatestDifference>
 							<greatestDifference id="m">H:mm-H:mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hmv">
-							<greatestDifference id="a">a h:mm - a h:mm v</greatestDifference>
-							<greatestDifference id="h">h:mm-h:mm a v</greatestDifference>
-							<greatestDifference id="m">h:mm-h:mm a v</greatestDifference>
+							<greatestDifference id="a">a h:mm – a h:mm v</greatestDifference>
+							<greatestDifference id="h">a h:mm–h:mm v</greatestDifference>
+							<greatestDifference id="m">a h:mm–h:mm v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="Hmv">
-							<greatestDifference id="a">HH:mm-HH:mm v</greatestDifference>
 							<greatestDifference id="H">H:mm-H:mm v</greatestDifference>
 							<greatestDifference id="m">H:mm-H:mm v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hv">
-							<greatestDifference id="a">a h - a h v</greatestDifference>
-							<greatestDifference id="h">h-h a v</greatestDifference>
+							<greatestDifference id="a">a h – a h v</greatestDifference>
+							<greatestDifference id="h">a h–h v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="Hv">
-							<greatestDifference id="a">HH-HH v</greatestDifference>
 							<greatestDifference id="H">H-H v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="M">
@@ -1697,18 +2013,18 @@
 							<greatestDifference id="y">y-y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yM">
-							<greatestDifference id="M">yyyy.MM-MM.</greatestDifference>
-							<greatestDifference id="y">yyyy.MM. - yyyy.MM.</greatestDifference>
+							<greatestDifference id="M">y.MM-MM.</greatestDifference>
+							<greatestDifference id="y">y.MM. - y.MM.</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMd">
-							<greatestDifference id="d">yyyy.MM.dd-dd.</greatestDifference>
-							<greatestDifference id="M">yyyy.MM.dd. - MM.dd.</greatestDifference>
-							<greatestDifference id="y">yyyy.MM.dd. - yyyy.MM.dd.</greatestDifference>
+							<greatestDifference id="d">y.MM.dd-dd.</greatestDifference>
+							<greatestDifference id="M">y.MM.dd. - MM.dd.</greatestDifference>
+							<greatestDifference id="y">y.MM.dd. - y.MM.dd.</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d">yyyy.MM.dd., E - dd., E</greatestDifference>
-							<greatestDifference id="M">yyyy.MM.dd., E - MM.dd., E</greatestDifference>
-							<greatestDifference id="y">yyyy.MM.dd., E - yyyy.MM.dd., E</greatestDifference>
+							<greatestDifference id="d">y.MM.dd., E - dd., E</greatestDifference>
+							<greatestDifference id="M">y.MM.dd., E - MM.dd., E</greatestDifference>
+							<greatestDifference id="y">y.MM.dd., E - y.MM.dd., E</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMM">
 							<greatestDifference id="M">y. MMM-MMM</greatestDifference>
@@ -1725,60 +2041,11 @@
 							<greatestDifference id="y">y. MMM d., E - y. MMM d., E</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="M">y MMMM-MMMM</greatestDifference>
-							<greatestDifference id="y">y MMMM - y MMMM</greatestDifference>
+							<greatestDifference id="M">y. MMMM-MMMM</greatestDifference>
+							<greatestDifference id="y">y. MMMM - y. MMMM</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
-				<fields>
-					<field type="era">
-						<displayName>éra</displayName>
-					</field>
-					<field type="year">
-						<displayName>év</displayName>
-						<relative type="-1">Előző év</relative>
-						<relative type="0">Ez az év</relative>
-						<relative type="1">Következő év</relative>
-					</field>
-					<field type="month">
-						<displayName>hónap</displayName>
-						<relative type="-1">Előző hónap</relative>
-						<relative type="0">Ez a hónap</relative>
-						<relative type="1">Következő hónap</relative>
-					</field>
-					<field type="week">
-						<displayName>hét</displayName>
-						<relative type="-1">Előző hét</relative>
-						<relative type="0">Ez a hét</relative>
-						<relative type="1">Következő hét</relative>
-					</field>
-					<field type="day">
-						<displayName>nap</displayName>
-						<relative type="-2">tegnapelőtt</relative>
-						<relative type="-1">tegnap</relative>
-						<relative type="0">ma</relative>
-						<relative type="1">holnap</relative>
-						<relative type="2">holnapután</relative>
-					</field>
-					<field type="weekday">
-						<displayName>hét napja</displayName>
-					</field>
-					<field type="dayperiod">
-						<displayName>napszak</displayName>
-					</field>
-					<field type="hour">
-						<displayName>óra</displayName>
-					</field>
-					<field type="minute">
-						<displayName>perc</displayName>
-					</field>
-					<field type="second">
-						<displayName>másodperc</displayName>
-					</field>
-					<field type="zone">
-						<displayName>zóna</displayName>
-					</field>
-				</fields>
 			</calendar>
 			<calendar type="hebrew">
 				<months>
@@ -1791,7 +2058,7 @@
 							<month type="5" draft="contributed">Svát</month>
 							<month type="6" draft="contributed">Ádár I</month>
 							<month type="7" draft="contributed">Ádár</month>
-							<month type="7" draft="contributed" yeartype="leap">Ádár II</month>
+							<month type="7" yeartype="leap" draft="contributed">Ádár II</month>
 							<month type="8" draft="contributed">Niszán</month>
 							<month type="9" draft="contributed">Ijár</month>
 							<month type="10" draft="contributed">Sziván</month>
@@ -1825,7 +2092,7 @@
 							<month type="5" draft="contributed">Svát</month>
 							<month type="6" draft="contributed">Ádár risón</month>
 							<month type="7" draft="contributed">Ádár</month>
-							<month type="7" draft="contributed" yeartype="leap">Ádár II</month>
+							<month type="7" yeartype="leap" draft="contributed">Ádár II</month>
 							<month type="8" draft="contributed">Niszán</month>
 							<month type="9" draft="contributed">Ijár</month>
 							<month type="10" draft="contributed">Sziván</month>
@@ -1841,7 +2108,7 @@
 							<month type="5" draft="contributed">Svát</month>
 							<month type="6" draft="contributed">Ádár risón</month>
 							<month type="7" draft="contributed">Ádár</month>
-							<month type="7" draft="contributed" yeartype="leap">Ádár II</month>
+							<month type="7" yeartype="leap" draft="contributed">Ádár II</month>
 							<month type="8" draft="contributed">Niszán</month>
 							<month type="9" draft="contributed">Ijár</month>
 							<month type="10" draft="contributed">Sziván</month>
@@ -1924,19 +2191,19 @@
 			<calendar type="islamic">
 				<months>
 					<monthContext type="format">
-						<monthWidth type="narrow">
-							<month type="1" draft="contributed">1</month>
-							<month type="2" draft="contributed">2</month>
-							<month type="3" draft="contributed">3</month>
-							<month type="4" draft="contributed">4</month>
-							<month type="5" draft="contributed">5</month>
-							<month type="6" draft="contributed">6</month>
-							<month type="7" draft="contributed">7</month>
-							<month type="8" draft="contributed">8</month>
-							<month type="9" draft="contributed">9</month>
-							<month type="10" draft="contributed">10</month>
-							<month type="11" draft="contributed">11</month>
-							<month type="12" draft="contributed">12</month>
+						<monthWidth type="abbreviated">
+							<month type="1" draft="contributed">Moh.</month>
+							<month type="2" draft="contributed">Saf.</month>
+							<month type="3" draft="contributed">Rébi I</month>
+							<month type="4" draft="contributed">Rébi II</month>
+							<month type="5" draft="contributed">Dsem. I</month>
+							<month type="6" draft="contributed">Dsem. II</month>
+							<month type="7" draft="contributed">Red.</month>
+							<month type="8" draft="contributed">Sab.</month>
+							<month type="9" draft="contributed">Ram.</month>
+							<month type="10" draft="contributed">Sev.</month>
+							<month type="11" draft="contributed">Dsül k.</month>
+							<month type="12" draft="contributed">Dsül h.</month>
 						</monthWidth>
 						<monthWidth type="wide">
 							<month type="1">Moharrem</month>
@@ -1954,19 +2221,19 @@
 						</monthWidth>
 					</monthContext>
 					<monthContext type="stand-alone">
-						<monthWidth type="abbreviated">
-							<month type="1" draft="contributed">Muh.</month>
-							<month type="2" draft="contributed">Saf.</month>
-							<month type="3" draft="contributed">Rab. I</month>
-							<month type="4" draft="contributed">Rab. II</month>
-							<month type="5" draft="contributed">Jum. I</month>
-							<month type="6" draft="contributed">Jum. II</month>
-							<month type="7" draft="contributed">Raj.</month>
-							<month type="8" draft="contributed">Sha.</month>
-							<month type="9" draft="contributed">Ram.</month>
-							<month type="10" draft="contributed">Shaw.</month>
-							<month type="11" draft="contributed">Dsül-Q.</month>
-							<month type="12" draft="contributed">Dsül-H.</month>
+						<monthWidth type="narrow">
+							<month type="1" draft="contributed">1</month>
+							<month type="2" draft="contributed">2</month>
+							<month type="3" draft="contributed">3</month>
+							<month type="4" draft="contributed">4</month>
+							<month type="5" draft="contributed">5</month>
+							<month type="6" draft="contributed">6</month>
+							<month type="7" draft="contributed">7</month>
+							<month type="8" draft="contributed">8</month>
+							<month type="9" draft="contributed">9</month>
+							<month type="10" draft="contributed">10</month>
+							<month type="11" draft="contributed">11</month>
+							<month type="12" draft="contributed">12</month>
 						</monthWidth>
 						<monthWidth type="wide">
 							<month type="1" draft="contributed">Moharrem</month>
@@ -1989,62 +2256,33 @@
 						<era type="0">MF</era>
 					</eraAbbr>
 				</eras>
+			</calendar>
+			<calendar type="japanese">
+				<!-- need some non-empty element here to make inheritance work,
+					 this copy of generic dateFormats above is smaller than root japanese eras
+				-->
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern draft="contributed">y. MMMM d., EEEE</pattern>
+							<pattern>G y. MMMM d., EEEE</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern draft="contributed">y. MMMM d.</pattern>
+							<pattern>G y. MMMM d.</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern draft="contributed">yyyy.MM.dd.</pattern>
+							<pattern>G y.MM.dd.</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern draft="contributed">yyyy.MM.dd.</pattern>
+							<pattern>GGGGG y.MM.dd.</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="d" draft="contributed">d</dateFormatItem>
-						<dateFormatItem id="Ed" draft="contributed">d E</dateFormatItem>
-						<dateFormatItem id="h" draft="contributed">a h</dateFormatItem>
-						<dateFormatItem id="H" draft="contributed">HH</dateFormatItem>
-						<dateFormatItem id="hm" draft="contributed">a h:mm</dateFormatItem>
-						<dateFormatItem id="Hm" draft="contributed">H:mm</dateFormatItem>
-						<dateFormatItem id="hms" draft="contributed">a h:mm:ss</dateFormatItem>
-						<dateFormatItem id="Hms" draft="contributed">H:mm:ss</dateFormatItem>
-						<dateFormatItem id="M" draft="contributed">L</dateFormatItem>
-						<dateFormatItem id="Md" draft="contributed">M. d.</dateFormatItem>
-						<dateFormatItem id="MEd" draft="contributed">M. d., E</dateFormatItem>
-						<dateFormatItem id="MMMd" draft="contributed">MMM d.</dateFormatItem>
-						<dateFormatItem id="MMMEd" draft="contributed">MMM. d., E</dateFormatItem>
-						<dateFormatItem id="MMMMd" draft="contributed">MMMM d.</dateFormatItem>
-						<dateFormatItem id="ms" draft="contributed">mm:ss</dateFormatItem>
-						<dateFormatItem id="y" draft="contributed">y</dateFormatItem>
-						<dateFormatItem id="yM" draft="contributed">y-M</dateFormatItem>
-						<dateFormatItem id="yMEd" draft="contributed">yyyy.MM.dd., E</dateFormatItem>
-						<dateFormatItem id="yMMM" draft="contributed">y MMM</dateFormatItem>
-						<dateFormatItem id="yMMMEd" draft="contributed">y. MMM d., E</dateFormatItem>
-						<dateFormatItem id="yQ" draft="contributed">y Q</dateFormatItem>
-						<dateFormatItem id="yQQQ" draft="contributed">y QQQ</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
-			<calendar type="japanese">
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="hm" draft="contributed">a h:mm</dateFormatItem>
-						<dateFormatItem id="hms" draft="contributed">a h:mm:ss</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
 			</calendar>
 			<calendar type="persian">
 				<months>
@@ -2116,41 +2354,66 @@
 						<era type="0" draft="contributed">R.O.C. előtt</era>
 					</eraAbbr>
 				</eras>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="h" draft="contributed">a h</dateFormatItem>
-						<dateFormatItem id="hm" draft="contributed">a h:mm</dateFormatItem>
-						<dateFormatItem id="hms" draft="contributed">a h:mm:ss</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
 			</calendar>
 		</calendars>
+		<fields>
+			<field type="era">
+				<displayName>éra</displayName>
+			</field>
+			<field type="year">
+				<displayName>év</displayName>
+				<relative type="-1">Előző év</relative>
+				<relative type="0">Ez az év</relative>
+				<relative type="1">Következő év</relative>
+			</field>
+			<field type="month">
+				<displayName>hónap</displayName>
+				<relative type="-1">Előző hónap</relative>
+				<relative type="0">Ez a hónap</relative>
+				<relative type="1">Következő hónap</relative>
+			</field>
+			<field type="week">
+				<displayName>hét</displayName>
+				<relative type="-1">Előző hét</relative>
+				<relative type="0">Ez a hét</relative>
+				<relative type="1">Következő hét</relative>
+			</field>
+			<field type="day">
+				<displayName>nap</displayName>
+				<relative type="-2">tegnapelőtt</relative>
+				<relative type="-1">tegnap</relative>
+				<relative type="0">ma</relative>
+				<relative type="1">holnap</relative>
+				<relative type="2">holnapután</relative>
+			</field>
+			<field type="weekday">
+				<displayName>hét napja</displayName>
+			</field>
+			<field type="dayperiod">
+				<displayName>napszak</displayName>
+			</field>
+			<field type="hour">
+				<displayName>óra</displayName>
+			</field>
+			<field type="minute">
+				<displayName>perc</displayName>
+			</field>
+			<field type="second">
+				<displayName>másodperc</displayName>
+			</field>
+			<field type="zone">
+				<displayName>időzóna</displayName>
+			</field>
+		</fields>
 		<timeZoneNames>
 			<hourFormat>+HH:mm;-HH:mm</hourFormat>
 			<gmtFormat>GMT{0}</gmtFormat>
+			<gmtZeroFormat>GMT</gmtZeroFormat>
 			<regionFormat>{0} idő</regionFormat>
 			<fallbackFormat>{1} ({0})</fallbackFormat>
 			<fallbackRegionFormat>{1} idő ({0})</fallbackRegionFormat>
-			<zone type="America/North_Dakota/Beulah">
-				<exemplarCity draft="contributed">Beulah, Észak-Dakota</exemplarCity>
-			</zone>
 			<zone type="Etc/Unknown">
 				<exemplarCity>Ismeretlen város</exemplarCity>
-			</zone>
-			<zone type="Europe/Andorra">
-				<exemplarCity draft="contributed">Andorra</exemplarCity>
-			</zone>
-			<zone type="Asia/Dubai">
-				<exemplarCity draft="contributed">Dubai</exemplarCity>
-			</zone>
-			<zone type="Asia/Kabul">
-				<exemplarCity draft="contributed">Kabul</exemplarCity>
-			</zone>
-			<zone type="America/Antigua">
-				<exemplarCity draft="contributed">Antigua</exemplarCity>
-			</zone>
-			<zone type="America/Anguilla">
-				<exemplarCity draft="contributed">Anguilla</exemplarCity>
 			</zone>
 			<zone type="Europe/Tirane">
 				<exemplarCity>Tirana</exemplarCity>
@@ -2158,68 +2421,17 @@
 			<zone type="Asia/Yerevan">
 				<exemplarCity>Jereván</exemplarCity>
 			</zone>
-			<zone type="America/Curacao">
-				<exemplarCity draft="contributed">Curacao</exemplarCity>
-			</zone>
-			<zone type="Africa/Luanda">
-				<exemplarCity draft="contributed">Luanda</exemplarCity>
-			</zone>
-			<zone type="Antarctica/Rothera">
-				<exemplarCity draft="contributed">Rothera</exemplarCity>
-			</zone>
-			<zone type="Antarctica/Palmer">
-				<exemplarCity draft="contributed">Palmer</exemplarCity>
-			</zone>
 			<zone type="Antarctica/South_Pole">
 				<exemplarCity>Déli-sark</exemplarCity>
-			</zone>
-			<zone type="Antarctica/Syowa">
-				<exemplarCity draft="contributed">Syowa</exemplarCity>
-			</zone>
-			<zone type="Antarctica/Mawson">
-				<exemplarCity draft="contributed">Mawson</exemplarCity>
-			</zone>
-			<zone type="Antarctica/Davis">
-				<exemplarCity draft="contributed">Davis</exemplarCity>
 			</zone>
 			<zone type="Antarctica/Vostok">
 				<exemplarCity>Vosztok</exemplarCity>
 			</zone>
-			<zone type="Antarctica/Casey">
-				<exemplarCity draft="contributed">Casey</exemplarCity>
-			</zone>
 			<zone type="Antarctica/DumontDUrville">
 				<exemplarCity draft="contributed">Dumont d’Urville</exemplarCity>
 			</zone>
-			<zone type="Antarctica/McMurdo">
-				<exemplarCity draft="contributed">McMurdo</exemplarCity>
-			</zone>
 			<zone type="America/Argentina/Rio_Gallegos">
 				<exemplarCity>Río Gallegos</exemplarCity>
-			</zone>
-			<zone type="America/Mendoza">
-				<exemplarCity draft="contributed">Mendoza</exemplarCity>
-			</zone>
-			<zone type="America/Argentina/San_Juan">
-				<exemplarCity draft="contributed">San Juan</exemplarCity>
-			</zone>
-			<zone type="America/Argentina/Ushuaia">
-				<exemplarCity draft="contributed">Ushuaia</exemplarCity>
-			</zone>
-			<zone type="America/Argentina/La_Rioja">
-				<exemplarCity draft="contributed">La Rioja</exemplarCity>
-			</zone>
-			<zone type="America/Argentina/San_Luis">
-				<exemplarCity draft="contributed">San Luis</exemplarCity>
-			</zone>
-			<zone type="America/Catamarca">
-				<exemplarCity draft="contributed">Catamarca</exemplarCity>
-			</zone>
-			<zone type="America/Argentina/Salta">
-				<exemplarCity draft="contributed">Salta</exemplarCity>
-			</zone>
-			<zone type="America/Jujuy">
-				<exemplarCity draft="contributed">Jujuy</exemplarCity>
 			</zone>
 			<zone type="America/Argentina/Tucuman">
 				<exemplarCity>Tucumán</exemplarCity>
@@ -2227,59 +2439,8 @@
 			<zone type="America/Cordoba">
 				<exemplarCity>Córdoba</exemplarCity>
 			</zone>
-			<zone type="America/Buenos_Aires">
-				<exemplarCity draft="contributed">Buenos Aires</exemplarCity>
-			</zone>
-			<zone type="Pacific/Pago_Pago">
-				<exemplarCity draft="contributed">Pago Pago</exemplarCity>
-			</zone>
 			<zone type="Europe/Vienna">
 				<exemplarCity>Bécs</exemplarCity>
-			</zone>
-			<zone type="Australia/Perth">
-				<exemplarCity draft="contributed">Perth</exemplarCity>
-			</zone>
-			<zone type="Australia/Eucla">
-				<exemplarCity draft="contributed">Eucla</exemplarCity>
-			</zone>
-			<zone type="Australia/Darwin">
-				<exemplarCity draft="contributed">Darwin</exemplarCity>
-			</zone>
-			<zone type="Australia/Adelaide">
-				<exemplarCity draft="contributed">Adelaide</exemplarCity>
-			</zone>
-			<zone type="Australia/Broken_Hill">
-				<exemplarCity draft="contributed">Broken Hill</exemplarCity>
-			</zone>
-			<zone type="Australia/Currie">
-				<exemplarCity draft="contributed">Currie</exemplarCity>
-			</zone>
-			<zone type="Australia/Melbourne">
-				<exemplarCity draft="contributed">Melbourne</exemplarCity>
-			</zone>
-			<zone type="Australia/Hobart">
-				<exemplarCity draft="contributed">Hobart</exemplarCity>
-			</zone>
-			<zone type="Australia/Lindeman">
-				<exemplarCity draft="contributed">Lindeman</exemplarCity>
-			</zone>
-			<zone type="Australia/Sydney">
-				<exemplarCity draft="contributed">Sydney</exemplarCity>
-			</zone>
-			<zone type="Australia/Brisbane">
-				<exemplarCity draft="contributed">Brisbane</exemplarCity>
-			</zone>
-			<zone type="Australia/Lord_Howe">
-				<exemplarCity draft="contributed">Lord Howe</exemplarCity>
-			</zone>
-			<zone type="America/Aruba">
-				<exemplarCity draft="contributed">Aruba</exemplarCity>
-			</zone>
-			<zone type="Europe/Mariehamn">
-				<exemplarCity draft="contributed">Mariehamn</exemplarCity>
-			</zone>
-			<zone type="Asia/Baku">
-				<exemplarCity draft="contributed">Baku</exemplarCity>
 			</zone>
 			<zone type="Europe/Sarajevo">
 				<exemplarCity>Szarajevó</exemplarCity>
@@ -2293,29 +2454,14 @@
 			<zone type="Europe/Brussels">
 				<exemplarCity>Brüsszel</exemplarCity>
 			</zone>
-			<zone type="Africa/Ouagadougou">
-				<exemplarCity draft="contributed">Ouagadougou</exemplarCity>
-			</zone>
 			<zone type="Europe/Sofia">
 				<exemplarCity>Szófia</exemplarCity>
 			</zone>
 			<zone type="Asia/Bahrain">
 				<exemplarCity>Bahrein</exemplarCity>
 			</zone>
-			<zone type="Africa/Bujumbura">
-				<exemplarCity draft="contributed">Bujumbura</exemplarCity>
-			</zone>
-			<zone type="Africa/Porto-Novo">
-				<exemplarCity draft="contributed">Porto-Novo</exemplarCity>
-			</zone>
-			<zone type="Atlantic/Bermuda">
-				<exemplarCity draft="contributed">Bermuda</exemplarCity>
-			</zone>
-			<zone type="Asia/Brunei">
-				<exemplarCity draft="contributed">Brunei</exemplarCity>
-			</zone>
-			<zone type="America/La_Paz">
-				<exemplarCity draft="contributed">La Paz</exemplarCity>
+			<zone type="America/St_Barthelemy">
+				<exemplarCity>Saint Barthélemy</exemplarCity>
 			</zone>
 			<zone type="America/Eirunepe">
 				<exemplarCity>Eirunepé</exemplarCity>
@@ -2323,23 +2469,8 @@
 			<zone type="America/Rio_Branco">
 				<exemplarCity>Río Branco</exemplarCity>
 			</zone>
-			<zone type="America/Porto_Velho">
-				<exemplarCity draft="contributed">Porto Velho</exemplarCity>
-			</zone>
-			<zone type="America/Boa_Vista">
-				<exemplarCity draft="contributed">Boa Vista</exemplarCity>
-			</zone>
-			<zone type="America/Manaus">
-				<exemplarCity draft="contributed">Manaus</exemplarCity>
-			</zone>
 			<zone type="America/Cuiaba">
 				<exemplarCity>Cuiabá</exemplarCity>
-			</zone>
-			<zone type="America/Santarem">
-				<exemplarCity draft="contributed">Santarem</exemplarCity>
-			</zone>
-			<zone type="America/Campo_Grande">
-				<exemplarCity draft="contributed">Campo Grande</exemplarCity>
 			</zone>
 			<zone type="America/Belem">
 				<exemplarCity>Belém</exemplarCity>
@@ -2350,29 +2481,8 @@
 			<zone type="America/Sao_Paulo">
 				<exemplarCity>São Paulo</exemplarCity>
 			</zone>
-			<zone type="America/Bahia">
-				<exemplarCity draft="contributed">Bahia</exemplarCity>
-			</zone>
-			<zone type="America/Fortaleza">
-				<exemplarCity draft="contributed">Fortaleza</exemplarCity>
-			</zone>
 			<zone type="America/Maceio">
 				<exemplarCity>Maceió</exemplarCity>
-			</zone>
-			<zone type="America/Recife">
-				<exemplarCity draft="contributed">Recife</exemplarCity>
-			</zone>
-			<zone type="America/Noronha">
-				<exemplarCity draft="contributed">Noronha</exemplarCity>
-			</zone>
-			<zone type="America/Nassau">
-				<exemplarCity draft="contributed">Nassau</exemplarCity>
-			</zone>
-			<zone type="Asia/Thimphu">
-				<exemplarCity draft="contributed">Thimphu</exemplarCity>
-			</zone>
-			<zone type="Africa/Gaborone">
-				<exemplarCity draft="contributed">Gaborone</exemplarCity>
 			</zone>
 			<zone type="Europe/Minsk">
 				<exemplarCity>Minszk</exemplarCity>
@@ -2380,110 +2490,23 @@
 			<zone type="America/Belize">
 				<exemplarCity>Beliz</exemplarCity>
 			</zone>
-			<zone type="America/Dawson">
-				<exemplarCity draft="contributed">Dawson</exemplarCity>
-			</zone>
-			<zone type="America/Whitehorse">
-				<exemplarCity draft="contributed">Whitehorse</exemplarCity>
-			</zone>
-			<zone type="America/Inuvik">
-				<exemplarCity draft="contributed">Inuvik</exemplarCity>
-			</zone>
-			<zone type="America/Vancouver">
-				<exemplarCity draft="contributed">Vancouver</exemplarCity>
-			</zone>
-			<zone type="America/Dawson_Creek">
-				<exemplarCity draft="contributed">Dawson Creek</exemplarCity>
-			</zone>
-			<zone type="America/Yellowknife">
-				<exemplarCity draft="contributed">Yellowknife</exemplarCity>
-			</zone>
-			<zone type="America/Edmonton">
-				<exemplarCity draft="contributed">Edmonton</exemplarCity>
-			</zone>
-			<zone type="America/Swift_Current">
-				<exemplarCity draft="contributed">Swift Current</exemplarCity>
-			</zone>
-			<zone type="America/Cambridge_Bay">
-				<exemplarCity draft="contributed">Cambridge Bay</exemplarCity>
-			</zone>
-			<zone type="America/Regina">
-				<exemplarCity draft="contributed">Regina</exemplarCity>
-			</zone>
-			<zone type="America/Winnipeg">
-				<exemplarCity draft="contributed">Winnipeg</exemplarCity>
-			</zone>
-			<zone type="America/Resolute">
-				<exemplarCity draft="contributed">Resolute</exemplarCity>
-			</zone>
-			<zone type="America/Rainy_River">
-				<exemplarCity draft="contributed">Rainy River</exemplarCity>
-			</zone>
-			<zone type="America/Rankin_Inlet">
-				<exemplarCity draft="contributed">Rankin Inlet</exemplarCity>
-			</zone>
-			<zone type="America/Thunder_Bay">
-				<exemplarCity draft="contributed">Thunder Bay</exemplarCity>
-			</zone>
-			<zone type="America/Nipigon">
-				<exemplarCity draft="contributed">Nipigon</exemplarCity>
-			</zone>
-			<zone type="America/Toronto">
-				<exemplarCity draft="contributed">Toronto</exemplarCity>
+			<zone type="America/Coral_Harbour">
+				<exemplarCity draft="contributed">Atikokan</exemplarCity>
 			</zone>
 			<zone type="America/Montreal">
 				<exemplarCity>Montréal</exemplarCity>
 			</zone>
-			<zone type="America/Iqaluit">
-				<exemplarCity draft="contributed">Iqaluit</exemplarCity>
-			</zone>
-			<zone type="America/Pangnirtung">
-				<exemplarCity draft="contributed">Pangnirtung</exemplarCity>
-			</zone>
-			<zone type="America/Moncton">
-				<exemplarCity draft="contributed">Moncton</exemplarCity>
-			</zone>
-			<zone type="America/Halifax">
-				<exemplarCity draft="contributed">Halifax</exemplarCity>
-			</zone>
-			<zone type="America/Goose_Bay">
-				<exemplarCity draft="contributed">Goose Bay</exemplarCity>
-			</zone>
-			<zone type="America/Glace_Bay">
-				<exemplarCity draft="contributed">Glace Bay</exemplarCity>
-			</zone>
-			<zone type="America/Blanc-Sablon">
-				<exemplarCity draft="contributed">Blanc-Sablon</exemplarCity>
+			<zone type="America/St_Johns">
+				<exemplarCity>St. John’s</exemplarCity>
 			</zone>
 			<zone type="Indian/Cocos">
 				<exemplarCity draft="contributed">Kókusz</exemplarCity>
 			</zone>
-			<zone type="Africa/Kinshasa">
-				<exemplarCity draft="contributed">Kinshasa</exemplarCity>
-			</zone>
-			<zone type="Africa/Lubumbashi">
-				<exemplarCity draft="contributed">Lubumbashi</exemplarCity>
-			</zone>
-			<zone type="Africa/Bangui">
-				<exemplarCity draft="contributed">Bangui</exemplarCity>
-			</zone>
-			<zone type="Africa/Brazzaville">
-				<exemplarCity draft="contributed">Brazzaville</exemplarCity>
-			</zone>
 			<zone type="Europe/Zurich">
 				<exemplarCity>Zürich</exemplarCity>
 			</zone>
-			<zone type="Africa/Abidjan">
-				<exemplarCity draft="contributed">Abidjan</exemplarCity>
-			</zone>
-			<zone type="Pacific/Rarotonga">
-				<exemplarCity draft="contributed">Rarotonga</exemplarCity>
-			</zone>
 			<zone type="Pacific/Easter">
 				<exemplarCity>Húsvét-szigetek</exemplarCity>
-			</zone>
-			<zone type="Africa/Douala">
-				<exemplarCity draft="contributed">Douala</exemplarCity>
 			</zone>
 			<zone type="Asia/Kashgar">
 				<exemplarCity>Kasgár</exemplarCity>
@@ -2497,14 +2520,8 @@
 			<zone type="Asia/Shanghai">
 				<exemplarCity>Sanghaj</exemplarCity>
 			</zone>
-			<zone type="Asia/Harbin">
-				<exemplarCity draft="contributed">Harbin</exemplarCity>
-			</zone>
 			<zone type="America/Bogota">
 				<exemplarCity draft="contributed">Bogotá</exemplarCity>
-			</zone>
-			<zone type="America/Costa_Rica">
-				<exemplarCity draft="contributed">Costa Rica</exemplarCity>
 			</zone>
 			<zone type="America/Havana">
 				<exemplarCity>Havanna</exemplarCity>
@@ -2515,14 +2532,8 @@
 			<zone type="Indian/Christmas">
 				<exemplarCity draft="contributed">Karácsony</exemplarCity>
 			</zone>
-			<zone type="Asia/Nicosia">
-				<exemplarCity draft="contributed">Nicosia</exemplarCity>
-			</zone>
 			<zone type="Europe/Prague">
 				<exemplarCity>Prága</exemplarCity>
-			</zone>
-			<zone type="Europe/Berlin">
-				<exemplarCity draft="contributed">Berlin</exemplarCity>
 			</zone>
 			<zone type="Africa/Djibouti">
 				<exemplarCity>Dzsibuti</exemplarCity>
@@ -2532,9 +2543,6 @@
 			</zone>
 			<zone type="America/Dominica">
 				<exemplarCity>Dominika</exemplarCity>
-			</zone>
-			<zone type="America/Santo_Domingo">
-				<exemplarCity draft="contributed">Santo Domingo</exemplarCity>
 			</zone>
 			<zone type="Africa/Algiers">
 				<exemplarCity>Algír</exemplarCity>
@@ -2557,20 +2565,11 @@
 			<zone type="Atlantic/Canary">
 				<exemplarCity>Kanári-szigetek</exemplarCity>
 			</zone>
-			<zone type="Africa/Ceuta">
-				<exemplarCity draft="contributed">Ceuta</exemplarCity>
-			</zone>
 			<zone type="Africa/Addis_Ababa">
 				<exemplarCity>Addisz-Abeba</exemplarCity>
 			</zone>
-			<zone type="Europe/Helsinki">
-				<exemplarCity draft="contributed">Helsinki</exemplarCity>
-			</zone>
 			<zone type="Pacific/Fiji">
 				<exemplarCity>Fidzsi</exemplarCity>
-			</zone>
-			<zone type="Atlantic/Stanley">
-				<exemplarCity draft="contributed">Stanley</exemplarCity>
 			</zone>
 			<zone type="Pacific/Truk">
 				<exemplarCity>Truk-szigetek</exemplarCity>
@@ -2581,32 +2580,22 @@
 			<zone type="Pacific/Kosrae">
 				<exemplarCity>Kosrae-szigetek</exemplarCity>
 			</zone>
+			<zone type="Atlantic/Faeroe">
+				<exemplarCity draft="contributed">Faroe</exemplarCity>
+			</zone>
 			<zone type="Europe/Paris">
 				<exemplarCity>Párizs</exemplarCity>
 			</zone>
-			<zone type="Africa/Libreville">
-				<exemplarCity draft="contributed">Libreville</exemplarCity>
-			</zone>
-			<zone type="America/Grenada">
-				<exemplarCity draft="contributed">Grenada</exemplarCity>
+			<zone type="Europe/London">
+				<long>
+					<daylight draft="contributed">Brit nyári idő</daylight>
+				</long>
 			</zone>
 			<zone type="Asia/Tbilisi">
 				<exemplarCity>Tbiliszi</exemplarCity>
 			</zone>
-			<zone type="America/Cayenne">
-				<exemplarCity draft="contributed">Cayenne</exemplarCity>
-			</zone>
-			<zone type="Europe/Guernsey">
-				<exemplarCity draft="contributed">Guernsey</exemplarCity>
-			</zone>
-			<zone type="Africa/Accra">
-				<exemplarCity draft="contributed">Accra</exemplarCity>
-			</zone>
 			<zone type="Europe/Gibraltar">
 				<exemplarCity>Gibraltár</exemplarCity>
-			</zone>
-			<zone type="America/Thule">
-				<exemplarCity draft="contributed">Thule</exemplarCity>
 			</zone>
 			<zone type="America/Godthab">
 				<exemplarCity>Godthåb</exemplarCity>
@@ -2617,15 +2606,6 @@
 			<zone type="America/Danmarkshavn">
 				<exemplarCity>Danmarks Havn</exemplarCity>
 			</zone>
-			<zone type="Africa/Banjul">
-				<exemplarCity draft="contributed">Banjul</exemplarCity>
-			</zone>
-			<zone type="Africa/Conakry">
-				<exemplarCity draft="contributed">Conakry</exemplarCity>
-			</zone>
-			<zone type="America/Guadeloupe">
-				<exemplarCity draft="contributed">Guadeloupe</exemplarCity>
-			</zone>
 			<zone type="Africa/Malabo">
 				<exemplarCity draft="contributed">Malabó</exemplarCity>
 			</zone>
@@ -2635,47 +2615,22 @@
 			<zone type="Atlantic/South_Georgia">
 				<exemplarCity>Dél-Georgia</exemplarCity>
 			</zone>
-			<zone type="America/Guatemala">
-				<exemplarCity draft="contributed">Guatemala</exemplarCity>
-			</zone>
-			<zone type="Pacific/Guam">
-				<exemplarCity draft="contributed">Guam</exemplarCity>
-			</zone>
-			<zone type="Africa/Bissau">
-				<exemplarCity draft="contributed">Bissau</exemplarCity>
-			</zone>
-			<zone type="America/Guyana">
-				<exemplarCity draft="contributed">Guyana</exemplarCity>
-			</zone>
 			<zone type="Asia/Hong_Kong">
 				<exemplarCity>Hongkong</exemplarCity>
-			</zone>
-			<zone type="America/Tegucigalpa">
-				<exemplarCity draft="contributed">Tegucigalpa</exemplarCity>
 			</zone>
 			<zone type="Europe/Zagreb">
 				<exemplarCity>Zágráb</exemplarCity>
 			</zone>
-			<zone type="America/Port-au-Prince">
-				<exemplarCity draft="contributed">Port-au-Prince</exemplarCity>
-			</zone>
-			<zone type="Europe/Budapest">
-				<exemplarCity draft="contributed">Budapest</exemplarCity>
-			</zone>
 			<zone type="Asia/Jakarta">
 				<exemplarCity>Dzsakarta</exemplarCity>
-			</zone>
-			<zone type="Asia/Pontianak">
-				<exemplarCity draft="contributed">Pontianak</exemplarCity>
 			</zone>
 			<zone type="Asia/Makassar">
 				<exemplarCity>Makasar</exemplarCity>
 			</zone>
-			<zone type="Asia/Jayapura">
-				<exemplarCity draft="contributed">Jayapura</exemplarCity>
-			</zone>
 			<zone type="Europe/Dublin">
-				<exemplarCity draft="contributed">Dublin</exemplarCity>
+				<long>
+					<daylight draft="contributed">Ír nyári idő</daylight>
+				</long>
 			</zone>
 			<zone type="Asia/Jerusalem">
 				<exemplarCity>Jeruzsálem</exemplarCity>
@@ -2685,9 +2640,6 @@
 			</zone>
 			<zone type="Asia/Calcutta">
 				<exemplarCity>Kalkutta</exemplarCity>
-			</zone>
-			<zone type="Indian/Chagos">
-				<exemplarCity draft="contributed">Chagos</exemplarCity>
 			</zone>
 			<zone type="Asia/Baghdad">
 				<exemplarCity>Bagdad</exemplarCity>
@@ -2701,9 +2653,6 @@
 			<zone type="Europe/Rome">
 				<exemplarCity>Róma</exemplarCity>
 			</zone>
-			<zone type="Europe/Jersey">
-				<exemplarCity draft="contributed">Jersey</exemplarCity>
-			</zone>
 			<zone type="America/Jamaica">
 				<exemplarCity>Jamaika</exemplarCity>
 			</zone>
@@ -2713,23 +2662,11 @@
 			<zone type="Asia/Tokyo">
 				<exemplarCity>Tokio</exemplarCity>
 			</zone>
-			<zone type="Africa/Nairobi">
-				<exemplarCity draft="contributed">Nairobi</exemplarCity>
-			</zone>
 			<zone type="Asia/Bishkek">
 				<exemplarCity draft="contributed">Biskek</exemplarCity>
 			</zone>
-			<zone type="Asia/Phnom_Penh">
-				<exemplarCity draft="contributed">Phnom Penh</exemplarCity>
-			</zone>
-			<zone type="Pacific/Enderbury">
-				<exemplarCity draft="contributed">Enderbury</exemplarCity>
-			</zone>
 			<zone type="Pacific/Kiritimati">
 				<exemplarCity>Kiritimati-sziget</exemplarCity>
-			</zone>
-			<zone type="Pacific/Tarawa">
-				<exemplarCity draft="contributed">Tarawa</exemplarCity>
 			</zone>
 			<zone type="Indian/Comoro">
 				<exemplarCity draft="contributed">Komoró</exemplarCity>
@@ -2752,9 +2689,6 @@
 			<zone type="Asia/Aqtau">
 				<exemplarCity>Aktau</exemplarCity>
 			</zone>
-			<zone type="Asia/Oral">
-				<exemplarCity draft="contributed">Oral</exemplarCity>
-			</zone>
 			<zone type="Asia/Aqtobe">
 				<exemplarCity>Aktöbe</exemplarCity>
 			</zone>
@@ -2773,62 +2707,17 @@
 			<zone type="America/St_Lucia">
 				<exemplarCity>St. Lucia</exemplarCity>
 			</zone>
-			<zone type="Europe/Vaduz">
-				<exemplarCity draft="contributed">Vaduz</exemplarCity>
-			</zone>
-			<zone type="Asia/Colombo">
-				<exemplarCity draft="contributed">Colombo</exemplarCity>
-			</zone>
-			<zone type="Africa/Monrovia">
-				<exemplarCity draft="contributed">Monrovia</exemplarCity>
-			</zone>
-			<zone type="Africa/Maseru">
-				<exemplarCity draft="contributed">Maseru</exemplarCity>
-			</zone>
 			<zone type="Europe/Vilnius">
 				<exemplarCity>Vilniusz</exemplarCity>
 			</zone>
 			<zone type="Europe/Luxembourg">
 				<exemplarCity>Luxemburg</exemplarCity>
 			</zone>
-			<zone type="Europe/Riga">
-				<exemplarCity>Riga</exemplarCity>
-			</zone>
-			<zone type="Africa/Tripoli">
-				<exemplarCity draft="contributed">Tripoli</exemplarCity>
-			</zone>
-			<zone type="Africa/Casablanca">
-				<exemplarCity draft="contributed">Casablanca</exemplarCity>
-			</zone>
-			<zone type="Europe/Monaco">
-				<exemplarCity draft="contributed">Monaco</exemplarCity>
-			</zone>
-			<zone type="Europe/Chisinau">
-				<exemplarCity draft="contributed">Chisinau</exemplarCity>
-			</zone>
-			<zone type="Europe/Podgorica">
-				<exemplarCity>Montenegró</exemplarCity>
-			</zone>
-			<zone type="America/Marigot">
-				<exemplarCity draft="contributed">Marigot</exemplarCity>
-			</zone>
-			<zone type="Indian/Antananarivo">
-				<exemplarCity draft="contributed">Antananarivo</exemplarCity>
-			</zone>
 			<zone type="Pacific/Kwajalein">
 				<exemplarCity>Kwajalein-zátony</exemplarCity>
 			</zone>
 			<zone type="Pacific/Majuro">
 				<exemplarCity>Majuro-zátony</exemplarCity>
-			</zone>
-			<zone type="Europe/Skopje">
-				<exemplarCity draft="contributed">Skopje</exemplarCity>
-			</zone>
-			<zone type="Asia/Rangoon">
-				<exemplarCity draft="contributed">Rangoon</exemplarCity>
-			</zone>
-			<zone type="Asia/Hovd">
-				<exemplarCity draft="contributed">Hovd</exemplarCity>
 			</zone>
 			<zone type="Asia/Ulaanbaatar">
 				<exemplarCity>Ulánbátor</exemplarCity>
@@ -2839,44 +2728,14 @@
 			<zone type="Asia/Macau">
 				<exemplarCity>Makaó</exemplarCity>
 			</zone>
-			<zone type="Pacific/Saipan">
-				<exemplarCity draft="contributed">Saipan</exemplarCity>
-			</zone>
-			<zone type="America/Martinique">
-				<exemplarCity draft="contributed">Martinique</exemplarCity>
-			</zone>
-			<zone type="Africa/Nouakchott">
-				<exemplarCity draft="contributed">Nouakchott</exemplarCity>
-			</zone>
-			<zone type="America/Montserrat">
-				<exemplarCity draft="contributed">Montserrat</exemplarCity>
-			</zone>
 			<zone type="Europe/Malta">
 				<exemplarCity>Málta</exemplarCity>
-			</zone>
-			<zone type="Indian/Mauritius">
-				<exemplarCity draft="contributed">Mauritius</exemplarCity>
 			</zone>
 			<zone type="Indian/Maldives">
 				<exemplarCity>Maldív-szigetek</exemplarCity>
 			</zone>
-			<zone type="Africa/Blantyre">
-				<exemplarCity draft="contributed">Blantyre</exemplarCity>
-			</zone>
-			<zone type="America/Tijuana">
-				<exemplarCity draft="contributed">Tijuana</exemplarCity>
-			</zone>
-			<zone type="America/Hermosillo">
-				<exemplarCity draft="contributed">Hermosillo</exemplarCity>
-			</zone>
 			<zone type="America/Mazatlan">
 				<exemplarCity>Mazatlán</exemplarCity>
-			</zone>
-			<zone type="America/Chihuahua">
-				<exemplarCity draft="contributed">Chihuahua</exemplarCity>
-			</zone>
-			<zone type="America/Monterrey">
-				<exemplarCity draft="contributed">Monterrey</exemplarCity>
 			</zone>
 			<zone type="America/Mexico_City">
 				<exemplarCity>Mexikóváros</exemplarCity>
@@ -2890,53 +2749,11 @@
 			<zone type="Asia/Kuching">
 				<exemplarCity draft="contributed">Kucseng</exemplarCity>
 			</zone>
-			<zone type="Africa/Maputo">
-				<exemplarCity draft="contributed">Maputo</exemplarCity>
-			</zone>
-			<zone type="Africa/Windhoek">
-				<exemplarCity draft="contributed">Windhoek</exemplarCity>
-			</zone>
-			<zone type="Pacific/Noumea">
-				<exemplarCity draft="contributed">Noumea</exemplarCity>
-			</zone>
-			<zone type="Africa/Niamey">
-				<exemplarCity draft="contributed">Niamey</exemplarCity>
-			</zone>
-			<zone type="Pacific/Norfolk">
-				<exemplarCity draft="contributed">Norfolk</exemplarCity>
-			</zone>
-			<zone type="Africa/Lagos">
-				<exemplarCity draft="contributed">Lagos</exemplarCity>
-			</zone>
-			<zone type="America/Managua">
-				<exemplarCity draft="contributed">Managua</exemplarCity>
-			</zone>
-			<zone type="Europe/Amsterdam">
-				<exemplarCity draft="contributed">Amsterdam</exemplarCity>
-			</zone>
-			<zone type="Europe/Oslo">
-				<exemplarCity draft="contributed">Oslo</exemplarCity>
-			</zone>
 			<zone type="Asia/Katmandu">
 				<exemplarCity draft="contributed">Katmandu</exemplarCity>
 			</zone>
-			<zone type="Pacific/Nauru">
-				<exemplarCity draft="contributed">Nauru</exemplarCity>
-			</zone>
-			<zone type="Pacific/Niue">
-				<exemplarCity draft="contributed">Niue</exemplarCity>
-			</zone>
 			<zone type="Pacific/Chatham">
 				<exemplarCity>Chatham-szigetek</exemplarCity>
-			</zone>
-			<zone type="Asia/Muscat">
-				<exemplarCity draft="contributed">Muscat</exemplarCity>
-			</zone>
-			<zone type="America/Panama">
-				<exemplarCity draft="contributed">Panama</exemplarCity>
-			</zone>
-			<zone type="America/Lima">
-				<exemplarCity draft="contributed">Lima</exemplarCity>
 			</zone>
 			<zone type="Pacific/Marquesas">
 				<exemplarCity>Marquesas-szigetek</exemplarCity>
@@ -2944,26 +2761,14 @@
 			<zone type="Pacific/Gambier">
 				<exemplarCity>Gambier-szigetek</exemplarCity>
 			</zone>
-			<zone type="Pacific/Port_Moresby">
-				<exemplarCity draft="contributed">Port Moresby</exemplarCity>
-			</zone>
-			<zone type="Asia/Manila">
-				<exemplarCity draft="contributed">Manila</exemplarCity>
-			</zone>
 			<zone type="Asia/Karachi">
 				<exemplarCity draft="contributed">Karacsi</exemplarCity>
 			</zone>
 			<zone type="Europe/Warsaw">
 				<exemplarCity>Varsó</exemplarCity>
 			</zone>
-			<zone type="America/Miquelon">
-				<exemplarCity draft="contributed">Miquelon</exemplarCity>
-			</zone>
 			<zone type="Pacific/Pitcairn">
 				<exemplarCity>Pitcairn-szigetek</exemplarCity>
-			</zone>
-			<zone type="America/Puerto_Rico">
-				<exemplarCity draft="contributed">Puerto Rico</exemplarCity>
 			</zone>
 			<zone type="Asia/Gaza">
 				<exemplarCity draft="contributed">Gáza</exemplarCity>
@@ -2971,14 +2776,8 @@
 			<zone type="Atlantic/Azores">
 				<exemplarCity>Azori-szigetek</exemplarCity>
 			</zone>
-			<zone type="Atlantic/Madeira">
-				<exemplarCity>madeirai idő</exemplarCity>
-			</zone>
 			<zone type="Europe/Lisbon">
 				<exemplarCity>Lisszabon</exemplarCity>
-			</zone>
-			<zone type="Pacific/Palau">
-				<exemplarCity draft="contributed">Palau</exemplarCity>
 			</zone>
 			<zone type="America/Asuncion">
 				<exemplarCity>Asunción</exemplarCity>
@@ -2987,7 +2786,7 @@
 				<exemplarCity>Katar</exemplarCity>
 			</zone>
 			<zone type="Indian/Reunion">
-				<exemplarCity draft="contributed">Réunion</exemplarCity>
+				<exemplarCity>Réunion</exemplarCity>
 			</zone>
 			<zone type="Europe/Bucharest">
 				<exemplarCity>Bukarest</exemplarCity>
@@ -3040,23 +2839,11 @@
 			<zone type="Asia/Anadyr">
 				<exemplarCity>Anadir</exemplarCity>
 			</zone>
-			<zone type="Africa/Kigali">
-				<exemplarCity draft="contributed">Kigali</exemplarCity>
-			</zone>
 			<zone type="Asia/Riyadh">
 				<exemplarCity draft="contributed">Rijád</exemplarCity>
 			</zone>
-			<zone type="Pacific/Guadalcanal">
-				<exemplarCity draft="contributed">Guadalcanal</exemplarCity>
-			</zone>
-			<zone type="Indian/Mahe">
-				<exemplarCity draft="contributed">Mahe</exemplarCity>
-			</zone>
 			<zone type="Africa/Khartoum">
 				<exemplarCity draft="contributed">Kartúm</exemplarCity>
-			</zone>
-			<zone type="Europe/Stockholm">
-				<exemplarCity draft="contributed">Stockholm</exemplarCity>
 			</zone>
 			<zone type="Asia/Singapore">
 				<exemplarCity>Szingapúr</exemplarCity>
@@ -3064,65 +2851,20 @@
 			<zone type="Atlantic/St_Helena">
 				<exemplarCity>Szent Ilona</exemplarCity>
 			</zone>
-			<zone type="Europe/Ljubljana">
-				<exemplarCity draft="contributed">Ljubljana</exemplarCity>
-			</zone>
-			<zone type="Arctic/Longyearbyen">
-				<exemplarCity draft="contributed">Longyearbyen</exemplarCity>
-			</zone>
 			<zone type="Europe/Bratislava">
 				<exemplarCity>Pozsony</exemplarCity>
 			</zone>
-			<zone type="Africa/Freetown">
-				<exemplarCity draft="contributed">Freetown</exemplarCity>
-			</zone>
-			<zone type="Europe/San_Marino">
-				<exemplarCity draft="contributed">San Marino</exemplarCity>
-			</zone>
-			<zone type="Africa/Dakar">
-				<exemplarCity draft="contributed">Dakar</exemplarCity>
-			</zone>
-			<zone type="Africa/Mogadishu">
-				<exemplarCity draft="contributed">Mogadishu</exemplarCity>
-			</zone>
-			<zone type="America/Paramaribo">
-				<exemplarCity draft="contributed">Paramaribo</exemplarCity>
-			</zone>
 			<zone type="Africa/Sao_Tome">
-				<exemplarCity draft="contributed">São Tomé</exemplarCity>
+				<exemplarCity>São Tomé</exemplarCity>
 			</zone>
 			<zone type="America/El_Salvador">
 				<exemplarCity>Salvador</exemplarCity>
 			</zone>
+			<zone type="America/Lower_Princes">
+				<exemplarCity>Lower Prince's Quarter</exemplarCity>
+			</zone>
 			<zone type="Asia/Damascus">
 				<exemplarCity>Damaszkusz</exemplarCity>
-			</zone>
-			<zone type="Africa/Mbabane">
-				<exemplarCity draft="contributed">Mbabane</exemplarCity>
-			</zone>
-			<zone type="America/Grand_Turk">
-				<exemplarCity draft="contributed">Grand Turk</exemplarCity>
-			</zone>
-			<zone type="Africa/Ndjamena">
-				<exemplarCity draft="contributed">Ndjamena</exemplarCity>
-			</zone>
-			<zone type="Indian/Kerguelen">
-				<exemplarCity draft="contributed">Kerguelen</exemplarCity>
-			</zone>
-			<zone type="Africa/Lome">
-				<exemplarCity draft="contributed">Lome</exemplarCity>
-			</zone>
-			<zone type="Asia/Bangkok">
-				<exemplarCity draft="contributed">Bangkok</exemplarCity>
-			</zone>
-			<zone type="Asia/Dushanbe">
-				<exemplarCity draft="contributed">Dushanbe</exemplarCity>
-			</zone>
-			<zone type="Pacific/Fakaofo">
-				<exemplarCity draft="contributed">Fakaofo</exemplarCity>
-			</zone>
-			<zone type="Asia/Dili">
-				<exemplarCity draft="contributed">Dili</exemplarCity>
 			</zone>
 			<zone type="Asia/Ashgabat">
 				<exemplarCity draft="contributed">Asgabat</exemplarCity>
@@ -3130,17 +2872,8 @@
 			<zone type="Africa/Tunis">
 				<exemplarCity>Tunisz</exemplarCity>
 			</zone>
-			<zone type="Pacific/Tongatapu">
-				<exemplarCity draft="contributed">Tongatapu</exemplarCity>
-			</zone>
 			<zone type="Europe/Istanbul">
 				<exemplarCity>Isztanbul</exemplarCity>
-			</zone>
-			<zone type="America/Port_of_Spain">
-				<exemplarCity draft="contributed">Port of Spain</exemplarCity>
-			</zone>
-			<zone type="Pacific/Funafuti">
-				<exemplarCity draft="contributed">Funafuti</exemplarCity>
 			</zone>
 			<zone type="Asia/Taipei">
 				<exemplarCity>Tajpej</exemplarCity>
@@ -3160,50 +2893,14 @@
 			<zone type="Europe/Zaporozhye">
 				<exemplarCity>Zaporozsje</exemplarCity>
 			</zone>
-			<zone type="Africa/Kampala">
-				<exemplarCity draft="contributed">Kampala</exemplarCity>
-			</zone>
 			<zone type="Pacific/Midway">
 				<exemplarCity>Midway-szigetek</exemplarCity>
-			</zone>
-			<zone type="Pacific/Johnston">
-				<exemplarCity draft="contributed">Johnston</exemplarCity>
 			</zone>
 			<zone type="Pacific/Wake">
 				<exemplarCity>Wake-sziget</exemplarCity>
 			</zone>
-			<zone type="America/Adak">
-				<exemplarCity draft="contributed">Adak</exemplarCity>
-			</zone>
-			<zone type="America/Nome">
-				<exemplarCity draft="contributed">Nome</exemplarCity>
-			</zone>
-			<zone type="Pacific/Honolulu">
-				<exemplarCity draft="contributed">Honolulu</exemplarCity>
-			</zone>
-			<zone type="America/Anchorage">
-				<exemplarCity draft="contributed">Anchorage</exemplarCity>
-			</zone>
-			<zone type="America/Yakutat">
-				<exemplarCity draft="contributed">Yakutat</exemplarCity>
-			</zone>
-			<zone type="America/Juneau">
-				<exemplarCity draft="contributed">Juneau</exemplarCity>
-			</zone>
-			<zone type="America/Los_Angeles">
-				<exemplarCity draft="contributed">Los Angeles</exemplarCity>
-			</zone>
-			<zone type="America/Boise">
-				<exemplarCity draft="contributed">Boise</exemplarCity>
-			</zone>
-			<zone type="America/Phoenix">
-				<exemplarCity draft="contributed">Phoenix</exemplarCity>
-			</zone>
-			<zone type="America/Shiprock">
-				<exemplarCity draft="contributed">Shiprock</exemplarCity>
-			</zone>
-			<zone type="America/Denver">
-				<exemplarCity draft="contributed">Denver</exemplarCity>
+			<zone type="America/North_Dakota/Beulah">
+				<exemplarCity draft="contributed">Beulah, Észak-Dakota</exemplarCity>
 			</zone>
 			<zone type="America/North_Dakota/New_Salem">
 				<exemplarCity draft="contributed">New Salem, Észak-Dakota</exemplarCity>
@@ -3211,26 +2908,29 @@
 			<zone type="America/North_Dakota/Center">
 				<exemplarCity>Középső, Észak-Dakota</exemplarCity>
 			</zone>
-			<zone type="America/Chicago">
-				<exemplarCity draft="contributed">Chicago</exemplarCity>
+			<zone type="America/Indiana/Vincennes">
+				<exemplarCity draft="contributed">Vincennes, Indiana</exemplarCity>
 			</zone>
-			<zone type="America/Menominee">
-				<exemplarCity draft="contributed">Menominee</exemplarCity>
+			<zone type="America/Indiana/Petersburg">
+				<exemplarCity draft="contributed">Petersburg, Indiana</exemplarCity>
 			</zone>
-			<zone type="America/Indianapolis">
-				<exemplarCity draft="contributed">Indianapolis</exemplarCity>
+			<zone type="America/Indiana/Tell_City">
+				<exemplarCity draft="contributed">Tell City, Indiana</exemplarCity>
 			</zone>
-			<zone type="America/Louisville">
-				<exemplarCity draft="contributed">Louisville</exemplarCity>
+			<zone type="America/Indiana/Knox">
+				<exemplarCity draft="contributed">Knox, Indiana</exemplarCity>
 			</zone>
-			<zone type="America/Detroit">
-				<exemplarCity draft="contributed">Detroit</exemplarCity>
+			<zone type="America/Indiana/Winamac">
+				<exemplarCity draft="contributed">Winamac, Indiana</exemplarCity>
 			</zone>
-			<zone type="America/New_York">
-				<exemplarCity draft="contributed">New York</exemplarCity>
+			<zone type="America/Indiana/Marengo">
+				<exemplarCity draft="contributed">Marengo, Indiana</exemplarCity>
 			</zone>
-			<zone type="America/Montevideo">
-				<exemplarCity draft="contributed">Montevideo</exemplarCity>
+			<zone type="America/Indiana/Vevay">
+				<exemplarCity draft="contributed">Vevay, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Kentucky/Monticello">
+				<exemplarCity draft="contributed">Monticello, Kentucky</exemplarCity>
 			</zone>
 			<zone type="Asia/Samarkand">
 				<exemplarCity>Szamarkand</exemplarCity>
@@ -3244,41 +2944,14 @@
 			<zone type="America/St_Vincent">
 				<exemplarCity>St. Vincent</exemplarCity>
 			</zone>
-			<zone type="America/Caracas">
-				<exemplarCity draft="contributed">Caracas</exemplarCity>
-			</zone>
-			<zone type="America/Tortola">
-				<exemplarCity draft="contributed">Tortola</exemplarCity>
-			</zone>
 			<zone type="America/St_Thomas">
 				<exemplarCity>St. Thomas</exemplarCity>
 			</zone>
 			<zone type="Asia/Saigon">
 				<exemplarCity draft="contributed">Ho Si Minh-város</exemplarCity>
 			</zone>
-			<zone type="Pacific/Efate">
-				<exemplarCity draft="contributed">Efate</exemplarCity>
-			</zone>
-			<zone type="Pacific/Wallis">
-				<exemplarCity draft="contributed">Wallis</exemplarCity>
-			</zone>
-			<zone type="Pacific/Apia">
-				<exemplarCity draft="contributed">Apia</exemplarCity>
-			</zone>
 			<zone type="Asia/Aden">
 				<exemplarCity draft="contributed">Áden</exemplarCity>
-			</zone>
-			<zone type="Indian/Mayotte">
-				<exemplarCity draft="contributed">Mayotte</exemplarCity>
-			</zone>
-			<zone type="Africa/Johannesburg">
-				<exemplarCity draft="contributed">Johannesburg</exemplarCity>
-			</zone>
-			<zone type="Africa/Lusaka">
-				<exemplarCity draft="contributed">Lusaka</exemplarCity>
-			</zone>
-			<zone type="Africa/Harare">
-				<exemplarCity draft="contributed">Harare</exemplarCity>
 			</zone>
 			<metazone type="Acre">
 				<long>
@@ -3314,25 +2987,11 @@
 					<daylight>Nyugat-afrikai nyári idő</daylight>
 				</long>
 			</metazone>
-			<metazone type="Aktyubinsk">
-				<long>
-					<generic>Aktyubinszki idő</generic>
-					<standard>Aktyubinszki zónaidő</standard>
-					<daylight>Aktyubinszki nyári idő</daylight>
-				</long>
-			</metazone>
 			<metazone type="Alaska">
 				<long>
 					<generic>Alaszkai idő</generic>
 					<standard>Alaszkai zónaidő</standard>
 					<daylight>Alaszkai nyári idő</daylight>
-				</long>
-			</metazone>
-			<metazone type="Alaska_Hawaii">
-				<long>
-					<generic>Alaszkai-hawaii idő</generic>
-					<standard>Alaszkai-hawaii zónaidő</standard>
-					<daylight>Alaszkai-hawaii nyári idő</daylight>
 				</long>
 			</metazone>
 			<metazone type="Almaty">
@@ -3408,15 +3067,15 @@
 			<metazone type="Argentina">
 				<long>
 					<generic>Argentínai idő</generic>
-					<standard>Argentína zónaidő</standard>
+					<standard>Argentínai zónaidő</standard>
 					<daylight>Argentínai nyári idő</daylight>
 				</long>
 			</metazone>
 			<metazone type="Argentina_Western">
 				<long>
-					<generic>Nyugat-Argentína idő</generic>
-					<standard>Nyugat-Argentína zónaidő</standard>
-					<daylight>Nyugat-Argentína nyári idő</daylight>
+					<generic>Nyugat-argentínai idő</generic>
+					<standard>Nyugat-argentínai zónaidő</standard>
+					<daylight>Nyugat-argentínai nyári idő</daylight>
 				</long>
 			</metazone>
 			<metazone type="Armenia">
@@ -3424,13 +3083,6 @@
 					<generic>Örmény idő</generic>
 					<standard>Örmény zónaidő</standard>
 					<daylight>Örmény nyári idő</daylight>
-				</long>
-			</metazone>
-			<metazone type="Ashkhabad">
-				<long>
-					<generic>Ashabadi idő</generic>
-					<standard>Ashabadi zónaidő</standard>
-					<daylight>Ashabadi nyári idő</daylight>
 				</long>
 			</metazone>
 			<metazone type="Atlantic">
@@ -3482,25 +3134,11 @@
 					<daylight>Azori nyári idő</daylight>
 				</long>
 			</metazone>
-			<metazone type="Baku">
-				<long>
-					<generic>Bakui idő</generic>
-					<standard>Bakui zónaidő</standard>
-					<daylight>Bakui nyári idő</daylight>
-				</long>
-			</metazone>
 			<metazone type="Bangladesh">
 				<long>
 					<generic>Bangladesi idő</generic>
 					<standard>Bangladesi zónaidő</standard>
 					<daylight>Bangladesi nyári idő</daylight>
-				</long>
-			</metazone>
-			<metazone type="Bering">
-				<long>
-					<generic>Beringi idő</generic>
-					<standard>Beringi zónaidő</standard>
-					<daylight>Beringi nyári idő</daylight>
 				</long>
 			</metazone>
 			<metazone type="Bhutan">
@@ -3511,13 +3149,6 @@
 			<metazone type="Bolivia">
 				<long>
 					<standard>Bolíviai idő</standard>
-				</long>
-			</metazone>
-			<metazone type="Borneo">
-				<long>
-					<generic>Borneói idő</generic>
-					<standard>Borneói zónaidő</standard>
-					<daylight>Borneói nyári idő</daylight>
 				</long>
 			</metazone>
 			<metazone type="Brasilia">
@@ -3541,12 +3172,7 @@
 			</metazone>
 			<metazone type="Chamorro">
 				<long>
-					<standard>Chamorroi idő</standard>
-				</long>
-			</metazone>
-			<metazone type="Changbai">
-				<long>
-					<standard>Changbai idő</standard>
+					<standard>Chamorrói idő</standard>
 				</long>
 			</metazone>
 			<metazone type="Chatham">
@@ -3608,11 +3234,6 @@
 					<daylight>Kubai nyári idő</daylight>
 				</long>
 			</metazone>
-			<metazone type="Dacca">
-				<long>
-					<standard>Daccai idő</standard>
-				</long>
-			</metazone>
 			<metazone type="Davis">
 				<long>
 					<standard>Davisi idő</standard>
@@ -3621,18 +3242,6 @@
 			<metazone type="DumontDUrville">
 				<long>
 					<standard>Dumont-d'Urville-i idő</standard>
-				</long>
-			</metazone>
-			<metazone type="Dushanbe">
-				<long>
-					<generic>Dusanbei idő</generic>
-					<standard>Dusanbei zónaidő</standard>
-					<daylight>Dusanbei nyári idő</daylight>
-				</long>
-			</metazone>
-			<metazone type="Dutch_Guiana">
-				<long>
-					<standard>Holland-guianai idő</standard>
 				</long>
 			</metazone>
 			<metazone type="East_Timor">
@@ -3712,13 +3321,6 @@
 					<standard>Francia déli és antarktikus idő</standard>
 				</long>
 			</metazone>
-			<metazone type="Frunze">
-				<long>
-					<generic>Frunzei idő</generic>
-					<standard>Frunzei zónaidő</standard>
-					<daylight>Frunzei nyári idő</daylight>
-				</long>
-			</metazone>
 			<metazone type="Galapagos">
 				<long>
 					<standard>Galapagosi idő</standard>
@@ -3748,13 +3350,6 @@
 				<short>
 					<standard>GMT</standard>
 				</short>
-			</metazone>
-			<metazone type="Greenland_Central">
-				<long>
-					<generic>Közép-grönlandi idő</generic>
-					<standard>Közép-grönlandi zónaidő</standard>
-					<daylight>Közép-grönlandi nyári idő</daylight>
-				</long>
 			</metazone>
 			<metazone type="Greenland_Eastern">
 				<long>
@@ -3871,16 +3466,6 @@
 					<daylight>Petropavlovszk-kamcsatkai nyári idő</daylight>
 				</long>
 			</metazone>
-			<metazone type="Karachi">
-				<long>
-					<standard>Karacsi idő</standard>
-				</long>
-			</metazone>
-			<metazone type="Kashgar">
-				<long>
-					<standard>Kasgár idő</standard>
-				</long>
-			</metazone>
 			<metazone type="Kazakhstan_Eastern">
 				<long>
 					<standard>Kelet-kazahsztáni idő</standard>
@@ -3889,13 +3474,6 @@
 			<metazone type="Kazakhstan_Western">
 				<long>
 					<standard>Nyugat-kazahsztáni idő</standard>
-				</long>
-			</metazone>
-			<metazone type="Kizilorda">
-				<long>
-					<generic>Kizilordai idő</generic>
-					<standard>Kizilordai zónaidő</standard>
-					<daylight>Kizilordai nyári idő</daylight>
 				</long>
 			</metazone>
 			<metazone type="Korea">
@@ -3917,18 +3495,6 @@
 					<daylight>Krasznojarszki nyári idő</daylight>
 				</long>
 			</metazone>
-			<metazone type="Kuybyshev">
-				<long>
-					<generic>Kujbisevi idő</generic>
-					<standard>Kujbisevi zónaidő</standard>
-					<daylight>Kujbisevi nyári idő</daylight>
-				</long>
-			</metazone>
-			<metazone type="Kwajalein">
-				<long>
-					<standard>Kwajaleini idő</standard>
-				</long>
-			</metazone>
 			<metazone type="Kyrgystan">
 				<long>
 					<standard>Kirgiz idő</standard>
@@ -3942,11 +3508,6 @@
 			<metazone type="Line_Islands">
 				<long>
 					<standard>Line-szigeteki idő</standard>
-				</long>
-			</metazone>
-			<metazone type="Long_Shu">
-				<long>
-					<standard>Long-Shu idő</standard>
 				</long>
 			</metazone>
 			<metazone type="Lord_Howe">
@@ -3970,14 +3531,9 @@
 			</metazone>
 			<metazone type="Magadan">
 				<long>
-					<generic>Magadani idő</generic>
+					<generic>Magadáni idő</generic>
 					<standard>Magadáni zónaidő</standard>
 					<daylight>Magadáni nyári idő</daylight>
-				</long>
-			</metazone>
-			<metazone type="Malaya">
-				<long>
-					<standard>Malayai idő</standard>
 				</long>
 			</metazone>
 			<metazone type="Malaysia">
@@ -4087,7 +3643,7 @@
 			<metazone type="Novosibirsk">
 				<long>
 					<generic>Novoszibirszki idő</generic>
-					<standard>Novoszibirzski zónaidő</standard>
+					<standard>Novoszibirszki zónaidő</standard>
 					<daylight>Novoszibirszki nyári idő</daylight>
 				</long>
 			</metazone>
@@ -4143,9 +3699,9 @@
 			</metazone>
 			<metazone type="Pierre_Miquelon">
 				<long>
-					<generic>Pierre és Miquelon-i idő</generic>
-					<standard>Pierre és Miquelon-i zónaidő</standard>
-					<daylight>Pierre és Miquelon-i nyári idő</daylight>
+					<generic>Saint Pierre és Miquelon-i idő</generic>
+					<standard>Saint Pierre és Miquelon-i zónaidő</standard>
+					<daylight>Saint Pierre és Miquelon-i nyári idő</daylight>
 				</long>
 			</metazone>
 			<metazone type="Pitcairn">
@@ -4178,8 +3734,8 @@
 			<metazone type="Sakhalin">
 				<long>
 					<generic>Szahalini idő</generic>
-					<standard>Sakhalini zónaidő</standard>
-					<daylight>Sakhalini nyári idő</daylight>
+					<standard>Szahalini zónaidő</standard>
+					<daylight>Szahalini nyári idő</daylight>
 				</long>
 			</metazone>
 			<metazone type="Samara">
@@ -4189,28 +3745,16 @@
 					<daylight>Szamarai nyári idő</daylight>
 				</long>
 			</metazone>
-			<metazone type="Samarkand">
-				<long>
-					<generic>Szamarkandi idő</generic>
-					<standard>Szamarkandi zónaidő</standard>
-					<daylight>Szamarkandi nyári idő</daylight>
-				</long>
-			</metazone>
 			<metazone type="Samoa">
 				<long>
+					<generic>Szamoai idő</generic>
 					<standard>Szamoai zónaidő</standard>
+					<daylight>Szamoai nyári idő</daylight>
 				</long>
 			</metazone>
 			<metazone type="Seychelles">
 				<long>
 					<standard>Seychelle-szigeteki idő</standard>
-				</long>
-			</metazone>
-			<metazone type="Shevchenko">
-				<long>
-					<generic>Sevcsenkói idő</generic>
-					<standard>Sevcsenkói zónaidő</standard>
-					<daylight>Sevcsenkói nyári idő</daylight>
 				</long>
 			</metazone>
 			<metazone type="Singapore">
@@ -4225,19 +3769,12 @@
 			</metazone>
 			<metazone type="South_Georgia">
 				<long>
-					<standard>Dél-grúziai idő</standard>
+					<standard>Dél-georgiai idő</standard>
 				</long>
 			</metazone>
 			<metazone type="Suriname">
 				<long>
 					<standard>Szurinámi idő</standard>
-				</long>
-			</metazone>
-			<metazone type="Sverdlovsk">
-				<long>
-					<generic>Szverdlovszki idő</generic>
-					<standard>Szverdlovszki zónaidő</standard>
-					<daylight>Szverdlovszki nyári idő</daylight>
 				</long>
 			</metazone>
 			<metazone type="Syowa">
@@ -4250,23 +3787,16 @@
 					<standard>Tahiti idő</standard>
 				</long>
 			</metazone>
+			<metazone type="Taipei">
+				<long>
+					<generic>Taipei idő</generic>
+					<standard>Taipei zónaidő</standard>
+					<daylight>Taipei nyári idő</daylight>
+				</long>
+			</metazone>
 			<metazone type="Tajikistan">
 				<long>
-					<standard>Tadzsikisztáni idő</standard>
-				</long>
-			</metazone>
-			<metazone type="Tashkent">
-				<long>
-					<generic>Taskenti idő</generic>
-					<standard>Taskenti zónaidő</standard>
-					<daylight>Taskenti nyári idő</daylight>
-				</long>
-			</metazone>
-			<metazone type="Tbilisi">
-				<long>
-					<generic>Tbiliszi idő</generic>
-					<standard>Tbiliszi zónaidő</standard>
-					<daylight>Tbiliszi nyári idő</daylight>
+					<standard>Tádzsikisztáni idő</standard>
 				</long>
 			</metazone>
 			<metazone type="Tokelau">
@@ -4286,13 +3816,6 @@
 					<standard>Truki idő</standard>
 				</long>
 			</metazone>
-			<metazone type="Turkey">
-				<long>
-					<generic>Törökországi idő</generic>
-					<standard>Törökországi zónaidő</standard>
-					<daylight>Törökországi nyári idő</daylight>
-				</long>
-			</metazone>
 			<metazone type="Turkmenistan">
 				<long>
 					<generic>Türkmenisztáni idő</generic>
@@ -4305,23 +3828,11 @@
 					<standard>Tuvalui idő</standard>
 				</long>
 			</metazone>
-			<metazone type="Uralsk">
-				<long>
-					<generic>Uráli idő</generic>
-					<standard>Uráli zónaidő</standard>
-					<daylight>Uráli nyári idő</daylight>
-				</long>
-			</metazone>
 			<metazone type="Uruguay">
 				<long>
 					<generic>Uruguayi idő</generic>
 					<standard>Uruguayi zónaidő</standard>
 					<daylight>Uruguayi nyári idő</daylight>
-				</long>
-			</metazone>
-			<metazone type="Urumqi">
-				<long>
-					<standard>Urumqi idő</standard>
 				</long>
 			</metazone>
 			<metazone type="Uzbekistan">
@@ -4386,20 +3897,6 @@
 					<daylight>Jekatyerinburgi nyári idő</daylight>
 				</long>
 			</metazone>
-			<metazone type="Yerevan">
-				<long>
-					<generic>Jereváni idő</generic>
-					<standard>Jereváni zónaidő</standard>
-					<daylight>Jereváni nyári idő</daylight>
-				</long>
-			</metazone>
-			<metazone type="Yukon">
-				<long>
-					<generic>Yukoni idő</generic>
-					<standard>Yukoni zónaidő</standard>
-					<daylight>Yukoni nyári idő</daylight>
-				</long>
-			</metazone>
 		</timeZoneNames>
 	</dates>
 	<numbers>
@@ -4421,20 +3918,36 @@
 					<pattern>#,##0.###</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
+			<decimalFormatLength type="long">
+				<decimalFormat>
+					<pattern type="1000" count="other">0 ezer</pattern>
+					<pattern type="10000" count="other">00 ezer</pattern>
+					<pattern type="100000" count="other">000 ezer</pattern>
+					<pattern type="1000000" count="other">0 millió</pattern>
+					<pattern type="10000000" count="other" draft="contributed">00 millió</pattern>
+					<pattern type="100000000" count="other">000 millió</pattern>
+					<pattern type="1000000000" count="other">0 milliárd</pattern>
+					<pattern type="10000000000" count="other">00 milliárd</pattern>
+					<pattern type="100000000000" count="other">000 milliárd</pattern>
+					<pattern type="1000000000000" count="other">0 billió</pattern>
+					<pattern type="10000000000000" count="other">00 billió</pattern>
+					<pattern type="100000000000000" count="other">000 billió</pattern>
+				</decimalFormat>
+			</decimalFormatLength>
 			<decimalFormatLength type="short">
 				<decimalFormat>
-					<pattern type="1000" draft="contributed">0.0 e</pattern>
-					<pattern type="10000" draft="contributed">00 e</pattern>
-					<pattern type="100000" draft="contributed">000 e</pattern>
-					<pattern type="1000000" draft="contributed">0.0 m</pattern>
-					<pattern type="10000000" draft="contributed">00 m</pattern>
-					<pattern type="100000000" draft="contributed">000 m</pattern>
-					<pattern type="1000000000" draft="contributed">0.0 mrd</pattern>
-					<pattern type="10000000000" draft="contributed">00 mrd</pattern>
-					<pattern type="100000000000" draft="contributed">000 mrd</pattern>
-					<pattern type="1000000000000" draft="contributed">0.0 b</pattern>
-					<pattern type="10000000000000" draft="contributed">00 b</pattern>
-					<pattern type="100000000000000" draft="contributed">000 b</pattern>
+					<pattern type="1000" count="other" draft="contributed">0 E</pattern>
+					<pattern type="10000" count="other" draft="contributed">00 E</pattern>
+					<pattern type="100000" count="other" draft="contributed">000 E</pattern>
+					<pattern type="1000000" count="other" draft="contributed">0 M</pattern>
+					<pattern type="10000000" count="other" draft="contributed">00 M</pattern>
+					<pattern type="100000000" count="other" draft="contributed">000 M</pattern>
+					<pattern type="1000000000" count="other" draft="contributed">0 Mrd</pattern>
+					<pattern type="10000000000" count="other" draft="contributed">00 Mrd</pattern>
+					<pattern type="100000000000" count="other" draft="contributed">000 Mrd</pattern>
+					<pattern type="1000000000000" count="other" draft="contributed">0 B</pattern>
+					<pattern type="10000000000000" count="other" draft="contributed">00 B</pattern>
+					<pattern type="100000000000000" count="other" draft="contributed">000 B</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
@@ -4445,6 +3958,13 @@
 				</scientificFormat>
 			</scientificFormatLength>
 		</scientificFormats>
+		<percentFormats numberSystem="latn">
+			<percentFormatLength>
+				<percentFormat>
+					<pattern>#,##0%</pattern>
+				</percentFormat>
+			</percentFormatLength>
+		</percentFormats>
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
@@ -4479,8 +3999,8 @@
 				<displayName count="other">Örmény dram</displayName>
 			</currency>
 			<currency type="ANG">
-				<displayName>Holland-antilla forint</displayName>
-				<displayName count="other">Holland Antillai guilder</displayName>
+				<displayName>Holland antilláki forint</displayName>
+				<displayName count="other">Holland antilláki forint</displayName>
 			</currency>
 			<currency type="AOA">
 				<displayName>Angolai kwanza</displayName>
@@ -4517,6 +4037,7 @@
 			<currency type="AUD">
 				<displayName>Ausztrál dollár</displayName>
 				<displayName count="other">Ausztrál dollár</displayName>
+				<symbol>AUD</symbol>
 			</currency>
 			<currency type="AWG">
 				<displayName>Arubai forint</displayName>
@@ -4535,7 +4056,7 @@
 				<displayName count="other">Bosznia-hercegovinai dínár</displayName>
 			</currency>
 			<currency type="BAM">
-				<displayName>Bozsnia-hercegovinai konvertibilis márka</displayName>
+				<displayName>Bosznia-hercegovinai konvertibilis márka</displayName>
 				<displayName count="other">Bosznia-hercegovinai konvertibilis márka</displayName>
 			</currency>
 			<currency type="BBD">
@@ -4609,6 +4130,7 @@
 			<currency type="BRL">
 				<displayName>Brazil real</displayName>
 				<displayName count="other">Brazil real</displayName>
+				<symbol>BRL</symbol>
 			</currency>
 			<currency type="BRN">
 				<displayName>Brazil cruzado novo</displayName>
@@ -4640,6 +4162,7 @@
 			</currency>
 			<currency type="CAD">
 				<displayName>Kanadai dollár</displayName>
+				<symbol>CAD</symbol>
 			</currency>
 			<currency type="CDF">
 				<displayName>Kongói frank</displayName>
@@ -4661,6 +4184,7 @@
 			</currency>
 			<currency type="CNY">
 				<displayName>Kínai jüan renminbi</displayName>
+				<symbol>CNY</symbol>
 			</currency>
 			<currency type="COP">
 				<displayName>Kolumbiai peso</displayName>
@@ -4669,7 +4193,7 @@
 				<displayName>Unidad de Valor Real</displayName>
 			</currency>
 			<currency type="CRC">
-				<displayName>Costa Ricai colon</displayName>
+				<displayName>Costa Rica-i colon</displayName>
 			</currency>
 			<currency type="CSD">
 				<displayName>szerb dinár</displayName>
@@ -4739,6 +4263,7 @@
 			</currency>
 			<currency type="EUR">
 				<displayName>Euro</displayName>
+				<symbol>EUR</symbol>
 			</currency>
 			<currency type="FIM">
 				<displayName>Finn markka</displayName>
@@ -4754,6 +4279,7 @@
 			</currency>
 			<currency type="GBP">
 				<displayName>Brit font sterling</displayName>
+				<symbol>GBP</symbol>
 			</currency>
 			<currency type="GEK">
 				<displayName>Grúz kupon larit</displayName>
@@ -4801,6 +4327,7 @@
 			</currency>
 			<currency type="HKD">
 				<displayName>Hongkongi dollár</displayName>
+				<symbol>HKD</symbol>
 			</currency>
 			<currency type="HNL">
 				<displayName>Hodurasi lempira</displayName>
@@ -4829,10 +4356,12 @@
 			</currency>
 			<currency type="ILS">
 				<displayName>Izraeli új sékel</displayName>
+				<symbol>ILS</symbol>
 			</currency>
 			<currency type="INR">
-				<displayName>indiai rúpia</displayName>
+				<displayName>Indiai rúpia</displayName>
 				<displayName count="other">Indiai rúpia</displayName>
+				<symbol>INR</symbol>
 			</currency>
 			<currency type="IQD">
 				<displayName>Iraki dínár</displayName>
@@ -4873,6 +4402,7 @@
 			</currency>
 			<currency type="KRW">
 				<displayName>Dél-koreai won</displayName>
+				<symbol>KRW</symbol>
 			</currency>
 			<currency type="KWD">
 				<displayName>Kuvaiti dínár</displayName>
@@ -4890,7 +4420,7 @@
 				<displayName>Libanoni font</displayName>
 			</currency>
 			<currency type="LKR">
-				<displayName>Sri Lankai rúpia</displayName>
+				<displayName>Srí Lanka-i rúpia</displayName>
 			</currency>
 			<currency type="LRD">
 				<displayName>Libériai dollár</displayName>
@@ -4950,7 +4480,7 @@
 				<displayName>Mongóliai tugrik</displayName>
 			</currency>
 			<currency type="MOP">
-				<displayName>makaói pataca</displayName>
+				<displayName>Makaói pataca</displayName>
 			</currency>
 			<currency type="MRO">
 				<displayName>Mauritániai ouguiya</displayName>
@@ -4972,6 +4502,7 @@
 			</currency>
 			<currency type="MXN">
 				<displayName>Mexikói peso</displayName>
+				<symbol>MXN</symbol>
 			</currency>
 			<currency type="MXP">
 				<displayName>Mexikói ezüst peso (1861-1992)</displayName>
@@ -5014,6 +4545,7 @@
 			</currency>
 			<currency type="NZD">
 				<displayName>Új-zélandi dollár</displayName>
+				<symbol>NZD</symbol>
 			</currency>
 			<currency type="OMR">
 				<displayName>Ománi rial</displayName>
@@ -5063,7 +4595,7 @@
 				<displayName count="other">Régi román lej</displayName>
 			</currency>
 			<currency type="RON">
-				<displayName>új román lej</displayName>
+				<displayName>Román lej</displayName>
 				<displayName count="other">Román lej</displayName>
 			</currency>
 			<currency type="RSD">
@@ -5116,20 +4648,23 @@
 				<displayName>Szlovák korona</displayName>
 			</currency>
 			<currency type="SLL">
-				<displayName>Sierra Leonei leone</displayName>
+				<displayName>Sierra Leone-i leone</displayName>
 			</currency>
 			<currency type="SOS">
 				<displayName>Szomáli shilling</displayName>
 			</currency>
 			<currency type="SRD">
-				<displayName>Surinamei dollár</displayName>
-				<displayName count="other">Surinamei dollár</displayName>
+				<displayName>Suriname-i dollár</displayName>
+				<displayName count="other">Suriname-i dollár</displayName>
 			</currency>
 			<currency type="SRG">
 				<displayName>Suriname-i gulden</displayName>
 			</currency>
+			<currency type="SSP">
+				<displayName>Dél-szudáni font</displayName>
+			</currency>
 			<currency type="STD">
-				<displayName>Sao tome-i és principe-i dobra</displayName>
+				<displayName>São Tomé és Príncipe-i dobra</displayName>
 			</currency>
 			<currency type="SUR">
 				<displayName>Szovjet rubel</displayName>
@@ -5145,6 +4680,7 @@
 			</currency>
 			<currency type="THB">
 				<displayName>Thai baht</displayName>
+				<symbol>THB</symbol>
 			</currency>
 			<currency type="TJR">
 				<displayName>Tádzsikisztáni rubel</displayName>
@@ -5156,13 +4692,13 @@
 				<displayName>Türkmenisztáni manat</displayName>
 			</currency>
 			<currency type="TMT">
-				<displayName>Türkmenisztáni új manat</displayName>
+				<displayName>Türkmenisztáni manat*</displayName>
 			</currency>
 			<currency type="TND">
 				<displayName>Tunéziai dínár</displayName>
 			</currency>
 			<currency type="TOP">
-				<displayName>tongai paanga</displayName>
+				<displayName>Tongai paanga</displayName>
 				<displayName count="other">Tongai paanga</displayName>
 			</currency>
 			<currency type="TPE">
@@ -5173,7 +4709,7 @@
 				<displayName count="other">Régi török líra</displayName>
 			</currency>
 			<currency type="TRY">
-				<displayName>új török líra</displayName>
+				<displayName>Török líra</displayName>
 				<displayName count="other">Török líra</displayName>
 			</currency>
 			<currency type="TTD">
@@ -5182,6 +4718,7 @@
 			<currency type="TWD">
 				<displayName>Tajvani új dollár</displayName>
 				<displayName count="other">Tajvani dollár</displayName>
+				<symbol>TWD</symbol>
 			</currency>
 			<currency type="TZS">
 				<displayName>Tanzániai shilling</displayName>
@@ -5225,14 +4762,16 @@
 				<displayName>Üzbegisztáni szum</displayName>
 			</currency>
 			<currency type="VEB">
-				<displayName>Venezuelai bolívar</displayName>
+				<displayName>Venezuelai bolivar (1871-2008)</displayName>
+				<displayName count="other">Venezuelai bolivar (1871-2008)</displayName>
 			</currency>
 			<currency type="VEF">
-				<displayName>Venezuelai bolivar fuerte</displayName>
-				<displayName count="other">Venezuelai bolivar fuerte</displayName>
+				<displayName>Venezuelai bolivar</displayName>
+				<displayName count="other">Venezuelai bolivar</displayName>
 			</currency>
 			<currency type="VND">
 				<displayName>Vietnami dong</displayName>
+				<symbol>VND</symbol>
 			</currency>
 			<currency type="VUV">
 				<displayName>Vanuatui vatu</displayName>
@@ -5242,6 +4781,7 @@
 			</currency>
 			<currency type="XAF">
 				<displayName>CFA frank BEAC</displayName>
+				<symbol draft="contributed">FCFA</symbol>
 			</currency>
 			<currency type="XAG">
 				<displayName>Ezüst</displayName>
@@ -5267,6 +4807,7 @@
 			</currency>
 			<currency type="XCD">
 				<displayName>Kelet-karibi dollár</displayName>
+				<symbol>XCD</symbol>
 			</currency>
 			<currency type="XDR">
 				<displayName>Special Drawing Rights</displayName>
@@ -5283,6 +4824,7 @@
 			</currency>
 			<currency type="XOF">
 				<displayName>CFA frank BCEAO</displayName>
+				<symbol draft="contributed">CFA</symbol>
 			</currency>
 			<currency type="XPD">
 				<displayName>palládium</displayName>
@@ -5290,6 +4832,7 @@
 			</currency>
 			<currency type="XPF">
 				<displayName>CFP frank</displayName>
+				<symbol draft="contributed">CFPF</symbol>
 			</currency>
 			<currency type="XPT">
 				<displayName>platina</displayName>
@@ -5327,6 +4870,9 @@
 				<displayName>Dél-afrikai rand</displayName>
 			</currency>
 			<currency type="ZMK">
+				<displayName>Zambiai kwacha (1968-2012)</displayName>
+			</currency>
+			<currency type="ZMW">
 				<displayName>Zambiai kwacha</displayName>
 			</currency>
 			<currency type="ZRN">
@@ -5349,27 +4895,19 @@
 			<unitPattern count="other" alt="short">{0} nap</unitPattern>
 		</unit>
 		<unit type="day-future">
-			<unitPattern count="0">0 nap múlva</unitPattern>
-			<unitPattern count="1">1 nap múlva</unitPattern>
 			<unitPattern count="other">{0} nap múlva</unitPattern>
 		</unit>
 		<unit type="day-past">
-			<unitPattern count="0">0 napja</unitPattern>
-			<unitPattern count="1">1 napja</unitPattern>
-			<unitPattern count="other">{0} nappal ezelőtt</unitPattern>
+			<unitPattern count="other">{0} napja</unitPattern>
 		</unit>
 		<unit type="hour">
 			<unitPattern count="other">{0} óra</unitPattern>
 			<unitPattern count="other" alt="short">{0} ó</unitPattern>
 		</unit>
 		<unit type="hour-future">
-			<unitPattern count="0">0 óra múlva</unitPattern>
-			<unitPattern count="1">1 óra múlva</unitPattern>
 			<unitPattern count="other">{0} óra múlva</unitPattern>
 		</unit>
 		<unit type="hour-past">
-			<unitPattern count="0">0 órája</unitPattern>
-			<unitPattern count="1">1 órája</unitPattern>
 			<unitPattern count="other">{0} órával ezelőtt</unitPattern>
 		</unit>
 		<unit type="minute">
@@ -5377,13 +4915,9 @@
 			<unitPattern count="other" alt="short">{0} p</unitPattern>
 		</unit>
 		<unit type="minute-future">
-			<unitPattern count="0">0 perc múlva</unitPattern>
-			<unitPattern count="1">1 perc múlva</unitPattern>
 			<unitPattern count="other">{0} perc múlva</unitPattern>
 		</unit>
 		<unit type="minute-past">
-			<unitPattern count="0">0 perce</unitPattern>
-			<unitPattern count="1">1 perce</unitPattern>
 			<unitPattern count="other">{0} perccel ezelőtt</unitPattern>
 		</unit>
 		<unit type="month">
@@ -5391,13 +4925,9 @@
 			<unitPattern count="other" alt="short">{0} hónap</unitPattern>
 		</unit>
 		<unit type="month-future">
-			<unitPattern count="0">0 hónap múlva</unitPattern>
-			<unitPattern count="1">1 hónap múlva</unitPattern>
 			<unitPattern count="other">{0} hónap múlva</unitPattern>
 		</unit>
 		<unit type="month-past">
-			<unitPattern count="0">0 hónapja</unitPattern>
-			<unitPattern count="1">1 hónapja</unitPattern>
 			<unitPattern count="other">{0} hónappal ezelőtt</unitPattern>
 		</unit>
 		<unit type="second">
@@ -5405,13 +4935,9 @@
 			<unitPattern count="other" alt="short">{0} mp</unitPattern>
 		</unit>
 		<unit type="second-future">
-			<unitPattern count="0">0 másodperc múlva</unitPattern>
-			<unitPattern count="1">1 másodperc múlva</unitPattern>
 			<unitPattern count="other">{0} másodperc múlva</unitPattern>
 		</unit>
 		<unit type="second-past">
-			<unitPattern count="0">0 másodperce</unitPattern>
-			<unitPattern count="1">1 másodperce</unitPattern>
 			<unitPattern count="other">{0} másodperccel ezelőtt</unitPattern>
 		</unit>
 		<unit type="week">
@@ -5419,13 +4945,9 @@
 			<unitPattern count="other" alt="short">{0} hét</unitPattern>
 		</unit>
 		<unit type="week-future">
-			<unitPattern count="0">0 hét múlva</unitPattern>
-			<unitPattern count="1">1 hét múlva</unitPattern>
 			<unitPattern count="other">{0} hét múlva</unitPattern>
 		</unit>
 		<unit type="week-past">
-			<unitPattern count="0">0 hete</unitPattern>
-			<unitPattern count="1">1 hete</unitPattern>
 			<unitPattern count="other">{0} héttel ezelőtt</unitPattern>
 		</unit>
 		<unit type="year">
@@ -5433,13 +4955,9 @@
 			<unitPattern count="other" alt="short">{0} év</unitPattern>
 		</unit>
 		<unit type="year-future">
-			<unitPattern count="0">0 év múlva</unitPattern>
-			<unitPattern count="1">1 év múlva</unitPattern>
 			<unitPattern count="other">{0} év múlva</unitPattern>
 		</unit>
 		<unit type="year-past">
-			<unitPattern count="0">0 éve</unitPattern>
-			<unitPattern count="1">1 éve</unitPattern>
 			<unitPattern count="other">{0} évvel ezelőtt</unitPattern>
 		</unit>
 	</units>
@@ -5447,6 +4965,8 @@
 		<listPattern>
 			<listPatternPart type="2">{0} és {1}</listPatternPart>
 			<listPatternPart type="end">{0} és {1}</listPatternPart>
+			<listPatternPart type="middle">{0}, {1}</listPatternPart>
+			<listPatternPart type="start">{0}, {1}</listPatternPart>
 		</listPattern>
 	</listPatterns>
 	<posix>

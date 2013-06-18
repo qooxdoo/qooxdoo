@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!-- Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
 <ldml>
 	<identity>
-		<version number="$Revision: 6610 $"/>
-		<generation date="$Date: 2012-02-27 01:50:26 +0100 (Mon, 27 Feb 2012) $"/>
+		<version number="$Revision: 8245 $"/>
+		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
 		<language type="tg"/>
 	</identity>
 	<localeDisplayNames>
@@ -57,8 +61,8 @@
 			<language type="pt_BR" draft="unconfirmed">Португалӣ (Бразилия)</language>
 			<language type="ro" draft="unconfirmed">Руминӣ</language>
 			<language type="ru" draft="unconfirmed">Русӣ</language>
-            <language type="sv" draft="unconfirmed">Шведӣ</language>
-            <language type="tg" draft="unconfirmed">Тоҷикӣ</language>
+			<language type="sv" draft="unconfirmed">Шведӣ</language>
+			<language type="tg" draft="unconfirmed">Тоҷикӣ</language>
 			<language type="ug" draft="unconfirmed">Ӯйғурӣ</language>
 			<language type="uk" draft="unconfirmed">Украинӣ</language>
 			<language type="ur" draft="unconfirmed">Урду</language>
@@ -72,6 +76,7 @@
 		</scripts>
 		<territories>
 			<territory type="AF">Афғонистан</territory>
+			<territory type="TJ">Тоҷикистон</territory>
 			<territory type="TO" draft="unconfirmed">Тонга</territory>
 		</territories>
 	</localeDisplayNames>
@@ -88,6 +93,30 @@
 	</delimiters>
 	<dates>
 		<calendars>
+			<calendar type="generic">
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern draft="unconfirmed">EEEE, G y MMMM dd</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern draft="unconfirmed">G y MMMM d</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern draft="unconfirmed">G y MMM d</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern draft="unconfirmed">GGGGG yy/MM/dd</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+			</calendar>
 			<calendar type="gregorian">
 				<months>
 					<monthContext type="format">

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!-- Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
 <ldml>
 	<identity>
-		<version number="$Revision: 6472 $"/>
-		<generation date="$Date: 2012-01-28 00:53:35 +0100 (Sat, 28 Jan 2012) $"/>
+		<version number="$Revision: 8245 $"/>
+		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
 		<language type="en"/>
 		<script type="Dsrt"/>
 	</identity>
@@ -311,13 +315,11 @@
 			<territory type="CN">𐐕𐐴𐑌𐐲</territory>
 			<territory type="CO">𐐗𐐲𐑊𐐲𐑋𐐺𐐨𐐲</territory>
 			<territory type="CR">𐐗𐐱𐑅𐐻𐐲 𐐡𐐨𐐿𐐲</territory>
-			<territory type="CS">𐐝𐐲𐑉𐐺𐐨𐐲 𐐰𐑌𐐼 𐐣𐐪𐑌𐐲𐑌𐐨𐑀𐑉𐐬</territory>
 			<territory type="CU">𐐗𐐷𐐭𐐺𐐲</territory>
 			<territory type="CV">𐐗𐐩𐐹 𐐚𐐯𐑉𐐼𐐨</territory>
 			<territory type="CX">𐐗𐑉𐐮𐑅𐑋𐐲𐑅 𐐌𐑊𐐲𐑌𐐼</territory>
 			<territory type="CY">𐐝𐐴𐐹𐑉𐐲𐑅</territory>
 			<territory type="CZ">𐐕𐐯𐐿 𐐡𐐨𐐹𐐲𐐺𐑊𐐮𐐿</territory>
-			<territory type="DD">𐐀𐑅𐐻 𐐖𐐲𐑉𐑋𐐲𐑌𐐨</territory>
 			<territory type="DE">𐐖𐐲𐑉𐑋𐐲𐑌𐐨</territory>
 			<territory type="DJ">𐐖𐐲𐐺𐐭𐐼𐐨</territory>
 			<territory type="DK">𐐔𐐯𐑌𐑋𐐪𐑉𐐿</territory>
@@ -338,7 +340,6 @@
 			<territory type="FM">𐐣𐐴𐐿𐑉𐐲𐑌𐐨𐑈𐐲</territory>
 			<territory type="FO">𐐙𐐯𐑉𐐬 𐐌𐑊𐐲𐑌𐐼𐑆</territory>
 			<territory type="FR">𐐙𐑉𐐰𐑌𐑅</territory>
-			<territory type="FX">𐐣𐐯𐐻𐑉𐐲𐐹𐐪𐑊𐐲𐐻𐐲𐑌 𐐙𐑉𐐰𐑌𐑅</territory>
 			<territory type="GA">𐐘𐐲𐐺𐐪𐑌</territory>
 			<territory type="GB">𐐏𐐭𐑌𐐴𐐻𐐲𐐼 𐐗𐐨𐑍𐐼𐐲𐑋</territory>
 			<territory type="GD">𐐘𐑉𐐲𐑌𐐩𐐼𐐲</territory>
@@ -434,7 +435,6 @@
 			<territory type="NO">𐐤𐐱𐑉𐐶𐐩</territory>
 			<territory type="NP">𐐤𐐩𐐹𐐪𐑊</territory>
 			<territory type="NR">𐐤𐐪𐐭𐑉𐐭</territory>
-			<territory type="NT">𐐤𐐭𐐻𐑉𐐲𐑊 𐐞𐐬𐑌</territory>
 			<territory type="NU">𐐤𐐷𐐭𐐩</territory>
 			<territory type="NZ">𐐤𐐭 𐐞𐐨𐑊𐐲𐑌𐐼</territory>
 			<territory type="OM">𐐄𐑋𐐲𐑌</territory>
@@ -475,7 +475,6 @@
 			<territory type="SO">𐐝𐐲𐑋𐐪𐑊𐐨𐐲</territory>
 			<territory type="SR">𐐝𐐭𐑉𐐲𐑌𐐪𐑋</territory>
 			<territory type="ST">𐐝𐐵 𐐓𐐬𐑋 𐐰𐑌𐐼 𐐑𐑉𐐮𐑌𐐽𐐮𐐹𐐩</territory>
-			<territory type="SU">𐐏𐐭𐑌𐐷𐐲𐑌 𐐲𐑂 𐐝𐐬𐑂𐐨𐐯𐐻 𐐝𐐬𐑇𐐲𐑊𐐮𐑅𐐻 𐐡𐐨𐐹𐐲𐐺𐑊𐐮𐐿𐑅</territory>
 			<territory type="SV">𐐇𐑊 𐐝𐐰𐑊𐑂𐐲𐐼𐐱𐑉</territory>
 			<territory type="SY">𐐝𐐮𐑉𐐨𐐲</territory>
 			<territory type="SZ">𐐝𐐶𐐪𐑆𐐨𐑊𐐰𐑌𐐼</territory>
@@ -507,7 +506,6 @@
 			<territory type="VU">𐐚𐐪𐑌𐐳𐐪𐐼𐐭</territory>
 			<territory type="WF">𐐎𐐪𐑊𐐮𐑅 𐐰𐑌𐐼 𐐙𐐭𐐻𐐭𐑌𐐲</territory>
 			<territory type="WS">𐐝𐐲𐑋𐐬𐐲</territory>
-			<territory type="YD">𐐑𐐨𐐹𐐲𐑊𐑆 𐐔𐐯𐑋𐐲𐐿𐑉𐐰𐐼𐐮𐐿 𐐡𐐨𐐹𐐲𐐺𐑊𐐮𐐿 𐐲𐑂 𐐏𐐯𐑋𐐲𐑌</territory>
 			<territory type="YE">𐐏𐐯𐑋𐐲𐑌</territory>
 			<territory type="YT">𐐣𐐪𐐷𐐱𐐻</territory>
 			<territory type="ZA">𐐝𐐵𐑃 𐐈𐑁𐑉𐐲𐐿𐐲</territory>
@@ -538,7 +536,6 @@
 	<characters>
 		<exemplarCharacters>[𐐨 𐐩 𐐪 𐐫 𐐬 𐐭 𐐮 𐐯 𐐰 𐐱 𐐲 𐐳 𐐴 𐐵 𐐶 𐐷 𐐸 𐐹 𐐺 𐐻 𐐼 𐐽 𐐾 𐐿 𐑀 𐑁 𐑂 𐑃 𐑄 𐑅 𐑆 𐑇 𐑈 𐑉 𐑊 𐑋 𐑌 𐑍 𐑎 𐑏]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol">[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
 		<exemplarCharacters type="index" draft="unconfirmed">[𐐀 𐐁 𐐂 𐐃 𐐄 𐐅 𐐆 𐐇 𐐈 𐐉 𐐊 𐐋 𐐌 𐐍 𐐎 𐐏 𐐐 𐐑 𐐒 𐐓 𐐔 𐐕 𐐖 𐐗 𐐘 𐐙 𐐚 𐐛 𐐜 𐐝 𐐞 𐐟 𐐠 𐐡 𐐢 𐐣 𐐤 𐐥 𐐦 𐐧]</exemplarCharacters>
 	</characters>
 	<dates>
@@ -592,6 +589,7 @@
 					<monthContext type="stand-alone">
 						<monthWidth type="abbreviated">
 							<month type="1">𐐖𐐰𐑌</month>
+							<month type="2">𐐙𐐯𐐺</month>
 							<month type="3">𐐣𐐪𐑉</month>
 							<month type="4">𐐁𐐹𐑉</month>
 							<month type="5">𐐣𐐩</month>
@@ -619,6 +617,7 @@
 						</monthWidth>
 						<monthWidth type="wide">
 							<month type="1">𐐖𐐰𐑌𐐷𐐭𐐯𐑉𐐨</month>
+							<month type="2">𐐙𐐯𐐺𐑉𐐭𐐯𐑉𐐨</month>
 							<month type="3">𐐣𐐪𐑉𐐽</month>
 							<month type="4">𐐁𐐹𐑉𐐮𐑊</month>
 							<month type="5">𐐣𐐩</month>
@@ -705,48 +704,48 @@
 						<era type="1">𐐈</era>
 					</eraNarrow>
 				</eras>
-				<fields>
-					<field type="era">
-						<displayName>𐐇𐑉𐐲</displayName>
-					</field>
-					<field type="year">
-						<displayName>𐐏𐐨𐑉</displayName>
-					</field>
-					<field type="month">
-						<displayName>𐐣𐐲𐑌𐑃</displayName>
-					</field>
-					<field type="week">
-						<displayName>𐐎𐐨𐐿</displayName>
-					</field>
-					<field type="day">
-						<displayName>𐐔𐐩</displayName>
-						<relative type="-2">𐐜 𐐼𐐩 𐐺𐐲𐑁𐐬𐑉 𐐷𐐯𐑅𐐻𐐲𐑉𐐼𐐩</relative>
-						<relative type="-1">𐐏𐐯𐑅𐐻𐐲𐑉𐐼𐐩</relative>
-						<relative type="0">𐐓𐐲𐐼𐐩</relative>
-						<relative type="1">𐐓𐐲𐑋𐐱𐑉𐐬</relative>
-						<relative type="2">𐐜 𐐼𐐩 𐐰𐑁𐐻𐐲𐑉 𐐻𐐲𐑋𐐱𐑉𐐬</relative>
-					</field>
-					<field type="weekday">
-						<displayName>𐐔𐐩 𐐲𐑂 𐑄 𐐎𐐨𐐿</displayName>
-					</field>
-					<field type="dayperiod">
-						<displayName>𐐈𐐣/𐐑𐐣</displayName>
-					</field>
-					<field type="hour">
-						<displayName>𐐍𐑉</displayName>
-					</field>
-					<field type="minute">
-						<displayName>𐐣𐐮𐑌𐐲𐐻</displayName>
-					</field>
-					<field type="second">
-						<displayName>𐐝𐐯𐐿𐐲𐑌𐐼</displayName>
-					</field>
-					<field type="zone">
-						<displayName>𐐞𐐬𐑌</displayName>
-					</field>
-				</fields>
 			</calendar>
 		</calendars>
+		<fields>
+			<field type="era">
+				<displayName>𐐇𐑉𐐲</displayName>
+			</field>
+			<field type="year">
+				<displayName>𐐏𐐨𐑉</displayName>
+			</field>
+			<field type="month">
+				<displayName>𐐣𐐲𐑌𐑃</displayName>
+			</field>
+			<field type="week">
+				<displayName>𐐎𐐨𐐿</displayName>
+			</field>
+			<field type="day">
+				<displayName>𐐔𐐩</displayName>
+				<relative type="-2">𐐜 𐐼𐐩 𐐺𐐲𐑁𐐬𐑉 𐐷𐐯𐑅𐐻𐐲𐑉𐐼𐐩</relative>
+				<relative type="-1">𐐏𐐯𐑅𐐻𐐲𐑉𐐼𐐩</relative>
+				<relative type="0">𐐓𐐲𐐼𐐩</relative>
+				<relative type="1">𐐓𐐲𐑋𐐱𐑉𐐬</relative>
+				<relative type="2">𐐜 𐐼𐐩 𐐰𐑁𐐻𐐲𐑉 𐐻𐐲𐑋𐐱𐑉𐐬</relative>
+			</field>
+			<field type="weekday">
+				<displayName>𐐔𐐩 𐐲𐑂 𐑄 𐐎𐐨𐐿</displayName>
+			</field>
+			<field type="dayperiod">
+				<displayName>𐐈𐐣/𐐑𐐣</displayName>
+			</field>
+			<field type="hour">
+				<displayName>𐐍𐑉</displayName>
+			</field>
+			<field type="minute">
+				<displayName>𐐣𐐮𐑌𐐲𐐻</displayName>
+			</field>
+			<field type="second">
+				<displayName>𐐝𐐯𐐿𐐲𐑌𐐼</displayName>
+			</field>
+			<field type="zone">
+				<displayName>𐐞𐐬𐑌</displayName>
+			</field>
+		</fields>
 		<timeZoneNames>
 			<gmtFormat>𐐘𐐣𐐓 {0}</gmtFormat>
 			<gmtZeroFormat>𐐘𐐣𐐓</gmtZeroFormat>
@@ -855,13 +854,6 @@
 					<daylight>𐐊𐑊𐐰𐑅𐐿𐐲 𐐔𐐩𐑊𐐴𐐻 𐐓𐐴𐑋</daylight>
 				</long>
 			</metazone>
-			<metazone type="Alaska_Hawaii">
-				<long>
-					<generic>𐐊𐑊𐐰𐑅𐐿𐐲-𐐐𐐲𐐶𐐴𐐨 𐐓𐐴𐑋</generic>
-					<standard>𐐊𐑊𐐰𐑅𐐿𐐲-𐐐𐐲𐐶𐐴𐐨 𐐝𐐻𐐰𐑌𐐼𐐲𐑉𐐼 𐐓𐐴𐑋</standard>
-					<daylight>𐐊𐑊𐐰𐑅𐐿𐐲-𐐐𐐲𐐶𐐴𐐨 𐐔𐐩𐑊𐐴𐐻 𐐓𐐴𐑋</daylight>
-				</long>
-			</metazone>
 			<metazone type="America_Central">
 				<long>
 					<generic>𐐝𐐯𐑌𐐻𐑉𐐲𐑊 𐐓𐐴𐑋</generic>
@@ -897,13 +889,6 @@
 					<daylight>𐐈𐐻𐑊𐐰𐑌𐐻𐐮𐐿 𐐔𐐩𐑊𐐴𐐻 𐐓𐐴𐑋</daylight>
 				</long>
 			</metazone>
-			<metazone type="Bering">
-				<long>
-					<generic>𐐒𐐯𐑉𐐮𐑍 𐐓𐐴𐑋</generic>
-					<standard>𐐒𐐯𐑉𐐮𐑍 𐐝𐐻𐐰𐑌𐐼𐐲𐑉𐐼 𐐓𐐴𐑋</standard>
-					<daylight>𐐒𐐯𐑉𐐮𐑍 𐐔𐐩𐑊𐐴𐐻 𐐓𐐴𐑋</daylight>
-				</long>
-			</metazone>
 			<metazone type="Hong_Kong">
 				<long>
 					<generic>𐐐𐐱𐑍 𐐗𐐱𐑍 𐐓𐐴𐑋</generic>
@@ -918,15 +903,15 @@
 					<daylight>𐐤𐐭𐑁𐐲𐑌𐐼𐑊𐐲𐑌𐐼 𐐔𐐩𐑊𐐴𐐻 𐐓𐐴𐑋</daylight>
 				</long>
 			</metazone>
-			<metazone type="Yukon">
-				<long>
-					<generic>𐐏𐐭𐐿𐐪𐑌 𐐓𐐴𐑋</generic>
-					<standard>𐐏𐐭𐐿𐐪𐑌 𐐝𐐻𐐰𐑌𐐼𐐲𐑉𐐼 𐐓𐐴𐑋</standard>
-					<daylight>𐐏𐐭𐐿𐐪𐑌 𐐔𐐩𐑊𐐴𐐻 𐐓𐐴𐑋</daylight>
-				</long>
-			</metazone>
 		</timeZoneNames>
 	</dates>
+	<numbers>
+		<currencies>
+			<currency type="USD">
+				<symbol>$</symbol>
+			</currency>
+		</currencies>
+	</numbers>
 	<units>
 		<unit type="day">
 			<unitPattern count="one">{0} 𐐼𐐩</unitPattern>

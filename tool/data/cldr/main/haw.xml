@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!-- Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
 <ldml>
 	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
+		<version number="$Revision: 8245 $"/>
+		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
 		<language type="haw"/>
 	</identity>
 	<localeDisplayNames>
@@ -80,6 +84,30 @@
 	</characters>
 	<dates>
 		<calendars>
+			<calendar type="generic">
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern draft="unconfirmed">EEEE, d MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern draft="unconfirmed">d MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern draft="unconfirmed">d MMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern draft="unconfirmed">d/M/yy GGGGG</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+			</calendar>
 			<calendar type="gregorian">
 				<months>
 					<monthContext type="format">
@@ -190,28 +218,41 @@
 				</currencyFormat>
 			</currencyFormatLength>
 		</currencyFormats>
+		<currencies>
+			<currency type="USD">
+				<symbol>$</symbol>
+			</currency>
+		</currencies>
 	</numbers>
 	<units>
 		<unit type="day">
+			<unitPattern count="one">{0} lā</unitPattern>
 			<unitPattern count="other">{0} lā</unitPattern>
 		</unit>
 		<unit type="hour">
+			<unitPattern count="one">{0} hola</unitPattern>
 			<unitPattern count="other">{0} hola</unitPattern>
 		</unit>
 		<unit type="minute">
+			<unitPattern count="one">{0} minuke</unitPattern>
 			<unitPattern count="other">{0} minuke</unitPattern>
 		</unit>
 		<unit type="month">
+			<unitPattern count="one">{0} mahina</unitPattern>
 			<unitPattern count="other">{0} mahina</unitPattern>
 		</unit>
 		<unit type="second">
+			<unitPattern count="one">{0} kekona</unitPattern>
 			<unitPattern count="other">{0} kekona</unitPattern>
 		</unit>
 		<unit type="week">
+			<unitPattern count="one">{0} pule</unitPattern>
 			<unitPattern count="other">{0} pule</unitPattern>
 		</unit>
 		<unit type="year">
+			<unitPattern count="one">{0} makahiki</unitPattern>
 			<unitPattern count="other">{0} makahiki</unitPattern>
 		</unit>
 	</units>
 </ldml>
+

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!-- Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
 <ldml>
 	<identity>
-		<version number="$Revision: 5953 $"/>
-		<generation date="$Date: 2011-07-05 01:22:55 +0200 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 8245 $"/>
+		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
 		<language type="sah"/>
 	</identity>
 	<localeDisplayNames>
@@ -87,6 +91,30 @@
 	</characters>
 	<dates>
 		<calendars>
+			<calendar type="generic">
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern draft="unconfirmed">G y 'сыл' MMMM d 'күнэ', EEEE</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern draft="unconfirmed">G y, MMMM d</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern draft="unconfirmed">G y, MMM d</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern draft="unconfirmed">GGGGG yy/M/d</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+			</calendar>
 			<calendar type="gregorian">
 				<months>
 					<monthContext type="format">
@@ -268,49 +296,56 @@
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
-				<fields>
-					<field type="era">
-						<displayName draft="unconfirmed">Ээрэ</displayName>
-					</field>
-					<field type="year">
-						<displayName draft="unconfirmed">Сыл</displayName>
-					</field>
-					<field type="month">
-						<displayName draft="unconfirmed">Ый</displayName>
-					</field>
-					<field type="week">
-						<displayName draft="unconfirmed">Нэдиэлэ</displayName>
-					</field>
-					<field type="day">
-						<displayName draft="unconfirmed">Күн</displayName>
-						<relative type="-2" draft="unconfirmed">Иллэрээ күн</relative>
-						<relative type="-1" draft="unconfirmed">Бэҕэһээ</relative>
-						<relative type="0" draft="unconfirmed">Бүгүн</relative>
-						<relative type="1" draft="unconfirmed">Сарсын</relative>
-						<relative type="2" draft="unconfirmed">Өйүүн</relative>
-					</field>
-					<field type="weekday">
-						<displayName draft="unconfirmed">Нэдиэлэ күнэ</displayName>
-					</field>
-					<field type="dayperiod">
-						<displayName draft="unconfirmed">ЭИ/ЭК</displayName>
-					</field>
-					<field type="hour">
-						<displayName draft="unconfirmed">Чаас</displayName>
-					</field>
-					<field type="minute">
-						<displayName draft="unconfirmed">Мүнүүтэ</displayName>
-					</field>
-					<field type="second">
-						<displayName draft="unconfirmed">Сөкүүндэ</displayName>
-					</field>
-					<field type="zone">
-						<displayName draft="unconfirmed">Кэм балаһата</displayName>
-					</field>
-				</fields>
 			</calendar>
 		</calendars>
+		<fields>
+			<field type="era">
+				<displayName draft="unconfirmed">Ээрэ</displayName>
+			</field>
+			<field type="year">
+				<displayName draft="unconfirmed">Сыл</displayName>
+			</field>
+			<field type="month">
+				<displayName draft="unconfirmed">Ый</displayName>
+			</field>
+			<field type="week">
+				<displayName draft="unconfirmed">Нэдиэлэ</displayName>
+			</field>
+			<field type="day">
+				<displayName draft="unconfirmed">Күн</displayName>
+				<relative type="-2" draft="unconfirmed">Иллэрээ күн</relative>
+				<relative type="-1" draft="unconfirmed">Бэҕэһээ</relative>
+				<relative type="0" draft="unconfirmed">Бүгүн</relative>
+				<relative type="1" draft="unconfirmed">Сарсын</relative>
+				<relative type="2" draft="unconfirmed">Өйүүн</relative>
+			</field>
+			<field type="weekday">
+				<displayName draft="unconfirmed">Нэдиэлэ күнэ</displayName>
+			</field>
+			<field type="dayperiod">
+				<displayName draft="unconfirmed">ЭИ/ЭК</displayName>
+			</field>
+			<field type="hour">
+				<displayName draft="unconfirmed">Чаас</displayName>
+			</field>
+			<field type="minute">
+				<displayName draft="unconfirmed">Мүнүүтэ</displayName>
+			</field>
+			<field type="second">
+				<displayName draft="unconfirmed">Сөкүүндэ</displayName>
+			</field>
+			<field type="zone">
+				<displayName draft="unconfirmed">Кэм балаһата</displayName>
+			</field>
+		</fields>
 	</dates>
+	<numbers>
+		<currencies>
+			<currency type="RUB">
+				<symbol>руб.</symbol>
+			</currency>
+		</currencies>
+	</numbers>
 	<units>
 		<unit type="day">
 			<unitPattern count="other" draft="unconfirmed">{0} күн</unitPattern>

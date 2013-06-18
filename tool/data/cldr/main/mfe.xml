@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!-- Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
 <ldml>
 	<identity>
-		<version number="$Revision: 6450 $"/>
-		<generation date="$Date: 2012-01-26 01:20:54 +0100 (Thu, 26 Jan 2012) $"/>
+		<version number="$Revision: 8245 $"/>
+		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
 		<language type="mfe"/>
 	</identity>
 	<localeDisplayNames>
@@ -100,7 +104,6 @@
 			<territory type="CN">Lasinn</territory>
 			<territory type="CO">Kolonbi</territory>
 			<territory type="CR">Costa Rica</territory>
-			<territory type="CS">Serbi-ek-Montenegro</territory>
 			<territory type="CU">Cuba</territory>
 			<territory type="CV">Kap-Ver</territory>
 			<territory type="CY">Cyprus</territory>
@@ -295,6 +298,55 @@
 	</delimiters>
 	<dates>
 		<calendars>
+			<calendar type="generic">
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE d MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>d MMM, y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>d/M/y GGGGG</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="M">M</dateFormatItem>
+						<dateFormatItem id="Md">d/M</dateFormatItem>
+						<dateFormatItem id="MMd">d/MM</dateFormatItem>
+						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
+						<dateFormatItem id="MMM">MMM</dateFormatItem>
+						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
+						<dateFormatItem id="MMMdd">dd MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
+						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMEd">E d MMMM</dateFormatItem>
+						<dateFormatItem id="ms">m:ss</dateFormatItem>
+						<dateFormatItem id="y">y</dateFormatItem>
+						<dateFormatItem id="yM">M/y</dateFormatItem>
+						<dateFormatItem id="yMEd">E d/M/y</dateFormatItem>
+						<dateFormatItem id="yMM">MM/y</dateFormatItem>
+						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
+						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
+						<dateFormatItem id="yQQQQ">QQQQ y</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
 			<calendar type="gregorian">
 				<months>
 					<monthContext type="format">
@@ -421,7 +473,7 @@
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern>d/M/yyyy</pattern>
+							<pattern>d/M/y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
@@ -463,57 +515,55 @@
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">M/y</dateFormatItem>
 						<dateFormatItem id="yMEd">E d/M/y</dateFormatItem>
+						<dateFormatItem id="yMM">MM/y</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMEd">E d MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
-						<dateFormatItem id="yQ">Q y</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-						<dateFormatItem id="yyMM">MM/yy</dateFormatItem>
-						<dateFormatItem id="yyMMM">MMM yy</dateFormatItem>
-						<dateFormatItem id="yyMMMd">d MMM yy</dateFormatItem>
-						<dateFormatItem id="yyMMMEd">E d MMM yy</dateFormatItem>
+						<dateFormatItem id="yQQQQ">QQQQ y</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
-				<fields>
-					<field type="era">
-						<displayName>Lepok</displayName>
-					</field>
-					<field type="year">
-						<displayName>Lane</displayName>
-					</field>
-					<field type="month">
-						<displayName>Mwa</displayName>
-					</field>
-					<field type="week">
-						<displayName>Semenn</displayName>
-					</field>
-					<field type="day">
-						<displayName>Zour</displayName>
-						<relative type="-1">Yer</relative>
-						<relative type="0">Zordi</relative>
-						<relative type="1">Demin</relative>
-					</field>
-					<field type="weekday">
-						<displayName>Zour lasemenn</displayName>
-					</field>
-					<field type="dayperiod">
-						<displayName>Peryod dan lazourne</displayName>
-					</field>
-					<field type="hour">
-						<displayName>Ler</displayName>
-					</field>
-					<field type="minute">
-						<displayName>Minit</displayName>
-					</field>
-					<field type="second">
-						<displayName>Segonn</displayName>
-					</field>
-					<field type="zone">
-						<displayName>Peryod letan</displayName>
-					</field>
-				</fields>
 			</calendar>
 		</calendars>
+		<fields>
+			<field type="era">
+				<displayName>Lepok</displayName>
+			</field>
+			<field type="year">
+				<displayName>Lane</displayName>
+			</field>
+			<field type="month">
+				<displayName>Mwa</displayName>
+			</field>
+			<field type="week">
+				<displayName>Semenn</displayName>
+			</field>
+			<field type="day">
+				<displayName>Zour</displayName>
+				<relative type="-1">Yer</relative>
+				<relative type="0">Zordi</relative>
+				<relative type="1">Demin</relative>
+			</field>
+			<field type="weekday">
+				<displayName>Zour lasemenn</displayName>
+			</field>
+			<field type="dayperiod">
+				<displayName>Peryod dan lazourne</displayName>
+			</field>
+			<field type="hour">
+				<displayName>Ler</displayName>
+			</field>
+			<field type="minute">
+				<displayName>Minit</displayName>
+			</field>
+			<field type="second">
+				<displayName>Segonn</displayName>
+			</field>
+			<field type="zone">
+				<displayName>Peryod letan</displayName>
+			</field>
+		</fields>
 	</dates>
 	<numbers>
 		<symbols numberSystem="latn">
@@ -615,6 +665,7 @@
 			</currency>
 			<currency type="MUR">
 				<displayName>roupi morisien</displayName>
+				<symbol>Rs</symbol>
 			</currency>
 			<currency type="MWK">
 				<displayName>kwacha malawit</displayName>
@@ -680,6 +731,9 @@
 				<displayName>rand sid-afrikin</displayName>
 			</currency>
 			<currency type="ZMK">
+				<displayName>kwacha zanbien (1968-2012)</displayName>
+			</currency>
+			<currency type="ZMW">
 				<displayName>kwacha zanbien</displayName>
 			</currency>
 			<currency type="ZWD">
@@ -694,3 +748,4 @@
 		</messages>
 	</posix>
 </ldml>
+

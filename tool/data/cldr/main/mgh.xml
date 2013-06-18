@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!-- Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
 <ldml>
 	<identity>
-		<version number="$Revision: 6450 $"/>
-		<generation date="$Date: 2012-01-26 01:20:54 +0100 (Thu, 26 Jan 2012) $"/>
+		<version number="$Revision: 8245 $"/>
+		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
 		<language type="mgh"/>
 	</identity>
 	<localeDisplayNames>
@@ -68,7 +72,6 @@
 			<territory type="CL">Uchile</territory>
 			<territory type="CN">Uchina</territory>
 			<territory type="CO">Ukolombia</territory>
-			<territory type="CS">Usiera Leoni</territory>
 			<territory type="CU">Ukuba</territory>
 			<territory type="CY">Ukuprosi</territory>
 			<territory type="CZ">Ucheki</territory>
@@ -201,6 +204,56 @@
 	</characters>
 	<dates>
 		<calendars>
+			<calendar type="generic">
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE, d MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>d MMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>dd/MM/y GGGGG</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="d">d</dateFormatItem>
+						<dateFormatItem id="Ed">E d</dateFormatItem>
+						<dateFormatItem id="hm">h:mm a</dateFormatItem>
+						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="M">L</dateFormatItem>
+						<dateFormatItem id="Md">d/M</dateFormatItem>
+						<dateFormatItem id="MEd">E, M/d</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">MMM d</dateFormatItem>
+						<dateFormatItem id="MMMEd">E, MMM d</dateFormatItem>
+						<dateFormatItem id="ms">m:ss</dateFormatItem>
+						<dateFormatItem id="y">y</dateFormatItem>
+						<dateFormatItem id="yM">M/y</dateFormatItem>
+						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
+						<dateFormatItem id="yMEd">E, M/d/y</dateFormatItem>
+						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMd">MMM d, y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, MMM d, y</dateFormatItem>
+						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
+						<dateFormatItem id="yQQQQ">QQQQ y</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
 			<calendar type="gregorian">
 				<months>
 					<monthContext type="format">
@@ -283,8 +336,14 @@
 						</dayWidth>
 					</dayContext>
 				</days>
-				<am>wichishu</am>
-				<pm>mchochil'l</pm>
+				<dayPeriods>
+					<dayPeriodContext type="format">
+						<dayPeriodWidth type="wide">
+							<dayPeriod type="am">wichishu</dayPeriod>
+							<dayPeriod type="pm">mchochil'l</dayPeriod>
+						</dayPeriodWidth>
+					</dayPeriodContext>
+				</dayPeriods>
 				<eras>
 					<eraNames>
 						<era type="0">Hinapiya yesu</era>
@@ -313,7 +372,7 @@
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern>dd/MM/yyyy</pattern>
+							<pattern>dd/MM/y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
@@ -361,47 +420,44 @@
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd">MMM d, y</dateFormatItem>
 						<dateFormatItem id="yMMMEd">E, MMM d, y</dateFormatItem>
-						<dateFormatItem id="yQ">Q y</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
+						<dateFormatItem id="yQQQQ">QQQQ y</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
-				<fields>
-					<field type="era">
-						<displayName>kal'lai</displayName>
-					</field>
-					<field type="year">
-						<displayName>yaka</displayName>
-					</field>
-					<field type="month">
-						<displayName>mweri</displayName>
-					</field>
-					<field type="week">
-						<displayName>iwiki mocha</displayName>
-					</field>
-					<field type="day">
-						<displayName>nihuku</displayName>
-						<relative type="-1">n'chana</relative>
-						<relative type="0">lel'lo</relative>
-						<relative type="1">me'llo</relative>
-					</field>
-					<field type="weekday">
-						<displayName>nihuku no mwisho wa wiki</displayName>
-					</field>
-					<field type="dayperiod">
-						<displayName>nihuku</displayName>
-					</field>
-					<field type="hour">
-						<displayName>isaa</displayName>
-					</field>
-					<field type="minute">
-						<displayName>idakika</displayName>
-					</field>
-					<field type="second">
-						<displayName>isekunde</displayName>
-					</field>
-				</fields>
 			</calendar>
 		</calendars>
+		<fields>
+			<field type="era">
+				<displayName>kal'lai</displayName>
+			</field>
+			<field type="year">
+				<displayName>yaka</displayName>
+			</field>
+			<field type="month">
+				<displayName>mweri</displayName>
+			</field>
+			<field type="week">
+				<displayName>iwiki mocha</displayName>
+			</field>
+			<field type="day">
+				<displayName>nihuku</displayName>
+				<relative type="-1">n'chana</relative>
+				<relative type="0">lel'lo</relative>
+				<relative type="1">me'llo</relative>
+			</field>
+			<field type="weekday">
+				<displayName>nihuku no mwisho wa wiki</displayName>
+			</field>
+			<field type="hour">
+				<displayName>isaa</displayName>
+			</field>
+			<field type="minute">
+				<displayName>idakika</displayName>
+			</field>
+			<field type="second">
+				<displayName>isekunde</displayName>
+			</field>
+		</fields>
 	</dates>
 	<numbers>
 		<symbols numberSystem="latn">

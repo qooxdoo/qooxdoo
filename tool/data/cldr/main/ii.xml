@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!-- Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
 <ldml>
 	<identity>
-		<version number="$Revision: 6443 $"/>
-		<generation date="$Date: 2012-01-25 20:51:07 +0100 (Wed, 25 Jan 2012) $"/>
+		<version number="$Revision: 8245 $"/>
+		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
 		<language type="ii"/>
 	</identity>
 	<localeDisplayNames>
@@ -156,48 +160,48 @@
 						<era type="1">ꃅꋊꊂ</era>
 					</eraAbbr>
 				</eras>
-				<fields>
-					<field type="era">
-						<displayName>ꃅꋊ</displayName>
-					</field>
-					<field type="year">
-						<displayName>ꈎ</displayName>
-					</field>
-					<field type="month">
-						<displayName>ꆪ</displayName>
-					</field>
-					<field type="week">
-						<displayName>ꑭꆏ</displayName>
-					</field>
-					<field type="day">
-						<displayName>ꑍ</displayName>
-						<relative type="-2">ꎴꂿꋍꑍ</relative>
-						<relative type="-1">ꀋꅔꉈ</relative>
-						<relative type="0">ꀃꑍ</relative>
-						<relative type="1">ꃆꏂꑍ</relative>
-						<relative type="2">ꌕꀿꑍ</relative>
-					</field>
-					<field type="weekday">
-						<displayName>ꆏꑍ</displayName>
-					</field>
-					<field type="dayperiod">
-						<displayName>ꎸꄑ/ꁯꋒ</displayName>
-					</field>
-					<field type="hour">
-						<displayName>ꄮꈉ</displayName>
-					</field>
-					<field type="minute">
-						<displayName>ꃏ</displayName>
-					</field>
-					<field type="second">
-						<displayName>ꇙ</displayName>
-					</field>
-					<field type="zone">
-						<displayName>ꃅꄷꄮꈉ</displayName>
-					</field>
-				</fields>
 			</calendar>
 		</calendars>
+		<fields>
+			<field type="era">
+				<displayName>ꃅꋊ</displayName>
+			</field>
+			<field type="year">
+				<displayName>ꈎ</displayName>
+			</field>
+			<field type="month">
+				<displayName>ꆪ</displayName>
+			</field>
+			<field type="week">
+				<displayName>ꑭꆏ</displayName>
+			</field>
+			<field type="day">
+				<displayName>ꑍ</displayName>
+				<relative type="-2">ꎴꂿꋍꑍ</relative>
+				<relative type="-1">ꀋꅔꉈ</relative>
+				<relative type="0">ꀃꑍ</relative>
+				<relative type="1">ꃆꏂꑍ</relative>
+				<relative type="2">ꌕꀿꑍ</relative>
+			</field>
+			<field type="weekday">
+				<displayName>ꆏꑍ</displayName>
+			</field>
+			<field type="dayperiod">
+				<displayName>ꎸꄑ/ꁯꋒ</displayName>
+			</field>
+			<field type="hour">
+				<displayName>ꄮꈉ</displayName>
+			</field>
+			<field type="minute">
+				<displayName>ꃏ</displayName>
+			</field>
+			<field type="second">
+				<displayName>ꇙ</displayName>
+			</field>
+			<field type="zone">
+				<displayName>ꃅꄷꄮꈉ</displayName>
+			</field>
+		</fields>
 		<timeZoneNames>
 			<zone type="Etc/Unknown">
 				<exemplarCity>ꅉꀋꐚꌠ</exemplarCity>
@@ -210,6 +214,9 @@
 			<group>,</group>
 		</symbols>
 		<currencies>
+			<currency type="CNY">
+				<symbol>¥</symbol>
+			</currency>
 			<currency type="XXX">
 				<displayName>ꅉꀋꐚꌠꌋꆀꎆꃀꀋꈁꀐꌠ</displayName>
 			</currency>
@@ -222,3 +229,4 @@
 		</messages>
 	</posix>
 </ldml>
+

@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!-- Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
 <ldml>
 	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
+		<version number="$Revision: 8671 $"/>
+		<generation date="$Date: 2013-05-03 14:17:48 -0500 (Fri, 03 May 2013) $"/>
 		<language type="af"/>
 	</identity>
-	<fallback/>
 	<localeDisplayNames>
 		<localeDisplayPattern>
+			<localePattern>{0} ({1})</localePattern>
 			<localeSeparator>,</localeSeparator>
 		</localeDisplayPattern>
 		<languages>
 			<language type="ab">Abkasies</language>
+			<language type="ach">Akoli</language>
 			<language type="af">Afrikaans</language>
 			<language type="afa" draft="contributed">Ander Afro-Asiaties</language>
 			<language type="ak">Akan</language>
@@ -26,17 +31,20 @@
 			<language type="az" alt="short">Azeri</language>
 			<language type="bat" draft="unconfirmed">Baltiese taal</language>
 			<language type="be">Wit-Russies</language>
+			<language type="bem">Bemba</language>
 			<language type="ber" draft="provisional">Berbers</language>
 			<language type="bg">Bulgaars</language>
-			<language type="bh" draft="unconfirmed">Biharise taal</language>
+			<language type="bh">Bihari</language>
 			<language type="bn">Bengaals</language>
 			<language type="bnt" draft="provisional">Bantoe</language>
 			<language type="bo">Tibettaans</language>
-			<language type="br" draft="unconfirmed">Bretons</language>
+			<language type="br">Bretons</language>
 			<language type="bs">Bosnies</language>
 			<language type="ca">Katalaans</language>
 			<language type="cel">Keltiese taal</language>
-			<language type="chr" draft="unconfirmed">Cherokees</language>
+			<language type="chr">Cherokees</language>
+			<language type="ckb">Sorani Koerdies</language>
+			<language type="co">Korsikaans</language>
 			<language type="cop" draft="unconfirmed">Kopties</language>
 			<language type="cs">Tsjeggies</language>
 			<language type="cu" draft="unconfirmed">Kerkslawies</language>
@@ -47,6 +55,7 @@
 			<language type="de_CH">Switserse hoog-Duits</language>
 			<language type="dv">Divehi</language>
 			<language type="dz">Dzongkha</language>
+			<language type="ee">Ewe</language>
 			<language type="efi">Efik</language>
 			<language type="egy" draft="contributed">Antieke Egipties</language>
 			<language type="el">Grieks</language>
@@ -58,7 +67,7 @@
 			<language type="eo">Esperanto</language>
 			<language type="es">Spaans</language>
 			<language type="es_419">Latyns-Amerikaanse Spaans</language>
-			<language type="es_ES">Iberiese Spaans</language>
+			<language type="es_ES">Europese Spaans</language>
 			<language type="et" draft="contributed">Estnies</language>
 			<language type="eu">Baskies</language>
 			<language type="fa">Persies</language>
@@ -71,6 +80,7 @@
 			<language type="fr_CH">Switserse Frans</language>
 			<language type="fy">Wes-Fries</language>
 			<language type="ga">Iers</language>
+			<language type="gaa">Gaa</language>
 			<language type="gd">Skotse Gallies</language>
 			<language type="gem">Germaanse taal</language>
 			<language type="gl">Galisies</language>
@@ -89,7 +99,7 @@
 			<language type="ht">Haïtiaans</language>
 			<language type="hu">Hongaars</language>
 			<language type="hy">Armeens</language>
-			<language type="ia" draft="provisional">Interlingua</language>
+			<language type="ia">Interlingua</language>
 			<language type="id">Indonesies</language>
 			<language type="ie" draft="provisional">Interlingue</language>
 			<language type="ig">Igbo</language>
@@ -99,6 +109,7 @@
 			<language type="ja">Japannees</language>
 			<language type="jv">Javaans</language>
 			<language type="ka">Georgies</language>
+			<language type="kg">Kongolees</language>
 			<language type="khi" draft="unconfirmed">Khoi-San taal</language>
 			<language type="kk">Kazak</language>
 			<language type="km">Khmer</language>
@@ -111,12 +122,16 @@
 			<language type="ky">Kirgisies</language>
 			<language type="la">Latyn</language>
 			<language type="lb">Luxemburgs</language>
+			<language type="lg">Ganda</language>
 			<language type="li" draft="unconfirmed">Limburgs</language>
 			<language type="ln">Lingaals</language>
 			<language type="lo">Lao</language>
+			<language type="loz">Lozi</language>
 			<language type="lt">Litaus</language>
+			<language type="lua">Luba-Lulua</language>
 			<language type="lv">Letties</language>
 			<language type="mas" draft="unconfirmed">Masai</language>
+			<language type="mfe">Morisjen</language>
 			<language type="mg">Malgassies</language>
 			<language type="mi">Maori</language>
 			<language type="mk">Masedonies</language>
@@ -137,7 +152,9 @@
 			<language type="nr">Suid-Ndebele</language>
 			<language type="nso">Noord-Sotho</language>
 			<language type="ny">Nyanja</language>
-			<language type="oc" draft="unconfirmed">Occitaans</language>
+			<language type="nyn">Nyankole</language>
+			<language type="oc">Oksitaans</language>
+			<language type="om">Oromo</language>
 			<language type="or">Oriya</language>
 			<language type="os">Osseties</language>
 			<language type="pa">Pandjabi</language>
@@ -147,7 +164,7 @@
 			<language type="ps" alt="variant">Pushto</language>
 			<language type="pt">Portugees</language>
 			<language type="pt_BR">Brasiliaanse Portugees</language>
-			<language type="pt_PT">Iberiese Portugees</language>
+			<language type="pt_PT">Europese Portugees</language>
 			<language type="qu">Quechua</language>
 			<language type="rm">Reto-Romaans</language>
 			<language type="rn">Rundi</language>
@@ -184,13 +201,14 @@
 			<language type="th">Thais</language>
 			<language type="ti">Tigrinya</language>
 			<language type="tk">Turkmeens</language>
-			<language type="tlh" draft="unconfirmed">Klingon</language>
+			<language type="tlh">Klingon</language>
 			<language type="tn">Tswana</language>
-			<language type="to">Tonga</language>
+			<language type="to">Tongaans</language>
 			<language type="tpi">Tok Pisin</language>
 			<language type="tr">Turks</language>
 			<language type="ts">Tsonga</language>
 			<language type="tt">Tataars</language>
+			<language type="tum">Toemboeka</language>
 			<language type="tw" draft="unconfirmed">Twi</language>
 			<language type="ty">Tahities</language>
 			<language type="ug">Uighur</language>
@@ -203,7 +221,7 @@
 			<language type="vi">Viëtnamees</language>
 			<language type="wo">Wolof</language>
 			<language type="xh">Xhosa</language>
-			<language type="yi" draft="unconfirmed">Jiddisj</language>
+			<language type="yi">Jiddisj</language>
 			<language type="yo">Yoruba</language>
 			<language type="yue" draft="unconfirmed">Kantonees</language>
 			<language type="zh">Sjinees</language>
@@ -282,7 +300,7 @@
 			<territory type="034">Suid-Asië</territory>
 			<territory type="035">Suidoos-Asië</territory>
 			<territory type="039">Suid-Europa</territory>
-			<territory type="053">Australië en Nieu-Seeland</territory>
+			<territory type="053">Australasië</territory>
 			<territory type="054">Melanesië</territory>
 			<territory type="057">Mikronesiese streek</territory>
 			<territory type="061">Polinesië</territory>
@@ -325,6 +343,7 @@
 			<territory type="BM">Bermuda</territory>
 			<territory type="BN">Broenei</territory>
 			<territory type="BO">Bolivië</territory>
+			<territory type="BQ">Karibiese Nederland</territory>
 			<territory type="BR">Brasilië</territory>
 			<territory type="BS">Bahamas</territory>
 			<territory type="BT">Bhoetan</territory>
@@ -349,9 +368,9 @@
 			<territory type="CO">Kolombië</territory>
 			<territory type="CP">Clipperton-eiland</territory>
 			<territory type="CR">Costa Rica</territory>
-			<territory type="CS">Serwië en Montenegro</territory>
 			<territory type="CU">Kuba</territory>
 			<territory type="CV">Kaap Verde</territory>
+			<territory type="CW">Curaçao</territory>
 			<territory type="CX">Kerseiland</territory>
 			<territory type="CY">Ciprus</territory>
 			<territory type="CZ">Tjeggiese Republiek</territory>
@@ -490,6 +509,7 @@
 			<territory type="PN">Pitcairn</territory>
 			<territory type="PR">Puerto Rico</territory>
 			<territory type="PS">Palestina</territory>
+			<territory type="PS" alt="short">Palestina</territory>
 			<territory type="PT">Portugal</territory>
 			<territory type="PW">Palau</territory>
 			<territory type="PY">Paraguay</territory>
@@ -515,8 +535,10 @@
 			<territory type="SN">Senegal</territory>
 			<territory type="SO">Somalië</territory>
 			<territory type="SR">Suriname</territory>
+			<territory type="SS">Suid-Soedan</territory>
 			<territory type="ST">Sao Tome en Principe</territory>
 			<territory type="SV">Salvador</territory>
+			<territory type="SX">Sint Maarten</territory>
 			<territory type="SY">Sirië</territory>
 			<territory type="SZ">Swaziland</territory>
 			<territory type="TA">Tristan da Cunha</territory>
@@ -552,6 +574,7 @@
 			<territory type="VU">Vanuatu</territory>
 			<territory type="WF">Wallis en Futuna</territory>
 			<territory type="WS">Samoa</territory>
+			<territory type="XK">Kosovo</territory>
 			<territory type="YE">Jemen</territory>
 			<territory type="YT">Mayotte</territory>
 			<territory type="ZA">Suid-Afrika</territory>
@@ -568,9 +591,20 @@
 		</variants>
 		<keys>
 			<key type="calendar">Kalender</key>
-			<key type="collation">Insortering</key>
+			<key type="colAlternate">Ignoreer simboolsortering</key>
+			<key type="colBackwards">Omgekeerde aksentsortering</key>
+			<key type="colCaseFirst">Hoofletters/kleinletters-sortering</key>
+			<key type="colCaseLevel">Kassensitiewe sortering</key>
+			<key type="colHiraganaQuaternary">Kana-sortering</key>
+			<key type="collation">Sorteervolgorde</key>
+			<key type="colNormalization">Genormaliseerde sortering</key>
+			<key type="colNumeric">Numeriese sortering</key>
+			<key type="colStrength">Sorteringssterkte</key>
 			<key type="currency">Geldeenheid</key>
 			<key type="numbers">Nommers</key>
+			<key type="timezone">Tydsone</key>
+			<key type="va">Lokaalvariant</key>
+			<key type="variableTop">Sorteer as simbole</key>
 			<key type="x">Privaat gebruik</key>
 		</keys>
 		<types>
@@ -589,6 +623,7 @@
 			<type type="ethi" key="numbers">Ethiopiese syfers</type>
 			<type type="ethiopic" key="calendar">Etiopiese kalender</type>
 			<type type="ethiopic-amete-alem" key="calendar">Etiopiese Amete Alem-kalender</type>
+			<type type="finance" key="numbers">Finansiële syfers</type>
 			<type type="fullwide" key="numbers">Vollewydte-syfers</type>
 			<type type="gb2312han" key="collation">Vereenvoudigde Chinese sorteervolgorde - GB2312</type>
 			<type type="geor" key="numbers">Georgiese syfers</type>
@@ -604,6 +639,7 @@
 			<type type="hantfin" key="numbers">Tradisionele Chinese finansiële syfers</type>
 			<type type="hebr" key="numbers">Hebreeuse syfers</type>
 			<type type="hebrew" key="calendar">Hebreeuse kalender</type>
+			<type type="identical" key="colStrength">Sorteer almal</type>
 			<type type="indian" key="calendar">Indiese nasionale kalender</type>
 			<type type="islamic" key="calendar">Islamitiese kalender</type>
 			<type type="islamic-civil" key="calendar">Islamitiese siviele kalender</type>
@@ -614,29 +650,55 @@
 			<type type="knda" key="numbers">Kannada-syfers</type>
 			<type type="laoo" key="numbers">Lao-syfers</type>
 			<type type="latn" key="numbers">Westerse syfers</type>
+			<type type="lower" key="colCaseFirst">Sorteer kleinletters veerste</type>
 			<type type="mlym" key="numbers">Malabaarse syfers</type>
 			<type type="mong" key="numbers">Mongoliese syfers</type>
 			<type type="mymr" key="numbers">Mianmar-syfers</type>
+			<type type="native" key="numbers">Inheemse syfers</type>
+			<type type="no" key="colBackwards">Sorteer aksente gewoonweg</type>
+			<type type="no" key="colCaseFirst">Sorteer gewone letterorde</type>
+			<type type="no" key="colCaseLevel">Sorteer nie kassensitief nie</type>
+			<type type="no" key="colHiraganaQuaternary">Sorteer Kana afsonderlik</type>
+			<type type="no" key="colNormalization">Sorteer sonder normalisering</type>
+			<type type="no" key="colNumeric">Sorteer syfers individueel</type>
+			<type type="non-ignorable" key="colAlternate">Sorteer simbole</type>
 			<type type="orya" key="numbers">Oriya-syfers</type>
 			<type type="persian" key="calendar">Persiese kalender</type>
 			<type type="phonebook" key="collation">Foonboek-sorteervolgorde</type>
+			<type type="phonetic" key="collation">Fonetiese sorteerorde</type>
 			<type type="pinyin" key="collation">Pinyin-sorteervolgorde</type>
+			<type type="primary" key="colStrength">Sorteer slegs basisletters</type>
+			<type type="quaternary" key="colStrength">Sorteer aksente/kas/breedte/Kana</type>
 			<type type="reformed" key="collation">Gereformeerde sorteervolgorde</type>
 			<type type="roc" key="calendar">Minguo-kalender</type>
 			<type type="roman" key="numbers">Romeinse syfers</type>
 			<type type="romanlow" key="numbers">Romeinse kleinletter-syfers</type>
 			<type type="search" key="collation">Algemenedoel-soektog</type>
+			<type type="searchjl" key="collation">Soek volgens Hangul-beginkonsonant</type>
+			<type type="secondary" key="colStrength">Sorteer aksente</type>
+			<type type="shifted" key="colAlternate">Sorteer ignoreersimbole</type>
 			<type type="stroke" key="collation">Slag-sorteervolgorde</type>
 			<type type="taml" key="numbers">Tamil-syfers</type>
 			<type type="telu" key="numbers">Telugu-syfers</type>
+			<type type="tertiary" key="colStrength">Sorteer aksente/kas/breedte</type>
 			<type type="thai" key="numbers">Thaise syfers</type>
 			<type type="tibt" key="numbers">Tibettaanse syfers</type>
 			<type type="traditional" key="collation">Tradisionele sorteervolgorde</type>
+			<type type="traditional" key="numbers">Tradisionele syfers</type>
 			<type type="unihan" key="collation">Radikale-slag-sorteervolgorde</type>
+			<type type="upper" key="colCaseFirst">Sorteer hoofletters eerste</type>
+			<type type="vaii" key="numbers">Vai-syfers</type>
+			<type type="yes" key="colBackwards">Sorteer aksente omgekeerd</type>
+			<type type="yes" key="colCaseLevel">Sorteer kassensitief</type>
+			<type type="yes" key="colHiraganaQuaternary">Sorteer Kana anders</type>
+			<type type="yes" key="colNormalization">Sorteer Unicode genormaliseer</type>
+			<type type="yes" key="colNumeric">Sorteer syfers numeries</type>
 		</types>
 		<transformNames>
+			<transformName type="BGN">BGN</transformName>
 			<transformName type="Numeric">Numeries</transformName>
 			<transformName type="Tone">Toon</transformName>
+			<transformName type="UNGEGN">UNGEGN</transformName>
 			<transformName type="x-Accents">Aksente</transformName>
 			<transformName type="x-Fullwidth">Vollewydte</transformName>
 			<transformName type="x-Halfwidth">halfwydte</transformName>
@@ -658,11 +720,11 @@
 	<characters>
 		<exemplarCharacters>[a á â b c d e é è ê ë f g h i î ï j k l m n o ô ö p q r s t u û v w x y z]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[á à â ä ã æ ç é è ê ë í ì î ï ó ò ô ö ú ù û ü ý]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol">[a b c d e f g h i j k l m n o p q r s t u v w x y z]</exemplarCharacters>
 		<exemplarCharacters type="index" draft="contributed">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplarCharacters>
-		<stopwords>
-			<stopwordList type="collation" draft="provisional">'n die</stopwordList>
-		</stopwords>
+		<ellipsis type="final">{0}…</ellipsis>
+		<ellipsis type="initial">…{0}</ellipsis>
+		<ellipsis type="medial">{0}…{1}</ellipsis>
+		<moreInformation>?</moreInformation>
 	</characters>
 	<delimiters>
 		<quotationStart>“</quotationStart>
@@ -672,6 +734,177 @@
 	</delimiters>
 	<dates>
 		<calendars>
+			<calendar type="generic">
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE dd MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>dd MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>dd MMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>GGGGG y-MM-dd</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats>
+					<dateTimeFormatLength type="full">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="long">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="medium">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="short">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<availableFormats>
+						<dateFormatItem id="d">d</dateFormatItem>
+						<dateFormatItem id="Ed">E d</dateFormatItem>
+						<dateFormatItem id="h">h a</dateFormatItem>
+						<dateFormatItem id="H">HH</dateFormatItem>
+						<dateFormatItem id="hm">h:mm a</dateFormatItem>
+						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="M">L</dateFormatItem>
+						<dateFormatItem id="Md">M/d</dateFormatItem>
+						<dateFormatItem id="MEd">E, M/d</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">MMM d</dateFormatItem>
+						<dateFormatItem id="MMMEd">E, MMM d</dateFormatItem>
+						<dateFormatItem id="MMMMd">MMMM d</dateFormatItem>
+						<dateFormatItem id="MMMMdd">dd MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMEd">E, MMMM d</dateFormatItem>
+						<dateFormatItem id="ms">mm:ss</dateFormatItem>
+						<dateFormatItem id="y">y</dateFormatItem>
+						<dateFormatItem id="yM">M/y</dateFormatItem>
+						<dateFormatItem id="yMd">M/d/y</dateFormatItem>
+						<dateFormatItem id="yMEd">E, d/M/y</dateFormatItem>
+						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
+						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
+						<dateFormatItem id="yQQQQ">QQQQ y</dateFormatItem>
+					</availableFormats>
+					<intervalFormats>
+						<intervalFormatFallback>{0} – {1}</intervalFormatFallback>
+						<intervalFormatItem id="d">
+							<greatestDifference id="d">d–d</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="h">
+							<greatestDifference id="a">h a – h a</greatestDifference>
+							<greatestDifference id="h">h–h a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="H">
+							<greatestDifference id="H">HH–HH</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hm">
+							<greatestDifference id="a">h:mm a – h:mm a</greatestDifference>
+							<greatestDifference id="h">h:mm–h:mm a</greatestDifference>
+							<greatestDifference id="m">h:mm–h:mm a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hm">
+							<greatestDifference id="H">HH:mm–HH:mm</greatestDifference>
+							<greatestDifference id="m">HH:mm–HH:mm</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hmv">
+							<greatestDifference id="a">h:mm a – h:mm a v</greatestDifference>
+							<greatestDifference id="h">h:mm–h:mm a v</greatestDifference>
+							<greatestDifference id="m">h:mm–h:mm a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hmv">
+							<greatestDifference id="H">HH:mm–HH:mm v</greatestDifference>
+							<greatestDifference id="m">HH:mm–HH:mm v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hv">
+							<greatestDifference id="a">h a – h a v</greatestDifference>
+							<greatestDifference id="h">h–h a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hv">
+							<greatestDifference id="H">HH–HH v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="M">
+							<greatestDifference id="M">M–M</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Md">
+							<greatestDifference id="d">M/d – M/d</greatestDifference>
+							<greatestDifference id="M">M/d – M/d</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MEd">
+							<greatestDifference id="d">E, M/d – E, M/d</greatestDifference>
+							<greatestDifference id="M">E, M/d – E, M/d</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMM">
+							<greatestDifference id="M">MMM–MMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMd">
+							<greatestDifference id="d">MMM d–d</greatestDifference>
+							<greatestDifference id="M">MMM d – MMM d</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMEd">
+							<greatestDifference id="d">E, MMM d – E, MMM d</greatestDifference>
+							<greatestDifference id="M">E, MMM d – E, MMM d</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="y">
+							<greatestDifference id="y">y–y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yM">
+							<greatestDifference id="M">M/y – M/y</greatestDifference>
+							<greatestDifference id="y">M/y – M/y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMd">
+							<greatestDifference id="d">M/d/y – M/d/y</greatestDifference>
+							<greatestDifference id="M">M/d/y – M/d/y</greatestDifference>
+							<greatestDifference id="y">M/d/y – M/d/y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMEd">
+							<greatestDifference id="d">E, M/d/y – E, M/d/y</greatestDifference>
+							<greatestDifference id="M">E, M/d/y – E, M/d/y</greatestDifference>
+							<greatestDifference id="y">E, M/d/y – E, M/d/y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMM">
+							<greatestDifference id="M">MMM–MMM y</greatestDifference>
+							<greatestDifference id="y">MMM y – MMM y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMd">
+							<greatestDifference id="d">d–d MMM, y</greatestDifference>
+							<greatestDifference id="M">MMM d – MMM d, y</greatestDifference>
+							<greatestDifference id="y">d MMM, y – d MMM, y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMEd">
+							<greatestDifference id="d">E, d MMM – E, d MMM, y</greatestDifference>
+							<greatestDifference id="M">E, d MMM – E, d MMM, y</greatestDifference>
+							<greatestDifference id="y">E, MMM d, y – E, MMM d, y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMM">
+							<greatestDifference id="M">MMMM–MMMM y</greatestDifference>
+							<greatestDifference id="y">MMMM y – MMMM y</greatestDifference>
+						</intervalFormatItem>
+					</intervalFormats>
+				</dateTimeFormats>
+			</calendar>
 			<calendar type="gregorian">
 				<months>
 					<monthContext type="format">
@@ -720,7 +953,18 @@
 							<month type="12">D</month>
 						</monthWidth>
 						<monthWidth type="wide">
+							<month type="1">Januarie</month>
+							<month type="2">Februarie</month>
+							<month type="3">Maart</month>
 							<month type="4">April</month>
+							<month type="5">Mei</month>
+							<month type="6">Junie</month>
+							<month type="7">Julie</month>
+							<month type="8">Augustus</month>
+							<month type="9">September</month>
+							<month type="10">Oktober</month>
+							<month type="11">November</month>
+							<month type="12">Desember</month>
 						</monthWidth>
 					</monthContext>
 				</months>
@@ -734,6 +978,15 @@
 							<day type="thu">Do</day>
 							<day type="fri">Vr</day>
 							<day type="sat">Sa</day>
+						</dayWidth>
+						<dayWidth type="short">
+							<day type="sun">So.</day>
+							<day type="mon">Ma.</day>
+							<day type="tue">Di.</day>
+							<day type="wed">Wo.</day>
+							<day type="thu">Do.</day>
+							<day type="fri">Vr.</day>
+							<day type="sat">Sa.</day>
 						</dayWidth>
 						<dayWidth type="wide">
 							<day type="sun">Sondag</day>
@@ -754,6 +1007,15 @@
 							<day type="thu">D</day>
 							<day type="fri">V</day>
 							<day type="sat">S</day>
+						</dayWidth>
+						<dayWidth type="short">
+							<day type="sun">So.</day>
+							<day type="mon">Ma.</day>
+							<day type="tue">Di.</day>
+							<day type="wed">Wo.</day>
+							<day type="thu">Do.</day>
+							<day type="fri">Vr.</day>
+							<day type="sat">Sa.</day>
 						</dayWidth>
 					</dayContext>
 				</days>
@@ -776,6 +1038,14 @@
 							<quarter type="2">2de kwartaal</quarter>
 							<quarter type="3">3de kwartaal</quarter>
 							<quarter type="4">4de kwartaal</quarter>
+						</quarterWidth>
+					</quarterContext>
+					<quarterContext type="stand-alone">
+						<quarterWidth type="narrow">
+							<quarter type="1">1</quarter>
+							<quarter type="2">2</quarter>
+							<quarter type="3">3</quarter>
+							<quarter type="4">4</quarter>
 						</quarterWidth>
 					</quarterContext>
 				</quarters>
@@ -815,7 +1085,7 @@
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern>yyyy-MM-dd</pattern>
+							<pattern>y-MM-dd</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
@@ -842,10 +1112,34 @@
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
+					<dateTimeFormatLength type="full">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="long">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="medium">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="short">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
+						<dateFormatItem id="Ed">E d</dateFormatItem>
+						<dateFormatItem id="h">h a</dateFormatItem>
+						<dateFormatItem id="H">HH</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
 						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">M/d</dateFormatItem>
@@ -854,19 +1148,19 @@
 						<dateFormatItem id="MMMd">MMM d</dateFormatItem>
 						<dateFormatItem id="MMMEd">E, MMM d</dateFormatItem>
 						<dateFormatItem id="MMMMd">MMMM d</dateFormatItem>
-						<dateFormatItem id="MMMMdd" draft="unconfirmed">dd MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMdd">dd MMMM</dateFormatItem>
 						<dateFormatItem id="MMMMEd">E, MMMM d</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">M/y</dateFormatItem>
 						<dateFormatItem id="yMd">M/d/y</dateFormatItem>
-						<dateFormatItem id="yMEd">E, y-M-d</dateFormatItem>
+						<dateFormatItem id="yMEd">E, d/M/y</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, MMM d, y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, d MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
-						<dateFormatItem id="yQ">Q y</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
+						<dateFormatItem id="yQQQQ">QQQQ y</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback>{0} – {1}</intervalFormatFallback>
@@ -874,18 +1168,36 @@
 							<greatestDifference id="d">d–d</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="h">
+							<greatestDifference id="a">h a – h a</greatestDifference>
 							<greatestDifference id="h">h–h a</greatestDifference>
 						</intervalFormatItem>
+						<intervalFormatItem id="H">
+							<greatestDifference id="H">HH–HH</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="hm">
+							<greatestDifference id="a">h:mm a – h:mm a</greatestDifference>
 							<greatestDifference id="h">h:mm–h:mm a</greatestDifference>
 							<greatestDifference id="m">h:mm–h:mm a</greatestDifference>
 						</intervalFormatItem>
+						<intervalFormatItem id="Hm">
+							<greatestDifference id="H">HH:mm–HH:mm</greatestDifference>
+							<greatestDifference id="m">HH:mm–HH:mm</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="hmv">
+							<greatestDifference id="a">h:mm a – h:mm a v</greatestDifference>
 							<greatestDifference id="h">h:mm–h:mm a v</greatestDifference>
 							<greatestDifference id="m">h:mm–h:mm a v</greatestDifference>
 						</intervalFormatItem>
+						<intervalFormatItem id="Hmv">
+							<greatestDifference id="H">HH:mm–HH:mm v</greatestDifference>
+							<greatestDifference id="m">HH:mm–HH:mm v</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="hv">
+							<greatestDifference id="a">h a – h a v</greatestDifference>
 							<greatestDifference id="h">h–h a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hv">
+							<greatestDifference id="H">HH–HH v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="M">
 							<greatestDifference id="M">M–M</greatestDifference>
@@ -913,18 +1225,18 @@
 							<greatestDifference id="y">y–y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yM">
-							<greatestDifference id="M">M/yy – M/yy</greatestDifference>
-							<greatestDifference id="y">M/yy – M/yy</greatestDifference>
+							<greatestDifference id="M">M/y – M/y</greatestDifference>
+							<greatestDifference id="y">M/y – M/y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMd">
-							<greatestDifference id="d">M/d/yy – M/d/yy</greatestDifference>
-							<greatestDifference id="M">M/d/yy – M/d/yy</greatestDifference>
-							<greatestDifference id="y">M/d/yy – M/d/yy</greatestDifference>
+							<greatestDifference id="d">M/d/y – M/d/y</greatestDifference>
+							<greatestDifference id="M">M/d/y – M/d/y</greatestDifference>
+							<greatestDifference id="y">M/d/y – M/d/y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d">E, M/d/yy – E, M/d/yy</greatestDifference>
-							<greatestDifference id="M">E, M/d/yy – E, M/d/yy</greatestDifference>
-							<greatestDifference id="y">E, M/d/yy – E, M/d/yy</greatestDifference>
+							<greatestDifference id="d">E, M/d/y – E, M/d/y</greatestDifference>
+							<greatestDifference id="M">E, M/d/y – E, M/d/y</greatestDifference>
+							<greatestDifference id="y">E, M/d/y – E, M/d/y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMM">
 							<greatestDifference id="M">MMM–MMM y</greatestDifference>
@@ -946,58 +1258,59 @@
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
-				<fields>
-					<field type="era">
-						<displayName>Era</displayName>
-					</field>
-					<field type="year">
-						<displayName>Jaar</displayName>
-						<relative type="-1">Verlede jaar</relative>
-						<relative type="0">Hierdie jaar</relative>
-						<relative type="1">Volgende jaar</relative>
-					</field>
-					<field type="month">
-						<displayName>Maand</displayName>
-						<relative type="-1">Verlede maand</relative>
-						<relative type="0">Vandeesmaand</relative>
-						<relative type="1">Volgende maand</relative>
-					</field>
-					<field type="week">
-						<displayName>Week</displayName>
-						<relative type="-1">Verlede week</relative>
-						<relative type="0">Vandeesweek</relative>
-						<relative type="1">Volgende week</relative>
-					</field>
-					<field type="day">
-						<displayName>Dag</displayName>
-						<relative type="-2">Die dag voor gister</relative>
-						<relative type="-1">Gister</relative>
-						<relative type="0">Vandag</relative>
-						<relative type="1">Môre</relative>
-						<relative type="2">Die dag na môre</relative>
-					</field>
-					<field type="weekday">
-						<displayName>Weeksdag</displayName>
-					</field>
-					<field type="dayperiod">
-						<displayName>AM/PM</displayName>
-					</field>
-					<field type="hour">
-						<displayName>Uur</displayName>
-					</field>
-					<field type="minute">
-						<displayName>Minuut</displayName>
-					</field>
-					<field type="second">
-						<displayName>Sekonde</displayName>
-					</field>
-					<field type="zone">
-						<displayName>Tydsone</displayName>
-					</field>
-				</fields>
 			</calendar>
 		</calendars>
+		<fields>
+			<field type="era">
+				<displayName>Era</displayName>
+			</field>
+			<field type="year">
+				<displayName>Jaar</displayName>
+				<relative type="-1">Verlede jaar</relative>
+				<relative type="0">Hierdie jaar</relative>
+				<relative type="1">Volgende jaar</relative>
+			</field>
+			<field type="month">
+				<displayName>Maand</displayName>
+				<relative type="-1">Verlede maand</relative>
+				<relative type="0">Vandeesmaand</relative>
+				<relative type="1">Volgende maand</relative>
+			</field>
+			<field type="week">
+				<displayName>Week</displayName>
+				<relative type="-1">Verlede week</relative>
+				<relative type="0">Vandeesweek</relative>
+				<relative type="1">Volgende week</relative>
+			</field>
+			<field type="day">
+				<displayName>Dag</displayName>
+				<relative type="-2">Die dag voor gister</relative>
+				<relative type="-1">Gister</relative>
+				<relative type="0">Vandag</relative>
+				<relative type="1">Môre</relative>
+				<relative type="2">Die dag na môre</relative>
+			</field>
+			<field type="weekday">
+				<displayName>Weeksdag</displayName>
+			</field>
+			<field type="dayperiod">
+				<displayName>AM/PM</displayName>
+			</field>
+			<field type="hour">
+				<displayName>Uur</displayName>
+			</field>
+			<field type="minute">
+				<displayName>Minuut</displayName>
+			</field>
+			<field type="second">
+				<displayName>Sekonde</displayName>
+			</field>
+			<field type="zone">
+				<displayName>Tydsone</displayName>
+			</field>
+		</fields>
 		<timeZoneNames>
+			<hourFormat>+HH:mm;-HH:mm</hourFormat>
 			<gmtFormat>MGT{0}</gmtFormat>
 			<gmtZeroFormat>MGT</gmtZeroFormat>
 			<regionFormat>{0}-tyd</regionFormat>
@@ -1009,34 +1322,68 @@
 			<zone type="Asia/Bahrain">
 				<exemplarCity>Bahrein</exemplarCity>
 			</zone>
-			<zone type="Asia/Shanghai">
-				<exemplarCity>Shanghai</exemplarCity>
+			<zone type="America/St_Barthelemy">
+				<exemplarCity>Sint Barthélemy</exemplarCity>
+			</zone>
+			<zone type="America/St_Johns">
+				<exemplarCity>Sint John's</exemplarCity>
+			</zone>
+			<zone type="America/Curacao">
+				<exemplarCity>Curaçao</exemplarCity>
 			</zone>
 			<zone type="America/Mexico_City">
-				<exemplarCity>Meksiko</exemplarCity>
+				<exemplarCity>Meksikostad</exemplarCity>
 			</zone>
-			<zone type="Europe/Lisbon">
-				<exemplarCity>Lisbon</exemplarCity>
+			<zone type="America/Asuncion">
+				<exemplarCity>Asunción</exemplarCity>
+			</zone>
+			<zone type="Indian/Reunion">
+				<exemplarCity>Réunion</exemplarCity>
 			</zone>
 			<zone type="Europe/Moscow">
 				<exemplarCity>Moskou</exemplarCity>
 			</zone>
+			<zone type="Africa/Sao_Tome">
+				<exemplarCity>São Tomé</exemplarCity>
+			</zone>
+			<zone type="America/Lower_Princes">
+				<exemplarCity>Laer Prins se kwartaal</exemplarCity>
+			</zone>
+			<metazone type="Afghanistan">
+				<long>
+					<standard>Afghanistan-tyd</standard>
+				</long>
+			</metazone>
 			<metazone type="Africa_Central">
+				<long>
+					<standard>Sentraal-Afrika-tyd</standard>
+				</long>
 				<short>
 					<standard>CAT</standard>
 				</short>
 			</metazone>
 			<metazone type="Africa_Eastern">
+				<long>
+					<standard>Oos-Afrika-tyd</standard>
+				</long>
 				<short>
 					<standard>EAT</standard>
 				</short>
 			</metazone>
 			<metazone type="Africa_Southern">
+				<long>
+					<standard>Suid-Afrika-standaardtyd</standard>
+				</long>
 				<short>
 					<standard>SAST</standard>
 				</short>
 			</metazone>
 			<metazone type="Africa_Western">
+				<long>
+					<generic>Wes-Afrika-tyd</generic>
+					<standard>Wes-Afrika-standaardtyd</standard>
+					<daylight>Wes-Afrika-somertyd</daylight>
+				</long>
 				<short>
 					<generic>WAT</generic>
 					<standard>WAT</standard>
@@ -1053,7 +1400,7 @@
 			<metazone type="Amazon">
 				<long>
 					<generic>Amasone-tyd</generic>
-					<standard>Amasone-tyd</standard>
+					<standard>Amasone-standaardtyd</standard>
 					<daylight>Amasone-somertyd</daylight>
 				</long>
 			</metazone>
@@ -1088,22 +1435,36 @@
 			<metazone type="Anadyr">
 				<long>
 					<generic>Anadyr-tyd</generic>
-					<standard>Anadyr-tyd</standard>
+					<standard>Anadyr-standaardtyd</standard>
 					<daylight>Anadyr-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Arabian">
+				<long>
+					<generic>Arabiese Tyd</generic>
+					<standard>Arabiese standaardtyd</standard>
+					<daylight>Arabiese dagligtyd</daylight>
 				</long>
 			</metazone>
 			<metazone type="Argentina">
 				<long>
 					<generic>Argentinië-tyd</generic>
-					<standard>Argentinië-tyd</standard>
+					<standard>Argentinië-standaardtyd</standard>
 					<daylight>Argentinië-somertyd</daylight>
 				</long>
 			</metazone>
 			<metazone type="Argentina_Western">
 				<long>
 					<generic>Argentinië Westelike tyd</generic>
-					<standard>Westelike Argentinië-tyd</standard>
+					<standard>Argentinië Westelike standaardtyd</standard>
 					<daylight>Argentinië Westelike somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Armenia">
+				<long>
+					<generic>Armenië-tyd</generic>
+					<standard>Armenië-standaardtyd</standard>
+					<daylight>Armenië-somertyd</daylight>
 				</long>
 			</metazone>
 			<metazone type="Atlantic">
@@ -1141,82 +1502,366 @@
 					<daylight>Australiese Westelike dagligtyd</daylight>
 				</long>
 			</metazone>
+			<metazone type="Azerbaijan">
+				<long>
+					<generic>Aserbeidjan-tyd</generic>
+					<standard>Aserbeidjan-standaardtyd</standard>
+					<daylight>Aserbeidjan-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Azores">
+				<long>
+					<generic>Asore-tyd</generic>
+					<standard>Asore-standaardtyd</standard>
+					<daylight>Asore-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Bangladesh">
+				<long>
+					<generic>Bangladesj-tyd</generic>
+					<standard>Bangladesj-standaardtyd</standard>
+					<daylight>Bangladesj-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Bhutan">
+				<long>
+					<standard>Bhoetan-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Bolivia">
+				<long>
+					<standard>Bolivia-tyd</standard>
+				</long>
+			</metazone>
 			<metazone type="Brasilia">
 				<long>
 					<generic>Brasilië-tyd</generic>
-					<standard>Brasilië-tyd</standard>
+					<standard>Brasilië-standaardtyd</standard>
 					<daylight>Brasilië somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Brunei">
+				<long>
+					<standard>Broenei Darussalam-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Cape_Verde">
+				<long>
+					<generic>Kaap Verde-tyd</generic>
+					<standard>Kaap Verde-standaardtyd</standard>
+					<daylight>Kaap Verde-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Chamorro">
+				<long>
+					<standard>Chamorro-standaardtyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Chatham">
+				<long>
+					<generic>Chatham-tyd</generic>
+					<standard>Chatham-standaardtyd</standard>
+					<daylight>Chatham-dagligtyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Chile">
+				<long>
+					<generic>Chili-tyd</generic>
+					<standard>Chili-standaardtyd</standard>
+					<daylight>Chili-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="China">
+				<long>
+					<generic>China-tyd</generic>
+					<standard>China-standaardtyd</standard>
+					<daylight>China-dagligtyd</daylight>
 				</long>
 			</metazone>
 			<metazone type="Choibalsan">
 				<long>
 					<generic>Choibalsan-tyd</generic>
-					<standard>Choibalsan-tyd</standard>
+					<standard>Choibalsan-standaardtyd</standard>
 					<daylight>Choibalsan-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Christmas">
+				<long>
+					<standard>Kersfeeseiland-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Cocos">
+				<long>
+					<standard>Cocos Eilande-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Colombia">
+				<long>
+					<generic>Colombië-tyd</generic>
+					<standard>Colombië-standaardtyd</standard>
+					<daylight>Colombië-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Cook">
+				<long>
+					<generic>Cookeilande-tyd</generic>
+					<standard>Cookeilande-standaardtyd</standard>
+					<daylight>Cookeilande-halfsomertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Cuba">
+				<long>
+					<generic>Kuba-tyd</generic>
+					<standard>Kuba-standaardtyd</standard>
+					<daylight>Kuba-dagligtyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Davis">
+				<long>
+					<standard>Davis-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="DumontDUrville">
+				<long>
+					<standard>Dumont-d'Urville-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="East_Timor">
+				<long>
+					<standard>Oos-Timor-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Easter">
+				<long>
+					<generic>Paaseiland-tyd</generic>
+					<standard>Paaseiland-standaardtyd</standard>
+					<daylight>Paaseiland-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Ecuador">
+				<long>
+					<standard>Ecuador-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Europe_Central">
+				<long>
+					<generic>Sentraal-Europese tyd</generic>
+					<standard>Sentraal-Europese standaardtyd</standard>
+					<daylight>Sentraal-Europese somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Europe_Eastern">
+				<long>
+					<generic>Oos-Europese tyd</generic>
+					<standard>Oos-Europese standaardtyd</standard>
+					<daylight>Oos-Europese somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Europe_Western">
+				<long>
+					<generic>Wes-Europese tyd</generic>
+					<standard>Wes-Europese standaardtyd</standard>
+					<daylight>Wes-Europese somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Falkland">
+				<long>
+					<generic>Falkland-eilande-tyd</generic>
+					<standard>Falkland-eilande-standaardtyd</standard>
+					<daylight>Falkland-eilande-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Fiji">
+				<long>
+					<generic>Fidji-tyd</generic>
+					<standard>Fidji-standaardtyd</standard>
+					<daylight>Fidji-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="French_Guiana">
+				<long>
+					<standard>Frans-Guiana-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="French_Southern">
+				<long>
+					<standard>Franse Suider- en Antarktiese tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Galapagos">
+				<long>
+					<standard>Galapagos-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Gambier">
+				<long>
+					<standard>Gambier-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Georgia">
+				<long>
+					<generic>Georgië-tyd</generic>
+					<standard>Georgië-standaardtyd</standard>
+					<daylight>Georgië-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Gilbert_Islands">
+				<long>
+					<standard>Gilberteilande-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="GMT">
+				<long>
+					<standard>Greenwich-mediaantyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Greenland_Eastern">
+				<long>
+					<generic>Oos-Groenland-tyd</generic>
+					<standard>Oos-Groenland-standaardtyd</standard>
+					<daylight>Oos-Groenland-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Greenland_Western">
+				<long>
+					<generic>Wes-Groenland-tyd</generic>
+					<standard>Wes-Groenland-standaardtyd</standard>
+					<daylight>Wes-Groenland-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Gulf">
+				<long>
+					<standard>Golf-standaardtyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Guyana">
+				<long>
+					<standard>Guyana-tyd</standard>
 				</long>
 			</metazone>
 			<metazone type="Hawaii_Aleutian">
 				<long>
-					<generic>Hawaii Aleutiese tyd</generic>
-					<standard>Hawaii Aleutiese standaardtyd</standard>
-					<daylight>Hawaii Aleutiese dagligtyd</daylight>
+					<generic>Hawaii-Aleusiër-tyd</generic>
+					<standard>Hawaii-Aleusiër-standaardtyd</standard>
+					<daylight>Hawaii-Aleusiër-dagligtyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Hong_Kong">
+				<long>
+					<generic>Hongkong-tyd</generic>
+					<standard>Hongkong-standaardtyd</standard>
+					<daylight>Hongkong-somertyd</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hovd">
 				<long>
 					<generic>Hovd-tyd</generic>
-					<standard>Hovd-tyd</standard>
+					<standard>Hovd-standaardtyd</standard>
 					<daylight>Hovd-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="India">
+				<long>
+					<standard>Indië-standaardtyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Indian_Ocean">
+				<long>
+					<standard>Indiese Oseaan-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Indochina">
+				<long>
+					<standard>Indosjina-tyd</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Central">
 				<long>
-					<standard>Indonesië-sentraal-tyd</standard>
+					<standard>Sentraal Indonesië-tyd</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Eastern">
 				<long>
-					<standard>Indonesiese Oostelike tyd</standard>
+					<standard>Oos-Indonesië-tyd</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Western">
 				<long>
-					<standard>Indonesiese Westelike tyd</standard>
+					<standard>Wes-Indonesië-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Iran">
+				<long>
+					<generic>Iran-tyd</generic>
+					<standard>Iran-standaardtyd</standard>
+					<daylight>Iran-dagligtyd</daylight>
 				</long>
 			</metazone>
 			<metazone type="Irkutsk">
 				<long>
 					<generic>Irkutsk-tyd</generic>
-					<standard>Irkutsk-tyd</standard>
+					<standard>Irkutsk-standaardtyd</standard>
 					<daylight>Irkutsk-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Israel">
+				<long>
+					<generic>Israel-tyd</generic>
+					<standard>Israel-standaardtyd</standard>
+					<daylight>Israel-dagligtyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Japan">
+				<long>
+					<generic>Japan-tyd</generic>
+					<standard>Japan-standaardtyd</standard>
+					<daylight>Japan-dagligtyd</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kamchatka">
 				<long>
-					<generic>Kamchatka-tyd</generic>
-					<standard>Petropavlovsk-Kamchatski-tyd</standard>
+					<generic>Petropavlovsk-Kamchatski-tyd</generic>
+					<standard>Petropavlovsk-Kamchatski-standaardtyd</standard>
 					<daylight>Petropavlovsk-Kamchatski-somertyd</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Eastern">
 				<long>
-					<generic>Oos-Kazakstan-tyd</generic>
-					<standard>Oos-Kazakstan-standaardtyd</standard>
-					<daylight>Kazakstan Oostelike somertyd</daylight>
+					<standard>Oos-Kazakstan-tyd</standard>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Western">
 				<long>
-					<generic>Wes-Kazakstan-tyd</generic>
-					<standard>Wes-Kazakstan-standaardtyd</standard>
-					<daylight>Kazakstan Westelike somertyd</daylight>
+					<standard>Wes-Kazakstan-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Korea">
+				<long>
+					<generic>Koreaanse tyd</generic>
+					<standard>Koreaanse standaardtyd</standard>
+					<daylight>Koreaanse dagligtyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Kosrae">
+				<long>
+					<standard>Kosrae-tyd</standard>
 				</long>
 			</metazone>
 			<metazone type="Krasnoyarsk">
 				<long>
-					<generic>Krasnoyarsk-tyd</generic>
-					<standard>Krasnoyarsk-tyd</standard>
-					<daylight>Krasnoyarsk-somertyd</daylight>
+					<generic>Krasnojarsk-tyd</generic>
+					<standard>Krasnojarsk-standaardtyd</standard>
+					<daylight>Krasnojarsk-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Kyrgystan">
+				<long>
+					<standard>Kirgistan-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Line_Islands">
+				<long>
+					<standard>Line-eilande-tyd</standard>
 				</long>
 			</metazone>
 			<metazone type="Lord_Howe">
@@ -1228,20 +1873,52 @@
 			</metazone>
 			<metazone type="Macquarie">
 				<long>
-					<standard>Macquarie-tyd</standard>
+					<standard>Macquarie-eiland-tyd</standard>
 				</long>
 			</metazone>
 			<metazone type="Magadan">
 				<long>
 					<generic>Magadan-tyd</generic>
-					<standard>Magadan-tyd</standard>
+					<standard>Magadan-standaardtyd</standard>
 					<daylight>Magadan-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Malaysia">
+				<long>
+					<standard>Maleisië-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Maldives">
+				<long>
+					<standard>Maldives-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Marquesas">
+				<long>
+					<standard>Marquesas-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Marshall_Islands">
+				<long>
+					<standard>Marshalleilande-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Mauritius">
+				<long>
+					<generic>Mauritius-tyd</generic>
+					<standard>Mauritius-standaardtyd</standard>
+					<daylight>Mauritius-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Mawson">
+				<long>
+					<standard>Mawson-tyd</standard>
 				</long>
 			</metazone>
 			<metazone type="Mongolia">
 				<long>
-					<generic>Mongolië-tyd</generic>
-					<standard>Oelan Bator-tyd</standard>
+					<generic>Ulaanbatar-tyd</generic>
+					<standard>Ulaanbatar-standaardtyd</standard>
 					<daylight>Oelan Bator-somertyd</daylight>
 				</long>
 			</metazone>
@@ -1252,6 +1929,35 @@
 					<daylight>Moskou-somertyd</daylight>
 				</long>
 			</metazone>
+			<metazone type="Myanmar">
+				<long>
+					<standard>Mianmar-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Nauru">
+				<long>
+					<standard>Nauru-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Nepal">
+				<long>
+					<standard>Nepal-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="New_Caledonia">
+				<long>
+					<generic>Nieu-Kaledonië-tyd</generic>
+					<standard>Nieu-Kaledonië-standaardtyd</standard>
+					<daylight>Nieu-Kaledonië-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="New_Zealand">
+				<long>
+					<generic>Nieu-Seeland-tyd</generic>
+					<standard>Nieu-Seeland-standaardtyd</standard>
+					<daylight>Nieu-Seeland-dagligtyd</daylight>
+				</long>
+			</metazone>
 			<metazone type="Newfoundland">
 				<long>
 					<generic>Newfoundland-tyd</generic>
@@ -1259,76 +1965,281 @@
 					<daylight>Newfoundland-dagligtyd</daylight>
 				</long>
 			</metazone>
+			<metazone type="Niue">
+				<long>
+					<standard>Niue-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Norfolk">
+				<long>
+					<standard>Norfolk-eilande-tyd</standard>
+				</long>
+			</metazone>
 			<metazone type="Noronha">
 				<long>
-					<generic>Noronha-tyd</generic>
-					<standard>Fernando de Noronha-tyd</standard>
+					<generic>Fernando de Noronha-tyd</generic>
+					<standard>Fernando de Noronha-standaardtyd</standard>
 					<daylight>Fernando de Noronha-somertyd</daylight>
 				</long>
 			</metazone>
 			<metazone type="Novosibirsk">
 				<long>
 					<generic>Novosibirsk-tyd</generic>
-					<standard>Novosibirsk-tyd</standard>
+					<standard>Novosibirsk-standaardtyd</standard>
 					<daylight>Novosibirsk-somertyd</daylight>
 				</long>
 			</metazone>
 			<metazone type="Omsk">
 				<long>
 					<generic>Omsk-tyd</generic>
-					<standard>Omsk-tyd</standard>
+					<standard>Omsk-standaardtyd</standard>
 					<daylight>Omsk-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Pakistan">
+				<long>
+					<generic>Pakistan-tyd</generic>
+					<standard>Pakistan-standaardtyd</standard>
+					<daylight>Pakistan-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Palau">
+				<long>
+					<standard>Palau-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Papua_New_Guinea">
+				<long>
+					<standard>Papoea-Nieu-Guinee-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Paraguay">
+				<long>
+					<generic>Paraguay-tyd</generic>
+					<standard>Paraguay-standaardtyd</standard>
+					<daylight>Paraguay-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Peru">
+				<long>
+					<generic>Peru-tyd</generic>
+					<standard>Peru-standaardtyd</standard>
+					<daylight>Peru-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Philippines">
+				<long>
+					<generic>Filippynse tyd</generic>
+					<standard>Filippynse standaardtyd</standard>
+					<daylight>Filippynse somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Phoenix_Islands">
+				<long>
+					<standard>Feniks-eilande-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Pierre_Miquelon">
+				<long>
+					<generic>Sint-Pierre en Miquelon-tyd</generic>
+					<standard>Sint-Pierre en Miquelon-standaardtyd</standard>
+					<daylight>Sint-Pierre en Miquelon-dagligtyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Pitcairn">
+				<long>
+					<standard>Pitcairn-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Ponape">
+				<long>
+					<standard>Ponape-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Reunion">
+				<long>
+					<standard>Reunion-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Rothera">
+				<long>
+					<standard>Rothera-tyd</standard>
 				</long>
 			</metazone>
 			<metazone type="Sakhalin">
 				<long>
 					<generic>Sakhalin-tyd</generic>
-					<standard>Sakhalin-tyd</standard>
+					<standard>Sakhalin-standaardtyd</standard>
 					<daylight>Sakhalin-somertyd</daylight>
 				</long>
 			</metazone>
 			<metazone type="Samara">
 				<long>
 					<generic>Samara-tyd</generic>
-					<standard>Samara-tyd</standard>
-					<daylight>Samara-somertyd</daylight>
+					<standard>Samara-standaardtyd</standard>
+					<daylight>Samara-dagligtyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Samoa">
+				<long>
+					<generic>Samoa-tyd</generic>
+					<standard>Samoa-standaardtyd</standard>
+					<daylight>Samoa-dagligtyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Seychelles">
+				<long>
+					<standard>Seychelle-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Singapore">
+				<long>
+					<standard>Singapoer-standaardtyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Solomon">
+				<long>
+					<standard>Solomoneilande-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="South_Georgia">
+				<long>
+					<standard>Suid-Georgië-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Suriname">
+				<long>
+					<standard>Suriname-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Syowa">
+				<long>
+					<standard>Syowa-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Tahiti">
+				<long>
+					<standard>Tahiti-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Taipei">
+				<long>
+					<generic>Taipei-tyd</generic>
+					<standard>Taipei-standaardtyd</standard>
+					<daylight>Taipei-dagligtyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Tajikistan">
+				<long>
+					<standard>Tadjikistan-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Tokelau">
+				<long>
+					<standard>Tokelau-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Tonga">
+				<long>
+					<generic>Tonga-tyd</generic>
+					<standard>Tonga-standaardtyd</standard>
+					<daylight>Tonga-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Truk">
+				<long>
+					<standard>Chuuk-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Turkmenistan">
+				<long>
+					<generic>Turkmenistan-tyd</generic>
+					<standard>Turkmenistan-standaardtyd</standard>
+					<daylight>Turkmenistan-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Tuvalu">
+				<long>
+					<standard>Tuvalu-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Uruguay">
+				<long>
+					<generic>Uruguay-tyd</generic>
+					<standard>Uruguay-standaardtyd</standard>
+					<daylight>Uruguay-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Uzbekistan">
+				<long>
+					<generic>Oesbekistan-tyd</generic>
+					<standard>Oesbekistan-standaardtyd</standard>
+					<daylight>Oesbekistan-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Vanuatu">
+				<long>
+					<generic>Vanuatu-tyd</generic>
+					<standard>Vanuatu-standaardtyd</standard>
+					<daylight>Vanuatu-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Venezuela">
+				<long>
+					<standard>Venezuela-tyd</standard>
 				</long>
 			</metazone>
 			<metazone type="Vladivostok">
 				<long>
 					<generic>Vladivostok-tyd</generic>
-					<standard>Vladivostok-tyd</standard>
+					<standard>Vladivostok-standaardtyd</standard>
 					<daylight>Vladivostok-somertyd</daylight>
 				</long>
 			</metazone>
 			<metazone type="Volgograd">
 				<long>
 					<generic>Volgograd-tyd</generic>
-					<standard>Volgograd-tyd</standard>
+					<standard>Volgograd-standaardtyd</standard>
 					<daylight>Volgograd-somertyd</daylight>
+				</long>
+			</metazone>
+			<metazone type="Vostok">
+				<long>
+					<standard>Vostok-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Wake">
+				<long>
+					<standard>Wake-eiland-tyd</standard>
+				</long>
+			</metazone>
+			<metazone type="Wallis">
+				<long>
+					<standard>Wallis en Futuna-tyd</standard>
 				</long>
 			</metazone>
 			<metazone type="Yakutsk">
 				<long>
-					<generic>Yakutsk-tyd</generic>
-					<standard>Yakutsk-tyd</standard>
-					<daylight>Yakutsk-somertyd</daylight>
+					<generic>Jakoetsk-tyd</generic>
+					<standard>Jakoetsk-standaardtyd</standard>
+					<daylight>Jakoetsk-somertyd</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yekaterinburg">
 				<long>
-					<generic>Yekaterinburg-tyd</generic>
-					<standard>Yekaterinburg-tyd</standard>
-					<daylight>Yekaterinburg-somertyd</daylight>
+					<generic>Jekaterinburg-tyd</generic>
+					<standard>Jekaterinburg-standaardtyd</standard>
+					<daylight>Jekaterinburg-somertyd</daylight>
 				</long>
 			</metazone>
 		</timeZoneNames>
 	</dates>
 	<numbers>
+		<defaultNumberingSystem>latn</defaultNumberingSystem>
 		<symbols numberSystem="latn">
 			<decimal>,</decimal>
 			<group> </group>
-			<list draft="unconfirmed">;</list>
+			<list>;</list>
 			<percentSign>%</percentSign>
 			<plusSign>+</plusSign>
 			<minusSign>-</minusSign>
@@ -1343,20 +2254,60 @@
 					<pattern>#,##0.###</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
+			<decimalFormatLength type="long">
+				<decimalFormat>
+					<pattern type="1000" count="one">0 duisend</pattern>
+					<pattern type="1000" count="other">0 duisend</pattern>
+					<pattern type="10000" count="one">00 duisend</pattern>
+					<pattern type="10000" count="other">00 duisend</pattern>
+					<pattern type="100000" count="one">000 duisend</pattern>
+					<pattern type="100000" count="other">000 duisend</pattern>
+					<pattern type="1000000" count="one">0 miljoen</pattern>
+					<pattern type="1000000" count="other">0 miljoen</pattern>
+					<pattern type="10000000" count="one">00 miljoen</pattern>
+					<pattern type="10000000" count="other">00 miljoen</pattern>
+					<pattern type="100000000" count="one">000 miljoen</pattern>
+					<pattern type="100000000" count="other">000 miljoen</pattern>
+					<pattern type="1000000000" count="one">0 miljard</pattern>
+					<pattern type="1000000000" count="other">0 miljard</pattern>
+					<pattern type="10000000000" count="one">00 miljard</pattern>
+					<pattern type="10000000000" count="other">00 miljard</pattern>
+					<pattern type="100000000000" count="one">000 miljard</pattern>
+					<pattern type="100000000000" count="other">000 miljard</pattern>
+					<pattern type="1000000000000" count="one">0 biljoen</pattern>
+					<pattern type="1000000000000" count="other">0 biljoen</pattern>
+					<pattern type="10000000000000" count="one">00 biljoen</pattern>
+					<pattern type="10000000000000" count="other">00 biljoen</pattern>
+					<pattern type="100000000000000" count="one">000 biljoen</pattern>
+					<pattern type="100000000000000" count="other">000 biljoen</pattern>
+				</decimalFormat>
+			</decimalFormatLength>
 			<decimalFormatLength type="short">
 				<decimalFormat>
-					<pattern type="1000" draft="contributed">0000</pattern>
-					<pattern type="10000" draft="contributed">00000</pattern>
-					<pattern type="100000" draft="contributed">000000</pattern>
-					<pattern type="1000000" draft="contributed">0.0 mil</pattern>
-					<pattern type="10000000" draft="contributed">00 mil</pattern>
-					<pattern type="100000000" draft="contributed">000 mil</pattern>
-					<pattern type="1000000000" draft="contributed">0.0 mjd</pattern>
-					<pattern type="10000000000" draft="contributed">00 mjd</pattern>
-					<pattern type="100000000000" draft="contributed">000 mjd</pattern>
-					<pattern type="1000000000000" draft="contributed">0.0 bil</pattern>
-					<pattern type="10000000000000" draft="contributed">00 bil</pattern>
-					<pattern type="100000000000000" draft="contributed">000 bil</pattern>
+					<pattern type="1000" count="one">0</pattern>
+					<pattern type="1000" count="other">0</pattern>
+					<pattern type="10000" count="one">0</pattern>
+					<pattern type="10000" count="other">0</pattern>
+					<pattern type="100000" count="one">0</pattern>
+					<pattern type="100000" count="other">0</pattern>
+					<pattern type="1000000" count="one">0 m</pattern>
+					<pattern type="1000000" count="other">0 m</pattern>
+					<pattern type="10000000" count="one">00 m</pattern>
+					<pattern type="10000000" count="other">00 m</pattern>
+					<pattern type="100000000" count="one">000 m</pattern>
+					<pattern type="100000000" count="other">000 m</pattern>
+					<pattern type="1000000000" count="one">0 mjd</pattern>
+					<pattern type="1000000000" count="other">0 mjd</pattern>
+					<pattern type="10000000000" count="one">00 mjd</pattern>
+					<pattern type="10000000000" count="other">00 mjd</pattern>
+					<pattern type="100000000000" count="one">000 mjd</pattern>
+					<pattern type="100000000000" count="other">000 mjd</pattern>
+					<pattern type="1000000000000" count="one">0 bn</pattern>
+					<pattern type="1000000000000" count="other">0 bn</pattern>
+					<pattern type="10000000000000" count="one">00 bn</pattern>
+					<pattern type="10000000000000" count="other">00 bn</pattern>
+					<pattern type="100000000000000" count="one">000 bn</pattern>
+					<pattern type="100000000000000" count="other">000 bn</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
@@ -1377,9 +2328,11 @@
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
 				<currencyFormat>
-					<pattern>¤#,##0.00</pattern>
+					<pattern>¤#,##0.00;(¤#,##0.00)</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
+			<unitPattern count="one">{0} {1}</unitPattern>
+			<unitPattern count="other">{0} {1}</unitPattern>
 		</currencyFormats>
 		<currencies>
 			<currency type="AED">
@@ -1513,8 +2466,8 @@
 			</currency>
 			<currency type="EUR">
 				<displayName>Euro</displayName>
-				<displayName count="one" draft="unconfirmed">euro</displayName>
-				<displayName count="other" draft="unconfirmed">euro</displayName>
+				<displayName count="one">EUR</displayName>
+				<displayName count="other">EUR</displayName>
 			</currency>
 			<currency type="FJD">
 				<displayName>Fidjiaanse dollar</displayName>
@@ -1738,6 +2691,11 @@
 			<currency type="QAR">
 				<displayName>Katarese rial</displayName>
 			</currency>
+			<currency type="RON">
+				<displayName>Roemeense leu</displayName>
+				<displayName count="one">Roemeense leu</displayName>
+				<displayName count="other">Roemeense leu</displayName>
+			</currency>
 			<currency type="RSD">
 				<displayName>Serbiese dinar</displayName>
 			</currency>
@@ -1779,6 +2737,11 @@
 			</currency>
 			<currency type="SRD">
 				<displayName>Surinaamse dollar</displayName>
+			</currency>
+			<currency type="SSP">
+				<displayName>Suid-Soedanese pond</displayName>
+				<displayName count="one">Suid-Soedanese pond</displayName>
+				<displayName count="other">Suid-Soedanese pond</displayName>
 			</currency>
 			<currency type="STD">
 				<displayName>São Tomé en Príncipe dobra</displayName>
@@ -1869,6 +2832,9 @@
 				<symbol>R</symbol>
 			</currency>
 			<currency type="ZMK">
+				<displayName>Zambiese kwacha (1968-2012)</displayName>
+			</currency>
+			<currency type="ZMW">
 				<displayName>Zambiese kwacha</displayName>
 			</currency>
 			<currency type="ZWD">
@@ -1878,134 +2844,101 @@
 	</numbers>
 	<units>
 		<unit type="day">
-			<unitPattern count="0" alt="short">0 dae</unitPattern>
-			<unitPattern count="1" alt="short">1 dag</unitPattern>
 			<unitPattern count="one">{0} dag</unitPattern>
+			<unitPattern count="one" alt="short">{0} dag</unitPattern>
 			<unitPattern count="other">{0} dae</unitPattern>
 			<unitPattern count="other" alt="short">{0} dae</unitPattern>
 		</unit>
 		<unit type="day-future">
-			<unitPattern count="0">In 0 dae</unitPattern>
-			<unitPattern count="1">In 1 dag</unitPattern>
+			<unitPattern count="one">In {0} dag</unitPattern>
 			<unitPattern count="other">In {0} dae</unitPattern>
 		</unit>
 		<unit type="day-past">
-			<unitPattern count="0">0 dae gelede</unitPattern>
-			<unitPattern count="1">1 dag gelede</unitPattern>
+			<unitPattern count="one">{0} dag gelede</unitPattern>
 			<unitPattern count="other">{0} dae gelede</unitPattern>
 		</unit>
 		<unit type="hour">
-			<unitPattern count="0">0 uur</unitPattern>
-			<unitPattern count="0" alt="short">0 uur</unitPattern>
-			<unitPattern count="1">1 uur</unitPattern>
-			<unitPattern count="1" alt="short">1 uur</unitPattern>
-			<unitPattern count="one" draft="unconfirmed">{0} uur</unitPattern>
+			<unitPattern count="one">{0} uur</unitPattern>
+			<unitPattern count="one" alt="short">{0} uur</unitPattern>
 			<unitPattern count="other">{0} uur</unitPattern>
 			<unitPattern count="other" alt="short">{0} uur</unitPattern>
 		</unit>
 		<unit type="hour-future">
-			<unitPattern count="0">In 0 uur</unitPattern>
-			<unitPattern count="1">In 1 uur</unitPattern>
+			<unitPattern count="one">In {0} uur</unitPattern>
 			<unitPattern count="other">In {0} uur</unitPattern>
 		</unit>
 		<unit type="hour-past">
-			<unitPattern count="0">0 uur gelede</unitPattern>
-			<unitPattern count="1">1 uur gelede</unitPattern>
+			<unitPattern count="one">{0} uur gelede</unitPattern>
 			<unitPattern count="other">{0} uur gelede</unitPattern>
 		</unit>
 		<unit type="minute">
-			<unitPattern count="0">0 minute</unitPattern>
-			<unitPattern count="0" alt="short">0 min</unitPattern>
-			<unitPattern count="1">1 minuut</unitPattern>
-			<unitPattern count="1" alt="short">1 min</unitPattern>
-			<unitPattern count="one" draft="unconfirmed">{0} minuut</unitPattern>
+			<unitPattern count="one">{0} minuut</unitPattern>
+			<unitPattern count="one" alt="short">{0} min</unitPattern>
 			<unitPattern count="other">{0} minute</unitPattern>
 			<unitPattern count="other" alt="short">{0} min</unitPattern>
 		</unit>
 		<unit type="minute-future">
-			<unitPattern count="0">In 0 minute</unitPattern>
-			<unitPattern count="1">In 1 minuut</unitPattern>
+			<unitPattern count="one">In {0} minuut</unitPattern>
 			<unitPattern count="other">In {0} minute</unitPattern>
 		</unit>
 		<unit type="minute-past">
-			<unitPattern count="0">0 minute gelede</unitPattern>
-			<unitPattern count="1">1 minuut gelede</unitPattern>
+			<unitPattern count="one">{0} minuut gelede</unitPattern>
 			<unitPattern count="other">{0} minute gelede</unitPattern>
 		</unit>
 		<unit type="month">
-			<unitPattern count="0">0 maande</unitPattern>
-			<unitPattern count="0" alt="short">0 mnde</unitPattern>
-			<unitPattern count="1">1 maand</unitPattern>
-			<unitPattern count="1" alt="short">1 mnd</unitPattern>
-			<unitPattern count="one" draft="unconfirmed">{0} maand</unitPattern>
+			<unitPattern count="one">{0} maand</unitPattern>
+			<unitPattern count="one" alt="short">{0} mnd</unitPattern>
 			<unitPattern count="other">{0} maande</unitPattern>
 			<unitPattern count="other" alt="short">{0} mnde</unitPattern>
 		</unit>
 		<unit type="month-future">
-			<unitPattern count="0">In 0 maande</unitPattern>
-			<unitPattern count="1">In 1 maand</unitPattern>
+			<unitPattern count="one">In {0} maand</unitPattern>
 			<unitPattern count="other">In {0} maande</unitPattern>
 		</unit>
 		<unit type="month-past">
-			<unitPattern count="0">0 maande gelede</unitPattern>
-			<unitPattern count="1">1 maand gelede</unitPattern>
+			<unitPattern count="one">{0} maand gelede</unitPattern>
 			<unitPattern count="other">{0} maande gelede</unitPattern>
 		</unit>
 		<unit type="second">
-			<unitPattern count="0">0 sekondes</unitPattern>
-			<unitPattern count="0" alt="short">0 sek</unitPattern>
-			<unitPattern count="1">1 sekonde</unitPattern>
-			<unitPattern count="1" alt="short">1 sek</unitPattern>
-			<unitPattern count="one" draft="unconfirmed">{0} sekonde</unitPattern>
+			<unitPattern count="one">{0} sekonde</unitPattern>
+			<unitPattern count="one" alt="short">{0} sek</unitPattern>
 			<unitPattern count="other">{0} sekondes</unitPattern>
 			<unitPattern count="other" alt="short">{0} sek</unitPattern>
 		</unit>
 		<unit type="second-future">
-			<unitPattern count="0">In 0 sekondes</unitPattern>
-			<unitPattern count="1">In 1 sekond</unitPattern>
+			<unitPattern count="one">In {0} sekond</unitPattern>
 			<unitPattern count="other">In {0} sekondes</unitPattern>
 		</unit>
 		<unit type="second-past">
-			<unitPattern count="0">0 sekondes gelede</unitPattern>
-			<unitPattern count="1">1 sekonde gelede</unitPattern>
+			<unitPattern count="one">{0} sekonde gelede</unitPattern>
 			<unitPattern count="other">{0} sekondes gelede</unitPattern>
 		</unit>
 		<unit type="week">
-			<unitPattern count="0">0 weke</unitPattern>
-			<unitPattern count="0" alt="short">0 weke</unitPattern>
-			<unitPattern count="1">1 week</unitPattern>
-			<unitPattern count="1" alt="short">1 week</unitPattern>
 			<unitPattern count="one">{0} week</unitPattern>
+			<unitPattern count="one" alt="short">{0} week</unitPattern>
 			<unitPattern count="other">{0} weke</unitPattern>
 			<unitPattern count="other" alt="short">{0} weke</unitPattern>
 		</unit>
 		<unit type="week-future">
-			<unitPattern count="0">In 0 weke</unitPattern>
-			<unitPattern count="1">In 1 week</unitPattern>
+			<unitPattern count="one">In {0} week</unitPattern>
 			<unitPattern count="other">In {0} weke</unitPattern>
 		</unit>
 		<unit type="week-past">
-			<unitPattern count="0">0 weke gelede</unitPattern>
-			<unitPattern count="1">1 week gelede</unitPattern>
+			<unitPattern count="one">{0} week gelede</unitPattern>
 			<unitPattern count="other">{0} weke gelede</unitPattern>
 		</unit>
 		<unit type="year">
-			<unitPattern count="0">0 jaar</unitPattern>
-			<unitPattern count="0" alt="short">0 jr</unitPattern>
-			<unitPattern count="1">1 jaar</unitPattern>
-			<unitPattern count="1" alt="short">1 jr</unitPattern>
-			<unitPattern count="one" draft="unconfirmed">{0} jaar</unitPattern>
+			<unitPattern count="one">{0} jaar</unitPattern>
+			<unitPattern count="one" alt="short">{0} jr</unitPattern>
 			<unitPattern count="other">{0} jaar</unitPattern>
 			<unitPattern count="other" alt="short">{0} jr</unitPattern>
 		</unit>
 		<unit type="year-future">
-			<unitPattern count="0">In 0 jaar</unitPattern>
-			<unitPattern count="1">In 1 jaar</unitPattern>
+			<unitPattern count="one">In {0} jaar</unitPattern>
 			<unitPattern count="other">In {0} jaar</unitPattern>
 		</unit>
 		<unit type="year-past">
-			<unitPattern count="0">0 jaar gelede</unitPattern>
-			<unitPattern count="1">1 jaar gelede</unitPattern>
+			<unitPattern count="one">{0} jaar gelede</unitPattern>
 			<unitPattern count="other">{0} jaar gelede</unitPattern>
 		</unit>
 	</units>
@@ -2013,6 +2946,8 @@
 		<listPattern>
 			<listPatternPart type="2">{0} en {1}</listPatternPart>
 			<listPatternPart type="end">{0} en {1}</listPatternPart>
+			<listPatternPart type="middle">{0}, {1}</listPatternPart>
+			<listPatternPart type="start">{0}, {1}</listPatternPart>
 		</listPattern>
 	</listPatterns>
 	<posix>

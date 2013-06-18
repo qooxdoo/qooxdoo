@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!-- Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
 <ldml>
 	<identity>
-		<version number="$Revision: 5953 $"/>
-		<generation date="$Date: 2011-07-05 01:22:55 +0200 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 8245 $"/>
+		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
 		<language type="bn"/>
 		<territory type="IN"/>
 	</identity>
 	<localeDisplayNames>
+		<localeDisplayPattern>
+			<localeKeyTypePattern draft="contributed">{0}: {1}</localeKeyTypePattern>
+		</localeDisplayPattern>
 		<languages>
 			<language type="ab">আবখাজিয়ান</language>
 			<language type="ace">অ্যাচাইনিজ</language>
@@ -28,41 +35,246 @@
 			<language type="en_GB" draft="contributed">ব্রিটিশ ইংরেজী</language>
 			<language type="fr_CA" draft="contributed">ক্যানাডিয়ান ফরাসী</language>
 			<language type="map" draft="contributed">অস্ট্রোনেসিয়ান</language>
+			<language type="rm" draft="contributed">রেটো-রোমানীয়</language>
 			<language type="rup" draft="contributed">আরমেনিয়ান</language>
 			<language type="tut" draft="contributed">আলটাইক</language>
 			<language type="zbl" draft="contributed">ব্লিসসিম্বলস</language>
 		</languages>
+		<territories>
+			<territory type="CH" draft="contributed">সুইজর্লণ্ড</territory>
+		</territories>
+		<types>
+			<type type="taml" key="numbers" draft="contributed">তামিল সংখ্যা</type>
+		</types>
 	</localeDisplayNames>
+	<characters>
+		<ellipsis type="final" draft="contributed">{0}…</ellipsis>
+		<ellipsis type="initial" draft="contributed">…{0}</ellipsis>
+		<ellipsis type="medial" draft="contributed">{0}…{1}</ellipsis>
+	</characters>
 	<dates>
 		<calendars>
+			<calendar type="generic">
+				<quarters>
+					<quarterContext type="format">
+						<quarterWidth type="abbreviated">
+							<quarter type="1">ত্রৈমাসিক</quarter>
+							<quarter type="2">ষাণ্মাসিক</quarter>
+							<quarter type="3">চতুর্থাংশ ৩</quarter>
+							<quarter type="4">বার্ষিক</quarter>
+						</quarterWidth>
+						<quarterWidth type="wide">
+							<quarter type="1">ত্রৈমাসিক</quarter>
+							<quarter type="2">ষাণ্মাসিক</quarter>
+							<quarter type="3">তৃতীয় চতুর্থাংশ</quarter>
+							<quarter type="4">বার্ষিক</quarter>
+						</quarterWidth>
+					</quarterContext>
+					<quarterContext type="stand-alone">
+						<quarterWidth type="wide">
+							<quarter type="1">ত্রৈমাসিক</quarter>
+							<quarter type="2">ষাণ্মাসিক</quarter>
+							<quarter type="3">তৃতীয় চতুর্থাংশ</quarter>
+							<quarter type="4">বার্ষিক</quarter>
+						</quarterWidth>
+					</quarterContext>
+				</quarters>
+			</calendar>
 			<calendar type="gregorian">
 				<quarters>
 					<quarterContext type="format">
 						<quarterWidth type="abbreviated">
 							<quarter type="1">ত্রৈমাসিক</quarter>
 							<quarter type="2">ষাণ্মাসিক</quarter>
+							<quarter type="3">চতুর্থাংশ ৩</quarter>
 							<quarter type="4">বার্ষিক</quarter>
 						</quarterWidth>
 						<quarterWidth type="wide">
 							<quarter type="1">ত্রৈমাসিক</quarter>
 							<quarter type="2">ষাণ্মাসিক</quarter>
+							<quarter type="3">তৃতীয় চতুর্থাংশ</quarter>
+							<quarter type="4">বার্ষিক</quarter>
+						</quarterWidth>
+					</quarterContext>
+					<quarterContext type="stand-alone">
+						<quarterWidth type="wide">
+							<quarter type="1">ত্রৈমাসিক</quarter>
+							<quarter type="2">ষাণ্মাসিক</quarter>
+							<quarter type="3">তৃতীয় চতুর্থাংশ</quarter>
 							<quarter type="4">বার্ষিক</quarter>
 						</quarterWidth>
 					</quarterContext>
 				</quarters>
-				<fields>
-					<field type="day">
-						<relative type="-2">গতপরশু</relative>
-					</field>
-					<field type="hour">
-						<displayName>ঘণ্টা</displayName>
-					</field>
-					<field type="second">
-						<displayName>সেকেণ্ড</displayName>
-					</field>
-				</fields>
 			</calendar>
 		</calendars>
+		<fields>
+			<field type="day">
+				<relative type="-2">গতপরশু</relative>
+			</field>
+			<field type="hour">
+				<displayName>ঘণ্টা</displayName>
+			</field>
+			<field type="second">
+				<displayName>সেকেণ্ড</displayName>
+			</field>
+		</fields>
+		<timeZoneNames>
+			<metazone type="Alaska">
+				<long>
+					<generic>আলাস্কার সময়</generic>
+					<standard>অ্যালাসকা মানক সময়</standard>
+					<daylight>আলাসকা দিবালোক সময়</daylight>
+				</long>
+			</metazone>
+			<metazone type="Cook">
+				<long>
+					<generic draft="contributed">কুক দ্বীপপুঞ্জ সময়</generic>
+					<standard draft="contributed">কুক দ্বীপপুঞ্জ মানক সময়</standard>
+					<daylight draft="contributed">কুক দ্বীপপুঞ্জ অর্ধেক গ্রীষ্মকাল সময়</daylight>
+				</long>
+			</metazone>
+			<metazone type="Fiji">
+				<long>
+					<generic draft="contributed">ফিজি সময়</generic>
+					<standard draft="contributed">ফিজি মানক সময়</standard>
+					<daylight draft="contributed">ফিজি গ্রীষ্মকাল সময়</daylight>
+				</long>
+			</metazone>
+			<metazone type="French_Southern">
+				<long>
+					<standard draft="contributed">ফরাসি দক্ষিণ এবং আন্টার্কটিক সময়</standard>
+				</long>
+			</metazone>
+			<metazone type="Guyana">
+				<long>
+					<standard draft="contributed">গুয়ানা সময়</standard>
+				</long>
+			</metazone>
+			<metazone type="Indian_Ocean">
+				<long>
+					<standard draft="contributed">ভারত মহাসাগরীয় সময়</standard>
+				</long>
+			</metazone>
+			<metazone type="Kosrae">
+				<long>
+					<standard draft="contributed">কোসরেই সময়</standard>
+				</long>
+			</metazone>
+			<metazone type="New_Zealand">
+				<long>
+					<generic draft="contributed">নিউজিল্যান্ড সময়</generic>
+					<standard draft="contributed">নিউজিল্যান্ড মানক সময়</standard>
+					<daylight draft="contributed">নিউজিল্যান্ড দিবালোকের সময়</daylight>
+				</long>
+			</metazone>
+			<metazone type="Papua_New_Guinea">
+				<long>
+					<standard draft="contributed">পাপুয়া নিউগিনি সময়</standard>
+				</long>
+			</metazone>
+			<metazone type="Pitcairn">
+				<long>
+					<standard draft="contributed">পিটকাইর্ন সময়</standard>
+				</long>
+			</metazone>
+			<metazone type="Ponape">
+				<long>
+					<standard draft="contributed">পোনাপ সময়</standard>
+				</long>
+			</metazone>
+			<metazone type="Syowa">
+				<long>
+					<standard draft="contributed">স্যোয়া সময়</standard>
+				</long>
+			</metazone>
+			<metazone type="Tokelau">
+				<long>
+					<standard draft="contributed">টোকেলু সময়</standard>
+				</long>
+			</metazone>
+			<metazone type="Vostok">
+				<long>
+					<standard draft="contributed">ভসটক সময়</standard>
+				</long>
+			</metazone>
+		</timeZoneNames>
 	</dates>
+	<numbers>
+		<currencies>
+			<currency type="AWG">
+				<displayName draft="contributed">আরুবা গিল্ডার</displayName>
+				<displayName count="one" draft="contributed">আরুবা গিল্ডার</displayName>
+				<displayName count="other" draft="contributed">আরুবা গিল্ডার</displayName>
+			</currency>
+			<currency type="BBD">
+				<displayName draft="contributed">বার্বেডোজ ডলার</displayName>
+				<displayName count="one" draft="contributed">বার্বেডোজ ডলার</displayName>
+				<displayName count="other" draft="contributed">বার্বেডোজ ডলার</displayName>
+			</currency>
+			<currency type="BMD">
+				<displayName draft="contributed">বারমিউডান ডলার</displayName>
+				<displayName count="one" draft="contributed">বারমিউডান ডলার</displayName>
+				<displayName count="other" draft="contributed">বারমিউডান ডলার</displayName>
+			</currency>
+			<currency type="BSD">
+				<displayName draft="contributed">বাহামিয়ান ডলার</displayName>
+				<displayName count="one" draft="contributed">বাহামিয়ান ডলার</displayName>
+				<displayName count="other" draft="contributed">বাহামিয়ান ডলার</displayName>
+			</currency>
+			<currency type="BZD">
+				<displayName draft="contributed">বেলিজ ডলার</displayName>
+				<displayName count="one" draft="contributed">বেলিজ ডলার</displayName>
+				<displayName count="other" draft="contributed">বেলিজ ডলার</displayName>
+			</currency>
+			<currency type="CAD">
+				<displayName draft="contributed">কম্বোডিয়ান ডলার</displayName>
+				<displayName count="one" draft="contributed">কম্বোডিয়ান ডলার</displayName>
+				<displayName count="other" draft="contributed">কানাডিয়ান ডলার</displayName>
+				<symbol draft="contributed">CA$</symbol>
+			</currency>
+			<currency type="CRC">
+				<displayName draft="contributed">কোস্টা রিকা কোলোন</displayName>
+				<displayName count="one" draft="contributed">কোস্টা রিকা কোলোন</displayName>
+				<displayName count="other" draft="contributed">কোস্টা রিকা কোলোন</displayName>
+			</currency>
+			<currency type="CUC">
+				<displayName draft="contributed">কিউবান রূপান্তরযোগ্য পেসো</displayName>
+				<displayName count="one" draft="contributed">কিউবান রূপান্তরযোগ্য পেসো</displayName>
+				<displayName count="other" draft="contributed">কিউবান রূপান্তরযোগ্য পেসো</displayName>
+			</currency>
+			<currency type="CUP">
+				<displayName draft="contributed">কিউবান পেসো</displayName>
+				<displayName count="one" draft="contributed">কিউবান পেসো</displayName>
+				<displayName count="other" draft="contributed">কিউবান পেসো</displayName>
+			</currency>
+			<currency type="HNL">
+				<displayName draft="contributed">হন্ডুরাস লেম্পিরা</displayName>
+				<displayName count="one" draft="contributed">হন্ডুরাস লেম্পিরা</displayName>
+				<displayName count="other" draft="contributed">হন্ডুরাস লেম্পিরা</displayName>
+			</currency>
+			<currency type="MXN">
+				<displayName draft="contributed">ম্যাক্সিকান পেসো</displayName>
+				<displayName count="one" draft="contributed">ম্যাক্সিকান পেসো</displayName>
+				<displayName count="other" draft="contributed">ম্যাক্সিকান পেসো</displayName>
+				<symbol draft="contributed">MX$</symbol>
+			</currency>
+			<currency type="NIO">
+				<displayName draft="contributed">নিকারাগুয়ান কর্ডোবা</displayName>
+				<displayName count="one" draft="contributed">নিকারাগুয়ান কর্ডোবা</displayName>
+				<displayName count="other" draft="contributed">নিকারাগুয়ান কর্ডোবা</displayName>
+			</currency>
+			<currency type="PAB">
+				<displayName draft="contributed">পানামা বেলবোয়া</displayName>
+				<displayName count="one" draft="contributed">পানামা বেলবোয়া</displayName>
+				<displayName count="other" draft="contributed">পানামা বেলবোয়া</displayName>
+			</currency>
+			<currency type="USD">
+				<displayName draft="contributed">মার্কিন ডলার</displayName>
+				<displayName count="one" draft="contributed">মার্কিন ডলার</displayName>
+				<displayName count="other" draft="contributed">মার্কিন ডলার</displayName>
+				<symbol draft="contributed">US$</symbol>
+			</currency>
+		</currencies>
+	</numbers>
 </ldml>
 

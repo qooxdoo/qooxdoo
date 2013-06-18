@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!-- Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
 <ldml>
 	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
+		<version number="$Revision: 8245 $"/>
+		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
 		<language type="az"/>
 	</identity>
 	<localeDisplayNames>
@@ -873,6 +877,7 @@
 			<territory type="SN" draft="contributed">Seneqal</territory>
 			<territory type="SO" draft="contributed">Somaliya</territory>
 			<territory type="SR" draft="contributed">surinamə</territory>
+			<territory type="SS" draft="provisional">Cənubi Sudan</territory>
 			<territory type="ST" draft="contributed">Sao Tom və Prinsip</territory>
 			<territory type="SV" draft="contributed">El Salvador</territory>
 			<territory type="SY" draft="contributed">siriya</territory>
@@ -938,7 +943,7 @@
 		</codePatterns>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters>[a b c ç d e ə f g ğ h x ı i {i\u0307} j k q l m n o ö p r s ş t u ü v y z]</exemplarCharacters>
+		<exemplarCharacters>[a b c ç d e ə f g ğ h x ı i İ j k q l m n o ö p r s ş t u ü v y z]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[w]</exemplarCharacters>
 		<exemplarCharacters type="index" draft="contributed">[A B C Ç D E Ə F G Ğ H X I İ J K Q L M N O Ö P R S Ş T U Ü V W Y Z]</exemplarCharacters>
 	</characters>
@@ -950,6 +955,40 @@
 	</delimiters>
 	<dates>
 		<calendars>
+			<calendar type="generic">
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE, d, MMMM, y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d MMMM , y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>d MMM, y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern draft="unconfirmed">GGGGG yy/MM/dd</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">E, d, MMM</dateFormatItem>
+						<dateFormatItem id="yMMM">MMM, y</dateFormatItem>
+						<dateFormatItem id="yMMMd">d MMM, y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, d, MMM, y</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
 			<calendar type="gregorian">
 				<months>
 					<monthContext type="format">
@@ -992,7 +1031,7 @@
 							<day type="wed">Ç.</day>
 							<day type="thu">C.A.</day>
 							<day type="fri">C</day>
-							<day type="sat" draft="contributed">Ş.</day>
+							<day type="sat">Ş.</day>
 						</dayWidth>
 						<dayWidth type="wide">
 							<day type="sun">bazar</day>
@@ -1096,43 +1135,43 @@
 						<dateFormatItem id="yMMMEd">E, d, MMM, y</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
-				<fields>
-					<field type="era">
-						<displayName>era</displayName>
-					</field>
-					<field type="year">
-						<displayName>il</displayName>
-					</field>
-					<field type="month">
-						<displayName>ay</displayName>
-					</field>
-					<field type="week">
-						<displayName>həftə</displayName>
-					</field>
-					<field type="day">
-						<displayName>bu gün</displayName>
-						<relative type="-1">dünən</relative>
-						<relative type="0">bu gün</relative>
-						<relative type="1">sabah</relative>
-					</field>
-					<field type="weekday">
-						<displayName>həftə günü</displayName>
-					</field>
-					<field type="hour">
-						<displayName>saat</displayName>
-					</field>
-					<field type="minute">
-						<displayName>dəqiqə</displayName>
-					</field>
-					<field type="second">
-						<displayName>saniyə</displayName>
-					</field>
-					<field type="zone">
-						<displayName>zona</displayName>
-					</field>
-				</fields>
 			</calendar>
 		</calendars>
+		<fields>
+			<field type="era">
+				<displayName>era</displayName>
+			</field>
+			<field type="year">
+				<displayName>il</displayName>
+			</field>
+			<field type="month">
+				<displayName>ay</displayName>
+			</field>
+			<field type="week">
+				<displayName>həftə</displayName>
+			</field>
+			<field type="day">
+				<displayName>bu gün</displayName>
+				<relative type="-1">dünən</relative>
+				<relative type="0">bu gün</relative>
+				<relative type="1">sabah</relative>
+			</field>
+			<field type="weekday">
+				<displayName>həftə günü</displayName>
+			</field>
+			<field type="hour">
+				<displayName>saat</displayName>
+			</field>
+			<field type="minute">
+				<displayName>dəqiqə</displayName>
+			</field>
+			<field type="second">
+				<displayName>saniyə</displayName>
+			</field>
+			<field type="zone">
+				<displayName>zona</displayName>
+			</field>
+		</fields>
 		<timeZoneNames>
 			<zone type="Etc/Unknown">
 				<exemplarCity draft="contributed">Bilinmir</exemplarCity>
@@ -1598,51 +1637,37 @@
 			</zone>
 			<metazone type="Europe_Central">
 				<long>
-					<generic draft="contributed">Orta Avropa</generic>
-					<standard draft="contributed">Orta Avropa</standard>
-					<daylight draft="contributed">Orta Avropa/yay</daylight>
+					<generic>Orta Avropa vaxtı</generic>
+					<standard>Orta Avropa standart vaxtı</standard>
+					<daylight>Orta Avropa yay vaxtı</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
-					<generic draft="contributed">Şərq Avropa</generic>
-					<standard draft="contributed">Şərq Avropa</standard>
-					<daylight draft="contributed">Şərq Avropa/yay</daylight>
-				</long>
-			</metazone>
-			<metazone type="Kuybyshev">
-				<long>
-					<generic draft="contributed">Kuybuşev</generic>
-					<standard draft="contributed">Kuybuşev</standard>
-					<daylight draft="contributed">Kuybuşev/yay</daylight>
+					<generic>Şərq Avropa vaxtı</generic>
+					<standard>Şərq Avropa standart vaxtı</standard>
+					<daylight>Şərq Avropa yay vaxtı</daylight>
 				</long>
 			</metazone>
 			<metazone type="Moscow">
 				<long>
-					<generic draft="contributed">Moskva</generic>
-					<standard draft="contributed">Moskva/standart</standard>
-					<daylight draft="contributed">Moskva/yay</daylight>
+					<generic>Moskva vaxtı</generic>
+					<standard>Moskva standart vaxtı</standard>
+					<daylight>Moskva yay vaxtı</daylight>
 				</long>
 			</metazone>
 			<metazone type="Samara">
 				<long>
-					<generic draft="contributed">Samara</generic>
-					<standard draft="contributed">Samara</standard>
-					<daylight draft="contributed">Samara/yay</daylight>
-				</long>
-			</metazone>
-			<metazone type="Turkey">
-				<long>
-					<generic draft="contributed">Türkiya</generic>
-					<standard draft="contributed">Türkiya</standard>
-					<daylight draft="contributed">Türkiya/yay</daylight>
+					<generic>Samara vaxtı</generic>
+					<standard>Samara standart vaxtı</standard>
+					<daylight>Samara yay vaxtı</daylight>
 				</long>
 			</metazone>
 			<metazone type="Volgograd">
 				<long>
-					<generic draft="contributed">Volqoqrad</generic>
-					<standard draft="contributed">Volqoqrad</standard>
-					<daylight draft="contributed">Volqoqrad/yay</daylight>
+					<generic>Volqoqrad vaxtı</generic>
+					<standard>Volqoqrad standart vaxtı</standard>
+					<daylight>Volqoqrad yay vaxtı</daylight>
 				</long>
 			</metazone>
 		</timeZoneNames>
@@ -2638,6 +2663,10 @@
 				<displayName count="other" draft="contributed">Cənub Afrika randı</displayName>
 			</currency>
 			<currency type="ZMK">
+				<displayName draft="contributed">Zambiya kvaçı (1968-2012)</displayName>
+				<displayName count="other" draft="contributed">Zambiya kvaçı (1968-2012)</displayName>
+			</currency>
+			<currency type="ZMW">
 				<displayName draft="contributed">Zambiya kvaçı</displayName>
 				<displayName count="other" draft="contributed">Zambiya kvaçı</displayName>
 			</currency>
@@ -2685,3 +2714,4 @@
 		</messages>
 	</posix>
 </ldml>
+

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!-- Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
 <ldml>
 	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
+		<version number="$Revision: 8671 $"/>
+		<generation date="$Date: 2013-05-03 14:17:48 -0500 (Fri, 03 May 2013) $"/>
 		<language type="bn"/>
 	</identity>
 	<localeDisplayNames>
@@ -96,6 +100,7 @@
 			<language type="chp">চিপেওয়ান</language>
 			<language type="chr">চেরোকি</language>
 			<language type="chy" draft="contributed">শাইয়েন</language>
+			<language type="ckb" draft="contributed">সোরানি কুর্দিশ</language>
 			<language type="cmc">চামিক ভাষা</language>
 			<language type="co" draft="contributed">কর্সিকান</language>
 			<language type="cop" draft="contributed">কপটিক</language>
@@ -297,6 +302,7 @@
 			<language type="mdf">মোকশা</language>
 			<language type="mdr" draft="contributed">ম্যাণ্ডার</language>
 			<language type="men">মেন্ডে</language>
+			<language type="mfe" draft="contributed">মরিসিয়ান</language>
 			<language type="mg" draft="contributed">মালাগাসি</language>
 			<language type="mga">মধ্য আইরিশ</language>
 			<language type="mh">মার্শালিজ</language>
@@ -387,7 +393,7 @@
 			<language type="raj">রাজস্থানী</language>
 			<language type="rap">রাপানুই</language>
 			<language type="rar">রারোটোংগান</language>
-			<language type="rm">রেটো-রোমানীয়</language>
+			<language type="rm">রোমান্স</language>
 			<language type="rn">রুন্দি</language>
 			<language type="ro">রোমানীয়</language>
 			<language type="roa">রোমান ভাষা</language>
@@ -536,7 +542,7 @@
 			<script type="Blis">ব্লিসপ্রতীক</script>
 			<script type="Bopo">বোপোমোফো</script>
 			<script type="Brah">ব্রাহ্মী</script>
-			<script type="Brai" draft="contributed">ব্রাইলে</script>
+			<script type="Brai">ব্রেইল</script>
 			<script type="Bugi" draft="contributed">বুগি</script>
 			<script type="Buhd">বুহিড</script>
 			<script type="Cakm">চাকমা</script>
@@ -721,6 +727,7 @@
 			<territory type="BM">বারমুডা</territory>
 			<territory type="BN">ব্রুনেই</territory>
 			<territory type="BO">বোলিভিয়া</territory>
+			<territory type="BQ" draft="contributed">ক্যারিবিয়ান নেদারল্যান্ডস</territory>
 			<territory type="BR">ব্রাজিল</territory>
 			<territory type="BS">বাহামা দ্বীপপুঞ্জ</territory>
 			<territory type="BT">ভুটান</territory>
@@ -735,7 +742,7 @@
 			<territory type="CF">মধ্য আফ্রিকান প্রজাতন্ত্র</territory>
 			<territory type="CG">কঙ্গো</territory>
 			<territory type="CG" alt="variant" draft="contributed">কঙ্গো [প্রজাতন্ত্র]</territory>
-			<territory type="CH">সুইজর্লণ্ড</territory>
+			<territory type="CH">সুইজারল্যান্ড</territory>
 			<territory type="CI">আইভরি কোস্ট</territory>
 			<territory type="CI" alt="variant" draft="contributed">আভরি কোস্ট</territory>
 			<territory type="CK">কুক দ্বীপপুঞ্জ</territory>
@@ -745,9 +752,9 @@
 			<territory type="CO">কোলোম্বিয়া</territory>
 			<territory type="CP" draft="contributed">ক্লিপারটন আইল্যান্ড</territory>
 			<territory type="CR">কোস্টারিকা</territory>
-			<territory type="CS">সারবিয়ান এবং মন্টেনিগ্রো</territory>
 			<territory type="CU">কিউবা</territory>
 			<territory type="CV">কেপভার্দে</territory>
+			<territory type="CW" draft="contributed">কুরাসাও</territory>
 			<territory type="CX">ক্রিসমাস দ্বীপ</territory>
 			<territory type="CY">সাইপ্রাস</territory>
 			<territory type="CZ">চেক প্রজাতন্ত্র</territory>
@@ -767,7 +774,7 @@
 			<territory type="ES">স্পেন</territory>
 			<territory type="ET">ইফিওপিয়া</territory>
 			<territory type="EU">ইউরোপীয় ইউনিয়ন</territory>
-			<territory type="FI">ফিন্ল্যাণ্ড</territory>
+			<territory type="FI">ফিনল্যান্ড</territory>
 			<territory type="FJ">ফিজি</territory>
 			<territory type="FK">ফকল্যান্ড দ্বীপপুঞ্জ</territory>
 			<territory type="FK" alt="variant" draft="contributed">ফকল্যান্ড আইল্যান্ড [ ইসল্যাস মাসভেনিস]</territory>
@@ -775,7 +782,7 @@
 			<territory type="FO">ফ্যারও দ্বীপপুঞ্জ</territory>
 			<territory type="FR">ফ্রান্স</territory>
 			<territory type="GA">গ্যাবন</territory>
-			<territory type="GB">গ্রেটবৃটেন</territory>
+			<territory type="GB">যুক্তরাজ্য</territory>
 			<territory type="GD" draft="contributed">গ্রেনাডা</territory>
 			<territory type="GE">জর্জিয়া</territory>
 			<territory type="GF">ফরাসী গায়ানা</territory>
@@ -804,7 +811,7 @@
 			<territory type="ID">ইন্দোনেশিয়া</territory>
 			<territory type="IE">আয়ার্লণ্ড</territory>
 			<territory type="IL">ইস্রায়েল</territory>
-			<territory type="IM" draft="contributed">ম্যানদ্বীপ</territory>
+			<territory type="IM">আইল অফ ম্যান</territory>
 			<territory type="IN">ভারত</territory>
 			<territory type="IO">ব্রিটিশ ভারত মহাসাগরীয় অঞ্চল</territory>
 			<territory type="IQ">ইরাক</territory>
@@ -868,7 +875,7 @@
 			<territory type="NF">নিরফোক দ্বীপ</territory>
 			<territory type="NG">নাইজেরিয়া</territory>
 			<territory type="NI">নিকারাগুয়া</territory>
-			<territory type="NL">হলণ্ড</territory>
+			<territory type="NL">নেদারল্যান্ডস</territory>
 			<territory type="NO">নরওয়ে</territory>
 			<territory type="NP">নেপাল</territory>
 			<territory type="NR">নাউরু</territory>
@@ -886,6 +893,7 @@
 			<territory type="PN" draft="contributed">পিটকেয়ার্ন</territory>
 			<territory type="PR">পুয়ের্টোরিকো</territory>
 			<territory type="PS" draft="contributed">ফিলিস্তিন অঞ্চল</territory>
+			<territory type="PS" alt="short">ফিলিস্তিনীয়</territory>
 			<territory type="PT">পর্তুগাল</territory>
 			<territory type="PW">পালাউ</territory>
 			<territory type="PY">প্যারাগোয়ে</territory>
@@ -911,8 +919,10 @@
 			<territory type="SN">সেনেগাল</territory>
 			<territory type="SO">সোমালি</territory>
 			<territory type="SR">সুরিনাম</territory>
+			<territory type="SS" draft="contributed">দক্ষিন সুদান</territory>
 			<territory type="ST">সাওটোমা ও প্রিন্সিপি</territory>
 			<territory type="SV">এল সালভেদর</territory>
+			<territory type="SX" draft="contributed">সিন্ট মার্টেন</territory>
 			<territory type="SY">সিরিয়া</territory>
 			<territory type="SZ">সোয়াজিল্যান্ড</territory>
 			<territory type="TA" draft="contributed">ট্রিস্টান ডা কুনা</territory>
@@ -948,6 +958,7 @@
 			<territory type="VU">ভানুয়াটু</territory>
 			<territory type="WF">ওয়ালিস ও ফুটুনা</territory>
 			<territory type="WS">সামোয়া</territory>
+			<territory type="XK">কসোভো</territory>
 			<territory type="YE">ইমেন</territory>
 			<territory type="YT" draft="contributed">মায়োত্তে</territory>
 			<territory type="ZA">দক্ষিণ আফ্রিকা</territory>
@@ -961,9 +972,20 @@
 		</variants>
 		<keys>
 			<key type="calendar">ক্যালেন্ডার</key>
+			<key type="colAlternate" draft="contributed">প্রতীক বাছাইকরণ উপেক্ষা করুন</key>
+			<key type="colBackwards" draft="contributed">বিপরীত করা স্বরাঘাত বাছাইকরণ</key>
+			<key type="colCaseFirst" draft="contributed">বড়হাতের/ছোটহাতের অক্ষর ক্রম</key>
+			<key type="colCaseLevel" draft="contributed">কেস সংবেদী বাছাইকরণ</key>
+			<key type="colHiraganaQuaternary" draft="contributed">কানা বাছাইকরণ</key>
 			<key type="collation">সজ্জাক্রম</key>
+			<key type="colNormalization" draft="contributed">স্বাভাবিককৃত বাছাইকরণ</key>
+			<key type="colNumeric" draft="contributed">সংখ্যাসূচক বাছাইকরণ</key>
+			<key type="colStrength" draft="contributed">বাছাইকরণ শক্তি</key>
 			<key type="currency">মুদ্রা</key>
 			<key type="numbers" draft="contributed">সংখ্যাসমূহ</key>
+			<key type="timezone" draft="contributed">সময় জোন</key>
+			<key type="va" draft="contributed">স্থানীয় ভিন্নতা</key>
+			<key type="variableTop" draft="contributed">প্রতীক হিসেবে বাছাই করুন</key>
 			<key type="x" draft="contributed">বক্তিগত- ব্যবহার</key>
 		</keys>
 		<types>
@@ -982,6 +1004,7 @@
 			<type type="ethi" key="numbers" draft="contributed">ইথীয়োপিক সংখ্যা</type>
 			<type type="ethiopic" key="calendar" draft="contributed">ইথিওপিক ক্যালেন্ডার</type>
 			<type type="ethiopic-amete-alem" key="calendar" draft="contributed">ইথিওপিও আমেতে আলেম ক্যালেন্ডার</type>
+			<type type="finance" key="numbers" draft="contributed">অর্থনৈতিক সংখ্যাসূচক</type>
 			<type type="fullwide" key="numbers" draft="contributed">পূর্ণ চওড়া সংখ্যা</type>
 			<type type="gb2312han" key="collation">সাধারণ চীনা সজ্জাক্রম - জিবি২৩১২</type>
 			<type type="geor" key="numbers" draft="contributed">জর্জিয়ান সংখ্যা</type>
@@ -997,6 +1020,7 @@
 			<type type="hantfin" key="numbers" draft="contributed">ঐতিহ্যবাহী চৈনিক আর্থিক সংখ্যা</type>
 			<type type="hebr" key="numbers" draft="contributed">য়িহুদি সংখ্যা</type>
 			<type type="hebrew" key="calendar">হিব্রু বর্ষপঞ্জী</type>
+			<type type="identical" key="colStrength" draft="contributed">সমস্ত বাছাই করুন</type>
 			<type type="indian" key="calendar">ভারতীয় জাতীয় বর্ষপঞ্জী</type>
 			<type type="islamic" key="calendar">ইসলামিক বর্ষপঞ্জী</type>
 			<type type="islamic-civil" key="calendar">ইসলামিক-সিভিল বর্ষপঞ্জী</type>
@@ -1007,29 +1031,56 @@
 			<type type="knda" key="numbers" draft="contributed">কান্নাডা শংখ্যা</type>
 			<type type="laoo" key="numbers" draft="contributed">লাও সংখ্যা</type>
 			<type type="latn" key="numbers" draft="contributed">পশ্চিমি শংখ্যা</type>
+			<type type="lower" key="colCaseFirst" draft="contributed">প্রথমে ছোট হাতের অক্ষর বাছাই করুন</type>
 			<type type="mlym" key="numbers" draft="contributed">মালয়ালম শংখ্যা</type>
 			<type type="mong" key="numbers" draft="contributed">মঙ্গোলীয় সংখ্যা</type>
 			<type type="mymr" key="numbers" draft="contributed">মায়ানমার সংখ্যা</type>
+			<type type="native" key="numbers" draft="contributed">স্থানীয় সংখ্যা</type>
+			<type type="no" key="colBackwards" draft="contributed">স্বরাঘাত সাধারণতভাবে বাছাই করুন</type>
+			<type type="no" key="colCaseFirst" draft="contributed">সাধারন কেস ক্রম বাছাই করুন</type>
+			<type type="no" key="colCaseLevel" draft="contributed">কেস অসংবেদী বাছাই করুন</type>
+			<type type="no" key="colHiraganaQuaternary" draft="contributed">কানা আলাদাভাবে বাছাই করুন</type>
+			<type type="no" key="colNormalization" draft="contributed">স্বাভাবিক ছাড়া বাছাই করুন</type>
+			<type type="no" key="colNumeric" draft="contributed">সংখ্যা পৃথকভাবে বাছাই করুন</type>
+			<type type="non-ignorable" key="colAlternate" draft="contributed">প্রতীক বাছাই করুন</type>
 			<type type="orya" key="numbers" draft="contributed">ওড়িয়া শংখ্যা</type>
 			<type type="persian" key="calendar" draft="contributed">ফারসি ক্যালেন্ডার</type>
 			<type type="phonebook" key="collation">ফোনবুক সজ্জাক্রম</type>
+			<type type="phonetic" key="collation" draft="contributed">ধ্বনি নির্দেশক বাছাই ক্রম</type>
 			<type type="pinyin" key="collation" draft="contributed">পিনিন সজ্জাক্রম</type>
+			<type type="primary" key="colStrength" draft="contributed">কেবল বুনিয়াদি বর্ণ বাছাই করুন</type>
+			<type type="quaternary" key="colStrength" draft="contributed">স্বরাঘাত/কেস/প্রস্থ/কানা বাছাই করুন</type>
 			<type type="reformed" key="collation" draft="contributed">রিফর্মড বাছাই বিন্যাস</type>
 			<type type="roc" key="calendar">গণপ্রজাতন্ত্রী চীনা বর্ষপঞ্জী</type>
 			<type type="roman" key="numbers" draft="contributed">রোমান সংখ্যা</type>
 			<type type="romanlow" key="numbers" draft="contributed">রোমান ছোটহাতের সংখ্যা</type>
 			<type type="search" key="collation" draft="contributed">সাধারণ-উদ্দেশ্যে অনুসন্ধান</type>
+			<type type="searchjl" key="collation" draft="contributed">হাঙ্গুল প্রাথমিক ব্যঞ্জনবর্ণ দ্বারা অনুসন্ধান করুন</type>
+			<type type="secondary" key="colStrength" draft="contributed">স্বরাঘাত বাছাই করুন</type>
+			<type type="shifted" key="colAlternate" draft="contributed">উপেক্ষা প্রতীক বাছাই করুন</type>
 			<type type="stroke" key="collation" draft="contributed">আবর্তিত সজ্জাক্রম</type>
-			<type type="taml" key="numbers" draft="contributed">তামিল সংখ্যা</type>
+			<type type="taml" key="numbers" draft="contributed">ঐতিহ্যবাহী তামিল সংখ্যা</type>
+			<type type="tamldec" key="numbers" draft="contributed">তামিল সংখ্যা</type>
 			<type type="telu" key="numbers" draft="contributed">তেলুগু সংখ্যা</type>
+			<type type="tertiary" key="colStrength" draft="contributed">স্বরাঘাত/কেস/প্রস্থ বাছাই করুন</type>
 			<type type="thai" key="numbers" draft="contributed">থাই সংখ্যা</type>
 			<type type="tibt" key="numbers" draft="contributed">তিব্বতি সংখ্যা</type>
 			<type type="traditional" key="collation" draft="contributed">প্রথাগত সজ্জাক্রম</type>
+			<type type="traditional" key="numbers" draft="contributed">ঐতিহ্যগত সংখ্যাসূচক</type>
 			<type type="unihan" key="collation" draft="contributed">রাডিকেল স্ট্রোক বাছাই বিন্যাস</type>
+			<type type="upper" key="colCaseFirst" draft="contributed">প্রথমে বড়হাতের অক্ষর বাছাই করুন</type>
+			<type type="vaii" key="numbers" draft="contributed">ভাই সংখ্যা</type>
+			<type type="yes" key="colBackwards" draft="contributed">স্বরাঘাত বিপরীত বাছাই করুন</type>
+			<type type="yes" key="colCaseLevel" draft="contributed">কেস সংবেদী বাছাই করুন</type>
+			<type type="yes" key="colHiraganaQuaternary" draft="contributed">কানা ভিন্নভাবে বাছাই করুন</type>
+			<type type="yes" key="colNormalization" draft="contributed">স্বাভাবিকৃত ইউনিকোড বাছাই করুন</type>
+			<type type="yes" key="colNumeric" draft="contributed">সংখ্যা সংখ্যাসূচকভাবে বাছাই করুন</type>
 		</types>
 		<transformNames>
+			<transformName type="BGN" draft="contributed">BGN</transformName>
 			<transformName type="Numeric" draft="contributed">সাংখিক</transformName>
 			<transformName type="Tone" draft="contributed">স্বরভঙ্গি</transformName>
+			<transformName type="UNGEGN" draft="contributed">UNGEGN</transformName>
 			<transformName type="x-Accents" draft="contributed">অ্যাসেন্টস</transformName>
 			<transformName type="x-Fullwidth" draft="contributed">পূর্ণচওড়া</transformName>
 			<transformName type="x-Halfwidth" draft="contributed">অর্ধচওড়া</transformName>
@@ -1051,11 +1102,11 @@
 	<characters>
 		<exemplarCharacters>[\u09BC ৺ অ আ ই ঈ উ ঊ ঋ ৠ ঌ ৡ এ ঐ ও ঔ ং ঃ \u0981 ক {ক\u09CDষ} খ গ ঘ ঙ চ ছ জ ঝ ঞ ট ঠ ড {ড\u09BC} ঢ {ঢ\u09BC} ণ ত ৎ থ দ ধ ন প ফ ব ভ ম য {য\u09BC} র ল শ ষ স হ ঽ া ি ী \u09C1 \u09C2 \u09C3 \u09C4 \u09E2 \u09E3 ে ৈ ো ৌ \u09CD ৗ]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[\u200C\u200D ৲ ৳ ৴ ৵ ৶ ৷ ৸ ৹ ৰ ৱ]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol">[৳]</exemplarCharacters>
 		<exemplarCharacters type="index" draft="contributed">[অ আ ই ঈ উ ঊ ঋ এ ঐ ও ঔ ক {ক\u09CDষ} খ গ ঘ ঙ চ ছ জ ঝ ঞ ট ঠ ড ঢ ণ ত থ দ ধ ন প ফ ব ভ ম য র ল শ ষ স হ]</exemplarCharacters>
-		<stopwords>
-			<stopwordList type="collation" draft="provisional">একটি -টি -টা -খানি -খানা</stopwordList>
-		</stopwords>
+		<ellipsis type="final" draft="contributed">{0} …</ellipsis>
+		<ellipsis type="initial" draft="contributed">… {0}</ellipsis>
+		<ellipsis type="medial" draft="contributed">{0} … {1}</ellipsis>
+		<moreInformation draft="contributed">?</moreInformation>
 	</characters>
 	<delimiters>
 		<quotationStart>“</quotationStart>
@@ -1065,6 +1116,178 @@
 	</delimiters>
 	<dates>
 		<calendars>
+			<calendar type="generic">
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE, d MMMM, y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d MMMM, y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>d MMM, y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>d/M/yy GGGGG</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats>
+					<dateTimeFormatLength type="full">
+						<dateTimeFormat>
+							<pattern draft="contributed">{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="long">
+						<dateTimeFormat>
+							<pattern draft="contributed">{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="medium">
+						<dateTimeFormat>
+							<pattern draft="contributed">{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="short">
+						<dateTimeFormat>
+							<pattern draft="contributed">{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<availableFormats>
+						<dateFormatItem id="d">d</dateFormatItem>
+						<dateFormatItem id="Ed">d E</dateFormatItem>
+						<dateFormatItem id="h" draft="contributed">h a</dateFormatItem>
+						<dateFormatItem id="H" draft="contributed">HH</dateFormatItem>
+						<dateFormatItem id="hm" draft="contributed">h:mm a</dateFormatItem>
+						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="hms" draft="contributed">h:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms" draft="contributed">HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="M">L</dateFormatItem>
+						<dateFormatItem id="Md">d/M</dateFormatItem>
+						<dateFormatItem id="MEd">E, d-M</dateFormatItem>
+						<dateFormatItem id="MMdd">dd-MM</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
+						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMEd">E d MMMM</dateFormatItem>
+						<dateFormatItem id="ms">mm:ss</dateFormatItem>
+						<dateFormatItem id="y">y</dateFormatItem>
+						<dateFormatItem id="yM">M/y</dateFormatItem>
+						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
+						<dateFormatItem id="yMEd">E, d/M/y</dateFormatItem>
+						<dateFormatItem id="yMM">MM-y</dateFormatItem>
+						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMd">d MMM, y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E, d MMM, y</dateFormatItem>
+						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
+						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
+						<dateFormatItem id="yQQQQ">QQQQ y</dateFormatItem>
+					</availableFormats>
+					<intervalFormats>
+						<intervalFormatFallback>{0} – {1}</intervalFormatFallback>
+						<intervalFormatItem id="d">
+							<greatestDifference id="d">d-d</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="h">
+							<greatestDifference id="a">h a – h a</greatestDifference>
+							<greatestDifference id="h">h–h a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="H">
+							<greatestDifference id="H" draft="contributed">HH–HH</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hm">
+							<greatestDifference id="a">h:mm a – h:mm a</greatestDifference>
+							<greatestDifference id="h">h:mm–h:mm a</greatestDifference>
+							<greatestDifference id="m">h:mm–h:mm a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hm">
+							<greatestDifference id="H" draft="contributed">HH:mm–HH:mm</greatestDifference>
+							<greatestDifference id="m" draft="contributed">HH:mm–HH:mm</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hmv">
+							<greatestDifference id="a">h:mm a – h:mm a v</greatestDifference>
+							<greatestDifference id="h">h:mm–h:mm a v</greatestDifference>
+							<greatestDifference id="m">h:mm–h:mm a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hmv">
+							<greatestDifference id="H" draft="contributed">HH:mm–HH:mm v</greatestDifference>
+							<greatestDifference id="m" draft="contributed">HH:mm–HH:mm v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hv">
+							<greatestDifference id="a">h a – h a v</greatestDifference>
+							<greatestDifference id="h">h–h a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hv">
+							<greatestDifference id="H" draft="contributed">HH–HH v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="M">
+							<greatestDifference id="M">M-M</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Md">
+							<greatestDifference id="d">d/M - d/M</greatestDifference>
+							<greatestDifference id="M">d/M - d/M</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MEd">
+							<greatestDifference id="d">E, d/M – E, d/M</greatestDifference>
+							<greatestDifference id="M">E, d/M – E, d/M</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMM">
+							<greatestDifference id="M">LLL-LLL</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMd">
+							<greatestDifference id="d">d–d MMM</greatestDifference>
+							<greatestDifference id="M">d MMM – d MMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMEd">
+							<greatestDifference id="d">E, d MMM – E, d MMM</greatestDifference>
+							<greatestDifference id="M">E, d MMM – E, d MMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="y">
+							<greatestDifference id="y">y-y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yM">
+							<greatestDifference id="M">M/y – M/y</greatestDifference>
+							<greatestDifference id="y">M/y – M/y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMd">
+							<greatestDifference id="d">d/M/y – d/M/y</greatestDifference>
+							<greatestDifference id="M">d/M/y – d/M/y</greatestDifference>
+							<greatestDifference id="y">d/M/y – d/M/y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMEd">
+							<greatestDifference id="d">E, d/M/y – E, d/M/y</greatestDifference>
+							<greatestDifference id="M">E, d/M/y – E, d/M/y</greatestDifference>
+							<greatestDifference id="y">E, d/M/y – E, d/M/y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMM">
+							<greatestDifference id="M">MMM–MMM y</greatestDifference>
+							<greatestDifference id="y">MMM y – MMM y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMd">
+							<greatestDifference id="d">d–d MMM, y</greatestDifference>
+							<greatestDifference id="M">d MMM – d MMM, y</greatestDifference>
+							<greatestDifference id="y">d MMM, y – d MMM, y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMEd">
+							<greatestDifference id="d">E, d MMM – E, d MMM, y</greatestDifference>
+							<greatestDifference id="M">E, d MMM – E, d MMM, y</greatestDifference>
+							<greatestDifference id="y">E, d MMM, y – E, d MMM, y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMM">
+							<greatestDifference id="M">MM – MM -y</greatestDifference>
+							<greatestDifference id="y">MM-y – MM-y</greatestDifference>
+						</intervalFormatItem>
+					</intervalFormats>
+				</dateTimeFormats>
+			</calendar>
 			<calendar type="gregorian">
 				<months>
 					<monthContext type="format">
@@ -1111,6 +1334,15 @@
 							<day type="fri">শুক্র</day>
 							<day type="sat">শনি</day>
 						</dayWidth>
+						<dayWidth type="short">
+							<day type="sun" draft="contributed">রঃ</day>
+							<day type="mon" draft="contributed">সোঃ</day>
+							<day type="tue" draft="contributed">মঃ</day>
+							<day type="wed" draft="contributed">বুঃ</day>
+							<day type="thu" draft="contributed">বৃঃ</day>
+							<day type="fri" draft="contributed">শুঃ</day>
+							<day type="sat" draft="contributed">শোঃ</day>
+						</dayWidth>
 						<dayWidth type="wide">
 							<day type="sun">রবিবার</day>
 							<day type="mon">সোমবার</day>
@@ -1130,6 +1362,15 @@
 							<day type="thu">বৃ</day>
 							<day type="fri">শু</day>
 							<day type="sat">শ</day>
+						</dayWidth>
+						<dayWidth type="short">
+							<day type="sun" draft="contributed">রঃ</day>
+							<day type="mon" draft="contributed">সোঃ</day>
+							<day type="tue" draft="contributed">মঃ</day>
+							<day type="wed" draft="contributed">বুঃ</day>
+							<day type="thu" draft="contributed">বৃঃ</day>
+							<day type="fri" draft="contributed">শুঃ</day>
+							<day type="sat" draft="contributed">শোঃ</day>
 						</dayWidth>
 					</dayContext>
 				</days>
@@ -1171,6 +1412,10 @@
 				</quarters>
 				<dayPeriods>
 					<dayPeriodContext type="format">
+						<dayPeriodWidth type="narrow">
+							<dayPeriod type="am">পূর্বাহ্ণ</dayPeriod>
+							<dayPeriod type="pm">অপরাহ্ণ</dayPeriod>
+						</dayPeriodWidth>
 						<dayPeriodWidth type="wide">
 							<dayPeriod type="am">পূর্বাহ্ণ</dayPeriod>
 							<dayPeriod type="pm">অপরাহ্ণ</dayPeriod>
@@ -1228,10 +1473,35 @@
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
+					<dateTimeFormatLength type="full">
+						<dateTimeFormat>
+							<pattern draft="contributed">{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="long">
+						<dateTimeFormat>
+							<pattern draft="contributed">{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="medium">
+						<dateTimeFormat>
+							<pattern draft="contributed">{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="short">
+						<dateTimeFormat>
+							<pattern draft="contributed">{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">d E</dateFormatItem>
+						<dateFormatItem id="h" draft="contributed">h a</dateFormatItem>
+						<dateFormatItem id="H" draft="contributed">HH</dateFormatItem>
+						<dateFormatItem id="hm" draft="contributed">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="hms" draft="contributed">h:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms" draft="contributed">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">d/M</dateFormatItem>
 						<dateFormatItem id="MEd">E, d-M</dateFormatItem>
@@ -1243,18 +1513,16 @@
 						<dateFormatItem id="MMMMEd">E d MMMM</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">M/yyyy</dateFormatItem>
+						<dateFormatItem id="yM">M/y</dateFormatItem>
 						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
 						<dateFormatItem id="yMEd">E, d/M/y</dateFormatItem>
+						<dateFormatItem id="yMM">MM-y</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM, y</dateFormatItem>
 						<dateFormatItem id="yMMMEd">E, d MMM, y</dateFormatItem>
 						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
-						<dateFormatItem id="yQ">Q y</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
-						<dateFormatItem id="yyyyMM">MM-yyyy</dateFormatItem>
-						<dateFormatItem id="yyyyMMMM">MMMM y</dateFormatItem>
+						<dateFormatItem id="yQQQQ">QQQQ y</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback>{0} – {1}</intervalFormatFallback>
@@ -1265,19 +1533,33 @@
 							<greatestDifference id="a">h a – h a</greatestDifference>
 							<greatestDifference id="h">h–h a</greatestDifference>
 						</intervalFormatItem>
+						<intervalFormatItem id="H">
+							<greatestDifference id="H" draft="contributed">HH–HH</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="hm">
 							<greatestDifference id="a">h:mm a – h:mm a</greatestDifference>
 							<greatestDifference id="h">h:mm–h:mm a</greatestDifference>
 							<greatestDifference id="m">h:mm–h:mm a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hm">
+							<greatestDifference id="H" draft="contributed">HH:mm–HH:mm</greatestDifference>
+							<greatestDifference id="m" draft="contributed">HH:mm–HH:mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hmv">
 							<greatestDifference id="a">h:mm a – h:mm a v</greatestDifference>
 							<greatestDifference id="h">h:mm–h:mm a v</greatestDifference>
 							<greatestDifference id="m">h:mm–h:mm a v</greatestDifference>
 						</intervalFormatItem>
+						<intervalFormatItem id="Hmv">
+							<greatestDifference id="H" draft="contributed">HH:mm–HH:mm v</greatestDifference>
+							<greatestDifference id="m" draft="contributed">HH:mm–HH:mm v</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="hv">
 							<greatestDifference id="a">h a – h a v</greatestDifference>
 							<greatestDifference id="h">h–h a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hv">
+							<greatestDifference id="H" draft="contributed">HH–HH v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="M">
 							<greatestDifference id="M">M-M</greatestDifference>
@@ -1305,18 +1587,18 @@
 							<greatestDifference id="y">y-y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yM">
-							<greatestDifference id="M">M/yy – M/yy</greatestDifference>
-							<greatestDifference id="y">M/yy – M/yy</greatestDifference>
+							<greatestDifference id="M">M/y – M/y</greatestDifference>
+							<greatestDifference id="y">M/y – M/y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMd">
-							<greatestDifference id="d">d/M/yy – d/M/yy</greatestDifference>
-							<greatestDifference id="M">d/M/yy – d/M/yy</greatestDifference>
-							<greatestDifference id="y">d/M/yy – d/M/yy</greatestDifference>
+							<greatestDifference id="d">d/M/y – d/M/y</greatestDifference>
+							<greatestDifference id="M">d/M/y – d/M/y</greatestDifference>
+							<greatestDifference id="y">d/M/y – d/M/y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d">E, d/M/yy – E, d/M/yy</greatestDifference>
-							<greatestDifference id="M">E, d/M/yy – E, d/M/yy</greatestDifference>
-							<greatestDifference id="y">E, d/M/yy – E, d/M/yy</greatestDifference>
+							<greatestDifference id="d">E, d/M/y – E, d/M/y</greatestDifference>
+							<greatestDifference id="M">E, d/M/y – E, d/M/y</greatestDifference>
+							<greatestDifference id="y">E, d/M/y – E, d/M/y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMM">
 							<greatestDifference id="M">MMM–MMM y</greatestDifference>
@@ -1333,60 +1615,11 @@
 							<greatestDifference id="y">E, d MMM, y – E, d MMM, y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="M">MM – MM -yyyy</greatestDifference>
-							<greatestDifference id="y">MM-yyyy – MM-yyyy</greatestDifference>
+							<greatestDifference id="M">MM – MM -y</greatestDifference>
+							<greatestDifference id="y">MM-y – MM-y</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
-				<fields>
-					<field type="era">
-						<displayName>যুগ</displayName>
-					</field>
-					<field type="year">
-						<displayName>বছর</displayName>
-						<relative type="-1" draft="contributed">আগের বছর</relative>
-						<relative type="0" draft="contributed">এই বছর</relative>
-						<relative type="1" draft="contributed">পরের বছর</relative>
-					</field>
-					<field type="month">
-						<displayName>মাস</displayName>
-						<relative type="-1" draft="contributed">গত মাস</relative>
-						<relative type="0" draft="contributed">এই মাস</relative>
-						<relative type="1" draft="contributed">পরের মাস</relative>
-					</field>
-					<field type="week">
-						<displayName>সপ্তাহ</displayName>
-						<relative type="-1" draft="contributed">গত সপ্তাহ</relative>
-						<relative type="0" draft="contributed">এই সপ্তাহ</relative>
-						<relative type="1" draft="contributed">পরবর্তী সপ্তাহ</relative>
-					</field>
-					<field type="day">
-						<displayName>দিন</displayName>
-						<relative type="-2">গত পরশু</relative>
-						<relative type="-1">গতকাল</relative>
-						<relative type="0">আজ</relative>
-						<relative type="1">আগামীকাল</relative>
-						<relative type="2">আগামী পরশু</relative>
-					</field>
-					<field type="weekday">
-						<displayName>সপ্তাহের দিন</displayName>
-					</field>
-					<field type="dayperiod">
-						<displayName draft="contributed">পূর্বাহ্ণ/অপরাহ্ণ</displayName>
-					</field>
-					<field type="hour">
-						<displayName>ঘন্টা</displayName>
-					</field>
-					<field type="minute">
-						<displayName>মিনিট</displayName>
-					</field>
-					<field type="second">
-						<displayName>সেকেন্ড</displayName>
-					</field>
-					<field type="zone">
-						<displayName>এলাকা</displayName>
-					</field>
-				</fields>
 			</calendar>
 			<calendar type="indian">
 				<months>
@@ -1471,6 +1704,55 @@
 				</eras>
 			</calendar>
 		</calendars>
+		<fields>
+			<field type="era">
+				<displayName>যুগ</displayName>
+			</field>
+			<field type="year">
+				<displayName>বছর</displayName>
+				<relative type="-1" draft="contributed">আগের বছর</relative>
+				<relative type="0" draft="contributed">এই বছর</relative>
+				<relative type="1" draft="contributed">পরের বছর</relative>
+			</field>
+			<field type="month">
+				<displayName>মাস</displayName>
+				<relative type="-1" draft="contributed">গত মাস</relative>
+				<relative type="0" draft="contributed">এই মাস</relative>
+				<relative type="1" draft="contributed">পরের মাস</relative>
+			</field>
+			<field type="week">
+				<displayName>সপ্তাহ</displayName>
+				<relative type="-1" draft="contributed">গত সপ্তাহ</relative>
+				<relative type="0" draft="contributed">এই সপ্তাহ</relative>
+				<relative type="1" draft="contributed">পরবর্তী সপ্তাহ</relative>
+			</field>
+			<field type="day">
+				<displayName>দিন</displayName>
+				<relative type="-2">গত পরশু</relative>
+				<relative type="-1">গতকাল</relative>
+				<relative type="0">আজ</relative>
+				<relative type="1">আগামীকাল</relative>
+				<relative type="2">আগামী পরশু</relative>
+			</field>
+			<field type="weekday">
+				<displayName>সপ্তাহের দিন</displayName>
+			</field>
+			<field type="dayperiod">
+				<displayName draft="contributed">পূর্বাহ্ণ/অপরাহ্ণ</displayName>
+			</field>
+			<field type="hour">
+				<displayName>ঘন্টা</displayName>
+			</field>
+			<field type="minute">
+				<displayName>মিনিট</displayName>
+			</field>
+			<field type="second">
+				<displayName>সেকেন্ড</displayName>
+			</field>
+			<field type="zone">
+				<displayName>এলাকা</displayName>
+			</field>
+		</fields>
 		<timeZoneNames>
 			<hourFormat>+HH:mm;-HH:mm</hourFormat>
 			<gmtFormat>গ্রীনিচ মান সময় {0}</gmtFormat>
@@ -1478,9 +1760,6 @@
 			<regionFormat>{0} সময়</regionFormat>
 			<fallbackFormat>{1} ({0})</fallbackFormat>
 			<fallbackRegionFormat draft="contributed">{1} সময় ({0})</fallbackRegionFormat>
-			<zone type="America/North_Dakota/Beulah">
-				<exemplarCity draft="contributed">বেউলা, উত্তর ডাকোটা</exemplarCity>
-			</zone>
 			<zone type="Etc/Unknown">
 				<exemplarCity>অজানা</exemplarCity>
 			</zone>
@@ -1504,9 +1783,6 @@
 			</zone>
 			<zone type="Asia/Yerevan">
 				<exemplarCity draft="contributed">ইয়েরাভান</exemplarCity>
-			</zone>
-			<zone type="America/Curacao">
-				<exemplarCity draft="contributed">কুরাসাও</exemplarCity>
 			</zone>
 			<zone type="Africa/Luanda">
 				<exemplarCity draft="contributed">লোয়ান্ডা</exemplarCity>
@@ -1870,6 +2146,9 @@
 			</zone>
 			<zone type="Atlantic/Cape_Verde">
 				<exemplarCity draft="contributed">কেপ ভার্দ</exemplarCity>
+			</zone>
+			<zone type="America/Curacao">
+				<exemplarCity draft="contributed">কুরাসাও</exemplarCity>
 			</zone>
 			<zone type="Indian/Christmas">
 				<exemplarCity draft="contributed">খ্রিস্টমাস</exemplarCity>
@@ -2477,6 +2756,9 @@
 			<zone type="America/El_Salvador">
 				<exemplarCity draft="contributed">এল সালভাদোর</exemplarCity>
 			</zone>
+			<zone type="America/Lower_Princes">
+				<exemplarCity draft="contributed">লোয়ার প্রিন্সেস কোয়ার্টার</exemplarCity>
+			</zone>
 			<zone type="Asia/Damascus">
 				<exemplarCity draft="contributed">দামাস্কাস</exemplarCity>
 			</zone>
@@ -2588,6 +2870,9 @@
 			<zone type="America/Denver">
 				<exemplarCity>ডেনভার</exemplarCity>
 			</zone>
+			<zone type="America/North_Dakota/Beulah">
+				<exemplarCity draft="contributed">বেউলা, উত্তর ডাকোটা</exemplarCity>
+			</zone>
 			<zone type="America/North_Dakota/New_Salem">
 				<exemplarCity>নিউ সালেম, উত্তর ডাকোটা</exemplarCity>
 			</zone>
@@ -2696,62 +2981,50 @@
 			</metazone>
 			<metazone type="Afghanistan">
 				<long>
-					<standard draft="provisional">আফগানিস্থান সময়</standard>
+					<standard draft="contributed">আফগানিস্তান সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Africa_Central">
 				<long>
-					<standard draft="provisional">কেন্দ্রীয় আফ্রিকা সময়</standard>
+					<standard draft="contributed">মধ্য আফ্রিকা সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Africa_Eastern">
 				<long>
-					<standard draft="provisional">পূর্ব আফ্রিকা সময়</standard>
+					<standard draft="contributed">পূর্ব আফ্রিকা সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Africa_Southern">
 				<long>
-					<standard draft="provisional">দক্ষিণ আফ্রিকা মান সময়</standard>
+					<standard draft="contributed">দক্ষিণ আফ্রিকা মানক সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Africa_Western">
 				<long>
-					<generic draft="provisional">পশ্চিম আফ্রিকা সময়</generic>
-					<standard draft="provisional">পশ্চিম আফ্রিকা মানক সময়</standard>
-					<daylight draft="provisional">পশ্চিম আফ্রিকা গ্রীষ্মকাল সময়</daylight>
-				</long>
-			</metazone>
-			<metazone type="Aktyubinsk">
-				<long>
-					<standard draft="provisional">অকতুবিন্সক সময়</standard>
-					<daylight draft="provisional">অকতুবিন্সক গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">পশ্চিম আফ্রিকা সময়</generic>
+					<standard draft="contributed">পশ্চিম আফ্রিকা মানক সময়</standard>
+					<daylight draft="contributed">পশ্চিম আফ্রিকা গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Alaska">
 				<long>
-					<generic draft="contributed">আলাস্কার সময়</generic>
-					<standard draft="contributed">অ্যালাসকা মানক সময়</standard>
-					<daylight draft="contributed">আলাসকা দিবালোক সময়</daylight>
-				</long>
-			</metazone>
-			<metazone type="Alaska_Hawaii">
-				<long>
-					<generic draft="provisional">আলাস্কা-হাওয়াই সময়</generic>
-					<standard draft="provisional">আলাস্কা-হাওয়াই মান সময়</standard>
-					<daylight draft="provisional">আলাস্কা-হাওয়াই দিবালোকের সময়</daylight>
+					<generic draft="contributed">আলাস্কা সময়</generic>
+					<standard draft="contributed">আলাস্কা মানক সময়</standard>
+					<daylight draft="contributed">আলাস্কা দিবালোক সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Almaty">
 				<long>
-					<standard draft="provisional">আল্মাটি সময়</standard>
+					<generic draft="provisional">আল্মাটি সময়</generic>
+					<standard draft="provisional">আল্মাটি মানক সময়</standard>
 					<daylight draft="provisional">আল্মাটি গ্রীষ্মকাল সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Amazon">
 				<long>
-					<generic draft="contributed">অ্যামাজোন সময়</generic>
-					<standard draft="provisional">আমাজন সময়</standard>
-					<daylight draft="provisional">আমাজন গ্রীষ্মকাল সময়</daylight>
+					<generic>অ্যামাজন সময়</generic>
+					<standard>আমাজন মানক সময়</standard>
+					<daylight>অ্যামাজন গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="America_Central">
@@ -2784,35 +3057,37 @@
 			</metazone>
 			<metazone type="Anadyr">
 				<long>
-					<generic draft="contributed">অ্যানাডির সময়</generic>
-					<standard draft="contributed">অ্যানাদির সময়</standard>
-					<daylight draft="contributed">অ্যানাদির গ্রীষ্মকালীন সময়</daylight>
+					<generic>অনদ্য্র্ সময়</generic>
+					<standard>অনদ্য্র্ মানক সময়</standard>
+					<daylight>অনদ্য্র্ গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Aqtau">
 				<long>
-					<standard draft="provisional">আকটাও সময়</standard>
+					<generic draft="provisional">আকটাও সময়</generic>
+					<standard draft="provisional">আকটাও মানক সময়</standard>
 					<daylight draft="provisional">আকটাও গ্রীষ্মকাল সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Aqtobe">
 				<long>
-					<standard draft="provisional">আকটোব সময়</standard>
+					<generic draft="provisional">আকটোব সময়</generic>
+					<standard draft="provisional">আকটোব মানক সময়</standard>
 					<daylight draft="provisional">আকটোব গ্রীষ্মকাল সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Arabian">
 				<long>
-					<generic draft="provisional">আরবীয় সময়</generic>
-					<standard draft="provisional">আরবীয় মান সময়</standard>
-					<daylight draft="provisional">আরবীয় দিবালোকের সময়</daylight>
+					<generic draft="contributed">আরবি সময়</generic>
+					<standard draft="contributed">আরবি মানক সময়</standard>
+					<daylight draft="contributed">আরবি দিবালোক সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Argentina">
 				<long>
-					<generic draft="contributed">আর্জেনটিনা সময়</generic>
-					<standard draft="contributed">আর্জেনটিনা সময়</standard>
-					<daylight draft="contributed">আর্জেনটিনা গৃষ্মকালীন সময়</daylight>
+					<generic>আর্জেনটিনা সময়</generic>
+					<standard>আর্জেনটিনা মানক সময়</standard>
+					<daylight>আর্জেনটিনা গৃষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Argentina_Western">
@@ -2824,14 +3099,9 @@
 			</metazone>
 			<metazone type="Armenia">
 				<long>
-					<standard draft="provisional">আর্মেনিয়া সময়</standard>
-					<daylight draft="provisional">আর্মেনিয়া গ্রীষ্মকাল সময়</daylight>
-				</long>
-			</metazone>
-			<metazone type="Ashkhabad">
-				<long>
-					<standard draft="provisional">আস্খাবাদ সময়</standard>
-					<daylight draft="provisional">আস্খাবাদ গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">আর্মেনিয়া সময়</generic>
+					<standard draft="contributed">আর্মেনিয়া মানক সময়</standard>
+					<daylight draft="contributed">আর্মেনিয়া গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Atlantic">
@@ -2871,265 +3141,229 @@
 			</metazone>
 			<metazone type="Azerbaijan">
 				<long>
-					<standard draft="provisional">আজারবেইজান সময়</standard>
-					<daylight draft="provisional">আজারবেইজান গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">আজারবাইজান সময়</generic>
+					<standard draft="contributed">আজারবাইজান মানক সময়</standard>
+					<daylight draft="contributed">আজারবাইজান গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Azores">
 				<long>
-					<standard draft="provisional">এযোরস সময়</standard>
-					<daylight draft="provisional">এযোরস গ্রীষ্মকাল সময়</daylight>
-				</long>
-			</metazone>
-			<metazone type="Baku">
-				<long>
-					<standard draft="provisional">বাকু সময়</standard>
-					<daylight draft="provisional">বাকু গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">এজোরেস সময়</generic>
+					<standard draft="contributed">এজোরেস মানক সময়</standard>
+					<daylight draft="contributed">এজোরেস গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Bangladesh">
 				<long>
-					<standard>বাংলাদেশ সময়</standard>
-					<daylight draft="provisional">বাংলাদেশ গ্রীষ্মকাল সময়</daylight>
-				</long>
-			</metazone>
-			<metazone type="Bering">
-				<long>
-					<generic draft="provisional">বেরিং সময়</generic>
-					<standard draft="provisional">বেরিং মান সময়</standard>
-					<daylight draft="provisional">বেরিং দিবালোকের সময়</daylight>
+					<generic>বাংলাদেশ সময়</generic>
+					<standard>বাংলাদেশ মানক সময়</standard>
+					<daylight>বাংলাদেশ গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Bhutan">
 				<long>
-					<standard draft="provisional">ভূটান সময়</standard>
+					<standard draft="contributed">ভুটান সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Bolivia">
 				<long>
-					<standard draft="provisional">বলিভিয়া সময়</standard>
-				</long>
-			</metazone>
-			<metazone type="Borneo">
-				<long>
-					<standard draft="provisional">বর্নিয় সময়</standard>
-					<daylight draft="provisional">বর্নিয় গ্রীষ্মকাল সময়</daylight>
+					<standard>বোলিভিয়া সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Brasilia">
 				<long>
-					<generic draft="contributed">ব্রাসিলিয়া সময়</generic>
-					<standard draft="contributed">ব্রাসিলিয়া সময়</standard>
-					<daylight draft="contributed">ব্রাসিলিয়া গৃষ্মকালীন সময়</daylight>
+					<generic>ব্রাসিলিয়া সময়</generic>
+					<standard>ব্রাসিলিয়া মানক সময়</standard>
+					<daylight>ব্রাসিলিয়া গৃষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Brunei">
 				<long>
-					<standard draft="provisional">ব্রুনেই দারুসালাম সময়</standard>
+					<standard draft="contributed">ব্রুনেই দারুসসালাম সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Cape_Verde">
 				<long>
-					<standard draft="provisional">কেপ ভার্দে গ্রীষ্মকাল সময়</standard>
-					<daylight draft="provisional">কেপ ভার্দে সময়</daylight>
+					<generic draft="contributed">কেপ ভার্দ সময়</generic>
+					<standard draft="contributed">কেপ ভার্দ মানক সময়</standard>
+					<daylight draft="contributed">কেপ ভার্দ গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Chamorro">
 				<long>
-					<generic draft="provisional">চ্যামোরো সময়</generic>
-					<standard draft="provisional">চ্যামোরো মান সময়</standard>
-				</long>
-			</metazone>
-			<metazone type="Changbai">
-				<long>
-					<standard draft="provisional">চাংবাই সময়</standard>
+					<standard draft="contributed">চামেরো মানক সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Chatham">
 				<long>
-					<standard draft="provisional">চাথাম মান সময়</standard>
-					<daylight draft="provisional">চাথাম দিবালোকের সময়</daylight>
+					<generic draft="contributed">চ্যাথাম সময়</generic>
+					<standard draft="contributed">চ্যাথাম মানক সময়</standard>
+					<daylight draft="contributed">চ্যাথাম দিবালোক সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Chile">
 				<long>
-					<standard draft="provisional">চিলি সময়</standard>
-					<daylight draft="provisional">চিলি গ্রীষ্মকাল সময়</daylight>
+					<generic>চিলি সময়</generic>
+					<standard>চিলি মানক সময়</standard>
+					<daylight>চিলি গ্রীষ্মকাল সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="China">
 				<long>
-					<generic draft="provisional">চীন সময়</generic>
-					<standard draft="provisional">চীন মান সময়</standard>
-					<daylight draft="provisional">চীন দিবালোকের সময়</daylight>
+					<generic draft="contributed">চীন সময়</generic>
+					<standard draft="contributed">চীন মানক সময়</standard>
+					<daylight draft="contributed">চীন দিবালোক সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Choibalsan">
 				<long>
-					<generic draft="contributed">চিয়োবাসলান সময়</generic>
-					<standard draft="contributed">চিয়োবাসলান সময়</standard>
-					<daylight draft="contributed">চিয়োবাসলান গ্রীষ্মকালীন সময়</daylight>
+					<generic>চয়বালসন সময়</generic>
+					<standard>চয়বালসন মানক সময়</standard>
+					<daylight>চয়বালসন গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Christmas">
 				<long>
-					<standard draft="provisional">ক্রিসমাস দ্বীপ সময়</standard>
+					<standard draft="contributed">ক্রিসমাস দ্বীপ সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Cocos">
 				<long>
-					<standard draft="provisional">কোকোস দ্বীপপুঞ্জ সময়</standard>
+					<standard draft="contributed">কোকোস দ্বীপপুঞ্জ সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Colombia">
 				<long>
-					<standard draft="provisional">কলোম্বিয়া সময়</standard>
-					<daylight draft="provisional">কলোম্বিয়া গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">কোলোম্বিয়া সময়</generic>
+					<standard draft="contributed">কোলোম্বিয়া মানক সময়</standard>
+					<daylight draft="contributed">কোলোম্বিয়া গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Cook">
 				<long>
-					<standard draft="provisional">কুক দ্বীপপুঞ্জ সময়</standard>
-					<daylight draft="provisional">কুক দ্বীপপুঞ্জ অর্ধেক গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">কুক দ্বীপপুঞ্জ সময়</generic>
+					<standard draft="contributed">কুক দ্বীপপুঞ্জ মানক সময়</standard>
+					<daylight draft="contributed">কুক দ্বীপপুঞ্জ হাফ মানক সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Cuba">
 				<long>
-					<generic draft="provisional">কিউবা সময়</generic>
-					<standard draft="provisional">কিউবা মান সময়</standard>
-					<daylight draft="provisional">কিউবা দিবালোকের সময়</daylight>
-				</long>
-			</metazone>
-			<metazone type="Dacca">
-				<long>
-					<standard draft="provisional">ডাকা সময়</standard>
+					<generic draft="contributed">কিউবা সময়</generic>
+					<standard draft="contributed">কিউবা মানক সময়</standard>
+					<daylight draft="contributed">কিউবা দিবালোক সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Davis">
 				<long>
-					<standard draft="provisional">দেভিস সময়</standard>
+					<standard draft="contributed">ডেভিস সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="DumontDUrville">
 				<long>
-					<standard draft="provisional">ডুমন্ট-দি'উরভিল সময়</standard>
-				</long>
-			</metazone>
-			<metazone type="Dushanbe">
-				<long>
-					<standard draft="provisional">দুশানবে সময়</standard>
-					<daylight draft="provisional">দুশানবে গ্রীষ্মকাল সময়</daylight>
-				</long>
-			</metazone>
-			<metazone type="Dutch_Guiana">
-				<long>
-					<standard draft="provisional">ডাচ গুইনা সময়</standard>
+					<standard draft="contributed">ডুমন্ট-দ্য'উরভিলে সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="East_Timor">
 				<long>
-					<standard draft="provisional">পূর্ব তিমুর সময়</standard>
+					<standard draft="contributed">পূর্ব টিমর সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Easter">
 				<long>
-					<standard draft="provisional">পূর্ব দ্বীপ সময়</standard>
-					<daylight draft="provisional">পূর্ব দ্বীপ গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">ইস্টার দ্বীপ সময়</generic>
+					<standard draft="contributed">ইস্টার দ্বীপ মানক সময়</standard>
+					<daylight draft="contributed">ইস্টার দ্বীপ গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Ecuador">
 				<long>
-					<standard draft="provisional">একুয়েডর সময়</standard>
+					<standard draft="contributed">ইকুয়েডর সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Europe_Central">
 				<long>
-					<standard draft="provisional">কেন্দ্রীয় ইউরোপীয় সময়</standard>
-					<daylight draft="provisional">কেন্দ্রীয় ইউরোপীয় গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">মধ্য ইউরোপীয় সময়</generic>
+					<standard draft="contributed">কেন্দ্রীয় ইউরোপীয় মানক সময়</standard>
+					<daylight draft="contributed">কেন্দ্রীয় ইউরোপীয় গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
-					<standard draft="provisional">পূর্ব ইউরোপীয় সময়</standard>
-					<daylight draft="provisional">পূর্ব ইউরোপীয় গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">পূর্ব ইউরোপীয় সময়</generic>
+					<standard draft="contributed">পূর্ব ইউরোপীয় মানক সময়</standard>
+					<daylight draft="contributed">পূর্ব ইউরোপীয় গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
-					<standard draft="provisional">পশ্চিম ইউরোপীয় সময়</standard>
-					<daylight draft="provisional">পশ্চিম ইউরোপীয় গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">পশ্চিম ইওরোপীয় সময়</generic>
+					<standard draft="contributed">পশ্চিম ইওরোপীয় মানক সময়</standard>
+					<daylight draft="contributed">পশ্চিম ইউরোপীয় গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Falkland">
 				<long>
-					<standard draft="provisional">ফকল্যান্ড দ্বীপপুঞ্জ সময়</standard>
-					<daylight draft="provisional">ফকল্যান্ড দ্বীপপুঞ্জ গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">ফকল্যান্ড দ্বীপপুঞ্জ সময়</generic>
+					<standard draft="contributed">ফকল্যান্ড দ্বীপপুঞ্জ মানক সময়</standard>
+					<daylight draft="contributed">ফকল্যান্ড দ্বীপপুঞ্জ গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Fiji">
 				<long>
-					<standard draft="provisional">ফিজি সময়</standard>
-					<daylight draft="provisional">ফিজি গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">ফিজি সময়</generic>
+					<standard draft="contributed">ফিজি মানক সময়</standard>
+					<daylight draft="contributed">ফিজি গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="French_Guiana">
 				<long>
-					<standard draft="provisional">ফরাসী গুইনা সময়</standard>
+					<standard draft="contributed">ফরাসি গায়ানা সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="French_Southern">
 				<long>
-					<standard draft="provisional">ফরাসি দক্ষিণ এবং আন্টার্কটিক সময়</standard>
-				</long>
-			</metazone>
-			<metazone type="Frunze">
-				<long>
-					<standard draft="provisional">ফ্রুন্জ সময়</standard>
-					<daylight draft="provisional">ফ্রুন্জ গ্রীষ্মকাল সময়</daylight>
+					<standard draft="contributed">ফরাসি দক্ষিন ও দক্ষিণ মেরুদেশীয় সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Galapagos">
 				<long>
-					<standard draft="provisional">গালাপাগোস সময়</standard>
+					<standard draft="contributed">গালাপাগোস সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Gambier">
 				<long>
-					<standard draft="provisional">গ্যামবিয়ার সময়</standard>
+					<standard draft="contributed">গ্যাম্বিয়ার সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Georgia">
 				<long>
-					<standard draft="provisional">জর্জিয়া সময়</standard>
-					<daylight draft="provisional">জর্জিয়া গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">জর্জিয়া সময়</generic>
+					<standard draft="contributed">জর্জিয়া মানক সময়</standard>
+					<daylight draft="contributed">জর্জিয়া গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Gilbert_Islands">
 				<long>
-					<standard draft="provisional">গিলবার্ট দ্বীপপুঞ্জ সময়</standard>
+					<standard draft="contributed">গিলবার্ট দ্বীপপুঞ্জ সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="GMT">
 				<long>
-					<standard draft="provisional">গ্রিনিচ মীন সময়</standard>
-				</long>
-			</metazone>
-			<metazone type="Greenland_Central">
-				<long>
-					<standard draft="provisional">কেন্দ্রীয় গ্রীনল্যান্ড সময়</standard>
-					<daylight draft="provisional">কেন্দ্রীয় গ্রীনল্যান্ড গ্রীষ্মকাল সময়</daylight>
+					<standard draft="contributed">গ্রিনউইচ মিন টাইম</standard>
 				</long>
 			</metazone>
 			<metazone type="Greenland_Eastern">
 				<long>
-					<standard draft="provisional">পূর্ব গ্রীনল্যান্ড সময়</standard>
-					<daylight draft="provisional">পূর্ব গ্রীনল্যান্ড গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">পূর্ব গ্রীনল্যান্ড সময়</generic>
+					<standard draft="contributed">পূর্ব গ্রীনল্যান্ড মানক সময়</standard>
+					<daylight draft="contributed">পূর্ব গ্রীনল্যান্ড গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Greenland_Western">
 				<long>
-					<standard draft="provisional">পশ্চিম গ্রীনল্যান্ড সময়</standard>
-					<daylight draft="provisional">পশ্চিম গ্রীনল্যান্ড গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">পশ্চিম গ্রীনল্যান্ড সময়</generic>
+					<standard draft="contributed">পশ্চিম গ্রীনল্যান্ড মানক সময়</standard>
+					<daylight draft="contributed">পশ্চিম গ্রীনল্যান্ড গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Guam">
@@ -3139,37 +3373,38 @@
 			</metazone>
 			<metazone type="Gulf">
 				<long>
-					<generic draft="provisional">গুল্ফ সময়</generic>
-					<standard draft="provisional">গুল্ফ মান সময়</standard>
+					<standard draft="contributed">উপসাগরীয় মানক সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Guyana">
 				<long>
-					<standard draft="provisional">গুয়ানা সময়</standard>
+					<standard>গিয়ানা সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Hawaii_Aleutian">
 				<long>
 					<generic draft="contributed">হাওয়াই অ্যালিউটিয়ান সময়</generic>
-					<standard draft="provisional">হাওয়াই-অ্যালিউশিয়ান মান সময়</standard>
+					<standard draft="contributed">হাওয়াই-আলেউত মানক সময়</standard>
+					<daylight draft="contributed">হাওয়াই-আলেউত দিবালোক সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hong_Kong">
 				<long>
-					<standard draft="provisional">হংকং সময়</standard>
-					<daylight draft="provisional">হংকং গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">হং কং সময়</generic>
+					<standard draft="contributed">হং কং মানক সময়</standard>
+					<daylight draft="contributed">হং কং গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hovd">
 				<long>
-					<generic draft="contributed">হোভ্ড সময়</generic>
-					<standard draft="contributed">হোভ্ড সময়</standard>
-					<daylight draft="contributed">হোভ্ড গৃষ্মকালীন সময়</daylight>
+					<generic>হোভড সময়</generic>
+					<standard>হোভড মানক সময়</standard>
+					<daylight>হোভড গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="India">
 				<long>
-					<standard draft="provisional">ভারত মান সময়</standard>
+					<standard draft="contributed">ভারতীয় মানক সময়</standard>
 				</long>
 				<short>
 					<standard>IST</standard>
@@ -3177,129 +3412,96 @@
 			</metazone>
 			<metazone type="Indian_Ocean">
 				<long>
-					<standard draft="provisional">ভারত মহাসাগরীয় সময়</standard>
+					<standard draft="contributed">ভারত মহাসাগর সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Indochina">
 				<long>
-					<standard draft="provisional">ইন্দোচীন সময়</standard>
+					<standard draft="contributed">ইন্দোচীন সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Central">
 				<long>
-					<generic draft="contributed">ইন্দোনেশিয়া কেন্দ্রীয় সময়</generic>
-					<standard draft="provisional">কেন্দ্রীয় ইন্দোনেশীয়া সময়</standard>
+					<standard draft="contributed">কেন্দ্রীয় ইন্দোনেশিয়া সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Eastern">
 				<long>
-					<generic draft="contributed">ইন্দোনেশিয়া পূর্ব সময়</generic>
-					<standard draft="provisional">পূর্ব ইন্দোনেশীয়া সময়</standard>
+					<standard draft="contributed">পূর্ব ইন্দোনেশিয়া সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Western">
 				<long>
-					<generic draft="contributed">ইন্দোনেশিয়া পশ্চিমি সময়</generic>
-					<standard draft="provisional">পশ্চিম ইন্দোনেশীয়া সময়</standard>
+					<standard draft="contributed">পশ্চিমী ইন্দোনেশিয়া সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Iran">
 				<long>
-					<standard draft="provisional">ইরান মান সময়</standard>
-					<daylight draft="provisional">ইরান দিবালোকের সময়</daylight>
+					<generic draft="contributed">ইরান সময়</generic>
+					<standard draft="contributed">ইরান মানক সময়</standard>
+					<daylight draft="contributed">ইরান দিবালোক সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Irkutsk">
 				<long>
-					<generic draft="contributed">য়াকুটস্ক সময়</generic>
-					<standard draft="contributed">য়াকুটস্ক সময়</standard>
-					<daylight draft="contributed">য়াকুটস্ক গৃষ্মকালীন সময়</daylight>
+					<generic>য়াকুটস্ক সময়</generic>
+					<standard>য়াকুটস্ক মানক সময়</standard>
+					<daylight>য়াকুটস্ক গৃষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Israel">
 				<long>
-					<generic draft="provisional">ইজরায়েল সময়</generic>
-					<standard draft="provisional">ইজরায়েল মান সময়</standard>
-					<daylight draft="provisional">ইজরায়েল দিবালোকের সময়</daylight>
+					<generic draft="contributed">ইজরায়েল সময়</generic>
+					<standard draft="contributed">ইজরায়েল মানক সময়</standard>
+					<daylight draft="contributed">ইজরায়েল দিবালোক সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Japan">
 				<long>
-					<generic draft="provisional">জাপান সময়</generic>
-					<standard draft="provisional">জাপান মান সময়</standard>
-					<daylight draft="provisional">জাপান দিবালোকের সময়</daylight>
+					<generic draft="contributed">জাপান সময়</generic>
+					<standard draft="contributed">জাপান মানক সময়</standard>
+					<daylight draft="contributed">জাপান দিবালোক সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kamchatka">
 				<long>
-					<generic draft="contributed">কামচটকা সময়</generic>
-					<standard draft="contributed">পিত্রেপ্যাভলস্ক- ক্যামচ্যাটস্কি সময়</standard>
+					<generic draft="contributed">পিত্রেপ্যাভলস্ক- ক্যামচ্যাটস্কি সময়</generic>
+					<standard draft="contributed">পিত্রেপ্যাভলস্ক- ক্যামচ্যাটস্কি মান সময়</standard>
 					<daylight draft="contributed">পিত্রেপ্যাভলস্ক- ক্যামচ্যাটস্কি গৃষ্মকালীন সময়</daylight>
-				</long>
-			</metazone>
-			<metazone type="Karachi">
-				<long>
-					<standard draft="provisional">করাচী সময়</standard>
-				</long>
-			</metazone>
-			<metazone type="Kashgar">
-				<long>
-					<standard draft="provisional">কাস্গার সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Eastern">
 				<long>
-					<generic draft="contributed">পূর্ব কজাকস্তান সময়</generic>
 					<standard draft="contributed">পূর্ব কজাকস্তান মানক সময়</standard>
-					<daylight draft="contributed">কজাকস্তান পূর্ব গৃষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kazakhstan_Western">
 				<long>
-					<generic draft="contributed">পশ্চিম কজাকস্তান সময়</generic>
 					<standard draft="contributed">পশ্চিম কজাকস্তান মানক সময়</standard>
-					<daylight draft="contributed">কজাকস্তান পশ্চিম গৃষ্মকালীন সময়</daylight>
-				</long>
-			</metazone>
-			<metazone type="Kizilorda">
-				<long>
-					<standard draft="provisional">কিজিলর্ডা সময়</standard>
-					<daylight draft="provisional">কিজিলর্ডা গ্রীষ্মকাল সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Korea">
 				<long>
-					<generic draft="provisional">কোরিয়া সময়</generic>
-					<standard draft="provisional">কোরিয়া মান সময়</standard>
-					<daylight draft="provisional">কোরিয়া দিবালোকের সময়</daylight>
+					<generic draft="contributed">কোরিয়ান সময়</generic>
+					<standard draft="contributed">কোরিয়ান মানক সময়</standard>
+					<daylight draft="contributed">কোরিয়ান দিবালোক সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kosrae">
 				<long>
-					<standard draft="provisional">কোসরেই সময়</standard>
+					<standard draft="contributed">কসরে সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Krasnoyarsk">
 				<long>
-					<generic draft="contributed">ক্রাসনোয়ার্স্কি সময়</generic>
-					<standard draft="contributed">ক্রাসনোয়ার্স্কি সময়</standard>
-					<daylight draft="contributed">ক্রাসনোয়ার্স্কি গ্রীষ্মকালীন সময়</daylight>
-				</long>
-			</metazone>
-			<metazone type="Kuybyshev">
-				<long>
-					<standard draft="provisional">কুইবাইসেভ সময়</standard>
-					<daylight draft="provisional">কুইবাইসেভ গ্রীষ্মকাল সময়</daylight>
-				</long>
-			</metazone>
-			<metazone type="Kwajalein">
-				<long>
-					<standard draft="provisional">কোয়াজালিন সময়</standard>
+					<generic>ক্রাসনোয়ার্স্কি সময়</generic>
+					<standard>ক্রাসনোয়ার্স্কি মানক সময়</standard>
+					<daylight>ক্রাসনোয়ার্স্কি গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Kyrgystan">
 				<long>
-					<standard draft="provisional">কির্জিস্তান সময়</standard>
+					<standard draft="contributed">কিরগিস্তান সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Lanka">
@@ -3309,12 +3511,7 @@
 			</metazone>
 			<metazone type="Line_Islands">
 				<long>
-					<standard draft="provisional">লাইন দ্বীপপুঞ্জ সময়</standard>
-				</long>
-			</metazone>
-			<metazone type="Long_Shu">
-				<long>
-					<standard draft="provisional">লং-শু সময়</standard>
+					<standard draft="contributed">লাইন দ্বীপপুঞ্জ সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Lord_Howe">
@@ -3326,63 +3523,60 @@
 			</metazone>
 			<metazone type="Macau">
 				<long>
-					<standard draft="provisional">মাকাও সময়</standard>
+					<generic draft="provisional">মাকাও সময়</generic>
+					<standard draft="provisional">মাকাও মান সময়</standard>
 					<daylight draft="provisional">মাকাও গ্রীষ্মকাল সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Macquarie">
 				<long>
-					<generic draft="contributed">মেকুয়ারি সময়</generic>
+					<standard draft="contributed">ম্যাককুরি দ্বীপ সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Magadan">
 				<long>
-					<generic draft="contributed">মাগদন সময়</generic>
-					<standard draft="contributed">মাগদন সময়</standard>
-					<daylight draft="contributed">মাগাদান গ্রীষ্মকালীন সময়</daylight>
-				</long>
-			</metazone>
-			<metazone type="Malaya">
-				<long>
-					<standard draft="provisional">মালয়া সময়</standard>
+					<generic>ম্যাগাডান সময়</generic>
+					<standard>ম্যাগাডান মানক সময়</standard>
+					<daylight>ম্যাগাডান গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Malaysia">
 				<long>
-					<standard draft="provisional">মালেশিয়া সময়</standard>
+					<standard draft="contributed">মালয়েশিয়া সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Maldives">
 				<long>
-					<standard draft="provisional">মালদ্বীপ সময়</standard>
+					<standard draft="contributed">মালদ্বীপ সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Marquesas">
 				<long>
-					<standard draft="provisional">মারকেসাস সময়</standard>
+					<standard draft="contributed">মার্কেসাস সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Marshall_Islands">
 				<long>
-					<standard draft="provisional">মার্শাল দ্বীপপুঞ্জ সময়</standard>
+					<standard draft="contributed">মার্শাল দ্বীপপুঞ্জ সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Mauritius">
 				<long>
-					<standard draft="provisional">মরিশাস সময়</standard>
-					<daylight draft="provisional">মরিশাস গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">মরিশাস সময়</generic>
+					<standard draft="contributed">মরিশাস মানক সময়</standard>
+					<daylight draft="contributed">মরিশাস গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Mawson">
 				<long>
-					<standard draft="provisional">মসন সময়</standard>
+					<standard draft="contributed">মসন সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Mongolia">
 				<long>
-					<generic draft="contributed">মঙ্গোলীয় সময়</generic>
-					<standard draft="contributed">উলান বাতোর সময়</standard>
-					<daylight draft="contributed">উলান বাতোর গ্রীষ্মকালীন সময়</daylight>
+					<generic>উলান বাতোর সময়</generic>
+					<standard>উলান বাতোর মানক সময়</standard>
+					<daylight>উলান বাতোর গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Moscow">
@@ -3394,30 +3588,31 @@
 			</metazone>
 			<metazone type="Myanmar">
 				<long>
-					<standard draft="provisional">মায়ানমার সময়</standard>
+					<standard draft="contributed">মায়ানমার সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Nauru">
 				<long>
-					<standard draft="provisional">নাউরু সময়</standard>
+					<standard draft="contributed">নাউরু সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Nepal">
 				<long>
-					<standard draft="provisional">নেপাল সময়</standard>
+					<standard draft="contributed">নেপাল সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="New_Caledonia">
 				<long>
-					<standard draft="provisional">নিউ ক্যালেডোনিয়া সময়</standard>
-					<daylight draft="provisional">নিউ ক্যালেডোনিয়া গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">নিউ ক্যালেডোনিয়া সময়</generic>
+					<standard draft="contributed">নিউ ক্যালেডোনিয়া মানক সময়</standard>
+					<daylight draft="contributed">নিউ ক্যালেডোনিয়া গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="New_Zealand">
 				<long>
-					<generic draft="provisional">নিউজিল্যান্ড সময়</generic>
-					<standard draft="provisional">নিউজিল্যান্ড মান সময়</standard>
-					<daylight draft="provisional">নিউজিল্যান্ড দিবালোকের সময়</daylight>
+					<generic draft="contributed">নিউজিল্যান্ড সময়</generic>
+					<standard draft="contributed">নিউজিল্যান্ড মানক সময়</standard>
+					<daylight draft="contributed">নিউজিল্যান্ড দিবালোক সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Newfoundland">
@@ -3429,12 +3624,12 @@
 			</metazone>
 			<metazone type="Niue">
 				<long>
-					<standard draft="provisional">নুউ সময়</standard>
+					<standard draft="contributed">নিউই সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Norfolk">
 				<long>
-					<standard draft="provisional">নরফোক দ্বীপপুঞ্জ সময়</standard>
+					<standard draft="contributed">নরফোক দ্বীপপুঞ্জ সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Noronha">
@@ -3451,318 +3646,270 @@
 			</metazone>
 			<metazone type="Novosibirsk">
 				<long>
-					<generic draft="contributed">নোভোসিবিয়ার্ক্স সময়</generic>
-					<standard draft="contributed">নোভোসিবিয়ার্ক্স সময়</standard>
-					<daylight draft="contributed">নোভোসিবিয়ার্ক্স গ্রীষ্মকালীন সময়</daylight>
+					<generic>নোভোসিবির্স্ক সময়</generic>
+					<standard>নোভোসিবির্স্ক মানক সময়</standard>
+					<daylight>নোভোসিবির্স্ক গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Omsk">
 				<long>
-					<generic draft="contributed">ওমস্ক সময়</generic>
-					<standard draft="contributed">ওমস্ক সময়</standard>
-					<daylight draft="contributed">ওমস্ক গৃষ্মকালীন সময়</daylight>
+					<generic>ওমস্ক সময়</generic>
+					<standard>ওমস্ক মানক সময়</standard>
+					<daylight>ওমস্ক গৃষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Pakistan">
 				<long>
-					<standard draft="provisional">পাকিস্তান সময়</standard>
-					<daylight draft="provisional">পাকিস্তান গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">পাকিস্তান সময়</generic>
+					<standard draft="contributed">পাকিস্তান মানক সময়</standard>
+					<daylight draft="contributed">পাকিস্তান গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Palau">
 				<long>
-					<standard draft="provisional">পালাউ সময়</standard>
+					<standard draft="contributed">পালাউ সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Papua_New_Guinea">
 				<long>
-					<standard draft="provisional">পাপুয়া নিউগিনি সময়</standard>
+					<standard draft="contributed">পাপুয়া নিউ গিনি সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Paraguay">
 				<long>
-					<standard draft="provisional">প্যারাগুয়ে সময়</standard>
-					<daylight draft="provisional">প্যারাগুয়ে গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">প্যারাগুয়ে সময়</generic>
+					<standard draft="contributed">প্যারাগুয়ে মানক সময়</standard>
+					<daylight draft="contributed">প্যারাগুয়ে গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Peru">
 				<long>
-					<standard draft="provisional">পেরু সময়</standard>
-					<daylight draft="provisional">পেরু গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">পেরু সময়</generic>
+					<standard draft="contributed">পেরু মানক সময়</standard>
+					<daylight draft="contributed">পেরু গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Philippines">
 				<long>
-					<standard draft="provisional">ফিলিপিন সময়</standard>
-					<daylight draft="provisional">ফিলিপিন গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">ফিলিপাইন সময়</generic>
+					<standard draft="contributed">ফিলিপাইন মানক সময়</standard>
+					<daylight draft="contributed">ফিলিপাইন গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Phoenix_Islands">
 				<long>
-					<standard draft="provisional">ফোয়েনিক্স দ্বীপপুঞ্জ সময়</standard>
+					<standard draft="contributed">ফোনিক্স দ্বীপপুঞ্জ সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Pierre_Miquelon">
 				<long>
-					<generic draft="provisional">পিয়েরে এবং মিকুয়েলন সময়</generic>
-					<standard draft="provisional">পিয়েরে এবং মিকুয়েলন মান সময়</standard>
-					<daylight draft="provisional">পিয়েরে এবং মিকুয়েলন গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">সেন্ট পিয়ের ও মিকেলন সময়</generic>
+					<standard draft="contributed">সেন্ট পিয়ের ও মিকেলন মানক সময়</standard>
+					<daylight draft="contributed">সেন্ট পিয়ের ও মিকেলন দিবালোক সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Pitcairn">
 				<long>
-					<standard draft="provisional">পিটকাইর্ন সময়</standard>
+					<standard draft="contributed">পিটকেয়ার্ন সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Ponape">
 				<long>
-					<standard draft="provisional">পোনাপ সময়</standard>
+					<standard draft="contributed">পোনাপে সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Qyzylorda">
 				<long>
-					<standard draft="provisional">কিজিলোর্ডা সময়</standard>
+					<generic draft="provisional">কিজিলোর্ডা সময়</generic>
+					<standard draft="provisional">কিজিলোর্ডা মান সময়</standard>
 					<daylight draft="provisional">কিজিলোর্ডা গ্রীষ্মকাল সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Reunion">
 				<long>
-					<standard draft="provisional">রিইউনিয়ন সময়</standard>
+					<standard draft="contributed">রিইউনিয়ন সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Rothera">
 				<long>
-					<standard draft="provisional">রোথেরা সময়</standard>
+					<standard draft="contributed">রথেরা সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Sakhalin">
 				<long>
-					<generic draft="contributed">সাখালিন সময়</generic>
-					<standard draft="contributed">সাখালিন সময়</standard>
-					<daylight draft="contributed">সাখালিন গৃষ্মকালীন সময়</daylight>
+					<generic>সাখালিন সময়</generic>
+					<standard>সাখালিন মানক সময়</standard>
+					<daylight>সাখালিন গৃষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Samara">
 				<long>
 					<generic draft="contributed">সামারা সময়</generic>
-					<standard draft="contributed">সামারা সময়</standard>
+					<standard draft="contributed">সামারা মান সময়</standard>
 					<daylight draft="contributed">সামারা গৃষ্মকালীন সময়</daylight>
-				</long>
-			</metazone>
-			<metazone type="Samarkand">
-				<long>
-					<standard draft="provisional">সামারকান্ড সময়</standard>
-					<daylight draft="provisional">সামারকান্ড গ্রীষ্মকাল সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Samoa">
 				<long>
-					<standard draft="provisional">সামোয়া মান সময়</standard>
+					<generic draft="contributed">সামোয়া সময়</generic>
+					<standard draft="contributed">সামোয়া মানক সময়</standard>
+					<daylight draft="contributed">সামোয়া গৃষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Seychelles">
 				<long>
-					<standard draft="provisional">সেশেলস সময়</standard>
-				</long>
-			</metazone>
-			<metazone type="Shevchenko">
-				<long>
-					<standard draft="provisional">শেভচেনকো সময়</standard>
-					<daylight draft="provisional">শেভচেনকো গ্রীষ্মকাল সময়</daylight>
+					<standard draft="contributed">সেশেলস সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Singapore">
 				<long>
-					<standard draft="provisional">সিঙ্গাপুর মান সময়</standard>
+					<standard draft="contributed">সিঙ্গাপুর মানক সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Solomon">
 				<long>
-					<standard draft="provisional">সলোমন দ্বীপপুঞ্জ সময়</standard>
+					<standard draft="contributed">সলোমন দ্বীপপুঞ্জ সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="South_Georgia">
 				<long>
-					<standard draft="provisional">দক্ষিণ জর্জিয়া সময়</standard>
+					<standard draft="contributed">দক্ষিণ জর্জিয়া সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Suriname">
 				<long>
-					<standard draft="provisional">সুরিনাম সময়</standard>
-				</long>
-			</metazone>
-			<metazone type="Sverdlovsk">
-				<long>
-					<standard draft="provisional">স্ভার্দলভ্স্ক সময়</standard>
-					<daylight draft="provisional">স্ভার্দলভ্স্ক গ্রীষ্মকাল সময়</daylight>
+					<standard>সুরিনাম সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Syowa">
 				<long>
-					<standard draft="provisional">স্যোয়া সময়</standard>
+					<standard draft="contributed">সায়োওয়া সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Tahiti">
 				<long>
-					<standard draft="provisional">তাহিতি সময়</standard>
+					<standard draft="contributed">তাহিতি সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Taipei">
 				<long>
-					<generic draft="provisional">তাইপেই সময়</generic>
-					<standard draft="provisional">তাইপেই মান সময়</standard>
-					<daylight draft="provisional">তাইপেই দিবালোকের সময়</daylight>
+					<generic draft="contributed">তাইপেই সময়</generic>
+					<standard draft="contributed">তাইপেই মানক সময়</standard>
+					<daylight draft="contributed">তাইপেই দিবালোক সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Tajikistan">
 				<long>
-					<standard draft="provisional">তাজিকিস্তান সময়</standard>
-				</long>
-			</metazone>
-			<metazone type="Tashkent">
-				<long>
-					<standard draft="provisional">তাশকেন্ট সময়</standard>
-					<daylight draft="provisional">তাশকেন্ট গ্রীষ্মকাল সময়</daylight>
-				</long>
-			</metazone>
-			<metazone type="Tbilisi">
-				<long>
-					<standard draft="provisional">তবিলীসী সময়</standard>
-					<daylight draft="provisional">তবিলীসী গ্রীষ্মকাল সময়</daylight>
+					<standard draft="contributed">তাজাখাস্তান সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Tokelau">
 				<long>
-					<standard draft="provisional">টোকেলু সময়</standard>
+					<standard draft="contributed">টোকেলাউ সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Tonga">
 				<long>
-					<standard draft="provisional">টোংগা সময়</standard>
-					<daylight draft="provisional">টোংগা গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">টোঙ্গা সময়</generic>
+					<standard draft="contributed">টোঙ্গা মানক সময়</standard>
+					<daylight draft="contributed">টোঙ্গা গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Truk">
 				<long>
-					<standard draft="provisional">ত্রুক সময়</standard>
-				</long>
-			</metazone>
-			<metazone type="Turkey">
-				<long>
-					<standard draft="provisional">তুর্কী সময়</standard>
-					<daylight draft="provisional">তুর্কী গ্রীষ্মকাল সময়</daylight>
+					<standard draft="contributed">চুক সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Turkmenistan">
 				<long>
-					<standard draft="provisional">তুর্কমেনিস্তান সময়</standard>
-					<daylight draft="provisional">তুর্কমেনিস্তান গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">তুর্কমেনিস্তান সময়</generic>
+					<standard draft="contributed">তুর্কমেনিস্তান মানক সময়</standard>
+					<daylight draft="contributed">তুর্কমেনিস্তান গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Tuvalu">
 				<long>
-					<standard draft="provisional">তুভালু সময়</standard>
-				</long>
-			</metazone>
-			<metazone type="Uralsk">
-				<long>
-					<standard draft="provisional">ইউরাল্স্ক সময়</standard>
-					<daylight draft="provisional">ইউরাল্স্ক গ্রীষ্মকাল সময়</daylight>
+					<standard draft="contributed">টুভালু সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Uruguay">
 				<long>
-					<standard draft="provisional">উরুগুয়ে সময়</standard>
-					<daylight draft="provisional">উরুগুয়ে গ্রীষ্মকাল সময়</daylight>
-				</long>
-			</metazone>
-			<metazone type="Urumqi">
-				<long>
-					<standard draft="provisional">উরুমকি সময়</standard>
+					<generic draft="contributed">উরুগুয়ে সময়</generic>
+					<standard draft="contributed">উরুগুয়ে মানক সময়</standard>
+					<daylight draft="contributed">উরুগুয়ে গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Uzbekistan">
 				<long>
-					<standard draft="provisional">উজবেকিস্তান সময়</standard>
-					<daylight draft="provisional">উজবেকিস্তান গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">উজবেকিস্তান সময়</generic>
+					<standard draft="contributed">উজবেকিস্তান মানক সময়</standard>
+					<daylight draft="contributed">উজবেকিস্তান গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Vanuatu">
 				<long>
-					<standard draft="provisional">ভানুয়াটু সময়</standard>
-					<daylight draft="provisional">ভানুয়াটু গ্রীষ্মকাল সময়</daylight>
+					<generic draft="contributed">ভানুয়াতু সময়</generic>
+					<standard draft="contributed">ভানুয়াতু মানক সময়</standard>
+					<daylight draft="contributed">ভানুয়াতু গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Venezuela">
 				<long>
-					<standard draft="provisional">ভেনেজুয়েলা সময়</standard>
+					<standard draft="contributed">ভেনেজুয়েলা সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Vladivostok">
 				<long>
-					<generic draft="contributed">ভ্লাদিভোস্ট সময়</generic>
-					<standard draft="contributed">ভ্লাদিভোস্টক সময়</standard>
-					<daylight draft="contributed">ভ্লাদিভোস্টক গ্রীষ্মকালীন সময়</daylight>
+					<generic>ব্লাদিবোস্তোক সময়</generic>
+					<standard>ব্লাদিবোস্তোক মানক সময়</standard>
+					<daylight>ব্লাদিবোস্তোক গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Volgograd">
 				<long>
-					<generic draft="contributed">ভলগোগার্ড সময়</generic>
-					<standard draft="contributed">ভলগোগার্ড সময়</standard>
-					<daylight draft="contributed">ভলগোগার্ড গ্রীষ্মকালীন সময়</daylight>
+					<generic>ভলগোগ্রাড সময়</generic>
+					<standard>ভলগোগ্রাড মানক সময়</standard>
+					<daylight>ভলগোগ্রাড গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Vostok">
 				<long>
-					<standard draft="provisional">ভসটক সময়</standard>
+					<standard draft="contributed">ভস্টক সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Wake">
 				<long>
-					<standard draft="provisional">ওয়েক দ্বীপ সময়</standard>
+					<standard draft="contributed">ওয়েক দ্বীপ সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Wallis">
 				<long>
-					<standard draft="provisional">ওয়াল্লিস ও ফুটুনা সময়</standard>
+					<standard draft="contributed">ওয়ালিস এবং ফুটুনা সময়</standard>
 				</long>
 			</metazone>
 			<metazone type="Yakutsk">
 				<long>
-					<generic draft="contributed">য়াকুতস্ক সময়</generic>
-					<standard draft="contributed">য়াকুতস্ক সময়</standard>
-					<daylight draft="contributed">য়াকুতস্ক গ্রীষ্মকালীন সময়</daylight>
+					<generic>য়াকুতস্ক সময়</generic>
+					<standard>য়াকুতস্ক মানক সময়</standard>
+					<daylight>য়াকুতস্ক গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Yekaterinburg">
 				<long>
-					<generic draft="contributed">য়েকাটেরিনবার্গ সময়</generic>
-					<standard draft="contributed">য়েকাটেরিনবার্গ সময়</standard>
-					<daylight draft="contributed">য়েকাটেরিনবার্গ গৃষ্মকালীন সময়</daylight>
-				</long>
-			</metazone>
-			<metazone type="Yerevan">
-				<long>
-					<standard draft="provisional">ইয়েরেভান সময়</standard>
-					<daylight draft="provisional">ইয়েরেভান গ্রীষ্মকাল সময়</daylight>
-				</long>
-			</metazone>
-			<metazone type="Yukon">
-				<long>
-					<generic draft="provisional">ইউকন সময়</generic>
-					<standard draft="provisional">ইউকন মান সময়</standard>
-					<daylight draft="provisional">ইউকন দিবালোকের সময়</daylight>
+					<generic>ইয়েকাতেরিনবুর্গ সময়</generic>
+					<standard>ইয়েকাতেরিনবুর্গ মানক সময়</standard>
+					<daylight>ইয়েকাতেরিনবুর্গ গ্রীষ্মকালীন সময়</daylight>
 				</long>
 			</metazone>
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<defaultNumberingSystem>latn</defaultNumberingSystem>
+		<defaultNumberingSystem>beng</defaultNumberingSystem>
 		<otherNumberingSystems>
 			<native>beng</native>
 		</otherNumberingSystems>
 		<symbols numberSystem="beng">
-			<nan>সংখ্যা না</nan>
+			<nan>সংখ্যা না</nan>
 		</symbols>
 		<symbols numberSystem="latn">
 			<decimal>.</decimal>
@@ -3782,20 +3929,60 @@
 					<pattern>#,##,##0.###</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
+			<decimalFormatLength type="long">
+				<decimalFormat>
+					<pattern type="1000" count="one" draft="contributed">0 হাজার</pattern>
+					<pattern type="1000" count="other" draft="contributed">0 হাজার</pattern>
+					<pattern type="10000" count="one" draft="contributed">00 হাজার</pattern>
+					<pattern type="10000" count="other" draft="contributed">00 হাজার</pattern>
+					<pattern type="100000" count="one" draft="contributed">000 হাজার</pattern>
+					<pattern type="100000" count="other" draft="contributed">000 হাজার</pattern>
+					<pattern type="1000000" count="one" draft="contributed">0 মিলিয়ন</pattern>
+					<pattern type="1000000" count="other" draft="contributed">0 মিলিয়ন</pattern>
+					<pattern type="10000000" count="one" draft="contributed">00 মিলিয়ন</pattern>
+					<pattern type="10000000" count="other" draft="contributed">00 মিলিয়ন</pattern>
+					<pattern type="100000000" count="one" draft="contributed">000 মিলিয়ন</pattern>
+					<pattern type="100000000" count="other" draft="contributed">000 মিলিয়ন</pattern>
+					<pattern type="1000000000" count="one" draft="contributed">0 বিলিয়ন</pattern>
+					<pattern type="1000000000" count="other" draft="contributed">0 বিলিয়ন</pattern>
+					<pattern type="10000000000" count="one" draft="contributed">00 বিলিয়ন</pattern>
+					<pattern type="10000000000" count="other" draft="contributed">00 বিলিয়ন</pattern>
+					<pattern type="100000000000" count="one" draft="contributed">000 বিলিয়ন</pattern>
+					<pattern type="100000000000" count="other" draft="contributed">000 বিলিয়ন</pattern>
+					<pattern type="1000000000000" count="one" draft="contributed">0 ট্রিলিয়ন</pattern>
+					<pattern type="1000000000000" count="other" draft="contributed">0 ট্রিলিয়ন</pattern>
+					<pattern type="10000000000000" count="one" draft="contributed">00 ট্রিলিয়ন</pattern>
+					<pattern type="10000000000000" count="other" draft="contributed">00 ট্রিলিয়ন</pattern>
+					<pattern type="100000000000000" count="one" draft="contributed">000 ট্রিলিয়ন</pattern>
+					<pattern type="100000000000000" count="other" draft="contributed">000 ট্রিলিয়ন</pattern>
+				</decimalFormat>
+			</decimalFormatLength>
 			<decimalFormatLength type="short">
 				<decimalFormat>
-					<pattern type="1000" draft="contributed">0.0K</pattern>
-					<pattern type="10000" draft="contributed">00K</pattern>
-					<pattern type="100000" draft="contributed">000K</pattern>
-					<pattern type="1000000" draft="contributed">0.0M</pattern>
-					<pattern type="10000000" draft="contributed">00M</pattern>
-					<pattern type="100000000" draft="contributed">000M</pattern>
-					<pattern type="1000000000" draft="contributed">0.0B</pattern>
-					<pattern type="10000000000" draft="contributed">00B</pattern>
-					<pattern type="100000000000" draft="contributed">000B</pattern>
-					<pattern type="1000000000000" draft="contributed">0.0T</pattern>
-					<pattern type="10000000000000" draft="contributed">00T</pattern>
-					<pattern type="100000000000000" draft="contributed">000T</pattern>
+					<pattern type="1000" count="one" draft="contributed">0K</pattern>
+					<pattern type="1000" count="other" draft="contributed">0K</pattern>
+					<pattern type="10000" count="one" draft="contributed">00K</pattern>
+					<pattern type="10000" count="other" draft="contributed">00K</pattern>
+					<pattern type="100000" count="one" draft="contributed">000K</pattern>
+					<pattern type="100000" count="other" draft="contributed">000K</pattern>
+					<pattern type="1000000" count="one" draft="contributed">0M</pattern>
+					<pattern type="1000000" count="other" draft="contributed">0M</pattern>
+					<pattern type="10000000" count="one" draft="contributed">00M</pattern>
+					<pattern type="10000000" count="other" draft="contributed">00M</pattern>
+					<pattern type="100000000" count="one" draft="contributed">000M</pattern>
+					<pattern type="100000000" count="other" draft="contributed">000M</pattern>
+					<pattern type="1000000000" count="one" draft="contributed">0B</pattern>
+					<pattern type="1000000000" count="other" draft="contributed">0B</pattern>
+					<pattern type="10000000000" count="one" draft="contributed">00B</pattern>
+					<pattern type="10000000000" count="other" draft="contributed">00B</pattern>
+					<pattern type="100000000000" count="one" draft="contributed">000B</pattern>
+					<pattern type="100000000000" count="other" draft="contributed">000B</pattern>
+					<pattern type="1000000000000" count="one" draft="contributed">0T</pattern>
+					<pattern type="1000000000000" count="other" draft="contributed">0T</pattern>
+					<pattern type="10000000000000" count="one" draft="contributed">00T</pattern>
+					<pattern type="10000000000000" count="other" draft="contributed">00T</pattern>
+					<pattern type="100000000000000" count="one" draft="contributed">000T</pattern>
+					<pattern type="100000000000000" count="other" draft="contributed">000T</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
@@ -3969,7 +4156,7 @@
 				<displayName>বেলিজ ডলার</displayName>
 			</currency>
 			<currency type="CAD">
-				<displayName>কম্বোডিয়ান ডলার</displayName>
+				<displayName>কানাডিয়ান ডলার</displayName>
 			</currency>
 			<currency type="CDF">
 				<displayName>কঙ্গো ফ্র্যাঙ্ক কঙ্গোলাইস</displayName>
@@ -4117,6 +4304,7 @@
 			</currency>
 			<currency type="GTQ">
 				<displayName>গুয়াতেমালা কুয়েৎজাল</displayName>
+				<displayName count="one">গুয়াতেমালা কুয়েৎজাল</displayName>
 				<displayName count="other">গুয়াতেমালা কুয়েৎজাল</displayName>
 			</currency>
 			<currency type="GWE">
@@ -4139,6 +4327,7 @@
 			</currency>
 			<currency type="HRK">
 				<displayName>ক্রোয়েশিয়ান কুনা</displayName>
+				<displayName count="one">ক্রোয়েশিয়ান কুনাস</displayName>
 				<displayName count="other">ক্রোয়েশিয়ান কুনাস</displayName>
 			</currency>
 			<currency type="HTG">
@@ -4417,6 +4606,7 @@
 			<currency type="SDG">
 				<displayName>সুদানি পাউন্ড</displayName>
 				<displayName count="one">সুদানি পাউন্ড</displayName>
+				<displayName count="other">সুদানি পাউন্ড</displayName>
 			</currency>
 			<currency type="SDP">
 				<displayName>প্রাচীন সুদানি পাউন্ড</displayName>
@@ -4447,6 +4637,9 @@
 			</currency>
 			<currency type="SRG">
 				<displayName>সুরিনাম গিল্ডার</displayName>
+			</currency>
+			<currency type="SSP">
+				<displayName draft="contributed">দক্ষিণ সুদানি পাউন্ড</displayName>
 			</currency>
 			<currency type="STD">
 				<displayName>সাও টোমে এবং প্রিন্সিপে ডোবরা</displayName>
@@ -4536,10 +4729,10 @@
 				<displayName>উজবেকিস্তানি সোম</displayName>
 			</currency>
 			<currency type="VEB">
-				<displayName>ভেনিজুয়েলান বলিভার</displayName>
+				<displayName>ভেনিজুয়েলান বলিভার (১৮৭১-২০০৮)</displayName>
 			</currency>
 			<currency type="VEF">
-				<displayName>ভেনিজুয়েলীয় বলিভার র্ফুতে</displayName>
+				<displayName>ভেনিজুয়েলীয় বলিভার</displayName>
 			</currency>
 			<currency type="VND">
 				<displayName>ভিয়েতনামি ডঙ্গ</displayName>
@@ -4611,6 +4804,9 @@
 				<displayName>দক্ষিণ আফ্রিকান রেন্ড</displayName>
 			</currency>
 			<currency type="ZMK">
+				<displayName>জাম্বিয়ান কওয়াচা (১৯৬৮-২০১২)</displayName>
+			</currency>
+			<currency type="ZMW">
 				<displayName>জাম্বিয়ান কওয়াচা</displayName>
 			</currency>
 			<currency type="ZRN">
@@ -4632,129 +4828,110 @@
 	</numbers>
 	<units>
 		<unit type="day">
-			<unitPattern count="0" alt="short" draft="contributed">0 দিন</unitPattern>
-			<unitPattern count="1" alt="short" draft="contributed">1 দিন</unitPattern>
 			<unitPattern count="one">{0} দিন</unitPattern>
+			<unitPattern count="one" alt="short">{0} দিন</unitPattern>
 			<unitPattern count="other">{0} দিন</unitPattern>
-			<unitPattern count="other" alt="short" draft="contributed">{0} দিন</unitPattern>
+			<unitPattern count="other" alt="short">{0} দিন</unitPattern>
 		</unit>
 		<unit type="day-future">
-			<unitPattern count="0" draft="contributed">0 দিনের মধ্যে</unitPattern>
-			<unitPattern count="1" draft="contributed">১ দিনের মধ্যে</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} দিনের মধ্যে</unitPattern>
+			<unitPattern count="one">{0} দিনের মধ্যে</unitPattern>
+			<unitPattern count="other">{0} দিনের মধ্যে</unitPattern>
 		</unit>
 		<unit type="day-past">
-			<unitPattern count="0" draft="contributed">0 দিন পূর্বে</unitPattern>
-			<unitPattern count="1" draft="contributed">১ দিন পূর্বে</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} দিন পূর্বে</unitPattern>
+			<unitPattern count="one">{0} দিন পূর্বে</unitPattern>
+			<unitPattern count="other">{0} দিন পূর্বে</unitPattern>
 		</unit>
 		<unit type="hour">
-			<unitPattern count="0" alt="short" draft="contributed">0 ঘন্টা</unitPattern>
-			<unitPattern count="1" alt="short" draft="contributed">1 ঘন্টা</unitPattern>
 			<unitPattern count="one">{0} ঘন্টা</unitPattern>
+			<unitPattern count="one" alt="short">{0} ঘন্টা</unitPattern>
 			<unitPattern count="other">{0} ঘন্টা</unitPattern>
-			<unitPattern count="other" alt="short" draft="contributed">{0} ঘন্টা</unitPattern>
+			<unitPattern count="other" alt="short">{0} ঘন্টা</unitPattern>
 		</unit>
 		<unit type="hour-future">
-			<unitPattern count="0" draft="contributed">০ ঘন্টায়</unitPattern>
-			<unitPattern count="1" draft="contributed">১ ঘন্টায়</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} ঘন্টায়</unitPattern>
+			<unitPattern count="one">{0} ঘন্টায়</unitPattern>
+			<unitPattern count="other">{0} ঘন্টায়</unitPattern>
 		</unit>
 		<unit type="hour-past">
-			<unitPattern count="0" draft="contributed">০ ঘন্টা আগে</unitPattern>
-			<unitPattern count="1" draft="contributed">১ ঘন্টা আগে</unitPattern>
-			<unitPattern count="other" draft="contributed">{0}ঘন্টা আগে</unitPattern>
+			<unitPattern count="one">{0} ঘন্টা আগে</unitPattern>
+			<unitPattern count="other">{0} ঘন্টা আগে</unitPattern>
 		</unit>
 		<unit type="minute">
-			<unitPattern count="0" alt="short" draft="contributed">0 মিনিট</unitPattern>
-			<unitPattern count="1" alt="short" draft="contributed">1 মিনিট</unitPattern>
 			<unitPattern count="one">{0} মিনিট</unitPattern>
+			<unitPattern count="one" alt="short">{0} মিনিট</unitPattern>
 			<unitPattern count="other">{0} মিনিট</unitPattern>
-			<unitPattern count="other" alt="short" draft="contributed">{0} মিনিট</unitPattern>
+			<unitPattern count="other" alt="short">{0} মিনিট</unitPattern>
 		</unit>
 		<unit type="minute-future">
-			<unitPattern count="0" draft="contributed">০মিনিটে</unitPattern>
-			<unitPattern count="1" draft="contributed">১ মিনিটে</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} মিনিটে</unitPattern>
+			<unitPattern count="one">{0} মিনিটে</unitPattern>
+			<unitPattern count="other">{0} মিনিটে</unitPattern>
 		</unit>
 		<unit type="minute-past">
-			<unitPattern count="0" draft="contributed">0 মিনিট পূর্বে</unitPattern>
-			<unitPattern count="1" draft="contributed">1 মিনিট পূর্বে</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} মিনিট পূর্বে</unitPattern>
+			<unitPattern count="one">{0} মিনিট পূর্বে</unitPattern>
+			<unitPattern count="other">{0} মিনিট পূর্বে</unitPattern>
 		</unit>
 		<unit type="month">
-			<unitPattern count="0" alt="short" draft="contributed">০ মাস</unitPattern>
-			<unitPattern count="1" alt="short" draft="contributed">১ মাস</unitPattern>
 			<unitPattern count="one">{0} মাস</unitPattern>
+			<unitPattern count="one" alt="short">{0} মাস</unitPattern>
 			<unitPattern count="other">{0} মাস</unitPattern>
-			<unitPattern count="other" alt="short" draft="contributed">{0} মাস</unitPattern>
+			<unitPattern count="other" alt="short">{0} মাস</unitPattern>
 		</unit>
 		<unit type="month-future">
-			<unitPattern count="0" draft="contributed">০ মাসে</unitPattern>
-			<unitPattern count="1" draft="contributed">১ মাসে</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} মাসে</unitPattern>
+			<unitPattern count="one">{0} মাসে</unitPattern>
+			<unitPattern count="other">{0} মাসে</unitPattern>
 		</unit>
 		<unit type="month-past">
-			<unitPattern count="0" draft="contributed">0 মাস পূর্বে</unitPattern>
-			<unitPattern count="1" draft="contributed">১ মাস পূর্বে</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} মাস পূর্বে</unitPattern>
+			<unitPattern count="one">{0} মাস পূর্বে</unitPattern>
+			<unitPattern count="other">{0} মাস পূর্বে</unitPattern>
 		</unit>
 		<unit type="second">
-			<unitPattern count="0" alt="short" draft="contributed">০ সেকেন্ড</unitPattern>
-			<unitPattern count="1" alt="short" draft="contributed">১ সেকেন্ড</unitPattern>
 			<unitPattern count="one">{0} সেকেন্ড</unitPattern>
+			<unitPattern count="one" alt="short">{0} সেকেন্ড</unitPattern>
 			<unitPattern count="other">{0} সেকেন্ড</unitPattern>
-			<unitPattern count="other" alt="short" draft="contributed">{0} সেকেন্ড</unitPattern>
+			<unitPattern count="other" alt="short">{0} সেকেন্ড</unitPattern>
 		</unit>
 		<unit type="second-future">
-			<unitPattern count="0" draft="contributed">০ সেকেন্ডে</unitPattern>
-			<unitPattern count="1" draft="contributed">১ সেকেন্ডে</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} সেকেন্ডে</unitPattern>
+			<unitPattern count="one">{0} সেকেন্ডে</unitPattern>
+			<unitPattern count="other">{0} সেকেন্ডে</unitPattern>
 		</unit>
 		<unit type="second-past">
-			<unitPattern count="0" draft="contributed">0 সেকেন্ড পূর্বে</unitPattern>
-			<unitPattern count="1" draft="contributed">১ সেকেন্ড পূর্বে</unitPattern>
-			<unitPattern count="other" draft="contributed">{0}সেকেন্ড পূর্বে</unitPattern>
+			<unitPattern count="one">{0} সেকেন্ড পূর্বে</unitPattern>
+			<unitPattern count="other">{0} সেকেন্ড পূর্বে</unitPattern>
 		</unit>
 		<unit type="week">
-			<unitPattern count="0" alt="short" draft="contributed">0 সপ্তাহ</unitPattern>
-			<unitPattern count="1" alt="short" draft="contributed">১ সপ্তাহ</unitPattern>
 			<unitPattern count="one">{0} সপ্তাহ</unitPattern>
+			<unitPattern count="one" alt="short">{0} সপ্তাহ</unitPattern>
 			<unitPattern count="other">{0} সপ্তাহ</unitPattern>
-			<unitPattern count="other" alt="short" draft="contributed">{0} সপ্তাহ</unitPattern>
+			<unitPattern count="other" alt="short">{0} সপ্তাহ</unitPattern>
 		</unit>
 		<unit type="week-future">
-			<unitPattern count="0" draft="contributed">০ সপ্তাহে</unitPattern>
-			<unitPattern count="1" draft="contributed">১ সপ্তাহে</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} সপ্তাহে</unitPattern>
+			<unitPattern count="one">{0} সপ্তাহে</unitPattern>
+			<unitPattern count="other">{0} সপ্তাহে</unitPattern>
 		</unit>
 		<unit type="week-past">
-			<unitPattern count="0" draft="contributed">0 সপ্তাহ পূর্বে</unitPattern>
-			<unitPattern count="1" draft="contributed">১ সপ্তাহ পূর্বে</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} সপ্তাহ পূর্বে</unitPattern>
+			<unitPattern count="one">{0} সপ্তাহ পূর্বে</unitPattern>
+			<unitPattern count="other">{0} সপ্তাহ পূর্বে</unitPattern>
 		</unit>
 		<unit type="year">
-			<unitPattern count="0" alt="short" draft="contributed">০ বছর</unitPattern>
-			<unitPattern count="1" alt="short" draft="contributed">১ বছর</unitPattern>
 			<unitPattern count="one">{0} বছর</unitPattern>
+			<unitPattern count="one" alt="short">{0} বছর</unitPattern>
 			<unitPattern count="other">{0} বছর</unitPattern>
-			<unitPattern count="other" alt="short" draft="contributed">{0} বছর</unitPattern>
+			<unitPattern count="other" alt="short">{0} বছর</unitPattern>
 		</unit>
 		<unit type="year-future">
-			<unitPattern count="0" draft="contributed">0 বছরে</unitPattern>
-			<unitPattern count="1" draft="contributed">১ বছরে</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} বছরে</unitPattern>
+			<unitPattern count="one">{0} বছরে</unitPattern>
+			<unitPattern count="other">{0} বছরে</unitPattern>
 		</unit>
 		<unit type="year-past">
-			<unitPattern count="0" draft="contributed">0 বছর পূর্বে</unitPattern>
-			<unitPattern count="1" draft="contributed">১ বছর পূর্বে</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} বছর পূর্বে</unitPattern>
+			<unitPattern count="one">{0} বছর পূর্বে</unitPattern>
+			<unitPattern count="other">{0} বছর পূর্বে</unitPattern>
 		</unit>
 	</units>
 	<listPatterns>
 		<listPattern>
 			<listPatternPart type="2" draft="contributed">{0} এবং {1}</listPatternPart>
 			<listPatternPart type="end" draft="contributed">{0}, এবং {1}</listPatternPart>
+			<listPatternPart type="middle" draft="contributed">{0}, {1}</listPatternPart>
+			<listPatternPart type="start" draft="contributed">{0}, {1}</listPatternPart>
 		</listPattern>
 	</listPatterns>
 	<posix>

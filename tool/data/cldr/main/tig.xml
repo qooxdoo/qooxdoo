@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!-- Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
 <ldml>
 	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
+		<version number="$Revision: 8245 $"/>
+		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
 		<language type="tig"/>
 	</identity>
 	<localeDisplayNames>
@@ -182,7 +186,6 @@
 			<territory type="CM" draft="unconfirmed">ካሜሩን</territory>
 			<territory type="CN" draft="unconfirmed">ቻይና</territory>
 			<territory type="CO" draft="unconfirmed">ኮሎምቢያ</territory>
-			<territory type="CS" draft="unconfirmed">ሰርቢያ</territory>
 			<territory type="CV" draft="unconfirmed">ኬፕ ቬርዴ</territory>
 			<territory type="CY" draft="unconfirmed">ሳይፕረስ</territory>
 			<territory type="CZ" draft="unconfirmed">ቼክ ሪፑብሊክ</territory>
@@ -288,11 +291,35 @@
 		</territories>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters draft="unconfirmed">[\u135F ፡ ፣-፧ ። ፠ ፨ ᎐-᎙ ፲-፼ ፩-፱ ሀ-ሏ ⶀ ሐ-ሟ ᎀ-ᎃ ⶁ ሠ-ሯ ⶂ ሰ-ሷ ⶃ ሸ-ሿ ⶄ ቀ-ቈ ቊ-ቍ ቐ-ቖ ቘ ቚ-ቝ በ-ቧ ᎄ-ᎇ ⶅ ቨ-ቷ ⶆ ቸ-ቿ ⶇ ኀ-ኈ ኊ-ኍ ነ-ኗ ⶈ ኘ-ኟ ⶉ አ-ኧ ⶊ ከ-ኰ ኲ-ኵ ኸ-ኾ ዀ ዂ-ዅ ወ-ዖ ዘ-ዟ ⶋ ዠ-ዷ ⶌ ዸ-ዿ ⶍ ጀ-ጇ ⶎ ገ-ጐ ጒ-ጕ ጘ-ጟ ⶓ-ⶖ ጠ-ጧ ⶏ ጨ-ጯ ⶐ ጰ-ጷ ⶑ ጸ-ፏ ᎈ-ᎋ ፐ-ፗ ᎌ-ᎏ ⶒ ፘ-ፚ ⶠ-ⶦ ⶨ-ⶮ ⶰ-ⶶ ⶸ-ⶾ ⷀ-ⷆ ⷈ-ⷎ ⷐ-ⷖ ⷘ-ⷞ]</exemplarCharacters>
+		<exemplarCharacters>[\u135F ፡ ፣-፧ ። ፠ ፨ ᎐-᎙ ፲-፼ ፩-፱ ሀ-ሏ ⶀ ሐ-ሟ ᎀ-ᎃ ⶁ ሠ-ሯ ⶂ ሰ-ሷ ⶃ ሸ-ሿ ⶄ ቀ-ቈ ቊ-ቍ ቐ-ቖ ቘ ቚ-ቝ በ-ቧ ᎄ-ᎇ ⶅ ቨ-ቷ ⶆ ቸ-ቿ ⶇ ኀ-ኈ ኊ-ኍ ነ-ኗ ⶈ ኘ-ኟ ⶉ አ-ኧ ⶊ ከ-ኰ ኲ-ኵ ኸ-ኾ ዀ ዂ-ዅ ወ-ዖ ዘ-ዟ ⶋ ዠ-ዷ ⶌ ዸ-ዿ ⶍ ጀ-ጇ ⶎ ገ-ጐ ጒ-ጕ ጘ-ጟ ⶓ-ⶖ ጠ-ጧ ⶏ ጨ-ጯ ⶐ ጰ-ጷ ⶑ ጸ-ፏ ᎈ-ᎋ ፐ-ፗ ᎌ-ᎏ ⶒ ፘ-ፚ ⶠ-ⶦ ⶨ-ⶮ ⶰ-ⶶ ⶸ-ⶾ ⷀ-ⷆ ⷈ-ⷎ ⷐ-ⷖ ⷘ-ⷞ]</exemplarCharacters>
 		<exemplarCharacters type="index" draft="unconfirmed">[ሀ ለ ⶀ መ ᎀ ᎁ ᎃ ⶁ ረ ⶂ ሰ ሸ ⶄ ቈ ቐ ቘ ᎄ ᎅ ᎇ ⶅ ቨ ⶆ ቸ ኀ ኈ ነ ኘ ⶉ ⶊ ከ ኰ ዀ ወ ዐ ⶋ ዠ ደ ⶌ ዸ ጀ ⶎ ጐ ጘ ⶓ ⶕ ⶖ ⶏ ጨ ⶐ ⶑ ጸ ፈ ᎈ ᎉ ᎋ ፐ ᎍ ᎎ ᎏ ፘ ⶠ ⶢ ⶣ ⶤ ⶦ ⶨ ⶩ ⶫ ⶬ ⶮ ⶰ ⶱ ⶳ ⶴ ⶶ ⶸ ⶹ ⶻ ⶼ ⶾ ⷀ ⷁ ⷃ ⷄ ⷆ ⷈ ⷉ ⷋ ⷌ ⷎ ⷐ ⷑ ⷓ ⷔ ⷖ ⷘ ⷙ ⷛ ⷜ ⷝ]</exemplarCharacters>
 	</characters>
 	<dates>
 		<calendars>
+			<calendar type="generic">
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern draft="unconfirmed">EEEE፡ dd MMMM ዮም y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern draft="unconfirmed">dd MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern draft="unconfirmed">dd-MMM-y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern draft="unconfirmed">dd/MM/yy GGGGG</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+			</calendar>
 			<calendar type="gregorian">
 				<months>
 					<monthContext type="format">

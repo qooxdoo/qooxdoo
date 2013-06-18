@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!-- Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
 <ldml>
 	<identity>
-		<version number="$Revision: 6708 $"/>
-		<generation date="$Date: 2012-03-16 07:58:36 +0100 (Fri, 16 Mar 2012) $"/>
+		<version number="$Revision: 8245 $"/>
+		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
 		<language type="pa"/>
 		<script type="Arab"/>
 	</identity>
@@ -20,7 +24,9 @@
 		</territories>
 	</localeDisplayNames>
 	<layout>
-		<orientation characters="right-to-left"/>
+		<orientation>
+			<characterOrder>right-to-left</characterOrder>
+		</orientation>
 	</layout>
 	<characters>
 		<exemplarCharacters>[\u064F ء آ ؤ ئ ا ب پ ت ث ٹ ج چ ح خ د ذ ڈ ر ز ڑ ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن ں ه ھ ہ و ی ے]</exemplarCharacters>
@@ -29,6 +35,39 @@
 	</characters>
 	<dates>
 		<calendars>
+			<calendar type="generic">
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE, dd MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>d MMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>dd/MM/y GGGGG</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="HHmmss">HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="Md">d/M</dateFormatItem>
+						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
+						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
+						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
 			<calendar type="gregorian">
 				<months>
 					<monthContext type="format">
@@ -95,7 +134,7 @@
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern>dd/MM/yyyy</pattern>
+							<pattern>dd/MM/y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
@@ -126,38 +165,38 @@
 						<dateFormatItem id="HHmmss">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="Md">d/M</dateFormatItem>
 						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
-						<dateFormatItem id="yyMMM">MMM yy</dateFormatItem>
-						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
+						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
+						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
-				<fields>
-					<field type="year">
-						<displayName>ورھا</displayName>
-					</field>
-					<field type="month">
-						<displayName>مہينا</displayName>
-					</field>
-					<field type="week">
-						<displayName>ہفتہ</displayName>
-					</field>
-					<field type="day">
-						<displayName>دئن</displayName>
-					</field>
-					<field type="weekday">
-						<displayName>ہفتے دا دن</displayName>
-					</field>
-					<field type="hour">
-						<displayName>گھنٹا</displayName>
-					</field>
-					<field type="minute">
-						<displayName>منٹ</displayName>
-					</field>
-					<field type="zone">
-						<displayName>ٹپہ</displayName>
-					</field>
-				</fields>
 			</calendar>
 		</calendars>
+		<fields>
+			<field type="year">
+				<displayName>ورھا</displayName>
+			</field>
+			<field type="month">
+				<displayName>مہينا</displayName>
+			</field>
+			<field type="week">
+				<displayName>ہفتہ</displayName>
+			</field>
+			<field type="day">
+				<displayName>دئن</displayName>
+			</field>
+			<field type="weekday">
+				<displayName>ہفتے دا دن</displayName>
+			</field>
+			<field type="hour">
+				<displayName>گھنٹا</displayName>
+			</field>
+			<field type="minute">
+				<displayName>منٹ</displayName>
+			</field>
+			<field type="zone">
+				<displayName>ٹپہ</displayName>
+			</field>
+		</fields>
 	</dates>
 	<numbers>
 		<defaultNumberingSystem>arabext</defaultNumberingSystem>
@@ -170,7 +209,6 @@
 			</currency>
 			<currency type="INR">
 				<displayName>روپئیہ [INR]</displayName>
-				<symbol>ر [INR]</symbol>
 			</currency>
 			<currency type="PKR">
 				<displayName>روپئیہ</displayName>
@@ -185,3 +223,4 @@
 		</messages>
 	</posix>
 </ldml>
+

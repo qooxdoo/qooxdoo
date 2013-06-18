@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!-- Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
 <ldml>
 	<identity>
-		<version number="$Revision: 5884 $"/>
-		<generation date="$Date: 2011-05-10 22:58:32 +0200 (Tue, 10 May 2011) $"/>
+		<version number="$Revision: 8245 $"/>
+		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
 		<language type="sv"/>
 		<territory type="FI"/>
 	</identity>
 	<localeDisplayNames>
+		<scripts>
+			<script type="Mero" draft="contributed">meroitiska</script>
+		</scripts>
+		<territories>
+			<territory type="BQ" draft="contributed">Bonaire, S:t Eustatius och Saba</territory>
+			<territory type="MF" draft="contributed">S:t Martin (franska delen)</territory>
+			<territory type="SD" draft="contributed">Nordsudan</territory>
+		</territories>
 		<variants>
 			<variant type="1996">1996 års stavning</variant>
 		</variants>
@@ -18,26 +30,25 @@
 			<type type="stroke" key="collation" draft="unconfirmed">kinesiska i strecksorteringsordning</type>
 			<type type="traditional" key="collation" draft="unconfirmed">traditionell sorteringsordning</type>
 		</types>
-		<measurementSystemNames>
-			<measurementSystemName type="US" draft="unconfirmed">imperiska enheter</measurementSystemName>
-		</measurementSystemNames>
 	</localeDisplayNames>
 	<characters>
 		<exemplarCharacters draft="unconfirmed">[a à b c d e é f g h i j k l m n o p q r s t u v x y z å ä ö]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[ã ç ë í ñ ó š ÿ ü ž]</exemplarCharacters>
 	</characters>
 	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<fields>
-					<field type="dayperiod">
-						<displayName>dagsperiod</displayName>
-					</field>
-				</fields>
-			</calendar>
-		</calendars>
+		<fields>
+			<field type="dayperiod">
+				<displayName>dagsperiod</displayName>
+			</field>
+		</fields>
 		<timeZoneNames>
 			<hourFormat draft="unconfirmed">+HH:mm;−HH:mm</hourFormat>
+			<zone type="Etc/Unknown">
+				<exemplarCity draft="contributed">(okänd tidszon)</exemplarCity>
+			</zone>
+			<zone type="America/Tegucigalpa">
+				<exemplarCity draft="contributed">Tegucigalpa</exemplarCity>
+			</zone>
 		</timeZoneNames>
 	</dates>
 </ldml>

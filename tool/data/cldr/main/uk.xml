@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!-- Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
 <ldml>
 	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
+		<version number="$Revision: 8671 $"/>
+		<generation date="$Date: 2013-05-03 14:17:48 -0500 (Fri, 03 May 2013) $"/>
 		<language type="uk"/>
 	</identity>
-	<fallback draft="provisional">ru</fallback>
 	<localeDisplayNames>
 		<localeDisplayPattern>
 			<localePattern draft="contributed">{0} ({1})</localePattern>
 			<localeSeparator draft="contributed">,</localeSeparator>
+			<localeKeyTypePattern draft="contributed">{0}: {1}</localeKeyTypePattern>
 		</localeDisplayPattern>
 		<languages>
 			<language type="aa">афарська</language>
@@ -23,6 +27,7 @@
 			<language type="af">африкаанс</language>
 			<language type="afa">афро-азійська мова</language>
 			<language type="afh">африхілі</language>
+			<language type="agq" draft="contributed">агем</language>
 			<language type="ain">айнська</language>
 			<language type="ak">акан</language>
 			<language type="akk">аккадська</language>
@@ -57,17 +62,21 @@
 			<language type="ban">балійська</language>
 			<language type="bas">баса</language>
 			<language type="bat">балтійська мова</language>
+			<language type="bax" draft="contributed">бамум</language>
+			<language type="bbj" draft="contributed">гомала</language>
 			<language type="be">білоруська</language>
 			<language type="bej">беджа</language>
 			<language type="bem">бемба</language>
 			<language type="ber">берберська</language>
 			<language type="bez" draft="contributed">Бена</language>
+			<language type="bfd" draft="contributed">бафут</language>
 			<language type="bg">болгарська</language>
 			<language type="bh">біхарі</language>
 			<language type="bho">бходжпурі</language>
 			<language type="bi">біслама</language>
 			<language type="bik">бікольська</language>
 			<language type="bin">біні</language>
+			<language type="bkm" draft="contributed">ком</language>
 			<language type="bla">сіксіка</language>
 			<language type="bm">бамбара</language>
 			<language type="bn">бенгальська</language>
@@ -77,19 +86,24 @@
 			<language type="bra">брадж</language>
 			<language type="brx" draft="contributed">Бодо</language>
 			<language type="bs">боснійська</language>
+			<language type="bss" draft="contributed">акус</language>
 			<language type="btk">батак</language>
 			<language type="bua">бурятська</language>
 			<language type="bug">бугійська</language>
+			<language type="bum" draft="contributed">булу</language>
 			<language type="byn">блін</language>
+			<language type="byv" draft="contributed">медумба</language>
 			<language type="ca">каталонська</language>
 			<language type="cad">каддо</language>
 			<language type="cai">центральноамериканьских індіанців мова</language>
 			<language type="car">карібська</language>
 			<language type="cau">кавказька мова</language>
+			<language type="cay" draft="contributed">кайюга</language>
 			<language type="cch">атсам</language>
 			<language type="ce">чеченська</language>
 			<language type="ceb">себуанська</language>
 			<language type="cel">кельтська мова</language>
+			<language type="cgg" draft="contributed">кіга</language>
 			<language type="ch">чаморро</language>
 			<language type="chb">чібча</language>
 			<language type="chg">чагатайська</language>
@@ -100,6 +114,7 @@
 			<language type="chp">чіпев’ян</language>
 			<language type="chr">черокі</language>
 			<language type="chy">чейєнн</language>
+			<language type="ckb" draft="provisional">курдська (сорані)</language>
 			<language type="cmc">хамітські мови</language>
 			<language type="co">корсиканська</language>
 			<language type="cop">коптська</language>
@@ -118,6 +133,7 @@
 			<language type="da">данська</language>
 			<language type="dak">дакота</language>
 			<language type="dar">даргінська</language>
+			<language type="dav" draft="contributed">таіта</language>
 			<language type="day">даяк</language>
 			<language type="de">німецька</language>
 			<language type="de_AT">німецька австрійська</language>
@@ -126,14 +142,17 @@
 			<language type="den">слейв</language>
 			<language type="dgr">догрибська</language>
 			<language type="din">дінка</language>
+			<language type="dje" draft="contributed">джерма</language>
 			<language type="doi">догрі</language>
 			<language type="dra">дравідійська мова</language>
 			<language type="dsb">нижньолужицька</language>
 			<language type="dua">дуала</language>
 			<language type="dum">середньонідерландська</language>
 			<language type="dv">дівехі</language>
+			<language type="dyo" draft="contributed">дьола-фоні</language>
 			<language type="dyu">діула</language>
 			<language type="dz">дзонг-ке</language>
+			<language type="dzg" draft="contributed">дазага</language>
 			<language type="ebu" draft="contributed">Ембу</language>
 			<language type="ee">еве</language>
 			<language type="efi">ефік</language>
@@ -192,6 +211,7 @@
 			<language type="grc">давньогрецька</language>
 			<language type="gsw">німецька швейцарська</language>
 			<language type="gu">гуджараті</language>
+			<language type="guz" draft="contributed">ікігусії</language>
 			<language type="gv">менкська</language>
 			<language type="gwi">кучін</language>
 			<language type="ha">хауса</language>
@@ -213,6 +233,7 @@
 			<language type="hz">гереро</language>
 			<language type="ia">інтерлінгва</language>
 			<language type="iba">ібанська</language>
+			<language type="ibb" draft="contributed">ібібіо</language>
 			<language type="id">індонезійська</language>
 			<language type="ie">інтерлінгве</language>
 			<language type="ig">ігбо</language>
@@ -231,6 +252,7 @@
 			<language type="iu">інуктітут</language>
 			<language type="ja">японська</language>
 			<language type="jbo">ложбан</language>
+			<language type="jmc" draft="contributed">мачаме</language>
 			<language type="jpr">іудео-перська</language>
 			<language type="jrb">іудео-арабська</language>
 			<language type="jv">яванська</language>
@@ -243,17 +265,22 @@
 			<language type="kar">каренська</language>
 			<language type="kaw">каві</language>
 			<language type="kbd">кабардинська</language>
+			<language type="kbl" draft="contributed">канембу</language>
 			<language type="kcg">тіап</language>
+			<language type="kde" draft="contributed">маконде</language>
 			<language type="kea" draft="contributed">Кабувердіану</language>
 			<language type="kfo">коро</language>
 			<language type="kg">конґолезька</language>
 			<language type="kha">кхасі</language>
 			<language type="khi">койсанські мови</language>
 			<language type="kho">хотаносакська</language>
+			<language type="khq" draft="contributed">койра чіїні</language>
 			<language type="ki">кікуйю</language>
 			<language type="kj">кунама</language>
 			<language type="kk">казахська</language>
+			<language type="kkj" draft="contributed">како</language>
 			<language type="kl">калааллісут</language>
+			<language type="kln" draft="contributed">каленжин</language>
 			<language type="km">кхмерська</language>
 			<language type="kmb">кімбунду</language>
 			<language type="kn">каннада</language>
@@ -267,6 +294,9 @@
 			<language type="kro">кру</language>
 			<language type="kru">курукх</language>
 			<language type="ks">кашмірська</language>
+			<language type="ksb" draft="contributed">шамбала</language>
+			<language type="ksf" draft="contributed">бафіа</language>
+			<language type="ksh" draft="contributed">колоніан</language>
 			<language type="ku">курдська</language>
 			<language type="kum">кумицька</language>
 			<language type="kut">кутенаї</language>
@@ -275,6 +305,7 @@
 			<language type="ky">киргизька</language>
 			<language type="la">латинська</language>
 			<language type="lad">ладіно</language>
+			<language type="lag" draft="contributed">лангі</language>
 			<language type="lah">ланда</language>
 			<language type="lam">ламба</language>
 			<language type="lb">люксембурзька</language>
@@ -295,17 +326,22 @@
 			<language type="luy" draft="contributed">Луія</language>
 			<language type="lv">латвійська</language>
 			<language type="mad">мадурська</language>
+			<language type="maf" draft="contributed">мафа</language>
 			<language type="mag">магадхі</language>
 			<language type="mai">майтхілі</language>
 			<language type="mak">макасарська</language>
 			<language type="man">мандінго</language>
 			<language type="map">австронезійська мова</language>
 			<language type="mas">масаї</language>
+			<language type="mde" draft="contributed">маба</language>
 			<language type="mdf">мокша</language>
 			<language type="mdr">мандарська</language>
 			<language type="men">менде</language>
+			<language type="mer" draft="contributed">меру</language>
+			<language type="mfe" draft="contributed">маврикійська креольська</language>
 			<language type="mg">малагасійська</language>
 			<language type="mga">середньоірландська</language>
+			<language type="mgh" draft="contributed">макува-меето</language>
 			<language type="mh">маршалльська</language>
 			<language type="mi">маорі</language>
 			<language type="mic">мікмак</language>
@@ -324,18 +360,21 @@
 			<language type="mr">маратхі</language>
 			<language type="ms">малайська</language>
 			<language type="mt">мальтійська</language>
+			<language type="mua" draft="contributed">мунданг</language>
 			<language type="mul">декілька мов</language>
 			<language type="mun">мунда мови</language>
 			<language type="mus">крік</language>
 			<language type="mwl">мірандська</language>
 			<language type="mwr">марварі</language>
 			<language type="my">бірманська</language>
+			<language type="mye" draft="contributed">миін</language>
 			<language type="myn">майя мови</language>
 			<language type="myv">ерзя</language>
 			<language type="na">науру</language>
 			<language type="nah">нахуатль</language>
 			<language type="nai">північноамериканських індіанців мови</language>
 			<language type="nap">неаполітанська</language>
+			<language type="naq" draft="contributed">нама</language>
 			<language type="nb">норвезька букмол</language>
 			<language type="nd">ндебелє північна</language>
 			<language type="nds">нижньонімецька</language>
@@ -347,7 +386,9 @@
 			<language type="niu">ніуе</language>
 			<language type="nl">голландська</language>
 			<language type="nl_BE">фламандська</language>
+			<language type="nmg" draft="contributed">квазіо</language>
 			<language type="nn">норвезька нюнорськ</language>
+			<language type="nnh" draft="contributed">нгємбун</language>
 			<language type="no">норвезька</language>
 			<language type="nog">ногайська</language>
 			<language type="non">давньонорвезька</language>
@@ -355,6 +396,7 @@
 			<language type="nr">ндебелє південна</language>
 			<language type="nso">сото північна</language>
 			<language type="nub">нубійські мови</language>
+			<language type="nus" draft="contributed">нуер</language>
 			<language type="nv">навахо</language>
 			<language type="nwc">неварі класична</language>
 			<language type="ny">ньянджа</language>
@@ -411,20 +453,28 @@
 			<language type="sai">південноамериканських індіанців мови</language>
 			<language type="sal">салішські мови</language>
 			<language type="sam">самаритянська арамейська</language>
+			<language type="saq" draft="contributed">самбуру</language>
 			<language type="sas">сасакська</language>
 			<language type="sat">сантальська</language>
+			<language type="sba" draft="contributed">нгамбай</language>
+			<language type="sbp" draft="contributed">сангу</language>
 			<language type="sc">сардинська</language>
 			<language type="scn">сицилійська</language>
 			<language type="sco">шотландська</language>
 			<language type="sd">сіндхі</language>
 			<language type="se">саамська північна</language>
+			<language type="see" draft="contributed">сенека</language>
+			<language type="seh" draft="contributed">сена</language>
 			<language type="sel">селькупська</language>
 			<language type="sem">семітські мови</language>
+			<language type="ses" draft="contributed">койраборо сені</language>
 			<language type="sg">санго</language>
 			<language type="sga">давньоірландська</language>
 			<language type="sgn">знакові мови</language>
 			<language type="sh">сербсько-хорватська</language>
+			<language type="shi" draft="contributed">тачеліт</language>
 			<language type="shn">шанська</language>
+			<language type="shu" draft="contributed">чадійська арабська</language>
 			<language type="si">сингальська</language>
 			<language type="sid">сідамо</language>
 			<language type="sio">сіу мови</language>
@@ -449,6 +499,7 @@
 			<language type="srr">серер</language>
 			<language type="ss">сісваті</language>
 			<language type="ssa">ніло-сахарські мови</language>
+			<language type="ssy" draft="contributed">сахо</language>
 			<language type="st">сото південна</language>
 			<language type="su">сунданська</language>
 			<language type="suk">сукума</language>
@@ -457,12 +508,14 @@
 			<language type="sv">шведська</language>
 			<language type="sw">суахілі</language>
 			<language type="swb">коморська</language>
+			<language type="swc" draft="contributed">конгійське суахілі</language>
 			<language type="syc">сирійська класична</language>
 			<language type="syr">сирійська</language>
 			<language type="ta">тамільська</language>
 			<language type="tai">тайські мови</language>
 			<language type="te">телугу</language>
 			<language type="tem">темне</language>
+			<language type="teo" draft="contributed">тесо</language>
 			<language type="ter">терено</language>
 			<language type="tet">тетум</language>
 			<language type="tg">таджицька</language>
@@ -477,10 +530,11 @@
 			<language type="tli">тлінгіт</language>
 			<language type="tmh">тамашек</language>
 			<language type="tn">тсвана</language>
-			<language type="to">Тонга</language>
+			<language type="to">тонга</language>
 			<language type="tog">ньяса тонга</language>
 			<language type="tpi">ток-пісін</language>
 			<language type="tr">турецька</language>
+			<language type="trv" draft="contributed">тароко</language>
 			<language type="ts">тсонга</language>
 			<language type="tsi">цимшиан</language>
 			<language type="tt">татарська</language>
@@ -489,15 +543,17 @@
 			<language type="tut">алтайська мова</language>
 			<language type="tvl">тувалу</language>
 			<language type="tw">тві</language>
+			<language type="twq" draft="contributed">тасавак</language>
 			<language type="ty">таїтянська</language>
 			<language type="tyv">тувинська</language>
+			<language type="tzm" draft="contributed">центральномароканська тамазіт</language>
 			<language type="udm">удмуртська</language>
 			<language type="ug">уйгурська</language>
 			<language type="ug" alt="variant" draft="contributed">уйгурська</language>
 			<language type="uga">угаритська</language>
 			<language type="uk">українська</language>
 			<language type="umb">умбунду</language>
-			<language type="und">невизначена мова</language>
+			<language type="und">невідома мова</language>
 			<language type="ur">урду</language>
 			<language type="uz">узбецька</language>
 			<language type="vai">ваї</language>
@@ -505,6 +561,7 @@
 			<language type="vi">вʼєтнамська</language>
 			<language type="vo">волап’юк</language>
 			<language type="vot">водська</language>
+			<language type="vun" draft="contributed">вуньо</language>
 			<language type="wa">валлонська</language>
 			<language type="wae" draft="contributed">Валзерська</language>
 			<language type="wak">вакашські мови</language>
@@ -515,8 +572,10 @@
 			<language type="wo">волоф</language>
 			<language type="xal">калмицька</language>
 			<language type="xh">кхоса</language>
+			<language type="xog" draft="contributed">сога</language>
 			<language type="yao">яо</language>
 			<language type="yap">яп</language>
+			<language type="ybb" draft="contributed">ємба</language>
 			<language type="yi">ідиш</language>
 			<language type="yo">йоруба</language>
 			<language type="ypk">юпік мови</language>
@@ -575,10 +634,10 @@
 			<script type="Hang">Хангул</script>
 			<script type="Hani">Китайський</script>
 			<script type="Hano">Хануну</script>
-			<script type="Hans">Китайський спрощений</script>
-			<script type="Hans" alt="stand-alone" draft="contributed">Китайський (спрощений)</script>
-			<script type="Hant">Китайський традиційний</script>
-			<script type="Hant" alt="stand-alone" draft="contributed">Китайський (традиційний)</script>
+			<script type="Hans">Спрощений</script>
+			<script type="Hans" alt="stand-alone">Китайський спрощений</script>
+			<script type="Hant">Традиційний</script>
+			<script type="Hant" alt="stand-alone">Китайський традиційний</script>
 			<script type="Hebr">Іврит</script>
 			<script type="Hira">Хірагана</script>
 			<script type="Hmng">Пахау хмонг</script>
@@ -667,7 +726,7 @@
 			<script type="Zsym">Символьний</script>
 			<script type="Zxxx">Безписемний</script>
 			<script type="Zyyy">Невизначений</script>
-			<script type="Zzzz">Невідомий</script>
+			<script type="Zzzz">Невідомий сценарій</script>
 		</scripts>
 		<territories>
 			<territory type="001">Світ</territory>
@@ -731,6 +790,7 @@
 			<territory type="BM">Бермуди</territory>
 			<territory type="BN">Бруней</territory>
 			<territory type="BO">Болівія</territory>
+			<territory type="BQ" draft="provisional">Нідерландські Карибські острови</territory>
 			<territory type="BR">Бразилія</territory>
 			<territory type="BS">Багами</territory>
 			<territory type="BT">Бутан</territory>
@@ -755,9 +815,9 @@
 			<territory type="CO">Колумбія</territory>
 			<territory type="CP">Острів Кліппертон</territory>
 			<territory type="CR">Коста-Рика</territory>
-			<territory type="CS">Сербія та Чорногорія</territory>
 			<territory type="CU">Куба</territory>
 			<territory type="CV">Кабо-Верде</territory>
+			<territory type="CW">Кюрасао</territory>
 			<territory type="CX">Острів Різдва</territory>
 			<territory type="CY">Кіпр</territory>
 			<territory type="CZ">Чеська республіка</territory>
@@ -786,7 +846,7 @@
 			<territory type="FO">Фарерські острови</territory>
 			<territory type="FR">Франція</territory>
 			<territory type="GA">Габон</territory>
-			<territory type="GB">Великобританія</territory>
+			<territory type="GB">Велика Британія</territory>
 			<territory type="GD">Гренада</territory>
 			<territory type="GE">Грузія</territory>
 			<territory type="GF">Французька Гвіана</territory>
@@ -897,6 +957,7 @@
 			<territory type="PN">Острови Піткерн</territory>
 			<territory type="PR">Пуерто-Ріко</territory>
 			<territory type="PS">Палестина</territory>
+			<territory type="PS" alt="short">Палестина</territory>
 			<territory type="PT">Португалія</territory>
 			<territory type="PW">Палау</territory>
 			<territory type="PY">Парагвай</territory>
@@ -922,8 +983,10 @@
 			<territory type="SN">Сенегал</territory>
 			<territory type="SO">Сомалі</territory>
 			<territory type="SR">Суринам</territory>
+			<territory type="SS">Південний Судан</territory>
 			<territory type="ST">Сан-Томе і Прінсіпі</territory>
 			<territory type="SV">Сальвадор</territory>
+			<territory type="SX">Сінт-Мартен</territory>
 			<territory type="SY">Сирія</territory>
 			<territory type="SZ">Свазіленд</territory>
 			<territory type="TA">Трістан-да-Кунья</territory>
@@ -959,6 +1022,7 @@
 			<territory type="VU">Вануату</territory>
 			<territory type="WF">Уолліс і Футуна</territory>
 			<territory type="WS">Самоа</territory>
+			<territory type="XK">Косово</territory>
 			<territory type="YE">Ємен</territory>
 			<territory type="YT">Майот</territory>
 			<territory type="ZA">ПАР</territory>
@@ -1003,9 +1067,20 @@
 		</variants>
 		<keys>
 			<key type="calendar">Календар</key>
+			<key type="colAlternate" draft="contributed">Ігнорувати сортування за символами</key>
+			<key type="colBackwards" draft="contributed">Зворотне сортування за діактричними знаками</key>
+			<key type="colCaseFirst" draft="contributed">Упорядкування за великими/малими символами</key>
+			<key type="colCaseLevel" draft="contributed">Сортування з урахуванням регістру</key>
+			<key type="colHiraganaQuaternary" draft="contributed">Сортування кана</key>
 			<key type="collation">Порядок сортування</key>
+			<key type="colNormalization" draft="contributed">Уніфіковане сортування</key>
+			<key type="colNumeric" draft="contributed">Цифрове сортування</key>
+			<key type="colStrength" draft="contributed">Інтенсивність сортування</key>
 			<key type="currency">Валюта</key>
 			<key type="numbers" draft="contributed">Цифри</key>
+			<key type="timezone" draft="contributed">Часовий пояс</key>
+			<key type="va" draft="contributed">Варіант мовного коду</key>
+			<key type="variableTop" draft="contributed">Сортувати як символи</key>
 			<key type="x" draft="contributed">Особисте використання</key>
 		</keys>
 		<types>
@@ -1024,6 +1099,7 @@
 			<type type="ethi" key="numbers" draft="contributed">Ефіопські символи чисел</type>
 			<type type="ethiopic" key="calendar" draft="contributed">Ефіопський календар</type>
 			<type type="ethiopic-amete-alem" key="calendar" draft="contributed">Ефіопський Амете Алем календар</type>
+			<type type="finance" key="numbers" draft="contributed">Фінансові символи чисел</type>
 			<type type="fullwide" key="numbers" draft="contributed">Числові знаки повної ширини</type>
 			<type type="gb2312han" key="collation">Китайський спрощений</type>
 			<type type="geor" key="numbers" draft="contributed">Грузинські символи чисел</type>
@@ -1039,6 +1115,7 @@
 			<type type="hantfin" key="numbers" draft="contributed">Китайські фінансові символи чисел (традиційне письмо)</type>
 			<type type="hebr" key="numbers" draft="contributed">Символи чисел івриту</type>
 			<type type="hebrew" key="calendar">Єврейський календар</type>
+			<type type="identical" key="colStrength" draft="contributed">Сортувати всі</type>
 			<type type="indian" key="calendar">Індійський світський календар</type>
 			<type type="islamic" key="calendar">Мусульманський календар</type>
 			<type type="islamic-civil" key="calendar">Мусульманський світський календар</type>
@@ -1049,28 +1126,56 @@
 			<type type="knda" key="numbers" draft="contributed">Цифри каннада</type>
 			<type type="laoo" key="numbers" draft="contributed">Лаоські цифри</type>
 			<type type="latn" key="numbers">Західні цифри</type>
+			<type type="lower" key="colCaseFirst" draft="contributed">Сортувати спершу за малими символами</type>
 			<type type="mlym" key="numbers" draft="contributed">Цифри малаялам</type>
 			<type type="mong" key="numbers" draft="contributed">Монгольські цифри</type>
 			<type type="mymr" key="numbers" draft="contributed">Цифри М’янми</type>
+			<type type="native" key="numbers" draft="contributed">Місцеві цифри</type>
+			<type type="no" key="colBackwards" draft="contributed">Сортувати за діактричними знаками уніфіковано</type>
+			<type type="no" key="colCaseFirst" draft="contributed">Сортувати в порядку звичайного регістру</type>
+			<type type="no" key="colCaseLevel" draft="contributed">Сортувати без урахування регістру</type>
+			<type type="no" key="colHiraganaQuaternary" draft="contributed">Сортувати за кана окремо</type>
+			<type type="no" key="colNormalization" draft="contributed">Сортувати без уніфікації</type>
+			<type type="no" key="colNumeric" draft="contributed">Сортувати за цифрами окремо</type>
+			<type type="non-ignorable" key="colAlternate" draft="contributed">Сортувати за символами</type>
 			<type type="orya" key="numbers" draft="contributed">Цифри орія</type>
 			<type type="persian" key="calendar" draft="contributed">Перський календар</type>
 			<type type="phonebook" key="collation">Телефонна книга</type>
+			<type type="phonetic" key="collation" draft="contributed">Фонетичний порядок сортування</type>
 			<type type="pinyin" key="collation">Порядок піньїн</type>
+			<type type="primary" key="colStrength" draft="contributed">Сортувати лише за основними літерами</type>
+			<type type="quaternary" key="colStrength" draft="contributed">Сортувати за діактричними знаками/регістром/шириною/кана</type>
 			<type type="reformed" key="collation" draft="contributed">Порядок сортування: за виправленнями</type>
 			<type type="roc" key="calendar">Китайський григоріанський</type>
 			<type type="roman" key="numbers" draft="contributed">Римські цифри</type>
 			<type type="romanlow" key="numbers" draft="contributed">Римські малі цифри</type>
 			<type type="search" key="collation" draft="contributed">Універсальний пошук</type>
+			<type type="searchjl" key="collation" draft="contributed">Пошук за початковою приголосною хангул</type>
+			<type type="secondary" key="colStrength" draft="contributed">Сортувати за діактричними знаками</type>
+			<type type="shifted" key="colAlternate" draft="contributed">Сортувати, ігноруючи символи</type>
 			<type type="stroke" key="collation">Порядок натискання клавіш</type>
 			<type type="taml" key="numbers" draft="contributed">Тамільські традиційні символи чисел</type>
+			<type type="tamldec" key="numbers" draft="contributed">Тамільські цифри</type>
 			<type type="telu" key="numbers" draft="contributed">Цифри телугу</type>
+			<type type="tertiary" key="colStrength" draft="contributed">Сортувати за діактричними знаками/регістром/шириною</type>
 			<type type="thai" key="numbers" draft="contributed">Тайські цифри</type>
 			<type type="tibt" key="numbers" draft="contributed">Тибетські цифри</type>
 			<type type="traditional" key="collation">Традиційний</type>
+			<type type="traditional" key="numbers" draft="contributed">Традиційні символи чисел</type>
 			<type type="unihan" key="collation" draft="contributed">Порядок сортування: за штрихами в корені</type>
+			<type type="upper" key="colCaseFirst" draft="contributed">Сортувати спершу за великими символами</type>
+			<type type="vaii" key="numbers" draft="contributed">Цифри ваї</type>
+			<type type="yes" key="colBackwards" draft="contributed">Сортувати за діактричними знаками у зворотньому порядку</type>
+			<type type="yes" key="colCaseLevel" draft="contributed">Сортувати з урахуванням регістру</type>
+			<type type="yes" key="colHiraganaQuaternary" draft="contributed">Сортувати за кана інакше</type>
+			<type type="yes" key="colNormalization" draft="contributed">Сортувати за Unicode уніфіковано</type>
+			<type type="yes" key="colNumeric" draft="contributed">Сортувати за цифрами чисельно</type>
 		</types>
 		<transformNames>
+			<transformName type="BGN" draft="contributed">BGN</transformName>
 			<transformName type="Numeric" draft="contributed">Цифри</transformName>
+			<transformName type="Tone" draft="contributed">Тон</transformName>
+			<transformName type="UNGEGN" draft="contributed">UNGEGN</transformName>
 			<transformName type="x-Accents" draft="contributed">Діактричні знаки</transformName>
 			<transformName type="x-Fullwidth" draft="contributed">Повна ширина</transformName>
 			<transformName type="x-Halfwidth" draft="contributed">Половинна ширина</transformName>
@@ -1113,9 +1218,12 @@
 	</contextTransforms>
 	<characters>
 		<exemplarCharacters>[ʼ а б в г ґ д е є ж з и і ї й к л м н о п р с т у ф х ц ч ш щ ь ю я]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[]</exemplarCharacters>
-		<exemplarCharacters type="currencySymbol">[a b c č d e f g h i j k l ł m n o º p q r s t u v w x y z]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[ё ъ ы э]</exemplarCharacters>
 		<exemplarCharacters type="index">[А Б В Г Ґ Д Е Є Ж З И І Ї Й К Л М Н О П Р С Т У Ф Х Ц Ч Ш Щ Ю Я]</exemplarCharacters>
+		<ellipsis type="final" draft="contributed">{0}…</ellipsis>
+		<ellipsis type="initial" draft="contributed">…{0}</ellipsis>
+		<ellipsis type="medial" draft="contributed">{0}…{1}</ellipsis>
+		<moreInformation draft="contributed">?</moreInformation>
 	</characters>
 	<delimiters>
 		<quotationStart>«</quotationStart>
@@ -1246,6 +1354,181 @@
 					</monthContext>
 				</months>
 			</calendar>
+			<calendar type="generic">
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE, d MMMM y 'р'. G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d MMMM y 'р'. G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>d MMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>dd.MM.yy GGGGG</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats>
+					<dateTimeFormatLength type="full">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="long">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="medium">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="short">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<availableFormats>
+						<dateFormatItem id="d" draft="contributed">d</dateFormatItem>
+						<dateFormatItem id="Ed">E, d</dateFormatItem>
+						<dateFormatItem id="h" draft="contributed">h a</dateFormatItem>
+						<dateFormatItem id="H" draft="contributed">HH</dateFormatItem>
+						<dateFormatItem id="HHmm">HH:mm</dateFormatItem>
+						<dateFormatItem id="HHmmss">HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="hm">h:mm a</dateFormatItem>
+						<dateFormatItem id="Hm" draft="contributed">HH:mm</dateFormatItem>
+						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="M">L</dateFormatItem>
+						<dateFormatItem id="Md">dd.MM</dateFormatItem>
+						<dateFormatItem id="MEd">E, dd.MM</dateFormatItem>
+						<dateFormatItem id="MMdd">dd.MM</dateFormatItem>
+						<dateFormatItem id="MMM" draft="contributed">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd" draft="contributed">d MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd" draft="contributed">E, d MMM</dateFormatItem>
+						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMEd" draft="contributed">E, d MMMM</dateFormatItem>
+						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
+						<dateFormatItem id="ms" draft="contributed">mm:ss</dateFormatItem>
+						<dateFormatItem id="y" draft="contributed">y</dateFormatItem>
+						<dateFormatItem id="yM">MM.y</dateFormatItem>
+						<dateFormatItem id="yMd">dd.MM.y</dateFormatItem>
+						<dateFormatItem id="yMEd">E, dd.MM.y</dateFormatItem>
+						<dateFormatItem id="yMM">MM.y</dateFormatItem>
+						<dateFormatItem id="yMMM" draft="contributed">LLL y</dateFormatItem>
+						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd" draft="contributed">E, d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMM" draft="contributed">LLLL y</dateFormatItem>
+						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
+						<dateFormatItem id="yQQQQ">QQQQ y 'р'.</dateFormatItem>
+					</availableFormats>
+					<intervalFormats>
+						<intervalFormatFallback draft="contributed">{0} – {1}</intervalFormatFallback>
+						<intervalFormatItem id="d">
+							<greatestDifference id="d" draft="contributed">d–d</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="h">
+							<greatestDifference id="a">h a – h a</greatestDifference>
+							<greatestDifference id="h" draft="contributed">h–h a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="H">
+							<greatestDifference id="H" draft="contributed">HH–HH</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hm">
+							<greatestDifference id="a">h:mm a – h:mm a</greatestDifference>
+							<greatestDifference id="h" draft="contributed">h:mm–h:mm a</greatestDifference>
+							<greatestDifference id="m" draft="contributed">h:mm–h:mm a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hm">
+							<greatestDifference id="H" draft="contributed">HH:mm–HH:mm</greatestDifference>
+							<greatestDifference id="m" draft="contributed">HH:mm–HH:mm</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hmv">
+							<greatestDifference id="a">h:mm a – h:mm a v</greatestDifference>
+							<greatestDifference id="h" draft="contributed">h:mm–h:mm a v</greatestDifference>
+							<greatestDifference id="m" draft="contributed">h:mm–h:mm a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hmv">
+							<greatestDifference id="H" draft="contributed">HH:mm–HH:mm v</greatestDifference>
+							<greatestDifference id="m" draft="contributed">HH:mm–HH:mm v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hv">
+							<greatestDifference id="a">h a – h a v</greatestDifference>
+							<greatestDifference id="h" draft="contributed">h–h a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hv">
+							<greatestDifference id="H" draft="contributed">HH–HH v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="M">
+							<greatestDifference id="M" draft="contributed">M–M</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Md">
+							<greatestDifference id="d" draft="contributed">dd.MM – dd.MM</greatestDifference>
+							<greatestDifference id="M" draft="contributed">dd.MM – dd.MM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MEd">
+							<greatestDifference id="d" draft="contributed">E, dd.MM – E, dd.MM</greatestDifference>
+							<greatestDifference id="M" draft="contributed">E, dd.MM – E, dd.MM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMM">
+							<greatestDifference id="M" draft="contributed">LLL–LLL</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMd">
+							<greatestDifference id="d" draft="contributed">d–d MMM</greatestDifference>
+							<greatestDifference id="M" draft="contributed">d MMM – d MMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMEd">
+							<greatestDifference id="d" draft="contributed">E, d – E, d MMM</greatestDifference>
+							<greatestDifference id="M" draft="contributed">E, d MMM – E, d MMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="y">
+							<greatestDifference id="y" draft="contributed">y–y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yM">
+							<greatestDifference id="M" draft="contributed">MM.y – MM.y</greatestDifference>
+							<greatestDifference id="y" draft="contributed">MM.y – MM.y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMd">
+							<greatestDifference id="d" draft="contributed">dd.MM.y – dd.MM.y</greatestDifference>
+							<greatestDifference id="M" draft="contributed">dd.MM.y – dd.MM.y</greatestDifference>
+							<greatestDifference id="y" draft="contributed">dd.MM.y – dd.MM.y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMEd">
+							<greatestDifference id="d" draft="contributed">E, dd.MM.y – E, dd.MM.y</greatestDifference>
+							<greatestDifference id="M" draft="contributed">E, dd.MM.y – E, dd.MM.y</greatestDifference>
+							<greatestDifference id="y" draft="contributed">E, dd.MM.y – E, dd.MM.y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMM">
+							<greatestDifference id="M" draft="contributed">LLL–LLL y</greatestDifference>
+							<greatestDifference id="y" draft="contributed">LLL y – LLL y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMd">
+							<greatestDifference id="d" draft="contributed">d–d MMM y</greatestDifference>
+							<greatestDifference id="M" draft="contributed">d MMM – d MMM y</greatestDifference>
+							<greatestDifference id="y" draft="contributed">d MMM y – d MMM y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMEd">
+							<greatestDifference id="d" draft="contributed">E, d – E, d MMM y</greatestDifference>
+							<greatestDifference id="M" draft="contributed">E, d MMM – E, d MMM y</greatestDifference>
+							<greatestDifference id="y" draft="contributed">E, d MMM y – E, d MMM y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMM">
+							<greatestDifference id="M">LLLL – LLLL y</greatestDifference>
+							<greatestDifference id="y">LLLL y – LLLL y</greatestDifference>
+						</intervalFormatItem>
+					</intervalFormats>
+				</dateTimeFormats>
+			</calendar>
 			<calendar type="gregorian">
 				<months>
 					<monthContext type="format">
@@ -1334,6 +1617,15 @@
 							<day type="fri">Пт</day>
 							<day type="sat">Сб</day>
 						</dayWidth>
+						<dayWidth type="short">
+							<day type="sun" draft="contributed">Нд</day>
+							<day type="mon" draft="contributed">Пн</day>
+							<day type="tue" draft="contributed">Вт</day>
+							<day type="wed" draft="contributed">Ср</day>
+							<day type="thu" draft="contributed">Чт</day>
+							<day type="fri" draft="contributed">Пт</day>
+							<day type="sat" draft="contributed">Сб</day>
+						</dayWidth>
 						<dayWidth type="wide">
 							<day type="sun">Неділя</day>
 							<day type="mon">Понеділок</day>
@@ -1353,6 +1645,15 @@
 							<day type="thu">Ч</day>
 							<day type="fri">П</day>
 							<day type="sat">С</day>
+						</dayWidth>
+						<dayWidth type="short">
+							<day type="sun" draft="contributed">Нд</day>
+							<day type="mon" draft="contributed">Пн</day>
+							<day type="tue" draft="contributed">Вт</day>
+							<day type="wed" draft="contributed">Ср</day>
+							<day type="thu" draft="contributed">Чт</day>
+							<day type="fri" draft="contributed">Пт</day>
+							<day type="sat" draft="contributed">Сб</day>
 						</dayWidth>
 					</dayContext>
 				</days>
@@ -1383,6 +1684,12 @@
 							<quarter type="2">2-й кв.</quarter>
 							<quarter type="3">3-й кв.</quarter>
 							<quarter type="4">4-й кв.</quarter>
+						</quarterWidth>
+						<quarterWidth type="narrow">
+							<quarter type="1" draft="contributed">1</quarter>
+							<quarter type="2" draft="contributed">2</quarter>
+							<quarter type="3" draft="contributed">3</quarter>
+							<quarter type="4" draft="contributed">4</quarter>
 						</quarterWidth>
 						<quarterWidth type="wide">
 							<quarter type="1">1-й квартал</quarter>
@@ -1482,6 +1789,8 @@
 					<availableFormats>
 						<dateFormatItem id="d" draft="contributed">d</dateFormatItem>
 						<dateFormatItem id="Ed">E, d</dateFormatItem>
+						<dateFormatItem id="h" draft="contributed">h a</dateFormatItem>
+						<dateFormatItem id="H" draft="contributed">HH</dateFormatItem>
 						<dateFormatItem id="HHmm">HH:mm</dateFormatItem>
 						<dateFormatItem id="HHmmss">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
@@ -1500,20 +1809,16 @@
 						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
 						<dateFormatItem id="ms" draft="contributed">mm:ss</dateFormatItem>
 						<dateFormatItem id="y" draft="contributed">y</dateFormatItem>
-						<dateFormatItem id="yM">MM.yyyy</dateFormatItem>
-						<dateFormatItem id="yMd">dd.MM.yy</dateFormatItem>
-						<dateFormatItem id="yMEd">E, dd.MM.yyyy</dateFormatItem>
+						<dateFormatItem id="yM">MM.y</dateFormatItem>
+						<dateFormatItem id="yMd">dd.MM.y</dateFormatItem>
+						<dateFormatItem id="yMEd">E, dd.MM.y</dateFormatItem>
+						<dateFormatItem id="yMM">MM.y</dateFormatItem>
 						<dateFormatItem id="yMMM" draft="contributed">LLL y</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMEd" draft="contributed">E, d MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMM" draft="contributed">LLLL y</dateFormatItem>
-						<dateFormatItem id="yQ">Q yyyy</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-						<dateFormatItem id="yyMM">MM.yy</dateFormatItem>
-						<dateFormatItem id="yyMMM">LLL yy</dateFormatItem>
-						<dateFormatItem id="yyQ" draft="provisional">Q yy</dateFormatItem>
-						<dateFormatItem id="yyyyMMMM" draft="contributed">LLLL y</dateFormatItem>
-						<dateFormatItem id="yyyyQQQQ">QQQQ y 'р'.</dateFormatItem>
+						<dateFormatItem id="yQQQQ">QQQQ y 'р'.</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback draft="contributed">{0} – {1}</intervalFormatFallback>
@@ -1524,19 +1829,33 @@
 							<greatestDifference id="a">h a – h a</greatestDifference>
 							<greatestDifference id="h" draft="contributed">h–h a</greatestDifference>
 						</intervalFormatItem>
+						<intervalFormatItem id="H">
+							<greatestDifference id="H" draft="contributed">HH–HH</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="hm">
 							<greatestDifference id="a">h:mm a – h:mm a</greatestDifference>
 							<greatestDifference id="h" draft="contributed">h:mm–h:mm a</greatestDifference>
 							<greatestDifference id="m" draft="contributed">h:mm–h:mm a</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hm">
+							<greatestDifference id="H" draft="contributed">HH:mm–HH:mm</greatestDifference>
+							<greatestDifference id="m" draft="contributed">HH:mm–HH:mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hmv">
 							<greatestDifference id="a">h:mm a – h:mm a v</greatestDifference>
 							<greatestDifference id="h" draft="contributed">h:mm–h:mm a v</greatestDifference>
 							<greatestDifference id="m" draft="contributed">h:mm–h:mm a v</greatestDifference>
 						</intervalFormatItem>
+						<intervalFormatItem id="Hmv">
+							<greatestDifference id="H" draft="contributed">HH:mm–HH:mm v</greatestDifference>
+							<greatestDifference id="m" draft="contributed">HH:mm–HH:mm v</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="hv">
 							<greatestDifference id="a">h a – h a v</greatestDifference>
 							<greatestDifference id="h" draft="contributed">h–h a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hv">
+							<greatestDifference id="H" draft="contributed">HH–HH v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="M">
 							<greatestDifference id="M" draft="contributed">M–M</greatestDifference>
@@ -1564,18 +1883,18 @@
 							<greatestDifference id="y" draft="contributed">y–y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yM">
-							<greatestDifference id="M" draft="contributed">MM.yy – MM.yy</greatestDifference>
-							<greatestDifference id="y" draft="contributed">MM.yy – MM.yy</greatestDifference>
+							<greatestDifference id="M" draft="contributed">MM.y – MM.y</greatestDifference>
+							<greatestDifference id="y" draft="contributed">MM.y – MM.y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMd">
-							<greatestDifference id="d" draft="contributed">dd.MM.yy – dd.MM.yy</greatestDifference>
-							<greatestDifference id="M" draft="contributed">dd.MM.yy – dd.MM.yy</greatestDifference>
-							<greatestDifference id="y" draft="contributed">dd.MM.yy – dd.MM.yy</greatestDifference>
+							<greatestDifference id="d" draft="contributed">dd.MM.y – dd.MM.y</greatestDifference>
+							<greatestDifference id="M" draft="contributed">dd.MM.y – dd.MM.y</greatestDifference>
+							<greatestDifference id="y" draft="contributed">dd.MM.y – dd.MM.y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d" draft="contributed">E, dd.MM.yy – E, dd.MM.yy</greatestDifference>
-							<greatestDifference id="M" draft="contributed">E, dd.MM.yy – E, dd.MM.yy</greatestDifference>
-							<greatestDifference id="y" draft="contributed">E, dd.MM.yy – E, dd.MM.yy</greatestDifference>
+							<greatestDifference id="d" draft="contributed">E, dd.MM.y – E, dd.MM.y</greatestDifference>
+							<greatestDifference id="M" draft="contributed">E, dd.MM.y – E, dd.MM.y</greatestDifference>
+							<greatestDifference id="y" draft="contributed">E, dd.MM.y – E, dd.MM.y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMM">
 							<greatestDifference id="M" draft="contributed">LLL–LLL y</greatestDifference>
@@ -1597,55 +1916,6 @@
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
-				<fields>
-					<field type="era">
-						<displayName>Ера</displayName>
-					</field>
-					<field type="year">
-						<displayName>Рік</displayName>
-						<relative type="-1">Минулого року</relative>
-						<relative type="0">Цього року</relative>
-						<relative type="1">Наступного року</relative>
-					</field>
-					<field type="month">
-						<displayName>Місяць</displayName>
-						<relative type="-1">Минулого місяця</relative>
-						<relative type="0">Цього місяця</relative>
-						<relative type="1">Наступного місяця</relative>
-					</field>
-					<field type="week">
-						<displayName>Тиждень</displayName>
-						<relative type="-1">Минулого тижня</relative>
-						<relative type="0">Цього тижня</relative>
-						<relative type="1">Наступного тижня</relative>
-					</field>
-					<field type="day">
-						<displayName>День</displayName>
-						<relative type="-2">Позавчора</relative>
-						<relative type="-1">Вчора</relative>
-						<relative type="0">Сьогодні</relative>
-						<relative type="1">Завтра</relative>
-						<relative type="2">Післязавтра</relative>
-					</field>
-					<field type="weekday">
-						<displayName>День тижня</displayName>
-					</field>
-					<field type="dayperiod">
-						<displayName>Частина доби</displayName>
-					</field>
-					<field type="hour">
-						<displayName>Година</displayName>
-					</field>
-					<field type="minute">
-						<displayName>Хвилина</displayName>
-					</field>
-					<field type="second">
-						<displayName>Секунда</displayName>
-					</field>
-					<field type="zone">
-						<displayName>Зона</displayName>
-					</field>
-				</fields>
 			</calendar>
 			<calendar type="hebrew">
 				<months>
@@ -1676,7 +1946,7 @@
 							<month type="5" draft="provisional">Шват</month>
 							<month type="6" draft="provisional">Адар I</month>
 							<month type="7" draft="provisional">Адар</month>
-							<month type="7" draft="provisional" yeartype="leap">Адар II</month>
+							<month type="7" yeartype="leap" draft="provisional">Адар II</month>
 							<month type="8" draft="provisional">Нісан</month>
 							<month type="9" draft="provisional">Іяр</month>
 							<month type="10" draft="provisional">Сиван</month>
@@ -1804,238 +2074,238 @@
 			<calendar type="japanese">
 				<eras>
 					<eraAbbr>
-						<era type="0" draft="provisional">Тайка</era>
-						<era type="1" draft="provisional">Хакуті</era>
-						<era type="2" draft="provisional">Хакухо</era>
-						<era type="3" draft="provisional">Сютьо</era>
-						<era type="4" draft="provisional">Тайхо</era>
-						<era type="5" draft="provisional">Кейун</era>
-						<era type="6" draft="provisional">Вадо</era>
-						<era type="7" draft="provisional">Рейкі</era>
-						<era type="8" draft="provisional">Йоро</era>
-						<era type="9" draft="provisional">Дзінгі</era>
-						<era type="10" draft="provisional">Темпьо</era>
-						<era type="11" draft="provisional">Темпьо-кампо</era>
-						<era type="12" draft="provisional">Темпьо-сьохо</era>
-						<era type="13" draft="provisional">Темпьо-ходзі</era>
-						<era type="14" draft="provisional">Темпьо-дзінго</era>
-						<era type="15" draft="provisional">Дзінго кейун</era>
-						<era type="16" draft="provisional">Хокі</era>
-						<era type="17" draft="provisional">Тен’о</era>
-						<era type="18" draft="provisional">Енряку</era>
-						<era type="19" draft="provisional">Дайдо</era>
-						<era type="20" draft="provisional">Конін</era>
-						<era type="21" draft="provisional">Тентьо</era>
-						<era type="22" draft="provisional">Сьова</era>
-						<era type="23" draft="provisional">Кадзьо</era>
-						<era type="24" draft="provisional">Ніндзю</era>
-						<era type="25" draft="provisional">Сайко</era>
-						<era type="26" draft="provisional">Теннан</era>
-						<era type="27" draft="provisional">Дзьоган</era>
-						<era type="28" draft="provisional">Генкей</era>
-						<era type="29" draft="provisional">Нінна</era>
-						<era type="30" draft="provisional">Кампьо</era>
-						<era type="31" draft="provisional">Сьотай</era>
-						<era type="32" draft="provisional">Енгі</era>
-						<era type="33" draft="provisional">Ентьо</era>
-						<era type="34" draft="provisional">Сьохей</era>
-						<era type="35" draft="provisional">Тенгьо</era>
-						<era type="36" draft="provisional">Тенряку</era>
-						<era type="37" draft="provisional">Тентоку</era>
-						<era type="38" draft="provisional">Ова</era>
-						<era type="39" draft="provisional">Кохо</era>
-						<era type="40" draft="provisional">Анна</era>
-						<era type="41" draft="provisional">Тенроку</era>
-						<era type="42" draft="provisional">Тен’ен</era>
-						<era type="43" draft="provisional">Дзьоген</era>
-						<era type="44" draft="provisional">Тенген</era>
-						<era type="45" draft="provisional">Ейкан</era>
-						<era type="46" draft="provisional">Канна</era>
-						<era type="47" draft="provisional">Ейен</era>
-						<era type="48" draft="provisional">Ейсо</era>
-						<era type="49" draft="provisional">Сьоряку</era>
-						<era type="50" draft="provisional">Тьотоку</era>
-						<era type="51" draft="provisional">Тьохо</era>
-						<era type="52" draft="provisional">Канко</era>
-						<era type="53" draft="provisional">Тьова</era>
-						<era type="54" draft="provisional">Каннін</era>
-						<era type="55" draft="provisional">Дзіан</era>
-						<era type="56" draft="provisional">Мандзю</era>
-						<era type="57" draft="provisional">Тьоген</era>
-						<era type="58" draft="provisional">Тьоряку</era>
-						<era type="59" draft="provisional">Тьокю</era>
-						<era type="60" draft="provisional">Кантоку</era>
-						<era type="61" draft="provisional">Ейсьо</era>
-						<era type="62" draft="provisional">Тенгі</era>
-						<era type="63" draft="provisional">Кохей</era>
-						<era type="64" draft="provisional">Дзіряку</era>
-						<era type="65" draft="provisional">Енкю</era>
-						<era type="66" draft="provisional">Сьохо</era>
-						<era type="67" draft="provisional">Сьоряку</era>
-						<era type="68" draft="provisional">Ейхо</era>
-						<era type="69" draft="provisional">Отоку</era>
-						<era type="70" draft="provisional">Кандзі</era>
-						<era type="71" draft="provisional">Кахо</era>
-						<era type="72" draft="provisional">Ейсьо</era>
-						<era type="73" draft="provisional">Сьотоку</era>
-						<era type="74" draft="provisional">Кова</era>
-						<era type="75" draft="provisional">Тьодзі</era>
-						<era type="76" draft="provisional">Кадзьо</era>
-						<era type="77" draft="provisional">Теннін</era>
-						<era type="78" draft="provisional">Тен’ей</era>
-						<era type="79" draft="provisional">Ейкю</era>
-						<era type="80" draft="provisional">Ген’ей</era>
-						<era type="81" draft="provisional">Хоан</era>
-						<era type="82" draft="provisional">Тендзі</era>
-						<era type="83" draft="provisional">Дайдзі</era>
-						<era type="84" draft="provisional">Тенсьо</era>
-						<era type="85" draft="provisional">Тьосьо</era>
-						<era type="86" draft="provisional">Хоен</era>
-						<era type="87" draft="provisional">Ейдзі</era>
-						<era type="88" draft="provisional">Кодзі</era>
-						<era type="89" draft="provisional">Теньо</era>
-						<era type="90" draft="provisional">Кюан</era>
-						<era type="91" draft="provisional">Німпей</era>
-						<era type="92" draft="provisional">Кюдзю</era>
-						<era type="93" draft="provisional">Хоген</era>
-						<era type="94" draft="provisional">Хейдзі</era>
-						<era type="95" draft="provisional">Ейряку</era>
-						<era type="96" draft="provisional">Охо</era>
-						<era type="97" draft="provisional">Тьокан</era>
-						<era type="98" draft="provisional">Ейман</era>
-						<era type="99" draft="provisional">Нін’ан</era>
-						<era type="100" draft="provisional">Као</era>
-						<era type="101" draft="provisional">Сьоан</era>
-						<era type="102" draft="provisional">Анген</era>
-						<era type="103" draft="provisional">Дзісьо</era>
-						<era type="104" draft="provisional">Йова</era>
-						<era type="105" draft="provisional">Дзюей</era>
-						<era type="106" draft="provisional">Генряку</era>
-						<era type="107" draft="provisional">Бундзі</era>
-						<era type="108" draft="provisional">Кенкю</era>
-						<era type="109" draft="provisional">Сьодзі</era>
-						<era type="110" draft="provisional">Кеннін</era>
-						<era type="111" draft="provisional">Генкю</era>
-						<era type="112" draft="provisional">Кен’ей</era>
-						<era type="113" draft="provisional">Сьоген</era>
-						<era type="114" draft="provisional">Кенряку</era>
-						<era type="115" draft="provisional">Кенпо</era>
-						<era type="116" draft="provisional">Дзьокю</era>
-						<era type="117" draft="provisional">Дзьоо</era>
-						<era type="118" draft="provisional">Геннін</era>
-						<era type="119" draft="provisional">Кароку</era>
-						<era type="120" draft="provisional">Антей</era>
-						<era type="121" draft="provisional">Канкі</era>
-						<era type="122" draft="provisional">Дзюей</era>
-						<era type="123" draft="provisional">Темпуку</era>
-						<era type="124" draft="provisional">Бунряку</era>
-						<era type="125" draft="provisional">Катей</era>
-						<era type="126" draft="provisional">Рякунін</era>
-						<era type="127" draft="provisional">Ен’о</era>
-						<era type="128" draft="provisional">Ніндзі</era>
-						<era type="129" draft="provisional">Канген</era>
-						<era type="130" draft="provisional">Хейдзі</era>
-						<era type="131" draft="provisional">Кентьо</era>
-						<era type="132" draft="provisional">Коген</era>
-						<era type="133" draft="provisional">Сьока</era>
-						<era type="134" draft="provisional">Сьоген</era>
-						<era type="135" draft="provisional">Бун’о</era>
-						<era type="136" draft="provisional">Котьо</era>
-						<era type="137" draft="provisional">Бун’ей</era>
-						<era type="138" draft="provisional">Кендзі</era>
-						<era type="139" draft="provisional">Коан</era>
-						<era type="140" draft="provisional">Сьоо</era>
-						<era type="141" draft="provisional">Ейнін</era>
-						<era type="142" draft="provisional">Сьоан</era>
-						<era type="143" draft="provisional">Кенген</era>
-						<era type="144" draft="provisional">Каген</era>
-						<era type="145" draft="provisional">Токудзі</era>
-						<era type="146" draft="provisional">Енкей</era>
-						<era type="147" draft="provisional">Отьо</era>
-						<era type="148" draft="provisional">Сьова</era>
-						<era type="149" draft="provisional">Бумпо</era>
-						<era type="150" draft="provisional">Ген’о</era>
-						<era type="151" draft="provisional">Генкьо</era>
-						<era type="152" draft="provisional">Сьотю</era>
-						<era type="153" draft="provisional">Карекі</era>
-						<era type="154" draft="provisional">Гентоку</era>
-						<era type="155" draft="provisional">Генко</era>
-						<era type="156" draft="provisional">Кемму</era>
-						<era type="157" draft="provisional">Ейген</era>
-						<era type="158" draft="provisional">Кококу</era>
-						<era type="159" draft="provisional">Сьохей</era>
-						<era type="160" draft="provisional">Кентоку</era>
-						<era type="161" draft="provisional">Бунтю</era>
-						<era type="162" draft="provisional">Тендзю</era>
-						<era type="163" draft="provisional">Коряку</era>
-						<era type="164" draft="provisional">Кова</era>
-						<era type="165" draft="provisional">Гентю</era>
-						<era type="166" draft="provisional">Мейтоку</era>
-						<era type="167" draft="provisional">Какей</era>
-						<era type="168" draft="provisional">Коо</era>
-						<era type="169" draft="provisional">Мейтоку</era>
-						<era type="170" draft="provisional">Оей</era>
-						<era type="171" draft="provisional">Сьотьо</era>
-						<era type="172" draft="provisional">Ейкьо</era>
-						<era type="173" draft="provisional">Какіцу</era>
-						<era type="174" draft="provisional">Буннан</era>
-						<era type="175" draft="provisional">Хотоку</era>
-						<era type="176" draft="provisional">Кьотоку</era>
-						<era type="177" draft="provisional">Косьо</era>
-						<era type="178" draft="provisional">Тьороку</era>
-						<era type="179" draft="provisional">Кансьо</era>
-						<era type="180" draft="provisional">Бунсьо</era>
-						<era type="181" draft="provisional">Онін</era>
-						<era type="182" draft="provisional">Буммей</era>
-						<era type="183" draft="provisional">Тьокьо</era>
-						<era type="184" draft="provisional">Ентоку</era>
-						<era type="185" draft="provisional">Мейо</era>
-						<era type="186" draft="provisional">Бункі</era>
-						<era type="187" draft="provisional">Ейсьо</era>
-						<era type="188" draft="provisional">Тайей</era>
-						<era type="189" draft="provisional">Кьороку</era>
-						<era type="190" draft="provisional">Теммон</era>
-						<era type="191" draft="provisional">Кодзі</era>
-						<era type="192" draft="provisional">Ейроку</era>
-						<era type="193" draft="provisional">Генкі</era>
-						<era type="194" draft="provisional">Тенсьо</era>
-						<era type="195" draft="provisional">Бунроку</era>
-						<era type="196" draft="provisional">Кейтьо</era>
-						<era type="197" draft="provisional">Генна</era>
-						<era type="198" draft="provisional">Кан’ей</era>
-						<era type="199" draft="provisional">Сьохо</era>
-						<era type="200" draft="provisional">Кейан</era>
-						<era type="201" draft="provisional">Сьоо</era>
-						<era type="202" draft="provisional">Мейряку</era>
-						<era type="203" draft="provisional">Мандзі</era>
-						<era type="204" draft="provisional">Камбун</era>
-						<era type="205" draft="provisional">Емпо</era>
-						<era type="206" draft="provisional">Тенва</era>
-						<era type="207" draft="provisional">Дзьокьо</era>
-						<era type="208" draft="provisional">Генроку</era>
-						<era type="209" draft="provisional">Хоей</era>
-						<era type="210" draft="provisional">Сьотоку</era>
-						<era type="211" draft="provisional">Кьохо</era>
-						<era type="212" draft="provisional">Гембун</era>
-						<era type="213" draft="provisional">Канпо</era>
-						<era type="214" draft="provisional">Енкьо</era>
-						<era type="215" draft="provisional">Кан’ен</era>
-						<era type="216" draft="provisional">Хоряку</era>
-						<era type="217" draft="provisional">Мейва</era>
-						<era type="218" draft="provisional">Ан’ей</era>
-						<era type="219" draft="provisional">Теммей</era>
-						<era type="220" draft="provisional">Кансей</era>
-						<era type="221" draft="provisional">Кьова</era>
-						<era type="222" draft="provisional">Бунка</era>
-						<era type="223" draft="provisional">Бунсей</era>
-						<era type="224" draft="provisional">Тенпо</era>
-						<era type="225" draft="provisional">Кока</era>
-						<era type="226" draft="provisional">Каей</era>
-						<era type="227" draft="provisional">Ансей</era>
-						<era type="228" draft="provisional">Ман’ен</era>
-						<era type="229" draft="provisional">Бункю</era>
-						<era type="230" draft="provisional">Гендзі</era>
-						<era type="231" draft="provisional">Кейо</era>
+						<era type="0" draft="provisional">Тайка (645–650)</era>
+						<era type="1" draft="provisional">Хакуті (650–671)</era>
+						<era type="2" draft="provisional">Хакухо (672–686)</era>
+						<era type="3" draft="provisional">Сютьо (686–701)</era>
+						<era type="4" draft="provisional">Тайхо (701–704)</era>
+						<era type="5" draft="provisional">Кейун (704–708)</era>
+						<era type="6" draft="provisional">Вадо (708–715)</era>
+						<era type="7" draft="provisional">Рейкі (715–717)</era>
+						<era type="8" draft="provisional">Йоро (717–724)</era>
+						<era type="9" draft="provisional">Дзінгі (724–729)</era>
+						<era type="10" draft="provisional">Темпьо (729–749)</era>
+						<era type="11" draft="provisional">Темпьо-кампо (749–749)</era>
+						<era type="12" draft="provisional">Темпьо-сьохо (749–757)</era>
+						<era type="13" draft="provisional">Темпьо-ходзі (757–765)</era>
+						<era type="14" draft="provisional">Темпьо-дзінго (765–767)</era>
+						<era type="15" draft="provisional">Дзінго кейун (767–770)</era>
+						<era type="16" draft="provisional">Хокі (770–780)</era>
+						<era type="17" draft="provisional">Тен’о (781–782)</era>
+						<era type="18" draft="provisional">Енряку (782–806)</era>
+						<era type="19" draft="provisional">Дайдо (806–810)</era>
+						<era type="20" draft="provisional">Конін (810–824)</era>
+						<era type="21" draft="provisional">Тентьо (824–834)</era>
+						<era type="22" draft="provisional">Сьова (834–848)</era>
+						<era type="23" draft="provisional">Кадзьо (848–851)</era>
+						<era type="24" draft="provisional">Ніндзю (851–854)</era>
+						<era type="25" draft="provisional">Сайко (854–857)</era>
+						<era type="26" draft="provisional">Теннан (857–859)</era>
+						<era type="27" draft="provisional">Дзьоган (859–877)</era>
+						<era type="28" draft="provisional">Генкей (877–885)</era>
+						<era type="29" draft="provisional">Нінна (885–889)</era>
+						<era type="30" draft="provisional">Кампьо (889–898)</era>
+						<era type="31" draft="provisional">Сьотай (898–901)</era>
+						<era type="32" draft="provisional">Енгі (901–923)</era>
+						<era type="33" draft="provisional">Ентьо (923–931)</era>
+						<era type="34" draft="provisional">Сьохей (931–938)</era>
+						<era type="35" draft="provisional">Тенгьо (938–947)</era>
+						<era type="36" draft="provisional">Тенряку (947–957)</era>
+						<era type="37" draft="provisional">Тентоку (957–961)</era>
+						<era type="38" draft="provisional">Ова (961–964)</era>
+						<era type="39" draft="provisional">Кохо (964–968)</era>
+						<era type="40" draft="provisional">Анна (968–970)</era>
+						<era type="41" draft="provisional">Тенроку (970–973)</era>
+						<era type="42" draft="provisional">Тен’ен (973–976)</era>
+						<era type="43" draft="provisional">Дзьоген (976–978)</era>
+						<era type="44" draft="provisional">Тенген (978–983)</era>
+						<era type="45" draft="provisional">Ейкан (983–985)</era>
+						<era type="46" draft="provisional">Канна (985–987)</era>
+						<era type="47" draft="provisional">Ейен (987–989)</era>
+						<era type="48" draft="provisional">Ейсо (989–990)</era>
+						<era type="49" draft="provisional">Сьоряку (990–995)</era>
+						<era type="50" draft="provisional">Тьотоку (995–999)</era>
+						<era type="51" draft="provisional">Тьохо (999–1004)</era>
+						<era type="52" draft="provisional">Канко (1004–1012)</era>
+						<era type="53" draft="provisional">Тьова (1012–1017)</era>
+						<era type="54" draft="provisional">Каннін (1017–1021)</era>
+						<era type="55" draft="provisional">Дзіан (1021–1024)</era>
+						<era type="56" draft="provisional">Мандзю (1024–1028)</era>
+						<era type="57" draft="provisional">Тьоген (1028–1037)</era>
+						<era type="58" draft="provisional">Тьоряку (1037–1040)</era>
+						<era type="59" draft="provisional">Тьокю (1040–1044)</era>
+						<era type="60" draft="provisional">Кантоку (1044–1046)</era>
+						<era type="61" draft="provisional">Ейсьо (1046–1053)</era>
+						<era type="62" draft="provisional">Тенгі (1053–1058)</era>
+						<era type="63" draft="provisional">Кохей (1058–1065)</era>
+						<era type="64" draft="provisional">Дзіряку (1065–1069)</era>
+						<era type="65" draft="provisional">Енкю (1069–1074)</era>
+						<era type="66" draft="provisional">Сьохо (1074–1077)</era>
+						<era type="67" draft="provisional">Сьоряку (1077–1081)</era>
+						<era type="68" draft="provisional">Ейхо (1081–1084)</era>
+						<era type="69" draft="provisional">Отоку (1084–1087)</era>
+						<era type="70" draft="provisional">Кандзі (1087–1094)</era>
+						<era type="71" draft="provisional">Кахо (1094–1096)</era>
+						<era type="72" draft="provisional">Ейсьо (1096–1097)</era>
+						<era type="73" draft="provisional">Сьотоку (1097–1099)</era>
+						<era type="74" draft="provisional">Кова (1099–1104)</era>
+						<era type="75" draft="provisional">Тьодзі (1104–1106)</era>
+						<era type="76" draft="provisional">Кадзьо (1106–1108)</era>
+						<era type="77" draft="provisional">Теннін (1108–1110)</era>
+						<era type="78" draft="provisional">Тен’ей (1110–1113)</era>
+						<era type="79" draft="provisional">Ейкю (1113–1118)</era>
+						<era type="80" draft="provisional">Ген’ей (1118–1120)</era>
+						<era type="81" draft="provisional">Хоан (1120–1124)</era>
+						<era type="82" draft="provisional">Тендзі (1124–1126)</era>
+						<era type="83" draft="provisional">Дайдзі (1126–1131)</era>
+						<era type="84" draft="provisional">Тенсьо (1131–1132)</era>
+						<era type="85" draft="provisional">Тьосьо (1132–1135)</era>
+						<era type="86" draft="provisional">Хоен (1135–1141)</era>
+						<era type="87" draft="provisional">Ейдзі (1141–1142)</era>
+						<era type="88" draft="provisional">Кодзі (1142–1144)</era>
+						<era type="89" draft="provisional">Теньо (1144–1145)</era>
+						<era type="90" draft="provisional">Кюан (1145–1151)</era>
+						<era type="91" draft="provisional">Німпей (1151–1154)</era>
+						<era type="92" draft="provisional">Кюдзю (1154–1156)</era>
+						<era type="93" draft="provisional">Хоген (1156–1159)</era>
+						<era type="94" draft="provisional">Хейдзі (1159–1160)</era>
+						<era type="95" draft="provisional">Ейряку (1160–1161)</era>
+						<era type="96" draft="provisional">Охо (1161–1163)</era>
+						<era type="97" draft="provisional">Тьокан (1163–1165)</era>
+						<era type="98" draft="provisional">Ейман (1165–1166)</era>
+						<era type="99" draft="provisional">Нін’ан (1166–1169)</era>
+						<era type="100" draft="provisional">Као (1169–1171)</era>
+						<era type="101" draft="provisional">Сьоан (1171–1175)</era>
+						<era type="102" draft="provisional">Анген (1175–1177)</era>
+						<era type="103" draft="provisional">Дзісьо (1177–1181)</era>
+						<era type="104" draft="provisional">Йова (1181–1182)</era>
+						<era type="105" draft="provisional">Дзюей (1182–1184)</era>
+						<era type="106" draft="provisional">Генряку (1184–1185)</era>
+						<era type="107" draft="provisional">Бундзі (1185–1190)</era>
+						<era type="108" draft="provisional">Кенкю (1190–1199)</era>
+						<era type="109" draft="provisional">Сьодзі (1199–1201)</era>
+						<era type="110" draft="provisional">Кеннін (1201–1204)</era>
+						<era type="111" draft="provisional">Генкю (1204–1206)</era>
+						<era type="112" draft="provisional">Кен’ей (1206–1207)</era>
+						<era type="113" draft="provisional">Сьоген (1207–1211)</era>
+						<era type="114" draft="provisional">Кенряку (1211–1213)</era>
+						<era type="115" draft="provisional">Кенпо (1213–1219)</era>
+						<era type="116" draft="provisional">Дзьокю (1219–1222)</era>
+						<era type="117" draft="provisional">Дзьоо (1222–1224)</era>
+						<era type="118" draft="provisional">Геннін (1224–1225)</era>
+						<era type="119" draft="provisional">Кароку (1225–1227)</era>
+						<era type="120" draft="provisional">Антей (1227–1229)</era>
+						<era type="121" draft="provisional">Канкі (1229–1232)</era>
+						<era type="122" draft="provisional">Дзюей (1232–1233)</era>
+						<era type="123" draft="provisional">Темпуку (1233–1234)</era>
+						<era type="124" draft="provisional">Бунряку (1234–1235)</era>
+						<era type="125" draft="provisional">Катей (1235–1238)</era>
+						<era type="126" draft="provisional">Рякунін (1238–1239)</era>
+						<era type="127" draft="provisional">Ен’о (1239–1240)</era>
+						<era type="128" draft="provisional">Ніндзі (1240–1243)</era>
+						<era type="129" draft="provisional">Канген (1243–1247)</era>
+						<era type="130" draft="provisional">Хейдзі (1247–1249)</era>
+						<era type="131" draft="provisional">Кентьо (1249–1256)</era>
+						<era type="132" draft="provisional">Коген (1256–1257)</era>
+						<era type="133" draft="provisional">Сьока (1257–1259)</era>
+						<era type="134" draft="provisional">Сьоген (1259–1260)</era>
+						<era type="135" draft="provisional">Бун’о (1260–1261)</era>
+						<era type="136" draft="provisional">Котьо (1261–1264)</era>
+						<era type="137" draft="provisional">Бун’ей (1264–1275)</era>
+						<era type="138" draft="provisional">Кендзі (1275–1278)</era>
+						<era type="139" draft="provisional">Коан (1278–1288)</era>
+						<era type="140" draft="provisional">Сьоо (1288–1293)</era>
+						<era type="141" draft="provisional">Ейнін (1293–1299)</era>
+						<era type="142" draft="provisional">Сьоан (1299–1302)</era>
+						<era type="143" draft="provisional">Кенген (1302–1303)</era>
+						<era type="144" draft="provisional">Каген (1303–1306)</era>
+						<era type="145" draft="provisional">Токудзі (1306–1308)</era>
+						<era type="146" draft="provisional">Енкей (1308–1311)</era>
+						<era type="147" draft="provisional">Отьо (1311–1312)</era>
+						<era type="148" draft="provisional">Сьова (1312–1317)</era>
+						<era type="149" draft="provisional">Бумпо (1317–1319)</era>
+						<era type="150" draft="provisional">Ген’о (1319–1321)</era>
+						<era type="151" draft="provisional">Генкьо (1321–1324)</era>
+						<era type="152" draft="provisional">Сьотю (1324–1326)</era>
+						<era type="153" draft="provisional">Карекі (1326–1329)</era>
+						<era type="154" draft="provisional">Гентоку (1329–1331)</era>
+						<era type="155" draft="provisional">Генко (1331–1334)</era>
+						<era type="156" draft="provisional">Кемму (1334–1336)</era>
+						<era type="157" draft="provisional">Ейген (1336–1340)</era>
+						<era type="158" draft="provisional">Кококу (1340–1346)</era>
+						<era type="159" draft="provisional">Сьохей (1346–1370)</era>
+						<era type="160" draft="provisional">Кентоку (1370–1372)</era>
+						<era type="161" draft="provisional">Бунтю (1372–1375)</era>
+						<era type="162" draft="provisional">Тендзю (1375–1379)</era>
+						<era type="163" draft="provisional">Коряку (1379–1381)</era>
+						<era type="164" draft="provisional">Кова (1381–1384)</era>
+						<era type="165" draft="provisional">Гентю (1384–1392)</era>
+						<era type="166" draft="provisional">Мейтоку (1384–1387)</era>
+						<era type="167" draft="provisional">Какей (1387–1389)</era>
+						<era type="168" draft="provisional">Коо (1389–1390)</era>
+						<era type="169" draft="provisional">Мейтоку (1390–1394)</era>
+						<era type="170" draft="provisional">Оей (1394–1428)</era>
+						<era type="171" draft="provisional">Сьотьо (1428–1429)</era>
+						<era type="172" draft="provisional">Ейкьо (1429–1441)</era>
+						<era type="173" draft="provisional">Какіцу (1441–1444)</era>
+						<era type="174" draft="provisional">Буннан (1444–1449)</era>
+						<era type="175" draft="provisional">Хотоку (1449–1452)</era>
+						<era type="176" draft="provisional">Кьотоку (1452–1455)</era>
+						<era type="177" draft="provisional">Косьо (1455–1457)</era>
+						<era type="178" draft="provisional">Тьороку (1457–1460)</era>
+						<era type="179" draft="provisional">Кансьо (1460–1466)</era>
+						<era type="180" draft="provisional">Бунсьо (1466–1467)</era>
+						<era type="181" draft="provisional">Онін (1467–1469)</era>
+						<era type="182" draft="provisional">Буммей (1469–1487)</era>
+						<era type="183" draft="provisional">Тьокьо (1487–1489)</era>
+						<era type="184" draft="provisional">Ентоку (1489–1492)</era>
+						<era type="185" draft="provisional">Мейо (1492–1501)</era>
+						<era type="186" draft="provisional">Бункі (1501–1504)</era>
+						<era type="187" draft="provisional">Ейсьо (1504–1521)</era>
+						<era type="188" draft="provisional">Тайей (1521–1528)</era>
+						<era type="189" draft="provisional">Кьороку (1528–1532)</era>
+						<era type="190" draft="provisional">Теммон (1532–1555)</era>
+						<era type="191" draft="provisional">Кодзі (1555–1558)</era>
+						<era type="192" draft="provisional">Ейроку (1558–1570)</era>
+						<era type="193" draft="provisional">Генкі (1570–1573)</era>
+						<era type="194" draft="provisional">Тенсьо (1573–1592)</era>
+						<era type="195" draft="provisional">Бунроку (1592–1596)</era>
+						<era type="196" draft="provisional">Кейтьо (1596–1615)</era>
+						<era type="197" draft="provisional">Генна (1615–1624)</era>
+						<era type="198" draft="provisional">Кан’ей (1624–1644)</era>
+						<era type="199" draft="provisional">Сьохо (1644–1648)</era>
+						<era type="200" draft="provisional">Кейан (1648–1652)</era>
+						<era type="201" draft="provisional">Сьоо (1652–1655)</era>
+						<era type="202" draft="provisional">Мейряку (1655–1658)</era>
+						<era type="203" draft="provisional">Мандзі (1658–1661)</era>
+						<era type="204" draft="provisional">Камбун (1661–1673)</era>
+						<era type="205" draft="provisional">Емпо (1673–1681)</era>
+						<era type="206" draft="provisional">Тенва (1681–1684)</era>
+						<era type="207" draft="provisional">Дзьокьо (1684–1688)</era>
+						<era type="208" draft="provisional">Генроку (1688–1704)</era>
+						<era type="209" draft="provisional">Хоей (1704–1711)</era>
+						<era type="210" draft="provisional">Сьотоку (1711–1716)</era>
+						<era type="211" draft="provisional">Кьохо (1716–1736)</era>
+						<era type="212" draft="provisional">Гембун (1736–1741)</era>
+						<era type="213" draft="provisional">Канпо (1741–1744)</era>
+						<era type="214" draft="provisional">Енкьо (1744–1748)</era>
+						<era type="215" draft="provisional">Кан’ен (1748–1751)</era>
+						<era type="216" draft="provisional">Хоряку (1751–1764)</era>
+						<era type="217" draft="provisional">Мейва (1764–1772)</era>
+						<era type="218" draft="provisional">Ан’ей (1772–1781)</era>
+						<era type="219" draft="provisional">Теммей (1781–1789)</era>
+						<era type="220" draft="provisional">Кансей (1789–1801)</era>
+						<era type="221" draft="provisional">Кьова (1801–1804)</era>
+						<era type="222" draft="provisional">Бунка (1804–1818)</era>
+						<era type="223" draft="provisional">Бунсей (1818–1830)</era>
+						<era type="224" draft="provisional">Тенпо (1830–1844)</era>
+						<era type="225" draft="provisional">Кока (1844–1848)</era>
+						<era type="226" draft="provisional">Каей (1848–1854)</era>
+						<era type="227" draft="provisional">Ансей (1854–1860)</era>
+						<era type="228" draft="provisional">Ман’ен (1860–1861)</era>
+						<era type="229" draft="provisional">Бункю (1861–1864)</era>
+						<era type="230" draft="provisional">Гендзі (1864–1865)</era>
+						<era type="231" draft="provisional">Кейо (1865–1868)</era>
 						<era type="232" draft="provisional">Мейдзі</era>
 						<era type="233" draft="provisional">Тайсьо</era>
 						<era type="234" draft="provisional">Сьова</era>
@@ -2094,17 +2364,64 @@
 				</months>
 			</calendar>
 		</calendars>
+		<fields>
+			<field type="era">
+				<displayName>Ера</displayName>
+			</field>
+			<field type="year">
+				<displayName>Рік</displayName>
+				<relative type="-1">Минулого року</relative>
+				<relative type="0">Цього року</relative>
+				<relative type="1">Наступного року</relative>
+			</field>
+			<field type="month">
+				<displayName>Місяць</displayName>
+				<relative type="-1">Минулого місяця</relative>
+				<relative type="0">Цього місяця</relative>
+				<relative type="1">Наступного місяця</relative>
+			</field>
+			<field type="week">
+				<displayName>Тиждень</displayName>
+				<relative type="-1">Минулого тижня</relative>
+				<relative type="0">Цього тижня</relative>
+				<relative type="1">Наступного тижня</relative>
+			</field>
+			<field type="day">
+				<displayName>День</displayName>
+				<relative type="-2">Позавчора</relative>
+				<relative type="-1">Вчора</relative>
+				<relative type="0">Сьогодні</relative>
+				<relative type="1">Завтра</relative>
+				<relative type="2">Післязавтра</relative>
+			</field>
+			<field type="weekday">
+				<displayName>День тижня</displayName>
+			</field>
+			<field type="dayperiod">
+				<displayName>Частина доби</displayName>
+			</field>
+			<field type="hour">
+				<displayName>Година</displayName>
+			</field>
+			<field type="minute">
+				<displayName>Хвилина</displayName>
+			</field>
+			<field type="second">
+				<displayName>Секунда</displayName>
+			</field>
+			<field type="zone">
+				<displayName>Зона</displayName>
+			</field>
+		</fields>
 		<timeZoneNames>
 			<hourFormat>+HH:mm;-HH:mm</hourFormat>
 			<gmtFormat>GMT{0}</gmtFormat>
+			<gmtZeroFormat draft="contributed">GMT</gmtZeroFormat>
 			<regionFormat draft="contributed">Час: {0}</regionFormat>
 			<fallbackFormat draft="contributed">{1} ({0})</fallbackFormat>
 			<fallbackRegionFormat draft="contributed">Час: {1} ({0})</fallbackRegionFormat>
-			<zone type="America/North_Dakota/Beulah">
-				<exemplarCity draft="contributed">Б’юла, Північна Дакота</exemplarCity>
-			</zone>
 			<zone type="Etc/Unknown">
-				<exemplarCity>Невідомо</exemplarCity>
+				<exemplarCity>Невідоме місто</exemplarCity>
 			</zone>
 			<zone type="Europe/Andorra">
 				<exemplarCity>Андора</exemplarCity>
@@ -2126,9 +2443,6 @@
 			</zone>
 			<zone type="Asia/Yerevan">
 				<exemplarCity>Єреван</exemplarCity>
-			</zone>
-			<zone type="America/Curacao">
-				<exemplarCity>Кюрасао</exemplarCity>
 			</zone>
 			<zone type="Africa/Luanda">
 				<exemplarCity>Луанда</exemplarCity>
@@ -2278,7 +2592,7 @@
 				<exemplarCity>Порто-Ново</exemplarCity>
 			</zone>
 			<zone type="America/St_Barthelemy">
-				<exemplarCity draft="contributed">Сен-Бартельмі</exemplarCity>
+				<exemplarCity>Сен-Бартельмі</exemplarCity>
 			</zone>
 			<zone type="Atlantic/Bermuda">
 				<exemplarCity>Бермуди</exemplarCity>
@@ -2493,6 +2807,9 @@
 			<zone type="Atlantic/Cape_Verde">
 				<exemplarCity draft="contributed">Кабо-Верде</exemplarCity>
 			</zone>
+			<zone type="America/Curacao">
+				<exemplarCity>Кюрасао</exemplarCity>
+			</zone>
 			<zone type="Indian/Christmas">
 				<exemplarCity>Острів Різдва</exemplarCity>
 			</zone>
@@ -2518,7 +2835,7 @@
 				<exemplarCity>Санто-Домінго</exemplarCity>
 			</zone>
 			<zone type="Africa/Algiers">
-				<exemplarCity>Алжир</exemplarCity>
+				<exemplarCity>м. Алжир</exemplarCity>
 			</zone>
 			<zone type="Pacific/Galapagos">
 				<exemplarCity>Галапагоські острови (Еквадор)</exemplarCity>
@@ -2986,7 +3303,7 @@
 				<exemplarCity>Палау</exemplarCity>
 			</zone>
 			<zone type="America/Asuncion">
-				<exemplarCity draft="contributed">Асунсьйон</exemplarCity>
+				<exemplarCity>Асунсьйон</exemplarCity>
 			</zone>
 			<zone type="Asia/Qatar">
 				<exemplarCity>Катар</exemplarCity>
@@ -3099,6 +3416,9 @@
 			<zone type="America/El_Salvador">
 				<exemplarCity>Сальвадор</exemplarCity>
 			</zone>
+			<zone type="America/Lower_Princes">
+				<exemplarCity>Лоуер-Принсес-Квотер</exemplarCity>
+			</zone>
 			<zone type="Asia/Damascus">
 				<exemplarCity>Дамаск</exemplarCity>
 			</zone>
@@ -3133,7 +3453,7 @@
 				<exemplarCity>Ашгабат</exemplarCity>
 			</zone>
 			<zone type="Africa/Tunis">
-				<exemplarCity>Туніс</exemplarCity>
+				<exemplarCity>м. Туніс</exemplarCity>
 			</zone>
 			<zone type="Pacific/Tongatapu">
 				<exemplarCity>Тонгатапу</exemplarCity>
@@ -3209,6 +3529,9 @@
 			</zone>
 			<zone type="America/Denver">
 				<exemplarCity>Денвер</exemplarCity>
+			</zone>
+			<zone type="America/North_Dakota/Beulah">
+				<exemplarCity draft="contributed">Б’юла, Північна Дакота</exemplarCity>
 			</zone>
 			<zone type="America/North_Dakota/New_Salem">
 				<exemplarCity>Нью-Салем</exemplarCity>
@@ -3309,6 +3632,11 @@
 			<zone type="Africa/Harare">
 				<exemplarCity>Хараре</exemplarCity>
 			</zone>
+			<metazone type="Afghanistan">
+				<long>
+					<standard draft="provisional">за афганським часом</standard>
+				</long>
+			</metazone>
 			<metazone type="Africa_Central">
 				<long>
 					<standard>за центральноафриканським часом</standard>
@@ -3443,6 +3771,13 @@
 					<daylight draft="contributed">Час: Австралія, західний літній</daylight>
 				</long>
 			</metazone>
+			<metazone type="Azerbaijan">
+				<long>
+					<generic draft="provisional">за азербайджанським часом</generic>
+					<standard draft="provisional">за азербайджанським стандартним часом</standard>
+					<daylight draft="provisional">за азербайджанським літнім часом</daylight>
+				</long>
+			</metazone>
 			<metazone type="Azores">
 				<long>
 					<generic draft="provisional">за часом на Азорських островах</generic>
@@ -3450,11 +3785,33 @@
 					<daylight draft="provisional">за літнім часом на Азорських островах</daylight>
 				</long>
 			</metazone>
+			<metazone type="Bangladesh">
+				<long>
+					<generic draft="provisional">за бангладеським часом</generic>
+					<standard draft="provisional">за бангладеським стандартним часом</standard>
+					<daylight draft="provisional">за бангладеським літнім часом</daylight>
+				</long>
+			</metazone>
+			<metazone type="Bhutan">
+				<long>
+					<standard draft="provisional">за бутанським часом</standard>
+				</long>
+			</metazone>
+			<metazone type="Bolivia">
+				<long>
+					<standard>Час: Болівія</standard>
+				</long>
+			</metazone>
 			<metazone type="Brasilia">
 				<long>
 					<generic draft="contributed">Час: Бразилія</generic>
 					<standard draft="contributed">Час: Бразилія, стандартний</standard>
 					<daylight draft="contributed">Час: Бразилія, літній</daylight>
+				</long>
+			</metazone>
+			<metazone type="Brunei">
+				<long>
+					<standard draft="provisional">Час: Бруней</standard>
 				</long>
 			</metazone>
 			<metazone type="Cape_Verde">
@@ -3476,6 +3833,13 @@
 					<daylight draft="provisional">за літнім часом архіпелагу Чатем</daylight>
 				</long>
 			</metazone>
+			<metazone type="Chile">
+				<long>
+					<generic>Час: Чилі</generic>
+					<standard>Час: Чилі, стандартний</standard>
+					<daylight>Час: Чилі, літній</daylight>
+				</long>
+			</metazone>
 			<metazone type="China">
 				<long>
 					<generic draft="contributed">за китайським часом</generic>
@@ -3492,19 +3856,48 @@
 			</metazone>
 			<metazone type="Christmas">
 				<long>
-					<standard draft="provisional">за часом на острові Різдва</standard>
+					<standard draft="contributed">за часом на острові Різдва</standard>
 				</long>
 			</metazone>
 			<metazone type="Cocos">
 				<long>
-					<standard draft="provisional">за часом на Кокосових островах</standard>
+					<standard draft="contributed">за часом на Кокосових островах</standard>
+				</long>
+			</metazone>
+			<metazone type="Colombia">
+				<long>
+					<generic>Час: Колумбія</generic>
+					<standard>Час: Колумбія, стандартний</standard>
+					<daylight>Час: Колумбія, літній</daylight>
 				</long>
 			</metazone>
 			<metazone type="Cook">
 				<long>
-					<generic draft="provisional">за часом на островах Кука</generic>
-					<standard draft="provisional">за стандартним часом на островах Кука</standard>
-					<daylight draft="provisional">за літнім часом на островах Кука</daylight>
+					<generic draft="contributed">за часом на островах Кука</generic>
+					<standard draft="contributed">за стандартним часом на островах Кука</standard>
+					<daylight draft="contributed">за літнім часом на островах Кука</daylight>
+				</long>
+			</metazone>
+			<metazone type="Cuba">
+				<long>
+					<generic draft="provisional">за кубинським часом</generic>
+					<standard draft="provisional">за кубинським стандартним часом</standard>
+					<daylight draft="provisional">за кубинським літнім часом</daylight>
+				</long>
+			</metazone>
+			<metazone type="Davis">
+				<long>
+					<standard>Час: Девіс</standard>
+				</long>
+			</metazone>
+			<metazone type="DumontDUrville">
+				<long>
+					<standard>Час: Дюмон д’Юрвіль</standard>
+				</long>
+			</metazone>
+			<metazone type="East_Timor">
+				<long>
+					<standard draft="provisional">Час: Східний Тимор</standard>
 				</long>
 			</metazone>
 			<metazone type="Easter">
@@ -3512,6 +3905,11 @@
 					<generic draft="provisional">за часом на острові Пасхи</generic>
 					<standard draft="provisional">за стандартним часом на острові Пасхи</standard>
 					<daylight draft="provisional">за літнім часом на острові Пасхи</daylight>
+				</long>
+			</metazone>
+			<metazone type="Ecuador">
+				<long>
+					<standard>Час: Еквадор</standard>
 				</long>
 			</metazone>
 			<metazone type="Europe_Central">
@@ -3544,14 +3942,19 @@
 			</metazone>
 			<metazone type="Fiji">
 				<long>
-					<generic draft="provisional">за часом на островах Фіджі</generic>
-					<standard draft="provisional">за стандартним часом на островах Фіджі</standard>
-					<daylight draft="provisional">за літнім часом на островах Фіджі</daylight>
+					<generic draft="contributed">за часом на островах Фіджі</generic>
+					<standard draft="contributed">за стандартним часом на островах Фіджі</standard>
+					<daylight draft="contributed">за літнім часом на островах Фіджі</daylight>
+				</long>
+			</metazone>
+			<metazone type="French_Guiana">
+				<long>
+					<standard>Час: Французька Гвіана</standard>
 				</long>
 			</metazone>
 			<metazone type="French_Southern">
 				<long>
-					<standard draft="provisional">за часом на Французьких Південних і Антарктичних територіях</standard>
+					<standard draft="contributed">за часом на Французьких Південних і Антарктичних територіях</standard>
 				</long>
 			</metazone>
 			<metazone type="Galapagos">
@@ -3561,12 +3964,19 @@
 			</metazone>
 			<metazone type="Gambier">
 				<long>
-					<standard draft="provisional">за часом на острові Гамб’єр</standard>
+					<standard draft="contributed">за часом на острові Гамб’є</standard>
+				</long>
+			</metazone>
+			<metazone type="Georgia">
+				<long>
+					<generic draft="provisional">за грузинським часом</generic>
+					<standard draft="provisional">за грузинським стандартним часом</standard>
+					<daylight draft="provisional">за грузинським літнім часом</daylight>
 				</long>
 			</metazone>
 			<metazone type="Gilbert_Islands">
 				<long>
-					<standard draft="provisional">за часом на островах Гілберта</standard>
+					<standard draft="contributed">за часом на островах Гілберта</standard>
 				</long>
 			</metazone>
 			<metazone type="GMT">
@@ -3574,9 +3984,33 @@
 					<standard draft="contributed">за Грінвічем</standard>
 				</long>
 			</metazone>
+			<metazone type="Greenland_Eastern">
+				<long>
+					<generic draft="provisional">за східногренландським часом</generic>
+					<standard draft="provisional">за східногренландським стандартним часом</standard>
+					<daylight draft="provisional">за східногренландським літнім часом</daylight>
+				</long>
+			</metazone>
+			<metazone type="Greenland_Western">
+				<long>
+					<generic draft="provisional">за західногренландським часом</generic>
+					<standard draft="provisional">за західногренландським стандартним часом</standard>
+					<daylight draft="provisional">за західногренландським літнім часом</daylight>
+				</long>
+			</metazone>
 			<metazone type="Guam">
 				<long>
 					<standard draft="provisional">за часом на острові Гуам</standard>
+				</long>
+			</metazone>
+			<metazone type="Gulf">
+				<long>
+					<standard draft="contributed">за часом Перської затоки</standard>
+				</long>
+			</metazone>
+			<metazone type="Guyana">
+				<long>
+					<standard draft="provisional">Час: Гайана</standard>
 				</long>
 			</metazone>
 			<metazone type="Hawaii_Aleutian">
@@ -3584,6 +4018,13 @@
 					<generic draft="contributed">за гавайсько-алеутським часом</generic>
 					<standard draft="contributed">за стандартним гавайсько-алеутським часом</standard>
 					<daylight draft="contributed">за літнім гавайсько-алеутським часом</daylight>
+				</long>
+			</metazone>
+			<metazone type="Hong_Kong">
+				<long>
+					<generic draft="provisional">Час: Гонконг</generic>
+					<standard draft="provisional">Час: Гонконг, стандартний</standard>
+					<daylight draft="provisional">Час: Гонконг, літній</daylight>
 				</long>
 			</metazone>
 			<metazone type="Hovd">
@@ -3600,7 +4041,12 @@
 			</metazone>
 			<metazone type="Indian_Ocean">
 				<long>
-					<standard draft="provisional">за часом в Індійському Океані</standard>
+					<standard draft="contributed">за часом в Індійському Океані</standard>
+				</long>
+			</metazone>
+			<metazone type="Indochina">
+				<long>
+					<standard>Час: Індокитай</standard>
 				</long>
 			</metazone>
 			<metazone type="Indonesia_Central">
@@ -3672,7 +4118,7 @@
 			</metazone>
 			<metazone type="Kosrae">
 				<long>
-					<standard draft="provisional">за часом на острові Косрае</standard>
+					<standard draft="contributed">за часом на острові Косрае</standard>
 				</long>
 			</metazone>
 			<metazone type="Krasnoyarsk">
@@ -3682,21 +4128,19 @@
 					<daylight draft="contributed">за красноярським літнім часом</daylight>
 				</long>
 			</metazone>
-			<metazone type="Kuybyshev">
+			<metazone type="Kyrgystan">
 				<long>
-					<generic draft="contributed">за куйбишевським часом</generic>
-					<standard draft="contributed">за куйбишевським стандартним часом</standard>
-					<daylight draft="contributed">за куйбишевським літнім часом</daylight>
+					<standard>Час: Киргизстан</standard>
 				</long>
 			</metazone>
-			<metazone type="Kwajalein">
+			<metazone type="Lanka">
 				<long>
-					<standard draft="provisional">за часом на острові Кваджалейн</standard>
+					<standard draft="contributed">Час: Ланка</standard>
 				</long>
 			</metazone>
 			<metazone type="Line_Islands">
 				<long>
-					<standard draft="provisional">за часом на острові Лайн</standard>
+					<standard draft="contributed">за часом на острові Лайн</standard>
 				</long>
 			</metazone>
 			<metazone type="Lord_Howe">
@@ -3718,6 +4162,11 @@
 					<daylight draft="contributed">за магаданським літнім часом</daylight>
 				</long>
 			</metazone>
+			<metazone type="Malaysia">
+				<long>
+					<standard>Час: Малайзія</standard>
+				</long>
+			</metazone>
 			<metazone type="Maldives">
 				<long>
 					<standard draft="provisional">за часом на Мальдівах</standard>
@@ -3725,12 +4174,12 @@
 			</metazone>
 			<metazone type="Marquesas">
 				<long>
-					<standard draft="provisional">за часом на Маркізьких островах</standard>
+					<standard draft="contributed">за часом на Маркізьких островах</standard>
 				</long>
 			</metazone>
 			<metazone type="Marshall_Islands">
 				<long>
-					<standard draft="provisional">за часом на Маршалових островах</standard>
+					<standard draft="contributed">за часом на Маршалових островах</standard>
 				</long>
 			</metazone>
 			<metazone type="Mauritius">
@@ -3738,6 +4187,11 @@
 					<generic draft="provisional">за часом на острові Маврикій</generic>
 					<standard draft="provisional">за стандартним часом на острові Маврикій</standard>
 					<daylight draft="provisional">за літнім часом на острові Маврикій</daylight>
+				</long>
+			</metazone>
+			<metazone type="Mawson">
+				<long>
+					<standard draft="provisional">Час: Мовсон</standard>
 				</long>
 			</metazone>
 			<metazone type="Mongolia">
@@ -3754,11 +4208,50 @@
 					<daylight draft="contributed">за московським літнім часом</daylight>
 				</long>
 			</metazone>
+			<metazone type="Myanmar">
+				<long>
+					<standard draft="provisional">Час: М’янма</standard>
+				</long>
+			</metazone>
+			<metazone type="Nauru">
+				<long>
+					<standard draft="contributed">за часом на острові Науру</standard>
+				</long>
+			</metazone>
+			<metazone type="Nepal">
+				<long>
+					<standard draft="provisional">за непальським часом</standard>
+				</long>
+			</metazone>
+			<metazone type="New_Caledonia">
+				<long>
+					<generic draft="contributed">за часом на островах Нової Каледонії</generic>
+					<standard draft="contributed">за стандартним часом на островах Нової Каледонії</standard>
+					<daylight draft="contributed">за літнім часом на островах Нової Каледонії</daylight>
+				</long>
+			</metazone>
+			<metazone type="New_Zealand">
+				<long>
+					<generic>Час: Нова Зеландія</generic>
+					<standard>Час: Нова Зеландія, стандартний</standard>
+					<daylight>Час: Нова Зеландія, літній</daylight>
+				</long>
+			</metazone>
 			<metazone type="Newfoundland">
 				<long>
 					<generic draft="contributed">Час: Ньюфаундленд</generic>
 					<standard draft="contributed">Час: Ньюфаундленд, стандартний</standard>
 					<daylight draft="contributed">Час: Ньюфаундленд, літній</daylight>
+				</long>
+			</metazone>
+			<metazone type="Niue">
+				<long>
+					<standard draft="contributed">за часом на острові Ніуе</standard>
+				</long>
+			</metazone>
+			<metazone type="Norfolk">
+				<long>
+					<standard draft="provisional">за часом на острові Норфолк</standard>
 				</long>
 			</metazone>
 			<metazone type="Noronha">
@@ -3782,9 +4275,81 @@
 					<daylight draft="contributed">за омським літнім часом</daylight>
 				</long>
 			</metazone>
+			<metazone type="Pakistan">
+				<long>
+					<generic draft="provisional">за пакистанським часом</generic>
+					<standard draft="provisional">за пакистанським стандартним часом</standard>
+					<daylight draft="provisional">за пакистанським літнім часом</daylight>
+				</long>
+			</metazone>
+			<metazone type="Palau">
+				<long>
+					<standard draft="contributed">за часом на острові Палау</standard>
+				</long>
+			</metazone>
+			<metazone type="Papua_New_Guinea">
+				<long>
+					<standard draft="contributed">за часом на островах Папуа Нова Гвінея</standard>
+				</long>
+			</metazone>
+			<metazone type="Paraguay">
+				<long>
+					<generic>Час: Парагвай</generic>
+					<standard>Час: Парагвай, стандартний</standard>
+					<daylight>Час: Парагвай, літній</daylight>
+				</long>
+			</metazone>
+			<metazone type="Peru">
+				<long>
+					<generic>Час: Перу</generic>
+					<standard>Час: Перу, стандартний</standard>
+					<daylight>Час: Перу, літній</daylight>
+				</long>
+			</metazone>
+			<metazone type="Philippines">
+				<long>
+					<generic>Час: Філіппіни</generic>
+					<standard>Час: Філіппіни, стандартний</standard>
+					<daylight>Час: Філіппіни, літній</daylight>
+				</long>
+			</metazone>
+			<metazone type="Phoenix_Islands">
+				<long>
+					<standard draft="contributed">за часом на островах Фенікс</standard>
+				</long>
+			</metazone>
+			<metazone type="Pierre_Miquelon">
+				<long>
+					<generic draft="provisional">за часом на островах Сен-П’єр і Мікелон</generic>
+					<standard draft="provisional">за стандартним часом на островах Сен-П’єр і Мікелон</standard>
+					<daylight draft="provisional">за літнім часом на островах Сен-П’єр і Мікелон</daylight>
+				</long>
+			</metazone>
+			<metazone type="Pitcairn">
+				<long>
+					<standard draft="contributed">за часом на островах Піткерн</standard>
+				</long>
+			</metazone>
+			<metazone type="Ponape">
+				<long>
+					<standard draft="contributed">за часом на острові Понапе</standard>
+				</long>
+			</metazone>
+			<metazone type="Qyzylorda">
+				<long>
+					<generic draft="contributed">Час: Кизилорда</generic>
+					<standard draft="contributed">Час: Кизилорда, стандартний</standard>
+					<daylight draft="contributed">Час: Кизилорда, літній</daylight>
+				</long>
+			</metazone>
 			<metazone type="Reunion">
 				<long>
 					<standard draft="provisional">за часом на острові Реюньйон</standard>
+				</long>
+			</metazone>
+			<metazone type="Rothera">
+				<long>
+					<standard draft="provisional">Час: Розера</standard>
 				</long>
 			</metazone>
 			<metazone type="Sakhalin">
@@ -3801,21 +4366,113 @@
 					<daylight draft="contributed">за самарським літнім часом</daylight>
 				</long>
 			</metazone>
+			<metazone type="Samoa">
+				<long>
+					<generic draft="contributed">за часом на острові Самоа</generic>
+					<standard draft="contributed">за стандартним часом на острові Самоа</standard>
+					<daylight draft="contributed">за літнім часом на острові Самоа</daylight>
+				</long>
+			</metazone>
 			<metazone type="Seychelles">
 				<long>
 					<standard draft="provisional">за часом на Сейшелах</standard>
 				</long>
 			</metazone>
-			<metazone type="South_Georgia">
+			<metazone type="Singapore">
 				<long>
-					<standard draft="provisional">за часом на острові Південна Джорджія</standard>
+					<standard draft="provisional">Час: Сінгапур</standard>
 				</long>
 			</metazone>
-			<metazone type="Turkey">
+			<metazone type="Solomon">
 				<long>
-					<generic draft="contributed">за турецьким часом</generic>
-					<standard draft="contributed">за турецьким стандартним часом</standard>
-					<daylight draft="contributed">за турецьким літнім часом</daylight>
+					<standard draft="contributed">за часом на Соломонових островах</standard>
+				</long>
+			</metazone>
+			<metazone type="South_Georgia">
+				<long>
+					<standard draft="contributed">за часом на острові Південна Джорджія</standard>
+				</long>
+			</metazone>
+			<metazone type="Suriname">
+				<long>
+					<standard>Час: Суринам</standard>
+				</long>
+			</metazone>
+			<metazone type="Syowa">
+				<long>
+					<standard draft="provisional">Час: Сева</standard>
+				</long>
+			</metazone>
+			<metazone type="Tahiti">
+				<long>
+					<standard draft="contributed">за часом на острові Таїті</standard>
+				</long>
+			</metazone>
+			<metazone type="Taipei">
+				<long>
+					<generic>Час: Тайбей</generic>
+					<standard>Час: Тайбей, стандартний</standard>
+					<daylight>Час: Тайбей, літній</daylight>
+				</long>
+			</metazone>
+			<metazone type="Tajikistan">
+				<long>
+					<standard draft="provisional">Час: Таджикистан</standard>
+				</long>
+			</metazone>
+			<metazone type="Tokelau">
+				<long>
+					<standard draft="contributed">за часом на островах Токелау</standard>
+				</long>
+			</metazone>
+			<metazone type="Tonga">
+				<long>
+					<generic draft="contributed">за часом на островах Тонга</generic>
+					<standard draft="contributed">за стандартним часом на островах Тонга</standard>
+					<daylight draft="contributed">за літнім часом на островах Тонга</daylight>
+				</long>
+			</metazone>
+			<metazone type="Truk">
+				<long>
+					<standard draft="contributed">за часом на островах Чуук</standard>
+				</long>
+			</metazone>
+			<metazone type="Turkmenistan">
+				<long>
+					<generic>Час: Туркменістан</generic>
+					<standard>Час: Туркменістан, стандартний</standard>
+					<daylight>Час: Туркменістан, літній</daylight>
+				</long>
+			</metazone>
+			<metazone type="Tuvalu">
+				<long>
+					<standard draft="contributed">за часом на островах Тувалу</standard>
+				</long>
+			</metazone>
+			<metazone type="Uruguay">
+				<long>
+					<generic>Час: Уругвай</generic>
+					<standard>Час: Уругвай, стандартний</standard>
+					<daylight>Час: Уругвай, літній</daylight>
+				</long>
+			</metazone>
+			<metazone type="Uzbekistan">
+				<long>
+					<generic>Час: Узбекистан</generic>
+					<standard>Час: Узбекистан, стандартний</standard>
+					<daylight>Час: Узбекистан, літній</daylight>
+				</long>
+			</metazone>
+			<metazone type="Vanuatu">
+				<long>
+					<generic draft="contributed">за часом на островах Вануату</generic>
+					<standard draft="contributed">за стандартним часом на островах Вануату</standard>
+					<daylight draft="contributed">за літнім часом на островах Вануату</daylight>
+				</long>
+			</metazone>
+			<metazone type="Venezuela">
+				<long>
+					<standard>Час: Венесуела</standard>
 				</long>
 			</metazone>
 			<metazone type="Vladivostok">
@@ -3830,6 +4487,21 @@
 					<generic draft="contributed">за волгоградським часом</generic>
 					<standard draft="contributed">за волгоградським стандартним часом</standard>
 					<daylight draft="contributed">за волгоградським літнім часом</daylight>
+				</long>
+			</metazone>
+			<metazone type="Vostok">
+				<long>
+					<standard>Час: Восток</standard>
+				</long>
+			</metazone>
+			<metazone type="Wake">
+				<long>
+					<standard draft="contributed">за часом на острові Вейк</standard>
+				</long>
+			</metazone>
+			<metazone type="Wallis">
+				<long>
+					<standard draft="contributed">за часом на островах Волліс і Футуна</standard>
 				</long>
 			</metazone>
 			<metazone type="Yakutsk">
@@ -3859,7 +4531,7 @@
 			<exponential draft="contributed">Е</exponential>
 			<perMille draft="contributed">‰</perMille>
 			<infinity>∞</infinity>
-			<nan>Не число</nan>
+			<nan>Не число</nan>
 		</symbols>
 		<decimalFormats numberSystem="latn">
 			<decimalFormatLength>
@@ -3867,20 +4539,108 @@
 					<pattern>#,##0.###</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
+			<decimalFormatLength type="long">
+				<decimalFormat>
+					<pattern type="1000" count="one" draft="contributed">0 тисяча</pattern>
+					<pattern type="1000" count="few" draft="contributed">0 тисячі</pattern>
+					<pattern type="1000" count="many" draft="contributed">0 тисяч</pattern>
+					<pattern type="1000" count="other" draft="contributed">0 тисячі</pattern>
+					<pattern type="10000" count="one" draft="contributed">00 тисяча</pattern>
+					<pattern type="10000" count="few" draft="contributed">00 тисячі</pattern>
+					<pattern type="10000" count="many" draft="contributed">00 тисяч</pattern>
+					<pattern type="10000" count="other" draft="contributed">00 тисячі</pattern>
+					<pattern type="100000" count="one" draft="contributed">000 тисяча</pattern>
+					<pattern type="100000" count="few" draft="contributed">000 тисячі</pattern>
+					<pattern type="100000" count="many" draft="contributed">000 тисяч</pattern>
+					<pattern type="100000" count="other" draft="contributed">000 тисячі</pattern>
+					<pattern type="1000000" count="one" draft="contributed">0 мільйон</pattern>
+					<pattern type="1000000" count="few" draft="contributed">0 мільйони</pattern>
+					<pattern type="1000000" count="many" draft="contributed">0 мільйонів</pattern>
+					<pattern type="1000000" count="other" draft="contributed">0 мільйона</pattern>
+					<pattern type="10000000" count="one" draft="contributed">00 мільйон</pattern>
+					<pattern type="10000000" count="few" draft="contributed">00 мільйони</pattern>
+					<pattern type="10000000" count="many" draft="contributed">00 мільйонів</pattern>
+					<pattern type="10000000" count="other" draft="contributed">00 мільйона</pattern>
+					<pattern type="100000000" count="one" draft="contributed">000 мільйон</pattern>
+					<pattern type="100000000" count="few" draft="contributed">000 мільйони</pattern>
+					<pattern type="100000000" count="many" draft="contributed">000 мільйонів</pattern>
+					<pattern type="100000000" count="other" draft="contributed">000 мільйона</pattern>
+					<pattern type="1000000000" count="one" draft="contributed">0 мільярд</pattern>
+					<pattern type="1000000000" count="few" draft="contributed">0 мільярди</pattern>
+					<pattern type="1000000000" count="many" draft="contributed">0 мільярдів</pattern>
+					<pattern type="1000000000" count="other" draft="contributed">0 мільярда</pattern>
+					<pattern type="10000000000" count="one" draft="contributed">00 мільярд</pattern>
+					<pattern type="10000000000" count="few" draft="contributed">00 мільярди</pattern>
+					<pattern type="10000000000" count="many" draft="contributed">00 мільярдів</pattern>
+					<pattern type="10000000000" count="other" draft="contributed">00 мільярда</pattern>
+					<pattern type="100000000000" count="one" draft="contributed">000 мільярд</pattern>
+					<pattern type="100000000000" count="few" draft="contributed">000 мільярди</pattern>
+					<pattern type="100000000000" count="many" draft="contributed">000 мільярдів</pattern>
+					<pattern type="100000000000" count="other" draft="contributed">000 мільярда</pattern>
+					<pattern type="1000000000000" count="one" draft="contributed">0 трильйон</pattern>
+					<pattern type="1000000000000" count="few" draft="contributed">0 трильйони</pattern>
+					<pattern type="1000000000000" count="many" draft="contributed">0 трильйонів</pattern>
+					<pattern type="1000000000000" count="other" draft="contributed">0 трильйона</pattern>
+					<pattern type="10000000000000" count="one" draft="contributed">00 трильйон</pattern>
+					<pattern type="10000000000000" count="few" draft="contributed">00 трильйони</pattern>
+					<pattern type="10000000000000" count="many" draft="contributed">00 трильйонів</pattern>
+					<pattern type="10000000000000" count="other" draft="contributed">00 трильйона</pattern>
+					<pattern type="100000000000000" count="one" draft="contributed">000 трильйон</pattern>
+					<pattern type="100000000000000" count="few" draft="contributed">000 трильйони</pattern>
+					<pattern type="100000000000000" count="many" draft="contributed">000 трильйонів</pattern>
+					<pattern type="100000000000000" count="other" draft="contributed">000 трильйона</pattern>
+				</decimalFormat>
+			</decimalFormatLength>
 			<decimalFormatLength type="short">
 				<decimalFormat>
-					<pattern type="1000" draft="contributed">0.0 тис</pattern>
-					<pattern type="10000" draft="contributed">00 тис</pattern>
-					<pattern type="100000" draft="contributed">000 тис</pattern>
-					<pattern type="1000000" draft="contributed">0.0 млн</pattern>
-					<pattern type="10000000" draft="contributed">00 млн</pattern>
-					<pattern type="100000000" draft="contributed">000 млн</pattern>
-					<pattern type="1000000000" draft="contributed">0.0 млрд</pattern>
-					<pattern type="10000000000" draft="contributed">00 млрд</pattern>
-					<pattern type="100000000000" draft="contributed">000 млрд</pattern>
-					<pattern type="1000000000000" draft="contributed">0.0 трлн</pattern>
-					<pattern type="10000000000000" draft="contributed">00 трлн</pattern>
-					<pattern type="100000000000000" draft="contributed">000 трлн</pattern>
+					<pattern type="1000" count="one" draft="contributed">0 тис</pattern>
+					<pattern type="1000" count="few" draft="contributed">0 тис</pattern>
+					<pattern type="1000" count="many" draft="contributed">0 тис</pattern>
+					<pattern type="1000" count="other" draft="contributed">0 тис</pattern>
+					<pattern type="10000" count="one" draft="contributed">00 тис</pattern>
+					<pattern type="10000" count="few" draft="contributed">00 тис</pattern>
+					<pattern type="10000" count="many" draft="contributed">00 тис</pattern>
+					<pattern type="10000" count="other" draft="contributed">00 тис</pattern>
+					<pattern type="100000" count="one" draft="contributed">000 тис</pattern>
+					<pattern type="100000" count="few" draft="contributed">000 тис</pattern>
+					<pattern type="100000" count="many" draft="contributed">000 тис</pattern>
+					<pattern type="100000" count="other" draft="contributed">000 тис</pattern>
+					<pattern type="1000000" count="one" draft="contributed">0 млн</pattern>
+					<pattern type="1000000" count="few" draft="contributed">0 млн</pattern>
+					<pattern type="1000000" count="many" draft="contributed">0 млн</pattern>
+					<pattern type="1000000" count="other" draft="contributed">0 млн</pattern>
+					<pattern type="10000000" count="one" draft="contributed">00 млн</pattern>
+					<pattern type="10000000" count="few" draft="contributed">00 млн</pattern>
+					<pattern type="10000000" count="many" draft="contributed">00 млн</pattern>
+					<pattern type="10000000" count="other" draft="contributed">00 млн</pattern>
+					<pattern type="100000000" count="one" draft="contributed">000 млн</pattern>
+					<pattern type="100000000" count="few" draft="contributed">000 млн</pattern>
+					<pattern type="100000000" count="many" draft="contributed">000 млн</pattern>
+					<pattern type="100000000" count="other" draft="contributed">000 млн</pattern>
+					<pattern type="1000000000" count="one" draft="contributed">0 млрд</pattern>
+					<pattern type="1000000000" count="few" draft="contributed">0 млрд</pattern>
+					<pattern type="1000000000" count="many" draft="contributed">0 млрд</pattern>
+					<pattern type="1000000000" count="other" draft="contributed">0 млрд</pattern>
+					<pattern type="10000000000" count="one" draft="contributed">00 млрд</pattern>
+					<pattern type="10000000000" count="few" draft="contributed">00 млрд</pattern>
+					<pattern type="10000000000" count="many" draft="contributed">00 млрд</pattern>
+					<pattern type="10000000000" count="other" draft="contributed">00 млрд</pattern>
+					<pattern type="100000000000" count="one" draft="contributed">000 млрд</pattern>
+					<pattern type="100000000000" count="few" draft="contributed">000 млрд</pattern>
+					<pattern type="100000000000" count="many" draft="contributed">000 млрд</pattern>
+					<pattern type="100000000000" count="other" draft="contributed">000 млрд</pattern>
+					<pattern type="1000000000000" count="one" draft="contributed">0 трлн</pattern>
+					<pattern type="1000000000000" count="few" draft="contributed">0 трлн</pattern>
+					<pattern type="1000000000000" count="many" draft="contributed">0 трлн</pattern>
+					<pattern type="1000000000000" count="other" draft="contributed">0 трлн</pattern>
+					<pattern type="10000000000000" count="one" draft="contributed">00 трлн</pattern>
+					<pattern type="10000000000000" count="few" draft="contributed">00 трлн</pattern>
+					<pattern type="10000000000000" count="many" draft="contributed">00 трлн</pattern>
+					<pattern type="10000000000000" count="other" draft="contributed">00 трлн</pattern>
+					<pattern type="100000000000000" count="one" draft="contributed">000 трлн</pattern>
+					<pattern type="100000000000000" count="few" draft="contributed">000 трлн</pattern>
+					<pattern type="100000000000000" count="many" draft="contributed">000 трлн</pattern>
+					<pattern type="100000000000000" count="other" draft="contributed">000 трлн</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
@@ -3904,17 +4664,17 @@
 					<pattern>#,##0.00 ¤</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
+			<unitPattern count="one" draft="contributed">{0} {1}</unitPattern>
 			<unitPattern count="few" draft="contributed">{0} {1}</unitPattern>
 			<unitPattern count="many" draft="contributed">{0} {1}</unitPattern>
-			<unitPattern count="one" draft="contributed">{0} {1}</unitPattern>
-			<unitPattern count="other" draft="provisional">{0} {1}</unitPattern>
+			<unitPattern count="other" draft="contributed">{0} {1}</unitPattern>
 		</currencyFormats>
 		<currencies>
 			<currency type="ADP">
 				<displayName>Андоррська песета</displayName>
+				<displayName count="one">андоррська песета</displayName>
 				<displayName count="few">Андоррські песети</displayName>
 				<displayName count="many">Андоррських песет</displayName>
-				<displayName count="one" draft="provisional">андоррська песета</displayName>
 				<displayName count="other">Андоррських песет</displayName>
 			</currency>
 			<currency type="AED">
@@ -3925,23 +4685,23 @@
 			</currency>
 			<currency type="AFN">
 				<displayName>Афгані</displayName>
+				<displayName count="one" draft="contributed">афгані</displayName>
 				<displayName count="few" draft="contributed">афгані</displayName>
 				<displayName count="many" draft="contributed">афгані</displayName>
-				<displayName count="one" draft="contributed">афгані</displayName>
-				<displayName count="other">Афгані</displayName>
+				<displayName count="other" draft="contributed">Афгані</displayName>
 			</currency>
 			<currency type="ALL">
 				<displayName>Албанський лек</displayName>
+				<displayName count="one">албанській лек</displayName>
 				<displayName count="few">Албанські леки</displayName>
 				<displayName count="many">Албанських леків</displayName>
-				<displayName count="one" draft="contributed">албанській лек</displayName>
 				<displayName count="other">албанських леків</displayName>
 			</currency>
 			<currency type="AMD">
 				<displayName>Вірменський драм</displayName>
+				<displayName count="one">вірменській драм</displayName>
 				<displayName count="few">вірменські драми</displayName>
 				<displayName count="many">Вірменських драмів</displayName>
-				<displayName count="one" draft="contributed">вірменській драм</displayName>
 				<displayName count="other">Вірменських драмів</displayName>
 			</currency>
 			<currency type="ANG">
@@ -3949,38 +4709,38 @@
 			</currency>
 			<currency type="AOA">
 				<displayName>Ангольська кванза</displayName>
+				<displayName count="one">ангольська кванза</displayName>
 				<displayName count="few">ангольські кванзи</displayName>
 				<displayName count="many">ангольських кванз</displayName>
-				<displayName count="one" draft="contributed">ангольська кванза</displayName>
 				<displayName count="other">ангольської кванзи</displayName>
 			</currency>
 			<currency type="AOK">
 				<displayName>Ангольська кванза (1977-1990)</displayName>
+				<displayName count="one">ангольська кванза (1977-1990)</displayName>
 				<displayName count="few">Ангольські кванзи (1977-1990)</displayName>
 				<displayName count="many">Ангольських кванз (1977-1990)</displayName>
-				<displayName count="one" draft="provisional">ангольська кванза (1977-1990)</displayName>
 				<displayName count="other">Ангольської кванзи (1977-1990)</displayName>
 			</currency>
 			<currency type="AON">
 				<displayName>Ангольська нова кванза (1990-2000)</displayName>
+				<displayName count="one">ангольська нова кванза (1990-2000)</displayName>
 				<displayName count="few">Ангольські нові кванзи (1990-2000)</displayName>
 				<displayName count="many">ангольських нових кванз (1990-2000)</displayName>
-				<displayName count="one" draft="provisional">ангольська нова кванза (1990-2000)</displayName>
 				<displayName count="other">Ангольської нової кванзи (1990-2000)</displayName>
 			</currency>
 			<currency type="AOR">
 				<displayName>Ангольська кванза реаджастадо (1995-1999)</displayName>
+				<displayName count="one">ангольська кванза реаджастадо (1995-1999)</displayName>
 				<displayName count="few">ангольські кванзи реаджастадо (1995-1999)</displayName>
 				<displayName count="many">ангольських кванз реаджастадо (1995-1999)</displayName>
-				<displayName count="one">ангольська кванза реаджастадо (1995-1999)</displayName>
 				<displayName count="other">ангольської кванзи реаджастадо (1995-1999)</displayName>
 			</currency>
 			<currency type="ARA">
 				<displayName>Аргентинський австрал</displayName>
+				<displayName count="one">аргентинський австрал</displayName>
 				<displayName count="few">Аргентинські австрали</displayName>
 				<displayName count="many">Аргентинських австралів</displayName>
-				<displayName count="one" draft="contributed">аргентинський австрал</displayName>
-				<displayName count="other" draft="contributed">аргентинського австрала</displayName>
+				<displayName count="other">аргентинського австрала</displayName>
 			</currency>
 			<currency type="ARP">
 				<displayName>Аргентинський песо (1983-1985)</displayName>
@@ -3993,26 +4753,27 @@
 			</currency>
 			<currency type="AUD">
 				<displayName>Австралійський долар</displayName>
+				<displayName count="one">австралійський долар</displayName>
 				<displayName count="few">австралійські долари</displayName>
 				<displayName count="many">австралійських доларів</displayName>
-				<displayName count="one">австралійський долар</displayName>
 				<displayName count="other">австралійського долара</displayName>
+				<symbol draft="contributed">AU$</symbol>
 			</currency>
 			<currency type="AWG">
 				<displayName>Арубський гульден</displayName>
 			</currency>
 			<currency type="AZM">
 				<displayName>Азербайджанський манат (1993-2006)</displayName>
+				<displayName count="one" draft="contributed">азербайджанський манат (1993-2006)</displayName>
 				<displayName count="few" draft="contributed">азербайджанські манати (1993-2006)</displayName>
 				<displayName count="many" draft="contributed">азербайджанських манатів (1993-2006)</displayName>
-				<displayName count="one" draft="provisional">азербайджанський манат (1993-2006)</displayName>
-				<displayName count="other" draft="provisional">азербайджанського маната (1993-2006)</displayName>
+				<displayName count="other" draft="contributed">азербайджанського маната (1993-2006)</displayName>
 			</currency>
 			<currency type="AZN">
 				<displayName>Азербайджанський манат</displayName>
+				<displayName count="one" draft="contributed">азербайджанський манат</displayName>
 				<displayName count="few" draft="contributed">азербайджанські манати</displayName>
 				<displayName count="many" draft="contributed">азербайджанських манатів</displayName>
-				<displayName count="one" draft="contributed">азербайджанський манат</displayName>
 				<displayName count="other" draft="contributed">азербайджанського маната</displayName>
 				<symbol draft="contributed">ман.</symbol>
 			</currency>
@@ -4075,9 +4836,9 @@
 			</currency>
 			<currency type="BRL">
 				<displayName>Бразильський реал</displayName>
+				<displayName count="one" draft="contributed">бразильський реал</displayName>
 				<displayName count="few" draft="contributed">бразильські реали</displayName>
 				<displayName count="many" draft="contributed">бразильських реалів</displayName>
-				<displayName count="one" draft="contributed">бразильський реал</displayName>
 				<displayName count="other" draft="contributed">бразильського реала</displayName>
 			</currency>
 			<currency type="BRN">
@@ -4100,26 +4861,26 @@
 			</currency>
 			<currency type="BYB">
 				<displayName>Білоруський новий рубль (1994-1999)</displayName>
+				<displayName count="one">білоруський новий рубль (1994-1999)</displayName>
 				<displayName count="few">білоруські нові рублі (1994-1999)</displayName>
 				<displayName count="many">білоруських нових рублів (1994-1999)</displayName>
-				<displayName count="one" draft="provisional">білоруський новий рубль (1994-1999)</displayName>
-				<displayName count="other" draft="provisional">білоруського нового рубля (1994-1999)</displayName>
+				<displayName count="other">білоруського нового рубля (1994-1999)</displayName>
 			</currency>
 			<currency type="BYR">
 				<displayName>Білоруський рубль</displayName>
+				<displayName count="one">білоруський рубль</displayName>
 				<displayName count="few">білоруські рублі</displayName>
 				<displayName count="many">білоруських рублів</displayName>
-				<displayName count="one" draft="contributed">білоруський рубль</displayName>
-				<displayName count="other" draft="provisional">білоруського рубля</displayName>
+				<displayName count="other">білоруського рубля</displayName>
 			</currency>
 			<currency type="BZD">
 				<displayName>Белізький долар</displayName>
 			</currency>
 			<currency type="CAD">
 				<displayName>Канадський долар</displayName>
+				<displayName count="one">канадський долар</displayName>
 				<displayName count="few">канадські долари</displayName>
 				<displayName count="many">канадських доларів</displayName>
-				<displayName count="one">канадський долар</displayName>
 				<displayName count="other">канадського долара</displayName>
 			</currency>
 			<currency type="CDF">
@@ -4130,9 +4891,9 @@
 			</currency>
 			<currency type="CHF">
 				<displayName>Швейцарський франк</displayName>
+				<displayName count="one">швейцарський франк</displayName>
 				<displayName count="few">швейцарські франки</displayName>
 				<displayName count="many">швейцарських франків</displayName>
-				<displayName count="one">швейцарський франк</displayName>
 				<displayName count="other">швейцарського франка</displayName>
 			</currency>
 			<currency type="CHW">
@@ -4146,9 +4907,9 @@
 			</currency>
 			<currency type="CNY">
 				<displayName>Китайський юань</displayName>
+				<displayName count="one">китайський юань</displayName>
 				<displayName count="few">китайські юані</displayName>
 				<displayName count="many">китайських юанів</displayName>
-				<displayName count="one">китайський юань</displayName>
 				<displayName count="other">китайського юаня</displayName>
 			</currency>
 			<currency type="COP">
@@ -4168,9 +4929,9 @@
 			</currency>
 			<currency type="CUC">
 				<displayName>Кубинський конвертований песо</displayName>
+				<displayName count="one">кубинський конвертований песо</displayName>
 				<displayName count="few">кубинські конвертовані песо</displayName>
 				<displayName count="many">кубинських конвертованих песо</displayName>
-				<displayName count="one">кубинський конвертований песо</displayName>
 				<displayName count="other">кубинського конвертованого песо</displayName>
 			</currency>
 			<currency type="CUP">
@@ -4184,9 +4945,9 @@
 			</currency>
 			<currency type="CZK">
 				<displayName>Чеська крона</displayName>
+				<displayName count="one" draft="contributed">чеська крона</displayName>
 				<displayName count="few" draft="contributed">чеські крони</displayName>
 				<displayName count="many" draft="contributed">чеських крон</displayName>
-				<displayName count="one" draft="contributed">чеська крона</displayName>
 				<displayName count="other" draft="contributed">чеської крони</displayName>
 			</currency>
 			<currency type="DDM">
@@ -4200,9 +4961,9 @@
 			</currency>
 			<currency type="DKK">
 				<displayName>Датська крона</displayName>
+				<displayName count="one">датська крона</displayName>
 				<displayName count="few">датські крони</displayName>
 				<displayName count="many">датських крон</displayName>
-				<displayName count="one">датська крона</displayName>
 				<displayName count="other">датської крони</displayName>
 			</currency>
 			<currency type="DOP">
@@ -4219,9 +4980,9 @@
 			</currency>
 			<currency type="EEK">
 				<displayName>Естонська крона</displayName>
+				<displayName count="one" draft="contributed">естонська крона</displayName>
 				<displayName count="few" draft="contributed">естонські крони</displayName>
 				<displayName count="many" draft="contributed">естонських крон</displayName>
-				<displayName count="one" draft="contributed">естонська крона</displayName>
 				<displayName count="other" draft="contributed">естонської крони</displayName>
 			</currency>
 			<currency type="EGP">
@@ -4244,16 +5005,20 @@
 			</currency>
 			<currency type="EUR">
 				<displayName>Євро</displayName>
+				<displayName count="one">євро</displayName>
 				<displayName count="few">євро</displayName>
 				<displayName count="many">євро</displayName>
-				<displayName count="one">євро</displayName>
 				<displayName count="other">євро</displayName>
 			</currency>
 			<currency type="FIM">
 				<displayName>Фінляндська марка</displayName>
 			</currency>
 			<currency type="FJD">
-				<displayName>Долар Фіджі</displayName>
+				<displayName>Фіджійський долар</displayName>
+				<displayName count="one">фіджійський долар</displayName>
+				<displayName count="few">фіджійські долари</displayName>
+				<displayName count="many">Долар Фіджі</displayName>
+				<displayName count="other">Долар Фіджі</displayName>
 			</currency>
 			<currency type="FKP">
 				<displayName>Фолклендський фунт</displayName>
@@ -4263,24 +5028,24 @@
 			</currency>
 			<currency type="GBP">
 				<displayName>Англійський фунт стерлінгів</displayName>
+				<displayName count="one">англійський фунт стерлінгів</displayName>
 				<displayName count="few">англійські фунти стерлінгів</displayName>
 				<displayName count="many">англійських фунтів стерлінгів</displayName>
-				<displayName count="one">англійський фунт стерлінгів</displayName>
 				<displayName count="other">англійського фунта стерлінгів</displayName>
 			</currency>
 			<currency type="GEK">
 				<displayName>Грузинський купон</displayName>
+				<displayName count="one">грузинський купон</displayName>
 				<displayName count="few">грузинські купони</displayName>
 				<displayName count="many">грузинських купонів</displayName>
-				<displayName count="one" draft="provisional">грузинський купон</displayName>
-				<displayName count="other" draft="provisional">грузинського купона</displayName>
+				<displayName count="other">грузинського купона</displayName>
 			</currency>
 			<currency type="GEL">
 				<displayName>Грузинський ларі</displayName>
-				<displayName count="few" draft="provisional">грузинські ларі</displayName>
-				<displayName count="many" draft="provisional">грузинських ларі</displayName>
-				<displayName count="one" draft="provisional">грузинський ларі</displayName>
-				<displayName count="other" draft="provisional">грузинського ларі</displayName>
+				<displayName count="one" draft="contributed">грузинський ларі</displayName>
+				<displayName count="few" draft="contributed">грузинські ларі</displayName>
+				<displayName count="many" draft="contributed">грузинських ларі</displayName>
+				<displayName count="other" draft="contributed">грузинського ларі</displayName>
 			</currency>
 			<currency type="GHC">
 				<displayName>Ганський седі (1979-2007)</displayName>
@@ -4320,9 +5085,9 @@
 			</currency>
 			<currency type="HKD">
 				<displayName>Гонконгівський долар</displayName>
+				<displayName count="one" draft="contributed">гонконгівський долар</displayName>
 				<displayName count="few" draft="contributed">гонконгівські долари</displayName>
 				<displayName count="many" draft="contributed">гонконгівських доларів</displayName>
-				<displayName count="one" draft="contributed">гонконгівський долар</displayName>
 				<displayName count="other" draft="contributed">гонконгівського долара</displayName>
 			</currency>
 			<currency type="HNL">
@@ -4339,16 +5104,16 @@
 			</currency>
 			<currency type="HUF">
 				<displayName>Угорський форинт</displayName>
-				<displayName count="few" draft="provisional">угорські форинтів</displayName>
-				<displayName count="many" draft="provisional">угорських форинтів</displayName>
-				<displayName count="one" draft="provisional">угорський форинт</displayName>
-				<displayName count="other" draft="provisional">угорського форинта</displayName>
+				<displayName count="one" draft="contributed">угорський форинт</displayName>
+				<displayName count="few" draft="contributed">угорські форинти</displayName>
+				<displayName count="many" draft="contributed">угорських форинтів</displayName>
+				<displayName count="other" draft="contributed">угорського форинта</displayName>
 			</currency>
 			<currency type="IDR">
 				<displayName>Індонезійська рупія</displayName>
+				<displayName count="one" draft="contributed">індонезійська рупія</displayName>
 				<displayName count="few" draft="contributed">індонезійські рупії</displayName>
 				<displayName count="many" draft="contributed">індонезійських рупій</displayName>
-				<displayName count="one" draft="contributed">індонезійська рупія</displayName>
 				<displayName count="other" draft="contributed">Індонезійські рупії</displayName>
 			</currency>
 			<currency type="IEP">
@@ -4359,16 +5124,16 @@
 			</currency>
 			<currency type="ILS">
 				<displayName>Ізраїльський новий шекель</displayName>
-				<displayName count="few" draft="provisional">ізраїльські нові шекелі</displayName>
-				<displayName count="many" draft="provisional">ізраїльських нових шекелів</displayName>
-				<displayName count="one" draft="provisional">ізраїльський новий шекель</displayName>
-				<displayName count="other" draft="provisional">ізраїльського нового шекеля</displayName>
+				<displayName count="one" draft="contributed">ізраїльський новий шекель</displayName>
+				<displayName count="few" draft="contributed">ізраїльські нові шекелі</displayName>
+				<displayName count="many" draft="contributed">ізраїльських нових шекелів</displayName>
+				<displayName count="other" draft="contributed">ізраїльського нового шекеля</displayName>
 			</currency>
 			<currency type="INR">
 				<displayName>Індійська рупія</displayName>
+				<displayName count="one" draft="contributed">індійська рупія</displayName>
 				<displayName count="few" draft="contributed">індійські рупії</displayName>
 				<displayName count="many" draft="contributed">індійських рупій</displayName>
-				<displayName count="one" draft="contributed">індійська рупія</displayName>
 				<displayName count="other" draft="contributed">індійської рупії</displayName>
 			</currency>
 			<currency type="IQD">
@@ -4379,10 +5144,10 @@
 			</currency>
 			<currency type="ISK">
 				<displayName>Ісландська крона</displayName>
-				<displayName count="few" draft="provisional">ісландські кроні</displayName>
-				<displayName count="many" draft="provisional">ісландських крон</displayName>
-				<displayName count="one" draft="provisional">ісландська крона</displayName>
-				<displayName count="other" draft="provisional">ісландської крони</displayName>
+				<displayName count="one" draft="contributed">ісландська крона</displayName>
+				<displayName count="few" draft="contributed">ісландські кроні</displayName>
+				<displayName count="many" draft="contributed">ісландських крон</displayName>
+				<displayName count="other" draft="contributed">ісландської крони</displayName>
 			</currency>
 			<currency type="ITL">
 				<displayName>Італійська ліра</displayName>
@@ -4395,10 +5160,10 @@
 			</currency>
 			<currency type="JPY">
 				<displayName>Японська єна</displayName>
+				<displayName count="one">японська єна</displayName>
 				<displayName count="few">японські єни</displayName>
 				<displayName count="many">японських єн</displayName>
-				<displayName count="one">японська єна</displayName>
-				<displayName count="other" draft="contributed">японської єни</displayName>
+				<displayName count="other">японської єни</displayName>
 				<symbol>¥</symbol>
 			</currency>
 			<currency type="KES">
@@ -4406,10 +5171,10 @@
 			</currency>
 			<currency type="KGS">
 				<displayName>Киргизький сом</displayName>
-				<displayName count="few" draft="provisional">киргизькі соми</displayName>
-				<displayName count="many" draft="provisional">киргизьких сомів</displayName>
-				<displayName count="one" draft="provisional">киргизький сом</displayName>
-				<displayName count="other" draft="provisional">киргизького сома</displayName>
+				<displayName count="one" draft="contributed">киргизький сом</displayName>
+				<displayName count="few" draft="contributed">киргизькі соми</displayName>
+				<displayName count="many" draft="contributed">киргизьких сомів</displayName>
+				<displayName count="other" draft="contributed">киргизького сома</displayName>
 			</currency>
 			<currency type="KHR">
 				<displayName>Камбоджійський рієль</displayName>
@@ -4418,16 +5183,17 @@
 				<displayName>Коморський франк</displayName>
 			</currency>
 			<currency type="KPW">
-				<displayName>Вона Північної Кореї</displayName>
+				<displayName>Північнокорейська вона</displayName>
+				<displayName count="one" draft="contributed">північнокорейська вона</displayName>
 				<displayName count="few" draft="contributed">північнокорейські вони</displayName>
 				<displayName count="many" draft="contributed">північнокорейських вон</displayName>
-				<displayName count="one" draft="contributed">північнокорейська вона</displayName>
+				<displayName count="other" draft="contributed">Вона Північної Кореї</displayName>
 			</currency>
 			<currency type="KRW">
-				<displayName>Вона Південної Кореї</displayName>
+				<displayName>Південнокорейська вона</displayName>
+				<displayName count="one" draft="contributed">південнокорейська вона</displayName>
 				<displayName count="few" draft="contributed">південнокорейські вони</displayName>
 				<displayName count="many" draft="contributed">південнокорейських вон</displayName>
-				<displayName count="one" draft="contributed">південнокорейська вона</displayName>
 				<displayName count="other" draft="contributed">Південнокорейська вона</displayName>
 			</currency>
 			<currency type="KWD">
@@ -4438,10 +5204,10 @@
 			</currency>
 			<currency type="KZT">
 				<displayName>Казахстанський тенге</displayName>
-				<displayName count="few" draft="provisional">казахстанські тенге</displayName>
-				<displayName count="many" draft="provisional">казахстанських тенге</displayName>
-				<displayName count="one" draft="provisional">казахстанський тенге</displayName>
-				<displayName count="other" draft="provisional">казахстанського тенге</displayName>
+				<displayName count="one" draft="contributed">казахстанський тенге</displayName>
+				<displayName count="few" draft="contributed">казахстанські тенге</displayName>
+				<displayName count="many" draft="contributed">казахстанських тенге</displayName>
+				<displayName count="other" draft="contributed">казахстанського тенге</displayName>
 			</currency>
 			<currency type="LAK">
 				<displayName>Лаоський кіп</displayName>
@@ -4460,10 +5226,10 @@
 			</currency>
 			<currency type="LTL">
 				<displayName>Литовський літ</displayName>
-				<displayName count="few" draft="provisional">литовські літи</displayName>
-				<displayName count="many" draft="provisional">литовських літів</displayName>
-				<displayName count="one" draft="provisional">литовський літ</displayName>
-				<displayName count="other" draft="provisional">литовського літа</displayName>
+				<displayName count="one" draft="contributed">литовський літ</displayName>
+				<displayName count="few" draft="contributed">литовські літи</displayName>
+				<displayName count="many" draft="contributed">литовських літів</displayName>
+				<displayName count="other" draft="contributed">литовського літа</displayName>
 			</currency>
 			<currency type="LTT">
 				<displayName>Литовський талон</displayName>
@@ -4479,10 +5245,10 @@
 			</currency>
 			<currency type="LVL">
 				<displayName>Латвійський лат</displayName>
-				<displayName count="few" draft="provisional">латвійські лати</displayName>
-				<displayName count="many" draft="provisional">латвійських латів</displayName>
-				<displayName count="one" draft="provisional">латвійський лат</displayName>
-				<displayName count="other" draft="provisional">латвійського лата</displayName>
+				<displayName count="one" draft="contributed">латвійський лат</displayName>
+				<displayName count="few" draft="contributed">латвійські лати</displayName>
+				<displayName count="many" draft="contributed">латвійських латів</displayName>
+				<displayName count="other" draft="contributed">латвійського лата</displayName>
 			</currency>
 			<currency type="LVR">
 				<displayName>Латвійський рубль</displayName>
@@ -4498,10 +5264,10 @@
 			</currency>
 			<currency type="MDL">
 				<displayName>Молдовський лей</displayName>
-				<displayName count="few" draft="provisional">молдовські леї</displayName>
-				<displayName count="many" draft="provisional">молдовських леїв</displayName>
-				<displayName count="one" draft="provisional">молдовський лей</displayName>
-				<displayName count="other" draft="provisional">молдовського лея</displayName>
+				<displayName count="one" draft="contributed">молдовський лей</displayName>
+				<displayName count="few" draft="contributed">молдовські леї</displayName>
+				<displayName count="many" draft="contributed">молдовських леїв</displayName>
+				<displayName count="other" draft="contributed">молдовського лея</displayName>
 			</currency>
 			<currency type="MGA">
 				<displayName>Мадагаскарський аріарі</displayName>
@@ -4540,17 +5306,17 @@
 				<displayName>Мальдівська руфія</displayName>
 			</currency>
 			<currency type="MWK">
-				<displayName>Квача (Малаві)</displayName>
-				<displayName count="few" draft="contributed">малавійські квачі</displayName>
-				<displayName count="many" draft="contributed">малавійських квач</displayName>
-				<displayName count="one" draft="contributed">малавійська квача</displayName>
-				<displayName count="other" draft="contributed">малавійської квачі</displayName>
+				<displayName>Малавійська квача</displayName>
+				<displayName count="one">малавійська квача</displayName>
+				<displayName count="few">малавійські квачі</displayName>
+				<displayName count="many">малавійських квач</displayName>
+				<displayName count="other">малавійської квачі</displayName>
 			</currency>
 			<currency type="MXN">
 				<displayName>Мексиканське песо</displayName>
+				<displayName count="one" draft="contributed">мексиканський песо</displayName>
 				<displayName count="few" draft="contributed">мексиканських песо</displayName>
 				<displayName count="many" draft="contributed">мексиканських песо</displayName>
-				<displayName count="one" draft="contributed">мексиканський песо</displayName>
 				<displayName count="other" draft="contributed">мексиканського песо</displayName>
 			</currency>
 			<currency type="MXP">
@@ -4588,10 +5354,10 @@
 			</currency>
 			<currency type="NOK">
 				<displayName>Норвезька крона</displayName>
+				<displayName count="one">норвезька крона</displayName>
 				<displayName count="few">норвезькі крони</displayName>
 				<displayName count="many">норвезьких крон</displayName>
-				<displayName count="one" draft="contributed">норвезька крона</displayName>
-				<displayName count="other" draft="contributed">норвезької крони</displayName>
+				<displayName count="other">норвезької крони</displayName>
 			</currency>
 			<currency type="NPR">
 				<displayName>Непальська рупія</displayName>
@@ -4625,9 +5391,9 @@
 			</currency>
 			<currency type="PLN">
 				<displayName>Польський злотий</displayName>
+				<displayName count="one" draft="contributed">польський злотий</displayName>
 				<displayName count="few" draft="contributed">польські злоті</displayName>
 				<displayName count="many" draft="contributed">польських злотих</displayName>
-				<displayName count="one" draft="contributed">польський злотий</displayName>
 				<displayName count="other" draft="contributed">польського злотого</displayName>
 			</currency>
 			<currency type="PLZ">
@@ -4641,6 +5407,10 @@
 			</currency>
 			<currency type="QAR">
 				<displayName>Катарський ріал</displayName>
+				<displayName count="one">Катарський ріал</displayName>
+				<displayName count="few">Катарський ріал</displayName>
+				<displayName count="many">Катарський ріал</displayName>
+				<displayName count="other">Катарський ріал</displayName>
 			</currency>
 			<currency type="RHD">
 				<displayName draft="contributed">Родезійський долар</displayName>
@@ -4650,42 +5420,42 @@
 			</currency>
 			<currency type="RON">
 				<displayName draft="contributed">Румунський лей</displayName>
-				<displayName count="few" draft="provisional">румунські леї</displayName>
-				<displayName count="many" draft="provisional">румунських леїв</displayName>
-				<displayName count="one" draft="provisional">румунський лей</displayName>
-				<displayName count="other" draft="provisional">румунського лея</displayName>
+				<displayName count="one" draft="contributed">румунський лей</displayName>
+				<displayName count="few" draft="contributed">румунські леї</displayName>
+				<displayName count="many" draft="contributed">румунських леїв</displayName>
+				<displayName count="other" draft="contributed">румунського лея</displayName>
 			</currency>
 			<currency type="RSD">
 				<displayName draft="contributed">Сербський динар</displayName>
-				<displayName count="few" draft="provisional">сербські динари</displayName>
-				<displayName count="many" draft="provisional">сербських динарів</displayName>
-				<displayName count="one" draft="provisional">сербський динар</displayName>
-				<displayName count="other" draft="provisional">сербського динара</displayName>
+				<displayName count="one" draft="contributed">сербський динар</displayName>
+				<displayName count="few" draft="contributed">сербські динари</displayName>
+				<displayName count="many" draft="contributed">сербських динарів</displayName>
+				<displayName count="other" draft="contributed">сербського динара</displayName>
 				<symbol draft="contributed">дин.</symbol>
 			</currency>
 			<currency type="RUB">
 				<displayName>Російський рубль</displayName>
+				<displayName count="one">Російський рубль</displayName>
 				<displayName count="few">російські рублі</displayName>
 				<displayName count="many">російських рублів</displayName>
-				<displayName count="one">Російський рубль</displayName>
-				<displayName count="other" draft="contributed">російського рубля</displayName>
+				<displayName count="other">російського рубля</displayName>
 				<symbol>руб.</symbol>
 			</currency>
 			<currency type="RUR">
 				<displayName>Російський рубль (1991-1998)</displayName>
+				<displayName count="one">російський рубль (RUR)</displayName>
 				<displayName count="few">російські рублі (RUR)</displayName>
 				<displayName count="many">російських рублів (RUR)</displayName>
-				<displayName count="one">російський рубль (RUR)</displayName>
-				<displayName count="other" draft="provisional">російського рубля (RUR)</displayName>
+				<displayName count="other">російського рубля (RUR)</displayName>
 			</currency>
 			<currency type="RWF">
 				<displayName>Руандійський франк</displayName>
 			</currency>
 			<currency type="SAR">
 				<displayName>Саудівський ріал</displayName>
+				<displayName count="one" draft="contributed">саудівський ріал</displayName>
 				<displayName count="few" draft="contributed">саудівські ріали</displayName>
 				<displayName count="many" draft="contributed">саудівських ріалів</displayName>
-				<displayName count="one" draft="contributed">саудівський ріал</displayName>
 				<displayName count="other" draft="contributed">саудівського ріала</displayName>
 			</currency>
 			<currency type="SBD">
@@ -4705,17 +5475,17 @@
 			</currency>
 			<currency type="SEK">
 				<displayName>Шведська крона</displayName>
+				<displayName count="one" draft="contributed">шведська крона</displayName>
 				<displayName count="few" draft="contributed">шведські крони</displayName>
 				<displayName count="many" draft="contributed">шведських крон</displayName>
-				<displayName count="one" draft="contributed">шведська крона</displayName>
 				<displayName count="other" draft="contributed">шведської крони</displayName>
 			</currency>
 			<currency type="SGD">
 				<displayName>Сінгапурський долар</displayName>
-				<displayName count="few" draft="provisional">сінгапурські долари</displayName>
-				<displayName count="many" draft="provisional">сінгапурських доларів</displayName>
-				<displayName count="one" draft="provisional">сінгапурський долар</displayName>
-				<displayName count="other" draft="provisional">сінгапурського долара</displayName>
+				<displayName count="one" draft="contributed">сінгапурський долар</displayName>
+				<displayName count="few" draft="contributed">сінгапурські долари</displayName>
+				<displayName count="many" draft="contributed">сінгапурських доларів</displayName>
+				<displayName count="other" draft="contributed">сінгапурського долара</displayName>
 			</currency>
 			<currency type="SHP">
 				<displayName>Фунт Святої Єлени</displayName>
@@ -4725,9 +5495,9 @@
 			</currency>
 			<currency type="SKK">
 				<displayName>Словацька крона</displayName>
+				<displayName count="one" draft="provisional">словацька крона</displayName>
 				<displayName count="few" draft="provisional">словацькі крони</displayName>
 				<displayName count="many" draft="provisional">словацьких крон</displayName>
-				<displayName count="one" draft="provisional">словацька крона</displayName>
 				<displayName count="other" draft="provisional">словацької крони</displayName>
 			</currency>
 			<currency type="SLL">
@@ -4742,15 +5512,22 @@
 			<currency type="SRG">
 				<displayName>Суринамський гульден</displayName>
 			</currency>
+			<currency type="SSP">
+				<displayName draft="contributed">Південносуданський фунт</displayName>
+				<displayName count="one">Південносуданський фунт</displayName>
+				<displayName count="few">південносуданські фунти</displayName>
+				<displayName count="many">південносуданських фунтів</displayName>
+				<displayName count="other">південносуданського фунту</displayName>
+			</currency>
 			<currency type="STD">
 				<displayName>Добра Сан-Томе і Прінсіпі</displayName>
 			</currency>
 			<currency type="SUR">
 				<displayName>Радянський рубль</displayName>
+				<displayName count="one">радянський рубль</displayName>
 				<displayName count="few">радянські рублі</displayName>
 				<displayName count="many">радянських рублів</displayName>
-				<displayName count="one">радянський рубль</displayName>
-				<displayName count="other" draft="provisional">радянського рубля</displayName>
+				<displayName count="other">радянського рубля</displayName>
 			</currency>
 			<currency type="SVC">
 				<displayName>Сальвадорський колон</displayName>
@@ -4763,9 +5540,9 @@
 			</currency>
 			<currency type="THB">
 				<displayName>Таїландський бат</displayName>
+				<displayName count="one" draft="contributed">таїландський бат</displayName>
 				<displayName count="few" draft="contributed">таїландські бати</displayName>
 				<displayName count="many" draft="contributed">таїландських батів</displayName>
-				<displayName count="one" draft="contributed">таїландський бат</displayName>
 				<displayName count="other" draft="contributed">таїландського бата</displayName>
 			</currency>
 			<currency type="TJR">
@@ -4773,23 +5550,23 @@
 			</currency>
 			<currency type="TJS">
 				<displayName>Таджицький сомоні</displayName>
-				<displayName count="few" draft="provisional">таджицькі сомоні</displayName>
-				<displayName count="many" draft="provisional">таджицьких сомоні</displayName>
-				<displayName count="one" draft="provisional">таджицький сомоні</displayName>
-				<displayName count="other" draft="provisional">таджицького сомоні</displayName>
+				<displayName count="one" draft="contributed">таджицький сомоні</displayName>
+				<displayName count="few" draft="contributed">таджицькі сомоні</displayName>
+				<displayName count="many" draft="contributed">таджицьких сомоні</displayName>
+				<displayName count="other" draft="contributed">таджицького сомоні</displayName>
 			</currency>
 			<currency type="TMM">
 				<displayName>Туркменський манат (1993-2009)</displayName>
+				<displayName count="one">туркменський манат (1993-2009)</displayName>
 				<displayName count="few">туркменські манати (1993-2009)</displayName>
 				<displayName count="many">туркменських манатів (1993-2009)</displayName>
-				<displayName count="one">туркменський манат (1993-2009)</displayName>
 				<displayName count="other">туркменського маната (1993-2009)</displayName>
 			</currency>
 			<currency type="TMT">
 				<displayName>Туркменський манат</displayName>
+				<displayName count="one">туркменський манат</displayName>
 				<displayName count="few">туркменські манати</displayName>
 				<displayName count="many">туркменських манатів</displayName>
-				<displayName count="one">туркменський манат</displayName>
 				<displayName count="other">туркменського маната</displayName>
 			</currency>
 			<currency type="TND">
@@ -4802,16 +5579,17 @@
 				<displayName>Тіморський ескудо</displayName>
 			</currency>
 			<currency type="TRL">
-				<displayName>Стара турецька ліра</displayName>
-				<displayName count="few" draft="contributed">старі турецькі ліри</displayName>
-				<displayName count="many" draft="contributed">старих турецьких лір</displayName>
-				<displayName count="one" draft="contributed">стара турецька ліра</displayName>
+				<displayName>Турецька ліра (1922-2005)</displayName>
+				<displayName count="one" draft="contributed">турецька ліра (1922-2005)</displayName>
+				<displayName count="few" draft="contributed">турецькі ліри (1922-2005)</displayName>
+				<displayName count="many" draft="contributed">турецьких лір (1922-2005)</displayName>
+				<displayName count="other" draft="contributed">турецької ліри (1922-2005)</displayName>
 			</currency>
 			<currency type="TRY">
 				<displayName>Турецька ліра</displayName>
+				<displayName count="one" draft="contributed">турецька ліра</displayName>
 				<displayName count="few" draft="contributed">турецькі ліри</displayName>
 				<displayName count="many" draft="contributed">турецьких лір</displayName>
-				<displayName count="one" draft="contributed">турецька ліра</displayName>
 				<displayName count="other" draft="contributed">турецької ліри</displayName>
 			</currency>
 			<currency type="TTD">
@@ -4819,9 +5597,9 @@
 			</currency>
 			<currency type="TWD">
 				<displayName>Новий тайванський долар</displayName>
+				<displayName count="one" draft="contributed">новий тайванський долар</displayName>
 				<displayName count="few" draft="contributed">нові тайванські долари</displayName>
 				<displayName count="many" draft="contributed">нових тайванських доларів</displayName>
-				<displayName count="one" draft="contributed">новий тайванський долар</displayName>
 				<displayName count="other" draft="contributed">нового тайванського долара</displayName>
 			</currency>
 			<currency type="TZS">
@@ -4829,17 +5607,17 @@
 			</currency>
 			<currency type="UAH">
 				<displayName>Українська гривня</displayName>
+				<displayName count="one">гривня</displayName>
 				<displayName count="few">гривні</displayName>
 				<displayName count="many">гривень</displayName>
-				<displayName count="one">гривня</displayName>
 				<displayName count="other">гривні</displayName>
 				<symbol>₴</symbol>
 			</currency>
 			<currency type="UAK">
 				<displayName>Український карбованець</displayName>
+				<displayName count="one">український карбованець</displayName>
 				<displayName count="few">українські карбованці</displayName>
 				<displayName count="many">українських карбованців</displayName>
-				<displayName count="one">український карбованець</displayName>
 				<displayName count="other">українського карбованця</displayName>
 				<symbol>крб.</symbol>
 			</currency>
@@ -4851,9 +5629,9 @@
 			</currency>
 			<currency type="USD">
 				<displayName>Долар США</displayName>
+				<displayName count="one" draft="contributed">долар США</displayName>
 				<displayName count="few" draft="contributed">долари США</displayName>
 				<displayName count="many" draft="contributed">доларів США</displayName>
-				<displayName count="one" draft="contributed">долар США</displayName>
 				<displayName count="other" draft="contributed">долара США</displayName>
 				<symbol>$</symbol>
 			</currency>
@@ -4874,10 +5652,10 @@
 			</currency>
 			<currency type="UZS">
 				<displayName>Узбецький сум</displayName>
-				<displayName count="few" draft="provisional">узбецькі суми</displayName>
-				<displayName count="many" draft="provisional">узбецьких сумів</displayName>
-				<displayName count="one" draft="provisional">узбецький сум</displayName>
-				<displayName count="other" draft="provisional">узбецького сума</displayName>
+				<displayName count="one" draft="contributed">узбецький сум</displayName>
+				<displayName count="few" draft="contributed">узбецькі суми</displayName>
+				<displayName count="many" draft="contributed">узбецьких сумів</displayName>
+				<displayName count="other" draft="contributed">узбецького сума</displayName>
 			</currency>
 			<currency type="VEB">
 				<displayName>Венесуельський болівар (1871-2008)</displayName>
@@ -4920,9 +5698,9 @@
 			</currency>
 			<currency type="XDR">
 				<displayName>Спеціальні права запозичення</displayName>
+				<displayName count="one" draft="provisional">СПЗ</displayName>
 				<displayName count="few" draft="provisional">СПЗ</displayName>
 				<displayName count="many" draft="provisional">СПЗ</displayName>
-				<displayName count="one" draft="provisional">СПЗ</displayName>
 				<displayName count="other" draft="provisional">СПЗ</displayName>
 			</currency>
 			<currency type="XEU">
@@ -4954,10 +5732,10 @@
 			</currency>
 			<currency type="XXX">
 				<displayName draft="contributed">Невідома грошова одиниця</displayName>
+				<displayName count="one">невідома грошова одиниця</displayName>
 				<displayName count="few">невідомі грошові одиниці</displayName>
 				<displayName count="many">невідомих грошових одиниць</displayName>
-				<displayName count="one">невідома грошова одиниця</displayName>
-				<displayName count="other" draft="contributed">невідомої грошової одиниці</displayName>
+				<displayName count="other">невідомої грошової одиниці</displayName>
 			</currency>
 			<currency type="YDD">
 				<displayName>Єменський динар</displayName>
@@ -4979,16 +5757,23 @@
 			</currency>
 			<currency type="ZAR">
 				<displayName>Південноафриканський ранд</displayName>
+				<displayName count="one" draft="contributed">південноафриканський ранд</displayName>
 				<displayName count="few" draft="contributed">південноафриканські ранди</displayName>
 				<displayName count="many" draft="contributed">південноафриканських рандів</displayName>
-				<displayName count="one" draft="contributed">південноафриканський ранд</displayName>
 				<displayName count="other" draft="contributed">південноафриканського ранда</displayName>
 			</currency>
 			<currency type="ZMK">
-				<displayName>Квача (Замбія)</displayName>
+				<displayName>Замбійська квача (1968-2012)</displayName>
+				<displayName count="one" draft="contributed">замбійська квача (1968-2012)</displayName>
+				<displayName count="few" draft="contributed">замбійські квачі (1968-2012)</displayName>
+				<displayName count="many" draft="contributed">замбійських квач (1968-2012)</displayName>
+				<displayName count="other" draft="contributed">Замбійські квачі (1968-2012)</displayName>
+			</currency>
+			<currency type="ZMW">
+				<displayName>Замбійська квача</displayName>
+				<displayName count="one" draft="contributed">замбійська квача</displayName>
 				<displayName count="few" draft="contributed">замбійські квачі</displayName>
 				<displayName count="many" draft="contributed">замбійських квач</displayName>
-				<displayName count="one" draft="contributed">замбійська квача</displayName>
 				<displayName count="other" draft="contributed">Замбійські квачі</displayName>
 			</currency>
 			<currency type="ZRN">
@@ -4999,207 +5784,179 @@
 			</currency>
 			<currency type="ZWD">
 				<displayName>Зімбабвійський долар</displayName>
+				<displayName count="one" draft="contributed">зімбабвійського долара</displayName>
 				<displayName count="few" draft="contributed">зімбабвійскі долари</displayName>
 				<displayName count="many" draft="contributed">зімбабвійських доларів</displayName>
-				<displayName count="one" draft="contributed">зімбабвійського долара</displayName>
 				<displayName count="other" draft="contributed">Зімбабвійські долари</displayName>
 			</currency>
 			<currency type="ZWL">
 				<displayName>Зімбабвійський долар (2009)</displayName>
+				<displayName count="one">зімбабвійський долар (2009)</displayName>
 				<displayName count="few">зімбабвійські долари (2009)</displayName>
 				<displayName count="many">зімбабвійських доларів (2009)</displayName>
-				<displayName count="one">зімбабвійський долар (2009)</displayName>
 				<displayName count="other">зімбабвійського долара (2009)</displayName>
 			</currency>
 			<currency type="ZWR">
+				<displayName count="one" draft="provisional">зімбабвійський долар (2008)</displayName>
 				<displayName count="few" draft="provisional">зімбабвійські долари (2008)</displayName>
 				<displayName count="many" draft="provisional">зімбабвійських доларів (2008)</displayName>
-				<displayName count="one" draft="provisional">зімбабвійський долар (2008)</displayName>
 				<displayName count="other" draft="provisional">зімбабвійського долара (2008)</displayName>
 			</currency>
 		</currencies>
 	</numbers>
 	<units>
 		<unit type="day">
+			<unitPattern count="one">{0} день</unitPattern>
+			<unitPattern count="one" alt="short">{0} день</unitPattern>
 			<unitPattern count="few">{0} дні</unitPattern>
 			<unitPattern count="few" alt="short">{0} дні</unitPattern>
 			<unitPattern count="many">{0} днів</unitPattern>
 			<unitPattern count="many" alt="short">{0} днів</unitPattern>
-			<unitPattern count="one">{0} день</unitPattern>
-			<unitPattern count="one" alt="short">{0} день</unitPattern>
 			<unitPattern count="other">{0} дня</unitPattern>
 			<unitPattern count="other" alt="short">{0} дня</unitPattern>
 		</unit>
 		<unit type="day-future">
-			<unitPattern count="0" draft="contributed">Через 0 днів</unitPattern>
-			<unitPattern count="1" draft="contributed">Через 1 день</unitPattern>
+			<unitPattern count="one" draft="contributed">Через {0} день</unitPattern>
 			<unitPattern count="few" draft="contributed">Через {0} дні</unitPattern>
 			<unitPattern count="many" draft="contributed">Через {0} днів</unitPattern>
-			<unitPattern count="one" draft="contributed">Через {0} день</unitPattern>
 			<unitPattern count="other" draft="contributed">Через {0} дня</unitPattern>
 		</unit>
 		<unit type="day-past">
-			<unitPattern count="0" draft="contributed">0 днів тому</unitPattern>
-			<unitPattern count="1" draft="contributed">1 день тому</unitPattern>
+			<unitPattern count="one" draft="contributed">{0} день тому</unitPattern>
 			<unitPattern count="few" draft="contributed">{0} дні тому</unitPattern>
 			<unitPattern count="many" draft="contributed">{0} днів тому</unitPattern>
-			<unitPattern count="one" draft="contributed">{0} день тому</unitPattern>
 			<unitPattern count="other" draft="contributed">{0} дня тому</unitPattern>
 		</unit>
 		<unit type="hour">
+			<unitPattern count="one">{0} година</unitPattern>
+			<unitPattern count="one" alt="short">{0} год.</unitPattern>
 			<unitPattern count="few">{0} години</unitPattern>
 			<unitPattern count="few" alt="short">{0} год.</unitPattern>
 			<unitPattern count="many">{0} годин</unitPattern>
 			<unitPattern count="many" alt="short">{0} год.</unitPattern>
-			<unitPattern count="one">{0} година</unitPattern>
-			<unitPattern count="one" alt="short">{0} год.</unitPattern>
 			<unitPattern count="other">{0} години</unitPattern>
 			<unitPattern count="other" alt="short">{0} год.</unitPattern>
 		</unit>
 		<unit type="hour-future">
-			<unitPattern count="0" draft="contributed">Через 0 годин</unitPattern>
-			<unitPattern count="1" draft="contributed">Через 1 годину</unitPattern>
+			<unitPattern count="one" draft="contributed">Через {0} годину</unitPattern>
 			<unitPattern count="few" draft="contributed">Через {0} години</unitPattern>
 			<unitPattern count="many" draft="contributed">Через {0} годин</unitPattern>
-			<unitPattern count="one" draft="contributed">Через {0} годину</unitPattern>
 			<unitPattern count="other" draft="contributed">Через {0} години</unitPattern>
 		</unit>
 		<unit type="hour-past">
-			<unitPattern count="0" draft="contributed">0 годин тому</unitPattern>
-			<unitPattern count="1" draft="contributed">1 годину тому</unitPattern>
+			<unitPattern count="one" draft="contributed">{0} годину тому</unitPattern>
 			<unitPattern count="few" draft="contributed">{0} години тому</unitPattern>
 			<unitPattern count="many" draft="contributed">{0} годин тому</unitPattern>
-			<unitPattern count="one" draft="contributed">{0} годину тому</unitPattern>
 			<unitPattern count="other" draft="contributed">{0} години тому</unitPattern>
 		</unit>
 		<unit type="minute">
+			<unitPattern count="one">{0} хвилина</unitPattern>
+			<unitPattern count="one" alt="short">{0} хв.</unitPattern>
 			<unitPattern count="few">{0} хвилини</unitPattern>
 			<unitPattern count="few" alt="short">{0} хв.</unitPattern>
 			<unitPattern count="many">{0} хвилин</unitPattern>
 			<unitPattern count="many" alt="short">{0} хв.</unitPattern>
-			<unitPattern count="one">{0} хвилина</unitPattern>
-			<unitPattern count="one" alt="short">{0} хв.</unitPattern>
 			<unitPattern count="other">{0} хвилини</unitPattern>
 			<unitPattern count="other" alt="short">{0} хв.</unitPattern>
 		</unit>
 		<unit type="minute-future">
-			<unitPattern count="0" draft="contributed">Через 0 хвилин</unitPattern>
-			<unitPattern count="1" draft="contributed">Через 1 хвилину</unitPattern>
+			<unitPattern count="one" draft="contributed">Через {0} хвилину</unitPattern>
 			<unitPattern count="few" draft="contributed">Через {0} хвилини</unitPattern>
 			<unitPattern count="many" draft="contributed">Через {0} хвилин</unitPattern>
-			<unitPattern count="one" draft="contributed">Через {0} хвилину</unitPattern>
 			<unitPattern count="other" draft="contributed">Через {0} хвилини</unitPattern>
 		</unit>
 		<unit type="minute-past">
-			<unitPattern count="0" draft="contributed">0 хвилин тому</unitPattern>
-			<unitPattern count="1" draft="contributed">1 хвилину тому</unitPattern>
+			<unitPattern count="one" draft="contributed">{0} хвилину тому</unitPattern>
 			<unitPattern count="few" draft="contributed">{0} хвилини тому</unitPattern>
 			<unitPattern count="many" draft="contributed">{0} хвилин тому</unitPattern>
-			<unitPattern count="one" draft="contributed">{0} хвилину тому</unitPattern>
 			<unitPattern count="other" draft="contributed">{0} хвилини тому</unitPattern>
 		</unit>
 		<unit type="month">
+			<unitPattern count="one">{0} місяць</unitPattern>
+			<unitPattern count="one" alt="short">{0} міс.</unitPattern>
 			<unitPattern count="few">{0} місяці</unitPattern>
 			<unitPattern count="few" alt="short">{0} міс.</unitPattern>
 			<unitPattern count="many">{0} місяців</unitPattern>
 			<unitPattern count="many" alt="short">{0} міс.</unitPattern>
-			<unitPattern count="one">{0} місяць</unitPattern>
-			<unitPattern count="one" alt="short">{0} міс.</unitPattern>
 			<unitPattern count="other">{0} місяця</unitPattern>
 			<unitPattern count="other" alt="short">{0} міс.</unitPattern>
 		</unit>
 		<unit type="month-future">
-			<unitPattern count="0" draft="contributed">Через 0 місяців</unitPattern>
-			<unitPattern count="1" draft="contributed">Через 1 місяць</unitPattern>
+			<unitPattern count="one" draft="contributed">Через {0} місяць</unitPattern>
 			<unitPattern count="few" draft="contributed">Через {0} місяці</unitPattern>
 			<unitPattern count="many" draft="contributed">Через {0} місяців</unitPattern>
-			<unitPattern count="one" draft="contributed">Через {0} місяць</unitPattern>
 			<unitPattern count="other" draft="contributed">Через {0} місяця</unitPattern>
 		</unit>
 		<unit type="month-past">
-			<unitPattern count="0" draft="contributed">0 місяців тому</unitPattern>
-			<unitPattern count="1" draft="contributed">1 місяць тому</unitPattern>
+			<unitPattern count="one" draft="contributed">{0} місяць тому</unitPattern>
 			<unitPattern count="few" draft="contributed">{0} місяці тому</unitPattern>
 			<unitPattern count="many" draft="contributed">{0} місяців тому</unitPattern>
-			<unitPattern count="one" draft="contributed">{0} місяць тому</unitPattern>
 			<unitPattern count="other" draft="contributed">{0} місяця тому</unitPattern>
 		</unit>
 		<unit type="second">
+			<unitPattern count="one">{0} секунда</unitPattern>
+			<unitPattern count="one" alt="short">{0} сек.</unitPattern>
 			<unitPattern count="few">{0} секунди</unitPattern>
 			<unitPattern count="few" alt="short">{0} сек.</unitPattern>
 			<unitPattern count="many">{0} секунд</unitPattern>
 			<unitPattern count="many" alt="short">{0} сек.</unitPattern>
-			<unitPattern count="one">{0} секунда</unitPattern>
-			<unitPattern count="one" alt="short">{0} сек.</unitPattern>
 			<unitPattern count="other">{0} секунди</unitPattern>
 			<unitPattern count="other" alt="short">{0} сек.</unitPattern>
 		</unit>
 		<unit type="second-future">
-			<unitPattern count="0" draft="contributed">Через 0 секунд</unitPattern>
-			<unitPattern count="1" draft="contributed">Через 1 секунду</unitPattern>
+			<unitPattern count="one" draft="contributed">Через {0} секунду</unitPattern>
 			<unitPattern count="few" draft="contributed">Через {0} секунди</unitPattern>
 			<unitPattern count="many" draft="contributed">Через {0} секунд</unitPattern>
-			<unitPattern count="one" draft="contributed">Через {0} секунду</unitPattern>
 			<unitPattern count="other" draft="contributed">Через {0} секунди</unitPattern>
 		</unit>
 		<unit type="second-past">
-			<unitPattern count="0" draft="contributed">0 секунд тому</unitPattern>
-			<unitPattern count="1" draft="contributed">1 секунду тому</unitPattern>
+			<unitPattern count="one" draft="contributed">{0} секунду тому</unitPattern>
 			<unitPattern count="few" draft="contributed">{0} секунди тому</unitPattern>
 			<unitPattern count="many" draft="contributed">{0} секунд тому</unitPattern>
-			<unitPattern count="one" draft="contributed">{0} секунду тому</unitPattern>
 			<unitPattern count="other" draft="contributed">{0} секунди тому</unitPattern>
 		</unit>
 		<unit type="week">
+			<unitPattern count="one">{0} тиждень</unitPattern>
+			<unitPattern count="one" alt="short">{0} тиж.</unitPattern>
 			<unitPattern count="few">{0} тижні</unitPattern>
 			<unitPattern count="few" alt="short">{0} тиж.</unitPattern>
 			<unitPattern count="many">{0} тижнів</unitPattern>
 			<unitPattern count="many" alt="short">{0} тиж.</unitPattern>
-			<unitPattern count="one">{0} тиждень</unitPattern>
-			<unitPattern count="one" alt="short">{0} тиж.</unitPattern>
 			<unitPattern count="other">{0} тижня</unitPattern>
 			<unitPattern count="other" alt="short">{0} тиж.</unitPattern>
 		</unit>
 		<unit type="week-future">
-			<unitPattern count="0" draft="contributed">Через 0 тижнів</unitPattern>
-			<unitPattern count="1" draft="contributed">Через 1 тиждень</unitPattern>
+			<unitPattern count="one" draft="contributed">Через {0} тиждень</unitPattern>
 			<unitPattern count="few" draft="contributed">Через {0} тижні</unitPattern>
 			<unitPattern count="many" draft="contributed">Через {0} тижнів</unitPattern>
-			<unitPattern count="one" draft="contributed">Через {0} тиждень</unitPattern>
 			<unitPattern count="other" draft="contributed">Через {0} тижня</unitPattern>
 		</unit>
 		<unit type="week-past">
-			<unitPattern count="0" draft="contributed">0 тижнів тому</unitPattern>
-			<unitPattern count="1" draft="contributed">1 тиждень тому</unitPattern>
+			<unitPattern count="one" draft="contributed">{0} тиждень тому</unitPattern>
 			<unitPattern count="few" draft="contributed">{0} тижні тому</unitPattern>
 			<unitPattern count="many" draft="contributed">{0} тижнів тому</unitPattern>
-			<unitPattern count="one" draft="contributed">{0} тиждень тому</unitPattern>
 			<unitPattern count="other" draft="contributed">{0} тижня тому</unitPattern>
 		</unit>
 		<unit type="year">
+			<unitPattern count="one">{0} рік</unitPattern>
+			<unitPattern count="one" alt="short">{0} р.</unitPattern>
 			<unitPattern count="few">{0} роки</unitPattern>
 			<unitPattern count="few" alt="short">{0} р.</unitPattern>
 			<unitPattern count="many">{0} років</unitPattern>
 			<unitPattern count="many" alt="short">{0} р.</unitPattern>
-			<unitPattern count="one">{0} рік</unitPattern>
-			<unitPattern count="one" alt="short">{0} р.</unitPattern>
 			<unitPattern count="other">{0} року</unitPattern>
 			<unitPattern count="other" alt="short">{0} р.</unitPattern>
 		</unit>
 		<unit type="year-future">
-			<unitPattern count="0" draft="contributed">Через 0 років</unitPattern>
-			<unitPattern count="1" draft="contributed">Через 1 рік</unitPattern>
+			<unitPattern count="one" draft="contributed">Через {0} рік</unitPattern>
 			<unitPattern count="few" draft="contributed">Через {0} роки</unitPattern>
 			<unitPattern count="many" draft="contributed">Через {0} років</unitPattern>
-			<unitPattern count="one" draft="contributed">Через {0} рік</unitPattern>
 			<unitPattern count="other" draft="contributed">Через {0} року</unitPattern>
 		</unit>
 		<unit type="year-past">
-			<unitPattern count="0" draft="contributed">0 років тому</unitPattern>
-			<unitPattern count="1" draft="contributed">1 рік тому</unitPattern>
+			<unitPattern count="one" draft="contributed">{0} рік тому</unitPattern>
 			<unitPattern count="few" draft="contributed">{0} роки тому</unitPattern>
 			<unitPattern count="many" draft="contributed">{0} років тому</unitPattern>
-			<unitPattern count="one" draft="contributed">{0} рік тому</unitPattern>
 			<unitPattern count="other" draft="contributed">{0} року тому</unitPattern>
 		</unit>
 	</units>
@@ -5207,6 +5964,8 @@
 		<listPattern>
 			<listPatternPart type="2">{0} та {1}</listPatternPart>
 			<listPatternPart type="end">{0} та {1}</listPatternPart>
+			<listPatternPart type="middle" draft="contributed">{0}, {1}</listPatternPart>
+			<listPatternPart type="start" draft="contributed">{0}, {1}</listPatternPart>
 		</listPattern>
 	</listPatterns>
 	<posix>

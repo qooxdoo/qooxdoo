@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!-- Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
 <ldml>
 	<identity>
-		<version number="$Revision: 6546 $"/>
-		<generation date="$Date: 2012-02-07 19:32:35 +0100 (Tue, 07 Feb 2012) $"/>
+		<version number="$Revision: 8245 $"/>
+		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
 		<language type="ksf"/>
 	</identity>
 	<localeDisplayNames>
@@ -100,7 +104,6 @@
 			<territory type="CN">cín</territory>
 			<territory type="CO">kolɔmbí</territory>
 			<territory type="CR">kɔstaríka</territory>
-			<territory type="CS">sɛrbí ri mɔntǝnɛgro</territory>
 			<territory type="CU">kuba</territory>
 			<territory type="CV">kapvɛr</territory>
 			<territory type="CY">cíprɛ</territory>
@@ -296,6 +299,56 @@
 	</delimiters>
 	<dates>
 		<calendars>
+			<calendar type="generic">
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE d MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>d MMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>d/M/y GGGGG</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="d">d</dateFormatItem>
+						<dateFormatItem id="Ed">E d</dateFormatItem>
+						<dateFormatItem id="hm">h:mm a</dateFormatItem>
+						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
+						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="M">L</dateFormatItem>
+						<dateFormatItem id="Md">d/M</dateFormatItem>
+						<dateFormatItem id="MEd">E d/M</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
+						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
+						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
+						<dateFormatItem id="ms">m:ss</dateFormatItem>
+						<dateFormatItem id="y">y</dateFormatItem>
+						<dateFormatItem id="yM">M/y</dateFormatItem>
+						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
+						<dateFormatItem id="yMEd">E d/M/y</dateFormatItem>
+						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
+						<dateFormatItem id="yMMMEd">E d MMM y</dateFormatItem>
+						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
+						<dateFormatItem id="yQQQQ">QQQQ y</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
 			<calendar type="gregorian">
 				<months>
 					<monthContext type="format">
@@ -414,7 +467,7 @@
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern>d/M/yyyy</pattern>
+							<pattern>d/M/y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
@@ -462,50 +515,50 @@
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMEd">E d MMM y</dateFormatItem>
-						<dateFormatItem id="yQ">Q y</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
+						<dateFormatItem id="yQQQQ">QQQQ y</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
-				<fields>
-					<field type="era">
-						<displayName>Byámɛɛn</displayName>
-					</field>
-					<field type="year">
-						<displayName>Bǝk</displayName>
-					</field>
-					<field type="month">
-						<displayName>Ŋwíí</displayName>
-					</field>
-					<field type="week">
-						<displayName>Sɔ́ndǝ</displayName>
-					</field>
-					<field type="day">
-						<displayName>Ŋwós</displayName>
-						<relative type="-1">Rinkɔɔ́</relative>
-						<relative type="0">Gɛ́ɛnǝ</relative>
-						<relative type="1">Ridúrǝ́</relative>
-					</field>
-					<field type="weekday">
-						<displayName>Mǝrú mǝ sɔ́ndǝ</displayName>
-					</field>
-					<field type="dayperiod">
-						<displayName>Sárúwá / Cɛɛ́nko</displayName>
-					</field>
-					<field type="hour">
-						<displayName>Cámɛɛn</displayName>
-					</field>
-					<field type="minute">
-						<displayName>Mǝnít</displayName>
-					</field>
-					<field type="second">
-						<displayName>Háu</displayName>
-					</field>
-					<field type="zone">
-						<displayName>Wáas</displayName>
-					</field>
-				</fields>
 			</calendar>
 		</calendars>
+		<fields>
+			<field type="era">
+				<displayName>Byámɛɛn</displayName>
+			</field>
+			<field type="year">
+				<displayName>Bǝk</displayName>
+			</field>
+			<field type="month">
+				<displayName>Ŋwíí</displayName>
+			</field>
+			<field type="week">
+				<displayName>Sɔ́ndǝ</displayName>
+			</field>
+			<field type="day">
+				<displayName>Ŋwós</displayName>
+				<relative type="-1">Rinkɔɔ́</relative>
+				<relative type="0">Gɛ́ɛnǝ</relative>
+				<relative type="1">Ridúrǝ́</relative>
+			</field>
+			<field type="weekday">
+				<displayName>Mǝrú mǝ sɔ́ndǝ</displayName>
+			</field>
+			<field type="dayperiod">
+				<displayName>Sárúwá / Cɛɛ́nko</displayName>
+			</field>
+			<field type="hour">
+				<displayName>Cámɛɛn</displayName>
+			</field>
+			<field type="minute">
+				<displayName>Mǝnít</displayName>
+			</field>
+			<field type="second">
+				<displayName>Háu</displayName>
+			</field>
+			<field type="zone">
+				<displayName>Wáas</displayName>
+			</field>
+		</fields>
 	</dates>
 	<numbers>
 		<symbols numberSystem="latn">
@@ -684,6 +737,9 @@
 				<displayName>mɔni mǝ á afrik anǝ a sud</displayName>
 			</currency>
 			<currency type="ZMK">
+				<displayName>mɔni mǝ á zambí (1968-2012)</displayName>
+			</currency>
+			<currency type="ZMW">
 				<displayName>mɔni mǝ á zambí</displayName>
 			</currency>
 			<currency type="ZWD">
@@ -698,3 +754,4 @@
 		</messages>
 	</posix>
 </ldml>
+

@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<!-- Copyright © 1991-2013 Unicode, Inc.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+For terms of use, see http://www.unicode.org/copyright.html
+-->
 <ldml>
 	<identity>
-		<version number="$Revision: 5953 $"/>
-		<generation date="$Date: 2011-07-05 01:22:55 +0200 (Tue, 05 Jul 2011) $"/>
+		<version number="$Revision: 8245 $"/>
+		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
 		<language type="ne"/>
 		<territory type="IN"/>
 	</identity>
 	<localeDisplayNames>
 		<measurementSystemNames>
-			<measurementSystemName type="metric">मेट्रिक</measurementSystemName>
 			<measurementSystemName type="US">अमेरिकेली</measurementSystemName>
 		</measurementSystemNames>
 	</localeDisplayNames>
@@ -65,33 +68,6 @@
 						</dayPeriodWidth>
 					</dayPeriodContext>
 				</dayPeriods>
-				<fields>
-					<field type="era">
-						<displayName>युग</displayName>
-					</field>
-					<field type="year">
-						<displayName>वर्ष</displayName>
-					</field>
-					<field type="week">
-						<displayName>साता</displayName>
-					</field>
-					<field type="day">
-						<displayName>वार</displayName>
-						<relative type="2">पर्सि</relative>
-					</field>
-					<field type="weekday">
-						<displayName>हप्ताको वार</displayName>
-					</field>
-					<field type="dayperiod">
-						<displayName>पूर्वाह्न / अपराह्न</displayName>
-					</field>
-					<field type="second">
-						<displayName>सेकेन्ड</displayName>
-					</field>
-					<field type="zone">
-						<displayName>अञ्‍चल</displayName>
-					</field>
-				</fields>
 			</calendar>
 			<calendar type="indian">
 				<months>
@@ -114,6 +90,33 @@
 				</months>
 			</calendar>
 		</calendars>
+		<fields>
+			<field type="era">
+				<displayName>युग</displayName>
+			</field>
+			<field type="year">
+				<displayName>वर्ष</displayName>
+			</field>
+			<field type="week">
+				<displayName>साता</displayName>
+			</field>
+			<field type="day">
+				<displayName>वार</displayName>
+				<relative type="2">पर्सि</relative>
+			</field>
+			<field type="weekday">
+				<displayName>हप्ताको वार</displayName>
+			</field>
+			<field type="dayperiod">
+				<displayName>पूर्वाह्न / अपराह्न</displayName>
+			</field>
+			<field type="second">
+				<displayName>सेकेन्ड</displayName>
+			</field>
+			<field type="zone">
+				<displayName>अञ्‍चल</displayName>
+			</field>
+		</fields>
 	</dates>
 	<numbers>
 		<currencies>
