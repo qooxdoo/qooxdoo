@@ -885,7 +885,7 @@ qx.Class.define("qx.test.data.marshal.Json",
       var spy = this.spy();
       model.addListener("changeBubble", spy);
 
-      model.splice(0, 1, model.getItem(0));
+      model.splice(1, 1, model.getItem(0));
       this.assertCalledOnce(spy);
 
       model.getItem(0).setLabel("pistole");
