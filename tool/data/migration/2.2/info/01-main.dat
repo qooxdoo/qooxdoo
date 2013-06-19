@@ -1,5 +1,0 @@
-\bqx\.ui\.mobile\.dialog\.Dialog\b=The class 'qx.ui.mobile.dialog.Dialog' has been merged with 'qx.ui.mobile.dialog.Popup'. Please use qx.ui.mobile.dialog.Popup instead and add method call "setModal(true)".
-
-\bqx\.ui\.mobile\.container\.Carousel\.getShownPageIndex\b=The method 'getShownPageIndex()' has been removed. Please use method 'getCurrentIndex()' instead.
-
-\bqx\.ui\.mobile\.container\.Carousel\.scrollToPage\b=The method 'scrollToPage()' has been marked as protected. Please use the method 'setCurrentIndex()' instead.
