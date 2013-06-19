@@ -1562,7 +1562,7 @@ qx.Class.define("qx.html.Element",
       // create the element right away
       if (!this.__element) {
         this.__flush();
-        col[0] = this.__element;
+        col.push(this.__element);
       }
       if (this.__element) {
         col.fadeIn(duration);
