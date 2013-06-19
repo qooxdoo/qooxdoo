@@ -400,10 +400,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
         }
         target.length = nativeArray.length;
 
-        var lastIndex = target.getLength() - 1;
-        // dispose data array returned by splice to avoid memory leak
-        var temp = target.splice(lastIndex, 1, target.getItem(lastIndex));
-        temp.dispose();
+        target.fireDataEvent("change", {});
       }
     },
 
