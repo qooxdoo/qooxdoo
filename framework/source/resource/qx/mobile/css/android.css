@@ -3002,3 +3002,15 @@ input[type=radio] + label:after {
   border-top: 1px solid #e89c00;
   border-bottom: 1px solid #e89c00;
 }
+
+input[type="text"]:not(.selectbox), input[type="number"], input[type="password"] {
+  -webkit-user-modify: read-write-plaintext-only;
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+  outline-style: none;
+}
+
+.root.android.v2 input[type="password"] {
+  position:relative;
+  top:-10000px;
+  -webkit-transform: translate3d(0,10000px,0);
+}

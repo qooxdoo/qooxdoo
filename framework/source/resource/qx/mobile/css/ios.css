@@ -3176,3 +3176,15 @@ div.checked .toggleButtonSwitch:before {
   border-bottom: 15px solid #6d84a2;
   opacity: 0.4;
 }
+
+input[type="text"]:not(.selectbox), input[type="number"], input[type="password"] {
+  -webkit-user-modify: read-write-plaintext-only;
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+  outline-style: none;
+}
+
+.root.android.v2 input[type="password"] {
+  position:relative;
+  top:-10000px;
+  -webkit-transform: translate3d(0,10000px,0);
+}
