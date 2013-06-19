@@ -15,11 +15,6 @@
 
   "default-job" : "build",
 
-  "config-warnings" :
-  {
-    "job-shadowing" : ["distclean"]
-  },
-
   "let" :
   {
     "APPLICATION"  : "library",
@@ -194,6 +189,15 @@
           "format"   : true,
           "=optimize" : [ "variants", "static" ]
         }
+      }
+    }
+
+    ,"clean" : {
+      "extend" : ["cache"],
+      "clean-files" : {
+        "Cleaning up script directory" : [
+          "${BUILD_PATH}/*"
+        ]
       }
     }
   }
