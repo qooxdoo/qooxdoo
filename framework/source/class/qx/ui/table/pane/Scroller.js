@@ -873,6 +873,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       }
 
 
+      var scrolled = delta != 0 && !this.__isAtEdge(this.__verScrollBar, delta);
+
       // horizontal scrolling
       delta = e.getWheelDelta("x");
       // normalize that at least one step is scrolled at a time
@@ -892,14 +894,18 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this._focusCellAtPagePos(this.__lastMousePageX, this.__lastMousePageY);
       }
 
-      var position = this.__verScrollBar.getPosition();
-      var max = this.__verScrollBar.getMaximum();
-      // pass the event to the parent if the scrollbar is at an edge
-      if (delta < 0 && position <= 0 || delta > 0 && position >= max) {
-        return;
-      }
+      scrolled = scrolled || (delta != 0 && !this.__isAtEdge(this.__horScrollBar, delta));
 
-      e.stop();
+      // pass the event to the parent if the scrollbar is at an edge
+      if (scrolled) {
+        e.stop();
+      }
+    },
+
+
+    __isAtEdge : function(scrollBar, delta) {
+      var position = scrollBar.getPosition();
+      return (delta < 0 && position <= 0) || (delta > 0 && position >= scrollBar.getMaximum());
     },
 
 
