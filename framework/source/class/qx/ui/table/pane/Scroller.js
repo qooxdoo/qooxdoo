@@ -872,7 +872,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this.__verScrollBar.scrollBySteps(delta);
       }
 
-
       var scrolled = delta != 0 && !this.__isAtEdge(this.__verScrollBar, delta);
 
       // horizontal scrolling
@@ -903,6 +902,12 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     },
 
 
+    /**
+     * Checks if the table has been scrolled.
+     * @param scrollBar {qx.ui.core.scroll.IScrollBar} The scrollbar to check
+     * @param delta {Number} The scroll delta.
+     * @return {Boolean} <code>true</code>, if the scrolling is a the edge
+     */
     __isAtEdge : function(scrollBar, delta) {
       var position = scrollBar.getPosition();
       return (delta < 0 && position <= 0) || (delta > 0 && position >= scrollBar.getMaximum());
