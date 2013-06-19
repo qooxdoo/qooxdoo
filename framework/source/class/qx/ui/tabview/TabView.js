@@ -380,6 +380,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     _applyBarPosition : function(value, old)
     {
       var bar = this.getChildControl("bar");
+      var pane = this.getChildControl("pane");
 
       var horizontal = value == "left" || value == "right";
       var reversed = value == "right" || value == "bottom";
@@ -409,6 +410,9 @@ qx.Class.define("qx.ui.tabview.TabView",
 
         // Update bar
         bar.removeState(oldState);
+        
+        // Update pane
+        pane.removeState(oldState);
 
         // Update pages
         for (var i=0, l=children.length; i<l; i++) {
@@ -422,6 +426,9 @@ qx.Class.define("qx.ui.tabview.TabView",
 
         // Update bar
         bar.addState(newState);
+        
+        // Update pane
+        pane.addState(newState);
 
         // Update pages
         for (var i=0, l=children.length; i<l; i++) {
