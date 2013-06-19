@@ -400,6 +400,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
         }
         target.length = nativeArray.length;
 
+        // necessary for keeping preselected items in sync
         target.fireDataEvent("change", {});
       }
     },
