@@ -43,11 +43,26 @@ qx.Bootstrap.define("qx.bom.client.Scroll",
       var nativeScrollBars = qx.core.Environment.get("qx.nativeScrollBars");
 
       return scrollBarWidth == 0 && osx && nativeScrollBars;
+    },
+
+
+    /**
+     * Checks if native scroll can be used for the current mobile device.
+     *
+     * @internal
+     *
+     * @return {Boolean} <code>true</code> if the current device is capable to
+     * use native scroll.
+     */
+    getNativeScroll : function() {
+      return qx.core.Environment.get("os.name") == "ios" && 
+        parseInt(qx.core.Environment.get("browser.version")) > 4);
     }
   },
 
 
   defer : function(statics) {
     qx.core.Environment.add("os.scrollBarOverlayed", statics.scrollBarOverlayed);
+    qx.core.Environment.add("qx.mobile.nativescroll", statics.getNativeScroll);
   }
 });

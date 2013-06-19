@@ -701,7 +701,7 @@
  *     </tr>
  *     <tr>
  *       <td>qx.mobile.nativescroll</td><td><i>Boolean</i></td><td><code>false</code></td>
- *       <td><i>default:</i> <code>false</code></td>
+ *       <td>{@link qx.bom.client.Scroll#getNativeScroll}</td>
  *     </tr>
  *     <tr>
  *       <td>qx.optimization.basecalls</td><td><i>Boolean</i></td><td><code>true</code></td>
@@ -917,7 +917,8 @@ qx.Bootstrap.define("qx.core.Environment",
       "xml.attributens"             : "qx.bom.client.Xml.getAttributeNS",
       "xml.createnode"              : "qx.bom.client.Xml.getCreateNode",
       "xml.getqualifieditem"        : "qx.bom.client.Xml.getQualifiedItem",
-      "xml.createelementns"         : "qx.bom.client.Xml.getCreateElementNS"
+      "xml.createelementns"         : "qx.bom.client.Xml.getCreateElementNS",
+      "mobile.nativescroll"         : "qx.bom.Scroll.getNativeScroll"
     },
 
 
@@ -1241,7 +1242,6 @@ qx.Bootstrap.define("qx.core.Environment",
       this.add("qx.dyntheme", function() {return true;});
       this.add("qx.mobile.emulatetouch", function() {return false;});
       this.add("qx.emulatemouse", function() {return false;});
-      this.add("qx.mobile.nativescroll", function() {return false;});
       this.add("qx.blankpage", function() { return "qx/static/blank.html";});
 
       this.add("qx.dynamicmousewheel", function() {return true;});
