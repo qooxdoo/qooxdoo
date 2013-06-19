@@ -55,8 +55,8 @@ qx.Bootstrap.define("qx.bom.client.Scroll",
      * use native scroll.
      */
     getNativeScroll : function() {
-      return qx.core.Environment.get("os.name") == "ios" && 
-        parseInt(qx.core.Environment.get("browser.version")) > 4);
+      return qx.core.Environment.get("os.name") == "ios" &&
+        parseInt(qx.core.Environment.get("browser.version")) > 4;
     }
   },
 
