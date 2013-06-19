@@ -197,7 +197,7 @@ ul li.active * {
 }
 
 ul li.arrow:after {
-  content:'';
+  content:"";
   @include transform(rotate(45deg));
   @include transform-origin(50% 50%);
 
@@ -757,7 +757,7 @@ $pagination-label-size:8px;
 }
 
 .drawer.below.left:before, .drawer.below.right:before, .drawer.below.top:before, .drawer.below.bottom:before {
-  content:'';
+  content:"";
   width:100%;
   height:100%;
   position:absolute;
