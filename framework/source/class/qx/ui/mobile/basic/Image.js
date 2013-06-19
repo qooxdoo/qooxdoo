@@ -216,12 +216,12 @@ qx.Class.define("qx.ui.mobile.basic.Image",
       var selector = "#" + this.getId() + ":before";
       var entry = "{";
       entry += "width:" + highResSrcWidth + "px; height:" + highResSrcHeight + "px; ";
-      entry += "background-image: url(" + resourceManager.toUri(highResSource) + ");";
+      entry += "background-image: url('" + resourceManager.toUri(highResSource) + "');";
       entry += "top:" + (-offsetY) + "px; left:" + (-offsetX) + "px;";
       entry += qx.ui.mobile.basic.Image.TRANSFORM_CSS_NAME + ": scale(" + scale + ");";
       entry += "}";
 
-      document.styleSheets[1].insertRule(selector + entry, 0);
+      document.styleSheets[document.styleSheets.length-1].insertRule(selector + entry, 0);
 
       this.addCssClass("no-content");
     },
