@@ -44,6 +44,7 @@ import graph
 
 from misc.ExtMap                import ExtMap
 from ecmascript.frontend        import lang
+from ecmascript.transform.check import lint
 from generator.code.Class       import DependencyError
 from generator.code.DependencyItem  import DependencyItem
 from generator.action           import CodeMaintenance
@@ -252,7 +253,6 @@ class DependencyLoader(object):
         result = []
         warn_deps = []
         logInfos = self._console.getLevel() == "info"
-        ignored_names = set()
         app_namespace = self._jobconf.get("let/APPLICATION", u'')
 
         # Lint stuff
@@ -289,14 +289,18 @@ class DependencyLoader(object):
 
         # warn about unknown references
         # - late, because adding the list of name spaces of the selected classes
+        known_namespaces = set()
         for classid in result:
             nsindex = classid.rfind(".")
             if nsindex == -1:
                 continue # not interested in bare class names
             classnamespace = classid[:nsindex]
-            ignored_names.add(classnamespace)
+            known_namespaces.add(classnamespace)
+        # honor lint-check/allowed-globals config
+        callowed_globals = self._jobconf.get("lint-check/allowed-globals", [])
+        #known_namespaces.update(callowed_globals)
         for dep in warn_deps:
-            if dep.name not in ignored_names:
+            if not lint.extension_match_in(dep.name, callowed_globals, known_namespaces):
                 self._console.warn("%s (%s): Unknown global symbol used: %s" % (dep.requestor, dep.line, dep.assembled()))
 
         return result

@@ -152,7 +152,7 @@ class LintChecker(treeutil.NodeVisitor):
             if key not in self.opts.allowed_globals])
         # - from known classes and namespaces
         global_nodes = dict([(key,nodes) for (key,nodes) in global_nodes.items()
-            if not extension_match_in(key, self.known_globals_bases,self.opts.class_namespaces)]) # known classes (classList + their namespaces)
+            if not extension_match_in(key, self.known_globals_bases, self.opts.class_namespaces)]) # known classes (classList + their namespaces)
         # - from built-ins
         new_keys = gs.globals_filter_by_builtins(global_nodes.keys())
         global_nodes = dict([(key,nodes) for (key,nodes) in global_nodes.items()
@@ -573,8 +573,8 @@ def extension_match_in(name, name_list, name_spaces):
         for class_name in name_list:
             if (name.startswith(class_name) and 
                     re.search(r'^%s\b' % re.escape(class_name), name)): 
-                        # re.escape for e.g. the '$' in 'qx.$$'
-                        # '\b' so that 'mylib.Foo' doesn't match 'mylib.FooBar'
+                    # re.escape for e.g. the '$' in 'qx.$$'
+                    # '\b' so that 'mylib.Foo' doesn't match 'mylib.FooBar'
                 if len(class_name) > len(res_name): # take the longest match (?!)
                     res_name = class_name
                     ## compute the 'attribute' suffix

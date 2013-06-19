@@ -74,9 +74,7 @@ def runLint(jobconf, classes):
     classesToCheck = list(getFilteredClassList(lib_class_names, opts.include_patts, opts.exclude_patts))
     opts.library_classes  = lib_class_names
     opts.class_namespaces = [x[:x.rfind(".")] for x in opts.library_classes if x.find(".")>-1]
-    # the next requires that the config keys and option attributes be identical (modulo "-"_")
-    for option, value in lintJob.get("lint-check").items():
-        setattr(opts, option.replace("-","_"), value)
+    opts = add_config_lintopts(opts, lintJob)
     lint_classes((classes[name] for name in classesToCheck), opts)
     console.outdent()
 
@@ -134,10 +132,21 @@ def lint_comptime_opts():
     opts.ignore_unused_variables = True
     # override from config
     jobConf = Context.jobconf
-    for option, value in jobConf.get("lint-check", {}).items():
-        setattr(opts, option.replace("-","_"), value)
+    opts = add_config_lintopts(opts, jobConf)
     return do_check, opts
         
+##
+# Add/override attributes of <optsObj> from config.
+# Requires that the config keys and option attributes be identical (modulo "-"_")
+def add_config_lintopts(optsObj, jobConf):
+    for option, value in jobConf.get("lint-check", {}).items():
+        opts_name = option.replace("-","_")
+        new_val = value
+        old_val = getattr(optsObj, opts_name, ())  # use tuple as undef
+        if isinstance(old_val, types.ListType):    # e.g. allowed-globals
+            new_val = old_val + value
+        setattr(optsObj, opts_name, new_val)
+    return optsObj
 
 
 def runMigration(jobconf, libs):
