@@ -65,6 +65,9 @@ qx.Class.define("qx.test.bom.Stylesheet",
       var rules = sheet.cssRules || sheet.rules;
       this.assertEquals(1, rules.length);
       this.assertEquals("#foo", rules[0].selectorText);
+      this.assertException(function() {
+        qx.bom.Stylesheet.addRule(sheet, "#foo", "{color: red;}");
+      }, qx.core.AssertionError);
     },
 
     testCreateElement : function()
