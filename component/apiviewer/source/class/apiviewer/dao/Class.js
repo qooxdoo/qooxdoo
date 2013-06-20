@@ -695,7 +695,12 @@ qx.Class.define("apiviewer.dao.Class",
           for (var i=0; i<superClasses.length; i++) {
             mixinRecurser(apiviewer.dao.Class.getClassByName(superClasses[i].getName()));
           }
-        }
+
+          // mixins can include other mixins
+          mixinNode.getMixins().forEach(function(includedMixin) {
+            mixinRecurser(apiviewer.dao.Class.getClassByName(includedMixin));
+          });
+        };
 
         var mixinNode = apiviewer.dao.Class.getClassByName(mixins[mixinIndex]);
         mixinRecurser(mixinNode);
@@ -795,6 +800,7 @@ qx.Class.define("apiviewer.dao.Class",
           this.warn("Missing super mixin: " + superMixins[i]);
         }
       }
+
 
       var interfaces = clazz.getInterfaces();
       for (var i=0; i<interfaces.length; i++)
