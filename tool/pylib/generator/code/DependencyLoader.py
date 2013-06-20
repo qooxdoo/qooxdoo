@@ -287,7 +287,7 @@ class DependencyLoader(object):
             # extract names of depsItems
             result = [x.name for x in result]
 
-        # warn about unknown references
+        # Unknown globals warnings
         # - late, because adding the list of name spaces of the selected classes
         known_namespaces = set()
         for classid in result:
