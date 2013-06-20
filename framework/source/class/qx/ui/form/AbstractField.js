@@ -196,6 +196,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     /** Maximal number of characters that can be entered in the TextArea. */
     maxLength :
     {
+      apply : "_applyMaxLength",
       check : "PositiveInteger",
       init : Infinity
     },
@@ -499,9 +500,18 @@ qx.Class.define("qx.ui.form.AbstractField",
     },
 
 
+    // property apply
+    _applyMaxLength : function(value, old) {
+      if (value) {
+        this.getContentElement().setAttribute("maxLength", value);
+      } else {
+        this.getContentElement().removeAttribute("maxLength");
+      }
+    },
+
+
     // overridden
-    tabFocus : function()
-    {
+    tabFocus : function() {
       this.base(arguments);
 
       this.selectAllText();
@@ -558,15 +568,6 @@ qx.Class.define("qx.ui.form.AbstractField",
           value = filteredValue;
           this.getContentElement().setValue(value);
         }
-      }
-
-      // check for the max length
-      if (value.length > this.getMaxLength())
-      {
-        fireEvents = false;
-        this.getContentElement().setValue(
-          value.substr(0, this.getMaxLength())
-        );
       }
 
       // fire the events, if necessary
@@ -647,9 +648,6 @@ qx.Class.define("qx.ui.form.AbstractField",
       if (qx.lang.Type.isString(value))
       {
         var elem = this.getContentElement();
-        if (value.length > this.getMaxLength()) {
-          value = value.substr(0, this.getMaxLength());
-        }
         if (elem.getValue() != value)
         {
           var oldValue = elem.getValue();
