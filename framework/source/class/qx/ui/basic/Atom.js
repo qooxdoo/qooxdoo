@@ -75,7 +75,7 @@ qx.Class.define("qx.ui.basic.Atom",
       this.setLabel(label);
     }
 
-    if (icon != null) {
+    if (icon !== undefined) {
       this.setIcon(icon);
     }
   },
