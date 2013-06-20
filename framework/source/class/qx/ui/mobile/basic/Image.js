@@ -88,7 +88,10 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     PIXEL_RATIOS : null,
 
     /** @type {String} CSS name for property "transform" */
-    TRANSFORM_CSS_NAME : null
+    TRANSFORM_CSS_NAME : null,
+
+    /** @type {CSSStyleSheet} CSS stylesheet containing high resolution overlay elements */
+    STYLESHEET : null
   },
 
 
@@ -214,14 +217,13 @@ qx.Class.define("qx.ui.mobile.basic.Image",
       this._setAttribute("height", srcHeight);
 
       var selector = "#" + this.getId() + ":before";
-      var entry = "{";
-      entry += "width:" + highResSrcWidth + "px; height:" + highResSrcHeight + "px; ";
+      
+      var entry = "width:" + highResSrcWidth + "px; height:" + highResSrcHeight + "px; ";
       entry += "background-image: url('" + resourceManager.toUri(highResSource) + "');";
       entry += "top:" + (-offsetY) + "px; left:" + (-offsetX) + "px;";
       entry += qx.ui.mobile.basic.Image.TRANSFORM_CSS_NAME + ": scale(" + scale + ");";
-      entry += "}";
 
-      document.styleSheets[document.styleSheets.length-1].insertRule(selector + entry, 0);
+      qx.bom.Stylesheet.addRule(qx.ui.mobile.basic.Image.STYLESHEET, selector, entry);
 
       this.addCssClass("no-content");
     },
@@ -285,6 +287,8 @@ qx.Class.define("qx.ui.mobile.basic.Image",
 
 
   defer : function(statics) {
+    statics.STYLESHEET = qx.bom.Stylesheet.createElement();
+
     if(qx.core.Environment.get("device.pixelRatio") > 1) {
       if (qx.core.Environment.get("os.name") == "ios") {
         statics.PIXEL_RATIOS = ["2"];
