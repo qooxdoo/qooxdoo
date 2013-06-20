@@ -196,9 +196,7 @@ qx.Class.define("qx.html.Input",
         if (element.value != value) {
           qx.bom.Input.setValue(element, value);
         }
-      }
-      else
-      {
+      } else {
         this._setProperty("value", value);
       }
 

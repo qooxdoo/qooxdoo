@@ -172,9 +172,7 @@ qx.Bootstrap.define("qx.bom.Input",
         element.$$inValueSet = true;
         element.value = value;
         element.$$inValueSet = null;
-      }
-      else
-      {
+      } else {
         element.value = value;
       }
     },
