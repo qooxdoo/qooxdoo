@@ -32,17 +32,44 @@ With that code every change of the value property of ``label1`` will automatical
 
 Binding a data event to property
 --------------------------------
-In some cases in the framework, there is only a change event and no property. For that case, you can bind a data event to a property. One common case is the ``TextField`` widget, which does not have a property containing the value of the ``TextField``. It only has getter / setter and a change event for that, so it has the stuff needed for the binding but its not implemented as a property. Therefor you can use the ``changeValue`` event and bind that to a target property as you can see in the example snippet.
-The API is almost the same as in the property binding case.
+
+Some properties of objects used as models can only be accessed through a
+method or an event. Those properties cannot be bound directly, but they can
+be bound through a method or an event that references them. One common case
+is the TextField widget, which does not have a direct ``value`` property,
+unlike the Label of the previous example, which does have a ``value``
+property. The ``value`` of a TextField is only addressed through getter /
+setter methods and change events. Indirectly therefore Textfield does indeed
+have a property for binding, though it is not implemented as a direct
+property. Using the ``changeValue``` event, the value can be bound as is shown in
+the example snippet. The API is essentially the same as the property binding
+case.
 
 ::
 
-    var textField = new qx.ui.form.TextField();
-    var label = new qx.ui.basic.Label();
+   var textField = new qx.ui.form.TextField();
+   var label = new qx.ui.basic.Label();
 
-    textField.bind("changeValue", label, "value");
+   textField.bind("changeValue", label, "value");
 
-As you can see, the same method has been used. The difference is, that the first argument is a data event name and not a property name.
+As you can see, the same method has been used. The difference is that the
+first argument is a data event name and not a property name.
+
+In a similar fashion, a controller can bind to the implicit ``value`` property
+of the TextField:
+
+::
+
+     var textField = new qx.ui.form.TextField();
+
+     // create the controller
+     var controller = new qx.data.controller.Object(model);
+
+     // connect the name
+     controller.addTarget(textfield, "value", "name", true);
+
+In this case the binding code translates the "value" property into
+getValue() and setValue() methods.
 
 .. _pages/data_binding/single_value_binding#bind_a_property_chain_to_another_property:
 
