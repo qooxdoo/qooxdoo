@@ -542,36 +542,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
      */
     _createScrollContainer : function()
     {
-      return new qx.ui.mobile.container.Scroll({"useTransform": this._detectUseTransforms()});
-    },
-
-
-    /**
-    * Detects if iScroll can use translate3d for scrolling or not. 
-    *
-    * If OS < Android 4.1 quirks mode for Android should be active.
-    * This means that iScroll does not use transform3d, but position:relative because
-    * otherwise causes input fields have massive layout problems.
-    *
-    * @return {Boolean} the result whether the current device is ready for translate3d on iScroll.
-    */
-    _detectUseTransforms : function() {
-      var isAndroid = (qx.core.Environment.get("os.name") == "android");
-
-      if(isAndroid) {
-        var osVersion = qx.core.Environment.get("os.version");
-
-        var osVersionParts = osVersion.split(".");
-        var osMajorVersion = parseInt(osVersionParts[0]);
-        var osMinorVersion = parseInt(osVersionParts[1]);
-
-        var isAndroid5 = (osMajorVersion > 4);
-        var isAndroid4x = (osMajorVersion == 4) && (osMinorVersion >= 1);
-
-        return (isAndroid5 || isAndroid4x);
-      } 
-
-      return true;
+      return new qx.ui.mobile.container.Scroll();
     },
 
 
