@@ -3,9 +3,10 @@
 //
  
 .navigation {
-   margin-bottom:0px;
-   @include transition(all 0.8s ease-in-out);
-   @include transform(translateY(0px));
+  margin-bottom:0px;
+  @include transition(all 0.8s ease-in-out);
+  @include transform(translateY(0px));
+  -webkit-backface-visibility:hidden;
 }
 
 .navigation.hidden {
