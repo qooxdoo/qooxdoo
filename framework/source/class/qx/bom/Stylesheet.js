@@ -90,6 +90,7 @@ qx.Bootstrap.define("qx.bom.Stylesheet",
       }
     },
 
+
     /**
      * Insert a new CSS rule into a given Stylesheet
      *
