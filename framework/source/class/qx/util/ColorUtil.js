@@ -570,7 +570,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
      */
     hsbToRgb : function(hsb)
     {
-      var i, f, p, q, t;
+      var i, f, p, r, t;
 
       var hue = hsb[0] / 360;
       var saturation = hsb[1] / 100;
@@ -604,7 +604,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
         f = hue - i;
 
         p = Math.floor(tov * (1.0 - saturation));
-        q = Math.floor(tov * (1.0 - (saturation * f)));
+        r = Math.floor(tov * (1.0 - (saturation * f)));
         t = Math.floor(tov * (1.0 - (saturation * (1.0 - f))));
 
         switch(i)
@@ -616,7 +616,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
             break;
 
           case 1:
-            rgb.red = q;
+            rgb.red = r;
             rgb.green = tov;
             rgb.blue = p;
             break;
@@ -629,7 +629,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
 
           case 3:
             rgb.red = p;
-            rgb.green = q;
+            rgb.green = r;
             rgb.blue = tov;
             break;
 
@@ -642,7 +642,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
           case 5:
             rgb.red = tov;
             rgb.green = p;
-            rgb.blue = q;
+            rgb.blue = r;
             break;
         }
       }
