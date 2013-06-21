@@ -109,6 +109,8 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
     _onTap : function() {
       // Toggle State.
       this.setValue(!this.getValue());
+
+      this.fireDataEvent("changeValue", {"value":this.getValue()});
     },
 
 

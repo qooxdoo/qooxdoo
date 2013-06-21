@@ -58,7 +58,7 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
   construct : function(value)
   {
     this.base(arguments);
-    qx.event.Registration.addListener(this, "appear", this.__onAppear, this);
+    this.addListener("tap", this._onTap, this);
   },
 
 
@@ -100,12 +100,22 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
     }
   },
 
+
   members :
   {
+    _state : null,
+
+    // overridden
+    _getTagName : function()
+    {
+      return "span";
+    },
+    
+  
     // overridden
     _getType : function()
     {
-      return "radio";
+      return null;
     },
 
 
@@ -114,6 +124,9 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
      */
     _onTap : function() {
       this.fireDataEvent("changeValue", {});
+
+      // Toggle State.
+      this.setValue(true);
     },
 
 
@@ -135,28 +148,18 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
 
 
     /**
-     * Event handler, when CheckBox appears on screen.
-     */
-    __onAppear : function() {
-      var label = qx.dom.Element.create("label");
-      qx.bom.element.Attribute.set(label, "for", this.getId());
-      qx.bom.element.Class.add(label, "radiobutton-label");
-
-      qx.dom.Element.insertAfter(label, this.getContentElement());
-      
-      this.addListener("tap", this._onTap, this);
-      
-      qx.event.Registration.removeListener(this, "appear", this.__onAppear, this);
-    },
-
-
-    /**
      * Sets the value [true/false] of this radio button.
      * It is called by setValue method of qx.ui.mobile.form.MValue mixin
      * @param value {Boolean} the new value of the radio button
      */
     _setValue : function(value) {
-      this._setAttribute("checked", value);
+      if(value == true) {
+        this.addCssClass("checked");
+      } else {
+        this.removeCssClass("checked");
+      }
+
+      this._state = value;
     },
 
 
@@ -166,9 +169,8 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
      * @return {Boolean} the value of the radio button
      */
     _getValue : function() {
-      return this._getAttribute("checked");
+      return this._state;
     }
-
   },
 
 
@@ -179,7 +181,6 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
   */
   destruct : function()
   {
-    qx.event.Registration.removeListener(this, "appear", this.__onAppear, this);
     qx.event.Registration.removeListener(this, "tap", this._onTap, this);
   }
 });

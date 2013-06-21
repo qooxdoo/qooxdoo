@@ -447,16 +447,13 @@ h2 {
   display: inline-block;
   cursor: pointer;
   width: 32px;
-  height: 32px; }
+  height: 32px;
+  text-align: center; }
 
-.checkbox:before {
-  content: "";
-  display: block;
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  top: 4px;
-  left: 4px; }
+.root.android.v2 .checkbox {
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  transform: scale(1); }
 
 .collapsible-content {
   background-color: white;
@@ -951,52 +948,32 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   z-index: 1000;
   left: 0px; }
 
-input[type="radio"] {
-  visibility: hidden;
-  position: absolute; }
-
-.radiobutton-label {
-  visibility: visible;
-  display: inline-block; }
-
-input[type=radio] + label {
+.radio {
+  display: inline-block;
   content: "";
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
+  line-height: 32px;
   position: relative;
   z-index: 10;
   margin: 2px auto;
   -webkit-border-radius: 50px;
   -moz-border-radius: 50px;
-  border-radius: 50px; }
+  border-radius: 50px;
+  text-align: center; }
 
-input[type=radio] + label:before {
-  content: "";
-  cursor: pointer;
-  position: absolute;
-  left: 4px;
-  top: 4px;
-  width: 20px;
-  height: 20px;
-  z-index: 10;
-  -webkit-border-radius: 50px;
-  -moz-border-radius: 50px;
-  border-radius: 50px; }
-
-input[type=radio] + label:after {
+.radio:after {
+  display: inline-block;
   opacity: 0;
   content: "";
-  position: absolute;
   z-index: 11;
   width: 16px;
   height: 16px;
   -webkit-border-radius: 50px;
   -moz-border-radius: 50px;
-  border-radius: 50px;
-  top: 6px;
-  left: 6px; }
+  border-radius: 50px; }
 
-input[type=radio]:checked + label:after {
+.radio.checked:after {
   opacity: 1; }
 
 .scrollbarV > div {
@@ -1711,87 +1688,57 @@ ul li.active {
   background-image: linear-gradient(to bottom, #cfcfcf, #fdfdfd);
   /* Standard (in flux) */ }
 
-.checkbox:before {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#2d2f32), to(#5d6168));
-  /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, #2d2f32, #5d6168);
-  /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, #2d2f32, #5d6168);
-  /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #2d2f32, #5d6168);
-  /* Standard (in flux) */
-  -webkit-border-radius: 0.1em;
-  -moz-border-radius: 0.1em;
-  border-radius: 0.1em; }
-
 .checkbox {
   position: relative;
-  -webkit-border-radius: 0.3em;
-  -moz-border-radius: 0.3em;
-  border-radius: 0.3em;
   border: 1px solid #888888;
   box-sizing: border-box;
   background-color: #929292;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#c1c1c1));
+  -webkit-border-radius: 0.3em;
+  -moz-border-radius: 0.3em;
+  border-radius: 0.3em;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#c1c1c1), to(white));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, white, #c1c1c1);
+  background-image: -webkit-linear-gradient(top, #c1c1c1, white);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, white, #c1c1c1);
+  background-image: -moz-linear-gradient(top, #c1c1c1, white);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, white, #c1c1c1);
+  background-image: linear-gradient(to bottom, #c1c1c1, white);
   /* Standard (in flux) */ }
 
 .checkbox:after {
+  display: inline-block;
   opacity: 0;
   content: "";
-  position: absolute;
-  width: 11px;
-  height: 6px;
+  width: 14px;
+  height: 8px;
   background: transparent;
-  top: 8px;
-  left: 8px;
-  border: 3.5px solid #658fd4;
+  border: 4.5px solid #3d72c9;
+  margin-top: 6px;
   border-top: 0;
   border-right: 0;
-  -webkit-font-smoothing: antialiased;
   -webkit-transform: rotate(-45deg);
   -moz-transform: rotate(-45deg);
   transform: rotate(-45deg);
-  -webkit-box-shadow: -1px 1px 1px 0px #3d72c9;
-  -moz-box-shadow: -1px 1px 1px 0px #3d72c9;
-  box-shadow: -1px 1px 1px 0px #3d72c9; }
+  -webkit-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: -1px 1px 1px 0px rgba(0, 0, 0, 0.3); }
 
 .checkbox.checked:after {
   opacity: 1; }
 
-input[type=radio] + label {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#c1c1c1));
+.radio {
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#c1c1c1), to(white));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, white, #c1c1c1);
+  background-image: -webkit-linear-gradient(top, #c1c1c1, white);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, white, #c1c1c1);
+  background-image: -moz-linear-gradient(top, #c1c1c1, white);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, white, #c1c1c1);
+  background-image: linear-gradient(to bottom, #c1c1c1, white);
   /* Standard (in flux) */
   border: 1px solid #888888;
-  box-sizing: border-box;
-  width: 30px;
-  height: 30px; }
+  box-sizing: border-box; }
 
-input[type=radio] + label:before {
-  -webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px white;
-  -moz-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px white;
-  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px white;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#2d2f32), to(#5d6168));
-  /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, #2d2f32, #5d6168);
-  /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, #2d2f32, #5d6168);
-  /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #2d2f32, #5d6168);
-  /* Standard (in flux) */ }
-
-input[type=radio] + label:after {
+.radio.checked:after {
   background: #3d72c9;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#3d72c9), to(#2e5ba5));
   /* Safari 4+, Chrome 2+ */
@@ -1801,9 +1748,9 @@ input[type=radio] + label:after {
   /* FF 3@mixin 6+ */
   background-image: linear-gradient(to bottom, #3d72c9, #2e5ba5);
   /* Standard (in flux) */
-  -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
-  box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5); }
+  -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3); }
 
 .master-detail-master {
   border-right: 1px solid #777777; }

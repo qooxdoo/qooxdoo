@@ -1,18 +1,10 @@
-input[type="radio"] {
-  visibility: hidden;
-  position:absolute;
-}
-
-.radiobutton-label {
-  visibility: visible;
+// Background
+.radio {
   display:inline-block;
-}
-
-
-input[type=radio] + label {
   content:"";
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
+  line-height:32px;
 
   position: relative;
 
@@ -21,31 +13,14 @@ input[type=radio] + label {
   margin: 2px auto;
 
   @include border-radius(50px);
+  text-align:center;
 }
-
-
-input[type=radio]+ label:before {
-  content:"";
-  cursor: pointer;
-
-  position: absolute;
-  left: 4px;
-  top: 4px;
-
-  width: 20px;
-  height: 20px;
-
-  z-index:10;
-
-  @include border-radius(50px);
-}
-
 
 // Color dot
-input[type=radio] + label:after {
+.radio:after {
+  display:inline-block;
   opacity: 0;
   content:"";;
-  position: absolute;
 
   z-index:11;
 
@@ -53,12 +28,8 @@ input[type=radio] + label:after {
   height: 16px;
 
   @include border-radius(50px);
-
-  top: 6px;
-  left: 6px;
 }
 
-
-input[type=radio]:checked + label:after {
+.radio.checked:after {
   opacity: 1;
 }

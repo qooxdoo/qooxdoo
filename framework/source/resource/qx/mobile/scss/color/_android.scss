@@ -16,7 +16,7 @@
   color:black;
   @include gradient-vertical-three($android-light-orange, $android-orange, $android-light-orange-2);
 }
-
+ 
 //
 // GLOBAL
 //
@@ -311,49 +311,6 @@ $scGradientVerticalOffset: 15px;
 }
 
 //
-// CHECKBOX
-//
-
-.checkbox {
-  position:relative;
-  @extend .clickable;
-
-  box-sizing:border-box;
-
-  @include border-radius(.3em);
-}
-
-.checkbox:before {
-  @include gradient-vertical(darken($button-color, 60%),darken($button-color, 40%));
-  @include border-radius(.1em);
-}
-
-
-// The tick of the checkbox.
-.checkbox:after {
-  $checkbox-check-color:$android-orange;
-
-  opacity: 0;
-  content: '';
-  position: absolute;
-  width: 11px;
-  height: 6px;
-  background: 
-  transparent;
-  top: 8px;
-  left: 8px;
-  border: 3.5px solid lighten($checkbox-check-color,10%);
-  border-top: 0;
-  border-right: 0;
-  @include transform(rotate(-45deg));
-  @include box-shadow(-1px 1px 1px 0px $checkbox-check-color);
-}
-
-.checkbox.checked:after {
-    opacity: 1;
-}
-
-//
 // RADIOBUTTON
 //
 
@@ -643,4 +600,59 @@ $pagination-label-size:8px;
   pointer-events:none;
   
   @include box-inset-shadow(0px 0px 10px 5px rgba(0,0,0,0.4));
+}
+
+//
+// CHECKBOX
+//
+
+.checkbox {
+  position:relative;
+  border:$border-thickness solid $checkbox-border-color;
+
+  box-sizing:border-box;
+  background-color: #929292;
+  
+  @include border-radius($checkbox-border-radius*3);
+  @include gradient-vertical($checkbox-background-color-1, $checkbox-background-color-2);
+}
+
+.checkbox:after {
+  display:inline-block;
+  opacity: 0;
+  content:"";
+  width: 14px;
+  height: 8px; 
+  background: 
+  transparent;
+  border: 4.5px solid $checkbox-tick-color;
+  margin-top: 6px;
+  border-top: 0;
+  border-right: 0;
+
+  @include transform(rotate(-45deg));
+  @include box-shadow(-1px 1px 1px 0px rgba(0,0,0,0.3));
+}
+
+.checkbox.checked:after {
+  opacity: 1;
+}
+
+//
+// RADIOBUTTON
+//
+
+// Border style
+.radio {
+  @include gradient-vertical($radiobutton-background-color-1,$radiobutton-background-color-2);
+  border: $border-thickness solid $radiobutton-border-color;
+  box-sizing:border-box;
+}
+
+// Color dot
+.radio.checked:after {
+  background: $radiobutton-dot-color; 
+  $dot-dark-color: darken($radiobutton-dot-color, 10%);
+  @include gradient-vertical ($radiobutton-dot-color, $dot-dark-color);
+  @include box-shadow(1px 1px 1px 0px rgba(0,0,0,0.3));
 }

@@ -422,6 +422,30 @@ $scGradientVerticalOffset:15px;
   background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, linear-gradient(to bottom, #353535, #8f8f8f) 0px 0px no-repeat;
 }
 
+// RADIO
+
+.radio {
+  @include gradient-vertical(#fefefe, #cecece);
+  @include border-radius(10px);
+  border: 1px solid #4c4c4c;
+  box-sizing:border-box;
+  width: 30px;
+  height: 30px;
+  line-height:30px;
+}
+
+.radio.checked {
+  @include gradient-vertical(darken(#cecece,50%), darken(#fefefe,50%));
+}
+
+// Color dot
+.radio.checked:after {
+  width: 13px;
+  height: 13px;
+  @include gradient-vertical(#fefefe, #cecece);
+  @include box-shadow(1px 1px 1px 0px rgba(0,0,0,0.3));
+}
+
 //
 // TOOLBAR 
 //

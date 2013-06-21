@@ -17,6 +17,8 @@ $dialog-background-color: #424242;
 
 $highlighted-text-color: $android-orange;
 
+$border-thickness: 1px;
+
 // Collapsible
 
 $collapsible-border-radius: 4px;
@@ -34,6 +36,21 @@ $collapsible-arrow-size: 8px;
 $collapsible-arrow-color: #333333;
 $collapsible-active-arrow-color: #333333;
 
+// Checkbox
+
+$checkbox-tick-color: $android-orange;
+$checkbox-border-radius:  0.1em;
+$checkbox-border-color:  #888888;
+$checkbox-background-color-1: darken(#F4F4F4, 20%); 
+$checkbox-background-color-2: lighten(#F4F4F4, 20%); 
+
+// Radiobutton
+
+$radiobutton-dot-color: $android-orange;
+$radiobutton-background-color-1: darken(#F4F4F4, 20%);
+$radiobutton-background-color-2: lighten(#F4F4F4, 20%);
+$radiobutton-border-color: #888888;
+$radiobutton-background-inner-color: #45484d;
 
 @import "common/base";
 
