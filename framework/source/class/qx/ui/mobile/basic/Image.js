@@ -87,8 +87,8 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     /** @type {Array} Possible pixel ratios of the current device operating system */
     PIXEL_RATIOS : null,
 
-    /** @type {String} CSS name for property "transform" */
-    TRANSFORM_CSS_NAME : null,
+    /** @type {String} CSS rule for the high resolution overlay */
+    HIGH_RES_CSS_RULE : "",
 
     /** @type {CSSStyleSheet} CSS stylesheet containing high resolution overlay elements */
     STYLESHEET : null
@@ -139,11 +139,13 @@ qx.Class.define("qx.ui.mobile.basic.Image",
       if (source && source.indexOf('data:') != 0) {
         var resourceManager = qx.util.ResourceManager.getInstance();
 
-        // If a high resolution display is available
+        // If a high resolution display is available, search for a high resolution source.
         if(qx.core.Environment.get("device.pixelRatio") > 1) {
-          this._findHighResolutionSource(source);
+          var highResolutionSource = this._findHighResolutionSource(source);
+          if(highResolutionSource != null) {
+            source = highResolutionSource;
+          }
         }
-
         source = resourceManager.toUri(source);
 
         var ImageLoader = qx.io.ImageLoader;
@@ -158,12 +160,14 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     /**
     * Detects whether there is a high resolution image available.
     * A high resolution image is assumed to have the same file name as
-    * the parameter source, but with a pixelRatio identifier before the file extension, like "@2x".
-    * Medium Resolution: "example.png", High Resolution: "example@2x.png"
-    * If an image with a higher resolution is available, the method "_createHighResolutionOverlay"
-    * is called.
+    * the parameter source, but with a pixelRatio identifier before the file 
+    * extension, like "@2x".
+    * Medium Resolution: "example.png", high resolution: "example@2x.png"
+    * If an image with a higher resolution is available, the method 
+    * "_createHighResolutionOverlay" is called.
     *
-    * @param source {String} Image source of the medium resolution image.
+    * @param source {String} source of the medium resolution image.
+    * @return {String} the source of the high resolution image.
     */
     _findHighResolutionSource : function(source) {
       var pixelRatioCandidates = qx.ui.mobile.basic.Image.PIXEL_RATIOS;
@@ -172,15 +176,16 @@ qx.Class.define("qx.ui.mobile.basic.Image",
 
         var fileExtIndex = source.lastIndexOf('.');
         if (fileExtIndex > -1) {
-          var pixelRatioIdentifier = "@"+targetPixelRatio+"x";
+          var pixelRatioIdentifier = "@" + targetPixelRatio + "x";
           var highResSource = source.slice(0, fileExtIndex) + pixelRatioIdentifier + source.slice(fileExtIndex);
 
           if (qx.util.ResourceManager.getInstance().has(highResSource)) {
             this._createHighResolutionOverlay(targetPixelRatio, source, highResSource);
-            break;
+            return highResSource;
           }
         }
       };
+      return null;
     },
 
 
@@ -201,7 +206,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
 
       // Activate sub-pixel rendering on iOS
       if (qx.core.Environment.get("os.name") == "ios") {
-        scale = scale +0.01;
+        scale = scale + 0.01;
       }
 
       var srcWidth = resourceManager.getImageWidth(source);
@@ -217,11 +222,8 @@ qx.Class.define("qx.ui.mobile.basic.Image",
       this._setAttribute("height", srcHeight);
 
       var selector = "#" + this.getId() + ":before";
-      
-      var entry = "width:" + highResSrcWidth + "px; height:" + highResSrcHeight + "px; ";
-      entry += "background-image: url('" + resourceManager.toUri(highResSource) + "');";
-      entry += "top:" + (-offsetY) + "px; left:" + (-offsetX) + "px;";
-      entry += qx.ui.mobile.basic.Image.TRANSFORM_CSS_NAME + ": scale(" + scale + ");";
+      var values = [highResSrcWidth, highResSrcHeight, resourceManager.toUri(highResSource), -offsetY, -offsetX, scale];
+      var entry = qx.lang.String.format(qx.ui.mobile.basic.Image.HIGH_RES_CSS_RULE, values);
 
       qx.bom.Stylesheet.addRule(qx.ui.mobile.basic.Image.STYLESHEET, selector, entry);
 
@@ -299,7 +301,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
 
     var transform = qx.core.Environment.get("css.transform");
     if (transform) {
-      statics.TRANSFORM_CSS_NAME = qx.bom.Style.getCssName(transform.name);
+      statics.HIGH_RES_CSS_RULE = "width:%1px; height:%2px; background-image: url('%3'); top:%4px; left:%5px; " + qx.bom.Style.getCssName(transform.name) + ":scale(%6);";
     }
   }
 });
