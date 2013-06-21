@@ -92,7 +92,7 @@ class MClassResources(object):
                     nres = nres.replace('${'+themekey+'}','') # just remove '${...}'
                     nres = nres.replace('//', '/')    # get rid of '...//...'
                     result.append(nres)
-                    console.warn("Warning: (%s): Cannot replace macro '%s' in #asset hint" % (self.id, themekey))
+                    console.warn("Warning: (%s): Cannot replace macro '%s' in @asset hint" % (self.id, themekey))
             else:
                 raise SyntaxError, "Non-terminated macro in string: %s" % rsc
             return result
