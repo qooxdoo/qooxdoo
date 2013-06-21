@@ -96,12 +96,12 @@ class MClassDependencies(object):
             load_hint_names = [str(x) for x in load_hints]
             for dep in load1:
                 if str(dep) in load_hint_names and not load_feature_checks:
-                    console.warn("%s: #require(%s) is auto-detected" % (self.id, dep))
+                    console.warn("%s: @require(%s) is auto-detected" % (self.id, dep))
                 load.append(dep)
             run_hint_names = [str(x) for x in run_hints]
             for dep in run1:
                 if str(dep) in run_hint_names and not run_feature_checks:
-                    console.warn("%s: #use(%s) is auto-detected" % (self.id, dep))
+                    console.warn("%s: @use(%s) is auto-detected" % (self.id, dep))
                 run.append(dep)
             ignore.extend(ignore1)
 
