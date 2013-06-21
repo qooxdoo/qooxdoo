@@ -918,7 +918,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "xml.createnode" : "qx.bom.client.Xml.getCreateNode",
       "xml.getqualifieditem" : "qx.bom.client.Xml.getQualifiedItem",
       "xml.createelementns" : "qx.bom.client.Xml.getCreateElementNS",
-      "mobile.nativescroll" : "qx.bom.client.Scroll.getNativeScroll"
+      "qx.mobile.nativescroll" : "qx.bom.client.Scroll.getNativeScroll"
     },
 
 
