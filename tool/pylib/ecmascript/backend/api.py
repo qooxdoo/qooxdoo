@@ -641,6 +641,9 @@ def handleProperties(item, classNode):
         handleDeprecated(node, commentAttributes)
         handleAccess(node, commentAttributes)
 
+        if not node.hasChild("desc"):
+            addError(node, "Documentation is missing.", item)
+
         classNode.addListChild("properties", node)
 
 
