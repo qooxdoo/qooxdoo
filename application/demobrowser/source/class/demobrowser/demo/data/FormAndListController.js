@@ -41,7 +41,8 @@ qx.Class.define("demobrowser.demo.data.FormAndListController",
           {label: "female", data: "F"},
           {label: "dont know!", data: "?"},
           {label: "Alien", data: "A"}
-        ]
+        ],
+        sendByEmail : "mail"
       };
       var model = qx.data.marshal.Json.createModel(data);
 
@@ -65,6 +66,18 @@ qx.Class.define("demobrowser.demo.data.FormAndListController",
       }});
       genderController.setModel(model.getGender());
       form.add(gender, "Gender");
+
+      // email / mail
+      var radioGroup = new qx.ui.form.RadioButtonGroup();
+      var emailButton = new qx.ui.form.RadioButton("Send By Email");
+      emailButton.setModel("email");
+      var mailButton = new qx.ui.form.RadioButton("Send By Mail");
+      mailButton.setModel("mail");
+
+      radioGroup.add(emailButton);
+      radioGroup.add(mailButton);
+
+      form.add(radioGroup, "", null, "sendByEmail");
 
       // create the form and add it to the root
       this.getRoot().add(new qx.ui.form.renderer.Single(form), {left: 30, top: 20});
