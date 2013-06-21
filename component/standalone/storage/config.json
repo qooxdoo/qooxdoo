@@ -39,19 +39,15 @@
         "qx.bom.Storage"
       ],
 
-      "exclude" : [
-        "qx.event.GlobalError"
-      ],
-
       "environment" :
       {
-        "qx.version"     : "${QOOXDOO_VERSION}",
-        "qx.revision"    : "${QOOXDOO_REVISION}",
-        "qx.debug" : false,
-        "qx.aspects" : false,
+        "qx.version"  : "${QOOXDOO_VERSION}",
+        "qx.revision" : "${QOOXDOO_REVISION}",
+        "qx.debug"    : false,
+        "qx.aspects"  : false,
         "qx.globalErrorHandling" : false,
-        "qx.theme" : null,
-        "qx.export" : {"storage" : "qx.bom.Storage"}
+        "qx.theme"    : null,
+        "qx.export"   : {"storage" : "qx.bom.Storage"}
       },
 
       "compile-options" :
