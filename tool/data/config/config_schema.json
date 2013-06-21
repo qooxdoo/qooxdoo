@@ -190,7 +190,7 @@
       }
     },
     "asset-let": {
-      "description": "Defines theme keys that will be replaced in #asset hints in source files. (See special section on the 'themes' key).",
+      "description": "Defines theme keys that will be replaced in @asset hints in source files. (See special section on the 'themes' key).",
       "type": "object"
     },
     "cache": {

@@ -142,7 +142,7 @@ class MClassResources(object):
         # Now that the resource mapping is done, check if we have unfullfilled hints
         for hint in assetHints:
             if not hint.seen:
-                Context.console.warn("No resource matched #asset(%s) (%s)" % (hint.source, hint.clazz.id))
+                Context.console.warn("No resource matched @asset(%s) (%s)" % (hint.source, hint.clazz.id))
         
         return classes
 
