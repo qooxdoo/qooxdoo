@@ -50,8 +50,8 @@ qx.Class.define("playground.view.RiaPlayArea",
     var restoreIcon = "decoration/window/restore.gif";
     var maxButton = new qx.ui.form.Button(null, maxIcon);
     maxButton.setAppearance("toolbar-button");
-    maxButton.setMarginRight(6);
-    maxButton.setHeight(21);
+    maxButton.setMargin(6);
+    maxButton.setMinHeight(21);
     maxButton.setToolTipText(this.tr("Maximize"));
     maxButton.addListener("execute", function() {
       // toggle the icons
@@ -70,6 +70,10 @@ qx.Class.define("playground.view.RiaPlayArea",
     this._caption.add(new qx.ui.core.Spacer(), {flex: 1});
     this._caption.add(maxButton);
     this.add(this._caption);
+    this._caption.set({
+      minHeight: 32,
+      maxHeight: 32
+    });
 
     // playfield
     this.__playField = new qx.ui.container.Scroll();
