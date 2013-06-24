@@ -326,6 +326,7 @@ def inlineIfStatement(ifNode, conditionValue, inPlace=True):
         raise tree.NodeAccessException("Expected the LOOP node of an if statement!", ifNode)
 
     replacement = None
+    replacement_is_empty = False
     newDefinitions = []
     removedDefinitions = []
 
@@ -348,6 +349,7 @@ def inlineIfStatement(ifNode, conditionValue, inPlace=True):
             emptyBlock = treegenerator.symbol("block")()
             emptyBlock.set("line", ifNode.get("line"))
             replacement = emptyBlock
+            replacement_is_empty = True
 
     # Rescue var decls
     newDefinitions = [x.getDefinee().get("value") for x in newDefinitions]
@@ -376,11 +378,11 @@ def inlineIfStatement(ifNode, conditionValue, inPlace=True):
             block.addChild(replacement)
             replacement = block
         replacement.addChild(defList,0)
+        replacement_is_empty = False
 
     # move replacement
     if inPlace:
-        # TODO: experimental bug#4734: is this enough?
-        if (ifNode.parent.type in ["block", "file"]):
+        if (replacement_is_empty and ifNode.parent.type in ["statements"]):
             ifNode.parent.removeChild(ifNode)
         else:
             ifNode.parent.replaceChild(ifNode, replacement)
