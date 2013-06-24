@@ -33,7 +33,7 @@
  *
  * *External Documentation*
  *
- * <a href='http://manual.qooxdoo.org/current/pages/widget/html.html' target='_blank'>
+ * <a href='http://manual.qooxdoo.org/${qxversion}/pages/widget/html.html' target='_blank'>
  * Documentation of this widget in the qooxdoo manual.</a>
  */
 qx.Class.define("qx.ui.embed.Html",
