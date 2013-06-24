@@ -316,16 +316,16 @@ def mapNodeToMap(mapNode):
     return keys
 
 
-def inlineIfStatement(ifNode, conditionValue):
+def inlineIfStatement(ifNode, conditionValue, inPlace=True):
     """
     Inline an if statement assuming that the condition of the if
     statement evaluates to "conditionValue" (True/False")
     """
 
     if ifNode.type != "loop" or ifNode.get("loopType") != "IF":
-        raise tree.NodeAccessException("Expected the LOOP node of an if statement!", mapNode)
+        raise tree.NodeAccessException("Expected the LOOP node of an if statement!", ifNode)
 
-    replacement = []
+    replacement = None
     newDefinitions = []
     removedDefinitions = []
 
@@ -344,7 +344,12 @@ def inlineIfStatement(ifNode, conditionValue):
             replacement = ifNode.children[1].children[0]
         else:
             removedDefinitions = getDefinitions(ifNode.children[1])
+            # don't leave single-statement parent loops empty
+            emptyBlock = treegenerator.symbol("block")()
+            emptyBlock.set("line", ifNode.get("line"))
+            replacement = emptyBlock
 
+    # Rescue var decls
     newDefinitions = [x.getDefinee().get("value") for x in newDefinitions]
     definitions = []
     for definition in removedDefinitions:
@@ -364,28 +369,21 @@ def inlineIfStatement(ifNode, conditionValue):
                 definition.children[0] = idf
             defList.addChild(definition)
 
-        # move defList to higher node
-        node = ifNode
-        while node.type not in ("statements",):
-            if node.parent:
-                node = node.parent
-            else:
-                break
-        node.addChild(defList,0)
+        # attach defList to replacement
+        if replacement.type != 'block':
+            block = treegenerator.symbol("block")()
+            block.set("line", ifNode.get("line"))
+            block.addChild(replacement)
+            replacement = block
+        replacement.addChild(defList,0)
 
     # move replacement
-    if replacement:
-        replaceChildWithNodes(ifNode.parent, ifNode, [replacement]) # helper expects list
-    else:
-        emptyBlock = treegenerator.symbol("block")()
-        emptyBlock.set("line", ifNode.get("line"))
+    if inPlace:
         # TODO: experimental bug#4734: is this enough?
         if (ifNode.parent.type in ["block", "file"]):
             ifNode.parent.removeChild(ifNode)
         else:
-            # don't leave single-statement parent loops empty
-            ifNode.parent.replaceChild(ifNode, emptyBlock)
-        replacement = emptyBlock
+            ifNode.parent.replaceChild(ifNode, replacement)
 
     return replacement
 
