@@ -5,8 +5,6 @@ Migration Guide
 
 Migrating from a previous qooxdoo version to a current release often requires nothing more than just running the ``migration`` job in your application. Yet, some changes between releases may involve manual modifications as detailed in the migration guide of each `individual release <http://qooxdoo.org/project/release_notes>`_. The following guide covers both cases.
 
-If you are migrating from a legacy verison of qooxdoo to %{version}, namely from a **0.8.2** or prior release, please do a *two-step* migration to %{version}. Firstly, migrate to `qooxdoo 0.8.3 <http://qooxdoo.org/project/release_notes/0.8.3>`_, following the instructions in the `corresponding manual <http://attic.qooxdoo.org/documentation/0.8#migration>`_. You will need a qooxdoo 0.8.3 SDK to go through the process, so fetch one from the `download location <https://sourceforge.net/projects/qooxdoo/files/>`_. This is necessary as there have been major changes in qooxdoo which require the infrastructure of the intermediate version to bridge. Then, follow the remaining steps in this document.
-
 Backup
 ======
 
@@ -73,3 +71,7 @@ is mostly a one-to-one translation of the arguments, with unchanged semantics:
 * ``#``\ cldr -> ``@``\ cldr\ *()* Mind that *@cldr* requires a pair of empty parentheses
   (to make the syntax consistent with other @-hints).
 
+Legacy Versions
+===============
+
+If you are migrating from a legacy verison of qooxdoo to %{version}, namely from a **0.8.2** or prior release, please do a *two-step* migration to %{version}. Firstly, migrate to `qooxdoo 0.8.3 <http://qooxdoo.org/project/release_notes/0.8.3>`_, following the instructions in the `corresponding manual <http://attic.qooxdoo.org/documentation/0.8#migration>`_. You will need a qooxdoo 0.8.3 SDK to go through the process, so fetch one from the `download location <https://sourceforge.net/projects/qooxdoo/files/>`_. This is necessary as there have been major changes in qooxdoo which require the infrastructure of the intermediate version to bridge. Then, follow the remaining steps in this document.
