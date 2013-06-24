@@ -3,15 +3,34 @@
     <head>
         <title></title>
         <meta charset="utf-8" />
-        <script type="text/javascript" src="../script/q-3.0.min.js"></script>
         <script>
-            q.ready(function(){
+            // load appropriate q (q-min XOR q-source XOR core+matchmedia)
+            var isTestModule = function() { return (parent.location.pathname.search("index-module.html$") !== -1) };
+            var isTestSource = function() { return (parent.location.pathname.search("index-source.html$") !== -1) };
+            var loadScript = function(path) {
+              var qscript = document.createElement('script'); qscript.type = 'text/javascript'; qscript.src = path;
+              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(qscript, s);
+            };
+
+            if (isTestModule()) {
+              loadScript("script/q-core-3.0.min.js");
+              loadScript("script/q-matchmedia-3.0.min.js");
+            } else if (isTestSource()) {
+              // cannot use q-test-source because loading takes too long
+              // loadScript("script/q-test-source.js");
+              loadScript("script/q-3.0.min.js");
+            } else {
+              loadScript("script/q-3.0.min.js");
+            }
+
+            // test case (wait till script files are loaded)
+            window.onload = function () {
               qxWeb(window).on('message', receiver);
               function receiver(e) {
                 var match = qxWeb.matchMedia(e.data).matches ? "true" : "false";
                 window.parent.postMessage(match,'*');
               }
-            });
+            };
         </script>
     </head>
     <body>

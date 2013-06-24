@@ -197,6 +197,7 @@
         "build-module-dataset",
         "build-module-dev",
         "build-module-io",
+        "build-module-matchmedia-min",
         "build-module-messaging",
         "build-module-placeholder",
         "build-module-placement",
@@ -218,6 +219,7 @@
         "build-module-dataset-min",
         "build-module-dev-min",
         "build-module-io-min",
+        "build-module-matchmedia-min",
         "build-module-messaging-min",
         "build-module-placeholder-min",
         "build-module-placement-min",
@@ -358,6 +360,30 @@
       "let" : {
         "Q_INCLUDES": ["qx.module.Io"],
         "MODULE_FILENAME" : "io"
+      }
+    },
+
+    "build-module-matchmedia" :
+    {
+      "extend" : ["build-module"],
+      "lint-check" : {
+        "allowed-globals" : [ "qx", "qx.core" ]
+      },
+      "let" : {
+        "Q_INCLUDES": ["qx.module.MatchMedia"],
+        "MODULE_FILENAME" : "matchmedia"
+      }
+    },
+
+    "build-module-matchmedia-min" :
+    {
+      "extend" : ["build-module-min"],
+      "lint-check" : {
+        "allowed-globals" : [ "qx", "qx.core" ]
+      },
+      "let" : {
+        "Q_INCLUDES": ["qx.module.MatchMedia"],
+        "MODULE_FILENAME" : "matchmedia"
       }
     },
 
