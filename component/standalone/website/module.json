@@ -44,7 +44,8 @@
       "let" :
       {
         "OPTIMIZE" : ["variants"],
-        "Q_INCLUDES" : "${QXWEB_ALL}"
+        "Q_INCLUDES" : "${QXWEB_ALL}",
+        "BUILD_PATH" : "${SCRIPT_PATH}"
       },
 
       "compile-options" :
@@ -98,12 +99,7 @@
     // build separate modules (slice qxWeb into separate js-files)
     // ------------------------------------------------------------------
     //
-    // qx.module.Core + <extras> = original qxWeb   // <extras> = all non-core modules
-    // => original qxWeb but in two js-files (core + extras)
-    //
-    // XOR
-    //
-    // qx.module.Core + qx.module.Animation + ... = tailored qxWeb
+    // qx.module.Core + qx.module.Animation + ...
     // => tailored qxWeb in n-js-files (core + ...)
 
     "build-core" :
@@ -149,61 +145,6 @@
       }
     },
 
-    "build-extras" :
-    {
-      "extend" : ["build"],
-      "let" : {
-        "Q_INCLUDES" : [
-          "qx.module.*"
-        ],
-        "_EXCLUDES_" : ["=qx.module.Core", "qx.module.event.*"]
-      },
-      // qx.module.event.* already in Core
-      "config-warnings" : {
-        "exclude" : "${_EXCLUDES_}"
-      },
-      "exclude" : "${_EXCLUDES_}",
-      "lint-check" : {
-        "allowed-globals" : [
-            "qx.Bootstrap",
-            "qxWeb",
-            "qx",
-            "qx.core",
-            "qx.lang",
-            "qx.bom",
-            "qx.event",
-            "qx.util"
-        ]
-      },
-      "compile-options" :
-      {
-        "code": {
-          "format": true
-        },
-        "paths"  :
-        {
-          "file" : "${BUILD_PATH}/q-extras-${QOOXDOO_VERSION}.js",
-          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.extras.tmpl.js"
-        }
-      }
-    },
-
-    "build-extras-min" :
-    {
-      "extend" : ["build-extras", "min-options"],
-      "compile-options" :
-      {
-        "paths"  :
-        {
-          "file" : "${BUILD_PATH}/q-extras-${QOOXDOO_VERSION}.min.js",
-          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.extras.tmpl.js"
-        },
-        "code" : {
-          "format" : false
-        }
-      }
-    },
-
     "build-module" :
     {
       "extend" : ["build"],
@@ -220,7 +161,7 @@
         "paths"  :
         {
           "file" : "${BUILD_PATH}/q-${MODULE_FILENAME}-${QOOXDOO_VERSION}.js",
-          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.extras.tmpl.js"
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.module.tmpl.js"
         }
       }
     },
@@ -241,7 +182,7 @@
         "paths"  :
         {
           "file" : "${BUILD_PATH}/q-${MODULE_FILENAME}-${QOOXDOO_VERSION}.min.js",
-          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.extras.tmpl.js"
+          "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.module.tmpl.js"
         }
       }
     },
@@ -250,7 +191,6 @@
     {
       "run" : [
         "build-core",
-        "build-extras",
         "build-module-animation",
         "build-module-blocker",
         "build-module-cookie",
@@ -272,7 +212,6 @@
     {
       "run" : [
         "build-core-min",
-        "build-extras-min",
         "build-module-animation-min",
         "build-module-blocker-min",
         "build-module-cookie-min",

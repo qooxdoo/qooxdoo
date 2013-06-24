@@ -35,11 +35,11 @@
     "API_EXCLUDE"  : ["qx.test.*"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
-    "BUILD_PATH"   : "script",
     "ROOT"         : ".",
-    "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
-    "TEST_SCRIPT_PATH"  : "./test/script",
-    "API_SCRIPT_PATH" : "api/script",
+    "TESTRUNNER_ROOT"  : "${QOOXDOO_PATH}/component/testrunner",
+    "SCRIPT_PATH"      : "script",
+    "TEST_SCRIPT_PATH" : "./test/script",
+    "API_SCRIPT_PATH"  : "api/script",
     "QXWEB_ALL" : [
       "qx.module.*",
       "qxWeb"
@@ -87,7 +87,8 @@
       "let" :
       {
         "OPTIMIZE" : [],
-        "Q_INCLUDES" : "${QXWEB_ALL}"
+        "Q_INCLUDES" : "${QXWEB_ALL}",
+        "BUILD_PATH" : "${SCRIPT_PATH}"
       },
 
       "compile-options" :
@@ -173,6 +174,21 @@
       ]
     },
 
+    "test-module" :
+    {
+      "let" :
+      {
+        "BUILD_SCRIPT_FILE" : "${TEST_SCRIPT_PATH}/testrunner-portable.js",
+        "BUILD_PATH" : "${TEST_SCRIPT_PATH}"
+      },
+
+      "run" : [
+        "build-module-all-min",
+        "testrunner-portable::build-script",
+        "testrunner-portable::gen-css"
+      ]
+    },
+
 
     "testrunner-portable::build-script" :
     {
@@ -194,24 +210,17 @@
 
     "build-api" :
     {
-      "extend" : ["build-min"],
-
       "let" : {
-        "Q_INCLUDES" : "${QXWEB_ALL}"
+        "BUILD_PATH" : "${API_SCRIPT_PATH}"
       },
       "environment" :
       {
         "q.eventtypes" : "qx.module.event.Mouse,qx.module.event.Keyboard,qx.module.event.Native,qx.module.event.Orientation,qx.module.event.Touch"
       },
-      "compile-options" :
-      {
-        "paths"  :
-        {
-          "file" : "${API_SCRIPT_PATH}/q-${QOOXDOO_VERSION}.min.js"
-        }
-      }
+      "run": [
+        "build-module-all-min"
+      ]
     },
-
 
     "api-data" : {
       "desc" : "Create API data for the qx.Website API viewer",
@@ -231,6 +240,10 @@
     {
       "desc"    : "remove local cache and generated .js files (source/build/build-min/test/test-source/api)",
       "extend"  : ["cache"],
+
+      "let": {
+        "BUILD_PATH" : "${SCRIPT_PATH}"
+      },
 
       "=clean-files" :
       {
@@ -253,6 +266,10 @@
     {
       "desc"    : "remove local cache and generated .js files (source/build/build-min/test/api)",
       "extend"  : ["cache"],
+
+      "let": {
+        "BUILD_PATH" : "${SCRIPT_PATH}"
+      },
 
       "=clean-files" :
       {
@@ -284,7 +301,7 @@
         ,"allow-remote-access" : false
       }
     }
-    
+
     ,"source-httpd-config":
     {
       "desc"  : "generate a httpd configuration for the source version"
