@@ -34,7 +34,6 @@
 #
 # NOTE
 #  Add new files to the 'Files' map (see further in the "Config section").
-#  If you add files here, also update http://qooxdoo.org/documentation/general/how_to_build_a_release!
 ##
 
 import sys, os, re, string, types, codecs, functools, subprocess as sub
@@ -172,20 +171,22 @@ Files = {
         r'q-(%s).js' % qxversion_regexp,
         ],
     "./component/standalone/website/api/index.html" : [
-        r'q-(%s).min.js' % qxversion_regexp,
+        r'q-[a-z]+-(%s).min.js' % qxversion_regexp,
         ],
     "./component/standalone/website/test/index.html" : [
         r'q-(%s).min.js' % qxversion_regexp,
         ],
+    "./component/standalone/website/test/index-module.html" : [
+        r'q-[a-z]+-(%s).min.js' % qxversion_regexp,
+        ],
     "./application/todo/index.html" : [
-        r'q-core-(%s).min.js' % qxversion_regexp,
-        r'q-storage-(%s).min.js' % qxversion_regexp,
-        r'q-template-(%s).min.js' % qxversion_regexp
+        r'q-[a-z]+-(%s).min.js' % qxversion_regexp,
         ],
     "./component/tutorials/website/step1/notification.html" : [
         r'q-(%s).min.js' % qxversion_regexp,
         ],
     "./component/standalone/website/test/media.html" : [
+        r'q-[a-z]+-(%s).min.js' % qxversion_regexp,
         r'q-(%s).min.js' % qxversion_regexp,
         ],
 }
