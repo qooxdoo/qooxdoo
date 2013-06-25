@@ -87,8 +87,9 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
     * - .. _pages/tool/generator/generator_config_macros#optimize:
         
         OPTIMIZE 
-      - list of :ref:`optimization options <pages/tool/generator/generator_config_ref#compile-options>` for build version 
-      - ["basecalls", "comments", "privates", "strings", "variables", "variants", "whitespace"]
+      - list of :doc:`optimization options
+        </pages/tool/generator/generator_optimizations>` for build version 
+      - ["basecalls", "comments", "privates", "statics", "strings", "variables", "variants", "whitespace"]
   
     * - .. _pages/tool/generator/generator_config_macros#qooxdoo_path:
         

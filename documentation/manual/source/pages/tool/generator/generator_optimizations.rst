@@ -1,7 +1,14 @@
 Generator Script Optimizations
 ==============================
 
-When creating the JavaScript output for an application, the generator supports several optimizations. These optimizations can be enabled in the generator configuration using the :ref:`optimize <pages/tool/generator/generator_config_ref#compile-options>` key. Each of them is described here in detail.
+When creating the JavaScript output for an application, the generator supports
+several optimizations. These optimizations can be enabled in the generator
+configuration using the *code/optimize* key, a subkey of
+:ref:`pages/tool/generator/generator_config_ref#compile-options`.  The best
+way to set this key is by setting the :ref:`OPTIMIZE 
+<pages/tool/generator/generator_config_macros#optimize>` macro in your config's global
+*let* section. What the individual optimizations do is described here in
+detail.
 
 
 .. _pages/tool/generator/generator_config_articles#basecalls:

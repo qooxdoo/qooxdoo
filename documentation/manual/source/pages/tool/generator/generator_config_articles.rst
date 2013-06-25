@@ -671,14 +671,6 @@ The ``library`` key has to at least add the entry for the current application, s
 
 So in short, the ``ROOT``, ``BUILD_PATH``, ``API_INCLUDE`` and ``API_EXCLUDE`` macros define the interface between the apiviewer's "run" job and the local config.
 
-.. _pages/tool/generator/generator_config_articles#optimize_key:
-
-"optimize" Key
-==============
-
-The *optimize* key is a subkey of the :ref:`compile-options key<pages/tool/generator/generator_config_ref#compile-options>`. It allows you to tailor the forms of code optimization that is applied to the Javascript code when the *build* version is created. The best way to set this key is by setting the :doc:`OPTIMIZE macro </pages/tool/generator/generator_config_macros>` in your config's global *let* section. The individual optimization categories are described in their own :doc:`manual section </pages/tool/generator/generator_optimizations>`.
-
-
 .. _pages/tool/generator/generator_config_articles#environment_key:
 
 "environment" Key
