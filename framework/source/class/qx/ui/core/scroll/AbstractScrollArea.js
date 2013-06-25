@@ -78,7 +78,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
     // Mousewheel listener to scroll vertically
     this.addListener("mousewheel", this._onMouseWheel, this);
 
-    // @deprecated {2.2} Touch scrolling is done by mouse events now.
+    // @deprecated {3.0} Touch scrolling is done by mouse events now.
     // Block can be removed.
     if (qx.core.Environment.get("event.touch")) {
       // touch move listener for touch scrolling
@@ -192,7 +192,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
 
   members :
   {
-    // @deprecated {2.2} Both keys
+    // @deprecated {3.0} Both keys
     __old : null,
     __impulseTimerId : null,
 
@@ -530,7 +530,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
 
     /**
      * Event handler for the touch move.
-     * @deprecated {2.2} Touch scrolling is done by mouse events now.
+     * @deprecated {3.0} Touch scrolling is done by mouse events now.
      * @param e {qx.event.type.Touch} The touch event
      */
     _onTouchMove : function(e) {},
@@ -539,7 +539,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
     /**
      * Touch move handler for one direction.
      *
-     * @deprecated {2.2} Touch scrolling is done by mouse events now.
+     * @deprecated {3.0} Touch scrolling is done by mouse events now.
      *
      * @param dir {String} Either 'x' or 'y'
      * @param e {qx.event.type.Touch} The touch event
