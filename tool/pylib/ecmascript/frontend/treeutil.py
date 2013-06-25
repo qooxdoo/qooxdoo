@@ -387,7 +387,7 @@ def inlineIfStatement(ifNode, conditionValue, inPlace=True):
         else:
             ifNode.parent.replaceChild(ifNode, replacement)
 
-    return replacement
+    return replacement, replacement_is_empty
 
 
 def replaceChildWithNodes(node, oldChild, newChildren):

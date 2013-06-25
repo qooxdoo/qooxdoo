@@ -24,7 +24,6 @@
 import re, sys, operator as operators, types
 from ecmascript.frontend          import treeutil
 from ecmascript.frontend.treegenerator  import symbol, PackerFlags as pp
-from ecmascript.frontend            import Scanner as scan
 from ecmascript.transform.evaluate  import evaluate
 from ecmascript.transform.optimizer import reducer
 
@@ -51,6 +50,8 @@ def log(level, msg, node=None):
             print >> sys.stderr, str
 
 
+##
+# Interface method.
 def search(node, variantMap, fileId_="", verb=False):
     if not variantMap:
         return False
@@ -71,6 +72,12 @@ def search(node, variantMap, fileId_="", verb=False):
             modified = processVariantGet(callNode, variantMap) or modified
         elif variantMethod in ["filter"]:
             modified = processVariantFilter(callNode, variantMap) or modified
+
+    # reduce decidable subtrees
+    if modified:
+        for cld in node.children[:]:
+            new_cld = reducer.ast_reduce(cld)
+            node.replaceChild(cld, new_cld)
 
     return modified
 
@@ -185,6 +192,8 @@ def processVariantGet(callNode, variantMap):
     resultNode = reduceCall(callNode, confValue)
     treeModified = True
 
+    return treeModified
+
     # Reduce any potential operations with literals (+3, =='hugo', ?a:b, ...)
     treeMod = True
     while treeMod:
@@ -219,56 +228,6 @@ def __variantMatchKey(key, variantValue):
 #
 
 ##
-# Take a Python value and init a constant node with it, setting the node's "constantType"
-#
-def set_node_type_from_value(valueNode, value):
-    valueNode.set("value", str(value))  # init value attrib
-    if isinstance(value, types.StringTypes):
-        valueNode.set("constantType","string")
-        quotes, escaped_value = escape_quotes(str(value))
-        valueNode.set("value", escaped_value)
-        valueNode.set("detail", quotes)
-    # this has to come first, as isinstance(True, types.IntType) is also true!
-    elif isinstance(value, types.BooleanType):
-        valueNode.set("constantType","boolean")
-        valueNode.set("value", str(value).lower())
-    elif isinstance(value, types.IntType):
-        valueNode.set("constantType","number")
-        valueNode.set("detail", "int")
-    elif isinstance(value, types.FloatType):
-        valueNode.set("constantType","number")
-        valueNode.set("detail", "float")
-    elif isinstance(value, types.NoneType):
-        valueNode.set("constantType","null")
-        valueNode.set("value", "null")
-    else:
-        raise ValueError("Illegal value for JS constant: %s" % str(value))
-    return valueNode
-
-
-##
-# Determine the quoting to be used on that string in code ('singlequotes',
-# 'doublequotes'), and escape pot. embedded quotes correspondingly.
-# (The string might result from a concat operation that combined differently
-# quoted strings, like 'fo"o"bar' + "ba"\z\"boing").
-#
-def escape_quotes(s):
-    quotes = 'singlequotes'  # aribtrary choice
-    result = s
-    # only if we have embedded quotes we have to check escaping
-    if "'" in s:
-        result = []
-        chunks = s.split("'")
-        for chunk in chunks[:-1]:
-            result.append(chunk)
-            if not scan.is_last_escaped(chunk + "'"):
-                result.append('\\')
-            result.append("'")
-        result.append(chunks[-1])
-        result = u''.join(result)
-    return quotes, result
-
-##
 # 1. pass:
 # replace qx.c.Env.get(key) with its value, qx.core.Environment.get("foo") => 3
 # handles parent relation
@@ -276,7 +235,7 @@ def reduceCall(callNode, value):
     # construct the value node
     valueNode = symbol("constant")(
             callNode.get("line"), callNode.get("column"))
-    valueNode = set_node_type_from_value(valueNode, value)
+    valueNode = reducer.set_node_type_from_value(valueNode, value)
     # put it in place of the callNode
     #print "optimizing: .get()"
     callNode.parent.replaceChild(callNode, valueNode)
@@ -309,7 +268,7 @@ def reduceOperation(literalNode):
         # create replacement
         resultNode = symbol("constant")(
             operationNode.get("line"), operationNode.get("column"))
-        resultNode = set_node_type_from_value(resultNode, operationNode.evaluated)
+        resultNode = reducer.set_node_type_from_value(resultNode, operationNode.evaluated)
         # modify tree
         operationNode.parent.replaceChild(operationNode, resultNode)
         treeModified = True
