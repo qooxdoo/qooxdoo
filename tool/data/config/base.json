@@ -249,7 +249,8 @@
         "qx.debug" : false,
         "qx.debug.databinding" : false,
         "qx.debug.dispose" : false,
-        "qx.debug.ui.queue" : false
+        "qx.debug.ui.queue" : false,
+        "qx.debug.io" : false
       },
 
       "compile-options" :
@@ -309,7 +310,8 @@
         "qx.debug" : false,
         "qx.debug.databinding" : false,
         "qx.debug.dispose" : false,
-        "qx.debug.ui.queue" : false
+        "qx.debug.ui.queue" : false,
+        "qx.debug.io" : false
       },
 
       "copy-resources" :
@@ -403,7 +405,8 @@
         "qx.debug" : false,
         "qx.debug.databinding" : false,
         "qx.debug.dispose" : false,
-        "qx.debug.ui.queue" : false
+        "qx.debug.ui.queue" : false,
+        "qx.debug.io" : false
       }
 
       ,"provider" :
@@ -607,7 +610,7 @@
 
       "lint-check" :
       {
-        "allowed-globals"   : [ 
+        "allowed-globals"   : [
           "q",
           "qxWeb",
           "qxsettings",
