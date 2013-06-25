@@ -558,6 +558,9 @@ qx.Bootstrap.define("qx.core.Property",
         members[method.init[name]] = function(value) {
           return qx.core.Property.executeOptimizedSetter(this, clazz, name, "init", arguments);
         }
+        if (qx.core.Environment.get("qx.debug")) {
+          members[method.init[name]].$$propertyMethod = true;
+        }
       }
 
       if (config.inheritable)
@@ -565,6 +568,9 @@ qx.Bootstrap.define("qx.core.Property",
         method.refresh[name] = "refresh" + upname;
         members[method.refresh[name]] = function(value) {
           return qx.core.Property.executeOptimizedSetter(this, clazz, name, "refresh", arguments);
+        }
+        if (qx.core.Environment.get("qx.debug")) {
+          members[method.refresh[name]].$$propertyMethod = true;
         }
       }
 
@@ -589,12 +595,30 @@ qx.Bootstrap.define("qx.core.Property",
         members[method.resetThemed[name]] = function() {
           return qx.core.Property.executeOptimizedSetter(this, clazz, name, "resetThemed");
         }
+        if (qx.core.Environment.get("qx.debug")) {
+          members[method.setThemed[name]].$$propertyMethod = true;
+          members[method.resetThemed[name]].$$propertyMethod = true;
+        }
       }
 
       if (config.check === "Boolean")
       {
         members["toggle" + upname] = new Function("return this." + method.set[name] + "(!this." + method.get[name] + "())");
         members["is" + upname] = new Function("return this." + method.get[name] + "()");
+
+        if (qx.core.Environment.get("qx.debug")) {
+          members["toggle" + upname].$$propertyMethod = true;
+          members["is" + upname].$$propertyMethod = true;
+        }
+      }
+
+      // attach a flag to makr generated property methods
+      if (qx.core.Environment.get("qx.debug")) {
+        members[method.get[name]].$$propertyMethod = true;
+        members[method.set[name]].$$propertyMethod = true;
+        members[method.reset[name]].$$propertyMethod = true;
+        members[method.setRuntime[name]].$$propertyMethod = true;
+        members[method.resetRuntime[name]].$$propertyMethod = true;
       }
     },
 

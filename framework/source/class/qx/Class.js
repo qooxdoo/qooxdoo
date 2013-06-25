@@ -1291,6 +1291,10 @@ qx.Bootstrap.define("qx.Class",
           if (patch !== true && proto.hasOwnProperty(key)) {
             throw new Error('Overwriting member "' + key + '" of Class "' + clazz.classname + '" is not allowed!');
           }
+
+          if (proto[key] != undefined && proto[key].$$propertyMethod) {
+            throw new Error('Overwriting generated property method "' + key + '" of Class "' + clazz.classname + '" is not allowed!');
+          }
         }
 
         // Added helper stuff to functions

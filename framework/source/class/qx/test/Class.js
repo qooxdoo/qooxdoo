@@ -41,6 +41,39 @@ qx.Class.define("qx.test.Class",
     },
 
 
+    testOverridePropertyMethod : function() {
+      var C = qx.Class.define(null, {
+        extend : qx.core.Object,
+        properties : {
+          prop: {
+            check : "Boolean",
+            inheritable: true,
+            themeable: true
+          }
+        }
+      });
+
+      var methods = [
+        "set", "get", "init", "reset", "refresh",
+        "setRuntime", "resetRuntime", 
+        "is", "toggle",
+        "setThemed", "resetThemed"
+      ];
+
+      for (var i = 0; i < methods.length; i++) {
+        var name = methods[i] + "Prop";
+        var members = {};
+        members[name] = function() {};
+        this.assertException(function() {
+          qx.Class.define(null, {
+            extend : C,
+            members : members
+          });
+        }, Error, new RegExp(name), name + " went wrong!");
+      }
+    },
+
+
     testEmptyClass : function()
     {
       qx.Class.define("qx.Empty",
