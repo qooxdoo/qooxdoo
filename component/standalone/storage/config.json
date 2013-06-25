@@ -173,7 +173,7 @@
 
     "build-require" :
     {
-      "extend" : ["build-require-min"],
+      "extend" : ["build"],
 
       "compile-options" :
       {
@@ -181,11 +181,6 @@
         {
           "file" : "${BUILD_PATH}/storage-${QOOXDOO_VERSION}.require.js",
           "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/require.loader.tmpl.js"
-        },
-        "code" :
-        {
-          "format"   : true,
-          "=optimize" : [ "variants", "statics" ]
         }
       }
     }
