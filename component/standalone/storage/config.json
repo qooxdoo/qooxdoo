@@ -8,7 +8,8 @@
         "cache",
         "distclean",
         "info",
-        "log-dependencies"
+        "log-dependencies",
+        "validate-config"
       ]
     }
   ],
@@ -41,6 +42,7 @@
 
       "environment" :
       {
+        "json" : true,
         "qx.version"  : "${QOOXDOO_VERSION}",
         "qx.revision" : "${QOOXDOO_REVISION}",
         "qx.debug"    : false,
@@ -70,7 +72,7 @@
 
     "build-min" :
     {
-      "extend" : ["storage-common"],
+      "extend" : ["build"],
 
       "compile-options" :
       {
@@ -81,18 +83,15 @@
         "code" :
         {
           "format"   : false,
-          "optimize" : [ "variants", "basecalls", "strings", "privates", "variables", "whitespace"],
-          "except"   : []
+          "optimize" : [ "basecalls", "strings", "privates", "variables", "whitespace" ]
         }
       },
-
-      "compile" : { "type" : "build" }
     },
 
 
     "build" :
     {
-      "extend" : ["build-min"],
+      "extend" : ["storage-common"],
 
       "compile-options" :
       {
@@ -103,9 +102,12 @@
         "code" :
         {
           "format"   : true,
-          "=optimize" : [ "variants", "static" ]
+          "optimize" : [ "variants", "statics" ],
+          "except"   : []
         }
-      }
+      },
+
+      "compile" : { "type" : "build" }
     },
 
 
@@ -183,7 +185,7 @@
         "code" :
         {
           "format"   : true,
-          "=optimize" : [ "variants", "static" ]
+          "=optimize" : [ "variants", "statics" ]
         }
       }
     }
