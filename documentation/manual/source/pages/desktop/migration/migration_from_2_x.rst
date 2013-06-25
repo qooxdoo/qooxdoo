@@ -32,6 +32,8 @@ Along with the changes in the %{Desktop} GUI toolkit, the themes that ship with 
 * Modern: shadows and rounded borders no longer available in IE 8
 * Classic: shadows no longer available in IE 8; text fields and text areas only with single not double borders
 
+This is also relevant if you used some of the decorators for your custom widgets. They might have been renamed or deleted.
+
 
 Custom Themes
 =============
