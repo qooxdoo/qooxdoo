@@ -913,7 +913,7 @@ qx.Class.define("qx.ui.embed.HtmlArea",
      * @param value {String} Color value (supported are Hex,
      * @return {Boolean} Success of operation
      */
-    setTextColor : function(value) {
+    setTextForegroundColor : function(value) {
       return this.__editorComponent != null ? this.__editorComponent.setTextColor(value) : false;
     },
 
@@ -1050,14 +1050,10 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     },
 
 
-    /**
-     * Sets the background color of the editor
-     *
-     * @param value {String} color
-     * @return {Boolean} if succeeded
-     */
-    setBackgroundColor : function(value) {
-      return this.__editorComponent != null ? this.__editorComponent.setBackgroundColor(value) : false;
+    // overridden
+    _applyBackgroundColor : function(value) {
+      this.base(arguments, value);
+      this.__editorComponent != null ? this.__editorComponent.setBackgroundColor(value) : false;
     },
 
 
@@ -1204,10 +1200,10 @@ qx.Class.define("qx.ui.embed.HtmlArea",
     /**
      * Returns the content of the actual range as text
      *
-     * @TODO: need to be implemented correctly
      * @return {String?null} selected text or null if not initialized
      */
     getSelectedHtml : function() {
+      // TODO: need to be implemented correctly
       return this.__editorComponent != null ? this.__editorComponent.getSelectedHtml() : null;
     },
 
