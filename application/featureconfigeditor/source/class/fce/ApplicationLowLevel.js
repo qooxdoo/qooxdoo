@@ -85,23 +85,36 @@ qx.Class.define("fce.ApplicationLowLevel",
         var header = document.createElement("h1");
         header.innerHTML = headerText;
 
-        var out = document.createElement("div");
-        out.id = "out";
-        out.innerHTML = htmlFormattedJson;
-
-        var riaLink = document.createElement("a");
-        riaLink.href = "?ria";
-        riaLink.innerHTML = "Launch Configuration Editor (may not work on mobile devices)";
-
+        var mail = document.createElement("div");
         var mailTo = document.createElement("a");
         mailTo.innerHTML = "Send feature set data by email";
         var subject = encodeURIComponent(headerText);
-        var body = encodeURIComponent(navigator.userAgent + "\n\n" + json);
+        var body = encodeURIComponent("navigator.userAgent: " + navigator.userAgent + "\n\n" + json);
         mailTo.href = "mailto:?subject=" + subject + "&body=" + body;
+        mail.appendChild(mailTo);
+        var mailInfo = document.createTextNode(" (to an address of your choice)");
+        mail.appendChild(mailInfo);
+
+        var ria = document.createElement("div");
+        var riaLink = document.createElement("a");
+        riaLink.href = "?ria";
+        riaLink.innerHTML = "Launch full configuration editor";
+        ria.appendChild(riaLink);
+        var riaInfo = document.createTextNode(" (may not work on mobile devices)");
+        ria.appendChild(riaInfo);
+
+        var userAgent = document.createElement("div");
+        userAgent.className = "out";
+        userAgent.innerHTML = "navigator.userAgent: " + navigator.userAgent;
+        
+        var out = document.createElement("div");
+        out.className = "out";
+        out.innerHTML = htmlFormattedJson;
 
         document.body.appendChild(header);
-        document.body.appendChild(mailTo);
-        document.body.appendChild(riaLink);
+        document.body.appendChild(mail);
+        document.body.appendChild(ria);
+        document.body.appendChild(userAgent);
         document.body.appendChild(out);
       }
     }
