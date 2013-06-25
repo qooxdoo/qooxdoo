@@ -106,7 +106,7 @@ qx.Class.define("demobrowser.demo.widget.HtmlArea",
     __fontColorHandler : function(e)
     {
       var result = window.prompt("Color (Hex): ", "#");
-      this.setTextColor(result);
+      this.setTextForegroundColor(result);
     },
 
 

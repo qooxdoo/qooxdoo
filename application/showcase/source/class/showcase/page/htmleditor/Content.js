@@ -87,7 +87,7 @@ qx.Class.define("showcase.page.htmleditor.Content",
     __fontColorHandler : function(e)
     {
       var result = window.prompt("Color (Hex): ", "#");
-      this.setTextColor(result);
+      this.setTextForegroundColor(result);
     },
 
 
