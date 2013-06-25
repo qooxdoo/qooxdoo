@@ -193,6 +193,7 @@ def processVariantGet(callNode, variantMap):
     treeModified = True
 
     return treeModified
+    # TODO: remove rest of this function if performance ok
 
     # Reduce any potential operations with literals (+3, =='hugo', ?a:b, ...)
     treeMod = True
