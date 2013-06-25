@@ -19,11 +19,6 @@
 #
 ################################################################################
 
-##
-# Scope walker to produce a list of global identifier nodes (unfiltered).
-#
-##
-
 import os, sys, re, types
 from ecmascript.frontend import treeutil, Comment
 from generator.code.HintArgument import HintArgument
@@ -156,6 +151,28 @@ def find_hints_upward(node):
 # Create a tree of Hint() objects, attached to corresp. nodes of tree.
 #
 def create_hints_tree(tree):
-    hintsCollector = CreateHintsVisitor(tree)
-    hintsCollector.visit(tree)
+    treeHintColltor = CreateHintsVisitor(tree)
+    # Special case: top-level sequence of statements:
+    # tie the hint trees of all subsequent tl statements to the first
+    # (as the first statement gets the very first jsdoc comment which should scope over all)
+    if tree.type=='statements' or (len(tree.children)==1 and tree.children[0].type=='statements'):
+        if tree.type=='statements':
+            root_node = tree
+        elif tree.children[0].type=='statements':
+            root_node = tree.children[0]
+        first_cld = True
+        for cld in root_node.children:
+            cldColltor = CreateHintsVisitor(cld)
+            cldColltor.visit(cld)
+            if first_cld:
+                first_cld = False
+                first = cld
+                first.hint.parent = tree.hint
+                tree.hint.children.append(first.hint)
+            else:
+                first.hint.children.append(cld.hint)
+                cld.hint.parent = first.hint
+    else:
+        treeHintColltor.visit(tree)
     return tree
+
