@@ -1,0 +1,33 @@
+
+UPGRADE TO 3.0
+----------------------------------------------------------------------------
+  * Number of script input files: 9
+  * Number of HTML input files: 0
+  * Update to version: 3.0
+  * Searching for patch module...
+  * Searching for info expression data...
+    - /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.0/info/01-main.dat
+    - Compiling expressions...
+      - 01-main.dat
+    - Number of infos: 19
+  * Searching for patch expression data...
+    - /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.0/patches/01-main.dat
+    - Compiling expressions...
+      - 01-main.dat
+    - Number of patches: 2
+
+  FILE PROCESSING:
+----------------------------------------------------------------------------
+  * Processing script files:
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.0/test/source/class/test/theme/Decoration.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.0/test/source/class/test/simulation/DemoSimulation.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.0/test/source/class/test/theme/Theme.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.0/test/source/class/test/theme/Appearance.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.0/test/source/class/test/theme/Font.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.0/test/source/class/test/__init__.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.0/test/source/class/test/test/DemoTest.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.0/test/source/class/test/Application.js
+    - /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.0/test/source/class/test/Application.js:55 Replacing match 'qx.core.Environment.get("event.pointer")' to 'qx.core.Environment.get("css.pointerevents")'
+    - /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.0/test/source/class/test/Application.js has been modified. Storing modifications ...
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.0/test/source/class/test/theme/Color.js
+  * Done

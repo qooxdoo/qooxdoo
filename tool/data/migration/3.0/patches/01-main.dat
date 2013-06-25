@@ -1,1 +1,2 @@
 getShownPageIndex=getCurrentIndex
+\bqx\.core\.Environment\.get\("event.pointer"\)=qx.core.Environment.get("css.pointerevents")
