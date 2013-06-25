@@ -766,7 +766,7 @@
 
     "validate-manifest" :
     {
-      "extend" : ["scan-local-lib"],
+      "extend" : ["cache", "scan-local-lib"],
 
       "desc" : "validates the given filepath as manifest (defaults to './Manifest.json')",
       "validation-manifest" : {}
@@ -774,6 +774,7 @@
 
     "validate-config" :
     {
+      "extend" : ["cache"],
       "desc" : "validates the 'config.json' itself - if jobname arg is given checks dedicated job only",
       "validation-config" : {}
     }
