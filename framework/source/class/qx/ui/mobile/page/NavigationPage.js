@@ -88,7 +88,8 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     action : "qx.event.type.Event",
     
     /** Fired when parent portrait container should hide. 
-     *  @deprecated { 2.2 } Please use qx.ui.mobile.page.Manager.setHideMasterOnDetailStart(true). */
+     *  @deprecated {3.0} Please use qx.ui.mobile.page.Manager.setHideMasterOnDetailStart(true).
+     */
     hidePortraitContainer : "qx.event.type.Event"
   },
 
