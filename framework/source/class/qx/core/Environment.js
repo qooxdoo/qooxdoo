@@ -189,6 +189,10 @@
  *       <td>{@link qx.bom.client.Css#getAlphaImageLoaderNeeded}</td>
  *     </tr>
  *     <tr>
+ *       <td>css.pointerevents</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Css#getPointerEvents}</td>
+ *     </tr>
+ *     <tr>
  *       <td colspan="4"><b>device</b></td>
  *     </tr>
  *     <tr>
@@ -284,10 +288,6 @@
 
  *     <tr>
  *       <td colspan="4"><b>event</b></td>
- *     </tr>
- *     <tr>
- *       <td>event.pointer</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td>{@link qx.bom.client.Event#getPointer}</td>
  *     </tr>
  *      <tr>
  *       <td>event.mspointer</td><td><i>Boolean</i></td><td><code>true</code></td>
@@ -824,7 +824,6 @@ qx.Bootstrap.define("qx.core.Environment",
       "io.ssl" : "qx.bom.client.Transport.getSsl",
       "io.xhr" : "qx.bom.client.Transport.getXmlHttpRequest",
       "event.touch" : "qx.bom.client.Event.getTouch",
-      "event.pointer" : "qx.bom.client.Event.getPointer",
       "event.mspointer" : "qx.bom.client.Engine.getMsPointer",
       "event.help" : "qx.bom.client.Event.getHelp",
       "event.hashchange" : "qx.bom.client.Event.getHashChange",
@@ -906,6 +905,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "css.textShadow" : "qx.bom.client.Css.getTextShadow",
       "css.textShadow.filter" : "qx.bom.client.Css.getFilterTextShadow",
       "css.alphaimageloaderneeded" : "qx.bom.client.Css.getAlphaImageLoaderNeeded",
+      "css.pointerevents" : "qx.bom.client.Css.getPointerEvents",
       "phonegap" : "qx.bom.client.PhoneGap.getPhoneGap",
       "phonegap.notification" : "qx.bom.client.PhoneGap.getNotification",
       "xml.implementation" : "qx.bom.client.Xml.getImplementation",
@@ -937,6 +937,14 @@ qx.Bootstrap.define("qx.core.Environment",
      *   (Details in the class doc)
      */
     get : function(key) {
+      // @deprecated {3.0}
+      if (qx.Bootstrap.DEBUG) {
+        if (key === "event.pointer") {
+          key = "css.pointerevents";
+          qx.Bootstrap.warn("The environment key 'event.pointer' is deprecated, " +
+            "please use 'css.pointerevents' instead.");
+        }
+      }
       // check the cache
       if (this.__cache[key] != undefined) {
         return this.__cache[key];

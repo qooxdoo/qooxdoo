@@ -110,18 +110,6 @@ qx.Theme.define("showcase.theme.Appearance",
     },
 
 
-    "stack":
-    {
-      style : function(states)
-      {
-        return {
-          // the header's shadow may block mouse events in the stack
-          marginTop: qx.core.Environment.get("event.pointer") ? 0 : 8
-        };
-      }
-    },
-
-
     "content-container" :
     {
       style : function(states)

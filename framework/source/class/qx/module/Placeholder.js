@@ -161,7 +161,7 @@ qx.Bootstrap.define("qx.module.Placeholder", {
       }.bind(this, item));
 
       // for browsers not supporting pointer events
-      if (!qxWeb.env.get("event.pointer")) {
+      if (!qxWeb.env.get("css.pointerevents")) {
         placeholderEl.setStyle("cursor", "text").on("click", function(item) {
           item.focus();
         }.bind(this, item));

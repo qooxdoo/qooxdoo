@@ -458,6 +458,31 @@ qx.Bootstrap.define("qx.bom.client.Css",
     {
       return qx.bom.client.Engine.getName() == "mshtml" &&
              qx.bom.client.Browser.getDocumentMode() < 9;
+    },
+
+
+    /**
+     * Checks if pointer events are available.
+     *
+     * @internal
+     * @return {Boolean} <code>true</code> if pointer events are supported.
+     */
+    getPointerEvents : function() {
+      var el = document.documentElement;
+      // Check if browser reports that pointerEvents is a known style property
+      if ("pointerEvents" in el.style) {
+        // The property is defined in Opera and IE9 but setting it has no effect
+        var initial = el.style.pointerEvents;
+        el.style.pointerEvents = "auto";
+        // don't assume support if a nonsensical value isn't ignored
+        el.style.pointerEvents = "foo";
+        var supported = el.style.pointerEvents == "auto";
+        el.style.pointerEvents = initial;
+
+        return supported;
+
+      }
+      return false;
     }
   },
 
@@ -487,5 +512,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.textShadow", statics.getTextShadow);
     qx.core.Environment.add("css.textShadow.filter", statics.getFilterTextShadow);
     qx.core.Environment.add("css.alphaimageloaderneeded", statics.getAlphaImageLoaderNeeded);
+    qx.core.Environment.add("css.pointerevents", statics.getPointerEvents);
   }
 });

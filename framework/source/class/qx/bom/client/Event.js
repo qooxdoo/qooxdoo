@@ -42,31 +42,6 @@ qx.Bootstrap.define("qx.bom.client.Event",
 
 
     /**
-     * Checks if pointer events are available.
-     *
-     * @internal
-     * @return {Boolean} <code>true</code> if pointer events are supported.
-     */
-    getPointer : function() {
-      var el = document.documentElement;
-      // Check if browser reports that pointerEvents is a known style property
-      if ("pointerEvents" in el.style) {
-        // The property is defined in Opera and IE9 but setting it has no effect
-        var initial = el.style.pointerEvents;
-        el.style.pointerEvents = "auto";
-        // don't assume support if a nonsensical value isn't ignored
-        el.style.pointerEvents = "foo";
-        var supported = el.style.pointerEvents == "auto";
-        el.style.pointerEvents = initial;
-
-        return supported;
-
-      }
-      return false;
-    },
-
-
-    /**
      * Checks if MSPointer events are available.
      *
      * @internal
@@ -112,7 +87,6 @@ qx.Bootstrap.define("qx.bom.client.Event",
 
   defer : function(statics) {
     qx.core.Environment.add("event.touch", statics.getTouch);
-    qx.core.Environment.add("event.pointer", statics.getPointer);
     qx.core.Environment.add("event.mspointer", statics.getMsPointer);
     qx.core.Environment.add("event.help", statics.getHelp);
     qx.core.Environment.add("event.hashchange", statics.getHashChange);

@@ -423,6 +423,7 @@ qx.Class.define("qx.test.core.Environment",
       this.assert(typeof radialGradient == "string" || radialGradient === null);
       this.assertBoolean(qx.core.Environment.get("css.gradient.legacywebkit"));
       this.assertBoolean(qx.core.Environment.get("css.alphaimageloaderneeded"));
+      this.assertBoolean(qx.core.Environment.get("css.pointerevents"));
     },
 
     testPhoneGap : function() {
@@ -432,7 +433,6 @@ qx.Class.define("qx.test.core.Environment",
 
     testEvent : function() {
       this.assertBoolean(qx.core.Environment.get("event.touch"));
-      this.assertBoolean(qx.core.Environment.get("event.pointer"));
       this.assertBoolean(qx.core.Environment.get("event.help"));
       this.assertBoolean(qx.core.Environment.get("event.hashchange"));
     },
