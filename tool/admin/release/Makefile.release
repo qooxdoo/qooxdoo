@@ -49,7 +49,7 @@ CMD_RST2HTML = $(CMD_NICE) rst2html.py
 CMD_ZIP_CREATE = $(CMD_ZIP) -rq
 CMD_ANY2UNIX = | xargs $(CMD_PYTHON) tool/pylib/misc/textutil.py --command any2Unix
 CMD_MKEXEC = $(CMD_NICE) chmod a+rx
-CMD_SCSS = $(PATH_TOOL_BIN)/scss.py 
+CMD_SCSS = $(PATH_TOOL_BIN)/scss.py
 CMD_SCSS_OPTS = -C -o
 
 ifeq ($(DO_RELEASE),)
@@ -82,6 +82,7 @@ RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
 APPLICATIONS = tutorial todo feedreader mobileshowcase playground showcase widgetbrowser featureconfigeditor github demobrowser
 COMPONENTS = apiviewer testrunner inspector storage server website
+WEBSITE_MODULES = core animation blocker cookie dataset dev io matchmedia messaging placeholder placement rest storage template transform util
 FRAMEWORK_TARGETS = api test test-mobile
 TUTORIALS = mobiletweets tweets website
 
@@ -133,7 +134,7 @@ release-sdk-svn-collect:
 	@# libs
 	@for COMPONENT in `echo server website`; do \
 		if [ "$$COMPONENT" == "website" ]; then \
-			$(CMD_SYNC_OFFLINE) component/standalone/$$COMPONENT/script/q-$(FRAMEWORK_VERSION)*.js $(RELEASE_SDK)/component/standalone/$$COMPONENT/script; \
+			$(CMD_SYNC_OFFLINE) component/standalone/$$COMPONENT/script/q-*$(FRAMEWORK_VERSION)*.js $(RELEASE_SDK)/component/standalone/$$COMPONENT/script; \
 			$(CMD_SYNC_OFFLINE) component/standalone/$$COMPONENT/api/* $(RELEASE_SDK)/component/standalone/$$COMPONENT/api; \
 		else \
 			$(CMD_SYNC_OFFLINE) component/standalone/$$COMPONENT/script/* $(RELEASE_SDK)/component/standalone/$$COMPONENT/script; \
@@ -200,7 +201,7 @@ info-website:
 website: info-website exec-website-build
 
 exec-website-build:
-	@time ( cd component/standalone/website && $(CMD_GENERATOR) build,build-min ) || exit 1
+	@time ( cd component/standalone/website && $(CMD_GENERATOR) build,build-min,build-module-all,build-module-all-min ) || exit 1
 
 
 ################################################################################
@@ -660,6 +661,12 @@ check-components:
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 			F="component/standalone/$$TARGET/script/q-$(FRAMEWORK_VERSION).min.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
+			for MODULE in $(WEBSITE_MODULES); do \
+				F="component/standalone/$$TARGET/script/q-$$MODULE-$(FRAMEWORK_VERSION).js"; \
+				[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
+				F="component/standalone/$$TARGET/script/q-$$MODULE-$(FRAMEWORK_VERSION).min.js"; \
+				[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
+			done \
 		elif [ "$$TARGET" = "server" ]; then \
 			F="component/standalone/$$TARGET/script/qx-oo-$(FRAMEWORK_VERSION).min.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
@@ -735,8 +742,12 @@ publish-apps:
 			echo "    - $$COMPONENT..."; \
 			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q-$(FRAMEWORK_VERSION).js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
 			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q-$(FRAMEWORK_VERSION).min.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			for MODULE in $(WEBSITE_MODULES); do \
+				$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q-$$MODULE-$(FRAMEWORK_VERSION).js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+				$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q-$$MODULE-$(FRAMEWORK_VERSION).min.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			done; \
 			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/api/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT-api || exit 1; \
-      $(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/test/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT-tests || exit 1; \
+			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/test/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT-tests || exit 1; \
 		elif [ "$$COMPONENT" = "server" ]; then \
 			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/qx-oo-$(FRAMEWORK_VERSION).js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
 			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/qx-oo-$(FRAMEWORK_VERSION).min.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
