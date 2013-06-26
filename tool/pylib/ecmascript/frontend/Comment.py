@@ -982,7 +982,7 @@ def parseNode(node, process_txt=True, want_errors=False):
     result = []  # [[{}], ...]
     filename = node.getRoot().get('file', '<Unknown>') # for error reporting
     # try to fake a classId from a file path
-    if filename != '<Unknown>':
+    if 'source/class/' in filename:
         filename = filename.split('source/class/')[1].replace('/','.')
         if filename.endswith('.js'):
             filename = filename[:-3]
@@ -997,7 +997,6 @@ def parseNode(node, process_txt=True, want_errors=False):
 
                 # process errors and warnings
                 filtered_elements = []
-                #import pydb; pydb.debugger()
                 for entry in jsdoc_elements:
                     if 'error' in entry:
                         lineno = comment.get('line')
