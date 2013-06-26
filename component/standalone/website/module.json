@@ -25,6 +25,7 @@
       "environment" :
       {
         "qx.version" : "${QOOXDOO_VERSION}",
+        "qx.globalErrorHandling" : false,
         "qx.debug"   : false,
         "json" : true
       },
