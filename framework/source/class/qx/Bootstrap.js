@@ -204,19 +204,6 @@ qx.Bootstrap = {
 /**
  * Internal class that is responsible for bootstrapping the qooxdoo
  * framework at load time.
- *
- * Does support:
- *
- * * Construct
- * * Statics
- * * Members
- * * Extend
- * * Defer
- *
- * Does not support:
- *
- * * Super class calls
- * * Mixins, Interfaces, Properties, ...
  */
 qx.Bootstrap.define("qx.Bootstrap",
 {
@@ -315,14 +302,22 @@ qx.Bootstrap.define("qx.Bootstrap",
 
     /**
      * Define a new class using the qooxdoo class system.
-     * Lightweight version of {@link qx.Class#define} only used during bootstrap phase.
+     * Lightweight version of {@link qx.Class#define} with less features.
      *
-     * @internal
      * @signature function(name, config)
      * @param name {String?} Name of the class. If null, the class will not be
      *   attached to a namespace.
-     * @param config {Map ? null} Class definition structure.
-     * @return {Class} The defined class
+     * @param config {Map ? null} Class definition structure. The configuration map has the following keys:
+     *     <table>
+     *       <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+     *       <tr><th>extend</th><td>Class</td><td>The super class the current class inherits from.</td></tr>
+     *       <tr><th>construct</th><td>Function</td><td>The constructor of the class.</td></tr>
+     *       <tr><th>statics</th><td>Map</td><td>Map of static values / functions of the class.</td></tr>
+     *       <tr><th>members</th><td>Map</td><td>Map of instance members of the class.</td></tr>
+     *       <tr><th>defer</th><td>Function</td><td>Function that is called at the end of 
+     *          processing the class declaration.</td></tr>
+     *     </table>
+     * @return {Class} The defined class.
      */
     define : qx.Bootstrap.define,
 

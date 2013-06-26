@@ -65,6 +65,31 @@ addSample("q.define", function() {
   });
 });
 
+addSample("q.define", {javascript :function() {
+  // base class
+  var Dog = q.define({
+    members : {
+      bark : function() {
+        console.log("wuff");
+      }
+    }
+  });
+
+  // extended class
+  var Dachshund = q.define({
+    extend : Dog,
+    members : {
+      bark : function() {
+        this.base(arguments); // call 'bark' of Dog
+        console.log("wuuuuuuff");
+      }
+    }
+  });
+  // create an instance
+  var myDog = new Dachshund();
+  myDog.bark();
+}, executable: true});
+
 addSample(".concat", {
   html: ['<ul>',
          '  <li class="info">item 1</li>',
