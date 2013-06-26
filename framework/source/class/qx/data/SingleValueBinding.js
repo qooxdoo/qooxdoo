@@ -55,7 +55,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      * which the native does not. Imagine a qooxdoo object a which has a
      * children property containing an array holding more of its own kind.
      * Every object has a name property as a string.
-     * <pre><code>
+     * <pre>
      * var svb = qx.data.SingleValueBinding;
      * // bind the first childs name of 'a' to a textfield
      * svb.bind(a, "children[0].name", textfield, "value");
@@ -63,7 +63,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      * svb.bind(a, "children[last].name", textfield2, "value");
      * // also deeper bindinds are possible
      * svb.bind(a, "children[0].children[0].name", textfield3, "value");
-     * </code></pre>
+     * </pre>
      *
      * As you can see in this example, the abc property of a's b will be bound
      * to the textfield. If now the value of b changed or even the a will get a
@@ -78,20 +78,33 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   object.
      * @param options {Map?null} A map containing the options.
      *   <li>converter: A converter function which takes four parameters
-     *       and should return the converted value. The first parameter is the
-     *       data to convert and the second one is the corresponding model
-     *       object, which is only set in case of the use of an controller.
-     *       The third parameter is the source object for the binding and the
-     *       fourth parameter the target object. If no conversion has been
-     *       done, the given value should be returned.</li>
+     *       and should return the converted value.
+     *       <ol>
+     *         <li>The data to convert</li>
+     *         <li>The corresponding model object, which is only set in case of the use of an controller.</li>
+     *         <li>The source object for the binding</li>
+     *         <li>The target object.</li>
+     *       </ol>
+     *       If no conversion has been done, the given value should be returned.
+     *       e.g. a number to boolean converter 
+     *       <code>function(data, model, source, target) {return data > 100;}</code>
+     *   </li>
      *   <li>onUpdate: A callback function can be given here. This method will be
      *       called if the binding was updated successful. There will be
-     *       three parameter you do get in that method call: the source object,
-     *       the target object and the data as third parameter.</li>
+     *       three parameter you do get in that method call.
+     *       <ol>
+     *         <li>The source object</li>
+     *         <li>The target object</li>
+     *         <li>The data</li>
+     *       </ol>
+     *       Here is a sample: <code>onUpdate : function(source, target, data) {...}</code>
+     *   </li>
      *   <li>onSetFail: A callback function can be given here. This method will
-     *       be called if the set of the value fails.</li>
+     *       be called if the set of the value fails.
+     *   </li>
      *   <li>ignoreConverter: A string which will be matched using the current
-     *       property chain. If it matches, the converter will not be called.</li>
+     *       property chain. If it matches, the converter will not be called.
+     *   </li>
      *
      * @return {var} Returns the internal id for that binding. This can be used
      *   for referencing the binding or e.g. for removing. This is not an atomic
