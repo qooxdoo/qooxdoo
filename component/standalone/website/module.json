@@ -198,7 +198,7 @@
         "build-module-dataset",
         "build-module-dev",
         "build-module-io",
-        "build-module-matchmedia-min",
+        "build-module-matchmedia",
         "build-module-messaging",
         "build-module-placeholder",
         "build-module-placement",
