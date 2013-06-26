@@ -504,7 +504,31 @@ def warn(msg, fname, node):
 
 ##
 # Get the JSDoc comments in a nested dict structure
-def get_at_hints(node, at_hints=None):
+def get_at_hints(node):
+    at_hints = defaultdict(dict)
+    for hint in jshints.find_hints_upward(node):
+        for cat in hint.hints:
+            entry = hint.hints[cat]
+            if cat=='lint':
+                for functor in entry:
+                    if functor not in at_hints[cat]:
+                        at_hints[cat][functor] = set()
+                    # TODO: consumers are not yet prepared to handle HintArgument()s
+                    # use the next to raise a helpful exception
+                    # at_hints[cat][functor].update(entry[functor]) 
+                    s = set([x.source for x in entry[functor]])
+                    at_hints[cat][functor].update(s)
+            elif cat=="ignore":
+                if cat not in at_hints:
+                    at_hints[cat] = set()
+                # dito, s.above
+                s = set([x.source for x in entry[None]])
+                at_hints[cat].update(s)
+        
+    return at_hints
+
+
+def get_at_hints_1(node, at_hints=None):
     if at_hints is None:
         at_hints = defaultdict(dict)
     commentsArray = Comment.parseNode(node, process_txt=False)  # searches comment "around" this node
