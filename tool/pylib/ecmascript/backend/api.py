@@ -76,8 +76,17 @@ def createPackageDoc(text, packageName, docTree = None):
 
     package = getPackageNode(docTree, packageName)
 
-    commentAttributes = Comment.Comment(text).parse()
-    # Read all description, param and return attributes
+    commentAttributes = Comment.Comment(text).parse(want_errors=True)
+
+    # check for JSDoc issues (no filtering)
+    for attrib in commentAttributes:
+        if 'error' in attrib:
+            lineno = attrib['line'] # assume the comment text is the only contents of the package odc
+            msg = "%s (%s): %s" % (packageName, lineno, attrib['message'])
+            msg += (": %s" % attrib['text']) if 'text' in attrib and attrib['text'] else ''
+            Context.console.warn(msg)
+
+    # Read description, see attributes
     for attrib in commentAttributes:
         # Add description
         if attrib["category"] == "description":
@@ -461,6 +470,7 @@ def generatePropertyMethods(propertyName, classNode, generatedMethods):
         funcName = access + funcName + name
         functionCode = propData[funcName]
         node = treeutil.compileString(functionCode)
+        node.getRoot().set('file', '|generated@api.py|')
         commentAttributes = Comment.parseNode(node)[-1]
         docNode = handleFunction(node, funcName, commentAttributes, classNode, False, False)
         docNode.remove("line")
