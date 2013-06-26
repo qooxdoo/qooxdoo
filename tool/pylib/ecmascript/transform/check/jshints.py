@@ -69,7 +69,7 @@ class CreateHintsVisitor(treeutil.NodeVisitor):
     def process_comments(self, node):
         hint = None
         if node.comments:
-            commentsArray = Comment.parseNode(node, process_txt=False) #, want_errors=True)
+            commentsArray = Comment.parseNode(node, process_txt=False)
             if any(commentsArray):
                 hint = Hint()
                 # fill hint from commentAttributes
@@ -78,13 +78,6 @@ class CreateHintsVisitor(treeutil.NodeVisitor):
                         cat = entry['category']
                         if cat not in ('ignore', 'lint', 'require', 'use', 'asset', 'cldr'):
                             continue
-                        # the next is currently not used (Comment.parseNode doesn't return error commentAttributes)
-                        # but would be suitable for error reporting with file and line number
-                        elif hasattr(entry, 'error'):
-                            filename = node.getRoot().get('file', '<Unknown>')
-                            lineno = node.get('line')
-                            msg = "%s (%s): %s: %s" % (filename, lineno, entry['message'], entry['text'])
-                            context.console.warn(msg)
                         else:
                             functor = entry.get('functor') # will be None for non-functor keys like @ignore, @require, ...
                             hint.add_entries((cat,functor), entry['arguments'])  # hint.hints['lint']['ignoreUndefined']{'foo','bar'}
@@ -92,6 +85,13 @@ class CreateHintsVisitor(treeutil.NodeVisitor):
         return hint
 
 
+##
+# Hint.hints = {
+#    'lint' : {
+#        'ignoreUndefined' : set('foo', 'bar') },
+#    'ignore' : {
+#        None : set('foo', 'bar') },
+# }
 class Hint(object):
     def __init__(self):
         self.hints = {}
@@ -137,7 +137,9 @@ class Hint(object):
 # - ---------------------------------------------------------------------------
 
 ##
-# Assumes a hint tree has been created already.
+# Returns an iterator for the Hint() nodes above this AST node.
+#
+# (Assumes a hint tree has been created already.)
 #
 def find_hints_upward(node):
     hint_node = CreateHintsVisitor.find_enclosing_hint(node)
