@@ -281,6 +281,14 @@ class Comment(object):
     #    'name': u'clazz',
     #    'text': u'<p>class to check</p>',
     #    'type': [{'dimensions': 0, 'type': u'Class'}]},
+    #   // WITH ERROR INFORMATION
+    #   {'category': u'parami',
+    #    'text': u'parami clazz {Class} <p>class to check</p>',
+    #    'error': 'UNKNOWN_AT_HINT',
+    #    'message" : 'Unknown hint @parami - skipping'},
+    #   {'category': u'lint',
+    #    'functor' : 'ignoreDeprecated',
+    #    'arguments' : ['alert']},
     #   {'category': u'throws',
     #    'text': u'<p>an exception when the given mixin is incompatible to the class</p>'},
     #   {'category': u'return',
@@ -302,19 +310,24 @@ class Comment(object):
             text = Text(text).autoOutdent_list()
             return text
 
+        ##
+        # compact sections
         def lines_to_sections(comment_lines):
-            # compact sections
-            section_lines = ['']  # add a fake empty description
+            line_no = 1  # pretend '/**' was 1, next is 2
+            section_lines = [[line_no,'']]  # add a fake empty description
             in_hint = 0
+            comment_lines = comment_lines[1:]  # there is an artefact emtpy first line
             for line in comment_lines:
                 if hint_sign.search(line):
-                    section_lines.append(line)  # new section
+                    section_lines.append([line_no,line])  # new section
                     in_hint = 1
                 elif in_hint:
                     line = line.strip()
-                    section_lines[-1] += ' ' + line # concat to previous
+                    if line:
+                        section_lines[-1][1] += ' ' + line # concat to previous
                 else:
-                    section_lines[-1] += '\n' + line # concat to previous
+                    section_lines[-1][1] += '\n' + line # add to description, preserving lines
+                line_no += 1
             return section_lines
 
         def getOpts():
@@ -335,7 +348,7 @@ class Comment(object):
         section_lines = lines_to_sections(comment_lines)
 
         attribs = []
-        for line in section_lines:
+        for line_no, line in section_lines:
             mo = hint_sign.search(line)
             # @<hint> entry
             if mo:
@@ -348,7 +361,6 @@ class Comment(object):
                         entry = getattr(self, "parse_at_"+hint_key)(line)
                     except py.ParseException, e:
                         if opts.warn_jsdoc_key_syntax:
-                            context.console.warn("Unable to parse JSDoc entry: '%s'" % line.strip())
                             if want_errors:
                                 entry = {
                                   "error" : "parseError",
@@ -357,7 +369,7 @@ class Comment(object):
                                   "text": line.strip() 
                                 }
                             else:
-                                continue # don't add those
+                                context.console.warn("Unable to parse JSDoc entry: '%s'" % line.strip())
                 # known tag with default parsing
                 elif hint_key in (
                         'abstract', # @abstract; pend. bug#6738
@@ -368,16 +380,20 @@ class Comment(object):
                 else:
                     entry = self.parse_at__default_(line)
                     if opts.warn_unknown_jsdoc_keys:
-                        context.console.warn("Unknown '@' hint in JSDoc comment: " + hint_key)
+                        msg = "Unknown '@' hint in JSDoc comment: " + hint_key
                         if want_errors:
                             entry["error"] = "parseError",
-                            entry["message"] = "Unknown '@' hint in JSDoc comment"
+                            entry["message"] = msg
+                        else:
+                            context.console.warn(msg)
+                entry['line'] = line_no
                 attribs.append(entry)
             # description
             else:
                 attribs.append({
                    "category" : "description",
-                   "text" : line.strip()
+                   "text" : line.strip(),
+                   "line" : line_no,
                 })
 
         # format texts
@@ -605,8 +621,9 @@ class Comment(object):
         ##
         # @deprecated {3.0} use @ignore(foo) instead of @lint ignoreUndefined
         if res['functor'] == 'ignoreUndefined':
-            context.console.warn((u"'@lint ignoreUndefined' is deprecated." + 
-                " Use '@ignore' (same arguments) instead."))
+            msg = u"'@lint ignoreUndefined' is deprecated. Use '@ignore' (same arguments) instead."
+            res['error'] = 'deprecationWarning'
+            res['message'] = msg
         return res
 
     gr_at_attach = ( py.Suppress('@') + py.Literal('attach') + py.Suppress('{') +
@@ -963,14 +980,38 @@ def parseNode(node, process_txt=True, want_errors=False):
     commentsNode = findAssociatedComment(node)
     #print "comments node:", str(commentsNode)
     result = []  # [[{}], ...]
+    filename = node.getRoot().get('file', '<Unknown>') # for error reporting
+    # try to fake a classId from a file path
+    if filename != '<Unknown>':
+        filename = filename.split('source/class/')[1].replace('/','.')
+        if filename.endswith('.js'):
+            filename = filename[:-3]
 
     if commentsNode and commentsNode.comments:
         # check for a suitable comment, from the back so that the closer wins
         for comment in commentsNode.comments:
             #if comment.get("detail") in ["javadoc", "qtdoc"]:
             if comment.get("detail") in ["javadoc"]:
-                result.append( Comment(comment.get("value", "")).parse(
-                    process_txt=process_txt, want_errors=want_errors) )
+                jsdoc_elements = Comment(comment.get("value", "")).parse(
+                    process_txt=process_txt, want_errors=True)
+
+                # process errors and warnings
+                filtered_elements = []
+                #import pydb; pydb.debugger()
+                for entry in jsdoc_elements:
+                    if 'error' in entry:
+                        lineno = comment.get('line')
+                        lineno += entry['line']
+                        msg = "%s (%s): %s" % (filename, lineno, entry['message'])
+                        msg += (": %s" % entry['text']) if 'text' in entry and entry['text'] else ''
+                        context.console.warn(msg)
+                        if want_errors or entry['error']=='deprecationWarning':
+                            filtered_elements.append(entry)
+                    else:
+                        filtered_elements.append(entry)
+
+                result.append(filtered_elements)
+
     if not result:
         result = [[]]  # to always have a result[-1] element in caller
     return result
