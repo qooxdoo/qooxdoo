@@ -358,29 +358,71 @@ qx.Class.define("qx.data.Array",
           }
         }
       }
-      // fire an event for the change
-      var removed = amount > 0;
-      var added = arguments.length > 2;
+      
       var items = null;
-      if (removed || added) {
-        if (this.__array.length > oldLength) {
-          var type = "add";
-          items = qx.lang.Array.fromArguments(arguments, 2);
-        } else if (this.__array.length < oldLength) {
-          var type = "remove";
-          items = returnArray;
-        } else {
-          var type = "order";
+      var reordered = true;
+      if (amount > 0) {
+        items = [];
+        // Detect actual changes, otherwise we notify that items have been removed when they
+        //  they are still in the array
+        for (var i = 0; i < returnArray.length; i++)
+          if (this.__array.indexOf(returnArray[i]) < 0)
+            items.push(returnArray[i]);
+        if (items.length > 0) {
+          reordered = false;
+          this.fireDataEvent("change",
+            {
+              start: startIndex,
+              end: this.length - 1,
+              type: "remove",
+              items: items
+            }, null
+          );
         }
-        this.fireDataEvent("change",
-          {
-            start: startIndex,
-            end: this.length - 1,
-            type: type,
-            items: items
-          }, null
-        );
       }
+      if (arguments.length > 2) {
+        var added = qx.lang.Array.fromArguments(arguments, 2);
+        items = [];
+        // Detect actual changes, otherwise we notify that items have been added when they
+        //  they are no longer in the array
+        for (var i = 0; i < added.length; i++)
+          if (returnArray.indexOf(added[i]) < 0)
+            items.push(added[i]);
+        if (items.length > 0) {
+          reordered = false;
+          this.fireDataEvent("change",
+            {
+              start: startIndex,
+              end: this.length - 1,
+              type: "add",
+              items: items
+            }, null
+          );
+        }
+      }
+      
+      // only fire a change event if neither an add or remove was fired
+      if (amount > 0 && arguments.length > 2 && reordered) {
+        // check that the array really was reordered
+        if (returnArray.length == added.length) {
+          reordered = false;
+          for (var i = 0; !reordered && i < returnArray.length; i++) {
+            if (returnArray[i] != added[i])
+            reordered = true;
+          }
+        }
+        if (reordered) {
+          this.fireDataEvent("change",
+            {
+              start: startIndex,
+              end: this.length - 1,
+              type: "order",
+              items: null
+            }, null
+          );
+        }
+      }
+      
 
       // remove the listeners first [BUG #7132]
       for (var i = 0; i < returnArray.length; i++) {
