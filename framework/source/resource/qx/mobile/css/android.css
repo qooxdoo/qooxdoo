@@ -13,7 +13,7 @@ html, body {
   line-height: 1;
   vertical-align: middle; }
 
-.mobile .selectable, .mobile input, .mobile textarea {
+.mobile .selectable, .mobile input, .mobile .text-area {
   -webkit-user-select: auto;
   -moz-user-select: auto;
   -ms-user-select: auto;
@@ -63,12 +63,12 @@ img.no-content {
   -moz-transform: scale(1);
   transform: scale(1); }
 
-input[type="text"]:not(.selectbox), input[type="number"], input[type="password"] {
+.text-field:not(.selectbox), .number-field, .password-field {
   -webkit-user-modify: read-write-plaintext-only;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   outline-style: none; }
 
-.root.android.v2 input[type="password"] {
+.root.android.v2 .password-field {
   position: relative;
   top: -10000px;
   -webkit-transform: translate3d(0, 10000px, 0);
@@ -82,11 +82,6 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0; }
-
-.passwordField {
-  -webkit-text-security: disc;
-  -moz-text-security: disc;
-  text-security: disc; }
 
 .scroll {
   position: relative;
@@ -507,30 +502,40 @@ input::-webkit-inner-spin-button {
   border-right: 8px solid transparent;
   border-bottom: 8px solid #333333; }
 
-ul.form {
+.form {
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
+  background-clip: padding-box;
   margin-bottom: 10px;
   background-color: transparent;
-  border: none; }
+  border: none;
+  font: bold 17px Helvetica;
+  padding: 0;
+  cursor: pointer; }
 
-ul.form li.formSeparationRow:last-child {
+.form-row {
+  list-style-type: none;
+  padding: 10px 25px 10px 10px; }
+
+.form .form-row.form-separation-row:last-child {
   background-color: transparent;
   margin-bottom: 0px; }
 
-ul.form ul li.error {
+.form .list .form-row.error {
   border: 2px solid red; }
 
-ul.form li.error + li.error {
+.form .form-row.error + .form-row.error {
   border-top: 0; }
 
-ul.form li * {
+.form .form-row * {
   white-space: normal;
   text-overflow: ellipsis; }
 
-ul.form input[type="text"], ul.form input[type="number"], ul.form input[type="password"] {
+.form .text-field, .form .number-field, .form .password-field {
   display: block;
   width: 50%; }
 
-input[type="text"]:not(.selectbox), input[type="number"], input[type="password"] {
+.text-field:not(.selectbox), .number-field, .password-field {
   -webkit-border-radius: 0.4em;
   -moz-border-radius: 0.4em;
   border-radius: 0.4em;
@@ -543,56 +548,55 @@ input[type="text"]:not(.selectbox), input[type="number"], input[type="password"]
 input, select {
   vertical-align: middle; }
 
-input, select, textarea {
+input, select, .text-area {
   font-size: 0.9em; }
 
-input[type="text"], input[type="password"], input[type="number"], textarea {
+.text-field, .password-field, .number-field, .text-area {
   -webkit-appearance: textarea;
   -moz-appearance: textarea;
   appearance: textarea;
   width: 100%;
   outline: none; }
 
-input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
+.text-field.invalid, .password-field.invalid, .text-area.invalid {
   border: 1px solid red; }
 
-input[type="checkbox"], input[type="radio"] {
-  margin: 0;
-  padding: 10px 10px; }
-
-textarea {
+.text-area {
   resize: none;
   padding-top: 4px;
+  -webkit-border-radius: none;
+  -moz-border-radius: none;
+  border-radius: none;
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
   text-indent: 4px;
   height: 1.7em;
-  -webkit-border-radius: none;
-  -moz-border-radius: none;
-  border-radius: none;
   overflow: hidden; }
 
-.formElementError {
+.form-row-group-first, .form-row-group-last {
+  height: 0px; }
+
+.form-element-error {
   color: red;
   text-align: right;
   border-top: 0;
   padding: 0px 10px 10px 10px; }
 
-.formSeparationRow, .formRowGroupHeader, .formRowGroupFooter {
+.form-separation-row {
   padding: 0px; }
 
-.formRowContent {
+.form-row-content {
   border-top: 0;
   padding: 10px 10px 10px 10px; }
 
-.formRowContent + .formRowContent {
+.form-row-content + .form-row-content {
   padding-top: 0px; }
 
-.formRowContent.exclude + .formSeparationRow {
+.form-row-content.exclude + .form-separation-row {
   border-top: 0; }
 
-ul {
+.list {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
@@ -600,16 +604,13 @@ ul {
   font: bold 17px Helvetica;
   cursor: pointer; }
 
-ul li {
+.list .list-item {
   list-style-type: none;
   padding: 10px 25px 10px 10px; }
 
-ul li .subtitle {
+.list .list-item .subtitle {
   font-weight: normal;
   font-size: 0.8em; }
-
-li:first-child:not(.formRowGroupFirstItem), li:first-child a {
-  border-top: 0; }
 
 .master-detail {
   overflow: hidden; }
@@ -622,9 +623,6 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
 
 .menu .list {
   border: none !important;
-  background: none; }
-
-.menu .list .list-item {
   background: none; }
 
 .navigationbar {
@@ -953,7 +951,6 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   content: "";
   width: 30px;
   height: 30px;
-  line-height: 32px;
   position: relative;
   z-index: 10;
   margin: 2px auto;
@@ -969,6 +966,8 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   z-index: 11;
   width: 16px;
   height: 16px;
+  position: relative;
+  top: 6px;
   -webkit-border-radius: 50px;
   -moz-border-radius: 50px;
   border-radius: 50px; }
@@ -1130,14 +1129,14 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
 .animationChild .drawer {
   display: none; }
 
-h1, h2 {
+.title, .form-title {
   font-weight: bold; }
 
-h1 {
+.title {
   font-size: 1.4em;
   text-align: center; }
 
-h2 {
+.form-title {
   text-indent: 4px;
   font-size: 1em; }
 
@@ -1198,7 +1197,7 @@ h2 {
   /* Standard (in flux) */
   border: 1px solid #555555; }
 
-.clickable-active, .toggleButton.checked .toggleButtonSwitch, .button.active, ul li.active.arrow, ul li.selected.arrow, ul li.active, ul li.selected, .navigationbar-button.active, .navigationbar-backbutton.active, .toolbar-button.active, .selectbox-selected, .item-selected {
+.clickable-active, .toggleButton.checked .toggleButtonSwitch, .button.active, .list .list-item.active.arrow, .list .list-item.selected.arrow, .list .list-item.active, .list .list-item.selected, .navigationbar-button.active, .navigationbar-backbutton.active, .toolbar-button.active, .selectbox-selected, .item-selected {
   color: black;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#ffdb66), color-stop(50%, #e89c00), to(#fdd824));
   background-image: -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
@@ -1222,11 +1221,11 @@ a, a:active, a:visited {
 a:hover {
   color: #e89c00; }
 
-h1 {
+.title {
   color: #fff;
   text-shadow: rgba(0, 0, 0, 0.4) 0px -1px 0; }
 
-h2 {
+.form-title {
   text-shadow: rgba(255, 255, 255, 0.2) 0 1px 1px;
   color: #bdbebd;
   background-color: #212021;
@@ -1235,7 +1234,7 @@ h2 {
 .content.group > .button {
   margin: 5px; }
 
-li:first-child, li:first-child a {
+.list-item:first-child, .list-item:first-child a {
   -moz-border-radius-topleft: 0px;
   -moz-border-radius-topright: 0px;
   -webkit-border-radius-topleft: 0px;
@@ -1243,7 +1242,7 @@ li:first-child, li:first-child a {
   border-top-right-radius: 0px;
   border-top-left-radius: 0px; }
 
-li:last-child, li:last-child a {
+.list-item:last-child, .list-item:last-child a {
   -moz-border-radius-bottomleft: 0px;
   -moz-border-radius-bottomright: 0px;
   -webkit-border-radius-bottomleft: 0px;
@@ -1251,38 +1250,24 @@ li:last-child, li:last-child a {
   border-bottom-right-radius: 0px;
   border-bottom-left-radius: 0px; }
 
-ul {
+.list {
   background-color: #181818;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0; }
 
-ul li {
+.list-item + .list-item {
   color: #ffffff;
   border-top: 1px #313431 solid; }
 
-ul li .subtitle {
+.list .list-item .subtitle {
   color: #949a94; }
 
-ul li.active .subtitle {
+.list .list-item.active .subtitle {
   color: #313429; }
 
 .group:not(.content) {
   margin: 5px; }
-
-input[type="text"]:not(.selectbox), input[type="number"], input[type="password"], textarea {
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0; }
-
-input[type="text"]:not(.selectbox):not(.invalid), input[type="number"]:not(.invalid), input[type="password"]:not(.invalid), textarea:not(.invalid) {
-  border: 0px solid #242424; }
-
-input.invalid {
-  border: 1px solid red !important; }
-
-.formRowContent {
-  padding: 5px 10px 5px 10px; }
 
 .scroll-container {
   background-color: white;
@@ -1290,7 +1275,7 @@ input.invalid {
   -webkit-box-shadow: inset 0px 10px 10px -10px rgba(0, 0, 0, 0.2), inset 0px -10px 10px -10px rgba(0, 0, 0, 0.2);
   box-shadow: inset 0px 10px 10px -10px rgba(0, 0, 0, 0.2), inset 0px -10px 10px -10px rgba(0, 0, 0, 0.2); }
 
-.scroll-container textarea {
+.scroll-container .text-area {
   padding: 2px;
   border: none;
   background: none; }
@@ -1323,21 +1308,36 @@ input.invalid {
 .scroll-container.scrollable-bottom:after {
   height: 30px; }
 
-.formSeparationRow {
-  background-color: #6b6d6b; }
+.text-field:not(.selectbox), .number-field, .password-field, .text-area {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0; }
 
-.formRowGroupTitle {
+.text-field:not(.selectbox):not(.invalid), .number-field:not(.invalid), .password-field:not(.invalid), .text-area:not(.invalid) {
+  border: 0px solid #242424; }
+
+input.invalid {
+  border: 1px solid red !important; }
+
+.form-row-content {
+  padding: 5px 10px 5px 10px; }
+
+.form-separation-row {
+  background-color: #313431;
+  height: 1px; }
+
+.form-row-group-title {
   text-shadow: rgba(255, 255, 255, 0.2) 0 1px 1px;
   color: #bdbebd;
   background-color: #212021;
   font-size: 0.8em;
   padding: 0px 10px 0px 10px; }
 
-.formRowGroupFirstItem {
+.form-row-group-first {
   padding: 0px;
   height: 0px; }
 
-.formRowGroupLastItem {
+.form-row-group-last {
   height: 0px;
   border-top: none;
   padding: 0px; }
@@ -1418,39 +1418,6 @@ input.invalid {
   background-image: linear-gradient(to bottom, #b5b6b5, #949294);
   /* Standard (in flux) */
   border: 1px solid #000; }
-
-input[type=radio] + label {
-  background: #fcfff4;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#fcfff4), color-stop(50%, #dfe5d7), to(#b3bead));
-  background-image: -webkit-linear-gradient(top, #fcfff4, #dfe5d7 40%, #b3bead);
-  background-image: -moz-linear-gradient(top, #fcfff4, #dfe5d7 40%, #b3bead);
-  background-image: linear-gradient(to bottom, #fcfff4, #dfe5d7 40%, #b3bead);
-  -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
-  box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
-  box-sizing: border-box; }
-
-input[type=radio] + label:before {
-  -webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px white;
-  -moz-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px white;
-  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px white;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#5b5b5b), to(#8e8e8e));
-  /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, #5b5b5b, #8e8e8e);
-  /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, #5b5b5b, #8e8e8e);
-  /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #5b5b5b, #8e8e8e);
-  /* Standard (in flux) */ }
-
-input[type=radio] + label:after {
-  background: #e89c00;
-  background: -webkit-linear-gradient(top, #e89c00 0%, #b57a00 100%);
-  background: -moz-linear-gradient(top, #e89c00 0%, #b57a00 100%);
-  background: linear-gradient(top, #e89c00 0%, #b57a00 100%);
-  -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
-  box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5); }
 
 .popup, .menu, .picker {
   background-color: #424242;
@@ -1556,7 +1523,10 @@ input[type=radio] + label:after {
 .selectbox-selected > div > .list-itemlabel:after {
   border: 0px solid transparent; }
 
-.menu ul {
+.selectbox-selected {
+  color: black !important; }
+
+.menu .list {
   border: 1px solid #6b6d6b; }
 
 .menu-scroller {

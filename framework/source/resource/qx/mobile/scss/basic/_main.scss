@@ -13,18 +13,18 @@
   font-weight: normal;
 }
 
-h1, h2 {
+.title, .form-title {
   font-weight: bold;
 }
 
-h1 {
+.title {
   font-size: 1.4em;
   text-align: center;
   margin-left: 4px;
   margin-right: 4px;
 }
 
-h2 {
+.form-title {
   line-height: 20px;
   font-size: 1.2em;
   margin-top:10px;
@@ -32,7 +32,7 @@ h2 {
   text-indent:5px;
 }
 
-.content:not(.group) h2 {
+.content:not(.group) .form-title {
   text-indent:15px;
 }
 

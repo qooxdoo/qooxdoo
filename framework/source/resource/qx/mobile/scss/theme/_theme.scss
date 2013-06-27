@@ -20,7 +20,7 @@ body {
   color:  $application-text-color;
 }
 
-h2 {
+.form-title {
   color: $group-title-text-color;
   font-weight:normal;
   font-size:16px;
@@ -115,7 +115,7 @@ $scGradientVerticalOffset:15px;
 // INPUT FIELDS
 //
 
-input[type="text"]:not(.selectbox), input[type="password"], input[type="number"], textarea {
+.text-field:not(.selectbox), .password-field, .number-field, .text-area {
   border: $border-thickness solid $input-border-color;
   color:  $input-text-color;
   @include border-radius($input-border-radius);
@@ -125,11 +125,11 @@ input.invalid {
   border: $border-thickness solid $input-invalid-border-color !important;
 }
 
-input, textarea { 
+input, .text-area { 
   font-family: $application-font; 
 }
 
-.scroll-container textarea {
+.scroll-container .text-area {
   @include border-radius(0);
   border:2px solid transparent;
   background:none;
@@ -168,40 +168,37 @@ input, textarea {
 // LIST
 //
 
-ul {
+.list {
   @include border-radius($list-border-radius);
   border: $border-thickness solid $list-border-color;
-  background-color:$list-background-color;
+  background-color: $list-background-color;
 }
 
-ul li {
+.list .list-item:not(.selectbox) {
   position:relative;
-  color:  $list-title-text-color;
+  color: $list-title-text-color;
+}
+
+.list-item + .list-item {
   border-top: $border-thickness solid $list-border-color;
 }
 
-li:first-child:not(.formRowGroupFirstItem), li:first-child a {
-  @include border-radius-top($list-border-radius);
-}
-
-li:last-child, li:last-child a {
+.list-item:last-child, .list-item:last-child a {
   @include border-radius-bottom($list-border-radius);
 }
 
-ul li .subtitle {
+.list .list-item .subtitle {
   color: $list-subtitle-text-color;
 }
 
-ul li.active * {
+.list .list-item.active * {
   color: $list-active-text-color;
 }
 
-ul li.arrow:after {
+.list .list-item.arrow:after {
   content:"";
   @include transform(rotate(45deg));
   @include transform-origin(50% 50%);
-
-  -webkit-font-smoothing: antialiased;
 
   border-top: $list-arrow-size solid $list-arrow-color;
   border-right: $list-arrow-size solid $list-arrow-color;
@@ -210,28 +207,36 @@ ul li.arrow:after {
   height: $list-arrow-size*2;
   position: absolute;
   right:15px;
-  
   top: 50%;
-  margin-top:-1.5*($list-arrow-size);
+  margin-top: -1.5*($list-arrow-size);
 }
 
-ul li.arrow.active:after {
+.list .list-item.arrow.active:after {
   border-color: $list-active-arrow-color;
 }
 
-ul li.active {
+.list .list-item.active {
   @include gradient-vertical(lighten($list-active-background-color, 20%), $list-active-background-color);
+}
+
+.list-item:first-child, .list-item:first-child a {
+  @include border-radius-top($list-border-radius);
+}
+
+.list-item:last-child, .list-item:last-child a {
+  @include border-radius-bottom($list-border-radius);
 }
 
 //
 // FORM RENDERING
 //
 
-.formSeparationRow {
-  background-color: $form-background-color;
+.form-separation-row {
+  background-color: $list-border-color;
+  height: 1px; 
 }
 
-.formRowGroupTitle {
+.form-row-group-title {
   color: $form-title-text-color;
   font-weight:normal;
   font-size:16px;
@@ -239,15 +244,15 @@ ul li.active {
   margin-bottom:10px;
   border:none;
   padding-bottom:0px;
-}
+} 
 
-.formRowContent, .formElementError{
+.form-row-content, .form-element-error {
   background-color: $form-background-color;
   border-left:1px solid $form-border-color;
   border-right:1px solid $form-border-color;
 }
 
-.formRowGroupFirstItem {
+.form-row-group-first {
   background-color: $form-background-color;
 
   border-left:1px solid $form-border-color;
@@ -261,7 +266,7 @@ ul li.active {
   top:2px;
 }
 
-.formRowGroupLastItem {
+.form-row-group-last {
   background-color: $form-background-color;
   border-top:0px transparent;
   border-left:1px solid $form-border-color;
@@ -275,8 +280,8 @@ ul li.active {
   top:-2px;
 }
 
-.formRowGroupTitle:nth-child(n+2) {
-   margin-top:20px;
+.form-row-group-title:nth-child(n+2) {
+  margin-top:20px;
 }
 
 //
@@ -595,17 +600,15 @@ $arrow-size: 12px;
 //
 
 .selectbox {
-  color: $selectbox-text-color;
-
+  @include border-radius($selectbox-border-radius); 
   @include gradient-vertical(lighten($selectbox-background-color, 20%), darken($selectbox-background-color, 20%));
   border: $border-thickness solid $selectbox-border-color;
-
-  @include border-radius($selectbox-border-radius); 
+  color: $selectbox-text-color;
 }
 
 .selectbox:active {
-  color:  $selectbox-active-text-color;
   @include gradient-vertical(lighten($selectbox-active-background-color, 20%),$selectbox-active-background-color);
+  color: $selectbox-active-text-color;
 }
 
 // Tick
@@ -614,8 +617,8 @@ $arrow-size: 12px;
 }
 
 .selectbox-selected {
-  color:$selectbox-item-selected-text-color;
-  @include gradient-vertical(lighten($selectbox-item-selected-background-color, 20%),$selectbox-item-selected-background-color);
+  @include gradient-vertical(lighten($list-active-background-color, 20%), $list-active-background-color);
+  color: $selectbox-item-selected-text-color !important;
 }
 
 //

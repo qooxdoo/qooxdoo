@@ -2,37 +2,47 @@
 // FORM 
 //
 
-ul.form {
+.form {
+  @include background-clip(padding-box);
+
   margin-bottom: 10px;
   background-color:transparent;
   border:none;
+
+  font: bold 17px Helvetica;
+  padding: 0;
+  cursor:pointer;
 }
 
+.form-row {
+  list-style-type: none;
+  padding: 10px 25px 10px 10px;
+}
 
-ul.form li.formSeparationRow:last-child {
+.form .form-row.form-separation-row:last-child {
   background-color:transparent;
   margin-bottom:0px;
 }
 
-ul.form ul li.error {
+.form .list .form-row.error {
   border: 2px solid red;
 }
 
-ul.form li.error + li.error {
+.form .form-row.error + .form-row.error {
   border-top: 0;
 }
 
-ul.form li * {
+.form .form-row * {
   white-space: normal;
   text-overflow: ellipsis;
 }
 
-ul.form input[type="text"], ul.form input[type="number"], ul.form input[type="password"] {
+.form .text-field, .form .number-field, .form .password-field {
   display:block;
   width:50%;
 }
 
-input[type="text"]:not(.selectbox),input[type="number"], input[type="password"] {
+.text-field:not(.selectbox),.number-field, .password-field {
   @include border-radius(.4em);
   @include background-clip(padding-box);
   text-indent:4px;
@@ -43,35 +53,29 @@ input, select {
   vertical-align: middle;
 }
 
-input, select, textarea {
+input, select, .text-area {
   font-size: 0.9em;
 }
 
-input[type="text"], input[type="password"],input[type="number"], textarea {
+.text-field, .password-field, .number-field, .text-area {
   @include appearance(textarea);
   width: 100%;
   outline: none;
 }
 
-input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
+.text-field.invalid, .password-field.invalid, .text-area.invalid {
   border: 1px solid red;
 }
 
-input[type="checkbox"], input[type="radio"] {
-  margin: 0;
-  padding: 10px 10px;
-}
-
-textarea {
+.text-area {
   resize: none;
   padding-top:4px;
 
+  @include border-radius(none);
   @include background-clip(padding-box);
+
   text-indent:4px; 
   height:1.7em;
-
-  @include border-radius(none);
-
   overflow:hidden;
 }
 
@@ -79,31 +83,32 @@ textarea {
 // RENDERING
 //
 
-.formElementError {
+.form-row-group-first, .form-row-group-last {
+  height: 0px;
+}
+
+.form-element-error {
   color: red;
   text-align:right;
   border-top:0;
   padding: 0px 10px 10px 10px;
 }
 
-.formSeparationRow, .formRowGroupHeader, .formRowGroupFooter {
+.form-separation-row {
   padding:0px;
 }
 
-.formSeparationRow {
-}
-
-.formRowContent {
+.form-row-content {
   border-top:0;
   padding: 10px 10px 10px 10px;
 }
 
-.formRowContent + .formRowContent {
+.form-row-content + .form-row-content {
   padding-top:0px;
 }
 
 // If one row is excluded: hide its separationRow
-.formRowContent.exclude + .formSeparationRow {
-  border-top:0;
+.form-row-content.exclude + .form-separation-row {
+  border-top: 0;
 }
 

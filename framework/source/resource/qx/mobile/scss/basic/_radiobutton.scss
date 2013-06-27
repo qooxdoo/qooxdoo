@@ -3,8 +3,7 @@
   display:inline-block;
   content:"";
   width: 30px;
-  height: 30px;
-  line-height:32px;
+  height: 30px; 
 
   position: relative;
 
@@ -26,6 +25,9 @@
 
   width: 16px;
   height: 16px;
+
+  position:relative;
+  top:6px;
 
   @include border-radius(50px);
 }

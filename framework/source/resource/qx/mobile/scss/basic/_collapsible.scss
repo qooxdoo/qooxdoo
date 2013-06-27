@@ -45,7 +45,6 @@
 .collapsible-header.active {
   color: $collapsible-header-active-text-color;
   @include gradient-vertical(lighten($collapsible-header-active-background-color, 10%), darken($collapsible-header-active-background-color, 10%));
-
 }
 
 .collapsible.collapsed .collapsible-header.label:after {

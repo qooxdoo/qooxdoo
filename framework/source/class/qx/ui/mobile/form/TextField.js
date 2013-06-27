@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.mobile.form.TextField",
     defaultCssClass :
     {
       refine : true,
-      init : "textField"
+      init : "text-field"
     }
   },
 

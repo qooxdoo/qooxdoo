@@ -13,7 +13,7 @@ html, body {
   line-height: 1;
   vertical-align: middle; }
 
-.mobile .selectable, .mobile input, .mobile textarea {
+.mobile .selectable, .mobile input, .mobile .text-area {
   -webkit-user-select: auto;
   -moz-user-select: auto;
   -ms-user-select: auto;
@@ -63,12 +63,12 @@ img.no-content {
   -moz-transform: scale(1);
   transform: scale(1); }
 
-input[type="text"]:not(.selectbox), input[type="number"], input[type="password"] {
+.text-field:not(.selectbox), .number-field, .password-field {
   -webkit-user-modify: read-write-plaintext-only;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   outline-style: none; }
 
-.root.android.v2 input[type="password"] {
+.root.android.v2 .password-field {
   position: relative;
   top: -10000px;
   -webkit-transform: translate3d(0, 10000px, 0);
@@ -82,11 +82,6 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0; }
-
-.passwordField {
-  -webkit-text-security: disc;
-  -moz-text-security: disc;
-  text-security: disc; }
 
 .scroll {
   position: relative;
@@ -507,30 +502,40 @@ input::-webkit-inner-spin-button {
   border-right: 8px solid transparent;
   border-bottom: 8px solid white; }
 
-ul.form {
+.form {
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
+  background-clip: padding-box;
   margin-bottom: 10px;
   background-color: transparent;
-  border: none; }
+  border: none;
+  font: bold 17px Helvetica;
+  padding: 0;
+  cursor: pointer; }
 
-ul.form li.formSeparationRow:last-child {
+.form-row {
+  list-style-type: none;
+  padding: 10px 25px 10px 10px; }
+
+.form .form-row.form-separation-row:last-child {
   background-color: transparent;
   margin-bottom: 0px; }
 
-ul.form ul li.error {
+.form .list .form-row.error {
   border: 2px solid red; }
 
-ul.form li.error + li.error {
+.form .form-row.error + .form-row.error {
   border-top: 0; }
 
-ul.form li * {
+.form .form-row * {
   white-space: normal;
   text-overflow: ellipsis; }
 
-ul.form input[type="text"], ul.form input[type="number"], ul.form input[type="password"] {
+.form .text-field, .form .number-field, .form .password-field {
   display: block;
   width: 50%; }
 
-input[type="text"]:not(.selectbox), input[type="number"], input[type="password"] {
+.text-field:not(.selectbox), .number-field, .password-field {
   -webkit-border-radius: 0.4em;
   -moz-border-radius: 0.4em;
   border-radius: 0.4em;
@@ -543,56 +548,55 @@ input[type="text"]:not(.selectbox), input[type="number"], input[type="password"]
 input, select {
   vertical-align: middle; }
 
-input, select, textarea {
+input, select, .text-area {
   font-size: 0.9em; }
 
-input[type="text"], input[type="password"], input[type="number"], textarea {
+.text-field, .password-field, .number-field, .text-area {
   -webkit-appearance: textarea;
   -moz-appearance: textarea;
   appearance: textarea;
   width: 100%;
   outline: none; }
 
-input[type="text"].invalid, input[type="password"].invalid, textarea.invalid {
+.text-field.invalid, .password-field.invalid, .text-area.invalid {
   border: 1px solid red; }
 
-input[type="checkbox"], input[type="radio"] {
-  margin: 0;
-  padding: 10px 10px; }
-
-textarea {
+.text-area {
   resize: none;
   padding-top: 4px;
+  -webkit-border-radius: none;
+  -moz-border-radius: none;
+  border-radius: none;
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
   text-indent: 4px;
   height: 1.7em;
-  -webkit-border-radius: none;
-  -moz-border-radius: none;
-  border-radius: none;
   overflow: hidden; }
 
-.formElementError {
+.form-row-group-first, .form-row-group-last {
+  height: 0px; }
+
+.form-element-error {
   color: red;
   text-align: right;
   border-top: 0;
   padding: 0px 10px 10px 10px; }
 
-.formSeparationRow, .formRowGroupHeader, .formRowGroupFooter {
+.form-separation-row {
   padding: 0px; }
 
-.formRowContent {
+.form-row-content {
   border-top: 0;
   padding: 10px 10px 10px 10px; }
 
-.formRowContent + .formRowContent {
+.form-row-content + .form-row-content {
   padding-top: 0px; }
 
-.formRowContent.exclude + .formSeparationRow {
+.form-row-content.exclude + .form-separation-row {
   border-top: 0; }
 
-ul {
+.list {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
@@ -600,16 +604,13 @@ ul {
   font: bold 17px Helvetica;
   cursor: pointer; }
 
-ul li {
+.list .list-item {
   list-style-type: none;
   padding: 10px 25px 10px 10px; }
 
-ul li .subtitle {
+.list .list-item .subtitle {
   font-weight: normal;
   font-size: 0.8em; }
-
-li:first-child:not(.formRowGroupFirstItem), li:first-child a {
-  border-top: 0; }
 
 .drawer {
   position: absolute; }
@@ -680,9 +681,6 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
 
 .menu .list {
   border: none !important;
-  background: none; }
-
-.menu .list .list-item {
   background: none; }
 
 .popup, .menu, .picker {
@@ -914,7 +912,6 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   content: "";
   width: 30px;
   height: 30px;
-  line-height: 32px;
   position: relative;
   z-index: 10;
   margin: 2px auto;
@@ -930,6 +927,8 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   z-index: 11;
   width: 16px;
   height: 16px;
+  position: relative;
+  top: 6px;
   -webkit-border-radius: 50px;
   -moz-border-radius: 50px;
   border-radius: 50px; }
@@ -1101,23 +1100,23 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   /* Disable touch behaviors, like pan and zoom for IE10*/
   -ms-touch-action: none; }
 
-h1 {
+.title {
   font-size: 1.4em;
   text-align: center;
   margin-left: 4px;
   margin-right: 4px; }
 
-h2 {
+.form-title {
   line-height: 20px;
   font-size: 1.2em;
   margin-top: 10px;
   margin-bottom: 10px;
   text-indent: 5px; }
 
-.content:not(.group) h2 {
+.content:not(.group) .form-title {
   text-indent: 15px; }
 
-h1, h2 {
+.title, .form-title {
   font-weight: bold; }
 
 .fontNormal {
@@ -1228,11 +1227,11 @@ h1, h2 {
   color: #666;
   font-family: Helvetica; }
 
-h1 {
+.title {
   color: #fff;
   text-shadow: rgba(0, 0, 0, 0.4) 0px -1px 0; }
 
-h2 {
+.form-title {
   text-shadow: rgba(255, 255, 255, 0.4) 0 1px 1px;
   color: #4C566C; }
 
@@ -1259,7 +1258,7 @@ a:hover {
   border: 1px solid #b4b4b4;
   padding: 10px; }
 
-ul {
+.list {
   -webkit-border-radius: 0.4em;
   -moz-border-radius: 0.4em;
   border-radius: 0.4em;
@@ -1267,7 +1266,7 @@ ul {
   background: #fff;
   border: 1px solid #b4b4b4; }
 
-li:first-child:not(.formRowGroupFirstItem), li:first-child a {
+.list-item:first-child:not(.form-row-group-first), .list-item:first-child a {
   -moz-border-radius-topleft: 0.4em;
   -moz-border-radius-topright: 0.4em;
   -webkit-border-radius-topleft: 0.4em;
@@ -1275,7 +1274,7 @@ li:first-child:not(.formRowGroupFirstItem), li:first-child a {
   border-top-right-radius: 0.4em;
   border-top-left-radius: 0.4em; }
 
-li:last-child, li:last-child a {
+.list-item:last-child, .list-item:last-child a {
   -moz-border-radius-bottomleft: 0.4em;
   -moz-border-radius-bottomright: 0.4em;
   -webkit-border-radius-bottomleft: 0.4em;
@@ -1283,12 +1282,14 @@ li:last-child, li:last-child a {
   border-bottom-right-radius: 0.4em;
   border-bottom-left-radius: 0.4em; }
 
-ul li {
+.list .list-item {
   color: #666;
-  border-top: 1px solid #b4b4b4;
   position: relative; }
 
-ul li.arrow:after {
+.list-item + .list-item {
+  border-top: 1px solid #b4b4b4; }
+
+.list .list-item.arrow:after {
   content: "";
   -webkit-transform: rotate(45deg);
   -moz-transform: rotate(45deg);
@@ -1305,10 +1306,10 @@ ul li.arrow:after {
   top: 50%;
   margin-top: -4.5px; }
 
-ul li.arrow.active:after {
+.list .list-item.arrow.active:after {
   border-color: white; }
 
-ul li.active, ul li.selected {
+.list .list-item.active, .list .list-item.selected {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#4583fd), to(#194ae4));
   /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #4583fd, #194ae4);
@@ -1319,10 +1320,10 @@ ul li.active, ul li.selected {
   /* Standard (in flux) */
   color: #fff; }
 
-ul li.active .subtitle {
+.list .list-item.active .subtitle {
   color: #fff; }
 
-ul li .subtitle {
+.list .list-item .subtitle {
   color: #585858; }
 
 .button {
@@ -1344,12 +1345,12 @@ ul li .subtitle {
   /* Standard (in flux) */
   color: #fff; }
 
-input[type="text"]:not(.selectbox), input[type="password"], input[type="number"], textarea {
+.text-field:not(.selectbox), .password-field, .number-field, .text-area {
   color: #777;
   background: #fff;
   border: 1px solid #b4b4b4;
   font: normal 17px Helvetica;
-  display: inline-block;
+  display: block;
   margin-left: 0px;
   min-width: 75px; }
 
@@ -1411,22 +1412,23 @@ input.invalid {
 .scroll-container.scrollable-bottom:after {
   height: 30px; }
 
-.formSeparationRow {
-  background-color: #b4b4b4; }
+.form-separation-row {
+  background-color: #b4b4b4;
+  height: 1px; }
 
-.formRowGroupTitle {
+.form-row-group-title {
   text-shadow: rgba(255, 255, 255, 0.4) 0 1px 1px;
   color: #4C566C;
   margin-bottom: 10px;
   border: none;
   padding-bottom: 0px; }
 
-.formRowContent, .formElementError {
+.form-row-content, .form-element-error {
   background-color: white;
   border-left: 1px solid #b4b4b4;
   border-right: 1px solid #b4b4b4; }
 
-.formRowGroupFirstItem {
+.form-row-group-first {
   background-color: white;
   border-left: 1px solid #b4b4b4;
   border-right: 1px solid #b4b4b4;
@@ -1441,7 +1443,7 @@ input.invalid {
   position: relative;
   top: 2px; }
 
-.formRowGroupLastItem {
+.form-row-group-last {
   background-color: white;
   border-top: 0px transparent;
   border-left: 1px solid #b4b4b4;
@@ -1457,7 +1459,7 @@ input.invalid {
   position: relative;
   top: -2px; }
 
-.formRowGroupTitle:nth-child(n+2) {
+.form-row-group-title:nth-child(n+2) {
   margin-top: 20px; }
 
 .slider {
@@ -1644,6 +1646,7 @@ input.invalid {
 .radio.checked:after {
   width: 13px;
   height: 13px;
+  top: 0px;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#fefefe), to(#cecece));
   /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #fefefe, #cecece);

@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.mobile.form.Row",
     defaultCssClass :
     {
       refine : true,
-      init : "formRow"
+      init : "form-row"
     },
 
 

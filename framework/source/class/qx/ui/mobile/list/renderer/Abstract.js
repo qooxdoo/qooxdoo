@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
     defaultCssClass :
     {
       refine : true,
-      init : "listItem"
+      init : "list-item"
     },
 
 

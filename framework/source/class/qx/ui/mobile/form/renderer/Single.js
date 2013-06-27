@@ -137,10 +137,10 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      */
     _addInSeparateLines : function(item, name) {
       var labelRow = new qx.ui.mobile.form.Row();
-      labelRow.addCssClass("formRowContent");
+      labelRow.addCssClass("form-row-content");
 
       var itemRow = new qx.ui.mobile.form.Row();
-      itemRow.addCssClass("formRowContent");
+      itemRow.addCssClass("form-row-content");
 
       if(name) {
         var label = new qx.ui.mobile.form.Label(name);
@@ -166,7 +166,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      */
     _addInOneLine : function(item, name) {
       var row = new qx.ui.mobile.form.Row(new qx.ui.mobile.layout.HBox());
-      row.addCssClass("formRowContent");
+      row.addCssClass("form-row-content");
 
       if(name != null) {
         var label = new qx.ui.mobile.form.Label(name);
@@ -185,7 +185,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      */
     _addSeparationRow : function() {
       var row = new qx.ui.mobile.form.Row();
-      row.addCssClass("formSeparationRow")
+      row.addCssClass("form-separation-row")
       this._add(row);
       this._rows.push(row);
     },
@@ -196,7 +196,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      */
     _addGroupHeaderRow : function() {
       var row = new qx.ui.mobile.form.Row();
-      row.addCssClass("formRowGroupFirstItem")
+      row.addCssClass("form-row-group-first")
       this._add(row);
       this._rows.push(row);
     },
@@ -207,7 +207,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      */
     _addGroupFooterRow : function() {
       var row = new qx.ui.mobile.form.Row();
-      row.addCssClass("formRowGroupLastItem")
+      row.addCssClass("form-row-group-last")
       this._add(row);
       this._rows.push(row);
     },
@@ -222,7 +222,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
     _addGroupHeader : function(title)
     {
       var row = new qx.ui.mobile.form.Row();
-      row.addCssClass("formRowGroupTitle");
+      row.addCssClass("form-row-group-title");
       var titleLabel = new qx.ui.mobile.basic.Label(title);
       row.add(titleLabel);
       this._add(row);
@@ -244,7 +244,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
     showErrorForItem : function(item) {
       var errorNode = qx.dom.Element.create('div');
       errorNode.innerHTML = item.getInvalidMessage();
-      qx.bom.element.Class.add(errorNode, 'formElementError');
+      qx.bom.element.Class.add(errorNode, 'form-element-error');
       qx.dom.Element.insertAfter(errorNode, item.getLayoutParent().getContainerElement());
       //qx.bom.Element.focus(item.getContainerElement());
       this.__errorMessageContainers.push(errorNode);

@@ -8,12 +8,12 @@
   font-family: Helvetica;
 }
 
-h1 {
+.title {
   color: #fff;
   text-shadow: rgba(0, 0, 0, 0.4) 0px -1px 0;
 }
 
-h2 {
+.form-title {
   text-shadow: rgba(255,255,255,.4) 0 1px 1px;
   color: #4C566C;
 }
@@ -53,32 +53,35 @@ a:hover {
 // LIST
 //
 
-ul {
+.list {
   @include border-radius(.4em);
   color: black;
   background: #fff;
   border: 1px solid $button-border-color;
 }
 
-li:first-child:not(.formRowGroupFirstItem), li:first-child a {
+.list-item:first-child:not(.form-row-group-first), .list-item:first-child a {
   @include border-radius-top(.4em);
 }
 
-li:last-child, li:last-child a {
+.list-item:last-child, .list-item:last-child a {
   @include border-radius-bottom(.4em);
 }
 
-ul li {
+.list .list-item {
   color: #666;
-  border-top: 1px solid $button-border-color;
   position:relative;
+}
+
+.list-item + .list-item {
+  border-top: 1px solid $button-border-color;
 }
 
 $list-arrow-size: 3px;
 $list-arrow-color: gray;
 $list-active-arrow-color: white;
 
-ul li.arrow:after {
+.list .list-item.arrow:after {
   content:"";
   @include transform(rotate(45deg));
   @include transform-origin(50% 50%);
@@ -95,21 +98,20 @@ ul li.arrow:after {
   margin-top:-1.5*($list-arrow-size);
 }
 
-ul li.arrow.active:after {
+.list .list-item.arrow.active:after {
   border-color: $list-active-arrow-color;
 }
 
-ul li.active,  ul li.selected {
+.list .list-item.active,  .list .list-item.selected {
   @include gradient-vertical(#4583fd, #194ae4);
   color: #fff;
 }
 
-
-ul li.active .subtitle {
+.list .list-item.active .subtitle {
   color : #fff;
 }
 
-ul li .subtitle {
+.list .list-item .subtitle {
   color : #585858;
 }
 
@@ -133,12 +135,12 @@ ul li .subtitle {
 // FORM
 //
 
-input[type="text"]:not(.selectbox), input[type="password"], input[type="number"], textarea {
+.text-field:not(.selectbox), .password-field, .number-field, .text-area {
   color: #777;
   background: #fff;
   border: 1px solid $button-border-color;
   font: normal 17px Helvetica;
-  display: inline-block;
+  display: block;
   margin-left: 0px;
   min-width:75px;
 }
@@ -218,11 +220,12 @@ $scGradientVerticalOffset:15px;
 // FORM RENDERING
 //
 
-.formSeparationRow {
+.form-separation-row {
   background-color: $button-border-color;
+  height: 1px;
 }
 
-.formRowGroupTitle {
+.form-row-group-title {
   text-shadow: rgba(255,255,255,.4) 0 1px 1px;
   color: #4C566C;
 
@@ -232,13 +235,13 @@ $scGradientVerticalOffset:15px;
   padding-bottom:0px;
 }
 
-.formRowContent, .formElementError{
+.form-row-content, .form-element-error{
   background-color:white;
   border-left:1px solid $button-border-color;
   border-right:1px solid $button-border-color;
 }
 
-.formRowGroupFirstItem {
+.form-row-group-first {
   background-color:white;
   border-left:1px solid $button-border-color;
   border-right:1px solid $button-border-color;
@@ -249,7 +252,7 @@ $scGradientVerticalOffset:15px;
   top:2px;
 }
 
-.formRowGroupLastItem {
+.form-row-group-last {
   background-color:white;
   border-top:0px transparent;
   border-left:1px solid $button-border-color;
@@ -261,7 +264,7 @@ $scGradientVerticalOffset:15px;
   top:-2px;
 }
 
-.formRowGroupTitle:nth-child(n+2) {
+.form-row-group-title:nth-child(n+2) {
    margin-top:20px;
 }
 
@@ -442,6 +445,7 @@ $scGradientVerticalOffset:15px;
 .radio.checked:after {
   width: 13px;
   height: 13px;
+  top: 0px;
   @include gradient-vertical(#fefefe, #cecece);
   @include box-shadow(1px 1px 1px 0px rgba(0,0,0,0.3));
 }

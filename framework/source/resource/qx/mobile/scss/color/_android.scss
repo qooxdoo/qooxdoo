@@ -44,12 +44,12 @@ a:hover {
   color: $android-orange;
 }
 
-h1 {
+.title {
   color: #fff;
   text-shadow: rgba(0, 0, 0, 0.4) 0px -1px 0;
 }
 
-h2 {
+.form-title {
   text-shadow: rgba(255,255,255,.2) 0 1px 1px;
   color: #bdbebd;
   background-color: #212021;
@@ -76,35 +76,34 @@ h2 {
 // LIST
 //
 
-li:first-child, li:first-child a {
+.list-item:first-child, .list-item:first-child a {
   @include border-radius-top(0px);
 }
 
 
-li:last-child, li:last-child a {
+.list-item:last-child, .list-item:last-child a {
   @include border-radius-bottom(0px);
 }
 
-ul {
+.list {
   background-color:$background-color;
-  //border:1px solid $border-color;
   @include border-radius(0);
 }
 
-ul li {
+.list-item +  .list-item {
   color: #ffffff;
   border-top: 1px #313431 solid;
 }
 
-ul li.active.arrow, ul li.selected.arrow, ul li.active, ul li.selected {
+.list .list-item.active.arrow, .list .list-item.selected.arrow, .list .list-item.active, .list .list-item.selected {
   @extend .clickable-active;
 }
 
-ul li .subtitle {
+.list .list-item .subtitle {
   color: #949a94;
 }
 
-ul li.active .subtitle {
+.list .list-item.active .subtitle {
   color: #313429;
 }
 
@@ -120,27 +119,6 @@ ul li.active .subtitle {
   
 }
 
-//
-// FORM 
-//
-
-input[type="text"]:not(.selectbox), input[type="number"], input[type="password"], textarea {
-  @include border-radius(0);
-}
-
-input[type="text"]:not(.selectbox):not(.invalid), input[type="number"]:not(.invalid), input[type="password"]:not(.invalid), textarea:not(.invalid) {
-  border: 0px solid #242424;
-}
-
-input.invalid {
-  border: 1px solid red !important;
-}
-
-
-.formRowContent {
-  $ul-padding:5px;
-  padding: $ul-padding $ul-padding*2 $ul-padding $ul-padding*2;
-}
 
 //
 // SCROLL CONTAINER
@@ -160,7 +138,7 @@ $scGradientVerticalOffset: 15px;
   );
 }
 
-.scroll-container textarea {
+.scroll-container .text-area {
   padding:2px;
   border:none;
   background:none;
@@ -208,11 +186,29 @@ $scGradientVerticalOffset: 15px;
 // FORM RENDERING
 //
 
-.formSeparationRow {
-  background-color: $border-color;
+.text-field:not(.selectbox), .number-field, .password-field, .text-area {
+  @include border-radius(0);
 }
 
-.formRowGroupTitle {
+.text-field:not(.selectbox):not(.invalid), .number-field:not(.invalid), .password-field:not(.invalid), .text-area:not(.invalid) {
+  border: 0px solid #242424;
+}
+
+input.invalid {
+  border: 1px solid red !important;
+}
+
+.form-row-content {
+  $ul-padding:5px;
+  padding: $ul-padding $ul-padding*2 $ul-padding $ul-padding*2;
+}
+
+.form-separation-row {
+  background-color: #313431;
+  height: 1px;
+}
+
+.form-row-group-title {
   text-shadow: rgba(255,255,255,.2) 0 1px 1px;
   color: #bdbebd;
   background-color: #212021;
@@ -220,12 +216,12 @@ $scGradientVerticalOffset: 15px;
   padding: 0px 10px 0px 10px;
 }
 
-.formRowGroupFirstItem {
+.form-row-group-first {
   padding:0px;
   height:0px;
 }
 
-.formRowGroupLastItem {
+.form-row-group-last {
   height:0px;
   border-top:none;
   padding:0px;
@@ -309,50 +305,6 @@ $scGradientVerticalOffset: 15px;
   @include gradient-vertical(#b5b6b5, #949294);
   border: 1px solid #000;
 }
-
-//
-// RADIOBUTTON
-//
-
-// Border style
-input[type=radio] + label {
-  background: #fcfff4;
-  @include gradient-vertical-three(#fcfff4, #dfe5d7, #b3bead, 40%);
-
-  -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-  -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-  box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-
-  box-sizing:border-box;
-}
-
-
-// Inner Area
-input[type=radio]+ label:before {
-  -webkit-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
-  -moz-box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
-  box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,1);
-
-  @include gradient-vertical(darken($button-color, 60%),darken($button-color, 40%));
-}
-
-
-// Color dot
-input[type=radio] + label:after {
-  background: $android-orange;
-
-  $dot-color: $android-orange;
-  $dot-dark-color: darken($dot-color, 10%);
-
-  background: -webkit-linear-gradient(top, $dot-color 0%, $dot-dark-color 100%);
-  background: -moz-linear-gradient(top, $dot-color 0%, $dot-dark-color 100%);
-  background: linear-gradient(top, $dot-color 0%, $dot-dark-color 100%);
-
-  -webkit-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-  -moz-box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-  box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0,0,0,0.5);
-}
-
 
 //
 // DIALOG 
@@ -462,11 +414,15 @@ $arrow-size: 12px;
 }
 
 .selectbox-selected.active > div > .list-itemlabel {
-  color:black;
+  color: black;
 }
 
 .selectbox-selected > div > .list-itemlabel:after {
   border: 0px solid transparent;
+}
+
+.selectbox-selected {
+  color: black !important;
 }
 
 //
@@ -477,7 +433,7 @@ $arrow-size: 12px;
   @extend .clickable-active;
 }
 
-.menu ul {
+.menu .list {
   border: 1px solid $border-color;
 }
 

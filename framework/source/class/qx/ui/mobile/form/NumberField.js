@@ -54,7 +54,7 @@ qx.Class.define("qx.ui.mobile.form.NumberField",
     defaultCssClass :
     {
       refine : true,
-      init : "numberField"
+      init : "number-field"
     },
 
 

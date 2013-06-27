@@ -37,7 +37,7 @@ qx.Class.define("qx.ui.mobile.form.PasswordField",
     defaultCssClass :
     {
       refine : true,
-      init : "passwordField"
+      init : "password-field"
     }
   },
 

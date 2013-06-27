@@ -31,6 +31,13 @@ qx.Class.define("qx.ui.mobile.form.Title",
     {
       refine : true,
       init : false
+    },
+
+    // overridden
+    defaultCssClass :
+    {
+      refine : true,
+      init : "form-title"
     }
   },
 
