@@ -540,8 +540,6 @@ $arrow-size: 12px;
 // Color dot
 .radio.checked:after {
   background: $radiobutton-dot-color; 
-  $dot-dark-color: darken($radiobutton-dot-color, 10%);
-  @include gradient-vertical ($radiobutton-dot-color, $dot-dark-color);
   @include box-shadow(1px 1px 1px 0px rgba(0,0,0,0.3));
 }
 

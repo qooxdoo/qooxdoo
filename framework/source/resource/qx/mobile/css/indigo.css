@@ -1740,14 +1740,6 @@ ul li.active {
 
 .radio.checked:after {
   background: #3d72c9;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#3d72c9), to(#2e5ba5));
-  /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, #3d72c9, #2e5ba5);
-  /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, #3d72c9, #2e5ba5);
-  /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #3d72c9, #2e5ba5);
-  /* Standard (in flux) */
   -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
   box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3); }
