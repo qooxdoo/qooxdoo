@@ -66,8 +66,8 @@ qx.Class.define("qx.test.Class",
         members[name] = function() {};
         this.assertException(function() {
           // extract the class define to prevent the generator from parsing this class
-          var d = qx.Class.define;
-          d(null, {
+          var Clazz = qx.Class;
+          Clazz.define(null, {
             extend : C,
             members : members
           });
