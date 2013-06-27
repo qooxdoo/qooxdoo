@@ -47,7 +47,7 @@ qx.Bootstrap.define("qx.bom.element.Dataset",
      */
     set : function(element, name, value)
     {
-      if (false)
+      if (element.dataset)
       {
         name = qx.lang.String.camelCase(name);
         if(value != null) {
@@ -74,7 +74,7 @@ qx.Bootstrap.define("qx.bom.element.Dataset",
      */
     get : function(element, name)
     {
-      if (false)
+      if (element.dataset)
       {
         name = qx.lang.String.camelCase(name);
         return (name in element.dataset) ? element.dataset[name] : null;
@@ -95,7 +95,7 @@ qx.Bootstrap.define("qx.bom.element.Dataset",
      */
     getAll : function(element)
     {
-      if (false)
+      if (element.dataset)
       {
         return element.dataset;
       }
