@@ -107,7 +107,6 @@ qx.Class.define("showcase.Application",
 
       this.__stack = new qx.ui.container.Stack();
       this.__stack.set({
-        appearance: "stack",
         minWidth: 600,
         allowGrowX: true
       });
