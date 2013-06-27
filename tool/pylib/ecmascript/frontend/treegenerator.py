@@ -727,8 +727,6 @@ prefix("~", 130); prefix("!", 130)
 #prefix("+", 130); prefix("-", 130)  # higher than infix position! handled in preinfix.pfix()
 prefix_v("delete", 130); prefix_v("typeof", 130); prefix_v("void", 130)
 
-prefix("/",  130)  # regexp
-
 infix("*",  120); infix("/", 120); infix("%", 120)
 
 preinfix("+",  110); preinfix("-", 110)      # pre/infix '+', '-'
