@@ -614,7 +614,7 @@ $pagination-label-size:8px;
   background-color: #929292;
   
   @include border-radius($checkbox-border-radius*3);
-  @include gradient-vertical($checkbox-background-color-1, $checkbox-background-color-2);
+  @include gradient-vertical($checkbox-background-color, $checkbox-background-color-2);
 }
 
 .checkbox:after {
@@ -644,7 +644,7 @@ $pagination-label-size:8px;
 
 // Border style
 .radio {
-  @include gradient-vertical($radiobutton-background-color-1,$radiobutton-background-color-2);
+  @include gradient-vertical($radiobutton-background-color,$radiobutton-background-color-2);
   border: $border-thickness solid $radiobutton-border-color;
   box-sizing:border-box;
 }

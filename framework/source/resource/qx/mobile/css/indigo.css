@@ -1696,13 +1696,13 @@ ul li.active {
   -webkit-border-radius: 0.3em;
   -moz-border-radius: 0.3em;
   border-radius: 0.3em;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#c1c1c1), to(white));
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#c1c1c1), to(#f4f4f4));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, #c1c1c1, white);
+  background-image: -webkit-linear-gradient(top, #c1c1c1, #f4f4f4);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, #c1c1c1, white);
+  background-image: -moz-linear-gradient(top, #c1c1c1, #f4f4f4);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #c1c1c1, white);
+  background-image: linear-gradient(to bottom, #c1c1c1, #f4f4f4);
   /* Standard (in flux) */ }
 
 .checkbox:after {
@@ -1727,13 +1727,13 @@ ul li.active {
   opacity: 1; }
 
 .radio {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#c1c1c1), to(white));
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#c1c1c1), to(#f4f4f4));
   /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, #c1c1c1, white);
+  background-image: -webkit-linear-gradient(top, #c1c1c1, #f4f4f4);
   /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, #c1c1c1, white);
+  background-image: -moz-linear-gradient(top, #c1c1c1, #f4f4f4);
   /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #c1c1c1, white);
+  background-image: linear-gradient(to bottom, #c1c1c1, #f4f4f4);
   /* Standard (in flux) */
   border: 1px solid #888888;
   box-sizing: border-box; }
