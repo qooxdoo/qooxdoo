@@ -50,14 +50,47 @@ def log(level, msg, node=None):
 
 
 ##
-# Processes qx.core.Environment.select blocks
-# Destructive! re-writes the AST tree passed in <callNode> by replacing choices with
-# the suitable branch.
+# Process calls to qx.core.Environment.get().
+#
+# Replace qx.core.Environment.get() calls with their value in the tree if
+# possible.
+#
+def processVariantGet(callNode, variantMap):
+
+    treeModified = False
+
+    # Simple sanity checks
+    params = callNode.getChild("arguments")
+    if len(params.children) != 1:
+        return treeModified
+
+    firstParam = params.getChildByPosition(0)
+    if not treeutil.isStringLiteral(firstParam):
+        return treeModified
+
+    variantKey = firstParam.get("value");
+    if variantKey in variantMap:
+        confValue = variantMap[variantKey]
+    else:
+        return treeModified
+
+    # Replace the .get() with its value
+    resultNode = reduceCall(callNode, confValue)
+    treeModified = True
+
+    return treeModified
+
+
+##
+# Processes calls to qx.core.Environment.select().
+#
+# Destructive re-writes the AST tree passed in <callNode> by replacing choices
+# with the suitable branch.
 #
 # Mirror line:
 # <callNode>:
 # qx.core.Environment.select("qx.debug", { "on" : function(){return true;},
-#                                      "off": function(){return false;}})
+#                                          "off": function(){return false;}})
 # <variantMap>:
 # {
 #   "qx.debug" : "on"
@@ -129,39 +162,7 @@ def processVariantSelect(callNode, variantMap):
 
 
 ##
-# Process calls to qx.core.Environment.get().
-# Remove dead branches of 'if' etc. constructs, if conditions can be decided.
-# Currently, optimizes if 
-# - the qx.core.Environment.get() call is the only condition
-# - the call is part of a simple compare with literals
-#   (e.g."qx.core.Environment.get("foo") == 3").
-#
-def processVariantGet(callNode, variantMap):
-
-    treeModified = False
-
-    # Simple sanity checks
-    params = callNode.getChild("arguments")
-    if len(params.children) != 1:
-        return treeModified
-
-    firstParam = params.getChildByPosition(0)
-    if not treeutil.isStringLiteral(firstParam):
-        return treeModified
-
-    variantKey = firstParam.get("value");
-    if variantKey in variantMap:
-        confValue = variantMap[variantKey]
-    else:
-        return treeModified
-
-    # Replace the .get() with its value
-    resultNode = reduceCall(callNode, confValue)
-    treeModified = True
-
-    return treeModified
-
-
+# Process calls to qx.core.Environment.filter().
 def processVariantFilter(callNode, variantMap):
 
     def isExcluded(mapkey, variantMap):
