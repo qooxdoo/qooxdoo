@@ -29,7 +29,7 @@ from ecmascript.backend             import formatter
 from ecmascript.frontend import treeutil, tokenizer
 from ecmascript.frontend import treegenerator, lang
 from ecmascript.frontend.SyntaxException import SyntaxException
-from ecmascript.transform.check     import scopes, load_time, lint
+from ecmascript.transform.check     import scopes, load_time, lint, jshints
 from ecmascript.transform.optimizer import variantoptimizer, variableoptimizer, commentoptimizer
 from ecmascript.transform.optimizer import stringoptimizer, basecalloptimizer, privateoptimizer
 from ecmascript.transform.optimizer import featureoptimizer
@@ -100,10 +100,14 @@ class MClassCode(object):
                 #tree.scope.prrnt()
                 #print self.id, " (globals):", [c for s in tree.scope.scope_iterator() for c in s.globals()]
 
-            # Annotate scopes reg. load time evaluation
+            # Annotate scopes with load time information
             if True:
                 if hasattr(tree,'scope') and tree.scope:
                     load_time.load_time_check(tree.scope)
+
+            # Annotate with jsdoc hints
+            if True:
+                tree = jshints.create_hints_tree(tree)
 
             # Store unoptimized tree
             cache.write(cacheId, tree, memory=tradeSpaceForSpeed)

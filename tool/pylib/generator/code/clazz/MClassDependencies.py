@@ -77,7 +77,8 @@ class MClassDependencies(object):
                     tree = self.tree()
 
             # Get deps from compiler hints
-            tree = jshints.create_hints_tree(tree) # this will be used by some of the subsequent method calls
+            if not hasattr(tree, 'hint'):
+                tree = jshints.create_hints_tree(tree) # this will be used by some of the subsequent method calls
             load_hints, run_hints, ignore_hints, all_feature_checks = self.dependencies_from_comphints(tree) # ignore_hints=[HintArgument]
             load.extend(load_hints)
             run.extend(run_hints)
@@ -354,14 +355,14 @@ class MClassDependencies(object):
         for hint in node.hint.iterator():
             for target,hintKey in ((load,'require'), (run,'use')):
                 if hintKey in hint.hints:
-                    for arg in hint.hints[hintKey][None]:
+                    for hintArg in hint.hints[hintKey][None]:
                         # add all feature checks if requested
-                        if arg == "feature-checks":
+                        if hintArg == "feature-checks":
                             all_feature_checks[bool(hintKey=='use')] = True
                             target.extend(self.depsItems_from_envchecks(hint.node.get('line',-1), metaHint==metaLoad))
                         # turn the HintArgument into a DependencyItem
                         else:
-                            sig = arg.split('#',1)
+                            sig = hintArg.source.split('#',1)
                             className = sig[0]
                             attrName  = sig[1] if len(sig)>1 else ''
                             target.append(DependencyItem(className, attrName, self.id, hint.node.get('line',-1)))

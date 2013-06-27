@@ -54,6 +54,6 @@ class HintArgument(object):
 
     ##
     # Let self behave like a string in most situations
-    def __getattr__(self, name):
-        return getattr(self.source, name)
+    #def __getattr__(self, name):
+    #    return getattr(self.source, name)
 
