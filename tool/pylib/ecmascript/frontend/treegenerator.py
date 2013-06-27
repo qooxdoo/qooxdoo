@@ -804,29 +804,9 @@ def toListG(self):
     yield self
 
 
-@method(symbol("/"))   # regexp literals
-def pfix(self):
-    # problem: "/".ifix() and "/".pfix() return similar ASTs, e.g. with "/" as root
-    # and 2 childs; it is not clear from this AST whether it is division or literal regexp,
-    # and the types of the childs have to be inspected to decide this.
-
-    rexp = ""
-    while True:
-        rexp += token.get("value")      # accumulate token strings
-        if rexp.endswith("/"):   # check for end of regexp
-            # make sure "/" is not escaped, ie. preceded by an odd number of "\"
-            if not is_last_escaped(rexp):
-                rexp = rexp[:-1] # remove closing "/"
-                break
-        advance()
-    advance()  # this might be either advance("/") or advance("*/")
-    s       = (symbol_table["constant"])()  # create a symbol object for the regexp
-    s.value = rexp
-    self.childappend(s)
-    if token.id == "identifier":   # pick up regexp modifiers
-        self.childappend(token)
-        advance()
-    return self
+#@method(symbol("/"))   # regexp literals - already detected by the Tokenizer
+#def pfix(self):
+#    pass
 
 
 # ternary op ?:
