@@ -3,7 +3,7 @@ addSample("q.rest.resource", function() {
   // ----
   var resourceDesc = {
     "get": { method: "GET", url: "/photo/{id}" },
-    "put": { method: "PUT", url: "/photo/{id}"},
+    "put": { method: "PUT", url: "/photo/{id}"}
   };
   var resource = q.rest.resource(resourceDesc);
   resource.setBaseUrl("http://example.org");
