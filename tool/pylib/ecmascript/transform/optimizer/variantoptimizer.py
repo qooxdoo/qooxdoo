@@ -21,11 +21,10 @@
 #
 ################################################################################
 
-import re, sys, operator as operators, types
-from ecmascript.frontend          import treeutil
+import os, sys, re, types
+from ecmascript.frontend                import treeutil
 from ecmascript.frontend.treegenerator  import symbol, PackerFlags as pp
-from ecmascript.transform.evaluate  import evaluate
-from ecmascript.transform.optimizer import reducer
+from ecmascript.transform.optimizer     import reducer
 
 global verbose
 
@@ -48,38 +47,6 @@ def log(level, msg, node=None):
         if level != "Information":
             print >> sys.stderr
             print >> sys.stderr, str
-
-
-##
-# Interface method.
-def search(node, variantMap, fileId_="", verb=False):
-    if not variantMap:
-        return False
-    
-    global verbose
-    global fileId
-    verbose = verb
-    fileId = fileId_
-    modified = False
-
-    variantNodes = findVariantNodes(node)
-    for variantNode in variantNodes:
-        variantMethod = variantNode.toJS(pp).rsplit('.',1)[1]
-        callNode = treeutil.selectNode(variantNode, "../..")
-        if variantMethod in ["select"]:
-            modified = processVariantSelect(callNode, variantMap) or modified
-        elif variantMethod in ["get"]:
-            modified = processVariantGet(callNode, variantMap) or modified
-        elif variantMethod in ["filter"]:
-            modified = processVariantFilter(callNode, variantMap) or modified
-
-    # reduce decidable subtrees
-    if modified:
-        for cld in node.children[:]:
-            new_cld = reducer.ast_reduce(cld)
-            node.replaceChild(cld, new_cld)
-
-    return modified
 
 
 ##
@@ -193,43 +160,41 @@ def processVariantGet(callNode, variantMap):
     treeModified = True
 
     return treeModified
-    # TODO: (bug#6169) remove rest of this function if performance ok
-
-    # Reduce any potential operations with literals (+3, =='hugo', ?a:b, ...)
-    treeMod = True
-    while treeMod:
-        resultNode, treeMod = reduceOperation(resultNode)
-
-    # Reduce a potential condition
-    _ = reduceLoop(resultNode)
-
-    return treeModified
 
 
-def nextNongroupParent(node, stopnode=None):
-    result = stopnode
-    n = node.parent
-    while n and n != stopnode:
-        if n.type != "group":
-            result = n
-            break
+def processVariantFilter(callNode, variantMap):
+
+    def isExcluded(mapkey, variantMap):
+        return mapkey in variantMap and bool(variantMap[mapkey]) == False
+
+    changed = False
+    if callNode.type != "call":
+        return changed
+
+    params = callNode.getChild("arguments")
+    if len(params.children) != 1:
+        log("Warning", "Expecting exactly one argument for qx.core.Environment.filter. Ignoring this occurrence.", params)
+        return changed
+
+    # Get the map from the find call
+    firstParam = params.getChildByPosition(0)
+    if not firstParam.type == "map":
+        log("Warning", "First argument must be a map! Ignoring this occurrence.", firstParam)
+        return changed
+    filterMap = firstParam
+
+    for keyvalue in filterMap.getChildren(True):
+        mapkey = keyvalue.get("key")
+        if isExcluded(mapkey, variantMap):
+            filterMap.removeChild(keyvalue)
+            changed = True
         else:
-            n = n.parent
-    return result
+            continue
 
-def __variantMatchKey(key, variantValue):
-    for keyPart in key.split("|"):
-        if variantValue == keyPart:
-            return True
-    return False
+    return changed
 
 
 ##
-# some preps for better processing
-#
-
-##
-# 1. pass:
 # replace qx.c.Env.get(key) with its value, qx.core.Environment.get("foo") => 3
 # handles parent relation
 def reduceCall(callNode, value):
@@ -244,66 +209,36 @@ def reduceCall(callNode, value):
 
 
 ##
-# 2. pass:
-# replace operations between literals, e.g. compares ("3 == 3" => true),
-# arithmetic ("3+4" => "7"), logical ("true && false" => false)
-def reduceOperation(literalNode): 
+# Selector generator that yields all nodes in tree <node> where variant-specific
+# code is executed.
+#
+# @return {Iter<Node>} node generator
+#
+InterestingEnvMethods = ["select", "selectAsync", "get", "getAsync", "filter"]
+def findVariantNodes(node):
+    for callnode in list(treeutil.nodeIterator(node, ['call'])): # enforce eagerness so nodes that are moved are still handled
+        if isEnvironmentCall(callnode):
+            yield treeutil.selectNode(callnode, "operand").getFirstChild()
+        else:
+            continue
 
-    resultNode = literalNode
-    treeModified = False
-
-    # can only reduce with constants
-    if literalNode.type != "constant":
-        return literalNode, False
-
-    # check if we're in an operation
-    ngParent = nextNongroupParent(literalNode) # could be operand in ops
-    if not ngParent or ngParent.type != "operation":
-        return literalNode, False
+def isEnvironmentCall(callNode):
+    if callNode.type != "call":
+        return False
+    operandNode = treeutil.selectNode(callNode, "operand")
+    operand = operandNode.toJS(pp)
+    environParts = operand.rsplit('.',1)
+    if len(environParts) != 2:
+        return False
+    elif environParts[0] != "qx.core.Environment":
+        return False
+    elif environParts[1] not in InterestingEnvMethods:
+        return False
     else:
-        operationNode = ngParent
-
-    # try to evaluate expr
-    operationNode = evaluate.evaluate(operationNode)
-    if operationNode.evaluated != (): # we have a value
-        # create replacement
-        resultNode = symbol("constant")(
-            operationNode.get("line"), operationNode.get("column"))
-        resultNode = reducer.set_node_type_from_value(resultNode, operationNode.evaluated)
-        # modify tree
-        operationNode.parent.replaceChild(operationNode, resultNode)
-        treeModified = True
-
-    return resultNode, treeModified
+        return operand
 
 
-##
-# 3. pass:
-# now reduce all 'if's with constant conditions "if (true)..." => <then>-branch
-def reduceLoop(startNode):
-    treeModified = False
-    conditionNode = None
-
-    # find the loop's condition node
-    node = startNode
-    while(node):
-        if node.parent and node.parent.type == "loop" and node.parent.getFirstChild(ignoreComments=True)==node:
-            conditionNode = node
-            break
-        node = node.parent
-    if not conditionNode:
-        return treeModified
-
-    # handle "if" statements
-    if conditionNode.parent.get("loopType") == "IF":
-        loopNode = conditionNode.parent
-        evaluate.evaluate(conditionNode)
-        if conditionNode.evaluated!=():
-            reducer.reduce(loopNode)
-            treeModified = True
-
-    return treeModified
-
+# -- Interface methods ---------------------------------------------------------
 
 ##
 # Returns e.g.
@@ -343,38 +278,6 @@ def getSelectParams(callNode):
             branchMap[branchKey] = value
 
     return variantKey, branchMap
-
-
-def processVariantFilter(callNode, variantMap):
-
-    def isExcluded(mapkey, variantMap):
-        return mapkey in variantMap and bool(variantMap[mapkey]) == False
-
-    changed = False
-    if callNode.type != "call":
-        return changed
-
-    params = callNode.getChild("arguments")
-    if len(params.children) != 1:
-        log("Warning", "Expecting exactly one argument for qx.core.Environment.filter. Ignoring this occurrence.", params)
-        return changed
-
-    # Get the map from the find call
-    firstParam = params.getChildByPosition(0)
-    if not firstParam.type == "map":
-        log("Warning", "First argument must be a map! Ignoring this occurrence.", firstParam)
-        return changed
-    filterMap = firstParam
-
-    for keyvalue in filterMap.getChildren(True):
-        mapkey = keyvalue.get("key")
-        if isExcluded(mapkey, variantMap):
-            filterMap.removeChild(keyvalue)
-            changed = True
-        else:
-            continue
-
-    return changed
 
 
 ##
@@ -418,32 +321,33 @@ def getFilterMap(callNode, fileId_):
 
 
 ##
-# Selector generator that yields all nodes in tree <node> where variant-specific
-# code is executed.
-#
-# @return {Iter<Node>} node generator
-#
+# Interface method.
+def search(node, variantMap, fileId_="", verb=False):
+    if not variantMap:
+        return False
+    
+    global verbose
+    global fileId
+    verbose = verb
+    fileId = fileId_
+    modified = False
 
-InterestingEnvMethods = ["select", "selectAsync", "get", "getAsync", "filter"]
+    variantNodes = findVariantNodes(node)
+    for variantNode in variantNodes:
+        variantMethod = variantNode.toJS(pp).rsplit('.',1)[1]
+        callNode = treeutil.selectNode(variantNode, "../..")
+        if variantMethod in ["select"]:
+            modified = processVariantSelect(callNode, variantMap) or modified
+        elif variantMethod in ["get"]:
+            modified = processVariantGet(callNode, variantMap) or modified
+        elif variantMethod in ["filter"]:
+            modified = processVariantFilter(callNode, variantMap) or modified
 
-def findVariantNodes(node):
-    for callnode in list(treeutil.nodeIterator(node, ['call'])): # enforce eagerness so nodes that are moved are still handled
-        if isEnvironmentCall(callnode):
-            yield treeutil.selectNode(callnode, "operand").getFirstChild()
-        else:
-            continue
+    # reduce decidable subtrees
+    if modified:
+        for cld in node.children[:]:
+            new_cld = reducer.ast_reduce(cld)
+            node.replaceChild(cld, new_cld)
 
-def isEnvironmentCall(callNode):
-    if callNode.type != "call":
-        return False
-    operandNode = treeutil.selectNode(callNode, "operand")
-    operand = operandNode.toJS(pp)
-    environParts = operand.rsplit('.',1)
-    if len(environParts) != 2:
-        return False
-    elif environParts[0] != "qx.core.Environment":
-        return False
-    elif environParts[1] not in InterestingEnvMethods:
-        return False
-    else:
-        return operand
+    return modified
+
