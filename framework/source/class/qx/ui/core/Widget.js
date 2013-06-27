@@ -3441,6 +3441,42 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
+     * Release the child control by ID and decouple the
+     * child from the parent. This method does not dispose the child control.
+     *
+     * @param id {String} ID of the child control
+     * @return {qx.ui.core.Widget} The released control
+     */
+    _releaseChildControl : function(id)
+    {
+      var control = this.getChildControl(id, false);
+      if (!control) {
+        throw new Error("Unsupported control: " + id);
+      }
+
+      // remove connection to parent
+      delete control.$$subcontrol;
+      delete control.$$subparent;
+
+      // remove state forwarding
+      var states = this.__states;
+      var forward = this._forwardStates;
+
+      if (states && forward && control instanceof qx.ui.core.Widget) {
+        for (var state in states) {
+          if (forward[state]) {
+            control.removeState(state);
+          }
+        }
+      }
+
+      delete this.__childControls[id];
+
+      return control;
+    },
+
+
+    /**
      * Force the creation of the given child control by ID.
      *
      * Do not override this method! Override {@link #_createChildControlImpl}

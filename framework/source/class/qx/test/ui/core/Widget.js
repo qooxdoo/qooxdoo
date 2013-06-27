@@ -297,6 +297,32 @@ qx.Class.define("qx.test.ui.core.Widget",
     },
 
 
+    testReleaseChildControl : function() {
+      qx.Class.define("qx.test.ui.core.W", {
+        extend : qx.ui.core.Widget,
+
+        members : {
+          _createChildControlImpl: function(id) {
+            return new qx.ui.core.Widget();
+          }
+        }
+      });
+
+      var w = new qx.test.ui.core.W();
+
+      var child = w.getChildControl("xyz");
+      this.flush();
+      this.assertEquals(w._getCreatedChildControls()["xyz"], child);
+
+      w._releaseChildControl("xyz");
+      this.assertUndefined(w._getCreatedChildControls()["xyz"]);
+
+      child.dispose();
+      w.dispose();
+      qx.Class.undefine("qx.test.ui.core.W");
+    },
+
+
     testCreateChildControlHash: function(){
       qx.Class.define("qx.test.ui.core.W", {
         extend : qx.ui.core.Widget,
