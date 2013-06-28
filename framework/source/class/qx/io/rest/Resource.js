@@ -406,7 +406,7 @@ qx.Class.define("qx.io.rest.Resource",
      * @param action {String} Action to invoke.
      * @param params {Map} Map of parameters inserted into URL when a matching
      *  positional parameter is found.
-     * @param data {Map|Array|String} Data to be send as part of the request.
+     * @param data {Map|String} Data to be send as part of the request.
      *  See {@link qx.io.request.AbstractRequest#requestData}.
      * @return {Number} Id of the action's invocation.
      */
