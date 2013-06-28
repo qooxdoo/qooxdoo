@@ -150,6 +150,8 @@ Files = {
         r'qx-oo-(%s).min.js' % qxversion_regexp,
         r'q-(%s).js' % qxversion_regexp,
         r'q-(%s).min.js' % qxversion_regexp,
+        r'q-[a-z]+-(%s).js' % qxversion_regexp,
+        r'q-[a-z]+-(%s).min.js' % qxversion_regexp,
         r'storage-(%s).js' % qxversion_regexp,
         r'storage-(%s).require.js' % qxversion_regexp,
         ],
