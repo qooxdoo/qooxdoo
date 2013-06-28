@@ -127,7 +127,7 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
         this.getContainerElement().style.width = qx.bom.Viewport.getWidth() + "px";
         this.getContainerElement().style.height = qx.bom.Viewport.getHeight()  + "px";
       }
-      else
+      else if(this.getLayoutParent() != null)
       {
         var dimension = qx.bom.element.Dimension.getSize(this.getLayoutParent().getContainerElement());
         this.getContainerElement().style.width = dimension.width + "px";
