@@ -12,6 +12,7 @@ General
    :maxdepth: 2
 
    website/overview
+   website/modules
 
 
 Tutorials
