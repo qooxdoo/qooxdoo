@@ -57,7 +57,6 @@ qx.Class.define("qx.test.mobile.form.RadioButton",
 
       var group = new qx.ui.mobile.form.RadioGroup();
       group.setAllowEmptySelection(true);
-
       group.add(radio1,radio2,radio3);
 
       this.getRoot().add(radio1);
@@ -65,30 +64,30 @@ qx.Class.define("qx.test.mobile.form.RadioButton",
       this.getRoot().add(radio3);
 
       // Verify: inital all radios buttons should be disabled.
-      this.assertEquals(false,radio1.getValue());
-      this.assertEquals(false,radio2.getValue());
-      this.assertEquals(false,radio3.getValue());
+      this.assertEquals(false, radio1.getValue());
+      this.assertEquals(false, radio2.getValue());
+      this.assertEquals(false, radio3.getValue());
 
-      this.assertEquals(false, qx.bom.element.Attribute.get(radio1.getContainerElement(),'checked'));
-      this.assertEquals(false, qx.bom.element.Attribute.get(radio2.getContainerElement(),'checked'));
-      this.assertEquals(false, qx.bom.element.Attribute.get(radio3.getContainerElement(),'checked'));
+      this.assertEquals(false, radio1.hasCssClass("checked"));
+      this.assertEquals(false, radio2.hasCssClass("checked"));
+      this.assertEquals(false, radio3.hasCssClass("checked"));
 
       // Radio 1 enabled
       radio1.setValue(true);
 
       // Verify
-      this.assertEquals(true,radio1.getValue());
-      this.assertEquals(true,qx.bom.element.Attribute.get(radio1.getContainerElement(),'checked'));
-      this.assertEquals(false,radio2.getValue());
-      this.assertEquals(false,radio3.getValue());
+      this.assertEquals(true, radio1.getValue());
+      this.assertEquals(true, radio1.hasCssClass("checked"));
+      this.assertEquals(false, radio2.getValue());
+      this.assertEquals(false, radio3.getValue());
 
       // Radio 3 enabled
       radio3.setValue(true);
 
       // Verify
-      this.assertEquals(true,radio3.getValue());
-      this.assertEquals(false,radio2.getValue());
-      this.assertEquals(false,radio1.getValue());
+      this.assertEquals(true, radio3.getValue());
+      this.assertEquals(false, radio2.getValue());
+      this.assertEquals(false, radio1.getValue());
 
       // Clean up tests
       radio1.destroy();
