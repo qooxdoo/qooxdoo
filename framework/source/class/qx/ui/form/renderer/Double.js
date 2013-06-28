@@ -29,9 +29,9 @@ qx.Class.define("qx.ui.form.renderer.Double",
   {
     var layout = new qx.ui.layout.Grid();
     layout.setSpacing(6);
-    layout.setColumnAlign(0, "left", "top");
+    layout.setColumnAlign(0, "right", "top");
     layout.setColumnAlign(1, "left", "top");
-    layout.setColumnAlign(2, "left", "top");
+    layout.setColumnAlign(2, "right", "top");
     layout.setColumnAlign(3, "left", "top");
     this._setLayout(layout);
 
