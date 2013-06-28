@@ -1,96 +1,132 @@
+<!doctype html>
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta charset="utf-8">
   <title>qooxdoo &raquo; Demo</title>
   <style type="text/css">
-*{
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+    * {
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-body{
-  font-family: "Lucida Grande", Verdana, Arial, sans-serif;
-  font-size: 12px;
-  line-height: 180%;
-  margin: 0;
-  padding: 0;
-  background: #FFFFFF;
-  color: #262626;
-}
+    body{
+      font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+      font-size: 12px;
+      line-height: 180%;
+      margin: 0;
+      padding: 0;
+      background: #FFFFFF;
+      color: #262626;
+    }
 
-p{
-  margin: 6px 0;
-}
+    p{
+      margin: 6px 0;
+    }
 
-.hide, .publish {
-	display: none;
-}
+    .hide, .publish {
+      display: none;
+    }
 
-.header {
-  background-color: #323335;
-  color: white;
-  padding: 10px 40px;
-  font-size: 18px;
-  font-family: 'Lucida Grande', 'Verdana', sans-serif;
-  border-bottom: 4px solid #3d72c9;;
-}
+    .header {
+      background-color: #323335;
+      color: white;
+      padding: 10px 40px;
+      font-size: 18px;
+      font-family: 'Lucida Grande', 'Verdana', sans-serif;
+      border-bottom: 4px solid #3d72c9;;
+    }
 
-img{
-  box-sizing: content-box;
-  -moz-box-sizing: content-box;
-}
+    img{
+      box-sizing: content-box;
+      -moz-box-sizing: content-box;
+    }
 
-#content{
-  margin: 20px 20px 0;
-}
+    #content{
+      margin: 20px 20px 0;
+    }
 
-h1{
-  font-size: 14px;
-  margin-bottom: 20px;
-  color: #3D72C9;
-}
+    h1{
+      font-size: 14px;
+      margin-bottom: 20px;
+      color: #3D72C9;
+    }
 
-h2{
-  font-size: 12px;
-  color: #000000;
-}
+    h2{
+      font-size: 12px;
+      color: #000000;
+    }
 
-a:link,
-a:visited{
-  text-decoration: underline;
-  color: #444444;
-}
+    a:link,
+    a:visited{
+      text-decoration: underline;
+      color: #444444;
+    }
 
-a:hover,
-a:active{
-  text-decoration: underline;
-  color: #3D72C9;
-}
+    a:hover,
+    a:active{
+      text-decoration: underline;
+      color: #3D72C9;
+    }
 
-li{
-  margin-left: 16px;
-  list-style: square;
-  margin-bottom: 20px;
-}
+    li{
+      margin-left: 16px;
+      list-style: square;
+      margin-bottom: 20px;
+    }
 
-p{
-  font-size: 12px;
-}
+    p{
+      font-size: 12px;
+    }
 
-ul ul{
-  margin-top: 20px;
-}
+    ul ul{
+      margin-top: 20px;
+    }
 
-.block{
-  width: 300px;
-  margin: 16px 40px;
-  margin-top: 40px;
-  float: left;
-}
+    .block{
+      width: 300px;
+      margin: 16px 40px;
+      margin-top: 40px;
+      float: left;
+    }
 
+    #modules-wrapper {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    #modules {
+      margin: 0;
+    }
+
+    #modules li {
+      list-style: circle;
+      margin: 0 0 3px 25px;
+    }
   </style>
+  <script>
+    window.onload = function() {
+      "use strict";
+      var modulesElem = document.getElementById("modules"),
+          modulesWrapperElem = document.getElementById("modules-wrapper"),
+          modulesExpElem = document.getElementById("modules-expander");
+
+      if (modulesElem) {
+        // hide initially
+        modulesElem.style.display = "none";
+      }
+
+      if (modulesWrapperElem && modulesExpElem) {
+        // toggle visibility
+        modulesWrapperElem.onclick = function() {
+          var modulesElem = document.getElementById("modules");
+          modulesElem.style.display = (modulesElem.style.display === "none") ? "block" : "none";
+          modulesExpElem.innerHTML = (modulesExpElem.innerHTML === "[+]") ? "[-]" : "[+]";
+        };
+      }
+    };
+  </script>
 </head>
 <body>
   <div class="header">qooxdoo - a universal JavaScript framework</div>
@@ -165,9 +201,45 @@ ul ul{
         </li>
         <li>
           <h2>Website Lib</h2>
-          <p>The base Website library.</p>
+          <p>The Website library for building light-weight, integrated, low-level components for websites.</p>
+          <p>As single file:</p>
           <span class="local"><a href="component/standalone/website/script/q-3.0.js"><b>q-3.0.js</b></a> | <a href="component/standalone/website/script/q-3.0.min.js"><b>q-3.0.min.js</b></a> (compressed)</span>
           <span class="publish"><a href="framework/q-3.0.js"><b>q-3.0.js</b></a> | <a href="framework/q-3.0.min.js"><b>q-3.0.min.js</b></a> (compressed)</span>
+          <p id="modules-wrapper"><span id="modules-expander">[+]</span> As seperate modules (i.e. several files):</p>
+          <ul id="modules">
+            <li class="local"><a href="component/standalone/website/script/q-core-3.0.js">q-core-3.0.min.js</a> | <a href="component/standalone/website/script/q-core-3.0.min.js">min</a> (always needed)</li>
+            <li class="publish"><a href="framework/q-core-3.0.js">q-core-3.0.js</a> | <a href="framework/q-core-3.0.min.js">min</a></li>
+            <li class="local"><a href="component/standalone/website/script/q-animation-3.0.js">q-animation-3.0.js</a> | <a href="component/standalone/website/script/q-animation-3.0.min.js">min</a></li>
+            <li class="publish"><a href="framework/q-animation-3.0.js">q-animation-3.0.js</a> | <a href="framework/q-animation-3.0.min.js">min</a></li>
+            <li class="local"><a href="component/standalone/website/script/q-blocker-3.0.js">q-blocker-3.0.js</a> | <a href="component/standalone/website/script/q-blocker-3.0.min.js">min</a></li>
+            <li class="publish"><a href="framework/q-blocker-3.0.js">q-blocker-3.0.js</a> | <a href="framework/q-blocker-3.0.min.js">min</a></li>
+            <li class="local"><a href="component/standalone/website/script/q-cookie-3.0.js">q-cookie-3.0.js</a> | <a href="component/standalone/website/script/q-cookie-3.0.min.js">min</a></li>
+            <li class="publish"><a href="framework/q-cookie-3.0.js">q-cookie-3.0.js</a> | <a href="framework/q-cookie-3.0.min.js">min</a></li>
+            <li class="local"><a href="component/standalone/website/script/q-dataset-3.0.js">q-dataset-3.0.js</a> | <a href="component/standalone/website/script/q-dataset-3.0.min.js">min</a></li>
+            <li class="publish"><a href="framework/q-dataset-3.0.js">q-dataset-3.0.js</a> | <a href="framework/q-dataset-3.0.min.js">min</a></li>
+            <li class="local"><a href="component/standalone/website/script/q-dev-3.0.js">q-dev-3.0.js</a> | <a href="component/standalone/website/script/q-dev-3.0.min.js">min</a></li>
+            <li class="publish"><a href="framework/q-dev-3.0.js">q-dev-3.0.js</a> | <a href="framework/q-dev-3.0.min.js">min</a></li>
+            <li class="local"><a href="component/standalone/website/script/q-io-3.0.js">q-io-3.0.js</a> | <a href="component/standalone/website/script/q-io-3.0.min.js">min</a></li>
+            <li class="publish"><a href="framework/q-io-3.0.js">q-io-3.0.js</a> | <a href="framework/q-io-3.0.min.js">min</a></li>
+            <li class="local"><a href="component/standalone/website/script/q-matchmedia-3.0.js">q-matchmedia-3.0.js</a> | <a href="component/standalone/website/script/q-matchmedia-3.0.min.js">min</a></li>
+            <li class="publish"><a href="framework/q-matchmedia-3.0.js">q-matchmedia-3.0.js</a> | <a href="framework/q-matchmedia-3.0.min.js">min</a></li>
+            <li class="local"><a href="component/standalone/website/script/q-messaging-3.0.js">q-messaging-3.0.js</a> | <a href="component/standalone/website/script/q-messaging-3.0.min.js">min</a></li>
+            <li class="publish"><a href="framework/q-messaging-3.0.js">q-messaging-3.0.js</a> | <a href="framework/q-messaging-3.0.min.js">min</a></li>
+            <li class="local"><a href="component/standalone/website/script/q-placeholder-3.0.js">q-placeholder-3.0.js</a> | <a href="component/standalone/website/script/q-placeholder-3.0.min.js">min</a></li>
+            <li class="publish"><a href="framework/q-placeholder-3.0.js">q-placeholder-3.0.js</a> | <a href="framework/q-placeholder-3.0.min.js">min</a></li>
+            <li class="local"><a href="component/standalone/website/script/q-placement-3.0.js">q-placement-3.0.js</a> | <a href="component/standalone/website/script/q-placement-3.0.min.js">min</a></li>
+            <li class="publish"><a href="framework/q-placement-3.0.js">q-placement-3.0.js</a> | <a href="framework/q-placement-3.0.min.js">min</a></li>
+            <li class="local"><a href="component/standalone/website/script/q-rest-3.0.js">q-rest-3.0.js</a> | <a href="component/standalone/website/script/q-rest-3.0.min.js">min</a></li>
+            <li class="publish"><a href="framework/q-rest-3.0.js">q-rest-3.0.js</a> | <a href="framework/q-rest-3.0.min.js">min</a></li>
+            <li class="local"><a href="component/standalone/website/script/q-storage-3.0.js">q-storage-3.0.js</a> | <a href="component/standalone/website/script/q-storage-3.0.min.js">min</a></li>
+            <li class="publish"><a href="framework/q-storage-3.0.js">q-storage-3.0.js</a> | <a href="framework/q-storage-3.0.min.js">min</a></li>
+            <li class="local"><a href="component/standalone/website/script/q-template-3.0.js">q-template-3.0.js</a> | <a href="component/standalone/website/script/q-template-3.0.min.js">min</a></li>
+            <li class="publish"><a href="framework/q-template-3.0.js">q-template-3.0.js</a> | <a href="framework/q-template-3.0.min.js">min</a></li>
+            <li class="local"><a href="component/standalone/website/script/q-transform-3.0.js">q-transform-3.0.js</a> | <a href="component/standalone/website/script/q-transform-3.0.min.js">min</a></li>
+            <li class="publish"><a href="framework/q-transform-3.0.js">q-transform-3.0.js</a> | <a href="framework/q-transform-3.0.min.js">min</a></li>
+            <li class="local"><a href="component/standalone/website/script/q-util-3.0.js">q-util-3.0.js</a> | <a href="component/standalone/website/script/q-util-3.0.min.js">min</a></li>
+            <li class="publish"><a href="framework/q-util-3.0.js">q-util-3.0.js</a> | <a href="framework/q-util-3.0.min.js">min</a></li>
+          </ul>
         </li>
         <li>
           <h2>Storage Lib</h2>
@@ -246,6 +318,5 @@ ul ul{
       </ul>
     </div>
   </div>
-
 </body>
 </html>
