@@ -95,11 +95,6 @@ module when you decide to use the modules separately.  So for example you could
 use ``q-core-%{version}.min.js``, ``q-animation-%{version}.min.js`` and
 ``q-cookie-%{version}.min.js`` together.
 
-The separate modules are available in the `downloads
-<http://qooxdoo.org/downloads>`_ section. However note
-that this feature is *experimental*.
-
-
 Core
 ----
 This module contains elementary static functions and furthermore consolidates
