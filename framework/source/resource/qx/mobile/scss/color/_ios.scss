@@ -441,11 +441,18 @@ $scGradientVerticalOffset:15px;
   @include gradient-vertical(darken(#cecece,50%), darken(#fefefe,50%));
 }
 
+.radio:after {
+  top: 0px !important;
+  left: 0px !important;
+  position: relative !important;
+  margin-top: 0px !important;
+  margin-left: 0px !important;
+}
+
 // Color dot
 .radio.checked:after {
   width: 13px;
   height: 13px;
-  top: 0px;
   @include gradient-vertical(#fefefe, #cecece);
   @include box-shadow(1px 1px 1px 0px rgba(0,0,0,0.3));
 }

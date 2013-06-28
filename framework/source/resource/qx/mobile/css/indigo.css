@@ -960,8 +960,11 @@ input, select, .text-area {
   z-index: 11;
   width: 16px;
   height: 16px;
-  position: relative;
-  top: 6px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -8px;
+  margin-left: -8px;
   -webkit-border-radius: 50px;
   -moz-border-radius: 50px;
   border-radius: 50px; }
