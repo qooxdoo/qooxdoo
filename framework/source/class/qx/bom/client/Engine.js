@@ -100,18 +100,25 @@ qx.Bootstrap.define("qx.bom.client.Engine",
           version = RegExp.$1;
         }
       } else if (qx.bom.client.Engine.__isMshtml()) {
+        var isTrident = /Trident\/([^\);]+)(\)|;)/.test(agent);
         if (/MSIE\s+([^\);]+)(\)|;)/.test(agent)) {
           version = RegExp.$1;
 
           // If the IE8 or IE9 is running in the compatibility mode, the MSIE value
           // is set to an older version, but we need the correct version. The only
           // way is to compare the trident version.
-          if (version < 8 && /Trident\/([^\);]+)(\)|;)/.test(agent)) {
+          if (version < 8 && isTrident) {
             if (RegExp.$1 == "4.0") {
               version = "8.0";
             } else if (RegExp.$1 == "5.0") {
               version = "9.0";
             }
+          }
+        } else if (isTrident) {
+          // IE 11 dropped the "MSIE" string
+          var match = /\brv\:(\d+?\.\d+?)\b/.exec(agent);
+          if (match) {
+            version = match[1];
           }
         }
       } else {
@@ -196,7 +203,8 @@ qx.Bootstrap.define("qx.bom.client.Engine",
      */
     __isGecko : function() {
       return window.controllers && window.navigator.product === "Gecko" &&
-        window.navigator.userAgent.indexOf("Maple") == -1;
+        window.navigator.userAgent.indexOf("Maple") == -1 &&
+        window.navigator.userAgent.indexOf("Trident") == -1;
     },
 
 
@@ -206,7 +214,8 @@ qx.Bootstrap.define("qx.bom.client.Engine",
      */
     __isMshtml : function() {
       return window.navigator.cpuClass &&
-        /MSIE\s+([^\);]+)(\)|;)/.test(window.navigator.userAgent);
+        (/MSIE\s+([^\);]+)(\)|;)/.test(window.navigator.userAgent) ||
+         /Trident\/\d+?\.\d+?/.test(window.navigator.userAgent));
     }
   },
 
