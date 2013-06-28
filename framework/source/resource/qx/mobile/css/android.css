@@ -434,13 +434,10 @@ input::-webkit-inner-spin-button {
 .collapsible-header {
   position: relative;
   background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#dbdbdb));
-  /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, white, #dbdbdb);
-  /* Safari 5@mixin 1+, Chrome 10+ */
   background-image: -moz-linear-gradient(top, white, #dbdbdb);
-  /* FF 3@mixin 6+ */
+  background-image: -ms-linear-gradient(top, white, #dbdbdb);
   background-image: linear-gradient(to bottom, white, #dbdbdb);
-  /* Standard (in flux) */
   padding: 10px;
   border: 1px solid #888888; }
 
@@ -450,13 +447,10 @@ input::-webkit-inner-spin-button {
 .collapsible-header.active {
   color: #333333;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#ffb51c), to(#b57a00));
-  /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #ffb51c, #b57a00);
-  /* Safari 5@mixin 1+, Chrome 10+ */
   background-image: -moz-linear-gradient(top, #ffb51c, #b57a00);
-  /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #ffb51c, #b57a00);
-  /* Standard (in flux) */ }
+  background-image: -ms-linear-gradient(top, #ffb51c, #b57a00);
+  background-image: linear-gradient(to bottom, #ffb51c, #b57a00); }
 
 .collapsible.collapsed .collapsible-header.label:after {
   position: absolute;
@@ -1188,13 +1182,10 @@ input, select, .text-area {
 .clickable, .toggleButton, .button, .navigationbar-button, .navigationbar-backbutton, .toolbar-button, .selectbox {
   color: #222222;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), to(#c1c1c1));
-  /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #f4f4f4, #c1c1c1);
-  /* Safari 5@mixin 1+, Chrome 10+ */
   background-image: -moz-linear-gradient(top, #f4f4f4, #c1c1c1);
-  /* FF 3@mixin 6+ */
+  background-image: -ms-linear-gradient(top, #f4f4f4, #c1c1c1);
   background-image: linear-gradient(to bottom, #f4f4f4, #c1c1c1);
-  /* Standard (in flux) */
   border: 1px solid #555555; }
 
 .clickable-active, .toggleButton.checked .toggleButtonSwitch, .button.active, .list .list-item.active.arrow, .list .list-item.selected.arrow, .list .list-item.active, .list .list-item.selected, .navigationbar-button.active, .navigationbar-backbutton.active, .toolbar-button.active, .selectbox-selected, .item-selected {
@@ -1202,6 +1193,7 @@ input, select, .text-area {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#ffdb66), color-stop(50%, #e89c00), to(#fdd824));
   background-image: -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
   background-image: -moz-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
+  background-image: -ms-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
   background-image: linear-gradient(to bottom, #ffdb66, #e89c00 50%, #fdd824); }
 
 .fontNormal {
@@ -1358,17 +1350,15 @@ input.invalid {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#ecd343), color-stop(85%, #fab907), color-stop(95%, #f0b705), to(#f8ce2e));
   background-image: -webkit-linear-gradient(top, #ecd343, #fab907 85%, #f0b705 95%, #f8ce2e);
   background-image: -moz-linear-gradient(top, #ecd343, #fab907 85%, #f0b705 95%, #f8ce2e);
+  background-image: -ms-linear-gradient(top, #ecd343, #fab907 85%, #f0b705 95%, #f8ce2e);
   background-image: linear-gradient(to bottom, #ecd343, #fab907 85%, #f0b705 95%, #f8ce2e); }
 
 .slider > div:after {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), to(#c4c4c4));
-  /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #f4f4f4, #c4c4c4);
-  /* Safari 5@mixin 1+, Chrome 10+ */
   background-image: -moz-linear-gradient(top, #f4f4f4, #c4c4c4);
-  /* FF 3@mixin 6+ */
+  background-image: -ms-linear-gradient(top, #f4f4f4, #c4c4c4);
   background-image: linear-gradient(to bottom, #f4f4f4, #c4c4c4);
-  /* Standard (in flux) */
   -webkit-border-radius: 0.4em;
   -moz-border-radius: 0.4em;
   border-radius: 0.4em;
@@ -1399,24 +1389,18 @@ input.invalid {
 
 .navigationbar {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#9a9a9a), to(#7c7e7c));
-  /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #9a9a9a, #7c7e7c);
-  /* Safari 5@mixin 1+, Chrome 10+ */
   background-image: -moz-linear-gradient(top, #9a9a9a, #7c7e7c);
-  /* FF 3@mixin 6+ */
+  background-image: -ms-linear-gradient(top, #9a9a9a, #7c7e7c);
   background-image: linear-gradient(to bottom, #9a9a9a, #7c7e7c);
-  /* Standard (in flux) */
   border-bottom: 1px solid #2d3642; }
 
 .scrollbarV > div {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#b5b6b5), to(#949294));
-  /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #b5b6b5, #949294);
-  /* Safari 5@mixin 1+, Chrome 10+ */
   background-image: -moz-linear-gradient(top, #b5b6b5, #949294);
-  /* FF 3@mixin 6+ */
+  background-image: -ms-linear-gradient(top, #b5b6b5, #949294);
   background-image: linear-gradient(to bottom, #b5b6b5, #949294);
-  /* Standard (in flux) */
   border: 1px solid #000; }
 
 .popup, .menu, .picker {
@@ -1514,6 +1498,7 @@ input.invalid {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#ffdb66), color-stop(50%, #e89c00), to(#fdd824));
   background-image: -webkit-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
   background-image: -moz-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
+  background-image: -ms-linear-gradient(top, #ffdb66, #e89c00 50%, #fdd824);
   background-image: linear-gradient(to bottom, #ffdb66, #e89c00 50%, #fdd824);
   color: #000000; }
 
@@ -1579,6 +1564,7 @@ input.invalid {
   background-image: -webkit-gradient(linear, center top, center bottom, from(rgba(0, 0, 0, 0.8)), color-stop(33%, rgba(0, 0, 0, 0)), color-stop(66%, rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0.8)));
   background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0) 33%, rgba(0, 0, 0, 0) 66%, rgba(0, 0, 0, 0.8));
   background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0) 33%, rgba(0, 0, 0, 0) 66%, rgba(0, 0, 0, 0.8));
+  background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0) 33%, rgba(0, 0, 0, 0) 66%, rgba(0, 0, 0, 0.8));
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0) 33%, rgba(0, 0, 0, 0) 66%, rgba(0, 0, 0, 0.8)); }
 
 .picker-container:before {
@@ -1634,13 +1620,10 @@ input.invalid {
   -moz-border-radius: 0.3em;
   border-radius: 0.3em;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#c1c1c1), to(white));
-  /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #c1c1c1, white);
-  /* Safari 5@mixin 1+, Chrome 10+ */
   background-image: -moz-linear-gradient(top, #c1c1c1, white);
-  /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #c1c1c1, white);
-  /* Standard (in flux) */ }
+  background-image: -ms-linear-gradient(top, #c1c1c1, white);
+  background-image: linear-gradient(to bottom, #c1c1c1, white); }
 
 .checkbox:after {
   display: inline-block;
@@ -1665,26 +1648,20 @@ input.invalid {
 
 .radio {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#c1c1c1), to(white));
-  /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #c1c1c1, white);
-  /* Safari 5@mixin 1+, Chrome 10+ */
   background-image: -moz-linear-gradient(top, #c1c1c1, white);
-  /* FF 3@mixin 6+ */
+  background-image: -ms-linear-gradient(top, #c1c1c1, white);
   background-image: linear-gradient(to bottom, #c1c1c1, white);
-  /* Standard (in flux) */
   border: 1px solid #888888;
   box-sizing: border-box; }
 
 .radio.checked:after {
   background: #e89c00;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#e89c00), to(#b57a00));
-  /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #e89c00, #b57a00);
-  /* Safari 5@mixin 1+, Chrome 10+ */
   background-image: -moz-linear-gradient(top, #e89c00, #b57a00);
-  /* FF 3@mixin 6+ */
+  background-image: -ms-linear-gradient(top, #e89c00, #b57a00);
   background-image: linear-gradient(to bottom, #e89c00, #b57a00);
-  /* Standard (in flux) */
   -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
   box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3); }

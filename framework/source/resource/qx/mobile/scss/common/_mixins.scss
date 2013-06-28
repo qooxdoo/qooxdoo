@@ -285,10 +285,11 @@
 
 // From top to bottom
 @mixin gradient-vertical($begin, $end) {
-  background-image: -webkit-gradient(linear, center top, center bottom, from($begin), to($end)); /* Safari 4+, Chrome 2+ */
-  background-image: -webkit-linear-gradient(top, $begin, $end); /* Safari 5@mixin 1+, Chrome 10+ */
-  background-image: -moz-linear-gradient(top, $begin, $end); /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, $begin, $end); /* Standard (in flux) */
+  background-image: -webkit-gradient(linear, center top, center bottom, from($begin), to($end));
+  background-image: -webkit-linear-gradient(top, $begin, $end);
+  background-image: -moz-linear-gradient(top, $begin, $end);
+  background-image: -ms-linear-gradient(top, $begin, $end);
+  background-image: linear-gradient(to bottom, $begin, $end);
 }
 
 // From top to bottom with intermediate color
@@ -296,6 +297,7 @@
   background-image: -webkit-gradient(linear, center top, center bottom, from($begin), color-stop(50%, $mid), to($end));
   background-image: -webkit-linear-gradient(top, $begin, $mid $stop, $end);
   background-image: -moz-linear-gradient(top, $begin, $mid $stop, $end);
+  background-image: -ms-linear-gradient(top, $begin, $mid $stop, $end);
   background-image: linear-gradient(to bottom, $begin, $mid $stop, $end);
 }
 
@@ -304,6 +306,7 @@
   background-image: -webkit-gradient(linear, center top, center bottom, from($begin), color-stop($stop1, $mid1), color-stop($stop2, $mid2), to($end));
   background-image: -webkit-linear-gradient(top, $begin, $mid1 $stop1, $mid2 $stop2, $end);
   background-image: -moz-linear-gradient(top, $begin, $mid1 $stop1, $mid2 $stop2, $end);
+  background-image: -ms-linear-gradient(top, $begin, $mid1 $stop1, $mid2 $stop2, $end);
   background-image: linear-gradient(to bottom, $begin, $mid1 $stop1, $mid2 $stop2, $end);
 }
 
@@ -312,6 +315,7 @@
   background-image: -webkit-gradient(linear, center top, center bottom, from($begin), color-stop($stop1, $mid1), color-stop($stop2, $mid2), color-stop($stop3, $mid3), to($end));
   background-image: -webkit-linear-gradient(top, $begin, $mid1 $stop1, $mid2 $stop2, $mid3 $stop3, $end);
   background-image: -moz-linear-gradient(top, $begin, $mid1 $stop1, $mid2 $stop2, $mid3 $stop3, $end);
+  background-image: -ms-linear-gradient(top, $begin, $mid1 $stop1, $mid2 $stop2, $mid3 $stop3, $end);
   background-image: linear-gradient(to bottom, $begin, $mid1 $stop1, $mid2 $stop2, $mid3 $stop3, $end);
 }
 
@@ -320,6 +324,7 @@
   background-image: -webkit-gradient(linear, center left, center right, from($begin), to($end));
   background-image: -webkit-linear-gradient(left, $begin, $end);
   background-image: -moz-linear-gradient(left, $begin, $end);
+  background-image: -ms-linear-gradient(left, $begin, $end);
   background-image: linear-gradient(to right, $begin, $end);
 }
 
@@ -328,6 +333,7 @@
   background-image: -webkit-gradient(linear, center left, center bottom, from($begin), color-stop($stop, $mid), to($end));
   background-image: -webkit-linear-gradient(left, $begin, $mid $stop, $end);
   background-image: -moz-linear-gradient(left, $begin, $mid $stop, $end);
+  background-image: -ms-linear-gradient(left, $begin, $mid $stop, $end);
   background-image: linear-gradient(to right, $begin, $mid $stop, $end);
 }
 

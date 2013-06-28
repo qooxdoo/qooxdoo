@@ -434,13 +434,10 @@ input::-webkit-inner-spin-button {
 .collapsible-header {
   position: relative;
   background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#e6e6e6));
-  /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, white, #e6e6e6);
-  /* Safari 5@mixin 1+, Chrome 10+ */
   background-image: -moz-linear-gradient(top, white, #e6e6e6);
-  /* FF 3@mixin 6+ */
+  background-image: -ms-linear-gradient(top, white, #e6e6e6);
   background-image: linear-gradient(to bottom, white, #e6e6e6);
-  /* Standard (in flux) */
   padding: 10px;
   border: 1px solid #b4b4b4; }
 
@@ -450,13 +447,10 @@ input::-webkit-inner-spin-button {
 .collapsible-header.active {
   color: white;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#8c9eb6), to(#566b86));
-  /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #8c9eb6, #566b86);
-  /* Safari 5@mixin 1+, Chrome 10+ */
   background-image: -moz-linear-gradient(top, #8c9eb6, #566b86);
-  /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #8c9eb6, #566b86);
-  /* Standard (in flux) */ }
+  background-image: -ms-linear-gradient(top, #8c9eb6, #566b86);
+  background-image: linear-gradient(to bottom, #8c9eb6, #566b86); }
 
 .collapsible.collapsed .collapsible-header.label:after {
   position: absolute;
@@ -1311,13 +1305,10 @@ a:hover {
 
 .list .list-item.active, .list .list-item.selected {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#4583fd), to(#194ae4));
-  /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #4583fd, #194ae4);
-  /* Safari 5@mixin 1+, Chrome 10+ */
   background-image: -moz-linear-gradient(top, #4583fd, #194ae4);
-  /* FF 3@mixin 6+ */
+  background-image: -ms-linear-gradient(top, #4583fd, #194ae4);
   background-image: linear-gradient(to bottom, #4583fd, #194ae4);
-  /* Standard (in flux) */
   color: #fff; }
 
 .list .list-item.active .subtitle {
@@ -1336,13 +1327,10 @@ a:hover {
 
 .button.active {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#4583fd), to(#194ae4));
-  /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #4583fd, #194ae4);
-  /* Safari 5@mixin 1+, Chrome 10+ */
   background-image: -moz-linear-gradient(top, #4583fd, #194ae4);
-  /* FF 3@mixin 6+ */
+  background-image: -ms-linear-gradient(top, #4583fd, #194ae4);
   background-image: linear-gradient(to bottom, #4583fd, #194ae4);
-  /* Standard (in flux) */
   color: #fff; }
 
 .text-field:not(.selectbox), .password-field, .number-field, .text-area {
@@ -1473,6 +1461,7 @@ input.invalid {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#007fea), color-stop(5%, #6db5f3), color-stop(90%, #007fea), to(#0056a1));
   background-image: -webkit-linear-gradient(top, #007fea, #6db5f3 5%, #007fea 90%, #0056a1);
   background-image: -moz-linear-gradient(top, #007fea, #6db5f3 5%, #007fea 90%, #0056a1);
+  background-image: -ms-linear-gradient(top, #007fea, #6db5f3 5%, #007fea 90%, #0056a1);
   background-image: linear-gradient(to bottom, #007fea, #6db5f3 5%, #007fea 90%, #0056a1); }
 
 .slider > div:after {
@@ -1483,19 +1472,17 @@ input.invalid {
   -moz-box-shadow: 0 0 2px black;
   box-shadow: 0 0 2px black;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#cfcfcf), to(#fdfdfd));
-  /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #cfcfcf, #fdfdfd);
-  /* Safari 5@mixin 1+, Chrome 10+ */
   background-image: -moz-linear-gradient(top, #cfcfcf, #fdfdfd);
-  /* FF 3@mixin 6+ */
+  background-image: -ms-linear-gradient(top, #cfcfcf, #fdfdfd);
   background-image: linear-gradient(to bottom, #cfcfcf, #fdfdfd);
-  /* Standard (in flux) */
   border: 1px solid #E8E8E8; }
 
 .tabBar {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#232323), color-stop(50%, #111111), color-stop(51%, black), to(black));
   background-image: -webkit-linear-gradient(top, #232323, #111111 50%, black 51%, black);
   background-image: -moz-linear-gradient(top, #232323, #111111 50%, black 51%, black);
+  background-image: -ms-linear-gradient(top, #232323, #111111 50%, black 51%, black);
   background-image: linear-gradient(to bottom, #232323, #111111 50%, black 51%, black);
   border-top: 1px solid #333333;
   -moz-box-ordinal-group: 2;
@@ -1506,6 +1493,7 @@ input.invalid {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#393939), color-stop(50%, #292929), color-stop(51%, #1d1d1d), to(#1c1c1c));
   background-image: -webkit-linear-gradient(top, #393939, #292929 50%, #1d1d1d 51%, #1c1c1c);
   background-image: -moz-linear-gradient(top, #393939, #292929 50%, #1d1d1d 51%, #1c1c1c);
+  background-image: -ms-linear-gradient(top, #393939, #292929 50%, #1d1d1d 51%, #1c1c1c);
   background-image: linear-gradient(to bottom, #393939, #292929 50%, #1d1d1d 51%, #1c1c1c);
   color: #ffffff; }
 
@@ -1513,6 +1501,7 @@ input.invalid {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#cdd5df), color-stop(50%, #8195af), to(#6d84a2));
   background-image: -webkit-linear-gradient(top, #cdd5df, #8195af 50%, #6d84a2);
   background-image: -moz-linear-gradient(top, #cdd5df, #8195af 50%, #6d84a2);
+  background-image: -ms-linear-gradient(top, #cdd5df, #8195af 50%, #6d84a2);
   background-image: linear-gradient(to bottom, #cdd5df, #8195af 50%, #6d84a2);
   border-bottom: 1px solid #2d3642; }
 
@@ -1582,17 +1571,15 @@ input.invalid {
   background-image: -webkit-gradient(linear, center left, center right, from(#62666a), to(#65696c));
   background-image: -webkit-linear-gradient(left, #62666a, #65696c);
   background-image: -moz-linear-gradient(left, #62666a, #65696c);
+  background-image: -ms-linear-gradient(left, #62666a, #65696c);
   background-image: linear-gradient(to right, #62666a, #65696c); }
 
 .checkbox {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#fefefe), to(#cecece));
-  /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #fefefe, #cecece);
-  /* Safari 5@mixin 1+, Chrome 10+ */
   background-image: -moz-linear-gradient(top, #fefefe, #cecece);
-  /* FF 3@mixin 6+ */
+  background-image: -ms-linear-gradient(top, #fefefe, #cecece);
   background-image: linear-gradient(to bottom, #fefefe, #cecece);
-  /* Standard (in flux) */
   -webkit-border-radius: 0.5em;
   -moz-border-radius: 0.5em;
   border-radius: 0.5em;
@@ -1600,13 +1587,10 @@ input.invalid {
 
 .disabled .checkbox:disabled {
   background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#ebebeb));
-  /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, white, #ebebeb);
-  /* Safari 5@mixin 1+, Chrome 10+ */
   background-image: -moz-linear-gradient(top, white, #ebebeb);
-  /* FF 3@mixin 6+ */
+  background-image: -ms-linear-gradient(top, white, #ebebeb);
   background-image: linear-gradient(to bottom, white, #ebebeb);
-  /* Standard (in flux) */
   border: 2px solid #b8b8b8; }
 
 .checkbox.checked {
@@ -1617,13 +1601,10 @@ input.invalid {
 
 .radio {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#fefefe), to(#cecece));
-  /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #fefefe, #cecece);
-  /* Safari 5@mixin 1+, Chrome 10+ */
   background-image: -moz-linear-gradient(top, #fefefe, #cecece);
-  /* FF 3@mixin 6+ */
+  background-image: -ms-linear-gradient(top, #fefefe, #cecece);
   background-image: linear-gradient(to bottom, #fefefe, #cecece);
-  /* Standard (in flux) */
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
@@ -1635,26 +1616,20 @@ input.invalid {
 
 .radio.checked {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#4e4e4e), to(#7f7f7f));
-  /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #4e4e4e, #7f7f7f);
-  /* Safari 5@mixin 1+, Chrome 10+ */
   background-image: -moz-linear-gradient(top, #4e4e4e, #7f7f7f);
-  /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #4e4e4e, #7f7f7f);
-  /* Standard (in flux) */ }
+  background-image: -ms-linear-gradient(top, #4e4e4e, #7f7f7f);
+  background-image: linear-gradient(to bottom, #4e4e4e, #7f7f7f); }
 
 .radio.checked:after {
   width: 13px;
   height: 13px;
   top: 0px;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#fefefe), to(#cecece));
-  /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #fefefe, #cecece);
-  /* Safari 5@mixin 1+, Chrome 10+ */
   background-image: -moz-linear-gradient(top, #fefefe, #cecece);
-  /* FF 3@mixin 6+ */
+  background-image: -ms-linear-gradient(top, #fefefe, #cecece);
   background-image: linear-gradient(to bottom, #fefefe, #cecece);
-  /* Standard (in flux) */
   -webkit-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3);
   box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, 0.3); }
@@ -1671,6 +1646,7 @@ input.invalid {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#cdd5df), color-stop(50%, #8195af), to(#6d84a2));
   background-image: -webkit-linear-gradient(top, #cdd5df, #8195af 50%, #6d84a2);
   background-image: -moz-linear-gradient(top, #cdd5df, #8195af 50%, #6d84a2);
+  background-image: -ms-linear-gradient(top, #cdd5df, #8195af 50%, #6d84a2);
   background-image: linear-gradient(to bottom, #cdd5df, #8195af 50%, #6d84a2); }
 
 .dialog, .popup, .menu, .picker {
@@ -1809,13 +1785,10 @@ input.invalid {
   -moz-box-shadow: 1px 0 2px #4b4b4b;
   box-shadow: 1px 0 2px #4b4b4b;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#cfcfcf), to(#fdfdfd));
-  /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, #cfcfcf, #fdfdfd);
-  /* Safari 5@mixin 1+, Chrome 10+ */
   background-image: -moz-linear-gradient(top, #cfcfcf, #fdfdfd);
-  /* FF 3@mixin 6+ */
-  background-image: linear-gradient(to bottom, #cfcfcf, #fdfdfd);
-  /* Standard (in flux) */ }
+  background-image: -ms-linear-gradient(top, #cfcfcf, #fdfdfd);
+  background-image: linear-gradient(to bottom, #cfcfcf, #fdfdfd); }
 
 .selectbox {
   color: #2a4880;
@@ -1826,13 +1799,10 @@ input.invalid {
   text-indent: 8px;
   display: block;
   background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(white));
-  /* Safari 4+, Chrome 2+ */
   background-image: -webkit-linear-gradient(top, white, white);
-  /* Safari 5@mixin 1+, Chrome 10+ */
   background-image: -moz-linear-gradient(top, white, white);
-  /* FF 3@mixin 6+ */
+  background-image: -ms-linear-gradient(top, white, white);
   background-image: linear-gradient(to bottom, white, white);
-  /* Standard (in flux) */
   -moz-box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.3), inset 0 17px 1px rgba(0, 0, 0, 0.05);
   -webkit-box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.3), inset 0 17px 1px rgba(0, 0, 0, 0.05);
   box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.3), inset 0 17px 1px rgba(0, 0, 0, 0.05); }
@@ -1913,6 +1883,7 @@ input.invalid {
   background-image: -webkit-gradient(linear, center top, center bottom, from(rgba(0, 0, 0, 0.7)), color-stop(33%, rgba(255, 255, 255, 0)), color-stop(66%, rgba(255, 255, 255, 0)), to(rgba(0, 0, 0, 0.7)));
   background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.7), rgba(255, 255, 255, 0) 33%, rgba(255, 255, 255, 0) 66%, rgba(0, 0, 0, 0.7));
   background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.7), rgba(255, 255, 255, 0) 33%, rgba(255, 255, 255, 0) 66%, rgba(0, 0, 0, 0.7));
+  background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0.7), rgba(255, 255, 255, 0) 33%, rgba(255, 255, 255, 0) 66%, rgba(0, 0, 0, 0.7));
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(255, 255, 255, 0) 33%, rgba(255, 255, 255, 0) 66%, rgba(0, 0, 0, 0.7)); }
 
 .picker-container:before {
