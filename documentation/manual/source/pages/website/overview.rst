@@ -3,48 +3,70 @@
 %{Website} Overview
 ===================
 
-This page is an overview of %{Website}'s capabilities. It collects the existing documentation and tries to show the big picture.
+This page is an overview of %{Website}'s capabilities. It collects the existing
+documentation and tries to show the big picture.
 
 
 .. _pages/webite_overview#basic:
 
+
 Basic Concept
 *************
-The basic concept is simple. %{Website} offers one global object called ``q`` (short for query). This global object's main task is to query the DOM using selectors and offer convenience methods on the returned collection of elements.
+The basic concept is simple. %{Website} offers one global object called ``q``
+(short for query). This global object's main task is to query the DOM using
+selectors and offer convenience methods on the returned collection of elements.
 
 ::
 
   q("#test").setStyle("color", "red");
 
-As you can see in the example above, %{Website}'s idea of API design is to have an explicit API with a clear scope and readable names. In most cases, methods come in pairs: a getter and a setter. Another API concept is chaining:
+As you can see in the example above, %{Website}'s idea of API design is to have
+an explicit API with a clear scope and readable names. In most cases, methods
+come in pairs: a getter and a setter. Another API concept is chaining:
 
 ::
 
   q("#test").setStyle("color", "red").appendTo(document.body);
 
-Unless noted otherwise, methods return the collection for chaining, such as the setStyle method in the example. It returns the collection created with ``q("#test")`` on which the append method is called.
+Unless noted otherwise, methods return the collection for chaining, such as the
+setStyle method in the example. It returns the collection created with
+``q("#test")`` on which the append method is called.
 
-``q`` also offers static utility functions. These functions are usually attached to q in their own sub object. Let's take a look at a sample:
+``q`` also offers static utility functions. These functions are usually attached
+to q in their own sub object. Let's take a look at a sample:
 
 ::
 
   q.type.get(123); // returns "Number"
 
-The sub object (which could also be called a namespace) in the sample is ``type`` and contains a function ``get`` which will determine the type of a given argument.
+The sub object (which could also be called a namespace) in the sample is
+``type`` and contains a function ``get`` which will determine the type of a
+given argument.
 
-The code base of ``q`` is organized in modules, as you can see in the `API viewer for %{Desktop} <http://demo.qooxdoo.org/%{version}/apiviewer#qx.module>`__. Using the generator, you can build your own library containing only the modules you need. Similarly, it is possible to include your own modules into a single, optimized file. Take a look at the :ref:`Documentation of the %{Website} skeleton <pages/development/skeletons#website>` to learn more.
+The code base of ``q`` is organized in modules, as you can see in the `API
+viewer for %{Desktop}
+<http://demo.qooxdoo.org/%{version}/apiviewer#qx.module>`__. Using the
+generator, you can build your own library containing only the modules you need.
+Similarly, it is possible to include your own modules into a single, optimized
+file. Take a look at the :ref:`Documentation of the %{Website} skeleton
+<pages/development/skeletons#website>` to learn more.
 
 
 .. _pages/webite_overview#api:
 
+
 API Documentation
 *****************
-The best documentation is found in the `API viewer <http://demo.qooxdoo.org/%{version}/website-api>`__ for %{Website}. It offers a detailed documentation of all available methods, sorted into modules.
+The best documentation is found in the `API viewer
+<http://demo.qooxdoo.org/%{version}/website-api>`__ for %{Website}. It offers a
+detailed documentation of all available methods, sorted into modules.
 
 
 CSS Selector Support
 ********************
-%{Website} uses the same CSS selector engine as jQuery, which is called `Sizzle <http://sizzlejs.org>`__. Please check the `Sizzle Documentation <https://github.com/jquery/sizzle/wiki/Sizzle-Home>`__ for more details.
+%{Website} uses the same CSS selector engine as jQuery, which is called `Sizzle
+<http://sizzlejs.org>`__. Please check the `Sizzle Documentation
+<https://github.com/jquery/sizzle/wiki/Sizzle-Home>`__ for more details.
 
 ::
 
@@ -55,29 +77,55 @@ CSS Selector Support
 Plugins
 *******
 
-%{Website} supports a plugin mechanism. All modules are written as %{Website} plugins. For further details about how to write plugins, take a look at the :doc:`plugins documentation </pages/website/plugins>`.
+%{Website} supports a plugin mechanism. All modules are written as %{Website}
+plugins. For further details about how to write plugins, take a look at the
+:doc:`plugins documentation </pages/website/plugins>`.
 
 .. _pages/website/overview#included_modules:
+
 
 Included Modules
 ****************
 
-Animation
----------
-Animations can enhance the user experience and help create appealing and user interfaces that feel natural. With modern browsers, CSS Animations and Transforms are emerging as new way of efficiently realizing this goal. No need to do it programmatically in JavaScript.
+%{Website} is divided into several modules. Besides using a single all-in-one
+%{Website} script file (e.g. ``q-%{version}.min.js``), which contains **every
+module**, you can also use the modules separately, i.e. only those modules you
+need (%{Website} splitted in n files).  Note that you always need the core
+module when you decide to use the modules separately.  So for example you could
+use ``q-core-%{version}.min.js``, ``q-animation-%{version}.min.js`` and
+``q-cookie-%{version}.min.js`` together.
 
-To use animations with %{Website}, you can use the animation module. This is a cross-browser wrapper for CSS Animations and Transforms with the goal to conform closely to the specifications wherever possible. If no CSS Animations are supported, a JavaScript solution will work in place offering the same API and almost the same functionality as the CSS based solution.
+The separate modules are available in the `downloads
+<http://qooxdoo.org/downloads>`_ section. However note
+that this feature is *experimental*.
 
-For further details, take a look at the :doc:`Animations and Transforms documentation </pages/website/css3animation>`.
+
+Core
+----
+This module contains elementary static functions and furthermore consolidates
+several other modules. Some of those elementary functions are:
 
 ::
 
-  q("#test").fadeIn();
+  q("#myId")...
+
+  q.define("MyObject", {
+    construct : function() {},
+    members : {
+      method : function() {}
+    }
+  });
+
+  q('.desc').map(function(elem) {
+    return elem.parentNode;
+  })
 
 
-Attributes
-----------
-%{Website} offers an easy and elegant way to manipulate attributes and properties of DOM elements. This also includes setting the HTML content of an element.
+Core: Attributes
+----------------
+%{Website} offers an easy and elegant way to manipulate attributes and
+properties of DOM elements. This also includes setting the HTML content of an
+element.
 
 ::
 
@@ -87,9 +135,10 @@ Attributes
   q("#test").getAttribute("placeholder");
 
 
-CSS
----
-Working with CSS can be easy with the help of %{Website}. The CSS module includes many convenient helpers to set styles, classes, or dimensions.
+Core: CSS
+---------
+Working with CSS can be easy with the help of %{Website}. The CSS module
+includes many convenient helpers to set styles, classes, or dimensions.
 
 ::
 
@@ -99,9 +148,12 @@ Working with CSS can be easy with the help of %{Website}. The CSS module include
   q("#test").hasClass("myClass");
 
 
-Environment
------------
-%{Website} covers most cross browser issues. Still, the environment module offers a lot of information about the environment the app is running in. This includes simple checks like browser name as well as information about the application itself.
+Core: Environment
+-----------------
+%{Website} covers most cross browser issues. Still, the environment module
+offers a lot of information about the environment the app is running in. This
+includes simple checks like browser name as well as information about the
+application itself.
 
 ::
 
@@ -111,9 +163,24 @@ Environment
   q.env.get("qx.debug");
 
 
-Manipulating
-------------
-The manipulating module provides helpers to change the structure of the DOM. Appending or creating elements is also part of this module, as is manipulating the scroll position.
+Core: Event
+-----------
+Of course there is also basic event handling available in %{Website}.
+
+::
+
+  q.ready(function() {
+    // ready to go
+  });
+
+  q('#someElement').on('keyup', handleInput, this);
+
+
+Core: Manipulating
+------------------
+The manipulating module provides helpers to change the structure of the DOM.
+Appending or creating elements is also part of this module, as is manipulating
+the scroll position.
 
 ::
 
@@ -121,27 +188,23 @@ The manipulating module provides helpers to change the structure of the DOM. App
   q("#test").empty(); // removes all content
 
 
-Polyfill
---------
+Core: Polyfill
+--------------
 A polyfill is best explained by a quote from an informative blog post:
 
-  *"A polyfill, or polyfiller, is a piece of code (or plugin) that provides the technology that you, the developer, expect the browser to provide natively. Flattening the API landscape if you will."* [#]_
+  *"A polyfill, or polyfiller, is a piece of code (or plugin) that provides the
+  technology that you, the developer, expect the browser to provide natively.
+  Flattening the API landscape if you will."* [#]_
 
 A list of included polyfills can be found in the API documentation of the module.
 
 
-Template
---------
-Templating is a powerful tool in web development. %{Website} uses mustache.js as its templating engine. For further information, see the `mustache.js documentation <https://github.com/janl/mustache.js/>`_.
-
-::
-
-  // returns a collection containing the new element
-  q.template.get("templateId", {data: "test"});
-
-Traversing
-----------
-In the traversing module, you'll find helpers that work with the collection. A good example is the filter method, which reduces the number of elements in the collection. Other methods of this module will find children, ancestors or siblings of the elements in the collection.
+Core: Traversing
+----------------
+In the traversing module, you'll find helpers that work with the collection. A
+good example is the filter method, which reduces the number of elements in the
+collection. Other methods of this module will find children, ancestors or
+siblings of the elements in the collection.
 
 ::
 
@@ -150,23 +213,32 @@ In the traversing module, you'll find helpers that work with the collection. A g
   // returns all siblings having the class 'myClass'
   q("#test").getSiblings(".myClass");
 
-Communication
--------------
 
-Pulling data from remote sources is another one of the most common use cases and usually the next logical step when it comes to improving your existing JavaScript powered website / application. Of course, you expect the underlying framework to provide you with a nice abstracted cross-browser solution that is easy to use. %{Website} offers multiple implementations to pull data.
+Animation
+---------
+Animations can enhance the user experience and help create appealing and user
+interfaces that feel natural. With modern browsers, CSS Animations and
+Transforms are emerging as new way of efficiently realizing this goal. No need
+to do it programmatically in JavaScript.
 
-The first option is `XHR <http://en.wikipedia.org/wiki/XHR>`__. %{Website} comes with :ref:`a wrapper around this widely used browser API <pages/communication#low_level_requests>` which hides inconsistencies and works around browser bugs.
-The second option is to use `JSONP <http://en.wikipedia.org/wiki/JSONP>`__. This approach enables you to overcome `same orgin policy <http://en.wikipedia.org/wiki/Same_origin_policy>`__ restrictions and talk to any server which offers a JSON API like e.g `Twitter <https://dev.twitter.com/>`__. %{Website} provides a :doc:`nice and powerful API </pages/communication/request_io>` with the same interface as the XHR transport to let you easily access any JSONP API out there.
+To use animations with %{Website}, you can use the animation module. This is a
+cross-browser wrapper for CSS Animations and Transforms with the goal to conform
+closely to the specifications wherever possible. If no CSS Animations are
+supported, a JavaScript solution will work in place offering the same API and
+almost the same functionality as the CSS based solution.
+
+For further details, take a look at the :doc:`Animations and Transforms
+documentation </pages/website/css3animation>`.
 
 ::
 
-  q.io.xhr(url).on("loadend", function(xhr) {});
-
+  q("#test").fadeIn();
 
 
 Blocker
 -------
-The blocker module offers a way to block elements. This means they won't receive any native events until they are unblocked.
+The blocker module offers a way to block elements. This means they won't receive
+any native events until they are unblocked.
 
 ::
 
@@ -175,47 +247,75 @@ The blocker module offers a way to block elements. This means they won't receive
 
 Cookie
 ------
-A convenient way to work with cookies is implemented in the cookie module. Setting, reading and deleting cookies is supported across browsers.
+A convenient way to work with cookies is implemented in the cookie module.
+Setting, reading and deleting cookies is supported across browsers.
 
 ::
 
   q.cookie.set("key", "value");
+  q.cookie.get("key");
 
 
-Placement
----------
-Sometimes it can be necessary to place an element right beside another one. Think about a popup message or tooltip offering some context sensitive help. The placement module offers a method to place one element relative to another using one of several algorithms and taking available space into account.
-
-::
-
-  q("#test").placeTo(target, "top-right");
-
-
-Storage
+Dataset
 -------
-The storage module offers a cross browser way to store data offline. For that, it uses
-the HTML web storage API (http://www.w3.org/TR/webstorage/). If thats not available i.e. in IE < 8, a fallback is used. If non of the storage API is available, a non persistent
-in memory storage is returned which means you can always use the same API. Check out the separate :doc:`page about storage </pages/website/storage>` for more details.
+With this module you can operate on HTML5 ``data-*`` attributes concerning
+the elements in your current collection. It's a wrapper and polyfill around
+the native HTML5 ``dataset`` property.
 
 ::
 
-  var value = q.localStorage.get("my_custom_key");
+  q(".info a").setData("key", "value");
+  q(".info a").getData("key");
+
+Dev
+---
+Currently there is only one utility available under the dev namespace and that's
+the FakeServer: A wrapper around `Sinon.JS’s FakeXMLHttpRequest and FakeServer
+features <http://sinonjs.org/docs/#server>`__ that allows quick and simple
+configuration of mock HTTP backends for testing and development. Head over to
+the `%{Website} API viewer
+<http://demo.qooxdoo.org/%{version}/website-api#dev.FakeServer>`__ to see a sample.
 
 
+IO
+--
+Pulling data from remote sources is another one of the most common use cases and
+usually the next logical step when it comes to improving your existing
+JavaScript powered website / application. Of course, you expect the underlying
+framework to provide you with a nice abstracted cross-browser solution that is
+easy to use. %{Website} offers multiple implementations to pull data.
 
-Transform
----------
-The transform module offers a cross browser convenience API for CSS transforms. This includes scaling, skewing, rotating and translating.
+The first option is `XHR <http://en.wikipedia.org/wiki/XHR>`__. %{Website} comes
+with :ref:`a wrapper around this widely used browser API
+<pages/communication#low_level_requests>` which hides inconsistencies and works
+around browser bugs.  The second option is to use `JSONP
+<http://en.wikipedia.org/wiki/JSONP>`__. This approach enables you to overcome
+`same orgin policy <http://en.wikipedia.org/wiki/Same_origin_policy>`__
+restrictions and talk to any server which offers a JSON API like e.g `Twitter
+<https://dev.twitter.com/>`__. %{Website} provides a :doc:`nice and powerful API
+</pages/communication/request_io>` with the same interface as the XHR transport
+to let you easily access any JSONP API out there.
 
 ::
 
-  q("#myId").rotate("45deg");
+  q.io.xhr(url).on("loadend", function(xhr) {});
 
+
+Matchmedia
+----------
+A module for mediaqueries evaluation. This module is a wrapper for `media.match.js
+<https://github.com/paulirish/matchMedia.js/>`__ that implements a polyfill for
+``window.matchMedia`` when it's not supported natively.
+
+::
+
+  q.matchMedia("screen and (min-width: 480px)").matches // true or false
 
 
 Messaging
 ---------
-The messaging module offers a message bus. It offers a separation by channel and type and also offers a way to react on types for every channel.
+The messaging module offers a message bus. It offers a separation by channel and
+type and also offers a way to react on types for every channel.
 
 ::
 
@@ -223,11 +323,13 @@ The messaging module offers a message bus. It offers a separation by channel and
     // do something clever
   });
   q.messaging.emit("CHANNEL-X", "test");
-  
+
 
 Placeholder
 -----------
-The placeholder module offers fallback implementation for placeholders. The module offers two methods, one for updating all input and textarea elements on the site and one for updating only the elements in the given collection
+The placeholder module offers fallback implementation for placeholders. The
+module offers two methods, one for updating all input and textarea elements on
+the site and one for updating only the elements in the given collection
 
 ::
 
@@ -235,9 +337,97 @@ The placeholder module offers fallback implementation for placeholders. The modu
   q.placeholder.update();
   // update only the placeholder for the given element
   q("#nameInput").updatePlaceholder();
-  
-In case the executing browser supports native placeholders, those two method calls won't do anything. This is only relevant for browsers not supporting placeholders like IE < 10.
-  
+
+In case the executing browser supports native placeholders, those two method
+calls won't do anything. This is only relevant for browsers not supporting
+placeholders like IE < 10.
+
+
+Placement
+---------
+Sometimes it can be necessary to place an element right beside another one.
+Think about a popup message or tooltip offering some context sensitive help. The
+placement module offers a method to place one element relative to another using
+one of several algorithms and taking available space into account.
+
+::
+
+  q("#test").placeTo(target, "top-right");
+
+
+REST
+----
+The rest module can be used to work against RESTful web-services in an elegant
+way. Rather than requesting URLs with a specific HTTP method manually, a
+resource representing the remote resource is instantiated and actions are
+invoked on this resource.
+
+::
+
+  var resourceDesc = {
+    "get": { method: "GET", url: "/photo/{id}" },
+    "put": { method: "PUT", url: "/photo/{id}"}
+  };
+  var resource = q.rest.resource(resourceDesc);
+
+  photo.get({id: 1});
+  photo.put({id: 1}, {title: "Monkey"});
+
+
+Storage
+-------
+The storage module offers a cross browser way to store data offline. For that,
+it uses the `Web Storage API <http://www.w3.org/TR/webstorage/>`_. If thats
+not available (i.e. in IE < 8) a fallback is used. If non of the storage API is
+available, a non persistent in memory storage is returned which means you can
+always use the same API. Check out the separate :doc:`page about storage
+</pages/website/storage>` for more details.
+
+::
+
+  var value = q.localStorage.get("my_custom_key");
+
+
+Template
+--------
+Templating is a powerful tool in web development. %{Website} uses mustache.js as
+its templating engine. For further information, see the `mustache.js
+documentation <https://github.com/janl/mustache.js/>`_.
+
+::
+
+  // returns a collection containing the new element
+  q.template.get("templateId", {data: "test"});
+
+
+Transform
+---------
+The transform module offers a cross browser convenience API for CSS transforms.
+This includes scaling, skewing, rotating and translating.
+
+::
+
+  q("#myId").rotate("45deg");
+
+
+Util
+----
+As the name implies this module provides static utility functions for Strings and Arrays
+and generic helpers e.g. for requesting the type of a value.
+
+::
+
+  // Strings
+  q.string.startsWith("hamster", "ham"); // true
+  q.string.camelCase("i-like-cookies");  // "ILikeCookies"
+
+  // Arrays
+  q.array.equals(["a", "b"], ["a", "b"]); // true
+  q.array.unique(["a", "b", "b", "c"]);   // ["a", "b", "c"]
+
+  // General
+  q.type.get(val); // "String", "Array", "Object", "Function" ...
+
 ------------
 
 .. [#] `Remy Sharp, "What is a polyfill" <http://remysharp.com/2010/10/08/what-is-a-polyfill/>`__
