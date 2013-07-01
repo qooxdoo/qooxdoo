@@ -1,7 +1,7 @@
 .mobile *, .mobile {
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  -moz-tap-highlight-color: rgba(0, 0, 0, 0);
-  tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
+  -moz-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
   margin: 0;
   padding: 0; }
 
@@ -65,7 +65,7 @@ img.no-content {
 
 .text-field:not(.selectbox), .number-field, .password-field {
   -webkit-user-modify: read-write-plaintext-only;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
   outline-style: none; }
 
 .root.android.v2 .password-field {
@@ -1071,7 +1071,7 @@ input, select, .text-area {
 
 .spinner {
   -webkit-backface-visibility: hidden;
-  background-image: url(../icon/common/spinner.png);
+  background-image: url(data:image/png;base64,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);
   margin: 0 auto;
   display: inline !important;
   vertical-align: middle;
@@ -1359,8 +1359,8 @@ input, .text-area {
   -webkit-transform-origin: 50% 50%;
   -moz-transform-origin: 50% 50%;
   transform-origin: 50% 50%;
-  border-top: 3px solid gray;
-  border-right: 3px solid gray;
+  border-top: 3px solid grey;
+  border-right: 3px solid grey;
   width: 6px;
   height: 6px;
   position: absolute;
@@ -1798,7 +1798,7 @@ input, .text-area {
   -moz-border-radius: 15px;
   border-radius: 15px;
   font-size: 1px;
-  color: rgba(0, 0, 0, 0); }
+  color: transparent; }
 
 .carousel-pagination-label.active {
   background-color: #3d72c9;
@@ -1843,7 +1843,7 @@ input, .text-area {
   box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.5); }
 
 .drawer.below {
-  background-color: gray; }
+  background-color: grey; }
 
 .drawer.above {
   background-color: #f4f4f4; }

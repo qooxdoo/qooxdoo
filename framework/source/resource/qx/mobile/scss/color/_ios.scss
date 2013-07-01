@@ -3,7 +3,8 @@
 // 
 
 .root, .scroll {
-  background: rgb(197,204,211) url(../icon/ios/pinstripes.png);
+  @extend .page;
+  
   color: #666;
   font-family: Helvetica;
 }
@@ -19,7 +20,8 @@
 }
 
 .page {
-  background: rgb(197,204,211) url(../icon/ios/pinstripes.png);
+  background-color: rgb(197,204,211);
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAABCAIAAACdaSOZAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABdJREFUeNpiPHrmCgMC/GNjYwNSAAEGADdNA3dnzPlQAAAAAElFTkSuQmCC);
 }
 
 .fontNormal {
@@ -419,10 +421,19 @@ $scGradientVerticalOffset:15px;
 
 // Webkit only, see BUG #5982: only webkit can style checkboxes.
 .checkbox.checked {
-  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -moz-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
-  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-gradient(linear,left top,left bottom,from(#353535), to(#8f8f8f)) 0px 0px no-repeat;
-  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, -webkit-linear-gradient(top, #353535, #8f8f8f) 0px 0px no-repeat;
-  background: url(../icon/ios/checkbox.png) 50% 50% no-repeat, linear-gradient(to bottom, #353535, #8f8f8f) 0px 0px no-repeat;
+  position:relative;
+  @include gradient-vertical(#353535, #8f8f8f);
+}
+
+.checkbox.checked:before {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAVCAYAAABCIB6VAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sFDQkzMFPEf/IAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAACi0lEQVQ4y62TT0gUYRjGf7szOjs6QwOK/0UJmyIIQQmJPahIhw4eA0lE6CaC0CkPHTqIEl4iYV0QtstC1CX2GlJKUATlZpgEQYR4rmDRDdq+p8vOImHRbj4wl++b98f7Pe/zQm2KA8RisQbLsu46jnMrurBtOw7EaoFWiizLugGo/N3r6upqoVbV1dVFnV0BvoVhqGQyGcGfJhKJSzVbEARBH/DW932tr6/r8PDQzM3NKQgCAZ9jsdj1qsmjo6MJ4BGgpaUlSTKSjDHGjIyMCFB9ff2dWrq+DWhyclKlUslE4EwmI8/zBDzo7+/3qiJalnUV+D44OKi9vb1Kt5ubm2ppaRHwprW19fSf6puBnmPOzwIfm5qatLGxUYHu7+9raGhIwFfbti8fS+zs7HSB+8A7IBmde57nAjlAqVQqgkqSmZ6ejhIx9/uQAQjD0AXSR3K5A1woX98BNDMzI0k/I+jy8nL0b1pSrLw0VgXa0dFxqtyppqamtLCwEA1iC7gHfBkeHlahUKgMK5fLGdd1BTxxXbfp9+WhsbGxOYrPxMSEisWikWRWVlZkWZYA9fb2Kp/PVyzY3d0thWEo4BMweKyvvu+HwAfHcbS6uho91Ugyi4uLam9vVzabrUALhcKP8fFxAd+Ba3+NkeM4F4Gttra2oxBjjDH5fN4cHByUbVVpfn4+8nXh33Y1Hj8PvPY8T5lMpgKPBiXJZLNZxeNxAY8Bt5odOAe8amho0Nra2lG42d7eVnd3t4D35UxXrTPAC9d1lU6nJckUi0WNjY0JKADj/IdOA8+DIFAqldLs7Gzk603+V7Zt9wDPXNeNfH04MDBQx0nI87xe4CWwk0gkQk5Svu/3OY7TX23dLyO1elZVxRmiAAAAAElFTkSuQmCC);
+  background-repeat: no-repeat;
+  position:absolute;
+  content: "";
+  width:100%;
+  height:100%;
+  top:5px;
+  left:6px;
 }
 
 // RADIO
@@ -805,7 +816,7 @@ $picker-overlay-color: #6D84A2;
 }
 
 .drawer.above {
-  background: rgb(197,204,211) url(../icon/ios/pinstripes.png);
+  @extend .page;
   color : #666;
 }
 
