@@ -28,9 +28,6 @@
  * This is the main application class for the mobile showcase app.
  *
  * @asset(mobileshowcase/*)
- * @asset(qx/mobile/icon/common/*)
- * @asset(qx/mobile/icon/android/*)
- * @asset(qx/mobile/icon/ios/*)
  */
 qx.Class.define("mobileshowcase.Application",
 {

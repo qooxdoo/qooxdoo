@@ -20,10 +20,6 @@
 
 /**
  * Widget responsible for hosting the run code for mobile apps.
- *
- * @asset(qx/mobile/icon/android/*)
- * @asset(qx/mobile/icon/ios/*)
- * @asset(qx/mobile/icon/common/*)
  */
 qx.Class.define("playground.view.MobilePlayArea",
 {
