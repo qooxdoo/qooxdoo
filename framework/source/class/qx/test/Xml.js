@@ -73,8 +73,19 @@ qx.Class.define("qx.test.Xml",
     },
 
 
+    __checkIESupport : function()
+    {
+      if (qx.core.Environment.get("engine.name") == "mshtml" &&
+          qx.core.Environment.get("browser.documentmode") >= 11 &&
+          !qx.core.Environment.get("html.xpath")) {
+        throw new qx.dev.unit.RequirementError("html.xpath", "IE 11 has no XPath implementation!");
+      }
+    },
+
+
     testXPath : function()
     {
+      this.__checkIESupport();
       var xmlStr = '<html><body>Juhu <em id="toll">Kinners</em>. Wie geht es <em>Euch</em>?</body></html>';
       var doc2 = qx.xml.Document.fromString(xmlStr);
 
@@ -93,6 +104,7 @@ qx.Class.define("qx.test.Xml",
 
     testXPathNS : function()
     {
+      this.__checkIESupport();
       var xmlStr = '<html xmlns="http://www.w3.org/1999/xhtml/"><body>Juhu <em id="toll">Kinners</em>. Wie geht es <em>Euch</em>?<foo xmlns="http://qooxdoo.org" id="bar"/></body></html>';
       var doc = qx.xml.Document.fromString(xmlStr);
       var em = qx.xml.Element.getElementsByTagNameNS(doc, "http://www.w3.org/1999/xhtml/", "em")[0];
