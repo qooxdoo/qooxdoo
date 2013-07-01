@@ -100,10 +100,6 @@
         "$${APPLICATION}.Application"
       ],
 
-      "asset-let" : {
-        "qx.mobile.platform" : [ "$${MOBILE_THEME}" ]
-      },
-
       "environment" :
       {
         "qx.mobile.emulatetouch" : true,
@@ -136,9 +132,6 @@
 
     "build" :
     {
-      "asset-let" : {
-        "qx.mobile.platform" : [ "$${MOBILE_THEME}" ]
-      },
       "=run" : ["build-resources", "build-files", "build-script", "minify-css"]
     },
 
@@ -165,9 +158,6 @@
         "$${APPLICATION}.test.*",
         "$${APPLICATION}.simulation.*"
       ],
-      "asset-let" : {
-        "qx.mobile.platform" : [ "$${MOBILE_THEME}" ]
-      },
       "add-css" : [
         { "uri" : "../$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${MOBILE_THEME}.css" },
         { "uri" : "./resource/$${APPLICATION_CSS}" }

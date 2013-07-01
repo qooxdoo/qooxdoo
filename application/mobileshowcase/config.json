@@ -149,9 +149,6 @@
     {
       "let" : {
         "BUILD_PATH" : "${ROOT}/source"
-      },
-      "asset-let" : {
-        "qx.mobile.platform" : [ "${THEME}" ]
       }
     },
 
@@ -160,9 +157,6 @@
     {
       "let" : {
         "BUILD_PATH" : "${ROOT}/build-${THEME}"
-      },
-      "asset-let" : {
-        "qx.mobile.platform" : [ "${THEME}" ]
       },
       "=run" : ["build-resources", "build-files", "build-script", "minify-css"]
     },
@@ -211,9 +205,6 @@
         "${APPLICATION}.test.*",
         "${APPLICATION}.simulation.*"
       ],
-      "asset-let" : {
-        "qx.mobile.platform" : [ "${THEME}" ]
-      },
       "add-css" : [
         { "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${THEME}.css" },
         { "uri" : "./resource/${APPLICATION_CSS}" }
