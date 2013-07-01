@@ -374,7 +374,7 @@ Description
 
   Marks the method as protected. This is helpful if for some reason a protected
   method name cannot start with "_" (single underscore). With this attribute the Apiviewer can
-  still classify the method to be protected.
+  still classify the method as protected.
 
 **Syntax**
 
