@@ -30,18 +30,9 @@ qx.Class.define("qx.ui.mobile.navigationbar.Title",
     {
       refine : true,
       init : false
-    }
-  },
+    },
 
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
+    
     // overridden
     defaultCssClass :
     {
