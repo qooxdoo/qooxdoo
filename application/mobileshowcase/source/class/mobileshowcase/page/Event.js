@@ -93,6 +93,7 @@ qx.Class.define("mobileshowcase.page.Event",
       containerTouchArea.addCssClass("container-touch-area");
 
       containerTouchArea.addListener("tap", this._onTap, this);
+      containerTouchArea.addListener("longtap", this._onLongTap, this);
       containerTouchArea.addListener("swipe", this._onSwipe, this);
       containerTouchArea.addListener("touchstart", this._onTouch, this);
       containerTouchArea.addListener("touchmove", this._onTouch, this);
@@ -206,6 +207,17 @@ qx.Class.define("mobileshowcase.page.Event",
     _onTap : function(evt)
     {
       this.__label.setValue(this.__label.getValue() + " tap");
+    },
+
+
+    /**
+     * Event handler.
+     *
+     * @param evt {qx.event.type.Tap} The tap event.
+     */
+    _onLongTap : function(evt)
+    {
+      this.__label.setValue(this.__label.getValue() + " longtap");
     },
 
 
