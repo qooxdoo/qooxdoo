@@ -374,6 +374,7 @@ class Comment(object):
                 elif hint_key in (
                         'abstract', # @abstract; pend. bug#6738
                         'tag',      # @tag foo; in Demobrowser
+                        'protected', # @protected used in generated docs in api.py
                     ):
                     entry = self.parse_at__default_(line)
                 # unknown tag

@@ -224,6 +224,7 @@ A JSDoc comment consists of different sections, where a section is either a lead
        * `@internal`_
        * `@link`_
        * `@param`_ 
+       * `@protected`_
        * `@return`_ 
        * `@see`_ 
        * `@signature`_
@@ -355,6 +356,44 @@ Description
   ::
 
     @param foo {Integer} The main factor
+
+
+
+.. _pages/development/api_jsdoc_ref#rotected:
+
+.. rst-class:: api-ref
+
+@protected
+-------------------------------------------
+
+**Scope**
+
+  functions
+
+**Description**
+
+  Marks the method as protected. This is helpful if for some reason a protected
+  method name cannot start with "_" (single underscore). With this attribute the Apiviewer can
+  still classify the method to be protected.
+
+**Syntax**
+
+  ``@protected [<description>]``
+
+**Parameters**
+
+    .. list-table::
+      :stub-columns: 1
+      :widths: 30 70
+
+      * - description
+        - *(opt.)* Descriptive text of the parameter
+  
+**Example**
+
+  ::
+
+    @protected
 
 
 
