@@ -409,7 +409,7 @@ class MClassCode(object):
     def lint_warnings(self, lint_opts):
         classInfo, mTime = self._getClassCache()
         if (not 'lint-basics' in classInfo
-            or True):  # not up-to-date?! when is the class cache invalidated?!
+            and True):  # not up-to-date?! when is the class cache invalidated?!
             warns = lint.lint_check(self.tree(), self.id, lint_opts)
             classInfo['lint-basics'] = (warns, time.time())
             self._writeClassCache(classInfo)
