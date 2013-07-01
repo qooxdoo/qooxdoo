@@ -1,7 +1,10 @@
 //
 // Application-specific theming template for qx.Mobile Applications
 //
-
+// Modify the values and run 
+// generate.py watch-scss
+//
+ 
 // Application
 
 $application-font:  Helvetica;
@@ -52,6 +55,9 @@ $list-border-color: #DDDDDD;
 $list-active-background-color:  #3D72C9;
 $list-active-text-color:  white;
 $list-border-radius:  4px;
+$list-arrow-size: 3px;
+$list-arrow-color: gray;
+$list-active-arrow-color: white;
 
 // Form
 
@@ -65,19 +71,21 @@ $form-border-radius:  4px;
 $input-text-color:  #333333;
 $input-border-radius: 4px;
 $input-border-color: #DDDDDD;
+$input-invalid-border-color: red;
 
 // Checkbox
 
 $checkbox-tick-color: #3D72C9;
 $checkbox-border-radius:  0.1em;
 $checkbox-border-color:  #888888;
-$checkbox-background-inner-color: #45484d; 
-$checkbox-background-color: #F4F4F4; 
+$checkbox-background-color: darken(#F4F4F4, 20%); 
+$checkbox-background-color-2: lighten($checkbox-background-color, 20%); 
 
 // Radiobutton
 
 $radiobutton-dot-color: #3D72C9;
-$radiobutton-background-color: #F4F4F4;
+$radiobutton-background-color: darken(#F4F4F4, 20%);
+$radiobutton-background-color-2: lighten($radiobutton-background-color, 20%);
 $radiobutton-border-color: #888888;
 $radiobutton-background-inner-color: #45484d;
 

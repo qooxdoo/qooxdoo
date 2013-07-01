@@ -51,7 +51,7 @@
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${Cache}",
-    "MOBILE_THEME" : "ios",  // valid: "ios" | "android" | "custom"
+    "MOBILE_THEME" : "custom",  // valid: "ios" | "android" | "custom"
     "CSS_COMB_URI" : "./resource/$${APPLICATION_PATH}/css/$${MOBILE_THEME}-style-min.css",
     "CSS_COMBINED" : "$${BUILD_PATH}/$${CSS_COMB_URI}",
     "ROOT"         : ".",
