@@ -27,6 +27,7 @@
 qx.Class.define("qx.test.Class",
 {
   extend : qx.dev.unit.TestCase,
+  include : [qx.dev.unit.MRequirements],
 
   members :
   {
@@ -42,6 +43,8 @@ qx.Class.define("qx.test.Class",
 
 
     testOverridePropertyMethod : function() {
+      this.require(["qx.debug"]);
+
       var C = qx.Class.define(null, {
         extend : qx.core.Object,
         properties : {
