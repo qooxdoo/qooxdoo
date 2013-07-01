@@ -534,7 +534,7 @@ def handlePropertyDefinitionNew(propName, propDefinition, classNode):
             #elif check_tree.type in ('operation', 'call'): # "value<=100", "qx.util.Validate.range(0,100)"
                 node.set("check", "Custom check function.")  # that's good enough so the param type is set to 'var'
         else:
-            addError(node, "Unknown property check value %s" % check.type, propDefinition["check"])
+            addError(node, "Unknown property check value: '%s'" % check.type, propDefinition["check"])
 
     return node
 
@@ -728,7 +728,7 @@ def handleChildControls(item, classNode, className, commentAttributes):
             childControlNode.set("name", childControlName)
 
             if not "type" in attrib:
-                addError(classNode, "No type defined for child control '%s'." % childControlName, item)
+                addError(classNode, "No type defined for child control: '%s'." % childControlName, item)
             addTypeInfo(childControlNode, attrib, item)
 
             classNode.addListChild("childControls", childControlNode)
@@ -861,7 +861,7 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
             paramNode = node.getListChildByAttribute("params", "name", paramName, False)
 
             if not paramNode:
-                addError(node, "Contains information for a non-existing parameter '%s'." % paramName, funcItem)
+                addError(node, "Contains information for non-existing parameter: '%s'." % paramName, funcItem)
                 continue
 
             addTypeInfo(paramNode, attrib, funcItem)
@@ -899,7 +899,7 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
         paramsListNode = node.getChild("params")
         for paramNode in paramsListNode.children:
             if not paramNode.getChild("desc", False):
-                addError(node, "Parameter '%s' is not documented." % paramNode.get("name"), funcItem)
+                addError(node, "Parameter is not documented: '%s'" % paramNode.get("name"), funcItem)
 
     if reportMissingDesc and not node.hasChild("desc"):
         addError(node, "Documentation is missing.", funcItem)
@@ -1040,7 +1040,7 @@ def addTypeInfo(node, commentAttrib=None, item=None):
                 pass
 
         elif node.type == "param":
-            addError(node, "Parameter '%s' is not documented." % commentAttrib.get("name"), item)
+            addError(node, "Parameter is not documented: '%s'" % commentAttrib.get("name"), item)
 
         elif node.type == "return":
             addError(node, "Return value is not documented.", item)
@@ -2004,7 +2004,8 @@ def logErrors(docTree, targets):
                 Context.console.warn(errNode.get("msg"))
 
             if not itemType in ["class", "package"]:
-                itemName = itemName + "#" + getParentAttrib(errNode, "name")
+                #itemName = itemName + "#" + getParentAttrib(errNode, "name")
+                pass
 
             line = errNode.get("line", False)
             column = errNode.get("column", False)
@@ -2015,7 +2016,7 @@ def logErrors(docTree, targets):
                     lineCol = "%s,%s" % (lineCol, str(column))
                 lineCol = lineCol + ")"
 
-            Context.console.warn("%s %s%s: %s" % (itemType, itemName, lineCol, errNode.get("msg")))
+            Context.console.warn("%s%s: %s" % (itemName, lineCol, errNode.get("msg")))
 
     if not "data" in targets:
         for node in errorNodeIterator(docTree):
