@@ -344,6 +344,8 @@ qx.Class.define("qx.xml.Element",
     statics.XML_SERIALIZER = (window.XMLSerializer &&
      !( qx.core.Environment.get("engine.name") == "mshtml" &&
      qx.core.Environment.get("engine.version") >= 9 &&
-     qx.core.Environment.get("browser.documentmode") >= 9));
+     qx.core.Environment.get("browser.documentmode") >= 9 &&
+     qx.core.Environment.get("engine.version") < 11 &&
+     qx.core.Environment.get("browser.documentmode") < 11));
   }
 });
