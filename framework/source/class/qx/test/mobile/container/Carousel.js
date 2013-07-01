@@ -93,6 +93,37 @@ qx.Class.define("qx.test.mobile.container.Carousel",
     },
 
 
+    testPageSwitchEvent : function()
+    {
+      var carousel = new qx.ui.mobile.container.Carousel();
+      var carouselPage1 = new qx.ui.mobile.container.Composite();
+      carousel.add(carouselPage1);
+
+      var carouselPage2 = new qx.ui.mobile.container.Composite();
+      carousel.add(carouselPage2);
+
+      this.getRoot().add(carousel);
+
+      this.assertEventFired(carousel, "changeCurrentIndex", function() {
+        carousel.nextPage();
+      }, function(e) {
+        this.assertEquals(1, e.getData());
+        this.assertEquals(0, e.getOldData());
+      }.bind(this));
+
+      this.assertEventFired(carousel, "changeCurrentIndex", function() {
+        carousel.previousPage();
+      }, function(e) {
+        this.assertEquals(0, e.getData());
+        this.assertEquals(1, e.getOldData());
+      }.bind(this));
+
+      carousel.destroy();
+      carouselPage1.destroy();
+      carouselPage2.destroy();
+    },
+
+
     testScrollToPage : function()
     {
       var carousel = new qx.ui.mobile.container.Carousel();

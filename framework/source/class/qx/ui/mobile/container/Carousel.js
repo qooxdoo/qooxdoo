@@ -141,7 +141,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     currentIndex : {
       check : "Number",
       init : 0,
-      apply : "_applyCurrentIndex"
+      apply : "_applyCurrentIndex",
+      event : "changeCurrentIndex"
     },
 
 
