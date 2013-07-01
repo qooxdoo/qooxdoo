@@ -1,10 +1,9 @@
 //
 // Application-specific theming template for qx.Mobile Applications
 //
-// Modify the values and run 
-// generate.py watch-scss
-//
- 
+// Modify the values for customizing your theme 
+// and run the qooxdoo generator job 'watch-scss' 
+
 // Application
 
 $application-font:  Helvetica;
@@ -178,7 +177,7 @@ $collapsible-header-padding: 10px;
 $collapsible-header-content-distance: 10px;
 $collapsible-content-border-color: #DDDDDD;
 $collapsible-content-padding: 10px;
-$collapsible-content-background-color: white;
-$collapsible-arrow-size: 8px;
-$collapsible-arrow-color: #333333;
+$collapsible-content-background-color:  white;
+$collapsible-arrow-size:  8px;
+$collapsible-arrow-color:  #333333;
 $collapsible-active-arrow-color: white;
