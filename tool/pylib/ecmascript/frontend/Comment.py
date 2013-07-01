@@ -971,7 +971,7 @@ def findComment(node):
 # Takes the last doc comment from the commentsBefore child, parses it and
 # returns a Node representing the doc comment
 #
-def parseNode(node, process_txt=True, want_errors=False, warn_errors=False):
+def parseNode(node, process_txt=True, want_errors=False):
 
     # the intended meaning of <node> is "the node that has comments preceding
     # it"; in the ast, this might not be <node> itself, but the lexically first
@@ -999,12 +999,11 @@ def parseNode(node, process_txt=True, want_errors=False, warn_errors=False):
                 filtered_elements = []
                 for entry in jsdoc_elements:
                     if 'error' in entry:
-                        if warn_errors:
-                            lineno = comment.get('line')
-                            lineno += entry['line']
-                            msg = "%s (%s): %s" % (filename, lineno, entry['message'])
-                            msg += (": %s" % entry['text']) if 'text' in entry and entry['text'] else ''
-                            context.console.warn(msg)
+                        lineno = comment.get('line')
+                        lineno += entry['line']
+                        msg = "%s (%s): %s" % (filename, lineno, entry['message'])
+                        msg += (": %s" % entry['text']) if 'text' in entry and entry['text'] else ''
+                        context.console.warn(msg)
                         if want_errors or entry['error']=='deprecationWarning':
                             filtered_elements.append(entry)
                     else:
