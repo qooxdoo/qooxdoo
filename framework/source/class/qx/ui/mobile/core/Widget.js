@@ -107,7 +107,10 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     touchcancel : "qx.event.type.Touch",
 
     /** Fired when a finger taps on the screen. */
-    tap : "qx.event.type.Touch",
+    tap : "qx.event.type.Tap",
+
+    /** Fired when a finger holds on the screen. */
+    longtap : "qx.event.type.Tap",
 
     /** Fired when a finger swipes over the screen. */
     swipe : "qx.event.type.Touch",

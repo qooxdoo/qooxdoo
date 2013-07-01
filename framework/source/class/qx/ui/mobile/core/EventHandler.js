@@ -112,6 +112,7 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
       touchmove : 1,
       touchcancel : 1,
       tap : 1,
+      longtap : 1,
       swipe : 1
     },
 

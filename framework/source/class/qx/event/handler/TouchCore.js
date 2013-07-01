@@ -57,7 +57,13 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
      *      performed swipe is greater as or equal the value of this constant, a
      *      swipe event is fired.
      */
-    SWIPE_MIN_VELOCITY : 0
+    SWIPE_MIN_VELOCITY : 0,
+
+
+    /**
+     * @type {Integer} The time delta in milliseconds to fire a long tap event.
+     */
+    LONGTAP_TIME : 500
   },
 
 
@@ -89,7 +95,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     __isSingleTouchGesture : null,
     __isTapGesture : null,
     __onMove : null,
-    
+
     __beginScalingDistance : null,
     __beginRotation : null,
 
@@ -166,8 +172,8 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     {
       this._commonTouchEventHandler(domEvent);
     },
-    
-    
+
+
     /**
      * Calculates the scaling distance between two touches.
      * @param touch0 {Event} The touch event from the browser.
@@ -177,8 +183,8 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     _getScalingDistance: function(touch0, touch1) {
       return(Math.sqrt( Math.pow(touch0.pageX - touch1.pageX, 2) + Math.pow(touch0.pageY - touch1.pageY, 2) ));	
     },
-    
-    
+
+
     /**
      * Calculates the rotation between two touches.
      * @param touch0 {Event} The touch event from the browser.
@@ -403,6 +409,13 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       this.__startPageY = touch.screenY;
       this.__startTime = new Date().getTime();
       this.__isSingleTouchGesture = domEvent.changedTouches.length === 1;
+      // start the long tap timer
+      if (this.__isSingleTouchGesture) {
+        this.__longTapTimer = window.setTimeout(
+          this.__fireLongTap.bind(this, domEvent, target),
+          qx.event.handler.TouchCore.LONGTAP_TIME
+        );
+      }
     },
 
 
@@ -418,6 +431,10 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       if (this.__isSingleTouchGesture && domEvent.changedTouches.length > 1) {
         this.__isSingleTouchGesture = false;
       }
+      // abort long tap timer if the distance is too big
+      if (this._isBelowTapMaxDistance(domEvent.changedTouches[0])) {
+        this.__stopLongTapTimer();
+      }
     },
 
 
@@ -430,6 +447,9 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     __gestureEnd : function(domEvent, target)
     {
       this.__onMove = false;
+
+      // delete the long tap
+      this.__stopLongTapTimer();
 
       if (this.__isSingleTouchGesture)
       {
@@ -498,12 +518,38 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
 
 
     /**
+     * Fires the long tap event.
+     *
+     * @param domEvent {Event} DOM event
+     * @param target {Element} event target
+     */
+    __fireLongTap : function(domEvent, target) {
+      this._fireEvent(domEvent, "longtap", target, qx.event.type.Tap);
+      this.__longTapTimer = null;
+      // prevent the tap event
+      this.__isTapGesture = false;
+    },
+
+
+    /**
+     * Stops the time for the long tap event.
+     */
+    __stopLongTapTimer : function() {
+      if (this.__longTapTimer) {
+        window.clearTimeout(this.__longTapTimer);
+        this.__longTapTimer = null;
+      }
+    },
+
+
+    /**
      * Dispose this object
      */
     dispose : function()
     {
       this._stopTouchObserver();
       this.__originalTarget = this.__target = this.__emitter = this.__beginScalingDistance = this.__beginRotation = null;
+      this.__stopLongTapTimer();
     }
   }
 });

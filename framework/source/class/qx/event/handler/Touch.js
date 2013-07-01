@@ -82,6 +82,7 @@ qx.Class.define("qx.event.handler.Touch",
       touchend : 1,
       touchcancel : 1, // Appears when the touch is interrupted, e.g. by an alert box
       tap : 1,
+      longtap : 1,
       swipe : 1
     },
 
