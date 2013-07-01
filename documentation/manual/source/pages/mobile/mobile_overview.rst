@@ -37,8 +37,8 @@ Features
 * iOS theme
 * Android theme
 * Custom theme
-* Touch events: touchstart, touchmove, touchend, touchcancel 
-* Gesture events: swipe, tap
+* Touch events: touchstart, touchmove, touchend, touchcancel
+* Gesture events: swipe, tap, longtap
 * Animations between pages
 * Touch event emulation for debugging in desktop browsers
 * Fixed toolbars and momentum scrolling via `iScroll <http://cubiq.org/iscroll>`_
