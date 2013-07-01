@@ -348,6 +348,9 @@ def inlineIfStatement(ifNode, conditionValue, inPlace=True):
             # don't leave single-statement parent loops empty
             emptyBlock = treegenerator.symbol("block")()
             emptyBlock.set("line", ifNode.get("line"))
+            stmts = treegenerator.symbol("statements")()
+            stmts.set("line", ifNode.get("line"))
+            emptyBlock.addChild(stmts)
             replacement = emptyBlock
             replacement_is_empty = True
 
@@ -372,12 +375,15 @@ def inlineIfStatement(ifNode, conditionValue, inPlace=True):
             defList.addChild(definition)
 
         # attach defList to replacement
-        if replacement.type != 'block':
+        if replacement.type != 'block': # treat single-statement branches
             block = treegenerator.symbol("block")()
             block.set("line", ifNode.get("line"))
-            block.addChild(replacement)
+            stmts = treegenerator.symbol("statements")()
+            stmts.set("line", ifNode.get("line"))
+            block.addChild(stmts)
+            stmts.addChild(replacement)
             replacement = block
-        replacement.addChild(defList,0)
+        replacement.getChild("statements").addChild(defList,0)
         replacement_is_empty = False
 
     # move replacement
