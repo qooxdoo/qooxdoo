@@ -23,8 +23,8 @@
 qx.Class.define("qx.ui.mobile.navigationbar.Title",
 {
   extend : qx.ui.mobile.basic.Label,
-
-  properties :
+ 
+  properties : 
   {
     wrap :
     {
