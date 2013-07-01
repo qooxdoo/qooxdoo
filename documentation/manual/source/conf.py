@@ -273,7 +273,7 @@ import re
 try:
     from sphinx.search import SearchLanguage
     if hasattr(SearchLanguage, '_word_re'):
-        SearchLanguage._word_re = re.compile(r'[\w.@#-]+\w', re.UNICODE)
+        SearchLanguage._word_re = re.compile(r'[\w.@#\-]+\w', re.UNICODE)
 except ImportError:
     # sphinx <= v1.0.8 has no package 'search'
     pass
