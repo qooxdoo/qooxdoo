@@ -81,6 +81,8 @@ qx.Bootstrap.define("qx.module.Transform",
     /**
      * Rotates by the given value. For further details, take
      * a look at the {@link #transform} method.
+     *
+     * @attach {qxWeb}
      * @param value {String|Array} The value to rotate e.g. <code>"90deg"</code>.
      * @return {qxWeb} This reference for chaining.
      */
