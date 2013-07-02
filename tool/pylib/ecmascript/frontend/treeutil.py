@@ -234,8 +234,9 @@ def selectNode(node, path, ignoreComments=False):
 
 
 def nodeIterator(node, nodetypes):
-    if nodetypes and node.type in nodetypes:
-        yield node
+    if nodetypes:
+        if node.type in nodetypes:
+            yield node
     else:
         yield node
 
