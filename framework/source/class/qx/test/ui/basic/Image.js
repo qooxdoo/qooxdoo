@@ -141,12 +141,12 @@ qx.Class.define("qx.test.ui.basic.Image",
       image.setDecorator("main");
       this.flush();
 
-      var decorator = image.getContainerElement().getChild(2);
+      var decorator = image.getContentElement().getChild(2);
 
       image.setScale(true);
       this.flush();
 
-      this.assertEquals(image.getContainerElement().getChild(2), decorator);
+      this.assertEquals(image.getContentElement().getChild(2), decorator);
 
       image.destroy();
     },

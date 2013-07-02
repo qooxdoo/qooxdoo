@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.embed.Iframe",
     {
       this.addListenerOnce("appear", function(e)
       {
-        var element = this.getContainerElement().getDomElement();
+        var element = this.getContentElement().getDomElement();
         qx.bom.Event.addNativeListener(element, "DOMNodeInserted", this._onDOMNodeInserted);
       });
       this._onDOMNodeInserted = qx.lang.Function.listener(this._syncSourceAfterDOMMove, this);
