@@ -67,7 +67,8 @@ qx.Class.define("qx.event.handler.MouseEmulation",
       mousedown : 1,
       mouseup : 1,
       mousemove : 1,
-      click : 1
+      click : 1,
+      contextmenu : 1
     },
 
     /** @type {Integer} Which target check to use */
@@ -215,6 +216,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
       qx.event.Registration.addListener(this.__root, "touchmove", this.__onTouchMove, this);
       qx.event.Registration.addListener(this.__root, "touchend", this.__onTouchEnd, this);
       qx.event.Registration.addListener(this.__root, "tap", this.__onTap, this);
+      qx.event.Registration.addListener(this.__root, "longtap", this.__onLongTap, this);
     },
 
 
@@ -226,6 +228,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
       qx.event.Registration.removeListener(this.__root, "touchmove", this.__onTouchMove, this);
       qx.event.Registration.removeListener(this.__root, "touchend", this.__onTouchEnd, this);
       qx.event.Registration.removeListener(this.__root, "tap", this.__onTap, this);
+      qx.event.Registration.removeListener(this.__root, "longtap", this.__onLongTap, this);
     },
 
 
@@ -319,6 +322,18 @@ qx.Class.define("qx.event.handler.MouseEmulation",
       if (!this.__hasMoved(nativeEvent)) {
         this.__fireEvent(nativeEvent, "click", target);
       }
+    },
+
+
+    /**
+     * Handler for 'longtap' which converts the longtap event to a contextmenu event.
+     * @param e {qx.event.type.Touch} The qooxdoo touch event.
+     */
+    __onLongTap : function(e) {
+      var target = e.getTarget();
+      var nativeEvent = this.__getDefaultFakeEvent(target, e.getChangedTargetTouches()[0]);
+
+      this.__fireEvent(nativeEvent, "contextmenu", target);
     },
 
 
