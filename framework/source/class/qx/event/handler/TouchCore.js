@@ -432,7 +432,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
         this.__isSingleTouchGesture = false;
       }
       // abort long tap timer if the distance is too big
-      if (this._isBelowTapMaxDistance(domEvent.changedTouches[0])) {
+      if (!this._isBelowTapMaxDistance(domEvent.changedTouches[0])) {
         this.__stopLongTapTimer();
       }
     },
