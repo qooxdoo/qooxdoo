@@ -85,6 +85,11 @@ qx.Class.define("widgetbrowser.pages.ToolBar",
       this.add(label, {left: 0, top: 280});
       this.add(this.getToolBarExclude(), {left: 0, top: 300});
 
+      // Context menu
+      label = new qx.ui.basic.Label("Context Menu (Right click the widget)");
+      this.add(label, {left: 0, top: 370});
+      this.add(this.getContextMenuWidget(), {left: 0, top: 390});
+
     },
 
     getToolBar : function()
@@ -285,6 +290,28 @@ qx.Class.define("widgetbrowser.pages.ToolBar",
       buttonMenu.hide = buttonMenu.exclude = function() {};
 
       return subContainer;
+    },
+
+
+    /**
+     * @lint ignoreDeprecated(alert)
+     */
+    getContextMenuWidget : function() {
+      var w = new qx.ui.core.Widget();
+      w.setBackgroundColor("text-disabled");
+      w.setMinHeight(100);
+      w.setWidth(200);
+
+      var menu = new qx.ui.menu.Menu();
+      w.setContextMenu(menu);
+
+      var helpButton = new qx.ui.menu.Button("Help");
+      helpButton.addListener("execute", function() {
+        alert("Help!");
+      });
+      menu.add(helpButton);
+
+      return w;
     }
   }
 });
