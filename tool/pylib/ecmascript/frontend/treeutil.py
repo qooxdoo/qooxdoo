@@ -233,6 +233,9 @@ def selectNode(node, path, ignoreComments=False):
     return _selectNode(node, pathParts, ignoreComments)
 
 
+##
+# External tree visitor.
+# If <nodetypes> is non-empty, use its elements for filtering tree nodes.
 def nodeIterator(node, nodetypes):
     if nodetypes:
         if node.type in nodetypes:
