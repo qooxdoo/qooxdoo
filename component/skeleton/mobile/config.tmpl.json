@@ -13,6 +13,7 @@
     "api",
     "api-data",
     "build",
+    "build-scss",
     "clean",
     "distclean",
     "fix",
@@ -117,7 +118,8 @@
       "add-css" : [
         { "uri" : "../$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/$${MOBILE_THEME}.css" },
         { "uri" : "./resource/$${APPLICATION_CSS}" }
-      ]
+      ],
+      "=run" : ["build-scss"]
     },
 
     "source-hybrid" :
@@ -129,12 +131,10 @@
       ]
     },
 
-
     "build" :
     {
-      "=run" : ["build-resources", "build-files", "build-script", "minify-css"]
+      "=run" : ["build-resources", "build-files", "build-script", "build-scss", "minify-css"]
     },
-
 
     "build-script" :
     {
@@ -200,6 +200,19 @@
           "$${CATCMD} $${ROOT}/source/resource/$${APPLICATION_CSS} | $${CSSMIN_CMD} > $${BUILD_PATH}/resource/$${APPLICATION_CSS}"
         ]
       }
+    },
+
+    "build-scss" : 
+    {
+      "desc" : "Compile custom.scss",
+      "extend" : ["cache"],
+      "shell" :
+      {
+        "command" :
+        [
+          "$${PYTHON_CMD} $${QOOXDOO_PATH}/tool/bin/scss.py source/resource/$${APPLICATION_PATH}/scss/styles.scss -o source/resource/$${APPLICATION_PATH}/css/styles.css --load-path=source/resource/$${APPLICATION_PATH}/scss,$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss"
+        ]
+      } 
     },
 
     "watch-scss" :
