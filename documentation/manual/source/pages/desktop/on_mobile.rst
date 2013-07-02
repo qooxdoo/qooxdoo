@@ -25,6 +25,8 @@ As you might have already guessed, emulating mouse events based on touch events 
 
 * ``tap``: is a qooxdoo-based event which is already normalized and fires on a user tap. This results in a ``click`` event.
 
+* ``longtap``: is a qooxdoo-based event which is already normalized and fires if a user touches and holds the finger on the screen. This results in a ``contextmenu`` event.
+
 |emulatemouse.png|
 
 .. |emulatemouse.png| image:: emulatemouse.png
