@@ -998,7 +998,7 @@ def defaultOptions(optns=None):
     optns.prettypCommentsTrailingKeepColumn  = False  # fix trailing comment on column of original text
     optns.prettypCommentsInlinePadding  = '  '   # space between end of code and beginning of comment
     optns.prettypTextWidth = 0
-    optns.breaks = True  # a left-over from packer-options, used in toJS()
+    optns.breaks = False  # a left-over from packer-options, used in toJS()
     return optns
 
 def indentString(optns, state):
