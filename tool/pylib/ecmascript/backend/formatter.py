@@ -730,6 +730,7 @@ def defaultOptions(optns):
     optns.prettypCommentsTrailingKeepColumn  = False  # fix trailing comment on column of original text
     optns.prettypCommentsInlinePadding  = '  '   # space between end of code and beginning of comment
     optns.prettypTextWidth = 80 # 0
+    optns.breaks = False  # a left-over from packer-options, used in toJS()
     return optns
 
 def defaultState(state, optns):
