@@ -295,6 +295,9 @@
       "config-warnings" :
       {
         "environment" : [ "non-literal-keys" ]
+      },
+      "lint-check" : {
+        "warn-unknown-jsdoc-keys" : false,  // [bug#7504] diverging from api.json
       }
     },
 
