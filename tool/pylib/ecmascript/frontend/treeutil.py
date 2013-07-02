@@ -234,7 +234,9 @@ def selectNode(node, path, ignoreComments=False):
 
 
 def nodeIterator(node, nodetypes):
-    if node.type in nodetypes:
+    if nodetypes and node.type in nodetypes:
+        yield node
+    else:
         yield node
 
     for child in node.children[:]: # using a copy in case nodes are removed by the caller
