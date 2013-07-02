@@ -737,6 +737,7 @@ def defaultOptions(optns=None):
     optns.prettypCommentsTrailingKeepColumn  = False  # fix trailing comment on column of original text
     optns.prettypCommentsInlinePadding  = '  '   # space between end of code and beginning of comment
     optns.prettypTextWidth = 80 # 0
+    optns.breaks = False  # compat attrib with old packer-options
     return optns
 
 def defaultState(state, optns):
