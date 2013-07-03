@@ -33,7 +33,7 @@ qx.Class.define("qx.test.ui.decoration.MDoubleBorder", {
     },
 
     hasBoxShadow : function() {
-      return !!qx.core.Environment.get(["css.boxshadow"]);
+      return !!qx.core.Environment.get("css.boxshadow");
     },
 
     /**
