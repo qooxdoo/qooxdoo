@@ -33,13 +33,13 @@
  *      var model = new qx.data.Array(["item1","item2"]);
  *      sel.setModel(model);
  *      model.push("item3");
- * 
+ *
  *      var but = new qx.ui.mobile.form.Button("setSelection");
  *      page1.add(but);
  *      but.addListener("tap", function(){
  *        sel.setSelection("item3");
  *      }, this);
- *      
+ *
  *      sel.addListener("changeSelection", function(evt) {
  *        console.log(evt.getData());
  *      }, this);
@@ -156,8 +156,8 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       nullable : true,
       init : null
     },
-    
-    
+
+
     /**
      * The selected index of this SelectBox.
      */
@@ -331,36 +331,26 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      */
     _onChangeSelection : function (evt) {
       this.setSelection(evt.getData().index);
-      
+
       this._render();
     },
-    
-    
+
+
     // property apply
     _applySelection : function(value, old) {
       if(this.getModel() != null) {
         var selectedItem = this.getModel().getItem(value);
-        
+
         if(value == null) {
           this._setAttribute("value", null);
         } else {
           this._setAttribute("value", this.getModel().getItem(value));
         }
-        
+
         this.fireDataEvent("changeSelection", {index: value, item: selectedItem});
       }
     },
-    
-    
-    // property apply
-    _applyNullable : function(isNullable) {
-      // Delegate nullable property.
-      if(this.__selectionDialog) {
-        this.__selectionDialog.setNullable(isNullable);
-      }
-    }
-  }
-  ,
+  },
 
   /*
   *****************************************************************************
@@ -370,7 +360,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
   destruct : function()
   {
     this.__selectionDialog.removeListener("changeSelection", this._onChangeSelection, this);
-    
+
     this._disposeObjects("__selectionDialog","__selectionDialogTitle");
   }
 });
