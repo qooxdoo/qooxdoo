@@ -20,8 +20,6 @@
 
 /**
  * The default header cell renderer.
- *
- * @state hovered {table-header-cell}
  */
 qx.Class.define("qx.ui.table.headerrenderer.Default",
 {
