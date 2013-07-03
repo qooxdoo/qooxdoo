@@ -363,6 +363,7 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("html.element.textcontent"));
       this.assertBoolean(qx.core.Environment.get("html.image.naturaldimensions"));
       this.assertBoolean(qx.core.Environment.get("html.history.state"));
+      this.assertString(qx.core.Environment.get("html.selection"));
     },
 
     testXml : function()

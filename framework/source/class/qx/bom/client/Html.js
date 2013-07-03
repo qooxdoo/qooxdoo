@@ -444,6 +444,27 @@ qx.Bootstrap.define("qx.bom.client.Html",
       return (typeof window.onpopstate !== "undefined" &&
               typeof window.history.replaceState !== "undefined" &&
               typeof window.history.pushState !== "undefined");
+    },
+
+
+    /**
+     * Returns the name of the native object/function used to access the
+     * document's text selection.
+     *
+     * @return {String|null} <code>getSelection</code> if the standard window.getSelection
+     * function is available; <code>selection</code> if the MS-proprietary
+     * document.selection object is available; <code>null</code> if no known
+     * text selection API is available.
+     */
+    getSelection : function()
+    {
+      if (typeof window.getSelection === "function") {
+        return "getSelection";
+      }
+      if (typeof document.selection === "object") {
+        return "selection";
+      }
+      return null;
     }
   },
 
@@ -478,5 +499,6 @@ qx.Bootstrap.define("qx.bom.client.Html",
     qx.core.Environment.add("html.console", statics.getConsole);
     qx.core.Environment.add("html.image.naturaldimensions", statics.getNaturalDimensions);
     qx.core.Environment.add("html.history.state", statics.getHistoryState);
+    qx.core.Environment.add("html.selection", statics.getSelection);
   }
 });

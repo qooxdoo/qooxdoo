@@ -420,7 +420,10 @@
  *       <td>html.history.state</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getHistoryState}</td>
  *     </tr>
-
+ *     <tr>
+ *       <td>html.selection</td><td><i>String</i></td><td><code>getSelection</code></td>
+ *       <td>{@link qx.bom.client.Html#getSelection}</td>
+ *     </tr>
  *     <tr>
  *       <td colspan="4"><b>XML</b></td>
  *     </tr>
@@ -877,6 +880,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "html.element.textcontent" : "qx.bom.client.Html.getTextContent",
       "html.image.naturaldimensions" : "qx.bom.client.Html.getNaturalDimensions",
       "html.history.state" : "qx.bom.client.Html.getHistoryState",
+      "html.selection" : "qx.bom.client.Html.getSelection",
       "json" : "qx.bom.client.Json.getJson",
       "css.textoverflow" : "qx.bom.client.Css.getTextOverflow",
       "css.placeholder" : "qx.bom.client.Css.getPlaceholder",
