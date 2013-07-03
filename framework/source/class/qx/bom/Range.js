@@ -41,12 +41,12 @@ qx.Class.define("qx.bom.Range",
      * @param node {Node} node to get the range of
      * @return {Range} valid range of given selection
      */
-    get : qx.core.Environment.select("engine.name",
+    get : qx.core.Environment.select("html.selection",
     {
-      "mshtml" : function(node)
+      "selection" : function(node)
       {
         // check for the type of the given node
-        // for IE the nodes input, textarea, button and body
+        // for legacy IE the nodes input, textarea, button and body
         // have access to own TextRange objects. Everything else is
         // gathered via the selection object.
         if (qx.dom.Node.isElement(node))
