@@ -25,9 +25,6 @@
  *
  * More information can be found in the package description {@link qx.ui.window}.
  *
- * @state active Whether the window is activated
- * @state maximized Whether the window is maximized
- *
  * @childControl statusbar {qx.ui.container.Composite} statusbar container which shows the statusbar text
  * @childControl statusbar-text {qx.ui.basic.Label} text of the statusbar
  * @childControl pane {qx.ui.container.Composite} window pane which holds the content

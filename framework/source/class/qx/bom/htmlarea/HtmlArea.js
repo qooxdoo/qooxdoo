@@ -3241,7 +3241,7 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
     /**
      * Returns the content of the actual range as text
      *
-     * @TODO: need to be implemented correctly
+     * TODO: need to be implemented correctly
      * @return {String} selected text
      */
     getSelectedHtml : function()
