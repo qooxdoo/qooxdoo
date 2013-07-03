@@ -50,8 +50,8 @@ Configuration
    tool/generator/generator_config
    tool/generator/config_usage
    tool/generator/config_tweaking
-   tool/generator/config_branching
    tool/generator/generator_config_articles
+   tool/generator/config_branching
    tool/generator/generator_config_background
 
 Tutorials

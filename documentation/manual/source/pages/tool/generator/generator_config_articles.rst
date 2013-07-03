@@ -1,9 +1,13 @@
 .. _pages/tool/generator/generator_config_articles#generator_configuration_articles:
 
-Generator Configuration Articles
+Generator Configuration Details
 ********************************
 
-This page contains various articles related to the generator JSON configuration.
+This page contains various special sections related to the Generator
+configuration system. They are mostly linked to from other, more general pages
+so you might want to just follow their *"special section"* links if you want
+more information about a specific item rather than wading through this material
+linearly.
 
 .. _pages/tool/generator/generator_config_articles#path_names:
 

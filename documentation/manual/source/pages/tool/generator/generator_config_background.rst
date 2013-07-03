@@ -1,6 +1,6 @@
 .. _pages/generator_config_background#generator_configuration_background_information:
 
-Generator Configuration Background Information
+Generator Configuration - Under the Hood
 **********************************************
 
 This page gives some background information about how the configuration system is deployed in the SDK. It is interesting if you want to understand some of the inner workings and how things play together. *It is not necessary to know these details if you just want to use the configuration system.*
