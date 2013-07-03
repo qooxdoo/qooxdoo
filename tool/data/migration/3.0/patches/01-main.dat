@@ -1,3 +1,3 @@
 [.]getShownPageIndex[(]=[.]getCurrentIndex[(]
 \bqx\.core\.Environment\.get\("event.pointer"\)=qx.core.Environment.get("css.pointerevents")
-[@|#]asset[(]qx/mobile/icon/(android|ios|common)/[*][)]=
+\n?(\s)*[*]?(\s)*[@|#]asset[(]qx/mobile/icon/(android|ios|common)/[*][)]=
