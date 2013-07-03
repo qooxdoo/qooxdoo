@@ -1758,7 +1758,7 @@ class Scss(object):
 
         compress = self.scss_opts.get('compress', True)
         if compress:
-            sc, sp, tb, nl = False, '', '', ''
+            sc, sp, tb, nl = False, ' ', '', ''
         else:
             sc, sp, tb, nl = True, ' ', '  ', '\n'
 
