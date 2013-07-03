@@ -141,7 +141,7 @@ qx.Bootstrap.define("qxWeb", {
      *       <tr><th>defer</th><td>Function</td><td>Function that is called at the end of 
      *          processing the class declaration.</td></tr>
      *     </table>
-     * @return {Class} The defined class.
+     * @return {Function} The defined class.
      */
     define : function(name, config) {
       if (config == undefined) {
