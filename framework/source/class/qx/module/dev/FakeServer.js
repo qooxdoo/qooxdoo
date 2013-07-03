@@ -52,7 +52,7 @@
  *     }
  *   ];
  *
- *   q.fakeServer.configure(responseData);
+ *   q.dev.fakeServer.configure(responseData);
  * </pre>
  */
 qx.Bootstrap.define("qx.module.dev.FakeServer", {
