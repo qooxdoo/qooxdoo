@@ -60,6 +60,9 @@ qx.Class.define("test.Application",
       */
 
       qx.core.Environment.get("event.pointer");
+
+      var carousel = new qx.ui.mobile.container.Carousel();
+      var index = carousel.getShownPageIndex();
     }
   }
 });
