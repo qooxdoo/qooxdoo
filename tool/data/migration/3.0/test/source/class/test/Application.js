@@ -12,6 +12,12 @@
  * This is the main application class of your custom application "test"
  *
  * @asset(test/*)
+ * @asset(qx/mobile/icon/android/*)
+ * @asset(qx/mobile/icon/ios/*)
+ * @asset(qx/mobile/icon/common/*)
+ * #asset(qx/mobile/icon/android/*)
+ * #asset(qx/mobile/icon/ios/*)
+ * #asset(qx/mobile/icon/common/*)
  */
 qx.Class.define("test.Application",
 {
