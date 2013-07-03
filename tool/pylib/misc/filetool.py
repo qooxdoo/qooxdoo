@@ -20,7 +20,7 @@
 #
 ################################################################################
 
-import os, codecs, cPickle, sys, re, time, base64, itertools as itert
+import os, codecs, cPickle, sys, re, time, base64, math, itertools as itert
 import gzip as sys_gzip
 import textutil
 
@@ -31,7 +31,7 @@ VERSIONCONTROL_DIR_PATTS = (r'^\.svn$', r'^_svn$', r'^CVS$', r'^\.git.*', r'^\.D
 def gzip(filePath, content, encoding="utf-8"):
     if not filePath.endswith(".gz"):
         filePath = filePath + ".gz"
-    
+
     # Normalize
     filePath = normalize(filePath)
 
@@ -39,7 +39,7 @@ def gzip(filePath, content, encoding="utf-8"):
     directory(os.path.dirname(filePath))
 
     content = unicode(content).encode(encoding)
-    
+
     outputFile = sys_gzip.open(filePath, "wb", 9)
     outputFile.write(content)
     outputFile.close()
@@ -51,7 +51,7 @@ def gunzip(filePath, encoding="utf-8"):
 
     inputFile = sys_gzip.open(filePath, "rb")
     content = inputFile.read()
-    
+
     return textutil.any2Unix(unicode(content))
 
 
@@ -115,20 +115,20 @@ def normalize(filename):
 
 
 def read(filePath, encoding="utf_8"):
-  
+
     def getRowCol(text, pos):
         row = len(text[:pos].split("\n"))
         col = pos - text[:pos].rfind("\n")
         if col < 0:
             col = pos
         return (row, col)
-  
+
     try:
         ref = codecs.open(filePath, encoding=encoding, mode="r")
         try:
             content = ref.read()
         except UnicodeDecodeError, e:
-            rowCol = getRowCol(e.object, e.start)            
+            rowCol = getRowCol(e.object, e.start)
             e.reason = e.reason + "\nFile %s Line %s Column %s" %(str(filePath), str(rowCol[0]), str(rowCol[1]) )
             raise e
         finally:
@@ -151,10 +151,10 @@ def read(filePath, encoding="utf_8"):
 
 def root():
     modulepath = unicode(__file__)
-    
+
     miscfolder = os.path.dirname(modulepath)
     toolfolder = os.path.dirname(miscfolder)
-    
+
     root = os.path.abspath(toolfolder)
 
     return root
@@ -172,7 +172,7 @@ def find(rootpath, pattern=None, includedirs=False):
         dirlist[:] = [x for x in dirlist if not re.search(alwaysSkip, x)]
 
         ## go through files
-        if includedirs: 
+        if includedirs:
             checklist = dirlist + filelist
         else:
             checklist = filelist
@@ -202,7 +202,9 @@ def findYoungest(rootpath, pattern=None, includedirs=True, since=0):
         if m > ymodified:
             ymodified = m
             youngest  = path
-        if since and m > since:
+
+        # BUG #7306: equate both operands to get more reliable results
+        if since and math.floor(m) >= math.floor(since):
             newer_files.append((path, m))
 
     if since:
@@ -254,7 +256,7 @@ def walk(root, topdown=True, onerror=None, seen=[]):
                     seen.append(targetHash)
                     for r, d, f in walk(fullPath, topdown, onerror, seen):
                         yield r, d, f
-        
+
         yield root, dirs, files
 
 
