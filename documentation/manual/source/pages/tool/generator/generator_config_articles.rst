@@ -81,7 +81,10 @@ File Glob        Resolution
 Class Data
 ==========
 
-Besides code a qooxdoo application maintains a certain amount of data that represents some sort of resources. This might be negligible for small to medium size applications, but becomes significant for large apps. The resources fall roughly into two categories,
+Besides code a qooxdoo application maintains a certain amount of data that
+represents some sort of resources. This might be negligible for small to medium
+size applications, but becomes significant for large apps. The resources fall
+roughly into two categories,
 
 * **Internationalization (I18N) Data** This comprises two kinds of data:
 
@@ -90,11 +93,20 @@ Besides code a qooxdoo application maintains a certain amount of data that repre
 
 * **File Resources**
 
-  * static files like PNG and GIF graphics, but also HTML and CSS files, sound and multimedia files, asf.
+  * static files like PNG and GIF graphics, but also HTML and CSS files, sound
+    and multimedia files, asf.
 
-Many of these resources need an internal representation in the qooxdoo app. E.g. translated strings are stored as key:value pairs of maps, and images are stored with their size and location. All this data requires space that shows up in  sizes of application files, as they are transfered from server to browser.
+Many of these resources need an internal representation in the qooxdoo app. E.g.
+translated strings are stored as key:value pairs of maps, and images are stored
+with their size and location. All this data requires space that shows up in
+sizes of application files, as they are transfered from server to browser.
 
-The build system allows you to tailor where those resources are stored, so you can optimize on your network consumption and memory footprint. Here is an overview:
+Resource information is packaged up by the tool chain, and they are kept
+together with the code that uses them. Generally, they go together with a
+package, which is a bunch of code that will be loaded together.
+The build system allows you to tailor where those resources are stored, so you
+can optimize on your network consumption and memory footprint. Here is an
+overview:
 
   - **source** version:
     - without dedicated I18N parts:all class data is allocated in the loader
