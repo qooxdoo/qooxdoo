@@ -164,10 +164,8 @@ TOKENS = {
     "||" : "OR",
 
     "|" : "BITOR",
-    "^|" : "BITXOR",
+    "^" : "BITXOR",
     "&" : "BITAND",
-
-    "^" : "POWEROF",
 
     "<<" : "LSH",
     ">>" : "RSH",
