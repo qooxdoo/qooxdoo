@@ -108,7 +108,7 @@ class ASTReducer(treeutil.NodeVisitor):
 
     def _init_operations(self):
         operations = {}
-        types_Number = (types.IntType, types.FloatType, types.BooleanType)
+        types_Number = (types.IntType, types.LongType, types.FloatType, types.BooleanType)
 
         def opr(operation, op1, op2):
             if all([isinstance(x, types_Number) for x in (op1, op2)]):
@@ -165,23 +165,24 @@ class ASTReducer(treeutil.NodeVisitor):
 
         # second shift operand must be in 0..31 in JS
         def opr(operation, op1, op2):
-            op2 = (op2 & 0x20)  # coerce to 0..31
+            op2 = (op2 & 0x1f)  # coerce to 0..31
             return operation(op1,op2)
         operations['LSH']  = func.partial(opr, operator.lshift)
+
+        #def rsh(op1, op2): # http://bit.ly/13v4Adq
+        #    sign = (op1 >> 31) & 1 
+        #    if sign:
+        #       fills = ((sign << op2) - 1) << (32 - op2)
+        #    else:
+        #       fills = 0
+        #    return ((op1 & 0xffffffff) >> op2) | fills
+        #operations['RSH']  = func.partial(opr, rsh)
+        operations['RSH']  = func.partial(opr, operator.rshift)
 
         def ursh(op1, op2):
             op1 = (op1 & 0xffffffff)  # coerce to 32-bit int
             return operator.rshift(op1, op2) # Python .rshift does 0 fill
         operations['URSH'] = func.partial(opr, ursh)
-
-        def rsh(op1, op2): # http://bit.ly/13v4Adq
-            sign = (op1 >> 31) & 1 
-            if sign:
-               fills = ((sign << op2) - 1) << (32 - op2)
-            else:
-               fills = 0
-            return ((op1 & 0xffffffff) >> op2) | fills
-        operations['RSH']  = func.partial(opr, rsh)
 
         # ?:
         def opr(op1, op2, op3):
@@ -322,7 +323,7 @@ def set_node_type_from_value(valueNode, value):
     elif isinstance(value, types.BooleanType):
         valueNode.set("constantType","boolean")
         valueNode.set("value", str(value).lower())
-    elif isinstance(value, types.IntType):
+    elif isinstance(value, (types.IntType, types.LongType)):
         valueNode.set("constantType","number")
         valueNode.set("detail", "int")
     elif isinstance(value, types.FloatType):

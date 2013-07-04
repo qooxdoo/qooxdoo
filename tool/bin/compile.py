@@ -97,7 +97,7 @@ def interruptCleanup(interruptRegistry):
             print >>sys.stderr, e  # just keep on with the others
     
 
-def get_args_1():
+def get_args():
     parser = optparse.OptionParser(option_class=ExtendAction)
 
     usage_str = '''%prog [options] [main_action] file.js,...
@@ -121,6 +121,7 @@ Default action is to compress the JS code. All output is written to STDOUT.
     option_group.add_option("-p", "--privates", action="store_true", dest="privates", default=False, help="optimize privates")
     option_group.add_option("--privateskey", dest="privateskey", metavar="CACHEKEY", type="string", default="", help="cache key for privates")
     option_group.add_option("-b", "--basecalls", action="store_true", dest="basecalls", default=False, help="optimize basecalls")            
+    option_group.add_option("-g", "--globals", action="store_true", dest="globals", default=False, help="optimize globals")
     #option_group.add_option("-i", "--inline", action="store_true", dest="inline", default=False, help="optimize inline")
     option_group.add_option("-r", "--variants", action="store_true", dest="variantsopt", default=False, help="optimize variants")
     option_group.add_option("--variant", action="extend", dest="variants", metavar="KEY:VALUE", type="string", default=[], help="Selected variants")
@@ -142,7 +143,7 @@ Default action is to compress the JS code. All output is written to STDOUT.
     (options, args) = parser.parse_args(sys.argv[1:])
     return options, args
 
-def get_args():
+def get_args_1():
     usage_str = '''%(prog)s [options] [main_action] file.js,...
     
 Default action is to compress the JS code. All output is written to STDOUT.
