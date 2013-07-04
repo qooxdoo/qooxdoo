@@ -92,7 +92,7 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
           this.emit("end");
           this.id = null;
         } else {
-          var timePassed = time - start;
+          var timePassed = Math.max(time - start, 0);
           this.emit("frame", timePassed);
           this.id = qx.bom.AnimationFrame.request(clb, this);
         }
