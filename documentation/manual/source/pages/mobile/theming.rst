@@ -183,11 +183,11 @@ For customization, please follow these steps:
     in your application's root.
 
 3.  Have a look in your application's resource folder:
-    ``<APP_ROOT>/source/resource/<APP_NAME>/mobile/scss/_custom.scss``
+    ``<APP_ROOT>/source/resource/<APP_NAME>/mobile/scss/_styles.scss``
 
     This is the key file for customizing our default theme to your needs.
 
-    In ``_custom.scss`` you find various variables for the customization of
+    In ``_styles.scss`` you find various variables for the customization of
     your qx.Mobile application. The variables overwrite the default theme
     "Indigo". Undeclared variables get styled like in the "Indigo" theme.
 
@@ -207,19 +207,16 @@ For customization, please follow these steps:
     .. image:: customizedTheme.png
       :scale: 50%
 
-That is all you need to know for customizing the theme of a qx.Mobile app. Try
-the other SCSS variables of your ``_custom.scss``!
+That is all you need to know for customizing the theme of a qx.Mobile app. Try the other
+SCSS variables of your ``_styles.scss``!
 
 Extending the customized theme with SCSS
 ========================================
 
-Additionally to the customization of the variables in ``_custom.scss`` you can
-extend the theme with your own CSS/SCSS rules. In this case you can append your
-SCSS/CSS statement to the following file:
+Additionally to the customization of the variables in ``_styles.scss`` you can extend the theme with your own CSS rules. In this case
+you can append your CSS statement to the following file:
 
-``<APP_ROOT>/source/resource/<APP_NAME>/mobile/scss/styles.scss``
-
-Please make sure not to change or delete any of the import statements.
+``<APP_ROOT>/source/resource/<APP_NAME>/mobile/css/styles.css``
 
 As mentioned before, you do not need to be an expert in SCSS for theming.  But
 if you want to know more about this exciting CSS enhancement technology, please
@@ -230,10 +227,7 @@ have a look at the SASS website:
 Improving your theming workflow
 ===============================
 
-We have a little hint for you, for improving the layouting workflow of your
-qx.Mobile application.
-
-There is a plug-in for Google Chrome called **CSS Auto Reload**:
+With these steps you are able to improve the layouting workflow of your qx.Mobile application:
 
 * `CSS Auto Reload for Chrome
   <https://chrome.google.com/webstore/detail/css-auto-reload/fiikhcfekfejbleebdkkjjgalkcgjoip>`_
@@ -242,6 +236,5 @@ This plug-in recognizes when a website's CSS has changed and updates the CSS
 automatically, without a reload of the site. This plug-in works perfectly in
 combination with our SCSS watch-job.
 
-The result: You just have to change a qx.Mobile's SCSS, save it and the
-qx.Mobile application in Chrome updates after a few seconds, and keeps the
-current state of the application.
+The result: You just have to change a qx.Mobile's SCSS, save it and the qx.Mobile application in Chrome
+updates after a few seconds, and keeps the current state of the application.
