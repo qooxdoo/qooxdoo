@@ -135,7 +135,11 @@ qx.Class.define("qx.ui.root.Application",
       doc.body.appendChild(elem);
 
       var root = new qx.html.Root(elem);
-      root.setStyle("position", "absolute");
+      root.setStyles({
+        "position" : "absolute",
+        "overflowX" : "hidden",
+        "overflowY" : "hidden"
+      });
 
       // Store "weak" reference to the widget in the DOM element.
       root.setAttribute("$$widget", this.toHashCode());
