@@ -42,12 +42,13 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
     /**
     * Evaluates the specified mediaquery list
     *
-    * @param query {String} TODOC
+    * @param query {String} the media query to evaluate
+    * @param ctxWindow {Object?window} the window object which should be operated on
     * @attachStatic {qxWeb, matchMedia}
     * @return {qx.bom.MediaQueryListener}  The mediaquery listener
     */
-    match : function(query){
-      return new qx.bom.MediaQueryListener(query);
+    match : function(query, ctxWindow){
+      return new qx.bom.MediaQueryListener(query, ctxWindow);
     }
   },
 

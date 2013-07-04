@@ -21,7 +21,7 @@
 /**
  * This is a class for mediaqueries evaluation. The class is a wrapper for media.match.js,
  * that implements a polyfill for window.matchMedia when it's not supported natively.
- * 
+ *
  *
  */
 qx.Bootstrap.define("qx.bom.MediaQueryListener", {
@@ -29,18 +29,20 @@ qx.Bootstrap.define("qx.bom.MediaQueryListener", {
   extend : qx.event.Emitter,
 
   /**
-   * @param query {String} TODOC
+   * @param query {String} the media query to evaluate
+   * @param ctxWindow {Object?window} the window object which should be operated on
    */
-  construct : function(query){
-
-    this.__mql = window.matchMedia(query);
+  construct : function(query, ctxWindow)
+  {
+    this.__ctxWindow = ctxWindow || window;
+    this.__mql = this.__ctxWindow.matchMedia(query);
     this.query = query;
-    this.matches = this.__mql.matches;  
+    this.matches = this.__mql.matches;
     this.__init();
   },
 
-  events : 
-  {    
+  events :
+  {
     /**
      * Fires each time the media query state changes
      */
@@ -55,6 +57,11 @@ qx.Bootstrap.define("qx.bom.MediaQueryListener", {
   },
 
   members :  {
+
+    /**
+    * The window object
+    */
+    __ctxWindow : null,
 
     /**
     * The mediaquery Listener
@@ -83,7 +90,7 @@ qx.Bootstrap.define("qx.bom.MediaQueryListener", {
     * Callback for mediaqueries changes
     */
     __changed : function(){
-      this.matches = this.__mql.matches; 
+      this.matches = this.__mql.matches;
       this.emit("change",{matches : this.matches,query : this.query});
     }
   }
@@ -94,7 +101,7 @@ qx.Bootstrap.define("qx.bom.MediaQueryListener", {
 
 
 /**
- * Below is the original media.match.js. 
+ * Below is the original media.match.js.
  * https://github.com/weblinc/media-match
  */
 
@@ -325,7 +332,7 @@ window.matchMedia || (window.matchMedia = function (win) {
                     } while(qIndex--);
                 }
 
-                
+
             }, 10);
         },
 
