@@ -278,12 +278,12 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
       // Scrollbars don't work properly in IE if the element with overflow has
       // excatly the size of the scrollbar. Thus we move the element one pixel
       // out of the view and increase the size by one.
-      if ((qx.core.Environment.get("engine.name") == "mshtml"))
+      if (qx.core.Environment.get("engine.name") == "mshtml")
       {
         var bounds = this.getBounds();
         this.getContentElement().setStyles({
-          left: isHorizontal ? bounds.left : (bounds.left -1) + "px",
-          top: isHorizontal ? (bounds.top - 1) + "px" : "0",
+          left: (isHorizontal ? bounds.left : (bounds.left -1)) + "px",
+          top: (isHorizontal ? (bounds.top - 1) : bounds.top) + "px",
           width: (isHorizontal ? bounds.width : bounds.width + 1) + "px",
           height: (isHorizontal ? bounds.height + 1 : bounds.height) + "px"
         });
