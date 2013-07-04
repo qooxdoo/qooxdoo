@@ -349,7 +349,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
         this.fireDataEvent("changeSelection", {index: value, item: selectedItem});
       }
-    },
+    }
   },
 
   /*
