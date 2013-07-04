@@ -50,14 +50,6 @@
       }
     },
 
-    "source" :
-    {
-      "environment" :
-      {
-        "inspector.selenium.extensions" : false
-      }
-    },
-
     "translation" :
     {
       "translate" : { "poentry-with-occurrences" : false  }
