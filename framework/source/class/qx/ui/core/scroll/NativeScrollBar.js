@@ -65,6 +65,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     this.addListener("appear", this._onAppear, this);
 
     this.getContentElement().add(this._getScrollPaneElement());
+    this.getContentElement().setStyle("box-sizing", "content-box");
 
     // Configure orientation
     if (orientation != null) {
