@@ -349,6 +349,14 @@ qx.Bootstrap.define("qx.io.ImageLoader",
     {
       return qx.core.Environment.get("html.image.naturaldimensions") ?
         element.naturalHeight : element.height;
+    },
+
+    /**
+     * Dispose stored images.
+     */
+    dispose : function()
+    {
+      this.__data = {};
     }
   }
 });

@@ -27,15 +27,16 @@ qx.Class.define("qx.test.io.ImageLoader",
 
   members :
   {
-
     setUp : function()
     {
       this.__imageUri = qx.util.ResourceManager.getInstance().toUri("qx/test/colorstrip.gif");
       this.__wrongImageUri = this.__imageUri.replace(/color/, "foocolor");
     },
 
-
-    tearDown : function() {},
+    tearDown : function()
+    {
+      qx.io.ImageLoader.dispose();
+    },
 
 
     testLoadImageSuccess : function()
@@ -50,7 +51,7 @@ qx.Class.define("qx.test.io.ImageLoader",
         this.resume(function() {
           this.assertTrue(qx.io.ImageLoader.isLoaded(this.__imageSource));
         }, self);
-      }, this, 2000);
+      }, this, 500);
 
 
       this.wait();
@@ -68,7 +69,7 @@ qx.Class.define("qx.test.io.ImageLoader",
         this.resume(function() {
           this.assertTrue(qx.io.ImageLoader.isFailed(this.__imageSource));
         }, self);
-      }, this, 2000);
+      }, this, 500);
 
       this.wait();
     },
@@ -85,7 +86,7 @@ qx.Class.define("qx.test.io.ImageLoader",
         this.resume(function() {
           this.assertEquals(192, qx.io.ImageLoader.getWidth(this.__imageSource));
         }, self);
-      }, this, 2000);
+      }, this, 500);
 
       this.wait();
     },
@@ -102,7 +103,7 @@ qx.Class.define("qx.test.io.ImageLoader",
         this.resume(function() {
           this.assertEquals(10, qx.io.ImageLoader.getHeight(this.__imageSource));
         }, self);
-      }, this, 2000);
+      }, this, 500);
 
       this.wait();
     },
@@ -121,7 +122,7 @@ qx.Class.define("qx.test.io.ImageLoader",
           this.assertEquals(192, size.width);
           this.assertEquals(10, size.height);
         }, self);
-      }, this, 2000);
+      }, this, 500);
 
       this.wait();
     },
@@ -138,7 +139,7 @@ qx.Class.define("qx.test.io.ImageLoader",
         this.resume(function() {
           this.assertEquals("gif", qx.io.ImageLoader.getFormat(this.__imageSource));
         }, self);
-      }, this, 2000);
+      }, this, 500);
 
       this.wait();
     },
