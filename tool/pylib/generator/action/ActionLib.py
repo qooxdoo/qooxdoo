@@ -42,7 +42,7 @@ class ActionLib(object):
         for item in cleanMap:
             self._console.info(item)
             for file in cleanMap[item]:
-                file = self._config.absPath(file) 
+                file = self._config.absPath(file)
                 # resolve file globs
                 for entry in glob.glob(file):
                     # safety first
@@ -56,7 +56,7 @@ class ActionLib(object):
         console = Context.console
         since = time.time()
         watcher = Watcher(jobconf, confObj)
-        interval = jobconf.get("watch-files/interval", 2)
+        interval = jobconf.get("watch-files/check-interval", 2)
         paths = jobconf.get("watch-files/paths", [])
         if not paths:
             return
@@ -68,7 +68,7 @@ class ActionLib(object):
         exit_on_retcode = jobconf.get("watch-files/command/exit-on-retcode", False)
         exec_on_startup = jobconf.get("watch-files/command/exec-on-startup", False)
         if exec_on_startup:
-            # simply set check-time to start of epoch 
+            # simply set check-time to start of epoch
             since = 1.0  # (since=0 would disable time span checking)
         console.info("Watching changes of '%s'..." % paths)
         console.info("Press Ctrl-C to terminate.")
@@ -139,7 +139,7 @@ class CommandLineTemplate(string.Template):
       """ % {
               'delim': re.escape(delimiter),
               'id'   : idpattern
-            } 
+            }
 
 ##
 # Exposes a .check() method to check for changes in the configured paths.
@@ -173,5 +173,5 @@ class Watcher(object):
                 includedirs=self.with_dirs, since=since)
             ylist.extend(part_list)
         return ylist
-            
+
 
