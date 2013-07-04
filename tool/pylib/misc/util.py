@@ -189,3 +189,24 @@ def numberSequence(c=0):
 
 
 FinSequenceTypes = (types.ListType, types.TupleType)
+
+##
+# JS-like parseInt(), a wrapper of Python's int().
+def parseInt(s=''):
+    v = None
+    if len(s)>1:
+        if s[0]=='0':
+            # 0xfa23cd
+            if s[1] in "xX":
+                v = int(s, 16) # if it starts with '0x' and isn't a hex let it bomb
+            # 0132
+            else:
+                try:
+                    v = int(s, 8)
+                except ValueError:
+                    pass       # re-try as int10
+    # 4711
+    if v is None:
+        v = int(s) # let exceptions propagate
+    return v
+

@@ -28,6 +28,7 @@ import os, sys, re, types, operator, functools as func
 from ecmascript.frontend import treeutil, treegenerator
 from ecmascript.frontend.treegenerator  import symbol
 from ecmascript.frontend import Scanner
+from misc import util
 
 class ConditionReducer(treeutil.NodeVisitor):
 
@@ -139,6 +140,8 @@ class ASTReducer(treeutil.NodeVisitor):
             return result
         operations['ADD'] = func.partial(opr, '+')
         operations['SUB'] = func.partial(opr, '-')
+        #operations['INC'] -- only on vars!
+        #operations['DEC'] -- only on vars!
 
         operations['EQ']   = operator.eq
         operations['SHEQ'] = operator.eq
@@ -154,6 +157,33 @@ class ASTReducer(treeutil.NodeVisitor):
         operations['AND'] = lambda x,y: x and y
         operations['OR']  = lambda x,y: x or y
 
+        # bit operations only operate on 32-bit integers in JS
+        operations['BITAND'] = operator.and_
+        operations['BITOR']  = operator.or_
+        operations['BITXOR'] = operator.xor
+        operations['BITNOT'] = operator.inv
+
+        # second shift operand must be in 0..31 in JS
+        def opr(operation, op1, op2):
+            op2 = (op2 & 0x20)  # coerce to 0..31
+            return operation(op1,op2)
+        operations['LSH']  = func.partial(opr, operator.lshift)
+
+        def ursh(op1, op2):
+            op1 = (op1 & 0xffffffff)  # coerce to 32-bit int
+            return operator.rshift(op1, op2) # Python .rshift does 0 fill
+        operations['URSH'] = func.partial(opr, ursh)
+
+        def rsh(op1, op2): # http://bit.ly/13v4Adq
+            sign = (op1 >> 31) & 1 
+            if sign:
+               fills = ((sign << op2) - 1) << (32 - op2)
+            else:
+               fills = 0
+            return ((op1 & 0xffffffff) >> op2) | fills
+        operations['RSH']  = func.partial(opr, rsh)
+
+        # ?:
         def opr(op1, op2, op3):
             return op2 if bool(op1) else op3
         operations['HOOK'] = opr
@@ -187,7 +217,7 @@ class ASTReducer(treeutil.NodeVisitor):
         if consttype == "number":
             constdetail = node.get("detail")
             if constdetail == "int":
-                value = int(constvalue)
+                value = util.parseInt(constvalue)
             elif constdetail == "float":
                 value = float(constvalue)
         elif consttype == "string":
@@ -224,30 +254,44 @@ class ASTReducer(treeutil.NodeVisitor):
                 nnode, is_empty = treeutil.inlineIfStatement(node, value, inPlace=False)
         return nnode
 
+    ##
+    # (group)
+    def visit_group(self, node):
+        nnode = node
+        # can only reduce "(3)" or "('foo')" or "(true)" etc.
+        if len(node.children)==1:
+            expr_node = node.children[0]
+            if expr_node.type == 'constant': # must have been evaluated by pre-order
+                nnode = expr_node
+        return nnode
+
+
     def _visit_monadic(self, node, operator):
         op1 = node.children[0]
         nnode = node
         if hasattr(op1, "evaluated"):
-            evaluated = self.operations[operator](op1.evaluated)
-            nnode = symbol("constant")(
-                node.get("line"), node.get("column"))
-            set_node_type_from_value(nnode, evaluated)
-            nnode.evaluated = evaluated
+            if operator in self.operations:
+                evaluated = self.operations[operator](op1.evaluated)
+                nnode = symbol("constant")(
+                    node.get("line"), node.get("column"))
+                set_node_type_from_value(nnode, evaluated)
+                nnode.evaluated = evaluated
         return nnode
 
     def _visit_dyadic(self, node, operator):
         op1 = node.children[0]
         op2 = node.children[1]
         nnode = node
-        if operator in ['AND', 'OR'] and hasattr(op1, 'evaluated'): # short-circuit ops
-            result = self.operations[operator](op1.evaluated, op2)
-            nnode = op1 if result==op1.evaluated else op2
-        elif all([hasattr(x, 'evaluated') for x in (op1, op2)]):
-            evaluated = self.operations[operator](op1.evaluated, op2.evaluated)
-            nnode = symbol("constant")(
-                node.get("line"), node.get("column"))
-            set_node_type_from_value(nnode, evaluated)
-            nnode.evaluated = evaluated
+        if operator in self.operations:
+            if operator in ['AND', 'OR'] and hasattr(op1, 'evaluated'): # short-circuit ops
+                evaluated = self.operations[operator](op1.evaluated, op2)
+                nnode = op1 if evaluated==op1.evaluated else op2
+            elif all([hasattr(x, 'evaluated') for x in (op1, op2)]):
+                evaluated = self.operations[operator](op1.evaluated, op2.evaluated)
+                nnode = symbol("constant")(
+                    node.get("line"), node.get("column"))
+                set_node_type_from_value(nnode, evaluated)
+                nnode.evaluated = evaluated
         return nnode
 
     ##
@@ -257,9 +301,10 @@ class ASTReducer(treeutil.NodeVisitor):
         op2 = node.children[1]
         op3 = node.children[2]
         nnode = node
-        # to evaluate HOOK, it is enough to evaluate the condition
-        if operator == "HOOK" and hasattr(op1, 'evaluated'):
-            nnode = self.operations[operator](op1.evaluated, op2, op3)
+        if operator in self.operations:
+            # to evaluate HOOK, it is enough to evaluate the condition
+            if operator == "HOOK" and hasattr(op1, 'evaluated'):
+                nnode = self.operations[operator](op1.evaluated, op2, op3)
         return nnode
 
 
