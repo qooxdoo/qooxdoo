@@ -283,9 +283,15 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       // Shorthand
       var entry = this.__data[source];
 
-      // Store dimensions
-      if (event.type === "load")
+      var isImageAvailable = function(imgElem) {
+        return (imgElem && imgElem.height !== 0 && imgElem.complete);
+      };
+
+      // [BUG #7497]: IE11 doesn't properly emit an error event
+      // when loading fails so augment success check
+      if (event.type === "load" && isImageAvailable(entry.element))
       {
+        // Store dimensions
         entry.loaded = true;
         entry.width = this.__getWidth(element);
         entry.height = this.__getHeight(element);
