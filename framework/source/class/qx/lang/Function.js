@@ -335,7 +335,7 @@ qx.Bootstrap.define("qx.lang.Function",
         {
           // Directly execute, but force first parameter to be the event object.
           return func.call(self||this, event||window.event);
-        }
+        };
       }
       else
       {
