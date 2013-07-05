@@ -129,11 +129,15 @@ qx.Class.define("qx.theme.manager.Decoration",
         );
       }
 
+     
       // check if an array is given and the decorator should be build on runtime
       if (clazz instanceof Array) {
-        var names = clazz.concat([]);
-        for (var i=0; i < names.length; i++) {
-          names[i] = names[i].basename.replace(".", "");
+        var names = [];
+        for (var i=0; i < clazz.length; i++) {
+          if (clazz[i] == null) {
+            continue;
+          }
+          names[i] = clazz[i].basename.replace(".", "");
         };
         var name = "qx.ui.decoration.dynamic." + names.join("_");
         if (!qx.Class.getByName(name)) {
