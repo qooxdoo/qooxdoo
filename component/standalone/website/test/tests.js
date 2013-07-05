@@ -1327,6 +1327,10 @@ testrunner.define({
     q(document).setHtml("no way");
     this.assertNull(q(window).getHtml());
     this.assertNull(q(document).getHtml());
+
+    this.sandbox.setHtml("<div id='one'/><div id='two'></div>");
+    this.assertEquals(0, q("#sandbox > #one > #two").length);
+    this.assertEquals(1, q("#sandbox > #two").length);
   },
 
   testAttribute : function() {
