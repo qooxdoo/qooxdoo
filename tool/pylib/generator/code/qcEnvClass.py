@@ -35,7 +35,7 @@ class qcEnvClass(Class):
     def extractChecksMap(self):
         tree = self.tree()
         checksMap = None
-        for node in treeutil.nodeIterator(tree, "keyvalue"):
+        for node in treeutil.nodeIterator(tree, ["keyvalue"]):
             if node.get("key", "") == "_checksMap":
                 checksMap = node
                 break
