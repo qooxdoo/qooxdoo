@@ -168,8 +168,12 @@ qx.Bootstrap.define("qx.bom.client.Engine",
 
 
     /**
-     * Internal helper for checking for opera.
-     * @return {Boolean} true, if its opera.
+     * Internal helper for checking for opera (presto powered).
+     *
+     * Note that with opera >= 15 their engine switched to blink, so
+     * things like "window.opera" don't work anymore or changed (e.g. user agent).
+     *
+     * @return {Boolean} true, if its opera (presto powered).
      */
     __isOpera : function() {
       return window.opera &&
