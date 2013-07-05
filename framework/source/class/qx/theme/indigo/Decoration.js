@@ -32,13 +32,6 @@ qx.Theme.define("qx.theme.indigo.Decoration",
   {
     "window" :
     {
-      decorator: [
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MBoxShadow,
-        qx.ui.decoration.MBackgroundColor,
-        qx.ui.decoration.MBorderRadius
-      ],
-
       style :
       {
         width : 1,
@@ -53,11 +46,6 @@ qx.Theme.define("qx.theme.indigo.Decoration",
 
 
     "window-caption" : {
-      decorator : [
-        qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MSingleBorder
-      ],
-
       style :
       {
         radius: [3, 3, 0, 0],
@@ -67,11 +55,6 @@ qx.Theme.define("qx.theme.indigo.Decoration",
     },
 
     "window-caption-active" : {
-      decorator : [
-        qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MSingleBorder
-      ],
-
       style :
       {
         radius: [3, 3, 0, 0],
@@ -83,11 +66,6 @@ qx.Theme.define("qx.theme.indigo.Decoration",
 
     "white-box" :
     {
-      decorator : [
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MBackgroundColor
-      ],
-
       style :
       {
         width: 1,
@@ -98,8 +76,6 @@ qx.Theme.define("qx.theme.indigo.Decoration",
 
     "statusbar" :
     {
-      decorator : [qx.ui.decoration.MSingleBorder],
-
       style :
       {
         widthTop : 1,
@@ -110,12 +86,6 @@ qx.Theme.define("qx.theme.indigo.Decoration",
 
 
     "app-header" : {
-      decorator : [
-        qx.ui.decoration.MLinearBackgroundGradient,
-        qx.ui.decoration.MDoubleBorder,
-        qx.ui.decoration.MBackgroundColor
-      ],
-
       style :
       {
         innerWidthBottom : 1,

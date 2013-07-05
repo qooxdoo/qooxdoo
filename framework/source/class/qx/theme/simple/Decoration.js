@@ -36,8 +36,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "border-blue" :
     {
-      decorator: [qx.ui.decoration.MSingleBorder],
-
       style :
       {
         width : 4,
@@ -48,8 +46,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "main" :
     {
-      decorator: [qx.ui.decoration.MSingleBorder],
-
       style :
       {
         width : 1,
@@ -59,8 +55,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "main-dark" :
     {
-      decorator: [qx.ui.decoration.MSingleBorder],
-
       style :
       {
         width : 1,
@@ -71,12 +65,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "popup" :
     {
-      decorator : [
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MBoxShadow,
-        qx.ui.decoration.MBackgroundColor
-      ],
-
       style :
       {
         width: 1,
@@ -90,8 +78,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "dragover" :
     {
-      decorator : [qx.ui.decoration.MSingleBorder],
-
       style : {
         bottom: [2, "solid", "dark-blue"]
       }
@@ -106,13 +92,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
     */
     "button-box" :
     {
-      decorator : [
-        qx.ui.decoration.MLinearBackgroundGradient,
-        qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MBackgroundColor
-      ],
-
       style :
       {
         radius : 3,
@@ -705,8 +684,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "separator-horizontal" :
     {
-      decorator: [qx.ui.decoration.MSingleBorder],
-
       style :
       {
         widthLeft : 1,
@@ -716,8 +693,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "separator-vertical" :
     {
-      decorator: [qx.ui.decoration.MSingleBorder],
-
       style :
       {
         widthTop : 1,
@@ -733,12 +708,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
     */
     "scroll-knob" :
     {
-      decorator : [
-        qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MBackgroundColor
-      ],
-
       style :
       {
         radius : 3,
@@ -785,11 +754,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
     */
     "button-hover" :
     {
-      decorator : [
-        qx.ui.decoration.MBackgroundColor,
-        qx.ui.decoration.MBorderRadius
-      ],
-
       style :
       {
         backgroundColor : "button",
@@ -805,12 +769,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
     */
     "window" :
     {
-      decorator: [
-        qx.ui.decoration.MDoubleBorder,
-        qx.ui.decoration.MBoxShadow,
-        qx.ui.decoration.MBackgroundColor
-      ],
-
       style :
       {
         width : 1,
@@ -837,8 +795,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
 
     "window-caption" : {
-      decorator : [qx.ui.decoration.MSingleBorder],
-
       style :
       {
         width : [0, 0, 2, 0],
@@ -854,13 +810,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
     */
     "white-box" :
     {
-      decorator : [
-        qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MBoxShadow,
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MBackgroundColor
-      ],
-
       style :
       {
         width: 1,
@@ -881,8 +830,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
     */
     "inset" :
     {
-      decorator : [qx.ui.decoration.MSingleBorder],
-
       style :
       {
         width : 1,
@@ -892,8 +839,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "focused-inset" :
     {
-      decorator: [qx.ui.decoration.MSingleBorder],
-
       style :
       {
         width : 2,
@@ -903,8 +848,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "border-invalid" :
     {
-      decorator: [qx.ui.decoration.MSingleBorder],
-
       style :
       {
         width : 2,
@@ -921,8 +864,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "lead-item" :
     {
-      decorator : [qx.ui.decoration.MSingleBorder],
-
       style :
       {
         width : 1,
@@ -942,12 +883,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "tooltip" :
     {
-      decorator : [
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MBackgroundColor,
-        qx.ui.decoration.MBoxShadow
-      ],
-
       style :
       {
         width : 1,
@@ -961,11 +896,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "tooltip-error" :
     {
-      decorator : [
-        qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MBackgroundColor
-      ],
-
       style : {
         radius: 5,
         backgroundColor: "invalid"
@@ -983,8 +913,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "toolbar-separator" :
     {
-      decorator : [qx.ui.decoration.MSingleBorder],
-
       style :
       {
         widthLeft : 1,
@@ -1000,8 +928,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
     */
     "menu-separator" :
     {
-      decorator : [qx.ui.decoration.MSingleBorder],
-
       style :
       {
         widthTop: 1,
@@ -1017,12 +943,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
     */
     "menubar-button-hovered" :
     {
-      decorator : [
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MBackgroundColor
-      ],
-
       style :
       {
         width : 1,
@@ -1053,8 +973,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "datechooser-date-pane" :
     {
-      decorator : [qx.ui.decoration.MSingleBorder],
-
       style :
       {
         widthTop: 1,
@@ -1066,8 +984,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "datechooser-weekday" :
     {
-      decorator : [qx.ui.decoration.MSingleBorder],
-
       style :
       {
         widthBottom: 1,
@@ -1078,8 +994,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "datechooser-week" :
     {
-      decorator : [qx.ui.decoration.MSingleBorder],
-
       style :
       {
         widthRight: 1,
@@ -1090,8 +1004,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "datechooser-week-header" :
     {
-      decorator : [qx.ui.decoration.MSingleBorder],
-
       style :
       {
         widthBottom : 1,
@@ -1114,12 +1026,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "tabview-page-button-top" :
     {
-      decorator : [
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MBackgroundColor
-      ],
-
       style :
       {
         width : [1, 1, 0, 1],
@@ -1168,8 +1074,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "statusbar" :
     {
-      decorator : [qx.ui.decoration.MSingleBorder],
-
       style :
       {
         widthTop : 1,
@@ -1180,8 +1084,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "table-scroller-focus-indicator" :
     {
-      decorator : [qx.ui.decoration.MSingleBorder],
-
       style :
       {
         width : 2,
@@ -1212,8 +1114,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "table-header-cell" :
     {
-      decorator : [qx.ui.decoration.MSingleBorder],
-
       style :
       {
         widthRight : 1,
@@ -1242,8 +1142,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "progressive-table-header-cell" :
     {
-      decorator : qx.ui.decoration.Single,
-
       style :
       {
         widthRight: 1,
@@ -1260,11 +1158,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "progressbar" :
     {
-      decorator: [
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MBackgroundColor
-      ],
-
       style:
       {
         backgroundColor: "#FFF",
@@ -1282,12 +1175,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
     */
     "radiobutton" :
     {
-      decorator : [
-        qx.ui.decoration.MBorderRadius,
-        qx.ui.decoration.MDoubleBorder,
-        qx.ui.decoration.MBackgroundColor
-      ],
-
       style :
       {
         radius : 10,
@@ -1325,11 +1212,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
 
     "checkbox" :
     {
-      decorator : [
-        qx.ui.decoration.MSingleBorder,
-        qx.ui.decoration.MBackgroundColor
-      ],
-
       style :
       {
         width : 1,
