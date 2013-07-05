@@ -284,12 +284,12 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       var entry = this.__data[source];
 
       var isImageAvailable = function(imgElem) {
-        return (imgElem && imgElem.height !== 0 && imgElem.complete);
+        return (imgElem && imgElem.height !== 0);
       };
 
       // [BUG #7497]: IE11 doesn't properly emit an error event
       // when loading fails so augment success check
-      if (event.type === "load" && isImageAvailable(entry.element))
+      if (event.type === "load" && isImageAvailable(element))
       {
         // Store dimensions
         entry.loaded = true;
