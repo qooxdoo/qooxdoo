@@ -155,9 +155,13 @@ $menu-item-selected-background-color:  #3D72C9;
 
 // Picker 
 
+$picker-spinning-wheel-overlay-color-1:  rgba(#F4F4F4, 1);
+$picker-spinning-wheel-overlay-color-2: rgba(#F4F4F4, 0);
 $picker-spinning-wheel-text-color:  #333333; 
-$picker-spinning-wheel-background-color:  white;
-$picker-highlight-color:  #3D72C9;
+$picker-spinning-wheel-background-color:  #F4F4F4;
+$picker-highlight-color:  rgba(#3D72C9, 0.5);
+$picker-spinning-wheel-border-radius:  4px;
+$picker-spinning-wheel-divider-color:  #888;
 
 // Drawer
 

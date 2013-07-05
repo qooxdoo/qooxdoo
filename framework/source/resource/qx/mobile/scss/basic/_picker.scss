@@ -20,19 +20,7 @@ $label-height:25px;
   transition-duration:.2s;
 }
 
-.picker-slot:first-child:before {
-  content:"";
-
-  position:absolute;
-
-  width:2px;
-  top:-200%;
-  height:500%;
-
-  z-index:1000;
-}
-
-.picker-slot:first-child:after,.picker-slot:nth-child(n+1):after {
+.picker-slot:not(:last-child):after {
   content:""; 
  
   position:absolute;

@@ -657,38 +657,34 @@ $pagination-label-size:8px;
 
 .picker-container {
   background-color: $picker-spinning-wheel-background-color;
+  @include border-radius($picker-spinning-wheel-border-radius);
+}
+
+.picker-slot {
+  @include border-radius($picker-spinning-wheel-border-radius);
 }
 
 .picker-label {
   color:  $picker-spinning-wheel-text-color;
 }
 
-.picker-slot:before {
-  background-color: #888888;
-}
-
 .picker-slot:after {
-  background-color: #888888;
+  background-color: $picker-spinning-wheel-divider-color;
 }
 
 // Spinning Wheel Overlay Gradient
 .picker-container:after {
-  @include gradient-vertical-four(rgba(0,0,0,0.6),rgba(255, 255, 255, 0),rgba(255, 255, 255, 0),rgba(0,0,0,0.6),33%,66%);
+  @include border-radius($picker-spinning-wheel-border-radius);
+  @include gradient-vertical-four($picker-spinning-wheel-overlay-color-1,$picker-spinning-wheel-overlay-color-2,$picker-spinning-wheel-overlay-color-2,$picker-spinning-wheel-overlay-color-1,40%,60%);
 }
 
 // Selected Area Overlay
 .picker-container:before {
-  top: 32px;
-  height: 15px; 
+  top: 35px;
+  height: 23px; 
 
-  background-color:lighten($picker-highlight-color,15%);
-  
-  @include box-shadow(0px 2px 2px rgba(0, 0, 0, 1.0));
-
-  border-top:1px solid black;
-  border-bottom:15px solid $picker-highlight-color;
-
-  opacity:0.4;
+  border-top: 2px solid $picker-highlight-color;
+  border-bottom: 2px solid $picker-highlight-color;
 }
 
 //
