@@ -51,7 +51,63 @@
  * @asset(qx/icon/Tango/16/actions/dialog-cancel.png)
  * @asset(qx/icon/Tango/16/actions/dialog-ok.png)
 
- * @asset(qx/decoration/Modern/*)
+ * @asset(qx/decoration/Modern/cursors/*)
+ *
+ * @asset(qx/decoration/Modern/scrollbar/scrollbar-left.png)
+ * @asset(qx/decoration/Modern/scrollbar/scrollbar-right.png)
+ * @asset(qx/decoration/Modern/scrollbar/scrollbar-up.png)
+ * @asset(qx/decoration/Modern/scrollbar/scrollbar-down.png)
+ *
+ * @asset(qx/decoration/Modern/toolbar/toolbar-handle-knob.gif)
+ *
+ * @asset(qx/decoration/Modern/tree/open-selected.png)
+ * @asset(qx/decoration/Modern/tree/closed-selected.png)
+ * @asset(qx/decoration/Modern/tree/open.png)
+ * @asset(qx/decoration/Modern/tree/closed.png)
+ *
+ * @asset(qx/decoration/Modern/form/checked.png)
+ * @asset(qx/decoration/Modern/form/undetermined.png)
+ * @asset(qx/decoration/Modern/form/tooltip-error-arrow-right.png)
+ * @asset(qx/decoration/Modern/form/tooltip-error-arrow.png)
+ *
+ * @asset(qx/decoration/Modern/window/minimize-active-hovered.png)
+ * @asset(qx/decoration/Modern/window/minimize-active.png)
+ * @asset(qx/decoration/Modern/window/minimize-inactive.png)
+ * @asset(qx/decoration/Modern/window/restore-active-hovered.png)
+ * @asset(qx/decoration/Modern/window/restore-active.png)
+ * @asset(qx/decoration/Modern/window/restore-inactive.png)
+ * @asset(qx/decoration/Modern/window/maximize-active-hovered.png)
+ * @asset(qx/decoration/Modern/window/maximize-active.png)
+ * @asset(qx/decoration/Modern/window/maximize-inactive.png)
+ * @asset(qx/decoration/Modern/window/close-active-hovered.png)
+ * @asset(qx/decoration/Modern/window/close-active.png)
+ * @asset(qx/decoration/Modern/window/close-inactive.png)
+ *
+ * @asset(qx/decoration/Modern/splitpane/knob-horizontal.png)
+ * @asset(qx/decoration/Modern/splitpane/knob-vertical.png)
+ *
+ * @asset(qx/decoration/Modern/arrows/down.png)
+ * @asset(qx/decoration/Modern/arrows/up.png)
+ * @asset(qx/decoration/Modern/arrows/right.png)
+ * @asset(qx/decoration/Modern/arrows/left.png)
+ * @asset(qx/decoration/Modern/arrows/rewind.png)
+ * @asset(qx/decoration/Modern/arrows/forward.png)
+ * @asset(qx/decoration/Modern/arrows/up-invert.png)
+ * @asset(qx/decoration/Modern/arrows/down-invert.png)
+ * @asset(qx/decoration/Modern/arrows/right-invert.png)
+ * @asset(qx/decoration/Modern/arrows/up-small.png)
+ * @asset(qx/decoration/Modern/arrows/down-small.png)
+ *
+ * @asset(qx/decoration/Modern/menu/checkbox-invert.gif)
+ * @asset(qx/decoration/Modern/menu/checkbox.gif)
+ * @asset(qx/decoration/Modern/menu/radiobutton-invert.gif)
+ * @asset(qx/decoration/Modern/menu/radiobutton.gif)
+ *
+ * @asset(qx/decoration/Modern/table/select-column-order.png)
+ * @asset(qx/decoration/Modern/table/ascending.png)
+ * @asset(qx/decoration/Modern/table/descending.png)
+ * @asset(qx/decoration/Modern/table/boolean-true.png)
+ * @asset(qx/decoration/Modern/table/boolean-false.png)
  */
 qx.Theme.define("qx.theme.modern.Appearance",
 {

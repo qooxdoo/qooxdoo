@@ -37,7 +37,7 @@
  * @asset(qx/icon/Oxygen/16/actions/window-close.png)
  * @asset(qx/icon/Oxygen/16/actions/dialog-cancel.png)
  * @asset(qx/icon/Oxygen/16/actions/dialog-ok.png)
-
+ *
  * @asset(qx/decoration/Classic/*)
  */
 qx.Theme.define("qx.theme.classic.Appearance",
