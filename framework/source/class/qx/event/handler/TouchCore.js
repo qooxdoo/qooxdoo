@@ -99,6 +99,9 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     __beginScalingDistance : null,
     __beginRotation : null,
 
+    __longTapTimer : null,
+
+
     /*
     ---------------------------------------------------------------------------
       OBSERVER INIT
