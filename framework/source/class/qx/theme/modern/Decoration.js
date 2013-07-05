@@ -30,7 +30,8 @@
 /**
  * The modern decoration theme.
  *
- * @asset(qx/decoration/Modern/*)
+ * @asset(qx/decoration/Modern/app-header.png)
+ * @asset(qx/decoration/Modern/toolbar/toolbar-part.gif)
  */
 qx.Theme.define("qx.theme.modern.Decoration",
 {
@@ -59,29 +60,10 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       style :
       {
-        backgroundImage  : "decoration/selection.png",
-        backgroundRepeat : "scale"
-      }
-    },
-
-    "selected-css" :
-    {
-      style :
-      {
         startColorPosition : 0,
         endColorPosition : 100,
         startColor : "selected-start",
         endColor : "selected-end"
-      }
-    },
-
-    "selected-dragover" :
-    {
-      style :
-      {
-        backgroundImage  : "decoration/selection.png",
-        backgroundRepeat : "scale",
-        bottom: [2, "solid", "border-dragover"]
       }
     },
 
@@ -109,13 +91,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
     "group" :
     {
       style : {
-        borderImage : "decoration/groupbox/groupbox.png"
-      }
-    },
-
-    "group-css" :
-    {
-      style : {
         backgroundColor : "group-background",
         radius : 4,
         color : "group-border",
@@ -136,7 +111,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     /*
     ---------------------------------------------------------------------------
-      CSS RADIO BUTTON
+      RADIO BUTTON
     ---------------------------------------------------------------------------
     */
     "radiobutton" : {
@@ -284,7 +259,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       TOOLTIP
     ---------------------------------------------------------------------------
     */
-    "tooltip-error-css" :
+    "tooltip-error" :
     {
       style : {
         backgroundColor : "tooltip-error",
@@ -302,7 +277,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
     ---------------------------------------------------------------------------
     */
 
-    "popup-css" :
+    "popup" :
     {
       style :
       {
@@ -321,74 +296,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       SCROLLBAR
     ---------------------------------------------------------------------------
     */
-
     "scrollbar-horizontal" :
-    {
-      style :
-      {
-        backgroundImage : "decoration/scrollbar/scrollbar-bg-horizontal.png",
-        backgroundRepeat : "repeat-x"
-      }
-    },
-
-    "scrollbar-vertical" :
-    {
-      style :
-      {
-        backgroundImage : "decoration/scrollbar/scrollbar-bg-vertical.png",
-        backgroundRepeat : "repeat-y"
-      }
-    },
-
-    "scrollbar-slider-horizontal" :
-    {
-      style : {
-        backgroundImage : "decoration/scrollbar/scrollbar-button-bg-horizontal.png",
-        backgroundRepeat : "scale",
-        color : "border-main",
-        innerColor : "border-inner-scrollbar",
-        width : 1,
-        radius: 2,
-        innerWidth: [0, 1, 1, 0],
-        innerOpacity : 0.5
-      }
-    },
-
-    "scrollbar-slider-horizontal-disabled" :
-    {
-      style : {
-        backgroundImage : "decoration/scrollbar/scrollbar-button-bg-horizontal.png",
-        backgroundRepeat : "scale",
-        color : "border-disabled",
-        innerColor : "border-inner-scrollbar",
-        innerOpacity : 0.3
-      }
-    },
-
-    "scrollbar-slider-vertical" :
-    {
-      style : {
-        backgroundImage : "decoration/scrollbar/scrollbar-button-bg-vertical.png",
-        backgroundRepeat : "scale",
-        color : "border-main",
-        innerColor : "border-inner-scrollbar",
-        innerOpacity : 0.5
-      }
-    },
-
-    "scrollbar-slider-vertical-disabled" :
-    {
-      style : {
-        backgroundImage : "decoration/scrollbar/scrollbar-button-bg-vertical.png",
-        backgroundRepeat : "scale",
-        color : "border-disabled",
-        innerColor : "border-inner-scrollbar",
-        innerOpacity : 0.3
-      }
-    },
-
-    // PLAIN CSS SCROLLBAR
-    "scrollbar-horizontal-css" :
     {
       style : {
         gradientStart : ["scrollbar-start", 0],
@@ -396,14 +304,14 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "scrollbar-vertical-css" : {
-      include : "scrollbar-horizontal-css",
+    "scrollbar-vertical" : {
+      include : "scrollbar-horizontal",
       style : {
         orientation : "horizontal"
       }
     },
 
-    "scrollbar-slider-horizontal-css" :
+    "scrollbar-slider-horizontal" :
     {
       style : {
         gradientStart : ["scrollbar-slider-start", 0],
@@ -414,25 +322,25 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "scrollbar-slider-vertical-css" :
+    "scrollbar-slider-vertical" :
     {
-      include : "scrollbar-slider-horizontal-css",
+      include : "scrollbar-slider-horizontal",
       style : {
         orientation : "horizontal"
       }
     },
 
-    "scrollbar-slider-horizontal-disabled-css" :
+    "scrollbar-slider-horizontal-disabled" :
     {
-      include : "scrollbar-slider-horizontal-css",
+      include : "scrollbar-slider-horizontal",
       style : {
         color : "button-border-disabled"
       }
     },
 
-    "scrollbar-slider-vertical-disabled-css" :
+    "scrollbar-slider-vertical-disabled" :
     {
-      include : "scrollbar-slider-vertical-css",
+      include : "scrollbar-slider-vertical",
       style : {
         color : "button-border-disabled"
       }
@@ -708,15 +616,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "toolbar" :
     {
-      style :
-      {
-        backgroundImage : "decoration/toolbar/toolbar-gradient.png",
-        backgroundRepeat : "scale"
-      }
-    },
-
-    "toolbar-css" :
-    {
       style : {
         startColorPosition : 40,
         endColorPosition : 60,
@@ -730,28 +629,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         color : "border-toolbar-button-outer",
-        innerColor : "border-toolbar-border-inner",
-        backgroundImage : "decoration/form/button-c.png",
-        backgroundRepeat : "scale"
-      }
-    },
-
-    "toolbar-button-checked" :
-    {
-      style :
-      {
-        color : "border-toolbar-button-outer",
-        innerColor : "border-toolbar-border-inner",
-        backgroundImage : "decoration/form/button-checked-c.png",
-        backgroundRepeat : "scale"
-      }
-    },
-
-    "toolbar-button-hovered-css" :
-    {
-      style :
-      {
-        color : "border-toolbar-button-outer",
         width: 1,
         innerWidth: 1,
         innerColor : "border-toolbar-border-inner",
@@ -761,9 +638,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "toolbar-button-checked-css" :
+    "toolbar-button-checked" :
     {
-      include : "toolbar-button-hovered-css",
+      include : "toolbar-button-hovered",
 
       style :
       {
@@ -819,64 +696,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
     "tabview-page-button-top-active" :
     {
       style : {
-        baseImage : "decoration/tabview/tab-button-top-active.png"
-      }
-    },
-
-    "tabview-page-button-top-inactive" :
-    {
-      style : {
-        baseImage : "decoration/tabview/tab-button-top-inactive.png"
-      }
-    },
-
-    "tabview-page-button-bottom-active" :
-    {
-      style : {
-        baseImage : "decoration/tabview/tab-button-bottom-active.png"
-      }
-    },
-
-    "tabview-page-button-bottom-inactive" :
-    {
-      style : {
-        baseImage : "decoration/tabview/tab-button-bottom-inactive.png"
-      }
-    },
-
-    "tabview-page-button-left-active" :
-    {
-      style : {
-        baseImage : "decoration/tabview/tab-button-left-active.png"
-      }
-    },
-
-    "tabview-page-button-left-inactive" :
-    {
-      style : {
-        baseImage : "decoration/tabview/tab-button-left-inactive.png"
-      }
-    },
-
-    "tabview-page-button-right-active" :
-    {
-      style : {
-        baseImage : "decoration/tabview/tab-button-right-active.png"
-      }
-    },
-
-    "tabview-page-button-right-inactive" :
-    {
-      style : {
-        baseImage : "decoration/tabview/tab-button-right-inactive.png"
-      }
-    },
-
-
-    // CSS TABVIEW BUTTONS
-    "tabview-page-button-top-active-css" :
-    {
-      style : {
         radius : [3, 3, 0, 0],
         width: [1, 1, 0, 1],
         color: "tabview-background",
@@ -887,7 +706,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "tabview-page-button-top-inactive-css" :
+    "tabview-page-button-top-inactive" :
     {
       style : {
         radius : [3, 3, 0, 0],
@@ -899,9 +718,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "tabview-page-button-bottom-active-css" :
+    "tabview-page-button-bottom-active" :
     {
-      include : "tabview-page-button-top-active-css",
+      include : "tabview-page-button-top-active",
 
       style : {
         radius : [0, 0, 3, 3],
@@ -912,9 +731,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "tabview-page-button-bottom-inactive-css" :
+    "tabview-page-button-bottom-inactive" :
     {
-      include : "tabview-page-button-top-inactive-css",
+      include : "tabview-page-button-top-inactive",
 
       style : {
         radius : [0, 0, 3, 3],
@@ -924,9 +743,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "tabview-page-button-left-active-css" :
+    "tabview-page-button-left-active" :
     {
-      include : "tabview-page-button-top-active-css",
+      include : "tabview-page-button-top-active",
 
       style : {
         radius : [3, 0, 0, 3],
@@ -936,9 +755,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "tabview-page-button-left-inactive-css" :
+    "tabview-page-button-left-inactive" :
     {
-      include : "tabview-page-button-top-inactive-css",
+      include : "tabview-page-button-top-inactive",
 
       style : {
         radius : [3, 0, 0, 3],
@@ -948,9 +767,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "tabview-page-button-right-active-css" :
+    "tabview-page-button-right-active" :
     {
-      include : "tabview-page-button-top-active-css",
+      include : "tabview-page-button-top-active",
 
       style : {
         radius : [0, 3, 3, 0],
@@ -960,9 +779,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "tabview-page-button-right-inactive-css" :
+    "tabview-page-button-right-inactive" :
     {
-      include : "tabview-page-button-top-inactive-css",
+      include : "tabview-page-button-top-inactive",
 
       style : {
         radius : [0, 3, 3, 0],
@@ -1003,43 +822,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       WINDOW
     ---------------------------------------------------------------------------
     */
-
     "window" :
-    {
-      style :
-      {
-        backgroundColor : "background-pane",
-
-        width : 1,
-        color : "border-main",
-        widthTop : 0
-      }
-    },
-
-    "window-captionbar-active" :
-    {
-      style : {
-        baseImage : "decoration/window/captionbar-active.png"
-      }
-    },
-
-    "window-captionbar-inactive" :
-    {
-      style : {
-        baseImage : "decoration/window/captionbar-inactive.png"
-      }
-    },
-
-    "window-statusbar" :
-    {
-      style : {
-        baseImage : "decoration/window/statusbar.png"
-      }
-    },
-
-
-    // CSS WINDOW
-    "window-css" :
     {
       style : {
         radius : [5, 5, 0, 0],
@@ -1049,14 +832,14 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "window-incl-statusbar-css" : {
-       include : "window-css",
+    "window-incl-statusbar" : {
+       include : "window",
        style : {
          radius : [5, 5, 5, 5]
        }
     },
 
-    "window-resize-frame-css" :
+    "window-resize-frame" :
     {
       style : {
         radius : [5, 5, 0, 0],
@@ -1065,15 +848,15 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "window-resize-frame-incl-statusbar-css" :
+    "window-resize-frame-incl-statusbar" :
     {
-       include : "window-resize-frame-css",
+       include : "window-resize-frame",
        style : {
          radius : [5, 5, 5, 5]
        }
     },
 
-    "window-captionbar-active-css" :
+    "window-captionbar-active" :
     {
       style : {
         width : 1,
@@ -1085,16 +868,16 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "window-captionbar-inactive-css" :
+    "window-captionbar-inactive" :
     {
-      include : "window-captionbar-active-css",
+      include : "window-captionbar-active",
       style : {
         gradientStart : ["window-caption-inactive-start", 30],
         gradientEnd : ["window-caption-inactive-end", 70]
       }
     },
 
-    "window-statusbar-css" :
+    "window-statusbar" :
     {
       style : {
         backgroundColor : "window-statusbar-background",
@@ -1104,7 +887,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "window-pane-css" :
+    "window-pane" :
     {
       style :
       {
@@ -1144,19 +927,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
     },
 
     "table-scroller-header" :
-    {
-      style :
-      {
-        backgroundImage  : "decoration/table/header-cell.png",
-        backgroundRepeat : "scale",
-
-        widthBottom : 1,
-        colorBottom : "border-main",
-        style       : "solid"
-      }
-    },
-
-    "table-scroller-header-css" :
     {
       style :
       {
@@ -1227,19 +997,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       style :
       {
-        backgroundImage  : "decoration/table/header-cell.png",
-        backgroundRepeat : "scale",
-
-        widthRight : 1,
-        colorRight : "progressive-table-header-border-right",
-        style      : "solid"
-      }
-    },
-
-    "progressive-table-header-cell-css" :
-    {
-      style :
-      {
         gradientStart : ["table-header-start", 10],
         gradientEnd : ["table-header-end", 90],
 
@@ -1256,19 +1013,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
     */
 
     "menu" :
-    {
-      style :
-      {
-        backgroundImage  : "decoration/menu/background.png",
-        backgroundRepeat : "scale",
-
-        width : 1,
-        color : "border-main",
-        style : "solid"
-      }
-    },
-
-    "menu-css" :
     {
       style : {
         gradientStart : ["menu-start", 0],
@@ -1301,19 +1045,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
     */
 
     "menubar" :
-    {
-      style :
-      {
-        backgroundImage  : "decoration/menu/bar-background.png",
-        backgroundRepeat : "scale",
-
-        width : 1,
-        color : "border-separator",
-        style : "solid"
-      }
-    },
-
-    "menubar-css" :
     {
       style :
       {
@@ -1364,15 +1095,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
     */
 
     "group-item" :
-    {
-      style :
-      {
-        backgroundImage  : "decoration/group-item.png",
-        backgroundRepeat : "scale"
-      }
-    },
-
-    "group-item-css" :
     {
       style :
       {
