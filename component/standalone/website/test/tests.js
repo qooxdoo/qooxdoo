@@ -1180,6 +1180,10 @@ testrunner.define({
     test.setHtml("affe");
     this.assertEquals("affe", test[0].innerHTML);
     this.assertEquals("affe", test.getHtml());
+
+    this.sandbox.setHtml("<div id='one'/><div id='two'></div>");
+    this.assertEquals(0, q("#sandbox > #one > #two").length);
+    this.assertEquals(1, q("#sandbox > #two").length);
   },
 
   testAttribute : function() {

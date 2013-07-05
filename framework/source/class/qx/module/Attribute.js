@@ -45,6 +45,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * @return {qxWeb} The collection for chaining
      */
     setHtml : function(html) {
+      html = qx.bom.Html.fixEmptyTags(html);
       for (var i=0; i < this.length; i++) {
         qx.bom.element.Attribute.set(this[i], "html", html);
       };
