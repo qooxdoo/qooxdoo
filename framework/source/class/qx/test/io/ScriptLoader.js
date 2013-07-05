@@ -67,14 +67,18 @@ qx.Class.define("qx.test.io.ScriptLoader",
       var url = this.getUrl("qx/test/xmlhttp/404.php");
 
       this.loader.load(url, function(status) { this.resume(function() {
-        if (qx.core.Environment.get("engine.name") == "mshtml" || (qx.core.Environment.get("engine.name") == "webkit" &&
-          parseFloat(qx.core.Environment.get("engine.version")) < 531)) {
-          // Error state does not work in IE and Safari 3!
+          var isIE = (qx.core.Environment.get("engine.name") == "mshtml");
+
+          var isIELower11 = isIE &&
+            parseInt(qx.core.Environment.get("engine.version"), 10) < 11;
+
+        if (isIELower11) {
+          // Error state does not work in IE<11!
           this.assertEquals("success", status);
         } else {
           this.assertEquals("fail", status);
         }
-      }, this)}, this);
+      }); }, this);
 
       this.wait();
     },
@@ -86,18 +90,23 @@ qx.Class.define("qx.test.io.ScriptLoader",
       this.require(["notOpera"]);
 
       var protocol = location.protocol;
-      if (protocol.indexOf("file:") == 0) {
-        protocol = "http:"
+      if (protocol.indexOf("file:") === 0) {
+        protocol = "http:";
       }
       this.loader.load(protocol + "//qooxdoo.org/foo.js", function(status)
       {
         this.resume(function()
         {
-          var isSafari3 = qx.core.Environment.get("engine.name") == "webkit" &&
-            parseFloat(qx.core.Environment.get("engine.version")) < 530;
+          var isSafari3 = (qx.core.Environment.get("engine.name") == "webkit" &&
+            parseFloat(qx.core.Environment.get("engine.version")) < 530);
 
-          if (qx.core.Environment.get("engine.name") == "mshtml" || isSafari3) {
-            // Error state does not work in IE!
+          var isIE = (qx.core.Environment.get("engine.name") == "mshtml");
+
+          var isIELower11 = isIE &&
+            parseInt(qx.core.Environment.get("engine.version"), 10) < 11;
+
+          if (isIELower11 || isSafari3) {
+            // Error state does not work in IE<11 and Safari 3!
             this.assertEquals("success", status);
           } else {
             this.assertEquals("fail", status);

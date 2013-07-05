@@ -225,19 +225,19 @@ qx.Bootstrap.define("qx.io.ScriptLoader",
       var engineName = qx.bom.client.Engine.getName();
 
       // IE only
-      if (engineName == "mshtml") {
+      if (engineName === "mshtml") {
         var state = this.__elem.readyState;
 
-        if (state == "loaded") {
+        if (state === "loaded" || state === "complete" || (e && e.type === "load")) {
           this.dispose("success");
-        } else if (state == "complete") {
-         this.dispose("success");
+        } else if (e && e.type === "error") {
+          this.dispose("fail");
         } else {
           return;
         }
 
       // opera only
-      } else if (engineName == "opera") {
+      } else if (engineName === "opera") {
         if (qx.Bootstrap.isString(e) || e.type === "error") {
           return this.dispose("fail");
         } else if (e.type === "load") {
