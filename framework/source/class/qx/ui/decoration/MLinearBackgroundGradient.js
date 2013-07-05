@@ -29,10 +29,13 @@
  * * IE 10+
  * * IE 5.5+ (with limitations)
  *
- * For IE 5.5 to IE 9,this class uses the filter rules to create the gradient. This
+ * For IE 5.5 to IE 8,this class uses the filter rules to create the gradient. This
  * has some limitations: The start and end position property can not be used. For
  * more details, see the original documentation:
  * http://msdn.microsoft.com/en-us/library/ms532997(v=vs.85).aspx
+ *
+ * For IE9, we create a gradient in a canvas element and render this gradient
+ * as background image.
  */
 qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
 {
