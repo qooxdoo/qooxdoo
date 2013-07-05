@@ -185,12 +185,11 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       var containerElement = this.base(arguments);
 
       var showSelectionDialog = qx.lang.Function.bind(this.__showSelectionDialog, this);
-      qx.bom.Event.addNativeListener(containerElement, "tap", showSelectionDialog, false);
-      qx.bom.Event.addNativeListener(containerElement, "click", showSelectionDialog, false);
+      qx.bom.Event.addNativeListener(containerElement, "touchend", showSelectionDialog, false);
 
       qx.bom.Event.addNativeListener(containerElement, "click", qx.bom.Event.preventDefault, false);
-      qx.bom.Event.addNativeListener(containerElement, "tap", qx.bom.Event.preventDefault, false);
-
+      qx.bom.Event.addNativeListener(containerElement, "touchstart", qx.bom.Event.preventDefault, false);
+      
       return containerElement;
     },
 

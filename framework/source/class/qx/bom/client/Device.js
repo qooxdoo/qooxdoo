@@ -100,7 +100,7 @@ qx.Bootstrap.define("qx.bom.client.Device",
      * @return {Boolean} Flag which indicates whether it is a mobile device.
      */
     detectMobileDevice : function(userAgentString){
-        return /android.+mobile|ip(hone|od)|bada\/|blackberry|maemo|opera m(ob|in)i|fennec|NetFront|phone|psp|symbian|IEMobile|windows (ce|phone)|xda/i.test(userAgentString);
+        return /android.+mobile|ip(hone|od)|bada\/|blackberry|BB10|maemo|opera m(ob|in)i|fennec|NetFront|phone|psp|symbian|IEMobile|windows (ce|phone)|xda/i.test(userAgentString);
     },
 
 
