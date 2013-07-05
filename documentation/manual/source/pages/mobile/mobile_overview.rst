@@ -65,7 +65,7 @@ To create a mobile application ``mobileapp`` in your home directory with your sh
 
 :: 
 
-    /opt/qooxdoo-%{version}-sdk/tool/bin/create-application.py --type=mobile --name=mobileapp --out=.
+    /opt/qooxdoo-%{version}-sdk/create-application.py --type=mobile --name=mobileapp --out=.
 
 Have a look into the API documentation of `qx.ui.mobile.page.Page <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile.page.Page>`_
 to understand the basic concepts of qooxdoo mobile.
