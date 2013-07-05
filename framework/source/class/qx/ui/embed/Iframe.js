@@ -367,7 +367,7 @@ qx.Class.define("qx.ui.embed.Iframe",
 
   destruct : function()
   {
-    if (this.getLayoutParent()) {
+    if (this.getLayoutParent() && this.__blockerElement.getParent()) {
       this.getLayoutParent().getContentElement().remove(this.__blockerElement);
     }
     this._disposeObjects("__blockerElement");
