@@ -28,8 +28,6 @@
 
 /**
  * The classic qooxdoo decoration theme.
- *
- * @asset(qx/decoration/Classic/*)
  */
 qx.Theme.define("qx.theme.classic.Decoration",
 {
