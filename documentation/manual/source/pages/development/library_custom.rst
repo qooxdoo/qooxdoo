@@ -6,6 +6,15 @@ second application that could re-use some of the code of the first, you start
 thinking about factoring code out into separately manageable units. This is when
 you create dedicated libraries.
 
+In %{qooxdoo} *all code* is organized in :doc:`libraries
+</pages/development/code_organisation>`. Also the code tree that holds your
+application's main class is, conceptually, a library. So even in the simplest
+skeleton you are already working *in* a library (the skeleton), *with* a library
+(the framework classes). Creating and using further libraries is only a
+repetition of that.
+
+.. _pages/development/library_custom#creating_a_custom_library:
+
 Creating a Custom Library
 =========================
 
@@ -21,6 +30,8 @@ If you don't plan to develop a small demo application along with the library
 classes, you could put away with the *Application.js* file that is part of every
 skeleton by default. But you could just as well keep this file, as it allows you
 to build an application in your library directly (also see further).
+
+.. _pages/development/library_custom#using_the_library:
 
 Using the Library
 =================
@@ -75,6 +86,8 @@ in the library directly. You can still run other jobs that do not create an
 application from your code, like "api", "test" or "lint".
 
 
+.. _pages/development/library_custom#sharing_a_namespace:
+
 Sharing a Namespace
 ===================
 
@@ -118,3 +131,22 @@ adapt any location referencing *Foo* in other code (like in *"var c = new
 myapp.model.Foo();"*). But strictly speaking the class was formerly allocated in
 a namespace *myapp* with a path of *model/Foo.js*, while now it is allocated in
 a namespace *myapp.model* with a path of *Foo.js*. 
+
+
+.. _pages/development/library_custom#speed_up_cold_cache:
+
+Speed up Cold-Cache Compile Time
+=================================
+
+Once you have settled in using an own library and the library's code is stable
+you can speed up usage of the library classes by running the
+:ref:`pages/tool/generator/generator_default_jobs#dependencies` job. This will
+create a file with dependency information for the library which can be used to
+compile your main application. (The SDK comes with such a file pre-compiled for
+the framework classes.) You can then work in your main application, even run
+*clean* and *distclean* jobs but the dependency information for your library
+will pertain. 
+
+The file will not be used, though, if you again modify code in the library,
+to make sure the information is always current. But you can re-run the
+*dependencies* job after a while when the code has stabilized.

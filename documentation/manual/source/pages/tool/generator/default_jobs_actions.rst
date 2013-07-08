@@ -68,6 +68,21 @@ clean
 -----
 Remove local cache and generated .js files (source/build).
 
+.. _pages/tool/generator/generator_default_jobs#dependencies:
+
+dependencies
+----------------
+
+Create dependency information for the current library which is stored as a Json
+file (under *source/script/dependencies.json*). If this file exists and is
+current, the Generator will use its information when following dependencies of
+the classes of the library. 
+
+This is particularly interesting for libraries that are used in other
+applications. It allows you to speed up cold-cache builds for the other
+application. (Mind that it doesn't make much sense for the application itself,
+as a *generate.py clean* or *distclean* will also wipe the dependencies Json file).
+
 .. _pages/tool/generator/generator_default_jobs#distclean:
 
 distclean
