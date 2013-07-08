@@ -186,28 +186,38 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
 
       // old IE filter fallback
       } else if (qx.core.Environment.get("css.gradient.filter") &&
-        !qx.core.Environment.get("css.gradient.linear")) {
+        !qx.core.Environment.get("css.gradient.linear"))
+      {
+        var colors = this.__getColors();
+        var type = this.getOrientation() == "horizontal" ? 1 : 0;
 
-          var colors = this.__getColors();
-          var type = this.getOrientation() == "horizontal" ? 1 : 0;
+        // convert all hex3 to hex6
+        var startColor = qx.util.ColorUtil.hex3StringToHex6String(colors.start);
+        var endColor = qx.util.ColorUtil.hex3StringToHex6String(colors.end);
 
-          // convert all hex3 to hex6
-          var startColor = qx.util.ColorUtil.hex3StringToHex6String(colors.start);
-          var endColor = qx.util.ColorUtil.hex3StringToHex6String(colors.end);
+        // get rid of the starting '#'
+        startColor = startColor.substring(1, startColor.length);
+        endColor = endColor.substring(1, endColor.length);
 
-          // get rid of the starting '#'
-          startColor = startColor.substring(1, startColor.length);
-          endColor = endColor.substring(1, endColor.length);
+        value = "progid:DXImageTransform.Microsoft.Gradient" +
+          "(GradientType=" + type + ", " +
+          "StartColorStr='#FF" + startColor + "', " +
+          "EndColorStr='#FF" + endColor + "';)";
+        if (styles["filter"]) {
+          styles["filter"] += ", " + value;
+        } else {
+          styles["filter"] = value;
+        }
 
-          value = "progid:DXImageTransform.Microsoft.Gradient" +
-            "(GradientType=" + type + ", " +
-            "StartColorStr='#FF" + startColor + "', " +
-            "EndColorStr='#FF" + endColor + "';)";
-          if (styles["filter"]) {
-            styles["filter"] += ", " + value;
-          } else {
-            styles["filter"] = value;
-          }
+        // Elements with transparent backgrounds will not receive receive mouse
+        // events if a Gradient filter is set.
+        if (!styles["background-color"] ||
+            styles["background-color"] == "transparent")
+        {
+          // We don't support alpha transparency for the gradient color stops
+          // so it doesn't matter which color we set here.
+          styles["background-color"] = "white";
+        }
 
       // spec like syntax
       } else {
