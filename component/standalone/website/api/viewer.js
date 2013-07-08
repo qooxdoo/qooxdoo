@@ -70,6 +70,9 @@ q.ready(function() {
       if (location.hash) {
         location.href = location.href;
         __lastHashChange = Date.now();
+        // [BUG #7518] initial scroll to hash (again) on first page load
+        // cause sample loading screwed scroll position slightly up
+        fixScrollPosition();
       }
       else {
         // force a scroll event so the topmost module's samples are loaded
