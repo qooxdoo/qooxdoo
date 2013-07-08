@@ -140,12 +140,12 @@ qx.Bootstrap.define("qx.bom.client.Device",
     getTouch : function() {
       return ("ontouchstart" in window) || window.navigator.msMaxTouchPoints > 1;
     }
-
   },
 
 
   defer : function(statics) {
       qx.core.Environment.add("device.name", statics.getName);
+      qx.core.Environment.add("device.touch", statics.getTouch);
       qx.core.Environment.add("device.type", statics.getType);
       qx.core.Environment.add("device.pixelRatio", statics.getDevicePixelRatio);
   }

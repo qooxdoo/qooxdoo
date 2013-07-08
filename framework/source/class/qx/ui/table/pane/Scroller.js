@@ -866,7 +866,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       } else if (delta < 0 && delta > -1) {
         delta = -1;
       }
-      if (qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse")) {
+      if (qx.core.Environment.get("device.touch") && qx.core.Environment.get("qx.emulatemouse")) {
         this.__verScrollBar.scrollBy(delta);
       } else {
         this.__verScrollBar.scrollBySteps(delta);
@@ -882,7 +882,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       } else if (delta < 0 && delta > -1) {
         delta = -1;
       }
-      if (qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse")) {
+      if (qx.core.Environment.get("device.touch") && qx.core.Environment.get("qx.emulatemouse")) {
         this.__horScrollBar.scrollBy(delta);
       } else {
         this.__horScrollBar.scrollBySteps(delta);

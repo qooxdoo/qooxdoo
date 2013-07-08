@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     this.addListener("mouseover", this._onMouseOver, this);
     this.addListener("mouseout", this._onMouseOut, this);
     this.addListener("click", this._onClick, this);
-    if (!(qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse"))) {
+    if (!(qx.core.Environment.get("device.touch") && qx.core.Environment.get("qx.emulatemouse"))) {
       this.addListener("mousewheel", this._onMouseWheel, this);
     }
 

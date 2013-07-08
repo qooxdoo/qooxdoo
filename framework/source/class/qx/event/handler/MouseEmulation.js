@@ -388,7 +388,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
 
   destruct : function()
   {
-    if (qx.core.Environment.get("qx.emulatemouse")) {
+    if (qx.core.Environment.get("qx.emulatemouse") && qx.core.Environment.get("device.touch")) {
       this._stopObserver();
     }
 

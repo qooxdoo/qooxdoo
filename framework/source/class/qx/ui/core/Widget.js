@@ -3025,8 +3025,7 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyDraggable : function(value, old)
     {
-      var hasTouch = qx.core.Environment.get("event.touch") || qx.core.Environment.get("event.mspointer");
-      if (hasTouch && qx.core.Environment.get("qx.emulatemouse")) {
+      if (qx.core.Environment.get("qx.emulatemouse") && qx.core.Environment.get("device.touch")) {
         return;
       }
       if (!this.isEnabled() && value === true) {

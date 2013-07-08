@@ -139,7 +139,7 @@ qx.Class.define("qx.ui.form.TextArea",
       var contentElement = this.getContentElement();
       var scrollY = contentElement.getScrollY();
 
-      if (qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse")) {
+      if (qx.core.Environment.get("device.touch") && qx.core.Environment.get("qx.emulatemouse")) {
         contentElement.scrollToY(scrollY + e.getWheelDelta("y"));
       } else {
         contentElement.scrollToY(scrollY + e.getWheelDelta("y") * this.getSingleStep());

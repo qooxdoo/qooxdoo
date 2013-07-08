@@ -49,7 +49,7 @@ qx.Mixin.define("qx.ui.core.scroll.MWheelHandling",
 
       // y case
       if (scrollbarY) {
-        if (qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse")) {
+        if (qx.core.Environment.get("device.touch") && qx.core.Environment.get("qx.emulatemouse")) {
           scrollbarY.scrollBy(parseInt(deltaY));
         } else {
           var steps = parseInt(deltaY);
@@ -71,7 +71,7 @@ qx.Mixin.define("qx.ui.core.scroll.MWheelHandling",
 
       // x case
       if (scrollbarX) {
-        if (qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse")) {
+        if (qx.core.Environment.get("device.touch") && qx.core.Environment.get("qx.emulatemouse")) {
           scrollbarX.scrollBySteps(deltaX);
         } else {
           var steps = parseInt(deltaX);

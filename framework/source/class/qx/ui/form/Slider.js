@@ -329,7 +329,7 @@ qx.Class.define("qx.ui.form.Slider",
       var axis = this.getOrientation() === "horizontal" ? "x" : "y";
       var delta = e.getWheelDelta(axis);
 
-      if (qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse")) {
+      if (qx.core.Environment.get("device.touch") && qx.core.Environment.get("qx.emulatemouse")) {
         this.slideBy(delta);
       } else {
         var direction =  delta > 0 ? 1 : delta < 0 ? -1 : 0;

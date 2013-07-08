@@ -364,7 +364,7 @@ qx.Class.define("qx.ui.container.SlideBar",
           e.stop();
         }
       }
-      if (qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse")) {
+      if (qx.core.Environment.get("device.touch") && qx.core.Environment.get("qx.emulatemouse")) {
         this.scrollBy(delta);
       } else {
         this.scrollBy(delta * this.getScrollStep());

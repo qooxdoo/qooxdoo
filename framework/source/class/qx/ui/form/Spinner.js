@@ -94,7 +94,7 @@ qx.Class.define("qx.ui.form.Spinner",
     // EVENTS
     this.addListener("keydown", this._onKeyDown, this);
     this.addListener("keyup", this._onKeyUp, this);
-    if (!(qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse"))) {
+    if (!(qx.core.Environment.get("device.touch") && qx.core.Environment.get("qx.emulatemouse"))) {
       this.addListener("mousewheel", this._onMouseWheel, this);
     }
 
