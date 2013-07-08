@@ -169,6 +169,10 @@
  *       <td>{@link qx.bom.client.CssTransform#get3D}</td>
  *     </tr>
  *     <tr>
+ *       <td>css.transition</td><td><i>Object</i> or <i>null</i></td><td><code>{end-event: "webkitTransitionEnd", name: "WebkitTransition"}</code></td>
+ *       <td>{@link qx.bom.client.CssTransition#getSupport}</td>
+ *     </tr>
+ *     <tr>
  *       <td>css.inlineblock</td><td><i>String</i> or <i>null</i></td><td><code>inline-block</code></td>
  *       <td>{@link qx.bom.client.Css#getInlineBlock}</td>
  *     </tr>
@@ -904,6 +908,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "css.animation.requestframe" : "qx.bom.client.CssAnimation.getRequestAnimationFrame",
       "css.transform" : "qx.bom.client.CssTransform.getSupport",
       "css.transform.3d" : "qx.bom.client.CssTransform.get3D",
+      "css.transition" : "qx.bom.client.CssTransition.getSupport",
       "css.inlineblock" : "qx.bom.client.Css.getInlineBlock",
       "css.opacity" : "qx.bom.client.Css.getOpacity",
       "css.textShadow" : "qx.bom.client.Css.getTextShadow",

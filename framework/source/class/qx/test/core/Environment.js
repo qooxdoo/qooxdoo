@@ -503,10 +503,11 @@ qx.Class.define("qx.test.core.Environment",
     },
 
 
-    testAnimationAndTransform : function() {
+    testAnimationTransformTransition : function() {
       // smoke test... make sure the method is doing something
       qx.core.Environment.get("css.animation");
       qx.core.Environment.get("css.transform");
+      qx.core.Environment.get("css.transition");
 
       // 3d transform support
       this.assertBoolean(qx.core.Environment.get("css.transform.3d"));
