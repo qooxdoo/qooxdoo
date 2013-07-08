@@ -108,6 +108,8 @@
  * @asset(qx/decoration/Modern/table/descending.png)
  * @asset(qx/decoration/Modern/table/boolean-true.png)
  * @asset(qx/decoration/Modern/table/boolean-false.png)
+ *
+ * @asset(qx/decoration/Modern/colorselector/*)
  */
 qx.Theme.define("qx.theme.modern.Appearance",
 {
