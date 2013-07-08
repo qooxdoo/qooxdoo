@@ -331,54 +331,54 @@ q.ready(function() {
   };
 
 
-   var renderModule = function(name, data, prefix) {
-     // render module desc
-     var module = q.create("<div class='module'>").appendTo("#content");
-     module.append(q.create("<h1 id='" + name + "'>" + name + "</h1>"));
+  var renderModule = function(name, data, prefix) {
+    // render module desc
+    var module = q.create("<div class='module'>").appendTo("#content");
+    module.append(q.create("<h1 id='" + name + "'>" + name + "</h1>"));
 
-     if (data.superclass) {
-       var newName = data.superclass.split(".");
-       newName = newName[newName.length -1];
-       module.append(q.create(
-         "<div class='extends'><h2>Extends</h2>" +
-         "<a href='#" + newName + "'>" + newName + "</a>" +
-         "</div>"
-       ));
-     }
+    if (data.superclass) {
+      var newName = data.superclass.split(".");
+      newName = newName[newName.length -1];
+      module.append(q.create(
+        "<div class='extends'><h2>Extends</h2>" +
+        "<a href='#" + newName + "'>" + newName + "</a>" +
+        "</div>"
+      ));
+    }
 
-     if (data.fileName) {
-       addClassDoc(data.fileName, module);
-     } else if (data.desc) {
-       module.append(parse(data.desc));
-     } else if (name == "Core") {
-       module.append(parse(desc));
-     }
+    if (data.fileName) {
+      addClassDoc(data.fileName, module);
+    } else if (data.desc) {
+      module.append(parse(data.desc));
+    } else if (name == "Core") {
+      module.append(parse(desc));
+    }
 
-     if (data.events) {
-       var eventsEl = renderEvents(data.events);
-       if (eventsEl) {
-         module.append(eventsEl);
-       }
-     }
+    if (data.events) {
+      var eventsEl = renderEvents(data.events);
+      if (eventsEl) {
+        module.append(eventsEl);
+      }
+    }
 
-     if (data.types) {
-       var types = JSON.parse(data.types);
-       for (var i=0; i < types.length; i++) {
-         if (types[i] == "*") {
-           types[i] = "all";
-         }
-       }
-       var typesEl = renderTypes(types);
-       module.append(typesEl);
-     }
+    if (data.types) {
+      var types = JSON.parse(data.types);
+      for (var i=0; i < types.length; i++) {
+        if (types[i] == "*") {
+          types[i] = "all";
+        }
+      }
+      var typesEl = renderTypes(types);
+      module.append(typesEl);
+    }
 
-     data["static"].forEach(function(method) {
-       module.append(renderMethod(method, prefix));
-     });
-     data["member"].forEach(function(method) {
-       module.append(renderMethod(method, prefix));
-     });
-   };
+    data["static"].forEach(function(method) {
+      module.append(renderMethod(method, prefix));
+    });
+    data["member"].forEach(function(method) {
+      module.append(renderMethod(method, prefix));
+    });
+  };
 
 
   var renderMethod = function(method, prefix) {
