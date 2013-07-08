@@ -95,48 +95,10 @@ qx.Class.define("qx.event.handler.Transition",
     IGNORE_CAN_HANDLE : true,
 
     /** Mapping of supported event types to native event types */
-    TYPE_TO_NATIVE : qx.core.Environment.select("engine.name",
-    {
-      "webkit" :
-      {
-        transitionEnd : "webkitTransitionEnd",
-        animationEnd : "webkitAnimationEnd",
-        animationStart : "webkitAnimationStart",
-        animationIteration : "webkitAnimationIteration"
-      },
-
-      "gecko" :
-      {
-        transitionEnd : "transitionend",
-        animationEnd : "animationend",
-        animationStart : "animationstart",
-        animationIteration : "animationiteration"
-      },
-
-      "default" : null
-    }),
+    TYPE_TO_NATIVE : null,
 
     /** Mapping of native event types to supported event types */
-    NATIVE_TO_TYPE : qx.core.Environment.select("engine.name",
-    {
-      "webkit" :
-      {
-        webkitTransitionEnd : "transitionEnd",
-        webkitAnimationEnd : "animationEnd",
-        webkitAnimationStart : "animationStart",
-        webkitAnimationIteration : "animationIteration"
-      },
-
-      "gecko" :
-      {
-        transitionend : "transitionEnd",
-        animationend : "animationEnd",
-        animationstart : "animationStart",
-        animationiteration : "animationIteration"
-      },
-
-      "default" : null
-    })
+    NATIVE_TO_TYPE : null
   },
 
 
@@ -291,6 +253,22 @@ qx.Class.define("qx.event.handler.Transition",
   */
 
   defer : function(statics) {
+    var aniEnv = qx.core.Environment.get("css.animation");
+    var transEnv = qx.core.Environment.get("css.transition");
+
+    var n2t = qx.event.handler.Transition.NATIVE_TO_TYPE = {};
+    var t2n = qx.event.handler.Transition.TYPE_TO_NATIVE = {
+      transitionEnd : transEnv["end-event"] || null,
+      animationStart : aniEnv["start-event"] || null,
+      animationEnd : aniEnv["end-event"] || null,
+      animationIteration : aniEnv["iteration-event"] || null
+    };
+
+    for (var type in t2n) {
+      var nate = t2n[type];
+      n2t[nate] = type;
+    }
+
     qx.event.Registration.addHandler(statics);
   }
 });
