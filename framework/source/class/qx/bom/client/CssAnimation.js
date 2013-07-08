@@ -109,7 +109,7 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
         "MozAnimation" : "animationstart",
         "OAnimation" : "oAnimationStart",
         "animation" : "animationstart"
-      }
+      };
 
       return mapping[this.getName()];
     },
