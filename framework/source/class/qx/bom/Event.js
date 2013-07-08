@@ -261,14 +261,18 @@ qx.Bootstrap.define("qx.bom.Event",
      * Useful for testing for support of new features like
      * touch events, gesture events, orientation change, on/offline, etc.
      *
-     * @signature function(target, type)
+     * *NOTE:* This check is *case-insensitive*.
+     * <code>supportsEvent(window, "cLicK")</code> will return <code>true</code>
+     * but <code>window.addEventListener("cLicK", callback)</code> will fail
+     * silently!
+     *
      * @param target {var} Any valid target e.g. window, dom node, etc.
      * @param type {String} Type of the event e.g. click, mousedown
      * @return {Boolean} Whether the given event is supported
      */
     supportsEvent : function(target, type)
     {
-      // Using the lowercase representation is important for the 
+      // Using the lowercase representation is important for the
       // detection of events like 'MSPointer*'. They have to detected
       // using the lower case name of the event.
       var eventName = "on" + type.toLowerCase();
@@ -289,6 +293,30 @@ qx.Bootstrap.define("qx.bom.Event",
       }
 
       return supportsEvent;
+    },
+
+
+    /**
+     * Returns the (possibly vendor-prefixed) name of the given event type.
+     * *NOTE:* Incorrect capitalization of type names will *not* be corrected. See
+     * {@link #supportsEvent} for details.
+     *
+     * @param target {var} Any valid target e.g. window, dom node, etc.
+     * @param type {String} Type of the event e.g. click, mousedown
+     * @return {String|null} Event name or <code>null</code> if the event is not
+     * supported.
+     */
+    getEventName : function(target, type)
+    {
+      var pref = [""].concat(qx.bom.Style.VENDOR_PREFIXES);
+      for (var i=0, l=pref.length; i<l; i++) {
+        var prefix = pref[i].toLowerCase();
+        if (qx.bom.Event.supportsEvent(target, prefix + type)) {
+          return prefix ? prefix + qx.lang.String.firstUp(type) : type;
+        }
+      }
+
+      return null;
     }
   }
 });
