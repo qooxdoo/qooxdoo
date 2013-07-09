@@ -253,8 +253,8 @@ qx.Class.define("qx.event.handler.Transition",
   */
 
   defer : function(statics) {
-    var aniEnv = qx.core.Environment.get("css.animation");
-    var transEnv = qx.core.Environment.get("css.transition");
+    var aniEnv = qx.core.Environment.get("css.animation") || {};
+    var transEnv = qx.core.Environment.get("css.transition") || {};
 
     var n2t = qx.event.handler.Transition.NATIVE_TO_TYPE = {};
     var t2n = qx.event.handler.Transition.TYPE_TO_NATIVE = {
