@@ -29,10 +29,16 @@ Let's get started! As %{Website} is a simple %{JS} file, we first need to `downl
     <body>
     </body>
   </html>
+  
+You can also use a version on a CDN. To do so, just include the following code instead of referencing the local script
+
+.. code-block:: html
+
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/qooxdoo/%{version}/q.min.js"></script>
 
 Having done that, you can load the page in your favorite browser and check if the title is there and the %{Website} library has been loaded. For instance, simply open a JavaScript console in your browser and see if ``q`` is defined. If so, we've completed the first step and can start building the application. 
 
-Next, we need a script tag to place our code into. To keep it simple, we'll just put it in the head of the HTML page, right below the existing script tag.
+Next, we need a script tag to write our code into. To keep it simple, we'll just put it in the head of the HTML page, right below the existing script tag.
 
 .. code-block:: html
 
@@ -58,7 +64,7 @@ The ``console.log`` statement in the script will show us if it works. Reloading 
    notify("... a %{Website} notification demo.", 2000);
   });
 
-As you see, we've defined three arguments for the ``notify`` method:. First, the ``message`` to display, second a ``delay`` in milliseconds and finally a ``callback`` function, which will be executed as soon as the popup is gone. The demo code at the bottom shows how it should be used and should trigger two messages in sequence.
+As you see, we've defined three arguments for the ``notify`` method: First, the ``message`` to display, second a ``delay`` in milliseconds and finally a ``callback`` function, which will be executed as soon as the popup is gone. The demo code at the bottom shows how it should be used and should trigger two messages in sequence.
 
 .. _pages/tutorial_web_developers#Popup:
 
@@ -71,7 +77,7 @@ Let's take care of the popup now. This is where the %{Website} library comes in 
 
   var popup = q.create("<div>").appendTo(document.body);
 
-This line line of code uses two essential methods of %{Website}. First, we create a new DOM element, which is wrapped in a collection. On that object, we call the ``appendTo`` method, which adds the newly created element to ``document.body``. Now, reloading the page... brings up an error!?! Sure, we added our script in the head of the HTML document, which means ``document.body`` is not yet ready when our code gets executed. We need to wait until the document is ready until we can start. %{Website} offers a convenient way to do that. We just wrap the code we've written in a function and give that to ``q.ready``:
+This line of code uses two essential methods of %{Website}. First, we create a new DOM element, which is wrapped in a collection. On that object, we call the ``appendTo`` method, which adds the newly created element to ``document.body``. Now, reloading the page... brings up an error!?! Sure, we added our script in the head of the HTML document, which means ``document.body`` is not yet ready when our code gets executed. We need to wait until the document is ready until we can start. %{Website} offers a convenient way to do that. We just wrap the code we've written in a function and give that to ``q.ready``:
 
 ::
 
@@ -143,7 +149,7 @@ As soon as the message is faded in, we should start a timer to trigger the fade 
     console.log("end");
   });
 
-Again, we used the native ``console`` API to check if our code works. Running the code now should show the "end" message in the console as soon as the popup is faded in. A little hint: Make sure you add the listener only once using the ``once`` method. We don't want to keep piling up listeners on the popup. Now we can start the timer which will be a simple ``setTimeout`` offered by the browser. As soon as the time is over, we can fade out.
+Again, we used the native ``console`` API to check if our code works. Running the code now should show the ``end`` message in the console as soon as the popup is faded in. A little hint: Make sure you add the listener only once using the ``once`` method. We don't want to keep piling up listeners on the popup. Now we can start the timer which will be a simple ``setTimeout`` offered by the browser. As soon as the time is over, we can fade out.
 
 ::
 
