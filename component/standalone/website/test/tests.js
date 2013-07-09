@@ -2370,9 +2370,9 @@ testrunner.define({
 
 
   testAutomatedJsonPCallback : function() {
-    var jsonp = q.io.jsonp("jsonpload");
+    var jsonp = q.io.jsonp("jsonpload.js");
 
-    var checkForReserverdURLChars = /[\!#\$%&'\(\)\*\+,\/\:;\=\?@\[\]]/;
+    var checkForReserverdURLChars = /[\!#\$&'\(\)\*\+,\/\:;\=\?@\[\]]/;
     var url = jsonp.getGeneratedUrl();
     var callbackPart = url.substr(url.indexOf("=") + 1);
 
