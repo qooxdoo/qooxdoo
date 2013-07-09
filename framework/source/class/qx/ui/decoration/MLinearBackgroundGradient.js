@@ -201,9 +201,18 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
         var colors = this.__getColors();
         var type = this.getOrientation() == "horizontal" ? 1 : 0;
 
-        // convert all hex3 to hex6
-        var startColor = qx.util.ColorUtil.hex3StringToHex6String(colors.start);
-        var endColor = qx.util.ColorUtil.hex3StringToHex6String(colors.end);
+        var startColor = colors.start;
+        var endColor = colors.end;
+
+        // convert rgb, hex3 and named colors to hex6
+        if (!qx.util.ColorUtil.isHex6String(startColor)) {
+          startColor = qx.util.ColorUtil.stringToRgb(startColor);
+          startColor = qx.util.ColorUtil.rgbToHexString(startColor);
+        }
+        if (!qx.util.ColorUtil.isHex6String(endColor)) {
+          endColor = qx.util.ColorUtil.stringToRgb(endColor);
+          endColor = qx.util.ColorUtil.rgbToHexString(endColor);
+        }
 
         // get rid of the starting '#'
         startColor = startColor.substring(1, startColor.length);
