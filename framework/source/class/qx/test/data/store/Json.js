@@ -582,7 +582,8 @@ qx.Class.define("qx.test.data.store.Json",
       this.useFakeServer();
 
       var server = this.getServer();
-      server.respondWith("GET", "/foo", [ 500, {}, "SERVER ERROR" ]);
+      server.respondWith("GET", "/foo", [ 500,
+        {"Content-Type": "application/json"}, "SERVER ERROR" ]);
 
       this.__store.addListener("error", function(e)
       {
