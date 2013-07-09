@@ -371,7 +371,6 @@ qx.Class.define("qx.event.handler.Focus",
 
         this.__onNativeDragGestureWrapper = qx.lang.Function.listener(this.__onNativeDragGesture, this);
 
-
         // Register events
         qx.bom.Event.addNativeListener(this._document, this.__down, this.__onNativeMouseDownWrapper, true);
         qx.bom.Event.addNativeListener(this._document, this.__up, this.__onNativeMouseUpWrapper, true);
@@ -818,6 +817,11 @@ qx.Class.define("qx.event.handler.Focus",
 
         if (focusTarget) {
           this.setFocus(focusTarget);
+          if (qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse")) {
+            try {
+              focusTarget.focus();
+            } catch(ex) {};
+          }
         } else {
           qx.bom.Event.preventDefault(domEvent);
         }
