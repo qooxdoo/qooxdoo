@@ -23,7 +23,7 @@ Composites
 
 As mentioned a few sentences above the normal ``Widget`` does not have public methods to manage the children. This is to allow the normal Widget to be used for inheritance. To allow the creation of structures in applications, the ``Composite`` was created.
 
-`Composite <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.container.Composite>`_ extends ``Widget`` and publishes the whole children and layout management of the ``Widget`` to the public. Typically it is used as a container for other widgets. Children can be managed through the methods ``add()``, ``remove()``, etc. In application code Composites are used to structure the interface. 
+`Composite <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.container.Composite>`_ extends ``Widget`` and publishes the whole children and layout management of the ``Widget`` to the public. Typically it is used as a container for other widgets. Children can be managed through the methods ``add()``, ``remove()``, etc. In application code Composites are used to structure the interface.
 
 .. _pages/ui_overview#roots:
 
@@ -32,18 +32,18 @@ Roots
 
 A special category of widgets are the root widgets. These basically do the connection between the classic DOM and the qooxdoo widget system. There are different types of roots, each individually tuned for the requirements in the covered use case.
 
-First of all every application developer needs to decide if an application should be standalone e.g. working with a minimal set of classic HTML or will be integrated into an maybe full-blown web page. Developers of an standalone application normally have no problem to give the control to the toolkit (maybe even enjoy it to give away this responsibility), but this would not work for integrating qooxdoo into an existing web page layout.
+First of all, every application developer needs to decide if an application should be standalone, e.g. working with a minimal set of classic HTML, or will be integrated into an existing web page. Developers of a standalone application normally have no problem to give control over the page layout to the UI toolkit (maybe even preferring to give away this responsibility), but this would not work for integrating qooxdoo into an existing web page layout.
 
-A standalone application normally only uses a really slimmed down set of HTML (in fact the file only functions as a wrapper to load the application code). It normally does not include any CSS files and often comes with an empty body element. In fact even simpler elements like headers, footers etc. are created using widgets (so they may benefit from typical qooxdoo features like internationalisation, theming etc.).
+A standalone application normally only uses a really slimmed down set of HTML (in fact the customary ``index.html`` file only functions as a wrapper to load the application code). It normally does not include any CSS files and often comes with an empty body element. In fact even simple elements like headers, footers etc. are created using widgets (allowing them to benefit from typical qooxdoo features like internationalisation, theming etc.).
 
-* `Application <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.root.Application>`_: Build full-blown application from scratch. Target audience are developers of a completely qooxdoo based application.
-* `Page <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.root.Page>`_: Build applications as isles into existing content. Ideal for the more classic web developer. Needs to bring in know how of HTML & CSS for non-qooxdoo content.
+* `Application <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.root.Application>`_: Build a full-blown stand-alone application from scratch. Application logic and UI are fully implemented using qooxdoo.
+* `Page <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.root.Page>`_: Build applications as isles into existing content. Ideal for the classic web developer. Requires HTML & CSS skills for non-qooxdoo content.
 
-Both roots are attached directly to the document. The ``Application`` is automatically stretched to the full size of the window and this way allows to position elements in relation to the right or bottom edge etc. This is not possible using the ``Page`` root.
+Either root element is attached directly to the document. The ``Application`` is automatically stretched to the full size of the viewport, allowing elements to be positioned in relation to the right or bottom edge, etc. This is not possible using the ``Page`` root.
 
-The instantiation of the required root widget is normally nothing the developer has to do. It is done by the application class the developer chooses to extend. The next chapter will explain the concept behind applications in detail.
+The instantiation of the required root widget is normally nothing the developer has to do manually. This is done by the application class the developer chooses to extend. The next chapter will explain the concept behind applications in detail.
 
-As even the ``Page`` root is attached to the document it would be still not possible to place children into a specific existing column or box into the existing layout. However the developer of the web page may use any number of optional isles to insert content into an existing layout (built with classic HTML markup). The isles are named `Inline <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.root.Inline>`__. They need an existing DOM element to do their work (maybe using some type of ``getElementById``).  The reason for the overall need, even when working with these isles, for the ``Page`` root is that all dynamically floating elements like tooltips, menus, windows etc. are automatically placed into this root. This makes positioning of such elements a lot easier.
+As even the ``Page`` root is attached to the document it would still be impossible to place children into a specific existing column or box within the existing layout. However, web page developers may use any number of optional isles to insert content into an existing layout (built with classic HTML markup). The isles are named `Inline <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.root.Inline>`__. They require an existing DOM element to attach themselves to (usually retrieved using ``getElementById``). While most content is added to these isles, the ``Page`` root is required so that dynamically floating elements like tooltips, menus, windows etc. can be easily positioned.
 
 .. _pages/ui_overview#applications:
 
@@ -52,24 +52,21 @@ Applications
 
 The application is the starting point of every qooxdoo application. Every qooxdoo application should also come with a custom application class. The application is automatically initialized at the boot phase of qooxdoo (to be exact: when all required JavaScript packages are loaded).
 
-The first method each developer needs to get used to is the `main <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.IApplication~main>`_ method. It is automatically executed after the initialization of the class. Normally the method is used to initialize the GUI and to load the data the application needs.
+The first method each developer needs to get familiar with is the `main <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.IApplication~main>`_ method. It is automatically executed after the initialization of the class. This method is typically used to initialize the GUI and to load any data the application needs.
 
-There are different applications which could be used as a starting point for a custom application:
+There are different applications which can be used as a starting point for a custom application:
 
 * `Standalone <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Standalone>`_: Uses the ``Application`` root to build full blown standalone qooxdoo applications
 * `Inline <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Inline>`__: Uses the ``Page`` root to build traditional web page based application which are embedded into isles in the classic HTML page.
-* `Native <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Native>`_: This class is for applications that do not involve qooxdoo's GUI toolkit. Typically they make only use of the IO ("Ajax") and BOM functionality (e.g. to manipulate the existing DOM).
+* `Native <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Native>`_: This class is used for applications that do not involve qooxdoo's GUI toolkit. Typically they make only use of the IO ("Ajax") and BOM functionality (e.g. to manipulate the existing DOM).
 
 .. _pages/ui_overview#communication:
 
 Communication
 =============
 
-Developing a qooxdoo application does not require a server. Its static application contents (initial html file, JavaScript files, images, etc.) may just be loaded from your local file system.
+Developing a qooxdoo application does not require a server. Its static application contents (initial HTML file, JavaScript files, images, etc.) can simply be loaded from the local file system. This means that full applications can be developed locally with no server infrastructure - not even an Internet connection is required.
 
-Of course, for the actual deployment of your final app you would use a web server to deliver the (static) contents. For developing a qooxdoo app it is not a prerequisite to setup a web server, so you can start right away on your local computer. 
+Any practical qooxdoo client application will communicate with a server, for instance to retrieve and store certain application data, to do credit card validation and so on. To this end, qooxdoo includes a sophisticated IO layer featuring high-level abstractions for XMLHTTP requests and REST resources as well as support for cross-domain requests.
 
-Any practical qooxdoo client application will communicate with a server, for instance to retrieve and store certain application data, to do credit card validation and so on. qooxdoo includes an advanced :doc:`RPC mechanism </pages/communication/rpc>` for direct calls to server-side methods. It allows you to write true client/server applications without having to worry about the communication details. qooxdoo offers such *optional* `RPC backends <http://qooxdoo.org/contrib/project#backend>`_ for Java, PHP, Perl and Python. If you are missing your favorite backend language, you can even create your own RPC server by following a generic :doc:`server writer guide </pages/communication/rpc_server_writer_guide>`.
-
-If you already have an existing backend that serves HTTP (or HTTPS) requests and you do not want to use those optional RPC implementations, that's fine. It should be easy to integrate your qooxdoo app with your existing backend using traditional AJAX calls.
-
+Additionally, an advanced :doc:`RPC mechanism </pages/communication/rpc>` for direct calls to server-side methods is available. It allows you to write true client/server applications without having to worry about the communication details. qooxdoo offers several *optional* `RPC backends <http://qooxdoo.org/contrib/project#backend>`_ for Java, PHP, Perl and Python. If you are missing your favorite backend language, you can even create your own RPC server by following a generic :doc:`server writer guide </pages/communication/rpc_server_writer_guide>`.

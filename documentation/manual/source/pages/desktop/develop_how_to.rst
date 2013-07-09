@@ -11,11 +11,11 @@ The general cycle of development activities while creating a desktop application
   4. Make changes to the source code.
   5. Cycle to 2.
 
-This will be the main cycle of your activities. 
+This will be the main cycle of your activities.
 
 Mind that you start with a Generator run creating your application. This is
 necessary to produce a runnable application that will work in a browser. You
-might have to re-run this step , depending on the variant of source version you
+might have to re-run this step, depending on the variant of source version you
 created. (In such a case, you will cycle to 1. instead of 2.). The currently
 available source jobs include
 :ref:`pages/tool/generator/generator_default_jobs#source`,
@@ -42,7 +42,7 @@ For a bit of background, here are more details of the build version.
 Class Code
 -----------
 * Class code is compressed and optimized, and put in only a few script files,
-  which are later loaded by the loader script. 
+  which are later loaded by the loader script.
 * The number of script files is
   highly configurable, depending mainly on the us of :ref:`parts
   <pages/parts_overview#parts_and_packages_overview>`. In general, the Generator
@@ -117,25 +117,25 @@ the issue, here are some hints to guide you:
 
   * In the case of contribs referenced through the *contrib://* pseudo
     protocol in your application configuration, these are downloaded and stored in
-    the download cache directory 
+    the download cache directory
     so make sure this path is included in your considerations. Use the
     :ref:`pages/tool/generator/generator_default_jobs#info` job to find this path on your
     system.
 
 * Make sure the relative paths on the web server match those on your file
-  system, e.g. if your app lives on the file system at 
+  system, e.g. if your app lives on the file system at
 
   ::
 
     /a/b/A/myapp
 
-  and your qooxdoo installation is at 
+  and your qooxdoo installation is at
 
   ::
 
     /a/b/Z/qooxdoo-sdk
-  
-  and the server path to your app is 
+
+  and the server path to your app is
 
   ::
 
@@ -147,12 +147,12 @@ the issue, here are some hints to guide you:
 
     /web/Z/qooxdoo-sdk
 
-  so that relative references like 
+  so that relative references like
 
   ::
 
     ../Z/qooxdoo-sdk
-    
+
   will work under the web server.
 
 Summary
