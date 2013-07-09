@@ -118,10 +118,13 @@ qx.Class.define("qx.data.Array",
      * <li>start: The start index of the change.</li>
      * <li>end: The end index of the change.</li>
      * <li>type: The type of the change as a String. This can be 'add',
-     * 'remove' or 'order'</li>
-     * <li>items: The items which has been changed (as a JavaScript array).</li>
+     * 'remove', 'order' or 'add/remove'</li>
+     * <li>items: The items which has been changed (as a JavaScript array)
+     *   either the added or removed items. 'items' is deprecated: Please use added and removed instead.</li>
+     * <li>added: The items which has been added (as a JavaScript array)</li>
+     * <li>removed: The items which has been removed (as a JavaScript array)</li>
      */
-    "change" : "qx.event.type.Data",
+    "change" : "qx.event.type.Data", // items property is @deprecated {3.0}
 
 
     /**
@@ -195,7 +198,9 @@ qx.Class.define("qx.data.Array",
           start: this.length - 1,
           end: this.length - 1,
           type: "remove",
-          items: [item]
+          items: [item],
+          removed : [item],
+          added : []
         }, null
       );
       return item;
@@ -231,7 +236,9 @@ qx.Class.define("qx.data.Array",
             start: this.length - 1,
             end: this.length - 1,
             type: "add",
-            items: [arguments[i]]
+            items: [arguments[i]],
+            added: [arguments[i]],
+            removed : []
           }, null
         );
       }
@@ -254,7 +261,7 @@ qx.Class.define("qx.data.Array",
       this.__updateEventPropagation(0, this.length);
 
       this.fireDataEvent("change",
-        {start: 0, end: this.length - 1, type: "order", items: null}, null
+        {start: 0, end: this.length - 1, type: "order", items: null, added: [], removed: []}, null
       );
 
       // fire change bubbles event
@@ -300,7 +307,9 @@ qx.Class.define("qx.data.Array",
           start: 0,
           end: this.length -1,
           type: "remove",
-          items: [item]
+          items: [item],
+          removed : [item],
+          added : []
         }, null
       );
       return item;
@@ -363,21 +372,28 @@ qx.Class.define("qx.data.Array",
       var added = arguments.length > 2;
       var items = null;
       if (removed || added) {
-        if (this.__array.length > oldLength) {
+        var addedItems = qx.lang.Array.fromArguments(arguments, 2);
+
+        if (returnArray.length == 0) {
           var type = "add";
-          items = qx.lang.Array.fromArguments(arguments, 2);
-        } else if (this.__array.length < oldLength) {
+          var end = startIndex + addedItems.length;
+          items = addedItems;
+        } else if (addedItems.length == 0) {
           var type = "remove";
+          var end = this.length - 1;
           items = returnArray;
         } else {
-          var type = "order";
+          var type = "add/remove";
+          var end = startIndex + Math.abs(addedItems.length - returnArray.length);
         }
         this.fireDataEvent("change",
           {
             start: startIndex,
-            end: this.length - 1,
+            end: end,
             type: type,
-            items: items
+            items: items,
+            added : addedItems,
+            removed : returnArray
           }, null
         );
       }
@@ -434,7 +450,7 @@ qx.Class.define("qx.data.Array",
       this.__updateEventPropagation(0, this.length);
 
       this.fireDataEvent("change",
-        {start: 0, end: this.length - 1, type: "order", items: null}, null
+        {start: 0, end: this.length - 1, type: "order", items: null, added: [], removed: []}, null
       );
 
       // fire change bubbles event
@@ -475,7 +491,9 @@ qx.Class.define("qx.data.Array",
             start: 0,
             end: this.length - 1,
             type: "add",
-            items: [arguments[i]]
+            items: [arguments[i]],
+            added : [arguments[i]],
+            removed : []
           }, null
         );
       }
@@ -545,8 +563,10 @@ qx.Class.define("qx.data.Array",
         {
           start: index,
           end: index,
-          type: "add",
-          items: [item]
+          type: "add/remove",
+          items: [item],
+          added: [item],
+          removed: [oldItem]
         }, null
       );
     },
@@ -724,7 +744,9 @@ qx.Class.define("qx.data.Array",
           start: 0,
           end: oldLength - 1,
           type: "remove",
-          items: items
+          items: items,
+          removed : items,
+          added : []
         }, null
       );
       return items;
@@ -779,7 +801,9 @@ qx.Class.define("qx.data.Array",
           start: oldLength,
           end: this.length - 1,
           type: "add",
-          items: array
+          items: array,
+          added : array,
+          removed : []
         }, null
       );
     },
