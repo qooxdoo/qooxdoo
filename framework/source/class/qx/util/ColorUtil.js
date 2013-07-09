@@ -186,7 +186,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
       {
         throw new Error("Could not convert system colors to RGB: " + str);
       }
-      else if ( this.isRgbaString(str)) {
+      else if (this.isRgbaString(str)) {
         return this.__rgbaStringToRgb(str);
       }
       else if (this.isRgbString(str))
