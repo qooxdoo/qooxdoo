@@ -101,21 +101,51 @@ translated strings are stored as key:value pairs of maps, and images are stored
 with their size and location. All this data requires space that shows up in
 sizes of application files, as they are transfered from server to browser.
 
+Packaging of Class Data
+--------------------------
+
 Resource information is packaged up by the tool chain, and they are kept
 together with the code that uses them. Generally, they go together with a
-package, which is a bunch of code that will be loaded together.
-The build system allows you to tailor where those resources are stored, so you
-can optimize on your network consumption and memory footprint. Here is an
-overview:
+package, which is a bunch of code that will be loaded simultaneously.
+Alternatively, you can configure the Generator to place all internationalization
+data in **dedicated I18N parts** (see further). 
+
+In the former case resource data including *all* locales is placed together so it
+can be loaded with the classes using this data. If you support a lot of
+different languages in your application that might mean that e.g. all
+translations for a set of keys are always loaded, although a client might only
+use one of them. Your app is hence wasting bandwidth and memory transfering all
+data. But if you allow locale switches at runtime these would be fast as all the
+necessary translations are already loaded.
+
+In the second case, I18N resources (translations, CLDR data) are forked out into
+dedicated parts (and consequently, packages), one for each locale (see
+:ref:`packages/i18n-as-parts
+<pages/tool/generator/generator_config_ref#packages>`). The advantage is that
+you only load exactly those resources which you need for a specific locale,
+leaving all others on the server. On the downside, like with other parts
+those parts have to be actively loaded by the application (using
+`qx.io.PartLoader.require
+<http://demo.qooxdoo.org/%{version}/apiviewer/#qx.io.PartLoader>`_), and
+switching the locale at runtime requires another server roundtrip for the new
+locale.
+
+So the build system allows you to tailor where resource information is stored
+so you can optimize on your network consumption and memory footprint. Here is an
+overview of the possible packaging:
 
   - **source** version:
-    - without dedicated I18N parts:all class data is allocated in the loader
-    - with dedicated I18N parts:class data is in dedicated I18N packages
-  - **build** version:
-    - without dedicated I18N parts: class data is allocated in each individual package, corresponding to the contained class code that needs it
-    - with dedicated I18N parts: class data is in dedicated I18N packages
 
-The term *"dedicated I18N parts"* refers to the possibility to split translated strings and CLDR data out in separate parts, one for each language (see :ref:`packages/i18n-with-boot <pages/tool/generator/generator_config_ref#packages>`). Like with other parts, those parts have to be actively loaded by the application (using `qx.io.PartLoader.require <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.io.PartLoader>`_).
+    - **default**: all class data is stored in separate file(s) (one for
+      each defined part)
+    - **with I18N parts**: class data is in dedicated I18N packages (one
+      for each locale)
+
+  - **build** version:
+
+    - **default**: class data is stored together with code, in the first file of each package
+    - **with I18N parts**: class data is in dedicated I18N packages (one for
+      each locale)
 
 In the build version without dedicated I18N parts (case 2.1), those class data is stored as is needed by the code of the package. This may mean that the same data is stored in multiple packages, as e.g. two packages might use the same image or translated string. This is to ensure optimal independence of packages among each other so they can be loaded independently, and is resolved at the browser (ie. resource data is stored uniquely in memory).
 
