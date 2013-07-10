@@ -57,9 +57,18 @@ qx.Class.define("qx.bom.client.CssTransition",
         return null;
       }
 
+      var eventName = qx.bom.Event.getEventName(window, "transitionEnd");
+      eventName = eventName == "transitionEnd" ? eventName.toLowerCase() : eventName;
+
+      // Detecting the end event's name is not possible in some browsers,
+      // so we deduce it from the property name instead.
+      if (!eventName) {
+        eventName = name + (name.indexOf("Trans") > 0 ? "E" : "e") + "nd";
+      }
+
       return {
         name : name,
-        "end-event" : qx.bom.Event.getEventName(window, "transitionEnd")
+        "end-event" : eventName
       };
     }
   },
