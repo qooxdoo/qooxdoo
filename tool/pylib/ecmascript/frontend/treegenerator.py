@@ -519,7 +519,7 @@ def symbol(id_, bind_left=0):
         s.type     = id_  # compat with Node.type
         s.id       = id_
         s.value    = None
-        s.bind_left      = bind_left
+        s.bind_left = bind_left
         symbol_table[id_] = s
         globals()[s.__name__] = s  # ALERT: this is a devious hack to make Pickle pickle the symbol classes.
                                    # To unpickle, it is necessary to have this module loaded, so the classes
@@ -998,7 +998,7 @@ def ifix(self, left):
     advance("]")
     return accessor
 
-@method(symbol("["))             # "[1, 2, 3]"
+@method(symbol("["))             # arrays, "[1, 2, 3]"
 def pfix(self):
     arr = symbol("array")()
     self.patch(arr)
@@ -1015,7 +1015,7 @@ def pfix(self):
         elif token.id == ",":  # elision
             arr.childappend(symbol("(empty)")())
         else:
-            arr.childappend(expression())
+            arr.childappend(expression())  # future: expression(symbol(",").bind_left +1)
         if token.id != ",":
             break
         else:
@@ -1094,7 +1094,7 @@ def pfix(self):
             map_item.comments = keyname.comments
             advance(":")
             # value
-            keyval = expression()
+            keyval = expression()  # future: expression(symbol(",").bind_left +1)
             val = symbol("value")(token.get("line"), token.get("column"))
             val.childappend(keyval)
             map_item.childappend(val)  # <value> is a child of <keyvalue>
