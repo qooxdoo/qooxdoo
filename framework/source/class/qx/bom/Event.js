@@ -268,6 +268,19 @@ qx.Bootstrap.define("qx.bom.Event",
      */
     supportsEvent : function(target, type)
     {
+      // Detecting the transitionend event's name is not possible in some
+      // browsers, so we deduce it from the style property name instead.
+      if (type.toLowerCase().indexOf("transitionend") != -1) {
+        var transitionProp = qx.bom.Style.getPropertyName("transition");
+        if (!transitionProp) {
+          return false;
+        }
+        var endEvent = qx.lang.String.firstLow(transitionProp) +
+        (transitionProp.indexOf("Trans") > 0 ? "E" : "e") + "nd";
+
+        return type == endEvent;
+      }
+
       var eventName = "on" + type;
 
       var supportsEvent = (eventName in target);
