@@ -30,6 +30,7 @@ Development
    
    mobile/mobile_tablet_switch
    mobile/theming
+   mobile/resolution
    mobile/debugging
 
 Deployment

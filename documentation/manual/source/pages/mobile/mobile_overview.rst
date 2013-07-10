@@ -14,7 +14,7 @@ systems:
  
 * iOS
 * Android 1.6+
-* BlackBerry 10 OS (on BlackBerry PlayBook)
+* BlackBerry 10 OS (Playbook + Z10)
 * Windows Phone 8 (Experimental)
 
 Supported Desktop Browsers
@@ -25,7 +25,7 @@ qooxdoo mobile was tested with the following desktop browsers:
 * Safari 5
 * Chrome 10+
 * Firefox 10+ (Experimental)
-* Internet Explorer 10
+* Internet Explorer 10+
   
 Features
 ========

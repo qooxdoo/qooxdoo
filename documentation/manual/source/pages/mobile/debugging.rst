@@ -83,11 +83,3 @@ weinre debug client.
 Just open the weinre debugging client with following URL:
 
 ``http://localhost:8081/client/``
-
-
-
-
-
-
-
-
