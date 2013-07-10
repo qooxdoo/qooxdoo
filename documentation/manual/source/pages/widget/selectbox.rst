@@ -21,13 +21,13 @@ Features
 --------
 * Mouse and keyboard support.
 * Items with plane text and/or icons
-* Ellipsis: If the label does not fit into the widget bounds an ellipsis (”...”) is rendered at the end of the label.
+* Ellipsis: If the label does not fit into the widget bounds an ellipsis ("...") is rendered at the end of the label.
 
 .. _pages/widget/selectbox#description:
 
 Description
 -----------
-The SelectBox has the same act like the ComboBox, but the SelectBox doesn’t allow user input only selection is allowed. 
+The SelectBox has the same act like the ComboBox, but the SelectBox doesn't allow user input only selection is allowed.
 
 For more details about ComboBox see: :doc:`combobox`
 

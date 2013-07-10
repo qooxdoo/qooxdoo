@@ -3,7 +3,7 @@
 Composite
 *********
 
-The Composite is a generic container widget. It exposes all methods to set layouts and to manage child widgets as public methods. Composites must be configured with a layout manager to define the way the widget’s children are positioned.
+The Composite is a generic container widget. It exposes all methods to set layouts and to manage child widgets as public methods. Composites must be configured with a layout manager to define the way the widget's children are positioned.
 
 .. _pages/widget/composite#features:
 

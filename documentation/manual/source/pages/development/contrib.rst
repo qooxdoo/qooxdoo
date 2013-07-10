@@ -47,7 +47,7 @@ contents.
 
 If the contribution resides on your local file system, there is actually no
 difference to any other library. Specify the relative path to its Manifest file
-and you're basically set. 
+and you're basically set.
 
 The really new part comes when the contribution resides online, and needs to be
 downloaded to be used. This is directly supported by the Generator.  With
@@ -71,7 +71,7 @@ subdirectory of the :ref:`cache/downloads <pages/tool/generator/generator_config
 config key, which you can adapt.
 
 When re-running the build job, the Generator will check if the contribution has
-changed, and will re-download it if that is the case. 
+changed, and will re-download it if that is the case.
 
 Putting it all together here is an sample *config.json* snippet:
 
@@ -272,11 +272,11 @@ So an example would be::
 Maintainer's Workflow
 -----------------------
 
-So the basic workflow for an author having a new revision of his contribution’s
+So the basic workflow for an author having a new revision of his contribution's
 version is:
 
 * Create an *archive* containing the contribution and put it *online*.
-* Edit the contribution’s Manifest.json to contain the *download* location and a
+* Edit the contribution's Manifest.json to contain the *download* location and a
   SHA-1 *checksum* over the archive.
 * Copy this Manifest.json to the appropriate path in the *catalog* repo.
 * Send a *pull request* for the catalog.
@@ -290,7 +290,7 @@ offers. You just use an URL like
 
   https://github.com/<user>/<contrib>/archive/<branch_name><archive_suffix>
 
-as the Manifest’s download URL, with e.g. *branch_name* being *master* and *suffix*
+as the Manifest's download URL, with e.g. *branch_name* being *master* and *suffix*
 being *.zip*.
 
 

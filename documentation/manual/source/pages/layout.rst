@@ -17,7 +17,7 @@ The Canvas layout is an extended Basic layout. It is possible to position a widg
 
    layout/canvas
 
-The Box layouts arranges their children back-to-back. The horizontal box layout arranges widgets in a horizontal row, from left to right, while the vertical box layout arranges widgets in a vertical column, from top to bottom. 
+The Box layouts arranges their children back-to-back. The horizontal box layout arranges widgets in a horizontal row, from left to right, while the vertical box layout arranges widgets in a vertical column, from top to bottom.
 
 .. toctree::
 
@@ -35,7 +35,7 @@ A Dock layout attaches the children to the edges of the available space.
 
    layout/dock
 
-The Grid layout arranges items in a two dimensional grid. Widgets can be placed into the grid’s cells and may span multiple rows and columns.
+The Grid layout arranges items in a two dimensional grid. Widgets can be placed into the grid's cells and may span multiple rows and columns.
 
 .. toctree::
 

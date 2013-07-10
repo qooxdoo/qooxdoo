@@ -10,7 +10,7 @@ declaratively or programatically.
 .. note::
 
   When to use ``qx.bom.rest.Resource``? Mostly ``qx.io.rest.Resource`` delegates
-  to ``qx.bom.rest.Resource`` and adds some features in top. For **qx.Desktop**
+  to ``qx.bom.rest.Resource`` and adds some features on top. For **qx.Desktop**
   apps you probably want to use ``qx.io.rest.Resource`` but when developing an
   app/website with **qx.Website** only ``qx.bom.rest.Resource`` is avalaible
   (i.e. exposed as website module).
@@ -128,7 +128,7 @@ optional unless a check is defined. A default value can be provided.
 Data
 ====
 
-Data that should be included in the request’s body can be given as second
+Data that should be included in the request's body can be given as second
 parameter. All types accepted by `qx.io.request.AbstractRequest#requestData
 <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.io.request.AbstractRequest~requestData>`_
 are supported.
@@ -177,7 +177,7 @@ includes the response.
 
 If the same action should be invoked multiple times and the events fired for
 each request be handled differently, it is possible to remember the id of the
-action’s invocation. The ``Rest`` event includes this id.
+action's invocation. The ``Rest`` event includes this id.
 
 ::
 

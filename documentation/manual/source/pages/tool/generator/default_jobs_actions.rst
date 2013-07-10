@@ -76,7 +76,7 @@ dependencies
 Create dependency information for the current library which is stored as a Json
 file (under *source/script/dependencies.json*). If this file exists and is
 current, the Generator will use its information when following dependencies of
-the classes of the library. 
+the classes of the library.
 
 This is particularly interesting for libraries that are used in other
 applications. It allows you to speed up cold-cache builds for the other
@@ -502,7 +502,7 @@ The *watch* job watches the *source/class* path of your application for changed
 
 When you run the job the process will starting telling you the path it is
 watching, and will continue until you terminate it with Ctrl-C. On \*ix like
-systems you can put the job in the shell’s background with ``&``, in order to
+systems you can put the job in the shell's background with ``&``, in order to
 get your shell prompt back. The job will continue running, and only produce some
 console output when its associate command is being run. In order to terminate it
 you have to bring it to the foreground again and then press Ctrl-C (Or you can

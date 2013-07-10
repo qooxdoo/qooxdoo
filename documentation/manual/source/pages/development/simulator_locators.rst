@@ -39,7 +39,7 @@ A qxh locator is a sequence of one or more location steps, separated by /. No le
 
   qxh=mytoolbar
 
-  
+
 * **qx. ...** A string starting with qx. is taken to be a qooxdoo classname, e.g. qx.ui.basic.Label. It signifies a child which is an instance of the given class.
 
 ::
@@ -69,13 +69,13 @@ As for the values, only string comparisons are possible, but you can specify a R
 
   qxh=*/[@label="My Button"]
 
-This will recursively search from the first level below the search root for an object with a label property that matches the string “My Button”. As you might expect, these recursive searches take more time than other searches, so it is good advice to be as specific in your locator as possible. To that end, you can use mutliple wildcards in the same locator, like
+This will recursively search from the first level below the search root for an object with a label property that matches the string "My Button". As you might expect, these recursive searches take more time than other searches, so it is good advice to be as specific in your locator as possible. To that end, you can use mutliple wildcards in the same locator, like
 
 ::
 
   qxh=*/[@label="Section 3"]/[@page]/*/[@label="First Button"]
 
-This will search recursively from the root for an object with label “Section 3” and then, assuming it is a ButtonView which has a page property, navigate to the corresponding page, where it again searches recursively for an item with label “First Button”. This is much more effective than searching the entire object space with “\*/[@label=“First Button”]”.
+This will search recursively from the root for an object with label "Section 3" and then, assuming it is a ButtonView which has a page property, navigate to the corresponding page, where it again searches recursively for an item with label "First Button". This is much more effective than searching the entire object space with "\*/[@label="First Button"]".
 
 * **app:** Three special operators at the beginning of a locator specify which object space you want to search:
 

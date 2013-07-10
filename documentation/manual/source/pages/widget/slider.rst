@@ -25,7 +25,7 @@ Features
 
 Description
 -----------
-The Slider widget is the classic widget for controlling a bounded value. It lets the user move a slider handle along a horizontal or vertical groove and translates the handle’s position into an integer value within the defined range.
+The Slider widget is the classic widget for controlling a bounded value. It lets the user move a slider handle along a horizontal or vertical groove and translates the handle's position into an integer value within the defined range.
 
 .. _pages/widget/slider#demos:
 

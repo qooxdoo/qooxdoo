@@ -24,8 +24,8 @@ Double Relevance
 More importantly, @ignore has relevance both as a compiler hint but also for
 the lint checker. Using @ignore means
 
-  * don’t warn about this symbol if you cannot resolve it (for the lint checker)
-  * don’t include this symbol and its dependencies in the build (whether it is
+  * don't warn about this symbol if you cannot resolve it (for the lint checker)
+  * don't include this symbol and its dependencies in the build (whether it is
     known or not – for the compiler)
 
 Silence Lint Only
@@ -66,7 +66,7 @@ Name Globbing
 also did some automatic globbing when it thought that *foo* was actually a class
 and not a namespace. The effect was that *#ignore(foo)* would also ignore
 *foo.getBar* when this looked like an attribute reference on a class object. (As
-you can imagine the problem lies in the term “looked like”. This decision could
+you can imagine the problem lies in the term "looked like". This decision could
 be safely made for known classes but not for unknown symbols. In an unknown
 *foo.bar*, is *bar* a nested namespace or a class attribute?!).
 
@@ -81,7 +81,7 @@ Most importantly, @ignore is *lexically scoped*. This was a major requirement,
 and one reason to integrate compiler hints with the JSDoc system. When people
 used an unknown symbol in one method, they wanted to ignore that specifically
 for that method and not globally for the whole file. As a consequence, using the
-same symbol in a sibling method you would again get an “Unknown global symbol”
+same symbol in a sibling method you would again get an "Unknown global symbol"
 warning which was desired. This was not available with the old #ignore.
 
 So if an unknown name is found in a particular line of code, a lookup happens to

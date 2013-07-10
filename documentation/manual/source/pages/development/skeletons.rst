@@ -17,9 +17,9 @@ The following skeletons are available (The application types are in fact all low
 
 Desktop
 -------
-For a GUI application that looks & feels like a native desktop application (often called “RIA” – Rich Internet Application).
+For a GUI application that looks & feels like a native desktop application (often called "RIA" – Rich Internet Application).
 
-Such a stand-alone application typically creates and updates all content dynamically. Often it is called a “single-page application”, since the document itself is never reloaded or changed.
+Such a stand-alone application typically creates and updates all content dynamically. Often it is called a "single-page application", since the document itself is never reloaded or changed.
 
 This is the default choice if the *--type* parameter is not specified.
 
@@ -53,7 +53,7 @@ Included layers
 
 Mobile
 ------
-For a :ref:`mobile application <pages/mobile/mobile_overview#overview>` running in a WebKit-based browser on iOS or Android (and also on desktop machines). Supports the `mobile widget set <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile>`_. 
+For a :ref:`mobile application <pages/mobile/mobile_overview#overview>` running in a WebKit-based browser on iOS or Android (and also on desktop machines). Supports the `mobile widget set <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile>`_.
 
 Inherits from `qx.application.Mobile <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Mobile>`_
 
@@ -114,7 +114,7 @@ Inherits from `qx.application.Basic <http://demo.qooxdoo.org/%{version}/apiviewe
 
 Getting started
 ^^^^^^^^^^^^^^^
- 
+
 This skeleton depends on a generated Server library, located in *script/*. If this was not delivered with your SDK you can create it locally, by running ``generate.py library``. (If you intend to create multiple 'server' skeletons, you might want to change to *${QOOXDOO_PATH}/component/standalone/server* and invoke ``generate.py build``. This will generate the library for further 'server' skeletons).
 
 The library will be used together with the application code to make up the final application. You need to generate the application first, e.g. by running ``generate.py source``.  The generated source file is saved under *source/script/<custom>.js*, the build file (with ``generate.py build``) under *build/script/<custom>.js*. Those files can then be executed.
@@ -147,4 +147,4 @@ Included layers
 Contribution
 ------------
 
-For a `qooxdoo-contrib <http://qooxdoo.org/contrib/>`_ application, component or library. Enables integration with the `Contribution Demo Browser <http://demo.qooxdoo.org/contrib/demobrowser/>`_. 
+For a `qooxdoo-contrib <http://qooxdoo.org/contrib/>`_ application, component or library. Enables integration with the `Contribution Demo Browser <http://demo.qooxdoo.org/contrib/demobrowser/>`_.

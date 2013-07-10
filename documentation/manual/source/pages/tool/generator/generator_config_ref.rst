@@ -322,7 +322,7 @@ Possible keys are
 
   * **file** : the path to the compile output file; can be relative to the config's directory (default: *<type>/script/<appname>.js*)
   * **file-prefix** : path to a file containing %{JS} which will be inserted verbatim at the beginning of each generated output file; this could be a comment with copyright headers (default: *undefined*)
-  * **app-root** : (*source*) relative (in the above sense) path to the directory containing the app’s HTML page (default: *./source*)
+  * **app-root** : (*source*) relative (in the above sense) path to the directory containing the app's HTML page (default: *./source*)
   * **loader-template** : path to a JS file that will be used as an alternative loader template; for possible macros and structure see the default (default: *${QOOXDOO_PATH}/tool/data/generator/loader.tmpl.js*)
   * **gzip** : whether to gzip output file(s) (default: *false*)
 
@@ -714,7 +714,7 @@ Each map can contain the keys
     contribution's version, as available in the :doc:`qooxdoo-contrib
     </pages/development/contrib>` catalog.
   * ``http(s)://`` *URL*: This must reference one of two things:
-    
+
     * *a downloadeable archive*: The URL ends in an archive extension (like
       *.zip*), the archive contains the contribution library.
     * *a .json file*: The referenced JSON file is a catalog-style Manifest file which
@@ -799,9 +799,9 @@ Keys are:
     Ignore variables declared in a local scope (function) that shadow global
     library symbols (such as *qx*, *q*, *qxWeb*). With this options set to
     *false*, code places like ::
-    
+
       var qx = "foo";
-      
+
     are warned about. (With such a code line you wouldn't be able to use any
     %{qooxdoo} framework class in this function anymore).  *(default: false)*
 
@@ -1456,7 +1456,7 @@ Start a mini web server to serve local files.
       "allow-remote-access" : false,
       "active-reload" :
       {
-        "client-script" : "<path>" 
+        "client-script" : "<path>"
       }
     }
 

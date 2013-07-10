@@ -11,7 +11,7 @@ Supported Mobile Operating Systems
 
 qooxdoo mobile was tested with the native browsers of the following operating
 systems:
- 
+
 * iOS
 * Android 1.6+
 * BlackBerry 10 OS (Playbook + Z10)
@@ -26,7 +26,7 @@ qooxdoo mobile was tested with the following desktop browsers:
 * Chrome 10+
 * Firefox 10+ (Experimental)
 * Internet Explorer 10+
-  
+
 Features
 ========
 
@@ -55,15 +55,15 @@ API Documentation
   The mobile application.
 * `qx.ui.mobile <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile>`_:
   This package contains all mobile widgets. See the API documentation for more
-  information. 
+  information.
 
 
 Create a Mobile Application
 ===========================
- 
+
 To create a mobile application ``mobileapp`` in your home directory with your shell, change to your home directory (just ``cd``). With a qooxdoo SDK available at ``/opt/qooxdoo-%{version}-sdk``, call the script as follows:
 
-:: 
+::
 
     /opt/qooxdoo-%{version}-sdk/create-application.py --type=mobile --name=mobileapp --out=.
 
@@ -85,7 +85,7 @@ The following environment keys are available:
 * ``qx.mobile.nativescroll: true|false`` - Whether to use native scrolling or
   `iScroll <http://cubiq.org/iscroll>`_ for scrolling.
 * ``device.pixelRatio: Number`` - the ratio between physical pixels and device-independent pixels (dips) on the device.
-* ``device.type: String`` - Determines on what type of device the application is running. Valid values are: “mobile”, “tablet” or “desktop”.
+* ``device.type: String`` - Determines on what type of device the application is running. Valid values are: "mobile", "tablet" or "desktop".
 
 
 Differences to Desktop Widgets
@@ -112,9 +112,9 @@ could be retained. There are some differences, listed below:
   `flexible box layout <http://www.w3.org/TR/css3-flexbox/>`_
 * `qx.ui.mobile.page.Page <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile.page.Page>`_:
   A page is a widget that provides a screen which users can interact with in order to do something. Most times a page provides a single task or a group of related tasks. A qooxdoo mobile application is usually composed of one or more loosely bound pages.
-  Typically there is one page that presents the “main” view.
-  
-  
+  Typically there is one page that presents the "main" view.
+
+
 Demo Applications
 =================
 
@@ -125,7 +125,7 @@ you can have a look on the following demo applications:
 * `Mobile Feedreader <http://demo.qooxdoo.org/%{version}/feedreader-mobile>`_ - the feedreader as a mobile app. Using the same logic and models as the feedreader for desktop browsers does.
 
 All applications can be found in the ``application`` folder of your qooxdoo checkout.
-  
+
 How to contribute?
 ==================
 
@@ -139,4 +139,4 @@ You can contribute in different ways:
   ``core-mobile`` component.
 * Devices: If you have an old smartphone (Android, iPhone, Blackberry, Windows Phone, WebOS, etc.)
   that you don't need anymore, you could donate it to qooxdoo. We would be happy to test qooxdoo mobile on it.
-* Discussion/Feedback: Please post questions to `our mailing list <http://lists.sourceforge.net/lists/listinfo/qooxdoo-devel>`__. 
+* Discussion/Feedback: Please post questions to `our mailing list <http://lists.sourceforge.net/lists/listinfo/qooxdoo-devel>`__.

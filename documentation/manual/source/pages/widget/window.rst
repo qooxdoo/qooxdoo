@@ -2,7 +2,7 @@
 
 Window
 ******
-The window widget is similar to Windows’ MDI child windows.
+The window widget is similar to Windows' MDI child windows.
 
 .. _pages/widget/window#preview_image:
 
@@ -21,7 +21,7 @@ Features
 --------
 * Title support text and/or icon
 * Support modal window
-* Status bar support 
+* Status bar support
 * Minimize and maximize a window
 * Open and close a window
 * Resize a window
@@ -36,12 +36,12 @@ The widgets implements all known metaphors from a window:
 
 * minimize
 * maximize
-* open 
+* open
 * close
 * and so on
 
 The package ``qx.ui.window`` contains two other classes that can be used to create a MDI Application:
- 
+
 * The `Desktop <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.window.Desktop>`_ can act as container for windows. It can be used to define a clipping region for internal windows.
 * The `Manager <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.window.Manager>`_ handle the z-order and modality blocking of windows managed the connected desktop.
 
