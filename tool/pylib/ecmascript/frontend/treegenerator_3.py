@@ -1198,7 +1198,6 @@ def pfix(self):
 def std(self):
     block = symbol("block")()
     block.childappend(self)
-    advance('{')
     block.childappend(statements())
     block.childappend(token)
     advance("}")
@@ -1248,7 +1247,9 @@ def toJS(self, opts):
 
 def block():
     # token.id == '{'
-    return token.std()
+    t = token
+    advance("{")
+    return t.std()
 
 symbol("block")
 
@@ -1269,7 +1270,6 @@ symbol("function")
 @method(symbol("function"))
 def pfix(self):
     # optional name
-    opt_name = None
     if token.id == "identifier":
         self.childappend(token)
         advance()
