@@ -252,6 +252,16 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
 
     /**
+    * Returns the composite which contains the buttons that are needed 
+    * to confirm/cancel the choice.
+    * @return {qx.ui.mobile.container.Composite} the container composite.
+    */
+    getPickerButtonContainer : function() {
+      return this.__pickerButtonContainer;
+    },
+
+
+    /**
      * Adds an picker slot to the end of the array.
      * @param slotData {qx.data.Array} the picker slot data to display.
      */
