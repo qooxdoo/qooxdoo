@@ -82,6 +82,8 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     this._setAttribute("type","text");
     this.setReadOnly(true);
 
+    this.addListener("focus", this.blur);
+
     // Selection dialog creation.
     this.__selectionDialog = this._createSelectionDialog();
 
@@ -369,5 +371,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     this.__selectionDialog.removeListener("changeSelection", this._onChangeSelection, this);
     
     this._disposeObjects("__selectionDialog","__selectionDialogTitle");
+
+    this.removeListener("focus", this.blur);
   }
 });
