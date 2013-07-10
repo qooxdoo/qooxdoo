@@ -1,4 +1,4 @@
-ww.. _pages/widget/widget#widget:
+.. _pages/widget/widget#widget:
 
 Widget
 ******

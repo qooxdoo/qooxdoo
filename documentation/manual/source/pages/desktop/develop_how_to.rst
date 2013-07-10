@@ -20,8 +20,7 @@ created. (In such a case, you will cycle to 1. instead of 2.). The currently
 available source jobs include
 :ref:`pages/tool/generator/generator_default_jobs#source`,
 :ref:`pages/tool/generator/generator_default_jobs#source-all` and
-:ref:`pages/tool/generator/generator_default_jobs#source-hybrid`. See their
-individual job descriptions for details.
+:ref:`pages/tool/generator/generator_default_jobs#source-hybrid`. You can also use our :ref:`pages/tool/generator/default_jobs_actions#watch` job which will mirror all your changes and start the generation job automatically. See their individual job descriptions for details.
 
 
 Build Version
