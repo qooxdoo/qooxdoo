@@ -8,29 +8,11 @@ AS
   uses: Own Win 7 laptop
   Full application tests:
     Chrome stable (Win 7)
-  Mini application tests:
-    FF Aurora (Win 7)
-
-
-CH
-  uses: Own Macbook, Own Win 7 PC, iPad 4
-  Full application tests:
-    Opera Next (OS X)
-  Mini application tests:
-    IE 9 (Win 7)
-  Mobile application tests:
-    Safari (iOS 6)
-
 
 CZ
   uses: Own Macbook, iPad 2
   Full application tests:
     Firefox stable (OS X)
-  Mini application tests:
-    Chrome dev (OS X)
-  Mobile application tests:
-    Safari (iOS 6)
-
 
 DW
   uses: Win7IE8 VM, own Linux PC
@@ -46,27 +28,16 @@ MW
   uses: Dell Win 8 convertible, own iPhone
   Full application tests:
     IE 10 (Win 8)
-  Mobile application tests:
-    Safari (iOS 7 beta)
   Toolchain tests:
     Source/Build, Code Maintenance, Shell Tools (Win 8)
   Library tests:
     node.js (OS X)
 
 
-NH
-  uses: Blackberry Z10, HTC 8S
-  Mobile application tests:
-    Blackberry 10
-    IE (Windows Phone 8)
-
-
 RS
   uses: Own Mac Mini, Galaxy Nexus
   Full application tests:
     Safari stable (OS X)
-  Mobile application tests:
-    Android Browser (Android 4.2)
   Toolchain tests:
     Source/Build, GUI-Tools (OS X)
 
@@ -75,7 +46,5 @@ TH
   uses:Own Linux PC, Nexus S
   Full application tests:
     Opera stable (Linux)
-  Mobile application tests:
-    Android Browser (Android 2.3)
   Toolchain tests:
     Source/Build, Migration (Linux)
