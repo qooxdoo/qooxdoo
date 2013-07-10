@@ -91,7 +91,12 @@ qx.Class.define("qx.ui.core.queue.Appearance",
 
         // Only apply to currently visible widgets
         if (Visibility.isVisible(obj)) {
-          obj.syncAppearance();
+          try {
+            obj.syncAppearance();
+          }
+          catch(e) {
+            qx.log.Logger.error(qx.ui.core.queue.Appearance, "Error in the 'Appearance' queue: obj.classname: " + obj.classname + ", " + e, e);
+          }
         } else {
           obj.$$stateChanges = true;
         }
