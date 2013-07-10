@@ -103,6 +103,9 @@ qx.Class.define("qx.theme.manager.Decoration",
       if (qx.lang.Type.isString(instance)) {
         instance = this.resolve(instance);
       }
+      if(!instance) {
+        throw new Error(' unable to resolve CSS class for decorator "' + value + '"');
+      }
 
       // create and add a CSS rule
       var css = "";
