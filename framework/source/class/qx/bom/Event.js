@@ -272,6 +272,16 @@ qx.Bootstrap.define("qx.bom.Event",
      */
     supportsEvent : function(target, type)
     {
+      // The 'transitionend' event can only be detected on window objects,
+      // not DOM elements [BUG #7249]
+      if (target != window && type.toLowerCase().indexOf("transitionend") != -1) {
+        var transitionSupport = qx.core.Environment.get("css.transition");
+        if (transitionSupport && transitionSupport["end-event"] == type) {
+          return true;
+        } else {
+          return false;
+        }
+      }
       // Using the lowercase representation is important for the
       // detection of events like 'MSPointer*'. They have to detected
       // using the lower case name of the event.
