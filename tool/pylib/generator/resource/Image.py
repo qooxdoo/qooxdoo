@@ -182,7 +182,7 @@ class Image(Resource):
                 if size is not None:
                     return size + (img.type(),)
 
-        return Nonedd publishing of tutorial/tweets/step4.5 (bec. of services.js
+        return None
 
     ##
     # Like getInfo, but returns a map
@@ -282,11 +282,11 @@ class JpegFile(Image):
     def type(self):
         return "jpeg"
 
+    sof_range = tuple(range(0xffc0,0xffc3+1) + range(0xffc9,0xffcb+1))  # SOFn according to spec.(ITU T.81)
     segments = { 
         # (http://en.wikipedia.org/wiki/Jpeg)
         (0xffd8,) : 0,  # soi - no length bytes, no payload
-        (0xffc0,) : 2,  # sof0 - 2 length bytes
-        (0xffc2,) : 2,  # sof2 - 2 length bytes
+        sof_range : 2,  # sofN - 2 length bytes, n is someOf(0..f)
         (0xffc4,) : 2,  # dht - 2 len byte
         (0xffdb,) : 2,  # dqt - 2 len byte
         (0xffdd,) : 2,  # dri - 2 len byte (value always 4)
@@ -321,7 +321,7 @@ class JpegFile(Image):
         for segmarker,paystart,paylen in self.SegmentIterator(cont):
             # try both Baseline DCT Start-of-frame marker (SOF0)
             # and Progressive DCT Start-of-frame marker (SOF2)
-            if segmarker in (0xFFC0, 0xFFC2):
+            if segmarker in self.sof_range:
                 (precision, height, width) = struct.unpack("!BHH", cont[paystart:paystart+5])
                 return (width, height)
         return None
