@@ -170,23 +170,6 @@ class Image(Resource):
     
     CHILD_CLASSES = []
 
-    def getSize(self):
-        ''' Returns the image sizes of png, gif and jpeg files as
-            (width, height) tuple '''
-        filename = self.__filename
-        classes = self.CHILD_CLASSES
-
-        for cls in classes:
-            img = cls(filename)
-            if img.verify():
-                size = img.size()
-                if size is not None:
-                    img.close()
-                    return size
-            img.close()
-
-        return None
-    
     def getInfo(self):
         ''' Returns (width, height, "type") of the image'''
         filename = self.path
@@ -212,7 +195,6 @@ class Image(Resource):
             result = {}
 
         return result
-
 
 
 ##
