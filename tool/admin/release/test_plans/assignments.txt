@@ -23,7 +23,6 @@ DW
   Library tests:
     Rhino (Linux)
 
-
 MW
   uses: Dell Win 8 convertible, own iPhone
   Full application tests:
@@ -33,7 +32,6 @@ MW
   Library tests:
     node.js (OS X)
 
-
 RS
   uses: Own Mac Mini, Galaxy Nexus
   Full application tests:
@@ -41,10 +39,9 @@ RS
   Toolchain tests:
     Source/Build, GUI-Tools (OS X)
 
-
 TH
-  uses:Own Linux PC, Nexus S
+  uses: Own Linux PC, Win 7 Test PC, Nexus S
   Full application tests:
-    Opera stable (Linux)
+    Opera stable (Win 7)
   Toolchain tests:
     Source/Build, Migration (Linux)
