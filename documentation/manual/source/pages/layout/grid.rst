@@ -51,7 +51,7 @@ Layout properties
 
 Alternative Names
 -----------------
-* `QGridLayout <http://doc.trolltech.com/4.3/qgridlayout.html>`_ (Qt)
+* `QGridLayout <http://qt-project.org/doc/qt-5.0/qtwidgets/qgridlayout.html>`_ (Qt)
 * Grid (XAML)
 * TableLayout (ExtJS)
 
