@@ -27,7 +27,7 @@ qx.Class.define("qx.test.mobile.dialog.Picker",
     {
       // SMOKE TEST for Picker widget.
       var pickerSlot1 = new qx.data.Array(["qx.Desktop", "qx.Mobile", "qx.Website","qx.Server"]);
-      var pickerSlot2 = new qx.data.Array(["1.8", "2.0", "2.0.1", "2.0.2", "2.1","2.2"]);
+      var pickerSlot2 = new qx.data.Array(["1.5.1", "1.6.1", "2.0.4", "2.1.2", "3.0"]);
 
       var picker = new qx.ui.mobile.dialog.Picker();
       picker.setTitle("Picker");
