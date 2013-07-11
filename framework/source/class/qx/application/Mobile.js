@@ -125,8 +125,6 @@ qx.Class.define("qx.application.Mobile",
     /**
      * Sets the viewport content of the application, based on 
      * {@link qx.application.Mobile.VIEWPORT}.
-     * If needed override {@link qx.application.Mobile.VIEWPORT} in the 
-     * <code>defer</code> method of your application class.
      * @param settings {Map} viewport settings map. 
      */
     _setViewport : function(settings) {
