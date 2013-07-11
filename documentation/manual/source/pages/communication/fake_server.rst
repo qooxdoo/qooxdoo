@@ -6,7 +6,7 @@ FakeServer
 `qx.dev.FakeServer` provides a simple way to define a mock HTTP server in the browser.
 This can be used to test and develop applications that communicate with an HTTP
 backend even if the actual service is unavailable. It is based on the excellent
-[`Sinon.JS <http://sinonjs.org/>`__] mocking library, in particular its FakeXMLHttpRequest
+`Sinon.JS <http://sinonjs.org/>`__ mocking library, in particular its FakeXMLHttpRequest
 interface which wraps the browser's XHR implementation, and is thus completely
 transparent: No modifications to the client code are required.
 
@@ -57,15 +57,27 @@ Responses
 
 Sinon's FakeServer accepts three types of responses:
 
- * If the value of `response` is a string, it will be sent as the response body. The status code will be 200 and no response headers will be configured.
- * The response can also be an array containing the status code, a map of response headers, and the response body text, e.g. `[200, { "Content-Type": "text/html", "Content-Length": 2 }, "OK"]`
- * If the response value is a function, it will be called with a [`FakeXMLHttpRequest <http://sinonjs.org/docs/#FakeXMLHttpRequest>`__] object as the only argument. Its [`respond <http://sinonjs.org/docs/#respond>`__]
+ * If the value of `response` is a string, it will be sent as the response
+   body. The status code will be 200 and no response headers will be
+   configured.
+
+ * The response can also be an array containing the status code, a map of
+   response headers, and the response body text, e.g. `[200, { "Content-Type":
+   "text/html", "Content-Length": 2 }, "OK"]`
+
+ * If the response value is a function, it will be called with a
+   `FakeXMLHttpRequest <http://sinonjs.org/docs/#FakeXMLHttpRequest>`__ object
+   as the only argument. Its `respond <http://sinonjs.org/docs/#respond>`__
    method can be used to send a response.
 
 Usage
 -----
 
-It's a good idea to create separate classes to hold the FakeServer configuration, for example one mock class per REST resource class. By loading these classes only if a custom environment setting is active, it's easy to ensure the mock backend is never included in the deployment version of the application. Here is an example:
+It's a good idea to create separate classes to hold the FakeServer
+configuration, for example one mock class per REST resource class. By loading
+these classes only if a custom environment setting is active, it's easy to
+ensure the mock backend is never included in the deployment version of the
+application. Here is an example:
 
 ::
 
@@ -90,7 +102,9 @@ It's a good idea to create separate classes to hold the FakeServer configuration
     }
   });
 
-By calling FakeServer's `configure` method in the class' `defer` block, we make sure that the mock backend is ready as soon  as the class is loaded. In the application, we only need to add a dependency:
+By calling FakeServer's `configure` method in the class' `defer` block, we make
+sure that the mock backend is ready as soon  as the class is loaded. In the
+application, we only need to add a dependency:
 
 ::
 

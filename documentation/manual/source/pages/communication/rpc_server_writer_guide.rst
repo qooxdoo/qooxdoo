@@ -3,15 +3,18 @@
 RPC Server Writer Guide
 ***********************
 
-Writing a new JSON-RPC server for use with qooxdoo is fairly easy.  If you follow these rules, you should end up with a conformant implementation. See also the other `available qooxdoo RPC servers <http://qooxdoo.org/contrib/project#backend>`__.
+Writing a new JSON-RPC server for use with qooxdoo is fairly easy.  If you
+follow these rules, you should end up with a compliant implementation. See
+also the other `available qooxdoo RPC servers
+<http://qooxdoo.org/contrib/project#backend>`__.
 
 .. _pages/rpc_server_writer_guide#json:
 
 JSON
 ====
 
-With the exception of the formatting of Javascript ``Date`` objects, all
-communication between client and server is formated as JSON, as described
+With the exception of the formatting of JavaScript ``Date`` objects, all
+communication between client and server is formatted as JSON, as described
 and documented at http://json.org.
 
 .. _pages/rpc_server_writer_guide#date_objects:
@@ -20,7 +23,7 @@ Date Objects
 ------------
 
 Date objects are a problem in standard JSON encoding, because there is no
-"literal" syntax for a date in Javascript.  In Javascript, nearly everthing
+"literal" syntax for a date in JavaScript.  In JavaScript, nearly everything
 can be represented in literal form: objects by ``{ ... }``; arrays by ``[ ... ]``;
 etc.  The only native type which can not be represented as a literal is a
 Date.  For this reason, a format for passing Dates in JSON is defined here
@@ -55,8 +58,8 @@ A resulting Date representation might therefore be:
 Whitespace
 ^^^^^^^^^^
 
-* when generating these date strings, implementations SHOULD NOT add white space before/after/between any of the fields within the date string 
-* when parsing these date strings, implementations SHOULD allow white space before/after/between any of the fields within the date string 
+* when generating these date strings, implementations SHOULD NOT add white space before/after/between any of the fields within the date string
+* when parsing these date strings, implementations SHOULD allow white space before/after/between any of the fields within the date string
 
 .. _pages/rpc_server_writer_guide#numbers:
 
@@ -108,7 +111,7 @@ It has three properties:
 
 * ``result`` - The Object that was returned by the invoked method. This must be ``null`` in case there was an error invoking the method.
 * ``error`` - An :ref:`Error Object <pages/rpc_server_writer_guide#the_error_object>` if there was an error invoking the method. It must be ``null`` if there was no error.  Note that determination of whether an error occurred is based on this property being ``null``, not on result being ``null``.  It is perfectly legal for both to be ``null``, indicating a valid result with value ``null``.
-* ``id`` - This must be the same id as the request it is responding to. 
+* ``id`` - This must be the same id as the request it is responding to.
 
 .. _pages/rpc_server_writer_guide#the_error_object:
 
@@ -255,7 +258,7 @@ methods may be created at your server:
   * ``now``: An integer representing the current time in a native format, e.g. as a number of seconds or milliseconds since midnight on 1 Jan 1970.
   * ``json``: A :ref:`Date <pages/rpc_server_writer_guide#date_objects>` object representing that same point in time
 
-A test of all of the primitive RPC operations is available in the qooxdoo-contrib project RpcExample.  The third tab provides a test of the operations using synchronous requests, and the fourth tab tests the operations using asyncronous requests.
+A test of all of the primitive RPC operations is available in the qooxdoo-contrib project RpcExample.  The third tab provides a test of the operations using synchronous requests, and the fourth tab tests the operations using asynchronous requests.
 Note that the results are displayed in the debug log (in Firebug or in the debug console enabled by pressing ``F7``). You can look for ``true`` as a result of each request.
 
 A future test will validate that all returned values are as expected, and

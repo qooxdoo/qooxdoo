@@ -5,14 +5,14 @@ REST (Representational State Transfer)
 interface. Rather than requesting URLs with a specific HTTP method manually, a
 resource representing the remote resource is instantiated and **actions** are
 invoked on this resource. A resource with its actions can be configured
-declaratively or programatically.
+declaratively or programmatically.
 
 .. note::
 
   When to use ``qx.bom.rest.Resource``? Mostly ``qx.io.rest.Resource`` delegates
   to ``qx.bom.rest.Resource`` and adds some features on top. For **qx.Desktop**
   apps you probably want to use ``qx.io.rest.Resource`` but when developing an
-  app/website with **qx.Website** only ``qx.bom.rest.Resource`` is avalaible
+  app/website with **qx.Website** only ``qx.bom.rest.Resource`` is available
   (i.e. exposed as website module).
 
   See the package description for a detailed comparison:
@@ -137,7 +137,6 @@ are supported.
 
   photo.put({id: 1}, {title: "Monkey"}); // URL encoded
   photo.put({id: 1}, "title=monkey"); // Raw
-  photo.put({id: 1}, []);
 
 Note that the behavior changes when the request body content type is switched to ``application/json``.
 

@@ -8,7 +8,7 @@ qooxdoo ships with two transport methods, interfaced by ``qx.io.request.Xhr`` an
 
 * Choose ``Xhr`` whenever you can. ``Xhr`` offers true HTTP client functionality and exposes metadata associated with HTTP requests. It is agnostic of the data interchange format and does not make any specific demands on the backend.
 
-* If you are making cross-origin requests and need to support all popular browsers and/or the target server is not configured to accept cross-origin request (``Access-Control-Allow-Origin`` header), you will need to use ``Jsonp``. Only JSON is supported as data interchange format and the server needs to to wrap responses in a JavaScript function call.
+* If you are making cross-origin requests and need to support all popular browsers and/or the target server is not configured to accept cross-origin request (``Access-Control-Allow-Origin`` header), you will need to use ``Jsonp``. Only JSON is supported as data interchange format and the server needs to wrap responses in a JavaScript function call.
 
 ``Xhr`` and ``Jsonp`` share a common interface. ``AbstractRequest`` defines the lowest common denominator of both transport methods.
 
