@@ -30,7 +30,7 @@ If you want to debug your qooxdoo mobile application on a mobile device, we prop
 using a web remote debugger called "weinre":
 
 
-`weinre - Web Inspector Remote <https://github.com/apache/incubator-cordova-weinre>`_
+`weinre - Web Inspector Remote <http://people.apache.org/~pmuellr/weinre/docs/latest/>`_
 
 
 .. image:: weinre.png
