@@ -819,6 +819,11 @@ qx.Class.define("qx.event.handler.Focus",
           this.setFocus(focusTarget);
           if (qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse")) {
             try {
+              // if the element is already focused, blur and refocus
+              // it to make sure the keyboard is shown on tap
+              if (document.activeElement == focusTarget) {
+                focusTarget.blur();
+              }
               focusTarget.focus();
             } catch(ex) {};
           }
