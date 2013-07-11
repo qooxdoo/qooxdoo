@@ -21,15 +21,15 @@ on a device with a device pixel ratio greater than 1, the app searches for image
 The high resolution images are assumed to be located in the same folder as the 
 medium resolution image, but annotated with the pixel ratio before the file extension: 
 
-``<filename>@<devicePixelRatio><fileextension>``
+``<filename>@<devicePixelRatio>.<fileextension>``
 
 Example
 -------
 
-Assumed the medium resolution image (mdpi) is located in the folder:
-``/<APP_NAME>/client/source/resource/<APP_NAME>/icon/image.png``
+Assume the following medium resolution image (mdpi) is part of your project's resources:
+``source/resource/<APP_NAME>/icon/image.png``
 
-The higher pixel ratio versions are expected to be placed in the same folder and named like this:
+Its higher pixel ratio versions are to be put into the same folder as the regular image and be named accordingly:
 
 * hdpi: ``image@1.5x.png``
 * xhdpi: ``image@2x.png``
@@ -38,7 +38,7 @@ The higher pixel ratio versions are expected to be placed in the same folder and
 Fallback
 --------
 
-For the best visual result possible %{Mobile} uses this fallback 
+For the best visual result %{Mobile} uses this fallback 
 logic:
 
 1. The logic first checks if there is an image available with the pixel ratio
