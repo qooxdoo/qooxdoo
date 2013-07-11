@@ -182,7 +182,7 @@ class Image(Resource):
                 if size is not None:
                     return size + (img.type(),)
 
-        return None
+        return Nonedd publishing of tutorial/tweets/step4.5 (bec. of services.js
 
     ##
     # Like getInfo, but returns a map
@@ -289,7 +289,7 @@ class JpegFile(Image):
         (0xffc2,) : 2,  # sof2 - 2 length bytes
         (0xffc4,) : 2,  # dht - 2 len byte
         (0xffdb,) : 2,  # dqt - 2 len byte
-        (0xffdd,) : 2,  # dri - 2 len byte (value always 2)
+        (0xffdd,) : 2,  # dri - 2 len byte (value always 4)
         (0xffda,) : 2,  # sos
         tuple(range(0xffd0,0xffd7)) : 0,  # rstN - low bit of marker (0..7)
         tuple(range(0xffe0,0xffef)) : 2,  # appN - low bit of marker (0..f)
