@@ -123,23 +123,7 @@ Then we add a listener to the submit button that retrieves the values from the m
 Tying it all together
 =====================
 
-Now to integrate the login window with the other parts of the application. Identica's friends timeline uses .htaccess for authentication so we can add the login details to the request sent by ``IdenticaService.fetchTweets()``:
-
-::
-
-  fetchTweets : function(username, password) {
-    if (this.__store == null) {
-      var login = "";
-      if (username != null) {
-        login = username + ":" + password + "@";
-      }
-      var url = "http://" + login + "identi.ca/api/statuses/friends_timeline.json";
-      this.__store = new qx.data.store.Jsonp(url, null, "callback");
-      this.__store.bind("model", this, "tweets");
-    } else {
-      this.__store.reload();
-    }
-  },
+Now to integrate the login window with the other parts of the application. As we are using a mocked API for the tutorials, it is not possible to login or fetch the users tweets. So we skip that step.
 
 All that's left is to show the login window when the application is started and call ``fetchTweets`` with the information from the ``changeLoginData`` event.
 In the main application class, we'll create an instance of tweets.LoginWindow, position it next to the MainWindow and open it:

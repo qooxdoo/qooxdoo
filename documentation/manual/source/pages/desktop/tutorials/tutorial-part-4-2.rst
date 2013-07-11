@@ -280,9 +280,6 @@ Now to the delegate, just replace the current delegate with this one:
         controller.bindProperty("user.profile_image_url", "icon", null, item, id);
         controller.bindProperty("created_at", "time", {
           converter: function(data) {
-           if (qx.core.Environment.get("browser.name") == "ie") {
-             data = Date.parse(data.replace(/( \+)/, " UTC$1"));
-           }
            return new Date(data);
          }
         }, item, id);
@@ -311,15 +308,10 @@ In our case the photo and the post need no conversion because the source data an
 ::
 
     converter: function(data) {
-      if (qx.core.Environment.get("browser.name") == "ie") {
-        data = Date.parse(data.replace(/( \+)/, " UTC$1"));
-      }
       return new Date(data);
     }
 
-The converter method creates a date object from the given String. Don't be confused by the if statement. The tweets model has a format which is not standard UTC format in JavaScript and Internet Explorer has problems parsing the String, therefore a short conversion is needed before the date object can be created.
-
-The ``configureItem`` method should be known from :doc:`tutorial part 3 <tutorial-part-3>`, there are only some improvements to keep the same behavior as before.
+The converter method creates a date object from the given number (time in milliseconds). The ``configureItem`` method should be known from :doc:`tutorial part 3 <tutorial-part-3>`, there are only some improvements to keep the same behavior as before.
 
 Great, now we've got it! Run ``generate.py`` to create the application.
 

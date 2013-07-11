@@ -17,6 +17,7 @@ First, we need to specify what's the data we need to transfer. For that, we need
 
 So it's clear that we need to fetch the public timeline (that's how it is called by identica), and we need to post a message to identica. It's time to take a look at the `identica API <http://status.net/wiki/Twitter-compatible_API>`_ so that we know what we need to do to communicate with the service.
 But keep in mind that we are still on a website so we can't just send some ``POST`` or ``GET`` requests due to cross-site scripting restrictions. The one thing we can and should do is take advantage of JSONP. If you have never heard of JSONP, take some time to read the `article on ajaxian <http://ajaxian.com/archives/jsonp-json-with-padding>`_ to get further details.
+In this tutorial, we won't use the service itself due to API changes and availability of the service. Instead we use a simple JavaScript file which will fake the JSON-P call.
 
 .. _pages/desktop/tutorials/tutorial-part-3#creating_the_data_access_class:
 
@@ -27,7 +28,7 @@ Now, that we know how we want to communicate, we can tackle the first task, fetc
 
 ::
 
-  http://identi.ca/api/statuses/public_timeline.json?callback=methodName
+  http://demo.qooxdoo.org/%{version}/tweets_step4.5/resource/tweets/service.js
 
 Now we know how to get the data from identica. Its time for us to go back to the qooxdoo code. It is, like in the case of the UI, a good idea to create a separate class for the communication layer. Therefore, we create a class named ``IdenticaService``. We don't want to inherit from any advanced qooxdoo class so we extend straight from ``qx.core.Object``. The code for that class should looks like this:
 
@@ -59,8 +60,10 @@ Now it's time to get this method working. But how do we load the data in qooxdoo
 ::
 
   if (this.__store == null) {
-    var url = "http://identi.ca/api/statuses/public_timeline.json";
-    this.__store = new qx.data.store.Jsonp(url, null, "callback");
+    var url = "  http://demo.qooxdoo.org/%{version}/tweets_step4.5/resource/tweets/service.js";
+    this.__store = new qx.data.store.Jsonp();
+    this.__store.setCallbackName("callback");
+    this.__store.setUrl(url);
     // more to do
   } else {
     this.__store.reload();

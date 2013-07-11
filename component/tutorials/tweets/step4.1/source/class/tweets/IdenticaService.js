@@ -22,8 +22,11 @@ qx.Class.define("tweets.IdenticaService",
 
     fetchTweets : function() {
       if (this.__store == null) {
-        var url = "http://identi.ca/api/statuses/public_timeline.json";
-        this.__store = new qx.data.store.Jsonp(url, null, "callback");
+        var version = qx.core.Environment.get("qx.version");
+        var url = "http://demo.qooxdoo.org/" + version + "/tweets_step4.5/resource/tweets/service.js";
+        this.__store = new qx.data.store.Jsonp();
+        this.__store.setCallbackName("callback");
+        this.__store.setUrl(url);
         this.__store.bind("model", this, "tweets");
       } else {
         this.__store.reload();
