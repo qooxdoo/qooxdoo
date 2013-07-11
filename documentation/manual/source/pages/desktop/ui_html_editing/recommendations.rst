@@ -26,7 +26,7 @@ To avoid this problem you should play safe and offer the following font families
 * Tahoma
 * Lucida Console
 
-A nice list of the most common font families is listed at `CodeStyle.org <http://www.codestyle.org/css/font-family/sampler-CombinedResults.shtml>`_
+A nice list of the most common font families is listed at `Webdesign.about.com <http://webdesign.about.com/od/fonts/l/bl_common_windows_fonts.htm>`_
 
 .. _pages/ui_html_editing/recommendations#inserthtml_command:
 
