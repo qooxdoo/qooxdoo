@@ -287,13 +287,6 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
       dialog.setModal(true);
       dialog.setTitle(title);
 
-      if(dialogType == qx.ui.mobile.dialog.Manager.ERROR_DIALOG) {
-        dialog.setIcon('qx/mobile/icon/android/warning.png');
-      }
-      if(dialogType == qx.ui.mobile.dialog.Manager.WARNING_DIALOG) {
-        dialog.setIcon('qx/mobile/icon/android/warning.png');
-      }
-
       if(dialogType == qx.ui.mobile.dialog.Manager.WAITING_DIALOG)
       {
         var waitingWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox().set({alignX: "center"}));
@@ -318,7 +311,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
         {
           var button = new qx.ui.mobile.form.Button(buttons[i]);
           /* see the comment in android.css for width: 0 for toolbar-button class*/
-          button.addCssClass('dialogButton');
+          button.addCssClass('dialog-button');
           container.add(button, {flex:1});
           var callback = (function(index){
             return function()
