@@ -24,7 +24,7 @@
  *
  * @internal
  */
-qx.Class.define("qx.bom.client.CssTransition",
+qx.Bootstrap.define("qx.bom.client.CssTransition",
 {
   statics : {
     /**
