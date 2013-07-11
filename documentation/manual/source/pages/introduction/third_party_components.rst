@@ -180,3 +180,6 @@ pursue specific interests.
 
    * - `TeX Live <http://www.tug.org/texlive/>`_
      - `mixed free licenses <http://tug.org/texlive/LICENSE.TL>`_
+
+   * - `qxMaven <http://qxmaven.charless.org/>`_
+     - `LGPL <http://www.gnu.org/licenses/lgpl.html>`_, `EPL <http://www.eclipse.org/org/documents/epl-v10.php>`_
