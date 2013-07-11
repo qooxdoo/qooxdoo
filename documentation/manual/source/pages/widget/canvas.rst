@@ -28,7 +28,7 @@ Since this widget is embedding the HTML canvas element the core features of this
 * fires a ``redraw`` event whenever the dimensions of the canvas element has changed or the canvas element needs an update
 * update method for the canvas element
 * width and height of the canvas element as properties
-* support for synronized widht and height coordinates
+* support for synchronized width and height coordinates
 
 .. _pages/widget/canvas#description:
 

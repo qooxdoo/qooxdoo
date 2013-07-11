@@ -171,7 +171,7 @@ You'll notice a warning about the "simulation-run" job being shadowed. Since we'
 Test development
 ================
 Let's replace that stub with something useful now: We want Selenium to use the tweets application's preferences window to change the language.
-But first, we should set Selenium's execution speed (the delay after each command is excuted) to a value that will allow us to actually see what's going on, say one second. To do so, replace the ``this.fail`` line:
+But first, we should set Selenium's execution speed (the delay after each command is executed) to a value that will allow us to actually see what's going on, say one second. To do so, replace the ``this.fail`` line:
 
 ::
 

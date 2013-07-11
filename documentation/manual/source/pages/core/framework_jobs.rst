@@ -92,7 +92,7 @@ Create a test runner app for unit tests (source version) of the framework.
 
 test-inline
 -----------
-Create an inline test runner app for unit tests of the framewrok.
+Create an inline test runner app for unit tests of the framework.
 
 
 .. _pages/tool/framework_jobs#translation:

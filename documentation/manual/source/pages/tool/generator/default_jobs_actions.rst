@@ -307,7 +307,7 @@ the application into a few files, only leaving your own application classes
 separate.  Having the other class files (framework, libraries, contribs) chunked
 together you get the loading speed of nearly the build version, while at the
 same time retaining the accessibility of your own application files for
-debugging. This makes this job ideal for fast and focussed development of the
+debugging. This makes this job ideal for fast and focused development of the
 application-specific classes.
 
 Only the classes that are actually needed for the application are included, so

@@ -69,7 +69,7 @@ As for the values, only string comparisons are possible, but you can specify a R
 
   qxh=*/[@label="My Button"]
 
-This will recursively search from the first level below the search root for an object with a label property that matches the string "My Button". As you might expect, these recursive searches take more time than other searches, so it is good advice to be as specific in your locator as possible. To that end, you can use mutliple wildcards in the same locator, like
+This will recursively search from the first level below the search root for an object with a label property that matches the string "My Button". As you might expect, these recursive searches take more time than other searches, so it is good advice to be as specific in your locator as possible. To that end, you can use multiple wildcards in the same locator, like
 
 ::
 

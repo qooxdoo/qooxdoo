@@ -76,7 +76,7 @@ Internationalisation
 
 * Creation and update of "po" files based on marked strings in the class files.
 * Inclusion of translation information in the generated application.
-* Dynamic creation of localization data based on the standardized informations available at unicode.org. The "main" package of CLDR which is used, is locally mirrored in the SDK.
+* Dynamic creation of localization data based on the standardized information available at unicode.org. The "main" package of CLDR which is used, is locally mirrored in the SDK.
 
 .. _pages/tool/generator/generator#parts:
 

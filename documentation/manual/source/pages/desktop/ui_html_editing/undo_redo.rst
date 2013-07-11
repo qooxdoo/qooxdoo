@@ -8,7 +8,7 @@ Undo and Redo
 Limitations
 ===========
 The implementation of undo/redo in the HtmlArea has some limitations you should be aware of. 
-It is possible to ``undo`` all of your steps but ``redo`` is only possible when no other action occured between the undo and the redo action. If you undo several steps and e.g. enter some text you **can not** execute redo anymore.
+It is possible to ``undo`` all of your steps but ``redo`` is only possible when no other action occurred between the undo and the redo action. If you undo several steps and e.g. enter some text you **can not** execute redo anymore.
 
 .. note::
 
@@ -55,7 +55,7 @@ Every change which is performed with the ``execCommand`` method is equipped with
 
 Content-block
 ^^^^^^^^^^^^^
-Each keypress event is observed to determine changes in the content and to mark a set of content changes as an own block which is capable for an undo/redo step. For example IE and Gecko do both recognize text changes as a content block if the text changes occured between two calls of ``execCommand``.
+Each keypress event is observed to determine changes in the content and to mark a set of content changes as an own block which is capable for an undo/redo step. For example IE and Gecko do both recognize text changes as a content block if the text changes occurred between two calls of ``execCommand``.
 
 .. _pages/ui_html_editing/undo_redo#custom:
 

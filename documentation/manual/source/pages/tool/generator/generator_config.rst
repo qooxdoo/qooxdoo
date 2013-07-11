@@ -136,7 +136,7 @@ First, here is an overview table, to list all possible keys in a job (if the key
   * - clean-files
     - Delete files and directories from the file system.                       
   * - collect-environment-info
-    - Prints various infos about the qooxdoo environment (version etc.)
+    - Prints various info about the qooxdoo environment (version etc.)
   * - combine-images
     - Triggers creation of a combined image file that contains various images.  
   * - compile

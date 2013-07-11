@@ -8,10 +8,10 @@ HTML Editing In General
 External Information
 ====================
 
-.. _pages/ui_html_editing/html_editing_in_general#general_infos:
+.. _pages/ui_html_editing/html_editing_in_general#general_info:
 
-General infos
--------------
+General info
+------------
 
 * `Rich HTML editing - Part 1 <http://dev.opera.com/articles/view/rich-html-editing-in-the-browser-part-1/>`_
 

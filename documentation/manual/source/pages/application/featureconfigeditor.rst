@@ -16,7 +16,7 @@ By predefining environment keys that correspond to certain browser-specific feat
 Generator configuration
 ^^^^^^^^^^^^^^^^^^^^^^^
 
-Regardless of the usage scenario, developers need to make sure to carefully choose the environment settings to be hard-wired so as not to accidentally remove code needed by one of the target clients. The Feature Configration Editor was designed to facilitate this process by allowing developers to compare the feature sets of multiple browsers and create an environment configuration for common features.
+Regardless of the usage scenario, developers need to make sure to carefully choose the environment settings to be hard-wired so as not to accidentally remove code needed by one of the target clients. The Feature Configuration Editor was designed to facilitate this process by allowing developers to compare the feature sets of multiple browsers and create an environment configuration for common features.
 
 The following job config example shows how to create an application variant customized for IE 6, 7 and 8.
 

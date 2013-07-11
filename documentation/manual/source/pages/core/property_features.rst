@@ -53,7 +53,7 @@ Convenience
 Notification
 ============
 
-  * Support for a custom apply rountine
+  * Support for a custom apply routine
   * Event firing with a custom named event
 
 .. _pages/property_features#initialization:
@@ -74,10 +74,10 @@ Automatic optimization of all setters to the optimal highly-tuned result code. I
 
 Please note that after the definition point of a property the setters are not yet available. Wrappers for them will be created with the first instance and the final code will be generated with the first use of such a setter. This first use will also automatically unwrap the property setter to directly use the generated one.
 
-.. _pages/property_features#memory_managment:
+.. _pages/property_features#memory_management:
 
-Memory managment
-================
+Memory Management
+=================
 
 Automatic memory management. This means all so-configured properties which contain complex data objects get automatically disposed with the object disposal. The affected built-in types are already auto-configured this way. Also all properties which need an instance of a class, defined by using a classname as ``check`` are automatically handled. 
 

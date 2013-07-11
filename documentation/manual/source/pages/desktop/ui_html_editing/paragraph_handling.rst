@@ -10,7 +10,7 @@ The aim of the component is to facade all the browser differences concerning the
 Formatting across multiple paragraphs
 =====================================
 
-Every formatting infos like *underline*, *bold*, *text color*, *text size* etc. are transferred to the new paragraph. It is likely that the user expects to write on with the same configuration/modifications he applied to the former paragraph.
+Every formatting info like *underline*, *bold*, *text color*, *text size* etc. are transferred to the new paragraph. It is likely that the user expects to write on with the same configuration/modifications he applied to the former paragraph.
 
 .. _pages/ui_html_editing/paragraph_handling#alignment:
 

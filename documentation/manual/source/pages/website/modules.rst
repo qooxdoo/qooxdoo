@@ -288,7 +288,7 @@ invoked on this resource.
 Storage
 *******
 The storage module offers a cross browser way to store data offline. For that,
-it uses the `Web Storage API <http://www.w3.org/TR/webstorage/>`_. If thats
+it uses the `Web Storage API <http://www.w3.org/TR/webstorage/>`_. If That's
 not available (i.e. in IE < 8) a fallback is used. If non of the storage API is
 available, a non persistent in memory storage is returned which means you can
 always use the same API. Check out the separate :doc:`page about storage

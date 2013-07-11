@@ -55,7 +55,7 @@ As you can see, we omitted the constructor because we don't need it currently. B
 
   }
 
-Now it's time to get this method working. But how do we load the data in qooxdoo? As it is a JSONP service, we can use the :ref:`JSONP data store <pages/data_binding/stores#jsonp_store>` contained in the data binding layer of qooxdoo. But we only want to create it once and not every time the method is called. Thats why we save the store as a private instance member and check for the existence of it before we create the store. Just take a look at the method implementation to see how it works.
+Now it's time to get this method working. But how do we load the data in qooxdoo? As it is a JSONP service, we can use the :ref:`JSONP data store <pages/data_binding/stores#jsonp_store>` contained in the data binding layer of qooxdoo. But we only want to create it once and not every time the method is called. That's why we save the store as a private instance member and check for the existence of it before we create the store. Just take a look at the method implementation to see how it works.
 
 ::
 
@@ -97,7 +97,7 @@ Now we need to connect the property of the store with the property of the *ident
 
   this.__store.bind("model", this, "tweets");
 
-This line takes care of synchronizing the two properties, the model property of the store and the tweets property of our service object. That means as soon as data is available in the store, the data will also be set as tweets in the identica service. Thats all we need to do in the identica service class for fetching the data. Now its time to bring the data to the UI.
+This line takes care of synchronizing the two properties, the model property of the store and the tweets property of our service object. That means as soon as data is available in the store, the data will also be set as tweets in the identica service. That's all we need to do in the identica service class for fetching the data. Now its time to bring the data to the UI.
 
 .. _pages/desktop/tutorials/tutorial-part-3#bring_the_tweets_to_the_ui:
 
@@ -119,7 +119,7 @@ You remember the debug listener we added in the last tutorial? Now we change the
     service.fetchTweets();
   }, this);
 
-Thats the first step of getting the data connected with the UI. We talk the whole time of data in general without even knowing how the data really looks like. Adding the following lines shows a dump of the fetched data in your debugging console.
+That's the first step of getting the data connected with the UI. We talk the whole time of data in general without even knowing how the data really looks like. Adding the following lines shows a dump of the fetched data in your debugging console.
 
 ::
 
@@ -129,7 +129,7 @@ Thats the first step of getting the data connected with the UI. We talk the whol
 
 Now it's time for a test. We added a new classes so we need to invoke the generator and load the index file of the application. Hit the reload button of the browser and see the data in your debugging console. The important thing you should see is that the data is an array containing objects holding the items we want to access: the identica message as ``text`` and ``"user.profile_image_url"`` for the users profile picture. After evaluating what we want to use, we can delete the debugging listener.
 
-But how do we connect the available data to the UI? qooxdoo offers :doc:`controllers </pages/data_binding/controller>` for connecting data to a list widget. Thats the right thing we need in that case. But we currently can't access the list of the UI. Thats something we need to change.
+But how do we connect the available data to the UI? qooxdoo offers :doc:`controllers </pages/data_binding/controller>` for connecting data to a list widget. That's the right thing we need in that case. But we currently can't access the list of the UI. That's something we need to change.
 
 Switch to the ``MainWindow.js`` file which implements the view and search for the line where you created the list. We need to implement an accessor for it so its a good idea to store the list as a private instance member:
 
@@ -137,7 +137,7 @@ Switch to the ``MainWindow.js`` file which implements the view and search for th
 
   this.__list = new qx.ui.form.List();
 
-Of course, we need to change every occurance of the old identifier ``list`` to the new ``this.__list``. Next, we add an accessor method for the list in the members section:
+Of course, we need to change every occurrence of the old identifier ``list`` to the new ``this.__list``. Next, we add an accessor method for the list in the members section:
 
 ::
 

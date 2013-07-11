@@ -225,7 +225,7 @@ Triggers the creation of combined image files that contain various other images.
 
   Unless you are generating a base64 combined image, this key requires an external program (ImageMagic) to run successfully.
 
-* **montage-cmd** *(experimental)*: command line for the ImageMagick `montage` command. If you create a binary combined image (e.g. .png, .gif), the *montage* command line utility will be invoked. This command template will be used to invoke it, and is exposed here so you can adjust it to your local ImageMagick installation. If you tweak this template and shuffle things around, make sure the placholders ``%(<name>)s`` remain intact. Example values are:
+* **montage-cmd** *(experimental)*: command line for the ImageMagick `montage` command. If you create a binary combined image (e.g. .png, .gif), the *montage* command line utility will be invoked. This command template will be used to invoke it, and is exposed here so you can adjust it to your local ImageMagick installation. If you tweak this template and shuffle things around, make sure the placeholders ``%(<name>)s`` remain intact. Example values are:
 
   * ``"montage @%(tempfile)s -geometry +0+0 -gravity NorthWest -tile %(orientation)s -background None %(combinedfile)s"`` *(for ImageMagick v6.x)*
   * ``"montage -geometry +0+0 -gravity NorthWest -tile %(orientation)s -background None @%(tempfile)s %(combinedfile)s``" *(for ImageMagick v5.x)*
@@ -236,11 +236,11 @@ Triggers the creation of combined image files that contain various other images.
 
   * **<output_image>** : path of output file; may be relative to the config file location; the file ending determins the file format; use *.png*, *.gif*, etc. for binary formats, or *.b64.json* for base64 combined image
 
-    * **prefix** *(required)*: takes a list; the first element is a prefix of the path given in <output_image>, leading up to, but not including, the library name space of the output image; this prefix will be stripped from the ouput path, and will be replaced by an optional second element of this setting, to eventually obtain the image id of the output image;
+    * **prefix** *(required)*: takes a list; the first element is a prefix of the path given in <output_image>, leading up to, but not including, the library name space of the output image; this prefix will be stripped from the output path, and will be replaced by an optional second element of this setting, to eventually obtain the image id of the output image;
     * **layout** : either "horizontal" or "vertical"; defines the layout of images within the combined image (default: "horizontal")
     * **input** *(required)*: list of groups of input files, each group sharing the same prefix; each group consists of:
 
-       * **prefix** *(required)*: takes a list; analogous to the *prefix* attribute of the ouput image, the first element of the setting will be stripped from the path of each input file, and replaced by an optional second element, to obtain the corresponding image id
+       * **prefix** *(required)*: takes a list; analogous to the *prefix* attribute of the output image, the first element of the setting will be stripped from the path of each input file, and replaced by an optional second element, to obtain the corresponding image id
        * **files** : the list of input image files (:ref:`file globs <pages/tool/generator/generator_config_articles#file_globs>` allowed); may be relative to config file location
 
 The image id's of both the input and output files will be collected in an accompanying *<output_name>.meta* file, for later processing by the generator when creating source and build versions of the app. You may move these files around after creation, but you'll have to keep the combined image and its .meta file together in the same directory. At generation time, the generator will look for an accompanying .meta file for every image file it finds in a library. The combined image's image id will be refreshed from its current location relative to the library's resource path. But the clipped images (the images inside the combined image) will be registered under the image id's given in the .meta file (and for browser that don't support combined images, they'll have to be available on disk under this exact image id).
@@ -263,7 +263,7 @@ Triggers the generation of a source or build version of the app. Takes a map.
 
   peer-keys: :ref:`pages/tool/generator/generator_config_ref#compile-options`, :ref:`pages/tool/generator/generator_config_ref#cache`, :ref:`pages/tool/generator/generator_config_ref#include`, :ref:`pages/tool/generator/generator_config_ref#library`
 
-Generate Javascript file(s) for the application that can be loaded in the browser. This includes an inital file that acts as the loader and needs to be included by e.g. the hosting index.html page, and possibly other JS files with class code, I18N files, asf. All necessary settings for the compile run are given in the *compile-options* key, so make sure this one is properly filled.
+Generate Javascript file(s) for the application that can be loaded in the browser. This includes an initial file that acts as the loader and needs to be included by e.g. the hosting index.html page, and possibly other JS files with class code, I18N files, asf. All necessary settings for the compile run are given in the *compile-options* key, so make sure this one is properly filled.
 
 Possible keys are
 
@@ -730,7 +730,7 @@ Each map can contain the keys
 lint-check
 ==========
 
-Check Javscript source code with a lint-like utility. Takes a map.
+Check JavaScript source code with a lint-like utility. Takes a map.
 
 ::
 
@@ -926,7 +926,7 @@ This key allows you to enable logging features along various axes.
   * **debug** : in debug ("verbose") logging enabled with the ``-v`` command line switch, only print debug messages from generator modules that match the given pattern
 
 * **privates** : print out list of classes that use a specific private member
-* **resources**: writes the map of resource infos for the involved classes to a json-formatted file
+* **resources**: writes the map of resource info for the involved classes to a json-formatted file
 
   * **file** : output file path (default *resources.json*)
 
@@ -1257,7 +1257,7 @@ Triggers cutting images into regions. Takes a map.
 
   This key requires an external program (ImageMagic) to run successfully.
 
-* **convert-cmd** *(experimental)*: command line for the ImageMagick `convert` command. If you create clippings of an image, the *convert* command line utility will be invoked. This command template will be used to invoke it, and is exposed here so you can adjust it to your local ImageMagick installation. If you tweak this template and shuffle things around, make sure the placholders ``%(<name>)s`` remain intact. Example value:
+* **convert-cmd** *(experimental)*: command line for the ImageMagick `convert` command. If you create clippings of an image, the *convert* command line utility will be invoked. This command template will be used to invoke it, and is exposed here so you can adjust it to your local ImageMagick installation. If you tweak this template and shuffle things around, make sure the placeholders ``%(<name>)s`` remain intact. Example value:
 
   * ``"convert %(infile)s -crop %(xoff)sx%(yoff)s+%(xorig)s+%(yorig)s +repage %(outfile)s"`` *(for ImageMagick v5.x, v6.x)*
 

@@ -8,7 +8,7 @@ Appearance
 What is it?
 ===========
 
-An appearance theme is the main part of the theme. It contains all appearance definitions which are responsible for holding all styling informations for the widgets. Usually the apperance theme is the biggest theme and uses all other theme classes like the Decorator- or Font-theme.
+An appearance theme is the main part of the theme. It contains all appearance definitions which are responsible for holding all styling information for the widgets. Usually the appearance theme is the biggest theme and uses all other theme classes like the Decorator- or Font-theme.
 
 .. _pages/desktop/ui_appearance#theme_structure:
 
@@ -248,7 +248,7 @@ The result mapping would look like the following:
   "spinner/upbutton/icon" => "button/image"
   "spinner/upbutton/label" => "button/label"
 
-As you can see the ``spinner/upbutton`` is kept in its original state. This allows one to just refine a specific outer part of a complex widget instead of the whole widget. It is also possible to include the orignal part of the ``button`` into the ``spinner/upbutton`` as well. This is useful to just override a few properties like seen in the following example:
+As you can see the ``spinner/upbutton`` is kept in its original state. This allows one to just refine a specific outer part of a complex widget instead of the whole widget. It is also possible to include the original part of the ``button`` into the ``spinner/upbutton`` as well. This is useful to just override a few properties like seen in the following example:
 
 ::
 

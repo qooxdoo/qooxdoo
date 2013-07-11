@@ -39,7 +39,7 @@ Reorganizing of columns                           Columns can be reorganized by 
                                                   
 Change the visibility of columns                  A special column visibility menu is included. It offers the user a way to show / hide single columns.
 
-Contet menu support                               The table supports content menus for each cell.
+Content menu support                               The table supports content menus for each cell.
 
 Meta Columns                                      You can define one or more column which have a separate scrolling if any. E.g. you could have the first column always visible, while the other columns scroll out of view.
 
@@ -51,7 +51,7 @@ Resizable columns                                 The user can resize each colum
 ================================================ ======
 Render for different kinds of data types          Special renderer for boolean, dates, HTML content, numbers, passwords and strings.
 
-Conditional rendering for individual table cells  A conditional rendere is available which can render the data in different ways dependent on the content, like applying a red text colors to negative numbers.
+Conditional rendering for individual table cells  A conditional renderer is available which can render the data in different ways dependent on the content, like applying a red text colors to negative numbers.
 
 Row filtering                                     Filtering for specific data can be done with a filter method.
 
@@ -84,7 +84,7 @@ Examples
 
 Simple
 ^^^^^^
-The most simple table can be build in five lines of code, as you cen see in this example::
+The most simple table can be build in five lines of code, as you can see in this example::
 
     // table model
     var tableModel = new qx.ui.table.model.Simple();
@@ -95,7 +95,7 @@ The most simple table can be build in five lines of code, as you cen see in this
     var table = new qx.ui.table.Table(tableModel);
     this.getRoot().add(table);
 
-One of the importat parts of the table is the table model. The first line creates a simple table model. In the second and third line, we configure the table model with some column names and data. With that model, we can create a table and add it to our application, as the example shows in the last two lines.
+One of the important parts of the table is the table model. The first line creates a simple table model. In the second and third line, we configure the table model with some column names and data. With that model, we can create a table and add it to our application, as the example shows in the last two lines.
 
 Editable Column
 ^^^^^^^^^^^^^^^

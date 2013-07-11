@@ -75,7 +75,7 @@ The example shows the constructor and the apply of the value property. The probl
 #. A value is given different as the init value: So the value is not undefined and the setter for the value property will be called, which invokes the apply function.
 #. A value is given and its exactly the init value: In this case, the setter will be called with the init value. The apply method is called and invokes the ``_updateButtons`` method. This method checks the given value and enables / disabled the buttons for increasing / decreasing the spinner. So it is necessary that the apply method is at least called once that the buttons have the proper states.
 
-The problem with a possible change of this behavior is obvious. In the third case, the apply method is not called and the buttons enabled states could be wrong without throwing an error. And they are only wrong, if the value is exactly the init value and one of the minimum or maxiumum values is the same. Because only in that scenario, one of the buttons need to be disabled.
+The problem with a possible change of this behavior is obvious. In the third case, the apply method is not called and the buttons enabled states could be wrong without throwing an error. And they are only wrong, if the value is exactly the init value and one of the minimum or maximum values is the same. Because only in that scenario, one of the buttons need to be disabled.
 
 When can it be changed?
 =======================

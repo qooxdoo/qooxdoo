@@ -314,7 +314,7 @@ Basically you can choose between two solutions:
  * Writing your own cellrenderer **and** rowrenderer
 
 The first solution path is the quick one which is done by customize color of the color theme and **no** additional coding. However, you have also limited possibilities to customize.
-The second solution is the coding one. Start right away and extend the classes ``qx.ui.table.rowrenderer.Default`` and ``qx.ui.table.cellrenderer.Abstract``, implement the necessary interfaces and create your very own apperance by putting together the necessary CSS styles.
+The second solution is the coding one. Start right away and extend the classes ``qx.ui.table.rowrenderer.Default`` and ``qx.ui.table.cellrenderer.Abstract``, implement the necessary interfaces and create your very own appearance by putting together the necessary CSS styles.
 
 Since the latter solution is a more complex one, I'll only explain the first solution which helps you in styling the table rows and columns in a quick way.
 

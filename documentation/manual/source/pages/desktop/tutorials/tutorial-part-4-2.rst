@@ -153,7 +153,7 @@ Dependent on the passed id we create the correct sub widget, configure it and ad
 Finishing the constructor
 =========================
 
-Now i'ts time to finish the constructor.
+Now it's time to finish the constructor.
 
 ::
 

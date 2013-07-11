@@ -105,7 +105,7 @@ This method is static and can be used to invoke both methods at once. By that, y
 How to get my own code into the model?
 --------------------------------------
 
-What if you want to to bring your own code to the generated model classes or if you even want to use your own model classes? Thats possible by adding and implementing a delegate to the data store. You can either
+What if you want to to bring your own code to the generated model classes or if you even want to use your own model classes? That's possible by adding and implementing a delegate to the data store. You can either
 
 * Add your code by supporting a superclass for the created model classes.
 * Add your code as a mixin to the created model classes.

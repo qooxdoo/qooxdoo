@@ -3,7 +3,7 @@
 Text align
 **********
 
-The text align of a selction can be modified using the following exec commands: ``JustifyLeft``, ``JustifyCenter``, ``JustifyRight`` and ``JustifyFull``.
+The text align of a selection can be modified using the following exec commands: ``JustifyLeft``, ``JustifyCenter``, ``JustifyRight`` and ``JustifyFull``.
 
 .. _pages/ui_html_editing/textalign#browsers:
 

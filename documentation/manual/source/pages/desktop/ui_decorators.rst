@@ -94,8 +94,8 @@ Writing Decorator Mixins
 
 If you want to use your custom decorator with some build in decorator mixins, you can write you decorator as mixin and use it in combination with all the other mixins. Its comparable to writing a standalone decorator. You are able to implement the following methods:
 
-* ``_style<yourName>``: This method has a styles map as parameter which should be manipulated directly. That way, you can just append your styles and thats it.
+* ``_style<yourName>``: This method has a styles map as parameter which should be manipulated directly. That way, you can just append your styles and That's it.
 
-* ``_getDefaultInsetsFor<yourName>``: This method should return the desired insets for this feaure. Again, the system takes care of calculating the propper insets for the combination of the mixins.
+* ``_getDefaultInsetsFor<yourName>``: This method should return the desired insets for this feature. Again, the system takes care of calculating the propper insets for the combination of the mixins.
 
 As you can see, every mixin can define its own methods for ``style`` and ``insets``. The theme system combines all the methods given by the separate widgets to one big working method.

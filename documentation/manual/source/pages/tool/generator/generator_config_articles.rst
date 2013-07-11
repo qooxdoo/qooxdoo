@@ -570,7 +570,7 @@ Specifying a "library" key in your config.json
 
 You can specify ``library`` keys in your own config in these ways:
 
-* You either define a local job which either shaddows or "extends" an imported job, and provide this local job with a ``library`` key. Or,
+* You either define a local job which either shadows or "extends" an imported job, and provide this local job with a ``library`` key. Or,
 * You define a local ``"libraries"`` job and provide it with a ``library`` key. This job will be used automatically by most of the standard jobs (source, build, etc.), and thus your listed libraries will be used in multiple jobs (not just one as above).
 
 .. _pages/tool/generator/generator_config_articles#packages_key:
@@ -743,7 +743,7 @@ The above section mentions the optimization for a single build output, where for
       "baz" : true
     }
 
-The envrionment set for producing the first build output would be ``{foo:13, bar:"hugo", baz:true}``, the set for the second ``{foo:26, bar:"hugo", baz:true}``. 
+The environment set for producing the first build output would be ``{foo:13, bar:"hugo", baz:true}``, the set for the second ``{foo:26, bar:"hugo", baz:true}``. 
 
 For configurations with multiple keys with lists as values, the process is repeated for any possible combination of values. E.g.
 

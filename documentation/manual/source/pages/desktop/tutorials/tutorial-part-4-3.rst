@@ -163,7 +163,7 @@ We will use this key as the label for our radio buttons and then go on, as you w
     }    
   };
   
-This code contains the rest of the trick. But let's take a detailed look at what we're doing here. The first line of the loop just stores the current locale we want to process. Keep in mind that this is the exact value we need to change the locale later. The second line tells the locale manager to translate the special id we set for the language name using the current locale. This will return a ``LocalizedString`` which is important to know because these strings update their content on locale switch. But that's not what we want because otherwise, every language will have the same name. Thats why we use the ``toString()`` method to get the plain string of the current translated value as the label for the new radio button. With that, we exclude the labels for the radio buttons from being translated. The next two tasks are pretty easy: 1) we store the locale as the model of the radio button and 2) we add the radio button to the radio group. Preselecting the currently set locale is really easy as well.
+This code contains the rest of the trick. But let's take a detailed look at what we're doing here. The first line of the loop just stores the current locale we want to process. Keep in mind that this is the exact value we need to change the locale later. The second line tells the locale manager to translate the special id we set for the language name using the current locale. This will return a ``LocalizedString`` which is important to know because these strings update their content on locale switch. But that's not what we want because otherwise, every language will have the same name. That's why we use the ``toString()`` method to get the plain string of the current translated value as the label for the new radio button. With that, we exclude the labels for the radio buttons from being translated. The next two tasks are pretty easy: 1) we store the locale as the model of the radio button and 2) we add the radio button to the radio group. Preselecting the currently set locale is really easy as well.
 
 The last thing missing in the window is changing the locale if the user selects a new radio button. For that, we stored the locales in the model property. We can now use the ``modelSelection`` of the radio button group to react on changes.
 
@@ -216,7 +216,7 @@ Now we have created some new code containing new strings to translate. Obviously
 
   ./generate.py translation
   
-Now you can edit the ``po`` files again and add the new translations. Don't forget to add the translation for the special ``$$languagename`` key in the english ``po`` file as well.
+Now you can edit the ``po`` files again and add the new translations. Don't forget to add the translation for the special ``$$languagename`` key in the English ``po`` file as well.
 
 After generating the source version of the application again you should be set up for testing and all should run as expected.
 

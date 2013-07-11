@@ -756,7 +756,7 @@ All examples work in the Playground application.
 Validation
 ==========
 
-Form validation is essential in most of the common use cases of forms. Thats why qooxdoo supports the application developer with a validation component named ``qx.ui.form.validation.Manager``. This manager is responsible for managing the form items which need to be validated.
+Form validation is essential in most of the common use cases of forms. That's why qooxdoo supports the application developer with a validation component named ``qx.ui.form.validation.Manager``. This manager is responsible for managing the form items which need to be validated.
 We tried to keep the API as minimal as possible but simultaneously as flexible as possible. The following class diagram shows the user API of the component.
 
 |The validation package|
@@ -973,7 +973,7 @@ Like the task of resetting itself, the API is not too complicated. We have one m
 
 How It Works
 ------------
-Technically, it's not really a challenge thanks to the new form API. You can add any items either having a value property defined by one of the :ref:`data specific form interfaces <pages/desktop/ui_form_handling#number_string_color_date_boolean>` or implementimg the :doc:`selection API <ui_selection>` of qooxdoo. On every addition, the resetter grabs the current value and stores it. On a reset all stored values are set.
+Technically, it's not really a challenge thanks to the new form API. You can add any items either having a value property defined by one of the :ref:`data specific form interfaces <pages/desktop/ui_form_handling#number_string_color_date_boolean>` or implementing the :doc:`selection API <ui_selection>` of qooxdoo. On every addition, the resetter grabs the current value and stores it. On a reset all stored values are set.
 
 .. _pages/desktop/ui_form_handling#sample_usage_2:
 
@@ -1016,7 +1016,7 @@ The following sample shows how to use the resetter with three input fields: A te
 
 Form Object
 ===========
-We've already covered most parts of form handling. But one thing we've left out completely until now is layouting the form items. Thats where the ``qx.ui.form.Form`` widget comes into play.
+We've already covered most parts of form handling. But one thing we've left out completely until now is layouting the form items. That's where the ``qx.ui.form.Form`` widget comes into play.
 
 .. _pages/desktop/ui_form_handling#what_is_it:
 
@@ -1030,7 +1030,7 @@ The qooxdoo form is an object which includes three main parts.
 
 As we have already talked about the first two items, I'll cover the last item in a more detailed way.
 
-In most cases, a form's layout is specific to the application. It depends on the space available in the application and many other factors. Thats why qooxdoo has this flexible form layouting tool, which includes a set of default options to layout a form. On of the main requirements of the solution was extensibility so that anyone could have the layout their application requires.
+In most cases, a form's layout is specific to the application. It depends on the space available in the application and many other factors. That's why qooxdoo has this flexible form layouting tool, which includes a set of default options to layout a form. On of the main requirements of the solution was extensibility so that anyone could have the layout their application requires.
 To achieve this, we applied a pattern used widely across the qooxdoo framework, which moves all UI related code to renderer classes. These renderers are as lightweight as possible to make it easy for developers to write their own custom renderer, as you can see in this UML diagram:
 |qx.ui.form.Form|
 

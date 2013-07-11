@@ -83,7 +83,7 @@ Instead of the controller use the virtual List:
 
 Now we have replaced the controller with the virtual List and reused the
 delegate implementation. We have only added one line to configure the
-default item hight. This is necessary, because the virtual List has no
+default item height. This is necessary, because the virtual List has no
 auto sizing for the item height. This is due to the huge count of model
 items.
 

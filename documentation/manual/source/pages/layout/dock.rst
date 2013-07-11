@@ -31,7 +31,7 @@ Features
 
 Description
 -----------
-The ``Dock`` layout attaches the children to the edges of the availble space. The space distribution respects the child order and starts with the first child. Every added child reduces the available space of the other ones. This is important because for example a left attached child reduces the available width for top attached children and vice-versa. This layout is mainly used for the basic application layout structure.
+The ``Dock`` layout attaches the children to the edges of the available space. The space distribution respects the child order and starts with the first child. Every added child reduces the available space of the other ones. This is important because for example a left attached child reduces the available width for top attached children and vice-versa. This layout is mainly used for the basic application layout structure.
 
 .. _pages/layout/dock#layout_properties:
 

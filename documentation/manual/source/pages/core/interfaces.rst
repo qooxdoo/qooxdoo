@@ -65,7 +65,7 @@ The member section of the interface lists all member functions which must be imp
 Statics
 -------
 
-Statics behave exactly like statics defined in mixins and qooxdoo classes, with the different that only constants are allowed. They are accessible through their fully-qualified name. For example, the static varaiable ``PI`` could be used like this:
+Statics behave exactly like statics defined in mixins and qooxdoo classes, with the different that only constants are allowed. They are accessible through their fully-qualified name. For example, the static variable ``PI`` could be used like this:
 
 ::
 

@@ -166,7 +166,7 @@ It is possible to apply the init value using an user-defined apply method. To do
 
 If you do not use the init method you must be sure that the instances created from the classes are in a consistent state. The getter will return the init value even if not initialized. This may be acceptable in some cases, e.g. for properties without ``apply`` or ``event``. But there are other cases, where the developer needs to be carefully and call the init method because otherwise the getter returns wrong information about the internal state (due to an inconsistency between init and applied value).
 
-Like calling the ``this.initMyProperty(value)`` method itself, you could call the setter and use the defined init value as parameter. This will call the apply method, not like in the usual cases when setting the same value which is aready set. 
+Like calling the ``this.initMyProperty(value)`` method itself, you could call the setter and use the defined init value as parameter. This will call the apply method, not like in the usual cases when setting the same value which is already set.
 
 ::
 
