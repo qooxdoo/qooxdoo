@@ -606,6 +606,9 @@ input, select, .text-area {
   font-weight: normal;
   font-size: 0.8em; }
 
+.list img {
+  display: block; }
+
 .drawer {
   position: absolute; }
 
@@ -771,7 +774,6 @@ input, select, .text-area {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  -moz-user-select: -moz-none;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
