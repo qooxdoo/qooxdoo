@@ -34,7 +34,7 @@ The test browser will load the application under test (AUT) over HTTP, so make s
 
   python -m SimpleHTTPServer
 
-You should now be able to open the tutorial application by browsing to ``http://localhost:8000/qooxdoo-tutorial/build/index.html``. Make sure to use ``generate.py build`` to create the build version of your application, which doesn't have any dependencies to your local qooxdoo sdk anymore. 
+You should now be able to open the tutorial application by browsing to ``http://localhost:8000/qooxdoo-tutorial/build/index.html``. Make sure to use ``generate.py build`` to create the build version of your application, which doesn't have any dependencies to your local qooxdoo sdk anymore.
 
 Also, a regular Java Runtime Environment (JRE) is necessary on your machine to run Selenium.
 
@@ -43,17 +43,17 @@ Required Libraries
 The Simulator depends on these external libraries:
 
 * `Mozilla Rhino <http://www.mozilla.org/rhino/download.html>`_: Download the ZIP archive, extract the ZIP and place ``js.jar`` in your workspace
-* `Selenium Server <http://selenium.googlecode.com/files/selenium-server-standalone-2.5.0.jar>`_: Place ``selenium-server-standalone-2.5.0.jar`` in workspace
-* `Selenium Java <http://selenium.googlecode.com/files/selenium-java-2.5.0.zip>`_ Client Driver: Extract ``selenium-java-2.5.0.jar`` and the ``libs`` directory and place them in workspace.
+* `Selenium Server <https://code.google.com/p/selenium/downloads/detail?name=selenium-server-standalone-2.33.0.jar>`_: Place ``selenium-server-standalone-2.33.0.jar`` in workspace
+* `Selenium Java <https://code.google.com/p/selenium/downloads/detail?name=selenium-java-2.33.0.zip>`_ Client Driver: Extract ``selenium-java-2.33.0.jar`` and the ``libs`` directory and place them in workspace.
 
 Starting the Selenium Server
 ----------------------------
 In a real testing environment, the Selenium server will probably run on a separate machine - in fact, the same client might use different servers to run tests e.g. in Internet Explorer on Windows, Safari on OS X and Firefox on Linux. To keep this tutorial straightforward, however, we'll run the server on the same machine as the AUT.
-Wherever selenium-server.jar is located, in order to test qooxdoo-based applications it needs to use the **qooxdoo user extensions for Selenium**. They're located in the Simulator component within the qooxdoo SDK, so start the server with the ``-userExtensions`` option set accordingly by running this command in a new shell window:
+Wherever selenium-server-standalone-2.33.0.jar is located, in order to test qooxdoo-based applications it needs to use the **qooxdoo user extensions for Selenium**. They're located in the Simulator component within the qooxdoo SDK, so start the server with the ``-userExtensions`` option set accordingly by running this command in a new shell window:
 
 ::
 
-  java -jar selenium-server-standalone-2.5.0.jar -userExtensions <QOOXDOO_PATH>/component/simulator/tool/user-extensions/user-extensions.js
+  java -jar selenium-server-standalone-2.33.0.jar -userExtensions <QOOXDOO_PATH>/component/simulator/tool/user-extensions/user-extensions.js
 
 The server should now be listening on the default port, 4444.
 
@@ -76,11 +76,11 @@ The Simulator needs several configuration settings in order to run:
     "let" :
     {
       "SIMULATOR_CLASSPATH" : [
-        "../selenium-java-2.5.0.jar",
+        "../selenium-java-2.33.0.jar",
         "../libs/*",
         "../js.jar"]
     },
-   
+
     "environment" :
     {
       "simulator.selServer"   : "localhost",
@@ -104,9 +104,9 @@ Now that we've got our infrastructure set up, we can finally start writing tests
 ::
 
   qx.Class.define("tweets.simulation.Settings", {
-   
+
     extend : simulator.unit.TestCase,
-   
+
     members :
     {
       testChangeLanguage : function()
@@ -131,7 +131,7 @@ Once the build job is finished, run generate.py simulation-run. Assuming everyth
   ----------------------------------------------------------------------------
   >>> Processing configuration
     - Warning: ! Shadowing job "simulation-run" with local one
-  
+
   ----------------------------------------------------------------------------
       Executing: simulation-run
   ----------------------------------------------------------------------------
@@ -147,11 +147,11 @@ Once the build job is finished, run generate.py simulation-run. Assuming everyth
   >>> Main runtime: 8887ms
   >>> Finalize runtime: 0ms
   >>> Assertion error! Test not implemented!: Called fail().
-  >>> Stack trace: 
-  
+  >>> Stack trace:
+
   >>> ERROR  tweets.simulation.Settings:testChangeLanguage
   >>> Test not implemented!: Called fail().
-  
+
   >>> Test suite finished.
   >>> 0 passed, 1 failed, 0 skipped.
   >>> Simulator run finished in: 0 minutes 15 seconds.
