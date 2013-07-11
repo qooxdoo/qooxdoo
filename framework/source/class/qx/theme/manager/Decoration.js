@@ -91,18 +91,20 @@ qx.Class.define("qx.theme.manager.Decoration",
     addCssClass : function(value) {
       var sheet = qx.ui.style.Stylesheet.getInstance();
 
-      var instance;
-      if (qx.lang.Type.isString(value)) {
-        instance = this.resolve(value);
-      } else {
-        instance = value;
-      }
+      var instance = value;
 
       value = this.getCssClassName(value);
       var selector = "." + value;
 
       if (sheet.hasRule(selector)) {
         return value;
+      }
+
+      if (qx.lang.Type.isString(instance)) {
+        instance = this.resolve(instance);
+      }
+      if(!instance) {
+        throw new Error(' unable to resolve CSS class for decorator "' + value + '"');
       }
 
       // create and add a CSS rule
