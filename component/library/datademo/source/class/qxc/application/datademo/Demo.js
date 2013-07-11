@@ -65,8 +65,10 @@ qx.Class.define("qxc.application.datademo.Demo", {
       }
 
       // fetch some data from identi.ca
-      var url = "http://identi.ca/api/statuses/user_timeline/linuxfoundation.json";
-      var store = new qx.data.store.Jsonp(url);
+      var url = "qxc/application/datademo/service.js";
+      var store = new qx.data.store.Jsonp();
+      store.setCallbackName("callback");
+      store.setUrl(url);
 
       // connect the store and the controller
       store.bind("model", controller, "model");
