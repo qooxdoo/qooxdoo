@@ -509,6 +509,22 @@ tutorials-build:
 	done; \
 	echo '</ul></body></html>' >> component/tutorials/index.html;
 
+tutorials-publish:
+	@echo "  * Syncing tutorials..."
+	@for TUTORIAL in $(TUTORIALS); do \
+		if [ "$$TUTORIAL" = "tweets" ]; then \
+			TUTDIR="component/tutorials/$$TUTORIAL"; \
+			for STEP in `ls $$TUTDIR`; do \
+				F="$$TUTDIR/$$STEP"; \
+				if [ -d $$F ]; then \
+					if [ "$$STEP" = "step4.5" ]; then \
+						echo "    - $$TUTORIAL $$STEP..."; \
+						$(CMD_SYNC_ONLINE) $$F/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$${TUTORIAL}_$${STEP} || exit 1; \
+					fi; \
+				fi; \
+			done; \
+		fi; \
+	done;
 
 ################################################################################
 # RESOURCE TARGETS
@@ -766,7 +782,7 @@ publish-backup:
 	@echo "  * Backing up devel version on server; this will take some time..."
 	@ssh $(STAGING_HOST) "$(CMD_SYNC_BACKUP) /var/www/qooxdoo/demo/devel /var/www/qooxdoo/demo/0.0.devel_backlog/"
 
-publish-staging: publish-check publish-backup publish-index publish-apps resources-publish manual-publish
+publish-staging: publish-check publish-backup publish-index publish-apps tutorials-publish resources-publish manual-publish
 
 publish: publish-staging publish-production
 
