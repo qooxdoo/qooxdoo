@@ -40,7 +40,7 @@ see http://manual.qooxdoo.org/3.0/pages/getting_started.html .
 
 For the impatient, here is a short version:
 
-Use the 'tool/bin/create-application.py' script to setup a new application.
+Use the './create-application.py' script to setup a new application.
 This will create a minimal directory structure of an application, which is ready to
 be built and run. Within the newly created application folder run the command
 'generate.py source-all' to generate a development version of your app.
