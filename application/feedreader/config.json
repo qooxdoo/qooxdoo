@@ -60,7 +60,8 @@
     {
       "environment" :
       {
-        "qx.nativeScrollBars" : true
+        "qx.nativeScrollBars" : true,
+        "qx.emulatemouse" : true
       },
 
       "compile-options" :
