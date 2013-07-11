@@ -300,44 +300,49 @@ class JpegFile(Image):
     def type(self):
         return "jpeg"
 
-    def size1(self):
-        self.fp.seek(2)
-
-        while True:
-            try:
-                marker, length = struct.unpack("!HH", self.fp.read(4))
-            except struct.error:
-                return None
-
-            if marker == 0xFFC0:
-                (precision, height, width) = struct.unpack("!BHH", self.fp.read(5))
-                return (width, height)
-            elif marker == 0xFFD9:
-                return None
-
-            self.fp.seek(length-2, 1)  # 1 = SEEK_CUR (2.5)
+    segments = { 
+        # (http://en.wikipedia.org/wiki/Jpeg)
+        (0xffd8,) : 0,  # soi - no length bytes, no payload
+        (0xffc0,) : 2,  # sof0 - 2 length bytes
+        (0xffc2,) : 2,  # sof2 - 2 length bytes
+        (0xffc4,) : 2,  # dht - 2 len byte
+        (0xffdb,) : 2,  # dqt - 2 len byte
+        (0xffdd,) : 2,  # dri - 2 len byte (value always 2)
+        (0xffda,) : 2,  # sos
+        tuple(range(0xffd0,0xffd7)) : 0,  # rstN - low bit of marker (0..7)
+        tuple(range(0xffe0,0xffef)) : 2,  # appN - low bit of marker (0..f)
+        (0xfffe,) : 2,  # com
+        (0xffd9,) : 0,  # eoi - no payload, no length
+    }
+    def SegmentIterator(self, cont):
+        pos = 0
+        clen = len(cont)
+        while pos<clen-1:
+            segmarker, = struct.unpack("!H", cont[pos:pos+2])
+            # assert segmarker & 0xff00 == 0xff00  # markers have to start with 0xff
+            for range_,lengthlen_ in self.segments.items():
+                if segmarker in range_:
+                    lengthlen = lengthlen_
+                    break
+            if lengthlen == 2:
+                paylen, = struct.unpack("!H", cont[pos+2:pos+2+lengthlen])
+                paystart = pos + 2 + lengthlen
+            else:
+                paylen = 0
+                paystart = pos + 2
+            yield (segmarker, paystart, paylen)
+            pos += 2 + paylen  # paylen includes lengthlen
 
     def size(self):
-        self.fp.seek(2)
-        
-        # find FFC0 marker
+        self.fp.seek(0)
         cont = self.fp.read()
-        # try Baseline DCT Start-of-frame marker (SOF0) (http://en.wikipedia.org/wiki/Jpeg)
-        pos  = cont.find("\xFF\xC0")
-        if pos < 0:
-            # try Progressive DCT Start-of-frame marker (SOF2)
-            pos  = cont.find("\xFF\xC2")
-        if pos < 0:  # no SOF found - give up
-            return None
-        pos += 4 # skip marker and length
-        
-        # extract values from SOF payload
-        try:
-            (precision, height, width) = struct.unpack("!BHH", cont[pos:pos+5])
-        except struct.error:
-            return None
-        return (width, height)
-
+        for segmarker,paystart,paylen in self.SegmentIterator(cont):
+            # try both Baseline DCT Start-of-frame marker (SOF0)
+            # and Progressive DCT Start-of-frame marker (SOF2)
+            if segmarker in (0xFFC0, 0xFFC2):
+                (precision, height, width) = struct.unpack("!BHH", cont[paystart:paystart+5])
+                return (width, height)
+        return None
 
 ##
 # This is pseudo-image, a combined image with some base64-encoded real images
