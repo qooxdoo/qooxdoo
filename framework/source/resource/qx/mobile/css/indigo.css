@@ -3198,3 +3198,8 @@ input[type="text"]:not(.selectbox), input[type="number"], input[type="password"]
   top:-10000px;
   -webkit-transform: translate3d(0,10000px,0);
 }
+
+li img {
+  display: block; 
+}
+
