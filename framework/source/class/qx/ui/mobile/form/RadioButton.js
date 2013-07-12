@@ -143,9 +143,9 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
       qx.bom.element.Class.add(label, "radiobutton-label");
 
       qx.dom.Element.insertAfter(label, this.getContentElement());
-      
+
       this.addListener("tap", this._onTap, this);
-      
+
       qx.event.Registration.removeListener(this, "appear", this.__onAppear, this);
     },
 

@@ -240,8 +240,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     getMasterButton : function() {
       return this.__masterButton;
     },
-    
-    
+
+
     /**
      * Returns the masterContainer.
      * @return {qx.ui.mobile.container.Navigation}
@@ -249,8 +249,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     getMasterContainer : function() {
       return this.__masterContainer;
     },
-    
-    
+
+
     /**
      * Returns the detailContainer.
      * @return {qx.ui.mobile.container.Navigation}

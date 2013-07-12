@@ -363,13 +363,13 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
           "Validation Error: Please apply model before selection"
         );
       }
-      
+
       if(!this.isNullable() && value === null ) {
         throw new qx.core.ValidationError(
           "Validation Error: SelectBox is not nullable"
         );
-      } 
-      
+      }
+
       if(value != null && (value < 0 || value >= this.getModel().getLength())) {
         throw new qx.core.ValidationError(
           "Validation Error: Input value is out of model range"

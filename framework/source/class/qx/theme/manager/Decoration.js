@@ -129,7 +129,7 @@ qx.Class.define("qx.theme.manager.Decoration",
         );
       }
 
-     
+
       // check if an array is given and the decorator should be build on runtime
       if (clazz instanceof Array) {
         var names = [];

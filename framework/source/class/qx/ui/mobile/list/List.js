@@ -198,32 +198,32 @@ qx.Class.define("qx.ui.mobile.list.List",
       if (value != null) {
         value.addListener("changeBubble", this.__onModelChangeBubble, this);
       }
-      
+
       if (old != null) {
         old.removeListener("change", this.__onModelChange, this);
       }
       if (value != null) {
         value.addListener("change", this.__onModelChange, this);
       }
-      
+
       if (old != null) {
         old.removeListener("changeLength", this.__onModelChangeLength, this);
       }
       if (value != null) {
         value.addListener("changeLength", this.__onModelChangeLength, this);
       }
-      
-      
+
+
       this.__render();
     },
-    
-    
+
+
     // property apply
     _applyDelegate : function(value, old) {
       this.__provider.setDelegate(value);
     },
-    
-    
+
+
     /**
      * Listen on model 'changeLength' event.
      * @param evt {qx.event.type.Data} data event which contains model change data.
@@ -232,7 +232,7 @@ qx.Class.define("qx.ui.mobile.list.List",
       this.__render();
     },
 
-    
+
     /**
      * Reacts on model 'change' event.
      * @param evt {qx.event.type.Data} data event which contains model change data.
@@ -242,8 +242,8 @@ qx.Class.define("qx.ui.mobile.list.List",
         this.__render();
       }
     },
-    
-    
+
+
     /**
      * Reacts on model 'changeBubble' event.
      * @param evt {qx.event.type.Data} data event which contains model changeBubble data.

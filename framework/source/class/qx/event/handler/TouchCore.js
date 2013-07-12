@@ -94,7 +94,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     __isSingleTouchGesture : null,
     __isTapGesture : null,
     __onMove : null,
-    
+
     __beginScalingDistance : null,
     __beginRotation : null,
 
@@ -171,8 +171,8 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     {
       this._commonTouchEventHandler(domEvent);
     },
-    
-    
+
+
     /**
      * Calculates the scaling distance between two touches.
      * @param touch0 {Event} The touch event from the browser.
@@ -180,10 +180,10 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
      * @return {Number} the calculated distance.
      */
     _getScalingDistance: function(touch0, touch1) {
-      return(Math.sqrt( Math.pow(touch0.pageX - touch1.pageX, 2) + Math.pow(touch0.pageY - touch1.pageY, 2) ));	
+      return(Math.sqrt( Math.pow(touch0.pageX - touch1.pageX, 2) + Math.pow(touch0.pageY - touch1.pageY, 2) ));
     },
-    
-    
+
+
     /**
      * Calculates the rotation between two touches.
      * @param touch0 {Event} The touch event from the browser.
@@ -193,10 +193,10 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     _getRotationAngle: function(touch0, touch1) {
       var x = touch0.pageX - touch1.pageX;
       var y = touch0.pageY - touch1.pageY;
-      return(Math.atan2(y, x)*180/Math.PI);	
+      return(Math.atan2(y, x)*180/Math.PI);
     },
-    
-    
+
+
     /**
      * Called by an event handler.
      *
@@ -226,7 +226,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
 
       if (type == "touchstart") {
         this.__originalTarget = this._getTarget(domEvent);
-        
+
         this.__isTapGesture = true;
 
         if(domEvent.touches && domEvent.touches.length > 1) {
@@ -234,16 +234,16 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
           this.__beginRotation = this._getRotationAngle(domEvent.touches[0],domEvent.touches[1]);
         }
       }
-      
+
       if(type =="touchmove") {
-        // Polyfill for scale 
+        // Polyfill for scale
         if(typeof domEvent.scale == "undefined" && domEvent.changedTouches.length > 1) {
-          
+
           var currentScalingDistance = this._getScalingDistance(domEvent.changedTouches[0],domEvent.changedTouches[1]);
           domEvent.scale = currentScalingDistance / this.__beginScalingDistance;
         }
-        
-         // Polyfill for rotation 
+
+         // Polyfill for rotation
         if(typeof domEvent.rotation == "undefined" && domEvent.changedTouches.length > 1) {
           var currentRotation = this._getRotationAngle(domEvent.changedTouches[0],domEvent.changedTouches[1]);
           domEvent.rotation = currentRotation - this.__beginRotation;
@@ -253,7 +253,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
           this.__isTapGesture = this._isBelowTapMaxDistance(domEvent.changedTouches[0]);
         }
       }
-      
+
       this._fireEvent(domEvent, type);
       this.__checkAndFireGesture(domEvent, type);
     },

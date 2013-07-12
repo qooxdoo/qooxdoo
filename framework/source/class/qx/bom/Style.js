@@ -32,7 +32,7 @@ qx.Bootstrap.define("qx.bom.Style",
 
     /**
      * Internal lookup table to map property names to CSS names
-     * @internal 
+     * @internal
      */
     __cssName : {},
 
@@ -65,11 +65,11 @@ qx.Bootstrap.define("qx.bom.Style",
 
 
     /**
-     * Takes the name of a JavaScript style property and returns the 
-     * corresponding CSS name. 
-     * 
+     * Takes the name of a JavaScript style property and returns the
+     * corresponding CSS name.
+     *
      * The name of the style property is taken as is, i.e. it gets not
-     * extended by vendor prefixes. The conversion into the CSS name is 
+     * extended by vendor prefixes. The conversion into the CSS name is
      * done by string manipulation, not involving the DOM.
      *
      * Example:
@@ -81,21 +81,21 @@ qx.Bootstrap.define("qx.bom.Style",
     getCssName: function(propertyName)
     {
       var cssName = this.__cssName[propertyName];
-      
-      if (!cssName) 
+
+      if (!cssName)
       {
         // all vendor prefixes (except for "ms") start with an uppercase letter
         cssName = propertyName.replace(/[A-Z]/g, function(match){
           return  ('-' + match.charAt(0).toLowerCase());
         });
-        
+
         // lowercase "ms" vendor prefix needs special handling
         if((/^ms/.test(cssName))) {
           cssName = "-" + cssName;
         }
         this.__cssName[propertyName] = cssName;
       }
-      
+
       return cssName;
     },
 

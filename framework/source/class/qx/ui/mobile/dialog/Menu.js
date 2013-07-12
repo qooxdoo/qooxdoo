@@ -58,8 +58,8 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     }
 
     var menuContainer = new qx.ui.mobile.container.Composite();
-    this.__clearButton = this._createClearButton(); 
-    
+    this.__clearButton = this._createClearButton();
+
     menuContainer.add(this.__selectionList);
     menuContainer.add(this.__clearButton);
 
@@ -156,8 +156,8 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       check : "String",
       apply : "_applyClearButtonLabel"
     },
-    
-    
+
+
     /**
      * The selected index of this menu.
      */
@@ -166,7 +166,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       check : "Integer",
       apply : "_applySelectedIndex",
       nullable : true
-    }  
+    }
   },
 
 
@@ -181,17 +181,17 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     __selectionList: null,
     __clearButton : null,
 
-     
+
     // overidden
     show : function() {
       this.base(arguments);
-      
+
       if(this.getHideOnBlockerClick()) {
         this._getBlocker().addListenerOnce("tap", this.hide, this);
       }
     },
-    
-    
+
+
     /**
      * Creates the clearButton. Override this to customize the widget.
      *
@@ -204,8 +204,8 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       clearButton.exclude();
       return clearButton;
     },
-    
-    
+
+
     /**
      * Creates the selection list. Override this to customize the widget.
      *
@@ -234,11 +234,11 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       // Add an changeSelection event
       selectionList.addListener("changeSelection", this.__onListChangeSelection, this);
       selectionList.addListener("tap", this._onSelectionListTap, this);
-      
+
       return selectionList;
     },
-    
-    
+
+
     /** Handler for tap event on selection list. */
     _onSelectionListTap : function() {
       this.hideWithDelay(500);
@@ -265,8 +265,8 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       this.setSelectedIndex(evt.getData());
       this._render();
     },
-    
-    
+
+
     /**
      * Reacts on blocker tap.
      */
@@ -285,8 +285,8 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       this.fireDataEvent("changeSelection", {index: null, item: null});
       this.hide();
     },
-    
-    
+
+
     // property apply
     _applySelectedIndex : function(value, old) {
       var listModel = this.__selectionList.getModel();
@@ -311,8 +311,8 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     _applyClearButtonLabel : function(value, old) {
        this.__clearButton.setValue(value);
     },
-    
-    
+
+
     /**
      * Triggers (re-)rendering of menu items.
      */
@@ -333,7 +333,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
   {
     this.__selectionList.removeListener("tap", this._onSelectionListTap, this);
     this.__clearButton.removeListener("touchstart", this._preventClickEvent, this);
-    
+
     this._disposeObjects("__selectionList","__clearButton");
   }
 

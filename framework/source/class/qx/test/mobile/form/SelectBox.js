@@ -61,9 +61,9 @@ qx.Class.define("qx.test.mobile.form.SelectBox",
 
       // Set selection failure
       // Nothing is changed because invalid selectedIndex value.
-      this.assertException(qx.lang.Function.bind(selectBox.setSelection, selectBox, 4), 
-        qx.core.ValidationError,  
-        "Validation Error: Input value is out of model range", 
+      this.assertException(qx.lang.Function.bind(selectBox.setSelection, selectBox, 4),
+        qx.core.ValidationError,
+        "Validation Error: Input value is out of model range",
         "Exception assertion failed."
       );
 
@@ -71,12 +71,12 @@ qx.Class.define("qx.test.mobile.form.SelectBox",
       this.assertEquals("Item 3", selectBox.getValue());
 
       // Negative values are not allowed. Nothing is changed.
-      this.assertException(qx.lang.Function.bind(selectBox.setSelection, selectBox, -1), 
-        qx.core.ValidationError,  
-        "Validation Error: Input value is out of model range", 
+      this.assertException(qx.lang.Function.bind(selectBox.setSelection, selectBox, -1),
+        qx.core.ValidationError,
+        "Validation Error: Input value is out of model range",
         "Exception assertion failed."
       );
-      
+
       this.assertEquals(2, selectBox.getSelection());
       this.assertEquals("Item 3", selectBox.getValue());
 

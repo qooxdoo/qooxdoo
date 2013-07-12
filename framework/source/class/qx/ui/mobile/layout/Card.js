@@ -269,7 +269,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       var toElement = widget.getContainerElement();
 
       var onAnimationEnd = qx.lang.Function.bind(this._onAnimationEnd, this);
-      
+
       if(qx.core.Environment.get("event.mspointer")) {
         qx.bom.Event.addNativeListener(fromElement, "MSAnimationEnd", onAnimationEnd, false);
         qx.bom.Event.addNativeListener(toElement, "MSAnimationEnd", onAnimationEnd, false);
@@ -280,7 +280,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
       var fromCssClasses = this.__getAnimationClasses("out");
       var toCssClasses = this.__getAnimationClasses("in");
-      
+
       this._widget.addCssClass("animationParent");
       qx.bom.element.Class.addClasses(toElement, toCssClasses);
       qx.bom.element.Class.addClasses(fromElement, fromCssClasses);

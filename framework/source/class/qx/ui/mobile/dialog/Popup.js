@@ -157,12 +157,12 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       {
           var viewPortHeight = qx.bom.Viewport.getHeight();
           var viewPortWidth = qx.bom.Viewport.getWidth();
-        
+
           var anchorPosition = qx.bom.element.Location.get(this.__anchor.getContainerElement());
           var popupDimension = qx.bom.element.Dimension.getSize(this.getContainerElement());
-        
+
           var arrowSize = 12;
-        
+
           var position = qx.util.placement.Placement.compute(popupDimension,{
             width:viewPortWidth,
             height:viewPortHeight
@@ -172,24 +172,24 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
             top:arrowSize,
             bottom:arrowSize
           },"bottom-left","keep-align","keep-align");
-        
+
           // Reset Anchor.
           this._resetPosition();
           this.__arrow.removeCssClass('popupAnchorPointerTop');
           this.__arrow.removeCssClass('popupAnchorPointerTopRight');
           this.__arrow.removeCssClass('popupAnchorPointerBottom');
           this.__arrow.removeCssClass('popupAnchorPointerBottomRight');
-        
+
           this.placeTo(position.left,position.top);
-        
+
           var isTop = anchorPosition.top > position.top;
           var isLeft = anchorPosition.left > position.left;
-          
-          var isOutsideViewPort = position.top < 0 
-            || position.left < 0 
-            || position.left + popupDimension.width > viewPortWidth 
+
+          var isOutsideViewPort = position.top < 0
+            || position.left < 0
+            || position.left + popupDimension.width > viewPortWidth
             || position.top + popupDimension.height > viewPortHeight;
-          
+
           if(isOutsideViewPort) {
             this._positionToCenter();
           } else {
@@ -207,7 +207,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
               }
             }
           }
-          
+
       } else if (this.__childrenContainer) {
         // No Anchor
         this._positionToCenter();
@@ -251,8 +251,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       }
       this.__isShown = false;
     },
-    
-    
+
+
     /**
      * Hides the popup after a given time delay.
      * @param delay {Integer} time delay in ms.
@@ -264,8 +264,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         this.hide();
       }
     },
-    
-    
+
+
     /**
      * Returns the shown state of this popup.
      * @return {Boolean} whether the popup is shown or not.
@@ -439,8 +439,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         }
       }
     },
-    
-    
+
+
     /**
      * Prevents the firing of a click event on this widget when called on "touchstart".
      * @param evt {qx.event.type.Touch} The touchstart event.
