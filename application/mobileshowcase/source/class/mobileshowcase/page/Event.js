@@ -72,8 +72,8 @@ qx.Class.define("mobileshowcase.page.Event",
     __touchCircleLeft: null,
     __touchCircleTop: null,
     __touchCount:0,
-    
-    
+
+
     // overridden
     _initialize : function()
     {
@@ -139,12 +139,12 @@ qx.Class.define("mobileshowcase.page.Event",
 
       // Center background gradient, when multiple touches are available.
       qx.bom.element.Style.set(this.__container.getContentElement(),"background","-"+this.__vendorPrefix+"-radial-gradient(50% 50%, cover, #1a82f7, #2F2727)");
-      
+
       // Start rendering
       qx.bom.AnimationFrame.request(this._render, this);
     },
 
-    
+
     __onGestureTargetTouchMove : function(evt) {
       if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
           this._getScrollContainer().disable();
@@ -155,7 +155,7 @@ qx.Class.define("mobileshowcase.page.Event",
       var containerElement = this.__showcaseContainer.getContentElement();
       var containerLeft = qx.bom.element.Location.getLeft(containerElement, "padding");
       var containerTop = qx.bom.element.Location.getTop(containerElement, "padding");
-      
+
       if (evt.isMultiTouch())
       {
         this.__currentRotation = Math.round(evt.getRotation()) + Math.round(this.__initialRotation);
@@ -173,7 +173,7 @@ qx.Class.define("mobileshowcase.page.Event",
       else
       {
         var timeSinceMultiTouch = new Date().getTime() - this.__lastMultiTouchEventTime;
-        
+
         if(timeSinceMultiTouch > 500) {
           var touchLeft = evt.getAllTouches()[0].clientX;
           var touchTop = evt.getAllTouches()[0].clientY;

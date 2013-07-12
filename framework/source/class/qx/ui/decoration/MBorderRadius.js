@@ -127,7 +127,7 @@ qx.Mixin.define("qx.ui.decoration.MBorderRadius",
       if (hasRadius && qx.core.Environment.get("engine.name") == "webkit") {
         styles["-webkit-background-clip"] = "padding-box";
       } else {
-		styles["background-clip"] = "padding-box";
+    styles["background-clip"] = "padding-box";
       }
     },
 

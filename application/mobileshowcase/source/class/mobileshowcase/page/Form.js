@@ -125,7 +125,7 @@ qx.Class.define("mobileshowcase.page.Form",
       form.addGroupHeader("Feedback");
       var dd = new qx.data.Array(["Web search", "From a friend", "Offline ad","Magazine","Twitter","Other"]);
       var selQuestion = "How did you hear about us ?";
-      
+
       this.__sel = new qx.ui.mobile.form.SelectBox();
       this.__sel.set({required: true});
       this.__sel.set({placeholder:"Unknown"});
@@ -146,13 +146,13 @@ qx.Class.define("mobileshowcase.page.Form",
       this.__save = new qx.ui.mobile.form.ToggleButton(false,"Agree","Reject",13);
       this.__save.addListener("changeValue", this._enableFormSubmitting, this);
       form.add(this.__save, "Agree? ");
-      
+
       this._createValidationRules(form.getValidationManager());
-      
+
       return form;
     },
-    
-    
+
+
     /**
      * Adds all validation rules of the form.
      * @param validationManager {qx.ui.form.validation.Manager} the created form.
@@ -183,7 +183,7 @@ qx.Class.define("mobileshowcase.page.Form",
           item.setInvalidMessage("Please enter your age.");
           valid = false;
         }
-        
+
         if(value < item.getMinimum() || value > item.getMaximum()) {
           item.setInvalidMessage("Value out of range: "+ item.getMinimum()+"-"+item.getMaximum());
           valid = false;

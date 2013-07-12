@@ -410,7 +410,7 @@ qx.Class.define("qx.ui.tabview.TabView",
 
         // Update bar
         bar.removeState(oldState);
-        
+
         // Update pane
         pane.removeState(oldState);
 
@@ -426,7 +426,7 @@ qx.Class.define("qx.ui.tabview.TabView",
 
         // Update bar
         bar.addState(newState);
-        
+
         // Update pane
         pane.addState(newState);
 

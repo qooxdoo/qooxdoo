@@ -233,7 +233,7 @@ qx.Class.define("mobileshowcase.page.DataBinding",
     */
     destruct : function() {
       this.__timer.removeListener("interval", this.__onInterval, this);
-      
+
       this._disposeObjects("__increaseMode", "__decreaseButton",
         "__increaseButton", "__stopTimeButton", "__timer", "__dataLabel",
         "__slider", "__form", "__list");

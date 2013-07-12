@@ -113,7 +113,7 @@ qx.Class.define("mobileshowcase.Application",
         canvas,
         themeSwitcher
       ]);
-      
+
       // Initialize the navigation
       var nm = new qx.application.Routing();
       this.setRouting(nm);
@@ -189,7 +189,7 @@ qx.Class.define("mobileshowcase.Application",
       {
         carousel.show();
       },this);
-      
+
       nm.onGet("/drawer", function(data)
       {
         drawer.show();
@@ -204,7 +204,7 @@ qx.Class.define("mobileshowcase.Application",
       {
         maps.show();
       },this);
-      
+
       nm.onGet("/canvas", function(data)
       {
         canvas.show();

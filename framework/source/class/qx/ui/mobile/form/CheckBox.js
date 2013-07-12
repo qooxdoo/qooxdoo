@@ -59,11 +59,11 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
   construct : function(value)
   {
     this.base(arguments);
-    
+
     if(typeof value != undefined) {
       this._state = value;
     }
-    
+
     this.addListener("tap", this._onTap, this);
   },
 
@@ -87,22 +87,22 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
   members :
   {
     _state : null,
-    
-    
+
+
     // overridden
     _getTagName : function()
     {
       return "span";
     },
-    
-  
+
+
     // overridden
     _getType : function()
     {
       return null;
     },
 
-    
+
     /**
      * Handler for tap events.
      */
@@ -123,9 +123,9 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
       } else {
         this.removeCssClass("checked");
       }
-      
+
       this._setAttribute("checked", value);
-      
+
       this._state = value;
     },
 

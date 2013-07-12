@@ -35,9 +35,9 @@
  * var ctx = canvas.getContext2d();
  * ctx.strokeStyle = '#3D72C9';
  * ctx.beginPath();
- * ctx.arc(75,85,50,0,Math.PI*2,true); 
+ * ctx.arc(75,85,50,0,Math.PI*2,true);
  * ctx.moveTo(110,85);
- * ctx.arc(75,85,35,0,Math.PI,false); 
+ * ctx.arc(75,85,35,0,Math.PI,false);
  * ctx.moveTo(65,75);
  * ctx.arc(60,75,5,0,Math.PI*2,true);
  * ctx.moveTo(95,75);

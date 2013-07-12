@@ -86,8 +86,8 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
   {
     /** Fired when the user tapped on the navigation button */
     action : "qx.event.type.Event",
-    
-    /** Fired when parent portrait container should hide. 
+
+    /** Fired when parent portrait container should hide.
      *  @deprecated {3.0} Please use qx.ui.mobile.page.Manager.setHideMasterOnDetailStart(true).
      */
     hidePortraitContainer : "qx.event.type.Event"

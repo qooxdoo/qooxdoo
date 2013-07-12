@@ -138,7 +138,7 @@ qx.Bootstrap.define("qxWeb", {
      *       <tr><th>construct</th><td>Function</td><td>The constructor of the class.</td></tr>
      *       <tr><th>statics</th><td>Map</td><td>Map of static values / functions of the class.</td></tr>
      *       <tr><th>members</th><td>Map</td><td>Map of instance members of the class.</td></tr>
-     *       <tr><th>defer</th><td>Function</td><td>Function that is called at the end of 
+     *       <tr><th>defer</th><td>Function</td><td>Function that is called at the end of
      *          processing the class declaration.</td></tr>
      *     </table>
      * @return {Function} The defined class.

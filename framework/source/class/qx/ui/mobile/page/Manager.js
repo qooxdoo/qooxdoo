@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
       this.__masterContainer = this._createMasterContainer();
       this.__detailContainer = this._createDetailContainer();
-      
+
       this.__masterButton = this._createMasterButton();
       this.__masterButton.addListener("tap", this._onMasterButtonTap, this);
 
@@ -97,11 +97,11 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
       qx.event.Registration.addListener(window, "orientationchange", this._onLayoutChange, this);
       this.__masterContainer.addListener("resize", this._onLayoutChange, this);
-      
+
       // On Tablet Mode, no Animation should be shown by default.
       this.__masterNavigation.getLayout().setShowAnimation(false);
       this.__detailNavigation.getLayout().setShowAnimation(false);
-      
+
       this._onLayoutChange();
     } else {
       root.add(this.__detailNavigation, {flex:1});
@@ -149,10 +149,10 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       check : "Boolean",
       apply : "__updateMasterButtonVisibility"
     },
-    
-    
+
+
     /**
-     *  This flag controls whether the MasterContainer hides on portrait view, 
+     *  This flag controls whether the MasterContainer hides on portrait view,
      *  when a Detail Page fires the lifecycle event "start".
      */
     hideMasterOnDetailStart : {
@@ -179,8 +179,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     __detailPages : null,
     __masterContainer : null,
     __detailContainer : null,
-    
-    
+
+
     /**
      * Creates the master container.
      *
@@ -204,8 +204,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       detailContainer.setDefaultCssClass("master-detail-detail");
       return detailContainer;
     },
-    
-    
+
+
     /**
      * Getter for the Master Container
      * @return {qx.ui.mobile.container.Drawer} The Master Container.
@@ -213,8 +213,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     getMasterContainer : function() {
       return this.__masterContainer;
     },
-    
-    
+
+
     /**
      * Getter for the Detail Container
      * @return {qx.ui.mobile.container.Composite} The Detail Container.
@@ -222,8 +222,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     getDetailContainer : function() {
       return this.__detailContainer;
     },
-    
-    
+
+
     /**
      * Returns the button for showing/hiding the masterContainer.
      * @return {qx.ui.mobile.navigationbar.Button}
@@ -249,8 +249,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     getDetailNavigation : function() {
       return this.__detailNavigation;
     },
-    
-    
+
+
      /**
      * Factory method for the master button, which is responsible for showing/hiding masterContainer.
      * @return {qx.ui.mobile.navigationbar.Button}
@@ -268,7 +268,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       return new qx.ui.mobile.navigationbar.Button("Hide");
     },
 
-    
+
     /**
     * Factory method for masterNavigation.
     * @return {qx.ui.mobile.container.Navigation}
@@ -276,8 +276,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     _createMasterNavigation : function() {
       return new qx.ui.mobile.container.Navigation();
     },
-    
-    
+
+
     /**
      * Factory method for detailNavigation.
      * @return {qx.ui.mobile.container.Navigation}
@@ -334,17 +334,17 @@ qx.Class.define("qx.ui.mobile.page.Manager",
      */
     addDetail : function(pages) {
       this._add(pages, this.__detailNavigation);
-      
+
       if(pages && this.__isTablet) {
         if (!qx.lang.Type.isArray(pages)) {
           pages = [pages];
         }
-        
+
         for(var i = 0; i < pages.length; i++) {
           var detailPage = pages[i];
           qx.event.Registration.addListener(detailPage, "start", this._onDetailPageStart, this);
         }
-        
+
         if(this.__detailPages) {
           this.__detailPages.concat(pages);
         } else {
@@ -352,8 +352,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
         }
       }
     },
-    
-    
+
+
     /**
      * Called when a detailPage reaches lifecycle state "start".
      * @param evt {qx.event.type.Event} source event.
@@ -420,12 +420,12 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     */
     _onMasterButtonTap : function() {
       this.__masterContainer.show();
-      
+
       if (qx.bom.Viewport.isLandscape()) {
         this.setMasterContainerHidden(false);
         this._createDetailContainerGap();
         this.__masterButton.exclude();
-      } 
+      }
     },
 
 
@@ -434,12 +434,12 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     */
     _onHideMasterButtonTap : function() {
       this.__masterContainer.hide();
-      
+
       if (qx.bom.Viewport.isLandscape()) {
         this.__masterButton.show();
         this.setMasterContainerHidden(true);
         this._removeDetailContainerGap();
-      } 
+      }
     },
 
 
@@ -450,10 +450,10 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       if(!this.__isTablet) {
         return;
       }
-      
+
       if(qx.bom.Viewport.isLandscape()) {
         this.__masterContainer.setTransitionDuration(0);
-        
+
         if(!this.isMasterContainerHidden()) {
           this._createDetailContainerGap();
           this.__masterContainer.show();
@@ -467,10 +467,10 @@ qx.Class.define("qx.ui.mobile.page.Manager",
         this.__masterContainer.hide();
         this._removeDetailContainerGap();
       }
-      
-      this.__updateMasterButtonVisibility(); 
+
+      this.__updateMasterButtonVisibility();
     },
-    
+
 
     /**
      * Moves detailContainer to the right edge of MasterContainer.
@@ -479,7 +479,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     _createDetailContainerGap : function() {
       var width = this.__masterContainer.getWidth();
       qx.bom.element.Style.set(this.__detailContainer.getContainerElement(), "paddingLeft", width+"px");
-      
+
       qx.event.Registration.fireEvent(window, "resize");
     },
 
@@ -489,11 +489,11 @@ qx.Class.define("qx.ui.mobile.page.Manager",
      */
     _removeDetailContainerGap : function() {
       qx.bom.element.Style.set(this.__detailContainer.getContainerElement(), "paddingLeft", null);
-      
+
       qx.event.Registration.fireEvent(window, "resize");
     },
-    
-    
+
+
     /**
     * Show/hides master button.
     */
@@ -502,14 +502,14 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       if(!this.__isTablet) {
         return;
       }
-      
+
       if (qx.bom.Viewport.isPortrait()) {
         this.__masterButton.show();
         this.__hideMasterButton.show();
       } else {
         this.__masterButton.exclude();
         this.__hideMasterButton.exclude();
-        
+
         if(this.isAllowMasterHideOnLandscape()) {
           if(this.isMasterContainerHidden()) {
             this.__masterButton.show();
@@ -519,7 +519,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
         }
       }
     },
-    
+
 
     /**
     * Called on property changes of hideMasterButtonCaption.
@@ -568,7 +568,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
         qx.event.Registration.removeListener(detailPage, "start", this._onDetailPageStart, this);
       }
     }
-    
+
     if(this.__isTablet) {
       this.__masterContainer.removeListener("resize", this._onLayoutChange, this);
       qx.event.Registration.removeListener(window, "orientationchange", this._onLayoutChange, this);

@@ -30,7 +30,7 @@ qx.Class.define("qx.test.mobile.form.CheckBox",
 
       this.assertEquals(false,checkBox.getValue());
       this.assertEquals(false, qxWeb(checkBox.getContainerElement()).hasClass("checked"));
-      
+
       checkBox.setValue(true);
       this.assertEquals(true,checkBox.getValue());
       this.assertEquals(true, qxWeb(checkBox.getContainerElement()).hasClass("checked"));

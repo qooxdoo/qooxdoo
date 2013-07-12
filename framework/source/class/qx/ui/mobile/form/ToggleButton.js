@@ -73,14 +73,14 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
        this.__labelUnchecked = labelUnchecked;
        this.__labelChecked = labelChecked;
     }
-    
+
     this._setAttribute("data-label-checked", this.__labelChecked);
     this._setAttribute("data-label-unchecked", this.__labelUnchecked);
 
     if(fontSize) {
       this.__fontSize = parseInt(fontSize, 10);
     }
-    
+
     if(this.__fontSize) {
       qx.bom.element.Style.set(this._getContentElement(),"fontSize",this.__fontSize+"px");
     }

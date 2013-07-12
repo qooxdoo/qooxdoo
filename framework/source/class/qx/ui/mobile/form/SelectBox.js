@@ -33,13 +33,13 @@
  *      var model = new qx.data.Array(["item1","item2"]);
  *      sel.setModel(model);
  *      model.push("item3");
- * 
+ *
  *      var but = new qx.ui.mobile.form.Button("setSelection");
  *      page1.add(but);
  *      but.addListener("tap", function(){
  *        sel.setSelection("item3");
  *      }, this);
- *      
+ *
  *      sel.addListener("changeSelection", function(evt) {
  *        console.log(evt.getData());
  *      }, this);
@@ -153,8 +153,8 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       nullable : true,
       init : null
     },
-    
-    
+
+
     /**
      * The selected index of this SelectBox.
      */
@@ -192,7 +192,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
       qx.bom.Event.addNativeListener(containerElement, "click", qx.bom.Event.preventDefault, false);
       qx.bom.Event.addNativeListener(containerElement, "touchstart", qx.bom.Event.preventDefault, false);
-      
+
       return containerElement;
     },
 
@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      */
     _createSelectionDialog : function() {
       var menu = new qx.ui.mobile.dialog.Menu();
-      
+
       // Special appearance for SelectBox menu items.
       menu.setSelectedItemClass("selectbox-selected");
       menu.setUnselectedItemClass("selectbox-unselected");
@@ -214,8 +214,8 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
       return menu;
     },
-    
-    
+
+
     /**
      * Returns the SelectionDialog.
      * @return {qx.ui.mobile.dialog.Menu} the SelectionDialog.
@@ -251,7 +251,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       if(!this.isNullable() && value == null || this.getModel() == null) {
         return;
       }
-      
+
       if(value != null) {
         this.setSelection(this.getModel().indexOf(value));
       } else {
@@ -318,8 +318,8 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       this.setSelection(evt.getData().index);
       this._render();
     },
-    
-    
+
+
     /**
      * Validates the selection value.
      * @param value {Integer} the selection value to validate.
@@ -330,21 +330,21 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
           "Validation Error: Please apply model before selection"
         );
       }
-      
+
       if(!this.isNullable() && value === null ) {
         throw new qx.core.ValidationError(
           "Validation Error: SelectBox is not nullable"
         );
-      } 
-      
+      }
+
       if(value != null && (value < 0 || value >= this.getModel().getLength())) {
         throw new qx.core.ValidationError(
           "Validation Error: Input value is out of model range"
         );
       }
     },
-    
-    
+
+
     // property apply
     _applySelection : function(value, old) {
       var selectedItem = this.getModel().getItem(value);
@@ -352,8 +352,8 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
       this._render();
     },
-    
-    
+
+
     // property apply
     _applyNullable : function(value, old) {
       // Delegate nullable property.
@@ -369,7 +369,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
   destruct : function()
   {
     this.__selectionDialog.removeListener("changeSelection", this._onChangeSelection, this);
-    
+
     this._disposeObjects("__selectionDialog","__selectionDialogTitle");
 
     this.removeListener("focus", this.blur);

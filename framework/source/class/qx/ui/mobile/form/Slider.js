@@ -261,7 +261,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
         var position = this._lastPosition =  this._getPosition(evt.getDocumentLeft());
 
         this.setValue(this._positionToValue(position));
-        
+
         evt.stopPropagation();
       }
     },
@@ -356,13 +356,13 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _updateKnobPosition : function()
     {
       var percent = this._valueToPercent(this.getValue());
-      
+
       var width = this._containerElementWidth;
       var position = Math.floor(this._percentToPosition(width, percent));
       var element = this._getKnobElement();
-      
+
       position = this._getOffsetForKnob(position);
-      
+
       qx.bom.element.Style.set(element, "width", width - (width - position) + "px");
     },
 
@@ -371,7 +371,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
      * Determines whether the knob position needs an offset.
      * This offset is needed for preventing the knob to be shown outside the
      * range.
-     * 
+     *
      * @param position {Integer} The knob position
      * @return {Integer} The adjusted knob position.
      */
@@ -381,8 +381,8 @@ qx.Class.define("qx.ui.mobile.form.Slider",
         return offset;
       } else if (position > this._containerElementWidth - offset) {
         return this._containerElementWidth - offset;
-      } 
-      
+      }
+
       return position;
     },
 

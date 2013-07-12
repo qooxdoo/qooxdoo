@@ -21,7 +21,7 @@
  * Creates a Collapsible widget.
  * It contains a {@link qx.ui.mobile.basic.Label Label} for the header and a {@link qx.ui.mobile.container.Composite Composite}
  * for the content.
- * 
+ *
  * The visiblity of the content composite toggles when user taps on header.
  *
  * *Example*
@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.mobile.container.Collapsible",
   construct : function(title)
   {
     this.base(arguments);
-   
+
     this._header = this._createHeader();
     this._header.addCssClass("collapsible-header");
     this._header.addListener("tap", this.toggleCollapsed, this);
@@ -120,13 +120,13 @@ qx.Class.define("qx.ui.mobile.container.Collapsible",
 
     /**
     * Adds a new child widget to the Collapsible's content composite.
-    * @param child {qx.ui.mobile.core.Widget} the widget to add. 
-    * @param layoutProperties {Map?} (default:null) Optional layout data for widget.  
+    * @param child {qx.ui.mobile.core.Widget} the widget to add.
+    * @param layoutProperties {Map?} (default:null) Optional layout data for widget.
     */
     add : function(child, layoutProperties) {
       if(child && this._content instanceof qx.ui.mobile.container.Composite) {
         this._content.add(child, layoutProperties);
-      }  
+      }
     },
 
 
@@ -149,7 +149,7 @@ qx.Class.define("qx.ui.mobile.container.Collapsible",
       return this._header;
     },
 
-    
+
     /**
     * Getter for the Collapsible's content composite.
     * @return {qx.ui.mobile.container.Composite} the content composite.
@@ -180,7 +180,7 @@ qx.Class.define("qx.ui.mobile.container.Collapsible",
     },
 
 
-    // property apply 
+    // property apply
     _applyCollapsed : function(value, old) {
       if(value == true) {
         this._content.exclude();

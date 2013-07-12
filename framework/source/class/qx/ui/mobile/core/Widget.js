@@ -1151,11 +1151,11 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       if(this.getRotation() != null) {
         propertyValue = propertyValue + "rotate("+this.getRotation()+"deg) ";
       }
-      
+
       if(this.getScaleX() != null && this.getScaleY() != null) {
         propertyValue = propertyValue + "scale("+this.getScaleX()+","+this.getScaleY()+") ";
       }
-      
+
       if(this.getTranslateX() != null && this.getTranslateY() != null) {
         var isTransform3d = qx.core.Environment.get("css.transform.3d");
         if(isTransform3d && this.getTranslateZ() != null) {

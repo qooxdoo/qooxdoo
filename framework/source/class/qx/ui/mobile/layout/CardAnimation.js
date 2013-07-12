@@ -19,14 +19,14 @@
 
 /**
  * Contains all animations which are needed for page transitions on {@link qx.ui.mobile.layout.Card}.
- * Provides a convenience method {@link qx.ui.mobile.layout.CardAnimation#getAnimation} which 
+ * Provides a convenience method {@link qx.ui.mobile.layout.CardAnimation#getAnimation} which
  * makes it possibility to resolve the right animation for a pageTransition out of the cardAnimationMap.
  */
 qx.Class.define("qx.ui.mobile.layout.CardAnimation",
 {
   extend : qx.core.Object,
-  
-  
+
+
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -103,8 +103,8 @@ qx.Class.define("qx.ui.mobile.layout.CardAnimation",
       }
     };
   },
-  
- 
+
+
   members :
   {
       _cardAnimationsMap : null,
@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.mobile.layout.CardAnimation",
       * @param reverse {Boolean} flag which indicates whether it is a reverse animation.
       * @return {Map} animation property map, intended for the usage with {@link qx.bom.element.Animation}
       */
-      getAnimation : function(animationName, direction, reverse) 
+      getAnimation : function(animationName, direction, reverse)
       {
           if (qx.core.Environment.get("qx.debug"))
           {
@@ -130,7 +130,7 @@ qx.Class.define("qx.ui.mobile.layout.CardAnimation",
               this.assertNotUndefined(this._cardAnimationsMap[animationName]["reverse"][direction], "Animation Reverse'" + animationName+ " " +direction+  "' is not defined.");
             }
           }
-        
+
           var animation = this._cardAnimationsMap[animationName];
           var animationObject = {};
 
@@ -142,18 +142,18 @@ qx.Class.define("qx.ui.mobile.layout.CardAnimation",
 
           return animationObject;
       },
-      
-      
+
+
       /**
-       * Getter for the cardAnimationsMap. 
+       * Getter for the cardAnimationsMap.
        * @return {Map} the cardAnimationsMap.
        */
       getMap : function() {
         return this._cardAnimationsMap;
       }
   },
-  
-  
+
+
   destruct : function()
   {
     this._disposeObjects("_cardAnimationsMap");

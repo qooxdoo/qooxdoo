@@ -139,7 +139,7 @@ qx.Class.define("qx.test.mobile.container.Carousel",
 
       carousel.setCurrentIndex(1);
       this.assertEquals(1, carousel.getCurrentIndex());
-      
+
       window.setTimeout(function() {
           carousel.destroy();
           carouselPage1.destroy();

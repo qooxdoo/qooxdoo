@@ -321,7 +321,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
         shadowBlurRadius : 3,
         shadowColor : "shadow"
       }
-    },  
+    },
 
 
     "menu-separator" :

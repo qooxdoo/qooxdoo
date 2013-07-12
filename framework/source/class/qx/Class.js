@@ -655,11 +655,11 @@ qx.Bootstrap.define("qx.Class",
       }
 
       if (qx.Interface.objectImplements(obj, iface)) {
-    	  return true;
+        return true;
       }
 
       if (qx.Interface.classImplements(clazz, iface)) {
-    	  return true;
+        return true;
       }
 
       return false;

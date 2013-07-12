@@ -160,10 +160,10 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     /**
     * Detects whether there is a high resolution image available.
     * A high resolution image is assumed to have the same file name as
-    * the parameter source, but with a pixelRatio identifier before the file 
+    * the parameter source, but with a pixelRatio identifier before the file
     * extension, like "@2x".
     * Medium Resolution: "example.png", high resolution: "example@2x.png"
-    * If an image with a higher resolution is available, the method 
+    * If an image with a higher resolution is available, the method
     * "_createHighResolutionOverlay" is called.
     *
     * @param source {String} source of the medium resolution image.

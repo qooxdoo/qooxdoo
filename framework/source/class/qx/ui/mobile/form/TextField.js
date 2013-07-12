@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.mobile.form.TextField",
     this.base(arguments);
 
     // Fix for Android 2.x: Re-call focus method on "touchstart" event.
-    if (qx.core.Environment.get("os.name") == "android" 
+    if (qx.core.Environment.get("os.name") == "android"
         && qx.core.Environment.get("os.version").charAt(0) == "2") {
       this.addListener("touchstart", this.focus);
     }
@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.mobile.form.TextField",
   */
 
   destruct : function() {
-    if (qx.core.Environment.get("os.name") == "android" 
+    if (qx.core.Environment.get("os.name") == "android"
         && qx.core.Environment.get("os.version").charAt(0) == "2") {
       this.removeListener("touchstart", this.focus);
     }

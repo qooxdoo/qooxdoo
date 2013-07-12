@@ -106,7 +106,7 @@ qx.Class.define("fce.ApplicationLowLevel",
         var userAgent = document.createElement("div");
         userAgent.className = "out";
         userAgent.innerHTML = "navigator.userAgent: " + navigator.userAgent;
-        
+
         var out = document.createElement("div");
         out.className = "out";
         out.innerHTML = htmlFormattedJson;

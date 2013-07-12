@@ -48,12 +48,12 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
   {
     // the image passed as second argument is a blank 20x20 transparent png
     this.base(arguments, label, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAQAAAAngNWGAAAAAXNSR0IArs4c6QAAAAJiS0dEAP+Hj8y/AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAB3RJTUUH2wsJDS8ybObCaQAAABBJREFUKM9jYBgFo2AUkAIAAzQAATnIy0MAAAAASUVORK5CYII=');
-    
+
     this.addListener("appear", this._onAppear, this);
     this.addListener("disappear", this._onDisappear, this);
-    
+
     this.__spinnerAnimation = {
-      duration: 1000, 
+      duration: 1000,
       timing: "linear",
       origin: "center center",
       repeat: "infinite",
@@ -106,24 +106,24 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
   {
     __spinnerAnimation : null,
     __animationHandle : null,
-  
-  
+
+
     /**
      * Listener for appear event.
      */
     _onAppear : function() {
-      this.__animationHandle = qx.bom.element.Animation.animate(this.getIconWidget().getContainerElement(), this.__spinnerAnimation); 
+      this.__animationHandle = qx.bom.element.Animation.animate(this.getIconWidget().getContainerElement(), this.__spinnerAnimation);
     },
-    
-    
+
+
     /**
      * Handler for disappear event.
      */
     _onDisappear : function() {
       this.__animationHandle.stop();
     },
-  
-  
+
+
     // overridden
     _createIconWidget : function(iconUrl)
     {
@@ -150,11 +150,11 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
   {
     this.removeListener("appear", this._onAppear, this);
     this.removeListener("disappear", this._onDisappear, this);
-    
+
     if(this.__animationHandle) {
       this.__animationHandle.stop();
     }
-    
+
     this.__spinnerAnimation = this.__animationHandle = null;
   }
 });

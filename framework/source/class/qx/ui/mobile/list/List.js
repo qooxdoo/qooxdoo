@@ -177,12 +177,12 @@ qx.Class.define("qx.ui.mobile.list.List",
     {
       var element = evt.getOriginalTarget();
       var index = -1;
-      
+
       // Click on border: do nothing.
       if(element.tagName == "UL") {
         return;
       }
-      
+
       while (element.tagName != "LI") {
         element = element.parentNode;
       }
@@ -213,15 +213,15 @@ qx.Class.define("qx.ui.mobile.list.List",
       if (value != null) {
         value.addListener("change", this.__onModelChange, this);
       }
-      
+
       if (old != null) {
         old.removeListener("changeLength", this.__onModelChangeLength, this);
       }
       if (value != null) {
         value.addListener("changeLength", this.__onModelChangeLength, this);
       }
-      
-      
+
+
       this.__render();
     },
 
@@ -230,8 +230,8 @@ qx.Class.define("qx.ui.mobile.list.List",
     _applyDelegate : function(value, old) {
       this.__provider.setDelegate(value);
     },
-    
-    
+
+
     /**
      * Listen on model 'changeLength' event.
      * @param evt {qx.event.type.Data} data event which contains model change data.
@@ -286,8 +286,8 @@ qx.Class.define("qx.ui.mobile.list.List",
         }
       }
     },
-    
-    
+
+
     /**
      * Extracts all rows, which should be rendered from "changeBubble" event's
      * data.name.
@@ -298,30 +298,30 @@ qx.Class.define("qx.ui.mobile.list.List",
      */
     _extractRowsToRender : function(name) {
       var rows = [];
-      
+
       if(!name) {
         return rows;
       }
-      
+
       // "[0-2].propertyName" | "[0].propertyName" | "0"
       var containsPoint = (name.indexOf(".")!=-1);
       if(containsPoint) {
         // "[0-2].propertyName" | "[0].propertyName"
         var candidate = name.split(".")[0];
-        
+
         // Normalize
         candidate = candidate.replace("[","");
         candidate = candidate.replace("]","");
         // "[0-2]" | "[0]"
         var isRange = (candidate.indexOf("-") != -1);
-        
+
         if(isRange) {
           var rangeMembers = candidate.split("-");
           // 0
           var startRange = parseInt(rangeMembers[0],10);
           // 2
           var endRange = parseInt(rangeMembers[1],10);
-          
+
           for(var i = startRange; i <= endRange; i++) {
             rows.push(i);
           }
@@ -336,7 +336,7 @@ qx.Class.define("qx.ui.mobile.list.List",
           rows.push(parseInt(match[0], 10));
         }
       }
-      
+
       return rows;
     },
 

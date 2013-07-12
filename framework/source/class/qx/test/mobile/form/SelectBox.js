@@ -29,66 +29,66 @@ qx.Class.define("qx.test.mobile.form.SelectBox",
       var dd = new qx.data.Array(["Item 1", "Item 2", "Item 3"]);
       var selectBox = new qx.ui.mobile.form.SelectBox();
       selectBox.setModel(dd);
-      
+
       // Initial value '''
       this.assertEquals('',selectBox.getValue());
-      
+
       // Attempt to set value to "Item 3"
       selectBox.setValue("Item 3");
       this.assertEquals(2, selectBox.getSelection());
       this.assertEquals("Item 3",selectBox.getValue());
 
       // Attempt to set invalid value occurs validation error.
-      this.assertException(qx.lang.Function.bind(selectBox.setValue, selectBox, "Item 4"), 
-        qx.core.ValidationError,  
-        "Validation Error: Input value is out of model range", 
+      this.assertException(qx.lang.Function.bind(selectBox.setValue, selectBox, "Item 4"),
+        qx.core.ValidationError,
+        "Validation Error: Input value is out of model range",
         "An validation error is expected, because this value does not exists in model."
       );
-        
+
       this.assertEquals("Item 3",selectBox.getValue(), "Nothing should be changed by input setValue('Item 4') because input value is not in model.");
-      
+
       selectBox.destroy();
       dd.dispose();
       dd = null;
     },
-    
+
     testNullable : function() {
       var model = new qx.data.Array(["Item 1", "Item 2", "Item 3"]);
       var selectBox = new qx.ui.mobile.form.SelectBox();
       selectBox.setModel(model);
-      
+
       // Default case: nullable is true, selection is null.
       this.assertEquals(null, selectBox.getSelection(), "Default selection of SelectBox should be null.");
-      
-      // Switch to nullable true... 
+
+      // Switch to nullable true...
       selectBox.setNullable(false);
-      
+
       // Attempt to set null value occurs validation error.
-      this.assertException(qx.lang.Function.bind(selectBox.setSelection, selectBox, null), 
-        qx.core.ValidationError,  
-        "Validation Error: SelectBox is not nullable", 
+      this.assertException(qx.lang.Function.bind(selectBox.setSelection, selectBox, null),
+        qx.core.ValidationError,
+        "Validation Error: SelectBox is not nullable",
         "Value should not be accepted when SelectBox is not nullable."
       );
-      
+
       // Switch to nullable true... try to set selection to null..
       selectBox.setNullable(true);
       selectBox.setSelection(null);
       this.assertEquals(null, selectBox.getSelection(), "Value should be null.");
-      
+
       // After
       selectBox.destroy();
       model.dispose();
       model = null;
     },
-    
+
     testSelectionNoModel : function() {
       var selectBox = new qx.ui.mobile.form.SelectBox();
-      this.assertException(qx.lang.Function.bind(selectBox.setSelection, selectBox, 4), 
-        qx.core.ValidationError,  
-        "Validation Error: Please apply model before selection", 
+      this.assertException(qx.lang.Function.bind(selectBox.setSelection, selectBox, 4),
+        qx.core.ValidationError,
+        "Validation Error: Please apply model before selection",
         "A selection needs a model."
       );
-        
+
       selectBox.destroy();
     },
 
@@ -108,22 +108,22 @@ qx.Class.define("qx.test.mobile.form.SelectBox",
 
       // Set selection failure
       // Nothing is changed because invalid selectedIndex value.
-      this.assertException(qx.lang.Function.bind(selectBox.setSelection, selectBox, 4), 
-        qx.core.ValidationError,  
-        "Validation Error: Input value is out of model range", 
+      this.assertException(qx.lang.Function.bind(selectBox.setSelection, selectBox, 4),
+        qx.core.ValidationError,
+        "Validation Error: Input value is out of model range",
         "Exception assertion failed."
       );
-        
+
       this.assertEquals(2, selectBox.getSelection());
       this.assertEquals("Item 3", selectBox.getValue());
-        
+
       // Negative values are not allowed. Nothing is changed.
-      this.assertException(qx.lang.Function.bind(selectBox.setSelection, selectBox, -1), 
-        qx.core.ValidationError,  
-        "Validation Error: Input value is out of model range", 
+      this.assertException(qx.lang.Function.bind(selectBox.setSelection, selectBox, -1),
+        qx.core.ValidationError,
+        "Validation Error: Input value is out of model range",
         "Exception assertion failed."
       );
-      
+
       this.assertEquals(2, selectBox.getSelection());
       this.assertEquals("Item 3", selectBox.getValue());
 

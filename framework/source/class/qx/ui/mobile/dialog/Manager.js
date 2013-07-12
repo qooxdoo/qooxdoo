@@ -283,7 +283,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
     {
       var widget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox().set({alignY: "middle"}));
       var dialog = new qx.ui.mobile.dialog.Popup(widget);
-      
+
       dialog.setModal(true);
       dialog.setTitle(title);
 

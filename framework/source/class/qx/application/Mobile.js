@@ -44,7 +44,7 @@ qx.Class.define("qx.application.Mobile",
   },
 
 
-  statics : 
+  statics :
   {
     /** Default viewport settings, used via {@link _setViewport} */
     VIEWPORT : {
@@ -123,9 +123,9 @@ qx.Class.define("qx.application.Mobile",
 
 
     /**
-     * Sets the viewport content of the application, based on 
+     * Sets the viewport content of the application, based on
      * {@link qx.application.Mobile.VIEWPORT}.
-     * @param settings {Map} viewport settings map. 
+     * @param settings {Map} viewport settings map.
      */
     _setViewport : function(settings) {
       var viewport = null;

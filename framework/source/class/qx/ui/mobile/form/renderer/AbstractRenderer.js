@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
   construct : function(form)
   {
     this.base(arguments);
-    
+
     // add the groups
     var groups = form.getGroups();
     for (var i = 0; i < groups.length; i++)
@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
       this.addButton(buttons[i], buttonOptions[i]);
     }
     form.setRenderer(this);
-    
+
     this._form = form;
   },
 

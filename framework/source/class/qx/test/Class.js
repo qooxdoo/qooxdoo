@@ -58,7 +58,7 @@ qx.Class.define("qx.test.Class",
 
       var methods = [
         "set", "get", "init", "reset", "refresh",
-        "setRuntime", "resetRuntime", 
+        "setRuntime", "resetRuntime",
         "is", "toggle",
         "setThemed", "resetThemed"
       ];

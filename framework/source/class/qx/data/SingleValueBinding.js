@@ -86,7 +86,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      *         <li>The target object.</li>
      *       </ol>
      *       If no conversion has been done, the given value should be returned.
-     *       e.g. a number to boolean converter 
+     *       e.g. a number to boolean converter
      *       <code>function(data, model, source, target) {return data > 100;}</code>
      *   </li>
      *   <li>onUpdate: A callback function can be given here. This method will be

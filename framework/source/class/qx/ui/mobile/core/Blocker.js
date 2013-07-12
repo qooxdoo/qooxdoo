@@ -23,7 +23,7 @@
  */
 qx.Class.define("qx.ui.mobile.core.Blocker",
 {
-  
+
   extend : qx.ui.mobile.core.Widget,
   type : "singleton",
 
@@ -40,10 +40,10 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
 
     if(qx.ui.mobile.core.Blocker.ROOT == null) {
       qx.ui.mobile.core.Blocker.ROOT = qx.core.Init.getApplication().getRoot();
-    } 
+    }
     qx.ui.mobile.core.Blocker.ROOT.add(this);
   },
-  
+
 
   properties :
   {

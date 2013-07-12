@@ -110,8 +110,8 @@ qx.Class.define("qx.ui.mobile.form.RadioButton",
     {
       return "span";
     },
-    
-  
+
+
     // overridden
     _getType : function()
     {

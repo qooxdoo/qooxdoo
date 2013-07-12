@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
       var detailContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
       detailContainer.setDefaultCssClass("master-detail-detail");
       return detailContainer;
-      
+
     }
   },
 

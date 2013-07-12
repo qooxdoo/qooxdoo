@@ -90,7 +90,7 @@ qx.Class.define("mobileshowcase.page.Maps",
 
       var mapContainer = new qx.ui.mobile.container.Composite(layout);
       mapContainer.setId("osmMap");
-      
+
       return mapContainer;
     },
 
@@ -190,8 +190,8 @@ qx.Class.define("mobileshowcase.page.Maps",
 
       this._markers.addMarker(this._myPositionMarker);
     },
-    
-    
+
+
     /**
      * Prepares qooxdoo GeoLocation and installs needed listeners.
      */

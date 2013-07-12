@@ -20,7 +20,7 @@
 /**
  * Global class which handles the single stylesheet used for qx.desktop.
  */
-qx.Class.define("qx.ui.style.Stylesheet", 
+qx.Class.define("qx.ui.style.Stylesheet",
 {
   type : "singleton",
   extend : qx.core.Object,

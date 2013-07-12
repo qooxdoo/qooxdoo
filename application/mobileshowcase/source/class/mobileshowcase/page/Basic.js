@@ -104,7 +104,7 @@ qx.Class.define("mobileshowcase.page.Basic",
       exAtomBottom.addCssClass("space-top");
 
       var collapsible = this._createCollapsible();
-      
+
       // BUILD VIEW
 
       var menuGroup = new qx.ui.mobile.form.Group([toggleEnableButton,toggleLabelWrapButton]);
@@ -132,7 +132,7 @@ qx.Class.define("mobileshowcase.page.Basic",
       this.getContent().add(imageGroup);
 
       this.getContent().add(new qx.ui.mobile.form.Title("Collapsible"));
-      this.getContent().add(new qx.ui.mobile.form.Group([collapsible],false));      
+      this.getContent().add(new qx.ui.mobile.form.Group([collapsible],false));
 
       this.getContent().add(new qx.ui.mobile.form.Title("Atoms"));
 

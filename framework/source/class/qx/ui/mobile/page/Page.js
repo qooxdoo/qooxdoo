@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
     /** Fired when the method {@link #menu} is called */
     "menu" : "qx.event.type.Event",
-    
+
     /** Fired when the method {@link #wait} is called */
     "wait" : "qx.event.type.Event"
   },
@@ -391,8 +391,8 @@ qx.Class.define("qx.ui.mobile.page.Page",
     {
 
     },
-    
-    
+
+
     /**
      * Lifecycle method. Not used right now. Should be called when the current page
      * waits for data request etc.

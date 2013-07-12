@@ -120,7 +120,7 @@ qx.Mixin.define("qx.ui.mobile.form.MText",
       if(this.isReadOnly() || this.getEnabled() == false) {
         return;
       }
-      
+
       var targetElement = this.getContainerElement();
       if(targetElement) {
         qx.bom.Element.focus(targetElement);

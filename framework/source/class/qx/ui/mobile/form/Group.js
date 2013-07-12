@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.mobile.form.Group",
     this.base(arguments);
 
     this.addCssClass("bordered");
- 
+
     if(showBorder != null) {
       this.setShowBorder(showBorder);
     }
