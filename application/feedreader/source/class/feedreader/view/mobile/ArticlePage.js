@@ -58,6 +58,7 @@ qx.Class.define("feedreader.view.mobile.ArticlePage",
 
       // add the article embed
       this.__article = new qx.ui.mobile.embed.Html();
+      this.__article.setAnonymous(false);
       this.__article.addCssClass("whitearea");
       var articleGroup = new qx.ui.mobile.form.Group([this.__article]);
       this.getContent().add(articleGroup);
@@ -73,6 +74,13 @@ qx.Class.define("feedreader.view.mobile.ArticlePage",
         var html = feedreader.ArticleBuilder.createHtml(value);
         this.__article.setHtml(html);
       }
+
+      // Fix for links on iOS devices.
+      q("a").allOff("touchend");
+
+      q("a").on("touchend", function() {
+        window.open(this, "_blank");
+      });
     }
   }
 });
