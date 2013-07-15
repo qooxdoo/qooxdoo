@@ -65,11 +65,11 @@ class ApiLoader(object):
             tree_ = self._classesObj[fileId].optimize(tree_, ["variants"], variantSet)
         (data, hasError, attachMap) = api.createDoc(tree_)
         self._console.outdent()
-        
+
         if hasError:
             self._console.error("Error in API data of class: %s" % fileId)
             data = None
-        
+
         self._cache.write(cacheId, (data, attachMap))
         return data, attachMap
 
@@ -79,14 +79,14 @@ class ApiLoader(object):
             if packageId:  # don't complain empty root namespace
                 self._console.warn("Missing package docs: %s" % packageId)
             return None
-            
+
         packageEntry = self._docs[packageId]
-        
+
         text = filetool.read(packageEntry["path"])
         node = api.createPackageDoc(text, packageId)
-        
+
         return node
-        
+
 
     def storeApi(self, include, apiPath, variantSet, verify, sitemap):
         self._console.info("Generating API data...")
@@ -109,7 +109,7 @@ class ApiLoader(object):
             fileApi, attachMap = self.getApi(fileId, variantSet)
             if fileApi == None:
                 hasErrors = True
-            
+
             # Only continue merging if there were no errors
             if not hasErrors:
                 # update AttachMap
@@ -141,10 +141,10 @@ class ApiLoader(object):
         if hasErrors:
             self._console.error("Found erroneous API information. Please see above. Stopping!")
             return
-                
+
         self._console.info("Loading package docs...")
         self._console.indent()
-        
+
         packages.sort()
         for pkgId in packages:
             self._mergeApiNodes(docTree, self.getPackageApi(pkgId))
@@ -156,13 +156,13 @@ class ApiLoader(object):
 
         self._console.info("Generating search index...")
         index = self.docTreeToSearchIndex(docTree, "", "", "")
-        
+
         if verify:
             if "links" in verify:
                 self.verifyLinks(docTree, index)
             if "types" in verify:
                 self.verifyTypes(docTree, index)
-        
+
         self._console.info("Saving data...", False)
         self._console.indent()
 
@@ -175,15 +175,15 @@ class ApiLoader(object):
             className = classData.get("fullName")
             if className in AttachMap:
                 self._applyAttachInfo(className, classData, AttachMap[className])
-        
+
         # write per-class .json to disk
         length = 0
         for classData in api.classNodeIterator(docTree):
             length += 1
-            
-        
+
+
         links = []
-        
+
         pos = 0
         for classData in api.classNodeIterator(docTree):
             pos += 1
@@ -193,33 +193,33 @@ class ApiLoader(object):
             className = classData.get("fullName")
             fileName = os.path.join(apiPath, className + ".json")
             filetool.save(fileName, nodeJson)
-            
+
             if sitemap and "link-uri" in sitemap:
                 links.append(sitemap["link-uri"] %className)
-            
+
             #import pdb; pdb.set_trace()
             #for type in ["method", "method-static", "event", "property", "constant"]:
             #  for item in classData.getAllChildrenOfType(type):
             #      itemName = className + "~" + item.attributes["name"]
             #      link = linkPrefix + itemName
-            
+
         self._console.outdent()
-            
+
         # write apiindex.json
         self._console.info("Saving index...")
         indexContent = json.dumps(index, separators=(',',':'), sort_keys=True) # compact encoding
-        filetool.save(os.path.join(apiPath, "apiindex.json"), indexContent)            
+        filetool.save(os.path.join(apiPath, "apiindex.json"), indexContent)
 
         # save sitemap
-        self._console.info("Saving XML sitemap...")
         if len(links) > 0:
             sitemapData = self.getSitemap(links)
             if "file" in sitemap:
                 sitemapFile = sitemap["file"]
             else:
                 sitemapFile = os.path.join(apiPath, "sitemap.xml")
+            self._console.info("Saving XML sitemap...")
             filetool.save(sitemapFile, sitemapData)
-        
+
         self._console.outdent()
         self._console.info("Done")
 
@@ -228,7 +228,7 @@ class ApiLoader(object):
     def _mergeApiNodes(self, target, source):
         if not target or not source:
             return
-        
+
         if source.hasAttributes():
             attr = source.attributes
             for key in attr:
@@ -390,10 +390,10 @@ class ApiLoader(object):
     def verifyTypes(self, docTree, index):
         self._console.info("Verifying types...", False)
         knownTypes = lang.GLOBALS[:]
-        knownTypes = knownTypes + ["var", "null", 
+        knownTypes = knownTypes + ["var", "null",
                                    # additional types supported by the property system:
                                    "Integer", "PositiveInteger", "PositiveNumber",
-                                   "Float", "Double", "Map", 
+                                   "Float", "Double", "Map",
                                    "Node", "Element", "Document", "Window",
                                    "Event", "Class", "Mixin", "Interface", "Theme",
                                    "Color", "Decorator", "Font"
@@ -418,7 +418,7 @@ class ApiLoader(object):
                       itemName = self.getParentAttrib(docNode, "name")
                       packageName = self.getParentAttrib(docNode, "packageName")
                       className = self.getParentAttrib(docNode, "name", "class")
-                      
+
                       linkData = {
                         "itemName" : itemName,
                         "packageName" : packageName,
@@ -426,7 +426,7 @@ class ApiLoader(object):
                         "nodeType" : docNode.parent.type,
                         "links" : unknownTypes
                       }
-                      
+
                       docNodeType = ""
                       if docNode.type == "param":
                           docNodeType = "Parameter '%s'" %docNode.get("name")
@@ -434,7 +434,7 @@ class ApiLoader(object):
                           docNodeType = "Return value"
                       elif docNode.type == "childControl":
                           docNodeType = "Child control '%s'" %docNode.get("name")
-                      
+
                       for ref in self._checkLink(linkData, docTree, index):
                           brokenLinks.append((docNodeType, "%s.%s#%s" %(packageName, className, itemName), ref))
 
@@ -501,7 +501,7 @@ class ApiLoader(object):
                     type = link["paramForType"]
                 else:
                     type = link["nodeType"]
-                
+
                 if link["nodeType"] == "ctor" or link["itemName"] == "ctor":
                     itemName = link["className"]
                 elif link["className"] == link["itemName"]:
@@ -510,7 +510,7 @@ class ApiLoader(object):
                     itemName = link["className"] + "#" + link["itemName"]
                 else:
                     itemName = link["itemName"]
-                
+
                 param = ""
                 if link["paramName"]:
                     param = "the parameter '%s' of " %link["paramName"]
@@ -608,7 +608,7 @@ class ApiLoader(object):
 
           # search for a superclass or included mixin with the referenced item
           classHasItem = isClassInHierarchy(docTree, targetClassName, classesWithItem)
-          
+
           if not classHasItem:
               brokenLinks[ref] = link
 
@@ -664,10 +664,10 @@ class ApiLoader(object):
 """
 
         urlTemplate = """  <url>
-    <loc>%s</loc> 
+    <loc>%s</loc>
   </url>"""
-        
+
         for i, link in enumerate(links):
             links[i] = urlTemplate %link
-        
+
         return sitemapTemplate %"\n".join(links)
