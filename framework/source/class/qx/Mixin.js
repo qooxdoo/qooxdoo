@@ -408,7 +408,7 @@ qx.Bootstrap.define("qx.Mixin",
         }
       },
 
-      "default" : function() {}
+      "default" : function(name, config) {}
     })
   }
 });
