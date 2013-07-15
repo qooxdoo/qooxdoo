@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="en">
-<head>
+<html lang="en"><head>
+
+
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>Tool Chain Test Matrix</title>
   <style type="text/css">
@@ -21,8 +22,7 @@
      }
   </style>
   <script type="text/javascript" src="utils.js"></script>
-</head>
-<body onload="adjustVersionStrings();autonumbering(); colorNA()">
+</head><body onload="adjustVersionStrings();autonumbering(); colorNA()">
 <em>$Rev$</em>
 <div align="center"><b>qooxdoo <span name="versstring">$(qxversion)</span></b></div>
 <h3 valign="left">Tool Chain Tests</h3>
@@ -163,7 +163,7 @@ vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb
       <td>N/A</td>
     </tr>
     <tr>
-      <td style="vertical-align: top;">2.4<br>
+      <td name="number">2.4<br>
       </td>
       <td style="vertical-align: top;">Website skeleton<br>
       </td>
@@ -368,17 +368,23 @@ vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <th style="width: 230px;" rowspan="2">Shell Tools<br>
       <span style="font-weight: normal;">(MW)</span><br>
       </th>
-      <th colspan="8">Job&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>(Platform/Python
+      <th colspan="9">Job&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>(Platform/Python
 vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 /&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )</small></th>
     </tr>
     <tr>
       <td>watch<sup>[a]</sup></td>
-      <td>source-server<sup>[a]</sup></td>
-      <td>source-httpd-config<sup>[a]</sup></td>
-      <td style="vertical-align: top;">validate-config<br>
+      <td>source<br>
+-server<sup>[a]</sup></td>
+      <td style="vertical-align: top;">source-server<br>
+-reload<sup>[a]</sup></td>
+<td>source-httpd<br>
+-config<sup>[a]</sup></td>
+      <td style="vertical-align: top;">validate<br>
+-config<br>
       </td>
-      <td style="vertical-align: top;">validate-manifest<br>
+      <td style="vertical-align: top;">validate<br>
+-manifest<br>
       </td>
       <td style="vertical-align: top;">clean<br>
       </td>
@@ -394,7 +400,9 @@ vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </td>
       <td><br>
       </td>
-      <td><br>
+      <td style="vertical-align: top;"><br>
+      </td>
+<td><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -414,7 +422,9 @@ vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </td>
       <td><br>
       </td>
-      <td><br>
+      <td style="vertical-align: top;"><br>
+      </td>
+<td><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -434,7 +444,9 @@ vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </td>
       <td><br>
       </td>
-      <td><br>
+      <td style="vertical-align: top;"><br>
+      </td>
+<td><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -453,7 +465,9 @@ vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <td>N/A</td>
       <td><br>
       </td>
-      <td><br>
+      <td style="vertical-align: top;"><br>
+      </td>
+<td><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -472,7 +486,9 @@ vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <td><br>
       </td>
       <td>N/A</td>
-      <td>N/A</td>
+      <td style="vertical-align: top;">N/A<br>
+      </td>
+<td>N/A</td>
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
@@ -494,6 +510,8 @@ vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
+      </td>
+<td style="vertical-align: top;"><br>
       </td>
       <td style="vertical-align: top;"><br>
       </td>
@@ -534,8 +552,7 @@ vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb
   <tbody>
     <tr>
       <th style="width: 50px;" rowspan="2" name="number">6</th>
-      <th style="width: 230px;" rowspan="2">Contrib Skeleton<sup
- style="font-weight: normal;">[m]</sup><br>
+      <th style="width: 230px;" rowspan="2">Contrib Skeleton<sup style="font-weight: normal;">[m]</sup><br>
       <span style="font-weight: normal;">(DW)</span><br>
       </th>
       <th colspan="12">Job&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>(Platform/Python
@@ -604,8 +621,7 @@ skeleton</td>
     <tr>
       <th style="width: 50px;" rowspan="2" name="number">7<br>
       </th>
-      <th style="width: 230px;" rowspan="2">Simulation<sup
- style="font-weight: normal;">[m]</sup><br>
+      <th style="width: 230px;" rowspan="2">Simulation<sup style="font-weight: normal;">[m]</sup><br>
       <span style="font-weight: normal;">(DW)</span><br>
       </th>
       <th colspan="2">Job&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small>(Platform/Python
@@ -637,12 +653,9 @@ vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     </tr>
   </tbody>
 </table>
-Legend: <img
- src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">
-&nbsp;Ok &nbsp;&nbsp;&nbsp; (<img
- src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">)
-&nbsp;Mainly Ok &nbsp;&nbsp;&nbsp; <img
- src="http://resources.qooxdoo.org/images/icons/edit-delete.22.png">
+Legend: <img src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">
+&nbsp;Ok &nbsp;&nbsp;&nbsp; (<img src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">)
+&nbsp;Mainly Ok &nbsp;&nbsp;&nbsp; <img src="http://resources.qooxdoo.org/images/icons/edit-delete.22.png">
 &nbsp;Not Ok
 <h3>Annotations</h3>
 <dl>
@@ -677,15 +690,12 @@ to ensure it is working.<br>
       <li>Download the following files and place them in an easily
 accessible folder, e.g. <em>/home/affe/workspace/simulator</em>:
         <ul>
-          <li><a
- href="http://webtechfe-test01.schlund.de/%7Eqooxdoo/workspace/simulator/js.jar">Rhino</a></li>
-          <li><a
- href="http://webtechfe-test01.schlund.de/%7Eqooxdoo/workspace/simulator/selenium-java-client-driver.jar">Selenium
+          <li><a href="http://webtechfe-test01.schlund.de/%7Eqooxdoo/workspace/simulator/js.jar">Rhino</a></li>
+          <li><a href="http://webtechfe-test01.schlund.de/%7Eqooxdoo/workspace/simulator/selenium-java-client-driver.jar">Selenium
 
 Java
 Client</a></li>
-          <li><a
- href="http://webtechfe-test01.schlund.de/%7Eqooxdoo/workspace/simulator/selenium-server.jar">Selenium
+          <li><a href="http://webtechfe-test01.schlund.de/%7Eqooxdoo/workspace/simulator/selenium-server.jar">Selenium
 Server</a></li>
         </ul>
       </li>
@@ -781,5 +791,4 @@ may or may not run in the browser. </dd>
   <dd>Testing on a single platform is enough.<br>
   </dd>
 </dl>
-</body>
-</html>
+</body></html>
