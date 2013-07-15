@@ -5,7 +5,7 @@
   max-height:400px;
 }
 
-.container-touch-area{
+.container-touch-area {
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#000000), color-stop(100%,#555555));
   background: -webkit-linear-gradient(top, #000000 0%,#555555 100%);
   background: -moz-linear-gradient(top, #000000 0%,#555555 100%);
@@ -45,7 +45,7 @@
 
 .gesture-target {
   transform: scale(0.5);
-  
+  -webkit-transform: scale(0.5);
   z-index:1000;
   position:absolute;
   top:0px;
