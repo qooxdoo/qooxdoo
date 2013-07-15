@@ -40,17 +40,20 @@ qx.Class.define("playground.view.Header",
     var riaButton = new qx.ui.form.RadioButton(this.tr("Desktop"));
     riaButton.set({
       model: "ria",
-      appearance: "modeButton"
+      appearance: "modeButton",
+      focusable: false
     });
     var mobileButton = new qx.ui.form.RadioButton(this.tr("Mobile"));
     mobileButton.set({
       model: "mobile",
-      appearance: "modeButton"
+      appearance: "modeButton",
+      focusable: false
     });
     var websiteButton = new qx.ui.form.RadioButton(this.tr("Website"));
     websiteButton.set({
       model: "website",
-      appearance: "modeButton"
+      appearance: "modeButton",
+      focusable: false
     });
 
 
