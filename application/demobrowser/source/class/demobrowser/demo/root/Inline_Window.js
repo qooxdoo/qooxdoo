@@ -17,7 +17,9 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
-
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.root.Inline_Window",
 {
   extend : qx.application.Inline,
