@@ -13,6 +13,7 @@
     "QOOXDOO_PATH" : "../..",
     "TESTRUNNER_ROOT" : ".",
     "TESTRUNNER"   : "testrunner",
+    "TEST_LOADER" : "testrunner.TestLoader",
     "REPORT_SERVER" : false,
     "TEST_NAMESPACE" : "${APPLICATION}.test",
     "TEST_INCLUDE" : "${TEST_NAMESPACE}.*",
@@ -265,7 +266,7 @@
         }
       ],
 
-      "=include" : ["testrunner.TestLoader", "${TEST_INCLUDE}", "${QXTHEME}"],
+      "=include" : ["${TEST_LOADER}", "${TEST_INCLUDE}", "${QXTHEME}"],
 
       "exclude" : ["${TEST_EXCLUDE}"],
 
@@ -275,7 +276,7 @@
         "qx.globalErrorHandling" : true,
         "testrunner.testParts" : false,
         "qx.allowUrlSettings" : true,
-        "qx.application" : "testrunner.TestLoader"
+        "qx.application" : "${TEST_LOADER}"
       },
 
       "cache" :
