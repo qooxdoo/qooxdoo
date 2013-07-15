@@ -42,22 +42,9 @@ qx.Class.define("qx.application.Mobile",
   construct : function()
   {
     this.base(arguments);
-
-    this._setViewport(qx.application.Mobile.VIEWPORT);
   },
 
 
-  statics : 
-  {
-    /** Default viewport settings, used via {@link _setViewport} */
-    VIEWPORT : {
-      "width": "device-width",
-      "initial-scale": "1.0",
-      "user-scalable": "0",
-      "minimum-scale": "1.0",
-      "maximum-scale": "1.0"
-    }
-  },
 
 
   /*
@@ -122,48 +109,13 @@ qx.Class.define("qx.application.Mobile",
     terminate : function()
     {
       // empty
-    },
-
-
-    /**
-     * Sets the viewport content of the application, based on 
-     * {@link qx.application.Mobile.VIEWPORT}.
-     * @param settings {Map} viewport settings map. 
-     */
-    _setViewport : function(settings) {
-      var viewport = null;
-
-      var metatags = document.getElementsByTagName('meta');
-      for (var i = 0; i < metatags.length; i++) {
-        var element = metatags[i];
-        if (element.getAttribute('name') == 'viewport') {
-          viewport = element;
-          break;
-        }
-      }
-
-      if (viewport == null) {
-        return;
-      }
-
-      // Fix for rendering bug on HTC Android devices with a device pixel ratio 1.5
-      if (qx.core.Environment.get("os.name") == "android" && qx.core.Environment.get("device.pixelRatio") == 1.5) {
-        settings["user-scalable"] = "yes";
-        settings["minimum-scale"] = parseFloat(settings["minimum-scale"] || settings["initial-scale"] || "1.0") + 0.01;
-        settings["maximum-scale"] = parseFloat(settings["maximum-scale"] || settings["initial-scale"] || "1.0") + 0.01;
-      }
-
-      var arr = [];
-      for (var key in settings) {
-        arr.push(key + "=" + settings[key]);
-      };
-
-      viewport.content = arr.join(", ");
     }
   },
 
 
-  /*
+
+
+ /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
