@@ -40,7 +40,6 @@ testrunner.define({
     test.id = "foo";
     document.getElementById("sandbox").appendChild(test);
     var collection = q("#foo");
-    this.assertInstance(collection, Array);
     this.assertEquals(1, collection.length);
     this.assertEquals(document.getElementById("foo"), collection[0]);
   }
