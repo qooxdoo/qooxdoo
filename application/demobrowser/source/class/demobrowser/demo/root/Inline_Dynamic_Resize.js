@@ -23,7 +23,9 @@
 #asset(qx/icon/${qx.icontheme}/48/devices/*)
 
 ************************************************************************ */
-
+/**
+ * @tag noPlayground
+ */
 qx.Class.define("demobrowser.demo.root.Inline_Dynamic_Resize",
 {
   extend : qx.application.Inline,
