@@ -147,8 +147,11 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       },
 
       qxGitBranch : function(node) {
-        return qx.core.Environment.get("qx.revision") ?
-          qx.core.Environment.get("qx.revision").split(":")[1] : "master";
+        return qx.core.Environment.get("qx.revision") ? // e.g. "master:47ac02f"
+          qx.core.Environment.get("qx.revision").split(":")[1] :
+          qx.core.Environment.get("qx.version") ? // e.g. "2.1.2"
+            "release_" + qx.core.Environment.get("qx.version").replace(/\./g,"_") :
+            "master";
       }
     },
 
