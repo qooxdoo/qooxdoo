@@ -91,6 +91,7 @@ qx.Bootstrap.define("qx.module.event.Native", {
      *   });
      * </pre>
      *
+     * @signature function()
      * @return {Object} Any valid native event target
      */
     getTarget : function() {},
@@ -116,6 +117,7 @@ qx.Bootstrap.define("qx.module.event.Native", {
      *   });
      * </pre>
      *
+     * @signature function()
      * @return {Element} The related target
      */
     getRelatedTarget : function() {},
