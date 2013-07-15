@@ -67,3 +67,17 @@ function minitests(columns) {
     }
   });
 }
+
+/*
+ * All N/A fields should have a grey background color and centered text
+ */
+function colorNA() {
+  var tds = document.querySelectorAll("td");
+  for (var i = 0; i < tds.length; i++) {
+    var td = tds[i];
+    if (td.innerHTML == "N/A") {
+      td.style.backgroundColor = "#ddd";
+      td.style.textAlign = "center";
+    }
+  }
+}
