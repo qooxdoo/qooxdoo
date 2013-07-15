@@ -461,7 +461,7 @@ qx.Bootstrap.define("qx.Interface",
         return wrappedFunction;
       },
 
-      "default" : function() {}
+      "default" : function(iface, origFunction, functionName, preCondition) {}
     }),
 
 
@@ -568,7 +568,7 @@ qx.Bootstrap.define("qx.Interface",
         }
       },
 
-      "default" : function() {}
+      "default" : function(name, config) {}
     })
   }
 });

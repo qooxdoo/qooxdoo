@@ -889,7 +889,7 @@ qx.Bootstrap.define("qx.Class",
         }
       },
 
-      "default" : function() {}
+      "default" : function(name, config) {}
     }),
 
 
@@ -921,7 +921,7 @@ qx.Bootstrap.define("qx.Class",
         }
       },
 
-      "default" : function() {}
+      "default" : function(clazz) {}
     }),
 
 
