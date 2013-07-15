@@ -1,6 +1,12 @@
 #!/bin/bash
-
-qx_path=qooxdoo-2.1.2-sdk
+# name:
+#  ts-test-helper.sh -- some bash functions to automate skeleton testing
+#
+# syntax:
+#  bash> source $0
+#  bash> create-apps <path/to/qx-sdk>  # will create some skeletons under '.'
+#  bash> gen-source                    # will run 'source' job in suitable skeletons
+#  ...                                 # other source and build jobs
 
 function create-apps {
     for typ in `echo desktop inline native website server mobile`; do \
