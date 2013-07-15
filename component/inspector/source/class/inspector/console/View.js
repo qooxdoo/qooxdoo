@@ -94,6 +94,13 @@ qx.Class.define("inspector.console.View",
       iFrameWindow.qx.log.Logger.unregister(inspector.console.Appender);
       iFrameWindow.qx.log.Logger.register(inspector.console.Appender);
     }, this);
+
+    // sync inspected object to the dom tap
+    this._model.addListener("changeInspected", function(e) {
+      var o = e.getData();
+      var hash = o.toHashCode ? o.toHashCode() : "???";
+      this._domView.setObject(o, "Selection [" + hash + "]");
+    }, this);
   },
 
   members :
