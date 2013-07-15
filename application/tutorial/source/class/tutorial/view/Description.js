@@ -53,12 +53,18 @@ qx.Class.define("tutorial.view.Description",
 
     this.add(this.__createButtonContainer());
 
-    this.loadHljs(function() {
-      q('pre').forEach(function(el) {
-        q(el).addClass("javascript")
-        hljs.highlightBlock(el);
-      });
-    }, this);
+    var engine = qx.core.Environment.get("engine.name");
+    var browserVersion = qx.core.Environment.get("browser.documentmode");
+    var isIE8OrLower = (engine === "mshtml" && parseInt(browserVersion) <= 8);
+
+    if (!isIE8OrLower) {
+      this.loadHljs(function() {
+        q('pre').forEach(function(el) {
+          q(el).addClass("javascript");
+          hljs.highlightBlock(el);
+        });
+      }, this);
+    }
 
     this.updateView();
   },
