@@ -350,26 +350,32 @@ source-server-reload
 Same as `source-server`_, but adds an automatic reload feature. The web server
 watches the loader file of the exported source version (usually
 *source/script/<application>.js*), and triggers an automatic reload of the
-application in the browser if this changes. Can conveniently be used together
-with the `watch`_ job that automatically re-generates the loader file if the
-application classes change. This way, both jobs work hand in hand to reload the
-most up-to-date version of the application in the browser whenever the source
-files change. If the generation fails, e.g. due to a syntax error, the loader is
-not updated and hence the browser not reloaded.
+application in the browser if this changes. You usually want to use this job
+together with the `watch`_ job (running separately) which automatically
+re-generates the loader when the application classes change. This way, both jobs
+work hand in hand to reload the most up-to-date version of the application in
+the browser whenever the source files change. If the generation fails, e.g. due
+to a syntax error, the loader is not updated and hence the browser not reloaded.
+
+Like with *source-server* the server prints at startup the URL to the
+application's index.html. If you want to load the application through the reload
+server it is *important that you use exactly this URL in your browser* (including
+the trailing ".../index.html"). On requesting this URL the reload server will instrument
+the file with information necessary for the reload behavior.
 
 The reload feature can also be used when running the main application from the
 file system (with the *file://* protocol) or over a separate web server like
-Apache. In this case you just have to add the URL of the reload client script in
-the app's ``index.html``. E.g.
+Apache. In this case you just have to manually add the URL of the reload client
+script in the app's ``index.html``, e.g. adding
 
 ::
 
   <script type="text/javascript" src="http://localhost:44161/_active_reload/active_reload.js"/>
 
-assuming that ``44161`` is the port where the source server runs on.
-``/_active_reload/active_reload.js`` is the path to the reload client script.
-You then load the application over you standard web server. Just the reload
-notification is handled over the source server.
+to the header section, assuming that ``44161`` is the port where the source
+server runs on.  */_active_reload/active_reload.js* is the URL path to the reload
+client script.  You then load the application over your standard web server.
+Just the reload notification is handled over the source server.
 
 .. _pages/tool/generator/generator_default_jobs#source-httpd-config:
 
