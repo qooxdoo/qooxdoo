@@ -14,6 +14,8 @@
     "api-data",
     "build",
     "build-min",
+    "build-module-all",
+    "build-module-all-min",
     "test",
     "test-source",
     "validate-config"
@@ -32,7 +34,6 @@
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
     "WEBSITE"      : "$${QOOXDOO_PATH}/component/standalone/website",
     "CACHE"        : "${Cache}",
-    "BUILD_PATH"   : "script",
     "ROOT"         : "."
   },
 
