@@ -725,7 +725,7 @@ input, select, .text-area {
   font-weight: normal;
   font-size: 0.8em; }
 
-.list img {
+.list img[src] {
   display: block; }
 
 .master-detail {
