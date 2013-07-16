@@ -5,7 +5,7 @@
 .list {
   @include background-clip(padding-box);
   padding: 0;
-  font: bold 17px Helvetica;
+  font: bold 17px $application-font;
   cursor:pointer;
 }
 

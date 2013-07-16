@@ -622,7 +622,7 @@ input::-webkit-inner-spin-button {
   margin-bottom: 10px;
   background-color: transparent;
   border: none;
-  font: bold 17px Helvetica;
+  font: bold 17px "Slate Pro", sans-serif, Helvetica;
   padding: 0;
   cursor: pointer; }
 
@@ -714,7 +714,7 @@ input, select, .text-area {
   -moz-background-clip: padding-box;
   background-clip: padding-box;
   padding: 0;
-  font: bold 17px Helvetica;
+  font: bold 17px "Slate Pro", sans-serif, Helvetica;
   cursor: pointer; }
 
 .list .list-item {
@@ -1195,7 +1195,7 @@ body {
 
 .root, .scroll {
   background-color: #f4f4f4;
-  font-family: Helvetica;
+  font-family: "Slate Pro", sans-serif, Helvetica;
   color: black; }
 
 .form-title {
@@ -1278,7 +1278,7 @@ input.invalid {
   border: 1px solid red !important; }
 
 input, .text-area {
-  font-family: Helvetica; }
+  font-family: "Slate Pro", sans-serif, Helvetica; }
 
 .scroll-container .text-area {
   -webkit-border-radius: 0;

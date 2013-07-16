@@ -503,7 +503,7 @@ input::-webkit-inner-spin-button {
   margin-bottom: 10px;
   background-color: transparent;
   border: none;
-  font: bold 17px Helvetica;
+  font: bold 17px sans-serif;
   padding: 0;
   cursor: pointer; }
 
@@ -595,7 +595,7 @@ input, select, .text-area {
   -moz-background-clip: padding-box;
   background-clip: padding-box;
   padding: 0;
-  font: bold 17px Helvetica;
+  font: bold 17px sans-serif;
   cursor: pointer; }
 
 .list .list-item {
@@ -1202,7 +1202,7 @@ input, select, .text-area {
 .root {
   background: #181818;
   color: #ffffff;
-  font-family: Helvetica; }
+  font-family: sans-serif; }
 
 a, a:active, a:visited {
   color: #e89c00; }

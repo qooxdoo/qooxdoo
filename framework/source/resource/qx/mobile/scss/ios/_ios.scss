@@ -6,7 +6,7 @@
   @extend .page;
   
   color: #666;
-  font-family: Helvetica;
+  font-family: $application-font;
 }
 
 .title {
@@ -141,7 +141,7 @@ $list-active-arrow-color: white;
   color: #777;
   background: #fff;
   border: 1px solid $button-border-color;
-  font: normal 17px Helvetica;
+  font: normal 17px $application-font;
   display: block;
   margin-left: 0px;
   min-width:75px;
