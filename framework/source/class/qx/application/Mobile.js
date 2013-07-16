@@ -124,7 +124,7 @@ qx.Class.define("qx.application.Mobile",
 
     /**
      * Sets the viewport content of the application, based on
-     * {@link qx.application.Mobile.VIEWPORT}.
+     * <code>qx.application.Mobile.VIEWPORT</code>.
      * @param settings {Map} viewport settings map.
      */
     _setViewport : function(settings) {
