@@ -342,9 +342,11 @@ q.ready(function() {
     if (data.superclass) {
       var newName = data.superclass.split(".");
       newName = newName[newName.length -1];
+      var superClass = IGNORE_TYPES.indexOf(newName) == -1 ?
+        "<a href='#" + newName + "'>" + newName + "</a>" : newName;
       module.append(q.create(
         "<div class='extends'><h2>Extends</h2>" +
-        "<a href='#" + newName + "'>" + newName + "</a>" +
+        superClass +
         "</div>"
       ));
     }
@@ -763,12 +765,14 @@ q.ready(function() {
     } else if (IGNORE_TYPES.indexOf(type) == -1) {
       var name = type.split(".");
       name = name[name.length -1];
-      return "<a href='#" + name + "'>" + name + "</a>";
+      if (IGNORE_TYPES.indexOf(name) == -1) {
+        return "<a href='#" + name + "'>" + name + "</a>";
+      }
     }
     return type;
   };
 
-  var IGNORE_TYPES = ["qxWeb", "var", "null"];
+  var IGNORE_TYPES = ["qxWeb", "var", "null", "Emitter"];
 
   var MDC_LINKS = {
     "Event" : "https://developer.mozilla.org/en/DOM/event",
