@@ -268,8 +268,8 @@ qx.Class.define("qx.ui.tooltip.Manager",
     {
       var pos = this.__mousePosition;
 
-      pos.left = e.getDocumentLeft();
-      pos.top = e.getDocumentTop();
+      pos.left = Math.round(e.getDocumentLeft());
+      pos.top = Math.round(e.getDocumentTop());
     },
 
 
