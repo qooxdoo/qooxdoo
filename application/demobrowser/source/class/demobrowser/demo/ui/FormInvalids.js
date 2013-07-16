@@ -123,7 +123,7 @@ qx.Class.define("demobrowser.demo.ui.FormInvalids",
        * CONTROLLS
        * ********************************************* */
       var toggleValidButton = new qx.ui.form.ToggleButton("invalid");
-      this.getRoot().add(toggleValidButton, {left: 280, top: 20});
+      this.getRoot().add(toggleValidButton, {left: 300, top: 20});
 
       toggleValidButton.addListener("changeValue", function(e) {
         for (var i = 0; i < widgets.length; i++) {
@@ -133,7 +133,7 @@ qx.Class.define("demobrowser.demo.ui.FormInvalids",
       }, this);
 
       var disableButton = new qx.ui.form.ToggleButton("disabled");
-      this.getRoot().add(disableButton, {left: 350, top: 20});
+      this.getRoot().add(disableButton, {left: 370, top: 20});
 
       disableButton.addListener("changeValue", function(e) {
         for (var i = 0; i < widgets.length; i++) {
@@ -142,7 +142,7 @@ qx.Class.define("demobrowser.demo.ui.FormInvalids",
       }, this);
 
       var disableTooltipButton = new qx.ui.form.ToggleButton("disable tooltips");
-      this.getRoot().add(disableTooltipButton, {left: 430, top: 20});
+      this.getRoot().add(disableTooltipButton, {left: 450, top: 20});
 
       disableTooltipButton.addListener("changeValue", function(e) {
         qx.ui.tooltip.Manager.getInstance().setShowInvalidToolTips(!e.getData());
@@ -158,7 +158,7 @@ qx.Class.define("demobrowser.demo.ui.FormInvalids",
       // List Description
       var listDescription = new qx.ui.basic.Label();
       listDescription.setRich(true);
-      listDescription.setWidth(250);
+      listDescription.setWidth(280);
       listDescription.setValue("<b>Validation</b><br/>Press the button to"
         + " invalidate all shown widgets. Try the invalid focus and tooltip.");
       this.getRoot().add(listDescription, {left: 20, top: 10});
