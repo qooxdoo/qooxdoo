@@ -284,7 +284,12 @@ qx.Class.define("qx.test.bom.request.Script",
 
       this.spy(req, "onload");
 
-      this.request();
+      if (this.isIe()) {
+        this.request(this.noCache(this.url));
+      } else {
+        this.request();
+      }
+
       req.abort();
 
       this.wait(300, function() {
@@ -349,7 +354,12 @@ qx.Class.define("qx.test.bom.request.Script",
         }
       };
 
-      this.request();
+      if (this.isIe()) {
+        this.request(this.noCache(this.url));
+      } else {
+        this.request();
+      }
+
       this.wait();
     },
 
@@ -388,7 +398,7 @@ qx.Class.define("qx.test.bom.request.Script",
         this.skip();
       }
 
-      var that = this
+      var that = this;
 
       this.req.onload = function() {
         that.resume(function() {
@@ -586,6 +596,10 @@ qx.Class.define("qx.test.bom.request.Script",
 
     isInDom: function(elem) {
       return elem.parentNode ? true : false;
+    },
+
+    isIe: function(version) {
+      return (qx.core.Environment.get("engine.name") === "mshtml");
     },
 
     isIeBelow: function(version) {
