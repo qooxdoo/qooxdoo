@@ -709,6 +709,9 @@ input, select, .text-area {
 .form-row-content.exclude + .form-separation-row {
   border-top: 0; }
 
+.form-row label {
+  padding-right: 10px; }
+
 .list {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
