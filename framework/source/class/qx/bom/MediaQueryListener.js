@@ -74,9 +74,15 @@ qx.Bootstrap.define("qx.bom.MediaQueryListener", {
   events :
   {
     /**
-     * Fires each time the media query state changes
+     * Fires each time the media query state changes. The event data is a map
+     * with two keys:
+     *
+     * **query** The media query string
+     *
+     * **matches** A boolean that indicates whether the document
+     * matches the query
      */
-    "change" : "qx.event.Emitter"
+    "change" : "Map"
   },
 
   statics : {

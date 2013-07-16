@@ -193,7 +193,7 @@ qxWeb.define("qx.module.Blocker", {
      *
      * @attach {qxWeb}
      * @param color {String ? transparent} The color for the blocker element (any CSS color value)
-     * @param opacity {Float ? 0} The CSS opacity value for the blocker
+     * @param opacity {Number ? 0} The CSS opacity value for the blocker (floating point number from 0 to 1)
      * @param zIndex {Number ? 10000} The zIndex value for the blocker
      * @return {qxWeb} The collection for chaining
      */
