@@ -147,8 +147,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       {
         case "textfield":
           control = new qx.ui.form.TextField();
-          var emulatemouse = qx.core.Environment.get("device.touch") && qx.core.Environment.get("qx.emulatemouse");
-          control.setFocusable(emulatemouse);
+          control.setFocusable(qx.event.handler.MouseEmulation.ON);
           control.addState("inner");
           control.addListener("changeValue", this._onTextFieldChangeValue, this);
           control.addListener("blur", this.close, this);

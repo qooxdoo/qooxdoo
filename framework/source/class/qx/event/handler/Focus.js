@@ -62,7 +62,7 @@ qx.Class.define("qx.event.handler.Focus",
     this._body = this._document.body;
 
     // abstraction
-    var useTouch = qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse");
+    var useTouch = qx.core.Environment.get("event.touch") && qx.event.handler.MouseEmulation.ON;
     this.__down = useTouch ? "touchstart" : "mousedown";
     this.__up = useTouch ? "touchend" : "mouseup";
 
@@ -817,7 +817,7 @@ qx.Class.define("qx.event.handler.Focus",
 
         if (focusTarget) {
           this.setFocus(focusTarget);
-          if (qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse")) {
+          if (qx.core.Environment.get("event.touch") && qx.event.handler.MouseEmulation.ON) {
             try {
               // if the element is already focused, blur and refocus
               // it to make sure the keyboard is shown on tap

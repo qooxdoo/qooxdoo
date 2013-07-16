@@ -27,7 +27,7 @@ qx.Mixin.define("qx.ui.core.scroll.MTouchScroll",
   construct : function()
   {
     // only apply the deprecated features if the new emulate mouse is disabled.
-    if (!qx.core.Environment.get("qx.emulatemouse")) {
+    if (!qx.event.handler.MouseEmulation.ON) {
       // touch move listener for touch scrolling
       this.addListener("touchmove", this._onTouchMove, this);
 

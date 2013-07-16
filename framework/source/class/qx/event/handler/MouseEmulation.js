@@ -49,7 +49,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     this.__root = this.__window.document;
 
     // Initialize observers
-    if (qx.core.Environment.get("qx.emulatemouse") && qx.core.Environment.get("device.touch")) {
+    if (qx.event.handler.MouseEmulation.ON) {
       this._initObserver();
       document.documentElement.style.msTouchAction = "none";
     }
@@ -75,7 +75,13 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE + qx.event.IEventHandler.TARGET_DOCUMENT + qx.event.IEventHandler.TARGET_WINDOW,
 
     /** @type {Integer} Whether the method "canHandleEvent" must be called */
-    IGNORE_CAN_HANDLE : true
+    IGNORE_CAN_HANDLE : true,
+
+
+    /** @type {Boolean} Flag which indicates if the mouse emulation should be on */
+    ON : qx.core.Environment.get("qx.emulatemouse") &&
+         (qx.core.Environment.get("event.mspointer") ||
+         (qx.core.Environment.get("event.touch") && qx.core.Environment.get("os.name") !== "win"))
   },
 
 
@@ -388,7 +394,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
 
   destruct : function()
   {
-    if (qx.core.Environment.get("qx.emulatemouse") && qx.core.Environment.get("device.touch")) {
+    if (qx.event.handler.MouseEmulation.ON) {
       this._stopObserver();
     }
 
@@ -398,7 +404,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
 
 
   defer : function(statics) {
-    if (qx.core.Environment.get("qx.emulatemouse")) {
+    if (statics.ON) {
       qx.event.Registration.addHandler(statics);
     }
   }
