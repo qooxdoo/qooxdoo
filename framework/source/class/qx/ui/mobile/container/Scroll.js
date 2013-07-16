@@ -123,10 +123,6 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
 
       var scrollContentElement = this._getScrollContentElement();
 
-      qx.bom.Element.addListener(contentElement,"iscrollpageend",function() {
-        this.fireEvent("pageEnd");
-      }, this);
-
       return scrollContentElement || contentElement;
     },
 

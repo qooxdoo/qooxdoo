@@ -170,6 +170,8 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
      * @return {Object} Map with default iScroll properties
      */
     _getDefaultScrollProperties : function() {
+      var container = this;
+
       return {
         hideScrollbar: true,
         fadeScrollbar: true,
@@ -181,7 +183,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
           if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
           {
             if(this.y == this.maxScrollY) {
-              qx.event.Registration.fireEvent( this.wrapper,"iscrollpageend");
+              container.fireEvent("pageEnd");
             }
           }
         },
@@ -190,7 +192,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
           if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
           {
             if(this.y == this.maxScrollY) {
-              qx.event.Registration.fireEvent(this.wrapper,"iscrollpageend");
+              container.fireEvent("pageEnd");
             }
           }
         },
