@@ -268,18 +268,23 @@ qx.Class.define("qx.ui.form.TextArea",
         if (qx.core.Environment.get("engine.name") == "mshtml" &&
           qx.core.Environment.get("browser.documentmode") == 8) {
           cloneDom.style.overflow = "visible";
+          cloneDom.style.overflowX = "hidden";
         }
 
         // Update value
         if (qx.core.Environment.get("engine.name") == "mshtml" &&
-            qx.core.Environment.get("browser.documentmode") == 8) {
-          clone.setStyle("lineHeight", this.getValue() ? "normal" : 0);
+            qx.core.Environment.get("browser.documentmode") == 8)
+        {
+          var lineHeight = this.getContentElement().getStyle("lineHeight");
+          clone.setStyle("lineHeight", this.getValue() ? lineHeight : 0);
         }
-        clone.setValue(this.getValue());
+        clone.setValue(this.getValue() || "");
 
         // Force IE > 8 to update size measurements
         if (qx.core.Environment.get("engine.name") == "mshtml") {
-          clone.getDomElement().offsetHeight;
+          cloneDom.style.height = "auto";
+          qx.html.Element.flush();
+          cloneDom.style.height = "0";
         }
 
         // Recompute
@@ -292,9 +297,6 @@ qx.Class.define("qx.ui.form.TextArea",
           if (!cloneDom.scrollTop) {
             qx.html.Element.flush();
           }
-
-          // Compensate for slightly off scroll height in IE
-          return cloneDom.scrollTop + this._getTextSize().height;
         }
 
         return cloneDom.scrollTop;
@@ -354,7 +356,7 @@ qx.Class.define("qx.ui.form.TextArea",
       clone.setAttribute("tabIndex", "-1");
 
       // Copy value
-      clone.setValue(orig.getValue());
+      clone.setValue(orig.getValue() || "");
 
       // Attach to DOM
       clone.insertBefore(orig);
