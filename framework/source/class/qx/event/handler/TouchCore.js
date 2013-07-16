@@ -411,13 +411,15 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       this.__startPageX = touch.screenX;
       this.__startPageY = touch.screenY;
       this.__startTime = new Date().getTime();
-      this.__isSingleTouchGesture = domEvent.changedTouches.length === 1;
+      this.__isSingleTouchGesture = domEvent.targetTouches.length === 1;
       // start the long tap timer
       if (this.__isSingleTouchGesture) {
         this.__longTapTimer = window.setTimeout(
           this.__fireLongTap.bind(this, domEvent, target),
           qx.event.handler.TouchCore.LONGTAP_TIME
         );
+      } else {
+        this.__stopLongTapTimer();
       }
     },
 
@@ -434,6 +436,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       if (this.__isSingleTouchGesture && domEvent.changedTouches.length > 1) {
         this.__isSingleTouchGesture = false;
       }
+
       // abort long tap timer if the distance is too big
       if (!this._isBelowTapMaxDistance(domEvent.changedTouches[0])) {
         this.__stopLongTapTimer();
