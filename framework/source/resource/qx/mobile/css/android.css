@@ -1015,13 +1015,13 @@ input, select, .text-area {
 .picker-slot {
   position: relative;
   top: 0px;
+  height: 500px;
   -webkit-border-radius: 0.3em;
   -moz-border-radius: 0.3em;
   border-radius: 0.3em;
   -webkit-transition: all ease-in-out;
   -moz-transition: all ease-in-out;
-  transition: all ease-in-out;
-  transition-duration: .2s; }
+  transition: all ease-in-out; }
 
 .picker-slot:not(:last-child):after {
   content: "";

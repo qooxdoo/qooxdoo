@@ -14,20 +14,20 @@ $label-height:25px;
   position:relative;
   top:0px;
 
-  @include border-radius(0.3em);
+  height: 500px;
 
+  @include border-radius(0.3em);
   @include transition(all ease-in-out);
-  transition-duration:.2s;
 }
 
 .picker-slot:not(:last-child):after {
   content:""; 
  
   position:absolute;
-  width:2px;
-  top:-200%;
-  right:0px;
-  height:500%;
+  width: 2px;
+  top: -200%;
+  right: 0px;
+  height: 500%;
 
   z-index:1000;
 }

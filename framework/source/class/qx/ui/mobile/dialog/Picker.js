@@ -219,7 +219,9 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
           this.__selectedIndex[slotElement.id] = value;
           this.__selectedIndexBySlot[slotIndex] = value;
 
-          this._updateSlot(slotElement, useTransition);
+          if(this.isShown()) {
+            this._updateSlot(slotElement, useTransition);
+          }
         }
       }
     },
@@ -434,8 +436,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
       this.__targetIndex[targetId] = this.__selectedIndex[targetId];
 
-      qx.bom.element.Style.set(target,"transitionDuration","0s");
-
+      qx.bom.element.Style.set(target, "transitionDuration", "0s");
       this.__slotTouchStartPoints[targetId] = {x:touchX, y:touchY};
 
       this._fixPickerSlotHeight(target);
@@ -455,7 +456,11 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       var model = this._getModelByElement(target);
       var slotIndex = this._getSlotIndexByElement(target);
 
-      var deltaY = evt.getScreenTop() - this.__slotTouchStartPoints[targetId].y;
+      var touchStartPoint = this.__slotTouchStartPoints[targetId];
+      if(!touchStartPoint) {
+        return;
+      }
+      var deltaY = evt.getScreenTop() - touchStartPoint.y;
 
       var isSwipe = Math.abs(deltaY) >= this.__labelHeight/2;
 
@@ -505,7 +510,11 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       var targetElement = evt.getCurrentTarget().getContainerElement();
       var targetId = targetElement.id;
 
-      var deltaY = evt.getScreenTop() - this.__slotTouchStartPoints[targetId].y;
+      var touchStartPoint = this.__slotTouchStartPoints[targetId];
+      if(!touchStartPoint) {
+        return;
+      }
+      var deltaY = evt.getScreenTop() - touchStartPoint.y;
 
       var selectedIndex = this.__selectedIndex[targetId];
       var offsetTop = -selectedIndex*this.__labelHeight;
@@ -550,7 +559,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       if(typeof useTransition == undefined) {
         useTransition = true;
       }
-      var transitionDuration = ".2s";
+      var transitionDuration = "200ms";
 
       if(useTransition == false) {
         transitionDuration = "0s";
