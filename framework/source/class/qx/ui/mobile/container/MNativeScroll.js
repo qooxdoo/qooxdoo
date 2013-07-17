@@ -36,7 +36,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
 
   members :
   {
-     /**
+    /**
      * Handler for "touchstart" event.
      * Prevents "rubber-banding" effect of page.
      * @param evt {qx.event.type.Touch} The touch event.
