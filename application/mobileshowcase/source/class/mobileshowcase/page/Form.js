@@ -62,6 +62,7 @@ qx.Class.define("mobileshowcase.page.Form",
 
       this.__submitButton = new qx.ui.mobile.form.Button("Submit");
       this.__submitButton.addListener("tap", this._onButtonTap, this);
+      this.__submitButton.addListener("touchstart", qx.bom.Event.preventDefault, this);
       this.__submitButton.setEnabled(false);
       this.getContent().add(this.__submitButton);
 
@@ -178,17 +179,21 @@ qx.Class.define("mobileshowcase.page.Form",
 
       // AGE validation
       validationManager.add(this.__numberField, function(value, item) {
-        var valid = true;
-        if(value == null || value =="0") {
+        if(value == null || value == "0") {
           item.setInvalidMessage("Please enter your age.");
-          valid = false;
+          return false;
+        }
+
+        if (value.length == 0 || value.match(/[\D]+/)) {
+          item.setInvalidMessage("Please enter a valid age.");
+          return false;
         }
 
         if(value < item.getMinimum() || value > item.getMaximum()) {
           item.setInvalidMessage("Value out of range: "+ item.getMinimum()+"-"+item.getMaximum());
-          valid = false;
+          return false;
         }
-        return valid;
+        return true;
       }, this);
     },
 
@@ -221,6 +226,7 @@ qx.Class.define("mobileshowcase.page.Form",
       } else {
         // Scroll to invalid field.
         var invalidItems = this.__form.getInvalidItems();
+
         this.scrollToWidget(invalidItems[0].getLayoutParent(), 500);
       }
     },
