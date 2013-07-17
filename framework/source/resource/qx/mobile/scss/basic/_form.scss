@@ -58,7 +58,7 @@ input, select, .text-area {
 }
 
 .text-field {
-  box-sizing: border-box;
+  @include box-sizing(border-box);
 }
 
 .text-field, .password-field, .number-field, .text-area {
