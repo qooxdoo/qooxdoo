@@ -140,7 +140,7 @@ qx.Class.define("qx.event.type.Touch",
 
 
       /**
-       * iOS only: Returns the distance between two fingers since the start of the event.
+       * Returns the distance between two fingers since the start of the event.
        * The distance is a multiplier of the initial distance.
        * Initial value: 1.0.
        * Gestures:
@@ -155,7 +155,7 @@ qx.Class.define("qx.event.type.Touch",
 
 
       /**
-       * iOS only: Returns the delta of the rotation since the start of the event, in degrees.
+       * Returns the delta of the rotation since the start of the event, in degrees.
        * Initial value is 0.0
        * Clockwise > 0
        * Counter-clockwise < 0.

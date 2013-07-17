@@ -159,7 +159,7 @@ qx.Class.define("mobileshowcase.page.Event",
 
     __onGestureTargetTouchMove : function(evt) {
       if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
-          this._getScrollContainer().disable();
+        this._getScrollContainer().disable();
       }
 
       var offset = 256;

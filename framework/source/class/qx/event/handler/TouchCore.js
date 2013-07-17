@@ -235,21 +235,20 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
 
         if(domEvent.touches && domEvent.touches.length > 1) {
           this.__beginScalingDistance = this._getScalingDistance(domEvent.touches[0],domEvent.touches[1]);
-          this.__beginRotation = this._getRotationAngle(domEvent.touches[0],domEvent.touches[1]);
+          this.__beginRotation = this._getRotationAngle(domEvent.touches[0], domEvent.touches[1]);
         }
       }
 
       if(type =="touchmove") {
         // Polyfill for scale
-        if(typeof domEvent.scale == "undefined" && domEvent.changedTouches.length > 1) {
-
-          var currentScalingDistance = this._getScalingDistance(domEvent.changedTouches[0],domEvent.changedTouches[1]);
+        if(typeof domEvent.scale == "undefined" && domEvent.targetTouches.length > 1) {
+          var currentScalingDistance = this._getScalingDistance(domEvent.targetTouches[0],domEvent.targetTouches[1]);
           domEvent.scale = currentScalingDistance / this.__beginScalingDistance;
         }
 
          // Polyfill for rotation
-        if(typeof domEvent.rotation == "undefined" && domEvent.changedTouches.length > 1) {
-          var currentRotation = this._getRotationAngle(domEvent.changedTouches[0],domEvent.changedTouches[1]);
+        if(typeof domEvent.rotation == "undefined" && domEvent.targetTouches.length > 1) {
+          var currentRotation = this._getRotationAngle(domEvent.targetTouches[0], domEvent.targetTouches[1]);
           domEvent.rotation = currentRotation - this.__beginRotation;
         }
 
