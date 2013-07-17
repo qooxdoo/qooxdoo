@@ -74,7 +74,8 @@
         "command" : [
           "mkdir -p npm/build",
           "cp script/qx-oo-${QOOXDOO_VERSION}.js npm/build",
-          "cp npm/package.json npm/build"
+          "cp npm/package.json npm/build",
+          "cp npm/readme.md npm/build"
         ]
       }
     },
