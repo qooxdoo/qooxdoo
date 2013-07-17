@@ -87,18 +87,11 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
     *
     * @param x {Integer} X coordinate to scroll to.
     * @param y {Integer} Y coordinate to scroll to.
-    * @param time {Integer} Time slice in which scrolling should
-    *              be done.
+    * @param time {Integer} is always <code>0</code> for this mixin.
     */
     _scrollTo : function(x, y, time) {
-      if (time == null) {
-        time = 0;
-      }
-
-      setTimeout(function() {
-        this.getContentElement().scrollLeft = x;
-        this.getContentElement().scrollTop = y;
-      }.bind(this), time);
+      this.getContentElement().scrollLeft = x;
+      this.getContentElement().scrollTop = y;
     },
 
 

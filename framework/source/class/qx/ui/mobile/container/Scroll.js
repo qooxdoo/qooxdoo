@@ -158,7 +158,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       * period.
       *
       * @param elementId {String} the elementId, the scroll container should scroll to.
-      * @param time {Integer} Time slice in which scrolling should
+      * @param time {Integer?0} Time slice in which scrolling should
       *              be done (in seconds).
       *
       */

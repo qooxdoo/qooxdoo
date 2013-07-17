@@ -103,11 +103,14 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     * period.
     *
     * @param elementId {String} the elementId, the scroll container should scroll to.
-    * @param time {Integer} Time slice in which scrolling should be done (in seconds).
+    * @param time {Integer?0} Time slice in which scrolling should be done (in seconds).
     *
     */
     _scrollToElement : function(elementId, time)
     {
+      if(typeof time === "undefined") {
+        time = 0;
+      }
       if (this.__scroll) {
         this.__scroll.scrollToElement("#"+elementId, time);
       }
