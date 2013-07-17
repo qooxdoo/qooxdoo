@@ -35,6 +35,8 @@
  * @use(qx.ui.core.EventHandler)
  * @use(qx.event.handler.DragDrop)
  * @asset(qx/static/blank.gif)
+ *
+ * @ignore(qx.ui.root.Inline)
  */
 qx.Class.define("qx.ui.core.Widget",
 {
@@ -1569,11 +1571,18 @@ qx.Class.define("qx.ui.core.Widget",
         el.setAttribute("qxClass", this.classname);
       }
 
-      el.setStyles({
-        "position": "absolute",
+      var styles = {
         "zIndex": 10,
         "boxSizing": "border-box"
-      });
+      };
+
+      if (!qx.ui.root.Inline ||
+        !(this instanceof qx.ui.root.Inline))
+      {
+        styles.position = "absolute";
+      }
+
+      el.setStyles(styles);
 
       return el;
     },
