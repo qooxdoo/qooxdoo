@@ -33,11 +33,11 @@ qx.Class.define("tweets.IdenticaService",
       }
     },
 
-
-    post : function(message)
-    {
-      // redirect to identi.ca
-      window.open("http://identi.ca/?action=newnotice&status_textarea=" + encodeURIComponent(message));
+    /**
+     * @lint ignoreDeprecated(alert)
+     */
+    post : function(message) {
+      alert("Post this message: " + message);
     }
   }
 });
