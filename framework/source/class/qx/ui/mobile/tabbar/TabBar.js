@@ -54,6 +54,7 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
     this.base(arguments);
     this._setLayout(new qx.ui.mobile.layout.HBox(null, "middle"));
     this.addListener("tap", this._onTap, this);
+    this.addListener("touchstart", qx.bom.Event.preventDefault, this);
   },
 
 
@@ -175,16 +176,9 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
   },
 
 
-
-
- /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
   destruct : function()
   {
     this.removeListener("tap", this._onTap, this);
+    this.removeListener("touchstart", qx.bom.Event.preventDefault, this);
   }
 });
