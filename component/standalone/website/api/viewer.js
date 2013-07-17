@@ -43,8 +43,8 @@ q.ready(function() {
 
 
   // load API data of q
-  q.io.xhr("script/qxWeb.json").send().on("loadend", function(xhr) {
-    if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
+  q.io.xhr("script/qxWeb.json").on("loadend", function(xhr) {
+    var handleSuccess = function() {
       var ast = JSON.parse(xhr.responseText);
 
       // constructor
@@ -58,13 +58,27 @@ q.ready(function() {
       loadEventNorm();
       loadPolyfills();
       onContentReady();
+    };
+
+    var isFileProtocol = function() {
+      return (location.protocol.indexOf("file") === 0);
+    };
+
+    if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
+      if (q.env.get("engine.name") == "mshtml" && isFileProtocol()) {
+        // postpone data processing in IE when using file protocol
+        // to prevent rendering no module doc at all
+        window.setTimeout(handleSuccess, 0);
+      } else {
+        handleSuccess();
+      }
     } else {
       q("#warning").setStyle("display", "block");
-      if (location.protocol.indexOf("file") == 0) {
+      if (isFileProtocol()) {
         q("#warning em").setHtml("File protocol not supported. Please load the application via HTTP.");
       }
     }
-  });
+  }).send();
 
 
   var loadEventNorm = function() {
@@ -73,7 +87,7 @@ q.ready(function() {
       norm = norm.split(",");
       norm.forEach(function(name) {
         loading++;
-        q.io.xhr("script/" + name + ".json").send().on("loadend", function(xhr) {
+        q.io.xhr("script/" + name + ".json").on("loadend", function(xhr) {
           loading--;
           if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
             var ast = JSON.parse(xhr.responseText);
@@ -82,7 +96,7 @@ q.ready(function() {
             console && console.warn("Event normalization '" + name + "' could not be loaded.");
           }
           onContentReady();
-        });
+        }).send();
       });
     }
   };
@@ -110,7 +124,7 @@ q.ready(function() {
     polyfillClasses = Object.keys(q.$$qx.lang.normalize);
     for (var clazz in q.$$qx.lang.normalize) {
       loading++;
-      q.io.xhr("script/qx.lang.normalize." + clazz + ".json").send().on("loadend", function(xhr) {
+      q.io.xhr("script/qx.lang.normalize." + clazz + ".json").on("loadend", function(xhr) {
         loading--;
         if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
           var ast = JSON.parse(xhr.responseText);
@@ -119,7 +133,7 @@ q.ready(function() {
           console && console.warn("Polyfill '" + clazz + "' could not be loaded.");
         }
         onContentReady();
-      });
+      }).send();
     }
   };
 
@@ -150,7 +164,7 @@ q.ready(function() {
 
     loadedClasses.push(name);
     loading++;
-    q.io.xhr("script/" + name + ".json").send().on("loadend", function(xhr) {
+    q.io.xhr("script/" + name + ".json").on("loadend", function(xhr) {
       loading--;
       if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
         var ast = JSON.parse(xhr.responseText);
@@ -162,9 +176,8 @@ q.ready(function() {
         );
       }
       onContentReady();
-    });
-  }
-
+    }).send();
+  };
 
 
   /**
@@ -422,7 +435,7 @@ q.ready(function() {
       return;
     }
     loading++;
-    q.io.xhr("script/" + name + ".json").send().on("loadend", function(xhr) {
+    q.io.xhr("script/" + name + ".json").on("loadend", function(xhr) {
       loading--;
       if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
         var ast = JSON.parse(xhr.responseText);
@@ -442,8 +455,8 @@ q.ready(function() {
         );
       }
       onContentReady();
-    });
-  }
+    }).send();
+  };
 
 
   var getEvents = function(ast) {
