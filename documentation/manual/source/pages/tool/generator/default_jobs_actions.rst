@@ -53,7 +53,7 @@ line arguments to only re-generate the api data for those:
 Beware though that in such a case the tree information provided to the Apiviewer
 (i.e. what you see in the Apiviewer's tree view on the left) is also restricted
 to those classes (augmented by stubs for their ancestors for hierarchy
-resolution). But this should be fine for developing API documenation for
+resolution). But this should be fine for developing API documentation for
 specific classes.
 
 .. _pages/tool/generator/generator_default_jobs#build:
@@ -61,6 +61,29 @@ specific classes.
 build
 -----
 Create build version of current application.
+
+.. _pages/tool/generator/generator_default_jobs#build-min:
+
+build-min
+---------
+This job is available in the %{Website} skeleton.
+Create minified build version of current application.
+
+.. _pages/tool/generator/generator_default_jobs#build-module-all:
+
+build-module-all
+----------------
+This job is available in the %{Website} skeleton. Instead of building a single
+all-in-one qx.Website script file (see build_ and build-min_) this will build all
+modules separately (%{Website} splitted in n files).
+
+.. _pages/tool/generator/generator_default_jobs#build-module-all-min:
+
+build-module-all-min
+--------------------
+This job is available in the %{Website} skeleton. Instead of building a single
+all-in-one qx.Website script file (see build_ and build-min_) this will build all
+modules separately (%{Website} splitted in n files) and minified.
 
 .. _pages/tool/generator/generator_default_jobs#clean:
 
@@ -71,8 +94,7 @@ Remove local cache and generated .js files (source/build).
 .. _pages/tool/generator/generator_default_jobs#dependencies:
 
 dependencies
-----------------
-
+------------
 Create dependency information for the current library which is stored as a Json
 file (under *source/script/dependencies.json*). If this file exists and is
 current, the Generator will use its information when following dependencies of
@@ -527,7 +549,7 @@ watch-scss
 *(experimental)*
 
 This job is available in the %{Mobile} skeleton. The *watch-scss* job watches
-SCSS files, and compiles them to CSS once they change (See the article abouth
+SCSS files, and compiles them to CSS once they change (See the article about
 :doc:`mobile theming </pages/mobile/theming>`). The \*.scss files usually reside
 in your application's ``source/resource/<name_space>/mobile/scss`` folder, and
 will be compiled into the ``css`` sibling folder.

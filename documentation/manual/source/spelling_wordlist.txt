@@ -254,6 +254,8 @@ Organisation
 Outdent
 paddings
 param
+parametrized
+parameterized
 parsers
 Parsers
 Placeholer
