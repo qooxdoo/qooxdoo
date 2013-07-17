@@ -90,9 +90,15 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
     * @param time {Integer} Time slice in which scrolling should
     *              be done.
     */
-    _scrollTo : function(x, y, time)
-    {
-      scrollTo(x,y);
+    _scrollTo : function(x, y, time) {
+      if (time == null) {
+        time = 0;
+      }
+
+      setTimeout(function() {
+        this.getContentElement().scrollLeft = x;
+        this.getContentElement().scrollTop = y;
+      }.bind(this), time);
     },
 
 
@@ -106,7 +112,11 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
     */
     _scrollToElement : function(elementId, time)
     {
-      // TODO
+      var targetElement = document.getElementById(elementId);
+      var offsetParent = qx.bom.element.Location.getOffsetParent(targetElement);
+      var location = qx.bom.element.Location.getRelative(offsetParent, targetElement, "scroll", "scroll");
+
+      this._scrollTo(Math.abs(location.left), Math.abs(location.top), time);
     }
   }
 });

@@ -109,7 +109,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     _scrollToElement : function(elementId, time)
     {
       if (this.__scroll) {
-        this.__scroll.scrollToElement(elementId, time);
+        this.__scroll.scrollToElement("#"+elementId.getId(), time);
       }
     },
 

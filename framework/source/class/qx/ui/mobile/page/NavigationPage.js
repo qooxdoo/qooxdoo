@@ -357,8 +357,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
     scrollToWidget : function(widget, time)
     {
       if(widget) {
-        var widgetId = "#"+widget.getId();
-        this.__scrollContainer.scrollToElement(widgetId, time);
+        this.__scrollContainer.scrollToElement(widget.getId(), time);
       }
     },
 

@@ -140,7 +140,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
 
 
     /**
-     * Scrolls the wrapper contents to the x/y coordinates in a given period.
+     * Scrolls the wrapper contents to the x/y coordinates in a given time.
      *
      * @param x {Integer} X coordinate to scroll to.
      * @param y {Integer} Y coordinate to scroll to.
