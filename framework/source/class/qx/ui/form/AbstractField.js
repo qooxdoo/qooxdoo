@@ -465,7 +465,16 @@ qx.Class.define("qx.ui.form.AbstractField",
       }
 
       // apply the font to the content element
-      this.getContentElement().setStyles(styles);
+      // IE 8 - 10 (but not 11 Preview) will ignore the lineHeight value
+      // unless it's applied directly.
+      if (qx.core.Environment.get("engine.name") == "mshtml" &&
+        qx.core.Environment.get("browser.documentmode") < 11)
+      {
+        qx.html.Element.flush();
+        this.getContentElement().setStyles(styles, true);
+      } else {
+        this.getContentElement().setStyles(styles);
+      }
 
       // the font will adjust automatically on native placeholders
       if (this.__useQxPlaceholder) {
