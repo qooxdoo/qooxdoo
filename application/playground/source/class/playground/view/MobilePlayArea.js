@@ -34,8 +34,9 @@ qx.Class.define("playground.view.MobilePlayArea",
     var sizeSelect = new qx.ui.form.SelectBox();
     sizeSelect.setMaxHeight(21);
     sizeSelect.setMarginTop(6);
-    sizeSelect.setPaddingTop(0);
+    sizeSelect.setPaddingTop(-1);
     sizeSelect.setPaddingBottom(0);
+    sizeSelect.setWidth(130);
     sizeSelect.add(new qx.ui.form.ListItem("Fit to viewport"));
 
     var resolutions = [
