@@ -57,6 +57,10 @@ input, select, .text-area {
   font-size: 0.9em;
 }
 
+.text-field {
+  box-sizing: border-box;
+}
+
 .text-field, .password-field, .number-field, .text-area {
   @include appearance(textarea);
   width: 100%;

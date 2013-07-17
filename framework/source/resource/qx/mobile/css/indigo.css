@@ -664,6 +664,9 @@ input, select {
 input, select, .text-area {
   font-size: 0.9em; }
 
+.text-field {
+  box-sizing: border-box; }
+
 .text-field, .password-field, .number-field, .text-area {
   -webkit-appearance: textarea;
   -moz-appearance: textarea;
