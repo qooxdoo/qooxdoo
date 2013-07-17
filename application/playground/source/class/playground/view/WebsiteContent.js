@@ -57,10 +57,12 @@ qx.Class.define("playground.view.WebsiteContent",
       container.setMarginTop(-parseInt(bounds.height/2));
       container.setMarginLeft(-parseInt(bounds.width/2));
 
-      // rotate a bit
-      var el = container.getContentElement().getDomElement();
-      qx.bom.element.Transform.rotate(el, "-2deg");
-
+      // no rotation for font rendering breaking gecko
+      if (qx.core.Environment.get("engine.name") != "gecko") {
+        // rotate a bit
+        var el = container.getContentElement().getDomElement();
+        qx.bom.element.Transform.rotate(el, "-2deg");
+      }
     });
   }
 });
