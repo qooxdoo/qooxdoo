@@ -197,6 +197,10 @@
   text-align:center;
 }
 
+#osmMap {
+  -webkit-transform: translate3d(0,0,0);
+}
+
 .olLayerGrid .olTileImage {
   -webkit-transition:  none !important;
   -moz-transition:  none !important;
