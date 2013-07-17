@@ -227,6 +227,15 @@ qx.Class.define("mobileshowcase.page.Form",
 
 
     // overridden
+    _stop : function() {
+      if(this.__resultPopup) {
+        this.__resultPopup.hide();
+      }
+      this.base(arguments);
+    },
+
+
+    // overridden
     _back : function()
     {
       qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
