@@ -21,12 +21,12 @@
  * Creates a drawer widget inside the given parent widget. The parent widget can
  * be assigned as a constructor argument. If no parent is set, the application's
  * root will be assumed as parent. A drawer widget can be assigned to left, right,
- * top or bottom edge of its parent by property "orientation". The drawer floats
- * in on show() and floats out on hide(). Additionally the drawer is shown by
+ * top or bottom edge of its parent by property <code>orientation</code>. The drawer floats
+ * in on <code>show()</code> and floats out on <code>hide()</code>. Additionally the drawer is shown by
  * swiping in reverse direction on the parent edge to where the drawer is placed
- * to: Orientation: "left", Swipe: "right" on parents edge: Drawer is shown etc.
+ * to: Orientation: <code>left</code>, Swipe: <code>right</code> on parents edge: Drawer is shown etc.
  * The drawer is hidden when user touches the parent area outside of the drawer.
- * This behaviour can be deactivated by the property "hideOnParentTouch".
+ * This behaviour can be deactivated by the property <code>hideOnParentTouch</code>.
  *
  * <pre class='javascript'>
  *
@@ -124,7 +124,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
 
     /** Property for setting the orientation of the drawer.
-     * Allowed values are: "left","right","top","bottom" */
+     * Allowed values are: <code>left</code>,<code>right</code>,<code>top</code>,<code>bottom</code> */
     orientation : {
       check : "String",
       init : "left",
@@ -132,7 +132,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     },
 
 
-    /** The width of the drawer. Only relevant if orientation is "left" or "right". */
+    /** The width of the drawer. Only relevant if orientation is <code>left</code> or <code>right</code>. */
     width : {
       check : "Integer",
       init : 300,
@@ -141,7 +141,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     },
 
 
-    /** The height of the drawer. Only relevant if orientation is "top" or "bottom". */
+    /** The height of the drawer. Only relevant if orientation is <code>top</code> or <code>bottom</code>. */
     height : {
       check : "Integer",
       init : 300,
@@ -172,7 +172,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     },
 
 
-    /** Sets the drawer zIndex position relative to its parent. Allowed values are "above" or "below". */
+    /** Sets the drawer zIndex position relative to its parent. */
     positionZ : {
       check : [ "above", "below"],
       init : "above",
@@ -201,7 +201,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       this.addCssClass(value);
 
       // Reapply width of height size depending on orientation.
-      var isVertical = (this.getOrientation() =="left" || this.getOrientation() == "right");
+      var isVertical = (this.getOrientation() == "left" || this.getOrientation() == "right");
       if(isVertical) {
         this._applySize(this.getHeight(), 0);
       } else {
