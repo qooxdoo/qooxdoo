@@ -80,7 +80,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
 
     /** @type {Boolean} Flag which indicates if the mouse emulation should be on */
     ON : qx.core.Environment.get("qx.emulatemouse") &&
-         (qx.core.Environment.get("event.mspointer") ||
+         ((qx.core.Environment.get("event.mspointer") && qx.core.Environment.get("device.touch")) ||
          (qx.core.Environment.get("event.touch") && qx.core.Environment.get("os.name") !== "win"))
   },
 
