@@ -856,7 +856,12 @@ qx.Class.define("qx.ui.control.ColorSelector",
      */
     _onBrightnessPaneMouseWheel : function(e)
     {
-      this.setBrightness(qx.lang.Number.limit(this.getBrightness() - e.getWheelDelta("y"), 0, 100));
+      // change direction for touch events (not IE)
+      if (qx.event.handler.MouseEmulation.ON && qx.core.Environment.get("event.touch")) {
+        this.setBrightness(qx.lang.Number.limit(this.getBrightness() + (e.getWheelDelta("y") / 2.5), 0, 100));
+      } else {
+        this.setBrightness(qx.lang.Number.limit(this.getBrightness() - e.getWheelDelta("y"), 0, 100));
+      }
       e.stop();
     },
 
@@ -960,8 +965,15 @@ qx.Class.define("qx.ui.control.ColorSelector",
      */
     _onHueSaturationPaneMouseWheel : function(e)
     {
-      this.setSaturation(qx.lang.Number.limit(this.getSaturation() - e.getWheelDelta("y"), 0, 100));
-      this.setHue(qx.lang.Number.limit(this.getHue() + e.getWheelDelta("x"), 0, 360));
+      // change direction for touch events (not IE)
+      if (qx.event.handler.MouseEmulation.ON && qx.core.Environment.get("event.touch")) {
+        this.setSaturation(qx.lang.Number.limit(this.getSaturation() + (e.getWheelDelta("y") / 2.5), 0, 100));
+        this.setHue(qx.lang.Number.limit(this.getHue() - (e.getWheelDelta("x") * 1.3), 0, 360));
+      } else {
+        this.setSaturation(qx.lang.Number.limit(this.getSaturation() - e.getWheelDelta("y"), 0, 100));
+        this.setHue(qx.lang.Number.limit(this.getHue() + e.getWheelDelta("x"), 0, 360));
+      }
+
       e.stop();
     },
 
