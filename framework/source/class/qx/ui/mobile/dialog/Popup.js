@@ -340,6 +340,19 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
 
     /**
+     * Handler for touchstart events on popup. Prevents default of <code>touchstart</code> 
+     * if originalTarget was not of type {@link qx.ui.mobile.form.Input qx.ui.mobile.form.Input}
+     * @param evt {qx.event.type.Touch} The touch event.
+     */
+    _preventTouch : function(evt) {
+      var originalTargetWidget = qx.ui.mobile.core.Widget.getWidgetById(evt.getOriginalTarget().id);
+      if(!(originalTargetWidget instanceof qx.ui.mobile.form.Input)) {
+        evt.preventDefault();
+      }
+    },
+
+
+    /**
      * Centers this widget to window's center position.
      */
     _positionToCenter : function()
@@ -381,7 +394,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         appRoot.addListener("touchstart",this._trackUserTouch,this);
       }
 
-      this.addListener("touchstart", qx.bom.Event.preventDefault, this);
+      this.addListener("touchstart", this._preventTouch, this);
     },
 
 
@@ -397,7 +410,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         appRoot.removeListener("touchstart", this._trackUserTouch, this);
       }
 
-      this.removeListener("touchstart", qx.bom.Event.preventDefault, this);
+      this.removeListener("touchstart", this._preventTouch, this);
     },
 
 
