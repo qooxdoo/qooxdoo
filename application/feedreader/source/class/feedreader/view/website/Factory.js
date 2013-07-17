@@ -57,14 +57,14 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
              keep: 100,
              keyFrames: {
                0: {
-                 "padding-bottom": "0px",
-                 "padding-top": "0px",
+                 "paddingBottom": "0px",
+                 "paddingTop": "0px",
                  "scale": [null, 0],
                  "height": "0px"
                 },
                100: {
-                 "padding-bottom": "10px",
-                 "padding-top": "10px",
+                 "paddingBottom": "10px",
+                 "paddingTop": "10px",
                  "scale": [null, 1],
                  "height": content.getProperty("offsetHeight")-20 + "px"
                 }
@@ -80,14 +80,14 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
              origin: "top center",
              keyFrames: {
                0: {
-                 "padding-bottom": "10px",
-                 "padding-top": "10px",
+                 "paddingBottom": "10px",
+                 "paddingTop": "10px",
                  "scale": [null, 1],
                  "height": content.getProperty("offsetHeight")-20 + "px"
                 },
                100: {
-                 "padding-bottom": "0px",
-                 "padding-top": "0px",
+                 "paddingBottom": "0px",
+                 "paddingTop": "0px",
                  "scale": [null, 0],
                  "height": "0px"
                 }
