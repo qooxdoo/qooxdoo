@@ -697,7 +697,8 @@ input, select, .text-area {
   padding: 6px;
   max-width: 90%;
   z-index: 101;
-  clear: both; }
+  clear: both;
+  -ms-touch-action: none; }
 
 .popup-title {
   font-weight: 800;
@@ -1029,9 +1030,6 @@ input, select, .text-area {
 .carousel-pagination-label {
   display: inline-block;
   margin: 2px; }
-
-.picker {
-  -ms-touch-action: none; }
 
 .picker-slot {
   position: relative;

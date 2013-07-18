@@ -4,8 +4,6 @@
 
 .picker {
   @extend .popup;
-
-  -ms-touch-action: none;
 }
 
 $label-height:25px;

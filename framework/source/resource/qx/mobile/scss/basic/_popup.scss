@@ -10,6 +10,8 @@
   max-width: 90%;
   z-index: 101;
   clear: both;
+
+  -ms-touch-action: none;
 }
 
 .popup-title {
