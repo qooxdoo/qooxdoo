@@ -322,6 +322,7 @@ qx.Class.define("qx.test.ui.form.TextArea",
     {
       this.base(arguments);
       this.__textArea.destroy();
+      qx.ui.core.queue.Dispose.flush();
     }
   }
 });
