@@ -47,11 +47,14 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
 
        // handler for the click on either the title or the indicator
        var onClick = function(e) {
+         if (content.__ah && content.__ah.isPlaying()) {
+           return;
+         }
          if (content.getStyle("display") == "none") {
 
            content.setStyle("display", "");
            content.scale([null, 0]);
-           content.animate({
+           content.__ah = content.animate({
              duration: duration,
              origin: "top center",
              keep: 100,
@@ -69,13 +72,14 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
                  "height": content.getProperty("offsetHeight")-20 + "px"
                 }
              }
-           }).once("animationEnd", function() {
+           });
+           content.__ah.once("animationEnd", function() {
              content.scale(1);
              indicator.setHtml("[-]");
            });
 
          } else {
-           content.animate({
+           content.__ah = content.animate({
              duration: duration,
              origin: "top center",
              keyFrames: {
@@ -92,7 +96,8 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
                  "height": "0px"
                 }
              }
-           }).once("animationEnd", function() {
+           });
+           content.__ah.once("animationEnd", function() {
              this.setStyle("display", "none");
              indicator.setHtml("[+]");
            });
