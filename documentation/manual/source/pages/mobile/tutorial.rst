@@ -236,15 +236,17 @@ your mobile applications as well. Extend the ``members`` section of the
 ::
 
         __loadTweets : function() {
-          // Public identica Tweets API
-          var url = "http://identi.ca/api/statuses/user_timeline/" + this.getUsername() + ".json";
+          // Mocked Identica Tweets API
           // Create a new JSONP store instance with the given url
-          var store = new qx.data.store.Jsonp(url);
+          var self = this;
+          var url = "http://demo.qooxdoo.org/" + qx.core.Environment.get("qx.version") + "/tweets_step4.5/resource/tweets/service.js";
+
+          var store = new qx.data.store.Jsonp();
+          store.setCallbackName("callback");
+          store.setUrl(url);
+
           // Use data binding to bind the "model" property of the store to the "tweets" property
           store.bind("model", this, "tweets");
-          store.addListener("error", function(evt) {
-            // you can add error handling here, e.g. display a dialog or navigate back to the input page
-          }, this);
         }
 
 In the ``__loadTweets`` method we create a new `JSONP`_ store which will
@@ -317,9 +319,9 @@ the ``_initialize`` method:
     input.setRequired(true);
     form.add(input, "Username");
 
-    // Add the form to the content of the page, using the SinglePlaceholder to render
+    // Add the form to the content of the page, using the Single to render
     // the form.
-    this.getContent().add(new qx.ui.mobile.form.renderer.SinglePlaceholder(form));
+    this.getContent().add(new qx.ui.mobile.form.renderer.Single(form));
 
 First we add an instance of ``qx.ui.mobile.form.Title`` to the content
 of the page. To an instance of ``qx.ui.mobile.form.Form``, a
@@ -388,8 +390,7 @@ First we have to add the following ``_initialize`` method to the members section
             // set the data of the model
             item.setTitle(value.getText());
             // we use the dataFormat instance to format the data value of the identica API
-            item.setSubtitle(value.getUser().getName() + ", " 
-                + dateFormat.format(new Date(value.getCreated_at())));
+            item.setSubtitle(dateFormat.format(new Date(value.getCreated_at())));
             item.setImage(value.getUser().getProfile_image_url());
             // we have more data to display, show an arrow
             item.setShowArrow(true);
