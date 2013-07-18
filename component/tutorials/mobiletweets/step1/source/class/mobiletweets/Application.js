@@ -133,12 +133,16 @@ qx.Class.define("mobiletweets.Application",
 
       // Return to the Input page
       tweetsPage.addListener("back", function(evt) {
-        inputPage.show({reverse:true});
+        inputPage.show({
+          reverse: true
+        });
       }, this);
 
       // Return to the Tweets Page.
       tweetPage.addListener("back", function(evt) {
-        tweetsPage.show({reverse:true});
+        tweetsPage.show({
+          reverse: true
+        });
       }, this);
     },
 
@@ -148,6 +152,7 @@ qx.Class.define("mobiletweets.Application",
       this.__loadTweets();
     },
 
+    // property apply
     _applyTweets : function(value, old) {
       // print the loaded data in the console
       this.debug("Tweets: ", qx.lang.Json.stringify(value)); // just display the data
@@ -160,22 +165,14 @@ qx.Class.define("mobiletweets.Application",
     __loadTweets : function()
     {
       // Public Identica Tweets API
-      var url = "http://identi.ca/api/statuses/user_timeline/" + this.getUsername() + ".json";
       // Create a new JSONP store instance with the given url
       var self = this;
-      var store = new qx.data.store.Jsonp(url, {manipulateData : function(data) {
-        if (data && data.error) {
-          qx.ui.mobile.dialog.Manager.getInstance().alert(
-            "Error",
-            "Error loading the tweets for user " + self.getUsername(),
-            self.__showStartPage,
-            self,
-            "OK"
-          );
-          return null;
-        }
-        return data;
-      }});
+      var url = "http://demo.qooxdoo.org/" + qx.core.Environment.get("qx.version") + "/tweets_step4.5/resource/tweets/service.js";
+
+      var store = new qx.data.store.Jsonp();
+      store.setCallbackName("callback");
+      store.setUrl(url);
+
       // Use data binding to bind the "model" property of the store to the "tweets" property
       store.bind("model", this, "tweets");
     },
