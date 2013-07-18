@@ -7,6 +7,8 @@ In this tutorial you will learn how to create a simple tweets app with the `qoox
 
 `Twitter <http://twitter.com>`_ itself made its authorization scheme more complex, as it starts requiring OAuth even to read public tweets. For this basic tutorial it would be too complex to handle such advanced authorization. If your are interested in OAuth, check out how you could handle that in a qooxdoo app by looking at the `Github demo <http://demo.qooxdoo.org/%{version}/demobrowser/#data~Github.html>`_.
 
+We use a mock for the identica service to be sure this tutorial always works.
+
 The app that is to be created in this tutorial should display all
 tweets of a certain user. When a tweet is selected, the details of the
 tweet should be shown. You can find the code of the tutorial `here`_.
