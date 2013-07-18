@@ -24,10 +24,6 @@ qx.Class.define("simulator.Application", {
 
   members :
   {
-
-    /**
-     * @ignore(testrunner.*)
-     */
     main : function()
     {
       qx.log.Logger.register(qx.log.appender.RhinoConsole);
