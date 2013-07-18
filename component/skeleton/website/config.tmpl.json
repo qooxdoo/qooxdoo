@@ -54,12 +54,14 @@
       {
         "files" :
         [
+          "samples",
           "api.css",
           "default.highlight.css",
+          "fiddleframe.html",
           "highlight.LICENSE",
           "highlight.pack.js",
           "index.html",
-          "samples.js",
+          "jsfiddle-logo_small.png",
           "viewer.js"
         ],
         "source" : "$${WEBSITE}/api",
