@@ -102,7 +102,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
 
     /**
      * Resumes an animation. This does not start the animation once it has ended.
-     * You need to create start a new Animation if you want to restart the animation.
+     * In this case you need to start a new Animation.
      */
     play : function() {
       if (this.el) {
