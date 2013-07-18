@@ -24,8 +24,11 @@
  * Overrides <code>webdriver.Builder.build</code> so that it returns a
  * {@link simulator.qxwebdriver.WebDriver} object.
  *
- * @ignore(simulator.webdriver.*)
  * @require(simulator.qxwebdriver.WebDriverLoader)
+ * @ignore(simulator.webdriver.FirefoxDomExecutor)
+ * @ignore(simulator.webdriver.process)
+ * @ignore(simulator.webdriver.node)
+ * @ignore(simulator.webdriver.http)
  */
 qx.Class.define("simulator.qxwebdriver.Builder",
 {
