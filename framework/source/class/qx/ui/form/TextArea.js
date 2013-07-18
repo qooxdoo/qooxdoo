@@ -167,7 +167,7 @@ qx.Class.define("qx.ui.form.TextArea",
       if (this.isAutoSize()) {
         var clone = this.__getAreaClone();
 
-        if (clone) {
+        if (clone && this.getBounds()) {
 
           // Remember original area height
           this.__originalAreaHeight = this.__originalAreaHeight || this._getAreaHeight();
