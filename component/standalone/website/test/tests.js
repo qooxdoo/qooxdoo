@@ -2756,6 +2756,11 @@ testrunner.define({
 
   tearDown : testrunner.globalTeardown,
 
+  hasNoLegacyIe : function() {
+    return (qxWeb.env.get("engine.name") != "mshtml" ||
+      qxWeb.env.get("browser.documentmode") > 8);
+  },
+
   testLandscape : function(){
 
     var iframe = this.__iframe[0];
@@ -2777,6 +2782,7 @@ testrunner.define({
   },
 
   testMinWidth : function(){
+    this.require(["noLegacyIe"]);
 
     var iframe = this.__iframe[0];
 
@@ -2913,6 +2919,7 @@ testrunner.define({
   },
 
   testWidth : function(){
+    this.require(["noLegacyIe"]);
     var iframe = this.__iframe[0];
     iframe.width = "800px";
 
@@ -2930,6 +2937,7 @@ testrunner.define({
   },
 
   testPixelratio : function(){
+    this.require(["noLegacyIe"]);
     var iframe = this.__iframe[0];
     iframe.width = "800px";
 
