@@ -19,7 +19,11 @@ Some browsers unfortunately lack built-in functionality for some features common
    * Safari 3
    * Opera 11 and below
 * Browser versions with limited support:
-   * IE 8: double borders on input element and border-image decorations no longer supported
+   * IE 8:
+    * double borders on input elements no longer supported
+    * border-image decorations no longer supported
+    * PNGs are no longer supported as background images in combination with the backgroundRepeat values 'scale' and 'no-repeat'
+    * PNGs with alpha transparency are no longer supported as background images
    * IE 9, 10: border-image decorations no longer supported
 
 

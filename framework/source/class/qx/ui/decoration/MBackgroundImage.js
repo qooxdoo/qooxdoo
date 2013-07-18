@@ -124,18 +124,16 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
 
       styles["background-position"] = left + " " + top;
 
-      if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
-        qx.bom.element.Decoration.processAlphaFix(styles, repeat, id);
+      if (qx.core.Environment.get("qx.debug") &&
+        source &&  qx.lang.String.endsWith(source, ".png") &&
+        (repeat == "scale" || repeat == "no-repeat") &&
+        qx.core.Environment.get("engine.name") == "mshtml" &&
+        qx.core.Environment.get("browser.documentmode") < 9)
+      {
+        this.warn("Background PNGs with repeat == 'scale' or repeat == 'no-repeat'" +
+          " are not supported in this client! The image's resource id is '" + id + "'");
       }
     },
-
-
-    /**
-     * Whether an info was already displayed for browsers using the AlphaImageLoader (IE8 - IE9)
-     * together with the 'backgroundPosition' property. The AlphaImageLoader is not able to make use
-     * of this CSS property. So the developer should be informed about this *once*.
-     */
-    __infoDisplayed : false,
 
 
     // property apply
@@ -157,10 +155,10 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
         if (this._isInitialized()) {
           throw new Error("This decorator is already in-use. Modification is not possible anymore!");
         }
-        if (qx.core.Environment.get("css.alphaimageloaderneeded") && !this.__infoDisplayed)
+        if (qx.core.Environment.get("engine.name") == "mshtml" &&
+          qx.core.Environment.get("browser.documentmode") < 9)
         {
-          this.info("Applying a background-position value has no impact when using the 'AlphaImageLoader' to display PNG images!");
-          this.__infoDisplayed = true;
+          this.warn("The backgroundPosition property is not supported by this client!");
         }
       }
     }
