@@ -1066,7 +1066,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         gradientStart : ["#243B58", 0],
-        gradientEnd : ["#1D2D45", 100],
+        gradientEnd : ["#1D2D45", 100]
       }
 
     },
