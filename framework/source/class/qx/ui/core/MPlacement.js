@@ -417,8 +417,8 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      */
     placeToMouse : function(event)
     {
-      var left = event.getDocumentLeft();
-      var top = event.getDocumentTop();
+      var left = Math.round(event.getDocumentLeft());
+      var top = Math.round(event.getDocumentTop());
 
       var coords =
       {
