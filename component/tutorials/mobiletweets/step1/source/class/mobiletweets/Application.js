@@ -164,7 +164,7 @@ qx.Class.define("mobiletweets.Application",
      */
     __loadTweets : function()
     {
-      // Public Identica Tweets API
+      // Mocked Identica Tweets API
       // Create a new JSONP store instance with the given url
       var self = this;
       var url = "http://demo.qooxdoo.org/" + qx.core.Environment.get("qx.version") + "/tweets_step4.5/resource/tweets/service.js";

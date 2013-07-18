@@ -57,7 +57,7 @@ qx.Class.define("mobiletweets.page.Input",
 
       // Add the form to the content of the page, using the SinglePlaceholder to render
       // the form.
-      this.getContent().add(new qx.ui.mobile.form.renderer.SinglePlaceholder(form));
+      this.getContent().add(new qx.ui.mobile.form.renderer.Single(form));
 
       // Create a new button instance and set the title of the button to "Show"
       var button = new qx.ui.mobile.form.Button("Show");
