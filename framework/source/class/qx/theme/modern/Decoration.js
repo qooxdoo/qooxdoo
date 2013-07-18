@@ -30,7 +30,6 @@
 /**
  * The modern decoration theme.
  *
- * @asset(qx/decoration/Modern/app-header.png)
  * @asset(qx/decoration/Modern/toolbar/toolbar-part.gif)
  */
 qx.Theme.define("qx.theme.modern.Decoration",
@@ -1066,8 +1065,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       style :
       {
-        backgroundImage : "decoration/app-header.png",
-        backgroundRepeat : "scale"
+        gradientStart : ["#243B58", 0],
+        gradientEnd : ["#1D2D45", 100],
       }
 
     },
