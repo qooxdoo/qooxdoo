@@ -173,13 +173,13 @@
 
 #mapMenu {
   position:absolute;
-  z-index:1000;
-  right:0px;
-  background-color:white;
+  z-index: 5000;
+  right: 0px;
+
+  background-color: white;
+  background-color: transparent;
   
-  color:#333333;
-  
-  background-color:transparent;
+  color: #333333;
 }
 
 #mapMenu .group.bordered {
@@ -199,6 +199,11 @@
 
 #osmMap {
   -webkit-transform: translate3d(0,0,0);
+  
+}
+
+#osmMap * {
+  -ms-touch-action: none;
 }
 
 .olLayerGrid .olTileImage {
