@@ -81,6 +81,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     carouselScroller.addListener("touchstart", this._onTouchStart, this);
     carouselScroller.addListener("touchmove", this._onTouchMove, this);
     carouselScroller.addListener("swipe", this._onSwipe, this);
+    carouselScroller.addListener("touchend", this._onTouchEnd, this);
+
 
     this.addListener("appear", this._onContainerUpdate, this);
 
@@ -477,12 +479,19 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
 
     /**
+     * Handler for <code>touchend</code> on carousel scroller.
+     */
+    _onTouchEnd : function() {
+      this._setShowTransition(true);
+      this._snapCarouselPage();
+    },
+
+
+    /**
      * Handler for swipe on carousel scroller.
      * @param evt {qx.event.type.Swipe} The swipe event.
      */
     _onSwipe : function(evt) {
-      this._setShowTransition(true);
-
       var velocityAbs = Math.abs(evt.getVelocity());
       if(velocityAbs > this.__swipeVelocityLimit) {
         if(evt.getDirection() == "left") {
@@ -616,6 +625,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       this.__carouselScroller.removeListener("touchstart", this._onTouchStart, this);
       this.__carouselScroller.removeListener("touchmove", this._onTouchMove, this);
       this.__carouselScroller.removeListener("swipe", this._onSwipe, this);
+      this.__carouselScroller.removeListener("touchend", this._onTouchEnd, this);
 
       this.removeListener("appear", this._onContainerUpdate, this);
 
