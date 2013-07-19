@@ -1,7 +1,7 @@
 {
   "author": "Martin Wittemann <martin.wittemann@1und1.de>",
   "name": "qooxdoo",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "repository": {
     "type": "git",
     "url": "git://github.com/qooxdoo/qooxdoo.git"
@@ -17,6 +17,6 @@
   "devDependencies": {},
   "description": "OO programming with classes, mixins, interfaces and dynamic getters/setters",
   "keywords" : ["oop", "class", "inheritance", "object-oriented"],
-  "homepage": "http://manual.qooxdoo.org/2.1.2/pages/core.html",
-  "main": "qx-oo-2.1.2"
+  "homepage": "http://manual.qooxdoo.org/2.1.3/pages/core.html",
+  "main": "qx-oo-2.1.3"
 }

@@ -31,7 +31,7 @@ function autonumbering() {
  * Replace occurrences of $(qxversion) with the value of var qxversion.
  */
 
-var qxversion = "2.1.2";
+var qxversion = "2.1.3";
 
 function expandVersion(s){
   while (s.indexOf('$(qxversion)') > -1) {
