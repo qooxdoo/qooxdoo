@@ -12,7 +12,7 @@ Properties in more detail
 Declaration
 ===========
 
-The following code creates a property ``myProperty`` and the corresponding functions like ``setMyProperty()`` and ``getMyProperty()``. 
+The following code creates a property ``myProperty`` and the corresponding functions like ``setMyProperty()`` and ``getMyProperty()``.
 
 ::
 
@@ -60,14 +60,14 @@ Example
       width : { apply : "_applyWidth" }
     },
 
-    members : 
+    members :
     {
       _applyWidth : function(value, old, name) {
         // do something...
       }
     }
 
-The applying method is only called when the value has changed. 
+The applying method is only called when the value has changed.
 
 .. note::
 
@@ -116,7 +116,7 @@ Init values are supported by all properties. These values are stored separately 
 Defining an init value
 ----------------------
 
-There are two ways to set an init value of a property. 
+There are two ways to set an init value of a property.
 
 .. _pages/defining_properties#init_value_in_declaration:
 
@@ -138,7 +138,7 @@ Init value in constructor
 
 Alternatively, you could set the init value of the property in the constructor of the class. This is only recommended for cases where a declaration of an init value as explained above is not sufficient.
 
-Using an initializing function ``this.initMyProperty(value)`` in the constructor would allow you to assign complex non-primitive types (so-called "reference types" like ``Array``, ``Object``) that should not be shared among instances, but be unique on instance level. 
+Using an initializing function ``this.initMyProperty(value)`` in the constructor would allow you to assign complex non-primitive types (so-called "reference types" like ``Array``, ``Object``) that should not be shared among instances, but be unique on instance level.
 
 Another scenario would be to use a localizable init value when :doc:`internationalizing your application </pages/development/internationalization>`: Because ``this.tr()`` cannot be used in the property definition, you may either use the static ``qx.locale.Manager.tr()`` there instead, or use ``this.tr()`` in the call of the initializing function in the constructor.
 
@@ -178,16 +178,16 @@ Like calling the ``this.initMyProperty(value)`` method itself, you could call th
       this.setColor("black"); // apply will NOT be invoked
     },
 
-    properties : 
+    properties :
     {
-      color : 
+      color :
       {
         init : "black",
         apply : "_applyColor"
       }
     },
 
-    members : 
+    members :
     {
       _applyColor : function(value, old) {
         // do something...
@@ -209,9 +209,9 @@ This example illustrates how the behavior differs from the default behavior of t
       this.initStore([]);
     },
 
-    properties : 
+    properties :
     {
-      color : 
+      color :
       {
         init : "black",
         apply : "_applyColor"
@@ -222,7 +222,7 @@ This example illustrates how the behavior differs from the default behavior of t
       }
     },
 
-    members : 
+    members :
     {
       _applyColor : function(value, old) {
         // do something...
@@ -337,11 +337,11 @@ Custom checks are possible as well, using a custom function defined inside the p
 
 ::
 
-    properties : 
+    properties :
     {
-      progress : 
-      { 
-        init : 0, 
+      progress :
+      {
+        init : 0,
         check : function(value) {
           return !isNaN(value) && value >= 0 && value <= 100;
         }
@@ -359,11 +359,11 @@ As an alternative to the custom check *function*, you may also define a *string*
 
 ::
 
-    properties : 
+    properties :
     {
-      progress : 
-      { 
-        init : 0, 
+      progress :
+      {
+        init : 0,
         check : "!isNaN(value) && value >= 0 && value <= 100"
       }
     }
@@ -386,23 +386,23 @@ Here we define both a check and transform method for the width property. Though 
 
     properties :
     {
-       width : 
+       width :
        {
           init : 0,
           transform: "_transformWidth",
           check: "Integer"
        }
     },
-    
+
     members :
     {
-       _transformWidth : function(value) 
+       _transformWidth : function(value)
        {
-          if ( qx.lang.Type.isString(value) ) 
+          if ( qx.lang.Type.isString(value) )
           {
               value = parseInt(value, 10);
           }
-    
+
           return value;
        }
     }
@@ -431,7 +431,7 @@ If you use predefined validators, they will throw a validation error for you. Yo
 
 Using a custom validator
 ------------------------
-If the predefined validators are not enough for you validation, you can specify your own validator. 
+If the predefined validators are not enough for you validation, you can specify your own validator.
 
 ::
 
@@ -486,7 +486,7 @@ To enable theme support it is sufficient to add a ``themeable`` key to the prope
 
 .. note::
 
-    ``themeable`` should only be enabled for truely *theme-relevant* properties like color and decorator, but not for *functional* properties like enabled, tabIndex, etc.
+    ``themeable`` should only be enabled for truly *theme-relevant* properties like color and decorator, but not for *functional* properties like enabled, tabIndex, etc.
 
 .. _pages/defining_properties#working_with_inheritance:
 
@@ -495,7 +495,7 @@ Working with inheritance
 
 Another great feature of the new property system is inheritance. This is primarily meant for widgets, but should be usable in independent parent-children architectures, too.
 
-Inheritance quickly becomes nothing short of vital for the property system, if you consider that it can reduce redundancy dramatically. It is advantageous both in terms of coding size and storage space, because a value only needs to be declared once for multiple objects inside an hierarchy. Beyond declaring such an inheritable property once, only intended exceptions to the inherited values need to be given to locally override those values. 
+Inheritance quickly becomes nothing short of vital for the property system, if you consider that it can reduce redundancy dramatically. It is advantageous both in terms of coding size and storage space, because a value only needs to be declared once for multiple objects inside an hierarchy. Beyond declaring such an inheritable property once, only intended exceptions to the inherited values need to be given to locally override those values.
 
 The inheritance as supported by qooxdoo's properties is comparable to the inheritance known from CSS. This means, for example, that all otherwise undefined values of inheritable properties automatically fall back to the corresponding parent's value.
 
@@ -574,16 +574,16 @@ As you can see, property groups are defined in the same map as "regular" propert
 Shorthand support
 -----------------
 
-Additionaly, you may also provide a mode which modifies the incoming data before calling the setter of each group members. Currently, the only available modifier is ``shorthand``, which emulates the well-known CSS shorthand support for qooxdoo properties. For more information regarding this feature, please have a look at the :doc:`user manual <understanding_properties>`. The definition of such a property group reads:
+Additionally, you may also provide a mode which modifies the incoming data before calling the setter of each group members. Currently, the only available modifier is ``shorthand``, which emulates the well-known CSS shorthand support for qooxdoo properties. For more information regarding this feature, please have a look at the :doc:`user manual <understanding_properties>`. The definition of such a property group reads:
 
 ::
 
-    properties : 
+    properties :
     {
-      padding : 
-      { 
-        group : [ "paddingTop", "paddingRight", "paddingBottom", "paddingLeft" ], 
-        mode : "shorthand" 
+      padding :
+      {
+        group : [ "paddingTop", "paddingRight", "paddingBottom", "paddingLeft" ],
+        mode : "shorthand"
       }
     }
 

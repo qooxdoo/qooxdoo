@@ -5,7 +5,7 @@ When creating the JavaScript output for an application, the generator supports
 several optimizations. These optimizations can be enabled in the generator
 configuration using the *code/optimize* key, a subkey of
 :ref:`pages/tool/generator/generator_config_ref#compile-options`.  The best
-way to set this key is by setting the :ref:`OPTIMIZE 
+way to set this key is by setting the :ref:`OPTIMIZE
 <pages/tool/generator/generator_config_macros#optimize>` macro in your config's global
 *let* section. What the individual optimizations do is described here in
 detail.
@@ -55,7 +55,7 @@ The reason for this behaviour is that members, including private members, of a c
       apply : "__myapply",
       validate : "__myvalidate"
     }
-    
+
   },
   members : {
     __foo : ...,
@@ -86,9 +86,9 @@ statics
 
 The statics optimization tries to remove unused ("dead") code, namely the code of methods of static classes. The reason for this is that static methods are often invoked with their complete class name, e.g. as ``qx.bom.Cookie.get()``, which is easy to detect. Often, an application would only call a single method of a static class, so the other methods of this class are unused, and can be removed.
 
-As removing a method reduces the dependencies this method has to other classes, those dependencies are checked themselves. If there are no other dependees, the dependent class feature can be removed as well. This pattern is applied recursively until no more code can be removed. Classes which are no longer used at all are removed entirely. (Technically, the generator uses reference counting to track the "usage count" of a class feature, and eventually constructs a reachability graph to remove entire trees of classes and their dependencies if they are not reachable by the main application classes).
+As removing a method reduces the dependencies this method has to other classes, those dependencies are checked themselves. If there are no other dependents, the dependent class feature can be removed as well. This pattern is applied recursively until no more code can be removed. Classes which are no longer used at all are removed entirely. (Technically, the generator uses reference counting to track the "usage count" of a class feature, and eventually constructs a reachability graph to remove entire trees of classes and their dependencies if they are not reachable by the main application classes).
 
-In the context of a dynamic language this is a very aggressive optimization, and the problem is the occurrence of false positives. I.e. methods are judged as "not used" when in fact they are. This hinges on the highly dynamic nature of %{JS} where methods can be aliased, passed around as parameters to other functions, stored as map values, and so forth, all of which is hard to detect at compile time. 
+In the context of a dynamic language this is a very aggressive optimization, and the problem is the occurrence of false positives. I.e. methods are judged as "not used" when in fact they are. This hinges on the highly dynamic nature of %{JS} where methods can be aliased, passed around as parameters to other functions, stored as map values, and so forth, all of which is hard to detect at compile time.
 
 The cure is to add ``@require`` hints to force the inclusion of those methods
 that you know are used, although the generator cannot detect this. E.g. in a
@@ -108,7 +108,7 @@ should add an appropriate hint in the this class::
 
 variables
 ---------
-Local variable names are made short. Scoped variables (those declared with a *var* statement in a function) are replaced by generated names that are much shorter (1-2 characters on average). Dependending on the original code, this can result in significant space savings.
+Local variable names are made short. Scoped variables (those declared with a *var* statement in a function) are replaced by generated names that are much shorter (1-2 characters on average). Depending on the original code, this can result in significant space savings.
 
 .. _pages/tool/generator/generator_optimizations#variants:
 
@@ -121,7 +121,7 @@ The way environment settings are queried in class code is through certain APIs o
 .get()
 +++++++++++++++++++++++++
 
-`qx.core.Environment.get() <http://demo.qooxdoo.org/%{version}/apiviewer#qx.core.Environment~get>`_ refences the environment key as its first parameter. If this parameter is a literal, i.e. a string, representing a known environment key, the call can be replaced by the environment key's value. This is applied in all situations, and saves the method call at run time::
+`qx.core.Environment.get() <http://demo.qooxdoo.org/%{version}/apiviewer#qx.core.Environment~get>`_ references the environment key as its first parameter. If this parameter is a literal, i.e. a string, representing a known environment key, the call can be replaced by the environment key's value. This is applied in all situations, and saves the method call at run time::
 
   var a = qx.core.Environment.get("myapp.foo");
 
@@ -174,7 +174,7 @@ Depending on the value of ``myapp.foo``, the variable ``a`` will be assigned a f
 
 You can include the special key **"default"** in the map parameter to *.select()*. Its expression will be chosen if the value of the environment key does not match any of the other concrete map keys. If the generator comes across a *.select()* call where the environment value does not match any of the map keys *and* there is no *"default"* key, it will raise an exception.
 
- 
+
 .filter()
 ++++++++++
 

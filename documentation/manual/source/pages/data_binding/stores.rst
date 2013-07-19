@@ -3,21 +3,21 @@
 Stores
 ======
 
-The main purpose of the store components is to load data from a source and convert that data into a :doc:`model <models>`. The task of loading data and converting the data into a model has been split up. The store itself takes care of loading the data but delegates the creation of model classes and instances to a marshaler. More information about the marsahling and the models itself can be found in the :doc:`models section<models>`.
+The main purpose of the store components is to load data from a source and convert that data into a :doc:`model <models>`. The task of loading data and converting the data into a model has been split up. The store itself takes care of loading the data but delegates the creation of model classes and instances to a marshaller. More information about the marshalling and the models itself can be found in the :doc:`models section<models>`.
 
 .. _pages/data_binding/stores#json_store:
 
 JSON Store
 ----------
 
-The JSON store takes an URL, fetches the given data from that URL and converts the data using the JSON marshaler to qooxdoo model instances, which will be available in the model property after loading. The state of the loading process is mapped to a state property. For the loading of the data, a ``qx.io.request.Xhr`` will be used in the store.
+The JSON store takes an URL, fetches the given data from that URL and converts the data using the JSON marshaller to qooxdoo model instances, which will be available in the model property after loading. The state of the loading process is mapped to a state property. For the loading of the data, a ``qx.io.request.Xhr`` will be used in the store.
 
 The following code shows how to use the JSON data store.
 
 ::
 
   var url = "json/data.json";
-  var store = new qx.data.store.Json(url); 
+  var store = new qx.data.store.Json(url);
 
 After setting the URL during the creation process, the loading will begin immediately. As soon as the data is loaded and converted, you can access the model with the following code.
 
@@ -46,7 +46,7 @@ After setting the URL and the callback parameter name during the creation proces
 YQL Store
 ---------
 
-YQL is the `Yahoo! Query Language <http://developer.yahoo.com/yql/>`_. Yahoo! describes it as 
+YQL is the `Yahoo! Query Language <http://developer.yahoo.com/yql/>`_. Yahoo! describes it as
 *"[...] an expressive SQL-like language that lets you query, filter, and join data across Web services."*
 Based on the :ref:`JSONP store <pages/data_binding/stores#jsonp_store>`, qooxdoo offers a YQL store, where you can specify the YQL queries and qooxdoo handles the rest.
 
@@ -86,6 +86,6 @@ As described in the section above, you can access the model in the property afte
 
 ::
 
-  store.bind("model", controller, "model");  
+  store.bind("model", controller, "model");
 
 Using the :doc:`Single Value Binding <single_value_binding>`, the binding handles all the stuff related with the loading of the model data. That means that the data will be available in the controller as soon as its available in the store.

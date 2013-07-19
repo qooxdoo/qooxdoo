@@ -10,7 +10,7 @@ Gecko
 
 * **Gecko 1.8** *needs* a ``<br>`` tag inside an element with ``contenteditable="true"``, even if the element is empty! If no such element exists, Gecko automatically adds it. These elements can be recognized by the proprietary attribute *_moz_editor_bogus_node*: ``<br _moz_editor_bogus_node="TRUE" _moz_dirty=""/>``
 * **Gecko 1.9** will *always* insert this ``<br>`` tag, if ``contenteditable="true"`` is set. Even if the element contains content! This ``<br>`` tag is removed, as soon as any input is entered by the user: https://bugzilla.mozilla.org/attachment.cgi?id=119342
-* **Undo/Redo** : it *could* happen that 2 content changes occuring right after another leading Gecko to remove both of these 2 changes in **one** undo step. This is especially important for the undo/redo stacks of the HtmlArea.
+* **Undo/Redo** : it *could* happen that 2 content changes occurring right after another leading Gecko to remove both of these 2 changes in **one** undo step. This is especially important for the undo/redo stacks of the HtmlArea.
 
 .. _pages/ui_html_editing/browser_bugs#internet_explorer:
 
@@ -29,7 +29,7 @@ Webkit/Safari
 * | Deleting a block element (e.g. an <p> tag) can cause an element to contain *two* text nodes:
   | |webkit bug|
   | This wrong behavior  can cause problems with selections.
-    
+
 .. |webkit bug| image:: webkit_bug.png
 
 

@@ -234,7 +234,7 @@ Triggers the creation of combined image files that contain various other images.
 
 * **images** : map with combine entries
 
-  * **<output_image>** : path of output file; may be relative to the config file location; the file ending determins the file format; use *.png*, *.gif*, etc. for binary formats, or *.b64.json* for base64 combined image
+  * **<output_image>** : path of output file; may be relative to the config file location; the file ending determines the file format; use *.png*, *.gif*, etc. for binary formats, or *.b64.json* for base64 combined image
 
     * **prefix** *(required)*: takes a list; the first element is a prefix of the path given in <output_image>, leading up to, but not including, the library name space of the output image; this prefix will be stripped from the output path, and will be replaced by an optional second element of this setting, to eventually obtain the image id of the output image;
     * **layout** : either "horizontal" or "vertical"; defines the layout of images within the combined image (default: "horizontal")
@@ -271,7 +271,7 @@ Possible keys are
 
   * **source** : all class code and other resources (images etc.) required for the application are referenced in their original source files on disk (e.g. application classes, framework classes, contrib/library classes, etc.); this is optimal for development and debugging (per-file error messages, setting break-points, additional checks and logging are enabled, etc.) but loads slower due to the many individual files; it is also less amenable to loading the application through a web server, and should usually be run directly from the disk (using the *file://* protocol)
   * **hybrid** : is also a development build type and combines some of the advantages of the build version with the source version; as with the source build type, a selected set of classes are loaded directly from their source files (as specified in :ref:`compile-options/code/except <pages/tool/generator/generator_config_ref#compile-options>`); the other classes required by the application are compiled together in common .js files; this allows for faster load times while retaining good debuggability of the selected classes
-  * **build** : is the deployment build type; all classes are compiled into a set of common .js files, to minimize load requests; the class code is optionally compressed and optimized (cf. :ref:`compile-options/code/optimize <pages/tool/generator/generator_config_ref#compile-options>`); resource files from all involved libraries are copied to the build directoy, so that it is fully functional and self-contained, and can be copied to e.g. a web server; this build type is unsuitable for development activities, as the code is hard to read and certain development features are optimized away, so it should only be used for production deployment of the application
+  * **build** : is the deployment build type; all classes are compiled into a set of common .js files, to minimize load requests; the class code is optionally compressed and optimized (cf. :ref:`compile-options/code/optimize <pages/tool/generator/generator_config_ref#compile-options>`); resource files from all involved libraries are copied to the build directory, so that it is fully functional and self-contained, and can be copied to e.g. a web server; this build type is unsuitable for development activities, as the code is hard to read and certain development features are optimized away, so it should only be used for production deployment of the application
 
 .. _pages/tool/generator/generator_config_ref#compile-options:
 
@@ -900,7 +900,7 @@ This key allows you to enable logging features along various axes.
     * ``dot``: generation of a Graphviz dot file; uses the **dot** key
     * ``json``: "native" Json data structure (reflecting the hierarchy of the txt output class -> [run|load]); uses the **json** key
     * ``provider``: similar to the ``json`` output, but all id's are given as path suffixes (slashes between name spaces, file extensions), and dependencies are extended with resource id's and translatable string keys (as ``translation#<key>``); uses the **json** key
-    * ``flare``: Json output suitable for Prefuse Flare depencency graphs; uses the **flare** key
+    * ``flare``: Json output suitable for prefuse Flare dependency graphs; uses the **flare** key
     * ``term``: textual output to the console, in the form of a term *depends(<class>, [<load-deps>,...], [<run-deps>,...])*
 
   * **dot**:
@@ -1114,7 +1114,7 @@ Keys are:
 provider
 ============
 
-Collects application classes, resources, translateable strings and dependency information in a specific directory structure, under the ``provider`` root directory. Takes a map.
+Collects application classes, resources, translatable strings and dependency information in a specific directory structure, under the ``provider`` root directory. Takes a map.
 
 ::
 

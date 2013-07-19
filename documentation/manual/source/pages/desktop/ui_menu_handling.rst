@@ -2,7 +2,7 @@
 
 Menu Handling
 *************
-Menus are well-established user interface elements in GUIs. They are popup-like controls that provide simple or cascading lists of buttons. Typical uses show menus opening off from buttons in tool bars, or popping up as context menus on mouse right-clicks e.g. on a tree element. 
+Menus are well-established user interface elements in GUIs. They are popup-like controls that provide simple or cascading lists of buttons. Typical uses show menus opening off from buttons in tool bars, or popping up as context menus on mouse right-clicks e.g. on a tree element.
 
 Here are a few examples:
 
@@ -78,7 +78,7 @@ This code snippet show how to create a "ToolBar" with to menu items "File" and "
 ::
 
     // Create the toolbar and add to the DOM
-    var toolBar = new qx.ui.toolbar.ToolBar();      
+    var toolBar = new qx.ui.toolbar.ToolBar();
     this.getRoot().add(toolBar, {
       left: 20,
       top: 20,
@@ -112,9 +112,9 @@ This code snippet show how to create a "ToolBar" with to menu items "File" and "
     viewMenu.add(new qx.ui.menu.Button("ASCII table..."));
     viewButton.setMenu(viewMenu);
 
-There are a couple of things to note here: 
-  * The ``qx.ui.menu.Menu`` could get some different children (Button, Seperator, CheckBox, ...)
-  * The fourth parameter in ``qx.ui.menu.Button`` is also a menu. So it is possible to create submenus. 
+There are a couple of things to note here:
+  * The ``qx.ui.menu.Menu`` could get some different children (Button, Separator, CheckBox, ...)
+  * The fourth parameter in ``qx.ui.menu.Button`` is also a menu. So it is possible to create submenus.
   * There are tow kinds to add a separator to a menu. The first kind is to create a ``Separator`` instance and add this to the menu. Or the other kind is to call the ``addSeparator`` method from the ``Menu`` instance.
 
 The next code snipped should explain how to create a menu, which contain RadioButtons, but only one could be selected:
@@ -148,7 +148,7 @@ The next code snipped should explain how to create a menu, which contain RadioBu
       return syntaxMenu;
     }
 
-You can see, that the menu contains ``RadioButton`` and all ``RadioButton`` should grouped in one ``RadioGroup``, but the ``RadioButton`` in the submenu "C Dialect" should also be considered in the ``RadioGroup``. 
+You can see, that the menu contains ``RadioButton`` and all ``RadioButton`` should grouped in one ``RadioGroup``, but the ``RadioButton`` in the submenu "C Dialect" should also be considered in the ``RadioGroup``.
 
 To add a ``RadioButton`` to the ``RadioGroup`` call the ``add()`` method from the ``RadioGroup``. The parameter from ``add()`` is a variable number of items which should be added. You can see that the code calls a ``langGroup.add.apply()`` method to add the ``RadioButton`` from the "C Dialect" submenu. This is no qooxdoo construction, the ``apply()`` method is a construction from JavaScript and it is not important to know how thus the method works.
 

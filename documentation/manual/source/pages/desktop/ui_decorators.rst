@@ -68,7 +68,7 @@ Custom decorators are created by extending the decorator theme and adding new on
 * **MBoxShadow**: Renders a shadow.
 * **MLinearBackgroundGradient**: Renders a linear color gradient.
 
-As you may have guessed, the last three mixins do not work cross browser due to the fact that they rely on CSS propertes not available in all browsers. If you want more details, take a look at the `API documentations of the mixins <http://demo.qooxdoo.org/current/apiviewer/#qx.ui.decoration>`_.
+As you may have guessed, the last three mixins do not work cross browser due to the fact that they rely on CSS properties not available in all browsers. If you want more details, take a look at the `API documentations of the mixins <http://demo.qooxdoo.org/current/apiviewer/#qx.ui.decoration>`_.
 
 Each entry of the theme is automatically made available using the ``setDecorator`` function of the widget class. The instances needed are automatically created when required initially. This mechanism keeps instance numbers down and basically ignores decorators which are defined but never used.
 
@@ -96,6 +96,6 @@ If you want to use your custom decorator with some build in decorator mixins, yo
 
 * ``_style<yourName>``: This method has a styles map as parameter which should be manipulated directly. That way, you can just append your styles and That's it.
 
-* ``_getDefaultInsetsFor<yourName>``: This method should return the desired insets for this feature. Again, the system takes care of calculating the propper insets for the combination of the mixins.
+* ``_getDefaultInsetsFor<yourName>``: This method should return the desired insets for this feature. Again, the system takes care of calculating the proper insets for the combination of the mixins.
 
 As you can see, every mixin can define its own methods for ``style`` and ``insets``. The theme system combines all the methods given by the separate widgets to one big working method.

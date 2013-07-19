@@ -45,7 +45,7 @@ the source version of an application:
   {
     "jobs" :
     {
-      "source" : 
+      "source" :
       {
         "let" :
         {
@@ -65,7 +65,7 @@ the source version of an application:
 
         "compile-options" :
         {
-          "paths" :  
+          "paths" :
             {
               "file" : "./source/script/${APPLICATION}.js"
             }
@@ -78,7 +78,7 @@ the source version of an application:
           "qx.log.Logger" : ["qx.log.appender.Native"]
         },
 
-        "environment" : 
+        "environment" :
         {
           "qx.application" : "${APPLICATION}.Application"
         },
@@ -114,7 +114,7 @@ and they will be ignored in the processing.
 Valid Job Keys
 ==============
 
-As mentioned before jobs are the main contents in any configuration file. Each job has a name which is freely chooseable. Its value is a map where the keys are **not** freely chooseable, but are predefined. 
+As mentioned before jobs are the main contents in any configuration file. Each job has a name which is freely chooseable. Its value is a map where the keys are **not** freely chooseable, but are predefined.
 
 Those job keys (i.e. keys used in a job definition) can be grouped into several categories:
 
@@ -130,39 +130,39 @@ First, here is an overview table, to list all possible keys in a job (if the key
   :widths: 30 70
 
   * - **Action Keys**
-    - **Description**                                                      
+    - **Description**
   * - api
-    - Triggers the generation of a custom Apiviewer application.               
+    - Triggers the generation of a custom Apiviewer application.
   * - clean-files
-    - Delete files and directories from the file system.                       
+    - Delete files and directories from the file system.
   * - collect-environment-info
     - Prints various info about the qooxdoo environment (version etc.)
   * - combine-images
-    - Triggers creation of a combined image file that contains various images.  
+    - Triggers creation of a combined image file that contains various images.
   * - compile
-    - Triggers the generation of a source or build version of the app.                 
+    - Triggers the generation of a source or build version of the app.
   * - copy-files
-    - Triggers files/directories to be copied.                                 
+    - Triggers files/directories to be copied.
   * - copy-resources
-    - Triggers the copying of resources.                                       
+    - Triggers the copying of resources.
   * - fix-files
-    - Fix white space in source files.                                         
+    - Fix white space in source files.
   * - lint-check
-    - Check source code with a lint-like utility.                              
+    - Check source code with a lint-like utility.
   * - migrate-files
-    - Migrate source code to the current qooxdoo version.                      
+    - Migrate source code to the current qooxdoo version.
   * - pretty-print
-    - Format source files.                                                     
+    - Format source files.
   * - provider
     - Collects classes, resources and dependency info in a directory tree.
   * - shell
-    - Triggers the execution of one or more external command(s).                          
+    - Triggers the execution of one or more external command(s).
   * - simulate
     - Triggers the execution of a suite of integration tests.
   * - slice-images
-    - Triggers cutting images into regions.                                    
+    - Triggers cutting images into regions.
   * - translate
-    - Triggers updating of .po files.                                          
+    - Triggers updating of .po files.
   * - validation-config
     - Validate a configuration file.
   * - validation-manifest
@@ -174,8 +174,8 @@ First, here is an overview table, to list all possible keys in a job (if the key
   * - web-server-config
     - Generate a configuration snippet (e.g. for Apache), for the current app.
 
-  * - 
-    - 
+  * -
+    -
 
   * - **Structure-changing Keys**
     - **Description**
@@ -197,57 +197,57 @@ First, here is an overview table, to list all possible keys in a job (if the key
   * - run
     - Define a list of jobs to run.
 
-  * -  
-    -  
+  * -
+    -
 
   * - **Input/Output-setting Keys**
-    - **Description**                                      
+    - **Description**
   * - add-css
     - Include arbitrary CSS URIs to be loaded by the app.
   * - add-script
-    - Includes aritrary script URIs to be loaded by the app.
+    - Includes arbitrary script URIs to be loaded by the app.
   * - asset-let
     - Defines macros that will be replaced in @asset hints.
   * - compile-options
-    - Various options that taylor the *compile* action.
+    - Various options that tailor the *compile* action.
   * - dependencies
-    - Fine-tune dependency processing.                         
+    - Fine-tune dependency processing.
   * - exclude
-    - Exclude classes from processing of the job.              
+    - Exclude classes from processing of the job.
   * - include
-    - Include classes to be processed in the job.              
+    - Include classes to be processed in the job.
   * - library
-    - Define libraries to be taken into account for this job.  
+    - Define libraries to be taken into account for this job.
   * - packages
-    - Define packages for this app.                            
+    - Define packages for this app.
   * - require
-    - Define prerequisite classes (load time).                 
+    - Define prerequisite classes (load time).
   * - environment
     - Define key:value pairs for the app.
   * - use
-    - Define prerequisite classes (run time).                  
+    - Define prerequisite classes (run time).
 
-  * -  
-    -  
+  * -
+    -
 
   * - **Runtime-setting Keys**
     - **Description**
   * - cache
-    - Define the path to the cache directory.  
+    - Define the path to the cache directory.
   * - config-warnings (experimental)
     - Suppress warnings relating to configuration.
   * - log
-    - Tailor log output options.               
+    - Tailor log output options.
 
-  * -  
-    -  
+  * -
+    -
 
   * - **Miscellaneous Keys**
-    - **Description**                               
+    - **Description**
   * - desc
-    - A descriptive string for the job.                 
+    - A descriptive string for the job.
   * - name (top-level)
-    - A descriptive string for the configuration file.  
+    - A descriptive string for the configuration file.
 
 .. _pages/tool/generator/generator_config#listing_of_keys_in_context:
 

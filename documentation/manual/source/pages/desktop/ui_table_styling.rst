@@ -37,14 +37,14 @@ If you're familiar with the theming layer we can dive right into the first topic
 
 .. note::
 
-    Some of the examples are using CSS3 features, so they're not applicable to all browsers. If you need to achieve a styling which is almost completely identical (a pixel-perfect result is impossible) you have to use graphic files whenver CSS3 features are not present.
+    Some of the examples are using CSS3 features, so they're not applicable to all browsers. If you need to achieve a styling which is almost completely identical (a pixel-perfect result is impossible) you have to use graphic files whenever CSS3 features are not present.
 
 
 ============
 Table Widget
 ============
 
-Since this widget is the container of all sub-components the styling possibilities are naturally limited. However, limited possibilites does not result in low importance. You can e.g. change the border of the widget which can have a great visual impact.
+Since this widget is the container of all sub-components the styling possibilities are naturally limited. However, limited possibilities does not result in low importance. You can e.g. change the border of the widget which can have a great visual impact.
 Since the border is a :doc:`decorator <ui_decorators>` you can use all possibilities like different kind of borders, shadows and the like.
 
 Sample of a table widget using a decorator with shadow:
@@ -340,7 +340,7 @@ What about changing more than the grid lines of the cells? Like changing the col
 
 Customizing these colors is as easy as hiding the grid lines. You can adapt the styling of the rows and columns by just setting different colors. These colors are available and can be overwritten in your application color theme:
 
- * ``table-pane`` - background color of the pane when less entries are used than avaialable space
+ * ``table-pane`` - background color of the pane when less entries are used than available space
  * ``table-row`` - text color of the cells
  * ``table-row-background-even`` - background color of even rows
  * ``table-row-background-odd`` - background color of odd rows
@@ -400,7 +400,7 @@ The same with an inactive selection:
 Cell Styling
 ............
 
-This section is rather for the sake of completness. If you want to have full control over the cell styling you can create your own cellrenderer classes and apply them for each column of your table.
+This section is rather for the sake of completeness. If you want to have full control over the cell styling you can create your own cellrenderer classes and apply them for each column of your table.
 This topic is more a programmatic one and it does not fit in this scope of this article. However, a short introduction and a beginners guide will fit in here :)
 
 A list of existing cell renderer is available at the `API Viewer <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.table.cellrenderer>`_. If one of these is suitable for you all you have to do to use it is
@@ -457,7 +457,7 @@ Look's really weird, but for demonstration purpose is quite good enough :)
 
 .. note::
 
-    It's better to stick with decorators which are only affecting the border for the focus indicator. A background-related decorator won't have any impact because of the background color stying of the cells.
+    It's better to stick with decorators which are only affecting the border for the focus indicator. A background-related decorator won't have any impact because of the background color styling of the cells.
 
 If you want to hide the focus indicator itself this is a one-liner
 
@@ -553,7 +553,7 @@ The result of this little demo looks like:
 Editable Cells
 ==============
 
-The table widget (respectively the cell renderer) do support inline editing of values. These widgets which are displayed for the inline editing can also be cutomized using the theming layer of qooxdoo. The following appearances are pre-defined:
+The table widget (respectively the cell renderer) do support inline editing of values. These widgets which are displayed for the inline editing can also be customized using the theming layer of qooxdoo. The following appearances are pre-defined:
 
  * table-editor-textfield
  * table-editor-selectbox
@@ -607,7 +607,7 @@ Basically those appearances do include the corresponding widget appearance and o
 
 As you can see: only minor changes to the existing appearances. And that's also the hint for your customizations: start with the existing appearances and only modify single properties by overwriting or adding them.
 
-Here's a litte example with an editable textfield with ``orange`` background color:
+Here's a little example with an editable textfield with ``orange`` background color:
 
 |table_editable_cells.png|
 

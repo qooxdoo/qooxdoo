@@ -27,7 +27,7 @@ To support such regional settings, qooxdoo uses data from the CLDR project, the 
 Translation
 ***********
 
-While translating a sentence from one human language into another is still a task mostly done by humans, qooxoo tries to provide tools to help in managing this process. This section describes how to translate either a new or an existing qooxdoo-based application. It shows how to *prepare* the application, *extract* the messages that shall be translated, and finally *update* and *run* the translated application.
+While translating a sentence from one human language into another is still a task mostly done by humans, qooxdoo tries to provide tools to help in managing this process. This section describes how to translate either a new or an existing qooxdoo-based application. It shows how to *prepare* the application, *extract* the messages that shall be translated, and finally *update* and *run* the translated application.
 
 .. _pages/internationalization#prepare_the_application:
 
@@ -98,7 +98,7 @@ Example:
     var n = 2;
     var label = new qx.ui.basic.Label(this.trn("Copied one file.", "Copied %1 files.", n, n));
 
-Like *tr*, translates a message but takes differences between singular and plural forms into account. The first argument represents the singular form while the second argument represents the plural form. If the third argument is 1 the singular form is chosen, if it is bigger than 1 the plural form is chosen. All remaining parameters are the inputs for the format string. 
+Like *tr*, translates a message but takes differences between singular and plural forms into account. The first argument represents the singular form while the second argument represents the plural form. If the third argument is 1 the singular form is chosen, if it is bigger than 1 the plural form is chosen. All remaining parameters are the inputs for the format string.
 
 .. _pages/internationalization#trc:
 
@@ -150,15 +150,15 @@ After the source code has been prepared, the desired languages of the applicatio
 
 This would add a German and a French translation to the project. For a more exhaustive list of available locales see `here <http://unicode.org/cldr/apps/survey>`_.
 
-A run of 
+A run of
 
 ::
 
     generate.py translation
 
-will generate a ``.po`` file for each configured locale, with all translatable strings of the application (These files are usually stored in the ``source/translation`` folder of the application). 
+will generate a ``.po`` file for each configured locale, with all translatable strings of the application (These files are usually stored in the ``source/translation`` folder of the application).
 
-If a specified translation does not yet exist, a new translation file will be created. In this example two files, ``source/translation/de.po`` and ``source/translation/fr.po``, would be created. 
+If a specified translation does not yet exist, a new translation file will be created. In this example two files, ``source/translation/de.po`` and ``source/translation/fr.po``, would be created.
 
 If such a file already exists, the newly extracted strings will be merged with this file, retaining all existing translations. Therefore, you can re-run ``generate.py translation`` as often as you want. You should re-run it at least whenever you introduced new translatable strings into the source code, so they will be added to the .po files (see :ref:`further <pages/internationalization#update_the_application>`).
 
@@ -167,7 +167,7 @@ If such a file already exists, the newly extracted strings will be merged with t
 Translate the Messages
 ======================
 
-These ``.po`` files are the actual files you - or your translator ;-) - would have to edit. Since qooxdoo internally uses well-established tools and formats for internationalization (`GNU gettext <http://en.wikipedia.org/wiki/GNU_gettext>`_ via `polib <http://pypi.python.org/pypi/polib>`_), any "po"-aware editor or even a simple text editor can be used.  
+These ``.po`` files are the actual files you - or your translator ;-) - would have to edit. Since qooxdoo internally uses well-established tools and formats for internationalization (`GNU gettext <http://en.wikipedia.org/wiki/GNU_gettext>`_ via `polib <http://pypi.python.org/pypi/polib>`_), any "po"-aware editor or even a simple text editor can be used.
 
 Some of the programs that support manipulation of ``.po`` files are:
 

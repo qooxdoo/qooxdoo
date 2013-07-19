@@ -57,7 +57,7 @@ The Selenium Server (selenium-server.jar, or selenium-server-standalone.jar for 
 Generator Configuration
 =======================
 
-Unlike other framework components, the Simulator isn't ready to run out of the box: The application developer needs to specify the location of the required external libraries (Selenium's Java bindings and Mozilla Rhino). This is easily accomplished by redefining the *SIMULATOR_CLASSPATH* macro (in the applicaton's config.json file; be sure to heed the :ref:`general information about paths <pages/tool/generator/generator_config_articles#path_names>` in config files):
+Unlike other framework components, the Simulator isn't ready to run out of the box: The application developer needs to specify the location of the required external libraries (Selenium's Java bindings and Mozilla Rhino). This is easily accomplished by redefining the *SIMULATOR_CLASSPATH* macro (in the application's config.json file; be sure to heed the :ref:`general information about paths <pages/tool/generator/generator_config_articles#path_names>` in config files):
 
 ::
 
@@ -166,7 +166,7 @@ Note that the Simulator application contains the test classes. This means that i
 Starting the Selenium server
 ----------------------------
 
-The Selenium server must be started with the *-userExtensions* command line option pointing to the qooxdoo user extenions for Selenium mentioned above:
+The Selenium server must be started with the *-userExtensions* command line option pointing to the qooxdoo user extensions for Selenium mentioned above:
 
 ::
 

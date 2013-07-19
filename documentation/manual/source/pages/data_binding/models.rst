@@ -5,7 +5,7 @@ Models
 
 The model is the centerpiece of data binding. It holds the data and acts as an integration point for the :doc:`stores<stores>` and for the :doc:`controller <controller>`. Almost all models are plain qooxdoo classes holding the data in simple properties, which are configured to fire events on every change. These change events are the most important part of the models and the reason, why plain %{JS} objects are not enough as models. The same is true for native %{JS} arrays. Since they do not fire events when items are changed as well, a complementary array is added for data binding purposes. More details about that in the `data array`_ section.
 
-Still, there is no need to manually write own model classes for every data source you want to work with. The marshalers provide a smart way to automatically create these classes during runtime. Take a look at the `JSON marshaler`_ for details.
+Still, there is no need to manually write own model classes for every data source you want to work with. The marshallers provide a smart way to automatically create these classes during runtime. Take a look at the `JSON marshaller`_ for details.
 
 In the following sections, we first take a look at the models basics and how they work. After that, we dig into the role of arrays and how that is solved. As a last section, we check out how the model creation is done in qooxdoo, because you don't need to write all the simple models yourself.
 
@@ -17,7 +17,7 @@ Structure
 As already mentioned in the introduction of this chapter, models are plain qooxdoo objects. The main idea of such a model is to hold all data in properties, which fire change events as soon as new data is available. Lets take a look at a simple example in which we use JSON data to demonstrate how models look. The data in the example looks like this:
 
 ::
-  
+
   {
     s: "string",
     b: true,
@@ -65,15 +65,15 @@ The two sections above explained how models look and why. The most mentioned rea
 Disposing
 ---------
 
-Those of you familiar with qooxdoo and its objects should know, that disposing is necessary. This is also true for model objects and data arrays. The model objects do have one special thing, the do a deep disposing, when created with the marshaler, which we get to know in the following section.
+Those of you familiar with qooxdoo and its objects should know, that disposing is necessary. This is also true for model objects and data arrays. The model objects do have one special thing, the do a deep disposing, when created with the marshaller, which we get to know in the following section.
 
 
-.. _pages/data_binding/models#json_marshaler:
+.. _pages/data_binding/models#json_marshaller:
 
-JSON Marshaler
---------------
+JSON Marshaller
+---------------
 
-The marshaler takes care of converting JavaScript Objects into qooxdoo classes and instances. You can initiate each of the two jobs with a method.
+The marshaller takes care of converting JavaScript Objects into qooxdoo classes and instances. You can initiate each of the two jobs with a method.
 
 .. _pages/data_binding/models#toclass:
 

@@ -44,7 +44,7 @@ Limitations
 In order to interpret the results correctly it is important to know the limitations of this profiling approach. The most significant limitation is due to the fact that the profiler itself is written in JavaScript and runs in the same context as the application:
 
 * The profiler adds some overhead to each function call. The profiler takes this overhead into account in the calculation of the own time but there can still be a small inaccuracy.
-* The result of ``new Date()``, which is used for timing, has a granularity of about 10ms on many patforms, so it is hard to measure especially small functions accurately.
+* The result of ``new Date()``, which is used for timing, has a granularity of about 10ms on many platforms, so it is hard to measure especially small functions accurately.
 * The application is slowed down because profiling is done by wrapping each function. Profiling should always be turned off in production code before deployment.
 
 .. _pages/profiling#summary:

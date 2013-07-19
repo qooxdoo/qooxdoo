@@ -64,7 +64,7 @@ These are helpful idioms you might want to include in your code, i.e. you use th
 this.debug()
 ------------
 
-With ``this.debug()`` you can print out any string you want to see in the console during execution of your application. Of course you might want to interpolate variable values in the output. If you pass an entire object reference, the whole object will by stringyfied and printed. So beware: for big objects you get the entire instantiation in code printed out!
+With ``this.debug()`` you can print out any string you want to see in the console during execution of your application. Of course you might want to interpolate variable values in the output. If you pass an entire object reference, the whole object will by stringified and printed. So beware: for big objects you get the entire instantiation in code printed out!
 
 Example:
 
@@ -93,7 +93,7 @@ Will log the current stack trace using the defined logger. This can be useful to
 
 ::
 
-    this.trace() 
+    this.trace()
 
 .. _pages/debugging#getting_at_your_objects:
 
@@ -107,7 +107,7 @@ This section shows you how to access objects of your application at *run time*, 
 qx.core.Init.getApplication()
 -----------------------------
 
-In your running app, the singlton ``Init`` object provides you with the ``getApplication()`` method, to access the root object of your application. All members and sub-members that you have attached to your application class in your code are accessible this way.
+In your running app, the singleton ``Init`` object provides you with the ``getApplication()`` method, to access the root object of your application. All members and sub-members that you have attached to your application class in your code are accessible this way.
 
 ::
 

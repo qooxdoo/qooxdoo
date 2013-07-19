@@ -46,7 +46,7 @@ Glossary
       A notification that signals a special situation in time. Events usually take the form of concrete objects. Important for reactive systems like user interfaces, to notify parts of the software of a particular situation, e.g. a user action like a keyboard stroke or a mouse click.
 
 
-   Execption
+   Exception
       An exceptional situation that prohibits the normal continuation of the program flow.
 
 
@@ -151,7 +151,7 @@ Glossary
 
 
    Style
-      A set of visual attributes that determin how a certain element is displayed. This encompasses things like foreground and background colors, background images, font types and border styles.
+      A set of visual attributes that determine how a certain element is displayed. This encompasses things like foreground and background colors, background images, font types and border styles.
 
 
    .. T ..............................................................

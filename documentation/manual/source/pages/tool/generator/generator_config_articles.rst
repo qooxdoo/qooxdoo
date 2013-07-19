@@ -14,7 +14,7 @@ linearly.
 Path Names
 ==========
 
-A lot of entries in a config file take path names as their values (top-level "include", "manifest" keys of a library entry, output path of compile keys, asf.).  Quite a few of them, like the top-level include paths, are interpreted **relative** to the config file in which they appear, and this relation is retained no matter from where you reference the config file. 
+A lot of entries in a config file take path names as their values (top-level "include", "manifest" keys of a library entry, output path of compile keys, asf.).  Quite a few of them, like the top-level include paths, are interpreted **relative** to the config file in which they appear, and this relation is retained no matter from where you reference the config file.
 
 This might not hold true in each and every case, though. For some keys you might have to take care of relative paths yourself. The authoritative reference is always the corresponding documentation of the :doc:`individual config keys <generator_config_ref>`. If a key takes a path value it will state if and how these values are interpreted. Please check there.
 
@@ -33,7 +33,7 @@ This should make it more intuitive to maintain a config file.
 Paths with Spaces
 -----------------
 
-Most file systems allow spaces in directory and file names these days, a notorious example of this being the ``C:\\Documents and Settings`` path on Windows. To enter such paths safely in your configuration Json structure, you need to escape the spaces with back-slash (\\). As the back-slash is also a meta-character in Json, it needs to be escaped as well. So a path with spaces would look like this in your config: ``".../foo/dir\\ with\\ spaces/bar/file\\ with\\ spaces.html"``. 
+Most file systems allow spaces in directory and file names these days, a notorious example of this being the ``C:\\Documents and Settings`` path on Windows. To enter such paths safely in your configuration Json structure, you need to escape the spaces with back-slash (\\). As the back-slash is also a meta-character in Json, it needs to be escaped as well. So a path with spaces would look like this in your config: ``".../foo/dir\\ with\\ spaces/bar/file\\ with\\ spaces.html"``.
 
 **Nota bene**: As the configuration files are processed by Python, and Python is allowing forward-slash on Windows, the initial example can more easily be given as ``"c:/Documents\\ and \\Settings"`` (rather than the canonical ``"C:\\\\Documents\\ and\\ Settings"``).
 
@@ -54,11 +54,11 @@ File Globs
 Some config keys take file paths as their attributes. Where specified, *file globs* are allowed, as supported by the underlying Python module. File globs are file paths containing simple metacharacters, which are similar to but not quite identical with metacharacters from regular expressions. Here are the legal metacharacters and their meanings:
 
 =================  ==================================================================================================================
- Metacharacter       Meaning                                                                                                           
+ Metacharacter       Meaning
 =================  ==================================================================================================================
- \*                 matches any string of zero or more characters (regexp: .*)                                                         
- ?                  matches any single character (regexp: .)                                                                           
- []                 matches any of the enclosed characters; character ranges are possible using a hyphen, e.g. [a-z] (regexp: <same>)  
+ \*                 matches any string of zero or more characters (regexp: .*)
+ ?                  matches any single character (regexp: .)
+ []                 matches any of the enclosed characters; character ranges are possible using a hyphen, e.g. [a-z] (regexp: <same>)
 =================  ==================================================================================================================
 
 .. _pages/tool/generator/generator_config_articles#examples:
@@ -69,11 +69,11 @@ Examples
 Given a set of files like ``file9.js,  file10.js,  file11.js``, here are some file globs and their resolution:
 
 ==============  ====================================
-File Glob        Resolution                           
+File Glob        Resolution
 ==============  ====================================
- file*           file9.js,  file10.js and file11.js   
- file?.js        file9.js                             
- file1[01].js    file10.js and file11.js              
+ file*           file9.js,  file10.js and file11.js
+ file?.js        file9.js
+ file1[01].js    file10.js and file11.js
 ==============  ====================================
 
 .. _pages/tool/generator/generator_config_articles#class_data:
@@ -108,7 +108,7 @@ Resource information is packaged up by the tool chain, and they are kept
 together with the code that uses them. Generally, they go together with a
 package, which is a bunch of code that will be loaded simultaneously.
 Alternatively, you can configure the Generator to place all internationalization
-data in **dedicated I18N parts** (see further). 
+data in **dedicated I18N parts** (see further).
 
 In the former case resource data including *all* locales is placed together so it
 can be loaded with the classes using this data. If you support a lot of
@@ -147,7 +147,7 @@ overview of the possible packaging:
     - **with I18N parts**: class data is in dedicated I18N packages (one for
       each locale)
 
-In the build version without dedicated I18N parts (case 2.1), those class data is stored as is needed by the code of the package. This may mean that the same data is stored in multiple packages, as e.g. two packages might use the same image or translated string. This is to ensure optimal independence of packages among each other so they can be loaded independently, and is resolved at the browser (ie. resource data is stored uniquely in memory).
+In the build version without dedicated I18N parts (case 2.1), those class data is stored as is needed by the code of the package. This may mean that the same data is stored in multiple packages, as e.g. two packages might use the same image or translated string. This is to ensure optimal independence of packages among each other so they can be loaded independently, and is resolved at the browser (i.e. resource data is stored uniquely in memory).
 
 .. _pages/tool/generator/generator_config_articles#cache_key:
 
@@ -159,7 +159,7 @@ In the build version without dedicated I18N parts (case 2.1), those class data i
 Compile cache
 -------------
 
-The main payload of the :ref:`cache <pages/tool/generator/generator_config_ref#cache>` key is to point to the directory for the compile cache. It is very recommendable to have a system-wide compile cache directory so cache contents can be shared among different projects and libraries. Otherwise, the cache has to be rebuilt in each enviornment anew, costing extra time and space.
+The main payload of the :ref:`cache <pages/tool/generator/generator_config_ref#cache>` key is to point to the directory for the compile cache. It is very recommendable to have a system-wide compile cache directory so cache contents can be shared among different projects and libraries. Otherwise, the cache has to be rebuilt in each environment anew, costing extra time and space.
 
 The default for the cache directory is beneath the system TMP directory. To find out where this actually is either run ``generate.py info``, or run a build job with the ``-v`` command line flag and look for the *cache* key in the expanded job definition, or use this `snippet <http://qooxdoo.org/docs/general/snippets#finding_your_system-wide_tmp_directory>`__.
 
@@ -171,7 +171,7 @@ The compile cache directory can become very large in terms of contained files, a
 "let" Key
 =========
 
-Config files let you define simple macros with the ``let`` key. The value of a macro can be a string or another JSON-permissible value (map, array, ...). You refer to a macro value in a job definition by using ``${<macro_name>}``. 
+Config files let you define simple macros with the ``let`` key. The value of a macro can be a string or another JSON-permissible value (map, array, ...). You refer to a macro value in a job definition by using ``${<macro_name>}``.
 
 ::
 
@@ -194,9 +194,9 @@ If the value of the macro is something other than a string, things are a bit mor
 
 and the "joblist" key will get the value [1,2,3].
 
-A special situation arises if you are using a **top-level let**, i.e. a *let* section on the highest level in the config file, and not in any job definition. This *let* map will be automatically applied to every job run, without any explicit reference (so be aware of undesired side effects of bindings herein). 
+A special situation arises if you are using a **top-level let**, i.e. a *let* section on the highest level in the config file, and not in any job definition. This *let* map will be automatically applied to every job run, without any explicit reference (so be aware of undesired side effects of bindings herein).
 
-When assembling a job to run, the precedence of all the various *let* maps is 
+When assembling a job to run, the precedence of all the various *let* maps is
 
 ::
 
@@ -213,7 +213,7 @@ OS Environment Variables as Configuration Macros
 
 *(experimental)*
 
-On startup, the generator will read the operating system environment settings, and provide them as configuration macros, as if you had defined them with *let*. This can be handy as an alterative to hard-coding macros in a configuration file, or providing them on the generator command line (with the *-m* command-line option).
+On startup, the generator will read the operating system environment settings, and provide them as configuration macros, as if you had defined them with *let*. This can be handy as an alternative to hard-coding macros in a configuration file, or providing them on the generator command line (with the *-m* command-line option).
 
 Here is an example. Suppose in your *config.json* you have section like this::
 
@@ -317,7 +317,7 @@ You can again use ``=`` to control the merging:
 "run" Key
 =========
 
-"run" jobs are jobs that bear the ``run`` keyword. Since these are kind of meta jobs and ment to invoke a sequence of other jobs, they have special semantics. When a ``run`` keyword is encountered in a job, for each sub-job in the "run" list a new job is generated (so called *synthetic jobs*, since they are not from the textual config files). For each of those new jobs, a job name is auto-generated using the initial job's name as a prefix. As for the contents, the initial job's definition is used as a template for the new job. The ``extend`` key is set to the name of the current sub-job (it is assumed that the initial job has been expanded before), so the settings of the sub-job will eventually be included, and the "run" key is removed. All other settings from the initial job remain unaffected. This means that all sub-jobs "inherit" the settings of the initial job (This is significant when sub-jobs evaluate the same key, and maybe do so in a different manner).
+"run" jobs are jobs that bear the ``run`` keyword. Since these are kind of meta jobs and meant to invoke a sequence of other jobs, they have special semantics. When a ``run`` keyword is encountered in a job, for each sub-job in the "run" list a new job is generated (so called *synthetic jobs*, since they are not from the textual config files). For each of those new jobs, a job name is auto-generated using the initial job's name as a prefix. As for the contents, the initial job's definition is used as a template for the new job. The ``extend`` key is set to the name of the current sub-job (it is assumed that the initial job has been expanded before), so the settings of the sub-job will eventually be included, and the "run" key is removed. All other settings from the initial job remain unaffected. This means that all sub-jobs "inherit" the settings of the initial job (This is significant when sub-jobs evaluate the same key, and maybe do so in a different manner).
 
 In the overall queue of jobs to be performed, the initial job is replaced by the list of new jobs just generated. This process is repeated until there are no more "run" jobs in the job queue, and none with unresolved "extend"s.
 
@@ -403,7 +403,7 @@ Local path
   especially for the *provides* keys, e.g. *provides/class* which points to the
   library's class path.
 
-  The other possible values are concerned with network-base libraris.
+  The other possible values are concerned with network-base libraries.
 
 contrib:// URL
   If the value starts with ``contrib://`` there will be a lookup in the
@@ -414,7 +414,7 @@ contrib:// URL
 
   will look in the catalog for a contribution named "UploadWidget" and below
   that for a version named "0.4". This must contain a file "Manifest.json" that
-  contains a download link to an archive, and some other entries to assist in 
+  contains a download link to an archive, and some other entries to assist in
   downloading.
 
   The archive will be downloaded and unpacked, and then used by the Generator
@@ -508,13 +508,13 @@ So how does the generator create all of those URIs in the final application code
     to_libraryroot [1]  + library_internal_path [2] + resource_path [3]
 
 
-So for example a graphics file in the qooxdoo framework might get referenced using the following components 
+So for example a graphics file in the qooxdoo framework might get referenced using the following components
 
-* [1] *"../../qooxdoo-%{version}-sdk/framework/"* 
+* [1] *"../../qooxdoo-%{version}-sdk/framework/"*
 * [2] *"source/resource/"*
 * [3] *"qx/static/blank.gif"*
 
-to produce the final URI 
+to produce the final URI
 *"../../qooxdoo-%{version}-sdk/framework/source/resource/qx/static/ blank.gif"*.
 
 These general parts have the following meaning:
@@ -597,7 +597,7 @@ b) Any class that is in the master list that is never listed in one of the  part
 
    *"The parts' include keys are a filter for all classes in the general include  key."*
 
-   Or, to put both aspects in a single statement: The classes in the final app are  exactly those in the **intersection** of the classes referenced through the general *include* key and all the classes referenced by the *include* keys of the parts. Currently, the application developer has to make sure that they match, ie. that the classes specified through the parts together sum up to the global class list!
+   Or, to put both aspects in a single statement: The classes in the final app are exactly those in the **intersection** of the classes referenced through the general *include* key and all the classes referenced by the *include* keys of the parts. Currently, the application developer has to make sure that they match, i.e. that the classes specified through the parts together sum up to the global class list!
 
    There is another caveat that concerns the relation between *include*'s of  different parts:
 
@@ -650,9 +650,9 @@ Practically, there are two steps involved in using external jobs:
   * You can either invoke them directly from the command line, passing them as arguments to the generator.
   * Or you define local jobs that :ref:`extend <pages/tool/generator/generator_config_ref#extend>` them.
 
-In the former case the only way to influence the behaviour of the external job is through macros: The external job has to parameterize its workings with macro references, you have to know them and provide values for them that are suitable for your environment (A typical example would be output paths that you need to customize). Your values will take precendence over any values that might be defined in the external config. But this also means you will have to know the job, know the macros it uses, provide values for them (e.g. in the global :ref:`let <pages/tool/generator/generator_config_ref#let_top-level>` of your config), resolve conflicts if other jobs happen to use the same macros, and so forth. 
+In the former case the only way to influence the behaviour of the external job is through macros: The external job has to parameterize its workings with macro references, you have to know them and provide values for them that are suitable for your environment (A typical example would be output paths that you need to customize). Your values will take precedence over any values that might be defined in the external config. But this also means you will have to know the job, know the macros it uses, provide values for them (e.g. in the global :ref:`let <pages/tool/generator/generator_config_ref#let_top-level>` of your config), resolve conflicts if other jobs happen to use the same macros, and so forth.
 
-In the latter case, you have more control over the settings of the external job that you are actually using. Here as well, you can provide macro definitions that parameterize the behaviour of the job you are extending. But you can also supply more job keys that will either shaddow the keys of the same name in the external job, or will be extended by them. In any case you will have more control over the effects of the external job.
+In the latter case, you have more control over the settings of the external job that you are actually using. Here as well, you can provide macro definitions that parameterize the behaviour of the job you are extending. But you can also supply more job keys that will either shadow the keys of the same name in the external job, or will be extended by them. In any case you will have more control over the effects of the external job.
 
 Add-ins use exactly these mechanisms to provide their functionality to other applications (in the sense as 'make test' or 'make api' did it in the old system). Consequently, to support this in the new system, the add-in applications (or more precisely: their job configuration) have to expose certain keys and use certain macros that can both be overridden by the using application. The next sections describe these build interfaces for the various add-in apps. But first more practical detail about the outlined ...
 
@@ -667,7 +667,7 @@ In order to include an add-in feature in an existing app, you first have to ``in
 
     "include" : [{"path": "../apiviewer/config.json"}]
 
-The include key on this level takes an array of maps. Each map specifies one configuration file to include. The only mandator key therein is the file path to the external config file (see :ref:`here <pages/tool/generator/generator_config_ref#include_top-level>` for all the gory details). A config can only include what the external config is willing to :ref:`export <pages/tool/generator/generator_config_ref#export>`. Among those jobs the importing config can select (through the ``import`` key) or reject (through the ``block`` key) certain jobs. The resulting list of external job definitions will be added to the local jobs map.
+The include key on this level takes an array of maps. Each map specifies one configuration file to include. The only mandatory key therein is the file path to the external config file (see :ref:`here <pages/tool/generator/generator_config_ref#include_top-level>` for all the gory details). A config can only include what the external config is willing to :ref:`export <pages/tool/generator/generator_config_ref#export>`. Among those jobs the importing config can select (through the ``import`` key) or reject (through the ``block`` key) certain jobs. The resulting list of external job definitions will be added to the local jobs map.
 
 If you want to fine-tune the behaviour of such an imported job, you define a local job that extends it. Imported jobs are referenced like any job in the current config, either by their plain name (the default), or, if you specify the ``as`` key in the include, by a composite name ``<as_value>::<original_name>``. Suppose you used an ``"as" : "apiconf"`` in your include, and you wanted to extend the Apiviewer's ``build-script`` job, this could look like this:
 
@@ -743,7 +743,7 @@ The above section mentions the optimization for a single build output, where for
       "baz" : true
     }
 
-The environment set for producing the first build output would be ``{foo:13, bar:"hugo", baz:true}``, the set for the second ``{foo:26, bar:"hugo", baz:true}``. 
+The environment set for producing the first build output would be ``{foo:13, bar:"hugo", baz:true}``, the set for the second ``{foo:26, bar:"hugo", baz:true}``.
 
 For configurations with multiple keys with lists as values, the process is repeated for any possible combination of values. E.g.
 
@@ -772,7 +772,7 @@ The cure is to hint to the generator to create different output files during pro
 
 ::
 
-    "build-script" : 
+    "build-script" :
     {
       "environment" : {
         "myapp.foo" : ["bar", "baz"]
@@ -784,7 +784,7 @@ The cure is to hint to the generator to create different output files during pro
       }
     }
 
-This will two output files in the *build/script* path, ``myapp_bar.js`` and ``myapp_baz.js``. 
+This will two output files in the *build/script* path, ``myapp_bar.js`` and ``myapp_baz.js``.
 
 .. _pages/tool/generator/generator_config_articles#browser-specific_builds:
 

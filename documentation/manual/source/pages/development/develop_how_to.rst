@@ -31,7 +31,7 @@ generate a source version of your app (*source*, *source-all*, *source-hybrid*),
 depending on your preferences between convenience and speed.
 
 Once you are satisfied with your application, you will create a *build* version
-of it. This version will be compressed and optimized, and will be all geard
+of it. This version will be compressed and optimized, and will be all geared
 towards deployment and runtime efficiency. But it will be much less amenable to
 development.
 

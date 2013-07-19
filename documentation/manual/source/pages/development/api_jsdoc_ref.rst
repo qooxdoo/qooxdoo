@@ -31,7 +31,7 @@ An example:
     * @see #getDragEvent(dragSource, elem, x, y)
     * @see com.ptvag.webcomponent.ui.dnd.DragEvent
     */
-    handleDrop : function(dragSource, targetElement, dropType) {	
+    handleDrop : function(dragSource, targetElement, dropType) {
       ...
     };
 
@@ -82,17 +82,17 @@ syntaxes.
 A new attribute entry or the end of the JSDoc comment terminate an attribute
 specification. Attributes may stretch across multiple lines. Lines following an
 attribute key are logically appended to the first line (i.e. the effect is as if
-you had written one longe line).
+you had written one long line).
 
 You can **comment out** an attribute by just prefixing it with another ``@``, like
 
 ::
-  
+
   @@ignore(foo)
 
 Then this attribute will simply be ignored.
 
-The following sections befor the reference list of supported attributes give some
+The following sections before the reference list of supported attributes give some
 general information that apply to some of them.
 
 
@@ -146,7 +146,7 @@ Type1 or Type2 or ..., is optional, i.e. can be left out, and will default to
 **Example**
 
   ::
-  
+
     {String|Integer ? null}
 
 
@@ -237,16 +237,16 @@ A JSDoc comment consists of different sections, where a section is either a lead
    :widths: 60 40
 
    * - API Documentation
-     - * `Description`_ 
+     - * `Description`_
        * `@abstract`_
        * `@childControl`_
        * `@deprecated`_
        * `@internal`_
        * `@link`_
-       * `@param`_ 
+       * `@param`_
        * `@protected`_
-       * `@return`_ 
-       * `@see`_ 
+       * `@return`_
+       * `@see`_
        * `@signature`_
        * `@throws`_
        * `@type`_
@@ -273,7 +273,7 @@ Description
 
 **Description**
 
-  General description of the item the JSDoc comment refers to. 
+  General description of the item the JSDoc comment refers to.
 
 **Syntax**
 
@@ -330,7 +330,7 @@ Description
         - The :ref:`type specification <pages/development/api_jsdoc_ref#types_syntax>` of the child control widget
       * - description
         - *(opt.)* What the child control is used for in the context of this widget
-  
+
 **Example**
 
   ::
@@ -370,7 +370,7 @@ Description
         - A :ref:`type specification <pages/development/api_jsdoc_ref#types_syntax>` like ``{Boolean | Integer ? 0}``
       * - description
         - *(opt.)* Descriptive text of the parameter
-  
+
 **Example**
 
   ::
@@ -408,7 +408,7 @@ Description
 
       * - description
         - *(opt.)* Descriptive text of the parameter
-  
+
 **Example**
 
   ::
@@ -430,7 +430,7 @@ Description
 
 **Description**
 
-  ``@type`` is usually used to document data items, esp. when the type is not immediately apparent in the code. This is for example the case when a class member is initialized with ``null`` and a value of some other type is then assigned in the constructor, so as to not share a single data value accross multiple instances.
+  ``@type`` is usually used to document data items, esp. when the type is not immediately apparent in the code. This is for example the case when a class member is initialized with ``null`` and a value of some other type is then assigned in the constructor, so as to not share a single data value across multiple instances.
 
 **Syntax**
 
@@ -446,7 +446,7 @@ Description
         - A :ref:`type indicator <pages/development/api_jsdoc_ref#types_syntax>` like ``Map``
       * - description
         - *(opt.)* Descriptive text of the type
-  
+
 **Example**
 
   ::
@@ -539,7 +539,7 @@ Description
 **Description**
 
   Adds a cross reference to another structure (class, property, method or constant).
-  
+
 **Syntax**
 
   ``@see <class_item> [<link_text>]``
@@ -575,7 +575,7 @@ Description
   Embedded in descriptive text, `Description`_.
 
 **Description**
-  
+
   The ``@link`` attribute is similar to the `@see`_ attribute, but it is used for linking within description texts. Unlike the other attributes, the ``@link`` attribute is not standalone, but in curly brackets and within the main description text or a description text of another attribute.
 
 **Syntax**
@@ -707,7 +707,7 @@ Description
         - qooxdoo version with which the corresponding item was deprecated
       * - description
         - *(opt.)* Descriptive text of the deprecation
-  
+
 **Example**
 
   ::
@@ -748,23 +748,23 @@ Description
 
                Use of deprecated globals (like ``alert``).
              * **ignoreNoLoopBlock**
-               
+
                Don't warn about loop or condition statements which don't have a block (``{...}``) as body. Takes no argument.
              * **ignoreReferenceField**
-               
+
                A class map member that is initialized with a reference value (object, array, map, ...), as those will be shared among class instances.
              * **ignoreUndefined**
-               
+
                *(Deprecated)* This key is deprecated for the more general :ref:`@ignore <pages/development/api_jsdoc_ref#ignore>` hint.
              * **ignoreUnused**
-               
+
                Scoped variables (function parameters, function expression's identifier, or variables declared with ``var``) which are never used.
              * **ignoreJsdocKey** *[Not yet implemented]*
-               
+
                JSDoc @ keys which are either unknown (i.e. not documented on this page) or do not comply with the syntax given here.
       * - name
         - The identifier which the lint subkey should be applied to.
-  
+
 
 **Example**
 
@@ -982,7 +982,7 @@ Description
 **Description**
 
   Enforce the inclusion of a required class. Use this only if the generator
-  cannot determine the dependency automatically. 
+  cannot determine the dependency automatically.
 
   There is one special name, ``feature-checks``, which is reserved for internal
   use and shouldn't be used in normal application code. This will add all known
@@ -1095,7 +1095,7 @@ Description
 
       * - text
         - Arbitrary text, usually short or composed tag names
-  
+
 **Example**
 
   ::

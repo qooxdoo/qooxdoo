@@ -54,7 +54,7 @@ becomes (compressed):
 
   div{content:foo}
 
-To circumenvent this **always** use double quotes:
+To circumvent this **always** use double quotes:
 
 ::
 

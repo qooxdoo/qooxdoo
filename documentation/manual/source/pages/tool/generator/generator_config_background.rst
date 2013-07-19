@@ -23,7 +23,7 @@ The configuration infrastructure of qooxdoo %{version} is based on two main conf
 
 *base.json* defines all the basic jobs that a normal application would want to deploy. Most significant are the *source* and *build* jobs that create the source and build version of an application, respectively. Other jobs contained here are concerned with cleaning up (*clean* and *distclean*), creating translation files (*translate*) or formatting the Javascript code (*pretty*). It is also basic in the sense that it doesn't rely on any other config file.
 
-But there is a distinct class of jobs missing from *base.json*, those that create helper applications for the current project and rely on additional libraries. Currently, this class is represented by the *api* and *test* jobs. 
+But there is a distinct class of jobs missing from *base.json*, those that create helper applications for the current project and rely on additional libraries. Currently, this class is represented by the *api* and *test* jobs.
 
 This is where *application.json* comes into play. *application.json* creates a superset of the jobs from *base.json* by including it, so all of its jobs are available also through *application.json*. The added value of *application.json* is that it also integrates the core configuration files of the *Apiviewer* and the *Testrunner*. These applications export jobs that can be run in the context of other applications, in order to build customized Apiviewer and Testrunner applications, within the respective project.
 
@@ -87,7 +87,7 @@ When another Config File is Included
 * Then, the external job is merged into the new job (see next section).
 * A reference to the external config is added to the new job; this way, the original context is retained. This can be important to resolve references to other jobs in the right context.
 * For the new job a job name is constructed:
-  * If the external config is included without *"as"* parameter, the original name is used. If it is included with *"as"* parameter, its value is prependend to the original name.
+  * If the external config is included without *"as"* parameter, the original name is used. If it is included with *"as"* parameter, its value is prepended to the original name.
   * If no job of the same name already exists in the config, nothing further is done.
   * If, on the other hand, a job of such name already exists, a new, conflict-free name is generated for the new job, and this name is added to the conflicting job's *extend* key, so the existing job will inherit the new job's features.
 * Finally, the new job is added to the current config's list of jobs.
@@ -166,7 +166,7 @@ Macros in global *let* sections are included automatically into jobs within the 
 
 That means one job has to extend the other, either directly or indirectly (via intermediate "extend" jobs), in order to share information between the jobs.
 
-This also means that the question which job extends which (the *extension order*, if you will) is curcial, as the settings in the extending job always take precedence over those of any extended job. The extending job also has some possibilties to control which keys are being modified by the extended jobs. Within the "extend" list of jobs, those to the left take precedence over those on the right.
+This also means that the question which job extends which (the *extension order*, if you will) is crucial, as the settings in the extending job always take precedence over those of any extended job. The extending job also has some possibilities to control which keys are being modified by the extended jobs. Within the "extend" list of jobs, those to the left take precedence over those on the right.
 
 .. _pages/generator_config_background#preparing_the_component:
 
@@ -187,7 +187,7 @@ In both cases, it is essential that both the invoking environment (custom applic
 Parameterizing a remote job through Macros
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Macros are a simple way to pass information around. The component job uses a macro in a place that should be parameterized, e.g. a part in a path. 
+Macros are a simple way to pass information around. The component job uses a macro in a place that should be parameterized, e.g. a part in a path.
 
 A typical example is the BUILD_PATH macro. The component job stores its output in a file like this:
 
@@ -216,7 +216,7 @@ If you want a more fine-grained control over the scope of a specific macro, you 
 Parameterizing a remote job through Includer Jobs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A more powerful but also more complex way to taylor a remote job is through an *includer job*, a job that is included by others to add additional configuration to them. Used to parameterize another job includer jobs are akin to dependency injection in programming languages. 
+A more powerful but also more complex way to tailor a remote job is through an *includer job*, a job that is included by others to add additional configuration to them. Used to parameterize another job includer jobs are akin to dependency injection in programming languages.
 
 The component job would *extend* the includer job in its own definition:
 
@@ -238,7 +238,7 @@ The invoking context can then tailor the remote job by tailoring the includer jo
          ...
       }
 
-Supplying a job with the name of the includer job will make the component's worker job use this definition for its own extend list (through *job shadowing*). As with macros, the invoking application and the component have to agree about the name of the includer job. After that, you can essentially pass all kinds of job keys into the remote job. There is virtually no limit, but usually you will only want to set a few significant keys (Again, this is part of the protocol between application and component and should be stated clearly in the component's documentation). You should also bear in mind the general rules fo job extending, particularly that the main job's settings (the component job in our case) will take precedence over the settings of the includer job, and that the main job can choose to block certain keys from being modified by included jobs.
+Supplying a job with the name of the includer job will make the component's worker job use this definition for its own extend list (through *job shadowing*). As with macros, the invoking application and the component have to agree about the name of the includer job. After that, you can essentially pass all kinds of job keys into the remote job. There is virtually no limit, but usually you will only want to set a few significant keys (Again, this is part of the protocol between application and component and should be stated clearly in the component's documentation). You should also bear in mind the general rules for job extending, particularly that the main job's settings (the component job in our case) will take precedence over the settings of the includer job, and that the main job can choose to block certain keys from being modified by included jobs.
 
 .. _pages/generator_config_background#adding_a_new_job:
 
@@ -247,7 +247,7 @@ Adding a new job
 
 So how would you typically use these mechanisms to a new default job for qooxdoo that will build the new component in a custom application? Here is a list of the steps:
 
-* Split the component's *config.json* into two.This is usually helpful to keep config settings for the component that are just necessary to develop the component itself, from the definitions that are interesing to other applications that want to run the "exported" job(s) of that component. See e.g. the *Testrunner* application, where the configuration is split between the local *config.json* and the includeable *testrunner.json*.
+* Split the component's *config.json* into two.This is usually helpful to keep config settings for the component that are just necessary to develop the component itself, from the definitions that are interesting to other applications that want to run the "exported" job(s) of that component. See e.g. the *Testrunner* application, where the configuration is split between the local *config.json* and the includeable *testrunner.json*.
 * Include the export config of the component in *application.json*. This will usually be done with a dedicated name space prefix, like ::
 
     {
@@ -258,12 +258,12 @@ So how would you typically use these mechanisms to a new default job for qooxdoo
 * Create a new job in *application.json*.Choose a name as you would want it to appear to the end user when he invokes ``generate.py x``. Optionally, add a descriptive *"desc"* key that will appear next to the job's name in the listing.
 * Make this job extend the component's job you want to make available, e.g. like ::
 
-  "extend" : [ "comp::build" ] // "build" is the job you want in most cases 
+  "extend" : [ "comp::build" ] // "build" is the job you want in most cases
 
 * Add further keys, like a *let* section with macros you want to override, or other job keys.
 * If the component's job honors an includer job, define such a job in *application.json*. You will usually also need to prefix it with the component's "as" prefix you used above::
 
-    "comp::<includer job name>" : { <includer job keys>... } 
+    "comp::<includer job name>" : { <includer job keys>... }
 
   The component's worker job will automatically include your includer job.
 * Add the job to the *export* list in the skeletons that should support it.The skeletons' *config.json* usually contain an *export* key, to filter the list of jobs a user will see with *generate.py x* down to the interesting jobs. Adding the new job name will make sure the users sees it.

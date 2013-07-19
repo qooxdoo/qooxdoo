@@ -18,7 +18,7 @@ Preview Image
 Features
 --------
 * Basic positioning using ``left`` and ``top`` layout properties
-* Respects minimum and maximum dimensions without skrinking/growing
+* Respects minimum and maximum dimensions without shrinking/growing
 * Margins for top and left side (including negative margins)
 * Respects right and bottom margins in the size hint
 * Auto-sizing
@@ -28,7 +28,7 @@ Features
 Description
 -----------
 
-The basic layout positions each child at the coordinate given by the ``left`` and ``top`` layout properties. 
+The basic layout positions each child at the coordinate given by the ``left`` and ``top`` layout properties.
 
 The size hint of a widget configured with a Basic layout is determined such that each child can be positioned at the specified location and can have its preferred size and margin.
 

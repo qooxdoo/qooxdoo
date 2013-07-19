@@ -28,17 +28,17 @@ In your configuration file, add the following job entries (assuming you are usin
 
 ::
 
-    "my-parts-config": 
+    "my-parts-config":
     {
       "packages" :
       {
         "parts"  :
         {
-          "boot"     : 
+          "boot"     :
           {
             "include" : [ "${QXTHEME}", "custom.Application" ]
           },
-          "settings" : 
+          "settings" :
           {
             "include" : [ "custom.Settings" ]
           }
@@ -92,7 +92,7 @@ The main thing to note here is that upon pressing the "Open Settings Dialog" but
 
 The first argument to the *require* method is a list containing the parts you want to be loaded (just *"settings"* in our example). The second argument specifies the code that should be run once the part is successfully loaded. As you can see, the *custom.Settings* class which is loaded with this part is being instantiated.
 
-This section also shows that you cannot run the same application with and without parts. In order to use parts, you have to "instrument" your application code with calls to *qx.io.PartLoader.require*, and currently there is no way these calls can fail gracefully. You have to make a decision. 
+This section also shows that you cannot run the same application with and without parts. In order to use parts, you have to "instrument" your application code with calls to *qx.io.PartLoader.require*, and currently there is no way these calls can fail gracefully. You have to make a decision.
 
 These are the essential ingredients to set up and use parts in your application. For full details on the *packages* configuration key, see the :ref:`configuration reference <pages/tool/generator/generator_config_ref#packages>`. For some additional usage information relating to this key, see this :ref:`article <pages/tool/generator/generator_config_articles#packages_key>`. For a complete application that uses parts, check the `Feedreader sources <https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/application/feedreader/>`_.
 
@@ -107,14 +107,14 @@ The most crucial and at the same time most difficult aspect of using parts is co
     Don't list classes in the *include* list of one part which also appear in another. This becomes less obvious when you use wildcards in your *include* lists: ``[ "foo.bar.*" ]`` overlaps with ``[ "foo.bar.baz" ]``, and with ``[ "foo.*" ]``! So think of what these expressions will expand to. The generator will complain should two *include* lists overlap.
 
 **Don't put load dependencies of one part in the "include" list of another**
-    This is even less obvious. The base line is that you must not have classes in the *include* list of one part that are needed by classes of another part at load time. (Mind that this is **not** only referring to the *include* list of the other part, but to all its classes!). A good criterion to follow is: Stick to classes that are only used in some **member method** of another class. Then you are ususally on the safe side, and are only using classes for your part definition that are required by others at run time, not load time. (Counter examples would be classes that are used as super classes by others (they show up in their *extend* entry), or are used in the *defer* section of another class, or are used to directly initialize a map entry, like an attribute, of another class definition).
+    This is even less obvious. The base line is that you must not have classes in the *include* list of one part that are needed by classes of another part at load time. (Mind that this is **not** only referring to the *include* list of the other part, but to all its classes!). A good criterion to follow is: Stick to classes that are only used in some **member method** of another class. Then you are usually on the safe side, and are only using classes for your part definition that are required by others at run time, not load time. (Counter examples would be classes that are used as super classes by others (they show up in their *extend* entry), or are used in the *defer* section of another class, or are used to directly initialize a map entry, like an attribute, of another class definition).
     The generator will complain if load dependencies of one part are listed in the definition of another.
 
 **Don't group classes "physically"**
-    That means: Don't think about how classes are organized in terms of libraries or name spaces. This is not a good defining principle for parts. Try to think in terms of **logical** or **visual** components, and let the generator figure out which classes from which libraries and name spaces need to go into that part. Visual or logical components usually map to *execution paths* in your running app. A dialog, a window, a certain tab view that are only reached when the user makes some specific interactions with your application, thus following a specific execution path in your code, those are good candidates for defining a part. Of course, e.g. when you are using a library or contribution in your application which exhibits one class as its published API and which you instantiate at one specific point in your application, this might also make for a good part, but would be merely coincidential.
+    That means: Don't think about how classes are organized in terms of libraries or name spaces. This is not a good defining principle for parts. Try to think in terms of **logical** or **visual** components, and let the generator figure out which classes from which libraries and name spaces need to go into that part. Visual or logical components usually map to *execution paths* in your running app. A dialog, a window, a certain tab view that are only reached when the user makes some specific interactions with your application, thus following a specific execution path in your code, those are good candidates for defining a part. Of course, e.g. when you are using a library or contribution in your application which exhibits one class as its published API and which you instantiate at one specific point in your application, this might also make for a good part, but would be merely coincidental.
 
 **Don't define parts with framework classes**
-    This is just a concrete example of the previous point, but happens so often that it merrits its own mentioning. It is generally a bad idea to use framework classes to define a part. Framework classes should be free to be added where they are needed *by your classes' dependencies*. And although there are high-level widgets in the framework, like the DateChooser or the HtmlArea, you always have application code wrapped around them. Then it's good practice to forge this code into its own custom class, and make this class the entry point for a part.
+    This is just a concrete example of the previous point, but happens so often that it merits its own mentioning. It is generally a bad idea to use framework classes to define a part. Framework classes should be free to be added where they are needed *by your classes' dependencies*. And although there are high-level widgets in the framework, like the DateChooser or the HtmlArea, you always have application code wrapped around them. Then it's good practice to forge this code into its own custom class, and make this class the entry point for a part.
 
 
 
@@ -136,7 +136,7 @@ You as the application developer define *parts* to partition your application.
 part is made up of some of the set of all packages. Each package contains class
 code, and maybe some more information that pertains to it. So the classes making
 up a part are spread over a set of packages. Several parts can share one or more
-packages. 
+packages.
 
 This way we obtain maximum flexibility for loading parts in your
 application. Whenever a part is requested through the *PartLoader* it
@@ -154,7 +154,7 @@ distribution of classes across packages:
 
 * when packages become **too small**; sometimes packages derived with the basic
   procedure turn out to be too small, and the benefit of loading no unnecessary
-  classes is outweight by the fact that you have to make an additional net request
+  classes is outweigh by the fact that you have to make an additional net request
   to retrieve them.
 
 * when you know the **order** in which parts are loaded during run time in
@@ -162,9 +162,9 @@ distribution of classes across packages:
   possible in a single package, as other parts needing the same classes of the
   (now bigger) package, but are known to load later, can rely on those classes
   being loaded already, without being affected by the extra classes that get
-  loaded. 
+  loaded.
 
-These are situations where *part collapsing* is usefull, where packages are merged into one another. This is discussed in the next sections.
+These are situations where *part collapsing* is useful, where packages are merged into one another. This is discussed in the next sections.
 
 .. _pages/parts_using#how_packages_are_merged:
 
@@ -187,7 +187,7 @@ After the source package has been merged into the target package, and has been r
 Collapsing By Package Size
 --------------------------
 
-Collapsing by package size is straight forward. You can specify a minimal package size (in KB) that applies to all packages of your application. If a package's size, and it is its *compiled* size that matteres here, is beneath this threshold the package will be merged into another. This avoids the problem of too much fragmentation of classes over packages, and trades optimally distributing the classes (to always load only necessary classes) for minimizing net requests (when loading packages for a part). 
+Collapsing by package size is straight forward. You can specify a minimal package size (in KB) that applies to all packages of your application. If a package's size, and it is its *compiled* size that matters here, is beneath this threshold the package will be merged into another. This avoids the problem of too much fragmentation of classes over packages, and trades optimally distributing the classes (to always load only necessary classes) for minimizing net requests (when loading packages for a part).
 
 Collapsing by size is disabled by default. You enable it by specifying size attributes in your parts configuration:
 
@@ -195,7 +195,7 @@ Collapsing by size is disabled by default. You enable it by specifying size attr
 
     "packages" :
     {
-      "sizes"    : 
+      "sizes"    :
       {
         "min-package" : 20,
         "min-package-unshared" : 10
@@ -216,18 +216,18 @@ Collapsing by load order is always useful when you know in advance the order of 
 
     "packages" :
     {
-      "parts"  : 
+      "parts"  :
       {
-        "boot" : 
+        "boot" :
         {
           "include"   : [ "${QXTHEME}", "app.Application" ]
         },
-        "some-part" : 
+        "some-part" :
         {
           "include"   : [ "app.Class1", "app.Class2" ],
           "expected-load-order" : 1
         },
-        "other-part" : 
+        "other-part" :
         {
           "include"   : [ "app.Class3", "app.Class4" ],
           "expected-load-order" : 2

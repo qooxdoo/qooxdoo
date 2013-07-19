@@ -10,7 +10,7 @@ This page describes how you can use qooxdoo widgets inside HTML-dominated pages.
 Target Audience
 ===============
 
-Integrating qooxdoo widgets into existing HTML pages could be interesting to all users who already have (many) existing pages, often some kind of "portal",  and therefore don't want to transform these into a standalone rich Internet application (RIA). 
+Integrating qooxdoo widgets into existing HTML pages could be interesting to all users who already have (many) existing pages, often some kind of "portal",  and therefore don't want to transform these into a standalone rich Internet application (RIA).
 
 .. _pages/desktop/ui_inline#online_demos:
 
@@ -35,7 +35,7 @@ An inline application is set up by using the ``create-application`` script descr
 
   /opt/qooxdoo-sdk/tool/bin/create-application.py -n myapp -t inline
 
-Once executed you get a skeleton application which is ready-to-use to develop an inline application. The skeleton also demostrates the different integration approaches which are described in the next section.
+Once executed you get a skeleton application which is ready-to-use to develop an inline application. The skeleton also demonstrates the different integration approaches which are described in the next section.
 
 .. _pages/desktop/ui_inline#ways_of_integration:
 
@@ -47,7 +47,7 @@ There are basically two ways to integrate a qooxdoo widget into an existing HTML
 * positioning a widget with absolute coordinates (maybe overlaying existing content)
 * adding the widget within the page flow by using an existing DOM node as an isle
 
-Which way you should choose depends on what you wish to achieve. Technically both share the same foundation. 
+Which way you should choose depends on what you wish to achieve. Technically both share the same foundation.
 
 Instead of using ``qx.application.Standalone`` as a base application class you need to extend from ``qx.application.Inline`` as a starting point. So basically your (empty) application looks like this:
 

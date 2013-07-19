@@ -29,7 +29,7 @@ Here is a longer example that covers an entire class file:
 
 ::
 
-    /** 
+    /**
      * General class description.
      */
     qx.Class.define("mypackage.MyClass",
@@ -38,7 +38,7 @@ Here is a longer example that covers an entire class file:
 
       /**
        * Constructor description.
-       * 
+       *
        * @param param1 {Integer} description of first parameter\
        */
       construct : function(param1) {
@@ -46,14 +46,14 @@ Here is a longer example that covers an entire class file:
       }
     });
 
-    properties : 
+    properties :
     {
       /** Property definitions. */
       "myProperty" :
        {
           check : "Number",
           init : 0
-       } 
+       }
     },
 
     members :
@@ -65,7 +65,7 @@ Here is a longer example that covers an entire class file:
       }
     },
 
-    statics : 
+    statics :
     {
       /** Static method description */
       myStaticMethod : function(bla, blubb)
@@ -93,7 +93,7 @@ Here is a more advanced example of a method documentation block that uses more `
     *
     * @param dragSource {qx.bla.DragSource} the drag source that was dropped.
     * @param targetElement {Element} the target element the drop aims to.
-    * @param dropType {Integer ? null} the drop type. This is the same type 
+    * @param dropType {Integer ? null} the drop type. This is the same type
     *        as used in {@link qx.bla.DragEvent}.
     * @return {Boolean} whether the event was handled.
     * @throws {Error} if the targetElement is no child of this drop target.
@@ -101,7 +101,7 @@ Here is a more advanced example of a method documentation block that uses more `
     * @see #getDragEvent
     * @see qx.bla.DragEvent
     */
-    handleDrop : function(dragSource, targetElement, dropType) {	
+    handleDrop : function(dragSource, targetElement, dropType) {
       ...
     }
 
@@ -110,7 +110,7 @@ This will render in the Apiviewer similarly to this:
 .. image:: /_static/apiviewer_method.png
 
 
-As mentioned above the :doc:`JSDoc reference </pages/development/api_jsdoc_ref>` has the complete list of possible section keys and markup possiblities.
+As mentioned above the :doc:`JSDoc reference </pages/development/api_jsdoc_ref>` has the complete list of possible section keys and markup possibilities.
 
 .. _pages/write_api_documentation#__init__.js_files:
 

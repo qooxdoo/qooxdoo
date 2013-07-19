@@ -49,7 +49,7 @@ override an existing job. The default *config.json* comes with a
 commented-out sample for this. Let's suppose you want to add some
 extra newlines that are sprinkled throughout the build version of your
 app. In the *"jobs"* section of the config you find a job entry named
-*"build-script"*. It has a sub-key *compile-options/code/format* (the "/" 
+*"build-script"*. It has a sub-key *compile-options/code/format* (the "/"
 indicates nesting in the Json maps) which is
 set to false (the default). Just uncomment this job, set the *format* value to
 true, run generate.py build again, and you'll find newlines added to
@@ -77,7 +77,7 @@ message will be something like this:
 
       - Warning: ! Shadowing job "build-script" with local one
 
-(This is also helpful to prevent you from accidentially overriding an
+(This is also helpful to prevent you from accidentally overriding an
 existing job with a custom job that is supposed to be new).
 
 Custom Jobs
@@ -111,7 +111,7 @@ two files to the build path of the application::
     }
 
 Don't forget to add the entry *"myjob"* in your config's ``"export"`` list,
-so it is available on the command line. 
+so it is available on the command line.
 
 Further Resources
 ~~~~~~~~~~~~~~~~~
@@ -119,9 +119,9 @@ Further Resources
 * If you want to embark on the effort of creating custom jobs you're well
   advised to make yourself familiar with the :doc:`general Generator configuration
   overview </pages/tool/generator/generator_config>`, and
-* the :doc:`reference of configuration keys </pages/tool/generator/generator_config_ref>` that can be used. 
+* the :doc:`reference of configuration keys </pages/tool/generator/generator_config_ref>` that can be used.
 * Also, there is an example configuration file in *tool/data/config/example.json* to look at.
-* The basic configuration file, *tool/data/config/base.json*, 
+* The basic configuration file, *tool/data/config/base.json*,
 * and the configuration files for the Testrunner (*component/testrunner/testrunner.json*)
 * and Apiviewer (*component/apiviewer/api.json*) also provide good examples to learn from.
 

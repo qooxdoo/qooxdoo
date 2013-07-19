@@ -225,7 +225,7 @@ To replace the native implementation of ``XMLHttpRequest`` (XHR), call ``useFake
     this.assertEquals("Response", req.responseText);
   }
 
-Usually, the unit under test does not directly expose requests. Rather, some other part of the programm calls the XMLHttpRequest constructor. Whenever the request is not directly available within the test (or complicated to access), each request created by the fake implementation can be retrieved with ``getRequests()``.
+Usually, the unit under test does not directly expose requests. Rather, some other part of the program calls the XMLHttpRequest constructor. Whenever the request is not directly available within the test (or complicated to access), each request created by the fake implementation can be retrieved with ``getRequests()``.
 
 ::
 

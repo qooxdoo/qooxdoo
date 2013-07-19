@@ -20,7 +20,7 @@ As is a good practice in regular high-level programming languages you should not
     obj.width = 200;  // setting a value
     var w = obj.width;  // getting the current value
 
-Instead you should work with properties only through so-called *accessor methods* ("getters") and *mutator methods* ("setters"): 
+Instead you should work with properties only through so-called *accessor methods* ("getters") and *mutator methods* ("setters"):
 
 ::
 
@@ -28,7 +28,7 @@ Instead you should work with properties only through so-called *accessor methods
     obj.setWidth(200);  // setting a value
     var w = obj.getWidth();  // getting the current value
 
-Of course, directly accessing properties may be faster because no indirection by a function call is needed. Nonetheless, in practice this does not outweight the disadvantages. Direct access to properties does not hide internal implementation details and is a less maintainable solution (Well, you don't program web applications in assembler code, do you?).
+Of course, directly accessing properties may be faster because no indirection by a function call is needed. Nonetheless, in practice this does not outweigh the disadvantages. Direct access to properties does not hide internal implementation details and is a less maintainable solution (Well, you don't program web applications in assembler code, do you?).
 
 A typical implementation of the accessor and mutator methods would look like the following, where those instance methods are declared in the ``members`` section of the class definition:
 
@@ -75,7 +75,7 @@ Something that is very familiar to the typical programmer of Java or any other c
       }
     }
 
-Large part of the code found here is for managing the validation and storage of the incoming data. The property-specific user code is rather short. 
+Large part of the code found here is for managing the validation and storage of the incoming data. The property-specific user code is rather short.
 
 .. _pages/understanding_properties#qooxdoo_property_handling:
 
@@ -91,14 +91,14 @@ Let's see how the above example can be written using qooxdoo's property implemen
       width : { check : "Number", apply : "applyWidth" }
     }
 
-    members : 
+    members :
     {
       applyWidth : function(value) {
         this.setStyleProperty("width", value + "px");
       }
     }
 
-Compare that to the lengthy code of the ordinary code example above! Much shorter and nicer, also by objective means. And it almost only contains the "real code". 
+Compare that to the lengthy code of the ordinary code example above! Much shorter and nicer, also by objective means. And it almost only contains the "real code".
 
 The apply method may optionally be defined for each property you add to your class. As soon as you define a key "apply" in your property declaration map the method  gets automatically called on each property modification (but not during initial initialization). If you do not define an apply method, the property just handles the fundamental storage of your data and its disposal.
 
@@ -109,11 +109,11 @@ Despite needing much less explicit code (keep in mind, for *every* property), it
 Change Events
 -------------
 
-qooxdoo supports full-featured event-based programming throughout the framework. So-called *change events* are a good example for this powerful concept. 
+qooxdoo supports full-featured event-based programming throughout the framework. So-called *change events* are a good example for this powerful concept.
 
 Each property may optionally behave as an observable. This means it can send out an event at any time the property value changes. Such a change event (an instance of ``qx.event.type.Data``) is declared by providing a custom name in the ``event`` key of the property definition. While you are free to choose any event name you like, the qooxdoo framework tries to consistently use the naming convention ``"change + Propertyname"``, e.g. ``"changeWidth"`` for a change of property ``width``. In order to get notified of any value changes, you simply attach an event listener to the object instance containing the property in question.
 
-For example, if you would like the ``element`` property of a Widget instance ``widget`` to fire an event named ``"changeElement"`` any time the value changes. 
+For example, if you would like the ``element`` property of a Widget instance ``widget`` to fire an event named ``"changeElement"`` any time the value changes.
 
 ::
 
@@ -137,7 +137,7 @@ Available Methods
 =================
 
 qooxdoo's dynamic properties not only make sure that all properties behave in a consistent way, but also guarantee that the API to access and manipulate properties are identical.
-The user is only confronted with a single interface, where the method names are easy to understand. 
+The user is only confronted with a single interface, where the method names are easy to understand.
 Each property creates (at least) the following set of methods:
 
 * ``setPropertyName()``: Mutator method ("setter") to set a new property value.
@@ -168,7 +168,7 @@ The result is identical to:
     widget.setPaddingBottom(30);
     widget.setPaddingLeft(40);
 
-As you can see the property groups are a nice really convenient feature. 
+As you can see the property groups are a nice really convenient feature.
 
 .. _pages/understanding_properties#shorthand_support:
 
@@ -191,7 +191,7 @@ One more thing. The property group handling also supports some CSS like magic li
     // one argument
     widget.setPadding(top+right+bottom+left);
 
-As you can see this can also reduce the code base and make it more userfriendly.
+As you can see this can also reduce the code base and make it more user-friendly.
 
 BTW: The values of a property group can also be given an array as first argument e.g. these two lines work identically:
 

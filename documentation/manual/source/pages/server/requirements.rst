@@ -25,7 +25,7 @@ These are the options to get %{qooxdoo} %{Server}.
 
 Manual download
 ---------------
-Download the %{Server} component from %{qooxdoo}'s `download page <http://%{qooxdoo}.org/downloads>`_ and place it in a suitable path on your machine. Optimized and unoptimized versions are available.
+Download the %{Server} component from %{qooxdoo}'s `download page <http://%{qooxdoo}.org/downloads>`_ and place it in a suitable path on your machine. Optimized and non-optimized versions are available.
 
 Npm
 -------
@@ -48,4 +48,4 @@ You can also use the :doc:`SDK </pages/tool/sdk/sdk_introduction>` to work with 
 .. code-block:: bash
 
    $ qooxdoo-%{version}-sdk/tool/bin/create-application.py --name=myapp --type=basic
- 
+

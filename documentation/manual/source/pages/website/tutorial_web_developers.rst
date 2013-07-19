@@ -29,14 +29,14 @@ Let's get started! As %{Website} is a simple %{JS} file, we first need to `downl
     <body>
     </body>
   </html>
-  
+
 You can also use a version on a CDN. To do so, just include the following code instead of referencing the local script
 
 .. code-block:: html
 
   <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/qooxdoo/%{version}/q.min.js"></script>
 
-Having done that, you can load the page in your favorite browser and check if the title is there and the %{Website} library has been loaded. For instance, simply open a JavaScript console in your browser and see if ``q`` is defined. If so, we've completed the first step and can start building the application. 
+Having done that, you can load the page in your favorite browser and check if the title is there and the %{Website} library has been loaded. For instance, simply open a JavaScript console in your browser and see if ``q`` is defined. If so, we've completed the first step and can start building the application.
 
 Next, we need a script tag to write our code into. To keep it simple, we'll just put it in the head of the HTML page, right below the existing script tag.
 
@@ -110,7 +110,7 @@ Now, the only thing missing is to set the CSS class for the popup div. That's as
 
   var popup = q.create("<div>").appendTo(document.body).addClass("popup");
 
-Now reload and you should see the popup in the upper right corner. Hm, but the styling is not done, right? A real popup has rounded corners! But wasn't that one of the newer CSS keys which is usually vendor prefixed? Yes! That means, we need to add a declaration for every known browser. No, wait a second. IE and Opera don't use the vendor prefix which means we only need to add the unprefixed key and one additional key each for WebKit and Mozilla.
+Now reload and you should see the popup in the upper right corner. Hmmm, but the styling is not done, right? A real popup has rounded corners! But wasn't that one of the newer CSS keys which is usually vendor prefixed? Yes! That means, we need to add a declaration for every known browser. No, wait a second. IE and Opera don't use the vendor prefix which means we only need to add the unprefixed key and one additional key each for WebKit and Mozilla.
 
 .. code-block:: css
 

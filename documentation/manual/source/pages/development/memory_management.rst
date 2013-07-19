@@ -23,7 +23,7 @@ qooxdoo has solved this issue from the beginning using the included "dispose" me
 Disposing an application
 ========================
 
-You can dispose any qooxdoo based application by simply calling ``qx.core.ObjectRegistry.shutdown()``. The simplest possibility is to use the command line included in Firebug. Another possibility is to add a HTML link or a button to your application which executes this command.  
+You can dispose any qooxdoo based application by simply calling ``qx.core.ObjectRegistry.shutdown()``. The simplest possibility is to use the command line included in Firebug. Another possibility is to add a HTML link or a button to your application which executes this command.
 
 You can look at the dispose behaviour of your app if you set the disposer into a verbose mode and then invoke it deliberately while your app is running. This will usually render your app unusable, but you will get all those messages hinting you at object properties that might need to be looked after. How-To instructions can be found :ref:`here <pages/memory_management#how_to_test_the_destructor>`. But mind that the disposer output contains only hints, that still need human interpretation.
 
@@ -51,11 +51,11 @@ Example destructor
 How to test the destructor
 ==========================
 
-The destructor code allows you an in-depth analysis of the destructors and finds fields which may leak etc. The DOM tree gets also queried for back-references to qooxdoo instances. These checks are not enabled by default because of the time they need on each unload of a typical qooxdoo based application. 
+The destructor code allows you an in-depth analysis of the destructors and finds fields which may leak etc. The DOM tree gets also queried for back-references to qooxdoo instances. These checks are not enabled by default because of the time they need on each unload of a typical qooxdoo based application.
 
 To enable these checks you need to select a variant and configure a setting.
 
-The environment setting ``qx.debug`` must be ``true``. The setting ``qx.debug.dispose.level`` must be at least at ``1`` to show not disposed qooxdoo objects if they need to be deleted. A setting of ``2`` will additionally show non qooxdoo objects. Higher values mean more output. Don't be alarmed if some qooxdoo internal showing up. Usually there is no need to delete all references. `Garbage collection <http://bugzilla.qooxdoo.org/show_bug.cgi?id=3411#c2>`_ can do much for you here. For a general analysis ``1`` should be enough, a value of ``2`` should be used to be sure you did not miss anything. You can use the following code to adapt your ``config.json``: 
+The environment setting ``qx.debug`` must be ``true``. The setting ``qx.debug.dispose.level`` must be at least at ``1`` to show not disposed qooxdoo objects if they need to be deleted. A setting of ``2`` will additionally show non qooxdoo objects. Higher values mean more output. Don't be alarmed if some qooxdoo internal showing up. Usually there is no need to delete all references. `Garbage collection <http://bugzilla.qooxdoo.org/show_bug.cgi?id=3411#c2>`_ can do much for you here. For a general analysis ``1`` should be enough, a value of ``2`` should be used to be sure you did not miss anything. You can use the following code to adapt your ``config.json``:
 
 ::
 
@@ -63,12 +63,12 @@ The environment setting ``qx.debug`` must be ``true``. The setting ``qx.debug.di
       "jobs" :
       {
         // existing jobs ...
-        "source-disposerDebug" : 
+        "source-disposerDebug" :
         {
           "desc" : "source version with 'qx.debug.dispose.level' for destruct support",
-          
+
           "extend" : [ "source" ],
-          
+
           "environment" :
           {
              "qx.debug.dispose.level" : "2"
@@ -93,7 +93,7 @@ Log output from these settings could look something like this:
 
 The nice thing here is that the log messages already indicate which dispose method to use: Every *"Missing destruct..."* line contains a hint to the type of member that is not being disposed properly, in the *"[object ...]"* part of the line. As a rule of thumb
 
-* native Javascript types (Number, String, Object, ...) usualy don't need to be disposed.
+* native Javascript types (Number, String, Object, ...) usually don't need to be disposed.
 * for qooxdoo objects (e.g. qx.util.format.DateFormat, testgui.Report, ...) use ``_disposeObjects``
 * for arrays or maps of qooxdoo objects use ``_disposeArray`` or ``_disposeMap``.
 * be sure to cut all references to the DOM because garbage collection can not dispose object still connected to the DOM. This is also true for event listeners for example.
@@ -103,7 +103,7 @@ The nice thing here is that the log messages already indicate which dispose meth
 Finding memory leaks
 ====================
 
-qooxdoo contains a built-in dispose profiling feature that finds undisposed objects. This is useful mainly for applications that create and destroy objects as needed during their lifetime (instead of creating them once and re-using them). It cannot be used to find undisposed objects left over after the application was shut down. 
+qooxdoo contains a built-in dispose profiling feature that finds undisposed objects. This is useful mainly for applications that create and destroy objects as needed during their lifetime (instead of creating them once and re-using them). It cannot be used to find undisposed objects left over after the application was shut down.
 
 Dispose profiling works by disabling a feature in qooxdoo's Object Registry where the hash codes used to identify objects are reused. That way, it is possible to iterate over all objects created between two specified points in the application's lifecycle and check if they're disposed. Since hash reusing is a performance feature, dispose profiling should only be activated for the development version of an application.
 It is activated by enabling the **qx.debug.dispose** environment setting for a compile job, e.g. `source-script`:
@@ -123,4 +123,4 @@ After building the application, the dispose debugging workflow is as follows:
 * Call `qx.dev.Debug.startDisposeProfiling <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.Debug~startDisposeProfiling>`_ before the code you wish to debug is executed. This effectively sets a marker saying "ignore any objects created before this point in time".
 * Execute the code to be debugged, e.g. create a view component, then destroy it.
 * Call `qx.dev.Debug.stopDisposeProfiling <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.Debug~stopDisposeProfiling>`_. It will return a list of maps containing references to the undisposed objects as well as stack traces taken at the time the objects were registered, which makes it easy to find where in the code they were instantiated. Go through the list and add ``destroy`` and/or ``dispose`` calls to the application as needed.
- 
+

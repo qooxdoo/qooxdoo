@@ -104,7 +104,7 @@ The following string is applied with the "insertHtml" command
 Phase 4: Cleanup
 """"""""""""""""
 
-* Gecko inserts a ``p`` element on his own even if we intercept. This element gets removed afterwards by selecting this paragragph and inserting an empty DIV element at the selection
+* Gecko inserts a ``p`` element on his own even if we intercept. This element gets removed afterwards by selecting this paragraph and inserting an empty DIV element at the selection
 * the ID of the empty ``span`` is removed (Gecko will remove an empty ``span`` then automatically)
 * if an empty paragraph is detected it will be removed to avoid rendering problems
 

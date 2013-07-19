@@ -25,7 +25,7 @@ Please note that event objects are automatically pooled after their dispatch. Th
 Event Phases
 ============
 
-In the browser most user input events like mouse or keyboard events are propagated from the target element up to the document root. In qooxdoo these events bubble up the widget hierarchy. This event propagation happens in two phases, the capturing and the bubbling event phase. The last parameter of the ``addListener(type, listener, context, capture)`` method defines whether the listener should be attached to the capturing (``true``) or bubbling (``false``) phase. 
+In the browser most user input events like mouse or keyboard events are propagated from the target element up to the document root. In qooxdoo these events bubble up the widget hierarchy. This event propagation happens in two phases, the capturing and the bubbling event phase. The last parameter of the ``addListener(type, listener, context, capture)`` method defines whether the listener should be attached to the capturing (``true``) or bubbling (``false``) phase.
 
 In the capturing phase, the event is dispatched on the root widget first. Then it is dispatched on all widgets down the widget tree until the event target is reached. Now the event enters the bubbling phase. In this phase the event is dispatched in the opposite direction starting from the event target up to the root widget.
 
@@ -36,7 +36,7 @@ Most of the time only the bubbling phase is used but sometimes the capturing pha
 Mouse Events
 ============
 
-qooxdoo supports all the typical mouse events: ``mousedown``, ``mouseup``, ``click`` and ``dblclick`` as well as ``mouseover`` and ``mouseout``. For most action-related widgets ``execute`` is the better choice than ``click`` (see the :ref:`section about basic widgets <pages/ui_widgets#widgets>`). All these events behave identically in all supported browsers, even the sequence in which they are fired is identical. All of them come with a usable ``target`` and sometimes even with a ``relatedTarget`` for ``mouseover`` and ``mouseout`` events. 
+qooxdoo supports all the typical mouse events: ``mousedown``, ``mouseup``, ``click`` and ``dblclick`` as well as ``mouseover`` and ``mouseout``. For most action-related widgets ``execute`` is the better choice than ``click`` (see the :ref:`section about basic widgets <pages/ui_widgets#widgets>`). All these events behave identically in all supported browsers, even the sequence in which they are fired is identical. All of them come with a usable ``target`` and sometimes even with a ``relatedTarget`` for ``mouseover`` and ``mouseout`` events.
 
 Every mouse event propagates the screen (e.g. ``getScreenLeft()``), document (e.g. ``getDocumentLeft()``) or viewport (e.g. ``getViewportLeft()``) coordinates through the available getters. The ``getWheelDelta()`` delta method provides information about the scroll amount of a ``mousewheel`` event. Some widgets like Spinners or SelectBoxes make use of this event already.
 
@@ -60,7 +60,7 @@ Internally, qooxdoo uses mouse capturing in menus, split panes or sliders for ex
 Keyboard Support
 ================
 
-DOM3-like event handling was the prototype for qooxdoo's key event support. This means that key identifiers can be used (instead of un-unified key codes) which is much more comfortable than what is known from most web application frameworks. Basically each key on the keyboard has a name like ``Ctrl``, ``Shift``, ``F3`` or ``Enter``. A complete list of all supported keys is available in `the API documentation <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.event.type.KeySequence~getKeyIdentifier>`_. 
+DOM3-like event handling was the prototype for qooxdoo's key event support. This means that key identifiers can be used (instead of non-unified key codes) which is much more comfortable than what is known from most web application frameworks. Basically each key on the keyboard has a name like ``Ctrl``, ``Shift``, ``F3`` or ``Enter``. A complete list of all supported keys is available in `the API documentation <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.event.type.KeySequence~getKeyIdentifier>`_.
 
 All the typical key sequence events ``keyup``, ``keydown`` and ``keypress`` support the key identifier. The ``keypress`` event is repeated during the time the key is pressed. That's why ``keypress`` is the best candidate for most action related keyboard events. Only use ``keyup`` and ``keydown`` when you *really* depend on the status of the key.
 

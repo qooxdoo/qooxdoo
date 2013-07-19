@@ -29,7 +29,7 @@ Regular change events might not be enough in every use case. If we consider a hu
 
 Enabling
 ^^^^^^^^
-These bubbling events are disabled by default because firing an additional event for every change is not always necessary. There are two ways for enabling the events. The most easy and preferred way is to use the :ref:`marhsaler<pages/data_binding/models#json_marshaler>` to create the models. You will find more details about how to do that in the :ref:`marhsaler section<pages/data_binding/models#json_marshaler>`. A second way is to include the mixin to your own classes. More details on that in the `API documentation of that mixin <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.data.marshal.MEventBubbling>`__.
+These bubbling events are disabled by default because firing an additional event for every change is not always necessary. There are two ways for enabling the events. The most easy and preferred way is to use the :ref:`marhsaler<pages/data_binding/models#json_marshaller>` to create the models. You will find more details about how to do that in the :ref:`marhsaler section<pages/data_binding/models#json_marshaller>`. A second way is to include the mixin to your own classes. More details on that in the `API documentation of that mixin <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.data.marshal.MEventBubbling>`__.
 
 Details
 ^^^^^^^
@@ -52,7 +52,7 @@ The data array also offers bubble events with the same details. But the arrays d
     // do something with the data
   });
   array.unshift("X");
-  
+
 Think of the unshift action as something which manipulates the index 0 because it adds one item at the index 0 and moves every item by one index. This unshift will produce the following data in the changeBubble event:
 
   * ``value``: ``['X']`` (An array containing the new value at the index 0)

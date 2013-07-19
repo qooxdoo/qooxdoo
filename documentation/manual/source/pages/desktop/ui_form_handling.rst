@@ -9,7 +9,7 @@ The ``qx.ui.form`` package contains several classes for the construction of form
 
 Idea
 ====
-The idea of the form API is to make handling of form widgets as simple as possible, but also as generic as possible within the entire framework. There has been a thorough `discussion <http://bugzilla.qooxdoo.org/show_bug.cgi?id=2099>`_ on what would be the best solution and how to design a solid API. This is what we ended up with. 
+The idea of the form API is to make handling of form widgets as simple as possible, but also as generic as possible within the entire framework. There has been a thorough `discussion <http://bugzilla.qooxdoo.org/show_bug.cgi?id=2099>`_ on what would be the best solution and how to design a solid API. This is what we ended up with.
 
 .. _pages/desktop/ui_form_handling#demos:
 
@@ -62,17 +62,17 @@ The entire form API is defined by a couple of interfaces. These interfaces conta
 Form
 ----
 
-The interface ``qx.ui.form.IForm`` defines a set of methods and events for every visible form widget. It contains the listed events and methods.  
+The interface ``qx.ui.form.IForm`` defines a set of methods and events for every visible form widget. It contains the listed events and methods.
 
 |iform.png|
 
 .. |iform.png| image:: ui_form_handling/iform.png
 
-As you can see, the interface defines accessors for four different properties. 
+As you can see, the interface defines accessors for four different properties.
 
-* The enabled property is usually inherited from the widget class and is used to deactivate a form element. 
+* The enabled property is usually inherited from the widget class and is used to deactivate a form element.
 * The required property is just a boolean flag signaling that the form widget is required. This can be used by some kind of form manager or parent widget to display the status of the widget.
-* The valid property is a boolean flag containing ``true`` if the content of the widget is valid, but the form widgets do not have any kind of code to set this property. It needs to be set from outside. If it is set to ``false``, the appearance will change automatically to properly signal the invalid state. 
+* The valid property is a boolean flag containing ``true`` if the content of the widget is valid, but the form widgets do not have any kind of code to set this property. It needs to be set from outside. If it is set to ``false``, the appearance will change automatically to properly signal the invalid state.
 * The invalidMessage property should contain a message which will be shown in a tooltip if the valid flag is set to ``false``. If no message is given, no tooltip will appear.
 
 .. _pages/desktop/ui_form_handling#executable:
@@ -86,7 +86,7 @@ The ``qx.ui.form.IExecutable`` interface defines the essential components for al
 
 .. |iexecutable.png| image:: ui_form_handling/iexecutable.png
 
-As you can see, the interface defines accessors for only one property. 
+As you can see, the interface defines accessors for only one property.
 
 * The command property can take a ``qx.event.Command``. The execute method executes the given command.
 
@@ -160,7 +160,7 @@ As you can see in the diagram, you can get the currently selected model and also
 
 Widgets
 =======
-The following listing shows the form widgets and their corresponding interfaces. To see more details about a widget, take a look at the :doc:`widgets </pages/widget/widget_ref>` documentation. 
+The following listing shows the form widgets and their corresponding interfaces. To see more details about a widget, take a look at the :doc:`widgets </pages/widget/widget_ref>` documentation.
 
 .. raw:: html
 
@@ -198,13 +198,13 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-      </tr>  
+      </tr>
 
       <tr>
         <td colspan="11"><strong>Text Input</strong></td>
       </tr>
 
-      <tr>    
+      <tr>
         <td>TextField</td>
         <td>X</td>
         <td>&nbsp;</td>
@@ -216,9 +216,9 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-      </tr>  
+      </tr>
 
-      <tr>    
+      <tr>
         <td>TextArea</td>
         <td>X</td>
         <td>&nbsp;</td>
@@ -230,9 +230,9 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-      </tr>  
+      </tr>
 
-      <tr>    
+      <tr>
         <td>PasswordField</td>
         <td>X</td>
         <td>&nbsp;</td>
@@ -244,13 +244,13 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-      </tr>  
+      </tr>
 
       <tr>
         <td colspan="11"><strong>Supported Text Input</strong></td>
       </tr>
 
-      <tr>    
+      <tr>
         <td>ComboBox</td>
         <td>X</td>
         <td>&nbsp;</td>
@@ -262,9 +262,9 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-      </tr>  
+      </tr>
 
-      <tr>    
+      <tr>
         <td>DateField</td>
         <td>X</td>
         <td>&nbsp;</td>
@@ -276,13 +276,13 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-      </tr> 
+      </tr>
 
       <tr>
         <td colspan="11"><strong>Number Input</strong></td>
       </tr>
 
-      <tr>    
+      <tr>
         <td>Slider</td>
         <td>X</td>
         <td>&nbsp;</td>
@@ -294,9 +294,9 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-      </tr>  
+      </tr>
 
-      <tr>    
+      <tr>
         <td>Spinner</td>
         <td>X</td>
         <td>&nbsp;</td>
@@ -308,13 +308,13 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-      </tr> 
+      </tr>
 
       <tr>
         <td colspan="11"><strong>Boolean Input</strong></td>
       </tr>
 
-      <tr>    
+      <tr>
         <td>CheckBox</td>
         <td>X</td>
         <td>X</td>
@@ -328,7 +328,7 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
       </tr>
 
-      <tr> 
+      <tr>
         <td>RadioButton</td>
         <td>X</td>
         <td>X</td>
@@ -340,13 +340,13 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>X</td>
         <td>X</td>
         <td>&nbsp;</td>
-      </tr>  
+      </tr>
 
       <tr>
         <td colspan="11"><strong>Color Input</strong></td>
       </tr>
 
-      <tr>    
+      <tr>
         <td>ColorPopup</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
@@ -358,9 +358,9 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-      </tr>  
+      </tr>
 
-      <tr>    
+      <tr>
         <td>ColorSelector</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
@@ -372,13 +372,13 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-      </tr>  
+      </tr>
 
       <tr>
         <td colspan="11"><strong>Date Input</strong></td>
       </tr>
 
-      <tr>    
+      <tr>
         <td>DateChooser</td>
         <td>X</td>
         <td>X</td>
@@ -390,13 +390,13 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-      </tr>  
+      </tr>
 
       <tr>
         <td colspan="11"><strong>Selections</strong></td>
       </tr>
 
-      <tr>    
+      <tr>
         <td>SelectBox</td>
         <td>X</td>
         <td>&nbsp;</td>
@@ -408,9 +408,9 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>X</td>
-      </tr>  
+      </tr>
 
-      <tr>    
+      <tr>
         <td>List</td>
         <td>X</td>
         <td>&nbsp;</td>
@@ -424,7 +424,7 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>X</td>
       </tr>
 
-      <tr>    
+      <tr>
         <td>ListItem</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
@@ -438,7 +438,7 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
       </tr>
 
-      <tr>    
+      <tr>
         <td>tree.Tree</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
@@ -452,7 +452,7 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>X</td>
       </tr>
 
-      <tr>    
+      <tr>
         <td>tree.TreeFolder</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
@@ -466,7 +466,7 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
       </tr>
 
-      <tr>    
+      <tr>
         <td>tree.TreeFile</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
@@ -484,7 +484,7 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td colspan="11"><strong>Grouping</strong></td>
       </tr>
 
-      <tr>    
+      <tr>
         <td>GroupBox</td>
         <td>X</td>
         <td>&nbsp;</td>
@@ -496,9 +496,9 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-      </tr>  
+      </tr>
 
-      <tr>    
+      <tr>
         <td>CheckGroupBox</td>
         <td>X</td>
         <td>X</td>
@@ -510,9 +510,9 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>X</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-      </tr>  
+      </tr>
 
-      <tr>    
+      <tr>
         <td>RadioGroupBox</td>
         <td>X</td>
         <td>X</td>
@@ -524,9 +524,9 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>X</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-      </tr>  
+      </tr>
 
-      <tr>    
+      <tr>
         <td>RadioGroup</td>
         <td>X</td>
         <td>&nbsp;</td>
@@ -538,9 +538,9 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>X</td>
-      </tr> 
+      </tr>
 
-      <tr>    
+      <tr>
         <td>RadioButtonGroup</td>
         <td>X</td>
         <td>&nbsp;</td>
@@ -552,13 +552,13 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>X</td>
-      </tr>  
+      </tr>
 
       <tr>
         <td colspan="11"><strong>Buttons</strong></td>
       </tr>
 
-      <tr>    
+      <tr>
         <td>Button</td>
         <td>&nbsp;</td>
         <td>X</td>
@@ -570,9 +570,9 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-      </tr>  
+      </tr>
 
-      <tr>    
+      <tr>
         <td>MenuButton</td>
         <td>&nbsp;</td>
         <td>X</td>
@@ -584,7 +584,7 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-      </tr>  
+      </tr>
 
       <tr>
         <td>RepeatButton</td>
@@ -598,9 +598,9 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-      </tr>  
+      </tr>
 
-      <tr>    
+      <tr>
         <td>SplitButton</td>
         <td>&nbsp;</td>
         <td>X</td>
@@ -612,9 +612,9 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-      </tr>  
+      </tr>
 
-      <tr>    
+      <tr>
         <td>ToggleButton</td>
         <td>&nbsp;</td>
         <td>X</td>
@@ -626,9 +626,9 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>X</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-      </tr>  
+      </tr>
 
-      <tr>    
+      <tr>
         <td>tabView.Button</td>
         <td>&nbsp;</td>
         <td>X</td>
@@ -642,7 +642,7 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
       </tr>
 
-      <tr>   
+      <tr>
         <td>menu.CheckBox</td>
         <td>&nbsp;</td>
         <td>X</td>
@@ -656,7 +656,7 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>&nbsp;</td>
       </tr>
 
-      <tr>    
+      <tr>
         <td>menu.RedioButton</td>
         <td>&nbsp;</td>
         <td>X</td>
@@ -668,9 +668,9 @@ The following listing shows the form widgets and their corresponding interfaces.
         <td>X</td>
         <td>&nbsp;</td>
         <td>&nbsp;</td>
-      </tr>  
+      </tr>
 
-      <tr>    
+      <tr>
         <td>menu.Button</td>
         <td>&nbsp;</td>
         <td>X</td>
@@ -901,13 +901,13 @@ Entering data into a form is one part of the process. But usually, that entered 
 Idea
 ----
 The main idea behind this was to ensure that it cooperates nicely with features like the form widgets and the corresponding data binding components. So we decided to split the problem into two different parts. The first part is storing the data held in the view components as a model. The second part takes that model and serializes its data.
-Sounds like :doc:`data binding </pages/data_binding/data_binding>`? It is data binding! 
+Sounds like :doc:`data binding </pages/data_binding/data_binding>`? It is data binding!
 
 |Serialization in qooxdoo|
 
 .. |Serialization in qooxdoo| image:: ui_form_handling/serialization.png
 
-But you don't have to connect all these widgets yourself. qooxdoo offers an object controller which can take care of most of the work. But where do you get the model? Writing a specific qooxdoo class for every form sounds like a bit of overkill. But qooxdoo has a solution for that, too. The creation of classes and model instances is already a part of the data binding components and can also be used here. Sounds wierd? Take a look at the following common scenarios to see how it works.
+But you don't have to connect all these widgets yourself. qooxdoo offers an object controller which can take care of most of the work. But where do you get the model? Writing a specific qooxdoo class for every form sounds like a bit of overkill. But qooxdoo has a solution for that, too. The creation of classes and model instances is already a part of the data binding components and can also be used here. Sounds weird? Take a look at the following common scenarios to see how it works.
 
 .. _pages/desktop/ui_form_handling#common_scenarios:
 
@@ -932,7 +932,7 @@ The most common scenario is to serialize a number of form items without any spec
     // serialize
     qx.util.Serializer.toUriParameter(model);
 
-The result will be ``name=a&password=b`` because the initial values of the model are ``a`` and ``b``. 
+The result will be ``name=a&password=b`` because the initial values of the model are ``a`` and ``b``.
 
 This way, the serialization is separated from the form itself. So hidden form fields are as easy as it could be. Just add another property to the model.
 
@@ -961,13 +961,13 @@ A third useful feature of a form besides validation and serialization is resetti
 * The validation manager is not the right place for resetting because it handles only the validation.
 * The form widget, responsible for layouting forms, is a good place, but we don't want to force developers to use it if they just want the reset feature.
 
-So we decided to create a standalone implementation for resetting called ``qx.ui.form.Resetter``. 
+So we decided to create a standalone implementation for resetting called ``qx.ui.form.Resetter``.
 
 |Resetter Class|
 
 .. |Resetter Class| image:: ui_form_handling/resetter.png
 
-Like the task of resetting itself, the API is not too complicated. We have one method for adding items, and another one for resetting all added items. 
+Like the task of resetting itself, the API is not too complicated. We have one method for adding items, and another one for resetting all added items.
 
 .. _pages/desktop/ui_form_handling#how_it_works:
 
@@ -979,7 +979,7 @@ Technically, it's not really a challenge thanks to the new form API. You can add
 
 Sample Usage
 ------------
-The following sample shows how to use the resetter with three input fields: A textfield, a checkbox and a list. 
+The following sample shows how to use the resetter with three input fields: A textfield, a checkbox and a list.
 
 ::
 
@@ -1022,7 +1022,7 @@ We've already covered most parts of form handling. But one thing we've left out 
 
 What is it?
 -----------
-The qooxdoo form is an object which includes three main parts. 
+The qooxdoo form is an object which includes three main parts.
 
 * :ref:`Validation <pages/desktop/ui_form_handling#validation>` using the ``qx.ui.form.validation.Manager`` class
 * :ref:`Resetting <pages/desktop/ui_form_handling#resetting>` using the ``qx.ui.form.Resetter`` class
@@ -1040,7 +1040,7 @@ To achieve this, we applied a pattern used widely across the qooxdoo framework, 
 
 Renderer
 --------
-As the diagram shows, qooxdoo provides an interface for FormRenderer, the ``IFormRenderer`` interface. It defines two methods, one for adding a group of form items and one for adding buttons. 
+As the diagram shows, qooxdoo provides an interface for FormRenderer, the ``IFormRenderer`` interface. It defines two methods, one for adding a group of form items and one for adding buttons.
 
 * addItems(items : qx.ui.form.IForm[], names : String[], title : String) : void
 * addButton(button : qx.ui.form.Button) : void
@@ -1161,13 +1161,13 @@ Running this code will create a form as described above which will look like thi
 
 .. |Result of the code example| image:: ui_form_handling/codesampleform.png
 
-If you want to get a different look and feel, you can create a different renderer. 
+If you want to get a different look and feel, you can create a different renderer.
 
 ::
 
     // create the view and add it
     this.getRoot().add(
-      new qx.ui.form.renderer.SinglePlaceholder(form), 
+      new qx.ui.form.renderer.SinglePlaceholder(form),
       {left: 10, top: 10}
     );
 

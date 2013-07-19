@@ -19,7 +19,7 @@ Preview Image
 Features
 --------
 * Respects Minimum and maximum dimensions
-* Priorized growing/shrinking (flex)
+* Prioritized growing/shrinking (flex)
 * Margins with horizontal (HBox) resp. vertical (VBox) collapsing)
 * Auto sizing (ignoring percent values)
 * Percent widths (not size hint relevant)
@@ -37,11 +37,11 @@ Both box layouts lay out their children one after the other. This description wi
 
 In addition to the child widget's own preferred width the width of a child can also be defined as :ref:`percent <pages/ui_layouting#percent>` values. The percent value is relative to the inner width of the parent widget without any spacings. This means a horizontal box layout with two children of width ``50%`` and with a spacing will fit exactly in the parent.
 
-The horizontal box layout tries to stretch all children vertically to the height of the box layout. This can be supressed by setting the child property `allowGrowY <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.core.LayoutItem~setAllowGrowY>`_ to false. If a child is smaller than the layout and cannot be stretched it will be aligned according to its `alignY <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.core.LayoutItem~setAlignY>`_ value. The `alignX <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.layout.HBox~setAlignX>`_ property of the layout itself defines the horizontal alignment of all the children as a whole.
+The horizontal box layout tries to stretch all children vertically to the height of the box layout. This can be suppressed by setting the child property `allowGrowY <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.core.LayoutItem~setAllowGrowY>`_ to false. If a child is smaller than the layout and cannot be stretched it will be aligned according to its `alignY <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.core.LayoutItem~setAlignY>`_ value. The `alignX <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.layout.HBox~setAlignX>`_ property of the layout itself defines the horizontal alignment of all the children as a whole.
 
 The horizontal spacing can be defined using the property `spacing <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.layout.HBox~setSpacing>`_. In addition to the spacing property each widget can define left and a right ``margin``. Margins and the spacing are always collapsed to the largest single value. It for example the layout has a spacing of ``10`` pixel and two consecutive child widgets A and B - A with a right margin of ``15`` and B with a left margin of ``5`` - than the spacing between these widgets would be ``15``, the maximum of these values.
 
-The preferred height of an horizontal box layout is determined by the highest child widged. The preferred with is the sum of the widths of each child plus the spacing resulting from margins and the ``spacing`` property.
+The preferred height of an horizontal box layout is determined by the highest child widget. The preferred with is the sum of the widths of each child plus the spacing resulting from margins and the ``spacing`` property.
 
 .. _pages/layout/box#layout_properties:
 

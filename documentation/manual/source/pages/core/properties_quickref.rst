@@ -13,7 +13,7 @@ Properties are declared in the constructor map of the class as a dedicated key-v
     properties_decl  := 'properties' ':' properites_map
 
     properties_map   := '{' { prop_spec ',' } '}'
-    prop_spec        := '"' <property_name> '"' ':' 
+    prop_spec        := '"' <property_name> '"' ':'
                             '{' { property_feature ',' } '}'
 
     property_feature := nullable_spec      |
@@ -60,7 +60,7 @@ Properties are declared in the constructor map of the class as a dedicated key-v
 
     bool_val         := 'true' | 'false'
     enum_spec        := '[' <val1>',' <val2> ',' ... ',' <valN> ']'
-    inline_function  := ? JavaScript anonymous function 'function (..) 
+    inline_function  := ? JavaScript anonymous function 'function (..)
                           { ... }' ?
     bool_expression  := ? JavaScript expression evaluating to true/false ?
 

@@ -156,7 +156,7 @@ The more complex full entry is a map with several sub entries where all are opti
 Style Method
 ------------
 
-Let's start with the ``style`` sub entry. The value under this key should be a function which returns a set of properties to apply to the target widget. The first parameter of the function is named ``states``. This is a map containing keys with boolean values which signalize which states are switched on. The data could be used to react on specific states like ``hovered``, ``focused``, ``selected``, etc. The second parameter ``styles`` is only avaliable if a ``include`` key is given. If so, the ``styles`` parameter contains the styles of the included appearance. This may be very handy if you just want to add some padding and don't want to change it completely. In any case, you don't need to return the given styles. The returned styles and the ``styles`` argument will be merged by the appearance manager with a higher priority for the local (returned) styles.
+Let's start with the ``style`` sub entry. The value under this key should be a function which returns a set of properties to apply to the target widget. The first parameter of the function is named ``states``. This is a map containing keys with boolean values which signalize which states are switched on. The data could be used to react on specific states like ``hovered``, ``focused``, ``selected``, etc. The second parameter ``styles`` is only available if a ``include`` key is given. If so, the ``styles`` parameter contains the styles of the included appearance. This may be very handy if you just want to add some padding and don't want to change it completely. In any case, you don't need to return the given styles. The returned styles and the ``styles`` argument will be merged by the appearance manager with a higher priority for the local (returned) styles.
 
 It is required that all properties applied in one state are applied in all other states. Something like this is seen as bad style and may result in wrong styling:
 
@@ -203,7 +203,7 @@ One thing we have also seen in the example is that it is perfectly possible to c
 Includes
 --------
 
-Includes are used to reuse the result of another key and merge it with the local data. Includes may also used standalone without the ``style`` key but this is merly the same like an alias. An alias is the faster and better choice in this case.
+Includes are used to reuse the result of another key and merge it with the local data. Includes may also used standalone without the ``style`` key but this is merely the same like an alias. An alias is the faster and better choice in this case.
 
 The results of the include block are merged with lower priority than the local data so it just gets added to the map. To remove a key from the included map just define the key locally as well (using the ``style`` method) and set it to ``undefined``.
 
@@ -283,7 +283,7 @@ When ``alias`` and ``include`` are identically pointing to the same selector the
 Base Calls
 ----------
 
-When extending themes the so-named ``base`` flag can be enabled to include the result of this selector of the derived theme into the local selector. This is quite comparable to the ``this.base(arguments, ...)`` call in member functions of typical qooxdoo classes. It does all the things the super class has done plus the local things. Please note that all local defintions have higher priority than the inheritance. See next paragraph for details.
+When extending themes the so-named ``base`` flag can be enabled to include the result of this selector of the derived theme into the local selector. This is quite comparable to the ``this.base(arguments, ...)`` call in member functions of typical qooxdoo classes. It does all the things the super class has done plus the local things. Please note that all local definitions have higher priority than the inheritance. See next paragraph for details.
 
 .. _pages/desktop/ui_appearance#priorities:
 
@@ -336,7 +336,7 @@ The list of resolved aliases can be seen when printing out the map under ``qx.th
 Result Caching
 --------------
 
-Further the result of each selector for a specific set of states is cached as well. This is maybe the most massive source of performance tweaks in the system. With the first usage, qooxdoo caches for example the result of ``button`` with the states ``hovered`` and ``focused``. The result is used for any further request for such an appearance with the identical set of states. This caching is by the way the most evident reason why the appearance has no access to the individual widget. This would torpedate the caching in some way.
+Further the result of each selector for a specific set of states is cached as well. This is maybe the most massive source of performance tweaks in the system. With the first usage, qooxdoo caches for example the result of ``button`` with the states ``hovered`` and ``focused``. The result is used for any further request for such an appearance with the identical set of states. This caching is by the way the most evident reason why the appearance has no access to the individual widget. This would interfere with the caching in some way.
 
 This last caching also reduces the overhead of ``include`` and ``base`` statements which are quite intensive tasks because of the map merge character with which they have been implemented.
 

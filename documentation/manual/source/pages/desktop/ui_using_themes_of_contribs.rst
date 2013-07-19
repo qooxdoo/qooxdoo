@@ -9,13 +9,13 @@ Using themes of contributions in your application
 
 Contributions are a powerful and easy way to enhance your application with e.g. widgets that had not (yet) found the way into the qooxdoo core framework. Nevertheless it is a no-brainer to use them in your application.
 
-But if a contribution is providing its own theme (in most cases its own appearance theme) you have to manage this manually. 
+But if a contribution is providing its own theme (in most cases its own appearance theme) you have to manage this manually.
 
 .. note::
 
     A bug report to make this step superfluous is already filed ( see `#1591 <http://bugzilla.qooxdoo.org/show_bug.cgi?id=1591>`_ ), but in the meantime you can stick with this little tutorial to get things done.
 
-For an easiser understanding this tutorial explains the necessary setup at the example of the `TileView <http://qooxdoo.org/contrib/project#tileview>`_ widget.
+For an easier understanding this tutorial explains the necessary setup at the example of the `TileView <http://qooxdoo.org/contrib/project#tileview>`_ widget.
 
 .. _pages/ui_using_themes_of_contribs#adjust_your_configuration:
 

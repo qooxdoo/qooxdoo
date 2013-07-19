@@ -21,11 +21,11 @@ The tool chain only requires a `Python <http://www.python.org>`_ installation. U
 It is trivial! Just download and install the excellent `ActivePython <http://www.activestate.com/activepython/downloads>`_ package. Its default settings of the installation wizard are fine, there is nothing to configure. You can as well use the Windows package from `Python.org <http://www.python.org/download/releases/2.6.1/>`_, but this might require additional manual :ref:`configuration <pages/troubleshooting#windows>`.
 
 Windows Shells Interop
-------------------------
+----------------------
 
 A word concerning various shells available under Windows and how they
 interoperate. We are testing the SDK with `Windows cmd
-<http://en.wikipedia.org/wiki/Command_Prompt>`_ and occasionally `PowerShell 
+<http://en.wikipedia.org/wiki/Command_Prompt>`_ and occasionally `PowerShell
 <http://en.wikipedia.org/wiki/PowerShell>`_.
 Both should work equally well, and you should be able to freely switch between
 them (e.g. running *create-application.py* in cmd shell, and then change to
@@ -87,7 +87,7 @@ During runtime the tool chain also uses a subdirectory in your system's ``TMP`` 
 Installation and Setup
 ======================
 
-Installation of the SDK is just going to the `download section <http://%{qooxdoo}.org/downloads>`_ and grab the package suitable for your purpose. Choose either the *Desktop* or *Mobile* download, which both come as an SDK archive. Unzip it to a suitable path on your hard disk. The archive contains a single top-level folder, which in turn contains all the SDK's files and sub-folders. 
+Installation of the SDK is just going to the `download section <http://%{qooxdoo}.org/downloads>`_ and grab the package suitable for your purpose. Choose either the *Desktop* or *Mobile* download, which both come as an SDK archive. Unzip it to a suitable path on your hard disk. The archive contains a single top-level folder, which in turn contains all the SDK's files and sub-folders.
 
 This is all as far as the SDK is concerned. As an additional convenience you might want to add the ``<sdk-root-path>/tool/bin`` directory to your system environment ``PATH`` variable. This is a prerequisite for invoking the executable programs of the tool chain without the need to address them with their path.
 

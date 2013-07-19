@@ -47,7 +47,7 @@ Included layers
 * Core
 * Runtime Abstraction
 * Low-Level
-* GUI Toolit
+* GUI Toolkit
 
 .. _pages/development/skeletons#mobile:
 
