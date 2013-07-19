@@ -83,7 +83,7 @@ RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 APPLICATIONS = tutorial todo feedreader mobileshowcase playground showcase widgetbrowser featureconfigeditor github demobrowser
 COMPONENTS = apiviewer testrunner inspector storage server website
 WEBSITE_MODULES = core animation blocker cookie dataset dev io matchmedia messaging placeholder placement rest storage template transform util
-FRAMEWORK_TARGETS = api test test-mobile
+FRAMEWORK_TARGETS = api test test-mobile dependencies
 TUTORIALS = mobiletweets tweets website
 
 
@@ -143,6 +143,8 @@ release-sdk-svn-collect:
 
 	@echo "  * Synchronizing framework..."
 	@$(CMD_SYNC_OFFLINE) framework/api/* $(RELEASE_SDK)/framework/api
+	@$(CMD_MKDIR) $(RELEASE_SDK)/framework/source/script
+	@$(CMD_SYNC_OFFLINE) framework/source/script/dependencies.json $(RELEASE_SDK)/framework/source/script/dependencies.json
 
 	@echo "  * Synchronizing tools..."
 	@$(CMD_REMOVE) $(RELEASE_SDK)/tool/admin/
@@ -697,7 +699,13 @@ check-components:
 
 check-framework:
 	@for TARGET in $(FRAMEWORK_TARGETS); do \
-		F="framework/$$TARGET/script"; [ -d $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
+		if [ "$$TARGET" = "dependencies" ]; then \
+			F="framework/source/script/dependencies.json"; \
+			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
+		else \
+			F="framework/$$TARGET/script"; \
+			[ -d $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
+		fi; \
 	done
 
 publish-index:
