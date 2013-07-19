@@ -128,26 +128,16 @@ qx.Class.define("qx.application.Mobile",
      * @param settings {Map} viewport settings map.
      */
     _setViewport : function(settings) {
-      var viewport = null;
-
-      var metatags = document.getElementsByTagName('meta');
-      for (var i = 0; i < metatags.length; i++) {
-        var element = metatags[i];
-        if (element.getAttribute('name') == 'viewport') {
-          viewport = element;
-          break;
-        }
-      }
-
-      if (viewport == null) {
-        return;
-      }
-
       // Fix for rendering bug on HTC Android devices with a device pixel ratio 1.5
       if (qx.core.Environment.get("os.name") == "android" && qx.core.Environment.get("device.pixelRatio") == 1.5) {
         settings["user-scalable"] = "yes";
         settings["minimum-scale"] = parseFloat(settings["minimum-scale"] || settings["initial-scale"] || "1.0") + 0.01;
         settings["maximum-scale"] = parseFloat(settings["maximum-scale"] || settings["initial-scale"] || "1.0") + 0.01;
+      }
+      
+      var viewport = this._getViewportElement();
+      if (viewport == null) {
+        return;
       }
 
       var arr = [];
@@ -156,6 +146,22 @@ qx.Class.define("qx.application.Mobile",
       };
 
       viewport.content = arr.join(", ");
+    },
+
+
+    /** 
+    * Returns the viewport element of this document. 
+    * @return {Element} the viewport element.
+    */
+    _getViewportElement : function() {
+      var metatags = document.getElementsByTagName('meta');
+      for (var i = 0; i < metatags.length; i++) {
+        var element = metatags[i];
+        if (element.getAttribute('name') == 'viewport') {
+          return element;
+        }
+      }
+      return null;
     }
   },
 
