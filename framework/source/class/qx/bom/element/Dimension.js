@@ -125,6 +125,14 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
           contentWidth = contentWidth - paddingLeft - paddingRight;
         }
 
+        // IE seems to return 0 on clientWidth if the element is 0px
+        // in height so we use the offsetWidth instead
+        if (qx.core.Environment.get("engine.name") == "mshtml") {
+          if (contentWidth === 0 && element.offsetHeight === 0) {
+            return element.offsetWidth;
+          }
+        }
+
         return contentWidth;
       }
       else
