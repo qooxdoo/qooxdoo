@@ -28,11 +28,8 @@ qx.Class.define("qx.ui.form.PasswordField",
   members :
   {
     // overridden
-    _createInputElement : function()
-    {
-      var input = new qx.html.Input("password");
-      input.addListener("input", this._onHtmlInput, this);
-      return input;
+    _createInputElement : function() {
+      return new qx.html.Input("password");
     }
   }
 });

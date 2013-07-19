@@ -1038,5 +1038,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     if (this.__font && this.__webfontListenerId) {
       this.__font.removeListenerById(this.__webfontListenerId);
     }
+
+    this.getContentElement().removeListener("input", this._onHtmlInput, this);
   }
 });

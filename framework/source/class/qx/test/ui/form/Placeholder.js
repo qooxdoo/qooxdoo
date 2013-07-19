@@ -22,7 +22,6 @@ qx.Class.define("qx.test.ui.form.Placeholder",
 
   members :
   {
-
     __testInit : function(clazz, childControlName) {
       var widget = new clazz();
       widget.setValue("affe");
