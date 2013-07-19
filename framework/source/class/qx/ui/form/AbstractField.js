@@ -384,7 +384,8 @@ qx.Class.define("qx.ui.form.AbstractField",
       el.addClass("qx-abstract-field");
 
       // IE8 in standard mode needs some extra love here to receive events.
-      if ((qx.core.Environment.get("engine.name") == "mshtml")) {
+      if ((qx.core.Environment.get("engine.name") == "mshtml") &&
+        (qx.core.Environment.get("browser.documentmode") == 8)) {
         el.setStyles({
           backgroundImage: "url(" + qx.util.ResourceManager.getInstance().toUri("qx/static/blank.gif") + ")"
         });
