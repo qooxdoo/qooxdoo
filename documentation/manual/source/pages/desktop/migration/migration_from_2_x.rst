@@ -13,18 +13,20 @@ Legacy Browsers
 
 Some browsers unfortunately lack built-in functionality for some features common to modern browsers. To work around those technical limitations is either too complex or simply impossible. Therefore browser support in %{Desktop} 3.0 had to be adjusted accordingly:
 
-* Browser versions no longer supported:
-   * IE 6, 7
-   * Firefox 3.5 and below
-   * Safari 3
-   * Opera 11 and below
-* Browser versions with limited support:
-   * IE 8:
-    * double borders on input elements no longer supported
-    * border-image decorations no longer supported
-    * PNGs are no longer supported as background images in combination with the backgroundRepeat values 'scale' and 'no-repeat'
-    * PNGs with alpha transparency are no longer supported as background images
-   * IE 9, 10: border-image decorations no longer supported
+* Browser versions **no longer** supported:
+    * **IE 6, 7**
+    * **Firefox 3.5** and below
+    * **Safari 3**
+    * **Opera 11** and below
+
+* Browser versions with **limited** support:
+    * **IE 8**:
+        * double borders on input elements no longer supported
+        * border-image decorations no longer supported
+        * PNGs are no longer supported as background images in combination with the backgroundRepeat values 'scale' and 'no-repeat'
+        * PNGs with alpha transparency are no longer supported as background images
+    * **IE 9, 10**:
+        * border-image decorations no longer supported
 
 
 Built-in Themes

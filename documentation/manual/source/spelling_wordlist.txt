@@ -26,6 +26,7 @@ Autosizing
 backend
 backends
 backgroundColor
+backgroundRepeat
 basecalls
 basename
 behaviour
@@ -101,6 +102,7 @@ esc
 execCommand
 fadeIn
 fallback
+fallbacks
 Fallback
 feedreader
 Feedreader
