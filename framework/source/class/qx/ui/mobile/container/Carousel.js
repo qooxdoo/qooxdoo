@@ -81,9 +81,9 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     carouselScroller.addListener("touchstart", this._onTouchStart, this);
     carouselScroller.addListener("touchmove", this._onTouchMove, this);
     carouselScroller.addListener("swipe", this._onSwipe, this);
-    carouselScroller.addListener("touchend", this._onTouchEnd, this);
+    carouselScroller.addListener("touchend", this._refreshScrollerPosition, this);
 
-
+    this.addListener("domupdated", this._refreshScrollerPosition, this);
     this.addListener("appear", this._onContainerUpdate, this);
 
     qx.event.Registration.addListener(window, "orientationchange", this._onContainerUpdate, this);
@@ -418,6 +418,16 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
 
     /**
+     * Synchronizes the positions of the scroller to the current shown page index.
+     */
+    _refreshScrollerPosition : function() {
+      setTimeout(function() {
+        this.scrollToPage(this.getCurrentIndex());
+      }.bind(this), 0);
+    },
+
+
+    /**
      * Handles window resize, device orientatonChange or page appear events.
      */
     _onContainerUpdate : function() {
@@ -475,15 +485,6 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
         evt.preventDefault();
         evt.stopPropagation();
       }
-    },
-
-
-    /**
-     * Handler for <code>touchend</code> on carousel scroller.
-     */
-    _onTouchEnd : function() {
-      this._setShowTransition(true);
-      this._snapCarouselPage();
     },
 
 
@@ -625,9 +626,10 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       this.__carouselScroller.removeListener("touchstart", this._onTouchStart, this);
       this.__carouselScroller.removeListener("touchmove", this._onTouchMove, this);
       this.__carouselScroller.removeListener("swipe", this._onSwipe, this);
-      this.__carouselScroller.removeListener("touchend", this._onTouchEnd, this);
+      this.__carouselScroller.removeListener("touchend", this._refreshScrollerPosition, this);
 
       this.removeListener("appear", this._onContainerUpdate, this);
+      this.removeListener("domupdated", this._refreshScrollerPosition, this);
 
       qx.event.Registration.removeListener(window, "orientationchange", this._onContainerUpdate, this);
       qx.event.Registration.removeListener(window, "resize", this._onContainerUpdate, this);
