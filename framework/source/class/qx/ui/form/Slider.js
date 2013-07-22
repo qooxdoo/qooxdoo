@@ -797,12 +797,20 @@ qx.Class.define("qx.ui.form.Slider",
     {
       // Use the DOM Element to prevent unnecessary layout recalculations
       var knob = this.getChildControl("knob");
+      var dec = this.getDecorator();
+      dec = qx.theme.manager.Decoration.getInstance().resolve(dec);
       var content = knob.getContentElement();
       if (this.__isHorizontal) {
-        position += this.getPaddingLeft() + knob.getMarginLeft();
+        if (dec && dec.getPadding()) {
+          position += dec.getPadding().left;
+        }
+        position += this.getPaddingLeft() || 0;
         content.setStyle("left", position+"px", true);
       } else {
-        position += this.getPaddingTop() + knob.getMarginTop();
+        if (dec && dec.getPadding()) {
+          position += dec.getPadding().top;
+        }
+        position += this.getPaddingTop() || 0;
         content.setStyle("top", position+"px", true);
       }
     },
