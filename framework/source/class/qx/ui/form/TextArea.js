@@ -217,6 +217,7 @@ qx.Class.define("qx.ui.form.TextArea",
     _setAreaHeight: function(height) {
       if (this._getAreaHeight() !== height) {
         this.__areaHeight = height;
+
         qx.ui.core.queue.Layout.add(this);
 
         // Apply height directly. This works-around a visual glitch in WebKit
@@ -252,32 +253,26 @@ qx.Class.define("qx.ui.form.TextArea",
         // Otherwise, the height of an auto-size text area with wrapping
         // disabled initially is incorrectly computed as if wrapping was enabled.
         if (qx.core.Environment.get("engine.name") === "webkit" ||
-            (qx.core.Environment.get("engine.name") == "mshtml" &&
-          qx.core.Environment.get("browser.documentmode") == 8)) {
+            (qx.core.Environment.get("engine.name") == "mshtml")) {
           clone.setWrap(!this.getWrap(), true);
         }
 
         clone.setWrap(this.getWrap(), true);
 
         // Webkit needs overflow "hidden" in order to correctly compute height
-        if (qx.core.Environment.get("engine.name") == "webkit") {
+        if (qx.core.Environment.get("engine.name") === "webkit" ||
+            (qx.core.Environment.get("engine.name") == "mshtml")) {
           cloneDom.style.overflow = "hidden";
         }
 
         // IE >= 8 needs overflow "visible" in order to correctly compute height
         if (qx.core.Environment.get("engine.name") == "mshtml" &&
-          qx.core.Environment.get("browser.documentmode") == 8) {
+          qx.core.Environment.get("browser.documentmode") >= 8) {
           cloneDom.style.overflow = "visible";
           cloneDom.style.overflowX = "hidden";
         }
 
         // Update value
-        if (qx.core.Environment.get("engine.name") == "mshtml" &&
-            qx.core.Environment.get("browser.documentmode") == 8)
-        {
-          var lineHeight = this.getContentElement().getStyle("lineHeight");
-          clone.setStyle("lineHeight", this.getValue() ? lineHeight : 0);
-        }
         clone.setValue(this.getValue() || "");
 
         // Force IE > 8 to update size measurements
@@ -430,16 +425,20 @@ qx.Class.define("qx.ui.form.TextArea",
         // This is done asynchronously on purpose. The style given would
         // otherwise be overridden by the DOM changes queued in the
         // property apply for wrap. See [BUG #4493] for more details.
-        this.addListenerOnce("appear", function() {
+        if (!this.getBounds()) {
+          this.addListenerOnce("appear", function() {
+            this.getContentElement().setStyle("overflowY", "hidden");
+          });
+        } else {
           this.getContentElement().setStyle("overflowY", "hidden");
-        });
+        }
 
       } else {
         this.removeListener("input", this.__autoSize);
         this.getContentElement().setStyle("overflowY", "auto");
       }
-
     },
+
 
     // property apply
     _applyDimension : function(value) {
@@ -514,6 +513,14 @@ qx.Class.define("qx.ui.form.TextArea",
       }
 
       return hint;
+    }
+  },
+
+
+  destruct : function() {
+    this.setAutoSize(false);
+    if (this.__areaClone) {
+      this.__areaClone.dispose();
     }
   }
 });

@@ -471,7 +471,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       if (qx.core.Environment.get("engine.name") == "mshtml" &&
         qx.core.Environment.get("browser.documentmode") < 11)
       {
-        qx.html.Element.flush();
+        qx.ui.core.queue.Manager.flush();
         this.getContentElement().setStyles(styles, true);
       } else {
         this.getContentElement().setStyles(styles);
