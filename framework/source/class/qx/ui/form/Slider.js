@@ -795,11 +795,15 @@ qx.Class.define("qx.ui.form.Slider",
      */
     _setKnobPosition : function(position)
     {
+      // Use the DOM Element to prevent unnecessary layout recalculations
       var knob = this.getChildControl("knob");
+      var content = knob.getContentElement();
       if (this.__isHorizontal) {
-        knob.setLayoutProperties({left: position});
+        position += this.getPaddingLeft() + knob.getMarginLeft();
+        content.setStyle("left", position+"px", true);
       } else {
-        knob.setLayoutProperties({top: position});
+        position += this.getPaddingTop() + knob.getMarginTop();
+        content.setStyle("top", position+"px", true);
       }
     },
 
