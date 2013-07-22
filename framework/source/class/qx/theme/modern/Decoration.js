@@ -317,7 +317,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
         gradientEnd : ["scrollbar-slider-end", 100],
 
         color : "border-main",
-        width: 1
+        width: 1,
+        radius: 3
       }
     },
 

@@ -909,7 +909,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
                                         "scrollbar-slider-horizontal",
           height : 14,
           width : 14,
-          padding: 0
+          padding: 0,
+          margin: 0
         };
       }
     },
