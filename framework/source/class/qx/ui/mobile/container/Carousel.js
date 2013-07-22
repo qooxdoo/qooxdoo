@@ -322,7 +322,9 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param pageIndex {Integer} The page index to which the scroller should move to.
      */
     _doScrollLoop : function(pageIndex) {
-      this._setScrollersOpacity(0);
+      setTimeout(function() {
+        this._setScrollersOpacity(0);
+      }.bind(this), 0);
 
       var delayForLayoutUpdate = this.getTransitionDuration() * 1000;
 
