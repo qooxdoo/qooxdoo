@@ -226,6 +226,28 @@ Publish qx.Website at cdnjs
 
 The minified and non minified version of qx.Website are on a CDN called `cdnjs <http://cdnjs.com/>`_. To update to a newer version, check out the documentation on the `github page <https://github.com/cdnjs/cdnjs>`_ on their repository.
 
+The gist of it is:
+
+* Clone `qooxdoo/cdnjs <https://github.com/qooxdoo/cdnjs>`_.
+* Fetch from `cdnjs/cdnjs <https://github.com/cdnjs/cdnjs>`_, to have an up-to-date repo.
+* Make changes to ``ajax/libs/qooxdoo``:
+
+  * Add necessary version folder.
+  * Add the ``q`` library, both minified and unminified, **without** version string
+    in the name, to the version folder.
+  * Update ``package.json``.
+  * Create a single commit for all these changes (might involve squashing).
+  * (opt.) Run ``npm test``.
+
+* Push to *qooxdoo/cdnjs*.
+* In the web GUI, create a **pull request** to *cdnjs/cdnjs*:
+
+  * Use the single commit.
+  * Use "Source taken from http://qooxdoo.org/download" as the pull description.
+  * If you want to change two versions at the same time, it might be necessary
+    that you create a branch for one, so you can create a pull request for each
+    (Unclear if this is actually necessary).
+
 .. _pages/project/release_how_to_build.rst#post_processing:
 
 Post processing
