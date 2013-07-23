@@ -267,6 +267,15 @@ qx.Class.define("qx.ui.form.Slider",
       invalid : true
     },
 
+
+    // overridden
+    renderLayout : function(left, top, width, height) {
+      this.base(arguments, left, top, width, height);
+      // make sure the layout engine does not override the knob position
+      this._updateKnobPosition();
+    },
+
+
     // overridden
     _createChildControlImpl : function(id, hash)
     {
