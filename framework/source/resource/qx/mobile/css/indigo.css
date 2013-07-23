@@ -1445,6 +1445,9 @@ input, .text-area {
 .form-row-group-title:nth-child(n+2) {
   margin-top: 20px; }
 
+.form-row-content .label {
+  color: #333333; }
+
 .button {
   color: #333333;
   background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#dbdbdb));
