@@ -31,7 +31,7 @@ qx.Class.define("qx.test.ui.form.Slider",
 
 
     tearDown : function() {
-      this.__slider.dispose();
+      this.__slider.destroy();
     },
 
 
