@@ -39,6 +39,12 @@ qx.Class.define("demobrowser.demo.ui.Decoration",
       scroller.add(container);
 
       container.add(this.getDecorations());
+
+      qx.theme.manager.Decoration.getInstance().addListener("changeTheme", function() {
+        container.getChildren()[0].destroy();
+        qx.ui.core.queue.Dispose.flush();
+        container.add(this.getDecorations());
+      }, this);
     },
 
 
