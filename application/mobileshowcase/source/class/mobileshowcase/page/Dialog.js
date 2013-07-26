@@ -38,15 +38,14 @@ qx.Class.define("mobileshowcase.page.Dialog",
 
   members :
   {
-    __anchorpopup : null,
+    __anchorPopup : null,
     __popup : null,
     __dialogpopup : null,
-    __busypopup : null,
+    __busyPopup : null,
     __menu : null,
     __picker : null,
-    __anchoredMenu : null,
     __anchorMenu : null,
-    __modaldialogpopup : null,
+    __modalDialogPopup : null,
     __resultsLabel : null,
 
 
@@ -67,26 +66,26 @@ qx.Class.define("mobileshowcase.page.Dialog",
 
       // EXAMPLE WIDGETS
       var busyIndicator = new qx.ui.mobile.dialog.BusyIndicator("Please wait...");
-      this.__busypopup = new qx.ui.mobile.dialog.Popup(busyIndicator);
-      this.__busypopup.setTitle("Loading...");
+      this.__busyPopup = new qx.ui.mobile.dialog.Popup(busyIndicator);
+      this.__busyPopup.setTitle("Loading...");
 
       // DEFAULT POPUP
       this.__popup = new qx.ui.mobile.dialog.Popup(closeDialogButton1);
       this.__popup.setTitle("A Popup");
 
       // MODAL DIALOG
-      this.__modaldialogpopup = new qx.ui.mobile.dialog.Popup(closeDialogButton2);
-      this.__modaldialogpopup.setModal(true);
-      this.__modaldialogpopup.setTitle("A Modal Popup");
+      this.__modalDialogPopup = new qx.ui.mobile.dialog.Popup(closeDialogButton2);
+      this.__modalDialogPopup.setModal(true);
+      this.__modalDialogPopup.setTitle("A Modal Popup");
 
       // ANCHOR POPUP
       var showAnchorButton = new qx.ui.mobile.form.Button("Show Anchor Popup");
       showAnchorButton.addListener("tap", function(e) {
           this._stop();
-          this.__anchorpopup.show();
+          this.__anchorPopup.show();
       }, this);
 
-      this.__anchorpopup = this.__createAnchorPopup(showAnchorButton);
+      this.__anchorPopup = this.__createAnchorPopup(showAnchorButton);
 
       // MENU DIALOG
       var menuModel = new qx.data.Array();
@@ -134,7 +133,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       var showModalDialogButton = new qx.ui.mobile.form.Button("Show Modal Popup");
       showModalDialogButton.addListener("tap", function(e) {
           this._stop();
-          this.__modaldialogpopup.show();
+          this.__modalDialogPopup.show();
       }, this);
 
       var showPopupButton = new qx.ui.mobile.form.Button("Show Popup");
@@ -145,8 +144,8 @@ qx.Class.define("mobileshowcase.page.Dialog",
 
       var busyIndicatorButton = new qx.ui.mobile.form.Button("Show Busy Indicator");
       busyIndicatorButton.addListener("tap", function(e) {
-        this.__busypopup.toggleVisibility();
-        qx.lang.Function.delay(this.__busypopup.hide, 3000, this.__busypopup);
+        this.__busyPopup.toggleVisibility();
+        qx.lang.Function.delay(this.__busyPopup.hide, 3000, this.__busyPopup);
       }, this);
 
       var showMenuButton = new qx.ui.mobile.form.Button("Show Menu");
@@ -226,8 +225,8 @@ qx.Class.define("mobileshowcase.page.Dialog",
      */
     __createAnchorPopup : function(anchor)
     {
-      if(this.__anchorpopup) {
-        return this.__anchorpopup;
+      if(this.__anchorPopup) {
+        return this.__anchorPopup;
       }
 
       var popupWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
@@ -241,40 +240,30 @@ qx.Class.define("mobileshowcase.page.Dialog",
       popupWidget.add(buttonsWidget);
 
       okButton.addListener("tap", function(){
-        this.__anchorpopup.hide();
+        this.__anchorPopup.hide();
       }, this);
       cancelButton.addListener("tap", function(){
-        this.__anchorpopup.hide();
+        this.__anchorPopup.hide();
       }, this);
 
-      this.__anchorpopup = new qx.ui.mobile.dialog.Popup(popupWidget, anchor);
+      this.__anchorPopup = new qx.ui.mobile.dialog.Popup(popupWidget, anchor);
       return this.__anchorpopup;
     },
 
 
     // overridden
     _stop : function() {
-      if (this.__popup) {
-        this.__popup.hide();
+      if (!this.__popup) {
+        return
       }
-      if (this.__anchorpopup) {
-        this.__anchorpopup.hide();
-      }
-      if (this.__modaldialogpopup) {
-        this.__modaldialogpopup.hide();
-      }
-      if (this.__busypopup) {
-        this.__busypopup.hide();
-      }
-      if (this.__menu) {
-        this.__menu.hide();
-      }
-      if (this.__anchoredMenu) {
-        this.__anchoredMenu.hide();
-      }
-      if (this.__picker) {
-        this.__picker.hide();
-      }
+
+      this.__popup.hide();
+      this.__anchorPopup.hide();
+      this.__modalDialogPopup.hide();
+      this.__busyPopup.hide();
+      this.__menu.hide();
+      this.__anchorMenu.hide();
+      this.__picker.hide();
     },
 
 
