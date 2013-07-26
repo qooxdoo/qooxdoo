@@ -155,20 +155,40 @@ qx.Class.define("mobileshowcase.page.Dialog",
           this.__menu.show();
       }, this);
 
-      this.getContent().add(new qx.ui.mobile.form.Title("Dialog Widget Menu"));
+      var popupGroup = new qx.ui.mobile.form.Group([],false);
+      popupGroup.add(this._createGroupTitle("Popup"));
+      popupGroup.add(showPopupButton,{flex:1});
+      popupGroup.add(showAnchorButton,{flex:1});
 
-      var buttonsGroup = new qx.ui.mobile.form.Group([
-        showModalDialogButton,
-        showPopupButton,
-        showAnchorButton,
-        showMenuButton,
-        showAnchorMenuButton,
-        busyIndicatorButton,
-        showPickerButton
-      ]);
+      var menuGroup = new qx.ui.mobile.form.Group([],false);
+      menuGroup.add(this._createGroupTitle("Menu"));
+      menuGroup.add(showMenuButton,{flex:1});
+      menuGroup.add(showAnchorMenuButton,{flex:1});
 
+      var otherGroup = new qx.ui.mobile.form.Group([],false);
+      otherGroup.add(this._createGroupTitle("Other"));
+      otherGroup.add(busyIndicatorButton,{flex:1});
+      otherGroup.add(showPickerButton,{flex:1});
+
+      var groupContainer = new qx.ui.mobile.container.Composite();
+      groupContainer.setLayout(new qx.ui.mobile.layout.HBox());
+      groupContainer.add(popupGroup, {flex:1});
+      groupContainer.add(menuGroup, {flex:1});
+      groupContainer.add(otherGroup, {flex:1});
+
+      this.getContent().add(groupContainer);
       this.getContent().add(resultsGroup);
-      this.getContent().add(buttonsGroup);
+    },
+
+
+    /**
+    * Creates a group title for the dialow showcase.
+    * @return {qx.ui.mobile.form.Label} the group title label.
+    */
+    _createGroupTitle : function(value) {
+      var titleLabel = new qx.ui.mobile.form.Label(value);
+      titleLabel.addCssClass("dialog-group-title");
+      return titleLabel;
     },
 
 
