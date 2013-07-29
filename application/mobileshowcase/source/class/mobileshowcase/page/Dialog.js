@@ -95,28 +95,16 @@ qx.Class.define("mobileshowcase.page.Dialog",
 
       this.__menu = new qx.ui.mobile.dialog.Menu(menuModel);
       this.__menu.setTitle("Menu");
-
       this.__menu.addListener("changeSelection", this.__onMenuChangeSelection, this);
 
-      // PICKER DIALOG
+       // PICKER DIALOG
       var showPickerButton = new qx.ui.mobile.form.Button("Show Picker");
       showPickerButton.addListener("tap", function(e) {
           this._stop();
           this.__picker.show();
       }, this);
 
-      var pickerSlot1 = new qx.data.Array(["qx.Desktop", "qx.Mobile", "qx.Website","qx.Server"]);
-      var pickerSlot2 = new qx.data.Array(["1.5.1", "1.6.1", "2.0.4", "2.1.2", "3.0"]);
-
-      this.__picker = new qx.ui.mobile.dialog.Picker(showPickerButton);
-      this.__picker.setTitle("Picker");
-      this.__picker.addSlot(pickerSlot1);
-      this.__picker.addSlot(pickerSlot2);
-      this.__picker.setSelectedIndex(0, 1);
-      this.__picker.setSelectedIndex(1, 4);
-
-      this.__picker.addListener("changeSelection", this.__onPickerChangeSelection,this);
-      this.__picker.addListener("confirmSelection", this.__onPickerConfirmSelection,this);
+      this.__picker = this._createPicker(showPickerButton);
 
       // ANCHORED MENU POPUP
       var showAnchorMenuButton = new qx.ui.mobile.form.Button("Show Anchor Menu");
@@ -181,13 +169,64 @@ qx.Class.define("mobileshowcase.page.Dialog",
 
 
     /**
-    * Creates a group title for the dialow showcase.
-    * @return {qx.ui.mobile.form.Label} the group title label.
+    * Creates the date picker dialog.
+    * @param anchor {qx.ui.mobile.core.Widget} the anchor of the popup.
+    * @return {qx.ui.mobile.dialog.Picker} the date picker. 
     */
-    _createGroupTitle : function(value) {
-      var titleLabel = new qx.ui.mobile.form.Label(value);
-      titleLabel.addCssClass("dialog-group-title");
-      return titleLabel;
+    _createPicker : function(anchor) {
+      var picker = new qx.ui.mobile.dialog.Picker(anchor);
+      picker.setTitle("Picker");
+      
+      this.__pickerDaySlotData = this._createDayPickerSlot(1, new Date().getFullYear());
+
+      picker.addSlot(this.__pickerDaySlotData);
+      picker.addSlot(this._createMonthPickerSlot());
+      picker.addSlot(this._createYearPickerSlot());
+
+      picker.addListener("changeSelection", this.__onPickerChangeSelection,this);
+      picker.addListener("confirmSelection", this.__onPickerConfirmSelection,this);
+      return picker;
+    },
+
+
+    /**
+     * Creates the picker slot data for days in month.
+     * @param month {Integer} current month.
+     * @param year {Integer} current year.
+     */
+    _createDayPickerSlot : function(month, year) {
+      var daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      var slotData = [];
+      for (var i = 1; i <= daysInMonth; i++) {
+        slotData.push("" + i);
+      };
+      return new qx.data.Array(slotData);
+    },
+
+
+    /**
+     * Creates the picker slot data for month names, based on current locale settings.
+     */
+    _createMonthPickerSlot : function() {
+      var names = qx.locale.Date.getMonthNames("wide", qx.locale.Manager.getInstance().getLocale());
+      var slotData = [];
+      for (var i = 0; i < names.length; i++) {
+        slotData.push("" + names[i]);
+      };
+      return new qx.data.Array(slotData);
+    },
+
+
+    /**
+     * Creates the picker slot data from 1950 till current year.
+     */
+    _createYearPickerSlot : function() {
+      var slotData = [];
+      for (var i = new Date().getFullYear(); i > 1950; i--) {
+        slotData.push("" + i);
+      };
+      return new qx.data.Array(slotData);
     },
 
 
@@ -195,7 +234,32 @@ qx.Class.define("mobileshowcase.page.Dialog",
      * Reacts on "changeSelection" event on picker, and displays the values on resultsLabel.
      */
     __onPickerChangeSelection : function(e) {
+      var slot = e.getData().slot;
+
+      var dayIndex = this.__picker.getSelectedIndex(0);
+      var monthIndex = this.__picker.getSelectedIndex(1);
+      var yearIndex = this.__picker.getSelectedIndex(2);
+
+      if (slot > 0) {
+        var slotData = this._createDayPickerSlot(monthIndex, new Date().getFullYear() - yearIndex);
+        this.__pickerDaySlotData.removeAll();
+        this.__pickerDaySlotData.append(slotData);
+
+        this.__picker.setSelectedIndex(0, dayIndex, false);
+      }
+
       this.__resultsLabel.setValue("Received <b>changeSelection</b> from Picker Dialog. [slot: "+ e.getData().slot+ "] [item: "+ e.getData().item+"]");
+    },
+
+
+    /**
+    * Creates a group title for the dialow showcase.
+    * @return {qx.ui.mobile.form.Label} the group title label.
+    */
+    _createGroupTitle : function(value) {
+      var titleLabel = new qx.ui.mobile.form.Label(value);
+      titleLabel.addCssClass("dialog-group-title");
+      return titleLabel;
     },
 
 
@@ -231,6 +295,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
 
       var popupWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
       popupWidget.add(new qx.ui.mobile.basic.Label("Are you sure?"));
+      
       var buttonsWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
       var okButton = new qx.ui.mobile.form.Button("Yes");
       var cancelButton = new qx.ui.mobile.form.Button("No");
@@ -246,8 +311,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
         this.__anchorPopup.hide();
       }, this);
 
-      this.__anchorPopup = new qx.ui.mobile.dialog.Popup(popupWidget, anchor);
-      return this.__anchorpopup;
+      return new qx.ui.mobile.dialog.Popup(popupWidget, anchor);
     },
 
 
