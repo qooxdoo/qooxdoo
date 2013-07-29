@@ -16,7 +16,15 @@ $label-height:25px;
 
   @include border-radius(0.3em);
   @include transition(all ease-in-out);
+
+  -webkit-backface-visibility:hidden;
 }
+
+
+.picker-slot * {
+  -webkit-backface-visibility:hidden;
+}
+
 
 .picker-slot:not(:last-child):after {
   content:""; 
@@ -78,5 +86,3 @@ $label-height:25px;
  
   left:0px;
 }
-
-
