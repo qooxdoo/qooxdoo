@@ -268,8 +268,27 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     addSlot : function(slotData) {
       if(slotData != null && slotData instanceof qx.data.Array) {
         this.__pickerModel.push(slotData);
-        slotData.addListener("changeBubble", this._render, this);
+        slotData.addListener("changeBubble", this._onChangeBubble, {self:this,index:this.__pickerModel.length - 1});
         this._render();
+      }
+    },
+
+
+    /**
+     * Handler for <code>changeBubble</code> event.
+     * @param evt {qx.event.type.Data} the <code>changeBubble</code> event.
+     */
+    _onChangeBubble : function(evt) {
+      var newSlotDataLength = evt.getData().value.length;
+      var selectedIndex = this.self.getSelectedIndex(this.index);
+
+      var pickerSlot = this.self.__pickerContainer.getChildren()[this.index];
+      this.self._renderPickerSlotContent(pickerSlot,this.index);
+
+      // If slotData length has decreased, but previously selected index was higher than new slotData length.
+      if (selectedIndex >= newSlotDataLength) {
+        var newSelectedIndex = newSlotDataLength - 1;
+        this.self.setSelectedIndex(this.index, newSelectedIndex, false);
       }
     },
 
@@ -281,7 +300,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     removeSlot : function(slotIndex) {
       if(this.__pickerModel.getLength() > slotIndex && slotIndex > -1) {
         var slotData = this.__pickerModel.getItem(slotIndex);
-        slotData.removeListener("changeBubble", this._render, this);
+        slotData.removeListener("changeBubble", this._onChangeBubble, this);
 
         this.__pickerModel.removeAt(slotIndex);
         this._render();
@@ -295,7 +314,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     _disposePickerModel : function() {
       for(var i = 0; i < this.__pickerModel.length; i++) {
         var slotData = this.__pickerModel.getItem(i);
-        slotData.removeListener("changeBubble", this._render, this);
+        slotData.removeListener("changeBubble", this._onChangeBubble, this);
       }
 
       this.__pickerModel.dispose();
@@ -596,32 +615,46 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       this.__modelToSlotMap = {};
       this.__selectedIndex = {};
 
-      var model = this.__pickerModel;
-      var slotCounter = (model ? model.getLength() : 0);
+      var slotCounter = (this.__pickerModel ? this.__pickerModel.getLength() : 0);
 
       for (var slotIndex = 0; slotIndex < slotCounter; slotIndex++) {
-        var slotValues = model.getItem(slotIndex);
-        var slotLength = slotValues.getLength();
-
         this.__selectedIndexBySlot.push(0);
 
         var pickerSlot = this._createPickerSlot(slotIndex);
         this.__slotElements.push(pickerSlot.getContentElement());
         this.__pickerContainer.add(pickerSlot,{flex:1});
 
-        pickerSlot.add(this._createPickerValueLabel(""),{flex:1});
-        pickerSlot.add(this._createPickerValueLabel(""),{flex:1});
-
-        for (var slotValueIndex = 0; slotValueIndex < slotLength; slotValueIndex++) {
-          var labelValue = slotValues.getItem(slotValueIndex);
-          var pickerLabel = this._createPickerValueLabel(labelValue);
-
-          pickerSlot.add(pickerLabel,{flex:1});
-        }
-
-        pickerSlot.add(this._createPickerValueLabel(""),{flex:1});
-        pickerSlot.add(this._createPickerValueLabel(""),{flex:1});
+        this._renderPickerSlotContent(pickerSlot, slotIndex);
       }
+    },
+
+
+    /**
+    * Renders the content (the labels) of a picker slot.
+    * @param pickerSlot {qx.ui.mobile.core.Widget} the target picker slot, where the labels should be added to. 
+    * @param slotIndex {Integer} the slotIndex of the pickerSlot. 
+    */
+    _renderPickerSlotContent : function(pickerSlot, slotIndex) {
+      var oldPickerSlotContent = pickerSlot.removeAll();
+      for (var i = 0; i < oldPickerSlotContent.length; i++) {
+        oldPickerSlotContent[i].dispose();
+      };
+
+      var slotValues = this.__pickerModel.getItem(slotIndex);
+      var slotLength = slotValues.getLength();
+
+      pickerSlot.add(this._createPickerValueLabel(""),{flex:1});
+      pickerSlot.add(this._createPickerValueLabel(""),{flex:1});
+
+      for (var slotValueIndex = 0; slotValueIndex < slotLength; slotValueIndex++) {
+        var labelValue = slotValues.getItem(slotValueIndex);
+        var pickerLabel = this._createPickerValueLabel(labelValue);
+
+        pickerSlot.add(pickerLabel,{flex:1});
+      }
+
+      pickerSlot.add(this._createPickerValueLabel(""),{flex:1});
+      pickerSlot.add(this._createPickerValueLabel(""),{flex:1});
     },
 
 
@@ -657,6 +690,11 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
         pickerSlot.removeListener("touchstart", this._onTouchStart, this);
         pickerSlot.removeListener("touchmove", this._onTouchMove, this);
         pickerSlot.removeListener("touchend", this._onTouchEnd, this);
+
+        var oldPickerSlotContent = pickerSlot.removeAll();
+        for (var j = 0; j < oldPickerSlotContent.length; j++) {
+          oldPickerSlotContent[j].dispose();
+        };
 
         pickerSlot.destroy();
       }
