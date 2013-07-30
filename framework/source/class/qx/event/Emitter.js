@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Basic implementation for an event emitter. This supplies a basic and
  * minimalistic event mechanism.
  */
