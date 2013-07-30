@@ -1308,12 +1308,12 @@ input, .text-area {
 
 .navigationbar-button, .navigationbar-backbutton {
   color: #333333;
+  border: 1px solid #888888;
   background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#dbdbdb));
   background-image: -webkit-linear-gradient(top, white, #dbdbdb);
   background-image: -moz-linear-gradient(top, white, #dbdbdb);
   background-image: -ms-linear-gradient(top, white, #dbdbdb);
   background-image: linear-gradient(to bottom, white, #dbdbdb);
-  border: 1px solid #888888;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px; }

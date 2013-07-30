@@ -151,11 +151,11 @@ input, .text-area {
 
 .navigationbar-button, .navigationbar-backbutton {
   color: $navigationbarbutton-text-color;
-
-  @include gradient-vertical(lighten($navigationbarbutton-background-color, 10%), darken($navigationbarbutton-background-color, 10%));
   border: $border-thickness solid $navigationbarbutton-border-color;
 
+  @include gradient-vertical(lighten($navigationbarbutton-background-color, 10%), darken($navigationbarbutton-background-color, 10%));
   @include border-radius($navigationbarbutton-border-radius);
+
 }
 
 .navigationbar-button.active, .navigationbar-backbutton.active {
