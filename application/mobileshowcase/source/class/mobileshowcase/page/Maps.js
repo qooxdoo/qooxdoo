@@ -27,8 +27,7 @@ qx.Class.define("mobileshowcase.page.Maps",
 {
   extend : qx.ui.mobile.page.NavigationPage,
 
-  construct : function()
-  {
+  construct : function() {
     this.base(arguments,false);
     this.setTitle("Maps");
     this.setShowBackButton(true);
@@ -40,7 +39,7 @@ qx.Class.define("mobileshowcase.page.Maps",
 
   members :
   {
-    _mapUri: "http://www.openlayers.org/api/OpenLayers.js",
+    _mapUri : "http://www.openlayers.org/api/OpenLayers.js",
     _map : null,
     _markers : null,
     _myPositionMarker : null,
@@ -137,18 +136,16 @@ qx.Class.define("mobileshowcase.page.Maps",
      * Loads JavaScript library which is needed for the map.
      */
     _loadMapLibrary : function() {
-
-      var self = this;
       var req = new qx.bom.request.Script();
 
       req.onload = function() {
-        self._map = new OpenLayers.Map("osmMap");
-        self._mapnikLayer = new OpenLayers.Layer.OSM("mapnik",null,{});
+        this._map = new OpenLayers.Map("osmMap");
+        this._mapnikLayer = new OpenLayers.Layer.OSM("mapnik", null, {});
 
-        self._map.addLayer(self._mapnikLayer);
+        this._map.addLayer(this._mapnikLayer);
 
-        self._zoomMapToDefaultPosition();
-      }
+        this._zoomToDefaultPosition();
+      }.bind(this);
 
       req.open("GET", this._mapUri);
       req.send();
@@ -159,33 +156,52 @@ qx.Class.define("mobileshowcase.page.Maps",
      * Zooms the map to a default position.
      * In this case: Berlin, Germany.
      */
-    _zoomMapToDefaultPosition : function() {
-      var fromProjection = new OpenLayers.Projection("EPSG:4326"); // Transform from WGS 1984
-      var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
-      var mapPosition = new OpenLayers.LonLat(13.41,52.52).transform( fromProjection, toProjection);
-      var zoom = 15;
+    _zoomToDefaultPosition : function() {
+      if (this.isVisible()) {
+        this._zoomToPosition(13.41, 52.52, 15);
+      }
+    },
+
+
+    /**
+     * Zooms the map to a  position.
+     * @param longitude {Number} the longitude of the position.
+     * @param latitude {Number} the latitude of the position.
+     * @param zoom {Integer} zoom level.
+     * @param showMarker {Boolean} if a marker should be drawn at the defined position. 
+     */
+    _zoomToPosition : function(longitude, latitude, zoom, showMarker) {
+      var fromProjection = new OpenLayers.Projection("EPSG:4326"); 
+      var toProjection = new OpenLayers.Projection("EPSG:900913");
+      var mapPosition = new OpenLayers.LonLat(longitude,latitude).transform(fromProjection, toProjection);
 
       this._map.setCenter(mapPosition, zoom);
+
+      if(showMarker == true) {
+        this._setMarkerOnMap(this._map, mapPosition);
+      }
     },
 
 
     /**
      * Draws a marker on the OSM map.
+     * @param map {Object} the map object.
+     * @param mapPosition {Map} the map position.
      */
-    _setMarkerOnMap : function(map,mapPosition) {
-      if(this._markers==null) {
-        this._markers = new OpenLayers.Layer.Markers( "Markers" );
+    _setMarkerOnMap : function(map, mapPosition) {
+      if (this._markers == null) {
+        this._markers = new OpenLayers.Layer.Markers("Markers");
         map.addLayer(this._markers);
       }
 
-      if(this._myPositionMarker != null) {
+      if (this._myPositionMarker != null) {
         this._markers.removeMarker(this._myPositionMarker);
       }
 
-      this._myPositionMarker = new OpenLayers.Marker(mapPosition,icon);
+      this._myPositionMarker = new OpenLayers.Marker(mapPosition, icon);
 
-      var size = new OpenLayers.Size(21,25);
-      var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+      var size = new OpenLayers.Size(21, 25);
+      var offset = new OpenLayers.Pixel(-(size.w / 2), -size.h);
       var icon = new OpenLayers.Icon('http://www.openlayers.org/dev/img/marker.png', size, offset);
 
       this._markers.addMarker(this._myPositionMarker);
@@ -206,16 +222,7 @@ qx.Class.define("mobileshowcase.page.Maps",
      * Callback function when Geolocation did work.
      */
     _onGeolocationSuccess : function(position) {
-      var latitude = position.getLatitude();
-      var longitude = position.getLongitude();
-
-      var fromProjection = new OpenLayers.Projection("EPSG:4326");   // Transform from WGS 1984
-      var toProjection = new OpenLayers.Projection("EPSG:900913"); // to Spherical Mercator Projection
-      var mapPosition = new OpenLayers.LonLat(longitude,latitude).transform( fromProjection, toProjection);
-      var zoom = 15;
-
-      this._map.setCenter(mapPosition, zoom);
-      this._setMarkerOnMap(this._map,mapPosition);
+      this._zoomToPosition(position.getLongitude(), position.getLatitude(), 15, true);
 
       this._redrawMap();
     },
