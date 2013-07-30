@@ -109,13 +109,14 @@ qx.Class.define("mobileshowcase.page.Event",
       this.__gestureTarget.addListener("touchmove", this.__onGestureTargetTouchMove, this);
       this.__gestureTarget.addListener("touchend", this.__onGestureTargetTouchEnd, this);
       this.__gestureTarget.setDraggable(false);
+      this.__gestureTarget.setTranslateX(-5000);
 
       // If OS is Android 2 remove HTML5 badge logo, because Android is not able to scale and rotate on the same element.
       var isAndroid2 = (qx.core.Environment.get("os.name") == "android")
         && (parseInt(qx.core.Environment.get("os.version").charAt(0)) < 4);
 
       if(isAndroid2) {
-         this.__gestureTarget.exclude();
+        this.__gestureTarget.exclude();
       }
 
       container.add(this.__gestureTarget);
@@ -126,6 +127,7 @@ qx.Class.define("mobileshowcase.page.Event",
         touchPoint.addCssClass("touch");
 
         this.__touchPoints.push(touchPoint);
+        touchPoint.setTranslateX(-5000);
         touchPoint.setAnonymous(true);
 
         containerTouchArea.add(touchPoint);
@@ -273,7 +275,6 @@ qx.Class.define("mobileshowcase.page.Event",
         this.__touchCircleLeft[i] = touchLeft;
         this.__touchCircleTop[i] = touchTop;
       }
-
     },
 
 
