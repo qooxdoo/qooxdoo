@@ -356,13 +356,20 @@ q.ready(function() {
     if (data.superclass) {
       var newName = data.superclass.split(".");
       newName = newName[newName.length -1];
-      var superClass = IGNORE_TYPES.indexOf(newName) == -1 ?
-        "<a href='#" + newName + "'>" + newName + "</a>" : newName;
+      var ignore = IGNORE_TYPES.indexOf(newName) != -1 ||
+                   MDC_LINKS[data.superclass] !== undefined;
+
+      var superClass = ignore ? newName :
+      "<a href='#" + newName + "'>" + newName + "</a>";
       module.append(q.create(
         "<div class='extends'><h2>Extends</h2>" +
         superClass +
         "</div>"
       ));
+
+      if (!ignore) {
+        loadClass(data.superclass);
+      }
     }
 
     if (data.fileName) {
