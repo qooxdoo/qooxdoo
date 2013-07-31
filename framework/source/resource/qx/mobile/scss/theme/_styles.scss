@@ -53,7 +53,8 @@ $list-background-color: white;
 $list-title-text-color: #333333;
 $list-subtitle-text-color:  #3D72C9;
 $list-border-color: #DDDDDD;
-$list-active-background-color:  #3D72C9;
+$list-active-background-color:  lighten(#3D72C9, 20%);
+$list-active-background-color-2:  darken($list-active-background-color, 20%);
 $list-active-text-color:  white;
 $list-border-radius:  4px;
 $list-arrow-size: 3px;
@@ -96,7 +97,7 @@ $radiobutton-background-inner-color: #45484d;
 
 $tabbar-height:  45px;
 $tabbar-active-background-color:  lighten(#3D72C9, 20%);
-$tabbar-active-background-color-2:  darken($tabbar-active-background-color, 40%);
+$tabbar-active-background-color-2:  darken($tabbar-active-background-color,  20%);
 $tabbar-active-border-color:  lighten($tabbar-active-background-color-2, 20%);
 $tabbar-inactive-background-color:  lighten(#808080, 5%);
 $tabbar-inactive-background-color-2:  darken($tabbar-inactive-background-color, 15%);

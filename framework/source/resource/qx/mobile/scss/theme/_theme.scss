@@ -216,7 +216,7 @@ input, .text-area {
 }
 
 .list .list-item.active {
-  @include gradient-vertical(lighten($list-active-background-color, 20%), $list-active-background-color);
+  @include gradient-vertical($list-active-background-color, $list-active-background-color-2);
 }
 
 .list-item:first-child, .list-item:first-child a {
@@ -617,7 +617,7 @@ $arrow-size: 12px;
 }
 
 .selectbox-selected {
-  @include gradient-vertical(lighten($list-active-background-color, 20%), $list-active-background-color);
+  @include gradient-vertical($list-active-background-color, $list-active-background-color-2);
   color: $selectbox-item-selected-text-color !important;
 }
 
