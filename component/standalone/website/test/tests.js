@@ -586,13 +586,17 @@ testrunner.define({
 
   testGetChildren : function() {
     var test = q.create("<div><p>test</p></div>");
-    this.assertEquals(1, test.getChildren().length);
+    var res = test.getChildren();
+    this.assertInstance(res, qxWeb);
+    this.assertEquals(1, res.length);
     this.assertEquals(1, test.getChildren()[0].nodeType);
   },
 
   testGetChildrenSelector : function() {
     var test = q.create("<div><h1/><p/></div>");
-    this.assertEquals(0, test.getChildren("div").length);
+    var res = test.getChildren("div");
+    this.assertInstance(res, qxWeb);
+    this.assertEquals(0, res.length);
     this.assertEquals(1, test.getChildren("h1").length);
   },
 
@@ -613,7 +617,9 @@ testrunner.define({
   testGetParents : function() {
     var test = q.create("<div id='testdiv'/>");
     test.appendTo(this.sandbox[0]);
-    this.assertEquals(this.sandbox[0], test.getParents()[0]);
+    var res = test.getParents();
+    this.assertInstance(res, qxWeb);
+    this.assertEquals(this.sandbox[0], res[0]);
     test.remove();
   },
 
@@ -621,7 +627,9 @@ testrunner.define({
     var test = q.create("<a id='parent'><div id='test'/></a>");
     test.appendTo(this.sandbox[0]);
     var parent = q("#parent");
-    this.assertEquals(parent[0], q("#test").getParents("a")[0], "Element mismatch");
+    var res = q("#test").getParents("a");
+    this.assertInstance(res, qxWeb);
+    this.assertEquals(parent[0], res[0], "Element mismatch");
     this.assertEquals(0, q("#test").getParents("div").length);
     test.remove();
   },
@@ -630,6 +638,7 @@ testrunner.define({
     var test = q.create('<div id="ancestor"><div id="parent"><div id="child"></div></div></div>');
     test.appendTo(this.sandbox[0]);
     var ancestors = q("#child").getAncestors();
+    this.assertInstance(ancestors, qxWeb);
     //parent ancestor sandbox body documentElement document
     this.assertEquals(6, ancestors.length);
 
@@ -642,6 +651,7 @@ testrunner.define({
     var test = q.create('<div id="ancestor"><div id="parent"><div id="child"></div></div></div>');
     test.appendTo(this.sandbox[0]);
     var ancestors = q("#child").getAncestors("div");
+    this.assertInstance(ancestors, qxWeb);
     this.assertEquals(3, ancestors.length);
     this.assertEquals("parent", ancestors[0].id);
     this.assertEquals("sandbox", ancestors[2].id);
@@ -652,6 +662,7 @@ testrunner.define({
     var test = q.create('<div id="ancestor"><div id="parent"><div id="child"></div></div></div>');
     test.appendTo(this.sandbox[0]);
     var ancestors = q("#child").getAncestorsUntil("body");
+    this.assertInstance(ancestors, qxWeb);
     this.assertEquals(3, ancestors.length);
     this.assertEquals("parent", ancestors[0].id);
     this.assertEquals("sandbox", ancestors[2].id);
@@ -666,7 +677,9 @@ testrunner.define({
     var test = q.create("<div><a id='closest'><div><div id='test'/></div></a></div>");
     test.appendTo(this.sandbox[0]);
     this.assertEquals(q("#closest")[0], q("#test").getClosest("a")[0], "Element mismatch");
-    this.assertEquals(1, q("#test").getClosest("a").length, "Ancestor not found");
+    var res = q("#test").getClosest("a");
+    this.assertInstance(res, qxWeb);
+    this.assertEquals(1, res.length, "Ancestor not found");
     this.assertEquals(1, q("#test").getClosest("#test").length, "Self not found");
     this.assertEquals(0, q("#test").getClosest("#no").length, "Found unexpected");
     test.remove();
@@ -677,7 +690,9 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     var collection = q(".item");
     this.assertEquals(q("#test")[0], collection.filter("#test")[0], "Element mismatch");
-    this.assertEquals(1, collection.filter("#test").length);
+    var res = collection.filter("#test");
+    this.assertInstance(res, qxWeb);
+    this.assertEquals(1, res.length);
     test.remove();
   },
 
@@ -688,7 +703,9 @@ testrunner.define({
     col.add(test[0]);
     col.add(other[0]);
     this.assertEquals(test[0], col.filter("#test")[0], "Element mismatch");
-    this.assertEquals(1, col.filter("#test").length);
+    var res = col.filter("#test");
+    this.assertInstance(res, qxWeb);
+    this.assertEquals(1, res.length);
     this.assertEquals(2, col.filter("div").length);
   },
 
@@ -699,14 +716,18 @@ testrunner.define({
     this.assertEquals(q("#test")[0], collection.filter(function(item) {
       return item.id == "test";
     })[0], "Element mismatch");
-    this.assertEquals(1, collection.filter("#test").length);
+    var res = collection.filter("#test");
+    this.assertInstance(res, qxWeb);
+    this.assertEquals(1, res.length);
     test.remove();
   },
 
   testFind : function() {
     var test = q.create("<div id='outer'><div><div id='test'/><div/></div></div>");
     test.appendTo(this.sandbox[0]);
-    this.assertEquals(3, q("#outer").find("div").length);
+    var res = q("#outer").find("div");
+    this.assertInstance(res, qxWeb);
+    this.assertEquals(3, res.length);
     this.assertEquals(q("#test")[0], q("#outer").find("#test")[0], "Element mismatch");
     this.assertEquals(1, q("#outer").find("#test").length);
     test.remove();
@@ -718,6 +739,7 @@ testrunner.define({
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
     var contents = q(".container").getContents();
+    this.assertInstance(contents, qxWeb);
     this.assertEquals(2, contents.length);
     this.assertEquals(1, contents[0].nodeType);
     this.assertEquals(1, contents[1].nodeType);
@@ -750,7 +772,9 @@ testrunner.define({
     var html = '<ul class="test"><li id="a">A</li><li id="b">B</li><li id="c">C</li></ul>';
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
-    this.assertEquals("b", q(".test li").eq(1)[0].id);
+    var res = q(".test li").eq(1);
+    this.assertInstance(res, qxWeb);
+    this.assertEquals("b", res[0].id);
     this.assertEquals("b", q(".test li").eq(-2)[0].id);
     test.remove();
   },
@@ -759,7 +783,9 @@ testrunner.define({
     var html = '<p id="first" class="foo">Affe</p><h2 class="foo">Juhu</h2><div class="foo">Hugo</div>';
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
-    this.assertEquals(1, q(".foo").getFirst().length);
+    var res = q(".foo").getFirst();
+    this.assertInstance(res, qxWeb);
+    this.assertEquals(1, res.length);
     this.assertEquals(document.getElementById("first"), q(".foo").getFirst()[0]);
     test.remove();
   },
@@ -768,7 +794,9 @@ testrunner.define({
     var html = '<p class="foo">Affe</p><h2 class="foo">Juhu</h2><div id="last" class="foo">Hugo</div>';
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
-    this.assertEquals(1, q(".foo").getLast().length);
+    var res = q(".foo").getLast();
+    this.assertInstance(res, qxWeb);
+    this.assertEquals(1, res.length);
     this.assertEquals(document.getElementById("last"), q(".foo").getLast()[0]);
     test.remove();
   },
@@ -787,7 +815,9 @@ testrunner.define({
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
     this.assertEquals(6, q(".test li").length);
-    this.assertEquals(2, q(".test li").has(".affe").length);
+    var res = q(".test li").has(".affe");
+    this.assertInstance(res, qxWeb);
+    this.assertEquals(2, res.length);
     this.assertEquals("target1", q(".test li").has(".affe")[0].id);
     this.assertEquals("target2", q(".test li").has(".affe")[1].id);
     test.remove();
@@ -798,7 +828,9 @@ testrunner.define({
     var html = '<p class="test" id="foo">foo</p>\nText\n<p id="bar">bar</p><p id="baz">baz</p>';
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
-    this.assertEquals(1, q(".test").getNext().length);
+    var testNext = q(".test").getNext();
+    this.assertInstance(testNext, qxWeb);
+    this.assertEquals(1, testNext.length);
     this.assertEquals("bar", q("#foo").getNext()[0].id);
 
     // check for null next
@@ -810,7 +842,9 @@ testrunner.define({
     var html = '<div>a</div><p>f</p><div>f</div><p class="foo">e</p> ';
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
-    this.assertEquals(1, q("#sandbox div").getNext(".foo").length);
+    var testNext = q("#sandbox div").getNext(".foo");
+    this.assertEquals(1, testNext.length);
+    this.assertInstance(testNext, qxWeb);
     this.assertEquals("foo", q("#sandbox div").getNext(".foo")[0].className);
     test.remove();
   },
@@ -819,7 +853,9 @@ testrunner.define({
     var html = '<div><span id="test">a</span><span>f</span><span id="foo">f</span></div><p>foo</p>';
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
-    this.assertEquals(2, q("#test").getNextAll().length);
+    var testNext = q("#test").getNextAll();
+    this.assertInstance(testNext, qxWeb);
+    this.assertEquals(2, testNext.length);
     this.assertEquals(1, q("#test").getNextAll("#foo").length);
     this.assertEquals(document.getElementById("foo"), q("#test").getNextAll("#foo")[0]);
     test.remove();
@@ -839,6 +875,7 @@ testrunner.define({
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
     var res = q("#sandbox .first").getNextUntil(".last");
+    this.assertInstance(res, qxWeb);
     this.assertEquals(4, res.length);
     this.assertEquals("LI", res[0].tagName);
     this.assertEquals("LI", res[1].tagName);
@@ -851,7 +888,9 @@ testrunner.define({
     var html = '<p class="test" id="foo">foo</p>\nText\n<p id="bar">bar</p><p id="baz">baz</p>';
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
-    this.assertEquals(1, q("#baz").getPrev().length);
+    var testPrev = q("#baz").getPrev();
+    this.assertInstance(testPrev, qxWeb);
+    this.assertEquals(1, testPrev.length);
     this.assertEquals("bar", q("#baz").getPrev()[0].id);
     test.remove();
   },
@@ -864,6 +903,7 @@ testrunner.define({
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
     var res = q("#sandbox p").getPrev(".foo");
+    this.assertInstance(res, qxWeb);
     this.assertEquals(2, res.length);
     this.assertEquals("foo", res[0].className);
     this.assertEquals("foo", res[1].className);
@@ -876,7 +916,9 @@ testrunner.define({
     var html = '<p>foo</p><div><span>f</span><span id="foo">f</span><span id="test">a</span></div>';
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
-    this.assertEquals(2, q("#test").getPrevAll().length);
+    var res = q("#test").getPrevAll();
+    this.assertInstance(res, qxWeb);
+    this.assertEquals(2, res.length);
     this.assertEquals(1, q("#test").getPrevAll("#foo").length);
     this.assertEquals(document.getElementById("foo"), q("#test").getPrevAll("#foo")[0]);
     test.remove();
@@ -896,6 +938,7 @@ testrunner.define({
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
     var res = q("#sandbox .last").getPrevUntil(".first");
+    this.assertInstance(res, qxWeb);
     this.assertEquals(4, res.length);
     this.assertEquals("LI", res[0].tagName);
     this.assertEquals("LI", res[1].tagName);
@@ -914,6 +957,7 @@ testrunner.define({
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
     var res = q(".foo").getSiblings();
+    this.assertInstance(res, qxWeb);
     this.assertEquals(3, res.length);
     this.assertEquals("A", res[0].innerHTML);
     this.assertEquals("F", res[1].innerHTML);
@@ -935,6 +979,7 @@ testrunner.define({
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
     var res = q(".test li").not(".foo");
+    this.assertInstance(res, qxWeb);
     this.assertEquals(3, res.length);
     this.assertEquals(0, q.$$qx.bom.Selector.matches(".foo", res));
     test.remove();
@@ -952,6 +997,7 @@ testrunner.define({
     var res = q(".test li").not(function(item) {
       return item.className.indexOf("foo") >=0;
     });
+    this.assertInstance(res, qxWeb);
     this.assertEquals(3, res.length);
     this.assertEquals(0, q.$$qx.bom.Selector.matches(".foo", res));
     test.remove();
@@ -962,6 +1008,7 @@ testrunner.define({
     var test = q.create(html);
     test.appendTo(this.sandbox[0]);
     var res = q(".foo").getOffsetParent();
+    this.assertInstance(res, qxWeb);
     this.assertEquals(2, res.length);
     this.assertEquals(document.body, res[0]);
     this.assertEquals(document.getElementById("fixed"), res[1]);

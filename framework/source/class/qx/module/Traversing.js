@@ -328,7 +328,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
     getNext : function(selector) {
       var found = this.map(qx.dom.Hierarchy.getNextElementSibling, qx.dom.Hierarchy);
       if (selector) {
-        found = qx.bom.Selector.matches(selector, found);
+        found = qxWeb.$init(qx.bom.Selector.matches(selector, found));
       }
       return found;
     },
@@ -388,7 +388,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
     getPrev : function(selector) {
       var found = this.map(qx.dom.Hierarchy.getPreviousElementSibling, qx.dom.Hierarchy);
       if (selector) {
-        found = qx.bom.Selector.matches(selector, found);
+        found = qxWeb.$init(qx.bom.Selector.matches(selector, found));
       }
       return found;
     },
