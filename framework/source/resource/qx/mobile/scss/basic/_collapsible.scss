@@ -32,8 +32,8 @@
 }
 
 .collapsible-header {
+  @include gradient-vertical($collapsible-header-background-color, $collapsible-header-background-color-2);
   position:relative;
-  @include gradient-vertical(lighten($collapsible-header-background-color, 10%), darken($collapsible-header-background-color, 10%));
   padding: $collapsible-header-padding;
   border: 1px solid $collapsible-header-border-color;
 }
@@ -43,8 +43,9 @@
 }
 
 .collapsible-header.active {
+  @include gradient-vertical($collapsible-header-active-background-color,$collapsible-header-active-background-color-2);
   color: $collapsible-header-active-text-color;
-  @include gradient-vertical(lighten($collapsible-header-active-background-color, 10%), darken($collapsible-header-active-background-color, 10%));
+  
 }
 
 .collapsible.collapsed .collapsible-header.label:after {

@@ -491,12 +491,12 @@ input::-webkit-inner-spin-button {
   padding: 10px; }
 
 .collapsible-header {
+  background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#cccccc));
+  background-image: -webkit-linear-gradient(top, white, #cccccc);
+  background-image: -moz-linear-gradient(top, white, #cccccc);
+  background-image: -ms-linear-gradient(top, white, #cccccc);
+  background-image: linear-gradient(to bottom, white, #cccccc);
   position: relative;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#dbdbdb));
-  background-image: -webkit-linear-gradient(top, white, #dbdbdb);
-  background-image: -moz-linear-gradient(top, white, #dbdbdb);
-  background-image: -ms-linear-gradient(top, white, #dbdbdb);
-  background-image: linear-gradient(to bottom, white, #dbdbdb);
   padding: 10px;
   border: 1px solid #888888; }
 
@@ -504,12 +504,12 @@ input::-webkit-inner-spin-button {
   color: #333333; }
 
 .collapsible-header.active {
-  color: white;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#658fd4), to(#2e5ba5));
   background-image: -webkit-linear-gradient(top, #658fd4, #2e5ba5);
   background-image: -moz-linear-gradient(top, #658fd4, #2e5ba5);
   background-image: -ms-linear-gradient(top, #658fd4, #2e5ba5);
-  background-image: linear-gradient(to bottom, #658fd4, #2e5ba5); }
+  background-image: linear-gradient(to bottom, #658fd4, #2e5ba5);
+  color: white; }
 
 .collapsible.collapsed .collapsible-header.label:after {
   position: absolute;
