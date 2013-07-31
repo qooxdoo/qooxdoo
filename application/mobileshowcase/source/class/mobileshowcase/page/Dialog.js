@@ -79,7 +79,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.__modalDialogPopup.setTitle("A Modal Popup");
 
       // ANCHOR POPUP
-      var showAnchorButton = new qx.ui.mobile.form.Button("Show Anchor Popup");
+      var showAnchorButton = new qx.ui.mobile.form.Button("Anchor Popup");
       showAnchorButton.addListener("tap", function(e) {
           this._stop();
           this.__anchorPopup.show();
@@ -98,7 +98,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.__menu.addListener("changeSelection", this.__onMenuChangeSelection, this);
 
        // PICKER DIALOG
-      var showPickerButton = new qx.ui.mobile.form.Button("Show Picker");
+      var showPickerButton = new qx.ui.mobile.form.Button("Picker");
       showPickerButton.addListener("tap", function(e) {
           this._stop();
           this.__picker.show();
@@ -107,7 +107,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.__picker = this._createPicker(showPickerButton);
 
       // ANCHORED MENU POPUP
-      var showAnchorMenuButton = new qx.ui.mobile.form.Button("Show Anchor Menu");
+      var showAnchorMenuButton = new qx.ui.mobile.form.Button("Anchor Menu");
       showAnchorMenuButton.addListener("tap", function(e) {
           this._stop();
           this.__anchorMenu.show();
@@ -118,25 +118,25 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.__anchorMenu.setTitle("Colors");
 
       // BUTTONS
-      var showModalDialogButton = new qx.ui.mobile.form.Button("Show Modal Popup");
+      var showModalDialogButton = new qx.ui.mobile.form.Button("Modal Popup");
       showModalDialogButton.addListener("tap", function(e) {
           this._stop();
           this.__modalDialogPopup.show();
       }, this);
 
-      var showPopupButton = new qx.ui.mobile.form.Button("Show Popup");
+      var showPopupButton = new qx.ui.mobile.form.Button("Popup");
       showPopupButton.addListener("tap", function(e) {
           this._stop();
           this.__popup.show();
       }, this);
 
-      var busyIndicatorButton = new qx.ui.mobile.form.Button("Show Busy Indicator");
+      var busyIndicatorButton = new qx.ui.mobile.form.Button("Busy Indicator");
       busyIndicatorButton.addListener("tap", function(e) {
         this.__busyPopup.toggleVisibility();
         qx.lang.Function.delay(this.__busyPopup.hide, 3000, this.__busyPopup);
       }, this);
 
-      var showMenuButton = new qx.ui.mobile.form.Button("Show Menu");
+      var showMenuButton = new qx.ui.mobile.form.Button("Menu");
       showMenuButton.addListener("tap", function(e) {
           this._stop();
           this.__menu.show();

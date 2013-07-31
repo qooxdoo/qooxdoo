@@ -166,6 +166,10 @@
   display:block;
 }
 
+.hbox .group + .group {
+  margin-left: 0px !important;
+}
+
 /* FORMS */
 
 .registration-result {
