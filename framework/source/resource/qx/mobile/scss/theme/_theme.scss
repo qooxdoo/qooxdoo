@@ -571,7 +571,7 @@ $arrow-size: 12px;
 // 
 
 .toolbar-button {
-  @include gradient-vertical(lighten($toolbar-background-color, 10%), darken($toolbar-background-color, 10%));
+  @include gradient-vertical($toolbar-background-color,$toolbar-background-color-2);
   @include border-radius($toolbar-border-radius); 
 
   color: $toolbar-text-color;
@@ -579,7 +579,7 @@ $arrow-size: 12px;
 }
 
 .toolbar-button.active {
-  @include gradient-vertical(lighten($toolbar-active-background-color, 20%),$toolbar-active-background-color); 
+  @include gradient-vertical($toolbar-active-background-color,$toolbar-active-background-color-2); 
   
   color: $toolbar-active-text-color;
 }

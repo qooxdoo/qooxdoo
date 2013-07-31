@@ -154,8 +154,10 @@ $slider-knob-border-radius: 20px;
 // Toolbar  
 
 $toolbar-text-color:  #333333;
-$toolbar-background-color:  #F4F4F4;
-$toolbar-active-background-color:  #3D72C9;
+$toolbar-background-color:  lighten(#F4F4F4, 10%);
+$toolbar-background-color-2:  darken($toolbar-background-color, 20%);
+$toolbar-active-background-color:  lighten(#3D72C9, 20%);
+$toolbar-active-background-color-2:  darken($toolbar-active-background-color, 20%);
 $toolbar-active-text-color:  white;
 $toolbar-border-color:  #999;
 $toolbar-border-radius: 4px;

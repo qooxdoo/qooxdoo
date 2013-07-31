@@ -1735,11 +1735,11 @@ input, .text-area {
   background-color: #888888; }
 
 .toolbar-button {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#dbdbdb));
-  background-image: -webkit-linear-gradient(top, white, #dbdbdb);
-  background-image: -moz-linear-gradient(top, white, #dbdbdb);
-  background-image: -ms-linear-gradient(top, white, #dbdbdb);
-  background-image: linear-gradient(to bottom, white, #dbdbdb);
+  background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#cccccc));
+  background-image: -webkit-linear-gradient(top, white, #cccccc);
+  background-image: -moz-linear-gradient(top, white, #cccccc);
+  background-image: -ms-linear-gradient(top, white, #cccccc);
+  background-image: linear-gradient(to bottom, white, #cccccc);
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
