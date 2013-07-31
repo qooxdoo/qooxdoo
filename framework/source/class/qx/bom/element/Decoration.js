@@ -490,7 +490,7 @@ qx.Class.define("qx.bom.element.Decoration",
           var offy = data[6];
 
           // honor padding for combined images
-          if (style.paddingTop || style.paddingLeft) {
+          if (style.paddingTop || style.paddingLeft || style.paddingRight || style.paddingBottom) {
             var top = style.paddingTop || 0;
             var left = style.paddingLeft || 0;
 

@@ -686,7 +686,6 @@ qx.Class.define("qx.ui.basic.Image",
      */
     __setSource : function(el, source) {
       if (el.getNodeName() == "div") {
-        el.setStyle("backgroundClip", "content-box");
 
         var dec = qx.theme.manager.Decoration.getInstance().resolve(this.getDecorator());
         // if the decorator defines any CSS background-image
@@ -710,7 +709,6 @@ qx.Class.define("qx.ui.basic.Image",
             if (hasBackground) {
               combinedStyles["backgroundPosition"] += "," + decStyle["background-position"] || "0 0";
               combinedStyles["backgroundRepeat"] += ", " + dec.getBackgroundRepeat();
-              combinedStyles["backgroundClip"] = "content-box, border-box";
             }
 
             if (hasGradient) {
