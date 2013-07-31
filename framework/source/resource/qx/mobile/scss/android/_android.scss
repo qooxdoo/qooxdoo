@@ -253,10 +253,19 @@ input.invalid {
 //
 
 .tabBar {
+  padding-top: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
   border-bottom: 3px solid $android-orange;
 }
 
 .tabButton {
+  height: 45px;
+  line-height: 45px;
+
+  margin-left:4px;
+  margin-right:4px;
+
   color:white;
 
   background: $android-dark-grey;

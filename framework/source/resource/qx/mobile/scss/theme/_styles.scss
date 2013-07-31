@@ -24,11 +24,12 @@ $navigationbar-height:  45px;
 // NavigationBar Button
  
 $navigationbarbutton-border-radius:  4px;
-$navigationbarbutton-background-color:  #F4F4F4;
+$navigationbarbutton-background-color:  lighten(#F4F4F4,10%);
+$navigationbarbutton-background-color-2:  darken(#F4F4F4,20%);
 $navigationbarbutton-border-color:  #888888;
 $navigationbarbutton-text-color:  #333333;
-
-$navigationbarbutton-active-background-color:  #3D72C9;
+$navigationbarbutton-active-background-color:  lighten(#3D72C9,20%);
+$navigationbarbutton-active-background-color-2:  #3D72C9;
 $navigationbarbutton-active-text-color:  white;
 $navigationbarbutton-active-border-color:  white;
  
@@ -93,11 +94,17 @@ $radiobutton-background-inner-color: #45484d;
 
 // Tabbar
 
-$tabbar-active-background-color:  #3D72C9;
-$tabbar-inactive-background-color:  #808080;
+$tabbar-height:  45px;
+$tabbar-active-background-color:  lighten(#3D72C9, 20%);
+$tabbar-active-background-color-2:  darken($tabbar-active-background-color, 40%);
+$tabbar-active-border-color:  lighten($tabbar-active-background-color-2, 20%);
+$tabbar-inactive-background-color:  lighten(#808080, 5%);
+$tabbar-inactive-background-color-2:  darken($tabbar-inactive-background-color, 15%);
+$tabbar-inactive-border-color:  lighten($tabbar-inactive-background-color, 20%);
 $tabbar-active-text-color:  white;
 $tabbar-inactive-text-color:  white;
 $tabbar-border-radius:  4px;
+$tabbar-button-distance:  4px;
 
 // ToggleButton
 
@@ -120,8 +127,10 @@ $button-active-text-color:  white;
 $button-border-radius:  4px;
 $button-border-color:  #888888;
 $button-active-border-color:  #888888;
-$button-background-color: #F4F4F4;
-$button-active-background-color:  #3D72C9;
+$button-background-color:  lighten(#F4F4F4, 10%);
+$button-background-color-2:  darken($button-background-color, 20%);
+$button-active-background-color:  lighten(#3D72C9, 20%);
+$button-active-background-color-2:  darken($button-active-background-color, 20%);
 
 // SelectBox
 

@@ -297,6 +297,16 @@ $scGradientVerticalOffset:15px;
 // TABBAR
 //
 
+.tabButton {
+  padding-top: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  height: 45px;
+  line-height: 45px;
+  margin-left:4px;
+  margin-right:4px;
+}
+
 .tabBar {
   @include gradient-vertical-four(#232323, #111111, #000000, #000000, 50%, 51%);
   border-top: 1px solid #333333;

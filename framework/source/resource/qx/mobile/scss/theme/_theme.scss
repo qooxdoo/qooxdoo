@@ -151,7 +151,7 @@ input, .text-area {
 //
 
 .navigationbar-button, .navigationbar-backbutton {
-  @include gradient-vertical(lighten($navigationbarbutton-background-color, 10%), darken($navigationbarbutton-background-color, 10%));
+  @include gradient-vertical($navigationbarbutton-background-color, $navigationbarbutton-background-color-2);
   @include border-radius($navigationbarbutton-border-radius);
 
   color: $navigationbarbutton-text-color;
@@ -159,7 +159,7 @@ input, .text-area {
 }
 
 .navigationbar-button.active, .navigationbar-backbutton.active {
-  @include gradient-vertical(lighten($navigationbarbutton-active-background-color, 20%), $navigationbarbutton-active-background-color);
+  @include gradient-vertical($navigationbarbutton-active-background-color, $navigationbarbutton-active-background-color-2);
   color: $navigationbarbutton-active-text-color;
   border: $border-thickness solid $navigationbarbutton-active-border-color;
 }
@@ -290,7 +290,7 @@ input, .text-area {
 //
 
 .button {
-  @include gradient-vertical(lighten($button-background-color, 10%), darken($button-background-color, 10%));
+  @include gradient-vertical($button-background-color,$button-background-color-2);
   @include border-radius($button-border-radius);
 
   color: $button-text-color;
@@ -298,7 +298,7 @@ input, .text-area {
 }
 
 .button.active {
-  @include gradient-vertical(lighten($button-active-background-color, 20%), $button-active-background-color);
+  @include gradient-vertical($button-active-background-color, $button-active-background-color-2);
 
   color:  $button-active-text-color;
   border: $border-thickness solid $button-active-border-color;
@@ -396,29 +396,36 @@ $arrow-size: 12px;
 //
 
 .tabBar {
-  border-bottom: 3px solid $tabbar-active-background-color;
+  border-bottom: 3px solid $tabbar-active-background-color-2;
+  padding-top: $tabbar-button-distance;
+  padding-left: $tabbar-button-distance;
+  padding-right: $tabbar-button-distance;
 }
 
 .tabButton {
-  @include gradient-vertical(lighten($tabbar-inactive-background-color,5%), darken($tabbar-inactive-background-color,15%));
+  @include gradient-vertical($tabbar-inactive-background-color, $tabbar-inactive-background-color-2);
   @include border-radius-top($tabbar-border-radius);
 
   color:  $tabbar-inactive-text-color;
 
-  $tab-button-border: $border-thickness solid lighten($tabbar-inactive-background-color, 10%);  
+  height:  $tabbar-height;
+  line-height:  $tabbar-height;
+
+  $tab-button-border: $border-thickness solid $tabbar-inactive-border-color;  
   border-top: $tab-button-border;
   border-left: $tab-button-border;
   border-right: $tab-button-border;
 }
 
+.tabButton + .tabButton {
+  margin-left: $tabbar-button-distance;
+}
+
 .tabButton.active, .tabButton.selected {
-  $tab-stop-1: lighten($tabbar-active-background-color, 20%);
-  $tab-stop-2: lighten($tabbar-active-background-color, 5%);
-  $tab-stop-3: $tabbar-active-background-color;
+  @include gradient-vertical($tabbar-active-background-color, $tabbar-active-background-color-2);
 
-  @include gradient-vertical-five($tab-stop-1, $tab-stop-2, $tab-stop-2, $tab-stop-3, $tab-stop-3, 4%, 49%, 53%);
-
-  border: $border-thickness solid $tabbar-active-background-color;
+  border: $border-thickness solid $tabbar-active-border-color;
+  border-bottom: 0px solid transparent;
 }
 
 //
@@ -499,7 +506,6 @@ $arrow-size: 12px;
   border:$border-thickness solid $checkbox-border-color;
 
   box-sizing:border-box;
-  background-color: #929292;
 }
 
 .checkbox:after {

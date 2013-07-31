@@ -2,7 +2,6 @@
 // TABBAR   
 //
 .tabBar {
-  padding-top:4px;
   bottom: 1px;
 }
 
@@ -15,16 +14,9 @@
 
   cursor:pointer;
 
-  height:45px;
-  line-height:45px;
-
   text-align: center;
 
   font-size: 15px;
   @include background-clip(padding-box);
   @include box-sizing(border-box);
-  
-  $margin-size:4px;
-  margin-left:$margin-size;
-  margin-right:$margin-size;
 }

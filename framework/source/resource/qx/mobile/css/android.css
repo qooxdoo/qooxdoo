@@ -883,7 +883,6 @@ input, select, .text-area {
   border-radius: 50px; }
 
 .tabBar {
-  padding-top: 4px;
   bottom: 1px; }
 
 .tabButton {
@@ -895,8 +894,6 @@ input, select, .text-area {
   border-top-right-radius: 6px;
   border-top-left-radius: 6px;
   cursor: pointer;
-  height: 45px;
-  line-height: 45px;
   text-align: center;
   font-size: 15px;
   -webkit-background-clip: padding-box;
@@ -904,9 +901,7 @@ input, select, .text-area {
   background-clip: padding-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  margin-left: 4px;
-  margin-right: 4px; }
+  box-sizing: border-box; }
 
 .toolbar-button {
   -webkit-background-clip: padding-box;
@@ -1372,9 +1367,16 @@ input.invalid {
   box-shadow: 0 0 2px 1px #4a4a4a; }
 
 .tabBar {
+  padding-top: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
   border-bottom: 3px solid #e89c00; }
 
 .tabButton {
+  height: 45px;
+  line-height: 45px;
+  margin-left: 4px;
+  margin-right: 4px;
   color: white;
   background: #636363;
   background: -moz-linear-gradient(top, #636363 83%, #444444 100%);

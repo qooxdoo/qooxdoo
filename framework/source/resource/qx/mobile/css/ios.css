@@ -1483,6 +1483,15 @@ input.invalid {
   background-image: linear-gradient(to bottom, #cfcfcf, #fdfdfd);
   border: 1px solid #E8E8E8; }
 
+.tabButton {
+  padding-top: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  height: 45px;
+  line-height: 45px;
+  margin-left: 4px;
+  margin-right: 4px; }
+
 .tabBar {
   background-image: -webkit-gradient(linear, center top, center bottom, from(#232323), color-stop(50%, #111111), color-stop(51%, black), to(black));
   background-image: -webkit-linear-gradient(top, #232323, #111111 50%, black 51%, black);

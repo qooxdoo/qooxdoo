@@ -1096,7 +1096,6 @@ input, select, .text-area {
   display: inline; }
 
 .tabBar {
-  padding-top: 4px;
   bottom: 1px; }
 
 .tabButton {
@@ -1108,8 +1107,6 @@ input, select, .text-area {
   border-top-right-radius: 6px;
   border-top-left-radius: 6px;
   cursor: pointer;
-  height: 45px;
-  line-height: 45px;
   text-align: center;
   font-size: 15px;
   -webkit-background-clip: padding-box;
@@ -1117,9 +1114,7 @@ input, select, .text-area {
   background-clip: padding-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  margin-left: 4px;
-  margin-right: 4px; }
+  box-sizing: border-box; }
 
 .toggleButton {
   position: relative;
@@ -1305,11 +1300,11 @@ input, .text-area {
   height: 45px; }
 
 .navigationbar-button, .navigationbar-backbutton {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#dbdbdb));
-  background-image: -webkit-linear-gradient(top, white, #dbdbdb);
-  background-image: -moz-linear-gradient(top, white, #dbdbdb);
-  background-image: -ms-linear-gradient(top, white, #dbdbdb);
-  background-image: linear-gradient(to bottom, white, #dbdbdb);
+  background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#c1c1c1));
+  background-image: -webkit-linear-gradient(top, white, #c1c1c1);
+  background-image: -moz-linear-gradient(top, white, #c1c1c1);
+  background-image: -ms-linear-gradient(top, white, #c1c1c1);
+  background-image: linear-gradient(to bottom, white, #c1c1c1);
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -1451,11 +1446,11 @@ input, .text-area {
   color: #333333; }
 
 .button {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#dbdbdb));
-  background-image: -webkit-linear-gradient(top, white, #dbdbdb);
-  background-image: -moz-linear-gradient(top, white, #dbdbdb);
-  background-image: -ms-linear-gradient(top, white, #dbdbdb);
-  background-image: linear-gradient(to bottom, white, #dbdbdb);
+  background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#cccccc));
+  background-image: -webkit-linear-gradient(top, white, #cccccc);
+  background-image: -moz-linear-gradient(top, white, #cccccc);
+  background-image: -ms-linear-gradient(top, white, #cccccc);
+  background-image: linear-gradient(to bottom, white, #cccccc);
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -1571,14 +1566,17 @@ input, .text-area {
   display: none; }
 
 .tabBar {
-  border-bottom: 3px solid #3d72c9; }
+  border-bottom: 3px solid #23457d;
+  padding-top: 4px;
+  padding-left: 4px;
+  padding-right: 4px; }
 
 .tabButton {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#8d8d8d), to(#5a5a5a));
-  background-image: -webkit-linear-gradient(top, #8d8d8d, #5a5a5a);
-  background-image: -moz-linear-gradient(top, #8d8d8d, #5a5a5a);
-  background-image: -ms-linear-gradient(top, #8d8d8d, #5a5a5a);
-  background-image: linear-gradient(to bottom, #8d8d8d, #5a5a5a);
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#8d8d8d), to(#676767));
+  background-image: -webkit-linear-gradient(top, #8d8d8d, #676767);
+  background-image: -moz-linear-gradient(top, #8d8d8d, #676767);
+  background-image: -ms-linear-gradient(top, #8d8d8d, #676767);
+  background-image: linear-gradient(to bottom, #8d8d8d, #676767);
   -moz-border-radius-topleft: 4px;
   -moz-border-radius-topright: 4px;
   -webkit-border-radius-topleft: 4px;
@@ -1586,17 +1584,23 @@ input, .text-area {
   border-top-right-radius: 4px;
   border-top-left-radius: 4px;
   color: white;
-  border-top: 1px solid #9a9a9a;
-  border-left: 1px solid #9a9a9a;
-  border-right: 1px solid #9a9a9a; }
+  height: 45px;
+  line-height: 45px;
+  border-top: 1px solid silver;
+  border-left: 1px solid silver;
+  border-right: 1px solid silver; }
+
+.tabButton + .tabButton {
+  margin-left: 4px; }
 
 .tabButton.active, .tabButton.selected {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), color-stop(4%, #5180cf), color-stop(49%, #5180cf), color-stop(53%, #3d72c9), to(#3d72c9));
-  background-image: -webkit-linear-gradient(top, #8dacdf, #5180cf 4%, #5180cf 49%, #3d72c9 53%, #3d72c9);
-  background-image: -moz-linear-gradient(top, #8dacdf, #5180cf 4%, #5180cf 49%, #3d72c9 53%, #3d72c9);
-  background-image: -ms-linear-gradient(top, #8dacdf, #5180cf 4%, #5180cf 49%, #3d72c9 53%, #3d72c9);
-  background-image: linear-gradient(to bottom, #8dacdf, #5180cf 4%, #5180cf 49%, #3d72c9 53%, #3d72c9);
-  border: 1px solid #3d72c9; }
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#8dacdf), to(#23457d));
+  background-image: -webkit-linear-gradient(top, #8dacdf, #23457d);
+  background-image: -moz-linear-gradient(top, #8dacdf, #23457d);
+  background-image: -ms-linear-gradient(top, #8dacdf, #23457d);
+  background-image: linear-gradient(to bottom, #8dacdf, #23457d);
+  border: 1px solid #3d72c9;
+  border-bottom: 0px solid transparent; }
 
 .slider {
   -webkit-border-radius: 20px;
@@ -1681,8 +1685,7 @@ input, .text-area {
   background-image: linear-gradient(to bottom, #c1c1c1, #f4f4f4);
   position: relative;
   border: 1px solid #888888;
-  box-sizing: border-box;
-  background-color: #929292; }
+  box-sizing: border-box; }
 
 .checkbox:after {
   -webkit-transform: rotate(-45deg);
