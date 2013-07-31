@@ -16,13 +16,14 @@ $navigationpage-border-color: #DDDDDD;
 
 // NavigationBar
 
-$navigationbar-background-color:  #323335;
+$navigationbar-background-color:  lighten(#323335, 10%);
+$navigationbar-background-color-2:  darken($navigationbar-background-color, 20%);
 $navigationbar-text-color:  white;
 $navigationbar-height:  45px;
 
 // NavigationBar Button
-
-$navigationbarbutton-border-radius: 4px;
+ 
+$navigationbarbutton-border-radius:  4px;
 $navigationbarbutton-background-color:  #F4F4F4;
 $navigationbarbutton-border-color:  #888888;
 $navigationbarbutton-text-color:  #333333;
