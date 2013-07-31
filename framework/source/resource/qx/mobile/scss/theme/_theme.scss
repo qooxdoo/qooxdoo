@@ -600,14 +600,14 @@ $arrow-size: 12px;
 
 .selectbox {
   @include border-radius($selectbox-border-radius); 
-  @include gradient-vertical(lighten($selectbox-background-color, 20%), darken($selectbox-background-color, 20%));
+  @include gradient-vertical($selectbox-background-color, $selectbox-background-color-2);
 
   border: $border-thickness solid $selectbox-border-color;
   color: $selectbox-text-color;
 }
 
-.selectbox:active {
-  @include gradient-vertical(lighten($selectbox-active-background-color, 20%),$selectbox-active-background-color);
+.selectbox.active {
+  @include gradient-vertical($selectbox-active-background-color,$selectbox-active-background-color-2);
   color: $selectbox-active-text-color;
 }
 
