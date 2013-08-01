@@ -17,7 +17,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Derrell Lipman (derrell)
-     * Christian Hagendonr (chris_schmidt)
+     * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
 
