@@ -77,8 +77,57 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
 
 
     // overridden
-    hasChildren : function() {
-      return !!this.getUserData("cell.children");
+    hasChildren : function()
+    {
+      var model = this.getModel();
+      var childProperty = this.getUserData("cell.childProperty");
+
+      if (model == null || !qx.Class.hasProperty(model.constructor, childProperty)) {
+        return false;
+      }
+
+      var children = model.get(childProperty);
+      if (children == null) {
+        return false;
+      }
+
+      if (this.getUserData("cell.showLeafs")) {
+        return children.length > 0;
+      }
+      else
+      {
+        for (var i = 0; i < children.getLength(); i++)
+        {
+          var child = children.getItem(i);
+          if (qx.Class.hasProperty(child.constructor, childProperty)) {
+            return true;
+          }
+        }
+      }
+      return false;
+    },
+
+
+    // apply method
+    _applyModel : function(value, old)
+    {
+      var childProperty = this.getUserData("cell.childProperty");
+
+      if (value != null && qx.Class.hasProperty(value.constructor, childProperty) && value.get(childProperty) != null) {
+        value.get(childProperty).addListener("changeLength", this._onChangeLength, this);
+      }
+
+      if (old != null && qx.Class.hasProperty(old.constructor, childProperty)&& old.get(childProperty) != null) {
+        old.get(childProperty).removeListener("changeLength", this._onChangeLength, this);
+      }
+    },
+
+
+    /**
+     * Handler to update open/close icon when model length changed.
+     */
+    _onChangeLength : function() {
+      this._updateIndent();
     }
   }
 });

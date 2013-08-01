@@ -42,9 +42,19 @@ qx.Mixin.define("qx.ui.form.MModelProperty",
      */
     model :
     {
-      nullable: true,
-      event: "changeModel",
+      nullable : true,
+      event : "changeModel",
+      apply : "_applyModel",
       dereference : true
+    }
+  },
+
+
+  members :
+  {
+    // apply method
+    _applyModel : function(value, old) {
+      // Empty implementation
     }
   }
 });

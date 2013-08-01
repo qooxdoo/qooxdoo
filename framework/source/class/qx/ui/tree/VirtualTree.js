@@ -908,11 +908,14 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         }
       }
 
-      this._provider.removeBindings();
-      this.__lookupTable.removeAll();
-      this.__lookupTable.append(lookupTable);
-      this.__updateRowCount();
-      this._updateSelection();
+      if (!qx.lang.Array.equals(this.__lookupTable.toArray(), lookupTable))
+      {
+        this._provider.removeBindings();
+        this.__lookupTable.removeAll();
+        this.__lookupTable.append(lookupTable);
+        this.__updateRowCount();
+        this._updateSelection();
+      }
     },
 
 
