@@ -74,6 +74,13 @@ qx.Class.define("apiviewer.Viewer",
     var mainFrame = this.__createDetailFrame();
 
     this.add(this.__createSplitPane(toggleView, mainFrame), {flex:1});
+
+    // Search for the value of the "search" URL query key.
+    var parsedUri = qx.util.Uri.parseUri(location.href);
+    if (parsedUri.queryKey && parsedUri.queryKey.search) {
+      this._searchView.search(parsedUri.queryKey.search);
+      toggleView.setSelection([this._searchView]);
+    }
   },
 
 

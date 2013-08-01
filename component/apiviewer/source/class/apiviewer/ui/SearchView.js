@@ -50,6 +50,21 @@ qx.Class.define("apiviewer.ui.SearchView",
 
 
 
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events : {
+    /**
+     * Fired when a search operation has finished
+     */
+    searchFinished: "qx.event.type.Event"
+  },
+
+
+
 
   /*
   *****************************************************************************
@@ -65,6 +80,31 @@ qx.Class.define("apiviewer.ui.SearchView",
     __table : null,
     __typeFilter: null,
     __typesIndex: null,
+    __searchTerm: null,
+
+
+    /**
+     * Enters a term into the search box and selects the
+     * first result
+     *
+     * @param term {String} Search term
+     */
+    search : function(term) {
+      this.addListenerOnce("searchFinished", function() {
+        // select the first result
+        this._selectionModel.addSelectionInterval(0, 0);
+      }, this);
+
+      if (qx.lang.Object.getLength(this.apiindex) == 0) {
+        // Index not ready yet, defer search
+        this.__searchTerm = term;
+      } else {
+        this.__searchTerm = null;
+        // Set search box value
+        this.sinput.setValue(term);
+      }
+    },
+
 
     /**
      * Generate the search form.
@@ -86,7 +126,8 @@ qx.Class.define("apiviewer.ui.SearchView",
 
       // Search form - input field
       this.sinput = new qx.ui.form.TextField().set({
-        placeholder : "Enter search term ..."
+        placeholder : "Enter search term ...",
+        liveUpdate: true
       });
 
       sform.add(this.sinput, {
@@ -241,10 +282,9 @@ qx.Class.define("apiviewer.ui.SearchView",
       this.sinput.focus();
 
       // Submit events
-      this.sinput.addListener("keyup", function(e) {
+      this.sinput.addListener("changeValue", function(e) {
         this._searchResult(this.sinput.getValue() || "");
       }, this);
-
     },
 
 
@@ -317,6 +357,9 @@ qx.Class.define("apiviewer.ui.SearchView",
         // Clear old selection
         this._table.resetSelection();
 
+        setTimeout(function() {
+          this.fireEvent("searchFinished");
+        }.bind(this), 0);
       }
     },
 
@@ -546,6 +589,12 @@ qx.Class.define("apiviewer.ui.SearchView",
       req.setProhibitCaching(false);
       req.addListener("completed", function(evt) {
         this.apiindex = eval("(" + evt.getContent() + ")");
+        if (this.__searchTerm) {
+          setTimeout(function() {
+            this.sinput.setValue(this.__searchTerm);
+            this.__searchTerm = null;
+          }.bind(this), 0);
+        }
       }, this);
 
       req.addListener("failed", function(evt) {
