@@ -92,7 +92,12 @@ qx.Class.define("apiviewer.ui.SearchView",
     search : function(term) {
       this.addListenerOnce("searchFinished", function() {
         // select the first result
-        this._selectionModel.addSelectionInterval(0, 0);
+        // the timeout is needed since the detail view might not
+        // be done rendering the initially selected item, in
+        // which case it won't update when the selection changes
+        setTimeout(function() {
+          this._selectionModel.addSelectionInterval(0, 0);
+        }.bind(this), 300);
       }, this);
 
       if (qx.lang.Object.getLength(this.apiindex) == 0) {
