@@ -49,6 +49,24 @@ $collapsible-arrow-size: 8px;
 $collapsible-arrow-color: #666;
 $collapsible-active-arrow-color: white;
 
+// ToggleButton
+
+$togglebutton-width:  95px;
+$togglebutton-height:  30px;
+$togglebutton-border-radius:  30px;
+$togglebutton-border-color:  #9e9e9e;
+$togglebutton-text-color:  #888888; 
+$togglebutton-active-text-color:  #ffffff;
+$togglebutton-background-color:  darken(white,10%);
+$togglebutton-background-color-2:  white;
+$togglebutton-active-background-color:  #2591ed;
+$togglebutton-active-background-color-2:  #6db5f3;
+$togglebutton-knob-background-color:  #cfcfcf;
+$togglebutton-knob-background-color-2:  #fdfdfd;
+$togglebutton-knob-width:  30px;
+$togglebutton-inset-shadow:  rgba(0,0,0,0.1);
+$togglebutton-know-shadow:  rgba(0,0,0,0.4);
+
 @import "basic/blocker";
 @import "basic/button";
 @import "basic/checkbox";

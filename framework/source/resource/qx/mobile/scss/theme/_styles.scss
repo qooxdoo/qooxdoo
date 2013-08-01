@@ -109,11 +109,21 @@ $tabbar-button-distance:  4px;
 
 // ToggleButton
 
+$togglebutton-width:  95px;
+$togglebutton-height:  30px;
+$togglebutton-border-radius:  4px;
+$togglebutton-border-color:  #9e9e9e;
 $togglebutton-text-color:  #666666; 
-$togglebutton-background-color:  white;
-$togglebutton-active-background-color:  #3D72C9;
+$togglebutton-background-color:  darken(white,10%);
+$togglebutton-background-color-2:  white;
+$togglebutton-active-background-color:  darken(#3D72C9,10%);
+$togglebutton-active-background-color-2:  #3D72C9;
+$togglebutton-knob-background-color:  #cfcfcf;
+$togglebutton-knob-background-color-2:  #fdfdfd;
+$togglebutton-knob-width:  30px;
 $togglebutton-active-text-color:  white;
-$togglebutton-border-radius:  30px;
+$togglebutton-inset-shadow:  rgba(0,0,0,0.1);
+$togglebutton-know-shadow:  rgba(0,0,0,0.4);
 
 // Carousel
 
@@ -139,7 +149,7 @@ $selectbox-border-radius: 4px;
 $selectbox-border-color:  #9e9e9e; 
 $selectbox-text-color:  #333333;
 $selectbox-background-color:  lighten(#F4F4F4,20%);
-$selectbox-background-color-2:  darken($selectbox-background-color,40%);
+$selectbox-background-color-2:  darken($selectbox-background-color,30%);
 $selectbox-active-background-color:  lighten(#3D72C9, 20%);
 $selectbox-active-background-color-2:  darken($selectbox-active-background-color, 30%);
 $selectbox-active-text-color:  white;

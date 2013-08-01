@@ -2,50 +2,63 @@
 // TOGGLEBUTTON 
 //
 
-$toggleSwitchButtonSize: 25px;
-$toggleButtonWidth:  84px;
-
 .toggleButton {
+  @include box-inset-shadow(0px 3px 2px $togglebutton-inset-shadow);
+  @include border-radius($togglebutton-border-radius);
+  @include gradient-vertical ($togglebutton-background-color, $togglebutton-background-color-2);
+
   position:relative;
   display: block;
 
   cursor: pointer;
 
-  width: 84px;
-  height: 27px;
-  line-height:27px;
   font-size: 15.5px;
   font-weight:bold;
 
   text-align:center;
+
+  width:  $togglebutton-width;
+  height:  $togglebutton-height;
+  line-height:  $togglebutton-height;
+
+  border: 1px solid $togglebutton-border-color;
 }
 
 .toggleButton.checked:before {
   content: ' 'attr(data-label-checked);
-  padding-right:$toggleSwitchButtonSize;
+  color: $togglebutton-active-text-color;
+  padding-right: $togglebutton-knob-width;
 }
 
 .toggleButton:not(.checked):before {
   content: ' 'attr(data-label-unchecked);
-  padding-left: $toggleSwitchButtonSize;
-}
-
-.toggleButtonSwitch {
-  position: absolute;
-  z-index:1;
-  display: block;
-  top:0px;
-
-  height: $toggleSwitchButtonSize;
-  width: $toggleSwitchButtonSize;
-
-  @include border-radius($toggleSwitchButtonSize);
+  color: $togglebutton-text-color;
+  padding-left: $togglebutton-knob-width;
 }
 
 .toggleButton:not(.checked) .toggleButtonSwitch {
-  left:0px;
+  left: 0px;
+}
+
+.toggleButton.checked {
+  @include box-inset-shadow(0px 3px 2px $togglebutton-inset-shadow);
+  @include gradient-vertical ($togglebutton-active-background-color, $togglebutton-active-background-color-2);
 }
 
 .toggleButton.checked .toggleButtonSwitch {
-  left:$toggleButtonWidth - $toggleSwitchButtonSize - 2;
+  @include box-shadow(-2px 0px 2px $togglebutton-know-shadow);
+  left: $togglebutton-width - ($togglebutton-knob-width);
+}
+
+.toggleButtonSwitch {
+  @include border-radius( ($togglebutton-border-radius - 1));
+  @include box-shadow(2px 0 2px $togglebutton-know-shadow);
+  @include gradient-vertical ($togglebutton-knob-background-color, $togglebutton-knob-background-color-2);
+  
+  display: block;
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  height: $togglebutton-height;
+  width: $togglebutton-knob-width;
 }

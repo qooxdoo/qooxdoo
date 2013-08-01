@@ -22,7 +22,7 @@
 .page {
   background-color: rgb(197,204,211);
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAABCAIAAACdaSOZAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABdJREFUeNpiPHrmCgMC/GNjYwNSAAEGADdNA3dnzPlQAAAAAElFTkSuQmCC);
-}
+} 
 
 .fontNormal {
   color: #666;
@@ -576,55 +576,6 @@ $arrow-shadow:rgba(0,0,0,0.3);
 {
   @include arrow;
   @include triangle-right($arrow-size, #1D3566);
-}
-
-//
-// TOGGLEBUTTON
-//
-
-.toggleButton {
-  // Light inset border.
-  @include box-inset-multi-shadow(0 2px 2px #999, 0 14px 1px #EAEAEA);
-  
-  border: 1px solid #9e9e9e ;
-  background-color: white;
-
-  @include border-radius(30px);
-}
-
-.toggleButton.checked {
-  // Light inset border.
-  @include box-inset-multi-shadow(0 3px 2px #0056A1, 0 14px 0px #007FEA);
-
-  @include border-radius(30px);
-  
-  // Background for checked toggle button
-  background: #2591ed; 
-  
-  background: -moz-linear-gradient(top,  #2591ed 0%, #2591ed 56%, #6db5f3 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#2591ed), color-stop(56%,#2591ed), color-stop(100%,#6db5f3));
-  background: -webkit-linear-gradient(top,  #2591ed 0%,#2591ed 56%,#6db5f3 100%); 
-  background: linear-gradient(top,  #2591ed 0%,#2591ed 56%,#6db5f3 100%); 
-}
-
-.toggleButton.checked .toggleButtonSwitch {
-  @include box-shadow(-1px 0 2px #4b4b4b);
-}
-
-.toggleButton.checked {
-  color: #ffffff;
-}
-
-.toggleButton:not(.checked) {
-  color: #888888;
-}
-
-.toggleButtonSwitch {
-  border: 1px solid #E8E8E8;
-
-  @include box-shadow(1px 0 2px #4b4b4b);
-  
-  @include gradient-vertical(#cfcfcf,#fdfdfd);
 }
 
 //

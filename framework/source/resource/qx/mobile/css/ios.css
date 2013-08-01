@@ -875,40 +875,75 @@ input, select, .text-area {
   display: inline; }
 
 .toggleButton {
+  -moz-box-shadow: inset 0px 3px 2px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 0px 3px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0px 3px 2px rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  border-radius: 30px;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#e6e6e6), to(white));
+  background-image: -webkit-linear-gradient(top, #e6e6e6, white);
+  background-image: -moz-linear-gradient(top, #e6e6e6, white);
+  background-image: -ms-linear-gradient(top, #e6e6e6, white);
+  background-image: linear-gradient(to bottom, #e6e6e6, white);
   position: relative;
   display: block;
   cursor: pointer;
-  width: 84px;
-  height: 27px;
-  line-height: 27px;
   font-size: 15.5px;
   font-weight: bold;
-  text-align: center; }
+  text-align: center;
+  width: 95px;
+  height: 30px;
+  line-height: 30px;
+  border: 1px solid #9e9e9e; }
 
 .toggleButton.checked:before {
   content: " " attr(data-label-checked);
-  padding-right: 25px; }
+  color: white;
+  padding-right: 30px; }
 
 .toggleButton:not(.checked):before {
   content: " " attr(data-label-unchecked);
-  padding-left: 25px; }
-
-.toggleButtonSwitch {
-  position: absolute;
-  z-index: 1;
-  display: block;
-  top: 0px;
-  height: 25px;
-  width: 25px;
-  -webkit-border-radius: 25px;
-  -moz-border-radius: 25px;
-  border-radius: 25px; }
+  color: #888888;
+  padding-left: 30px; }
 
 .toggleButton:not(.checked) .toggleButtonSwitch {
   left: 0px; }
 
+.toggleButton.checked {
+  -moz-box-shadow: inset 0px 3px 2px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 0px 3px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0px 3px 2px rgba(0, 0, 0, 0.1);
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#2591ed), to(#6db5f3));
+  background-image: -webkit-linear-gradient(top, #2591ed, #6db5f3);
+  background-image: -moz-linear-gradient(top, #2591ed, #6db5f3);
+  background-image: -ms-linear-gradient(top, #2591ed, #6db5f3);
+  background-image: linear-gradient(to bottom, #2591ed, #6db5f3); }
+
 .toggleButton.checked .toggleButtonSwitch {
-  left: 57px; }
+  -webkit-box-shadow: -2px 0px 2px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: -2px 0px 2px rgba(0, 0, 0, 0.4);
+  box-shadow: -2px 0px 2px rgba(0, 0, 0, 0.4);
+  left: 65px; }
+
+.toggleButtonSwitch {
+  -webkit-border-radius: 29px;
+  -moz-border-radius: 29px;
+  border-radius: 29px;
+  -webkit-box-shadow: 2px 0 2px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 2px 0 2px rgba(0, 0, 0, 0.4);
+  box-shadow: 2px 0 2px rgba(0, 0, 0, 0.4);
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#cfcfcf), to(#fdfdfd));
+  background-image: -webkit-linear-gradient(top, #cfcfcf, #fdfdfd);
+  background-image: -moz-linear-gradient(top, #cfcfcf, #fdfdfd);
+  background-image: -ms-linear-gradient(top, #cfcfcf, #fdfdfd);
+  background-image: linear-gradient(to bottom, #cfcfcf, #fdfdfd);
+  display: block;
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  height: 30px;
+  width: 30px; }
 
 .radio {
   display: inline-block;
@@ -1776,51 +1811,6 @@ input.invalid {
   border-top: 12px solid transparent;
   border-bottom: 12px solid transparent;
   border-left: 12px solid #1d3566; }
-
-.toggleButton {
-  -moz-box-shadow: inset 0 2px 2px #999999, inset 0 14px 1px #eaeaea;
-  -webkit-box-shadow: inset 0 2px 2px #999999, inset 0 14px 1px #eaeaea;
-  box-shadow: inset 0 2px 2px #999999, inset 0 14px 1px #eaeaea;
-  border: 1px solid #9e9e9e;
-  background-color: white;
-  -webkit-border-radius: 30px;
-  -moz-border-radius: 30px;
-  border-radius: 30px; }
-
-.toggleButton.checked {
-  -moz-box-shadow: inset 0 3px 2px #0056a1, inset 0 14px 0px #007fea;
-  -webkit-box-shadow: inset 0 3px 2px #0056a1, inset 0 14px 0px #007fea;
-  box-shadow: inset 0 3px 2px #0056a1, inset 0 14px 0px #007fea;
-  -webkit-border-radius: 30px;
-  -moz-border-radius: 30px;
-  border-radius: 30px;
-  background: #2591ed;
-  background: -moz-linear-gradient(top, #2591ed 0%, #2591ed 56%, #6db5f3 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #2591ed), color-stop(56%, #2591ed), color-stop(100%, #6db5f3));
-  background: -webkit-linear-gradient(top, #2591ed 0%, #2591ed 56%, #6db5f3 100%);
-  background: linear-gradient(top, #2591ed 0%, #2591ed 56%, #6db5f3 100%); }
-
-.toggleButton.checked .toggleButtonSwitch {
-  -webkit-box-shadow: -1px 0 2px #4b4b4b;
-  -moz-box-shadow: -1px 0 2px #4b4b4b;
-  box-shadow: -1px 0 2px #4b4b4b; }
-
-.toggleButton.checked {
-  color: #ffffff; }
-
-.toggleButton:not(.checked) {
-  color: #888888; }
-
-.toggleButtonSwitch {
-  border: 1px solid #E8E8E8;
-  -webkit-box-shadow: 1px 0 2px #4b4b4b;
-  -moz-box-shadow: 1px 0 2px #4b4b4b;
-  box-shadow: 1px 0 2px #4b4b4b;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#cfcfcf), to(#fdfdfd));
-  background-image: -webkit-linear-gradient(top, #cfcfcf, #fdfdfd);
-  background-image: -moz-linear-gradient(top, #cfcfcf, #fdfdfd);
-  background-image: -ms-linear-gradient(top, #cfcfcf, #fdfdfd);
-  background-image: linear-gradient(to bottom, #cfcfcf, #fdfdfd); }
 
 .selectbox {
   color: #2a4880;

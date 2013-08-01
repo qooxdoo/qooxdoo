@@ -457,44 +457,6 @@ $arrow-size: 12px;
 }
 
 //
-// TOGGLEBUTTON
-//
-
-.toggleButton {
-  // Light inset border.
-  @include box-inset-multi-shadow(0 2px 2px rgba(0,0,0,0.4), 0 14px 1px rgba(0,0,0,0.1));
-  @include border-radius($togglebutton-border-radius);
-
-  background-color: $togglebutton-background-color;
-  border: $border-thickness solid #9e9e9e;
-}
-
-.toggleButton.checked {
-  @include box-inset-multi-shadow(0px 3px 2px rgba(0,0,0,0.4), 0px 14px 0px rgba(0,0,0,0.1));
-  background-color: $togglebutton-active-background-color;
-}
-
-.toggleButton.checked .toggleButtonSwitch {
-  @include box-shadow(-1px 0px 2px rgba(0,0,0,0.7));
-}
-
-.toggleButton.checked:before {
-  color: $togglebutton-active-text-color;
-}
-
-.toggleButton:not(.checked):before  {
-  color: $togglebutton-text-color;
-}
-
-.toggleButtonSwitch {
-  @include border-radius($togglebutton-border-radius);
-  @include box-shadow(1px 0 2px rgba(0,0,0,0.7));
-  @include gradient-vertical (#cfcfcf, #fdfdfd);
-  
-  border: $border-thickness solid #E8E8E8;
-}
-
-//
 // CHECKBOX
 //
 
