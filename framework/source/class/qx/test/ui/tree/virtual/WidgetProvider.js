@@ -137,7 +137,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       var widget = this.provider.getCellWidget(1,0);
 
       this.assertInstance(widget, qx.ui.tree.VirtualTreeItem);
-      this.assertTrue(widget.getUserData("cell.children"));
+      this.assertFalse(widget.getUserData("cell.children"));
       this.assertEquals(1, widget.getUserData("cell.level"));
       this.assertFalse(widget.isOpen());
       this.assertTrue(widget.hasListener("changeOpen"));
@@ -443,7 +443,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     hasChildren : function(node)
     {
       if (this.isNode(node)) {
-        return true;
+        return node.getKids().getLength() > 0;
       } else {
         return false;
       }
