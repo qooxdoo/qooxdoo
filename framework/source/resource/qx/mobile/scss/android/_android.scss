@@ -228,27 +228,6 @@ input.invalid {
 }
 
 //
-// SLIDER 
-//
-
-.slider {
-  @include box-inset-multi-shadow(0 2px 2px rgba(0,0,0,0.4), 0 8px 1px rgba(0,0,0,0.1));
-  @include border-radius(0.6em);
-  background-color: #5B5D5A;
-}
-
-.slider > div {
-  @include border-radius(0.6em);
-  @include gradient-vertical-four(#ecd343, #fab907, #f0b705, #f8ce2e, 85%, 95%);
-}
-
-.slider > div:after {
-  @include gradient-vertical($button-color, #c4c4c4);
-  @include border-radius(0.4em);
-  @include box-shadow(0 0 2px 1px #4A4A4A);
-}
-
-//
 // TABBAR   
 //
 

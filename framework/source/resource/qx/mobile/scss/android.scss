@@ -56,6 +56,22 @@ $radiobutton-background-color-2: lighten(#F4F4F4, 20%);
 $radiobutton-border-color: #888888;
 $radiobutton-background-inner-color: #45484d;
 
+// Slider
+
+$slider-height: 10px;
+$slider-background-color:  darken(white,10%);
+$slider-background-color-2:  white;
+$slider-active-area-color:  lighten($android-orange,10%);
+$slider-active-area-color-2:  $android-orange;
+$slider-border-radius:  20px; 
+$slider-border-color:  #9e9e9e;
+$slider-knob-border-radius: 4px;
+$slider-knob-size: 30px;
+$slider-knob-color:  lighten(#F4F4F4, 20%);
+$slider-knob-color-2:  darken(#F4F4F4, 20%);
+$slider-knob-border-color:  #9e9e9e;
+$slider-shadow: rgba(0,0,0,0.4);
+
 @import "common/base";
 
 @import "basic/blocker";

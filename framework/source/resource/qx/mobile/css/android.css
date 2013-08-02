@@ -852,35 +852,69 @@ input, select, .text-area {
   -webkit-backface-visibility: hidden; }
 
 .slider {
-  position: relative;
-  top: 6px;
-  overflow: visible;
-  margin-bottom: 12px;
   -webkit-border-radius: 0.6em;
   -moz-border-radius: 0.6em;
   border-radius: 0.6em;
-  height: 15px; }
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#e6e6e6), to(white));
+  background-image: -webkit-linear-gradient(top, #e6e6e6, white);
+  background-image: -moz-linear-gradient(top, #e6e6e6, white);
+  background-image: -ms-linear-gradient(top, #e6e6e6, white);
+  background-image: linear-gradient(to bottom, #e6e6e6, white);
+  position: relative;
+  top: 15px;
+  overflow: visible;
+  margin-bottom: 30px;
+  margin-left: 15px;
+  margin-right: 15px;
+  height: 10px;
+  border: 1px solid #9e9e9e; }
+
+.slider:before {
+  content: "";
+  height: 30px;
+  position: absolute;
+  top: -10px;
+  left: -15px;
+  padding-right: 30px;
+  display: block;
+  width: 100%; }
 
 .slider > div {
   -webkit-border-radius: 0.6em;
   -moz-border-radius: 0.6em;
   border-radius: 0.6em;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#ffb51c), to(#e89c00));
+  background-image: -webkit-linear-gradient(top, #ffb51c, #e89c00);
+  background-image: -moz-linear-gradient(top, #ffb51c, #e89c00);
+  background-image: -ms-linear-gradient(top, #ffb51c, #e89c00);
+  background-image: linear-gradient(to bottom, #ffb51c, #e89c00);
   height: 100%;
   pointer-events: none;
   position: relative; }
 
 .slider > div:after {
-  content: "";
-  display: block;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.4);
+  background-image: -webkit-gradient(linear, center top, center bottom, from(white), to(#c1c1c1));
+  background-image: -webkit-linear-gradient(top, white, #c1c1c1);
+  background-image: -moz-linear-gradient(top, white, #c1c1c1);
+  background-image: -ms-linear-gradient(top, white, #c1c1c1);
+  background-image: linear-gradient(to bottom, white, #c1c1c1);
   position: absolute;
-  background-color: #fff;
-  height: 25px;
-  width: 25px;
-  top: -6px;
-  right: -12.5px;
-  -webkit-border-radius: 50px;
-  -moz-border-radius: 50px;
-  border-radius: 50px; }
+  display: block;
+  content: "";
+  border: 1px solid #9e9e9e;
+  height: 30px;
+  width: 30px;
+  top: -11px;
+  right: -15px; }
 
 .tabBar {
   bottom: 1px; }
@@ -1333,38 +1367,6 @@ input.invalid {
   height: 0px;
   border-top: none;
   padding: 0px; }
-
-.slider {
-  -moz-box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.4), inset 0 8px 1px rgba(0, 0, 0, 0.1);
-  -webkit-box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.4), inset 0 8px 1px rgba(0, 0, 0, 0.1);
-  box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.4), inset 0 8px 1px rgba(0, 0, 0, 0.1);
-  -webkit-border-radius: 0.6em;
-  -moz-border-radius: 0.6em;
-  border-radius: 0.6em;
-  background-color: #5B5D5A; }
-
-.slider > div {
-  -webkit-border-radius: 0.6em;
-  -moz-border-radius: 0.6em;
-  border-radius: 0.6em;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#ecd343), color-stop(85%, #fab907), color-stop(95%, #f0b705), to(#f8ce2e));
-  background-image: -webkit-linear-gradient(top, #ecd343, #fab907 85%, #f0b705 95%, #f8ce2e);
-  background-image: -moz-linear-gradient(top, #ecd343, #fab907 85%, #f0b705 95%, #f8ce2e);
-  background-image: -ms-linear-gradient(top, #ecd343, #fab907 85%, #f0b705 95%, #f8ce2e);
-  background-image: linear-gradient(to bottom, #ecd343, #fab907 85%, #f0b705 95%, #f8ce2e); }
-
-.slider > div:after {
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), to(#c4c4c4));
-  background-image: -webkit-linear-gradient(top, #f4f4f4, #c4c4c4);
-  background-image: -moz-linear-gradient(top, #f4f4f4, #c4c4c4);
-  background-image: -ms-linear-gradient(top, #f4f4f4, #c4c4c4);
-  background-image: linear-gradient(to bottom, #f4f4f4, #c4c4c4);
-  -webkit-border-radius: 0.4em;
-  -moz-border-radius: 0.4em;
-  border-radius: 0.4em;
-  -webkit-box-shadow: 0 0 2px 1px #4a4a4a;
-  -moz-box-shadow: 0 0 2px 1px #4a4a4a;
-  box-shadow: 0 0 2px 1px #4a4a4a; }
 
 .tabBar {
   padding-top: 4px;

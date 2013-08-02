@@ -429,34 +429,6 @@ $arrow-size: 12px;
 }
 
 //
-// SLIDER
-//
-
-
-.slider {
-  @include border-radius($slider-border-radius);
-  @include box-inset-multi-shadow(0 2px 2px rgba(0,0,0,0.4), 0 8px 1px rgba(0,0,0,0.1));
-
-  background-color: $slider-background-color;
-  border: $border-thickness solid $slider-border-color;
-}
-
-.slider > div {
-  $color-stop-active-1: lighten($slider-active-area-color, 20%);
-  $color-stop-active-2: $slider-active-area-color;
-  @include gradient-vertical($color-stop-active-1, $color-stop-active-2);
-}
-
-.slider > div:after {
-  @include border-radius($slider-knob-border-radius);
-  @include box-shadow(0 0 2px $shadow-color);
-  @include gradient-vertical(#cfcfcf, #fdfdfd);
-  
-  border: $border-thickness solid $slider-border-color;
-
-}
-
-//
 // CHECKBOX
 //
 
