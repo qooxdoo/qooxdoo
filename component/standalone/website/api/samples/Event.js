@@ -38,3 +38,17 @@ addSample(".on", function() {
 
   q('#someElement').on('keyup', handleFilterInput, this);
 });
+
+addSample(".hover", {
+    html: ['<div id="hover">Hover element</div>'],
+    javascript: function() {
+q("#hover").hover(function() {
+  this.setStyles({ color: "#ff0000",
+                   backgroundColor: "#00ff00" });
+}, function() {
+  this.setStyles({ color: "#00ff00",
+                  backgroundColor: "#ff0000" });
+  });
+},
+    executable: true
+});
