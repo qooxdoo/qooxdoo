@@ -80,7 +80,7 @@ qx.Class.define("qx.test.ui.tree.virtual.UtilTest",
     },
 
 
-    "test hasChildren with show leafs" : function()
+    "test hasChildren with leafs" : function()
     {
       var model = this.model;
       var children = model.getKids();
@@ -93,16 +93,16 @@ qx.Class.define("qx.test.ui.tree.virtual.UtilTest",
     },
 
 
-    "test hasChildren without show leafs" : function()
+    "test hasChildren and ignore leafs" : function()
     {
       var model = this.model;
       var children = model.getKids();
 
-      this.assertTrue(qx.ui.tree.core.Util.hasChildren(model, "kids", false));
-      this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(0), "kids", false));
-      this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(1), "kids", false));
-      this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(2), "kids", false));
-      this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(3), "kids", false));
+      this.assertTrue(qx.ui.tree.core.Util.hasChildren(model, "kids", true));
+      this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(0), "kids", true));
+      this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(1), "kids", true));
+      this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(2), "kids", true));
+      this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(3), "kids", true));
     },
 
 

@@ -17,10 +17,21 @@
 
 ************************************************************************ */
 
+/**
+ * This utility class implements some methods for the <code>VirtualTree</code>.
+ */
 qx.Class.define("qx.ui.tree.core.Util",
 {
   statics :
   {
+    /**
+     * Returns if the passed item is a node or a leaf.
+     *
+     * @param node {qx.core.Object} Node to check.
+     * @param childProperty {String} The property name to find the children.
+     * @return {Boolean} <code>True</code> when the passed item is a node,
+     *   </code>false</code> when it is a leaf.
+     */
     isNode : function(node, childProperty)
     {
       if (node == null || childProperty == null) {
@@ -30,16 +41,24 @@ qx.Class.define("qx.ui.tree.core.Util",
     },
 
 
-    hasChildren : function(node, childProperty, showLeafs)
+    /**
+     * Returns whether the node has visible children or not.
+     *
+     * @param node {qx.core.Object} Node to check.
+     * @param childProperty {String} The property name to find the children.
+     * @param ignoreLeafs {Boolean?} Whether leafs are ignored or not. This means when set to
+     *    <code>true</code> a node which contains only leafs has no children. Default is <code>false</code>
+     * @return {Boolean} <code>True</code> when the node has visible children,
+     *   <code>false</code> otherwise.
+     */
+    hasChildren : function(node, childProperty, ignoreLeafs)
     {
-      showLeafs = showLeafs == null ? true : false;
-
       if (node == null || childProperty == null || !this.isNode(node, childProperty)) {
         return false;
       }
 
       var children = node.get(childProperty);
-      if (showLeafs) {
+      if (!ignoreLeafs) {
         return children.length > 0;
       }
       else
