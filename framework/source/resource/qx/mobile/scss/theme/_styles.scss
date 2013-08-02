@@ -85,7 +85,7 @@ $checkbox-border-color:  #888888;
 $checkbox-background-color: darken(#F4F4F4, 20%); 
 $checkbox-background-color-2: lighten($checkbox-background-color, 20%); 
 
-// Radiobutton
+// RadioButton
 
 $radiobutton-dot-color: #3D72C9;
 $radiobutton-background-color: darken(#F4F4F4, 20%);
@@ -165,7 +165,8 @@ $slider-active-area-color-2:  #3D72C9;
 $slider-border-radius:  20px; 
 $slider-border-color:  #9e9e9e;
 $slider-knob-border-radius: 4px;
-$slider-knob-size: 30px;
+$slider-knob-width: 30px;
+$slider-knob-height: $slider-knob-width;
 $slider-knob-color:  #cfcfcf;
 $slider-knob-color-2:  #fdfdfd;
 $slider-knob-border-color:  #9e9e9e;
