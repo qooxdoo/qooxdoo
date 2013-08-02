@@ -46,8 +46,8 @@ qx.Class.define("qx.ui.tree.core.Util",
      *
      * @param node {qx.core.Object} Node to check.
      * @param childProperty {String} The property name to find the children.
-     * @param ignoreLeafs {Boolean?} Whether leafs are ignored or not. This means when set to
-     *    <code>true</code> a node which contains only leafs has no children. Default is <code>false</code>
+     * @param ignoreLeafs {Boolean?} Indicates whether leafs are ignored. This means when it is set to
+     *    <code>true</code> a node which contains only leafs has no children. The default value is <code>false</code>.
      * @return {Boolean} <code>True</code> when the node has visible children,
      *   <code>false</code> otherwise.
      */
