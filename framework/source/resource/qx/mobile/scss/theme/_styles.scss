@@ -91,7 +91,6 @@ $radiobutton-dot-color: #3D72C9;
 $radiobutton-background-color: darken(#F4F4F4, 20%);
 $radiobutton-background-color-2: lighten($radiobutton-background-color, 20%);
 $radiobutton-border-color: #888888;
-$radiobutton-background-inner-color: #45484d;
 
 // Tabbar
 
@@ -138,7 +137,7 @@ $button-active-text-color:  white;
 $button-border-radius:  4px;
 $button-border-color:  #888888;
 $button-active-border-color:  #888888;
-$button-background-color:  lighten(#F4F4F4, 10%);
+$button-background-color:  lighten(#F4F4F4, 40%);
 $button-background-color-2:  darken($button-background-color, 20%);
 $button-active-background-color:  lighten(#3D72C9, 20%);
 $button-active-background-color-2:  darken($button-active-background-color, 20%);
