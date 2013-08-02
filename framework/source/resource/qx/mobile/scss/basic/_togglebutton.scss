@@ -46,13 +46,13 @@
 }
 
 .toggleButton.checked .toggleButtonSwitch {
-  @include box-shadow(-2px 0px 2px $togglebutton-know-shadow);
+  @include box-shadow(-2px 0px 2px $togglebutton-knob-shadow);
   left: $togglebutton-width - ($togglebutton-knob-width);
 }
 
 .toggleButtonSwitch {
   @include border-radius( ($togglebutton-border-radius - 1));
-  @include box-shadow(2px 0 2px $togglebutton-know-shadow);
+  @include box-shadow(2px 0 2px $togglebutton-knob-shadow);
   @include gradient-vertical ($togglebutton-knob-background-color, $togglebutton-knob-background-color-2);
   
   display: block;
