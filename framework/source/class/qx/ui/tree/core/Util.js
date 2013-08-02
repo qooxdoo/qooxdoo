@@ -21,8 +21,38 @@ qx.Class.define("qx.ui.tree.core.Util",
 {
   statics :
   {
-    isNode : function(node, childProperty) {
+    isNode : function(node, childProperty)
+    {
+      if (node == null || childProperty == null) {
+        return false;
+      }
       return qx.Class.hasProperty(node.constructor, childProperty);
+    },
+
+
+    hasChildren : function(node, childProperty, showLeafs)
+    {
+      showLeafs = showLeafs == null ? true : false;
+
+      if (node == null || childProperty == null || !this.isNode(node, childProperty)) {
+        return false;
+      }
+
+      var children = node.get(childProperty);
+      if (showLeafs) {
+        return children.length > 0;
+      }
+      else
+      {
+        for (var i = 0; i < children.getLength(); i++)
+        {
+          var child = children.getItem(i);
+          if (this.isNode(child, childProperty)) {
+            return true;
+          }
+        }
+      }
+      return false;
     }
   }
 });

@@ -29,11 +29,11 @@ qx.Class.define("qx.test.ui.tree.virtual.UtilTest",
     setUp : function()
     {
       var rawData = {
-        name: "Root", icon: "Root", kids: [
-          {name: "Node1", icon: "Node1", kids:[]},
-          {name: "Node2", icon: "Node2", kids:[]},
-          {name: "Leaf1", icon: "Leaf1"},
-          {name: "Leaf2", icon: "Leaf2"}
+        name: "Root", kids: [
+          {name: "Node1", kids: [{name: "Leaf1.1"}]},
+          {name: "Node2", kids: []},
+          {name: "Leaf1"},
+          {name: "Leaf2"}
         ]
       };
       this.model = qx.data.marshal.Json.createModel(rawData);
@@ -47,7 +47,7 @@ qx.Class.define("qx.test.ui.tree.virtual.UtilTest",
     },
 
 
-    "test is node or leaf" : function()
+    "test isNode with nodes and leafs" : function()
     {
       var model = this.model;
       this.assertTrue(qx.ui.tree.core.Util.isNode(model, "kids"));
@@ -67,8 +67,55 @@ qx.Class.define("qx.test.ui.tree.virtual.UtilTest",
     },
 
 
-    "test is node with invalid child property" : function() {
+    "test isNode with invalid child property" : function() {
       this.assertFalse(qx.ui.tree.core.Util.isNode(this.model, "noChildProperty"));
+    },
+
+
+    "test isNode with null calls" : function()
+    {
+      this.assertFalse(qx.ui.tree.core.Util.isNode(null, "kids"));
+      this.assertFalse(qx.ui.tree.core.Util.isNode(this.model, null));
+      this.assertFalse(qx.ui.tree.core.Util.isNode(null, null));
+    },
+
+
+    "test hasChildren with show leafs" : function()
+    {
+      var model = this.model;
+      var children = model.getKids();
+
+      this.assertTrue(qx.ui.tree.core.Util.hasChildren(model, "kids"));
+      this.assertTrue(qx.ui.tree.core.Util.hasChildren(children.getItem(0), "kids"));
+      this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(1), "kids"));
+      this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(2), "kids"));
+      this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(3), "kids"));
+    },
+
+
+    "test hasChildren without show leafs" : function()
+    {
+      var model = this.model;
+      var children = model.getKids();
+
+      this.assertTrue(qx.ui.tree.core.Util.hasChildren(model, "kids", false));
+      this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(0), "kids", false));
+      this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(1), "kids", false));
+      this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(2), "kids", false));
+      this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(3), "kids", false));
+    },
+
+
+    "test hasChildren with invalid child property" : function() {
+      this.assertFalse(qx.ui.tree.core.Util.hasChildren(this.model, "noChildProperty"));
+    },
+
+
+    "test hasChildren with null calls" : function()
+    {
+      this.assertFalse(qx.ui.tree.core.Util.hasChildren(null, "kids"));
+      this.assertFalse(qx.ui.tree.core.Util.hasChildren(this.model, null));
+      this.assertFalse(qx.ui.tree.core.Util.hasChildren(null, null));
     }
   }
 });
