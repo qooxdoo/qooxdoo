@@ -81,30 +81,9 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
     {
       var model = this.getModel();
       var childProperty = this.getUserData("cell.childProperty");
+      var showLeafs = this.getUserData("cell.showLeafs");
 
-      if (model == null || !qx.Class.hasProperty(model.constructor, childProperty)) {
-        return false;
-      }
-
-      var children = model.get(childProperty);
-      if (children == null) {
-        return false;
-      }
-
-      if (this.getUserData("cell.showLeafs")) {
-        return children.length > 0;
-      }
-      else
-      {
-        for (var i = 0; i < children.getLength(); i++)
-        {
-          var child = children.getItem(i);
-          if (qx.Class.hasProperty(child.constructor, childProperty)) {
-            return true;
-          }
-        }
-      }
-      return false;
+      return qx.ui.tree.core.Util.hasChildren(model, childProperty, showLeafs);
     },
 
 
@@ -113,11 +92,11 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
     {
       var childProperty = this.getUserData("cell.childProperty");
 
-      if (value != null && qx.Class.hasProperty(value.constructor, childProperty) && value.get(childProperty) != null) {
+      if (value != null && qx.ui.tree.core.Util.isNode(value, childProperty)) {
         value.get(childProperty).addListener("changeLength", this._onChangeLength, this);
       }
 
-      if (old != null && qx.Class.hasProperty(old.constructor, childProperty)&& old.get(childProperty) != null) {
+      if (old != null && qx.ui.tree.core.Util.isNode(old, childProperty)) {
         old.get(childProperty).removeListener("changeLength", this._onChangeLength, this);
       }
     },
