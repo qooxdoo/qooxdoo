@@ -246,7 +246,6 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
       errorNode.innerHTML = item.getInvalidMessage();
       qx.bom.element.Class.add(errorNode, 'form-element-error');
       qx.dom.Element.insertAfter(errorNode, item.getLayoutParent().getContainerElement());
-      //qx.bom.Element.focus(item.getContainerElement());
       this.__errorMessageContainers.push(errorNode);
     },
 
