@@ -1097,8 +1097,8 @@ input, select, .text-area {
   background-image: linear-gradient(to bottom, #cfcfcf, #fdfdfd);
   position: absolute;
   display: block;
-  content: "" attr(data-value);
   text-align: center;
+  content: "";
   border: 1px solid #9e9e9e;
   height: 30px;
   line-height: 30px;
@@ -1110,6 +1110,12 @@ input, select, .text-area {
   text-overflow: ellipsis;
   top: -11px;
   right: -15px; }
+
+.slider.percent > div:after {
+  content: "" attr(data-percent); }
+
+.slider.value > div:after {
+  content: "" attr(data-value); }
 
 .spinner {
   -webkit-backface-visibility: hidden;

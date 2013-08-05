@@ -53,8 +53,8 @@
   
   position: absolute;
   display: block;
-  content: ""attr(data-value);
   text-align: center;
+  content: "";
 
   border: 1px solid $slider-knob-border-color;
 
@@ -70,4 +70,12 @@
 
   top: -($slider-knob-height/2) + ($slider-height/2) - 1;
   right: -1*$slider-knob-width/2;
+}
+
+.slider.percent > div:after {
+   content: ""attr(data-percent);
+}
+
+.slider.value > div:after {
+   content: ""attr(data-value);
 }

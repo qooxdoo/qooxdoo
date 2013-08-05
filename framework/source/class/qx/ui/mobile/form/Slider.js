@@ -67,6 +67,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
   {
     this.base(arguments);
     this._registerEventListener();
+    this._updateKnobPosition();
   },
 
 
@@ -146,7 +147,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       init : "percent",
       check : [ "value", "percent" ],
       nullable : true, 
-      apply : "_updateKnobPosition"
+      apply : "_applyDisplayValue"
     }
   },
 
@@ -239,7 +240,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
 
     /**
-     * Refreshs the slider.
+     * Refreshes the slider and the knob position.
      */
     _refresh : function()
     {
@@ -376,13 +377,19 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
       qx.bom.element.Style.set(element, "width", width - (width - position) + "px");
 
-      var knobDisplayValue = null;
-      if (this.getDisplayValue() == 'percent') {
-        knobDisplayValue = Math.floor(percent);
-      } else if (this.getDisplayValue() == 'value') {
-        knobDisplayValue = this.getValue();
+      qx.bom.element.Attribute.set(element, "data-value", this.getValue());
+      qx.bom.element.Attribute.set(element, "data-percent", Math.floor(percent));
+    },
+
+
+    // Property apply
+    _applyDisplayValue : function(value, old ) {
+      if(old != null) {
+        this.removeCssClass(old);
       }
-      qx.bom.element.Attribute.set(element, "data-value", knobDisplayValue);
+      if(value != null) {
+        this.addCssClass(value);
+      }
     },
 
 
