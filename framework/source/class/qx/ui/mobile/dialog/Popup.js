@@ -341,12 +341,14 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
     /**
      * Handler for touchstart events on popup. Prevents default of <code>touchstart</code> 
-     * if originalTarget was not of type {@link qx.ui.mobile.form.Input qx.ui.mobile.form.Input}
+     * if originalTarget was not of type {@link qx.ui.mobile.form.Input qx.ui.mobile.form.Input} or 
+     * {@link qx.ui.mobile.form.TextArea qx.ui.mobile.form.TextArea}
      * @param evt {qx.event.type.Touch} The touch event.
      */
     _preventTouch : function(evt) {
       var originalTargetWidget = qx.ui.mobile.core.Widget.getWidgetById(evt.getOriginalTarget().id);
-      if(!(originalTargetWidget instanceof qx.ui.mobile.form.Input)) {
+      if (!(originalTargetWidget instanceof qx.ui.mobile.form.Input) 
+          && !(originalTargetWidget instanceof qx.ui.mobile.form.TextArea)) {
         evt.preventDefault();
       }
     },
