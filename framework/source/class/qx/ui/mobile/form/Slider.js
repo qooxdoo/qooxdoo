@@ -134,6 +134,19 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       check : "Boolean",
       init : false,
       apply : "_updateKnobPosition"
+    },
+
+
+    /**
+     * Adjusts which slider value should be displayed inside the knob.
+     * If <code>null</code> no value will be displayed.
+     */
+    displayValue :
+    {
+      init : "percent",
+      check : [ "value", "percent" ],
+      nullable : true, 
+      apply : "_updateKnobPosition"
     }
   },
 
@@ -362,6 +375,14 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       var element = this._getKnobElement();
 
       qx.bom.element.Style.set(element, "width", width - (width - position) + "px");
+
+      var knobDisplayValue = null;
+      if (this.getDisplayValue() == 'percent') {
+        knobDisplayValue = Math.floor(percent);
+      } else if (this.getDisplayValue() == 'value') {
+        knobDisplayValue = this.getValue();
+      }
+      qx.bom.element.Attribute.set(element, "data-value", knobDisplayValue);
     },
 
 
@@ -400,8 +421,8 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
       var percent = ((value - min) * 100) / this._getRange();
 
-      if(this.isReverseDirection()) {
-        return 100-percent;
+      if (this.isReverseDirection()) {
+        return 100 - percent;
       } else {
         return percent;
       }

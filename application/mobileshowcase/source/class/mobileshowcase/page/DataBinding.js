@@ -67,15 +67,15 @@ qx.Class.define("mobileshowcase.page.DataBinding",
 
   members :
   {
-    __increaseMode: true,
-    __decreaseButton: null,
-    __increaseButton: null,
-    __stopTimeButton: null,
-    __timer: null,
-    __form: null,
-    __list: null,
-    __dataLabel: null,
-    __slider: null,
+    __increaseMode : true,
+    __decreaseButton : null,
+    __increaseButton : null,
+    __stopTimeButton : null,
+    __timer : null,
+    __form : null,
+    __list : null,
+    __dataLabel : null,
+    __slider : null,
 
 
     // overridden
@@ -132,20 +132,20 @@ qx.Class.define("mobileshowcase.page.DataBinding",
       */
     __onInterval : function()
     {
-        var old = parseInt(this.__dataLabel.getValue(),10);
-        if(this.__increaseMode) {
-          if (old<100) {
-            this.__dataLabel.setValue(old+1);
-          } else {
-            this.__timer.stop();
-          }
-        } else{
-          if (old>0) {
-            this.__dataLabel.setValue(old-1);
-          } else {
-            this.__timer.stop();
-          }
+      var old = parseInt(this.__dataLabel.getValue(), 10);
+      if (this.__increaseMode) {
+        if (old < 500) {
+          this.__dataLabel.setValue(old + 1);
+        } else {
+          this.__timer.stop();
         }
+      } else {
+        if (old > 0) {
+          this.__dataLabel.setValue(old - 1);
+        } else {
+          this.__timer.stop();
+        }
+      }
     },
 
 
@@ -184,6 +184,8 @@ qx.Class.define("mobileshowcase.page.DataBinding",
     {
       var form = new qx.ui.mobile.form.Form();
       this.__slider = new qx.ui.mobile.form.Slider();
+      this.__slider.setDisplayValue("value");
+      this.__slider.setMaximum(500);
       form.add(this.__slider,"Move slider:");
 
       this.__dataLabel = new qx.ui.mobile.form.TextField();
