@@ -92,6 +92,12 @@ def createApplication(options):
 
 
     outDir = os.path.join(out, options.name)
+
+    if not options.type in APP_INFOS:
+        console.warn("No such skeleton: %s" % options.type)
+        listSkeletons(console, APP_INFOS)
+        sys.exit(1)
+
     is_contribution = options.type == "contribution"
     appDir = os.path.join(outDir, "trunk") if is_contribution else outDir
     app_infos = APP_INFOS[options.type]
@@ -148,7 +154,7 @@ def rename_folders(root_dir, namespace):
 
     # rename in script path
     script_dir   = os.path.join(root_dir, "source", "script")
-    script_files = glob.glob(os.path.join(script_dir, "custom.*js")) 
+    script_files = glob.glob(os.path.join(script_dir, "custom.*js"))
     if script_files:
         for script_file in script_files:
             os.rename(script_file, script_file.replace("custom", namespace))
@@ -293,7 +299,7 @@ def checkNamespace(options):
             options.namespace = convertedName.lower()
         else:
             options.namespace = options.name.lower()
-        
+
     else:
         options.namespace = options.namespace.decode('utf-8')
         if R_ILLEGAL_NS_CHAR.search(options.namespace):
@@ -315,11 +321,20 @@ def checkNamespace(options):
 
 def skeletonsHelpString():
     helpString = "Type of the application to create, one of: "
-    helpString += str(map(str, sorted(APP_INFOS.keys()))) + "." 
-    helpString += str("; ".join(["'%s' -- %s" % (x, y) for x,y in sorted([(k,i['short']) for k,i in APP_INFOS.items()])])) 
+    helpString += str(map(str, sorted(APP_INFOS.keys()))) + "."
+    helpString += str("; ".join(["'%s' -- %s" % (x, y) for x,y in sorted([(k,i['short']) for k,i in APP_INFOS.items()])]))
     helpString += ". (Default: %default)"
     return helpString
 
+
+def listSkeletons(console, info):
+    console.info("Available skeletons:")
+    console.indent()
+    for skeleton in sorted(info.keys()):
+        sdesc = ""
+        if "short" in info[skeleton]:
+            sdesc = "%s -- %s" % ((12 - len(skeleton)) * " ", info[skeleton]["short"])
+        console.info(skeleton + sdesc)
 
 def main():
     parser = optparse.OptionParser()
@@ -402,7 +417,7 @@ class MyTemplate(Template):
       (?P<invalid>)              # Other ill-formed delimiter exprs
     )
     """
-     
+
 
 
 if __name__ == '__main__':
