@@ -471,40 +471,6 @@ $pagination-label-size:8px;
 }
 
 //
-// PICKER
-//
-
-.picker-container {
-  background-color:darken($android-dark-grey,20%);
-  @include box-shadow(0px 1px 1px rgba(255, 255, 255, 0.5));
-}
-
-.picker-label {
-  color:white;
-  font-weight:bold;
-}
-
-.picker-slot:before, .picker-slot:after {
-  background-color: $border-color;
-}
-
-// Spinning Wheel Overlay Gradient
-.picker-container:after {
-  @include gradient-vertical-four(rgba(0,0,0,0.8),rgba(0, 0, 0, 0),rgba(0, 0, 0, 0),rgba(0,0,0,0.8),33%,66%);
-}
-
-// Selected Area Overlay
-.picker-container:before {
-  top:33px;
-  height:28px;
-
-  @include box-shadow(0px 2px 2px rgba(0, 0, 0, 0.5));
-
-  border-top:1px solid $android-orange;
-  border-bottom:1px solid $android-orange;
-}
-
-//
 // DRAWER
 //
 

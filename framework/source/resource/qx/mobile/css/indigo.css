@@ -884,30 +884,19 @@ input, select, .text-area {
   height: 100%; }
 
 .picker-slot {
-  position: relative;
-  top: 0px;
-  height: 500px;
-  -webkit-border-radius: 0.3em;
-  -moz-border-radius: 0.3em;
-  border-radius: 0.3em;
   -webkit-transition: all ease-in-out;
   -moz-transition: all ease-in-out;
   transition: all ease-in-out;
-  -webkit-backface-visibility: hidden; }
+  position: relative;
+  top: -75px;
+  padding-top: 150px;
+  padding-bottom: 150px; }
 
 .picker-slot * {
   -webkit-backface-visibility: hidden; }
 
-.picker-slot:not(:last-child):after {
-  content: "";
-  position: absolute;
-  width: 2px;
-  top: -200%;
-  right: 0px;
-  height: 500%;
-  z-index: 1000; }
-
 .picker-label {
+  color: #333333;
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 1.2em;
@@ -916,15 +905,16 @@ input, select, .text-area {
   height: 25px;
   line-height: 25px;
   position: relative;
-  top: -14px; }
+  top: -12.5px; }
 
 .picker-container {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  background-color: #f4f4f4;
   overflow: hidden;
   position: relative;
-  -webkit-border-radius: 0.3em;
-  -moz-border-radius: 0.3em;
-  border-radius: 0.3em;
-  height: 100px; }
+  height: 150px; }
 
 .picker-container:after {
   pointer-events: none;
@@ -935,15 +925,31 @@ input, select, .text-area {
   position: absolute;
   top: 0px;
   left: 0px;
-  background-size: 100% 100px; }
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), color-stop(40%, rgba(244, 244, 244, 0)), color-stop(60%, rgba(244, 244, 244, 0)), to(#f4f4f4));
+  background-image: -webkit-linear-gradient(top, #f4f4f4, rgba(244, 244, 244, 0) 40%, rgba(244, 244, 244, 0) 60%, #f4f4f4);
+  background-image: -moz-linear-gradient(top, #f4f4f4, rgba(244, 244, 244, 0) 40%, rgba(244, 244, 244, 0) 60%, #f4f4f4);
+  background-image: -ms-linear-gradient(top, #f4f4f4, rgba(244, 244, 244, 0) 40%, rgba(244, 244, 244, 0) 60%, #f4f4f4);
+  background-image: linear-gradient(to bottom, #f4f4f4, rgba(244, 244, 244, 0) 40%, rgba(244, 244, 244, 0) 60%, #f4f4f4);
+  background-size: 100% 150px; }
+
+.picker-slot:not(:last-child) {
+  border-right: 2px solid #888888; }
 
 .picker-container:before {
   pointer-events: none;
   content: "";
   position: absolute;
   width: 100%;
-  z-index: 1000;
-  left: 0px; }
+  z-index: 1001;
+  top: 50%;
+  left: 0px;
+  height: 25px;
+  margin-top: -14.5px;
+  border-top: 2px solid rgba(61, 114, 201, 0.5);
+  border-bottom: 2px solid rgba(61, 114, 201, 0.5); }
 
 .radio {
   display: inline-block;
@@ -1822,39 +1828,6 @@ input, .text-area {
 
 .carousel-pagination {
   top: -23px; }
-
-.picker-container {
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  background-color: #f4f4f4; }
-
-.picker-slot {
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px; }
-
-.picker-label {
-  color: #333333; }
-
-.picker-slot:after {
-  background-color: #888888; }
-
-.picker-container:after {
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#f4f4f4), color-stop(40%, rgba(244, 244, 244, 0)), color-stop(60%, rgba(244, 244, 244, 0)), to(#f4f4f4));
-  background-image: -webkit-linear-gradient(top, #f4f4f4, rgba(244, 244, 244, 0) 40%, rgba(244, 244, 244, 0) 60%, #f4f4f4);
-  background-image: -moz-linear-gradient(top, #f4f4f4, rgba(244, 244, 244, 0) 40%, rgba(244, 244, 244, 0) 60%, #f4f4f4);
-  background-image: -ms-linear-gradient(top, #f4f4f4, rgba(244, 244, 244, 0) 40%, rgba(244, 244, 244, 0) 60%, #f4f4f4);
-  background-image: linear-gradient(to bottom, #f4f4f4, rgba(244, 244, 244, 0) 40%, rgba(244, 244, 244, 0) 60%, #f4f4f4); }
-
-.picker-container:before {
-  top: 35px;
-  height: 23px;
-  border-top: 2px solid rgba(61, 114, 201, 0.5);
-  border-bottom: 2px solid rgba(61, 114, 201, 0.5); }
 
 .root.portrait .master-detail-master:not(.hidden) {
   -webkit-box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.5);

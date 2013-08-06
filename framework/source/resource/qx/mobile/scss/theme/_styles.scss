@@ -166,7 +166,7 @@ $slider-border-radius:  20px;
 $slider-border-color:  #9e9e9e;
 $slider-knob-border-radius: 4px;
 $slider-knob-width: 30px;
-$slider-knob-height: $slider-knob-width;
+$slider-knob-height: 30px;
 $slider-knob-color:  #cfcfcf;
 $slider-knob-color-2:  #fdfdfd;
 $slider-knob-border-color:  #9e9e9e;
@@ -197,8 +197,12 @@ $picker-spinning-wheel-overlay-color-2: rgba(#F4F4F4, 0);
 $picker-spinning-wheel-text-color:  #333333; 
 $picker-spinning-wheel-background-color:  #F4F4F4;
 $picker-highlight-color:  rgba(#3D72C9, 0.5);
+$picker-highlight-border-width:  2px;
 $picker-spinning-wheel-border-radius:  4px;
 $picker-spinning-wheel-divider-color:  #888;
+$picker-spinning-wheel-divider-width:  2px;
+$picker-label-height: 25px;
+$picker-height: 150px;
 
 // Drawer
 

@@ -12,11 +12,11 @@
   @include gradient-vertical($slider-background-color, $slider-background-color-2);
   
   position: relative;
-  top: $slider-knob-height / 2;
+  top: ($slider-knob-height/2);
   overflow: visible;
   margin-bottom: $slider-knob-height;
-  margin-left: $slider-knob-width / 2;
-  margin-right: $slider-knob-width / 2;
+  margin-left: ($slider-knob-width/2); 
+  margin-right: ($slider-knob-width/2);
 
   height: $slider-height;
 

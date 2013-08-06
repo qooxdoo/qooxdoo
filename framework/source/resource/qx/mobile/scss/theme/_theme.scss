@@ -586,42 +586,6 @@ $pagination-label-size:8px;
 }
 
 //
-// PICKER
-//
-
-.picker-container {
-  @include border-radius($picker-spinning-wheel-border-radius);
-  background-color: $picker-spinning-wheel-background-color;
-}
-
-.picker-slot {
-  @include border-radius($picker-spinning-wheel-border-radius);
-}
-
-.picker-label {
-  color:  $picker-spinning-wheel-text-color;
-}
-
-.picker-slot:after {
-  background-color: $picker-spinning-wheel-divider-color;
-}
-
-// Spinning Wheel Overlay Gradient
-.picker-container:after {
-  @include border-radius($picker-spinning-wheel-border-radius);
-  @include gradient-vertical-four($picker-spinning-wheel-overlay-color-1,$picker-spinning-wheel-overlay-color-2,$picker-spinning-wheel-overlay-color-2,$picker-spinning-wheel-overlay-color-1,40%,60%);
-}
-
-// Selected Area Overlay
-.picker-container:before {
-  top: 35px;
-  height: 23px; 
-
-  border-top: 2px solid $picker-highlight-color;
-  border-bottom: 2px solid $picker-highlight-color;
-}
-
-//
 // DRAWER
 //
 

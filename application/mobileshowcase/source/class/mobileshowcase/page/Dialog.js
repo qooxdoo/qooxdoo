@@ -234,21 +234,25 @@ qx.Class.define("mobileshowcase.page.Dialog",
      * Reacts on "changeSelection" event on picker, and displays the values on resultsLabel.
      */
     __onPickerChangeSelection : function(e) {
-      var slot = e.getData().slot;
+      if (e.getData().slot > 0) {
+        this._updatePickerDaySlot();
+      }
+      this.__resultsLabel.setValue("Received <b>changeSelection</b> from Picker Dialog. [slot: "+ e.getData().slot+ "] [item: "+ e.getData().item+"]");
+    },
 
+
+    /**
+    * Updates the shown days in the picker slot.
+    */
+    _updatePickerDaySlot : function() {
       var dayIndex = this.__picker.getSelectedIndex(0);
       var monthIndex = this.__picker.getSelectedIndex(1);
       var yearIndex = this.__picker.getSelectedIndex(2);
+      var slotData = this._createDayPickerSlot(monthIndex, new Date().getFullYear() - yearIndex);
+      this.__pickerDaySlotData.removeAll();
+      this.__pickerDaySlotData.append(slotData);
 
-      if (slot > 0) {
-        var slotData = this._createDayPickerSlot(monthIndex, new Date().getFullYear() - yearIndex);
-        this.__pickerDaySlotData.removeAll();
-        this.__pickerDaySlotData.append(slotData);
-
-        this.__picker.setSelectedIndex(0, dayIndex, false);
-      }
-
-      this.__resultsLabel.setValue("Received <b>changeSelection</b> from Picker Dialog. [slot: "+ e.getData().slot+ "] [item: "+ e.getData().item+"]");
+      this.__picker.setSelectedIndex(0, dayIndex, false);
     },
 
 

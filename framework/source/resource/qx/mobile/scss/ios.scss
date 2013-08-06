@@ -77,11 +77,28 @@ $slider-active-area-color-2:  #007FEA;
 $slider-border-radius:  20px; 
 $slider-border-color:  #9e9e9e;
 $slider-knob-border-radius: 50%;
-$slider-knob-size: 28px;
+$slider-knob-width: 28px;
+$slider-knob-height: 28px;
 $slider-knob-color:  #cfcfcf;
 $slider-knob-color-2:  #fdfdfd;
 $slider-knob-border-color:  #9e9e9e;
 $slider-shadow: rgba(0,0,0,0.4);
+$slider-font-size:  0.8em;
+$slider-font-color:  #888;
+
+// Picker 
+
+$picker-spinning-wheel-overlay-color-1:  rgba(#F4F4F4, 1);
+$picker-spinning-wheel-overlay-color-2: rgba(#F4F4F4, 0);
+$picker-spinning-wheel-text-color:  #333333; 
+$picker-spinning-wheel-background-color:  #F4F4F4;
+$picker-highlight-color:  rgba(#3D72C9, 0.5);
+$picker-highlight-border-width:  2px;
+$picker-spinning-wheel-border-radius:  4px;
+$picker-spinning-wheel-divider-color:  #888;
+$picker-spinning-wheel-divider-width:  2px;
+$picker-label-height: 25px;
+$picker-height: 300px;
 
 @import "basic/blocker";
 @import "basic/button";
