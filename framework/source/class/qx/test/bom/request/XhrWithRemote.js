@@ -52,10 +52,10 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       this.req.dispose();
     },
 
-    __skip : function() {
-      // certain tests fail if loaded through the Selenium proxy on Windows
+    __skip : function(skipOs) {
+      // certain tests fail if loaded through the Selenium proxy on Windows and OS X
       if (qx.core.Environment.get("browser.name") == "chrome" &&
-          qx.core.Environment.get("os.name") == "win")
+          qx.lang.Array.contains(skipOs, qx.core.Environment.get("os.name")))
       {
         this.require(["noSelenium"]);
       }
@@ -573,7 +573,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
     //
 
     "test: call onerror on network error": function() {
-      this.__skip();
+      this.__skip(["win", "osx"]);
       var req = this.req;
 
       var that = this;
@@ -613,7 +613,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
     },
 
     "test: throw error on network error when sync": function() {
-      this.__skip();
+      this.__skip(["win", "osx"]);
       var req = this.req;
 
       // Network error (sync)
@@ -729,7 +729,6 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
     //
 
     "test: call handler in order when request successful": function() {
-      this.__skip();
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/sample.txt");
 
@@ -752,6 +751,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
     },
 
     "test: call handler in order when request failed": function() {
+      this.__skip(["win", "osx"]);
       var req = this.req;
 
       var that = this;
