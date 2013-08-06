@@ -359,7 +359,9 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param opacity {Integer} the target value of the opacity.
      */
     _setScrollersOpacity : function(opacity) {
-      qx.bom.element.Style.set(this.__carouselScroller.getContainerElement(), "opacity", opacity);
+      if (this.__carouselScroller) {
+        qx.bom.element.Style.set(this.__carouselScroller.getContainerElement(), "opacity", opacity);
+      }
     },
 
 
