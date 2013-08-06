@@ -133,7 +133,7 @@ class ASTReducer(treeutil.NodeVisitor):
                     if operation=='+':
                         result = operator.add(op1,op2)
                     elif operation=='-':
-                        result = operation.sub(op1,op2)
+                        result = operator.sub(op1,op2)
             # string '+'
             elif operation=='+' and all([isinstance(x,types.StringTypes) for x in (op1,op2)]):
                 result = operator.add(op1,op2)
