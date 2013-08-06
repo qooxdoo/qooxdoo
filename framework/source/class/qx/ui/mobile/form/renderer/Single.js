@@ -28,11 +28,6 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
 
   extend : qx.ui.mobile.form.renderer.AbstractRenderer,
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
 
   construct : function(form)
   {
@@ -41,6 +36,22 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
     this._labels = [];
     this.base(arguments,form);
   },
+
+
+  statics : {
+    
+    /** @type {Array} qx.Mobile form widgets which are rendered in one single line. */
+    ONE_LINE_WIDGETS : [
+      qx.ui.mobile.form.ToggleButton,
+      qx.ui.mobile.form.RadioButton,
+      qx.ui.mobile.form.TextField,
+      qx.ui.mobile.form.PasswordField,
+      qx.ui.mobile.form.NumberField,
+      qx.ui.mobile.form.CheckBox,
+      qx.ui.mobile.form.SelectBox
+    ]
+  },
+
 
   members :
   {
@@ -71,15 +82,16 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      *  in same line as the label.
      */
     _isOneLineWidget : function(item) {
-      return (
-        item instanceof qx.ui.mobile.form.ToggleButton ||
-        item instanceof qx.ui.mobile.form.RadioButton ||
-        item instanceof qx.ui.mobile.form.TextField ||
-        item instanceof qx.ui.mobile.form.PasswordField ||
-        item instanceof qx.ui.mobile.form.NumberField ||
-        item instanceof qx.ui.mobile.form.CheckBox ||
-        item instanceof qx.ui.mobile.form.SelectBox
-      );
+      var widgets = qx.ui.mobile.form.renderer.Single.ONE_LINE_WIDGETS;
+
+      for (var i = 0; i < widgets.length; i++) {
+        var widget = widgets[i];
+        if(item instanceof widget) {
+          return true;
+        }
+      };
+
+      return false;
     },
 
 

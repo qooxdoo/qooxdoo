@@ -58,6 +58,7 @@ qx.Class.define("mobileshowcase.page.Form",
     {
       this.base(arguments);
       this.__form = this.__createForm();
+
       this.getContent().add(new qx.ui.mobile.form.renderer.Single(this.__form));
 
       this.__submitButton = new qx.ui.mobile.form.Button("Submit");
