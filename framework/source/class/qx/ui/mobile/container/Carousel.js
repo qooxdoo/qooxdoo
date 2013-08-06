@@ -367,7 +367,9 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param opacity {Integer} the target value of the opacity.
      */
     _setScrollersOpacity : function(opacity) {
-      qx.bom.element.Style.set(this.__carouselScroller.getContainerElement(), "opacity", opacity);
+      if (this.__carouselScroller) {
+        qx.bom.element.Style.set(this.__carouselScroller.getContainerElement(), "opacity", opacity);
+      }
     },
 
 
@@ -425,7 +427,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
     /**
      * Synchronizes the positions of the scroller to the current shown page index.
-     * @param evt {qx.event.type.Event} description 
+     * @param evt {qx.event.type.Event} description
      */
     _refreshScrollerPosition : function(evt) {
       setTimeout(function() {
@@ -447,7 +449,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
     /**
     * Handler for <code>touchend</code> event on carousel scroller.
-    * @param evt {qx.event.type.Touch} the touchend event. 
+    * @param evt {qx.event.type.Touch} the touchend event.
     */
     _onTouchEnd : function(evt) {
       if(evt.getAllTouches().length == 0) {
@@ -528,7 +530,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     * snap point is reached.
     * @param deltaX {Integer} the distance on axis between touchstart and touchend.
     * @param duration {Number} the swipe duration.
-    * @return {Number} the transition duration.   
+    * @return {Number} the transition duration.
     */
     _calculateTransitionDuration : function(deltaX, duration) {
       var distanceX = this.__pageWidth - Math.abs(deltaX);
@@ -570,7 +572,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
 
     /**
-     * @deprecated {3.1} Please use _setTransitionDuration instead. 
+     * @deprecated {3.1} Please use _setTransitionDuration instead.
      *
      * Determines whether a transition should be shown on carouselScroller move or not.
      * Target value will be buffered, and only be set on target element when target value is different
@@ -588,7 +590,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
     /**
     * Applies the CSS property "transitionDuration" to the carouselScroller.
-    * @param value {Number} the target value of the transitionDuration. 
+    * @param value {Number} the target value of the transitionDuration.
     */
     _setTransitionDuration : function(value) {
       qx.bom.element.Style.set(this.__carouselScroller.getContentElement(), "transitionDuration", value+"s");
