@@ -207,7 +207,6 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
         this.__reverse = properties.fromHistory || properties.reverse;
 
-
         this.__startAnimation(widget);
       } else {
         this._swapWidget();

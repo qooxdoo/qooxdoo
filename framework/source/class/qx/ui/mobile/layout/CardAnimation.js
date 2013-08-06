@@ -37,68 +37,60 @@ qx.Class.define("qx.ui.mobile.layout.CardAnimation",
     this.base(arguments);
 
     this._cardAnimationsMap = {
-      "slide":{
-        "in":qx.util.Animation.SLIDE_LEFT_IN,
-        "out":qx.util.Animation.SLIDE_LEFT_OUT,
-        "reverse":{
-          "in":qx.util.Animation.SLIDE_RIGHT_IN,
-          "out":qx.util.Animation.SLIDE_RIGHT_OUT
+      "slide": {
+        "in": qx.util.Animation.SLIDE_LEFT_IN,
+        "out": qx.util.Animation.SLIDE_LEFT_OUT,
+        "reverse": {
+          "in": qx.util.Animation.SLIDE_RIGHT_IN,
+          "out": qx.util.Animation.SLIDE_RIGHT_OUT
         }
       },
-      "fade":{
-        "in":qx.util.Animation.FADE_IN,
-        "out":qx.util.Animation.FADE_OUT,
-        "reverse":{
-          "in":qx.util.Animation.FADE_IN,
-          "out":qx.util.Animation.FADE_OUT
+      "fade": {
+        "in": qx.util.Animation.FADE_IN,
+        "out": qx.util.Animation.FADE_OUT,
+        "reverse": {
+          "in": qx.util.Animation.FADE_IN,
+          "out": qx.util.Animation.FADE_OUT
         }
       },
-      "dissolve":{
-        "in":qx.util.Animation.FADE_IN,
-        "out":qx.util.Animation.FADE_OUT,
-        "reverse":{
-          "in":qx.util.Animation.FADE_IN,
-          "out":qx.util.Animation.FADE_OUT
+      "pop": {
+        "in": qx.util.Animation.POP_IN,
+        "out": qx.util.Animation.POP_OUT,
+        "reverse": {
+          "in": qx.util.Animation.POP_IN,
+          "out": qx.util.Animation.POP_OUT
         }
       },
-      "pop":{
-        "in":qx.util.Animation.POP_IN,
-        "out":qx.util.Animation.POP_OUT,
-        "reverse":{
-          "in":qx.util.Animation.POP_IN,
-          "out":qx.util.Animation.POP_OUT
+      "slideup": {
+        "in": qx.util.Animation.SLIDE_UP_IN,
+        "out": qx.util.Animation.SLIDE_UP_OUT,
+        "reverse": {
+          "in": qx.util.Animation.SLIDE_DOWN_IN,
+          "out": qx.util.Animation.SLIDE_DOWN_OUT
         }
       },
-      "slideup":{
-        "in":qx.util.Animation.SLIDE_UP_IN,
-        "out":qx.util.Animation.SLIDE_UP_OUT,
-        "reverse":{
-          "in":qx.util.Animation.SLIDE_DOWN_IN,
-          "out":qx.util.Animation.SLIDE_DOWN_OUT
+      "flip": {
+        "in": qx.util.Animation.FLIP_LEFT_IN,
+        "out": qx.util.Animation.FLIP_LEFT_OUT,
+        "reverse": {
+          "in": qx.util.Animation.FLIP_RIGHT_IN,
+          "out": qx.util.Animation.FLIP_RIGHT_OUT
         }
       },
-      "flip":{
-        "in":qx.util.Animation.FLIP_LEFT_IN,
-        "out":qx.util.Animation.FLIP_LEFT_OUT,
-        "reverse":{
-          "in":qx.util.Animation.FLIP_RIGHT_IN,
-          "out":qx.util.Animation.FLIP_RIGHT_OUT
-        }
-      },
-      "swap":{
-        "in":qx.util.Animation.SWAP_LEFT_IN,
-        "out":qx.util.Animation.SWAP_LEFT_OUT,
-        "reverse":{
-          "in":qx.util.Animation.SWAP_RIGHT_IN,
-          "out":qx.util.Animation.SWAP_RIGHT_OUT
+      "swap": {
+        "in": qx.util.Animation.SWAP_LEFT_IN,
+        "out": qx.util.Animation.SWAP_LEFT_OUT,
+        "reverse": {
+          "in": qx.util.Animation.SWAP_RIGHT_IN,
+          "out": qx.util.Animation.SWAP_RIGHT_OUT
         }
       },
       "cube": {
-        "in":qx.util.Animation.CUBE_LEFT_IN,
-        "out":qx.util.Animation.CUBE_LEFT_OUT,
-        "reverse":{
-          "in":qx.util.Animation.CUBE_RIGHT_IN,
-          "out":qx.util.Animation.CUBE_RIGHT_OUT
+        "in": qx.util.Animation.CUBE_LEFT_IN,
+        "out": qx.util.Animation.CUBE_LEFT_OUT,
+        "reverse": {
+          "in": qx.util.Animation.CUBE_RIGHT_IN,
+          "out": qx.util.Animation.CUBE_RIGHT_OUT
         }
       }
     };
@@ -107,50 +99,60 @@ qx.Class.define("qx.ui.mobile.layout.CardAnimation",
 
   members :
   {
-      _cardAnimationsMap : null,
+    _cardAnimationsMap : null,
 
 
-      /**
-      * Returns a map with properties for {@link qx.bom.element.Animation} according to the given input parameters.
-      * @param animationName {String} the animation key
-      * @param direction {String} the animation direction ("in" | "out")
-      * @param reverse {Boolean} flag which indicates whether it is a reverse animation.
-      * @return {Map} animation property map, intended for the usage with {@link qx.bom.element.Animation}
-      */
-      getAnimation : function(animationName, direction, reverse)
+    /**
+    * Returns a map with properties for {@link qx.bom.element.Animation} according to the given input parameters.
+    * @param animationName {String} the animation key
+    * @param direction {String} the animation direction ("in" | "out")
+    * @param reverse {Boolean} flag which indicates whether it is a reverse animation.
+    * @return {Map} animation property map, intended for the usage with {@link qx.bom.element.Animation}
+    */
+    getAnimation : function(animationName, direction, reverse)
+    {
+      // @deprecated { 3.0.1 } "Animation 'dissolve' is deprecated. Please use 'fade' instead."
+      if(animationName == "dissolve") 
       {
-          if (qx.core.Environment.get("qx.debug"))
-          {
-            if(!reverse) {
-              this.assertNotUndefined(this._cardAnimationsMap[animationName], "Animation '" + animationName+ "' is not defined.");
-              this.assertNotUndefined(this._cardAnimationsMap[animationName][direction], "Animation '" + animationName+ " "+direction+ "' is not defined.");
-            } else {
-              this.assertNotUndefined(this._cardAnimationsMap[animationName], "Animation Reverse'" + animationName+ "' is not defined.");
-              this.assertNotUndefined(this._cardAnimationsMap[animationName]["reverse"], "Animation Reverse'" + animationName+ "' is not defined.");
-              this.assertNotUndefined(this._cardAnimationsMap[animationName]["reverse"][direction], "Animation Reverse'" + animationName+ " " +direction+  "' is not defined.");
-            }
-          }
+        animationName = "fade";
 
-          var animation = this._cardAnimationsMap[animationName];
-          var animationObject = {};
-
-          if(!reverse) {
-            animationObject = animation[direction];
-          } else {
-            animationObject = animation["reverse"][direction];
-          }
-
-          return animationObject;
-      },
-
-
-      /**
-       * Getter for the cardAnimationsMap.
-       * @return {Map} the cardAnimationsMap.
-       */
-      getMap : function() {
-        return this._cardAnimationsMap;
+        if (qx.core.Environment.get("qx.debug")) {
+          this.warn("Animation 'dissolve' is deprecated. Please use 'fade' instead.");
+        }
       }
+      // ----
+
+      if (qx.core.Environment.get("qx.debug")) {
+        if (!reverse) {
+          this.assertNotUndefined(this._cardAnimationsMap[animationName], "Animation '" + animationName + "' is not defined.");
+          this.assertNotUndefined(this._cardAnimationsMap[animationName][direction], "Animation '" + animationName + " " + direction + "' is not defined.");
+        } else {
+          this.assertNotUndefined(this._cardAnimationsMap[animationName], "Animation Reverse'" + animationName + "' is not defined.");
+          this.assertNotUndefined(this._cardAnimationsMap[animationName]["reverse"], "Animation Reverse'" + animationName + "' is not defined.");
+          this.assertNotUndefined(this._cardAnimationsMap[animationName]["reverse"][direction], "Animation Reverse'" + animationName + " " + direction + "' is not defined.");
+        }
+      }
+
+      var animation = this._cardAnimationsMap[animationName];
+      var animationObject = {};
+
+      if (!reverse) {
+        animationObject = animation[direction];
+      } else {
+        animationObject = animation["reverse"][direction];
+      }
+
+      return animationObject;
+    },
+
+
+    /**
+     * Getter for the cardAnimationsMap.
+     * @return {Map} the cardAnimationsMap.
+     */
+    getMap : function() {
+      return this._cardAnimationsMap;
+    }
   },
 
 
