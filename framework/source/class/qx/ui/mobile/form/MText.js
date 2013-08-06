@@ -40,13 +40,6 @@ qx.Mixin.define("qx.ui.mobile.form.MText",
     this.initMaxLength();
     this.initPlaceholder();
     this.initReadOnly();
-
-    this.addListener("keypress",function(e) {
-      // On return
-      if(e.getKeyCode() == 13) {
-        this.blur();
-      }
-    }, this);
   },
 
 

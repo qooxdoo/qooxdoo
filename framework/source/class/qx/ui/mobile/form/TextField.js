@@ -45,6 +45,8 @@ qx.Class.define("qx.ui.mobile.form.TextField",
         && qx.core.Environment.get("os.version").charAt(0) == "2") {
       this.addListener("touchstart", this.focus);
     }
+
+    this.addListener("keypress", this._onKeyPress, this);
   },
 
   /*
@@ -76,6 +78,18 @@ qx.Class.define("qx.ui.mobile.form.TextField",
     _getType : function()
     {
       return "text";
+    },
+
+
+    /**
+    * Event handler for <code>keypress</code> event.
+    * @param evt {qx.event.type.KeySequence} the keypress event. 
+    */
+    _onKeyPress : function(evt) {
+      // On return
+      if(evt.getKeyCode() == 13) {
+        this.blur();
+      }
     }
   },
 
@@ -91,5 +105,7 @@ qx.Class.define("qx.ui.mobile.form.TextField",
         && qx.core.Environment.get("os.version").charAt(0) == "2") {
       this.removeListener("touchstart", this.focus);
     }
+
+    this.removeListener("keypress", this._onKeyPress, this);
   }
 });
