@@ -180,6 +180,14 @@
       {
         "inspector.selenium.extensions" : null
       }
+    },
+
+    "source-hybrid" :
+    {
+      "environment" :
+      {
+        "inspector.selenium.extensions" : null
+      }
     }
   }
 }
