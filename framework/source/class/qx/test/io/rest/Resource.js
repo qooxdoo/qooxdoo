@@ -82,17 +82,8 @@ qx.Class.define("qx.test.io.rest.Resource",
     __skip : function() {
       if (qx.core.Environment.get("browser.name") == "safari" &&
           qx.core.Environment.get("os.name") == "osx") {
-        this.require(["noReporter"]);
+        this.require(["noSelenium"]);
       }
-    },
-
-    /**
-     * since we can't detect if the browser is under Selenium control
-     * in Safari/OS X (bug #7631), check for the Test Runner's Reporter view
-     * instead, which is only used for automated test runs.
-     */
-    hasNoReporter : function() {
-      return window.parent.qx.core.Init.getApplication().runner.view.classname !== "testrunner.view.Reporter";
     },
 
     //

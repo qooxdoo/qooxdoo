@@ -241,6 +241,10 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
      */
     hasNoSelenium : function()
     {
+      if (window.selenium) {
+        return false;
+      }
+
       var win = window.top || window;
       var opener = win.opener || win;
       try {
