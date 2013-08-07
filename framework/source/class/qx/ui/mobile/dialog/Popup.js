@@ -161,6 +161,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     _updatePosition : function()
     {
+      this.__arrow.removeCssClasses(['popupAnchorPointerTop','popupAnchorPointerTopRight','popupAnchorPointerBottom','popupAnchorPointerBottomRight']);
+      
       if(this.__anchor)
       {
         var rootHeight = qx.ui.mobile.dialog.Popup.ROOT.getHeight();
@@ -196,7 +198,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
           || computedPopupPosition.left + popupDimension.width > rootWidth
           || computedPopupPosition.top + popupDimension.height > rootHeight;
 
-        this.__arrow.removeCssClasses(['popupAnchorPointerTop','popupAnchorPointerTopRight','popupAnchorPointerBottom','popupAnchorPointerBottomRight']);
         if(isOutsideViewPort) {
           this._positionToCenter();
         } else {
@@ -530,6 +531,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     setAnchor : function(widget) {
       this.__anchor = widget;
+      this._updatePosition();
     },
 
 
