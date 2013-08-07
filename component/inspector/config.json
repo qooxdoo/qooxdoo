@@ -35,7 +35,7 @@
 
   "config-warnings" :
   {
-    "job-shadowing" : ["source", "common", "inspector::common", "translation"],
+    "job-shadowing" : ["source", "common", "inspector::common", "translation", "source-hybrid"],
 
     "environment" : [ "non-literal-keys" ]
   },
