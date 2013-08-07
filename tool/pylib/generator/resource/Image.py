@@ -286,13 +286,13 @@ class JpegFile(Image):
     segments = { 
         # (http://en.wikipedia.org/wiki/Jpeg)
         (0xffd8,) : 0,  # soi - no length bytes, no payload
-        sof_range : 2,  # sofN - 2 length bytes, n is someOf(0..f)
+        sof_range : 2,  # sofN - 2 length bytes - N is someOf(0..f) (low-nibble of marker)
         (0xffc4,) : 2,  # dht - 2 len byte
         (0xffdb,) : 2,  # dqt - 2 len byte
         (0xffdd,) : 2,  # dri - 2 len byte (value always 4)
         (0xffda,) : 2,  # sos
-        tuple(range(0xffd0,0xffd7)) : 0,  # rstN - low bit of marker (0..7)
-        tuple(range(0xffe0,0xffef)) : 2,  # appN - low bit of marker (0..f)
+        tuple(range(0xffd0,0xffd7)) : 0,  # rstN - N is oneOf(0..7)
+        tuple(range(0xffe0,0xffef)) : 2,  # appN - N is oneOf(0..f)
         (0xfffe,) : 2,  # com
         (0xffd9,) : 0,  # eoi - no payload, no length
     }
