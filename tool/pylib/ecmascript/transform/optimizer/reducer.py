@@ -116,7 +116,7 @@ class ASTReducer(treeutil.NodeVisitor):
             else:
                 return ()
         operations['MUL'] = func.partial(opr, operator.mul)
-        operations['DIV'] = func.partial(opr, operator.div)
+        operations['DIV'] = func.partial(opr, operator.truediv)
         operations['MOD'] = func.partial(opr, operator.mod)
 
         # Have to distinguish between prefix and infix +/-
