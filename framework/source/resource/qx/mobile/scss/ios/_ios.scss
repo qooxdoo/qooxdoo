@@ -501,13 +501,13 @@ $arrow-shadow:rgba(0,0,0,0.3);
 
 // ARROW TOP
 
-.popupAnchorPointerTop:before, .popupAnchorPointerTopRight:before
+.anchor.top:before, .anchor.top.right:before
 {
   @include arrow;
   @include triangle-up($arrow-size+2, $dialog-border-color);
 }
 
-.popupAnchorPointerTop:after, .popupAnchorPointerTopRight:after
+.anchor.top:after, .anchor.top.right:after
 {
   @include arrow;
   @include triangle-up($arrow-size, #6E7D9D);
@@ -515,44 +515,16 @@ $arrow-shadow:rgba(0,0,0,0.3);
 
 // ARROW BOTTOM
 
-.popupAnchorPointerBottom:before,.popupAnchorPointerBottomRight:before
+.anchor.bottom:before,.anchor.bottom.right:before
 {
   @include arrow;
   @include triangle-down($arrow-size+2, $dialog-border-color);
 }
 
-.popupAnchorPointerBottom:after,.popupAnchorPointerBottomRight:after
+.anchor.bottom:after,.anchor.bottom.right:after
 {
   @include arrow;
   @include triangle-down($arrow-size, #1D3566);
-}
-
-// ARROW LEFT
-
-.popupAnchorPointerLeft:before
-{
-  @include arrow;
-  @include triangle-left($arrow-size+2, $dialog-border-color);
-}
-
-.popupAnchorPointerLeft:after
-{
-  @include arrow;
-  @include triangle-left($arrow-size, #1D3566);
-}
-
-// ARROW RIGHT
-
-.popupAnchorPointerRight:before
-{
-  @include arrow;
-  @include triangle-right($arrow-size+2, $dialog-border-color);
-}
-
-.popupAnchorPointerRight:after
-{
-  @include arrow;
-  @include triangle-right($arrow-size, #1D3566);
 }
 
 //

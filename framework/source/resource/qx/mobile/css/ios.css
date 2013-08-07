@@ -705,51 +705,35 @@ input, select, .text-area {
   font-size: 16px;
   margin: 0 0 3px 0; }
 
-.popupAnchorPointerTop:before {
+.anchor.top.left:before {
   top: -15px;
   left: 15px; }
 
-.popupAnchorPointerTop:after {
+.anchor.top.left:after {
   top: -12px;
   left: 17px; }
 
-.popupAnchorPointerBottom:before {
+.anchor.bottom.left:before {
   bottom: -15px;
   left: 15px; }
 
-.popupAnchorPointerBottom:after {
+.anchor.bottom.left:after {
   bottom: -12px;
   left: 17px; }
 
-.popupAnchorPointerLeft:before {
-  left: -15px;
-  top: 15px; }
-
-.popupAnchorPointerLeft:after {
-  left: -12px;
-  top: 17px; }
-
-.popupAnchorPointerRight:before {
-  right: -15px;
-  top: 15px; }
-
-.popupAnchorPointerRight:after {
-  right: -12px;
-  top: 17px; }
-
-.popupAnchorPointerTopRight:before {
+.anchor.top.right:before {
   right: 15px;
   top: -15px; }
 
-.popupAnchorPointerTopRight:after {
+.anchor.top.right:after {
   right: 17px;
   top: -12px; }
 
-.popupAnchorPointerBottomRight:before {
+.anchor.bottom.right:before {
   bottom: -15px;
   right: 15px; }
 
-.popupAnchorPointerBottomRight:after {
+.anchor.bottom.right:after {
   bottom: -12px;
   right: 17px; }
 
@@ -1756,7 +1740,7 @@ input.invalid {
 .popup-title:after {
   display: none; }
 
-.popupAnchorPointerTop:before, .popupAnchorPointerTopRight:before {
+.anchor.top:before, .anchor.top.right:before {
   position: absolute;
   content: "";
   display: block;
@@ -1766,7 +1750,7 @@ input.invalid {
   border-right: 14px solid transparent;
   border-bottom: 14px solid #c7d1e3; }
 
-.popupAnchorPointerTop:after, .popupAnchorPointerTopRight:after {
+.anchor.top:after, .anchor.top.right:after {
   position: absolute;
   content: "";
   display: block;
@@ -1776,7 +1760,7 @@ input.invalid {
   border-right: 12px solid transparent;
   border-bottom: 12px solid #6e7d9d; }
 
-.popupAnchorPointerBottom:before, .popupAnchorPointerBottomRight:before {
+.anchor.bottom:before, .anchor.bottom.right:before {
   position: absolute;
   content: "";
   display: block;
@@ -1786,7 +1770,7 @@ input.invalid {
   border-right: 14px solid transparent;
   border-top: 14px solid #c7d1e3; }
 
-.popupAnchorPointerBottom:after, .popupAnchorPointerBottomRight:after {
+.anchor.bottom:after, .anchor.bottom.right:after {
   position: absolute;
   content: "";
   display: block;
@@ -1795,46 +1779,6 @@ input.invalid {
   border-left: 12px solid transparent;
   border-right: 12px solid transparent;
   border-top: 12px solid #1d3566; }
-
-.popupAnchorPointerLeft:before {
-  position: absolute;
-  content: "";
-  display: block;
-  width: 0;
-  height: 0;
-  border-top: 14px solid transparent;
-  border-bottom: 14px solid transparent;
-  border-right: 14px solid #c7d1e3; }
-
-.popupAnchorPointerLeft:after {
-  position: absolute;
-  content: "";
-  display: block;
-  width: 0;
-  height: 0;
-  border-top: 12px solid transparent;
-  border-bottom: 12px solid transparent;
-  border-right: 12px solid #1d3566; }
-
-.popupAnchorPointerRight:before {
-  position: absolute;
-  content: "";
-  display: block;
-  width: 0;
-  height: 0;
-  border-top: 14px solid transparent;
-  border-bottom: 14px solid transparent;
-  border-left: 14px solid #c7d1e3; }
-
-.popupAnchorPointerRight:after {
-  position: absolute;
-  content: "";
-  display: block;
-  width: 0;
-  height: 0;
-  border-top: 12px solid transparent;
-  border-bottom: 12px solid transparent;
-  border-left: 12px solid #1d3566; }
 
 .selectbox {
   color: #2a4880;

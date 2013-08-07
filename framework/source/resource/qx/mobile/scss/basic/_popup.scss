@@ -24,68 +24,42 @@ $arrow-size: 12px;
 $arrow-space: 2;
 $arrow-position-offset:15px;
 
-// Arrow-Top
-.popupAnchorPointerTop:before {
+.anchor.top.left:before {
   top:-($arrow-size + 3);
   left: $arrow-position-offset;
 }
 
-.popupAnchorPointerTop:after {
+.anchor.top.left:after {
   top:-($arrow-size);
   left: $arrow-position-offset + 2;
 }
 
-// Arrow-Bottom
-.popupAnchorPointerBottom:before {
+.anchor.bottom.left:before {
   bottom:-($arrow-size + 3);
   left: $arrow-position-offset;
 }
 
-.popupAnchorPointerBottom:after {
+.anchor.bottom.left:after {
   bottom: -($arrow-size);
   left: $arrow-position-offset + 2;
 }
 
-// Arrow-Left
-.popupAnchorPointerLeft:before {
-  left:-($arrow-size + 3);
-  top: $arrow-position-offset;
-}
-
-.popupAnchorPointerLeft:after {
-  left: -($arrow-size);
-  top: $arrow-position-offset + 2;
-}
-
-// Arrow-Right
-.popupAnchorPointerRight:before {
-  right: -($arrow-size + 3);
-  top: $arrow-position-offset;
-}
-
-.popupAnchorPointerRight:after {
-  right: -($arrow-size);
-  top: $arrow-position-offset + 2;
-}
-
-// Arrow-TopRight
-.popupAnchorPointerTopRight:before {
+.anchor.top.right:before {
   right: $arrow-position-offset;
   top:-($arrow-size + 3);
 }
 
-.popupAnchorPointerTopRight:after {
+.anchor.top.right:after {
   right: $arrow-position-offset + 2;
   top:-($arrow-size);
 }
 
-// Arrow-TopRight
-.popupAnchorPointerBottomRight:before {
+.anchor.bottom.right:before {
   bottom:-($arrow-size + 3);
   right: $arrow-position-offset;
 }
 
-.popupAnchorPointerBottomRight:after {
+.anchor.bottom.right:after {
   bottom: -($arrow-size);
   right: $arrow-position-offset + 2;
 } 

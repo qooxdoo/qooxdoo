@@ -86,6 +86,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     qx.ui.mobile.dialog.Popup.ROOT.add(this);
 
     this.__arrow = new qx.ui.mobile.container.Composite();
+    this.__arrow.addCssClass("anchor");
     this._add(this.__arrow);
 
     this.__anchor = anchor;
@@ -161,6 +162,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     _updatePosition : function()
     {
+      this.__arrow.removeCssClasses(['top', 'bottom', 'left', 'right']);
+      
       if(this.__anchor)
       {
         var rootHeight = qx.ui.mobile.dialog.Popup.ROOT.getHeight();
@@ -196,23 +199,20 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
           || computedPopupPosition.left + popupDimension.width > rootWidth
           || computedPopupPosition.top + popupDimension.height > rootHeight;
 
-        this.__arrow.removeCssClasses(['popupAnchorPointerTop','popupAnchorPointerTopRight','popupAnchorPointerBottom','popupAnchorPointerBottomRight']);
         if(isOutsideViewPort) {
           this._positionToCenter();
         } else {
-          if(isTop) {
-            if(isLeft) {
-              this.__arrow.addCssClass('popupAnchorPointerBottomRight');
-            } else {
-              this.__arrow.addCssClass('popupAnchorPointerBottom');
-            }
+          if (isTop) {
+            this.__arrow.addCssClass('bottom');
           } else {
-            if(isLeft) {
-              this.__arrow.addCssClass('popupAnchorPointerTopRight');
-            } else {
-              this.__arrow.addCssClass('popupAnchorPointerTop');
-            }
+            this.__arrow.addCssClass('top');
           }
+          if (isLeft) {
+            this.__arrow.addCssClass('right');
+          } else {
+            this.__arrow.addCssClass('left');
+          }
+
           this.placeTo(computedPopupPosition.left, computedPopupPosition.top);
         }
       } else if (this.__childrenContainer) {
@@ -530,6 +530,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     setAnchor : function(widget) {
       this.__anchor = widget;
+      this._updatePosition();
     },
 
 

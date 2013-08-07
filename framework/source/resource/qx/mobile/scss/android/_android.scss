@@ -317,13 +317,13 @@ $arrow-size: 12px;
 
 // ARROW TOP
 
-.popupAnchorPointerTop:before, .popupAnchorPointerTopRight:before
+.anchor.top:before, .anchor.top.right:before
 {
   @include arrow;
   @include triangle-up($arrow-size+2, #ffffff);
 }
 
-.popupAnchorPointerTop:after, .popupAnchorPointerTopRight:after
+.anchor.top:after, .anchor.top.right:after
 {
   @include arrow;
   @include triangle-up($arrow-size, $dialog-background-color);
@@ -331,44 +331,16 @@ $arrow-size: 12px;
 
 // ARROW BOTTOM
 
-.popupAnchorPointerBottom:before,.popupAnchorPointerBottomRight:before
+.anchor.bottom:before,.anchor.bottom.right:before
 {
   @include arrow;
   @include triangle-down($arrow-size+2, #ffffff);
 }
 
-.popupAnchorPointerBottom:after,.popupAnchorPointerBottomRight:after
+.anchor.bottom:after,.anchor.bottom.right:after
 {
   @include arrow;
   @include triangle-down($arrow-size, $dialog-background-color);
-}
-
-// ARROW LEFT
-
-.popupAnchorPointerLeft:before
-{
-  @include arrow;
-  @include triangle-left($arrow-size+2, #ffffff);
-}
-
-.popupAnchorPointerLeft:after
-{
-  @include arrow;
-  @include triangle-left($arrow-size, $dialog-background-color);
-}
-
-// ARROW RIGHT
-
-.popupAnchorPointerRight:before
-{
-  @include arrow;
-  @include triangle-right($arrow-size+2, #ffffff);
-}
-
-.popupAnchorPointerRight:after
-{
-  @include arrow;
-  @include triangle-right($arrow-size, $dialog-background-color);
 }
 
 //
