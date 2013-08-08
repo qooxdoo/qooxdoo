@@ -272,9 +272,10 @@ qx.Bootstrap.define("qx.Bootstrap",
      * Creates a namespace and assigns the given object to it.
      *
      * @internal
+     * @signature function(name, object)
      * @param name {String} The complete namespace to create. Typically, the last part is the class name itself
      * @param object {Object} The object to attach to the namespace
-     * @return {Object} last part of the namespace (typically the class name)
+     * @return {String} last part of the namespace (which object is assigned to)
      * @throws {Error} when the given object already exists.
      */
     createNamespace : qx.Bootstrap.createNamespace,
@@ -294,6 +295,7 @@ qx.Bootstrap.define("qx.Bootstrap",
     /**
      * Call the same method of the super class.
      *
+     * @signature function(args, varargs)
      * @param args {arguments} the arguments variable of the calling method
      * @param varargs {var} variable number of arguments passed to the overwritten function
      * @return {var} the return value of the method of the base class.
@@ -465,6 +467,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * in the object.
      *
      * @internal
+     * @type {String[]}
      */
     __shadowedKeys :
     [
@@ -544,6 +547,7 @@ qx.Bootstrap.define("qx.Bootstrap",
     /**
      * Mapping from JavaScript string representation of objects to names
      * @internal
+     * @type {Map}
      */
     __classToTypeMap :
     {
