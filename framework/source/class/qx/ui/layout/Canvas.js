@@ -44,6 +44,7 @@
  * <li><strong>top</strong> <em>(Integer|String)</em>: The top coordinate in pixel or as a percent string e.g. <code>20</code> or <code>30%</code>.</li>
  * <li><strong>right</strong> <em>(Integer|String)</em>: The right coordinate in pixel or as a percent string e.g. <code>20</code> or <code>30%</code>.</li>
  * <li><strong>bottom</strong> <em>(Integer|String)</em>: The bottom coordinate in pixel or as a percent string e.g. <code>20</code> or <code>30%</code>.</li>
+ * <li><strong>edge</strong> <em>(Integer|String)</em>: The coordinate in pixels or as a percent string to be used for all four edges.
  * <li><strong>width</strong> <em>(String)</em>: A percent width e.g. <code>40%</code>.</li>
  * <li><strong>height</strong> <em>(String)</em>: A percent height e.g. <code>60%</code>.</li>
  * </ul>
