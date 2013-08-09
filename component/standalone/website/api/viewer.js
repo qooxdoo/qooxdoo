@@ -74,6 +74,7 @@ q.ready(function() {
         // [BUG #7518] initial scroll to hash (again) on first page load
         // cause sample loading screwed scroll position slightly up
         fixScrollPosition();
+        scrollNavItemIntoView();
       }
       else {
         // force a scroll event so the topmost module's samples are loaded
@@ -110,6 +111,7 @@ q.ready(function() {
   var __lastHashChange = null;
   q(window).on("hashchange", function(ev) {
     __lastHashChange = Date.now();
+    scrollNavItemIntoView();
   });
 
   var loadEventNorm = function() {
@@ -281,6 +283,7 @@ q.ready(function() {
       }
       q.template.get("list-item", {
         name: name + "()",
+        classname: convertNameToCssClass(name),
         missing: missing,
         link: name,
         plugin: isPluginMethod(name)
@@ -291,6 +294,7 @@ q.ready(function() {
       var missing = isMethodMissing(name, data.classname);
       q.template.get("list-item", {
         name: name + "()",
+        classname: convertNameToCssClass(name),
         missing: missing,
         link: name,
         plugin: isPluginMethod(name)
@@ -1027,6 +1031,18 @@ q.ready(function() {
     var hash = window.location.hash;
     window.location.hash = '';
     window.location.hash = hash;
+  };
+
+  var scrollNavItemIntoView = function() {
+    var hash = window.location.hash;
+    var navItems = q("."+convertNameToCssClass(hash));
+    if (navItems && navItems.length === 1) {
+      navItems[0].scrollIntoView(true);
+    }
+  };
+
+  var convertNameToCssClass = function(name) {
+    return "nav-"+name.replace(/(\.|\$|#)*/g, "");
   };
 
   /**
