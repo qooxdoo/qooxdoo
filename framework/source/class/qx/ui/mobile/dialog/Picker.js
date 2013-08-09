@@ -499,13 +499,9 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
         var decreaseIncreaseLimit = offsetParent.offsetHeight/2;
 
         if (relativeTop < decreaseIncreaseLimit) {
-          qx.bom.AnimationFrame.request(function() {
-            this._decreaseSelectedIndex(target);
-          }, this);
+          this._decreaseSelectedIndex(target);
         } else if (relativeTop > decreaseIncreaseLimit) {
-          qx.bom.AnimationFrame.request(function() {
-            this._increaseSelectedIndex(target);
-          }, this);
+          this._increaseSelectedIndex(target);
         }
       }
 
@@ -513,9 +509,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       var selectedIndex = this.__selectedIndex[target.id];
       var selectedValue = model.getItem(selectedIndex);
 
-      qx.bom.AnimationFrame.request(function() {
-        this._updateSlot(target);
-      }, this);
+      this._updateSlot(target);
 
       this.fireDataEvent("changeSelection", {index: selectedIndex, item: selectedValue, slot: slotIndex});
     },
