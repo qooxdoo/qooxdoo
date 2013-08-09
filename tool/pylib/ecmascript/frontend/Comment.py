@@ -349,6 +349,7 @@ class Comment(object):
 
         attribs = []
         for line_no, line in section_lines:
+            entry = None
             mo = hint_sign.search(line)
             # @<hint> entry
             if mo:
@@ -370,6 +371,7 @@ class Comment(object):
                                 }
                             else:
                                 context.console.warn("Unable to parse JSDoc entry: '%s'" % line.strip())
+                                continue
                 # known tag with default parsing
                 elif hint_key in (
                         'abstract', # @abstract; pend. bug#6738
@@ -387,8 +389,10 @@ class Comment(object):
                             entry["message"] = msg
                         else:
                             context.console.warn(msg)
-                entry['line'] = line_no
-                attribs.append(entry)
+                            continue
+                if entry:
+                    entry['line'] = line_no
+                    attribs.append(entry)
             # description
             else:
                 attribs.append({
