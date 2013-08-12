@@ -370,8 +370,8 @@ qx.Bootstrap.define("qx.application.Routing", {
           if (register[i][j].path == path) {
             register[i][j].customData = customData;
           }
-        };
-      };
+        }
+      }
     },
 
 
