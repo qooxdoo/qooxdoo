@@ -353,9 +353,9 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
 
 
     /**
-     * Checks whether the local and the manager selection is equals.
+     * Checks whether the local and the manager selection are equal.
      *
-     * @return {Boolean} <code>true</code> when the selection is equals,
+     * @return {Boolean} <code>true</code> if the selections are equal,
      *   <code>false</code> otherwise.
      */
     __isSelectionEquals : function()
