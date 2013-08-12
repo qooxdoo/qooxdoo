@@ -123,7 +123,7 @@ qx.Class.define("qx.ui.tabview.TabButton",
         icon : this.getChildControl("icon"),
         label : this.getChildControl("label"),
         closeButton : this.getShowCloseButton() ? this.getChildControl("close-button") : null
-      }
+      };
 
       // Remove all children before adding them again
       for (var child in children)
