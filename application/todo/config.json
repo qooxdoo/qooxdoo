@@ -10,7 +10,9 @@
 
   "export" :
   [
-    "build-mini"
+    "build-mini",
+    "clean",
+    "distclean"
   ],
 
   "default-job" : "build-mini",
@@ -25,7 +27,7 @@
     "ROOT"         : "."
   }
 
-  ,"jobs" : 
+  ,"jobs" :
   {
     "build-mini" : // cannot use 'build-min' b.o. cyclic extends
     {
