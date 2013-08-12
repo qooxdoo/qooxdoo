@@ -159,7 +159,6 @@ qx.Class.define("qx.ui.tabview.Page",
     // property apply
     _applyIcon : function(value, old) {
       var btn = this.getChildControl("button");
-      debugger;
       if (value) {
         btn.setIcon(value);
         btn._showChildControl("icon");
