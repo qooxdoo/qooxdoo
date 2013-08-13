@@ -139,7 +139,7 @@ qx.Bootstrap.define("qx.application.Routing", {
      * @return {String} A valid path.
      */
     _getPathOrFallback : function(path, defaultPath) {
-      if (path == "" || path == null || !this.__messaging.isListenerRegisteredFor("get", path)) {
+      if (path == "" || path == null || !this.__messaging.has("get", path)) {
         path = defaultPath || qx.application.Routing.DEFAULT_PATH;
       }
       return path;

@@ -139,10 +139,9 @@ qx.Bootstrap.define("qx.event.Messaging",
      * @param path {String} The path to check.
      * @return {Boolean} Whether a listener is registered.
      */
-    isListenerRegisteredFor : function(channel, path) {
+    has : function(channel, path) {
       var listeners = this._listener[channel];
       if (!listeners || qx.lang.Object.isEmpty(listeners)) {
-        qx.Bootstrap.info("No listener found for channel: " + channel);
         return false;
       }
 
@@ -154,7 +153,6 @@ qx.Bootstrap.define("qx.event.Messaging",
         }
       }
 
-      qx.Bootstrap.info("No listener found for path: " + path);
       return false;
     },
 
