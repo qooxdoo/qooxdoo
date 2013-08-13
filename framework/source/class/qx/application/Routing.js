@@ -136,6 +136,7 @@ qx.Bootstrap.define("qx.application.Routing", {
      *
      * @param path {String} Path which gets checked.
      * @param defaultPath {String?} Optional default path.
+     * @return {String} A valid path.
      */
     _getPathOrFallback : function(path, defaultPath) {
       if (path == "" || path == null || !this.__messaging.isListenerRegisteredFor("get", path)) {

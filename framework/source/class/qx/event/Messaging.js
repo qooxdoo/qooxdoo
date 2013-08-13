@@ -137,6 +137,7 @@ qx.Bootstrap.define("qx.event.Messaging",
      *
      * @param channel {String} The channel of the message.
      * @param path {String} The path to check.
+     * @return {Boolean} Whether a listener is registered.
      */
     isListenerRegisteredFor : function(channel, path) {
       var listeners = this._listener[channel];
