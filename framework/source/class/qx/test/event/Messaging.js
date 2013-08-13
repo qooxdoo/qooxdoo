@@ -141,6 +141,19 @@ qx.Class.define("qx.test.event.Messaging",
       this.__m.remove(id);
       this.__m.emit("GET", "/");
       this.assertCalledOnce(handler);
+    },
+
+    testIsListenerRegisteredFor : function() {
+      this.__m.on("GET", "/affe", function() {});
+      this.__m.on("POST", "/affe", function() {});
+
+      this.assertTrue(this.__m.isListenerRegisteredFor("GET", "/affe"));
+      this.assertTrue(this.__m.isListenerRegisteredFor("POST", "/affe"));
+
+      this.assertFalse(this.__m.isListenerRegisteredFor("get", "/affe"));
+      this.assertFalse(this.__m.isListenerRegisteredFor("GET", "/banane"));
+      this.assertFalse(this.__m.isListenerRegisteredFor("PUT", "/affe"));
+      this.assertFalse(this.__m.isListenerRegisteredFor("banane", "/affe"));
     }
   }
 });

@@ -120,16 +120,32 @@ qx.Class.define("qx.test.application.Routing",
 
     testInit : function() {
       var handler = this.spy();
-      qx.bom.History.getInstance().setState("/a/b/c");
+      var defaultHandler = this.spy();
 
       this.__r.dispose();
       this.__r = new qx.application.Routing();
 
       this.__r.onGet("/a/b/c", handler);
       this.assertNotCalled(handler);
-      this.__r.init();
-      this.assertCalledOnce(handler);
-    }
+      this.__r.onGet("/", defaultHandler);
+      this.assertNotCalled(defaultHandler);
 
+      this.__r.init();
+      this.assertNotCalled(handler);
+      this.assertCalledOnce(defaultHandler);
+
+      qx.bom.History.getInstance().setState("/a/b/c");
+      this.assertCalledOnce(handler);
+    },
+
+    testGetPathOrFallback : function() {
+      this.__r.on("/registered", function(){});
+
+      this.assertEquals("/", this.__r._getPathOrFallback(""));
+      this.assertEquals("/", this.__r._getPathOrFallback(null));
+      this.assertEquals("/", this.__r._getPathOrFallback("/not/registered"));
+      this.assertEquals("/given/default", this.__r._getPathOrFallback("use_default_instead_of_this", "/given/default"));
+      this.assertEquals("/registered", this.__r._getPathOrFallback("/registered"));
+    }
   }
 });
