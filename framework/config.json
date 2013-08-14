@@ -269,6 +269,7 @@
 
     "images" :
     {
+      "desc" : "clip and combine all images used in the framework",
       "run" : [ "image-clipping", "image-combine" ]
     },
 
