@@ -82,9 +82,12 @@ RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
 APPLICATIONS = tutorial todo feedreader mobileshowcase playground showcase widgetbrowser featureconfigeditor github demobrowser
 COMPONENTS = apiviewer testrunner inspector storage server website
-WEBSITE_MODULES = core animation blocker cookie dataset dev io matchmedia messaging placeholder placement rest storage template transform util
 FRAMEWORK_TARGETS = api test test-mobile dependencies
 TUTORIALS = mobiletweets tweets website
+
+WEBSITE_MODULES = core animation blocker cookie dataset dev io matchmedia messaging placeholder placement rest storage template transform util
+WEBSITE_MODULES_ZIP = q-modules-$(FRAMEWORK_VERSION).js.zip
+WEBSITE_MODULES_MIN_ZIP = q-modules-$(FRAMEWORK_VERSION).min.js.zip
 
 
 ################################################################################
@@ -626,7 +629,7 @@ manual-check-pdf:
 # PUBLISH TARGETS
 ################################################################################
 
-publish-build: build-apps publish-build-components tutorials-build build-framework resources-build manual-build
+publish-build: build-apps publish-build-components publish-build-q-zip tutorials-build build-framework resources-build manual-build
 
 publish-build-components:
 	@( cd component/inspector && $(CMD_GENERATOR) build ) || exit 1
@@ -642,6 +645,12 @@ publish-build-components:
 	@( cd component/standalone/website && $(CMD_GENERATOR) test ) || exit 1
 	@( cd component/standalone/server && $(CMD_GENERATOR) build ) || exit 1
 	@( cd component/standalone/server && $(CMD_GENERATOR) build-min ) || exit 1
+
+publish-build-q-zip:
+	@( cd component/standalone/website && \
+	   $(CMD_ZIP_CREATE) script/$(WEBSITE_MODULES_ZIP) $(addprefix script/q-,$(addsuffix -$(FRAMEWORK_VERSION).js,$(WEBSITE_MODULES))) ) || exit 1
+	@( cd component/standalone/website && \
+	   $(CMD_ZIP_CREATE) script/$(WEBSITE_MODULES_MIN_ZIP) $(addprefix script/q-,$(addsuffix -$(FRAMEWORK_VERSION).min.js,$(WEBSITE_MODULES))) ) || exit 1
 
 publish-check: check-banner check-apps check-components check-framework manual-check resources-check
 	@echo "    - Looks good"
@@ -688,7 +697,11 @@ check-components:
 				[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 				F="component/standalone/$$TARGET/script/q-$$MODULE-$(FRAMEWORK_VERSION).min.js"; \
 				[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-			done \
+			done; \
+			F="component/standalone/$$TARGET/script/$(WEBSITE_MODULES_ZIP)"; \
+			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
+			F="component/standalone/$$TARGET/script/$(WEBSITE_MODULES_MIN_ZIP)"; \
+			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		elif [ "$$TARGET" = "server" ]; then \
 			F="component/standalone/$$TARGET/script/qx-oo-$(FRAMEWORK_VERSION).min.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
@@ -774,6 +787,8 @@ publish-apps:
 				$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q-$$MODULE-$(FRAMEWORK_VERSION).js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
 				$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q-$$MODULE-$(FRAMEWORK_VERSION).min.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
 			done; \
+			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/$(WEBSITE_MODULES_ZIP) $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/$(WEBSITE_MODULES_MIN_ZIP) $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
 			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/api/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT-api || exit 1; \
 			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/test/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT-tests || exit 1; \
 		elif [ "$$COMPONENT" = "server" ]; then \
