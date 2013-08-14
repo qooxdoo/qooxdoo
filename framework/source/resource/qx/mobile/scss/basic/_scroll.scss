@@ -1,0 +1,64 @@
+//
+// SCROLL CONTAINER
+//
+
+$scShadowOffset: pxToEm(10);
+$scShadowColor: rgba(0,0,0,0.3);
+$scShadowColorLight: rgba(0,0,0,0.2);
+
+.scroll-container {
+  background-color:white;
+
+  @include border-radius($input-border-radius);
+  @include box-inset-multi-shadow(
+        0px $scShadowOffset $scShadowOffset -1*$scShadowOffset $scShadowColorLight, 
+        0px -1*$scShadowOffset $scShadowOffset -1*$scShadowOffset $scShadowColorLight
+  );
+
+  border: pxToEm(1) solid $navigationpage-border-color;
+}
+
+.scroll-container:before {
+  @include border-radius-top($input-border-radius);
+  @include box-inset-multi-shadow(
+      0px $scShadowOffset*1.4 $scShadowOffset -1*$scShadowOffset $scShadowColor, 
+      0px 0px $scShadowOffset -1*$scShadowOffset $scShadowColor
+  );
+
+  position:absolute;
+  top:0px;
+  z-index:500;
+  content:"";
+  width:100%;
+  height:0px;
+}
+
+.scroll-container.scrollable-top:before {
+  height:pxToEm(30);
+}
+
+.scroll-container:after {
+  content:"";
+
+  @include border-radius-bottom($input-border-radius);
+  @include box-inset-multi-shadow(
+      0px 0px $scShadowOffset -1*$scShadowOffset $scShadowColor, 
+      0px -1*$scShadowOffset*1.4 $scShadowOffset -1*$scShadowOffset $scShadowColor
+  );
+  
+  position:absolute;
+  bottom:0px;
+  z-index:500;
+  width:100%;
+  height:0px;
+}
+
+.scroll-container.scrollable-bottom:after {
+  height:pxToEm(30);
+}
+
+.scroll-container .text-area {
+  @include border-radius(0);
+  border: pxToEm(2) solid transparent;
+  background: none;
+}

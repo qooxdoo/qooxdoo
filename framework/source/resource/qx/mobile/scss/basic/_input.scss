@@ -1,0 +1,58 @@
+//
+// INPUT FIELDS
+//
+
+.text-field:not(.selectbox), .password-field, .number-field, .text-area {
+  @include border-radius($input-border-radius);
+
+  border: pxToEm(1) solid $input-border-color;
+  color:  $input-text-color;
+}
+
+input.invalid {
+  border: pxToEm(1) solid $input-invalid-border-color !important;
+}
+
+input, .text-area { 
+  font-family: $application-font; 
+}
+
+input, select {
+  vertical-align: middle;
+}
+
+input, select, .text-area {
+  font-size: pxToEm(16);
+}
+
+
+.text-field:not(.selectbox),.number-field, .password-field {
+  @include background-clip(padding-box);
+  text-indent: pxToEm(4);
+  height: pxToEm(32);
+}
+
+.text-field {
+  @include box-sizing(border-box);
+}
+
+.text-field, .password-field, .number-field, .text-area {
+  @include appearance(textarea);
+  width: 100%;
+  outline: none;
+}
+
+.text-field.invalid, .password-field.invalid, .text-area.invalid {
+  border: 1em solid red;
+}
+
+.text-area {
+  @include border-radius(none);
+  @include background-clip(padding-box);
+
+  resize: none;
+  padding-top:pxToEm(4);
+  text-indent:pxToEm(4);
+  height: pxToEm(3);
+  overflow:hidden;
+}
