@@ -53,4 +53,4 @@ Since a class may implement/include one or many interfaces/mixins, which themsel
 qooxdoo OO standalone
 =====================
 
-If you want to use qooxdoo OO layer standalone, take a look at the :ref:`pages/tool/framework_jobs#qxoo-build` generator job of the framework.
+If you want to use qooxdoo OO layer standalone take a look at :doc:`%{Server} </pages/server>`.
