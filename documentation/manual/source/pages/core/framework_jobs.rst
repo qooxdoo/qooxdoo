@@ -16,7 +16,7 @@ These jobs can be invoked in the *framework/* directory with the generator, as `
 
 api
 ---
-Create api doc for the framework. 
+Create api doc for the framework.
 
 .. _pages/tool/framework_jobs#api-data:
 
@@ -48,13 +48,11 @@ images
 ------
 Run the image clipping and combining of framework images.
 
-
 .. _pages/tool/framework_jobs#lint:
 
 lint
 ----
 Check the source code of the frameworks .js files (except the tests).
-
 
 .. _pages/tool/framework_jobs#lint-test:
 
@@ -62,24 +60,11 @@ lint-test
 ---------
 Check the source code of the test .js files of the framework.
 
-.. _pages/tool/framework_jobs#qxoo-build:
-
-qxoo-build
-----------
-Creates a single file containing all the qooxdoo classes of the OO layer. This file can be used in non-browser environments.
-
-.. _pages/tool/framework_jobs#qxoo-noopt:
-
-qxoo-noopt
-----------
-A non-optimized version of :ref:`pages/tool/framework_jobs#qxoo-build`, for debugging.
-
 .. _pages/tool/framework_jobs#test:
 
 test
 ----
-Create a test runner app for unit tests of the framework. 
-
+Create a test runner app for unit tests of the framework.
 
 .. _pages/tool/framework_jobs#test-source:
 
@@ -87,13 +72,11 @@ test-source
 -----------
 Create a test runner app for unit tests (source version) of the framework.
 
-
 .. _pages/tool/framework_jobs#test-inline:
 
 test-inline
 -----------
 Create an inline test runner app for unit tests of the framework.
-
 
 .. _pages/tool/framework_jobs#translation:
 
