@@ -50,7 +50,7 @@ qx.Class.define("mobileshowcase.page.Basic",
       this.getContent().add(new qx.ui.mobile.form.Title("Widget Modes"));
 
       // TOGGLE BUTTON
-      var toggleEnableButton = new qx.ui.mobile.form.ToggleButton(true,"Enable","Disable", 11);
+      var toggleEnableButton = new qx.ui.mobile.form.ToggleButton(true,"Enable","Disable");
 
       toggleEnableButton.addListener("changeValue", function(e) {
         exImage.toggleEnabled();
@@ -66,7 +66,7 @@ qx.Class.define("mobileshowcase.page.Basic",
 
 
       // TOGGLE LABEL WRAP BUTTONT
-      var toggleLabelWrapButton = new qx.ui.mobile.form.ToggleButton(true,"Wrap","Ellipsis", 11);
+      var toggleLabelWrapButton = new qx.ui.mobile.form.ToggleButton(true,"Wrap","Ellipsis");
       toggleLabelWrapButton.addListener("changeValue", function(e) {
         exLabel.toggleWrap();
       }, this);

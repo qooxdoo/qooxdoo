@@ -95,7 +95,7 @@ qx.Class.define("mobileshowcase.page.Drawer",
 
       // Z POSITION TOGGLE BUTTON
 
-      var frontBackToggleButton = new qx.ui.mobile.form.ToggleButton(false, "Above","Below", 13);
+      var frontBackToggleButton = new qx.ui.mobile.form.ToggleButton(false, "Above","Below");
 
       frontBackToggleButton.addListener("changeValue",function() {
         this._togglePositionZ(drawerLeft);
