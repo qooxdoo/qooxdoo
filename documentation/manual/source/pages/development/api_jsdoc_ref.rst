@@ -759,7 +759,7 @@ Description
              * **ignoreUnused**
 
                Scoped variables (function parameters, function expression's identifier, or variables declared with ``var``) which are never used.
-             * **ignoreJsdocKey** *[Not yet implemented]*
+             * **ignoreJsdocKey**
 
                JSDoc @ keys which are either unknown (i.e. not documented on this page) or do not comply with the syntax given here.
       * - name

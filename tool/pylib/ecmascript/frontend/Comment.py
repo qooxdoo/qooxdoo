@@ -1027,9 +1027,8 @@ def parseNode(node, process_txt=True, want_errors=False):
                     if 'error' in entry:
                         lineno = comment.get('line')
                         lineno += entry['line']
-                        msg = "%s (%s): %s" % (filename, lineno, entry['message'])
-                        msg += (": %s" % entry['text']) if 'text' in entry and entry['text'] else ''
-                        context.console.warn(msg)
+                        entry['lineno'] = lineno
+                        entry['filename'] = filename
                         if want_errors or entry['error']=='deprecationWarning':
                             filtered_elements.append(entry)
                     else:

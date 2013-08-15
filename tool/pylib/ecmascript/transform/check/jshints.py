@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-import os, sys, re, types
+import os, sys, re, types, itertools
 from ecmascript.frontend import treeutil, Comment
 from generator.code.HintArgument import HintArgument
 from generator import Context as context
@@ -66,15 +66,25 @@ class CreateHintsVisitor(treeutil.NodeVisitor):
         for cld in node.children:
             self.visit(cld)
 
+    def _key_is_ignored(self, at_key, hint_node):
+        for hint in itertools.chain([hint_node], self.curr_hint.search_upward()):
+            if hint.ident_matches(at_key, ('lint', 'ignoreJsdocKey')):
+                return True
+        return False
+
     def process_comments(self, node):
         hint = None
         if node.comments:
-            commentsArray = Comment.parseNode(node, process_txt=False)
+            commentsArray = Comment.parseNode(node, process_txt=False, want_errors=True)
             if any(commentsArray):
                 hint = Hint()
                 # fill hint from commentAttributes
                 for commentAttributes in commentsArray:
                     for entry in commentAttributes:
+                        # errors treated later
+                        if 'error' in entry:
+                            continue
+                        # add interesting entries to tree
                         cat = entry['category']
                         if cat not in ('ignore', 'lint', 'require', 'use', 'asset', 'cldr'):
                             continue
@@ -82,6 +92,18 @@ class CreateHintsVisitor(treeutil.NodeVisitor):
                             functor = entry.get('functor') # will be None for non-functor keys like @ignore, @require, ...
                             hint.add_entries((cat,functor), entry['arguments'])  # hint.hints['lint']['ignoreUndefined']{'foo','bar'}
                                                                          # hint.hints['ignore'][None]{'foo','bar'}
+
+                # loop again for error logging (here, so you can ignore error entries in the same comment)
+                for commentAttributes in commentsArray:
+                    for entry in commentAttributes:
+                        if 'error' in entry:
+                            if self._key_is_ignored(entry['category'], hint):
+                                continue
+                            else:
+                                msg = "%s (%s): %s" % (entry['filename'], entry['lineno'], entry['message'])
+                                msg += (": %s" % entry['text']) if 'text' in entry and entry['text'] else ''
+                                context.console.warn(msg)
+
         return hint
 
 
