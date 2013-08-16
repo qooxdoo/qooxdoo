@@ -182,7 +182,7 @@ qx.Bootstrap.define("qx.lang.Function",
       {
         if (qx.core.Environment.get("qx.debug"))
         {
-          if (qx.core && qx.core.Object && options.self && qx.Bootstrap.isObject(options.self) && options.self.isDisposed && qx.Bootstrap.isFunction(options.self.isDisposed))
+          if (qx.core.Object && options.self && qx.Bootstrap.isObject(options.self) && options.self.isDisposed && qx.Bootstrap.isFunction(options.self.isDisposed))
           {
             qx.core.Assert && qx.core.Assert.assertFalse(
               options.self.isDisposed(),

@@ -1203,7 +1203,6 @@ qx.Class.define("qx.ui.embed.HtmlArea",
      * @return {String?null} selected text or null if not initialized
      */
     getSelectedHtml : function() {
-      // TODO: need to be implemented correctly
       return this.__editorComponent != null ? this.__editorComponent.getSelectedHtml() : null;
     },
 

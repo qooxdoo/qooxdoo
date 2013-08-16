@@ -557,6 +557,38 @@ qx.Class.define("qx.test.data.controller.Form",
     },
 
 
+    testModelCreationWithList : function() {
+      var form = new qx.ui.form.Form();
+      var list = new qx.ui.form.List();
+      var i1 = new qx.ui.form.ListItem("A");
+      var i2 = new qx.ui.form.ListItem("B");
+      list.add(i1);
+      list.add(i2);
+
+      i1.setModel("A");
+      i2.setModel("B");
+
+      list.setSelection([]);
+
+      form.add(list, "list");
+
+      var controller = new qx.data.controller.Form(null, form);
+      var model = controller.createModel();
+
+      // check if the creation worked
+      this.assertNull(model.getList());
+      list.setSelection([i1]);
+      this.assertEquals("A", model.getList());
+
+      model.dispose();
+      controller.dispose();
+      list.destroy();
+      i1.destroy();
+      i2.destroy();
+      form.dispose();
+    },
+
+
     testModelCreationSpecialCaracter : function() {
       var form = new qx.ui.form.Form();
       var tf1 = new qx.ui.form.TextField("A");

@@ -171,7 +171,11 @@ qx.Class.define("qx.ui.core.Blocker",
     __onWidgetAppear : function()
     {
       this._updateBlockerBounds(this._widget.getBounds());
-      this._widget.getLayoutParent().getContentElement().add(this.getBlockerElement());
+      if (this._widget.isRootWidget()) {
+        this._widget.getContentElement().add(this.getBlockerElement());
+      } else {
+        this._widget.getLayoutParent().getContentElement().add(this.getBlockerElement());
+      }
     },
 
 

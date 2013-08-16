@@ -128,7 +128,6 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: send sync request": function() {
-      // TODO: Firefox: "Access to restricted URI denied"
       this.require(["http"]);
 
       this.setUpFakeTransport();
@@ -197,6 +196,25 @@ qx.Class.define("qx.test.io.request.Xhr",
       obj.dispose();
     },
 
+    "test: serialize data": function() {
+      var req = this.req,
+          data = {"abc": "def", "uvw": "xyz"},
+          contentType = "application/json";
+
+      this.assertNull(req._serializeData(null));
+      this.assertEquals("leaveMeIntact", req._serializeData("leaveMeIntact"));
+      this.assertEquals("abc=def&uvw=xyz", req._serializeData(data));
+
+      req.setRequestHeader("Content-Type", "arbitrary/contentType");
+      this.assertEquals("abc=def&uvw=xyz", req._serializeData(data));
+
+      req.setRequestHeader("Content-Type", contentType);
+      this.assertEquals('{"abc":"def","uvw":"xyz"}', req._serializeData(data));
+
+      req.setRequestHeader("Content-Type", contentType);
+      this.assertEquals('[1,2,3]', req._serializeData([1,2,3]));
+    },
+
     //
     // Header and Params (cont.)
     //
@@ -232,6 +250,13 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.req.send();
 
       this.assertCalledWith(this.transport.setRequestHeader, "Accept", "application/json");
+    },
+
+    "test: override response content type": function() {
+      this.setUpFakeTransport();
+      this.req.overrideResponseContentType("text/plain;charset=Shift-JIS");
+
+      this.assertCalledWith(this.transport.overrideMimeType, "text/plain;charset=Shift-JIS");
     },
 
     "test: get response content type": function() {
@@ -288,7 +313,6 @@ qx.Class.define("qx.test.io.request.Xhr",
     //
 
     "test: sync XHR properties for every readyState": function() {
-      // TODO: Status is [0, 200, 200, 200] when from file://
       this.require(["http"]);
 
       this.setUpFakeServer();

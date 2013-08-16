@@ -151,8 +151,9 @@ class ApiLoader(object):
 
         self._console.outdent()
 
-        self._console.info("Connecting classes...")
+        self._console.info("Connecting classes...  ", feed=False)
         api.connectPackage(docTree, docTree)
+        self._console.dotclear()
 
         self._console.info("Generating search index...")
         index = self.docTreeToSearchIndex(docTree, "", "", "")

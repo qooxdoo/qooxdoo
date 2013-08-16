@@ -29,8 +29,6 @@
  * <li>Border radius</li>
  * <li>Box shadow</li>
  * </ul>
- *
- * TODO: Border image, HBox/VBox
  */
 qx.Class.define("qx.ui.decoration.Decorator", {
 

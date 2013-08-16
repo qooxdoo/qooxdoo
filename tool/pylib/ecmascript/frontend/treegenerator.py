@@ -93,7 +93,7 @@ STATEMENT_NODE_TYPES = "loop var continue break return switch throw try".split()
 StmntTerminatorTokens = ("eol", ";", "}", "eof")
 
 SYMBOLS = {
-    "infix" : "* / % << >> >>> < <= > >= != == !== === & ^ | && ||".split(),
+    "infix" : ", * / % << >> >>> < <= > >= != == !== === & ^ | && ||".split(),
     "infix_v" : "in instanceof".split(),
     "infix_r" : "= <<= -= += *= /= %= |= ^= &= >>= >>>=".split(),
     "prefix"  : "~ !".split(),  # '/' left out, as never seen by the parser as prefix op (but regexp constant)
@@ -653,7 +653,7 @@ def preinfix(id_, bp):  # pre-/infix operators (+, -)
 def prepostfix(id_, bp):  # pre-/post-fix operators (++, --)
     def pfix(self):  # prefix
         self.set("left", "true")
-        self.childappend(expression())  # overgenerating! only lvals allowed
+        self.childappend(expression(symbol("delete").bind_left - 1))  # so that only >= unary ops ("lvals") get through
         return self
     symbol(id_, bp).pfix = pfix
 
@@ -685,10 +685,12 @@ def prepostfix(id_, bp):  # pre-/post-fix operators (++, --)
 
 def advance(id_=None):
     global token
+    t = token
     if id_ and token.id != id_:
         raise SyntaxException("Syntax error: Expected %r (pos %r)" % (id_, (token.get("line"),token.get("column"))))
     if token.id != "eof":
         token = next()
+    return t
 
 # decorator
 
@@ -753,9 +755,10 @@ infix_r("<<=",10); infix_r("-=", 10); infix_r("+=", 10); infix_r("*=", 10)
 infix_r("/=", 10); infix_r("%=", 10); infix_r("|=", 10); infix_r("^=", 10)
 infix_r("&=", 10); infix_r(">>=",10); infix_r(">>>=",10)
 
-symbol(":", 0) #infix(":", 15)    # ?: and {1:2,...} and label:
+#symbol(",", 0) 
+infix(",", 5)  # good for expression lists, but problematic for parsing arrays, maps
 
-symbol(",", 0) # infix(",", 5) -- good for expression lists, but problematic for parsing arrays, maps
+symbol(":", 5) #infix(":", 15)    # ?: and {1:2,...} and label:
 
 symbol(";", 0)
 symbol("*/", 0)  # have to register this in case a regexp ends in this string
@@ -806,17 +809,16 @@ def toListG(self):
 #def pfix(self):
 #    pass
 
-
 # ternary op ?:
 @method(symbol("?"))
 def ifix(self, left):
     # first
     self.childappend(left)
     # second
-    self.childappend(expression())
+    self.childappend(expression(symbol(":").bind_left +1))
     advance(":")
     # third
-    self.childappend(expression())
+    self.childappend(expression(symbol(",").bind_left +1))
     return self
 
 
@@ -955,7 +957,8 @@ def pfix(self):
         while True:
             if token.id == ")":
                 break
-            group.childappend(expression())
+            #group.childappend(expression())  # future:
+            group.childappend(expression(symbol(",").bind_left +1))
             if token.id != ",":
                 break
             advance(",")
@@ -1015,7 +1018,8 @@ def pfix(self):
         elif token.id == ",":  # elision
             arr.childappend(symbol("(empty)")())
         else:
-            arr.childappend(expression())  # future: expression(symbol(",").bind_left +1)
+            #arr.childappend(expression())  # future: 
+            arr.childappend(expression(symbol(",").bind_left +1))
         if token.id != ",":
             break
         else:
@@ -1094,7 +1098,8 @@ def pfix(self):
             map_item.comments = keyname.comments
             advance(":")
             # value
-            keyval = expression()  # future: expression(symbol(",").bind_left +1)
+            #keyval = expression()  # future: 
+            keyval = expression(symbol(",").bind_left +1)
             val = symbol("value")(token.get("line"), token.get("column"))
             val.childappend(keyval)
             map_item.childappend(val)  # <value> is a child of <keyvalue>
@@ -1362,7 +1367,7 @@ def std(self):
     advance("(")
     # try to consume the first part of a (pot. longer) condition
     if token.id != ";":
-        chunk = expression()
+        chunk = expression(symbol(",").bind_left+1)
     else:
         chunk = None
 
@@ -1408,7 +1413,7 @@ def std(self):
             exprList = symbol("expressionList")(token.get("line"), token.get("column"))
             second.childappend(exprList)
             while token.id != ';':
-                expr = expression (0)
+                expr = expression(symbol(",").bind_left+1)
                 exprList.childappend(expr)
                 if token.id == ',':
                     advance(',')
@@ -1420,7 +1425,7 @@ def std(self):
             exprList = symbol("expressionList")(token.get("line"), token.get("column"))
             third.childappend(exprList)
             while token.id != ')':
-                expr = expression(0)
+                expr = expression(symbol(",").bind_left+1)
                 exprList.childappend(expr)
                 if token.id == ',':
                     advance(',')
@@ -1494,9 +1499,12 @@ symbol("while")
 def std(self):
     self.type = "loop" # compat with Node.type
     self.set("loopType", "WHILE")
-    advance("(")
-    self.childappend(expression())
-    advance(")")
+    t = advance("(")
+    group = t.pfix()  # group parsing eats ")"
+    exprList = symbol("expressionList")(t.get("line"),t.get("column"))
+    self.childappend(exprList)
+    for c in group.children:
+        exprList.childappend(c)
     body = symbol("body")(token.get("line"), token.get("column"))
     body.childappend(statementOrBlock())
     self.childappend(body)
@@ -1530,9 +1538,8 @@ def std(self):
     body.childappend(statementOrBlock())
     self.childappend(body)
     advance("while")
-    advance("(")
-    self.childappend(expression(0))
-    advance(")")
+    group = advance("(")
+    self.childappend(group.pfix())
     return self
 
 @method(symbol("do"))
@@ -1542,9 +1549,7 @@ def toJS(self, opts):
     r.append(self.space())
     r.append(self.children[0].toJS(opts))
     r.append('while')
-    r.append('(')
     r.append(self.children[1].toJS(opts))
-    r.append(')')
     return ''.join(r)
 
 @method(symbol("do"))
@@ -1783,7 +1788,7 @@ def std(self):
         elif token.id == "case":
             case = token  # make 'case' the root node (instead e.g. ':')
             advance("case")
-            case.childappend(expression(0))
+            case.childappend(expression(symbol(":").bind_left +1))
             advance(":")
             if token.id in ("case", "default") : # fall-through
                 pass
@@ -2204,19 +2209,19 @@ def toJS(self, opts):
 symbol("third").toListG = toListG_just_children
 
 
-symbol("params")
+#symbol("params")
 
-@method(symbol("params"))
-def toJS(self, opts):
-    r = u''
-    self.noline()
-    r += self.write("(")
-    a = []
-    for c in self.children:
-        a.append(c.toJS(opts))
-    r += ','.join(a)
-    r += self.write(")")
-    return r
+#@method(symbol("params"))
+#def toJS(self, opts):
+#    r = u''
+#    self.noline()
+#    r += self.write("(")
+#    a = []
+#    for c in self.children:
+#        a.append(c.toJS(opts))
+#    r += ','.join(a)
+#    r += self.write(")")
+#    return r
 
 
 # - Helpers --------------------------------------------------------------------

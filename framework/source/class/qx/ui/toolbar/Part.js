@@ -122,6 +122,9 @@ qx.Class.define("qx.ui.toolbar.Part",
           control = new qx.ui.toolbar.PartContainer();
           control.addListener("syncAppearance", this.__onSyncAppearance, this);
           this._add(control);
+          control.addListener("changeChildren", function() {
+            this.__onSyncAppearance();
+          }, this);
           break;
       }
 

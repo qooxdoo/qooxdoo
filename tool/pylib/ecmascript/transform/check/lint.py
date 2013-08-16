@@ -32,6 +32,7 @@ from ecmascript.transform.check  import scopes
 from ecmascript.transform.check  import jshints
 from ecmascript.transform.check  import global_symbols as gs
 from generator.runtime.CodeIssue import CodeIssue
+from misc.util import curry3, inverse, pipeline, bind
 
 class LintChecker(treeutil.NodeVisitor):
 
@@ -138,35 +139,59 @@ class LintChecker(treeutil.NodeVisitor):
                     issue.name = full_name  # @deprecated {3.0} to filter against #ignore later
                     self.issues.append(issue)
 
+    def filter_configsymbols(self, global_nodes):
+        return dict([(key,nodes) for (key,nodes) in global_nodes.items()
+            if key not in self.opts.allowed_globals])
+
+    def filter_libsymbols(self, global_nodes):
+        is_libsymbol = curry3(gs.test_for_libsymbol, 
+            self.opts.class_namespaces)(self.known_globals_bases) # known classes (classList + namespaces)
+        return dict([(key,nodes) for (key,nodes) in global_nodes.items()
+            if not is_libsymbol(key)])
+
+    def filter_builtins(self, global_nodes):
+        filtered_keys = gs.globals_filter_by_builtins(global_nodes.keys())
+        return dict([(key,nodes) for (key,nodes) in global_nodes.items()
+            if key in filtered_keys])
+
+    def filter_jshints(self, global_nodes):
+        new_nodes = {}
+        for key, nodes in global_nodes.items():
+            new_nodes[key] = [node for node in nodes 
+                if not gs.name_is_jsignored(key,node)]
+        return new_nodes
+
     def unknown_globals(self, scope):
+        # helper functions
+        not_jsignored = inverse(gs.test_ident_is_jsignored)
+        not_builtin = inverse(gs.test_ident_is_builtin())
+        not_libsymbol = inverse(curry3(gs.test_for_libsymbol, 
+            self.opts.class_namespaces)(self.known_globals_bases))
+        not_confsymbol = lambda node: globals_table[node] not in self.opts.allowed_globals
+        def warn_appender(global_nodes):
+            for node in global_nodes:
+                issue = warn("Unknown global symbol used: '%s'" % globals_table[node], self.file_name, node)
+                issue.name = globals_table[node] # @deprecated {3.0} to filter against #ignore later
+                self.issues.append(issue)
+
+        # ------------------------------
         # collect scope's global use locations
-        global_nodes = defaultdict(list)  # {assembled: [node]}
+        globals_table = {} # {node: assembled}
         for id_, scopeVar in scope.globals().items():
             for head_node in scopeVar.uses:
                 var_top = treeutil.findVarRoot(head_node)
-                full_name = (treeutil.assembleVariable(var_top))[0]
-                global_nodes[full_name].append(head_node)
-        # filter allowed globals
-        # - from config
-        global_nodes = dict([(key,nodes) for (key,nodes) in global_nodes.items()
-            if key not in self.opts.allowed_globals])
-        # - from known classes and namespaces
-        global_nodes = dict([(key,nodes) for (key,nodes) in global_nodes.items()
-            if not extension_match_in(key, self.known_globals_bases, self.opts.class_namespaces)]) # known classes (classList + their namespaces)
-        # - from built-ins
-        new_keys = gs.globals_filter_by_builtins(global_nodes.keys())
-        global_nodes = dict([(key,nodes) for (key,nodes) in global_nodes.items()
-            if key in new_keys])
-        # - with jshints
-        for key, nodes in global_nodes.items():
-            global_nodes[key] = [node for node in nodes 
-                if not gs.ident_is_ignored(key, node)]
-        # warn remaining
-        for key, nodes in global_nodes.items():
-            for node in nodes:
-                issue = warn("Unknown global symbol used: '%s'" % key, self.file_name, node)
-                issue.name = key # @deprecated {3.0} to filter against #ignore later
-                self.issues.append(issue)
+                assembled = (treeutil.assembleVariable(var_top))[0]
+                globals_table[head_node] = assembled
+
+        # filter and add remains to warnings
+        pipeline(
+            globals_table.keys()
+            , bind(filter, not_builtin)
+            , bind(filter, not_jsignored)
+            , bind(filter, not_libsymbol)
+            , bind(filter, not_confsymbol)
+            , warn_appender
+            )
 
 
     def locals_shadowing_globals(self, scope):
@@ -552,35 +577,6 @@ def defaultOptions():
 
     return opts
 
-##
-# A known qx global is either exactly a name space, or a dotted identifier that
-# is a dotted extension of a known class.
-#
-# (This is a copy of MClassDependencies._splitQxClass).
-#
-def extension_match_in(name, name_list, name_spaces):
-    res_name = ''
-    res_attribute = ''
-    # check for a name space match
-    if name in name_spaces:
-        res_name = name
-    # see if name is a (dot-exact) prefix of any of name_list
-    else:
-        for class_name in name_list:
-            if (name.startswith(class_name) and 
-                    re.search(r'^%s\b' % re.escape(class_name), name)): 
-                    # re.escape for e.g. the '$' in 'qx.$$'
-                    # '\b' so that 'mylib.Foo' doesn't match 'mylib.FooBar'
-                if len(class_name) > len(res_name): # take the longest match (?!)
-                    res_name = class_name
-                    ## compute the 'attribute' suffix
-                    #res_attribute = name[ len(class_name) +1:]  # skip class_name + '.'
-                    ## see if res_attribute is chained, too
-                    #dotidx = res_attribute.find(".")
-                    #if dotidx > -1:
-                    #    res_attribute = res_attribute[:dotidx]    # only use the first component
-
-    return res_name
 
 # - ---------------------------------------------------------------------------
 

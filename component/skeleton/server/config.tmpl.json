@@ -20,6 +20,7 @@
     "build",
     "clean",
     "distclean",
+    "dependencies",
     "fix",
     "info",
     "lint",
@@ -49,7 +50,14 @@
 
   "config-warnings" :
   {
-    "job-shadowing" : ["source", "build-resources", "build-script", "build-files", "api-data"]
+    "job-shadowing" : [
+      "api-data",
+      "build-files",
+      "build-resources",
+      "build-script",
+      "dependencies",
+      "source"
+    ]
   },
 
   // You only need to edit the remainder of this file, if you want to customize
@@ -200,6 +208,11 @@
         "API_INCLUDE" : ["qx.core.BaseInit", "$${APPLICATION}.Application"],
         "API_EXCLUDE" : ["qx.test.*", "$${APPLICATION}.test.*", "qx.bom.*", "qx.dom.*"]
       }
+    },
+
+    "dependencies" : 
+    {
+      "=exclude" : [ "$${APPLICATION}.test.*" ]
     }
   }
 }

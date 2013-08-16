@@ -29,7 +29,7 @@ from generator         import Context
 from misc              import filetool, textutil, json, util
 from misc.ExtMap       import ExtMap
 from ecmascript.transform.optimizer import privateoptimizer
-from generator.action.CodeGenerator   import CodeGenerator
+from generator.output.CodeGenerator   import CodeGenerator
 from generator.code.Class           import Class, CompileOptions
 
 def runLogUnusedClasses(jobconf, script):

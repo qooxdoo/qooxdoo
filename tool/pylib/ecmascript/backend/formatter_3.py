@@ -298,6 +298,15 @@ def format(self, optns, state):
             cld.format(optns, state)
         state.outdent()
 
+@method(symbol("do"))
+def format(self, optns, state):
+    self.commentsPretty(self.comments, optns, state)
+    state.add(self.get("value"),self, optns)
+    state.add(self.space(),_, optns)
+    for cld in self.children:
+        if cld.id == "while":
+            state.add(self.space(),_, optns)
+        cld.format(optns, state)
 
 @method(symbol("default"))
 def format(self, optns, state):

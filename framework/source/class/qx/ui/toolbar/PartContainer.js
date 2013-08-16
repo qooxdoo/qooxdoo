@@ -29,13 +29,6 @@ qx.Class.define("qx.ui.toolbar.PartContainer",
   extend : qx.ui.container.Composite,
 
 
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   construct : function()
   {
     this.base(arguments);
@@ -43,13 +36,11 @@ qx.Class.define("qx.ui.toolbar.PartContainer",
   },
 
 
+  events : {
+    /** Fired if a child has been added or removed */
+    changeChildren : "qx.event.type.Event"
+  },
 
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
   properties :
   {
     appearance :
@@ -65,6 +56,20 @@ qx.Class.define("qx.ui.toolbar.PartContainer",
       check : [ "both", "label", "icon" ],
       inheritable : true,
       event : "changeShow"
+    }
+  },
+
+
+  members : {
+    // overridden
+    _afterAddChild : function(child) {
+      this.fireEvent("changeChildren");
+    },
+
+
+    // overridden
+    _afterRemoveChild : function(child) {
+      this.fireEvent("changeChildren");
     }
   }
 });

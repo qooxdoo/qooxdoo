@@ -214,6 +214,7 @@ def run_tree(fileName, fileContent, options, args):
     tokens = tokenizer.Tokenizer().parseStream(fileContent, fileName)
     if not options.quiet: print ">>> Creating tree..."
     tree = treegenerator.createFileTree(tokens)
+    #tree = treegenerator_3.createFileTree(tokens)
     if not options.quiet: print ">>> Printing out tree..."
     print tree.toXml().encode('utf-8')
     return

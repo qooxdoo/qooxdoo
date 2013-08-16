@@ -279,7 +279,7 @@ properties:
         {
           check : "String",
           nullable : false,
-          init : null,
+          init : "",
           event : "changeUsername",
           apply : "_applyUsername"  // this method is called when the username property is set
         }
@@ -464,7 +464,7 @@ Great, you have made it so far! In the last section we will display a
 tweet on a new page when the user selects a certain tweet. Sometimes it
 can happen that a tweet is too long for a list entry. Ellipses are then
 shown at the end of the tweet. That is why we want to give the user a
-chance to display the whole tweet. Lets create a simple "Tweet" page
+chance to display the whole tweet. Lets create a simple "TweetDetail" page
 that only shows a ``qx.ui.mobile.basic.Label`` with the selected tweet
 text. To do so, we bind the ``text`` property of the tweet to the label's
 ``value`` property. Create the page, like you have done before, in the
@@ -472,7 +472,7 @@ text. To do so, we bind the ``text`` property of the tweet to the label's
 be something new for you:
 ::
 
-    qx.Class.define("mobiletweets.page.Tweet",
+    qx.Class.define("mobiletweets.page.TweetDetail",
     {
       extend : qx.ui.mobile.page.NavigationPage,
 
@@ -510,12 +510,12 @@ be something new for you:
       }
     });
 
-Now create the instance of the "Tweet" page in the Application ``main``
+Now create the instance of the "TweetDetail" page in the Application ``main``
 method and return to the "Tweets" page, when the ``back`` listener is
 called.
 ::
 
-    var tweetPage = new mobiletweets.page.Tweet();
+    var tweetPage = new mobiletweets.page.TweetDetail();
 
     // Add page to manager
     manager.addDetail(tweetPage);
@@ -525,7 +525,7 @@ called.
       tweetsPage.show({reverse:true});
     }, this);
 
-Until now we will never see the "Tweet" page as its ``show`` method is
+Until now we will never see the "TweetDetail" page as its ``show`` method is
 never called. First we have to react in the "Tweets" page on a selection
 change event of the list, by registering the ``changeSelection`` event
 on the list in the ``_initialize`` method:
@@ -554,7 +554,7 @@ event has to be defined in the ``events`` section of the "Tweets" class:
 All we need to do now is to listen to the ``showTweet`` event in the
 "Application" class main method, retrieve the index from the data event
 and to get the corresponding tweet from the data. Finally we show our
-"Tweet" page.
+"TweetDetail" page.
 ::
 
     // Show the selected tweet

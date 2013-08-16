@@ -2257,6 +2257,20 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       return this.__paneClipper;
     },
 
+
+    /**
+     * Returns the scroll area container widget (which enables more precise
+     * operations e.g. bounds retrieval for drag session scrolling).
+     *
+     * @see qx.ui.core.MDragDropScrolling#_getBounds
+     * @return {qx.ui.table.pane.Clipper}
+     *   The pane clipper for this scroller.
+     */
+    getScrollAreaContainer : function() {
+      return this.getPaneClipper();
+    },
+
+
     // property apply method
     _applyScrollTimeout : function(value, old) {
       this._startInterval(value);

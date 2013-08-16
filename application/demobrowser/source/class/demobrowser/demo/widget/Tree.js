@@ -57,7 +57,8 @@ qx.Class.define("demobrowser.demo.widget.Tree",
     {
       var tree = new qx.ui.tree.Tree().set({
         width : 200,
-        height : 400
+        height : 400,
+        draggable: true
       });
 
       var root = new qx.ui.tree.TreeFolder("root");

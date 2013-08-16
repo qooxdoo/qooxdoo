@@ -15,6 +15,7 @@
     "build",
     "clean",
     "distclean",
+    "dependencies",
     "fix",
     "info",
     "lint",
@@ -49,7 +50,11 @@
 
   "config-warnings" :
   {
-    "job-shadowing" : ["source-all-script", "common"]
+    "job-shadowing" : [
+      "common",
+      "dependencies",
+      "source-all-script"
+    ]
   },
 
   // You only need to edit the remainder of this file, if you want to customize
@@ -78,7 +83,13 @@
         "qx.test.*",
         "$${APPLICATION}.test.*"
       ]
+    },
+
+    "dependencies" : 
+    {
+      "=exclude" : [ "$${APPLICATION}.test.*" ]
     }
+
     // Uncomment the following entry to add a contrib or library to your
     // project; make sure to adapt the path to the Manifest.json; if you are
     // using a contrib: library, it will be downloaded into the path specified

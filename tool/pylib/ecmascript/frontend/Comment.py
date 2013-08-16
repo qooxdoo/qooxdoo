@@ -148,20 +148,6 @@ def nameToDescription(name):
 
     return desc
 
-##
-# Parsed comments are represented as lists of "attributes". This is a schematic:
-# [{
-#   'category' : 'description'|'param'|'throws'|'return'| ... (prob. all '@' tags),
-#   'text'     : <descriptive string>,
-#   'name'     : <name e.g. param name>,
-#   'defaultValue' : <param default value>,
-#   'type'     : [{                    (array for alternatives, e.g. "{Map|null}")
-#     'type': 'Map'|'String'|...,   (from e.g. "{String[]}")
-#     'dimensions': <int>  (0 = scalar, 1 = array, ...)
-#   }]
-# }]
-#
-
 def getAttrib(attribList, category):
     for attrib in attribList:
         if attrib["category"] == category:
@@ -299,6 +285,17 @@ class Comment(object):
         
         hint_sign = re.compile(r'^\s*@(@?\w+)')
 
+        def getOpts():
+            class COpts(object): pass
+            opts = COpts()
+            opts.warn_unknown_jsdoc_keys = context.jobconf.get(
+                "lint-check/warn-unknown-jsdoc-keys", False)
+            opts.warn_jsdoc_key_syntax = context.jobconf.get(
+                "lint-check/warn-jsdoc-key-syntax", True)
+            return opts
+
+        opts = getOpts()
+
         def remove_decoration(text):
             # Strip "/**", "/*!" and "*/"
             intext = self.string[3:-2]
@@ -316,7 +313,6 @@ class Comment(object):
             line_no = 1  # pretend '/**' was 1, next is 2
             section_lines = [[line_no,'']]  # add a fake empty description
             in_hint = 0
-            comment_lines = comment_lines[1:]  # there is an artefact emtpy first line
             for line in comment_lines:
                 if hint_sign.search(line):
                     section_lines.append([line_no,line])  # new section
@@ -330,16 +326,52 @@ class Comment(object):
                 line_no += 1
             return section_lines
 
-        def getOpts():
-            class COpts(object): pass
-            opts = COpts()
-            opts.warn_unknown_jsdoc_keys = context.jobconf.get("lint-check/warn-unknown-jsdoc-keys", False)
-            opts.warn_jsdoc_key_syntax = context.jobconf.get("lint-check/warn-jsdoc-key-syntax", True)
-            return opts
+        ##
+        # Parse section with dedicated parser
+        def handle_known(hint_key, line):
+            entry = None
+            try:
+                entry = getattr(self, "parse_at_"+hint_key)(line)
+            except py.ParseException, e:
+                if opts.warn_jsdoc_key_syntax:
+                    if want_errors:
+                        entry = {
+                          "error" : "parseError",
+                          "message" : "Unable to parse JSDoc entry",
+                          "category": hint_key,
+                          "text": line.strip() 
+                        }
+                    else:
+                        context.console.warn(
+                            "Unable to parse JSDoc entry: '%s'" % line.strip())
+            return entry
 
+        ##
+        # Parse section with unknown hint key
+        def handle_unknown(hint_key, line):
+            entry = self.parse_at__default_(line)
+            if opts.warn_unknown_jsdoc_keys:
+                msg = "Unknown '@' hint in JSDoc comment: " + hint_key
+                if want_errors:
+                    entry["error"] = "parseError",
+                    entry["message"] = msg
+                else:
+                    context.console.warn(msg)
+                    entry = None
+            return entry
+
+        def handle_description(line):
+            return {
+               "category" : "description",
+               "text" : line.strip(),
+            }
+
+        Keys_default_parsed = (
+            'abstract', # @abstract; pend. bug#6738
+            'tag',      # @tag foo; in Demobrowser
+            'protected', # @protected used in generated docs in api.py
+        )
         # ----------------------------------------------------------------------
-
-        opts = getOpts()
 
         # remove '*' etc.
         comment_lines = remove_decoration(self.string)
@@ -349,53 +381,31 @@ class Comment(object):
 
         attribs = []
         for line_no, line in section_lines:
+            entry = None
             mo = hint_sign.search(line)
-            # @<hint> entry
-            if mo:
-                hint_key = mo.group(1)
-                if hint_key[0] == '@': # escaped @@hint
-                    continue
-                # specific parsing
-                if hasattr(self, "parse_at_"+hint_key):
-                    try:
-                        entry = getattr(self, "parse_at_"+hint_key)(line)
-                    except py.ParseException, e:
-                        if opts.warn_jsdoc_key_syntax:
-                            if want_errors:
-                                entry = {
-                                  "error" : "parseError",
-                                  "message" : "Unable to parse JSDoc entry",
-                                  "category": hint_key,
-                                  "text": line.strip() 
-                                }
-                            else:
-                                context.console.warn("Unable to parse JSDoc entry: '%s'" % line.strip())
-                # known tag with default parsing
-                elif hint_key in (
-                        'abstract', # @abstract; pend. bug#6738
-                        'tag',      # @tag foo; in Demobrowser
-                        'protected', # @protected used in generated docs in api.py
-                    ):
-                    entry = self.parse_at__default_(line)
-                # unknown tag
-                else:
-                    entry = self.parse_at__default_(line)
-                    if opts.warn_unknown_jsdoc_keys:
-                        msg = "Unknown '@' hint in JSDoc comment: " + hint_key
-                        if want_errors:
-                            entry["error"] = "parseError",
-                            entry["message"] = msg
-                        else:
-                            context.console.warn(msg)
+            hint_key = mo.group(1) if mo else ''
+
+            # description
+            if mo is None:
+                entry = handle_description(line)
+            # escaped @@hint
+            elif hint_key[0] == '@':
+                continue
+            # known entries like @param
+            elif hasattr(self, "parse_at_"+hint_key):
+                entry = handle_known(hint_key, line)
+            # known entries with default parse
+            elif hint_key in Keys_default_parsed:
+                entry = self.parse_at__default_(line)
+            # unknown key
+            else:
+                entry = handle_unknown(hint_key, line)
+
+            # add to collection
+            if entry:
                 entry['line'] = line_no
                 attribs.append(entry)
-            # description
-            else:
-                attribs.append({
-                   "category" : "description",
-                   "text" : line.strip(),
-                   "line" : line_no,
-                })
+
 
         # format texts
         for entry in attribs:
@@ -1002,9 +1012,8 @@ def parseNode(node, process_txt=True, want_errors=False):
                     if 'error' in entry:
                         lineno = comment.get('line')
                         lineno += entry['line']
-                        msg = "%s (%s): %s" % (filename, lineno, entry['message'])
-                        msg += (": %s" % entry['text']) if 'text' in entry and entry['text'] else ''
-                        context.console.warn(msg)
+                        entry['lineno'] = lineno
+                        entry['filename'] = filename
                         if want_errors or entry['error']=='deprecationWarning':
                             filtered_elements.append(entry)
                     else:

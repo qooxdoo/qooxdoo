@@ -21,7 +21,7 @@
 /**
  * DOM manipulation module
  *
- * @ignore(qx.bom.element.AnimationJs)
+ * @ignore(qx.bom.element, qx.bom.element.AnimationJs)
  */
 qx.Bootstrap.define("qx.module.Manipulating", {
   statics :

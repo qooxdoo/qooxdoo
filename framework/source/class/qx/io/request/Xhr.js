@@ -311,7 +311,7 @@ qx.Class.define("qx.io.request.Xhr",
      * Set parser used to parse response once request has
      * completed successfully.
      *
-     * @see {@link qx.util.ResponseParser#setParser}
+     * @see qx.util.ResponseParser#setParser
      *
      * @param parser {String|Function}
      * @return {Function} The parser function

@@ -27,17 +27,18 @@ import re, os, sys, types, string, time
 
 from misc                            import textutil, util, json
 from generator.code.DependencyLoader import DependencyLoader
-from generator.code.PartBuilder      import PartBuilder
-from generator.code.Script           import Script
-from generator.code.Package          import Package
-from generator.code.Part             import Part
+from generator.output.PartBuilder      import PartBuilder
+from generator.output.Script           import Script
+from generator.output.Package          import Package
+from generator.output.Part             import Part
 from generator.code.qcEnvClass       import qcEnvClass
-from generator.action.CodeGenerator  import CodeGenerator
+from generator.output.CodeGenerator  import CodeGenerator
 from generator.action.ActionLib      import ActionLib
 from generator.action.Locale         import Locale as LocaleCls
 from generator.action                import ApiLoader, Locale, CodeMaintenance, Testing
-from generator.action                import CodeProvider, Logging, FileSystem, Resources
+from generator.action                import Logging, FileSystem, Resources
 from generator.action                import MiniWebServer, JsonValidation
+from generator.output                import CodeProvider
 from generator.runtime.Cache         import Cache
 from generator                       import Context
 
@@ -683,7 +684,6 @@ class Generator(object):
             libraries.append(libObj)
 
         self._console.dotclear()
-        self._console.nl()
         self._console.outdent()
         self._console.debug("Loaded %s libraries" % len(namespaces))
         self._console.debug("")

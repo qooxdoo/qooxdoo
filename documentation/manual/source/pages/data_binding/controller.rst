@@ -33,10 +33,43 @@ want to convert the view widgets to the model widgets. Therefore, the
 controller does that mapping for you. There is a selection array available on
 the controller containing the currently selected model items. When using the
 selection of the controller, there is no need to deal with view widgets like
-ListItems. It is also possible to change the array in place and add / remove
+list items. It is possible to change the array in place and add / remove
 something from the selection. As it is a data array, you can use all methods
 defined by that array to manipulate the selection of the corresponding
 controller.
+
+Here are some samples showing how to manipulate the selection:
+
+::
+
+  // select 'modelItem'
+  controller.getSelection().setItem(0, modelItem); 
+  // empty the selection
+  controller.getSelection().removeAll();
+  // add 'modelItem' to the selected items
+  controller.getSelection().push(modelItem);
+
+If you want to be notified on selection changes, you can again benefit from the data array, which offers a change event as soon as the content changes.
+
+::
+
+  controller.getSelection().addListener("change", function(e) {});
+
+This adds a listener to the ``change`` event of the selection array. The controller also offer a ``changeSelection`` event which is not, like you might expect, an event fired as soon as any selected item changes. It is the change event for the selection property which holds the selection array.
+
+It's not recommended to set the whole selection array but you can still do that. There are two good  reasons why you shouldn't. First, you have to make sure your change listener is back in place and second, you have to make sure the old array is properly disposed. Here is a sample how it should be done.
+
+::
+
+  var oldSelection = controller.getSelection();
+  oldSelection.removeListener("change", this._onChange);
+  oldSelection.dispose();
+  controller.setSelection(newSelection);
+  newSelection.addListener("change", this._onChange);
+
+For more details about the data array, check out the :ref:`models page <pages/data_binding/models#data_array>`.
+
+
 
 .. _pages/data_binding/controller#delegate:
 
@@ -248,4 +281,3 @@ single value binding. The trick is not to set the model of the list controller
 at creation time. The model will be set by the single value binding from the
 tree controllers selection. This works because the selection will be provided
 as data array.
-

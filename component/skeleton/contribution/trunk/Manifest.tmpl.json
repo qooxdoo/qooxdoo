@@ -1,15 +1,16 @@
 {
-  "info" : 
+  "info" :
   {
     "name" : "${Name}",
+    "category" : [],
 
     "summary" : "${Name} Contribution",
     "description" : "This is a skeleton for a qooxdoo contribution.",
-    
+
     "homepage" : "http://contrib.qooxdoo.org/project/${Name}",
 
     "license" : "LGPL/EPL",
-    "authors" : 
+    "authors" :
     [
       {
         "name" : "First Author (uid)",
@@ -18,10 +19,13 @@
     ],
 
     "version" : "trunk",
-    "qooxdoo-versions": ["${QOOXDOO_VERSION}"]
+    "qooxdoo-versions": ["${QOOXDOO_VERSION}"],
+
+    "download" : "",
+    "checksum" : ""
   },
-  
-  "provides" : 
+
+  "provides" :
   {
     "namespace"   : "${Namespace}",
     "encoding"    : "utf-8",

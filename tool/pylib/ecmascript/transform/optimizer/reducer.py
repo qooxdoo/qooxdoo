@@ -7,7 +7,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2012 1&1 Internet AG, Germany, http://www.1und1.de
+#    2006-2013 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -20,8 +20,7 @@
 ################################################################################
 
 ##
-# Reduce conditional expressions that are decidable. Requires .evaluated.
-# Modifies tree structure.
+# Reduce the value of a syntax tree (expression).
 ##
 
 import os, sys, re, types, operator, functools as func
@@ -29,6 +28,11 @@ from ecmascript.frontend import treeutil, treegenerator
 from ecmascript.frontend.treegenerator  import symbol
 from ecmascript.frontend import Scanner
 from misc import util
+
+##
+# ConditionReducer - reduce conditional expressions that are decidable. Requires
+# .evaluated. Modifies tree in place.
+#
 
 class ConditionReducer(treeutil.NodeVisitor):
 
@@ -93,11 +97,14 @@ def reduce(node):
 
 
 # - ---------------------------------------------------------------------------
-# Newer approach:
-# A general AST reducer.
+
+##
+# ASTReducer - newer approach: A general AST reducer
 #
-# Computes new, pot. reduced tree.
-# Does a post-order recursion (children first).
+# Computes new, pot. reduced tree. Does a post-order recursion (children first).
+# Carries .evaluated with nodes, to keep the Python value for a tree/contant
+# node, for easier operations, checking for hasattr() to determine
+# evaluated-ness.
 
 class ASTReducer(treeutil.NodeVisitor):
 
@@ -194,7 +201,8 @@ class ASTReducer(treeutil.NodeVisitor):
 
 
     def visit(self, node):
-        # reduce children
+        # pre-order reduce children, to have their values when reducing current
+        # node
         nchilds = []
         for child in node.children:
             nchild = self.visit(child)
@@ -204,11 +212,15 @@ class ASTReducer(treeutil.NodeVisitor):
         nnode.children = []
         for cld in nchilds:
             nnode.addChild(cld)
+
+        # try reducing current node, might return a fresh symbol()
         if hasattr(self, "visit_"+node.type):
             nnode = getattr(self, "visit_"+node.type)(nnode)
+
         return nnode
 
-    # - Type-specific methods don't need to recurse anymore!
+    # - Due to pre-order recursion, type-specific methods don't need to recurse
+    # anymore!
 
     def visit_constant(self, node):
         constvalue = node.get("value")
@@ -273,10 +285,11 @@ class ASTReducer(treeutil.NodeVisitor):
         if hasattr(op1, "evaluated"):
             if operator in self.operations:
                 evaluated = self.operations[operator](op1.evaluated)
-                nnode = symbol("constant")(
-                    node.get("line"), node.get("column"))
-                set_node_type_from_value(nnode, evaluated)
-                nnode.evaluated = evaluated
+                if evaluated!=():
+                    nnode = symbol("constant")(
+                        node.get("line"), node.get("column"))
+                    set_node_type_from_value(nnode, evaluated)
+                    nnode.evaluated = evaluated
         return nnode
 
     def _visit_dyadic(self, node, operator):
@@ -289,10 +302,11 @@ class ASTReducer(treeutil.NodeVisitor):
                 nnode = op1 if evaluated==op1.evaluated else op2
             elif all([hasattr(x, 'evaluated') for x in (op1, op2)]):
                 evaluated = self.operations[operator](op1.evaluated, op2.evaluated)
-                nnode = symbol("constant")(
-                    node.get("line"), node.get("column"))
-                set_node_type_from_value(nnode, evaluated)
-                nnode.evaluated = evaluated
+                if evaluated!=():
+                    nnode = symbol("constant")(
+                        node.get("line"), node.get("column"))
+                    set_node_type_from_value(nnode, evaluated)
+                    nnode.evaluated = evaluated
         return nnode
 
     ##

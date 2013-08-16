@@ -234,7 +234,6 @@ qx.Class.define("qx.event.handler.Input",
 
       "webkit" : function(target)
       {
-        // TODO: remove listener
         var tag = target.tagName.toLowerCase();
 
         // the change event is not fired while typing
@@ -340,7 +339,6 @@ qx.Class.define("qx.event.handler.Input",
 
       "webkit" : function(target)
       {
-        // TODO: remove listener
         var tag = target.tagName.toLowerCase();
 
         // the change event is not fired while typing

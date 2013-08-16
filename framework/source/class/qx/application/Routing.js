@@ -124,10 +124,25 @@ qx.Bootstrap.define("qx.application.Routing", {
       }
 
       var path = this.getState();
-      if (path == "" || path == null){
-        path = defaultRoute || qx.application.Routing.DEFAULT_PATH;
-      }
+      path = this._getPathOrFallback(path, defaultRoute);
       this._executeGet(path, null, true);
+    },
+
+
+    /**
+     * Checks if path is valid and registered in channel "get" and then just returns it.
+     * If the path is not valid either the <code>defaultPath</code> (if given) or the
+     * {@link #DEFAULT_PATH} will be returned.
+     *
+     * @param path {String} Path which gets checked.
+     * @param defaultPath {String?} Optional default path.
+     * @return {String} A valid path.
+     */
+    _getPathOrFallback : function(path, defaultPath) {
+      if (path == "" || path == null || !this.__messaging.has("get", path)) {
+        path = defaultPath || qx.application.Routing.DEFAULT_PATH;
+      }
+      return path;
     },
 
 
@@ -232,9 +247,7 @@ qx.Bootstrap.define("qx.application.Routing", {
     __onChangeHash : function(evt)
     {
       var path = evt.getData();
-      if (path == "" || path == null){
-        path = qx.application.Routing.DEFAULT_PATH;
-      }
+      path = this._getPathOrFallback(path);
 
       if (path != this.__currentGetPath) {
         this._executeGet(path, null, true);
@@ -370,8 +383,8 @@ qx.Bootstrap.define("qx.application.Routing", {
           if (register[i][j].path == path) {
             register[i][j].customData = customData;
           }
-        };
-      };
+        }
+      }
     },
 
 

@@ -92,7 +92,7 @@
   left: 0px;
 
   height: $picker-label-height; 
-  margin-top: -($picker-label-height/2)-($picker-highlight-border-width);
+  margin-top: -($picker-label-height/2) - ($picker-highlight-border-width);
 
   border-top:  $picker-highlight-border-width solid $picker-highlight-color;
   border-bottom:  $picker-highlight-border-width solid $picker-highlight-color;

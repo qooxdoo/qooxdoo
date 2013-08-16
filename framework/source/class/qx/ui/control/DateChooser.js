@@ -595,7 +595,7 @@ qx.Class.define("qx.ui.control.DateChooser",
         var date = this.getValue();
 
         if (date != null) {
-          date = new Date(date.getTime()); // TODO: Do cloning in getter
+          date = new Date(date.getTime());
         }
 
         if (date == null) {

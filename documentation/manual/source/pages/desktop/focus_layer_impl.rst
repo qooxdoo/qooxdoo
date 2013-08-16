@@ -72,5 +72,5 @@ Please note that some settings may have side effects on other things. For exampl
 Finally
 =======
 
-Finally, the whole implementation differs nearly completely for the supported browsers. Hopefully you get an impression of the complexity of the topic. May the browser with you.
+Finally, the whole implementation differs nearly completely for the supported browsers. Hopefully you get an impression of the complexity of the topic.
 

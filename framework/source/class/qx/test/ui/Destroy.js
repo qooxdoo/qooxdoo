@@ -160,6 +160,17 @@ qx.Class.define("qx.test.ui.Destroy",
 
         widget.destroy();
       }, this, "Dispose color popup");
+
+      this.assertDestroy(function()
+      {
+        var widget = new qx.ui.control.ColorPopup();
+        widget.show();
+        widget.getChildControl("selector-button").execute();
+        this.flush();
+
+        widget.destroy();
+        qx.ui.core.queue.Dispose.flush();
+      }, this, "Dispose color popup with selector open");
     },
 
 
@@ -239,12 +250,6 @@ qx.Class.define("qx.test.ui.Destroy",
 
         widget.destroy();
       }, this, "Dispose configured menu");
-    },
-
-
-    testProgressive : function()
-    {
-      // TODO
     },
 
 
@@ -394,12 +399,6 @@ qx.Class.define("qx.test.ui.Destroy",
 
         group.destroy();
       });
-    },
-
-
-    testTreeVirtual : function()
-    {
-      // TODO
     },
 
 

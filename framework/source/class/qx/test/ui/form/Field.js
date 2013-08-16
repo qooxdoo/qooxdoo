@@ -197,9 +197,9 @@ qx.Class.define("qx.test.ui.form.Field",
           f.dispose();
           this.assertCalledTwice(statusChangeSpy);
         }, this);
-      }, this, 1000);
+      }, this, 2000);
 
-      this.wait(2000);
+      this.wait(3000);
     }
   }
 });

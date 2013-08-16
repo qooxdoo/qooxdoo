@@ -112,6 +112,12 @@ qx.Class.define("playground.Application",
       // Call super class
       this.base(arguments);
 
+      // quickfix for the playground for BUG #7680
+      this.getRoot().getContentElement().setStyle("-webkit-backface-visibility", "hidden");
+
+      // register error handler
+      qx.event.GlobalError.setErrorHandler(this.__onGlobalError, this);
+
       // container layout
       var layout = new qx.ui.layout.VBox();
 
@@ -824,7 +830,7 @@ qx.Class.define("playground.Application",
       // try to create a function
       try {
         this.__oldCode = code;
-        this.fun = new Function(code);
+        this.fun = qx.event.GlobalError.observeMethod(new Function(code));
       } catch(ex) {
         var exc = ex;
       }
@@ -883,6 +889,16 @@ qx.Class.define("playground.Application",
       }
 
       this.__updatePlayground();
+    },
+
+
+    /**
+     * Handler for global errors.
+     *
+     * @param e {Event} The global error event
+     */
+    __onGlobalError : function(e) {
+      this.error(e);
     },
 
 

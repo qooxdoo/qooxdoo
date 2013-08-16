@@ -216,7 +216,9 @@ qx.Class.define("demobrowser.demo.virtual.List",
         height: 280,
         width: 150,
         labelPath: "label",
-        iconPath: "icon"
+        iconPath: "icon",
+        draggable: true,
+        droppable: true
       });
       container.add(list, {top: 20});
 

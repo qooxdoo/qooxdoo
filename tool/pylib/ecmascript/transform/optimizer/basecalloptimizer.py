@@ -65,11 +65,10 @@ def optimize(classDefine, classDefNodes):
     if "construct" in classMap:
         patchCount = optimizeConstruct(classMap["construct"], superClass, "construct", classDefNodes)
       
-    if not "members" in classMap:
+    if not ("members" in classMap and isinstance(classMap["members"], types.DictType)):
         return patchCount
     
     members = classMap["members"]
-    assert isinstance(members, types.DictType)
     for methodName, methodNode in members.items():
         patchCount += optimizeConstruct(methodNode, superClass, methodName, classDefNodes)
 

@@ -150,7 +150,7 @@ qx.Class.define("qx.test.mobile.list.List",
         return new qx.ui.mobile.list.renderer.Default();
       });
       this.__assertItemsAndModelLength(list,5);
-      // TODO: Add check for text here
+
       list.getModel().setItem(0, {title:"affe", subtitle:"1", image:"qx/icon/Tango/48/places/folder.png"});
       this.__assertItemsAndModelLength(list,5);
 

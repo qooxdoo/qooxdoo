@@ -66,7 +66,7 @@ qx.Class.define("widgetbrowser.pages.Control",
       this.__vbox.add(openColorPopup);
       openColorPopup.addListener("execute", function()
       {
-        colorPopup.placeToWidget(openColorPopup);
+        colorPopup.placeToWidget(openColorPopup, true);
         colorPopup.show();
       });
 

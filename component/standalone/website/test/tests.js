@@ -2526,6 +2526,7 @@ testrunner.define({
     q.define("XXXXX", {statics : { a: 123 }});
     this.assertEquals(123, XXXXX.a);
     window["XXXXX"] = undefined;
+    q.$$qx.Bootstrap.$$registry["XXXXX"] = null;
 
     var C = q.define({members : { a : function() {return 123;}}});
     var c = new C();
@@ -2797,7 +2798,7 @@ testrunner.define({
 
   setUp : function(){
     testrunner.globalSetup.call(this);
-    this.__iframe = q.create('<iframe src="media.html" width="500" height="400" name="Testframe"></iframe>');
+    this.__iframe = q.create('<iframe src="media.html" frameborder="0" width="500" height="400" name="Testframe"></iframe>');
     this.__iframe.appendTo(this.sandbox[0]);
   },
 
@@ -2825,7 +2826,7 @@ testrunner.define({
       iframe.contentWindow.postMessage("all and (orientation:landscape)",'*');
     },100);
 
-    this.wait(200);
+    this.wait(1000);
   },
 
   testMinWidth : function(){
@@ -2846,7 +2847,7 @@ testrunner.define({
       iframe.contentWindow.postMessage("all and (min-width:500px)",'*');
     },100);
 
-    this.wait(200);
+    this.wait(1000);
   },
 
   testMaxWidth : function(){
@@ -2866,7 +2867,7 @@ testrunner.define({
       iframe.contentWindow.postMessage("all and (max-width:500px)",'*');
     },100);
 
-    this.wait(200);
+    this.wait(1000);
   },
 
   testAnd : function(){
@@ -2886,7 +2887,7 @@ testrunner.define({
       iframe.contentWindow.postMessage("screen and (min-width: 400px) and (max-width: 700px)",'*');
     },100);
 
-    this.wait(200);
+    this.wait(1000);
   },
 
   testMinHeight : function(){
@@ -2905,7 +2906,7 @@ testrunner.define({
       iframe.contentWindow.postMessage("all and (min-height:500px)",'*');
     },100);
 
-    this.wait(200);
+    this.wait(1000);
   },
 
   testColor : function(){
@@ -2924,7 +2925,7 @@ testrunner.define({
       iframe.contentWindow.postMessage("all and (min-color: 1)",'*');
     },100);
 
-    this.wait(200);
+    this.wait(1000);
   },
 
   testCombined : function(){
@@ -2944,7 +2945,7 @@ testrunner.define({
       iframe.contentWindow.postMessage("(min-width: 700px) and (orientation: landscape)",'*');
     },100);
 
-    this.wait(200);
+    this.wait(1000);
   },
 
   testDeviceWidth : function(){
@@ -2962,7 +2963,7 @@ testrunner.define({
       iframe.contentWindow.postMessage("screen and (max-device-width: 799px)",'*');
     },100);
 
-    this.wait(200);
+    this.wait(1000);
   },
 
   testWidth : function(){
@@ -2980,7 +2981,7 @@ testrunner.define({
       iframe.contentWindow.postMessage("screen and (width: 800px)",'*');
     },100);
 
-    this.wait(200);
+    this.wait(1000);
   },
 
   testPixelratio : function(){
@@ -2998,7 +2999,7 @@ testrunner.define({
       iframe.contentWindow.postMessage("screen and (width: 800px)",'*');
     },100);
 
-    this.wait(200);
+    this.wait(1000);
   },
 
   testNot : function(){
@@ -3015,7 +3016,7 @@ testrunner.define({
       iframe.contentWindow.postMessage("not screen and (min-width: 800px)",'*');
     },100);
 
-    this.wait(200);
+    this.wait(1000);
   }
 
 });
@@ -3235,4 +3236,56 @@ testrunner.define({
     this.wait();
   }
 
+});
+
+
+testrunner.define({
+  classname: "TextSelection",
+
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+
+  __testSelection : function(coll, selected) {
+    coll.setTextSelection(5, 9);
+    this.assertEquals(4, coll.getTextSelectionLength());
+    this.assertEquals(5, coll.getTextSelectionStart());
+    this.assertEquals(9, coll.getTextSelectionEnd());
+    this.assertEquals(selected, coll.getTextSelection());
+
+    coll.clearTextSelection();
+    this.assertEquals(0, coll.getTextSelectionLength());
+    this.assertEquals(0, coll.getTextSelectionStart());
+    this.assertEquals(0, coll.getTextSelectionEnd());
+    this.assertEquals("", coll.getTextSelection());
+  },
+
+  testInput : function() {
+    var coll = q.create('<input type="text" value="Just some text" />')
+    .appendTo("#sandbox");
+    this.__testSelection(coll, "some");
+  },
+
+  testTextarea : function() {
+    var coll = q.create('<textarea>Just some text</textarea>')
+    .appendTo("#sandbox");
+    this.__testSelection(coll, "some");
+  },
+
+  testSpan : function() {
+    var coll = q.create('<span>Just some text</span>')
+    .appendTo("#sandbox");
+    this.__testSelection(coll, "some");
+  },
+
+  testNoText : function() {
+    var coll = q.create("<h1></h1>");
+    coll.push(window);
+    coll.push(document.documentElement);
+    // Should not throw:
+    coll.setTextSelection(5, 9);
+    coll.getTextSelectionLength();
+    coll.getTextSelectionStart();
+    coll.getTextSelectionEnd();
+    coll.getTextSelection();
+  }
 });

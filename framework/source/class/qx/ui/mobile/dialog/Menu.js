@@ -106,16 +106,6 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
 
 
     /**
-     * Indicates whether the menu should disappear when tap/click on blocker.
-     */
-    hideOnBlockerClick :
-    {
-      check : "Boolean",
-      init : false
-    },
-
-
-    /**
      *  Class which is assigned to selected items.
      *  Useful for re-styling your menu via LESS.
      */
@@ -188,12 +178,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     show : function() {
       this.base(arguments);
 
-      if(this.getHideOnBlockerClick()) {
-        this._getBlocker().addListenerOnce("tap", this.hide, this);
-      }
-
       this.scrollToItem(this.getSelectedIndex());
-
     },
 
 

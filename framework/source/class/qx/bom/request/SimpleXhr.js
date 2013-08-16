@@ -222,7 +222,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     /**
      * Sets (i.e. override) the parser for the response parsing.
      *
-     * @see {@link qx.util.ResponseParser#setParser}
+     * @see qx.util.ResponseParser#setParser
      *
      * @param parser {String|Function}
      * @return {Function} The parser function
@@ -473,8 +473,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      */
     _serializeData: function(data, contentType) {
       var isPost = this.getMethod() === "POST",
-          isJson = (/application\/.*\+?json/).test(contentType),
-          serializedData = "";
+          isJson = (/application\/.*\+?json/).test(contentType);
 
       if (!data) {
         return null;
@@ -484,11 +483,15 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
         return data;
       }
 
-      if (qx.lang.Type.isObject(data)) {
-        serializedData = (isJson) ? qx.lang.Json.stringify(data)
-                                  : qx.util.Uri.toParameter(data, isPost);
-        return serializedData;
+      if (isJson && (qx.lang.Type.isObject(data) || qx.lang.Type.isArray(data))) {
+        return qx.lang.Json.stringify(data);
       }
+
+      if (qx.lang.Type.isObject(data)) {
+        return qx.util.Uri.toParameter(data, isPost);
+      }
+
+      return null;
     },
 
     /*
@@ -582,7 +585,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
 
         // Parse response
         if (qx.core.Environment.get("qx.debug.io")) {
-          qx.Bootstrap.debug("Response is of type: '" + this.getResponseContentType() + "'");
+          qx.Bootstrap.debug("Response is of type: '" + contentType + "'");
         }
 
         this._setResponse(this.__parser.parse(response, contentType));

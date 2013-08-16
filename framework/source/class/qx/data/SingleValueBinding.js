@@ -118,6 +118,14 @@ qx.Class.define("qx.data.SingleValueBinding",
       sourceObject, sourcePropertyChain, targetObject, targetPropertyChain, options
     )
     {
+      // check for the arguments
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.core.Assert.assertObject(sourceObject, "sourceObject");
+        qx.core.Assert.assertString(sourcePropertyChain, "sourcePropertyChain");
+        qx.core.Assert.assertObject(targetObject, "targetObject");
+        qx.core.Assert.assertString(targetPropertyChain, "targetPropertyChain");
+      }
+
       // set up the target binding
       var targetListenerMap = this.__setUpTargetBinding(
         sourceObject, sourcePropertyChain, targetObject, targetPropertyChain, options

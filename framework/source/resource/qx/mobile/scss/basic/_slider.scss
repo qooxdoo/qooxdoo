@@ -2,11 +2,6 @@
 // SLIDER
 //
 
-.ios .slider {
-  // iOS6 flickering bug fix
-  -webkit-backface-visibility: hidden;
-}
-
 .slider {
   @include border-radius($slider-border-radius);
   @include background($slider-background);

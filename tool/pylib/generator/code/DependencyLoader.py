@@ -44,7 +44,7 @@ import graph
 
 from misc.ExtMap                import ExtMap
 from ecmascript.frontend        import lang
-from ecmascript.transform.check import lint
+from ecmascript.transform.check import lint, global_symbols as gs
 from generator.code.Class       import DependencyError
 from generator.code.DependencyItem  import DependencyItem
 from generator.action           import CodeMaintenance
@@ -145,12 +145,13 @@ class DependencyLoader(object):
             if depsItem.name in resultNames:  # string compares are perceivably faster than object compares (as DependencyItem defines __eq__)
                 return
 
-            # reading dependencies
+            # Reading dependencies
+
             self._console.debug("Gathering dependencies: %s" % depsItem.name)
             self._console.indent()
             classObj = self._classesObj[depsItem.name] # get class from depsItem - throws KeyError
             deps, cached = classObj.getCombinedDeps(self._classesObj, variants, self._jobconf)
-            # lint-check
+            # lint-check - sans globals check (s.further)
             if lint_check and is_app_code(classObj): # opt: and not cached
                 warns = classObj.lint_warnings(lint_opts)
                 for warn in warns:
@@ -159,13 +160,15 @@ class DependencyLoader(object):
             self._console.outdent()
             if logInfos: self._console.dot("%s" % "." if cached else "*")
 
-            # and evaluate them
+            # And evaluate them
+
+            # check for unknown globals
             deps["warn"] = self._checkDepsAreKnown(deps)  # add 'warn' key to deps
             ignore_names = [x.name for x in deps["ignore"]]
             if verifyDeps:
                 for dep in deps["warn"]:
                     if dep.name not in ignore_names:
-                        warn_deps.append(dep)
+                        warn_deps.append(dep) # add it to warnings accumulator
 
             # process lists
             try:
@@ -300,7 +303,7 @@ class DependencyLoader(object):
         callowed_globals = self._jobconf.get("lint-check/allowed-globals", [])
         #known_namespaces.update(callowed_globals)
         for dep in warn_deps:
-            if not lint.extension_match_in(dep.name, callowed_globals, known_namespaces):
+            if not gs.test_for_libsymbol(dep.name, callowed_globals, known_namespaces):
                 self._console.warn("%s (%s): Unknown global symbol used: %s" % (dep.requestor, dep.line, dep.assembled()))
 
         return result

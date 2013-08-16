@@ -155,6 +155,7 @@ qx.Class.define("qx.ui.form.renderer.Double",
       if (this._row != 0) {
         header.setMarginTop(10);
       }
+      header.setAlignX("left");
       return header;
     }
   },

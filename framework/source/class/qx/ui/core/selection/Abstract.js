@@ -1199,8 +1199,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       // Scroll by defined block size
       this._scrollBy(this.__scrollStepX, this.__scrollStepY);
 
-      // TODO: Optimization: Detect real scroll changes first?
-
       // Update scroll cache
       this.__frameScroll = this._getScroll();
 

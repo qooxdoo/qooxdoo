@@ -279,11 +279,11 @@
         ],
         "Cleaning up build" :
         [
-          "${BUILD_PATH}/q-${QOOXDOO_VERSION}.js"
+          "${BUILD_PATH}/q-*${QOOXDOO_VERSION}.js"
         ],
         "Cleaning up build-min" :
         [
-          "${BUILD_PATH}/q-${QOOXDOO_VERSION}.min.js"
+          "${BUILD_PATH}/q-*${QOOXDOO_VERSION}.min.js"
         ]
       }
     }

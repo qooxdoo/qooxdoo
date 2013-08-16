@@ -113,7 +113,7 @@ qx.Class.define("playground.view.RiaPlayArea",
       if (this._initialized) {
         return;
       }
-      qx.html.Element.flush();
+      qx.ui.core.queue.Manager.flush();
 
       var playRootEl = this._dummy.getContentElement().getDomElement();
       this._playRoot = new qx.ui.root.Inline(playRootEl);
@@ -123,6 +123,10 @@ qx.Class.define("playground.view.RiaPlayArea",
       this._playRoot.getLayoutParent = function() { return self.__playField; };
       this.__playField.getChildren = this.__playField._getChildren =
         function() { return [self._playRoot]; };
+
+      // copy the initial size which is availbale due to the flush at the beginning
+      this._playRoot.setMinWidth(this.__playField.getBounds().width);
+      this._playRoot.setMinHeight(this.__playField.getBounds().height);
 
       this.__playField.addListener("resize", function(e) {
         var data = e.getData();

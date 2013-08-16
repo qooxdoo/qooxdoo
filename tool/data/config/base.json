@@ -422,7 +422,7 @@
     "dependencies" :
     {
       "desc"   : "create a dependencies.json file for the library"
-      ,"extend" : ["cache", "scan-local-lib"]
+      ,"extend" : ["cache", "libraries"]
       ,"config-warnings" : {
         "include" : false,
         "exclude" : [ "${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]

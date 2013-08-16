@@ -619,6 +619,17 @@ qx.Class.define("qx.io.request.AbstractRequest",
     },
 
     /**
+     * Override the content type response header from response.
+     *
+     * @param contentType {String}
+     *   Content type for overriding.
+     * @see qx.bom.request.Xhr#overrideMimeType
+     */
+    overrideResponseContentType: function(contentType) {
+      return this._transport.overrideMimeType(contentType);
+    },
+
+    /**
      * Get the content type response header from response.
      *
      * @return {String}
@@ -820,16 +831,17 @@ qx.Class.define("qx.io.request.AbstractRequest",
     },
 
     /**
-     * Serialize data
+     * Serialize data.
      *
      * @param data {String|Map|qx.core.Object} Data to serialize.
-     * @return {String} Serialized data.
+     * @return {String|null} Serialized data.
      */
     _serializeData: function(data) {
-      var isPost = typeof this.getMethod !== "undefined" && this.getMethod() == "POST";
+      var isPost = typeof this.getMethod !== "undefined" && this.getMethod() == "POST",
+          isJson = (/application\/.*\+?json/).test(this.getRequestHeader("Content-Type"));
 
       if (!data) {
-        return;
+        return null;
       }
 
       if (qx.lang.Type.isString(data)) {
@@ -838,6 +850,10 @@ qx.Class.define("qx.io.request.AbstractRequest",
 
       if (qx.Class.isSubClassOf(data.constructor, qx.core.Object)) {
         return qx.util.Serializer.toUriParameter(data);
+      }
+
+      if (isJson && (qx.lang.Type.isObject(data) || qx.lang.Type.isArray(data))) {
+        return qx.lang.Json.stringify(data);
       }
 
       if (qx.lang.Type.isObject(data)) {

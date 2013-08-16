@@ -31,7 +31,7 @@
 qx.Class.define("qx.ui.table.Table",
 {
   extend : qx.ui.core.Widget,
-
+  include : qx.ui.core.MDragDropScrolling,
 
 
 
@@ -1621,7 +1621,7 @@ qx.Class.define("qx.ui.table.Table",
           scrollerArr[i].setFocusedCell(col, row);
         }
 
-        if (col !== null && scrollVisible) {
+        if (col != null && scrollVisible) {
           this.scrollCellVisible(col, row);
         }
       }

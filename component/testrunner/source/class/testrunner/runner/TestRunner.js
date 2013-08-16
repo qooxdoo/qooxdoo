@@ -291,6 +291,10 @@ qx.Class.define("testrunner.runner.TestRunner", {
         }
       }
 
+      if (window.name == "selenium_myiframe") {
+        this.frameWindow.selenium = true;
+      }
+
       if (this.__logAppender) {
         this.__logAppender.clear();
       }

@@ -420,6 +420,7 @@ qx.Class.define("qx.ui.form.DateField",
           control.setFocusable(false);
           control.setKeepActive(true);
           control.addState("inner");
+          control.addListener("execute", this.toggle, this);
           this._add(control);
           break;
 
@@ -472,14 +473,8 @@ qx.Class.define("qx.ui.form.DateField",
      *
      * @param e {qx.event.type.Mouse} Mouse click event
      */
-    _onClick : function(e)
-    {
-      var target = e.getTarget();
-      if (target == this.getChildControl("button")) {
-        this.toggle();
-      } else {
-        this.close();
-      }
+    _onClick : function(e) {
+      this.close();
     },
 
 

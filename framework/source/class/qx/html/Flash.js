@@ -177,11 +177,12 @@ qx.Class.define("qx.html.Flash",
         }
       }
 
-      if (this.__flash) {
+      if (key == "$$widget" || key.indexOf("$$") === 0) {
+        this.base(arguments, key, value);
+      }
+      else if (this.__flash) {
         throw new Error("The attributes cannot be modified after initial creation");
       }
-
-      this.base(arguments, key, value);
 
       if (value === null || value === undefined) {
         delete this.__attributes[key];

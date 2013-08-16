@@ -15,6 +15,7 @@
     "build",
     "clean",
     "distclean",
+    "dependencies",
     "fix",
     "info",
     "lint",
@@ -109,6 +110,14 @@
          Attention: if webkit engine optimization is enabled, mobile app will not be
          usable in Firefox. */
         // ,"engine.name" : "webkit"
+      },
+
+      "compile-options" :
+      {
+        "paths" :
+        {
+          "loader-template" : "$${QOOXDOO_PATH}/tool/data/generator/mobile.loader.tmpl.js"
+        }
       }
     },
 

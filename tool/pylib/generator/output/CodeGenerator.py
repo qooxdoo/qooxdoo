@@ -26,11 +26,11 @@ import graph
 
 from generator                  import Context
 from generator.config.Lang      import Key
-from generator.code.Part        import Part
-from generator.code.Package     import Package
+from generator.output.Part      import Part
+from generator.output.Package   import Package
 from generator.code.Class       import Class, ClassMatchList, CompileOptions
 from generator.code.ClassList   import ClassList
-from generator.code.Script      import Script
+from generator.output.Script      import Script
 from generator.action           import Locale
 from generator.action           import CodeMaintenance as codeMaintenance
 import generator.resource.Library # just need the .Library type
@@ -41,6 +41,7 @@ from ecmascript.transform.optimizer    import privateoptimizer
 #from ecmascript.transform.optimizer    import globalsoptimizer
 from ecmascript.transform.check    import lint, check_globals
 from misc                       import filetool, json, Path, securehash as sha, util
+from misc.util                  import pipeline, bind, curry2
 from misc.ExtMap                import ExtMap
 from misc.Path                  import OsPath, Uri
 
@@ -65,23 +66,69 @@ class CodeGenerator(object):
 
     def runCompiled(self, script):
 
-        def removeDuplicatLibs(libs):
-            l = []
-            for lib in libs:  # relying on Library.__eq__
-                if lib not in l: l.append(lib)
-            return l
-
         def getOutputFile(compileType):
             filePath = compConf.get("paths/file")
             if not filePath:
                 filePath = os.path.join(compileType, "script", script.namespace + ".js")
             return filePath
 
-        def getFileUri(scriptUri):
-            appfile = os.path.basename(fileRelPath)
-            fileUri = os.path.join(scriptUri, appfile)  # make complete with file name
-            fileUri = Path.posifyPath(fileUri)
-            return fileUri
+        def getGlobalCodes(script, compConf):
+            # Get global script data (like qxlibraries, qxresources,...)
+            globalCodes = {}
+            globalCodes["EnvSettings"] = self.generateVariantsCode(script.environment)
+            # add optimizations
+            for val in compConf.get("code/optimize", []):
+                globalCodes["EnvSettings"]["qx.optimization."+val] = True
+            globalCodes["Libinfo"],scriptUri = self.generateLibInfoCode(script, compConf)
+            # add synthetic output lib
+            if scriptUri: out_sourceUri= scriptUri
+            else:
+                out_sourceUri = self._computeResourceUri({
+                    'class': ".", 
+                    'path': os.path.dirname(script.baseScriptPath)
+                    }, OsPath(""), rType="class", appRoot=self.approot)
+                out_sourceUri = out_sourceUri.encodedValue()
+            globalCodes["Libinfo"]['__out__'] = { 'sourceUri': out_sourceUri }
+
+            return globalCodes
+
+        def getFilePrefix(compConf):
+            # Get prefix content for generated files
+            prefix_file = compConf.get("paths/file-prefix", None)
+            if prefix_file:
+                prefix_file = self._config.absPath(prefix_file)
+                per_file_prefix = codecs.open(prefix_file, "r", "utf-8").read()
+            else:
+                per_file_prefix = u''
+
+            return per_file_prefix
+
+
+        def writeI18NPackagesIf(script, per_file_prefix):
+            if self._job.get("packages/i18n-as-parts", False):
+                script = self.generateI18NParts(script, per_file_prefix)
+                self.writePackages([p for p in script.packages if getattr(p, "__localeflag", False)], script)
+
+        ##
+        # passes results to compileAndWritePackage via Class._tmp_tree
+        def doStaticsOptimizationIf(script, compConf, packages):
+            compOpts = CompileOptions(compConf.get("code/optimize",[]), script.variants, compConf.get("code/format",False)) 
+            if "statics" in compOpts.optimize:
+                script.classesObj = optimizeDeadCode(script.classesObj, script._featureMap, 
+                    compOpts, treegen=treegenerator, log_progress=log_progress)
+                # make package.classes consistent with script.classesObj
+                for package in packages:
+                    for clz in package.classes[:]:
+                        if clz not in script.classesObj:
+                            package.classes.remove(clz)
+
+        def writeLoader(script, compConf, packages, globalCodes, per_file_prefix):
+            bootClassCode = get_boot_code(script, compConf, packages)
+            loaderCode = generateLoader(script, compConf, globalCodes, bootClassCode)
+            loaderCode = per_file_prefix + loaderCode
+            fname = self._computeFilePath(script, isLoader=1)
+            self.writePackage(loaderCode, fname, script, isLoader=1)
+
 
         ##
         # returns the Javascript code for the loader script as a string,
@@ -435,163 +482,6 @@ class CodeGenerator(object):
             return data
 
 
-        # - _compileClassesMP stuff --------------------------------------
-
-        def _compileClassesMP(classes, compConf, log_progress, maxproc=8):
-            # experimental
-            # improve by incorporating cache handling, as done in getCompiled()
-            # hangs on Windows in the last call to reap_processes from the main loop
-
-            def reap_processes(wait=False):
-                # reap the current processes (wait==False: if they are finished)
-                #print "-- entering reap_processes with len: %d" % len(processes)
-                reaped  = False
-                counter = 0
-                while True:
-                    for pos, pid in enumerate(processes.keys()):
-                        if not wait and pid.poll() == None:  # None = process hasn't terminated
-                            #print pid.poll()
-                            continue
-                        #print "checking pos: %d" % pos
-                        #self._console.progress(pos, length)
-                        output, errout = pid.communicate()
-                        rcode = pid.returncode
-                        cpos = processes[pid][0]
-                        if rcode == 0:
-                            #tf   = processes[pid][1].read()
-                            #print output[:30]
-                            #print tf[:30]
-                            contA[cpos][CONTENT] = output.decode('utf-8')
-                            #contA[cpos] = tf
-                        else:
-                            raise RuntimeError("Problems compiling %s: %s" % (classes[cpos], errout))
-                        #print "-- terminating process for class: %s" % classes[cpos]
-                        del processes[pid]
-                        reaped = True
-
-                    if reaped: break
-                    else:
-                        #print "-- waiting for some process to terminate"
-                        if counter > 100: # arbitrary limit, to break deadlocks because of full pipes
-                            #print "-- switching to wait=True"
-                            wait = True
-                        else:
-                            counter += 1
-                        time.sleep(.050)
-
-                #print "-- leaving reap_processes with len: %d" % len(processes)
-                return
-
-            # -----------------------------------------------------------------
-
-            variants = compConf.variantset
-            optimize = compConf.optimize
-            format_  = compConf.format
-            import subprocess
-            contA = {}
-            CACHEID = 0
-            INCACHE = 1
-            CONTENT = 2
-            processes = {}
-            length = len(classes)
-
-            #self._console.debug("Compiling classes using %d sub-processes" % maxproc)
-
-            # go through classes, start individual compiles, collect results
-            for pos, clazz in enumerate(classes):
-                log_progress()
-                contA[pos] = {}
-                contA[pos][INCACHE] = False
-                if len(processes) > maxproc:
-                    reap_processes()  # collect finished processes' results to make room
-
-                cacheId, content = _checkCache(clazz, variants, optimize, format_)
-                contA[pos][CACHEID] = cacheId
-                if content:
-                    contA[pos][CONTENT] = content
-                    contA[pos][INCACHE] = True
-                    continue
-                cmd = _getCompileCommand(clazz, variants, optimize, format_)
-                #print cmd
-                tf = os.tmpfile()
-                #print "-- starting process for class: %s" % clazz
-                pid = subprocess.Popen(
-                            cmd, shell=True,
-                            stdout=subprocess.PIPE,
-                            #stdout=tf,
-                            stderr=subprocess.PIPE,
-                            universal_newlines=True)
-                processes[pid] = (pos, tf)
-
-            # collect outstanding processes
-            if len(processes):
-                #print "++ cleaning up processes"
-                reap_processes(wait=True)
-
-            # join single results in one string
-            content = u''
-            for i in sorted(contA.keys()):
-                #print i, contA[i][:30]
-                classStuff = contA[i]
-                content += classStuff[CONTENT]
-                if not classStuff[INCACHE]:
-                    self._cache.write(classStuff[CACHEID], classStuff[CONTENT])
-
-            return content
-
-
-        def _getCompileCommand(clazz, variants, optimize, format_):
-
-            def getToolBinPath():
-                path = sys.argv[0]
-                path = os.path.abspath(os.path.normpath(os.path.dirname(path)))
-                return path
-
-            m   = {}
-            cmd = ""
-            toolBinPath      = getToolBinPath()
-            m['compilePath'] = os.path.join(toolBinPath, "compile.py -q")
-            m['filePath']    = os.path.normpath(clazz.path)
-            # optimizations
-            optis = []
-            for opti in optimize:
-                optis.append("--" + opti)
-            m['optimizations'] = " ".join(optis)
-            # variants
-            varis = []
-            for vari in variants:
-                varis.append("--variant=" + vari + ":" + json.dumps(variants[vari]))
-            m['variants'] = " ".join(varis)
-            m['cache'] = "-c " + self._cache._path  # Cache needs context object, interrupt handler,...
-            # compile.py could read the next from privateoptimizer module directly
-            m['privateskey'] = "--privateskey " + '"' + privateoptimizer.privatesCacheId + '"'
-
-            cmd = "%(compilePath)s %(optimizations)s %(variants)s %(cache)s %(privateskey)s %(filePath)s" % m
-            return cmd
-
-
-        def _checkCache(clazz, variants, optimize, format_=False):
-            filePath = clazz.path
-
-            classVariants     = clazz.classVariants()
-            relevantVariants  = Class.projectClassVariantsToCurrent(classVariants, variants)
-            variantsId = util.toString(relevantVariants)
-
-            optimizeId = generateOptimizeId(optimize)
-
-            cacheId = "compiled-%s-%s-%s-%s" % (filePath, variantsId, optimizeId, format_)
-            compiled, _ = self._cache.read(cacheId, filePath)
-
-            return cacheId, compiled
-
-
-        def generateOptimizeId(optimize):
-            optimize = copy.copy(optimize)
-            optimize.sort()
-            return "[%s]" % ("-".join(optimize))
-
-        # - end: _compileClassesMP stuff --------------------------------
-
         ##
         # process "statics" optimization
         #
@@ -745,7 +635,6 @@ class CodeGenerator(object):
 
 
         def compileClasses(classList, compConf, log_progress=lambda:None):
-            num_proc = self._job.get('run-time/num-processes', 0)
             result = []
             # warn qx.allowUrlSettings - variants optim. conflict (bug#6141)
             if "variants" in compConf.optimize:
@@ -767,15 +656,11 @@ class CodeGenerator(object):
 
             # no 'statics' optimization
             else:
-                if num_proc == 0:
-                    for clazz in classList:
-                        code = clazz.getCode(compConf, treegen=treegenerator, featuremap=script._featureMap) # choose parser frontend
-                        result.append(code)
-                        log_progress()
-                    result =  u''.join(result)
-                else:
-                    # multi-core version
-                    result =  _compileClassesMP(classList, compConf, log_progress, num_proc)
+                for clazz in classList:
+                    code = clazz.getCode(compConf, treegen=treegenerator, featuremap=script._featureMap) # choose parser frontend
+                    result.append(code)
+                    log_progress()
+                result =  u''.join(result)
 
             return result
 
@@ -874,148 +759,91 @@ class CodeGenerator(object):
 
             return package
             
+        def first_script_path(script, packages):
+            first_script = lambda pkgs: pkgs[0].files[0]
+            untag_fname = lambda s: s.split(':')[1]
+            fs_path = lambda bfile: (
+                os.path.join(os.path.dirname(script.baseScriptPath),os.path.basename(bfile)))
+            return pipeline( 
+                first_script(packages)       # "__out__:fo%c3%b6bar.js"
+                ,untag_fname                 # "fo%c3%b6bar.js"
+                ,urllib.unquote              # "foöbar.js"
+                ,fs_path )                   # "./build/script/foöbar.js"
+
+        def get_boot_code(script, compConf, packages):
+            if inlineBoot(script, compConf):
+                # read first script file from script dir
+                bfile = first_script_path(script, packages)
+                if bfile.endswith(".gz"):  # code/path/gzip:true
+                    bcode = filetool.gunzip(bfile)
+                else:
+                    bcode = filetool.read(bfile)
+                os.unlink(bfile)
+            else:
+                bcode = u''
+            return bcode
 
 
         # -- Main - runCompiled ------------------------------------------------
 
         packages   = script.packagesSorted()
-        parts      = script.parts
-        boot       = script.boot
         variants   = script.variants
-        libraries  = script.libraries
-
-        self._variants     = variants
-        self._script       = script
-
-        self._console.info("Generate application")
-        self._console.indent()
-
-        # - Evaluate job config ---------------------
-        # Compile config
+        self._variants = variants
+        self._script = script
         compConf = self._job.get("compile-options")
         compConf = ExtMap(compConf)
-
-        # Whether the code should be formatted
-        format = compConf.get("code/format", False)
         script.scriptCompress = compConf.get("paths/gzip", False)
-
-        # Read optimizaitons
-        optimize = compConf.get("code/optimize", [])
-
-        # Read in settings
-        settings = self.getSettings()
-        script.settings = settings
-
-        # Read libraries
-        libs = self._job.get("library", [])
-        libs = removeDuplicatLibs(libs)  # before generateLibInfoCode() I need to make sure
-                                         # duplicates of a library are removed, so the first wins
-
-        # Get translation maps
-        locales = compConf.get("code/locales", [])
-
-        # Read in base file name
-        fileRelPath = getOutputFile(script.buildType)
-        filePath    = self._config.absPath(fileRelPath)
-        script.baseScriptPath = filePath
-
-        if script.buildType == "build":
-            # read in uri prefixes
-            scriptUri = compConf.get('uris/script', 'script')
-            scriptUri = Path.posifyPath(scriptUri)
-            fileUri   = getFileUri(scriptUri)
-            # for resource list
-            resourceUri = compConf.get('uris/resource', 'resource')
-            resourceUri = Path.posifyPath(resourceUri)
-        else:
-            # source version needs place where the app HTML ("index.html") lives
-            self.approot = self._config.absPath(compConf.get("paths/app-root", ""))
-            resourceUri = None
-            scriptUri   = None
-
-        # Get prefix content for generated files
-        prefix_file = compConf.get("paths/file-prefix", None)
-        if prefix_file:
-            prefix_file = self._config.absPath(prefix_file)
-            per_file_prefix = codecs.open(prefix_file, "r", "utf-8").read()
-        else:
-            per_file_prefix = u''
-
-        # Get global script data (like qxlibraries, qxresources,...)
-        globalCodes = {}
-        globalCodes["EnvSettings"] = self.generateVariantsCode(script.environment)
-        # add optimizations
-        for val in optimize:
-            globalCodes["EnvSettings"]["qx.optimization."+val] = True
-        globalCodes["Libinfo"]     = self.generateLibInfoCode(libs, format, resourceUri, scriptUri)
-        # add synthetic output lib
-        if scriptUri: out_sourceUri= scriptUri
-        else:
-            out_sourceUri = self._computeResourceUri({'class': ".", 'path': os.path.dirname(script.baseScriptPath)}, OsPath(""), rType="class", appRoot=self.approot)
-            out_sourceUri = out_sourceUri.encodedValue()
-        globalCodes["Libinfo"]['__out__'] = { 'sourceUri': out_sourceUri }
-        self.packagesResourceInfo(script) # attach resource info to packages
-        self.packagesI18NInfo(script)     # attach I18N info to packages
-
-        # Potentally create dedicated I18N packages
-        if self._job.get("packages/i18n-as-parts", False):
-            script = self.generateI18NParts(script, locales, per_file_prefix)
-            self.writePackages([p for p in script.packages if getattr(p, "__localeflag", False)], script)
-
-        # ---- create script files ---------------------------------------------
-
-        # - Generating packages ---------------------
-        self._console.info("Generate packages  ", feed=False)
-        #self._console.indent()
-
-        if not len(packages):
-            raise RuntimeError("No valid boot package generated.")
-
-        variantKeys      = set(script.variants.keys())
+        script.settings = self.getSettings()
+        script.baseScriptPath = self._config.absPath(
+            getOutputFile(script.buildType))
+        variantKeys = set(script.variants.keys())
         allClassVariants = script.classVariants()
         allClassVariants.difference_update(variantKeys)
         
-        # do "statics" optimization out of line (needs script.classes);
-        # passes results to compileAndWritePackage via Class._tmp_tree
-        compOpts = CompileOptions(compConf.get("code/optimize",[]), script.variants, compConf.get("code/format",False)) 
-        if "statics" in compOpts.optimize:
-            script.classesObj = optimizeDeadCode(script.classesObj, script._featureMap, 
-                compOpts, treegen=treegenerator, log_progress=log_progress)
-            # make package.classes consistent with script.classesObj
-            for package in packages:
-                for clz in package.classes[:]:
-                    if clz not in script.classesObj:
-                        package.classes.remove(clz)
+        self._console.info("Generate application")
+        self._console.indent()
+
+        globalCodes = getGlobalCodes(script, compConf) # global script data (qxlibraries, qxresources, etc.)
+        self.packagesResourceInfo(script) # attach resource info to packages
+        self.packagesI18NInfo(script)     # attach I18N info to packages
+
+        per_file_prefix = getFilePrefix(compConf) # e.g. a license header for each script file
+
+        # ---- create script files ---------------------------------------------
+
+        self._console.info("Generate packages  ", feed=False)
+        if not len(packages):
+            raise RuntimeError("No valid boot package generated.")
+
+        writeI18NPackagesIf(script, per_file_prefix) # pot. create dedicated I18N packages
+
+        doStaticsOptimizationIf(script, compConf, packages) # do "statics" optimization out of line (needs script.classes)
 
         # write packages to disk
         for packageIndex, package in enumerate(packages):
             package = compileAndWritePackage(package, compConf, allClassVariants, per_file_prefix)
-
-        #self._console.outdent()
         self._console.dotclear()
 
-        # generate loader
-        if inlineBoot(script, compConf):
-            # read first script file from script dir
-            bfile = packages[0].files[0]  # "__out__:fo%c3%b6bar.js"
-            bfile = bfile.split(':')[1]   # "fo%c3%b6bar.js"
-            bfile = urllib.unquote(bfile) # "foöbar.js"
-            bfile = os.path.join(os.path.dirname(script.baseScriptPath), os.path.basename(bfile))
-            if bfile.endswith(".gz"):  # code/path/gzip:true
-                bcode = filetool.gunzip(bfile)
-            else:
-                bcode = filetool.read(bfile)
-            os.unlink(bfile)
-        else:
-            bcode = u''
-        loaderCode = generateLoader(script, compConf, globalCodes, bcode)
-        loaderCode = per_file_prefix + loaderCode
-        fname = self._computeFilePath(script, isLoader=1)
-        self.writePackage(loaderCode, fname, script, isLoader=1)
-
+        writeLoader(script, compConf, packages, globalCodes, per_file_prefix)
         self._console.outdent()
 
         return  # runCompiled()
+
+
+    #def runCompiled_1(self, script):
+    #    
+    #    def generate_app(script):
+    #
+    #        return pipeline(script
+    #            , trees
+    #            , optimize
+    #            , serialized_compressed
+    #            , write_script_files
+    #            )
+    #
+    #    generate_app(script)
+
+
 
 
     ##
@@ -1170,7 +998,7 @@ class CodeGenerator(object):
     ##
     # collect translation and locale data into dedicated parts and packages,
     # one for each language code
-    def generateI18NParts(self, script, locales, per_file_prefix):
+    def generateI18NParts(self, script, per_file_prefix):
 
         ##
         # collect translation and locale info from the packages
@@ -1335,25 +1163,50 @@ class CodeGenerator(object):
         return
 
 
-    def generateLibInfoCode(self, libs, format, forceResourceUri=None, forceScriptUri=None):
+    def generateLibInfoCode(self, script, compConf):
+
+        def removeDuplicatLibs(libs):
+            l = []
+            for lib in libs:  # relying on Library.__eq__
+                if lib not in l: l.append(lib)
+            return l
+
+        # - Main --------------------------------------------------
+
         qxlibs = {}
+        libs = self._job.get("library", [])
+        libs = removeDuplicatLibs(libs)  # need to make sure duplicates of a library
+                                         # are removed, so the first wins
+
+        if script.buildType == "build":
+            # read in uri prefixes
+            scriptUri = compConf.get('uris/script', 'script')
+            scriptUri = Path.posifyPath(scriptUri)
+            # for resource list
+            resourceUri = compConf.get('uris/resource', 'resource')
+            resourceUri = Path.posifyPath(resourceUri)
+        else:
+            # source version needs place where the app HTML ("index.html") lives
+            self.approot = self._config.absPath(compConf.get("paths/app-root", ""))
+            resourceUri = None
+            scriptUri   = None
 
         for lib in libs:
             # add library key
             qxlibs[lib.namespace] = {}
 
             # add resource root URI
-            if forceResourceUri:
-                resUriRoot = forceResourceUri
-                qxlibs[lib.namespace]['resourceUri'] = forceResourceUri
+            if resourceUri:
+                resUriRoot = resourceUri
+                qxlibs[lib.namespace]['resourceUri'] = resourceUri
             elif hasattr(lib, 'resourcePath') and lib.resourcePath is not None:
                 resUriRoot = self._computeResourceUri(lib, OsPath(""), rType="resource", appRoot=self.approot)
                 resUriRoot = resUriRoot.encodedValue()
                 qxlibs[lib.namespace]['resourceUri'] = "%s" % (resUriRoot,)
             
             # add code root URI
-            if forceScriptUri:
-                qxlibs[lib.namespace]['sourceUri'] = forceScriptUri
+            if scriptUri:
+                qxlibs[lib.namespace]['sourceUri'] = scriptUri
             elif hasattr(lib, 'classPath') and lib.classPath is not None:
                 sourceUriRoot = self._computeResourceUri(lib, OsPath(""), rType="class", appRoot=self.approot)
                 sourceUriRoot = sourceUriRoot.encodedValue()
@@ -1368,7 +1221,7 @@ class CodeGenerator(object):
             if 'sourceViewUri' in lib.manifest.libinfo:
                 qxlibs[lib.namespace]['sourceViewUri'] = "%s" % lib.manifest.libinfo['sourceViewUri']
 
-        return qxlibs
+        return qxlibs, scriptUri
 
 
     ##

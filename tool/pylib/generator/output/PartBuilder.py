@@ -29,8 +29,8 @@
 
 import sys, collections
 from misc                    import util
-from generator.code.Part     import Part
-from generator.code.Package  import Package
+from generator.output.Part     import Part
+from generator.output.Package  import Package
 from generator.code.Class    import CompileOptions
 from generator.config.Config import ConfigurationError
 

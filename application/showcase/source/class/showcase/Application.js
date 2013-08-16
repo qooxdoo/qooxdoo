@@ -162,7 +162,7 @@ qx.Class.define("showcase.Application",
             }
           }, this);
         }, this);
-      };
+      }
 
       var listController = new qx.data.controller.List(pages, list, "name");
       listController.setIconPath("icon");

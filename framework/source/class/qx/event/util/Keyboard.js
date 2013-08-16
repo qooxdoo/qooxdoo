@@ -178,7 +178,6 @@ qx.Bootstrap.define("qx.event.util.Keyboard", {
      */
     isIdentifiableKeyCode : function(keyCode)
     {
-      // A-Z (TODO: is this lower or uppercase?)
       if (keyCode >= this.charCodeA && keyCode <= this.charCodeZ) {
         return true;
       }

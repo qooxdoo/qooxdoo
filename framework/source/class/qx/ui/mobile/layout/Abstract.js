@@ -18,13 +18,6 @@
 ************************************************************************ */
 
 /**
- * TODOs:
- * * cleanUp Method for layoutProperties when layout is removed / changed
- * * Flag methods internal
- * * Define actions as statics
- */
-
-/**
  * Base class for all layout managers.
  *
  * Custom layout managers must derive from

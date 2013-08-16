@@ -57,11 +57,10 @@ def scope_globals(node):
 # - ---------------------------------------------------------------------------
 
 ##
-# Checks the Hint() objects in the hints chain for ignore matches of node.
+# Check a name against relevant jshints.
+# String -> bool
 #
-# Assumes Hint() tree is present.
-#
-def ident_is_ignored(name, node):
+def name_is_jsignored(name, node):
     result = []
     for hint in jshints.find_hints_upward(node):
         for cat in (('ignore',None), ('lint','ignoreUndefined')):
@@ -70,15 +69,24 @@ def ident_is_ignored(name, node):
     return result
 
 ##
-# Filter nodes of tree if there is a matching 'ignore' hint.
-#
-def globals_filter_by_hints(global_nodes, tree):
-    result = []
-    tree = jshints.create_hints_tree(tree)
-    for node in global_nodes:
-        if not ident_is_ignored(node):
-            result.append(node)
-    return result
+# Check an ident node against relevant jshints.
+# Node -> bool
+def test_ident_is_jsignored(node):
+    var_root = treeutil.findVarRoot(node)
+    name = treeutil.assembleVariable(var_root)[0]
+    return name_is_jsignored(name, node)
+    
+##
+# Check a node against builtin symbols.
+# builtins[] -> Node -> bool
+def test_ident_is_builtin(builtins=lang.GLOBALS):
+    GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % re.escape(x) 
+        for x in builtins + lang.QXGLOBALS))
+    def test(node):
+        var_root = treeutil.findVarRoot(node)
+        name = treeutil.assembleVariable(var_root)[0]
+        return bool(GlobalSymbolsCombinedPatt.search(name))
+    return test
 
 ##
 # Filter names if they match a built-in.
@@ -87,13 +95,36 @@ GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % re.escape(x) for x in
 def globals_filter_by_builtins(global_names):
     return [name for name in global_names if not GlobalSymbolsCombinedPatt.search(name)]
 
-##
-# Filter names if they match a library class.
-#
-def globals_filter_by_libclasses(global_names, lib_classes):
-    result = []
-    for name in global_names:
-        if name not in lib_classes:  # TODO: fork out test?!
-            result.append(name)
-    return result
 
+##
+# (class_names[], name_spaces[]) -> Node -> bool
+def test_ident_is_libsymbol(class_names, name_spaces):
+    def test(node):
+        name = treeutil.assembleVariable(node)[0]
+        return test_for_libsymbol(name, class_names, name_spaces)
+    return test
+
+
+##
+# Check symbol against known classes and namespaces.
+# - A known qx global is either exactly a name space, or a dotted identifier
+#   that is a dotted extension of a known class.
+#
+# (There is still a copy in MClassDependencies._splitQxClass).
+#
+def test_for_libsymbol(symbol, class_names, name_spaces):
+    res_name = ''
+    # check for a name space match
+    if symbol in name_spaces:
+        res_name = symbol
+    # see if symbol is a (dot-exact) prefix of any of class_names
+    else:
+        for class_name in class_names:
+            if (symbol.startswith(class_name) and 
+                    re.search(r'^%s(?=\.|$)' % re.escape(class_name), symbol)): 
+                    # e.g. re.search(r'^mylib.Foo(?=\.|$)', 'mylib.Foo.Bar' is
+                    # true, but not with 'mylib.FooBar'
+                # take the longest match
+                if len(class_name) > len(res_name):
+                    res_name = class_name
+    return res_name

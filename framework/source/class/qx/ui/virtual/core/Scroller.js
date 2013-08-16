@@ -131,7 +131,6 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
      */
     getItemTop : function(item)
     {
-      // TODO Implement 'getItemTop' method
       throw new Error("The method 'getItemTop' is not implemented!");
     },
 
@@ -145,7 +144,6 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
      */
     getItemBottom : function(item)
     {
-      // TODO Implement 'getItemBottom' method
       throw new Error("The method 'getItemBottom' is not implemented!");
     },
 
@@ -159,7 +157,6 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
      */
     getItemLeft : function(item)
     {
-      // TODO Implement 'getItemLeft' method
       throw new Error("The method 'getItemLeft' is not implemented!");
     },
 
@@ -173,7 +170,6 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
      */
     getItemRight : function(item)
     {
-      // TODO Implement 'getItemRight' method
       throw new Error("The method 'getItemRight' is not implemented!");
     },
 

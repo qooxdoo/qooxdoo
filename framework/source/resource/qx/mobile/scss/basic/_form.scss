@@ -33,6 +33,14 @@
   border-top: 0;
 }
 
+.form .form-row.vbox input {
+  width: 100%;
+}
+
+.form .form-row.vbox * + * {
+  margin-top: 10px;
+}
+
 .form .form-row * {
   white-space: normal;
   text-overflow: ellipsis;

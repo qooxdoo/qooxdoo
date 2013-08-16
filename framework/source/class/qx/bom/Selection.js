@@ -22,8 +22,10 @@
 /**
  * Low-level selection API to select elements like input and textarea elements
  * as well as text nodes or elements which their child nodes.
+ *
+ * @ignore(qx.bom.Element, qx.bom.Element.blur)
  */
-qx.Class.define("qx.bom.Selection",
+qx.Bootstrap.define("qx.bom.Selection",
 {
   /*
   *****************************************************************************
@@ -619,19 +621,10 @@ qx.Class.define("qx.bom.Selection",
         // if the node is an input or textarea element use the specialized methods
         if (qx.dom.Node.isElement(node) && (nodeName == "input" || nodeName == "textarea"))
         {
-          // TODO: this leads Webkit to also focus the input/textarea element
-          // which is NOT desired.
-          // Additionally there is a bug in webkit with input/textarea elements
-          // concerning the native selection and range object.
-          // -> getting e.g. the startContainer/endContainer of the range returns
-          // the text element (as expected) but webkit does embed this text node
-          // into a lonely DIV element, so there us no chance to check if the
-          // selection is currently at the input/textarea element to only perform
-          // the "setSelectionRange" in the case the given node is REALLY selected.
-          // Webkit bugzilla: https://bugs.webkit.org/show_bug.cgi?id=15903
-          // qooxdoo bugzilla: http://bugzilla.qooxdoo.org/show_bug.cgi?id=1087
           node.setSelectionRange(0, 0);
-          qx.bom.Element.blur(node);
+          if (qx.bom.Element && qx.bom.Element.blur) {
+            qx.bom.Element.blur(node);
+          }
         }
         // if the given node is the body/document node -> collapse the selection
         else if (qx.dom.Node.isDocument(node) || nodeName == "body")

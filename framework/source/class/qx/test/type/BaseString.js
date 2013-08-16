@@ -159,20 +159,5 @@ qx.Class.define("qx.test.type.BaseString",
       var s = new qx.String("Juhu");
       this.assertEquals("<b>Juhu</b>", s.bold());
     }
-
-
-/*
- TODO: Add test for these functions:
-   toString ( )
-   valueOf ( )
-   concat ( [ string1 [ , string2 [ , … ] ] ] )
-   localeCompare (that)
-   replace (searchValue, replaceValue)
-   toLocaleLowerCase ( )
-   toLocaleUpperCase ( )
-*/
-
-
-
   }
 });

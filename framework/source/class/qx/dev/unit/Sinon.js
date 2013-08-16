@@ -75,6 +75,8 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
  * @ignore(msSetImmediate.*)
  * @lint ignoreUnused(alen, requestMethod, index)
  * @lint ignoreNoLoopBlock()
+ *
+ * @lint ignoreJsdocKey(author, license, depend)
  */
 (function() {
 

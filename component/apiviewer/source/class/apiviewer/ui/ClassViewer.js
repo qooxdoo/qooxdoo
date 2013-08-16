@@ -472,6 +472,15 @@ qx.Class.define("apiviewer.ui.ClassViewer",
         );
       }
 
+      var seeAlso = apiviewer.ui.panels.InfoPanel.createSeeAlsoHtml(classNode);
+      if (seeAlso) {
+        if (classHtml.length > 0) {
+          classHtml.splice(-1, 0, seeAlso);
+        } else {
+          classHtml.add(seeAlso);
+        }
+      }
+
       if (classNode.getErrors().length > 0) {
         classHtml.add(
           '<div class="class-description">',
@@ -493,11 +502,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       classHtml.add(this.__getDependentClassesHtml(classNode.getMixins(), "Included mixins:"));
       classHtml.add(this.__getDependentClassesHtml(classNode.getImplementations(), "Implementations of this interface:"));
       classHtml.add(this.__getDependentClassesHtml(classNode.getIncluder(), "Classes including this mixin:"));
-
-      var construct = classNode.getConstructor();
-      if (construct) {
-        classHtml.add(apiviewer.ui.panels.InfoPanel.createSeeAlsoHtml(construct));
-      }
 
       if (classNode.isDeprecated())
       {

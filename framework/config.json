@@ -65,8 +65,7 @@
        "sl",  // Slovene
        "sv"   // Swedish
     ],
-    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
-    "VALIDATE_CONFIG": true
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache"
   },
 
   "config-warnings" :
@@ -270,6 +269,7 @@
 
     "images" :
     {
+      "desc" : "clip and combine all images used in the framework",
       "run" : [ "image-clipping", "image-combine" ]
     },
 
@@ -295,9 +295,6 @@
       "config-warnings" :
       {
         "environment" : [ "non-literal-keys" ]
-      },
-      "lint-check" : {
-        "warn-unknown-jsdoc-keys" : false,  // [bug#7504] diverging from api.json
       }
     },
 

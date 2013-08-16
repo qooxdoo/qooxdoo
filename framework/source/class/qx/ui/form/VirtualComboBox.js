@@ -247,6 +247,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
           control.setFocusable(false);
           control.setKeepActive(true);
           control.addState("inner");
+          control.addListener("execute", this.toggle, this);
           this._add(control);
           break;
       }
@@ -302,8 +303,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
 
 
     // overridden
-    _handleMouse : function(event)
-    {
+    _handleMouse : function(event) {
       this.base(arguments, event);
 
       var type = event.getType();
@@ -311,12 +311,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
         return;
       }
 
-      var target = event.getTarget();
-      if (target == this.getChildControl("button")) {
-        this.toggle();
-      } else {
-        this.close();
-      }
+      this.close();
     },
 
 

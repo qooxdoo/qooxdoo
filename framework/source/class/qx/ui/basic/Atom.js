@@ -177,7 +177,12 @@ qx.Class.define("qx.ui.basic.Atom",
 
     /**
      * Whether the content should be rendered centrally when to much space
-     * is available. Affects both axis.
+     * is available. Enabling this property centers in both axis. The behavior
+     * when disabled of the centering depends on the {@link #iconPosition} property.
+     * If the icon position is <code>left</code> or <code>right</code>, the X axis
+     * is not centered, only the Y axis. If the icon position is <code>top</code>
+     * or <code>bottom</code>, the Y axis is not centered. In case of e.g. an
+     * icon position of <code>top-left</code> no axis is centered.
      */
     center :
     {

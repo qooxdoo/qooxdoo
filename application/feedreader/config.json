@@ -193,12 +193,16 @@
 
       "environment" :
       {
-        "qx.mobile.emulatetouch" : true
+        "qx.mobile.emulatetouch" : true,
+        "qx.mobile.nativescroll" : false
       },
 
       "compile-options" :
       {
-        "paths" : { "file" : "source/script/${APPLICATION}-mobile.js" }
+        "paths": {
+          "file": "source/script/${APPLICATION}-mobile.js",
+          "loader-template": "${QOOXDOO_PATH}/tool/data/generator/mobile.loader.tmpl.js"
+        }
       },
 
       "=packages" : {}
@@ -216,7 +220,8 @@
 
       "environment" :
       {
-        "qx.mobile.emulatetouch" : true
+        "qx.mobile.emulatetouch" : true,
+        "qx.mobile.nativescroll" : false
       },
 
       "compile-options" :

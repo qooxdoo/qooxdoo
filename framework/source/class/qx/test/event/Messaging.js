@@ -141,6 +141,19 @@ qx.Class.define("qx.test.event.Messaging",
       this.__m.remove(id);
       this.__m.emit("GET", "/");
       this.assertCalledOnce(handler);
+    },
+
+    testHas : function() {
+      this.__m.on("GET", "/affe", function() {});
+      this.__m.on("POST", "/affe", function() {});
+
+      this.assertTrue(this.__m.has("GET", "/affe"));
+      this.assertTrue(this.__m.has("POST", "/affe"));
+
+      this.assertFalse(this.__m.has("get", "/affe"));
+      this.assertFalse(this.__m.has("GET", "/banane"));
+      this.assertFalse(this.__m.has("PUT", "/affe"));
+      this.assertFalse(this.__m.has("banane", "/affe"));
     }
   }
 });

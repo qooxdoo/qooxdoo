@@ -25,8 +25,7 @@
 
 import sys, os, types, re, string
 from ecmascript.frontend import treeutil
-from ecmascript.frontend.tree import NodeAccessException
-from ecmascript.transform.evaluate import evaluate
+from ecmascript.transform.optimizer import reducer
 from misc import util
 
 class MClassI18N(object):
@@ -157,35 +156,14 @@ class MClassI18N(object):
 
 
     def _concatOperation(self, node):
+        console = self.context['console']
         result = ""
-        assert node.type=="operation" and node.get("operator")=="ADD", "Can only process concatenation of string literals"
-
-        evaluate.evaluate(node)
-        if node.evaluated != ():
-            result = node.evaluated
+        reduced_node = reducer.ast_reduce(node)
+        if reduced_node.type == 'constant' and reduced_node.get("constantType",'') == "string":
+            result = reduced_node.get('value')
         else:
-            console.warn("Unknown expression as argument to translation method (%s:%s)" % (treeutil.getFileFromSyntaxItem(node), node.get("line"),))
-
-        return result
-
-
-    def _concatOperation_1(self, node):
-        result = ""
-        assert node.type=="operation" and node.get("operator")=="ADD", "Can only process concatenation of string literals"
-
-        try:
-            first = node.getChildByPosition(0).getChildByTypeAndAttribute("constant", "constantType", "string")
-            result += first.get("value")
-
-            second = node.getChildByPosition(1).getFirstChild(True, True)
-            if second.type == "operation" and second.get("operator")=="ADD":
-                result += self._concatOperation(second)
-            else:
-                result += second.get("value")
-
-        except NodeAccessException:
-            console.warn("Unknown expression as argument to translation method (%s:%s)" % (treeutil.getFileFromSyntaxItem(node), node.get("line"),))
-
+            console.warn("Cannot extract string argument to translation method (%s:%s): %s" % (
+                treeutil.getFileFromSyntaxItem(node), node.get("line"), node.toJS(None)))
         return result
 
 

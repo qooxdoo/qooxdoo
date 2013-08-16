@@ -83,9 +83,6 @@ qx.Class.define("qx.bom.Flash",
      * It is possible to add these parameters as supported by Flash movies:
      * http://helpx.adobe.com/flash/kb/flash-object-embed-tag-attributes.html
      *
-     * TODO: don't use the seperate argument "variables" to set flashvars, this belongs
-     *        to the "params" argument.
-     *
      * @param element {Element} Parent DOM element node to add flash movie
      * @param attributes {Map} attributes for the object tag like id or mayscript
      * @param variables {Map?null} Flash variable data (these are available in the movie later)
@@ -355,7 +352,7 @@ qx.Class.define("qx.bom.Flash",
 
   defer : function(statics)
   {
-    if ((qx.core.Environment.get("engine.name") == "mshtml")) {
+    if (qx.core.Environment.get("engine.name") == "mshtml") {
       qx.bom.Event.addNativeListener(window, "beforeunload", statics.__fixOutOfMemoryError);
     }
   }

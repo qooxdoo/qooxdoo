@@ -40,7 +40,7 @@
  * </div>
  *
  * @ignore(XDomainRequest)
- * @ignore(qx.event.GlobalError.*)
+ * @ignore(qx.event, qx.event.GlobalError.*)
  *
  * @require(qx.bom.request.Xhr#open)
  * @require(qx.bom.request.Xhr#send)
@@ -54,6 +54,7 @@
  * @require(qx.bom.request.Xhr#setRequestHeader)
  * @require(qx.bom.request.Xhr#getAllResponseHeaders)
  * @require(qx.bom.request.Xhr#getRequest)
+ * @require(qx.bom.request.Xhr#overrideMimeType)
  * @require(qx.bom.request.Xhr#dispose)
  * @require(qx.bom.request.Xhr#isDisposed)
  */
@@ -549,6 +550,33 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.__checkDisposed();
 
       return this.__nativeXhr.getAllResponseHeaders();
+    },
+
+    /**
+     * Overrides the MIME type returned by the server
+     * and must be called before @send()@.
+     *
+     * Note:
+     *
+     * * IE doesn't support this method so in this case an Error is thrown.
+     * * after calling this method @getResponseHeader("Content-Type")@
+     *   may return the original (Firefox 23, IE 10, Safari 6) or
+     *   the overriden content type (Chrome 28+, Opera 15+).
+     *
+     *
+     * @param mimeType {String} The mimeType for overriding.
+     * @return {qx.bom.request.Xhr} Self for chaining.
+     */
+    overrideMimeType: function(mimeType) {
+      this.__checkDisposed();
+
+      if (this.__nativeXhr.overrideMimeType) {
+        this.__nativeXhr.overrideMimeType(mimeType);
+      } else {
+        throw new Error("Native XHR object doesn't support overrideMimeType.");
+      }
+
+      return this;
     },
 
     /**

@@ -224,7 +224,7 @@ qx.Class.define("qx.log.Logger",
 
     /**
      * Prints a method deprecation warning and a stack trace if the setting
-     * <code>qx.debug</code> is set to <code>on</code>.
+     * <code>qx.debug</code> is set to <code>true</code>.
      *
      * @param fcn {Function} reference to the deprecated function. This is
      *     arguments.callee if the calling method is to be deprecated.
@@ -246,7 +246,7 @@ qx.Class.define("qx.log.Logger",
 
     /**
      * Prints a class deprecation warning and a stack trace if the setting
-     * <code>qx.debug</code> is set to <code>on</code>.
+     * <code>qx.debug</code> is set to <code>true</code>.
      *
      * @param clazz {Class} reference to the deprecated class.
      * @param msg {String?} Optional message to be printed.
@@ -267,7 +267,7 @@ qx.Class.define("qx.log.Logger",
 
     /**
      * Prints an event deprecation warning and a stack trace if the setting
-     * <code>qx.debug</code> is set to <code>on</code>.
+     * <code>qx.debug</code> is set to <code>true</code>.
      *
      * @param clazz {Class} reference to the deprecated class.
      * @param event {String} deprecated event name.
@@ -289,7 +289,7 @@ qx.Class.define("qx.log.Logger",
 
     /**
      * Prints a mixin deprecation warning and a stack trace if the setting
-     * <code>qx.debug</code> is set to <code>on</code>.
+     * <code>qx.debug</code> is set to <code>true</code>.
      *
      * @param clazz {Class} reference to the deprecated mixin.
      * @param msg {String?} Optional message to be printed.
@@ -310,7 +310,7 @@ qx.Class.define("qx.log.Logger",
 
     /**
      * Prints a constant deprecation warning and a stacktrace if the setting
-     * <code>qx.debug</code> is set to <code>on</code> AND the browser supports
+     * <code>qx.debug</code> is set to <code>true</code> AND the browser supports
      * __defineGetter__!
      *
      * @param clazz {Class} The class the constant is attached to.
@@ -341,7 +341,7 @@ qx.Class.define("qx.log.Logger",
     /**
      * Prints a deprecation waring and a stacktrace when a subclass overrides
      * the passed method name. The deprecation is only printed if the setting
-     * <code>qx.debug</code> is set to <code>on</code>.
+     * <code>qx.debug</code> is set to <code>true</code>.
      *
      *
      * @param object {qx.core.Object} Instance to check for overriding.

@@ -28,6 +28,7 @@
 qx.Class.define("qx.test.data.singlevalue.Simple",
 {
   extend : qx.dev.unit.TestCase,
+  include : qx.dev.unit.MRequirements,
 
   members :
   {
@@ -641,6 +642,27 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       );
       this.__a.setAppearance("affe");
       this.assertEquals("affe", this.__b.getAppearance(), "String binding does not work!");
+    },
+
+
+    testWrongArguments : function() {
+      this.require(["qx.debug"]);
+
+      this.assertException(function() {
+        qx.data.SingleValueBinding.bind(this.__a, "appearance", this.__b, undefined);
+      }, qx.core.AssertionError, "");
+
+      this.assertException(function() {
+        qx.data.SingleValueBinding.bind(this.__a, "appearance", undefined, "appearance");
+      }, qx.core.AssertionError, "");
+
+      this.assertException(function() {
+        qx.data.SingleValueBinding.bind(this.__a, undefined, this.__b, "appearance");
+      }, qx.core.AssertionError, "");
+
+      this.assertException(function() {
+        qx.data.SingleValueBinding.bind(undefined, "appearance", this.__b, "appearance");
+      }, qx.core.AssertionError, "");
     }
   }
 });

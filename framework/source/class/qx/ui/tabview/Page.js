@@ -158,7 +158,13 @@ qx.Class.define("qx.ui.tabview.Page",
 
     // property apply
     _applyIcon : function(value, old) {
-      this.getChildControl("button").setIcon(value);
+      var btn = this.getChildControl("button");
+      if (value) {
+        btn.setIcon(value);
+        btn._showChildControl("icon");
+      } else {
+        btn._excludeChildControl("icon");
+      }
     },
 
 

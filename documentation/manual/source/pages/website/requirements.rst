@@ -14,15 +14,15 @@ Code written against the %{Website} API will run in all major web browsers, part
 
 .. list-table::
 
-   * - .. image:: /_static/ie.png 
+   * - .. image:: /_static/logo_ie_24x24.png
      - Internet Explorer 6+
-   * - .. image:: /_static/ff.png 
+   * - .. image:: /_static/logo_firefox_24x24.png
      - Firefox 2+
-   * - .. image:: /_static/opera.png 
+   * - .. image:: /_static/logo_opera_24x24.png
      - Opera 9+
-   * - .. image:: /_static/safari.png 
+   * - .. image:: /_static/logo_safari_24x24.png
      - Safari 3+
-   * - .. image:: /_static/chrome.png 
+   * - .. image:: /_static/logo_chrome_24x24.png
      - Chrome 2+
 
 

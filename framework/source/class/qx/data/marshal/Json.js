@@ -282,7 +282,11 @@ qx.Class.define("qx.data.marshal.Json",
       if (delegateClass != null) {
         return (new delegateClass());
       } else {
-        var clazz = qx.Class.getByName("qx.data.model." + hash);
+        var className = "qx.data.model." + hash;
+        var clazz = qx.Class.getByName(className);
+        if (!clazz) {
+          throw new Error("Class '" + className + "' could not be found.");
+        }
         return (new clazz());
       }
     },

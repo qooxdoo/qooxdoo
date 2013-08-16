@@ -29,11 +29,6 @@
  */
 qx.Mixin.define("qx.ui.core.MBlocker",
 {
-  construct: function() {
-    this.__blocker = this._createBlocker();
-  },
-
-
   properties :
   {
     /**
@@ -78,13 +73,13 @@ qx.Mixin.define("qx.ui.core.MBlocker",
 
     // property apply
     _applyBlockerColor : function(value, old) {
-      this.__blocker.setColor(value);
+      this.getBlocker().setColor(value);
     },
 
 
     // property apply
     _applyBlockerOpacity : function(value, old) {
-      this.__blocker.setOpacity(value);
+      this.getBlocker().setOpacity(value);
     },
 
     /**
@@ -92,7 +87,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
      * which receives all events, exactly over the widget.
      */
     block : function() {
-      this.__blocker.block();
+      this.getBlocker().block();
     },
 
 
@@ -102,7 +97,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
      * @return {Boolean} Whether the widget is blocked.
      */
     isBlocked : function() {
-      return this.__blocker.isBlocked();
+      return this.__blocker && this.__blocker.isBlocked();
     },
 
 
@@ -112,7 +107,9 @@ qx.Mixin.define("qx.ui.core.MBlocker",
      * the numer of {@link #unblock} calls is identical to {@link #block} calls.
      */
     unblock : function() {
-      this.__blocker.unblock();
+      if (this.__blocker) {
+        this.__blocker.unblock();
+      }
     },
 
 
@@ -121,7 +118,9 @@ qx.Mixin.define("qx.ui.core.MBlocker",
      * the amount of {@link #block} calls. The blocker is directly removed.
      */
     forceUnblock : function() {
-      this.__blocker.forceUnblock();
+      if (this.__blocker) {
+        this.__blocker.forceUnblock();
+      }
     },
 
 
@@ -132,7 +131,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
      *     will be blocked
      */
     blockContent : function(zIndex) {
-      this.__blocker.blockContent(zIndex);
+      this.getBlocker().blockContent(zIndex);
     },
 
 
@@ -149,7 +148,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
          "Please use 'isBlocked' instead.");
       }
 
-      return this.__blocker.isBlocked();
+      return this.__blocker ? this.__blocker.isBlocked() : false;
     },
 
 
@@ -167,7 +166,9 @@ qx.Mixin.define("qx.ui.core.MBlocker",
          "Please use 'unblock' instead.");
       }
 
-      this.__blocker.unblock();
+      if (this.__blocker) {
+        this.__blocker.unblock();
+      }
     },
 
 
@@ -184,7 +185,9 @@ qx.Mixin.define("qx.ui.core.MBlocker",
          "Please use 'forceUnblock' instead.");
       }
 
-      this.__blocker.forceUnblock();
+      if (this.__blocker) {
+        this.__blocker.forceUnblock();
+      }
     },
 
 
@@ -194,6 +197,9 @@ qx.Mixin.define("qx.ui.core.MBlocker",
      * @return {qx.ui.core.Blocker} The blocker
      */
     getBlocker : function() {
+      if (!this.__blocker) {
+        this.__blocker = this._createBlocker();
+      }
       return this.__blocker;
     }
   },

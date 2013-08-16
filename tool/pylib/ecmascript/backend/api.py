@@ -90,27 +90,18 @@ def createPackageDoc(text, packageName, docTree = None):
     for attrib in commentAttributes:
         # Add description
         if attrib["category"] == "description":
-            if "text" in attrib:
-                descNode = tree.Node("desc").set("text", attrib["text"])
-                package.addChild(descNode)
+            package = addChildIf(package, *(handleJSDocDecsription(attrib)))
 
         elif attrib["category"] == "see":
-            if not "name" in attrib:
-                addError(docTree, "Missing target for see in '%s' package documentation." % packageName)
-            else:
-                seeNode = tree.Node("see").set("name", attrib["name"])
-                package.addChild(seeNode)
+            #if not "name" in attrib:
+            #    addError(docTree, "Missing target for see in '%s' package documentation." % packageName)
+            #else:
+            #    seeNode = tree.Node("see").set("name", attrib["name"])
+            #    package.addChild(seeNode)
+            package = addChildIf(package, *(handleJSDocSee(attrib)))
 
     return docTree
 
-
-
-
-########################################################################################
-#
-#  COMPATIBLE TO 0.7 STYLE ONLY!
-#
-########################################################################################
 
 def handleClassDefinition(docTree, callNode, variant):
     params = callNode.getChild("arguments")
@@ -279,17 +270,17 @@ def handleMixins(item, classNode, docTree, className):
 def handleSingleton(classNode, docTree):
     if classNode.get("isSingleton", False) == True:
         className = classNode.get("fullName")
-        functionCode = """/**
- * Returns a singleton instance of this class. On the first call the class
- * is instantiated by calling the constructor with no arguments. All following
- * calls will return this instance.
- *
- * This method has been added by setting the "type" key in the class definition
- * ({@link qx.Class#define}) to "singleton".
- *
- * @return {%s} The singleton instance of this class.
- */
-function() {}""" % className
+        functionCode = ("/**\n"
+            "* Returns a singleton instance of this class. On the first call the class\n"
+            "* is instantiated by calling the constructor with no arguments. All following\n"
+            "* calls will return this instance.\n"
+            "*\n"
+            '* This method has been added by setting the "type" key in the class definition\n'
+            '* ({@link qx.Class#define}) to "singleton".\n'
+            "*\n"
+            "* @return {%s} The singleton instance of this class.\n"
+            "*/\n"
+            "function() {}") % className
 
         node = treeutil.compileString(functionCode)
         commentAttributes = Comment.parseNode(node)[-1]
@@ -404,66 +395,66 @@ def generatePropertyMethods(propertyName, classNode, generatedMethods):
     name = name[0].upper() + name[1:]
 
     propData = {
-        access + "set" + name : """/**
- * Sets the user value of the property <code>%s</code>.
- *
- * For further details take a look at the property definition: {@link #%s}.
- *
- * @param value {var} New value for property <code>%s</code>.
- * @return {var} The unmodified incoming value.
- */
- function (value) {}; """ % (propertyName, propertyName, propertyName),
+        access + "set" + name : ("/**\n"
+            "* Sets the user value of the property <code>%s</code>.\n"
+            "*\n"
+            "* For further details take a look at the property definition: {@link #%s}.\n"
+            "*\n"
+            "* @param value {var} New value for property <code>%s</code>.\n"
+            "* @return {var} The unmodified incoming value.\n"
+            "*/\n"
+            "function (value) {}; ") % (propertyName, propertyName, propertyName),
 
-       access + "get" + name : """/**
- * Returns the (computed) value of the property <code>%s</code>.
- *
- * For further details take a look at the property definition: {@link #%s}.
- *
- * @return {var} (Computed) value of <code>%s</code>.
- */
- function () {}; """ % (propertyName, propertyName, propertyName),
+        access + "get" + name : ("/**\n"
+            "* Returns the (computed) value of the property <code>%s</code>.\n"
+            "*\n"
+            "* For further details take a look at the property definition: {@link #%s}.\n"
+            "*\n"
+            "* @return {var} (Computed) value of <code>%s</code>.\n"
+            "*/\n"
+            "function () {}; ") % (propertyName, propertyName, propertyName),
 
-       access + "reset" + name : """/**
- * Resets the user value of the property <code>%s</code>.
- *
- * The computed value falls back to the next available value e.g. appearance, init or
- * inheritance value depeneding on the property configuration and value availability.
- *
- * For further details take a look at the property definition: {@link #%s}.
- */
- function () {}; """ % (propertyName, propertyName),
+        access + "reset" + name : ("/**\n"
+            "* Resets the user value of the property <code>%s</code>.\n"
+            "*\n"
+            "* The computed value falls back to the next available value e.g. appearance, init or\n"
+            "* inheritance value depeneding on the property configuration and value availability.\n"
+            "*\n"
+            "* For further details take a look at the property definition: {@link #%s}.\n"
+            "*/\n"
+            "function () {}; ") % (propertyName, propertyName),
 
-       access + "init" + name : """/**
- * Calls the apply method and dispatches the change event of the property <code>%s</code>
- * with the default value defined by the class developer. This function can
- * only be called from the constructor of a class.
- *
- * For further details take a look at the property definition: {@link #%s}.
- *
- * @protected
- * @param value {var} Initial value for property <code>%s</code>.
- * @return {var} the default value
- */
- function (value) {}; """ % (propertyName, propertyName, propertyName),
+        access + "init" + name : ("/**\n"
+            "* Calls the apply method and dispatches the change event of the property <code>%s</code>\n"
+            "* with the default value defined by the class developer. This function can\n"
+            "* only be called from the constructor of a class.\n"
+            "*\n"
+            "* For further details take a look at the property definition: {@link #%s}.\n"
+            "*\n"
+            "* @protected\n"
+            "* @param value {var} Initial value for property <code>%s</code>.\n"
+            "* @return {var} the default value\n"
+            "*/\n"
+            "function (value) {}; ") % (propertyName, propertyName, propertyName),
 
-       access + "toggle" + name : """/**
- * Toggles the (computed) value of the boolean property <code>%s</code>.
- *
- * For further details take a look at the property definition: {@link #%s}.
- *
- * @return {Boolean} the new value
- */
- function () {}; """ % (propertyName, propertyName),
+        access + "toggle" + name : ("/**\n"
+            "* Toggles the (computed) value of the boolean property <code>%s</code>.\n"
+            "*\n"
+            "* For further details take a look at the property definition: {@link #%s}.\n"
+            "*\n"
+            "* @return {Boolean} the new value\n"
+            "*/\n"
+            "function () {}; ") % (propertyName, propertyName),
 
 
-       access + "is" + name : """/**
- * Check whether the (computed) value of the boolean property <code>%s</code> equals <code>true</code>.
- *
- * For further details take a look at the property definition: {@link #%s}.
- *
- * @return {Boolean} Whether the property equals <code>true</code>.
- */
- function () {}; """ % (propertyName, propertyName)
+        access + "is" + name : ("/**\n"
+            "* Check whether the (computed) value of the boolean property <code>%s</code> equals <code>true</code>.\n"
+            "*\n"
+            "* For further details take a look at the property definition: {@link #%s}.\n"
+            "*\n"
+            "* @return {Boolean} Whether the property equals <code>true</code>.\n"
+            "*/\n"
+            "function () {}; ") % (propertyName, propertyName)
     }
 
     for funcName in generatedMethods:
@@ -552,14 +543,14 @@ def generateGroupPropertyMethod(propertyName, groupMembers, mode, classNode):
 
     functionName = access + "set" + functionName[0].upper() + functionName[1:]
 
-    functionTemplate = """/**
- * Sets the values of the property group <code>%(name)s</code>.
- * %(modeDoc)s
- * For further details take a look at the property definition: {@link #%(name)s}.
- *
-%(params)s
- */
- function (%(paramList)s) {}; """
+    functionTemplate = ("/**\n"
+        "* Sets the values of the property group <code>%(name)s</code>.\n"
+        "* %(modeDoc)s\n"
+        "* For further details take a look at the property definition: {@link #%(name)s}.\n"
+        "*\n"
+        "%(params)s\n"
+        "*/\n"
+        "function (%(paramList)s) {}; ")
 
     paramsTemplate = " * @param %s {var} Sets the value of the property {@link #%s}."
     paramsDef = [paramsTemplate % (name, name) for name in groupMembers]
@@ -734,14 +725,6 @@ def handleChildControls(item, classNode, className, commentAttributes):
             classNode.addListChild("childControls", childControlNode)
 
 
-
-
-########################################################################################
-#
-#  COMPATIBLE TO BOTH, 0.6 and 0.7 style
-#
-########################################################################################
-
 def handleConstantDefinition(item, classNode):
     if (item.type == "assignment"):
         # This is a "normal" constant definition
@@ -823,22 +806,39 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
     isAbstract = classNode.get("isAbstract", False)
 
     # Read all description, param and return attributes
+    isAbstract = handleFunctionOtherAttributes(classNode, funcItem, name, commentAttributes, node, isAbstract)
+
+    # Check for documentation errors
+    if node.hasChild("params"):
+        paramsListNode = node.getChild("params")
+        for paramNode in paramsListNode.children:
+            if not paramNode.getChild("desc", False):
+                addError(node, "Parameter is not documented: '%s'" % paramNode.get("name"), funcItem)
+
+    if reportMissingDesc and not node.hasChild("desc"):
+        addError(node, "Documentation is missing.", funcItem)
+
+    # Check whether return value documentation is correct
+    if checkReturn:
+        handleFunctionReturn(classNode, funcItem, name, commentAttributes, node, isAbstract)
+
+    return node
+
+
+def handleFunctionOtherAttributes(classNode, funcItem, name, commentAttributes, node, isAbstract):
     for attrib in commentAttributes:
 
         # Add description
         if attrib["category"] == "description":
-            if "text" in attrib:
-                if "TODOC" in attrib["text"]:
-                    addError(node, "Documentation is missing.", funcItem)
-                descNode = tree.Node("desc").set("text", attrib["text"])
-                node.addChild(descNode)
+            node = addChildIf(node, *(handleJSDocDecsription(attrib, funcItem)))
 
         elif attrib["category"] == "see":
-            if "name" in attrib:
-                seeNode = tree.Node("see").set("name", attrib["name"])
-                node.addChild(seeNode)
-            else:
-                addError(node, "Missing target for see.", funcItem)
+            #if "name" in attrib:
+            #    seeNode = tree.Node("see").set("name", attrib["name"])
+            #    node.addChild(seeNode)
+            #else:
+            #    addError(node, "Missing target for see.", funcItem)
+            node = addChildIf(node, *(handleJSDocSee(attrib)))
 
         elif attrib["category"] in ("attach", "attachStatic"):
             if not "targetClass" in attrib:
@@ -894,74 +894,67 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
             if not classNode.get("isAbstract", False):
                 node.set("isAbstract", True)
 
-    # Check for documentation errors
-    if node.hasChild("params"):
-        paramsListNode = node.getChild("params")
-        for paramNode in paramsListNode.children:
-            if not paramNode.getChild("desc", False):
-                addError(node, "Parameter is not documented: '%s'" % paramNode.get("name"), funcItem)
+    return isAbstract
 
-    if reportMissingDesc and not node.hasChild("desc"):
-        addError(node, "Documentation is missing.", funcItem)
 
-    # Check whether return value documentation is correct
-    if checkReturn:
-        hasComment = len(commentAttributes) > 0
-        isInterface = classNode.get("type", False) == "interface"
+def handleFunctionReturn(classNode, funcNode, funcName, commentAttributes, docNode, isAbstract):
+    hasComment = len(commentAttributes) > 0
+    isInterface = classNode.get("type", False) == "interface"
 
-        hasSignatureDef = False
-        for docItem in commentAttributes:
-            if docItem["category"] == "signature":
-                hasSignatureDef = True
+    hasSignatureDef = False
+    for docItem in commentAttributes:
+        if docItem["category"] == "signature":
+            hasSignatureDef = True
 
-        #overrides = False
-        #if len(commentAttributes) == 0:
-        #    superClassName = classNode.get("superClass", False)
-        #    if superClassName:
-        #        superClassNode = selectNode(classNode, "../class[@fullName='%s']" %superClassName)
-        #        while superClassNode:
-        #            superClassNode = selectNode(classNode, "../class[@fullName='%s']" %superClassName)
+    #overrides = False
+    #if len(commentAttributes) == 0:
+    #    superClassName = classNode.get("superClass", False)
+    #    if superClassName:
+    #        superClassNode = selectNode(classNode, "../class[@fullName='%s']" %superClassName)
+    #        while superClassNode:
+    #            superClassNode = selectNode(classNode, "../class[@fullName='%s']" %superClassName)
 
-        if hasComment and not isInterface and not hasSignatureDef and not isAbstract:
+    if hasComment and not isInterface and not hasSignatureDef and not isAbstract:
 
-            returnNodes = getReturnNodes(funcItem)
-            hasReturnValue = False
-            hasNoReturnValue = False
-            hasReturnNodes = len(returnNodes) > 0
-            for returnNode in returnNodes:
-                if len(returnNode.getChildren()) > 0:
-                    hasReturnValue = True
-                else:
-                    hasNoReturnValue = True
+        returnNodes = getReturnNodes(funcNode)
+        hasReturnValue = False
+        hasNoReturnValue = False
+        hasReturnNodes = len(returnNodes) > 0
+        for returnNode in returnNodes:
+            if len(returnNode.getChildren()) > 0:
+                hasReturnValue = True
+            else:
+                hasNoReturnValue = True
 
-            hasReturnDoc = False
-            hasUndefinedOrVarType = False
-            hasNonUndefinedOrVarType = False
-            if Comment.getAttrib(commentAttributes, "return"):
-                hasVoidType = False
-                if "type" in Comment.getAttrib(commentAttributes, "return"):
-                    for typeDef in Comment.getAttrib(commentAttributes, "return")["type"]:
-                        if typeDef["type"] == "void":
-                            hasVoidType = True
-                        elif typeDef["type"] == "undefined" or typeDef["type"] == "var":
-                            hasUndefinedOrVarType = True
-                        else:
-                            hasNonUndefinedOrVarType = True
-                if not hasVoidType:
-                    hasReturnDoc = True
+        hasReturnDoc = False
+        hasUndefinedOrVarType = False
+        hasNonUndefinedOrVarType = False
+        if Comment.getAttrib(commentAttributes, "return"):
+            hasVoidType = False
+            if "type" in Comment.getAttrib(commentAttributes, "return"):
+                for typeDef in Comment.getAttrib(commentAttributes, "return")["type"]:
+                    if typeDef["type"] == "void":
+                        hasVoidType = True
+                    elif typeDef["type"] == "undefined" or typeDef["type"] == "var":
+                        hasUndefinedOrVarType = True
+                    else:
+                        hasNonUndefinedOrVarType = True
+            if not hasVoidType:
+                hasReturnDoc = True
 
-            isSingletonGetInstance = classNode.get("isSingleton", False) and name == "getInstance"
+        isSingletonGetInstance = classNode.get("isSingleton", False) and funcName == "getInstance"
 
-            if hasReturnDoc and not hasReturnNodes and not isSingletonGetInstance:
-                addError(node, "Contains documentation for return value but no return statement found.", funcItem)
-            if hasReturnDoc and (not hasReturnValue and hasNoReturnValue) and not hasUndefinedOrVarType:
-                addError(node, "Contains documentation for return value but returns nothing.", funcItem)
-            if hasReturnDoc and hasReturnValue and hasNoReturnValue and not hasUndefinedOrVarType:
-                addError(node, "Contains documentation for return value but at least one return statement has no value.", funcItem)
-            if hasReturnValue and not hasReturnDoc:
-                addError(node, "Missing documentation for return value.", funcItem)
+        if hasReturnDoc and not hasReturnNodes and not isSingletonGetInstance:
+            addError(docNode, "Contains documentation for return value but no return statement found.", funcNode)
+        if hasReturnDoc and (not hasReturnValue and hasNoReturnValue) and not hasUndefinedOrVarType:
+            addError(docNode, "Contains documentation for return value but returns nothing.", funcNode)
+        if hasReturnDoc and hasReturnValue and hasNoReturnValue and not hasUndefinedOrVarType:
+            addError(docNode, "Contains documentation for return value but at least one return statement has no value.", funcNode)
+        if hasReturnValue and not hasReturnDoc:
+            addError(docNode, "Missing documentation for return value.", funcNode)
 
-    return node
+    return docNode
+
 
 
 ########################################################################################
@@ -969,6 +962,28 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
 #  COMMON STUFF
 #
 #######################################################################################
+
+
+def handleJSDocDecsription(attrib_desc, treeItem=None):
+    descNode = None
+    err_node = None
+    if "text" in attrib_desc:
+        if "TODOC" in attrib_desc["text"]:
+            err_node = createError("Documentation is missing.", treeItem)
+        descNode = tree.Node("desc").set("text", attrib_desc["text"])
+    return descNode, err_node
+
+def handleJSDocSee(attrib_see, treeItem=None):
+    result_node = None
+    err_node = None
+    if not 'name' in attrib_see:
+        err_node = createError("Missing target for see.", treeItem)
+    else:
+        result_node = tree.Node("see").set("name", attrib_see["name"])
+        if "text" in attrib_see:
+            desc_node = tree.Node("desc").set("text", attrib_see["text"])
+            result_node.addChild(desc_node)
+    return result_node, err_node
 
 
 def findAttachMethods(docTree):
@@ -1111,8 +1126,7 @@ def addEventNode(classNode, classItem, commentAttrib):
 
 
 
-def addError(node, msg, syntaxItem=None):
-
+def createError(msg, syntaxItem=None):
     errorNode = tree.Node("error")
     errorNode.set("msg", msg)
 
@@ -1123,9 +1137,23 @@ def addError(node, msg, syntaxItem=None):
 
             if column:
                 errorNode.set("column", column)
+    return errorNode
 
+def addError(node, msg, syntaxItem=None):
+    errorNode = createError(msg, syntaxItem)
     node.addListChild("errors", errorNode)
     node.set("hasError", True)
+
+##
+# Adds a child node to <node>, handles error nodes and None as <child_node>.
+# - allows both child and error node at the same time
+def addChildIf(node, child_node, err_node, force=False):
+    if err_node != None:
+        node.addListChild("errors", err_node)
+        node.set("hasError", True)
+    if child_node != None:
+        node.addChild(child_node)
+    return node
 
 
 def getPackageNode(docTree, namespace):
@@ -1187,16 +1215,15 @@ def classNodeFromDocTree(docTree, fullClassName, commentAttributes = None):
         for attrib in commentAttributes:
             # Add description
             if attrib["category"] == "description":
-                if "text" in attrib:
-                    descNode = tree.Node("desc").set("text", attrib["text"])
-                    classNode.addChild(descNode)
+                classNode = addChildIf(classNode, *(handleJSDocDecsription(attrib)))
 
             elif attrib["category"] == "see":
-                if not "name" in attrib:
-                    addError(classNode, "Missing target for see.")
-                    continue
-                seeNode = tree.Node("see").set("name", attrib["name"])
-                classNode.addChild(seeNode)
+                #if not "name" in attrib:
+                #    addError(classNode, "Missing target for see.")
+                #    continue
+                #seeNode = tree.Node("see").set("name", attrib["name"])
+                #classNode.addChild(seeNode)
+                classNode = addChildIf(classNode, *(handleJSDocSee(attrib)))
 
         if package:
             if fullClassName in lang.BUILTIN:
@@ -1215,6 +1242,7 @@ def connectPackage(docTree, packageNode):
     if packages:
         packages.children.sort(nameComparator)
         for node in packages.children:
+            Context.console.dot()
             hasError = connectPackage(docTree, node)
             if hasError:
                 childHasError = True
@@ -1223,6 +1251,7 @@ def connectPackage(docTree, packageNode):
     if classes:
         classes.children.sort(nameComparator)
         for node in classes.children:
+            Context.console.dot()
             hasError = connectClass(docTree, node)
             if hasError:
                 childHasError = True
@@ -1316,22 +1345,22 @@ def documentApplyMethod(methodNode, props):
         propNamesString = "property <code>%s</code>" %propNames[0]
         propLinksString = ": {@link #%s}" %propNames[0]
 
-    functionCode = """/**
- * Applies changes of the property value of the %(propNames)s.
- *
- * For further details take a look at the property definition%(propLinks)s.
- *
- * @param %(firstParamName)s {%(paramType)s} new value of the property
- * @param %(secondParamName)s {%(paramType)s} previous value of the property (null if it was not yet set).
- */
-function(%(firstParamName)s, %(secondParamName)s) {}""" % ({
-        "firstParamName": firstParam,
-        "secondParamName": secondParam,
-        "paramType": paramType,
-        "propNames": propNamesString,
-        "propLinks": propLinksString,
-        "propName": methodNode.get("name")
-    })
+    functionCode = ("/**\n"
+        "* Applies changes of the property value of the %(propNames)s.\n"
+        "*\n"
+        "* For further details take a look at the property definition%(propLinks)s.\n"
+        "*\n"
+        "* @param %(firstParamName)s {%(paramType)s} new value of the property\n"
+        "* @param %(secondParamName)s {%(paramType)s} previous value of the property (null if it was not yet set).\n"
+        "*/\n"
+        "function(%(firstParamName)s, %(secondParamName)s) {}") % ({
+            "firstParamName": firstParam,
+            "secondParamName": secondParam,
+            "paramType": paramType,
+            "propNames": propNamesString,
+            "propLinks": propLinksString,
+            "propName": methodNode.get("name")
+        })
 
     node = treeutil.compileString(functionCode)
     commentAttributes = Comment.parseNode(node)[-1]
@@ -1868,7 +1897,10 @@ def checkLink(link, docTree, index):
 
         # unknown class item
         if not "#" + targetItemName in index["__index__"]:
-            brokenLinks[ref] = link
+            # the index doesn't tell us if the class is static
+            # so we have to assume #construct is a valid target
+            if targetItemName != "construct":
+                brokenLinks[ref] = link
             continue
 
         classHasItem = False

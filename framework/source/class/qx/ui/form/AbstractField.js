@@ -50,9 +50,9 @@ qx.Class.define("qx.ui.form.AbstractField",
     __addPlaceholderRules : function() {
       var colorManager = qx.theme.manager.Color.getInstance();
       var color = colorManager.resolve("text-placeholder");
+      var selector;
 
       if (qx.core.Environment.get("engine.name") == "gecko") {
-        var selector;
         // see https://developer.mozilla.org/de/docs/CSS/:-moz-placeholder for details
         if (parseFloat(qx.core.Environment.get("engine.version")) >= 19) {
           selector = "input::-moz-placeholder, textarea::-moz-placeholder";
