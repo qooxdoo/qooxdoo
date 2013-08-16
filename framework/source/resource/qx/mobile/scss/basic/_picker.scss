@@ -7,7 +7,7 @@
 }
 
 .picker-slot {
-  @include transition(all ease-in-out);
+  @include transition(all no-ease);
 
   position:relative;
   top: -($picker-height/2);
@@ -16,22 +16,33 @@
   padding-bottom:  $picker-height;
 }
 
+@-moz-document url-prefix() {
+  .picker-slot {
+    padding-top: ($picker-height/2);
+  }
+}
+
+.picker .button {
+  margin-top: pxToEm(4);
+}
+
 .picker-slot * {
   -webkit-backface-visibility:hidden;
 }
 
 .picker-label {
+  position: relative;
+
   color:  $picker-spinning-wheel-text-color;
 
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 1.2em;
-  padding-left: 5px;
-  padding-right: 5px;
-  height: $picker-label-height;
+  font-size: $picker-label-font-size;
   line-height: $picker-label-height;
-  position: relative;
-  top: -$picker-label-height/2;
+  padding-left: pxToEm(5);
+  padding-right: pxToEm(5);
+  
+  top: -$picker-label-height / 2;
 }
 
 .picker-container {
@@ -44,28 +55,22 @@
 
 // Spinning Wheel Overlay Gradient
 .picker-container:after {
+  @include border-radius($picker-spinning-wheel-border-radius);
+  @include background($picker-spinning-wheel-overlay);
+
+  background-color:transparent !important;
+  background-size: 100% $picker-height;
+
   pointer-events:none;
 
   content:"";
   
-  width:100%;
-  height:100%;
-  z-index:1000;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
   position:absolute;
-  top:0px;
-  left:0px;
-
-  @include border-radius($picker-spinning-wheel-border-radius);
-  @include gradient-vertical-four(
-              $picker-spinning-wheel-overlay-color-1,
-              $picker-spinning-wheel-overlay-color-2,
-              $picker-spinning-wheel-overlay-color-2,
-              $picker-spinning-wheel-overlay-color-1,
-              40%,
-              60%
-           );
-
-  background-size: 100% $picker-height;
+  top: 0px;
+  left: 0px;
 }
 
 // Divider
@@ -83,7 +88,7 @@
   width:100%;
   z-index:1001;
 
-  top: 50%;
+  top: $picker-height/2;
   left: 0px;
 
   height: $picker-label-height; 

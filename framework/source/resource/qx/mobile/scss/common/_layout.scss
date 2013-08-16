@@ -72,10 +72,10 @@
 }
 
 .content {
-   // Force block formatting context so that elements are laid out
-   // "one after the other", see http://www.w3.org/TR/CSS21/visuren.html#block-formatting
-   //
-   // Fixes clipped content in Firefox.
+  // Force block formatting context so that elements are laid out
+  // "one after the other", see http://www.w3.org/TR/CSS21/visuren.html#block-formatting
+  //
+  // Fixes clipped content in Firefox.
   overflow: hidden;
 }
 

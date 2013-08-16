@@ -5,27 +5,28 @@
 .form {
   @include background-clip(padding-box);
 
-  margin-bottom: 10px;
+  margin-bottom: pxToEm(10);
   background-color:transparent;
-  border:none;
+  border: none;
 
-  font: bold 17px $application-font;
+  font-weight: bold;
+
   padding: 0;
   cursor:pointer;
 }
 
 .form-row {
   list-style-type: none;
-  padding: 10px 25px 10px 10px;
+  padding: pxToEm(10) pxToEm(24) pxToEm(10) pxToEm(10);
 }
 
 .form .form-row.form-separation-row:last-child {
   background-color:transparent;
-  margin-bottom:0px;
+  margin-bottom: 0px;
 }
 
 .form .list .form-row.error {
-  border: 2px solid red;
+  border: pxToEm(2) solid red;
 }
 
 .form .form-row.error + .form-row.error {
@@ -39,48 +40,17 @@
 
 .form .text-field, .form .number-field, .form .password-field {
   display:block;
-  width:50%;
+  width: 50%;
 }
 
-.text-field:not(.selectbox),.number-field, .password-field {
-  @include border-radius(.4em);
-  @include background-clip(padding-box);
-  text-indent:4px;
-  height:1.7em;
-}
-
-input, select {
-  vertical-align: middle;
-}
-
-input, select, .text-area {
-  font-size: 0.9em;
-}
-
-.text-field {
-  @include box-sizing(border-box);
-}
-
-.text-field, .password-field, .number-field, .text-area {
-  @include appearance(textarea);
-  width: 100%;
-  outline: none;
-}
-
-.text-field.invalid, .password-field.invalid, .text-area.invalid {
-  border: 1px solid red;
-}
-
-.text-area {
-  resize: none;
-  padding-top:4px;
-
-  @include border-radius(none);
-  @include background-clip(padding-box);
-
-  text-indent:4px; 
-  height:1.7em;
-  overflow:hidden;
+.form-title {
+  color: $group-title-text-color;
+  font-weight: normal;
+  line-height: pxToEm(20);
+  font-size: pxToEm(16);
+  margin-top: pxToEm(10);
+  margin-bottom: pxToEm(10);
+  text-indent: pxToEm(5);
 }
 
 //
@@ -95,7 +65,7 @@ input, select, .text-area {
   color: red;
   text-align:right;
   border-top:0;
-  padding: 0px 10px 10px 10px;
+  padding: 0px pxToEm(10) pxToEm(10) pxToEm(10);
 }
 
 .form-separation-row {
@@ -104,7 +74,7 @@ input, select, .text-area {
 
 .form-row-content {
   border-top:0;
-  padding: 10px 10px 10px 10px;
+  padding: pxToEm(10) pxToEm(10) pxToEm(10) pxToEm(10);
 }
 
 .form-row-content + .form-row-content {
@@ -117,6 +87,58 @@ input, select, .text-area {
 }
 
 .form-row label {
-  padding-right: 10px;
+  padding-right: pxToEm(10);
 }
 
+.form-separation-row {
+  background-color: $list-border-color;
+  height: pxToEm(1);
+}
+
+.form-row-group-title {
+  color: $form-title-text-color;
+  font-weight:normal;
+
+  margin-bottom:pxToEm(10);
+  border:none;
+  padding-bottom:0px;
+} 
+
+.form-row-content, .form-element-error {
+  background-color: $form-background-color;
+  border-left:pxToEm(1) solid $form-border-color;
+  border-right:pxToEm(1) solid $form-border-color;
+}
+
+.form-row-group-first {
+  @include border-radius-top($form-border-radius);
+
+  background-color: $form-background-color;
+  border-left: pxToEm(1) solid $form-border-color;
+  border-right: pxToEm(1) solid $form-border-color;
+  border-top: pxToEm(1) solid $form-border-color;
+  padding: pxToEm(2);
+  position:relative;
+  top: pxToEm(2);
+}
+
+.form-row-group-last {
+  @include border-radius-bottom($form-border-radius);
+
+  background-color: $form-background-color;
+  border-top: 0px transparent;
+  border-left: pxToEm(1) solid $form-border-color;
+  border-right: pxToEm(1) solid $form-border-color;
+  border-bottom: pxToEm(1) solid $form-border-color;
+  padding: pxToEm(2);
+  position: relative;
+  top: pxToEm(-2);
+}
+
+.form-row-group-title:nth-child(n+2) {
+  margin-top: pxToEm(14);
+}
+
+.form-row-content .label {
+  color: $form-label-text-color;
+}

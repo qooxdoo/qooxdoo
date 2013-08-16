@@ -1,3 +1,6 @@
+
+/* EVENT */
+
 .eventcontainer {
   position:relative;
   overflow:hidden;
@@ -60,51 +63,41 @@
   margin-top:2px;
 }
 
-
-.carousel-page {
-  font-size:2.5em;
-}
+/* CAROUSEL */
 
 .carousel-page > .label {
-  padding:10px;
-  font-family:helvetica;
-  font-weight:bold;
+  padding: 10px;
+  font-family: helvetica;
+  font-weight: bold;
+  font-size: 2.5em;
 }
 
 .carousel-example-1 {
-  background-color:#0C2550;
-  color: white ;
+  background-color: #0C2550;
+  color: white;
 }
 
 .carousel-example-2 {
-  background-color:#A3D0C1;
-  font-size:2.5em;
-  color:#222222;
+  background-color: #A3D0C1;
+  color: #222222;
 }
 
 .carousel-example-3 {
-  background-color:#FDF6DD;
-  font-size:2.5em;
-  color:#222222;
+  background-color: #FDF6DD;
+  color: #222222;
 }
 
 .carousel-example-4 {
-  background-color:#FEE406;
-  font-size:2.5em;
-  color:#222222;
+  background-color: #FEE406;
+  color: #222222;
 }
 
 .carousel-example-5 {
-  background-color:#F4651C;
-  font-size:2.5em;
-  color:#222222;
+  background-color: #F4651C;
+  color: #222222;
 }
 
-.example-button {
-  width:100px;
-  font-size:0.35em;
-}
-
+/* TAB */
 
 .view1 {
   border:1px solid #aaaaaa;

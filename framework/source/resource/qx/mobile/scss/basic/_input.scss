@@ -22,14 +22,14 @@ input, select {
 }
 
 input, select, .text-area {
-  font-size: pxToEm(16);
+  font-size: pxToEm(15);
 }
 
 
 .text-field:not(.selectbox),.number-field, .password-field {
   @include background-clip(padding-box);
   text-indent: pxToEm(4);
-  height: pxToEm(32);
+  height: pxToEm(26);
 }
 
 .text-field {

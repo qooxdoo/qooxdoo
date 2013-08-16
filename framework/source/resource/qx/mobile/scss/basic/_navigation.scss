@@ -1,11 +1,13 @@
 //
 // NAVIGATION CONTAINER
 //
- 
+
 .navigation {
-  margin-bottom:0px;
   @include transition(all 0.8s ease-in-out);
   @include transform(translateY(0px));
+  
+  overflow:hidden;
+  margin-bottom:0px;
   -webkit-backface-visibility:hidden;
 }
 
@@ -13,4 +15,24 @@
   margin-bottom:-($navigationbar-height);
   @include transition(all 0.8s ease-in-out );
   @include transform(translateY(-($navigationbar-height)));
+}
+
+.left-container > * {
+  margin-right:pxToEm(4);
+}
+
+.left-container {
+  position:absolute;
+  left: 0;
+  top: 0;
+  width:auto;
+  height: $navigationbar-height;
+}
+
+.right-container {
+  position:absolute;
+  right: 0;
+  top: 0;
+  width:auto;
+  height: $navigationbar-height;
 }

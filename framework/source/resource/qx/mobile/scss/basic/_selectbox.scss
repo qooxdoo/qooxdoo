@@ -4,38 +4,41 @@
 //
 
 .selectbox {
-  @include user-select(none);
-
   @extend .hbox;
   @extend .boxAlignCenter;
-
-  @include border-radius(4px);
+  
+  @include user-select(none);
+  @include border-radius($selectbox-border-radius); 
+  @include background($selectbox-background);
   
   border:none;
   cursor:pointer;
 
   vertical-align:middle;
-  height:35px;
+  height: pxToEm(32);
   
   background-color:transparent;
 
   font-weight:normal;
-  font-size:15px;
-  text-indent: 4px;
+  text-indent: pxToEm(4);
+
+  border: pxToEm(1) solid $selectbox-border-color;
+  color: $selectbox-text-color;
 }
 
 
 .selectbox-selected > div > .list-itemlabel:after {
+  @include transform(rotate(-45deg));
+  
   content: '';
   position: absolute;
-  width: 15px;
-  height: 8px;
+  width: pxToEm(32);
+  height: pxToEm(5);
   background: transparent;
-  right: 2px;
-  border: 4px solid black;
+  right: pxToEm(2);
+  border: pxToEm(4) solid black;
   border-top: 0;
   border-right: 0;
-  @include transform(rotate(-45deg));
 }
 
 .selectbox-selected > div > .list-itemlabel {
@@ -48,4 +51,19 @@
 
 .selectbox-unselected > .list-itemimage {
   display:none;
+}
+
+.selectbox.active {
+  @include background($selectbox-active-background);
+  color: $selectbox-active-text-color;
+}
+
+// Tick
+.selectbox-selected > div > .list-itemlabel:after {
+  border: 0px solid transparent;
+}
+
+.selectbox-selected {
+  @include background($list-active-background);
+  color: $selectbox-item-selected-text-color !important;
 }

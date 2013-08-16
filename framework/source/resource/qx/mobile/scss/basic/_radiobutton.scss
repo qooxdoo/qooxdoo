@@ -1,38 +1,47 @@
 // Background
 .radio {
+  @include background($radiobutton-background);
+  @include border-radius($radiobutton-size);
+  
   display:inline-block;
-  content:"";
-  width: 30px;
-  height: 30px; 
+  content: "";
 
+  width: $radiobutton-size;
+  height: $radiobutton-size; 
+  border: pxToEm(1) solid $radiobutton-border-color;
+
+  text-align: center;
   position: relative;
 
-  z-index:10;
+  z-index: 10;
 
-  margin: 2px auto;
+  margin: pxToEm(2) auto;
 
-  @include border-radius(50px);
-  text-align:center;
+  box-sizing: border-box;
 }
 
 // Color dot
 .radio:after {
-  display:inline-block;
-  opacity: 0;
-  content:"";;
-
-  z-index:11;
-
-  width: 16px;
-  height: 16px;
+  @include border-radius($radiobutton-size);
+  @include box-shadow(pxToEm(1) pxToEm(1)  pxToEm(1) 0 rgba(0,0,0,0.3));
 
   position: absolute;
+  display: block;
+
+  opacity: 0;
+  content: "";
+
+  z-index: 11;
+
+  width: $radiobutton-size/2;
+  height: $radiobutton-size/2;
+
   top: 50%;
   left: 50%;
-  margin-top: -8px;
-  margin-left: -8px;
+  margin-top: -1*$radiobutton-size/4;
+  margin-left: -1*$radiobutton-size/4;
 
-  @include border-radius(50px);
+  background: $radiobutton-dot-color; 
 }
 
 .radio.checked:after {

@@ -1,7 +1,7 @@
 .collapsible-content {
   background-color: $collapsible-content-background-color;
-  border: 1px solid $collapsible-content-border-color;
-  overflow:hidden;
+  border: pxToEm(1) solid $collapsible-content-border-color;
+  overflow: hidden;
 }
 
 .collapsible.combined:not(.collapsed) .collapsible-header {
@@ -32,10 +32,10 @@
 }
 
 .collapsible-header {
-  @include gradient-vertical($collapsible-header-background-color, $collapsible-header-background-color-2);
+  @include background($collapsible-header-background);
   position:relative;
   padding: $collapsible-header-padding;
-  border: 1px solid $collapsible-header-border-color;
+  border: pxToEm(1) solid $collapsible-header-border-color;
 }
 
 .collapsible-header:not(.active) {
@@ -43,19 +43,19 @@
 }
 
 .collapsible-header.active {
-  @include gradient-vertical($collapsible-header-active-background-color,$collapsible-header-active-background-color-2);
+  @include background($collapsible-header-active-background);
   color: $collapsible-header-active-text-color;
-  
 }
 
 .collapsible.collapsed .collapsible-header.label:after {
+  @include triangle-down($collapsible-arrow-size,$collapsible-arrow-color);
+  
   position: absolute;
   top: 50%;
   right: $collapsible-header-padding;
   margin-top:-1*($collapsible-arrow-size)/2;
   display:block;
   content: ""; 
-  @include triangle-down($collapsible-arrow-size,$collapsible-arrow-color);
 }
 
 .collapsible.collapsed .collapsible-header.active.label:after {
@@ -63,13 +63,14 @@
 }
 
 .collapsible:not(.collapsed) .collapsible-header.label:after {
+  @include triangle-up($collapsible-arrow-size,$collapsible-arrow-color);
+
   position: absolute;
   top: 50%;
   right: $collapsible-header-padding;
   margin-top:-1*($collapsible-arrow-size)/2;
   display:block;
   content: ""; 
-  @include triangle-up($collapsible-arrow-size,$collapsible-arrow-color);
 }
 
 .collapsible:not(.collapsed) .collapsible-header.active.label:after {

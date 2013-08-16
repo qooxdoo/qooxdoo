@@ -4,10 +4,15 @@
 
 .menu {
   @extend .popup;
-  min-width:200px;
+  min-width: pxToEm(140);
 }
 
 .menu .list {
   border: none !important;
   background: none;
+}
+
+.item-selected {
+  @include linear-gradient(lighten($menu-item-selected-background-color, 20%), $menu-item-selected-background-color);
+  color: $menu-item-selected-text-color !important;
 }

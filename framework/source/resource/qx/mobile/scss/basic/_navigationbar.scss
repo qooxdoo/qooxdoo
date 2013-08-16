@@ -3,14 +3,23 @@
 //
 
 .navigationbar {
+  @include backface-visibility(hidden);
+  @include background($navigationbar-background);
+
   height: $navigationbar-height;
-  padding-left: 10px;
-  padding-right: 10px;
+  color: $navigationbar-text-color; 
+
+  padding-left: pxToEm(16);
+  padding-right: pxToEm(16);
   position: relative;
 
-  @include backface-visibility(hidden);
-
   -ms-touch-action: pan-x;
+}
+
+.title {
+  font-weight: bold;
+  font-size: $navigationbar-text-size;
+  text-align: center;
 }
 
 .navigationbar > .label {
@@ -19,49 +28,39 @@
 }
 
 .navigationbar-button, .navigationbar-backbutton {
-  @extend .standard-button;
-  
-  display:inline-block;
+  @include background($navigationbarbutton-background);
+  @include border-radius($navigationbarbutton-border-radius);
+  @include background-clip(padding-box);
+  @include box-sizing(border-box);
+
+  display:block;
+
+  color: $navigationbarbutton-text-color;
+  border: pxToEm(1) solid $navigationbarbutton-border-color;
 
   text-align: center;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: bold;
   text-decoration: none;
   text-overflow: ellipsis;
+  font-weight:bold;
+  font-size: pxToEm(12);
 
-  @include background-clip(padding-box);
+  padding-left: pxToEm(5);
+  padding-right: pxToEm(5);
 
-  height: 30px;
-  line-height: 30px;
+  height: $navigationbar-height - $navigationbar-padding * 2;
+  margin: $navigationbar-padding;
 
-  min-width: 40px;
+  min-width: pxToEm(50);
 }
 
-//
-// NAVIGATION
-// 
-
-.navigation {
-  overflow:hidden;
+.navigationbar-button > div, .navigationbar-backbutton > div {
+  height: 100%;
+  line-height: 100%;
 }
 
-.left-container > * {
-  margin-right:4px;
+.navigationbar-button.active, .navigationbar-backbutton.active {
+  @include background($navigationbarbutton-active-background);
+  color: $navigationbarbutton-active-text-color;
+  border: pxToEm(1) solid $navigationbarbutton-active-border-color;
 }
 
-$navigationbar-container-space: 5px;
-
-.left-container {
-  position:absolute;
-  left:$navigationbar-container-space;
-  top:$navigationbar-container-space;
-  width:auto;
-}
-
-.right-container {
-  position:absolute;
-  right:$navigationbar-container-space;
-  top:$navigationbar-container-space;
-  width:auto;
-}

@@ -3,68 +3,109 @@
 //
 
 .popup {
-  @include border-radius(.5em);
+  @include background($dialog-background);
+  @include border-radius($dialog-border-radius);
+  @include box-shadow(0px pxToEm(2) pxToEm(7) 0px rgba(0,0,0,0.5));
+
   position: absolute;
   width: auto;
-  padding: 6px;
+  padding: pxToEm(6);
   max-width: 90%;
   z-index: 101;
   clear: both;
 
   -ms-touch-action: none;
+
+  // Fallback if no gradient could be set.
+  background-color: nth($dialog-background,1);
+
+  border: pxToEm(2) solid $dialog-border-color;
+  color: $dialog-title-text-color; 
 }
 
 .popup-title {
-  font-weight: 800;
-  font-size: 16px;
-  margin: 0 0 3px 0;
+  font-weight: bold;
+  font-size: pxToEm(16);
+  margin-bottom: pxToEm(3);
 } 
 
-$arrow-size: 12px;
-$arrow-space: 2;
-$arrow-position-offset:15px;
+.popup-content {
+  height : 100%;
+}
+
+$arrow-size: pxToEm(12);
+$arrow-space: pxToEm(2);
+$arrow-position-offset: pxToEm(16);
+
+@mixin arrow {
+  position:absolute;
+  content:"";
+}
+
+// ARROW TOP
+
+.anchor.top:before, .anchor.top.right:before
+{
+  @include arrow;
+  @include triangle-up($arrow-size + $arrow-space, $dialog-border-color);
+}
+
+.anchor.top:after, .anchor.top.right:after
+{
+  @include arrow;
+  @include triangle-up($arrow-size, $dialog-arrow-up-color);
+}
+
+// ARROW BOTTOM
+
+.anchor.bottom:before,.anchor.bottom.right:before
+{
+  @include arrow;
+  @include triangle-down($arrow-size + $arrow-space, $dialog-border-color);
+}
+
+.anchor.bottom:after,.anchor.bottom.right:after
+{
+  @include arrow;
+  @include triangle-down($arrow-size, $dialog-arrow-down-color);
+}
 
 .anchor.top.left:before {
-  top:-($arrow-size + 3);
+  top:-($arrow-size + pxToEm(3));
   left: $arrow-position-offset;
 }
 
 .anchor.top.left:after {
   top:-($arrow-size);
-  left: $arrow-position-offset + 2;
+  left: $arrow-position-offset + $arrow-space;
 }
 
 .anchor.bottom.left:before {
-  bottom:-($arrow-size + 3);
+  bottom:-($arrow-size + pxToEm(3));
   left: $arrow-position-offset;
 }
 
 .anchor.bottom.left:after {
   bottom: -($arrow-size);
-  left: $arrow-position-offset + 2;
+  left: $arrow-position-offset + $arrow-space;
 }
 
 .anchor.top.right:before {
   right: $arrow-position-offset;
-  top:-($arrow-size + 3);
+  top:-($arrow-size + pxToEm(3));
 }
 
 .anchor.top.right:after {
-  right: $arrow-position-offset + 2;
+  right: $arrow-position-offset + $arrow-space;
   top:-($arrow-size);
 }
 
 .anchor.bottom.right:before {
-  bottom:-($arrow-size + 3);
+  bottom:-($arrow-size + pxToEm(3));
   right: $arrow-position-offset;
 }
 
 .anchor.bottom.right:after {
   bottom: -($arrow-size);
-  right: $arrow-position-offset + 2;
+  right: $arrow-position-offset + $arrow-space;
 } 
-
-
-.popup-content {
-  height : 100%;
-}

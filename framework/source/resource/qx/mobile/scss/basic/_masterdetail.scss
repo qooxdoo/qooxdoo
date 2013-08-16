@@ -9,3 +9,11 @@
 .root.portrait .drawer:not(.hidden) + .master-detail-detail {
   pointer-events:none;
 }
+
+.master-detail-master {
+  border-right: pxToEm(1) solid darken($navigationpage-border-color, 40%);
+}
+
+.master-detail.portrait .master-detail-master:not(.hidden) {
+  @include box-shadow(0px 0px pxToEm(10) pxToEm(8) rgba(0,0,0,0.5));
+}

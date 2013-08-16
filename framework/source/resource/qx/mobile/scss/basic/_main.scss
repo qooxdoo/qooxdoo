@@ -1,6 +1,10 @@
+html {
+  font-size: $application-font-size;
+}
+
 .root {
   font-weight: normal;
-  font-size: 0.9em;
+  background-color: $navigationpage-background-color;
 }
 
 .page {
@@ -8,34 +12,32 @@
   -ms-touch-action: none; 
 }
 
-.fontNormal {
-  font-size: 0.8em;
-  font-weight: normal;
-}
-
-.title, .form-title {
-  font-weight: bold;
-}
-
-.title {
-  font-size: 1.4em;
-  text-align: center;
-  margin-left: 4px;
-  margin-right: 4px;
-}
-
-.form-title {
-  line-height: 20px;
-  font-size: 1.2em;
-  margin-top:10px;
-  margin-bottom:10px;
-  text-indent:5px;
-}
-
 .content:not(.group) .form-title {
-  text-indent:15px;
+  text-indent:pxToEm(15);
+}
+
+.root, .scroll {
+  background-color: $navigationpage-background-color;
+  font-family: $application-font;
+  color:  $application-text-color;
 }
 
 .group {
-   margin:10px;
+   margin:pxToEm(10);
+}
+
+.group.bordered {
+  @include border-radius($group-border-radius);
+
+  border: pxToEm(1) solid $group-border-color;
+  background-color:$group-background-color;
+  padding:pxToEm(10);
+}
+
+//
+// ANIMATION
+//
+
+.animationChild {
+  background-color: $navigationpage-background-color;
 }

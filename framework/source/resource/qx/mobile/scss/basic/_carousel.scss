@@ -4,13 +4,13 @@
 
 .carousel {
   overflow:hidden;
+  position:relative;
 }
 
 .carousel-scroller {
   @include transition(all ease-out);
   @include transform(translate3d(0,0,0));
   vertical-align:top;
-
 }
 
 .carousel-page {
@@ -20,14 +20,45 @@
 }
 
 .carousel-pagination {
-  position:relative;
+  position: absolute;
+  display:block;
+
   text-align:center;
   overflow:hidden;
-  max-height:30px;
+  bottom: 0px;
+  left: 0px;
+  line-height: 0px;
+
+  width: 100%;
+}
+
+.carousel-pagination-label + .carousel-pagination-label {
+  margin-left: $carousel-pagination-size/2;
 }
 
 .carousel-pagination-label {
-  display:inline-block;
-  margin:2px;
+  @include border-radius($carousel-pagination-border-radius);
+
+  display: inline-block;
+  border: pxToEm(1) solid white;
+
+  margin-bottom: $carousel-pagination-size/2;
+
+  opacity: 0.6;
+  background-color: $carousel-pagination-background-color;
+
+  width: $carousel-pagination-size;
+  height: $carousel-pagination-size;
+  text-align: center;
+  line-height: $carousel-pagination-size;
 }
 
+.carousel-pagination-label {
+  color: $carousel-pagination-font-color;
+  font-size: $carousel-pagination-font-size;
+}
+
+.carousel-pagination-label.active {
+  background-color:$carousel-pagination-active-background-color;
+  opacity: 1;
+}
