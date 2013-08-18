@@ -1018,6 +1018,22 @@ class CodeGenerator(object):
         return  # runCompiled()
 
 
+    #def runCompiled_1(self, script):
+    #    
+    #    def generate_app(script):
+    #
+    #        return pipeline(script
+    #            , trees
+    #            , optimize
+    #            , serialized_compressed
+    #            , write_script_files
+    #            )
+    #
+    #    generate_app(script)
+
+
+
+
     ##
     # Pretty-print set of classes.
     # Collects options and invokes ecmascript.backend.formatter
