@@ -185,6 +185,15 @@ qx.Class.define("qx.event.handler.DragDrop",
       return !!this.__actions[type];
     },
 
+    /**
+     * Whether the current drop target allows the current drag target.
+     *
+     * @param isAllowed {Boolean} False if a drop should be disallowed
+     */
+    setDropAllowed : function(isAllowed) {
+      this.__validDrop = isAllowed;
+      this.__detectAction();
+    },
 
     /**
      * Returns the data of the given type during the <code>drop</code> event

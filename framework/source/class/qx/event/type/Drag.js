@@ -233,6 +233,20 @@ qx.Class.define("qx.event.type.Drag",
       return this.getManager().getCurrentAction();
     },
 
+    /**
+     * Whether the current drop target allows the current drag target.
+     *
+     * This can be called from within the "drag" event to enable/disable
+     * a drop target selectively, for example based on the child item,
+     * above and beyond the one-time choice made by the the "dragover"
+     * event for the droppable widget itself.
+     *
+     * @param isAllowed {Boolean} False if a drop should be disallowed
+     */
+    setDropAllowed : function(isAllowed) {
+      this.getManager().setDropAllowed(false);
+    },
+
 
     /**
      * Stops the drag&drop session and fires a <code>dragend</code> event.
