@@ -619,6 +619,17 @@ qx.Class.define("qx.io.request.AbstractRequest",
     },
 
     /**
+     * Override the content type response header from response.
+     *
+     * @param contentType {String}
+     *   Content type for overriding.
+     * @see qx.bom.request.Xhr#overrideMimeType
+     */
+    overrideResponseContentType: function(contentType) {
+      return this._transport.overrideMimeType(contentType);
+    },
+
+    /**
      * Get the content type response header from response.
      *
      * @return {String}
