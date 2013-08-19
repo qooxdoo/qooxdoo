@@ -91,13 +91,14 @@ qx.Bootstrap.define("qx.util.ResponseParser",
      *
      * @param parser {String|Function}
      *
-     *        <br>Can be:
+     * Can be:
      *
-     *         * A parser defined in {@link qx.util.ResponseParser#PARSER},
-     *           referenced by string.
-     *
-     *         * The function to invoke.
-     *           Receives the raw response as argument.
+     * <ul>
+     *   <li>A parser defined in {@link qx.util.ResponseParser#PARSER},
+     *       referenced by string.</li>
+     *   <li>The function to invoke.
+     *       Receives the raw response as argument.</li>
+     * </ul>
      *
      * @return {Function} The parser function
      */

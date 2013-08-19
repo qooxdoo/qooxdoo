@@ -222,7 +222,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     /**
      * Sets (i.e. override) the parser for the response parsing.
      *
-     * @see {@link qx.util.ResponseParser#setParser}
+     * @see qx.util.ResponseParser#setParser
      *
      * @param parser {String|Function}
      * @return {Function} The parser function
@@ -582,7 +582,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
 
         // Parse response
         if (qx.core.Environment.get("qx.debug.io")) {
-          qx.Bootstrap.debug("Response is of type: '" + this.getResponseContentType() + "'");
+          qx.Bootstrap.debug("Response is of type: '" + contentType + "'");
         }
 
         this._setResponse(this.__parser.parse(response, contentType));
