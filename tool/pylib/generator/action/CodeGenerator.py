@@ -41,6 +41,7 @@ from ecmascript.transform.optimizer    import privateoptimizer
 #from ecmascript.transform.optimizer    import globalsoptimizer
 from ecmascript.transform.check    import lint, check_globals
 from misc                       import filetool, json, Path, securehash as sha, util
+from misc.util                  import pipeline, bind, curry2
 from misc.ExtMap                import ExtMap
 from misc.Path                  import OsPath, Uri
 
@@ -994,13 +995,29 @@ class CodeGenerator(object):
         #self._console.outdent()
         self._console.dotclear()
 
+        def first_script_path(packages):
+            first_script = lambda pkgs: pkgs[0].files[0]
+            untag_fname = lambda s: s.split(':')[1]
+            # next same as: fs_path = lambda bfile: (
+            #   os.path.join(os.path.dirname(script.baseScriptPath),os.path.basename(bfile)))
+            fs_path = lambda bfile : pipeline(
+                    # this works, but is ugly
+                    script.baseScriptPath
+                    ,os.path.dirname
+                    ,bind(bind, os.path.join)  # => os.path.join(os.path.dirname(baseScriptPath, _), uncalled
+                    ,curry2(apply, (os.path.basename(bfile),)) # call(_, os.path.basename(bfile)), uncalled
+                    ,apply
+                    )
+            return pipeline( 
+                first_script(packages)       # "__out__:fo%c3%b6bar.js"
+                ,untag_fname                 # "fo%c3%b6bar.js"
+                ,urllib.unquote              # "foöbar.js"
+                ,fs_path )                   # "./build/script/foöbar.js"
+
         # generate loader
         if inlineBoot(script, compConf):
             # read first script file from script dir
-            bfile = packages[0].files[0]  # "__out__:fo%c3%b6bar.js"
-            bfile = bfile.split(':')[1]   # "fo%c3%b6bar.js"
-            bfile = urllib.unquote(bfile) # "foöbar.js"
-            bfile = os.path.join(os.path.dirname(script.baseScriptPath), os.path.basename(bfile))
+            bfile = first_script_path(packages)
             if bfile.endswith(".gz"):  # code/path/gzip:true
                 bcode = filetool.gunzip(bfile)
             else:

@@ -24,7 +24,7 @@
 # Miscellaneous Helper Functions
 ##
 
-import time, datetime, math, types
+import time, datetime, math, types, functools
 from warnings import warn
 
 ##
@@ -210,3 +210,34 @@ def parseInt(s=''):
         v = int(s) # let exceptions propagate
     return v
 
+##
+# Pipeline - compose functions where the return value of one is the argument
+# to the next.
+def pipeline(seed, *funcs):
+    return reduce(lambda accu,func: func(accu), funcs, seed)
+
+##
+# Bind - alias for 'partial'
+bind = functools.partial
+
+##
+# Curry2 - curry second to first argument
+# (In contrast to e.g. Fogus,96, providing the first argument doesn't call the
+# original function, but returns a fully bound closure ("thunk").)
+def curry2(fun, arg2):
+    def curry2_f(arg1):
+        def curry1_f(*args, **kwargs):
+            return fun(*((arg1, arg2)+args), **kwargs)
+        return curry1_f
+    return curry2_f
+
+##
+# Curry3 - curry third to first argument
+def curry3(fun, arg3):
+    def curry3_f(arg2):
+        def curry2_f(arg1):
+            def curry1_f(*args, **kwargs):
+                return fun(*((arg1, arg2, arg3)+args), **kwargs)
+            return curry1_f
+        return curry2_f
+    return curry3_f
