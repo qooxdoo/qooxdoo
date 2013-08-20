@@ -66,12 +66,6 @@ class CodeGenerator(object):
 
     def runCompiled(self, script):
 
-        def removeDuplicatLibs(libs):
-            l = []
-            for lib in libs:  # relying on Library.__eq__
-                if lib not in l: l.append(lib)
-            return l
-
         def getOutputFile(compileType):
             filePath = compConf.get("paths/file")
             if not filePath:
@@ -875,6 +869,29 @@ class CodeGenerator(object):
 
             return package
             
+        def first_script_path(script, packages):
+            first_script = lambda pkgs: pkgs[0].files[0]
+            untag_fname = lambda s: s.split(':')[1]
+            fs_path = lambda bfile: (
+                os.path.join(os.path.dirname(script.baseScriptPath),os.path.basename(bfile)))
+            return pipeline( 
+                first_script(packages)       # "__out__:fo%c3%b6bar.js"
+                ,untag_fname                 # "fo%c3%b6bar.js"
+                ,urllib.unquote              # "foöbar.js"
+                ,fs_path )                   # "./build/script/foöbar.js"
+
+        def get_boot_code(script, compConf, packages):
+            if inlineBoot(script, compConf):
+                # read first script file from script dir
+                bfile = first_script_path(script, packages)
+                if bfile.endswith(".gz"):  # code/path/gzip:true
+                    bcode = filetool.gunzip(bfile)
+                else:
+                    bcode = filetool.read(bfile)
+                os.unlink(bfile)
+            else:
+                bcode = u''
+            return bcode
 
 
         # -- Main - runCompiled ------------------------------------------------
@@ -895,25 +912,8 @@ class CodeGenerator(object):
         # Compile config
         compConf = self._job.get("compile-options")
         compConf = ExtMap(compConf)
-
-        # Whether the code should be formatted
-        format = compConf.get("code/format", False)
         script.scriptCompress = compConf.get("paths/gzip", False)
-
-        # Read optimizaitons
-        optimize = compConf.get("code/optimize", [])
-
-        # Read in settings
-        settings = self.getSettings()
-        script.settings = settings
-
-        # Read libraries
-        libs = self._job.get("library", [])
-        libs = removeDuplicatLibs(libs)  # before generateLibInfoCode() I need to make sure
-                                         # duplicates of a library are removed, so the first wins
-
-        # Get translation maps
-        locales = compConf.get("code/locales", [])
+        script.settings = self.getSettings()
 
         # Read in base file name
         fileRelPath = getOutputFile(script.buildType)
@@ -946,9 +946,9 @@ class CodeGenerator(object):
         globalCodes = {}
         globalCodes["EnvSettings"] = self.generateVariantsCode(script.environment)
         # add optimizations
-        for val in optimize:
+        for val in compConf.get("code/optimize", []):
             globalCodes["EnvSettings"]["qx.optimization."+val] = True
-        globalCodes["Libinfo"]     = self.generateLibInfoCode(libs, format, resourceUri, scriptUri)
+        globalCodes["Libinfo"]     = self.generateLibInfoCode(resourceUri, scriptUri)
         # add synthetic output lib
         if scriptUri: out_sourceUri= scriptUri
         else:
@@ -960,7 +960,7 @@ class CodeGenerator(object):
 
         # Potentally create dedicated I18N packages
         if self._job.get("packages/i18n-as-parts", False):
-            script = self.generateI18NParts(script, locales, per_file_prefix)
+            script = self.generateI18NParts(script, per_file_prefix)
             self.writePackages([p for p in script.packages if getattr(p, "__localeflag", False)], script)
 
         # ---- create script files ---------------------------------------------
@@ -995,29 +995,9 @@ class CodeGenerator(object):
         #self._console.outdent()
         self._console.dotclear()
 
-        def first_script_path(packages):
-            first_script = lambda pkgs: pkgs[0].files[0]
-            untag_fname = lambda s: s.split(':')[1]
-            fs_path = lambda bfile: (
-                os.path.join(os.path.dirname(script.baseScriptPath),os.path.basename(bfile)))
-            return pipeline( 
-                first_script(packages)       # "__out__:fo%c3%b6bar.js"
-                ,untag_fname                 # "fo%c3%b6bar.js"
-                ,urllib.unquote              # "foöbar.js"
-                ,fs_path )                   # "./build/script/foöbar.js"
-
         # generate loader
-        if inlineBoot(script, compConf):
-            # read first script file from script dir
-            bfile = first_script_path(packages)
-            if bfile.endswith(".gz"):  # code/path/gzip:true
-                bcode = filetool.gunzip(bfile)
-            else:
-                bcode = filetool.read(bfile)
-            os.unlink(bfile)
-        else:
-            bcode = u''
-        loaderCode = generateLoader(script, compConf, globalCodes, bcode)
+        bootClassCode = get_boot_code(script, compConf, packages)
+        loaderCode = generateLoader(script, compConf, globalCodes, bootClassCode)
         loaderCode = per_file_prefix + loaderCode
         fname = self._computeFilePath(script, isLoader=1)
         self.writePackage(loaderCode, fname, script, isLoader=1)
@@ -1195,7 +1175,7 @@ class CodeGenerator(object):
     ##
     # collect translation and locale data into dedicated parts and packages,
     # one for each language code
-    def generateI18NParts(self, script, locales, per_file_prefix):
+    def generateI18NParts(self, script, per_file_prefix):
 
         ##
         # collect translation and locale info from the packages
@@ -1360,8 +1340,21 @@ class CodeGenerator(object):
         return
 
 
-    def generateLibInfoCode(self, libs, format, forceResourceUri=None, forceScriptUri=None):
+    def generateLibInfoCode(self, forceResourceUri=None, forceScriptUri=None):
+
+        def removeDuplicatLibs(libs):
+            l = []
+            for lib in libs:  # relying on Library.__eq__
+                if lib not in l: l.append(lib)
+            return l
+
+        # - Main --------------------------------------------------
+
         qxlibs = {}
+        libs = self._job.get("library", [])
+        libs = removeDuplicatLibs(libs)  # need to make sure duplicates of a library
+                                         # are removed, so the first wins
+
 
         for lib in libs:
             # add library key
