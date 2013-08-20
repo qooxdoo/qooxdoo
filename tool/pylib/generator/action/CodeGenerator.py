@@ -998,16 +998,8 @@ class CodeGenerator(object):
         def first_script_path(packages):
             first_script = lambda pkgs: pkgs[0].files[0]
             untag_fname = lambda s: s.split(':')[1]
-            # next same as: fs_path = lambda bfile: (
-            #   os.path.join(os.path.dirname(script.baseScriptPath),os.path.basename(bfile)))
-            fs_path = lambda bfile : pipeline(
-                    # this works, but is ugly
-                    script.baseScriptPath
-                    ,os.path.dirname
-                    ,bind(bind, os.path.join)  # => os.path.join(os.path.dirname(baseScriptPath, _), uncalled
-                    ,curry2(apply, (os.path.basename(bfile),)) # call(_, os.path.basename(bfile)), uncalled
-                    ,apply
-                    )
+            fs_path = lambda bfile: (
+                os.path.join(os.path.dirname(script.baseScriptPath),os.path.basename(bfile)))
             return pipeline( 
                 first_script(packages)       # "__out__:fo%c3%b6bar.js"
                 ,untag_fname                 # "fo%c3%b6bar.js"
