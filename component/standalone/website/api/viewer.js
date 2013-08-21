@@ -504,7 +504,7 @@ q.ready(function() {
         var eventsEl = renderEvents(getEvents(ast));
         if (eventsEl) {
           if (classDoc) {
-            eventsEl.insertAfter(classDoc);
+            eventsEl.insertAfter(classDoc.getLast());
           } else {
             eventsEl.insertAfter(parent.find("h1"));
           }
