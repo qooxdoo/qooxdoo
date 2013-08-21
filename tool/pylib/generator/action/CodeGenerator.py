@@ -482,163 +482,6 @@ class CodeGenerator(object):
             return data
 
 
-        # - _compileClassesMP stuff --------------------------------------
-
-        def _compileClassesMP(classes, compConf, log_progress, maxproc=8):
-            # experimental
-            # improve by incorporating cache handling, as done in getCompiled()
-            # hangs on Windows in the last call to reap_processes from the main loop
-
-            def reap_processes(wait=False):
-                # reap the current processes (wait==False: if they are finished)
-                #print "-- entering reap_processes with len: %d" % len(processes)
-                reaped  = False
-                counter = 0
-                while True:
-                    for pos, pid in enumerate(processes.keys()):
-                        if not wait and pid.poll() == None:  # None = process hasn't terminated
-                            #print pid.poll()
-                            continue
-                        #print "checking pos: %d" % pos
-                        #self._console.progress(pos, length)
-                        output, errout = pid.communicate()
-                        rcode = pid.returncode
-                        cpos = processes[pid][0]
-                        if rcode == 0:
-                            #tf   = processes[pid][1].read()
-                            #print output[:30]
-                            #print tf[:30]
-                            contA[cpos][CONTENT] = output.decode('utf-8')
-                            #contA[cpos] = tf
-                        else:
-                            raise RuntimeError("Problems compiling %s: %s" % (classes[cpos], errout))
-                        #print "-- terminating process for class: %s" % classes[cpos]
-                        del processes[pid]
-                        reaped = True
-
-                    if reaped: break
-                    else:
-                        #print "-- waiting for some process to terminate"
-                        if counter > 100: # arbitrary limit, to break deadlocks because of full pipes
-                            #print "-- switching to wait=True"
-                            wait = True
-                        else:
-                            counter += 1
-                        time.sleep(.050)
-
-                #print "-- leaving reap_processes with len: %d" % len(processes)
-                return
-
-            # -----------------------------------------------------------------
-
-            variants = compConf.variantset
-            optimize = compConf.optimize
-            format_  = compConf.format
-            import subprocess
-            contA = {}
-            CACHEID = 0
-            INCACHE = 1
-            CONTENT = 2
-            processes = {}
-            length = len(classes)
-
-            #self._console.debug("Compiling classes using %d sub-processes" % maxproc)
-
-            # go through classes, start individual compiles, collect results
-            for pos, clazz in enumerate(classes):
-                log_progress()
-                contA[pos] = {}
-                contA[pos][INCACHE] = False
-                if len(processes) > maxproc:
-                    reap_processes()  # collect finished processes' results to make room
-
-                cacheId, content = _checkCache(clazz, variants, optimize, format_)
-                contA[pos][CACHEID] = cacheId
-                if content:
-                    contA[pos][CONTENT] = content
-                    contA[pos][INCACHE] = True
-                    continue
-                cmd = _getCompileCommand(clazz, variants, optimize, format_)
-                #print cmd
-                tf = os.tmpfile()
-                #print "-- starting process for class: %s" % clazz
-                pid = subprocess.Popen(
-                            cmd, shell=True,
-                            stdout=subprocess.PIPE,
-                            #stdout=tf,
-                            stderr=subprocess.PIPE,
-                            universal_newlines=True)
-                processes[pid] = (pos, tf)
-
-            # collect outstanding processes
-            if len(processes):
-                #print "++ cleaning up processes"
-                reap_processes(wait=True)
-
-            # join single results in one string
-            content = u''
-            for i in sorted(contA.keys()):
-                #print i, contA[i][:30]
-                classStuff = contA[i]
-                content += classStuff[CONTENT]
-                if not classStuff[INCACHE]:
-                    self._cache.write(classStuff[CACHEID], classStuff[CONTENT])
-
-            return content
-
-
-        def _getCompileCommand(clazz, variants, optimize, format_):
-
-            def getToolBinPath():
-                path = sys.argv[0]
-                path = os.path.abspath(os.path.normpath(os.path.dirname(path)))
-                return path
-
-            m   = {}
-            cmd = ""
-            toolBinPath      = getToolBinPath()
-            m['compilePath'] = os.path.join(toolBinPath, "compile.py -q")
-            m['filePath']    = os.path.normpath(clazz.path)
-            # optimizations
-            optis = []
-            for opti in optimize:
-                optis.append("--" + opti)
-            m['optimizations'] = " ".join(optis)
-            # variants
-            varis = []
-            for vari in variants:
-                varis.append("--variant=" + vari + ":" + json.dumps(variants[vari]))
-            m['variants'] = " ".join(varis)
-            m['cache'] = "-c " + self._cache._path  # Cache needs context object, interrupt handler,...
-            # compile.py could read the next from privateoptimizer module directly
-            m['privateskey'] = "--privateskey " + '"' + privateoptimizer.privatesCacheId + '"'
-
-            cmd = "%(compilePath)s %(optimizations)s %(variants)s %(cache)s %(privateskey)s %(filePath)s" % m
-            return cmd
-
-
-        def _checkCache(clazz, variants, optimize, format_=False):
-            filePath = clazz.path
-
-            classVariants     = clazz.classVariants()
-            relevantVariants  = Class.projectClassVariantsToCurrent(classVariants, variants)
-            variantsId = util.toString(relevantVariants)
-
-            optimizeId = generateOptimizeId(optimize)
-
-            cacheId = "compiled-%s-%s-%s-%s" % (filePath, variantsId, optimizeId, format_)
-            compiled, _ = self._cache.read(cacheId, filePath)
-
-            return cacheId, compiled
-
-
-        def generateOptimizeId(optimize):
-            optimize = copy.copy(optimize)
-            optimize.sort()
-            return "[%s]" % ("-".join(optimize))
-
-        # - end: _compileClassesMP stuff --------------------------------
-
         ##
         # process "statics" optimization
         #
@@ -792,7 +635,6 @@ class CodeGenerator(object):
 
 
         def compileClasses(classList, compConf, log_progress=lambda:None):
-            num_proc = self._job.get('run-time/num-processes', 0)
             result = []
             # warn qx.allowUrlSettings - variants optim. conflict (bug#6141)
             if "variants" in compConf.optimize:
@@ -814,15 +656,11 @@ class CodeGenerator(object):
 
             # no 'statics' optimization
             else:
-                if num_proc == 0:
-                    for clazz in classList:
-                        code = clazz.getCode(compConf, treegen=treegenerator, featuremap=script._featureMap) # choose parser frontend
-                        result.append(code)
-                        log_progress()
-                    result =  u''.join(result)
-                else:
-                    # multi-core version
-                    result =  _compileClassesMP(classList, compConf, log_progress, num_proc)
+                for clazz in classList:
+                    code = clazz.getCode(compConf, treegen=treegenerator, featuremap=script._featureMap) # choose parser frontend
+                    result.append(code)
+                    log_progress()
+                result =  u''.join(result)
 
             return result
 
