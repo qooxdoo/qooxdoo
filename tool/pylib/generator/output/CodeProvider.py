@@ -25,7 +25,7 @@ from misc        import filetool, textutil, util, json, copytool
 from generator   import Context as context
 from generator.config.Config    import ConfigurationError
 from generator.code.Class       import CompileOptions
-from generator.code.Script      import Script
+from generator.output.Script      import Script
 
 global inclregexps, exclregexps
 

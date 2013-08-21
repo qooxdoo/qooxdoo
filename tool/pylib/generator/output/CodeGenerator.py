@@ -26,11 +26,11 @@ import graph
 
 from generator                  import Context
 from generator.config.Lang      import Key
-from generator.code.Part        import Part
-from generator.code.Package     import Package
+from generator.output.Part      import Part
+from generator.output.Package   import Package
 from generator.code.Class       import Class, ClassMatchList, CompileOptions
 from generator.code.ClassList   import ClassList
-from generator.code.Script      import Script
+from generator.output.Script      import Script
 from generator.action           import Locale
 from generator.action           import CodeMaintenance as codeMaintenance
 import generator.resource.Library # just need the .Library type

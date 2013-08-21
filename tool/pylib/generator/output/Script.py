@@ -29,7 +29,7 @@ import re
 from misc                   import util
 from misc.Trie              import Trie
 from misc.ExtMap            import ExtMap
-from generator.code.Package import Package
+from generator.output.Package import Package
 from generator.resource.CombinedImage import CombinedImage
 
 class Script(object):

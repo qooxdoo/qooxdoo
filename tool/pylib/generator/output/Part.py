@@ -23,7 +23,7 @@
 # Part -- Internal representation of an application part
 ##
 
-from generator.code.Package import Package
+from generator.output.Package import Package
 
 class Part(object):
     def __init__(self, name):
