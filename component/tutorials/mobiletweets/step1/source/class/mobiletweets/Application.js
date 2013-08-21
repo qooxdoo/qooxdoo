@@ -113,7 +113,7 @@ qx.Class.define("mobiletweets.Application",
       manager.addDetail(tweetsPage);
 
       // Create an instance of the Tweet class
-      var tweetPage = new mobiletweets.page.Tweet();
+      var tweetPage = new mobiletweets.page.TweetDetail();
 
       // Add page to manager
       manager.addDetail(tweetPage);
