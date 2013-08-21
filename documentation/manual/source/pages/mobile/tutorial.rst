@@ -279,7 +279,7 @@ properties:
         {
           check : "String",
           nullable : false,
-          init : null,
+          init : "",
           event : "changeUsername",
           apply : "_applyUsername"  // this method is called when the username property is set
         }
