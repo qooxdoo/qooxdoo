@@ -105,19 +105,19 @@
  *
  * EXTERNAL INTERFACES
  *  Each user extension for Selenium uses interfaces from the Selenium runtime
- *  environment, like the 'Selenium', 'PageBot', 'SeleniumError' and 'LOG' 
- *  objects, or the 'triggerEvent' and 'getClientXY' functions. For more 
- *  information, see the file 'user-extensions.js.sample' in the Selenium Core 
+ *  environment, like the 'Selenium', 'PageBot', 'SeleniumError' and 'LOG'
+ *  objects, or the 'doFocus' and 'getClientXY' functions. For more
+ *  information, see the file 'user-extensions.js.sample' in the Selenium Core
  *  distribution.
  *
  * Changed to work with selenium 1.0.3
  *
  * Based on the orginal Selenium user extension for qooxdoo (version: 0.3)
  * by Robert Zimmermann
- * 
- * getQxObjectFunction, qxTableClick and related methods contributed by Mr. 
+ *
+ * getQxObjectFunction, qxTableClick and related methods contributed by Mr.
  * Hericus
- * 
+ *
  * Original (qx 0.7) drag and drop code by Phaneesh Nagaraja
  */
 
@@ -172,11 +172,11 @@ Selenium.prototype.qx.MouseEventParameters.MOUSE_BUTTON_MAPPING_OTHER =
 
 
 /**
- * Returns the correct numeric mouse button identifier needed to create a mouse 
- * event in different browsers (IE vs. non-IE). 
+ * Returns the correct numeric mouse button identifier needed to create a mouse
+ * event in different browsers (IE vs. non-IE).
  *
  * @type member
- * @param buttonName {String} The mouse button. One of "left", "right", "middle" 
+ * @param buttonName {String} The mouse button. One of "left", "right", "middle"
  * @return {Integer} The numeric mouse button value
  */
 Selenium.prototype.qx.MouseEventParameters.prototype.getButtonValue = function(buttonName)
@@ -198,7 +198,7 @@ Selenium.prototype.qx.MouseEventParameters.prototype.getButtonValue = function(b
 /**
  * Returns the value of a given parameter name if it's set.
  * If it's not set, the given default value is returned
- * 
+ *
  * Type conversion is done automatically for string, boolean and number
  * based on the type of the given default value.
  *
@@ -260,11 +260,11 @@ Selenium.prototype.qx.MouseEventParameters.prototype.getParamValue = function(pa
 // END: Handling of MouseEventParameters
 // ***************************************************
 /**
- * Creates a native mouse event, configures it and dispatches it on the given 
+ * Creates a native mouse event, configures it and dispatches it on the given
  * element.
  *
  * @type member
- * @param eventType {String} The name of the event to be created, e.g. "click", 
+ * @param eventType {String} The name of the event to be created, e.g. "click",
  * "mouseover", etc.
  * @param element {Element} The DOM element the event should be dispatched on
  * @param eventParamObject {MouseEventParameters} Parameter object
@@ -350,7 +350,7 @@ Selenium.prototype.qx.triggerMouseEventQx = function (eventType, element, eventP
 /**
  * Clicks on a qooxdoo-element.
  * mousedown, mouseup will be fired instead of only click (which is named execute in qooxdoo)
- * 
+ *
  * eventParams example: button=left|right|middle, clientX=300, shiftKey=true
  *             for a full list of properties see "function Selenium.prototype.qx.triggerMouseEventQx"
  *
@@ -358,10 +358,11 @@ Selenium.prototype.qx.triggerMouseEventQx = function (eventType, element, eventP
  * @param locator {var} an element locator
  * @param eventParams {var} additional parameter for the mouse-event to set. e.g. clientX.
  *            if no eventParams are set, defaults will be: left-mousebutton, all keys false and all coordinates 0
- * @return {void} 
+ * @return {void}
  */
 Selenium.prototype.doQxClick = function(locator, eventParams)
 {
+  this.doFocus(locator);
   var element = this.page().findElement(locator);
   this.clickElementQx(element, eventParams);
 };
@@ -390,7 +391,7 @@ Selenium.prototype.doGetViewport = function(locator, eventParams)
   if (storedVars && storedVars['ViewportStr']) {
     delete storedVars['ViewportStr'];
   }
-  
+
   // event handler to capture coordinates
   function eh(e)
   {
@@ -405,7 +406,7 @@ Selenium.prototype.doGetViewport = function(locator, eventParams)
       LOG.debug("pageX, pageY: "+mouseX+"'"+mouseY);
     } else if (e.clientX || e.clientY)
     {
-      mouseX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft; 
+      mouseX = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
       mouseY = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
       LOG.debug("e.clientX,e.clientY,document.body.scrollLeft,document.documentElement.scrollLeft,document.body.scrollTop,document.documentElement.scrollTop:\n"+
                 e.clientX+','+e.clientY+','+document.body.scrollLeft+','+document.documentElement.scrollLeft+','+document.body.scrollTop+','+document.documentElement.scrollTop);
@@ -455,7 +456,7 @@ Selenium.prototype.doGetViewport = function(locator, eventParams)
  * Clicks on a qooxdoo-element.
  * mousedown, mouseup will be fired instead of only click
  * additionaly to doQxClick the x-/y-coordinates of located element will be determined.
- * 
+ *
  * eventParams example: button=left|right|middle, clientX=300, shiftKey=true
  *             for a full list of properties see "function Selenium.prototype.qx.triggerMouseEventQx"
  *
@@ -463,7 +464,7 @@ Selenium.prototype.doGetViewport = function(locator, eventParams)
  * @param locator {var} an element locator
  * @param eventParams {var} additional parameter for the mouse-event to set. e.g. clientX.
  *            if no eventParams are set, defaults will be: left mousebutton, all keys false and all coordinates 0
- * @return {void} 
+ * @return {void}
  */
 Selenium.prototype.doQxClickAt = function(locator, eventParams)
 {
@@ -484,6 +485,7 @@ Selenium.prototype.doQxClickAt = function(locator, eventParams)
   // TODO: very dirty no checking, maybe refactoring needed to get doQxClick and doQxClickAt to work smoothly together.
   var newEventParamString = eventParams + ",clientX=" + coordsXY[0] + ",clientY=" + coordsXY[1];
   LOG.debug("newEventParamString=" + newEventParamString);
+  this.doFocus(locator);
   this.clickElementQx(element, newEventParamString);
 };
 
@@ -492,17 +494,16 @@ Selenium.prototype.doQxClickAt = function(locator, eventParams)
  * Internal helper method used by qxClick and qxClickAt
  *
  * @type member
- * @param element {Element} DOM Element the click event should be dispatched to.  
- * @param eventParamString {String} Comma-separated list of additional event 
+ * @param element {Element} DOM Element the click event should be dispatched to.
+ * @param eventParamString {String} Comma-separated list of additional event
  * parameters
- * @return {void} 
+ * @return {void}
  */
 Selenium.prototype.clickElementQx = function(element, eventParamString)
 {
-  var additionalParamsForClick = new Selenium.prototype.qx.MouseEventParameters(eventParamString);    
-  triggerEvent(element, 'focus', false);
+  var additionalParamsForClick = new Selenium.prototype.qx.MouseEventParameters(eventParamString);
   Selenium.prototype.qx.triggerMouseEventQx('mouseover', element, additionalParamsForClick);
-  Selenium.prototype.qx.triggerMouseEventQx('mousedown', element, additionalParamsForClick);  
+  Selenium.prototype.qx.triggerMouseEventQx('mousedown', element, additionalParamsForClick);
   Selenium.prototype.qx.triggerMouseEventQx('mouseup', element, additionalParamsForClick);
   if (additionalParamsForClick.getParamValue("button", "left") == 2) {
     Selenium.prototype.qx.triggerMouseEventQx('contextmenu', element, additionalParamsForClick);
@@ -515,7 +516,7 @@ Selenium.prototype.clickElementQx = function(element, eventParamString)
       Selenium.prototype.qx.triggerMouseEventQx('click', element, additionalParamsForClick);
     }
   }
-  
+
   // do not blur or mouseout as additional events won't be fired correctly
 // FIXME: include original "click" functionality
 };
@@ -560,10 +561,10 @@ Selenium.prototype.isQxEnabled = function(locator)
 };
 
 
-/** 
+/**
  * Returns the qx global object so that we can use qx functionality
  */
-Selenium.prototype.getQxGlobalObject = function () 
+Selenium.prototype.getQxGlobalObject = function ()
 {
   return this.page().getQxGlobalObject();
 };
@@ -590,12 +591,12 @@ PageBot.prototype.isQxInstanceOf = function (object, qxclass) {
     if (object instanceof myClass) {
       return true;
     }
-  } 
+  }
   catch (e) {
     if (object.classname === qxclass) {
       return true;
     }
-    
+
     // check parent chain
     var superclass = qx.Class.getByName(object.classname).superclass;
     while (superclass) {
@@ -641,21 +642,21 @@ Selenium.prototype.isQxInstanceOf = function(object, qxclass) {
 Selenium.prototype.getQxTableModelColumnIds = function(locator)
 {
   var qxObject = this.getQxWidgetByLocator(locator);
-  
+
   if (!qxObject) {
     throw new SeleniumError("No qooxdoo object found for locator: " + locator);
   }
   if (!this.isQxInstanceOf(qxObject, "qx.ui.table.Table")) {
     throw new SeleniumError("Object is not an instance of qx.ui.table.Table: " + locator);
   }
-  
-  var columnIds = [];    
+
+  var columnIds = [];
   var model = qxObject.getTableModel();
   var colCount = model.getColumnCount();
   for (var i=0; i<colCount; i++) {
     columnIds.push(model.getColumnId(i));
   }
-  
+
   return columnIds.join(";");
 };
 
@@ -672,14 +673,14 @@ Selenium.prototype.getQxTableModelColumnIds = function(locator)
 Selenium.prototype.getQxTableVisibleColumnIds = function(locator)
 {
   var qxObject = this.getQxWidgetByLocator(locator);
-  
+
   if (!qxObject) {
     throw new SeleniumError("No qooxdoo object found for locator: " + locator);
   }
   if (!this.isQxInstanceOf(qxObject, "qx.ui.table.Table")) {
     throw new SeleniumError("Object is not an instance of qx.ui.table.Table: " + locator);
   }
-  
+
   var columnIds = [];
   var tableModel = qxObject.getTableModel();
   var columnModel = qxObject.getTableColumnModel();
@@ -688,7 +689,7 @@ Selenium.prototype.getQxTableVisibleColumnIds = function(locator)
     var colId = visibleColumns[i]
     columnIds.push(tableModel.getColumnId(colId));
   }
-  
+
   return columnIds.join(";");
 };
 
@@ -704,7 +705,7 @@ Selenium.prototype.getQxTableVisibleColumnIds = function(locator)
 Selenium.prototype.getQxTableRowCount = function(locator)
 {
   var qxObject = this.getQxWidgetByLocator(locator);
-  
+
   if (qxObject) {
     if (!this.isQxInstanceOf(qxObject, "qx.ui.table.Table")) {
       throw new SeleniumError("Object is not an instance of qx.ui.table.Table: " + locator);
@@ -713,7 +714,7 @@ Selenium.prototype.getQxTableRowCount = function(locator)
   else {
     throw new SeleniumError("No qooxdoo object found for locator: " + locator);
   }
-  
+
   return String(qxObject.getTableModel().getRowCount());
 };
 
@@ -727,7 +728,7 @@ Selenium.prototype.getQxTableRowCount = function(locator)
 Selenium.prototype.getQxTableModelColCount = function(locator)
 {
   var qxObject = this.getQxWidgetByLocator(locator);
-  
+
   if (qxObject) {
     if (!this.isQxInstanceOf(qxObject, "qx.ui.table.Table")) {
       throw new SeleniumError("Object is not an instance of qx.ui.table.Table: " + locator);
@@ -736,7 +737,7 @@ Selenium.prototype.getQxTableModelColCount = function(locator)
   else {
     throw new SeleniumError("No qooxdoo object found for locator: " + locator);
   }
-  
+
   return String(qxObject.getTableModel().getColumnCount());
 };
 
@@ -750,7 +751,7 @@ Selenium.prototype.getQxTableModelColCount = function(locator)
 Selenium.prototype.getQxTableVisibleColCount = function(locator)
 {
   var qxObject = this.getQxWidgetByLocator(locator);
-  
+
   if (qxObject) {
     if (!this.isQxInstanceOf(qxObject, "qx.ui.table.Table")) {
       throw new SeleniumError("Object is not an instance of qx.ui.table.Table: " + locator);
@@ -759,28 +760,28 @@ Selenium.prototype.getQxTableVisibleColCount = function(locator)
   else {
     throw new SeleniumError("No qooxdoo object found for locator: " + locator);
   }
-  
+
   var columnModel = qxObject.getTableColumnModel();
   var visibleColumns = columnModel.getVisibleColumns();
-  
+
   return String(visibleColumns.length);
 };
 
 /**
- * 
- * Returns a qooxdoo table's selected row data (an array of rows which are 
- * arrays of cell values). Data will be returned as a JSON string if a JSON 
- * implementation is available (either the browser's or qooxdoo's). 
- * Otherwise, the return value is a comma-separated string that must be parsed 
+ *
+ * Returns a qooxdoo table's selected row data (an array of rows which are
+ * arrays of cell values). Data will be returned as a JSON string if a JSON
+ * implementation is available (either the browser's or qooxdoo's).
+ * Otherwise, the return value is a comma-separated string that must be parsed
  * by the test code.
- * 
+ *
  * @param locator {String} Table locator
  * @return {String} Selected row data
  */
 Selenium.prototype.getQxTableSelectedRowData = function(locator)
 {
   var qxObject = this.getQxWidgetByLocator(locator);
-  
+
   if (qxObject) {
     if (!this.isQxInstanceOf(qxObject, "qx.ui.table.Table")) {
       throw new SeleniumError("Object is not an instance of qx.ui.table.Table: " + locator);
@@ -792,36 +793,36 @@ Selenium.prototype.getQxTableSelectedRowData = function(locator)
   var tableModel = qxObject.getTableModel();
   var rowData = [];
   var selectionModel = qxObject.getSelectionModel();
-  
+
   /*
    * In Firefox 6, we can't use a function created in the Selenium window with
-   * the iterateSelection method of a table in the AUT window since qx's 
+   * the iterateSelection method of a table in the AUT window since qx's
    * Bootstrap.isFunction won't recognize it as a valid function object. So we
    * need to use the AUT window's Function object instead.
    */
   var autWindow = this.browserbot.getCurrentWindow();
   var tempMapName = "_qxSelenium" + new Date().getTime();
-  // Need to store these references since the function won't have access to 
+  // Need to store these references since the function won't have access to
   // variables from the current scope.
   autWindow[tempMapName] = {
     tableModel : tableModel,
     rowData : []
   };
-  
+
   var iterator = new autWindow.Function("index", tempMapName + ".rowData.push(" + tempMapName + ".tableModel.getRowData(index));");
   selectionModel.iterateSelection(iterator, this);
   var result = this.toJson(autWindow[tempMapName].rowData) || "undefined";
   delete autWindow[tempMapName];
-  
+
   return result;
 };
 
 /**
- * 
- * Uses any available JSON implementation from the browser or qooxdoo to 
- * serialize the given data. Returns the unchanged data if no JSON 
+ *
+ * Uses any available JSON implementation from the browser or qooxdoo to
+ * serialize the given data. Returns the unchanged data if no JSON
  * implementation is available.
- * 
+ *
  * @param data {Object} Data to be stringified
  * @return {String} Data as JSON string
  */
@@ -841,13 +842,13 @@ Selenium.prototype.toJson = function(data)
 };
 
 /**
- * Executes the given function of a qooxdoo object identified by a locator. If 
- * the object does not contain the referenced function, then an exception will 
+ * Executes the given function of a qooxdoo object identified by a locator. If
+ * the object does not contain the referenced function, then an exception will
  * be thrown.
  *
  * @type member
  * @param locator {var} an element locator
- * @param functionName {var} A text string that should identify the function to 
+ * @param functionName {var} A text string that should identify the function to
  * be executed.
  * @return {var} The return value from the function.
  */
@@ -861,15 +862,15 @@ Selenium.prototype.getQxObjectFunction = function(locator, functionName)
       result = "undefined";
     }
     return result;
-  } 
+  }
   else {
     throw new SeleniumError("Object does not have function (" + functionName + "), " + locator);
-  }  
+  }
 };
 
 /**
- * 
- * Creates a new function with the value of the script parameter as body. This 
+ *
+ * Creates a new function with the value of the script parameter as body. This
  * function is bound to the context of the qooxdoo widget returned by the given
  * locator, i.e. "this" within the script will refer to the widget. The function
  * is then called and the return value is serialized in JSON format (unless it
@@ -883,16 +884,16 @@ Selenium.prototype.getRunInContext = function(locator, script)
 {
   var qxObject = this.getQxWidgetByLocator(locator);
   var qx = this.getQxGlobalObject();
-  
+
   var autWindow = this.browserbot.getCurrentWindow();
   var func = new autWindow.Function(script);
   var boundFunc = qx.lang.Function.bind(func, qxObject);
   var result =  boundFunc();
-  
+
   if (typeof result === "undefined") {
     return "undefined";
   }
-  
+
   if (! (typeof(result) == "string" || typeof(result) == "number" ) ) {
     result = this.toJson(result);
   }
@@ -902,43 +903,43 @@ Selenium.prototype.getRunInContext = function(locator, script)
 
 /**
  * Returns a qooxdoo object's unique ID as generated by qx.core.ObjectRegistry.
- * If only the locator parameter is given, the hash code of the widget it 
+ * If only the locator parameter is given, the hash code of the widget it
  * identifies will be returned. If the optional script parameter is given, its
  * value will be executed as a function in the widget's context and the hash of
  * the object it returns will be returned instead. Example:
- * 
+ *
  * getQxObjectHash("myTable", "return this.getTableModel();");
- * 
- * will find a qooxdoo table with the HTML ID "myTable" and return the hash of 
+ *
+ * will find a qooxdoo table with the HTML ID "myTable" and return the hash of
  * its table model.
- * 
+ *
  * @param locator {String} Locator to find the widget
- * @param script {String?} Optional JavaScript snippet to be executed in the 
- * widget's context 
+ * @param script {String?} Optional JavaScript snippet to be executed in the
+ * widget's context
  * @return {String} the object's hash code
  */
 Selenium.prototype.getQxObjectHash = function(locator, script)
 {
-  var qxObject = this.getQxWidgetByLocator(locator);  
+  var qxObject = this.getQxWidgetByLocator(locator);
   if (!qxObject) {
     throw new SeleniumError("No qooxdoo object found for locator: " + locator);
   }
   var qx = this.getQxGlobalObject();
-  
+
   if (script) {
     var autWindow = this.browserbot.getCurrentWindow();
     var func = new autWindow.Function(script);
     var boundFunc = qx.lang.Function.bind(func, qxObject);
     var qxObject = boundFunc();
   }
-  
+
   return qx.core.ObjectRegistry.toHashCode(qxObject);
 };
 
 
 /**
  * Returns the Widget that the given DOM element is a part of.
- * 
+ *
  * @param element {DOMElement} DOM Element
  * @return {qx.ui.core.Widget|qx.ui.mobile.core.Widget} The corresponding widget
  */
@@ -947,11 +948,11 @@ PageBot.prototype.getQxWidgetByElement = function(element)
   if (element.wrappedJSObject) {
     element = element.wrappedJSObject;
   }
-  
+
   var qx = this.getQxGlobalObject();
   var widget = null;
   var exception = null;
-  
+
   if (qx && qx.ui && qx.ui.core && qx.ui.core.Widget) {
     try {
       widget = qx.ui.core.Widget.getWidgetByElement(element);
@@ -960,7 +961,7 @@ PageBot.prototype.getQxWidgetByElement = function(element)
       exception = ex;
     }
   }
-  
+
   if (!widget && element.id && qx.ui && qx.ui.mobile && qx.ui.mobile.core.Widget) {
     try {
       widget = qx.ui.mobile.core.Widget.getWidgetById(element.id);
@@ -969,7 +970,7 @@ PageBot.prototype.getQxWidgetByElement = function(element)
       exception = ex;
     }
   }
-  
+
   if (widget) {
     LOG.debug("getQxWidgetByElement found widget " + widget.classname);
   }
@@ -978,7 +979,7 @@ PageBot.prototype.getQxWidgetByElement = function(element)
       LOG.error("getQxWidgetByElement failed: " + exception.message);
     }
   }
-  
+
   return widget;
 };
 
@@ -989,7 +990,7 @@ Selenium.prototype.getQxWidgetByElement = function(element)
 
 /**
  * Uses the standard locators to find a qooxdoo widget and returns it.
- * 
+ *
  * @param locator {String} an element locator
  * @return {Object} The qooxdoo widget
  */
@@ -1006,7 +1007,7 @@ Selenium.prototype.getQxWidgetByLocator = function(locator)
   if (this.page()._iframeQxObject) {
     qx = this.page()._iframeQxObject;
   }
-  
+
   if (element.wrappedJSObject) {
     element = element.wrappedJSObject;
   }
@@ -1024,8 +1025,8 @@ Selenium.prototype.getQxWidgetByLocator = function(locator)
 /**
  * Uses the standard qx locators to find a table, then returns the value
  * of the specified cell from the table model.
- * 
- * @param locator {String} an element locator that finds a qooxdoo table's 
+ *
+ * @param locator {String} an element locator that finds a qooxdoo table's
  * DOM element
  * @param params {String} A string that should contain row and column
  * identifers (see {@link #qxTableClick}
@@ -1035,7 +1036,7 @@ Selenium.prototype.getQxWidgetByLocator = function(locator)
 Selenium.prototype.getQxTableValue = function(locator, eventParams)
 {
   var qxObject = this.getQxWidgetByLocator(locator);
-  
+
   if (qxObject) {
     if (!this.isQxInstanceOf(qxObject, "qx.ui.table.Table")) {
       throw new SeleniumError("Object is not an instance of qx.ui.table.Table: " + locator);
@@ -1066,21 +1067,21 @@ Selenium.prototype.getQxTableValue = function(locator, eventParams)
 
   var columnModel = qxObject.getTableColumnModel();
   var visibleColumns = columnModel.getVisibleColumns();
-  
+
   var value = qxObject.getTableModel().getValue(visibleColumns[col], row);
   if (typeof value === "object") {
     value = this.toJson(value);
   }
-  
+
   return value;
 };
 
 /**
- * Searches the given table for a column with the given name and returns the 
- * visible column index. Note that this can differ from the column's index in 
- * the table model if there are invisible columns and/or the column order has 
- * been changed. 
- * 
+ * Searches the given table for a column with the given name and returns the
+ * visible column index. Note that this can differ from the column's index in
+ * the table model if there are invisible columns and/or the column order has
+ * been changed.
+ *
  * @param {qx.ui.table.Table} table The table to be searched
  * @param {String} name The column name to be searched for
  * @return {Integer|null} The found column index
@@ -1088,7 +1089,7 @@ Selenium.prototype.getQxTableValue = function(locator, eventParams)
 Selenium.prototype.getQxTableColumnIndexByName = function(table, name)
 {
   if (typeof table == "string") {
-    table = this.getQxWidgetByLocator(table);    
+    table = this.getQxWidgetByLocator(table);
   }
   var regEx = RegExp(name);
   var columnModel = table.getTableColumnModel();
@@ -1105,11 +1106,11 @@ Selenium.prototype.getQxTableColumnIndexByName = function(table, name)
 
 
 /**
- * Searches the given table for a column with the given ID and returns the 
- * visible column index. Note that this can differ from the column's index in 
- * the table model if there are invisible columns and/or the column order has 
- * been changed. 
- * 
+ * Searches the given table for a column with the given ID and returns the
+ * visible column index. Note that this can differ from the column's index in
+ * the table model if there are invisible columns and/or the column order has
+ * been changed.
+ *
  * @param {qx.ui.table.Table|String} table The table object or a locator that finds it
  * @param {String} id The column ID to be searched for
  * @return {Integer|null} The found column index
@@ -1117,7 +1118,7 @@ Selenium.prototype.getQxTableColumnIndexByName = function(table, name)
 Selenium.prototype.getQxTableColumnIndexById = function(table, id)
 {
   if (typeof table == "string") {
-    table = this.getQxWidgetByLocator(table);    
+    table = this.getQxWidgetByLocator(table);
   }
   var regEx = RegExp(id);
   var columnModel = table.getTableColumnModel();
@@ -1134,9 +1135,9 @@ Selenium.prototype.getQxTableColumnIndexById = function(table, id)
 
 
 /**
- * Searches the given table's data for a value (interpreted as a Regular 
+ * Searches the given table's data for a value (interpreted as a Regular
  * Expression) and returns the first matching cell's row and column indices.
- * 
+ *
  * @param {qx.ui.table.Table|String} table The table object or a locator that finds it
  * @param {String} value The value to search for
  * @return {Array|null} A [row, column] array or null if no matching cell was found
@@ -1144,16 +1145,16 @@ Selenium.prototype.getQxTableColumnIndexById = function(table, id)
 Selenium.prototype.getQxTableRowColByCellValue = function(table, value)
 {
   if (typeof table == "string") {
-    table = this.getQxWidgetByLocator(table);    
+    table = this.getQxWidgetByLocator(table);
   }
-  
+
   var tableModel = table.getTableModel();
-  
+
   if (this.isQxInstanceOf(tableModel, "qx.ui.treevirtual.SimpleTreeDataModel")) {
     LOG.debug("getQxTableRowColByCellValue: Searching treevirtual.SimpleTreeDataModel for label " + value);
     return this._getTreeVirtualRowColByLabel(tableModel, value);
-  } 
-  
+  }
+
   var regEx = RegExp(value);
   var tableColumnModel = table.getTableColumnModel();
   var dataMapArray = tableModel.getDataAsMapArray();
@@ -1173,17 +1174,17 @@ Selenium.prototype.getQxTableRowColByCellValue = function(table, value)
       }
     }
   }
-  return null;  
+  return null;
 };
 
 /**
  * Searches a TreeVirtual widget's SimpleTreeDataModel for a label matching the
- * given string (using regEx matching) and returns the corresponding row and 
+ * given string (using regEx matching) and returns the corresponding row and
  * column indexes to be used e.g. by qxTableClick.
- * 
+ *
  * @param model {qx.ui.treevirtual.SimpleTreeDataModel} The virtual tree's model
  * @param label {String} The cell value to look for
- * @return {Integer[]|null} Array containg the row and column indexes if the 
+ * @return {Integer[]|null} Array containg the row and column indexes if the
  * value was found or null
  */
 Selenium.prototype._getTreeVirtualRowColByLabel = function(model, label)
@@ -1208,9 +1209,9 @@ Selenium.prototype._getTreeVirtualRowColByLabel = function(model, label)
 };
 
 /**
- * Searches the table identified by the given locator for a column with the 
+ * Searches the table identified by the given locator for a column with the
  * given name and returns the column index.
- * 
+ *
  * @deprecated
  * @param {String} A locator that returns the table to be searched
  * @param {String} name The column name to be searched for
@@ -1257,17 +1258,17 @@ Selenium.prototype.__getColumnIdFromParameters = function(additionalParamsForCli
     var col = Number(this.getQxTableColumnIndexById(qxObject, additionalParamsForClick["colId"]));
     LOG.debug("Got column index " + col + " from colId");
     return col;
-  } 
+  }
   if (additionalParamsForClick["colName"]) {
     // get column index by columnName
     col = Number(this.getQxTableColumnIndexByName(qxObject, additionalParamsForClick["colName"]));
     LOG.debug("Got column index " + col + " from colName");
     return col;
-  } 
+  }
   else {
     LOG.warn("No column specified, using column index 0.");
     return 0;
-  }  
+  }
 };
 
 /*
@@ -1283,7 +1284,7 @@ Selenium.prototype.__getTableClipperElement = function(locator, qxTable)
     var innerLocator = locator + "/" + subLocator;
     // Now add the extra components to the locator to find the clipper itself.
     // This is the real object that we want to click on.
-    element = this.page().findElement(innerLocator);      
+    element = this.page().findElement(innerLocator);
   }
   else {
     var qxhParts = subLocator.split('/');
@@ -1307,7 +1308,7 @@ Selenium.prototype.__getTableHeaderCellElement = function(column, locator, qxTab
     var headerCellLocator = locator + "/" + subLocator;
     // Now add the extra components to the locator to find the header cell itself.
     // This is the real object that we want to click on.
-    element = this.page().findElement(headerCellLocator);      
+    element = this.page().findElement(headerCellLocator);
   }
   else {
     var qxhParts = subLocator.split('/');
@@ -1334,7 +1335,7 @@ Selenium.prototype.__getTableFocusIndicatorElement = function(locator, qxTable)
   if (locator.indexOf("qxh=") == 0) {
     var innerLocator = locator + "/" + subLocator;
     // Now add the extra components to the locator to find the focus indicator.
-    element = this.page().findElement(innerLocator);      
+    element = this.page().findElement(innerLocator);
   }
   else {
     var qxhParts = subLocator.split('/');
@@ -1359,11 +1360,11 @@ Selenium.prototype.__getUpdatedFirstVisibleRow = function(column, row, qxTable)
   // If our target row is below or beyond the set of rows visible, then scroll
   // it into view:
   if( row < firstRow || row >= (firstRow + rowCount)) {
-    qxTable.setFocusedCell(column, row, true); 
+    qxTable.setFocusedCell(column, row, true);
     // now it should be in the viewport
     firstRow = qxTable.getPaneScroller(0).getTablePane().getFirstVisibleRow();
     rowCount = qxTable.getPaneScroller(0).getTablePane().getVisibleRowCount();
-    LOG.debug("qxTable firstVisibleRow(" + firstRow + "), visibleRowCount(" 
+    LOG.debug("qxTable firstVisibleRow(" + firstRow + "), visibleRowCount("
       + rowCount + ")");
   }
   return firstRow;
@@ -1371,7 +1372,7 @@ Selenium.prototype.__getUpdatedFirstVisibleRow = function(column, row, qxTable)
 
 /**
  * Calculates a table cell's pixel coordinates.
- * 
+ *
  * @param {Integer} column Index of the cell's column
  * @param {Integer} row Index of the cell's row
  * @param {qx.ui.table.Table} qxTable The table object
@@ -1406,22 +1407,22 @@ Selenium.prototype.__getCellCoordinates = function(column, row, qxTable, clipper
   coordsXY[0] = coordsXY[0] + 3;
   coordsXY[1] = coordsXY[1] + 3;
   LOG.debug("final coords: X=" + coordsXY[0] + " Y=" + coordsXY[1]);
-  
+
   return coordsXY;
 };
 
 Selenium.prototype.__getQxTableByLocator = function(locator)
 {
   var qxObject = this.getQxWidgetByLocator(locator);
-  
+
   if (!qxObject) {
     throw new SeleniumError("qxTableClick: No qooxdoo object found for locator: " + locator);
   }
-    
+
   if (!qxObject.getTableColumnModel) {
     throw new SeleniumError("qxTableClick: The widget identified by the locator " + locator + " is not a table!");
   }
-  
+
   return qxObject;
 };
 
@@ -1440,33 +1441,33 @@ Selenium.prototype.__getQxTableRowColFromParameters = function(additionalParamsF
     var col = this.__getColumnIdFromParameters(additionalParamsForClick, qxObject);
     rowCol = [row, col];
   }
-  
+
   return rowCol;
 };
 
 /**
- * Uses the given locator to find a table, and then processes a click on the 
- * table at the given row/column position.  Note, your locator should only find 
- * the table itself, and not the clipper child of the table. We'll add the extra 
+ * Uses the given locator to find a table, and then processes a click on the
+ * table at the given row/column position.  Note, your locator should only find
+ * the table itself, and not the clipper child of the table. We'll add the extra
  * Composite/Scroller/Clipper to the locator as required.
  *
  * <p>
- * The column to click can be located using the index, ID or name by specifying 
+ * The column to click can be located using the index, ID or name by specifying
  * one of the col, colId or colName parameters. Alternatively, a specific cell
  * can be located by RegExp matching its content using the cellValue parameter.
- * NOTE: This currently only works with tables using a Simple table model 
+ * NOTE: This currently only works with tables using a Simple table model
  * (qx.ui.table.model.Simple)!
- * 
+ *
  * <p>
  * mousedown, mouseup will be fired instead of only click
- * in addition to to doQxClick the x-/y-coordinates of the located element will 
+ * in addition to to doQxClick the x-/y-coordinates of the located element will
  * be determined.
- * TODO: implement it like doFooAt, where additional coordinates will be added 
+ * TODO: implement it like doFooAt, where additional coordinates will be added
  * to the element-coords
- * 
+ *
  * <p>
  * Supported eventParams keys:
- * - All mouse event parameters as accepted by 
+ * - All mouse event parameters as accepted by
  *   Selenium.prototype.qx.triggerMouseEventQx
  * - row Index of the table row to click
  * - col Index of the table column to click
@@ -1481,19 +1482,19 @@ Selenium.prototype.__getQxTableRowColFromParameters = function(additionalParamsF
 Selenium.prototype.doQxTableClick = function(locator, eventParams)
 {
   var qxObject = this.__getQxTableByLocator(locator);
-  
+
   var element = this.__getTableClipperElement(locator, qxObject);
-  
+
   if (!element) {
     throw new SeleniumError("Could not find clipper child of the table");
   }
 
   var additionalParamsForClick = this.__getParameterMap(eventParams);
-  
+
   var rowCol = this.__getQxTableRowColFromParameters(additionalParamsForClick, qxObject);
   var row = rowCol[0];
   var col = rowCol[1];
-  
+
   LOG.debug("Targeting Row(" + row + ") Column(" + col + ")");
 
   // Adjust our row number to match the rows that are currently visible:
@@ -1503,7 +1504,7 @@ Selenium.prototype.doQxTableClick = function(locator, eventParams)
   row = row - firstRow;
 
   var coordsXY = this.__getCellCoordinates(col, row, qxObject, element);
-  
+
   var doContextMenu = false;
   var doDoubleClick = false;
   if (additionalParamsForClick["button"] &&
@@ -1514,7 +1515,7 @@ Selenium.prototype.doQxTableClick = function(locator, eventParams)
       additionalParamsForClick["double"] === "true" ) {
     doDoubleClick = true;
   }
-  
+
   // TODO: very dirty no checking, maybe refactoring needed to get doQxClick
   // and doQxClickAt to work smoothly together.
   var newEventParamString = eventParams + ",clientX=" + coordsXY[0]
@@ -1532,7 +1533,7 @@ Selenium.prototype.doQxTableClick = function(locator, eventParams)
     LOG.debug("Double clicking table cell with params: " + newEventParamString);
     this.clickElementQx(element, newEventParamString + ",double=true");
   }
-  
+
   // Otherwise execute a single click
   else {
     this.clickElementQx(element, newEventParamString);
@@ -1541,24 +1542,24 @@ Selenium.prototype.doQxTableClick = function(locator, eventParams)
 };
 
 /**
- * Uses the standard qx locators to find a table, and then processes a click on 
- * one of the column header cells. Note, your locator should only find the table 
- * itself, and not the clipper child of the table. We'll add the extra 
+ * Uses the standard qx locators to find a table, and then processes a click on
+ * one of the column header cells. Note, your locator should only find the table
+ * itself, and not the clipper child of the table. We'll add the extra
  * Composite/Scroller/Clipper to the locator as required.
  *
  * <p>
- * The column to click can be located using the index, ID or name by specifying 
+ * The column to click can be located using the index, ID or name by specifying
  * one of the col, colId or colName parameters.
- * 
+ *
  * <p>
  * mousedown, mouseup will be fired instead of only click
- * in addition to to doQxClick the x-/y-coordinates of the located element will 
+ * in addition to to doQxClick the x-/y-coordinates of the located element will
  * be determined.
- * TODO: implement it like doFooAt, where additional coordinates will be added 
+ * TODO: implement it like doFooAt, where additional coordinates will be added
  * to the element-coords
  * <p>
  * eventParams example: button=left|right|middle, clientX=300, shiftKey=true
- * for a full list of properties see "function 
+ * for a full list of properties see "function
  * Selenium.prototype.qx.triggerMouseEventQx"
  *
  * @type member
@@ -1566,7 +1567,7 @@ Selenium.prototype.doQxTableClick = function(locator, eventParams)
  * @param col {var} index of the table header column to click
  * @param colId {var} ID of the column to click
  * @param colName {var} Name of the column to click
- * @param eventParams {var} additional parameter for the mouse-event to set. 
+ * @param eventParams {var} additional parameter for the mouse-event to set.
  * e.g. clientX.
  * If no eventParams are set, defaults will be: left mousebutton, all keys false
  * and all coordinates 0
@@ -1575,78 +1576,78 @@ Selenium.prototype.doQxTableClick = function(locator, eventParams)
 Selenium.prototype.doQxTableHeaderClick = function(locator, eventParams)
 {
   var qxObject = this.getQxWidgetByLocator(locator);
-  
+
   if (!qxObject) {
     throw new SeleniumError("No qooxdoo object found for locator: " + locator);
   }
-  
+
   var additionalParamsForClick = this.__getParameterMap(eventParams);
-  
+
   var col = this.__getColumnIdFromParameters(additionalParamsForClick, qxObject);
   LOG.debug("Clicking table header column " + col);
-  
+
   var element = this.__getTableHeaderCellElement(col, locator, qxObject);
-  
+
   if (!element) {
     throw new SeleniumError("Could not find the header cell with the index " + col);
   }
-  
+
   var qx = this.getQxGlobalObject();
   var pos = qx.bom.element.Location.get(element);
   var headerCellX = pos["left"];
   var headerCellY = pos["top"];
-  
+
   var headerCellHeight = qxObject.getHeaderCellHeight();
-  
+
   var clientX = headerCellX + 5;
   var clientY = headerCellY + Math.ceil(headerCellHeight / 2);
-  
+
   LOG.debug("Header cell adjusted X position: " + clientX);
-  
+
   var newEventParamString = eventParams + ",clientX=" + clientX
     + ",clientY=" + clientY;
   LOG.debug("newEventParamString=" + newEventParamString);
 
   // Click the cell header
   this.clickElementQx(element, newEventParamString);
-  
+
 };
 
 /**
- * Simulates user interaction with editable table cells. IMPORTANT: The target 
- * cell's editing mode must be activated immediately before this function is 
- * used, e.g. by executing a double click on it using the qxTableClick command 
+ * Simulates user interaction with editable table cells. IMPORTANT: The target
+ * cell's editing mode must be activated immediately before this function is
+ * used, e.g. by executing a double click on it using the qxTableClick command
  * with the double=true parameter.
- * 
+ *
  * The following cell editor types are supported:
 
- * Text fields (qx.ui.table.celleditor.PasswordField, 
- * qx.ui.table.celleditor.TextField, qx.ui.table.celleditor.ComboBox): Use 
- * either the "type" or "typeKeys" parameters (typeKeys triggers 
+ * Text fields (qx.ui.table.celleditor.PasswordField,
+ * qx.ui.table.celleditor.TextField, qx.ui.table.celleditor.ComboBox): Use
+ * either the "type" or "typeKeys" parameters (typeKeys triggers
  * keydown/keyup/keypress events). Examples:
  * selenium.qxEditTableCell("qxh=qx.ui.table.Table", "type=Some text");
  * selenium.qxEditTableCell("myTable", "typeKeys=Lots of events");
- * 
- * Select boxes (qx.ui.table.celleditor.SelectBox, 
- * qx.ui.table.celleditor.ComboBox): Use the "selectFromBox" parameter. The 
+ *
+ * Select boxes (qx.ui.table.celleditor.SelectBox,
+ * qx.ui.table.celleditor.ComboBox): Use the "selectFromBox" parameter. The
  * value must be a qxh locator step that identifies the list item to be clicked.
  * Examples:
  * selenium.qxEditTableCell("qxh=qx.ui.table.Table", "selectFromBox=[@label=Germany]");
  * selenium.qxEditTableCell("qxh=qx.ui.table.Table", "selectFromBox=child[2]");
- * 
- * Checkboxes (qx.ui.table.celleditor.CheckBox): Use the "toggleCheckBox" 
+ *
+ * Checkboxes (qx.ui.table.celleditor.CheckBox): Use the "toggleCheckBox"
  * parameter. Example:
  * selenium.qxEditTableCell("qxh=qx.ui.table.Table", "toggleCheckBox=foo");
- * (toggleCheckBox needs a value to be recognized as a valid parameter even 
+ * (toggleCheckBox needs a value to be recognized as a valid parameter even
  * though it is ignored.)
- * 
+ *
  * @param locator {String} an element locator that finds a qooxdoo table
  * @param parameters {String} Comma-separated list of parameters in key=value format
  */
 Selenium.prototype.doQxEditTableCell = function(locator, parameters)
 {
   var qxObject = this.getQxWidgetByLocator(locator);
-  
+
   if (!qxObject) {
     throw new SeleniumError("No qooxdoo object found for locator: " + locator);
   }
@@ -1654,7 +1655,7 @@ Selenium.prototype.doQxEditTableCell = function(locator, parameters)
   var parameterMap = this.__getParameterMap(parameters);
 
   var focusIndicatorLocator = "qxhybrid=" + locator + "&&qxh=qx.ui.container.Composite/qx.ui.table.pane.Scroller/qx.ui.table.pane.Clipper/qx.ui.table.pane.FocusIndicator";
-  
+
   if (parameterMap["type"]) {
     try {
       this.doQxType(focusIndicatorLocator, parameterMap["type"]);
@@ -1663,7 +1664,7 @@ Selenium.prototype.doQxEditTableCell = function(locator, parameters)
       this.doQxType(focusIndicatorLocator + "/child[0]", parameterMap["type"]);
     }
   }
-  
+
   if (parameterMap["typeKeys"]) {
     try {
       this.doQxTypeKeys(focusIndicatorLocator, parameterMap["typeKeys"]);
@@ -1672,12 +1673,12 @@ Selenium.prototype.doQxEditTableCell = function(locator, parameters)
       this.doQxTypeKeys(focusIndicatorLocator + "/child[0]", parameterMap["typeKeys"]);
     }
   }
-  
+
   if (parameterMap["toggleCheckBox"]) {
     // The boolean cell renderer's checkbox is inside a container widget
     this.doQxClick(focusIndicatorLocator + "/child[0]/child[0]", parameters);
   }
-  
+
   if (parameterMap["selectFromBox"]) {
     try {
       // comboBoxes have a button child
@@ -1688,7 +1689,7 @@ Selenium.prototype.doQxEditTableCell = function(locator, parameters)
     } catch(ex) {
       // selectBoxes are themselves clickable
       this.doQxClick(focusIndicatorLocator + "/child[0]");
-      var itemLocator = focusIndicatorLocator + "/child[0]/" + parameterMap["selectFromBox"]; 
+      var itemLocator = focusIndicatorLocator + "/child[0]/" + parameterMap["selectFromBox"];
       this.doQxClick(itemLocator, parameters)
     }
   }
@@ -1696,37 +1697,37 @@ Selenium.prototype.doQxEditTableCell = function(locator, parameters)
 
 /**
  * Get all children of a widget that are instances of the given class(es).
- * TODO: Check if we can use PageBot._getQxNodeDescendants() for this. 
- * 
+ * TODO: Check if we can use PageBot._getQxNodeDescendants() for this.
+ *
  * @param {Object} parentWidget The parent qooxdoo widget
  * @param {Array} classNames A list of class name strings
  * @return {Array} A list of matching child widgets
  */
 Selenium.prototype.getChildControls = function(parentWidget, classNames)
 {
-  // Get the child widgets  
+  // Get the child widgets
   var children = [];
   try {
     children = parentWidget._getChildren();
   }
   catch(ex) {}
-  
-  /* external child widgets - shouldn't be necessary to get the child controls  
+
+  /* external child widgets - shouldn't be necessary to get the child controls
   var extChildren = [];
   try {
     extChildren = parentWidget.getChildren();
-  } 
+  }
   catch(ex) {}
-  
+
   children = children.concat(extChildren);
   */
- 
+
   // Check the parent as well
   var widgets = [parentWidget];
   for (var i=0, l=children.length; i<l; i++) {
     widgets.push(children[i]);
   }
-  
+
   var childControls = [];
 
   for (var i=0,l=widgets.length; i<l; i++) {
@@ -1736,14 +1737,14 @@ Selenium.prototype.getChildControls = function(parentWidget, classNames)
       }
     }
   }
-  
+
   return childControls;
 };
 
 
 /**
  * Set the value of a qooxdoo text field widget which can either be the widget
- * returned by the given locator, or one of its child widgets. 
+ * returned by the given locator, or one of its child widgets.
  * Does not simulate key events.
  *
  * @param {String} locator an <a href="#locators">element locator</a>
@@ -1753,7 +1754,7 @@ Selenium.prototype.doQxType = function(locator, value)
 {
   var element = this.page().findElement(locator);
   element = this.getInputElement(element);
-  
+
   if (this.browserbot.shiftKeyDown) {
     value = value.toUpperCase();
   }
@@ -1772,20 +1773,20 @@ Selenium.prototype.doQxTypeKeys = function(locator, value)
 {
   var element = this.page().findElement(locator);
   element = this.getInputElement(element);
-  
+
   element.focus();
-  
+
   // Trigger the key events
   var events = ["keydown", "keypress", "keyup"];
   var keys = new String(value).split("");
-  
+
   for (var i = 0; i < keys.length; i++) {
     var c = keys[i];
     for (var k = 0; k < events.length; k++) {
-      triggerKeyEvent(element, events[k], c, true, 
-        this.browserbot.controlKeyDown, 
-        this.browserbot.altKeyDown, 
-        this.browserbot.shiftKeyDown, 
+      triggerKeyEvent(element, events[k], c, true,
+        this.browserbot.controlKeyDown,
+        this.browserbot.altKeyDown,
+        this.browserbot.shiftKeyDown,
         this.browserbot.metaKeyDown);
     }
   }
@@ -1795,9 +1796,9 @@ Selenium.prototype.doQxTypeKeys = function(locator, value)
 
 /**
  * Investigates a DOM element. If the element is a text field or text area, it
- * is returned. If not, the element's corresponding qooxdoo widget is checked 
+ * is returned. If not, the element's corresponding qooxdoo widget is checked
  * and the first text field/text area child node is returned.
- * 
+ *
  * @param {DOMElement} element The DOM element to start with
  * @return {DOMElement} The found input or textarea element
  */
@@ -1812,11 +1813,11 @@ Selenium.prototype.getInputElement = function(element)
   }
   // Otherwise get the qooxdoo widget the element belongs to
   var qxWidget = this.getQxWidgetByElement(element);
-  
+
   if (!qxWidget) {
     throw new SeleniumError("getInputElement: The given element is not part of a qooxdoo widget!");
   }
-  
+
   if (qxWidget.getIframeObject) {
     var iframe = qxWidget.getIframeObject();
     try {
@@ -1825,17 +1826,17 @@ Selenium.prototype.getInputElement = function(element)
       return iframe.document.body;
     }
   }
-  
+
   // Get the DOM input element
   element = this._getDomElementFromWidget(qxWidget);
   if (this._isVisibleTextInput(element))
   {
     return element;
   }
-  
+
   LOG.debug("getInputElement: Searching child controls of " + qxWidget.classname);
   var childControls = qxWidget._getChildren();
-  
+
   for (var i=0,l=childControls.length; i<l; i++) {
     var child = childControls[i];
     element = this._getDomElementFromWidget(child);
@@ -1844,7 +1845,7 @@ Selenium.prototype.getInputElement = function(element)
       return element;
     }
   }
-  
+
   throw new SeleniumError("getInputElement: No input/text area child found in widget " + qxWidget.classname);
 };
 
@@ -1852,7 +1853,7 @@ Selenium.prototype.getInputElement = function(element)
 /**
  * Checks if a DOM element is either a text area or text input and if it is
  * visible.
- * 
+ *
  * @param element {DOMElement} The element to check
  * @return {Boolean} Whether the given element is a visible text input field
  */
@@ -1860,17 +1861,17 @@ Selenium.prototype._isVisibleTextInput = function(element)
 {
   var tagName = element.tagName.toLowerCase();
   var type = element.type ? element.type.toLowerCase() : "";
-  return (element.style.display !== "none" && element.style.visibility !== "hidden") 
+  return (element.style.display !== "none" && element.style.visibility !== "hidden")
       && (tagName == "textarea" ||
       (tagName == "input" && (type == "text" || type == "password"))
       || (element.tagName.toLowerCase() == "input" && element.type.toLowerCase() == "password"));
 };
 
 /**
- * Returns a widget's DOM content element. Used for compatibility with qx.ui, 
+ * Returns a widget's DOM content element. Used for compatibility with qx.ui,
  * where the content element is a qx.html.Element which has a DOM element, and
  * qx.mobile, where the content element is the DOM element.
- * 
+ *
  * @param qxObject {qx.ui.core.Widget|qx.ui.core.mobile.Widget} a widget
  * @return {Element|null} The DOM Element or null
  */
@@ -1887,15 +1888,15 @@ PageBot.prototype._getDomElementFromWidget = function(qxObject)
   return null;
 };
 
-/** 
+/**
  * Makes PageBot._getDomElementFromWidget accessible from Selenium.
  */
-Selenium.prototype._getDomElementFromWidget = function(qxObject) 
+Selenium.prototype._getDomElementFromWidget = function(qxObject)
 {
   return this.page()._getDomElementFromWidget(qxObject);
 };
 
-/** 
+/**
  * Returns the qx global object so that we can use qx functionality
  */
 PageBot.prototype.getQxGlobalObject = function()
@@ -1907,7 +1908,7 @@ PageBot.prototype.getQxGlobalObject = function()
     && !this._qxGlobalObject.core.Init.getApplication().$$disposed) {
     return this._qxGlobalObject;
   }
-  
+
   var inWindow = this.getCurrentWindow();
   if (!inWindow) {
     throw new Error("getQxGlobalObject: Couldn't get current window!");
@@ -1920,7 +1921,7 @@ PageBot.prototype.getQxGlobalObject = function()
   if (!inWindow.qx) {
     throw new Error("getQxGlobalObject: Current window has no global qx object!");
   }
-  
+
   this._qxGlobalObject = inWindow.qx;
   return this._qxGlobalObject;
 };
@@ -1930,9 +1931,9 @@ PageBot.prototype.getQxGlobalObject = function()
 // ****************************************
 /**
  * Finds a qooxdoo object(!) identified by its userData attribute.
- * Note: Here, the Selenium locator abstraction is used to get a JS object, 
+ * Note: Here, the Selenium locator abstraction is used to get a JS object,
  * _not_ a DOM Element.
- * 
+ *
  * locator syntax: qxx=oneId/childId1/childId2
  *   note: children can also be found directly if their qooxdoo ID is unique in the current application state
  *         if multiple IDs exist in qooxdoo, the first match is used!
@@ -1961,7 +1962,7 @@ PageBot.prototype.locateElementByQxx = function(qxLocator, inDocument, inWindow)
 
 /**
  * Finds an element identified by a qooxdoo userData attribute
- * 
+ *
  * locator syntax: qx=oneId/childId1/childId2
  *   note: children can also be found directly if their qooxdoo ID is unique in the current application state
  *         if multiple IDs exist in qooxdoo, the first match is used!
@@ -1990,9 +1991,9 @@ PageBot.prototype.locateElementByQx = function(qxLocator, inDocument, inWindow)
 
 /**
  * Finds an element identified by qooxdoo userData attribute, followed by a xpath expression
- * 
+ *
  * locator syntax: qxp=oneId/childId1/childId2//xpath
- * 
+ *
  * TODO: Test this addition
  * credits: Sebastian Dauss
  *
@@ -2033,26 +2034,26 @@ PageBot.prototype.locateElementByQxp = function(qxLocator, inDocument, inWindow)
   }
 
   var qxElement = this._getDomElementFromWidget(qxObject);
-  
+
   var resultElement;
   if (this.locateElementByXPath){
-  
+
     //Selenium 1.0: Use public function locateElementByXPath
     resultElement =       this.locateElementByXPath('descendant-or-self::node()/'+xpathPart, qxElement, inWindow);
   } else {
     //Selenium 0.9.2: Use internal function _findElementUsingFullXPath
     resultElement = this._findElementUsingFullXPath('descendant-or-self::node()/'+xpathPart, qxElement, inWindow);
   }
-    
+
   return resultElement;
 };
 
 
 /**
  * Finds an element identified by qooxdoo object hierarchy, down from the Application object
- * 
+ *
  * locator syntax: qxh=firstLevelChild/secondLevelChild/thirdLevelChild
- * 
+ *
  *    where on each level the child can be identified by:
  *    - an identifier (which will be taken as a literal object member of the
  *      parent)
@@ -2086,10 +2087,10 @@ PageBot.prototype.locateElementByQxh = function(qxLocator, inDocument, inWindow)
 /**
  * Finds an element identified by qooxdoo object hierarchy, down from the Application object.
  * Widgets with the "visibility" property not set to "visible" and their children are
- * ignored. 
- * 
+ * ignored.
+ *
  * locator syntax: qxhv=firstLevelChild/secondLevelChild/thirdLevelChild
- * 
+ *
  *    where on each level the child can be identified by:
  *    - an identifier (which will be taken as a literal object member of the
  *      parent)
@@ -2121,10 +2122,10 @@ PageBot.prototype.locateElementByQxhv = function(qxLocator, inDocument, inWindow
 
 
 /**
- * Finds an element by it's HTML ID attribute, then checks the visibility of the 
+ * Finds an element by it's HTML ID attribute, then checks the visibility of the
  * qooxdoo widget it belongs to. The element is returned only if the widget is
- * visible. 
- * 
+ * visible.
+ *
  * locator syntax: qxidv=htmlId
  *
  * @type member
@@ -2140,9 +2141,9 @@ PageBot.prototype.locateElementByQxidv = function(qxLocator, inDocument, inWindo
   if (inWindow.wrappedJSObject) {
     inWindow = inWindow.wrappedJSObject;
   }
- 
+
   var id = qxLocator.substr(qxLocator.indexOf("=") + 1);
-  
+
   // In some cases there are multiple widgets with the same id value on their
   // container or content elements, so we use XPath to find them all.
   try {
@@ -2152,12 +2153,12 @@ PageBot.prototype.locateElementByQxidv = function(qxLocator, inDocument, inWindo
     LOG.error("qxidv Locator: Error during XPath processing: " + ex);
     return null;
   }
-  
+
   if (!result.length > 0) {
     LOG.error("qxidv Locator: Couldn't find an element with the ID " + id);
     return null;
   }
-  
+
   var qx;
   try {
     qx = this.getQxGlobalObject();
@@ -2166,7 +2167,7 @@ PageBot.prototype.locateElementByQxidv = function(qxLocator, inDocument, inWindo
     LOG.error(ex.message);
     return null;
   }
-  
+
   for (var i=0,l=result.length; i<l; i++) {
     var element = result[i];
     if (element.wrappedJSObject) {
@@ -2176,24 +2177,24 @@ PageBot.prototype.locateElementByQxidv = function(qxLocator, inDocument, inWindo
     if (qxWidget && qxWidget.isSeeable()) {
       return element;
     }
-    
+
   }
-  
+
   LOG.error("qxidv Locator: Couldn't find a visible widget for the HTML element with the ID " + id);
   return null;
 };
 
 /**
- * Hybrid locator consisting of multiple sub-locators using different 
- * strategies. The first sub-locator can be of any type, the following 
+ * Hybrid locator consisting of multiple sub-locators using different
+ * strategies. The first sub-locator can be of any type, the following
  * sub-locators must be either qxh/qxhv or XPath. Sub-locators are delimited by
  * double ampersands ("&&").
- * 
- * In the following example, the default ID locator is combined with a qxh 
+ *
+ * In the following example, the default ID locator is combined with a qxh
  * locator to find the first child of a widget with the HTML id "myWidget":
- * 
+ *
  * qxhybrid=myWidget&&qxh=child[0]
- * 
+ *
  * @param qxLocator {String} The locator
  * @param inDocument {Document} The AUT's document object
  * @param inWindow {Window} The AUT's window object
@@ -2210,13 +2211,13 @@ PageBot.prototype.locateElementByQxhybrid = function(qxLocator, inDocument, inWi
       domElem = domElem.wrappedJSObject;
     }
   } catch(ex) {
-    LOG.error("Hybrid locator couldn't find element using " + 
+    LOG.error("Hybrid locator couldn't find element using " +
       firstPart + ": " + ex);
     return null;
   }
-  
+
   if (inWindow.wrappedJSObject) {
-    inWindow = inWindow.wrappedJSObject; 
+    inWindow = inWindow.wrappedJSObject;
   }
   var qx;
   try {
@@ -2226,7 +2227,7 @@ PageBot.prototype.locateElementByQxhybrid = function(qxLocator, inDocument, inWi
     LOG.error(ex.message);
     return null;
   }
-  
+
   var nextPart = locatorParts.shift();
   while (nextPart) {
     if (nextPart.indexOf("qxh") == 0) {
@@ -2248,7 +2249,7 @@ PageBot.prototype.locateElementByQxhybrid = function(qxLocator, inDocument, inWi
         }
       }
       catch(e) {
-        LOG.error("Hybrid locator couldn't find element using " + 
+        LOG.error("Hybrid locator couldn't find element using " +
           nextPart);
         return null;
       }
@@ -2272,14 +2273,14 @@ PageBot.prototype.locateElementByQxhybrid = function(qxLocator, inDocument, inWi
     }
     nextPart = locatorParts.shift();
   }
-  
+
   return domElem;
 };
 
 /**
- * Returns the client document instance or null if Init.getApplication() returned null. 
+ * Returns the client document instance or null if Init.getApplication() returned null.
  * Reason is that qooxdoo 0.7 relies on the application being set when the client document
- * is accessed  
+ * is accessed
  *
  * @type member
  * @param inWindow {var} window too get client document for
@@ -2321,14 +2322,14 @@ PageBot.prototype._findQxObjectInWindowQxh = function(qxLocator, inWindow)
     LOG.error(ex.message);
     return null;
   }
-  
+
   LOG.debug("qxLocator: qooxdoo seems to be present in AUT window. Try to get the Instance");
-  
+
   var locAndRoot = this._getLocatorAndRoot(qxLocator, inWindow);
   if (!locAndRoot) {
     return null;
   }
-  
+
   qxLocator = locAndRoot.qxLocator;
   var qxAppRoot = locAndRoot.qxAppRoot;
 
@@ -2360,9 +2361,9 @@ PageBot.prototype._findQxObjectInWindowQxh = function(qxLocator, inWindow)
 
 
 /**
- * Determines the root (widget) for hierarchical qooxdoo locators. Returns the 
+ * Determines the root (widget) for hierarchical qooxdoo locators. Returns the
  * root and the relevant part of the locator (for multi-part locators).
- * 
+ *
  * @param locator {String} The complete locator string
  * @param inWindow {Object} The AUT window object
  * @return {Map} A map with the keys "qxLocator" and "qxAppRoot"
@@ -2373,7 +2374,7 @@ PageBot.prototype._getLocatorAndRoot = function(locator, inWindow)
   // check for object space spec
   if (locator.match('^app:')) {
     appRoot = inWindow.qx.core.Init.getApplication();
-  } 
+  }
   else {
     appRoot = this._getClientDocument(inWindow);
     if (appRoot == null){
@@ -2381,7 +2382,7 @@ PageBot.prototype._getLocatorAndRoot = function(locator, inWindow)
       return null;
     }
   }
-  
+
   if (locator.match('^inline:')) {
     if (locator.indexOf("//") < 0) {
       throw new SeleniumError("Wrong format for inline locator!");
@@ -2396,34 +2397,34 @@ PageBot.prototype._getLocatorAndRoot = function(locator, inWindow)
         domElem = domElem.wrappedJSObject;
       }
     } catch(ex) {
-      LOG.error("Inline locator couldn't find element using" + 
+      LOG.error("Inline locator couldn't find element using" +
         locatorParts[0] + ": " + ex);
       return null;
     }
-    
+
     // Get the inline root widget
     try {
       appRoot = this.getQxWidgetByElement(domElem);
-      // If the inline root instance is configured to to respect the dom 
-      // element's original dimensions, an additional div is created: 
+      // If the inline root instance is configured to to respect the dom
+      // element's original dimensions, an additional div is created:
       if (!appRoot) {
         appRoot = this.getQxWidgetByElement(domElem.firstChild);
       }
-      
+
     } catch(ex) {
       LOG.error("Inline locator couldn't find Inline root: " + ex);
       return null;
     }
-    
+
     locator = locatorParts[1];
     LOG.debug("Inline locator processing qxh locator: " + locator);
   }
-  
+
   return {
     qxLocator : locator,
-    qxAppRoot : appRoot 
+    qxAppRoot : appRoot
   };
-  
+
 };
 
 
@@ -2605,7 +2606,7 @@ PageBot.prototype._searchQxObjectByQxHierarchy = function(root, path)
         {
           // it's an exception thrown by myself - just continue search
         }
-        else 
+        else
         {
           throw e;
         }
@@ -2619,7 +2620,7 @@ PageBot.prototype._searchQxObjectByQxHierarchy = function(root, path)
 
     // then recurse with children, using original path
     var childs = this._getQxNodeDescendants(root);
-    
+
     for (var i=0; i<childs.length; i++)
     {
       try
@@ -2638,7 +2639,7 @@ PageBot.prototype._searchQxObjectByQxHierarchy = function(root, path)
           // it's an exception thrown by a descendant - just continue search
           continue;
         }
-        else 
+        else
         {
           throw e;
         }
@@ -2655,7 +2656,7 @@ PageBot.prototype._searchQxObjectByQxHierarchy = function(root, path)
       e.a = [ step ]; // since we lost the e from deeper recursions just report current
       throw e;
     }
-    else 
+    else
     {
       return res; // this should be superfluous
     }
@@ -2710,7 +2711,7 @@ PageBot.prototype._searchQxObjectByQxHierarchy = function(root, path)
     // basically we tail recurse, but catch exceptions
     try {
       LOG.debug("Qxh Locator: found step (" + step + "), moving on to (" +
-                npath[0] + ")" ); 
+                npath[0] + ")" );
       var res = this._searchQxObjectByQxHierarchy(el, npath);
     }
     catch(e)
@@ -2777,7 +2778,7 @@ PageBot.prototype._getQxElementFromStep2 = function(root, qxclass)
 
   // need to get to the global 'qx' object
   var qx = this.getQxGlobalObject();
-  
+
   var myClass = qx.Class.getByName(qxclass);
 
   childs = this._getQxNodeDescendants(root);
@@ -2825,7 +2826,7 @@ PageBot.prototype._getQxElementFromStep3 = function(root, childspec)
 
   childs = this._getQxNodeDescendants(root);
 
-  // Negative index value: Reverse access  
+  // Negative index value: Reverse access
   if (idx < 0 ) {
     if (Math.abs(idx) > childs.length) {
       return null;
@@ -2833,8 +2834,8 @@ PageBot.prototype._getQxElementFromStep3 = function(root, childspec)
       var index = (childs.length + idx);
       return childs[index];
     }
-  }  
-  
+  }
+
   if (idx >= childs.length) {
     return null;
   } else {
@@ -2885,7 +2886,7 @@ PageBot.prototype._getQxElementFromStep4 = function(root, attribspec)
 
       // it's nice to match against regexp's
       rattval = new RegExp(attval);
-        
+
     }
   }
   else
@@ -2899,7 +2900,7 @@ PageBot.prototype._getQxElementFromStep4 = function(root, attribspec)
     if (typeof(actobj) == "object")
     {
       return actobj; // only return an obj ref
-    } else 
+    } else
     {
       return null;
     }
@@ -2927,7 +2928,7 @@ PageBot.prototype._getQxElementFromStep4 = function(root, attribspec)
           if (typeof currval !== "string" && currval.toString) {
             currval = currval.toString();
           }
-          
+
           if (currval.match(rattval)) {
             return actobj;
           }
@@ -2939,13 +2940,13 @@ PageBot.prototype._getQxElementFromStep4 = function(root, attribspec)
     if (attrib.indexOf("userData") === 0 && attval.indexOf(":") > 0 ) {
       var keyval = attval.split(":");
       LOG.debug("Qxh Locator: Attribute Step: Checking for userData field " + keyval[0] + " with value " + keyval[1]);
-      
+
       var currval = actobj.getUserData(keyval[0]);
-      
+
       var urattval = new RegExp(keyval[1]);
       if (currval && currval.match(urattval)) {
         return actobj;
-      }      
+      }
     }
 
     // then, check normal JS attribs
@@ -2995,20 +2996,20 @@ PageBot.prototype._getQxNodeDescendants = function(node)
   var descArr = [];
   var c;
 
-   /* If the node is one of the qooxdoo Iframes (html or ui.embed) containing 
+   /* If the node is one of the qooxdoo Iframes (html or ui.embed) containing
     * another qooxdoo application, try to retrieve its root widget */
   if ( node.classname && (node.classname.indexOf("Iframe") + 6 == node.classname.length) && node.getWindow) {
     LOG.debug("getQxNodeDescendants: using getWindow() to retrieve descendants");
     try {
-      // store a reference to the iframe's qx object. This is used by 
+      // store a reference to the iframe's qx object. This is used by
       // Selenium.getQxWidgetByLocator
       this._iframeQxObject = node.getWindow().qx;
       descArr.push(node.getWindow().qx.core.Init.getApplication().getRoot());
-    } 
+    }
     catch (ex) {
     }
   }
-  
+
   else {
     // check external widget children (built with w.add())
     if (node.getChildren) {
@@ -3017,14 +3018,14 @@ PageBot.prototype._getQxNodeDescendants = function(node)
       try {
         c = node.getChildren();
       } catch(ex) {
-        c = [];      
+        c = [];
       }
-      
+
       for (var i=0; i<c.length; i++) {
         descArr.push(c[i]);
       }
     }
-    
+
     // check TreeFolder items: Only neccessary for qooxdoo versions < 0.8.3
     else {
       if (node.getItems) {
@@ -3035,12 +3036,12 @@ PageBot.prototype._getQxNodeDescendants = function(node)
         }
       }
     }
-    
+
     if (node.getMenu) {
       LOG.debug("Getting child menu");
       descArr.push(node.getMenu());
     }
-    
+
     // check internal children (e.g. child controls)
     if (node._getChildren) {
       LOG.debug("getQxNodeDescendants: using _getChildren() to retrieve descendants of " + node);
@@ -3049,20 +3050,20 @@ PageBot.prototype._getQxNodeDescendants = function(node)
         descArr.push(c[i]);
       }
     }
-    
+
     // use JS object members
     if (!(node.getChildren || node._getChildren)) {
       LOG.debug("getQxNodeDescendants: using JS properties to retrieve descendants");
       for (var m in node) {
         var objMember = node[m];
-        if (!objMember || typeof objMember !== "object" || 
+        if (!objMember || typeof objMember !== "object" ||
         !node.hasOwnProperty(m) || !objMember.toHashCode) {
           continue;
         }
         descArr.push(objMember);
       }
     }
-    
+
   }
 
   // only select useful subnodes (only objects, no circular refs, etc.)
@@ -3143,7 +3144,7 @@ PageBot.prototype.qx._getGeneralProperty = function(actobj, attrib, qx)
 
 // code from qx.html.EventRegistration.js
 
-PageBot.prototype._addEventListener = function(vElement, vType, vFunction) 
+PageBot.prototype._addEventListener = function(vElement, vType, vFunction)
 {
   if(vElement.attachEvent)
   {
@@ -3155,7 +3156,7 @@ PageBot.prototype._addEventListener = function(vElement, vType, vFunction)
 };
 
 
-PageBot.prototype._removeEventListener = function(vElement, vType, vFunction) 
+PageBot.prototype._removeEventListener = function(vElement, vType, vFunction)
 {
   if(vElement.detachEvent)
   {
@@ -3207,22 +3208,22 @@ PageBot.prototype._getWinHeight = function(w)
   }
 };
 
-/** 
+/**
  * Drags an element and drops it on another element. The second parameter is the
  * locator of the drop target element, e.g.:
- * 
+ *
  * qxDragAndDropToObject("qxhv=/qx.ui.form.List/child[0]", "qxhv=qx.ui.form.TextArea");
- * 
- * For qx.ui.table.Table and widgets that inherit from it, drag operations 
+ *
+ * For qx.ui.table.Table and widgets that inherit from it, drag operations
  * starting from a specific table cell are supported. In this case, the parameters
  * string must contain the information needed to target a cell, as expected by
  * {@link doQxTableClick}, e.g.:
- * 
- * qxDragAndDropToObject("qxhv=/qx.ui.table.Table", 
+ *
+ * qxDragAndDropToObject("qxhv=/qx.ui.table.Table",
  * "qxhv=qx.ui.form.TextArea,row=5,cell=3");
- * 
+ *
  * @param locatorOfObjectToBeDragged {String} an element to be dragged
- * @param options {String} an element whose location (i.e., whose center-most 
+ * @param options {String} an element whose location (i.e., whose center-most
  * pixel) will be the point where the dragged element is dropped
  */
 Selenium.prototype.doQxDragAndDropToObject = function(locatorOfObjectToBeDragged, options) {
@@ -3246,39 +3247,39 @@ Selenium.prototype.__doQxDragAndDropToObject = function(locatorOfObjectToBeDragg
   var endY = Math.round(destinationTopY + (destinationHeight / 2));
   var deltaX = endX - startX;
   var deltaY = endY - startY;
-  var movementsString = "" + deltaX + "," + deltaY;  
+  var movementsString = "" + deltaX + "," + deltaY;
   this.doQxDragAndDrop(locatorOfObjectToBeDragged, movementsString, locatorOfDragDestinationObject);
 };
 
 /**
- * Simulates a drag and drop operation starting on a table cell and ending on 
+ * Simulates a drag and drop operation starting on a table cell and ending on
  * any element or widget.
- * 
+ *
  * The parameters argument must specify a target cell using the same syntax as
- * {@link #doQxTableClick}, e.g. "row=10,col=3" as well as a locator that 
- * identifies the target for the operation, e.g. 
+ * {@link #doQxTableClick}, e.g. "row=10,col=3" as well as a locator that
+ * identifies the target for the operation, e.g.
  * "target=qxhv=qx.ui.form.TextArea".
- * 
+ *
  * @param locator {String} Table locator
- * @param parameters {String} String defining the origin row/cell and the target 
- * element locator 
+ * @param parameters {String} String defining the origin row/cell and the target
+ * element locator
  */
 Selenium.prototype.__doQxDragAndDropFromTableToObject = function(locator, parameters)
 {
   var qxObject = this.__getQxTableByLocator(locator);
-  
+
   var element = this.__getTableClipperElement(locator, qxObject);
-  
+
   if (!element) {
     throw new SeleniumError("Could not find clipper child of the table");
   }
 
   var additionalParamsForClick = this.__getParameterMap(parameters);
-  
+
   var rowCol = this.__getQxTableRowColFromParameters(additionalParamsForClick, qxObject);
   var row = rowCol[0];
   var col = rowCol[1];
-  
+
   LOG.debug("Targeting Row(" + row + ") Column(" + col + ")");
 
   // Adjust our row number to match the rows that are currently visible:
@@ -3288,10 +3289,10 @@ Selenium.prototype.__doQxDragAndDropFromTableToObject = function(locator, parame
   row = row - firstRow;
 
   var coordsXY = this.__getCellCoordinates(col, row, qxObject, element);
-  
+
   var targetLocator = additionalParamsForClick.target;
   LOG.debug("target locator: " + targetLocator);
-  
+
   var startX = coordsXY[0];
   var startY = coordsXY[1];
   var destinationLeftX = this.getElementPositionLeft(targetLocator);
@@ -3302,11 +3303,11 @@ Selenium.prototype.__doQxDragAndDropFromTableToObject = function(locator, parame
   var endY = Math.round(destinationTopY + (destinationHeight / 2));
   var deltaX = endX - startX;
   var deltaY = endY - startY;
-  var movementsString = "" + deltaX + "," + deltaY;  
+  var movementsString = "" + deltaX + "," + deltaY;
   this.__doQxDragAndDrop(element, startX, startY, movementsString, targetLocator);
 };
 
-Selenium.prototype.getElementPositionLeft = function(locator) {       
+Selenium.prototype.getElementPositionLeft = function(locator) {
   /**
    * Retrieves the horizontal position of an element
    *
@@ -3430,7 +3431,7 @@ Selenium.prototype.getElementWidth = function(locator) {
   var element = this.page().findElement(locator);
   return element.offsetWidth;
 };
-    
+
 Selenium.prototype.getElementHeight = function(locator) {
  /**
   * Retrieves the height of an element
@@ -3448,7 +3449,7 @@ Selenium.prototype.doQxDragAndDrop = function(locator, movementsString, targetLo
   var pos = qx.bom.element.Location.get(element);
   var clientStartX = pos["left"];
   var clientStartY = pos["top"];
-  
+
   this.__doQxDragAndDrop(element, clientStartX, clientStartY, movementsString, targetLocator);
 };
 
@@ -3475,13 +3476,13 @@ Selenium.prototype.__doQxDragAndDrop = function(element, clientStartX, clientSta
   catch(ex) {
     root = this.page().findElement("//body");
   }
-  
+
   var newEventParamString = "" + ",clientX=" + clientStartX + ",clientY=" + clientStartY;
-  var additionalParamsForClick = new Selenium.prototype.qx.MouseEventParameters(newEventParamString);  
+  var additionalParamsForClick = new Selenium.prototype.qx.MouseEventParameters(newEventParamString);
   Selenium.prototype.qx.triggerMouseEventQx('mousedown', element, additionalParamsForClick);
-  Selenium.prototype.qx.triggerMouseEventQx('mouseover', root, additionalParamsForClick); 
+  Selenium.prototype.qx.triggerMouseEventQx('mouseover', root, additionalParamsForClick);
   Selenium.prototype.qx.triggerMouseEventQx('mousemove', root, additionalParamsForClick);
-  
+
   var clientX = clientStartX;
   var clientY = clientStartY;
   while ((clientX != clientFinishX) || (clientY != clientFinishY)) {
@@ -3511,8 +3512,8 @@ Selenium.prototype.__doQxDragAndDrop = function(element, clientStartX, clientSta
 
 
 /**
- * Finds an element by evaluating a JavaScript code snippet 
- * 
+ * Finds an element by evaluating a JavaScript code snippet
+ *
  * @param {String} The JavaScript code that returns the element
  * @param {Object} inDocument The AUT's document
  * @param {Object} inWindow The AUT's window object
@@ -3523,18 +3524,18 @@ PageBot.prototype.locateElementByQxscript = function(qxFunction, inDocument, inW
   LOG.info("Locate Element by qooxdoo function= " + qxFunction + ", inDocument=" + inDocument + ", inWindow=" + inWindow.location.href);
   this.qx.seenNodes = [];
   var qxObject = false;
-  
+
   if (inWindow.wrappedJSObject) {
     inWindow = inWindow.wrappedJSObject;
   }
 
   try {
-    qxObject = eval.call(inWindow, qxFunction);    
+    qxObject = eval.call(inWindow, qxFunction);
   }
   catch(ex) {
     LOG.error("locateElementByQxfunc: Error while running the code snippet: " + ex);
   }
-  
+
   if (qxObject) {
     return this._getDomElementFromWidget(qxObject);
   } else {
