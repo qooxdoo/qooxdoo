@@ -53,7 +53,7 @@
  *     alert("Index: " + evt.getData())
  *   }, this);
  *
- *   this.getRoot.add(list);
+ *   this.getRoot().add(list);
  * </pre>
  *
  * This example creates a list with a delegate that configures the list item with
