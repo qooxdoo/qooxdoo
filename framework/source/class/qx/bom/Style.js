@@ -37,6 +37,12 @@ qx.Bootstrap.define("qx.bom.Style",
     __cssName : {},
 
     /**
+     * A reference to the native CSS.supports function (supportsCSS in Opera)
+     * @internal
+     */
+    __supports : null,
+
+    /**
      * Takes the name of a style property and returns the name the browser uses
      * for its implementation, which might include a vendor prefix.
      *
@@ -101,8 +107,9 @@ qx.Bootstrap.define("qx.bom.Style",
 
 
     /**
-     * Detects CSS support by applying a style to a DOM element of the given type
-     * and verifying the result. Also checks for vendor-prefixed variants of the
+     * Detects CSS support by using the native CSS.supports function or by
+     * applying a style to a DOM element of the given type and verifying
+     * the result. Also checks for vendor-prefixed variants of the
      * value, e.g. "linear-gradient" -> "-webkit-linear-gradient". Returns the
      * (possibly vendor-prefixed) value if successful or <code>null</code> if
      * the property and/or value are not supported.
@@ -117,23 +124,38 @@ qx.Bootstrap.define("qx.bom.Style",
      */
     getAppliedStyle : function(element, propertyName, value, prefixed)
     {
+      var cssProperty = qx.bom.Style.getCssName(propertyName);
+      var win = qx.dom.Node.getWindow(element);
+
       var vendorPrefixes = (prefixed !== false) ?
         [null].concat(this.VENDOR_PREFIXES) : [null];
 
       for (var i=0, l=vendorPrefixes.length; i<l; i++) {
+        var supported = false;
         var prefixedVal = vendorPrefixes[i] ?
           "-" + vendorPrefixes[i].toLowerCase() + "-" + value : value;
-        // IE might throw an exception
-        try {
-          element.style[propertyName] = prefixedVal;
-          if (typeof element.style[propertyName] == "string" &&
-            element.style[propertyName] !== "")
-          {
-            return prefixedVal;
-          }
-        } catch(ex) {}
+
+        if (qx.bom.Style.__supports) {
+          supported = qx.bom.Style.__supports.call(win, cssProperty, prefixedVal);
+        } else {
+          element.style.cssText += cssProperty + ":" + prefixedVal + ";";
+          supported = (typeof element.style[propertyName] == "string" &&
+          element.style[propertyName] !== "");
+        }
+
+        if (supported) {
+          return prefixedVal;
+        }
       }
       return null;
+    }
+  },
+
+  defer : function(statics) {
+    if (window.CSS && window.CSS.supports) {
+      qx.bom.Style.__supports = window.CSS.supports.bind(window.CSS);
+    } else if (window.supportsCSS) {
+      qx.bom.Style.__supports = window.supportsCSS.bind(window);
     }
   }
 });
