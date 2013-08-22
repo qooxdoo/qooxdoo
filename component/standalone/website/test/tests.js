@@ -2797,7 +2797,7 @@ testrunner.define({
 
   setUp : function(){
     testrunner.globalSetup.call(this);
-    this.__iframe = q.create('<iframe src="media.html" width="500" height="400" name="Testframe"></iframe>');
+    this.__iframe = q.create('<iframe src="media.html" frameborder="0" width="500" height="400" name="Testframe"></iframe>');
     this.__iframe.appendTo(this.sandbox[0]);
   },
 
@@ -2825,7 +2825,7 @@ testrunner.define({
       iframe.contentWindow.postMessage("all and (orientation:landscape)",'*');
     },100);
 
-    this.wait(200);
+    this.wait(1000);
   },
 
   testMinWidth : function(){
@@ -2846,7 +2846,7 @@ testrunner.define({
       iframe.contentWindow.postMessage("all and (min-width:500px)",'*');
     },100);
 
-    this.wait(200);
+    this.wait(1000);
   },
 
   testMaxWidth : function(){
@@ -2866,7 +2866,7 @@ testrunner.define({
       iframe.contentWindow.postMessage("all and (max-width:500px)",'*');
     },100);
 
-    this.wait(200);
+    this.wait(1000);
   },
 
   testAnd : function(){
@@ -2886,7 +2886,7 @@ testrunner.define({
       iframe.contentWindow.postMessage("screen and (min-width: 400px) and (max-width: 700px)",'*');
     },100);
 
-    this.wait(200);
+    this.wait(1000);
   },
 
   testMinHeight : function(){
@@ -2905,7 +2905,7 @@ testrunner.define({
       iframe.contentWindow.postMessage("all and (min-height:500px)",'*');
     },100);
 
-    this.wait(200);
+    this.wait(1000);
   },
 
   testColor : function(){
@@ -2924,7 +2924,7 @@ testrunner.define({
       iframe.contentWindow.postMessage("all and (min-color: 1)",'*');
     },100);
 
-    this.wait(200);
+    this.wait(1000);
   },
 
   testCombined : function(){
@@ -2944,7 +2944,7 @@ testrunner.define({
       iframe.contentWindow.postMessage("(min-width: 700px) and (orientation: landscape)",'*');
     },100);
 
-    this.wait(200);
+    this.wait(1000);
   },
 
   testDeviceWidth : function(){
@@ -2962,7 +2962,7 @@ testrunner.define({
       iframe.contentWindow.postMessage("screen and (max-device-width: 799px)",'*');
     },100);
 
-    this.wait(200);
+    this.wait(1000);
   },
 
   testWidth : function(){
@@ -2980,7 +2980,7 @@ testrunner.define({
       iframe.contentWindow.postMessage("screen and (width: 800px)",'*');
     },100);
 
-    this.wait(200);
+    this.wait(1000);
   },
 
   testPixelratio : function(){
@@ -2998,7 +2998,7 @@ testrunner.define({
       iframe.contentWindow.postMessage("screen and (width: 800px)",'*');
     },100);
 
-    this.wait(200);
+    this.wait(1000);
   },
 
   testNot : function(){
@@ -3015,7 +3015,7 @@ testrunner.define({
       iframe.contentWindow.postMessage("not screen and (min-width: 800px)",'*');
     },100);
 
-    this.wait(200);
+    this.wait(1000);
   }
 
 });
