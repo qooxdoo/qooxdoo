@@ -244,7 +244,7 @@ qx.Class.define("qx.event.type.Drag",
      * @param isAllowed {Boolean} False if a drop should be disallowed
      */
     setDropAllowed : function(isAllowed) {
-      this.getManager().setDropAllowed(false);
+      this.getManager().setDropAllowed(isAllowed);
     },
 
 
