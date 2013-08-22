@@ -169,23 +169,3 @@ class MClassI18N(object):
         return result
 
 
-    def _concatOperation_1(self, node):
-        result = ""
-        assert node.type=="operation" and node.get("operator")=="ADD", "Can only process concatenation of string literals"
-
-        try:
-            first = node.getChildByPosition(0).getChildByTypeAndAttribute("constant", "constantType", "string")
-            result += first.get("value")
-
-            second = node.getChildByPosition(1).getFirstChild(True, True)
-            if second.type == "operation" and second.get("operator")=="ADD":
-                result += self._concatOperation(second)
-            else:
-                result += second.get("value")
-
-        except NodeAccessException:
-            console.warn("Unknown expression as argument to translation method (%s:%s)" % (treeutil.getFileFromSyntaxItem(node), node.get("line"),))
-
-        return result
-
-
