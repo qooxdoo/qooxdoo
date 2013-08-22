@@ -34,6 +34,10 @@
  * from the methods API, there is no way to override an existing key. So if you
  * need to change a qooxdoo setting, you have to use the generator to do so.
  *
+ * The generator is also responsible for requiring the necessary implementation
+ * classes for each check. When using a check of a new category, make sure to
+ * rebuild you application and let the generator include the necessary files.
+ *
  * The following table shows the available checks. If you are
  * interested in more details, check the reference to the implementation of
  * each check. Please do not use those check implementations directly, as the
