@@ -81,6 +81,7 @@ qx.Class.define("qx.ui.form.Button",
     this.addListener("mouseout", this._onMouseOut);
     this.addListener("mousedown", this._onMouseDown);
     this.addListener("mouseup", this._onMouseUp);
+    this.addListener("click", this._onClick);
 
     this.addListener("keydown", this._onKeyDown);
     this.addListener("keyup", this._onKeyUp);
@@ -312,6 +313,16 @@ qx.Class.define("qx.ui.form.Button",
           this.execute();
         }
       }
+      e.stopPropagation();
+    },
+
+
+    /**
+     * Listener method for "click" event which stops the propagation.
+     *
+     * @param e {qx.event.type.Mouse} Mouse event
+     */
+    _onClick : function(e) {
       e.stopPropagation();
     },
 
