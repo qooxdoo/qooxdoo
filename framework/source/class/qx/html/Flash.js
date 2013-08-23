@@ -177,7 +177,7 @@ qx.Class.define("qx.html.Flash",
         }
       }
 
-      if (this.__flash) {
+      if (this.__flash && key !== "$$widget") {
         throw new Error("The attributes cannot be modified after initial creation");
       }
 
