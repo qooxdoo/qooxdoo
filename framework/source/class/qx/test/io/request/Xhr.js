@@ -197,6 +197,25 @@ qx.Class.define("qx.test.io.request.Xhr",
       obj.dispose();
     },
 
+    "test: serialize data": function() {
+      var req = this.req,
+          data = {"abc": "def", "uvw": "xyz"},
+          contentType = "application/json";
+
+      this.assertNull(req._serializeData(null));
+      this.assertEquals("leaveMeIntact", req._serializeData("leaveMeIntact"));
+      this.assertEquals("abc=def&uvw=xyz", req._serializeData(data));
+
+      req.setRequestHeader("Content-Type", "arbitrary/contentType");
+      this.assertEquals("abc=def&uvw=xyz", req._serializeData(data));
+
+      req.setRequestHeader("Content-Type", contentType);
+      this.assertEquals('{"abc":"def","uvw":"xyz"}', req._serializeData(data));
+
+      req.setRequestHeader("Content-Type", contentType);
+      this.assertEquals('[1,2,3]', req._serializeData([1,2,3]));
+    },
+
     //
     // Header and Params (cont.)
     //

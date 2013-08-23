@@ -147,6 +147,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
       this.assertEquals("abc=def&uvw=xyz", this.req._serializeData(data));
       this.assertEquals("abc=def&uvw=xyz", this.req._serializeData(data, "arbitrary/contentType"));
       this.assertEquals('{"abc":"def","uvw":"xyz"}', this.req._serializeData(data, contentType));
+      this.assertEquals('[1,2,3]', this.req._serializeData([1,2,3], contentType));
     },
 
     //

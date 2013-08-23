@@ -484,10 +484,12 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
         return data;
       }
 
+      if (isJson && (qx.lang.Type.isObject(data) || qx.lang.Type.isArray(data))) {
+        return qx.lang.Json.stringify(data);
+      }
+
       if (qx.lang.Type.isObject(data)) {
-        serializedData = (isJson) ? qx.lang.Json.stringify(data)
-                                  : qx.util.Uri.toParameter(data, isPost);
-        return serializedData;
+        return qx.util.Uri.toParameter(data, isPost);
       }
     },
 
