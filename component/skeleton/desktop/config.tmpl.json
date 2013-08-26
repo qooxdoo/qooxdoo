@@ -15,6 +15,7 @@
     "build",
     "clean",
     "distclean",
+    "dependencies",
     "fix",
     "info",
     "inspector",
