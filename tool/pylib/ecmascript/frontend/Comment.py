@@ -148,20 +148,6 @@ def nameToDescription(name):
 
     return desc
 
-##
-# Parsed comments are represented as lists of "attributes". This is a schematic:
-# [{
-#   'category' : 'description'|'param'|'throws'|'return'| ... (prob. all '@' tags),
-#   'text'     : <descriptive string>,
-#   'name'     : <name e.g. param name>,
-#   'defaultValue' : <param default value>,
-#   'type'     : [{                    (array for alternatives, e.g. "{Map|null}")
-#     'type': 'Map'|'String'|...,   (from e.g. "{String[]}")
-#     'dimensions': <int>  (0 = scalar, 1 = array, ...)
-#   }]
-# }]
-#
-
 def getAttrib(attribList, category):
     for attrib in attribList:
         if attrib["category"] == category:
@@ -327,7 +313,6 @@ class Comment(object):
             line_no = 1  # pretend '/**' was 1, next is 2
             section_lines = [[line_no,'']]  # add a fake empty description
             in_hint = 0
-            comment_lines = comment_lines[1:]  # there is an artefact emtpy first line
             for line in comment_lines:
                 if hint_sign.search(line):
                     section_lines.append([line_no,line])  # new section
