@@ -316,7 +316,6 @@ class Comment(object):
             line_no = 1  # pretend '/**' was 1, next is 2
             section_lines = [[line_no,'']]  # add a fake empty description
             in_hint = 0
-            comment_lines = comment_lines[1:]  # there is an artefact emtpy first line
             for line in comment_lines:
                 if hint_sign.search(line):
                     section_lines.append([line_no,line])  # new section
