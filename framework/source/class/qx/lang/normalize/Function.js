@@ -181,10 +181,10 @@ qx.Bootstrap.define("qx.lang.normalize.Function", {
         // 17. Set the attributes of the length own property of F to the values
         //   specified in 15.3.5.1.
 
-        // TODO
+        // (Not implemented but in the spec)
         // 18. Set the [[Extensible]] internal property of F to true.
 
-        // TODO
+        // (Not implemented but in the spec)
         // 19. Let thrower be the [[ThrowTypeError]] function Object (13.2.3).
         // 20. Call the [[DefineOwnProperty]] internal method of F with
         //   arguments "caller", PropertyDescriptor {[[Get]]: thrower, [[Set]]:

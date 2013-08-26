@@ -167,9 +167,6 @@ qx.Class.define("qx.ui.table.pane.Model",
     {
       this.__columnCount = null;
 
-      // TODO: Check whether the column is in this model (This is a little bit
-      //     tricky, because the column could _have been_ in this model, but is
-      //     not in it after the change)
       this.fireEvent(qx.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
     },
 

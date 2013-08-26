@@ -242,12 +242,6 @@ qx.Class.define("qx.test.ui.Destroy",
     },
 
 
-    testProgressive : function()
-    {
-      // TODO
-    },
-
-
     testSplitPane : function()
     {
       this.assertDestroy(function()
@@ -394,12 +388,6 @@ qx.Class.define("qx.test.ui.Destroy",
 
         group.destroy();
       });
-    },
-
-
-    testTreeVirtual : function()
-    {
-      // TODO
     },
 
 

@@ -128,7 +128,6 @@ qx.Class.define("qx.test.io.request.Xhr",
     },
 
     "test: send sync request": function() {
-      // TODO: Firefox: "Access to restricted URI denied"
       this.require(["http"]);
 
       this.setUpFakeTransport();
@@ -314,7 +313,6 @@ qx.Class.define("qx.test.io.request.Xhr",
     //
 
     "test: sync XHR properties for every readyState": function() {
-      // TODO: Status is [0, 200, 200, 200] when from file://
       this.require(["http"]);
 
       this.setUpFakeServer();

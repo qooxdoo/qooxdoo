@@ -299,10 +299,6 @@ qx.Class.define("qx.util.format.DateFormat",
      */
     __getWeekInYear : function(date)
     {
-      // This algorithm gets the correct calendar week after ISO 8601.
-      // This standard is used in almost all european countries.
-      // TODO: In the US week in year is calculated different!
-      // See http://www.merlyn.demon.co.uk/weekinfo.htm
       // The following algorithm comes from http://www.salesianer.de/util/kalwoch.html
       // Get the thursday of the week the date belongs to
       var thursdayDate = this.__thursdayOfSameWeek(date);
@@ -499,7 +495,6 @@ qx.Class.define("qx.util.format.DateFormat",
 
           switch(wildcardChar)
           {
-              // TODO: F - Day of week in month (e.g.   2). Problem: What is this?
             case 'y': // Year
               if (wildcardSize == 2) {
                 replacement = this.__fillNumber(fullYear % 100, 2);
@@ -835,9 +830,7 @@ qx.Class.define("qx.util.format.DateFormat",
         date = new Date(date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate(),date.getUTCHours(),date.getUTCMinutes(),date.getUTCSeconds(),date.getUTCMilliseconds());
       }
 
-      if (dateValues.month != date.getMonth() || dateValues.year != date.getFullYear())
-      {
-        // TODO: check if this is also necessary for the time components
+      if (dateValues.month != date.getMonth() || dateValues.year != date.getFullYear()) {
         throw new Error("Error parsing date '" + dateStr + "': the value for day or month is too large");
       }
 

@@ -120,14 +120,6 @@ qx.Class.define("qx.test.Xml",
           qx.xml.Element.selectSingleNode(doc, q2, nsMap);
         }, Error, "DOM Exception 14", "Namespaced XPath query worked in Chrome < 532.2!");
       }
-      // Older versions of Opera don't support XPathEvaluate.
-      // TODO: Define XPathEvaluate as a requirement for this test once the
-      // feature described in bug #1994 has been implemented.
-      else if (qx.core.Environment.get("engine.name") == "opera" &&
-        parseFloat(qx.core.Environment.get("engine.version")) < 9.5)
-      {
-        return true;
-      }
       else {
         var n1 = qx.xml.Element.selectSingleNode(doc, q1, nsMap);
         var s1 = qx.xml.Element.serialize(n1);
@@ -140,7 +132,6 @@ qx.Class.define("qx.test.Xml",
         var n3 = qx.xml.Element.selectNodes(doc, q3, nsMap);
         var n4 = qx.xml.Element.selectNodes(n3[0], q2, nsMap);
         var s4 = qx.xml.Element.serialize(n4[0]);
-        // this.debug("Found node: " + s4);
         this.assertEquals(s4, fooStr);
       }
     },
