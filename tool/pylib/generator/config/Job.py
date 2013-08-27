@@ -25,6 +25,7 @@ import os, sys, re, types, string, copy
 from misc.ExtMap import ExtMap
 from generator.config.Lang import Key
 from generator.config.Lang import Let
+from misc import json
 
 console = None
 
@@ -318,6 +319,7 @@ class Job(object):
         possiblyBin = re.match(r'^\${(.*)}$', s)   # look for '${...}' as a bin replacement
         if possiblyBin:
             macro = possiblyBin.group(1)
+
         if macro and (macro in mapbin.keys()):
             replval = mapbin[macro]
             if isinstance(replval, types.DictType):
@@ -327,10 +329,14 @@ class Job(object):
         else:
             templ = string.Template(s)
             #sub = templ.safe_substitute(mapstr)
+            # allow stringyfied value of bin macros to be spliced into result value
+            mapall = mapstr.copy()
+            mapall.update(dict((k,json.dumpsCode(v)) for (k,v) in mapbin.items()))
             try:
-                sub = templ.substitute(mapstr)
+                sub = templ.substitute(mapall)
             except KeyError, e:
                 raise ValueError("Macro left undefined in job (%s): '%s'\n(might be from an included config)" % (self.name, e.args[0]))
+
         return sub
 
 
