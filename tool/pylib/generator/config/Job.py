@@ -328,7 +328,6 @@ class Job(object):
                 sub = replval   # array references are ok for now
         else:
             templ = string.Template(s)
-            #sub = templ.safe_substitute(mapstr)
             # allow stringyfied value of bin macros to be spliced into result value
             mapall = mapstr.copy()
             mapall.update(dict((k,json.dumps(v)) for (k,v) in mapbin.items()))
