@@ -331,7 +331,7 @@ class Job(object):
             #sub = templ.safe_substitute(mapstr)
             # allow stringyfied value of bin macros to be spliced into result value
             mapall = mapstr.copy()
-            mapall.update(dict((k,json.dumpsCode(v)) for (k,v) in mapbin.items()))
+            mapall.update(dict((k,json.dumps(v)) for (k,v) in mapbin.items()))
             try:
                 sub = templ.substitute(mapall)
             except KeyError, e:
