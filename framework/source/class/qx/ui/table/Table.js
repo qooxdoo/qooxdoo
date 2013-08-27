@@ -1621,7 +1621,7 @@ qx.Class.define("qx.ui.table.Table",
           scrollerArr[i].setFocusedCell(col, row);
         }
 
-        if (col !== null && scrollVisible) {
+        if (col != null && scrollVisible) {
           this.scrollCellVisible(col, row);
         }
       }
