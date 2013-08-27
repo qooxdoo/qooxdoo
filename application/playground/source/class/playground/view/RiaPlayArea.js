@@ -124,6 +124,10 @@ qx.Class.define("playground.view.RiaPlayArea",
       this.__playField.getChildren = this.__playField._getChildren =
         function() { return [self._playRoot]; };
 
+      // copy the initial size which is availbale due to the flush at the beginning
+      this._playRoot.setMinWidth(this.__playField.getBounds().width);
+      this._playRoot.setMinHeight(this.__playField.getBounds().height);
+
       this.__playField.addListener("resize", function(e) {
         var data = e.getData();
         this._playRoot.setMinWidth(data.width);
