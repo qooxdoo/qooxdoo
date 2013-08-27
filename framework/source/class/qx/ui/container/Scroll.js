@@ -42,7 +42,7 @@
  *     minWidth: 600,
  *     height: 400,
  *     minHeight: 400
- *   });
+ *   }));
  *
  *   this.getRoot().add(scroll);
  * </pre>
