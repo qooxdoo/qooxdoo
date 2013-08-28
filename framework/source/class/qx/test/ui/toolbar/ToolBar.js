@@ -58,6 +58,71 @@ qx.Class.define("qx.test.ui.toolbar.ToolBar",
     },
 
 
+    testPositionStates : function() {
+      var part = new qx.ui.toolbar.Part();
+      part.add(this.__b1);
+      part.add(this.__b2);
+      part.add(this.__b3);
+      this.__toolbar.add(part);
+
+      this.getRoot().add(this.__toolbar);
+      this.flush();
+
+      this.assertTrue(this.__b1.hasState("left"));
+      this.assertTrue(this.__b2.hasState("middle"));
+      this.assertTrue(this.__b3.hasState("right"));
+
+      part.dispose();
+    },
+
+
+    testPositionStatesAdd : function() {
+      var part = new qx.ui.toolbar.Part();
+      part.add(this.__b1);
+      part.add(this.__b3);
+      this.__toolbar.add(part);
+
+      this.getRoot().add(this.__toolbar);
+      this.flush();
+
+      this.assertTrue(this.__b1.hasState("left"));
+      this.assertTrue(this.__b3.hasState("right"));
+
+      part.addAt(this.__b2, 1);
+      this.flush();
+
+      this.assertTrue(this.__b1.hasState("left"));
+      this.assertTrue(this.__b2.hasState("middle"));
+      this.assertTrue(this.__b3.hasState("right"));
+
+      part.dispose();
+    },
+
+
+    testPositionStatesRemove : function() {
+      var part = new qx.ui.toolbar.Part();
+      part.add(this.__b1);
+      part.add(this.__b2);
+      part.add(this.__b3);
+      this.__toolbar.add(part);
+
+      this.getRoot().add(this.__toolbar);
+      this.flush();
+
+      this.assertTrue(this.__b1.hasState("left"));
+      this.assertTrue(this.__b2.hasState("middle"));
+      this.assertTrue(this.__b3.hasState("right"));
+
+      part.remove(this.__b1);
+      this.flush();
+
+      this.assertTrue(this.__b2.hasState("left"));
+      this.assertTrue(this.__b3.hasState("right"));
+
+      part.dispose();
+    },
+
+
     testShowUserValueShouldTakePrecedence : function() {
       // setup toolbar with two buttons
       this.__toolbar.add(this.__b1);
