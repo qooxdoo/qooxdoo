@@ -473,8 +473,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      */
     _serializeData: function(data, contentType) {
       var isPost = this.getMethod() === "POST",
-          isJson = (/application\/.*\+?json/).test(contentType),
-          serializedData = "";
+          isJson = (/application\/.*\+?json/).test(contentType);
 
       if (!data) {
         return null;
@@ -491,6 +490,8 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
       if (qx.lang.Type.isObject(data)) {
         return qx.util.Uri.toParameter(data, isPost);
       }
+
+      return null;
     },
 
     /*
