@@ -164,7 +164,6 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
      * 30ms delay. The HighResolutionTime will be used if supported but the time given
      * to the callback will still be a timestamp starting at 1 January 1970 00:00:00 UTC.
      *
-     * @ignore(performance.timing.*)
      * @param callback {Function} The callback function which will get the current
      *   time as argument (which could be a float for higher precision).
      * @param context {var} The context of the callback.
@@ -194,7 +193,9 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
     }
   },
 
-
+  /**
+   * @ignore(performance.timing.*)
+   */
   defer : function(statics) {
     // check and use the high resolution start time if available
     statics.__start = window.performance && performance.timing && performance.timing.navigationStart;
