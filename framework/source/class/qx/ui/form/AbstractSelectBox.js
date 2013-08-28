@@ -62,6 +62,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
     // register mouse wheel listener
     var root = qx.core.Init.getApplication().getRoot();
+    // @depreacted{3.1} Mouse wheel
     root.addListener("mousewheel", this._onMousewheel, this, true);
 
     // register the resize listener
@@ -316,23 +317,9 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      * Close the pop-up if the mousewheel event isn't on the pup-up window.
      *
      * @param e {qx.event.type.Mouse} Mousewheel event.
+     * @deprecated{3.1} The widget does not need a mousewheel handler anymore.
      */
-    _onMousewheel : function(e)
-    {
-      var target = e.getTarget();
-      var popup = this.getChildControl("popup", true);
-
-      if (popup == null) {
-        return;
-      }
-
-      if (qx.ui.core.Widget.contains(popup, target)) {
-        // needed for ComboBox widget inside an inline application
-        e.preventDefault();
-      } else {
-        this.close();
-      }
-    },
+    _onMousewheel : function(e) {},
 
 
     /**
@@ -383,6 +370,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
   destruct : function()
   {
+    // @deprecated{3.1}
     var root = qx.core.Init.getApplication().getRoot();
     if (root) {
       root.removeListener("mousewheel", this._onMousewheel, this, true);

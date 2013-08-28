@@ -282,7 +282,7 @@ qx.Class.define("qx.ui.menu.Menu",
     {
       if (this.getOpener() != null)
       {
-        var isPlaced = this.placeToWidget(this.getOpener());
+        var isPlaced = this.placeToWidget(this.getOpener(), true);
         if(isPlaced) {
           this.__updateSlideBar();
           this.show();
@@ -694,7 +694,7 @@ qx.Class.define("qx.ui.menu.Menu",
         if (!target) {
           return
         } else if (target instanceof qx.ui.core.Widget) {
-          this.placeToWidget(target);
+          this.placeToWidget(target, true);
         } else if (target.top !== undefined) {
           this.placeToPoint(target);
         } else {
