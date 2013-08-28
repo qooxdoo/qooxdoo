@@ -159,15 +159,34 @@ qx.Class.define("qx.bom.History",
     {
       if (!this.$$instance)
       {
-        if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml" && qx.core.Environment.get("browser.documentmode") >= 9) {
+        // in iframe + IE9
+        if (!(window == window.top) 
+          && qx.core.Environment.get("engine.name") == "mshtml" 
+          && qx.core.Environment.get("browser.version") == 9
+        ) {
           this.$$instance = new qx.bom.HashHistory();
-        } else if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml") {
+        } 
+
+        // in iframe + IE<9
+        else if (!(window == window.top) 
+          && qx.core.Environment.get("engine.name") == "mshtml" 
+          && qx.core.Environment.get("browser.version") < 9
+        ) {
           this.$$instance = new qx.bom.IframeHistory();
-        } else if (this.SUPPORTS_HASH_CHANGE_EVENT) {
+        } 
+
+        // browser with hashChange event
+        else if (this.SUPPORTS_HASH_CHANGE_EVENT) {
           this.$$instance = new qx.bom.NativeHistory();
-        } else if ((qx.core.Environment.get("engine.name") == "mshtml")) {
+        } 
+
+        // IE without hashChange event
+        else if ((qx.core.Environment.get("engine.name") == "mshtml")) {
           this.$$instance = new qx.bom.IframeHistory();
-        } else {
+        } 
+
+        // fallback
+        else {
           this.$$instance = new qx.bom.NativeHistory();
         }
       }

@@ -43,14 +43,33 @@ qx.Class.define("qx.test.bom.History", {
 
     testInstance : function()
     {
-      if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml" && qx.core.Environment.get("browser.documentmode") >= 9) {
-        this.assertInstance(this.__history, qx.bom.HashHistory);
-      } else if (!(window == window.top) && qx.core.Environment.get("engine.name") == "mshtml") {
-        this.assertInstance(this.__history, qx.bom.IframeHistory);
-      } else if (qx.core.Environment.get("event.hashchange")) {
-        this.assertInstance(this.__history, qx.bom.NativeHistory);
-      } else if (qx.core.Environment.get("engine.name") == "mshtml") {
-        this.assertInstance(this.__history, qx.bom.IframeHistory);
+      if (!this.$$instance)
+      {
+        // in iframe + IE9
+        if (!(window == window.top) 
+          && qx.core.Environment.get("engine.name") == "mshtml" 
+          && qx.core.Environment.get("browser.version") == 9
+        ) {
+          this.assertInstance(this.__history, qx.bom.HashHistory);
+        } 
+
+        // in iframe + IE<9
+        else if (!(window == window.top) 
+          && qx.core.Environment.get("engine.name") == "mshtml" 
+          && qx.core.Environment.get("browser.version") < 9
+        ) {
+          this.assertInstance(this.__history, qx.bom.IframeHistory);
+        } 
+
+        // browser with hashChange event
+        else if (qx.core.Environment.get("event.hashchange")) {
+          this.assertInstance(this.__history, qx.bom.NativeHistory);
+        } 
+
+        // IE without hashChange event
+        else if ((qx.core.Environment.get("engine.name") == "mshtml")) {
+          this.assertInstance(this.__history, qx.bom.IframeHistory);
+        }
       }
     },
 
