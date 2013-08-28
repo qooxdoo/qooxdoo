@@ -52,6 +52,7 @@
  * frame.startSequence(duration);
  * </pre>
  *
+ * @require(qx.lang.normalize.Date)
  */
 qx.Bootstrap.define("qx.bom.AnimationFrame",
 {
@@ -174,9 +175,8 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
 
       var clb = function(time) {
         // check for high resolution time
-        var navigationStart = window.performance && performance.timing && performance.timing.navigationStart;
-        if (time < 1e10 && navigationStart) {
-          time = navigationStart + time;
+        if (time < 1e10) {
+          time = this.__start + time;
         }
 
         time = time || +(new Date());
@@ -191,6 +191,16 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
           clb();
         }, qx.bom.AnimationFrame.TIMEOUT);
       }
+    }
+  },
+
+
+  defer : function(statics) {
+    // check and use the high resolution start time if available
+    statics.__start = window.performance && performance.timing && performance.timing.navigationStart;
+    // if not, simply use the current time
+    if (!statics.__start) {
+      statics.__start = Date.now();
     }
   }
 });
