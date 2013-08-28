@@ -94,6 +94,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     __startPos : null,
     __lastPos : null,
     __impulseTimerId : null,
+    __impulseRequestId : null,
 
 
     // interface implementation
@@ -160,6 +161,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     __handleScrollImpulse : function(deltaX, deltaY, finger, target, time) {
       // delete the old timer id
       this.__impulseTimerId = null;
+      this.__impulseRequestId = null;
 
       // do nothing if we don't need to scroll
       if (deltaX == 0 && deltaY == 0) {
@@ -183,8 +185,8 @@ qx.Class.define("qx.event.handler.MouseEmulation",
       }
 
       // set up a new timer with the new delta
-      var start = +(new Date())
-      qx.bom.AnimationFrame.request(qx.lang.Function.bind(function(deltaX, deltaY, finger, target, time) {
+      var start = +(new Date());
+      this.__impulseRequestId = qx.bom.AnimationFrame.request(qx.lang.Function.bind(function(deltaX, deltaY, finger, target, time) {
         this.__handleScrollImpulse(deltaX, deltaY, finger, target, time - start);
       }, this, deltaX, deltaY, finger, target));
 
@@ -267,6 +269,12 @@ qx.Class.define("qx.event.handler.MouseEmulation",
       }
       this.__lastPos = {x: nativeEvent.screenX, y: nativeEvent.screenY};
       this.__startPos = {x: nativeEvent.screenX, y: nativeEvent.screenY};
+
+      // stop scrolling if any is happening
+      if (this.__impulseRequestId && window.cancelAnimationFrame) {
+        window.cancelAnimationFrame(this.__impulseRequestId);
+        this.__impulseRequestId = null;
+      }
     },
 
 
