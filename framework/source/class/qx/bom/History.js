@@ -157,20 +157,21 @@ qx.Class.define("qx.bom.History",
      */
     getInstance : function()
     {
+      var runsInIframe = !(window == window.top);
+
       if (!this.$$instance)
       {
         // in iframe + IE9
-        if (!(window == window.top) 
-          && qx.core.Environment.get("engine.name") == "mshtml" 
-          && qx.core.Environment.get("browser.version") == 9
+        if (runsInIframe 
+          && qx.core.Environment.get("browser.documentmode") == 9
         ) {
           this.$$instance = new qx.bom.HashHistory();
         } 
 
         // in iframe + IE<9
-        else if (!(window == window.top) 
+        else if (runsInIframe 
           && qx.core.Environment.get("engine.name") == "mshtml" 
-          && qx.core.Environment.get("browser.version") < 9
+          && qx.core.Environment.get("browser.documentmode") < 9
         ) {
           this.$$instance = new qx.bom.IframeHistory();
         } 
