@@ -920,8 +920,12 @@ qx.Class.define("demobrowser.DemoBrowser",
         var treeNode = this.tree.getSelection()[0];
         var modelNode = treeNode.getUserData("modelLink");
         var demoName = this.tests.handler.getFullName(modelNode);
-        demoName = demoName.replace(".", "~");
-        var fullUrl = location.protocol + "//" + location.host + location.pathname + "#" + demoName;
+        if (qx.core.Environment.get("qx.contrib")) {
+          demoName = demoName.replace(/\|/g, "/");
+        } else {
+          demoName = demoName.replace(".", "~");
+        }
+        var fullUrl = location.protocol + "//" + location.host + location.pathname + "#" + encodeURIComponent(demoName);
         this._urlWindow.getChildren()[0].setValue(fullUrl);
         this._urlWindow.open();
       }, this);
