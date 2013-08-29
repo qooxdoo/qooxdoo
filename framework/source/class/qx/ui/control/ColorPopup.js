@@ -125,6 +125,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
     __boxes : null,
     __colorSelectorWindow : null,
     __colorSelector : null,
+    __buttonBar : null,
     __recentTableId : "recent",
     __fieldNumber : 12,
 
@@ -245,17 +246,17 @@ qx.Class.define("qx.ui.control.ColorPopup",
       win.setResizable(false);
       win.moveTo(20, 20);
 
-      this.__colorSelector = new qx.ui.control.ColorSelector;
+      this.__colorSelector = new qx.ui.control.ColorSelector();
       win.add(this.__colorSelector);
 
-      var buttonBar = new qx.ui.container.Composite(new qx.ui.layout.HBox(8, "right"));
-      win.add(buttonBar);
+      this.__buttonBar = new qx.ui.container.Composite(new qx.ui.layout.HBox(8, "right"));
+      win.add(this.__buttonBar);
 
       var btnCancel = this._createChildControl("colorselector-cancelbutton");
       var btnOk = this._createChildControl("colorselector-okbutton");
 
-      buttonBar.add(btnCancel);
-      buttonBar.add(btnOk);
+      this.__buttonBar.add(btnCancel);
+      this.__buttonBar.add(btnOk);
     },
 
 
@@ -499,7 +500,11 @@ qx.Class.define("qx.ui.control.ColorPopup",
 
   destruct : function()
   {
-    this._disposeObjects("__colorSelectorWindow", "__colorSelector");
+    if (this.__colorSelectorWindow) {
+      this.__colorSelectorWindow.destroy();
+      this.__colorSelector.destroy();
+      this.__buttonBar.destroy();
+    }
     this._tables = this.__boxes = null;
   }
 });
