@@ -684,7 +684,6 @@ class Generator(object):
             libraries.append(libObj)
 
         self._console.dotclear()
-        self._console.nl()
         self._console.outdent()
         self._console.debug("Loaded %s libraries" % len(namespaces))
         self._console.debug("")

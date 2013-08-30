@@ -126,7 +126,6 @@ class Log(object):
         if self._levels[level] >= self._levels[self._level]:  # filter msg according to level
             # check necessary newline
             if self._inProgress:
-                self.nl()
                 self._inProgress = False
 
             # select stream
@@ -139,7 +138,8 @@ class Log(object):
                 stream.write('\n')
 
             if feed:
-                msg += '\n'
+                if not (msg and msg[-1]=='\n'):
+                    msg += '\n'
             stream.write(msg)
             stream.flush()
 
@@ -235,6 +235,7 @@ class Log(object):
         if pos == length:
             self._inProgress = False
             sys.stdout.write("\n")
+            after_newline(True)
             sys.stdout.flush()
 
 

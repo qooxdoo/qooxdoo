@@ -1215,6 +1215,7 @@ def connectPackage(docTree, packageNode):
     if packages:
         packages.children.sort(nameComparator)
         for node in packages.children:
+            Context.console.dot()
             hasError = connectPackage(docTree, node)
             if hasError:
                 childHasError = True
@@ -1223,6 +1224,7 @@ def connectPackage(docTree, packageNode):
     if classes:
         classes.children.sort(nameComparator)
         for node in classes.children:
+            Context.console.dot()
             hasError = connectClass(docTree, node)
             if hasError:
                 childHasError = True
