@@ -494,9 +494,18 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       classHtml.add(this.__getDependentClassesHtml(classNode.getImplementations(), "Implementations of this interface:"));
       classHtml.add(this.__getDependentClassesHtml(classNode.getIncluder(), "Classes including this mixin:"));
 
+      var classSeeAlso = apiviewer.ui.panels.InfoPanel.createSeeAlsoHtml(classNode);
+      classHtml.add(classSeeAlso);
+
       var construct = classNode.getConstructor();
       if (construct) {
-        classHtml.add(apiviewer.ui.panels.InfoPanel.createSeeAlsoHtml(construct));
+        var constructSeeAlso = apiviewer.ui.panels.InfoPanel.createSeeAlsoHtml(construct);
+        if (classSeeAlso) {
+          // Remove the 'See also:' header if one was already created
+          // for the class doc
+          constructSeeAlso = constructSeeAlso.split("</div>").slice(1).join("</div>");
+        }
+        classHtml.add(constructSeeAlso);
       }
 
       if (classNode.isDeprecated())
