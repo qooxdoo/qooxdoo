@@ -92,11 +92,17 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
     {
       var childProperty = this.getUserData("cell.childProperty");
 
-      if (value != null && qx.ui.tree.core.Util.isNode(value, childProperty)) {
+      if (value != null 
+        && qx.ui.tree.core.Util.isNode(value, childProperty)
+        && qx.ui.tree.core.Util.hasChildren(value, childProperty)
+      ) {
         value.get(childProperty).addListener("changeLength", this._onChangeLength, this);
       }
 
-      if (old != null && qx.ui.tree.core.Util.isNode(old, childProperty)) {
+      if (old != null 
+        && qx.ui.tree.core.Util.isNode(old, childProperty)
+        && qx.ui.tree.core.Util.hasChildren(old, childProperty)
+      ) {
         old.get(childProperty).removeListener("changeLength", this._onChangeLength, this);
       }
     },

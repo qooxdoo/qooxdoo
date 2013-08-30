@@ -58,6 +58,9 @@ qx.Class.define("qx.ui.tree.core.Util",
       }
 
       var children = node.get(childProperty);
+      if (!children) {
+        return false;
+      }
       if (!ignoreLeafs) {
         return children.length > 0;
       }
