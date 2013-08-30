@@ -295,6 +295,9 @@ class MClassDependencies(object):
     #
     def dependencies_from_envcalls(self, node):
         depsList = []
+        if 'qx.core.Environment' not in ClassesAll:
+            self.context['console'].warn("No qx.core.Environment available to extract feature keys from")
+            return depsList
         qcEnvClass = ClassesAll['qx.core.Environment']
         for env_operand in variantoptimizer.findVariantNodes(node):
             call_node = env_operand.parent.parent
