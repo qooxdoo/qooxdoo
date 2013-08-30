@@ -32,6 +32,7 @@ qx.Class.define("qx.test.ui.tree.virtual.UtilTest",
         name: "Root", kids: [
           {name: "Node1", kids: [{name: "Leaf1.1"}]},
           {name: "Node2", kids: []},
+          {name: "Node3", kids: null},
           {name: "Leaf1"},
           {name: "Leaf2"}
         ]
@@ -58,7 +59,7 @@ qx.Class.define("qx.test.ui.tree.virtual.UtilTest",
         var item = children.getItem(i);
         var result = qx.ui.tree.core.Util.isNode(item, "kids");
 
-        if (item.getKids != null) {
+        if (item.getKids !== undefined) {
           this.assertTrue(result);      
         } else {
           this.assertFalse(result);
@@ -90,6 +91,7 @@ qx.Class.define("qx.test.ui.tree.virtual.UtilTest",
       this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(1), "kids"));
       this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(2), "kids"));
       this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(3), "kids"));
+      this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(4), "kids"));
     },
 
 
@@ -103,6 +105,7 @@ qx.Class.define("qx.test.ui.tree.virtual.UtilTest",
       this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(1), "kids", true));
       this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(2), "kids", true));
       this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(3), "kids", true));
+      this.assertFalse(qx.ui.tree.core.Util.hasChildren(children.getItem(4), "kids", true));
     },
 
 
