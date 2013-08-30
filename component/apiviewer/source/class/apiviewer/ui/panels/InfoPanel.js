@@ -321,7 +321,11 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           if (seeAlsoLinks.length != 0) {
             seeAlsoLinks.add(", ");
           }
-          seeAlsoLinks.add(this.createItemLinkHtml(see[i], node.getClass()));
+          var link = this.createItemLinkHtml(see[i], node.getClass());
+          if (link.indexOf("http") === 0) {
+            link = "<a target='_blank' href='" + link + "'>" + link + "</a>";
+          }
+          seeAlsoLinks.add(link);
         }
 
         if (!seeAlsoLinks.isEmpty())
@@ -332,7 +336,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
             '<div class="item-detail-headline">', "See also:", '</div>',
             '<div class="item-detail-text">', seeAlsoLinks, '</div>'
           );
-          return seeAlsoHtml.get()
+          return seeAlsoHtml.get();
         }
       }
 
