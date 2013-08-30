@@ -27,6 +27,16 @@ import sys, codecs, inspect, re, cPickle as pickle
 
 from misc import textutil
 
+def after_newline_checker():
+    after_newline = [True]
+    def checker(f=-1):
+        if f in [True, False]:
+            after_newline[0] = f
+        elif f==2:
+            after_newline[0] = not after_newline[0]
+        return after_newline[0]
+    return checker
+after_newline = after_newline_checker()
 
 class Log(object):
     _indent = 0
@@ -125,6 +135,9 @@ class Log(object):
             else:
                 stream = sys.stderr
 
+            if not after_newline():
+                stream.write('\n')
+
             if feed:
                 msg += '\n'
             stream.write(msg)
@@ -134,6 +147,9 @@ class Log(object):
             if self.logfile:
                 self.logfile.write(msg)
                 self.logfile.flush()
+
+            if feed:
+                after_newline(True)
 
 
     def log(self, msg, level="info", feed=True):
@@ -196,6 +212,7 @@ class Log(object):
             return
 
         self._inProgress = True
+        after_newline(False)
 
         if msg:
             totalprefix = '\r' + self.getPrefix() + msg
@@ -230,6 +247,7 @@ class Log(object):
         if stype not in (1,2):
             stype = 1
         sigils_len = len(self.sigils[stype])
+        after_newline(False)
         if self.progress_indication:
             self._inProgress = True
             stream = sys.stdout
@@ -240,7 +258,12 @@ class Log(object):
     def dotclear(self, ok=' '):
         self._inProcess = False
         stream = sys.stdout
-        msg = "\b" if self.progress_indication else "\n"
+        if self.progress_indication:
+            msg = "\b"
+            after_newline(False)
+        else:
+            msg = "\n"
+            after_newline(True)
         stream.write(msg+ok)
         stream.flush()
 
