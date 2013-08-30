@@ -152,7 +152,7 @@ qx.Class.define("qx.test.ui.basic.Label",
         }, this);
       }, this, 1000);
 
-      this.wait(2000);
+      this.wait(3000);
     },
 
     testApplyFontColorAndTextColor: function()
