@@ -90,6 +90,28 @@ qx.Class.define("qx.ui.layout.Canvas",
 
   /*
   *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties : {
+
+    /**
+     * If desktop mode is active, the children's minimum sizes are ignored
+     * by the layout calculation. This is necessary to prevent the desktop
+     * from growing if e.g. a window is moved beyond the edge of the desktop
+     */
+    desktop :
+    {
+      check : "Boolean",
+      init: false
+    }
+  },
+
+
+
+  /*
+  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -306,6 +328,7 @@ qx.Class.define("qx.ui.layout.Canvas",
 
       var children = this._getLayoutChildren();
       var child, props, hint;
+      var desktop = this.isDesktop();
 
       var left, top, right, bottom;
 
@@ -340,7 +363,7 @@ qx.Class.define("qx.ui.layout.Canvas",
         }
 
         neededWidth = Math.max(neededWidth, width);
-        neededMinWidth = Math.max(neededMinWidth, minWidth);
+        neededMinWidth = desktop ? 0 : Math.max(neededMinWidth, minWidth);
 
 
         // Compute height
@@ -362,7 +385,7 @@ qx.Class.define("qx.ui.layout.Canvas",
         }
 
         neededHeight = Math.max(neededHeight, height);
-        neededMinHeight = Math.max(neededMinHeight, minHeight);
+        neededMinHeight = desktop ? 0 : Math.max(neededMinHeight, minHeight);
       }
 
       return {
