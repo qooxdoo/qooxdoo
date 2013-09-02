@@ -90,9 +90,7 @@ def createPackageDoc(text, packageName, docTree = None):
     for attrib in commentAttributes:
         # Add description
         if attrib["category"] == "description":
-            if "text" in attrib:
-                descNode = tree.Node("desc").set("text", attrib["text"])
-                package.addChild(descNode)
+            package = addChildIf(package, *(handleJSDocDecsription(attrib)))
 
         elif attrib["category"] == "see":
             #if not "name" in attrib:
@@ -100,7 +98,7 @@ def createPackageDoc(text, packageName, docTree = None):
             #else:
             #    seeNode = tree.Node("see").set("name", attrib["name"])
             #    package.addChild(seeNode)
-            package = addPotentialError(package, handleJSDocSee(attrib))
+            package = addChildIf(package, *(handleJSDocSee(attrib)))
 
     return docTree
 
@@ -828,11 +826,7 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
 
         # Add description
         if attrib["category"] == "description":
-            if "text" in attrib:
-                if "TODOC" in attrib["text"]:
-                    addError(node, "Documentation is missing.", funcItem)
-                descNode = tree.Node("desc").set("text", attrib["text"])
-                node.addChild(descNode)
+            node = addChildIf(node, *(handleJSDocDecsription(attrib, funcItem)))
 
         elif attrib["category"] == "see":
             #if "name" in attrib:
@@ -840,7 +834,7 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
             #    node.addChild(seeNode)
             #else:
             #    addError(node, "Missing target for see.", funcItem)
-            node = addPotentialError(node, handleJSDocSee(attrib))
+            node = addChildIf(node, *(handleJSDocSee(attrib)))
 
         elif attrib["category"] in ("attach", "attachStatic"):
             if not "targetClass" in attrib:
@@ -973,15 +967,26 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
 #######################################################################################
 
 
-def handleJSDocSee(attrib_see):
+def handleJSDocDecsription(attrib_desc, treeItem=None):
+    descNode = None
+    err_node = None
+    if "text" in attrib_desc:
+        if "TODOC" in attrib_desc["text"]:
+            err_node = createError("Documentation is missing.", treeItem)
+        descNode = tree.Node("desc").set("text", attrib_desc["text"])
+    return descNode, err_node
+         
+def handleJSDocSee(attrib_see, treeItem=None):
+    result_node = None
+    err_node = None
     if not 'name' in attrib_see:
-        result_node = createError("Missing target for see.")
+        err_node = createError("Missing target for see.", treeItem)
     else:
         result_node = tree.Node("see").set("name", attrib_see["name"])
         if "text" in attrib_see:
             desc_node = tree.Node("desc").set("text", attrib_see["text"])
             result_node.addChild(desc_node)
-    return result_node
+    return result_node, err_node
 
 
 def findAttachMethods(docTree):
@@ -1142,11 +1147,14 @@ def addError(node, msg, syntaxItem=None):
     node.addListChild("errors", errorNode)
     node.set("hasError", True)
 
-def addPotentialError(node, child_node):
-    if child_node.type == 'error':
-        node.addListChild("errors", child_node)
+##
+# Adds a child node to <node>, handles error nodes and None as <child_node>.
+# - allows both child and error node at the same time
+def addChildIf(node, child_node, err_node, force=False):
+    if err_node != None:
+        node.addListChild("errors", err_node)
         node.set("hasError", True)
-    else:
+    if child_node != None:
         node.addChild(child_node)
     return node
 
@@ -1210,9 +1218,7 @@ def classNodeFromDocTree(docTree, fullClassName, commentAttributes = None):
         for attrib in commentAttributes:
             # Add description
             if attrib["category"] == "description":
-                if "text" in attrib:
-                    descNode = tree.Node("desc").set("text", attrib["text"])
-                    classNode.addChild(descNode)
+                classNode = addChildIf(classNode, *(handleJSDocDecsription(attrib)))
 
             elif attrib["category"] == "see":
                 #if not "name" in attrib:
@@ -1220,7 +1226,7 @@ def classNodeFromDocTree(docTree, fullClassName, commentAttributes = None):
                 #    continue
                 #seeNode = tree.Node("see").set("name", attrib["name"])
                 #classNode.addChild(seeNode)
-                classNode = addPotentialError(classNode, handleJSDocSee(attrib))
+                classNode = addChildIf(classNode, *(handleJSDocSee(attrib)))
 
         if package:
             if fullClassName in lang.BUILTIN:
