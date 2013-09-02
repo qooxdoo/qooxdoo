@@ -100,7 +100,7 @@ def createPackageDoc(text, packageName, docTree = None):
             #else:
             #    seeNode = tree.Node("see").set("name", attrib["name"])
             #    package.addChild(seeNode)
-            handleJSDocSee(attrib, package)
+            package = addPotentialError(package, handleJSDocSee(attrib))
 
     return docTree
 
@@ -840,7 +840,7 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
             #    node.addChild(seeNode)
             #else:
             #    addError(node, "Missing target for see.", funcItem)
-            handleJSDocSee(attrib, node)
+            node = addPotentialError(node, handleJSDocSee(attrib))
 
         elif attrib["category"] in ("attach", "attachStatic"):
             if not "targetClass" in attrib:
@@ -973,15 +973,15 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
 #######################################################################################
 
 
-def handleJSDocSee(attrib_see, parent_node):
+def handleJSDocSee(attrib_see):
     if not 'name' in attrib_see:
-        addError(parent_node, "Missing target for see.")
+        result_node = createError("Missing target for see.")
     else:
-        see_node = tree.Node("see").set("name", attrib_see["name"])
+        result_node = tree.Node("see").set("name", attrib_see["name"])
         if "text" in attrib_see:
             desc_node = tree.Node("desc").set("text", attrib_see["text"])
-            see_node.addChild(desc_node)
-        parent_node.addChild(see_node)
+            result_node.addChild(desc_node)
+    return result_node
 
 
 def findAttachMethods(docTree):
@@ -1124,8 +1124,7 @@ def addEventNode(classNode, classItem, commentAttrib):
 
 
 
-def addError(node, msg, syntaxItem=None):
-
+def createError(msg, syntaxItem=None):
     errorNode = tree.Node("error")
     errorNode.set("msg", msg)
 
@@ -1136,9 +1135,20 @@ def addError(node, msg, syntaxItem=None):
 
             if column:
                 errorNode.set("column", column)
+    return errorNode
 
+def addError(node, msg, syntaxItem=None):
+    errorNode = createError(msg, syntaxItem)
     node.addListChild("errors", errorNode)
     node.set("hasError", True)
+
+def addPotentialError(node, child_node):
+    if child_node.type == 'error':
+        node.addListChild("errors", child_node)
+        node.set("hasError", True)
+    else:
+        node.addChild(child_node)
+    return node
 
 
 def getPackageNode(docTree, namespace):
@@ -1210,7 +1220,7 @@ def classNodeFromDocTree(docTree, fullClassName, commentAttributes = None):
                 #    continue
                 #seeNode = tree.Node("see").set("name", attrib["name"])
                 #classNode.addChild(seeNode)
-                handleJSDocSee(attrib, classNode)
+                classNode = addPotentialError(classNode, handleJSDocSee(attrib))
 
         if package:
             if fullClassName in lang.BUILTIN:
