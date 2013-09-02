@@ -103,14 +103,6 @@ def createPackageDoc(text, packageName, docTree = None):
     return docTree
 
 
-
-
-########################################################################################
-#
-#  COMPATIBLE TO 0.7 STYLE ONLY!
-#
-########################################################################################
-
 def handleClassDefinition(docTree, callNode, variant):
     params = callNode.getChild("arguments")
     className = params.children[0].get("value")
@@ -278,17 +270,17 @@ def handleMixins(item, classNode, docTree, className):
 def handleSingleton(classNode, docTree):
     if classNode.get("isSingleton", False) == True:
         className = classNode.get("fullName")
-        functionCode = """/**
- * Returns a singleton instance of this class. On the first call the class
- * is instantiated by calling the constructor with no arguments. All following
- * calls will return this instance.
- *
- * This method has been added by setting the "type" key in the class definition
- * ({@link qx.Class#define}) to "singleton".
- *
- * @return {%s} The singleton instance of this class.
- */
-function() {}""" % className
+        functionCode = ("/**\n"
+            "* Returns a singleton instance of this class. On the first call the class\n"
+            "* is instantiated by calling the constructor with no arguments. All following\n"
+            "* calls will return this instance.\n"
+            "*\n"
+            '* This method has been added by setting the "type" key in the class definition\n'
+            '* ({@link qx.Class#define}) to "singleton".\n'
+            "*\n"
+            "* @return {%s} The singleton instance of this class.\n"
+            "*/\n"
+            "function() {}") % className
 
         node = treeutil.compileString(functionCode)
         commentAttributes = Comment.parseNode(node)[-1]
@@ -403,66 +395,66 @@ def generatePropertyMethods(propertyName, classNode, generatedMethods):
     name = name[0].upper() + name[1:]
 
     propData = {
-        access + "set" + name : """/**
- * Sets the user value of the property <code>%s</code>.
- *
- * For further details take a look at the property definition: {@link #%s}.
- *
- * @param value {var} New value for property <code>%s</code>.
- * @return {var} The unmodified incoming value.
- */
- function (value) {}; """ % (propertyName, propertyName, propertyName),
+        access + "set" + name : ("/**\n"
+            "* Sets the user value of the property <code>%s</code>.\n"
+            "*\n"
+            "* For further details take a look at the property definition: {@link #%s}.\n"
+            "*\n"
+            "* @param value {var} New value for property <code>%s</code>.\n"
+            "* @return {var} The unmodified incoming value.\n"
+            "*/\n"
+            "function (value) {}; ") % (propertyName, propertyName, propertyName),
 
-       access + "get" + name : """/**
- * Returns the (computed) value of the property <code>%s</code>.
- *
- * For further details take a look at the property definition: {@link #%s}.
- *
- * @return {var} (Computed) value of <code>%s</code>.
- */
- function () {}; """ % (propertyName, propertyName, propertyName),
+        access + "get" + name : ("/**\n"
+            "* Returns the (computed) value of the property <code>%s</code>.\n"
+            "*\n"
+            "* For further details take a look at the property definition: {@link #%s}.\n"
+            "*\n"
+            "* @return {var} (Computed) value of <code>%s</code>.\n"
+            "*/\n"
+            "function () {}; ") % (propertyName, propertyName, propertyName),
 
-       access + "reset" + name : """/**
- * Resets the user value of the property <code>%s</code>.
- *
- * The computed value falls back to the next available value e.g. appearance, init or
- * inheritance value depeneding on the property configuration and value availability.
- *
- * For further details take a look at the property definition: {@link #%s}.
- */
- function () {}; """ % (propertyName, propertyName),
+        access + "reset" + name : ("/**\n"
+            "* Resets the user value of the property <code>%s</code>.\n"
+            "*\n"
+            "* The computed value falls back to the next available value e.g. appearance, init or\n"
+            "* inheritance value depeneding on the property configuration and value availability.\n"
+            "*\n"
+            "* For further details take a look at the property definition: {@link #%s}.\n"
+            "*/\n"
+            "function () {}; ") % (propertyName, propertyName),
 
-       access + "init" + name : """/**
- * Calls the apply method and dispatches the change event of the property <code>%s</code>
- * with the default value defined by the class developer. This function can
- * only be called from the constructor of a class.
- *
- * For further details take a look at the property definition: {@link #%s}.
- *
- * @protected
- * @param value {var} Initial value for property <code>%s</code>.
- * @return {var} the default value
- */
- function (value) {}; """ % (propertyName, propertyName, propertyName),
+        access + "init" + name : ("/**\n"
+            "* Calls the apply method and dispatches the change event of the property <code>%s</code>\n"
+            "* with the default value defined by the class developer. This function can\n"
+            "* only be called from the constructor of a class.\n"
+            "*\n"
+            "* For further details take a look at the property definition: {@link #%s}.\n"
+            "*\n"
+            "* @protected\n"
+            "* @param value {var} Initial value for property <code>%s</code>.\n"
+            "* @return {var} the default value\n"
+            "*/\n"
+            "function (value) {}; ") % (propertyName, propertyName, propertyName),
 
-       access + "toggle" + name : """/**
- * Toggles the (computed) value of the boolean property <code>%s</code>.
- *
- * For further details take a look at the property definition: {@link #%s}.
- *
- * @return {Boolean} the new value
- */
- function () {}; """ % (propertyName, propertyName),
+        access + "toggle" + name : ("/**\n"
+            "* Toggles the (computed) value of the boolean property <code>%s</code>.\n"
+            "*\n"
+            "* For further details take a look at the property definition: {@link #%s}.\n"
+            "*\n"
+            "* @return {Boolean} the new value\n"
+            "*/\n"
+            "function () {}; ") % (propertyName, propertyName),
 
 
-       access + "is" + name : """/**
- * Check whether the (computed) value of the boolean property <code>%s</code> equals <code>true</code>.
- *
- * For further details take a look at the property definition: {@link #%s}.
- *
- * @return {Boolean} Whether the property equals <code>true</code>.
- */
- function () {}; """ % (propertyName, propertyName)
+        access + "is" + name : ("/**\n"
+            "* Check whether the (computed) value of the boolean property <code>%s</code> equals <code>true</code>.\n"
+            "*\n"
+            "* For further details take a look at the property definition: {@link #%s}.\n"
+            "*\n"
+            "* @return {Boolean} Whether the property equals <code>true</code>.\n"
+            "*/\n"
+            "function () {}; ") % (propertyName, propertyName)
     }
 
     for funcName in generatedMethods:
@@ -551,14 +543,14 @@ def generateGroupPropertyMethod(propertyName, groupMembers, mode, classNode):
 
     functionName = access + "set" + functionName[0].upper() + functionName[1:]
 
-    functionTemplate = """/**
- * Sets the values of the property group <code>%(name)s</code>.
- * %(modeDoc)s
- * For further details take a look at the property definition: {@link #%(name)s}.
- *
-%(params)s
- */
- function (%(paramList)s) {}; """
+    functionTemplate = ("/**\n"
+        "* Sets the values of the property group <code>%(name)s</code>.\n"
+        "* %(modeDoc)s\n"
+        "* For further details take a look at the property definition: {@link #%(name)s}.\n"
+        "*\n"
+        "%(params)s\n"
+        "*/\n"
+        "function (%(paramList)s) {}; ")
 
     paramsTemplate = " * @param %s {var} Sets the value of the property {@link #%s}."
     paramsDef = [paramsTemplate % (name, name) for name in groupMembers]
@@ -732,14 +724,6 @@ def handleChildControls(item, classNode, className, commentAttributes):
 
             classNode.addListChild("childControls", childControlNode)
 
-
-
-
-########################################################################################
-#
-#  COMPATIBLE TO BOTH, 0.6 and 0.7 style
-#
-########################################################################################
 
 def handleConstantDefinition(item, classNode):
     if (item.type == "assignment"):
@@ -1348,22 +1332,22 @@ def documentApplyMethod(methodNode, props):
         propNamesString = "property <code>%s</code>" %propNames[0]
         propLinksString = ": {@link #%s}" %propNames[0]
 
-    functionCode = """/**
- * Applies changes of the property value of the %(propNames)s.
- *
- * For further details take a look at the property definition%(propLinks)s.
- *
- * @param %(firstParamName)s {%(paramType)s} new value of the property
- * @param %(secondParamName)s {%(paramType)s} previous value of the property (null if it was not yet set).
- */
-function(%(firstParamName)s, %(secondParamName)s) {}""" % ({
-        "firstParamName": firstParam,
-        "secondParamName": secondParam,
-        "paramType": paramType,
-        "propNames": propNamesString,
-        "propLinks": propLinksString,
-        "propName": methodNode.get("name")
-    })
+    functionCode = ("/**\n"
+        "* Applies changes of the property value of the %(propNames)s.\n"
+        "*\n"
+        "* For further details take a look at the property definition%(propLinks)s.\n"
+        "*\n"
+        "* @param %(firstParamName)s {%(paramType)s} new value of the property\n"
+        "* @param %(secondParamName)s {%(paramType)s} previous value of the property (null if it was not yet set).\n"
+        "*/\n"
+        "function(%(firstParamName)s, %(secondParamName)s) {}") % ({
+            "firstParamName": firstParam,
+            "secondParamName": secondParam,
+            "paramType": paramType,
+            "propNames": propNamesString,
+            "propLinks": propLinksString,
+            "propName": methodNode.get("name")
+        })
 
     node = treeutil.compileString(functionCode)
     commentAttributes = Comment.parseNode(node)[-1]
