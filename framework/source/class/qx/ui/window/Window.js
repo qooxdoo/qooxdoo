@@ -920,6 +920,17 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
+    // overridden
+    _applyFocusable : function(value, old)
+    {
+      // Workaround for bug #7581: Don't set the tabIndex
+      // to prevent native scrolling on focus in IE
+      if (qx.core.Environment.get("engine.name") !== "mshtml") {
+        this.base(arguments, value, old);
+      }
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       BASIC EVENT HANDLERS
