@@ -9,6 +9,19 @@ addSample(".getAttribute", {
   executable: true
 });
 
+addSample(".removeAttribute", {
+  html: ['<p class="foo">Foo</p>',
+         '<p class="bar">Bar</p>',
+         '<p class="foo bar">Foo Bar</p>'],
+  css: ['.foo {color: red;}',
+        '.bar {font-weight: bold;}'],
+  javascript: function() {
+    // remove the 'class' attribute from all p elements
+    q("p").removeAttribute("class");
+  },
+  executable: true
+});
+
 addSample(".getHtml", {
   html: ['<div id="myId">',
          '  <b>qooxdoo</b>',

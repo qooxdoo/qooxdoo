@@ -140,7 +140,8 @@ qx.Bootstrap.define("qx.module.Css", {
 
 
     /**
-     * Removes multiple class names from each element in the collection
+     * Removes multiple class names from each element in the collection.
+     * Use {@link qx.module.Attribute#removeAttribute} to remove all classes.
      *
      * @attach {qxWeb}
      * @param names {String[]} List of class names to remove
