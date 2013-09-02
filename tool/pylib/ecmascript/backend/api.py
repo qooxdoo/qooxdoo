@@ -806,6 +806,26 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
     isAbstract = classNode.get("isAbstract", False)
 
     # Read all description, param and return attributes
+    isAbstract = handleFunctionOtherAttributes(classNode, funcItem, name, commentAttributes, node, isAbstract)
+    
+    # Check for documentation errors
+    if node.hasChild("params"):
+        paramsListNode = node.getChild("params")
+        for paramNode in paramsListNode.children:
+            if not paramNode.getChild("desc", False):
+                addError(node, "Parameter is not documented: '%s'" % paramNode.get("name"), funcItem)
+
+    if reportMissingDesc and not node.hasChild("desc"):
+        addError(node, "Documentation is missing.", funcItem)
+
+    # Check whether return value documentation is correct
+    if checkReturn:
+        handleFunctionReturn(classNode, funcItem, name, commentAttributes, node, isAbstract)
+
+    return node
+
+
+def handleFunctionOtherAttributes(classNode, funcItem, name, commentAttributes, node, isAbstract):
     for attrib in commentAttributes:
 
         # Add description
@@ -874,74 +894,67 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
             if not classNode.get("isAbstract", False):
                 node.set("isAbstract", True)
 
-    # Check for documentation errors
-    if node.hasChild("params"):
-        paramsListNode = node.getChild("params")
-        for paramNode in paramsListNode.children:
-            if not paramNode.getChild("desc", False):
-                addError(node, "Parameter is not documented: '%s'" % paramNode.get("name"), funcItem)
+    return isAbstract
 
-    if reportMissingDesc and not node.hasChild("desc"):
-        addError(node, "Documentation is missing.", funcItem)
 
-    # Check whether return value documentation is correct
-    if checkReturn:
-        hasComment = len(commentAttributes) > 0
-        isInterface = classNode.get("type", False) == "interface"
+def handleFunctionReturn(classNode, funcNode, funcName, commentAttributes, docNode, isAbstract):
+    hasComment = len(commentAttributes) > 0
+    isInterface = classNode.get("type", False) == "interface"
 
-        hasSignatureDef = False
-        for docItem in commentAttributes:
-            if docItem["category"] == "signature":
-                hasSignatureDef = True
+    hasSignatureDef = False
+    for docItem in commentAttributes:
+        if docItem["category"] == "signature":
+            hasSignatureDef = True
 
-        #overrides = False
-        #if len(commentAttributes) == 0:
-        #    superClassName = classNode.get("superClass", False)
-        #    if superClassName:
-        #        superClassNode = selectNode(classNode, "../class[@fullName='%s']" %superClassName)
-        #        while superClassNode:
-        #            superClassNode = selectNode(classNode, "../class[@fullName='%s']" %superClassName)
+    #overrides = False
+    #if len(commentAttributes) == 0:
+    #    superClassName = classNode.get("superClass", False)
+    #    if superClassName:
+    #        superClassNode = selectNode(classNode, "../class[@fullName='%s']" %superClassName)
+    #        while superClassNode:
+    #            superClassNode = selectNode(classNode, "../class[@fullName='%s']" %superClassName)
 
-        if hasComment and not isInterface and not hasSignatureDef and not isAbstract:
+    if hasComment and not isInterface and not hasSignatureDef and not isAbstract:
 
-            returnNodes = getReturnNodes(funcItem)
-            hasReturnValue = False
-            hasNoReturnValue = False
-            hasReturnNodes = len(returnNodes) > 0
-            for returnNode in returnNodes:
-                if len(returnNode.getChildren()) > 0:
-                    hasReturnValue = True
-                else:
-                    hasNoReturnValue = True
+        returnNodes = getReturnNodes(funcNode)
+        hasReturnValue = False
+        hasNoReturnValue = False
+        hasReturnNodes = len(returnNodes) > 0
+        for returnNode in returnNodes:
+            if len(returnNode.getChildren()) > 0:
+                hasReturnValue = True
+            else:
+                hasNoReturnValue = True
 
-            hasReturnDoc = False
-            hasUndefinedOrVarType = False
-            hasNonUndefinedOrVarType = False
-            if Comment.getAttrib(commentAttributes, "return"):
-                hasVoidType = False
-                if "type" in Comment.getAttrib(commentAttributes, "return"):
-                    for typeDef in Comment.getAttrib(commentAttributes, "return")["type"]:
-                        if typeDef["type"] == "void":
-                            hasVoidType = True
-                        elif typeDef["type"] == "undefined" or typeDef["type"] == "var":
-                            hasUndefinedOrVarType = True
-                        else:
-                            hasNonUndefinedOrVarType = True
-                if not hasVoidType:
-                    hasReturnDoc = True
+        hasReturnDoc = False
+        hasUndefinedOrVarType = False
+        hasNonUndefinedOrVarType = False
+        if Comment.getAttrib(commentAttributes, "return"):
+            hasVoidType = False
+            if "type" in Comment.getAttrib(commentAttributes, "return"):
+                for typeDef in Comment.getAttrib(commentAttributes, "return")["type"]:
+                    if typeDef["type"] == "void":
+                        hasVoidType = True
+                    elif typeDef["type"] == "undefined" or typeDef["type"] == "var":
+                        hasUndefinedOrVarType = True
+                    else:
+                        hasNonUndefinedOrVarType = True
+            if not hasVoidType:
+                hasReturnDoc = True
 
-            isSingletonGetInstance = classNode.get("isSingleton", False) and name == "getInstance"
+        isSingletonGetInstance = classNode.get("isSingleton", False) and funcName == "getInstance"
 
-            if hasReturnDoc and not hasReturnNodes and not isSingletonGetInstance:
-                addError(node, "Contains documentation for return value but no return statement found.", funcItem)
-            if hasReturnDoc and (not hasReturnValue and hasNoReturnValue) and not hasUndefinedOrVarType:
-                addError(node, "Contains documentation for return value but returns nothing.", funcItem)
-            if hasReturnDoc and hasReturnValue and hasNoReturnValue and not hasUndefinedOrVarType:
-                addError(node, "Contains documentation for return value but at least one return statement has no value.", funcItem)
-            if hasReturnValue and not hasReturnDoc:
-                addError(node, "Missing documentation for return value.", funcItem)
+        if hasReturnDoc and not hasReturnNodes and not isSingletonGetInstance:
+            addError(docNode, "Contains documentation for return value but no return statement found.", funcNode)
+        if hasReturnDoc and (not hasReturnValue and hasNoReturnValue) and not hasUndefinedOrVarType:
+            addError(docNode, "Contains documentation for return value but returns nothing.", funcNode)
+        if hasReturnDoc and hasReturnValue and hasNoReturnValue and not hasUndefinedOrVarType:
+            addError(docNode, "Contains documentation for return value but at least one return statement has no value.", funcNode)
+        if hasReturnValue and not hasReturnDoc:
+            addError(docNode, "Missing documentation for return value.", funcNode)
 
-    return node
+    return docNode
+
 
 
 ########################################################################################
