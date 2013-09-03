@@ -31,7 +31,7 @@
 qx.Class.define("qx.ui.table.Table",
 {
   extend : qx.ui.core.Widget,
-
+  include : qx.ui.core.MDragDropScrolling,
 
 
 
