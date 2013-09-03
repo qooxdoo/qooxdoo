@@ -30,11 +30,16 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
 
   construct : function()
   {
-    // this.addListener("dragstart", function() { console.log("dragstart"); }, this, true);
-    this.addListener("drag", this.__onDrag, this, true);
+    this.addListener("drag", this.__onDrag, this);
 
     this.__xDirs = ["left", "right"];
     this.__yDirs = ["top", "bottom"];
+
+    // more precise bounds for deeply nested widgets
+    this.__dragScrollBoundsMap = [
+        // [ aClazz , aGetterForAMorePreciseWidget ]
+        [qx.ui.table.pane.Scroller, "getPaneClipper"],
+    ];
   },
 
   /*
@@ -46,14 +51,14 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
   properties :
   {
     /** The threshold for the x-axis (in pixel) to activate scrolling at the edges. */
-    thresholdX :
+    dragScrollThresholdX :
     {
       check : "Integer",
       init : 30
     },
 
     /** The threshold for the y-axis (in pixel) to activate scrolling at the edges. */
-    thresholdY :
+    dragScrollThresholdY :
     {
       check : "Integer",
       init : 30
@@ -68,7 +73,8 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
 
   members :
   {
-    __timer : null,
+    __dragScrollTimer : null,
+    __dragScrollBoundsMap : null,
     __xDirs : null,
     __yDirs : null,
 
@@ -76,7 +82,7 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      * Finds the first scrollable parent (in the parent chain).
      *
      * @param widget {qx.ui.core.LayoutItem} The widget to start from.
-     * @return {qx.ui.core.scroll.AbstractScrollArea} A scrollable widget.
+     * @return {qx.ui.core.Widget} A scrollable widget.
      */
     _findScrollableParent : function(widget)
     {
@@ -87,11 +93,47 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
 
       while (cur.getLayoutParent()) {
         cur = cur.getLayoutParent();
-        if (cur instanceof qx.ui.core.scroll.AbstractScrollArea) {
+        if (this._isScrollable(cur)) {
           return cur;
         }
       }
       return null;
+    },
+
+    /**
+     * Whether the widget is scrollable.
+     *
+     * @param widget {qx.ui.core.Widget} The widget to check.
+     * @return {Boolean} Whether the widget is scrollable.
+     */
+    _isScrollable : function(widget)
+    {
+      return qx.Class.hasMixin(widget.constructor, qx.ui.core.scroll.MScrollBarFactory);
+    },
+
+    /**
+     * Gets the bounds of the given scrollable.
+     *
+     * @param scrollable {qx.ui.core.Widget} Scrollable which has scrollbar child controls.
+     * @return {Map} A map with all four bounds (e.g. {"left":0, "top":20, "right":0, "bottom":80}).
+     */
+    _getBounds : function(scrollable)
+    {
+      var i = this.__dragScrollBoundsMap.length,
+          clazz = "",
+          method = "",
+          bounds = scrollable.getContentLocation();
+
+      while (i--) {
+        clazz = this.__dragScrollBoundsMap[i][0];
+        method = this.__dragScrollBoundsMap[i][1];
+        // check for more precise nested widget
+        if (scrollable instanceof clazz) {
+          bounds = scrollable[method]().getContentLocation();
+        }
+      }
+
+      return bounds;
     },
 
     /**
@@ -143,35 +185,38 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      */
     _getThresholdByEdgeType : function(edgeType) {
       if (this.__xDirs.indexOf(edgeType) !== -1) {
-        return this.getThresholdX();
+        return this.getDragScrollThresholdX();
       } else if(this.__yDirs.indexOf(edgeType) !== -1) {
-        return this.getThresholdY();
+        return this.getDragScrollThresholdY();
       }
     },
 
     /**
      * Whether the scrollbar is visible.
      *
-     * @param scrollable {qx.ui.core.scroll.AbstractScrollArea} Scrollable which has scrollbar child controls.
+     * @param scrollable {qx.ui.core.Widget} Scrollable which has scrollbar child controls.
      * @param axis {String} Can be 'y' or 'x'.
      * @return {Boolean} Whether the scrollbar is visible.
      */
     _isScrollbarVisible : function(scrollable, axis)
     {
-      return scrollable._isChildControlVisible("scrollbar-"+axis);
+      if (scrollable && scrollable._isChildControlVisible) {
+        return scrollable._isChildControlVisible("scrollbar-"+axis);
+      } else {
+        return false;
+      }
     },
 
     /**
      * Whether the scrollbar is exceeding it's maximum position.
      *
-     * @param scrollable {qx.ui.core.scroll.AbstractScrollArea} Scrollable which has scrollbar child controls.
+     * @param scrollbar {qx.ui.core.scroll.IScrollBar} Scrollbar to check.
      * @param axis {String} Can be 'y' or 'x'.
      * @param amount {Number} Amount to scroll which may be negative.
      * @return {Boolean} Whether the amount will exceed the scrollbar max position.
      */
-    _isScrollbarExceedingMaxPos : function(scrollable, axis, amount)
+    _isScrollbarExceedingMaxPos : function(scrollbar, axis, amount)
     {
-      var scrollbar = scrollable.getChildControl("scrollbar-"+axis, true);
       var newPos = 0;
       if (!scrollbar) {
         return true;
@@ -196,17 +241,17 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
     /**
      * Scrolls the given scrollable on the given axis for the given amount.
      *
-     * @param scrollable {qx.ui.core.scroll.AbstractScrollArea} Scrollable which has scrollbar child controls.
+     * @param scrollable {qx.ui.core.Widget} Scrollable which has scrollbar child controls.
      * @param axis {String} Can be 'y' or 'x'.
      * @param amount {Number} Amount to scroll which may be negative.
      */
     _scrollByAmount : function(scrollable, axis, amount) {
-      var methodName = "scrollBy" + axis.toUpperCase();
-      if (this._isScrollbarExceedingMaxPos(scrollable, axis, amount)) {
-        this.__timer.stop();
+      var scrollbar = scrollable.getChildControl("scrollbar-"+axis, true);
+      if (this._isScrollbarExceedingMaxPos(scrollbar, axis, amount)) {
+        this.__dragScrollTimer.stop();
       }
 
-      scrollable[methodName](amount);
+      scrollbar.scrollBy(amount);
     },
 
     /*
@@ -222,27 +267,28 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      */
     __onDrag : function(e)
     {
-      if (this.__timer) {
+      if (this.__dragScrollTimer) {
         // stop last scroll action
-        this.__timer.stop();
+        this.__dragScrollTimer.stop();
       }
 
       var scrollable = this._findScrollableParent(e.getOriginalTarget());
 
-      if (scrollable && scrollable.isDroppable()) {
-        var bounds = scrollable.getContentLocation();
-        var xPos = e.getDocumentLeft();
-        var yPos = e.getDocumentTop();
-        var diff = {
-          "left": bounds.left - xPos,
-          "right": bounds.right - xPos,
-          "top": bounds.top - yPos,
-          "bottom": bounds.bottom - yPos
-        };
-        var edgeType = null;
-        var axis = "";
+      if (scrollable) {
+        var bounds = this._getBounds(scrollable),
+            xPos = e.getDocumentLeft(),
+            yPos = e.getDocumentTop(),
+            diff = {
+              "left": bounds.left - xPos,
+              "right": bounds.right - xPos,
+              "top": bounds.top - yPos,
+              "bottom": bounds.bottom - yPos
+            },
+            edgeType = null,
+            axis = "",
+            amount = 0;
 
-        edgeType = this._getEdgeType(diff, this.getThresholdX(), this.getThresholdY());
+        edgeType = this._getEdgeType(diff, this.getDragScrollThresholdX(), this.getDragScrollThresholdY());
         if (!edgeType) {
           // return if not within edge threshold
           return;
@@ -250,14 +296,14 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
         axis = this._getAxis(edgeType);
 
         if (this._isScrollbarVisible(scrollable, axis)) {
-          var amount = this._calculateScrollAmount(diff[edgeType], this._getThresholdByEdgeType(edgeType));
+          amount = this._calculateScrollAmount(diff[edgeType], this._getThresholdByEdgeType(edgeType));
 
-          this.__timer = new qx.event.Timer(50);
-          this.__timer.addListener("interval",
-            qx.lang.Function.bind(function(scrollable, axis, amount) {
+          this.__dragScrollTimer = new qx.event.Timer(50);
+          this.__dragScrollTimer.addListener("interval",
+            function(scrollable, axis, amount) {
               this._scrollByAmount(scrollable, axis, amount);
-            }, this, scrollable, axis, amount));
-          this.__timer.start();
+            }.bind(this, scrollable, axis, amount));
+          this.__dragScrollTimer.start();
         }
       }
     }
