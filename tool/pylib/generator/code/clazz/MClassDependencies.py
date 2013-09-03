@@ -27,7 +27,7 @@ import sys, os, types, re, string, time
 from ecmascript.frontend import treeutil, lang
 from ecmascript.frontend.tree       import Node, NODE_VARIABLE_TYPES
 from ecmascript.transform.optimizer import variantoptimizer
-from ecmascript.transform.check     import scopes, jshints, global_symbols
+from ecmascript.transform.check     import scopes, jshints, global_symbols as gs
 from generator.code.DependencyItem  import DependencyItem
 from generator.code.HintArgument    import HintArgument
 from generator                      import Context
@@ -283,8 +283,7 @@ class MClassDependencies(object):
             for name, scopeVar in vars_.items():  # { sym_name: ScopeVar }
                 # create a depsItem for all its uses
                 for var_node in scopeVar.uses:
-                    if (treeutil.hasAncestor(var_node, tree) # var_node is not disconnected through optimization
-                       ):
+                    if treeutil.hasAncestor(var_node, tree): # var_node is not disconnected through optimization
                         depsItem = self.depsItem_from_node(var_node)
                         result.append(depsItem)
         return result
@@ -388,7 +387,6 @@ class MClassDependencies(object):
         depsItem.needsRecursion = False
         depsItem.isCall         = False
         depsItem.node           = node
-        is_lib_class             = False
         var_root = treeutil.findVarRoot(node)  # various of the tests need the var (dot) root, rather than the head symbol (like 'qx')
 
         # .isCall
@@ -397,18 +395,20 @@ class MClassDependencies(object):
 
         # .name, .attribute
         assembled = (treeutil.assembleVariable(node))[0]
-        className, classAttribute = self._splitQxClass(assembled)
-        assembled_parts = assembled.split('.')
+        #className, classAttribute = self._splitQxClass(assembled)
+        className = gs.test_for_libsymbol(assembled, ClassesAll, []) # TODO: no namespaces!?
         if not className: 
-            if "." in assembled:
-                className = '.'.join(assembled_parts[:-1])
-                classAttribute = assembled_parts[-1]
-                #className, classAttribute = assembled.split('.')[:2]
-            else:
-                className = assembled
+            is_lib_class = False
+            className = assembled
+            classAttribute = ''
         else:
             is_lib_class = True
+            if len(assembled) > len(className):
+                classAttribute = assembled[len(className)+1:]
+            else:
+                classAttribute = ''
         # we allow self-references, to be able to track method dependencies within the same class
+        assembled_parts = assembled.split('.')
         if assembled_parts[0] == 'this':
             className = self.id
             is_lib_class = True
@@ -501,7 +501,7 @@ class MClassDependencies(object):
             deps_repr = depsItem.name
             if depsItem.attribute:
                 deps_repr += '.' + depsItem.attribute
-            is_ignored = global_symbols.ident_is_ignored(deps_repr, depsItem.node)
+            is_ignored = gs.ident_is_ignored(deps_repr, depsItem.node)
             if not is_ignored:
                 result.append(depsItem)
         return result
@@ -547,7 +547,6 @@ class MClassDependencies(object):
                         if dotidx > -1:
                             classAttribute = classAttribute[:dotidx]    # only use the first component
         return className, classAttribute
-
 
 
     # --------------------------------------------------------------------
