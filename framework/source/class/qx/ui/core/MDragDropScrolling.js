@@ -34,12 +34,6 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
 
     this.__xDirs = ["left", "right"];
     this.__yDirs = ["top", "bottom"];
-
-    // more precise bounds for deeply nested widgets
-    this.__dragScrollBoundsMap = [
-        // [ aClazz , aGetterForAMorePreciseWidget ]
-        [qx.ui.table.pane.Scroller, "getPaneClipper"],
-    ];
   },
 
   /*
@@ -74,7 +68,6 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
   members :
   {
     __dragScrollTimer : null,
-    __dragScrollBoundsMap : null,
     __xDirs : null,
     __yDirs : null,
 
@@ -119,18 +112,11 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      */
     _getBounds : function(scrollable)
     {
-      var i = this.__dragScrollBoundsMap.length,
-          clazz = "",
-          method = "",
-          bounds = scrollable.getContentLocation();
+      var bounds = scrollable.getContentLocation();
 
-      while (i--) {
-        clazz = this.__dragScrollBoundsMap[i][0];
-        method = this.__dragScrollBoundsMap[i][1];
-        // check for more precise nested widget
-        if (scrollable instanceof clazz) {
-          bounds = scrollable[method]().getContentLocation();
-        }
+      // the scrollable may dictate a nested widget for more precise bounds
+      if (scrollable.getScrollAreaContainer) {
+        bounds = scrollable.getScrollAreaContainer().getContentLocation();
       }
 
       return bounds;
@@ -146,13 +132,13 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      */
     _getEdgeType : function(diff, thresholdX, thresholdY)
     {
-      if ((diff.left * -1) <= thresholdX) {
+      if ((diff.left * -1) <= thresholdX && diff.left < 0) {
         return "left";
-      } else if ((diff.top * -1) <= thresholdY) {
+      } else if ((diff.top * -1) <= thresholdY && diff.top < 0) {
         return "top";
-      } else if (diff.right <= thresholdX) {
+      } else if (diff.right <= thresholdX && diff.right > 0) {
         return "right";
-      } else if (diff.bottom <= thresholdY) {
+      } else if (diff.bottom <= thresholdY && diff.bottom > 0) {
         return "bottom";
       } else {
         return null;
