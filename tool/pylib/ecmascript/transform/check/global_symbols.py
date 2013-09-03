@@ -103,11 +103,14 @@ def globals_filter_by_libclasses(global_names, lib_classes):
 # A known qx global is either exactly a name space, or a dotted identifier that
 # is a dotted extension of a known class.
 #
-# (This is a copy of MClassDependencies._splitQxClass).
+# The result obviously depends of the list of classes and namespaces provided as
+# parameters, so it can e.g. check against all known library classes, or just
+# the classes of a build.
+#
+# (There is still a copy in MClassDependencies._splitQxClass).
 #
 def test_for_libsymbol(symbol, class_names, name_spaces):
     res_name = ''
-    res_attribute = ''
     # check for a name space match
     if symbol in name_spaces:
         res_name = symbol
@@ -115,17 +118,10 @@ def test_for_libsymbol(symbol, class_names, name_spaces):
     else:
         for class_name in class_names:
             if (symbol.startswith(class_name) and 
-                    re.search(r'^%s\b' % re.escape(class_name), symbol)): 
-                    #re.search(r'^%s(?=\.|$)' % re.escape(class_name), symbol)): 
-                    # re.escape for e.g. the '$' in 'qx.$$'
-                    # '\b' so that 'mylib.Foo' doesn't match 'mylib.FooBar'
-                if len(class_name) > len(res_name): # take the longest match (?!)
+                    re.search(r'^%s(?=\.|$)' % re.escape(class_name), symbol)): 
+                    # e.g. re.search(r'^mylib.Foo(?=\.|$)', 'mylib.Foo.Bar' is
+                    # true, but not with 'mylib.FooBar'
+                # take the longest match
+                if len(class_name) > len(res_name):
                     res_name = class_name
-                    ## compute the 'attribute' suffix
-                    #res_attribute = symbol[ len(class_name) +1:]  # skip class_name + '.'
-                    ## see if res_attribute is chained, too
-                    #dotidx = res_attribute.find(".")
-                    #if dotidx > -1:
-                    #    res_attribute = res_attribute[:dotidx]    # only use the first component
-
     return res_name
