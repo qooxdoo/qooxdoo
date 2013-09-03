@@ -450,6 +450,18 @@ qx.Bootstrap.define("qx.lang.Array",
       return result === undefined ? null : result;
     },
 
+    /**
+     * Extends an array up to the given length by repeating the elements already present.
+     * @param arr {Array} Incoming array. Has to contain at least one element.
+     * @param arr {Integer} Desired length. Must be greater than or equal to the the length of arr.
+     */
+    prolong : function(arr, to)
+    {
+      var initial = arr.length;
+      while(arr.length < to) {
+        arr.push(arr[arr.length%initial]);
+      }
+    },
 
     /**
      * Recreates an array which is free of all duplicate elements from the original.
@@ -461,7 +473,7 @@ qx.Bootstrap.define("qx.lang.Array",
      * @param arr {Array} Incoming array
      * @return {Array} Returns a copy with no duplicates or the original array if no duplicates were found
      */
-    unique: function(arr)
+    unique : function(arr)
     {
       var ret=[], doneStrings={}, doneNumbers={}, doneObjects={};
       var value, count=0;
