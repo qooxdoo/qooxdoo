@@ -32,6 +32,7 @@ from ecmascript.transform.check  import scopes
 from ecmascript.transform.check  import jshints
 from ecmascript.transform.check  import global_symbols as gs
 from generator.runtime.CodeIssue import CodeIssue
+from misc.util import curry3
 
 class LintChecker(treeutil.NodeVisitor):
 
@@ -138,6 +139,28 @@ class LintChecker(treeutil.NodeVisitor):
                     issue.name = full_name  # @deprecated {3.0} to filter against #ignore later
                     self.issues.append(issue)
 
+    def filter_configsymbols(self, global_nodes):
+        return dict([(key,nodes) for (key,nodes) in global_nodes.items()
+            if key not in self.opts.allowed_globals])
+
+    def filter_libsymbols(self, global_nodes):
+        is_libsymbol = curry3(gs.test_for_libsymbol, 
+            self.opts.class_namespaces)(self.known_globals_bases) # known classes (classList + namespaces)
+        return dict([(key,nodes) for (key,nodes) in global_nodes.items()
+            if not is_libsymbol(key)])
+
+    def filter_builtins(self, global_nodes):
+        filtered_keys = gs.globals_filter_by_builtins(global_nodes.keys())
+        global_nodes = dict([(key,nodes) for (key,nodes) in global_nodes.items()
+            if key in filtered_keys])
+
+    def filter_jshints(self, global_nodes):
+        new_nodes = {}
+        for key, nodes in global_nodes.items():
+            new_nodes[key] = [node for node in nodes 
+                if not gs.ident_is_ignored(key,node)]
+        return new_nodes
+
     def unknown_globals(self, scope):
         # collect scope's global use locations
         global_nodes = defaultdict(list)  # {assembled: [node]}
@@ -148,19 +171,14 @@ class LintChecker(treeutil.NodeVisitor):
                 global_nodes[full_name].append(head_node)
         # filter allowed globals
         # - from config
-        global_nodes = dict([(key,nodes) for (key,nodes) in global_nodes.items()
-            if key not in self.opts.allowed_globals])
+        global_nodes = self.filter_configsymbols(global_nodes)
         # - from known classes and namespaces
-        global_nodes = dict([(key,nodes) for (key,nodes) in global_nodes.items()
-            if not gs.test_for_libsymbol(key, self.known_globals_bases, self.opts.class_namespaces)]) # known classes (classList + their namespaces)
+        global_nodes = self.filter_libsymbols(global_nodes)
         # - from built-ins
-        new_keys = gs.globals_filter_by_builtins(global_nodes.keys())
-        global_nodes = dict([(key,nodes) for (key,nodes) in global_nodes.items()
-            if key in new_keys])
+        global_nodes = self.filter_builtins(global_nodes)
         # - with jshints
-        for key, nodes in global_nodes.items():
-            global_nodes[key] = [node for node in nodes 
-                if not gs.ident_is_ignored(key, node)]
+        global_nodes = self.filter_jshints(global_nodes)
+
         # warn remaining
         for key, nodes in global_nodes.items():
             for node in nodes:
