@@ -152,7 +152,7 @@ class LintChecker(treeutil.NodeVisitor):
             if key not in self.opts.allowed_globals])
         # - from known classes and namespaces
         global_nodes = dict([(key,nodes) for (key,nodes) in global_nodes.items()
-            if not extension_match_in(key, self.known_globals_bases, self.opts.class_namespaces)]) # known classes (classList + their namespaces)
+            if not gs.test_for_libsymbol(key, self.known_globals_bases, self.opts.class_namespaces)]) # known classes (classList + their namespaces)
         # - from built-ins
         new_keys = gs.globals_filter_by_builtins(global_nodes.keys())
         global_nodes = dict([(key,nodes) for (key,nodes) in global_nodes.items()
@@ -552,36 +552,6 @@ def defaultOptions():
 
     return opts
 
-##
-# A known qx global is either exactly a name space, or a dotted identifier that
-# is a dotted extension of a known class.
-#
-# (This is a copy of MClassDependencies._splitQxClass).
-#
-def extension_match_in(name, name_list, name_spaces):
-    res_name = ''
-    res_attribute = ''
-    # check for a name space match
-    if name in name_spaces:
-        res_name = name
-    # see if name is a (dot-exact) prefix of any of name_list
-    else:
-        for class_name in name_list:
-            if (name.startswith(class_name) and 
-                    re.search(r'^%s\b' % re.escape(class_name), name)): 
-                    #re.search(r'^%s(?=\.|$)' % re.escape(class_name), name)): 
-                    # re.escape for e.g. the '$' in 'qx.$$'
-                    # '\b' so that 'mylib.Foo' doesn't match 'mylib.FooBar'
-                if len(class_name) > len(res_name): # take the longest match (?!)
-                    res_name = class_name
-                    ## compute the 'attribute' suffix
-                    #res_attribute = name[ len(class_name) +1:]  # skip class_name + '.'
-                    ## see if res_attribute is chained, too
-                    #dotidx = res_attribute.find(".")
-                    #if dotidx > -1:
-                    #    res_attribute = res_attribute[:dotidx]    # only use the first component
-
-    return res_name
 
 # - ---------------------------------------------------------------------------
 
