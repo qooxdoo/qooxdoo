@@ -42,7 +42,7 @@
  * </pre>
  * </div>
  *
- * @ignore(qx.core.Environment.*)
+ * @ignore(qx.core, qx.core.Environment.*)
  * @require(qx.bom.request.Script#_success)
  * @require(qx.bom.request.Script#abort)
  * @require(qx.bom.request.Script#dispose)

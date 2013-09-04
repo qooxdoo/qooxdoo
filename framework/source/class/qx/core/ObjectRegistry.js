@@ -22,7 +22,7 @@
  * used to manage them for the final shutdown sequence and to
  * use weak references when connecting widgets to DOM nodes etc.
  *
- * @ignore(qx.dev.Debug.*)
+ * @ignore(qx.dev, qx.dev.Debug.*)
  */
 qx.Bootstrap.define("qx.core.ObjectRegistry",
 {

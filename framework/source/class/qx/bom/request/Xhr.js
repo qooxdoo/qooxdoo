@@ -40,7 +40,7 @@
  * </div>
  *
  * @ignore(XDomainRequest)
- * @ignore(qx.event.GlobalError.*)
+ * @ignore(qx.event, qx.event.GlobalError.*)
  *
  * @require(qx.bom.request.Xhr#open)
  * @require(qx.bom.request.Xhr#send)

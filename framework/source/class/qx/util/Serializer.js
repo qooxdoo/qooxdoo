@@ -20,8 +20,8 @@
 /**
  * This is an util class responsible for serializing qooxdoo objects.
  *
- * @ignore(qx.data.IListData)
- * @ignore(qx.locale.LocalizedString)
+ * @ignore(qx.data, qx.data.IListData)
+ * @ignore(qx.locale, qx.locale.LocalizedString)
  */
 qx.Class.define("qx.util.Serializer",
 {
