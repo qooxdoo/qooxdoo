@@ -151,7 +151,7 @@ class LintChecker(treeutil.NodeVisitor):
 
     def filter_builtins(self, global_nodes):
         filtered_keys = gs.globals_filter_by_builtins(global_nodes.keys())
-        global_nodes = dict([(key,nodes) for (key,nodes) in global_nodes.items()
+        return dict([(key,nodes) for (key,nodes) in global_nodes.items()
             if key in filtered_keys])
 
     def filter_jshints(self, global_nodes):
