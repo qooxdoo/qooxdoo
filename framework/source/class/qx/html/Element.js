@@ -1390,7 +1390,7 @@ qx.Class.define("qx.html.Element",
       // when we try to use the same DOM node again. I am not sure
       // why this happens. Would be a good performance improvement,
       // but does not seem to work.
-      if ((qx.core.Environment.get("engine.name") == "mshtml")) {
+      if (qx.core.Environment.get("engine.name") == "mshtml") {
         var helper = document.createElement("div");
       } else {
         var helper = qx.dom.Element.getHelperElement();
