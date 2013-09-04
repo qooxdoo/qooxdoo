@@ -503,8 +503,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       classHtml.add(this.__getDependentClassesHtml(classNode.getImplementations(), "Implementations of this interface:"));
       classHtml.add(this.__getDependentClassesHtml(classNode.getIncluder(), "Classes including this mixin:"));
 
-      var construct = classNode.getConstructor();
-
       if (classNode.isDeprecated())
       {
         classHtml.add('<h2 class="warning">', "Deprecated:", '</h2>');
