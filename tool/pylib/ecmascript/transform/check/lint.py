@@ -568,7 +568,7 @@ def extension_match_in(name, name_list, name_spaces):
     else:
         for class_name in name_list:
             if (name.startswith(class_name) and 
-                    re.search(r'^%s\b' % re.escape(class_name), name)): 
+                    re.search(r'^%s(?=\.|$)' % re.escape(class_name), name)): 
                     # re.escape for e.g. the '$' in 'qx.$$'
                     # '\b' so that 'mylib.Foo' doesn't match 'mylib.FooBar'
                 if len(class_name) > len(res_name): # take the longest match (?!)

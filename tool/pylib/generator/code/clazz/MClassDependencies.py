@@ -27,7 +27,7 @@ import sys, os, types, re, string, time
 from ecmascript.frontend import treeutil, lang
 from ecmascript.frontend.tree       import Node, NODE_VARIABLE_TYPES
 from ecmascript.transform.optimizer import variantoptimizer
-from ecmascript.transform.check     import scopes, jshints, global_symbols
+from ecmascript.transform.check     import scopes, jshints, global_symbols, lint
 from generator.code.DependencyItem  import DependencyItem
 from generator.code.HintArgument    import HintArgument
 from generator                      import Context
@@ -394,15 +394,15 @@ class MClassDependencies(object):
 
         # .name, .attribute
         assembled = (treeutil.assembleVariable(node))[0]
-        className, classAttribute = self._splitQxClass(assembled)
+        #className, classAttribute = self._splitQxClass(assembled)
+        className = lint.extension_match_in(assembled, ClassesAll, [])
+        if className and len(assembled)>len(className):
+            classAttribute = assembled[len(className)+1:]
+        else:
+            classAttribute = ''
         assembled_parts = assembled.split('.')
         if not className: 
-            if "." in assembled:
-                className = '.'.join(assembled_parts[:-1])
-                classAttribute = assembled_parts[-1]
-                #className, classAttribute = assembled.split('.')[:2]
-            else:
-                className = assembled
+            className = assembled
         else:
             is_lib_class = True
         # we allow self-references, to be able to track method dependencies within the same class
