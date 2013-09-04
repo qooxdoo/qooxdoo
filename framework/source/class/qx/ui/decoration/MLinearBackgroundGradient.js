@@ -279,52 +279,6 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
       return {start: startColor, end: endColor};
     },
 
-
-    /**
-     * Helper for IE which applies the filter used for the gradient to a separate
-     * DIV element which will be put into the decorator. This is necessary in case
-     * the decorator has rounded corners.
-     * @return {String} The HTML for the inner gradient DIV.
-     */
-    _getContent : function() {
-      // IE filter syntax
-      // http://msdn.microsoft.com/en-us/library/ms532997(v=vs.85).aspx
-      // It needs to be wrapped in a separate div bug #6318
-      if (qx.core.Environment.get("css.gradient.filter") &&
-        !qx.core.Environment.get("css.gradient.linear")) {
-
-        var colors = this.__getColors();
-        var type = this.getOrientation() == "horizontal" ? 1 : 0;
-
-        // convert all hex3 to hex6
-        var startColor = qx.util.ColorUtil.hex3StringToHex6String(colors.start);
-        var endColor = qx.util.ColorUtil.hex3StringToHex6String(colors.end);
-
-        // get rid of the starting '#'
-        startColor = startColor.substring(1, startColor.length);
-        endColor = endColor.substring(1, endColor.length);
-
-        // filter gradients block the box shadow implementation ->
-        // we need to set them explicitly [BUG #6761]
-        var shadow = "";
-        if (this.classname.indexOf("MBoxShadow") != -1) {
-          var styles = {};
-          this._styleBoxShadow(styles);
-          shadow = "<div style='width: 100%; height: 100%; position: absolute;" +
-            qx.bom.element.Style.compile(styles) +
-            "'></div>";
-        }
-
-        return "<div style=\"position: absolute; width: 100%; height: 100%; " +
-          "filter:progid:DXImageTransform.Microsoft.Gradient" +
-          "(GradientType=" + type + ", " +
-          "StartColorStr='#FF" + startColor + "', " +
-          "EndColorStr='#FF" + endColor + "';)\">" + shadow + "</div>";
-      }
-      return "";
-    },
-
-
     // property apply
     _applyLinearBackgroundGradient : function()
     {
