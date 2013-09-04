@@ -214,7 +214,7 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
     /**
      * Calculates the scroll amount (which may be negative).
      *
-     * @param diff {Map} Difference map with all for edgeTypes.
+     * @param diff {Number} Difference value of one edgeType.
      * @param threshold {Number} x-axis or y-axis threshold.
      * @return {Number} Scroll amount (positive or negative).
      */
