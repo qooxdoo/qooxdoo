@@ -47,21 +47,21 @@ qx.Class.define("qx.test.ui.core.Placement",
       // force an addition to the dom!
       w.show();
       w.hide();
-       // modify the placed widget
-       w.setWidth(100);
-       w.setVisibility("visible");
-       // render the widgets
-       this.flush();
+      // modify the placed widget
+      w.setWidth(100);
+      w.setVisibility("visible");
+      // render the widgets
+      this.flush();
 
-       // move and flush
-       w.moveTo(100, 0);
-       this.flush();
+      // move and flush
+      w.moveTo(100, 0);
+      this.flush();
 
-       // the right position of the widget should be left of the nogo
-       var bounds = w.getBounds();
-       var right = bounds.left + bounds.width;
-       this.assertEquals(150, right);
-       this.assertEquals(50, bounds.left);
+      // the right position of the widget should be left of the nogo
+      var bounds = w.getBounds();
+      var right = bounds.left + bounds.width;
+      this.assertEquals(150, right);
+      this.assertEquals(50, bounds.left);
     },
 
 
@@ -80,25 +80,25 @@ qx.Class.define("qx.test.ui.core.Placement",
 
     __testAlwaysVisibleElementTooBig : function(w)
     {
-       // force an addition to the dom!
-       w.show();
-       w.hide();
-       // modify the placed widget
-       w.setWidth(200);
-       w.setVisibility("visible");
-       // render the widgets
-       this.flush();
+      // force an addition to the dom!
+      w.show();
+      w.hide();
+      // modify the placed widget
+      w.setWidth(200);
+      w.setVisibility("visible");
+      // render the widgets
+      this.flush();
 
-       // move and flush
-       w.moveTo(100, 0);
-       this.flush();
+      // move and flush
+      w.moveTo(100, 0);
+      this.flush();
 
-       // The widget should be moved to the left border of the screen and still
-       // overlap the visible item
-       var bounds = w.getBounds();
-       var right = bounds.left + bounds.width;
-       this.assertEquals(200, right);
-       this.assertEquals(0, bounds.left);
+      // The widget should be moved to the left border of the screen and still
+      // overlap the visible item
+      var bounds = w.getBounds();
+      var right = bounds.left + bounds.width;
+      this.assertEquals(200, right);
+      this.assertEquals(0, bounds.left);
     },
 
 
@@ -117,26 +117,26 @@ qx.Class.define("qx.test.ui.core.Placement",
 
     __testAlwaysVisibleElementAbove : function(w)
     {
-       // force an addition to the dom!
-       w.show();
-       w.hide();
-       this.__nogo.setLayoutProperties({top: 100});
+      // force an addition to the dom!
+      w.show();
+      w.hide();
+      this.__nogo.setLayoutProperties({top: 100});
 
-       // modify the placed widget
-       w.setWidth(100);
-       w.setVisibility("visible");
-       // render the widgets
-       this.flush();
+      // modify the placed widget
+      w.setWidth(100);
+      w.setVisibility("visible");
+      // render the widgets
+      this.flush();
 
-       // move and flush
-       w.moveTo(100, 0);
-       this.flush();
+      // move and flush
+      w.moveTo(100, 0);
+      this.flush();
 
-       // Positions should be as set
-       var bounds = w.getBounds();
-       var right = bounds.left + bounds.width;
-       this.assertEquals(200, right);
-       this.assertEquals(100, bounds.left);
+      // Positions should be as set
+      var bounds = w.getBounds();
+      var right = bounds.left + bounds.width;
+      this.assertEquals(200, right);
+      this.assertEquals(100, bounds.left);
     },
 
 
@@ -155,24 +155,24 @@ qx.Class.define("qx.test.ui.core.Placement",
 
     __testAlwaysVisibleElementBelow : function(w)
     {
-       // force an addition to the dom!
-       w.show();
-       w.hide();
-       // modify the placed widget
-       w.setWidth(100);
-       w.setVisibility("visible");
-       // render the widgets
-       this.flush();
+      // force an addition to the dom!
+      w.show();
+      w.hide();
+      // modify the placed widget
+      w.setWidth(100);
+      w.setVisibility("visible");
+      // render the widgets
+      this.flush();
 
-       // move and flush
-       w.moveTo(100, 400);
-       this.flush();
+      // move and flush
+      w.moveTo(100, 400);
+      this.flush();
 
-       // Positions should be as set
-       var bounds = w.getBounds();
-       var right = bounds.left + bounds.width;
-       this.assertEquals(200, right);
-       this.assertEquals(100, bounds.left);
+      // Positions should be as set
+      var bounds = w.getBounds();
+      var right = bounds.left + bounds.width;
+      this.assertEquals(200, right);
+      this.assertEquals(100, bounds.left);
     },
 
 
