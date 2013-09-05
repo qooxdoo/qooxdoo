@@ -83,8 +83,7 @@ qx.Bootstrap = {
 
   base : function(args, varargs)
   {
-    if (qx.core.Environment.get("qx.debug"))
-    {
+    if (qx.Bootstrap.DEBUG) {
       if (!qx.Bootstrap.isFunction(args.callee.base)) {
         throw new Error(
           "Cannot call super class. Method is not derived: " +
