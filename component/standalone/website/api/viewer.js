@@ -813,6 +813,7 @@ q.ready(function() {
     "RegExp" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/RegExp",
     "Error" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Error",
     "Number" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number",
+    "Integer" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number",
     "Boolean" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean",
     "String" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String",
     "undefined" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/undefined",
