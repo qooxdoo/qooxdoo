@@ -74,7 +74,7 @@ q.ready(function() {
         // [BUG #7518] initial scroll to hash (again) on first page load
         // cause sample loading screwed scroll position slightly up
         fixScrollPosition();
-        scrollNavItemIntoView();
+        scrollNavItemIntoView(false);
       }
       else {
         // force a scroll event so the topmost module's samples are loaded
@@ -111,7 +111,7 @@ q.ready(function() {
   var __lastHashChange = null;
   q(window).on("hashchange", function(ev) {
     __lastHashChange = Date.now();
-    scrollNavItemIntoView();
+    scrollNavItemIntoView(false);
   });
 
   var loadEventNorm = function() {
@@ -268,10 +268,11 @@ q.ready(function() {
     var checkMissing = q.$$qx.core.Environment.get("apiviewer.check.missingmethods");
 
     var list = q("#list");
+    var className = convertNameToCssClass(name, "nav-");
     if (prefix && prefix != "event." && prefix != "normalize.") {
-      list.append(q.create("<a href='#" + name + "'><h1>" + name + "</h1></a>"));
+      list.append(q.create("<a href='#" + name + "'><h1 class='"+className+"'>" + name + "</h1></a>"));
     } else {
-      list.append(q.create("<a href='#" + name + "'><h2>" + name + "</h2></a>"));
+      list.append(q.create("<a href='#" + name + "'><h2 class='"+className+"'>" + name + "</h2></a>"));
     }
 
     var ul = q.create("<ul></ul>").appendTo(list);
@@ -283,7 +284,7 @@ q.ready(function() {
       }
       q.template.get("list-item", {
         name: name + "()",
-        classname: convertNameToCssClass(name),
+        classname: convertNameToCssClass(name, "nav-"),
         missing: missing,
         link: name,
         plugin: isPluginMethod(name)
@@ -294,7 +295,7 @@ q.ready(function() {
       var missing = isMethodMissing(name, data.classname);
       q.template.get("list-item", {
         name: name + "()",
-        classname: convertNameToCssClass(name),
+        classname: convertNameToCssClass(name, "nav-"),
         missing: missing,
         link: name,
         plugin: isPluginMethod(name)
@@ -1034,16 +1035,33 @@ q.ready(function() {
     window.location.hash = hash;
   };
 
-  var scrollNavItemIntoView = function() {
-    var hash = window.location.hash;
-    var navItems = q("."+convertNameToCssClass(hash));
+  var scrollNavItemIntoView = function(forceIfAlreadyInViewport) {
+    var hash = window.location.hash,
+        navItems = q("."+convertNameToCssClass(hash, "nav-")),
+        navParent = q("#list");
+
     if (navItems && navItems.length === 1) {
-      navItems[0].scrollIntoView(true);
+      elInViewport = isElementInViewport(navItems, navParent);
+      if (!elInViewport || (elInViewport && forceIfAlreadyInViewport)) {
+        navItems[0].scrollIntoView(true);
+      }
     }
   };
 
-  var convertNameToCssClass = function(name) {
-    return "nav-"+name.replace(/(\.|\$|#)*/g, "");
+  var isElementInViewport = function(el, diffBoundingRectContainer) {
+    var rect = el.getOffset(),
+        diffRect = diffBoundingRectContainer.getOffset(),
+        viewportHeight = window.innerHeight || document.documentElement.clientHeight,
+        viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+
+    return (rect.top - diffRect.top >= 0 &&
+            rect.left - diffRect.left >= 0 &&
+            rect.bottom < diffRect.bottom && rect.bottom <= viewportHeight &&
+            rect.right < diffRect.right && rect.right <= viewportWidth);
+  };
+
+  var convertNameToCssClass = function(name, prefix) {
+    return (prefix || "")+name.replace(/(\.|\$|#)*/g, "");
   };
 
   /**
