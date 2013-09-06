@@ -31,6 +31,7 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
   construct : function()
   {
     this.addListener("drag", this.__onDrag, this);
+    this.addListener("dragend", this.__onDragend, this);
 
     this.__xDirs = ["left", "right"];
     this.__yDirs = ["top", "bottom"];
@@ -291,6 +292,18 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
             }.bind(this, scrollable, axis, amount));
           this.__dragScrollTimer.start();
         }
+      }
+    },
+
+    /**
+     * Event handler for the dragend event.
+     *
+     * @param e {qx.event.type.Drag} The drag event instance.
+     */
+    __onDragend : function(e)
+    {
+      if (this.__dragScrollTimer) {
+        this.__dragScrollTimer.stop();
       }
     }
   }
