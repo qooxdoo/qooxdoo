@@ -212,7 +212,13 @@ def parseInt(s=''):
 
 ##
 # Pipeline - compose functions where the return value of one is the argument
-# to the next.
+# to the next, starting with the <seed> data.
+# Ex.:
+# pipeline(
+#   [1,2,3,4]
+#   , even
+#   , reverse
+# )  => [4,2]
 def pipeline(seed, *funcs):
     return reduce(lambda accu,func: func(accu), funcs, seed)
 
@@ -222,7 +228,12 @@ bind = functools.partial
 
 ##
 # Curry2 - curry second to first argument
-# (In contrast to e.g. Fogus,96, providing the first argument doesn't call the
+#
+# Curry is like the inverse to bind/partial, in that it binds arguments from right
+# to left (where bind/partial binds from left to right). As Python functions can
+# have variable number of arguments, one solution is to use curry functions that
+# deal with a fixed number of arguments.
+# (In contrast to e.g. Fogus,96, providing the final argument doesn't call the
 # original function, but returns a fully bound closure ("thunk").)
 def curry2(fun, arg2):
     def curry2_f(arg1):
@@ -241,3 +252,9 @@ def curry3(fun, arg3):
             return curry1_f
         return curry2_f
     return curry3_f
+
+##
+# Inverse - return a function that inverses the <predicate>
+# ('complement' in FunJS)
+def inverse(pred):
+    return lambda x: not(pred(x))
