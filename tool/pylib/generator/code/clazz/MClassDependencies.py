@@ -32,6 +32,7 @@ from generator.code.DependencyItem  import DependencyItem
 from generator.code.HintArgument    import HintArgument
 from generator                      import Context
 from misc import util
+from misc.util import inverse, bind, pipeline
 
 ClassesAll = None # {'cid':generator.code.Class}
 
@@ -262,7 +263,7 @@ class MClassDependencies(object):
     # Find dependencies of a code tree, purely looking at identifier head-symbols
     # that are not covered by the current scope chain.
     #
-    # Returns a list of depsItems.
+    # Node -> Node[]  (head nodes)
     # 
     def dependencies_from_ast(self, tree):
         result = []
@@ -284,9 +285,11 @@ class MClassDependencies(object):
                 # create a depsItem for all its uses
                 for var_node in scopeVar.uses:
                     if treeutil.hasAncestor(var_node, tree): # var_node is not disconnected through optimization
-                        depsItem = self.depsItem_from_node(var_node)
-                        result.append(depsItem)
+                        #depsItem = self.depsItem_from_node(var_node)
+                        #result.append(depsItem)
+                        result.append(var_node)
         return result
+
 
 
     ##
@@ -465,46 +468,52 @@ class MClassDependencies(object):
         return result
 
 
-    def is_this(self, strrng):
-        if strrng[:4] == "this":
-            if len(strrng)==4 or (
-                len(strrng)>4 and strrng[4]=='.'):
-                return True
-        return False
-
-
     ##
     # Return a list of dependency items, gleaned from an AST node, with some filters
     # applied.
     #
     def _analyzeClassDepsNode(self, node, depsList, inLoadContext, inDefer=False):
+        # helper functions
+        not_jsignored = inverse(gs.test_ident_is_jsignored)
+        browser_sans_this = [x for x in lang.GLOBALS if x!='this']
+        not_builtin = inverse(gs.test_ident_is_builtin(browser_sans_this))
+        not_jsignore_envcall = inverse(lambda d: gs.name_is_jsignored(
+            d.name+('.'+d.attribute if d.attribute else ''), d.node))
         # ensure a complete hint tree for ignore checking
         root_node = node.getRoot()
         if not hasattr(root_node, 'hint'):
             root_node = jshints.create_hints_tree(root_node)
-        lexical_globals  =  self.dependencies_from_ast(node)
-        lexical_globals +=  self.dependencies_from_envcalls(node)
-        lexical_globals  =  self.filter_symbols_by_jshints(node, lexical_globals)
-        filtered_globals =  self.filter_symbols_by_builtins(lexical_globals)
-        [setattr(x,'node',None) for x in filtered_globals]  # remove AST links (for easier caching)
-        depsList.extend(filtered_globals)
-        return
+
+        code_deps = pipeline(
+            self.dependencies_from_ast(node)
+            , bind(filter, not_jsignored)
+            , bind(filter, not_builtin)
+            , bind(map, self.depsItem_from_node)
+        )
+        envcall_deps = pipeline(
+            self.dependencies_from_envcalls(node)
+            , bind(filter, not_jsignore_envcall)
+        )
+        dependencies = code_deps + envcall_deps
+        
+        [setattr(x,'node',None) for x in dependencies]  # remove AST links (for easier caching)
+        depsList.extend(dependencies)
 
 
-    def filter_symbols_by_builtins(self, depsList):
-        return [deps for deps in depsList if not GlobalSymbolsCombinedPatt.search(deps.name)]
+    #def filter_symbols_by_builtins(self, depsList):
+    #    return [deps for deps in depsList if not GlobalSymbolsCombinedPatt.search(deps.name)]
 
 
-    def filter_symbols_by_jshints(self, tree, depsItems):
-        result = []
-        for depsItem in depsItems:
-            deps_repr = depsItem.name
-            if depsItem.attribute:
-                deps_repr += '.' + depsItem.attribute
-            is_ignored = gs.ident_is_ignored(deps_repr, depsItem.node)
-            if not is_ignored:
-                result.append(depsItem)
-        return result
+    #def filter_symbols_by_jshints(self, tree, depsItems):
+    #    result = []
+    #    for depsItem in depsItems:
+    #        deps_repr = depsItem.name
+    #        if depsItem.attribute:
+    #            deps_repr += '.' + depsItem.attribute
+    #        is_ignored = gs.name_is_jsignored(deps_repr, depsItem.node)
+    #        if not is_ignored:
+    #            result.append(depsItem)
+    #    return result
 
 
     def filter_symbols_by_comphints(self, treeDeps, ignore_hints):
@@ -532,21 +541,21 @@ class MClassDependencies(object):
 
     ##
     # 
-    def _splitQxClass(self, assembled):
-        className = classAttribute = ''
-        if assembled in ClassesAll:  # short cut
-            className = assembled
-        elif "." in assembled:
-            for entryId in ClassesAll:
-                if assembled.startswith(entryId) and re.match(r'%s\b' % entryId, assembled):
-                    if len(entryId) > len(className): # take the longest match
-                        className = entryId
-                        classAttribute = assembled[ len(entryId) +1 :]  # skip entryId + '.'
-                        # see if classAttribute is chained, too
-                        dotidx = classAttribute.find(".")
-                        if dotidx > -1:
-                            classAttribute = classAttribute[:dotidx]    # only use the first component
-        return className, classAttribute
+    #def _splitQxClass(self, assembled):
+    #    className = classAttribute = ''
+    #    if assembled in ClassesAll:  # short cut
+    #        className = assembled
+    #    elif "." in assembled:
+    #        for entryId in ClassesAll:
+    #            if assembled.startswith(entryId) and re.match(r'%s\b' % entryId, assembled):
+    #                if len(entryId) > len(className): # take the longest match
+    #                    className = entryId
+    #                    classAttribute = assembled[ len(entryId) +1 :]  # skip entryId + '.'
+    #                    # see if classAttribute is chained, too
+    #                    dotidx = classAttribute.find(".")
+    #                    if dotidx > -1:
+    #                        classAttribute = classAttribute[:dotidx]    # only use the first component
+    #    return className, classAttribute
 
 
     # --------------------------------------------------------------------

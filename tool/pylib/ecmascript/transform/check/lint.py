@@ -32,7 +32,7 @@ from ecmascript.transform.check  import scopes
 from ecmascript.transform.check  import jshints
 from ecmascript.transform.check  import global_symbols as gs
 from generator.runtime.CodeIssue import CodeIssue
-from misc.util import curry3
+from misc.util import curry3, inverse, pipeline, bind
 
 class LintChecker(treeutil.NodeVisitor):
 
@@ -158,33 +158,40 @@ class LintChecker(treeutil.NodeVisitor):
         new_nodes = {}
         for key, nodes in global_nodes.items():
             new_nodes[key] = [node for node in nodes 
-                if not gs.ident_is_ignored(key,node)]
+                if not gs.name_is_jsignored(key,node)]
         return new_nodes
 
     def unknown_globals(self, scope):
+        # helper functions
+        not_jsignored = inverse(gs.test_ident_is_jsignored)
+        not_builtin = inverse(gs.test_ident_is_builtin())
+        not_libsymbol = inverse(curry3(gs.test_for_libsymbol, 
+            self.opts.class_namespaces)(self.known_globals_bases))
+        not_confsymbol = lambda node: globals_table[node] not in self.opts.allowed_globals
+        def warn_appender(global_nodes):
+            for node in global_nodes:
+                issue = warn("Unknown global symbol used: '%s'" % globals_table[node], self.file_name, node)
+                issue.name = globals_table[node] # @deprecated {3.0} to filter against #ignore later
+                self.issues.append(issue)
+
+        # ------------------------------
         # collect scope's global use locations
-        global_nodes = defaultdict(list)  # {assembled: [node]}
+        globals_table = {} # {node: assembled}
         for id_, scopeVar in scope.globals().items():
             for head_node in scopeVar.uses:
                 var_top = treeutil.findVarRoot(head_node)
-                full_name = (treeutil.assembleVariable(var_top))[0]
-                global_nodes[full_name].append(head_node)
-        # filter allowed globals
-        # - from config
-        global_nodes = self.filter_configsymbols(global_nodes)
-        # - from known classes and namespaces
-        global_nodes = self.filter_libsymbols(global_nodes)
-        # - from built-ins
-        global_nodes = self.filter_builtins(global_nodes)
-        # - with jshints
-        global_nodes = self.filter_jshints(global_nodes)
+                assembled = (treeutil.assembleVariable(var_top))[0]
+                globals_table[head_node] = assembled
 
-        # warn remaining
-        for key, nodes in global_nodes.items():
-            for node in nodes:
-                issue = warn("Unknown global symbol used: '%s'" % key, self.file_name, node)
-                issue.name = key # @deprecated {3.0} to filter against #ignore later
-                self.issues.append(issue)
+        # filter and add remains to warnings
+        pipeline(
+            globals_table.keys()
+            , bind(filter, not_builtin)
+            , bind(filter, not_jsignored)
+            , bind(filter, not_libsymbol)
+            , bind(filter, not_confsymbol)
+            , warn_appender
+            )
 
 
     def locals_shadowing_globals(self, scope):
