@@ -273,10 +273,11 @@ class ASTReducer(treeutil.NodeVisitor):
         if hasattr(op1, "evaluated"):
             if operator in self.operations:
                 evaluated = self.operations[operator](op1.evaluated)
-                nnode = symbol("constant")(
-                    node.get("line"), node.get("column"))
-                set_node_type_from_value(nnode, evaluated)
-                nnode.evaluated = evaluated
+                if evaluated!=():
+                    nnode = symbol("constant")(
+                        node.get("line"), node.get("column"))
+                    set_node_type_from_value(nnode, evaluated)
+                    nnode.evaluated = evaluated
         return nnode
 
     def _visit_dyadic(self, node, operator):
@@ -289,10 +290,11 @@ class ASTReducer(treeutil.NodeVisitor):
                 nnode = op1 if evaluated==op1.evaluated else op2
             elif all([hasattr(x, 'evaluated') for x in (op1, op2)]):
                 evaluated = self.operations[operator](op1.evaluated, op2.evaluated)
-                nnode = symbol("constant")(
-                    node.get("line"), node.get("column"))
-                set_node_type_from_value(nnode, evaluated)
-                nnode.evaluated = evaluated
+                if evaluated!=():
+                    nnode = symbol("constant")(
+                        node.get("line"), node.get("column"))
+                    set_node_type_from_value(nnode, evaluated)
+                    nnode.evaluated = evaluated
         return nnode
 
     ##
