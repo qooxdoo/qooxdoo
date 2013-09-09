@@ -7,7 +7,7 @@ This cheat sheet summarizes the options available for the generator and its Json
 Command-line Options
 =====================
 
-::
+.. code-block:: none
 
     shell> generator.py -h
     Usage: generator.py [options] job,...
@@ -32,8 +32,6 @@ Command-line Options
       -m KEY:VAL, --macro=KEY:VAL
                             define/overwrite a global 'let' macro KEY with value
                             VAL
-      -d, --daemon          (EXPERIMENTAL - DON'T USE) puts the generator in
-                            daemon mode
       -I, --no-progress-indicator
                             suppress animated progress indication
 
