@@ -92,6 +92,18 @@ img.no-content {
   @include transform(translate3d(0,10000px,0));
 }
 
+// IOS BUGFIXES
+
+// Bugfix #7717 - On iOS7 the headers are partially covered by the browser's chrome.
+.root.ios .master-detail-master > * {
+  padding-bottom: 20px;
+}
+
+// iOS flickering bug fix for slider.
+.ios .slider, .slider > div:after{
+  -webkit-backface-visibility: hidden;
+}
+
 // WEBKIT ONLY
 
 input::-webkit-input-placeholder {

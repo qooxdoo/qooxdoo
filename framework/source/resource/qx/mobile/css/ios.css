@@ -75,6 +75,12 @@ img.no-content {
   -moz-transform: translate3d(0, 10000px, 0);
   transform: translate3d(0, 10000px, 0); }
 
+.root.ios .master-detail-master > * {
+  padding-bottom: 20px; }
+
+.ios .slider, .slider > div:after {
+  -webkit-backface-visibility: hidden; }
+
 input::-webkit-input-placeholder {
   line-height: normal; }
 
@@ -801,9 +807,6 @@ input, select, .text-area {
 
 .selectbox-unselected > .list-itemimage {
   display: none; }
-
-.ios .slider {
-  -webkit-backface-visibility: hidden; }
 
 .slider {
   -webkit-border-radius: 20px;
