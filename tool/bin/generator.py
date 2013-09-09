@@ -177,9 +177,8 @@ def main():
         if default_job:
             options.jobs.append(default_job)
         else:
-            if not options.daemon:
-                listJobs(console, availableJobs, config)
-                sys.exit(1)
+            listJobs(console, availableJobs, config)
+            sys.exit(1)
 
     elif '_all_' in options.jobs:
         options.jobs = []
