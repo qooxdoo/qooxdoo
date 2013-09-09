@@ -740,6 +740,9 @@ input, select, .text-area {
 .root.portrait .drawer:not(.hidden) + .master-detail-detail {
   pointer-events: none; }
 
+.root.ios .master-detail-master > * {
+  padding-bottom: 20px; }
+
 .menu {
   min-width: 200px; }
 
@@ -1059,6 +1062,7 @@ input, select, .text-area {
   display: block;
   position: absolute;
   background-color: #fff;
+  -webkit-backface-visibility: hidden;
   height: 25px;
   width: 25px;
   top: -6px;

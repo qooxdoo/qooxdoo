@@ -2,11 +2,6 @@
 // SLIDER
 //
 
-.ios .slider {
-  // iOS6 flickering bug fix
-  -webkit-backface-visibility: hidden;
-}
-
 .slider {
   position: relative;
   top:6px;
