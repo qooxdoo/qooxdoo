@@ -193,7 +193,8 @@
 
       "environment" :
       {
-        "qx.mobile.emulatetouch" : true
+        "qx.mobile.emulatetouch" : true,
+        "qx.mobile.nativescroll" : false
       },
 
       "compile-options" :
@@ -216,7 +217,8 @@
 
       "environment" :
       {
-        "qx.mobile.emulatetouch" : true
+        "qx.mobile.emulatetouch" : true,
+        "qx.mobile.nativescroll" : false
       },
 
       "compile-options" :
