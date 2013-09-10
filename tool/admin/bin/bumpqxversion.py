@@ -139,6 +139,9 @@ Files = {
     "./tool/data/generator/copyright.include.js" : [
         r'qooxdoo v(%s) \|' % qxversion_regexp,
         ],
+    "./tool/data/generator/active_reload.js" : [
+        r'qooxdoo v(%s) \|' % qxversion_regexp,
+        ],
     "./component/standalone/server/test/rhino.js" : [
         r'qx-oo-(%s).js' % qxversion_regexp,
         ],
