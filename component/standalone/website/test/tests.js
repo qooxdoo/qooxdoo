@@ -2526,6 +2526,7 @@ testrunner.define({
     q.define("XXXXX", {statics : { a: 123 }});
     this.assertEquals(123, XXXXX.a);
     window["XXXXX"] = undefined;
+    q.$$qx.Bootstrap.$$registry["XXXXX"] = null;
 
     var C = q.define({members : { a : function() {return 123;}}});
     var c = new C();
