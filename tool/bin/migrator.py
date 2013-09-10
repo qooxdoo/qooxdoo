@@ -77,15 +77,20 @@ MIGRATION_ORDER = [
     "1.5",
     "1.5.1",
     "1.6",
+    "1.6.1",
     "2.0",
     "2.0.1",
     "2.0.2",
+    "2.0.3",
+    "2.0.4",
     "2.1",
     "2.1.1",
+    "2.1.2",
     "3.0",
+    "3.0.1"
 ]
 
-default_old_version = "2.1.1"
+default_old_version = "2.1.2"
 
 LOGGING_READY = False
 
@@ -433,7 +438,7 @@ def getPatchDirectory():
 
 def getNeededUpdates(baseVersion):
     """
-    Returns an array of needed uptated to upgrade to the current version
+    Returns an array of needed updates to upgrade to the current version
     """
     return MIGRATION_ORDER[MIGRATION_ORDER.index(getNormalizedVersion(baseVersion))+1:]
 
@@ -483,7 +488,7 @@ def readPatchInfoFiles(baseDir):
     """
     Reads all patch/info files from a directory and compiles the containing
     regular expressions.
-    Retuns a list comiled RE (the output of entryCompiler)
+    Returns a list of compiled RE (the output of entryCompiler)
     """
     patchList = []
     emptyLine = re.compile("^\s*$")
