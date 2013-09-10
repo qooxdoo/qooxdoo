@@ -69,7 +69,12 @@ qx.Bootstrap.define("qxWeb", {
         }
       }
 
-      var col = qx.lang.Array.cast(clean, qxWeb);
+      var clazz = qxWeb;
+      if (arg[0] && arg[0].getAttribute && arg[0].getAttribute("qx-class")) {
+        clazz = qx.Bootstrap.getByName(arg[0].getAttribute("qx-class")) || clazz;
+      }
+
+      var col = qx.lang.Array.cast(clean, clazz);
       for (var i=0; i < qxWeb.__init.length; i++) {
         qxWeb.__init[i].call(col);
       }
