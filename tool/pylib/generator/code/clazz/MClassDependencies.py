@@ -408,6 +408,9 @@ class MClassDependencies(object):
             is_lib_class = True
             if len(assembled) > len(className):
                 classAttribute = assembled[len(className)+1:]
+                dotidx = classAttribute.find(".") # see if classAttribute is chained too
+                if dotidx > -1:
+                    classAttribute = classAttribute[:dotidx]    # only use the first component
             else:
                 classAttribute = ''
         # we allow self-references, to be able to track method dependencies within the same class
