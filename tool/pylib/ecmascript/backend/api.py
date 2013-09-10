@@ -807,7 +807,7 @@ def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDe
 
     # Read all description, param and return attributes
     isAbstract = handleFunctionOtherAttributes(classNode, funcItem, name, commentAttributes, node, isAbstract)
-    
+
     # Check for documentation errors
     if node.hasChild("params"):
         paramsListNode = node.getChild("params")
@@ -972,7 +972,7 @@ def handleJSDocDecsription(attrib_desc, treeItem=None):
             err_node = createError("Documentation is missing.", treeItem)
         descNode = tree.Node("desc").set("text", attrib_desc["text"])
     return descNode, err_node
-         
+
 def handleJSDocSee(attrib_see, treeItem=None):
     result_node = None
     err_node = None
@@ -1897,7 +1897,10 @@ def checkLink(link, docTree, index):
 
         # unknown class item
         if not "#" + targetItemName in index["__index__"]:
-            brokenLinks[ref] = link
+            # the index doesn't tell us if the class is static
+            # so we have to assume #construct is a valid target
+            if targetItemName != "construct":
+                brokenLinks[ref] = link
             continue
 
         classHasItem = False
