@@ -398,6 +398,9 @@ class MClassDependencies(object):
         className = lint.extension_match_in(assembled, ClassesAll, [])
         if className and len(assembled)>len(className):
             classAttribute = assembled[len(className)+1:]
+            dotidx = classAttribute.find(".") # see if classAttribute is chained too
+            if dotidx > -1:
+                classAttribute = classAttribute[:dotidx]    # only use the first component
         else:
             classAttribute = ''
         assembled_parts = assembled.split('.')
