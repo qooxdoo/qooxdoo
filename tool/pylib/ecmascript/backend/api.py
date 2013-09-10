@@ -1868,7 +1868,10 @@ def checkLink(link, docTree, index):
 
         # unknown class item
         if not "#" + targetItemName in index["__index__"]:
-            brokenLinks[ref] = link
+            # the index doesn't tell us if the class is static
+            # so we have to assume #construct is a valid target
+            if targetItemName != "construct":
+                brokenLinks[ref] = link
             continue
 
         classHasItem = False
