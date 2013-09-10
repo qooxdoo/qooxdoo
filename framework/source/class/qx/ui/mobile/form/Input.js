@@ -45,6 +45,10 @@ qx.Class.define("qx.ui.mobile.form.Input",
   {
     this.base(arguments);
     this._setAttribute("type", this._getType());
+
+    if(qx.core.Environment.get("os.name") == "ios") {
+      this.addListener("blur", this._onBlur, this);
+    }
   },
 
   /*
@@ -71,7 +75,23 @@ qx.Class.define("qx.ui.mobile.form.Input",
       if (qx.core.Environment.get("qx.debug")) {
         throw new Error("Abstract method call");
       }
-    }
+    },
 
+
+    /**
+     * Handles the blur event on this input.
+     */
+    _onBlur: function() {
+      setTimeout(function() {
+        window.scrollTo(0, 0);
+      }, 150);
+    }
+  },
+
+
+  destruct : function() {
+    if (qx.core.Environment.get("os.name") == "ios") {
+      this.removeListener("blur", this._onBlur, this);
+    }
   }
 });
