@@ -223,7 +223,7 @@ htmlhelp_basename = 'qooxdoo doc'
 # (source start file, target name, title, author, documentclass [howto/manual], toctree_only [True/False]).
 latex_documents = [
   ('index', 'qooxdoo.tex', u'qooxdoo Documentation',
-   u'qooxdoo developers', 'manual', True),
+   u'qooxdoo developers, 1&1 Internet AG', 'manual', True),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
