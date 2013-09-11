@@ -74,7 +74,8 @@
         "testrunner.view" : "${TESTRUNNER_VIEW}",
         "testrunner.testParts" : false,
         "testrunner.reportServer" : null,
-        "testrunner.performance" : true
+        "testrunner.performance" : true,
+        "testrunner.testOrigin" : "inline"
       },
 
       "compile-options" :
