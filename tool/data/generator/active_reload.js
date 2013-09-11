@@ -13,7 +13,7 @@ if (typeof(qx_AR) === "undefined" ) {
         qx_AR.doReloadIf(request);
       } else {
         //console.log(qx_AR.ScriptTags.length, data);
-        console.log(qx_AR.ScriptTags.length);
+        //console.log(qx_AR.ScriptTags.length);
         while (qx_AR.ScriptTags.length) {
           var el = qx_AR.ScriptTags.shift();
           el.parentNode.removeChild(el);
