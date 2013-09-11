@@ -97,7 +97,7 @@ qx.Class.define("feedreader.model.Model",
       );
       staticFeedFolder.getFeeds().push(
         new feedreader.model.Feed(
-          "Surfin' Safari", "http://webkit.org/blog/feed/", "static"
+          "Firefox Future Releases", "http://blog.mozilla.org/futurereleases/feed/", "static"
         )
       );
 
