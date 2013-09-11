@@ -181,6 +181,38 @@ Use the controls on the File Manager view.
   * Hit the ``Save`` button before leaving the form. 
 * Upload a ``readme.rst`` file into the same folder with the release version and the essential links (usually project/about, release notes and manual; see older releases). This will be displayed automatically when the page is rendered. (This feature is such that any file containing the string "readme" in its name (case-insensitive) will be used in this way. Sourceforge supports various `markup formats <https://sourceforge.net/p/forge/documentation/Files-Readme/>`_, among them *.rst* (but no HTML, and no binaries like PDF), so we can reuse our reST know-how here).
 
+
+.. _pages/project/release_how_to_build.rst#publish_at_github:
+
+Publish the SDK at Github
+=============================
+
+Currently, we also publish the SDK with Github. This should actually be done
+after the `Tagging`_ (see further), as you want to have the git tag available to
+refer to it.
+
+* Go to Github's `release management
+  <https://github.com/qooxdoo/qooxdoo/releases>`_. You need to be logged in to
+  your Github account, with admin priviledges for this task. You should see the
+  new release in the list with no description and only the .zip and .tar.gz
+  source download links.
+* Hit the ''Draft a new release'' button.
+* In the *Tag version* text field enter the tag name (e.g. *"release_3_0_1"*).
+* Enter the *Release title* (e.g. *"qooxdoo 3.0.1 release"*).
+* In the *Describe this release* text area, reuse the release notes from
+  Sourceforge (just converted to markdown), like:
+
+  ::
+
+    * Released: *2013-09-11*
+    * [Overview](http://manual.qooxdoo.org/3.0.1/pages/introduction/about.html)
+    * [Release notes] (http://qooxdoo.org/project/release_notes/3.0.1)
+    * [Manual] (http://manual.qooxdoo.org/3.0.1/)
+
+* From a file explorer, drop the release SDK onto the *Attach binaries* zone.
+* Hit the *Publish release* button.
+
+
 .. _pages/project/release_how_to_build.rst#put_the_demos_online:
 
 Put the Demos online
