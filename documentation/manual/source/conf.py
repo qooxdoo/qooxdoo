@@ -43,7 +43,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'qooxdoo'
-copyright = u'2011-2013, ' + project + ' developers'
+copyright = u'2011-2013, 1&1 Internet AG'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -223,7 +223,7 @@ htmlhelp_basename = 'qooxdoo doc'
 # (source start file, target name, title, author, documentclass [howto/manual], toctree_only [True/False]).
 latex_documents = [
   ('index', 'qooxdoo.tex', u'qooxdoo Documentation',
-   u'qooxdoo developers, 1&1 Internet AG', 'manual', True),
+   u'qooxdoo developers', 'manual', True),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
