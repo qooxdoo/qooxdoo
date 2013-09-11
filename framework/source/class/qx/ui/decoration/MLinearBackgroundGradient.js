@@ -298,14 +298,14 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
      * @return {String} The resolved color
      */
     __getColor : function(color) {
-      if(this.colorResolver === null) {
+      if(this.__colorResolver === null) {
         if(qx.core.Environment.get("qx.theme")) {
-          this.colorResolver = qx.theme.manager.Color.getInstance();
+          this.__colorResolver = qx.theme.manager.Color.getInstance();
         } else {
-          this.colorResolver = false;
+          this.__colorResolver = false;
         }
       }
-      return this.colorResolver ? this.colorResolver.resolve(color) : color;
+      return this.__colorResolver ? this.__colorResolver.resolve(color) : color;
     },
 
     // property apply
