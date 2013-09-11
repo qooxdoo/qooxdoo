@@ -253,6 +253,10 @@ qx.Class.define("testrunner.view.Html", {
 
       q("#testfilter").on("keyup", function(ev) {
         this.__filterTimer.restart();
+      }, this)
+      .on("search", function() {
+        var filter = q("#testfilter").getValue();
+        this.filterTests(filter);
       }, this);
     },
 
