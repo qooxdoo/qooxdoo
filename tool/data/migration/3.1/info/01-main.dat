@@ -1,2 +1,2 @@
 \bqx\.ui\.mobile\.form\.Slider\._getOffsetForKnob\b=The method '_getOffsetForKnob()' is not available anymore.
-
+\bqx\.io\.ScriptLoader\b=The experimental ScriptLoader has been removed. Please use 'qx.bom.request.Script' instead.
