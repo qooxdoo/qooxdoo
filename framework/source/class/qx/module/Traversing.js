@@ -78,7 +78,11 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * collection.
      *
      * @attach {qxWeb}
-     * @param fn {Function} Callback function
+     * @param fn {Function} Callback function which is called with two parameters
+     * <ul>
+     *  <li>current item - DOM node</li>
+     *  <li>current index - Number</li>
+     * </ul>
      * @param ctx {Object} Context object
      * @return {qxWeb} The collection for chaining
      */
