@@ -100,13 +100,12 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
         if(item instanceof qx.ui.mobile.form.TextArea) {
           this._addInScrollComposite(item,name);
         } else {
-          if(this._isOneLineWidget(item)) {
-            this._addInOneLine(item, name);
+          if (this._isOneLineWidget(item)) {
+            this._addRow(item, name, new qx.ui.mobile.layout.HBox());
           } else {
-            this._addInSeparateLines(item, name);
+            this._addRow(item, name, new qx.ui.mobile.layout.VBox());
           }
         }
-
 
         if(!isLastItem) {
           this._addSeparationRow();
@@ -126,7 +125,8 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
     _addInScrollComposite : function(item,name) {
       var scrollContainer = new qx.ui.mobile.container.ScrollComposite();
       scrollContainer.add(item,{flex:1});
-      this._addInSeparateLines(scrollContainer,name);
+
+      this._addRow(scrollContainer,name,new qx.ui.mobile.layout.VBox());
     },
 
 
@@ -136,26 +136,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      * @param name {String} A name for the form item.
      */
     _addInSeparateLines : function(item, name) {
-      var labelRow = new qx.ui.mobile.form.Row();
-      labelRow.addCssClass("form-row-content");
-
-      var itemRow = new qx.ui.mobile.form.Row();
-      itemRow.addCssClass("form-row-content");
-
-      if(name) {
-        var label = new qx.ui.mobile.form.Label(name);
-        label.setLabelFor(item.getId());
-
-        labelRow.add(label);
-        this._labels.push(label);
-
-        this._add(labelRow);
-        this._rows.push(labelRow);
-      }
-
-      itemRow.add(item);
-      this._add(itemRow);
-      this._rows.push(itemRow);
+      this._addRow(item, name, new qx.ui.mobile.layout.VBox());
     },
 
 
@@ -165,7 +146,18 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      * @param name {String} A name for the form item.
      */
     _addInOneLine : function(item, name) {
-      var row = new qx.ui.mobile.form.Row(new qx.ui.mobile.layout.HBox());
+      this._addRow(item, name, new qx.ui.mobile.layout.HBox());
+    },
+
+
+    /**
+    * Adds a label and its according widget in a row and applies the given layout.
+    * @param item {qx.ui.mobile.core.Widget} A form item to render. 
+    * @param name {String} A name for the form item. 
+    * @param layout {qx.ui.mobile.layout.Abstract} layout of the rendered row.
+    */
+    _addRow : function(item, name, layout) {
+      var row = new qx.ui.mobile.form.Row(layout);
       row.addCssClass("form-row-content");
 
       if(name != null) {
