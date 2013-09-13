@@ -303,10 +303,12 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * Refreshs selection dialogs model, and shows it.
      */
     __showSelectionDialog : function () {
-      // Set index before items, because setItems() triggers rendering.
-      this.__selectionDialog.setSelectedIndex(this.getSelection());
-      this.__selectionDialog.setItems(this.getModel());
-      this.__selectionDialog.show();
+      if(this.isEnabled() == true) {
+        // Set index before items, because setItems() triggers rendering.
+        this.__selectionDialog.setSelectedIndex(this.getSelection());
+        this.__selectionDialog.setItems(this.getModel());
+        this.__selectionDialog.show();
+      }
     },
 
 
