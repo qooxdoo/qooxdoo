@@ -43,16 +43,16 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'qooxdoo'
-copyright = u'2011-2013, ' + project + ' developers'
+copyright = u'2011-2013, 1&1 Internet AG'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
 # The short X.Y version.
-version = '3.0.1'
+version = '3.0.2'
 # The full version, including alpha/beta/rc tags.
-release = '3.0.1'
+release = '3.0.2'
 # The current git branch (used for github links)
 git_branch = "branch_3_0_x"
 
@@ -60,7 +60,7 @@ git_branch = "branch_3_0_x"
 # use e.g. as "%{version}" anywhere in .rst files
 vMajor = "3"
 vMinor = "0"
-vPatch = "1"
+vPatch = "2"
 qxmacros = {
     "version"  : vMajor + '.' + vMinor + (('.' + vPatch) if vPatch else '')
    ,"versionL" : vMajor + '.' + vMinor + '.x' # latest in this line
@@ -223,7 +223,7 @@ htmlhelp_basename = 'qooxdoo doc'
 # (source start file, target name, title, author, documentclass [howto/manual], toctree_only [True/False]).
 latex_documents = [
   ('index', 'qooxdoo.tex', u'qooxdoo Documentation',
-   u'qooxdoo developers, 1&1 Internet AG', 'manual', True),
+   u'qooxdoo developers', 'manual', True),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

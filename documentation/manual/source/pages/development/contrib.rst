@@ -256,6 +256,7 @@ to label your contrib with one or more of these supported categories:
 * drawing
 * tool
 * backend
+* utility
 
 We will use this information to categorize the contribs in a future
 web interface. If you provide more than one category, the first one

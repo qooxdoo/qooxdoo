@@ -1,4 +1,4 @@
-/** qooxdoo v3.0.1 | (c) 2013 1&1 Internet AG, http://1und1.de | http://qooxdoo.org/license */
+/** qooxdoo v3.0.2 | (c) 2013 1&1 Internet AG, http://1und1.de | http://qooxdoo.org/license */
 // Active reload support
 if (typeof(qx_AR) === "undefined" ) {
   qx_AR = {
@@ -13,7 +13,7 @@ if (typeof(qx_AR) === "undefined" ) {
         qx_AR.doReloadIf(request);
       } else {
         //console.log(qx_AR.ScriptTags.length, data);
-        console.log(qx_AR.ScriptTags.length);
+        //console.log(qx_AR.ScriptTags.length);
         while (qx_AR.ScriptTags.length) {
           var el = qx_AR.ScriptTags.shift();
           el.parentNode.removeChild(el);

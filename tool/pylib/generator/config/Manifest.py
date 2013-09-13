@@ -136,7 +136,7 @@ class Manifest(object):
                         "category": {
                              "type": "array",
                              "items": { "enum": ["theme", "widget", "drawing",
-                                                 "tool", "backend"] }
+                                                 "tool", "backend", "utility"] }
                         },
                         "keywords": {
                             "type": "array",
@@ -220,7 +220,7 @@ class Manifest(object):
                         },
                         "type": {
                             "type": "string",
-                            "enum": ["library", "application", "add-in"]
+                            "enum": ["library", "application", "add-in", "contribution", "theme", "backend", "plugin", "tool"]
                         }
                     }
                 }
