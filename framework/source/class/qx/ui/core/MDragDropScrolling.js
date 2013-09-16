@@ -57,6 +57,13 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
     {
       check : "Integer",
       init : 30
+    },
+
+    /** The factor for slowing down the scrolling. */
+    dragScrollSlowDownFactor :
+    {
+      check : "Float",
+      init : 0.1
     }
   },
 
@@ -213,16 +220,29 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
     },
 
     /**
-     * Calculates the scroll amount (which may be negative).
+     * Calculates the threshold exceedance (which may be negative).
      *
      * @param diff {Number} Difference value of one edgeType.
      * @param threshold {Number} x-axis or y-axis threshold.
-     * @return {Number} Scroll amount (positive or negative).
+     * @return {Number} Threshold exceedance (positive or negative).
      */
-    _calculateScrollAmount : function(diff, threshold)
+    _calculateThresholdExceedance : function(diff, threshold)
     {
       var amount = threshold - Math.abs(diff);
       return diff < 0 ? (amount * -1) : amount;
+    },
+
+    /**
+     * Calculates the scroll amount (which may be negative).
+     * The amount is influenced by the scrollbar size (bigger = faster)
+     * the exceedanceAmount (bigger = faster) and the slowDownFactor.
+     *
+     * @param scrollbarSize {Number} Size of the scrollbar.
+     * @return {Number} Scroll amount (positive or negative).
+     */
+    _calculateScrollAmount : function(scrollbarSize, exceedanceAmount)
+    {
+      return ((scrollbarSize / 100) * exceedanceAmount) * this.getDragScrollSlowDownFactor();
     },
 
     /**
@@ -230,10 +250,17 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      *
      * @param scrollable {qx.ui.core.Widget} Scrollable which has scrollbar child controls.
      * @param axis {String} Can be 'y' or 'x'.
-     * @param amount {Number} Amount to scroll which may be negative.
+     * @param amount {Number} Threshold exceedance amount which may be negative.
      */
-    _scrollByAmount : function(scrollable, axis, amount) {
+    _scrollBy : function(scrollable, axis, exceedanceAmount) {
       var scrollbar = scrollable.getChildControl("scrollbar-"+axis, true);
+      if (!scrollbar) {
+        return;
+      }
+      var bounds = scrollbar.getBounds(),
+          scrollbarSize = axis === "x" ? bounds.width : bounds.height,
+          amount = this._calculateScrollAmount(scrollbarSize, exceedanceAmount);
+
       if (this._isScrollbarExceedingMaxPos(scrollbar, axis, amount)) {
         this.__dragScrollTimer.stop();
       }
@@ -273,7 +300,7 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
             },
             edgeType = null,
             axis = "",
-            amount = 0;
+            exceedanceAmount = 0;
 
         edgeType = this._getEdgeType(diff, this.getDragScrollThresholdX(), this.getDragScrollThresholdY());
         if (!edgeType) {
@@ -283,13 +310,13 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
         axis = this._getAxis(edgeType);
 
         if (this._isScrollbarVisible(scrollable, axis)) {
-          amount = this._calculateScrollAmount(diff[edgeType], this._getThresholdByEdgeType(edgeType));
+          exceedanceAmount = this._calculateThresholdExceedance(diff[edgeType], this._getThresholdByEdgeType(edgeType));
 
           this.__dragScrollTimer = new qx.event.Timer(50);
           this.__dragScrollTimer.addListener("interval",
             function(scrollable, axis, amount) {
-              this._scrollByAmount(scrollable, axis, amount);
-            }.bind(this, scrollable, axis, amount));
+              this._scrollBy(scrollable, axis, amount);
+            }.bind(this, scrollable, axis, exceedanceAmount));
           this.__dragScrollTimer.start();
         }
       }

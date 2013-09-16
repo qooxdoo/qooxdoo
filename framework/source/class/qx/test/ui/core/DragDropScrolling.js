@@ -121,20 +121,27 @@ qx.Class.define("qx.test.ui.core.DragDropScrolling",
       this.assertFalse(this._isScrollbarExceedingMaxPos(scrollbar, "y", 30));
     },
 
-    testCalculateScrollAmount : function()
+    testCalculateThresholdExeedance : function()
     {
-      this.assertEquals(10, this._calculateScrollAmount(10, 20));
-      this.assertEquals(-10, this._calculateScrollAmount(-10, 20));
+      this.assertEquals(10, this._calculateThresholdExceedance(10, 20));
+      this.assertEquals(-10, this._calculateThresholdExceedance(-10, 20));
     },
 
-    testScrollByAmount : function()
+    testCalculateScrollAmount : function()
+    {
+      this.assertEquals(10, this._calculateScrollAmount(500, 20));
+      this.assertEquals(-10, this._calculateScrollAmount(-500, 20));
+    },
+
+    testScrollBy : function()
     {
       var scrollbar = this.list.getChildControl("scrollbar-y", true),
           initPos = scrollbar.getPosition(),
-          scrollAmount = 20;
+          exceedanceAmount = 20,
+          amount = this._calculateScrollAmount(scrollbar.getBounds().height, exceedanceAmount);
 
-      this._scrollByAmount(this.list, "y", scrollAmount);
-      this.assertEquals(initPos + scrollAmount, scrollbar.getPosition());
+      this._scrollBy(this.list, "y", exceedanceAmount);
+      this.assertEquals(Math.ceil(initPos + amount), scrollbar.getPosition());
     }
   }
 });
