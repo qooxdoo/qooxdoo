@@ -189,11 +189,18 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       this.base(arguments);
 
       if(this.getHideOnBlockerClick()) {
-        this._getBlocker().addListenerOnce("tap", this.hide, this);
+        this._getBlocker().addListener("tap", this.hide, this);
       }
 
       this.scrollToItem(this.getSelectedIndex());
 
+    },
+
+
+    // overridden
+    hide : function() {
+      this.base(arguments);
+      this._getBlocker().removeListener("tap", this.hide, this);
     },
 
 
