@@ -137,7 +137,7 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
      * Returns the assigned card layout.
      * @return {qx.ui.mobile.layout.Card} assigned Card Layout.
      */
-    getLayout : function(){
+    getLayout : function() {
       return this.__layout;
     },
 
@@ -163,7 +163,27 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
       this.__layout = new qx.ui.mobile.layout.Card();
       var content = new qx.ui.mobile.container.Composite(this.__layout);
       this.__layout.addListener("updateLayout", this._onUpdateLayout, this);
+
+      this.getLayout().addListener("animationStart", this._onAnimationStart, this);
+      this.getLayout().addListener("animationEnd", this._onAnimationEnd, this);
+
       return content;
+    },
+
+
+    /**
+    * Handler for the "animationStart" event on the layout.
+    */
+    _onAnimationStart : function() {
+      this.addCssClass("blocked");
+    },
+
+
+    /**
+    * Handler for the "animationEnd" event on the layout.
+    */
+    _onAnimationEnd : function() {
+      this.removeCssClass("blocked");
     },
 
 
@@ -234,6 +254,9 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
 
   destruct : function()
   {
+    this.getLayout().removeListener("animationStart",this._onAnimationStart, this);
+    this.getLayout().removeListener("animationEnd",this._onAnimationEnd, this);
+
     this._disposeObjects("__navigationBar", "__content","__layout");
     this.__navigationBar = this.__content = this.__layout = null;
   }

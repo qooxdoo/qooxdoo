@@ -27,6 +27,9 @@ html, body {
 .exclude {
   display: none !important; }
 
+.blocked {
+  pointer-events: none; }
+
 .space-top {
   margin-top: 4px; }
 
