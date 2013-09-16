@@ -139,6 +139,16 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       init : false,
       check : "Boolean",
       nullable: false
+    },
+
+
+    /**
+     * Indicates whether the a modal popup should disappear when user taps/clicks on Blocker.
+     */
+    hideOnBlockerClick :
+    {
+      check : "Boolean",
+      init : false
     }
   },
 
@@ -152,7 +162,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     __widget: null,
     __titleWidget: null,
     __arrow : null,
-    __blocker : false,
     __lastPopupDimension : null,
     __arrowSize : 12,
 
@@ -246,7 +255,11 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
       if(this.getModal())
       {
-        this._getBlocker().show();
+        qx.ui.mobile.core.Blocker.getInstance().show();
+
+        if(this.getHideOnBlockerClick()) {
+          qx.ui.mobile.core.Blocker.getInstance().addListener("tap", this.hide, this);
+        }
       }
     },
 
@@ -266,8 +279,10 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
       if(this.getModal())
       {
-        this._getBlocker().hide();
+        qx.ui.mobile.core.Blocker.getInstance().hide();
       }
+
+      qx.ui.mobile.core.Blocker.getInstance().removeListener("tap", this.hide, this);
     },
 
 
@@ -392,8 +407,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       qx.event.Registration.addListener(window, "resize", this._updatePosition, this);
 
       if(this.__anchor) {
-        var appRoot = qx.ui.mobile.dialog.Popup.ROOT;
-        appRoot.addListener("touchstart",this._trackUserTouch,this);
+        qx.ui.mobile.dialog.Popup.ROOT.addListener("touchstart",this._trackUserTouch,this);
       }
 
       this.addListener("touchstart", this._preventTouch, this);
@@ -408,8 +422,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       qx.event.Registration.removeListener(window, "resize", this._updatePosition, this);
 
       if(this.__anchor) {
-        var appRoot = qx.ui.mobile.dialog.Popup.ROOT;
-        appRoot.removeListener("touchstart", this._trackUserTouch, this);
+        qx.ui.mobile.dialog.Popup.ROOT.removeListener("touchstart", this._trackUserTouch, this);
       }
 
       this.removeListener("touchstart", this._preventTouch, this);
@@ -567,6 +580,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
 
     /**
+     * @deprecated {3.1} Please use qx.ui.mobile.core.Blocker.getInstance() instead.
+     *
      * Returns the blocker widget.
      *
      * @return {qx.ui.mobile.core.Blocker} Returns the blocker widget.
@@ -582,5 +597,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
   {
     this.__unregisterEventListener();
     this._disposeObjects("__childrenContainer","__arrow");
+
+    this.__isShown = this.__percentageTop = this._anchor = this.__widget = this.__lastPopupDimension = null;
   }
 });
