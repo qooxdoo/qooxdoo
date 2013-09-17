@@ -103,7 +103,7 @@ qx.Bootstrap.define("qx.bom.Stylesheet",
       if (qx.core.Environment.get('qx.debug')) {
         var msg = "qx.bom.Stylesheet.addRule: The rule '" + entry + "' for the selector '" + selector +
         "' must not be enclosed in braces";
-        qx.core.Assert.assertFalse(/^\s*?{.*?}\s*?$/.test(entry), msg);
+        qx.core.Assert.assertFalse(/^\s*?\{.*?\}\s*?$/.test(entry), msg);
       }
 
       if (qx.core.Environment.get("html.stylesheet.insertrule")) {
