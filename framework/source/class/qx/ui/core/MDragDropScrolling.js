@@ -224,7 +224,7 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      *
      * @param diff {Number} Difference value of one edgeType.
      * @param threshold {Number} x-axis or y-axis threshold.
-     * @return {Number} Threshold exceedance (positive or negative).
+     * @return {Number} Threshold exceedance amount (positive or negative).
      */
     _calculateThresholdExceedance : function(diff, threshold)
     {
@@ -238,6 +238,7 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      * the exceedanceAmount (bigger = faster) and the slowDownFactor.
      *
      * @param scrollbarSize {Number} Size of the scrollbar.
+     * @param exceedanceAmount {Number} Threshold exceedance amount (positive or negative).
      * @return {Number} Scroll amount (positive or negative).
      */
     _calculateScrollAmount : function(scrollbarSize, exceedanceAmount)
@@ -250,7 +251,7 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      *
      * @param scrollable {qx.ui.core.Widget} Scrollable which has scrollbar child controls.
      * @param axis {String} Can be 'y' or 'x'.
-     * @param amount {Number} Threshold exceedance amount which may be negative.
+     * @param exceedanceAmount {Number} Threshold exceedance amount (positive or negative).
      */
     _scrollBy : function(scrollable, axis, exceedanceAmount) {
       var scrollbar = scrollable.getChildControl("scrollbar-"+axis, true);
