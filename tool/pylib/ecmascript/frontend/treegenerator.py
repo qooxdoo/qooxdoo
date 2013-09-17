@@ -93,7 +93,7 @@ STATEMENT_NODE_TYPES = "loop var continue break return switch throw try".split()
 StmntTerminatorTokens = ("eol", ";", "}", "eof")
 
 SYMBOLS = {
-    "infix" : "* / % << >> >>> < <= > >= != == !== === & ^ | && ||".split(),
+    "infix" : ", * / % << >> >>> < <= > >= != == !== === & ^ | && ||".split(),
     "infix_v" : "in instanceof".split(),
     "infix_r" : "= <<= -= += *= /= %= |= ^= &= >>= >>>=".split(),
     "prefix"  : "~ !".split(),  # '/' left out, as never seen by the parser as prefix op (but regexp constant)
@@ -809,7 +809,6 @@ def toListG(self):
 #def pfix(self):
 #    pass
 
-
 # ternary op ?:
 @method(symbol("?"))
 def ifix(self, left):
@@ -1368,7 +1367,7 @@ def std(self):
     advance("(")
     # try to consume the first part of a (pot. longer) condition
     if token.id != ";":
-        chunk = expression()
+        chunk = expression(symbol(",").bind_left+1)
     else:
         chunk = None
 
@@ -1414,7 +1413,7 @@ def std(self):
             exprList = symbol("expressionList")(token.get("line"), token.get("column"))
             second.childappend(exprList)
             while token.id != ';':
-                expr = expression(0)
+                expr = expression(symbol(",").bind_left+1)
                 exprList.childappend(expr)
                 if token.id == ',':
                     advance(',')
@@ -1426,7 +1425,7 @@ def std(self):
             exprList = symbol("expressionList")(token.get("line"), token.get("column"))
             third.childappend(exprList)
             while token.id != ')':
-                expr = expression(0)
+                expr = expression(symbol(",").bind_left+1)
                 exprList.childappend(expr)
                 if token.id == ',':
                     advance(',')
@@ -1539,9 +1538,8 @@ def std(self):
     body.childappend(statementOrBlock())
     self.childappend(body)
     advance("while")
-    advance("(")
-    self.childappend(expression(0))
-    advance(")")
+    group = advance("(")
+    self.childappend(group.pfix())
     return self
 
 @method(symbol("do"))
