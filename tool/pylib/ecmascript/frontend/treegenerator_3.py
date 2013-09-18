@@ -1539,6 +1539,19 @@ def toListG(self):
         yield e
 
 
+# The next is an experiment to parse 'while(a=1,b=2)' style conditional expressions
+@method(symbol("expressionList"))
+def pfix(self):
+    while True:
+        elem = expression()
+        self.childappend(elem)
+        if token.id != ",":
+            break
+        else:
+            self.childappend(token)
+            advance(",")
+    return self
+
 @method(symbol("expressionList"))
 def toJS(self, opts):  # WARN: this conflicts (and is overwritten) in for(;;).toJS
     r = []
@@ -1560,7 +1573,10 @@ def std(self):
     self.set("loopType", "WHILE")
     self.childappend(token)
     advance("(")
-    self.childappend(expression())
+    expList = symbol("expressionList")(token.get("line"), token.get("column"))
+    self.childappend(expList)
+    if token.id != ")":
+        expList.pfix()
     self.childappend(token)
     advance(")")
     body = symbol("body")(token.get("line"), token.get("column"))
@@ -1595,7 +1611,10 @@ def std(self):
     advance("while")
     self.childappend(token)
     advance("(")
-    self.childappend(expression(0))
+    expList = symbol("expressionList")(token.get("line"), token.get("column"))
+    self.childappend(expList)
+    if token.id != ")":
+        expList.pfix()
     self.childappend(token)
     advance(")")
     return self
