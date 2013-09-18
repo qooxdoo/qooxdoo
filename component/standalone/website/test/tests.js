@@ -3237,3 +3237,55 @@ testrunner.define({
   }
 
 });
+
+
+testrunner.define({
+  classname: "TextSelection",
+
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+
+  __testSelection : function(coll, selected) {
+    coll.setTextSelection(5, 9);
+    this.assertEquals(4, coll.getTextSelectionLength());
+    this.assertEquals(5, coll.getTextSelectionStart());
+    this.assertEquals(9, coll.getTextSelectionEnd());
+    this.assertEquals(selected, coll.getTextSelection());
+
+    coll.clearTextSelection();
+    this.assertEquals(0, coll.getTextSelectionLength());
+    this.assertEquals(0, coll.getTextSelectionStart());
+    this.assertEquals(0, coll.getTextSelectionEnd());
+    this.assertEquals("", coll.getTextSelection());
+  },
+
+  testInput : function() {
+    var coll = q.create('<input type="text" value="Just some text" />')
+    .appendTo("#sandbox");
+    this.__testSelection(coll, "some");
+  },
+
+  testTextarea : function() {
+    var coll = q.create('<textarea>Just some text</textarea>')
+    .appendTo("#sandbox");
+    this.__testSelection(coll, "some");
+  },
+
+  testSpan : function() {
+    var coll = q.create('<span>Just some text</span>')
+    .appendTo("#sandbox");
+    this.__testSelection(coll, "some");
+  },
+
+  testNoText : function() {
+    var coll = q.create("<h1></h1>");
+    coll.push(window);
+    coll.push(document.documentElement);
+    // Should not throw:
+    coll.setTextSelection(5, 9);
+    coll.getTextSelectionLength();
+    coll.getTextSelectionStart();
+    coll.getTextSelectionEnd();
+    coll.getTextSelection();
+  }
+});

@@ -85,7 +85,7 @@ COMPONENTS = apiviewer testrunner inspector storage server website
 FRAMEWORK_TARGETS = api test test-mobile dependencies
 TUTORIALS = mobiletweets tweets website
 
-WEBSITE_MODULES = core animation blocker cookie dataset dev io matchmedia messaging placeholder placement rest storage template transform util
+WEBSITE_MODULES = core animation blocker cookie dataset dev io matchmedia messaging placeholder placement rest storage template textselection transform util
 WEBSITE_MODULES_ZIP = q-modules-$(FRAMEWORK_VERSION).js.zip
 WEBSITE_MODULES_MIN_ZIP = q-modules-$(FRAMEWORK_VERSION).min.js.zip
 

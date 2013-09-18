@@ -22,8 +22,10 @@
 /**
  * Low-level selection API to select elements like input and textarea elements
  * as well as text nodes or elements which their child nodes.
+ *
+ * @ignore(qx.bom.Element, qx.bom.Element.blur)
  */
-qx.Class.define("qx.bom.Selection",
+qx.Bootstrap.define("qx.bom.Selection",
 {
   /*
   *****************************************************************************
@@ -620,7 +622,9 @@ qx.Class.define("qx.bom.Selection",
         if (qx.dom.Node.isElement(node) && (nodeName == "input" || nodeName == "textarea"))
         {
           node.setSelectionRange(0, 0);
-          qx.bom.Element.blur(node);
+          if (qx.bom.Element && qx.bom.Element.blur) {
+            qx.bom.Element.blur(node);
+          }
         }
         // if the given node is the body/document node -> collapse the selection
         else if (qx.dom.Node.isDocument(node) || nodeName == "body")

@@ -205,6 +205,7 @@
         "build-module-rest",
         "build-module-storage",
         "build-module-template",
+        "build-module-textselection",
         "build-module-transform",
         "build-module-util"
       ]
@@ -227,6 +228,7 @@
         "build-module-rest-min",
         "build-module-storage-min",
         "build-module-template-min",
+        "build-module-textselection-min",
         "build-module-transform-min",
         "build-module-util-min"
       ]
@@ -517,6 +519,24 @@
       "let" : {
         "Q_INCLUDES": ["qx.module.Template"],
         "MODULE_FILENAME" : "template"
+      }
+    },
+
+    "build-module-textselection" :
+    {
+      "extend" : ["build-module"],
+      "let" : {
+        "Q_INCLUDES": ["qx.module.TextSelection"],
+        "MODULE_FILENAME" : "textselection"
+      }
+    },
+
+    "build-module-textselection-min" :
+    {
+      "extend" : ["build-module-min"],
+      "let" : {
+        "Q_INCLUDES": ["qx.module.TextSelection"],
+        "MODULE_FILENAME" : "textselection"
       }
     },
 
