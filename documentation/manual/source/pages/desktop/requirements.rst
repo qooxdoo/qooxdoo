@@ -20,15 +20,15 @@ An application comprising of the %{qooxdoo} runtime and custom code written agai
 
 .. list-table::
 
-   * - .. image:: /_static/ie.png
+   * - .. image:: /_static/logo_ie_24x24.png
      - Internet Explorer 8+
-   * - .. image:: /_static/ff.png
+   * - .. image:: /_static/logo_firefox_24x24.png
      - Firefox 3.6+
-   * - .. image:: /_static/opera.png
+   * - .. image:: /_static/logo_opera_24x24.png
      - Opera 12+
-   * - .. image:: /_static/safari.png
+   * - .. image:: /_static/logo_safari_24x24.png
      - Safari 4+
-   * - .. image:: /_static/chrome.png
+   * - .. image:: /_static/logo_chrome_24x24.png
      - Chrome
 
 .. _pages/desktop/requirements#tools:

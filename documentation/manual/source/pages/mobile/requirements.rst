@@ -21,13 +21,13 @@ The following mobile browsers are supported:
 
 .. list-table::
 
-   * - .. image:: /_static/safari.png 
+   * - .. image:: /_static/logo_safari_24x24.png
      - Safari Mobile
-   * - .. image:: /_static/chrome.png 
+   * - .. image:: /_static/logo_chrome_24x24.png
      - Chrome for Android
-   * - .. image:: /_static/android.png
+   * - .. image:: /_static/logo_android_24x24.png
      - Android Native Browser
-   * - .. image:: /_static/ie10.png 
+   * - .. image:: /_static/logo_ie_24x24.png
      - Internet Explorer 10 (Windows Phone 8, Windows RT, Windows 8)
 
 Other mobile browsers like Opera Mini might work, but are not officially supported.
@@ -43,13 +43,13 @@ The following desktop browsers are supported:
 
 .. list-table::
 
-   * - .. image:: /_static/safari.png 
+   * - .. image:: /_static/logo_safari_24x24.png
      - Apple Safari 5+
-   * - .. image:: /_static/chrome.png 
+   * - .. image:: /_static/logo_chrome_24x24.png
      - Google Chrome 10+
-   * - .. image:: /_static/ff.png 
+   * - .. image:: /_static/logo_firefox_24x24.png
      - Mozilla Firefox 10+
-   * - .. image:: /_static/ie10.png
+   * - .. image:: /_static/logo_ie_24x24.png
      - Internet Explorer 10
 
 
