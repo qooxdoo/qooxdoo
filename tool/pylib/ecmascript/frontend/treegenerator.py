@@ -1549,9 +1549,7 @@ def toJS(self, opts):
     r.append(self.space())
     r.append(self.children[0].toJS(opts))
     r.append('while')
-    r.append('(')
     r.append(self.children[1].toJS(opts))
-    r.append(')')
     return ''.join(r)
 
 @method(symbol("do"))
