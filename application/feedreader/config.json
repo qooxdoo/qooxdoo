@@ -199,7 +199,10 @@
 
       "compile-options" :
       {
-        "paths" : { "file" : "source/script/${APPLICATION}-mobile.js" }
+        "paths": {
+          "file": "source/script/${APPLICATION}-mobile.js",
+          "loader-template": "${QOOXDOO_PATH}/tool/data/generator/mobile.loader.tmpl.js"
+        }
       },
 
       "=packages" : {}
