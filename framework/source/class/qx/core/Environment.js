@@ -958,6 +958,13 @@ qx.Bootstrap.define("qx.core.Environment",
             "please use 'css.pointerevents' instead.");
         }
       }
+      // @deprecated {3.1}
+      if (qx.Bootstrap.DEBUG) {
+        if (key === "json") {
+          qx.Bootstrap.warn("The environment key 'json' is deprecated " +
+            "and will eventually be removed.");
+        }
+      }
       // check the cache
       if (this.__cache[key] != undefined) {
         return this.__cache[key];
