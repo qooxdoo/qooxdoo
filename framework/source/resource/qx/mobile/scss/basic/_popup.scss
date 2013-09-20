@@ -5,11 +5,11 @@
 .popup {
   @include background($dialog-background);
   @include border-radius($dialog-border-radius);
-  @include box-shadow(0px pxToEm(2) pxToEm(7) 0px rgba(0,0,0,0.5));
+  @include box-shadow(0px rem(2) rem(7) 0px rgba(0,0,0,0.5));
 
   position: absolute;
   width: auto;
-  padding: pxToEm(6);
+  padding: rem(6);
   max-width: 90%;
   z-index: 101;
   clear: both;
@@ -19,23 +19,23 @@
   // Fallback if no gradient could be set.
   background-color: nth($dialog-background,1);
 
-  border: pxToEm(2) solid $dialog-border-color;
+  border: rem(2) solid $dialog-border-color;
   color: $dialog-title-text-color; 
 }
 
 .popup-title {
   font-weight: bold;
-  font-size: pxToEm(16);
-  margin-bottom: pxToEm(3);
+  font-size: rem(16);
+  margin-bottom: rem(3);
 } 
 
 .popup-content {
   height : 100%;
 }
 
-$arrow-size: pxToEm(12);
-$arrow-space: pxToEm(2);
-$arrow-position-offset: pxToEm(16);
+$arrow-size: rem(12);
+$arrow-space: rem(2);
+$arrow-position-offset: rem(16);
 
 @mixin arrow {
   position:absolute;
@@ -71,7 +71,7 @@ $arrow-position-offset: pxToEm(16);
 }
 
 .anchor.top.left:before {
-  top:-($arrow-size + pxToEm(3));
+  top:-($arrow-size + rem(3));
   left: $arrow-position-offset;
 }
 
@@ -81,7 +81,7 @@ $arrow-position-offset: pxToEm(16);
 }
 
 .anchor.bottom.left:before {
-  bottom:-($arrow-size + pxToEm(3));
+  bottom:-($arrow-size + rem(3));
   left: $arrow-position-offset;
 }
 
@@ -92,7 +92,7 @@ $arrow-position-offset: pxToEm(16);
 
 .anchor.top.right:before {
   right: $arrow-position-offset;
-  top:-($arrow-size + pxToEm(3));
+  top:-($arrow-size + rem(3));
 }
 
 .anchor.top.right:after {
@@ -101,7 +101,7 @@ $arrow-position-offset: pxToEm(16);
 }
 
 .anchor.bottom.right:before {
-  bottom:-($arrow-size + pxToEm(3));
+  bottom:-($arrow-size + rem(3));
   right: $arrow-position-offset;
 }
 

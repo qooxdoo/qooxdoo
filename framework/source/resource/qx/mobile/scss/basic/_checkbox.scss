@@ -14,7 +14,7 @@
   text-align:center;
 
   position:relative;
-  border: pxToEm(1) solid $checkbox-border-color;
+  border: rem(1) solid $checkbox-border-color;
   box-sizing:border-box;
 }
 
@@ -24,7 +24,7 @@
 
 .checkbox:after {
   @include transform(rotate(-45deg));
-  @include box-shadow(pxToEm(-1) pxToEm(1) pxToEm(1) 0px rgba(0,0,0,0.3));
+  @include box-shadow(rem(-1) rem(1) rem(1) 0px rgba(0,0,0,0.3));
 
   box-sizing: content-box;
 

@@ -5,12 +5,12 @@
 .text-field:not(.selectbox), .password-field, .number-field, .text-area {
   @include border-radius($input-border-radius);
 
-  border: pxToEm(1) solid $input-border-color;
+  border: rem(1) solid $input-border-color;
   color:  $input-text-color;
 }
 
 input.invalid {
-  border: pxToEm(1) solid $input-invalid-border-color !important;
+  border: rem(1) solid $input-invalid-border-color !important;
 }
 
 input, .text-area { 
@@ -22,14 +22,14 @@ input, select {
 }
 
 input, select, .text-area {
-  font-size: pxToEm(15);
+  font-size: rem(15);
 }
 
 
 .text-field:not(.selectbox),.number-field, .password-field {
   @include background-clip(padding-box);
-  text-indent: pxToEm(4);
-  height: pxToEm(26);
+  text-indent: rem(4);
+  height: rem(26);
 }
 
 .text-field {
@@ -51,8 +51,8 @@ input, select, .text-area {
   @include background-clip(padding-box);
 
   resize: none;
-  padding-top:pxToEm(4);
-  text-indent:pxToEm(4);
-  height: pxToEm(3);
+  padding-top:rem(4);
+  text-indent:rem(4);
+  height: rem(3);
   overflow:hidden;
 }

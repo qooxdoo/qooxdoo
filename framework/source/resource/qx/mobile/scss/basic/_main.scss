@@ -13,7 +13,7 @@ html {
 }
 
 .content:not(.group) .form-title {
-  text-indent:pxToEm(15);
+  text-indent:rem(15);
 }
 
 .root, .scroll {
@@ -23,15 +23,15 @@ html {
 }
 
 .group {
-   margin:pxToEm(10);
+   margin:rem(10);
 }
 
 .group.bordered {
   @include border-radius($group-border-radius);
 
-  border: pxToEm(1) solid $group-border-color;
+  border: rem(1) solid $group-border-color;
   background-color:$group-background-color;
-  padding:pxToEm(10);
+  padding:rem(10);
 }
 
 //

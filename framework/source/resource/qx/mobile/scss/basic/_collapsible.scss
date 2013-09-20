@@ -1,6 +1,6 @@
 .collapsible-content {
   background-color: $collapsible-content-background-color;
-  border: pxToEm(1) solid $collapsible-content-border-color;
+  border: rem(1) solid $collapsible-content-border-color;
   overflow: hidden;
 }
 
@@ -35,7 +35,7 @@
   @include background($collapsible-header-background);
   position:relative;
   padding: $collapsible-header-padding;
-  border: pxToEm(1) solid $collapsible-header-border-color;
+  border: rem(1) solid $collapsible-header-border-color;
 }
 
 .collapsible-header:not(.active) {

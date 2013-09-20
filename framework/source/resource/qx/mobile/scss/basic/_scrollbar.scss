@@ -5,7 +5,7 @@
 .scrollbarV > div {
   @include background-clip(padding-box);
   @include box-sizing(border-box);
-  @include border-radius(pxToEm(4));
+  @include border-radius(rem(4));
 
   background-color: #888888;
   position: absolute;
@@ -15,9 +15,9 @@
 
 .scrollbarV {
   position: absolute;
-  top: pxToEm(2);
-  right: pxToEm(2);
+  top: rem(2);
+  right: rem(2);
   bottom: 0px;
-  width: pxToEm(6);
+  width: rem(6);
   z-index: 100;
 }

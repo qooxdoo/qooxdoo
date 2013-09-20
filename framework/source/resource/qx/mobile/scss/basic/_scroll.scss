@@ -2,7 +2,7 @@
 // SCROLL CONTAINER
 //
 
-$scShadowOffset: pxToEm(10);
+$scShadowOffset: rem(10);
 $scShadowColor: rgba(0,0,0,0.3);
 $scShadowColorLight: rgba(0,0,0,0.2);
 
@@ -15,7 +15,7 @@ $scShadowColorLight: rgba(0,0,0,0.2);
         0px -1*$scShadowOffset $scShadowOffset -1*$scShadowOffset $scShadowColorLight
   );
 
-  border: pxToEm(1) solid $navigationpage-border-color;
+  border: rem(1) solid $navigationpage-border-color;
 }
 
 .scroll-container:before {
@@ -34,7 +34,7 @@ $scShadowColorLight: rgba(0,0,0,0.2);
 }
 
 .scroll-container.scrollable-top:before {
-  height:pxToEm(30);
+  height:rem(30);
 }
 
 .scroll-container:after {
@@ -54,11 +54,11 @@ $scShadowColorLight: rgba(0,0,0,0.2);
 }
 
 .scroll-container.scrollable-bottom:after {
-  height:pxToEm(30);
+  height:rem(30);
 }
 
 .scroll-container .text-area {
   @include border-radius(0);
-  border: pxToEm(2) solid transparent;
+  border: rem(2) solid transparent;
   background: none;
 }

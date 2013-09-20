@@ -40,7 +40,7 @@
   @include border-radius($carousel-pagination-border-radius);
 
   display: inline-block;
-  border: pxToEm(1) solid white;
+  border: rem(1) solid white;
 
   margin-bottom: $carousel-pagination-size/2;
 

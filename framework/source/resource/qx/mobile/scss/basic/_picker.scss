@@ -23,7 +23,7 @@
 }
 
 .picker .button {
-  margin-top: pxToEm(4);
+  margin-top: rem(4);
 }
 
 .picker-slot * {
@@ -39,8 +39,8 @@
   white-space: nowrap;
   font-size: $picker-label-font-size;
   line-height: $picker-label-height;
-  padding-left: pxToEm(5);
-  padding-right: pxToEm(5);
+  padding-left: rem(5);
+  padding-right: rem(5);
   
   top: -$picker-label-height / 2;
 }

@@ -2,10 +2,10 @@
 // TOGGLEBUTTON 
 //
 
-$togglebutton-label-padding: pxToEm(3);
+$togglebutton-label-padding: rem(3);
 
 .toggleButton {
-  @include box-inset-shadow(0px pxToEm(3) pxToEm(2) $togglebutton-inset-shadow);
+  @include box-inset-shadow(0px rem(3) rem(2) $togglebutton-inset-shadow);
   @include border-radius($togglebutton-border-radius);
   @include background($togglebutton-background);
 
@@ -21,7 +21,7 @@ $togglebutton-label-padding: pxToEm(3);
   height:  $togglebutton-height;
   line-height:  $togglebutton-height;
 
-  border: pxToEm(1) solid $togglebutton-border-color;
+  border: rem(1) solid $togglebutton-border-color;
 }
 
 .toggleButton:before {
@@ -52,18 +52,18 @@ $togglebutton-label-padding: pxToEm(3);
 }
 
 .toggleButton.checked {
-  @include box-inset-shadow(0px pxToEm(3) pxToEm(2) $togglebutton-inset-shadow);
+  @include box-inset-shadow(0px rem(3) rem(2) $togglebutton-inset-shadow);
   @include background($togglebutton-active-background);
 }
 
 .toggleButton.checked .toggleButtonSwitch {
-  @include box-shadow(pxToEm(-2) 0px pxToEm(2) $togglebutton-knob-shadow);
+  @include box-shadow(rem(-2) 0px rem(2) $togglebutton-knob-shadow);
   right: 0px;
 }
 
 .toggleButtonSwitch {
-  @include border-radius($togglebutton-border-radius - pxToEm(1));
-  @include box-shadow(pxToEm(2) 0 pxToEm(2) $togglebutton-knob-shadow);
+  @include border-radius($togglebutton-border-radius - rem(1));
+  @include box-shadow(rem(2) 0 rem(2) $togglebutton-knob-shadow);
   @include background($togglebutton-knob-background);
   
   display: block;

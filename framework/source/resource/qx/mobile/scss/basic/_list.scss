@@ -9,13 +9,13 @@
   font-weight: bold;
   font-style: $application-font;
   cursor:pointer;
-  border: pxToEm(1) solid $list-border-color;
+  border: rem(1) solid $list-border-color;
   background-color: $list-background-color;
 }
 
 .list .list-item {
   list-style-type: none;
-  padding: pxToEm(10) pxToEm(25) pxToEm(10) pxToEm(10);
+  padding: rem(10) rem(25) rem(10) rem(10);
   position:relative;
   color: $list-title-text-color;
 }
@@ -35,7 +35,7 @@
 }
 
 .list-item + .list-item {
-  border-top: pxToEm(1) solid $list-border-color;
+  border-top: rem(1) solid $list-border-color;
 }
 
 .list-item:last-child, .list-item:last-child a {
@@ -63,7 +63,7 @@
   height: $list-arrow-size*2;
   
   position: absolute;
-  right: pxToEm(16);
+  right: rem(16);
   top: 50%;
   margin-top: -1.5*($list-arrow-size);
 }

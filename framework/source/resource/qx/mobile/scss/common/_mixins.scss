@@ -1,20 +1,4 @@
-@function pxToEm($values, $factor: 1.0) {
-
-  @if (length($values) == 1) {
-    @return toRem($values, $factor);
-  }
-
-
-  $list: ();
-  @each $value in $values {
-    $list: append($list, toRem($value, $factor));
-  }
-
-  @return $list;
-}
-
-
-@function toRem($value, $factor) {
+@function rem($value, $factor: 1.0) {
   @if ($value != 0 and $value != auto) {
     @if (unitless($value)) {
       $value: $value * 1px;
@@ -25,7 +9,6 @@
     }
 
     $value: $factor*($value/16px) * 1rem;
-//@return (($value/16)* 1rem); //max((1/8)* 1rem, ($value/16)* 1rem);
   }
 
   @return $value;

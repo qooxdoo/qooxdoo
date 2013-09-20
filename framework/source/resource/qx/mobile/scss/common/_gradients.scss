@@ -4,26 +4,13 @@
 * based on the first keyword of the $values list.
 *
 * If the first value is a color (or "transparent"), the mixin creates a plain colored background with it.
-* If the keyword is "linear" is passes all further list-items to the mxins "linear-gradient".
-* If the keyword is "radial" it passes all further list-items to the mixins "radial-gradient".
+* If multiple values are passed, the background mixins attempts to create a linear gradient through "linear-gradient" mixin.
 */
 @mixin background($values) {
-  $pos-type: type-of(nth($values, 1));
-  $first-value: nth($values, 1);
-
-  @if ($pos-type == color) or ($first-value == "transparent")  {
+  @if (length($values) == 1)  {
     background-color: $values;
   } @else {
-    $gradient-values: ();
-    @for $i from 2 through length($values) {
-      $gradient-values: append($gradient-values, nth($values, $i));
-    }
-
-    @if ($first-value == "linear") {
-      @include linear-gradient($gradient-values...);
-    } @else if($first-value == "radial") {
-      @include radial-gradient($gradient-values...);
-    }
+    @include linear-gradient($values...);
   }
 }
 
@@ -132,7 +119,7 @@
     }
   }
 
-  $point: "center top,center bottom";
+  $point: "center top, center bottom";
   @if($direction != null) {
     $direction: ""+$direction;
     @if(""+$direction == "to left") {
@@ -217,127 +204,4 @@
          if($pos == right, left, null)
          if($pos == top, bottom, null)
          if($pos == bottom, top, null);
-}
-
-/*
-* See documentation:
-* http://bourbon.io/docs/#radial-gradient
-*
-* Requires Sass 3.1+
-*
-* https://github.com/thoughtbot/bourbon/blob/master/app/assets/stylesheets/css3/_radial-gradient.scss
-*/
-@mixin radial-gradient($G1,        $G2,
-                       $G3: null, $G4: null,
-                       $G5: null, $G6: null,
-                       $G7: null, $G8: null,
-                       $G9: null, $G10: null,
-                       $pos: null,
-                       $shape-size: null,
-                       $fallback: null) {
-
-  $data: _radial-arg-parser($G1, $G2, $pos, $shape-size);
-  $G1:  nth($data, 1);
-  $G2:  nth($data, 2);
-  $pos: nth($data, 3);
-  $shape-size: nth($data, 4);
-
-  $full: $G1, $G2, $G3, $G4, $G5, $G6, $G7, $G8, $G9, $G10;
-
-  // Strip deprecated cover/contain for spec
-  $shape-size-spec: _shape-size-stripper($shape-size);
-
-  // Set $G1 as the default fallback color
-  $first-color: nth($full, 1);
-  $fallback-color: nth($first-color, 1);
-
-  @if (type-of($fallback) == color) or ($fallback == "transparent") {
-    $fallback-color: $fallback;
-  }
-
-  // Add Commas and spaces
-  $shape-size: if($shape-size, '#{$shape-size}, ', null);
-  $pos:        if($pos, '#{$pos}, ', null);
-  $pos-spec:   if($pos, 'at #{$pos}', null);
-  $shape-size-spec: if(($shape-size-spec != ' ') and ($pos == null), '#{$shape-size-spec}, ', '#{$shape-size-spec} ');
-
-  background-color: $fallback-color;
-  background-image: -webkit-radial-gradient(unquote(#{$pos}#{$shape-size}#{$full}));
-  background-image: -moz-radial-gradient(unquote(#{$pos}#{$shape-size}#{$full}));
-  background-image: -ms-radial-gradient(unquote(#{$pos}#{$shape-size}#{$full}));
-  background-image: unquote("radial-gradient(#{$shape-size-spec}#{$pos-spec}#{$full})");
-}
-
-
-/*
-* https://github.com/thoughtbot/bourbon/blob/master/app/assets/stylesheets/helpers/_radial-arg-parser.scss
-*/
-@function _radial-arg-parser($G1, $G2, $pos, $shape-size) {
-  @each $value in $G1, $G2 {
-    $first-val: nth($value, 1);
-    $pos-type:  type-of($first-val);
-    $spec-at-index: null;
-
-    // Determine if spec was passed to mixin
-    @if type-of($value) == list {
-      $spec-at-index: if(index($value, at), index($value, at), false);
-    }
-    @if $spec-at-index {
-      @if $spec-at-index > 1 {
-        @for $i from 1 through ($spec-at-index - 1) {
-          $shape-size: $shape-size nth($value, $i);
-        }
-        @for $i from ($spec-at-index + 1) through length($value) {
-          $pos: $pos nth($value, $i);
-        }
-      }
-      @else if $spec-at-index == 1 {
-        @for $i from ($spec-at-index + 1) through length($value) {
-          $pos: $pos nth($value, $i);
-        }
-      }
-      $G1: null;
-    }
-
-    // If not spec calculate correct values
-    @else {
-      @if ($pos-type != color) or ($first-val != "transparent") {
-        @if ($pos-type == number)
-        or ($first-val == "center")
-        or ($first-val == "top")
-        or ($first-val == "right")
-        or ($first-val == "bottom")
-        or ($first-val == "left") {
-
-          $pos: $value;
-
-          @if $pos == $G1 {
-            $G1: null;
-          }
-        }
-
-        @else if
-           ($first-val == "ellipse")
-        or ($first-val == "circle")
-        or ($first-val == "closest-side")
-        or ($first-val == "closest-corner")
-        or ($first-val == "farthest-side")
-        or ($first-val == "farthest-corner")
-        or ($first-val == "contain")
-        or ($first-val == "cover") {
-
-          $shape-size: $value;
-
-          @if $value == $G1 {
-            $G1: null;
-          }
-
-          @else if $value == $G2 {
-            $G2: null;
-          }
-        }
-      }
-    }
-  }
-  @return $G1, $G2, $pos, $shape-size;
 }

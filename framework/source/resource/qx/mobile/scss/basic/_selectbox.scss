@@ -15,14 +15,14 @@
   cursor:pointer;
 
   vertical-align:middle;
-  height: pxToEm(32);
+  height: rem(32);
   
   background-color:transparent;
 
   font-weight:normal;
-  text-indent: pxToEm(4);
+  text-indent: rem(4);
 
-  border: pxToEm(1) solid $selectbox-border-color;
+  border: rem(1) solid $selectbox-border-color;
   color: $selectbox-text-color;
 }
 
@@ -32,11 +32,11 @@
   
   content: '';
   position: absolute;
-  width: pxToEm(32);
-  height: pxToEm(5);
+  width: rem(32);
+  height: rem(5);
   background: transparent;
-  right: pxToEm(2);
-  border: pxToEm(4) solid black;
+  right: rem(2);
+  border: rem(4) solid black;
   border-top: 0;
   border-right: 0;
 }

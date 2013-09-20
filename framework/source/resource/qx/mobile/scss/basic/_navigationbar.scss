@@ -9,8 +9,8 @@
   height: $navigationbar-height;
   color: $navigationbar-text-color; 
 
-  padding-left: pxToEm(16);
-  padding-right: pxToEm(16);
+  padding-left: rem(16);
+  padding-right: rem(16);
   position: relative;
 
   -ms-touch-action: pan-x;
@@ -36,21 +36,21 @@
   display:block;
 
   color: $navigationbarbutton-text-color;
-  border: pxToEm(1) solid $navigationbarbutton-border-color;
+  border: rem(1) solid $navigationbarbutton-border-color;
 
   text-align: center;
   text-decoration: none;
   text-overflow: ellipsis;
   font-weight:bold;
-  font-size: pxToEm(12);
+  font-size: rem(12);
 
-  padding-left: pxToEm(5);
-  padding-right: pxToEm(5);
+  padding-left: rem(5);
+  padding-right: rem(5);
 
   height: $navigationbar-height - $navigationbar-padding * 2;
   margin: $navigationbar-padding;
 
-  min-width: pxToEm(50);
+  min-width: rem(50);
 }
 
 .navigationbar-button > div, .navigationbar-backbutton > div {
@@ -61,6 +61,6 @@
 .navigationbar-button.active, .navigationbar-backbutton.active {
   @include background($navigationbarbutton-active-background);
   color: $navigationbarbutton-active-text-color;
-  border: pxToEm(1) solid $navigationbarbutton-active-border-color;
+  border: rem(1) solid $navigationbarbutton-active-border-color;
 }
 

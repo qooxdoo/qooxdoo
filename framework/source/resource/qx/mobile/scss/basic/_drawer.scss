@@ -65,31 +65,31 @@
 }
 
 .root.portrait .master-detail-master:not(.hidden) {
-  @include box-shadow(0px 0px pxToEm(10) pxToEm(5) rgba(0,0,0,0.5));
+  @include box-shadow(0px 0px rem(10) rem(5) rgba(0,0,0,0.5));
 }
 
 .drawer:not(.master-detail-master):not(.hidden) {
-  @include box-shadow(0px 0px pxToEm(10) pxToEm(5) rgba(0,0,0,0.5));
+  @include box-shadow(0px 0px rem(10) rem(5) rgba(0,0,0,0.5));
 }
 
 .drawer.top:not(.master-detail-master) {
-  border-bottom:pxToEm(1) solid $drawer-border-color;
+  border-bottom:rem(1) solid $drawer-border-color;
 }
 
 .drawer.left:not(.master-detail-master) {
-  border-right:pxToEm(1) solid $drawer-border-color;
+  border-right:rem(1) solid $drawer-border-color;
 }
 
 .drawer.right:not(.master-detail-master) {
-  border-left:pxToEm(1) solid $drawer-border-color;
+  border-left:rem(1) solid $drawer-border-color;
 }
 
 .drawer.bottom:not(.master-detail-master) {
-  border-top:pxToEm(1) solid $drawer-border-color;
+  border-top:rem(1) solid $drawer-border-color;
 }
 
 .drawer.below.left:before, .drawer.below.right:before, .drawer.below.top:before, .drawer.below.bottom:before {
-  @include box-inset-shadow(0px 0px pxToEm(10) pxToEm(5) rgba(0,0,0,0.5));
+  @include box-inset-shadow(0px 0px rem(10) rem(5) rgba(0,0,0,0.5));
 
   content: "";
   width: 100%;
