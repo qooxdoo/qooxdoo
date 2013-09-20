@@ -26,8 +26,16 @@ extensions = [
  'sphinx.ext.todo',
  'sphinx.ext.coverage',
  'sphinx.ext.ifconfig',
- #'sphinxcontrib.spelling',
 ]
+
+# spelling support
+try:
+    import sphinxcontrib.spelling
+    has_spelling = True
+except ImportError:
+    has_spelling = False
+if has_spelling:
+    extensions.append('sphinxcontrib.spelling')
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
