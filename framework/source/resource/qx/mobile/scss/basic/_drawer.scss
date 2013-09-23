@@ -68,7 +68,7 @@
   @include box-shadow(0px 0px rem(10) rem(5) rgba(0,0,0,0.5));
 }
 
-.drawer:not(.master-detail-master):not(.hidden) {
+.drawer.above:not(.master-detail-master):not(.hidden) {
   @include box-shadow(0px 0px rem(10) rem(5) rgba(0,0,0,0.5));
 }
 
