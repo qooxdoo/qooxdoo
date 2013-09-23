@@ -245,22 +245,6 @@
           "${CATCMD} ${ROOT}/source/resource/${APPLICATION_CSS} | ${CSSMIN_CMD} > ${BUILD_PATH}/resource/${APPLICATION_CSS}"
         ]
       }
-    },
-
-
-    "watch-scss" :
-    {
-      "desc"   : "Watch and compile the theme scss",
-      "extend" : ["cache"],
-      "watch-files" :
-      {
-        "paths"    : ["${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss/"],
-        "command" :
-        {
-          "line"  : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/scss.py ${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss/${THEME}.scss -o ${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${THEME}.css --load-path=${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss",
-          "per-file" : false
-        }
-      }
     }
   }
 }
