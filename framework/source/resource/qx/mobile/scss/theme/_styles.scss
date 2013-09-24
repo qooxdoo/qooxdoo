@@ -127,7 +127,7 @@ $tabbar-button-distance:  rem(4);
 $togglebutton-width:  rem(100);
 $togglebutton-height:  rem(30);
 $togglebutton-border-radius:  rem(4);
-$togglebutton-border-color:  $mix-color-dark-1;
+$togglebutton-border-color:  $mix-color-dark-1;;
 $togglebutton-text-color:  $mix-color-dark-2; 
 $togglebutton-background:  linear,$mix-color-light-2,$light-color;
 $togglebutton-active-background:  linear,$theme-color,lighten($theme-color,20%);
@@ -161,7 +161,7 @@ $button-active-background:  linear,lighten($theme-color,20%),$theme-color;
 // SelectBox
 
 $selectbox-border-radius: rem(4);
-$selectbox-border-color:  $mix-color-dark-1; 
+$selectbox-border-color:  $mix-color-dark-1;; 
 $selectbox-text-color:  $mix-color-dark-2;
 $selectbox-background:  linear,$light-color,$mix-color-light-1;
 $selectbox-active-background:  linear,lighten($theme-color,20%),$theme-color;
@@ -175,14 +175,14 @@ $slider-height: rem(7);
 $slider-background:  linear,$mix-color-light-1,$light-color;
 $slider-active-area:  linear,lighten($theme-color,20%),$theme-color;
 $slider-border-radius:  rem(20); 
-$slider-border-color:  $mix-color-dark-1;
+$slider-border-color:  $mix-color-dark-1;;
 $slider-knob-border-radius: rem(4);
 $slider-knob-width: rem(30);
 $slider-knob-height: rem(30);
 $slider-knob-background:  linear,$light-color,$mix-color-light-1;
-$slider-knob-border-color:  $mix-color-dark-1;
+$slider-knob-border-color:  $mix-color-dark-1;;
 $slider-shadow: rgba(0,0,0,0.4);
-$slider-font-color:  $mix-color-dark-1;
+$slider-font-color:  $mix-color-dark-1;;
 
 // Toolbar  
 
