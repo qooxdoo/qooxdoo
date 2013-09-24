@@ -2,6 +2,10 @@ html {
   font-size: $application-font-size;
 }
 
+body {
+  background-color: $navigationpage-background-color;
+}
+
 .root {
   font-weight: normal;
   background-color: $navigationpage-background-color;
@@ -17,7 +21,6 @@ html {
 }
 
 .root, .scroll {
-  background-color: $navigationpage-background-color;
   font-family: $application-font;
   color:  $application-text-color;
 }
