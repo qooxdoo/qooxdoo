@@ -453,7 +453,7 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Extends an array up to the given length by repeating the elements already present.
      * @param arr {Array} Incoming array. Has to contain at least one element.
-     * @param arr {Integer} Desired length. Must be greater than or equal to the the length of arr.
+     * @param to {Integer} Desired length. Must be greater than or equal to the the length of arr.
      */
     prolong : function(arr, to)
     {

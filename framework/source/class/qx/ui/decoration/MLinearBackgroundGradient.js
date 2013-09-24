@@ -180,7 +180,22 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
       operation.apply(styles['background'], backgroundStyle);
     },
     
-    // new implementation for webkit is available since chrome 10 --> version
+    /**
+     * Compute CSS rules to style the background with gradients.
+     * This can be called multiple times and SHOULD layer the gradients on top of each other and on top of existing backgrounds.
+     * Legacy implementation for old WebKit browsers (Chrome < 10).
+     * 
+     * @param startColor {Color} The color to start the gradient with
+     * @param endColor {Color} The color to end the gradient with
+     * @param unit {Color} The unit in which startColorPosition and endColorPosition are measured
+     * @param orientation {String} Either 'horizontal' or 'vertical'
+     * @param startColorPosition {Number} The position of the gradient’s starting point, measured in `unit` units along the `orientation` axis from top or left
+     * @param endColorPosition {Number} The position of the gradient’s ending point, measured in `unit` units along the `orientation` axis from top or left
+     * @param styles {Map} The complete styles currently poised to be applied by decorators. Should not be written to in this method (use `backgroundStyle` for that)
+     * @param backgroundStyle {Map} This method should push new background styles onto this array.
+     *
+     * @return {Boolean} Whether this implementation supports multiple gradients atop each other (true).
+     */
     __styleLinearBackgroundGradientForLegacyWebkit: function me(startColor, endColor, unit, orientation, startColorPosition, endColorPosition, styles, backgroundStyle) {
       // webkit uses px values if non are given
       unit = unit === "px" ? "" : unit;
@@ -201,7 +216,22 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
       return true;
     },
 
-    // IE9 canvas solution
+    /**
+     * Compute CSS rules to style the background with gradients.
+     * This can be called multiple times and SHOULD layer the gradients on top of each other and on top of existing backgrounds.
+     * IE9 canvas solution.
+     * 
+     * @param startColor {Color} The color to start the gradient with
+     * @param endColor {Color} The color to end the gradient with
+     * @param unit {Color} The unit in which startColorPosition and endColorPosition are measured
+     * @param orientation {String} Either 'horizontal' or 'vertical'
+     * @param startColorPosition {Number} The position of the gradient’s starting point, measured in `unit` units along the `orientation` axis from top or left
+     * @param endColorPosition {Number} The position of the gradient’s ending point, measured in `unit` units along the `orientation` axis from top or left
+     * @param styles {Map} The complete styles currently poised to be applied by decorators. Should not be written to in this method (use `backgroundStyle` for that)
+     * @param backgroundStyle {Map} This method should push new background styles onto this array.
+     *
+     * @return {Boolean} Whether this implementation supports multiple gradients atop each other (true).
+     */
     __styleLinearBackgroundGradientWithCanvas: function me(startColor, endColor, unit, orientation, startColorPosition, endColorPosition, styles, backgroundStyle) {
       if (!me.__canvas) {
         me.__canvas = document.createElement("canvas");
@@ -234,7 +264,22 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
       return true;
     },
     
-      // old IE filter fallback
+    /**
+     * Compute CSS rules to style the background with gradients.
+     * This can be called multiple times and SHOULD layer the gradients on top of each other and on top of existing backgrounds.
+     * Old IE filter fallback.
+     * 
+     * @param startColor {Color} The color to start the gradient with
+     * @param endColor {Color} The color to end the gradient with
+     * @param unit {Color} The unit in which startColorPosition and endColorPosition are measured
+     * @param orientation {String} Either 'horizontal' or 'vertical'
+     * @param startColorPosition {Number} The position of the gradient’s starting point, measured in `unit` units along the `orientation` axis from top or left
+     * @param endColorPosition {Number} The position of the gradient’s ending point, measured in `unit` units along the `orientation` axis from top or left
+     * @param styles {Map} The complete styles currently poised to be applied by decorators. Should not be written to in this method (use `backgroundStyle` for that). Note: this particular implementation will do that because it needs to change the `filter` property.
+     * @param backgroundStyle {Map} This method should push new background styles onto this array.
+     *
+     * @return {Boolean} Whether this implementation supports multiple gradients atop each other (false).
+     */
     __styleLinearBackgroundGradientWithMSFilter: function(startColor, endColor, unit, orientation, startColorPosition, endColorPosition, styles, backgroundStyle) {
       var type = orientation == "horizontal" ? 1 : 0;
 
@@ -274,7 +319,22 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
       return false;
     },
     
-    // spec-compliant syntax
+    /**
+     * Compute CSS rules to style the background with gradients.
+     * This can be called multiple times and SHOULD layer the gradients on top of each other and on top of existing backgrounds.
+     * Default implementation (uses spec-compliant syntax).
+     * 
+     * @param startColor {Color} The color to start the gradient with
+     * @param endColor {Color} The color to end the gradient with
+     * @param unit {Color} The unit in which startColorPosition and endColorPosition are measured
+     * @param orientation {String} Either 'horizontal' or 'vertical'
+     * @param startColorPosition {Number} The position of the gradient’s starting point, measured in `unit` units along the `orientation` axis from top or left
+     * @param endColorPosition {Number} The position of the gradient’s ending point, measured in `unit` units along the `orientation` axis from top or left
+     * @param styles {Map} The complete styles currently poised to be applied by decorators. Should not be written to in this method (use `backgroundStyle` for that)
+     * @param backgroundStyle {Map} This method should push new background styles onto this array.
+     *
+     * @return {Boolean} Whether this implementation supports multiple gradients atop each other (true).
+     */
     __styleLinearBackgroundGradientAccordingToSpec: function(startColor, endColor, unit, orientation, startColorPosition, endColorPosition, styles, backgroundStyle) {
       // WebKit, Opera and Gecko interpret 0deg as "to right"
       var deg = orientation == "horizontal" ? 0 : 270;
@@ -295,6 +355,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
     
     /**
      * Helper to get a resolved color from a name
+     * @param color {String} The name to resolve
      * @return {String} The resolved color
      */
     __getColor : function(color) {
