@@ -337,7 +337,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     /** @type {Integer} Holds the max item width from a rendered widget. */
-    __itemWidth : 0,
+    _itemWidth : 0,
 
 
     /** @type {Array} internal parent chain form the last selected node */
@@ -361,11 +361,11 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       {
         var widget = this._layer.getRenderedCellWidget(row, 0);
         if (widget != null) {
-          this.__itemWidth = Math.max(this.__itemWidth, widget.getSizeHint().width);
+          this._itemWidth = Math.max(this._itemWidth, widget.getSizeHint().width);
         }
       }
       var paneWidth = this.getPane().getInnerSize().width;
-      this.getPane().getColumnConfig().setItemSize(0, Math.max(this.__itemWidth, paneWidth));
+      this.getPane().getColumnConfig().setItemSize(0, Math.max(this._itemWidth, paneWidth));
     },
 
 
@@ -867,7 +867,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
           "or 'labelPath' is 'null'!");
       }
 
-      this.__itemWidth = 0;
+      this._itemWidth = 0;
       var lookupTable = [];
       this.__nestingLevel = [];
       var nestedLevel = -1;
