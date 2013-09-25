@@ -13,6 +13,6 @@
 }
 
 .item-selected {
-  @include linear-gradient(lighten($menu-item-selected-background-color, 20%), $menu-item-selected-background-color);
+  @include background($menu-item-selected-background);
   color: $menu-item-selected-text-color !important;
 }

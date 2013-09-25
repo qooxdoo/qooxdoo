@@ -29,27 +29,27 @@ $navigationpage-border-color: $mix-color-light-1;
 
 // NavigationBar
 
-$navigationbar-height:  rem(40);
-$navigationbar-background:  $mix-color-dark-1,$mix-color-dark-2;
-$navigationbar-text-size:  $navigationbar-height/2;
+$navigationbar-height:  rem(35);
+$navigationbar-background:  $mix-color-dark-2;
+$navigationbar-text-size:  rem(15);
 $navigationbar-text-color:  $light-color;
 $navigationbar-padding:  rem(4);
 
 // NavigationBar Button
  
 $navigationbarbutton-border-radius:  rem(4);
-$navigationbarbutton-background:  $light-color,$mix-color-light-1;
-$navigationbarbutton-border-color:  $mix-color-dark-1;
-$navigationbarbutton-text-color:  $mix-color-dark-2;
-$navigationbarbutton-active-background:  lighten($theme-color,20%),$theme-color;
+$navigationbarbutton-background:  $light-color;
+$navigationbarbutton-border-color:  rgba(0,0,0,0);
+$navigationbarbutton-text-color:  $theme-color;
+$navigationbarbutton-active-background:  $theme-color;
 $navigationbarbutton-active-text-color:  $light-color;
-$navigationbarbutton-active-border-color:  $light-color;
+$navigationbarbutton-active-border-color:  rgba(0,0,0,0);
  
 // Dialog
 
 $dialog-border-color: $theme-color; 
-$dialog-background:  $mix-color-dark-1,$mix-color-dark-2 50%,$mix-color-dark-2;
-$dialog-arrow-up-color:  $mix-color-dark-1;
+$dialog-background:  $mix-color-dark-2;
+$dialog-arrow-up-color:  $mix-color-dark-2;
 $dialog-arrow-down-color:  $mix-color-dark-2;
 $dialog-border-radius: rem(4);
 $dialog-title-text-color: $light-color;
@@ -57,8 +57,8 @@ $dialog-title-text-color: $light-color;
 // Group
 
 $group-background-color:  $light-color;
-$group-border-color:  $mix-color-light-1;
-$group-title-text-color:  $theme-color;
+$group-border-color:  $light-color;
+$group-title-text-color:  $mix-color-dark-2;
 $group-border-radius: rem(4);
 
 // List
@@ -68,28 +68,28 @@ $list-title-text-color: $mix-color-dark-2;
 $list-title-font-size: rem(17);
 $list-subtitle-text-color:  $theme-color;
 $list-subtitle-font-size: rem(14);
-$list-border-color: $mix-color-light-1;
-$list-active-background:  lighten($theme-color,20%),$theme-color;
+$list-border-color: $mix-color-light-2;
+$list-active-background:  $theme-color;
 $list-active-text-color:  $light-color;
 $list-border-radius:  rem(4);
 $list-arrow-size: rem(3);
 $list-arrow-thickness: rem(2);
-$list-arrow-color: $mix-color-dark-2;
+$list-arrow-color: $mix-color-light-1;
 $list-active-arrow-color: $light-color;
 
 // Form
 
 $form-background-color:  $light-color;
-$form-title-text-color:  $theme-color;
+$form-title-text-color:  $mix-color-dark-2;
 $form-label-text-color:  $mix-color-dark-2;
-$form-border-color:  $mix-color-light-1;
+$form-border-color:  $mix-color-light-2;
 $form-border-radius:  rem(4);
 
 // Input
 
 $input-text-color:  $mix-color-dark-2;
 $input-border-radius: rem(4);
-$input-border-color: $mix-color-light-1;
+$input-border-color: $mix-color-light-2;
 $input-invalid-border-color: red;
 
 // Checkbox
@@ -99,23 +99,23 @@ $checkbox-tick-color: $theme-color;
 $checkbox-tick-size:  rem(14);
 $checkbox-tick-width:  rem(4);
 $checkbox-border-radius:  rem(1);
-$checkbox-border-color:  $mix-color-dark-1;
-$checkbox-background: $mix-color-light-1,$light-color; 
+$checkbox-border-color:  $mix-color-light-1;
+$checkbox-background: $mix-color-light-2; 
 
 // RadioButton
 
 $radiobutton-size: rem(32);
 $radiobutton-dot-color: $theme-color;
-$radiobutton-background: $mix-color-light-1,$light-color;
-$radiobutton-border-color: $mix-color-dark-1;
+$radiobutton-background: $mix-color-light-2;
+$radiobutton-border-color: $mix-color-light-1;
 
 // Tabbar
 
 $tabbar-height:  rem(45);
 $tabbar-divider-color:  $theme-color;
-$tabbar-active-background:  lighten($theme-color,20%),$theme-color;
+$tabbar-active-background:  $theme-color,$theme-color;
 $tabbar-active-border-color:  $theme-color;
-$tabbar-inactive-background:  $mix-color-medium,$mix-color-dark-1;
+$tabbar-inactive-background:  $mix-color-medium;
 $tabbar-inactive-border-color:  $mix-color-medium;
 $tabbar-active-text-color:  $light-color;
 $tabbar-inactive-text-color:  $light-color;
@@ -126,17 +126,17 @@ $tabbar-button-distance:  rem(4);
 
 $togglebutton-width:  rem(100);
 $togglebutton-height:  rem(30);
-$togglebutton-border-radius:  rem(4);
-$togglebutton-border-color:  $mix-color-dark-1;;
-$togglebutton-text-color:  $mix-color-dark-2; 
-$togglebutton-background:  $mix-color-light-2,$light-color;
-$togglebutton-active-background:  $theme-color,lighten($theme-color,20%);
-$togglebutton-knob-background:  $light-color,$mix-color-light-1;
+$togglebutton-border-radius:  rem(5);
+$togglebutton-border-color:  $mix-color-light-1;
+$togglebutton-text-color:  $mix-color-dark-1; 
+$togglebutton-background: $light-color;
+$togglebutton-active-background:  $theme-color;
+$togglebutton-knob-background:  $light-color;
 $togglebutton-knob-width: rem(30);
 $togglebutton-active-text-color:  $light-color;
-$togglebutton-inset-shadow:  rgba(0,0,0,0.1);
-$togglebutton-knob-shadow:  rgba(0,0,0,0.4);
-$togglebutton-font-size: rem(13);
+$togglebutton-inset-shadow:  rgba(0,0,0,0);
+$togglebutton-knob-shadow:  rgba(0,0,0,0.2);
+$togglebutton-font-size: rem(12);
 
 // Carousel
 
@@ -149,65 +149,65 @@ $carousel-pagination-font-color: rgba(0,0,0,0);
 
 // Button
 
-$button-text-color:  $mix-color-dark-2;
+$button-text-color:  $theme-color;
 $button-font-size: rem(15);
 $button-active-text-color:  $light-color;
 $button-border-radius:  rem(4);
-$button-border-color:  $mix-color-dark-1;
-$button-active-border-color:  $mix-color-dark-1;
-$button-background:  $light-color,$mix-color-light-1;
-$button-active-background:  lighten($theme-color,20%),$theme-color;
+$button-border-color:  $mix-color-light-2;
+$button-active-border-color:  $theme-color;
+$button-background:  $light-color;
+$button-active-background:  $theme-color;
 
 // SelectBox
 
 $selectbox-border-radius: rem(4);
-$selectbox-border-color:  $mix-color-dark-1;; 
-$selectbox-text-color:  $mix-color-dark-2;
-$selectbox-background:  $light-color,$mix-color-light-1;
-$selectbox-active-background:  $theme-color;
+$selectbox-border-color:  $mix-color-light-1; 
+$selectbox-text-color:  $theme-color;
+$selectbox-background:   $mix-color-light-2;
+$selectbox-active-background:   $theme-color;
 $selectbox-active-text-color:  $light-color;
 $selectbox-item-selected-text-color:  $light-color;
 $selectbox-item-selected-background-color:  $theme-color;
 
 // Slider
 
-$slider-height: rem(7);
-$slider-background:  $mix-color-light-1,$light-color;
-$slider-active-area:  lighten($theme-color,20%),$theme-color;
-$slider-border-radius:  rem(20); 
-$slider-border-color:  $mix-color-dark-1;;
+$slider-height: rem(6);
+$slider-background:  $mix-color-light-2;
+$slider-active-area:  $theme-color;
+$slider-border-radius:  rem(3); 
+$slider-border-color:  $mix-color-light-2;
 $slider-knob-border-radius: rem(4);
 $slider-knob-width: rem(30);
 $slider-knob-height: rem(30);
-$slider-knob-background:  $light-color,$mix-color-light-1;
-$slider-knob-border-color:  $mix-color-dark-1;;
+$slider-knob-background:  $light-color;
+$slider-knob-border-color:  $mix-color-light-1;
 $slider-shadow: rgba(0,0,0,0.4);
-$slider-font-color:  $mix-color-dark-1;;
+$slider-font-color:  $mix-color-medium;
 
 // Toolbar  
 
-$toolbar-text-color:  $mix-color-dark-2;
-$toolbar-background:  $light-color,$mix-color-medium;
-$toolbar-active-background:  lighten($theme-color,20%),$theme-color;
+$toolbar-text-color:  $theme-color;
+$toolbar-background:  $light-color;
+$toolbar-active-background:  $theme-color;
 $toolbar-active-text-color:  $light-color;
-$toolbar-border-color:  $mix-color-dark-1;
+$toolbar-border-color:  rgba(0,0,0,0);
 $toolbar-border-radius: rem(4);
 
 // Menu
 
 $menu-item-selected-text-color:  $light-color;
-$menu-item-selected-background:  lighten($theme-color, 20%), $theme-color;
+$menu-item-selected-background:  $theme-color;
 
 // Picker 
 
-$picker-spinning-wheel-overlay:  rgba($mix-color-light-2,1),rgba($mix-color-light-2,0) 40%,rgba($mix-color-light-2,0) 60%,rgba($mix-color-light-2,1);
+$picker-spinning-wheel-overlay:  rgba($light-color,1),rgba($light-color,0) 40%,rgba($light-color,0) 60%,rgba($light-color,1);
 $picker-spinning-wheel-text-color:  $mix-color-dark-2; 
-$picker-spinning-wheel-background-color:  $mix-color-light-2;
+$picker-spinning-wheel-background-color:  $light-color;
 $picker-highlight-color:  rgba($theme-color,0.5);
 $picker-highlight-border-width:  rem(2);
 $picker-spinning-wheel-border-radius:  rem(4);
-$picker-spinning-wheel-divider-color:  $mix-color-dark-1;
-$picker-spinning-wheel-divider-width:  rem(2);
+$picker-spinning-wheel-divider-color:  $mix-color-medium;
+$picker-spinning-wheel-divider-width:  rem(1);
 $picker-label-height: rem(25);
 $picker-label-font-size: rem(16);
 $picker-height: rem(160);
@@ -221,16 +221,16 @@ $drawer-below-background-color:  $mix-color-dark-1;
 // Collapsible
 
 $collapsible-border-radius:  rem(4);
-$collapsible-header-border-color:  $mix-color-dark-1;
-$collapsible-header-text-color:  $mix-color-dark-2;
+$collapsible-header-border-color:  $mix-color-light-2;
+$collapsible-header-text-color:  $theme-color;
 $collapsible-header-active-text-color: $light-color;
-$collapsible-header-background:  $light-color,$mix-color-medium;
-$collapsible-header-active-background:  lighten($theme-color,20%),$theme-color;
+$collapsible-header-background:  $light-color;
+$collapsible-header-active-background:  $theme-color;
 $collapsible-header-padding:  rem(10);
 $collapsible-header-content-distance:  rem(10);
-$collapsible-content-border-color:  $mix-color-light-1;
+$collapsible-content-border-color:  $mix-color-light-2;
 $collapsible-content-padding:  rem(10);
 $collapsible-content-background-color:  $light-color;
 $collapsible-arrow-size:  rem(8);
-$collapsible-arrow-color:  $mix-color-dark-2;
+$collapsible-arrow-color:  $mix-color-medium;
 $collapsible-active-arrow-color:  $light-color;
