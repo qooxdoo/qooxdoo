@@ -45,19 +45,10 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
       }
     ];
 
-    if (qx.core.Environment.get("os.name") != "android") {
-      this.__themes.push({
-        "name": "iOS",
-        "css": "qx/mobile/css/ios.css"
-      });
-    }
-
-    if (qx.core.Environment.get("os.name") != "ios") {
-      this.__themes.push({
-        "name": "Android",
-        "css": "qx/mobile/css/android.css"
-      });
-    }
+    this.__themes.push({
+      "name": "Flat",
+      "css": "qx/mobile/css/flat.css"
+    });
 
     this.__preloadThemes();
   },
