@@ -3,8 +3,6 @@
 # qooxdoo
 import sys;
 sys.path.append('../../pylib')
-sys.path.append('../../pylib/scss')
-sys.path.append('../../pylib/six')
 # ------
 
 def pytest_addoption(parser):
