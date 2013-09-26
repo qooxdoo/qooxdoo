@@ -1,0 +1,25 @@
+// @charset "UTF-8";
+
+@mixin background-image-retina($file, $type, $width, $height) {
+  background-image: unquote(image-url("#{$file}.#{$type}"));
+
+  @media (-webkit-min-device-pixel-ratio: 2), (-moz-min-device-pixel-ratio: 2) {
+    & {
+      background-image: image-url("#{$file}@2x.#{$type}");
+      -webkit-background-size: $width $height;
+    }
+  }
+}
+
+$x: foo;
+$y: bar;
+
+div {
+  @include background-image-retina(test, png, 100px, 300px);
+  fudge: walnut;
+}
+
+span {
+  blah: "#{$x} #{$y}";
+  bleh: image-url("#{$x} #{$y}");
+}

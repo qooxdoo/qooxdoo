@@ -1,0 +1,10 @@
+#a {
+  color: black;
+  > div {
+    color: white;
+  }
+}
+
+#b {
+  @extend #a;
+}

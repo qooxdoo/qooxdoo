@@ -1,0 +1,12 @@
+@option compress:no, short_colors:yes, reverse_colors:yes;
+.error {
+  border: 1px #f00;
+  background-color: #fdd;
+}
+.error.intrusion {
+  background-image: url("/image/hacked.png");
+}
+.seriousError {
+  @extend .error;
+  border-width: 3px;
+}

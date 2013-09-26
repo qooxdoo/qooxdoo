@@ -1,0 +1,16 @@
+@option compress:no, short_colors:yes, reverse_colors:yes;
+.basicList {
+    li {
+        padding: 5px 10px;
+        border-bottom: 1px solid #000000;
+    }
+    dd {
+        margin: 4px;
+    }
+    span {
+        display: inline-block;
+    }
+}
+.specialClass {
+    dt extends .basicList li {}
+}

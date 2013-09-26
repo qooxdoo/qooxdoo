@@ -1,0 +1,12 @@
+@mixin _menu-horizontal($level) {
+	ul.l#{$level} {
+		li {
+			color: red;
+		}
+	}
+}
+
+p {
+    $type: '_menu-' + 'horizontal';
+    @include #{$type}(2);
+}

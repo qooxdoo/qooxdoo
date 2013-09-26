@@ -1,0 +1,12 @@
+.some-selector, .parent {
+  some: prop;
+}
+.some-selector-more, .parent .children {
+  some: proop;
+}
+.parent {
+  height: auto;
+}
+.parent .children {
+  height: autoo;
+}

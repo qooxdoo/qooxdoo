@@ -1,0 +1,10 @@
+#navbar li {
+  border-top-radius: 10px;
+  -moz-border-radius-top: 10px;
+  -webkit-border-top-radius: 10px;
+}
+#footer {
+  border-top-radius: 10px;
+  -moz-border-radius-top: 10px;
+  -webkit-border-top-radius: 10px;
+}

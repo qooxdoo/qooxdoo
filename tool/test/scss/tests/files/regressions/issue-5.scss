@@ -1,0 +1,5 @@
+@option compress:no, short_colors:yes, reverse_colors:yes;
+$width: 1px;
+foo {
+    border: $width solid red;
+}

@@ -1,0 +1,24 @@
+$legacy-support-for-ie6: true;
+
+// A hack to supply IE6 (and below) with a different property value.
+// [Read more](http://www.cssportal.com/css-hacks/#in_css-important).
+@mixin bang-hack($property, $value, $ie6-value) {
+  @if $legacy-support-for-ie6 {
+    #{$property}: #{$value} !important;
+    #{$property}: #{$ie6-value};
+  }
+}
+
+// @private This mixin is not meant to be used directly.
+@mixin hacked-minimum($property, $value) {
+  min-#{$property}: $value;
+  @include bang-hack($property, auto, $value); }
+
+//**
+// Cross browser min-height mixin.
+@mixin min-height($value) {
+  @include hacked-minimum(height, $value); }
+
+div {
+	+min-height: 60px;
+}

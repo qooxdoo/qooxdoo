@@ -1,0 +1,11 @@
+@import "lib";
+@import "part";
+
+div {
+    @include transition(opacity $transition-time linear, margin $transition-time linear);
+}
+
+
+h1 {
+    @include junk;
+}

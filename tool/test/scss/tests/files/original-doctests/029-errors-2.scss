@@ -1,0 +1,10 @@
+@option compress:no, short_colors:yes, reverse_colors:yes;
+.noticeBox {
+    self {
+        background-color:red;
+    }
+    span, p {
+        some: props
+    }
+}
+.errorBox extends .noticeBox {}

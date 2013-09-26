@@ -1,0 +1,10 @@
+@option compress:no, short_colors: no;
+h2 {
+    background: green;
+    @media screen{
+        background:blue;
+    }
+}
+h1 {
+    background:yellow;
+}

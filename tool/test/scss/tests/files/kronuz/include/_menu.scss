@@ -1,0 +1,1139 @@
+$default-menu-levels: 3 !default;
+
+@mixin _menu-horizontal($level) {
+	$l: $level;
+
+	ul.l#{$l} {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		@if $u#{$l}-padding-natural != undefined {
+			padding: $u#{$l}-padding-natural;
+		}
+		@if $u#{$l}-margin-natural != undefined {
+			margin: $u#{$l}-margin-natural;
+		}
+
+		background-clip: padding-box;
+		@if $u#{$l}-background-natural != undefined {
+			@if $u#{$l}-background-natural != $u#{$l}-background-natural-rgb and $u#{$l}-background-natural-rgb != undefined {
+				background: $u#{$l}-background-natural-rgb;
+			}
+			background: $u#{$l}-background-natural;
+		}
+		@if $u#{$l}-background-color-natural != undefined {
+			@if $u#{$l}-background-color-natural != $u#{$l}-background-color-natural-rgb and $u#{$l}-background-color-natural-rgb != undefined {
+				background-color: $u#{$l}-background-color-natural-rgb;
+			}
+			background-color: $u#{$l}-background-color-natural;
+		}
+		@if $u#{$l}-background-image-natural != undefined {
+			background-image: $u#{$l}-background-image-natural;
+		}
+
+//		@if $u#{$l}-box-shadow-natural != undefined {
+//			box-shadow: $u#{$l}-box-shadow-natural;
+//		}
+
+		@if $u#{$l}-border-width-natural != undefined {
+			border-width: $u#{$l}-border-width-natural;
+			border-style: solid;
+		}
+		@if $u#{$l}-border-color-natural != undefined {
+			@if $u#{$l}-border-color-natural != $u#{$l}-border-color-natural-rgb and $u#{$l}-border-color-natural-rgb != undefined {
+				border-color: $u#{$l}-border-color-natural-rgb;
+			}
+			border-color: $u#{$l}-border-color-natural;
+		}
+
+		@if $u#{$l}-border-radius-natural != undefined {
+			border-radius: $u#{$l}-border-radius-natural;
+		}
+
+//		&.focused,
+		&.hover,
+		&:hover {
+			@if $u#{$l}-background-hover != undefined {
+				@if $u#{$l}-background-hover != $u#{$l}-background-hover-rgb and $u#{$l}-background-hover-rgb != undefined {
+					background: $u#{$l}-background-hover-rgb;
+				}
+				background: $u#{$l}-background-hover;
+			}
+			@if $u#{$l}-background-color-hover != undefined {
+				@if $u#{$l}-background-color-hover != $u#{$l}-background-color-hover-rgb and $u#{$l}-background-color-hover-rgb != undefined {
+					background-color: $u#{$l}-background-color-hover-rgb;
+				}
+				background-color: $u#{$l}-background-color-hover;
+			}
+			@if $u#{$l}-background-image-hover != undefined {
+				background-image: $u#{$l}-background-image-hover;
+			}
+		}
+
+		// Special case for nesting (depending on current behavior):
+
+		@if $u#{$l}-keep-current {
+			$_current: nest('&, &:hover', 'li.l#{$l}.current'); // Makes current remain selected on hover
+		} @else {
+			$_current: 'li.l#{$l}.current'; // Makes current get unselected on hover
+		}
+		$_selectors: append(nest('&, &:hover', 'li.l#{$l}:hover'), $_current);
+
+		#{$_selectors} {
+			/****** Structure Starts ******/
+			@if $i#{$l}-roundness-natural or $i#{$l}-roundness-folder {
+				$max-roundness: max($i#{$l}-roundness-natural, $i#{$l}-roundness-folder);
+				&::before,
+				a.l#{$l}::before,
+				.a.l#{$l}::before,
+				&::after,
+				a.l#{$l}::after,
+				.a.l#{$l}::after {
+					content: "";
+					display: block;
+					position: absolute;
+					top: 0;
+					bottom: 0;
+					width: $max-roundness;
+				}
+				&::before,
+				a.l#{$l}::before,
+				.a.l#{$l}::before {
+					left: -$max-roundness;
+				}
+				&::after,
+				a.l#{$l}::after,
+				.a.l#{$l}::after {
+					right: -$max-roundness;
+				}
+				&::before,
+				&::after {
+					z-index: -1;
+				}
+				a.l#{$l}::before,
+				.a.l#{$l}::before,
+				a.l#{$l}::after,
+				.a.l#{$l}::after {
+					z-index: 1;
+				}
+			}
+			/****** Structure Ends ******/
+
+			a.l#{$l},
+			.a.l#{$l} {
+				@if $i#{$l}-roundness-natural {
+					&::before {
+						border-top-right-radius: $i#{$l}-roundness-natural;
+					}
+					&::after {
+						border-top-left-radius: $i#{$l}-roundness-natural;
+					}
+				}
+			}
+		}
+
+		#{$_current} {
+			&::before,
+			&::after {
+				background-clip: padding-box;
+				@if $i#{$l}-background-current != undefined {
+					@if $i#{$l}-background-current != $i#{$l}-background-current-rgb and $i#{$l}-background-current-rgb != undefined {
+						background: $i#{$l}-background-current-rgb;
+					}
+					background: $i#{$l}-background-current; // NOTE: this is really not part of the structure (put here as optimization)
+				}
+				@if $i#{$l}-background-color-current != undefined {
+					@if $i#{$l}-background-color-current != $i#{$l}-background-color-current-rgb and $i#{$l}-background-color-current-rgb != undefined {
+						background-color: $i#{$l}-background-color-current-rgb;
+					}
+					background-color: $i#{$l}-background-color-current;
+				}
+				@if $i#{$l}-background-image-current != undefined {
+					background-image: $i#{$l}-background-image-current;
+				}
+			}
+			a.l#{$l}::before,
+			.a.l#{$l}::before,
+			a.l#{$l}::after,
+			.a.l#{$l}::after {
+				@if $i#{$l}-roundness-background-current != undefined {
+					background: $i#{$l}-roundness-background-current; // NOTE: this is really not part of the structure (put here as optimization)
+				}
+				@if $i#{$l}-roundness-background-image-current != undefined {
+					background-image: $i#{$l}-roundness-background-image-current;
+				}
+			}
+			a.l#{$l},
+			.a.l#{$l} {
+				.label {
+					@if $i#{$l}-color-current != undefined {
+						@if $i#{$l}-color-current != $i#{$l}-color-current-rgb and $i#{$l}-color-current-rgb != undefined {
+							color: $i#{$l}-color-current-rgb;
+						}
+						color: $i#{$l}-color-current;
+					}
+					@if $i#{$l}-text-shadow-current != undefined {
+						text-shadow: $i#{$l}-text-shadow-current;
+					}
+
+					@if $i#{$l}-height-natural != undefined {
+						@if $i#{$l}-border-width-current != undefined {
+							height: $i#{$l}-height-natural - nth($i#{$l}-border-width-current, 1) - nth($i#{$l}-border-width-current, 3);
+						}
+					}
+					@if $i#{$l}-line-height-natural != undefined {
+						@if $i#{$l}-border-width-current != undefined {
+							line-height: $i#{$l}-line-height-natural - nth($i#{$l}-border-width-current, 1) - nth($i#{$l}-border-width-current, 3);
+						}
+					}
+				}
+				&.folder .tag {
+					padding-right: 12px;
+					@if $i#{$l}-arrow-color-current != undefined {
+						@if $u#{$l + 1}-type == dropup {
+							background: image-url('menus/arrow_up.png', $dst-color: $i#{$l}-arrow-color-current, $cache-buster: false) no-repeat right center;
+						} @else if $u#{$l + 1}-type == dropright {
+							background: image-url('menus/arrow_right.png', $dst-color: $i#{$l}-arrow-color-current, $cache-buster: false) no-repeat right center;
+						} @else if $u#{$l + 1}-type == dropleft {
+							background: image-url('menus/arrow_left.png', $dst-color: $i#{$l}-arrow-color-current, $cache-buster: false) no-repeat right center;
+						} @else {
+							background: image-url('menus/arrow_down.png', $dst-color: $i#{$l}-arrow-color-current, $cache-buster: false) no-repeat right center;
+						}
+					}
+				}
+				@if $i#{$l}-background-current != undefined {
+					@if $i#{$l}-background-current != $i#{$l}-background-current-rgb and $i#{$l}-background-current-rgb != undefined {
+						background: $i#{$l}-background-current-rgb;
+					}
+					background: $i#{$l}-background-current;
+				}
+				@if $i#{$l}-background-color-current != undefined {
+					@if $i#{$l}-background-color-current != $i#{$l}-background-color-current-rgb and $i#{$l}-background-color-current-rgb != undefined {
+						background-color: $i#{$l}-background-color-current-rgb;
+					}
+					background-color: $i#{$l}-background-color-current;
+				}
+				@if $i#{$l}-background-image-current != undefined {
+					background-image: $i#{$l}-background-image-current;
+				}
+
+				@if $i#{$l}-box-shadow-current != undefined {
+					box-shadow: $i#{$l}-box-shadow-current;
+				}
+
+				@if $i#{$l}-border-width-current != undefined {
+					border-width: $i#{$l}-border-width-current;
+					border-style: solid;
+				}
+				@if $i#{$l}-border-color-current != undefined {
+					@if $i#{$l}-border-color-current != $i#{$l}-border-color-current-rgb and $i#{$l}-border-color-current-rgb != undefined {
+						border-color: $i#{$l}-border-color-current-rgb;
+					}
+					border-color: $i#{$l}-border-color-current;
+				}
+
+				@if $i#{$l}-border-radius-current {
+					border-radius: $i#{$l}-border-radius-current;
+				}
+			}
+		}
+
+//		&.focused,
+		&.hover,
+		&:hover,
+		& {
+//			li.l#{$l}.focused,
+			li.l#{$l}.hover,
+			li.l#{$l}:hover {
+				&::before,
+				&::after {
+					@if $i#{$l}-background-hover != undefined {
+						@if $i#{$l}-background-hover != $i#{$l}-background-hover-rgb and $i#{$l}-background-hover-rgb != undefined {
+							background: $i#{$l}-background-hover-rgb;
+						}
+						background: $i#{$l}-background-hover; // NOTE: this is really not part of the structure (put here as optimization)
+					}
+					@if $i#{$l}-background-color-hover != undefined {
+						@if $i#{$l}-background-color-hover != $i#{$l}-background-color-hover-rgb and $i#{$l}-background-color-hover-rgb != undefined {
+							background-color: $i#{$l}-background-color-hover-rgb;
+						}
+						background-color: $i#{$l}-background-color-hover;
+					}
+					@if $i#{$l}-background-image-hover != undefined {
+						background-image: $i#{$l}-background-image-hover;
+					}
+				}
+				a.l#{$l}::before,
+				.a.l#{$l}::before,
+				a.l#{$l}::after,
+				.a.l#{$l}::after {
+					@if $i#{$l}-roundness-background-hover != undefined {
+						background: $i#{$l}-roundness-background-hover; // NOTE: this is really not part of the structure (put here as optimization)
+					}
+					@if $i#{$l}-roundness-background-image-hover != undefined {
+						background-image: $i#{$l}-roundness-background-image-hover;
+					}
+				}
+				a.l#{$l},
+				.a.l#{$l} {
+					.label {
+						@if $i#{$l}-color-hover != undefined {
+							@if $i#{$l}-color-hover != $i#{$l}-color-hover-rgb and $i#{$l}-color-hover-rgb != undefined {
+								color: $i#{$l}-color-hover-rgb;
+							}
+							color: $i#{$l}-color-hover;
+						}
+						@if $i#{$l}-text-shadow-hover != undefined {
+							text-shadow: $i#{$l}-text-shadow-hover;
+						}
+
+						@if $i#{$l}-height-natural != undefined {
+							@if $i#{$l}-border-width-hover != undefined {
+								height: $i#{$l}-height-natural - nth($i#{$l}-border-width-hover, 1) - nth($i#{$l}-border-width-hover, 3);
+							}
+						}
+						@if $i#{$l}-line-height-natural != undefined {
+							@if $i#{$l}-border-width-hover != undefined {
+								line-height: $i#{$l}-line-height-natural - nth($i#{$l}-border-width-hover, 1) - nth($i#{$l}-border-width-hover, 3);
+							}
+						}
+					}
+					&.folder .tag {
+						padding-right: 12px;
+						@if $i#{$l}-arrow-color-hover != undefined {
+							@if $u#{$l + 1}-type == dropup {
+								background: image-url('menus/arrow_up.png', $dst-color: $i#{$l}-arrow-color-hover, $cache-buster: false) no-repeat right center;
+							} @else if $u#{$l + 1}-type == dropright {
+								background: image-url('menus/arrow_right.png', $dst-color: $i#{$l}-arrow-color-hover, $cache-buster: false) no-repeat right center;
+							} @else if $u#{$l + 1}-type == dropleft {
+								background: image-url('menus/arrow_left.png', $dst-color: $i#{$l}-arrow-color-hover, $cache-buster: false) no-repeat right center;
+							} @else {
+								background: image-url('menus/arrow_down.png', $dst-color: $i#{$l}-arrow-color-hover, $cache-buster: false) no-repeat right center;
+							}
+						}
+					}
+					@if $i#{$l}-background-hover != undefined {
+						@if $i#{$l}-background-hover != $i#{$l}-background-hover-rgb and $i#{$l}-background-hover-rgb != undefined {
+							background: $i#{$l}-background-hover-rgb;
+						}
+						background: $i#{$l}-background-hover;
+					}
+					@if $i#{$l}-background-color-hover != undefined {
+						@if $i#{$l}-background-color-hover != $i#{$l}-background-color-hover-rgb and $i#{$l}-background-color-hover-rgb != undefined {
+							background-color: $i#{$l}-background-color-hover-rgb;
+						}
+						background-color: $i#{$l}-background-color-hover;
+					}
+					@if $i#{$l}-background-image-hover != undefined {
+						background-image: $i#{$l}-background-image-hover;
+					}
+
+					@if $i#{$l}-box-shadow-hover != undefined {
+						box-shadow: $i#{$l}-box-shadow-hover;
+					}
+
+					@if $i#{$l}-border-width-hover != undefined {
+						border-width: $i#{$l}-border-width-hover;
+						border-style: solid;
+					}
+					@if $i#{$l}-border-color-hover != undefined {
+						@if $i#{$l}-border-color-hover != $i#{$l}-border-color-hover-rgb and $i#{$l}-border-color-hover-rgb != undefined {
+							border-color: $i#{$l}-border-color-hover-rgb;
+						}
+						border-color: $i#{$l}-border-color-hover;
+					}
+
+					@if $i#{$l}-border-radius-hover {
+						border-radius: $i#{$l}-border-radius-hover;
+					}
+				}
+			}
+
+			/* Natural state: */
+			li.l#{$l} {
+				/****** Structure Starts ******/
+				position: relative;
+
+				display: inline-block;
+				*vertical-align: middle; // IE fix
+				/****** Structure Ends ******/
+
+				z-index: 50;
+
+				&:hover {
+					z-index: 100; // This pushes down the currently focused/hovered item, so the rounded sides go below the menus on its sides.
+				}
+
+				&::before,
+				a.l#{$l}::before,
+				.a.l#{$l}::before,
+				&::after,
+				a.l#{$l}::after,
+				.a.l#{$l}::after {
+					display: none;
+				}
+				/****** Structure Ends ******/
+
+				a.l#{$l},
+				.a.l#{$l} {
+					/****** Structure Starts ******/
+					display: inline-block;
+					img.icon {
+						vertical-align: middle;
+						@if $i#{$l}-icon-size-natural != undefined {
+							width: $i#{$l}-icon-size-natural;
+							height: $i#{$l}-icon-size-natural;
+						}
+					}
+					.tag {
+						vertical-align: middle;
+					}
+					/****** Structure Ends ******/
+
+					background-clip: padding-box;
+					@if $i#{$l}-background-natural != undefined {
+						@if $i#{$l}-background-natural != $i#{$l}-background-natural-rgb and $i#{$l}-background-natural-rgb != undefined {
+							background: $i#{$l}-background-natural-rgb;
+						}
+						background: $i#{$l}-background-natural;
+					}
+					@if $i#{$l}-background-color-natural != undefined {
+						@if $i#{$l}-background-color-natural != $i#{$l}-background-color-natural-rgb and $i#{$l}-background-color-natural-rgb != undefined {
+							background-color: $i#{$l}-background-color-natural-rgb;
+						}
+						background-color: $i#{$l}-background-color-natural;
+					}
+					@if $i#{$l}-background-image-natural != undefined {
+						background-image: $i#{$l}-background-image-natural;
+					}
+
+					@if $i#{$l}-box-shadow-natural != undefined {
+						box-shadow: $i#{$l}-box-shadow-natural;
+					}
+
+					@if $i#{$l}-border-width-natural != undefined {
+						border-width: $i#{$l}-border-width-natural;
+						border-style: solid;
+					}
+					@if $i#{$l}-border-color-natural != undefined {
+						@if $i#{$l}-border-color-natural != $i#{$l}-border-color-natural-rgb and $i#{$l}-border-color-natural-rgb != undefined {
+							border-color: $i#{$l}-border-color-natural-rgb;
+						}
+						border-color: $i#{$l}-border-color-natural;
+					}
+
+					@if $i#{$l}-border-radius-natural != undefined {
+						border-radius: $i#{$l}-border-radius-natural;
+					}
+
+					@if $i#{$l}-margin-natural != undefined {
+						margin: $i#{$l}-margin-natural;
+					}
+					.label {
+						/****** Structure Starts ******/
+						@if not $i#{$l}-word-wrap {
+							white-space: nowrap;
+						}
+						display: inline-block;
+						/****** Structure Ends ******/
+
+						@if $i#{$l}-margin-natural != undefined {
+							@if $i#{$l}-border-width-natural != undefined {
+								margin: -($i#{$l}-margin-natural + $i#{$l}-border-width-natural);
+							} @else {
+								margin: -($i#{$l}-margin-natural);
+							}
+						} @else if $i#{$l}-border-width-natural != undefined {
+							margin: -($i#{$l}-border-width-natural);
+						}
+
+						text-decoration: none;
+						@if $i#{$l}-font-size-natural != undefined {
+							font-size: $i#{$l}-font-size-natural;
+						}
+						@if $i#{$l}-color-natural != undefined {
+							@if $i#{$l}-color-natural != $i#{$l}-color-natural-rgb and $i#{$l}-color-natural-rgb != undefined {
+								color: $i#{$l}-color-natural-rgb;
+							}
+							color: $i#{$l}-color-natural;
+						}
+						@if $i#{$l}-text-shadow-natural != undefined {
+							text-shadow: $i#{$l}-text-shadow-natural;
+						}
+
+						@if $i#{$l}-padding-natural != undefined {
+							padding: $i#{$l}-padding-natural;
+						}
+
+						@if $i#{$l}-height-natural != undefined {
+							@if $i#{$l}-border-width-natural != undefined {
+								height: $i#{$l}-height-natural - nth($i#{$l}-border-width-natural, 1) - nth($i#{$l}-border-width-natural, 3);
+							} @else {
+								height: $i#{$l}-height-natural;
+							}
+						}
+						@if $i#{$l}-line-height-natural != undefined {
+							@if $i#{$l}-border-width-natural != undefined {
+								line-height: $i#{$l}-line-height-natural - nth($i#{$l}-border-width-natural, 1) - nth($i#{$l}-border-width-natural, 3);
+							} @else {
+								line-height: $i#{$l}-line-height-natural;
+							}
+						}
+					}
+//					&:active .label,
+//					&:focus .label {
+//						text-decoration: underline;
+//					}
+					&.center .label {
+						text-align: center;
+					}
+					&.folder {
+						.label {
+							@if $i#{$l}-height-natural != undefined {
+								@if $i#{$l}-border-width-folder != undefined {
+									height: $i#{$l}-height-natural - nth($i#{$l}-border-width-folder, 1) - nth($i#{$l}-border-width-folder, 3);
+								}
+							}
+							@if $i#{$l}-line-height-natural != undefined {
+								@if $i#{$l}-border-width-folder != undefined {
+									line-height: $i#{$l}-line-height-natural - nth($i#{$l}-border-width-folder, 1) - nth($i#{$l}-border-width-folder, 3);
+								}
+							}
+						}
+						.tag {
+							padding-right: 12px;
+							@if $i#{$l}-arrow-color-natural != undefined {
+								@if $u#{$l + 1}-type == dropup {
+									background: image-url('menus/arrow_up.png', $dst-color: $i#{$l}-arrow-color-natural, $cache-buster: false) no-repeat right center;
+								} @else if $u#{$l + 1}-type == dropright {
+									background: image-url('menus/arrow_right.png', $dst-color: $i#{$l}-arrow-color-natural, $cache-buster: false) no-repeat right center;
+								} @else if $u#{$l + 1}-type == dropleft {
+									background: image-url('menus/arrow_left.png', $dst-color: $i#{$l}-arrow-color-natural, $cache-buster: false) no-repeat right center;
+								} @else {
+									background: image-url('menus/arrow_down.png', $dst-color: $i#{$l}-arrow-color-natural, $cache-buster: false) no-repeat right center;
+								}
+							}
+						}
+					}
+				}
+//				&.folder.focused,
+				&.folder.hover,
+				&.folder:hover {
+					a.l#{$l},
+					.a.l#{$l} {
+						@if $i#{$l}-margin-folder != undefined {
+							margin: $i#{$l}-margin-folder; // Margin that sends the button downwards
+						}
+						.label {
+							@if $i#{$l}-margin-folder != undefined {
+								@if $i#{$l}-border-width-folder != undefined {
+									margin: -($i#{$l}-margin-folder + $i#{$l}-border-width-folder);
+								} @else if $i#{$l}-border-width-natural != undefined {
+									margin: -($i#{$l}-margin-folder + $i#{$l}-border-width-natural);
+								} @else {
+									margin: -($i#{$l}-margin-folder);
+								}
+							} @else if $i#{$l}-border-width-folder != undefined {
+								@if $i#{$l}-margin-natural != undefined {
+									margin: -($i#{$l}-margin-natural + $i#{$l}-border-width-folder);
+								} @else {
+									margin: -($i#{$l}-border-width-folder);
+								}
+							}
+						}
+
+						@if $i#{$l}-box-shadow-folder != undefined {
+							box-shadow: $i#{$l}-box-shadow-folder;
+						}
+
+						@if $i#{$l}-border-width-folder != undefined {
+							border-width: $i#{$l}-border-width-folder;
+							border-style: solid;
+						}
+						@if $i#{$l}-border-color-folder != undefined {
+							@if $i#{$l}-border-color-folder != $i#{$l}-border-color-folder-rgb and $i#{$l}-border-coor-folder-rgb != undefined {
+								border-color: $i#{$l}-border-color-folder-rgb;
+							}
+							border-color: $i#{$l}-border-color-folder;
+						}
+
+						@if $i#{$l}-border-radius-folder != undefined {
+							border-radius: $i#{$l}-border-radius-folder;
+						}
+
+						@if $i#{$l}-roundness-folder {
+							&::before {
+								@if $i#{$l}-border-radius-folder != undefined {
+									border-radius: 0;
+								}
+								border-bottom-right-radius: $i#{$l}-roundness-folder;
+								background-position: center 0;
+							}
+							&::after {
+								@if $i#{$l}-border-radius-folder != undefined {
+									border-radius: 0;
+								}
+								border-bottom-left-radius: $i#{$l}-roundness-folder;
+								background-position: center 0;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin _menu-vertical($level) {
+	$l: $level;
+
+	ul.l#{$l} {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		@if $u#{$l}-padding-natural != undefined {
+			padding: $u#{$l}-padding-natural;
+		}
+		@if $u#{$l}-margin-natural != undefined {
+			margin: $u#{$l}-margin-natural;
+		}
+
+		background-clip: padding-box;
+		@if $u#{$l}-background-natural != undefined {
+			@if $u#{$l}-background-natural != $u#{$l}-background-natural-rgb and $u#{$l}-background-natural-rgb != undefined {
+				background: $u#{$l}-background-natural-rgb;
+			}
+			background: $u#{$l}-background-natural;
+		}
+		@if $u#{$l}-background-color-natural != undefined {
+			@if $u#{$l}-background-color-natural != $u#{$l}-background-color-natural-rgb and $u#{$l}-background-color-natural-rgb != undefined {
+				background-color: $u#{$l}-background-color-natural-rgb;
+			}
+			background-color: $u#{$l}-background-natural;
+		}
+		@if $u#{$l}-background-image-natural != undefined {
+			background-image: $u#{$l}-background-image-natural;
+		}
+
+		@if $u#{$l}-box-shadow-natural != undefined {
+			box-shadow: $u#{$l}-box-shadow-natural;
+		}
+
+		@if $u#{$l}-border-width-natural != undefined {
+			border-width: $u#{$l}-border-width-natural;
+			border-style: solid;
+		}
+		@if $u#{$l}-border-color-natural != undefined {
+			@if $u#{$l}-border-color-natural != $u#{$l}-border-color-natural-rgb and $u#{$l}-border-color-natural-rgb != undefined {
+				border-color: $u#{$l}-border-color-natural-rgb;
+			}
+			border-color: $u#{$l}-border-color-natural;
+		}
+
+		@if $u#{$l}-border-radius-natural != undefined {
+			border-radius: $u#{$l}-border-radius-natural;
+		}
+
+		transition: background 1s;
+
+//		&.focused,
+		&.hover,
+		&:hover {
+			@if $u#{$l}-background-hover != undefined {
+				@if $u#{$l}-background-hover != $u#{$l}-background-hover-rgb and $u#{$l}-background-hover-rgb != undefined {
+					background: $u#{$l}-background-hover-rgb;
+				}
+				background: $u#{$l}-background-hover;
+			}
+			@if $u#{$l}-background-color-hover != undefined {
+				@if $u#{$l}-background-color-hover != $u#{$l}-background-color-hover-rgb and $u#{$l}-background-color-hover-rgb != undefined {
+					background-color: $u#{$l}-background-color-hover-rgb;
+				}
+				background-color: $u#{$l}-background-hover;
+			}
+			@if $u#{$l}-background-image-hover != undefined {
+				background-image: $u#{$l}-background-image-hover;
+			}
+		}
+
+//		&.focused,
+		&.hover,
+		&:hover,
+		& {
+			/* Hovered/selected state: */
+//			li.l#{$l}.focused,
+			li.l#{$l}.hover,
+			li.l#{$l}:hover {
+				a.l#{$l},
+				.a.l#{$l} {
+					@if $i#{$l}-background-hover != undefined {
+						@if $i#{$l}-background-hover != $i#{$l}-background-hover-rgb and $i#{$l}-background-hover-rgb != undefined {
+							background: $i#{$l}-background-hover-rgb;
+						}
+						background: $i#{$l}-background-hover;
+					}
+					@if $i#{$l}-background-color-hover != undefined {
+						@if $i#{$l}-background-color-hover != $i#{$l}-background-color-hover-rgb and $i#{$l}-background-color-hover-rgb != undefined {
+							background-color: $i#{$l}-background-color-hover-rgb;
+						}
+						background-color: $i#{$l}-background-color-hover;
+					}
+					@if $i#{$l}-background-image-hover != undefined {
+						background-image: $i#{$l}-background-image-hover;
+					}
+
+					@if $i#{$l}-box-shadow-hover != undefined {
+						box-shadow: $i#{$l}-box-shadow-hover;
+					}
+
+					@if $i#{$l}-border-width-hover != undefined {
+						border-width: $i#{$l}-border-width-hover;
+						border-style: solid;
+					}
+					@if $i#{$l}-border-color-hover != undefined {
+						@if $i#{$l}-border-color-hover != $i#{$l}-border-color-hover-rgb and $i#{$l}-border-color-hover-rgb != undefined {
+							border-color: $i#{$l}-border-color-hover-rgb;
+						}
+						border-color: $i#{$l}-border-color-hover;
+					}
+
+					@if $i#{$l}-border-radius-hover != undefined {
+						border-radius: $i#{$l}-border-radius-hover;
+					}
+
+					.label {
+						@if $i#{$l}-color-hover != undefined {
+							@if $i#{$l}-color-hover != $i#{$l}-color-hover-rgb and $i#{$l}-color-hover-rgb != undefined {
+								color: $i#{$l}-color-hover-rgb;
+							}
+							color: $i#{$l}-color-hover;
+						}
+						@if $i#{$l}-text-shadow-hover != undefined {
+							text-shadow: $i#{$l}-text-shadow-hover;
+						}
+					}
+				}
+			}
+			li.l#{$l}.current {
+				a.l#{$l},
+				.a.l#{$l} {
+					@if $i#{$l}-background-current != undefined {
+						@if $i#{$l}-background-current != $i#{$l}-background-current-rgb and $i#{$l}-background-current-rgb != undefined {
+							background: $i#{$l}-background-current-rgb;
+						}
+						background: $i#{$l}-background-current;
+					}
+					@if $i#{$l}-background-color-current != undefined {
+						@if $i#{$l}-background-color-current != $i#{$l}-background-color-current-rgb and $i#{$l}-background-color-current-rgb != undefined {
+							background-color: $i#{$l}-background-color-current-rgb;
+						}
+						background-color: $i#{$l}-background-color-current;
+					}
+					@if $i#{$l}-background-image-current != undefined {
+						background-image: $i#{$l}-background-image-current;
+					}
+
+					@if $i#{$l}-box-shadow-current != undefined {
+						box-shadow: $i#{$l}-box-shadow-current;
+					}
+
+					@if $i#{$l}-border-width-current != undefined {
+						border-width: $i#{$l}-border-width-current;
+						border-style: solid;
+					}
+					@if $i#{$l}-border-color-current != undefined {
+						@if $i#{$l}-border-color-current != $i#{$l}-border-color-current-rgb and $i#{$l}-border-color-current-rgb != undefined {
+							border-color: $i#{$l}-border-color-current-rgb;
+						}
+						border-color: $i#{$l}-border-color-current;
+					}
+
+					@if $i#{$l}-border-radius-current != undefined {
+						border-radius: $i#{$l}-border-radius-current;
+					}
+
+					.label {
+						@if $i#{$l}-color-current != undefined {
+							@if $i#{$l}-color-current != $i#{$l}-color-current-rgb and $i#{$l}-color-current-rgb != undefined {
+								color: $i#{$l}-color-current-rgb;
+							}
+							color: $i#{$l}-color-current;
+						}
+						@if $i#{$l}-text-shadow-current != undefined {
+							text-shadow: $i#{$l}-text-shadow-current;
+						}
+					}
+				}
+			}
+			/* Natural state: */
+			li.l#{$l} {
+				/****** Structure Starts ******/
+				position: relative;
+				/****** Structure Ends ******/
+
+				z-index: 50;
+
+				&:hover {
+					z-index: 100; // This pushes down the currently focused/hovered item, so the rounded sides go below the menus on its sides.
+				}
+
+				@if $l > 1 {
+					padding: 0 6px;
+				}
+				margin: 2px 0;
+				&.first {
+					margin-top: 6px;
+				}
+				&.last {
+					margin-bottom: 6px;
+				}
+
+				&.separator {
+					padding: 0;
+					font-size: 1px; /* IE */
+					@if $i#{$l}-separator-width-natural != undefined {
+						@if $i#{$l}-separator-color-natural != undefined {
+							border-top: $i#{$l}-separator-width-natural solid $i#{$l}-separator-color-natural; // mimic separator
+						}
+					}
+				}
+				a.l#{$l},
+				.a.l#{$l} {
+					/****** Structure Starts ******/
+					display: inline-block;
+					img.icon {
+						vertical-align: middle;
+						@if $i#{$l}-icon-size-natural != undefined {
+							width: $i#{$l}-icon-size-natural;
+							height: $i#{$l}-icon-size-natural;
+						}
+					}
+					.tag {
+						vertical-align: middle;
+					}
+					/****** Structure Ends ******/
+
+					background-clip: padding-box;
+					@if $i#{$l}-background-natural != undefined {
+						@if $i#{$l}-background-natural != $i#{$l}-background-natural-rgb and $i#{$l}-background-natural-rgb != undefined {
+							background: $i#{$l}-background-natural-rgb;
+						}
+						background: $i#{$l}-background-natural;
+					}
+					@if $i#{$l}-background-color-natural != undefined {
+						@if $i#{$l}-background-color-natural != $i#{$l}-background-color-natural-rgb and $i#{$l}-background-color-natural-rgb != undefined {
+							background-color: $i#{$l}-background-color-natural-rgb;
+						}
+						background-color: $i#{$l}-background-color-natural;
+					}
+					@if $i#{$l}-background-image-natural != undefined {
+						background-image: $i#{$l}-background-image-natural;
+					}
+
+					@if $i#{$l}-box-shadow-natural != undefined {
+						box-shadow: $i#{$l}-box-shadow-natural;
+					}
+
+					@if $i#{$l}-border-width-natural != undefined {
+						border-width: $i#{$l}-border-width-natural;
+						border-style: solid;
+					}
+					@if $i#{$l}-border-color-natural != undefined {
+						@if $i#{$l}-border-color-natural != $i#{$l}-border-color-natural-rgb and $i#{$l}-border-color-natural-rgb != undefined {
+							border-color: $i#{$l}-border-color-natural-rgb;
+						}
+						border-color: $i#{$l}-border-color-natural;
+					}
+
+					@if $i#{$l}-border-radius-natural != undefined {
+						border-radius: $i#{$l}-border-radius-natural;
+					}
+
+					width: 100%;
+
+					.label {
+						/****** Structure Starts ******/
+						@if not $i#{$l}-word-wrap {
+							white-space: nowrap;
+						}
+						display: inline-block;
+						/****** Structure Ends ******/
+
+						text-decoration: none;
+						@if $i#{$l}-font-size-natural != undefined {
+							font-size: $i#{$l}-font-size-natural;
+						}
+						@if $i#{$l}-color-natural != undefined {
+							@if $i#{$l}-color-natural != $i#{$l}-color-natural-rgb and $i#{$l}-color-natural-rgb != undefined {
+								color: $i#{$l}-color-natural-rgb;
+							}
+							color: $i#{$l}-color-natural;
+						}
+						@if $i#{$l}-text-shadow-natural != undefined {
+							text-shadow: $i#{$l}-text-shadow-natural;
+						}
+
+						@if $i#{$l}-padding-natural != undefined {
+							padding: $i#{$l}-padding-natural;
+						}
+
+						@if $i#{$l}-height-natural != undefined {
+							@if $i#{$l}-border-width-natural != undefined {
+								height: $i#{$l}-height-natural - nth($i#{$l}-border-width-natural, 1) - nth($i#{$l}-border-width-natural, 3);
+							} @else {
+								height: $i#{$l}-height-natural;
+							}
+						}
+						@if $i#{$l}-line-height-natural != undefined {
+							@if $i#{$l}-border-width-natural != undefined {
+								line-height: $i#{$l}-line-height-natural - nth($i#{$l}-border-width-natural, 1) - nth($i#{$l}-border-width-natural, 3);
+							} @else {
+								line-height: $i#{$l}-line-height-natural;
+							}
+						}
+					}
+//					&:active .label,
+//					&:focus .label {
+//						text-decoration: underline;
+//					}
+					&.center .label {
+						text-align: center;
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin _menu-inplace($level) {
+	$l: $level;
+
+	$u#{$l}-padding-natural: 2px 10px !default;
+	$u#{$l}-margin-natural: 2px 0 0 0 !default;
+
+	@include _menu-vertical($l);
+
+	.built-menu.l#{$l} {
+		display: block;
+		ul.l#{$l} {
+			@if $i#{$l}-separator-width-natural != undefined {
+				@if $i#{$l}-separator-color-natural != undefined {
+					border-top: $i#{$l}-separator-width-natural solid $i#{$l}-separator-color-natural; // mimic separator
+				}
+			}
+		}
+	}
+}
+
+
+@mixin _menu-accordion($level) {
+	$l: $level;
+
+	$u#{$l}-padding-natural: 0 0 !default;
+	$u#{$l}-margin-natural: 2px 10px 0 !default;
+
+	@include _menu-vertical($l);
+
+	.built-menu.l#{$l} {
+		ul.l#{$l} {
+			@if $i#{$l}-separator-width-natural != undefined {
+				@if $i#{$l}-separator-color-natural != undefined {
+					border-top: $i#{$l}-separator-width-natural solid $i#{$l}-separator-color-natural; // mimic separator
+				}
+			}
+		}
+	}
+}
+
+@mixin _menu-dropdown($level) {
+	$l: $level;
+
+	$u#{$l}-box-shadow-natural: rgba(black, 12%) 0 2px 4px !default;
+	$u#{$l}-background-natural: white !default;
+
+	@include _menu-vertical($l);
+
+	.built-menu.l#{$l} {
+		position: absolute;
+		padding: 5px 30px 30px;
+		margin: -5px -30px -30px;
+		@if $i#{$l - 1}-height-natural != undefined {
+			top: $i#{$l}-height-natural - nth($i#{$l}-margin-folder, 1);
+		}
+		ul.l#{$l} {
+			li.l#{$l}.first {
+				margin-top: 4px !important;
+			}
+			li.l#{$l}.last {
+				margin-bottom: 4px !important;
+			}
+		}
+	}
+}
+
+@mixin _menu-dropup($level) {
+	$l: $level;
+
+	$u#{$l}-box-shadow-natural: rgba(black, 12%) 0 2px 4px !default;
+	$u#{$l}-background-natural: white !default;
+
+	@include _menu-vertical($l);
+
+	.built-menu.l#{$l} {
+		position: absolute;
+		padding: 30px 30px 5px;
+		margin: -30px -30px -5px;
+		@if $i#{$l - 1}-height-natural != undefined {
+			bottom: $i#{$l - 1}-height-natural;
+		} @else {
+			bottom: 1em;
+		}
+		ul.l#{$l} {
+			li.l#{$l}.first {
+				margin-top: 4px !important;
+			}
+			li.l#{$l}.last {
+				margin-bottom: 4px !important;
+			}
+		}
+	}
+}
+
+@mixin _menu-dropright($level) {
+	$l: $level;
+
+	$u#{$l}-box-shadow-natural: rgba(black, 12%) 0 2px 4px !default;
+	$u#{$l}-background-natural: white !default;
+
+	@include _menu-vertical($l);
+
+	.built-menu.l#{$l} {
+		position: absolute;
+		padding: 30px 30px 30px 5px;
+		margin: -30px -30px -30px -5px;
+		top: 0;
+		left: 90%;
+		ul.l#{$l} {
+			li.l#{$l}.first {
+				margin-top: 4px !important;
+			}
+			li.l#{$l}.last {
+				margin-bottom: 4px !important;
+			}
+		}
+	}
+}
+
+@mixin _menu-dropleft($level) {
+	$l: $level;
+
+	$u#{$l}-box-shadow-natural: rgba(black, 12%) 0 2px 4px !default;
+	$u#{$l}-background-natural: white !default;
+
+	@include _menu-vertical($l);
+
+	.built-menu.l#{$l} {
+		position: absolute;
+		padding: 30px 30px 30px 5px;
+		margin: -30px -30px -30px -5px;
+		top: 0;
+		right: 90%;
+		ul.l#{$l} {
+			li.l#{$l}.first {
+				margin-top: 4px !important;
+			}
+			li.l#{$l}.last {
+				margin-bottom: 4px !important;
+			}
+		}
+	}
+}
+
+@mixin menu() {
+	/****** Structure Starts ******/
+	// Multilevel menu show/hide:
+	.built-menu .built-menu {
+		display: none;
+	}
+	@for $l from 1 through $default-menu-levels {
+//		li.l#{$l}.focused .built-menu.l#{$l + 1},
+		li.l#{$l}.hover .built-menu.l#{$l + 1},
+		li.l#{$l}:hover .built-menu.l#{$l + 1} {
+			display: block;
+		}
+	}
+	// Hide pre/post items by default:
+	li.pre_items,
+	li.post_items {
+		display: none !important;
+	}
+	/****** Structure Ends ******/
+
+	// Get default parameters:
+	$params: 'color', 'text-shadow', 'font-size', 'background', 'background-color', 'background-image',
+			'border-width', 'border-color', 'border-radius',
+			'box-shadow',
+			'padding', 'margin', 'margin-folder',
+			'border-width-folder', 'border-color-folder', 'border-radius-folder',
+			'roundness', 'roundness-folder',
+			'roundness-background', 'roundness-background-image',
+			'height', 'line-height',
+			'separator-color', 'separator-width',
+			'arrow-color', 'icon-size', 'keep-current', 'word-wrap';
+	$sufixes: '', '-natural', '-hover', '-current';
+	$prefixes: 'u', 'i';
+	@for $l from 1 through $default-menu-levels {
+		@each $param in $params {
+			@each $s in $sufixes {
+				@each $p in $prefixes {
+					$final: undefined;
+					@each $n in $l, 0, -1 {
+						@if $final == undefined {
+							$final: first-value-of(
+								$#{$p}#{$n}-#{$param}#{$s},
+								$#{$p}#{$n}-#{$param},
+								$#{$param}#{$s},
+								$#{$param}
+							);
+						}
+					}
+					@if $final != undefined {
+						$#{$p}#{$l}-#{$param}#{$s}: $final !default;
+						@if type-of($final) == 'color' {
+							$#{$p}#{$l}-#{$param}#{$s}-rgb: rgb($final) !default;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Default values:
+	$u1-type: horizontal !default;
+	$u2-type: dropdown !default;
+	$u3-type: inplace !default;
+
+	$icon-size-natural: 20px !default;
+
+	$i1-padding-natural: 0 12px !default;
+	$i2-padding-natural: 2px 6px !default;
+	$i3-padding-natural: 2px 6px !default;
+
+	@for $l from 1 through $default-menu-levels {
+		$i#{$l}-separator-width-natural: 1px !default;
+		$i#{$l}-color-natural: blue !default;
+		$i#{$l}-color-hover: red !default;
+		$i#{$l}-color-current: red !default;
+		$i#{$l}-arrow-color-natural: $i#{$l}-color-natural !default;
+		$i#{$l}-arrow-color-hover: $i#{$l}-color-hover !default;
+		$i#{$l}-arrow-color-current: $i#{$l}-color-current !default;
+		$i#{$l}-word-wrap: false !default;
+	}
+
+	@for $l from 1 through $default-menu-levels {
+		$type: '_menu-' + $u#{$l}-type;
+		@include #{$type}($level: $l);
+	}
+}

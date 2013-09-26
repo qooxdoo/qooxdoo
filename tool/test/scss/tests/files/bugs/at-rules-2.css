@@ -1,0 +1,18 @@
+h1 {
+  color: #f00;
+}
+@-moz-document (http://www.w3.org/), url-prefix(http://www.w3.org/Style/) {
+  #search input {
+    border-radius: 0;
+    width: 154px;
+    padding: 3px 2px;
+    margin: 0;
+    font-size: 14px;
+  }
+  .hbox {
+    width: 100%;
+  }
+}
+h2 {
+  color: #0f0;
+}

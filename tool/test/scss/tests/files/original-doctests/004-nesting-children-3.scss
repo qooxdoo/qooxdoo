@@ -1,0 +1,22 @@
+@option compress:no, short_colors:yes, reverse_colors:yes;
+.selector {
+    self {
+        margin: 20px;
+    }
+    a {
+        display: block;
+    }
+    dl {
+        dt {
+            color: red;
+        }
+        dd {
+            self {
+                color: gray;
+            }
+            span {
+                text-decoration: underline;
+            }
+        }
+    }
+}

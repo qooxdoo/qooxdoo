@@ -1,0 +1,10 @@
+@option compress:no, short_colors:yes, reverse_colors:yes;
+/* style.scss */
+$side: top;
+$radius: 10px;
+
+.rounded-#{$side} {
+  border-#{$side}-radius: $radius;
+  -moz-border-radius-#{$side}: $radius;
+  -webkit-border-#{$side}-radius: $radius;
+}

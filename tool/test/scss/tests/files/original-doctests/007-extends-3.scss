@@ -1,0 +1,15 @@
+@option compress:no, short_colors:yes, reverse_colors:yes;
+.specialClass extends .basicClass {
+    padding: 10px;
+    font-size: 14px;
+}
+.specialLink extends .basicClass a {}
+.basicClass {
+    self {
+        padding: 20px;
+        background-color: #FF0000;
+    }
+    a {
+        text-decoration: none;
+    }
+}

@@ -1,0 +1,13 @@
+@option compress:no, short_colors:yes, reverse_colors:yes;
+@variables {
+    $ie6 = *html;
+    $ie7 = *:first-child+html;
+}
+$ie6 {
+    .a  { color:#fff; }
+    .b  { color:#000; }
+}
+$ie7 {
+    .a  { color:#fff; }
+    .b  { color:#000; }
+}

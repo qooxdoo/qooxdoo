@@ -1,0 +1,9 @@
+$foo_bar: 1em;
+
+@function add_numbers($number_one, $number_two: $foo-bar) {
+    @return $number-one + $number-two + $foo-bar;
+}
+
+p {
+    width: add-numbers(5em);
+}

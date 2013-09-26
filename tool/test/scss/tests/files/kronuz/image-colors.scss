@@ -1,0 +1,4 @@
+@option compress:no;
+.mod {
+    background: inline-image("squares/ten-by-ten.png", $src-color: #c4c4c4, $dst-color: green);
+}

@@ -1,0 +1,17 @@
+div span, div p, div span {
+  color: red;
+}
+div a.foo.bar.foo {
+  color: green;
+}
+div:nth(-3) {
+  color: blue;
+}
+@-webkit-keyframes {
+  from {
+    left: 0px;
+  }
+  to {
+    left: 200px;
+  }
+}

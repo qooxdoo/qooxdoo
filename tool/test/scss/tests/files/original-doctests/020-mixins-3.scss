@@ -1,0 +1,10 @@
+@option compress:no, short_colors:yes, reverse_colors:yes;
+@mixin iphone {
+  @media only screen and (max-width: 480px) {
+    @content;
+  }
+}
+
+@include iphone {
+  body { color: red }
+}

@@ -1,0 +1,23 @@
+@option compress: no, reverse-colors: yes;
+
+$global: blue;
+
+@mixin box {
+	color: $global;
+	$global: red;
+	color: $global;
+	color: $white;
+}
+
+$global: green;
+$white: white;
+
+a {
+	@include box();
+	color: $global;
+}
+
+b {
+	@include box();
+	color: $global;
+}

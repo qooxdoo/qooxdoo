@@ -1,0 +1,13 @@
+@option compress:no, short_colors:yes, reverse_colors:yes;
+.error {
+  border: 1px #f00;
+  background-color: #fdd;
+}
+.attention {
+  font-size: 3em;
+  background-color: #ff0;
+}
+.seriousError {
+  @extend .error, .attention;
+  border-width: 3px;
+}

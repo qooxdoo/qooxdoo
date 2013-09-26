@@ -1,0 +1,11 @@
+.error, .seriousError {
+  border: 1px #f00;
+  background-color: #fdd;
+}
+.attention, .seriousError {
+  font-size: 3em;
+  background-color: #ff0;
+}
+.seriousError {
+  border-width: 3px;
+}

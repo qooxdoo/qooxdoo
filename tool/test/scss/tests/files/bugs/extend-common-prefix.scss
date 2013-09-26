@@ -1,0 +1,10 @@
+#content {
+    .error {
+        font-size: 10px;
+    }
+
+    .seriouserror {
+        @extend .error;
+        font-size: 33px;
+    }
+}

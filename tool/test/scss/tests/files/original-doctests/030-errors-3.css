@@ -1,0 +1,9 @@
+.mod, .cleanBox, .cleanBoxExtended, .articleBox {
+  margin: 10px;
+}
+.mod h1, .cleanBox h1, .cleanBoxExtended h1, .articleBox h1 {
+  font-size: 40px;
+}
+.cleanBox h1, .cleanBoxExtended h1, .articleBox h1 {
+  font-size: 60px;
+}

@@ -1,0 +1,9 @@
+.mod, .cleanBox h1 {
+  margin: 10px;
+}
+.mod h1, .cleanBox h1 h1 {
+  font-size: 40px;
+}
+.cleanBox h1 {
+  font-size: 60px;
+}

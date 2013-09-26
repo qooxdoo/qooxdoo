@@ -1,0 +1,112 @@
+#one #two #three a {
+    key: value;
+}
+#one #two #three b {
+    @extend a;
+}
+
+
+#one #three c {
+    key: value;
+}
+#one #two #three d {
+    @extend c;
+}
+
+
+#one #two #three e {
+    key: value;
+}
+#one #three f {
+    @extend e;
+}
+
+
+#one.x #two.y #three.z g {
+    key: value;
+}
+#one #two #three h {
+    @extend g;
+}
+
+
+#one #two #three i {
+    key: value;
+}
+#one.x #two.y #three.z j {
+    @extend i;
+}
+
+
+#one #two k {
+    key: value;
+}
+#two #three l {
+    @extend k;
+}
+
+
+#two #three m {
+    key: value;
+}
+#one #two n {
+    @extend m;
+}
+
+
+#one #two #three o {
+    key: value;
+}
+#one #two #three #four p {
+    @extend o;
+}
+
+
+#one #two #three #four q {
+    key: value;
+}
+#one #two #three r {
+    @extend q;
+}
+
+
+#one #two #four s {
+    key: value;
+}
+#one #three #four t {
+    @extend s;
+}
+
+
+#one #three #five u {
+    key: value;
+}
+#two #three #four v {
+    @extend u;
+}
+
+
+#one #two #four #five w {
+    key: value;
+}
+#one #three #four #five x {
+    @extend w;
+}
+
+
+// DEVIATION from ruby sass
+one two one three one four one y {
+    key: value;
+}
+five one three one six z {
+    @extend y;
+}
+
+
+// DEVIATION from ruby sass
+five one three one six aa {
+    key: value;
+}
+one two one three one four one bb {
+    @extend aa;
+}
