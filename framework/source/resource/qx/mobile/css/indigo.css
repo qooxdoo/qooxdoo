@@ -774,7 +774,8 @@ div:not(.hbox) > .button + .button, div:not(.hbox) > .toolbar-button + .button, 
   -moz-border-radius: 0.25rem;
   border-radius: 0.25rem;
   border: 0.0625rem solid #bcbcbc;
-  color: #383838; }
+  color: #383838;
+  background-color: #e8e8e8; }
 
 input.invalid {
   border: 0.0625rem solid red !important; }
@@ -817,6 +818,7 @@ input, select, .text-area {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
+  background-color: #e8e8e8;
   resize: none;
   padding-top: 0.25rem;
   text-indent: 0.25rem;
@@ -1403,7 +1405,7 @@ input, select, .text-area {
   opacity: 1; }
 
 .scroll-container {
-  background-color: white;
+  background-color: #e8e8e8;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
   border-radius: 0.25rem;

@@ -7,7 +7,7 @@ $scShadowColor: rgba(0,0,0,0.3);
 $scShadowColorLight: rgba(0,0,0,0.2);
 
 .scroll-container {
-  background-color:white;
+  background-color: $input-background-color;
 
   @include border-radius($input-border-radius);
   @include box-inset-multi-shadow(
