@@ -8,7 +8,7 @@ from __future__ import division
 import logging
 import math
 
-from six.moves import xrange
+# from six.moves import xrange
 
 from scss.functions.library import FunctionLibrary
 from scss.types import Boolean, Color, List, Null, Number, String, Map, expect_type
