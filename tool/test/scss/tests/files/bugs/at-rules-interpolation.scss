@@ -1,0 +1,23 @@
+$width: 900px;
+
+@media (max-width: $width) {
+    div {
+        color: red;
+    }
+}
+
+
+@mixin keyframes($name) {
+    @keyframes #{$name} {
+        @content;
+    }
+}
+
+@include keyframes(spin) {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(-359deg);
+    }
+}

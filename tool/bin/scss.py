@@ -22,7 +22,7 @@
 ##
 # scss.py -- a .less to .css compiler
 #
-# Command-line wrapper around the pyScss module (Sass/Less/Scss compiler)
+# Command-line wrapper around the pyScss module (SCSS compiler)
 ##
 
 import qxenviron

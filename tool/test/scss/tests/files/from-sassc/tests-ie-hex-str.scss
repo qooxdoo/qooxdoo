@@ -1,0 +1,4 @@
+div {
+  color: ie-hex-str(red) + "bar";
+  color: "foo " + ie-hex-str(brown);
+}

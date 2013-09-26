@@ -1,0 +1,12 @@
+$color: black;
+.scoped {
+    $bg: blue;
+    $color: white;
+    color: $color;
+    background-color: $bg;
+}
+.unscoped {
+    color: $color;
+    // Would be an error
+    // background: $bg;
+}

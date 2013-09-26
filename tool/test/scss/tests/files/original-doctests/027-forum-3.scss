@@ -1,0 +1,9 @@
+@option compress:no, short_colors:yes, reverse_colors:yes;
+.basicClass {
+    padding: 20px;
+    background-color: #FF0000;
+}
+.specialClass extends .basicClass {
+    padding: 10px;
+    font-size: 14px;
+}

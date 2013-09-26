@@ -1,0 +1,10 @@
+@mixin color-me($color: white) {
+    color: $color;
+}
+
+h1 {
+    @include color-me();
+}
+h2 {
+    @include color-me(black);
+}

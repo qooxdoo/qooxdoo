@@ -1,0 +1,42 @@
+@option compress:no, short_colors:yes, reverse_colors:yes;
+.functions {
+    opacify1: opacify(rgba(0, 0, 0, 0.5), 0.1); // rgba(0, 0, 0, 0.6)
+    opacify2: opacify(rgba(0, 0, 17, 0.8), 0.2); // #001
+
+    transparentize1: transparentize(rgba(0, 0, 0, 0.5), 0.1); // rgba(0, 0, 0, 0.4)
+    transparentize2: transparentize(rgba(0, 0, 0, 0.8), 0.2); // rgba(0, 0, 0, 0.6)
+
+    lighten1: lighten(hsl(0, 0%, 0%), 30%); // hsl(0, 0, 30)
+    lighten2: lighten(#800, 20%); // #e00
+
+    darken1: darken(hsl(25, 100%, 80%), 30%); // hsl(25deg, 100%, 50%)
+    darken2: darken(#800, 20%); // #200
+
+    saturate1: saturate(hsl(120, 30%, 90%), 20%); // hsl(120deg, 50%, 90%)
+    saturate2: saturate(#855, 20%); // #9e3f3f
+
+    desaturate1: desaturate(hsl(120, 30%, 90%), 20%); // hsl(120deg, 10%, 90%)
+    desaturate2: desaturate(#855, 20%); // #726b6b
+
+    adjust1: adjust-hue(hsl(120, 30%, 90%), 60deg); // hsl(180deg, 30%, 90%)
+    adjust2: adjust-hue(hsl(120, 30%, 90%), -60deg); // hsl(60deg, 30%, 90%)
+    adjust3: adjust-hue(#811, 45deg); // #886a11
+
+    mix1: mix(#f00, #00f, 50%); // purple
+    mix2: mix(#f00, #00f, 25%); // #4000bf
+    mix3: mix(rgba(255, 0, 0, 0.5), #00f, 50%); // rgba(64, 0, 191, 0.75)
+
+    percentage1: percentage(100px / 50px); // 200%
+
+    round1: round(10.4px); // 10px
+    round2: round(10.6px); // 11px
+
+    ceil1: ceil(10.4px); // 11px
+    ceil2: ceil(10.6px); // 11px
+
+    floor1: floor(10.4px); // 10px
+    floor2: floor(10.6px); // 10px
+
+    abs1: abs(10px); // 10px
+    abs2: abs(-10px); // 10px
+}

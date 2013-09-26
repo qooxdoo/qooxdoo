@@ -1,0 +1,34 @@
+@option compress:no;
+
+@import "menu";
+
+$MENUS-RADIUS: 2px;
+$BASE-COLOR-HOVER: green;
+$BASE-COLOR-SHADE: darkgreen;
+$BOTTOMMENU-COLOR: #444;
+$BOTTOMMENU-COLOR-HOVER: #222;
+$BOTTOMMENU-COLOR-HOVER-CURRENT: #468;
+$BOTTOMMENU-SUBMENU-BORDER-WIDTH: 2px;
+$BOTTOMMENU-SUBMENU-BACKGROUND: white;
+
+.bottommenu {
+	@include menu(
+		$i0-height: 20px,
+		$i0-line-height: 20px,
+		$i0-border-radius: $MENUS-RADIUS,
+		$i0-border-radius-folder: $MENUS-RADIUS,
+		$i0-color: $BOTTOMMENU-COLOR,
+		$i0-color-hover: $BOTTOMMENU-COLOR-HOVER,
+		$i0-color-current: $BOTTOMMENU-COLOR-CURRENT,
+		$i0-background: none,
+		$i0-background-hover: $BASE-COLOR-HOVER,
+		$i0-separator-color: $BASE-COLOR-HOVER,
+
+		$u2-type: 'dropup',
+		$u2-border-width: $BOTTOMMENU-SUBMENU-BORDER-WIDTH,
+		$u2-border-color: $BASE-COLOR-SHADE,
+		$u2-border-radius: $MENUS-RADIUS * 2,
+		$u2-background: rgba($BOTTOMMENU-SUBMENU-BACKGROUND, 30%),
+		$u2-background-hover: $BOTTOMMENU-SUBMENU-BACKGROUND,
+	);
+}

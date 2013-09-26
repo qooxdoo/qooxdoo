@@ -1,0 +1,14 @@
+.bad, .seriousError {
+  color: red !important;
+}
+.error, .seriousError {
+  border: 1px red;
+  background-color: #fdd;
+}
+.attention, .seriousError {
+  font-size: 3em;
+  background-color: #ff0;
+}
+.seriousError {
+  border-width: 3px;
+}

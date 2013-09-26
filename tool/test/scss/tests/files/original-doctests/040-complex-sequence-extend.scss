@@ -1,0 +1,12 @@
+// From the docs:
+// Sometimes a selector sequence extends another selector that appears in
+// another sequence. In this case, the two sequences need to be merged.  While
+// it would technically be possible to generate all selectors that could
+// possibly match either sequence, this would make the stylesheet far too
+// large.  The simple example above, for instance, would require ten selectors.
+// Instead, Sass generates only selectors that are likely to be useful.
+// When the two sequences being merged have no selectors in common, then two
+// new selectors are generated: one with the first sequence before the second,
+// and one with the second sequence before the first.
+#admin .tabbar a { font-weight: bold }
+#demo .overview .fakelink { @extend a }

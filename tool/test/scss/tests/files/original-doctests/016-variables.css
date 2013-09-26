@@ -1,0 +1,10 @@
+#navbar {
+  border-bottom-color: #ce4dd6;
+  border-bottom-style: solid;
+}
+a {
+  color: #ce4dd6;
+}
+a:hover {
+  border-bottom: solid 1px;
+}

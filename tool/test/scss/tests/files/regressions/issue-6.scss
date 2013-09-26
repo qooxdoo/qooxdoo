@@ -1,0 +1,13 @@
+@option compress:no, short_colors:yes, reverse_colors:yes;
+$type: monster;
+p {
+  @if $type == ocean {
+    color: blue;
+  } @else if $type == matador {
+    color: red;
+  } @else if $type == monster {
+    color: green;
+  } @else {
+    color: black;
+  }
+}

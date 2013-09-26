@@ -1,0 +1,7 @@
+@option compress:no, short_colors:yes, reverse_colors:yes;
+#fake-links .link {@extend a}
+
+a {
+  color: blue;
+  &:hover {text-decoration: underline}
+}

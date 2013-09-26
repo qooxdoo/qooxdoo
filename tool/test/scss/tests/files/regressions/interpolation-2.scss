@@ -1,0 +1,10 @@
+@option compress:no, short_colors: no;
+a {
+  @each $a in '', '_a' {
+    @each $b in '', '_b' {
+      @each $c in '', '_c' {
+        A: X#{$a}#{$b}#{$c};
+      }
+    }
+  }
+}

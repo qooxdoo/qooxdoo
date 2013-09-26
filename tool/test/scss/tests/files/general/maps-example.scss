@@ -1,0 +1,24 @@
+// Taken from the Ruby documentation
+$themes: (
+  mist: (
+    header: #DCFAC0,
+    text:   #00968B,
+    border: #85C79C
+  ),
+  spring: (
+    header: #F4FAC7,
+    text:   #C2454E,
+    border: #FFB158
+  ),
+  // ...
+);
+
+@mixin themed-header($theme-name) {
+  h1 {
+    color: map-get(map-get($themes, $theme-name), header);
+  }
+} 
+
+div {
+  @include themed-header(spring);
+}

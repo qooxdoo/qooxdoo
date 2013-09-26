@@ -1,0 +1,9 @@
+@option compress:no, short_colors:yes, reverse_colors:yes;
+$width: 150px;
+@mixin foo($width) {
+    width: $width;
+}
+$other_width: 100px;
+.foo {
+    @include foo($other_width);
+}

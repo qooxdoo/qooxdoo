@@ -1,0 +1,11 @@
+h2 {
+  background: green;
+}
+@media screen {
+  h2 {
+    background: blue;
+  }
+}
+h1 {
+  background: yellow;
+}

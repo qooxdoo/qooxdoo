@@ -1,0 +1,17 @@
+$x: ground;
+$y: e;
+$z: it;
+
+div {
+  back#{$x}: {
+    imag#{$y}: url(foo.png);
+    pos#{$z}ion: 50%;
+  }
+}
+
+span {
+  background: {
+    image: url(bar.png);
+    position: 100%;
+  }
+}

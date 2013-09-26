@@ -1,0 +1,8 @@
+div {
+  background-image: url(foo.png);
+  background-position: 50%;
+}
+span {
+  background-image: url(bar.png);
+  background-position: 100%;
+}

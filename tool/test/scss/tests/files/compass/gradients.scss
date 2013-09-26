@@ -1,0 +1,83 @@
+// Borrowed from Compass's actual test suite, but cut down to just the gradient
+// calls, and with some editing to e.g. preserve color formatting:
+// https://github.com/chriseppstein/compass/blob/stable/test/fixtures/stylesheets/compass/sass/gradients.sass
+// Similarly, the expected results have been trimmed to just the standard
+// syntax, since this file doesn't use any of Compass's background() calls etc.
+// TODO maybe it should, since we try to support all that
+
+.bg-shortcut-linear-gradient {
+  background: #fff linear-gradient(top left, #ddd, #aaa);
+}
+
+.bg-shortcut-radial-gradient {
+  background: #fff radial-gradient(center center, #ddd, #aaa 100px);
+}
+
+.bg-linear-gradient-angle-svg {
+  background-image: linear-gradient(-45deg, blue, black);
+}
+
+.bg-linear-gradient-angle2-svg {
+  background-image: linear-gradient(top left, blue, black);
+}
+
+.bg-linear-gradient {
+  background-image: linear-gradient(top left, #ddd, #aaa);
+}
+
+.bg-linear-gradient-pixel-stop-from-top {
+  background-image: linear-gradient(top, #ddd 10px, #aaa 40px);
+}
+
+.bg-linear-gradient-pixel-stop-from-left {
+  background-image: linear-gradient(left, #ddd 10px, #aaa 40px);
+}
+
+.transparent-in-linear-gradient {
+  background-image: #fff linear-gradient(top left, transparent, #aaa);
+}
+
+.bg-radial-gradient {
+  background-image: radial-gradient(center center, #ddd, transparent 100px);
+}
+
+.bg-linear-gradient-with-angle {
+  background-image: linear-gradient(-45deg, #ddd, #aaa);
+}
+
+.bg-radial-gradient-with-angle-and-shape {
+  background-image: radial-gradient(ellipse cover, #ddd, #aaa 100px);
+}
+
+.bg-all-gradient-types {
+  background-image: linear-gradient(top left, #ddd, #aaa);
+  background-image: radial-gradient(center center, #ddd, #aaa 100px);
+}
+
+.border-image-gradient {
+  border-image: radial-gradient(#0f0,#f00 100px) 100 stretch;
+}
+
+.direct-list-image-with-gradient {
+  list-style-image: radial-gradient(lime, red 10px);
+}
+
+.shorthand-list-image-with-gradient {
+  list-style: outside radial-gradient(lime, red 10px);
+}
+
+.content-with-gradient {
+  content: radial-gradient(lime, red 10px);
+}
+
+.bg-linear-gradient-no-position {
+  background-image: linear-gradient(#ddd, #aaa);
+}
+
+.bg-radial-gradient-no-position {
+  background-image: radial-gradient(#ddd, #aaa 100px);
+}
+
+.cross-fade {
+  background-image: cross-fade(radial-gradient(#ddd, #aaa 100px), url("4x6.png"));
+}

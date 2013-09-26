@@ -1,0 +1,9 @@
+@option compress:no, short_colors:yes, reverse_colors:yes;
+a {
+    $color: rgba(0.872536*255, 0.48481984*255, 0.375464*255, 1);
+    color: $color;
+    color: hsl(13.2, 66.1, 62.4);
+    color-hue: hue($color); // 60deg
+    color-saturation: saturation($color); // 60%
+    color-lightness: lightness($color); // 50%
+}

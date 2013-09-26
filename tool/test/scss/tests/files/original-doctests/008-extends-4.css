@@ -1,0 +1,13 @@
+.basicList li, .specialClass li {
+  padding: 5px 10px;
+  border-bottom: 1px solid #000000;
+}
+.basicList dd, .specialClass dd {
+  margin: 4px;
+}
+.basicList span, .specialClass span {
+  display: inline-block;
+}
+.roundBox, .specialClass {
+  some: props;
+}

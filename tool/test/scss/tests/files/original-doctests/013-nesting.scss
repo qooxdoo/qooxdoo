@@ -1,0 +1,12 @@
+@option compress:no, short_colors:yes, reverse_colors:yes;
+/* style.scss */
+#navbar {
+  width: 80%;
+  height: 23px;
+
+  ul { list-style-type: none; }
+  li {
+    float: left;
+    a { font-weight: bold; }
+  }
+}

@@ -1,0 +1,7 @@
+@function get-a-number() {
+    @return 5;
+}
+
+h1 {
+    line-height: get-a-number();
+}

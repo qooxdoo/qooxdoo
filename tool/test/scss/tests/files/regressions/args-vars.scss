@@ -1,0 +1,11 @@
+@option compress:no;
+
+@mixin col($color, $background: $color, $border: undefined) {
+  a {
+    display: block;
+    color: $color;
+    background: $background;
+  }
+}
+
+@include col(red);

@@ -1,0 +1,13 @@
+@option compress:no, short_colors:yes, reverse_colors:yes;
+.some-selector { some:prop; }
+.some-selector-more { some:proop; }
+.parent {
+    self extends .some-selector {
+        height: auto
+    }
+    .children {
+        self extends .some-selector-more {
+            height: autoo
+        }
+    }
+}

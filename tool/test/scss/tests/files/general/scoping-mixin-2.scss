@@ -1,0 +1,14 @@
+$a: original;
+$b: original;
+$c: original;
+
+@mixin mutate-stuff($b) {
+    $c: modified;
+}
+
+p {
+    @include mutate-stuff(modified);
+    a: $a;
+    b: $b;
+    c: $c;
+}

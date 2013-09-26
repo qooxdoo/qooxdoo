@@ -1,0 +1,16 @@
+@option compress:no, short_colors:yes, reverse_colors:yes;
+.mod {
+    self {
+        margin: 10px;
+    }
+    h1 {
+        font-size:40px;
+    }
+}
+.cleanBox extends .mod {
+    h1 {
+        font-size:60px;
+    }
+}
+.cleanBoxExtended extends .cleanBox {}
+.articleBox extends .cleanBox {}

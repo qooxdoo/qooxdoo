@@ -1,0 +1,15 @@
+.selector {
+  margin: 20px;
+}
+.selector a {
+  display: block;
+}
+.selector dl dt {
+  color: red;
+}
+.selector dl dd {
+  color: gray;
+}
+.selector dl dd span {
+  text-decoration: underline;
+}

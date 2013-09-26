@@ -1,0 +1,12 @@
+@option compress:no, short_colors: no;
+
+$global: blue;
+
+@mixin box {
+  $global: red;
+  color: $global;
+}
+
+p {
+  @include box();
+}

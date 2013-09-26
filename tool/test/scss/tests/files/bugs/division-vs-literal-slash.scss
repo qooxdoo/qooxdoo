@@ -1,0 +1,29 @@
+// http://sass-lang.com/docs/yardoc/file.SASS_REFERENCE.html#division-and-slash
+
+// "by default, if two numbers are separated by / in SassScript, then they will
+// appear that way in the resulting CSS."
+h1 {
+  font: 3px/0;
+}
+
+h2 {
+  border-radius: 10px 9px 8px 7px / 6px 5px 4px 3px;
+}
+
+// "However, there are three situations where the / will be interpreted as
+// division."
+// 1. If the value, or any part of it, is stored in a variable.
+$denom: 5;
+h3 {
+  line-height: 10 / $denom;
+}
+
+// 2. If the value is surrounded by parentheses.
+h4 {
+  line-height: (10 / 5);
+}
+
+// 3. If the value is used as part of another arithmetic expression.
+h5 {
+  line-height: 10 / 5 + 0;
+}

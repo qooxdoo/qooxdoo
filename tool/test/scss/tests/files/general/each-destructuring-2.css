@@ -1,0 +1,10 @@
+a {
+  foo: 1px;
+  bar: 2px;
+  baz: 3px;
+}
+c {
+  foo: "Value is bar";
+  bar: "Value is baz";
+  bang: "Value is ";
+}

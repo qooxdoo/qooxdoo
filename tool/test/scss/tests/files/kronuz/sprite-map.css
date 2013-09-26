@@ -1,0 +1,13 @@
+.mod {
+  background: url(/static/assets/squares-YG8x25OkL4axeoTN5hv6YA.png) no-repeat;
+}
+.mod.ten-by-ten {
+  width: 10px;
+  height: 10px;
+  background-position: 0px 0px;
+}
+.mod.twenty-by-twenty {
+  width: 20px;
+  height: 20px;
+  background-position: 0px -20px;
+}

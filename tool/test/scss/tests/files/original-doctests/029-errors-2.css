@@ -1,0 +1,6 @@
+.noticeBox, .errorBox {
+  background-color: red;
+}
+.noticeBox span, .noticeBox p, .errorBox span, .errorBox p {
+  some: props;
+}

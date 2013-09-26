@@ -1,0 +1,17 @@
+@option compress:no, short_colors:yes, reverse_colors:yes;
+.bad {
+    color: red !important;
+}
+.error {
+  border: 1px red;
+  background-color: #fdd;
+}
+.attention {
+  font-size: 3em;
+  background-color: #ff0;
+}
+.seriousError {
+  @extend .error, .attention;
+  @extend .bad;
+  border-width: 3px;
+}
