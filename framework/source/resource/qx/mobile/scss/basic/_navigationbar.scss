@@ -17,7 +17,7 @@
 }
 
 .title {
-  font-weight: bold;
+  font-weight: $navigationbar-font-weight;
   font-size: $navigationbar-text-size;
   text-align: center;
 }
@@ -41,7 +41,7 @@
   text-align: center;
   text-decoration: none;
   text-overflow: ellipsis;
-  font-weight:bold;
+  font-weight: $navigationbarbutton-font-weight;
   font-size: rem(12);
 
   padding-left: rem(5);

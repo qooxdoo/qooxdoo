@@ -430,7 +430,7 @@ body {
   color: #3d72c9;
   border: 0.0625rem solid #9298a3;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: normal;
   font-size: 0.9375rem;
   text-align: center;
   padding-top: 0.125rem;
@@ -658,7 +658,7 @@ div:not(.hbox) > .button + .button, div:not(.hbox) > .toolbar-button + .button, 
 
 .drawer.below {
   z-index: -1;
-  background-color: #465063; }
+  background-color: #9298a3; }
 
 .drawer.left {
   left: 0;
@@ -807,7 +807,7 @@ input, select, .text-area {
   margin-bottom: 0.625rem;
   background-color: transparent;
   border: none;
-  font-weight: bold;
+  font-weight: normal;
   padding: 0;
   cursor: pointer; }
 
@@ -934,7 +934,7 @@ input, select, .text-area {
   -moz-border-radius: 0.25rem;
   border-radius: 0.25rem;
   padding: 0;
-  font-weight: bold;
+  font-weight: normal;
   font-style: "Segoe UI", "Slate Pro", sans-serif, Helvetica;
   cursor: pointer;
   border: 0.0625rem solid #dee0e3;
@@ -1048,7 +1048,7 @@ input, select, .text-area {
   -ms-touch-action: pan-x; }
 
 .title {
-  font-weight: bold;
+  font-weight: normal;
   font-size: 0.9375rem;
   text-align: center; }
 
@@ -1073,7 +1073,7 @@ input, select, .text-area {
   text-align: center;
   text-decoration: none;
   text-overflow: ellipsis;
-  font-weight: bold;
+  font-weight: normal;
   font-size: 0.75rem;
   padding-left: 0.3125rem;
   padding-right: 0.3125rem;
@@ -1150,7 +1150,7 @@ input, select, .text-area {
   color: white; }
 
 .popup-title {
-  font-weight: bold;
+  font-weight: normal;
   font-size: 1rem;
   margin-bottom: 0.1875rem; }
 
@@ -1352,7 +1352,7 @@ input, select, .text-area {
   -moz-box-shadow: inset 0px 0.625rem 0.625rem -0.625rem rgba(0, 0, 0, 0.2), inset 0px -0.625rem 0.625rem -0.625rem rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: inset 0px 0.625rem 0.625rem -0.625rem rgba(0, 0, 0, 0.2), inset 0px -0.625rem 0.625rem -0.625rem rgba(0, 0, 0, 0.2);
   box-shadow: inset 0px 0.625rem 0.625rem -0.625rem rgba(0, 0, 0, 0.2), inset 0px -0.625rem 0.625rem -0.625rem rgba(0, 0, 0, 0.2);
-  border: 0.0625rem solid #dee0e3; }
+  border: 0.0625rem solid #9298a3; }
 
 .scroll-container:before {
   -moz-border-radius-topleft: 0.25rem;
@@ -1398,8 +1398,11 @@ input, select, .text-area {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
-  border: 0.125rem solid transparent;
-  background: none; }
+  padding: 10px;
+  border: 0px solid transparent;
+  background: none;
+  box-sizing: border-box;
+  width: 100%; }
 
 .scrollbarV > div {
   -webkit-background-clip: padding-box;
@@ -1437,7 +1440,6 @@ input, select, .text-area {
   cursor: pointer;
   vertical-align: middle;
   height: 2rem;
-  font-weight: normal;
   text-indent: 0.25rem;
   border: 0.0625rem solid #9298a3;
   color: #3d72c9; }
@@ -1525,10 +1527,10 @@ input, select, .text-area {
   height: 1.875rem;
   line-height: 1.875rem;
   width: 1.875rem;
-  font-weight: normal;
   color: #9298a3;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: normal;
   top: -0.8125rem;
   right: -0.9375rem; }
 
@@ -1625,7 +1627,7 @@ input, select, .text-area {
   position: relative;
   display: block;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: normal;
   text-align: center;
   width: 6.25rem;
   height: 1.875rem;
@@ -1693,7 +1695,7 @@ input, select, .text-area {
   color: #3d72c9;
   border: 0.0625rem solid #9298a3;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: normal;
   width: 0;
   padding-left: 0.25rem;
   padding-right: 0.25rem;

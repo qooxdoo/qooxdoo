@@ -14,7 +14,7 @@ $togglebutton-label-padding: rem(3);
 
   cursor: pointer;
 
-  font-weight:bold;
+  font-weight:$togglebutton-font-weight;
   text-align:center;
 
   width:  $togglebutton-width;

@@ -58,10 +58,10 @@
   line-height:  $slider-knob-height;
   width: $slider-knob-width;
 
-  font-weight: normal;
   color: $slider-font-color;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight:normal;
 
   top: -($slider-knob-height/2) + ($slider-height/2) - rem(1);
   right: -1*$slider-knob-width/2;

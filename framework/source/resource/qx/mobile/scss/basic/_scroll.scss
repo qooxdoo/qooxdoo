@@ -15,7 +15,7 @@ $scShadowColorLight: rgba(0,0,0,0.2);
         0px -1*$scShadowOffset $scShadowOffset -1*$scShadowOffset $scShadowColorLight
   );
 
-  border: rem(1) solid $navigationpage-border-color;
+  border: rem(1) solid $input-border-color;
 }
 
 .scroll-container:before {
@@ -59,6 +59,10 @@ $scShadowColorLight: rgba(0,0,0,0.2);
 
 .scroll-container .text-area {
   @include border-radius(0);
-  border: rem(2) solid transparent;
+  padding:10px;
+
+  border:0px solid transparent;
   background: none;
+  box-sizing:border-box;
+  width:100%;
 }

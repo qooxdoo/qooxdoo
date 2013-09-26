@@ -1458,8 +1458,11 @@ input, select, .text-area {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   border-radius: 0;
-  border: 0.125rem solid transparent;
-  background: none; }
+  padding: 10px;
+  border: 0px solid transparent;
+  background: none;
+  box-sizing: border-box;
+  width: 100%; }
 
 .scrollbarV > div {
   -webkit-background-clip: padding-box;
@@ -1502,7 +1505,6 @@ input, select, .text-area {
   cursor: pointer;
   vertical-align: middle;
   height: 2rem;
-  font-weight: normal;
   text-indent: 0.25rem;
   border: 0.0625rem solid #646464;
   color: #383838; }
@@ -1610,10 +1612,10 @@ input, select, .text-area {
   height: 1.875rem;
   line-height: 1.875rem;
   width: 1.875rem;
-  font-weight: normal;
   color: #646464;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: normal;
   top: -0.78125rem;
   right: -0.9375rem; }
 

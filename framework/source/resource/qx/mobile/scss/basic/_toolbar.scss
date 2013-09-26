@@ -13,7 +13,7 @@
   border: rem(1) solid $toolbar-border-color;
 
   cursor: pointer;
-  font-weight: bold;
+  font-weight: $toolbar-font-weight;
   
   width:0;
 

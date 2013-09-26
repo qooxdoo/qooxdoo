@@ -34,6 +34,7 @@ $navigationbar-background:  $color-2,$color-1;
 $navigationbar-text-size:  $navigationbar-height/2;
 $navigationbar-text-color:  $background-color;
 $navigationbar-padding:  rem(4);
+$navigationbar-font-weight: bold;
 
 // NavigationBar Button
  
@@ -44,7 +45,8 @@ $navigationbarbutton-text-color:  $color-1;
 $navigationbarbutton-active-background:  lighten($highlight-color,20%),$highlight-color;
 $navigationbarbutton-active-text-color:  $background-color;
 $navigationbarbutton-active-border-color:  $background-color;
- 
+$navigationbarbutton-font-weight: bold;
+
 // Dialog
 
 $dialog-border-color: $highlight-color; 
@@ -53,6 +55,7 @@ $dialog-arrow-up-color:  $color-2;
 $dialog-arrow-down-color:  $color-1;
 $dialog-border-radius: rem(4);
 $dialog-title-text-color: $background-color;
+$dialog-font-weight: bold;
 
 // Group
 
@@ -66,6 +69,7 @@ $group-border-radius: rem(4);
 $list-background-color: $background-color;
 $list-title-text-color: $color-1;
 $list-title-font-size: rem(17);
+$list-title-font-weight: bold;
 $list-subtitle-text-color:  $highlight-color;
 $list-subtitle-font-size: rem(14);
 $list-border-color: $color-4;
@@ -84,6 +88,7 @@ $form-title-text-color:  $highlight-color;
 $form-label-text-color:  $color-1;
 $form-border-color:  $color-4;
 $form-border-radius:  rem(4);
+$form-font-weight: bold;
 
 // Input
 
@@ -138,6 +143,7 @@ $togglebutton-active-text-color:  $background-color;
 $togglebutton-inset-shadow:  rgba(0,0,0,0.1);
 $togglebutton-knob-shadow:  rgba(0,0,0,0.4);
 $togglebutton-font-size: rem(13);
+$togglebutton-font-weight: bold;
 
 // Carousel
 
@@ -152,6 +158,7 @@ $carousel-pagination-font-color: rgba(0,0,0,0);
 
 $button-text-color:  $color-1;
 $button-font-size: rem(15);
+$button-font-weight: bold;
 $button-active-text-color:  $background-color;
 $button-border-radius:  rem(4);
 $button-border-color:  $color-2;
@@ -193,6 +200,7 @@ $toolbar-active-background:  lighten($highlight-color,20%),$highlight-color;
 $toolbar-active-text-color:  $background-color;
 $toolbar-border-color:  $color-2;
 $toolbar-border-radius: rem(4);
+$toolbar-font-weight: bold;
 
 // Menu
 
