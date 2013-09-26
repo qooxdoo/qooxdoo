@@ -43,6 +43,9 @@ application.
   * - `iScroll <http://cubiq.org/iscroll-4/>`_
     - `MIT`_
 
+  * - `JSON 3 <https://github.com/bestiejs/json3>`_
+    - `MIT`_
+
 Application %{JS} Code
 ============================
 
@@ -134,6 +137,9 @@ application.
      - `MIT`_
 
    * - `pyparsing <http://pypi.python.org/pypi/pyparsing/>`_
+     - `MIT`_
+
+   * - `pyScss <https://pypi.python.org/pypi/pyScss>`_
      - `MIT`_
 
    * - `simplejson <http://pypi.python.org/pypi/simplejson>`_
