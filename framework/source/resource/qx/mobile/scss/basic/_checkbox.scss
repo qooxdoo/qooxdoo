@@ -31,8 +31,8 @@
   position: absolute;
   left:50%;
   top:50%;
-  margin-left:-1*($checkbox-tick-size/2)-($checkbox-tick-width/2);
-  margin-top:-1*($checkbox-tick-size/2)-($checkbox-tick-width/2);
+  margin-left: -1*($checkbox-tick-size/2) - ($checkbox-tick-width/2);
+  margin-top: -1*($checkbox-tick-size/2) - ($checkbox-tick-width/2);
 
   display:block;
   opacity: 0;

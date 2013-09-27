@@ -39,6 +39,15 @@ html, body {
   margin-top:4px;
 }
 
+.disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.transparent {
+  opacity: 0 !important;
+}
+
 a:hover, a:active {
   outline: none;
 }

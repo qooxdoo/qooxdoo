@@ -316,15 +316,20 @@
     {
       "desc"   : "Watch and compile the theme scss",
       "extend" : ["cache"],
+      "let" :
+      {
+        "MOBILE_THEME_PATH" : "source/resource/qx/mobile/",
+      },
       "watch-files" :
       {
-        "paths"    : ["source/resource/qx/mobile/scss/"],
+        "paths"    : ["source/resource/qx/mobile/scss"],
         "command" :
         {
-          "line"  : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/scss.py source/resource/qx/mobile/scss/indigo.scss -o source/resource/qx/mobile/css/indigo.css --load-path=source/resource/qx/mobile/scss",
-          "per-file" : false,
+          "line"  : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/scss.py ${MOBILE_THEME_PATH}scss/flat.scss -o ${MOBILE_THEME_PATH}css/flat.css --load-path=${MOBILE_THEME_PATH}scss && ${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/scss.py ${MOBILE_THEME_PATH}scss/indigo.scss -o ${MOBILE_THEME_PATH}css/indigo.css --load-path=${MOBILE_THEME_PATH}scss",
           "exec-on-startup" : true
-        }
+        },
+        "include" : [ "*.scss" ],
+        "include-dirs" : false
       }
     },
 

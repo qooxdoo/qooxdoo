@@ -28,7 +28,7 @@ input, select, .text-area {
 }
 
 
-.text-field:not(.selectbox),.number-field, .password-field {
+.text-field:not(.selectbox), .number-field, .password-field {
   @include background-clip(padding-box);
   text-indent: rem(4);
   height: rem(26);
