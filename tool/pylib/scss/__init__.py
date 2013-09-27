@@ -1171,8 +1171,8 @@ class Scss(object):
             if is_default and is_defined:
                 pass
             else:
-                if is_defined and prop.startswith('$') and prop[1].isupper():
-                    log.warn("Constant %r redefined", prop)
+                # if is_defined and prop.startswith('$') and prop[1].isupper():
+                #    log.warn("Constant %r redefined", prop)
 
                 # Variable assignment is an expression, so it always performs
                 # real division
