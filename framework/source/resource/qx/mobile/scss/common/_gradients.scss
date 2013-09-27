@@ -1,6 +1,6 @@
 
 /**
-* Creates a plain-colored, a linear gradient or a radial gradient background, 
+* Creates a plain-colored, a linear gradient or a radial gradient background,
 * based on the first keyword of the $values list.
 *
 * If the first value is a color (or "transparent"), the mixin creates a plain colored background with it.
@@ -64,35 +64,35 @@
 }
 
 /**
-* This function creates a linear-gradient string for the old webkit syntax, based 
-* on parametes $values. 
+* This function creates a linear-gradient string for the old webkit syntax, based
+* on parametes $values.
 *
 * The parameter $direction is assumed be one of these values:
 * ["to left","to right","to top","to bottom","45deg","-45deg"]
 *
 * If no direction is passed, or an invalid value occurs, the default gradient is created
 * from top to bottom direction.
-* 
+*
 * For the old webkit gradient syntax ("-webkit-gradient"), please have a look at:
 * https://www.webkit.org/blog/175/introducing-css-gradients/
-* 
+*
 */
 @function _webkit-gradient($values, $direction: null) {
   $last:  length($values);
 
   // Detect $values length, because it might contain null values.
   @for $i from 1 through length($values) {
-    @if(nth($values, $i) != null) {
+    @if (nth($values, $i) != null) {
       $last: $i;
     }
-  } 
+  }
 
   $i:1;
   $stops: "";
 
   @each $value in $values {
-    @if($value != null) {
-      
+    @if ($value != null) {
+
       $current: nth($values, $i);
       $next: nth($values, $i + 1);
 
@@ -100,39 +100,39 @@
       $pos: ($i - 1)*(1/($last - 1));
 
       // Separator between color-stops.
-      $separator: " ";
-      @if($i > 1) {
-        $separator:",";
+      $separator: "";
+      @if ($i > 1) {
+        $separator: ", ";
       }
 
       $color: "";
-      @if(length($current) > 1) {
+      @if (length($current) > 1) {
         $pos: nth($current, 2);
         $color: nth($current, 1);
       } @else {
         $color: $current;
       }
 
-      $stops: $stops + $separator + "color-stop("+$pos+","+$color+")";
+      $stops: $stops  + $separator + "color-stop(#{$pos}, #{$color})";
 
       $i: $i +1;
     }
   }
 
   $point: "center top, center bottom";
-  @if($direction != null) {
+  @if ($direction != null) {
     $direction: ""+$direction;
-    @if(""+$direction == "to left") {
-      $point: "right center,left center";
-    } @else if(""+$direction == "to right") {
+    @if (""+$direction == "to left") {
+      $point: "right center, left center";
+    } @else if (""+$direction == "to right") {
       $point: "left center, right center";
-    } @else if(""+$direction == "to top") {
-      $point: "center bottom,center top";
-    } @else if(""+$direction == "to bottom") {
-      $point: "center top,center bottom";
-    } @else if(""+$direction == "45deg") {
+    } @else if (""+$direction == "to top") {
+      $point: "center bottom, center top";
+    } @else if (""+$direction == "to bottom") {
+      $point: "center top, center bottom";
+    } @else if (""+$direction == "45deg") {
       $point: "0% 100%, 100% 0%";
-    } @else if(""+$direction == "-45deg") {
+    } @else if (""+$direction == "-45deg") {
       $point: "0% 0%, 100% 100%";
     }
   }
@@ -143,7 +143,7 @@
 
 /**
 * https://github.com/thoughtbot/bourbon/blob/master/app/assets/stylesheets/helpers/_linear-positions-parser.scss
-*/ 
+*/
 @function _linear-positions-parser($pos) {
   $type: type-of(nth($pos, 1));
   $spec: null;
