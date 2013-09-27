@@ -620,7 +620,7 @@ class List(Value):
 
         return delim.join(
             item.render(compress=compress)
-            for item in self.value
+            for item in self.value if not isinstance(item, Null)
         )
 
 
