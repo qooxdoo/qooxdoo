@@ -775,7 +775,7 @@ div:not(.hbox) > .button + .button, div:not(.hbox) > .toolbar-button + .button, 
   border-radius: 0.25rem;
   border: 0.0625rem solid #bcbcbc;
   color: #383838;
-  background-color: #e8e8e8; }
+  background-color: white; }
 
 input.invalid {
   border: 0.0625rem solid red !important; }
@@ -818,7 +818,7 @@ input, select, .text-area {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
   background-clip: padding-box;
-  background-color: #e8e8e8;
+  background-color: white;
   resize: none;
   padding-top: 0.25rem;
   text-indent: 0.25rem;
@@ -1405,7 +1405,7 @@ input, select, .text-area {
   opacity: 1; }
 
 .scroll-container {
-  background-color: #e8e8e8;
+  background-color: white;
   -webkit-border-radius: 0.25rem;
   -moz-border-radius: 0.25rem;
   border-radius: 0.25rem;
@@ -1540,12 +1540,7 @@ input, select, .text-area {
   border: 0px solid transparent; }
 
 .selectbox-selected {
-  background-color: #8dacdf;
-  background-image: -webkit-linear-gradient(#8dacdf, #3d72c9);
-  background-image: -moz-linear-gradient(#8dacdf, #3d72c9);
-  background-image: -ms-linear-gradient(#8dacdf, #3d72c9);
-  background-image: -webkit-gradient(linear, center top, center bottom,  color-stop(0,#8dacdf),color-stop(1,#3d72c9));
-  background-image: linear-gradient(#8dacdf, #3d72c9);
+  background-color: #3d72c9;
   color: white !important; }
 
 .slider {

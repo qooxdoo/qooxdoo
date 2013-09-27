@@ -61,6 +61,6 @@
 }
 
 .selectbox-selected {
-  @include background($list-active-background);
+  @include background($selectbox-item-selected-background);
   color: $selectbox-item-selected-text-color !important;
 }

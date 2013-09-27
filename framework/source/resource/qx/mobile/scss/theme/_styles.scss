@@ -93,7 +93,7 @@ $form-font-weight: bold;
 // Input
 
 $input-text-color:  $color-1;
-$input-background-color:  $color-5;
+$input-background-color:  $background-color;
 $input-border-radius: rem(4);
 $input-border-color: $color-4;
 $input-invalid-border-color: red;
@@ -175,7 +175,7 @@ $selectbox-background:  $background-color,$color-4;
 $selectbox-active-background:  $highlight-color;
 $selectbox-active-text-color:  $background-color;
 $selectbox-item-selected-text-color:  $background-color;
-$selectbox-item-selected-background-color:  $highlight-color;
+$selectbox-item-selected-background:  $highlight-color;
 
 // Slider
 
