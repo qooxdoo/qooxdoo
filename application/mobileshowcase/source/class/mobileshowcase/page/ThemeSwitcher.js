@@ -41,13 +41,13 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
     this.setBackButtonText("Back");
     this.__themes = [{
         "name": "Indigo",
-        "css": "qx/mobile/css/indigo.css"
+        "css": "../../../framework/source/resource/qx/mobile/css/indigo.css"
       }
     ];
 
     this.__themes.push({
       "name": "Flat",
-      "css": "qx/mobile/css/flat.css"
+      "css": "../../../framework/source/resource/qx/mobile/css/flat.css"
     });
 
     this.__preloadThemes();

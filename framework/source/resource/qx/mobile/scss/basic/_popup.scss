@@ -58,13 +58,13 @@ $arrow-position-offset: rem(16);
 
 // ARROW BOTTOM
 
-.anchor.bottom:before,.anchor.bottom.right:before
+.anchor.bottom:before, .anchor.bottom.right:before
 {
   @include arrow;
   @include triangle-down($arrow-size + $arrow-space, $dialog-border-color);
 }
 
-.anchor.bottom:after,.anchor.bottom.right:after
+.anchor.bottom:after, .anchor.bottom.right:after
 {
   @include arrow;
   @include triangle-down($arrow-size, $dialog-arrow-down-color);
