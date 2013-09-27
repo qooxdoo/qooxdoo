@@ -35,40 +35,9 @@ Mind though that this compiler implements roughly version 3.2 of the SCSS
 language, with some omissions. Some of the issues we have come across are:
 
 * Data URLs get broken across lines.
-* The ``...`` syntax for variable arguments in mixin *calls* is not supported.
 * If the first argument to ``linear-gradient`` is a degree value (like
   ``-45deg``), an error will be printed (but the instruction is processed
   alright).
-* Single quoted strings (i.e. ``''``) *aren't preserved!* This means that a
-  rule like
-
-::
-
-  div {
-    content: 'foo';
-  }
-
-becomes (compressed):
-
-::
-
-  div{content:foo}
-
-To circumvent this **always** use double quotes:
-
-::
-
-  div {
-    content: "foo";
-  }
-
-which becomes (compressed):
-
-::
-
-  div{content:"foo"}
-
-
 
 If you like to use one of those features, or want to use newer features
 of SCSS, you might want to install the `SCSS reference implementation
