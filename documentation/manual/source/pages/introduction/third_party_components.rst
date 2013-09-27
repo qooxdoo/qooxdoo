@@ -136,7 +136,13 @@ application.
    * - `pyparsing <http://pypi.python.org/pypi/pyparsing/>`_
      - `MIT`_
 
+   * - `pyScss <https://pypi.python.org/pypi/pyScss>`_
+     - `MIT`_
+
    * - `simplejson <http://pypi.python.org/pypi/simplejson>`_
+     - `MIT`_
+
+   * - `six <https://pypi.python.org/pypi/six/>`_
      - `MIT`_
 
    * - `textile <http://pypi.python.org/pypi/textile/>`_
