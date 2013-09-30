@@ -43,6 +43,9 @@ application.
   * - `iScroll <http://cubiq.org/iscroll-4/>`_
     - `MIT`_
 
+  * - `JSON 3 <https://github.com/bestiejs/json3>`_
+    - `MIT`_
+
 Application %{JS} Code
 ============================
 

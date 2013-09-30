@@ -192,6 +192,8 @@ qx.$$loader.init = function() {
     for (var i=0, m=l.cssBefore.length; i<m; i++) {
       loadCss(l.cssBefore[i]);
     }
+  } else {
+    initScripts();
   }
 }
 
