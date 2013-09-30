@@ -161,9 +161,9 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
 
 
     /**
-    * The height of the menu's entries list in px.
+    * This value defines how much list items are visible inside the menu.
     */
-    listHeight : 
+    visibleListItems : 
     {
       check : "Integer",
       apply : "_updatePosition",
@@ -233,12 +233,16 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     // overridden
     _updatePosition : function() {
       var parentHeight = qx.bom.element.Style.get(qx.ui.mobile.dialog.Popup.ROOT.getContentElement(),"height");
-      var listHeight = parseInt(parentHeight)*0.75;
-      if (this.getListHeight() != null && this.getListHeight() < listHeight) {
-        listHeight = this.getListHeight();
+      var listScrollerHeight = parseInt(parentHeight) * 0.75;
+      
+      if (this.getVisibleListItems() != null) {
+        var newListScrollerHeight = this.__selectionList.getListItemHeight() * this.getVisibleListItems();
+        if(newListScrollerHeight < listScrollerHeight) {
+          listScrollerHeight = newListScrollerHeight;
+        }
       }
-      this.__listScroller.setHeight(listHeight + "px");
-     
+      this.__listScroller.setHeight(listScrollerHeight + "px");  
+
       this.base(arguments);
     },
 

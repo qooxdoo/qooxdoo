@@ -40,21 +40,19 @@ qx.Class.define("qx.test.mobile.dialog.Menu",
     testSetListHeight : function()
     {
       var model = new qx.data.Array(["item1","item2","item3"]);
-      var model2 = new qx.data.Array(["item4","item5","item6"]);
 
       var menu = new qx.ui.mobile.dialog.Menu(model);
 
-      menu.setSelectedIndex(2);
+      var visibleItems = 2;
 
-      menu.setItems(model2);
-      menu.setSelectedIndex(1);
-
-      menu.setListHeight(42);
+      menu.setVisibleListItems(visibleItems);
       menu.show();
+
+      var expected = menu.__selectionList.getListItemHeight() * visibleItems;
 
       var listHeight = qx.bom.element.Style.get(menu._getListScroller().getContentElement(),"height");
 
-      this.assertEquals(listHeight,"42px");
+      this.assertEquals(listHeight, expected+"px");
     },
 
 
@@ -64,7 +62,7 @@ qx.Class.define("qx.test.mobile.dialog.Menu",
 
       var menu = new qx.ui.mobile.dialog.Menu(model);
 
-      menu.setListHeight(100000);
+      menu.setVisibleListItems(100000);
       menu.show();
 
       var parentHeight = qx.bom.element.Style.get(qx.ui.mobile.dialog.Popup.ROOT.getContentElement(),"height");

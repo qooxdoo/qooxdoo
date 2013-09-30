@@ -97,6 +97,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.__menu = new qx.ui.mobile.dialog.Menu(menuModel);
       this.__menu.setTitle("Menu");
       this.__menu.addListener("changeSelection", this.__onMenuChangeSelection, this);
+      this.__menu.setVisibleListItems(10);
 
        // PICKER DIALOG
       var showPickerButton = new qx.ui.mobile.form.Button("Picker");
