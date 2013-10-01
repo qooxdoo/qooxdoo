@@ -59,7 +59,7 @@ $scShadowColorLight: rgba(0,0,0,0.2);
 
 .scroll-container .text-area {
   @include border-radius(0);
-  padding:10px;
+  padding:rem(10);
 
   border:0px solid transparent;
   background: none;

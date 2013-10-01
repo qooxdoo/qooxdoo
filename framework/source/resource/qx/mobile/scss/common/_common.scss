@@ -35,10 +35,6 @@ html, body {
   display:none !important;
 }
 
-.space-top {
-  margin-top:4px;
-}
-
 .disabled {
   opacity: 0.35;
   cursor: default;
@@ -105,7 +101,7 @@ img.no-content {
 
 // Bugfix #7717 - On iOS7 the headers are partially covered by the browser's chrome.
 .root.ios .master-detail-master > * {
-  padding-bottom: 20px;
+  padding-bottom: 20px;  // fixed pixel size needed
 }
 
 // iOS flickering bug fix for slider.
