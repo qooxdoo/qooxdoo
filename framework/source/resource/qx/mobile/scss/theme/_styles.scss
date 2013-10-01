@@ -172,10 +172,10 @@ $selectbox-border-radius: rem(4);
 $selectbox-border-color:  $color-2; 
 $selectbox-text-color:  $color-1;
 $selectbox-background:  $background-color,$color-4;
-$selectbox-active-background:  $highlight-color;
+$selectbox-active-background:  lighten($highlight-color,20%),$highlight-color;
 $selectbox-active-text-color:  $background-color;
 $selectbox-item-selected-text-color:  $background-color;
-$selectbox-item-selected-background:  $highlight-color;
+$selectbox-item-selected-background:  lighten($highlight-color,20%), $highlight-color;
 
 // Slider
 
@@ -209,9 +209,9 @@ $menu-item-selected-background:  lighten($highlight-color, 20%), $highlight-colo
 
 // Picker 
 
-$picker-spinning-wheel-overlay:  rgba($color-5,1),rgba($color-5,0) 40%,rgba($color-5,0) 60%,rgba($color-5,1);
+$picker-spinning-wheel-overlay:  rgba($background-color,1),rgba($background-color,0) 40%,rgba($background-color,0) 60%,rgba($background-color,1);
 $picker-spinning-wheel-text-color:  $color-1; 
-$picker-spinning-wheel-background:  $color-5;
+$picker-spinning-wheel-background:  $background-color;
 $picker-highlight-color:  rgba($highlight-color,0.5);
 $picker-highlight-border-width:  rem(2);
 $picker-spinning-wheel-border-radius:  rem(4);
