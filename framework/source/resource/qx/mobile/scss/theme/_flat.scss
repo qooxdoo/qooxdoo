@@ -24,7 +24,7 @@ $application-font-size:  100%;
 
 // Page
 
-$navigationpage-background-color: $color-4;
+$navigationpage-background: $color-4;
 $navigationpage-border-color: $color-4;
 
 // NavigationBar
@@ -59,14 +59,14 @@ $dialog-font-weight: normal;
 
 // Group
 
-$group-background-color:  $color-5;
+$group-background:  $color-5;
 $group-border-color:  $color-5;
 $group-title-text-color:  $color-1;
 $group-border-radius: rem(4);
 
 // List
 
-$list-background-color: $color-5;
+$list-background: $color-5;
 $list-title-text-color: $color-1;
 $list-title-font-size: rem(17);
 $list-title-font-weight: normal;
@@ -83,7 +83,7 @@ $list-active-arrow-color: $color-5;
 
 // Form
 
-$form-background-color:  $color-5;
+$form-background:  $color-5;
 $form-title-text-color:  $color-1;
 $form-label-text-color:  $color-1;
 $form-border-color:  $color-5;
@@ -93,7 +93,7 @@ $form-font-weight: normal;
 // Input
 
 $input-text-color:  $color-1;
-$input-background-color:  $color-5;
+$input-background:  $color-5;
 $input-border-radius: rem(4);
 $input-border-color: $color-3;
 $input-invalid-border-color: red;
@@ -148,8 +148,8 @@ $togglebutton-font-weight: normal;
 // Carousel
 
 $carousel-pagination-size: rem(8);
-$carousel-pagination-background-color: $color-5;
-$carousel-pagination-active-background-color: $highlight-color;
+$carousel-pagination-background: $color-5;
+$carousel-pagination-active-background: $highlight-color;
 $carousel-pagination-border-radius: $carousel-pagination-size;
 $carousel-pagination-font-size: rem(1);
 $carousel-pagination-font-color: rgba(0,0,0,0);
@@ -211,7 +211,7 @@ $menu-item-selected-background:  $highlight-color;
 
 $picker-spinning-wheel-overlay:  rgba($background-color,1),rgba($background-color,0) 40%,rgba($background-color,0) 60%,rgba($background-color,1);
 $picker-spinning-wheel-text-color:  $color-1; 
-$picker-spinning-wheel-background-color:  $color-5;
+$picker-spinning-wheel-background:  $color-5;
 $picker-highlight-color:  rgba($highlight-color,0.5);
 $picker-highlight-border-width:  rem(2);
 $picker-spinning-wheel-border-radius:  rem(4);
@@ -224,8 +224,8 @@ $picker-height: rem(160);
 // Drawer
 
 $drawer-border-color:  $color-1; 
-$drawer-above-background-color:  $color-4;
-$drawer-below-background-color:  $color-3;
+$drawer-above-background:  $color-4;
+$drawer-below-background:  $color-3;
 
 // Collapsible
 

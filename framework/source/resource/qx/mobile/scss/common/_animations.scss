@@ -5,6 +5,7 @@
 
 .animationChild {
   @include backface-visibility(hidden);
+  @include background($navigationpage-background);
   position: absolute; // We have to remove this property after animation, otherwise the list widget is not shown in Webkit Browsers. See Bug #5935.
 }
 

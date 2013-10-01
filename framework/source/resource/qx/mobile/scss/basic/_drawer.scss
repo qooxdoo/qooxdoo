@@ -3,13 +3,13 @@
 }
 
 .drawer.above {
+  @include background($drawer-above-background);
   z-index: 1;
-  background-color: $drawer-above-background-color;
 }
 
 .drawer.below {
+  @include background($drawer-below-background);
   z-index:-1;
-  background-color: $drawer-below-background-color;
 }
 
 .drawer.left {

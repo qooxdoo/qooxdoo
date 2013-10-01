@@ -4,7 +4,6 @@
 
 .form {
   @include background-clip(padding-box);
-
   margin-bottom: rem(10);
   background-color:transparent;
   border: none;
@@ -113,15 +112,14 @@
 } 
 
 .form-row-content, .form-element-error {
-  background-color: $form-background-color;
+  @include background($form-background);
   border-left:rem(1) solid $form-border-color;
   border-right:rem(1) solid $form-border-color;
 }
 
 .form-row-group-first {
   @include border-radius-top($form-border-radius);
-
-  background-color: $form-background-color;
+  @include background($form-background);
   border-left: rem(1) solid $form-border-color;
   border-right: rem(1) solid $form-border-color;
   border-top: rem(1) solid $form-border-color;
@@ -132,8 +130,7 @@
 
 .form-row-group-last {
   @include border-radius-bottom($form-border-radius);
-
-  background-color: $form-background-color;
+  @include background($form-background);
   border-top: 0px transparent;
   border-left: rem(1) solid $form-border-color;
   border-right: rem(1) solid $form-border-color;

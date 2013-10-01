@@ -1,0 +1,17 @@
+@import "deprecated"; 
+
+@each $deprecation in $deprecations {
+  $deprecated-variable: nth(#{unquote($deprecation)},1);
+  $deprecation-warning: nth(#{unquote($deprecation)},2);
+
+  #{unquote($deprecated-variable)}: false !default;
+  @if (#{unquote($deprecated-variable)}) {
+    $message: $deprecated-variable + ' is deprecated. ';
+
+    @if (length($deprecation-warning) > 0) {
+      @warn $message + $deprecation-warning;
+    } @else {
+      @warn $message;
+    }
+  }
+}

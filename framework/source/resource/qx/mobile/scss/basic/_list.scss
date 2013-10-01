@@ -5,12 +5,12 @@
 .list {
   @include background-clip(padding-box);
   @include border-radius($list-border-radius);
+  @include background($list-background);
   padding: 0;
   font-weight: $list-title-font-weight;
   font-style: $application-font;
   cursor:pointer;
   border: rem(1) solid $list-border-color;
-  background-color: $list-background-color;
 }
 
 .list .list-item {

@@ -1,27 +1,33 @@
 // Loads all basic scss parts.
 
-@import "main";
-@import "blocker";
-@import "button";
-@import "carousel";
-@import "checkbox";
-@import "collapsible";
-@import "drawer";
-@import "input";
-@import "form";
-@import "list";
-@import "masterdetail"; 
-@import "menu";
-@import "navigationbar";
-@import "navigation";
-@import "popup";
-@import "picker";
-@import "radiobutton";
-@import "scroll";
-@import "scrollbar";
-@import "selectbox";
-@import "slider";
-@import "spinner";
-@import "tabbar";
-@import "togglebutton";
-@import "toolbar";
+@import "migration/missing";
+
+@if (checkMissing() == false) {
+  @import "main";
+  @import "blocker";
+  @import "button";
+  @import "carousel";
+  @import "checkbox";
+  @import "collapsible";
+  @import "drawer";
+  @import "input";
+  @import "form";
+  @import "list";
+  @import "masterdetail"; 
+  @import "menu";
+  @import "navigationbar";
+  @import "navigation";
+  @import "popup";
+  @import "picker";
+  @import "radiobutton";
+  @import "scroll";
+  @import "scrollbar";
+  @import "selectbox";
+  @import "slider";
+  @import "spinner";
+  @import "tabbar";
+  @import "togglebutton";
+  @import "toolbar";
+};
+
+@import "migration/deprecation";

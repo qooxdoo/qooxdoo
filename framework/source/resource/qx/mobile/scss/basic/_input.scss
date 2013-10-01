@@ -4,11 +4,10 @@
 
 .text-field:not(.selectbox), .password-field, .number-field, .text-area {
   @include border-radius($input-border-radius);
+  @include background($input-background);
 
   border: rem(1) solid $input-border-color;
   color:  $input-text-color;
-
-  background-color: $input-background-color;
 }
 
 input.invalid {
@@ -51,8 +50,7 @@ input, select, .text-area {
 .text-area {
   @include border-radius(none);
   @include background-clip(padding-box);
-
-  background-color: $input-background-color;
+  @include background($input-background);
   resize: none;
   padding-top:rem(4);
   text-indent:rem(4);

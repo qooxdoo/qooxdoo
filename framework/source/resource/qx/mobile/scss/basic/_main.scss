@@ -3,12 +3,12 @@ html {
 }
 
 body {
-  background-color: $navigationpage-background-color;
+  @include background($navigationpage-background);
 }
 
 .root {
+  @include background($navigationpage-background);
   font-weight: normal;
-  background-color: $navigationpage-background-color;
 }
 
 .page {
@@ -26,21 +26,13 @@ body {
 }
 
 .group {
-   margin:rem(10);
+  margin:rem(10);
 }
 
 .group.bordered {
   @include border-radius($group-border-radius);
+  @include background($group-background);
 
   border: rem(1) solid $group-border-color;
-  background-color:$group-background-color;
   padding:rem(10);
-}
-
-//
-// ANIMATION
-//
-
-.animationChild {
-  background-color: $navigationpage-background-color;
 }

@@ -47,7 +47,7 @@
 
 .picker-container {
   @include border-radius($picker-spinning-wheel-border-radius);
-  background-color: $picker-spinning-wheel-background-color;
+  @include background($picker-spinning-wheel-background);
   overflow:hidden;
   position:relative;
   height: $picker-height;

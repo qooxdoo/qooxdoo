@@ -38,6 +38,7 @@
 
 .carousel-pagination-label {
   @include border-radius($carousel-pagination-border-radius);
+  @include background($carousel-pagination-background);
 
   display: inline-block;
   border: rem(1) solid white;
@@ -45,7 +46,6 @@
   margin-bottom: $carousel-pagination-size/2;
 
   opacity: 0.6;
-  background-color: $carousel-pagination-background-color;
 
   width: $carousel-pagination-size;
   height: $carousel-pagination-size;
@@ -59,6 +59,6 @@
 }
 
 .carousel-pagination-label.active {
-  background-color:$carousel-pagination-active-background-color;
+  @include background($carousel-pagination-active-background);
   opacity: 1;
 }

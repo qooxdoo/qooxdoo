@@ -24,7 +24,7 @@ $application-font-size:  100%;
 
 // Page
 
-$navigationpage-background-color: $color-5;
+$navigationpage-background: $color-5;
 $navigationpage-border-color: $color-4;
 
 // NavigationBar
@@ -59,14 +59,14 @@ $dialog-font-weight: bold;
 
 // Group
 
-$group-background-color:  $background-color;
+$group-background:  $background-color;
 $group-border-color:  $color-4;
 $group-title-text-color:  $highlight-color;
 $group-border-radius: rem(4);
 
 // List
 
-$list-background-color: $background-color;
+$list-background: $background-color;
 $list-title-text-color: $color-1;
 $list-title-font-size: rem(17);
 $list-title-font-weight: bold;
@@ -83,7 +83,7 @@ $list-active-arrow-color: $background-color;
 
 // Form
 
-$form-background-color:  $background-color;
+$form-background:  $background-color;
 $form-title-text-color:  $highlight-color;
 $form-label-text-color:  $color-1;
 $form-border-color:  $color-4;
@@ -93,7 +93,7 @@ $form-font-weight: bold;
 // Input
 
 $input-text-color:  $color-1;
-$input-background-color:  $background-color;
+$input-background:  $background-color;
 $input-border-radius: rem(4);
 $input-border-color: $color-4;
 $input-invalid-border-color: red;
@@ -133,7 +133,7 @@ $tabbar-button-distance:  rem(4);
 $togglebutton-width:  rem(100);
 $togglebutton-height:  rem(30);
 $togglebutton-border-radius:  rem(4);
-$togglebutton-border-color:  $color-2;;
+$togglebutton-border-color:  $color-2;
 $togglebutton-text-color:  $color-1; 
 $togglebutton-background:  $color-5,$background-color;
 $togglebutton-active-background:  $highlight-color,lighten($highlight-color,20%);
@@ -148,8 +148,8 @@ $togglebutton-font-weight: bold;
 // Carousel
 
 $carousel-pagination-size: rem(8);
-$carousel-pagination-background-color: $background-color;
-$carousel-pagination-active-background-color: $highlight-color;
+$carousel-pagination-background: $background-color;
+$carousel-pagination-active-background: $highlight-color;
 $carousel-pagination-border-radius: $carousel-pagination-size;
 $carousel-pagination-font-size: rem(1);
 $carousel-pagination-font-color: rgba(0,0,0,0);
@@ -169,7 +169,7 @@ $button-active-background:  lighten($highlight-color,20%),$highlight-color;
 // SelectBox
 
 $selectbox-border-radius: rem(4);
-$selectbox-border-color:  $color-2;; 
+$selectbox-border-color:  $color-2; 
 $selectbox-text-color:  $color-1;
 $selectbox-background:  $background-color,$color-4;
 $selectbox-active-background:  $highlight-color;
@@ -183,14 +183,14 @@ $slider-height: rem(7);
 $slider-background:  $color-4,$background-color;
 $slider-active-area:  lighten($highlight-color,20%),$highlight-color;
 $slider-border-radius:  rem(20); 
-$slider-border-color:  $color-2;;
+$slider-border-color:  $color-2;
 $slider-knob-border-radius: rem(4);
 $slider-knob-width: rem(30);
 $slider-knob-height: rem(30);
 $slider-knob-background:  $background-color,$color-4;
-$slider-knob-border-color:  $color-2;;
+$slider-knob-border-color:  $color-2;
 $slider-shadow: rgba(0,0,0,0.4);
-$slider-font-color:  $color-2;;
+$slider-font-color:  $color-2;
 
 // Toolbar  
 
@@ -211,7 +211,7 @@ $menu-item-selected-background:  lighten($highlight-color, 20%), $highlight-colo
 
 $picker-spinning-wheel-overlay:  rgba($color-5,1),rgba($color-5,0) 40%,rgba($color-5,0) 60%,rgba($color-5,1);
 $picker-spinning-wheel-text-color:  $color-1; 
-$picker-spinning-wheel-background-color:  $color-5;
+$picker-spinning-wheel-background:  $color-5;
 $picker-highlight-color:  rgba($highlight-color,0.5);
 $picker-highlight-border-width:  rem(2);
 $picker-spinning-wheel-border-radius:  rem(4);
@@ -224,8 +224,8 @@ $picker-height: rem(160);
 // Drawer
 
 $drawer-border-color:  $color-1; 
-$drawer-above-background-color:  $color-5;
-$drawer-below-background-color:  $color-2;
+$drawer-above-background:  $color-5;
+$drawer-below-background:  $color-3;
 
 // Collapsible
 
