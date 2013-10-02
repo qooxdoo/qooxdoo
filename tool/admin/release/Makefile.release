@@ -81,7 +81,7 @@ RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
 APPLICATIONS = tutorial todo feedreader mobileshowcase playground showcase widgetbrowser featureconfigeditor github demobrowser
-COMPONENTS = apiviewer testrunner inspector storage server website
+COMPONENTS = apiviewer testrunner inspector server website
 FRAMEWORK_TARGETS = api test test-mobile dependencies
 TUTORIALS = mobiletweets tweets website
 
@@ -449,16 +449,13 @@ build-apps:
 
 build-components:
 	@time for COMPONENT in $(COMPONENTS); do \
-		if [ "$$COMPONENT" = "storage" ]; then \
-			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build ) || exit 1; \
-			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-require ) || exit 1; \
-		elif [ "$$COMPONENT" = "website" ]; then \
+		if [ "$$COMPONENT" = "website" ]; then \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-min ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-module-all ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-module-all-min ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) api ) || exit 1; \
-      ( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) test ) || exit 1; \
+			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) test ) || exit 1; \
 		elif [ "$$COMPONENT" = "server" ]; then \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-min ) || exit 1; \
@@ -635,8 +632,6 @@ publish-build-components:
 	@( cd component/inspector && $(CMD_GENERATOR) build ) || exit 1
 	@( cd component/testrunner && $(CMD_GENERATOR) build ) || exit 1
 	@( cd component/testrunner && $(CMD_GENERATOR) portable-build ) || exit 1;
-	@( cd component/standalone/storage && $(CMD_GENERATOR) build ) || exit 1
-	@( cd component/standalone/storage && $(CMD_GENERATOR) build-require ) || exit 1
 	@( cd component/standalone/website && $(CMD_GENERATOR) build ) || exit 1
 	@( cd component/standalone/website && $(CMD_GENERATOR) api ) || exit 1
 	@( cd component/standalone/website && $(CMD_GENERATOR) build-min ) || exit 1
@@ -681,11 +676,6 @@ check-components:
 			F="component/$$TARGET/build/script/$$TARGET.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 			F="component/testrunner/build/script/$$TARGET-portable.js"; \
-			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-		elif [ "$$TARGET" = "storage" ]; then \
-			F="component/standalone/$$TARGET/script/$$TARGET-$(FRAMEWORK_VERSION).js"; \
-			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-			F="component/standalone/$$TARGET/script/$$TARGET-$(FRAMEWORK_VERSION).require.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		elif [ "$$TARGET" = "website" ]; then \
 			F="component/standalone/$$TARGET/script/q-$(FRAMEWORK_VERSION).js"; \
@@ -775,10 +765,6 @@ publish-apps:
 		elif [ "$$COMPONENT" = "testrunner" ]; then \
 			echo "    - $$COMPONENT..."; \
 			$(CMD_SYNC_ONLINE) component/testrunner/build/script/$$COMPONENT-portable.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT/script/$$COMPONENT-portable.js || exit 1; \
-		elif [ "$$COMPONENT" = "storage" ]; then \
-			echo "    - $$COMPONENT..."; \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/$$COMPONENT-$(FRAMEWORK_VERSION).js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/$$COMPONENT-$(FRAMEWORK_VERSION).require.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
 		elif [ "$$COMPONENT" = "website" ]; then \
 			echo "    - $$COMPONENT..."; \
 			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q-$(FRAMEWORK_VERSION).js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
