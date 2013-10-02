@@ -1,5 +1,5 @@
 .collapsible-content {
-  background-color: $collapsible-content-background-color;
+  @include background($collapsible-content-background-color);
   border: rem(1) solid $collapsible-content-border-color;
   overflow: hidden;
 }
