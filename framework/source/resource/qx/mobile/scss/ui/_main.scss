@@ -36,3 +36,7 @@ body {
   border: rem(1) solid $group-border-color;
   padding:rem(10);
 }
+
+.animationChild {
+  @include background($navigationpage-background);
+}
