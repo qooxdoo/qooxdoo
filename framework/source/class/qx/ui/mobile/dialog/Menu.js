@@ -280,6 +280,15 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     },
 
 
+    /**
+    * Getter for the selectionList of the menu.
+    * @return {qx.ui.mobile.list.List} The selectionList of this menu.
+    */
+    getSelectionList : function() {
+      return this.__selectionList;
+    },
+
+
     /** Handler for tap event on selection list. */
     _onSelectionListTap : function() {
       this.hideWithDelay(500);
