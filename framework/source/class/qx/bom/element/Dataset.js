@@ -38,33 +38,30 @@ qx.Bootstrap.define("qx.bom.element.Dataset",
   {
 
     /**
-     * Sets an HTML attribute on the given DOM element
+     * Sets a data attribute on the given DOM element.
      *
      * @param element {Element} The DOM element to modify
      * @param name {String} Name of the attribute [CamelCase variant]
      * @param value {var} New value of the attribute
-     *
      */
-    set : function(element, name, value)
-    {
-      if (element.dataset)
-      {
+    set : function(element, name, value) {
+      if (element.dataset) {
         name = qx.lang.String.camelCase(name);
-        if(value != null) {
+        if (value == null) {
+          delete element.dataset[name];
+        } else {
           element.dataset[name] = value;
         }
-        else {
-          delete element.dataset[name];
+      } else {
+        if (value === undefined) {
+          value = null;
         }
-      }
-      else
-      {
-        qx.bom.element.Attribute.set(element, "data-"+qx.lang.String.hyphenate(name), value);
+        qx.bom.element.Attribute.set(element, "data-" + qx.lang.String.hyphenate(name), value);
       }
     },
 
+
     /**
-     *
      * Returns the value of the given HTML "data-*" attribute
      *
      * @param element {Element} The DOM element to query
@@ -72,41 +69,29 @@ qx.Bootstrap.define("qx.bom.element.Dataset",
      * @return {var} The value of the attribute
      *
      */
-    get : function(element, name)
-    {
-      if (element.dataset)
-      {
+    get : function(element, name) {
+      if (element.dataset) {
         name = qx.lang.String.camelCase(name);
-        return (name in element.dataset) ? element.dataset[name] : null;
-      }
-      else
-      {
-        return qx.bom.element.Attribute.get(element, "data-"+qx.lang.String.hyphenate(name));
+        return element.dataset[name];
+      } else {
+        return qx.bom.element.Attribute.get(element, "data-" + qx.lang.String.hyphenate(name));
       }
     },
 
+
     /**
-     *
      * Returns a map containing all the HTML "data-*" attributes of the specified element
      *
      * @param element {Element} The DOM element to query
      * @return {Map} The map containing all the "data-*" attributes
-     *
      */
-    getAll : function(element)
-    {
-      if (element.dataset)
-      {
+    getAll : function(element) {
+      if (element.dataset) {
         return element.dataset;
-      }
-      else
-      {
-
+      } else {
         var res = {}, attr = element.attributes;
-        for(var i=0; i < attr.length; i++)
-        {
-          if(attr[i].name.match(RegExp("^data-(.*)")))
-          {
+        for (var i=0; i < attr.length; i++) {
+          if (attr[i].name.match(RegExp("^data-(.*)"))) {
             var key = RegExp.$1;
             res[qx.lang.String.camelCase(key)] = element.getAttribute(attr[i].name);
           }
@@ -115,16 +100,15 @@ qx.Bootstrap.define("qx.bom.element.Dataset",
       }
     },
 
+
     /**
      * Remove an HTML "data-*" attribute from the given DOM element
      *
      * @param element {Element} The DOM element to modify
      * @param name {String} Name of the attribute
-     *
      */
-    remove : function(element, name)
-    {
-      this.set(element, name, null);
+    remove : function(element, name) {
+      this.set(element, name, undefined);
     }
   }
 });

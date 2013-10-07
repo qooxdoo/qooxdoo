@@ -48,19 +48,26 @@ qx.Class.define("qx.test.bom.Dataset",
 
     },
 
+
     testSetAttributeWithUndefinedValue : function()
     {
       var Dataset = qx.bom.element.Dataset;
 
       Dataset.set(this._el, "age", undefined);
-      this.assertNotEquals("undefined", this._el.getAttribute("data-age"));
+      this.assertNull(this._el.getAttribute("data-age"));
+      this.assertUndefined(Dataset.get(this._el, "age", undefined));
+
+      Dataset.set(this._el, "age2", null);
+      this.assertNull(this._el.getAttribute("data-age2"));
+      this.assertUndefined(Dataset.get(this._el, "age2", null));
     },
+
 
     testGetAttribute : function()
     {
       var Dataset = qx.bom.element.Dataset;
 
-      this.assertNull(Dataset.get(this._el, "salary"));
+      this.assertUndefined(Dataset.get(this._el, "salary"));
 
       this._el.setAttribute("data-salary", "20");
       this.assertEquals("20", Dataset.get(this._el, "salary"));
@@ -73,7 +80,7 @@ qx.Class.define("qx.test.bom.Dataset",
       Dataset.set(this._el, "age", "44");
       Dataset.remove(this._el, "age");
       this.assertNull(this._el.getAttribute("age"));
-      this.assertNull(Dataset.get(this._el, "age"));
+      this.assertUndefined(Dataset.get(this._el, "age"));
     }
   }
 });
