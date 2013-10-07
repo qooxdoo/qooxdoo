@@ -89,6 +89,15 @@ testrunner.define({
   setUp : testrunner.globalSetup,
   tearDown : testrunner.globalTeardown,
 
+  testUnique : function() {
+    var c = q("#sandbox").add(q("#sandbox"));
+    this.assertEquals(2, c.length);
+    this.assertTrue(c.is("#sandbox"));
+    var u = c.unique();
+    this.assertEquals(1, u.length);
+    this.assertTrue(u.is("#sandbox"));
+  },
+
   testQuerySelector : function() {
     var test = document.createElement("div");
     test.id = "foo";

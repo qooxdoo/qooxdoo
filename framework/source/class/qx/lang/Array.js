@@ -454,12 +454,12 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Recreates an array which is free of all duplicate elements from the original.
      *
-     * This method do not modifies the original array!
+     * This method does not modify the original array!
      *
      * Keep in mind that this methods deletes undefined indexes.
      *
      * @param arr {Array} Incoming array
-     * @return {Array} Returns a copy with no duplicates or the original array if no duplicates were found
+     * @return {Array} Returns a copy with no duplicates
      */
     unique: function(arr)
     {

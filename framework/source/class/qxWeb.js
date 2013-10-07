@@ -212,6 +212,17 @@ qx.Bootstrap.define("qxWeb", {
 
 
     /**
+     * Recreates a collection which is free of all duplicate elements from the original.
+     *
+     * @return {q} Returns a copy with no duplicates
+     */
+    unique : function() {
+      var unique = qx.lang.Array.unique(this);
+      return qxWeb.$init(unique, this.constructor);
+    },
+
+
+    /**
      * Returns a copy of the collection within the given range.
      *
      * @param begin {Number} The index to begin.
