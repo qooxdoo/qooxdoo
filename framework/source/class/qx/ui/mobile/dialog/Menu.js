@@ -303,7 +303,6 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
      */
     __onListChangeSelection : function (evt) {
       this.setSelectedIndex(evt.getData());
-      this._render();
     },
 
 
@@ -324,6 +323,8 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
         var selectedItem = listModel.getItem(value);
         this.fireDataEvent("changeSelection", {index: value, item: selectedItem});
       }
+
+      this._render();
     },
 
 
@@ -339,7 +340,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
 
     // property apply
     _applyClearButtonLabel : function(value, old) {
-       this.__clearButton.setValue(value);
+      this.__clearButton.setValue(value);
     },
 
 
