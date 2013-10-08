@@ -44,8 +44,8 @@
       "qx.module.*",
       "qxWeb"
     ],
-    //"VERSION_STRING": "-${QOOXDOO_VERSION}",
-    "VERSION_STRING": "",
+    //"QFILES_VERSION_PART": "-${QOOXDOO_VERSION}",
+    "QFILES_VERSION_PART": "",
     "API_INCLUDE" : "${QXWEB_ALL}"
   },
 
@@ -157,7 +157,7 @@
       {
         "paths"  :
         {
-          "=file" : "${TEST_SCRIPT_PATH}/q${VERSION_STRING}.min.js"
+          "=file" : "${TEST_SCRIPT_PATH}/q${QFILES_VERSION_PART}.min.js"
         }
       }
     },
