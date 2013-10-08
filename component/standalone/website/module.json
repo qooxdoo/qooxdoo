@@ -1,5 +1,11 @@
 {
-  "name"    : "module",
+  "name" : "module",
+
+  "let"  : 
+  {
+    //"VERSION_STRING": "-${QOOXDOO_VERSION}"
+    "VERSION_STRING": ""
+  },
 
   "jobs" :
   {
@@ -58,7 +64,7 @@
 
         "paths"  :
         {
-          "file" : "${BUILD_PATH}/q-${QOOXDOO_VERSION}.js",
+          "file" : "${BUILD_PATH}/q${VERSION_STRING}.js",
           "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.tmpl.js"
         }
       }
@@ -87,7 +93,7 @@
         },
         "paths"  :
         {
-          "file" : "${BUILD_PATH}/q-${QOOXDOO_VERSION}.min.js"
+          "file" : "${BUILD_PATH}/q${VERSION_STRING}.min.js"
         }
       }
     },
@@ -126,7 +132,7 @@
       {
         "paths"  :
         {
-          "file" : "${BUILD_PATH}/q-core-${QOOXDOO_VERSION}.js"
+          "file" : "${BUILD_PATH}/q-core${VERSION_STRING}.js"
         }
       }
     },
@@ -141,7 +147,7 @@
       {
         "paths"  :
         {
-          "file" : "${BUILD_PATH}/q-core-${QOOXDOO_VERSION}.min.js"
+          "file" : "${BUILD_PATH}/q-core${VERSION_STRING}.min.js"
         }
       }
     },
@@ -161,7 +167,7 @@
       {
         "paths"  :
         {
-          "file" : "${BUILD_PATH}/q-${MODULE_FILENAME}-${QOOXDOO_VERSION}.js",
+          "file" : "${BUILD_PATH}/q-${MODULE_FILENAME}${VERSION_STRING}.js",
           "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.module.tmpl.js"
         }
       }
@@ -182,7 +188,7 @@
       {
         "paths"  :
         {
-          "file" : "${BUILD_PATH}/q-${MODULE_FILENAME}-${QOOXDOO_VERSION}.min.js",
+          "file" : "${BUILD_PATH}/q-${MODULE_FILENAME}${VERSION_STRING}.min.js",
           "loader-template" : "${QOOXDOO_PATH}/tool/data/generator/website.loader.module.tmpl.js"
         }
       }

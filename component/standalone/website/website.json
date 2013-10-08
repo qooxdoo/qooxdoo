@@ -44,6 +44,8 @@
       "qx.module.*",
       "qxWeb"
     ],
+    //"VERSION_STRING": "-${QOOXDOO_VERSION}",
+    "VERSION_STRING": "",
     "API_INCLUDE" : "${QXWEB_ALL}"
   },
 
@@ -155,7 +157,7 @@
       {
         "paths"  :
         {
-          "=file" : "${TEST_SCRIPT_PATH}/q-${QOOXDOO_VERSION}.min.js"
+          "=file" : "${TEST_SCRIPT_PATH}/q${VERSION_STRING}.min.js"
         }
       }
     },
@@ -279,11 +281,19 @@
         ],
         "Cleaning up build" :
         [
-          "${BUILD_PATH}/q-*${QOOXDOO_VERSION}.js"
+          "${BUILD_PATH}/q*.js"
         ],
         "Cleaning up build-min" :
         [
-          "${BUILD_PATH}/q-*${QOOXDOO_VERSION}.min.js"
+          "${BUILD_PATH}/q*.min.js"
+        ],
+        "Cleaning up api" :
+        [
+          "api/script/*"
+        ],
+        "Cleaning up test" :
+        [
+          "test/script/*"
         ]
       }
     }
