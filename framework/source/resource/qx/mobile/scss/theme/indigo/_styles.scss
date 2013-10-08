@@ -53,6 +53,8 @@ $dialog-border-color: $highlight-color;
 $dialog-background:  $color-2,$color-1 50%,$color-1;
 $dialog-arrow-up-color:  $color-2;
 $dialog-arrow-down-color:  $color-1;
+$dialog-arrow-size: rem(12);
+$dialog-arrow-position-offset: rem(16);
 $dialog-border-radius: rem(4);
 $dialog-title-text-color: $background-color;
 $dialog-font-weight: bold;
