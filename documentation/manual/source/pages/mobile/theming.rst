@@ -85,12 +85,15 @@ As mentioned before, it needs the official SASS compiler installed on your syste
 qx.Mobile Themes
 ================
 
-qx.Mobile provides a theme for the iOS platform and one for Android. These
-themes are not intended to be changed/customized by developers directly,
-but can be extended.
+qx.Mobile provides one custom theme which can be adjusted to fit the design guidelines of
+ several platforms like iOS, Android, Windows Phone or Blackberry OS.
 
-The third one of our themes is the "Indigo" theme. This theme can be modified
-by developers in many ways, like setting colors or change the used border
+Despite of deliver several stylesheets which imitate the Native Look, we are 
+providing a easy to customize theming system, which helps you to adapt to a platform's
+look & feel.
+
+As a starting point we use the qx.Mobile "Indigo" theme. This theme can be modified
+by developers in many ways, like setting colors or change the appearance of the widgets etc. the used border
 radius etc.
 
 Switching themes in your qx.Mobile application
@@ -98,11 +101,15 @@ Switching themes in your qx.Mobile application
 
 You can change the used theme of your qx.Mobile application by opening the
 ``config.json`` in your application root. There you find the macro called
-``MOBILE_THEME``. You can change the macro to one of the following values:
+``MOBILE_THEME``. The default value is ``custom``. 
 
-* ``ios``
-* ``android``
-* ``custom``
+Assumed you change the value to ``flat``, qx.Mobile creates a link to a stylesheet located in 
+
+``<APP_ROOT>/source/resource/<APP_NAME>/mobile/css/`` 
+
+which is named: 
+
+``flat.css``
 
 After changing this macro you have to run the source job in your application's
 root:
@@ -112,38 +119,15 @@ root:
   ./generate.py source
 
 
-Extending the iOS or Android theme
-==================================
-
-You can add your own CSS rules on top of the iOS or Android theme.
-Just append your statements to the following file:
-
- ``<APP_ROOT>/source/resource/<APP_NAME>/mobile/css/styles.css``
-
-Using a custom theme
-====================
+Adjusting the custom theme
+==========================
 
 In the qx.Mobile Showcase you can have a look at our default theme, called
-"Indigo". You can use and modify this theme in many ways.
+"Indigo". This theme styles will be used as the starting point for your custom theme.
 
 For customization, please follow these steps:
 
-1.  For enabling the customized theming, you have to change the variable
-    ``MOBILE_THEME`` in your ``<APP_ROOT>/config.json`` to ``custom``:
-
-    ::
-
-        "MOBILE_THEME" : "custom"
-
-    After changing the variable please run
-
-    ::
-
-        ./generate.py source
-
-    once.
-
-2.  Now start the SCSS watch job by running
+1.  Start the SCSS watch job by running
 
     ::
 
@@ -151,47 +135,137 @@ For customization, please follow these steps:
 
     in your application's root.
 
-3.  Have a look in your application's resource folder:
+    This job re-compiles your theme everytime you save the ``_styles.scss`` file.
+
+2.  Have a look in your application's resource folder:
     ``<APP_ROOT>/source/resource/<APP_NAME>/mobile/scss/_styles.scss``
 
     This is the key file for customizing our default theme to your needs.
 
     In ``_styles.scss`` you find various variables for the customization of
-    your qx.Mobile application. The variables overwrite the default theme
-    "Indigo". Undeclared variables get styled like in the "Indigo" theme.
+    your qx.Mobile application.
 
-4.  Give it a try: Change the background of the NavigationBar to the color
+3.  Give it a try: Change the background of the NavigationBar to the color
     ``green``:
 
     ::
 
-        $navigationbar-background-color: green;
+        $navigationbar-background: green;
 
     Your customized theme is compiled automatically by the SCSS watch job to:
-    ``<APP_ROOT>/source/resource/<APP_NAME>/mobile/css/styles.css``
+    ``<APP_ROOT>/source/resource/<APP_NAME>/mobile/css/custom.css``
 
-5.  Reload your qx.Mobile application and check your changes. It should look
+4.  Reload your qx.Mobile application and check your changes. The NavigationBar should look
     like this:
 
-    .. image:: customizedTheme.png
+    .. image:: gradient-green.png
       :scale: 50%
 
 That is all you need to know for customizing the theme of a qx.Mobile app. Try the other
 SCSS variables of your ``_styles.scss``!
 
-Extending the customized theme with SCSS
-========================================
+The background variables
+========================
 
-Additionally to the customization of the variables in ``_styles.scss`` you can extend the theme with your own CSS rules. In this case
-you can append your CSS statement to the following file:
+The most theming variables accept one single value.
+A special case are the background variables. These accept multiple values, separated by ``,`` for creating gradients,
+or one value for coloring the background in one single color. Additionally you can adjust the position 
+of the color stops and adjust the direction of the gradient, as you know it from CSS linear-gradient syntax.
 
-``<APP_ROOT>/source/resource/<APP_NAME>/mobile/css/styles.css``
+This trick works for all variables which ends with ``-background``. It accepts up to 10 color stops.
+
+Examples:
+
+::
+
+  // This creates a red background
+  $navigationbar-background:  red;
+
+
+.. image:: red.png
+    :scale: 50%
+
+::
+
+    // This creates a vertical background gradient from red to maroon
+    $navigationbar-background:  red, maroon;
+
+
+.. image:: gradient.png
+    :scale: 50%
+
+::
+
+    // This creates a diagonal background from red to black
+    $navigationbar-background:  45deg, red, black;
+
+.. image:: gradient-diagonal.png
+    :scale: 50%
+
+::
+
+    // This creates a diagonal background gradient 
+    // from red to maroon to black, with special positions 
+    // of the color stops
+    $navigationbar-background:  45deg, red 33%, maroon 50%, black 66%;
+
+
+.. image:: gradient-diagonal-stops.png
+    :scale: 50%
+
+
+Extending the customized theme with CSS
+=======================================
+
+Additionally to the customization of the variables in ``_styles.scss`` you can 
+extend the theme with your own CSS rules. In this case you can append your CSS statements to this file:
+
+``<APP_ROOT>/source/resource/<APP_NAME>/mobile/css/custom.scss``
 
 As mentioned before, you do not need to be an expert in SCSS for theming.  But
 if you want to know more about this exciting CSS enhancement technology, please
 have a look at the SASS website:
 
 * `SASS official website <http://www.sass-lang.com/>`_
+
+
+Resolution Independence
+=======================
+
+The qx.Mobile theme can be scaled for adjusting the application to 
+the resolution of your target devices.
+
+To reach this goal, qx.Mobile theming strictly uses ``rem``
+units instead of ``px`` inside its stylesheets. 
+
+If you are not familiar with the CSS unit ``rem``, please have a look at 
+`MDN CSS Units <https://developer.mozilla.org/en-US/docs/Web/CSS/length>`_.
+
+Thinking in ``rem`` units might be difficult, and that is why we added a SCSS function named ``rem()``.
+This function gives you the possibility to think in ``px``, but converts the ``px`` value 
+to corresponding ``rem`` on SCSS compiling. If you want to use the feature of resolution independence, 
+it is necessary to use this function inside your ``_styles.scss``.
+
+Example:
+
+::
+
+    // text size should be about 32px, this gets converted to 2rem.
+    $navigationbar-text-size:  rem(32);
+
+For using this feature, you have to adjust the ``$application-font-size`` in the 
+``_styles.scss`` file.
+
+First image shows ``$application-font-size`` set to value ``50%`` and second set to ``150%``:
+
+
+.. image:: resolution-50.png
+    :scale: 50%
+
+
+.. image:: resolution-150.png
+    :scale: 50%
+
 
 Improving your theming workflow
 ===============================

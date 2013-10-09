@@ -34,9 +34,6 @@ Features
 
 * `Mobile widget set <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile>`_
 * :doc:`Theming via CSS and SCSS <theming>`
-* iOS theme
-* Android theme
-* Custom theme
 * Touch events: touchstart, touchmove, touchend, touchcancel
 * Gesture events: swipe, tap, longtap
 * Animations between pages
