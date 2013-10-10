@@ -132,17 +132,10 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     },
 
 
-    /** The width of the drawer. Only relevant if orientation is <code>left</code> or <code>right</code>. */
-    width : {
-      check : "Integer",
-      init : 300,
-      apply : "_applySize",
-      event : "resize"
-    },
-
-
-    /** The height of the drawer. Only relevant if orientation is <code>top</code> or <code>bottom</code>. */
-    height : {
+    /** The size of the drawer in <code>px</code>. This value is interpreted as width if 
+    * orientation is <code>left | right</code>, as height if orientation is 
+    * <code>top | bottom</code>. */
+    size : {
       check : "Integer",
       init : 300,
       apply : "_applySize",
@@ -201,12 +194,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       this.addCssClass(value);
 
       // Reapply width of height size depending on orientation.
-      var isVertical = (this.getOrientation() == "left" || this.getOrientation() == "right");
-      if(isVertical) {
-        this._applySize(this.getHeight(), 0);
-      } else {
-        this._applySize(this.getWidth(), 0);
-      }
+      this._applySize();
     },
 
 
@@ -230,10 +218,67 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     },
 
 
+    /**
+    * @deprecated {3.1} Please use setSize() instead.
+    * Sets the user value of the property width.
+    * @param width {Integer} New value for property 
+    */
+    setWidth : function(value) {
+      this.setSize(value);
+    },
+
+
+    /**
+    * @deprecated {3.1} Please use getSize() instead.
+    * Gets the user value of the property width.
+    * @return {Integer} the value.
+    */
+    getWidth : function() {
+      return this.getSize();
+    },
+
+
+    /**
+    * @deprecated {3.1} Please use resetSize() instead.
+    * Resets the user value of the property width.
+    */
+    resetWidth : function() {
+      this.resetSize();
+    },
+
+
+    /**
+    * @deprecated {3.1} Please use setSize() instead.
+    * Sets the user value of the property height.
+    * @param height {Integer} New value for property 
+    */
+    setHeight : function(value) {
+      this.setSize(value);
+    },
+
+
+    /**
+    * @deprecated {3.1} Please use getSize() instead.
+    * Gets the user value of the property height.
+    * @return {Integer} the value.
+    */
+    getHeight : function() {
+      return this.getSize();
+    },
+
+
+    /**
+    * @deprecated {3.1} Please use resetSize() instead.
+    * Resets the user value of the property height.
+    */
+    resetHeight : function() {
+      this.resetSize();
+    },
+
+
     // property apply
-    _applySize : function(value, old) {
-      var isVertical = this.getOrientation() =="left" || this.getOrientation() == "right";
-      if(isVertical) {
+    _applySize : function() {
+      if(this.getOrientation() =="left" || this.getOrientation() == "right") {
         qx.bom.element.Style.set(this.getContainerElement(),"height", null);
         qx.bom.element.Style.set(this.getContainerElement(),"width", this.getWidth()+"px");
       } else {
