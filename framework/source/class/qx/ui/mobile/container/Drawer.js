@@ -194,7 +194,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       this.addCssClass(value);
 
       // Reapply width of height size depending on orientation.
-      this._applySize();
+      this._applySize(this.getSize());
     },
 
 
@@ -277,13 +277,15 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
 
     // property apply
-    _applySize : function() {
+    _applySize : function(value) {
+      var remSize = (value/16);
+
       if(this.getOrientation() =="left" || this.getOrientation() == "right") {
         qx.bom.element.Style.set(this.getContainerElement(),"height", null);
-        qx.bom.element.Style.set(this.getContainerElement(),"width", this.getWidth()+"px");
+        qx.bom.element.Style.set(this.getContainerElement(),"width", remSize+"rem");
       } else {
         qx.bom.element.Style.set(this.getContainerElement(),"width", null);
-        qx.bom.element.Style.set(this.getContainerElement(),"height", this.getHeight()+"px");
+        qx.bom.element.Style.set(this.getContainerElement(),"height", remSize+"rem");
       }
     },
 
@@ -319,17 +321,17 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
         this.setTranslateY(0);
 
         if(this.getOrientation() == "left") {
-          this.__parent.setTranslateX(this.getWidth());
-          this.setTranslateX(-this.getWidth());
+          this.__parent.setTranslateX(this.getSize());
+          this.setTranslateX(-this.getSize());
         } else if(this.getOrientation() == "right") {
-          this.__parent.setTranslateX(-this.getWidth());
-          this.setTranslateX(this.getWidth());
+          this.__parent.setTranslateX(-this.getSize());
+          this.setTranslateX(this.getSize());
         } else if(this.getOrientation() == "top") {
-          this.__parent.setTranslateY(this.getHeight());
-          this.setTranslateY(-this.getHeight());
+          this.__parent.setTranslateY(this.getSize());
+          this.setTranslateY(-this.getSize());
         } else if(this.getOrientation() == "bottom") {
-          this.__parent.setTranslateY(-this.getHeight());
-          this.setTranslateY(this.getHeight());
+          this.__parent.setTranslateY(-this.getSize());
+          this.setTranslateY(this.getSize());
         }
       }
 

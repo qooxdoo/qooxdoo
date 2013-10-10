@@ -1159,9 +1159,9 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       if(this.getTranslateX() != null && this.getTranslateY() != null) {
         var isTransform3d = qx.core.Environment.get("css.transform.3d");
         if(isTransform3d && this.getTranslateZ() != null) {
-          propertyValue = propertyValue + "translate3d("+this.getTranslateX()+"px"+","+this.getTranslateY()+"px,"+this.getTranslateZ()+"px) ";
+          propertyValue = propertyValue + "translate3d("+this.getTranslateX()/16+"rem"+","+this.getTranslateY()/16+"rem,"+this.getTranslateZ()/16+"rem) ";
         } else {
-          propertyValue = propertyValue + "translate("+this.getTranslateX()+"px"+","+this.getTranslateY()+"px) ";
+          propertyValue = propertyValue + "translate("+this.getTranslateX()/16+"rem"+","+this.getTranslateY()/16+"rem) ";
         }
       }
 
