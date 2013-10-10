@@ -1,3 +1,5 @@
+@option style:legacy;
+
 $foo_bar: 1em;
 
 @function add_numbers($number_one, $number_two: $foo-bar) {

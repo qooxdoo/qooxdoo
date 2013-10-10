@@ -1,4 +1,4 @@
-@option compress:no, short_colors:yes, reverse_colors:yes;
+@option style:legacy, short_colors:yes, reverse_colors:yes;
 .functions {
     opacify1: opacify(rgba(0, 0, 0, 0.5), 0.1); // rgba(0, 0, 0, 0.6)
     opacify2: opacify(rgba(0, 0, 17, 0.8), 0.2); // #001

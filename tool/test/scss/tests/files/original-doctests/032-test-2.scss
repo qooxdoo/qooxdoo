@@ -1,4 +1,4 @@
-@option compress:no, short_colors:yes, reverse_colors:yes;
+@option style:legacy, short_colors:yes, reverse_colors:yes;
 a {
     $color: rgba(0.872536*255, 0.48481984*255, 0.375464*255, 1);
     color: $color;

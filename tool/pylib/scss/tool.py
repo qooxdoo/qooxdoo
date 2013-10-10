@@ -17,6 +17,12 @@ from scss.rule import SassRule
 from scss.rule import UnparsedBlock
 from scss.expression import Calculator
 from scss.scss_meta import BUILD_INFO
+from scss.errors import SassEvaluationError
+
+try:
+    raw_input
+except NameError:
+    raw_input = input
 
 log.setLevel(logging.INFO)
 
@@ -46,9 +52,11 @@ def main():
     parser.add_option("--no-debug-info", action="store_false",
                       dest="debug_info", default=False,
                       help="Turns off scss's debugging information")
-    parser.add_option("-t", "--test", action="store_true", help=SUPPRESS_HELP)
-    parser.add_option("-C", "--no-compress", action="store_false",
-                      dest="compress", default=True,
+    parser.add_option("-T", "--test", action="store_true", help=SUPPRESS_HELP)
+    parser.add_option("-t", "--style", metavar="NAME",
+                      dest="style", default='nested',
+                      help="Output style. Can be nested (default), compact, compressed, or expanded.")
+    parser.add_option("-C", "--no-compress", action="store_false", dest="style", default=True,
                       help="Don't minify outputted CSS")
     parser.add_option("-?", action="help", help=SUPPRESS_HELP)
     parser.add_option("-h", "--help", action="help",
@@ -66,6 +74,14 @@ def main():
                       help="Assets root path (Sprite images will be created here)")
     paths_group.add_option("-a", "--assets-url", metavar="URL", dest="assets_url",
                       help="URL to reach the files in your assets_root")
+    paths_group.add_option("-F", "--fonts-root", metavar="PATH", dest="fonts_root",
+                      help="Fonts root path (Where fonts are located)")
+    paths_group.add_option("-f", "--fonts-url", metavar="PATH", dest="fonts_url",
+                      help="URL to reach the fonts in your fonts_root")
+    paths_group.add_option("--images-root", metavar="PATH", dest="images_root",
+                      help="Images root path (Where images are located)")
+    paths_group.add_option("--images-url", metavar="PATH", dest="images_url",
+                      help="URL to reach the images in your images_root")
     paths_group.add_option("--cache-root", metavar="PATH", dest="cache_root",
                       help="Cache root path (Cache files will be created here)")
     parser.add_option_group(paths_group)
@@ -80,10 +96,22 @@ def main():
     config.VERBOSITY = 0
     if options.time:
         config.VERBOSITY = 2
+        
     if options.static_root is not None:
         config.STATIC_ROOT = options.static_root
     if options.assets_root is not None:
         config.ASSETS_ROOT = options.assets_root
+        
+    if options.fonts_root is not None:
+        config.FONTS_ROOT = options.fonts_root
+    if options.fonts_url is not None:
+        config.FONTS_URL = options.fonts_url
+        
+    if options.images_root is not None:
+        config.IMAGES_ROOT = options.images_root
+    if options.images_url is not None:
+        config.IMAGES_URL = options.images_url
+        
     if options.cache_root is not None:
         config.CACHE_ROOT = options.cache_root
     if options.load_paths is not None:
@@ -140,7 +168,7 @@ def do_build(options, args):
         output = sys.stdout
 
     css = Scss(scss_opts={
-        'compress': options.compress,
+        'style': options.style,
         'debug_info': options.debug_info,
     })
     if args:
@@ -169,7 +197,7 @@ def watch_sources(options):
         def __init__(self, *args, **kwargs):
             super(ScssEventHandler, self).__init__(*args, **kwargs)
             self.css = Scss(scss_opts={
-                'compress': options.compress,
+                'style': options.style,
                 'debug_info': options.debug_info,
             })
             self.output = options.output
@@ -365,7 +393,10 @@ class SassRepl(object):
                 continue
 
             # TODO respect compress?
-            yield(self.calculator.calculate(s).render())
+            try:
+                yield(self.calculator.calculate(s).render())
+            except (SyntaxError, SassEvaluationError) as e:
+                print("%s" % e, file=sys.stderr)
 
 
 if __name__ == "__main__":

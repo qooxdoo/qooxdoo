@@ -1,6 +1,7 @@
 """Tests for expressions.  This test module is currently a bit ill-defined and
 contains a variety of expression-related tests.
 """
+from scss.errors import SassEvaluationError
 from scss.expression import Calculator
 from scss.functions.core import CORE_LIBRARY
 from scss.rule import Namespace
@@ -83,7 +84,7 @@ def test_functions(calc):
     assert calc('grayscale(red)') == Color.from_rgb(0.5, 0.5, 0.5)
     assert calc('grayscale(1)') == String('grayscale(1)', quotes=None)  # Misusing css built-in functions (with scss counterpart)
     assert calc('skew(1)') == String('skew(1)', quotes=None)  # Missing css-only built-in functions
-    with pytest.raises(TypeError):
+    with pytest.raises(SassEvaluationError):
         calc('unitless("X")')  # Misusing non-css built-in scss funtions
 
 

@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 import re
 
 # Super dumb little selector parser.
@@ -18,14 +20,13 @@ import re
 # combinator -- i.e., it is a descendant of the root element.
 # TODO `*html` is incorrectly parsed as a single selector
 # TODO this oughta be touched up for css4 selectors
-SELECTOR_TOKENIZER = re.compile(
-r'''
+SELECTOR_TOKENIZER = re.compile(r'''
     # Colons introduce pseudo-selectors, sometimes with parens
     # TODO doesn't handle quoted )
     [:]+ [-\w]+ (?: [(] .+? [)] )?
 
     # These guys are combinators -- note that a single space counts too
-    | \s* [ +>~] \s*
+    | \s* [ +>~,] \s*
 
     # Square brackets are attribute tests
     # TODO: this doesn't handle ] within a string
@@ -36,7 +37,7 @@ r'''
     | [.#%] [-\w]+
 
     # Percentages are used for @keyframes
-    | \d+ [%]
+    | [-.\d]+ [%]
 
     # Plain identifiers, or single asterisks, are element names
     | [-\w]+
@@ -55,11 +56,32 @@ r'''
 TOKEN_TYPE_ORDER = {
     '#': 2,
     '.': 3,
-    ':': 4,
-    '[': 5,
-    '%': 6,
+    '[': 3,
+    ':': 3,
+    '%': 4,
 }
 TOKEN_SORT_KEY = lambda token: TOKEN_TYPE_ORDER.get(token[0], 0)
+
+
+def _is_combinator_subset_of(specific, general, is_first=True):
+    """Return whether `specific` matches a non-strict subset of what `general`
+    matches.
+    """
+    if is_first and general == ' ':
+        # First selector always has a space to mean "descendent of root", which
+        # still holds if any other selector appears above it
+        return True
+
+    if specific == general:
+        return True
+
+    if specific == '>' and general == ' ':
+        return True
+
+    if specific == '+' and general == '~':
+        return True
+
+    return False
 
 
 class SimpleSelector(object):
@@ -132,6 +154,11 @@ class SimpleSelector(object):
             set(self.tokens) <= set(other.tokens))
 
     def replace_parent(self, parent_simples):
+        """If ``&`` (or the legacy xCSS equivalent ``self``) appears in this
+        selector, replace it with the given iterable of parent selectors.
+
+        Returns a tuple of simple selectors.
+        """
         assert parent_simples
 
         ancestors = parent_simples[:-1]
@@ -146,13 +173,28 @@ class SimpleSelector(object):
             else:
                 new_tokens.append(token)
 
-        if did_replace:
-            # This simple selector was merged into the direct parent
-            merged_simple = type(self)(self.combinator, new_tokens)
-            return ancestors + (merged_simple,)
-        else:
-            # This simple selector is completely separate
+        if not did_replace:
+            # This simple selector doesn't contain a parent reference so just
+            # stick it on the end
             return parent_simples + (self,)
+
+        # This simple selector was merged into the direct parent.
+        merged_self = type(self)(parent.combinator, new_tokens)
+        selector = ancestors + (merged_self,)
+        # Our combinator goes on the first ancestor, i.e., substituting "foo
+        # bar baz" into "+ &.quux" produces "+ foo bar baz.quux".  This means a
+        # potential conflict with the first ancestor's combinator!
+        root = selector[0]
+        if not _is_combinator_subset_of(self.combinator, root.combinator):
+            raise ValueError(
+                "Can't sub parent {0!r} into {1!r}: "
+                "combinators {2!r} and {3!r} conflict!"
+                .format(
+                    parent_simples, self, self.combinator, root.combinator))
+
+        root = type(self)(self.combinator, root.tokens)
+        selector = (root,) + selector[1:]
+        return tuple(selector)
 
     # TODO just use set ops for these, once the constructor removes dupes
     def merge_with(self, other):
@@ -200,16 +242,18 @@ class Selector(object):
                     SimpleSelector(pending['combinator'], pending['tokens']))
                 pending['combinator'] = ' '
                 pending['tokens'] = []
+
         def promote_selector():
             promote_simple()
             if pending['simples']:
                 ret.append(cls(pending['simples']))
             pending['simples'] = []
 
-
         pos = 0
         while pos < len(selector):
             # TODO i don't think this deals with " + " correctly.  anywhere.
+            # TODO this used to turn "1.5%" into empty string; why does error
+            # not work?
             m = SELECTOR_TOKENIZER.match(selector, pos)
             if not m:
                 # TODO prettify me

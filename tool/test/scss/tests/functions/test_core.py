@@ -246,6 +246,46 @@ def test_quote(calc):
     assert ret.quotes == '"'
 
 
+# TODO more of these need quote checking too
+def test_str_length(calc):
+    # Examples from the Ruby docs
+    assert calc('str-length("foo")') == calc('3')
+
+
+def test_str_insert(calc):
+    # Examples from the Ruby docs
+    assert calc('str-insert("abcd", "X", 1)') == calc('"Xabcd"')
+    assert calc('str-insert("abcd", "X", 4)') == calc('"abcXd"')
+    # DEVIATION: see https://github.com/nex3/sass/issues/954
+    assert calc('str-insert("abcd", "X", 5)') == calc('"abcdX"')
+
+
+def test_str_index(calc):
+    # Examples from the Ruby docs
+    assert calc('str-index(abcd, a)') == calc('1')
+    assert calc('str-index(abcd, ab)') == calc('1')
+    assert calc('str-index(abcd, X)') == calc('0')
+    assert calc('str-index(abcd, c)') == calc('3')
+
+
+def test_str_slice(calc):
+    # Examples from the Ruby docs
+    assert calc('str-slice("abcd", 2, 3)') == calc('"bc"')
+    assert calc('str-slice("abcd", 2)') == calc('"bcd"')
+    assert calc('str-slice("abcd", -3, -2)') == calc('"bc"')
+    assert calc('str-slice("abcd", 2, -2)') == calc('"bc"')
+
+
+def test_to_upper_case(calc):
+    # Examples from the Ruby docs
+    assert calc('to-upper-case(abcd)') == calc('ABCD')
+
+
+def test_to_lower_case(calc):
+    # Examples from the Ruby docs
+    assert calc('to-lower-case(ABCD)') == calc('abcd')
+
+
 # ------------------------------------------------------------------------------
 # Number functions
 
@@ -303,6 +343,9 @@ def test_nth(calc):
     # Examples from the Ruby docs
     assert calc('nth(10px 20px 30px, 1)') == calc('10px')
     assert calc('nth((Helvetica, Arial, sans-serif), 3)') == calc('sans-serif')
+    assert calc('nth((width: 10px, length: 20px), 2)') == calc('length, 20px')
+
+    assert calc('nth(10px 20px 30px, -1)') == calc('30px')
 
 
 def test_join(calc):
@@ -322,6 +365,9 @@ def test_append(calc):
     assert calc('append(10px, 20px, comma)') == calc('10px, 20px')
     assert calc('append((blue, red), green, space)') == calc('blue red green')
 
+    # TODO need to test for commas here
+    assert calc('append((a, b), c)') == calc('a, b, c')
+
 
 def test_zip(calc):
     # Examples from the Ruby docs
@@ -334,11 +380,50 @@ def test_index(calc):
     assert calc('index(1px solid red, dashed)') == calc('false')
 
 
+def test_list_separator(calc):
+    # Examples from the Ruby docs
+    assert calc('list-separator(1px 2px 3px)') == calc('space')
+    assert calc('list-separator(1px, 2px, 3px)') == calc('comma')
+    assert calc('list-separator("foo")') == calc('space')
+
+
+def test_set_nth(calc):
+    # Examples from the Ruby docs
+    assert calc('set-nth($list: 10px 20px 30px, $n: 2, $value: -20px)') == calc('10px -20px 30px')
+
+
 # ------------------------------------------------------------------------------
 # Map functions
 
 
-# ...
+def test_map_get(calc):
+    # Examples from the Ruby docs
+    assert calc('map-get(("foo": 1, "bar": 2), "foo")') == calc('1')
+    assert calc('map-get(("foo": 1, "bar": 2), "bar")') == calc('2')
+    assert calc('map-get(("foo": 1, "bar": 2), "baz")') == calc('null')
+
+
+def test_map_merge(calc):
+    # Examples from the Ruby docs
+    assert calc('map-merge(("foo": 1), ("bar": 2))') == calc('("foo": 1, "bar": 2)')
+    assert calc('map-merge(("foo": 1, "bar": 2), ("bar": 3))') == calc('("foo": 1, "bar": 3)')
+
+
+def test_map_keys(calc):
+    # Examples from the Ruby docs
+    assert calc('map-keys(("foo": 1, "bar": 2))') == calc('"foo", "bar"')
+
+
+def test_map_values(calc):
+    # Examples from the Ruby docs
+    assert calc('map-values(("foo": 1, "bar": 2))') == calc('1, 2')
+    assert calc('map-values(("foo": 1, "bar": 2, "baz": 1))') == calc('1, 2, 1')
+
+
+def test_map_has_key(calc):
+    # Examples from the Ruby docs
+    assert calc('map-has-key(("foo": 1, "bar": 2), "foo")') == calc('true')
+    assert calc('map-has-key(("foo": 1, "bar": 2), "baz")') == calc('false')
 
 
 # ------------------------------------------------------------------------------

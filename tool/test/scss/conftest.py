@@ -1,8 +1,11 @@
 """py.test plugin configuration."""
 
 # qooxdoo
-import sys;
+import sys
 sys.path.append('../../pylib')
+
+import os
+PROJECT_ROOT = os.path.normpath(os.path.dirname(os.path.abspath(__file__)))
 # ------
 
 def pytest_addoption(parser):

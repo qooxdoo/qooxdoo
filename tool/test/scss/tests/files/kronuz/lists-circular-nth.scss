@@ -1,0 +1,9 @@
+@option style:legacy;
+
+div {
+	$list: 4px 2px;
+	margin-top: nth($list, 1);
+	margin-right: nth($list, 2);
+	margin-bottom: nth($list, 3);
+	margin-left: nth($list, 4);
+}

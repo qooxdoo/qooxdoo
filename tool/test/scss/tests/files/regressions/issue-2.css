@@ -1,7 +1,6 @@
-.pull-1, .pull-2, .pull-3, .pull-4, .pull-5, .pull-6, .pull-7,
-.pull-8, .pull-9, .pull-10, .pull-11, .pull-12, .pull-13, .pull-14,
-.pull-15, .pull-16, .pull-17, .pull-18, .pull-19, .pull-20, .pull-21,
-.pull-22, .pull-23, .pull-24 {
+.pull-1, .pull-2, .pull-3, .pull-4, .pull-5, .pull-6, .pull-7, .pull-8,
+.pull-9, .pull-10, .pull-11, .pull-12, .pull-13, .pull-14, .pull-15, .pull-16,
+.pull-17, .pull-18, .pull-19, .pull-20, .pull-21, .pull-22, .pull-23, .pull-24 {
   display: inline;
   float: left;
   position: relative;

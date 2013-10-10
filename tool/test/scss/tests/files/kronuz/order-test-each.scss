@@ -1,0 +1,17 @@
+@option style:legacy;
+
+div {
+  @each $i in 1 2 3 {
+    font-size: $i;
+  }
+}
+
+
+@each $i in 1 2 3 {
+  p {
+    width: $i;
+  }
+  .p#{$i} {
+    height: $i;
+  }
+}

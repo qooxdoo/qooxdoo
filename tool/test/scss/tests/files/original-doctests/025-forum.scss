@@ -1,4 +1,4 @@
-@option compress:no, short_colors:yes, reverse_colors:yes;
+@option style:legacy, short_colors:yes, reverse_colors:yes;
 body {
     _width: expression(document.body.clientWidth > 1440? "1440px" : "auto");
 }

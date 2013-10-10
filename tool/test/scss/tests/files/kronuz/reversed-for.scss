@@ -1,0 +1,7 @@
+@option style:legacy;
+
+@for $i from 5 through 1 {
+	div.l#{$i} {
+		width: 10px + $i;
+	}
+}

@@ -1,3 +1,5 @@
+@option style:legacy;
+
 @function no-op($foo,) {
     @return $foo;
 }

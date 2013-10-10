@@ -1,3 +1,5 @@
+@option style:legacy;
+
 @mixin _menu-horizontal($level) {
 	ul.l#{$level} {
 		li {

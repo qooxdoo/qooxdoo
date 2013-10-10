@@ -1,4 +1,4 @@
-@option compress:no;
+@option style:legacy;
 
 $images: sprite-map("squares/*.png", $cache-buster: false);
 

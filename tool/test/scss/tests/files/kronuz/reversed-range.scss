@@ -1,0 +1,7 @@
+@option style:legacy;
+
+@each $i in range(5, 1) {
+	div.l#{$i} {
+		width: 10px + $i;
+	}
+}

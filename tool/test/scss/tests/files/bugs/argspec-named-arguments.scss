@@ -1,3 +1,5 @@
+@option style:legacy;
+
 @function calculate($foo: 1, $bar: 2) {
     @return $foo * $bar;
 }

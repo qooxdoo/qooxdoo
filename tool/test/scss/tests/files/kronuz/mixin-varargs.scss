@@ -1,0 +1,12 @@
+@option style:legacy;
+
+@import "mixin-varargs";
+
+div {
+	@include varargs(
+		$color: pink,
+		$background: blue,
+		$border: 1px solid magenta,
+		$width: 2px
+	);
+}

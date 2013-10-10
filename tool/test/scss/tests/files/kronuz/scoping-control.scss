@@ -1,0 +1,59 @@
+@option style:legacy;
+@option control-scoping:no;
+
+div {
+  $first: red;
+  A-red: $first;
+
+  @each $x in magenta orange {
+    $first: $x;
+  }
+  A-orange: $first;
+
+  @if true {
+    $first: black;
+  }
+  B-black: $first;
+
+  @for $i from 1 through 2 {
+    $first: blue;
+  }
+  B-blue: $first;
+
+  @each $y in 1 2 3 {
+    @each $x in black white {
+      $first: $x;
+    }
+  }
+  B-white: $first;
+
+  // Second round of tests (undefined variables defined within @if, @for or @each):
+  // DEVIATION! in Sass, the colors inside the following constructs (since they're undefined) are left undefined at the end of the control blocks:
+  @if true {
+    $second: olive;
+  }
+  $second: grey !default;
+  C-olive: $second;
+
+  @for $i from 1 through 2 {
+    $third: violet;
+  }
+  $third: snow !default;
+  C-violet: $third;
+
+  @each $y in 1 2 3 {
+    $fourth: black;
+    @each $x in silver gold {
+      $fifth: $x;
+    }
+  }
+  $fourth: seashell !default;
+  C-black: $fourth;
+  $fifth: mintcream !default;
+  C-gold: $fifth;
+}
+
+a {
+  $some: green !default;
+  color: $some;
+}

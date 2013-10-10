@@ -16,10 +16,14 @@ from scss.rule import Namespace
 
 
 import pytest
+from scss import config
+import os
+from _pytest.monkeypatch import monkeypatch
 xfail = pytest.mark.xfail
 
 # TODO many of these tests could also stand to test for failure cases
 
+config.PROJECT_ROOT = os.path.normpath(os.path.dirname(os.path.abspath(__file__ + '/../../../')))
 
 @pytest.fixture
 def calc():
@@ -145,12 +149,46 @@ def test_pow(calc):
 
 
 ## Fonts
-
 # font-url
+def test_font_url(calc):
+    # nb: config.FONTS_URL is None and defaults to this
+    fonts_url = config.STATIC_URL
+    assert calc('font-url("/some_path.woff")').render() == 'url({0}some_path.woff)'.format(fonts_url)
+    assert calc('font-url("/some_path.woff") format("woff")').render() == 'url({0}some_path.woff) format("woff")'.format(fonts_url)
+
 
 # font-files
+def test_font_files(calc):
+    """
+    @author: funvit
+    @note: adapted from  compass / test / units / sass_extensions_test.rb
+    """
+    # nb: config.FONTS_URL is None and defaults to this
+    fonts_url = config.STATIC_URL
+    assert '' == calc('font-files()').render()
+    assert 'url({0}font/name.woff) format("woff"), url({0}fonts/name.ttf) format("truetype"), url({0}fonts/name.svg#fontpath) format("svg")'.format(fonts_url) == calc('font-files("/font/name.woff", woff, "/fonts/name.ttf", truetype, "/fonts/name.svg#fontpath", svg)').render()
+
+    assert 'url({0}font/with/right_ext.woff) format("woff")'.format(fonts_url) == calc('font_files("/font/with/right_ext.woff")').render()
+    assert 'url({0}font/with/wrong_ext.woff) format("svg")'.format(fonts_url) == calc('font_files("/font/with/wrong_ext.woff", "svg")').render()
+    assert 'url({0}font/with/no_ext) format("opentype")'.format(fonts_url) == calc('font_files("/font/with/no_ext", "otf")').render()
+    assert 'url({0}font/with/weird.ext) format("truetype")'.format(fonts_url) == calc('font_files("/font/with/weird.ext", "truetype")').render()
+
+    assert 'url({0}font/with/right_ext.woff) format("woff"), url({0}font/with/right_ext_also.otf) format("opentype")'.format(fonts_url) == calc('font_files("/font/with/right_ext.woff", "/font/with/right_ext_also.otf")').render()
+    assert 'url({0}font/with/wrong_ext.woff) format("truetype"), url({0}font/with/right_ext.otf) format("opentype")'.format(fonts_url) == calc('font_files("/font/with/wrong_ext.woff", "ttf", "/font/with/right_ext.otf")').render()
+
 
 # inline-font-files
+def test_inline_font_files(calc):
+    """
+    @author: funvit
+    @note: adapted from  compass / test / units / sass_extensions_test.rb
+    """
+    monkeypatch().setattr(config, 'FONTS_ROOT', os.path.join(config.PROJECT_ROOT, 'tests/files/fonts'))
+
+    with open(os.path.join(config.PROJECT_ROOT, 'tests/files/fonts/bgrove.base64.txt'), 'r') as f:
+        font_base64 = ''.join((f.readlines()))
+
+    assert 'url(data:font/truetype;base64,%s) format("truetype")' % font_base64 == calc('inline_font_files("/bgrove.ttf", truetype)').render()
 
 
 ## External stylesheets

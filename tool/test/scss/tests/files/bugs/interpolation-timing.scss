@@ -1,0 +1,10 @@
+@mixin content_value($value) {
+    content: $value;
+}
+
+div {
+    // only exists in this block, so if the interpolation is evaluated /later/,
+    // $local won't exist
+    $local: value;
+    @include content_value("#{$local}");
+}

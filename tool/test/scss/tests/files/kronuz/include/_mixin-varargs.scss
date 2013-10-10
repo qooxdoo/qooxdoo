@@ -1,0 +1,20 @@
+@mixin _inner(...) {
+	$width: null !default;
+	$height: null !default;
+
+	color: $color;
+	background: $background;
+	border: $border;
+	@if $width {
+		width: $width;
+	}
+	@if $height {
+		width: $height;
+	}
+}
+
+@mixin varargs(...) {
+	$color: green;
+	$background: red !default;
+	@include _inner(...);
+}

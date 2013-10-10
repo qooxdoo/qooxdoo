@@ -2,13 +2,15 @@ from __future__ import absolute_import
 from __future__ import print_function
 
 import logging
-from itertools import chain
 from scss.six import six
 
-from scss.types import Value
-
+from scss.types import Value, Undefined
 
 log = logging.getLogger(__name__)
+
+SORTED_SELECTORS = False
+
+sort = sorted if SORTED_SELECTORS else lambda it: it
 
 
 def normalize_var(name):
@@ -33,17 +35,19 @@ def extend_unique(seq, more):
     return seq + type(seq)(new)
 
 
-class VariableScope(object):
+class Scope(object):
     """Implements Sass variable scoping.
 
     Similar to `ChainMap`, except that assigning a new value will replace an
     existing value, not mask it.
     """
     def __init__(self, maps=()):
-        self.maps = [dict()] + list(maps)
+        maps = list(maps)
+        assert all(isinstance(m, dict) or isinstance(m, type(self)) for m in maps)  # Check all passed maps are compatible with the current Scope
+        self.maps = [dict()] + maps
 
     def __repr__(self):
-        return "<VariableScope(%s)>" % (', '.join(repr(map) for map in self.maps),)
+        return "<%s(%s) at 0x%x>" % (type(self).__name__, ', '.join(repr(map) for map in self.maps), id(self))
 
     def __getitem__(self, key):
         for map in self.maps:
@@ -55,30 +59,61 @@ class VariableScope(object):
     def __setitem__(self, key, value):
         self.set(key, value)
 
+    def __contains__(self, key):
+        try:
+            self[key]
+        except KeyError:
+            return False
+        else:
+            return True
+
     def keys(self):
         # For mapping interface
-        return list(chain(*self.maps))
+        keys = set()
+        for map in self.maps:
+            keys.update(map.keys())
+        return list(keys)
 
     def set(self, key, value, force_local=False):
-        if force_local:
-            self.maps[0][key] = value
-            return
-
-        for map in self.maps:
-            if key in map:
-                map[key] = value
-                return
+        if not force_local:
+            for map in self.maps:
+                if key in map:
+                    if isinstance(map[key], Undefined):
+                        break
+                    map[key] = value
+                    return
 
         self.maps[0][key] = value
 
     def new_child(self):
-        return VariableScope(self.maps)
+        return type(self)(self.maps)
+
+
+class VariableScope(Scope):
+    pass
+
+
+class FunctionScope(Scope):
+    def __repr__(self):
+        return "<%s(%s) at 0x%x>" % (type(self).__name__, ', '.join('[%s]' % ', '.join('%s:%s' % (f, n) for f, n in sorted(map.keys())) for map in self.maps), id(self))
+
+
+class MixinScope(Scope):
+    def __repr__(self):
+        return "<%s(%s) at 0x%x>" % (type(self).__name__, ', '.join('[%s]' % ', '.join('%s:%s' % (f, n) for f, n in sorted(map.keys())) for map in self.maps), id(self))
+
+
+class ImportScope(Scope):
+    pass
 
 
 class Namespace(object):
     """..."""
+    _mutable = True
 
-    def __init__(self, variables=None, functions=None, mixins=None):
+    def __init__(self, variables=None, functions=None, mixins=None, mutable=True):
+        self._mutable = mutable
+
         if variables is None:
             self._variables = VariableScope()
         else:
@@ -87,11 +122,17 @@ class Namespace(object):
             self._variables = VariableScope([variables])
 
         if functions is None:
-            self._functions = VariableScope()
+            self._functions = FunctionScope()
         else:
-            self._functions = VariableScope([functions._functions])
+            self._functions = FunctionScope([functions._functions])
 
-        self._mixins = VariableScope()
+        self._mixins = MixinScope()
+
+        self._imports = ImportScope()
+
+    def _assert_mutable(self):
+        if not self._mutable:
+            raise AttributeError("This Namespace instance is immutable")
 
     @classmethod
     def derive_from(cls, *others):
@@ -100,12 +141,14 @@ class Namespace(object):
             self._variables = others[0]._variables.new_child()
             self._functions = others[0]._functions.new_child()
             self._mixins = others[0]._mixins.new_child()
+            self._imports = others[0]._imports.new_child()
         else:
             # Note that this will create a 2-dimensional scope where each of
             # these scopes is checked first in order.  TODO is this right?
             self._variables = VariableScope(other._variables for other in others)
-            self._functions = VariableScope(other._functions for other in others)
-            self._mixins = VariableScope(other._mixins for other in others)
+            self._functions = FunctionScope(other._functions for other in others)
+            self._mixins = MixinScope(other._mixins for other in others)
+            self._imports = ImportScope(other._imports for other in others)
         return self
 
     def derive(self):
@@ -115,15 +158,44 @@ class Namespace(object):
         """
         return type(self).derive_from(self)
 
+    @property
+    def variables(self):
+        return dict((k, self._variables[k]) for k in self._variables.keys())
+
     def variable(self, name, throw=False):
         name = normalize_var(name)
         return self._variables[name]
 
     def set_variable(self, name, value, local_only=False):
+        self._assert_mutable()
         name = normalize_var(name)
         if not isinstance(value, Value):
             raise TypeError("Expected a Sass type, while setting %s got %r" % (name, value,))
         self._variables.set(name, value, force_local=local_only)
+
+    def has_import(self, import_key):
+        return import_key in self._imports
+
+    def add_import(self, import_key, parent_import_key, file_and_line):
+        self._assert_mutable()
+        if import_key:
+            imports = [0, parent_import_key, file_and_line]
+            self._imports[import_key] = imports
+
+    def use_import(self, import_key):
+        self._assert_mutable()
+        if import_key and import_key in self._imports:
+            imports = self._imports[import_key]
+            imports[0] += 1
+            self.use_import(imports[1])
+
+    def unused_imports(self):
+        unused = []
+        for import_key in self._imports.keys():
+            imports = self._imports[import_key]
+            if not imports[0]:
+                unused.append((import_key[0], imports[2]))
+        return unused
 
     def _get_callable(self, chainmap, name, arity):
         name = normalize_var(name)
@@ -145,12 +217,14 @@ class Namespace(object):
         return self._get_callable(self._mixins, name, arity)
 
     def set_mixin(self, name, arity, cb):
+        self._assert_mutable()
         self._set_callable(self._mixins, name, arity, cb)
 
     def function(self, name, arity):
         return self._get_callable(self._functions, name, arity)
 
     def set_function(self, name, arity, cb):
+        self._assert_mutable()
         self._set_callable(self._functions, name, arity, cb)
 
 
@@ -160,13 +234,15 @@ class SassRule(object):
     metadata, like `@extend` rules and `@media` nesting.
     """
 
-    def __init__(self, source_file, unparsed_contents=None,
+    def __init__(self, source_file, import_key=None, unparsed_contents=None,
             options=None, properties=None,
             namespace=None,
             lineno=0, extends_selectors=frozenset(),
-            ancestry=None):
+            ancestry=None,
+            nested=0):
 
         self.source_file = source_file
+        self.import_key = import_key
         self.lineno = lineno
 
         self.unparsed_contents = unparsed_contents
@@ -184,12 +260,14 @@ class SassRule(object):
         else:
             self.properties = properties
 
-        self.retval = None
-
         if ancestry is None:
             self.ancestry = RuleAncestry()
         else:
             self.ancestry = ancestry
+
+        self.nested = nested
+
+        self.descendants = 0
 
     def __repr__(self):
         return "<SassRule %s, %d props>" % (
@@ -221,13 +299,13 @@ class SassRule(object):
             # Rules containing CSS properties are never empty
             return False
 
-        if self.ancestry:
-            header = self.ancestry[-1]
-            if header.is_atrule and header.directive != '@media':
-                # At-rules should always be preserved, UNLESS they are @media
-                # blocks, which are known to be noise if they don't have any
-                # contents of their own
-                return False
+        if not self.descendants:
+            for header in self.ancestry.headers:
+                if header.is_atrule and header.directive != '@media':
+                    # At-rules should always be preserved, UNLESS they are @media
+                    # blocks, which are known to be noise if they don't have any
+                    # contents of their own
+                    return False
 
         return True
 
@@ -245,12 +323,16 @@ class SassRule(object):
             ancestry=self.ancestry,
 
             namespace=self.namespace.derive(),
+            nested=self.nested,
         )
 
 
 class RuleAncestry(object):
     def __init__(self, headers=()):
         self.headers = tuple(headers)
+
+    def __repr__(self):
+        return "<%s %r>" % (type(self).__name__, self.headers)
 
     def __len__(self):
         return len(self.headers)
@@ -357,7 +439,7 @@ class BlockAtRuleHeader(BlockHeader):
         self.argument = argument
 
     def __repr__(self):
-        return "<%s %r %r>" % (self.__class__.__name__, self.directive, self.argument)
+        return "<%s %r %r>" % (type(self).__name__, self.directive, self.argument)
 
     def render(self):
         if self.argument:
@@ -373,10 +455,10 @@ class BlockSelectorHeader(BlockHeader):
         self.selectors = tuple(selectors)
 
     def __repr__(self):
-        return "<%s %r>" % (self.__class__.__name__, self.selectors)
+        return "<%s %r>" % (type(self).__name__, self.selectors)
 
     def render(self, sep=', ', super_selector=''):
-        return sep.join((
+        return sep.join(sort(
             super_selector + s.render()
             for s in self.selectors
             if not s.has_placeholder))

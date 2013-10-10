@@ -1,5 +1,5 @@
 .mod {
-  background: url(/static/assets/squares-YG8x25OkL4axeoTN5hv6YA.png) no-repeat;
+  background: url(static/assets/squares-nafpKaM4RlNNZcIbS0wv_g.png) no-repeat;
 }
 .mod.ten-by-ten {
   width: 10px;
@@ -9,5 +9,5 @@
 .mod.twenty-by-twenty {
   width: 20px;
   height: 20px;
-  background-position: 0px -20px;
+  background-position: 0px -10px;
 }

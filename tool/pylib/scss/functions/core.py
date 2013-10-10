@@ -431,7 +431,7 @@ def change_color(color, red=None, green=None, blue=None, hue=None, saturation=No
 
 
 # ------------------------------------------------------------------------------
-# String type manipulation
+# String functions
 
 @register('e', 1)
 @register('escape', 1)
@@ -455,6 +455,73 @@ def quote(*args):
         return String(arg.render(), quotes='"')
 
 
+@register('str-length', 1)
+def str_length(string):
+    expect_type(string, String)
+
+    # nb: can't use `len(string)`, because that gives the Sass list length,
+    # which is 1
+    return Number(len(string.value))
+
+
+# TODO this and several others should probably also require integers
+# TODO and assert that the indexes are valid
+@register('str-insert', 3)
+def str_insert(string, insert, index):
+    expect_type(string, String)
+    expect_type(insert, String)
+    expect_type(index, Number, unit=None)
+
+    py_index = index.to_python_index(len(string.value), check_bounds=False)
+    return String(
+        string.value[:py_index] +
+            insert.value +
+            string.value[py_index:],
+        quotes=string.quotes)
+
+
+@register('str-index', 2)
+def str_index(string, substring):
+    expect_type(string, String)
+    expect_type(substring, String)
+
+    # 1-based indexing, with 0 for failure
+    return Number(string.value.find(substring.value) + 1)
+
+
+@register('str-slice', 2)
+@register('str-slice', 3)
+def str_slice(string, start_at, end_at=None):
+    expect_type(string, String)
+    expect_type(start_at, Number, unit=None)
+    py_start_at = start_at.to_python_index(len(string.value))
+
+    if end_at is None:
+        py_end_at = None
+    else:
+        expect_type(end_at, Number, unit=None)
+        # Endpoint is inclusive, unlike Python
+        py_end_at = end_at.to_python_index(len(string.value)) + 1
+
+    return String(
+        string.value[py_start_at:py_end_at],
+        quotes=string.quotes)
+
+
+@register('to-upper-case', 1)
+def to_upper_case(string):
+    expect_type(string, String)
+
+    return String(string.value.upper(), quotes=string.quotes)
+
+
+@register('to-lower-case', 1)
+def to_lower_case(string):
+    expect_type(string, String)
+
+    return String(string.value.lower(), quotes=string.quotes)
+
+
 # ------------------------------------------------------------------------------
 # Number functions
 
@@ -474,8 +541,9 @@ CORE_LIBRARY.add(Number.wrap_python_function(math.floor), 'floor', 1)
 
 def __parse_separator(separator, default_from=None):
     if separator is None:
-        return None
+        separator = 'auto'
     separator = String.unquoted(separator).value
+
     if separator == 'comma':
         return True
     elif separator == 'space':
@@ -500,13 +568,21 @@ def _length(*lst):
     return Number(len(lst))
 
 
+@register('set-nth', 3)
+def set_nth(list, n, value):
+    expect_type(n, Number, unit=None)
+
+    py_n = n.to_python_index(len(list))
+    return List(
+        tuple(list[:py_n]) + (value,) + tuple(list[py_n + 1:]),
+        use_comma=list.use_comma)
+
+
 # TODO get the compass bit outta here
 @register('-compass-nth', 2)
 @register('nth', 2)
 def nth(lst, n):
-    """
-    Return the Nth item in the string
-    """
+    """Return the nth item in the list."""
     expect_type(n, (String, Number), unit=None)
 
     if isinstance(n, String):
@@ -517,7 +593,8 @@ def nth(lst, n):
         else:
             raise ValueError("Invalid index %r" % (n,))
     else:
-        i = (int(n.value) - 1) % len(lst)
+        # DEVIATION: nth treats lists as circular lists
+        i = n.to_python_index(len(lst), circular=True)
 
     return lst[i]
 
@@ -573,66 +650,69 @@ def zip_(*lists):
         use_comma=True)
 
 
+# TODO need a way to use "list" as the arg name without shadowing the builtin
+@register('list-separator', 1)
+def list_separator(list):
+    if list.use_comma:
+        return String.unquoted('comma')
+    else:
+        return String.unquoted('space')
+
+
 # ------------------------------------------------------------------------------
 # Map functions
 
 @register('map-get', 2)
 def map_get(map, key):
-    return map.get_by_key(key)
+    return map.to_dict().get(key, Null())
 
 
 @register('map-merge', 2)
 def map_merge(*maps):
-    pairs = []
+    key_order = []
     index = {}
     for map in maps:
-        for key, value in map.pairs:
-            if key in index:
-                continue
+        for key, value in map.to_pairs():
+            if key not in index:
+                key_order.append(key)
 
-            pairs.append((key, value))
             index[key] = value
-    return Map(pairs)
+
+    pairs = [(key, index[key]) for key in key_order]
+    return Map(pairs, index=index)
 
 
 @register('map-keys', 1)
 def map_keys(map):
     return List(
-        [k for (k, v) in map.pairs],
-        comma=True)
+        [k for (k, v) in map.to_pairs()],
+        use_comma=True)
 
 
 @register('map-values', 1)
 def map_values(map):
     return List(
-        [v for (k, v) in map.pairs],
-        comma=True)
+        [v for (k, v) in map.to_pairs()],
+        use_comma=True)
 
 
 @register('map-has-key', 2)
 def map_has_key(map, key):
-    return Boolean(key in map.index)
+    return Boolean(key in map.to_dict())
 
 
 # DEVIATIONS: these do not exist in ruby sass
 
 @register('map-get', 3)
 def map_get3(map, key, default):
-    return map.get_by_key(key, default)
+    return map.to_dict().get(key, default)
 
 
 @register('map-get-nested', 2)
-def map_get_nested(map, keys):
-    for key in keys:
-        map = map.get_by_key(key)
-
-    return map
-
-
 @register('map-get-nested', 3)
-def map_get_nested3(map, keys, default):
+def map_get_nested3(map, keys, default=Null()):
     for key in keys:
-        map = map.get_by_key(key, None)
+        map = map.to_dict().get(key, None)
         if map is None:
             return default
 
@@ -644,11 +724,11 @@ def map_merge_deep(*maps):
     pairs = []
     keys = set()
     for map in maps:
-        for key, value in map.pairs:
+        for key, value in map.to_pairs():
             keys.add(key)
 
     for key in keys:
-        values = [map.get_by_key(key, None) for map in maps]
+        values = [map.to_dict().get(key, None) for map in maps]
         values = [v for v in values if v is not None]
         if all(isinstance(v, Map) for v in values):
             pairs.append((key, map_merge_deep(*values)))

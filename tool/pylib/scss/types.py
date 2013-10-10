@@ -101,6 +101,22 @@ class Value(object):
     def __neg__(self):
         return String("-" + self.render())
 
+    def to_dict(self):
+        """Return the Python dict equivalent of this map.
+
+        If this type can't be expressed as a map, raise.
+        """
+        return dict(self.to_pairs())
+
+    def to_pairs(self):
+        """Return the Python list-of-tuples equivalent of this map.  Note that
+        this is different from ``self.to_dict().items()``, because Sass maps
+        preserve order.
+
+        If this type can't be expressed as a map, raise.
+        """
+        raise ValueError("Not a map: {0!r}".format(self))
+
     def render(self, compress=False):
         return self.__str__()
 
@@ -261,11 +277,11 @@ class Number(Value):
     def __float__(self):
         return float(self.value)
 
-    def __neg__(self):
-        return self * Number(-1)
-
     def __pos__(self):
         return self
+
+    def __neg__(self):
+        return self * Number(-1)
 
     def __str__(self):
         return self.render()
@@ -331,7 +347,6 @@ class Number(Value):
             unit_numer=self.unit_numer * int(exp.value),
             unit_denom=self.unit_denom * int(exp.value),
         )
-
 
     def __mul__(self, other):
         if not isinstance(other, Number):
@@ -447,6 +462,32 @@ class Number(Value):
 
         return wrapped
 
+    def to_python_index(self, length, check_bounds=True, circular=False):
+        """Return a plain Python integer appropriate for indexing a sequence of
+        the given length.  Raise if this is impossible for any reason
+        whatsoever.
+        """
+        if not self.is_unitless:
+            raise ValueError("Index cannot have units: {0!r}".format(self))
+
+        ret = int(self.value)
+        if ret != self.value:
+            raise ValueError("Index must be an integer: {0!r}".format(ret))
+
+        if ret == 0:
+            raise ValueError("Index cannot be zero")
+
+        if check_bounds and not circular and abs(ret) > length:
+            raise ValueError("Index {0!r} out of bounds for length {1}".format(ret, length))
+
+        if ret > 0:
+            ret -= 1
+
+        if circular:
+            ret = ret % length
+
+        return ret
+
     @property
     def has_simple_unit(self):
         """Returns True iff the unit is expressible in CSS, i.e., has no
@@ -480,10 +521,14 @@ class Number(Value):
         else:
             unit = ''
 
-        if compress and unit in ZEROABLE_UNITS and self.value == 0:
+        value = self.value
+        if compress and unit in ZEROABLE_UNITS and value == 0:
             return '0'
 
-        val = "%0.05f" % round(self.value, 5)
+        if value == 0:  # -0.0 is plain 0
+            value = 0
+
+        val = "%0.05f" % round(value, 5)
         val = val.rstrip('0').rstrip('.')
 
         if compress and val.startswith('0.'):
@@ -504,7 +549,7 @@ class List(Value):
 
     sass_type_name = u'list'
 
-    def __init__(self, iterable, separator=None, use_comma=None):
+    def __init__(self, iterable, separator=None, use_comma=None, is_literal=False):
         if isinstance(iterable, List):
             iterable = iterable.value
 
@@ -522,6 +567,8 @@ class List(Value):
             self.use_comma = separator == ","
         else:
             self.use_comma = use_comma
+
+        self.is_literal = is_literal
 
     @classmethod
     def maybe_new(cls, values, use_comma=True):
@@ -575,7 +622,7 @@ class List(Value):
         )
 
     def __hash__(self):
-        return hash((self.value, self.use_comma))
+        return hash((tuple(self.value), self.use_comma))
 
     def delimiter(self, compress=False):
         if self.use_comma:
@@ -601,16 +648,15 @@ class List(Value):
     def __getitem__(self, key):
         return self.value[key]
 
-    def __mul__(self, other):
-        # DEVIATION: Ruby Sass doesn't do this, because Ruby doesn't.  But
-        # Python does, and in Ruby Sass it's just fatal anyway.
-        if not isinstance(other, Number):
-            return super(List, self).__mul__(other)
+    def to_pairs(self):
+        pairs = []
+        for item in self:
+            if len(item) != 2:
+                return super(List, self).to_pairs()
 
-        if not other.is_unitless:
-            raise TypeError("Can only multiply %s by %s" % (self.__class__.__name__, other.__class__.__name__))
+            pairs.append(tuple(item))
 
-        return List(self.value * int(other.value), use_comma=self.use_comma)
+        return pairs
 
     def render(self, compress=False):
         if not self.value:
@@ -618,10 +664,62 @@ class List(Value):
 
         delim = self.delimiter(compress)
 
+        if self.is_literal:
+            value = self.value
+        else:
+            # Non-literal lists have nulls stripped
+            value = [item for item in self.value if not item.is_null]
+            # Non-empty lists containing only nulls become nothing, just like
+            # single nulls
+            if not value:
+                return ''
+
         return delim.join(
             item.render(compress=compress)
-            for item in self.value if not isinstance(item, Null)
+            for item in value
         )
+
+    # DEVIATION: binary ops on lists and scalars act element-wise
+    def __add__(self, other):
+        if isinstance(other, List):
+            max_list, min_list = (self, other) if len(self) > len(other) else (other, self)
+            return List([item + max_list[i] for i, item in enumerate(min_list)], use_comma=self.use_comma)
+
+        elif isinstance(other, String):
+            # UN-DEVIATION: adding a string should fall back to canonical
+            # behavior of string addition
+            return super(List, self).__add__(other)
+
+        else:
+            return List([item + other for item in self], use_comma=self.use_comma)
+
+    def __sub__(self, other):
+        if isinstance(other, List):
+            max_list, min_list = (self, other) if len(self) > len(other) else (other, self)
+            return List([item - max_list[i] for i, item in enumerate(min_list)], use_comma=self.use_comma)
+
+        return List([item - other for item in self], use_comma=self.use_comma)
+
+    def __mul__(self, other):
+        if isinstance(other, List):
+            max_list, min_list = (self, other) if len(self) > len(other) else (other, self)
+            max_list, min_list = (self, other) if len(self) > len(other) else (other, self)
+            return List([item * max_list[i] for i, item in enumerate(min_list)], use_comma=self.use_comma)
+
+        return List([item * other for item in self], use_comma=self.use_comma)
+
+    def __div__(self, other):
+        if isinstance(other, List):
+            max_list, min_list = (self, other) if len(self) > len(other) else (other, self)
+            return List([item / max_list[i] for i, item in enumerate(min_list)], use_comma=self.use_comma)
+
+        return List([item / other for item in self], use_comma=self.use_comma)
+
+    def __pos__(self):
+        return self
+
+    def __neg__(self):
+        return List([-item for item in self], use_comma=self.use_comma)
 
 
 def _constrain(value, lb=0, ub=1):
@@ -767,8 +865,8 @@ class Color(Value):
         # Scale channels to 255 and round to integers; this allows only 8-bit
         # color, but Ruby sass makes the same assumption, and otherwise it's
         # easy to get lots of float errors for HSL colors.
-        left = tuple(round(n) for n in self.value)
-        right = tuple(round(n) for n in other.value)
+        left = tuple(round(n) for n in self.rgba255)
+        right = tuple(round(n) for n in other.rgba255)
         return Boolean(left == right)
 
     def __add__(self, other):
@@ -868,6 +966,7 @@ class Color(Value):
 # TODO be unicode-clean and delete this nonsense
 DEFAULT_STRING_ENCODING = "utf8"
 
+
 class String(Value):
     """Represents both CSS quoted string values and CSS identifiers (such as
     `left`).
@@ -958,16 +1057,18 @@ class String(Value):
         return self.__str__()
 
 
-### XXX EXPERIMENTAL XXX
-missing = object()
 class Map(Value):
     sass_type_name = u'map'
 
-    def __init__(self, pairs):
-        self.pairs = pairs
-        self.index = {}
-        for key, value in pairs:
-            self.index[key] = value
+    def __init__(self, pairs, index=None):
+        self.pairs = tuple(pairs)
+
+        if index is None:
+            self.index = {}
+            for key, value in pairs:
+                self.index[key] = value
+        else:
+            self.index = index
 
     def __repr__(self):
         return "<Map: (%s)>" % (", ".join("%s: %s" % pair for pair in self.pairs),)
@@ -981,14 +1082,20 @@ class Map(Value):
     def __iter__(self):
         return iter(self.pairs)
 
-    def get_by_key(self, key, default=missing):
-        if default is missing:
-            return self.index[key]
-        else:
-            return self.index.get(key, default)
+    def __getitem__(self, index):
+        return List(self.pairs[index], use_comma=True)
 
-    def get_by_pos(self, key):
-        return self.pairs[key][1]
+    def __eq__(self, other):
+        try:
+            return self.pairs == other.to_pairs()
+        except ValueError:
+            return NotImplemented
+
+    def to_dict(self):
+        return self.index
+
+    def to_pairs(self):
+        return self.pairs
 
     def render(self, compress=False):
         raise TypeError("Cannot render map %r as CSS" % (self,))

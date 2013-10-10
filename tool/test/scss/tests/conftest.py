@@ -11,6 +11,8 @@ FILES_DIR = os.path.relpath(os.path.join(os.path.dirname(__file__), 'files'))
 # Globals, yuck!  Populated below.
 test_file_tuples = None
 test_file_ids = None
+
+
 def pytest_configure(config):
     """Scan for test files.  Done here because other hooks tend to run once
     *per test*, and there's no reason to do this work more than once.
@@ -52,6 +54,7 @@ def pytest_configure(config):
 
         test_file_tuples.append((fn, fn[:-5] + '.css', pytest_trigger))
         test_file_ids.append(fn)
+
 
 def pytest_generate_tests(metafunc):
     """Inject the test files as parametrizations.

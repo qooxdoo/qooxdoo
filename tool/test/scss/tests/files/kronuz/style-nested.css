@@ -1,0 +1,15 @@
+div.important {
+  background: orange; }
+  div.important a {
+    color: brown;
+    font-weight: bold; }
+div.ok a {
+  color: green; }
+div.err {
+  background: red; }
+  div.err a {
+    color: white;
+    font-weight: bold; }
+
+ul li {
+  color: black; }

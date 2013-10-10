@@ -1,6 +1,6 @@
-@option compress:no;
+@option style:legacy;
 
-@mixin col($color, $background: $color, $border: undefined) {
+@mixin col($color, $background: $color, $border: null) {
   a {
     display: block;
     color: $color;

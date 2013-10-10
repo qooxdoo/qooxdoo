@@ -1,0 +1,15 @@
+@option style:legacy;
+
+$col: red;
+
+.A-#{$col} {
+	color: $col;
+}
+
+@if true {
+	$col: blue;
+}
+
+.B-#{$col} {
+	color: $col;
+}

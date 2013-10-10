@@ -1,0 +1,16 @@
+@option style:legacy;
+@option control-scoping:no;
+
+div {
+  @each $some in red blue {
+    // DEVIATION! in Sass, the outer $some is not modified here.
+  }
+  $some: green !default;
+  A-blue: $some;
+
+  $other: null;
+  @each $other in magenta orange {
+    // DEVIATION! in Sass, the outer $other is not modified here either.
+  }
+  B-orange: $other;
+}

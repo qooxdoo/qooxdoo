@@ -1,4 +1,5 @@
 from __future__ import absolute_import
+from __future__ import print_function
 
 from functools import partial
 import logging
@@ -8,7 +9,7 @@ import re
 from scss.six import six
 
 import scss.config as config
-from scss.cssdefs import COLOR_NAMES, is_builtin_css_function, _expr_glob_re, _interpolate_re, _variable_re
+from scss.cssdefs import COLOR_NAMES, is_builtin_css_function, _expr_glob_re, _interpolate_re
 from scss.errors import SassError, SassEvaluationError, SassParseError
 from scss.rule import Namespace
 from scss.types import Boolean, Color, List, Map, Null, Number, String, Undefined, Value
@@ -18,13 +19,11 @@ from scss.util import dequote, normalize_var
 # Load C acceleration modules
 Scanner = None
 try:
-    from scss._speedups import NoMoreTokens, Scanner
+    from scss._speedups import Scanner
 except ImportError:
-    from scss._native import NoMoreTokens, Scanner
+    from scss._native import Scanner
 
 log = logging.getLogger(__name__)
-
-FATAL_UNDEFINED = True
 
 
 class Calculator(object):
@@ -53,8 +52,7 @@ class Calculator(object):
         """Performs #{}-interpolation.  The result is always treated as a fixed
         syntactic unit and will not be re-evaluated.
         """
-        # TODO this should really accept and/or parse an *expression* and
-        # return a type  :|
+        # TODO that's a lie!  this should be in the parser for most cases.
         cont = str(cont)
         if '#{' not in cont:
             return cont
@@ -62,6 +60,8 @@ class Calculator(object):
         return cont
 
     def apply_vars(self, cont):
+        # TODO this is very complicated.  it should go away once everything
+        # valid is actually parseable.
         if isinstance(cont, six.string_types) and '$' in cont:
             try:
                 # Optimization: the full cont is a variable in the context,
@@ -74,10 +74,11 @@ class Calculator(object):
                     try:
                         v = self.namespace.variable(n)
                     except KeyError:
-                        if FATAL_UNDEFINED:
-                            raise
+                        if config.FATAL_UNDEFINED:
+                            raise SyntaxError("Undefined variable: '%s'." % n)
                         else:
-                            log.error("Undefined variable '%s'", n, extra={'stack': True})
+                            if config.VERBOSITY > 1:
+                                log.error("Undefined variable '%s'", n, extra={'stack': True})
                             return n
                     else:
                         if v:
@@ -91,8 +92,7 @@ class Calculator(object):
                         return v
 
                 cont = _interpolate_re.sub(_av, cont)
-        # XXX what?: if options is not None:
-        # ...apply math:
+        # TODO this is surprising and shouldn't be here
         cont = self.do_glob_math(cont)
         return cont
 
@@ -305,10 +305,10 @@ class CallOp(Expression):
             try:
                 # DEVIATION: Fall back to single parameter
                 funct = calculator.namespace.function(func_name, 1)
-                args = [args]
+                args = [List(args, use_comma=True)]
             except KeyError:
                 if not is_builtin_css_function(func_name):
-                    log.warn("Function not found: %s:%s", func_name, argspec_len, extra={'stack': True})
+                    log.error("Function not found: %s:%s", func_name, argspec_len, extra={'stack': True})
 
         if funct:
             ret = funct(*args, **kwargs)
@@ -335,7 +335,10 @@ class Literal(Expression):
         return '<%s(%s)>' % (self.__class__.__name__, repr(self.value))
 
     def __init__(self, value):
-        self.value = value
+        if isinstance(value, Undefined) and config.FATAL_UNDEFINED:
+            raise SyntaxError("Undefined literal.")
+        else:
+            self.value = value
 
     def evaluate(self, calculator, divide=False):
         return self.value
@@ -352,10 +355,11 @@ class Variable(Expression):
         try:
             value = calculator.namespace.variable(self.name)
         except KeyError:
-            if FATAL_UNDEFINED:
-                raise
+            if config.FATAL_UNDEFINED:
+                raise SyntaxError("Undefined variable: '%s'." % self.name)
             else:
-                log.error("Undefined variable '%s'", self.name, extra={'stack': True})
+                if config.VERBOSITY > 1:
+                    log.error("Undefined variable '%s'", self.name, extra={'stack': True})
                 return Undefined()
         else:
             if isinstance(value, six.string_types):
@@ -375,7 +379,17 @@ class ListLiteral(Expression):
 
     def evaluate(self, calculator, divide=False):
         items = [item.evaluate(calculator, divide=divide) for item in self.items]
-        return List(items, separator="," if self.comma else "")
+
+        # Whether this is a "plain" literal matters for null removal: nulls are
+        # left alone if this is a completely vanilla CSS property
+        is_literal = True
+        if divide:
+            # TODO sort of overloading "divide" here...  rename i think
+            is_literal = False
+        elif not all(isinstance(item, Literal) for item in self.items):
+            is_literal = False
+
+        return List(items, use_comma=self.comma, is_literal=is_literal)
 
 
 class MapLiteral(Expression):
@@ -417,9 +431,16 @@ class ArgspecLiteral(Expression):
         # node).
         # slurp is the name of a variable to receive slurpy arguments.
         self.argpairs = tuple(argpairs)
-        if slurp:
+        if slurp is all:
+            # DEVIATION: special syntax to allow injecting arbitrary arguments
+            # from the caller to the callee
+            self.inject = True
+            self.slurp = None
+        elif slurp:
+            self.inject = False
             self.slurp = Variable(slurp)
         else:
+            self.inject = False
             self.slurp = None
 
     def iter_list_argspec(self):
@@ -436,7 +457,7 @@ class ArgspecLiteral(Expression):
             if var is None:
                 # value is actually the name
                 var = value
-                value = Literal(Undefined())
+                value = None
 
                 if started_kwargs:
                     raise SyntaxError(
@@ -597,16 +618,19 @@ class SassExpression(Parser):
 
     def argspec(self):
         _token_ = self._peek(self.argspec_rsts)
-        if _token_ != 'SLURPYVAR':
-            if self._peek(self.argspec_rsts_) not in self.argspec_chks:
+        if _token_ not in self.argspec_chks:
+            if self._peek(self.argspec_rsts_) not in self.argspec_chks_:
                 argspec_items = self.argspec_items()
                 args, slurpy = argspec_items
                 return ArgspecLiteral(args, slurp=slurpy)
             return ArgspecLiteral([])
-        else:  # == 'SLURPYVAR'
+        elif _token_ == 'SLURPYVAR':
             SLURPYVAR = self._scan('SLURPYVAR')
             DOTDOTDOT = self._scan('DOTDOTDOT')
             return ArgspecLiteral([], slurp=SLURPYVAR)
+        else:  # == 'DOTDOTDOT'
+            DOTDOTDOT = self._scan('DOTDOTDOT')
+            return ArgspecLiteral([], slurp=all)
 
     def argspec_items(self):
         slurpy = None
@@ -614,12 +638,15 @@ class SassExpression(Parser):
         args = [argspec_item]
         if self._peek(self.argspec_items_rsts) == '","':
             self._scan('","')
-            if self._peek(self.argspec_items_rsts_) not in self.argspec_chks:
+            if self._peek(self.argspec_items_rsts_) not in self.argspec_chks_:
                 _token_ = self._peek(self.argspec_items_rsts__)
                 if _token_ == 'SLURPYVAR':
                     SLURPYVAR = self._scan('SLURPYVAR')
                     DOTDOTDOT = self._scan('DOTDOTDOT')
                     slurpy = SLURPYVAR
+                elif _token_ == 'DOTDOTDOT':
+                    DOTDOTDOT = self._scan('DOTDOTDOT')
+                    slurpy = all
                 else:  # in self.argspec_items_chks
                     argspec_items = self.argspec_items()
                     more_args, slurpy = argspec_items
@@ -848,26 +875,27 @@ class SassExpression(Parser):
     m_expr_rsts = set(['LPAR', 'SUB', 'QSTR', 'RPAR', 'MUL', 'DIV', 'BANG_IMPORTANT', 'LE', 'COLOR', 'NE', 'LT', 'NUM', 'GT', 'END', 'SIGN', 'GE', 'FNCT', 'STR', 'VAR', 'EQ', 'ID', 'AND', 'ADD', 'NOT', 'OR', '","'])
     argspec_items_rsts = set(['RPAR', 'END', '","'])
     expr_map_rsts = set(['RPAR', '","'])
-    argspec_items_rsts__ = set(['KWVAR', 'LPAR', 'SLURPYVAR', 'COLOR', 'QSTR', 'SIGN', 'VAR', 'ADD', 'NUM', 'FNCT', 'STR', 'NOT', 'BANG_IMPORTANT', 'ID'])
+    argspec_items_rsts__ = set(['KWVAR', 'LPAR', 'QSTR', 'SLURPYVAR', 'COLOR', 'DOTDOTDOT', 'SIGN', 'VAR', 'ADD', 'NUM', 'FNCT', 'STR', 'NOT', 'BANG_IMPORTANT', 'ID'])
     kwatom_rsts = set(['KWVAR', 'KWID', 'KWSTR', 'KWQSTR', 'KWCOLOR', '":"', 'KWNUM'])
     argspec_item_chks = set(['LPAR', 'COLOR', 'QSTR', 'SIGN', 'VAR', 'ADD', 'NUM', 'FNCT', 'STR', 'NOT', 'BANG_IMPORTANT', 'ID'])
     a_expr_chks = set(['ADD', 'SUB'])
     expr_slst_rsts = set(['LPAR', 'END', 'COLOR', 'QSTR', 'SIGN', 'VAR', 'ADD', 'NUM', 'RPAR', 'FNCT', 'STR', 'NOT', 'BANG_IMPORTANT', 'ID', '","'])
     or_expr_rsts = set(['LPAR', 'END', 'COLOR', 'QSTR', 'SIGN', 'VAR', 'ADD', 'NUM', 'RPAR', 'FNCT', 'STR', 'NOT', 'ID', 'BANG_IMPORTANT', 'OR', '","'])
-    atom_rsts = set(['KWVAR', 'KWID', 'KWSTR', 'BANG_IMPORTANT', 'LPAR', 'COLOR', 'KWQSTR', 'SIGN', 'KWCOLOR', 'VAR', 'ADD', 'NUM', '":"', 'STR', 'NOT', 'QSTR', 'KWNUM', 'ID', 'FNCT'])
+    and_expr_rsts = set(['AND', 'LPAR', 'END', 'COLOR', 'QSTR', 'SIGN', 'VAR', 'ADD', 'NUM', 'RPAR', 'FNCT', 'STR', 'NOT', 'ID', 'BANG_IMPORTANT', 'OR', '","'])
     comparison_rsts = set(['LPAR', 'QSTR', 'RPAR', 'BANG_IMPORTANT', 'LE', 'COLOR', 'NE', 'LT', 'NUM', 'GT', 'END', 'SIGN', 'ADD', 'FNCT', 'STR', 'VAR', 'EQ', 'ID', 'AND', 'GE', 'NOT', 'OR', '","'])
-    argspec_chks = set(['END', 'RPAR'])
+    argspec_chks = set(['DOTDOTDOT', 'SLURPYVAR'])
     atom_rsts_ = set(['LPAR', 'SUB', 'QSTR', 'RPAR', 'VAR', 'MUL', 'DIV', 'BANG_IMPORTANT', 'LE', 'COLOR', 'NE', 'LT', 'NUM', 'GT', 'END', 'SIGN', 'GE', 'FNCT', 'STR', 'UNITS', 'EQ', 'ID', 'AND', 'ADD', 'NOT', 'OR', '","'])
     expr_map_rsts_ = set(['KWVAR', 'KWID', 'KWSTR', 'KWQSTR', 'RPAR', 'KWCOLOR', '":"', 'KWNUM', '","'])
     u_expr_rsts = set(['LPAR', 'COLOR', 'QSTR', 'SIGN', 'ADD', 'NUM', 'FNCT', 'STR', 'VAR', 'BANG_IMPORTANT', 'ID'])
     comparison_chks = set(['GT', 'GE', 'NE', 'LT', 'LE', 'EQ'])
-    argspec_items_rsts_ = set(['KWVAR', 'LPAR', 'END', 'SLURPYVAR', 'COLOR', 'QSTR', 'SIGN', 'VAR', 'ADD', 'NUM', 'RPAR', 'FNCT', 'STR', 'NOT', 'BANG_IMPORTANT', 'ID'])
+    argspec_items_rsts_ = set(['KWVAR', 'LPAR', 'QSTR', 'END', 'SLURPYVAR', 'COLOR', 'DOTDOTDOT', 'SIGN', 'VAR', 'ADD', 'NUM', 'RPAR', 'FNCT', 'STR', 'NOT', 'BANG_IMPORTANT', 'ID'])
     a_expr_rsts = set(['LPAR', 'SUB', 'QSTR', 'RPAR', 'BANG_IMPORTANT', 'LE', 'COLOR', 'NE', 'LT', 'NUM', 'GT', 'END', 'SIGN', 'GE', 'FNCT', 'STR', 'VAR', 'EQ', 'ID', 'AND', 'ADD', 'NOT', 'OR', '","'])
     m_expr_chks = set(['MUL', 'DIV'])
     kwatom_rsts_ = set(['UNITS', '":"'])
     argspec_items_chks = set(['KWVAR', 'LPAR', 'COLOR', 'QSTR', 'SIGN', 'VAR', 'ADD', 'NUM', 'FNCT', 'STR', 'NOT', 'BANG_IMPORTANT', 'ID'])
-    argspec_rsts = set(['KWVAR', 'LPAR', 'BANG_IMPORTANT', 'END', 'SLURPYVAR', 'COLOR', 'QSTR', 'SIGN', 'VAR', 'ADD', 'NUM', 'FNCT', 'STR', 'NOT', 'RPAR', 'ID'])
-    and_expr_rsts = set(['AND', 'LPAR', 'END', 'COLOR', 'QSTR', 'SIGN', 'VAR', 'ADD', 'NUM', 'RPAR', 'FNCT', 'STR', 'NOT', 'ID', 'BANG_IMPORTANT', 'OR', '","'])
+    argspec_rsts = set(['KWVAR', 'LPAR', 'BANG_IMPORTANT', 'END', 'SLURPYVAR', 'COLOR', 'DOTDOTDOT', 'RPAR', 'VAR', 'ADD', 'NUM', 'FNCT', 'STR', 'NOT', 'QSTR', 'SIGN', 'ID'])
+    atom_rsts = set(['KWVAR', 'KWID', 'KWSTR', 'BANG_IMPORTANT', 'LPAR', 'COLOR', 'KWQSTR', 'SIGN', 'KWCOLOR', 'VAR', 'ADD', 'NUM', '":"', 'STR', 'NOT', 'QSTR', 'KWNUM', 'ID', 'FNCT'])
+    argspec_chks_ = set(['END', 'RPAR'])
     argspec_rsts_ = set(['KWVAR', 'LPAR', 'BANG_IMPORTANT', 'END', 'COLOR', 'QSTR', 'SIGN', 'VAR', 'ADD', 'NUM', 'FNCT', 'STR', 'NOT', 'RPAR', 'ID'])
 
 
