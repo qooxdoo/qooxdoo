@@ -319,6 +319,19 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
+    * This property controls whether the transformation uses the length unit <code>px<code> or <code>rem</code>.
+    * This feature is important for creating a resolution independent transformation.
+    */
+    transformUnit :
+    {
+      check : ["rem", "px"],
+      nullable : false,
+      init : "rem",
+      apply : "_transform"
+    },
+
+
+    /**
      * Scales the widget in X direction (width).
      */
     scaleX :
@@ -1156,12 +1169,17 @@ qx.Class.define("qx.ui.mobile.core.Widget",
         propertyValue = propertyValue + "scale("+this.getScaleX()+","+this.getScaleY()+") ";
       }
 
-      if(this.getTranslateX() != null && this.getTranslateY() != null) {
+      var resolutionFactor = 1;
+      if (this.getTransformUnit() == "rem") {
+        resolutionFactor = 16;
+      }
+
+      if (this.getTranslateX() != null && this.getTranslateY() != null) {
         var isTransform3d = qx.core.Environment.get("css.transform.3d");
-        if(isTransform3d && this.getTranslateZ() != null) {
-          propertyValue = propertyValue + "translate3d("+this.getTranslateX()/16+"rem"+","+this.getTranslateY()/16+"rem,"+this.getTranslateZ()/16+"rem) ";
+        if (isTransform3d && this.getTranslateZ() != null) {
+          propertyValue = propertyValue + "translate3d(" + (this.getTranslateX()/resolutionFactor) + this.getTransformUnit() + "," + (this.getTranslateY()/resolutionFactor) + this.getTransformUnit() + "," + (this.getTranslateZ()/resolutionFactor) + this.getTransformUnit() + ") ";
         } else {
-          propertyValue = propertyValue + "translate("+this.getTranslateX()/16+"rem"+","+this.getTranslateY()/16+"rem) ";
+          propertyValue = propertyValue + "translate(" + (this.getTranslateX()/resolutionFactor) + this.getTransformUnit() + "," + (this.getTranslateY()/resolutionFactor) + this.getTransformUnit() + ") ";
         }
       }
 

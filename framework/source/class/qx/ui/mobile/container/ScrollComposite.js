@@ -157,6 +157,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      */
     _createScrollContainer : function() {
       var scrollContainer = new qx.ui.mobile.container.Composite();
+      scrollContainer.setTransformUnit("px");
       scrollContainer.addCssClass("scroll-container-child");
       return scrollContainer;
     },

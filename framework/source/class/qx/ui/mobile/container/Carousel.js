@@ -76,6 +76,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     this.__timers = [];
 
     var carouselScroller = this.__carouselScroller = new qx.ui.mobile.container.Composite();
+    carouselScroller.setTransformUnit("px");
     carouselScroller.addCssClass("carousel-scroller");
 
     carouselScroller.addListener("touchstart", this._onTouchStart, this);
@@ -667,7 +668,6 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       if(isNaN(x) || isNaN(y) || this.__carouselScroller.getContentElement() == null) {
         return;
       }
-
       this.__carouselScroller.setTranslateX(x);
       this.__carouselScroller.setTranslateY(y);
     },
