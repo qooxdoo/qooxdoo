@@ -53,9 +53,9 @@ $dialog-border-color: $highlight-color;
 $dialog-background:  $color-2,$color-1 50%,$color-1;
 $dialog-arrow-up-color:  $color-2;
 $dialog-arrow-down-color:  $color-1;
-$dialog-arrow-size: rem(12);
-$dialog-arrow-position-offset: rem(16);
-$dialog-border-radius: rem(4);
+$dialog-arrow-size:  rem(12);
+$dialog-arrow-position-offset:  rem(16);
+$dialog-border-radius:  rem(4);
 $dialog-title-text-color: $background-color;
 $dialog-font-weight: bold;
 
@@ -64,22 +64,22 @@ $dialog-font-weight: bold;
 $group-background:  $background-color;
 $group-border-color:  $color-4;
 $group-title-text-color:  $highlight-color;
-$group-border-radius: rem(4);
+$group-border-radius:  rem(4);
 
 // List
 
 $list-background: $background-color;
 $list-title-text-color: $color-1;
-$list-title-font-size: rem(17);
+$list-title-font-size:  rem(17);
 $list-title-font-weight: bold;
 $list-subtitle-text-color:  $highlight-color;
-$list-subtitle-font-size: rem(14);
+$list-subtitle-font-size:  rem(14);
 $list-border-color: $color-4;
 $list-active-background:  lighten($highlight-color,20%),$highlight-color;
 $list-active-text-color:  $background-color;
 $list-border-radius:  rem(4);
-$list-arrow-size: rem(3);
-$list-arrow-thickness: rem(2);
+$list-arrow-size:  rem(3);
+$list-arrow-thickness:  rem(2);
 $list-arrow-color: $color-1;
 $list-active-arrow-color: $background-color;
 
@@ -96,7 +96,7 @@ $form-font-weight: bold;
 
 $input-text-color:  $color-1;
 $input-background:  $background-color;
-$input-border-radius: rem(4);
+$input-border-radius:  rem(4);
 $input-border-color: $color-4;
 $input-invalid-border-color: red;
 
@@ -112,7 +112,7 @@ $checkbox-background: $color-4,$background-color;
 
 // RadioButton
 
-$radiobutton-size: rem(32);
+$radiobutton-size:  rem(32);
 $radiobutton-dot-color: $highlight-color;
 $radiobutton-background: $color-4,$background-color;
 $radiobutton-border-color: $color-2;
@@ -140,26 +140,26 @@ $togglebutton-text-color:  $color-1;
 $togglebutton-background:  $color-5,$background-color;
 $togglebutton-active-background:  $highlight-color,lighten($highlight-color,20%);
 $togglebutton-knob-background:  $background-color,$color-4;
-$togglebutton-knob-width: rem(30);
+$togglebutton-knob-width:  rem(30);
 $togglebutton-active-text-color:  $background-color;
 $togglebutton-inset-shadow:  rgba(0,0,0,0.1);
 $togglebutton-knob-shadow:  rgba(0,0,0,0.4);
-$togglebutton-font-size: rem(13);
+$togglebutton-font-size:  rem(13);
 $togglebutton-font-weight: bold;
 
 // Carousel
 
-$carousel-pagination-size: rem(8);
+$carousel-pagination-size:  rem(8);
 $carousel-pagination-background: $background-color;
 $carousel-pagination-active-background: $highlight-color;
 $carousel-pagination-border-radius: $carousel-pagination-size;
-$carousel-pagination-font-size: rem(1);
+$carousel-pagination-font-size:  rem(1);
 $carousel-pagination-font-color: rgba(0,0,0,0);
 
 // Button
 
 $button-text-color:  $color-1;
-$button-font-size: rem(15);
+$button-font-size:  rem(15);
 $button-font-weight: bold;
 $button-active-text-color:  $background-color;
 $button-border-radius:  rem(4);
@@ -170,7 +170,7 @@ $button-active-background:  lighten($highlight-color,20%),$highlight-color;
 
 // SelectBox
 
-$selectbox-border-radius: rem(4);
+$selectbox-border-radius:  rem(4);
 $selectbox-border-color:  $color-2; 
 $selectbox-text-color:  $color-1;
 $selectbox-background:  $background-color,$color-4;
@@ -181,14 +181,14 @@ $selectbox-item-selected-background:  lighten($highlight-color,20%), $highlight-
 
 // Slider
 
-$slider-height: rem(7);
+$slider-height:  rem(7);
 $slider-background:  $color-4,$background-color;
 $slider-active-area:  lighten($highlight-color,20%),$highlight-color;
 $slider-border-radius:  rem(20); 
 $slider-border-color:  $color-2;
-$slider-knob-border-radius: rem(4);
-$slider-knob-width: rem(30);
-$slider-knob-height: rem(30);
+$slider-knob-border-radius:  rem(4);
+$slider-knob-width:  rem(30);
+$slider-knob-height:  rem(30);
 $slider-knob-background:  $background-color,$color-4;
 $slider-knob-border-color:  $color-2;
 $slider-shadow: rgba(0,0,0,0.4);
@@ -197,11 +197,11 @@ $slider-font-color:  $color-2;
 // Toolbar  
 
 $toolbar-text-color:  $color-1;
-$toolbar-background:  $background-color,$color-3;
+$toolbar-background:  $background-color,$color-4;
 $toolbar-active-background:  lighten($highlight-color,20%),$highlight-color;
 $toolbar-active-text-color:  $background-color;
 $toolbar-border-color:  $color-2;
-$toolbar-border-radius: rem(4);
+$toolbar-border-radius:  rem(4);
 $toolbar-font-weight: bold;
 
 // Menu
@@ -219,9 +219,9 @@ $picker-highlight-border-width:  rem(2);
 $picker-spinning-wheel-border-radius:  rem(4);
 $picker-spinning-wheel-divider-color:  $color-2;
 $picker-spinning-wheel-divider-width:  rem(2);
-$picker-label-height: rem(25);
-$picker-label-font-size: rem(16);
-$picker-height: rem(160);
+$picker-label-height:  rem(25);
+$picker-label-font-size:  rem(16);
+$picker-height:  rem(160);
 
 // Drawer
 
@@ -235,7 +235,7 @@ $collapsible-border-radius:  rem(4);
 $collapsible-header-border-color:  $color-2;
 $collapsible-header-text-color:  $color-1;
 $collapsible-header-active-text-color: $background-color;
-$collapsible-header-background:  $background-color,$color-3;
+$collapsible-header-background:  $background-color, $color-4;
 $collapsible-header-active-background:  lighten($highlight-color,20%),$highlight-color;
 $collapsible-header-padding:  rem(10);
 $collapsible-header-content-distance:  rem(10);
