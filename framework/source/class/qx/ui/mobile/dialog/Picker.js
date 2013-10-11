@@ -538,7 +538,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       var slotHeight = targetElement.offsetHeight;
       var pickerHeight = parseInt(target.getLayoutParent().getContainerElement().offsetHeight);
       var upperBounce = this.__labelHeight;
-      var lowerBounce = (- slotHeight + pickerHeight * 2);
+      var lowerBounce = (-slotHeight + pickerHeight * 2);
       
       if(targetOffset > upperBounce) {
         targetOffset = upperBounce;
@@ -657,6 +657,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     _createPickerSlot : function(slotIndex) {
       var pickerSlot = new qx.ui.mobile.container.Composite();
       pickerSlot.addCssClass("picker-slot");
+      pickerSlot.setTransformUnit("px");
 
       pickerSlot.addListener("touchstart", this._onTouchStart, this);
       pickerSlot.addListener("touchmove", this._onTouchMove, this);
