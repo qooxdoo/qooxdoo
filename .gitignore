@@ -29,3 +29,6 @@
 
 # CSS compiler
 /framework/source/resource/qx/mobile/scss/.sass-cache/
+
+# Node/NPM
+node_modules/
