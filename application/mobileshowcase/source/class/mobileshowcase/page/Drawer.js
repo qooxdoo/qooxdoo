@@ -50,7 +50,7 @@ qx.Class.define("mobileshowcase.page.Drawer",
       var closeDrawerButton = new qx.ui.mobile.form.Button("Close");
       closeDrawerButton.addListener("tap", function(){target.hide()},this);
 
-      var drawerContent = new qx.ui.mobile.form.Group([new qx.ui.mobile.basic.Label("This the "+target.getOrientation()+" drawer."), closeDrawerButton]);
+      var drawerContent = new qx.ui.mobile.form.Group([new qx.ui.mobile.basic.Label("This is the "+target.getOrientation()+" drawer."), closeDrawerButton]);
       return drawerContent;
     },
 
