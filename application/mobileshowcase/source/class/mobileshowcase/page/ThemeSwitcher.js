@@ -42,13 +42,12 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
     this.__themes = [{
         "name": "Indigo",
         "css": "../../../framework/source/resource/qx/mobile/css/indigo.css"
+      },
+      {
+        "name": "Flat",
+        "css": "../../../framework/source/resource/qx/mobile/css/flat.css"
       }
     ];
-
-    this.__themes.push({
-      "name": "Flat",
-      "css": "../../../framework/source/resource/qx/mobile/css/flat.css"
-    });
 
     this.__preloadThemes();
   },
@@ -85,7 +84,6 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
     {
       this.base(arguments);
 
-
       this.getContent().add(new qx.ui.mobile.form.Title("Select your theme"));
 
       for(var i = 0; i < this.__themes.length; i++) {
@@ -95,6 +93,42 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
 
          this.getContent().add(switchButton);
       }
+
+      this.getContent().add(new qx.ui.mobile.form.Title("Adjust theme scaling"));
+      this.getContent().add(this.__createThemeScaleControl());
+    },
+
+
+     /**
+     * Creates the a control widget for the theme's scale factor.
+     * @return {qx.ui.mobile.form.Form} the control widget for the adjusting the theme scaling.
+     */
+    __createThemeScaleControl : function()
+    {
+      var form = new qx.ui.mobile.form.Form();
+      var slider = new qx.ui.mobile.form.Slider();
+      slider.setDisplayValue("value");
+      slider.setMinimum(50);
+      slider.setMaximum(200);
+      slider.setValue(100);
+      form.add(slider,"Theme Scale Factor in %");
+      var useScaleButton = new qx.ui.mobile.form.Button("Apply");
+      useScaleButton.addListener("tap", this._onApplyScaleButtonTap, slider);
+      form.addButton(useScaleButton);
+      return new qx.ui.mobile.form.renderer.Single(form);
+    },
+
+
+    /**
+    * Handler for "tap" event on applyScaleButton. Applies the app's root font size in relation to slider value.
+    */
+    _onApplyScaleButtonTap : function() {
+      qx.bom.element.Style.set(document.documentElement,"fontSize",this.getValue()+"%");
+      var lastValue = this.getValue();
+      this.setValue(0);
+      this.setValue(lastValue);
+     
+      qx.core.Init.getApplication().getRouting().executeGet("/themeswitcher", {reverse:false});
     },
 
 
@@ -104,7 +138,6 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
      * @param cssLinkIndex {String} index of the css link entry in head, which will be replaced.
      */
     __changeCSS : function(cssFile, cssLinkIndex) {
-
         var oldlink = document.getElementsByTagName("link").item(cssLinkIndex);
 
         var newlink = document.createElement("link")
@@ -123,16 +156,18 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
     __switchTheme : function(src) {
       var chosenValue = src.getTarget().getLabel();
 
-      for(var i = 0; i < this.__themes.length; i++) {
-        if(chosenValue == this.__themes[i].name) {
+      for (var i = 0; i < this.__themes.length; i++) {
+        if (chosenValue == this.__themes[i].name) {
 
           var cssResource = this.__themes[i].css;
           var cssURI = qx.util.ResourceManager.getInstance().toUri(cssResource);
-          this.__changeCSS(cssURI,1);
+          this.__changeCSS(cssURI, 1);
         }
       }
 
-      this.fireDataEvent("themeswitch",{"theme":chosenValue});
+      this.fireDataEvent("themeswitch", {
+        "theme": chosenValue
+      });
     },
 
 
