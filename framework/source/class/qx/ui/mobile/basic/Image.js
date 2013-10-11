@@ -136,15 +136,13 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     _applySource : function(value, old)
     {
       var source = value;
+      var highResolutionSource = null;
       if (source && source.indexOf('data:') != 0) {
         var resourceManager = qx.util.ResourceManager.getInstance();
 
         // If a high resolution display is available, search for a high resolution source.
         if(qx.core.Environment.get("device.pixelRatio") > 1) {
-          var highResolutionSource = this._findHighResolutionSource(source);
-          if(highResolutionSource != null) {
-            source = highResolutionSource;
-          }
+          highResolutionSource = this._findHighResolutionSource(source);
         }
         source = resourceManager.toUri(source);
 
@@ -154,6 +152,10 @@ qx.Class.define("qx.ui.mobile.basic.Image",
         }
       }
       this._setSource(source);
+      if(highResolutionSource != null) {
+        // Replace source through transparent pixel, for showing high resolution background image.
+        this._setSource("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
+      }
     },
 
 
@@ -201,33 +203,15 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     _createHighResolutionOverlay : function(pixelRatio, source, highResSource) {
       var resourceManager = qx.util.ResourceManager.getInstance();
 
-      var scale = (1 / pixelRatio);
-      scale = (Math.round(scale * 100) / 100);
-
-      // Activate sub-pixel rendering on iOS
-      if (qx.core.Environment.get("os.name") == "ios") {
-        scale = scale + 0.01;
-      }
-
       var srcWidth = resourceManager.getImageWidth(source);
       var srcHeight = resourceManager.getImageHeight(source);
-      var highResSrcWidth = resourceManager.getImageWidth(highResSource);
-      var highResSrcHeight = resourceManager.getImageHeight(highResSource);
 
-      var offsetX = (highResSrcWidth - srcWidth) / 2;
-      var offsetY = (highResSrcHeight - srcHeight) / 2;
-
-      // Fix image size to lower resolution image size.
-      this._setAttribute("width", srcWidth);
-      this._setAttribute("height", srcHeight);
-
-      var selector = "#" + this.getId() + ":before";
-      var values = [highResSrcWidth, highResSrcHeight, resourceManager.toUri(highResSource), -offsetY, -offsetX, scale];
-      var entry = qx.lang.String.format(qx.ui.mobile.basic.Image.HIGH_RES_CSS_RULE, values);
-
-      qx.bom.Stylesheet.addRule(qx.ui.mobile.basic.Image.STYLESHEET, selector, entry);
-
-      this.addCssClass("no-content");
+      this._setStyle("background-image","url("+resourceManager.toUri(highResSource)+")");
+      this._setStyle("background-size","100%");
+      this._setStyle("background-repeat","no-repeat");
+      this._setStyle("background-position","50% 50%");
+      this._setStyle("width",srcWidth/16+"rem");
+      this._setStyle("height",srcHeight/16+"rem");
     },
 
 
