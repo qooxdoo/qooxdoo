@@ -58,17 +58,28 @@ var generator_jobs = [
   
 ];
 
+function get_opts() {
+  grunt.option('config')
+}
+
+function arity2 (a,b) {
+  var c = parseInt(a)+parseInt(b);
+  console.log('a+b: ' + c);
+}
+
 
 module.exports = function(grunt) {
 
   // 'generate.py' shell exit
-  grunt.registerTask('generate', 'Use the generator of qooxdoo.', function(job, args) {
-    grunt.log.write("Args: " + job + "," + args);
+  grunt.registerTask('generate', 'Use the generator of qooxdoo.', function(job) {
+    //grunt.log.write("Args: " + job + "," + args);
+    var opt_string = get_opts();
+    var opt_string = grunt.option('config');
     var done = this.async();
 
     var exec = require('child_process').exec, child;
 
-    var cmd = './generate.py ' + (job || '');
+    var cmd = './generate.py ' + (job || '') + ' ' + opt_string;
     //grunt.log.write("Running: '" + cmd + "'");
 
     child = exec(cmd,
@@ -95,6 +106,11 @@ module.exports = function(grunt) {
   // A very basic default task.
   grunt.registerTask('default', 'Running the generator default job.', function() {
     grunt.task.run(["generate"]);
+  });
+
+  grunt.registerTask("arity2", "blah", arity2);
+  grunt.registerTask('take2' , "takes two args", function() {
+    grunt.task.run(["arity2:2:3"]);
   });
 
 };
