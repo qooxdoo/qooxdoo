@@ -129,6 +129,7 @@ qx.Class.define("mobileshowcase.page.Event",
         this.__touchPoints.push(touchPoint);
         touchPoint.setTranslateX(-5000);
         touchPoint.setAnonymous(true);
+        touchPoint.setTransformUnit("px");
 
         containerTouchArea.add(touchPoint);
       }
