@@ -74,7 +74,9 @@ qx.Bootstrap.define("qx.bom.element.Dataset",
         name = qx.lang.String.camelCase(name);
         return element.dataset[name];
       } else {
-        return qx.bom.element.Attribute.get(element, "data-" + qx.lang.String.hyphenate(name));
+        var attrName = "data-" + qx.lang.String.hyphenate(name);
+        return element.hasAttribute(attrName) ?
+          qx.bom.element.Attribute.get(element, attrName) : undefined;
       }
     },
 
