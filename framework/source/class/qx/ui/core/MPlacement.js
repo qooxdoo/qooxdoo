@@ -383,7 +383,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       var coords = target.getContentLocation() || this.getLayoutLocation(target);
 
       if(coords != null) {
-        this.__place(coords);
+        this._place(coords);
         return true;
       } else {
         return false;
@@ -428,7 +428,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
         bottom: top
       };
 
-      this.__place(coords);
+      this._place(coords);
     },
 
 
@@ -470,7 +470,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
         }, this);
       }
 
-      this.__place(coords);
+      this._place(coords);
     },
 
 
@@ -490,7 +490,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
         bottom: point.top
       };
 
-      this.__place(coords);
+      this._place(coords);
     },
 
 
@@ -550,7 +550,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      *   should have the keys <code>left</code>, <code>top</code>, <code>right</code>
      *   and <code>bottom</code>.
      */
-    __place : function(coords)
+    _place : function(coords)
     {
       this.__getPlacementSize(function(size)
       {

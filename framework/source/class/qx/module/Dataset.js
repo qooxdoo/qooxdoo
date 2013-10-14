@@ -56,7 +56,6 @@ qx.Bootstrap.define("qx.module.Dataset", {
       if (this[0] && this[0].nodeType === 1) {
         return qx.bom.element.Dataset.get(this[0], name);
       }
-      return null;
     },
 
     /**
@@ -71,7 +70,7 @@ qx.Bootstrap.define("qx.module.Dataset", {
       if (this[0] && this[0].nodeType === 1) {
         return qx.bom.element.Dataset.getAll(this[0]);
       }
-      return null;
+      return {};
     },
 
 

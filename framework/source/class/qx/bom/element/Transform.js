@@ -291,13 +291,14 @@ qx.Bootstrap.define("qx.bom.element.Transform",
         // if an array is given
         if (qx.Bootstrap.isArray(params)) {
           for (var i=0; i < params.length; i++) {
-            if (params[i] == undefined) {
+            if (params[i] == undefined ||
+              (i == 2 && !qx.core.Environment.get("css.transform.3d"))) {
               continue;
             }
             value += func + this.__dimensions[i] + "(";
             value += params[i];
             value += ") ";
-          };
+          }
         // case for single values given
         } else {
           // single value case

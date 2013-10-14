@@ -1,1 +1,1 @@
-Here, the deliverables for the qooxdoo component 'website' are being built.
+Here, the deliverables for the qooxdoo component 'qx.Website' are being built.
