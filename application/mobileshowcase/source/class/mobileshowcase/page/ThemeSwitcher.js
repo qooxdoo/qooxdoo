@@ -111,6 +111,7 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
       slider.setMinimum(50);
       slider.setMaximum(200);
       slider.setValue(100);
+      slider.setStep(10);
       form.add(slider,"Theme Scale Factor in %");
       var useScaleButton = new qx.ui.mobile.form.Button("Apply");
       useScaleButton.addListener("tap", this._onApplyScaleButtonTap, slider);
