@@ -1,7 +1,7 @@
 .mobile *, .mobile {
-  -webkit-tap-highlight-color: transparent;
-  -moz-tap-highlight-color: transparent;
-  tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -moz-tap-highlight-color: rgba(0, 0, 0, 0);
+  tap-highlight-color: rgba(0, 0, 0, 0);
   margin: 0;
   padding: 0; }
 
@@ -65,7 +65,7 @@ img.no-content {
 
 .text-field:not(.selectbox), .number-field, .password-field {
   -webkit-user-modify: read-write-plaintext-only;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   outline-style: none; }
 
 .root.android.v2 .password-field {
@@ -74,6 +74,12 @@ img.no-content {
   -webkit-transform: translate3d(0, 10000px, 0);
   -moz-transform: translate3d(0, 10000px, 0);
   transform: translate3d(0, 10000px, 0); }
+
+.root.ios .master-detail-master > * {
+  padding-bottom: 20px; }
+
+.ios .slider, .slider > div:after {
+  -webkit-backface-visibility: hidden; }
 
 input::-webkit-input-placeholder {
   line-height: normal; }
@@ -506,8 +512,7 @@ input::-webkit-inner-spin-button {
   cursor: pointer; }
 
 .form-row {
-  list-style-type: none;
-  padding: 10px 25px 10px 10px; }
+  list-style-type: none; }
 
 .form .form-row.form-separation-row:last-child {
   background-color: transparent;
@@ -576,6 +581,9 @@ input, select, .text-area {
   text-indent: 4px;
   height: 1.7em;
   overflow: hidden; }
+
+.form-row-group-title {
+  padding: 10px 25px 10px 10px; }
 
 .form-row-group-first, .form-row-group-last {
   height: 0px; }
@@ -684,9 +692,6 @@ input, select, .text-area {
 
 .root.portrait .drawer:not(.hidden) + .master-detail-detail {
   pointer-events: none; }
-
-.root.ios .master-detail-master > * {
-  padding-bottom: 20px; }
 
 .menu {
   min-width: 200px; }
@@ -825,9 +830,6 @@ input, select, .text-area {
 .selectbox-unselected > .list-itemimage {
   display: none; }
 
-.ios .slider {
-  -webkit-backface-visibility: hidden; }
-
 .slider {
   position: relative;
   top: 6px;
@@ -851,7 +853,6 @@ input, select, .text-area {
   display: block;
   position: absolute;
   background-color: #fff;
-  -webkit-backface-visibility: hidden;
   height: 25px;
   width: 25px;
   top: -6px;
@@ -1305,8 +1306,8 @@ a:hover {
   -webkit-transform-origin: 50% 50%;
   -moz-transform-origin: 50% 50%;
   transform-origin: 50% 50%;
-  border-top: 3px solid grey;
-  border-right: 3px solid grey;
+  border-top: 3px solid gray;
+  border-right: 3px solid gray;
   width: 6px;
   height: 6px;
   position: absolute;
