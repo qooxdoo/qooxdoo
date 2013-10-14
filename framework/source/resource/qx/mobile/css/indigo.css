@@ -1,7 +1,7 @@
 .mobile *, .mobile {
-  -webkit-tap-highlight-color: transparent;
-  -moz-tap-highlight-color: transparent;
-  tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -moz-tap-highlight-color: rgba(0, 0, 0, 0);
+  tap-highlight-color: rgba(0, 0, 0, 0);
   margin: 0;
   padding: 0; }
 
@@ -65,7 +65,7 @@ img.no-content {
 
 .text-field:not(.selectbox), .number-field, .password-field {
   -webkit-user-modify: read-write-plaintext-only;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   outline-style: none; }
 
 .root.android.v2 .password-field {
@@ -633,8 +633,7 @@ input::-webkit-inner-spin-button {
   cursor: pointer; }
 
 .form-row {
-  list-style-type: none;
-  padding: 10px 25px 10px 10px; }
+  list-style-type: none; }
 
 .form .form-row.form-separation-row:last-child {
   background-color: transparent;
@@ -703,6 +702,9 @@ input, select, .text-area {
   text-indent: 4px;
   height: 1.7em;
   overflow: hidden; }
+
+.form-row-group-title {
+  padding: 10px 25px 10px 10px; }
 
 .form-row-group-first, .form-row-group-last {
   height: 0px; }
@@ -1439,8 +1441,8 @@ input, .text-area {
   -webkit-transform-origin: 50% 50%;
   -moz-transform-origin: 50% 50%;
   transform-origin: 50% 50%;
-  border-top: 2px solid grey;
-  border-right: 2px solid grey;
+  border-top: 2px solid gray;
+  border-right: 2px solid gray;
   width: 6px;
   height: 6px;
   position: absolute;
@@ -1776,7 +1778,7 @@ input, .text-area {
   text-align: center;
   line-height: 8px;
   font-size: 1px;
-  color: transparent; }
+  color: rgba(0, 0, 0, 0); }
 
 .carousel-pagination-label.active {
   background-color: #3d72c9;
@@ -1791,7 +1793,7 @@ input, .text-area {
   box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.5); }
 
 .drawer.below {
-  background-color: grey; }
+  background-color: gray; }
 
 .drawer.above {
   background-color: #f4f4f4; }

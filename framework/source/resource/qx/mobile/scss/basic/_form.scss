@@ -16,7 +16,6 @@
 
 .form-row {
   list-style-type: none;
-  padding: 10px 25px 10px 10px;
 }
 
 .form .form-row.form-separation-row:last-child {
@@ -94,6 +93,10 @@ input, select, .text-area {
 //
 // RENDERING
 //
+
+.form-row-group-title {
+  padding: 10px 25px 10px 10px;
+}
 
 .form-row-group-first, .form-row-group-last {
   height: 0px;
