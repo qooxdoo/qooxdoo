@@ -35,7 +35,7 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
 
   construct : function()
   {
-    this.base(arguments);
+    this.base(arguments, false);
     this.setTitle("Theme Switcher");
     this.setShowBackButton(true);
     this.setBackButtonText("Back");
@@ -52,15 +52,11 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
     this.__preloadThemes();
   },
 
-  events :
-  {
-    "themeswitch" : "qx.event.type.Data"
-  },
-
 
   members :
   {
     __themes : null,
+    __demoImageLabel : null,
 
 
     /**
@@ -68,13 +64,13 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
      */
     __preloadThemes : function() {
       for(var i = 0; i < this.__themes.length; i++) {
-          var cssResource = this.__themes[i].css;
-          var cssURI = qx.util.ResourceManager.getInstance().toUri(cssResource);
+        var cssResource = this.__themes[i].css;
+        var cssURI = qx.util.ResourceManager.getInstance().toUri(cssResource);
 
-          var req = new qx.bom.request.Xhr();
+        var req = new qx.bom.request.Xhr();
 
-          req.open("GET", cssURI);
-          req.send();
+        req.open("GET", cssURI);
+        req.send();
       }
     },
 
@@ -86,16 +82,69 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
 
       this.getContent().add(new qx.ui.mobile.form.Title("Select your theme"));
 
-      for(var i = 0; i < this.__themes.length; i++) {
-         var label = this.__themes[i].name;
-         var switchButton = new qx.ui.mobile.form.Button(label);
-         switchButton.addListener("tap", this.__switchTheme, this);
+      var themeGroup = new qx.ui.mobile.form.Group([],false);
+      var themeForm = new qx.ui.mobile.form.Form();
 
-         this.getContent().add(switchButton);
+      var themeRadioGroup = new qx.ui.mobile.form.RadioGroup();
+      for (var i = 0; i < this.__themes.length; i++) {
+        var radioButton = new qx.ui.mobile.form.RadioButton();
+        themeRadioGroup.add(radioButton);
+        themeForm.add(radioButton, this.__themes[i].name);
+
+        radioButton.addListener("tap", this.__switchTheme, {
+          "self": this,
+          "index": i
+        });
       }
 
-      this.getContent().add(new qx.ui.mobile.form.Title("Adjust theme scaling"));
-      this.getContent().add(this.__createThemeScaleControl());
+      themeGroup.add(new qx.ui.mobile.form.renderer.Single(themeForm));
+      this.getContent().add(themeGroup);
+
+      this.__createThemeScaleControl();
+
+      this._createImageResolutionHandlingDemo();
+    },
+
+
+    /** Creates and adds the image resolution demonstration. */
+    _createImageResolutionHandlingDemo : function() {
+      this.getContent().add(new qx.ui.mobile.form.Title("Image Resolution Handling"));
+      var demoImage = new qx.ui.mobile.basic.Image("mobileshowcase/icon/image.png");
+      demoImage.addCssClass("resolution-demo-image");
+
+      this.__demoImageLabel = new qx.ui.mobile.basic.Label();
+      this.__demoImageLabel.addCssClass("resolution-demo-label");
+      this._updateDemoImageLabel();
+
+      var demoImageGroup = new qx.ui.mobile.form.Group();
+      demoImageGroup.add(demoImage);
+      demoImageGroup.add(this.__demoImageLabel);
+      this.getContent().add(demoImageGroup);
+    },
+
+
+    /**
+    * Refreshes the label which displays the pixel ratio, scale factor etc.
+    */
+    _updateDemoImageLabel : function() {
+      var pixelRatio = qx.core.Environment.get("device.pixelRatio");
+      var scaleFactor = qx.core.Init.getApplication().getRoot().getScaleFactor();
+
+      var demoLabelTemplate = "<div>Device pixel ratio:<span>%1</span></div>  <div>Application's scale factor:<span>%2</span></div> <div>Optimal image resolution:<span>%3</span></div>";
+      var labelContent = qx.lang.String.format(demoLabelTemplate, [pixelRatio, scaleFactor,  this.round(pixelRatio*scaleFactor)]);
+
+      this.__demoImageLabel.setValue(labelContent);
+    },
+
+
+    /*
+    * Rounds a number to one decimal place. 
+    * @param x {Number}  
+    */
+    round : function (x) {
+      var k = (Math.round(x * 100) / 100).toString();
+      k += (k.indexOf('.') == -1)? '.00' : '00';
+      return k.substring(0, k.indexOf('.') + 2);
     },
 
 
@@ -105,18 +154,25 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
      */
     __createThemeScaleControl : function()
     {
+      this.getContent().add(new qx.ui.mobile.form.Title("Adjust theme scaling"));
+      
       var form = new qx.ui.mobile.form.Form();
       var slider = new qx.ui.mobile.form.Slider();
-      slider.setDisplayValue("value");
-      slider.setMinimum(50);
-      slider.setMaximum(200);
-      slider.setValue(100);
-      slider.setStep(10);
+      slider.set({
+        "displayValue":"value",
+        "minimum":50,
+        "maximum":200,
+        "value":100,
+        "step":10
+      });
       form.add(slider,"Theme Scale Factor in %");
+
       var useScaleButton = new qx.ui.mobile.form.Button("Apply");
-      useScaleButton.addListener("tap", this._onApplyScaleButtonTap, slider);
+      useScaleButton.addListener("tap", this._onApplyScaleButtonTap, {"slider":slider, "self":this});
       form.addButton(useScaleButton);
-      return new qx.ui.mobile.form.renderer.Single(form);
+
+      var scaleGroup = new qx.ui.mobile.form.Group([new qx.ui.mobile.form.renderer.Single(form)],false);
+      this.getContent().add(scaleGroup);
     },
 
 
@@ -124,10 +180,13 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
     * Handler for "tap" event on applyScaleButton. Applies the app's root font size in relation to slider value.
     */
     _onApplyScaleButtonTap : function() {
-      qx.bom.element.Style.set(document.documentElement,"fontSize",this.getValue()+"%");
-      var lastValue = this.getValue();
-      this.setValue(0);
-      this.setValue(lastValue);
+      qx.core.Init.getApplication().getRoot().setScaleFactor(this.slider.getValue()/100);
+      
+      this.self._updateDemoImageLabel();
+
+      var lastValue = this.slider.getValue();
+      this.slider.setValue(0);
+      this.slider.setValue(lastValue);
      
       qx.core.Init.getApplication().getRouting().executeGet("/themeswitcher", {reverse:false});
     },
@@ -139,14 +198,14 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
      * @param cssLinkIndex {String} index of the css link entry in head, which will be replaced.
      */
     __changeCSS : function(cssFile, cssLinkIndex) {
-        var oldlink = document.getElementsByTagName("link").item(cssLinkIndex);
+      var oldlink = document.getElementsByTagName("link").item(cssLinkIndex);
 
-        var newlink = document.createElement("link")
-        newlink.setAttribute("rel", "stylesheet");
-        newlink.setAttribute("type", "text/css");
-        newlink.setAttribute("href", cssFile);
+      var newlink = document.createElement("link")
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("type", "text/css");
+      newlink.setAttribute("href", cssFile);
 
-        document.getElementsByTagName("head").item(0).replaceChild(newlink, oldlink);
+      document.getElementsByTagName("head").item(0).replaceChild(newlink, oldlink);
      },
 
 
@@ -154,21 +213,10 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
      * Switches the theme of the application to the target theme.
      * @param src {qx.ui.mobile.core.Widget} Source widget of this event.
      */
-    __switchTheme : function(src) {
-      var chosenValue = src.getTarget().getLabel();
-
-      for (var i = 0; i < this.__themes.length; i++) {
-        if (chosenValue == this.__themes[i].name) {
-
-          var cssResource = this.__themes[i].css;
-          var cssURI = qx.util.ResourceManager.getInstance().toUri(cssResource);
-          this.__changeCSS(cssURI, 1);
-        }
-      }
-
-      this.fireDataEvent("themeswitch", {
-        "theme": chosenValue
-      });
+    __switchTheme : function() {
+      var cssResource = this.self.__themes[this.index].css;
+      var cssURI = qx.util.ResourceManager.getInstance().toUri(cssResource);
+      this.self.__changeCSS(cssURI, 1);
     },
 
 

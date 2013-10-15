@@ -232,3 +232,24 @@
   box-shadow: 2px 2px 3px 0px #444444;
   border:1px solid #888888;
 }
+
+/* THEME SWITCHER */
+
+.resolution-demo-image {
+  border: 1px solid #888888;
+}
+
+.resolution-demo-label {
+  font-size:0.8rem;
+  line-height: 1.5rem;
+}
+
+.resolution-demo-label span {
+  color:blue;
+  height:1rem;
+  line-height:1rem;
+  display:inline-block;
+  padding-left: 0.5rem;
+  font-family: Courier;
+  font-weight:bold;
+}
