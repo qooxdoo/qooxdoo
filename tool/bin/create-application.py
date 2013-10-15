@@ -27,6 +27,7 @@ from collections import defaultdict
 import qxenviron
 from ecmascript.frontend import lang
 from generator.runtime.Log import Log
+from generator.runtime.ShellCmd import ShellCmd
 from misc import Path
 
 
@@ -74,6 +75,14 @@ def getQxVersion():
     QOOXDOO_VERSION = version
     return
 
+
+##
+# let package.json take effect
+# installes all NPM modules *locally* (but gets better with each run due to
+# npm module caching)
+def npm_install(skel_dir):
+    shellCmd = ShellCmd()
+    shellCmd.execute('npm install', skel_dir)
 
 
 def createApplication(options):
@@ -136,7 +145,7 @@ def createApplication(options):
     # patch file contents
     patchSkeleton(appDir, FRAMEWORK_DIR, options)
 
-    return
+    return outDir
 
 def rename_folders(root_dir, namespace):
     console.log("Renaming stuff...")
@@ -394,7 +403,8 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
 
     checkNamespace(options)
     getQxVersion()
-    createApplication(options)
+    outDir = createApplication(options)
+    npm_install(outDir)
 
     console.log("DONE")
 
