@@ -75,6 +75,18 @@ qx.Class.define("qx.ui.mobile.core.Root",
       check : "Boolean",
       init : true,
       apply : "_applyShowScrollbarY"
+    },
+
+
+    /**
+    * Controls the application's scale factor.
+    */
+    scaleFactor : 
+    {
+      check : "Number",
+      init : 1,
+      event : "changeScaleFactor",
+      apply : "_applyScaleFactor"
     }
   },
 
@@ -100,6 +112,12 @@ qx.Class.define("qx.ui.mobile.core.Root",
     // property apply
     _applyShowScrollbarY : function(value, old) {
       this._setStyle("overflow-y", value ? "auto" : "hidden");
+    },
+
+
+    // property apply
+    _applyScaleFactor : function(value) {
+      qx.bom.element.Style.set(document.documentElement, "fontSize", value * 100 + "%");
     },
 
 
