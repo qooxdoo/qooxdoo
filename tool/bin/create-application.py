@@ -81,9 +81,11 @@ def getQxVersion():
 # let package.json take effect
 # installes all NPM modules *locally* (but gets better with each run due to
 # npm module caching)
-def npm_install(skel_dir):
+def npm_install(skel_dir, options):
     shellCmd = ShellCmd()
     shellCmd.execute('npm install', skel_dir)
+    if options.type == 'contribution':
+        shellCmd.execute('npm install', os.path.join(skel_dir, 'demo/default'))
 
 
 def createApplication(options):
@@ -124,6 +126,8 @@ def createApplication(options):
 
     # package.json
     shutil.copy(PACKAGE_JSON, appDir)
+    if is_contribution:
+        shutil.copy(PACKAGE_JSON, os.path.join(appDir, *demo_suffix.split("/")))
 
     # copy files
     if isinstance(app_infos['copy_file'], types.ListType):
@@ -149,7 +153,7 @@ def createApplication(options):
     # patch file contents
     patchSkeleton(appDir, FRAMEWORK_DIR, options)
 
-    return outDir
+    return appDir
 
 def rename_folders(root_dir, namespace):
     console.log("Renaming stuff...")
@@ -232,8 +236,9 @@ def patchSkeleton(dir_, framework_dir, options):
         sys.exit(1)
 
     if options.type == "contribution":
-        relPath = os.path.join(os.pardir, os.pardir, "qooxdoo", QOOXDOO_VERSION)
-        relPath = re.sub(r'\\', "/", relPath)
+        #relPath = os.path.join(os.pardir, os.pardir, "qooxdoo", QOOXDOO_VERSION)
+        #relPath = re.sub(r'\\', "/", relPath)
+        pass
 
     for root, dirs, files in os.walk(dir_):
         for file in files:
@@ -408,7 +413,7 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
     checkNamespace(options)
     getQxVersion()
     outDir = createApplication(options)
-    npm_install(outDir)
+    npm_install(outDir, options)
 
     console.log("DONE")
 
