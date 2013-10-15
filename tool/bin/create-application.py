@@ -35,6 +35,7 @@ SCRIPT_DIR    = qxenviron.scriptDir
 FRAMEWORK_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, os.pardir, os.pardir))
 SKELETON_DIR  = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "component", "skeleton")))
 GENERATE_PY   = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "tool", "data", "generator", "generate.tmpl.py")))
+PACKAGE_JSON  = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "tool", "data", "grunt", "package.tmpl.json")))
 APP_DIRS      = [x for x in os.listdir(SKELETON_DIR) if not re.match(r'^\.',x)]
 
 R_ILLEGAL_NS_CHAR = re.compile(r'(?u)[^\.\w]')  # allow unicode, but disallow $
@@ -120,6 +121,9 @@ def createApplication(options):
     shutil.copy(GENERATE_PY, appDir)
     if is_contribution:
         shutil.copy(GENERATE_PY, os.path.join(appDir, *demo_suffix.split("/")))
+
+    # package.json
+    shutil.copy(PACKAGE_JSON, appDir)
 
     # copy files
     if isinstance(app_infos['copy_file'], types.ListType):
