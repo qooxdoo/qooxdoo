@@ -69,6 +69,7 @@ qx.Class.define("mobileshowcase.page.Form",
 
       this.__result = new qx.ui.mobile.form.Label();
       this.__result.addCssClass("registration-result");
+      
       var popupContent = new qx.ui.mobile.container.Composite();
       this.__closeResultPopup = new qx.ui.mobile.form.Button("OK");
       this.__closeResultPopup.addListener("tap", function() {
@@ -125,7 +126,7 @@ qx.Class.define("mobileshowcase.page.Form",
       form.add(this.__radio2, "Female");
 
       form.addGroupHeader("Feedback");
-      var dd = new qx.data.Array(["Web search", "From a friend", "Offline ad","Magazine","Twitter","Other"]);
+      var dd = new qx.data.Array(["Web search", "From a friend", "Offline ad", "Magazine", "Twitter", "Other"]);
       var selQuestion = "How did you hear about us ?";
 
       this.__sel = new qx.ui.mobile.form.SelectBox();
