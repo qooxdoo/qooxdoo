@@ -147,9 +147,11 @@ qx.Class.define("qx.ui.mobile.basic.Image",
         }
 
         // If a no high resolution version of the source was found, apply the source.
-        if(foundHighResolutionSource == false) {
+        if (foundHighResolutionSource == false) {
           this._setSource(source);
         }
+      } else {
+        this._setSource(source);
       }
     },
 
