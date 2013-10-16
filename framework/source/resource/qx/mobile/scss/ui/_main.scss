@@ -1,7 +1,3 @@
-html {
-  font-size: $application-font-size;
-}
-
 body {
   @include background($navigationpage-background);
 }
