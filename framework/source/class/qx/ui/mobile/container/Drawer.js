@@ -221,7 +221,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     /**
     * @deprecated {3.1} Please use setSize() instead.
     * Sets the user value of the property width.
-    * @param width {Integer} New value for property 
+    * @param value {Integer} New value for property 
     */
     setWidth : function(value) {
       this.setSize(value);
@@ -250,7 +250,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     /**
     * @deprecated {3.1} Please use setSize() instead.
     * Sets the user value of the property height.
-    * @param height {Integer} New value for property 
+    * @param value {Integer} New value for property 
     */
     setHeight : function(value) {
       this.setSize(value);
