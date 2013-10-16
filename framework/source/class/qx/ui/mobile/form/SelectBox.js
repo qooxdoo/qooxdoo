@@ -248,11 +248,17 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * @param value {String} the text value which should be selected.
      */
     _setValue : function(value) {
-      if(!this.isNullable() && value == null || this.getModel() == null) {
+      if(this.getModel() == null) {
         return;
       }
 
-      if(value != null) {
+      if (value == "") {
+        if (this.isNullable()) {
+          this.setSelection(null);
+        } else {
+          this.setSelection(0);
+        }
+      } else if (value != null) {
         this.setSelection(this.getModel().indexOf(value));
       } else {
         this.setSelection(null);

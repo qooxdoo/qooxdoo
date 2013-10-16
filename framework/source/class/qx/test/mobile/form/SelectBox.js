@@ -92,6 +92,44 @@ qx.Class.define("qx.test.mobile.form.SelectBox",
       selectBox.destroy();
     },
 
+    testResetValue : function() {
+      var model = new qx.data.Array(["Item 1", "Item 2", "Item 3"]);
+      var selectBox = new qx.ui.mobile.form.SelectBox();
+      selectBox.setModel(model);
+      selectBox.setNullable(true);
+      selectBox.setValue("Item 3");
+
+      this.assertEquals(2, selectBox.getSelection());
+
+      selectBox.resetValue();
+
+      this.assertEquals(null, selectBox.getSelection());
+
+      // After
+      selectBox.destroy();
+      model.dispose();
+      model = null;
+    },
+
+    testResetValueNotNullable : function() {
+      var model = new qx.data.Array(["Item 1", "Item 2", "Item 3"]);
+      var selectBox = new qx.ui.mobile.form.SelectBox();
+      selectBox.setModel(model);
+      selectBox.setNullable(false);
+      selectBox.setValue("Item 3");
+
+      this.assertEquals(2, selectBox.getSelection());
+
+      selectBox.resetValue();
+
+      this.assertEquals(0, selectBox.getSelection());
+
+      // After
+      selectBox.destroy();
+      model.dispose();
+      model = null;
+    },
+
     testSelection : function()
     {
       var model = new qx.data.Array(["Item 1", "Item 2", "Item 3"]);
