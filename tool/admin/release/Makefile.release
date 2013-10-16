@@ -88,6 +88,8 @@ TUTORIALS = mobiletweets tweets website
 WEBSITE_MODULES = core animation blocker cookie dataset dev io matchmedia messaging placeholder placement rest storage template textselection transform util
 WEBSITE_MODULES_ZIP = q-modules-$(FRAMEWORK_VERSION).js.zip
 WEBSITE_MODULES_MIN_ZIP = q-modules-$(FRAMEWORK_VERSION).min.js.zip
+WEBSITE_VERSION_STR = -${FRAMEWORK_VERSION}
+#WEBSITE_VERSION_STR = ""
 
 
 ################################################################################
@@ -136,11 +138,16 @@ release-sdk-svn-collect:
 	@$(CMD_SYNC_OFFLINE) application/showcase/build/* $(RELEASE_SDK)/application/showcase/build
 	@# libs
 	@for COMPONENT in `echo server website`; do \
+		$(CMD_MKDIR) $(RELEASE_SDK)/component/standalone/$$COMPONENT/script/; \
+		for F in `echo component/standalone/$$COMPONENT/script/q*.js`; do \
+			L=`basename $$F`; \
+			if [[ ( "$$COMPONENT" == "website" ) && ( "$$L" =~ 'q-source' ) ]] ; then \
+				continue; \
+			fi; \
+			$(CMD_SYNC_OFFLINE) $$F $(RELEASE_SDK)/component/standalone/$$COMPONENT/script/$$L; \
+		done; \
 		if [ "$$COMPONENT" == "website" ]; then \
-			$(CMD_SYNC_OFFLINE) component/standalone/$$COMPONENT/script/q-*$(FRAMEWORK_VERSION)*.js $(RELEASE_SDK)/component/standalone/$$COMPONENT/script; \
 			$(CMD_SYNC_OFFLINE) component/standalone/$$COMPONENT/api/* $(RELEASE_SDK)/component/standalone/$$COMPONENT/api; \
-		else \
-			$(CMD_SYNC_OFFLINE) component/standalone/$$COMPONENT/script/* $(RELEASE_SDK)/component/standalone/$$COMPONENT/script; \
 		fi; \
 	done
 
@@ -333,7 +340,11 @@ distclean:
 		fi; \
 	done
 	@for APPLICATION in $(COMPONENTS); do \
-		F="component/$$APPLICATION"; \
+		if [[ "$$APPLICATION" == server || "$$APPLICATION" == website ]]; then \
+			F="component/standalone/$$APPLICATION"; \
+		else \
+			F="component/$$APPLICATION"; \
+		fi; \
 		if [ -e $$F ]; then \
 			(( cd $$F && $(CMD_GENERATOR) distclean ) || ( echo "Unable to distclean $$f"; exit 1 )); \
 		fi; \
@@ -498,7 +509,7 @@ tutorials-build:
 			if [ -d $$F ]; then \
 				paths="$$paths $$TUTORIAL/$$STEP"; \
 				if [ "$$TUTORIAL" = "website" ]; then \
-					cp component/standalone/website/script/q-$(FRAMEWORK_VERSION).min.js $$F; \
+					cp component/standalone/website/script/q.min.js $$F; \
 				else \
 					( cd $$F && $(CMD_GENERATOR) build ) || exit 1; \
 				fi; \
@@ -641,11 +652,42 @@ publish-build-components:
 	@( cd component/standalone/server && $(CMD_GENERATOR) build ) || exit 1
 	@( cd component/standalone/server && $(CMD_GENERATOR) build-min ) || exit 1
 
+ttt:
+	@for F in $(wildcard component/standalone/website/script/q*.js); do \
+		L=`basename $$F`; \
+		if [[ "$$L" =~ 'q-source' ]] ; then \
+			continue; \
+		else \
+			L="$${L/%.min.js/$(WEBSITE_VERSION_STR).min.js}"; \
+			if [[ "$$L" != *$(WEBSITE_VERSION_STR).min.js ]]; then \
+				 L="$${L/%.js/$(WEBSITE_VERSION_STR).js}"; \
+			fi; \
+			echo $$L; \
+		fi; \
+	done;
+	@shopt -s extglob && eval "echo component/standalone/website/script/!(*.min).js";
+
+
 publish-build-q-zip:
-	@( cd component/standalone/website && \
-	   $(CMD_ZIP_CREATE) script/$(WEBSITE_MODULES_ZIP) $(addprefix script/q-,$(addsuffix -$(FRAMEWORK_VERSION).js,$(WEBSITE_MODULES))) ) || exit 1
-	@( cd component/standalone/website && \
-	   $(CMD_ZIP_CREATE) script/$(WEBSITE_MODULES_MIN_ZIP) $(addprefix script/q-,$(addsuffix -$(FRAMEWORK_VERSION).min.js,$(WEBSITE_MODULES))) ) || exit 1
+	@( cd component/standalone/website; \
+		D=`mktemp -d --tmpdir=.`; \
+		mkdir $$D/script; \
+		for F in $(WEBSITE_MODULES); do \
+			for FF in `echo script/q-$$F.*`; do \
+				L=`basename $$FF`; \
+				L="$${L/%.min.js/$(WEBSITE_VERSION_STR).min.js}"; \
+				if [[ "$$L" != *$(WEBSITE_VERSION_STR).min.js ]]; then \
+					 L="$${L/%.js/$(WEBSITE_VERSION_STR).js}"; \
+				fi; \
+				$(CMD_SYNC_OFFLINE) $$FF $$D/script/$$L; \
+			done; \
+		done; \
+		shopt -s extglob; \
+		rm -f script/$(WEBSITE_MODULES_ZIP) script/$(WEBSITE_MODULES_MIN_ZIP); \
+		eval "$(CMD_ZIP) -qj script/$(WEBSITE_MODULES_ZIP) $$D/script/!(*.min).js"  || exit 1; \
+		eval "$(CMD_ZIP) -qj script/$(WEBSITE_MODULES_MIN_ZIP) $$D/script/*.min.js"  || exit 1; \
+		rm -fr $$D; \
+	)
 
 publish-check: check-banner check-apps check-components check-framework manual-check resources-check
 	@echo "    - Looks good"
@@ -678,14 +720,14 @@ check-components:
 			F="component/testrunner/build/script/$$TARGET-portable.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		elif [ "$$TARGET" = "website" ]; then \
-			F="component/standalone/$$TARGET/script/q-$(FRAMEWORK_VERSION).js"; \
+			F="component/standalone/$$TARGET/script/q.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-			F="component/standalone/$$TARGET/script/q-$(FRAMEWORK_VERSION).min.js"; \
+			F="component/standalone/$$TARGET/script/q.min.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 			for MODULE in $(WEBSITE_MODULES); do \
-				F="component/standalone/$$TARGET/script/q-$$MODULE-$(FRAMEWORK_VERSION).js"; \
+				F="component/standalone/$$TARGET/script/q-$$MODULE.js"; \
 				[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-				F="component/standalone/$$TARGET/script/q-$$MODULE-$(FRAMEWORK_VERSION).min.js"; \
+				F="component/standalone/$$TARGET/script/q-$$MODULE.min.js"; \
 				[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 			done; \
 			F="component/standalone/$$TARGET/script/$(WEBSITE_MODULES_ZIP)"; \
@@ -693,9 +735,9 @@ check-components:
 			F="component/standalone/$$TARGET/script/$(WEBSITE_MODULES_MIN_ZIP)"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		elif [ "$$TARGET" = "server" ]; then \
-			F="component/standalone/$$TARGET/script/qx-oo-$(FRAMEWORK_VERSION).min.js"; \
+			F="component/standalone/$$TARGET/script/qx-oo.min.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-			F="component/standalone/$$TARGET/script/qx-oo-$(FRAMEWORK_VERSION).js"; \
+			F="component/standalone/$$TARGET/script/qx-oo.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		fi; \
 	done
@@ -759,27 +801,43 @@ publish-apps:
 	done
 	@echo "  * Syncing components..."
 	@for COMPONENT in $(COMPONENTS); do \
+		echo "    - $$COMPONENT..."; \
 		if [ "$$COMPONENT" = "inspector" ]; then \
-			echo "    - $$COMPONENT..."; \
 			$(CMD_SYNC_ONLINE) component/$$COMPONENT/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT || exit 1; \
 		elif [ "$$COMPONENT" = "testrunner" ]; then \
-			echo "    - $$COMPONENT..."; \
 			$(CMD_SYNC_ONLINE) component/testrunner/build/script/$$COMPONENT-portable.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT/script/$$COMPONENT-portable.js || exit 1; \
 		elif [ "$$COMPONENT" = "website" ]; then \
-			echo "    - $$COMPONENT..."; \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q-$(FRAMEWORK_VERSION).js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q-$(FRAMEWORK_VERSION).min.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-			for MODULE in $(WEBSITE_MODULES); do \
-				$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q-$$MODULE-$(FRAMEWORK_VERSION).js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-				$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q-$$MODULE-$(FRAMEWORK_VERSION).min.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			for F in `echo component/standalone/$$COMPONENT/script/q*.js`; do \
+				L=`basename $$F`; \
+				if [ "$$COMPONENT" == "website" ]; then \
+					if [[ "$$L" =~ 'q-source' ]] ; then \
+						continue; \
+					fi; \
+				fi; \
+				L="$${L/%.min.js/$(WEBSITE_VERSION_STR).min.js}"; \
+				if [[ "$$L" != *$(WEBSITE_VERSION_STR).min.js ]]; then \
+					 L="$${L/%.js/$(WEBSITE_VERSION_STR).js}"; \
+				fi; \
+				$(CMD_SYNC_ONLINE) $$F $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework/$$L || exit 1; \
 			done; \
 			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/$(WEBSITE_MODULES_ZIP) $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
 			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/$(WEBSITE_MODULES_MIN_ZIP) $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
 			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/api/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT-api || exit 1; \
 			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/test/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT-tests || exit 1; \
 		elif [ "$$COMPONENT" = "server" ]; then \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/qx-oo-$(FRAMEWORK_VERSION).js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/qx-oo-$(FRAMEWORK_VERSION).min.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			for F in `echo component/standalone/$$COMPONENT/script/qx-oo*.js`; do \
+				L=`basename $$F`; \
+				if [ "$$COMPONENT" == "website" ]; then \
+					if [[ "$$L" =~ 'q-source' ]] ; then \
+						continue; \
+					fi; \
+				fi; \
+				L="$${L/%.min.js/$(WEBSITE_VERSION_STR).min.js}"; \
+				if [[ "$$L" != *$(WEBSITE_VERSION_STR).min.js ]]; then \
+					 L="$${L/%.js/$(WEBSITE_VERSION_STR).js}"; \
+				fi; \
+				$(CMD_SYNC_ONLINE) $$F $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework/$$L || exit 1; \
+			done; \
 		fi; \
 	done
 
