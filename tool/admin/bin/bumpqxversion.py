@@ -169,29 +169,6 @@ Files = {
         r'q-(%s).js' % qxversion_regexp,
         r'q-(%s).min.js' % qxversion_regexp,
         ],
-    "./component/standalone/website/index.html" : [
-        r'q-(%s).min.js' % qxversion_regexp,
-        r'q-(%s).js' % qxversion_regexp,
-        ],
-    "./component/standalone/website/api/index.html" : [
-        r'q-[a-z]+-(%s).min.js' % qxversion_regexp,
-        ],
-    "./component/standalone/website/test/index.html" : [
-        r'q-(%s).min.js' % qxversion_regexp,
-        ],
-    "./component/standalone/website/test/index-module.html" : [
-        r'q-[a-z]+-(%s).min.js' % qxversion_regexp,
-        ],
-    "./application/todo/index.html" : [
-        r'q-[a-z]+-(%s).min.js' % qxversion_regexp,
-        ],
-    "./component/tutorials/website/step1/notification.html" : [
-        r'q-(%s).min.js' % qxversion_regexp,
-        ],
-    "./component/standalone/website/test/media.html" : [
-        r'q-[a-z]+-(%s).min.js' % qxversion_regexp,
-        r'q-(%s).min.js' % qxversion_regexp,
-        ],
 }
 
 # - End config -----------------------------------------------------------------
