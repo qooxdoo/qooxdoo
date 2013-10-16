@@ -43,6 +43,9 @@ R_SHORT_DESC      = re.compile(r'(?m)^short::\s*(.*)$')  # to search "short:: ..
 R_COPY_FILE       = re.compile(r'(?m)^copy_file::\s*(.*)$')  # special files to copy from SDK for this skeleton
 QOOXDOO_VERSION   = ''  # will be filled later
 
+class TARGET:
+    GENERATOR = 1
+    GRUNT = 2
 
 def getAppInfos():
     appInfos = {}
@@ -246,14 +249,14 @@ def patchSkeleton(appDir, framework_dir, options):
           filePaths.pop(i)
 
     # render all but Gruntfile
-    renderTemplates(filePaths, options, relPath, absPath, [])
+    renderTemplates(filePaths, options, relPath, absPath, TARGET.GENERATOR)
     chmodPyFiles(appDir)
 
     # fetch jobs and their desc
     jobsAndDescs = getJobsAndDescriptions(appDir)
 
     # now render Gruntfile with jobsAndDescs
-    renderTemplates([gruntfileFilePaths], options, relPath, absPath, jobsAndDescs)
+    renderTemplates([gruntfileFilePaths], options, relPath, absPath, TARGET.GRUNT, jobsAndDescs=jobsAndDescs)
 
 
 def determineAbsPathToSdk(framework_dir):
@@ -300,25 +303,41 @@ def chmodPyFiles(appDir):
                                                |stat.S_IROTH |stat.S_IXOTH)) # 0755
 
 
-def renderTemplates(inAndOutFilePaths, options, relPathToSdk, absPathToSdk, jobsAndDescs):
+def gruntifyMacros(s):
+    def macroReplace(matchobj):
+        if matchobj.group('macro'):
+            return "<%= " + matchobj.group('macro') + " %>"
+
+        return
+
+    return re.sub(r'\$\{(?P<macro>[a-zA-Z0-9_\-]+)\}', macroReplace, s)
+
+
+def renderTemplates(inAndOutFilePaths, options, relPathToSdk, absPathToSdk, renderTarget, jobsAndDescs=[]):
     for inFile, outFile in inAndOutFilePaths:
         console.log("Patching file '%s'" % outFile)
 
         #config = MyTemplate(open(inFile).read())
         config = Template(open(inFile).read())
         out = open(outFile, "w")
-        out.write(
-            config.substitute({
-                "Name": options.name,
-                "Namespace": options.namespace,
-                "NamespacePath" : (options.namespace).replace('.', '/'),
-                "REL_QOOXDOO_PATH": relPathToSdk,
-                "ABS_QOOXDOO_PATH": absPathToSdk,
-                "QOOXDOO_VERSION": QOOXDOO_VERSION,
-                "Cache" : options.cache,
-                "JOBS_AND_DESCS": jobsAndDescs
-            }).encode('utf-8')
-        )
+
+        context = {
+          "Name": options.name,
+          "Namespace": options.namespace,
+          "NamespacePath" : (options.namespace).replace('.', '/'),
+          "REL_QOOXDOO_PATH": relPathToSdk,
+          "ABS_QOOXDOO_PATH": absPathToSdk,
+          "QOOXDOO_VERSION": QOOXDOO_VERSION,
+          "Cache" : options.cache,
+        }
+
+        if renderTarget == TARGET.GRUNT:
+            context["JOBS_AND_DESCS"] = jobsAndDescs
+            for k, v in context.iteritems():
+                if isinstance(v, (str, unicode)):
+                    context[k] = gruntifyMacros(v);
+
+        out.write(config.substitute(context).encode('utf-8'))
         out.close()
         os.remove(inFile)
 

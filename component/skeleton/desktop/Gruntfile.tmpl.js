@@ -3,9 +3,16 @@ var QOOXDOO_PATH = "${REL_QOOXDOO_PATH}";
 var generator_jobs = ${JOBS_AND_DESCS};
 
 module.exports = function(grunt) {
-
-  // Project configuration.
-  grunt.initConfig({
+  var config = {
+    qx: {
+      "APPLICATION"  : "${Namespace}",
+      "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
+      "QXTHEME"      : "${Namespace}.theme.Theme",
+      "API_EXCLUDE"  : ["qx.test.*", "<%= APPLICATION %>.theme.*", "<%= APPLICATION %>.test.*", "<%= APPLICATION %>.simulation.*"],
+      "LOCALES"      : [ "en" ],
+      "CACHE"        : "${Cache}",
+      "ROOT"         : "."
+    },
     pkg: grunt.file.readJSON('package.json'),
     uglify: {
       options: {
@@ -16,7 +23,9 @@ module.exports = function(grunt) {
         dest: 'build/<%= pkg.name %>.min.js'
       }
     }
-  });
+  };
+
+  grunt.initConfig(config);
 
   grunt.loadTasks(QOOXDOO_PATH + '/tool/data/grunt/tasks/application');
 
