@@ -15,8 +15,36 @@ The following device pixel ratios are common on mobile devices:
     * 2 (xhdpi)
     * 3 (xxhdpi) 
 
-When you use ``qx.ui.mobile.basic.Image`` and %{Mobile} detects that your app is running 
-on a device with a device pixel ratio greater than 1, the app searches for images in a high resolution.
+Application Scale Factor vs. Device Pixel Ratio
+-----------------------------------------------
+
+As mentioned in the theming chapter, %{Mobile} is able to adjust the scale factor of your application:
+
+::
+
+  qx.core.Init.getApplication().getRoot().setScaleFactor(2);
+
+
+If you scale the application up, %{Mobile} detects which image has the best resolution according to the 
+device pixel ratio and the used application scale factor.
+
+Trigger for High Resolution Image Handling
+------------------------------------------
+
+The application calculates the optimal ratio for your display and application scale:
+
+::
+  
+  var scaleFactor = qx.core.Init.getApplication().getRoot().getScaleFactor();
+  var devicePixelRatio = qx.core.Environment.get("device.pixelRatio");
+
+  var optimalRatio = scaleFactor * devicePixelRatio;
+
+
+If the ``optimalRatio`` is above ``1``, the app searches for images in a higher resolution version.
+
+Location and naming conventions
+-------------------------------
 
 The high resolution images are assumed to be located in the same folder as the 
 medium resolution image, but annotated with the pixel ratio before the file extension: 
@@ -35,17 +63,27 @@ Its higher pixel ratio versions are to be put into the same folder as the regula
 * xhdpi: ``image@2x.png``
 * xxhdpi: ``image@3x.png``
 
+If devicePixelRatio returns ``1.5`` and your application scale factor is ``2``, the
+best image resolution would be ``3x``.
+
+The application displays the source ``image@3x.png``.
+
 Fallback
 --------
+%{Mobile} checks for 3 image resolution sizes:
 
-For the best visual result %{Mobile} uses this fallback 
-logic:
+* ``@3x``
+* ``@2x`` 
+* ``@1.5x``
 
-1. The logic first checks if there is an image available with the pixel ratio
-   the environment variable ``device.pixelRatio`` returns.
+You can adjust the pixel ratio checks by modifying this static array:
 
-2. If no image is available it checks the pixel ratio versions in the following order: 
+``qx.ui.mobile.basic.Image.PIXEL_RATIOS``
 
-``@3x``, ``@2x``, ``@1.5x``
+For the best visual result %{Mobile} uses a fallback logic:
 
-3. If there is no high resolution image available, the medium resolution image will be shown.
+1. The logic searches for an image with a higher resolution, which is the nearest to the optimal ratio. 
+
+2. The logic searches for an image with a lower resolution, which is the nearest to to the optimal ratio.
+
+3. If no high resolution image could be found, the medium resolution image is displayed.
