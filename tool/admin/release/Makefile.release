@@ -652,21 +652,25 @@ publish-build-components:
 	@( cd component/standalone/server && $(CMD_GENERATOR) build ) || exit 1
 	@( cd component/standalone/server && $(CMD_GENERATOR) build-min ) || exit 1
 
-ttt:
-	@for F in $(wildcard component/standalone/website/script/q*.js); do \
-		L=`basename $$F`; \
-		if [[ "$$L" =~ 'q-source' ]] ; then \
-			continue; \
-		else \
-			L="$${L/%.min.js/$(WEBSITE_VERSION_STR).min.js}"; \
-			if [[ "$$L" != *$(WEBSITE_VERSION_STR).min.js ]]; then \
-				 L="$${L/%.js/$(WEBSITE_VERSION_STR).js}"; \
-			fi; \
-			echo $$L; \
-		fi; \
-	done;
-	@shopt -s extglob && eval "echo component/standalone/website/script/!(*.min).js";
+##
+# "foo/bar/baz/q-core.js" -> "q-core-3.1.js" (also for .min.js files)
+#
+# make function to return file name with version string
+# syntax: $(call versioned_basename, foo/bar/baz/q-core.js)
+#
+leafname = $(subst $(dir $(1)),, $(1))
+versioned_basename = $(if $(patsubst %.min.js,, $(call leafname, $(1))), \
+  $(subst .js,"$(WEBSITE_VERSION_STR).js", $(call leafname, $(1))), \
+  $(subst .min.js,"$(WEBSITE_VERSION_STR).min.js", $(call leafname, $(1))) \
+)
 
+##
+# "q-core.js" -> "q-core-3.1.js" (also for .min.js files)
+#
+# text expansion macro that works also with shell vars within recipies
+# syntax: $(call make_versioned,L)
+#
+make_versioned = $(1)="$${$(1)/%.min.js/$(WEBSITE_VERSION_STR).min.js}"; if [[ "$$$(1)" != *$(WEBSITE_VERSION_STR).min.js ]]; then $(1)="$${$(1)/%.js/$(WEBSITE_VERSION_STR).js}"; fi;
 
 publish-build-q-zip:
 	@( cd component/standalone/website; \
@@ -675,10 +679,7 @@ publish-build-q-zip:
 		for F in $(WEBSITE_MODULES); do \
 			for FF in `echo script/q-$$F.*`; do \
 				L=`basename $$FF`; \
-				L="$${L/%.min.js/$(WEBSITE_VERSION_STR).min.js}"; \
-				if [[ "$$L" != *$(WEBSITE_VERSION_STR).min.js ]]; then \
-					 L="$${L/%.js/$(WEBSITE_VERSION_STR).js}"; \
-				fi; \
+				$(call make_versioned,L) \
 				$(CMD_SYNC_OFFLINE) $$FF $$D/script/$$L; \
 			done; \
 		done; \
@@ -814,10 +815,7 @@ publish-apps:
 						continue; \
 					fi; \
 				fi; \
-				L="$${L/%.min.js/$(WEBSITE_VERSION_STR).min.js}"; \
-				if [[ "$$L" != *$(WEBSITE_VERSION_STR).min.js ]]; then \
-					 L="$${L/%.js/$(WEBSITE_VERSION_STR).js}"; \
-				fi; \
+				$(call make_versioned,L) \
 				$(CMD_SYNC_ONLINE) $$F $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework/$$L || exit 1; \
 			done; \
 			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/$(WEBSITE_MODULES_ZIP) $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
@@ -832,10 +830,7 @@ publish-apps:
 						continue; \
 					fi; \
 				fi; \
-				L="$${L/%.min.js/$(WEBSITE_VERSION_STR).min.js}"; \
-				if [[ "$$L" != *$(WEBSITE_VERSION_STR).min.js ]]; then \
-					 L="$${L/%.js/$(WEBSITE_VERSION_STR).js}"; \
-				fi; \
+				$(call make_versioned,L) \
 				$(CMD_SYNC_ONLINE) $$F $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework/$$L || exit 1; \
 			done; \
 		fi; \
