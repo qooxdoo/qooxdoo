@@ -20,7 +20,7 @@
 #
 ################################################################################
 
-import re, os, sys, optparse, shutil, errno, stat, codecs, glob, types
+import re, os, sys, optparse, shutil, errno, stat, codecs, glob, types, subprocess
 from string import Template
 from collections import defaultdict
 
@@ -86,6 +86,22 @@ def npm_install(skel_dir, options):
     shellCmd.execute('npm install', skel_dir)
     if options.type == 'contribution':
         shellCmd.execute('npm install', os.path.join(skel_dir, 'demo/default'))
+
+
+def getJobsAndDescriptions(appDir):
+    jobsAndDescs = []
+    # 'x' is an unknown job which outputs all known jobs which we are interested in
+    proc = subprocess.Popen(['python', 'generate.py', 'x'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=appDir)
+    stdoutGenerator = proc.communicate()[0]
+    splittedLines = stdoutGenerator.splitlines()
+    for line in splittedLines:
+        if line.startswith('  - ') and '--' in line:
+           jobLine = line.split('--')
+           job = jobLine[0].strip(' -\t')
+           desc = jobLine[1].strip()
+           jobsAndDescs.append([job, desc])
+
+    return jobsAndDescs
 
 
 def createApplication(options):
@@ -155,6 +171,7 @@ def createApplication(options):
 
     return appDir
 
+
 def rename_folders(root_dir, namespace):
     console.log("Renaming stuff...")
     # rename name space parts of paths
@@ -191,6 +208,7 @@ def copySkeleton(skeleton_path, app_type, dir_, namespace):
         console.error("Failed to copy skeleton, maybe the directory already exists")
         sys.exit(1)
 
+
 def cleanSkeleton(dir_):
     #clean svn directories
     for root, dirs, files in os.walk(dir_, topdown=False):
@@ -212,26 +230,57 @@ def expand_dir(indir, outroot, namespace):
         else:
             os.mkdir(target)
 
-def patchSkeleton(dir_, framework_dir, options):
+
+def patchSkeleton(appDir, framework_dir, options):
+    absPath = determineAbsPathToSdk(framework_dir)
+    relPath = determineRelPathToSdk(appDir, framework_dir, options)
+
+    # collect all files to modify
+    filePaths = collectTmplInOutFilePaths(appDir)
+
+    # filter Gruntfile
+    gruntfileFilePaths = ()
+    for i, item in enumerate(filePaths):
+        if "Gruntfile" in item[0]:
+          gruntfileFilePaths = item
+          filePaths.pop(i)
+
+    # render all but Gruntfile
+    renderTemplates(filePaths, options, relPath, absPath, [])
+    chmodPyFiles(appDir)
+
+    # fetch jobs and their desc
+    jobsAndDescs = getJobsAndDescriptions(appDir)
+
+    # now render Gruntfile with jobsAndDescs
+    renderTemplates([gruntfileFilePaths], options, relPath, absPath, jobsAndDescs)
+
+
+def determineAbsPathToSdk(framework_dir):
     absPath = normalizePath(framework_dir)
     if absPath[-1] == "/":
         absPath = absPath[:-1]
 
+    return absPath
+
+
+def determineRelPathToSdk(appDir, framework_dir, options):
+    relPath = ''
     if sys.platform == 'cygwin':
-        if re.match( r'^\.{1,2}\/', dir_ ):
-            relPath = Path.rel_from_to(normalizePath(dir_), framework_dir)
-        elif re.match( r'^/cygdrive\b', dir_):
-            relPath = Path.rel_from_to(dir_, framework_dir)
+        if re.match( r'^\.{1,2}\/', appDir):
+            relPath = Path.rel_from_to(normalizePath(appDir), framework_dir)
+        elif re.match( r'^/cygdrive\b', appDir):
+            relPath = Path.rel_from_to(appDir, framework_dir)
         else:
-            relPath = Path.rel_from_to(normalizePath(dir_), normalizePath(framework_dir))
+            relPath = Path.rel_from_to(normalizePath(appDir), normalizePath(framework_dir))
     else:
-        relPath = Path.rel_from_to(normalizePath(dir_), normalizePath(framework_dir))
+        relPath = Path.rel_from_to(normalizePath(appDir), normalizePath(framework_dir))
 
     relPath = re.sub(r'\\', "/", relPath)
     if relPath[-1] == "/":
         relPath = relPath[:-1]
 
-    if not os.path.isdir(os.path.join(dir_, relPath)):
+    if not os.path.isdir(os.path.join(appDir, relPath)):
         console.error("Relative path to qooxdoo directory is not correct: '%s'" % relPath)
         sys.exit(1)
 
@@ -240,37 +289,51 @@ def patchSkeleton(dir_, framework_dir, options):
         #relPath = re.sub(r'\\', "/", relPath)
         pass
 
-    for root, dirs, files in os.walk(dir_):
-        for file in files:
-            split = file.split(".")
-            if len(split) >= 3 and split[-2] == "tmpl":
-                outFile = os.path.join(root, ".".join(split[:-2] + split[-1:]))
-                inFile = os.path.join(root, file)
-                console.log("Patching file '%s'" % outFile)
+    return relPath
 
-                #config = MyTemplate(open(inFile).read())
-                config = Template(open(inFile).read())
-                out = open(outFile, "w")
-                out.write(
-                    config.substitute({
-                        "Name": options.name,
-                        "Namespace": options.namespace,
-                        "NamespacePath" : (options.namespace).replace('.', '/'),
-                        "REL_QOOXDOO_PATH": relPath,
-                        "ABS_QOOXDOO_PATH": absPath,
-                        "QOOXDOO_VERSION": QOOXDOO_VERSION,
-                        "Cache" : options.cache,
-                    }).encode('utf-8')
-                )
-                out.close()
-                os.remove(inFile)
 
-    for root, dirs, files in os.walk(dir_):
+def chmodPyFiles(appDir):
+    for root, dirs, files in os.walk(appDir):
         for file in [file for file in files if file.endswith(".py")]:
             os.chmod(os.path.join(root, file), (stat.S_IRWXU
                                                |stat.S_IRGRP |stat.S_IXGRP
                                                |stat.S_IROTH |stat.S_IXOTH)) # 0755
 
+
+def renderTemplates(inAndOutFilePaths, options, relPathToSdk, absPathToSdk, jobsAndDescs):
+    for inFile, outFile in inAndOutFilePaths:
+        console.log("Patching file '%s'" % outFile)
+
+        #config = MyTemplate(open(inFile).read())
+        config = Template(open(inFile).read())
+        out = open(outFile, "w")
+        out.write(
+            config.substitute({
+                "Name": options.name,
+                "Namespace": options.namespace,
+                "NamespacePath" : (options.namespace).replace('.', '/'),
+                "REL_QOOXDOO_PATH": relPathToSdk,
+                "ABS_QOOXDOO_PATH": absPathToSdk,
+                "QOOXDOO_VERSION": QOOXDOO_VERSION,
+                "Cache" : options.cache,
+                "JOBS_AND_DESCS": jobsAndDescs
+            }).encode('utf-8')
+        )
+        out.close()
+        os.remove(inFile)
+
+
+def collectTmplInOutFilePaths(appDir):
+    tmplFiles = []
+    for root, dirs, files in os.walk(appDir):
+        for file in files:
+            split = file.split(".")
+            if len(split) >= 3 and split[-2] == "tmpl":
+                outFile = os.path.join(root, ".".join(split[:-2] + split[-1:]))
+                inFile = os.path.join(root, file)
+                tmplFiles.append((inFile, outFile))
+
+    return tmplFiles
 
 
 def handleRemoveReadonly(func, path, exc):
@@ -354,6 +417,7 @@ def listSkeletons(console, info):
             sdesc = "%s -- %s" % ((12 - len(skeleton)) * " ", info[skeleton]["short"])
         console.info(skeleton + sdesc)
 
+
 def main():
     parser = optparse.OptionParser()
 
@@ -436,8 +500,6 @@ class MyTemplate(Template):
       (?P<invalid>)              # Other ill-formed delimiter exprs
     )
     """
-
-
 
 if __name__ == '__main__':
     try:
