@@ -32,7 +32,7 @@
  *
  * @require(qx.dev.StackTrace)
  */
-qx.Class.define("qx.log.Logger",
+qx.Bootstrap.define("qx.log.Logger",
 {
   statics :
   {
