@@ -1,7 +1,37 @@
-var QOOXDOO_PATH = "${REL_QOOXDOO_PATH}";
+// global conf
+var _qx = {
+  sdkPath: "../generatorjs.git",
+  generatorJobs: ${JOBS_AND_DESCS}
+};
 
-var generator_jobs = ${JOBS_AND_DESCS};
+// requires
+var appConf = require(_qx.sdkPath + '/tool/data/grunt/config/application.js');
 
+// register generator jobs for shell exists
+var registerGeneratorJobs = function(grunt, jobs, supersededJobs) {
+  jobs.forEach(function (genJob) {
+    var jobName = genJob[0];
+    var jobDesc = genJob[1];
+
+    if (supersededJobs[jobName] !== undefined) {
+      // register proper grunt task
+      // grunt.registerTask(jobName, jobDesc, function () {
+      //   grunt.task.run([supersededJobs[jobName]]);
+      // });
+    } else {
+      // register generator job as task
+      grunt.registerTask(jobName, jobDesc, function (job) {
+        grunt.task.run(["generate:"+jobName]);
+      });
+    }
+  });
+};
+
+var registerQxJobTasks = function(grunt) {
+  grunt.loadTasks(_qx.sdkPath + '/tool/data/grunt/tasks/application');
+};
+
+// grunt
 module.exports = function(grunt) {
   var config = {
     qx: {
@@ -13,27 +43,23 @@ module.exports = function(grunt) {
       "CACHE"        : "${Cache}",
       "ROOT"         : "."
     },
-    pkg: grunt.file.readJSON('package.json'),
-    uglify: {
-      options: {
-        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
-      },
-      build: {
-        src: 'src/<%= pkg.name %>.js',
-        dest: 'build/<%= pkg.name %>.min.js'
+    /*
+    myTask: {
+      options: {},
+      myTarget: {
+        options: {}
       }
     }
+    */
   };
 
-  grunt.initConfig(config);
+  var mergedConf = appConf.mergeConfig(config);
+  // console.log(mergedConf);
+  // process.exit();
+  grunt.initConfig(mergedConf);
 
-  grunt.loadTasks(QOOXDOO_PATH + '/tool/data/grunt/tasks/application');
+  registerGeneratorJobs(grunt, _qx.generatorJobs, appConf.getSupersededJobs());
+  registerQxJobTasks(grunt);
 
-  // register generator jobs for shell exists
-  generator_jobs.forEach(function (gen_job) {
-    grunt.registerTask(gen_job[0], gen_job[1], function (job) {
-        grunt.task.run(["generate:"+gen_job[0]]);
-    });
-  });
-
+  grunt.loadNpmTasks('grunt-contrib-clean');
 };

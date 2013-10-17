@@ -143,10 +143,11 @@ def createApplication(options):
     if is_contribution:
         shutil.copy(GENERATE_PY, os.path.join(appDir, *demo_suffix.split("/")))
 
-    # package.json
-    shutil.copy(PACKAGE_JSON, appDir)
-    if is_contribution:
-        shutil.copy(PACKAGE_JSON, os.path.join(appDir, *demo_suffix.split("/")))
+    # copy generic package.json if no specific available
+    if not os.path.isfile(os.path.join(appDir, "package.tmpl.json")):
+      shutil.copy(PACKAGE_JSON, appDir)
+      if is_contribution:
+          shutil.copy(PACKAGE_JSON, os.path.join(appDir, *demo_suffix.split("/")))
 
     # copy files
     if isinstance(app_infos['copy_file'], types.ListType):
@@ -306,7 +307,7 @@ def chmodPyFiles(appDir):
 def gruntifyMacros(s):
     def macroReplace(matchobj):
         if matchobj.group('macro'):
-            return "<%= " + matchobj.group('macro') + " %>"
+            return "<%= qx." + matchobj.group('macro') + " %>"
 
         return
 
