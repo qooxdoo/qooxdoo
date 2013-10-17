@@ -253,19 +253,6 @@ Example:
     // text size should be about 32px, this gets converted to 2rem.
     $navigationbar-text-size:  rem(32);
 
-For using this feature, you have to adjust the ``$application-font-size`` in the 
-``_styles.scss`` file.
-
-First image shows ``$application-font-size`` set to value ``50%`` and second set to ``150%``:
-
-
-.. image:: resolution-50.png
-    :scale: 50%
-
-
-.. image:: resolution-150.png
-    :scale: 50%
-
 
 Improving your theming workflow
 ===============================

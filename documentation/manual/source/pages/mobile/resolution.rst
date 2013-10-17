@@ -1,9 +1,9 @@
 .. _pages/mobile/resolution#resolution:
 
-Handling High Resolution Images 
-*******************************
+Handling devices with a high pixel density
+******************************************
 
-%{Mobile} is able to handle device displays with different pixel densities.
+%{Mobile} applications are able to adapt to device displays with a high pixel density.
 The following device pixel ratios are common on mobile devices:
 
 * iOS
@@ -18,30 +18,36 @@ The following device pixel ratios are common on mobile devices:
 Application Scale Factor vs. Device Pixel Ratio
 -----------------------------------------------
 
-As mentioned in the theming chapter, %{Mobile} is able to adjust the scale factor of your application:
+You can adjust the scale factor of your %{Mobile} application.
+This feature lets you adapt your application to the usability needs of your target audience, and
+makes it possible to scale it to the display specifications of your target devices.
+
+You justify the value through the method ``setScaleFactor`` on ``qx.ui.mobile.core.Root``:
 
 ::
 
   qx.core.Init.getApplication().getRoot().setScaleFactor(2);
 
+First image shows a scale factor set to value ``0.5`` and second set to ``1.5``:
 
-If you scale the application up, %{Mobile} detects which image has the best resolution according to the 
-device pixel ratio and the used application scale factor.
+.. image:: resolution-50.png
+    :scale: 50%
+
+
+.. image:: resolution-150.png
+    :scale: 50%
 
 Trigger for High Resolution Image Handling
 ------------------------------------------
 
-The application calculates the optimal ratio for your display and application scale:
+The application calculates the best image resolution (the optimal ratio) for your display and the used application scale factor:
 
 ::
-  
-  var scaleFactor = qx.core.Init.getApplication().getRoot().getScaleFactor();
-  var devicePixelRatio = qx.core.Environment.get("device.pixelRatio");
 
-  var optimalRatio = scaleFactor * devicePixelRatio;
+  optimalRatio = scaleFactor * devicePixelRatio
 
 
-If the ``optimalRatio`` is above ``1``, the app searches for images in a higher resolution version.
+If the ``optimalRatio`` is above ``1``, %{Mobile} searches for high resolution images and calculates which resolution fits the best.
 
 Location and naming conventions
 -------------------------------
@@ -70,7 +76,7 @@ The application displays the source ``image@3x.png``.
 
 Fallback
 --------
-%{Mobile} checks for 3 image resolution sizes:
+%{Mobile} checks for the most common image resolution sizes:
 
 * ``@3x``
 * ``@2x`` 
