@@ -449,6 +449,8 @@ qx.Bootstrap.define("qx.log.Logger",
           entry.object = object.$$hash;
         } else if (object.$$type) {
           entry.clazz = object;
+        } else if (object.constructor) {
+          entry.clazz = object.constructor;
         }
       }
 
