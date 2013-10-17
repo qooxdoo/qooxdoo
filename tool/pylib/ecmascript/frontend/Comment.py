@@ -341,9 +341,6 @@ class Comment(object):
                           "category": hint_key,
                           "text": line.strip() 
                         }
-                    else:
-                        context.console.warn(
-                            "Unable to parse JSDoc entry: '%s'" % line.strip())
             return entry
 
         ##
@@ -356,7 +353,6 @@ class Comment(object):
                     entry["error"] = "parseError",
                     entry["message"] = msg
                 else:
-                    context.console.warn(msg)
                     entry = None
             return entry
 
