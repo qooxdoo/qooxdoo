@@ -398,7 +398,6 @@ class MClassDependencies(object):
 
         # .name, .attribute
         assembled = (treeutil.assembleVariable(node))[0]
-        #className, classAttribute = self._splitQxClass(assembled)
         className = gs.test_for_libsymbol(assembled, ClassesAll, []) # TODO: no namespaces!?
         if not className: 
             is_lib_class = False
@@ -540,25 +539,6 @@ class MClassDependencies(object):
                         # adding all items to list (to comply with the 'load' deps)
                         run.append(dep)
         return load, run, ignored
-
-
-    ##
-    # 
-    #def _splitQxClass(self, assembled):
-    #    className = classAttribute = ''
-    #    if assembled in ClassesAll:  # short cut
-    #        className = assembled
-    #    elif "." in assembled:
-    #        for entryId in ClassesAll:
-    #            if assembled.startswith(entryId) and re.match(r'%s\b' % entryId, assembled):
-    #                if len(entryId) > len(className): # take the longest match
-    #                    className = entryId
-    #                    classAttribute = assembled[ len(entryId) +1 :]  # skip entryId + '.'
-    #                    # see if classAttribute is chained, too
-    #                    dotidx = classAttribute.find(".")
-    #                    if dotidx > -1:
-    #                        classAttribute = classAttribute[:dotidx]    # only use the first component
-    #    return className, classAttribute
 
 
     # --------------------------------------------------------------------

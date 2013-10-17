@@ -110,8 +110,6 @@ def test_ident_is_libsymbol(class_names, name_spaces):
 # - A known qx global is either exactly a name space, or a dotted identifier
 #   that is a dotted extension of a known class.
 #
-# (There is still a copy in MClassDependencies._splitQxClass).
-#
 def test_for_libsymbol(symbol, class_names, name_spaces):
     res_name = ''
     # check for a name space match
