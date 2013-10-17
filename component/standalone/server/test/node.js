@@ -1,7 +1,7 @@
 // node.js-specific tests for qx-oo
 
 require('./script/testrunner.js');
-var qx = require('../script/qx-oo-3.1.js');
+var qx = require('../script/qx-oo.js');
 require('./tests-common.js');
 
 testrunner.define({
