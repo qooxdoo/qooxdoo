@@ -43,16 +43,20 @@ module.exports = function(grunt) {
     /*
      * Customize generator jobs from Gruntfile.
      *
-     * TODO: read grunt.config, write it out as a temp. generator .json config
+     * read grunt.config.qx, write it out as a temp. generator .json config
      * which includes the default config.json (or the one named with -c), and
      * has all the grunt.config vars as global 'let' vars
+     *
+     * TODO: support more than just global 'let'
      */
 
     var config_map = {
+      // TODO: inspect if gargs has '-c <otherconfig>'
       "include" : [ { "path" : "./config.json" } ],
       "let" : grunt.config.get('qx'),
     };
 
+    // TODO: create random tmpfile name
     var gen_conf_file = "./config1.json";
 
     fs.writeFile(gen_conf_file, JSON.stringify(config_map, null, 4), function(err) {
@@ -83,6 +87,8 @@ module.exports = function(grunt) {
     child.stdout.on("data", function(data) {
       grunt.log.write(data);
     })
+
+    // TODO: remove gen_conf_file
   });
 
   // A very basic default task.
