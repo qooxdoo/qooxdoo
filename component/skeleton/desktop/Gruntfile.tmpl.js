@@ -35,13 +35,15 @@ var registerQxJobTasks = function(grunt) {
 module.exports = function(grunt) {
   var config = {
     qx: {
-      "APPLICATION"  : "${Namespace}",
-      "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
-      "QXTHEME"      : "${Namespace}.theme.Theme",
-      "API_EXCLUDE"  : ["qx.test.*", "<%= APPLICATION %>.theme.*", "<%= APPLICATION %>.test.*", "<%= APPLICATION %>.simulation.*"],
-      "LOCALES"      : [ "en" ],
-      "CACHE"        : "${Cache}",
-      "ROOT"         : "."
+      "APPLICATION": "${Namespace}",
+      "QOOXDOO_PATH": "${REL_QOOXDOO_PATH}",
+      "QOOXDOO_VERSION": "${QOOXDOO_VERSION}",
+      "QXTHEME": "${Namespace}.theme.Theme",
+      "TMPDIR": "${TMPDIR}",
+      "API_EXCLUDE": ["qx.test.*", "<%= APPLICATION %>.theme.*", "<%= APPLICATION %>.test.*", "<%= APPLICATION %>.simulation.*"],
+      "LOCALES": [ "en" ],
+      "CACHE": "${Cache}",
+      "ROOT": "."
     },
     /*
     myTask: {

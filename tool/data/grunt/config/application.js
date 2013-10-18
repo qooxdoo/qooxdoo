@@ -25,7 +25,9 @@ var getConfig = function() {
               "<%= qx.ROOT %>/api",
               "<%= qx.ROOT %>/test",
               "<%= qx.ROOT %>/inspector",
-              "<%= qx.ROOT %>/simulator"]
+              "<%= qx.ROOT %>/simulator"],
+      cache: ["<%= qx.CACHE_KEY.compile %>",
+              "<%= qx.CACHE_KEY.downloads %>"]
     }
   };
 };

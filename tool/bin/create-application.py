@@ -20,7 +20,7 @@
 #
 ################################################################################
 
-import re, os, sys, optparse, shutil, errno, stat, codecs, glob, types, subprocess
+import re, os, sys, optparse, shutil, errno, stat, codecs, glob, types, subprocess, tempfile
 from string import Template
 from collections import defaultdict
 
@@ -334,6 +334,7 @@ def renderTemplates(inAndOutFilePaths, options, relPathToSdk, absPathToSdk, rend
 
         if renderTarget == TARGET.GRUNT:
             context["JOBS_AND_DESCS"] = jobsAndDescs
+            context["TMPDIR"] = tempfile.gettempdir()
             for k, v in context.iteritems():
                 if isinstance(v, (str, unicode)):
                     context[k] = gruntifyMacros(v);
