@@ -94,7 +94,7 @@ def npm_install(skel_dir, options):
 def getJobsAndDescriptions(appDir):
     jobsAndDescs = []
     # 'x' is an unknown job which outputs all known jobs which we are interested in
-    proc = subprocess.Popen(['python', 'generate.py', 'x'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=appDir)
+    proc = subprocess.Popen(['python', 'generate.py', '__x_'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=appDir)
     stdoutGenerator = proc.communicate()[0]
     splittedLines = stdoutGenerator.splitlines()
     for line in splittedLines:

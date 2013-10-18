@@ -1,6 +1,6 @@
 // global conf
 var _qx = {
-  sdkPath: "../generatorjs.git",
+  sdkPath: "${REL_QOOXDOO_PATH}",
   generatorJobs: ${JOBS_AND_DESCS}
 };
 

@@ -1,5 +1,7 @@
 'use strict';
 
+var fs = require('fs');
+
 /**
  * Run generate.py ??? to obtain job list.
  */
@@ -38,7 +40,35 @@ module.exports = function(grunt) {
 
     var exec = require('child_process').exec, child;
 
-    var cmd = './generate.py ' + (job || '') + ' ' + (opt_string || '');
+    /*
+     * Customize generator jobs from Gruntfile.
+     *
+     * TODO: read grunt.config, write it out as a temp. generator .json config
+     * which includes the default config.json (or the one named with -c), and
+     * has all the grunt.config vars as global 'let' vars
+     */
+
+    var config_map = {
+      "include" : [ { "path" : "./config.json" } ],
+      "let" : grunt.config.get('qx'),
+    };
+
+    var gen_conf_file = "./config1.json";
+
+    fs.writeFile(gen_conf_file, JSON.stringify(config_map, null, 4), function(err) {
+      if(err) {
+        console.log(err);
+        //exit(1)
+      }
+    });
+
+    var cmd = [
+      './generate.py',
+      (job || ''),
+      '-s -c ' + gen_conf_file,
+      (opt_string || '')
+    ].join(' ');
+
     grunt.log.write("Running: '" + cmd + "'");
 
     child = exec(cmd,
