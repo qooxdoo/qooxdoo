@@ -333,6 +333,13 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * @param value {Integer} the selection value to validate.
      */
     _validateSelection : function(value) {
+      if(value != null && qx.lang.Type.isNumber(value) == false)
+      {
+        throw new qx.core.ValidationError(
+          "Validation Error: Input value is not a number"
+        );
+      }
+
       if(this.getModel() === null) {
         throw new qx.core.ValidationError(
           "Validation Error: Please apply model before selection"

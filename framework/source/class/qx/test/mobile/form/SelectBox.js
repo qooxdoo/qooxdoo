@@ -165,6 +165,16 @@ qx.Class.define("qx.test.mobile.form.SelectBox",
       this.assertEquals(2, selectBox.getSelection());
       this.assertEquals("Item 3", selectBox.getValue());
 
+      // Only type Number is allowed. Nothing is changed.
+      this.assertException(qx.lang.Function.bind(selectBox.setSelection, selectBox, "foo"),
+        qx.core.ValidationError,
+        "Validation Error: Input value is not a number",
+        "Exception assertion failed."
+      );
+
+      this.assertEquals(2, selectBox.getSelection());
+      this.assertEquals("Item 3", selectBox.getValue());
+
       // After
       selectBox.destroy();
       model.dispose();
