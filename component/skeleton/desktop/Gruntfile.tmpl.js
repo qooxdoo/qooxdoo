@@ -39,7 +39,6 @@ module.exports = function(grunt) {
       "QOOXDOO_PATH": "${REL_QOOXDOO_PATH}",
       "QOOXDOO_VERSION": "${QOOXDOO_VERSION}",
       "QXTHEME": "${Namespace}.theme.Theme",
-      "TMPDIR": "${TMPDIR}",
       "API_EXCLUDE": ["qx.test.*", "<%= APPLICATION %>.theme.*", "<%= APPLICATION %>.test.*", "<%= APPLICATION %>.simulation.*"],
       "LOCALES": [ "en" ],
       "CACHE": "${Cache}",

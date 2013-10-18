@@ -1,5 +1,6 @@
 'use strict';
 
+var os = require('os');
 var deepmerge = require('deepmerge');
 
 var getConfig = function() {
@@ -7,6 +8,7 @@ var getConfig = function() {
     qx: {
       "ROOT" : ".",
       "QOOXDOO_PATH" : "../../..",
+      "TMPDIR": os.tmpdir(),
       "CACHE" : "<%= qx.TMPDIR %>/qx<%= qx.QOOXDOO_VERSION %>/cache",
       "CACHE_KEY" :
       {
@@ -18,6 +20,9 @@ var getConfig = function() {
     },
     /* grunt-contrib-clean */
     clean: {
+      options: {
+        force: true
+      },
       clean: ["<%= qx.SOURCE_PATH %>/script/<%= qx.APPLICATION %>*.js",
               "<%= qx.BUILD_PATH %>/script/<%= qx.APPLICATION %>*.js"],
       dist:  ["<%= qx.SOURCE_PATH %>/script",
