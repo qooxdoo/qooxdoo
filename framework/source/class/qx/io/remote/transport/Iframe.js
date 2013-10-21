@@ -537,7 +537,6 @@ qx.Class.define("qx.io.remote.transport.Iframe",
             }
           }
           return vText;
-          break;
 
         case "text/html":
           vText = this.getIframeHtmlContent();
@@ -549,7 +548,6 @@ qx.Class.define("qx.io.remote.transport.Iframe",
             }
           }
           return vText;
-          break;
 
         case "application/json":
           vText = this.getIframeHtmlContent();

@@ -193,7 +193,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
     getClosest : function(selector) {
       var closest = [];
 
-      var findClosest = function findClosest(current) {
+      var findClosest = function(current) {
         var found = qx.bom.Selector.matches(selector, current);
         if (found.length) {
           closest.push(found[0]);

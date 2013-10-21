@@ -103,7 +103,7 @@ qx.Bootstrap = {
   define : function(name, config)
   {
     if (!config) {
-      var config = { statics : {} };
+      config = { statics : {} };
     }
 
     var clazz;

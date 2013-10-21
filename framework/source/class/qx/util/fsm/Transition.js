@@ -311,7 +311,6 @@ qx.Class.define("qx.util.fsm.Transition",
       default:
         throw new Error("Invalid transition predicate type: " +
                         typeof (value));
-        break;
       }
     },
 
@@ -351,7 +350,6 @@ qx.Class.define("qx.util.fsm.Transition",
       default:
         throw new Error("Invalid transition nextState type: " +
                         typeof (value));
-        break;
       }
     },
 
@@ -408,7 +406,6 @@ qx.Class.define("qx.util.fsm.Transition",
 
       default:
         throw new Error("Invalid ontransition type: " + typeof (value));
-        break;
       }
     },
 

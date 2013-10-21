@@ -1811,7 +1811,6 @@ qx.Class.define("qx.bom.htmlarea.HtmlArea",
             case "control":
               this.__controlPressed = false;
               return;
-            break;
           }
         }
       }
