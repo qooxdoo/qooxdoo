@@ -30,6 +30,7 @@ var registerGeneratorJobs = function(grunt, jobs, supersededJobs) {
 var registerQxJobTasks = function(grunt) {
   grunt.loadTasks(_qx.sdkPath + '/tool/data/grunt/tasks/application');
   grunt.loadTasks(_qx.sdkPath + '/tool/data/grunt/tasks/info/tasks');
+  grunt.loadTasks(_qx.sdkPath + '/tool/data/grunt/tasks/copy-files/tasks');
 };
 
 // grunt

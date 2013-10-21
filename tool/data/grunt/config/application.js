@@ -40,6 +40,17 @@ var getConfig = function() {
         qxPath: "<%= qx.QOOXDOO_PATH %>",
         cachePaths: "<%= qx.CACHE_KEY %>"
       }
+    },
+
+    /* qx-copy-files */
+    "copy-files" : {
+      options: {
+        files  : [
+          "index.html"
+        ],
+        source : "<%= qx.SOURCE_PATH %>",
+        target : "<%= qx.BUILD_PATH %>",
+      }
     }
   };
 };
