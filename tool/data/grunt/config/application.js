@@ -33,6 +33,13 @@ var getConfig = function() {
               "<%= qx.ROOT %>/simulator"],
       cache: ["<%= qx.CACHE_KEY.compile %>",
               "<%= qx.CACHE_KEY.downloads %>"]
+    },
+    /* grunt-qx-info */
+    info: {
+      options: {
+        qxPath: "<%= qx.QOOXDOO_PATH %>",
+        cachePaths: "<%= qx.CACHE_KEY %>"
+      }
     }
   };
 };
@@ -44,7 +51,8 @@ var mergeConfig = function(config) {
 var getSupersededJobs = function() {
   return {
     clean: "clean:clean",
-    distclean: "clean:dist"
+    distclean: "clean:dist",
+    info: "info"
   };
 };
 
