@@ -78,6 +78,16 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
       group : ["backgroundPositionY", "backgroundPositionX"]
     },
 
+
+    /**
+     * Property group to define the background position
+     */
+    backgroundOrigin :
+    {
+      nullable : true,
+      apply : "_applyBackgroundImage"
+    },
+
     /**
      * Whether to order gradients before Image-URL-based background declarations if both qx.ui.decoration.MBackgroundImage and qx.ui.decoration.MLinearBackgroundGradient decorations are used.
      */
@@ -106,12 +116,15 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
       if(!qx.lang.Type.isArray(tops)) tops = [tops];
       var lefts = this.getBackgroundPositionX();
       if(!qx.lang.Type.isArray(lefts)) lefts = [lefts];
+      var origins = this.getBackgroundOrigin();
+      if(!qx.lang.Type.isArray(origins)) origins = [origins];
 
       var items = Math.max(images.length, repeats.length, tops.length, lefts.length);
       qx.lang.Array.prolong(images, items);
       qx.lang.Array.prolong(repeats, items);
       qx.lang.Array.prolong(tops, items);
       qx.lang.Array.prolong(lefts, items);
+      qx.lang.Array.prolong(origins, items);
 
       if("background" in styles) {
         if(!Array.isArray(styles['background'])) {
@@ -126,6 +139,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
         var repeat = repeats[i];
         var top = tops[i] || 0;
         var left = lefts[i] || 0;
+        var origin = origins[i] || '';
         if (top == null) {
           top = 0;
         }
@@ -145,14 +159,15 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
         var attrs = {
           image: 'url(' + source + ')',
           position: left + " " + top,
-          repeat: 'repeat'
+          repeat: 'repeat',
+          origin: origin
         };
         if (repeat === "scale") {
           attrs.size = "100% 100%";
         } else {
           attrs.repeat = repeat;
         }
-        var imageMarkup = [attrs.image, attrs.position + ('size' in attrs ? ' / ' + attrs.size : ''), attrs.repeat];
+        var imageMarkup = [attrs.image, attrs.position + ('size' in attrs ? ' / ' + attrs.size : ''), attrs.repeat, attrs.origin];
         
         styles["background"][this.getOrderGradientsFront() ? 'push' : 'unshift'](imageMarkup.join(' '));
 
