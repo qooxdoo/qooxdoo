@@ -90,7 +90,6 @@ qx.Class.define("mobileshowcase.Application",
       var canvas = new mobileshowcase.page.Canvas();
       var themeSwitcher = new mobileshowcase.page.ThemeSwitcher();
 
-
       // Add the pages to the page manager
       var manager = new qx.ui.mobile.page.Manager();
       manager.addMaster(overview);
