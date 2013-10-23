@@ -145,23 +145,13 @@ qx.Bootstrap.define("qx.util.Animation",
       timing: "linear",
       origin: "top center",
       keep: 100,
-      keyFrames : !(qxWeb.env.get("browser.name") === "ie" &&
-                    parseInt(qxWeb.env.get("browser.version"), 10) <= 9) ? {
+      keyFrames : {
         0: {
           scale : [ "1", "1" ],
           opacity: 1
         },
         100: {
           scale : [ "1", "0" ],
-          opacity : 0
-        }
-      } : {
-        0: {
-          height : "100%",
-          opacity: 1
-        },
-        100: {
-          height : "0%",
           opacity : 0
         }
       }
@@ -173,23 +163,13 @@ qx.Bootstrap.define("qx.util.Animation",
       timing: "linear",
       origin: "top center",
       keep: 100,
-      keyFrames : !(qxWeb.env.get("browser.name") === "ie" &&
-                    parseInt(qxWeb.env.get("browser.version"), 10) <= 9) ? {
+      keyFrames : {
         0: {
           scale : [ "1", "0" ],
           opacity: 0
         },
         100: {
           scale : [ "1", "1" ],
-          opacity : 1
-        }
-      } : {
-        0: {
-          height : "0%",
-          opacity: 0
-        },
-        100: {
-          height : "100%",
           opacity : 1
         }
       }
@@ -201,23 +181,13 @@ qx.Bootstrap.define("qx.util.Animation",
       timing: "linear",
       origin: "left center",
       keep: 100,
-      keyFrames : !(qxWeb.env.get("browser.name") === "ie" &&
-                    parseInt(qxWeb.env.get("browser.version"), 10) <= 9) ? {
+      keyFrames : {
         0: {
           scale : [ "1", "1" ],
           opacity: 1
         },
         100: {
           scale : [ "0", "1" ],
-          opacity : 0
-        }
-      } : {
-        0: {
-          width : "100%",
-          opacity: 1
-        },
-        100: {
-          width : "0%",
           opacity : 0
         }
       }
@@ -229,23 +199,13 @@ qx.Bootstrap.define("qx.util.Animation",
       timing: "linear",
       origin: "left center",
       keep: 100,
-      keyFrames : !(qxWeb.env.get("browser.name") === "ie" &&
-                    parseInt(qxWeb.env.get("browser.version"), 10) <= 9) ? {
+      keyFrames : {
         0: {
           scale : [ "0", "1" ],
           opacity: 0
         },
         100: {
           scale : [ "1", "1" ],
-          opacity : 1
-        }
-      } : {
-        0: {
-          width : "0%",
-          opacity: 0
-        },
-        100: {
-          width : "100%",
           opacity : 1
         }
       }
@@ -257,8 +217,7 @@ qx.Bootstrap.define("qx.util.Animation",
       timing: "linear",
       origin: "left top",
       keep: 100,
-      keyFrames : !(qxWeb.env.get("browser.name") === "ie" &&
-                    parseInt(qxWeb.env.get("browser.version"), 10) <= 9) ? {
+      keyFrames : {
         0: {
           scale : [ "1", "1" ],
           opacity: 1
@@ -266,19 +225,6 @@ qx.Bootstrap.define("qx.util.Animation",
         100: {
           scale : [ "0", "0" ],
           opacity : 0
-        }
-      } : {
-        0: {
-          width: "100%",
-          height: "100%",
-          opacity : 1,
-          fontSize: "1em"
-        },
-        100: {
-          width : "0%",
-          height : "0%",
-          opacity: 0,
-          fontSize: "0em"
         }
       }
     },
@@ -289,8 +235,7 @@ qx.Bootstrap.define("qx.util.Animation",
       timing: "linear",
       origin: "left top",
       keep: 100,
-      keyFrames : !(qxWeb.env.get("browser.name") === "ie" &&
-                    parseInt(qxWeb.env.get("browser.version"), 10) <= 9) ? {
+      keyFrames : {
         0: {
           scale : [ "0", "0" ],
           opacity: 0
@@ -298,19 +243,6 @@ qx.Bootstrap.define("qx.util.Animation",
         100: {
           scale : [ "1", "1" ],
           opacity : 1
-        }
-      } : {
-        0: {
-          width : 0,
-          height : 0,
-          opacity: 0,
-          fontSize: 0
-        },
-        100: {
-          width: "100%",
-          height: "100%",
-          opacity : 1,
-          fontSize: "1em"
         }
       }
     },
