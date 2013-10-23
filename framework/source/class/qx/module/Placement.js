@@ -61,9 +61,11 @@ qxWeb.define("qx.module.Placement", {
      * @return {qxWeb} The collection for chaining
      */
     placeTo : function(target, position, offsets, modeX, modeY) {
-      if (!this[0]) {
-        return null;
+      if (!this[0] || !target) {
+        return this;
       }
+
+      target = qxWeb(target);
 
       var axes = {
         x : qx.module.Placement._getAxis(modeX),
@@ -81,25 +83,30 @@ qxWeb.define("qx.module.Placement", {
         height : parent.getHeight()
       };
 
-      var target = qxWeb(target).getOffset();
-
-      var offsets = offsets || {
+      offsets = offsets || {
         top: 0,
         right: 0,
         bottom: 0,
         left: 0
       };
 
-      var splitted = position.split("-");
-      var edge = splitted[0];
-      var align = splitted[1];
+      var split = position.split("-");
+      var edge = split[0];
+      var align = split[1];
 
-      var position = {
+      var newPosition = {
         x : qx.module.Placement._getPositionX(edge,align),
         y : qx.module.Placement._getPositionY(edge,align)
-      }
+      };
 
-      var newLocation = qx.module.Placement._computePlacement(axes, size, area, target, offsets, position);
+      var newLocation = qx.module.Placement._computePlacement(axes, size, area, target.getOffset(), offsets, newPosition);
+
+      target = target.getParents();
+      if (target.getStyle("position") == "relative") {
+        var offset = target.getOffset();
+        newLocation.left -= offset.left;
+        newLocation.top -= offset.top;
+      }
 
       this.setStyles({
         position: "absolute",
@@ -144,7 +151,9 @@ qxWeb.define("qx.module.Placement", {
      * @param area {Map} Map with the keys <code>width</code> and <code>height</code>
      * containing the size of the two elements' common parent (available space for
      * placement)
-     * @param target {qxWeb} Collection containing the placement target
+     * @param target {Map} Location of the object to align the object to. This map
+     * should have the keys <code>left</code>, <code>top</code>, <code>right</code>
+     * and <code>bottom</code>
      * @param offsets {Map} Map of offsets (top, right, bottom, left)
      * @param position {Map} Map with the keys <code>x</code> and <code>y</code>,
      * containing the type of positioning for each axis
@@ -192,6 +201,8 @@ qxWeb.define("qx.module.Placement", {
         return "edge-end";
       } else if (align == "left") {
         return "align-start";
+      } else if (align == "center") {
+        return "align-center";
       } else if (align == "right") {
         return "align-end";
       }
@@ -214,6 +225,8 @@ qxWeb.define("qx.module.Placement", {
         return "edge-end";
       } else if (align == "top") {
         return "align-start";
+      } else if (align == "middle") {
+        return "align-center";
       } else if (align == "bottom") {
         return "align-end";
       }
