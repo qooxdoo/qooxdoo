@@ -138,6 +138,183 @@ qx.Bootstrap.define("qx.util.Animation",
         }
       }
     },
+
+    /** Target shrinks its height. */
+    SHRINK_HEIGHT : {
+      duration: 400,
+      timing: "linear",
+      origin: "top center",
+      keep: 100,
+      keyFrames : !(qxWeb.env.get("browser.name") === "ie" &&
+                    parseInt(qxWeb.env.get("browser.version"), 10) <= 9) ? {
+        0: {
+          scale : [ "1", "1" ],
+          opacity: 1
+        },
+        100: {
+          scale : [ "1", "0" ],
+          opacity : 0
+        }
+      } : {
+        0: {
+          height : "100%",
+          opacity: 1
+        },
+        100: {
+          height : "0%",
+          opacity : 0
+        }
+      }
+    },
+
+    /** Target grows its height. */
+    GROW_HEIGHT : {
+      duration: 400,
+      timing: "linear",
+      origin: "top center",
+      keep: 100,
+      keyFrames : !(qxWeb.env.get("browser.name") === "ie" &&
+                    parseInt(qxWeb.env.get("browser.version"), 10) <= 9) ? {
+        0: {
+          scale : [ "1", "0" ],
+          opacity: 0
+        },
+        100: {
+          scale : [ "1", "1" ],
+          opacity : 1
+        }
+      } : {
+        0: {
+          height : "0%",
+          opacity: 0
+        },
+        100: {
+          height : "100%",
+          opacity : 1
+        }
+      }
+    },
+
+    /** Target shrinks its width. */
+    SHRINK_WIDTH : {
+      duration: 400,
+      timing: "linear",
+      origin: "left center",
+      keep: 100,
+      keyFrames : !(qxWeb.env.get("browser.name") === "ie" &&
+                    parseInt(qxWeb.env.get("browser.version"), 10) <= 9) ? {
+        0: {
+          scale : [ "1", "1" ],
+          opacity: 1
+        },
+        100: {
+          scale : [ "0", "1" ],
+          opacity : 0
+        }
+      } : {
+        0: {
+          width : "100%",
+          opacity: 1
+        },
+        100: {
+          width : "0%",
+          opacity : 0
+        }
+      }
+    },
+
+    /** Target grows its width. */
+    GROW_WIDTH : {
+      duration: 400,
+      timing: "linear",
+      origin: "left center",
+      keep: 100,
+      keyFrames : !(qxWeb.env.get("browser.name") === "ie" &&
+                    parseInt(qxWeb.env.get("browser.version"), 10) <= 9) ? {
+        0: {
+          scale : [ "0", "1" ],
+          opacity: 0
+        },
+        100: {
+          scale : [ "1", "1" ],
+          opacity : 1
+        }
+      } : {
+        0: {
+          width : "0%",
+          opacity: 0
+        },
+        100: {
+          width : "100%",
+          opacity : 1
+        }
+      }
+    },
+
+    /** Target shrinks in both width and height. */
+    SHRINK : {
+      duration: 400,
+      timing: "linear",
+      origin: "left top",
+      keep: 100,
+      keyFrames : !(qxWeb.env.get("browser.name") === "ie" &&
+                    parseInt(qxWeb.env.get("browser.version"), 10) <= 9) ? {
+        0: {
+          scale : [ "1", "1" ],
+          opacity: 1
+        },
+        100: {
+          scale : [ "0", "0" ],
+          opacity : 0
+        }
+      } : {
+        0: {
+          width: "100%",
+          height: "100%",
+          opacity : 1,
+          fontSize: "1em"
+        },
+        100: {
+          width : "0%",
+          height : "0%",
+          opacity: 0,
+          fontSize: "0em"
+        }
+      }
+    },
+
+    /** Target grows in both width and height. */
+    GROW : {
+      duration: 400,
+      timing: "linear",
+      origin: "left top",
+      keep: 100,
+      keyFrames : !(qxWeb.env.get("browser.name") === "ie" &&
+                    parseInt(qxWeb.env.get("browser.version"), 10) <= 9) ? {
+        0: {
+          scale : [ "0", "0" ],
+          opacity: 0
+        },
+        100: {
+          scale : [ "1", "1" ],
+          opacity : 1
+        }
+      } : {
+        0: {
+          width : 0,
+          height : 0,
+          opacity: 0,
+          fontSize: 0
+        },
+        100: {
+          width: "100%",
+          height: "100%",
+          opacity : 1,
+          fontSize: "1em"
+        }
+      }
+    },
+
     /** Target slides in to top. */
     SLIDE_UP_IN : {
       duration: 350,
