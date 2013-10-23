@@ -11,7 +11,7 @@
 }
 
 .master-detail-master {
-  border-right: rem(1) solid darken($navigationpage-border-color, 40%);
+  border-right: rem(1) solid $navigationpage-border-color;
 }
 
 .master-detail.portrait .master-detail-master:not(.hidden) {
