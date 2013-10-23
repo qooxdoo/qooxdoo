@@ -92,7 +92,10 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     qx.event.Registration.addListener(this.getContentElement(), "scroll", this._onNativeScroll, this);
 
     var pagination = this.__pagination = new qx.ui.mobile.container.Composite();
+    pagination.setLayout(new qx.ui.mobile.layout.HBox());
+    pagination.setTransformUnit("px");
     pagination.addCssClass("carousel-pagination");
+
 
     this._add(carouselScroller, {
       flex: 1
@@ -221,7 +224,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      */
     removePageByIndex : function(pageIndex) {
       if (this.__pages && this.__pages.length > pageIndex) {
-        if (pageIndex == this.getCurrentIndex() && this.getCurrentIndex() != 0) {
+        if (pageIndex == this.getCurrentIndex() && this.getCurrentIndex() !== 0) {
           this.setCurrentIndex(this.getCurrentIndex() - 1);
         }
 
@@ -273,7 +276,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * Scrolls the carousel to previous page.
      */
     previousPage : function() {
-      if (this.getCurrentIndex() == 0) {
+      if (this.getCurrentIndex() === 0) {
         if (this.isScrollLoop()) {
           this._doScrollLoop(this.__pages.length - 1);
         }
@@ -308,7 +311,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      */
     _scrollToPage : function(pageIndex, showTransition) {
       if (pageIndex >= this.__pages.length || pageIndex < 0) {
-        return
+        return;
       }
 
       var snapPoint = -pageIndex * this.__pageWidth;
@@ -453,7 +456,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     * @param evt {qx.event.type.Touch} the touchend event.
     */
     _onTouchEnd : function(evt) {
-      if(evt.getAllTouches().length == 0) {
+      if(evt.getAllTouches().length === 0) {
         this._refreshScrollerPosition();
       }
     },
@@ -504,18 +507,18 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       this.__deltaX = evt.getAllTouches()[0].pageX - this.__touchStartPosition[0];
       this.__deltaY = evt.getAllTouches()[0].pageY - this.__touchStartPosition[1];
 
-      if (this.__isPageScrollTarget == null) {
+      if (this.__isPageScrollTarget === null) {
         var cosDelta = this.__deltaX / this.__deltaY;
         this.__isPageScrollTarget = Math.abs(cosDelta) < 1;
       }
 
       if (!this.__isPageScrollTarget) {
         this.__onMoveOffset[0] = this.__deltaX + this.__lastOffset[0];
-        if (!(this.__onMoveOffset[0] < this.__boundsX[1])) {
+        if (this.__onMoveOffset[0] >= this.__boundsX[1]) {
           this.__onMoveOffset[0] = this.__boundsX[1];
         }
 
-        if (!(this.__onMoveOffset[0] > this.__boundsX[0])) {
+        if (this.__onMoveOffset[0] <= this.__boundsX[0]) {
           this.__onMoveOffset[0] = this.__boundsX[0];
         }
         this._updateScrollerPosition(this.__onMoveOffset[0], this.__onMoveOffset[1]);
@@ -581,7 +584,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param showTransition {Boolean} Target value which triggers transition.
      */
     _setShowTransition : function(showTransition) {
-      if (showTransition == true) {
+      if (showTransition === true) {
         this._setTransitionDuration(this.getTransitionDuration());
       } else {
         this._setTransitionDuration(0);
@@ -656,6 +659,20 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       if(newActiveLabel && newActiveLabel.getContainerElement()) {
         newActiveLabel.addCssClass("active");
       }
+      
+      if(this.__paginationLabels.length) {
+        var paginationLabelWidth = 1.5 * qx.bom.element.Dimension.getWidth(this.__paginationLabels[0].getContentElement());
+        var paginationWidth = paginationLabelWidth * this.__paginationLabels.length;
+        if (paginationWidth > this.__carouselWidth === true) {
+          this.__pagination.setTranslateX((this.__carouselWidth / 2) - newActiveIndex * paginationLabelWidth);
+          qx.bom.element.Style.set(this.__pagination.getContentElement(), "marginLeft", "0px");
+          qx.bom.element.Style.set(this.__pagination.getContentElement(), "left", null);
+        } else {
+          qx.bom.element.Style.set(this.__pagination.getContentElement(), "marginLeft", (-paginationWidth / 32) + "rem");
+          qx.bom.element.Style.set(this.__pagination.getContentElement(), "left", "50%");
+          this.__pagination.setTranslateX(0);
+        }
+      }
     },
 
 
@@ -665,9 +682,10 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param y {Integer} scroller's y position.
      */
     _updateScrollerPosition : function(x,y) {
-      if(isNaN(x) || isNaN(y) || this.__carouselScroller.getContentElement() == null) {
+      if(isNaN(x) || isNaN(y) || this.__carouselScroller.getContentElement() === null) {
         return;
       }
+
       this.__carouselScroller.setTranslateX(x);
       this.__carouselScroller.setTranslateY(y);
     },

@@ -5,31 +5,27 @@
 .carousel {
   overflow:hidden;
   position:relative;
+  text-align: center;
 }
 
 .carousel-scroller {
   @include transition(all ease-out);
   @include transform(translate3d(0,0,0));
   vertical-align:top;
+  text-align:left;
 }
 
 .carousel-page {
-  display:inline-block;
-  overflow:hidden;
-  vertical-align:top;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
 }
 
 .carousel-pagination {
-  position: absolute;
-  display:block;
-
-  text-align:center;
-  overflow:hidden;
-  bottom: 0px;
-  left: 0px;
-  line-height: 0px;
-
-  width: 100%;
+  -webkit-transition: -webkit-transform 2s;
+  transition: transform 2s;
+  position:relative;
+  top: -$carousel-pagination-size * 1.5;
 }
 
 .carousel-pagination-label + .carousel-pagination-label {
@@ -39,17 +35,13 @@
 .carousel-pagination-label {
   @include border-radius($carousel-pagination-border-radius);
   @include background($carousel-pagination-background);
+  @include box-sizing(border-box);
 
-  display: inline-block;
-  border: rem(1) solid white;
-
-  margin-bottom: $carousel-pagination-size/2;
-
-  opacity: 0.6;
+  border: rem(1) solid $carousel-pagination-border-color;
+  text-align: center;
 
   width: $carousel-pagination-size;
   height: $carousel-pagination-size;
-  text-align: center;
   line-height: $carousel-pagination-size;
 }
 
@@ -60,5 +52,5 @@
 
 .carousel-pagination-label.active {
   @include background($carousel-pagination-active-background);
-  opacity: 1;
+  border: rem(1) solid $carousel-pagination-active-border-color;
 }
