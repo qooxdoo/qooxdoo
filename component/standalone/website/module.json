@@ -580,7 +580,8 @@
         "Q_INCLUDES" : [
           "qx.module.util.Array",
           "qx.module.util.String",
-          "qx.module.util.Type"
+          "qx.module.util.Type",
+          "qx.module.util.Object"
         ],
         "MODULE_FILENAME" : "util"
       }
@@ -596,7 +597,8 @@
         "Q_INCLUDES" : [
           "qx.module.util.Array",
           "qx.module.util.String",
-          "qx.module.util.Type"
+          "qx.module.util.Type",
+          "qx.module.util.Object"
         ],
         "MODULE_FILENAME" : "util"
       }
