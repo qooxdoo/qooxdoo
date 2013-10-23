@@ -13,7 +13,7 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Tino Butz (tbtz)
+     * Tino Butz (tbtz)
 
 ************************************************************************ */
 
@@ -83,14 +83,12 @@ qx.Class.define("mobileshowcase.Application",
       var form = new mobileshowcase.page.Form();
       var animation = new mobileshowcase.page.Animation();
       var animationLanding = new mobileshowcase.page.AnimationLanding();
-      var atoms = new mobileshowcase.page.Atom();
       var basic = new mobileshowcase.page.Basic();
       var dialogs = new mobileshowcase.page.Dialog();
       var dataBinding = new mobileshowcase.page.DataBinding();
       var maps = new mobileshowcase.page.Maps();
       var canvas = new mobileshowcase.page.Canvas();
       var themeSwitcher = new mobileshowcase.page.ThemeSwitcher();
-
 
       // Add the pages to the page manager
       var manager = new qx.ui.mobile.page.Manager();
@@ -106,7 +104,6 @@ qx.Class.define("mobileshowcase.Application",
         form,
         animation,
         animationLanding,
-        atoms,
         dialogs,
         dataBinding,
         maps,
@@ -158,11 +155,6 @@ qx.Class.define("mobileshowcase.Application",
       nm.onGet("/form", function(data)
       {
         form.show();
-      },this);
-
-      nm.onGet("/atom", function(data)
-      {
-        atoms.show();
       },this);
 
       nm.onGet("/animation", function(data) {

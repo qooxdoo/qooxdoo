@@ -1,4 +1,4 @@
-Here, the deliverables for the qooxdoo component 'server' are being built.
+Here, the deliverables for the qooxdoo component 'qx.Server' are being built.
 Generator jobs:
 
 build:

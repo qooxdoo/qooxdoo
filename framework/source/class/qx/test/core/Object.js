@@ -169,7 +169,7 @@ qx.Class.define("qx.test.core.Object",
       // store error logger
       var oldError = qx.log.Logger.error;
       var called = 0;
-      qx.log.Logger.error = function(arguments) {
+      qx.log.Logger.error = function() {
         called += 1;
       }
 

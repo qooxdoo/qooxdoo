@@ -93,26 +93,32 @@ qx.Class.define("mobileshowcase.page.Form",
     {
       var form = new qx.ui.mobile.form.Form();
 
+      // NAME FIELD
       this.__name = new qx.ui.mobile.form.TextField().set({placeholder:"Username"});
       this.__name.setRequired(true);
+      this.__name.setLiveUpdate(true);
 
       form.addGroupHeader("Contact");
       form.add(this.__name, "Username");
 
+      // PASSWORD FIELD
       this.__password = new qx.ui.mobile.form.PasswordField().set({placeholder:"Password"});
+      this.__password.setLiveUpdate(true);
       form.add(this.__password, "Password");
 
+      // REMEMBER PASSWORD CHECKBOX
       this.__rememberPass = new qx.ui.mobile.form.CheckBox();
       form.add(this.__rememberPass, "Remember password? ");
       this.__rememberPass.setModel("password_reminder");
       this.__rememberPass.bind("model",this.__password,"value");
+
       this.__password.bind("value",this.__rememberPass,"model");
 
       // NUMBER FIELD
       this.__numberField = new qx.ui.mobile.form.NumberField();
-      this.__numberField.setValue("0");
       this.__numberField.setMaximum(150);
       this.__numberField.setMinimum(0);
+      this.__numberField.setLiveUpdate(true);
       form.add(this.__numberField,"Age");
 
       form.addGroupHeader("Gender");

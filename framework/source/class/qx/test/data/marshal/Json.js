@@ -85,7 +85,7 @@ qx.Class.define("qx.test.data.marshal.Json",
       var str = qx.locale.Manager.tr("test one");
       var data = {a : str};
       this.__marshaler.toClass(data);
-      return;
+
       var model = this.__marshaler.toModel(data);
 
       this.assertEquals(str, model.getA());

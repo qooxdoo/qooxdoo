@@ -380,26 +380,24 @@ qx.Bootstrap.define("qx.module.Event", {
 
 
     /**
-     * Bind one or two callbacks to the collection. 
+     * Bind one or two callbacks to the collection.
      * If only the first callback is defined the collection
      * does react on 'mouseover' only.
      *
      * @attach {qxWeb}
      *
-     * @param callbackIn {Function} callback when hovering over 
-     * @param callbackOut {Function?} callback when hovering out 
+     * @param callbackIn {Function} callback when hovering over
+     * @param callbackOut {Function?} callback when hovering out
      * @return {qxWeb} The collection for chaining
      */
     hover : function(callbackIn, callbackOut) {
-      var collection;
-      for (var j=0; j < this.length; j++) {
-        collection = qxWeb(this[j]);
-        collection.on("mouseover", callbackIn, collection);
 
-        if (qx.lang.Type.isFunction(callbackOut)) {
-          collection.on("mouseout", callbackOut, collection);
-        }
+      this.on("mouseover", callbackIn, this);
+
+      if (qx.lang.Type.isFunction(callbackOut)) {
+        this.on("mouseout", callbackOut, this);
       }
+
       return this;
     },
 

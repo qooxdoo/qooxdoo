@@ -142,12 +142,6 @@ Files = {
     "./tool/data/generator/active_reload.js" : [
         r'qooxdoo v(%s) \|' % qxversion_regexp,
         ],
-    "./component/standalone/server/test/rhino.js" : [
-        r'qx-oo-(%s).js' % qxversion_regexp,
-        ],
-    "./component/standalone/server/test/node.js" : [
-        r'qx-oo-(%s).js' % qxversion_regexp,
-        ],
     "./tool/admin/release/index.html" : [
         r'qx-oo-(%s).js' % qxversion_regexp,
         r'qx-oo-(%s).min.js' % qxversion_regexp,
@@ -167,29 +161,6 @@ Files = {
         ],
     "./component/skeleton/website/readme.txt" : [
         r'q-(%s).js' % qxversion_regexp,
-        r'q-(%s).min.js' % qxversion_regexp,
-        ],
-    "./component/standalone/website/index.html" : [
-        r'q-(%s).min.js' % qxversion_regexp,
-        r'q-(%s).js' % qxversion_regexp,
-        ],
-    "./component/standalone/website/api/index.html" : [
-        r'q-[a-z]+-(%s).min.js' % qxversion_regexp,
-        ],
-    "./component/standalone/website/test/index.html" : [
-        r'q-(%s).min.js' % qxversion_regexp,
-        ],
-    "./component/standalone/website/test/index-module.html" : [
-        r'q-[a-z]+-(%s).min.js' % qxversion_regexp,
-        ],
-    "./application/todo/index.html" : [
-        r'q-[a-z]+-(%s).min.js' % qxversion_regexp,
-        ],
-    "./component/tutorials/website/step1/notification.html" : [
-        r'q-(%s).min.js' % qxversion_regexp,
-        ],
-    "./component/standalone/website/test/media.html" : [
-        r'q-[a-z]+-(%s).min.js' % qxversion_regexp,
         r'q-(%s).min.js' % qxversion_regexp,
         ],
 }

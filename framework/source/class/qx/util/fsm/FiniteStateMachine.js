@@ -1122,7 +1122,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
             default:
               throw new Error("Internal error: invalid nextState");
-              break;
           }
         }
 

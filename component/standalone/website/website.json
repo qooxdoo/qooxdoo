@@ -44,6 +44,8 @@
       "qx.module.*",
       "qxWeb"
     ],
+    //"QFILES_VERSION_PART": "-${QOOXDOO_VERSION}",
+    "QFILES_VERSION_PART": "",
     "API_INCLUDE" : "${QXWEB_ALL}"
   },
 
@@ -155,7 +157,7 @@
       {
         "paths"  :
         {
-          "=file" : "${TEST_SCRIPT_PATH}/q-${QOOXDOO_VERSION}.min.js"
+          "=file" : "${TEST_SCRIPT_PATH}/q${QFILES_VERSION_PART}.min.js"
         }
       }
     },
@@ -238,52 +240,28 @@
 
     "distclean" :
     {
-      "desc"    : "remove local cache and generated .js files (source/build/build-min/test/test-source/api)",
-      "extend"  : ["cache"],
-
-      "let": {
-        "BUILD_PATH" : "${SCRIPT_PATH}"
-      },
-
-      "=clean-files" :
-      {
-        "Deleting build/source" :
-        [
-          "${BUILD_PATH}"
-        ],
-        "Cleaning up tests" :
-        [
-          "${TEST_SCRIPT_PATH}"
-        ],
-        "Cleaning up API data" :
-        [
-          "${API_SCRIPT_PATH}"
-        ]
-      }
+      "desc"    : "remove local generated files and global cache",
+      "extend"  : ["clean"]
     },
 
     "clean" :
     {
-      "desc"    : "remove local cache and generated .js files (source/build/build-min/test/api)",
+      "desc"    : "remove local generated files",
       "extend"  : ["cache"],
-
-      "let": {
-        "BUILD_PATH" : "${SCRIPT_PATH}"
-      },
 
       "=clean-files" :
       {
-        "Cleaning up source" :
+        "Cleaning up script path" :
         [
-          "${BUILD_PATH}/q-source*.js"
+          "${SCRIPT_PATH}/*"
         ],
-        "Cleaning up build" :
+        "Cleaning up api" :
         [
-          "${BUILD_PATH}/q-*${QOOXDOO_VERSION}.js"
+          "${API_SCRIPT_PATH}/*"
         ],
-        "Cleaning up build-min" :
+        "Cleaning up test" :
         [
-          "${BUILD_PATH}/q-*${QOOXDOO_VERSION}.min.js"
+          "${TEST_SCRIPT_PATH}/*"
         ]
       }
     }
