@@ -2159,6 +2159,15 @@ testrunner.define({
   {
     testrunner.globalSetup.call(this);
 
+    q("#sandbox").setStyles({
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      backgroundColor: "#AEAEAE"
+    });
+
     q.create('<div id="foo"></div>').setStyles({
       position: "absolute",
       top: "200px",
@@ -2184,18 +2193,34 @@ testrunner.define({
 
   testPlaceToSimple : function()
   {
-    q("#sandbox #bar").placeTo(q("#sandbox #foo")[0], "right-top");
+    q("#sandbox #bar").placeTo("#sandbox #foo", "right-top");
     var expectedLocation = {
       left: 200,
       top: 200
     };
     this.assertEquals(expectedLocation.left, q("#bar").getOffset().left);
     this.assertEquals(expectedLocation.top, q("#bar").getOffset().top);
+
+    q("#sandbox #foo").setStyles({
+      position: "relative",
+      left: "10px",
+      paddingLeft: "10px"
+    });
+
+    q("#sandbox #bar").placeTo("#sandbox #foo", "right-top");
+
+    expectedLocation = {
+      left: 220,
+      top: 200
+    };
+    this.assertEquals(expectedLocation.left, q("#bar").getOffset().left);
+    this.assertEquals(expectedLocation.top, q("#bar").getOffset().top);
   },
+
 
   testPlaceToDirect : function()
   {
-    q("#sandbox #bar").placeTo(q("#sandbox #foo")[0], "right-bottom", {top: 10, right: 10, bottom: 10, left: 10}, "direct", "direct");
+    q("#sandbox #bar").placeTo("#sandbox #foo", "right-bottom", {top: 10, right: 10, bottom: 10, left: 10}, "direct", "direct");
 
     var expectedLocation = {
       left: 210,
@@ -2207,10 +2232,10 @@ testrunner.define({
 
   testPlaceToKeepAlign : function()
   {
-    q("#sandbox #bar").placeTo(q("#sandbox #foo")[0], "left-top", {top: 10, right: 10, bottom: 10, left: 10}, "keep-align", "keep-align");
+    q("#sandbox #bar").placeTo("#sandbox #foo", "left-top", {top: 10, right: 10, bottom: 10, left: 10}, "keep-align", "keep-align");
     var expectedLocation = {
       left: 210,
-      top: 265
+      top: 210
     };
     this.assertEquals(expectedLocation.left, q("#bar").getOffset().left);
     this.assertEquals(expectedLocation.top, q("#bar").getOffset().top);
