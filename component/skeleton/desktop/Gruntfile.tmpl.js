@@ -5,33 +5,8 @@ var _qx = {
 };
 
 // requires
-var appConf = require(_qx.sdkPath + '/tool/data/grunt/config/application.js');
-
-// register generator jobs for shell exists
-var registerGeneratorJobs = function(grunt, jobs, supersededJobs) {
-  jobs.forEach(function (genJob) {
-    var jobName = genJob[0];
-    var jobDesc = genJob[1];
-
-    if (supersededJobs[jobName] !== undefined) {
-      // register proper grunt task
-      // grunt.registerTask(jobName, jobDesc, function () {
-      //   grunt.task.run([supersededJobs[jobName]]);
-      // });
-    } else {
-      // register generator job as task
-      grunt.registerTask(jobName, jobDesc, function (job) {
-        grunt.task.run(["generate:"+jobName]);
-      });
-    }
-  });
-};
-
-var registerQxJobTasks = function(grunt) {
-  grunt.loadTasks(_qx.sdkPath + '/tool/data/grunt/tasks/application');
-  grunt.loadTasks(_qx.sdkPath + '/tool/data/grunt/tasks/info/tasks');
-  grunt.loadTasks(_qx.sdkPath + '/tool/data/grunt/tasks/copy-files/tasks');
-};
+var qxConf = require(_qx.sdkPath + '/tool/data/grunt/config/application.js');
+var qxTasks = require(_qx.sdkPath + '/tool/data/grunt/tasks/tasks.js');
 
 // grunt
 module.exports = function(grunt) {
@@ -56,13 +31,12 @@ module.exports = function(grunt) {
     */
   };
 
-  var mergedConf = appConf.mergeConfig(config);
+  var mergedConf = qxConf.mergeConfig(config);
   // console.log(mergedConf);
   // process.exit();
   grunt.initConfig(mergedConf);
 
-  registerGeneratorJobs(grunt, _qx.generatorJobs, appConf.getSupersededJobs());
-  registerQxJobTasks(grunt);
+  qxTasks.registerTasks(grunt, _qx.generatorJobs);
 
   grunt.loadNpmTasks('grunt-contrib-clean');
 };

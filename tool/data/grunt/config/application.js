@@ -59,15 +59,7 @@ var mergeConfig = function(config) {
   return deepmerge(getConfig(), config);
 };
 
-var getSupersededJobs = function() {
-  return {
-    clean: "clean:clean",
-    distclean: "clean:dist",
-    info: "info"
-  };
-};
 
+// exports
 module.exports.getConfig = getConfig;
 module.exports.mergeConfig = mergeConfig;
-module.exports.getSupersededJobs = getSupersededJobs;
-
