@@ -25,7 +25,7 @@ qx.Bootstrap.define("qx.module.util.Object", {
     /**
      * Return a copy of an Object
      *
-     * @signature function(map)
+     * @signature function(source, deep)
      * @attachStatic {qxWeb, object.clone}
      *
      * @param source {Object} Object to copy
