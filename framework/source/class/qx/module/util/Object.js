@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * Helper functions to handle Object as a Hash map.
+ */
 qx.Bootstrap.define("qx.module.util.Object", {
   statics : {
     /**
