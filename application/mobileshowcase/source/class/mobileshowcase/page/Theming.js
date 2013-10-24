@@ -29,7 +29,7 @@
  *
  * @asset(qx/mobile/css/*)
  */
-qx.Class.define("mobileshowcase.page.ThemeSwitcher",
+qx.Class.define("mobileshowcase.page.Theming",
 {
   extend : qx.ui.mobile.page.NavigationPage,
 

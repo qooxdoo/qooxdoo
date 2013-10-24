@@ -88,7 +88,7 @@ qx.Class.define("mobileshowcase.Application",
       var dataBinding = new mobileshowcase.page.DataBinding();
       var maps = new mobileshowcase.page.Maps();
       var canvas = new mobileshowcase.page.Canvas();
-      var themeSwitcher = new mobileshowcase.page.ThemeSwitcher();
+      var theming = new mobileshowcase.page.Theming();
 
       // Add the pages to the page manager
       var manager = new qx.ui.mobile.page.Manager();
@@ -108,7 +108,7 @@ qx.Class.define("mobileshowcase.Application",
         dataBinding,
         maps,
         canvas,
-        themeSwitcher
+        theming
       ]);
 
       // Initialize the navigation
@@ -204,7 +204,7 @@ qx.Class.define("mobileshowcase.Application",
 
       nm.onGet("/theming", function(data)
       {
-        themeSwitcher.show();
+        theming.show();
       },this);
 
       // start the navigation handling
