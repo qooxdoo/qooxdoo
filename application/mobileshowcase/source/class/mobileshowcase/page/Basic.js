@@ -76,7 +76,7 @@ qx.Class.define("mobileshowcase.page.Basic",
 
       var exToggleButton = new qx.ui.mobile.form.ToggleButton(false);
 
-      var labelText = "qx.Mobile is qooxdoo's mobile framework. It provides specific UI classes for touch devices, handling of mobile events like swiping, and specific styling. It is suitable for various mobile web browsers on iOS and Android platforms.";
+      var labelText = "qx.Mobile is a sophisticated HTML5 framework. It provides specific UI widgets for touch devices, handling of mobile events like swiping, custom theming and much more. It is suitable for mobile web browsers on platforms such as Android, iOS, WP8 or BlackBerry 10.";
 
       var exLabel = new qx.ui.mobile.basic.Label(labelText);
       exLabel.addCssClass("space-top");
