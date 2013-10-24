@@ -39,7 +39,6 @@ from ecmascript.backend         import formatter_3
 from ecmascript.backend.Packer  import Packer
 from ecmascript.transform.optimizer    import privateoptimizer
 #from ecmascript.transform.optimizer    import globalsoptimizer
-from ecmascript.transform.check    import lint, check_globals
 from misc                       import filetool, json, Path, securehash as sha, util
 from misc.util                  import pipeline, bind, curry2
 from misc.ExtMap                import ExtMap
