@@ -56,6 +56,7 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
   members :
   {
     __themes : null,
+    __slider : null,
     __demoImageLabel : null,
 
 
@@ -123,7 +124,7 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
     },
 
 
-    /**
+   /**
     * Refreshes the label which displays the pixel ratio, scale factor etc.
     */
     _updateDemoImageLabel : function() {
@@ -137,18 +138,7 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
     },
 
 
-    /*
-    * Rounds a number to one decimal place. 
-    * @param x {Number}  
-    */
-    round : function (x) {
-      var k = (Math.round(x * 100) / 100).toString();
-      k += (k.indexOf('.') == -1)? '.00' : '00';
-      return k.substring(0, k.indexOf('.') + 2);
-    },
-
-
-     /**
+    /**
      * Creates the a control widget for the theme's scale factor.
      * @return {qx.ui.mobile.form.Form} the control widget for the adjusting the theme scaling.
      */
