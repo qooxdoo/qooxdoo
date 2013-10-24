@@ -36,7 +36,7 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
   construct : function()
   {
     this.base(arguments, false);
-    this.setTitle("Theme Switcher");
+    this.setTitle("Theming");
     this.setShowBackButton(true);
     this.setBackButtonText("Back");
     this.__themes = [{
@@ -80,7 +80,7 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
     {
       this.base(arguments);
 
-      this.getContent().add(new qx.ui.mobile.form.Title("Select your theme"));
+      this.getContent().add(new qx.ui.mobile.form.Title("Select a theme"));
 
       var themeGroup = new qx.ui.mobile.form.Group([],false);
       var themeForm = new qx.ui.mobile.form.Form();
@@ -108,7 +108,7 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
 
     /** Creates and adds the image resolution demonstration. */
     _createImageResolutionHandlingDemo : function() {
-      this.getContent().add(new qx.ui.mobile.form.Title("Image Resolution Handling"));
+      this.getContent().add(new qx.ui.mobile.form.Title("Resolution-specific Images"));
       var demoImage = new qx.ui.mobile.basic.Image("mobileshowcase/icon/image.png");
       demoImage.addCssClass("resolution-demo-image");
 
@@ -130,8 +130,8 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
       var pixelRatio = qx.core.Environment.get("device.pixelRatio");
       var scaleFactor = qx.core.Init.getApplication().getRoot().getScaleFactor();
 
-      var demoLabelTemplate = "<div>Device pixel ratio:<span>%1</span></div>  <div>Application's scale factor:<span>%2</span></div> <div>Optimal image resolution:<span>%3</span></div>";
-      var labelContent = qx.lang.String.format(demoLabelTemplate, [pixelRatio, scaleFactor,  this.round(pixelRatio*scaleFactor)]);
+      var demoLabelTemplate = "<div>Best available image for optimal scale<span>%1</span></div> <div><br/></div> <div>Device pixel ratio:<span>%2</span></div>  <div>Application scale:<span>%3</span></div> ";
+      var labelContent = qx.lang.String.format(demoLabelTemplate, [(pixelRatio*scaleFactor).toFixed(1), pixelRatio.toFixed(1), scaleFactor.toFixed(1)]);
 
       this.__demoImageLabel.setValue(labelContent);
     },
@@ -154,10 +154,10 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
      */
     __createThemeScaleControl : function()
     {
-      this.getContent().add(new qx.ui.mobile.form.Title("Adjust theme scaling"));
-      
+      this.getContent().add(new qx.ui.mobile.form.Title("Adjust the scale"));
+
       var form = new qx.ui.mobile.form.Form();
-      var slider = new qx.ui.mobile.form.Slider();
+      var slider = this.__slider = new qx.ui.mobile.form.Slider();
       slider.set({
         "displayValue":"value",
         "minimum":50,
@@ -165,10 +165,10 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
         "value":100,
         "step":10
       });
-      form.add(slider,"Theme Scale Factor in %");
+      form.add(slider,"Application Scale in %");
 
       var useScaleButton = new qx.ui.mobile.form.Button("Apply");
-      useScaleButton.addListener("tap", this._onApplyScaleButtonTap, {"slider":slider, "self":this});
+      useScaleButton.addListener("tap", this._onApplyScaleButtonTap, this);
       form.addButton(useScaleButton);
 
       var scaleGroup = new qx.ui.mobile.form.Group([new qx.ui.mobile.form.renderer.Single(form)],false);
@@ -180,15 +180,15 @@ qx.Class.define("mobileshowcase.page.ThemeSwitcher",
     * Handler for "tap" event on applyScaleButton. Applies the app's root font size in relation to slider value.
     */
     _onApplyScaleButtonTap : function() {
-      qx.core.Init.getApplication().getRoot().setScaleFactor(this.slider.getValue()/100);
-      
-      this.self._updateDemoImageLabel();
+      qx.core.Init.getApplication().getRoot().setScaleFactor(this.__slider.getValue()/100);
 
-      var lastValue = this.slider.getValue();
-      this.slider.setValue(0);
-      this.slider.setValue(lastValue);
-     
-      qx.core.Init.getApplication().getRouting().executeGet("/themeswitcher", {reverse:false});
+      this._updateDemoImageLabel();
+
+      var lastValue = this.__slider.getValue();
+      this.__slider.setValue(0);
+      this.__slider.setValue(lastValue);
+
+      qx.core.Init.getApplication().getRouting().executeGet("/theming", {reverse:false});
     },
 
 
