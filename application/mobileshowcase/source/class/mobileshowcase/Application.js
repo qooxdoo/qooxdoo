@@ -202,7 +202,7 @@ qx.Class.define("mobileshowcase.Application",
         canvas.show();
       },this);
 
-      nm.onGet("/themeswitcher", function(data)
+      nm.onGet("/theming", function(data)
       {
         themeSwitcher.show();
       },this);
