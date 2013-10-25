@@ -62,7 +62,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
     root = root || qx.core.Init.getApplication().getRoot();
 
-    if (isTablet != null) {
+    if (typeof isTablet !== "undefined" && isTablet !== null) {
       this.__isTablet = isTablet;
     } else {
       // If isTablet is undefined, call environment variable "device.type".
@@ -453,11 +453,11 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
       if(qx.bom.Viewport.isLandscape()) {
         this.__masterContainer.setTransitionDuration(0);
-
-        if(!this.isMasterContainerHidden()) {
+        if(this.isMasterContainerHidden() === false) {
           this._createDetailContainerGap();
           this.__masterContainer.show();
         } else {
+          this._removeDetailContainerGap();
           this.__masterContainer.hide();
         }
         this.__masterContainer.setHideOnParentTouch(false);
