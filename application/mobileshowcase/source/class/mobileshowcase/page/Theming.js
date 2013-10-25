@@ -80,7 +80,7 @@ qx.Class.define("mobileshowcase.page.Theming",
     _initialize : function()
     {
       this.base(arguments);
-
+/*
       this.getContent().add(new qx.ui.mobile.form.Title("Select a theme"));
 
       var themeGroup = new qx.ui.mobile.form.Group([],false);
@@ -100,7 +100,7 @@ qx.Class.define("mobileshowcase.page.Theming",
 
       themeGroup.add(new qx.ui.mobile.form.renderer.Single(themeForm));
       this.getContent().add(themeGroup);
-
+*/
       this.__createThemeScaleControl();
 
       this._createImageResolutionHandlingDemo();
