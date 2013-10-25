@@ -190,7 +190,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
       while (i > 0 && factor > pixelRatioCandidates[--i]) {}
 
       var imgSrc;
-    
+
       // Search for best img with a higher resolution.
       for (var k = i; k >= 0; k--) {
         imgSrc = this._getHighResolutionSource(source, pixelRatioCandidates[k]);
@@ -213,10 +213,10 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     },
 
     /**
-    * Returns the source name for the high resolution image based on the passed 
+    * Returns the source name for the high resolution image based on the passed
     * parameters.
     * @param source {String} the source of the medium resolution image.
-    * @param pixelRatio {Number} the pixel ratio of the high resolution image.  
+    * @param pixelRatio {Number} the pixel ratio of the high resolution image.
     * @return {String} the high resolution source name or null if no source could be found.
     */
     _getHighResolutionSource : function(source, pixelRatio) {
@@ -243,10 +243,10 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     _createHighResolutionOverlay : function(highResSource) {
       // Replace the source through transparent pixel for making the high resolution background image visible.
       this._setSource("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
-      this._setStyle("background-image","url("+qx.util.ResourceManager.getInstance().toUri(highResSource)+")");
-      this._setStyle("background-size","100%");
-      this._setStyle("background-repeat","no-repeat");
-      this._setStyle("background-position","50% 50%");
+      this._setStyle("backgroundImage","url("+qx.util.ResourceManager.getInstance().toUri(highResSource)+")");
+      this._setStyle("backgroundSize","100%");
+      this._setStyle("backgroundRepeat","no-repeat");
+      this._setStyle("backgroundPosition","50% 50%");
     },
 
 
