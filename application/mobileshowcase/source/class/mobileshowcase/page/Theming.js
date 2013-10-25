@@ -39,15 +39,14 @@ qx.Class.define("mobileshowcase.page.Theming",
     this.setTitle("Theming");
     this.setShowBackButton(true);
     this.setBackButtonText("Back");
+
     this.__themes = [{
-        "name": "Indigo",
-        "css": "../../../framework/source/resource/qx/mobile/css/indigo.css"
-      },
-      {
-        "name": "Flat",
-        "css": "../../../framework/source/resource/qx/mobile/css/flat.css"
-      }
-    ];
+      "name": "Indigo",
+      "css": "qx/mobile/css/indigo.css"
+    }, {
+      "name": "Flat",
+      "css": "qx/mobile/css/flat.css"
+    }];
 
     this.__preloadThemes();
   },
