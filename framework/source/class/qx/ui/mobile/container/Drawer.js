@@ -184,8 +184,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     __touchStartPosition : null,
     __parent : null,
     __inAnimation : null,
-    __transitionEnabled : true,
-    __timers : null,
+    __lastLandscape : null,
 
 
     // property apply
@@ -276,16 +275,52 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     },
 
 
+    /**
+     * @deprecated {3.1} Please use this.__parent.toggleCssClass instead.
+     */
+    _toggleParentBlockedState : function() {
+      this.__parent.toggleCssClass("blocked");
+    },
+
+
     // property apply
     _applySize : function(value) {
+      var height = null;
+      var width = null;
+
       var remSize = (value/16);
 
       if(this.getOrientation() =="left" || this.getOrientation() == "right") {
-        qx.bom.element.Style.set(this.getContainerElement(),"height", null);
-        qx.bom.element.Style.set(this.getContainerElement(),"width", remSize+"rem");
+        width = remSize+"rem";
       } else {
-        qx.bom.element.Style.set(this.getContainerElement(),"width", null);
-        qx.bom.element.Style.set(this.getContainerElement(),"height", remSize+"rem");
+        height = remSize+"rem";
+      }
+
+      this._setStyle("height", height);
+      this._setStyle("width", width);
+    },
+
+
+    /**
+    * Handler for the "transitionEnd" event.
+    * @param evt {Event} the event. 
+    */
+    _onTransitionEnd : function(evt) {
+      if(evt) {
+        qx.bom.Element.removeListener(evt.getTarget(), "transitionEnd", this._onTransitionEnd, this);
+      }
+
+      this.__inAnimation = false;
+      this._disableTransition();
+      this.__parent.removeCssClass("blocked");
+
+      if (this.isHidden()) {
+        this.exclude();
+      }
+
+      // Check for orientation change during transition.
+      if(this.__lastLandscape != qx.bom.Viewport.isLandscape()) {
+        this.show();
       }
     },
 
@@ -301,15 +336,15 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
      */
     show : function()
     {
-      if(this.__inAnimation) {
+      if(this.__inAnimation || !this.isHidden()) {
         return;
       }
 
       this.base(arguments);
 
-      this._enableTransition();
+      this.__parent.addCssClass("blocked");
 
-      this._toggleParentBlockedState();
+      this.__lastLandscape = qx.bom.Viewport.isLandscape();
 
       if (this.getPositionZ() == "below") {
         if(this.__parent) {
@@ -334,28 +369,17 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
           this.setTranslateY(this.getSize());
         }
       }
-
-      // Delayed removal of hidden class, needed for iOS
-      // soft keyboard bug.
-      if(this.__transitionEnabled) {
-        this.__timers.push(qx.event.Timer.once(function() {
-        this.removeCssClass("hidden");
-        }, this, 0));
+      if (this.getTransitionDuration() > 0) {
+        this._enableTransition();
+        this.__inAnimation = true;
+        qx.bom.Element.addListener(this._getTransitionTarget().getContentElement(), "transitionEnd", this._onTransitionEnd, this);
+        setTimeout(function() {
+          this.removeCssClass("hidden");
+        }.bind(this), 0);
       } else {
         this.removeCssClass("hidden");
+        this._onTransitionEnd();
       }
-
-
-      this.__timers.push(qx.event.Timer.once(this._disableTransition, this, this.getTransitionDuration()));
-    },
-
-
-    /**
-     * Toggles the blocked state of this drawer's parent.
-     * Blocked means that no pointer events are received anymore.
-     */
-    _toggleParentBlockedState : function() {
-      this.__parent.toggleCssClass("blocked");
     },
 
 
@@ -363,22 +387,28 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
      * Hides the drawer.
      */
     hide : function() {
-      if(this.__inAnimation) {
+      if(this.__inAnimation || this.isHidden()) {
         return;
       }
-
-      this._enableTransition();
+      
+      this.__lastLandscape = qx.bom.Viewport.isLandscape();
 
       if (this.getPositionZ() == "below") {
         this.__parent.setTranslateX(0);
         this.__parent.setTranslateY(0);
       }
 
-      this.addCssClass("hidden");
-
-      this.__timers.push(qx.event.Timer.once(this._toggleParentBlockedState, this, this.getTransitionDuration()));
-      this.__timers.push(qx.event.Timer.once(this._disableTransition, this, this.getTransitionDuration()));
-      this.__timers.push(qx.event.Timer.once(this.exclude, this, this.getTransitionDuration()));
+      if (this.getTransitionDuration() > 0) {
+        this.__inAnimation = true;
+        this._enableTransition();
+        qx.bom.Element.addListener(this._getTransitionTarget().getContentElement(), "transitionEnd", this._onTransitionEnd, this);
+        setTimeout(function() {
+          this.addCssClass("hidden");
+        }.bind(this), 0);
+      } else {
+        this.addCssClass("hidden");
+        this._onTransitionEnd();
+      }
     },
 
 
@@ -412,35 +442,28 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
      * Enables the transition on this drawer.
      */
     _enableTransition : function() {
-      if(!this.__transitionEnabled) {
-        return;
-      }
+      qx.bom.element.Style.set(this._getTransitionTarget().getContentElement(), "transition", "all "+this.getTransitionDuration()+"ms ease-in-out");
+    },
 
-      this.__inAnimation = true;
 
-      var target = null;
-      if (this.getPositionZ() == "below") {
-        target = this.__parent.getContentElement();
-      } else {
-        target = this.getContentElement();
-      }
-
-      qx.bom.element.Style.set(target, "transition", "all "+this.getTransitionDuration()+"ms ease-in-out");
+   /**
+     * Disables the transition on this drawer.
+     */
+    _disableTransition : function() {
+      qx.bom.element.Style.set(this._getTransitionTarget().getContentElement(),"transition", null);
     },
 
 
     /**
-     * Disables the transition on this drawer.
-     */
-    _disableTransition : function() {
-      if(!this.__transitionEnabled) {
-        return;
+    * Returns the target widget which is responsible for the transition handling.
+    * @return {qx.ui.mobile.core.Widget} the transition target widget.
+    */
+    _getTransitionTarget : function() {
+      if (this.getPositionZ() == "below") {
+        return this.__parent;
+      } else {
+        return this;
       }
-
-      this.__inAnimation = false;
-
-      qx.bom.element.Style.set(this.getContentElement(),"transition", null);
-      qx.bom.element.Style.set(this.__parent.getContentElement(),"transition", null);
     },
 
 
@@ -536,8 +559,6 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     this.__parent.removeListener("swipe", this._onParentSwipe, this);
     this.__parent.removeListener("touchstart", this._onParentTouchStart, this);
     this.__parent.removeListener("back", this.forceHide, this);
-
-    qx.util.DisposeUtil.disposeArray(this, "__timers");
 
     this.__touchStartPosition = null;
     this.__inAnimation = null;
