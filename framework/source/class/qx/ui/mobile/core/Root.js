@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.mobile.core.Root",
     /**
     * Controls the application's scale factor.
     */
-    scaleFactor : 
+    scaleFactor :
     {
       check : "Number",
       init : 1,
@@ -116,8 +116,19 @@ qx.Class.define("qx.ui.mobile.core.Root",
 
 
     // property apply
-    _applyScaleFactor : function(value) {
-      qx.bom.element.Style.set(document.documentElement, "fontSize", value * 100 + "%");
+    _applyScaleFactor : function(value)
+    {
+      // Force the new font size to be applied properly. The following two
+      // steps seem necessary for FF, while Chrome could handle it in a single
+      // step.
+
+      // first: apply a slightly different font size
+      qx.bom.element.Style.set(document.documentElement, "fontSize", (value * 100 + 0.1) + "%");
+
+      // second: in the next paint apply the desired font size
+      qx.bom.AnimationFrame.request(function() {
+        qx.bom.element.Style.set(document.documentElement, "fontSize", value * 100 + "%");
+      });
     },
 
 
@@ -165,7 +176,7 @@ qx.Class.define("qx.ui.mobile.core.Root",
       if(qx.core.Environment.get("os.name") == "ios") {
         document.documentElement.style.height = window.innerHeight + "px";
         window.scrollTo(0, 0);
-      } 
+      }
     }
   },
 
