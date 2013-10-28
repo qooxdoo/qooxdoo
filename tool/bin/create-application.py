@@ -243,11 +243,8 @@ def patchSkeleton(appDir, framework_dir, options):
     filePaths = collectTmplInOutFilePaths(appDir)
 
     # filter Gruntfile
-    gruntfileFilePaths = ()
-    for i, item in enumerate(filePaths):
-        if "Gruntfile" in item[0]:
-          gruntfileFilePaths = item
-          filePaths.pop(i)
+    gruntfileFilePaths = [item for item in filePaths if 'Gruntfile' in item[0]]
+    filePaths          = [item for item in filePaths if not 'Gruntfile' in item[0]]
 
     # render all but Gruntfile
     renderTemplates(filePaths, options, relPath, absPath, TARGET.GENERATOR)
@@ -257,7 +254,7 @@ def patchSkeleton(appDir, framework_dir, options):
     jobsAndDescs = getJobsAndDescriptions(appDir)
 
     # now render Gruntfile with jobsAndDescs
-    renderTemplates([gruntfileFilePaths], options, relPath, absPath, TARGET.GRUNT, jobsAndDescs=jobsAndDescs)
+    renderTemplates(gruntfileFilePaths, options, relPath, absPath, TARGET.GRUNT, jobsAndDescs=jobsAndDescs)
 
 
 def determineAbsPathToSdk(framework_dir):
