@@ -163,7 +163,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     /**
     * This value defines how much list items are visible inside the menu.
     */
-    visibleListItems : 
+    visibleListItems :
     {
       check : "Integer",
       apply : "_updatePosition",
@@ -233,15 +233,15 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     // overridden
     _updatePosition : function() {
       var parentHeight = qx.bom.element.Style.get(qx.ui.mobile.dialog.Popup.ROOT.getContentElement(),"height");
-      var listScrollerHeight = parseInt(parentHeight) * 0.75;
+      var listScrollerHeight = parseInt(parentHeight, 10) * 0.75;
       
-      if (this.getVisibleListItems() != null) {
+      if (this.getVisibleListItems() !== null) {
         var newListScrollerHeight = this.__selectionList.getListItemHeight() * this.getVisibleListItems();
         if(newListScrollerHeight < listScrollerHeight) {
           listScrollerHeight = newListScrollerHeight;
         }
       }
-      this.__listScroller.setHeight(listScrollerHeight + "px");  
+      this.__listScroller.setHeight(listScrollerHeight + "px");
 
       this.base(arguments);
     },
@@ -275,7 +275,6 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       // Add an changeSelection event
       selectionList.addListener("changeSelection", this.__onListChangeSelection, this);
       selectionList.addListener("tap", this._onSelectionListTap, this);
-
       return selectionList;
     },
 
@@ -329,7 +328,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     _applySelectedIndex : function(value, old) {
       var listModel = this.__selectionList.getModel();
 
-      if(listModel != null) {
+      if(listModel !== null) {
         var selectedItem = listModel.getItem(value);
         this.fireDataEvent("changeSelection", {index: value, item: selectedItem});
       }
@@ -377,11 +376,11 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
 
 
       var scrollY = 0;
-      if(index != null) {
+      if(index !== null) {
         scrollY = index * listItemHeight;
       }
 
-      this.__listScroller.scrollTo(0,-scrollY);
+      this.__listScroller.scrollTo(0, -scrollY);
     }
   },
 
