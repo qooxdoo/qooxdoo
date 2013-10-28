@@ -5,12 +5,9 @@
 .slider {
   @include border-radius($slider-border-radius);
   @include background($slider-background);
+  @include transform(translate3d(0,($slider-knob-height/2),0));
   
   overflow: visible;
-
-  position: relative;
-  top: ($slider-knob-height/2);
-  height: $slider-height;
 
   margin-bottom: $slider-knob-height;
   margin-left: ($slider-knob-width/2); 
@@ -36,7 +33,7 @@
   @include border-radius($slider-border-radius);
   @include background($slider-active-area);
 
-  height: 100%;
+  height: $slider-height;
   pointer-events: none;
   position: relative;
 }
