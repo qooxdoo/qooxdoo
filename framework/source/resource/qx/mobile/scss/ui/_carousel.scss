@@ -24,8 +24,12 @@
 .carousel-pagination {
   -webkit-transition: -webkit-transform 2s;
   transition: transform 2s;
-  position:relative;
-  top: -$carousel-pagination-size * 1.5;
+  position:absolute;
+  bottom: $carousel-pagination-size/2;
+  height: $carousel-pagination-size;
+  line-height: 0;
+  width: auto;
+  overflow-y: hidden;
 }
 
 .carousel-pagination-label + .carousel-pagination-label {
@@ -40,12 +44,13 @@
   border: rem(1) solid $carousel-pagination-border-color;
   text-align: center;
 
+  display:inline-block;
+
   width: $carousel-pagination-size;
   height: $carousel-pagination-size;
   line-height: $carousel-pagination-size;
-}
+  overflow: hidden;
 
-.carousel-pagination-label {
   color: $carousel-pagination-font-color;
   font-size: $carousel-pagination-font-size;
 }
