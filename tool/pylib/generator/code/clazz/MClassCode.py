@@ -40,7 +40,7 @@ from misc import util, filetool
 
 
 class MClassCode(object):
-    
+
     _illegalIdentifierExpr = re.compile(lang.IDENTIFIER_ILLEGAL_CHARS)
 
     # --------------------------------------------------------------------------
@@ -77,7 +77,7 @@ class MClassCode(object):
                 # add file info
                 e.args = (e.args[0] + "\nFile: %s" % fileId,) + e.args[1:]
                 raise e
-            
+
             # Parse
             try:
                 tree = treegen.createFileTree(tokens, fileId)
@@ -152,7 +152,7 @@ class MClassCode(object):
     # this class. Uses the plain source syntax tree and _variantsFromTree, and
     # caches to classCache.
     # Is used internally, but should also be usable as public interface.
-    # 
+    #
     # @param generate {Boolean} whether to calculate the variant uses of the class
     #   afresh from the tree when they are not cached
     # @return {[String]} list of variant keys, e.g. ["qx.debug", ...]
@@ -209,7 +209,7 @@ class MClassCode(object):
     ##
     # Only return those key:value pairs from <variantSet> that are supported
     # in <classVariants>.
-    # 
+    #
     # @param classVariants {[String]} list of variant keys used in a class
     # @param variantSet {Map} map of variant key:value's used in current build
     # @return {Map} map of variant key:value's relevant for given class
@@ -231,7 +231,8 @@ class MClassCode(object):
         # source versions
         if not compOptions.optimize:
             compiled = filetool.read(self.path)
-            if compOptions.format and compiled[-1:] != "\n": # assure trailing \n
+            # assure trailing \n (e.g. to utilise ASI)
+            if compiled[-1:] != "\n":
                 compiled += '\n'
         # compiled versions
         else:
@@ -371,7 +372,7 @@ class MClassCode(object):
         # if a tree is passed in, just optimize it
         if p_tree:
             result = optimizeTree(p_tree)
-        
+
         # else we're working on the class tree, and can cache
         else:
             cacheId = getTreeCacheId(optimize, variantSet)
