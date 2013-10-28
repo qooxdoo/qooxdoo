@@ -186,7 +186,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       this.__distanceX = evt.getAllTouches()[0].screenX - this.__touchStartPoints[0];
       this.__distanceY = evt.getAllTouches()[0].screenY - this.__touchStartPoints[1];
 
-      if(this.__isVerticalScroll == null) {
+      if(this.__isVerticalScroll === null) {
         var cosDelta = this.__distanceX / this.__distanceY;
         this.__isVerticalScroll = Math.abs(cosDelta) < 2;
       }
@@ -279,7 +279,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      */
     scrollTo : function(positionX, positionY) {
       var targetElement = this._scrollContainer.getContainerElement();
-      var lowerLimitY = targetElement.scrollHeight - targetElement.offsetHeight;
+
+      var lowerLimitY = targetElement.scrollHeight - this.getContentElement().clientHeight;
       var lowerLimitX = targetElement.scrollWidth - targetElement.offsetWidth - 4;
 
       var oldY = this._scrollContainer.getTranslateY();
@@ -320,13 +321,13 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
         }
       }
 
-      if(this.isScrollableX()) {
-         this._scrollContainer.setTranslateX(positionX);
-         this.__lastOffset[0] = positionX;
+      if (this.isScrollableX()) {
+        this._scrollContainer.setTranslateX(positionX);
+        this.__lastOffset[0] = positionX;
       }
-      if(this.isScrollableY()) {
-         this._scrollContainer.setTranslateY(positionY);
-         this.__lastOffset[1] = positionY;
+      if (this.isScrollableY()) {
+        this._scrollContainer.setTranslateY(positionY);
+        this.__lastOffset[1] = positionY;
       }
 
       this._updateScrollIndicator(this.__lastOffset[1]);
@@ -418,7 +419,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
     // Property apply
     _applyHeight : function(value, old) {
-      qx.bom.element.Style.set(this._scrollContainer.getContainerElement(), "max-height", value);
+      qx.bom.element.Style.set(this.getContainerElement(), "maxHeight", value);
     },
 
 
@@ -464,7 +465,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * @param easing {String} the css transition easing value
      */
     _applyEasing : function(easing) {
-      if(easing != null) {
+      if(easing !== null) {
         var transformPropertyName = qx.bom.Style.getPropertyName("transform");
         var transformCssName = qx.bom.Style.getCssName(transformPropertyName);
         easing = transformCssName+" "+easing;
