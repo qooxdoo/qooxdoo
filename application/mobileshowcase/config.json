@@ -116,41 +116,6 @@
       }
     },
 
-    "source-ios" :
-    {
-      "extend" : ["source"],
-      "let" : { "THEME" : "ios" }
-    },
-
-    "source-android" :
-    {
-      "extend" : ["source"],
-      "let" : { "THEME" : "android" }
-    },
-
-    "source-indigo" :
-    {
-      "extend" : ["source"],
-      "let" : { "THEME" : "indigo" }
-    },
-
-    "build-ios" :
-    {
-      "extend" : ["build"],
-      "let" : { "THEME" : "ios" }
-    },
-
-    "build-android" :
-    {
-      "extend" : ["build"],
-      "let" : { "THEME" : "android" }
-    },
-
-    "build-indigo" :
-    {
-      "extend" : ["build"],
-      "let" : { "THEME" : "indigo" }
-    },
 
     "source" :
     {
