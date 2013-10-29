@@ -844,7 +844,7 @@ input, select, .text-area {
   -webkit-border-radius: 0.6em;
   -moz-border-radius: 0.6em;
   border-radius: 0.6em;
-  height: 100%;
+  height: 15px;
   pointer-events: none;
   position: relative; }
 

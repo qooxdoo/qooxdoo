@@ -16,7 +16,7 @@
 .slider > div {
   @include border-radius(.6em);
 
-  height: 100%;
+  height: 15px;
   pointer-events:none;
   position:relative;
 }

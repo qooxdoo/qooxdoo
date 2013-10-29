@@ -126,6 +126,8 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
       var scrollContainer = new qx.ui.mobile.container.ScrollComposite();
       scrollContainer.add(item,{flex:1});
 
+      qx.bom.element.Style.set(scrollContainer.getContentElement(),"height", scrollContainer.getHeight());
+
       this._addRow(scrollContainer,name,new qx.ui.mobile.layout.VBox());
     },
 

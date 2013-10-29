@@ -278,7 +278,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      */
     scrollTo : function(positionX, positionY) {
       var targetElement = this._scrollContainer.getContainerElement();
-      var lowerLimitY = targetElement.scrollHeight - targetElement.offsetHeight;
+      var lowerLimitY = targetElement.scrollHeight - this.getContentElement().clientHeight;;
       var lowerLimitX = targetElement.scrollWidth - targetElement.offsetWidth - 4;
 
       var oldY = this._scrollContainer.getTranslateY();
@@ -417,7 +417,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
     // Property apply
     _applyHeight : function(value, old) {
-      qx.bom.element.Style.set(this._scrollContainer.getContainerElement(), "max-height", value);
+      qx.bom.element.Style.set(this.getContainerElement(), "maxHeight", value);
     },
 
 
