@@ -188,6 +188,26 @@ qxWeb.define("qx.module.Blocker", {
 
 
     /**
+     * Returns the blocker elements as collection
+     *
+     * @param collection {qxWeb} Collection to get the blocker elements from
+     * @return {qxWeb} collection of blocker elements
+     */
+    __getBlocker : function(collection)
+    {
+      var blockerElements = qxWeb();
+
+      collection.forEach(function(item, index) {
+        if (typeof item.__blocker !== "undefined") {
+          blockerElements = blockerElements.concat(item.__blocker.div);
+        }
+      });
+
+      return blockerElements;
+    },
+
+
+    /**
      * Adds an overlay to all items in the collection that intercepts mouse
      * events.
      *
@@ -230,6 +250,27 @@ qxWeb.define("qx.module.Blocker", {
       this.forEach(qx.module.Blocker.__detachBlocker);
 
       return this;
+    },
+
+
+    /**
+     * Returns all blocker elements as collection.
+     *
+     * <strong>Note:</strong> This will only return elements if
+     * the <code>block</code> method was called at least once,
+     * since the blocker elements are created on-demand.
+     *
+     * @attach {qxWeb}
+     * @return {qxWeb} collection with all blocker elements
+     */
+    getBlocker : function()
+    {
+      if (!this[0]) {
+        return this;
+      }
+
+      var collection = qx.module.Blocker.__getBlocker(this);
+      return collection;
     }
   },
 
@@ -238,7 +279,8 @@ qxWeb.define("qx.module.Blocker", {
   {
     qxWeb.$attach({
       "block" : statics.block,
-      "unblock" : statics.unblock
+      "unblock" : statics.unblock,
+      "getBlocker" : statics.getBlocker
     });
   }
 });

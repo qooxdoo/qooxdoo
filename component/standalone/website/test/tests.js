@@ -2398,6 +2398,44 @@ testrunner.define({
 
   testBlockWindow : function() {
     q(window).block();
+  },
+
+  testGetBlockerElements : function() {
+    var styles = {
+      position: "absolute",
+      top: "250px",
+      left: "200px",
+      width: "200px",
+      height: "150px"
+    };
+
+    q.create('<div id="foo"></div>').setStyles(styles).appendTo(this.sandbox[0]);
+    q.create('<div id="bar"></div>').setStyles(styles).appendTo(this.sandbox[0]);
+
+    var test = this.sandbox.getChildren();
+    test.block();
+
+    var blockerCollection = test.getBlocker();
+    this.assertInstance(blockerCollection, q);
+    this.assertEquals(2, blockerCollection.length);
+    this.assertTrue(qxWeb.isElement(blockerCollection[0]));
+    this.assertTrue(qxWeb.isElement(blockerCollection[1]));
+  },
+
+  testGetBlockerWithoutBlockingBefore : function() {
+    var styles = {
+      position: "absolute",
+      top: "250px",
+      left: "200px",
+      width: "200px",
+      height: "150px"
+    };
+    var test = q.create('<div id="foo"></div>').setStyles(styles)
+    .appendTo(this.sandbox[0]);
+
+    var blockerCollection = test.getBlocker();
+    this.assertInstance(blockerCollection, q);
+    this.assertEquals(0, blockerCollection.length);
   }
 });
 
