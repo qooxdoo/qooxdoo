@@ -67,6 +67,22 @@ qxWeb.define("qx.module.Placement", {
 
       target = qxWeb(target);
 
+      // make sure the DOM elements are rendered so we can get the size of them.
+      // It's not necessary to move them out of the viewport - just out of the
+      // layout flow.
+      var visible = this.isRendered();
+      var displayStyleValue = null;
+      var visibilityStyleValue = null;
+      if (!visible) {
+        displayStyleValue = this.getStyle("display");
+        visibilityStyleValue = this.getStyle("visibility");
+        this.setStyles({
+          position: "absolute",
+          visibility: "hidden",
+          display: "block"
+        });
+      }
+
       var axes = {
         x : qx.module.Placement._getAxis(modeX),
         y : qx.module.Placement._getAxis(modeY)
@@ -106,6 +122,14 @@ qxWeb.define("qx.module.Placement", {
         var offset = target.getOffset();
         newLocation.left -= offset.left;
         newLocation.top -= offset.top;
+      }
+
+      // Reset the styles to hide the element if it was previously hidden
+      if (!visible) {
+        this.setStyles({
+          display: displayStyleValue,
+          visibility: visibilityStyleValue
+        });
       }
 
       this.setStyles({

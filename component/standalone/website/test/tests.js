@@ -632,13 +632,13 @@ testrunner.define({
     test.remove();
   },
 
-  testIsChildOf : function(){    
+  testIsChildOf : function(){
     var test = q.create("<div id='testdiv'><div id='testchild'><div id='testchild2'></div></div><div>");
     test.appendTo(this.sandbox[0]);
     this.assertTrue(q("#testchild").isChildOf(test));
     this.assertTrue(q("#testchild2").isChildOf(test));
     this.assertTrue(q("#testchild2").isChildOf(q("#testchild")));
-    this.assertTrue(test.isChildOf(q(this.sandbox)));    
+    this.assertTrue(test.isChildOf(q(this.sandbox)));
     this.assertTrue(test.find("div").isChildOf(q("#testchild")));
     test.remove();
   },
@@ -2259,6 +2259,39 @@ testrunner.define({
     };
     this.assertEquals(expectedLocation.left, q("#bar").getOffset().left);
     this.assertEquals(expectedLocation.top, q("#bar").getOffset().top);
+  },
+
+  testPlaceToUsingHiddenElement : function() {
+    q("#sandbox #bar").hide();
+    var displayValue = q("#sandbox #bar").getStyle("display");
+    var visibilityValue = q("#sandbox #bar").getStyle("visibility");
+
+    q("#sandbox #bar").placeTo("#sandbox #foo", "right-top");
+    var expectedLocation = {
+      left: 200,
+      top: 200
+    };
+    this.assertEquals(expectedLocation.left, parseInt(q("#bar").getStyle("left"), 10));
+    this.assertEquals(expectedLocation.top, parseInt(q("#bar").getStyle("top"), 10));
+    this.assertEquals(displayValue, q("#sandbox #bar").getStyle("display"));
+    this.assertEquals(visibilityValue, q("#sandbox #bar").getStyle("visibility"));
+  },
+
+  testPlaceToPreservingStyleValues : function() {
+    q("#sandbox #bar").setStyle("visibility", "collapse");
+    q("#sandbox #bar").hide();
+    var displayValue = q("#sandbox #bar").getStyle("display");
+    var visibilityValue = q("#sandbox #bar").getStyle("visibility");
+
+    q("#sandbox #bar").placeTo("#sandbox #foo", "right-top");
+    var expectedLocation = {
+      left: 200,
+      top: 200
+    };
+    this.assertEquals(expectedLocation.left, parseInt(q("#bar").getStyle("left"), 10));
+    this.assertEquals(expectedLocation.top, parseInt(q("#bar").getStyle("top"), 10));
+    this.assertEquals(displayValue, q("#sandbox #bar").getStyle("display"));
+    this.assertEquals(visibilityValue, q("#sandbox #bar").getStyle("visibility"));
   }
 });
 
