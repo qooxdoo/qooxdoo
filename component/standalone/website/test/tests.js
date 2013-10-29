@@ -632,6 +632,16 @@ testrunner.define({
     test.remove();
   },
 
+  testIsChildOf : function(){    
+    var test = q.create("<div id='testdiv'><div id='testchild'><div id='testchild2'></div></div><div>");
+    test.appendTo(this.sandbox[0]);
+    this.assertTrue(q("#testchild").isChildOf(test));
+    this.assertTrue(q("#testchild2").isChildOf(test));
+    this.assertTrue(q("#testchild2").isChildOf(q("#testchild")));
+    this.assertTrue(test.isChildOf(q(this.sandbox)));    
+    this.assertTrue(test.find("div").isChildOf(q("#testchild")));
+  },
+
   testGetParentsSelector : function() {
     var test = q.create("<a id='parent'><div id='test'/></a>");
     test.appendTo(this.sandbox[0]);
