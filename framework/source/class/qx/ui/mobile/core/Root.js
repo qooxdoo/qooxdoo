@@ -75,22 +75,23 @@ qx.Class.define("qx.ui.mobile.core.Root",
       check : "Boolean",
       init : true,
       apply : "_applyShowScrollbarY"
-    },
-
-
-    /**
-    * Controls the application's scale factor.
-    */
-    scaleFactor :
-    {
-      check : "Number",
-      init : 1,
-      event : "changeScaleFactor",
-      apply : "_applyScaleFactor"
     }
   },
 
 
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /**
+     * Event is fired when the scale factor of the application has changed.
+     */
+    "changeScaleFactor" : "qx.event.type.Event"
+  },
 
 
   /*
@@ -115,20 +116,39 @@ qx.Class.define("qx.ui.mobile.core.Root",
     },
 
 
-    // property apply
-    _applyScaleFactor : function(value)
-    {
-      // Force the new font size to be applied properly. The following two
-      // steps seem necessary for FF, while Chrome could handle it in a single
-      // step.
+    /**
+     * Returns the application's scale factor.
+     * @return {Number} the scale factor.
+     */
+    getScaleFactor: function(value) {
+      var fontSize = qx.bom.element.Style.get(document.documentElement, "fontSize");
+      var scaleFactor = null;
+      if (fontSize.indexOf("px") != -1) {
+        scaleFactor = parseInt(fontSize, 10) / 16;
+      }
+      return scaleFactor;
+    },
 
-      // first: apply a slightly different font size
-      qx.bom.element.Style.set(document.documentElement, "fontSize", (value * 100 + 0.1) + "%");
 
-      // second: in the next paint apply the desired font size
-      qx.bom.AnimationFrame.request(function() {
-        qx.bom.element.Style.set(document.documentElement, "fontSize", value * 100 + "%");
-      });
+    /**
+    * Sets the application's scale factor. 
+    * @param value {Number} the scale factor. 
+    */
+    setScaleFactor : function(value) {
+      if (qx.core.Environment.get("qx.debug"))
+      {
+        this.assertNumber(value, "The scale factor is asserted to be of type Number");
+      }
+
+      var docElement = document.documentElement;
+      docElement.style.fontSize = value * 100 + "%";
+
+      // Force relayout - important for new Android devices and Firefox.
+      docElement.style.display = "none";
+      docElement.clientWidth = docElement.clientWidth;
+      docElement.style.display = "";
+
+      this.fireEvent("changeScaleFactor");
     },
 
 
