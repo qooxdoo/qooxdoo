@@ -83,7 +83,7 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
       var childProperty = this.getUserData("cell.childProperty");
       var showLeafs = this.getUserData("cell.showLeafs");
 
-      return qx.ui.tree.core.Util.hasChildren(model, childProperty, showLeafs);
+      return qx.ui.tree.core.Util.hasChildren(model, childProperty, !showLeafs);
     },
 
 

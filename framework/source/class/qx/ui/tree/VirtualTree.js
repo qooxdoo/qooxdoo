@@ -499,7 +499,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     // Interface implementation
     isNode : function(item) {
-      return qx.ui.tree.core.Util.hasChildren(item, this.getChildProperty());
+      return qx.ui.tree.core.Util.isNode(item, this.getChildProperty());
     },
 
 
