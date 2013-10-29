@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      */
     height :
     {
-      init : "150px",
+      init : "10rem",
       check : "String",
       nullable : true,
       apply : "_applyHeight"
