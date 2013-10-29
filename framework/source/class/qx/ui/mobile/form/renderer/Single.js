@@ -89,7 +89,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
         if(item instanceof widget) {
           return true;
         }
-      };
+      }
 
       return false;
     },
@@ -97,7 +97,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
 
     // override
     addItems : function(items, names, title) {
-      if(title != null)
+      if(title !== null)
       {
         this._addGroupHeader(title);
       }
@@ -136,7 +136,10 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      */
     _addInScrollComposite : function(item,name) {
       var scrollContainer = new qx.ui.mobile.container.ScrollComposite();
-      scrollContainer.add(item,{flex:1});
+      scrollContainer.setFixedHeight(true);
+      scrollContainer.add(item, {
+        flex: 1
+      });
 
       this._addRow(scrollContainer,name,new qx.ui.mobile.layout.VBox());
     },

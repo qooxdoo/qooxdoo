@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     this.addListener("touchend", this._onTouchEnd, this);
     this.addListener("swipe", this._onSwipe, this);
 
-    this._setLayout(new qx.ui.mobile.layout.VBox());
+    this._setLayout(new qx.ui.mobile.layout.HBox());
     this._add(this._scrollContainer, {flex:1});
 
     this._updateScrollIndicator(this.__lastOffset[1]);
@@ -116,6 +116,19 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       check : "Boolean",
       apply : "_updateScrollIndicator"
     },
+
+
+    /**
+    * This flag controls whether this widget has a fixed height
+    * or grows till the property value of <code>height</code> has reached.
+    */
+    fixedHeight :
+    {
+      init : false,
+      check : "Boolean",
+      apply : "_applyFixedHeight"
+    },
+
 
     /**
      * The height of this widget.
@@ -418,8 +431,18 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
 
     // Property apply
+    _applyFixedHeight : function(value, old) {
+      this._applyHeight(this.getHeight());
+    },
+
+
+    // Property apply
     _applyHeight : function(value, old) {
-      qx.bom.element.Style.set(this.getContainerElement(), "maxHeight", value);
+      var cssProperty = "maxHeight";
+      if (this.getFixedHeight() === true) {
+        cssProperty = "height";
+      }
+      qx.bom.element.Style.set(this.getContainerElement(), cssProperty, this.getHeight());
     },
 
 
