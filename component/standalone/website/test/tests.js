@@ -640,6 +640,7 @@ testrunner.define({
     this.assertTrue(q("#testchild2").isChildOf(q("#testchild")));
     this.assertTrue(test.isChildOf(q(this.sandbox)));    
     this.assertTrue(test.find("div").isChildOf(q("#testchild")));
+    test.remove();
   },
 
   testGetParentsSelector : function() {
