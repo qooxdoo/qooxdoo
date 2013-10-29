@@ -33,6 +33,10 @@ qxWeb.define("qx.module.Placement", {
      * Moves the first element in the collection, aligning it with the given
      * target.
      *
+     * <strong>NOTE:</strong> The <code>placeTo</code> method also works for hidden
+     * elements. However, the visibility / display styles are only manipulated during
+     * the placement operation. As a result a previously hidden element <strong>stays hidden</strong>.
+     *
      * @attach{qxWeb}
      * @param target {Element} Placement target
      * @param position {String} Alignment of the object with the target, any of
