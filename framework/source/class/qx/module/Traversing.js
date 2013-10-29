@@ -489,6 +489,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * Whether the first element in the collection is inserted into
      * the document for which it was created.
      *
+     * @attach {qxWeb}
      * @return {Boolean} <code>true</code> when the element is inserted
      *    into the document.
      */
