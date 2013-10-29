@@ -3139,90 +3139,90 @@ testrunner.define({
 
 
 testrunner.define({
-	 classname : "Dataset",
+   classname : "Dataset",
 
-	 setUp : function(){
-		 testrunner.globalSetup.call(this);
-		 this.__element = q.create("<div id='testEl'></div>");
-		 this.__element.appendTo(this.sandbox[0]);
-	 },
+   setUp : function(){
+     testrunner.globalSetup.call(this);
+     this.__element = q.create("<div id='testEl'></div>");
+     this.__element.appendTo(this.sandbox[0]);
+   },
 
-	 tearDown : testrunner.globalTeardown,
+   tearDown : testrunner.globalTeardown,
 
-	 testSetDataAttribute : function(){
+   testSetDataAttribute : function(){
 
-		 this.__element.setData("type","domelement");
-		 this.__element.setData("option","test");
+     this.__element.setData("type","domelement");
+     this.__element.setData("option","test");
 
-		 var datatype = this.__element.getAttribute("data-type");
-		 var dataoption = this.__element.getAttribute("data-option");
+     var datatype = this.__element.getAttribute("data-type");
+     var dataoption = this.__element.getAttribute("data-option");
 
-		 this.assertEquals(datatype, "domelement");
-		 this.assertEquals(dataoption, "test");
+     this.assertEquals(datatype, "domelement");
+     this.assertEquals(dataoption, "test");
 
      //must be ignored:
      q(document).setData("foo", "bar");
      this.assertNull(q(document).getAttribute("data-foo"));
      q(window).setData("foo", "bar");
      this.assertNull(q(window).getAttribute("data-foo"));
-	 },
+   },
 
-	 testSetDataAttributeHyphenated : function(){
+   testSetDataAttributeHyphenated : function(){
 
-		 this.__element.setData("hyphenated-data-attribute","hyphenated");
+     this.__element.setData("hyphenated-data-attribute","hyphenated");
 
-		 var hyphenatedExpected = this.__element.getAttribute("data-hyphenated-data-attribute");
-		 var hyphenatedFound = this.__element.getData("hyphenatedDataAttribute");
+     var hyphenatedExpected = this.__element.getAttribute("data-hyphenated-data-attribute");
+     var hyphenatedFound = this.__element.getData("hyphenatedDataAttribute");
 
-		 this.assertEquals(hyphenatedExpected,hyphenatedFound);
+     this.assertEquals(hyphenatedExpected,hyphenatedFound);
 
-	 },
+   },
 
-	 testGetDataAttribute : function(){
+   testGetDataAttribute : function(){
 
      this.__element.setData("type","domelement");
      this.__element.setData("option","test");
 
-		 var expected = this.__element.getAttribute("data-type");
-		 var found = this.__element.getData("type");
+     var expected = this.__element.getAttribute("data-type");
+     var found = this.__element.getData("type");
 
-		 this.assertEquals(expected,found);
+     this.assertEquals(expected,found);
 
-		 var expected2 = this.__element.getAttribute("data-option");
-		 var found2 = q("#testEl").getData("option");
+     var expected2 = this.__element.getAttribute("data-option");
+     var found2 = q("#testEl").getData("option");
 
-		 this.assertEquals(expected2,found2);
+     this.assertEquals(expected2,found2);
 
-	 },
+   },
 
-	 testGetAllData : function(){
+   testGetAllData : function(){
 
-		 this.__element.setData("type","domelement");
-		 this.__element.setData("option","test");
-		 this.__element.setData("hyphenated-data-attribute","hyphenated");
-
-		 var expected = q("#testEl").getAllData();
-
-		 var datatype = "domelement";
-		 var dataoption = "test";
-		 var dataHyphenated = "hyphenated";
-
-
-		 this.assertEquals(expected.type,datatype);
-		 this.assertEquals(expected.option,dataoption);
-		 this.assertEquals(expected.hyphenatedDataAttribute,dataHyphenated);
-	 },
-
-	 testRemoveData : function(){
+     this.__element.setData("type","domelement");
+     this.__element.setData("option","test");
      this.__element.setData("hyphenated-data-attribute","hyphenated");
-		 q("#testEl").removeData("hyphenatedDataAttribute");
-		 var found = q("#testEl").getData("hyphenatedDataAttribute");
-		 this.assertNull(this.__element.getAttribute("data-hyphenated-data-attribute"));
+
+     var expected = q("#testEl").getAllData();
+
+     var datatype = "domelement";
+     var dataoption = "test";
+     var dataHyphenated = "hyphenated";
+
+
+     this.assertEquals(expected.type,datatype);
+     this.assertEquals(expected.option,dataoption);
+     this.assertEquals(expected.hyphenatedDataAttribute,dataHyphenated);
+   },
+
+   testRemoveData : function(){
+     this.__element.setData("hyphenated-data-attribute","hyphenated");
+     q("#testEl").removeData("hyphenatedDataAttribute");
+     var found = q("#testEl").getData("hyphenatedDataAttribute");
+     this.assertNull(this.__element.getAttribute("data-hyphenated-data-attribute"));
 
      //must be ignored:
      q(window).removeData("fooBar");
      q(document).removeData("fooBar");
-	 }
+   }
 
 });
 
