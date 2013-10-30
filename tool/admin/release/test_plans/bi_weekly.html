@@ -1,408 +1,250 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Bi-Weekly Tests</title>
+    <style type="text/css">
+      h1 {
+        margin-top: 30px;
+        text-align: center;
+      }
 
+      .versstring {
+        margin-top: 35px;
+        text-align: center;
+        font-weight: bold;
+      }
 
+      /* s. http://tinyurl.com/49eatag */
+      table {
+        /* margin: 10px;*/
+        page-break-inside: auto;
+        border-collapse: collapse;
+      }
 
-  <meta content="text/html; charset=UTF-8" http-equiv="content-type">
-  <title>Bi-Weekly Tests</title>
-  <style type="text/css">
-    th {
-      vertical-align: top;
-      text-align: left;
-      page-break-after: avoid;
-    }
+      table, th, td {
+        border: 1px solid #000;
+      }
 
-    /* s. http://tinyurl.com/49eatag */
-    table {
-      /* margin: 10px;*/
-      page-break-inside:auto
-    }
+      thead {
+        display: table-header-group;
+      }
 
-    tr {
-      page-break-inside:avoid; page-break-after:auto
-    }
+      tfoot {
+        display: table-footer-group;
+      }
 
-    thead {
-      display:table-header-group
-    }
+      th {
+        vertical-align: top;
+        text-align: left;
+        page-break-after: avoid;
+      }
 
-    tfoot {
-      display:table-footer-group
-    }
+      tbody td {
+        padding: 3px 5px;
+      }
 
-    td {
-      vertical-align: top;
-    }
+      tbody tr:first-child td {
+        width: 3%;
+      }
 
-    tr.platforms td {
-      width: 3%;
-    }
+      tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+      }
 
-	</style>
-  <script type="text/javascript" src="utils.js"></script>
-</head><body onload="adjustVersionStrings(); autonumbering(); colorNA();">
-<div> <em><br>
-</em> </div>
-<div align="center">
-<h1>Bi-Weekly Tests</h1>
-<b><br>
-<span name="versstring"></span></b></div>
-<table border="1" cellpadding="2" cellspacing="0">
-  <thead> <tr>
-    <th rowspan="2" colspan="1">Desktop/<br>
-Website<br>
-</th>
-    <td colspan="10" rowspan="1" style="vertical-align: top;">Platform</td>
-  </tr>
-  <tr class="platforms">
-    <td><b>IE8</b><br>
-Win7</td>
-    <td><b>IE9</b><br>
-Win7</td>
-    <td><b>IE10</b><br>
-Win8<br>
-    </td>
-    <td><b>Chrome Stable</b><br>
-Win7</td>
-    <td><span style="font-weight: bold;">Chrome dev</span><br>
-OSX</td>
-    <td><span style="font-weight: bold;">Safari</span><br>
-OSX</td>
-    <td><span style="font-weight: bold;">FF Stable</span><br>
-OSX</td>
-    <td><span style="font-weight: bold;">FF Aurora</span><br>
-Win7</td>
-    <td><b>Opera Stable</b><br>
-Win7<br>
-    </td>
-    <td><span style="font-weight: bold;">Opera 12</span></td>
-  </tr>
-  
-  
-  </thead>
-  <tbody>
-    <tr>
-      <td style="width: 3%;">Who</td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-    </tr>
-    <tr>
-      
-      <td>When</td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-    </tr>
-    <tr>
-      
-      <td>Master<br>
-</td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-    </tr>
-    <tr>
-      
-      <td>Who</td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-    </tr>
-    <tr>
-      
-      <td>When</td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-    </tr>
-    <tr>
-      
-      <td>Branch<br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<div> <br>
-<br>
-<br>
-<br>
-<table border="1" cellpadding="2" cellspacing="0">
+      tr.platforms td {
+        width: 3%;
+      }
 
-  <thead> <tr>
-    <th rowspan="2" colspan="1">Mobile<br>
-</th>
-    <td colspan="7" rowspan="1" style="vertical-align: top;">Platform</td>
-  </tr>
-  <tr class="platforms">
-    <td><span style="font-weight: bold;">(Tablet)
-              Safari</span><br>
-
-            <span style="font-weight: normal;">iPad 4</span></td>
-    <td><span style="font-weight: bold;">(Tablet)
-              Safari </span>iPad 2</td>
-    <td><span style="font-weight: bold;">(Phone)<br>
-              Safari</span><br>
-
-            iPhone
-    </td>
-    <td><b>(Phone) Android 4<br>
-            </b>Nexus<b><br>
-            </b></td>
-    <td><b>(Phone) Android 2.3<br>
-            </b>Nexus S</td>
-    <td><span style="font-weight: bold;">(Phone)
-              IE</span><br>
-
-            HTC 8S</td>
-    <td><span style="font-weight: bold;">(Phone)
-              Blackberry<br>
-            </span>BB Z10<span style="font-weight: bold;"><br>
-            </span></td>
-    
-    
-    
-  </tr>
-  
-  
-  </thead>
-  <tbody>
-    <tr>
-      <td style="width: 3%;">Who</td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      
-      
-      
-    </tr>
-    <tr>
-      
-      <td>When</td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      
-      
-      
-    </tr>
-    <tr>
-      
-      <td>Master<br>
-</td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      
-      
-      
-    </tr>
-    <tr>
-      
-      <td>Who</td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      
-      
-      
-    </tr>
-    <tr>
-      
-      <td>When</td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      
-      
-      
-    </tr>
-    <tr>
-      
-      <td>Branch<br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      <td><br>
-      </td>
-      
-      
-      
-    </tr>
-  </tbody>
-</table>
-<br>
-<br>
-<br>
-</div>
-</body></html>
+      td {
+        vertical-align: top;
+      }
+    </style>
+    <script type="text/javascript" src="utils.js"></script>
+  </head>
+  <body onload="adjustVersionStrings(); autonumbering(); colorNA();">
+    <h1>Bi-Weekly Tests</h1>
+    <div class="versstring">v$(qxversion)</div>
+    <table>
+      <thead>
+      <tr>
+        <th rowspan="2" colspan="1">Desktop/<br> Website<br> </th>
+        <td colspan="10" rowspan="1">Platform</td>
+      </tr>
+      <tr class="platforms">
+        <td><strong>IE8</strong><br> Win7</td>
+        <td><strong>IE9</strong><br> Win7</td>
+        <td><strong>IE10</strong><br> Win8</td>
+        <td><strong>Chrome Stable</strong><br> Win7</td>
+        <td><strong>Chrome dev</strong><br> OSX</td>
+        <td><strong>Safari</strong><br> OSX</td>
+        <td><strong>FF Stable</strong><br> OSX</td>
+        <td><strong>FF Aurora</strong><br> Win7</td>
+        <td><strong>Opera Stable</strong><br> Win7</td>
+        <td><strong>Opera 12</strong></td>
+      </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Who</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>When</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Master</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Who</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>When</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Branch</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="versstring">v$(qxversion)</div>
+    <table>
+      <thead>
+        <tr>
+          <th rowspan="2" colspan="1">Mobile<br> </th>
+          <td colspan="7" rowspan="1">Platform</td>
+        </tr>
+        <tr class="platforms">
+          <td><strong>(Tablet) Safari</strong><br> iPad 4</td>
+          <td><strong>(Tablet) Safari </strong>iPad 2</td>
+          <td><strong>(Phone)<br> Safari</strong><br> iPhone</td>
+          <td><strong>(Phone) Android 4<br> </strong>Nexus</td>
+          <td><strong>(Phone) Android 2.3<br> </strong>Nexus S</td>
+          <td><strong>(Phone) IE</strong><br> HTC 8S</td>
+          <td><strong>(Phone) Blackberry<br> </strong>BB Z10</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Who</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>When</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Master</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Who</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>When</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Branch</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
