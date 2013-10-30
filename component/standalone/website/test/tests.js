@@ -2277,6 +2277,19 @@ testrunner.define({
     this.assertEquals(visibilityValue, q("#sandbox #bar").getStyle("visibility"));
   },
 
+  testPlaceToUsingHiddenElementByCssClass : function() {
+    q("#sandbox #bar").addClass("hidden");
+
+    q("#sandbox #bar").placeTo("#sandbox #foo", "right-top");
+    var expectedLocation = {
+      left: 200,
+      top: 200
+    };
+    this.assertEquals(expectedLocation.left, parseInt(q("#bar").getStyle("left"), 10));
+    this.assertEquals(expectedLocation.top, parseInt(q("#bar").getStyle("top"), 10));
+    this.assertEquals("", q("#bar")[0].style.display);
+  },
+
   testPlaceToPreservingStyleValues : function() {
     q("#sandbox #bar").setStyle("visibility", "collapse");
     q("#sandbox #bar").hide();

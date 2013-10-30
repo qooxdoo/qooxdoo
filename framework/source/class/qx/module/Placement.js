@@ -78,8 +78,10 @@ qxWeb.define("qx.module.Placement", {
       var displayStyleValue = null;
       var visibilityStyleValue = null;
       if (!visible) {
-        displayStyleValue = this.getStyle("display");
-        visibilityStyleValue = this.getStyle("visibility");
+        // do not use the computed style value otherwise we will mess up the styles
+        // when resetting them, since these styles might also be set via a CSS class.
+        displayStyleValue = this[0].style.display;
+        visibilityStyleValue = this[0].style.visibility;
         this.setStyles({
           position: "absolute",
           visibility: "hidden",
@@ -130,10 +132,8 @@ qxWeb.define("qx.module.Placement", {
 
       // Reset the styles to hide the element if it was previously hidden
       if (!visible) {
-        this.setStyles({
-          display: displayStyleValue,
-          visibility: visibilityStyleValue
-        });
+        this[0].style.display = displayStyleValue;
+        this[0].style.visibility = visibilityStyleValue;
       }
 
       this.setStyles({
