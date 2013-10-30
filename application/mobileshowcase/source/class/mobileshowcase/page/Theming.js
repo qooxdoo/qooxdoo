@@ -79,10 +79,18 @@ qx.Class.define("mobileshowcase.page.Theming",
     _initialize : function()
     {
       this.base(arguments);
-/*
+
       this.getContent().add(new qx.ui.mobile.form.Title("Select a theme"));
 
-      var themeGroup = new qx.ui.mobile.form.Group([],false);
+      this.__createThemeChooser();
+      this.__createThemeScaleControl();
+      this.__createImageResolutionHandlingDemo();
+    },
+
+
+    /** Creates the form which controls the chosen qx.Mobile theme. */
+    __createThemeChooser: function() {
+      var themeGroup = new qx.ui.mobile.form.Group([], false);
       var themeForm = new qx.ui.mobile.form.Form();
 
       var themeRadioGroup = new qx.ui.mobile.form.RadioGroup();
@@ -99,15 +107,11 @@ qx.Class.define("mobileshowcase.page.Theming",
 
       themeGroup.add(new qx.ui.mobile.form.renderer.Single(themeForm));
       this.getContent().add(themeGroup);
-*/
-      this.__createThemeScaleControl();
-
-      this._createImageResolutionHandlingDemo();
     },
 
 
     /** Creates and adds the image resolution demonstration. */
-    _createImageResolutionHandlingDemo : function() {
+    __createImageResolutionHandlingDemo : function() {
       this.getContent().add(new qx.ui.mobile.form.Title("Resolution-specific Images"));
       var demoImage = new qx.ui.mobile.basic.Image("mobileshowcase/icon/image.png");
       demoImage.addCssClass("resolution-demo-image");
@@ -154,7 +158,6 @@ qx.Class.define("mobileshowcase.page.Theming",
 
     /**
      * Creates the a control widget for the theme's scale factor.
-     * @return {qx.ui.mobile.form.Form} the control widget for the adjusting the theme scaling.
      */
     __createThemeScaleControl : function()
     {
@@ -163,11 +166,11 @@ qx.Class.define("mobileshowcase.page.Theming",
       var form = new qx.ui.mobile.form.Form();
       var slider = this.__slider = new qx.ui.mobile.form.Slider();
       slider.set({
-        "displayValue":"value",
-        "minimum":50,
-        "maximum":200,
-        "value":100,
-        "step":10
+        "displayValue": "value",
+        "minimum": 50,
+        "maximum": 200,
+        "value": 100,
+        "step": 10
       });
       form.add(slider,"Custom Application Scale in %");
 
@@ -204,7 +207,7 @@ qx.Class.define("mobileshowcase.page.Theming",
     __changeCSS : function(cssFile, cssLinkIndex) {
       var oldlink = document.getElementsByTagName("link").item(cssLinkIndex);
 
-      var newlink = document.createElement("link")
+      var newlink = document.createElement("link");
       newlink.setAttribute("rel", "stylesheet");
       newlink.setAttribute("type", "text/css");
       newlink.setAttribute("href", cssFile);
@@ -237,17 +240,6 @@ qx.Class.define("mobileshowcase.page.Theming",
     _back : function()
     {
       qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
-    },
-
-
-    /*
-    *****************************************************************************
-      DESTRUCTOR
-    *****************************************************************************
-    */
-    destruct : function()
-    {
-      this._disposeObjects("__themes");
     }
   }
 });
