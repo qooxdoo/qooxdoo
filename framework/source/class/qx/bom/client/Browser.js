@@ -88,6 +88,9 @@ qx.Bootstrap.define("qx.bom.client.Browser",
           // Fix Safari name
           name = "mobile safari";
         }
+        else if (agent.indexOf(" OPR/")) {
+          name = "opera";
+        }
       }
       else if (engine ===  "mshtml")
       {
@@ -164,6 +167,14 @@ qx.Bootstrap.define("qx.bom.client.Browser",
         }
 
         version = match[2];
+      }
+
+      if (qx.bom.client.Engine.getName() == "webkit" ||
+          qx.bom.client.Browser.getName() == "opera")
+      {
+        if (agent.match(/OPR(\/| )([0-9]+\.[0-9])/)) {
+          version = RegExp.$2;
+        }
       }
 
       return version;
