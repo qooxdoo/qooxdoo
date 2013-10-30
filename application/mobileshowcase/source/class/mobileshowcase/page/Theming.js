@@ -130,10 +130,25 @@ qx.Class.define("mobileshowcase.page.Theming",
       var pixelRatio = qx.core.Environment.get("device.pixelRatio");
       var scaleFactor = qx.core.Init.getApplication().getRoot().getScaleFactor();
 
-      var demoLabelTemplate = "<div>Best available image for optimal scale<span>%1</span></div> <div><br/></div> <div>Device pixel ratio:<span>%2</span></div>  <div>Application scale:<span>%3</span></div> ";
-      var labelContent = qx.lang.String.format(demoLabelTemplate, [(pixelRatio*scaleFactor).toFixed(1), pixelRatio.toFixed(1), scaleFactor.toFixed(1)]);
+      var demoLabelTemplate = "<div>Best available image for final scale<span>%1</span></div> <div><br/></div> <div>Device pixel ratio:<span>%2</span></div>  <div>Computed application scale:<span>%3</span></div> ";
+      var labelContent = qx.lang.String.format(demoLabelTemplate, [this.__format(pixelRatio*scaleFactor), this.__format(pixelRatio), this.__format(scaleFactor)]);
 
       this.__demoImageLabel.setValue(labelContent);
+    },
+
+
+   /**
+    * Formats a number to at least one decimal.
+    * @param x {Number}
+    * @return {String} the formatted number
+    */
+    __format : function (x)
+    {
+      if (x == parseInt(x, 10)) {
+        x = x.toFixed(1);
+      }
+
+      return x;
     },
 
 
@@ -154,7 +169,7 @@ qx.Class.define("mobileshowcase.page.Theming",
         "value":100,
         "step":10
       });
-      form.add(slider,"Application Scale in %");
+      form.add(slider,"Custom Application Scale in %");
 
       var useScaleButton = new qx.ui.mobile.form.Button("Apply");
       useScaleButton.addListener("tap", this._onApplyScaleButtonTap, this);
