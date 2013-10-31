@@ -142,16 +142,14 @@ qx.Class.define("mobileshowcase.page.Theming",
 
 
    /**
-    * Formats a number to at least one decimal.
+    * Formats a number to one or two decimals as needed.
     * @param x {Number}
     * @return {String} the formatted number
     */
     __format : function (x)
     {
-      if (x == parseInt(x, 10)) {
-        x = x.toFixed(1);
-      }
-
+      x = x.toFixed(2);
+      x = x.replace(/(\d)0/, "$1");
       return x;
     },
 
