@@ -57,7 +57,7 @@ class EsprimaToTree1(object):
         nnode.set("value", "function")
         if enode["id"] != None:
             id_node = new_symbol('identifier', enode)
-            id_node.set("value", enode["id"])
+            id_node.set("value", enode["id"]['name'])
             nnode.childappend(id_node)
         # params
         params_node = new_symbol('params', enode)
@@ -96,7 +96,8 @@ class EsprimaToTree1(object):
         return self.visit_Expression(enode["expression"])
 
     def visit_IfStatement(self, enode):
-        n = new_symbol("loop", enode)
+        n = new_symbol("if", enode)
+        n.type = 'loop'
         n.set('loopType', "IF")
         n.set("value", "if")
         # cond
@@ -133,7 +134,8 @@ class EsprimaToTree1(object):
         return n
 
     def visit_WithStatement(self, enode):
-        n = new_symbol("loop", enode)
+        n = new_symbol("with", enode)
+        n.type = 'loop'
         n.set('loopType', "WITH")
         n.set("value", "with")
         n.childappend(self.visit_Expression(enode["object"]))
@@ -184,7 +186,8 @@ class EsprimaToTree1(object):
         return n
 
     def visit_WhileStatement(self, enode):
-        n = new_symbol("loop", enode)
+        n = new_symbol("while", enode)
+        n.type = 'loop'
         n.set("loopType", "WHILE")
         n.set("value", "while")
         n.childappend(self.visit_Expression(enode["test"])) # TODO: visit_Expression needs to return an expressionList!
@@ -194,7 +197,8 @@ class EsprimaToTree1(object):
         return n
 
     def visit_DoWhileStatement(self, enode):
-        n = new_symbol("loop", enode)
+        n = new_symbol("do", enode)
+        n.type = 'loop'
         n.set("value", "do")
         n.set("loopType", "DO")
         b = new_symbol("body", enode)
@@ -203,28 +207,50 @@ class EsprimaToTree1(object):
         n.childappend(self.visit_Expression(enode["test"]))
         return n
 
-    def visit_ForStatement(self, enode):
-        n = new_symbol("loop", enode)
+    def visit_ForStatement(self, enode):  # for (;;)
+        n = new_symbol("for", enode)
+        n.type = 'loop'
         n.set("value", "for")
         n.set("loopType", "FOR")
         n.set("forVariant", "iter")
         cond = new_symbol("expressionList", enode)
         n.childappend(cond)
-        # for (;;)
-        f = new_symbol("first", enode['init'])
+        # Condition
+        # first
+        f = new_symbol("first", enode)
         cond.childappend(f)
-        if enode["init"]["type"] == "VariableDeclaration":
-            f.childappend(self.visit_VariableDeclaration(enode["init"]))
-        elif enode["init"]["type"] == "Expression":
-            f.childappend(self.visit_Expression(enode["init"]))
-        s = new_symbol("second", enode['test'])
+        el = new_symbol("expressionList", enode)
+        if enode['init'] == None:
+            pass
+        elif enode["init"]["type"] == "VariableDeclaration":
+            el.childappend(self.visit_VariableDeclaration(enode["init"]))
+        elif enode['init']['type'] == 'SequenceExpression':
+            el = self.visit_SequenceExpression(enode["init"])  # visit_SequenceExpression already creates an <expressionList>
+        else:
+            el.childappend(self.visit_Expression(enode["init"]))
+        f.childappend(el)
+        # second
+        s = new_symbol("second", enode)
         cond.childappend(s)
-        if enode["test"] != None:
-            s.childappend(self.visit_Expression(enode["test"]))
-        t = new_symbol("third", enode['update'])
+        el = new_symbol("expressionList", enode)
+        if enode["test"] == None:
+            pass
+        elif enode['test']['type'] == 'SequenceExpression':
+            el = self.visit_SequenceExpression(enode["test"])  # visit_SequenceExpression already creates an <expressionList>
+        else:
+            el.childappend(self.visit_Expression(enode["test"]))
+        s.childappend(el)
+        # third
+        t = new_symbol("third", enode)
         cond.childappend(t)
-        if enode["update"] != None:
-            t.childappend(self.visit_Expression(enode["update"]))
+        el = new_symbol("expressionList", enode)
+        if enode["update"] == None:
+            pass
+        elif enode['update']['type'] == 'SequenceExpression':
+            el = self.visit_SequenceExpression(enode["update"])  # visit_SequenceExpression already creates an <expressionList>
+        else:
+            el.childappend(self.visit_Expression(enode["update"]))
+        t.childappend(el)
         # body
         b = new_symbol("body", enode['body'])
         n.childappend(b)
@@ -232,7 +258,8 @@ class EsprimaToTree1(object):
         return n
 
     def visit_ForInStatement(self, enode):
-        n = new_symbol("loop", enode)
+        n = new_symbol("for", enode)
+        n.type = 'loop'
         n.set("loopType", "FOR")
         n.set("forVariant", "in")
         n.set("value", "for")
@@ -314,7 +341,7 @@ class EsprimaToTree1(object):
             n.childappend(item)
             # key  
             if child['key']['type'] == 'Literal':
-                item.set("key", child['key']['value'])
+                item.set("key", str(child['key']['value']))
                 if isinstance(child['key']['value'], types.StringTypes):
                     item.set("quote", "doublequotes")  # TODO: this is fake, but distinguishes between number and string
                 else: # Number
@@ -403,7 +430,8 @@ class EsprimaToTree1(object):
         return n
 
     def visit_NewExpression(self, enode):
-        n = new_symbol("new", enode)
+        n = new_symbol("operation", enode)
+        n.set("operator", "NEW")
         n.set("value", "new")
         if enode["arguments"]: # have to coerce two members into a single 'call' tree
             arg = new_symbol("call", enode['callee'])
@@ -483,7 +511,7 @@ class EsprimaToTree1(object):
             n.childappend(self.visit_Expression(enode["test"]))
         else:
             n = new_symbol("default", enode)
-        stmts = new_symbol("statements", enode['consequent'])
+        stmts = new_symbol("statements", enode)
         n.childappend(stmts)
         for child in enode["consequent"]:
             stmts.childappend(self.visit_Statement(child))
