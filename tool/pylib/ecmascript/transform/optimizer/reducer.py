@@ -258,22 +258,23 @@ class ASTReducer(treeutil.NodeVisitor):
 # Take a Python value and init a constant node with it, setting the node's "constantType"
 #
 def set_node_type_from_value(valueNode, value):
-    valueNode.set("value", str(value))  # init value attrib
     if isinstance(value, types.StringTypes):
         valueNode.set("constantType","string")
         quotes, escaped_value = escape_quotes(str(value))
-        valueNode.set("value", escaped_value)
         valueNode.set("detail", quotes)
-    # this has to come first, as isinstance(True, types.IntType) is also true!
+        valueNode.set("value", escaped_value)
     elif isinstance(value, types.BooleanType):
+        # this has to come early, as isinstance(True, types.IntType) is also true!
         valueNode.set("constantType","boolean")
         valueNode.set("value", str(value).lower())
     elif isinstance(value, (types.IntType, types.LongType)):
         valueNode.set("constantType","number")
         valueNode.set("detail", "int")
+        valueNode.set("value", str(value))
     elif isinstance(value, types.FloatType):
         valueNode.set("constantType","number")
         valueNode.set("detail", "float")
+        valueNode.set("value", str(value))
     elif isinstance(value, types.NoneType):
         valueNode.set("constantType","null")
         valueNode.set("value", "null")
