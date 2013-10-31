@@ -224,15 +224,15 @@ $tabbar-button-distance: rem(4);
 
 // ToggleButton
 
-$togglebutton-width: rem(100);
-$togglebutton-height: rem(30);
+$togglebutton-width: rem(90);
+$togglebutton-height: rem(35);
 $togglebutton-border-radius: rem(30);
 $togglebutton-border-color: $color-3;
 $togglebutton-text-color: $highlight-color;
-$togglebutton-background: $color-5;
+$togglebutton-background: $color-4;
 $togglebutton-active-background: $highlight-color;
-$togglebutton-knob-background: $color-4;
-$togglebutton-knob-width: rem(30);
+$togglebutton-knob-background: $color-5;
+$togglebutton-knob-width: rem(35);
 $togglebutton-active-text-color: $color-5;
 $togglebutton-inset-shadow: rgba(0,0,0,0);
 $togglebutton-knob-shadow: rgba(0,0,0,0.4);
