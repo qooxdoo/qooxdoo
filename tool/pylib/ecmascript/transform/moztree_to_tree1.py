@@ -341,10 +341,11 @@ class EsprimaToTree1(object):
             n.childappend(item)
             # key  
             if child['key']['type'] == 'Literal':
-                item.set("key", str(child['key']['value']))
                 if isinstance(child['key']['value'], types.StringTypes):
-                    item.set("quote", "doublequotes")  # TODO: this is fake, but distinguishes between number and string
+                    item.set("key", child['key']['value'])
+                    item.set("quote", "doublequotes")  # TODO: the 'raw' member includes the actual quotes
                 else: # Number
+                    item.set("key", str(child['key']['value']))
                     item.set("quote", "")
             else: # 'Identifier'
                 item.set("key", child['key']['name'])
