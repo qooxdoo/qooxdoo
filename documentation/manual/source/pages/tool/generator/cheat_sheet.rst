@@ -78,8 +78,6 @@ Default Jobs
       - generate a httpd configuration for the source version
     * - source-hybrid
       - create a hybrid application (application classes as individual files, others concatenated)
-    * - source-hybrid
-      - create a hybrid application (application classes as individual files, others concatenated)
     * - source-server
       - start a lightweight web server that exports the source version
     * - test
