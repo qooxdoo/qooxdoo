@@ -29,7 +29,7 @@ $navigationpage-border-color: $color-3;
 // NavigationBar
 
 $navigationbar-height: rem(35);
-$navigationbar-background: $color-3;
+$navigationbar-background: $color-2;
 $navigationbar-text-size: rem(18);
 $navigationbar-text-color: $color-5;
 $navigationbar-padding: rem(4);
@@ -37,7 +37,7 @@ $navigationbar-font-weight: normal;
 
 // NavigationBar Button
 
-$navigationbarbutton-border-radius: rem(2);
+$navigationbarbutton-border-radius: rem(3);
 $navigationbarbutton-background: $color-5;
 $navigationbarbutton-border-color: rgba(0,0,0,0);
 $navigationbarbutton-text-color: $highlight-color;
@@ -49,9 +49,9 @@ $navigationbarbutton-font-weight: normal;
 // Dialog
 
 $dialog-border-color: $highlight-color;
-$dialog-background: $color-3;
-$dialog-arrow-up-color: $color-3;
-$dialog-arrow-down-color: $color-3;
+$dialog-background: $color-2;
+$dialog-arrow-up-color: $color-2;
+$dialog-arrow-down-color: $color-2;
 $dialog-arrow-size: rem(12);
 $dialog-arrow-position-offset: rem(16);
 $dialog-border-radius: rem(2);
@@ -234,7 +234,7 @@ $drawer-below-background: $color-3;
 
 // Collapsible
 
-$collapsible-border-radius: rem(2);
+$collapsible-border-radius: rem(3);
 $collapsible-header-border-color: $color-4;
 $collapsible-header-text-color: $highlight-color;
 $collapsible-header-active-text-color: $color-5;
