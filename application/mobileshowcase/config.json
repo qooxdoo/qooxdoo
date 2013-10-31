@@ -30,12 +30,6 @@
     "test-source",
     "translation",
     "minify-css",
-    "source-ios",
-    "source-android",
-    "source-indigo",
-    "build-ios",
-    "build-android",
-    "build-indigo",
     "validate-config",
     "validate-manifest",
     "watch"
