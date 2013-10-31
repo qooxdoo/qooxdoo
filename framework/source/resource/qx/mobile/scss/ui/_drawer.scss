@@ -89,7 +89,7 @@
 }
 
 .drawer.below.left:before, .drawer.below.right:before, .drawer.below.top:before, .drawer.below.bottom:before {
-  @include box-inset-shadow(0px 0px rem(10) rem(5) rgba(0,0,0,0.5));
+  @include box-inset-shadow(0px 0px rem(10) rem(5) rgba(0,0,0,0.35));
 
   content: "";
   width: 100%;

@@ -1,8 +1,8 @@
 //
 // Application-specific theming template for qx.Mobile Applications
 //
-// Modify the values for customizing your theme 
-// and run the qooxdoo generator job 'watch-scss' 
+// Modify the values for customizing your theme
+// and run the qooxdoo generator job 'watch-scss'
 
 // Theme
 
@@ -10,7 +10,7 @@ $foreground-color: #222;
 $background-color: white;
 $highlight-color: #3D72C9;
 
-$color-1: mix($foreground-color, $background-color, 90%); 
+$color-1: mix($foreground-color, $background-color, 90%);
 $color-2: mix($foreground-color, $background-color, 70%);
 $color-3: mix($foreground-color, $background-color, 50%);
 $color-4: mix($foreground-color, $background-color, 30%);
@@ -36,7 +36,7 @@ $navigationbar-padding:  rem(4);
 $navigationbar-font-weight: bold;
 
 // NavigationBar Button
- 
+
 $navigationbarbutton-border-radius:  rem(4);
 $navigationbarbutton-background:  $background-color,$color-4;
 $navigationbarbutton-border-color:  $color-2;
@@ -48,7 +48,7 @@ $navigationbarbutton-font-weight: bold;
 
 // Dialog
 
-$dialog-border-color: $highlight-color; 
+$dialog-border-color: $highlight-color;
 $dialog-background:  $color-2,$color-1 50%,$color-1;
 $dialog-arrow-up-color:  $color-2;
 $dialog-arrow-down-color:  $color-1;
@@ -105,14 +105,16 @@ $checkbox-size:  rem(30);
 $checkbox-tick-color: $highlight-color;
 $checkbox-tick-size:  rem(14);
 $checkbox-tick-width:  rem(4);
-$checkbox-border-radius:  rem(1);
+$checkbox-tick-shadow: rgba(0,0,0,0.3);
+$checkbox-border-radius:  rem(4);
 $checkbox-border-color:  $color-2;
-$checkbox-background: $color-4,$background-color; 
+$checkbox-background: $color-4,$background-color;
 
 // RadioButton
 
 $radiobutton-size:  rem(32);
 $radiobutton-dot-color: $highlight-color;
+$radiobutton-dot-shadow: rgba(0,0,0,0.3);
 $radiobutton-background: $color-4,$background-color;
 $radiobutton-border-color: $color-2;
 
@@ -135,7 +137,7 @@ $togglebutton-width:  rem(100);
 $togglebutton-height:  rem(30);
 $togglebutton-border-radius:  rem(4);
 $togglebutton-border-color:  $color-2;
-$togglebutton-text-color:  $color-1; 
+$togglebutton-text-color:  $color-1;
 $togglebutton-background:  $color-5,$background-color;
 $togglebutton-active-background:  $highlight-color,lighten($highlight-color,20%);
 $togglebutton-knob-background:  $background-color,$color-4;
@@ -172,7 +174,7 @@ $button-active-background:  lighten($highlight-color,20%),$highlight-color;
 // SelectBox
 
 $selectbox-border-radius:  rem(4);
-$selectbox-border-color:  $color-2; 
+$selectbox-border-color:  $color-2;
 $selectbox-text-color:  $color-1;
 $selectbox-background:  $background-color,$color-4;
 $selectbox-active-background:  lighten($highlight-color,20%),$highlight-color;
@@ -185,7 +187,7 @@ $selectbox-item-selected-background:  lighten($highlight-color,20%), $highlight-
 $slider-height:  rem(7);
 $slider-background:  $color-4,$background-color;
 $slider-active-area:  lighten($highlight-color,20%),$highlight-color;
-$slider-border-radius:  rem(20); 
+$slider-border-radius:  rem(20);
 $slider-border-color:  $color-2;
 $slider-knob-border-radius:  rem(4);
 $slider-knob-width:  rem(30);
@@ -195,7 +197,7 @@ $slider-knob-border-color:  $color-2;
 $slider-shadow: rgba(0,0,0,0.4);
 $slider-font-color:  $color-2;
 
-// Toolbar  
+// Toolbar
 
 $toolbar-text-color:  $color-1;
 $toolbar-background:  $background-color,$color-4;
@@ -210,10 +212,10 @@ $toolbar-font-weight: bold;
 $menu-item-selected-text-color:  $background-color;
 $menu-item-selected-background:  lighten($highlight-color, 20%), $highlight-color;
 
-// Picker 
+// Picker
 
 $picker-spinning-wheel-overlay:  rgba($background-color,1),rgba($background-color,0) 40%,rgba($background-color,0) 60%,rgba($background-color,1);
-$picker-spinning-wheel-text-color:  $color-1; 
+$picker-spinning-wheel-text-color:  $color-1;
 $picker-spinning-wheel-background:  $background-color;
 $picker-highlight-color:  rgba($highlight-color,0.5);
 $picker-highlight-border-width:  rem(2);
@@ -226,7 +228,7 @@ $picker-height:  rem(160);
 
 // Drawer
 
-$drawer-border-color:  $color-1; 
+$drawer-border-color:  $color-1;
 $drawer-above-background:  $color-5;
 $drawer-below-background:  $color-3;
 

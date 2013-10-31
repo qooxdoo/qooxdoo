@@ -2,12 +2,12 @@
 .radio {
   @include background($radiobutton-background);
   @include border-radius($radiobutton-size);
-  
+
   display:inline-block;
   content: "";
 
   width: $radiobutton-size;
-  height: $radiobutton-size; 
+  height: $radiobutton-size;
   border: rem(1) solid $radiobutton-border-color;
 
   text-align: center;
@@ -23,7 +23,7 @@
 // Color dot
 .radio:after {
   @include border-radius($radiobutton-size);
-  @include box-shadow(rem(1) rem(1)  rem(1) 0 rgba(0,0,0,0.3));
+  @include box-shadow(rem(1) rem(1)  rem(1) 0 $radiobutton-dot-shadow);
 
   position: absolute;
   display: block;
@@ -41,7 +41,7 @@
   margin-top: -1*$radiobutton-size/4;
   margin-left: -1*$radiobutton-size/4;
 
-  background: $radiobutton-dot-color; 
+  background: $radiobutton-dot-color;
 }
 
 .radio.checked:after {

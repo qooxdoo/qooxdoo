@@ -3,12 +3,12 @@
 //
 
 .checkbox {
-  @include border-radius($checkbox-border-radius * 3);
+  @include border-radius($checkbox-border-radius);
   @include background($checkbox-background);
 
   width:$checkbox-size;
   height:$checkbox-size;
-  
+
   display:inline-block;
   cursor:pointer;
   text-align:center;
@@ -20,11 +20,11 @@
 
 .root.android.v2 .checkbox {
   @include transform(scale(1));
-} 
+}
 
 .checkbox:after {
   @include transform(rotate(-45deg));
-  @include box-shadow(rem(-1) rem(1) rem(1) 0px rgba(0,0,0,0.3));
+  @include box-shadow(rem(-1) rem(1) rem(1) 0px $checkbox-tick-shadow);
 
   box-sizing: content-box;
 
@@ -38,7 +38,7 @@
   opacity: 0;
   content:"";
   width: $checkbox-tick-size;
-  height: $checkbox-tick-size/2; 
+  height: $checkbox-tick-size/2;
   background: transparent;
 
   border: $checkbox-tick-width solid $checkbox-tick-color;
