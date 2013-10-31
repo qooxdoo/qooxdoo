@@ -260,7 +260,7 @@ class ASTReducer(treeutil.NodeVisitor):
 def set_node_type_from_value(valueNode, value):
     if isinstance(value, types.StringTypes):
         valueNode.set("constantType","string")
-        quotes, escaped_value = escape_quotes(str(value))
+        quotes, escaped_value = escape_quotes(value)
         valueNode.set("detail", quotes)
         valueNode.set("value", escaped_value)
     elif isinstance(value, types.BooleanType):
