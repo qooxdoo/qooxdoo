@@ -21,10 +21,120 @@ $color-5: mix($foreground-color, $background-color, 0%);
 $application-font: "Segoe UI","Slate Pro",sans-serif,Helvetica;
 $application-text-color: $color-1;
 
-// Page
+// Button
 
-$navigationpage-background: $color-4;
-$navigationpage-border-color: $color-3;
+$button-text-color: $highlight-color;
+$button-font-size: rem(15);
+$button-font-weight: normal;
+$button-active-text-color: $color-5;
+$button-border-radius: rem(2);
+$button-border-color: $color-3;
+$button-active-border-color: $highlight-color;
+$button-background: $color-5;
+$button-active-background: $highlight-color;
+
+// Carousel
+
+$carousel-pagination-size: rem(10);
+$carousel-pagination-background: $color-5;
+$carousel-pagination-border-color: rgba($background-color,0.6);
+$carousel-pagination-active-background: $highlight-color;
+$carousel-pagination-active-border-color: $background-color;
+$carousel-pagination-border-radius: $carousel-pagination-size;
+$carousel-pagination-font-size: rem(1);
+$carousel-pagination-font-color: rgba(0,0,0,0);
+
+// Checkbox
+
+$checkbox-size: rem(30);
+$checkbox-tick-color: $highlight-color;
+$checkbox-tick-size: rem(14);
+$checkbox-tick-width: rem(6);
+$checkbox-tick-shadow: rgba(0,0,0,0);
+$checkbox-border-radius: rem(2);
+$checkbox-border-color: $color-3;
+$checkbox-background: $color-4;
+
+// Collapsible
+
+$collapsible-border-radius: rem(3);
+$collapsible-header-border-color: $color-4;
+$collapsible-header-text-color: $highlight-color;
+$collapsible-header-active-text-color: $color-5;
+$collapsible-header-background: $color-5;
+$collapsible-header-active-background: $highlight-color;
+$collapsible-header-padding: rem(10);
+$collapsible-header-content-distance: rem(10);
+$collapsible-content-border-color: $color-4;
+$collapsible-content-padding: rem(10);
+$collapsible-content-background-color: $color-5;
+$collapsible-arrow-size: rem(8);
+$collapsible-arrow-color: $color-3;
+$collapsible-active-arrow-color: $color-5;
+
+// Drawer
+
+$drawer-border-color: $color-1;
+$drawer-above-background: $color-4;
+$drawer-below-background: $color-3;
+
+// Dialog
+
+$dialog-border-color: $highlight-color;
+$dialog-background: $color-2;
+$dialog-arrow-up-color: $color-2;
+$dialog-arrow-down-color: $color-2;
+$dialog-arrow-size: rem(12);
+$dialog-arrow-position-offset: rem(16);
+$dialog-border-radius: rem(2);
+$dialog-title-text-color: $color-5;
+$dialog-font-weight: normal;
+
+// Form
+
+$form-background: $color-5;
+$form-title-text-color: $color-1;
+$form-label-text-color: $color-1;
+$form-border-color: $color-5;
+$form-border-radius: rem(2);
+$form-font-weight: normal;
+
+// Group
+
+$group-background: $color-5;
+$group-border-color: $color-5;
+$group-title-text-color: $color-1;
+$group-border-radius: rem(2);
+
+// Input
+
+$input-text-color: $color-1;
+$input-background: $color-5;
+$input-border-radius: rem(2);
+$input-border-color: $color-3;
+$input-invalid-border-color: red;
+
+// List
+
+$list-background: $color-5;
+$list-title-text-color: $color-1;
+$list-title-font-size: rem(17);
+$list-title-font-weight: normal;
+$list-subtitle-text-color: $highlight-color;
+$list-subtitle-font-size: rem(13);
+$list-border-color: $color-4;
+$list-active-background: $highlight-color;
+$list-active-text-color: $color-5;
+$list-border-radius: rem(2);
+$list-arrow-size: rem(3);
+$list-arrow-thickness: rem(2);
+$list-arrow-color: $color-2;
+$list-active-arrow-color: $color-5;
+
+// Menu
+
+$menu-item-selected-text-color: $color-5;
+$menu-item-selected-background: $highlight-color;
 
 // NavigationBar
 
@@ -45,70 +155,24 @@ $navigationbarbutton-active-background: $highlight-color;
 $navigationbarbutton-active-text-color: $color-5;
 $navigationbarbutton-active-border-color: rgba(0,0,0,0);
 $navigationbarbutton-font-weight: normal;
+// Page
 
-// Dialog
+$navigationpage-background: $color-4;
+$navigationpage-border-color: $color-3;
 
-$dialog-border-color: $highlight-color;
-$dialog-background: $color-2;
-$dialog-arrow-up-color: $color-2;
-$dialog-arrow-down-color: $color-2;
-$dialog-arrow-size: rem(12);
-$dialog-arrow-position-offset: rem(16);
-$dialog-border-radius: rem(2);
-$dialog-title-text-color: $color-5;
-$dialog-font-weight: normal;
+// Picker
 
-// Group
-
-$group-background: $color-5;
-$group-border-color: $color-5;
-$group-title-text-color: $color-1;
-$group-border-radius: rem(2);
-
-// List
-
-$list-background: $color-5;
-$list-title-text-color: $color-1;
-$list-title-font-size: rem(17);
-$list-title-font-weight: normal;
-$list-subtitle-text-color: $highlight-color;
-$list-subtitle-font-size: rem(13);
-$list-border-color: $color-4;
-$list-active-background: $highlight-color;
-$list-active-text-color: $color-5;
-$list-border-radius: rem(2);
-$list-arrow-size: rem(3);
-$list-arrow-thickness: rem(2);
-$list-arrow-color: $color-2;
-$list-active-arrow-color: $color-5;
-
-// Form
-
-$form-background: $color-5;
-$form-title-text-color: $color-1;
-$form-label-text-color: $color-1;
-$form-border-color: $color-5;
-$form-border-radius: rem(2);
-$form-font-weight: normal;
-
-// Input
-
-$input-text-color: $color-1;
-$input-background: $color-5;
-$input-border-radius: rem(2);
-$input-border-color: $color-3;
-$input-invalid-border-color: red;
-
-// Checkbox
-
-$checkbox-size: rem(30);
-$checkbox-tick-color: $highlight-color;
-$checkbox-tick-size: rem(14);
-$checkbox-tick-width: rem(6);
-$checkbox-tick-shadow: rgba(0,0,0,0);
-$checkbox-border-radius: rem(2);
-$checkbox-border-color: $color-3;
-$checkbox-background: $color-4;
+$picker-spinning-wheel-overlay: rgba($background-color,1),rgba($background-color,0) 40%,rgba($background-color,0) 60%,rgba($background-color,1);
+$picker-spinning-wheel-text-color: $color-1;
+$picker-spinning-wheel-background: $color-5;
+$picker-highlight-color: rgba($highlight-color,0.5);
+$picker-highlight-border-width: rem(2);
+$picker-spinning-wheel-border-radius: rem(2);
+$picker-spinning-wheel-divider-color: $color-3;
+$picker-spinning-wheel-divider-width: rem(1);
+$picker-label-height: rem(25);
+$picker-label-font-size: rem(16);
+$picker-height: rem(160);
 
 // RadioButton
 
@@ -117,6 +181,32 @@ $radiobutton-dot-color: $highlight-color;
 $radiobutton-dot-shadow: rgba(0,0,0,0);
 $radiobutton-background: $color-4;
 $radiobutton-border-color: $color-3;
+
+// SelectBox
+
+$selectbox-border-radius: rem(2);
+$selectbox-border-color: $color-3;
+$selectbox-text-color: $highlight-color;
+$selectbox-background: $color-4;
+$selectbox-active-background: $highlight-color;
+$selectbox-active-text-color: $color-5;
+$selectbox-item-selected-text-color: $color-5;
+$selectbox-item-selected-background: $highlight-color;
+
+// Slider
+
+$slider-height: rem(6);
+$slider-background: $color-4;
+$slider-active-area: $highlight-color;
+$slider-border-radius: rem(2);
+$slider-border-color: $color-5;
+$slider-knob-border-radius: rem(15);
+$slider-knob-width: rem(40);
+$slider-knob-height: rem(30);
+$slider-knob-background: $color-5;
+$slider-knob-border-color: $color-3;
+$slider-shadow: rgba(0,0,0,0);
+$slider-font-color: $highlight-color;
 
 // Tabbar
 
@@ -148,55 +238,6 @@ $togglebutton-knob-shadow: rgba(0,0,0,0.4);
 $togglebutton-font-size: rem(12);
 $togglebutton-font-weight: normal;
 
-// Carousel
-
-$carousel-pagination-size: rem(10);
-$carousel-pagination-background: $color-5;
-$carousel-pagination-border-color: rgba($background-color,0.6);
-$carousel-pagination-active-background: $highlight-color;
-$carousel-pagination-active-border-color: $background-color;
-$carousel-pagination-border-radius: $carousel-pagination-size;
-$carousel-pagination-font-size: rem(1);
-$carousel-pagination-font-color: rgba(0,0,0,0);
-
-// Button
-
-$button-text-color: $highlight-color;
-$button-font-size: rem(15);
-$button-font-weight: normal;
-$button-active-text-color: $color-5;
-$button-border-radius: rem(2);
-$button-border-color: $color-3;
-$button-active-border-color: $highlight-color;
-$button-background: $color-5;
-$button-active-background: $highlight-color;
-
-// SelectBox
-
-$selectbox-border-radius: rem(2);
-$selectbox-border-color: $color-3;
-$selectbox-text-color: $highlight-color;
-$selectbox-background: $color-4;
-$selectbox-active-background: $highlight-color;
-$selectbox-active-text-color: $color-5;
-$selectbox-item-selected-text-color: $color-5;
-$selectbox-item-selected-background: $highlight-color;
-
-// Slider
-
-$slider-height: rem(6);
-$slider-background: $color-4;
-$slider-active-area: $highlight-color;
-$slider-border-radius: rem(2);
-$slider-border-color: $color-5;
-$slider-knob-border-radius: rem(15);
-$slider-knob-width: rem(40);
-$slider-knob-height: rem(30);
-$slider-knob-background: $color-5;
-$slider-knob-border-color: $color-3;
-$slider-shadow: rgba(0,0,0,0);
-$slider-font-color: $highlight-color;
-
 // Toolbar
 
 $toolbar-text-color: $highlight-color;
@@ -206,45 +247,3 @@ $toolbar-active-text-color: $color-5;
 $toolbar-border-color: $color-3;
 $toolbar-border-radius: rem(2);
 $toolbar-font-weight: normal;
-
-// Menu
-
-$menu-item-selected-text-color: $color-5;
-$menu-item-selected-background: $highlight-color;
-
-// Picker
-
-$picker-spinning-wheel-overlay: rgba($background-color,1),rgba($background-color,0) 40%,rgba($background-color,0) 60%,rgba($background-color,1);
-$picker-spinning-wheel-text-color: $color-1;
-$picker-spinning-wheel-background: $color-5;
-$picker-highlight-color: rgba($highlight-color,0.5);
-$picker-highlight-border-width: rem(2);
-$picker-spinning-wheel-border-radius: rem(2);
-$picker-spinning-wheel-divider-color: $color-3;
-$picker-spinning-wheel-divider-width: rem(1);
-$picker-label-height: rem(25);
-$picker-label-font-size: rem(16);
-$picker-height: rem(160);
-
-// Drawer
-
-$drawer-border-color: $color-1;
-$drawer-above-background: $color-4;
-$drawer-below-background: $color-3;
-
-// Collapsible
-
-$collapsible-border-radius: rem(3);
-$collapsible-header-border-color: $color-4;
-$collapsible-header-text-color: $highlight-color;
-$collapsible-header-active-text-color: $color-5;
-$collapsible-header-background: $color-5;
-$collapsible-header-active-background: $highlight-color;
-$collapsible-header-padding: rem(10);
-$collapsible-header-content-distance: rem(10);
-$collapsible-content-border-color: $color-4;
-$collapsible-content-padding: rem(10);
-$collapsible-content-background-color: $color-5;
-$collapsible-arrow-size: rem(8);
-$collapsible-arrow-color: $color-3;
-$collapsible-active-arrow-color: $color-5;
