@@ -158,6 +158,11 @@ qx.Class.define("mobileshowcase.Application",
       },this);
 
       nm.onGet("/animation", function(data) {
+        if(data && data.customData && data.customData.fromHistory === true ) {
+          data.customData.animation = "slide";
+          data.customData.fromHistory = false;
+          data.customData.reverse = (data.customData.action !== "back");
+        }
         animation.show(data.customData);
       },this);
 
