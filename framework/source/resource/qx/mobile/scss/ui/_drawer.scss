@@ -1,5 +1,6 @@
 .drawer {
   position:absolute;
+  -webkit-backface-visibility:hidden;
 }
 
 .drawer.above {
