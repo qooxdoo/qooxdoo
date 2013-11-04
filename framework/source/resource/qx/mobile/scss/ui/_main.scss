@@ -8,8 +8,10 @@ body {
 }
 
 .page {
+  @include backface-visibility(hidden);
+
   /* Disable touch behaviors, like pan and zoom for IE10*/
-  -ms-touch-action: none; 
+  -ms-touch-action: none;
 }
 
 .content:not(.group) .form-title {

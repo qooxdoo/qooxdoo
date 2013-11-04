@@ -1,11 +1,10 @@
-.animationParent {
+.layout-card {
   @include perspective(800);
   @include transform-style(preserve-3d);
 }
 
 .animationChild {
-  @include backface-visibility(hidden);
-  position: absolute; // We have to remove this property after animation, otherwise the list widget is not shown in Webkit Browsers. See Bug #5935.
+  position: absolute;
 }
 
 .in {
@@ -35,15 +34,6 @@
 .slideup.out.reverse {
   z-index: 10;
 }
-
-//
-// FLIP 
-//
-
-.flip {
-  @include backface-visibility(hidden);
-}
-
 
 //
 // SWAP
