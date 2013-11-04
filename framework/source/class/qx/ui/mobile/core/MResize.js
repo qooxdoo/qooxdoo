@@ -64,9 +64,9 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
       var parent = this.getLayoutParent();
 
       if (parent && parent.getContainerElement()) {
-          var element = this.getContainerElement();
-          qx.bom.element.Style.set(element, "height", "auto");
-          qx.bom.element.Style.set(element, "width", "auto");
+        var element = this.getContainerElement();
+        qx.bom.element.Style.set(element, "height", "auto");
+        qx.bom.element.Style.set(element, "width", "auto");
       }
     },
 
@@ -83,7 +83,7 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
         var width = parent.getContainerElement().offsetWidth;
 
         // Only fix size, when value are above zero.
-        if(height == 0 || width == 0) {
+        if(height === 0 || width === 0) {
           return;
         }
 
@@ -135,6 +135,4 @@ qx.Mixin.define("qx.ui.mobile.core.MResize",
       }
     }
   }
-
-
-})
+});
