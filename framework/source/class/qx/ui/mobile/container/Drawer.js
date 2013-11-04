@@ -312,10 +312,10 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
       this.__inAnimation = false;
       this._disableTransition();
-      this.__parent.removeCssClass("blocked");
-
+      
       if (this.isHidden()) {
         this.exclude();
+        this.__parent.removeCssClass("blocked");
       }
 
       // Check for orientation change during transition.
