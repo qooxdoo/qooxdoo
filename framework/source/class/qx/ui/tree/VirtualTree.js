@@ -91,7 +91,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     }
 
     if (childProperty != null) {
-      this.setChildProperty(childProperty)
+      this.setChildProperty(childProperty);
     }
 
     if(model != null) {
@@ -445,6 +445,11 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       this._layer = this._provider.createLayer();
       this._layer.addListener("updated", this._onUpdated, this);
       this.getPane().addLayer(this._layer);
+      this.getPane().addListenerOnce("resize", function(e) {
+        // apply width to pane on first rendering pass
+        // to avoid visible flickering
+        this.getPane().getColumnConfig().setItemSize(0, e.getData().width);
+      }, this);
     },
 
 
