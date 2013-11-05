@@ -1,0 +1,46 @@
+@function rem($value, $factor: 1.0) {
+  @if ($value != 0 and $value != auto) {
+    @if (unitless($value)) {
+      $value: $value * 1px;
+    }
+
+    @if (unit($factor) == "%") {
+      $factor: $factor / ($factor * 0 + 1) / 100;
+    }
+
+    $value: $factor*($value/16px) * 1rem;
+  }
+
+  @return $value;
+}
+
+@mixin background-clip($args) {
+  -webkit-background-clip: $args;
+  -moz-background-clip: $args;
+  background-clip: $args;
+}
+
+@mixin user-select($args) {
+  -webkit-user-select: $args;
+  -moz-user-select: $args;
+  -ms-user-select: $args;
+  user-select: $args;
+}
+
+@mixin border-radius($args) {
+  -webkit-border-radius: $args;
+  -moz-border-radius: $args;
+  border-radius: $args;
+}
+
+@mixin box-shadow($args) {
+  -webkit-box-shadow: $args;
+  -moz-box-shadow: $args;
+  box-shadow: $args;
+}
+
+@mixin box-sizing($args) {
+  -webkit-box-sizing: $args;
+  -moz-box-sizing: $args;
+  box-sizing: $args;
+}

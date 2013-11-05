@@ -1,0 +1,48 @@
+.qx-toolbar {
+  overflow: hidden;
+  border-bottom: rem(1) solid rgb(187, 187, 187);
+  border-top: rem(1) solid rgb(187, 187, 187);
+  padding: rem(7);
+  @include box-sizing(border-box);
+  width: 100%;
+  background-color: #F7F7F7;
+}
+
+@media all and (max-width: rem(850)) {
+  .qx-toolbar {
+    padding: rem(0);
+  }
+
+  .qx-toolbar .qx-button {
+    display: block;
+    width: 100%;
+    background: none;
+    border: rem(0);
+    border-top: rem(1) solid rgb(187, 187, 187);
+  }
+
+  .qx-toolbar .qx-button-disabled {
+    display: block;
+    width: 100%;
+    border: rem(0) !important;
+    background-image: none !important;
+    border-top: rem(1) solid rgb(187, 187, 187) !important;
+  }
+
+  .qx-toolbar .qx-button:hover {
+    border: rem(0) solid rgb(147, 147, 147);
+    text-decoration: underline;
+    border-top: rem(1) solid rgb(187, 187, 187);
+  }
+
+  .qx-toolbar .qx-button:active {
+    border: rem(0);
+    background-color: transparent;
+    background-image: none;
+    border-top: rem(1) solid rgb(187, 187, 187);
+  }
+
+  .qx-toolbar .qx-button:focus {
+    border: rem(0);
+  }
+}
