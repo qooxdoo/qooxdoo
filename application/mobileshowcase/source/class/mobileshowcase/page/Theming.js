@@ -203,12 +203,17 @@ qx.Class.define("mobileshowcase.page.Theming",
      * @param cssLinkIndex {String} index of the css link entry in head, which will be replaced.
      */
     __changeCSS : function(cssFile, cssLinkIndex) {
-      qx.bom.element.Style.set(document.documentElement, "background-color", "white");
-      qx.bom.element.Style.set(document.documentElement, "pointerEvents", "none");
-      qx.bom.element.Style.set(document.documentElement, "transition", "all 500ms");
-      qx.bom.element.Style.set(document.documentElement, "opacity", "0");
+      var blocker = qx.ui.mobile.core.Blocker.getInstance();
+      qx.bom.element.Style.set(blocker.getContentElement(), "transition", "all 500ms");
+      qx.bom.element.Style.set(blocker.getContentElement(), "backgroundColor", "rgba(255,255,255,0)");
+      
+      blocker.show();
 
-      qx.bom.Element.addListener(document.documentElement, "transitionEnd", this._onAppFadedOut, {
+      setTimeout(function() {
+        qx.bom.element.Style.set(blocker.getContentElement(), "backgroundColor", "rgba(255,255,255,1)");
+      }, 0);
+
+      qx.bom.Element.addListener(blocker.getContentElement(), "transitionEnd", this._onAppFadedOut, {
         "self": this,
         "cssFile": cssFile,
         "cssLinkIndex": cssLinkIndex
@@ -227,12 +232,13 @@ qx.Class.define("mobileshowcase.page.Theming",
       newlink.setAttribute("href", this.cssFile);
       document.getElementsByTagName("head").item(0).replaceChild(newlink, oldlink);
 
-      qx.bom.Element.removeListener(document.documentElement, "transitionEnd", this.self._onAppFadedOut, this);
+      var blocker = qx.ui.mobile.core.Blocker.getInstance();
+      qx.bom.Element.removeListener(blocker.getContentElement(), "transitionEnd", this.self._onAppFadedOut, this);
 
       setTimeout(function() {
-        qx.bom.Element.addListener(document.documentElement, "transitionEnd", this.self._onAppFadedIn, this.self);
-        qx.bom.element.Style.set(document.documentElement, "opacity", "1");
-      }.bind(this), 0);
+        qx.bom.Element.addListener(blocker.getContentElement(), "transitionEnd", this.self._onAppFadedIn, this);
+        qx.bom.element.Style.set(blocker.getContentElement(), "backgroundColor", "rgba(255,255,255,0)");
+      }.bind(this), 100);
     },
 
 
@@ -240,11 +246,11 @@ qx.Class.define("mobileshowcase.page.Theming",
      * Event handler when Application has faded in again.
      */
     _onAppFadedIn: function() {
-      qx.bom.Element.removeListener(document.documentElement, "transitionEnd", this._onAppFadedIn, this);
-
-      qx.bom.element.Style.set(document.documentElement, "backgroundColor", null);
-      qx.bom.element.Style.set(document.documentElement, "transition", null);
-      qx.bom.element.Style.set(document.documentElement, "pointerEvents", null);
+      var blocker = qx.ui.mobile.core.Blocker.getInstance();
+      qx.bom.Element.removeListener(blocker.getContentElement(), "transitionEnd", this.self._onAppFadedIn, this);
+      qx.bom.element.Style.set(blocker.getContentElement(), "transition", null);
+      qx.bom.element.Style.set(blocker.getContentElement(), "backgroundColor", null);
+      blocker.hide();
     },
     
 
