@@ -19,6 +19,8 @@
 ************************************************************************ */
 
 /**
+ * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ *
  * @require(qx.module.Dataset)
  * @require(qx.module.util.String)
  * @require(qx.module.event.Native)

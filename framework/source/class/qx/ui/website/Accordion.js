@@ -18,6 +18,8 @@
 ************************************************************************ */
 
 /**
+ * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ *
  * @require(qx.module.util.Object)
  */
 qx.Bootstrap.define("qx.ui.website.Accordion", {

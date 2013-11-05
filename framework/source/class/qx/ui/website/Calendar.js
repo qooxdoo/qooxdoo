@@ -19,6 +19,8 @@
 ************************************************************************ */
 
 /**
+ * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ *
  * @require(qx.module.Template)
  */
 qx.Bootstrap.define("qx.ui.website.Calendar", {

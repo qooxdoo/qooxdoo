@@ -19,6 +19,8 @@
 ************************************************************************ */
 
 /**
+ * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ *
  * @require(qx.module.event.Mouse)
  * @require(qx.module.Transform)
  */

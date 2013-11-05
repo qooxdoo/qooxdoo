@@ -19,6 +19,8 @@
 ************************************************************************ */
 
 /**
+ * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ *
  * @require(qx.module.Template)
  * @require(qx.module.Animation)
  */
