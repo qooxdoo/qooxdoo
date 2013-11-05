@@ -3,8 +3,7 @@
   @include background($radiobutton-background);
   @include border-radius($radiobutton-size);
 
-  display:inline-block;
-  content: "";
+  display: inline-block;
 
   width: $radiobutton-size;
   height: $radiobutton-size;
@@ -46,4 +45,10 @@
 
 .radio.checked:after {
   opacity: 1;
+}
+
+// Triggering CSS anti-aliasing on Android devices [BUG #7847]
+.root.android .radio:after {
+  content:".";
+  color:rgba(0,0,0,0);
 }
