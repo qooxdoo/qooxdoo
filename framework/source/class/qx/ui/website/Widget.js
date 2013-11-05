@@ -221,6 +221,10 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
     },
 
 
+    render : function() {
+      // empty method
+    },
+
     dispose : function() {
       this.removeAttribute("data-qx-class");
       this.setProperty("config", undefined);

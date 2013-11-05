@@ -21,6 +21,9 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
+ * This is a calendar widget used to select a date. It contain a set of
+ * buttons to switch to the next or previous month.
+ *
  * @require(qx.module.Template)
  */
 qx.Bootstrap.define("qx.ui.website.Calendar", {
@@ -28,23 +31,51 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
   statics : {
     _templates : {
+      /** Template for the control. This should be a tr tag containing the first row of the calendar. */
       controls : "<tr>" +
                    "<td colspan='1'><button class='{{cssPrefix}}-prev' title='Previous Month'>&lt;</button></td>" +
                    "<td colspan='5'>{{month}} {{year}}</td>" +
                    "<td colspan='1'><button class='{{cssPrefix}}-next' title='Next Month'>&gt;</button></td>" +
                  "</tr>",
+      /** Template for the row of each day. This should be a tr tag containing the day names. */
       dayRow : "<tr>" +
                  "{{#row}}<td>{{.}}</td>{{/row}}" +
                "</tr>",
+      /** Template for the row of days. This should be a tr tag containing a button for each day. */
       row : "<tr>" +
               "{{#row}}<td class='{{cssClass}}'><button class='{{cssPrefix}}-day' value='{{date}}'>{{day}}</button></td>{{/row}}" +
             "</tr>",
+      /** Wrapper template for all other templates. This should be a table. */
       table : "<table><thead>{{{thead}}}</thead><tbody>{{{tbody}}}</tbody></table>"
     },
 
+
     _config : {
+      /** Array of strings containing the names of the month. */
       monthNames : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+      /** Array of strings containing the day names. */
       dayNames : ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    },
+
+
+    /**
+     * Factory method which converts the current collection into a collection of
+     * Calendar widgets. Therefore, an initialization process needs to be done which
+     * can be configured with some parameter.
+     *
+     * @param date {Date?null} The initial Date of the calendar.
+     * @return {qx.ui.website.Calendar} A new rating collection.
+     * @attach {qxWeb}
+     */
+    calendar : function(date) {
+      var calendar =  new qx.ui.website.Calendar(this);
+      calendar.init();
+
+      if (date !== undefined) {
+        calendar.setValue(date);
+      }
+
+      return calendar;
     }
   },
 
@@ -62,6 +93,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
   members : {
 
+    // overridden
     init : function() {
       if (!this.base(arguments)) {
         return false;
@@ -74,11 +106,8 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       return true;
     },
 
-    /**
-     * Re-render the calendar(s), e.g. if templates or config options changed
-     *
-     * @return {qxWeb} The collection for chaining
-     */
+
+    // overridden
     render : function() {
       this.showValue(this.getProperty("shownValue"));
       return this;
@@ -88,8 +117,8 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
     /**
      * Sets the given date as the current value displays it
      *
-     * @param value {Date} Date to display
-     * @return {qxWeb} The collection for chaining
+     * @param value {Date} Date to display.
+     * @return {qx.ui.website.Calendar} The collection for chaining.
      */
     setValue : function(value) {
       this.setProperty("value", value);
@@ -101,9 +130,9 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
     /**
      * Returns the currently selected date of the first
-     * calendar widget in the collection
+     * calendar widget in the collection.
      *
-     * @return {qxWeb} The collection for chaining
+     * @return {qx.ui.website.Calendar} The collection for chaining.
      */
     getValue : function() {
       var value = this.getProperty("value");
@@ -114,8 +143,8 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
     /**
      * Displays the given date
      *
-     * @param value {Date} Date to display
-     * @return {qxWeb} The collection for chaining
+     * @param value {Date} Date to display.
+     * @return {qx.ui.website.Calendar} The collection for chaining.
      */
     showValue : function(value) {
       this.setProperty("shownValue", value);
@@ -166,7 +195,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
     /**
      * Sets the current value to the day selected by the user
-     * @param e {Event} click event
+     * @param e {Event} The native click event.
      */
     _selectDay : function(e) {
       var day = qxWeb(e.getTarget());
@@ -178,10 +207,10 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
 
     /**
-     * Renders the calendar for the given date
+     * Renders the calendar for the given date.
      *
-     * @param date {Date} date to render
-     * @return {String} calendar HTML
+     * @param date {Date} The date to render.
+     * @return {String} The calendar HTML.
      */
     _getTable : function(date) {
       var controls = qxWeb.template.render(this.getTemplate("controls"), this._getControlsData(date));
@@ -197,10 +226,10 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
 
     /**
-     * Returns the month and year to be displayed in the calendar controls
+     * Returns the month and year to be displayed in the calendar controls.
      *
-     * @param date {Date} date to be displayed
-     * @return {Map} map containing the month and year
+     * @param date {Date} The date to be displayed.
+     * @return {Map} A map containing the month and year.
      */
     _getControlsData : function(date) {
       return {
@@ -212,9 +241,9 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
 
     /**
-     * Returns the week day names to be displayed in the calendar
+     * Returns the week day names to be displayed in the calendar.
      *
-     * @return {String[]} Array of day names
+     * @return {String[]} Array of day names.
      */
     _getDayRowData : function() {
       return {
@@ -224,10 +253,10 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
 
     /**
-     * Returns the table rows displaying the days of the month
+     * Returns the table rows displaying the days of the month.
      *
-     * @param date {Date} date to be displayed
-     * @return {String} the table rows as an HTML string
+     * @param date {Date} The date to be displayed.
+     * @return {String} The table rows as an HTML string.
      */
     _getWeekRows : function(date) {
       var weeks = [];
@@ -270,7 +299,8 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
 
     /**
-     * Attaches the keydown listener
+     * Attaches the keydown listener.
+     *
      * @param e {Event} focus event
      */
     _onFocus : function(e) {
@@ -279,7 +309,8 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
 
     /**
-     * Removes the keydown listener if the focus moves outside of the calendar
+     * Removes the keydown listener if the focus moves outside of the calendar.
+     *
      * @param e {Event} blur event
      */
     _onBlur : function(e) {
@@ -290,9 +321,9 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
 
     /**
-     * Keyboard handling
+     * Keyboard handling.
      *
-     * @param e {Event} keydown event
+     * @param e {Event} The keydown event.
      */
     _onKeyDown : function(e) {
       var cssPrefix = this.getCssPrefix();
@@ -339,8 +370,9 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
 
     /**
-     * Focuses the day button following the given one
-     * @param currentDay {qxWeb} the button for the current day
+     * Focuses the day button following the given one.
+     *
+     * @param currentDay {qxWeb} The button for the current day.
      */
     _focusNextDay : function(currentDay) {
       var cssPrefix = this.getCssPrefix();
@@ -364,8 +396,9 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
 
     /**
-     * Focuses the day button preceding the given one
-     * @param currentDay {qxWeb} the button for the current day
+     * Focuses the day button preceding the given one.
+     *
+     * @param currentDay {qxWeb} The button for the current day.
      */
     _focusPrevDay : function(currentDay) {
       var cssPrefix = this.getCssPrefix();
@@ -408,17 +441,6 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
 
   defer : function(statics) {
-    qxWeb.$attach({
-      calendar : function(date) {
-        var calendar =  new qx.ui.website.Calendar(this);
-        calendar.init();
-
-        if (date !== undefined) {
-          calendar.setValue(date);
-        }
-
-        return calendar;
-      }
-    });
+    qxWeb.$attach({calendar : statics.calendar});
   }
 });

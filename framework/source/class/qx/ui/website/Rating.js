@@ -19,6 +19,10 @@
 ************************************************************************ */
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ *
+ * This is a simple rating widget which can be used to display a predefined
+ * number of symbols on which the user can click to give a rating e.g.
+ * 3 out of 5 stars.
  */
 qx.Bootstrap.define("qx.ui.website.Rating", {
   extend : qx.ui.website.Widget,
@@ -26,8 +30,48 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
 
   statics : {
     _config : {
+      /** The length of the rating widget. */
       length : 5,
+      /** The symbol used to render the rating items. */
       symbol : "★"
+    },
+
+
+    /**
+     * Factory method which converts the current collection into a collection of
+     * rating widgets. Therefore, an initialization process needs to be done which
+     * can be configured with some parameter.
+     *
+     * @param initValue {Number?0} The initial value of the rating.
+     * @param symbol {String?"★"} The symbol which should be used for each rating item.
+     * @param length {Number?5} The length of the rating widget.
+     * @return {qx.ui.website.Rating} A new rating collection.
+     * @attach {qxWeb}
+     */
+    rating : function(initValue, symbol, length) {
+      var rating =  new qx.ui.website.Rating(this);
+      rating.init();
+
+      var modified = false;
+      if (length != undefined && length != rating.getConfig("length")) {
+        rating.setConfig("length", length);
+        modified = true;
+      }
+
+      if (symbol != undefined) {
+        rating.setConfig("symbol", symbol);
+        modified = true;
+      }
+
+      if (modified) {
+        rating.render();
+      }
+
+      if (initValue != undefined) {
+        rating.setValue(initValue);
+      }
+
+      return rating;
     }
   },
 
@@ -45,6 +89,7 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
 
   members : {
 
+    // overridden
     init : function() {
       if (!this.base(arguments)) {
         return false;
@@ -68,6 +113,13 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
     },
 
 
+    /**
+     * Sets the given value of the raining widget's in the collection. The value will be
+     * converted to the maximum or minimum if our of range.
+     *
+     * @param value {Number} The value of the rating.
+     * @return {qx.ui.website.Rating} <code>this</code> reference for chaining.
+     */
     setValue : function(value) {
       if (value < 0) {
         value = 0;
@@ -83,17 +135,29 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
     },
 
 
+    /**
+     * Reads the current value of the first rating widget in the collection
+     * from the DOM and returns it.
+     *
+     * @return {Number} The current value.
+     */
     getValue : function() {
       var cssPrefix = this.getCssPrefix();
       return this.eq(0).getChildren("span").not("." + cssPrefix + "-item-off").length;
     },
 
 
+    // overridden
     render : function() {
       this._updateSymbolLength();
     },
 
 
+    /**
+     * Checks the set length and adds / removes spans containing the rating symbol.
+     *
+     * @return {qx.ui.website.Rating} <code>this</code> reference for chaining.
+     */
     _updateSymbolLength : function() {
       var cssPrefix = this.getCssPrefix();
       var length = this.getConfig("length");
@@ -120,6 +184,11 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
     },
 
 
+    /**
+     * Click handler which updates the value depending on the clicked element.
+     *
+     * @param e {Event} The native click event.
+     */
     _onClick : function(e) {
       var parents = qxWeb(e.getTarget()).getParents();
       this.setValue(parents.getChildren().indexOf(e.getTarget()) + 1);
@@ -127,8 +196,8 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
 
 
     /**
-     * Attaches the keydown listener
-     * @param e {Event} focus event
+     * Attaches the keydown listener.
+     * @param e {Event} The native focus event.
      */
     _onFocus : function(e) {
       qxWeb(document.documentElement).on("keydown", this._onKeyDown, this);
@@ -136,7 +205,9 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
 
 
     /**
-     * Removes the keydown listener if the widget loses focus
+     * Removes the keydown listener if the widget loses focus.
+     * 
+     * @param e {Event} The native blur event.
      */
     _onBlur : function(e) {
       qxWeb(document.documentElement).off("keydown", this._onKeyDown, this);
@@ -144,8 +215,9 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
 
 
     /**
-     * Changes the value if the left or right arrow key is pressed
-     * @param e {Event} keydown event
+     * Changes the value if the left or right arrow key is pressed.
+     *
+     * @param e {Event} The native keydown event.
      */
     _onKeyDown : function(e) {
       var key = e.getKeyIdentifier();
@@ -157,6 +229,7 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
     },
 
 
+    // overridden
     dispose : function() {
       this._forEachElementWrapped(function(rating) {
         qxWeb(document.documentElement).off("keydown", this._onKeyDown, rating);
@@ -172,32 +245,6 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
 
 
   defer : function(statics) {
-    qxWeb.$attach({
-      rating : function(initValue, symbol, length) {
-        var rating =  new qx.ui.website.Rating(this);
-        rating.init();
-
-        var modified = false;
-        if (length != undefined && length != rating.getConfig("length")) {
-          rating.setConfig("length", length);
-          modified = true;
-        }
-
-        if (symbol != undefined) {
-          rating.setConfig("symbol", symbol);
-          modified = true;
-        }
-
-        if (modified) {
-          rating.render();
-        }
-
-        if (initValue != undefined) {
-          rating.setValue(initValue);
-        }
-
-        return rating;
-      }
-    });
+    qxWeb.$attach({rating : statics.rating});
   }
 });

@@ -32,11 +32,13 @@ qx.Bootstrap.define("qx.module.event.Native", {
      */
     TYPES : ["*"],
 
+
     /**
      * List of qx.bom.Event methods to be attached to native event objects
      * @internal
      */
     FORWARD_METHODS : ["getTarget", "getRelatedTarget"],
+
 
     /**
      * List of qx.module.event.Native methods to be attached to native event objects
@@ -79,6 +81,7 @@ qx.Bootstrap.define("qx.module.event.Native", {
       return this._type || this.type;
     },
 
+
     /**
      * Returns the target of the event.
      * Example:
@@ -93,6 +96,7 @@ qx.Bootstrap.define("qx.module.event.Native", {
      * @return {Object} Any valid native event target
      */
     getTarget : function() {},
+
 
     /**
      * Computes the related target from the native DOM event
@@ -119,6 +123,7 @@ qx.Bootstrap.define("qx.module.event.Native", {
      * @return {Element} The related target
      */
     getRelatedTarget : function() {},
+
 
     /**
      * Manipulates the native event object, adding methods if they're not
