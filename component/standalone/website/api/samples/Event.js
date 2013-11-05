@@ -4,6 +4,26 @@ addSample("q.ready", function() {
   });
 });
 
+addSample("q.ready", function() {
+
+  var myClass = q.define("myNamespace.myClass", {
+    statics: {
+      myMethod : function() {
+        this.anotherMethod();
+      },
+
+      anotherMethod : function() {
+        // do something
+      }
+    }
+  });
+
+  // Use 'ready' together with a named function and
+  // call your method with scope correction
+  q.ready(myClass.myMethod.bind(myClass));
+});
+
+
 addSample(".on", function() {
   // Suppose you like to have one extra parameter besides your event instance
   // e.g. you like to call the 'listenerFunction' within a for loop and pass the

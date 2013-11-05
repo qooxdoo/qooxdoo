@@ -20,3 +20,17 @@ addSample(".unblock", {
   },
   executable: true
 });
+
+addSample(".getBlocker", {
+  html: ['<div id="myId">',
+         '  Test',
+         '</div>'],
+  javascript: function() {
+    q("#myId").block("red", 0.4);
+    var blockerElement = q("#myId").getBlocker();
+    blockerElement.on("click", function(e) {
+      // react on user clicks at the blocker element itself
+    });
+  },
+  executable: true
+});

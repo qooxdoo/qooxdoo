@@ -48,7 +48,7 @@ class GlobalsMap(types.DictType, NameMapper):
     ##
     # Return best match honoring namespace boundaries.
     #
-    # TODO: This is basically a copy of MClassDependencies._splitQxClass.
+    # TODO: This is basically a copy of global_symbols.test_for_libsymbol
     def longest_match(self, key):
         best_match = ''
         if key in self:  # short cut

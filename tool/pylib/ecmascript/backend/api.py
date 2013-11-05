@@ -93,11 +93,6 @@ def createPackageDoc(text, packageName, docTree = None):
             package = addChildIf(package, *(handleJSDocDecsription(attrib)))
 
         elif attrib["category"] == "see":
-            #if not "name" in attrib:
-            #    addError(docTree, "Missing target for see in '%s' package documentation." % packageName)
-            #else:
-            #    seeNode = tree.Node("see").set("name", attrib["name"])
-            #    package.addChild(seeNode)
             package = addChildIf(package, *(handleJSDocSee(attrib)))
 
     return docTree
@@ -833,11 +828,6 @@ def handleFunctionOtherAttributes(classNode, funcItem, name, commentAttributes, 
             node = addChildIf(node, *(handleJSDocDecsription(attrib, funcItem)))
 
         elif attrib["category"] == "see":
-            #if "name" in attrib:
-            #    seeNode = tree.Node("see").set("name", attrib["name"])
-            #    node.addChild(seeNode)
-            #else:
-            #    addError(node, "Missing target for see.", funcItem)
             node = addChildIf(node, *(handleJSDocSee(attrib)))
 
         elif attrib["category"] in ("attach", "attachStatic"):
@@ -1218,11 +1208,6 @@ def classNodeFromDocTree(docTree, fullClassName, commentAttributes = None):
                 classNode = addChildIf(classNode, *(handleJSDocDecsription(attrib)))
 
             elif attrib["category"] == "see":
-                #if not "name" in attrib:
-                #    addError(classNode, "Missing target for see.")
-                #    continue
-                #seeNode = tree.Node("see").set("name", attrib["name"])
-                #classNode.addChild(seeNode)
                 classNode = addChildIf(classNode, *(handleJSDocSee(attrib)))
 
         if package:

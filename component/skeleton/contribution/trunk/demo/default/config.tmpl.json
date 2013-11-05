@@ -33,6 +33,8 @@
     "test",
     "test-source",
     "translation",
+    "validate-config",
+    "validate-manifest",
     "watch"
   ],
   

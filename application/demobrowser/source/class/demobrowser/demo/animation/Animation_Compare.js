@@ -190,10 +190,28 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
         100 : {"top": "20px"}
       }};
 
-      var prefix = {duration: 1000, keyFrames : {
-        0 : {"transform": "rotate(0deg)"},
-        100 : {"transform": "rotate(359deg)"}
+      var rotate = {duration: 1000, keyFrames : {
+        0 : {"rotate": "0deg"},
+        100 : {"rotate": "360deg"}
       }};
+
+      var scale = {duration: 1000, keyFrames : {
+        0 : {"scale": 1},
+        50 : {"scale": 0},
+        100 : {"scale": 1}
+      }};
+
+      var translate = {duration: 1000, keyFrames : {
+        0 : {"translate": ["0px", "0px"]},
+        50 : {"translate": ["10px", "10px"]},
+        100 : {"translate": ["0px", "0px"]}
+      }};
+
+      var skew = {duration: 1000, keyFrames : {
+        0 : {"skew": "0deg"},
+        100 : {"skew": "360deg"}
+      }};
+
 
       var tests = {
         "Width" : width,
@@ -220,7 +238,10 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
         "Ease" : ease,
         "Ease In Out" : easeinout,
         "Missing Values" : missing,
-        "Transform" : prefix
+        "Rotate" : rotate,
+        "Scale" : scale,
+        "Translate" : translate,
+        "Skew" : skew
       };
 
       // CSS ANIMATIONS
@@ -249,7 +270,6 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
         0: {left: "0px"},
         100: {left: "10px"}
       }};
-
 
       // STOP
       var buttons = [];

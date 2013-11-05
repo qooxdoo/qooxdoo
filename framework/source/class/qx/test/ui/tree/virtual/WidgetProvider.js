@@ -118,6 +118,8 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
       this.assertInstance(widget, qx.ui.tree.VirtualTreeItem);
       this.assertTrue(widget.hasChildren());
+      this.assertTrue(widget.getUserData("cell.showLeafs"));
+      this.assertTrue(widget.getUserData("cell.showLeafs"));
       this.assertEquals(0, widget.getUserData("cell.level"));
       this.assertTrue(widget.isOpen());
       this.assertTrue(widget.hasListener("changeOpen"));
@@ -138,6 +140,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
       this.assertInstance(widget, qx.ui.tree.VirtualTreeItem);
       this.assertFalse(widget.hasChildren());
+      this.assertTrue(widget.getUserData("cell.showLeafs"));
       this.assertEquals(1, widget.getUserData("cell.level"));
       this.assertFalse(widget.isOpen());
       this.assertTrue(widget.hasListener("changeOpen"));
@@ -158,6 +161,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
       this.assertInstance(widget, qx.ui.tree.VirtualTreeItem);
       this.assertFalse(widget.hasChildren());
+      this.assertTrue(widget.getUserData("cell.showLeafs"));
       this.assertEquals(1, widget.getUserData("cell.level"));
       this.assertFalse(widget.isOpen());
       this.assertTrue(widget.hasListener("changeOpen"));
@@ -372,6 +376,11 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
 
     isShowTopLevelOpenCloseIcons : function() {
+      return true;
+    },
+
+
+    isShowLeafs : function() {
       return true;
     },
 

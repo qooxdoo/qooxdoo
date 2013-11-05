@@ -1,5 +1,5 @@
 /*
-  Go through the test task numbering in the table and set it straight. 
+  Go through the test task numbering in the table and set it straight.
   For this to work, table cells with a number need the 'name="number"'
   attribute, i.e. section headings and task entries. But then you can put in
   any suitable number, e.g. "2" for the section header and "2.1" for every
@@ -17,7 +17,7 @@ function autonumbering() {
     if (!isNaN(num)){
       var intpart = parseInt(currval);
       if (num == intpart){
-        currtag.firstChild.nodeValue = ++outer
+        currtag.firstChild.nodeValue = ++outer;
         inner = 1;
       } else {
         currtag.firstChild.nodeValue = outer + "." + inner++;
@@ -42,7 +42,7 @@ function expandVersion(s){
 
 //  Call this in onload handlers.
 function adjustVersionStrings(){
-  var elems = document.getElementsByName("versstring");
+  var elems = document.getElementsByClassName("versstring");
   for (var i=0, l=elems.length; i<l; i++){
     var e = elems[i];
     e.innerHTML = expandVersion(e.innerHTML);

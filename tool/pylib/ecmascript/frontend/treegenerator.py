@@ -1647,7 +1647,7 @@ def toListG(self):
 symbol("loop")
 
 ##
-# TODO: Is this code used?!
+# TODO: Is this code used?! - Yes!
 @method(symbol("loop"))
 def toJS(self, opts):
     r = u''

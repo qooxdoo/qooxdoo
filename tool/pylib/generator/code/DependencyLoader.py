@@ -44,7 +44,7 @@ import graph
 
 from misc.ExtMap                import ExtMap
 from ecmascript.frontend        import lang
-from ecmascript.transform.check import lint, global_symbols as gs
+from ecmascript.transform.check import global_symbols as gs
 from generator.code.Class       import DependencyError
 from generator.code.DependencyItem  import DependencyItem
 from generator.action           import CodeMaintenance

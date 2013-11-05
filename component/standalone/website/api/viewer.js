@@ -615,24 +615,23 @@ q.ready(function() {
   /**
    * PARSER
    */
-   var parse = function(text) {
-     if (!text) {
-       return;
-     }
-
-     // @links: methods
-     text = text.replace(/\{@link .*#(.*?)\}/g, "<code><a href='#.$1'>.$1()</a></code>");
-     // @links: core
-     text = text.replace(/\{@link q\}/g, "<a href='#Core'>Core</a>");
-     // @links: modules
-     var links;
-     var regexp = /\{@link (.*?)\}/g;
-     while ((links = regexp.exec(text)) != null) {
-       var name = getModuleName(links[1]);
-       text = text.replace(links[0], "<a href='#" + name + "'>" + name + "</a>");
-     }
-     return text;
-   };
+  var parse = function(text) {
+    if (!text) {
+      return;
+    }
+    // @links: methods
+    text = text.replace(/\{@link .*?#(.*?)\}/g, "<code><a href='#.$1'>.$1()</a></code>");
+    // @links: core
+    text = text.replace(/\{@link q\}/g, "<a href='#Core'>Core</a>");
+    // @links: modules
+    var links;
+    var regexp = /\{@link (.*?)\}/g;
+    while ((links = regexp.exec(text)) != null) {
+      var name = getModuleName(links[1]);
+      text = text.replace(links[0], "<a href='#" + name + "'>" + name + "</a>");
+    }
+    return text;
+  };
 
 
   /**

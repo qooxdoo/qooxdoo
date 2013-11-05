@@ -632,6 +632,17 @@ testrunner.define({
     test.remove();
   },
 
+  testIsChildOf : function(){
+    var test = q.create("<div id='testdiv'><div id='testchild'><div id='testchild2'></div></div><div>");
+    test.appendTo(this.sandbox[0]);
+    this.assertTrue(q("#testchild").isChildOf(test));
+    this.assertTrue(q("#testchild2").isChildOf(test));
+    this.assertTrue(q("#testchild2").isChildOf(q("#testchild")));
+    this.assertTrue(test.isChildOf(q(this.sandbox)));
+    this.assertTrue(test.find("div").isChildOf(q("#testchild")));
+    test.remove();
+  },
+
   testGetParentsSelector : function() {
     var test = q.create("<a id='parent'><div id='test'/></a>");
     test.appendTo(this.sandbox[0]);
@@ -2168,6 +2179,15 @@ testrunner.define({
   {
     testrunner.globalSetup.call(this);
 
+    q("#sandbox").setStyles({
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      backgroundColor: "#AEAEAE"
+    });
+
     q.create('<div id="foo"></div>').setStyles({
       position: "absolute",
       top: "200px",
@@ -2193,18 +2213,34 @@ testrunner.define({
 
   testPlaceToSimple : function()
   {
-    q("#sandbox #bar").placeTo(q("#sandbox #foo")[0], "right-top");
+    q("#sandbox #bar").placeTo("#sandbox #foo", "right-top");
     var expectedLocation = {
       left: 200,
       top: 200
     };
     this.assertEquals(expectedLocation.left, q("#bar").getOffset().left);
     this.assertEquals(expectedLocation.top, q("#bar").getOffset().top);
+
+    q("#sandbox #foo").setStyles({
+      position: "relative",
+      left: "10px",
+      paddingLeft: "10px"
+    });
+
+    q("#sandbox #bar").placeTo("#sandbox #foo", "right-top");
+
+    expectedLocation = {
+      left: 220,
+      top: 200
+    };
+    this.assertEquals(expectedLocation.left, q("#bar").getOffset().left);
+    this.assertEquals(expectedLocation.top, q("#bar").getOffset().top);
   },
+
 
   testPlaceToDirect : function()
   {
-    q("#sandbox #bar").placeTo(q("#sandbox #foo")[0], "right-bottom", {top: 10, right: 10, bottom: 10, left: 10}, "direct", "direct");
+    q("#sandbox #bar").placeTo("#sandbox #foo", "right-bottom", {top: 10, right: 10, bottom: 10, left: 10}, "direct", "direct");
 
     var expectedLocation = {
       left: 210,
@@ -2216,13 +2252,59 @@ testrunner.define({
 
   testPlaceToKeepAlign : function()
   {
-    q("#sandbox #bar").placeTo(q("#sandbox #foo")[0], "left-top", {top: 10, right: 10, bottom: 10, left: 10}, "keep-align", "keep-align");
+    q("#sandbox #bar").placeTo("#sandbox #foo", "left-top", {top: 10, right: 10, bottom: 10, left: 10}, "keep-align", "keep-align");
     var expectedLocation = {
       left: 210,
-      top: 265
+      top: 210
     };
     this.assertEquals(expectedLocation.left, q("#bar").getOffset().left);
     this.assertEquals(expectedLocation.top, q("#bar").getOffset().top);
+  },
+
+  testPlaceToUsingHiddenElement : function() {
+    q("#sandbox #bar").hide();
+    var displayValue = q("#sandbox #bar").getStyle("display");
+    var visibilityValue = q("#sandbox #bar").getStyle("visibility");
+
+    q("#sandbox #bar").placeTo("#sandbox #foo", "right-top");
+    var expectedLocation = {
+      left: 200,
+      top: 200
+    };
+    this.assertEquals(expectedLocation.left, parseInt(q("#bar").getStyle("left"), 10));
+    this.assertEquals(expectedLocation.top, parseInt(q("#bar").getStyle("top"), 10));
+    this.assertEquals(displayValue, q("#sandbox #bar").getStyle("display"));
+    this.assertEquals(visibilityValue, q("#sandbox #bar").getStyle("visibility"));
+  },
+
+  testPlaceToUsingHiddenElementByCssClass : function() {
+    q("#sandbox #bar").addClass("hidden");
+
+    q("#sandbox #bar").placeTo("#sandbox #foo", "right-top");
+    var expectedLocation = {
+      left: 200,
+      top: 200
+    };
+    this.assertEquals(expectedLocation.left, parseInt(q("#bar").getStyle("left"), 10));
+    this.assertEquals(expectedLocation.top, parseInt(q("#bar").getStyle("top"), 10));
+    this.assertEquals("", q("#bar")[0].style.display);
+  },
+
+  testPlaceToPreservingStyleValues : function() {
+    q("#sandbox #bar").setStyle("visibility", "collapse");
+    q("#sandbox #bar").hide();
+    var displayValue = q("#sandbox #bar").getStyle("display");
+    var visibilityValue = q("#sandbox #bar").getStyle("visibility");
+
+    q("#sandbox #bar").placeTo("#sandbox #foo", "right-top");
+    var expectedLocation = {
+      left: 200,
+      top: 200
+    };
+    this.assertEquals(expectedLocation.left, parseInt(q("#bar").getStyle("left"), 10));
+    this.assertEquals(expectedLocation.top, parseInt(q("#bar").getStyle("top"), 10));
+    this.assertEquals(displayValue, q("#sandbox #bar").getStyle("display"));
+    this.assertEquals(visibilityValue, q("#sandbox #bar").getStyle("visibility"));
   }
 });
 
@@ -2329,6 +2411,44 @@ testrunner.define({
 
   testBlockWindow : function() {
     q(window).block();
+  },
+
+  testGetBlockerElements : function() {
+    var styles = {
+      position: "absolute",
+      top: "250px",
+      left: "200px",
+      width: "200px",
+      height: "150px"
+    };
+
+    q.create('<div id="foo"></div>').setStyles(styles).appendTo(this.sandbox[0]);
+    q.create('<div id="bar"></div>').setStyles(styles).appendTo(this.sandbox[0]);
+
+    var test = this.sandbox.getChildren();
+    test.block();
+
+    var blockerCollection = test.getBlocker();
+    this.assertInstance(blockerCollection, q);
+    this.assertEquals(2, blockerCollection.length);
+    this.assertTrue(qxWeb.isElement(blockerCollection[0]));
+    this.assertTrue(qxWeb.isElement(blockerCollection[1]));
+  },
+
+  testGetBlockerWithoutBlockingBefore : function() {
+    var styles = {
+      position: "absolute",
+      top: "250px",
+      left: "200px",
+      width: "200px",
+      height: "150px"
+    };
+    var test = q.create('<div id="foo"></div>').setStyles(styles)
+    .appendTo(this.sandbox[0]);
+
+    var blockerCollection = test.getBlocker();
+    this.assertInstance(blockerCollection, q);
+    this.assertEquals(0, blockerCollection.length);
   }
 });
 
@@ -3032,90 +3152,90 @@ testrunner.define({
 
 
 testrunner.define({
-	 classname : "Dataset",
+   classname : "Dataset",
 
-	 setUp : function(){
-		 testrunner.globalSetup.call(this);
-		 this.__element = q.create("<div id='testEl'></div>");
-		 this.__element.appendTo(this.sandbox[0]);
-	 },
+   setUp : function(){
+     testrunner.globalSetup.call(this);
+     this.__element = q.create("<div id='testEl'></div>");
+     this.__element.appendTo(this.sandbox[0]);
+   },
 
-	 tearDown : testrunner.globalTeardown,
+   tearDown : testrunner.globalTeardown,
 
-	 testSetDataAttribute : function(){
+   testSetDataAttribute : function(){
 
-		 this.__element.setData("type","domelement");
-		 this.__element.setData("option","test");
+     this.__element.setData("type","domelement");
+     this.__element.setData("option","test");
 
-		 var datatype = this.__element.getAttribute("data-type");
-		 var dataoption = this.__element.getAttribute("data-option");
+     var datatype = this.__element.getAttribute("data-type");
+     var dataoption = this.__element.getAttribute("data-option");
 
-		 this.assertEquals(datatype, "domelement");
-		 this.assertEquals(dataoption, "test");
+     this.assertEquals(datatype, "domelement");
+     this.assertEquals(dataoption, "test");
 
      //must be ignored:
      q(document).setData("foo", "bar");
      this.assertNull(q(document).getAttribute("data-foo"));
      q(window).setData("foo", "bar");
      this.assertNull(q(window).getAttribute("data-foo"));
-	 },
+   },
 
-	 testSetDataAttributeHyphenated : function(){
+   testSetDataAttributeHyphenated : function(){
 
-		 this.__element.setData("hyphenated-data-attribute","hyphenated");
+     this.__element.setData("hyphenated-data-attribute","hyphenated");
 
-		 var hyphenatedExpected = this.__element.getAttribute("data-hyphenated-data-attribute");
-		 var hyphenatedFound = this.__element.getData("hyphenatedDataAttribute");
+     var hyphenatedExpected = this.__element.getAttribute("data-hyphenated-data-attribute");
+     var hyphenatedFound = this.__element.getData("hyphenatedDataAttribute");
 
-		 this.assertEquals(hyphenatedExpected,hyphenatedFound);
+     this.assertEquals(hyphenatedExpected,hyphenatedFound);
 
-	 },
+   },
 
-	 testGetDataAttribute : function(){
+   testGetDataAttribute : function(){
 
      this.__element.setData("type","domelement");
      this.__element.setData("option","test");
 
-		 var expected = this.__element.getAttribute("data-type");
-		 var found = this.__element.getData("type");
+     var expected = this.__element.getAttribute("data-type");
+     var found = this.__element.getData("type");
 
-		 this.assertEquals(expected,found);
+     this.assertEquals(expected,found);
 
-		 var expected2 = this.__element.getAttribute("data-option");
-		 var found2 = q("#testEl").getData("option");
+     var expected2 = this.__element.getAttribute("data-option");
+     var found2 = q("#testEl").getData("option");
 
-		 this.assertEquals(expected2,found2);
+     this.assertEquals(expected2,found2);
 
-	 },
+   },
 
-	 testGetAllData : function(){
+   testGetAllData : function(){
 
-		 this.__element.setData("type","domelement");
-		 this.__element.setData("option","test");
-		 this.__element.setData("hyphenated-data-attribute","hyphenated");
-
-		 var expected = q("#testEl").getAllData();
-
-		 var datatype = "domelement";
-		 var dataoption = "test";
-		 var dataHyphenated = "hyphenated";
-
-
-		 this.assertEquals(expected.type,datatype);
-		 this.assertEquals(expected.option,dataoption);
-		 this.assertEquals(expected.hyphenatedDataAttribute,dataHyphenated);
-	 },
-
-	 testRemoveData : function(){
+     this.__element.setData("type","domelement");
+     this.__element.setData("option","test");
      this.__element.setData("hyphenated-data-attribute","hyphenated");
-		 q("#testEl").removeData("hyphenatedDataAttribute");
-		 var found = q("#testEl").getData("hyphenatedDataAttribute");
-		 this.assertNull(this.__element.getAttribute("data-hyphenated-data-attribute"));
+
+     var expected = q("#testEl").getAllData();
+
+     var datatype = "domelement";
+     var dataoption = "test";
+     var dataHyphenated = "hyphenated";
+
+
+     this.assertEquals(expected.type,datatype);
+     this.assertEquals(expected.option,dataoption);
+     this.assertEquals(expected.hyphenatedDataAttribute,dataHyphenated);
+   },
+
+   testRemoveData : function(){
+     this.__element.setData("hyphenated-data-attribute","hyphenated");
+     q("#testEl").removeData("hyphenatedDataAttribute");
+     var found = q("#testEl").getData("hyphenatedDataAttribute");
+     this.assertNull(this.__element.getAttribute("data-hyphenated-data-attribute"));
 
      //must be ignored:
      q(window).removeData("fooBar");
      q(document).removeData("fooBar");
-	 }
+   }
 
 });
 

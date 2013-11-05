@@ -50,7 +50,7 @@ then go on and extend it into an application of your liking by changing the
 
 
 API Reference
-=============
+==============
 
 You might also want to open the API viewer in a separate browser window,
 which offers the qooxdoo framework API in a convenient way (See the

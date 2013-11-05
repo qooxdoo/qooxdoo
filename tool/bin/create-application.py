@@ -20,13 +20,14 @@
 #
 ################################################################################
 
-import re, os, sys, optparse, shutil, errno, stat, codecs, glob, types
+import re, os, sys, optparse, shutil, errno, stat, codecs, glob, types, subprocess, tempfile
 from string import Template
 from collections import defaultdict
 
 import qxenviron
 from ecmascript.frontend import lang
 from generator.runtime.Log import Log
+from generator.runtime.ShellCmd import ShellCmd
 from misc import Path
 
 
@@ -34,6 +35,7 @@ SCRIPT_DIR    = qxenviron.scriptDir
 FRAMEWORK_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, os.pardir, os.pardir))
 SKELETON_DIR  = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "component", "skeleton")))
 GENERATE_PY   = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "tool", "data", "generator", "generate.tmpl.py")))
+PACKAGE_JSON  = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "tool", "data", "grunt", "package.tmpl.json")))
 APP_DIRS      = [x for x in os.listdir(SKELETON_DIR) if not re.match(r'^\.',x)]
 
 R_ILLEGAL_NS_CHAR = re.compile(r'(?u)[^\.\w]')  # allow unicode, but disallow $
@@ -41,6 +43,9 @@ R_SHORT_DESC      = re.compile(r'(?m)^short::\s*(.*)$')  # to search "short:: ..
 R_COPY_FILE       = re.compile(r'(?m)^copy_file::\s*(.*)$')  # special files to copy from SDK for this skeleton
 QOOXDOO_VERSION   = ''  # will be filled later
 
+class TARGET:
+    GENERATOR = 1
+    GRUNT = 2
 
 def getAppInfos():
     appInfos = {}
@@ -74,6 +79,32 @@ def getQxVersion():
     QOOXDOO_VERSION = version
     return
 
+
+##
+# let package.json take effect
+# installes all NPM modules *locally* (but gets better with each run due to
+# npm module caching)
+def npm_install(skel_dir, options):
+    shellCmd = ShellCmd()
+    shellCmd.execute('npm install', skel_dir)
+    if options.type == 'contribution':
+        shellCmd.execute('npm install', os.path.join(skel_dir, 'demo/default'))
+
+
+def getJobsAndDescriptions(appDir):
+    jobsAndDescs = []
+    # 'x' is an unknown job which outputs all known jobs which we are interested in
+    proc = subprocess.Popen(['python', 'generate.py', '__x_'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=appDir)
+    stdoutGenerator = proc.communicate()[0]
+    splittedLines = stdoutGenerator.splitlines()
+    for line in splittedLines:
+        if line.startswith('  - ') and '--' in line:
+           jobLine = line.split('--')
+           job = jobLine[0].strip(' -\t')
+           desc = jobLine[1].strip()
+           jobsAndDescs.append([job, desc])
+
+    return jobsAndDescs
 
 
 def createApplication(options):
@@ -112,6 +143,12 @@ def createApplication(options):
     if is_contribution:
         shutil.copy(GENERATE_PY, os.path.join(appDir, *demo_suffix.split("/")))
 
+    # copy generic package.json if no specific available
+    if not os.path.isfile(os.path.join(appDir, "package.tmpl.json")):
+      shutil.copy(PACKAGE_JSON, appDir)
+      if is_contribution:
+          shutil.copy(PACKAGE_JSON, os.path.join(appDir, *demo_suffix.split("/")))
+
     # copy files
     if isinstance(app_infos['copy_file'], types.ListType):
         for pair in app_infos['copy_file']:
@@ -136,7 +173,8 @@ def createApplication(options):
     # patch file contents
     patchSkeleton(appDir, FRAMEWORK_DIR, options)
 
-    return
+    return appDir
+
 
 def rename_folders(root_dir, namespace):
     console.log("Renaming stuff...")
@@ -174,6 +212,7 @@ def copySkeleton(skeleton_path, app_type, dir_, namespace):
         console.error("Failed to copy skeleton, maybe the directory already exists")
         sys.exit(1)
 
+
 def cleanSkeleton(dir_):
     #clean svn directories
     for root, dirs, files in os.walk(dir_, topdown=False):
@@ -195,64 +234,123 @@ def expand_dir(indir, outroot, namespace):
         else:
             os.mkdir(target)
 
-def patchSkeleton(dir_, framework_dir, options):
+
+def patchSkeleton(appDir, framework_dir, options):
+    absPath = determineAbsPathToSdk(framework_dir)
+    relPath = determineRelPathToSdk(appDir, framework_dir, options)
+
+    # collect all files to modify
+    filePaths = collectTmplInOutFilePaths(appDir)
+
+    # filter Gruntfile
+    gruntfileFilePaths = [item for item in filePaths if 'Gruntfile' in item[0]]
+    filePaths          = [item for item in filePaths if not 'Gruntfile' in item[0]]
+
+    # render all but Gruntfile
+    renderTemplates(filePaths, options, relPath, absPath, TARGET.GENERATOR)
+    chmodPyFiles(appDir)
+
+    # fetch jobs and their desc
+    jobsAndDescs = getJobsAndDescriptions(appDir)
+
+    # now render Gruntfile with jobsAndDescs
+    renderTemplates(gruntfileFilePaths, options, relPath, absPath, TARGET.GRUNT, jobsAndDescs=jobsAndDescs)
+
+
+def determineAbsPathToSdk(framework_dir):
     absPath = normalizePath(framework_dir)
     if absPath[-1] == "/":
         absPath = absPath[:-1]
 
+    return absPath
+
+
+def determineRelPathToSdk(appDir, framework_dir, options):
+    relPath = ''
     if sys.platform == 'cygwin':
-        if re.match( r'^\.{1,2}\/', dir_ ):
-            relPath = Path.rel_from_to(normalizePath(dir_), framework_dir)
-        elif re.match( r'^/cygdrive\b', dir_):
-            relPath = Path.rel_from_to(dir_, framework_dir)
+        if re.match( r'^\.{1,2}\/', appDir):
+            relPath = Path.rel_from_to(normalizePath(appDir), framework_dir)
+        elif re.match( r'^/cygdrive\b', appDir):
+            relPath = Path.rel_from_to(appDir, framework_dir)
         else:
-            relPath = Path.rel_from_to(normalizePath(dir_), normalizePath(framework_dir))
+            relPath = Path.rel_from_to(normalizePath(appDir), normalizePath(framework_dir))
     else:
-        relPath = Path.rel_from_to(normalizePath(dir_), normalizePath(framework_dir))
+        relPath = Path.rel_from_to(normalizePath(appDir), normalizePath(framework_dir))
 
     relPath = re.sub(r'\\', "/", relPath)
     if relPath[-1] == "/":
         relPath = relPath[:-1]
 
-    if not os.path.isdir(os.path.join(dir_, relPath)):
+    if not os.path.isdir(os.path.join(appDir, relPath)):
         console.error("Relative path to qooxdoo directory is not correct: '%s'" % relPath)
         sys.exit(1)
 
     if options.type == "contribution":
-        relPath = os.path.join(os.pardir, os.pardir, "qooxdoo", QOOXDOO_VERSION)
-        relPath = re.sub(r'\\', "/", relPath)
+        #relPath = os.path.join(os.pardir, os.pardir, "qooxdoo", QOOXDOO_VERSION)
+        #relPath = re.sub(r'\\', "/", relPath)
+        pass
 
-    for root, dirs, files in os.walk(dir_):
-        for file in files:
-            split = file.split(".")
-            if len(split) >= 3 and split[-2] == "tmpl":
-                outFile = os.path.join(root, ".".join(split[:-2] + split[-1:]))
-                inFile = os.path.join(root, file)
-                console.log("Patching file '%s'" % outFile)
+    return relPath
 
-                #config = MyTemplate(open(inFile).read())
-                config = Template(open(inFile).read())
-                out = open(outFile, "w")
-                out.write(
-                    config.substitute({
-                        "Name": options.name,
-                        "Namespace": options.namespace,
-                        "NamespacePath" : (options.namespace).replace('.', '/'),
-                        "REL_QOOXDOO_PATH": relPath,
-                        "ABS_QOOXDOO_PATH": absPath,
-                        "QOOXDOO_VERSION": QOOXDOO_VERSION,
-                        "Cache" : options.cache,
-                    }).encode('utf-8')
-                )
-                out.close()
-                os.remove(inFile)
 
-    for root, dirs, files in os.walk(dir_):
+def chmodPyFiles(appDir):
+    for root, dirs, files in os.walk(appDir):
         for file in [file for file in files if file.endswith(".py")]:
             os.chmod(os.path.join(root, file), (stat.S_IRWXU
                                                |stat.S_IRGRP |stat.S_IXGRP
                                                |stat.S_IROTH |stat.S_IXOTH)) # 0755
 
+
+def gruntifyMacros(s):
+    def macroReplace(matchobj):
+        if matchobj.group('macro'):
+            return "<%= qx." + matchobj.group('macro') + " %>"
+
+        return
+
+    return re.sub(r'\$\{(?P<macro>[a-zA-Z0-9_\-]+)\}', macroReplace, s)
+
+
+def renderTemplates(inAndOutFilePaths, options, relPathToSdk, absPathToSdk, renderTarget, jobsAndDescs=[]):
+    for inFile, outFile in inAndOutFilePaths:
+        console.log("Patching file '%s'" % outFile)
+
+        #config = MyTemplate(open(inFile).read())
+        config = Template(open(inFile).read())
+        out = open(outFile, "w")
+
+        context = {
+          "Name": options.name,
+          "Namespace": options.namespace,
+          "NamespacePath" : (options.namespace).replace('.', '/'),
+          "REL_QOOXDOO_PATH": relPathToSdk,
+          "ABS_QOOXDOO_PATH": absPathToSdk,
+          "QOOXDOO_VERSION": QOOXDOO_VERSION,
+          "Cache" : options.cache,
+        }
+
+        if renderTarget == TARGET.GRUNT:
+            context["JOBS_AND_DESCS"] = jobsAndDescs
+            for k, v in context.iteritems():
+                if isinstance(v, (str, unicode)):
+                    context[k] = gruntifyMacros(v);
+
+        out.write(config.substitute(context).encode('utf-8'))
+        out.close()
+        os.remove(inFile)
+
+
+def collectTmplInOutFilePaths(appDir):
+    tmplFiles = []
+    for root, dirs, files in os.walk(appDir):
+        for file in files:
+            split = file.split(".")
+            if len(split) >= 3 and split[-2] == "tmpl":
+                outFile = os.path.join(root, ".".join(split[:-2] + split[-1:]))
+                inFile = os.path.join(root, file)
+                tmplFiles.append((inFile, outFile))
+
+    return tmplFiles
 
 
 def handleRemoveReadonly(func, path, exc):
@@ -336,6 +434,7 @@ def listSkeletons(console, info):
             sdesc = "%s -- %s" % ((12 - len(skeleton)) * " ", info[skeleton]["short"])
         console.info(skeleton + sdesc)
 
+
 def main():
     parser = optparse.OptionParser()
 
@@ -394,7 +493,8 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
 
     checkNamespace(options)
     getQxVersion()
-    createApplication(options)
+    outDir = createApplication(options)
+    npm_install(outDir, options)
 
     console.log("DONE")
 
@@ -417,8 +517,6 @@ class MyTemplate(Template):
       (?P<invalid>)              # Other ill-formed delimiter exprs
     )
     """
-
-
 
 if __name__ == '__main__':
     try:
