@@ -1256,6 +1256,14 @@ testrunner.define({
     test.remove();
   },
 
+  testGetHeightHiddenElement : function() {
+    var test = q.create("<div style='display: none; height: 100px'></div><div></div>");
+    test.appendTo(this.sandbox[0]);
+    this.assertNumber(test.getHeight(true));
+    this.assertEquals(100, test.getHeight(true));
+    test.remove();
+  },
+
   testGetHeightDocument : function() {
     this.assertNumber(q(document).getHeight());
   },
@@ -1269,6 +1277,14 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     this.assertNumber(test.getWidth());
     this.assertEquals(100, test.getWidth());
+    test.remove();
+  },
+
+  testGetWidthHiddenElement : function() {
+    var test = q.create("<div style='display: none; width: 100px'></div><div></div>");
+    test.appendTo(this.sandbox[0]);
+    this.assertNumber(test.getWidth(true));
+    this.assertEquals(100, test.getWidth(true));
     test.remove();
   },
 
@@ -1302,6 +1318,17 @@ testrunner.define({
     this.assertEquals(200, test.getContentHeight());
   },
 
+  testGetContentHeightHiddenElement : function() {
+    var test = q.create("<div id='test'></div>").setStyles({
+      position: "absolute",
+      height: "200px",
+      padding: "50px",
+      display: "none" });
+    test.appendTo(this.sandbox[0]);
+
+    this.assertEquals(200, test.getContentHeight(true));
+  },
+
   testGetContentWidth : function() {
     var test = q.create("<div id='test'></div>").setStyles({
       position: "absolute",
@@ -1310,6 +1337,17 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
 
     this.assertEquals(200, test.getContentWidth());
+  },
+
+  testGetContentWidthHiddenElement : function() {
+    var test = q.create("<div id='test'></div>").setStyles({
+      position: "absolute",
+      width: "200px",
+      padding: "50px",
+      display: "none" });
+    test.appendTo(this.sandbox[0]);
+
+    this.assertEquals(200, test.getContentWidth(true));
   },
 
   testGetPosition : function()
