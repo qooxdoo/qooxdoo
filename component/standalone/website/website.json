@@ -41,6 +41,7 @@
     "TEST_SCRIPT_PATH" : "./test/script",
     "API_SCRIPT_PATH"  : "api/script",
     "QXWEB_ALL" : [
+      "qx.ui.website.*",
       "qx.module.*",
       "qxWeb"
     ],

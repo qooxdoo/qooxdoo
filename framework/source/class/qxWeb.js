@@ -52,9 +52,10 @@ qx.Bootstrap.define("qxWeb", {
      *   be initialized as {@link q}. All items in the array which are not
      *   either a window object, a DOM element node or a DOM document node will
      *   be ignored.
+     * @param clazz {Class} The class of the new collection.
      * @return {q} A new initialized collection.
      */
-    $init : function(arg) {
+    $init : function(arg, clazz) {
       var clean = [];
       for (var i = 0; i < arg.length; i++) {
         // check for node or window object
@@ -69,9 +70,8 @@ qx.Bootstrap.define("qxWeb", {
         }
       }
 
-      var clazz = qxWeb;
-      if (arg[0] && arg[0].getAttribute && arg[0].getAttribute("qx-class")) {
-        clazz = qx.Bootstrap.getByName(arg[0].getAttribute("qx-class")) || clazz;
+      if (arg[0] && arg[0].getAttribute && arg[0].getAttribute("data-qx-class")) {
+        clazz = qx.Bootstrap.getByName(arg[0].getAttribute("data-qx-class")) || clazz;
       }
 
       var col = qx.lang.Array.cast(clean, clazz);
@@ -190,7 +190,7 @@ qx.Bootstrap.define("qxWeb", {
     } else if (!(qx.Bootstrap.isArray(selector))) {
       selector = [selector];
     }
-    return qxWeb.$init(selector);
+    return qxWeb.$init(selector, qxWeb);
   },
 
 
@@ -205,9 +205,20 @@ qx.Bootstrap.define("qxWeb", {
      */
     filter : function(selector) {
       if (qx.lang.Type.isFunction(selector)) {
-        return qxWeb.$init(Array.prototype.filter.call(this, selector));
+        return qxWeb.$init(Array.prototype.filter.call(this, selector), this.constructor);
       }
-      return qxWeb.$init(qx.bom.Selector.matches(selector, this));
+      return qxWeb.$init(qx.bom.Selector.matches(selector, this), this.constructor);
+    },
+
+
+    /**
+     * Recreates a collection which is free of all duplicate elements from the original.
+     *
+     * @return {q} Returns a copy with no duplicates
+     */
+    unique : function() {
+      var unique = qx.lang.Array.unique(this);
+      return qxWeb.$init(unique, this.constructor);
     },
 
 
@@ -222,9 +233,9 @@ qx.Bootstrap.define("qxWeb", {
       // Old IEs return an empty array if the second argument is undefined
       // check 'end' explicit for "undefined" [BUG #7322]
       if (end !== undefined) {
-        return qxWeb.$init(Array.prototype.slice.call(this, begin, end));
+        return qxWeb.$init(Array.prototype.slice.call(this, begin, end), this.constructor);
       }
-      return qxWeb.$init(Array.prototype.slice.call(this, begin));
+      return qxWeb.$init(Array.prototype.slice.call(this, begin), this.constructor);
     },
 
 
@@ -250,7 +261,7 @@ qx.Bootstrap.define("qxWeb", {
      * @return {q} A new collection containing the removed items.
      */
     splice : function(index , howMany, varargs) {
-      return qxWeb.$init(Array.prototype.splice.apply(this, arguments));
+      return qxWeb.$init(Array.prototype.splice.apply(this, arguments), this.constructor);
     },
 
 
@@ -263,7 +274,7 @@ qx.Bootstrap.define("qxWeb", {
      * @return {q} New collection containing the elements that passed the filter
      */
     map : function(callback, thisarg) {
-      return qxWeb.$init(Array.prototype.map.apply(this, arguments));
+      return qxWeb.$init(Array.prototype.map.apply(this, arguments), this.constructor);
     },
 
 
@@ -282,7 +293,45 @@ qx.Bootstrap.define("qxWeb", {
           clone.push(arguments[i]);
         }
       }
-      return qxWeb.$init(clone);
+      return qxWeb.$init(clone, this.constructor);
+    },
+
+
+    /**
+     * Returns the index of the given element within the current
+     * collection or -1 if the element is not in the collection
+     * @param elem {Element|Element[]|qxWeb} Element or collection of elements
+     * @return {Number} The element's index
+     */
+    indexOf : function(elem) {
+      if (!elem) {
+        return -1;
+      }
+
+      if (qx.Bootstrap.isArray(elem)) {
+        elem = elem[0];
+      }
+
+      for (var i=0, l=this.length; i<l; i++) {
+        if (this[i] === elem) {
+          return i;
+        }
+      }
+
+      return -1;
+    },
+
+
+    /**
+     * Calls the browser's native debugger to easily allow debugging within
+     * chained calls.
+     *
+     * @return {q} The collection for chaining
+     * @ignore(debugger)
+     */
+    debug : function() {
+      debugger;
+      return this;
     },
 
 
@@ -301,6 +350,24 @@ qx.Bootstrap.define("qxWeb", {
           func.apply(ctx || this, [this[i], i, this]);
         }
       }
+      return this;
+    },
+
+
+    /**
+     * Calls a function for each DOM element node in the collection. Each node is wrapped
+     * in a collection before the function is called.
+     *
+     * @param func {Function} Callback function. Will be called with three arguments:
+     * The element wrappend in a collection, the element's index within the collection and
+     * the collection itself.
+     * @param ctx {Object} The context for the callback function (default: The collection)
+     */
+    _forEachElementWrapped : function(func, ctx) {
+      this._forEachElement(function(item, idx, arr) {
+        func.apply(this, [qxWeb(item), idx, arr]);
+      }, ctx);
+      return this;
     }
   },
 

@@ -281,16 +281,25 @@ qx.Bootstrap.define("qx.module.Css", {
      * Returns the computed location of the given element in the context of the
      * document dimensions.
      *
+     * Supported modes:
+     *
+     * * <code>margin</code>: Calculate from the margin box of the element (bigger than the visual appearance: including margins of given element)
+     * * <code>box</code>: Calculates the offset box of the element (default, uses the same size as visible)
+     * * <code>border</code>: Calculate the border box (useful to align to border edges of two elements).
+     * * <code>scroll</code>: Calculate the scroll box (relevant for absolute positioned content).
+     * * <code>padding</code>: Calculate the padding box (relevant for static/relative positioned content).
+     *
      * @attach {qxWeb}
+     * @param mode {String?box} A supported option. See comment above.
      * @return {Map} A map with the keys <code>left</code>, <code>top</code>,
      * <code>right</code> and <code>bottom</code> which contains the distance
      * of the element relative to the document.
      */
-    getOffset : function() {
+    getOffset : function(mode) {
       var elem = this[0];
 
       if (elem && qx.dom.Node.isElement(elem)) {
-        return qx.bom.element.Location.get(elem);
+        return qx.bom.element.Location.get(elem, mode);
       }
 
       return null;
@@ -373,8 +382,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * @return {qxWeb} The collection for chaining
      */
     hide : function() {
-      this._forEachElement(function(entry, idx) {
-        var item = this.eq(idx);
+      this._forEachElementWrapped(function(item) {
         var prevStyle = item.getStyle("display");
         if (prevStyle !== "none") {
           item[0].$$qPrevDisp = prevStyle;
@@ -396,8 +404,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * @return {qxWeb} The collection for chaining
      */
     show : function() {
-      this._forEachElement(function(entry, idx) {
-        var item = this.eq(idx);
+      this._forEachElementWrapped(function(item) {
         var currentVal = item.getStyle("display");
         var prevVal = item[0].$$qPrevDisp;
         var newVal;

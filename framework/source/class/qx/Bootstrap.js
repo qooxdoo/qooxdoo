@@ -186,6 +186,7 @@ qx.Bootstrap = {
     // Store names in constructor/object
     clazz.name = clazz.classname = name;
     clazz.basename = basename;
+    clazz.$$events = config.events;
 
     // Execute defer section
     if (config.defer) {
