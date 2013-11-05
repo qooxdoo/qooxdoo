@@ -38,3 +38,9 @@
 
   @include border-radius($size*2);
 }
+
+// Triggering CSS anti-aliasing on Android devices [BUG #7847]
+.root.android .slider > div:after {
+  content:".";
+  color:rgba(0,0,0,0);
+}

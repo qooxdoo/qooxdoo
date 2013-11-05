@@ -896,6 +896,10 @@ input, select, .text-area {
   -moz-border-radius: 50px;
   border-radius: 50px; }
 
+.root.android .slider > div:after {
+  content: ".";
+  color: rgba(0, 0, 0, 0); }
+
 .tabBar {
   padding-top: 4px;
   bottom: 1px; }
@@ -994,6 +998,10 @@ input, select, .text-area {
 
 .radio.checked:after {
   opacity: 1; }
+
+.root.android .radio:after {
+  content: ".";
+  color: rgba(0, 0, 0, 0); }
 
 .carousel {
   overflow: hidden; }

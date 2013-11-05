@@ -988,6 +988,10 @@ input, select, .text-area {
 .radio.checked:after {
   opacity: 1; }
 
+.root.android .radio:after {
+  content: ".";
+  color: rgba(0, 0, 0, 0); }
+
 .scrollbarV > div {
   -webkit-background-clip: padding-box;
   -moz-background-clip: padding-box;
@@ -1080,6 +1084,10 @@ input, select, .text-area {
   -webkit-border-radius: 50px;
   -moz-border-radius: 50px;
   border-radius: 50px; }
+
+.root.android .slider > div:after {
+  content: ".";
+  color: rgba(0, 0, 0, 0); }
 
 .spinner {
   -webkit-backface-visibility: hidden;
