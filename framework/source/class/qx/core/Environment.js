@@ -433,6 +433,10 @@
  *       <td>{@link qx.bom.client.Html#getSelection}</td>
  *     </tr>
  *     <tr>
+ *       <td>html.node.isequalnode</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getIsEqualNode}</td>
+ *     </tr>
+ *     <tr>
  *       <td colspan="4"><b>XML</b></td>
  *     </tr>
  *     <tr>
@@ -889,6 +893,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "html.image.naturaldimensions" : "qx.bom.client.Html.getNaturalDimensions",
       "html.history.state" : "qx.bom.client.Html.getHistoryState",
       "html.selection" : "qx.bom.client.Html.getSelection",
+      "html.node.isequalnode" : "qx.bom.client.Html.getIsEqualNode",
       "json" : "qx.bom.client.Json.getJson",
       "css.textoverflow" : "qx.bom.client.Css.getTextOverflow",
       "css.placeholder" : "qx.bom.client.Css.getPlaceholder",

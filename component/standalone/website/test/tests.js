@@ -1106,6 +1106,69 @@ testrunner.define({
   {
     this.assertTrue(q.isTextNode(document.createTextNode("bla")));
     this.assertFalse(q.isTextNode(document.createElement("p")));
+  },
+
+  testEqualNodes : function()
+  {
+    // same node
+    var node1 = q("#sandbox");
+    var node2 = "#sandbox";
+    this.assertTrue(q.equalNodes(node1, node2));
+
+    // same node types/names
+    node1 = q.create("<div>");
+    node2 = q.create("<div>");
+    this.assertTrue(q.equalNodes(node1, node2));
+
+    // different node types
+    node1 = q.create("<p>Foo</p>")[0];
+    node2 = q.create("<p>Foo</p>")[0].firstChild;
+    this.assertFalse(q.equalNodes(node1, node2));
+
+    // different node names
+    node1 = q.create("<div class='foo'>");
+    node2 = q.create("<h2 class='foo'>");
+    this.assertFalse(q.equalNodes(node1, node2));
+
+    // same attributes/values
+    node1 = q.create("<div style='display:block' class='foo'>");
+    node2 = q.create("<div style='display:block' class='foo'>");
+    this.assertTrue(q.equalNodes(node1, node2));
+
+    // same attributes/different values
+    node1 = q.create("<div class='foo' style='display:block'>");
+    node2 = q.create("<div class='foo' style='display:none'>");
+    this.assertFalse(q.equalNodes(node1, node2));
+
+    // same attributes/values in different order
+    node1 = q.create("<div class='foo' style='display:block'>");
+    node2 = q.create("<div style='display:block' class='foo'>");
+    this.assertTrue(q.equalNodes(node1, node2));
+
+    // different attributes length
+    node1 = q.create("<img src='foo.png' class='bar'>");
+    node2 = q.create("<img src='foo.png'>");
+    this.assertFalse(q.equalNodes(node1, node2));
+
+    // same children
+    node1 = q.create("<div class='foo'><p class='bar'>Foo</p></div>");
+    node2 = q.create("<div class='foo'><p class='bar'>Foo</p></div>");
+    this.assertTrue(q.equalNodes(node1, node2));
+
+    // different children
+    node1 = q.create("<div class='foo'><p class='bar'>Foo</p></div>");
+    node2 = q.create("<div class='foo'><p class='baz'>Foo</p></div>");
+    this.assertFalse(q.equalNodes(node1, node2));
+
+    // same children in different order
+    node1 = q.create("<div><h2>Foo</h2><p>Bar</p></div>");
+    node2 = q.create("<div><p>Bar</p><h2>Foo</h2></div>");
+    this.assertFalse(q.equalNodes(node1, node2));
+
+    // different children lengths
+    node1 = q.create("<div><p>Foo</p></div>");
+    node2 = q.create("<div><p>Foo</p><p>Foo</p></div>");
+    this.assertFalse(q.equalNodes(node1, node2));
   }
 });
 

@@ -465,6 +465,16 @@ qx.Bootstrap.define("qx.bom.client.Html",
         return "selection";
       }
       return null;
+    },
+
+
+    /**
+     * Check for the isEqualNode DOM method.
+     *
+     * @return {Boolean} <code>true</code> if isEqualNode is supported by DOM nodes
+     */
+    getIsEqualNode : function() {
+      return typeof document.documentElement.isEqualNode === "function";
     }
   },
 
@@ -500,5 +510,6 @@ qx.Bootstrap.define("qx.bom.client.Html",
     qx.core.Environment.add("html.image.naturaldimensions", statics.getNaturalDimensions);
     qx.core.Environment.add("html.history.state", statics.getHistoryState);
     qx.core.Environment.add("html.selection", statics.getSelection);
+    qx.core.Environment.add("html.node.isequalnode", statics.getIsEqualNode);
   }
 });
