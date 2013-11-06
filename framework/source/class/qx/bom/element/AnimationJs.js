@@ -413,7 +413,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
           continue;
         }
 
-        var name = qx.lang.String.camelCase(key);
+        var name = qx.bom.Style.getPropertyName(key) || key;
         if (qx.bom.element.Style) {
           qx.bom.element.Style.set(el, name, styles[key]);
         } else {
@@ -433,8 +433,8 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       // get min difference
       var minDiff = 100;
       for (var i=0; i < keys.length - 1; i++) {
-        minDiff = Math.min(minDiff, keys[i+1] - keys[i])
-      };
+        minDiff = Math.min(minDiff, keys[i+1] - keys[i]);
+      }
 
       var stepTime = duration * minDiff / 100;
       while (stepTime > this.__maxStepTime) {
@@ -453,7 +453,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       var keys = Object.keys(keyFrames);
       for (var i=0; i < keys.length; i++) {
         keys[i] = parseInt(keys[i], 10);
-      };
+      }
       keys.sort(function(a,b) {return a-b;});
       return keys;
     }
