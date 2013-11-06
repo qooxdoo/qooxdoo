@@ -1207,6 +1207,9 @@ def classNodeFromDocTree(docTree, fullClassName, commentAttributes = None):
             if attrib["category"] == "description":
                 classNode = addChildIf(classNode, *(handleJSDocDecsription(attrib)))
 
+            elif attrib["category"] == "group":
+                classNode.set("group", attrib["name"])
+
             elif attrib["category"] == "see":
                 classNode = addChildIf(classNode, *(handleJSDocSee(attrib)))
 
