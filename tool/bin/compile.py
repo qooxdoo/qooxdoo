@@ -317,7 +317,12 @@ def main():
         if not options.quiet:
             print fileName, ":"
             print ">>> Parsing file..."
-        fileContent = filetool.read(fileName, "utf-8")
+
+        if fileName == "-":
+            # enables: echo "1+2" | compile.py -
+            fileContent = sys.stdin.read()
+        else:
+            fileContent = filetool.read(fileName, "utf-8")
 
         if options.config:
             read_config(options)
