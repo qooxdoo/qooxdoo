@@ -511,7 +511,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
           continue;
         }
 
-        var name = qx.bom.Style.getPropertyName(key);
+        var name = qx.bom.Style.getPropertyName(key) || key;
         if (qx.bom.element.Style) {
           qx.bom.element.Style.set(el, name, styles[key]);
         } else {
