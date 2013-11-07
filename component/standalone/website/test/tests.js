@@ -2050,6 +2050,27 @@ testrunner.define({
         this.assertTrue(obj[methods[i]]);
       }
     }, 200, this);
+  },
+
+  testCurrentTarget : function()
+  {
+    var target;
+
+    var callback = function(ev) {
+      target = ev.getCurrentTarget();
+    };
+
+    test = q.create('<input type="text" />');
+    test.appendTo(this.sandbox[0]);
+    test.on("focus", callback, this);
+
+    window.setTimeout(function(){
+      test[0].focus();
+    }, 100);
+
+    this.wait(function() {
+      this.assertEquals(target, test[0]);
+    }, 500, this);
   }
 });
 

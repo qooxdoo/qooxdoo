@@ -121,6 +121,23 @@ qx.Bootstrap.define("qx.module.event.Native", {
     getRelatedTarget : function() {},
 
     /**
+     * Computes the current target from the native DOM event. Emulates the current target
+     * for all browsers without native support (like older IEs).
+     *
+     * Example:
+     * <pre class="javascript">
+     *   var collection = q("div.inline");
+     *   collection.on("mouseout", function(e) {
+     *     var current = e.getCurrentTarget();
+     *   });
+     * </pre>
+     *
+     * @signature function ()
+     * @return {Element} The current target
+     */
+    getCurrentTarget : function() {},
+
+    /**
      * Manipulates the native event object, adding methods if they're not
      * already present
      *
