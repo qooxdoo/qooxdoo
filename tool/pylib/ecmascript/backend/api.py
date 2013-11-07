@@ -997,6 +997,12 @@ def findAttachMethods(docTree):
                     cmethod.set("isStatic", False)
                 cmethod.set("sourceClass", child.get("sourceClass"))
                 cmethod.set("sourceMethod", method.get("name"))
+                clazz = None
+                for node in treeutil.findNode(docTree, ["class"], [("fullName", child.get("sourceClass"))]):
+                    clazz = node
+                if clazz and "group" in clazz.attributes:
+                    cmethod.set("group", clazz.attributes["group"])
+
 
     return attachMap
 
