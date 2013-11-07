@@ -19,6 +19,7 @@
 ************************************************************************ */
 /**
  * CSS/Style property manipulation module
+ * @group (Core)
  */
 qx.Bootstrap.define("qx.module.Css", {
   statics: {

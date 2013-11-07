@@ -25,6 +25,8 @@
  * @require(qx.dom.Hierarchy#getNextSiblings)
  * @require(qx.dom.Hierarchy#getPreviousSiblings)
  * @require(qx.dom.Hierarchy#contains)
+ *
+ * @group (Core)
  */
 qx.Bootstrap.define("qx.module.Traversing", {
   statics :
@@ -119,7 +121,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
 
     /**
-    * Checks if any element of the current collection is child of any element of a given 
+    * Checks if any element of the current collection is child of any element of a given
     * parent collection.
     *
     * @attach{qxWeb}
@@ -127,13 +129,13 @@ qx.Bootstrap.define("qx.module.Traversing", {
     * @return {Boolean} Returns true if at least one element of the current collection is child of the parent collection
     *
     */
-    isChildOf : function(parent){      
+    isChildOf : function(parent){
       if(this.length == 0){
         return false;
-      }      
-      var ancestors = null, parentCollection = qxWeb(parent), isChildOf = false;      
+      }
+      var ancestors = null, parentCollection = qxWeb(parent), isChildOf = false;
       for(var i = 0, l = this.length; i < l && !isChildOf; i++){
-        ancestors = qxWeb(this[i]).getAncestors();       
+        ancestors = qxWeb(this[i]).getAncestors();
         for(var j = 0, len = parentCollection.length; j < len; j++){
           if(ancestors.indexOf(parentCollection[j]) != -1){
             isChildOf = true;
@@ -141,7 +143,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
           }
         };
       }
-      return isChildOf;  
+      return isChildOf;
     },
 
 

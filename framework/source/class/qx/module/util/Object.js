@@ -18,7 +18,9 @@
 ************************************************************************ */
 
 /**
- * Helper functions to handle Object as a Hash map.
+ * Helper functions to handle an Object as a Hash map.
+ *
+ * @group (Utilities)
  */
 qx.Bootstrap.define("qx.module.util.Object", {
   statics : {

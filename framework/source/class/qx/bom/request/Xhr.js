@@ -57,6 +57,8 @@
  * @require(qx.bom.request.Xhr#overrideMimeType)
  * @require(qx.bom.request.Xhr#dispose)
  * @require(qx.bom.request.Xhr#isDisposed)
+ *
+ * @group (Io)
  */
 qx.Bootstrap.define("qx.bom.request.Xhr",
 {

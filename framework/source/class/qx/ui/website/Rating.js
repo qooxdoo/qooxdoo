@@ -23,6 +23,8 @@
  * This is a simple rating widget which can be used to display a predefined
  * number of symbols on which the user can click to give a rating e.g.
  * 3 out of 5 stars.
+ *
+ * @group (Widget)
  */
 qx.Bootstrap.define("qx.ui.website.Rating", {
   extend : qx.ui.website.Widget,
@@ -206,7 +208,7 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
 
     /**
      * Removes the keydown listener if the widget loses focus.
-     * 
+     *
      * @param e {Event} The native blur event.
      */
     _onBlur : function(e) {

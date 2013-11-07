@@ -24,6 +24,8 @@
  * @require(qx.module.Dataset)
  * @require(qx.module.util.String)
  * @require(qx.module.event.Native)
+ *
+ * @group (Widget)
  */
 qx.Bootstrap.define("qx.ui.website.Widget", {
   extend : qxWeb,

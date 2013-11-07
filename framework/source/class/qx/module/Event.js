@@ -22,6 +22,7 @@
  * Support for native and custom events.
  *
  * @require(qx.module.Polyfill)
+ * @group (Core)
  */
 qx.Bootstrap.define("qx.module.Event", {
   statics :

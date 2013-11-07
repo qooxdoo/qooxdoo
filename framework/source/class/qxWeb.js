@@ -35,6 +35,8 @@
  * <a href='http://manual.qooxdoo.org/${qxversion}/pages/website.html' target='_blank'>user manual</a>.
  *
  * @ignore(q)
+ *
+ * @group (Core)
  */
 qx.Bootstrap.define("qxWeb", {
   extend : qx.type.BaseArray,

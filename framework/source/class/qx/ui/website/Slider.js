@@ -23,6 +23,8 @@
  *
  * @require(qx.module.event.Mouse)
  * @require(qx.module.Transform)
+ *
+ * @group (Widget)
  */
 qx.Bootstrap.define("qx.ui.website.Slider",
 {

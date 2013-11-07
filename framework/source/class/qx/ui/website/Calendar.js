@@ -25,6 +25,8 @@
  * buttons to switch to the next or previous month.
  *
  * @require(qx.module.Template)
+ *
+ * @group (Widget)
  */
 qx.Bootstrap.define("qx.ui.website.Calendar", {
   extend : qx.ui.website.Widget,

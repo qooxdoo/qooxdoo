@@ -20,6 +20,8 @@
  * Utility module to give some support to work with strings.
  *
  * *Info:* The <pre class='javascript'>trim</pre> method is available as <a href="#String">Polyfill</a>.
+ *
+ * @group (Utilities)
  */
 qx.Bootstrap.define("qx.module.util.String", {
   statics : {

@@ -25,6 +25,8 @@
  * *keys*:
  * <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object/keys">MDN documentation</a> |
  * <a href="http://es5.github.com/#x15.2.3.14">Annotated ES5 Spec</a>
+ *
+ * @group (Polyfill)
  */
 qx.Bootstrap.define("qx.lang.normalize.Object", {
   defer : function() {

@@ -22,6 +22,8 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * @require(qx.module.TextSelection)
+ *
+ * @group (Widget)
  */
 qx.Bootstrap.define("qx.ui.website.Input", {
   extend : qx.ui.website.Widget,

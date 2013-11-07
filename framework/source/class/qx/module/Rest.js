@@ -21,6 +21,8 @@
  * a client-side wrapper of a REST resource.
  *
  * See {@link qx.bom.rest.Resource}.
+ *
+ * @group (Io)
  */
 qx.Bootstrap.define("qx.module.Rest", {
   statics :

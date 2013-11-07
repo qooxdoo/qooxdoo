@@ -36,6 +36,7 @@
  *
  * * <code>engine.name</code> : The name of the browser engine
  * * <code>engine.version</code> : The version of the browser engine
+ * @group (Core)
  */
 qx.Bootstrap.define("qx.module.Environment", {
   statics :

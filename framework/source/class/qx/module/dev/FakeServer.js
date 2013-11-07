@@ -54,6 +54,8 @@
  *
  *   q.dev.fakeServer.configure(responseData);
  * </pre>
+ *
+ * @group (Io)
  */
 qx.Bootstrap.define("qx.module.dev.FakeServer", {
   statics :

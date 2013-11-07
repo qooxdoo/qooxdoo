@@ -26,6 +26,8 @@
  *
  * @require(qx.module.Event)
  * @require(qx.module.Environment)
+ *
+ * @group (Event_Normalization)
  */
 qx.Bootstrap.define("qx.module.event.Keyboard", {
   statics :

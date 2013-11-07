@@ -26,6 +26,8 @@
  * * Script tag using JSONP
  *
  * @require(qx.bom.request.Xhr#open)
+ *
+ * @group (Io)
  */
 qx.Bootstrap.define("qx.module.Io", {
   statics :

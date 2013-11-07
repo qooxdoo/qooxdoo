@@ -115,6 +115,8 @@
  * from the event data, or listen to action specific events defined at runtime.
  * Action specific events follow the pattern "&lt;action&gt;Success" and
  * "&lt;action&gt;Error", e.g. "indexSuccess".
+ *
+ * @group (Io)
  */
 qx.Bootstrap.define("qx.bom.rest.Resource",
 {

@@ -25,6 +25,8 @@
  * *now*:
  * <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Date/now">MDN documentation</a> |
  * <a href="http://es5.github.com/#x15.9.4.4">Annotated ES5 Spec</a>
+ *
+ * @group (Polyfill)
  */
 qx.Bootstrap.define("qx.lang.normalize.Date", {
   defer : function() {

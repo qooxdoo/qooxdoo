@@ -23,6 +23,8 @@
  *
  * @require(qx.module.Template)
  * @require(qx.module.Animation)
+ *
+ * @group (Widget)
  */
 qx.Bootstrap.define("qx.ui.website.Tabs", {
   extend : qx.ui.website.Widget,

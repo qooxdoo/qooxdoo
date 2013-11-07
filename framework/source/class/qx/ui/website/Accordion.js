@@ -21,6 +21,8 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * @require(qx.module.util.Object)
+ *
+ * @group (Widget)
  */
 qx.Bootstrap.define("qx.ui.website.Accordion", {
   extend : qx.ui.website.Tabs,

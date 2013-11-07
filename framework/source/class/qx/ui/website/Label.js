@@ -19,6 +19,8 @@
 ************************************************************************ */
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ *
+ * @group (Widget)
  */
 qx.Bootstrap.define("qx.ui.website.Label", {
   extend : qx.ui.website.Widget,

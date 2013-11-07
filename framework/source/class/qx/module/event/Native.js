@@ -23,6 +23,8 @@
  * @require(qx.module.Event)
  * @require(qx.bom.Event#getTarget)
  * @require(qx.bom.Event#getRelatedTarget)
+ *
+ * @group (Event_Normalization)
  */
 qx.Bootstrap.define("qx.module.event.Native", {
   statics :

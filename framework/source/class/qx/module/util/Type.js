@@ -24,6 +24,8 @@
  * <pre class="javascript">
  * q.type.get("abc"); // return "String" e.g.
  * </pre>
+ *
+ * @group (Utilities)
  */
 qx.Bootstrap.define("qx.module.util.Type", {
   statics : {
