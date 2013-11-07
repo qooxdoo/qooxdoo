@@ -236,7 +236,7 @@ qx.Bootstrap.define("qx.module.Css", {
     /**
      * Returns the rendered height of the first element in the collection.
      * @attach {qxWeb}
-     * @param force {Boolean} When true also get the height of a <em>hidden</em> element
+     * @param force {Boolean} When true also get the height of a <em>non displayed</em> element
      * @return {Number} The first item's rendered height
      */
     getHeight : function(force) {
@@ -272,7 +272,7 @@ qx.Bootstrap.define("qx.module.Css", {
     /**
      * Returns the rendered width of the first element in the collection
      * @attach {qxWeb}
-     * @param force {Boolean} When true also get the width of a <em>hidden</em> element
+     * @param force {Boolean} When true also get the width of a <em>non displayed</em> element
      * @return {Number} The first item's rendered width
      */
     getWidth : function(force) {
@@ -330,7 +330,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * This is the maximum height the element can use, excluding borders,
      * margins, padding or scroll bars.
      * @attach {qxWeb}
-     * @param force {Boolean} When true also get the content height of a <em>hidden</em> element
+     * @param force {Boolean} When true also get the content height of a <em>non displayed</em> element
      * @return {Number} Computed content height
      */
     getContentHeight : function(force)
@@ -362,7 +362,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * This is the maximum width the element can use, excluding borders,
      * margins, padding or scroll bars.
      * @attach {qxWeb}
-     * @param force {Boolean} When true also get the content width of a <em>hidden</em> element
+     * @param force {Boolean} When true also get the content width of a <em>non displayed</em> element
      * @return {Number} Computed content width
      */
     getContentWidth : function(force)
