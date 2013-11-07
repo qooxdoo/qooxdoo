@@ -55,7 +55,7 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
        * a new one is selected
        */
       hideAnimation : {
-        duration: 200,
+        duration: 500,
         delay: 0,
         keep: 100,
         timing: "linear",
@@ -78,7 +78,7 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
        * The animation used to show a newly selected page
        */
       showAnimation : {
-        duration: 200,
+        duration: 500,
         delay: 0,
         keep: 100,
         timing: "linear",
@@ -266,8 +266,9 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
 
   defer : function(statics) {
     qxWeb.$attach({
-      accordion : function(align) {
+      accordion : function(preselected) {
         var accordion =  new qx.ui.website.Accordion(this);
+        accordion._preselected = preselected || null;
         accordion.init();
 
         return accordion;

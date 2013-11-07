@@ -36,6 +36,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
     },
 
     _config : {
+
       align : "left", // "justify", "right"
 
       /**
@@ -81,6 +82,10 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
       this._forEachElementWrapped(function(tabs) {
 
+        if (!tabs._preselected) {
+          tabs._preselected = 0;
+        }
+
         var cssPrefix = this.getCssPrefix();
 
         if (tabs.getChildren("ul").length === 0) {
@@ -123,7 +128,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
         var active = buttons.filter("." + cssPrefix + "-button-active");
         if (active.length === 0) {
-          buttons.eq(0).addClass(cssPrefix + "-button-active");
+          buttons.eq(tabs._preselected).addClass(cssPrefix + "-button-active");
         }
         this._getPage(buttons.filter("." + cssPrefix + "-button-active")).show();
 
@@ -457,8 +462,9 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
   defer : function(statics) {
     qxWeb.$attach({
-      tabs : function(align) {
+      tabs : function(align, preselected) {
         var tabs =  new qx.ui.website.Tabs(this);
+        tabs._preselected = preselected || 0;
         tabs.init();
         if (align) {
           tabs.setConfig("align", align);
