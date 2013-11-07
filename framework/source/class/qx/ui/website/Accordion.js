@@ -117,6 +117,7 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
         tabs.find("> ul > ." + cssPrefix + "-page")._forEachElementWrapped(function(page) {
           tabs._storeInitialStyles(page);
         }.bind(tabs));
+        tabs.render();
       });
 
     },
@@ -125,20 +126,37 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
     render : function() {
       var cssPrefix = this.getCssPrefix();
       this._forEachElementWrapped(function(tabs) {
-        tabs.find("> ul > ." + cssPrefix + "-page")._forEachElementWrapped(function(page) {
+        tabs.find("> ul > ." + cssPrefix + "-button")._forEachElementWrapped(function(button) {
+          var page = this._getPage(button);
+          if (page.length == 0) {
+            return;
+          }
           var showAnim = tabs.getConfig("showAnimation");
           if (showAnim) {
             showAnim = qxWeb.object.clone(showAnim, true);
             showAnim.duration = 1;
             page.once("animationEnd",  function() {
               this._storeInitialStyles(page);
-            }, this)
-            .animate(showAnim);
+              if (button.hasClass(cssPrefix + "-button-active")) {
+                page.show();
+              } else {
+                page.hide();
+              }
+            }, this);
+            page.animate(showAnim);
           } else {
             this._storeInitialStyles(page);
+            if (button.hasClass(cssPrefix + "-button-active")) {
+              page.show();
+            } else {
+              page.hide();
+            }
           }
-        });
+        }.bind(this));
+
       }.bind(this));
+
+      return this;
     },
 
 
@@ -148,7 +166,7 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
      */
     _storeInitialStyles : function(page) {
       var isHidden = page.getStyle("display") === "none";
-      var accordion = page.getAncestors(".qx-accordion");
+      var accordion = page.getAncestors("." + this.getCssPrefix());
       var accHeight;
       if (!accordion[0].style.height) {
         accHeight = accordion.getHeight();
@@ -161,7 +179,6 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
       }
       page.setProperty("initialStyles", page.getStyles(this.getConfig("animationStyles")));
       if (isHidden) {
-        page.hide();
         if (accHeight) {
           accordion.setStyle("height", "");
         }
@@ -173,24 +190,25 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
     _showPage : function(newButton, oldButton) {
       var oldPage = this._getPage(oldButton);
       var newPage = this._getPage(newButton);
-      if (oldPage[0] == newPage[0]) {
-        return;
+
+      if (newPage.length > 0) {
+        var showAnimation = this.getConfig("showAnimation");
+        if (showAnimation) {
+          showAnimation = JSON.parse(qxWeb.template.render(
+            JSON.stringify(showAnimation),
+            newPage.getProperty("initialStyles")
+          ));
+        }
       }
 
-      var showAnimation = this.getConfig("showAnimation");
-      if (showAnimation) {
-        showAnimation = JSON.parse(qxWeb.template.render(
-          JSON.stringify(showAnimation),
-          newPage.getProperty("initialStyles")
-        ));
-      }
-
-      var hideAnimation = this.getConfig("hideAnimation");
-      if (hideAnimation) {
-        hideAnimation = JSON.parse(qxWeb.template.render(
-          JSON.stringify(hideAnimation),
-          {height: oldPage.getHeight()}
-        ));
+      if (oldPage.length > 0) {
+        var hideAnimation = this.getConfig("hideAnimation");
+        if (hideAnimation) {
+          hideAnimation = JSON.parse(qxWeb.template.render(
+            JSON.stringify(hideAnimation),
+            {height: oldPage.getHeight() + "px"}
+          ));
+        }
       }
 
       this._switchPages(oldPage, newPage, hideAnimation, showAnimation);
@@ -220,6 +238,27 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
         var idx = buttons.indexOf(next);
         this.select(idx);
         next.getChildren("button").focus();
+      }
+    },
+
+
+    // overridden
+    _onClick : function(e) {
+      var clickedButton = e.getCurrentTarget();
+      var cssPrefix = this.getCssPrefix();
+      var sameButton = false;
+
+      this._forEachElementWrapped(function(tabs) {
+        var oldButton = tabs.find("> ul > ." + cssPrefix + "-button-active");
+        if (oldButton[0] == clickedButton) {
+          sameButton = true;
+          oldButton.removeClass(cssPrefix + "-button-active");
+          this._showPage(null, oldButton);
+        }
+      });
+
+      if (!sameButton) {
+        this.base(arguments, e);
       }
     }
   },

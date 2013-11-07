@@ -259,14 +259,19 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * @param e {Event} Click event
      */
     _onClick : function(e) {
+      var clickedButton = e.getCurrentTarget();
       var cssPrefix = this.getCssPrefix();
       this._forEachElementWrapped(function(tabs) {
-        var oldButton = tabs.find("> ul > ." + cssPrefix + "-button-active")
-        .removeClass(cssPrefix + "-button-active");
+        var oldButton = tabs.find("> ul > ." + cssPrefix + "-button-active");
+        if (oldButton[0] == clickedButton) {
+          return;
+        }
+        oldButton.removeClass(cssPrefix + "-button-active");
+
         var newButton;
         var buttons = tabs.find("> ul > ." + cssPrefix + "-button")
         ._forEachElementWrapped(function(button) {
-          if (e.getCurrentTarget() === button[0]) {
+          if (clickedButton === button[0]) {
             newButton = button;
           }
         });
@@ -365,13 +370,12 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
             this._showNewPage(newPage, showAnimation);
           }
         }, this);
-        qx.bom.AnimationFrame.request(function() {
-          if (timing == "parallel") {
-            this._showNewPage(newPage, showAnimation);
-          }
-          oldPage.animate(hideAnimation);
-        }, this);
 
+        if (timing == "parallel") {
+          this._showNewPage(newPage, showAnimation);
+        }
+
+        oldPage.animate(hideAnimation);
       } else {
         oldPage.hide();
         this._showNewPage(newPage, showAnimation);
@@ -386,6 +390,10 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * @param showAnimation {Map} animation description used to show the new pag
      */
     _showNewPage : function(newPage, showAnimation) {
+      if (newPage.length == 0) {
+        return;
+      }
+
       if (!showAnimation) {
         newPage.show();
         return;
