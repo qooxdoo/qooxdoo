@@ -241,6 +241,7 @@ A JSDoc comment consists of different sections, where a section is either a lead
        * `@abstract`_
        * `@childControl`_
        * `@deprecated`_
+       * `@group`_
        * `@internal`_
        * `@link`_
        * `@param`_
@@ -927,6 +928,39 @@ Description
   ``@attachStatic{foo.MyClass, bar}``
 
   This will attach the given function to the class ``foo.MyClass`` as a static function, under the name ``bar``, so you can call it like ``foo.MyClass.bar()``.
+
+
+.. _pages/development/api_jsdoc_ref#group:
+
+.. rst-class:: api-ref
+
+@group
+-------------------------------------------
+
+**Scope**
+
+  Class
+
+**Description**
+
+  Adds a 'group' attribute to the API data of this class. This attribute is additionally copied to every method in this class that also has an @attach or @attachStatic hint.
+
+**Syntax**
+
+  ``@group ( <name> )``
+
+**Parameters**
+
+    .. list-table::
+      :stub-columns: 1
+      :widths: 30 70
+
+      * - name
+        - Group name.
+
+**Example**
+
+  ``@group (Event_Normalization)``
 
 
 .. _pages/development/api_jsdoc_ref#require:
