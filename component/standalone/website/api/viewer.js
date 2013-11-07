@@ -40,6 +40,15 @@ q.ready(function() {
 
   // global storage for the method index
   var data = {};
+  var icons = {
+    "Core": "&#xF0C7;",
+    "Extras": "&#xF01D;",
+    "Polyfill": "&#xF0DA;",
+    "Widget": "&#xF124;",
+    "Io": "&#xF0BB;",
+    "Event_Normalization": "&#xF076;",
+    "Utilities": "&#xF04E;"
+  };
 
   // plugin toggle
   q("#plugintoggle").on("click", function() {
@@ -61,7 +70,6 @@ q.ready(function() {
       data["Core"]["static"].push(getByType(construct, "method"));
 
       createData(ast);
-      renderList();
       renderContent();
       loadEventNorm();
       loadPolyfills();
@@ -124,26 +132,18 @@ q.ready(function() {
           loading--;
           if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
             var ast = JSON.parse(xhr.responseText);
-            renderEventNorm(ast);
+            var name = ast.attributes.name;
+            data[name] = {
+              type: "class",
+              prefix: "event.",
+              ast : ast
+            };
           } else {
             console && console.warn("Event normalization '" + name + "' could not be loaded.");
           }
           onContentReady();
         }).send();
       });
-    }
-  };
-
-  var eventNormAsts = [];
-  var renderEventNorm = function(ast) {
-    eventNormAsts.push(ast);
-    if (q.env.get("q.eventtypes").split(",").length > eventNormAsts.length) {
-      return;
-    }
-
-    q("#list").append(q.create("<h1>Event Types</h1>"));
-    for (var i=0; i < eventNormAsts.length; i++) {
-      renderClass(eventNormAsts[i], "event.");
     }
   };
 
@@ -161,26 +161,17 @@ q.ready(function() {
         loading--;
         if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
           var ast = JSON.parse(xhr.responseText);
-          renderPolyfill(ast);
+          var name = ast.attributes.name;
+          data[name] = {
+            type: "class",
+            prefix: "normalize.",
+            ast : ast
+          };
         } else {
           console && console.warn("Polyfill '" + clazz + "' could not be loaded.");
         }
         onContentReady();
       }).send();
-    }
-  };
-
-
-  var polyfillAsts = [];
-  var renderPolyfill = function(ast) {
-    polyfillAsts.push(ast);
-    if (polyfillClasses.length > polyfillAsts.length) {
-      return;
-    }
-
-    q("#list").append(q.create("<h1>Polyfills</h1>"));
-    for (var i=0; i < polyfillAsts.length; i++) {
-      renderClass(polyfillAsts[i], "normalize.");
     }
   };
 
@@ -201,7 +192,12 @@ q.ready(function() {
       loading--;
       if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
         var ast = JSON.parse(xhr.responseText);
-        renderClass(ast);
+        var moduleName = ast.attributes.name;
+        data[moduleName] = {
+          type: "class",
+          ast : ast,
+          prefix: ""
+        };
       } else {
         name = getModuleNameFromClassName(name);
         q("#content").append(
@@ -227,6 +223,13 @@ q.ready(function() {
       data[module]["static"].sort(sortMethods);
       data[module]["member"].sort(sortMethods);
     }
+
+    var setGroup = function(method) {
+      method.attributes.group = "Core";
+    };
+
+    data["Core"]["static"].forEach(setGroup);
+    data["Core"]["member"].forEach(setGroup);
   };
 
 
@@ -256,27 +259,28 @@ q.ready(function() {
    */
   var renderList = function() {
     var keys = getDataKeys();
-    q("#list").append(q.create("<h1>Modules</h1>"));
     for (var i = 0; i < keys.length; i++) {
       var module = keys[i];
-      renderListModule(module, data[module]);
+      if (data[module].type == "class") {
+        renderClass(data[module].ast, data[module].prefix);
+      } else {
+        renderListModule(module, data[module]);
+      }
+      delete data[module];
     }
   };
 
 
   var renderListModule = function(name, data, prefix) {
     var checkMissing = q.$$qx.core.Environment.get("apiviewer.check.missingmethods");
-
-    var list = q("#list");
     var className = convertNameToCssClass(name, "nav-");
-    if (prefix && prefix != "event." && prefix != "normalize.") {
-      list.append(q.create("<a href='#" + name + "'><h1 class='"+className+"'>" + name + "</h1></a>"));
-    } else {
-      list.append(q.create("<a href='#" + name + "'><h2 class='"+className+"'>" + name + "</h2></a>"));
-    }
 
-    var ul = q.create("<ul></ul>").appendTo(list);
+    var group = data.group;
+    var ul = q.create("<ul></ul>");
     data["static"].forEach(function(ast) {
+      if (!group && ast.attributes.group) {
+        group = ast.attributes.group;
+      }
       var name = getMethodName(ast, prefix);
       var missing = false;
       if (checkMissing !== false) {
@@ -291,6 +295,9 @@ q.ready(function() {
       }).appendTo(ul);
     });
     data["member"].forEach(function(ast) {
+      if (!group && ast.attributes.group) {
+        group = ast.attributes.group;
+      }
       var name = getMethodName(ast, prefix);
       var missing = isMethodMissing(name, data.classname);
       q.template.get("list-item", {
@@ -301,6 +308,28 @@ q.ready(function() {
         plugin: isPluginMethod(name)
       }).appendTo(ul);
     });
+
+    if (!group) {
+      group = "Extras";
+    }
+    var groupId = "list-group-" + group;
+
+    var groupPage = q("#list").find("> ul > #" + groupId);
+    if (groupPage.length == 0) {
+      var groupIcon = icons[group];
+      if (groupIcon) {
+        groupIcon = "data-icon='" + groupIcon + "'";
+      }
+      var button = q.create("<li " + groupIcon + " data-qx-tab-page='#" + groupId + "' class='qx-accordion-button'>" + group.replace("_", " ") + "</li>")
+        .appendTo("#list > ul");
+      groupPage = q.create("<li class='qx-accordion-page' id='" + groupId + "'></li>").appendTo("#list > ul");
+    }
+
+    if (name !== group) {
+      groupPage.append(q.create('<a href="#' + name + '"><h2 class="nav-' + name + '">' + name + '</h2></a>'));
+    }
+
+    groupPage.append(ul);
   };
 
 
@@ -355,8 +384,27 @@ q.ready(function() {
 
   var renderModule = function(name, data, prefix) {
     // render module desc
+
+    var group = data.group;
+    if (!group) {
+      if (data.static[0]) {
+        group = data.static[0].attributes.group;
+      }
+    }
+    if (!group) {
+      if (data.member[0]) {
+        group = data.member[0].attributes.group;
+      }
+    }
+    if (!group) {
+      group = "Extras";
+    }
+    var groupIcon = icons[group];
+    if (groupIcon) {
+      groupIcon = "data-icon='" + groupIcon + "'";
+    }
     var module = q.create("<div class='module'>").appendTo("#content");
-    module.append(q.create("<h1 id='" + name + "'>" + name + "</h1>"));
+    module.append(q.create("<h1 " + groupIcon + "id='" + name + "'>" + name + "</h1>"));
 
     if (data.superclass) {
       var newName = data.superclass.split(".");
@@ -606,6 +654,7 @@ q.ready(function() {
     module.events = getEvents(ast);
     module.classname = ast.attributes.fullName;
     module.superclass= ast.attributes.superClass;
+    module.group = ast.attributes.group || "Extras";
 
     renderListModule(name, module, prefix || name + ".");
     renderModule(name, module, prefix || name + ".");
@@ -650,6 +699,13 @@ q.ready(function() {
     }
 
     fixInternalLinks();
+
+    renderList();
+    var acc = q("#list").accordion();
+    // wait for the accordion pages to be measured
+    setTimeout(function() {
+      acc.fadeIn(200);
+    }, 100);
   };
 
   // replace links to qx classes with internal targets, e.g.

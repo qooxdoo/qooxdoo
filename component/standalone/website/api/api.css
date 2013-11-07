@@ -1,23 +1,102 @@
+@font-face {
+  font-family: Batch;
+  src: url('batch-icons-webfont.eot');
+  src: url('batch-icons-webfont.eot?#iefix') format('embedded-opentype'),
+       url("batch-icons-webfont.woff") format("woff"),
+       url("batch-icons-webfont.ttf") format("truetype");
+  font-weight:normal;
+  font-style:normal;
+}
+
 #list {
   width: 276px;
   position: fixed;
-  background-color: red;
   bottom: 0;
-  top: 82px;
-  background-color: #F6F6F6;
-  border-right: 1px solid #DDD;
+  top: 100px;
+  left: 20px;
   overflow-y: auto;
-  padding-top: 8px;
 }
 
-#list h1 {
+#list > ul {
+  background-color: #F6F6F6;
+  border: 1px solid #DDD;
+  border-radius: 5px;
+}
+
+#list .qx-accordion-button {
+  list-style: none;
+  cursor: pointer;
+  padding: 5px 10px;
+  color: #3d72c9;
+  font-size: 18px;
+  border-top: 1px solid #DDD;
+
+  -moz-transition:color 1s, background-color 1s;
+  -webkit-transition:color 1s, background-color 1s;
+  -o-transition:color 1s, background-color 1s;
+  transition:color 1s, background-color 1s;
+}
+
+#list .qx-accordion-button:before,
+.module h1:before {
+  font-family: "Batch";
+  margin-right: 10px;
+  content: attr(data-icon);
+}
+
+.module h1:before {
+  font-size: 22px;
+  margin-right: 15px;
+}
+
+#list .qx-accordion-button-active {
+  border-bottom: 1px solid #DDD;
+  background-color: #3d72c9;
+  color: #fff;
+}
+
+#list .qx-accordion-button:first-child {
+  border-top: none;
+}
+
+#list .qx-accordion-button-active:first-child {
+  border-radius: 5px 5px 0 0;
+}
+
+#list .qx-accordion-page {
+  list-style: none;
+}
+
+#list .qx-accordion-page ul {
+  border-bottom: 1px solid #DDD;
+  padding-bottom: 10px;
+  list-style: none;
+}
+
+#list .qx-accordion-page ul:last-child {
+  border-bottom: none;
+}
+
+#list .qx-accordion-page ul > li {
+  padding: 0px 0 1px 10px;
+}
+#list .qx-accordion-page ul > li:first-child {
   margin-top: 10px;
-  margin-left: 10px;
-  margin-bottom: -10px;
+}
+
+#list .qx-accordion-page ul > li a {
+  display: block;
+}
+
+#list .qx-accordion-page ul li:hover {
+  background-color: #e7e7e7;
 }
 
 #list h2 {
-  margin-top: 10px;
+  font-family: "Lucida Grande", "DejaVu Sans", "Verdana", sans-serif;
+  font-weight: normal;
+  font-size: 14px;
+  margin-top: 16px;
   line-height: 1;
 }
 
@@ -30,7 +109,7 @@
 }
 
 #content {
-  left: 296px;
+  left: 316px;
   padding-right: 20px;
   top: 82px;
   position: fixed;
@@ -73,8 +152,11 @@
 
 
 #list h2, #list ul {
-  margin-left: 15px;
   white-space: nowrap;
+}
+
+#list ul li {
+  padding: 0 10px;
 }
 
 #header {

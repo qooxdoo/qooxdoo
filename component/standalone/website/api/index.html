@@ -20,6 +20,7 @@
   <script type="text/javascript" charset="utf-8" src="script/q-textselection.min.js"></script>
   <script type="text/javascript" charset="utf-8" src="script/q-transform.min.js"></script>
   <script type="text/javascript" charset="utf-8" src="script/q-util.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="script/q-ui.min.js"></script>
   <script type="text/javascript" charset="utf-8" src="viewer.js"></script>
   <link href="http://resources.qooxdoo.org/stylesheets/reset.css" rel="stylesheet" type="text/css">
   <link href="http://resources.qooxdoo.org/stylesheets/base.css" rel="stylesheet" type="text/css">
@@ -55,7 +56,11 @@
   </div>
 
   <!-- CONTENT -->
-  <div id="list"></div>
+  <div id="list" style="opacity: 0"
+    data-qx-class="qx.ui.website.Accordion">
+    <ul>
+    </ul>
+  </div>
   <div id="content">
     <div id="warning"><h1 style='color: #C00F00'>Error while loading!</h1><em>Has the application been generated? (generate.py api)</em></div>
   </div>
