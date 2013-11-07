@@ -670,10 +670,10 @@ class Comment(object):
         return res
 
     ##
-    # "@group {Foo}"
-    gr_at_group = ( py.Suppress('@') + py.Literal('group') + py.Suppress('{') +
+    # "@group (Foo)"
+    gr_at_group = ( py.Suppress('@') + py.Literal('group') + py.Suppress('(') +
         py_js_identifier.copy()('clazz') +
-        py.Suppress('}') )
+        py.Suppress(')') )
     def parse_at_group(self, line):
         grammar = self.gr_at_group
         presult = grammar.parseString(line)
