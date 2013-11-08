@@ -139,11 +139,9 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
           if (showAnim) {
             showAnim = qxWeb.object.clone(showAnim, true);
             showAnim.duration = 1;
-            page.once("animationEnd",  function() {
+            page.show().once("animationEnd",  function() {
               this._storeInitialStyles(page);
-              if (button.hasClass(cssPrefix + "-button-active")) {
-                page.show();
-              } else {
+              if (!button.hasClass(cssPrefix + "-button-active")) {
                 page.hide();
               }
             }, this);
@@ -181,6 +179,7 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
         }
         page.show();
       }
+
       page.setProperty("initialStyles", page.getStyles(this.getConfig("animationStyles")));
       if (isHidden) {
         if (accHeight) {
