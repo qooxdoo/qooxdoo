@@ -80,12 +80,11 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         return false;
       }
 
+      if (this._preselected === undefined) {
+        this._preselected = 0;
+      }
+
       this._forEachElementWrapped(function(tabs) {
-
-        if (!tabs._preselected) {
-          tabs._preselected = 0;
-        }
-
         var cssPrefix = this.getCssPrefix();
 
         if (tabs.getChildren("ul").length === 0) {
