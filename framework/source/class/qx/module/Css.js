@@ -503,6 +503,18 @@ qx.Bootstrap.define("qx.module.Css", {
     },
 
 
+    /**
+     * Swaps the given styles of the element and execute the callback
+     * before the original values are restored.
+     *
+     * Finally returns the return value of the callback.
+     *
+     * @param element {Element} the DOM element to operate on
+     * @param styles {Map} the styles to swap
+     * @param callback {Function} the callback function
+     * @param context {Object} the context in which the callback should be called
+     * @return {Object} the return value of the callback
+     */
     __swap : function(element, styles, callback, context)
     {
       // get the current values
