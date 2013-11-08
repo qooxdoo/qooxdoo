@@ -30,12 +30,16 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * Creates a new collection from the given argument. This can either be an
      * HTML string, a single DOM element or an array of elements
      *
+     * When no <code>context</code> is given the global document is used to
+     * create new DOM elements.
+     *
      * @attachStatic{qxWeb}
      * @param html {String|Element[]} HTML string or DOM element(s)
+     * @param context {Document?document} Context in which the elements should be created
      * @return {qxWeb} Collection of elements
      */
-    create : function(html) {
-      return qxWeb.$init(qx.bom.Html.clean([html]));
+    create : function(html, context) {
+      return qxWeb.$init(qx.bom.Html.clean([html], context));
     },
 
 

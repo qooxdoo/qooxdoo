@@ -147,6 +147,22 @@ testrunner.define({
     this.assertEquals(1, q.create("<div/>")[0].nodeType);
   },
 
+  testCreateWithContext : function() {
+    var onIframeLoad = function() {
+      this.resume(function() {
+        var frameDoc = frame[0].contentDocument;
+        var frameNode = q.create("<div id='foo'>", frameDoc).appendTo(frameDoc.body);
+        this.assertEquals(q.getDocument(frameNode[0]), frameDoc);
+        this.assertEquals(frameDoc.body, frameNode.getAncestors()[0]);
+      }, this);
+    };
+    var frame = q.create('<iframe src="media.html"></iframe>')
+    .once("load", onIframeLoad, this)
+    .appendTo("#sandbox");
+
+    this.wait(1000);
+  },
+
   testWrapElement : function() {
     var test = q.create("<div id='testdiv'/>");
     test.appendTo(this.sandbox[0]);
