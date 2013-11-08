@@ -1351,30 +1351,6 @@ testrunner.define({
     this.assertNumber(q(window).getHeight());
   },
 
-  testGetHeightsElements : function() {
-    q.create("<div class='test' style='height: 100px'></div>").appendTo(this.sandbox[0]);
-    q.create("<div class='test' style='height: 200px'></div>").appendTo(this.sandbox[0]);
-    q.create("<div class='test' style='height: 300px'></div>").appendTo(this.sandbox[0]);
-    q.create("<div class='test' style='height: 400px'></div>").appendTo(this.sandbox[0]);
-
-    this.assertArrayEquals([100, 200, 300, 400], q("div.test").getHeights());
-
-    q("div.test").remove();
-  },
-
-  testGetHeightsNonDisplayElements : function() {
-    q.create("<div class='test' style='height: 100px'></div>").appendTo(this.sandbox[0]);
-    q.create("<div class='test' style='height: 200px'></div>").appendTo(this.sandbox[0]);
-    q.create("<div class='test' style='height: 300px'></div>").appendTo(this.sandbox[0]);
-    q.create("<div class='test' style='height: 400px'></div>").appendTo(this.sandbox[0]);
-
-    q("div.test").hide();
-
-    this.assertArrayEquals([100, 200, 300, 400], q("div.test").getHeights(true));
-
-    q("div.test").remove();
-  },
-
   testGetWidthElement : function() {
     var test = q.create("<div style='width: 100px'></div><div></div>");
     test.appendTo(this.sandbox[0]);
@@ -1383,7 +1359,7 @@ testrunner.define({
     test.remove();
   },
 
-  testGetWidthNonDisplayedElement : function() {
+  testGetWidthHiddenElement : function() {
     var test = q.create("<div style='display: none; width: 100px'></div><div></div>");
     test.appendTo(this.sandbox[0]);
     this.assertNumber(test.getWidth(true));
@@ -1397,30 +1373,6 @@ testrunner.define({
 
   testGetWidthWindow : function() {
     this.assertNumber(q(window).getWidth());
-  },
-
-  testGetWidthsElements : function() {
-    q.create("<div class='test' style='width: 100px'></div>").appendTo(this.sandbox[0]);
-    q.create("<div class='test' style='width: 200px'></div>").appendTo(this.sandbox[0]);
-    q.create("<div class='test' style='width: 300px'></div>").appendTo(this.sandbox[0]);
-    q.create("<div class='test' style='width: 400px'></div>").appendTo(this.sandbox[0]);
-
-    this.assertArrayEquals([100, 200, 300, 400], q("div.test").getWidths());
-
-    q("div.test").remove();
-  },
-
-  testGetWidthsNonDisplayElements : function() {
-    q.create("<div class='test' style='width: 100px'></div>").appendTo(this.sandbox[0]);
-    q.create("<div class='test' style='width: 200px'></div>").appendTo(this.sandbox[0]);
-    q.create("<div class='test' style='width: 300px'></div>").appendTo(this.sandbox[0]);
-    q.create("<div class='test' style='width: 400px'></div>").appendTo(this.sandbox[0]);
-
-    q("div.test").hide();
-
-    this.assertArrayEquals([100, 200, 300, 400], q("div.test").getWidths(true));
-
-    q("div.test").remove();
   },
 
   testGetOffset : function() {
