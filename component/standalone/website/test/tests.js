@@ -1335,7 +1335,7 @@ testrunner.define({
     test.remove();
   },
 
-  testGetHeightHiddenElement : function() {
+  testGetHeightNonDisplayedElement : function() {
     var test = q.create("<div style='display: none; height: 100px'></div><div></div>");
     test.appendTo(this.sandbox[0]);
     this.assertNumber(test.getHeight(true));
@@ -1359,7 +1359,7 @@ testrunner.define({
     test.remove();
   },
 
-  testGetWidthHiddenElement : function() {
+  testGetWidthNonDisplayedElement : function() {
     var test = q.create("<div style='display: none; width: 100px'></div><div></div>");
     test.appendTo(this.sandbox[0]);
     this.assertNumber(test.getWidth(true));
@@ -1397,7 +1397,7 @@ testrunner.define({
     this.assertEquals(200, test.getContentHeight());
   },
 
-  testGetContentHeightHiddenElement : function() {
+  testGetContentHeightNonDisplayedElement : function() {
     var test = q.create("<div id='test'></div>").setStyles({
       position: "absolute",
       height: "200px",
@@ -1418,7 +1418,7 @@ testrunner.define({
     this.assertEquals(200, test.getContentWidth());
   },
 
-  testGetContentWidthHiddenElement : function() {
+  testGetContentWidthNonDisplayedElement : function() {
     var test = q.create("<div id='test'></div>").setStyles({
       position: "absolute",
       width: "200px",
