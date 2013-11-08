@@ -12,9 +12,43 @@
   width: 276px;
   position: fixed;
   bottom: 0;
-  top: 100px;
+  top: 155px;
   left: 20px;
   overflow-y: auto;
+}
+
+.filter {
+  position: fixed;
+  top: 100px;
+  left: 20px;
+  width: 276px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #DDD;
+  -webkit-box-shadow: inset 1px 1px 1px rgba(50, 50, 50, 0.75);
+  -moz-box-shadow: inset 1px 1px 1px rgba(50, 50, 50, 0.75);
+  box-shadow: inset 1px 1px 1px rgba(50, 50, 50, 0.75);
+  box-sizing: border-box;
+  /*-moz-box-sizing: border-box;*/
+}
+
+.filter span {
+  margin: 0 0 0 10px;
+  font-size: 14px;
+  font-family: "Batch";
+  font-weight: bold;
+  color: #3d72c9;
+}
+
+.filter input {
+  display: table-cell;
+  width: 240px;
+  border: none;
+  font-size: 14px;
+  padding: 7px 5px;
+  box-sizing: border-box;
+  background-color: transparent;
+  outline: none;
 }
 
 #list > ul {
@@ -42,6 +76,32 @@
   font-family: "Batch";
   margin-right: 10px;
   content: attr(data-icon);
+}
+
+#list .qx-accordion-button:after {
+  content: attr(data-results);
+  float: right;
+  color: white;
+  background-color: #3d72c9;
+  font-size: 13px;
+  padding: 0px 6px;
+  margin-top: 8px;
+  border-radius: 10px;
+  font-weight: bold;
+  line-height: 17px;
+}
+
+#list .qx-accordion-button-active:after {
+  content: attr(data-results);
+  float: right;
+  color: #3d72c9;
+  background-color: white;
+  font-size: 13px;
+  padding: 0px 6px;
+  margin-top: 8px;
+  border-radius: 10px;
+  font-weight: bold;
+  line-height: 17px;
 }
 
 .module h1:before {
@@ -79,7 +139,12 @@
 
 #list .qx-accordion-page ul > li {
   padding: 0px 0 1px 10px;
+  -moz-transition: opacity 1s;
+  -webkit-transition: opacity 1s;
+  -o-transition: opacity 1s;
+  transition: opacity 1s;
 }
+
 #list .qx-accordion-page ul > li:first-child {
   margin-top: 10px;
 }

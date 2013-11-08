@@ -59,6 +59,54 @@ q.ready(function() {
     q("li.plugin").setStyle("display", hide ? "list-item" : "none");
   });
 
+  var filterTimeout;
+  var filterField = q(".filter input");
+  filterField.on("input", function() {
+    clearTimeout(filterTimeout);
+    var value = filterField.getValue();
+
+    if (!value) {
+      q("#list .qx-accordion-button")._forEachElementWrapped(function(button) {
+        button.setData("results", "");
+      });
+      q("#list .qx-accordion-page ul").show();
+      q("#list .qx-accordion-page li").show();
+      q("#list .qx-accordion-page > a").show();
+      return;
+    }
+
+    hideFiltered(value);
+
+    filterTimeout = setTimeout(function() {
+      q("#list").render();
+    }, 500);
+
+  });
+
+  var hideFiltered = function(query) {
+    q("#list .qx-accordion-page ul").hide();
+    q("#list .qx-accordion-page li").hide();
+    q("#list .qx-accordion-page > a").hide();
+
+    var regEx = new RegExp(query, "i");
+    var result = findGroupMethods(query);
+    q("#list .qx-accordion-button")._forEachElementWrapped(function(button) {
+      var groupName = button.getHtml().replace(" ", "_");
+      var resultCount = result[groupName] ? result[groupName].length : "";
+      button.setData("results", resultCount);
+      var page = button.getNext();
+      page.find("li")._forEachElementWrapped(function(item) {
+        var methodName = item.find("a").getHtml();
+        if (regEx.exec(methodName)) {
+          item.getParents().show();
+          item.getParents().getPrev().show();
+          item.show();
+        }
+      });
+    });
+
+  };
+
   // load API data of q
   q.io.xhr("script/qxWeb.json").on("loadend", function(xhr) {
     var handleSuccess = function() {
@@ -266,7 +314,6 @@ q.ready(function() {
       } else {
         renderListModule(module, data[module]);
       }
-      delete data[module];
     }
   };
 
@@ -312,6 +359,11 @@ q.ready(function() {
     if (!group) {
       group = "Extras";
     }
+
+    if (!data.group) {
+      data.group = group;
+    }
+
     var groupId = "list-group-" + group;
 
     var groupPage = q("#list").find("> ul > #" + groupId);
@@ -689,6 +741,7 @@ q.ready(function() {
   var loading = 0;
   // no highlighting for IE < 9
   var useHighlighter = !(q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 9);
+
   var onContentReady = function() {
     if (loading > 0) {
       return;
@@ -1125,6 +1178,54 @@ q.ready(function() {
 
   var convertNameToCssClass = function(name, prefix) {
     return (prefix || "")+name.replace(/(\.|\$|#)*/g, "");
+  };
+
+
+  var findGroupMethods = function(query) {
+    var matches = {};
+    if (!query) {
+      return matches;
+    }
+    var regEx = new RegExp(query, "i");
+
+    var findMatchingMethods = function(methodList, group) {
+      if (!group) {
+        group = "Extras";
+      }
+      for (var i=0, l=methodList.length; i<l; i++) {
+        var method = methodList[i];
+        var match = regEx.exec(method.attributes.name);
+        if (match) {
+          if (!matches[group]) {
+            matches[group] = [];
+          }
+          matches[group].push(method.attributes.name);
+        }
+      }
+    };
+
+    for (var moduleName in data) {
+      var moduleData = data[moduleName];
+      if (moduleData.member) {
+        findMatchingMethods(moduleData.member, moduleData.group);
+      }
+      if (moduleData.static) {
+        findMatchingMethods(moduleData.static, moduleData.group);
+      }
+      if (moduleData.ast && moduleData.ast.children) {
+        for (var i=0, l=moduleData.ast.children.length; i<l; i++) {
+          var childNode = moduleData.ast.children[i];
+          if (childNode.type &&
+              childNode.type.indexOf("methods") === 0 &&
+              childNode.children)
+          {
+            findMatchingMethods(childNode.children, moduleData.ast.attributes.group);
+          }
+        }
+      }
+    }
+
+    return matches;
   };
 
   /**
