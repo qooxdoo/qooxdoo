@@ -126,8 +126,8 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         }
 
         var active = buttons.filter("." + cssPrefix + "-button-active");
-        if (active.length === 0) {
-          buttons.eq(tabs._preselected).addClass(cssPrefix + "-button-active");
+        if (active.length === 0 && typeof this._preselected == "number") {
+          buttons.eq(this._preselected).addClass(cssPrefix + "-button-active");
         }
         this._getPage(buttons.filter("." + cssPrefix + "-button-active")).show();
 
