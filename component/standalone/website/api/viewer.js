@@ -693,21 +693,29 @@ q.ready(function() {
     if (loading > 0) {
       return;
     }
+    var listRendered = q("#list").find("> ul > li").length > 0;
+    if (!listRendered) {
+      renderList();
+      var acc = q("#list").accordion();
+      // wait for the accordion pages to be measured
+      setTimeout(function() {
+        acc.fadeIn(200);
+      }, 100);
+    }
+
     // enable syntax highlighting
     if (useHighlighter) {
       q('pre').forEach(function(el) {hljs.highlightBlock(el);});
+      useHighlighter = false;
     }
 
-    fixInternalLinks();
-
-    renderList();
-    var acc = q("#list").accordion();
-    // wait for the accordion pages to be measured
-    setTimeout(function() {
-      acc.fadeIn(200);
-    }, 100);
+    if (fixLinks) {
+      fixInternalLinks();
+      fixLinks = false;
+    }
   };
 
+  var fixLinks = true;
   // replace links to qx classes with internal targets, e.g.
   // #qx.bom.rest.Resource -> #Resource
   var fixInternalLinks = function() {
