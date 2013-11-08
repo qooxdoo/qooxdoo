@@ -991,8 +991,9 @@ q.ready(function() {
   };
 
   var createFiddleButton = function(sample) {
-    var qUrl = "http://demo.qooxdoo.org/devel/framework/q-" +
-    q.env.get("qx.version") + ".min.js";
+    var qVersion = q.env.get("qx.version");
+    var qUrl = "http://demo.qooxdoo.org/" + qVersion + "/framework/q-" +
+      qVersion + ".min.js";
     var qScript = '<script type="text/javascript" src="' + qUrl + '"></script>';
 
     return q.create("<iframe></iframe>").setAttributes({
