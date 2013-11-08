@@ -236,7 +236,7 @@ qx.Bootstrap.define("qx.module.Css", {
     /**
      * Returns the rendered height of the first element in the collection.
      * @attach {qxWeb}
-     * @param force {Boolean} When true also get the height of a <em>non displayed</em> element
+     * @param force {Boolean?false} When true also get the height of a <em>non displayed</em> element
      * @return {Number} The first item's rendered height
      */
     getHeight : function(force) {
@@ -270,9 +270,26 @@ qx.Bootstrap.define("qx.module.Css", {
 
 
     /**
+     * Return all height values of the collection
+     *
+     * @attach {qxWeb}
+     * @param force {Boolean?false} Whether to also work with <em>non-display</em> elements
+     * @return {Array} all height values as Array
+     */
+    getHeights : function(force) {
+      var heights = [];
+      this.forEach(function(item, index) {
+        heights.push(qxWeb(item).getHeight(force));
+      });
+
+      return heights;
+    },
+
+
+    /**
      * Returns the rendered width of the first element in the collection
      * @attach {qxWeb}
-     * @param force {Boolean} When true also get the width of a <em>non displayed</em> element
+     * @param force {Boolean?false} When true also get the width of a <em>non displayed</em> element
      * @return {Number} The first item's rendered width
      */
     getWidth : function(force) {
@@ -304,6 +321,22 @@ qx.Bootstrap.define("qx.module.Css", {
       return null;
     },
 
+    /**
+     * Return all width values of the collection
+     *
+     * @attach {qxWeb}
+     * @param force {Boolean?false} Whether to also work with <em>non-display</em> elements
+     * @return {Array} all width values as Array
+     */
+    getWidths : function(force) {
+      var widths = [];
+      this.forEach(function(item, index) {
+        widths.push(qxWeb(item).getWidth(force));
+      });
+
+      return widths;
+    },
+
 
     /**
      * Returns the computed location of the given element in the context of the
@@ -330,7 +363,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * This is the maximum height the element can use, excluding borders,
      * margins, padding or scroll bars.
      * @attach {qxWeb}
-     * @param force {Boolean} When true also get the content height of a <em>non displayed</em> element
+     * @param force {Boolean?false} When true also get the content height of a <em>non displayed</em> element
      * @return {Number} Computed content height
      */
     getContentHeight : function(force)
@@ -362,7 +395,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * This is the maximum width the element can use, excluding borders,
      * margins, padding or scroll bars.
      * @attach {qxWeb}
-     * @param force {Boolean} When true also get the content width of a <em>non displayed</em> element
+     * @param force {Boolean?false} When true also get the content width of a <em>non displayed</em> element
      * @return {Number} Computed content width
      */
     getContentWidth : function(force)
@@ -512,8 +545,8 @@ qx.Bootstrap.define("qx.module.Css", {
      * @param element {Element} the DOM element to operate on
      * @param styles {Map} the styles to swap
      * @param callback {Function} the callback function
-     * @param context {Object} the context in which the callback should be called
-     * @return {Object} the return value of the callback
+     * @param context {var} the context in which the callback should be called
+     * @return {var} the return value of the callback
      */
     __swap : function(element, styles, callback, context)
     {
@@ -553,7 +586,9 @@ qx.Bootstrap.define("qx.module.Css", {
       "replaceClass" : statics.replaceClass,
 
       "getHeight" : statics.getHeight,
+      "getHeights" : statics.getHeights,
       "getWidth" : statics.getWidth,
+      "getWidths" : statics.getWidths,
       "getOffset" : statics.getOffset,
       "getContentHeight" : statics.getContentHeight,
       "getContentWidth" : statics.getContentWidth,
