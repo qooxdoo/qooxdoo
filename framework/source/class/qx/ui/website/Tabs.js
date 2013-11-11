@@ -30,6 +30,20 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
   extend : qx.ui.website.Widget,
 
   statics : {
+    /**
+     * @attach{qxWeb}
+     */
+    tabs : function(align, preselected) {
+      var tabs =  new qx.ui.website.Tabs(this);
+      tabs._preselected = preselected || 0;
+      tabs.init();
+      if (align) {
+        tabs.setConfig("align", align);
+        tabs.render();
+      }
+
+      return tabs;
+    },
 
     _templates : {
       button : "<li><button>{{{content}}}</button></li>"
@@ -68,8 +82,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
 
   events : {
-    "changeSelected" : "Number",
-    "changePage" : "Map"
+    "changeSelected" : "Number"
   },
 
 
@@ -461,17 +474,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
   defer : function(statics) {
     qxWeb.$attach({
-      tabs : function(align, preselected) {
-        var tabs =  new qx.ui.website.Tabs(this);
-        tabs._preselected = preselected || 0;
-        tabs.init();
-        if (align) {
-          tabs.setConfig("align", align);
-          tabs.render();
-        }
-
-        return tabs;
-      }
+      tabs : statics.tabs
     });
   }
 });
