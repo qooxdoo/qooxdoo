@@ -260,9 +260,9 @@ class Config(object):
         jM = self.getJobsMap([])
         return [x for x in jM.keys() if isinstance(jM[x], (types.DictType, Job))]
 
-    def getExportedJobsList(self):
+    def getExportedJobsList(self, bypassExports=False):
         expList = self.get('export', False)  # is there a dedicated list of exported jobs?
-        if isinstance(expList, types.ListType):
+        if isinstance(expList, types.ListType) and not bypassExports:
             netList = []
             for job in expList:
                 if self.getJob(job) == None:
@@ -414,13 +414,19 @@ class Config(object):
                     blockList = incspec['block']
                 else:
                     blockList = None
-                self._integrateExternalConfig(econfig, namespace, importList, blockList)
+                # check include/bypass-export-list
+                if 'bypass-export-list' in incspec:
+                    bypassExports = incspec['bypass-export-list']
+                else:
+                    bypassExports = False
+                self._integrateExternalConfig(econfig, namespace, importList, blockList, bypassExports)
                 self._includedConfigs.append(econfig)  # save external config for later reference
 
 
     ##
     # Jobs of external config are spliced into current job list
-    def _integrateExternalConfig(self, extConfig, namespace, impJobsList=None, blockJobsList=None):
+    def _integrateExternalConfig(self, extConfig, namespace, impJobsList=None, 
+        blockJobsList=None, bypassExports=False):
 
         # Some helper functions
 
@@ -516,7 +522,7 @@ class Config(object):
 
         # Go through the list of jobs to import
         newList     = []
-        extJobsList = extConfig.getExportedJobsList()
+        extJobsList = extConfig.getExportedJobsList(bypassExports)
         for extJobEntry in extJobsList:
             # Checks and preparations
             if importJobsList and extJobEntry not in importJobsList:
