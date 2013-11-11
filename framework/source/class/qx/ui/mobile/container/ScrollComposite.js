@@ -177,7 +177,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
 
     /**
-    * TouchHandler for scrollContainer
+    * Handler for <code>touchstart</code> events on scrollContainer
     * @param evt {qx.event.type.Touch} The touch event
     */
     _onTouchStart : function(evt){
@@ -192,23 +192,23 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
 
     /**
-     * Handler for touch move events on scrollContainer
+     * Handler for <code>touchmove</code> events on scrollContainer
      * @param evt {qx.event.type.Touch} The touch event
      */
     _onTouchMove : function(evt) {
       this.__distanceX = evt.getAllTouches()[0].screenX - this.__touchStartPoints[0];
       this.__distanceY = evt.getAllTouches()[0].screenY - this.__touchStartPoints[1];
 
-      if(this.__isVerticalScroll === null) {
+      if (this.__isVerticalScroll === null) {
         var cosDelta = this.__distanceX / this.__distanceY;
         this.__isVerticalScroll = Math.abs(cosDelta) < 2;
       }
 
-      if(Math.abs(this.__distanceX) < 3 || !this.isScrollableX() || this.__isVerticalScroll) {
+      if (Math.abs(this.__distanceX) < 3 || !this.isScrollableX() || this.__isVerticalScroll) {
         this.__distanceX = 0;
       }
 
-      if(Math.abs(this.__distanceY) < 3 || !this.isScrollableY() || !this.__isVerticalScroll) {
+      if (Math.abs(this.__distanceY) < 3 || !this.isScrollableY() || !this.__isVerticalScroll) {
         this.__distanceY = 0;
       }
 
@@ -222,6 +222,15 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
       evt.stopPropagation();
       evt.preventDefault();
+    },
+
+
+    /**
+     * Handler for <code>touchend</code> events on scrollContainer
+     * @param evt {qx.event.type.Touch} The touch event.
+     */
+    _onTouchEnd : function(evt) {
+      evt.stopPropagation();
     },
 
 
@@ -257,15 +266,6 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
 
     /**
-     * TouchHandler for scrollContainer
-     * @param evt {qx.event.type.Touch} The touch event.
-     */
-    _onTouchEnd : function(evt) {
-      evt.stopPropagation();
-    },
-
-
-     /**
      * Swipe handler for scrollContainer.
      * @param evt {qx.event.type.Swipe} The swipe event.
      */
@@ -299,8 +299,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       var oldY = this._scrollContainer.getTranslateY();
 
       // Upper Limit Y
-      if(positionY >= 0) {
-        if(oldY < 0) {
+      if (positionY >= 0) {
+        if (oldY < 0) {
           this._applyScrollBounceEasing();
         } else {
           this._applyBounceEasing();
@@ -310,8 +310,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       }
 
       // Lower Limit Y
-      if(positionY < -lowerLimitY) {
-        if(oldY > -lowerLimitY) {
+      if (positionY < -lowerLimitY) {
+        if (oldY > -lowerLimitY) {
           this._applyScrollBounceEasing();
         } else {
           this._applyBounceEasing();
@@ -319,15 +319,15 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
         positionY = -lowerLimitY;
       }
-      if(!this.__isVerticalScroll ) {
+      if (!this.__isVerticalScroll) {
         // Left Limit X
-        if(positionX >= 0) {
+        if (positionX >= 0) {
           this._applyBounceEasing();
 
           positionX = 0;
         }
         // Right Limit X
-        if(positionX < -lowerLimitX) {
+        if (positionX < -lowerLimitX) {
           this._applyBounceEasing();
 
           positionX = -lowerLimitX;
@@ -342,7 +342,6 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
         this._scrollContainer.setTranslateY(positionY);
         this.__lastOffset[1] = positionY;
       }
-
       this._updateScrollIndicator(this.__lastOffset[1]);
     },
 
