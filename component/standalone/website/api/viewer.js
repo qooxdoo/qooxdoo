@@ -112,7 +112,6 @@ q.ready(function() {
       data["Core"]["static"].push(getByType(construct, "method"));
 
       createData(ast);
-      renderContent();
       loadEventNorm();
       loadPolyfills();
       onContentReady();
@@ -251,6 +250,18 @@ q.ready(function() {
   };
 
 
+  var loadReturnTypes = function(method) {
+    var returnType = getByType(method, "return");
+    if (returnType) {
+      getByType(returnType, "types").children.forEach(function(item) {
+        var type = item.attributes.type;
+        if (IGNORE_TYPES.indexOf(type) == -1 && MDC_LINKS[type] === undefined) {
+          loadClass(type);
+        }
+      });
+    }
+  };
+
 
   /**
    * DATA PROCESSING
@@ -264,6 +275,8 @@ q.ready(function() {
     for (var module in data) {
       data[module]["static"].sort(sortMethods);
       data[module]["member"].sort(sortMethods);
+      data[module]["static"].forEach(loadReturnTypes);
+      data[module]["member"].forEach(loadReturnTypes);
     }
 
     var setGroup = function(method) {
@@ -304,7 +317,7 @@ q.ready(function() {
     for (var i = 0; i < keys.length; i++) {
       var module = keys[i];
       if (data[module].type == "class") {
-        renderClass(data[module].ast, data[module].prefix);
+        renderClass(data[module].ast, data[module].prefix, true);
       } else {
         renderListModule(module, data[module]);
       }
@@ -312,10 +325,10 @@ q.ready(function() {
   };
 
 
-  var renderListModule = function(name, data, prefix) {
+  var renderListModule = function(id, data, prefix) {
+    var name = id.replace(/_/g, " ");
     var checkMissing = q.$$qx.core.Environment.get("apiviewer.check.missingmethods");
-    name = name.replace("_Plugin", "");
-    var className = convertNameToCssClass(name, "nav-");
+    var className = convertNameToCssClass(id, "nav-");
 
     var group = data.group;
     var ul = q.create("<ul></ul>");
@@ -373,7 +386,7 @@ q.ready(function() {
     }
 
     if (name !== group) {
-      groupPage.append(q.create('<a href="#' + name + '"><h2 class="nav-' + name + '">' + name + '</h2></a>'));
+      groupPage.append(q.create('<a href="#' + id + '"><h2 class="nav-' + id + '">' + name + '</h2></a>'));
     }
 
     groupPage.append(ul);
@@ -426,12 +439,11 @@ q.ready(function() {
         for (var i=moduleData.static.length - 1; i>=0; i--) {
           var method = moduleData.static[i];
           if (method.attributes.name.indexOf("$") === 0) {
-            pluginModuleName = moduleName + "_Plugin";
+            pluginModuleName = moduleName + "_Plugin_API";
             if (!data[pluginModuleName]) {
               data[pluginModuleName] = {
                 member: [],
-                static: [],
-                fileName: moduleName
+                static: []
               };
             }
             method.attributes.group = "Plugin_API";
@@ -447,19 +459,75 @@ q.ready(function() {
   };
 
   /**
+   * Move methods that return a class instance to the documentation
+   * of that class
+   */
+  var moveMethodsToReturnTypes = function() {
+    var removeMethods = [];
+    forEachMethodList(function(methods, groupName) {
+      methods.forEach(function(method) {
+        var returnType = getByType(method, "return");
+        if (returnType) {
+          var type;
+          getByType(returnType, "types").children.forEach(function(item) {
+            type = item.attributes.type;
+          });
+          // if we have a return type
+          if (type) {
+            var module = getModuleNameFromClassName(type);
+            // if we have docs for the return type
+            if (data[module] && data[module].type == "class" &&
+                type == data[module].ast.attributes.fullName) {
+
+              var attach = getByType(method, "attach");
+              var attachStatic = getByType(method, "attachStatic");
+              var isAttachStatic = attachStatic.type == "attachStatic";
+              var returnTypeMethods = getByType(data[module].ast, "methods");
+
+              // ignore attached methods of returned types
+              if (returnTypeMethods.children.indexOf(method) == -1 &&
+                  isAttachStatic == method.attributes.isStatic) {
+                var prefix;
+                if (isAttachStatic) {
+                  prefix = attachStatic.attributes.targetClass == "qxWeb" ? "q" : attachStatic.attributes.targetClass;
+                  prefix += "." + attachStatic.attributes.targetMethod;
+                } else {
+                  prefix = attach.attributes.targetClass == "qxWeb" ? "" : attach.attributes.targetClass;
+                  prefix += "." + method.attributes.name;
+                }
+                method.attributes.prefixedMethodName = prefix;
+
+                returnTypeMethods.children.unshift(method);
+                removeMethods.push({method: method, parent: methods});
+              }
+            }
+          }
+        }
+      });
+    });
+
+    removeMethods.forEach(function(obj) {
+      obj.parent.splice(obj.parent.indexOf(obj.method), 1);
+    });
+  };
+
+  /**
    * CONTENT
    */
-  var renderContent = function() {
+  renderContent = function() {
     var keys = getDataKeys();
     for (var i = 0; i < keys.length; i++) {
-      renderModule(keys[i], data[keys[i]]);
+      if (data[keys[i]].ast) {
+        renderClass(data[keys[i]].ast, data[keys[i]].prefix);
+      } else {
+        renderModule(keys[i], data[keys[i]]);
+      }
     }
   };
 
 
   var renderModule = function(name, data, prefix) {
     // render module desc
-
     var group = data.group;
     if (!group) {
       if (data.static[0]) {
@@ -478,8 +546,14 @@ q.ready(function() {
     if (groupIcon) {
       groupIcon = "data-icon='" + groupIcon + "'";
     }
-    var module = q.create("<div class='module'>").appendTo("#content");
-    module.append(q.create("<h1 " + groupIcon + "id='" + name + "'>" + name + "</h1>"));
+
+    var groupEl = q("#content #group_" + group);
+    if (groupEl.length === 0) {
+      groupEl = q.create('<div id="group_' + group + '"></div>').appendTo("#content");
+    }
+
+    var module = q.create("<div class='module'>").appendTo(groupEl);
+    module.append(q.create("<h1 " + groupIcon + "id='" + name + "'>" + name.replace(/_/g, " ") + "</h1>"));
 
     if (data.superclass) {
       var newName = data.superclass.split(".");
@@ -564,9 +638,6 @@ q.ready(function() {
       getByType(returnType, "types").children.forEach(function(item) {
         var type = item.attributes.type;
         data.returns.types.push(type);
-        if (IGNORE_TYPES.indexOf(type) == -1 && MDC_LINKS[type] == undefined) {
-          loadClass(type);
-        }
       });
     }
     data.returns.printTypes = printTypes;
@@ -616,6 +687,7 @@ q.ready(function() {
       parent.append(desc);
       return;
     }
+
     loading++;
     q.io.xhr("script/" + name + ".json").on("loadend", function(xhr) {
       loading--;
@@ -699,7 +771,7 @@ q.ready(function() {
   };
 
 
-  var renderClass = function(ast, prefix) {
+  var renderClass = function(ast, prefix, inList) {
     var module = {"member": [], "static" : []};
 
     getByType(ast, "methods").children.forEach(function(method) {
@@ -710,13 +782,9 @@ q.ready(function() {
       module.member.push(method);
     });
 
-    getByType(ast, "methods-static").children.forEach(function(method) {
-      // skip internal methods
-      if (isInternal(method)) {
-        return;
-      }
-      module["static"].push(method);
-    });
+    // classes are always return types so their static members are
+    // not accessible - ignore them
+
     var name = ast.attributes.name;
 
     // event normalization types
@@ -735,8 +803,11 @@ q.ready(function() {
     module.superclass= ast.attributes.superClass;
     module.group = ast.attributes.group || "Extras";
 
-    renderListModule(name, module, prefix || name + ".");
-    renderModule(name, module, prefix || name + ".");
+    if (inList) {
+      renderListModule(name, module, prefix || name + ".");
+    } else {
+      renderModule(name, module, prefix || name + ".");
+    }
   };
 
 
@@ -773,11 +844,15 @@ q.ready(function() {
     if (loading > 0) {
       return;
     }
+
     var listRendered = q("#list").find("> ul > li").length > 0;
     if (!listRendered) {
       extractPluginApi();
+      moveMethodsToReturnTypes();
       renderList();
+      renderContent();
       var acc = q("#list").accordion();
+
       // wait for the accordion pages to be measured
       var buttonTops;
       setTimeout(function() {
@@ -929,8 +1004,15 @@ q.ready(function() {
 
 
   var getMethodName = function(item, prefix) {
+    if (item.attributes.prefixedMethodName) {
+      return item.attributes.prefixedMethodName;
+    }
+
     var attachData = getByType(item, "attachStatic");
     if (prefix) {
+      if (item.attributes.prefix) {
+        prefix = item.attributes.prefix;
+      }
       if (!item.attributes.isStatic) {
         prefix = prefix.toLowerCase();
       }
@@ -1254,13 +1336,19 @@ q.ready(function() {
       }
     };
 
+    forEachMethodList(findMatchingMethods);
+
+    return matches;
+  };
+
+  var forEachMethodList = function(callback) {
     for (var moduleName in data) {
       var moduleData = data[moduleName];
       if (moduleData.member) {
-        findMatchingMethods(moduleData.member, moduleData.group);
+        callback(moduleData.member, moduleData.group);
       }
       if (moduleData.static) {
-        findMatchingMethods(moduleData.static, moduleData.group);
+        callback(moduleData.static, moduleData.group);
       }
       if (moduleData.ast && moduleData.ast.children) {
         for (var i=0, l=moduleData.ast.children.length; i<l; i++) {
@@ -1269,13 +1357,11 @@ q.ready(function() {
               childNode.type.indexOf("methods") === 0 &&
               childNode.children)
           {
-            findMatchingMethods(childNode.children, moduleData.ast.attributes.group);
+            callback(childNode.children, moduleData.ast.attributes.group);
           }
         }
       }
     }
-
-    return matches;
   };
 
   /**
