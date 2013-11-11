@@ -227,6 +227,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       listScroller.add(selectionList, {flex:1});
       listScroller.addCssClass("menu-scroller");
       listScroller.setHeight(null);
+      listScroller.setPreventEvents(false);
       return listScroller;
     },
 
@@ -235,7 +236,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     _updatePosition : function() {
       var titleHeight = 0;
       var titleWidget = this.getTitleWidget();
-      if(titleWidget != null) {
+      if(titleWidget !== null) {
          titleHeight = qx.bom.element.Dimension.getHeight(titleWidget.getContainerElement());
       }
 
@@ -319,7 +320,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     _applySelectedIndex : function(value, old) {
       var listModel = this.__selectionList.getModel();
 
-      if(listModel != null) {
+      if(listModel !== null) {
         var selectedItem = listModel.getItem(value);
         this.fireDataEvent("changeSelection", {index: value, item: selectedItem});
       }
@@ -359,15 +360,16 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
      * @param index {Integer}, the index of the listItem to which the listScroller should scroll to.
      */
     scrollToItem : function(index) {
-      if(this.__selectionList.getModel() != null) {
+      var listItemHeight = 0;
+      if(this.__selectionList.getModel() !== null) {
         var listScrollChild = this.__listScroller.getScrollContainer();
         var listScrollHeight = listScrollChild.getContainerElement().scrollHeight;
-        var listItemHeight = listScrollHeight/this.__selectionList.getModel().length;
+        listItemHeight = listScrollHeight/this.__selectionList.getModel().length;
       }
 
 
       var scrollY = 0;
-      if(index != null) {
+      if(index !== null) {
         scrollY = index * listItemHeight;
       }
 
