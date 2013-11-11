@@ -59,6 +59,20 @@ addSample(".on", function() {
   q('#someElement').on('keyup', handleFilterInput, this);
 });
 
+addSample(".on", {
+  javascript: function() {
+// advanced example with event handling - the handler is called only if no "resize" events
+// where triggered for at least 500 milliseconds
+var resizeHandler = function() {
+  alert("current viewport is: " + q(window).getWidth() + " x " + q(window).getHeight());
+};
+
+var winCollection = q(window);
+winCollection.on("resize", q.function.defer(resizeHandler, 500), winCollection);
+  },
+  executable: true
+});
+
 addSample(".hover", {
     html: ['<div id="hover">Hover element</div>'],
     javascript: function() {

@@ -3556,3 +3556,64 @@ testrunner.define({
     coll.getTextSelection();
   }
 });
+
+
+testrunner.define({
+  classname: "FunctionUtil",
+
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+
+  testFunctionDefer : function() {
+    var called = 0;
+    var checkCalled;
+
+    var spy = function() {
+      called++;
+    };
+
+    var deferred = q.function.defer(spy, 300);
+    deferred();
+
+    window.setTimeout((function() {
+      checkCalled = (called === 0);
+    }).bind(this), 200);
+
+    window.setTimeout((function() {
+      this.resume(function() {
+        this.assertTrue(checkCalled);
+        this.assertEquals(1, called);
+      });
+    }).bind(this), 1000);
+
+    this.wait(1500);
+  },
+
+  testFunctionDeferWithEvents : function() {
+    var callCounter = 0;
+    var context;
+    var eventToCheck = "myEvent";
+    var myCallback = function() {
+      callCounter++;
+      context = this;
+    };
+
+    this.sandbox.on("myEvent", q.function.defer(myCallback, 200), this.sandbox);
+
+    var counter = 0;
+    var intervalId = window.setInterval((function() {
+      this.emit("myEvent");
+      counter++;
+
+      if (counter === 20) {
+        window.clearInterval(intervalId);
+      }
+    }).bind(this.sandbox), 50);
+
+    var checkContext = this.sandbox;
+    this.wait(1500, function() {
+      this.assertEquals(1, callCounter);
+      this.assertEquals(checkContext, context);
+    }, this);
+  }
+});
