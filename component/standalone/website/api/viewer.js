@@ -779,9 +779,31 @@ q.ready(function() {
       renderList();
       var acc = q("#list").accordion();
       // wait for the accordion pages to be measured
+      var buttonTops;
       setTimeout(function() {
         acc.fadeIn(200);
-      }, 100);
+        buttonTops = [];
+        acc.find(".qx-accordion-button").forEach(function(button, index) {
+          console.log(button.offsetTop);
+          buttonTops[index] = (button.offsetTop);
+        });
+      }, 200);
+
+
+      acc.on("changeSelected", function(index) {
+
+        var buttonTop = buttonTops[index];
+        var scrollTop = q("#list").getProperty("scrollTop");
+        q("#list").animate({
+          duration: 500,
+          keep: 100,
+          timing: "linear",
+          keyFrames: {
+            0: {scrollTop: scrollTop},
+            100: {scrollTop: buttonTop}
+          }
+        });
+      });
     }
 
     // enable syntax highlighting
