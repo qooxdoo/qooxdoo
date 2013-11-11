@@ -147,6 +147,22 @@ testrunner.define({
     this.assertEquals(1, q.create("<div/>")[0].nodeType);
   },
 
+  testCreateWithContext : function() {
+    var onIframeLoad = function() {
+      this.resume(function() {
+        var frameDoc = frame[0].contentDocument;
+        var frameNode = q.create("<div id='foo'>", frameDoc).appendTo(frameDoc.body);
+        this.assertEquals(q.getDocument(frameNode[0]), frameDoc);
+        this.assertEquals(frameDoc.body, frameNode.getAncestors()[0]);
+      }, this);
+    };
+    var frame = q.create('<iframe src="media.html"></iframe>')
+    .once("load", onIframeLoad, this)
+    .appendTo("#sandbox");
+
+    this.wait(1000);
+  },
+
   testWrapElement : function() {
     var test = q.create("<div id='testdiv'/>");
     test.appendTo(this.sandbox[0]);
@@ -1106,6 +1122,69 @@ testrunner.define({
   {
     this.assertTrue(q.isTextNode(document.createTextNode("bla")));
     this.assertFalse(q.isTextNode(document.createElement("p")));
+  },
+
+  testEqualNodes : function()
+  {
+    // same node
+    var node1 = q("#sandbox");
+    var node2 = "#sandbox";
+    this.assertTrue(q.equalNodes(node1, node2));
+
+    // same node types/names
+    node1 = q.create("<div>");
+    node2 = q.create("<div>");
+    this.assertTrue(q.equalNodes(node1, node2));
+
+    // different node types
+    node1 = q.create("<p>Foo</p>")[0];
+    node2 = q.create("<p>Foo</p>")[0].firstChild;
+    this.assertFalse(q.equalNodes(node1, node2));
+
+    // different node names
+    node1 = q.create("<div class='foo'>");
+    node2 = q.create("<h2 class='foo'>");
+    this.assertFalse(q.equalNodes(node1, node2));
+
+    // same attributes/values
+    node1 = q.create("<div style='display:block' class='foo'>");
+    node2 = q.create("<div style='display:block' class='foo'>");
+    this.assertTrue(q.equalNodes(node1, node2));
+
+    // same attributes/different values
+    node1 = q.create("<div class='foo' style='display:block'>");
+    node2 = q.create("<div class='foo' style='display:none'>");
+    this.assertFalse(q.equalNodes(node1, node2));
+
+    // same attributes/values in different order
+    node1 = q.create("<div class='foo' style='display:block'>");
+    node2 = q.create("<div style='display:block' class='foo'>");
+    this.assertTrue(q.equalNodes(node1, node2));
+
+    // different attributes length
+    node1 = q.create("<img src='foo.png' class='bar'>");
+    node2 = q.create("<img src='foo.png'>");
+    this.assertFalse(q.equalNodes(node1, node2));
+
+    // same children
+    node1 = q.create("<div class='foo'><p class='bar'>Foo</p></div>");
+    node2 = q.create("<div class='foo'><p class='bar'>Foo</p></div>");
+    this.assertTrue(q.equalNodes(node1, node2));
+
+    // different children
+    node1 = q.create("<div class='foo'><p class='bar'>Foo</p></div>");
+    node2 = q.create("<div class='foo'><p class='baz'>Foo</p></div>");
+    this.assertFalse(q.equalNodes(node1, node2));
+
+    // same children in different order
+    node1 = q.create("<div><h2>Foo</h2><p>Bar</p></div>");
+    node2 = q.create("<div><p>Bar</p><h2>Foo</h2></div>");
+    this.assertFalse(q.equalNodes(node1, node2));
+
+    // different children lengths
+    node1 = q.create("<div><p>Foo</p></div>");
+    node2 = q.create("<div><p>Foo</p><p>Foo</p></div>");
+    this.assertFalse(q.equalNodes(node1, node2));
   }
 });
 
@@ -1256,6 +1335,14 @@ testrunner.define({
     test.remove();
   },
 
+  testGetHeightNonDisplayedElement : function() {
+    var test = q.create("<div style='display: none; height: 100px'></div><div></div>");
+    test.appendTo(this.sandbox[0]);
+    this.assertNumber(test.getHeight(true));
+    this.assertEquals(100, test.getHeight(true));
+    test.remove();
+  },
+
   testGetHeightDocument : function() {
     this.assertNumber(q(document).getHeight());
   },
@@ -1269,6 +1356,14 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     this.assertNumber(test.getWidth());
     this.assertEquals(100, test.getWidth());
+    test.remove();
+  },
+
+  testGetWidthNonDisplayedElement : function() {
+    var test = q.create("<div style='display: none; width: 100px'></div><div></div>");
+    test.appendTo(this.sandbox[0]);
+    this.assertNumber(test.getWidth(true));
+    this.assertEquals(100, test.getWidth(true));
     test.remove();
   },
 
@@ -1302,6 +1397,17 @@ testrunner.define({
     this.assertEquals(200, test.getContentHeight());
   },
 
+  testGetContentHeightNonDisplayedElement : function() {
+    var test = q.create("<div id='test'></div>").setStyles({
+      position: "absolute",
+      height: "200px",
+      padding: "50px",
+      display: "none" });
+    test.appendTo(this.sandbox[0]);
+
+    this.assertEquals(200, test.getContentHeight(true));
+  },
+
   testGetContentWidth : function() {
     var test = q.create("<div id='test'></div>").setStyles({
       position: "absolute",
@@ -1310,6 +1416,17 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
 
     this.assertEquals(200, test.getContentWidth());
+  },
+
+  testGetContentWidthNonDisplayedElement : function() {
+    var test = q.create("<div id='test'></div>").setStyles({
+      position: "absolute",
+      width: "200px",
+      padding: "50px",
+      display: "none" });
+    test.appendTo(this.sandbox[0]);
+
+    this.assertEquals(200, test.getContentWidth(true));
   },
 
   testGetPosition : function()
@@ -1949,6 +2066,27 @@ testrunner.define({
         this.assertTrue(obj[methods[i]]);
       }
     }, 200, this);
+  },
+
+  testCurrentTarget : function()
+  {
+    var target;
+
+    var callback = function(ev) {
+      target = ev.getCurrentTarget();
+    };
+
+    test = q.create('<input type="text" />');
+    test.appendTo(this.sandbox[0]);
+    test.on("focus", callback, this);
+
+    window.setTimeout(function(){
+      test[0].focus();
+    }, 100);
+
+    this.wait(function() {
+      this.assertEquals(target, test[0]);
+    }, 500, this);
   }
 });
 
