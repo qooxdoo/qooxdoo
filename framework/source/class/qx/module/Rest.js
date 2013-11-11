@@ -22,7 +22,7 @@
  *
  * See {@link qx.bom.rest.Resource}.
  *
- * @group (Io)
+ * @group (IO)
  */
 qx.Bootstrap.define("qx.module.Rest", {
   statics :

@@ -116,7 +116,7 @@
  * Action specific events follow the pattern "&lt;action&gt;Success" and
  * "&lt;action&gt;Error", e.g. "indexSuccess".
  *
- * @group (Io)
+ * @group (IO)
  */
 qx.Bootstrap.define("qx.bom.rest.Resource",
 {

@@ -27,7 +27,7 @@
  *
  * @require(qx.bom.request.Xhr#open)
  *
- * @group (Io)
+ * @group (IO)
  */
 qx.Bootstrap.define("qx.module.Io", {
   statics :
