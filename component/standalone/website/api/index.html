@@ -50,7 +50,6 @@
   <div id="header-wrapper">
     <div id="header">
       <h1>qx.Website API Documentation</h1>
-      <div id="plugintoggle"><span>show</span> plugin API</div>
     </div>
     <div class="decoration"></div>
   </div>
@@ -77,7 +76,7 @@
 
   <script type="text/template" charset="utf-8" id="method">
   <div id="{{name}}" class="method{{#plugin}} plugin{{/plugin}}">
-    <h2 class="method-header box">{{name}} ({{{printParams}}}) <span class="returns">{{{returns.printTypes}}}</span></h2>
+    <h2 class="method-header box" {{#plugin}}data-icon="{{{icon}}}" title="{{title}}"{{/plugin}}>{{name}} ({{{printParams}}}) <span class="returns">{{{returns.printTypes}}}</span></h2>
     <div>
     {{{desc}}}
     </div>

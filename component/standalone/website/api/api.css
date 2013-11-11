@@ -72,7 +72,8 @@
 }
 
 #list .qx-accordion-button:before,
-.module h1:before {
+.module h1:before,
+#content .plugin h2:before {
   font-family: "Batch";
   margin-right: 10px;
   content: attr(data-icon);
@@ -165,14 +166,6 @@
   line-height: 1;
 }
 
-.plugin {
-  display: none;
-}
-
-#content .plugin h2 {
-  color: #C00F00;
-}
-
 #content {
   left: 316px;
   padding-right: 20px;
@@ -237,15 +230,6 @@
   position: fixed;
   width: 100%;
   top: 0;
-}
-
-#plugintoggle {
-  float: right;
-  margin-right: 20px;
-  cursor: pointer;
-  color: white;
-  text-decoration: underline;
-  text-align: right;
 }
 
 ul {

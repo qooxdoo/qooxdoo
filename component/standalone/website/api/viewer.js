@@ -45,19 +45,12 @@ q.ready(function() {
     "Extras": "&#xF01D;",
     "Polyfill": "&#xF0DA;",
     "Widget": "&#xF124;",
-    "Io": "&#xF0BB;",
+    "IO": "&#xF0BB;",
     "Event_Normalization": "&#xF076;",
-    "Utilities": "&#xF04E;"
+    "Utilities": "&#xF04E;",
+    "Plugin_API": "&#xF063;"
   };
 
-  // plugin toggle
-  q("#plugintoggle").on("click", function() {
-    var txt = this.getChildren("span");
-    var hide = txt.getHtml() == "show";
-    txt.setHtml(hide ? "hide" : "show");
-    q(".plugin").setStyle("display", hide ? "block" : "none");
-    q("li.plugin").setStyle("display", hide ? "list-item" : "none");
-  });
 
   var filterTimeout;
   var filterField = q(".filter input");
@@ -72,6 +65,7 @@ q.ready(function() {
       q("#list .qx-accordion-page ul").show();
       q("#list .qx-accordion-page li").show();
       q("#list .qx-accordion-page > a").show();
+      q("#list").render();
       return;
     }
 
@@ -320,6 +314,7 @@ q.ready(function() {
 
   var renderListModule = function(name, data, prefix) {
     var checkMissing = q.$$qx.core.Environment.get("apiviewer.check.missingmethods");
+    name = name.replace("_Plugin", "");
     var className = convertNameToCssClass(name, "nav-");
 
     var group = data.group;
@@ -421,6 +416,34 @@ q.ready(function() {
       }
     }
     return false;
+  };
+
+  var extractPluginApi = function() {
+    for (var moduleName in data) {
+      var moduleData = data[moduleName];
+      if (moduleData.static) {
+        var pluginModuleName;
+        for (var i=moduleData.static.length - 1; i>=0; i--) {
+          var method = moduleData.static[i];
+          if (method.attributes.name.indexOf("$") === 0) {
+            pluginModuleName = moduleName + "_Plugin";
+            if (!data[pluginModuleName]) {
+              data[pluginModuleName] = {
+                member: [],
+                static: [],
+                fileName: moduleName
+              };
+            }
+            method.attributes.group = "Plugin_API";
+            data[pluginModuleName].static.push(method);
+            moduleData.static.splice(i, 1);
+          }
+        }
+        if (pluginModuleName) {
+          data[pluginModuleName].static.sort(sortMethods);
+        }
+      }
+    }
   };
 
   /**
@@ -577,6 +600,10 @@ q.ready(function() {
     data.paramsExist = data.params.length > 0;
 
     data.plugin = isPluginMethod(data.name);
+    if (data.plugin) {
+      data.icon = icons["Plugin_API"];
+      data.title = "Plugin API";
+    }
 
     return q.template.get("method", data);
   };
@@ -748,6 +775,7 @@ q.ready(function() {
     }
     var listRendered = q("#list").find("> ul > li").length > 0;
     if (!listRendered) {
+      extractPluginApi();
       renderList();
       var acc = q("#list").accordion();
       // wait for the accordion pages to be measured
