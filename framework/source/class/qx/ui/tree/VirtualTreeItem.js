@@ -91,17 +91,18 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
     _applyModel : function(value, old)
     {
       var childProperty = this.getUserData("cell.childProperty");
+      var showLeafs = this.getUserData("cell.showLeafs");
 
       if (value != null 
         && qx.ui.tree.core.Util.isNode(value, childProperty)
-        && qx.ui.tree.core.Util.hasChildren(value, childProperty)
+        && qx.ui.tree.core.Util.hasChildren(value, childProperty, !showLeafs)
       ) {
         value.get(childProperty).addListener("changeLength", this._onChangeLength, this);
       }
 
       if (old != null 
         && qx.ui.tree.core.Util.isNode(old, childProperty)
-        && qx.ui.tree.core.Util.hasChildren(old, childProperty)
+        && qx.ui.tree.core.Util.hasChildren(old, childProperty, !showLeafs)
       ) {
         old.get(childProperty).removeListener("changeLength", this._onChangeLength, this);
       }
