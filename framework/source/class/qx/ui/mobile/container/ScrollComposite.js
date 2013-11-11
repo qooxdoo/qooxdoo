@@ -153,6 +153,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     __isVerticalScroll : null,
     __distanceX : null,
     __distanceY : null,
+    __preventEvents : true,
 
 
     /**
@@ -187,7 +188,9 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       this.__touchStartPoints[0] = evt.getAllTouches()[0].screenX;
       this.__touchStartPoints[1] = evt.getAllTouches()[0].screenY;
 
-      evt.stopPropagation();
+      if (this.__preventEvents === true) {
+        evt.stopPropagation();
+      }
     },
 
 
@@ -220,8 +223,10 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
       this._updateScrollIndicator(this.__currentOffset[1]);
 
-      evt.stopPropagation();
-      evt.preventDefault();
+      if (this.__preventEvents === true) {
+        evt.stopPropagation();
+        evt.preventDefault();
+      }
     },
 
 
@@ -230,7 +235,9 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * @param evt {qx.event.type.Touch} The touch event.
      */
     _onTouchEnd : function(evt) {
-      evt.stopPropagation();
+      if (this.__preventEvents === true) {
+        evt.stopPropagation();
+      }
     },
 
 
@@ -449,7 +456,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * Deactivates any scroll easing for the scrollContainer.
      */
     _applyNoEasing : function() {
-       this._applyEasing(null);
+      this._applyEasing(null);
     },
 
 
@@ -538,6 +545,16 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     _fixChildElementsHeight : function(evt) {
       this.getContainerElement().style.height = 'auto';
       this.getContainerElement().style.height = this.getContainerElement().scrollHeight+'px';
+    },
+
+
+    /**
+     * Setter for the <code>preventEvents</code> flag, which controls whether 
+     * touch events should be passed to contained widgets.
+     * @internal
+     */
+    setPreventEvents : function(value) {
+      this.__preventEvents = value;
     }
   },
 
