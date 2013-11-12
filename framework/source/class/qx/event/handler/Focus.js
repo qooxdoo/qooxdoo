@@ -828,7 +828,7 @@ qx.Class.define("qx.event.handler.Focus",
                 }
                 focusTarget.focus();
               } catch(ex) {};
-            }, 100));
+            }, 200));
           }
         } else {
           qx.bom.Event.preventDefault(domEvent);
