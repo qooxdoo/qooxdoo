@@ -6,8 +6,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9297 $"/>
+		<generation date="$Date: 2013-08-30 23:19:50 -0500 (Fri, 30 Aug 2013) $"/>
 		<language type="nnh"/>
 	</identity>
 	<localeDisplayNames>
@@ -41,9 +41,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<measurementSystemName type="metric">fʉ̀ʼʉ mmó</measurementSystemName>
 		</measurementSystemNames>
 	</localeDisplayNames>
-	<layout>
-		<orientation/>
-	</layout>
 	<characters>
 		<exemplarCharacters>[a á à â ǎ b c d e é è ê ě ɛ {ɛ\u0301} {ɛ\u0300} {ɛ\u0302} {ɛ\u030C} f g h i í ì j k l m n ŋ o ó ò ô ǒ ɔ {ɔ\u0301} {ɔ\u0300} {ɔ\u0302} {ɔ\u030C} p {pf} s {sh} t {ts} u ú ù û ǔ ʉ {ʉ\u0301} {ʉ\u0300} {ʉ\u0302} {ʉ\u030C} v w ẅ y ÿ z ʼ]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[q r x]</exemplarCharacters>
@@ -264,13 +261,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>HH:mm:ss a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
 				<dateTimeFormats>
 					<dateTimeFormatLength type="full">
 						<dateTimeFormat>
@@ -317,7 +307,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 		<symbols numberSystem="latn">
 			<decimal>,</decimal>
 			<group>.</group>
-			<list>,</list>
+			<list>;</list>
 			<percentSign>%</percentSign>
 		</symbols>
 		<currencies>
@@ -328,4 +318,3 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</currencies>
 	</numbers>
 </ldml>
-

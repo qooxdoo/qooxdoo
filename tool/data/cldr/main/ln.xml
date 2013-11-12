@@ -6,8 +6,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9287 $"/>
+		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
 		<language type="ln"/>
 	</identity>
 	<localeDisplayNames>
@@ -111,6 +111,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="AM">Amɛni</territory>
 			<territory type="AN">Antiyɛ ya Olandɛ</territory>
 			<territory type="AO">Angóla</territory>
+			<territory type="AQ">Antarctique</territory>
 			<territory type="AR">Arizantinɛ</territory>
 			<territory type="AS">Samoa ya Ameriki</territory>
 			<territory type="AT">Otilisi</territory>
@@ -184,6 +185,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="GD">Gelenadɛ</territory>
 			<territory type="GE">Zorzi</territory>
 			<territory type="GF">Giyanɛ ya Falánsɛ</territory>
+			<territory type="GG">Guernesey</territory>
 			<territory type="GH">Gana</territory>
 			<territory type="GI">Zibatalɛ</territory>
 			<territory type="GL">Gowelande</territory>
@@ -192,11 +194,13 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="GP">Gwadɛlupɛ</territory>
 			<territory type="GQ">Ginɛ́kwatɛ́lɛ</territory>
 			<territory type="GR">Geleki</territory>
+			<territory type="GS">Îles de Géorgie du Sud et Sandwich du Sud</territory>
 			<territory type="GT">Gwatémala</territory>
 			<territory type="GU">Gwamɛ</territory>
 			<territory type="GW">Ginɛbisau</territory>
 			<territory type="GY">Giyane</territory>
 			<territory type="HK" alt="short" draft="unconfirmed">Hong Kong</territory>
+			<territory type="HM">Ile Heard et Iles McDonald</territory>
 			<territory type="HN">Ondurasɛ</territory>
 			<territory type="HR">Krowasi</territory>
 			<territory type="HT">Ayiti</territory>
@@ -240,11 +244,13 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="MA">Marokɛ</territory>
 			<territory type="MC">Monako</territory>
 			<territory type="MD">Molidavi</territory>
+			<territory type="ME">Monténégro</territory>
 			<territory type="MG">Madagasikari</territory>
 			<territory type="MH">Bisanga bya Marishalɛ</territory>
 			<territory type="MK">Masedwanɛ</territory>
 			<territory type="MK" alt="variant" draft="unconfirmed">Masedoni</territory>
 			<territory type="ML">Malí</territory>
+			<territory type="MM">Birmanie</territory>
 			<territory type="MN">Mongolí</territory>
 			<territory type="MO" alt="short" draft="unconfirmed">Makau</territory>
 			<territory type="MP">Bisanga bya Marianɛ ya nɔ́rdi</territory>
@@ -288,6 +294,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="QA">Katari</territory>
 			<territory type="RE">Lenyo</territory>
 			<territory type="RO">Romani</territory>
+			<territory type="RS">Serbie</territory>
 			<territory type="RU">Risí</territory>
 			<territory type="RW">Rwanda</territory>
 			<territory type="SA">Alabi Sawuditɛ</territory>
@@ -312,6 +319,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="SZ">Swazilandi</territory>
 			<territory type="TC">Bisanga bya Turki mpé Kaiko</territory>
 			<territory type="TD">Tsádi</territory>
+			<territory type="TF">Terres australes et antarctiques françaises</territory>
 			<territory type="TG">Togo</territory>
 			<territory type="TH">Tailandɛ</territory>
 			<territory type="TJ">Tazikisitá</territory>
@@ -652,7 +660,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 		<timeZoneNames>
 			<regionFormat>Ngonga ya {0}</regionFormat>
 			<fallbackFormat>{1} ({0})</fallbackFormat>
-			<fallbackRegionFormat>Ngonga ya {1} ({0})</fallbackRegionFormat>
 			<metazone type="Africa_Central">
 				<long>
 					<standard draft="unconfirmed">Ntángo ya Lubumbashi</standard>
@@ -699,7 +706,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</decimalFormats>
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
-				<currencyFormat>
+				<currencyFormat type="standard">
 					<pattern>#,##0.00 ¤</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
@@ -974,7 +981,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Randɛ ya Afríka Súdi</displayName>
 			</currency>
 			<currency type="ZMK">
-				<displayName>Kwasha ya Zambi (1968-2012)</displayName>
+				<displayName>Kwasha ya Zambi (1968–2012)</displayName>
 			</currency>
 			<currency type="ZMW">
 				<displayName>Kwasha ya Zambi</displayName>
@@ -986,10 +993,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 	</numbers>
 	<listPatterns>
 		<listPattern>
-			<listPatternPart type="2" draft="unconfirmed">{0} mpé {1}</listPatternPart>
-			<listPatternPart type="end" draft="unconfirmed">{0} mpé {1}</listPatternPart>
-			<listPatternPart type="middle" draft="unconfirmed">{0}, {1}</listPatternPart>
 			<listPatternPart type="start" draft="unconfirmed">{0}, {1}</listPatternPart>
+			<listPatternPart type="middle" draft="unconfirmed">{0}, {1}</listPatternPart>
+			<listPatternPart type="end" draft="unconfirmed">{0} mpé {1}</listPatternPart>
+			<listPatternPart type="2" draft="unconfirmed">{0} mpé {1}</listPatternPart>
 		</listPattern>
 	</listPatterns>
 	<posix>

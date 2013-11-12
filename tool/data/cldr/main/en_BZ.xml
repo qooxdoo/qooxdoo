@@ -6,8 +6,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9280 $"/>
+		<generation date="$Date: 2013-08-27 13:07:13 -0500 (Tue, 27 Aug 2013) $"/>
 		<language type="en"/>
 		<territory type="BZ"/>
 	</identity>
@@ -17,12 +17,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern draft="unconfirmed">dd MMMM y G</pattern>
+							<pattern draft="contributed">EEEE dd MMMM y G</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern draft="unconfirmed">dd MMMM y G</pattern>
+							<pattern draft="contributed">dd MMMM y G</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
@@ -32,38 +32,21 @@ For terms of use, see http://www.unicode.org/copyright.html
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern draft="unconfirmed">dd/MM/yy GGGGG</pattern>
+							<pattern draft="contributed">dd/MM/y GGGGG</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
 				<dateTimeFormats>
 					<availableFormats>
+						<dateFormatItem id="Md" draft="contributed">dd/MM</dateFormatItem>
+						<dateFormatItem id="MEd" draft="contributed">E dd/MM</dateFormatItem>
 						<dateFormatItem id="MMMd">dd MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E dd MMM</dateFormatItem>
-						<dateFormatItem id="yMMMd">dd MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E dd MMM y</dateFormatItem>
+						<dateFormatItem id="yyyyM" draft="contributed">MM/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMd" draft="contributed">dd/MM/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd" draft="contributed">E dd/MM/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMd">dd MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">E dd MMM y G</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback draft="unconfirmed">{0} - {1}</intervalFormatFallback>
@@ -111,35 +94,35 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<greatestDifference id="M" draft="unconfirmed">E, MMM d - E, MMM d</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="y">
-							<greatestDifference id="y" draft="unconfirmed">y-y</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">y-y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yM">
-							<greatestDifference id="M" draft="unconfirmed">M/y - M/y</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">M/y - M/y</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">M/y - M/y G</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">M/y - M/y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMd">
-							<greatestDifference id="d" draft="unconfirmed">M/d/y - M/d/y</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">M/d/y - M/d/y</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">M/d/y - M/d/y</greatestDifference>
+							<greatestDifference id="d" draft="unconfirmed">M/d/y - M/d/y G</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">M/d/y - M/d/y G</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">M/d/y - M/d/y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d" draft="unconfirmed">E, M/d/y - E, M/d/y</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E, M/d/y - E, M/d/y</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">E, M/d/y - E, M/d/y</greatestDifference>
+							<greatestDifference id="d" draft="unconfirmed">E, M/d/y - E, M/d/y G</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">E, M/d/y - E, M/d/y G</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">E, M/d/y - E, M/d/y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M" draft="unconfirmed">MMM-MMM y</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">MMM y - MMM y</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">MMM-MMM y G</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">MMM y - MMM y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="d" draft="unconfirmed">MMM d-d, y</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">MMM d - MMM d, y</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">MMM d, y - MMM d, y</greatestDifference>
+							<greatestDifference id="d" draft="unconfirmed">MMM d-d, y G</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">MMM d - MMM d, y G</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">MMM d, y - MMM d, y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d" draft="unconfirmed">E, MMM d - E, MMM d, y</greatestDifference>
-							<greatestDifference id="M" draft="unconfirmed">E, MMM d - E, MMM d, y</greatestDifference>
-							<greatestDifference id="y" draft="unconfirmed">E, MMM d, y - E, MMM d, y</greatestDifference>
+							<greatestDifference id="d" draft="unconfirmed">E, MMM d - E, MMM d, y G</greatestDifference>
+							<greatestDifference id="M" draft="unconfirmed">E, MMM d - E, MMM d, y G</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">E, MMM d, y - E, MMM d, y G</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
@@ -148,12 +131,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern draft="unconfirmed">dd MMMM y</pattern>
+							<pattern draft="contributed">EEEE dd MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern draft="unconfirmed">dd MMMM y</pattern>
+							<pattern draft="contributed">dd MMMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
@@ -163,36 +146,41 @@ For terms of use, see http://www.unicode.org/copyright.html
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern draft="unconfirmed">dd/MM/yy</pattern>
+							<pattern draft="contributed">dd/MM/yy</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
 				<timeFormats>
 					<timeFormatLength type="full">
 						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss zzzz</pattern>
+							<pattern draft="contributed">HH:mm:ss zzzz</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="long">
 						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss z</pattern>
+							<pattern draft="contributed">HH:mm:ss z</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="medium">
 						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss</pattern>
+							<pattern draft="contributed">HH:mm:ss</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="short">
 						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm</pattern>
+							<pattern draft="contributed">HH:mm</pattern>
 						</timeFormat>
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
 					<availableFormats>
+						<dateFormatItem id="Md" draft="contributed">dd/MM</dateFormatItem>
+						<dateFormatItem id="MEd" draft="contributed">E dd/MM</dateFormatItem>
 						<dateFormatItem id="MMMd">dd MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E dd MMM</dateFormatItem>
+						<dateFormatItem id="yM" draft="contributed">MM/y</dateFormatItem>
+						<dateFormatItem id="yMd" draft="contributed">dd/MM/y</dateFormatItem>
+						<dateFormatItem id="yMEd" draft="contributed">E dd/MM/y</dateFormatItem>
 						<dateFormatItem id="yMMMd">dd MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMEd">E dd MMM y</dateFormatItem>
 					</availableFormats>
@@ -276,79 +264,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				</dateTimeFormats>
 			</calendar>
 		</calendars>
-		<timeZoneNames>
-			<zone type="Pacific/Honolulu">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
-			</zone>
-			<metazone type="Alaska">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
-			</metazone>
-			<metazone type="America_Central">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
-			</metazone>
-			<metazone type="America_Eastern">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
-			</metazone>
-			<metazone type="America_Mountain">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
-			</metazone>
-			<metazone type="America_Pacific">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
-			</metazone>
-			<metazone type="Atlantic">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
-			</metazone>
-			<metazone type="Hawaii_Aleutian">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
-			</metazone>
-		</timeZoneNames>
 	</dates>
 	<numbers>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤#,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
 		<currencies>
 			<currency type="BZD">
 				<symbol>$</symbol>
-			</currency>
-			<currency type="USD">
-				<symbol>US$</symbol>
 			</currency>
 		</currencies>
 	</numbers>

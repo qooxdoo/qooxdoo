@@ -6,8 +6,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8268 $"/>
-		<generation date="$Date: 2013-03-01 08:26:02 -0600 (Fri, 01 Mar 2013) $"/>
+		<version number="$Revision: 9249 $"/>
+		<generation date="$Date: 2013-08-21 15:03:23 -0500 (Wed, 21 Aug 2013) $"/>
 		<language type="ms"/>
 		<script type="Latn"/>
 		<territory type="SG"/>
@@ -20,4 +20,3 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</currencies>
 	</numbers>
 </ldml>
-

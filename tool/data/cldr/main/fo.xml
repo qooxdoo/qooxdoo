@@ -6,8 +6,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9287 $"/>
+		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
 		<language type="fo"/>
 	</identity>
 	<localeDisplayNames>
@@ -245,13 +245,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="CA">Kanada</territory>
 			<territory type="CC" draft="unconfirmed">Kokosoyggjarnar</territory>
 			<territory type="CD" draft="unconfirmed">Kongo-Kinshasa</territory>
-			<territory type="CD" alt="variant" draft="unconfirmed">Kongo-Kinshasa</territory>
 			<territory type="CF">Miðafrikalýðveldið</territory>
 			<territory type="CG">Kongo</territory>
 			<territory type="CG" alt="variant" draft="unconfirmed">Kongo-Brazzaville</territory>
 			<territory type="CH">Sveis</territory>
 			<territory type="CI">Fílabeinsstrondin</territory>
-			<territory type="CI" alt="variant" draft="unconfirmed">Fílabeinsstrondin</territory>
 			<territory type="CK" draft="unconfirmed">Cooksoyggjarnar</territory>
 			<territory type="CL">Kili</territory>
 			<territory type="CM">Kamerun</territory>
@@ -284,12 +282,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="FI">Finnland</territory>
 			<territory type="FJ" draft="unconfirmed">Fiji</territory>
 			<territory type="FK" draft="unconfirmed">Falklandsoyggjarnar</territory>
-			<territory type="FK" alt="variant" draft="unconfirmed">Falklandsoyggjarnar</territory>
 			<territory type="FM">Mikronesia</territory>
 			<territory type="FO">Føroyar</territory>
 			<territory type="FR">Frakland</territory>
 			<territory type="GA" draft="unconfirmed">Gabon</territory>
 			<territory type="GB" draft="unconfirmed">Stóra Bretland</territory>
+			<territory type="GB" alt="short" draft="unconfirmed">Stóra Bretland</territory>
 			<territory type="GD" draft="unconfirmed">Grenada</territory>
 			<territory type="GE" draft="unconfirmed">Georgia</territory>
 			<territory type="GF" draft="unconfirmed">Fransk Gujana</territory>
@@ -359,7 +357,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="MG">Madagaskar</territory>
 			<territory type="MH">Marshalloyggjarnar</territory>
 			<territory type="MK">Makedónia</territory>
-			<territory type="MK" alt="variant" draft="unconfirmed">Makedónia</territory>
 			<territory type="ML" draft="unconfirmed">Mali</territory>
 			<territory type="MM" draft="unconfirmed">Burma</territory>
 			<territory type="MN" draft="unconfirmed">Mongolia</territory>
@@ -400,6 +397,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="PN" draft="unconfirmed">Pitcairn</territory>
 			<territory type="PR" draft="unconfirmed">Puerto Rico</territory>
 			<territory type="PS" draft="unconfirmed">Palestinskt territorium</territory>
+			<territory type="PS" alt="short" draft="unconfirmed">Palestina</territory>
 			<territory type="PT" draft="unconfirmed">Portugal</territory>
 			<territory type="PW" draft="unconfirmed">Palau</territory>
 			<territory type="PY">Paraguei</territory>
@@ -438,7 +436,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="TJ">Tadsjikistan</territory>
 			<territory type="TK" draft="unconfirmed">Tokelau</territory>
 			<territory type="TL" draft="unconfirmed">Eystur-Timor</territory>
-			<territory type="TL" alt="variant" draft="unconfirmed">Eystur-Timor</territory>
 			<territory type="TM" draft="unconfirmed">Turkmenistan</territory>
 			<territory type="TN">Tunesia</territory>
 			<territory type="TO" draft="unconfirmed">Tonga</territory>
@@ -450,6 +447,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="UA">Ukreina</territory>
 			<territory type="UG" draft="unconfirmed">Uganda</territory>
 			<territory type="US">Sambandsríki Amerika</territory>
+			<territory type="US" alt="short" draft="unconfirmed">USA</territory>
 			<territory type="UY">Uruguei</territory>
 			<territory type="UZ">Usbekistan</territory>
 			<territory type="VA">Vatikan</territory>
@@ -461,9 +459,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="VU" draft="unconfirmed">Vanuatu</territory>
 			<territory type="WF" draft="unconfirmed">Wallis og Futuna</territory>
 			<territory type="WS">Sámoa</territory>
+			<territory type="XK" draft="unconfirmed">Kosovo</territory>
 			<territory type="YE">Jemen</territory>
 			<territory type="YT" draft="unconfirmed">Mayotte</territory>
-			<territory type="ZA">Suðurafrika</territory>
+			<territory type="ZA">Suðurafrikalýðveldið</territory>
 			<territory type="ZM">Sambia</territory>
 			<territory type="ZW">Simbabvi</territory>
 			<territory type="ZZ" draft="unconfirmed">(ukendt område)</territory>
@@ -474,6 +473,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<variant type="POLYTON" draft="unconfirmed">polytonísk</variant>
 			<variant type="WADEGILE" draft="unconfirmed">Wade-Giles</variant>
 		</variants>
+		<types>
+			<type type="eor" key="collation" draft="unconfirmed">röðina fyrir fjöltyngi evrópskum skjölum</type>
+		</types>
 		<measurementSystemNames>
 			<measurementSystemName type="metric" draft="unconfirmed">SI-einingar</measurementSystemName>
 			<measurementSystemName type="UK" draft="unconfirmed">GB-einingar</measurementSystemName>
@@ -484,6 +486,13 @@ For terms of use, see http://www.unicode.org/copyright.html
 		<exemplarCharacters>[a á b d ð e f g h i í j k l m n o ó p r s t u ú v x y ý æ ø]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[c q w z]</exemplarCharacters>
 		<exemplarCharacters type="index" draft="contributed">[A Á B C D Ð E F G H I Í J K L M N O Ó P Q R S T U Ú V W X Y Ý Z Æ Ø]</exemplarCharacters>
+		<ellipsis type="final" draft="unconfirmed">{0}…</ellipsis>
+		<ellipsis type="initial" draft="unconfirmed">…{0}</ellipsis>
+		<ellipsis type="medial" draft="unconfirmed">{0}…{1}</ellipsis>
+		<ellipsis type="word-final" draft="unconfirmed">{0} …</ellipsis>
+		<ellipsis type="word-initial" draft="unconfirmed">… {0}</ellipsis>
+		<ellipsis type="word-medial" draft="unconfirmed">{0} … {1}</ellipsis>
+		<moreInformation draft="unconfirmed">?</moreInformation>
 	</characters>
 	<delimiters>
 		<quotationStart draft="unconfirmed">”</quotationStart>
@@ -677,6 +686,20 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<month type="11">nov</month>
 							<month type="12">des</month>
 						</monthWidth>
+						<monthWidth type="narrow">
+							<month type="1" draft="unconfirmed">J</month>
+							<month type="2" draft="unconfirmed">F</month>
+							<month type="3" draft="unconfirmed">M</month>
+							<month type="4" draft="unconfirmed">A</month>
+							<month type="5" draft="unconfirmed">M</month>
+							<month type="6" draft="unconfirmed">J</month>
+							<month type="7" draft="unconfirmed">J</month>
+							<month type="8" draft="unconfirmed">A</month>
+							<month type="9" draft="unconfirmed">S</month>
+							<month type="10" draft="unconfirmed">O</month>
+							<month type="11" draft="unconfirmed">N</month>
+							<month type="12" draft="unconfirmed">D</month>
+						</monthWidth>
 						<monthWidth type="wide">
 							<month type="1">januar</month>
 							<month type="2">februar</month>
@@ -782,6 +805,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<quarter type="3" draft="unconfirmed">3</quarter>
 							<quarter type="4" draft="unconfirmed">4</quarter>
 						</quarterWidth>
+						<quarterWidth type="wide">
+							<quarter type="1">1. kvartal</quarter>
+							<quarter type="2">2. kvartal</quarter>
+							<quarter type="3">3. kvartal</quarter>
+							<quarter type="4">4. kvartal</quarter>
+						</quarterWidth>
 					</quarterContext>
 				</quarters>
 				<dayPeriods>
@@ -805,12 +834,22 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<eras>
 					<eraNames>
 						<era type="0" draft="unconfirmed">fyrir Krist</era>
+						<era type="0" alt="variant" draft="unconfirmed">fyrir látlaus tímatal</era>
 						<era type="1" draft="unconfirmed">eftir Krist</era>
+						<era type="1" alt="variant" draft="unconfirmed">látlaus tímatal</era>
 					</eraNames>
 					<eraAbbr>
 						<era type="0" draft="unconfirmed">f.Kr.</era>
+						<era type="0" alt="variant" draft="unconfirmed">f.l.t.</era>
 						<era type="1" draft="unconfirmed">e.Kr.</era>
+						<era type="1" alt="variant" draft="unconfirmed">l.t.</era>
 					</eraAbbr>
+					<eraNarrow>
+						<era type="0" draft="unconfirmed">fKr</era>
+						<era type="0" alt="variant" draft="unconfirmed">flt</era>
+						<era type="1" draft="unconfirmed">eKr</era>
+						<era type="1" alt="variant" draft="unconfirmed">lt</era>
+					</eraNarrow>
 				</eras>
 				<dateFormats>
 					<dateFormatLength type="full">
@@ -1007,12 +1046,21 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</field>
 			<field type="year">
 				<displayName draft="unconfirmed">ár</displayName>
+				<relative type="-1" draft="unconfirmed">síðstu ár</relative>
+				<relative type="0" draft="unconfirmed">hetta ár</relative>
+				<relative type="1" draft="unconfirmed">næstu ár</relative>
 			</field>
 			<field type="month">
 				<displayName draft="unconfirmed">mánuður</displayName>
+				<relative type="-1" draft="unconfirmed">síðstu mánuður</relative>
+				<relative type="0" draft="unconfirmed">henda mánuður</relative>
+				<relative type="1" draft="unconfirmed">næstu mánuður</relative>
 			</field>
 			<field type="week">
 				<displayName draft="unconfirmed">vika</displayName>
+				<relative type="-1" draft="unconfirmed">síðstu vika</relative>
+				<relative type="0" draft="unconfirmed">henda viku</relative>
+				<relative type="1" draft="unconfirmed">næstu vika</relative>
 			</field>
 			<field type="day">
 				<displayName draft="unconfirmed">dagur</displayName>
@@ -1024,6 +1072,41 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</field>
 			<field type="weekday">
 				<displayName draft="unconfirmed">vikudagur</displayName>
+			</field>
+			<field type="sun">
+				<relative type="-1" draft="unconfirmed">sunnudagu síðstu vika</relative>
+				<relative type="0" draft="unconfirmed">sunnudagu henda viku</relative>
+				<relative type="1" draft="unconfirmed">sunnudagu næstu vika</relative>
+			</field>
+			<field type="mon">
+				<relative type="-1" draft="unconfirmed">mánadagur síðstu vika</relative>
+				<relative type="0" draft="unconfirmed">mánadagur henda viku</relative>
+				<relative type="1" draft="unconfirmed">mánadagur næstu vika</relative>
+			</field>
+			<field type="tue">
+				<relative type="-1" draft="unconfirmed">týsdagur síðstu vika</relative>
+				<relative type="0" draft="unconfirmed">týsdagur henda viku</relative>
+				<relative type="1" draft="unconfirmed">týsdagur næstu vika</relative>
+			</field>
+			<field type="wed">
+				<relative type="-1" draft="unconfirmed">mikudagur síðstu vika</relative>
+				<relative type="0" draft="unconfirmed">mikudagur henda viku</relative>
+				<relative type="1" draft="unconfirmed">mikudagur næstu vika</relative>
+			</field>
+			<field type="thu">
+				<relative type="-1" draft="unconfirmed">hósdagur síðstu vika</relative>
+				<relative type="0" draft="unconfirmed">hósdagur henda viku</relative>
+				<relative type="1" draft="unconfirmed">hósdagur næstu vika</relative>
+			</field>
+			<field type="fri">
+				<relative type="-1" draft="unconfirmed">fríggjadagur síðstu vika</relative>
+				<relative type="0" draft="unconfirmed">fríggjadagur henda viku</relative>
+				<relative type="1" draft="unconfirmed">fríggjadagur næstu vika</relative>
+			</field>
+			<field type="sat">
+				<relative type="-1" draft="unconfirmed">leygardagur síðstu vika</relative>
+				<relative type="0" draft="unconfirmed">leygardagur henda viku</relative>
+				<relative type="1" draft="unconfirmed">leygardagur næstu vika</relative>
 			</field>
 			<field type="dayperiod">
 				<displayName draft="unconfirmed">samdøgurperiode</displayName>
@@ -1134,7 +1217,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</percentFormats>
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
-				<currencyFormat>
+				<currencyFormat type="standard">
 					<pattern>¤#,##0.00;¤-#,##0.00</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
@@ -1191,39 +1274,407 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</currencies>
 	</numbers>
 	<units>
-		<unit type="day">
-			<unitPattern count="one" draft="unconfirmed">{0} samdøgur</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">{0} samdøgur</unitPattern>
-		</unit>
-		<unit type="hour">
-			<unitPattern count="one" draft="unconfirmed">{0} tími</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">{0} tímar</unitPattern>
-		</unit>
-		<unit type="minute">
-			<unitPattern count="one" draft="unconfirmed">{0} minuttur</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">{0} minuttir</unitPattern>
-		</unit>
-		<unit type="month">
-			<unitPattern count="one" draft="unconfirmed">{0} mánadur</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">{0} mánaðir</unitPattern>
-		</unit>
-		<unit type="second">
-			<unitPattern count="one" draft="unconfirmed">{0} sekund</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">{0} sekundir</unitPattern>
-		</unit>
-		<unit type="week">
-			<unitPattern count="one" draft="unconfirmed">{0} vika</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">{0} vikur</unitPattern>
-		</unit>
-		<unit type="year">
-			<unitPattern count="one" draft="unconfirmed">{0} ár</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">{0} ár</unitPattern>
-		</unit>
+		<unitLength type="long">
+			<compoundUnit type="per">
+				<compoundUnitPattern draft="unconfirmed">{0} á {1}</compoundUnitPattern>
+			</compoundUnit>
+			<unit type="acceleration-g-force">
+				<unitPattern count="one" draft="unconfirmed">{0} tyngdakraft Jørðin</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} tyngdakraft Jørðin</unitPattern>
+			</unit>
+			<unit type="angle-arc-minute">
+				<unitPattern count="one" draft="unconfirmed">{0} bueminutt</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} bueminuttir</unitPattern>
+			</unit>
+			<unit type="angle-arc-second">
+				<unitPattern count="one" draft="unconfirmed">{0} buesekund</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} buesekundir</unitPattern>
+			</unit>
+			<unit type="angle-degree">
+				<unitPattern count="one" draft="unconfirmed">{0} grad</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} gradir</unitPattern>
+			</unit>
+			<unit type="area-hectare">
+				<unitPattern count="one" draft="unconfirmed">{0} hektar</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} hektar</unitPattern>
+			</unit>
+			<unit type="duration-day">
+				<unitPattern count="one">{0} samdøgur</unitPattern>
+				<unitPattern count="other">{0} samdøgur</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">{0} tími</unitPattern>
+				<unitPattern count="other">{0} tímar</unitPattern>
+			</unit>
+			<unit type="duration-millisecond">
+				<unitPattern count="one" draft="unconfirmed">{0} millisekund</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} millissekundir</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">{0} minuttur</unitPattern>
+				<unitPattern count="other">{0} minuttir</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">{0} mánadur</unitPattern>
+				<unitPattern count="other">{0} mánaðir</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">{0} sekund</unitPattern>
+				<unitPattern count="other">{0} sekundir</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">{0} vika</unitPattern>
+				<unitPattern count="other">{0} vikur</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one" draft="unconfirmed">{0} ár</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} ára</unitPattern>
+			</unit>
+			<unit type="length-centimeter">
+				<unitPattern count="one" draft="unconfirmed">{0} sentimeter</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} sentimeter</unitPattern>
+			</unit>
+			<unit type="length-kilometer">
+				<unitPattern count="one" draft="unconfirmed">{0} kilometer</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} kilometer</unitPattern>
+			</unit>
+			<unit type="length-meter">
+				<unitPattern count="one" draft="unconfirmed">{0} meter</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} meter</unitPattern>
+			</unit>
+			<unit type="length-millimeter">
+				<unitPattern count="one" draft="unconfirmed">{0} millimeter</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} millimeter</unitPattern>
+			</unit>
+			<unit type="length-picometer">
+				<unitPattern count="one" draft="unconfirmed">{0} pikometer</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} pikometer</unitPattern>
+			</unit>
+			<unit type="mass-gram">
+				<unitPattern count="one" draft="unconfirmed">{0} gram</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} gram</unitPattern>
+			</unit>
+			<unit type="mass-kilogram">
+				<unitPattern count="one" draft="unconfirmed">{0} kilogram</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} kilogram</unitPattern>
+			</unit>
+			<unit type="pressure-hectopascal">
+				<unitPattern count="one" draft="unconfirmed">{0} hektopascal</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} hektopascal</unitPattern>
+			</unit>
+			<unit type="pressure-millibar">
+				<unitPattern count="one" draft="unconfirmed">{0} millibar</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} millibar</unitPattern>
+			</unit>
+			<unit type="temperature-celsius">
+				<unitPattern count="one" draft="unconfirmed">{0} grad Celsius</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} gradir Celsius</unitPattern>
+			</unit>
+			<unit type="temperature-fahrenheit">
+				<unitPattern count="one" draft="unconfirmed">{0} grad Fahrenheit</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} gradir Fahrenheit</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="short">
+			<compoundUnit type="per">
+				<compoundUnitPattern draft="unconfirmed">{0}/{1}</compoundUnitPattern>
+			</compoundUnit>
+			<unit type="acceleration-g-force">
+				<unitPattern count="one" draft="unconfirmed">{0} G</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} G</unitPattern>
+			</unit>
+			<unit type="angle-arc-minute">
+				<unitPattern count="one" draft="unconfirmed">{0}′</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}′</unitPattern>
+			</unit>
+			<unit type="angle-arc-second">
+				<unitPattern count="one" draft="unconfirmed">{0}″</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}″</unitPattern>
+			</unit>
+			<unit type="angle-degree">
+				<unitPattern count="one" draft="unconfirmed">{0}°</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}°</unitPattern>
+			</unit>
+			<unit type="area-hectare">
+				<unitPattern count="one" draft="unconfirmed">{0} ha</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} ha</unitPattern>
+			</unit>
+			<unit type="area-square-kilometer">
+				<unitPattern count="one" draft="unconfirmed">{0} km²</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} km²</unitPattern>
+			</unit>
+			<unit type="area-square-meter">
+				<unitPattern count="one" draft="unconfirmed">{0} m²</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} m²</unitPattern>
+			</unit>
+			<unit type="duration-day">
+				<unitPattern count="one" draft="unconfirmed">{0} d</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} d</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one" draft="unconfirmed">{0} h</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} h</unitPattern>
+			</unit>
+			<unit type="duration-millisecond">
+				<unitPattern count="one" draft="unconfirmed">{0} ms</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} ms</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one" draft="unconfirmed">{0} min</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} min</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one" draft="unconfirmed">{0} mán</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} mán</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one" draft="unconfirmed">{0} s</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} s</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one" draft="unconfirmed">{0} v</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} v</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one" draft="unconfirmed">{0} á</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} á</unitPattern>
+			</unit>
+			<unit type="length-centimeter">
+				<unitPattern count="one" draft="unconfirmed">{0} cm</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} cm</unitPattern>
+			</unit>
+			<unit type="length-kilometer">
+				<unitPattern count="one" draft="unconfirmed">{0} km</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} km</unitPattern>
+			</unit>
+			<unit type="length-meter">
+				<unitPattern count="one" draft="unconfirmed">{0} m</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} m</unitPattern>
+			</unit>
+			<unit type="length-millimeter">
+				<unitPattern count="one" draft="unconfirmed">{0} mm</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} mm</unitPattern>
+			</unit>
+			<unit type="length-picometer">
+				<unitPattern count="one" draft="unconfirmed">{0} pm</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} pm</unitPattern>
+			</unit>
+			<unit type="mass-gram">
+				<unitPattern count="one" draft="unconfirmed">{0} g</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} g</unitPattern>
+			</unit>
+			<unit type="mass-kilogram">
+				<unitPattern count="one" draft="unconfirmed">{0} kg</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} kg</unitPattern>
+			</unit>
+			<unit type="power-kilowatt">
+				<unitPattern count="one" draft="unconfirmed">{0} kW</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} kW</unitPattern>
+			</unit>
+			<unit type="power-watt">
+				<unitPattern count="one" draft="unconfirmed">{0} W</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} W</unitPattern>
+			</unit>
+			<unit type="pressure-hectopascal">
+				<unitPattern count="one" draft="unconfirmed">{0} hPa</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} hPa</unitPattern>
+			</unit>
+			<unit type="pressure-millibar">
+				<unitPattern count="one" draft="unconfirmed">{0} mbar</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} mbar</unitPattern>
+			</unit>
+			<unit type="speed-kilometer-per-hour">
+				<unitPattern count="one" draft="unconfirmed">{0} km/h</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} km/h</unitPattern>
+			</unit>
+			<unit type="speed-meter-per-second">
+				<unitPattern count="one" draft="unconfirmed">{0} m/s</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} m/s</unitPattern>
+			</unit>
+			<unit type="temperature-celsius">
+				<unitPattern count="one" draft="unconfirmed">{0}°C</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}°C</unitPattern>
+			</unit>
+			<unit type="temperature-fahrenheit">
+				<unitPattern count="one" draft="unconfirmed">{0}°F</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}°F</unitPattern>
+			</unit>
+			<unit type="volume-cubic-kilometer">
+				<unitPattern count="one" draft="unconfirmed">{0} km³</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} km³</unitPattern>
+			</unit>
+			<unit type="volume-liter">
+				<unitPattern count="one" draft="unconfirmed">{0} l</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} l</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="narrow">
+			<compoundUnit type="per">
+				<compoundUnitPattern draft="unconfirmed">{0}/{1}</compoundUnitPattern>
+			</compoundUnit>
+			<unit type="acceleration-g-force">
+				<unitPattern count="one" draft="unconfirmed">{0}G</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}G</unitPattern>
+			</unit>
+			<unit type="angle-arc-minute">
+				<unitPattern count="one" draft="unconfirmed">{0}′</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}′</unitPattern>
+			</unit>
+			<unit type="angle-arc-second">
+				<unitPattern count="one" draft="unconfirmed">{0}″</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}″</unitPattern>
+			</unit>
+			<unit type="angle-degree">
+				<unitPattern count="one" draft="unconfirmed">{0}°</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}°</unitPattern>
+			</unit>
+			<unit type="area-hectare">
+				<unitPattern count="one" draft="unconfirmed">{0}ha</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}ha</unitPattern>
+			</unit>
+			<unit type="area-square-kilometer">
+				<unitPattern count="one" draft="unconfirmed">{0}km²</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}km²</unitPattern>
+			</unit>
+			<unit type="area-square-meter">
+				<unitPattern count="one" draft="unconfirmed">{0}m²</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}m²</unitPattern>
+			</unit>
+			<unit type="duration-day">
+				<unitPattern count="one" draft="unconfirmed">{0}d</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}d</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one" draft="unconfirmed">{0}h</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}h</unitPattern>
+			</unit>
+			<unit type="duration-millisecond">
+				<unitPattern count="one" draft="unconfirmed">{0}ms</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}ms</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one" draft="unconfirmed">{0}m</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}m</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one" draft="unconfirmed">{0}m</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}m</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one" draft="unconfirmed">{0}s</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}s</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one" draft="unconfirmed">{0}v</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}v</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one" draft="unconfirmed">{0}á</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}á</unitPattern>
+			</unit>
+			<unit type="length-centimeter">
+				<unitPattern count="one" draft="unconfirmed">{0}cm</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}cm</unitPattern>
+			</unit>
+			<unit type="length-kilometer">
+				<unitPattern count="one" draft="unconfirmed">{0}km</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}km</unitPattern>
+			</unit>
+			<unit type="length-meter">
+				<unitPattern count="one" draft="unconfirmed">{0}m</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}m</unitPattern>
+			</unit>
+			<unit type="length-millimeter">
+				<unitPattern count="one" draft="unconfirmed">{0}mm</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}mm</unitPattern>
+			</unit>
+			<unit type="length-picometer">
+				<unitPattern count="one" draft="unconfirmed">{0}pm</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}pm</unitPattern>
+			</unit>
+			<unit type="mass-gram">
+				<unitPattern count="one" draft="unconfirmed">{0}g</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}g</unitPattern>
+			</unit>
+			<unit type="mass-kilogram">
+				<unitPattern count="one" draft="unconfirmed">{0}kg</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}kg</unitPattern>
+			</unit>
+			<unit type="power-kilowatt">
+				<unitPattern count="one" draft="unconfirmed">{0}kW</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}kW</unitPattern>
+			</unit>
+			<unit type="power-watt">
+				<unitPattern count="one" draft="unconfirmed">{0}W</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}W</unitPattern>
+			</unit>
+			<unit type="pressure-hectopascal">
+				<unitPattern count="one" draft="unconfirmed">{0}hPa</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}hPa</unitPattern>
+			</unit>
+			<unit type="pressure-millibar">
+				<unitPattern count="one" draft="unconfirmed">{0}mbar</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}mbar</unitPattern>
+			</unit>
+			<unit type="speed-kilometer-per-hour">
+				<unitPattern count="one" draft="unconfirmed">{0}km/h</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}km/h</unitPattern>
+			</unit>
+			<unit type="speed-meter-per-second">
+				<unitPattern count="one" draft="unconfirmed">{0}m/s</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}m/s</unitPattern>
+			</unit>
+			<unit type="temperature-celsius">
+				<unitPattern count="one" draft="unconfirmed">{0}°</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}°</unitPattern>
+			</unit>
+			<unit type="temperature-fahrenheit">
+				<unitPattern count="one" draft="unconfirmed">{0}°F</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}°F</unitPattern>
+			</unit>
+			<unit type="volume-cubic-kilometer">
+				<unitPattern count="one" draft="unconfirmed">{0}km³</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}km³</unitPattern>
+			</unit>
+			<unit type="volume-liter">
+				<unitPattern count="one" draft="unconfirmed">{0}L</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}L</unitPattern>
+			</unit>
+		</unitLength>
+		<durationUnit type="hm">
+			<durationUnitPattern>h:mm</durationUnitPattern>
+		</durationUnit>
+		<durationUnit type="hms">
+			<durationUnitPattern>h:mm:ss</durationUnitPattern>
+		</durationUnit>
+		<durationUnit type="ms">
+			<durationUnitPattern>m:ss</durationUnitPattern>
+		</durationUnit>
 	</units>
 	<listPatterns>
 		<listPattern>
-			<listPatternPart type="2" draft="contributed">{0} og {1}</listPatternPart>
+			<listPatternPart type="start" draft="unconfirmed">{0}, {1}</listPatternPart>
+			<listPatternPart type="middle" draft="unconfirmed">{0}, {1}</listPatternPart>
 			<listPatternPart type="end" draft="contributed">{0} og {1}</listPatternPart>
+			<listPatternPart type="2" draft="contributed">{0} og {1}</listPatternPart>
+		</listPattern>
+		<listPattern type="unit">
+			<listPatternPart type="start" draft="unconfirmed">{0}, {1}</listPatternPart>
+			<listPatternPart type="middle" draft="unconfirmed">{0}, {1}</listPatternPart>
+			<listPatternPart type="end" draft="unconfirmed">{0}, {1}</listPatternPart>
+			<listPatternPart type="2" draft="unconfirmed">{0}, {1}</listPatternPart>
+		</listPattern>
+		<listPattern type="unit-narrow">
+			<listPatternPart type="start" draft="unconfirmed">{0} {1}</listPatternPart>
+			<listPatternPart type="middle" draft="unconfirmed">{0} {1}</listPatternPart>
+			<listPatternPart type="end" draft="unconfirmed">{0} {1}</listPatternPart>
+			<listPatternPart type="2" draft="unconfirmed">{0} {1}</listPatternPart>
+		</listPattern>
+		<listPattern type="unit-short">
+			<listPatternPart type="start" draft="unconfirmed">{0}, {1}</listPatternPart>
+			<listPatternPart type="middle" draft="unconfirmed">{0}, {1}</listPatternPart>
+			<listPatternPart type="end" draft="unconfirmed">{0}, {1}</listPatternPart>
+			<listPatternPart type="2" draft="unconfirmed">{0}, {1}</listPatternPart>
 		</listPattern>
 	</listPatterns>
 	<posix>

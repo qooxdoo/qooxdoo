@@ -6,14 +6,14 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9287 $"/>
+		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
 		<language type="fur"/>
 	</identity>
 	<localeDisplayNames>
 		<localeDisplayPattern>
 			<localePattern draft="unconfirmed">{0} ({1})</localePattern>
-			<localeSeparator draft="unconfirmed">, </localeSeparator>
+			<localeSeparator draft="unconfirmed">{0}, {1}</localeSeparator>
 		</localeDisplayPattern>
 		<languages>
 			<language type="aa" draft="unconfirmed">afar</language>
@@ -346,13 +346,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="CA" draft="unconfirmed">Canade</territory>
 			<territory type="CC" draft="unconfirmed">Isulis Cocos</territory>
 			<territory type="CD" draft="unconfirmed">Republiche Democratiche dal Congo</territory>
-			<territory type="CD" alt="variant" draft="unconfirmed">Congo [RDC]</territory>
+			<territory type="CD" alt="variant" draft="unconfirmed">Congo (RDC)</territory>
 			<territory type="CF" draft="unconfirmed">Republiche centri africane</territory>
 			<territory type="CG" draft="unconfirmed">Congo - Brazzaville</territory>
-			<territory type="CG" alt="variant" draft="unconfirmed">Congo [Republiche]</territory>
+			<territory type="CG" alt="variant" draft="unconfirmed">Congo (Republiche)</territory>
 			<territory type="CH" draft="unconfirmed">Svuizare</territory>
 			<territory type="CI" draft="unconfirmed">Cueste di Avoli</territory>
-			<territory type="CI" alt="variant" draft="unconfirmed">Cueste di Avoli</territory>
 			<territory type="CK" draft="unconfirmed">Isulis Cook</territory>
 			<territory type="CL" draft="unconfirmed">Cile</territory>
 			<territory type="CM" draft="unconfirmed">Camerun</territory>
@@ -384,7 +383,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="FI" draft="unconfirmed">Finlandie</territory>
 			<territory type="FJ" draft="unconfirmed">Fizi</territory>
 			<territory type="FK" draft="unconfirmed">Isulis Falkland</territory>
-			<territory type="FK" alt="variant" draft="unconfirmed">Isulis Falkland [Isulis Malvinas]</territory>
+			<territory type="FK" alt="variant" draft="unconfirmed">Isulis Falkland (Isulis Malvinas)</territory>
 			<territory type="FM" draft="unconfirmed">Micronesie</territory>
 			<territory type="FO" draft="unconfirmed">Isulis Faroe</territory>
 			<territory type="FR" draft="unconfirmed">France</territory>
@@ -459,7 +458,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="MG" draft="unconfirmed">Madagascar</territory>
 			<territory type="MH" draft="unconfirmed">Isulis Marshall</territory>
 			<territory type="MK" draft="unconfirmed">Macedonie</territory>
-			<territory type="MK" alt="variant" draft="unconfirmed">Macedonie [FYROM]</territory>
+			<territory type="MK" alt="variant" draft="unconfirmed">Macedonie (FYROM)</territory>
 			<territory type="ML" draft="unconfirmed">Mali</territory>
 			<territory type="MM" draft="unconfirmed">Birmanie</territory>
 			<territory type="MN" draft="unconfirmed">Mongolie</territory>
@@ -538,7 +537,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="TJ" draft="unconfirmed">Tazikistan</territory>
 			<territory type="TK" draft="unconfirmed">Tokelau</territory>
 			<territory type="TL" draft="unconfirmed">Timor orientâl</territory>
-			<territory type="TL" alt="variant" draft="unconfirmed">Timor orientâl</territory>
 			<territory type="TM" draft="unconfirmed">Turkmenistan</territory>
 			<territory type="TN" draft="unconfirmed">Tunisie</territory>
 			<territory type="TO" draft="unconfirmed">Tonga</territory>
@@ -1152,12 +1150,36 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</field>
 			<field type="year">
 				<displayName draft="unconfirmed">an</displayName>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">ca di {0} an</relativeTimePattern>
+					<relativeTimePattern count="other">ca di {0} agns</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">{0} an indaûr</relativeTimePattern>
+					<relativeTimePattern count="other">{0} agns indaûr</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="month">
 				<displayName draft="unconfirmed">mês</displayName>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">ca di {0} mês</relativeTimePattern>
+					<relativeTimePattern count="other">ca di {0} mês</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">{0} mês indaûr</relativeTimePattern>
+					<relativeTimePattern count="other">{0} mês indaûr</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="week">
 				<displayName draft="unconfirmed">setemane</displayName>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">ca di {0} setemane</relativeTimePattern>
+					<relativeTimePattern count="other">ca di {0} setemanis</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">{0} setemane indaûr</relativeTimePattern>
+					<relativeTimePattern count="other">{0} setemanis indaûr</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="day">
 				<displayName draft="unconfirmed">dì</displayName>
@@ -1166,6 +1188,14 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<relative type="0" draft="unconfirmed">vuê</relative>
 				<relative type="1" draft="unconfirmed">doman</relative>
 				<relative type="2" draft="unconfirmed">passantdoman</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">ca di {0} zornade</relativeTimePattern>
+					<relativeTimePattern count="other">ca di {0} zornadis</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">{0} zornade indaûr</relativeTimePattern>
+					<relativeTimePattern count="other">{0} zornadis indaûr</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="weekday">
 				<displayName draft="unconfirmed">dì de setemane</displayName>
@@ -1175,12 +1205,36 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</field>
 			<field type="hour">
 				<displayName draft="unconfirmed">ore</displayName>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">ca di {0} ore</relativeTimePattern>
+					<relativeTimePattern count="other">ca di {0} oris</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">{0} ore indaûr</relativeTimePattern>
+					<relativeTimePattern count="other">{0} oris indaûr</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="minute">
 				<displayName draft="unconfirmed">minût</displayName>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">ca di {0} minût</relativeTimePattern>
+					<relativeTimePattern count="other">ca di {0} minûts</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">{0} minût indaûr</relativeTimePattern>
+					<relativeTimePattern count="other">{0} minûts indaûr</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="second">
 				<displayName draft="unconfirmed">secont</displayName>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">ca di {0} secont</relativeTimePattern>
+					<relativeTimePattern count="other">ca di {0} seconts</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">{0} secont indaûr</relativeTimePattern>
+					<relativeTimePattern count="other">{0} seconts indaûr</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="zone">
 				<displayName draft="unconfirmed">zone</displayName>
@@ -1238,6 +1292,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<standard>Ore standard de Europe centrâl</standard>
 					<daylight>Ore estive de Europe centrâl</daylight>
 				</long>
+				<short>
+					<generic>CET</generic>
+					<standard>CET</standard>
+					<daylight>CEST</daylight>
+				</short>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
@@ -1245,6 +1304,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<standard>Ore standard de Europe orientâl</standard>
 					<daylight>Ore estive de Europe orientâl</daylight>
 				</long>
+				<short>
+					<generic>EET</generic>
+					<standard>EET</standard>
+					<daylight>EEST</daylight>
+				</short>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
@@ -1252,6 +1316,16 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<standard>Ore standard de Europe ocidentâl</standard>
 					<daylight>Ore estive de Europe ocidentâl</daylight>
 				</long>
+				<short>
+					<generic>WET</generic>
+					<standard>WET</standard>
+					<daylight>WEST</daylight>
+				</short>
+			</metazone>
+			<metazone type="GMT">
+				<short>
+					<standard draft="unconfirmed">GMT</standard>
+				</short>
 			</metazone>
 			<metazone type="Moscow">
 				<long>
@@ -1298,7 +1372,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</percentFormats>
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
-				<currencyFormat>
+				<currencyFormat type="standard">
 					<pattern draft="unconfirmed">¤ #,##0.00</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
@@ -1557,95 +1631,41 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</currencies>
 	</numbers>
 	<units>
-		<unit type="day">
-			<unitPattern count="one">{0} zornade</unitPattern>
-			<unitPattern count="other">{0} zornadis</unitPattern>
-		</unit>
-		<unit type="day-future">
-			<unitPattern count="one" draft="unconfirmed">ca di {0} zornade</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">ca di {0} zornadis</unitPattern>
-		</unit>
-		<unit type="day-past">
-			<unitPattern count="one" draft="unconfirmed">{0} zornade indaûr</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">{0} zornadis indaûr</unitPattern>
-		</unit>
-		<unit type="hour">
-			<unitPattern count="one">{0} ore</unitPattern>
-			<unitPattern count="other">{0} oris</unitPattern>
-		</unit>
-		<unit type="hour-future">
-			<unitPattern count="one" draft="unconfirmed">ca di {0} ore</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">ca di {0} oris</unitPattern>
-		</unit>
-		<unit type="hour-past">
-			<unitPattern count="one" draft="unconfirmed">{0} ore indaûr</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">{0} oris indaûr</unitPattern>
-		</unit>
-		<unit type="minute">
-			<unitPattern count="one">{0} minût</unitPattern>
-			<unitPattern count="other">{0} minûts</unitPattern>
-		</unit>
-		<unit type="minute-future">
-			<unitPattern count="one" draft="unconfirmed">ca di {0} minût</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">ca di {0} minûts</unitPattern>
-		</unit>
-		<unit type="minute-past">
-			<unitPattern count="one" draft="unconfirmed">{0} minût indaûr</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">{0} minûts indaûr</unitPattern>
-		</unit>
-		<unit type="month">
-			<unitPattern count="one">{0} mês</unitPattern>
-			<unitPattern count="other">{0} mês</unitPattern>
-		</unit>
-		<unit type="month-future">
-			<unitPattern count="one" draft="unconfirmed">ca di {0} mês</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">ca di {0} mês</unitPattern>
-		</unit>
-		<unit type="month-past">
-			<unitPattern count="one" draft="unconfirmed">{0} mês indaûr</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">{0} mês indaûr</unitPattern>
-		</unit>
-		<unit type="second">
-			<unitPattern count="one">{0} secont</unitPattern>
-			<unitPattern count="other">{0} seconts</unitPattern>
-		</unit>
-		<unit type="second-future">
-			<unitPattern count="one" draft="unconfirmed">ca di {0} secont</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">ca di {0} seconts</unitPattern>
-		</unit>
-		<unit type="second-past">
-			<unitPattern count="one" draft="unconfirmed">{0} secont indaûr</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">{0} seconts indaûr</unitPattern>
-		</unit>
-		<unit type="week">
-			<unitPattern count="one">{0} setemane</unitPattern>
-			<unitPattern count="other">{0} setemanis</unitPattern>
-		</unit>
-		<unit type="week-future">
-			<unitPattern count="one" draft="unconfirmed">ca di {0} setemane</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">ca di {0} setemanis</unitPattern>
-		</unit>
-		<unit type="week-past">
-			<unitPattern count="one" draft="unconfirmed">{0} setemane indaûr</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">{0} setemanis indaûr</unitPattern>
-		</unit>
-		<unit type="year">
-			<unitPattern count="one">{0} an</unitPattern>
-			<unitPattern count="other">{0} agns</unitPattern>
-		</unit>
-		<unit type="year-future">
-			<unitPattern count="one" draft="unconfirmed">ca di {0} an</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">ca di {0} agns</unitPattern>
-		</unit>
-		<unit type="year-past">
-			<unitPattern count="one" draft="unconfirmed">{0} an indaûr</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">{0} agns indaûr</unitPattern>
-		</unit>
+		<unitLength type="long">
+			<unit type="duration-day">
+				<unitPattern count="one">{0} zornade</unitPattern>
+				<unitPattern count="other">{0} zornadis</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">{0} ore</unitPattern>
+				<unitPattern count="other">{0} oris</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">{0} minût</unitPattern>
+				<unitPattern count="other">{0} minûts</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">{0} mês</unitPattern>
+				<unitPattern count="other">{0} mês</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">{0} secont</unitPattern>
+				<unitPattern count="other">{0} seconts</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">{0} setemane</unitPattern>
+				<unitPattern count="other">{0} setemanis</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">{0} an</unitPattern>
+				<unitPattern count="other">{0} agns</unitPattern>
+			</unit>
+		</unitLength>
 	</units>
 	<listPatterns>
 		<listPattern>
-			<listPatternPart type="2" draft="unconfirmed">{0} e {1}</listPatternPart>
 			<listPatternPart type="end" draft="unconfirmed">{0} e {1}</listPatternPart>
+			<listPatternPart type="2" draft="unconfirmed">{0} e {1}</listPatternPart>
 		</listPattern>
 	</listPatterns>
 	<posix>
