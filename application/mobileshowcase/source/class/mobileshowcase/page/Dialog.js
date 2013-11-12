@@ -92,7 +92,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       var menuModel = new qx.data.Array();
       for (var i = 0; i < 50; i++) {
         menuModel.push("Action "+i);
-      };
+      }
 
       this.__menu = new qx.ui.mobile.dialog.Menu(menuModel);
       this.__menu.setTitle("Menu");
@@ -205,7 +205,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       var slotData = [];
       for (var i = 1; i <= daysInMonth; i++) {
         slotData.push("" + i);
-      };
+      }
       return new qx.data.Array(slotData);
     },
 
@@ -218,7 +218,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       var slotData = [];
       for (var i = 0; i < names.length; i++) {
         slotData.push("" + names[i]);
-      };
+      }
       return new qx.data.Array(slotData);
     },
 
@@ -230,7 +230,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       var slotData = [];
       for (var i = new Date().getFullYear(); i > 1950; i--) {
         slotData.push("" + i);
-      };
+      }
       return new qx.data.Array(slotData);
     },
 
@@ -327,7 +327,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
     // overridden
     _stop : function() {
       if (!this.__popup) {
-        return
+        return;
       }
 
       this.__popup.hide();
