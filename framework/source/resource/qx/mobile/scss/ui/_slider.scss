@@ -51,8 +51,9 @@
 
   border: rem(1) solid $slider-knob-border-color;
 
-  height: $slider-knob-height;
   line-height:  $slider-knob-height;
+
+  height: $slider-knob-height;
   width: $slider-knob-width;
 
   color: $slider-font-color;
@@ -62,6 +63,10 @@
 
   top: -($slider-knob-height/2) + ($slider-height/2) - rem(1);
   right: -1*$slider-knob-width/2;
+}
+
+.root.win .slider > div:after { 
+  line-height: calc(unquote("#{$slider-knob-height} - 0px"));
 }
 
 .slider.percent > div:after {
