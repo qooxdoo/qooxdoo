@@ -146,16 +146,19 @@ qx.Class.define("mobileshowcase.page.Dialog",
 
       var popupGroup = new qx.ui.mobile.form.Group([],false);
       popupGroup.add(this._createGroupTitle("Popup"));
+      popupGroup.setLayout(new qx.ui.mobile.layout.VBox());
       popupGroup.add(showPopupButton,{flex:1});
       popupGroup.add(showAnchorButton,{flex:1});
 
       var menuGroup = new qx.ui.mobile.form.Group([],false);
       menuGroup.add(this._createGroupTitle("Menu"));
+      menuGroup.setLayout(new qx.ui.mobile.layout.VBox());
       menuGroup.add(showMenuButton,{flex:1});
       menuGroup.add(showAnchorMenuButton,{flex:1});
 
       var otherGroup = new qx.ui.mobile.form.Group([],false);
       otherGroup.add(this._createGroupTitle("Other"));
+      otherGroup.setLayout(new qx.ui.mobile.layout.VBox());
       otherGroup.add(busyIndicatorButton,{flex:1});
       otherGroup.add(showPickerButton,{flex:1});
 
