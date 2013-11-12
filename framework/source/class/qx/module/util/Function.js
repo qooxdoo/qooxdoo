@@ -24,19 +24,19 @@ qx.Bootstrap.define("qx.module.util.Function", {
   statics :
   {
     /**
-     * Returns a functions which execution is deferred with the specified delay.
-     * Whenever this returned function is called during the delay, the delay is
-     * started again.
-     * This mechanism is very useful for event handling whenever only after a specified
-     * timeout the event should be handled (e.g. at keyboard input by the user).
+     * Returns a debounced version of the given callback. The execution of the callback
+     * is delayed by the given delay and after no events were triggered anymore.
+     * This mechanism is very useful for event handling: only after a specified delay
+     * the event should be handled (e.g. at keyboard input by the user) to prevent flooding
+     * the handler with a large amounts of events.
      *
-     * @attachStatic{qxWeb, function.defer}
+     * @attachStatic{qxWeb, function.debounce}
      * @param callback {Function} the callback which should be executed after the given delay
      * if the wrapper method is *not* called during this delay.
      * @param delay {Number} Delay in milliseconds
      * @return {Function} a wrapper function which <em>shields</em> the given callback function
      */
-    defer : function(callback, delay)
+    debounce : function(callback, delay)
     {
       var wrapperFunction = function()
       {
@@ -77,7 +77,7 @@ qx.Bootstrap.define("qx.module.util.Function", {
   defer : function(statics) {
     qxWeb.$attachStatic({
       "function" : {
-        defer : statics.defer
+        debounce : statics.debounce
       }
     });
   }

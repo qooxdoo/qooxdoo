@@ -3564,7 +3564,7 @@ testrunner.define({
   setUp : testrunner.globalSetup,
   tearDown : testrunner.globalTeardown,
 
-  testFunctionDefer : function() {
+  testFunctionDebounce : function() {
     var called = 0;
     var checkCalled;
 
@@ -3572,7 +3572,7 @@ testrunner.define({
       called++;
     };
 
-    var deferred = q.function.defer(spy, 300);
+    var deferred = q.function.debounce(spy, 300);
     deferred();
 
     window.setTimeout((function() {
@@ -3589,7 +3589,7 @@ testrunner.define({
     this.wait(1500);
   },
 
-  testFunctionDeferWithEvents : function() {
+  testFunctionDebounceWithEvents : function() {
     var callCounter = 0;
     var context;
     var eventToCheck = "myEvent";
@@ -3598,7 +3598,7 @@ testrunner.define({
       context = this;
     };
 
-    this.sandbox.on("myEvent", q.function.defer(myCallback, 200), this.sandbox);
+    this.sandbox.on("myEvent", q.function.debounce(myCallback, 200), this.sandbox);
 
     var counter = 0;
     var intervalId = window.setInterval((function() {
