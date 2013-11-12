@@ -136,62 +136,6 @@ qx.Mixin.define("qx.ui.core.MBlocker",
 
 
     /**
-     * Whether the content is blocked
-     *
-     * @return {Boolean} Whether the content is blocked
-     *
-     * @deprecated{3.0}
-     */
-    isContentBlocked : function() {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-         "Please use 'isBlocked' instead.");
-      }
-
-      return this.__blocker ? this.__blocker.isBlocked() : false;
-    },
-
-
-    /**
-     * Unblock the content blocked by {@link #blockContent}, but it takes care of
-     * the amount of {@link #blockContent} calls. The blocker is only removed if
-     * the numer of {@link #unblockContent} calls is identical to
-     * {@link #blockContent} calls.
-     *
-     * @deprecated{3.0}
-     */
-    unblockContent : function() {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-         "Please use 'unblock' instead.");
-      }
-
-      if (this.__blocker) {
-        this.__blocker.unblock();
-      }
-    },
-
-
-    /**
-     * Unblock the content blocked by {@link #blockContent}, but it doesn't take
-     * care of the amount of {@link #blockContent} calls. The blocker is
-     * directly removed.
-
-     * @deprecated{3.0}
-     */
-    forceUnblockContent : function() {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-         "Please use 'forceUnblock' instead.");
-      }
-
-      if (this.__blocker) {
-        this.__blocker.forceUnblock();
-      }
-    },
-
-
-    /**
      * Get the blocker
      *
      * @return {qx.ui.core.Blocker} The blocker

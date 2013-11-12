@@ -283,24 +283,6 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
 
     /**
-    * @deprecated {3.0} Please use property "currentIndex" instead.
-    * @param pageIndex {Integer} the target page index, which should be visible
-    */
-    scrollToPage : function(pageIndex) {
-      this._scrollToPage(pageIndex);
-    },
-
-
-    /**
-    * @deprecated {3.0} Please use method "getCurrentIndex()" instead.
-    * @return {Integer} the current shown page index.
-    */
-    getShownPageIndex : function() {
-      return this.getCurrentIndex();
-    },
-
-
-    /**
      * Scrolls the carousel to the page with the given pageIndex.
      * @param pageIndex {Integer} the target page index, which should be visible
      * @param showTransition {Boolean ? true} flag if a transition should be shown or not

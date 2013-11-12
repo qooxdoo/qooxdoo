@@ -1608,22 +1608,6 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * Returns the element wrapper of the widget's container element.
-     * This method exposes widget internal and must be used with caution!
-     *
-     * @return {qx.html.Element} The widget's container element
-     * @deprecated{3.0}
-     */
-    getContainerElement : function() {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-         "Please use 'getContentElement' instead.");
-      }
-      return this.__contentElement;
-    },
-
-
-    /**
      * Returns the element wrapper of the widget's content element.
      * This method exposes widget internal and must be used with caution!
      *
@@ -3622,39 +3606,6 @@ qx.Class.define("qx.ui.core.Widget",
       LOWER LEVEL ACCESS
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * Computes the location of the container element in context of the document dimensions.
-     *
-     * Supported modes:
-     *
-     * * <code>margin</code>: Calculate from the margin box of the element
-     *   (bigger than the visual appearance: including margins of given element)
-     * * <code>box</code>: Calculates the offset box of the element
-     *   (default, uses the same size as visible)
-     * * <code>border</code>: Calculate the border box
-     *   (useful to align to border edges of two elements).
-     * * <code>scroll</code>: Calculate the scroll box
-     *   (relevant for absolute positioned content).
-     * * <code>padding</code>: Calculate the padding box
-     *   (relevant for static/relative positioned content).
-     *
-     * @param mode {String?box} A supported option. See comment above.
-     * @return {Map} Returns a map with <code>left</code>, <code>top</code>,
-     *   <code>right</code> and <code>bottom</code> which contains the distance
-     *   of the element relative to the document.
-     *
-     *  @deprecated{3.0}
-     */
-    getContainerLocation : function(mode)
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-         "Please use 'getContentLocation' instead.");
-      }
-
-      return this.getContentLocation(mode);
-    },
 
 
     /**

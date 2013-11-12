@@ -111,17 +111,6 @@ qx.Class.define("qx.ui.mobile.layout.CardAnimation",
     */
     getAnimation : function(animationName, direction, reverse)
     {
-      // @deprecated { 3.0.1 } "Animation 'dissolve' is deprecated. Please use 'fade' instead."
-      if(animationName == "dissolve") 
-      {
-        animationName = "fade";
-
-        if (qx.core.Environment.get("qx.debug")) {
-          this.warn("Animation 'dissolve' is deprecated. Please use 'fade' instead.");
-        }
-      }
-      // ----
-
       if (qx.core.Environment.get("qx.debug")) {
         if (!reverse) {
           this.assertNotUndefined(this._cardAnimationsMap[animationName], "Animation '" + animationName + "' is not defined.");
