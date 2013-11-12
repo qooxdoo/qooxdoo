@@ -250,9 +250,14 @@ qx.Class.define("qx.event.handler.MouseEmulation",
      * @param e {qx.event.type.Touch} The qooxdoo touch event.
      */
     __stopScrolling : function(e) {
-      if (e.target.style.WebkitOverflowScrolling != "touch") {
-        e.preventDefault();
+      var node = e.target;
+      while (node) {
+        if (node.style && node.style.WebkitOverflowScrolling == "touch") {
+          return;
+        }
+        node = node.parentNode;
       }
+      e.preventDefault();
     },
 
 
