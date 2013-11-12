@@ -226,7 +226,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
       qx.event.Registration.addListener(this.__root, "tap", this.__onTap, this);
       qx.event.Registration.addListener(this.__root, "longtap", this.__onLongTap, this);
 
-      qx.bom.Event.addNativeListener(this.__window, "touchstart", this.__stopScrolling);
+      qx.bom.Event.addNativeListener(this.__window, "touchmove", this.__stopScrolling);
     },
 
 
@@ -240,7 +240,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
       qx.event.Registration.removeListener(this.__root, "tap", this.__onTap, this);
       qx.event.Registration.removeListener(this.__root, "longtap", this.__onLongTap, this);
 
-      qx.bom.Event.removeNativeListener(this.__window, "touchstart", this.__stopScrolling);
+      qx.bom.Event.removeNativeListener(this.__window, "touchmove", this.__stopScrolling);
     },
 
 
