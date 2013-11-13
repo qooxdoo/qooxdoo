@@ -64,16 +64,18 @@ module.exports = function(grunt) {
      * TODO: support more than just global 'let'
      */
 
-    var config_map = {
+    var config_map = grunt.config.get('qx');
+    // link to original config file
+    if (!config_map.include) {
+      config_map.include = [];
+    }
+    config_map.include.push( 
       // TODO: inspect if gargs has '-c <otherconfig>'
       // TODO: with this synthetic config file, the original 'default' job is not detected
-      "include" : [ 
-        { 
+       { 
           "path" : "./config.json",
           "bypass-export-list" : true
-        } ],
-      "let" : grunt.config.get('qx'),
-    };
+        });
 
     // create random tmpfile name
     var gen_conf_file = temp_file_name(".") + ".json";
