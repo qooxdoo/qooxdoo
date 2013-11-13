@@ -172,11 +172,18 @@ qx.Class.define("qx.event.handler.Appear",
       var targets = this.__targets;
       var elem;
 
+      var legacyIe = qx.core.Environment.get("engine.name") == "mshtml" &&
+        qx.core.Environment.get("browser.documentmode") < 9;
+
       for (var hash in targets)
       {
         elem = targets[hash];
 
         var displayed = elem.offsetWidth > 0;
+        if (!displayed && legacyIe) {
+          // force recalculation in IE 8. See bug #7872
+          displayed = elem.offsetWidth > 0;
+        }
         if ((!!elem.$$displayed) !== displayed)
         {
           elem.$$displayed = displayed;
