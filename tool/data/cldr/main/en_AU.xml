@@ -6,14 +6,48 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9287 $"/>
+		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
 		<language type="en"/>
 		<territory type="AU"/>
 	</identity>
+	<localeDisplayNames>
+		<languages>
+			<language type="en_US">US English</language>
+		</languages>
+		<scripts>
+			<script type="Thai">Thai</script>
+		</scripts>
+		<territories>
+			<territory type="GB" alt="short">U.K.</territory>
+			<territory type="US" alt="short">U.S.</territory>
+		</territories>
+	</localeDisplayNames>
 	<dates>
 		<calendars>
 			<calendar type="chinese">
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE, d MMMM U</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d MMMM U</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>d MMM U</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>d/MM/yy</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
 				<timeFormats>
 					<timeFormatLength type="full">
 						<timeFormat>
@@ -51,12 +85,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern>dd/MM/y G</pattern>
+							<pattern>d MMM y G</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern>d/MM/yy GGGGG</pattern>
+							<pattern>d/MM/y GGGGG</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
@@ -84,8 +118,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 				</timeFormats>
 				<dateTimeFormats>
 					<availableFormats>
-						<dateFormatItem id="MEd">E, d/M</dateFormatItem>
-						<dateFormatItem id="MMMEd">E, d MMM</dateFormatItem>
 						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
 						<dateFormatItem id="yMEd">E, d/M/y</dateFormatItem>
 					</availableFormats>
@@ -114,10 +146,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 						</intervalFormatItem>
 						<intervalFormatItem id="M">
 							<greatestDifference id="M">M-M</greatestDifference>
-						</intervalFormatItem>
-						<intervalFormatItem id="Md">
-							<greatestDifference id="d">d/MM - d/MM</greatestDifference>
-							<greatestDifference id="M">d/MM - d/MM</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="MEd">
 							<greatestDifference id="d">E, d/MM - E, d/MM</greatestDifference>
@@ -179,12 +207,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern>dd/MM/y</pattern>
+							<pattern>d MMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern>d/MM/yy</pattern>
+							<pattern>d/MM/y</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
@@ -212,8 +240,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 				</timeFormats>
 				<dateTimeFormats>
 					<availableFormats>
-						<dateFormatItem id="MEd">E, d/M</dateFormatItem>
-						<dateFormatItem id="MMMEd">E, d MMM</dateFormatItem>
 						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
 						<dateFormatItem id="yMEd">E, d/M/y</dateFormatItem>
 					</availableFormats>
@@ -293,6 +319,36 @@ For terms of use, see http://www.unicode.org/copyright.html
 					</intervalFormats>
 				</dateTimeFormats>
 			</calendar>
+			<calendar type="islamic">
+				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE, d MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>d MMMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>d MMM y G</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>d/MM/y GGGGG</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
+						<dateFormatItem id="yMEd">E, d/M/y</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
 			<calendar type="japanese">
 				<!-- need some non-empty element here to make inheritance work,
 					 this copy of generic dateFormats above is smaller than root japanese eras
@@ -321,12 +377,29 @@ For terms of use, see http://www.unicode.org/copyright.html
 				</dateFormats>
 			</calendar>
 		</calendars>
+		<fields>
+			<field type="year">
+				<relative type="-1">Last year</relative>
+				<relative type="0">This year</relative>
+				<relative type="1">Next year</relative>
+			</field>
+			<field type="month">
+				<relative type="-1">Last month</relative>
+				<relative type="0">This month</relative>
+				<relative type="1">Next month</relative>
+			</field>
+			<field type="week">
+				<relative type="-1">Last week</relative>
+				<relative type="0">This week</relative>
+				<relative type="1">Next week</relative>
+			</field>
+			<field type="day">
+				<relative type="-1">Yesterday</relative>
+				<relative type="0">Today</relative>
+				<relative type="1">Tomorrow</relative>
+			</field>
+		</fields>
 		<timeZoneNames>
-			<zone type="Europe/London">
-				<short>
-					<daylight>∅∅∅</daylight>
-				</short>
-			</zone>
 			<metazone type="Australia_Central">
 				<short>
 					<generic>ACT</generic>
@@ -393,9 +466,21 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</timeZoneNames>
 	</dates>
 	<numbers>
+		<currencyFormats numberSystem="latn">
+			<currencyFormatLength>
+				<currencyFormat type="standard">
+					<pattern>¤#,##0.00</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+		</currencyFormats>
 		<currencies>
 			<currency type="AUD">
 				<symbol>$</symbol>
+			</currency>
+			<currency type="EUR">
+				<displayName>Euro</displayName>
+				<displayName count="one">euro</displayName>
+				<displayName count="other">euro</displayName>
 			</currency>
 			<currency type="USD">
 				<symbol>US$</symbol>

@@ -6,8 +6,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9275 $"/>
+		<generation date="$Date: 2013-08-25 22:28:21 -0500 (Sun, 25 Aug 2013) $"/>
 		<language type="pa"/>
 		<script type="Arab"/>
 	</identity>
@@ -30,7 +30,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 	</layout>
 	<characters>
 		<exemplarCharacters>[\u064F ء آ ؤ ئ ا ب پ ت ث ٹ ج چ ح خ د ذ ڈ ر ز ڑ ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن ں ه ھ ہ و ی ے]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[أ ٻ ة ٺ ټ ٽ]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[\u200E\u200F أ ٻ ة ٺ ټ ٽ]</exemplarCharacters>
 		<exemplarCharacters type="index" draft="unconfirmed">[ء آ ؤ ئ ا ب پ ت ث ٹ ج چ ح خ د ذ ڈ ر ز ڑ ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن ں ه ھ ہ و ی ے]</exemplarCharacters>
 	</characters>
 	<dates>
@@ -203,6 +203,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 		<otherNumberingSystems>
 			<native>arabext</native>
 		</otherNumberingSystems>
+		<symbols numberSystem="latn">
+			<plusSign>‎+</plusSign> <!-- includes LRM before sign -->
+			<minusSign>‎-</minusSign> <!-- includes LRM before sign (002D) -->
+		</symbols>
 		<currencies>
 			<currency type="EUR">
 				<displayName>يورو</displayName>

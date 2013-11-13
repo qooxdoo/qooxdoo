@@ -1,6 +1,7 @@
 'use strict';
 
 var fs = require('fs');
+var crypto = require('crypto');
 
 /**
  * Run generate.py ??? to obtain job list.
@@ -25,6 +26,19 @@ function get_current_jobs() {
       console.log(data);
     })
 
+}
+
+/**
+ * TODO: This is a quick hack from http://stackoverflow.com/a/15365656/127465 
+ * It should eventually be replaced by something more decent, like
+ * https://npmjs.org/package/temporary
+ */
+function temp_file_name(path) {
+  var filename;
+  do {
+    filename = 'conf'+crypto.randomBytes(4).readUInt32LE(0)+'.tmp';
+  } while (fs.existsSync(path + "/" + filename))
+  return filename;
 }
 
 //var generator_jobs = get_current_jobs();
@@ -52,12 +66,17 @@ module.exports = function(grunt) {
 
     var config_map = {
       // TODO: inspect if gargs has '-c <otherconfig>'
-      "include" : [ { "path" : "./config.json" } ],
+      // TODO: with this synthetic config file, the original 'default' job is not detected
+      "include" : [ 
+        { 
+          "path" : "./config.json",
+          "bypass-export-list" : true
+        } ],
       "let" : grunt.config.get('qx'),
     };
 
-    // TODO: create random tmpfile name
-    var gen_conf_file = "./config1.json";
+    // create random tmpfile name
+    var gen_conf_file = temp_file_name(".") + ".json";
 
     fs.writeFile(gen_conf_file, JSON.stringify(config_map, null, 4), function(err) {
       if(err) {
@@ -86,9 +105,12 @@ module.exports = function(grunt) {
 
     child.stdout.on("data", function(data) {
       grunt.log.write(data);
-    })
+    });
 
-    // TODO: remove gen_conf_file
+    child.on('close', function(code) {
+      fs.unlinkSync(gen_conf_file);
+    });
+
   });
 
   // A very basic default task.

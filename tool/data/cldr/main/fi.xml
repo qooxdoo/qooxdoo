@@ -6,14 +6,14 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8671 $"/>
-		<generation date="$Date: 2013-05-03 14:17:48 -0500 (Fri, 03 May 2013) $"/>
+		<version number="$Revision: 9287 $"/>
+		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
 		<language type="fi"/>
 	</identity>
 	<localeDisplayNames>
 		<localeDisplayPattern>
 			<localePattern>{0} ({1})</localePattern>
-			<localeSeparator>, </localeSeparator>
+			<localeSeparator>{0}, {1}</localeSeparator>
 			<localeKeyTypePattern>{0}: {1}</localeKeyTypePattern>
 		</localeDisplayPattern>
 		<languages>
@@ -40,6 +40,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="anp">angika</language>
 			<language type="apa">apaššikieli</language>
 			<language type="ar">arabia</language>
+			<language type="ar_001">yleisarabia</language>
 			<language type="arc">valtakunnanaramea</language>
 			<language type="arn">mapudungun</language>
 			<language type="arp">arapaho</language>
@@ -165,12 +166,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="en_AU">australianenglanti</language>
 			<language type="en_CA">kanadanenglanti</language>
 			<language type="en_GB">britannianenglanti</language>
+			<language type="en_GB" alt="short">englanti (Britannia)</language>
 			<language type="en_US">amerikanenglanti</language>
+			<language type="en_US" alt="short">englanti (USA)</language>
 			<language type="enm">keskienglanti</language>
 			<language type="eo">esperanto</language>
 			<language type="es">espanja</language>
 			<language type="es_419">amerikanespanja</language>
 			<language type="es_ES">espanjanespanja</language>
+			<language type="es_MX">meksikonespanja</language>
 			<language type="et">viro</language>
 			<language type="eu">baski</language>
 			<language type="ewo">ewondo</language>
@@ -254,6 +258,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="iu">inuktitut</language>
 			<language type="ja">japani</language>
 			<language type="jbo">lojban</language>
+			<language type="jgo">ngomba</language>
 			<language type="jmc">machame</language>
 			<language type="jpr">juutalaispersia</language>
 			<language type="jrb">juutalaisarabia</language>
@@ -284,7 +289,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="kl">kalaallisut</language>
 			<language type="kl" alt="secondary">grönlanti</language>
 			<language type="kln">kalenjin</language>
-			<language type="km">keskikhmer</language>
+			<language type="km">khmer</language>
 			<language type="kmb">kimbundu</language>
 			<language type="kn">kannada</language>
 			<language type="ko">korea</language>
@@ -346,6 +351,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="mg">malagassi</language>
 			<language type="mga">keski-iiri</language>
 			<language type="mgh">makua-meetto</language>
+			<language type="mgo" draft="contributed">meta'</language>
 			<language type="mh">marshall</language>
 			<language type="mi">maori</language>
 			<language type="mic">micmac</language>
@@ -432,7 +438,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="pra">prakritkieli</language>
 			<language type="pro">muinaisprovensaali</language>
 			<language type="ps">paštu</language>
-			<language type="ps" alt="variant">paštu</language>
 			<language type="pt">portugali</language>
 			<language type="pt_BR">brasilianportugali</language>
 			<language type="pt_PT">portugalinportugali</language>
@@ -519,7 +524,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="tai">thaikieli</language>
 			<language type="te">telugu</language>
 			<language type="tem">temne</language>
-			<language type="teo">ateso</language>
+			<language type="teo">teso</language>
 			<language type="ter">tereno</language>
 			<language type="tet">tetum</language>
 			<language type="tg">tadžikki</language>
@@ -550,10 +555,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="twq">tasawaq</language>
 			<language type="ty">tahiti</language>
 			<language type="tyv">tuva</language>
-			<language type="tzm">tamazight</language>
+			<language type="tzm">keskiatlaksentamazight</language>
 			<language type="udm">udmurtti</language>
 			<language type="ug">uiguuri</language>
-			<language type="ug" alt="variant">uiguuri</language>
 			<language type="uga">ugarit</language>
 			<language type="uk">ukraina</language>
 			<language type="umb">mbundu</language>
@@ -589,6 +593,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="zap">zapoteekki</language>
 			<language type="zbl">blisskieli</language>
 			<language type="zen">zenaga</language>
+			<language type="zgh">vakioitu tamazight</language>
 			<language type="zh">kiina</language>
 			<language type="zh_Hans">yksinkertaistettu kiina</language>
 			<language type="zh_Hant">perinteinen kiina</language>
@@ -837,7 +842,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="BY">Valko-Venäjä</territory>
 			<territory type="BZ">Belize</territory>
 			<territory type="CA">Kanada</territory>
-			<territory type="CC">Kookossaaret [Keelingsaaret]</territory>
+			<territory type="CC">Kookossaaret (Keelingsaaret)</territory>
 			<territory type="CD">Kongon demokraattinen tasavalta</territory>
 			<territory type="CD" alt="variant">Kongo-Kinshasa</territory>
 			<territory type="CF">Keski-Afrikan tasavalta</territory>
@@ -878,12 +883,13 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="FI">Suomi</territory>
 			<territory type="FJ">Fidži</territory>
 			<territory type="FK">Falklandinsaaret</territory>
-			<territory type="FK" alt="variant">Falklandinsaaret [Malvinassaaret]</territory>
+			<territory type="FK" alt="variant">Falklandinsaaret (Malvinassaaret)</territory>
 			<territory type="FM">Mikronesian liittovaltio</territory>
 			<territory type="FO">Färsaaret</territory>
 			<territory type="FR">Ranska</territory>
 			<territory type="GA">Gabon</territory>
-			<territory type="GB">Britannia</territory>
+			<territory type="GB">Yhdistynyt kuningaskunta</territory>
+			<territory type="GB" alt="short">Britannia</territory>
 			<territory type="GD">Grenada</territory>
 			<territory type="GE">Georgia</territory>
 			<territory type="GF">Ranskan Guayana</territory>
@@ -903,7 +909,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="GY">Guyana</territory>
 			<territory type="HK">Hongkong – Kiinan e.h.a.</territory>
 			<territory type="HK" alt="short">Hongkong</territory>
-			<territory type="HM">Heard- ja McDonaldinsaaret</territory>
+			<territory type="HM">Heard ja McDonaldinsaaret</territory>
 			<territory type="HN">Honduras</territory>
 			<territory type="HR">Kroatia</territory>
 			<territory type="HT">Haiti</territory>
@@ -955,7 +961,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="MK">Makedonia</territory>
 			<territory type="MK" alt="variant">EJT Makedonia</territory>
 			<territory type="ML">Mali</territory>
-			<territory type="MM">Myanmar [Burma]</territory>
+			<territory type="MM">Myanmar (Burma)</territory>
 			<territory type="MN">Mongolia</territory>
 			<territory type="MO">Macao – Kiinan e.h.a.</territory>
 			<territory type="MO" alt="short">Macao</territory>
@@ -993,7 +999,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="PM">Saint-Pierre ja Miquelon</territory>
 			<territory type="PN">Pitcairn</territory>
 			<territory type="PR">Puerto Rico</territory>
-			<territory type="PS">Palestiina</territory>
+			<territory type="PS">Palestiinalaisalueet</territory>
 			<territory type="PS" alt="short">Palestiina</territory>
 			<territory type="PT">Portugali</territory>
 			<territory type="PW">Palau</territory>
@@ -1046,8 +1052,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="TZ">Tansania</territory>
 			<territory type="UA">Ukraina</territory>
 			<territory type="UG">Uganda</territory>
-			<territory type="UM">Yhdysvaltain pienet erillissaaret</territory>
+			<territory type="UM">Yhdysvaltain erillissaaret</territory>
 			<territory type="US">Yhdysvallat</territory>
+			<territory type="US" alt="short">USA</territory>
 			<territory type="UY">Uruguay</territory>
 			<territory type="UZ">Uzbekistan</territory>
 			<territory type="VA">Vatikaani</territory>
@@ -1083,6 +1090,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<variant type="BISCAYAN">baskin biskajalaismurre</variant>
 			<variant type="BISKE">sloveenin resian San Giorgion/Bilan alamurre</variant>
 			<variant type="BOONT">englannin boontling-murre</variant>
+			<variant type="EMODENG">varhaisnykyenglanti</variant>
 			<variant type="FONIPA">kansainvälinen foneettinen aakkosto IPA</variant>
 			<variant type="FONUPA">uralilainen foneettinen aakkosto UPA</variant>
 			<variant type="FONUPA" alt="secondary">suomalais-ugrilainen tarkekirjoitus</variant>
@@ -1100,6 +1108,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<variant type="NDYUKA">ndyukan kreolimurre</variant>
 			<variant type="NEDIS">sloveenin natisonen murre</variant>
 			<variant type="NJIVA">sloveenin resian Gnivan/Njivan alamurre</variant>
+			<variant type="NULIK">nykyvolapük</variant>
 			<variant type="OSOJS">sloveenin resian Oseaccon/Osojanen alamurre</variant>
 			<variant type="PAMAKA">pamakan kreolimurre</variant>
 			<variant type="PETR1708">venäjän Pietarin siviiliaakkosto 1708</variant>
@@ -1108,6 +1117,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<variant type="POSIX">tietokonemäärittely POSIX</variant>
 			<variant type="PUTER">retoromaanin puter-muoto</variant>
 			<variant type="REVISED">uudistettu oikeinkirjoitus</variant>
+			<variant type="RIGIK">klassinen volapük</variant>
 			<variant type="ROZAJ">sloveenin resian murre</variant>
 			<variant type="RUMGR">retoromaanin rumantsch grischun -muoto</variant>
 			<variant type="SAAHO">afarin saho-murre</variant>
@@ -1139,9 +1149,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<key type="colStrength" draft="contributed">Lajittelun vahvuus</key>
 			<key type="currency">valuutta</key>
 			<key type="numbers">numerot</key>
-			<key type="timezone" draft="contributed">Aikavyöhyke</key>
-			<key type="va" draft="contributed">Maavalinnan muunnelma</key>
-			<key type="variableTop" draft="contributed">Lajittele symboleina</key>
+			<key type="timezone">aikavyöhyke</key>
+			<key type="va">maavalinnan muunnelma</key>
+			<key type="variableTop">lajittele symboleina</key>
 			<key type="x">yksityiskäyttö</key>
 		</keys>
 		<types>
@@ -1152,17 +1162,21 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type type="bali" key="numbers">balilaiset numerot</type>
 			<type type="beng" key="numbers">bengalilaiset numerot</type>
 			<type type="big5han" key="collation">perinteinen kiinalainen järjestys Big5</type>
+			<type type="brah" key="numbers">brahmilaiset numerot</type>
 			<type type="buddhist" key="calendar">buddhalainen kalenteri</type>
+			<type type="cakm" key="numbers">chakmalaiset numerot</type>
 			<type type="cham" key="numbers">cham-numerot</type>
 			<type type="chinese" key="calendar">kiinalainen kalenteri</type>
 			<type type="coptic" key="calendar">koptilainen kalenteri</type>
+			<type type="dangi" key="calendar">dangilainen kalenteri</type>
 			<type type="deva" key="numbers">devanagarinumerot</type>
 			<type type="dictionary" key="collation">sanakirjajärjestys</type>
 			<type type="ducet" key="collation">Unicoden oletusjärjestys</type>
+			<type type="eor" key="collation">yleiseurooppalainen lajittelujärjestys</type>
 			<type type="ethi" key="numbers">etiopialaiset numerot</type>
 			<type type="ethiopic" key="calendar">etiopialainen kalenteri</type>
 			<type type="ethiopic-amete-alem" key="calendar">etiopialainen amete alem -kalenteri</type>
-			<type type="finance" key="numbers" draft="contributed">Talousnumerot</type>
+			<type type="finance" key="numbers">talousnumerot</type>
 			<type type="fullwide" key="numbers">ideografin levyiset numerot</type>
 			<type type="gb2312han" key="collation">yksinkertaistettu kiinalainen järjestys GB2312</type>
 			<type type="geor" key="numbers">georgialaiset numerot</type>
@@ -1214,7 +1228,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type type="orya" key="numbers">orijalaiset numerot</type>
 			<type type="persian" key="calendar">persialainen kalenteri</type>
 			<type type="phonebook" key="collation">puhelinluettelojärjestys</type>
-			<type type="phonetic" key="collation" draft="contributed">Foneettinen järjestys</type>
+			<type type="phonetic" key="collation">äänteellinen järjestys</type>
 			<type type="pinyin" key="collation">pinyin-järjestys</type>
 			<type type="primary" key="colStrength" draft="contributed">Lajittele vain peruskirjaimet</type>
 			<type type="quaternary" key="colStrength" draft="contributed">Lajittele painomerkit/koko/leveys/kana-merkit</type>
@@ -1227,6 +1241,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type type="searchjl" key="collation">haku hangul-alkukonsonantin mukaan</type>
 			<type type="secondary" key="colStrength" draft="contributed">Lajittele painomerkit</type>
 			<type type="shifted" key="colAlternate" draft="contributed">Lajittele symbolit ohittaen</type>
+			<type type="sora" key="numbers">sora sompeng -numerot</type>
+			<type type="standard" key="collation">normaalijärjestys</type>
 			<type type="stroke" key="collation">piirtojärjestys</type>
 			<type type="sund" key="numbers">sundalaiset numerot</type>
 			<type type="talu" key="numbers">uudet tai lue -numerot</type>
@@ -1237,7 +1253,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type type="thai" key="numbers">thainumerot</type>
 			<type type="tibt" key="numbers">tiibetiläiset numerot</type>
 			<type type="traditional" key="collation">perinteinen järjestys</type>
-			<type type="traditional" key="numbers" draft="contributed">Perinteiset numerot</type>
+			<type type="traditional" key="numbers">perinteiset numerot</type>
 			<type type="unihan" key="collation">radikaali- ja piirtojärjestys</type>
 			<type type="upper" key="colCaseFirst" draft="contributed">Lajittele isot kirjaimet ensin</type>
 			<type type="vaii" key="numbers">vai-numerot</type>
@@ -1246,6 +1262,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type type="yes" key="colHiraganaQuaternary" draft="contributed">Lajittele kana-merkit erikseen</type>
 			<type type="yes" key="colNormalization" draft="contributed">Lajittele Unicode normalisoituna</type>
 			<type type="yes" key="colNumeric" draft="contributed">Lajittele numerot numeerisesti</type>
+			<type type="zhuyin" key="collation">zhuyin-järjestys</type>
 		</types>
 		<transformNames>
 			<transformName type="BGN" draft="contributed">BGN</transformName>
@@ -1270,6 +1287,14 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<codePattern type="territory">alue: {0}</codePattern>
 		</codePatterns>
 	</localeDisplayNames>
+	<contextTransforms>
+		<contextTransformUsage type="languages">
+			<contextTransform type="uiListOrMenu">titlecase-firstword</contextTransform>
+		</contextTransformUsage>
+		<contextTransformUsage type="tense">
+			<contextTransform type="stand-alone">titlecase-firstword</contextTransform>
+		</contextTransformUsage>
+	</contextTransforms>
 	<characters>
 		<exemplarCharacters>[a b c d e f g h i j k l m n o p q r s š t u v w x y z ž å ä ö]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[á à â ã č ç đ é è ê ë ǧ ǥ ȟ í î ï ǩ ń ñ ŋ ô õ œ ř ß ŧ ú ù û ÿ ü ʒ ǯ æ ø]</exemplarCharacters>
@@ -1278,6 +1303,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 		<ellipsis type="final">{0}…</ellipsis>
 		<ellipsis type="initial">…{0}</ellipsis>
 		<ellipsis type="medial">{0}…{1}</ellipsis>
+		<ellipsis type="word-final">{0}…</ellipsis>
+		<ellipsis type="word-initial">…{0}</ellipsis>
+		<ellipsis type="word-medial" draft="contributed">{0} … {1}</ellipsis>
 		<moreInformation>?</moreInformation>
 	</characters>
 	<delimiters>
@@ -1753,15 +1781,21 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<eras>
 					<eraNames>
 						<era type="0">ennen Kristuksen syntymää</era>
+						<era type="0" alt="variant">ennen ajanlaskun alkua</era>
 						<era type="1">jälkeen Kristuksen syntymän</era>
+						<era type="1" alt="variant">jälkeen ajanlaskun alun</era>
 					</eraNames>
 					<eraAbbr>
 						<era type="0">eKr.</era>
+						<era type="0" alt="variant">eaa.</era>
 						<era type="1">jKr.</era>
+						<era type="1" alt="variant">jaa.</era>
 					</eraAbbr>
 					<eraNarrow>
 						<era type="0">eK</era>
+						<era type="0" alt="variant" draft="unconfirmed">eaa</era>
 						<era type="1">jK</era>
+						<era type="1" alt="variant" draft="unconfirmed">jaa</era>
 					</eraNarrow>
 				</eras>
 				<dateFormats>
@@ -1832,6 +1866,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">E d.</dateFormatItem>
+						<dateFormatItem id="Ehm">E h.mm a</dateFormatItem>
+						<dateFormatItem id="EHm">E H.mm</dateFormatItem>
+						<dateFormatItem id="Ehms">E h.mm.ss a</dateFormatItem>
+						<dateFormatItem id="EHms">E H.mm.ss</dateFormatItem>
 						<dateFormatItem id="Gy">y G</dateFormatItem>
 						<dateFormatItem id="GyMMM">LLL y G</dateFormatItem>
 						<dateFormatItem id="GyMMMd">d. MMM y G</dateFormatItem>
@@ -1848,7 +1886,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d. MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">ccc d. MMM</dateFormatItem>
-						<dateFormatItem id="ms">mm.ss</dateFormatItem>
+						<dateFormatItem id="ms">m.ss</dateFormatItem>
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">L.y</dateFormatItem>
 						<dateFormatItem id="yMd">d.M.y</dateFormatItem>
@@ -1862,6 +1900,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
 						<dateFormatItem id="yQQQQ">QQQQ y</dateFormatItem>
 					</availableFormats>
+					<appendItems>
+						<appendItem request="Timezone">{0} {1}</appendItem>
+					</appendItems>
 					<intervalFormats>
 						<intervalFormatFallback>{0}–{1}</intervalFormatFallback>
 						<intervalFormatItem id="d">
@@ -2099,18 +2140,42 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<relative type="-1">viime vuonna</relative>
 				<relative type="0">tänä vuonna</relative>
 				<relative type="1">ensi vuonna</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">{0} vuoden päästä</relativeTimePattern>
+					<relativeTimePattern count="other">{0} vuoden päästä</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">{0} vuosi sitten</relativeTimePattern>
+					<relativeTimePattern count="other">{0} vuotta sitten</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="month">
 				<displayName>kuukausi</displayName>
 				<relative type="-1">viime kuussa</relative>
 				<relative type="0">tässä kuussa</relative>
 				<relative type="1">ensi kuussa</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">{0} kuukauden päästä</relativeTimePattern>
+					<relativeTimePattern count="other">{0} kuukauden päästä</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">{0} kuukausi sitten</relativeTimePattern>
+					<relativeTimePattern count="other">{0} kuukautta sitten</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="week">
 				<displayName>viikko</displayName>
 				<relative type="-1">viime viikolla</relative>
 				<relative type="0">tällä viikolla</relative>
 				<relative type="1">ensi viikolla</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">{0} viikon päästä</relativeTimePattern>
+					<relativeTimePattern count="other">{0} viikon päästä</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">{0} viikko sitten</relativeTimePattern>
+					<relativeTimePattern count="other">{0} viikkoa sitten</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="day">
 				<displayName>päivä</displayName>
@@ -2119,21 +2184,89 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<relative type="0">tänään</relative>
 				<relative type="1">huomenna</relative>
 				<relative type="2">ylihuomenna</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">{0} päivän päästä</relativeTimePattern>
+					<relativeTimePattern count="other">{0} päivän päästä</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">{0} päivä sitten</relativeTimePattern>
+					<relativeTimePattern count="other">{0} päivää sitten</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="weekday">
 				<displayName>viikonpäivä</displayName>
+			</field>
+			<field type="sun">
+				<relative type="-1">viime sunnuntaina</relative>
+				<relative type="0">tänä sunnuntaina</relative>
+				<relative type="1">ensi sunnuntaina</relative>
+			</field>
+			<field type="mon">
+				<relative type="-1">viime maanantaina</relative>
+				<relative type="0">tänä maanantaina</relative>
+				<relative type="1">ensi maanantaina</relative>
+			</field>
+			<field type="tue">
+				<relative type="-1">viime tiistaina</relative>
+				<relative type="0">tänä tiistaina</relative>
+				<relative type="1">ensi tiistaina</relative>
+			</field>
+			<field type="wed">
+				<relative type="-1">viime keskiviikkona</relative>
+				<relative type="0">tänä keskiviikkona</relative>
+				<relative type="1">ensi keskiviikkona</relative>
+			</field>
+			<field type="thu">
+				<relative type="-1">viime torstaina</relative>
+				<relative type="0">tänä torstaina</relative>
+				<relative type="1">ensi torstaina</relative>
+			</field>
+			<field type="fri">
+				<relative type="-1">viime perjantaina</relative>
+				<relative type="0">tänä perjantaina</relative>
+				<relative type="1">ensi perjantaina</relative>
+			</field>
+			<field type="sat">
+				<relative type="-1">viime lauantaina</relative>
+				<relative type="0">tänä lauantaina</relative>
+				<relative type="1">ensi lauantaina</relative>
 			</field>
 			<field type="dayperiod">
 				<displayName>vuorokaudenaika</displayName>
 			</field>
 			<field type="hour">
 				<displayName>tunti</displayName>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">{0} tunnin päästä</relativeTimePattern>
+					<relativeTimePattern count="other">{0} tunnin päästä</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">{0} tunti sitten</relativeTimePattern>
+					<relativeTimePattern count="other">{0} tuntia sitten</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="minute">
 				<displayName>minuutti</displayName>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">{0} minuutin päästä</relativeTimePattern>
+					<relativeTimePattern count="other">{0} minuutin päästä</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">{0} minuutti sitten</relativeTimePattern>
+					<relativeTimePattern count="other">{0} minuuttia sitten</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="second">
 				<displayName>sekunti</displayName>
+				<relative type="0">nyt</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">{0} sekunnin päästä</relativeTimePattern>
+					<relativeTimePattern count="other">{0} sekunnin päästä</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">{0} sekunti sitten</relativeTimePattern>
+					<relativeTimePattern count="other">{0} sekuntia sitten</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="zone">
 				<displayName>aikavyöhyke</displayName>
@@ -2143,9 +2276,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<hourFormat>+H.mm;-H.mm</hourFormat>
 			<gmtFormat>UTC{0}</gmtFormat>
 			<gmtZeroFormat>UTC</gmtZeroFormat>
-			<regionFormat>Aikavyöhyke: {0}</regionFormat>
+			<regionFormat>aikavyöhyke: {0}</regionFormat>
+			<regionFormat type="daylight">{0} (kesäaika)</regionFormat>
+			<regionFormat type="standard">{0} (normaaliaika)</regionFormat>
 			<fallbackFormat>{1} ({0})</fallbackFormat>
-			<fallbackRegionFormat>{1} ({0})</fallbackRegionFormat>
 			<zone type="Etc/Unknown">
 				<exemplarCity>tuntematon</exemplarCity>
 			</zone>
@@ -2169,6 +2303,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</zone>
 			<zone type="Europe/Vienna">
 				<exemplarCity>Wien</exemplarCity>
+			</zone>
+			<zone type="Antarctica/Macquarie">
+				<exemplarCity>Macquariensaari</exemplarCity>
 			</zone>
 			<zone type="Europe/Mariehamn">
 				<exemplarCity>Maarianhamina</exemplarCity>
@@ -2400,6 +2537,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<zone type="America/Mazatlan">
 				<exemplarCity>Mazatlán</exemplarCity>
 			</zone>
+			<zone type="America/Bahia_Banderas">
+				<exemplarCity>Bahía de Banderas</exemplarCity>
+			</zone>
 			<zone type="America/Mexico_City">
 				<exemplarCity>Ciudad de México</exemplarCity>
 			</zone>
@@ -2417,6 +2557,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</zone>
 			<zone type="Pacific/Chatham">
 				<exemplarCity>Chathamsaaret</exemplarCity>
+			</zone>
+			<zone type="Pacific/Marquesas">
+				<exemplarCity>Marquesassaaret</exemplarCity>
+			</zone>
+			<zone type="Pacific/Gambier">
+				<exemplarCity>Gambiersaaret</exemplarCity>
 			</zone>
 			<zone type="Europe/Warsaw">
 				<exemplarCity>Varsova</exemplarCity>
@@ -2451,6 +2597,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<zone type="Asia/Yakutsk">
 				<exemplarCity>Jakutsk</exemplarCity>
 			</zone>
+			<zone type="Asia/Khandyga">
+				<exemplarCity>Handyga</exemplarCity>
+			</zone>
 			<zone type="Asia/Sakhalin">
 				<exemplarCity>Sahalin</exemplarCity>
 			</zone>
@@ -2459,6 +2608,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</zone>
 			<zone type="Asia/Riyadh">
 				<exemplarCity>Riad</exemplarCity>
+			</zone>
+			<zone type="Indian/Mahe">
+				<exemplarCity>Mahé</exemplarCity>
 			</zone>
 			<zone type="Africa/Khartoum">
 				<exemplarCity>Khartum</exemplarCity>
@@ -2574,7 +2726,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</metazone>
 			<metazone type="Africa_Southern">
 				<long>
-					<standard>Etelä-Afrikan normaaliaika</standard>
+					<standard>Etelä-Afrikan aika</standard>
 				</long>
 			</metazone>
 			<metazone type="Africa_Western">
@@ -3490,8 +3642,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<list>;</list>
 			<percentSign>%</percentSign>
 			<plusSign>+</plusSign>
-			<minusSign>-</minusSign>
+			<minusSign>−</minusSign>
 			<exponential>E</exponential>
+			<superscriptingExponent>×</superscriptingExponent>
 			<perMille>‰</perMille>
 			<infinity>∞</infinity>
 			<nan>epäluku</nan>
@@ -3575,7 +3728,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</percentFormats>
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
-				<currencyFormat>
+				<currencyFormat type="standard">
+					<pattern>#,##0.00 ¤</pattern>
+				</currencyFormat>
+				<currencyFormat type="accounting">
 					<pattern>#,##0.00 ¤</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
@@ -3595,8 +3751,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="AFA">
 				<displayName>Afganistanin afgaani (1927–2002)</displayName>
-				<displayName count="one">Afganistanin afgaani (1927-2002)</displayName>
-				<displayName count="other">Afganistanin afgaania (1927-2002)</displayName>
+				<displayName count="one">Afganistanin afgaani (1927–2002)</displayName>
+				<displayName count="other">Afganistanin afgaania (1927–2002)</displayName>
 			</currency>
 			<currency type="AFN">
 				<displayName>Afganistanin afgaani</displayName>
@@ -3649,9 +3805,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">Argentiinan australia</displayName>
 			</currency>
 			<currency type="ARL">
-				<displayName>Argentiinan ley-peso (1970-1983)</displayName>
-				<displayName count="one">Argentiinan ley-peso (1970-1983)</displayName>
-				<displayName count="other">Argentiinan ley-pesoa (1970-1983)</displayName>
+				<displayName>Argentiinan ley-peso (1970–1983)</displayName>
+				<displayName count="one">Argentiinan ley-peso (1970–1983)</displayName>
+				<displayName count="other">Argentiinan ley-pesoa (1970–1983)</displayName>
 			</currency>
 			<currency type="ARM">
 				<displayName>Argentiinan peso (1881–1970)</displayName>
@@ -3680,9 +3836,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<symbol>AUD</symbol>
 			</currency>
 			<currency type="AWG">
-				<displayName>Aruban guldeni</displayName>
-				<displayName count="one">Aruban guldeni</displayName>
-				<displayName count="other">Aruban guldenia</displayName>
+				<displayName>Aruban floriini</displayName>
+				<displayName count="one">Aruban floriini</displayName>
+				<displayName count="other">Aruban floriinia</displayName>
 			</currency>
 			<currency type="AZM">
 				<displayName>Azerbaidžanin manat (1993–2006)</displayName>
@@ -4023,9 +4179,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">Eritrean nakfaa</displayName>
 			</currency>
 			<currency type="ESA">
-				<displayName>Espanjan peseta (A-tili)</displayName>
-				<displayName count="one">Espanjan peseta (A-tili)</displayName>
-				<displayName count="other">Espanjan pesetaa (A-tili)</displayName>
+				<displayName>Espanjan peseta (A–tili)</displayName>
+				<displayName count="one">Espanjan peseta (A–tili)</displayName>
+				<displayName count="other">Espanjan pesetaa (A–tili)</displayName>
 			</currency>
 			<currency type="ESB">
 				<displayName>Espanjan peseta (vaihdettava tili)</displayName>
@@ -4405,9 +4561,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">Madagaskarin frangia</displayName>
 			</currency>
 			<currency type="MKD">
-				<displayName>Makedonian dinaari</displayName>
-				<displayName count="one">Makedonian dinaari</displayName>
-				<displayName count="other">Makedonian dinaaria</displayName>
+				<displayName>Makedonian denaari</displayName>
+				<displayName count="one">Makedonian denaari</displayName>
+				<displayName count="other">Makedonian denaaria</displayName>
 			</currency>
 			<currency type="MKN">
 				<displayName>Makedonian dinaari (1992–1993)</displayName>
@@ -5040,9 +5196,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">Etelä-Afrikan randia</displayName>
 			</currency>
 			<currency type="ZMK">
-				<displayName>Sambian kwacha (1968-2012)</displayName>
-				<displayName count="one">Sambian kwacha (1968-2012)</displayName>
-				<displayName count="other">Sambian kwachaa (1968-2012)</displayName>
+				<displayName>Sambian kwacha (1968–2012)</displayName>
+				<displayName count="one">Sambian kwacha (1968–2012)</displayName>
+				<displayName count="other">Sambian kwachaa (1968–2012)</displayName>
 			</currency>
 			<currency type="ZMW">
 				<displayName>Sambian kwacha</displayName>
@@ -5075,113 +5231,613 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">Zimbabwen dollaria (2008)</displayName>
 			</currency>
 		</currencies>
+		<miscPatterns numberSystem="latn">
+			<pattern type="atLeast">vähintään {0}</pattern>
+			<pattern type="range">{0}‒{1}</pattern>
+		</miscPatterns>
 	</numbers>
 	<units>
-		<unit type="day">
-			<unitPattern count="one">{0} päivä</unitPattern>
-			<unitPattern count="one" alt="short">{0} pv</unitPattern>
-			<unitPattern count="other">{0} päivää</unitPattern>
-			<unitPattern count="other" alt="short">{0} pv</unitPattern>
-		</unit>
-		<unit type="day-future">
-			<unitPattern count="one">{0} päivän päästä</unitPattern>
-			<unitPattern count="other">{0} päivän päästä</unitPattern>
-		</unit>
-		<unit type="day-past">
-			<unitPattern count="one">{0} päivä sitten</unitPattern>
-			<unitPattern count="other">{0} päivää sitten</unitPattern>
-		</unit>
-		<unit type="hour">
-			<unitPattern count="one">{0} tunti</unitPattern>
-			<unitPattern count="one" alt="short">{0} t</unitPattern>
-			<unitPattern count="other">{0} tuntia</unitPattern>
-			<unitPattern count="other" alt="short">{0} t</unitPattern>
-		</unit>
-		<unit type="hour-future">
-			<unitPattern count="one">{0} tunnin päästä</unitPattern>
-			<unitPattern count="other">{0} tunnin päästä</unitPattern>
-		</unit>
-		<unit type="hour-past">
-			<unitPattern count="one">{0} tunti sitten</unitPattern>
-			<unitPattern count="other">{0} tuntia sitten</unitPattern>
-		</unit>
-		<unit type="minute">
-			<unitPattern count="one">{0} minuutti</unitPattern>
-			<unitPattern count="one" alt="short">{0} min</unitPattern>
-			<unitPattern count="other">{0} minuuttia</unitPattern>
-			<unitPattern count="other" alt="short">{0} min</unitPattern>
-		</unit>
-		<unit type="minute-future">
-			<unitPattern count="one">{0} minuutin päästä</unitPattern>
-			<unitPattern count="other">{0} minuutin päästä</unitPattern>
-		</unit>
-		<unit type="minute-past">
-			<unitPattern count="one">{0} minuutti sitten</unitPattern>
-			<unitPattern count="other">{0} minuuttia sitten</unitPattern>
-		</unit>
-		<unit type="month">
-			<unitPattern count="one">{0} kuukausi</unitPattern>
-			<unitPattern count="one" alt="short">{0} kk</unitPattern>
-			<unitPattern count="other">{0} kuukautta</unitPattern>
-			<unitPattern count="other" alt="short">{0} kk</unitPattern>
-		</unit>
-		<unit type="month-future">
-			<unitPattern count="one">{0} kuukauden päästä</unitPattern>
-			<unitPattern count="other">{0} kuukauden päästä</unitPattern>
-		</unit>
-		<unit type="month-past">
-			<unitPattern count="one">{0} kuukausi sitten</unitPattern>
-			<unitPattern count="other">{0} kuukautta sitten</unitPattern>
-		</unit>
-		<unit type="second">
-			<unitPattern count="one">{0} sekunti</unitPattern>
-			<unitPattern count="one" alt="short">{0} s</unitPattern>
-			<unitPattern count="other">{0} sekuntia</unitPattern>
-			<unitPattern count="other" alt="short">{0} s</unitPattern>
-		</unit>
-		<unit type="second-future">
-			<unitPattern count="one">{0} sekunnin päästä</unitPattern>
-			<unitPattern count="other">{0} sekunnin päästä</unitPattern>
-		</unit>
-		<unit type="second-past">
-			<unitPattern count="one">{0} sekunti sitten</unitPattern>
-			<unitPattern count="other">{0} sekuntia sitten</unitPattern>
-		</unit>
-		<unit type="week">
-			<unitPattern count="one">{0} viikko</unitPattern>
-			<unitPattern count="one" alt="short">{0} vk</unitPattern>
-			<unitPattern count="other">{0} viikkoa</unitPattern>
-			<unitPattern count="other" alt="short">{0} vk</unitPattern>
-		</unit>
-		<unit type="week-future">
-			<unitPattern count="one">{0} viikon päästä</unitPattern>
-			<unitPattern count="other">{0} viikon päästä</unitPattern>
-		</unit>
-		<unit type="week-past">
-			<unitPattern count="one">{0} viikko sitten</unitPattern>
-			<unitPattern count="other">{0} viikkoa sitten</unitPattern>
-		</unit>
-		<unit type="year">
-			<unitPattern count="one">{0} vuosi</unitPattern>
-			<unitPattern count="one" alt="short">{0} v</unitPattern>
-			<unitPattern count="other">{0} vuotta</unitPattern>
-			<unitPattern count="other" alt="short">{0} v</unitPattern>
-		</unit>
-		<unit type="year-future">
-			<unitPattern count="one">{0} vuoden päästä</unitPattern>
-			<unitPattern count="other">{0} vuoden päästä</unitPattern>
-		</unit>
-		<unit type="year-past">
-			<unitPattern count="one">{0} vuosi sitten</unitPattern>
-			<unitPattern count="other">{0} vuotta sitten</unitPattern>
-		</unit>
+		<unitLength type="long">
+			<compoundUnit type="per">
+				<compoundUnitPattern>{0}/{1}</compoundUnitPattern>
+			</compoundUnit>
+			<unit type="acceleration-g-force">
+				<unitPattern count="one">{0} G</unitPattern>
+				<unitPattern count="other">{0} G</unitPattern>
+			</unit>
+			<unit type="angle-arc-minute">
+				<unitPattern count="one">{0} kulmaminuutti</unitPattern>
+				<unitPattern count="other">{0} kulmaminuuttia</unitPattern>
+			</unit>
+			<unit type="angle-arc-second">
+				<unitPattern count="one">{0} kulmasekunti</unitPattern>
+				<unitPattern count="other">{0} kulmasekuntia</unitPattern>
+			</unit>
+			<unit type="angle-degree">
+				<unitPattern count="one">{0} aste</unitPattern>
+				<unitPattern count="other">{0} astetta</unitPattern>
+			</unit>
+			<unit type="area-acre">
+				<unitPattern count="one">{0} eekkeri</unitPattern>
+				<unitPattern count="other">{0} eekkeriä</unitPattern>
+			</unit>
+			<unit type="area-hectare">
+				<unitPattern count="one">{0} hehtaari</unitPattern>
+				<unitPattern count="other">{0} hehtaaria</unitPattern>
+			</unit>
+			<unit type="area-square-foot">
+				<unitPattern count="one">{0} neliöjalka</unitPattern>
+				<unitPattern count="other">{0} neliöjalkaa</unitPattern>
+			</unit>
+			<unit type="area-square-kilometer">
+				<unitPattern count="one">{0} neliökilometri</unitPattern>
+				<unitPattern count="other">{0} neliökilometriä</unitPattern>
+			</unit>
+			<unit type="area-square-meter">
+				<unitPattern count="one">{0} neliömetri</unitPattern>
+				<unitPattern count="other">{0} neliömetriä</unitPattern>
+			</unit>
+			<unit type="area-square-mile">
+				<unitPattern count="one">{0} neliömaili</unitPattern>
+				<unitPattern count="other">{0} neliömailia</unitPattern>
+			</unit>
+			<unit type="duration-day">
+				<unitPattern count="one">{0} päivä</unitPattern>
+				<unitPattern count="other">{0} päivää</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">{0} tunti</unitPattern>
+				<unitPattern count="other">{0} tuntia</unitPattern>
+			</unit>
+			<unit type="duration-millisecond">
+				<unitPattern count="one">{0} millisekunti</unitPattern>
+				<unitPattern count="other">{0} millisekuntia</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">{0} minuutti</unitPattern>
+				<unitPattern count="other">{0} minuuttia</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">{0} kuukausi</unitPattern>
+				<unitPattern count="other">{0} kuukautta</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">{0} sekunti</unitPattern>
+				<unitPattern count="other">{0} sekuntia</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">{0} viikko</unitPattern>
+				<unitPattern count="other">{0} viikkoa</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">{0} vuosi</unitPattern>
+				<unitPattern count="other">{0} vuotta</unitPattern>
+			</unit>
+			<unit type="length-centimeter">
+				<unitPattern count="one">{0} senttimetri</unitPattern>
+				<unitPattern count="other">{0} senttimetriä</unitPattern>
+			</unit>
+			<unit type="length-foot">
+				<unitPattern count="one">{0} jalka</unitPattern>
+				<unitPattern count="other">{0} jalkaa</unitPattern>
+			</unit>
+			<unit type="length-inch">
+				<unitPattern count="one">{0} tuuma</unitPattern>
+				<unitPattern count="other">{0} tuumaa</unitPattern>
+			</unit>
+			<unit type="length-kilometer">
+				<unitPattern count="one">{0} kilometri</unitPattern>
+				<unitPattern count="other">{0} kilometriä</unitPattern>
+			</unit>
+			<unit type="length-light-year">
+				<unitPattern count="one">{0} valovuosi</unitPattern>
+				<unitPattern count="other">{0} valovuotta</unitPattern>
+			</unit>
+			<unit type="length-meter">
+				<unitPattern count="one">{0} metri</unitPattern>
+				<unitPattern count="other">{0} metriä</unitPattern>
+			</unit>
+			<unit type="length-mile">
+				<unitPattern count="one">{0} maili</unitPattern>
+				<unitPattern count="other">{0} mailia</unitPattern>
+			</unit>
+			<unit type="length-millimeter">
+				<unitPattern count="one">{0} millimetri</unitPattern>
+				<unitPattern count="other">{0} millimetriä</unitPattern>
+			</unit>
+			<unit type="length-picometer">
+				<unitPattern count="one">{0} pikometri</unitPattern>
+				<unitPattern count="other">{0} pikometriä</unitPattern>
+			</unit>
+			<unit type="length-yard">
+				<unitPattern count="one">{0} jaardi</unitPattern>
+				<unitPattern count="other">{0} jaardia</unitPattern>
+			</unit>
+			<unit type="mass-gram">
+				<unitPattern count="one">{0} gramma</unitPattern>
+				<unitPattern count="other">{0} grammaa</unitPattern>
+			</unit>
+			<unit type="mass-kilogram">
+				<unitPattern count="one">{0} kilogramma</unitPattern>
+				<unitPattern count="other">{0} kilogrammaa</unitPattern>
+			</unit>
+			<unit type="mass-ounce">
+				<unitPattern count="one">{0} unssi</unitPattern>
+				<unitPattern count="other">{0} unssia</unitPattern>
+			</unit>
+			<unit type="mass-pound">
+				<unitPattern count="one">{0} pauna</unitPattern>
+				<unitPattern count="other">{0} paunaa</unitPattern>
+			</unit>
+			<unit type="power-horsepower">
+				<unitPattern count="one">{0} hevosvoima</unitPattern>
+				<unitPattern count="other">{0} hevosvoimaa</unitPattern>
+			</unit>
+			<unit type="power-kilowatt">
+				<unitPattern count="one">{0} kilowatti</unitPattern>
+				<unitPattern count="other">{0} kilowattia</unitPattern>
+			</unit>
+			<unit type="power-watt">
+				<unitPattern count="one">{0} watti</unitPattern>
+				<unitPattern count="other">{0} wattia</unitPattern>
+			</unit>
+			<unit type="pressure-hectopascal">
+				<unitPattern count="one">{0} hehtopascal</unitPattern>
+				<unitPattern count="other">{0} hehtopascalia</unitPattern>
+			</unit>
+			<unit type="pressure-inch-hg">
+				<unitPattern count="one">{0} tuuma elohopeaa</unitPattern>
+				<unitPattern count="other">{0} tuumaa elohopeaa</unitPattern>
+			</unit>
+			<unit type="pressure-millibar">
+				<unitPattern count="one">{0} millibaari</unitPattern>
+				<unitPattern count="other">{0} millibaaria</unitPattern>
+			</unit>
+			<unit type="speed-kilometer-per-hour">
+				<unitPattern count="one">{0} kilometri tunnissa</unitPattern>
+				<unitPattern count="other">{0} kilometriä tunnissa</unitPattern>
+			</unit>
+			<unit type="speed-meter-per-second">
+				<unitPattern count="one">{0} metri sekunnissa</unitPattern>
+				<unitPattern count="other">{0} metriä sekunnissa</unitPattern>
+			</unit>
+			<unit type="speed-mile-per-hour">
+				<unitPattern count="one">{0} maili tunnissa</unitPattern>
+				<unitPattern count="other">{0} mailia tunnissa</unitPattern>
+			</unit>
+			<unit type="temperature-celsius">
+				<unitPattern count="one">{0} celsiusaste</unitPattern>
+				<unitPattern count="other">{0} celsiusastetta</unitPattern>
+			</unit>
+			<unit type="temperature-fahrenheit">
+				<unitPattern count="one">{0} fahrenheitaste</unitPattern>
+				<unitPattern count="other">{0} fahrenheitastetta</unitPattern>
+			</unit>
+			<unit type="volume-cubic-kilometer">
+				<unitPattern count="one">{0} kuutiokilometri</unitPattern>
+				<unitPattern count="other">{0} kuutiokilometriä</unitPattern>
+			</unit>
+			<unit type="volume-cubic-mile">
+				<unitPattern count="one">{0} kuutiomaili</unitPattern>
+				<unitPattern count="other">{0} kuutiomailia</unitPattern>
+			</unit>
+			<unit type="volume-liter">
+				<unitPattern count="one">{0} litra</unitPattern>
+				<unitPattern count="other">{0} litraa</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="short">
+			<compoundUnit type="per">
+				<compoundUnitPattern>{0}/{1}</compoundUnitPattern>
+			</compoundUnit>
+			<unit type="acceleration-g-force">
+				<unitPattern count="one">{0} G</unitPattern>
+				<unitPattern count="other">{0} G</unitPattern>
+			</unit>
+			<unit type="angle-arc-minute">
+				<unitPattern count="one">{0}′</unitPattern>
+				<unitPattern count="other">{0}′</unitPattern>
+			</unit>
+			<unit type="angle-arc-second">
+				<unitPattern count="one">{0}″</unitPattern>
+				<unitPattern count="other">{0}″</unitPattern>
+			</unit>
+			<unit type="angle-degree">
+				<unitPattern count="one">{0}°</unitPattern>
+				<unitPattern count="other">{0}°</unitPattern>
+			</unit>
+			<unit type="area-acre">
+				<unitPattern count="one">{0} ac</unitPattern>
+				<unitPattern count="other">{0} ac</unitPattern>
+			</unit>
+			<unit type="area-hectare">
+				<unitPattern count="one">{0} ha</unitPattern>
+				<unitPattern count="other">{0} ha</unitPattern>
+			</unit>
+			<unit type="area-square-foot">
+				<unitPattern count="one">{0} ft²</unitPattern>
+				<unitPattern count="other">{0} ft²</unitPattern>
+			</unit>
+			<unit type="area-square-kilometer">
+				<unitPattern count="one">{0} km²</unitPattern>
+				<unitPattern count="other">{0} km²</unitPattern>
+			</unit>
+			<unit type="area-square-meter">
+				<unitPattern count="one">{0} m²</unitPattern>
+				<unitPattern count="other">{0} m²</unitPattern>
+			</unit>
+			<unit type="area-square-mile">
+				<unitPattern count="one">{0} mi²</unitPattern>
+				<unitPattern count="other">{0} mi²</unitPattern>
+			</unit>
+			<unit type="duration-day">
+				<unitPattern count="one">{0} pv</unitPattern>
+				<unitPattern count="other">{0} pv</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">{0} t</unitPattern>
+				<unitPattern count="other">{0} t</unitPattern>
+			</unit>
+			<unit type="duration-millisecond">
+				<unitPattern count="one">{0} ms</unitPattern>
+				<unitPattern count="other">{0} ms</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">{0} min</unitPattern>
+				<unitPattern count="other">{0} min</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">{0} kk</unitPattern>
+				<unitPattern count="other">{0} kk</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">{0} s</unitPattern>
+				<unitPattern count="other">{0} s</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">{0} vk</unitPattern>
+				<unitPattern count="other">{0} vk</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">{0} v</unitPattern>
+				<unitPattern count="other">{0} v</unitPattern>
+			</unit>
+			<unit type="length-centimeter">
+				<unitPattern count="one">{0} cm</unitPattern>
+				<unitPattern count="other">{0} cm</unitPattern>
+			</unit>
+			<unit type="length-foot">
+				<unitPattern count="one">{0} ft</unitPattern>
+				<unitPattern count="other">{0} ft</unitPattern>
+			</unit>
+			<unit type="length-inch">
+				<unitPattern count="one">{0} in</unitPattern>
+				<unitPattern count="other">{0} in</unitPattern>
+			</unit>
+			<unit type="length-kilometer">
+				<unitPattern count="one">{0} km</unitPattern>
+				<unitPattern count="other">{0} km</unitPattern>
+			</unit>
+			<unit type="length-light-year">
+				<unitPattern count="one">{0} vv</unitPattern>
+				<unitPattern count="other">{0} vv</unitPattern>
+			</unit>
+			<unit type="length-meter">
+				<unitPattern count="one">{0} m</unitPattern>
+				<unitPattern count="other">{0} m</unitPattern>
+			</unit>
+			<unit type="length-mile">
+				<unitPattern count="one">{0} mi</unitPattern>
+				<unitPattern count="other">{0} mi</unitPattern>
+			</unit>
+			<unit type="length-millimeter">
+				<unitPattern count="one">{0} mm</unitPattern>
+				<unitPattern count="other">{0} mm</unitPattern>
+			</unit>
+			<unit type="length-picometer">
+				<unitPattern count="one">{0} pm</unitPattern>
+				<unitPattern count="other">{0} pm</unitPattern>
+			</unit>
+			<unit type="length-yard">
+				<unitPattern count="one">{0} yd</unitPattern>
+				<unitPattern count="other">{0} yd</unitPattern>
+			</unit>
+			<unit type="mass-gram">
+				<unitPattern count="one">{0} g</unitPattern>
+				<unitPattern count="other">{0} g</unitPattern>
+			</unit>
+			<unit type="mass-kilogram">
+				<unitPattern count="one">{0} kg</unitPattern>
+				<unitPattern count="other">{0} kg</unitPattern>
+			</unit>
+			<unit type="mass-ounce">
+				<unitPattern count="one">{0} oz</unitPattern>
+				<unitPattern count="other">{0} oz</unitPattern>
+			</unit>
+			<unit type="mass-pound">
+				<unitPattern count="one">{0} lb</unitPattern>
+				<unitPattern count="other">{0} lb</unitPattern>
+			</unit>
+			<unit type="power-horsepower">
+				<unitPattern count="one">{0} hv</unitPattern>
+				<unitPattern count="other">{0} hv</unitPattern>
+			</unit>
+			<unit type="power-kilowatt">
+				<unitPattern count="one">{0} kW</unitPattern>
+				<unitPattern count="other">{0} kW</unitPattern>
+			</unit>
+			<unit type="power-watt">
+				<unitPattern count="one">{0} W</unitPattern>
+				<unitPattern count="other">{0} W</unitPattern>
+			</unit>
+			<unit type="pressure-hectopascal">
+				<unitPattern count="one">{0} hPa</unitPattern>
+				<unitPattern count="other">{0} hPa</unitPattern>
+			</unit>
+			<unit type="pressure-inch-hg">
+				<unitPattern count="one">{0} inHg</unitPattern>
+				<unitPattern count="other">{0} inHg</unitPattern>
+			</unit>
+			<unit type="pressure-millibar">
+				<unitPattern count="one">{0} mbar</unitPattern>
+				<unitPattern count="other">{0} mbar</unitPattern>
+			</unit>
+			<unit type="speed-kilometer-per-hour">
+				<unitPattern count="one">{0} km/h</unitPattern>
+				<unitPattern count="other">{0} km/h</unitPattern>
+			</unit>
+			<unit type="speed-meter-per-second">
+				<unitPattern count="one">{0} m/s</unitPattern>
+				<unitPattern count="other">{0} m/s</unitPattern>
+			</unit>
+			<unit type="speed-mile-per-hour">
+				<unitPattern count="one">{0} mi/h</unitPattern>
+				<unitPattern count="other">{0} mi/h</unitPattern>
+			</unit>
+			<unit type="temperature-celsius">
+				<unitPattern count="one">{0} °C</unitPattern>
+				<unitPattern count="other">{0} °C</unitPattern>
+			</unit>
+			<unit type="temperature-fahrenheit">
+				<unitPattern count="one">{0} °F</unitPattern>
+				<unitPattern count="other">{0} °F</unitPattern>
+			</unit>
+			<unit type="volume-cubic-kilometer">
+				<unitPattern count="one">{0} km³</unitPattern>
+				<unitPattern count="other">{0} km³</unitPattern>
+			</unit>
+			<unit type="volume-cubic-mile">
+				<unitPattern count="one">{0} mi³</unitPattern>
+				<unitPattern count="other">{0} mi³</unitPattern>
+			</unit>
+			<unit type="volume-liter">
+				<unitPattern count="one">{0} l</unitPattern>
+				<unitPattern count="other">{0} l</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="narrow">
+			<compoundUnit type="per">
+				<compoundUnitPattern>{0}/{1}</compoundUnitPattern>
+			</compoundUnit>
+			<unit type="acceleration-g-force">
+				<unitPattern count="one">{0}G</unitPattern>
+				<unitPattern count="other">{0}G</unitPattern>
+			</unit>
+			<unit type="angle-arc-minute">
+				<unitPattern count="one">{0}′</unitPattern>
+				<unitPattern count="other">{0}′</unitPattern>
+			</unit>
+			<unit type="angle-arc-second">
+				<unitPattern count="one">{0}″</unitPattern>
+				<unitPattern count="other">{0}″</unitPattern>
+			</unit>
+			<unit type="angle-degree">
+				<unitPattern count="one">{0}°</unitPattern>
+				<unitPattern count="other">{0}°</unitPattern>
+			</unit>
+			<unit type="area-acre">
+				<unitPattern count="one">{0}ac</unitPattern>
+				<unitPattern count="other">{0}ac</unitPattern>
+			</unit>
+			<unit type="area-hectare">
+				<unitPattern count="one">{0}ha</unitPattern>
+				<unitPattern count="other">{0}ha</unitPattern>
+			</unit>
+			<unit type="area-square-foot">
+				<unitPattern count="one">{0}ft²</unitPattern>
+				<unitPattern count="other">{0}ft²</unitPattern>
+			</unit>
+			<unit type="area-square-kilometer">
+				<unitPattern count="one">{0}km²</unitPattern>
+				<unitPattern count="other">{0}km²</unitPattern>
+			</unit>
+			<unit type="area-square-meter">
+				<unitPattern count="one">{0}m²</unitPattern>
+				<unitPattern count="other">{0}m²</unitPattern>
+			</unit>
+			<unit type="area-square-mile">
+				<unitPattern count="one">{0}mi²</unitPattern>
+				<unitPattern count="other">{0}mi²</unitPattern>
+			</unit>
+			<unit type="duration-day">
+				<unitPattern count="one">{0}pv</unitPattern>
+				<unitPattern count="other">{0}pv</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">{0}t</unitPattern>
+				<unitPattern count="other">{0}t</unitPattern>
+			</unit>
+			<unit type="duration-millisecond">
+				<unitPattern count="one">{0}ms</unitPattern>
+				<unitPattern count="other">{0}ms</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">{0}min</unitPattern>
+				<unitPattern count="other">{0}min</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">{0}kk</unitPattern>
+				<unitPattern count="other">{0}kk</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">{0}s</unitPattern>
+				<unitPattern count="other">{0}s</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">{0}vk</unitPattern>
+				<unitPattern count="other">{0}vk</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">{0}v</unitPattern>
+				<unitPattern count="other">{0}v</unitPattern>
+			</unit>
+			<unit type="length-centimeter">
+				<unitPattern count="one">{0}cm</unitPattern>
+				<unitPattern count="other">{0}cm</unitPattern>
+			</unit>
+			<unit type="length-foot">
+				<unitPattern count="one">{0}′</unitPattern>
+				<unitPattern count="other">{0}′</unitPattern>
+			</unit>
+			<unit type="length-inch">
+				<unitPattern count="one">{0}″</unitPattern>
+				<unitPattern count="other">{0}″</unitPattern>
+			</unit>
+			<unit type="length-kilometer">
+				<unitPattern count="one">{0}km</unitPattern>
+				<unitPattern count="other">{0}km</unitPattern>
+			</unit>
+			<unit type="length-light-year">
+				<unitPattern count="one">{0}vv</unitPattern>
+				<unitPattern count="other">{0}vv</unitPattern>
+			</unit>
+			<unit type="length-meter">
+				<unitPattern count="one">{0}m</unitPattern>
+				<unitPattern count="other">{0}m</unitPattern>
+			</unit>
+			<unit type="length-mile">
+				<unitPattern count="one">{0}mi</unitPattern>
+				<unitPattern count="other">{0}mi</unitPattern>
+			</unit>
+			<unit type="length-millimeter">
+				<unitPattern count="one">{0}mm</unitPattern>
+				<unitPattern count="other">{0}mm</unitPattern>
+			</unit>
+			<unit type="length-picometer">
+				<unitPattern count="one">{0}pm</unitPattern>
+				<unitPattern count="other">{0}pm</unitPattern>
+			</unit>
+			<unit type="length-yard">
+				<unitPattern count="one">{0}yd</unitPattern>
+				<unitPattern count="other">{0}yd</unitPattern>
+			</unit>
+			<unit type="mass-gram">
+				<unitPattern count="one">{0}g</unitPattern>
+				<unitPattern count="other">{0}g</unitPattern>
+			</unit>
+			<unit type="mass-kilogram">
+				<unitPattern count="one">{0}kg</unitPattern>
+				<unitPattern count="other">{0}kg</unitPattern>
+			</unit>
+			<unit type="mass-ounce">
+				<unitPattern count="one">{0}oz</unitPattern>
+				<unitPattern count="other">{0}oz</unitPattern>
+			</unit>
+			<unit type="mass-pound">
+				<unitPattern count="one">{0}lb</unitPattern>
+				<unitPattern count="other">{0}lb</unitPattern>
+			</unit>
+			<unit type="power-horsepower">
+				<unitPattern count="one">{0}hv</unitPattern>
+				<unitPattern count="other">{0}hv</unitPattern>
+			</unit>
+			<unit type="power-kilowatt">
+				<unitPattern count="one">{0}kW</unitPattern>
+				<unitPattern count="other">{0}kW</unitPattern>
+			</unit>
+			<unit type="power-watt">
+				<unitPattern count="one">{0}W</unitPattern>
+				<unitPattern count="other">{0}W</unitPattern>
+			</unit>
+			<unit type="pressure-hectopascal">
+				<unitPattern count="one">{0}hPa</unitPattern>
+				<unitPattern count="other">{0}hPa</unitPattern>
+			</unit>
+			<unit type="pressure-inch-hg">
+				<unitPattern count="one">{0}″ Hg</unitPattern>
+				<unitPattern count="other">{0}″ Hg</unitPattern>
+			</unit>
+			<unit type="pressure-millibar">
+				<unitPattern count="one">{0}mbar</unitPattern>
+				<unitPattern count="other">{0}mbar</unitPattern>
+			</unit>
+			<unit type="speed-kilometer-per-hour">
+				<unitPattern count="one">{0}km/h</unitPattern>
+				<unitPattern count="other">{0}km/h</unitPattern>
+			</unit>
+			<unit type="speed-meter-per-second">
+				<unitPattern count="one">{0}m/s</unitPattern>
+				<unitPattern count="other">{0}m/s</unitPattern>
+			</unit>
+			<unit type="speed-mile-per-hour">
+				<unitPattern count="one">{0}mi/h</unitPattern>
+				<unitPattern count="other">{0}mi/h</unitPattern>
+			</unit>
+			<unit type="temperature-celsius">
+				<unitPattern count="one">{0}°</unitPattern>
+				<unitPattern count="other">{0}°</unitPattern>
+			</unit>
+			<unit type="temperature-fahrenheit">
+				<unitPattern count="one">{0}°F</unitPattern>
+				<unitPattern count="other">{0}°F</unitPattern>
+			</unit>
+			<unit type="volume-cubic-kilometer">
+				<unitPattern count="one">{0}km³</unitPattern>
+				<unitPattern count="other">{0}km³</unitPattern>
+			</unit>
+			<unit type="volume-cubic-mile">
+				<unitPattern count="one">{0}mi³</unitPattern>
+				<unitPattern count="other">{0}mi³</unitPattern>
+			</unit>
+			<unit type="volume-liter">
+				<unitPattern count="one">{0}l</unitPattern>
+				<unitPattern count="other">{0}l</unitPattern>
+			</unit>
+		</unitLength>
+		<durationUnit type="hm">
+			<durationUnitPattern>h.mm</durationUnitPattern>
+		</durationUnit>
+		<durationUnit type="hms">
+			<durationUnitPattern>h.mm.ss</durationUnitPattern>
+		</durationUnit>
+		<durationUnit type="ms">
+			<durationUnitPattern>m.ss</durationUnitPattern>
+		</durationUnit>
 	</units>
 	<listPatterns>
 		<listPattern>
-			<listPatternPart type="2">{0} ja {1}</listPatternPart>
-			<listPatternPart type="end">{0} ja {1}</listPatternPart>
-			<listPatternPart type="middle">{0}, {1}</listPatternPart>
 			<listPatternPart type="start">{0}, {1}</listPatternPart>
+			<listPatternPart type="middle">{0}, {1}</listPatternPart>
+			<listPatternPart type="end">{0} ja {1}</listPatternPart>
+			<listPatternPart type="2">{0} ja {1}</listPatternPart>
+		</listPattern>
+		<listPattern type="unit">
+			<listPatternPart type="start">{0}, {1}</listPatternPart>
+			<listPatternPart type="middle">{0}, {1}</listPatternPart>
+			<listPatternPart type="end">{0} ja {1}</listPatternPart>
+			<listPatternPart type="2">{0} ja {1}</listPatternPart>
+		</listPattern>
+		<listPattern type="unit-narrow">
+			<listPatternPart type="start" draft="contributed">{0} {1}</listPatternPart>
+			<listPatternPart type="middle" draft="contributed">{0} {1}</listPatternPart>
+			<listPatternPart type="end" draft="contributed">{0} {1}</listPatternPart>
+			<listPatternPart type="2" draft="contributed">{0} {1}</listPatternPart>
+		</listPattern>
+		<listPattern type="unit-short">
+			<listPatternPart type="start">{0}, {1}</listPatternPart>
+			<listPatternPart type="middle">{0}, {1}</listPatternPart>
+			<listPatternPart type="end">{0}, {1}</listPatternPart>
+			<listPatternPart type="2">{0}, {1}</listPatternPart>
 		</listPattern>
 	</listPatterns>
 	<posix>

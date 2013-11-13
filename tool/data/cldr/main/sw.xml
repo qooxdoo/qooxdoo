@@ -6,14 +6,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8671 $"/>
-		<generation date="$Date: 2013-05-03 14:17:48 -0500 (Fri, 03 May 2013) $"/>
+		<version number="$Revision: 9287 $"/>
+		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
 		<language type="sw"/>
 	</identity>
 	<localeDisplayNames>
 		<localeDisplayPattern>
 			<localePattern>{0} ({1})</localePattern>
-			<localeSeparator>,</localeSeparator>
+			<localeSeparator>{0}, {1}</localeSeparator>
+			<localeKeyTypePattern>{0}: {1}</localeKeyTypePattern>
 		</localeDisplayPattern>
 		<languages>
 			<language type="ab">Kiabkhazi</language>
@@ -84,6 +85,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="es">Kihispania</language>
 			<language type="es_419">Kihispania cha Amerika ya Kilatinini</language>
 			<language type="es_ES">Kihispania cha Ulaya</language>
+			<language type="es_MX">Kihispania cha Meksiko</language>
 			<language type="et">Kiestonia</language>
 			<language type="eu">Kibasque</language>
 			<language type="ewo" draft="unconfirmed">Kiewondo</language>
@@ -231,7 +233,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="seh" draft="unconfirmed">Kisena</language>
 			<language type="sem" draft="unconfirmed">Lugha ya Kisemiti</language>
 			<language type="sg">Kisango</language>
-			<language type="sh" draft="unconfirmed">kiserbia-kroeshia</language>
+			<language type="sh" draft="unconfirmed">Kiserbia-kroeshia</language>
 			<language type="shu" draft="unconfirmed">Kiarabu cha Chadi</language>
 			<language type="si">Kisinhala</language>
 			<language type="sk">Kislovakia</language>
@@ -275,8 +277,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="tum">Kitumbuka</language>
 			<language type="tw" draft="unconfirmed">Kitwi</language>
 			<language type="ty">Kitahiti</language>
-			<language type="ug">Kiuigur</language>
-			<language type="ug" alt="variant">Kiuiguri</language>
+			<language type="ug">Kiuiguri</language>
 			<language type="uk">Kiukrania</language>
 			<language type="und">Lugha Isiyojulikana</language>
 			<language type="ur">Kiurdu</language>
@@ -289,6 +290,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ybb" draft="unconfirmed">Kiyemba</language>
 			<language type="yi">Kiyidi</language>
 			<language type="yo">Kiyoruba</language>
+			<language type="zgh">Tamaziti Msingi ya Kimoroko</language>
 			<language type="zh">Kichina</language>
 			<language type="zh_Hans">Kichina Rahisi</language>
 			<language type="zh_Hant">Kichina cha Jadi</language>
@@ -411,15 +413,14 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="BY">Belarusi</territory>
 			<territory type="BZ">Belize</territory>
 			<territory type="CA">Kanada</territory>
-			<territory type="CC">Visiwa vya Cocos [Keeling]</territory>
+			<territory type="CC">Visiwa vya Cocos (Keeling)</territory>
 			<territory type="CD">Jamhuri ya Kidemokrasia ya Kongo</territory>
-			<territory type="CD" alt="variant">Kongo [Jamhuri ya Kidemokrasia]</territory>
+			<territory type="CD" alt="variant">Kongo (Jamhuri ya Kidemokrasia)</territory>
 			<territory type="CF">Jamhuri ya Afrika ya Kati</territory>
-			<territory type="CG">Kongo</territory>
-			<territory type="CG" alt="variant">Kongo [Jamhuri ya]</territory>
+			<territory type="CG">Kongo - Brazzaville</territory>
+			<territory type="CG" alt="variant">Kongo (Jamhuri ya)</territory>
 			<territory type="CH">Uswisi</territory>
-			<territory type="CI">Kodivaa</territory>
-			<territory type="CI" alt="variant">Cote d'Ivoire</territory>
+			<territory type="CI">Côte d’Ivoire</territory>
 			<territory type="CK">Visiwa vya Cook</territory>
 			<territory type="CL">Chile</territory>
 			<territory type="CM">Kameruni</territory>
@@ -452,12 +453,13 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="FI">Ufini</territory>
 			<territory type="FJ">Fiji</territory>
 			<territory type="FK">Visiwa vya Falkland</territory>
-			<territory type="FK" alt="variant">Visiwa vya Falklandi [Islas Malvinas]</territory>
+			<territory type="FK" alt="variant">Visiwa vya Falkland (Islas Malvinas)</territory>
 			<territory type="FM">Mikronesia</territory>
 			<territory type="FO">Visiwa vya Faroe</territory>
 			<territory type="FR">Ufaransa</territory>
 			<territory type="GA">Gaboni</territory>
 			<territory type="GB">Uingereza</territory>
+			<territory type="GB" alt="short">Uingereza</territory>
 			<territory type="GD">Grenada</territory>
 			<territory type="GE">Jojia</territory>
 			<territory type="GF">Gwiyana ya Ufaransa</territory>
@@ -527,9 +529,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="MG">Bukini</territory>
 			<territory type="MH">Visiwa vya Marshal</territory>
 			<territory type="MK">Masedonia</territory>
-			<territory type="MK" alt="variant">Masedonia [FYROM]</territory>
+			<territory type="MK" alt="variant">Masedonia (FYROM)</territory>
 			<territory type="ML">Mali</territory>
-			<territory type="MM">Myama</territory>
+			<territory type="MM">Myanmar (Burma)</territory>
 			<territory type="MN">Mongolia</territory>
 			<territory type="MO">Macau SAR China</territory>
 			<territory type="MO" alt="short">Macau</territory>
@@ -548,7 +550,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="NC">Nyukaledonia</territory>
 			<territory type="NE">Nijeri</territory>
 			<territory type="NF">Kisiwa cha Norfok</territory>
-			<territory type="NG">Nijeria</territory>
+			<territory type="NG">Nigeria</territory>
 			<territory type="NI">Nikaragwa</territory>
 			<territory type="NL">Uholanzi</territory>
 			<territory type="NO">Norwe</territory>
@@ -567,7 +569,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="PM">Santapieri na Mikeloni</territory>
 			<territory type="PN">Pitkairni</territory>
 			<territory type="PR">Pwetoriko</territory>
-			<territory type="PS">Ukingo wa Magharibi na Ukanda wa Gaza wa Palestina</territory>
+			<territory type="PS">Maeneo ya Palestina</territory>
 			<territory type="PS" alt="short">Palestina</territory>
 			<territory type="PT">Ureno</territory>
 			<territory type="PW">Palau</territory>
@@ -595,7 +597,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="SO">Somalia</territory>
 			<territory type="SR">Surinamu</territory>
 			<territory type="SS">Sudani Kusini</territory>
-			<territory type="ST">Sao Tome na Principe</territory>
+			<territory type="ST">São Tomé na Príncipe</territory>
 			<territory type="SV">Elsavado</territory>
 			<territory type="SX">Santamatini</territory>
 			<territory type="SY">Siria</territory>
@@ -608,8 +610,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="TH">Tailandi</territory>
 			<territory type="TJ">Tajikistani</territory>
 			<territory type="TK">Tokelau</territory>
-			<territory type="TL">Timori ya Mashariki</territory>
-			<territory type="TL" alt="variant">Timori Mashariki</territory>
+			<territory type="TL">Timor ya Mashariki</territory>
 			<territory type="TM">Turukimenistani</territory>
 			<territory type="TN">Tunisia</territory>
 			<territory type="TO">Tonga</territory>
@@ -667,6 +668,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type type="beng" key="numbers">Nambari za Kibengali</type>
 			<type type="big5han" key="collation">Mpangilio wa Kichina cha Jadi - Big5</type>
 			<type type="buddhist" key="calendar">Kalenda ya Kibuddha</type>
+			<type type="cham" key="numbers" draft="unconfirmed">Nambari za Kichami</type>
 			<type type="chinese" key="calendar">Kalenda ya Kichina</type>
 			<type type="coptic" key="calendar">Kalenda ya Koptiki</type>
 			<type type="deva" key="numbers">Nambari za Kidevanagari</type>
@@ -695,13 +697,16 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type type="indian" key="calendar">Kalenda ya Taifa ya India</type>
 			<type type="islamic" key="calendar">Kalenda ya Kiislamu</type>
 			<type type="islamic-civil" key="calendar">Kalenda ya Kiislamu/Rasmi</type>
+			<type type="iso8601" key="calendar" draft="unconfirmed">Kalenda ya ISO-8601</type>
 			<type type="japanese" key="calendar">Kalenda ya Kijapani</type>
+			<type type="java" key="numbers" draft="unconfirmed">Nambari za Kijava</type>
 			<type type="jpan" key="numbers">Nambari za Kijapani</type>
 			<type type="jpanfin" key="numbers">Nambari za Kifedha za Kijapani</type>
 			<type type="khmr" key="numbers">Nambari za Kikhmeri</type>
 			<type type="knda" key="numbers">Nambari za Kikannada</type>
 			<type type="laoo" key="numbers">Nambari za Kilao</type>
 			<type type="latn" key="numbers">Nambari za Magharibi</type>
+			<type type="limb" key="numbers" draft="unconfirmed">Nambari za Kilimbu</type>
 			<type type="lower" key="colCaseFirst">Panga Herufi ndogo Kwanza</type>
 			<type type="mlym" key="numbers">Nambari za Kimalayamu</type>
 			<type type="mong" key="numbers">Nambari za Kimongolia</type>
@@ -730,7 +735,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type type="secondary" key="colStrength">Panga Viinitoni</type>
 			<type type="shifted" key="colAlternate">Panga Alama za Kupuuza</type>
 			<type type="stroke" key="collation">Mpangilio wa Mikwaju</type>
-			<type type="taml" key="numbers">Nambari za Kitamil</type>
+			<type type="takr" key="numbers" draft="unconfirmed">Nambari za Kitakri</type>
+			<type type="taml" key="numbers">Nambari za Kitamili</type>
+			<type type="tamldec" key="numbers">Nambari za Kitamili</type>
 			<type type="telu" key="numbers">Nambari za Kitelugu</type>
 			<type type="tertiary" key="colStrength">Panga Viinitoni/Herufi/Upana</type>
 			<type type="thai" key="numbers">Nambari za Kitai</type>
@@ -763,6 +770,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<measurementSystemName type="UK">Uingereza</measurementSystemName>
 			<measurementSystemName type="US">Marekani</measurementSystemName>
 		</measurementSystemNames>
+		<codePatterns>
+			<codePattern type="language">{0}</codePattern>
+			<codePattern type="script">{0}</codePattern>
+			<codePattern type="territory">{0}</codePattern>
+		</codePatterns>
 	</localeDisplayNames>
 	<characters>
 		<exemplarCharacters>[a b {ch} d e f g h i j k l m n o p r s t u v w y z]</exemplarCharacters>
@@ -771,6 +783,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 		<ellipsis type="final">{0}…</ellipsis>
 		<ellipsis type="initial">…{0}</ellipsis>
 		<ellipsis type="medial">{0}…{1}</ellipsis>
+		<ellipsis type="word-final" draft="contributed">{0} …</ellipsis>
+		<ellipsis type="word-initial" draft="contributed">… {0}</ellipsis>
+		<ellipsis type="word-medial" draft="contributed">{0} … {1}</ellipsis>
 		<moreInformation>?</moreInformation>
 	</characters>
 	<delimiters>
@@ -828,6 +843,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">d E</dateFormatItem>
+						<dateFormatItem id="Gy">y G</dateFormatItem>
+						<dateFormatItem id="GyMMM">MMM y G</dateFormatItem>
+						<dateFormatItem id="GyMMMd">d MMM y G</dateFormatItem>
+						<dateFormatItem id="GyMMMEd">E, d MMM y G</dateFormatItem>
 						<dateFormatItem id="H">HH</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
@@ -841,18 +860,20 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
 						<dateFormatItem id="MMMMEd">E, d MMMM</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">M/y</dateFormatItem>
-						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">E, d/M/y</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, MMM d, y</dateFormatItem>
-						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-						<dateFormatItem id="yQQQQ">QQQQ y</dateFormatItem>
+						<dateFormatItem id="y">y G</dateFormatItem>
+						<dateFormatItem id="yyyy">y G</dateFormatItem>
+						<dateFormatItem id="yyyyM">M/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMd">d/M/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E, d/M/y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMd">d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">E, d MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM">MMMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
+						<dateFormatItem id="yyyyQQQQ">QQQQ y G</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
+						<intervalFormatFallback>{0} – {1}</intervalFormatFallback>
 						<intervalFormatItem id="d">
 							<greatestDifference id="d">d - d</greatestDifference>
 						</intervalFormatItem>
@@ -911,39 +932,39 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<greatestDifference id="M">E, d MMM - E, d MMM</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="y">
-							<greatestDifference id="y">y - y</greatestDifference>
+							<greatestDifference id="y">y - y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yM">
-							<greatestDifference id="M">M/y - M/y</greatestDifference>
-							<greatestDifference id="y">M/y - M/y</greatestDifference>
+							<greatestDifference id="M">M/y - M/y G</greatestDifference>
+							<greatestDifference id="y">M/y - M/y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMd">
-							<greatestDifference id="d">d/M/y - d/M/y</greatestDifference>
-							<greatestDifference id="M">d/M/y - d/M/y</greatestDifference>
-							<greatestDifference id="y">d/M/y - d/M/y</greatestDifference>
+							<greatestDifference id="d">d/M/y - d/M/y G</greatestDifference>
+							<greatestDifference id="M">d/M/y - d/M/y G</greatestDifference>
+							<greatestDifference id="y">d/M/y - d/M/y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d">E, d/M/y - E, d/M/y</greatestDifference>
-							<greatestDifference id="M">E, d/M/y - E, d/M/y</greatestDifference>
-							<greatestDifference id="y">E, d/M/y - E, d/M/y</greatestDifference>
+							<greatestDifference id="d">E, d/M/y - E, d/M/y G</greatestDifference>
+							<greatestDifference id="M">E, d/M/y - E, d/M/y G</greatestDifference>
+							<greatestDifference id="y">E, d/M/y - E, d/M/y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M">MMM - MMM y</greatestDifference>
-							<greatestDifference id="y">MMM y - MMM y</greatestDifference>
+							<greatestDifference id="M">MMM - MMM y G</greatestDifference>
+							<greatestDifference id="y">MMM y - MMM y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="d">d - d MMM y</greatestDifference>
-							<greatestDifference id="M">d MMM - d MMM y</greatestDifference>
-							<greatestDifference id="y">d MMM y - d MMM y</greatestDifference>
+							<greatestDifference id="d">d - d MMM y G</greatestDifference>
+							<greatestDifference id="M">d MMM - d MMM y G</greatestDifference>
+							<greatestDifference id="y">d MMM y - d MMM y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d">E, d MMM - E, d MMM y</greatestDifference>
+							<greatestDifference id="d">E, d MMM - E, d MMM y G</greatestDifference>
 							<greatestDifference id="M">E, d MMM - E, d MMM y</greatestDifference>
 							<greatestDifference id="y">E, d MMM y - E, d MMM y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="M">MMMM-MMMM y</greatestDifference>
-							<greatestDifference id="y">MMMM y – MMMM y</greatestDifference>
+							<greatestDifference id="M">MMMM-MMMM y G</greatestDifference>
+							<greatestDifference id="y">MMMM y – MMMM y G</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
@@ -1087,8 +1108,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<dayPeriods>
 					<dayPeriodContext type="format">
 						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">asubuhi</dayPeriod>
-							<dayPeriod type="pm">alasiri</dayPeriod>
+							<dayPeriod type="am">AM</dayPeriod>
+							<dayPeriod type="pm">PM</dayPeriod>
 						</dayPeriodWidth>
 					</dayPeriodContext>
 				</dayPeriods>
@@ -1170,9 +1191,19 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">d E</dateFormatItem>
+						<dateFormatItem id="Ehm">E h:mm a</dateFormatItem>
+						<dateFormatItem id="EHm">E HH:mm</dateFormatItem>
+						<dateFormatItem id="Ehms">E h:mm:ss a</dateFormatItem>
+						<dateFormatItem id="EHms">E HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="Gy">y G</dateFormatItem>
+						<dateFormatItem id="GyMMM">MMM y G</dateFormatItem>
+						<dateFormatItem id="GyMMMd">d MMM y G</dateFormatItem>
+						<dateFormatItem id="GyMMMEd">E, MMM d, y G</dateFormatItem>
+						<dateFormatItem id="h">h a</dateFormatItem>
 						<dateFormatItem id="H">HH</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
 						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">d-M</dateFormatItem>
@@ -1194,7 +1225,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
 						<dateFormatItem id="yQQQQ">QQQQ y</dateFormatItem>
 					</availableFormats>
+					<appendItems>
+						<appendItem request="Timezone" draft="contributed">{0} {1}</appendItem>
+					</appendItems>
 					<intervalFormats>
+						<intervalFormatFallback>{0} – {1}</intervalFormatFallback>
 						<intervalFormatItem id="d">
 							<greatestDifference id="d">d - d</greatestDifference>
 						</intervalFormatItem>
@@ -1245,12 +1280,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<greatestDifference id="M">MMM - MMM</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="MMMd">
-							<greatestDifference id="d">d - d MMM</greatestDifference>
-							<greatestDifference id="M">d MMM - d MMM</greatestDifference>
+							<greatestDifference id="d">MMM d–d</greatestDifference>
+							<greatestDifference id="M">MMM d – MMM d</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="MMMEd">
-							<greatestDifference id="d">E, d MMM - E, d MMM</greatestDifference>
-							<greatestDifference id="M">E, d MMM - E, d MMM</greatestDifference>
+							<greatestDifference id="d">E, MMM d- E, MMM d</greatestDifference>
+							<greatestDifference id="M">E, MMM d- E, MMM d</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="y">
 							<greatestDifference id="y">y - y</greatestDifference>
@@ -1274,14 +1309,14 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<greatestDifference id="y">MMM y - MMM y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="d">d - d MMM y</greatestDifference>
-							<greatestDifference id="M">d MMM - d MMM y</greatestDifference>
-							<greatestDifference id="y">d MMM y - d MMM y</greatestDifference>
+							<greatestDifference id="d">MMM d - d, y</greatestDifference>
+							<greatestDifference id="M">MMM d - d, y</greatestDifference>
+							<greatestDifference id="y">MMM d y - MMM d y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d">E, d MMM - E, d MMM y</greatestDifference>
-							<greatestDifference id="M">E, d MMM - E, d MMM y</greatestDifference>
-							<greatestDifference id="y">E, d MMM y - E, d MMM y</greatestDifference>
+							<greatestDifference id="d">E, MMM d - E, MMM d y</greatestDifference>
+							<greatestDifference id="M">E, MMM d- E, MMM d y</greatestDifference>
+							<greatestDifference id="y">E, MMM d y - E, MMM d y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMM">
 							<greatestDifference id="M">MMMM-MMMM y</greatestDifference>
@@ -1297,44 +1332,136 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</field>
 			<field type="year">
 				<displayName>Mwaka</displayName>
-				<relative type="-1">Mwaka uliopita</relative>
-				<relative type="0">Mwaka huu</relative>
-				<relative type="1">Mwaka ujao</relative>
+				<relative type="-1">mwaka uliopita</relative>
+				<relative type="0">mwaka huu</relative>
+				<relative type="1">mwaka ujao</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">Baada ya mwaka {0}</relativeTimePattern>
+					<relativeTimePattern count="other">Baada ya miaka {0}</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">Mwaka {0} uliopita</relativeTimePattern>
+					<relativeTimePattern count="other">Miaka {0} iliyopita</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="month">
 				<displayName>Mwezi</displayName>
-				<relative type="-1">Mwezi uliopita</relative>
-				<relative type="0">Mwezi huu</relative>
-				<relative type="1">Mwezi ujao</relative>
+				<relative type="-1">mwezi uliopita</relative>
+				<relative type="0">mwezi huu</relative>
+				<relative type="1">mwezi ujao</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">Baada ya mwezi {0}</relativeTimePattern>
+					<relativeTimePattern count="other">Baada ya miezi {0}</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">Miezi {0} iliyopita</relativeTimePattern>
+					<relativeTimePattern count="other">Miezi {0} iliyopita</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="week">
 				<displayName>Wiki</displayName>
-				<relative type="-1">Wiki iliyopita</relative>
-				<relative type="0">Wiki hii</relative>
-				<relative type="1">Wiki ijayo</relative>
+				<relative type="-1">wiki iliyopita</relative>
+				<relative type="0">wiki hii</relative>
+				<relative type="1">wiki ijayo</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">Baada ya wiki {0}</relativeTimePattern>
+					<relativeTimePattern count="other">Baada ya wiki {0}</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">Wiki {0} iliyopita</relativeTimePattern>
+					<relativeTimePattern count="other">Wiki {0} zilizopita</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="day">
 				<displayName>Siku</displayName>
-				<relative type="-2">Mtondo</relative>
-				<relative type="-1">Jana</relative>
-				<relative type="0">Leo</relative>
-				<relative type="1">Kesho</relative>
-				<relative type="2">Kesho kutwa</relative>
+				<relative type="-2">juzi</relative>
+				<relative type="-1">jana</relative>
+				<relative type="0">leo</relative>
+				<relative type="1">kesho</relative>
+				<relative type="2">kesho kutwa</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">Baada ya siku {0}</relativeTimePattern>
+					<relativeTimePattern count="other">Baada ya siku {0}</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">Siku {0} iliyopita</relativeTimePattern>
+					<relativeTimePattern count="other">Siku {0} zilizopita</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="weekday">
 				<displayName>Siku ya wiki</displayName>
+			</field>
+			<field type="sun">
+				<relative type="-1">Jumapili iliyopita</relative>
+				<relative type="0">Jumapili hii</relative>
+				<relative type="1">Jumapili ijayo</relative>
+			</field>
+			<field type="mon">
+				<relative type="-1">Jumatatu iliyopita</relative>
+				<relative type="0">Jumatatu hii</relative>
+				<relative type="1">Jumatatu ijayo</relative>
+			</field>
+			<field type="tue">
+				<relative type="-1">Jumanne iliyopita</relative>
+				<relative type="0">Jumanne hii</relative>
+				<relative type="1">Jumanne ijayo</relative>
+			</field>
+			<field type="wed">
+				<relative type="-1">Jumatano iliyopita</relative>
+				<relative type="0">Jumatano hii</relative>
+				<relative type="1">Jumatano ijayo</relative>
+			</field>
+			<field type="thu">
+				<relative type="-1">Alhamisi iliyopita</relative>
+				<relative type="0">Alhamisi hii</relative>
+				<relative type="1">Alhamisi ijayo</relative>
+			</field>
+			<field type="fri">
+				<relative type="-1">Ijumaa iliyopita</relative>
+				<relative type="0">Ijumaa hii</relative>
+				<relative type="1">Ijumaa ijayo</relative>
+			</field>
+			<field type="sat">
+				<relative type="-1">Jumamosi iliyopita</relative>
+				<relative type="0">Jumamosi hii</relative>
+				<relative type="1">Jumamosi ijayo</relative>
 			</field>
 			<field type="dayperiod">
 				<displayName>Muda wa siku</displayName>
 			</field>
 			<field type="hour">
 				<displayName>Saa</displayName>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">Baada ya saa {0}</relativeTimePattern>
+					<relativeTimePattern count="other">Baada ya saa {0}</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">Saa {0} iliyopita</relativeTimePattern>
+					<relativeTimePattern count="other">Saa {0} zilizopita</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="minute">
 				<displayName>Dakika</displayName>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">Baada ya dakika {0}</relativeTimePattern>
+					<relativeTimePattern count="other">Baada ya dakika {0}</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">Dakika {0} iliyopita</relativeTimePattern>
+					<relativeTimePattern count="other">Dakika {0} zilizopita</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="second">
 				<displayName>Sekunde</displayName>
+				<relative type="0">sasa</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">Baada ya sekunde {0}</relativeTimePattern>
+					<relativeTimePattern count="other">Baada ya sekunde {0}</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">Sekunde {0} iliyopita</relativeTimePattern>
+					<relativeTimePattern count="other">Sekunde {0} zilizopita</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="zone">
 				<displayName>Majira ya saa</displayName>
@@ -1344,29 +1471,127 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<hourFormat>+HH:mm;-HH:mm</hourFormat>
 			<gmtFormat>GMT {0}</gmtFormat>
 			<gmtZeroFormat>GMT</gmtZeroFormat>
-			<regionFormat>{0} Saa</regionFormat>
+			<regionFormat>Saa za {0}</regionFormat>
+			<regionFormat type="daylight">Saa za Mchana za {0}</regionFormat>
+			<regionFormat type="standard">Saa za Msingi za {0}</regionFormat>
 			<fallbackFormat>{1} ({0})</fallbackFormat>
-			<fallbackRegionFormat>{1} Saa ({0})</fallbackRegionFormat>
+			<zone type="Etc/Unknown">
+				<exemplarCity>Jiji Lisilojulikana</exemplarCity>
+			</zone>
+			<zone type="Antarctica/DumontDUrville">
+				<exemplarCity>Dumont d’Urville</exemplarCity>
+			</zone>
 			<zone type="America/St_Barthelemy">
 				<exemplarCity>Saint Barthélemy</exemplarCity>
+			</zone>
+			<zone type="America/Coral_Harbour">
+				<exemplarCity>Atikokan</exemplarCity>
 			</zone>
 			<zone type="America/St_Johns">
 				<exemplarCity>St. John’s</exemplarCity>
 			</zone>
+			<zone type="America/Costa_Rica">
+				<exemplarCity>Kosta Rika</exemplarCity>
+			</zone>
+			<zone type="Atlantic/Cape_Verde">
+				<exemplarCity>Kepuvede</exemplarCity>
+			</zone>
 			<zone type="America/Curacao">
-				<exemplarCity>Curaçao</exemplarCity>
+				<exemplarCity>Kurakao</exemplarCity>
 			</zone>
-			<zone type="America/Asuncion">
-				<exemplarCity>Asunción</exemplarCity>
+			<zone type="Indian/Christmas">
+				<exemplarCity>Krismasi</exemplarCity>
 			</zone>
-			<zone type="Indian/Reunion">
-				<exemplarCity>Réunion</exemplarCity>
+			<zone type="Africa/Asmera">
+				<exemplarCity>Asmara</exemplarCity>
 			</zone>
-			<zone type="Africa/Sao_Tome">
-				<exemplarCity>São Tomé</exemplarCity>
+			<zone type="Pacific/Truk">
+				<exemplarCity>Chuuk</exemplarCity>
+			</zone>
+			<zone type="Pacific/Ponape">
+				<exemplarCity>Pohnpei</exemplarCity>
+			</zone>
+			<zone type="Atlantic/Faeroe">
+				<exemplarCity>Faroe</exemplarCity>
+			</zone>
+			<zone type="Europe/London">
+				<long>
+					<daylight>Muda wa Majira ya Joto wa Uingereza</daylight>
+				</long>
+			</zone>
+			<zone type="America/Godthab">
+				<exemplarCity>Nuuk</exemplarCity>
+			</zone>
+			<zone type="America/Scoresbysund">
+				<exemplarCity>Ittoqqortoormiit</exemplarCity>
+			</zone>
+			<zone type="Europe/Dublin">
+				<long>
+					<daylight>Muda wa Majira ya Joto wa Ayalandi</daylight>
+				</long>
+			</zone>
+			<zone type="Asia/Calcutta">
+				<exemplarCity>Kolkata</exemplarCity>
+			</zone>
+			<zone type="America/St_Kitts">
+				<exemplarCity>St. Kitts</exemplarCity>
+			</zone>
+			<zone type="America/St_Lucia">
+				<exemplarCity>St. Lucia</exemplarCity>
+			</zone>
+			<zone type="America/Mexico_City">
+				<exemplarCity>Jiji la Meksiko</exemplarCity>
+			</zone>
+			<zone type="Asia/Katmandu">
+				<exemplarCity>Kathmandu</exemplarCity>
+			</zone>
+			<zone type="Atlantic/St_Helena">
+				<exemplarCity>St. Helena</exemplarCity>
 			</zone>
 			<zone type="America/Lower_Princes">
 				<exemplarCity>Lower Prince's Quarter</exemplarCity>
+			</zone>
+			<zone type="America/North_Dakota/Beulah">
+				<exemplarCity>Beulah, North Dakota</exemplarCity>
+			</zone>
+			<zone type="America/North_Dakota/New_Salem">
+				<exemplarCity>New Salem, North Dakota</exemplarCity>
+			</zone>
+			<zone type="America/North_Dakota/Center">
+				<exemplarCity>Center, North Dakota</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Vincennes">
+				<exemplarCity>Vincennes, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Petersburg">
+				<exemplarCity>Petersburg, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Tell_City">
+				<exemplarCity>Tell City, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Knox">
+				<exemplarCity>Knox, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Winamac">
+				<exemplarCity>Winamac, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Marengo">
+				<exemplarCity>Marengo, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Vevay">
+				<exemplarCity>Vevay, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Kentucky/Monticello">
+				<exemplarCity>Monticello, Kentucky</exemplarCity>
+			</zone>
+			<zone type="America/St_Vincent">
+				<exemplarCity>St. Vincent</exemplarCity>
+			</zone>
+			<zone type="America/St_Thomas">
+				<exemplarCity>St. Thomas</exemplarCity>
+			</zone>
+			<zone type="Asia/Saigon">
+				<exemplarCity>Ho Chi Minh</exemplarCity>
 			</zone>
 			<metazone type="Afghanistan">
 				<long>
@@ -2248,6 +2473,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<plusSign>+</plusSign>
 			<minusSign>-</minusSign>
 			<exponential>E</exponential>
+			<superscriptingExponent>×</superscriptingExponent>
 			<perMille>‰</perMille>
 			<infinity>∞</infinity>
 			<nan>NaN</nan>
@@ -2331,7 +2557,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</percentFormats>
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
-				<currencyFormat>
+				<currencyFormat type="standard">
+					<pattern>¤#,##0.00</pattern>
+				</currencyFormat>
+				<currencyFormat type="accounting">
 					<pattern>¤#,##0.00;(¤#,##0.00)</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
@@ -2362,6 +2591,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="AUD">
 				<displayName>dola ya Australia</displayName>
+				<symbol>A$</symbol>
 			</currency>
 			<currency type="AWG">
 				<displayName>Florin ya Aruba</displayName>
@@ -2389,6 +2619,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="BMD">
 				<displayName>Dola ya Bermuda</displayName>
+				<displayName count="one">Dola ya Bermuda</displayName>
+				<displayName count="other">Dola ya Bermuda</displayName>
 			</currency>
 			<currency type="BND">
 				<displayName>Dola ya Brunei</displayName>
@@ -2398,6 +2630,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="BRL">
 				<displayName>Real ya Brazil</displayName>
+				<symbol>R$</symbol>
 			</currency>
 			<currency type="BSD">
 				<displayName>Dola ya Bahamas</displayName>
@@ -2416,6 +2649,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="CAD">
 				<displayName>dola ya Kanada</displayName>
+				<symbol>CA$</symbol>
 			</currency>
 			<currency type="CDF">
 				<displayName>faranga ya Kongo</displayName>
@@ -2428,6 +2662,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="CNY">
 				<displayName>yuan Renminbi ya China</displayName>
+				<symbol>CN¥</symbol>
 			</currency>
 			<currency type="COP">
 				<displayName>Peso ya Kolombia</displayName>
@@ -2470,6 +2705,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="EUR">
 				<displayName>yuro</displayName>
+				<symbol>€</symbol>
 			</currency>
 			<currency type="FJD">
 				<displayName>Dola ya Fiji</displayName>
@@ -2479,6 +2715,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="GBP">
 				<displayName>pauni ya Uingereza</displayName>
+				<symbol>£</symbol>
 			</currency>
 			<currency type="GEL">
 				<displayName>Lari ya Georgia</displayName>
@@ -2509,6 +2746,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="HKD">
 				<displayName>Dola ya Hong Kong</displayName>
+				<symbol>HK$</symbol>
 			</currency>
 			<currency type="HNL">
 				<displayName>Lempira ya Hondurasi</displayName>
@@ -2527,9 +2765,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="ILS">
 				<displayName>Sheqel Mpya ya Israeli</displayName>
+				<symbol>₪</symbol>
 			</currency>
 			<currency type="INR">
 				<displayName>rupia ya India</displayName>
+				<symbol>₹</symbol>
 			</currency>
 			<currency type="IQD">
 				<displayName>Dinari ya Irak</displayName>
@@ -2548,6 +2788,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="JPY">
 				<displayName>sarafu ya Kijapani</displayName>
+				<symbol>JP¥</symbol>
 			</currency>
 			<currency type="KES">
 				<displayName>shilingi ya Kenya</displayName>
@@ -2567,6 +2808,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="KRW">
 				<displayName>Won ya Korea Kusini</displayName>
+				<symbol>₩</symbol>
 			</currency>
 			<currency type="KWD">
 				<displayName>Dinar ya Kuwait</displayName>
@@ -2636,12 +2878,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="MXN">
 				<displayName>Peso ya Meksiko</displayName>
+				<symbol>MX$</symbol>
 			</currency>
 			<currency type="MYR">
 				<displayName>Ringgit ya Malaysia</displayName>
 			</currency>
 			<currency type="MZM">
-				<displayName>metikali ya Msumbiji</displayName>
+				<displayName>metikali ya Msumbiji (1980–2006)</displayName>
+				<displayName count="one">metikali ya Msumbiji (1980–2006)</displayName>
+				<displayName count="other">metikali ya Msumbiji (1980–2006)</displayName>
 			</currency>
 			<currency type="MZN">
 				<displayName>Metikali ya Msumbiji</displayName>
@@ -2663,6 +2908,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="NZD">
 				<displayName>Dola ya Nyuzilandi</displayName>
+				<symbol>NZ$</symbol>
 			</currency>
 			<currency type="OMR">
 				<displayName>Rial ya Oman</displayName>
@@ -2750,6 +2996,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="THB">
 				<displayName>Baht ya Tailandi</displayName>
+				<symbol>฿</symbol>
 			</currency>
 			<currency type="TJS">
 				<displayName>Somoni ya Tajikistani</displayName>
@@ -2771,6 +3018,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="TWD">
 				<displayName>Dola ya Taiwan</displayName>
+				<symbol>NT$</symbol>
 			</currency>
 			<currency type="TZS">
 				<displayName>shilingi ya Tanzania</displayName>
@@ -2784,6 +3032,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="USD">
 				<displayName>dola ya Marekani</displayName>
+				<symbol>US$</symbol>
 			</currency>
 			<currency type="UYU">
 				<displayName>Peso ya Urugwai</displayName>
@@ -2796,6 +3045,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="VND">
 				<displayName>Dong ya Kivietinamu</displayName>
+				<symbol>₫</symbol>
 			</currency>
 			<currency type="VUV">
 				<displayName>Vatu ya Vanuatu</displayName>
@@ -2805,15 +3055,19 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="XAF">
 				<displayName>faranga CFA BEAC</displayName>
+				<symbol>FCFA</symbol>
 			</currency>
 			<currency type="XCD">
 				<displayName>Dola ya Karibea ya Mashariki</displayName>
+				<symbol>EC$</symbol>
 			</currency>
 			<currency type="XOF">
 				<displayName>faranga CFA BCEAO</displayName>
+				<symbol>CFA</symbol>
 			</currency>
 			<currency type="XPF">
 				<displayName>Franc ya CFP</displayName>
+				<symbol>CFPF</symbol>
 			</currency>
 			<currency type="XXX">
 				<displayName>Fedha Isiyojulikana</displayName>
@@ -2825,7 +3079,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>randi ya Afrika Kusini</displayName>
 			</currency>
 			<currency type="ZMK">
-				<displayName>kwacha ya Zambia (1968-2012)</displayName>
+				<displayName>kwacha ya Zambia (1968–2012)</displayName>
 			</currency>
 			<currency type="ZMW">
 				<displayName>kwacha ya Zambia</displayName>
@@ -2834,113 +3088,598 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>dola ya Zimbabwe</displayName>
 			</currency>
 		</currencies>
+		<miscPatterns numberSystem="latn">
+			<pattern type="atLeast">⩾{0}</pattern>
+			<pattern type="range">{0}–{1}</pattern>
+		</miscPatterns>
 	</numbers>
 	<units>
-		<unit type="day">
-			<unitPattern count="one">siku {0}</unitPattern>
-			<unitPattern count="one" alt="short">siku {0}</unitPattern>
-			<unitPattern count="other">siku {0}</unitPattern>
-			<unitPattern count="other" alt="short">siku {0}</unitPattern>
-		</unit>
-		<unit type="day-future">
-			<unitPattern count="one">Baada ya siku {0}</unitPattern>
-			<unitPattern count="other">Baada ya siku {0}</unitPattern>
-		</unit>
-		<unit type="day-past">
-			<unitPattern count="one">Siku {0} iliyopita</unitPattern>
-			<unitPattern count="other">Siku {0} zilizopita</unitPattern>
-		</unit>
-		<unit type="hour">
-			<unitPattern count="one">saa {0}</unitPattern>
-			<unitPattern count="one" alt="short">saa {0}</unitPattern>
-			<unitPattern count="other">masaa {0}</unitPattern>
-			<unitPattern count="other" alt="short">masaa {0}</unitPattern>
-		</unit>
-		<unit type="hour-future">
-			<unitPattern count="one">Baada ya saa {0}</unitPattern>
-			<unitPattern count="other">Baada ya masaa {0}</unitPattern>
-		</unit>
-		<unit type="hour-past">
-			<unitPattern count="one">Saa {0} lililopita</unitPattern>
-			<unitPattern count="other">Masaa {0} yaliyopita</unitPattern>
-		</unit>
-		<unit type="minute">
-			<unitPattern count="one">dakika {0}</unitPattern>
-			<unitPattern count="one" alt="short">dakika {0}</unitPattern>
-			<unitPattern count="other">dakika {0}</unitPattern>
-			<unitPattern count="other" alt="short">dakika {0}</unitPattern>
-		</unit>
-		<unit type="minute-future">
-			<unitPattern count="one">Baada ya dakika {0}</unitPattern>
-			<unitPattern count="other">Baada ya dakika {0}</unitPattern>
-		</unit>
-		<unit type="minute-past">
-			<unitPattern count="one">Dakina {0} iliyopita</unitPattern>
-			<unitPattern count="other">Dakika {0} zilizopita</unitPattern>
-		</unit>
-		<unit type="month">
-			<unitPattern count="one">mwezi {0}</unitPattern>
-			<unitPattern count="one" alt="short">mwezi {0}</unitPattern>
-			<unitPattern count="other">miezi {0}</unitPattern>
-			<unitPattern count="other" alt="short">miezi {0}</unitPattern>
-		</unit>
-		<unit type="month-future">
-			<unitPattern count="one">Baada ya mwezi {0}</unitPattern>
-			<unitPattern count="other">Baada ya miezi {0}</unitPattern>
-		</unit>
-		<unit type="month-past">
-			<unitPattern count="one">Miezi {0} iliyopita</unitPattern>
-			<unitPattern count="other">Miezi {0} iliyopita</unitPattern>
-		</unit>
-		<unit type="second">
-			<unitPattern count="one">sekunde {0}</unitPattern>
-			<unitPattern count="one" alt="short">sekunde {0}</unitPattern>
-			<unitPattern count="other">sekunde {0}</unitPattern>
-			<unitPattern count="other" alt="short">sekunde {0}</unitPattern>
-		</unit>
-		<unit type="second-future">
-			<unitPattern count="one">Baada ya sekunde {0}</unitPattern>
-			<unitPattern count="other">Baada ya sekunde {0}</unitPattern>
-		</unit>
-		<unit type="second-past">
-			<unitPattern count="one">Sekunde {0} iliyopita</unitPattern>
-			<unitPattern count="other">Sekunde {0} zilizopita</unitPattern>
-		</unit>
-		<unit type="week">
-			<unitPattern count="one">wiki {0}</unitPattern>
-			<unitPattern count="one" alt="short">wiki {0}</unitPattern>
-			<unitPattern count="other">wiki {0}</unitPattern>
-			<unitPattern count="other" alt="short">wiki {0}</unitPattern>
-		</unit>
-		<unit type="week-future">
-			<unitPattern count="one">Baada ya wiki {0}</unitPattern>
-			<unitPattern count="other">Baada ya wiki {0}</unitPattern>
-		</unit>
-		<unit type="week-past">
-			<unitPattern count="one">Wiki {0} iliyopita</unitPattern>
-			<unitPattern count="other">Wiki {0} zilizopita</unitPattern>
-		</unit>
-		<unit type="year">
-			<unitPattern count="one">mwaka {0}</unitPattern>
-			<unitPattern count="one" alt="short">mwaka {0}</unitPattern>
-			<unitPattern count="other">miaka {0}</unitPattern>
-			<unitPattern count="other" alt="short">miaka {0}</unitPattern>
-		</unit>
-		<unit type="year-future">
-			<unitPattern count="one">Baada ya mwaka {0}</unitPattern>
-			<unitPattern count="other">Baada ya miaka {0}</unitPattern>
-		</unit>
-		<unit type="year-past">
-			<unitPattern count="one">Mwaka {0} uliopita</unitPattern>
-			<unitPattern count="other">Miaka {0} iliyopita</unitPattern>
-		</unit>
+		<unitLength type="long">
+			<compoundUnit type="per">
+				<compoundUnitPattern>{0}kwa kila{1}</compoundUnitPattern>
+			</compoundUnit>
+			<unit type="acceleration-g-force">
+				<unitPattern count="one">Mvuto wa graviti{0}</unitPattern>
+				<unitPattern count="other">Mvuto wa graviti {0}</unitPattern>
+			</unit>
+			<unit type="angle-arc-minute">
+				<unitPattern count="one">Dakika {0}′</unitPattern>
+				<unitPattern count="other">Dakika {0}′</unitPattern>
+			</unit>
+			<unit type="angle-arc-second">
+				<unitPattern count="one">Sekunde {0}″</unitPattern>
+				<unitPattern count="other">Sekunde {0}″</unitPattern>
+			</unit>
+			<unit type="angle-degree">
+				<unitPattern count="one">Digrii {0}°</unitPattern>
+				<unitPattern count="other">Digrii {0}°</unitPattern>
+			</unit>
+			<unit type="area-acre">
+				<unitPattern count="one">Ekari {0}</unitPattern>
+				<unitPattern count="other">Ekari {0}</unitPattern>
+			</unit>
+			<unit type="area-hectare">
+				<unitPattern count="one">Hektari {0}</unitPattern>
+				<unitPattern count="other">Hektari {0}</unitPattern>
+			</unit>
+			<unit type="area-square-foot">
+				<unitPattern count="one">Futi {0} ya mraba</unitPattern>
+				<unitPattern count="other">Futi {0} za mraba</unitPattern>
+			</unit>
+			<unit type="area-square-kilometer">
+				<unitPattern count="one">Kilomita {0} ya mraba</unitPattern>
+				<unitPattern count="other">Kilomita {0} za mraba</unitPattern>
+			</unit>
+			<unit type="area-square-meter">
+				<unitPattern count="one">Mita {0} ya mraba</unitPattern>
+				<unitPattern count="other">Mita {0} za mraba</unitPattern>
+			</unit>
+			<unit type="area-square-mile">
+				<unitPattern count="one">Maili {0} ya mraba</unitPattern>
+				<unitPattern count="other">Maili {0} za mraba</unitPattern>
+			</unit>
+			<unit type="duration-day">
+				<unitPattern count="one">siku {0}</unitPattern>
+				<unitPattern count="other">siku {0}</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">saa {0}</unitPattern>
+				<unitPattern count="other">saa {0}</unitPattern>
+			</unit>
+			<unit type="duration-millisecond">
+				<unitPattern count="one">millisekunde {0}</unitPattern>
+				<unitPattern count="other">millisekunde {0}</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">dakika {0}</unitPattern>
+				<unitPattern count="other">dakika {0}</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">mwezi {0}</unitPattern>
+				<unitPattern count="other">miezi {0}</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">sekunde {0}</unitPattern>
+				<unitPattern count="other">sekunde {0}</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">wiki {0}</unitPattern>
+				<unitPattern count="other">wiki {0}</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">mwaka {0}</unitPattern>
+				<unitPattern count="other">miaka {0}</unitPattern>
+			</unit>
+			<unit type="length-centimeter">
+				<unitPattern count="one">Sentimita {0}</unitPattern>
+				<unitPattern count="other">Sentimita {0}</unitPattern>
+			</unit>
+			<unit type="length-foot">
+				<unitPattern count="one">Futi {0}</unitPattern>
+				<unitPattern count="other">Futi {0}</unitPattern>
+			</unit>
+			<unit type="length-inch">
+				<unitPattern count="one">Inchi {0}</unitPattern>
+				<unitPattern count="other">Inchi {0}</unitPattern>
+			</unit>
+			<unit type="length-kilometer">
+				<unitPattern count="one">Kilomita {0}</unitPattern>
+				<unitPattern count="other">Kilomita {0}</unitPattern>
+			</unit>
+			<unit type="length-light-year">
+				<unitPattern count="one">Mwaka wa mwanga {0}</unitPattern>
+				<unitPattern count="other">Miaka ya mwanga {0}</unitPattern>
+			</unit>
+			<unit type="length-meter">
+				<unitPattern count="one">Mita {0}</unitPattern>
+				<unitPattern count="other">Mita {0}</unitPattern>
+			</unit>
+			<unit type="length-mile">
+				<unitPattern count="one">Maili {0}</unitPattern>
+				<unitPattern count="other">Maili {0}</unitPattern>
+			</unit>
+			<unit type="length-millimeter">
+				<unitPattern count="one">Millimita {0}</unitPattern>
+				<unitPattern count="other">Millimita {0}</unitPattern>
+			</unit>
+			<unit type="length-picometer">
+				<unitPattern count="one">Pikomita {0}</unitPattern>
+				<unitPattern count="other">Pikomita {0}</unitPattern>
+			</unit>
+			<unit type="length-yard">
+				<unitPattern count="one">Yadi {0}</unitPattern>
+				<unitPattern count="other">Yadi {0}</unitPattern>
+			</unit>
+			<unit type="mass-gram">
+				<unitPattern count="one">Gramu {0}</unitPattern>
+				<unitPattern count="other">Gramu {0}</unitPattern>
+			</unit>
+			<unit type="mass-kilogram">
+				<unitPattern count="one">Kilogramu {0}</unitPattern>
+				<unitPattern count="other">Kilogramu {0}</unitPattern>
+			</unit>
+			<unit type="mass-ounce">
+				<unitPattern count="one">Aunsi {0}</unitPattern>
+				<unitPattern count="other">Aunsi {0}</unitPattern>
+			</unit>
+			<unit type="mass-pound">
+				<unitPattern count="one">Ratili {0}</unitPattern>
+				<unitPattern count="other">Ratili {0}</unitPattern>
+			</unit>
+			<unit type="power-horsepower">
+				<unitPattern count="one">Kipimo cha Hospawa {0}</unitPattern>
+				<unitPattern count="other">Kipimo cha Hospawa {0}</unitPattern>
+			</unit>
+			<unit type="power-kilowatt">
+				<unitPattern count="one">Kilowati {0}</unitPattern>
+				<unitPattern count="other">Kilowati {0}</unitPattern>
+			</unit>
+			<unit type="power-watt">
+				<unitPattern count="one">Wati {0}</unitPattern>
+				<unitPattern count="other">Wati {0}</unitPattern>
+			</unit>
+			<unit type="pressure-hectopascal">
+				<unitPattern count="one">Hektopaskali {0}</unitPattern>
+				<unitPattern count="other">Hektopaskali {0}</unitPattern>
+			</unit>
+			<unit type="pressure-inch-hg">
+				<unitPattern count="one">Inchi za zebaki {0}</unitPattern>
+				<unitPattern count="other">Inchi za zebaki {0}</unitPattern>
+			</unit>
+			<unit type="pressure-millibar">
+				<unitPattern count="one">Kipimo cha milibari {0}</unitPattern>
+				<unitPattern count="other">Kipimo cha milibari {0}</unitPattern>
+			</unit>
+			<unit type="speed-kilometer-per-hour">
+				<unitPattern count="one">Kilomita {0} kwa saa</unitPattern>
+				<unitPattern count="other">Kilomita {0} kwa saa</unitPattern>
+			</unit>
+			<unit type="speed-meter-per-second">
+				<unitPattern count="one">Mita {0} kwa sekunde</unitPattern>
+				<unitPattern count="other">Mita {0} kwa sekunde</unitPattern>
+			</unit>
+			<unit type="speed-mile-per-hour">
+				<unitPattern count="one">Maili {0} kwa saa</unitPattern>
+				<unitPattern count="other">Maili {0} kwa saa</unitPattern>
+			</unit>
+			<unit type="temperature-celsius">
+				<unitPattern count="one">Nyuzi za Selisiasi {0}</unitPattern>
+				<unitPattern count="other">Nyuzi za Selisiasi {0}</unitPattern>
+			</unit>
+			<unit type="temperature-fahrenheit">
+				<unitPattern count="one">Nyuzi za Farenheiti {0}</unitPattern>
+				<unitPattern count="other">Nyuzi za Farenheiti {0}</unitPattern>
+			</unit>
+			<unit type="volume-cubic-kilometer">
+				<unitPattern count="one">Kilomita {0} ya ujazo</unitPattern>
+				<unitPattern count="other">Kilomita {0} ya ujazo</unitPattern>
+			</unit>
+			<unit type="volume-cubic-mile">
+				<unitPattern count="one">Maili {0} ya ujazo</unitPattern>
+				<unitPattern count="other">Maili {0} ya ujazo</unitPattern>
+			</unit>
+			<unit type="volume-liter">
+				<unitPattern count="one">Lita {0}</unitPattern>
+				<unitPattern count="other">Lita {0}</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="short">
+			<compoundUnit type="per">
+				<compoundUnitPattern>{0}/{1}</compoundUnitPattern>
+			</compoundUnit>
+			<unit type="acceleration-g-force">
+				<unitPattern count="one">G {0}</unitPattern>
+				<unitPattern count="other">G {0}</unitPattern>
+			</unit>
+			<unit type="angle-arc-minute">
+				<unitPattern count="one">Dakika{0}′</unitPattern>
+				<unitPattern count="other">Dakika {0}′</unitPattern>
+			</unit>
+			<unit type="angle-arc-second">
+				<unitPattern count="one">Sekunde {0}″</unitPattern>
+				<unitPattern count="other">Sekunde {0}″</unitPattern>
+			</unit>
+			<unit type="angle-degree">
+				<unitPattern count="one">Digrii {0}°</unitPattern>
+				<unitPattern count="other">Digrii {0}°</unitPattern>
+			</unit>
+			<unit type="area-acre">
+				<unitPattern count="one">Ekari {0}</unitPattern>
+				<unitPattern count="other">Ekari {0}</unitPattern>
+			</unit>
+			<unit type="area-hectare">
+				<unitPattern count="one">Hektari {0}</unitPattern>
+				<unitPattern count="other">Hektari {0}</unitPattern>
+			</unit>
+			<unit type="area-square-foot">
+				<unitPattern count="one">ft² {0}</unitPattern>
+				<unitPattern count="other">ft² {0}</unitPattern>
+			</unit>
+			<unit type="area-square-kilometer">
+				<unitPattern count="one">km² {0}</unitPattern>
+				<unitPattern count="other">km² {0}</unitPattern>
+			</unit>
+			<unit type="area-square-meter">
+				<unitPattern count="one">m² {0}</unitPattern>
+				<unitPattern count="other">m² {0}</unitPattern>
+			</unit>
+			<unit type="area-square-mile">
+				<unitPattern count="one">mi² {0}</unitPattern>
+				<unitPattern count="other">mi² {0}</unitPattern>
+			</unit>
+			<unit type="duration-day">
+				<unitPattern count="one">siku {0}</unitPattern>
+				<unitPattern count="other">siku {0}</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">saa {0}</unitPattern>
+				<unitPattern count="other">saa {0}</unitPattern>
+			</unit>
+			<unit type="duration-millisecond">
+				<unitPattern count="one">ms {0}</unitPattern>
+				<unitPattern count="other">ms {0}</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">dakika {0}</unitPattern>
+				<unitPattern count="other">dakika {0}</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">mwezi {0}</unitPattern>
+				<unitPattern count="other">miezi {0}</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">sekunde {0}</unitPattern>
+				<unitPattern count="other">sekunde {0}</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">wiki {0}</unitPattern>
+				<unitPattern count="other">wiki {0}</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">mwaka {0}</unitPattern>
+				<unitPattern count="other">miaka {0}</unitPattern>
+			</unit>
+			<unit type="length-centimeter">
+				<unitPattern count="one">Sentimita {0}</unitPattern>
+				<unitPattern count="other">Sentimita {0}</unitPattern>
+			</unit>
+			<unit type="length-foot">
+				<unitPattern count="one">Futi {0}</unitPattern>
+				<unitPattern count="other">Futi {0}</unitPattern>
+			</unit>
+			<unit type="length-inch">
+				<unitPattern count="one">Inchi {0}</unitPattern>
+				<unitPattern count="other">Inchi {0}</unitPattern>
+			</unit>
+			<unit type="length-kilometer">
+				<unitPattern count="one">Kilomita {0}</unitPattern>
+				<unitPattern count="other">Kilomita {0}</unitPattern>
+			</unit>
+			<unit type="length-light-year">
+				<unitPattern count="one">ly {0}</unitPattern>
+				<unitPattern count="other">ly {0}</unitPattern>
+			</unit>
+			<unit type="length-meter">
+				<unitPattern count="one">Mita {0}</unitPattern>
+				<unitPattern count="other">Mita {0}</unitPattern>
+			</unit>
+			<unit type="length-mile">
+				<unitPattern count="one">Maili {0}</unitPattern>
+				<unitPattern count="other">Maili {0}</unitPattern>
+			</unit>
+			<unit type="length-millimeter">
+				<unitPattern count="one">Millimita {0}</unitPattern>
+				<unitPattern count="other">Millimita {0}</unitPattern>
+			</unit>
+			<unit type="length-picometer">
+				<unitPattern count="one">Pikomita {0}</unitPattern>
+				<unitPattern count="other">Pikomita {0}</unitPattern>
+			</unit>
+			<unit type="length-yard">
+				<unitPattern count="one">Yadi {0}</unitPattern>
+				<unitPattern count="other">Yadi {0}</unitPattern>
+			</unit>
+			<unit type="mass-gram">
+				<unitPattern count="one">Gramu {0}</unitPattern>
+				<unitPattern count="other">Gramu {0}</unitPattern>
+			</unit>
+			<unit type="mass-kilogram">
+				<unitPattern count="one">kg {0}</unitPattern>
+				<unitPattern count="other">kg {0}</unitPattern>
+			</unit>
+			<unit type="mass-ounce">
+				<unitPattern count="one">Aunsi {0}</unitPattern>
+				<unitPattern count="other">Aunsi {0}</unitPattern>
+			</unit>
+			<unit type="mass-pound">
+				<unitPattern count="one">Ratili {0}</unitPattern>
+				<unitPattern count="other">Ratili {0}</unitPattern>
+			</unit>
+			<unit type="power-horsepower">
+				<unitPattern count="one">hp {0}</unitPattern>
+				<unitPattern count="other">hp {0}</unitPattern>
+			</unit>
+			<unit type="power-kilowatt">
+				<unitPattern count="one">Kilowati {0}</unitPattern>
+				<unitPattern count="other">Kilowati {0}</unitPattern>
+			</unit>
+			<unit type="power-watt">
+				<unitPattern count="one">Wati {0}</unitPattern>
+				<unitPattern count="other">Wati {0}</unitPattern>
+			</unit>
+			<unit type="pressure-hectopascal">
+				<unitPattern count="one">hPa {0}</unitPattern>
+				<unitPattern count="other">hPa {0}</unitPattern>
+			</unit>
+			<unit type="pressure-inch-hg">
+				<unitPattern count="one">{0} inHg</unitPattern>
+				<unitPattern count="other">{0} inHg</unitPattern>
+			</unit>
+			<unit type="pressure-millibar">
+				<unitPattern count="one">mbar {0}</unitPattern>
+				<unitPattern count="other">mbar {0}</unitPattern>
+			</unit>
+			<unit type="speed-kilometer-per-hour">
+				<unitPattern count="one">km {0}/saa</unitPattern>
+				<unitPattern count="other">km {0}/saa</unitPattern>
+			</unit>
+			<unit type="speed-meter-per-second">
+				<unitPattern count="one">m {0}/s</unitPattern>
+				<unitPattern count="other">m {0}/s</unitPattern>
+			</unit>
+			<unit type="speed-mile-per-hour">
+				<unitPattern count="one">mi {0}/saa</unitPattern>
+				<unitPattern count="other">mi {0}/saa</unitPattern>
+			</unit>
+			<unit type="temperature-celsius">
+				<unitPattern count="one">{0}°C</unitPattern>
+				<unitPattern count="other">{0}°C</unitPattern>
+			</unit>
+			<unit type="temperature-fahrenheit">
+				<unitPattern count="one">{0}°F</unitPattern>
+				<unitPattern count="other">{0}°F</unitPattern>
+			</unit>
+			<unit type="volume-cubic-kilometer">
+				<unitPattern count="one">km³ {0}</unitPattern>
+				<unitPattern count="other">km³ {0}</unitPattern>
+			</unit>
+			<unit type="volume-cubic-mile">
+				<unitPattern count="one">mi³ {0}</unitPattern>
+				<unitPattern count="other">mi³ {0}</unitPattern>
+			</unit>
+			<unit type="volume-liter">
+				<unitPattern count="one">Lita {0}</unitPattern>
+				<unitPattern count="other">Lita {0}</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="narrow">
+			<compoundUnit type="per">
+				<compoundUnitPattern>{0}/{1}</compoundUnitPattern>
+			</compoundUnit>
+			<unit type="acceleration-g-force">
+				<unitPattern count="one">G {0}</unitPattern>
+				<unitPattern count="other">G {0}</unitPattern>
+			</unit>
+			<unit type="angle-arc-minute">
+				<unitPattern count="one">{0}′</unitPattern>
+				<unitPattern count="other">{0}′</unitPattern>
+			</unit>
+			<unit type="angle-arc-second">
+				<unitPattern count="one">{0}″</unitPattern>
+				<unitPattern count="other">{0}″</unitPattern>
+			</unit>
+			<unit type="angle-degree">
+				<unitPattern count="one">{0}°</unitPattern>
+				<unitPattern count="other">{0}°</unitPattern>
+			</unit>
+			<unit type="area-acre">
+				<unitPattern count="one">Ekari {0}</unitPattern>
+				<unitPattern count="other">Ekari {0}</unitPattern>
+			</unit>
+			<unit type="area-hectare">
+				<unitPattern count="one">ha {0}</unitPattern>
+				<unitPattern count="other">ha {0}</unitPattern>
+			</unit>
+			<unit type="area-square-foot">
+				<unitPattern count="one">ft² {0}</unitPattern>
+				<unitPattern count="other">ft² {0}</unitPattern>
+			</unit>
+			<unit type="area-square-kilometer">
+				<unitPattern count="one">km² {0}</unitPattern>
+				<unitPattern count="other">km² {0}</unitPattern>
+			</unit>
+			<unit type="area-square-meter">
+				<unitPattern count="one">m² {0}</unitPattern>
+				<unitPattern count="other">m² {0}</unitPattern>
+			</unit>
+			<unit type="area-square-mile">
+				<unitPattern count="one">mi² {0}</unitPattern>
+				<unitPattern count="other">mi² {0}</unitPattern>
+			</unit>
+			<unit type="duration-day">
+				<unitPattern count="one">siku {0}</unitPattern>
+				<unitPattern count="other">siku {0}</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">saa {0}</unitPattern>
+				<unitPattern count="other">saa {0}</unitPattern>
+			</unit>
+			<unit type="duration-millisecond">
+				<unitPattern count="one">ms {0}</unitPattern>
+				<unitPattern count="other">ms {0}</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">dakika {0}</unitPattern>
+				<unitPattern count="other">dakika {0}</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">mwezi {0}</unitPattern>
+				<unitPattern count="other">miezi {0}</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">s {0}</unitPattern>
+				<unitPattern count="other">s {0}</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">wiki {0}</unitPattern>
+				<unitPattern count="other">wiki {0}</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">mwaka {0}</unitPattern>
+				<unitPattern count="other">miaka {0}</unitPattern>
+			</unit>
+			<unit type="length-centimeter">
+				<unitPattern count="one">cm {0}</unitPattern>
+				<unitPattern count="other">cm {0}</unitPattern>
+			</unit>
+			<unit type="length-foot">
+				<unitPattern count="one">Futi {0}</unitPattern>
+				<unitPattern count="other">Futi {0}</unitPattern>
+			</unit>
+			<unit type="length-inch">
+				<unitPattern count="one">Inchi {0}</unitPattern>
+				<unitPattern count="other">Inchi {0}</unitPattern>
+			</unit>
+			<unit type="length-kilometer">
+				<unitPattern count="one">km {0}</unitPattern>
+				<unitPattern count="other">km {0}</unitPattern>
+			</unit>
+			<unit type="length-light-year">
+				<unitPattern count="one">ly {0}</unitPattern>
+				<unitPattern count="other">ly {0}</unitPattern>
+			</unit>
+			<unit type="length-meter">
+				<unitPattern count="one">Mita {0}</unitPattern>
+				<unitPattern count="other">Mita {0}</unitPattern>
+			</unit>
+			<unit type="length-mile">
+				<unitPattern count="one">Maili {0}</unitPattern>
+				<unitPattern count="other">Maili {0}</unitPattern>
+			</unit>
+			<unit type="length-millimeter">
+				<unitPattern count="one">mm {0}</unitPattern>
+				<unitPattern count="other">mm {0}</unitPattern>
+			</unit>
+			<unit type="length-picometer">
+				<unitPattern count="one">pm {0}</unitPattern>
+				<unitPattern count="other">pm {0}</unitPattern>
+			</unit>
+			<unit type="length-yard">
+				<unitPattern count="one">Yadi {0}</unitPattern>
+				<unitPattern count="other">Yadi {0}</unitPattern>
+			</unit>
+			<unit type="mass-gram">
+				<unitPattern count="one">g {0}</unitPattern>
+				<unitPattern count="other">g {0}</unitPattern>
+			</unit>
+			<unit type="mass-kilogram">
+				<unitPattern count="one">kg {0}</unitPattern>
+				<unitPattern count="other">kg {0}</unitPattern>
+			</unit>
+			<unit type="mass-ounce">
+				<unitPattern count="one">Aunsi {0}</unitPattern>
+				<unitPattern count="other">Aunsi {0}</unitPattern>
+			</unit>
+			<unit type="mass-pound">
+				<unitPattern count="one">Ratili {0}</unitPattern>
+				<unitPattern count="other">Ratili {0}</unitPattern>
+			</unit>
+			<unit type="power-horsepower">
+				<unitPattern count="one">hp {0}</unitPattern>
+				<unitPattern count="other">hp {0}</unitPattern>
+			</unit>
+			<unit type="power-kilowatt">
+				<unitPattern count="one">kW {0}</unitPattern>
+				<unitPattern count="other">kW {0}</unitPattern>
+			</unit>
+			<unit type="power-watt">
+				<unitPattern count="one">Wati {0}</unitPattern>
+				<unitPattern count="other">Wati {0}</unitPattern>
+			</unit>
+			<unit type="pressure-hectopascal">
+				<unitPattern count="one">hPa {0}</unitPattern>
+				<unitPattern count="other">hPa {0}</unitPattern>
+			</unit>
+			<unit type="pressure-inch-hg">
+				<unitPattern count="one">{0} inHg</unitPattern>
+				<unitPattern count="other">{0} inHg</unitPattern>
+			</unit>
+			<unit type="pressure-millibar">
+				<unitPattern count="one">mbar {0}</unitPattern>
+				<unitPattern count="other">mbar {0}</unitPattern>
+			</unit>
+			<unit type="speed-kilometer-per-hour">
+				<unitPattern count="one">km {0}/saa</unitPattern>
+				<unitPattern count="other">km {0}/saa</unitPattern>
+			</unit>
+			<unit type="speed-meter-per-second">
+				<unitPattern count="one">m {0}/s</unitPattern>
+				<unitPattern count="other">m {0}/s</unitPattern>
+			</unit>
+			<unit type="speed-mile-per-hour">
+				<unitPattern count="one">mi {0}/saa</unitPattern>
+				<unitPattern count="other">mi {0}/saa</unitPattern>
+			</unit>
+			<unit type="temperature-celsius">
+				<unitPattern count="one">{0}°</unitPattern>
+				<unitPattern count="other">{0}°</unitPattern>
+			</unit>
+			<unit type="temperature-fahrenheit">
+				<unitPattern count="one">{0}°F</unitPattern>
+				<unitPattern count="other">{0}°F</unitPattern>
+			</unit>
+			<unit type="volume-cubic-kilometer">
+				<unitPattern count="one">km³ {0}</unitPattern>
+				<unitPattern count="other">km³ {0}</unitPattern>
+			</unit>
+			<unit type="volume-cubic-mile">
+				<unitPattern count="one">mi³ {0}</unitPattern>
+				<unitPattern count="other">mi³ {0}</unitPattern>
+			</unit>
+			<unit type="volume-liter">
+				<unitPattern count="one">Lita {0}</unitPattern>
+				<unitPattern count="other">Lita {0}</unitPattern>
+			</unit>
+		</unitLength>
+		<durationUnit type="hm">
+			<durationUnitPattern>h:mm</durationUnitPattern>
+		</durationUnit>
+		<durationUnit type="hms">
+			<durationUnitPattern>h:mm:ss</durationUnitPattern>
+		</durationUnit>
+		<durationUnit type="ms">
+			<durationUnitPattern>m:ss</durationUnitPattern>
+		</durationUnit>
 	</units>
 	<listPatterns>
 		<listPattern>
-			<listPatternPart type="2">{0} na {1}</listPatternPart>
-			<listPatternPart type="end">{0}, na {1}</listPatternPart>
-			<listPatternPart type="middle">{0}, {1}</listPatternPart>
 			<listPatternPart type="start">{0}, {1}</listPatternPart>
+			<listPatternPart type="middle">{0}, {1}</listPatternPart>
+			<listPatternPart type="end">{0}, na {1}</listPatternPart>
+			<listPatternPart type="2">{0} na {1}</listPatternPart>
+		</listPattern>
+		<listPattern type="unit">
+			<listPatternPart type="2" draft="contributed">{0} na {1}</listPatternPart>
 		</listPattern>
 	</listPatterns>
 	<posix>

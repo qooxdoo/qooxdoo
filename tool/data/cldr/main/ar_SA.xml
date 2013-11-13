@@ -6,22 +6,29 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9287 $"/>
+		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
 		<language type="ar"/>
 		<territory type="SA"/>
 	</identity>
+	<dates>
+		<calendars>
+			<calendar type="islamic">
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="Md" draft="contributed">M/d</dateFormatItem>
+						<dateFormatItem id="MEd" draft="contributed">E, M/d</dateFormatItem>
+						<dateFormatItem id="MMMd" draft="contributed">MMM d</dateFormatItem>
+						<dateFormatItem id="MMMEd" draft="contributed">E, MMM d</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
+			</calendar>
+		</calendars>
+	</dates>
 	<numbers>
-		<decimalFormats numberSystem="latn">
-			<decimalFormatLength>
-				<decimalFormat>
-					<pattern>#0.###;#0.###-</pattern>
-				</decimalFormat>
-			</decimalFormatLength>
-		</decimalFormats>
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
-				<currencyFormat>
+				<currencyFormat type="standard">
 					<pattern>¤#0.00</pattern>
 				</currencyFormat>
 			</currencyFormatLength>

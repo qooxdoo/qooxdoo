@@ -6,8 +6,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9287 $"/>
+		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
 		<language type="ak"/>
 	</identity>
 	<localeDisplayNames>
@@ -550,7 +550,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</symbols>
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
-				<currencyFormat>
+				<currencyFormat type="standard">
 					<pattern>¤#,##0.00</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
@@ -580,9 +580,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<currency type="CDF">
 				<displayName>Kongo Frank</displayName>
 			</currency>
-			<currency type="CHF">
-				<displayName>Sweden Frank</displayName>
-			</currency>
 			<currency type="CNY">
 				<displayName>Yuan</displayName>
 			</currency>
@@ -611,7 +608,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Breten Pɔn</displayName>
 			</currency>
 			<currency type="GHC">
-				<displayName>Ghana Sidi (1979-2007)</displayName>
+				<displayName>Ghana Sidi (1979–2007)</displayName>
 			</currency>
 			<currency type="GHS">
 				<displayName>Ghana Sidi</displayName>
@@ -717,7 +714,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Afrika Anaafo Rand</displayName>
 			</currency>
 			<currency type="ZMK">
-				<displayName>Zambia Kwacha (1968-2012)</displayName>
+				<displayName>Zambia Kwacha (1968–2012)</displayName>
 			</currency>
 			<currency type="ZMW">
 				<displayName>Zambia Kwacha</displayName>

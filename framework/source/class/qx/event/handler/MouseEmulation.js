@@ -226,7 +226,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
       qx.event.Registration.addListener(this.__root, "tap", this.__onTap, this);
       qx.event.Registration.addListener(this.__root, "longtap", this.__onLongTap, this);
 
-      qx.bom.Event.addNativeListener(this.__window, "touchstart", this.__stopScrolling);
+      qx.bom.Event.addNativeListener(this.__window, "touchmove", this.__stopScrolling);
     },
 
 
@@ -240,7 +240,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
       qx.event.Registration.removeListener(this.__root, "tap", this.__onTap, this);
       qx.event.Registration.removeListener(this.__root, "longtap", this.__onLongTap, this);
 
-      qx.bom.Event.removeNativeListener(this.__window, "touchstart", this.__stopScrolling);
+      qx.bom.Event.removeNativeListener(this.__window, "touchmove", this.__stopScrolling);
     },
 
 
@@ -250,7 +250,9 @@ qx.Class.define("qx.event.handler.MouseEmulation",
      * @param e {qx.event.type.Touch} The qooxdoo touch event.
      */
     __stopScrolling : function(e) {
-      e.preventDefault();
+      if (e.target.style.WebkitOverflowScrolling != "touch") {
+        e.preventDefault();
+      }
     },
 
 

@@ -3556,3 +3556,96 @@ testrunner.define({
     coll.getTextSelection();
   }
 });
+
+
+testrunner.define({
+  classname: "FunctionUtil",
+
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+
+  testFunctionDebounce : function() {
+    var called = 0;
+    var checkCalled;
+
+    var spy = function() {
+      called++;
+    };
+
+    var deferred = q.func.debounce(spy, 300);
+    deferred();
+
+    window.setTimeout((function() {
+      checkCalled = (called === 0);
+    }).bind(this), 200);
+
+    window.setTimeout((function() {
+      this.resume(function() {
+        this.assertTrue(checkCalled);
+        this.assertEquals(1, called);
+      });
+    }).bind(this), 1000);
+
+    this.wait(1500);
+  },
+
+  testFunctionDebounceWithEvents : function() {
+    var callCounter = 0;
+    var context;
+    var data;
+    var myCallback = function(e) {
+      callCounter++;
+      context = this;
+      data = e;
+    };
+
+    this.sandbox.on("myEvent", q.func.debounce(myCallback, 200), this.sandbox);
+
+    var counter = 0;
+    var intervalId = window.setInterval((function() {
+      this.emit("myEvent", "interval_" + counter);
+      counter++;
+
+      if (counter === 20) {
+        window.clearInterval(intervalId);
+      }
+    }).bind(this.sandbox), 50);
+
+    var checkContext = this.sandbox;
+    this.wait(1500, function() {
+      this.assertEquals(1, callCounter);
+      this.assertEquals(checkContext, context);
+      this.assertEquals("interval_19", data);
+    }, this);
+  },
+
+  testFunctionDebounceWithImmediateEvents : function() {
+    var callCounter = 0;
+    var context;
+    var data;
+    var myCallback = function(e) {
+      callCounter++;
+      context = this;
+      data = e;
+    };
+
+    this.sandbox.on("myEvent", q.func.debounce(myCallback, 200, true), this.sandbox);
+
+    var counter = 0;
+    var intervalId = window.setInterval((function() {
+      this.emit("myEvent", "interval_" + counter);
+      counter++;
+
+      if (counter === 20) {
+        window.clearInterval(intervalId);
+      }
+    }).bind(this.sandbox), 50);
+
+    var checkContext = this.sandbox;
+    this.wait(1500, function() {
+      this.assertEquals(1, callCounter);
+      this.assertEquals(checkContext, context);
+      this.assertEquals("interval_0", data);
+    }, this);
+  }
+});
