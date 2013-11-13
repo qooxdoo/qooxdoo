@@ -51,7 +51,7 @@
 
   border: rem(1) solid $slider-knob-border-color;
 
-  line-height:  $slider-knob-height;
+  line-height: $slider-knob-height;
 
   height: $slider-knob-height;
   width: $slider-knob-width;
@@ -65,10 +65,6 @@
   right: -1*$slider-knob-width/2;
 }
 
-.root.win .slider > div:after { 
-  line-height: calc(unquote("#{$slider-knob-height} - 0px"));
-}
-
 .slider.percent > div:after {
   content: ""attr(data-percent);
 }
@@ -77,8 +73,13 @@
   content: ""attr(data-value);
 }
 
+// Fix for IE [BUG #7814]
+.root.win .slider > div:after { 
+  line-height: calc(unquote("#{$slider-knob-height} - 0px"));
+}
+
 // Triggering CSS anti-aliasing on Android devices [BUG #7847]
-.root.android .slider > div:after {
+.root.android .slider:not(.value):not(.percent) > div:after {
   content:".";
   color:rgba(0,0,0,0);
 }
