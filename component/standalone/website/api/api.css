@@ -8,28 +8,38 @@
   font-style:normal;
 }
 
-#list {
-  width: 276px;
+body {
+  min-width: 0;
+}
+
+#navContainer {
   position: fixed;
+  top: 82px;
   bottom: 0;
-  top: 155px;
   left: 20px;
-  overflow-y: auto;
+  width: 276px;
+  padding-top: 20px;
+  padding-right: 10px;
+  background-color: white;
+  z-index: 999;
+  overflow: auto;
+  border: none;
+
+  -moz-transition: left 500ms;
+  -webkit-transition: left 500ms;
+  -o-transition: left 500ms;
+  transition: left 500ms;
 }
 
 .filter {
-  position: fixed;
-  top: 100px;
-  left: 20px;
-  width: 276px;
   border-radius: 5px;
   margin-bottom: 10px;
   border: 1px solid #DDD;
   -webkit-box-shadow: inset 1px 1px 1px rgba(50, 50, 50, 0.75);
   -moz-box-shadow: inset 1px 1px 1px rgba(50, 50, 50, 0.75);
   box-shadow: inset 1px 1px 1px rgba(50, 50, 50, 0.75);
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
-  /*-moz-box-sizing: border-box;*/
 }
 
 .filter span {
@@ -42,13 +52,17 @@
 
 .filter input {
   display: table-cell;
-  width: 240px;
+  width: 89%;
   border: none;
   font-size: 14px;
   padding: 7px 5px;
   box-sizing: border-box;
   background-color: transparent;
   outline: none;
+}
+
+#list {
+  overflow-y: auto;
 }
 
 #list > ul {
@@ -174,10 +188,11 @@
   overflow-y: auto;
   bottom: 0;
   right: 0;
-}
 
-#content * {
-  /*margin-left: 8px;*/
+  -moz-transition: left 500ms;
+  -webkit-transition: left 500ms;
+  -o-transition: left 500ms;
+  transition: left 500ms;
 }
 
 #content h1 {
@@ -208,7 +223,6 @@
   color: #366AC1;
 }
 
-
 #list h2, #list ul {
   white-space: nowrap;
 }
@@ -223,13 +237,45 @@
 }
 
 #header h1 {
+  float: none;
   width: auto;
+  position: relative;
+  left: -50px;
+  white-space: nowrap;
+  z-index: 20;
+
+  -moz-transition: left 500ms;
+  -webkit-transition: left 500ms;
+  -o-transition: left 500ms;
+  transition: left 500ms;
 }
 
 #header-wrapper {
   position: fixed;
   width: 100%;
   top: 0;
+}
+
+#showNav {
+  float: left;
+  position: relative;
+  left: -60px;
+  padding: 0 2px;
+  margin: 0 15px 0 5px;
+  border-radius: 5px;
+  border: 1px solid #DDD;
+  background-color: #F6F6F6;
+  color: #3d72c9;
+  box-sizing: border-box;
+  font-family: "Batch";
+  font-size: 30px;
+  line-height: 1em;
+  z-index: 200;
+
+  -moz-transition: left 500ms;
+  -webkit-transition: left 500ms;
+  -o-transition: left 500ms;
+  transition: left 500ms;
 }
 
 ul {
@@ -294,7 +340,7 @@ p {
 }
 
 .sample {
-  padding: 0;
+  padding: 0 15px 0 0;
 }
 
 .samplecode {
@@ -308,7 +354,6 @@ p {
 .samplecode pre,
 .samplecode .sample pre {
   margin-top: 0;
-  border-right: 1px solid #DDD;
   padding: 5px;
   vertical-align: top;
 }
@@ -341,4 +386,24 @@ p {
 .samplecode .javascript code {
   background-color: #fff;
   padding: 0;
+}
+
+@media (max-width: 800px),
+(orientation:portrait) {
+  #navContainer {
+    left : -295px;
+    border-right: 1px solid #DDD;
+  }
+
+  #content {
+    left: 10px;
+  }
+
+  #showNav {
+    left: 0;
+  }
+
+  #header h1 {
+    left: 0;
+  }
 }

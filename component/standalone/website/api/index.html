@@ -49,6 +49,7 @@
   <!-- HEADER -->
   <div id="header-wrapper">
     <div id="header">
+      <button id="showNav" value="0">&#xF0AA;</button>
       <h1>qx.Website API Documentation</h1>
     </div>
     <div class="decoration"></div>
@@ -56,15 +57,19 @@
 
   <!-- CONTENT -->
 
-  <div class="filter">
-    <span>&#xF094;</span>
-    <input type="search" placeholder="Filter Methods">
+  <div id="navContainer">
+    <div class="filter">
+      <span>&#xF094;</span>
+      <input type="search" placeholder="Filter Methods">
+    </div>
+    <div id="list" style="opacity: 0"
+      data-qx-class="qx.ui.website.Accordion">
+      <ul>
+      </ul>
+    </div>
   </div>
-  <div id="list" style="opacity: 0"
-    data-qx-class="qx.ui.website.Accordion">
-    <ul>
-    </ul>
-  </div>
+
+
   <div id="content">
     <div id="warning"><h1 style='color: #C00F00'>Error while loading!</h1><em>Has the application been generated? (generate.py api)</em></div>
   </div>

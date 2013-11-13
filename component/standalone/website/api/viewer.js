@@ -101,6 +101,18 @@ q.ready(function() {
 
   };
 
+  q("#showNav").on("click", function() {
+    var value = parseInt(this.getValue());
+    if (value === 0) {
+      q("#navContainer").setStyle("left", "10px");
+      this.setValue(1);
+    }
+    else {
+      q("#navContainer").setStyle("left", "");
+      this.setValue(0);
+    }
+  });
+
   // load API data of q
   q.io.xhr("script/qxWeb.json").on("loadend", function(xhr) {
     var handleSuccess = function() {
@@ -883,7 +895,6 @@ q.ready(function() {
     // enable syntax highlighting
     if (useHighlighter) {
       q('pre').forEach(function(el) {hljs.highlightBlock(el);});
-      useHighlighter = false;
     }
 
     if (fixLinks) {
@@ -1161,8 +1172,6 @@ q.ready(function() {
       codeContainer.append(jsEl);
     }
 
-    styleCodeBoxes(codeContainer);
-
     if (useHighlighter) {
       htmlEl && hljs.highlightBlock(htmlEl);
       cssEl && hljs.highlightBlock(cssEl);
@@ -1185,35 +1194,7 @@ q.ready(function() {
         fixScrollPosition();
       }
     }, 500);
-  };
 
-  /**
-   * Styles the sample container based on the amount of code elements
-   * @param codeContainer {qxWeb} Collection containing the container element
-   */
-  var styleCodeBoxes = function(codeContainer) {
-    var codeBoxes = codeContainer.find("pre");
-    if (codeBoxes.length > 1) {
-      codeContainer.setStyles({display: "table",
-                              width: "100%"});
-      codeBoxes.setStyle("display", "table-cell");
-    }
-
-    if (codeBoxes.length == 2) {
-      codeBoxes.eq(0).setStyle("width", "50%");
-      codeBoxes.eq(1).setStyle("width", "50%");
-    }
-    else if (codeBoxes.length == 3) {
-      codeBoxes.eq(0).setStyle("width", "25%");
-      codeBoxes.eq(1).setStyle("width", "25%");
-      codeBoxes.eq(2).setStyle("width", "50%");
-    }
-
-    codeBoxes.getFirst().setStyle("borderTopLeftRadius", codeContainer.getStyle("borderTopLeftRadius"));
-    codeBoxes.getLast().setStyles({
-      borderTopRightRadius: codeContainer.getStyle("borderTopRightRadius"),
-      borderRight: "none"
-    });
   };
 
   /**
