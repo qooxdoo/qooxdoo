@@ -385,7 +385,7 @@ q.ready(function() {
       groupPage = q.create("<li class='qx-accordion-page' id='" + groupId + "'></li>").appendTo("#list > ul");
     }
 
-    if (name !== group) {
+    if (name !== "Core") {
       groupPage.append(q.create('<a href="#' + id + '"><h2 class="nav-' + id + '">' + name + '</h2></a>'));
     }
 
@@ -859,7 +859,6 @@ q.ready(function() {
         acc.fadeIn(200);
         buttonTops = [];
         acc.find(".qx-accordion-button").forEach(function(button, index) {
-          console.log(button.offsetTop);
           buttonTops[index] = (button.offsetTop);
         });
       }, 200);
@@ -983,6 +982,7 @@ q.ready(function() {
      return "Core";
    }
    attach = attach.replace("qx.module.", "");
+   attach = attach.replace("qx.ui.website.", "");
    return attach;
   };
 
