@@ -32,6 +32,8 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
   statics : {
     /**
      * @attach{qxWeb}
+     *
+     * @return {qx.ui.website.Tabs}
      */
     tabs : function(align, preselected) {
       var tabs =  new qx.ui.website.Tabs(this);
@@ -207,7 +209,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      *
      * @param label {String} The button's content. Can include markup.
      * @param pageSelector {String} CSS Selector that identifies the associated page
-     * @return {qxWeb} The collection for chaining
+     * @return {qx.ui.website.Tabs} The collection for chaining
      */
     addButton : function(label, pageSelector) {
       var cssPrefix = this.getCssPrefix();
@@ -251,7 +253,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * Selects a tab button
      *
      * @param index {Integer} index of the button to select
-     * @return {qxWeb} The collection for chaining
+     * @return {qx.ui.website.Tabs} The collection for chaining
      */
     select : function(index) {
       var cssPrefix = this.getCssPrefix();
