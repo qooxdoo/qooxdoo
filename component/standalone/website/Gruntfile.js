@@ -27,10 +27,12 @@ var qxTasks = require(_qx.sdkPath + '/tool/data/grunt/tasks/tasks.js');
 module.exports = function(grunt) {
   var config = {
     qx: {
-      "APPLICATION": "framework",
-      "QOOXDOO_PATH": _qx.sdkPath,
-      "QOOXDOO_VERSION": "3.1",
-      "CACHE": "<%= qx.TMPDIR %>/qx<%= qx.QOOXDOO_VERSION %>/cache",
+      "let" : {
+        "APPLICATION": "library",
+        "QOOXDOO_PATH": _qx.sdkPath,
+        "QOOXDOO_VERSION": "3.1",
+        "CACHE": "<%= grunt_qx.TMPDIR %>/qx<%= qx.let.QOOXDOO_VERSION %>/cache",
+      }
     },
     /*
     myTask: {
