@@ -332,11 +332,20 @@ p {
   display: none;
 }
 
-.fiddleframe {
-  width: 200px;
-  height: 50px;
-  margin: 2px 0 0 0;
-  padding: 0;
+#fiddleframe {
+  visibility: hidden;
+}
+
+.fiddlebutton {
+  padding: 3px 8px 3px 28px;
+  border: none;
+  font-weight: bold;
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+  color: #000;
+  background-color: transparent;
+  background: url(jsfiddle-logo_small.png) no-repeat left top;
 }
 
 .sample {

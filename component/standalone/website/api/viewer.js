@@ -139,26 +139,6 @@ q.ready(function() {
       loadEventNorm();
       loadPolyfills();
       onContentReady();
-      attachOnScroll();
-
-      if (location.hash) {
-        location.href = location.href;
-        __lastHashChange = Date.now();
-        // [BUG #7518] initial scroll to hash (again) on first page load
-        // cause sample loading screwed scroll position slightly up
-        fixScrollPosition();
-        scrollNavItemIntoView(false);
-      }
-      else {
-        // force a scroll event so the topmost module's samples are loaded
-        window.setTimeout(function() {
-          var cont = document.getElementById("content");
-          if (cont.scrollTop == 0) {
-            cont.scrollTop = 1;
-            cont.scrollTop = 0;
-          }
-        }, 100);
-      }
     };
 
     var isFileProtocol = function() {
@@ -874,6 +854,7 @@ q.ready(function() {
       moveMethodsToReturnTypes();
       renderList();
       renderContent();
+      loadSamples();
       var acc = q("#list").accordion();
 
       // wait for the accordion pages to be measured
@@ -888,9 +869,7 @@ q.ready(function() {
 
 
       acc.on("changeSelected", function(index) {
-
         var buttonTop = buttonTops[index];
-        console.log("scroll", buttonTop);
         var scrollTop = q("#navContainer").getProperty("scrollTop");
         q("#navContainer").animate({
           duration: 500,
@@ -931,38 +910,9 @@ q.ready(function() {
     });
   };
 
-  // load sample code as modules are scrolled into view
-  var seenModules = [];
-  var loadModuleSamples = function(module) {
-    var moduleName = module.getChildren("h1").getHtml();
-    var sampleUri = "./samples/" + moduleName + ".js";
-    q.io.script(sampleUri).send();
-  };
 
-  var attachOnScroll = function() {
-    var lastCheck;
-
-    var onScroll = function(ev) {
-      if (lastCheck && Date.now() - lastCheck < 500) {
-        return;
-      }
-      q(".module").forEach(function(item, index, modules) {
-        var module = modules.eq(index);
-        if (seenModules.indexOf(module[0]) == -1) {
-          var pos = module.getPosition();
-          var content = q("#content");
-          var isVisible = pos.top < content.getHeight() && (pos.bottom > 0 ||
-            (pos.bottom + content.getHeight()) > 0);
-          if (isVisible) {
-            loadModuleSamples(module);
-            seenModules.push(module[0]);
-          }
-        }
-      });
-      lastCheck = Date.now();
-    };
-
-    q("#content").on("scroll", onScroll);
+  var loadSamples = function() {
+    q.io.script("script/samples.js").send();
   };
 
 
@@ -1120,8 +1070,6 @@ q.ready(function() {
     return snippet;
   };
 
-  __sampleFinalizeTimeout = null;
-
   var appendSample = function(sample, header) {
     if (!header[0]) {
       console && console.warn("Sample could not be attached for '", method, "'.");
@@ -1199,16 +1147,6 @@ q.ready(function() {
     {
       createFiddleButton(sample).appendTo(sampleEl);
     }
-
-    if (__sampleFinalizeTimeout) {
-      clearTimeout(__sampleFinalizeTimeout);
-    }
-    __sampleFinalizeTimeout = setTimeout(function() {
-      if (__lastHashChange && (Date.now() - __lastHashChange) <= 2000) {
-        fixScrollPosition();
-      }
-    }, 500);
-
   };
 
   /**
@@ -1234,20 +1172,14 @@ q.ready(function() {
     }
   };
 
-  var createFiddleButton = function(sample) {
-    var qVersion = q.env.get("qx.version");
-    var qUrl = "http://demo.qooxdoo.org/" + qVersion + "/framework/q-" +
-      qVersion + ".min.js";
-    var qScript = '<script type="text/javascript" src="' + qUrl + '"></script>';
+  var qVersion = q.env.get("qx.version");
+  var qUrl = "http://demo.qooxdoo.org/" + qVersion + "/framework/q-" +
+    qVersion + ".min.js";
+  var qScript = '<script type="text/javascript" src="' + qUrl + '"></script>';
 
-    return q.create("<iframe></iframe>").setAttributes({
-      src: "fiddleframe.html",
-      marginheight: 0,
-      marginwidth: 0,
-      frameborder: 0
-    })
-    .addClass("fiddleframe").on("load", function(ev) {
-      var iframeBody = q(this[0].contentWindow.document.body);
+  var createFiddleButton = function(sample) {
+    return q.create("<button class='fiddlebutton'>Edit/run on jsFiddle</button>").on("click", function() {
+      var iframeBody = q(q("#fiddleframe")[0].contentWindow.document.body);
 
       if (sample.javascript) {
         iframeBody.find("#js").setAttribute("value", sample.javascript);
@@ -1265,18 +1197,8 @@ q.ready(function() {
         iframeBody.find("#html").setAttribute("value", qScript);
       }
 
-      var button = iframeBody.find("button");
-      this.setStyles({
-        width: (button.getWidth() + 2) + "px",
-        height: button.getHeight() + "px"
-      });
+      iframeBody.find("form")[0].submit();
     });
-  };
-
-  var fixScrollPosition = function() {
-    var hash = window.location.hash;
-    window.location.hash = '';
-    window.location.hash = hash;
   };
 
   var scrollNavItemIntoView = function(forceIfAlreadyInViewport) {
