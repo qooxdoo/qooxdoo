@@ -51,6 +51,14 @@ q.ready(function() {
     "Plugin_API": "&#xF063;"
   };
 
+  var configReplacements = q.$$qx.core.Environment.get("apiviewer.modulenamereplacements");
+  var replacements = [];
+  for (var exp in configReplacements) {
+    replacements.push({
+      regExp: new RegExp(exp),
+      replacement: configReplacements[exp]
+    });
+  }
 
   var filterTimeout;
   var filterField = q(".filter input");
@@ -992,8 +1000,10 @@ q.ready(function() {
    if (!attach) {
      return "Core";
    }
-   attach = attach.replace("qx.module.", "");
-   attach = attach.replace("qx.ui.website.", "");
+
+   replacements.forEach(function(map) {
+    attach = attach.replace(map.regExp, map.replacement);
+   });
    return attach;
   };
 

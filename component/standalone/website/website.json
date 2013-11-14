@@ -218,7 +218,11 @@
       },
       "environment" :
       {
-        "q.eventtypes" : "qx.module.event.Mouse,qx.module.event.Keyboard,qx.module.event.Native,qx.module.event.Orientation,qx.module.event.Touch"
+        "q.eventtypes" : "qx.module.event.Mouse,qx.module.event.Keyboard,qx.module.event.Native,qx.module.event.Orientation,qx.module.event.Touch",
+        "apiviewer.modulenamereplacements" : {
+          "qx\\.module\\.": "",
+          "qx\\.ui\\.website\\.": ""
+        }
       },
       "run": [
         "build-module-all-min"
