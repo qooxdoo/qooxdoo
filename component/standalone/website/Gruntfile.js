@@ -36,14 +36,12 @@ module.exports = function(grunt) {
     },
 
     concat: {
+      options: {
+        separator: ';'
+      },
       samples : {
-        options: {
-          separator: ';'
-        },
-        dist: {
-          src: ['api/samples/*.js'],
-          dest: 'api/script/samples.js'
-        }
+        src: ['api/samples/*.js'],
+        dest: 'api/script/samples.js'
       }
     }
   };
