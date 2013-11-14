@@ -23,7 +23,7 @@
 
 .carousel-pagination {
   -webkit-transition: -webkit-transform 2s;
-  transition: transform 2s;
+  -moz-transition: -moz-transform 2s;
   position:absolute;
   bottom: $carousel-pagination-size/2;
   height: $carousel-pagination-size;

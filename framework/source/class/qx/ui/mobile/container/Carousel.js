@@ -420,9 +420,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       this.__pageWidth = this.__carouselWidth;
 
       for (var i = 0; i < this.__pages.length; i++) {
-        var pageContentElement = this.__pages[i].getContentElement();
-        qx.bom.element.Style.set(pageContentElement, "width", this.__carouselWidth + "px");
-        qx.bom.element.Style.set(pageContentElement, "height", this.getHeight() + "px");
+        qx.bom.element.Style.set(this.__pages[i].getContentElement(), "width", this.__carouselWidth + "px");
+        qx.bom.element.Style.set(this.__pages[i].getContentElement(), "height", this.getHeight() + "px");
       }
 
       this._updatePagination(this.getCurrentIndex(), this.getCurrentIndex());
@@ -656,30 +655,35 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param oldActiveIndex {Integer} Index of paginationLabel which should loose active state
      * @param newActiveIndex {Integer} Index of paginationLabel which should have active state
      */
-    _updatePagination : function(oldActiveIndex, newActiveIndex) {
+    _updatePagination: function(oldActiveIndex, newActiveIndex) {
       var oldActiveLabel = this.__paginationLabels[oldActiveIndex];
       var newActiveLabel = this.__paginationLabels[newActiveIndex];
 
-      if(oldActiveLabel && oldActiveLabel.getContainerElement()) {
+      if (oldActiveLabel && oldActiveLabel.getContainerElement()) {
         oldActiveLabel.removeCssClass("active");
       }
 
-      if(newActiveLabel && newActiveLabel.getContainerElement()) {
+      if (newActiveLabel && newActiveLabel.getContainerElement()) {
         newActiveLabel.addCssClass("active");
       }
-      
-      if(this.__paginationLabels.length) {
+
+      if (this.__paginationLabels.length) {
         var paginationLabelWidth = 1.5 * qx.bom.element.Dimension.getWidth(this.__paginationLabels[0].getContentElement());
         var paginationWidth = paginationLabelWidth * this.__paginationLabels.length;
-        if (paginationWidth > this.__carouselWidth === true) {
-          this.__pagination.setTranslateX((this.__carouselWidth / 2) - newActiveIndex * paginationLabelWidth);
-          qx.bom.element.Style.set(this.__pagination.getContentElement(), "marginLeft", "0px");
-          qx.bom.element.Style.set(this.__pagination.getContentElement(), "left", null);
-        } else {
-          qx.bom.element.Style.set(this.__pagination.getContentElement(), "marginLeft", (-paginationWidth / 32) + "rem");
-          qx.bom.element.Style.set(this.__pagination.getContentElement(), "left", "50%");
-          this.__pagination.setTranslateX(0);
+        
+        var margin = "0px";
+        var left = null;
+        var translate = (this.__carouselWidth / 2) - newActiveIndex * paginationLabelWidth;
+
+        if (paginationWidth < this.__carouselWidth) {
+          margin = (-paginationWidth / 32) + "rem";
+          left = this.__carouselWidth / 2 + "px";
+          translate = 0;
         }
+
+        qx.bom.element.Style.set(this.__pagination.getContentElement(), "marginLeft", margin);
+        qx.bom.element.Style.set(this.__pagination.getContentElement(), "left", left);
+        this.__pagination.setTranslateX(translate);
       }
     },
 
