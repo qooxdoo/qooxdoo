@@ -66,7 +66,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      * can be configured with some parameter.
      *
      * @param date {Date?null} The initial Date of the calendar.
-     * @return {qx.ui.website.Calendar} A new rating collection.
+     * @return {qx.ui.website.Calendar} A new calendar collection.
      * @attach {qxWeb}
      */
     calendar : function(date) {
