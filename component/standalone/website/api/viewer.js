@@ -109,17 +109,21 @@ q.ready(function() {
 
   };
 
-  q("#showNav").on("click", function() {
-    var value = parseInt(this.getValue());
-    if (value === 0) {
-      q("#navContainer").setStyle("left", "10px");
-      this.setValue(1);
-    }
-    else {
+
+  q("html").on("click", function(ev) {
+    var showNav = q("#showNav");
+    var value = parseInt(showNav.getValue());
+    if (value == 1 && q("#list").contains(ev.getTarget()).length == 0) {
       q("#navContainer").setStyle("left", "");
-      this.setValue(0);
+      showNav.setValue(0);
+    }
+
+    else if (value == 0 && showNav[0] == ev.getTarget()) {
+      q("#navContainer").setStyle("left", "10px");
+      showNav.setValue(1);
     }
   });
+
 
   // load API data of q
   q.io.xhr("script/qxWeb.json").on("loadend", function(xhr) {
