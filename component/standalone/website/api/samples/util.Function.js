@@ -1,16 +1,16 @@
-addSample("q.function.defer", {
+addSample("q.func.debounce", {
   javascript: function() {
-// simple example to defer the execution
+// simple example to debounce the execution
 var myCallback = function() {
-  alert("deferred function");
+  alert("debounced function");
 };
-var deferredFunction = q.function.defer(myCallback, 2000);
-deferredFunction();
+var debouncedFunction = q.func.debounce(myCallback, 2000);
+debouncedFunction();
   },
   executable: true
 });
 
-addSample("q.function.defer", {
+addSample("q.func.debounce", {
   javascript: function() {
 // advanced example with event handling - the handler is called only if no "resize" events
 // where triggered for at least 500 milliseconds
@@ -19,7 +19,7 @@ var resizeHandler = function() {
 };
 
 var winCollection = q(window);
-winCollection.on("resize", q.function.defer(resizeHandler, 500), winCollection);
+winCollection.on("resize", q.func.debounce(resizeHandler, 500), winCollection);
   },
   executable: true
 });
