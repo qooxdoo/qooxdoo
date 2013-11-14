@@ -6,8 +6,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9275 $"/>
+		<generation date="$Date: 2013-08-25 22:28:21 -0500 (Sun, 25 Aug 2013) $"/>
 		<language type="lag"/>
 	</identity>
 	<localeDisplayNames>
@@ -733,7 +733,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Ráandi ya Afɨrɨka ya Saame</displayName>
 			</currency>
 			<currency type="ZMK">
-				<displayName>Kwácha ya Sámbia (1968-2012)</displayName>
+				<displayName>Kwácha ya Sámbia (1968–2012)</displayName>
 			</currency>
 			<currency type="ZMW">
 				<displayName>Kwácha ya Sámbia</displayName>

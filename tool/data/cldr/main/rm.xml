@@ -6,14 +6,14 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9287 $"/>
+		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
 		<language type="rm"/>
 	</identity>
 	<localeDisplayNames>
 		<localeDisplayPattern>
 			<localePattern draft="contributed">{0} ({1})</localePattern>
-			<localeSeparator draft="contributed">, </localeSeparator>
+			<localeSeparator draft="contributed">{0}, {1}</localeSeparator>
 		</localeDisplayPattern>
 		<languages>
 			<language type="aa" draft="contributed">afar</language>
@@ -1921,7 +1921,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</percentFormats>
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
-				<currencyFormat>
+				<currencyFormat type="standard">
 					<pattern draft="contributed">#,##0.00 ¤</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
@@ -1957,7 +1957,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName draft="contributed">kwanza angolan</displayName>
 			</currency>
 			<currency type="AOK">
-				<displayName draft="contributed">kwanza angolan (1977-1990)</displayName>
+				<displayName draft="contributed">kwanza angolan (1977–1990)</displayName>
 			</currency>
 			<currency type="AON">
 				<displayName draft="contributed">nov kwanza angolan</displayName>
@@ -1975,7 +1975,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName draft="contributed">peso argentin moneda nacional</displayName>
 			</currency>
 			<currency type="ARP">
-				<displayName draft="contributed">peso argentin (1983-1985)</displayName>
+				<displayName draft="contributed">peso argentin (1983–1985)</displayName>
 			</currency>
 			<currency type="ARS">
 				<displayName draft="contributed">peso argentin</displayName>
@@ -1990,7 +1990,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName draft="contributed">flurin da l'Aruba</displayName>
 			</currency>
 			<currency type="AZM">
-				<displayName draft="contributed">manat aserbaidschanic (1993-2006)</displayName>
+				<displayName draft="contributed">manat aserbaidschanic (1993–2006)</displayName>
 			</currency>
 			<currency type="AZN">
 				<displayName draft="contributed">manat aserbaidschanic</displayName>
@@ -2056,13 +2056,13 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName draft="contributed">mvdol bolivian</displayName>
 			</currency>
 			<currency type="BRB">
-				<displayName draft="contributed">cruzeiro novo brasilian (1967-1986)</displayName>
+				<displayName draft="contributed">cruzeiro novo brasilian (1967–1986)</displayName>
 			</currency>
 			<currency type="BRC">
 				<displayName draft="contributed">cruzado brasilian</displayName>
 			</currency>
 			<currency type="BRE">
-				<displayName draft="contributed">cruzeiro brasilian (1990-1993)</displayName>
+				<displayName draft="contributed">cruzeiro brasilian (1990–1993)</displayName>
 			</currency>
 			<currency type="BRL">
 				<displayName draft="contributed">real brasilian</displayName>
@@ -2089,7 +2089,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName draft="contributed">pula da la Botswana</displayName>
 			</currency>
 			<currency type="BYB">
-				<displayName draft="contributed">nov rubel bieloruss (1994-1999)</displayName>
+				<displayName draft="contributed">nov rubel bieloruss (1994–1999)</displayName>
 			</currency>
 			<currency type="BYR">
 				<displayName draft="contributed">rubel bieloruss</displayName>
@@ -2222,7 +2222,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName draft="contributed">lari georgian</displayName>
 			</currency>
 			<currency type="GHC">
-				<displayName draft="contributed">cedi ghanais (1979-2007)</displayName>
+				<displayName draft="contributed">cedi ghanais (1979–2007)</displayName>
 			</currency>
 			<currency type="GHS">
 				<displayName draft="contributed">cedi ghanais</displayName>
@@ -2453,7 +2453,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName draft="contributed">peso mexican</displayName>
 			</currency>
 			<currency type="MXP">
-				<displayName draft="contributed">peso d'argient mexican (1861-1992)</displayName>
+				<displayName draft="contributed">peso d'argient mexican (1861–1992)</displayName>
 			</currency>
 			<currency type="MXV">
 				<displayName draft="contributed">unidad de inversion mexicana (UDI)</displayName>
@@ -2522,7 +2522,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName draft="contributed">zloty polac</displayName>
 			</currency>
 			<currency type="PLZ">
-				<displayName draft="contributed">zloty polac (1950-1995)</displayName>
+				<displayName draft="contributed">zloty polac (1950–1995)</displayName>
 			</currency>
 			<currency type="PTE">
 				<displayName draft="contributed">escudo portugais</displayName>
@@ -2675,7 +2675,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName draft="contributed">peso da l'Uruguay (unidades indexadas)</displayName>
 			</currency>
 			<currency type="UYP">
-				<displayName draft="contributed">nov peso da l'Uruguay (1975-1993)</displayName>
+				<displayName draft="contributed">nov peso da l'Uruguay (1975–1993)</displayName>
 			</currency>
 			<currency type="UYU">
 				<displayName draft="contributed">peso da l'Uruguay</displayName>
@@ -2684,7 +2684,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName draft="contributed">sum usbec</displayName>
 			</currency>
 			<currency type="VEB">
-				<displayName draft="contributed">bolivar venezuelan (1871-2008)</displayName>
+				<displayName draft="contributed">bolivar venezuelan (1871–2008)</displayName>
 			</currency>
 			<currency type="VEF">
 				<displayName draft="contributed">bolivar venezuelan</displayName>
@@ -2759,7 +2759,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName draft="contributed">rial dal Jemen</displayName>
 			</currency>
 			<currency type="YUD">
-				<displayName draft="contributed">dinar jugoslav (1966-1990)</displayName>
+				<displayName draft="contributed">dinar jugoslav (1966–1990)</displayName>
 			</currency>
 			<currency type="YUM">
 				<displayName draft="contributed">nov dinar jugoslav</displayName>
@@ -2777,7 +2777,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName draft="contributed">rand sidafrican</displayName>
 			</currency>
 			<currency type="ZMK">
-				<displayName draft="contributed">kwacha da la sambia (1968-2012)</displayName>
+				<displayName draft="contributed">kwacha da la sambia (1968–2012)</displayName>
 			</currency>
 			<currency type="ZMW">
 				<displayName draft="contributed">kwacha da la sambia</displayName>
@@ -2794,48 +2794,66 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</currencies>
 	</numbers>
 	<units>
-		<unit type="day">
-			<unitPattern count="one" draft="contributed">{0} di</unitPattern>
-			<unitPattern count="one" alt="short" draft="contributed">{0} di</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} dis</unitPattern>
-			<unitPattern count="other" alt="short" draft="contributed">{0} dis</unitPattern>
-		</unit>
-		<unit type="hour">
-			<unitPattern count="one" draft="contributed">{0} ura</unitPattern>
-			<unitPattern count="one" alt="short" draft="contributed">{0} ura</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} uras</unitPattern>
-			<unitPattern count="other" alt="short" draft="contributed">{0} uras</unitPattern>
-		</unit>
-		<unit type="minute">
-			<unitPattern count="one" draft="contributed">{0} minuta</unitPattern>
-			<unitPattern count="one" alt="short" draft="contributed">{0} min.</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} minutas</unitPattern>
-			<unitPattern count="other" alt="short" draft="contributed">{0} mins.</unitPattern>
-		</unit>
-		<unit type="month">
-			<unitPattern count="one" draft="contributed">{0} mais</unitPattern>
-			<unitPattern count="one" alt="short" draft="contributed">{0} mais</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} mais</unitPattern>
-			<unitPattern count="other" alt="short" draft="contributed">{0} mais</unitPattern>
-		</unit>
-		<unit type="second">
-			<unitPattern count="one" draft="contributed">{0} secunda</unitPattern>
-			<unitPattern count="one" alt="short" draft="contributed">{0} sec.</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} secundas</unitPattern>
-			<unitPattern count="other" alt="short" draft="contributed">{0} secs.</unitPattern>
-		</unit>
-		<unit type="week">
-			<unitPattern count="one" draft="contributed">{0} emna</unitPattern>
-			<unitPattern count="one" alt="short" draft="contributed">{0} emna</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} emnas</unitPattern>
-			<unitPattern count="other" alt="short" draft="contributed">{0} emnas</unitPattern>
-		</unit>
-		<unit type="year">
-			<unitPattern count="one" draft="contributed">{0} onn</unitPattern>
-			<unitPattern count="one" alt="short" draft="contributed">{0} onn</unitPattern>
-			<unitPattern count="other" draft="contributed">{0} onns</unitPattern>
-			<unitPattern count="other" alt="short" draft="contributed">{0} onns</unitPattern>
-		</unit>
+		<unitLength type="long">
+			<unit type="duration-day">
+				<unitPattern count="one">{0} di</unitPattern>
+				<unitPattern count="other">{0} dis</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">{0} ura</unitPattern>
+				<unitPattern count="other">{0} uras</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">{0} minuta</unitPattern>
+				<unitPattern count="other">{0} minutas</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">{0} mais</unitPattern>
+				<unitPattern count="other">{0} mais</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">{0} secunda</unitPattern>
+				<unitPattern count="other">{0} secundas</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">{0} emna</unitPattern>
+				<unitPattern count="other">{0} emnas</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">{0} onn</unitPattern>
+				<unitPattern count="other">{0} onns</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="short">
+			<unit type="duration-day">
+				<unitPattern count="one">{0} di</unitPattern>
+				<unitPattern count="other">{0} dis</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">{0} ura</unitPattern>
+				<unitPattern count="other">{0} uras</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">{0} min.</unitPattern>
+				<unitPattern count="other">{0} mins.</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">{0} mais</unitPattern>
+				<unitPattern count="other">{0} mais</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">{0} sec.</unitPattern>
+				<unitPattern count="other">{0} secs.</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">{0} emna</unitPattern>
+				<unitPattern count="other">{0} emnas</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">{0} onn</unitPattern>
+				<unitPattern count="other">{0} onns</unitPattern>
+			</unit>
+		</unitLength>
 	</units>
 	<posix>
 		<messages>

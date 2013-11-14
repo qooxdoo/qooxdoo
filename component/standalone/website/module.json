@@ -1,7 +1,7 @@
 {
   "name" : "module",
 
-  "let"  : 
+  "let"  :
   {
     //"QFILES_VERSION_PART": "-${QOOXDOO_VERSION}"
     "QFILES_VERSION_PART": ""
@@ -583,7 +583,8 @@
           "qx.module.util.Array",
           "qx.module.util.String",
           "qx.module.util.Type",
-          "qx.module.util.Object"
+          "qx.module.util.Object",
+          "qx.module.util.Function"
         ],
         "MODULE_FILENAME" : "util"
       }
@@ -600,7 +601,8 @@
           "qx.module.util.Array",
           "qx.module.util.String",
           "qx.module.util.Type",
-          "qx.module.util.Object"
+          "qx.module.util.Object",
+          "qx.module.util.Function"
         ],
         "MODULE_FILENAME" : "util"
       }

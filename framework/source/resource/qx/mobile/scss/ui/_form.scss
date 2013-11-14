@@ -101,6 +101,12 @@
   padding-right: rem(10);
 }
 
+// [BUG #7871] Bugfix for IE 10 for enabling word-wrap within a flexbox layout. 
+.form-row label > p {
+  -ms-flex: 1;
+  box-flex: 1;
+}
+
 .form-separation-row {
   background-color: $list-border-color;
   height: rem(1);

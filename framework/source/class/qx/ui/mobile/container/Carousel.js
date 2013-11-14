@@ -452,22 +452,29 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
 
     /**
-    * Handler for <code>touchend</code> event on carousel scroller.
-    * @param evt {qx.event.type.Touch} the touchend event.
-    */
-    _onTouchEnd : function(evt) {
-      if(evt.getAllTouches().length === 0) {
-        this._refreshScrollerPosition();
-      }
-    },
-
-
-    /**
      * Handles window resize, device orientatonChange or page appear events.
      */
     _onContainerUpdate : function() {
       this._setTransitionDuration(0);
       this._updateCarouselLayout();
+    },
+
+
+    /**
+     * Returns the current horizontal position of the carousel scrolling container.
+     * @return {Number} the horizontonal position
+     */
+    _getScrollerOffset : function() {
+      var transformMatrix = qx.bom.element.Style.get(this.__carouselScroller.getContentElement(), "transform");
+      var transformValueArray = transformMatrix.substr(7, transformMatrix.length - 8).split(', ');
+
+      var i = 4;
+      // Special handling for IE10, because transformation matrix has a different order.
+      if(qx.core.Environment.get("os.name") == "win") {
+        i = transformValueArray.length - 4;
+      }
+
+      return Math.floor(parseInt(transformValueArray[i], 10));
     },
 
 
@@ -487,17 +494,6 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
 
     /**
-     * Returns the current horizontal position of the carousel scrolling container.
-     * @return {Number} the horizontonal position
-     */
-    _getScrollerOffset : function() {
-      var transformMatrix = qx.bom.element.Style.get(this.__carouselScroller.getContentElement(), "transform");
-      var transformValueArray = transformMatrix.substr(7, transformMatrix.length - 8).split(', ');
-      return parseInt(transformValueArray[4], 10);
-    },
-
-
-    /**
      * Event handler for touchmove events.
      * @param evt {qx.event.type.Touch} The touch event.
      */
@@ -513,7 +509,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       }
 
       if (!this.__isPageScrollTarget) {
-        this.__onMoveOffset[0] = this.__deltaX + this.__lastOffset[0];
+        this.__onMoveOffset[0] = Math.floor(this.__deltaX + this.__lastOffset[0]);
+
         if (this.__onMoveOffset[0] >= this.__boundsX[1]) {
           this.__onMoveOffset[0] = this.__boundsX[1];
         }
@@ -530,16 +527,13 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
 
     /**
-    * Calculates the duration the transition will need till the next carousel
-    * snap point is reached.
-    * @param deltaX {Integer} the distance on axis between touchstart and touchend.
-    * @param duration {Number} the swipe duration.
-    * @return {Number} the transition duration.
+    * Handler for <code>touchend</code> event on carousel scroller.
+    * @param evt {qx.event.type.Touch} the touchend event.
     */
-    _calculateTransitionDuration : function(deltaX, duration) {
-      var distanceX = this.__pageWidth - Math.abs(deltaX);
-      var transitionDuration = (distanceX / Math.abs(deltaX)) * duration;
-      return (transitionDuration / 1000);
+    _onTouchEnd : function(evt) {
+      if(evt.getAllTouches().length === 0) {
+        this._refreshScrollerPosition();
+      }
     },
 
 
@@ -559,6 +553,20 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       } else {
         this._snapCarouselPage();
       }
+    },
+
+
+    /**
+    * Calculates the duration the transition will need till the next carousel
+    * snap point is reached.
+    * @param deltaX {Integer} the distance on axis between touchstart and touchend.
+    * @param duration {Number} the swipe duration.
+    * @return {Number} the transition duration.
+    */
+    _calculateTransitionDuration : function(deltaX, duration) {
+      var distanceX = this.__pageWidth - Math.abs(deltaX);
+      var transitionDuration = (distanceX / Math.abs(deltaX)) * duration;
+      return (transitionDuration / 1000);
     },
 
 

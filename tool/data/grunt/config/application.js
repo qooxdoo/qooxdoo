@@ -5,40 +5,40 @@ var deepmerge = require('deepmerge');
 
 var getConfig = function() {
   return {
-    qx: {
+    grunt_qx: {
       "ROOT" : ".",
       "QOOXDOO_PATH" : "../../..",
       "TMPDIR": os.tmpdir(),
-      "CACHE" : "<%= qx.TMPDIR %>/qx<%= qx.QOOXDOO_VERSION %>/cache",
+      "CACHE" : "<%= grunt_qx.TMPDIR %>/qx<%= qx.QOOXDOO_VERSION %>/cache",
       "CACHE_KEY" :
       {
-        "compile" : "<%= qx.CACHE %>",
-        "downloads" : "<%= qx.CACHE %>/downloads",
+        "compile" : "<%= grunt_qx.CACHE %>",
+        "downloads" : "<%= grunt_qx.CACHE %>/downloads",
       },
-      "SOURCE_PATH" : "<%= qx.ROOT %>/source",
-      "BUILD_PATH" : "<%= qx.ROOT %>/build"
+      "SOURCE_PATH" : "<%= grunt_qx.ROOT %>/source",
+      "BUILD_PATH" : "<%= grunt_qx.ROOT %>/build"
     },
     /* grunt-contrib-clean */
     clean: {
       options: {
         force: true
       },
-      clean: ["<%= qx.SOURCE_PATH %>/script/<%= qx.APPLICATION %>*.js",
-              "<%= qx.BUILD_PATH %>/script/<%= qx.APPLICATION %>*.js"],
-      dist:  ["<%= qx.SOURCE_PATH %>/script",
-              "<%= qx.BUILD_PATH %>",
-              "<%= qx.ROOT %>/api",
-              "<%= qx.ROOT %>/test",
-              "<%= qx.ROOT %>/inspector",
-              "<%= qx.ROOT %>/simulator"],
-      cache: ["<%= qx.CACHE_KEY.compile %>",
-              "<%= qx.CACHE_KEY.downloads %>"]
+      clean: ["<%= grunt_qx.SOURCE_PATH %>/script/<%= grunt_qx.APPLICATION %>*.js",
+              "<%= grunt_qx.BUILD_PATH %>/script/<%= grunt_qx.APPLICATION %>*.js"],
+      dist:  ["<%= grunt_qx.SOURCE_PATH %>/script",
+              "<%= grunt_qx.BUILD_PATH %>",
+              "<%= grunt_qx.ROOT %>/api",
+              "<%= grunt_qx.ROOT %>/test",
+              "<%= grunt_qx.ROOT %>/inspector",
+              "<%= grunt_qx.ROOT %>/simulator"],
+      cache: ["<%= grunt_qx.CACHE_KEY.compile %>",
+              "<%= grunt_qx.CACHE_KEY.downloads %>"]
     },
     /* grunt-qx-info */
     info: {
       options: {
-        qxPath: "<%= qx.QOOXDOO_PATH %>",
-        cachePaths: "<%= qx.CACHE_KEY %>"
+        qxPath: "<%= grunt_qx.QOOXDOO_PATH %>",
+        cachePaths: "<%= grunt_qx.CACHE_KEY %>"
       }
     },
 
@@ -48,8 +48,8 @@ var getConfig = function() {
         files  : [
           "index.html"
         ],
-        source : "<%= qx.SOURCE_PATH %>",
-        target : "<%= qx.BUILD_PATH %>",
+        source : "<%= grunt_qx.SOURCE_PATH %>",
+        target : "<%= grunt_qx.BUILD_PATH %>",
       }
     }
   };

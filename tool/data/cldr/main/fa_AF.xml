@@ -6,8 +6,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9280 $"/>
+		<generation date="$Date: 2013-08-27 13:07:13 -0500 (Tue, 27 Aug 2013) $"/>
 		<language type="fa"/>
 		<territory type="AF"/>
 	</identity>
@@ -83,7 +83,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="KE">کینیا</territory>
 			<territory type="KG">قرغزستان</territory>
 			<territory type="KH">کمپوچیا</territory>
-			<territory type="KM">کومور</territory>
 			<territory type="KN">سنت کیتس و نیویس</territory>
 			<territory type="KP">کوریای شمالی</territory>
 			<territory type="KR">کوریای جنوبی</territory>
@@ -128,12 +127,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="UY">یوروگوای</territory>
 			<territory type="VC">سنت وینسنت و گرینادین</territory>
 			<territory type="VE">ونزویلا</territory>
-			<territory type="WS">ساموآ</territory>
 			<territory type="ZW">زیمبابوی</territory>
 		</territories>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters type="auxiliary">[\u0656 \u0670 \u200C \u200D ټ ځ څ ډ ړ ږ ښ ګ ڼ ي]</exemplarCharacters>
+		<exemplarCharacters type="auxiliary">[\u200C \u200D \u0656 \u0670 ټ ځ څ ډ ړ ږ ښ ګ ڼ ي]</exemplarCharacters>
 	</characters>
 	<dates>
 		<calendars>
@@ -231,9 +229,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</percentFormatLength>
 		</percentFormats>
 		<currencies>
-			<currency type="AFN">
-				<symbol>؋</symbol>
-			</currency>
 			<currency type="AUD">
 				<displayName>دالر آسترالیا</displayName>
 			</currency>

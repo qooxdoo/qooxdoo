@@ -6,8 +6,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9061 $"/>
+		<generation date="$Date: 2013-07-20 12:27:45 -0500 (Sat, 20 Jul 2013) $"/>
 		<language type="en"/>
 		<script type="Dsrt"/>
 	</identity>
@@ -750,7 +750,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<gmtFormat>𐐘𐐣𐐓 {0}</gmtFormat>
 			<gmtZeroFormat>𐐘𐐣𐐓</gmtZeroFormat>
 			<regionFormat>{0} 𐐓𐐴𐑋</regionFormat>
-			<fallbackRegionFormat draft="contributed">{1} 𐐓𐐴𐑋 ({0})</fallbackRegionFormat>
 			<zone type="Etc/Unknown">
 				<exemplarCity>𐐊𐑌𐑌𐐬𐑌</exemplarCity>
 			</zone>
@@ -913,34 +912,36 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</currencies>
 	</numbers>
 	<units>
-		<unit type="day">
-			<unitPattern count="one">{0} 𐐼𐐩</unitPattern>
-			<unitPattern count="other">{0} 𐐼𐐩𐑆</unitPattern>
-		</unit>
-		<unit type="hour">
-			<unitPattern count="one">{0} 𐐵𐑉</unitPattern>
-			<unitPattern count="other">{0} 𐐵𐑉𐑆</unitPattern>
-		</unit>
-		<unit type="minute">
-			<unitPattern count="one">{0} 𐑋𐐮𐑌𐐲𐐻</unitPattern>
-			<unitPattern count="other">{0} 𐑋𐐮𐑌𐐲𐐻𐑅</unitPattern>
-		</unit>
-		<unit type="month">
-			<unitPattern count="one">{0} 𐑋𐐲𐑌𐑃𐑅</unitPattern>
-			<unitPattern count="other">{0} 𐑋𐐲𐑌𐑃</unitPattern>
-		</unit>
-		<unit type="second">
-			<unitPattern count="one">{0} 𐑅𐐯𐐿𐐲𐑌𐐼</unitPattern>
-			<unitPattern count="other">{0} 𐑅𐐯𐐿𐐲𐑌𐐼𐑆</unitPattern>
-		</unit>
-		<unit type="week">
-			<unitPattern count="one">{0} 𐐶𐐨𐐿</unitPattern>
-			<unitPattern count="other">{0} 𐐶𐐨𐐿𐑅</unitPattern>
-		</unit>
-		<unit type="year">
-			<unitPattern count="one">{0} 𐐷𐐮𐑉</unitPattern>
-			<unitPattern count="other">{0} 𐐷𐐮𐑉𐑆</unitPattern>
-		</unit>
+		<unitLength type="long">
+			<unit type="duration-day">
+				<unitPattern count="one">{0} 𐐼𐐩</unitPattern>
+				<unitPattern count="other">{0} 𐐼𐐩𐑆</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">{0} 𐐵𐑉</unitPattern>
+				<unitPattern count="other">{0} 𐐵𐑉𐑆</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">{0} 𐑋𐐮𐑌𐐲𐐻</unitPattern>
+				<unitPattern count="other">{0} 𐑋𐐮𐑌𐐲𐐻𐑅</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">{0} 𐑋𐐲𐑌𐑃𐑅</unitPattern>
+				<unitPattern count="other">{0} 𐑋𐐲𐑌𐑃</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">{0} 𐑅𐐯𐐿𐐲𐑌𐐼</unitPattern>
+				<unitPattern count="other">{0} 𐑅𐐯𐐿𐐲𐑌𐐼𐑆</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">{0} 𐐶𐐨𐐿</unitPattern>
+				<unitPattern count="other">{0} 𐐶𐐨𐐿𐑅</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">{0} 𐐷𐐮𐑉</unitPattern>
+				<unitPattern count="other">{0} 𐐷𐐮𐑉𐑆</unitPattern>
+			</unit>
+		</unitLength>
 	</units>
 	<posix>
 		<messages>
@@ -949,4 +950,3 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</messages>
 	</posix>
 </ldml>
-

@@ -88,7 +88,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
           // Fix Safari name
           name = "mobile safari";
         }
-        else if (agent.indexOf(" OPR/")) {
+        else if (agent.indexOf(" OPR/") != -1) {
           name = "opera";
         }
       }

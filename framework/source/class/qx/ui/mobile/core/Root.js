@@ -120,19 +120,31 @@ qx.Class.define("qx.ui.mobile.core.Root",
      * Returns the application's scale factor.
      * @return {Number} the scale factor.
      */
-    getScaleFactor: function(value) {
-      var fontSize = qx.bom.element.Style.get(document.documentElement, "fontSize");
+    getScaleFactor: function(value)
+    {
       var scaleFactor = null;
-      if (fontSize.indexOf("px") != -1) {
-        scaleFactor = parseInt(fontSize, 10) / 16;
+      var fontSize = qx.bom.element.Style.get(document.documentElement, "fontSize");
+
+      if (fontSize.indexOf("px") != -1)
+      {
+        scaleFactor = parseFloat(fontSize);
+        if (scaleFactor>15 && scaleFactor<17) {
+          // iron out minor deviations from the base 16px size
+          scaleFactor = 16;
+        }
+
+        scaleFactor = (scaleFactor/16);
+
+        // round to a two-decimal float
+        scaleFactor = parseFloat(scaleFactor.toFixed(2));
       }
       return scaleFactor;
     },
 
 
     /**
-    * Sets the application's scale factor. 
-    * @param value {Number} the scale factor. 
+    * Sets the application's scale factor.
+    * @param value {Number} the scale factor.
     */
     setScaleFactor : function(value) {
       if (qx.core.Environment.get("qx.debug"))

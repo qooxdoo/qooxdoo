@@ -121,13 +121,35 @@ qxWeb.define("qx.module.Placement", {
         y : qx.module.Placement._getPositionY(edge,align)
       };
 
-      var newLocation = qx.module.Placement._computePlacement(axes, size, area, target.getOffset(), offsets, newPosition);
+      var targetLocation;
+      var parentPositioning = parent.getStyle("position");
+      if (parentPositioning == "relative" || parentPositioning == "static") {
+        targetLocation = target.getOffset();
+      } else {
+        var targetPos = target.getPosition();
+        targetLocation = {
+          top: targetPos.top,
+          bottom: targetPos.top + target.getHeight(),
+          left: targetPos.left,
+          right: targetPos.left + target.getWidth()
+        };
+      }
 
-      target = target.getParents();
-      if (target.getStyle("position") == "relative") {
-        var offset = target.getOffset();
-        newLocation.left -= offset.left;
-        newLocation.top -= offset.top;
+      var newLocation = qx.module.Placement._computePlacement(axes, size, area, targetLocation, offsets, newPosition);
+
+      var targetDisplay = target.getStyle("display");
+
+      while (parent.length > 0) {
+        if (parent.getStyle("position") == "relative" ) {
+          var offset = parent.getOffset();
+          var borderTop = parseInt(parent.getStyle("border-top-width")) || 0;
+          var borderLeft = parseInt(parent.getStyle("border-left-width")) || 0;
+          newLocation.left -= (offset.left + borderLeft);
+          newLocation.top -= (offset.top + borderTop);
+          parent = [];
+        } else {
+          parent = parent.getParents();
+        }
       }
 
       // Reset the styles to hide the element if it was previously hidden

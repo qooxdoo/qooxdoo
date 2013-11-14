@@ -31,6 +31,22 @@
 qx.Bootstrap.define("qx.module.Traversing", {
   statics :
   {
+
+    /**
+     * String attributes used to determine if two DOM nodes are equal
+     * as defined in <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#Node3-isEqualNode">
+     * DOM Level 3</a>
+     */
+    EQUALITY_ATTRIBUTES : [
+      "nodeType",
+      "nodeName",
+      "localName",
+      "namespaceURI",
+      "prefix",
+      "nodeValue"
+    ],
+
+
     /**
      * Adds an element to the collection
      *
@@ -698,6 +714,125 @@ qx.Bootstrap.define("qx.module.Traversing", {
     isBlockNode : function(node) {
       return qx.dom.Node.isBlockNode(node);
     },
+<<<<<<< HEAD
+=======
+
+
+    /**
+     * Determines if two DOM nodes are equal as defined in the
+     * <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#Node3-isEqualNode">DOM Level 3 isEqualNode spec</a>.
+     * Also works in legacy browsers without native <em>isEqualNode</em> support.
+     *
+     * @attachStatic{qxWeb}
+     * @param node1 {String|Element|Element[]|qxWeb} first object to compare
+     * @param node2 {String|Element|Element[]|qxWeb} second object to compare
+     * @return {Boolean} <code>true</code> if the nodes are equal
+     */
+    equalNodes : function(node1, node2) {
+      node1 = qx.module.Traversing.__getNodeFromArgument(node1);
+      node2 = qx.module.Traversing.__getNodeFromArgument(node2);
+
+      if (!node1 || !node2) {
+        return false;
+      }
+
+      if (qx.core.Environment.get("html.node.isequalnode")) {
+        return node1.isEqualNode(node2);
+      } else {
+        if (node1 === node2) {
+          return true;
+        }
+
+        // quick attributes length check
+        var hasAttributes = node1.attributes && node2.attributes;
+        if (hasAttributes &&
+            node1.attributes.length !== node2.attributes.length) {
+          return false;
+        }
+
+        var hasChildNodes = node1.childNodes && node2.childNodes;
+        // quick childNodes length check
+        if (hasChildNodes &&
+            node1.childNodes.length !== node2.childNodes.length) {
+          return false;
+        }
+
+        // string attribute check
+        var domAttributes = qx.module.Traversing.EQUALITY_ATTRIBUTES;
+        for (var i=0, l=domAttributes.length; i<l; i++) {
+          var domAttrib = domAttributes[i];
+          if (node1[domAttrib] !== node2[domAttrib]) {
+            return false;
+          }
+        }
+
+        // attribute values
+        if (hasAttributes) {
+          var node1Attributes = qx.module.Traversing.__getAttributes(node1);
+          var node2Attributes = qx.module.Traversing.__getAttributes(node2);
+          for (var attr in node1Attributes) {
+            if (node1Attributes[attr] !== node2Attributes[attr]) {
+              return false;
+            }
+          }
+        }
+
+        // child nodes
+        if (hasChildNodes) {
+          for (var j=0, m=node1.childNodes.length; j<m; j++) {
+            var child1 = node1.childNodes[j];
+            var child2 = node2.childNodes[j];
+            if (!qx.module.Traversing.equalNodes(child1, child2)) {
+              return false;
+            }
+          }
+        }
+
+        return true;
+      }
+    },
+
+
+    /**
+     * Helper that attempts to convert the given argument into a DOM node
+     * @param arg {var} object to convert
+     * @return {Node|null} DOM node or null if the conversion failed
+     */
+    __getNodeFromArgument : function(arg) {
+      if (typeof arg == "string") {
+        arg = qxWeb(arg);
+      }
+
+      if (arg instanceof Array || arg instanceof qxWeb) {
+        arg = arg[0];
+      }
+
+      return qxWeb.isNode(arg) ? arg : null;
+    },
+
+
+    /**
+     * Returns a map containing the given DOM node's attribute names
+     * and values
+     *
+     * @param node {Node} DOM node
+     * @return {Map} Map of attribute names/values
+     */
+    __getAttributes : function(node) {
+      var attributes = {};
+
+      for (var attr in node.attributes) {
+        if (attr == "length") {
+          continue;
+        }
+        var name = node.attributes[attr].name;
+        var value = node.attributes[attr].value;
+        attributes[name] = value;
+      }
+
+      return attributes;
+    },
+>>>>>>> master
 
 
     /**
@@ -778,7 +913,8 @@ qx.Bootstrap.define("qx.module.Traversing", {
       "isBlockNode" : statics.isBlockNode,
       "getNodeName" : statics.getNodeName,
       "getNodeText" : statics.getNodeText,
-      "isTextNode" : statics.isTextNode
+      "isTextNode" : statics.isTextNode,
+      "equalNodes" : statics.equalNodes
     });
   }
 });

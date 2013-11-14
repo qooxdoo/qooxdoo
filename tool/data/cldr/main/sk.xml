@@ -6,15 +6,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8671 $"/>
-		<generation date="$Date: 2013-05-03 14:17:48 -0500 (Fri, 03 May 2013) $"/>
+		<version number="$Revision: 9287 $"/>
+		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
 		<language type="sk"/>
 	</identity>
 	<localeDisplayNames>
 		<localeDisplayPattern>
 			<localePattern>{0} ({1})</localePattern>
-			<localeSeparator>,</localeSeparator>
-			<localeKeyTypePattern draft="contributed">{0}: {1}</localeKeyTypePattern>
+			<localeSeparator>{0}, {1}</localeSeparator>
+			<localeKeyTypePattern>{0}: {1}</localeKeyTypePattern>
 		</localeDisplayPattern>
 		<languages>
 			<language type="aa">afarčina</language>
@@ -40,6 +40,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="anp">angika</language>
 			<language type="apa">apačské jazyky</language>
 			<language type="ar">arabčina</language>
+			<language type="ar_001" draft="contributed">moderná štandardná arabčina</language>
 			<language type="arc" draft="contributed">aramejčina</language>
 			<language type="arn">araukánčina</language>
 			<language type="arp">arapaho</language>
@@ -164,12 +165,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="en_AU">austrálska angličtina</language>
 			<language type="en_CA">kanadská angličtina</language>
 			<language type="en_GB">britská angličtina</language>
+			<language type="en_GB" alt="short" draft="contributed">angličtina (UK)</language>
 			<language type="en_US">americká angličtina</language>
+			<language type="en_US" alt="short" draft="contributed">angličtina (USA)</language>
 			<language type="enm" draft="contributed">stredná angličtina</language>
 			<language type="eo">esperanto</language>
 			<language type="es">španielčina</language>
 			<language type="es_419">latinskoamerická španielčina</language>
 			<language type="es_ES">iberská španielčina</language>
+			<language type="es_MX" draft="contributed">mexická španielčina</language>
 			<language type="et">estónčina</language>
 			<language type="eu">baskičtina</language>
 			<language type="ewo">ewondo</language>
@@ -252,6 +256,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="iu" draft="contributed">inuktitut</language>
 			<language type="ja">japončina</language>
 			<language type="jbo" draft="contributed">lojban</language>
+			<language type="jgo" draft="contributed">ngomba</language>
 			<language type="jmc" draft="contributed">machame</language>
 			<language type="jpr" draft="contributed">židovská perzština</language>
 			<language type="jrb" draft="contributed">židovská arabčina</language>
@@ -261,7 +266,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="kab" draft="contributed">kabylčina</language>
 			<language type="kac" draft="contributed">kačjinčina</language>
 			<language type="kaj" draft="contributed">jju</language>
-			<language type="kam" draft="contributed">kamba</language>
+			<language type="kam">kamba</language>
 			<language type="kar" draft="contributed">karenčina</language>
 			<language type="kaw" draft="contributed">kawi</language>
 			<language type="kbd" draft="contributed">kabardčina</language>
@@ -342,6 +347,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="mg">malgaština</language>
 			<language type="mga" draft="contributed">stredná írčina</language>
 			<language type="mgh" draft="contributed">makhuwa-meetto</language>
+			<language type="mgo" draft="contributed">meta’</language>
 			<language type="mh">kajin-majol</language>
 			<language type="mi">maorijčina</language>
 			<language type="mic" draft="contributed">mikmakčina</language>
@@ -549,7 +555,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="tzm" draft="contributed">stredomarocká berberčina</language>
 			<language type="udm" draft="contributed">udmurtčina</language>
 			<language type="ug">ujgurčina</language>
-			<language type="ug" alt="variant" draft="contributed">ujgurčina</language>
 			<language type="uga" draft="contributed">ugaritčina</language>
 			<language type="uk">ukrajinčina</language>
 			<language type="umb" draft="contributed">umbundu</language>
@@ -585,6 +590,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="zap" draft="contributed">zapotéčtina</language>
 			<language type="zbl" draft="contributed">systém Bliss</language>
 			<language type="zen" draft="contributed">zenaga</language>
+			<language type="zgh" draft="contributed">štandardný marocký tamazight</language>
 			<language type="zh">čínština</language>
 			<language type="zh_Hans">zjednodušená čínština</language>
 			<language type="zh_Hant">tradičná čínština</language>
@@ -596,56 +602,56 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</languages>
 		<scripts>
 			<script type="Arab">arabské</script>
-			<script type="Arab" alt="variant">Perzsko-arabské znaky</script>
-			<script type="Armn">Arménsky</script>
+			<script type="Arab" alt="variant">perzsko-arabské</script>
+			<script type="Armn">arménske</script>
 			<script type="Bali" draft="contributed">balijský</script>
-			<script type="Beng" draft="contributed">bengálsky</script>
-			<script type="Bopo" draft="contributed">Bopomofo</script>
-			<script type="Brai" draft="contributed">Braillovo písmo</script>
-			<script type="Cyrl">Cyrilika</script>
-			<script type="Deva" draft="contributed">Dévanágarí</script>
+			<script type="Beng">bengálske</script>
+			<script type="Bopo">bopomofo</script>
+			<script type="Brai">braillovo písmo</script>
+			<script type="Cyrl">cyrilika</script>
+			<script type="Deva">dévanágarí</script>
 			<script type="Egyp" draft="contributed">egyptské hieroglyfy</script>
-			<script type="Ethi" draft="contributed">etiópsky</script>
-			<script type="Geor" draft="contributed">Gruzínčina</script>
+			<script type="Ethi">etiópske</script>
+			<script type="Geor">gruzínske</script>
 			<script type="Glag" draft="contributed">hlaholika</script>
 			<script type="Goth" draft="contributed">gotický</script>
-			<script type="Grek">Grécky</script>
-			<script type="Gujr" draft="contributed">Gudžarátčina</script>
-			<script type="Guru" draft="contributed">Gurmukhi</script>
-			<script type="Hang" draft="contributed">Hangul</script>
-			<script type="Hani" draft="contributed">Han</script>
+			<script type="Grek">grécke</script>
+			<script type="Gujr">gudžarátí</script>
+			<script type="Guru">gurmukhi</script>
+			<script type="Hang">hangul</script>
+			<script type="Hani">han</script>
 			<script type="Hans">Zjednodušené čínske</script>
 			<script type="Hans" alt="stand-alone">han – zjednodušené</script>
-			<script type="Hant">Tradičné čínske</script>
+			<script type="Hant">tradičné</script>
 			<script type="Hant" alt="stand-alone">han – tradičné</script>
-			<script type="Hebr" draft="contributed">hebrejský</script>
-			<script type="Hira" draft="contributed">Hiragana</script>
+			<script type="Hebr">hebrejské</script>
+			<script type="Hira">hiragana</script>
 			<script type="Jpan">japonské</script>
-			<script type="Kana" draft="contributed">Katakana</script>
-			<script type="Khmr" draft="contributed">kmérsky</script>
-			<script type="Knda" draft="contributed">Kannadčina</script>
+			<script type="Kana">katakana</script>
+			<script type="Khmr">khmérske</script>
+			<script type="Knda">kannadské</script>
 			<script type="Kore">kórejské</script>
-			<script type="Laoo" draft="contributed">Lao</script>
-			<script type="Latn" draft="contributed">latinka</script>
+			<script type="Laoo">laoské</script>
+			<script type="Latn">latinka</script>
 			<script type="Lina" draft="contributed">lineárna A</script>
 			<script type="Linb" draft="contributed">lineárna B</script>
 			<script type="Maya" draft="contributed">mayské hieroglyfy</script>
-			<script type="Mlym" draft="contributed">Malajámčina</script>
-			<script type="Mong" draft="contributed">mongolský</script>
-			<script type="Mymr" draft="contributed">Mjanmarsko</script>
-			<script type="Orya" draft="contributed">Oríjčina</script>
+			<script type="Mlym">malajálamske</script>
+			<script type="Mong">mongolské</script>
+			<script type="Mymr">mjanmarské</script>
+			<script type="Orya">uríjske</script>
 			<script type="Osma" draft="contributed">osmanský</script>
 			<script type="Runr" draft="contributed">Runové písmo</script>
-			<script type="Sinh" draft="contributed">Sinhálske písmo</script>
-			<script type="Taml" draft="contributed">Tamilčina</script>
-			<script type="Telu" draft="contributed">Telugčina</script>
-			<script type="Thaa" draft="contributed">Tána</script>
-			<script type="Thai" draft="contributed">Thajčina</script>
-			<script type="Tibt" draft="contributed">tibetský</script>
-			<script type="Zsym" draft="contributed">Symboly</script>
-			<script type="Zxxx">Nepísané</script>
-			<script type="Zyyy">Obecný</script>
-			<script type="Zzzz">Neznáme písmo</script>
+			<script type="Sinh">sinhálske</script>
+			<script type="Taml">tamilské</script>
+			<script type="Telu">telugské</script>
+			<script type="Thaa">tána</script>
+			<script type="Thai">thajské</script>
+			<script type="Tibt">tibetské</script>
+			<script type="Zsym">symboly</script>
+			<script type="Zxxx">bez zápisu</script>
+			<script type="Zyyy">všeobecné</script>
+			<script type="Zzzz">neznáme písmo</script>
 		</scripts>
 		<territories>
 			<territory type="001">Svet</territory>
@@ -678,11 +684,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="154">Severná Európa</territory>
 			<territory type="155">Západná Európa</territory>
 			<territory type="419">Latinská Amerika</territory>
-			<territory type="AC" draft="contributed">Ostrov Ascensión</territory>
+			<territory type="AC">Ostrov Ascensión</territory>
 			<territory type="AD">Andorra</territory>
 			<territory type="AE">Spojené arabské emiráty</territory>
 			<territory type="AF">Afganistan</territory>
-			<territory type="AG">Antigua a Barbados</territory>
+			<territory type="AG">Antigua a Barbuda</territory>
 			<territory type="AI">Anguilla</territory>
 			<territory type="AL">Albánsko</territory>
 			<territory type="AM">Arménsko</territory>
@@ -719,20 +725,19 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="BZ">Belize</territory>
 			<territory type="CA">Kanada</territory>
 			<territory type="CC">Kokosové ostrovy</territory>
-			<territory type="CD">Konžská demokratická republika</territory>
-			<territory type="CD" alt="variant" draft="contributed">Kongo [DRK]</territory>
+			<territory type="CD">Kongo - Kinshasa</territory>
+			<territory type="CD" alt="variant">Kongo (DRK)</territory>
 			<territory type="CF">Stredoafrická republika</territory>
-			<territory type="CG">Kongo</territory>
-			<territory type="CG" alt="variant" draft="contributed">Kongo [republika]</territory>
+			<territory type="CG">Kongo - Brazzaville</territory>
+			<territory type="CG" alt="variant">Kongo (republika)</territory>
 			<territory type="CH">Švajčiarsko</territory>
 			<territory type="CI">Pobrežie Slonoviny</territory>
-			<territory type="CI" alt="variant" draft="contributed">Pobrežie Slonoviny</territory>
 			<territory type="CK">Cookove ostrovy</territory>
 			<territory type="CL">Čile</territory>
 			<territory type="CM">Kamerun</territory>
 			<territory type="CN">Čína</territory>
 			<territory type="CO">Kolumbia</territory>
-			<territory type="CP" draft="contributed">Ostrov Clipperton</territory>
+			<territory type="CP">Ostrov Clipperton</territory>
 			<territory type="CR">Kostarika</territory>
 			<territory type="CU">Kuba</territory>
 			<territory type="CV">Kapverdy</territory>
@@ -741,13 +746,13 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="CY">Cyprus</territory>
 			<territory type="CZ">Česká republika</territory>
 			<territory type="DE">Nemecko</territory>
-			<territory type="DG" draft="contributed">Diego Garcia</territory>
+			<territory type="DG">Diego Garcia</territory>
 			<territory type="DJ">Džibutsko</territory>
 			<territory type="DK">Dánsko</territory>
 			<territory type="DM">Dominika</territory>
 			<territory type="DO">Dominikánska republika</territory>
 			<territory type="DZ">Alžírsko</territory>
-			<territory type="EA" draft="contributed">Ceuta a Melilla</territory>
+			<territory type="EA">Ceuta a Melilla</territory>
 			<territory type="EC">Ekvádor</territory>
 			<territory type="EE">Estónsko</territory>
 			<territory type="EG">Egypt</territory>
@@ -759,12 +764,13 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="FI">Fínsko</territory>
 			<territory type="FJ">Fidži</territory>
 			<territory type="FK">Falklandské ostrovy</territory>
-			<territory type="FK" alt="variant">Falklandy [Islas Malvinas]</territory>
+			<territory type="FK" alt="variant">Falklandy (Islas Malvinas)</territory>
 			<territory type="FM">Mikronézia</territory>
 			<territory type="FO">Faerské ostrovy</territory>
 			<territory type="FR">Francúzsko</territory>
 			<territory type="GA">Gabon</territory>
 			<territory type="GB">Spojené kráľovstvo</territory>
+			<territory type="GB" alt="short" draft="contributed">UK</territory>
 			<territory type="GD">Grenada</territory>
 			<territory type="GE">Gruzínsko</territory>
 			<territory type="GF">Francúzska Guayana</territory>
@@ -783,19 +789,19 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="GW">Guinea-Bissau</territory>
 			<territory type="GY">Guayana</territory>
 			<territory type="HK">Hongkong OAO Číny</territory>
-			<territory type="HK" alt="short">Hong Kong</territory>
+			<territory type="HK" alt="short">Hongkong</territory>
 			<territory type="HM">Heardov ostrov a McDonaldove ostrovy</territory>
 			<territory type="HN">Honduras</territory>
 			<territory type="HR">Chorvátsko</territory>
 			<territory type="HT">Haiti</territory>
 			<territory type="HU">Maďarsko</territory>
-			<territory type="IC" draft="contributed">Kanárske ostrovy</territory>
+			<territory type="IC">Kanárske ostrovy</territory>
 			<territory type="ID">Indonézia</territory>
 			<territory type="IE">Írsko</territory>
 			<territory type="IL">Izrael</territory>
 			<territory type="IM">Ostrov Man</territory>
 			<territory type="IN">India</territory>
-			<territory type="IO">Britské územie v Indickom oceáne</territory>
+			<territory type="IO">Britské indickooceánske územie</territory>
 			<territory type="IQ">Irak</territory>
 			<territory type="IR">Irán</territory>
 			<territory type="IS">Island</territory>
@@ -810,10 +816,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="KI">Kiribati</territory>
 			<territory type="KM">Komory</territory>
 			<territory type="KN">Saint Kitts a Nevis</territory>
-			<territory type="KP">Kórejská ľudovodemokratická republika</territory>
+			<territory type="KP">Severná Kórea</territory>
 			<territory type="KR">Južná Kórea</territory>
 			<territory type="KW">Kuvajt</territory>
-			<territory type="KY">Kajmanské ostrovy</territory>
+			<territory type="KY">Kajmanie ostrovy</territory>
 			<territory type="KZ">Kazachstan</territory>
 			<territory type="LA">Laos</territory>
 			<territory type="LB">Libanon</territory>
@@ -834,7 +840,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="MG">Madagaskar</territory>
 			<territory type="MH">Marshallove ostrovy</territory>
 			<territory type="MK">Macedónsko</territory>
-			<territory type="MK" alt="variant" draft="contributed">Macedónsko [FYROM]</territory>
+			<territory type="MK" alt="variant">Macedónsko (BJRM)</territory>
 			<territory type="ML">Mali</territory>
 			<territory type="MM">Mjanmarsko</territory>
 			<territory type="MN">Mongolsko</territory>
@@ -881,7 +887,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="PY">Paraguaj</territory>
 			<territory type="QA">Katar</territory>
 			<territory type="QO">Tichomorie - ostatné</territory>
-			<territory type="RE">Reunion</territory>
+			<territory type="RE">Réunion</territory>
 			<territory type="RO">Rumunsko</territory>
 			<territory type="RS">Srbsko</territory>
 			<territory type="RU">Rusko</territory>
@@ -907,16 +913,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="SX">Sint Maarten</territory>
 			<territory type="SY">Sýria</territory>
 			<territory type="SZ">Svazijsko</territory>
-			<territory type="TA" draft="contributed">Tristan da Cunha</territory>
+			<territory type="TA">Tristan da Cunha</territory>
 			<territory type="TC">Turks a Caicos</territory>
 			<territory type="TD">Čad</territory>
-			<territory type="TF">Francúzske južné územia</territory>
+			<territory type="TF">Francúzske južné a antarktické územia</territory>
 			<territory type="TG">Togo</territory>
 			<territory type="TH">Thajsko</territory>
 			<territory type="TJ">Tadžikistan</territory>
 			<territory type="TK">Tokelau</territory>
 			<territory type="TL">Východný Timor</territory>
-			<territory type="TL" alt="variant" draft="contributed">Východný Timor</territory>
 			<territory type="TM">Turkménsko</territory>
 			<territory type="TN">Tunisko</territory>
 			<territory type="TO">Tonga</territory>
@@ -929,6 +934,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="UG">Uganda</territory>
 			<territory type="UM">Menšie odľahlé ostrovy USA</territory>
 			<territory type="US">Spojené štáty</territory>
+			<territory type="US" alt="short" draft="contributed">USA</territory>
 			<territory type="UY">Uruguaj</territory>
 			<territory type="UZ">Uzbekistan</territory>
 			<territory type="VA">Vatikán</territory>
@@ -940,7 +946,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="VU">Vanuatu</territory>
 			<territory type="WF">Wallis a Futuna</territory>
 			<territory type="WS">Samoa</territory>
-			<territory type="XK">Kosovo</territory>
+			<territory type="XK" draft="contributed">Kosovo</territory>
 			<territory type="YE">Jemen</territory>
 			<territory type="YT">Mayotte</territory>
 			<territory type="ZA">Južná Afrika</territory>
@@ -1041,6 +1047,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type type="searchjl" key="collation" draft="contributed">Hľadať podľa počiatočnej spoluhlásky písma Hangul</type>
 			<type type="secondary" key="colStrength" draft="contributed">Radiť akcenty</type>
 			<type type="shifted" key="colAlternate" draft="contributed">Pri radení ignorovať symboly</type>
+			<type type="standard" key="collation" draft="contributed">Štandardné poradie</type>
 			<type type="stroke" key="collation">Tiedenie podľa ťahov</type>
 			<type type="taml" key="numbers" draft="contributed">Tamilské číslice</type>
 			<type type="tamldec" key="numbers" draft="contributed">Tamilské číslice</type>
@@ -1082,6 +1089,24 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<codePattern type="territory" draft="contributed">Región: {0}</codePattern>
 		</codePatterns>
 	</localeDisplayNames>
+	<contextTransforms>
+		<contextTransformUsage type="day-format-except-narrow">
+			<contextTransform type="uiListOrMenu">titlecase-firstword</contextTransform>
+		</contextTransformUsage>
+		<contextTransformUsage type="day-standalone-except-narrow">
+			<contextTransform type="uiListOrMenu">titlecase-firstword</contextTransform>
+		</contextTransformUsage>
+		<contextTransformUsage type="languages">
+			<contextTransform type="stand-alone">titlecase-firstword</contextTransform>
+			<contextTransform type="uiListOrMenu">titlecase-firstword</contextTransform>
+		</contextTransformUsage>
+		<contextTransformUsage type="month-format-except-narrow">
+			<contextTransform type="uiListOrMenu">titlecase-firstword</contextTransform>
+		</contextTransformUsage>
+		<contextTransformUsage type="month-standalone-except-narrow">
+			<contextTransform type="uiListOrMenu">titlecase-firstword</contextTransform>
+		</contextTransformUsage>
+	</contextTransforms>
 	<characters>
 		<exemplarCharacters>[a á ä b c č d ď e é f g h {ch} i í j k l ĺ ľ m n ň o ó ô p q r ŕ s š t ť u ú v w x y ý z ž]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary" draft="contributed">[à ă â å ā æ ç è ĕ ê ë ē ì ĭ î ï ī ñ ò ŏ ö ø ō œ ř ù ŭ û ü ū ÿ]</exemplarCharacters>
@@ -1090,6 +1115,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 		<ellipsis type="final">{0}…</ellipsis>
 		<ellipsis type="initial">… {0}</ellipsis>
 		<ellipsis type="medial">{0}… {1}</ellipsis>
+		<ellipsis type="word-final" draft="contributed">{0} …</ellipsis>
+		<ellipsis type="word-initial" draft="contributed">… {0}</ellipsis>
+		<ellipsis type="word-medial" draft="contributed">{0} … {1}</ellipsis>
 		<moreInformation>?</moreInformation>
 	</characters>
 	<delimiters>
@@ -1147,6 +1175,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<availableFormats>
 						<dateFormatItem id="d">d.</dateFormatItem>
 						<dateFormatItem id="Ed">E d.</dateFormatItem>
+						<dateFormatItem id="Gy">y G</dateFormatItem>
+						<dateFormatItem id="GyMMM">LLL y G</dateFormatItem>
+						<dateFormatItem id="GyMMMd" draft="contributed">d.M.y G</dateFormatItem>
+						<dateFormatItem id="GyMMMEd">E, d. MMM y G</dateFormatItem>
+						<dateFormatItem id="GyMMMMd" draft="contributed">d. MMMM y G</dateFormatItem>
 						<dateFormatItem id="h">h a</dateFormatItem>
 						<dateFormatItem id="H">H</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
@@ -1163,16 +1196,18 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="MMMMEd">E, d. MMMM</dateFormatItem>
 						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">M.y</dateFormatItem>
-						<dateFormatItem id="yMd" draft="contributed">d.M.y</dateFormatItem>
-						<dateFormatItem id="yMEd">E d. M. y</dateFormatItem>
-						<dateFormatItem id="yMMM">LLL y</dateFormatItem>
-						<dateFormatItem id="yMMMd" draft="contributed">d.M.y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, d. MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMM">LLLL y</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-						<dateFormatItem id="yQQQQ">QQQQ y</dateFormatItem>
+						<dateFormatItem id="y">y G</dateFormatItem>
+						<dateFormatItem id="yyyy">y G</dateFormatItem>
+						<dateFormatItem id="yyyyM">M.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMd" draft="contributed">d.M.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E d. M. y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMM">LLL y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMd" draft="contributed">d.M.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">E, d. MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM">LLLL y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMMd" draft="contributed">d. MMMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
+						<dateFormatItem id="yyyyQQQQ">QQQQ y G</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback>{0} – {1}</intervalFormatFallback>
@@ -1237,39 +1272,39 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<greatestDifference id="M" draft="contributed">LLLL-LLLL</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="y">
-							<greatestDifference id="y">y - y</greatestDifference>
+							<greatestDifference id="y">y - y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yM">
-							<greatestDifference id="M">M.y - M.y</greatestDifference>
-							<greatestDifference id="y">M.y - M.y</greatestDifference>
+							<greatestDifference id="M">M.y - M.y G</greatestDifference>
+							<greatestDifference id="y">M.y - M.y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMd">
-							<greatestDifference id="d">d.M.y - d.M.y</greatestDifference>
-							<greatestDifference id="M">d.M.y - d.M.y</greatestDifference>
-							<greatestDifference id="y">d.M.y - d.M.y</greatestDifference>
+							<greatestDifference id="d">d.M.y - d.M.y G</greatestDifference>
+							<greatestDifference id="M">d.M.y - d.M.y G</greatestDifference>
+							<greatestDifference id="y">d.M.y - d.M.y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d">E, d.M.y - E, d.M.y</greatestDifference>
-							<greatestDifference id="M">E, d.M.y - E, d.M.y</greatestDifference>
-							<greatestDifference id="y">E, d.M.y - E, d.M.y</greatestDifference>
+							<greatestDifference id="d">E, d.M.y - E, d.M.y G</greatestDifference>
+							<greatestDifference id="M">E, d.M.y - E, d.M.y G</greatestDifference>
+							<greatestDifference id="y">E, d.M.y - E, d.M.y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M">LLL - LLL y</greatestDifference>
-							<greatestDifference id="y">LLL y - LLL y</greatestDifference>
+							<greatestDifference id="M">LLL - LLL y G</greatestDifference>
+							<greatestDifference id="y">LLL y - LLL y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="d">d. - d. MMM y</greatestDifference>
-							<greatestDifference id="M">d. MMM - d. MMM y</greatestDifference>
-							<greatestDifference id="y">d. MMM y - d. MMM y</greatestDifference>
+							<greatestDifference id="d">d. - d. MMM y G</greatestDifference>
+							<greatestDifference id="M">d. MMM - d. MMM y G</greatestDifference>
+							<greatestDifference id="y">d. MMM y - d. MMM y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d">E, d. - E, d. MMM y</greatestDifference>
-							<greatestDifference id="M">E, d. MMM - E, d. MMM y</greatestDifference>
-							<greatestDifference id="y">E, d. MMM y - E, d. MMM y</greatestDifference>
+							<greatestDifference id="d">E, d. - E, d. MMM y G</greatestDifference>
+							<greatestDifference id="M">E, d. MMM - E, d. MMM y G</greatestDifference>
+							<greatestDifference id="y">E, d. MMM y - E, d. MMM y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="M">LLLL - LLLL y</greatestDifference>
-							<greatestDifference id="y">LLLL y - LLLL y</greatestDifference>
+							<greatestDifference id="M">LLLL - LLLL y G</greatestDifference>
+							<greatestDifference id="y">LLLL y - LLLL y G</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
@@ -1460,8 +1495,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<dayPeriods>
 					<dayPeriodContext type="format">
 						<dayPeriodWidth type="wide">
-							<dayPeriod type="am">dopoludnia</dayPeriod>
-							<dayPeriod type="pm">popoludní</dayPeriod>
+							<dayPeriod type="am">AM</dayPeriod>
+							<dayPeriod type="pm">PM</dayPeriod>
 						</dayPeriodWidth>
 					</dayPeriodContext>
 				</dayPeriods>
@@ -1539,6 +1574,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<availableFormats>
 						<dateFormatItem id="d">d.</dateFormatItem>
 						<dateFormatItem id="Ed">E d.</dateFormatItem>
+						<dateFormatItem id="Ehm" draft="contributed">E h:mm</dateFormatItem>
+						<dateFormatItem id="EHm" draft="contributed">E HH:mm</dateFormatItem>
+						<dateFormatItem id="Ehms" draft="contributed">E h:mm:ss</dateFormatItem>
+						<dateFormatItem id="EHms" draft="contributed">E HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="Gy" draft="contributed">y G</dateFormatItem>
+						<dateFormatItem id="GyMMM" draft="contributed">LLL y G</dateFormatItem>
+						<dateFormatItem id="GyMMMd" draft="contributed">d.M.y G</dateFormatItem>
+						<dateFormatItem id="GyMMMEd" draft="contributed">E, d. MMM y G</dateFormatItem>
+						<dateFormatItem id="GyMMMMd" draft="contributed">d. MMMM y G</dateFormatItem>
 						<dateFormatItem id="h">h a</dateFormatItem>
 						<dateFormatItem id="H">H</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
@@ -1557,15 +1601,19 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">M.y</dateFormatItem>
-						<dateFormatItem id="yMd" draft="contributed">d.M.y</dateFormatItem>
+						<dateFormatItem id="yMd">d.M.y</dateFormatItem>
 						<dateFormatItem id="yMEd">E d. M. y</dateFormatItem>
 						<dateFormatItem id="yMMM">LLL y</dateFormatItem>
-						<dateFormatItem id="yMMMd" draft="contributed">d.M.y</dateFormatItem>
+						<dateFormatItem id="yMMMd">d.M.y</dateFormatItem>
 						<dateFormatItem id="yMMMEd">E, d. MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMM">LLLL y</dateFormatItem>
+						<dateFormatItem id="yMMMMd">d. MMMM y</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
 						<dateFormatItem id="yQQQQ">QQQQ y</dateFormatItem>
 					</availableFormats>
+					<appendItems>
+						<appendItem request="Timezone" draft="contributed">{0} {1}</appendItem>
+					</appendItems>
 					<intervalFormats>
 						<intervalFormatFallback>{0} – {1}</intervalFormatFallback>
 						<intervalFormatItem id="d">
@@ -1676,18 +1724,54 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<relative type="-1">Minulý rok</relative>
 				<relative type="0">Tento rok</relative>
 				<relative type="1">Budúci rok</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">O {0} rok</relativeTimePattern>
+					<relativeTimePattern count="few">O {0} roky</relativeTimePattern>
+					<relativeTimePattern count="many">O {0} roka</relativeTimePattern>
+					<relativeTimePattern count="other">O {0} rokov</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">Pred {0} rokom</relativeTimePattern>
+					<relativeTimePattern count="few">Pred {0} rokmi</relativeTimePattern>
+					<relativeTimePattern count="many">Pred {0} rokmi</relativeTimePattern>
+					<relativeTimePattern count="other">Pred {0} rokmi</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="month">
 				<displayName>Mesiac</displayName>
 				<relative type="-1" draft="contributed">Posledný mesiac</relative>
 				<relative type="0">Tento mesiac</relative>
 				<relative type="1">Budúci mesiac</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">O {0} mesiac</relativeTimePattern>
+					<relativeTimePattern count="few">O {0} mesiace</relativeTimePattern>
+					<relativeTimePattern count="many">O {0} mesiaca</relativeTimePattern>
+					<relativeTimePattern count="other">O {0} mesiacov</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">Pred {0} mesiacom</relativeTimePattern>
+					<relativeTimePattern count="few">Pred {0} mesiacmi</relativeTimePattern>
+					<relativeTimePattern count="many">Pred {0} mesiacmi</relativeTimePattern>
+					<relativeTimePattern count="other">Pred {0} mesiacmi</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="week">
 				<displayName>Týždeň</displayName>
 				<relative type="-1">Minulý týždeň</relative>
 				<relative type="0">Tento týždeň</relative>
 				<relative type="1">Budúci týždeň</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">O {0} týždeň</relativeTimePattern>
+					<relativeTimePattern count="few">O {0} týždne</relativeTimePattern>
+					<relativeTimePattern count="many">O {0} týždňa</relativeTimePattern>
+					<relativeTimePattern count="other">O {0} týždňov</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">Pred {0} týždňom</relativeTimePattern>
+					<relativeTimePattern count="few">Pred {0} týždňami</relativeTimePattern>
+					<relativeTimePattern count="many">Pred {0} týždňami</relativeTimePattern>
+					<relativeTimePattern count="other">Pred {0} týždňami</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="day">
 				<displayName>Deň</displayName>
@@ -1696,21 +1780,105 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<relative type="0">Dnes</relative>
 				<relative type="1">Zajtra</relative>
 				<relative type="2">Pozajtra</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">O {0} deň</relativeTimePattern>
+					<relativeTimePattern count="few">O {0} dni</relativeTimePattern>
+					<relativeTimePattern count="many">O {0} dňa</relativeTimePattern>
+					<relativeTimePattern count="other">O {0} dní</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">Pred {0} dňom</relativeTimePattern>
+					<relativeTimePattern count="few">Pred {0} dňami</relativeTimePattern>
+					<relativeTimePattern count="many">Pred {0} dňami</relativeTimePattern>
+					<relativeTimePattern count="other">Pred {0} dňami</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="weekday">
 				<displayName>Deň v týždni</displayName>
+			</field>
+			<field type="sun">
+				<relative type="-1" draft="contributed">Minulú nedeľu</relative>
+				<relative type="0" draft="contributed">Túto nedeľu</relative>
+				<relative type="1" draft="contributed">Budúcu nedeľu</relative>
+			</field>
+			<field type="mon">
+				<relative type="-1" draft="contributed">Minulý pondelok</relative>
+				<relative type="0" draft="contributed">Tento pondelok</relative>
+				<relative type="1" draft="contributed">Budúci pondelok</relative>
+			</field>
+			<field type="tue">
+				<relative type="-1" draft="contributed">Minulý utorok</relative>
+				<relative type="0" draft="contributed">Tento utorok</relative>
+				<relative type="1" draft="contributed">Budúci utorok</relative>
+			</field>
+			<field type="wed">
+				<relative type="-1" draft="contributed">Minulú stredu</relative>
+				<relative type="0" draft="contributed">Túto stredu</relative>
+				<relative type="1" draft="contributed">Budúcu stredu</relative>
+			</field>
+			<field type="thu">
+				<relative type="-1" draft="contributed">Minulý štvrtok</relative>
+				<relative type="0" draft="contributed">Tento štvrtok</relative>
+				<relative type="1" draft="contributed">Budúci štvrtok</relative>
+			</field>
+			<field type="fri">
+				<relative type="-1" draft="contributed">Minulý piatok</relative>
+				<relative type="0" draft="contributed">Tento piatok</relative>
+				<relative type="1" draft="contributed">Budúci piatok</relative>
+			</field>
+			<field type="sat">
+				<relative type="-1" draft="contributed">Minulú sobotu</relative>
+				<relative type="0" draft="contributed">Túto sobotu</relative>
+				<relative type="1" draft="contributed">Budúcu sobotu</relative>
 			</field>
 			<field type="dayperiod">
 				<displayName>Časť dňa</displayName>
 			</field>
 			<field type="hour">
 				<displayName>Hodina</displayName>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">O {0} hodinu</relativeTimePattern>
+					<relativeTimePattern count="few">O {0} hodiny</relativeTimePattern>
+					<relativeTimePattern count="many">O {0} hodiny</relativeTimePattern>
+					<relativeTimePattern count="other">O {0} hodín</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">Pred {0} hodinou</relativeTimePattern>
+					<relativeTimePattern count="few">Pred {0} hodinami</relativeTimePattern>
+					<relativeTimePattern count="many">Pred {0} hodinami</relativeTimePattern>
+					<relativeTimePattern count="other">Pred {0} hodinami</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="minute">
 				<displayName>Minúta</displayName>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">O {0} minútu</relativeTimePattern>
+					<relativeTimePattern count="few">O {0} minúty</relativeTimePattern>
+					<relativeTimePattern count="many">O {0} minúty</relativeTimePattern>
+					<relativeTimePattern count="other">O {0} minút</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">Pred {0} minútou</relativeTimePattern>
+					<relativeTimePattern count="few">Pred {0} minútami</relativeTimePattern>
+					<relativeTimePattern count="many">Pred {0} minútami</relativeTimePattern>
+					<relativeTimePattern count="other">Pred {0} minútami</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="second">
 				<displayName>Sekunda</displayName>
+				<relative type="0">teraz</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">O {0} sekundu</relativeTimePattern>
+					<relativeTimePattern count="few">O {0} sekundy</relativeTimePattern>
+					<relativeTimePattern count="many">O {0} sekundy</relativeTimePattern>
+					<relativeTimePattern count="other">O {0} sekúnd</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">Pred {0} sekundou</relativeTimePattern>
+					<relativeTimePattern count="few">Pred {0} sekundami</relativeTimePattern>
+					<relativeTimePattern count="many">Pred {0} sekundami</relativeTimePattern>
+					<relativeTimePattern count="other">Pred {0} sekundami</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="zone">
 				<displayName>Časové pásmo</displayName>
@@ -1721,10 +1889,23 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<gmtFormat>GMT{0}</gmtFormat>
 			<gmtZeroFormat>GMT</gmtZeroFormat>
 			<regionFormat>Časové pásmo {0}</regionFormat>
+			<regionFormat type="daylight" draft="contributed">{0} (+1)</regionFormat>
+			<regionFormat type="standard" draft="contributed">{0} (+0)</regionFormat>
 			<fallbackFormat>{1} ({0})</fallbackFormat>
-			<fallbackRegionFormat draft="contributed">{1} čas ({0})</fallbackRegionFormat>
 			<zone type="Etc/Unknown">
 				<exemplarCity>Neznáme mesto</exemplarCity>
+			</zone>
+			<zone type="Asia/Dubai">
+				<exemplarCity draft="contributed">Dubaj</exemplarCity>
+			</zone>
+			<zone type="Asia/Kabul">
+				<exemplarCity draft="contributed">Kábul</exemplarCity>
+			</zone>
+			<zone type="Europe/Tirane">
+				<exemplarCity draft="contributed">Tirana</exemplarCity>
+			</zone>
+			<zone type="Asia/Yerevan">
+				<exemplarCity draft="contributed">Jerevan</exemplarCity>
 			</zone>
 			<zone type="Antarctica/South_Pole">
 				<exemplarCity>Južný pól</exemplarCity>
@@ -1732,14 +1913,35 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<zone type="Antarctica/DumontDUrville">
 				<exemplarCity draft="contributed">Dumont D'Urville</exemplarCity>
 			</zone>
+			<zone type="Europe/Vienna">
+				<exemplarCity draft="contributed">Viedeň</exemplarCity>
+			</zone>
+			<zone type="Asia/Dhaka">
+				<exemplarCity draft="contributed">Dháka</exemplarCity>
+			</zone>
+			<zone type="Europe/Brussels">
+				<exemplarCity draft="contributed">Brusel</exemplarCity>
+			</zone>
+			<zone type="Asia/Bahrain">
+				<exemplarCity draft="contributed">Bahrajn</exemplarCity>
+			</zone>
 			<zone type="America/St_Barthelemy">
 				<exemplarCity draft="contributed">Svätý Bartolomej</exemplarCity>
 			</zone>
 			<zone type="Atlantic/Bermuda">
 				<exemplarCity draft="contributed">Bermudy</exemplarCity>
 			</zone>
+			<zone type="Asia/Brunei">
+				<exemplarCity draft="contributed">Brunej</exemplarCity>
+			</zone>
+			<zone type="America/Coral_Harbour">
+				<exemplarCity draft="contributed">Atikokan</exemplarCity>
+			</zone>
 			<zone type="America/St_Johns">
 				<exemplarCity draft="contributed">Sv. Ján</exemplarCity>
+			</zone>
+			<zone type="Europe/Zurich">
+				<exemplarCity draft="contributed">Zürich</exemplarCity>
 			</zone>
 			<zone type="Pacific/Easter">
 				<exemplarCity draft="contributed">Veľkonočné ostrovy</exemplarCity>
@@ -1753,14 +1955,41 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<zone type="Atlantic/Cape_Verde">
 				<exemplarCity draft="contributed">Kapverdy</exemplarCity>
 			</zone>
+			<zone type="Indian/Christmas">
+				<exemplarCity draft="contributed">Vianočný ostrov</exemplarCity>
+			</zone>
+			<zone type="Asia/Nicosia">
+				<exemplarCity draft="contributed">Nikózia</exemplarCity>
+			</zone>
+			<zone type="Europe/Prague">
+				<exemplarCity draft="contributed">Praha</exemplarCity>
+			</zone>
+			<zone type="Europe/Busingen">
+				<exemplarCity draft="contributed">Büsingen</exemplarCity>
+			</zone>
+			<zone type="Europe/Berlin">
+				<exemplarCity draft="contributed">Berlín</exemplarCity>
+			</zone>
 			<zone type="Africa/Djibouti">
 				<exemplarCity draft="contributed">Džibutsko</exemplarCity>
+			</zone>
+			<zone type="Europe/Copenhagen">
+				<exemplarCity draft="contributed">Kodaň</exemplarCity>
 			</zone>
 			<zone type="America/Dominica">
 				<exemplarCity draft="contributed">Dominika</exemplarCity>
 			</zone>
+			<zone type="Africa/Algiers">
+				<exemplarCity draft="contributed">Alžír</exemplarCity>
+			</zone>
 			<zone type="Pacific/Galapagos">
 				<exemplarCity>Galapágy</exemplarCity>
+			</zone>
+			<zone type="Africa/Cairo">
+				<exemplarCity draft="contributed">Káhira</exemplarCity>
+			</zone>
+			<zone type="Africa/Asmera">
+				<exemplarCity draft="contributed">Asmara</exemplarCity>
 			</zone>
 			<zone type="Atlantic/Canary">
 				<exemplarCity>Kanárske ostrovy</exemplarCity>
@@ -1768,32 +1997,118 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<zone type="Pacific/Fiji">
 				<exemplarCity draft="contributed">Fidži</exemplarCity>
 			</zone>
+			<zone type="Pacific/Truk">
+				<exemplarCity draft="contributed">Chuuk</exemplarCity>
+			</zone>
+			<zone type="Pacific/Ponape">
+				<exemplarCity draft="contributed">Pohnpei</exemplarCity>
+			</zone>
+			<zone type="Atlantic/Faeroe">
+				<exemplarCity draft="contributed">Faerské ostrovy</exemplarCity>
+			</zone>
+			<zone type="Europe/Paris">
+				<exemplarCity draft="contributed">Paríž</exemplarCity>
+			</zone>
 			<zone type="Europe/London">
+				<long>
+					<daylight draft="contributed">Britský letný čas</daylight>
+				</long>
 				<exemplarCity>Londýn</exemplarCity>
 			</zone>
 			<zone type="Europe/Gibraltar">
 				<exemplarCity draft="contributed">Gibraltár</exemplarCity>
 			</zone>
+			<zone type="America/Godthab">
+				<exemplarCity draft="contributed">Nuuk</exemplarCity>
+			</zone>
+			<zone type="America/Scoresbysund">
+				<exemplarCity draft="contributed">Ittoqqortoormiit</exemplarCity>
+			</zone>
+			<zone type="Europe/Athens">
+				<exemplarCity draft="contributed">Atény</exemplarCity>
+			</zone>
+			<zone type="Atlantic/South_Georgia">
+				<exemplarCity draft="contributed">Južná Georgia</exemplarCity>
+			</zone>
 			<zone type="Asia/Hong_Kong">
 				<exemplarCity draft="contributed">Hongkong</exemplarCity>
+			</zone>
+			<zone type="Europe/Zagreb">
+				<exemplarCity draft="contributed">Záhreb</exemplarCity>
+			</zone>
+			<zone type="Europe/Budapest">
+				<exemplarCity draft="contributed">Budapešť</exemplarCity>
+			</zone>
+			<zone type="Europe/Dublin">
+				<long>
+					<daylight draft="contributed">Írsky letný čas</daylight>
+				</long>
+			</zone>
+			<zone type="Asia/Jerusalem">
+				<exemplarCity draft="contributed">Jeruzalem</exemplarCity>
+			</zone>
+			<zone type="Europe/Isle_of_Man">
+				<exemplarCity draft="contributed">Ostrov Man</exemplarCity>
+			</zone>
+			<zone type="Asia/Calcutta">
+				<exemplarCity draft="contributed">Kalkata</exemplarCity>
+			</zone>
+			<zone type="Asia/Baghdad">
+				<exemplarCity draft="contributed">Bagdad</exemplarCity>
+			</zone>
+			<zone type="Asia/Tehran">
+				<exemplarCity draft="contributed">Teherán</exemplarCity>
+			</zone>
+			<zone type="Europe/Rome">
+				<exemplarCity draft="contributed">Rím</exemplarCity>
 			</zone>
 			<zone type="America/Jamaica">
 				<exemplarCity draft="contributed">Jamajka</exemplarCity>
 			</zone>
+			<zone type="Asia/Bishkek">
+				<exemplarCity draft="contributed">Biškek</exemplarCity>
+			</zone>
+			<zone type="Asia/Phnom_Penh">
+				<exemplarCity draft="contributed">Phnom Pénh</exemplarCity>
+			</zone>
 			<zone type="America/St_Kitts">
 				<exemplarCity draft="contributed">St. Kitts</exemplarCity>
+			</zone>
+			<zone type="Asia/Pyongyang">
+				<exemplarCity draft="contributed">Pchjongjang</exemplarCity>
+			</zone>
+			<zone type="Asia/Seoul">
+				<exemplarCity draft="contributed">Soul</exemplarCity>
 			</zone>
 			<zone type="Asia/Kuwait">
 				<exemplarCity draft="contributed">Kuvajt</exemplarCity>
 			</zone>
+			<zone type="Asia/Almaty">
+				<exemplarCity draft="contributed">Alma-Ata</exemplarCity>
+			</zone>
+			<zone type="Asia/Beirut">
+				<exemplarCity draft="contributed">Bejrút</exemplarCity>
+			</zone>
 			<zone type="America/St_Lucia">
 				<exemplarCity draft="contributed">Svätá Lucia</exemplarCity>
+			</zone>
+			<zone type="Asia/Colombo">
+				<exemplarCity draft="contributed">Kolombo</exemplarCity>
 			</zone>
 			<zone type="Europe/Luxembourg">
 				<exemplarCity draft="contributed">Luxembursko</exemplarCity>
 			</zone>
+			<zone type="Africa/Tripoli">
+				<exemplarCity draft="contributed">Tripolis</exemplarCity>
+			</zone>
 			<zone type="Europe/Monaco">
 				<exemplarCity draft="contributed">Monako</exemplarCity>
+			</zone>
+			<zone type="Europe/Chisinau">
+				<exemplarCity draft="contributed">Kišiňov</exemplarCity>
+			</zone>
+			<zone type="Asia/Rangoon">
+				<exemplarCity draft="contributed">Rangún</exemplarCity>
 			</zone>
 			<zone type="Asia/Ulaanbaatar">
 				<exemplarCity>Ulanbátar</exemplarCity>
@@ -1809,6 +2124,18 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</zone>
 			<zone type="Indian/Maldives">
 				<exemplarCity draft="contributed">Maldivy</exemplarCity>
+			</zone>
+			<zone type="Asia/Katmandu">
+				<exemplarCity draft="contributed">Káthmandu</exemplarCity>
+			</zone>
+			<zone type="Asia/Muscat">
+				<exemplarCity draft="contributed">Maskat</exemplarCity>
+			</zone>
+			<zone type="Asia/Karachi">
+				<exemplarCity draft="contributed">Karáči</exemplarCity>
+			</zone>
+			<zone type="Europe/Warsaw">
+				<exemplarCity draft="contributed">Varšava</exemplarCity>
 			</zone>
 			<zone type="America/Puerto_Rico">
 				<exemplarCity draft="contributed">Portoriko</exemplarCity>
@@ -1828,11 +2155,20 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<zone type="Indian/Reunion">
 				<exemplarCity draft="contributed">Réunion</exemplarCity>
 			</zone>
+			<zone type="Europe/Bucharest">
+				<exemplarCity draft="contributed">Bukurešť</exemplarCity>
+			</zone>
+			<zone type="Europe/Belgrade">
+				<exemplarCity draft="contributed">Belehrad</exemplarCity>
+			</zone>
 			<zone type="Europe/Moscow">
 				<exemplarCity>Moskva</exemplarCity>
 			</zone>
 			<zone type="Asia/Yekaterinburg">
 				<exemplarCity>Jekaterinburg</exemplarCity>
+			</zone>
+			<zone type="Asia/Novokuznetsk">
+				<exemplarCity draft="contributed">Novokuzneck</exemplarCity>
 			</zone>
 			<zone type="Asia/Krasnoyarsk">
 				<exemplarCity>Krasnojarsko</exemplarCity>
@@ -1846,11 +2182,32 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<zone type="Asia/Sakhalin">
 				<exemplarCity>Sachalin</exemplarCity>
 			</zone>
+			<zone type="Asia/Ust-Nera">
+				<exemplarCity draft="contributed">Usť-Nera</exemplarCity>
+			</zone>
 			<zone type="Asia/Kamchatka">
 				<exemplarCity>Kamčatka</exemplarCity>
 			</zone>
+			<zone type="Africa/Khartoum">
+				<exemplarCity draft="contributed">Chartúm</exemplarCity>
+			</zone>
+			<zone type="Europe/Stockholm">
+				<exemplarCity draft="contributed">Štokholm</exemplarCity>
+			</zone>
 			<zone type="Asia/Singapore">
 				<exemplarCity draft="contributed">Singapur</exemplarCity>
+			</zone>
+			<zone type="Atlantic/St_Helena">
+				<exemplarCity draft="contributed">Sv. Helena</exemplarCity>
+			</zone>
+			<zone type="Europe/Ljubljana">
+				<exemplarCity draft="contributed">Ľubľana</exemplarCity>
+			</zone>
+			<zone type="Europe/San_Marino">
+				<exemplarCity draft="contributed">San Maríno</exemplarCity>
+			</zone>
+			<zone type="Africa/Mogadishu">
+				<exemplarCity draft="contributed">Mogadišo</exemplarCity>
 			</zone>
 			<zone type="Africa/Sao_Tome">
 				<exemplarCity draft="contributed">Svätý Tomáš</exemplarCity>
@@ -1860,6 +2217,18 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</zone>
 			<zone type="America/Lower_Princes">
 				<exemplarCity draft="contributed">Lower Prince's Quarter</exemplarCity>
+			</zone>
+			<zone type="Asia/Damascus">
+				<exemplarCity draft="contributed">Damask</exemplarCity>
+			</zone>
+			<zone type="Asia/Dushanbe">
+				<exemplarCity draft="contributed">Dušanbe</exemplarCity>
+			</zone>
+			<zone type="Asia/Ashgabat">
+				<exemplarCity draft="contributed">Ašchabad</exemplarCity>
+			</zone>
+			<zone type="Asia/Taipei">
+				<exemplarCity draft="contributed">Tchaj-pej</exemplarCity>
 			</zone>
 			<zone type="Europe/Uzhgorod">
 				<exemplarCity>Užhorod</exemplarCity>
@@ -1873,17 +2242,53 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<zone type="America/Anchorage">
 				<exemplarCity draft="contributed">Aljaška</exemplarCity>
 			</zone>
+			<zone type="America/North_Dakota/Beulah">
+				<exemplarCity draft="contributed">Beulah, Severná Dakota</exemplarCity>
+			</zone>
 			<zone type="America/North_Dakota/New_Salem">
 				<exemplarCity draft="contributed">New Salem, Severná Dakota</exemplarCity>
 			</zone>
+			<zone type="America/North_Dakota/Center">
+				<exemplarCity draft="contributed">Center, Severná Dakota</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Vincennes">
+				<exemplarCity draft="contributed">Vincennes, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Petersburg">
+				<exemplarCity draft="contributed">Petersburg, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Tell_City">
+				<exemplarCity draft="contributed">Tell City, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Knox">
+				<exemplarCity draft="contributed">Knox, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Winamac">
+				<exemplarCity draft="contributed">Winamac, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Marengo">
+				<exemplarCity draft="contributed">Marengo, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Vevay">
+				<exemplarCity draft="contributed">Vevay, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Kentucky/Monticello">
+				<exemplarCity draft="contributed">Monticello, Kentucky</exemplarCity>
+			</zone>
 			<zone type="Asia/Tashkent">
 				<exemplarCity>Taškent</exemplarCity>
+			</zone>
+			<zone type="Europe/Vatican">
+				<exemplarCity draft="contributed">Vatikán</exemplarCity>
 			</zone>
 			<zone type="America/St_Vincent">
 				<exemplarCity draft="contributed">Sv. Vincent</exemplarCity>
 			</zone>
 			<zone type="America/St_Thomas">
 				<exemplarCity draft="contributed">Sv. Tomáš</exemplarCity>
+			</zone>
+			<zone type="Asia/Saigon">
+				<exemplarCity draft="contributed">Hočiminovo Mesto</exemplarCity>
 			</zone>
 			<metazone type="Afghanistan">
 				<long>
@@ -2765,6 +3170,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<plusSign>+</plusSign>
 			<minusSign>-</minusSign>
 			<exponential>E</exponential>
+			<superscriptingExponent draft="contributed">×</superscriptingExponent>
 			<perMille>‰</perMille>
 			<infinity>∞</infinity>
 			<nan>NaN</nan>
@@ -2777,82 +3183,106 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</decimalFormatLength>
 			<decimalFormatLength type="long">
 				<decimalFormat>
-					<pattern type="1000" count="one" draft="contributed">0 tisíc</pattern>
-					<pattern type="1000" count="few" draft="contributed">0 tisíc</pattern>
-					<pattern type="1000" count="other" draft="contributed">0 tisíc</pattern>
-					<pattern type="10000" count="one" draft="contributed">00 tisíc</pattern>
-					<pattern type="10000" count="few" draft="contributed">00 tisíc</pattern>
-					<pattern type="10000" count="other" draft="contributed">00 tisíc</pattern>
-					<pattern type="100000" count="one" draft="contributed">000 tisíc</pattern>
-					<pattern type="100000" count="few" draft="contributed">000 tisíc</pattern>
-					<pattern type="100000" count="other" draft="contributed">000 tisíc</pattern>
-					<pattern type="1000000" count="one" draft="contributed">0 milión</pattern>
-					<pattern type="1000000" count="few" draft="contributed">0 milióny</pattern>
-					<pattern type="1000000" count="other" draft="contributed">0 miliónov</pattern>
-					<pattern type="10000000" count="one" draft="contributed">00 milión</pattern>
-					<pattern type="10000000" count="few" draft="contributed">00 milióny</pattern>
-					<pattern type="10000000" count="other" draft="contributed">00 miliónov</pattern>
-					<pattern type="100000000" count="one" draft="contributed">000 milión</pattern>
-					<pattern type="100000000" count="few" draft="contributed">000 milióny</pattern>
-					<pattern type="100000000" count="other" draft="contributed">000 miliónov</pattern>
-					<pattern type="1000000000" count="one" draft="contributed">0 miliarda</pattern>
-					<pattern type="1000000000" count="few" draft="contributed">0 miliardy</pattern>
-					<pattern type="1000000000" count="other" draft="contributed">0 miliard</pattern>
-					<pattern type="10000000000" count="one" draft="contributed">00 miliarda</pattern>
-					<pattern type="10000000000" count="few" draft="contributed">00 miliárdy</pattern>
-					<pattern type="10000000000" count="other" draft="contributed">00 miliárd</pattern>
-					<pattern type="100000000000" count="one" draft="contributed">000 miliarda</pattern>
-					<pattern type="100000000000" count="few" draft="contributed">000 miliárdy</pattern>
-					<pattern type="100000000000" count="other" draft="contributed">000 miliárd</pattern>
-					<pattern type="1000000000000" count="one" draft="contributed">0 bilión</pattern>
-					<pattern type="1000000000000" count="few" draft="contributed">0 bilióny</pattern>
-					<pattern type="1000000000000" count="other" draft="contributed">0 biliónov</pattern>
-					<pattern type="10000000000000" count="one" draft="contributed">00 bilión</pattern>
-					<pattern type="10000000000000" count="few" draft="contributed">00 bilióny</pattern>
-					<pattern type="10000000000000" count="other" draft="contributed">00 biliónov</pattern>
-					<pattern type="100000000000000" count="one" draft="contributed">000 bilión</pattern>
-					<pattern type="100000000000000" count="few" draft="contributed">000 bilióny</pattern>
-					<pattern type="100000000000000" count="other" draft="contributed">000 biliónov</pattern>
+					<pattern type="1000" count="one">0 tisíc</pattern>
+					<pattern type="1000" count="few">0 tisíc</pattern>
+					<pattern type="1000" count="many">0 tisíc</pattern>
+					<pattern type="1000" count="other">0 tisíc</pattern>
+					<pattern type="10000" count="one">00 tisíc</pattern>
+					<pattern type="10000" count="few">00 tisíc</pattern>
+					<pattern type="10000" count="many">00 tisíc</pattern>
+					<pattern type="10000" count="other">00 tisíc</pattern>
+					<pattern type="100000" count="one">000 tisíc</pattern>
+					<pattern type="100000" count="few">000 tisíc</pattern>
+					<pattern type="100000" count="many">000 tisíc</pattern>
+					<pattern type="100000" count="other">000 tisíc</pattern>
+					<pattern type="1000000" count="one">0 milión</pattern>
+					<pattern type="1000000" count="few">0 milióny</pattern>
+					<pattern type="1000000" count="many">0 miliónov</pattern>
+					<pattern type="1000000" count="other">0 miliónov</pattern>
+					<pattern type="10000000" count="one">00 milión</pattern>
+					<pattern type="10000000" count="few">00 milióny</pattern>
+					<pattern type="10000000" count="many">00 miliónov</pattern>
+					<pattern type="10000000" count="other">00 miliónov</pattern>
+					<pattern type="100000000" count="one">000 milión</pattern>
+					<pattern type="100000000" count="few">000 milióny</pattern>
+					<pattern type="100000000" count="many">000 miliónov</pattern>
+					<pattern type="100000000" count="other">000 miliónov</pattern>
+					<pattern type="1000000000" count="one">0 miliarda</pattern>
+					<pattern type="1000000000" count="few">0 miliardy</pattern>
+					<pattern type="1000000000" count="many">0 miliard</pattern>
+					<pattern type="1000000000" count="other">0 miliard</pattern>
+					<pattern type="10000000000" count="one">00 miliarda</pattern>
+					<pattern type="10000000000" count="few">00 miliárdy</pattern>
+					<pattern type="10000000000" count="many">00 miliárd</pattern>
+					<pattern type="10000000000" count="other">00 miliárd</pattern>
+					<pattern type="100000000000" count="one">000 miliarda</pattern>
+					<pattern type="100000000000" count="few">000 miliárdy</pattern>
+					<pattern type="100000000000" count="many">000 miliárd</pattern>
+					<pattern type="100000000000" count="other">000 miliárd</pattern>
+					<pattern type="1000000000000" count="one">0 bilión</pattern>
+					<pattern type="1000000000000" count="few">0 bilióny</pattern>
+					<pattern type="1000000000000" count="many">0 biliónov</pattern>
+					<pattern type="1000000000000" count="other">0 biliónov</pattern>
+					<pattern type="10000000000000" count="one">00 bilión</pattern>
+					<pattern type="10000000000000" count="few">00 bilióny</pattern>
+					<pattern type="10000000000000" count="many">00 biliónov</pattern>
+					<pattern type="10000000000000" count="other">00 biliónov</pattern>
+					<pattern type="100000000000000" count="one">000 bilión</pattern>
+					<pattern type="100000000000000" count="few">000 bilióny</pattern>
+					<pattern type="100000000000000" count="many">000 biliónov</pattern>
+					<pattern type="100000000000000" count="other">000 biliónov</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 			<decimalFormatLength type="short">
 				<decimalFormat>
-					<pattern type="1000" count="one" draft="contributed">0 tis'.'</pattern>
-					<pattern type="1000" count="few" draft="contributed">0 tis'.'</pattern>
-					<pattern type="1000" count="other" draft="contributed">0 tis'.'</pattern>
-					<pattern type="10000" count="one" draft="contributed">00 tis'.'</pattern>
-					<pattern type="10000" count="few" draft="contributed">00 tis'.'</pattern>
-					<pattern type="10000" count="other" draft="contributed">00 tis'.'</pattern>
-					<pattern type="100000" count="one" draft="contributed">000 tis'.'</pattern>
-					<pattern type="100000" count="few" draft="contributed">000 tis'.'</pattern>
-					<pattern type="100000" count="other" draft="contributed">000 tis'.'</pattern>
-					<pattern type="1000000" count="one" draft="contributed">0 mil'.'</pattern>
-					<pattern type="1000000" count="few" draft="contributed">0 mil'.'</pattern>
-					<pattern type="1000000" count="other" draft="contributed">0 mil'.'</pattern>
-					<pattern type="10000000" count="one" draft="contributed">00 mil'.'</pattern>
-					<pattern type="10000000" count="few" draft="contributed">00 mil'.'</pattern>
-					<pattern type="10000000" count="other" draft="contributed">00 mil'.'</pattern>
-					<pattern type="100000000" count="one" draft="contributed">000 mil'.'</pattern>
-					<pattern type="100000000" count="few" draft="contributed">000 mil'.'</pattern>
-					<pattern type="100000000" count="other" draft="contributed">000 mil'.'</pattern>
-					<pattern type="1000000000" count="one" draft="contributed">0 mld'.'</pattern>
-					<pattern type="1000000000" count="few" draft="contributed">0 mld'.'</pattern>
-					<pattern type="1000000000" count="other" draft="contributed">0 mld'.'</pattern>
-					<pattern type="10000000000" count="one" draft="contributed">00 mld'.'</pattern>
-					<pattern type="10000000000" count="few" draft="contributed">00 mld'.'</pattern>
-					<pattern type="10000000000" count="other" draft="contributed">00 mld'.'</pattern>
-					<pattern type="100000000000" count="one" draft="contributed">000 mld'.'</pattern>
-					<pattern type="100000000000" count="few" draft="contributed">000 mld'.'</pattern>
-					<pattern type="100000000000" count="other" draft="contributed">000 mld'.'</pattern>
-					<pattern type="1000000000000" count="one" draft="contributed">0 bil'.'</pattern>
-					<pattern type="1000000000000" count="few" draft="contributed">0 bil'.'</pattern>
-					<pattern type="1000000000000" count="other" draft="contributed">0 bil'.'</pattern>
-					<pattern type="10000000000000" count="one" draft="contributed">00 bil'.'</pattern>
-					<pattern type="10000000000000" count="few" draft="contributed">00 bil'.'</pattern>
-					<pattern type="10000000000000" count="other" draft="contributed">00 bil'.'</pattern>
-					<pattern type="100000000000000" count="one" draft="contributed">000 bil'.'</pattern>
-					<pattern type="100000000000000" count="few" draft="contributed">000 bil'.'</pattern>
-					<pattern type="100000000000000" count="other" draft="contributed">000 bil'.'</pattern>
+					<pattern type="1000" count="one">0 tis'.'</pattern>
+					<pattern type="1000" count="few">0 tis'.'</pattern>
+					<pattern type="1000" count="many">0 tis'.'</pattern>
+					<pattern type="1000" count="other">0 tis'.'</pattern>
+					<pattern type="10000" count="one">00 tis'.'</pattern>
+					<pattern type="10000" count="few">00 tis'.'</pattern>
+					<pattern type="10000" count="many">00 tis'.'</pattern>
+					<pattern type="10000" count="other">00 tis'.'</pattern>
+					<pattern type="100000" count="one">000 tis'.'</pattern>
+					<pattern type="100000" count="few">000 tis'.'</pattern>
+					<pattern type="100000" count="many">000 tis'.'</pattern>
+					<pattern type="100000" count="other">000 tis'.'</pattern>
+					<pattern type="1000000" count="one">0 mil'.'</pattern>
+					<pattern type="1000000" count="few">0 mil'.'</pattern>
+					<pattern type="1000000" count="many">0 mil'.'</pattern>
+					<pattern type="1000000" count="other">0 mil'.'</pattern>
+					<pattern type="10000000" count="one">00 mil'.'</pattern>
+					<pattern type="10000000" count="few">00 mil'.'</pattern>
+					<pattern type="10000000" count="many">00 mil'.'</pattern>
+					<pattern type="10000000" count="other">00 mil'.'</pattern>
+					<pattern type="100000000" count="one">000 mil'.'</pattern>
+					<pattern type="100000000" count="few">000 mil'.'</pattern>
+					<pattern type="100000000" count="many">000 mil'.'</pattern>
+					<pattern type="100000000" count="other">000 mil'.'</pattern>
+					<pattern type="1000000000" count="one">0 mld'.'</pattern>
+					<pattern type="1000000000" count="few">0 mld'.'</pattern>
+					<pattern type="1000000000" count="many">0 mld'.'</pattern>
+					<pattern type="1000000000" count="other">0 mld'.'</pattern>
+					<pattern type="10000000000" count="one">00 mld'.'</pattern>
+					<pattern type="10000000000" count="few">00 mld'.'</pattern>
+					<pattern type="10000000000" count="many">00 mld'.'</pattern>
+					<pattern type="10000000000" count="other">00 mld'.'</pattern>
+					<pattern type="100000000000" count="one">000 mld'.'</pattern>
+					<pattern type="100000000000" count="few">000 mld'.'</pattern>
+					<pattern type="100000000000" count="many">000 mld'.'</pattern>
+					<pattern type="100000000000" count="other">000 mld'.'</pattern>
+					<pattern type="1000000000000" count="one">0 bil'.'</pattern>
+					<pattern type="1000000000000" count="few">0 bil'.'</pattern>
+					<pattern type="1000000000000" count="many">0 bil'.'</pattern>
+					<pattern type="1000000000000" count="other">0 bil'.'</pattern>
+					<pattern type="10000000000000" count="one">00 bil'.'</pattern>
+					<pattern type="10000000000000" count="few">00 bil'.'</pattern>
+					<pattern type="10000000000000" count="many">00 bil'.'</pattern>
+					<pattern type="10000000000000" count="other">00 bil'.'</pattern>
+					<pattern type="100000000000000" count="one">000 bil'.'</pattern>
+					<pattern type="100000000000000" count="few">000 bil'.'</pattern>
+					<pattern type="100000000000000" count="many">000 bil'.'</pattern>
+					<pattern type="100000000000000" count="other">000 bil'.'</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
@@ -2872,12 +3302,16 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</percentFormats>
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
-				<currencyFormat>
+				<currencyFormat type="standard">
 					<pattern>#,##0.00 ¤</pattern>
+				</currencyFormat>
+				<currencyFormat type="accounting">
+					<pattern draft="contributed">#,##0.00 ¤;(#,##0.00 ¤)</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
 			<unitPattern count="one">{0} {1}</unitPattern>
 			<unitPattern count="few">{0} {1}</unitPattern>
+			<unitPattern count="many">{0} {1}</unitPattern>
 			<unitPattern count="other">{0} {1}</unitPattern>
 		</currencyFormats>
 		<currencies>
@@ -2885,13 +3319,18 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Andorská peseta</displayName>
 			</currency>
 			<currency type="AED">
-				<displayName>UAE dirham</displayName>
+				<displayName>SAE dirham</displayName>
 				<displayName count="one">SAE dirham</displayName>
 				<displayName count="few">SAE dirhamy</displayName>
-				<displayName count="other">UAE dirham</displayName>
+				<displayName count="many">SAE dirhamov</displayName>
+				<displayName count="other">SAE dirhamov</displayName>
 			</currency>
 			<currency type="AFN">
-				<displayName draft="contributed">Afganský afgání</displayName>
+				<displayName>Afganský afgání</displayName>
+				<displayName count="one">afganský afgání</displayName>
+				<displayName count="few">afganské afgání</displayName>
+				<displayName count="many">afganského afgání</displayName>
+				<displayName count="other">afganských afgání</displayName>
 			</currency>
 			<currency type="ALL">
 				<displayName>Albánsky lek</displayName>
@@ -2903,25 +3342,26 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Antilský gulden</displayName>
 				<displayName count="one">antilský gulden</displayName>
 				<displayName count="few">antilské guldeny</displayName>
-				<displayName count="other">Nizozemský Antilský guilder</displayName>
+				<displayName count="many">antilského guldena</displayName>
+				<displayName count="other">antilských guldenov</displayName>
 			</currency>
 			<currency type="AOA">
 				<displayName>Angolská kwanza</displayName>
 			</currency>
 			<currency type="AOK">
-				<displayName>Angolská kwanza (1977-1990)</displayName>
+				<displayName>Angolská kwanza (1977–1990)</displayName>
 			</currency>
 			<currency type="AON">
-				<displayName>Angolská nová kwanza (1990-2000)</displayName>
+				<displayName>Angolská nová kwanza (1990–2000)</displayName>
 			</currency>
 			<currency type="AOR">
-				<displayName>Angolská kwanza Reajustado (1995-1999)</displayName>
+				<displayName>Angolská kwanza Reajustado (1995–1999)</displayName>
 			</currency>
 			<currency type="ARA">
 				<displayName>Argentinský austral</displayName>
 			</currency>
 			<currency type="ARP">
-				<displayName>Argentinské peso (1983-1985)</displayName>
+				<displayName>Argentinské peso (1983–1985)</displayName>
 			</currency>
 			<currency type="ARS">
 				<displayName>Argentinské peso</displayName>
@@ -2931,34 +3371,45 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="AUD">
 				<displayName>Austrálsky dolár</displayName>
-				<displayName count="one" draft="contributed">austrálsky dolár</displayName>
-				<displayName count="few" draft="contributed">austrálske doláre</displayName>
-				<displayName count="other" draft="contributed">austrálskych dolárov, austrálskeho dolára</displayName>
+				<displayName count="one">austrálsky dolár</displayName>
+				<displayName count="few">austrálske doláre</displayName>
+				<displayName count="many">austrálskeho dolára</displayName>
+				<displayName count="other">austrálskych dolárov</displayName>
 				<symbol draft="contributed">AUD</symbol>
 			</currency>
 			<currency type="AWG">
 				<displayName>Arubský guilder</displayName>
 			</currency>
 			<currency type="AZM">
-				<displayName>Azerbaidžanský manat</displayName>
+				<displayName>Azerbajdžanský manat (1993–2006)</displayName>
+				<displayName count="one">azerbajdžanský manat (1993–2006)</displayName>
+				<displayName count="few">azerbajdžanské manaty (1993–2006)</displayName>
+				<displayName count="many">azerbajdžanského manatu (1993–2006)</displayName>
+				<displayName count="other">azerbajdžanských manatov (1993–2006)</displayName>
 			</currency>
 			<currency type="AZN">
-				<displayName draft="contributed">Azerbajdžanský manat</displayName>
+				<displayName>Azerbajdžanský manat</displayName>
+				<displayName count="one">azerbajdžanský manat</displayName>
+				<displayName count="few">azerbajdžanské manaty</displayName>
+				<displayName count="many">azerbajdžanského manatu</displayName>
+				<displayName count="other">azerbajdžanských manatov</displayName>
 			</currency>
 			<currency type="BAD">
 				<displayName>Bosnianský dinár</displayName>
 			</currency>
 			<currency type="BAM">
-				<displayName>Bosnianský konvertibilná marka</displayName>
-				<displayName count="one">Bosnianský konvertibilná marka</displayName>
-				<displayName count="few">Bosnianský konvertibilná marka</displayName>
-				<displayName count="other">Bosnianský konvertibilná marka</displayName>
+				<displayName>Bosnianska konvertibilná marka</displayName>
+				<displayName count="one">bosnianska konvertibilná marka</displayName>
+				<displayName count="few">bosnianske konvertibilné marky</displayName>
+				<displayName count="many">bosnianskej konvertibilnej marky</displayName>
+				<displayName count="other">bosnianskych konvertibilných mariek</displayName>
 			</currency>
 			<currency type="BBD">
 				<displayName>Barbadoský dolár</displayName>
-				<displayName count="one">Barbadoský dolár</displayName>
-				<displayName count="few">Barbadoský dolár</displayName>
-				<displayName count="other">Barbadoský dolár</displayName>
+				<displayName count="one">barbadoský dolár</displayName>
+				<displayName count="few">barbadoské doláre</displayName>
+				<displayName count="many">barbadoského dolára</displayName>
+				<displayName count="other">barbadoských dolárov</displayName>
 			</currency>
 			<currency type="BDT">
 				<displayName>Bangladéšska taka</displayName>
@@ -2976,16 +3427,18 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Bulharský leva</displayName>
 			</currency>
 			<currency type="BGN">
-				<displayName>Bulharský leva nový</displayName>
-				<displayName count="one">Bulharský leva nový</displayName>
-				<displayName count="few">Bulharský leva nový</displayName>
-				<displayName count="other">Bulharský leva nový</displayName>
+				<displayName>Bulharský lev</displayName>
+				<displayName count="one">bulharský lev</displayName>
+				<displayName count="few">bulharské leva</displayName>
+				<displayName count="many">bulharského leva</displayName>
+				<displayName count="other">bulharských leva</displayName>
 			</currency>
 			<currency type="BHD">
-				<displayName>Bahraiský dinár</displayName>
-				<displayName count="one">Bahraiský dinár</displayName>
-				<displayName count="few">Bahraiský dinár</displayName>
-				<displayName count="other">Bahraiský dinár</displayName>
+				<displayName>Bahrajnský dinár</displayName>
+				<displayName count="one">bahrajnský dinár</displayName>
+				<displayName count="few">bahrajnské dináre</displayName>
+				<displayName count="many">bahrajnského dinára</displayName>
+				<displayName count="other">bahrajnských dinárov</displayName>
 			</currency>
 			<currency type="BIF">
 				<displayName>Burundský frank</displayName>
@@ -2994,13 +3447,18 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Bermudský dolár</displayName>
 			</currency>
 			<currency type="BND">
-				<displayName>Bruneiský dolár</displayName>
-				<displayName count="one">Bruneiský dolár</displayName>
-				<displayName count="few">Bruneiský dolár</displayName>
-				<displayName count="other">Bruneiský dolár</displayName>
+				<displayName>Brunejský dolár</displayName>
+				<displayName count="one">brunejský dolár</displayName>
+				<displayName count="few">brunejské doláre</displayName>
+				<displayName count="many">brunejského dolára</displayName>
+				<displayName count="other">brunejských dolárov</displayName>
 			</currency>
 			<currency type="BOB">
-				<displayName draft="contributed">Bolívijské boliviano</displayName>
+				<displayName>Bolívijské boliviano</displayName>
+				<displayName count="one">bolívijské boliviano</displayName>
+				<displayName count="few">bolívijské boliviany</displayName>
+				<displayName count="many">bolívijského boliviana</displayName>
+				<displayName count="other">bolívijských bolivianov</displayName>
 			</currency>
 			<currency type="BOP">
 				<displayName>Bolivíjske peso</displayName>
@@ -3009,19 +3467,20 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Bolivíjske mvdol</displayName>
 			</currency>
 			<currency type="BRB">
-				<displayName>Bolivíjske Cruzeiro Novo (1967-1986)</displayName>
+				<displayName>Bolivíjske Cruzeiro Novo (1967–1986)</displayName>
 			</currency>
 			<currency type="BRC">
 				<displayName>Bolivíjske cruzado</displayName>
 			</currency>
 			<currency type="BRE">
-				<displayName>Bolivíjske cruzeiro (1990-1993)</displayName>
+				<displayName>Bolivíjske cruzeiro (1990–1993)</displayName>
 			</currency>
 			<currency type="BRL">
 				<displayName>Brazílsky real</displayName>
-				<displayName count="one" draft="contributed">brazílsky real</displayName>
-				<displayName count="few" draft="contributed">brazílske realy</displayName>
-				<displayName count="other" draft="contributed">brazílskych realov, brazílskeho realu</displayName>
+				<displayName count="one">brazílsky real</displayName>
+				<displayName count="few">brazílske realy</displayName>
+				<displayName count="many">brazílskeho realu</displayName>
+				<displayName count="other">brazílskych realov</displayName>
 				<symbol draft="contributed">BRL</symbol>
 			</currency>
 			<currency type="BRN">
@@ -3034,10 +3493,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Bahamský dolár</displayName>
 			</currency>
 			<currency type="BTN">
-				<displayName>Bhutansky ngultrum</displayName>
-				<displayName count="one">Bhutansky ngultrum</displayName>
-				<displayName count="few">Bhutansky ngultrum</displayName>
-				<displayName count="other">Bhutansky ngultrum</displayName>
+				<displayName>Bhutánsky ngultrum</displayName>
+				<displayName count="one">bhutánsky ngultrum</displayName>
+				<displayName count="few">bhutánske ngultrumy</displayName>
+				<displayName count="many">bhutánskeho ngultrumu</displayName>
+				<displayName count="other">bhutánskych ngultrumov</displayName>
 			</currency>
 			<currency type="BUK">
 				<displayName>Burmese Kyat</displayName>
@@ -3046,44 +3506,51 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Botswanská pula</displayName>
 				<displayName count="one">botswanská pula</displayName>
 				<displayName count="few">botswanské puly</displayName>
-				<displayName count="other">Botswanan Pula</displayName>
+				<displayName count="many">botswanskej puly</displayName>
+				<displayName count="other">botswanských púl</displayName>
 			</currency>
 			<currency type="BYB">
-				<displayName>Belarussian nový rubeľ (1994-1999)</displayName>
-				<displayName count="one">Belarussian nový rubeľ (1994-1999)</displayName>
-				<displayName count="few">Belarussian nový rubeľ (1994-1999)</displayName>
-				<displayName count="other">Belarussian nový rubeľ (1994-1999)</displayName>
+				<displayName>Bieloruský nový rubeľ (1994–1999)</displayName>
+				<displayName count="one">bieloruský nový rubeľ (1994–1999)</displayName>
+				<displayName count="few">bieloruské nové ruble (1994–1999)</displayName>
+				<displayName count="many">bieloruského nového rubľa (1994–1999)</displayName>
+				<displayName count="other">bieloruských nových rubľov (1994–1999)</displayName>
 			</currency>
 			<currency type="BYR">
 				<displayName>Bieloruský rubeľ</displayName>
-				<displayName count="one">Belarussian rubeľ</displayName>
-				<displayName count="few">Belarussian rubeľ</displayName>
-				<displayName count="other">Belarussian rubeľ</displayName>
+				<displayName count="one">bieloruský rubeľ</displayName>
+				<displayName count="few">bieloruské ruble</displayName>
+				<displayName count="many">bieloruského rubľa</displayName>
+				<displayName count="other">bieloruských rubľov</displayName>
 			</currency>
 			<currency type="BZD">
-				<displayName>Belizejský dolár</displayName>
-				<displayName count="one">Belize dolár</displayName>
-				<displayName count="few">Belize dolár</displayName>
-				<displayName count="other">Belize dolár</displayName>
+				<displayName>Belizský dolár</displayName>
+				<displayName count="one">belizský dolár</displayName>
+				<displayName count="few">belizské doláre</displayName>
+				<displayName count="many">belizských dolárov</displayName>
+				<displayName count="other">belizských dolárov</displayName>
 			</currency>
 			<currency type="CAD">
 				<displayName>Kanadský dolár</displayName>
-				<displayName count="one" draft="contributed">kanadský dolár</displayName>
-				<displayName count="few" draft="contributed">kanadské doláre</displayName>
-				<displayName count="other" draft="contributed">kanadských dolárov, kanadského dolára</displayName>
+				<displayName count="one">kanadský dolár</displayName>
+				<displayName count="few">kanadské doláre</displayName>
+				<displayName count="many">kanadského dolára</displayName>
+				<displayName count="other">kanadských dolárov</displayName>
 				<symbol draft="contributed">CAD</symbol>
 			</currency>
 			<currency type="CDF">
-				<displayName>Konžský frank Congolais</displayName>
-				<displayName count="one">Konžský frank Congolais</displayName>
-				<displayName count="few">Konžský frank Congolais</displayName>
-				<displayName count="other">Konžský frank Congolais</displayName>
+				<displayName>Konžský frank</displayName>
+				<displayName count="one">konžský frank</displayName>
+				<displayName count="few">konžské franky</displayName>
+				<displayName count="many">konžského franku</displayName>
+				<displayName count="other">konžských frankov</displayName>
 			</currency>
 			<currency type="CHF">
-				<displayName>Švajčiarský frank</displayName>
-				<displayName count="one" draft="contributed">švajčiarsky frank</displayName>
-				<displayName count="few" draft="contributed">švajčiarske franky</displayName>
-				<displayName count="other" draft="contributed">švajčiarskych frankov, švajčiarskeho franku</displayName>
+				<displayName>Švajčiarsky frank</displayName>
+				<displayName count="one">švajčiarsky frank</displayName>
+				<displayName count="few">švajčiarske franky</displayName>
+				<displayName count="many">švajčiarskeho franku</displayName>
+				<displayName count="other">švajčiarskych frankov</displayName>
 			</currency>
 			<currency type="CLF">
 				<displayName>Čílske Unidades de Fomento</displayName>
@@ -3093,46 +3560,59 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="CNY">
 				<displayName>Čínsky jüan</displayName>
-				<displayName count="one" draft="contributed">čínsky jüan</displayName>
-				<displayName count="few" draft="contributed">čínske jüany</displayName>
-				<displayName count="other" draft="contributed">čínskych jüanov, čínskeho jüana</displayName>
+				<displayName count="one">čínsky jüan</displayName>
+				<displayName count="few">čínske jüany</displayName>
+				<displayName count="many">čínskeho jüana</displayName>
+				<displayName count="other">čínskych jüanov</displayName>
 				<symbol draft="contributed">CNY</symbol>
 			</currency>
 			<currency type="COP">
 				<displayName>Kolumbijské peso</displayName>
 				<displayName count="one">kolumbijské peso</displayName>
 				<displayName count="few">kolumbijské pesos</displayName>
+				<displayName count="many">kolumbijského pesa</displayName>
 				<displayName count="other">kolumbijských pesos</displayName>
 			</currency>
 			<currency type="CRC">
 				<displayName>Kostarický colón</displayName>
-				<displayName count="one">Kostarikský colon</displayName>
-				<displayName count="few">Kostarikský colon</displayName>
-				<displayName count="other">Kostarikský colon</displayName>
+				<displayName count="one">kostarický colón</displayName>
+				<displayName count="few">kostarické colóny</displayName>
+				<displayName count="many">kostarického colónu</displayName>
+				<displayName count="other">kostarických colónov</displayName>
 			</currency>
 			<currency type="CSK">
 				<displayName>Československá koruna</displayName>
 			</currency>
 			<currency type="CUC">
-				<displayName draft="contributed">Kubánske konvertibilné peso</displayName>
+				<displayName>Kubánske konvertibilné peso</displayName>
+				<displayName count="one">kubánske konvertibilné peso</displayName>
+				<displayName count="few">kubánske konvertibilné pesos</displayName>
+				<displayName count="many">kubánskeho konvertibilného pesa</displayName>
+				<displayName count="other">kubánskych konvertibilných pesos</displayName>
 			</currency>
 			<currency type="CUP">
 				<displayName>Kubánske peso</displayName>
+				<displayName count="one">kubánske peso</displayName>
+				<displayName count="few">kubánske pesos</displayName>
+				<displayName count="many">kubánskeho pesa</displayName>
+				<displayName count="other">kubánskych pesos</displayName>
 			</currency>
 			<currency type="CVE">
 				<displayName>Kapverdské escudo</displayName>
 				<displayName count="one">kapverdské escudo</displayName>
 				<displayName count="few">kapverdské escudá</displayName>
-				<displayName count="other">Cape Verde eskudo</displayName>
+				<displayName count="many">kapverdského escuda</displayName>
+				<displayName count="other">kapverdských escúd</displayName>
 			</currency>
 			<currency type="CYP">
 				<displayName>Cypruská libra</displayName>
 			</currency>
 			<currency type="CZK">
 				<displayName>Česká koruna</displayName>
-				<displayName count="one" draft="contributed">česká koruna</displayName>
-				<displayName count="few" draft="contributed">české koruny</displayName>
-				<displayName count="other" draft="contributed">českých korún, českej koruny</displayName>
+				<displayName count="one">česká koruna</displayName>
+				<displayName count="few">české koruny</displayName>
+				<displayName count="many">českej koruny</displayName>
+				<displayName count="other">českých korún</displayName>
 			</currency>
 			<currency type="DDM">
 				<displayName>Východonemecká marka</displayName>
@@ -3145,9 +3625,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="DKK">
 				<displayName>Dánska koruna</displayName>
-				<displayName count="one" draft="contributed">dánska koruna</displayName>
-				<displayName count="few" draft="contributed">dánske koruny</displayName>
-				<displayName count="other" draft="contributed">dánskych korún, dánskej koruny</displayName>
+				<displayName count="one">dánska koruna</displayName>
+				<displayName count="few">dánske koruny</displayName>
+				<displayName count="many">dánskej koruny</displayName>
+				<displayName count="other">dánskych korún</displayName>
 			</currency>
 			<currency type="DOP">
 				<displayName>Dominikánske peso</displayName>
@@ -3163,9 +3644,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="EEK">
 				<displayName>Estónska kroon</displayName>
-				<displayName count="one">Estónska kroon</displayName>
-				<displayName count="few">Estónska kroon</displayName>
-				<displayName count="other">Estónska kroon</displayName>
+				<displayName count="one">estónska kroon</displayName>
+				<displayName count="few">estónske kroony</displayName>
+				<displayName count="many">estónskej kroony</displayName>
+				<displayName count="other">estónskych kroon</displayName>
 			</currency>
 			<currency type="EGP">
 				<displayName>Egyptská libra</displayName>
@@ -3181,9 +3663,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="EUR">
 				<displayName>Euro</displayName>
-				<displayName count="one" draft="contributed">euro</displayName>
-				<displayName count="few" draft="contributed">eurá</displayName>
-				<displayName count="other" draft="contributed">eur, eura</displayName>
+				<displayName count="one">euro</displayName>
+				<displayName count="few">eurá</displayName>
+				<displayName count="many">eura</displayName>
+				<displayName count="other">eur</displayName>
+				<symbol draft="contributed">€</symbol>
 			</currency>
 			<currency type="FIM">
 				<displayName>Finská marka</displayName>
@@ -3192,7 +3676,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Fidžijský dolár</displayName>
 				<displayName count="one">fidžijský dolár</displayName>
 				<displayName count="few">fidžijské doláre</displayName>
-				<displayName count="other">Fiji dolár</displayName>
+				<displayName count="many">fidžijského dolára</displayName>
+				<displayName count="other">fidžijských dolárov</displayName>
 			</currency>
 			<currency type="FKP">
 				<displayName>Falklandská libra</displayName>
@@ -3202,9 +3687,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="GBP">
 				<displayName>Britská libra</displayName>
-				<displayName count="one" draft="contributed">britská libra</displayName>
-				<displayName count="few" draft="contributed">britských libier, britskej libry</displayName>
-				<displayName count="other" draft="contributed">britských libier, britskej libry</displayName>
+				<displayName count="one">britská libra</displayName>
+				<displayName count="few">britskej libry</displayName>
+				<displayName count="many">britskej libry</displayName>
+				<displayName count="other">britských libier</displayName>
 				<symbol draft="contributed">GBP</symbol>
 			</currency>
 			<currency type="GEK">
@@ -3214,19 +3700,28 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Gruzínsky lari</displayName>
 			</currency>
 			<currency type="GHC">
-				<displayName>Ghanský cedi (1979-2007)</displayName>
+				<displayName>Ghanský cedi (1979–2007)</displayName>
+				<displayName count="one">ghanský cedi (1979–2007)</displayName>
+				<displayName count="few">ghanské cedi (1979–2007)</displayName>
+				<displayName count="many">ghanského cedi (1979–2007)</displayName>
+				<displayName count="other">ghanských cedi (1979–2007)</displayName>
 			</currency>
 			<currency type="GHS">
-				<displayName draft="contributed">Ghanský cedi</displayName>
+				<displayName>Ghanský cedi</displayName>
+				<displayName count="one">ghanský cedi</displayName>
+				<displayName count="few">ghanské cedi</displayName>
+				<displayName count="many">ghanského cedi</displayName>
+				<displayName count="other">ghanských cedi</displayName>
 			</currency>
 			<currency type="GIP">
 				<displayName>Gibraltarská libra</displayName>
 			</currency>
 			<currency type="GMD">
-				<displayName>Gambský dalasi</displayName>
-				<displayName count="one">Gambský dalasi</displayName>
-				<displayName count="few">Gambský dalasi</displayName>
-				<displayName count="other">Gambský dalasi</displayName>
+				<displayName>Gambijský dalasi</displayName>
+				<displayName count="one">gambijský dalasi</displayName>
+				<displayName count="few">gambijské dalasi</displayName>
+				<displayName count="many">gambijského dalasi</displayName>
+				<displayName count="other">gambijských dalasi</displayName>
 			</currency>
 			<currency type="GNF">
 				<displayName>Guinejský frank</displayName>
@@ -3249,24 +3744,27 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<currency type="GWP">
 				<displayName>Guinea-Bissau peso</displayName>
 				<displayName count="one">Guinea-Bissau peso</displayName>
-				<displayName count="few">Guinea-Bissau peso</displayName>
-				<displayName count="other">Guinea-Bissau peso</displayName>
+				<displayName count="few">Guinea-Bissau pesos</displayName>
+				<displayName count="many">Guinea-Bissau pesa</displayName>
+				<displayName count="other">Guinea-Bissau pesos</displayName>
 			</currency>
 			<currency type="GYD">
 				<displayName>Guyanský dolár</displayName>
 			</currency>
 			<currency type="HKD">
-				<displayName>Hongkongský dolár</displayName>
-				<displayName count="one" draft="contributed">hongkongský dolár</displayName>
-				<displayName count="few" draft="contributed">hongkongské doláre</displayName>
-				<displayName count="other" draft="contributed">hongkongských dolárov, hongkongského dolára</displayName>
+				<displayName>Hongkonský dolár</displayName>
+				<displayName count="one">hongkonský dolár</displayName>
+				<displayName count="few">hongkonské doláre</displayName>
+				<displayName count="many">hongkonského dolára</displayName>
+				<displayName count="other">hongkonských dolárov</displayName>
 				<symbol draft="contributed">HKD</symbol>
 			</currency>
 			<currency type="HNL">
 				<displayName>Hoduraská lempira</displayName>
-				<displayName count="one">Hoduraská lempira</displayName>
-				<displayName count="few">Hoduraská lempira</displayName>
-				<displayName count="other">Hoduraská lempira</displayName>
+				<displayName count="one">honduraská lempira</displayName>
+				<displayName count="few">honduraské lempiry</displayName>
+				<displayName count="many">honduraskej lempiry</displayName>
+				<displayName count="other">honduraských lempír</displayName>
 			</currency>
 			<currency type="HRD">
 				<displayName>Chorvátsky dinár</displayName>
@@ -3279,15 +3777,17 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="HUF">
 				<displayName>Maďarský forint</displayName>
-				<displayName count="one" draft="contributed">maďarský forint</displayName>
-				<displayName count="few" draft="contributed">maďarské forinty</displayName>
-				<displayName count="other" draft="contributed">maďarských forintov</displayName>
+				<displayName count="one">maďarský forint</displayName>
+				<displayName count="few">maďarské forinty</displayName>
+				<displayName count="many">maďarského forinta</displayName>
+				<displayName count="other">maďarských forintov</displayName>
 			</currency>
 			<currency type="IDR">
 				<displayName>Indonézska rupia</displayName>
-				<displayName count="one" draft="contributed">indonézska rupia</displayName>
-				<displayName count="few" draft="contributed">indonézske rupie</displayName>
-				<displayName count="other" draft="contributed">indonézskych rupií</displayName>
+				<displayName count="one">indonézska rupia</displayName>
+				<displayName count="few">indonézske rupie</displayName>
+				<displayName count="many">indonézskej rupie</displayName>
+				<displayName count="other">indonézskych rupií</displayName>
 			</currency>
 			<currency type="IEP">
 				<displayName>Írska libra</displayName>
@@ -3301,9 +3801,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="INR">
 				<displayName>Indická rupia</displayName>
-				<displayName count="one" draft="contributed">indická rupia</displayName>
-				<displayName count="few" draft="contributed">indické rupie</displayName>
-				<displayName count="other" draft="contributed">indických rupií, indickej rupie</displayName>
+				<displayName count="one">indická rupia</displayName>
+				<displayName count="few">indické rupie</displayName>
+				<displayName count="many">indickej rupie</displayName>
+				<displayName count="other">indických rupií</displayName>
 				<symbol draft="contributed">INR</symbol>
 			</currency>
 			<currency type="IQD">
@@ -3326,9 +3827,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="JPY">
 				<displayName>Japonský jen</displayName>
-				<displayName count="one" draft="contributed">japonský jen</displayName>
-				<displayName count="few" draft="contributed">japonské jeny</displayName>
-				<displayName count="other" draft="contributed">japonských jenov</displayName>
+				<displayName count="one">japonský jen</displayName>
+				<displayName count="few">japonské jeny</displayName>
+				<displayName count="many">japonského jenu</displayName>
+				<displayName count="other">japonských jenov</displayName>
 				<symbol draft="contributed">JPY</symbol>
 			</currency>
 			<currency type="KES">
@@ -3338,7 +3840,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Kirgizský som</displayName>
 				<displayName count="one">kirgizský som</displayName>
 				<displayName count="few">kirgizské somy</displayName>
-				<displayName count="other">Kyrgyský som</displayName>
+				<displayName count="many">kirgizského somu</displayName>
+				<displayName count="other">kirgizských somov</displayName>
 			</currency>
 			<currency type="KHR">
 				<displayName>Kambodžský riel</displayName>
@@ -3347,6 +3850,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Komorský frank</displayName>
 				<displayName count="one">Comoro frank</displayName>
 				<displayName count="few">komorské franky</displayName>
+				<displayName count="many">komorského franku</displayName>
 				<displayName count="other">komorských frankov</displayName>
 			</currency>
 			<currency type="KPW">
@@ -3354,25 +3858,28 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="KRW">
 				<displayName>Juhokórejský won</displayName>
-				<displayName count="one" draft="contributed">juhokórejský won</displayName>
-				<displayName count="few" draft="contributed">juhokórejské wony</displayName>
-				<displayName count="other" draft="contributed">juhokórejských wonov</displayName>
+				<displayName count="one">juhokórejský won</displayName>
+				<displayName count="few">juhokórejské wony</displayName>
+				<displayName count="many">juhokórejského wonu</displayName>
+				<displayName count="other">juhokórejských wonov</displayName>
 				<symbol draft="contributed">KRW</symbol>
 			</currency>
 			<currency type="KWD">
-				<displayName>Kuvaitský dinár</displayName>
-				<displayName count="one">Kuvaitský dinár</displayName>
-				<displayName count="few">Kuvaitský dinár</displayName>
-				<displayName count="other">Kuvaitský dinár</displayName>
+				<displayName>Kuvajtský dinár</displayName>
+				<displayName count="one">kuvajtský dinár</displayName>
+				<displayName count="few">kuvajtské dináre</displayName>
+				<displayName count="many">kuvajtského dinára</displayName>
+				<displayName count="other">kuvajtských dinárov</displayName>
 			</currency>
 			<currency type="KYD">
 				<displayName>Kajmanský dolár</displayName>
 			</currency>
 			<currency type="KZT">
-				<displayName>Kazažský tenge</displayName>
-				<displayName count="one">Kazažský tenge</displayName>
-				<displayName count="few">Kazažský tenge</displayName>
-				<displayName count="other">Kazažský tenge</displayName>
+				<displayName>Kazašské tenge</displayName>
+				<displayName count="one">kazašské tenge</displayName>
+				<displayName count="few">kazašské tenge</displayName>
+				<displayName count="many">kazašského tenge</displayName>
+				<displayName count="other">kazašských tenge</displayName>
 			</currency>
 			<currency type="LAK">
 				<displayName>Laoský kip</displayName>
@@ -3381,10 +3888,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Libanonská libra</displayName>
 			</currency>
 			<currency type="LKR">
-				<displayName>Šrilanská rupia</displayName>
-				<displayName count="one">Šrilanská rupia</displayName>
-				<displayName count="few">Šrilanská rupia</displayName>
-				<displayName count="other">Šrilanská rupia</displayName>
+				<displayName>Srílanská rupia</displayName>
+				<displayName count="one">srílanská rupia</displayName>
+				<displayName count="few">srílanské rupie</displayName>
+				<displayName count="many">srílanskej rupie</displayName>
+				<displayName count="other">srílanských rupií</displayName>
 			</currency>
 			<currency type="LRD">
 				<displayName>Libérský dolár</displayName>
@@ -3394,9 +3902,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="LTL">
 				<displayName>Litovský litas</displayName>
-				<displayName count="one" draft="contributed">litovský litas</displayName>
-				<displayName count="few" draft="contributed">litovské litasy</displayName>
-				<displayName count="other" draft="contributed">litovských litasov, litovského litasa</displayName>
+				<displayName count="one">litovský litas</displayName>
+				<displayName count="few">litovské litasy</displayName>
+				<displayName count="many">litovského litasa</displayName>
+				<displayName count="other">litovských litasov</displayName>
 			</currency>
 			<currency type="LTT">
 				<displayName>Litevský talonas</displayName>
@@ -3406,9 +3915,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="LVL">
 				<displayName>Lotyšský lat</displayName>
-				<displayName count="one" draft="contributed">lotyšský lat</displayName>
-				<displayName count="few" draft="contributed">lotyšské laty</displayName>
-				<displayName count="other" draft="contributed">lotyšských latov, lotyšského latu</displayName>
+				<displayName count="one">lotyšský lat</displayName>
+				<displayName count="few">lotyšské laty</displayName>
+				<displayName count="many">lotyšského latu</displayName>
+				<displayName count="other">lotyšských latov</displayName>
 			</currency>
 			<currency type="LVR">
 				<displayName>Lotyšský rubeľ</displayName>
@@ -3444,16 +3954,18 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Mongolský tugrik</displayName>
 			</currency>
 			<currency type="MOP">
-				<displayName>Macao Pataca</displayName>
-				<displayName count="one">Macao Pataca</displayName>
-				<displayName count="few">Macao Pataca</displayName>
-				<displayName count="other">Macao Pataca</displayName>
+				<displayName>Macajská pataca</displayName>
+				<displayName count="one">macajská pataca</displayName>
+				<displayName count="few">macajské patacy</displayName>
+				<displayName count="many">macajskej patacy</displayName>
+				<displayName count="other">macajských patác</displayName>
 			</currency>
 			<currency type="MRO">
 				<displayName>Mauritania Ouguiya</displayName>
-				<displayName count="one">Mauritania Ouguiya</displayName>
-				<displayName count="few">Mauritania Ouguiya</displayName>
-				<displayName count="other">Mauritania Ouguiya</displayName>
+				<displayName count="one">mauritánska ukija</displayName>
+				<displayName count="few">mauritánske ukije</displayName>
+				<displayName count="many">mauritánskej ukije</displayName>
+				<displayName count="other">mauritánskych ukijí</displayName>
 			</currency>
 			<currency type="MTL">
 				<displayName>Maltská lira</displayName>
@@ -3463,82 +3975,96 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="MUR">
 				<displayName>Maurícijská rupia</displayName>
-				<displayName count="one">Mauritská rupia</displayName>
-				<displayName count="few">Mauritská rupia</displayName>
-				<displayName count="other">Mauritská rupia</displayName>
+				<displayName count="one">maurícijská rupia</displayName>
+				<displayName count="few">maurícijské rupie</displayName>
+				<displayName count="many">maurícijskej rupie</displayName>
+				<displayName count="other">maurícijských rupií</displayName>
 			</currency>
 			<currency type="MVR">
 				<displayName>Maldivská rufiyaa</displayName>
 			</currency>
 			<currency type="MWK">
-				<displayName>Malavská kwacha</displayName>
-				<displayName count="one">Malavská kwacha</displayName>
-				<displayName count="few">Malavská kwacha</displayName>
-				<displayName count="other">Malavská kwacha</displayName>
+				<displayName>Malawijská kwacha</displayName>
+				<displayName count="one">malawijská kwacha</displayName>
+				<displayName count="few">malawijské kwachy</displayName>
+				<displayName count="many">malawijskej kwachy</displayName>
+				<displayName count="other">malawijských kwách</displayName>
 			</currency>
 			<currency type="MXN">
 				<displayName>Mexické peso</displayName>
-				<displayName count="one" draft="contributed">mexické peso</displayName>
-				<displayName count="few" draft="contributed">mexické pesos</displayName>
-				<displayName count="other" draft="contributed">mexických pesos, mexického pesa</displayName>
+				<displayName count="one">mexické peso</displayName>
+				<displayName count="few">mexické pesos</displayName>
+				<displayName count="many">mexického pesa</displayName>
+				<displayName count="other">mexických pesos</displayName>
 				<symbol draft="contributed">Mex$</symbol>
 			</currency>
 			<currency type="MXP">
-				<displayName>Mexické striborné peso (1861-1992)</displayName>
+				<displayName>Mexické striborné peso (1861–1992)</displayName>
 			</currency>
 			<currency type="MXV">
 				<displayName>Mexické Unidad de Inversion (UDI)</displayName>
 			</currency>
 			<currency type="MYR">
 				<displayName>Malajský ringgit</displayName>
-				<displayName count="one">Malajský ringgit</displayName>
-				<displayName count="few">Malajský ringgit</displayName>
-				<displayName count="other">Malajský ringgit</displayName>
+				<displayName count="one">malajský ringgit</displayName>
+				<displayName count="few">malajské ringgity</displayName>
+				<displayName count="many">malajského ringgitu</displayName>
+				<displayName count="other">malajských ringgitov</displayName>
 			</currency>
 			<currency type="MZE">
-				<displayName>Mozambijské eskudo</displayName>
-				<displayName count="one">Mozambijské eskudo</displayName>
-				<displayName count="few">Mozambijské eskudo</displayName>
-				<displayName count="other">Mozambijské eskudo</displayName>
+				<displayName>Mozabické escudo</displayName>
+				<displayName count="one">mozabické escudo</displayName>
+				<displayName count="few">mozabické escudá</displayName>
+				<displayName count="many">mozabického escuda</displayName>
+				<displayName count="other">mozabických escúd</displayName>
 			</currency>
 			<currency type="MZM">
-				<displayName>Mozambijské metical</displayName>
-				<displayName count="one">Mozambijské metical</displayName>
-				<displayName count="few">Mozambijské metical</displayName>
-				<displayName count="other">Mozambijské metical</displayName>
+				<displayName>Mozambický metical (1980–2006)</displayName>
+				<displayName count="one">mozambický metical (1980–2006)</displayName>
+				<displayName count="few">mozambické meticaly (1980–2006)</displayName>
+				<displayName count="many">mozambického meticalu (1980–2006)</displayName>
+				<displayName count="other">mozambických meticalov (1980–2006)</displayName>
 			</currency>
 			<currency type="MZN">
-				<displayName draft="provisional">mozambický metical</displayName>
-				<displayName count="one" draft="contributed">mozambický metical</displayName>
-				<displayName count="few" draft="contributed">mozambické meticaly</displayName>
-				<displayName count="other" draft="contributed">mozambických meticalov, mozambického meticalu</displayName>
+				<displayName>Mozambický metical</displayName>
+				<displayName count="one">mozambický metical</displayName>
+				<displayName count="few">mozambické meticaly</displayName>
+				<displayName count="many">mozambického meticalu</displayName>
+				<displayName count="other">mozambických meticalov</displayName>
 			</currency>
 			<currency type="NAD">
 				<displayName>Namibský dolár</displayName>
-				<displayName count="one">Namibský dolár</displayName>
-				<displayName count="few">Namibský dolár</displayName>
-				<displayName count="other">Namibský dolár</displayName>
+				<displayName count="one">namíbijský dolár</displayName>
+				<displayName count="few">namíbijské doláre</displayName>
+				<displayName count="many">namíbijského dolára</displayName>
+				<displayName count="other">namíbijských dolárov</displayName>
 			</currency>
 			<currency type="NGN">
 				<displayName>Nigerská naira</displayName>
 			</currency>
 			<currency type="NIC">
-				<displayName>Nikaragujská cordoba</displayName>
+				<displayName>Nikaragujská Cordoba (1988–1991)</displayName>
+				<displayName count="one">nikaragujská córdoba (1988–1991)</displayName>
+				<displayName count="few">nikaragujské córdoby (1988–1991)</displayName>
+				<displayName count="many">nikaragujskej córdoby (1988–1991)</displayName>
+				<displayName count="other">nikaragujských córdob (1988–1991)</displayName>
 			</currency>
 			<currency type="NIO">
-				<displayName>Nikaragujská Cordoba Oro</displayName>
-				<displayName count="one">Nikaragujská Cordoba Oro</displayName>
-				<displayName count="few">Nikaragujská Cordoba Oro</displayName>
-				<displayName count="other">Nikaragujská Cordoba Oro</displayName>
+				<displayName>Nikaragujská Cordoba</displayName>
+				<displayName count="one">nikaragujská córdoba</displayName>
+				<displayName count="few">nikaragujské córdoby</displayName>
+				<displayName count="many">nikaragujskej córdoby</displayName>
+				<displayName count="other">nikaragujských córdob</displayName>
 			</currency>
 			<currency type="NLG">
 				<displayName>Nizozemský guilder</displayName>
 			</currency>
 			<currency type="NOK">
 				<displayName>Nórska koruna</displayName>
-				<displayName count="one" draft="contributed">nórska koruna</displayName>
-				<displayName count="few" draft="contributed">nórske koruny</displayName>
-				<displayName count="other" draft="contributed">nórskych korún, nórskej koruny</displayName>
+				<displayName count="one">nórska koruna</displayName>
+				<displayName count="few">nórske koruny</displayName>
+				<displayName count="many">nórskej koruny</displayName>
+				<displayName count="other">nórskych korún</displayName>
 			</currency>
 			<currency type="NPR">
 				<displayName>Nepálska rupia</displayName>
@@ -3558,18 +4084,20 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="PEN">
 				<displayName>Peruvský sol Nuevo</displayName>
-				<displayName count="one">Peruvský sol Nuevo</displayName>
-				<displayName count="few">Peruvský sol Nuevo</displayName>
-				<displayName count="other">Peruvský sol Nuevo</displayName>
+				<displayName count="one">peruánsky nový sol</displayName>
+				<displayName count="few">peruánske nové soly</displayName>
+				<displayName count="many">peruánskeho nového sola</displayName>
+				<displayName count="other">peruánskych nových solov</displayName>
 			</currency>
 			<currency type="PES">
 				<displayName>Peruvský sol</displayName>
 			</currency>
 			<currency type="PGK">
-				<displayName>Papua Nová Guinea kina</displayName>
-				<displayName count="one">Papua Nová Guinea kina</displayName>
-				<displayName count="few">Papua Nová Guinea kina</displayName>
-				<displayName count="other">Papua Nová Guinea kina</displayName>
+				<displayName>Papuánska kina</displayName>
+				<displayName count="one">papuánska kina</displayName>
+				<displayName count="few">papuánske kiny</displayName>
+				<displayName count="many">papuánskej kiny</displayName>
+				<displayName count="other">papuánskych kín</displayName>
 			</currency>
 			<currency type="PHP">
 				<displayName>Filipínske peso</displayName>
@@ -3579,94 +4107,124 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="PLN">
 				<displayName>Poľský zlotý</displayName>
-				<displayName count="one" draft="contributed">poľský zlotý</displayName>
-				<displayName count="few" draft="contributed">poľské zloté</displayName>
-				<displayName count="other" draft="contributed">poľských zlotých, poľského zlotého</displayName>
+				<displayName count="one">poľský zlotý</displayName>
+				<displayName count="few">poľské zloté</displayName>
+				<displayName count="many">poľského zlotého</displayName>
+				<displayName count="other">poľských zlotých</displayName>
 				<symbol draft="contributed">zl</symbol>
 			</currency>
 			<currency type="PLZ">
-				<displayName>Polský zloty (1950-1995)</displayName>
+				<displayName>Polský zloty (1950–1995)</displayName>
+				<displayName count="one">poľský zlotý (1950–1995)</displayName>
+				<displayName count="few">poľské zloté (1950–1995)</displayName>
+				<displayName count="many">poľského zlotého (1950–1995)</displayName>
+				<displayName count="other">poľských zlotých (1950–1995)</displayName>
 			</currency>
 			<currency type="PTE">
 				<displayName>Portugalské eskudo</displayName>
 			</currency>
 			<currency type="PYG">
 				<displayName>Paraguayské guarani</displayName>
-				<displayName count="one">Paraguayské guarani</displayName>
-				<displayName count="few">Paraguayské guarani</displayName>
-				<displayName count="other">Paraguayské guarani</displayName>
+				<displayName count="one">paraguajské guaraní</displayName>
+				<displayName count="few">paraguayské guarani</displayName>
+				<displayName count="many">paraguayského guarani</displayName>
+				<displayName count="other">paraguayských guarani</displayName>
 			</currency>
 			<currency type="QAR">
-				<displayName>Qatarský rial</displayName>
-				<displayName count="one">Qatarský rial</displayName>
-				<displayName count="few">Qatarský rial</displayName>
-				<displayName count="other">Qatarský rial</displayName>
+				<displayName>Katarský rial</displayName>
+				<displayName count="one">katarský rial</displayName>
+				<displayName count="few">katarské rialy</displayName>
+				<displayName count="many">katarského rialu</displayName>
+				<displayName count="other">katarských rialov</displayName>
 			</currency>
 			<currency type="ROL">
-				<displayName>Rumunský leu</displayName>
+				<displayName>Rumunský leu (1952–2006)</displayName>
+				<displayName count="one">rumunský leu (1952–2006)</displayName>
+				<displayName count="few">rumunské leu (1952–2006)</displayName>
+				<displayName count="many">rumunského leu (1952–2006)</displayName>
+				<displayName count="other">rumunských leu (1952–2006)</displayName>
 			</currency>
 			<currency type="RON">
-				<displayName draft="provisional">rumunský lei</displayName>
-				<displayName count="one">Rumunský Lei</displayName>
-				<displayName count="few">Rumunský Lei</displayName>
-				<displayName count="other">Rumunský Lei</displayName>
+				<displayName>Rumunský leu</displayName>
+				<displayName count="one">rumunský leu</displayName>
+				<displayName count="few">rumunské leu</displayName>
+				<displayName count="many">rumunského leu</displayName>
+				<displayName count="other">rumunských leu</displayName>
 			</currency>
 			<currency type="RSD">
-				<displayName draft="contributed">Srbský dinár</displayName>
+				<displayName>Srbský dinár</displayName>
+				<displayName count="one">srbský dinár</displayName>
+				<displayName count="few">srbské dináre</displayName>
+				<displayName count="many">srbského dinára</displayName>
+				<displayName count="other">srbských dinárov</displayName>
 			</currency>
 			<currency type="RUB">
 				<displayName>Ruský rubeľ</displayName>
-				<displayName count="one" draft="contributed">ruský rubeľ</displayName>
-				<displayName count="few" draft="contributed">ruské ruble</displayName>
-				<displayName count="other" draft="contributed">ruských rubľov, ruského rubľa</displayName>
+				<displayName count="one">ruský rubeľ</displayName>
+				<displayName count="few">ruské ruble</displayName>
+				<displayName count="many">ruského rubľa</displayName>
+				<displayName count="other">ruských rubľov</displayName>
 			</currency>
 			<currency type="RUR">
-				<displayName>Ruský rubeľ (1991-1998)</displayName>
+				<displayName>Ruský rubeľ (1991–1998)</displayName>
 			</currency>
 			<currency type="RWF">
 				<displayName>Rwandský frank</displayName>
 			</currency>
 			<currency type="SAR">
 				<displayName>Saudskoarabský rial</displayName>
-				<displayName count="one" draft="contributed">saudskoarabský rial</displayName>
-				<displayName count="few" draft="contributed">saudskoarabské rialy</displayName>
-				<displayName count="other" draft="contributed">saudskoarabských rialov, saudskoarabského rialu</displayName>
+				<displayName count="one">saudskoarabský rial</displayName>
+				<displayName count="few">saudskoarabské rialy</displayName>
+				<displayName count="many">saudskoarabského rialu</displayName>
+				<displayName count="other">saudskoarabských rialov</displayName>
 			</currency>
 			<currency type="SBD">
-				<displayName>Solomon Islands dolár</displayName>
-				<displayName count="one">Solomon Islands dolár</displayName>
-				<displayName count="few">Solomon Islands dolár</displayName>
-				<displayName count="other">Solomon Islands dolár</displayName>
+				<displayName>Šalamúnsky dolár</displayName>
+				<displayName count="one">šalamúnsky dolár</displayName>
+				<displayName count="few">šalamúnske doláre</displayName>
+				<displayName count="many">šalamúnskeho dolára</displayName>
+				<displayName count="other">šalamúnskych dolárov</displayName>
 			</currency>
 			<currency type="SCR">
-				<displayName>Sejšelská rupia</displayName>
-				<displayName count="one">Sejšelská rupia</displayName>
-				<displayName count="few">Sejšelská rupia</displayName>
-				<displayName count="other">Sejšelská rupia</displayName>
+				<displayName>Seychelská rupia</displayName>
+				<displayName count="one">seychelská rupia</displayName>
+				<displayName count="few">seychelské rupie</displayName>
+				<displayName count="many">seychelskej rupie</displayName>
+				<displayName count="other">seychelských rupií</displayName>
 			</currency>
 			<currency type="SDD">
 				<displayName>Sudánsky dinár</displayName>
 			</currency>
 			<currency type="SDG">
-				<displayName draft="contributed">Sudánska libra</displayName>
+				<displayName>Sudánska libra</displayName>
+				<displayName count="one">sudánska libra</displayName>
+				<displayName count="few">sudánske libry</displayName>
+				<displayName count="many">sudánskej libry</displayName>
+				<displayName count="other">sudánskych libier</displayName>
 			</currency>
 			<currency type="SDP">
-				<displayName>Sudánska libra (1957-1998)</displayName>
+				<displayName>Sudánska libra (1957–1998)</displayName>
+				<displayName count="one">sudánska libra (1957–1998)</displayName>
+				<displayName count="few">sudánske libry (1957–1998)</displayName>
+				<displayName count="many">sudánskej libry (1957–1998)</displayName>
+				<displayName count="other">sudánskych libier (1957–1998)</displayName>
 			</currency>
 			<currency type="SEK">
 				<displayName>Švédska koruna</displayName>
 				<displayName count="one">švédska koruna</displayName>
 				<displayName count="few">švédske koruny</displayName>
-				<displayName count="other">Švédska koruna</displayName>
+				<displayName count="many">švédskej koruny</displayName>
+				<displayName count="other">švédskych korún</displayName>
 			</currency>
 			<currency type="SGD">
 				<displayName>Singapúrsky dolár</displayName>
 			</currency>
 			<currency type="SHP">
-				<displayName>Libra</displayName>
-				<displayName count="one">Libra</displayName>
-				<displayName count="few">Libra</displayName>
-				<displayName count="other">Libra</displayName>
+				<displayName>Svätohelenská libra</displayName>
+				<displayName count="one">svätohelenská libra</displayName>
+				<displayName count="few">svätohelenské libry</displayName>
+				<displayName count="many">svätohelenskej libry</displayName>
+				<displayName count="other">svätohelenských libier</displayName>
 			</currency>
 			<currency type="SIT">
 				<displayName>Slovinský Tolar</displayName>
@@ -3675,129 +4233,158 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Slovenská koruna</displayName>
 			</currency>
 			<currency type="SLL">
-				<displayName>Sierra Leone Leone</displayName>
-				<displayName count="one">Sierra Leone Leone</displayName>
-				<displayName count="few">Sierra Leone Leone</displayName>
-				<displayName count="other">Sierra Leone Leone</displayName>
+				<displayName>Sierraleonský leone</displayName>
+				<displayName count="one">sierraleonský leone</displayName>
+				<displayName count="few">sierraleonské leone</displayName>
+				<displayName count="many">sierraleonského leone</displayName>
+				<displayName count="other">sierraleonských leone</displayName>
 			</currency>
 			<currency type="SOS">
 				<displayName>Somálsky šiling</displayName>
 			</currency>
 			<currency type="SRD">
-				<displayName draft="contributed">Surinamský dolár</displayName>
+				<displayName>Surinamský dolár</displayName>
+				<displayName count="one">surinamský dolár</displayName>
+				<displayName count="few">surinamské doláre</displayName>
+				<displayName count="many">surinamského dolára</displayName>
+				<displayName count="other">surinamských dolárov</displayName>
 			</currency>
 			<currency type="SRG">
 				<displayName>Surinamský guilder</displayName>
 			</currency>
 			<currency type="SSP">
-				<displayName draft="contributed">Juhosudánska libra</displayName>
-				<displayName count="one" draft="contributed">Juhosudánska libra</displayName>
-				<displayName count="few" draft="contributed">Juhosudánske libry</displayName>
-				<displayName count="other" draft="contributed">Juhosudánskych libier</displayName>
+				<displayName>Juhosudánska libra</displayName>
+				<displayName count="one">juhosudánska libra</displayName>
+				<displayName count="few">juhosudánske libry</displayName>
+				<displayName count="many">juhosudánskej libry</displayName>
+				<displayName count="other">juhosudánskych libier</displayName>
 			</currency>
 			<currency type="STD">
 				<displayName>Sao Tome a Principe dobra</displayName>
-				<displayName count="one">Sao Tome a Principe dobra</displayName>
-				<displayName count="few">Sao Tome a Principe dobra</displayName>
-				<displayName count="other">Sao Tome a Principe dobra</displayName>
+				<displayName count="one">svätotomášska dobra</displayName>
+				<displayName count="few">svätotomášske dobry</displayName>
+				<displayName count="many">svätotomášskej dobry</displayName>
+				<displayName count="other">svätotomášskych dobrí</displayName>
 			</currency>
 			<currency type="SUR">
-				<displayName>Sovietský rubeľ</displayName>
+				<displayName>Sovietsky rubeľ</displayName>
 			</currency>
 			<currency type="SVC">
-				<displayName>El Salvadorský colon</displayName>
-				<displayName count="one">El Salvadorský colon</displayName>
-				<displayName count="few">El Salvadorský colon</displayName>
-				<displayName count="other">El Salvadorský colon</displayName>
+				<displayName>Salvádorský colón</displayName>
+				<displayName count="one">salvádorský colón</displayName>
+				<displayName count="few">salvádorské colóny</displayName>
+				<displayName count="many">salvádorského colóna</displayName>
+				<displayName count="other">salvádorských colónov</displayName>
 			</currency>
 			<currency type="SYP">
 				<displayName>Syrská libra</displayName>
 			</currency>
 			<currency type="SZL">
-				<displayName>Swaziland lilangeni</displayName>
-				<displayName count="one">Swaziland lilangeni</displayName>
-				<displayName count="few">Swaziland lilangeni</displayName>
-				<displayName count="other">Swaziland lilangeni</displayName>
+				<displayName>Svazijské lilangeni</displayName>
+				<displayName count="one">svazijské lilangeni</displayName>
+				<displayName count="few">svazijské lilangeni</displayName>
+				<displayName count="many">svazijského lilangeni</displayName>
+				<displayName count="other">svazijských lilangeni</displayName>
 			</currency>
 			<currency type="THB">
 				<displayName>Thajský baht</displayName>
-				<displayName count="one" draft="contributed">thajský baht</displayName>
-				<displayName count="few" draft="contributed">thajské bahty</displayName>
-				<displayName count="other" draft="contributed">thajských bahtov, thajského bahtu</displayName>
+				<displayName count="one">thajský baht</displayName>
+				<displayName count="few">thajské bahty</displayName>
+				<displayName count="many">thajského bahtu</displayName>
+				<displayName count="other">thajských bahtov</displayName>
 				<symbol draft="contributed">THB</symbol>
 			</currency>
 			<currency type="TJR">
-				<displayName>Tadžikistanský rubeľ</displayName>
+				<displayName>Tadžický rubeľ</displayName>
 			</currency>
 			<currency type="TJS">
-				<displayName>Tadžikistanský somoni</displayName>
-				<displayName count="one">Tadžikistanský somoni</displayName>
-				<displayName count="few">Tadžikistanský somoni</displayName>
-				<displayName count="other">Tadžikistanský somoni</displayName>
+				<displayName>Tadžické somoni</displayName>
+				<displayName count="one">tadžické somoni</displayName>
+				<displayName count="few">tadžické somoni</displayName>
+				<displayName count="many">tadžického somoni</displayName>
+				<displayName count="other">tadžických somoni</displayName>
 			</currency>
 			<currency type="TMM">
-				<displayName>Turkménsky manat (1993-2009)</displayName>
+				<displayName>Turkménsky manat (1993–2009)</displayName>
+				<displayName count="one">turkménsky manat (1993–2009)</displayName>
+				<displayName count="few">turkménske manaty (1993–2009)</displayName>
+				<displayName count="many">turkménskeho manatu (1993–2009)</displayName>
+				<displayName count="other">turkménskych manatov (1993–2009)</displayName>
 			</currency>
 			<currency type="TMT">
-				<displayName draft="contributed">Turkménsky manat</displayName>
+				<displayName>Turkménsky manat</displayName>
+				<displayName count="one">turkménsky manat</displayName>
+				<displayName count="few">turkménske manaty</displayName>
+				<displayName count="many">turkménskeho manatu</displayName>
+				<displayName count="other">turkménskych manatov</displayName>
 			</currency>
 			<currency type="TND">
 				<displayName>Tuniský dinár</displayName>
 			</currency>
 			<currency type="TOP">
 				<displayName>Tonga Paʻanga</displayName>
-				<displayName count="one">Tonga Paʻanga</displayName>
-				<displayName count="few">Tonga Paʻanga</displayName>
-				<displayName count="other">Tonga Paʻanga</displayName>
+				<displayName count="one">tongská pa'anga</displayName>
+				<displayName count="few">tongské pa'anga</displayName>
+				<displayName count="many">tongského pa'anga</displayName>
+				<displayName count="other">tongských pa'anga</displayName>
 			</currency>
 			<currency type="TPE">
 				<displayName>Timorské eskudo</displayName>
 			</currency>
 			<currency type="TRL">
-				<displayName>Turecká lira</displayName>
+				<displayName>Turecká lira (1922–2005)</displayName>
+				<displayName count="one">turecká líra (1922–2005)</displayName>
+				<displayName count="few">turecké líry (1922–2005)</displayName>
+				<displayName count="many">tureckej líry (1922–2005)</displayName>
+				<displayName count="other">tureckých lír (1922–2005)</displayName>
 			</currency>
 			<currency type="TRY">
 				<displayName>Turecká líra</displayName>
-				<displayName count="one" draft="contributed">nová turecká líra</displayName>
-				<displayName count="few" draft="contributed">nové turecké líry</displayName>
-				<displayName count="other" draft="contributed">nových tureckých lír, novej tureckej líry</displayName>
+				<displayName count="one">turecká líra</displayName>
+				<displayName count="few">turecké líry</displayName>
+				<displayName count="many">tureckej líry</displayName>
+				<displayName count="other">tureckých lír</displayName>
 			</currency>
 			<currency type="TTD">
 				<displayName>Trinidadsko-tobažský dolár</displayName>
-				<displayName count="one">Trinidad a Tobago dolár</displayName>
-				<displayName count="few">Trinidad a Tobago dolár</displayName>
-				<displayName count="other">Trinidad a Tobago dolár</displayName>
+				<displayName count="one">trinidadsko-tobažský dolár</displayName>
+				<displayName count="few">trinidadsko-tobažské doláre</displayName>
+				<displayName count="many">trinidadsko-tobažského dolára</displayName>
+				<displayName count="other">trinidadsko-tobažských dolárov</displayName>
 			</currency>
 			<currency type="TWD">
 				<displayName>Nový taiwanský dolár</displayName>
-				<displayName count="one" draft="contributed">nový taiwanský dolár</displayName>
-				<displayName count="few" draft="contributed">nové taiwanské doláre</displayName>
-				<displayName count="other" draft="contributed">nových taiwanských dolárov, nového taiwanského dolára</displayName>
-				<symbol draft="contributed">TWD</symbol>
+				<displayName count="one">nový taiwanský dolár</displayName>
+				<displayName count="few">nové taiwanské doláre</displayName>
+				<displayName count="many">nového taiwanského dolára</displayName>
+				<displayName count="other">nových taiwanských dolárov</displayName>
+				<symbol>TWD</symbol>
 			</currency>
 			<currency type="TZS">
 				<displayName>Tanzanský šiling</displayName>
 			</currency>
 			<currency type="UAH">
 				<displayName>Ukrainská hrivna</displayName>
-				<displayName count="one">Ukrainská hrivna</displayName>
-				<displayName count="few">Ukrainská hrivna</displayName>
-				<displayName count="other">Ukrainská hrivna</displayName>
+				<displayName count="one">ukrajinská hrivna</displayName>
+				<displayName count="few">ukrajinské hrivny</displayName>
+				<displayName count="many">ukrajinskej hrivny</displayName>
+				<displayName count="other">ukrajinských hrivien</displayName>
 			</currency>
 			<currency type="UAK">
 				<displayName>Ukrainský karbovanetz</displayName>
 			</currency>
 			<currency type="UGS">
-				<displayName>Ugandan šiling (1966-1987)</displayName>
+				<displayName>Ugandan šiling (1966–1987)</displayName>
 			</currency>
 			<currency type="UGX">
 				<displayName>Ugandský šiling</displayName>
 			</currency>
 			<currency type="USD">
 				<displayName>Americký dolár</displayName>
-				<displayName count="one" draft="contributed">americký dolár</displayName>
-				<displayName count="few" draft="contributed">americké doláre</displayName>
-				<displayName count="other" draft="contributed">amerických dolárov, amerického dolára</displayName>
+				<displayName count="one">americký dolár</displayName>
+				<displayName count="few">americké doláre</displayName>
+				<displayName count="many">amerického dolára</displayName>
+				<displayName count="other">amerických dolárov</displayName>
 				<symbol draft="contributed">USD</symbol>
 			</currency>
 			<currency type="USN">
@@ -3807,22 +4394,24 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>US dolár (Same day)</displayName>
 			</currency>
 			<currency type="UYP">
-				<displayName>Uruguajské peso (1975-1993)</displayName>
+				<displayName>Uruguajské peso (1975–1993)</displayName>
 			</currency>
 			<currency type="UYU">
 				<displayName>Uruguajské peso Uruguayo</displayName>
-				<displayName count="one">Uruguajské peso Uruguayo</displayName>
-				<displayName count="few">Uruguajské peso Uruguayo</displayName>
-				<displayName count="other">Uruguajské peso Uruguayo</displayName>
+				<displayName count="one">uruguajské peso</displayName>
+				<displayName count="few">uruguajské pesos</displayName>
+				<displayName count="many">uruguajských pesos</displayName>
+				<displayName count="other">uruguajských pesos</displayName>
 			</currency>
 			<currency type="UZS">
-				<displayName>Uzbekistanský sum</displayName>
-				<displayName count="one">Uzbekistanský sum</displayName>
-				<displayName count="few">Uzbekistanský sum</displayName>
-				<displayName count="other">Uzbekistanský sum</displayName>
+				<displayName>Uzbecký sum</displayName>
+				<displayName count="one">uzbecký sum</displayName>
+				<displayName count="few">uzbecké sumy</displayName>
+				<displayName count="many">uzbeckého sumu</displayName>
+				<displayName count="other">uzbeckých sumov</displayName>
 			</currency>
 			<currency type="VEB">
-				<displayName>Venezuelský bolívar (1871-2008)</displayName>
+				<displayName>Venezuelský bolívar (1871–2008)</displayName>
 			</currency>
 			<currency type="VEF">
 				<displayName>Venezuelský bolívar</displayName>
@@ -3832,16 +4421,18 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<symbol draft="contributed">₫</symbol>
 			</currency>
 			<currency type="VUV">
-				<displayName>Vanuatu vatu</displayName>
-				<displayName count="one">Vanuatu vatu</displayName>
-				<displayName count="few">Vanuatu vatu</displayName>
-				<displayName count="other">Vanuatu vatu</displayName>
+				<displayName>Vanuatské vatu</displayName>
+				<displayName count="one">vanuatské vatu</displayName>
+				<displayName count="few">vanuatské vatu</displayName>
+				<displayName count="many">vanuatského vatu</displayName>
+				<displayName count="other">vanuatských vatu</displayName>
 			</currency>
 			<currency type="WST">
-				<displayName>Západná Samoa tala</displayName>
-				<displayName count="one">Západná Samoa tala</displayName>
-				<displayName count="few">Západná Samoa tala</displayName>
-				<displayName count="other">Západná Samoa tala</displayName>
+				<displayName>Samojská tala</displayName>
+				<displayName count="one">samojská tala</displayName>
+				<displayName count="few">samojské taly</displayName>
+				<displayName count="many">samojskej taly</displayName>
+				<displayName count="other">samojských tál</displayName>
 			</currency>
 			<currency type="XAF">
 				<displayName>CFA frank BEAC</displayName>
@@ -3852,10 +4443,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="XCD">
 				<displayName>Východokaribský dolár</displayName>
-				<displayName count="one">East Caribbean dolár</displayName>
-				<displayName count="few">East Caribbean dolár</displayName>
-				<displayName count="other">East Caribbean dolár</displayName>
-				<symbol draft="contributed">EC$</symbol>
+				<displayName count="one">východokaribský dolár</displayName>
+				<displayName count="few">východokaribské doláre</displayName>
+				<displayName count="many">východokaribského dolára</displayName>
+				<displayName count="other">východokaribských dolárov</displayName>
+				<symbol>EC$</symbol>
 			</currency>
 			<currency type="XDR">
 				<displayName>Špeciálne práva čerpania</displayName>
@@ -3878,6 +4470,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Neznáma mena</displayName>
 				<displayName count="one">Neznáma mena</displayName>
 				<displayName count="few">Neznáma mena</displayName>
+				<displayName count="many">Neznáma mena</displayName>
 				<displayName count="other">Neznáma mena</displayName>
 			</currency>
 			<currency type="YDD">
@@ -3900,21 +4493,24 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="ZAR">
 				<displayName>Juhoafrický rand</displayName>
-				<displayName count="one" draft="contributed">juhoafrický rand</displayName>
-				<displayName count="few" draft="contributed">juhoafrické randy</displayName>
-				<displayName count="other" draft="contributed">juhoafrických randov, juhoafrického randu</displayName>
+				<displayName count="one">juhoafrický rand</displayName>
+				<displayName count="few">juhoafrické randy</displayName>
+				<displayName count="many">juhoafrického randu</displayName>
+				<displayName count="other">juhoafrických randov</displayName>
 			</currency>
 			<currency type="ZMK">
-				<displayName>Zambská kwacha (1968-2012)</displayName>
-				<displayName count="one">Zambská kwacha (1968-2012)</displayName>
-				<displayName count="few">Zambská kwacha (1968-2012)</displayName>
-				<displayName count="other">Zambská kwacha (1968-2012)</displayName>
+				<displayName>Zambijská kwacha (1968–2012)</displayName>
+				<displayName count="one">zambijská kwacha (1968–2012)</displayName>
+				<displayName count="few">zambijské kwachy (1968–2012)</displayName>
+				<displayName count="many">zambijskej kwachy (1968–2012)</displayName>
+				<displayName count="other">zambijských kwách (1968–2012)</displayName>
 			</currency>
 			<currency type="ZMW">
-				<displayName>Zambská kwacha</displayName>
-				<displayName count="one">Zambská kwacha</displayName>
-				<displayName count="few">Zambská kwacha</displayName>
-				<displayName count="other">Zambská kwacha</displayName>
+				<displayName>Zambijská kwacha</displayName>
+				<displayName count="one">zambijská kwacha</displayName>
+				<displayName count="few">zambijské kwachy</displayName>
+				<displayName count="many">zambijskej kwachy</displayName>
+				<displayName count="other">zambijských kwách</displayName>
 			</currency>
 			<currency type="ZRN">
 				<displayName>Zairský nový zaire</displayName>
@@ -3923,159 +4519,904 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Zairský Zaire</displayName>
 			</currency>
 			<currency type="ZWD">
-				<displayName>Zimbabský dolár</displayName>
-				<displayName count="one">Zimbabský dolár</displayName>
-				<displayName count="few">Zimbabský dolár</displayName>
-				<displayName count="other">Zimbabský dolár</displayName>
+				<displayName>Zimbabwiansky dolár (1980–2008)</displayName>
+				<displayName count="one">zimbabwiansky dolár (1980–2008)</displayName>
+				<displayName count="few">zimbabwianske doláre (1980–2008)</displayName>
+				<displayName count="many">zimbabwianskeho dolára (1980–2008)</displayName>
+				<displayName count="other">zimbabwianskych dolárov (1980–2008)</displayName>
 			</currency>
 			<currency type="ZWL">
-				<displayName draft="contributed">Zimbabwiansky dolár (2009)</displayName>
-				<displayName count="one" draft="contributed">zimbabwiansky dolár (2009)</displayName>
-				<displayName count="few" draft="contributed">zimbabwianske doláre (2009)</displayName>
-				<displayName count="other" draft="contributed">zimbabwianskych dolárov (2009), zimbabwianskeho dolára (2009)</displayName>
+				<displayName>Zimbabwiansky dolár (2009)</displayName>
+				<displayName count="one">zimbabwiansky dolár (2009)</displayName>
+				<displayName count="few">zimbabwianske doláre (2009)</displayName>
+				<displayName count="many">zimbabwianskeho dolára (2009)</displayName>
+				<displayName count="other">zimbabwianskych dolárov (2009)</displayName>
 			</currency>
 			<currency type="ZWR">
-				<displayName draft="contributed">Zimbabwiansky dolár (2008)</displayName>
-				<displayName count="one" draft="contributed">zimbabwiansky dolár (2008)</displayName>
-				<displayName count="few" draft="contributed">zimbabwianske doláre (2008)</displayName>
-				<displayName count="other" draft="contributed">zimbabwianskych dolárov (2008), zimbabwianskeho dolára (2008)</displayName>
+				<displayName>Zimbabwiansky dolár (2008)</displayName>
+				<displayName count="one">zimbabwiansky dolár (2008)</displayName>
+				<displayName count="few">zimbabwianske doláre (2008)</displayName>
+				<displayName count="many">zimbabwianskeho dolára (2008)</displayName>
+				<displayName count="other">zimbabwianskych dolárov (2008)</displayName>
 			</currency>
 		</currencies>
+		<miscPatterns numberSystem="latn">
+			<pattern type="atLeast" draft="contributed">{0}+</pattern>
+			<pattern type="range" draft="contributed">{0}–{1}</pattern>
+		</miscPatterns>
 	</numbers>
 	<units>
-		<unit type="day">
-			<unitPattern count="one">{0} deň</unitPattern>
-			<unitPattern count="one" alt="short">{0} d.</unitPattern>
-			<unitPattern count="few">{0} dni</unitPattern>
-			<unitPattern count="few" alt="short">{0} d.</unitPattern>
-			<unitPattern count="other">{0} dní</unitPattern>
-			<unitPattern count="other" alt="short">{0} d.</unitPattern>
-		</unit>
-		<unit type="day-future">
-			<unitPattern count="one">{0} deň</unitPattern>
-			<unitPattern count="few">O {0} dni</unitPattern>
-			<unitPattern count="other">O {0} dní</unitPattern>
-		</unit>
-		<unit type="day-past">
-			<unitPattern count="one">Pred {0} dňom</unitPattern>
-			<unitPattern count="few">Pred {0} dňami</unitPattern>
-			<unitPattern count="other">Pred {0} dňami</unitPattern>
-		</unit>
-		<unit type="hour">
-			<unitPattern count="one">{0} hodina</unitPattern>
-			<unitPattern count="one" alt="short">{0} h</unitPattern>
-			<unitPattern count="few">{0} hodiny</unitPattern>
-			<unitPattern count="few" alt="short">{0} h</unitPattern>
-			<unitPattern count="other">{0} hodín</unitPattern>
-			<unitPattern count="other" alt="short">{0} h</unitPattern>
-		</unit>
-		<unit type="hour-future">
-			<unitPattern count="one">O {0} hodinu</unitPattern>
-			<unitPattern count="few">O {0} hodiny</unitPattern>
-			<unitPattern count="other">O {0} hodín</unitPattern>
-		</unit>
-		<unit type="hour-past">
-			<unitPattern count="one">Pred {0} hodinou</unitPattern>
-			<unitPattern count="few">Pred {0} hodinami</unitPattern>
-			<unitPattern count="other">Pred {0} hodinami</unitPattern>
-		</unit>
-		<unit type="minute">
-			<unitPattern count="one">{0} minúta</unitPattern>
-			<unitPattern count="one" alt="short">{0} min</unitPattern>
-			<unitPattern count="few">{0} minúty</unitPattern>
-			<unitPattern count="few" alt="short">{0} min</unitPattern>
-			<unitPattern count="other">{0} minút</unitPattern>
-			<unitPattern count="other" alt="short">{0} min</unitPattern>
-		</unit>
-		<unit type="minute-future">
-			<unitPattern count="one">O {0} minútu</unitPattern>
-			<unitPattern count="few">O {0} minúty</unitPattern>
-			<unitPattern count="other">O {0} minút</unitPattern>
-		</unit>
-		<unit type="minute-past">
-			<unitPattern count="one">Pred {0} minútou</unitPattern>
-			<unitPattern count="few">Pred {0} minútami</unitPattern>
-			<unitPattern count="other">Pred {0} minútami</unitPattern>
-		</unit>
-		<unit type="month">
-			<unitPattern count="one">{0} mesiac</unitPattern>
-			<unitPattern count="one" alt="short">{0} mes.</unitPattern>
-			<unitPattern count="few">{0} mesiace</unitPattern>
-			<unitPattern count="few" alt="short">{0} mes.</unitPattern>
-			<unitPattern count="other">{0} mesiacov</unitPattern>
-			<unitPattern count="other" alt="short">{0} mes.</unitPattern>
-		</unit>
-		<unit type="month-future">
-			<unitPattern count="one">O {0} mesiac</unitPattern>
-			<unitPattern count="few">O {0} mesiace</unitPattern>
-			<unitPattern count="other">O {0} mesiacov</unitPattern>
-		</unit>
-		<unit type="month-past">
-			<unitPattern count="one">Pred {0} mesiacom</unitPattern>
-			<unitPattern count="few">Pred {0} mesiacmi</unitPattern>
-			<unitPattern count="other">Pred {0} mesiacmi</unitPattern>
-		</unit>
-		<unit type="second">
-			<unitPattern count="one">{0} sekunda</unitPattern>
-			<unitPattern count="one" alt="short">{0} s</unitPattern>
-			<unitPattern count="few">{0} sekundy</unitPattern>
-			<unitPattern count="few" alt="short">{0} s</unitPattern>
-			<unitPattern count="other">{0} sekúnd</unitPattern>
-			<unitPattern count="other" alt="short">{0} s</unitPattern>
-		</unit>
-		<unit type="second-future">
-			<unitPattern count="one">O {0} sekundu</unitPattern>
-			<unitPattern count="few">O {0} sekundy</unitPattern>
-			<unitPattern count="other">O {0} sekúnd</unitPattern>
-		</unit>
-		<unit type="second-past">
-			<unitPattern count="one">Pred {0} sekundou</unitPattern>
-			<unitPattern count="few">Pred {0} sekundami</unitPattern>
-			<unitPattern count="other">Pred {0} sekundami</unitPattern>
-		</unit>
-		<unit type="week">
-			<unitPattern count="one">{0} týždeň</unitPattern>
-			<unitPattern count="one" alt="short">{0} týžd.</unitPattern>
-			<unitPattern count="few">{0} týždne</unitPattern>
-			<unitPattern count="few" alt="short">{0} týžd.</unitPattern>
-			<unitPattern count="other">{0} týždňov</unitPattern>
-			<unitPattern count="other" alt="short">{0} týžd.</unitPattern>
-		</unit>
-		<unit type="week-future">
-			<unitPattern count="one">O {0} týždeň</unitPattern>
-			<unitPattern count="few">O {0} týždne</unitPattern>
-			<unitPattern count="other">O {0} týždňov</unitPattern>
-		</unit>
-		<unit type="week-past">
-			<unitPattern count="one">Pred {0} týždňom</unitPattern>
-			<unitPattern count="few">Pred {0} týždňami</unitPattern>
-			<unitPattern count="other">Pred {0} týždňami</unitPattern>
-		</unit>
-		<unit type="year">
-			<unitPattern count="one">{0} rok</unitPattern>
-			<unitPattern count="one" alt="short">{0} r.</unitPattern>
-			<unitPattern count="few">{0} roky</unitPattern>
-			<unitPattern count="few" alt="short">{0} r.</unitPattern>
-			<unitPattern count="other">{0} rokov</unitPattern>
-			<unitPattern count="other" alt="short">{0} r.</unitPattern>
-		</unit>
-		<unit type="year-future">
-			<unitPattern count="one">O {0} rok</unitPattern>
-			<unitPattern count="few">O {0} roky</unitPattern>
-			<unitPattern count="other">O {0} rokov</unitPattern>
-		</unit>
-		<unit type="year-past">
-			<unitPattern count="one">Pred {0} rokom</unitPattern>
-			<unitPattern count="few">Pred {0} rokmi</unitPattern>
-			<unitPattern count="other">Pred {0} rokmi</unitPattern>
-		</unit>
+		<unitLength type="long">
+			<compoundUnit type="per">
+				<compoundUnitPattern draft="contributed">{0} za {1}</compoundUnitPattern>
+			</compoundUnit>
+			<unit type="acceleration-g-force">
+				<unitPattern count="one">{0} jednotka preťaženia</unitPattern>
+				<unitPattern count="few">{0} jednotky preťaženia</unitPattern>
+				<unitPattern count="many">{0} jednotky preťaženia</unitPattern>
+				<unitPattern count="other">{0} jednotiek preťaženia</unitPattern>
+			</unit>
+			<unit type="angle-arc-minute">
+				<unitPattern count="one">{0} minúta</unitPattern>
+				<unitPattern count="few">{0} minúty</unitPattern>
+				<unitPattern count="many">{0} minúty</unitPattern>
+				<unitPattern count="other">{0} minút</unitPattern>
+			</unit>
+			<unit type="angle-arc-second">
+				<unitPattern count="one">{0} sekunda</unitPattern>
+				<unitPattern count="few">{0} sekundy</unitPattern>
+				<unitPattern count="many">{0} sekundy</unitPattern>
+				<unitPattern count="other">{0} sekúnd</unitPattern>
+			</unit>
+			<unit type="angle-degree">
+				<unitPattern count="one">{0} stupeň</unitPattern>
+				<unitPattern count="few">{0} stupne</unitPattern>
+				<unitPattern count="many">{0} stupňa</unitPattern>
+				<unitPattern count="other">{0} stupňov</unitPattern>
+			</unit>
+			<unit type="area-acre">
+				<unitPattern count="one">{0} aker</unitPattern>
+				<unitPattern count="few">{0} akre</unitPattern>
+				<unitPattern count="many">{0} akra</unitPattern>
+				<unitPattern count="other">{0} akrov</unitPattern>
+			</unit>
+			<unit type="area-hectare">
+				<unitPattern count="one">{0} hektár</unitPattern>
+				<unitPattern count="few">{0} hektáre</unitPattern>
+				<unitPattern count="many">{0} hektára</unitPattern>
+				<unitPattern count="other">{0} hektárov</unitPattern>
+			</unit>
+			<unit type="area-square-foot">
+				<unitPattern count="one">{0} štvorcová stopa</unitPattern>
+				<unitPattern count="few">{0} štvorcové stopy</unitPattern>
+				<unitPattern count="many">{0} štvorcovej stopy</unitPattern>
+				<unitPattern count="other">{0} štvorcových stôp</unitPattern>
+			</unit>
+			<unit type="area-square-kilometer">
+				<unitPattern count="one">{0} kilometer štvorcový</unitPattern>
+				<unitPattern count="few">{0} kilometre štvorcové</unitPattern>
+				<unitPattern count="many">{0} kilometra štvorcového</unitPattern>
+				<unitPattern count="other">{0} kilometrov štvorcových</unitPattern>
+			</unit>
+			<unit type="area-square-meter">
+				<unitPattern count="one">{0} meter štvorcový</unitPattern>
+				<unitPattern count="few">{0} metre štvorcové</unitPattern>
+				<unitPattern count="many">{0} metra štvorcového</unitPattern>
+				<unitPattern count="other">{0} metrov štvorcových</unitPattern>
+			</unit>
+			<unit type="area-square-mile">
+				<unitPattern count="one">{0} míľa štvorcová</unitPattern>
+				<unitPattern count="few">{0} míle štvorcové</unitPattern>
+				<unitPattern count="many">{0} míle štvorcovej</unitPattern>
+				<unitPattern count="other">{0} míľ štvorcových</unitPattern>
+			</unit>
+			<unit type="duration-day">
+				<unitPattern count="one">{0} deň</unitPattern>
+				<unitPattern count="few">{0} dni</unitPattern>
+				<unitPattern count="many">{0} dňa</unitPattern>
+				<unitPattern count="other">{0} dní</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">{0} hodina</unitPattern>
+				<unitPattern count="few">{0} hodiny</unitPattern>
+				<unitPattern count="many">{0} hodiny</unitPattern>
+				<unitPattern count="other">{0} hodín</unitPattern>
+			</unit>
+			<unit type="duration-millisecond">
+				<unitPattern count="one">{0} milisekunda</unitPattern>
+				<unitPattern count="few">{0} milisekundy</unitPattern>
+				<unitPattern count="many">{0} milisekundy</unitPattern>
+				<unitPattern count="other">{0} milisekúnd</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">{0} minúta</unitPattern>
+				<unitPattern count="few">{0} minúty</unitPattern>
+				<unitPattern count="many">{0} minúty</unitPattern>
+				<unitPattern count="other">{0} minút</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">{0} mesiac</unitPattern>
+				<unitPattern count="few">{0} mesiace</unitPattern>
+				<unitPattern count="many">{0} mesiaca</unitPattern>
+				<unitPattern count="other">{0} mesiacov</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">{0} sekunda</unitPattern>
+				<unitPattern count="few">{0} sekundy</unitPattern>
+				<unitPattern count="many">{0} sekundy</unitPattern>
+				<unitPattern count="other">{0} sekúnd</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">{0} týždeň</unitPattern>
+				<unitPattern count="few">{0} týždne</unitPattern>
+				<unitPattern count="many">{0} týždňa</unitPattern>
+				<unitPattern count="other">{0} týždňov</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">{0} rok</unitPattern>
+				<unitPattern count="few">{0} roky</unitPattern>
+				<unitPattern count="many">{0} roka</unitPattern>
+				<unitPattern count="other">{0} rokov</unitPattern>
+			</unit>
+			<unit type="length-centimeter">
+				<unitPattern count="one">{0} centimeter</unitPattern>
+				<unitPattern count="few">{0} centimetre</unitPattern>
+				<unitPattern count="many">{0} centimetra</unitPattern>
+				<unitPattern count="other">{0} centimetrov</unitPattern>
+			</unit>
+			<unit type="length-foot">
+				<unitPattern count="one">{0} stopa</unitPattern>
+				<unitPattern count="few">{0} stopy</unitPattern>
+				<unitPattern count="many">{0} stôp</unitPattern>
+				<unitPattern count="other">{0} stôp</unitPattern>
+			</unit>
+			<unit type="length-inch">
+				<unitPattern count="one">{0} palec</unitPattern>
+				<unitPattern count="few">{0} palce</unitPattern>
+				<unitPattern count="many">{0} palca</unitPattern>
+				<unitPattern count="other">{0} palcov</unitPattern>
+			</unit>
+			<unit type="length-kilometer">
+				<unitPattern count="one">{0} kilometer</unitPattern>
+				<unitPattern count="few">{0} kilometre</unitPattern>
+				<unitPattern count="many">{0} kilometra</unitPattern>
+				<unitPattern count="other">{0} kilometrov</unitPattern>
+			</unit>
+			<unit type="length-light-year">
+				<unitPattern count="one">{0} svetelný rok</unitPattern>
+				<unitPattern count="few">{0} svetelné roky</unitPattern>
+				<unitPattern count="many">{0} svetelného roku</unitPattern>
+				<unitPattern count="other">{0} svetelných rokov</unitPattern>
+			</unit>
+			<unit type="length-meter">
+				<unitPattern count="one">{0} meter</unitPattern>
+				<unitPattern count="few">{0} metre</unitPattern>
+				<unitPattern count="many">{0} metra</unitPattern>
+				<unitPattern count="other">{0} metrov</unitPattern>
+			</unit>
+			<unit type="length-mile">
+				<unitPattern count="one">{0} míľa</unitPattern>
+				<unitPattern count="few">{0} míle</unitPattern>
+				<unitPattern count="many">{0} míle</unitPattern>
+				<unitPattern count="other">{0} míľ</unitPattern>
+			</unit>
+			<unit type="length-millimeter">
+				<unitPattern count="one">{0} milimeter</unitPattern>
+				<unitPattern count="few">{0} milimetre</unitPattern>
+				<unitPattern count="many">{0} milimetra</unitPattern>
+				<unitPattern count="other">{0} milimetrov</unitPattern>
+			</unit>
+			<unit type="length-picometer">
+				<unitPattern count="one">{0} pikometer</unitPattern>
+				<unitPattern count="few">{0} pikometre</unitPattern>
+				<unitPattern count="many">{0} pikometra</unitPattern>
+				<unitPattern count="other">{0} pikometrov</unitPattern>
+			</unit>
+			<unit type="length-yard">
+				<unitPattern count="one">{0} yard</unitPattern>
+				<unitPattern count="few">{0} yardy</unitPattern>
+				<unitPattern count="many">{0} yardu</unitPattern>
+				<unitPattern count="other">{0} yardov</unitPattern>
+			</unit>
+			<unit type="mass-gram">
+				<unitPattern count="one">{0} gram</unitPattern>
+				<unitPattern count="few">{0} gramy</unitPattern>
+				<unitPattern count="many">{0} gramu</unitPattern>
+				<unitPattern count="other">{0} gramov</unitPattern>
+			</unit>
+			<unit type="mass-kilogram">
+				<unitPattern count="one">{0} kilogram</unitPattern>
+				<unitPattern count="few">{0} kilogramy</unitPattern>
+				<unitPattern count="many">{0} kilogramu</unitPattern>
+				<unitPattern count="other">{0} kilogramov</unitPattern>
+			</unit>
+			<unit type="mass-ounce">
+				<unitPattern count="one">{0} unca</unitPattern>
+				<unitPattern count="few">{0} unce</unitPattern>
+				<unitPattern count="many">{0} unce</unitPattern>
+				<unitPattern count="other">{0} uncí</unitPattern>
+			</unit>
+			<unit type="mass-pound">
+				<unitPattern count="one">{0} libra</unitPattern>
+				<unitPattern count="few">{0} libry</unitPattern>
+				<unitPattern count="many">{0} libry</unitPattern>
+				<unitPattern count="other">{0} libier</unitPattern>
+			</unit>
+			<unit type="power-horsepower">
+				<unitPattern count="one">{0} konská sila</unitPattern>
+				<unitPattern count="few">{0} konské sily</unitPattern>
+				<unitPattern count="many">{0} konskej sily</unitPattern>
+				<unitPattern count="other">{0} konských síl</unitPattern>
+			</unit>
+			<unit type="power-kilowatt">
+				<unitPattern count="one">{0} kilowatt</unitPattern>
+				<unitPattern count="few">{0} kilowatty</unitPattern>
+				<unitPattern count="many">{0} kilowattu</unitPattern>
+				<unitPattern count="other">{0} kilowattov</unitPattern>
+			</unit>
+			<unit type="power-watt">
+				<unitPattern count="one">{0} watt</unitPattern>
+				<unitPattern count="few">{0} watty</unitPattern>
+				<unitPattern count="many">{0} wattu</unitPattern>
+				<unitPattern count="other">{0} wattov</unitPattern>
+			</unit>
+			<unit type="pressure-hectopascal">
+				<unitPattern count="one">{0} hektopascal</unitPattern>
+				<unitPattern count="few">{0} hektopascaly</unitPattern>
+				<unitPattern count="many">{0} hektopascala</unitPattern>
+				<unitPattern count="other">{0} hektopascalov</unitPattern>
+			</unit>
+			<unit type="pressure-inch-hg">
+				<unitPattern count="one">{0} palec ortuťového stĺpca</unitPattern>
+				<unitPattern count="few">{0} palce ortuťového stĺpca</unitPattern>
+				<unitPattern count="many">{0} palce ortuťového stĺpca</unitPattern>
+				<unitPattern count="other">{0} palcov ortuťového stĺpca</unitPattern>
+			</unit>
+			<unit type="pressure-millibar">
+				<unitPattern count="one">{0} milibar</unitPattern>
+				<unitPattern count="few">{0} milibary</unitPattern>
+				<unitPattern count="many">{0} milibaru</unitPattern>
+				<unitPattern count="other">{0} milibarov</unitPattern>
+			</unit>
+			<unit type="speed-kilometer-per-hour">
+				<unitPattern count="one">{0} kilometer za hodinu</unitPattern>
+				<unitPattern count="few">{0} kilometre za hodinu</unitPattern>
+				<unitPattern count="many">{0} kilometra za hodinu</unitPattern>
+				<unitPattern count="other">{0} kilometrov za hodinu</unitPattern>
+			</unit>
+			<unit type="speed-meter-per-second">
+				<unitPattern count="one">{0} meter za sekundu</unitPattern>
+				<unitPattern count="few">{0} metre za sekundu</unitPattern>
+				<unitPattern count="many">{0} metra za sekundu</unitPattern>
+				<unitPattern count="other">{0} metrov za sekundu</unitPattern>
+			</unit>
+			<unit type="speed-mile-per-hour">
+				<unitPattern count="one">{0} míľa za hodinu</unitPattern>
+				<unitPattern count="few">{0} míle za hodinu</unitPattern>
+				<unitPattern count="many">{0} míle za hodinu</unitPattern>
+				<unitPattern count="other">{0} míľ za hodinu</unitPattern>
+			</unit>
+			<unit type="temperature-celsius">
+				<unitPattern count="one">{0} stupeň Celzia</unitPattern>
+				<unitPattern count="few">{0} stupne Celzia</unitPattern>
+				<unitPattern count="many">{0} stupňa Celzia</unitPattern>
+				<unitPattern count="other">{0} stupňov Celzia</unitPattern>
+			</unit>
+			<unit type="temperature-fahrenheit">
+				<unitPattern count="one">{0} stupeň Fahrenheita</unitPattern>
+				<unitPattern count="few">{0} stupne Fahrenheita</unitPattern>
+				<unitPattern count="many">{0} stupňa Fahrenheita</unitPattern>
+				<unitPattern count="other">{0} stupňov Fahrenheita</unitPattern>
+			</unit>
+			<unit type="volume-cubic-kilometer">
+				<unitPattern count="one">{0} kubický kilometer</unitPattern>
+				<unitPattern count="few">{0} kubické kilometre</unitPattern>
+				<unitPattern count="many">{0} kubického kilometra</unitPattern>
+				<unitPattern count="other">{0} kubických kilometrov</unitPattern>
+			</unit>
+			<unit type="volume-cubic-mile">
+				<unitPattern count="one">{0} kubická míľa</unitPattern>
+				<unitPattern count="few">{0} kubické míle</unitPattern>
+				<unitPattern count="many">{0} kubickej míle</unitPattern>
+				<unitPattern count="other">{0} kubických míľ</unitPattern>
+			</unit>
+			<unit type="volume-liter">
+				<unitPattern count="one">{0} liter</unitPattern>
+				<unitPattern count="few">{0} litre</unitPattern>
+				<unitPattern count="many">{0} litra</unitPattern>
+				<unitPattern count="other">{0} litrov</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="short">
+			<compoundUnit type="per">
+				<compoundUnitPattern draft="contributed">{0}/{1}</compoundUnitPattern>
+			</compoundUnit>
+			<unit type="acceleration-g-force">
+				<unitPattern count="one">{0} G</unitPattern>
+				<unitPattern count="few">{0} G</unitPattern>
+				<unitPattern count="many">{0} G</unitPattern>
+				<unitPattern count="other">{0} G</unitPattern>
+			</unit>
+			<unit type="angle-arc-minute">
+				<unitPattern count="one">{0} min</unitPattern>
+				<unitPattern count="few">{0} min</unitPattern>
+				<unitPattern count="many">{0} min</unitPattern>
+				<unitPattern count="other">{0} min</unitPattern>
+			</unit>
+			<unit type="angle-arc-second">
+				<unitPattern count="one">{0} sek.</unitPattern>
+				<unitPattern count="few">{0} sek.</unitPattern>
+				<unitPattern count="many">{0} sek.</unitPattern>
+				<unitPattern count="other">{0} sek.</unitPattern>
+			</unit>
+			<unit type="angle-degree">
+				<unitPattern count="one">{0} stup.</unitPattern>
+				<unitPattern count="few">{0} stup.</unitPattern>
+				<unitPattern count="many">{0} stup.</unitPattern>
+				<unitPattern count="other">{0} stup.</unitPattern>
+			</unit>
+			<unit type="area-acre">
+				<unitPattern count="one">{0} ac</unitPattern>
+				<unitPattern count="few">{0} ac</unitPattern>
+				<unitPattern count="many">{0} ac</unitPattern>
+				<unitPattern count="other">{0} ac</unitPattern>
+			</unit>
+			<unit type="area-hectare">
+				<unitPattern count="one">{0} ha</unitPattern>
+				<unitPattern count="few">{0} ha</unitPattern>
+				<unitPattern count="many">{0} ha</unitPattern>
+				<unitPattern count="other">{0} ha</unitPattern>
+			</unit>
+			<unit type="area-square-foot">
+				<unitPattern count="one">{0} ft²</unitPattern>
+				<unitPattern count="few">{0} ft²</unitPattern>
+				<unitPattern count="many">{0} ft²</unitPattern>
+				<unitPattern count="other">{0} ft²</unitPattern>
+			</unit>
+			<unit type="area-square-kilometer">
+				<unitPattern count="one">{0} km²</unitPattern>
+				<unitPattern count="few">{0} km²</unitPattern>
+				<unitPattern count="many">{0} km²</unitPattern>
+				<unitPattern count="other">{0} km²</unitPattern>
+			</unit>
+			<unit type="area-square-meter">
+				<unitPattern count="one">{0} m²</unitPattern>
+				<unitPattern count="few">{0} m²</unitPattern>
+				<unitPattern count="many">{0} m²</unitPattern>
+				<unitPattern count="other">{0} m²</unitPattern>
+			</unit>
+			<unit type="area-square-mile">
+				<unitPattern count="one">{0} mi²</unitPattern>
+				<unitPattern count="few">{0} mi²</unitPattern>
+				<unitPattern count="many">{0} mi²</unitPattern>
+				<unitPattern count="other">{0} mi²</unitPattern>
+			</unit>
+			<unit type="duration-day">
+				<unitPattern count="one">{0} d.</unitPattern>
+				<unitPattern count="few">{0} d.</unitPattern>
+				<unitPattern count="many">{0} d.</unitPattern>
+				<unitPattern count="other">{0} d.</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">{0} hod.</unitPattern>
+				<unitPattern count="few">{0} hod.</unitPattern>
+				<unitPattern count="many">{0} hod.</unitPattern>
+				<unitPattern count="other">{0} hod.</unitPattern>
+			</unit>
+			<unit type="duration-millisecond">
+				<unitPattern count="one">{0} ms</unitPattern>
+				<unitPattern count="few">{0} ms</unitPattern>
+				<unitPattern count="many">{0} ms</unitPattern>
+				<unitPattern count="other">{0} ms</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">{0} min.</unitPattern>
+				<unitPattern count="few">{0} min.</unitPattern>
+				<unitPattern count="many">{0} min.</unitPattern>
+				<unitPattern count="other">{0} min.</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">{0} mes.</unitPattern>
+				<unitPattern count="few">{0} mes.</unitPattern>
+				<unitPattern count="many">{0} mes.</unitPattern>
+				<unitPattern count="other">{0} mes.</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">{0} sek.</unitPattern>
+				<unitPattern count="few">{0} sek.</unitPattern>
+				<unitPattern count="many">{0} sek.</unitPattern>
+				<unitPattern count="other">{0} sek.</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">{0} týžd.</unitPattern>
+				<unitPattern count="few">{0} týžd.</unitPattern>
+				<unitPattern count="many">{0} týžd.</unitPattern>
+				<unitPattern count="other">{0} týžd.</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">{0} r.</unitPattern>
+				<unitPattern count="few">{0} r.</unitPattern>
+				<unitPattern count="many">{0} r.</unitPattern>
+				<unitPattern count="other">{0} r.</unitPattern>
+			</unit>
+			<unit type="length-centimeter">
+				<unitPattern count="one">{0} cm</unitPattern>
+				<unitPattern count="few">{0} cm</unitPattern>
+				<unitPattern count="many">{0} cm</unitPattern>
+				<unitPattern count="other">{0} cm</unitPattern>
+			</unit>
+			<unit type="length-foot">
+				<unitPattern count="one">{0} ft</unitPattern>
+				<unitPattern count="few">{0} ft</unitPattern>
+				<unitPattern count="many">{0} ft</unitPattern>
+				<unitPattern count="other">{0} ft</unitPattern>
+			</unit>
+			<unit type="length-inch">
+				<unitPattern count="one">{0} in</unitPattern>
+				<unitPattern count="few">{0} in</unitPattern>
+				<unitPattern count="many">{0} in</unitPattern>
+				<unitPattern count="other">{0} in</unitPattern>
+			</unit>
+			<unit type="length-kilometer">
+				<unitPattern count="one">{0} km</unitPattern>
+				<unitPattern count="few">{0} km</unitPattern>
+				<unitPattern count="many">{0} km</unitPattern>
+				<unitPattern count="other">{0} km</unitPattern>
+			</unit>
+			<unit type="length-light-year">
+				<unitPattern count="one">{0} ly</unitPattern>
+				<unitPattern count="few">{0} ly</unitPattern>
+				<unitPattern count="many">{0} ly</unitPattern>
+				<unitPattern count="other">{0} ly</unitPattern>
+			</unit>
+			<unit type="length-meter">
+				<unitPattern count="one">{0} m</unitPattern>
+				<unitPattern count="few">{0} m</unitPattern>
+				<unitPattern count="many">{0} m</unitPattern>
+				<unitPattern count="other">{0} m</unitPattern>
+			</unit>
+			<unit type="length-mile">
+				<unitPattern count="one">{0} mi</unitPattern>
+				<unitPattern count="few">{0} mi</unitPattern>
+				<unitPattern count="many">{0} mi</unitPattern>
+				<unitPattern count="other">{0} mi</unitPattern>
+			</unit>
+			<unit type="length-millimeter">
+				<unitPattern count="one">{0} mm</unitPattern>
+				<unitPattern count="few">{0} mm</unitPattern>
+				<unitPattern count="many">{0} mm</unitPattern>
+				<unitPattern count="other">{0} mm</unitPattern>
+			</unit>
+			<unit type="length-picometer">
+				<unitPattern count="one">{0} pm</unitPattern>
+				<unitPattern count="few">{0} pm</unitPattern>
+				<unitPattern count="many">{0} pm</unitPattern>
+				<unitPattern count="other">{0} pm</unitPattern>
+			</unit>
+			<unit type="length-yard">
+				<unitPattern count="one">{0} yd</unitPattern>
+				<unitPattern count="few">{0} yd</unitPattern>
+				<unitPattern count="many">{0} yd</unitPattern>
+				<unitPattern count="other">{0} yd</unitPattern>
+			</unit>
+			<unit type="mass-gram">
+				<unitPattern count="one">{0} g</unitPattern>
+				<unitPattern count="few">{0} g</unitPattern>
+				<unitPattern count="many">{0} g</unitPattern>
+				<unitPattern count="other">{0} g</unitPattern>
+			</unit>
+			<unit type="mass-kilogram">
+				<unitPattern count="one">{0} kg</unitPattern>
+				<unitPattern count="few">{0} kg</unitPattern>
+				<unitPattern count="many">{0} kg</unitPattern>
+				<unitPattern count="other">{0} kg</unitPattern>
+			</unit>
+			<unit type="mass-ounce">
+				<unitPattern count="one">{0} oz</unitPattern>
+				<unitPattern count="few">{0} oz</unitPattern>
+				<unitPattern count="many">{0} oz</unitPattern>
+				<unitPattern count="other">{0} oz</unitPattern>
+			</unit>
+			<unit type="mass-pound">
+				<unitPattern count="one">{0} lb</unitPattern>
+				<unitPattern count="few">{0} lb</unitPattern>
+				<unitPattern count="many">{0} lb</unitPattern>
+				<unitPattern count="other">{0} lb</unitPattern>
+			</unit>
+			<unit type="power-horsepower">
+				<unitPattern count="one">{0} hp</unitPattern>
+				<unitPattern count="few">{0} hp</unitPattern>
+				<unitPattern count="many">{0} hp</unitPattern>
+				<unitPattern count="other">{0} hp</unitPattern>
+			</unit>
+			<unit type="power-kilowatt">
+				<unitPattern count="one">{0} kW</unitPattern>
+				<unitPattern count="few">{0} kW</unitPattern>
+				<unitPattern count="many">{0} kW</unitPattern>
+				<unitPattern count="other">{0} kW</unitPattern>
+			</unit>
+			<unit type="power-watt">
+				<unitPattern count="one">{0} W</unitPattern>
+				<unitPattern count="few">{0} W</unitPattern>
+				<unitPattern count="many">{0} W</unitPattern>
+				<unitPattern count="other">{0} W</unitPattern>
+			</unit>
+			<unit type="pressure-hectopascal">
+				<unitPattern count="one">{0} hPa</unitPattern>
+				<unitPattern count="few">{0} hPa</unitPattern>
+				<unitPattern count="many">{0} hPa</unitPattern>
+				<unitPattern count="other">{0} hPa</unitPattern>
+			</unit>
+			<unit type="pressure-inch-hg">
+				<unitPattern count="one">{0} inHg</unitPattern>
+				<unitPattern count="few">{0} inHg</unitPattern>
+				<unitPattern count="many">{0} inHg</unitPattern>
+				<unitPattern count="other">{0} inHg</unitPattern>
+			</unit>
+			<unit type="pressure-millibar">
+				<unitPattern count="one">{0} mb</unitPattern>
+				<unitPattern count="few">{0} mb</unitPattern>
+				<unitPattern count="many">{0} mb</unitPattern>
+				<unitPattern count="other">{0} mb</unitPattern>
+			</unit>
+			<unit type="speed-kilometer-per-hour">
+				<unitPattern count="one">{0} km/h</unitPattern>
+				<unitPattern count="few">{0} km/h</unitPattern>
+				<unitPattern count="many">{0} km/h</unitPattern>
+				<unitPattern count="other">{0} km/h</unitPattern>
+			</unit>
+			<unit type="speed-meter-per-second">
+				<unitPattern count="one">{0} m/s</unitPattern>
+				<unitPattern count="few">{0} m/s</unitPattern>
+				<unitPattern count="many">{0} m/s</unitPattern>
+				<unitPattern count="other">{0} m/s</unitPattern>
+			</unit>
+			<unit type="speed-mile-per-hour">
+				<unitPattern count="one">{0} mph</unitPattern>
+				<unitPattern count="few">{0} mph</unitPattern>
+				<unitPattern count="many">{0} mph</unitPattern>
+				<unitPattern count="other">{0} mph</unitPattern>
+			</unit>
+			<unit type="temperature-celsius">
+				<unitPattern count="one">{0}°C</unitPattern>
+				<unitPattern count="few">{0}°C</unitPattern>
+				<unitPattern count="many">{0}°C</unitPattern>
+				<unitPattern count="other">{0}°C</unitPattern>
+			</unit>
+			<unit type="temperature-fahrenheit">
+				<unitPattern count="one">{0}°F</unitPattern>
+				<unitPattern count="few">{0}°F</unitPattern>
+				<unitPattern count="many">{0}°F</unitPattern>
+				<unitPattern count="other">{0}°F</unitPattern>
+			</unit>
+			<unit type="volume-cubic-kilometer">
+				<unitPattern count="one">{0} km³</unitPattern>
+				<unitPattern count="few">{0} km³</unitPattern>
+				<unitPattern count="many">{0} km³</unitPattern>
+				<unitPattern count="other">{0} km³</unitPattern>
+			</unit>
+			<unit type="volume-cubic-mile">
+				<unitPattern count="one">{0} mi³</unitPattern>
+				<unitPattern count="few">{0} mi³</unitPattern>
+				<unitPattern count="many">{0} mi³</unitPattern>
+				<unitPattern count="other">{0} mi³</unitPattern>
+			</unit>
+			<unit type="volume-liter">
+				<unitPattern count="one">{0} l</unitPattern>
+				<unitPattern count="few">{0} l</unitPattern>
+				<unitPattern count="many">{0} l</unitPattern>
+				<unitPattern count="other">{0} l</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="narrow">
+			<compoundUnit type="per">
+				<compoundUnitPattern draft="contributed">{0}/{1}</compoundUnitPattern>
+			</compoundUnit>
+			<unit type="acceleration-g-force">
+				<unitPattern count="one">{0}G</unitPattern>
+				<unitPattern count="few">{0}G</unitPattern>
+				<unitPattern count="many">{0}G</unitPattern>
+				<unitPattern count="other">{0}G</unitPattern>
+			</unit>
+			<unit type="angle-arc-minute">
+				<unitPattern count="one">{0}′</unitPattern>
+				<unitPattern count="few">{0}′</unitPattern>
+				<unitPattern count="many">{0}′</unitPattern>
+				<unitPattern count="other">{0}′</unitPattern>
+			</unit>
+			<unit type="angle-arc-second">
+				<unitPattern count="one">{0}″</unitPattern>
+				<unitPattern count="few">{0}″</unitPattern>
+				<unitPattern count="many">{0}″</unitPattern>
+				<unitPattern count="other">{0}″</unitPattern>
+			</unit>
+			<unit type="angle-degree">
+				<unitPattern count="one">{0}°</unitPattern>
+				<unitPattern count="few">{0}°</unitPattern>
+				<unitPattern count="many">{0}°</unitPattern>
+				<unitPattern count="other">{0}°</unitPattern>
+			</unit>
+			<unit type="area-acre">
+				<unitPattern count="one">{0}ac</unitPattern>
+				<unitPattern count="few">{0}ac</unitPattern>
+				<unitPattern count="many">{0}ac</unitPattern>
+				<unitPattern count="other">{0}ac</unitPattern>
+			</unit>
+			<unit type="area-hectare">
+				<unitPattern count="one">{0}ha</unitPattern>
+				<unitPattern count="few">{0}ha</unitPattern>
+				<unitPattern count="many">{0}ha</unitPattern>
+				<unitPattern count="other">{0}ha</unitPattern>
+			</unit>
+			<unit type="area-square-foot">
+				<unitPattern count="one">{0}ft²</unitPattern>
+				<unitPattern count="few">{0}ft²</unitPattern>
+				<unitPattern count="many">{0}ft²</unitPattern>
+				<unitPattern count="other">{0}ft²</unitPattern>
+			</unit>
+			<unit type="area-square-kilometer">
+				<unitPattern count="one">{0} km²</unitPattern>
+				<unitPattern count="few">{0} km²</unitPattern>
+				<unitPattern count="many">{0} km²</unitPattern>
+				<unitPattern count="other">{0} km²</unitPattern>
+			</unit>
+			<unit type="area-square-meter">
+				<unitPattern count="one">{0} m²</unitPattern>
+				<unitPattern count="few">{0} m²</unitPattern>
+				<unitPattern count="many">{0} m²</unitPattern>
+				<unitPattern count="other">{0} m²</unitPattern>
+			</unit>
+			<unit type="area-square-mile">
+				<unitPattern count="one">{0}mi²</unitPattern>
+				<unitPattern count="few">{0}mi²</unitPattern>
+				<unitPattern count="many">{0}mi²</unitPattern>
+				<unitPattern count="other">{0}mi²</unitPattern>
+			</unit>
+			<unit type="duration-day">
+				<unitPattern count="one">{0}d.</unitPattern>
+				<unitPattern count="few">{0}d.</unitPattern>
+				<unitPattern count="many">{0}d.</unitPattern>
+				<unitPattern count="other">{0}d.</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">{0}h</unitPattern>
+				<unitPattern count="few">{0}h</unitPattern>
+				<unitPattern count="many">{0}h</unitPattern>
+				<unitPattern count="other">{0}h</unitPattern>
+			</unit>
+			<unit type="duration-millisecond">
+				<unitPattern count="one">{0}ms</unitPattern>
+				<unitPattern count="few">{0}ms</unitPattern>
+				<unitPattern count="many">{0}ms</unitPattern>
+				<unitPattern count="other">{0}ms</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">{0}min</unitPattern>
+				<unitPattern count="few">{0}min</unitPattern>
+				<unitPattern count="many">{0}min</unitPattern>
+				<unitPattern count="other">{0}min</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">{0}mes.</unitPattern>
+				<unitPattern count="few">{0}mes.</unitPattern>
+				<unitPattern count="many">{0}mes.</unitPattern>
+				<unitPattern count="other">{0}mes.</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">{0}s</unitPattern>
+				<unitPattern count="few">{0}s</unitPattern>
+				<unitPattern count="many">{0}s</unitPattern>
+				<unitPattern count="other">{0}s</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">{0}týžd.</unitPattern>
+				<unitPattern count="few">{0}týžd.</unitPattern>
+				<unitPattern count="many">{0}týžd.</unitPattern>
+				<unitPattern count="other">{0}týžd.</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">{0}r.</unitPattern>
+				<unitPattern count="few">{0}r.</unitPattern>
+				<unitPattern count="many">{0}r.</unitPattern>
+				<unitPattern count="other">{0}r.</unitPattern>
+			</unit>
+			<unit type="length-centimeter">
+				<unitPattern count="one">{0}cm</unitPattern>
+				<unitPattern count="few">{0}cm</unitPattern>
+				<unitPattern count="many">{0}cm</unitPattern>
+				<unitPattern count="other">{0}cm</unitPattern>
+			</unit>
+			<unit type="length-foot">
+				<unitPattern count="one">{0}′</unitPattern>
+				<unitPattern count="few">{0}′</unitPattern>
+				<unitPattern count="many">{0}′</unitPattern>
+				<unitPattern count="other">{0}′</unitPattern>
+			</unit>
+			<unit type="length-inch">
+				<unitPattern count="one">{0}in</unitPattern>
+				<unitPattern count="few">{0}in</unitPattern>
+				<unitPattern count="many">{0}in</unitPattern>
+				<unitPattern count="other">{0}in</unitPattern>
+			</unit>
+			<unit type="length-kilometer">
+				<unitPattern count="one">{0}km</unitPattern>
+				<unitPattern count="few">{0}km</unitPattern>
+				<unitPattern count="many">{0}km</unitPattern>
+				<unitPattern count="other">{0}km</unitPattern>
+			</unit>
+			<unit type="length-light-year">
+				<unitPattern count="one">{0}ly</unitPattern>
+				<unitPattern count="few">{0}ly</unitPattern>
+				<unitPattern count="many">{0}ly</unitPattern>
+				<unitPattern count="other">{0}ly</unitPattern>
+			</unit>
+			<unit type="length-meter">
+				<unitPattern count="one">{0}m</unitPattern>
+				<unitPattern count="few">{0}m</unitPattern>
+				<unitPattern count="many">{0}m</unitPattern>
+				<unitPattern count="other">{0}m</unitPattern>
+			</unit>
+			<unit type="length-mile">
+				<unitPattern count="one">{0}mi</unitPattern>
+				<unitPattern count="few">{0}mi</unitPattern>
+				<unitPattern count="many">{0}mi</unitPattern>
+				<unitPattern count="other">{0}mi</unitPattern>
+			</unit>
+			<unit type="length-millimeter">
+				<unitPattern count="one">{0}mm</unitPattern>
+				<unitPattern count="few">{0}mm</unitPattern>
+				<unitPattern count="many">{0}mm</unitPattern>
+				<unitPattern count="other">{0}mm</unitPattern>
+			</unit>
+			<unit type="length-picometer">
+				<unitPattern count="one">{0}pm</unitPattern>
+				<unitPattern count="few">{0}pm</unitPattern>
+				<unitPattern count="many">{0}pm</unitPattern>
+				<unitPattern count="other">{0}pm</unitPattern>
+			</unit>
+			<unit type="length-yard">
+				<unitPattern count="one">{0}yd</unitPattern>
+				<unitPattern count="few">{0}yd</unitPattern>
+				<unitPattern count="many">{0}yd</unitPattern>
+				<unitPattern count="other">{0}yd</unitPattern>
+			</unit>
+			<unit type="mass-gram">
+				<unitPattern count="one">{0}g</unitPattern>
+				<unitPattern count="few">{0}g</unitPattern>
+				<unitPattern count="many">{0}g</unitPattern>
+				<unitPattern count="other">{0}g</unitPattern>
+			</unit>
+			<unit type="mass-kilogram">
+				<unitPattern count="one">{0}kg</unitPattern>
+				<unitPattern count="few">{0}kg</unitPattern>
+				<unitPattern count="many">{0}kg</unitPattern>
+				<unitPattern count="other">{0}kg</unitPattern>
+			</unit>
+			<unit type="mass-ounce">
+				<unitPattern count="one">{0}oz</unitPattern>
+				<unitPattern count="few">{0}oz</unitPattern>
+				<unitPattern count="many">{0}oz</unitPattern>
+				<unitPattern count="other">{0}oz</unitPattern>
+			</unit>
+			<unit type="mass-pound">
+				<unitPattern count="one">{0}lb</unitPattern>
+				<unitPattern count="few">{0}lb</unitPattern>
+				<unitPattern count="many">{0}lb</unitPattern>
+				<unitPattern count="other">{0}lb</unitPattern>
+			</unit>
+			<unit type="power-horsepower">
+				<unitPattern count="one">{0}hp</unitPattern>
+				<unitPattern count="few">{0}hp</unitPattern>
+				<unitPattern count="many">{0}hp</unitPattern>
+				<unitPattern count="other">{0}hp</unitPattern>
+			</unit>
+			<unit type="power-kilowatt">
+				<unitPattern count="one">{0}kW</unitPattern>
+				<unitPattern count="few">{0}kW</unitPattern>
+				<unitPattern count="many">{0}kW</unitPattern>
+				<unitPattern count="other">{0}kW</unitPattern>
+			</unit>
+			<unit type="power-watt">
+				<unitPattern count="one">{0}W</unitPattern>
+				<unitPattern count="few">{0}W</unitPattern>
+				<unitPattern count="many">{0}W</unitPattern>
+				<unitPattern count="other">{0}W</unitPattern>
+			</unit>
+			<unit type="pressure-hectopascal">
+				<unitPattern count="one">{0}hPa</unitPattern>
+				<unitPattern count="few">{0}hPa</unitPattern>
+				<unitPattern count="many">{0}hPa</unitPattern>
+				<unitPattern count="other">{0}hPa</unitPattern>
+			</unit>
+			<unit type="pressure-inch-hg">
+				<unitPattern count="one">{0}&quot; Hg</unitPattern>
+				<unitPattern count="few">{0}&quot; Hg</unitPattern>
+				<unitPattern count="many">{0}&quot; Hg</unitPattern>
+				<unitPattern count="other">{0}&quot; Hg</unitPattern>
+			</unit>
+			<unit type="pressure-millibar">
+				<unitPattern count="one">{0}mb</unitPattern>
+				<unitPattern count="few">{0}mb</unitPattern>
+				<unitPattern count="many">{0}mb</unitPattern>
+				<unitPattern count="other">{0}mb</unitPattern>
+			</unit>
+			<unit type="speed-kilometer-per-hour">
+				<unitPattern count="one">{0}km/h</unitPattern>
+				<unitPattern count="few">{0}km/h</unitPattern>
+				<unitPattern count="many">{0}km/h</unitPattern>
+				<unitPattern count="other">{0}km/h</unitPattern>
+			</unit>
+			<unit type="speed-meter-per-second">
+				<unitPattern count="one">{0}m/s</unitPattern>
+				<unitPattern count="few">{0}m/s</unitPattern>
+				<unitPattern count="many">{0}m/s</unitPattern>
+				<unitPattern count="other">{0}m/s</unitPattern>
+			</unit>
+			<unit type="speed-mile-per-hour">
+				<unitPattern count="one">{0}mph</unitPattern>
+				<unitPattern count="few">{0}mph</unitPattern>
+				<unitPattern count="many">{0}mph</unitPattern>
+				<unitPattern count="other">{0}mph</unitPattern>
+			</unit>
+			<unit type="temperature-celsius">
+				<unitPattern count="one">{0}°</unitPattern>
+				<unitPattern count="few">{0}°</unitPattern>
+				<unitPattern count="many">{0}°</unitPattern>
+				<unitPattern count="other">{0}°</unitPattern>
+			</unit>
+			<unit type="temperature-fahrenheit">
+				<unitPattern count="one">{0}°F</unitPattern>
+				<unitPattern count="few">{0}°F</unitPattern>
+				<unitPattern count="many">{0}°F</unitPattern>
+				<unitPattern count="other">{0}°F</unitPattern>
+			</unit>
+			<unit type="volume-cubic-kilometer">
+				<unitPattern count="one">{0}km³</unitPattern>
+				<unitPattern count="few">{0}km³</unitPattern>
+				<unitPattern count="many">{0}km³</unitPattern>
+				<unitPattern count="other">{0}km³</unitPattern>
+			</unit>
+			<unit type="volume-cubic-mile">
+				<unitPattern count="one">{0}mi³</unitPattern>
+				<unitPattern count="few">{0}mi³</unitPattern>
+				<unitPattern count="many">{0}mi³</unitPattern>
+				<unitPattern count="other">{0}mi³</unitPattern>
+			</unit>
+			<unit type="volume-liter">
+				<unitPattern count="one">{0}l</unitPattern>
+				<unitPattern count="few">{0}l</unitPattern>
+				<unitPattern count="many">{0}l</unitPattern>
+				<unitPattern count="other">{0}l</unitPattern>
+			</unit>
+		</unitLength>
+		<durationUnit type="hm">
+			<durationUnitPattern>h:mm</durationUnitPattern>
+		</durationUnit>
+		<durationUnit type="hms">
+			<durationUnitPattern>h:mm:ss</durationUnitPattern>
+		</durationUnit>
+		<durationUnit type="ms">
+			<durationUnitPattern>m:ss</durationUnitPattern>
+		</durationUnit>
 	</units>
 	<listPatterns>
 		<listPattern>
-			<listPatternPart type="2" draft="contributed">{0} a {1}</listPatternPart>
-			<listPatternPart type="end" draft="contributed">{0} a {1}</listPatternPart>
-			<listPatternPart type="middle">{0}, {1}</listPatternPart>
 			<listPatternPart type="start">{0}, {1}</listPatternPart>
+			<listPatternPart type="middle">{0}, {1}</listPatternPart>
+			<listPatternPart type="end" draft="contributed">{0} a {1}</listPatternPart>
+			<listPatternPart type="2" draft="contributed">{0} a {1}</listPatternPart>
+		</listPattern>
+		<listPattern type="unit">
+			<listPatternPart type="start" draft="contributed">{0}, {1}</listPatternPart>
+			<listPatternPart type="middle" draft="contributed">{0}, {1}</listPatternPart>
+			<listPatternPart type="end" draft="contributed">{0}, {1}</listPatternPart>
+			<listPatternPart type="2" draft="contributed">{0}, {1}</listPatternPart>
+		</listPattern>
+		<listPattern type="unit-short">
+			<listPatternPart type="start" draft="contributed">{0}, {1}</listPatternPart>
+			<listPatternPart type="middle" draft="contributed">{0}, {1}</listPatternPart>
+			<listPatternPart type="end" draft="contributed">{0}, {1}</listPatternPart>
+			<listPatternPart type="2" draft="contributed">{0}, {1}</listPatternPart>
 		</listPattern>
 	</listPatterns>
 	<posix>

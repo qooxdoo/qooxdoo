@@ -6,8 +6,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9287 $"/>
+		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
 		<language type="mua"/>
 	</identity>
 	<localeDisplayNames>
@@ -49,7 +49,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="so">Somaliya</language>
 			<language type="sv">Swedia</language>
 			<language type="ta">Tamul</language>
-			<language type="th">Tai</language>
+			<language type="th">th</language>
 			<language type="tr">Turk</language>
 			<language type="uk">Ukrainia</language>
 			<language type="ur">Urdu</language>
@@ -594,7 +594,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</percentFormats>
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
-				<currencyFormat>
+				<currencyFormat type="standard">
+					<pattern>¤#,##0.00</pattern>
+				</currencyFormat>
+				<currencyFormat type="accounting">
 					<pattern>¤#,##0.00;(¤#,##0.00)</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
@@ -760,7 +763,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Solai Africa nekǝsǝŋ</displayName>
 			</currency>
 			<currency type="ZMK">
-				<displayName>Solai Zambiya (1968-2012)</displayName>
+				<displayName>Solai Zambiya (1968–2012)</displayName>
 			</currency>
 			<currency type="ZMW">
 				<displayName>Solai Zambiya</displayName>

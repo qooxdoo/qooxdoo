@@ -86,9 +86,11 @@ def getQxVersion():
 # npm module caching)
 def npm_install(skel_dir, options):
     shellCmd = ShellCmd()
-    shellCmd.execute('npm install', skel_dir)
+    npm_install = 'npm install --loglevel warn'
+    console.log("Adding Node.js modules...")
+    shellCmd.execute(npm_install, skel_dir)
     if options.type == 'contribution':
-        shellCmd.execute('npm install', os.path.join(skel_dir, 'demo/default'))
+        shellCmd.execute(npm_install, os.path.join(skel_dir, 'demo/default'))
 
 
 def getJobsAndDescriptions(appDir):
