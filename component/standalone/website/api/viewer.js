@@ -891,8 +891,9 @@ q.ready(function() {
       acc.on("changeSelected", function(index) {
 
         var buttonTop = buttonTops[index];
-        var scrollTop = q("#list").getProperty("scrollTop");
-        q("#list").animate({
+        console.log("scroll", buttonTop);
+        var scrollTop = q("#navContainer").getProperty("scrollTop");
+        q("#navContainer").animate({
           duration: 500,
           keep: 100,
           timing: "linear",
