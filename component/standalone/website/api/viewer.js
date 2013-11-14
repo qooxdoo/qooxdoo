@@ -509,8 +509,7 @@ q.ready(function() {
               var returnTypeMethods = getByType(data[module].ast, "methods");
 
               // ignore attached methods of returned types
-              if (returnTypeMethods.children.indexOf(method) == -1 &&
-                  isAttachStatic == method.attributes.isStatic) {
+              if (returnTypeMethods.children.indexOf(method) == -1) {
                 var prefix;
                 if (isAttachStatic) {
                   prefix = attachStatic.attributes.targetClass == "qxWeb" ? "q" : attachStatic.attributes.targetClass;
