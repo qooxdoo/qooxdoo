@@ -714,8 +714,6 @@ qx.Bootstrap.define("qx.module.Traversing", {
     isBlockNode : function(node) {
       return qx.dom.Node.isBlockNode(node);
     },
-<<<<<<< HEAD
-=======
 
 
     /**
@@ -832,7 +830,6 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
       return attributes;
     },
->>>>>>> master
 
 
     /**
