@@ -108,20 +108,18 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @return {qxWeb} The collection for chaining
      */
     appendTo : function(parent) {
-      //var func = ;
-
       parent = qx.module.Manipulating.__getElementArray(parent);
       for (var i=0, l=parent.length; i < l; i++) {
         this._forEachElement(function(item, j) {
-        if (i == 0) {
-          // first parent: move the target node(s)
-          qx.dom.Element.insertEnd(this[j], parent[i]);
-        }
-        else {
-          // further parents: clone the target node(s)
-          qx.dom.Element.insertEnd(this.eq(j).clone(true)[0], parent[i]);
-        }
-      })
+          if (i == 0) {
+            // first parent: move the target node(s)
+            qx.dom.Element.insertEnd(this[j], parent[i]);
+          }
+          else {
+            // further parents: clone the target node(s)
+            qx.dom.Element.insertEnd(this.eq(j).clone(true)[0], parent[i]);
+          }
+        });
       }
 
       return this;
