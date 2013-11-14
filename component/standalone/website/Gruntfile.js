@@ -31,25 +31,38 @@ module.exports = function(grunt) {
         "APPLICATION": "library",
         "QOOXDOO_PATH": _qx.sdkPath,
         "QOOXDOO_VERSION": "3.1",
-        "CACHE": "<%= grunt_qx.TMPDIR %>/qx<%= qx.let.QOOXDOO_VERSION %>/cache",
+        "CACHE": "<%= grunt_qx.TMPDIR %>/qx<%= qx.let.QOOXDOO_VERSION %>/cache"
       }
     },
-    /*
-    myTask: {
-      options: {},
-      myTarget: {
-        options: {}
+
+    concat: {
+      samples : {
+        options: {
+          separator: ';'
+        },
+        dist: {
+          src: ['api/samples/*.js'],
+          dest: 'api/script/samples.js'
+        }
       }
     }
-    */
   };
 
+
+
   var mergedConf = qxConf.mergeConfig(config);
-  // console.log(mergedConf);
-  // process.exit();
   grunt.initConfig(mergedConf);
 
   qxTasks.registerTasks(grunt, _qx.generatorJobs);
 
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+
+  // 'extend' API job
+  grunt.task.renameTask('api', 'generate-api');
+  grunt.task.registerTask(
+    'api',
+    'Concat the samples and generate the API.',
+    ["concat:samples", "generate-api"]
+  );
 };
