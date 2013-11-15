@@ -430,7 +430,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     _refreshScrollerPosition : function(evt) {
       setTimeout(function() {
         this._setTransitionDuration(this.getTransitionDuration());
-        this.scrollToPage(this.getCurrentIndex());
+        this._scrollToPage(this.getCurrentIndex());
       }.bind(this), 0);
     },
 
@@ -477,13 +477,15 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param evt {qx.event.type.Touch} The touch event.
      */
     _onTouchStart : function(evt) {
-      this.__touchStartPosition[0] = evt.getAllTouches()[0].pageX;
-      this.__touchStartPosition[1] = evt.getAllTouches()[0].pageY;
+      this.__touchStartPosition[0] = evt.getViewportLeft();
+      this.__touchStartPosition[1] = evt.getViewportTop();
 
       this.__lastOffset[0] = this._getScrollerOffset();
       this.__isPageScrollTarget = null;
 
       this.__boundsX[0] = -this.__carouselScrollerWidth + this.__carouselWidth;
+
+      this._updateScrollerPosition(this.__lastOffset[0]);
     },
 
 
@@ -494,8 +496,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     _onTouchMove : function(evt) {
       this._setTransitionDuration(0);
 
-      this.__deltaX = evt.getAllTouches()[0].pageX - this.__touchStartPosition[0];
-      this.__deltaY = evt.getAllTouches()[0].pageY - this.__touchStartPosition[1];
+      this.__deltaX = evt.getViewportLeft() - this.__touchStartPosition[0];
+      this.__deltaY = evt.getViewportTop() - this.__touchStartPosition[1];
 
       if (this.__isPageScrollTarget === null) {
         var cosDelta = this.__deltaX / this.__deltaY;
