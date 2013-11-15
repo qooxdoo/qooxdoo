@@ -575,6 +575,11 @@ q.ready(function() {
       addClassDoc(data.fileName, module);
     } else if (data.desc) {
       module.append(q.create("<div>").setHtml(parse(data.desc)));
+      if (module.find(".widget-markup").length > 0) {
+        var html = getWidgetMarkup(name.toLowerCase());
+        html.appendTo(module.getChildren().getLast());
+      }
+
     } else if (name == "Core") {
       module.append(q.create("<div>").setHtml(parse(desc)));
     }
@@ -603,6 +608,19 @@ q.ready(function() {
     data["member"].forEach(function(method) {
       module.append(renderMethod(method, prefix));
     });
+  };
+
+  var getWidgetMarkup = function(name) {
+    var playpen = q("#playpen");
+    var widget = q.create("<div>")[name]().appendTo(playpen);
+    var html = playpen.getHtml();
+    html = html.replace(/></g, ">\n<");
+    textNode = document.createTextNode(html);
+    widget.dispose();
+    playpen.setHtml("");
+    var codeEl =  q.create("<code>");
+    codeEl[0].appendChild(textNode);
+    return q.create("<pre class='markup'>").append(codeEl);
   };
 
 
@@ -1200,7 +1218,7 @@ q.ready(function() {
     if (el.length > 0) {
       el[0].scrollIntoView();
     }
-  }, 500);
+  }, 300);
 
   var scrollNavItemIntoView = function(forceIfAlreadyInViewport) {
     var hash = window.location.hash,

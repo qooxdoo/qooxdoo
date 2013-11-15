@@ -180,6 +180,10 @@ body {
   line-height: 1;
 }
 
+.markup {
+  margin-top: 5px;
+}
+
 #content {
   left: 316px;
   padding-right: 20px;
@@ -288,6 +292,16 @@ p {
   margin-top: 5px;
 }
 
+.module table td,
+.module table th {
+  border: 1px solid #ddd;
+  padding: 2px 5px;
+}
+
+.module table thead td {
+  font-weight: bold;
+}
+
 .method > *, .module > * {
   margin-left: 8px;
 }
@@ -332,7 +346,8 @@ p {
   display: none;
 }
 
-#fiddleframe {
+#fiddleframe,
+#playpen {
   visibility: hidden;
 }
 
