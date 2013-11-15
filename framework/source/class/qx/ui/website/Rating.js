@@ -24,6 +24,41 @@
  * number of symbols on which the user can click to give a rating e.g.
  * 3 out of 5 stars.
  *
+ * <h2>Markup</h2>
+ * Each rating item is a span element. Span elements already existing within
+ * the Rating's container will be used, otherwise new elements will be added or
+ * removed according to the <code>length</code> config option.
+ *
+ * <h2>CSS Classes</h2>
+ * <table>
+ *   <thead>
+ *     <tr>
+ *       <td>Class Name</td>
+ *       <td>Applied to</td>
+ *       <td>Description</td>
+ *     </tr>
+ *   </thead>
+ *   <tbody>
+ *     <tr>
+ *       <td><code>qx-rating</code></td>
+ *       <td>Container element</td>
+ *       <td>Identifies the Rating widget</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-rating-item</code></td>
+ *       <td>Rating item (span)</td>
+ *       <td>Identifies and styles an active Rating item</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-rating-item-off</code></td>
+ *       <td>Rating item (span)</td>
+ *       <td>Identifies and styles an inactive Rating item. Applied in addition to <code>qx-rating-item</code></td>
+ *     </tr>
+ *   </tbody>
+ * </table>
+ *
+ * <h2 class="widget-markup">Example DOM Structure</h2>
+ *
  * @group (Widget)
  */
 qx.Bootstrap.define("qx.ui.website.Rating", {

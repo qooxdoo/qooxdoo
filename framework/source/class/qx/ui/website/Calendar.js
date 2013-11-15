@@ -22,7 +22,8 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * This is a calendar widget used to select a date. It contain a set of
- * buttons to switch to the next or previous month.
+ * buttons to switch to the next or previous month as well as a button for
+ * each day in the month.
  *
  * @require(qx.module.Template)
  *

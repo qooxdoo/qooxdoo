@@ -20,6 +20,57 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
+ * The Accordion is a group of vertically stacked panels (here called pages),
+ * each with a header.
+ * By default, only one page is visible while the others are collapsed.
+ * Clicking a collapsed page's header will expand it while collapsing the
+ * previously expanded page. The expand and collapse operations can be
+ * visually customized using CSS animations.
+ *
+ * <h2>Markup</h2>
+ * The Accordion contains an unordered list element (<code>ul</code>), which
+ * will be created if not already present.
+ * Headers and pages are list items (<code>li</code>). Each header must contain
+ * a button with a <code>tabPage</code> data attribute where the value is a
+ * CSS selector string identifying the corresponding page. Headers and pages
+ * will not be created automatically. They can be predefined in the DOM before
+ * the <code>q().accordion()</code> factory method is called, or added programmatically.
+ *
+ * <h2>CSS Classes</h2>
+ * <table>
+ *   <thead>
+ *     <tr>
+ *       <td>Class Name</td>
+ *       <td>Applied to</td>
+ *       <td>Description</td>
+ *     </tr>
+ *   </thead>
+ *   <tbody>
+ *     <tr>
+ *       <td><code>qx-accordion</code></td>
+ *       <td>Container element</td>
+ *       <td>Identifies the Accordion widget</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-accordion-button</code></td>
+ *       <td>Page header (<code>li</code>)</td>
+ *       <td>Identifies and styles the page headers</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-accordion-button-active</code></td>
+ *       <td>Page header (<code>li</code>)</td>
+ *       <td>Identifies and styles the header of the currently expanded page. Applied in addition to <code>qx-accordion-button</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-accordion-page</code></td>
+ *       <td>Page header (<code>li</code>)</td>
+ *       <td>Identifies and styles the pages</td>
+ *     </tr>
+ *   </tbody>
+ * </table>
+ *
+ * <h2 class="widget-markup">Example DOM Structure</h2>
+ *
  * @require(qx.module.util.Object)
  *
  * @group (Widget)
@@ -95,6 +146,24 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
           }
         }
       }
+    },
+
+
+    /**
+     * Factory method which converts the current collection into a collection of
+     * accordion widgets.
+     *
+     * @param preselected {Integer?} The (zero-based) index of the panel that
+     * should initially be opened
+     * @return {qx.ui.website.Accordion} A new Accordion collection.
+     * @attach {qxWeb}
+     */
+    accordion : function(preselected) {
+      var accordion =  new qx.ui.website.Accordion(this);
+      accordion._preselected = preselected || null;
+      accordion.init();
+
+      return accordion;
     }
 
   },
@@ -270,14 +339,6 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
 
 
   defer : function(statics) {
-    qxWeb.$attach({
-      accordion : function(preselected) {
-        var accordion =  new qx.ui.website.Accordion(this);
-        accordion._preselected = preselected || null;
-        accordion.init();
-
-        return accordion;
-      }
-    });
+    qxWeb.$attach({accordion : statics.accordion});
   }
 });

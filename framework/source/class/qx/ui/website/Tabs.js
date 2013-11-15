@@ -21,6 +21,57 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
+ * A row of buttons used to switch between connected pages. The buttons can be
+ * right- or left-aligned, or they can be justified, i.e. they will be stretched
+ * to fill the available width.
+ *
+ * <h2>Markup</h2>
+ * Each Tabs widget contains an unordered list element (<code>ul</code>), which
+ * will be created if not already present.
+ * The tabs are list items (<code>li</code>). Each tab can contain
+ * a button with a <code>tabPage</code> data attribute where the value is a
+ * CSS selector string identifying the corresponding page. Headers and pages
+ * will not be created automatically. They can be predefined in the DOM before
+ * the <code>q().tabs()</code> factory method is called, or added programmatically.
+ *
+ * <h2>CSS Classes</h2>
+ * <table>
+ *   <thead>
+ *     <tr>
+ *       <td>Class Name</td>
+ *       <td>Applied to</td>
+ *       <td>Description</td>
+ *     </tr>
+ *   </thead>
+ *   <tbody>
+ *     <tr>
+ *       <td><code>qx-tabs</code></td>
+ *       <td>Container element</td>
+ *       <td>Identifies the Tabs widget</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-tabs-justify</code></td>
+ *       <td>Container element</td>
+ *       <td>Styles the tab buttons when they are stretched to fill out the available width</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-tabs-right</code></td>
+ *       <td>Container element</td>
+ *       <td>Styles the tab buttons when they are right-aligned</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-tabs-button</code></td>
+ *       <td>Tab (<code>li</code>)</td>
+ *       <td>Identifies and styles the tabs</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-tabs-button-active</code></td>
+ *       <td>Tab (<code>li</code>)</td>
+ *       <td>Identifies and styles the currently selected tab. Applied in addition to <code>qx-tabs-button</code></td>
+ *     </tr>
+ *   </tbody>
+ * </table>
+ *
  * @require(qx.module.Template)
  * @require(qx.module.Animation)
  *
@@ -31,8 +82,13 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
   statics : {
     /**
-     * @attach{qxWeb}
+     * Factory method which converts the current collection into a collection of
+     * tabs widgets.
      *
+     * @attach{qxWeb}
+     * @param align {String?} Tab button alignment. Default: <code>left</code>
+     * @param preselected {Integer?} The (zero-based) index of the tab that
+     * should initially be selected. Default: <code>0</code>
      * @return {qx.ui.website.Tabs}
      */
     tabs : function(align, preselected) {

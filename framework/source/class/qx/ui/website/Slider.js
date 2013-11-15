@@ -21,8 +21,42 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
+ * The Slider control is used to select a numerical value from a given range.
+ * It supports custom minimum/maximum values, step sizes and offsets (which limit
+ * the knob's range).
+ *
+ * <h2>Markup</h2>
+ * The Slider contains a single button element (the knob), which will be
+ * created if it's not already present.
+ *
+ * <h2>CSS Classes</h2>
+ * <table>
+ *   <thead>
+ *     <tr>
+ *       <td>Class Name</td>
+ *       <td>Applied to</td>
+ *       <td>Description</td>
+ *     </tr>
+ *   </thead>
+ *   <tbody>
+ *     <tr>
+ *       <td><code>qx-slider</code></td>
+ *       <td>Container element</td>
+ *       <td>Identifies the Slider widget</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-slider-knob</code></td>
+ *       <td>Slider knob (button)</td>
+ *       <td>Identifies and styles the Slider's draggable knob</td>
+ *     </tr>
+ *   </tbody>
+ * </table>
+ *
+ * <h2 class="widget-markup">Example DOM Structure</h2>
+ *
  * @require(qx.module.event.Mouse)
  * @require(qx.module.Transform)
+ *
  *
  * @group (Widget)
  */
@@ -40,6 +74,30 @@ qx.Bootstrap.define("qx.ui.website.Slider",
 
     _templates : {
       knobContent : "{{value}}"
+    },
+
+
+    /**
+     * Factory method which converts the current collection into a collection of
+     * slider widgets.
+     *
+     * @param value {Number?} The initial value of each slider widget
+     * @return {qx.ui.website.Slider} A new Slider collection.
+     * @attach {qxWeb}
+     */
+    slider : function(value, step) {
+      var slider = new qx.ui.website.Slider(this);
+      slider.init();
+      if (typeof step !== "undefined") {
+        slider.setConfig("step", step);
+      }
+      if (typeof value !== "undefined") {
+        slider.setValue(value);
+      } else {
+        slider.setValue(slider.getConfig("minimum"));
+      }
+
+      return slider;
     }
   },
 
@@ -511,21 +569,6 @@ qx.Bootstrap.define("qx.ui.website.Slider",
 
   // Make the slider widget available as a qxWeb module
   defer : function(statics) {
-    qxWeb.$attach({
-      slider : function(value, step) {
-        var slider = new qx.ui.website.Slider(this);
-        slider.init();
-        if (typeof step !== "undefined") {
-          slider.setConfig("step", step);
-        }
-        if (typeof value !== "undefined") {
-          slider.setValue(value);
-        } else {
-          slider.setValue(slider.getConfig("minimum"));
-        }
-
-        return slider;
-      }
-    });
+    qxWeb.$attach({slider : statics.slider});
   }
 });

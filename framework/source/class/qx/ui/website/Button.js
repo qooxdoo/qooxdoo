@@ -20,8 +20,32 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
- * This is a simple buttons widget which takes care of setting the label
+ * This is a simple button widget which takes care of setting the label
  * and icon of a button.
+ *
+ * <h2>Markup</h2>
+ * The Button can contain a <code>span</code> element for the label and/or
+ * an <code>img</code> element for the icon.
+ *
+ * <h2>CSS Classes</h2>
+ * <table>
+ *   <thead>
+ *     <tr>
+ *       <td>Class Name</td>
+ *       <td>Applied to</td>
+ *       <td>Description</td>
+ *     </tr>
+ *   </thead>
+ *   <tbody>
+ *     <tr>
+ *       <td><code>qx-button</code></td>
+ *       <td>Container element</td>
+ *       <td>Identifies the Button widget</td>
+ *     </tr>
+ *   </tbody>
+ * </table>
+ *
+ * <h2 class="widget-markup">Example DOM Structure</h2>
  *
  * @group (Widget)
  */
@@ -33,9 +57,11 @@ qx.Bootstrap.define("qx.ui.website.Button", {
      * Factory method for the button widget which converts a standard
      * collection into a collection of buttons.
      *
-     * @param label {String} The label of the button.
-     * @param icon {String} The url for the button icon.
+     * @param label {String?} The label of the button.
+     * @param icon {String?} The url for the button icon.
      * @return {qx.ui.website.Button} A collection of buttons.
+     *
+     * @attach {qxWeb}
      */
     button : function(label, icon) {
       var buttons = new qx.ui.website.Button(this);
