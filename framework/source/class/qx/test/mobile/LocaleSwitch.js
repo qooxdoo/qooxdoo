@@ -54,6 +54,7 @@ qx.Class.define("qx.test.mobile.LocaleSwitch",
   members :
   {
     setUp : function() {
+      this.base(arguments);
       this.manager.setLocale("en_QX");
     },
 
