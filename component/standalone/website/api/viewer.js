@@ -160,11 +160,6 @@ q.ready(function() {
     }
   }).send();
 
-  var __lastHashChange = null;
-  q(window).on("hashchange", function(ev) {
-    __lastHashChange = Date.now();
-    scrollNavItemIntoView(false);
-  });
 
   var loadEventNorm = function() {
     var norm = q.env.get("q.eventtypes");
@@ -1200,6 +1195,13 @@ q.ready(function() {
     });
   };
 
+  var scrollContentIntoView = q.func.debounce(function() {
+    var el = q(location.hash.replace(".", "\\."));
+    if (el.length > 0) {
+      el[0].scrollIntoView();
+    }
+  }, 500);
+
   var scrollNavItemIntoView = function(forceIfAlreadyInViewport) {
     var hash = window.location.hash,
         navItems = q("."+convertNameToCssClass(hash, "nav-")),
@@ -1330,5 +1332,6 @@ q.ready(function() {
     }
 
     appendSample(sampleMap, headerElement);
+    scrollContentIntoView();
   };
 });
