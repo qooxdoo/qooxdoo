@@ -21,6 +21,10 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
+ * This is the base collection for all widgets and offers a good foundation
+ * for all widgets including enabled state handling, config and template storage
+ * and event handling to name a few key features.
+ *
  * @require(qx.module.Dataset)
  * @require(qx.module.util.String)
  * @require(qx.module.event.Native)
@@ -41,6 +45,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
     create : function(html) {
       return new qx.ui.website.Widget(qxWeb.create(html));
     },
+
 
     /**
      * TODOC
@@ -91,7 +96,8 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
     },
 
     /**
-     * TODOC
+     * Fetches all elements having a data-attribute named <code>data-qx-class</code>
+     * containing the class name of the desired widget and initialized the widgets.
      *
      * @attachStatic {qxWeb}
      */
@@ -124,6 +130,12 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
     },
 
 
+    /**
+     * Return the proper CSS prefix for the current widget. This prefix is
+     * based on the current classname.
+     *
+     * @return {String} The CSS prefix for the current object.
+     */
     getCssPrefix : function() {
       if (!this.__cssPrefix) {
         var split = this.classname.split(".");
@@ -133,6 +145,13 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
     },
 
 
+    /**
+     * Changes the enabled state of the current collection, which means all
+     * widgets in the collection. This sets the disabled attribute on the
+     * elements and all its children.
+     *
+     * @param value {Boolean} The enabled value.
+     */
     setEnabled : function(value) {
       this.setAttribute("disabled", !value);
       this.find("*").setAttribute("disabled", !value);
@@ -140,9 +159,15 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
     },
 
 
+    /**
+     * Returns weather the first widget in the collection is enabled or not.
+     * 
+     * @return {Boolean} The enabled state of the collection.
+     */
     getEnabled : function() {
       return !this.getProperty("disabled");
     },
+
 
 
     setTemplate : function(name, template) {
@@ -150,9 +175,11 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
     },
 
 
+
     setConfig : function(name, config) {
       return this._setData("config", name, config);
     },
+
 
 
     _setData : function(type, name, data) {
@@ -227,6 +254,8 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
       // empty method
     },
 
+
+
     dispose : function() {
       this.removeAttribute("data-qx-class");
       this.setProperty("config", undefined);
@@ -244,6 +273,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
       return qxWeb.$init(this, qxWeb);
     }
   },
+
 
   defer : function(statics) {
     qxWeb.$attach({

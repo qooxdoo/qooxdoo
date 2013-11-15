@@ -47,12 +47,13 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       return tabs;
     },
 
+
     _templates : {
       button : "<li><button>{{{content}}}</button></li>"
     },
 
-    _config : {
 
+    _config : {
       align : "left", // "justify", "right"
 
       /**

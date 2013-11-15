@@ -20,10 +20,37 @@
 /**
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
+ * This is a simple buttons widget which takes care of setting the label
+ * and icon of a button.
+ *
  * @group (Widget)
  */
 qx.Bootstrap.define("qx.ui.website.Button", {
   extend : qx.ui.website.Widget,
+
+  statics : {
+    /**
+     * Factory method for the button widget which converts a standard
+     * collection into a collection of buttons.
+     *
+     * @param label {String} The label of the button.
+     * @param icon {String} The url for the button icon.
+     * @return {qx.ui.website.Button} A collection of buttons.
+     */
+    button : function(label, icon) {
+      var buttons = new qx.ui.website.Button(this);
+      buttons.init();
+      if (label != null) {
+        buttons.setLabel(label);
+      }
+      if (icon != null) {
+        buttons.setIcon(icon);
+      }
+
+      return buttons;
+    }
+  },
+
 
   construct : function(selector, context) {
     this.base(arguments, selector, context);
@@ -31,7 +58,7 @@ qx.Bootstrap.define("qx.ui.website.Button", {
 
 
   members : {
-
+    // overridden
     init : function() {
       if (!this.base(arguments)) {
         return false;
@@ -120,24 +147,10 @@ qx.Bootstrap.define("qx.ui.website.Button", {
 
       return this;
     }
-
   },
 
 
-  defer : function() {
-    qxWeb.$attach({
-      button : function(label, icon) {
-        var buttons = new qx.ui.website.Button(this);
-        buttons.init();
-        if (label != null) {
-          buttons.setLabel(label);
-        }
-        if (icon != null) {
-          buttons.setIcon(icon);
-        }
-
-        return buttons;
-      }
-    });
+  defer : function(statics) {
+    qxWeb.$attach({button : statics.button});
   }
 });
