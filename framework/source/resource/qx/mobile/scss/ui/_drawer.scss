@@ -1,6 +1,7 @@
 .drawer {
-  position:absolute;
+  position: absolute;
   -webkit-backface-visibility:hidden;
+  @include transform(translate3d(0,0,0));
 }
 
 .drawer.above {
@@ -56,6 +57,7 @@
 
 .root.drawer-parent {
   overflow: visible !important;
+  -webkit-backface-visibility:hidden;
 }
 
 .drawer-parent.blocked:not(.root) > *:first-child > * {

@@ -100,8 +100,8 @@ img.no-content {
 // IOS BUGFIXES
 
 // Bugfix #7717 - On iOS7 the headers are partially covered by the browser's chrome.
-.root.ios .master-detail-master > * {
-  padding-bottom: 20px;  // fixed pixel size needed
+.root.ios.v7 .master-detail-master > * {
+  max-height: calc(unquote("100% - 20px"));
 }
 
 // iOS flickering bug fix for slider.
