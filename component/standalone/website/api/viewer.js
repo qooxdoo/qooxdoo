@@ -63,7 +63,6 @@ q.ready(function() {
   var filterTimeout;
   var filterField = q(".filter input");
   filterField.on("input", function() {
-    clearTimeout(filterTimeout);
     var value = filterField.getValue();
 
     if (!value) {
@@ -78,12 +77,12 @@ q.ready(function() {
     }
 
     hideFiltered(value);
-
-    filterTimeout = setTimeout(function() {
-      q("#list").render();
-    }, 500);
-
+    debouncedRenderList();
   });
+
+  var debouncedRenderList = q.func.debounce(function() {
+    q("#list").render();
+  }, 500);
 
   var hideFiltered = function(query) {
     q("#list .qx-accordion-page ul").hide();
