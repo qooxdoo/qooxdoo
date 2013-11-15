@@ -62,13 +62,13 @@ qx.Class.define("mobileshowcase.page.Carousel",
       var nextButton = new qx.ui.mobile.form.Button("Next Page");
       nextButton.addCssClass("example-button");
       nextButton.addListener("tap", function() {
-        carousel.nextPage()
+        carousel.nextPage();
       }, carousel);
 
       var previousButton = new qx.ui.mobile.form.Button("Previous Page");
       previousButton.addCssClass("example-button");
       previousButton.addListener("tap", function() {
-        carousel.previousPage()
+        carousel.previousPage();
       }, carousel);
 
       var page3group = new qx.ui.mobile.form.Group([previousButton,nextButton],false);

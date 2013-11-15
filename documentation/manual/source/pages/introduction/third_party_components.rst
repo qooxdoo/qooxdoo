@@ -145,6 +145,9 @@ application.
    * - `simplejson <http://pypi.python.org/pypi/simplejson>`_
      - `MIT`_
 
+   * - `six <https://pypi.python.org/pypi/six/>`_
+     - `MIT`_
+
    * - `textile <http://pypi.python.org/pypi/textile/>`_
      - `BSD <http://www.opensource.org/licenses/bsd-license.php>`_
 

@@ -6,15 +6,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8663 $"/>
-		<generation date="$Date: 2013-05-02 15:03:19 -0500 (Thu, 02 May 2013) $"/>
+		<version number="$Revision: 9287 $"/>
+		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
 		<language type="bs"/>
 		<script type="Cyrl"/>
 	</identity>
 	<localeDisplayNames>
 		<localeDisplayPattern>
 			<localePattern draft="contributed">{0} ({1})</localePattern>
-			<localeSeparator>, </localeSeparator>
+			<localeSeparator>{0}, {1}</localeSeparator>
 		</localeDisplayPattern>
 		<languages>
 			<language type="aa">афарски</language>
@@ -735,13 +735,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="CA">Канада</territory>
 			<territory type="CC">Кокос (Келинг) Острва</territory>
 			<territory type="CD">Конго - Киншаса</territory>
-			<territory type="CD" alt="variant" draft="contributed">Конго [ДРК]</territory>
+			<territory type="CD" alt="variant" draft="contributed">Конго (ДРК)</territory>
 			<territory type="CF">Централно Афричка Република</territory>
 			<territory type="CG">Конго - Бразавил</territory>
-			<territory type="CG" alt="variant" draft="contributed">Конго [Република]</territory>
+			<territory type="CG" alt="variant" draft="contributed">Конго (Република)</territory>
 			<territory type="CH">Швајцарска</territory>
 			<territory type="CI">Обала Слоноваче</territory>
-			<territory type="CI" alt="variant" draft="contributed">Обала Слоноваче</territory>
 			<territory type="CK">Кукова Острва</territory>
 			<territory type="CL">Чиле</territory>
 			<territory type="CM">Камерун</territory>
@@ -848,9 +847,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="MG">Мадагаскар</territory>
 			<territory type="MH">Маршалска Острва</territory>
 			<territory type="MK">Македонија</territory>
-			<territory type="MK" alt="variant" draft="contributed">Македонија</territory>
 			<territory type="ML">Мали</territory>
-			<territory type="MM">Мијанмар [Бурма]</territory>
+			<territory type="MM">Мијанмар (Бурма)</territory>
 			<territory type="MN">Монголија</territory>
 			<territory type="MO">Макао С. А. Р. Кина</territory>
 			<territory type="MO" alt="short">Макао</territory>
@@ -928,7 +926,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="TJ">Таџикистан</territory>
 			<territory type="TK">Токелау</territory>
 			<territory type="TL">Источни Тимор</territory>
-			<territory type="TL" alt="variant" draft="contributed">Источни Тимор</territory>
 			<territory type="TM">Туркменистан</territory>
 			<territory type="TN">Тунис</territory>
 			<territory type="TO">Тонга</territory>
@@ -1166,7 +1163,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern>d.M.yy. GGGGG</pattern>
+							<pattern>d.M.y. GGGGG</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
@@ -1174,6 +1171,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">E, d.</dateFormatItem>
+						<dateFormatItem id="Gy">y. G</dateFormatItem>
+						<dateFormatItem id="GyMMM">MMM y. G</dateFormatItem>
+						<dateFormatItem id="GyMMMd">dd. MMM y. G</dateFormatItem>
+						<dateFormatItem id="GyMMMEd">E, dd. MMM y. G</dateFormatItem>
 						<dateFormatItem id="h">hh a</dateFormatItem>
 						<dateFormatItem id="hm">hh:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
@@ -1186,15 +1187,16 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="MMMd">dd. MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E, dd. MMM</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="y">y.</dateFormatItem>
-						<dateFormatItem id="yM">MM.y.</dateFormatItem>
-						<dateFormatItem id="yMd">dd.MM.y.</dateFormatItem>
-						<dateFormatItem id="yMEd">E, dd.MM.y.</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y.</dateFormatItem>
-						<dateFormatItem id="yMMMd">dd. MMM y.</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, dd. MMM y.</dateFormatItem>
-						<dateFormatItem id="yQQQ">y QQQ</dateFormatItem>
-						<dateFormatItem id="yQQQQ">y QQQQ</dateFormatItem>
+						<dateFormatItem id="y">y. G</dateFormatItem>
+						<dateFormatItem id="yyyy">y. G</dateFormatItem>
+						<dateFormatItem id="yyyyM">MM.y. G</dateFormatItem>
+						<dateFormatItem id="yyyyMd">dd.MM.y. G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E, dd.MM.y. G</dateFormatItem>
+						<dateFormatItem id="yyyyMMM">MMM y. G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMd">dd. MMM y. G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">E, dd. MMM y. G</dateFormatItem>
+						<dateFormatItem id="yyyyQQQ">G y QQQ</dateFormatItem>
+						<dateFormatItem id="yyyyQQQQ">G y QQQQ</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback>{0} - {1}</intervalFormatFallback>
@@ -1256,39 +1258,39 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<greatestDifference id="M">E, dd. MMM - E, dd. MMM</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="y">
-							<greatestDifference id="y">y-y</greatestDifference>
+							<greatestDifference id="y">y-y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yM">
-							<greatestDifference id="M">MM.-MM. y.</greatestDifference>
-							<greatestDifference id="y">MM.y. - MM.y.</greatestDifference>
+							<greatestDifference id="M">MM.-MM. y. G</greatestDifference>
+							<greatestDifference id="y">MM.y. - MM.y. G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMd">
-							<greatestDifference id="d">d.M.y. - d.M.y.</greatestDifference>
-							<greatestDifference id="M">d.M.y. - d.M.y.</greatestDifference>
-							<greatestDifference id="y">d.M.y. - d.M.y.</greatestDifference>
+							<greatestDifference id="d">d.M.y. - d.M.y. G</greatestDifference>
+							<greatestDifference id="M">d.M.y. - d.M.y. G</greatestDifference>
+							<greatestDifference id="y">d.M.y. - d.M.y. G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d">E, d.M.y. - E, d.M.y.</greatestDifference>
-							<greatestDifference id="M">E, d.M.y. - E, d.M.y.</greatestDifference>
-							<greatestDifference id="y">E, d.M.y. - E, d.M.y.</greatestDifference>
+							<greatestDifference id="d">E, d.M.y. - E, d.M.y. G</greatestDifference>
+							<greatestDifference id="M">E, d.M.y. - E, d.M.y. G</greatestDifference>
+							<greatestDifference id="y">E, d.M.y. - E, d.M.y. G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M">MMM-MMM y.</greatestDifference>
-							<greatestDifference id="y">MMM y. - MMM y.</greatestDifference>
+							<greatestDifference id="M">MMM-MMM y. G</greatestDifference>
+							<greatestDifference id="y">MMM y. - MMM y. G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="d">dd.-dd. MMM y.</greatestDifference>
-							<greatestDifference id="M">dd. MMM - dd. MMM y.</greatestDifference>
-							<greatestDifference id="y">dd. MMM y. - dd. MMM y.</greatestDifference>
+							<greatestDifference id="d">dd.-dd. MMM y. G</greatestDifference>
+							<greatestDifference id="M">dd. MMM - dd. MMM y. G</greatestDifference>
+							<greatestDifference id="y">dd. MMM y. - dd. MMM y. G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d">E, dd. - E, dd. MMM y.</greatestDifference>
-							<greatestDifference id="M">E, dd. MMM - E, dd. MMM y.</greatestDifference>
-							<greatestDifference id="y">E, dd. MMM y. - E, dd. MMM y.</greatestDifference>
+							<greatestDifference id="d">E, dd. - E, dd. MMM y. G</greatestDifference>
+							<greatestDifference id="M">E, dd. MMM - E, dd. MMM y. G</greatestDifference>
+							<greatestDifference id="y">E, dd. MMM y. - E, dd. MMM y. G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="M">MMMM-MMMM y.</greatestDifference>
-							<greatestDifference id="y">MMMM y. - MMMM y.</greatestDifference>
+							<greatestDifference id="M">MMMM-MMMM y. G</greatestDifference>
+							<greatestDifference id="y">MMMM y. - MMMM y. G</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
@@ -1475,6 +1477,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">E, d.</dateFormatItem>
+						<dateFormatItem id="Gy">y. G</dateFormatItem>
+						<dateFormatItem id="GyMMM">MMM y. G</dateFormatItem>
+						<dateFormatItem id="GyMMMd">dd. MMM y. G</dateFormatItem>
+						<dateFormatItem id="GyMMMEd">E, dd. MMM y. G</dateFormatItem>
 						<dateFormatItem id="h">hh a</dateFormatItem>
 						<dateFormatItem id="hm">hh:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
@@ -2051,18 +2057,54 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<relative type="-1" draft="contributed">Прошле године</relative>
 				<relative type="0" draft="contributed">Ове године</relative>
 				<relative type="1" draft="contributed">Следеће године</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">за {0} годину</relativeTimePattern>
+					<relativeTimePattern count="few">за {0} године</relativeTimePattern>
+					<relativeTimePattern count="many">за {0} година</relativeTimePattern>
+					<relativeTimePattern count="other">за {0} година</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">пре {0} годину</relativeTimePattern>
+					<relativeTimePattern count="few">пре {0} године</relativeTimePattern>
+					<relativeTimePattern count="many">пре {0} година</relativeTimePattern>
+					<relativeTimePattern count="other">пре {0} година</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="month">
 				<displayName>месец</displayName>
 				<relative type="-1" draft="contributed">Прошлог месеца</relative>
 				<relative type="0" draft="contributed">Овог месеца</relative>
 				<relative type="1" draft="contributed">Следећег месеца</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">за {0} месец</relativeTimePattern>
+					<relativeTimePattern count="few">за {0} месеца</relativeTimePattern>
+					<relativeTimePattern count="many">за {0} месеци</relativeTimePattern>
+					<relativeTimePattern count="other">за {0} месеци</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">пре {0} месец</relativeTimePattern>
+					<relativeTimePattern count="few">пре {0} месеца</relativeTimePattern>
+					<relativeTimePattern count="many">пре {0} месеци</relativeTimePattern>
+					<relativeTimePattern count="other">пре {0} месеци</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="week">
 				<displayName>недеља</displayName>
 				<relative type="-1" draft="contributed">Прошле недеље</relative>
 				<relative type="0" draft="contributed">Ове недеље</relative>
 				<relative type="1" draft="contributed">Следеће недеље</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">за {0} недељу</relativeTimePattern>
+					<relativeTimePattern count="few">за {0} недеље</relativeTimePattern>
+					<relativeTimePattern count="many">за {0} недеља</relativeTimePattern>
+					<relativeTimePattern count="other">за {0} недеља</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">пре {0} недељу</relativeTimePattern>
+					<relativeTimePattern count="few">пре {0} недеље</relativeTimePattern>
+					<relativeTimePattern count="many">пре {0} недеља</relativeTimePattern>
+					<relativeTimePattern count="other">пре {0} недеља</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="day">
 				<displayName>дан</displayName>
@@ -2071,6 +2113,18 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<relative type="0">данас</relative>
 				<relative type="1">сутра</relative>
 				<relative type="2">прекосутра</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">за {0} дан</relativeTimePattern>
+					<relativeTimePattern count="few">за {0} дана</relativeTimePattern>
+					<relativeTimePattern count="many">за {0} дана</relativeTimePattern>
+					<relativeTimePattern count="other">за {0} дана</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">пре {0} дан</relativeTimePattern>
+					<relativeTimePattern count="few">пре {0} дана</relativeTimePattern>
+					<relativeTimePattern count="many">пре {0} дана</relativeTimePattern>
+					<relativeTimePattern count="other">пре {0} дана</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="weekday">
 				<displayName>дан у недељи</displayName>
@@ -2080,12 +2134,48 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</field>
 			<field type="hour">
 				<displayName>час</displayName>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">за {0} сат</relativeTimePattern>
+					<relativeTimePattern count="few">за {0} сата</relativeTimePattern>
+					<relativeTimePattern count="many">за {0} сати</relativeTimePattern>
+					<relativeTimePattern count="other">за {0} сати</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">пре {0} сат</relativeTimePattern>
+					<relativeTimePattern count="few">пре {0} сата</relativeTimePattern>
+					<relativeTimePattern count="many">пре {0} сати</relativeTimePattern>
+					<relativeTimePattern count="other">пре {0} сати</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="minute">
 				<displayName>минут</displayName>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">за {0} минут</relativeTimePattern>
+					<relativeTimePattern count="few">за {0} минута</relativeTimePattern>
+					<relativeTimePattern count="many">за {0} минута</relativeTimePattern>
+					<relativeTimePattern count="other">за {0} минута</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">пре {0} минут</relativeTimePattern>
+					<relativeTimePattern count="few">пре {0} минута</relativeTimePattern>
+					<relativeTimePattern count="many">пре {0} минута</relativeTimePattern>
+					<relativeTimePattern count="other">пре {0} минута</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="second">
 				<displayName>секунд</displayName>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">за {0} секунд</relativeTimePattern>
+					<relativeTimePattern count="few">за {0} секунде</relativeTimePattern>
+					<relativeTimePattern count="many">за {0} секунди</relativeTimePattern>
+					<relativeTimePattern count="other">за {0} секунди</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">пре {0} секунд</relativeTimePattern>
+					<relativeTimePattern count="few">пре {0} секунде</relativeTimePattern>
+					<relativeTimePattern count="many">пре {0} секунди</relativeTimePattern>
+					<relativeTimePattern count="other">пре {0} секунди</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="zone">
 				<displayName>зона</displayName>
@@ -2096,7 +2186,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<gmtFormat>GMT{0}</gmtFormat>
 			<regionFormat draft="contributed">Време у земљи: {0}</regionFormat>
 			<fallbackFormat>{1} ({0})</fallbackFormat>
-			<fallbackRegionFormat draft="contributed">Време у земљи: {1} ({0})</fallbackRegionFormat>
 			<zone type="Etc/Unknown">
 				<exemplarCity>Непознат или неважећи град</exemplarCity>
 			</zone>
@@ -4374,7 +4463,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</percentFormats>
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
-				<currencyFormat>
+				<currencyFormat type="standard">
 					<pattern>#,##0.00 ¤</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
@@ -4399,11 +4488,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">УАЕ дирама</displayName>
 			</currency>
 			<currency type="AFA">
-				<displayName>Авганистански авган (1927-2002)</displayName>
-				<displayName count="one">авганистански авган (1927-2002)</displayName>
-				<displayName count="few">авганистанска авгана (1927-2002)</displayName>
-				<displayName count="many">авганистанских авгана (1927-2002)</displayName>
-				<displayName count="other">авганистанских авгана (1927-2002)</displayName>
+				<displayName>Авганистански авган (1927–2002)</displayName>
+				<displayName count="one">авганистански авган (1927–2002)</displayName>
+				<displayName count="few">авганистанска авгана (1927–2002)</displayName>
+				<displayName count="many">авганистанских авгана (1927–2002)</displayName>
+				<displayName count="other">авганистанских авгана (1927–2002)</displayName>
 			</currency>
 			<currency type="AFN">
 				<displayName>Авганистански авган</displayName>
@@ -4447,21 +4536,21 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">анголијских кванзи</displayName>
 			</currency>
 			<currency type="AOK">
-				<displayName>анголијска кванза (1977-1990)</displayName>
-				<displayName count="one">анголијска кванза (1977-1990)</displayName>
-				<displayName count="few">анголијске кванзе (1977-1990)</displayName>
-				<displayName count="many">анголијских кванзи (1977-1990)</displayName>
-				<displayName count="other">анголијских кванзи (1977-1990)</displayName>
+				<displayName>анголијска кванза (1977–1990)</displayName>
+				<displayName count="one">анголијска кванза (1977–1990)</displayName>
+				<displayName count="few">анголијске кванзе (1977–1990)</displayName>
+				<displayName count="many">анголијских кванзи (1977–1990)</displayName>
+				<displayName count="other">анголијских кванзи (1977–1990)</displayName>
 			</currency>
 			<currency type="AON">
-				<displayName>Анголијска нова кванза (1990-2000)</displayName>
+				<displayName>Анголијска нова кванза (1990–2000)</displayName>
 				<displayName count="one">анголијска нова кванза</displayName>
 				<displayName count="few">анголијске нове кванзе</displayName>
 				<displayName count="many">анголијских нових кванзи</displayName>
 				<displayName count="other">анголијских нових кванзи</displayName>
 			</currency>
 			<currency type="AOR">
-				<displayName>Анголска кванза реађустадо (1995-1999)</displayName>
+				<displayName>Анголска кванза реађустадо (1995–1999)</displayName>
 				<displayName count="one">анголијска кванза реађустадо</displayName>
 				<displayName count="few">анголијске кванзе реађустадо</displayName>
 				<displayName count="many">анголијских кванзи реађустадо</displayName>
@@ -4487,11 +4576,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other" draft="provisional">аргентинских пезос монеда национала</displayName>
 			</currency>
 			<currency type="ARP">
-				<displayName>аргентински пезо (1983-1985)</displayName>
-				<displayName count="one">аргентински пезо (1983-1985)</displayName>
-				<displayName count="few">аргентинска пезоса (1983-1985)</displayName>
-				<displayName count="many">аргентинских пезоса (1983-1985)</displayName>
-				<displayName count="other">аргентинских пезоса (1983-1985)</displayName>
+				<displayName>аргентински пезо (1983–1985)</displayName>
+				<displayName count="one">аргентински пезо (1983–1985)</displayName>
+				<displayName count="few">аргентинска пезоса (1983–1985)</displayName>
+				<displayName count="many">аргентинских пезоса (1983–1985)</displayName>
+				<displayName count="other">аргентинских пезоса (1983–1985)</displayName>
 			</currency>
 			<currency type="ARS">
 				<displayName>аргентински пезо</displayName>
@@ -4522,11 +4611,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">арубанских флорина</displayName>
 			</currency>
 			<currency type="AZM">
-				<displayName>Азербејџански манат (1993-2006)</displayName>
-				<displayName count="one">азербејџански манат (1993-2006)</displayName>
-				<displayName count="few">азербејџанска маната (1993-2006)</displayName>
-				<displayName count="many">азербејџанских маната (1993-2006)</displayName>
-				<displayName count="other">азербејџанских маната (1993-2006)</displayName>
+				<displayName>Азербејџански манат (1993–2006)</displayName>
+				<displayName count="one">азербејџански манат (1993–2006)</displayName>
+				<displayName count="few">азербејџанска маната (1993–2006)</displayName>
+				<displayName count="many">азербејџанских маната (1993–2006)</displayName>
+				<displayName count="other">азербејџанских маната (1993–2006)</displayName>
 			</currency>
 			<currency type="AZN">
 				<displayName>Азербејџански манат</displayName>
@@ -4673,7 +4762,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">боливијских мвдола</displayName>
 			</currency>
 			<currency type="BRB">
-				<displayName>Бразилски нови крузеиро (1967-1986)</displayName>
+				<displayName>Бразилски нови крузеиро (1967–1986)</displayName>
 				<displayName count="one">бразилски нови крузеиро</displayName>
 				<displayName count="few">бразилска нова крузеира</displayName>
 				<displayName count="many">бразилских нових крузеира</displayName>
@@ -4687,11 +4776,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">бразилских крузадоса</displayName>
 			</currency>
 			<currency type="BRE">
-				<displayName>Бразилски крузеиро (1990-1993)</displayName>
-				<displayName count="one">бразилски крузеиро (1990-1993)</displayName>
-				<displayName count="few">бразилска крузеира (1990-1993)</displayName>
-				<displayName count="many">бразилских крузеира (1990-1993)</displayName>
-				<displayName count="other">бразилских крузеира (1990-1993)</displayName>
+				<displayName>Бразилски крузеиро (1990–1993)</displayName>
+				<displayName count="one">бразилски крузеиро (1990–1993)</displayName>
+				<displayName count="few">бразилска крузеира (1990–1993)</displayName>
+				<displayName count="many">бразилских крузеира (1990–1993)</displayName>
+				<displayName count="other">бразилских крузеира (1990–1993)</displayName>
 			</currency>
 			<currency type="BRL">
 				<displayName>Бразилски Реал</displayName>
@@ -4749,7 +4838,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">боцванских пула</displayName>
 			</currency>
 			<currency type="BYB">
-				<displayName>Белоруска нова рубља (1994-1999)</displayName>
+				<displayName>Белоруска нова рубља (1994–1999)</displayName>
 				<displayName count="one">белоруска нова рубља</displayName>
 				<displayName count="few">белоруске нове рубља</displayName>
 				<displayName count="many">белоруских нових рубљи</displayName>
@@ -5070,11 +5159,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">грузијских лариса</displayName>
 			</currency>
 			<currency type="GHC">
-				<displayName>Гански цеди (1979-2007)</displayName>
-				<displayName count="one">гански цед (1979-2007)</displayName>
-				<displayName count="few">ганска цеда (1979-2007)</displayName>
-				<displayName count="many">ганских цеда (1979-2007)</displayName>
-				<displayName count="other">ганских цеда (1979-2007)</displayName>
+				<displayName>Гански цеди (1979–2007)</displayName>
+				<displayName count="one">гански цед (1979–2007)</displayName>
+				<displayName count="few">ганска цеда (1979–2007)</displayName>
+				<displayName count="many">ганских цеда (1979–2007)</displayName>
+				<displayName count="other">ганских цеда (1979–2007)</displayName>
 			</currency>
 			<currency type="GHS">
 				<displayName>Гански цеди</displayName>
@@ -5598,7 +5687,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">мексичких пезоса</displayName>
 			</currency>
 			<currency type="MXP">
-				<displayName>Мексички сребрни пезо (1861-1992)</displayName>
+				<displayName>Мексички сребрни пезо (1861–1992)</displayName>
 				<displayName count="one">мексички сребрни пезо</displayName>
 				<displayName count="few">мексичка сребрна пезоса</displayName>
 				<displayName count="many">мексичких сребрних пезоса</displayName>
@@ -5760,11 +5849,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<symbol>зл</symbol>
 			</currency>
 			<currency type="PLZ">
-				<displayName>Пољски злоти (1950-1995)</displayName>
-				<displayName count="one">пољски злот (1950-1995)</displayName>
-				<displayName count="few">пољска злота (1950-1995)</displayName>
-				<displayName count="many">пољских злота (1950-1995)</displayName>
-				<displayName count="other">пољских злота (1950-1995)</displayName>
+				<displayName>Пољски злоти (1950–1995)</displayName>
+				<displayName count="one">пољски злот (1950–1995)</displayName>
+				<displayName count="few">пољска злота (1950–1995)</displayName>
+				<displayName count="many">пољских злота (1950–1995)</displayName>
+				<displayName count="other">пољских злота (1950–1995)</displayName>
 			</currency>
 			<currency type="PTE">
 				<displayName>Португалски ескудо</displayName>
@@ -5824,11 +5913,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">руских рубљи</displayName>
 			</currency>
 			<currency type="RUR">
-				<displayName>Руска рубља (1991-1998)</displayName>
-				<displayName count="one">руска рубља (1991-1998)</displayName>
-				<displayName count="few">руске рубље (1991-1998)</displayName>
-				<displayName count="many">руских рубљи (1991-1998)</displayName>
-				<displayName count="other">руских рубљи (1991-1998)</displayName>
+				<displayName>Руска рубља (1991–1998)</displayName>
+				<displayName count="one">руска рубља (1991–1998)</displayName>
+				<displayName count="few">руске рубље (1991–1998)</displayName>
+				<displayName count="many">руских рубљи (1991–1998)</displayName>
+				<displayName count="other">руских рубљи (1991–1998)</displayName>
 			</currency>
 			<currency type="RWF">
 				<displayName>Руандански франак</displayName>
@@ -5999,11 +6088,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">таџихистанских сомона</displayName>
 			</currency>
 			<currency type="TMM">
-				<displayName>Туркменистански манат (1993-2009)</displayName>
-				<displayName count="one">туркменистански манат (1993-2009)</displayName>
-				<displayName count="few">туркменистанска маната (1993-2009)</displayName>
-				<displayName count="many">туркменистанских маната (1993-2009)</displayName>
-				<displayName count="other">туркменистански манат (1993-2009)</displayName>
+				<displayName>Туркменистански манат (1993–2009)</displayName>
+				<displayName count="one">туркменистански манат (1993–2009)</displayName>
+				<displayName count="few">туркменистанска маната (1993–2009)</displayName>
+				<displayName count="many">туркменистанских маната (1993–2009)</displayName>
+				<displayName count="other">туркменистански манат (1993–2009)</displayName>
 			</currency>
 			<currency type="TMT">
 				<displayName>Туркменистански манат</displayName>
@@ -6084,11 +6173,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">украјинских карбованцива</displayName>
 			</currency>
 			<currency type="UGS">
-				<displayName>Угандски шилинг (1966-1987)</displayName>
-				<displayName count="one">угандијски шилинг (1966-1987)</displayName>
-				<displayName count="few">угандијска шилинга (1966-1987)</displayName>
-				<displayName count="many">угандијских шилинга (1966-1987)</displayName>
-				<displayName count="other">угандијских шилинга (1966-1987)</displayName>
+				<displayName>Угандски шилинг (1966–1987)</displayName>
+				<displayName count="one">угандијски шилинг (1966–1987)</displayName>
+				<displayName count="few">угандијска шилинга (1966–1987)</displayName>
+				<displayName count="many">угандијских шилинга (1966–1987)</displayName>
+				<displayName count="other">угандијских шилинга (1966–1987)</displayName>
 			</currency>
 			<currency type="UGX">
 				<displayName>Угандски шилинг</displayName>
@@ -6126,11 +6215,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">угвајских пезоса ен унидадес индексадеса</displayName>
 			</currency>
 			<currency type="UYP">
-				<displayName>Уругвајски пезо (1975-1993)</displayName>
-				<displayName count="one">уругвајски пезо (1975-1993)</displayName>
-				<displayName count="few">уругвајска пезоса (1975-1993)</displayName>
-				<displayName count="many">уругвајских пезоса (1975-1993)</displayName>
-				<displayName count="other">уругвајских пезоса (1975-1993)</displayName>
+				<displayName>Уругвајски пезо (1975–1993)</displayName>
+				<displayName count="one">уругвајски пезо (1975–1993)</displayName>
+				<displayName count="few">уругвајска пезоса (1975–1993)</displayName>
+				<displayName count="many">уругвајских пезоса (1975–1993)</displayName>
+				<displayName count="other">уругвајских пезоса (1975–1993)</displayName>
 			</currency>
 			<currency type="UYU">
 				<displayName>Уругвајски пезо</displayName>
@@ -6147,11 +6236,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">узбекистански сом</displayName>
 			</currency>
 			<currency type="VEB">
-				<displayName>Венецуелански боливар (1871-2008)</displayName>
-				<displayName count="one">венецуелански боливар (1871-2008)</displayName>
-				<displayName count="few">венецуеланска боливара (1871-2008)</displayName>
-				<displayName count="many">венецуеланских боливара (1871-2008)</displayName>
-				<displayName count="other">венецуеланских боливара (1871-2008)</displayName>
+				<displayName>Венецуелански боливар (1871–2008)</displayName>
+				<displayName count="one">венецуелански боливар (1871–2008)</displayName>
+				<displayName count="few">венецуеланска боливара (1871–2008)</displayName>
+				<displayName count="many">венецуеланских боливара (1871–2008)</displayName>
+				<displayName count="other">венецуеланских боливара (1871–2008)</displayName>
 			</currency>
 			<currency type="VEF">
 				<displayName>Венецуелански боливар</displayName>
@@ -6376,11 +6465,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">јужно-афричких ранда</displayName>
 			</currency>
 			<currency type="ZMK">
-				<displayName>Замбијска квача (1968-2012)</displayName>
-				<displayName count="one">замбијска квача (1968-2012)</displayName>
-				<displayName count="few">замбијске кваче (1968-2012)</displayName>
-				<displayName count="many">замбијских квача (1968-2012)</displayName>
-				<displayName count="other">замбијске кваче (1968-2012)</displayName>
+				<displayName>Замбијска квача (1968–2012)</displayName>
+				<displayName count="one">замбијска квача (1968–2012)</displayName>
+				<displayName count="few">замбијске кваче (1968–2012)</displayName>
+				<displayName count="many">замбијских квача (1968–2012)</displayName>
+				<displayName count="other">замбијске кваче (1968–2012)</displayName>
 			</currency>
 			<currency type="ZMW">
 				<displayName>Замбијска квача</displayName>
@@ -6412,10 +6501,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="ZWL">
 				<displayName>Зимбабвеански долар (2009)</displayName>
-				<displayName count="one" draft="provisional">ZWL</displayName>
-				<displayName count="few" draft="provisional">ZWL</displayName>
-				<displayName count="many" draft="provisional">ZWL</displayName>
-				<displayName count="other" draft="provisional">ZWL</displayName>
 			</currency>
 			<currency type="ZWR">
 				<displayName>Зимбабвеански долар (2008)</displayName>
@@ -6427,165 +6512,99 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</currencies>
 	</numbers>
 	<units>
-		<unit type="day">
-			<unitPattern count="one">{0} дан</unitPattern>
-			<unitPattern count="one" alt="short">{0} дан</unitPattern>
-			<unitPattern count="few">{0} дана</unitPattern>
-			<unitPattern count="few" alt="short">{0} дана</unitPattern>
-			<unitPattern count="many">{0} дана</unitPattern>
-			<unitPattern count="many" alt="short">{0} дана</unitPattern>
-			<unitPattern count="other">{0} дан</unitPattern>
-			<unitPattern count="other" alt="short">{0} дан</unitPattern>
-		</unit>
-		<unit type="day-future">
-			<unitPattern count="one">за {0} дан</unitPattern>
-			<unitPattern count="few">за {0} дана</unitPattern>
-			<unitPattern count="many">за {0} дана</unitPattern>
-			<unitPattern count="other">за {0} дана</unitPattern>
-		</unit>
-		<unit type="day-past">
-			<unitPattern count="one">пре {0} дан</unitPattern>
-			<unitPattern count="few">пре {0} дана</unitPattern>
-			<unitPattern count="many">пре {0} дана</unitPattern>
-			<unitPattern count="other">пре {0} дана</unitPattern>
-		</unit>
-		<unit type="hour">
-			<unitPattern count="one">{0} сат</unitPattern>
-			<unitPattern count="one" alt="short">{0} сат</unitPattern>
-			<unitPattern count="few">{0} сата</unitPattern>
-			<unitPattern count="few" alt="short">{0} сата</unitPattern>
-			<unitPattern count="many">{0} сати</unitPattern>
-			<unitPattern count="many" alt="short">{0} сати</unitPattern>
-			<unitPattern count="other">{0} сат</unitPattern>
-			<unitPattern count="other" alt="short">{0} сат</unitPattern>
-		</unit>
-		<unit type="hour-future">
-			<unitPattern count="one">за {0} сат</unitPattern>
-			<unitPattern count="few">за {0} сата</unitPattern>
-			<unitPattern count="many">за {0} сати</unitPattern>
-			<unitPattern count="other">за {0} сати</unitPattern>
-		</unit>
-		<unit type="hour-past">
-			<unitPattern count="one">пре {0} сат</unitPattern>
-			<unitPattern count="few">пре {0} сата</unitPattern>
-			<unitPattern count="many">пре {0} сати</unitPattern>
-			<unitPattern count="other">пре {0} сати</unitPattern>
-		</unit>
-		<unit type="minute">
-			<unitPattern count="one">{0} минут</unitPattern>
-			<unitPattern count="one" alt="short">{0} мин</unitPattern>
-			<unitPattern count="few">{0} минута</unitPattern>
-			<unitPattern count="few" alt="short">{0} мин</unitPattern>
-			<unitPattern count="many">{0} минута</unitPattern>
-			<unitPattern count="many" alt="short">{0} мин</unitPattern>
-			<unitPattern count="other">{0} минут</unitPattern>
-			<unitPattern count="other" alt="short">{0} мин</unitPattern>
-		</unit>
-		<unit type="minute-future">
-			<unitPattern count="one">за {0} минут</unitPattern>
-			<unitPattern count="few">за {0} минута</unitPattern>
-			<unitPattern count="many">за {0} минута</unitPattern>
-			<unitPattern count="other">за {0} минута</unitPattern>
-		</unit>
-		<unit type="minute-past">
-			<unitPattern count="one">пре {0} минут</unitPattern>
-			<unitPattern count="few">пре {0} минута</unitPattern>
-			<unitPattern count="many">пре {0} минута</unitPattern>
-			<unitPattern count="other">пре {0} минута</unitPattern>
-		</unit>
-		<unit type="month">
-			<unitPattern count="one">{0} месец</unitPattern>
-			<unitPattern count="one" alt="short">{0} мес</unitPattern>
-			<unitPattern count="few">{0} месеца</unitPattern>
-			<unitPattern count="few" alt="short">{0} мес</unitPattern>
-			<unitPattern count="many">{0} месеци</unitPattern>
-			<unitPattern count="many" alt="short">{0} мес</unitPattern>
-			<unitPattern count="other">{0} месец</unitPattern>
-			<unitPattern count="other" alt="short">{0} мес</unitPattern>
-		</unit>
-		<unit type="month-future">
-			<unitPattern count="one">за {0} месец</unitPattern>
-			<unitPattern count="few">за {0} месеца</unitPattern>
-			<unitPattern count="many">за {0} месеци</unitPattern>
-			<unitPattern count="other">за {0} месеци</unitPattern>
-		</unit>
-		<unit type="month-past">
-			<unitPattern count="one">пре {0} месец</unitPattern>
-			<unitPattern count="few">пре {0} месеца</unitPattern>
-			<unitPattern count="many">пре {0} месеци</unitPattern>
-			<unitPattern count="other">пре {0} месеци</unitPattern>
-		</unit>
-		<unit type="second">
-			<unitPattern count="one">{0} секунда</unitPattern>
-			<unitPattern count="one" alt="short">{0} сек</unitPattern>
-			<unitPattern count="few">{0} секунде</unitPattern>
-			<unitPattern count="few" alt="short">{0} сек</unitPattern>
-			<unitPattern count="many">{0} секунди</unitPattern>
-			<unitPattern count="many" alt="short">{0} сек</unitPattern>
-			<unitPattern count="other">{0} секунда</unitPattern>
-			<unitPattern count="other" alt="short">{0} сек</unitPattern>
-		</unit>
-		<unit type="second-future">
-			<unitPattern count="one">за {0} секунд</unitPattern>
-			<unitPattern count="few">за {0} секунде</unitPattern>
-			<unitPattern count="many">за {0} секунди</unitPattern>
-			<unitPattern count="other">за {0} секунди</unitPattern>
-		</unit>
-		<unit type="second-past">
-			<unitPattern count="one">пре {0} секунд</unitPattern>
-			<unitPattern count="few">пре {0} секунде</unitPattern>
-			<unitPattern count="many">пре {0} секунди</unitPattern>
-			<unitPattern count="other">пре {0} секунди</unitPattern>
-		</unit>
-		<unit type="week">
-			<unitPattern count="one">{0} недеља</unitPattern>
-			<unitPattern count="one" alt="short">{0} нед</unitPattern>
-			<unitPattern count="few">{0} недеље</unitPattern>
-			<unitPattern count="few" alt="short">{0} нед</unitPattern>
-			<unitPattern count="many">{0} недеља</unitPattern>
-			<unitPattern count="many" alt="short">{0} нед</unitPattern>
-			<unitPattern count="other">{0} недеља</unitPattern>
-			<unitPattern count="other" alt="short">{0} нед</unitPattern>
-		</unit>
-		<unit type="week-future">
-			<unitPattern count="one">за {0} недељу</unitPattern>
-			<unitPattern count="few">за {0} недеље</unitPattern>
-			<unitPattern count="many">за {0} недеља</unitPattern>
-			<unitPattern count="other">за {0} недеља</unitPattern>
-		</unit>
-		<unit type="week-past">
-			<unitPattern count="one">пре {0} недељу</unitPattern>
-			<unitPattern count="few">пре {0} недеље</unitPattern>
-			<unitPattern count="many">пре {0} недеља</unitPattern>
-			<unitPattern count="other">пре {0} недеља</unitPattern>
-		</unit>
-		<unit type="year">
-			<unitPattern count="one">{0} година</unitPattern>
-			<unitPattern count="one" alt="short">{0} год</unitPattern>
-			<unitPattern count="few">{0} године</unitPattern>
-			<unitPattern count="few" alt="short">{0} год</unitPattern>
-			<unitPattern count="many">{0} година</unitPattern>
-			<unitPattern count="many" alt="short">{0} год</unitPattern>
-			<unitPattern count="other">{0} година</unitPattern>
-			<unitPattern count="other" alt="short">{0} год</unitPattern>
-		</unit>
-		<unit type="year-future">
-			<unitPattern count="one">за {0} годину</unitPattern>
-			<unitPattern count="few">за {0} године</unitPattern>
-			<unitPattern count="many">за {0} година</unitPattern>
-			<unitPattern count="other">за {0} година</unitPattern>
-		</unit>
-		<unit type="year-past">
-			<unitPattern count="one">пре {0} годину</unitPattern>
-			<unitPattern count="few">пре {0} године</unitPattern>
-			<unitPattern count="many">пре {0} година</unitPattern>
-			<unitPattern count="other">пре {0} година</unitPattern>
-		</unit>
+		<unitLength type="long">
+			<unit type="duration-day">
+				<unitPattern count="one">{0} дан</unitPattern>
+				<unitPattern count="few">{0} дана</unitPattern>
+				<unitPattern count="many">{0} дана</unitPattern>
+				<unitPattern count="other">{0} дан</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">{0} сат</unitPattern>
+				<unitPattern count="few">{0} сата</unitPattern>
+				<unitPattern count="many">{0} сати</unitPattern>
+				<unitPattern count="other">{0} сат</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">{0} минут</unitPattern>
+				<unitPattern count="few">{0} минута</unitPattern>
+				<unitPattern count="many">{0} минута</unitPattern>
+				<unitPattern count="other">{0} минут</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">{0} месец</unitPattern>
+				<unitPattern count="few">{0} месеца</unitPattern>
+				<unitPattern count="many">{0} месеци</unitPattern>
+				<unitPattern count="other">{0} месец</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">{0} секунда</unitPattern>
+				<unitPattern count="few">{0} секунде</unitPattern>
+				<unitPattern count="many">{0} секунди</unitPattern>
+				<unitPattern count="other">{0} секунда</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">{0} недеља</unitPattern>
+				<unitPattern count="few">{0} недеље</unitPattern>
+				<unitPattern count="many">{0} недеља</unitPattern>
+				<unitPattern count="other">{0} недеља</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">{0} година</unitPattern>
+				<unitPattern count="few">{0} године</unitPattern>
+				<unitPattern count="many">{0} година</unitPattern>
+				<unitPattern count="other">{0} година</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="short">
+			<unit type="duration-day">
+				<unitPattern count="one">{0} дан</unitPattern>
+				<unitPattern count="few">{0} дана</unitPattern>
+				<unitPattern count="many">{0} дана</unitPattern>
+				<unitPattern count="other">{0} дан</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">{0} сат</unitPattern>
+				<unitPattern count="few">{0} сата</unitPattern>
+				<unitPattern count="many">{0} сати</unitPattern>
+				<unitPattern count="other">{0} сат</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">{0} мин</unitPattern>
+				<unitPattern count="few">{0} мин</unitPattern>
+				<unitPattern count="many">{0} мин</unitPattern>
+				<unitPattern count="other">{0} мин</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">{0} мес</unitPattern>
+				<unitPattern count="few">{0} мес</unitPattern>
+				<unitPattern count="many">{0} мес</unitPattern>
+				<unitPattern count="other">{0} мес</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">{0} сек</unitPattern>
+				<unitPattern count="few">{0} сек</unitPattern>
+				<unitPattern count="many">{0} сек</unitPattern>
+				<unitPattern count="other">{0} сек</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">{0} нед</unitPattern>
+				<unitPattern count="few">{0} нед</unitPattern>
+				<unitPattern count="many">{0} нед</unitPattern>
+				<unitPattern count="other">{0} нед</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">{0} год</unitPattern>
+				<unitPattern count="few">{0} год</unitPattern>
+				<unitPattern count="many">{0} год</unitPattern>
+				<unitPattern count="other">{0} год</unitPattern>
+			</unit>
+		</unitLength>
 	</units>
 	<listPatterns>
 		<listPattern>
-			<listPatternPart type="2">{0} и {1}</listPatternPart>
 			<listPatternPart type="end">{0} и {1}</listPatternPart>
+			<listPatternPart type="2">{0} и {1}</listPatternPart>
 		</listPattern>
 	</listPatterns>
 	<posix>

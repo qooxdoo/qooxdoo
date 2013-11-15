@@ -6,15 +6,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9280 $"/>
+		<generation date="$Date: 2013-08-27 13:07:13 -0500 (Tue, 27 Aug 2013) $"/>
 		<language type="bn"/>
 		<territory type="IN"/>
 	</identity>
 	<localeDisplayNames>
-		<localeDisplayPattern>
-			<localeKeyTypePattern draft="contributed">{0}: {1}</localeKeyTypePattern>
-		</localeDisplayPattern>
 		<languages>
 			<language type="ab">আবখাজিয়ান</language>
 			<language type="ace">অ্যাচাইনিজ</language>
@@ -28,24 +25,26 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="chp" draft="contributed">চিপেওয়াইয়ান</language>
 			<language type="chy" draft="contributed">চেয়েনি</language>
 			<language type="cu" draft="contributed">চার্চ স্লাভিক</language>
-			<language type="de_AT" draft="contributed">অস্ট্রিয়ান জারমান</language>
+			<language type="de_AT">অস্ট্রিয়ান জারমান</language>
 			<language type="doi">ডোগরি</language>
-			<language type="en_AU" draft="contributed">অস্ট্রেলিয়ান ইংরাজী</language>
-			<language type="en_CA" draft="contributed">ক্যানাডিয়ান ইংরেজি</language>
-			<language type="en_GB" draft="contributed">ব্রিটিশ ইংরেজী</language>
-			<language type="fr_CA" draft="contributed">ক্যানাডিয়ান ফরাসী</language>
+			<language type="fr_CA">ক্যানাডিয়ান ফরাসী</language>
 			<language type="map" draft="contributed">অস্ট্রোনেসিয়ান</language>
-			<language type="rm" draft="contributed">রেটো-রোমানীয়</language>
+			<language type="or">উড়িয়া</language>
 			<language type="rup" draft="contributed">আরমেনিয়ান</language>
 			<language type="tut" draft="contributed">আলটাইক</language>
 			<language type="zbl" draft="contributed">ব্লিসসিম্বলস</language>
 		</languages>
+		<scripts>
+			<script type="Hant">ঐতিহ্যবাহী</script>
+		</scripts>
 		<territories>
-			<territory type="CH" draft="contributed">সুইজর্লণ্ড</territory>
+			<territory type="GD">গ্রেনেডা</territory>
+			<territory type="GT">গোয়াতেমালা</territory>
+			<territory type="JM">জামাইকা</territory>
 		</territories>
-		<types>
-			<type type="taml" key="numbers" draft="contributed">তামিল সংখ্যা</type>
-		</types>
+		<keys>
+			<key type="calendar">ক্যালেন্ডার</key>
+		</keys>
 	</localeDisplayNames>
 	<characters>
 		<ellipsis type="final" draft="contributed">{0}…</ellipsis>
@@ -54,39 +53,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 	</characters>
 	<dates>
 		<calendars>
-			<calendar type="generic">
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="abbreviated">
-							<quarter type="1">ত্রৈমাসিক</quarter>
-							<quarter type="2">ষাণ্মাসিক</quarter>
-							<quarter type="3">চতুর্থাংশ ৩</quarter>
-							<quarter type="4">বার্ষিক</quarter>
-						</quarterWidth>
-						<quarterWidth type="wide">
-							<quarter type="1">ত্রৈমাসিক</quarter>
-							<quarter type="2">ষাণ্মাসিক</quarter>
-							<quarter type="3">তৃতীয় চতুর্থাংশ</quarter>
-							<quarter type="4">বার্ষিক</quarter>
-						</quarterWidth>
-					</quarterContext>
-					<quarterContext type="stand-alone">
-						<quarterWidth type="wide">
-							<quarter type="1">ত্রৈমাসিক</quarter>
-							<quarter type="2">ষাণ্মাসিক</quarter>
-							<quarter type="3">তৃতীয় চতুর্থাংশ</quarter>
-							<quarter type="4">বার্ষিক</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-			</calendar>
 			<calendar type="gregorian">
 				<quarters>
 					<quarterContext type="format">
 						<quarterWidth type="abbreviated">
 							<quarter type="1">ত্রৈমাসিক</quarter>
 							<quarter type="2">ষাণ্মাসিক</quarter>
-							<quarter type="3">চতুর্থাংশ ৩</quarter>
 							<quarter type="4">বার্ষিক</quarter>
 						</quarterWidth>
 						<quarterWidth type="wide">
@@ -97,6 +69,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 						</quarterWidth>
 					</quarterContext>
 					<quarterContext type="stand-alone">
+						<quarterWidth type="abbreviated">
+							<quarter type="1">Q1</quarter>
+							<quarter type="2">Q2</quarter>
+							<quarter type="3">Q3</quarter>
+							<quarter type="4">Q4</quarter>
+						</quarterWidth>
 						<quarterWidth type="wide">
 							<quarter type="1">ত্রৈমাসিক</quarter>
 							<quarter type="2">ষাণ্মাসিক</quarter>
@@ -105,25 +83,34 @@ For terms of use, see http://www.unicode.org/copyright.html
 						</quarterWidth>
 					</quarterContext>
 				</quarters>
+				<dateTimeFormats>
+					<intervalFormats>
+						<intervalFormatItem id="yMMMM">
+							<greatestDifference id="M">MM – MM -y</greatestDifference>
+						</intervalFormatItem>
+					</intervalFormats>
+				</dateTimeFormats>
 			</calendar>
 		</calendars>
 		<fields>
-			<field type="day">
-				<relative type="-2">গতপরশু</relative>
-			</field>
-			<field type="hour">
-				<displayName>ঘণ্টা</displayName>
-			</field>
-			<field type="second">
-				<displayName>সেকেণ্ড</displayName>
+			<field type="dayperiod">
+				<displayName>AM/PM</displayName>
 			</field>
 		</fields>
 		<timeZoneNames>
+			<gmtZeroFormat>গ্রীনিচ মানক সময়</gmtZeroFormat>
 			<metazone type="Alaska">
 				<long>
 					<generic>আলাস্কার সময়</generic>
 					<standard>অ্যালাসকা মানক সময়</standard>
 					<daylight>আলাসকা দিবালোক সময়</daylight>
+				</long>
+			</metazone>
+			<metazone type="America_Central">
+				<long>
+					<generic>উত্তর আমিরিকা কেন্দ্রীয় সময়</generic>
+					<standard>উত্তর আমিরিকা কেন্দ্রীয় মানক সময়</standard>
+					<daylight>কেন্দ্রীয় দিবালোক মসয়</daylight>
 				</long>
 			</metazone>
 			<metazone type="Cook">
@@ -200,81 +187,100 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<currencies>
-			<currency type="AWG">
-				<displayName draft="contributed">আরুবা গিল্ডার</displayName>
-				<displayName count="one" draft="contributed">আরুবা গিল্ডার</displayName>
-				<displayName count="other" draft="contributed">আরুবা গিল্ডার</displayName>
-			</currency>
-			<currency type="BBD">
-				<displayName draft="contributed">বার্বেডোজ ডলার</displayName>
-				<displayName count="one" draft="contributed">বার্বেডোজ ডলার</displayName>
-				<displayName count="other" draft="contributed">বার্বেডোজ ডলার</displayName>
-			</currency>
-			<currency type="BMD">
-				<displayName draft="contributed">বারমিউডান ডলার</displayName>
-				<displayName count="one" draft="contributed">বারমিউডান ডলার</displayName>
-				<displayName count="other" draft="contributed">বারমিউডান ডলার</displayName>
-			</currency>
-			<currency type="BSD">
-				<displayName draft="contributed">বাহামিয়ান ডলার</displayName>
-				<displayName count="one" draft="contributed">বাহামিয়ান ডলার</displayName>
-				<displayName count="other" draft="contributed">বাহামিয়ান ডলার</displayName>
-			</currency>
-			<currency type="BZD">
-				<displayName draft="contributed">বেলিজ ডলার</displayName>
-				<displayName count="one" draft="contributed">বেলিজ ডলার</displayName>
-				<displayName count="other" draft="contributed">বেলিজ ডলার</displayName>
-			</currency>
-			<currency type="CAD">
-				<displayName draft="contributed">কম্বোডিয়ান ডলার</displayName>
-				<displayName count="one" draft="contributed">কম্বোডিয়ান ডলার</displayName>
-				<displayName count="other" draft="contributed">কানাডিয়ান ডলার</displayName>
-				<symbol draft="contributed">CA$</symbol>
-			</currency>
-			<currency type="CRC">
-				<displayName draft="contributed">কোস্টা রিকা কোলোন</displayName>
-				<displayName count="one" draft="contributed">কোস্টা রিকা কোলোন</displayName>
-				<displayName count="other" draft="contributed">কোস্টা রিকা কোলোন</displayName>
-			</currency>
-			<currency type="CUC">
-				<displayName draft="contributed">কিউবান রূপান্তরযোগ্য পেসো</displayName>
-				<displayName count="one" draft="contributed">কিউবান রূপান্তরযোগ্য পেসো</displayName>
-				<displayName count="other" draft="contributed">কিউবান রূপান্তরযোগ্য পেসো</displayName>
-			</currency>
-			<currency type="CUP">
-				<displayName draft="contributed">কিউবান পেসো</displayName>
-				<displayName count="one" draft="contributed">কিউবান পেসো</displayName>
-				<displayName count="other" draft="contributed">কিউবান পেসো</displayName>
-			</currency>
-			<currency type="HNL">
-				<displayName draft="contributed">হন্ডুরাস লেম্পিরা</displayName>
-				<displayName count="one" draft="contributed">হন্ডুরাস লেম্পিরা</displayName>
-				<displayName count="other" draft="contributed">হন্ডুরাস লেম্পিরা</displayName>
-			</currency>
-			<currency type="MXN">
-				<displayName draft="contributed">ম্যাক্সিকান পেসো</displayName>
-				<displayName count="one" draft="contributed">ম্যাক্সিকান পেসো</displayName>
-				<displayName count="other" draft="contributed">ম্যাক্সিকান পেসো</displayName>
-				<symbol draft="contributed">MX$</symbol>
-			</currency>
-			<currency type="NIO">
-				<displayName draft="contributed">নিকারাগুয়ান কর্ডোবা</displayName>
-				<displayName count="one" draft="contributed">নিকারাগুয়ান কর্ডোবা</displayName>
-				<displayName count="other" draft="contributed">নিকারাগুয়ান কর্ডোবা</displayName>
-			</currency>
-			<currency type="PAB">
-				<displayName draft="contributed">পানামা বেলবোয়া</displayName>
-				<displayName count="one" draft="contributed">পানামা বেলবোয়া</displayName>
-				<displayName count="other" draft="contributed">পানামা বেলবোয়া</displayName>
-			</currency>
-			<currency type="USD">
-				<displayName draft="contributed">মার্কিন ডলার</displayName>
-				<displayName count="one" draft="contributed">মার্কিন ডলার</displayName>
-				<displayName count="other" draft="contributed">মার্কিন ডলার</displayName>
-				<symbol draft="contributed">US$</symbol>
-			</currency>
-		</currencies>
+		<decimalFormats numberSystem="latn">
+			<decimalFormatLength type="long">
+				<decimalFormat>
+					<pattern type="1000" count="one">0 হাজার</pattern>
+					<pattern type="1000" count="other">0 হাজার</pattern>
+					<pattern type="10000" count="one">00 হাজার</pattern>
+					<pattern type="10000" count="other">00 হাজার</pattern>
+					<pattern type="100000" count="one">000 হাজার</pattern>
+					<pattern type="100000" count="other">000 হাজার</pattern>
+					<pattern type="1000000" count="one">0 মিলিয়ন</pattern>
+					<pattern type="1000000" count="other">0 মিলিয়ন</pattern>
+					<pattern type="10000000" count="one">00 মিলিয়ন</pattern>
+					<pattern type="10000000" count="other">00 মিলিয়ন</pattern>
+					<pattern type="100000000" count="one">000 মিলিয়ন</pattern>
+					<pattern type="100000000" count="other">000 মিলিয়ন</pattern>
+					<pattern type="1000000000" count="one">0 বিলিয়ন</pattern>
+					<pattern type="1000000000" count="other">0 বিলিয়ন</pattern>
+					<pattern type="10000000000" count="one">00 বিলিয়ন</pattern>
+					<pattern type="10000000000" count="other">00 বিলিয়ন</pattern>
+					<pattern type="100000000000" count="one">000 বিলিয়ন</pattern>
+					<pattern type="100000000000" count="other">000 বিলিয়ন</pattern>
+					<pattern type="1000000000000" count="one">0 ট্রিলিয়ন</pattern>
+					<pattern type="1000000000000" count="other">0 ট্রিলিয়ন</pattern>
+					<pattern type="10000000000000" count="one">00 ট্রিলিয়ন</pattern>
+					<pattern type="10000000000000" count="other">00 ট্রিলিয়ন</pattern>
+					<pattern type="100000000000000" count="one">000 ট্রিলিয়ন</pattern>
+					<pattern type="100000000000000" count="other">000 ট্রিলিয়ন</pattern>
+				</decimalFormat>
+			</decimalFormatLength>
+			<decimalFormatLength type="short">
+				<decimalFormat>
+					<pattern type="1000" count="one">0K</pattern>
+					<pattern type="1000" count="other">0K</pattern>
+					<pattern type="10000" count="one">00K</pattern>
+					<pattern type="10000" count="other">00K</pattern>
+					<pattern type="100000" count="one">000K</pattern>
+					<pattern type="100000" count="other">000K</pattern>
+					<pattern type="1000000" count="one">0M</pattern>
+					<pattern type="1000000" count="other">0M</pattern>
+					<pattern type="10000000" count="one">00M</pattern>
+					<pattern type="10000000" count="other">00M</pattern>
+					<pattern type="100000000" count="one">000M</pattern>
+					<pattern type="100000000" count="other">000M</pattern>
+					<pattern type="1000000000" count="one">0B</pattern>
+					<pattern type="1000000000" count="other">0B</pattern>
+					<pattern type="10000000000" count="one">00B</pattern>
+					<pattern type="10000000000" count="other">00B</pattern>
+					<pattern type="100000000000" count="one">000B</pattern>
+					<pattern type="100000000000" count="other">000B</pattern>
+					<pattern type="1000000000000" count="one">0T</pattern>
+					<pattern type="1000000000000" count="other">0T</pattern>
+					<pattern type="10000000000000" count="one">00T</pattern>
+					<pattern type="10000000000000" count="other">00T</pattern>
+					<pattern type="100000000000000" count="one">000T</pattern>
+					<pattern type="100000000000000" count="other">000T</pattern>
+				</decimalFormat>
+			</decimalFormatLength>
+		</decimalFormats>
 	</numbers>
+	<units>
+		<unitLength type="narrow">
+			<unit type="angle-arc-second">
+				<unitPattern count="one">{0}″</unitPattern>
+				<unitPattern count="other">{0}″</unitPattern>
+			</unit>
+			<unit type="area-square-kilometer">
+				<unitPattern count="one">{0} km²</unitPattern>
+				<unitPattern count="other">{0} km²</unitPattern>
+			</unit>
+			<unit type="area-square-mile">
+				<unitPattern count="one">{0} mi²</unitPattern>
+				<unitPattern count="other">{0} mi²</unitPattern>
+			</unit>
+			<unit type="speed-kilometer-per-hour">
+				<unitPattern count="one">{0} kph</unitPattern>
+				<unitPattern count="other">{0} kph</unitPattern>
+			</unit>
+			<unit type="speed-meter-per-second">
+				<unitPattern count="one">{0} m/s</unitPattern>
+				<unitPattern count="other">{0} m/s</unitPattern>
+			</unit>
+			<unit type="speed-mile-per-hour">
+				<unitPattern count="one">{0} mph</unitPattern>
+				<unitPattern count="other">{0} mph</unitPattern>
+			</unit>
+			<unit type="volume-cubic-kilometer">
+				<unitPattern count="one">{0} km³</unitPattern>
+				<unitPattern count="other">{0} km³</unitPattern>
+			</unit>
+			<unit type="volume-cubic-mile">
+				<unitPattern count="one">{0}mi³</unitPattern>
+				<unitPattern count="other">{0} mi³</unitPattern>
+			</unit>
+		</unitLength>
+	</units>
 </ldml>
 

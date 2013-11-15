@@ -63,9 +63,8 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
    * @param value {Boolean?null} The value of the button
    * @param labelChecked {Boolean?"ON"} The value of the text display when toggleButton is active
    * @param labelUnchecked {Boolean?"OFF"} The value of the text display when toggleButton is inactive
-   * @param fontSize {Integer?} The size of the font in the toggleButton active/inactive labels.
    */
-  construct : function(value, labelChecked, labelUnchecked, fontSize)
+  construct : function(value, labelChecked, labelUnchecked)
   {
     this.base(arguments);
 
@@ -76,14 +75,6 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
 
     this._setAttribute("data-label-checked", this.__labelChecked);
     this._setAttribute("data-label-unchecked", this.__labelUnchecked);
-
-    if(fontSize) {
-      this.__fontSize = parseInt(fontSize, 10);
-    }
-
-    if(this.__fontSize) {
-      qx.bom.element.Style.set(this._getContentElement(),"fontSize",this.__fontSize+"px");
-    }
 
     this.__switch = this._createSwitch();
     this._add(this.__switch);
@@ -128,7 +119,6 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     __value : false,
     __labelUnchecked : "OFF",
     __labelChecked : "ON",
-    __fontSize : null,
     __lastToggleTimestamp : 0,
 
 
@@ -222,14 +212,14 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
      */
     _onSwipe : function(evt)
     {
-      if(this._checkLastTouchTime()) {
+      if (this._checkLastTouchTime()) {
         var direction = evt.getDirection();
-        if(direction == "left") {
-          if(this.__value == true) {
+        if (direction == "left") {
+          if (this.__value == true) {
             this.toggle();
           }
         } else {
-          if(this.__value == false) {
+          if (this.__value == false) {
             this.toggle();
           }
         }
@@ -261,6 +251,6 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     this.removeListener("tap", this._onTap, this);
     this.removeListener("swipe", this._onSwipe, this);
 
-    this._disposeObjects("__switch","__labelUnchecked","__labelChecked", "__fontSize");
+    this._disposeObjects("__switch","__labelUnchecked","__labelChecked");
   }
 });

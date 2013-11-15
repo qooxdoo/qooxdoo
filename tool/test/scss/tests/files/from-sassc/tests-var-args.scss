@@ -1,0 +1,31 @@
+@mixin foo($x, $y, $zs...) {
+  fa: $x, $y, $zs;
+  fv: $zs;
+  ft: type-of($zs);
+  fj: join(1 2 3, $zs);
+  fjt: type-of(join(1 2 3, $zs));
+  fkt: type-of(join($zs, 1 2 3));
+}
+
+@mixin bar($x, $y, $z) {
+  ba: $x, $y, $z;
+  bv: $z;
+  bt: type-of($z);
+  bj: join(1 2 3, $z);
+  bjt: type-of(join(1 2 3, $z));
+}
+
+$stuff: hey hoo ha;
+
+div {
+  @include foo(a, b, c d e f);
+  @include bar(a, b, c d e f);
+  /*                                                                        */
+  @include foo(a, b, c d e...);
+  @include bar(a, b, c d e...);
+  /*                                                                        */
+  @include foo(a, c d e...);
+  @include bar(a, c d e...);
+  /*                                                                        */
+  @include foo(a, $stuff...);
+}

@@ -1,0 +1,29 @@
+@option style:nested;
+
+div {
+  &.important {
+    background: orange;
+    a {
+      color: brown;
+      font-weight: bold;
+    }
+  }
+  &.ok {
+    a {
+      color: green;
+    }
+  }
+  &.err {
+    background: red;
+    a {
+      color: white;
+      font-weight: bold;
+    }
+  }
+}
+
+ul {
+  li {
+    color: black;
+  }
+}

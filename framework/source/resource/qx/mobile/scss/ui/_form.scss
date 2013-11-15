@@ -1,0 +1,159 @@
+//
+// FORM 
+//
+
+.form {
+  @include background-clip(padding-box);
+  margin-bottom: rem(10);
+  background-color:transparent;
+  border: none;
+
+  font-weight: $form-font-weight;
+
+  padding: 0;
+  cursor:pointer;
+}
+
+.form-row {
+  list-style-type: none;
+  padding: rem(5) rem(0) rem(5) rem(0);
+}
+
+.form .form-row.form-separation-row:last-child {
+  background-color:transparent;
+  margin-bottom: 0px;
+}
+
+.form .list .form-row.error {
+  border: rem(2) solid red;
+}
+
+.form .form-row.error + .form-row.error {
+  border-top: 0;
+}
+
+.form .form-row.vbox input {
+  width: 100%;
+}
+
+.form .form-row.vbox * + * {
+  margin-top: rem(10);
+}
+
+.form .form-row * {
+  white-space: normal;
+  text-overflow: ellipsis;
+}
+
+.form .text-field, .form .number-field, .form .password-field {
+  display:block;
+  width: 50%;
+}
+
+.form-title {
+  color: $group-title-text-color;
+  font-weight: normal;
+  line-height: rem(20);
+  font-size: rem(16);
+  margin-top: rem(10);
+  margin-bottom: rem(10);
+  text-indent: rem(5);
+}
+
+//
+// RENDERING
+//
+
+.form-row-group-title {
+  padding: rem(10) rem(24) rem(10) rem(10);
+}
+
+.form-row-group-first, .form-row-group-last {
+  height: 0px;
+}
+
+.form-element-error {
+  color: red;
+  text-align:right;
+  border-top:0;
+  padding: 0px rem(10) rem(10) rem(10);
+}
+
+.form-separation-row {
+  padding:0px;
+}
+
+.form-row-content {
+  border-top:0;
+  padding: rem(10) rem(10) rem(10) rem(10);
+}
+
+.form-row-content + .form-row-content {
+  padding-top:0px;
+}
+
+// If one row is excluded: hide its separationRow
+.form-row-content.exclude + .form-separation-row {
+  border-top: 0;
+}
+
+.form-row label {
+  padding-right: rem(10);
+}
+
+// [BUG #7871] Bugfix for IE 10 for enabling word-wrap within a flexbox layout. 
+.form-row label > p {
+  -ms-flex: 1;
+  box-flex: 1;
+}
+
+.form-separation-row {
+  background-color: $list-border-color;
+  height: rem(1);
+}
+
+.form-row-group-title {
+  color: $form-title-text-color;
+  font-weight:normal;
+
+  margin-bottom:rem(10);
+  border:none;
+  padding-bottom:0px;
+} 
+
+.form-row-content, .form-element-error {
+  @include background($form-background);
+  border-left:rem(1) solid $form-border-color;
+  border-right:rem(1) solid $form-border-color;
+}
+
+.form-row-group-first {
+  @include border-radius-top($form-border-radius);
+  @include background($form-background);
+  border-left: rem(1) solid $form-border-color;
+  border-right: rem(1) solid $form-border-color;
+  border-top: rem(1) solid $form-border-color;
+  padding: rem(2);
+  position:relative;
+  top: rem(2);
+}
+
+.form-row-group-last {
+  @include border-radius-bottom($form-border-radius);
+  @include background($form-background);
+  border-top: 0px transparent;
+  border-left: rem(1) solid $form-border-color;
+  border-right: rem(1) solid $form-border-color;
+  border-bottom: rem(1) solid $form-border-color;
+  padding: rem(2);
+  position: relative;
+  top: rem(-2);
+}
+
+.form-row-group-title:nth-child(n+2) {
+  margin-top: rem(14);
+}
+
+.form-row-content .label {
+  color: $form-label-text-color;
+}

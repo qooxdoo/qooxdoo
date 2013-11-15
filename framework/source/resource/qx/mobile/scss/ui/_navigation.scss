@@ -1,0 +1,42 @@
+//
+// NAVIGATION CONTAINER
+//
+
+.navigation {
+  @include transition(-webkit-transform 0.8s ease-in-out);
+  @include transform(translateY(0px));
+  
+  overflow:hidden;
+  margin-bottom:0px;
+  -webkit-backface-visibility:hidden;
+}
+
+.navigation.blocked {
+  pointer-events: none;
+}
+
+.navigation.hidden {
+  margin-bottom:-($navigationbar-height);
+  @include transition(-webkit-transform 0.8s ease-in-out );
+  @include transform(translateY(-($navigationbar-height)));
+}
+
+.left-container > * {
+  margin-right:rem(4);
+}
+
+.left-container {
+  position:absolute;
+  left: 0;
+  top: 0;
+  width:auto;
+  height: $navigationbar-height;
+}
+
+.right-container {
+  position:absolute;
+  right: 0;
+  top: 0;
+  width:auto;
+  height: $navigationbar-height;
+}

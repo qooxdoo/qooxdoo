@@ -1,0 +1,29 @@
+.functions {
+  opacify1: rgba(0, 0, 0, 0.6);
+  opacify2: #001;
+  transparentize1: rgba(0, 0, 0, 0.4);
+  transparentize2: rgba(0, 0, 0, 0.6);
+  lighten1: #4d4d4d;
+  lighten2: #e00;
+  darken1: #ff6a00;
+  darken2: #200;
+  saturate1: #d9f2d9;
+  saturate2: #9e3f3f;
+  desaturate1: #e3e8e3;
+  desaturate2: #726b6b;
+  adjust1: #deeded;
+  adjust2: #ededde;
+  adjust3: #886a11;
+  mix1: purple;
+  mix2: #4000bf;
+  mix3: rgba(64, 0, 191, 0.75);
+  percentage1: 200%;
+  round1: 10px;
+  round2: 11px;
+  ceil1: 11px;
+  ceil2: 11px;
+  floor1: 10px;
+  floor2: 10px;
+  abs1: 10px;
+  abs2: 10px;
+}

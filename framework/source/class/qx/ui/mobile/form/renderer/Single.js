@@ -89,7 +89,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
         if(item instanceof widget) {
           return true;
         }
-      };
+      }
 
       return false;
     },
@@ -97,7 +97,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
 
     // override
     addItems : function(items, names, title) {
-      if(title != null)
+      if(title !== null)
       {
         this._addGroupHeader(title);
       }
@@ -136,7 +136,10 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      */
     _addInScrollComposite : function(item,name) {
       var scrollContainer = new qx.ui.mobile.container.ScrollComposite();
-      scrollContainer.add(item,{flex:1});
+      scrollContainer.setFixedHeight(true);
+      scrollContainer.add(item, {
+        flex: 1
+      });
 
       this._addRow(scrollContainer,name,new qx.ui.mobile.layout.VBox());
     },
@@ -176,8 +179,8 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
       var row = new qx.ui.mobile.form.Row(layout);
       row.addCssClass("form-row-content");
 
-      if(name != null) {
-        var label = new qx.ui.mobile.form.Label(name);
+      if(name !== null) {
+        var label = new qx.ui.mobile.form.Label("<p>"+name+"</p>");
         label.setLabelFor(item.getId());
         row.add(label, {flex:1});
         this._labels.push(label);
@@ -193,7 +196,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      */
     _addSeparationRow : function() {
       var row = new qx.ui.mobile.form.Row();
-      row.addCssClass("form-separation-row")
+      row.addCssClass("form-separation-row");
       this._add(row);
       this._rows.push(row);
     },
@@ -204,7 +207,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      */
     _addGroupHeaderRow : function() {
       var row = new qx.ui.mobile.form.Row();
-      row.addCssClass("form-row-group-first")
+      row.addCssClass("form-row-group-first");
       this._add(row);
       this._rows.push(row);
     },
@@ -215,7 +218,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      */
     _addGroupFooterRow : function() {
       var row = new qx.ui.mobile.form.Row();
-      row.addCssClass("form-row-group-last")
+      row.addCssClass("form-row-group-last");
       this._add(row);
       this._rows.push(row);
     },

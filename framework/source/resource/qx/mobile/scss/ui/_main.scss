@@ -1,0 +1,40 @@
+body {
+  @include background($navigationpage-background);
+}
+
+.root {
+  @include background($navigationpage-background);
+  font-weight: normal;
+}
+
+.page {
+  @include backface-visibility(hidden);
+
+  /* Disable touch behaviors, like pan and zoom for IE10*/
+  -ms-touch-action: none;
+}
+
+.content:not(.group) .form-title {
+  text-indent:rem(15);
+}
+
+.root, .scroll {
+  font-family: $application-font;
+  color:  $application-text-color;
+}
+
+.group {
+  margin:rem(10);
+}
+
+.group.bordered {
+  @include border-radius($group-border-radius);
+  @include background($group-background);
+
+  border: rem(1) solid $group-border-color;
+  padding:rem(10);
+}
+
+.animationChild {
+  @include background($navigationpage-background);
+}

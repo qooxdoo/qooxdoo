@@ -57,6 +57,8 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     } else {
       this.initSource();
     }
+
+    qx.core.Init.getApplication().getRoot().addListener("changeScaleFactor", this._onChangeScaleFactor, this);
   },
 
 
@@ -85,13 +87,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
   statics :
   {
     /** @type {Array} Possible pixel ratios of the current device operating system */
-    PIXEL_RATIOS : null,
-
-    /** @type {String} CSS rule for the high resolution overlay */
-    HIGH_RES_CSS_RULE : "",
-
-    /** @type {CSSStyleSheet} CSS stylesheet containing high resolution overlay elements */
-    STYLESHEET : null
+    PIXEL_RATIOS : null
   },
 
 
@@ -139,21 +135,33 @@ qx.Class.define("qx.ui.mobile.basic.Image",
       if (source && source.indexOf('data:') != 0) {
         var resourceManager = qx.util.ResourceManager.getInstance();
 
-        // If a high resolution display is available, search for a high resolution source.
-        if(qx.core.Environment.get("device.pixelRatio") > 1) {
-          var highResolutionSource = this._findHighResolutionSource(source);
-          if(highResolutionSource != null) {
-            source = highResolutionSource;
-          }
-        }
-        source = resourceManager.toUri(source);
+        this._setStyle("width", resourceManager.getImageWidth(source) / 16 + "rem");
+        this._setStyle("height", resourceManager.getImageHeight(source) / 16 + "rem");
 
+        var foundHighResolutionSource = this._findHighResolutionSource(source);
+
+        source = resourceManager.toUri(source);
         var ImageLoader = qx.io.ImageLoader;
         if (!ImageLoader.isFailed(source) && !ImageLoader.isLoaded(source)) {
           ImageLoader.load(source, this.__loaderCallback, this);
         }
+
+        // If a no high resolution version of the source was found, apply the source.
+        if (foundHighResolutionSource == false) {
+          this._setSource(source);
+        }
+      } else {
+        this._setSource(source);
       }
-      this._setSource(source);
+    },
+
+
+    /**
+    * Event handler for "changeScaleFactor" on application root.
+    * Reloads the image source.
+    */
+    _onChangeScaleFactor : function() {
+      this._applySource(this.getSource());
     },
 
 
@@ -167,67 +175,78 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     * "_createHighResolutionOverlay" is called.
     *
     * @param source {String} source of the medium resolution image.
-    * @return {String} the source of the high resolution image.
+    * @return {Boolean} If a high resolution image source was found or not.
     */
-    _findHighResolutionSource : function(source) {
+    _findHighResolutionSource: function(source) {
       var pixelRatioCandidates = qx.ui.mobile.basic.Image.PIXEL_RATIOS;
-      for (var i = 0; i < pixelRatioCandidates.length; i++) {
-        var targetPixelRatio = pixelRatioCandidates[i];
 
-        var fileExtIndex = source.lastIndexOf('.');
-        if (fileExtIndex > -1) {
-          var pixelRatioIdentifier = "@" + targetPixelRatio + "x";
-          var highResSource = source.slice(0, fileExtIndex) + pixelRatioIdentifier + source.slice(fileExtIndex);
+      // Calculate the optimal ratio, based on the rem scale factor of the application and the device pixel ratio.
+      var factor = qx.core.Environment.get("device.pixelRatio") * qx.core.Init.getApplication().getRoot().getScaleFactor();
+      if (factor <= 1) {
+        return false;
+      }
 
-          if (qx.util.ResourceManager.getInstance().has(highResSource)) {
-            this._createHighResolutionOverlay(targetPixelRatio, source, highResSource);
-            return highResSource;
-          }
+      var i = pixelRatioCandidates.length;
+      while (i > 0 && factor > pixelRatioCandidates[--i]) {}
+
+      var imgSrc;
+
+      // Search for best img with a higher resolution.
+      for (var k = i; k >= 0; k--) {
+        imgSrc = this._getHighResolutionSource(source, pixelRatioCandidates[k]);
+        if (imgSrc) {
+          this._createHighResolutionOverlay(imgSrc);
+          return true;
         }
-      };
+      }
+
+      // Search for best img with a lower resolution.
+      for (var k = i + 1; k < pixelRatioCandidates.length; k++) {
+        imgSrc = this._getHighResolutionSource(source, pixelRatioCandidates[k]);
+        if (imgSrc) {
+          this._createHighResolutionOverlay(imgSrc);
+          return true;
+        }
+      }
+
+      return false;
+    },
+
+    /**
+    * Returns the source name for the high resolution image based on the passed
+    * parameters.
+    * @param source {String} the source of the medium resolution image.
+    * @param pixelRatio {Number} the pixel ratio of the high resolution image.
+    * @return {String} the high resolution source name or null if no source could be found.
+    */
+    _getHighResolutionSource : function(source, pixelRatio) {
+      var fileExtIndex = source.lastIndexOf('.');
+      if (fileExtIndex > -1) {
+        var pixelRatioIdentifier = "@" + pixelRatio + "x";
+        var candidate = source.slice(0, fileExtIndex) + pixelRatioIdentifier + source.slice(fileExtIndex);
+
+        if(qx.util.ResourceManager.getInstance().has(candidate)) {
+          return candidate;
+        }
+      }
       return null;
     },
 
 
     /**
-    * Creates an overlay for this image, which show the image defined by the parameter 'highResSource',
-    * but has the same size and position as the image defined by parameter "source".
+    * Creates an overlay for this image which shows the image defined by the parameter 'highResSource',
+    * but has the same size and position as the source image.
     * The original image widget is hidden by this method.
     *
-    * @param pixelRatio {String} pixel ratio of the high resolution image.
-    * @param source {String} Image source of the medium resolution image.
     * @param highResSource {String} Image source of the high resolution image.
     */
-    _createHighResolutionOverlay : function(pixelRatio, source, highResSource) {
-      var resourceManager = qx.util.ResourceManager.getInstance();
-
-      var scale = (1 / pixelRatio);
-      scale = (Math.round(scale * 100) / 100);
-
-      // Activate sub-pixel rendering on iOS
-      if (qx.core.Environment.get("os.name") == "ios") {
-        scale = scale + 0.01;
-      }
-
-      var srcWidth = resourceManager.getImageWidth(source);
-      var srcHeight = resourceManager.getImageHeight(source);
-      var highResSrcWidth = resourceManager.getImageWidth(highResSource);
-      var highResSrcHeight = resourceManager.getImageHeight(highResSource);
-
-      var offsetX = (highResSrcWidth - srcWidth) / 2;
-      var offsetY = (highResSrcHeight - srcHeight) / 2;
-
-      // Fix image size to lower resolution image size.
-      this._setAttribute("width", srcWidth);
-      this._setAttribute("height", srcHeight);
-
-      var selector = "#" + this.getId() + ":before";
-      var values = [highResSrcWidth, highResSrcHeight, resourceManager.toUri(highResSource), -offsetY, -offsetX, scale];
-      var entry = qx.lang.String.format(qx.ui.mobile.basic.Image.HIGH_RES_CSS_RULE, values);
-
-      qx.bom.Stylesheet.addRule(qx.ui.mobile.basic.Image.STYLESHEET, selector, entry);
-
-      this.addCssClass("no-content");
+    _createHighResolutionOverlay : function(highResSource) {
+      // Replace the source through transparent pixel for making the high resolution background image visible.
+      this._setSource("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
+      this._setStyle("backgroundImage","url("+qx.util.ResourceManager.getInstance().toUri(highResSource)+")");
+      this._setStyle("backgroundSize","100%");
+      this._setStyle("backgroundRepeat","no-repeat");
+      this._setStyle("backgroundPosition","50% 50%");
     },
 
 
@@ -289,19 +308,11 @@ qx.Class.define("qx.ui.mobile.basic.Image",
 
 
   defer : function(statics) {
-    statics.STYLESHEET = qx.bom.Stylesheet.createElement();
+    statics.PIXEL_RATIOS = ["3", "2", "1.5"];
+  },
 
-    if(qx.core.Environment.get("device.pixelRatio") > 1) {
-      if (qx.core.Environment.get("os.name") == "ios") {
-        statics.PIXEL_RATIOS = ["2"];
-      } else {
-        statics.PIXEL_RATIOS = [qx.core.Environment.get("device.pixelRatio"),"3","2","1.5"];
-      }
-    }
 
-    var transform = qx.core.Environment.get("css.transform");
-    if (transform) {
-      statics.HIGH_RES_CSS_RULE = "width:%1px; height:%2px; background-image: url('%3'); top:%4px; left:%5px; " + qx.bom.Style.getCssName(transform.name) + ":scale(%6);";
-    }
+  destruct : function() {
+    qx.core.Init.getApplication().getRoot().removeListener("changeScaleFactor", this._onChangeScaleFactor, this);
   }
 });

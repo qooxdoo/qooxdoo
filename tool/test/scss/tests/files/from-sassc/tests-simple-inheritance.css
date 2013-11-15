@@ -1,0 +1,21 @@
+earth mammal, earth dog, earth cat, earth horse, earth naysayer, earth bird {
+  blood: warm;
+}
+earth mammal, earth dog, earth cat, earth horse, earth naysayer {
+  produces-milk: true;
+}
+dog {
+  says: "Woof!";
+}
+cat {
+  says: "Meow.";
+}
+horse, naysayer {
+  says: "Nay.";
+}
+[hey], ho {
+  a: b;
+}
+ho {
+  c: d;
+}

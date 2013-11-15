@@ -1,0 +1,8 @@
+
+@function stuff-function() {
+  @return unquoted('green');
+}
+
+@mixin stuff-mixin() {
+	color: stuff-function();
+}

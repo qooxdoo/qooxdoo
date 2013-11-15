@@ -2025,8 +2025,10 @@ symbol("label").toListG = toListG_self_first
 
 
 def statementEnd():
-    if token.id in (";",):
+    if token.id in (";", "eol", "eof"):
         advance()
+    elif token.id in ("}",):  # parse e.g. if condition and block on same line: 'if() { expr }'
+        pass
     #elif token.id == "eof":
     #    return token  # ok as stmt end, but don't just skip it (bc. comments)
     elif tokenStream.eolBefore:
@@ -2037,12 +2039,12 @@ def statementEnd():
     #    "}"  # it's the last statement in a block
     #    ):
     #    advance()
-    #else:
-    #    ltok = tokenStream.lookbehind()
-    #    if ltok.id == '}':  # it's a statement ending with a block ('if' etc.)
-    #        pass
-    #    else:
-    #        raise SyntaxException("Unterminated statement (pos %r)" % ((token.get("line"), token.get("column")),))
+    else:
+        ltok = tokenStream.lookbehind()
+        if ltok.id == '}':  # it's a statement ending with a block ('if' etc.)
+            pass
+        else:
+            raise SyntaxException("Unterminated statement (pos %r)" % ((token.get("line"), token.get("column")),))
 
 
 @method(symbol("eof"))

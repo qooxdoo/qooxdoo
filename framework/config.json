@@ -314,18 +314,22 @@
 
     "watch-scss" :
     {
-      "desc"  : "Demo job for watching compile-to-CSS files",
+      "desc"   : "Watch and compile the theme scss",
       "extend" : ["cache"],
+      "let" :
+      {
+        "MOBILE_THEME_PATH" : "source/resource/qx/mobile/",
+      },
       "watch-files" :
       {
-        "paths" : ["source/resource/qx/mobile/scss"],
+        "paths"    : ["source/resource/qx/mobile/scss"],
         "command" :
         {
-          // this is sort of missing the point, as most scss implementations
-          // have their built-in watch mode
-          "line" : "scss --no-cache --update source/resource/qx/mobile/scss:source/resource/qx/mobile/css",
-          "per-file" : false
-        }
+          "line"  : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/scss.py ${MOBILE_THEME_PATH}scss/flat.scss -o ${MOBILE_THEME_PATH}css/flat.css --load-path=${MOBILE_THEME_PATH}scss && ${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/scss.py ${MOBILE_THEME_PATH}scss/indigo.scss -o ${MOBILE_THEME_PATH}css/indigo.css --load-path=${MOBILE_THEME_PATH}scss",
+          "exec-on-startup" : true
+        },
+        "include" : [ "*.scss" ],
+        "include-dirs" : false
       }
     },
 

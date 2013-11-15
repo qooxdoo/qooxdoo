@@ -1,0 +1,28 @@
+@option style:legacy, short_colors:no;
+// DEVIATION: We preserve the same type of quotes when interpolating.  Ruby
+// always produces double quotes.
+a {
+  $a: 'a';
+  $b: 'b';
+  $c: 'c';
+  $x: '';
+  A: $a$b$x$c;
+  B: '$a$b$x$c';
+  C: "$a$b$x$c";
+  D: #{$a}#{$b}#{$x}#{$c};
+  E: '#{$a}#{$b}#{$x}#{$c}';
+  F: "#{$a}#{$b}#{$x}#{$c}";
+}
+
+b {
+  $a: "a";
+  $b: "b";
+  $c: "c";
+  $x: "";
+  A: $a$b$x$c;
+  B: '$a$b$x$c';
+  C: "$a$b$x$c";
+  D: #{$a}#{$b}#{$x}#{$c};
+  E: '#{$a}#{$b}#{$x}#{$c}';
+  F: "#{$a}#{$b}#{$x}#{$c}";
+}

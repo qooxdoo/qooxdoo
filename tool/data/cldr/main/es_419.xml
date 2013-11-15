@@ -6,8 +6,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9287 $"/>
+		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
 		<language type="es"/>
 		<territory type="419"/>
 	</identity>
@@ -86,19 +86,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 				</dateTimeFormats>
 			</calendar>
 			<calendar type="gregorian">
-				<days>
-					<dayContext type="stand-alone">
-						<dayWidth type="narrow">
-							<day type="sun">D</day>
-							<day type="mon">L</day>
-							<day type="tue">M</day>
-							<day type="wed">M</day>
-							<day type="thu">J</day>
-							<day type="fri">V</day>
-							<day type="sat">S</day>
-						</dayWidth>
-					</dayContext>
-				</days>
 				<quarters>
 					<quarterContext type="format">
 						<quarterWidth type="narrow">
@@ -121,57 +108,54 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<relative type="-1" draft="contributed">Año pasado</relative>
 				<relative type="0" draft="contributed">Este año</relative>
 				<relative type="1" draft="contributed">Año próximo</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">En {0} año</relativeTimePattern>
+					<relativeTimePattern count="other">En {0} años</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="month">
 				<relative type="-1" draft="contributed">El mes pasado</relative>
 				<relative type="0" draft="contributed">Este mes</relative>
 				<relative type="1" draft="contributed">Mes próximo</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">En {0} mes</relativeTimePattern>
+					<relativeTimePattern count="other">En {0} meses</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="week">
 				<relative type="-1" draft="contributed">Semana pasada</relative>
 				<relative type="0" draft="contributed">Esta semana</relative>
 				<relative type="1" draft="contributed">Próxima semana</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">En {0} semana</relativeTimePattern>
+					<relativeTimePattern count="other">En {0} semanas</relativeTimePattern>
+				</relativeTime>
+			</field>
+			<field type="day">
+				<relativeTime type="future">
+					<relativeTimePattern count="one">En {0} día</relativeTimePattern>
+					<relativeTimePattern count="other">En {0} días</relativeTimePattern>
+				</relativeTime>
+			</field>
+			<field type="hour">
+				<relativeTime type="future">
+					<relativeTimePattern count="one">En {0} hora</relativeTimePattern>
+					<relativeTimePattern count="other">En {0} horas</relativeTimePattern>
+				</relativeTime>
+			</field>
+			<field type="minute">
+				<relativeTime type="future">
+					<relativeTimePattern count="one">En {0} minuto</relativeTimePattern>
+					<relativeTimePattern count="other">En {0} minutos</relativeTimePattern>
+				</relativeTime>
+			</field>
+			<field type="second">
+				<relativeTime type="future">
+					<relativeTimePattern count="one">En {0} segundo</relativeTimePattern>
+					<relativeTimePattern count="other">En {0} segundos</relativeTimePattern>
+				</relativeTime>
 			</field>
 		</fields>
-		<timeZoneNames>
-			<zone type="America/Coral_Harbour">
-				<exemplarCity draft="contributed">Atikokan</exemplarCity>
-			</zone>
-			<zone type="America/Indiana/Winamac">
-				<exemplarCity draft="contributed">Winamac, Indiana</exemplarCity>
-			</zone>
-			<zone type="America/Kentucky/Monticello">
-				<exemplarCity draft="contributed">Monticello, Kentucky</exemplarCity>
-			</zone>
-			<metazone type="America_Central">
-				<short>
-					<generic>CT</generic>
-					<standard>CST</standard>
-					<daylight>CDT</daylight>
-				</short>
-			</metazone>
-			<metazone type="America_Eastern">
-				<short>
-					<generic>ET</generic>
-					<standard>EST</standard>
-					<daylight>EDT</daylight>
-				</short>
-			</metazone>
-			<metazone type="America_Mountain">
-				<short>
-					<generic>MT</generic>
-					<standard>MST</standard>
-					<daylight>MDT</daylight>
-				</short>
-			</metazone>
-			<metazone type="America_Pacific">
-				<short>
-					<generic>PT</generic>
-					<standard>PST</standard>
-					<daylight>PDT</daylight>
-				</short>
-			</metazone>
-		</timeZoneNames>
 	</dates>
 	<numbers>
 		<symbols numberSystem="latn">
@@ -210,41 +194,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</decimalFormats>
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
-				<currencyFormat>
+				<currencyFormat type="standard">
 					<pattern draft="contributed">¤#,##0.00</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
 		</currencyFormats>
 	</numbers>
-	<units>
-		<unit type="day-future">
-			<unitPattern count="one" draft="contributed">En {0} día</unitPattern>
-			<unitPattern count="other" draft="contributed">En {0} días</unitPattern>
-		</unit>
-		<unit type="hour-future">
-			<unitPattern count="one" draft="contributed">En {0} hora</unitPattern>
-			<unitPattern count="other" draft="contributed">En {0} horas</unitPattern>
-		</unit>
-		<unit type="minute-future">
-			<unitPattern count="one" draft="contributed">En {0} minuto</unitPattern>
-			<unitPattern count="other" draft="contributed">En {0} minutos</unitPattern>
-		</unit>
-		<unit type="month-future">
-			<unitPattern count="one" draft="contributed">En {0} mes</unitPattern>
-			<unitPattern count="other" draft="contributed">En {0} meses</unitPattern>
-		</unit>
-		<unit type="second-future">
-			<unitPattern count="one" draft="contributed">En {0} segundo</unitPattern>
-			<unitPattern count="other" draft="contributed">En {0} segundos</unitPattern>
-		</unit>
-		<unit type="week-future">
-			<unitPattern count="one" draft="contributed">En {0} semana</unitPattern>
-			<unitPattern count="other" draft="contributed">En {0} semanas</unitPattern>
-		</unit>
-		<unit type="year-future">
-			<unitPattern count="one" draft="contributed">En {0} año</unitPattern>
-			<unitPattern count="other" draft="contributed">En {0} años</unitPattern>
-		</unit>
-	</units>
 </ldml>
 

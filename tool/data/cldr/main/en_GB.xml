@@ -6,19 +6,17 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9280 $"/>
+		<generation date="$Date: 2013-08-27 13:07:13 -0500 (Tue, 27 Aug 2013) $"/>
 		<language type="en"/>
 		<territory type="GB"/>
 	</identity>
 	<localeDisplayNames>
-		<localeDisplayPattern>
-			<localeKeyTypePattern>{0}: {1}</localeKeyTypePattern>
-		</localeDisplayPattern>
 		<languages>
 			<language type="arn">Araucanian</language>
 			<language type="bax">Bamum</language>
-			<language type="en_US">US English</language>
+			<language type="en_GB" alt="short">UK English</language>
+			<language type="en_US" alt="short">US English</language>
 			<language type="tzm">Central Morocco Tamazight</language>
 			<language type="wal">Walamo</language>
 		</languages>
@@ -26,16 +24,32 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<script type="Thai">Thai</script>
 		</scripts>
 		<territories>
+			<territory type="GB">United Kingdom</territory>
+			<territory type="GB" alt="short">UK</territory>
+			<territory type="GS">South Georgia and the South Sandwich Islands</territory>
+			<territory type="HM">Heard Island and McDonald Islands</territory>
 			<territory type="UM">U.S. Minor Outlying Islands</territory>
+			<territory type="US">United States</territory>
+			<territory type="US" alt="short">US</territory>
+			<territory type="VC">Saint Vincent and the Grenadines</territory>
 		</territories>
+		<keys>
+			<key type="colCaseLevel">Case-Sensitive Sorting</key>
+			<key type="colNormalization">Normalised Sorting</key>
+		</keys>
 		<types>
 			<type type="fullwide" key="numbers">Full-Width Digits</type>
+			<type type="no" key="colNormalization">Sort Without Normalisation</type>
+			<type type="yes" key="colNormalization">Sort Unicode Normalised</type>
 		</types>
 	</localeDisplayNames>
 	<characters>
 		<ellipsis type="final">{0}…</ellipsis>
 		<ellipsis type="initial">…{0}</ellipsis>
 		<ellipsis type="medial">{0}… {1}</ellipsis>
+		<ellipsis type="word-final">{0} …</ellipsis>
+		<ellipsis type="word-initial">… {0}</ellipsis>
+		<ellipsis type="word-medial">{0} … {1}</ellipsis>
 		<moreInformation>?</moreInformation>
 	</characters>
 	<dates>
@@ -175,53 +189,34 @@ For terms of use, see http://www.unicode.org/copyright.html
 						</dateTimeFormat>
 					</dateTimeFormatLength>
 					<availableFormats>
-						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">E d</dateFormatItem>
-						<dateFormatItem id="Gy">U</dateFormatItem>
-						<dateFormatItem id="GyMMM">MMM U</dateFormatItem>
 						<dateFormatItem id="GyMMMd">d MMM U</dateFormatItem>
 						<dateFormatItem id="GyMMMEd">E, d MMM U</dateFormatItem>
-						<dateFormatItem id="h">h a</dateFormatItem>
-						<dateFormatItem id="H">HH</dateFormatItem>
-						<dateFormatItem id="hm">h:mm a</dateFormatItem>
-						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
-						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
-						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">LL</dateFormatItem>
 						<dateFormatItem id="Md">dd/MM</dateFormatItem>
 						<dateFormatItem id="MEd">E dd/MM</dateFormatItem>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
 						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
-						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="y">U</dateFormatItem>
 						<dateFormatItem id="yMd">dd/MM/y</dateFormatItem>
-						<dateFormatItem id="yyyy">U</dateFormatItem>
 						<dateFormatItem id="yyyyM">MM/y</dateFormatItem>
 						<dateFormatItem id="yyyyMd">dd/MM/y</dateFormatItem>
 						<dateFormatItem id="yyyyMEd">E, dd/MM/y</dateFormatItem>
-						<dateFormatItem id="yyyyMMM">MMM U</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">d MMM U</dateFormatItem>
 						<dateFormatItem id="yyyyMMMEd">E, d MMM U</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">MMMM U</dateFormatItem>
-						<dateFormatItem id="yyyyQQQ">QQQ U</dateFormatItem>
-						<dateFormatItem id="yyyyQQQQ">QQQQ U</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
-						<intervalFormatFallback>{0} – {1}</intervalFormatFallback>
 						<intervalFormatItem id="d">
 							<greatestDifference id="d">d–d</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="h">
-							<greatestDifference id="a">h a – h a</greatestDifference>
 							<greatestDifference id="h">h–h a</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="H">
 							<greatestDifference id="H">HH–HH</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hm">
-							<greatestDifference id="a">h:mm a – h:mm a</greatestDifference>
 							<greatestDifference id="h">h:mm–h:mm a</greatestDifference>
 							<greatestDifference id="m">h:mm–h:mm a</greatestDifference>
 						</intervalFormatItem>
@@ -230,7 +225,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<greatestDifference id="m">HH:mm–HH:mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hmv">
-							<greatestDifference id="a">h:mm a – h:mm a v</greatestDifference>
 							<greatestDifference id="h">h:mm–h:mm a v</greatestDifference>
 							<greatestDifference id="m">h:mm–h:mm a v</greatestDifference>
 						</intervalFormatItem>
@@ -239,7 +233,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<greatestDifference id="m">HH:mm–HH:mm v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hv">
-							<greatestDifference id="a">h a – h a v</greatestDifference>
 							<greatestDifference id="h">h–h a v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="Hv">
@@ -286,7 +279,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMM">
 							<greatestDifference id="M">MMM–MMM U</greatestDifference>
-							<greatestDifference id="y">MMM U – MMM U</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMd">
 							<greatestDifference id="d">d–d MMM U</greatestDifference>
@@ -300,7 +292,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMM">
 							<greatestDifference id="M">MMMM–MMMM U</greatestDifference>
-							<greatestDifference id="y">MMMM U – MMMM U</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
@@ -350,52 +341,33 @@ For terms of use, see http://www.unicode.org/copyright.html
 						</dateTimeFormat>
 					</dateTimeFormatLength>
 					<availableFormats>
-						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">E d</dateFormatItem>
-						<dateFormatItem id="Gy">y G</dateFormatItem>
-						<dateFormatItem id="GyMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="GyMMMd">d MMM y G</dateFormatItem>
 						<dateFormatItem id="GyMMMEd">E, d MMM y G</dateFormatItem>
-						<dateFormatItem id="h">h a</dateFormatItem>
-						<dateFormatItem id="H">HH</dateFormatItem>
-						<dateFormatItem id="hm">h:mm a</dateFormatItem>
-						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
-						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
-						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">LL</dateFormatItem>
 						<dateFormatItem id="Md">dd/MM</dateFormatItem>
 						<dateFormatItem id="MEd">E dd/MM</dateFormatItem>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
 						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
-						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="y">y G</dateFormatItem>
-						<dateFormatItem id="yyyy">y G</dateFormatItem>
 						<dateFormatItem id="yyyyM">MM/y GGGGG</dateFormatItem>
 						<dateFormatItem id="yyyyMd">dd/MM/y GGGGG</dateFormatItem>
 						<dateFormatItem id="yyyyMEd">E, dd/MM/y GGGGG</dateFormatItem>
-						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">d MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMEd">E, d MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">MMMM y G</dateFormatItem>
-						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
-						<dateFormatItem id="yyyyQQQQ">QQQQ y G</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
-						<intervalFormatFallback>{0} – {1}</intervalFormatFallback>
 						<intervalFormatItem id="d">
 							<greatestDifference id="d">d–d</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="h">
-							<greatestDifference id="a">h a – h a</greatestDifference>
 							<greatestDifference id="h">h–h a</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="H">
 							<greatestDifference id="H">HH–HH</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hm">
-							<greatestDifference id="a">h:mm a – h:mm a</greatestDifference>
 							<greatestDifference id="h">h:mm–h:mm a</greatestDifference>
 							<greatestDifference id="m">h:mm–h:mm a</greatestDifference>
 						</intervalFormatItem>
@@ -404,7 +376,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<greatestDifference id="m">HH:mm–HH:mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hmv">
-							<greatestDifference id="a">h:mm a – h:mm a v</greatestDifference>
 							<greatestDifference id="h">h:mm–h:mm a v</greatestDifference>
 							<greatestDifference id="m">h:mm–h:mm a v</greatestDifference>
 						</intervalFormatItem>
@@ -413,7 +384,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<greatestDifference id="m">HH:mm–HH:mm v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hv">
-							<greatestDifference id="a">h a – h a v</greatestDifference>
 							<greatestDifference id="h">h–h a v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="Hv">
@@ -460,7 +430,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMM">
 							<greatestDifference id="M">MMM–MMM y G</greatestDifference>
-							<greatestDifference id="y">MMM y – MMM y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMd">
 							<greatestDifference id="d">d–d MMM y G</greatestDifference>
@@ -474,7 +443,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMM">
 							<greatestDifference id="M">MMMM–MMMM y G</greatestDifference>
-							<greatestDifference id="y">MMMM y – MMMM y G</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
@@ -554,52 +522,34 @@ For terms of use, see http://www.unicode.org/copyright.html
 						</dateTimeFormat>
 					</dateTimeFormatLength>
 					<availableFormats>
-						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">E d</dateFormatItem>
-						<dateFormatItem id="Gy">y G</dateFormatItem>
-						<dateFormatItem id="GyMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="GyMMMd">d MMM y G</dateFormatItem>
 						<dateFormatItem id="GyMMMEd">E, d MMM y G</dateFormatItem>
-						<dateFormatItem id="h">h a</dateFormatItem>
-						<dateFormatItem id="H">HH</dateFormatItem>
-						<dateFormatItem id="hm">h:mm a</dateFormatItem>
-						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
-						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
-						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
 						<dateFormatItem id="M">LL</dateFormatItem>
 						<dateFormatItem id="Md">dd/MM</dateFormatItem>
 						<dateFormatItem id="MEd">E dd/MM</dateFormatItem>
 						<dateFormatItem id="MMdd">dd/MM</dateFormatItem>
-						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d MMM</dateFormatItem>
 						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
-						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">MM/y</dateFormatItem>
 						<dateFormatItem id="yMd">dd/MM/y</dateFormatItem>
 						<dateFormatItem id="yMEd">E, dd/MM/y</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd">d MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMEd">E, d MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-						<dateFormatItem id="yQQQQ">QQQQ y</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
-						<intervalFormatFallback>{0} – {1}</intervalFormatFallback>
 						<intervalFormatItem id="d">
 							<greatestDifference id="d">d–d</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="h">
-							<greatestDifference id="a">h a – h a</greatestDifference>
 							<greatestDifference id="h">h–h a</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="H">
 							<greatestDifference id="H">HH–HH</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hm">
-							<greatestDifference id="a">h:mm a – h:mm a</greatestDifference>
 							<greatestDifference id="h">h:mm–h:mm a</greatestDifference>
 							<greatestDifference id="m">h:mm–h:mm a</greatestDifference>
 						</intervalFormatItem>
@@ -608,7 +558,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<greatestDifference id="m">HH:mm–HH:mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hmv">
-							<greatestDifference id="a">h:mm a – h:mm a v</greatestDifference>
 							<greatestDifference id="h">h:mm–h:mm a v</greatestDifference>
 							<greatestDifference id="m">h:mm–h:mm a v</greatestDifference>
 						</intervalFormatItem>
@@ -617,7 +566,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<greatestDifference id="m">HH:mm–HH:mm v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hv">
-							<greatestDifference id="a">h a – h a v</greatestDifference>
 							<greatestDifference id="h">h–h a v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="Hv">
@@ -664,7 +612,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMM">
 							<greatestDifference id="M">MMM–MMM y</greatestDifference>
-							<greatestDifference id="y">MMM y – MMM y</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMd">
 							<greatestDifference id="d">d–d MMM y</greatestDifference>
@@ -678,7 +625,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMM">
 							<greatestDifference id="M">MMMM–MMMM y</greatestDifference>
-							<greatestDifference id="y">MMMM y – MMMM y</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
@@ -780,6 +726,98 @@ For terms of use, see http://www.unicode.org/copyright.html
 					</eraAbbr>
 				</eras>
 			</calendar>
+			<calendar type="islamic">
+				<months>
+					<monthContext type="format">
+						<monthWidth type="abbreviated">
+							<month type="1">Muh.</month>
+							<month type="2">Saf.</month>
+							<month type="3">Rab. I</month>
+							<month type="4">Rab. II</month>
+							<month type="5">Jum. I</month>
+							<month type="6">Jum. II</month>
+							<month type="7">Raj.</month>
+							<month type="8">Sha.</month>
+							<month type="9">Ram.</month>
+							<month type="10">Shaw.</month>
+							<month type="11">Dhuʻl-Q.</month>
+							<month type="12">Dhuʻl-H.</month>
+						</monthWidth>
+						<monthWidth type="narrow">
+							<month type="1">1</month>
+							<month type="2">2</month>
+							<month type="3">3</month>
+							<month type="4">4</month>
+							<month type="5">5</month>
+							<month type="6">6</month>
+							<month type="7">7</month>
+							<month type="8">8</month>
+							<month type="9">9</month>
+							<month type="10">10</month>
+							<month type="11">11</month>
+							<month type="12">12</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">Muharram</month>
+							<month type="2">Safar</month>
+							<month type="3">Rabiʻ I</month>
+							<month type="4">Rabiʻ II</month>
+							<month type="5">Jumada I</month>
+							<month type="6">Jumada II</month>
+							<month type="7">Rajab</month>
+							<month type="8">Shaʻban</month>
+							<month type="9">Ramadan</month>
+							<month type="10">Shawwal</month>
+							<month type="11">Dhuʻl-Qiʻdah</month>
+							<month type="12">Dhuʻl-Hijjah</month>
+						</monthWidth>
+					</monthContext>
+					<monthContext type="stand-alone">
+						<monthWidth type="abbreviated">
+							<month type="1">Muh.</month>
+							<month type="2">Saf.</month>
+							<month type="3">Rab. I</month>
+							<month type="4">Rab. II</month>
+							<month type="5">Jum. I</month>
+							<month type="6">Jum. II</month>
+							<month type="7">Raj.</month>
+							<month type="8">Sha.</month>
+							<month type="9">Ram.</month>
+							<month type="10">Shaw.</month>
+							<month type="11">Dhuʻl-Q.</month>
+							<month type="12">Dhuʻl-H.</month>
+						</monthWidth>
+						<monthWidth type="narrow">
+							<month type="1">1</month>
+							<month type="2">2</month>
+							<month type="3">3</month>
+							<month type="4">4</month>
+							<month type="5">5</month>
+							<month type="6">6</month>
+							<month type="7">7</month>
+							<month type="8">8</month>
+							<month type="9">9</month>
+							<month type="10">10</month>
+							<month type="11">11</month>
+							<month type="12">12</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">Muharram</month>
+							<month type="2">Safar</month>
+							<month type="3">Rabiʻ I</month>
+							<month type="4">Rabiʻ II</month>
+							<month type="5">Jumada I</month>
+							<month type="6">Jumada II</month>
+							<month type="7">Rajab</month>
+							<month type="8">Shaʻban</month>
+							<month type="9">Ramadan</month>
+							<month type="10">Shawwal</month>
+							<month type="11">Dhuʻl-Qiʻdah</month>
+							<month type="12">Dhuʻl-Hijjah</month>
+						</monthWidth>
+					</monthContext>
+				</months>
+			</calendar>
 			<calendar type="japanese">
 				<!-- need some non-empty element here to make inheritance work,
 					 this copy of generic dateFormats above is smaller than root japanese eras
@@ -815,6 +853,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</fields>
 		<timeZoneNames>
 			<gmtZeroFormat>GMT</gmtZeroFormat>
+			<zone type="America/Coral_Harbour">
+				<exemplarCity>Atikokan</exemplarCity>
+			</zone>
+			<zone type="America/St_Johns">
+				<exemplarCity>St. John’s</exemplarCity>
+			</zone>
 			<zone type="Africa/Asmera">
 				<exemplarCity>Asmara</exemplarCity>
 			</zone>
@@ -828,12 +872,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<exemplarCity>Faroe</exemplarCity>
 			</zone>
 			<zone type="Europe/London">
-				<long>
-					<daylight>British Summer Time</daylight>
-				</long>
 				<short>
 					<daylight>BST</daylight>
 				</short>
+			</zone>
+			<zone type="America/Godthab">
+				<exemplarCity>Nuuk</exemplarCity>
+			</zone>
+			<zone type="America/Scoresbysund">
+				<exemplarCity>Ittoqqortoormiit</exemplarCity>
 			</zone>
 			<zone type="Asia/Calcutta">
 				<exemplarCity>Kolkata</exemplarCity>
@@ -853,12 +900,38 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<zone type="America/Lower_Princes">
 				<exemplarCity>Lower Prince's Quarter</exemplarCity>
 			</zone>
-			<zone type="Pacific/Honolulu">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
+			<zone type="America/North_Dakota/Beulah">
+				<exemplarCity>Beulah, North Dakota</exemplarCity>
+			</zone>
+			<zone type="America/North_Dakota/New_Salem">
+				<exemplarCity>New Salem, North Dakota</exemplarCity>
+			</zone>
+			<zone type="America/North_Dakota/Center">
+				<exemplarCity>Center, North Dakota</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Vincennes">
+				<exemplarCity>Vincennes, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Petersburg">
+				<exemplarCity>Petersburg, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Tell_City">
+				<exemplarCity>Tell City, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Knox">
+				<exemplarCity>Knox, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Winamac">
+				<exemplarCity>Winamac, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Marengo">
+				<exemplarCity>Marengo, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Vevay">
+				<exemplarCity>Vevay, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Kentucky/Monticello">
+				<exemplarCity>Monticello, Kentucky</exemplarCity>
 			</zone>
 			<zone type="America/St_Vincent">
 				<exemplarCity>St. Vincent</exemplarCity>
@@ -866,54 +939,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<zone type="America/St_Thomas">
 				<exemplarCity>St. Thomas</exemplarCity>
 			</zone>
-			<metazone type="Alaska">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
-			</metazone>
-			<metazone type="America_Central">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
-			</metazone>
-			<metazone type="America_Eastern">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
-			</metazone>
-			<metazone type="America_Mountain">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
-			</metazone>
-			<metazone type="America_Pacific">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
-			</metazone>
 			<metazone type="Arabian">
 				<long>
 					<generic>Arabian Time</generic>
 					<standard>Arabian Standard Time</standard>
 					<daylight>Arabian Summer Time</daylight>
 				</long>
-			</metazone>
-			<metazone type="Atlantic">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
 			</metazone>
 			<metazone type="China">
 				<long>
@@ -941,13 +972,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<generic>WET</generic>
 					<standard>WET</standard>
 					<daylight>WEST</daylight>
-				</short>
-			</metazone>
-			<metazone type="Hawaii_Aleutian">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
 				</short>
 			</metazone>
 			<metazone type="Iran">
@@ -978,11 +1002,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<daylight>Korean Summer Time</daylight>
 				</long>
 			</metazone>
-			<metazone type="Norfolk">
-				<long>
-					<standard>Norfolk Islands Time</standard>
-				</long>
-			</metazone>
 			<metazone type="Taipei">
 				<long>
 					<generic>Taipei Time</generic>
@@ -993,19 +1012,17 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</timeZoneNames>
 	</dates>
 	<numbers>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat>
-					<pattern>¤#,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
 		<currencies>
 			<currency type="AUD">
 				<symbol>AU$</symbol>
 			</currency>
 			<currency type="BRL">
 				<symbol>R$</symbol>
+			</currency>
+			<currency type="BYB">
+				<displayName>Belarusian New Rouble (1994–1999)</displayName>
+				<displayName count="one">Belarusian new rouble (1994–1999)</displayName>
+				<displayName count="other">Belarusian new roubles (1994–1999)</displayName>
 			</currency>
 			<currency type="BYR">
 				<displayName>Belarusian Rouble</displayName>
@@ -1019,9 +1036,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<symbol>CN¥</symbol>
 			</currency>
 			<currency type="EUR">
-				<displayName>Euro</displayName>
-				<displayName count="one">euro</displayName>
-				<displayName count="other">euro</displayName>
 				<symbol>€</symbol>
 			</currency>
 			<currency type="GBP">
@@ -1032,6 +1046,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="HKD">
 				<symbol>HK$</symbol>
+			</currency>
+			<currency type="ILR">
+				<displayName>Israeli Shekel (1980–1985)</displayName>
+				<displayName count="one">Israeli shekel (1980–1985)</displayName>
+				<displayName count="other">Israeli shekels (1980–1985)</displayName>
 			</currency>
 			<currency type="ILS">
 				<displayName>Israeli New Shekel</displayName>
@@ -1044,6 +1063,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="KRW">
 				<symbol>₩</symbol>
+			</currency>
+			<currency type="LVR">
+				<displayName>Latvian Rouble</displayName>
+				<displayName count="one">Latvian rouble</displayName>
+				<displayName count="other">Latvian roubles</displayName>
 			</currency>
 			<currency type="MGA">
 				<displayName>Malagasy Ariary</displayName>
@@ -1066,6 +1090,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="one">Russian rouble</displayName>
 				<displayName count="other">Russian roubles</displayName>
 			</currency>
+			<currency type="RUR">
+				<displayName>Russian Rouble (1991–1998)</displayName>
+				<displayName count="one">Russian rouble (1991–1998)</displayName>
+				<displayName count="other">Russian roubles (1991–1998)</displayName>
+			</currency>
 			<currency type="SCR">
 				<displayName>Seychelles Rupee</displayName>
 				<displayName count="one">Seychelles rupee</displayName>
@@ -1074,8 +1103,16 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<currency type="THB">
 				<symbol>฿</symbol>
 			</currency>
+			<currency type="TJR">
+				<displayName>Tajikistani Rouble</displayName>
+				<displayName count="one">Tajikistani rouble</displayName>
+				<displayName count="other">Tajikistani roubles</displayName>
+			</currency>
 			<currency type="TWD">
 				<symbol>NT$</symbol>
+			</currency>
+			<currency type="USD">
+				<symbol>$</symbol>
 			</currency>
 			<currency type="UZS">
 				<displayName>Uzbekistani Som</displayName>
@@ -1109,13 +1146,115 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">(unknown currency)</displayName>
 			</currency>
 		</currencies>
+		<miscPatterns numberSystem="latn">
+			<pattern type="range">{0}–{1}</pattern>
+		</miscPatterns>
 	</numbers>
+	<units>
+		<unitLength type="long">
+			<unit type="angle-arc-minute">
+				<unitPattern count="one">{0} minute</unitPattern>
+				<unitPattern count="other">{0} minutes</unitPattern>
+			</unit>
+			<unit type="angle-arc-second">
+				<unitPattern count="one">{0} second</unitPattern>
+				<unitPattern count="other">{0} seconds</unitPattern>
+			</unit>
+			<unit type="area-square-kilometer">
+				<unitPattern count="one">{0} square kilometre</unitPattern>
+				<unitPattern count="other">{0} square kilometres</unitPattern>
+			</unit>
+			<unit type="area-square-meter">
+				<unitPattern count="one">{0} square metre</unitPattern>
+				<unitPattern count="other">{0} square metres</unitPattern>
+			</unit>
+			<unit type="length-centimeter">
+				<unitPattern count="one">{0} centimetre</unitPattern>
+				<unitPattern count="other">{0} centimetres</unitPattern>
+			</unit>
+			<unit type="length-kilometer">
+				<unitPattern count="one">{0} kilometre</unitPattern>
+				<unitPattern count="other">{0} kilometres</unitPattern>
+			</unit>
+			<unit type="length-meter">
+				<unitPattern count="one">{0} metre</unitPattern>
+				<unitPattern count="other">{0} metres</unitPattern>
+			</unit>
+			<unit type="length-millimeter">
+				<unitPattern count="one">{0} millimetre</unitPattern>
+				<unitPattern count="other">{0} millimetres</unitPattern>
+			</unit>
+			<unit type="length-picometer">
+				<unitPattern count="one">{0} picometre</unitPattern>
+				<unitPattern count="other">{0} picometres</unitPattern>
+			</unit>
+			<unit type="speed-kilometer-per-hour">
+				<unitPattern count="one">{0} kilometre per hour</unitPattern>
+				<unitPattern count="other">{0} kilometres per hour</unitPattern>
+			</unit>
+			<unit type="speed-meter-per-second">
+				<unitPattern count="one">{0} metre per second</unitPattern>
+				<unitPattern count="other">{0} metres per second</unitPattern>
+			</unit>
+			<unit type="volume-cubic-kilometer">
+				<unitPattern count="one">{0} cubic kilometre</unitPattern>
+				<unitPattern count="other">{0} cubic kilometres</unitPattern>
+			</unit>
+			<unit type="volume-liter">
+				<unitPattern count="one">{0} litre</unitPattern>
+				<unitPattern count="other">{0} litres</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="short">
+			<unit type="angle-arc-minute">
+				<unitPattern count="one">{0} min</unitPattern>
+				<unitPattern count="other">{0} min</unitPattern>
+			</unit>
+			<unit type="angle-arc-second">
+				<unitPattern count="one">{0} sec</unitPattern>
+				<unitPattern count="other">{0} secs</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="narrow">
+			<unit type="acceleration-g-force">
+				<unitPattern count="one">{0}G</unitPattern>
+				<unitPattern count="other">{0}G</unitPattern>
+			</unit>
+			<unit type="duration-millisecond">
+				<unitPattern count="one">{0} ms</unitPattern>
+				<unitPattern count="other">{0} ms</unitPattern>
+			</unit>
+			<unit type="mass-pound">
+				<unitPattern count="one">{0}lb</unitPattern>
+				<unitPattern count="other">{0}lb</unitPattern>
+			</unit>
+			<unit type="temperature-celsius">
+				<unitPattern count="one">{0}°</unitPattern>
+				<unitPattern count="other">{0}°</unitPattern>
+			</unit>
+		</unitLength>
+		<durationUnit type="hm">
+			<durationUnitPattern>h:mm</durationUnitPattern>
+		</durationUnit>
+		<durationUnit type="hms">
+			<durationUnitPattern>h:mm:ss</durationUnitPattern>
+		</durationUnit>
+		<durationUnit type="ms">
+			<durationUnitPattern>m:ss</durationUnitPattern>
+		</durationUnit>
+	</units>
 	<listPatterns>
 		<listPattern>
-			<listPatternPart type="2">{0} and {1}</listPatternPart>
-			<listPatternPart type="end">{0} and {1}</listPatternPart>
-			<listPatternPart type="middle">{0}, {1}</listPatternPart>
 			<listPatternPart type="start">{0}, {1}</listPatternPart>
+			<listPatternPart type="middle">{0}, {1}</listPatternPart>
+			<listPatternPart type="end">{0} and {1}</listPatternPart>
+			<listPatternPart type="2">{0} and {1}</listPatternPart>
+		</listPattern>
+		<listPattern type="unit">
+			<listPatternPart type="start">{0}, {1}</listPatternPart>
+			<listPatternPart type="middle">{0}, {1}</listPatternPart>
+			<listPatternPart type="end">{0} and {1}</listPatternPart>
+			<listPatternPart type="2">{0} and {1}</listPatternPart>
 		</listPattern>
 	</listPatterns>
 </ldml>

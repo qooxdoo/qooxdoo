@@ -3572,7 +3572,7 @@ testrunner.define({
       called++;
     };
 
-    var deferred = q.function.debounce(spy, 300);
+    var deferred = q.func.debounce(spy, 300);
     deferred();
 
     window.setTimeout((function() {
@@ -3592,17 +3592,18 @@ testrunner.define({
   testFunctionDebounceWithEvents : function() {
     var callCounter = 0;
     var context;
-    var eventToCheck = "myEvent";
-    var myCallback = function() {
+    var data;
+    var myCallback = function(e) {
       callCounter++;
       context = this;
+      data = e;
     };
 
-    this.sandbox.on("myEvent", q.function.debounce(myCallback, 200), this.sandbox);
+    this.sandbox.on("myEvent", q.func.debounce(myCallback, 200), this.sandbox);
 
     var counter = 0;
     var intervalId = window.setInterval((function() {
-      this.emit("myEvent");
+      this.emit("myEvent", "interval_" + counter);
       counter++;
 
       if (counter === 20) {
@@ -3614,6 +3615,37 @@ testrunner.define({
     this.wait(1500, function() {
       this.assertEquals(1, callCounter);
       this.assertEquals(checkContext, context);
+      this.assertEquals("interval_19", data);
+    }, this);
+  },
+
+  testFunctionDebounceWithImmediateEvents : function() {
+    var callCounter = 0;
+    var context;
+    var data;
+    var myCallback = function(e) {
+      callCounter++;
+      context = this;
+      data = e;
+    };
+
+    this.sandbox.on("myEvent", q.func.debounce(myCallback, 200, true), this.sandbox);
+
+    var counter = 0;
+    var intervalId = window.setInterval((function() {
+      this.emit("myEvent", "interval_" + counter);
+      counter++;
+
+      if (counter === 20) {
+        window.clearInterval(intervalId);
+      }
+    }).bind(this.sandbox), 50);
+
+    var checkContext = this.sandbox;
+    this.wait(1500, function() {
+      this.assertEquals(1, callCounter);
+      this.assertEquals(checkContext, context);
+      this.assertEquals("interval_0", data);
     }, this);
   }
 });

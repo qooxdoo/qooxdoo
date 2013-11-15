@@ -1,0 +1,3 @@
+ul li:hover, ul:hover li:hover, ul.current {
+  color: blue;
+}

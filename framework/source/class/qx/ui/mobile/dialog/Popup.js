@@ -85,10 +85,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     }
     qx.ui.mobile.dialog.Popup.ROOT.add(this);
 
-    this.__arrow = new qx.ui.mobile.container.Composite();
-    this.__arrow.addCssClass("anchor");
-    this._add(this.__arrow);
-
     this.__anchor = anchor;
 
     if(widget) {
@@ -161,9 +157,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     __anchor: null,
     __widget: null,
     __titleWidget: null,
-    __arrow : null,
     __lastPopupDimension : null,
-    __arrowSize : 12,
 
 
     /**
@@ -171,10 +165,12 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     _updatePosition : function()
     {
-      this.__arrow.removeCssClasses(['top', 'bottom', 'left', 'right']);
-      
+      this.removeCssClasses(['top', 'bottom', 'left', 'right', 'anchor']);
+
       if(this.__anchor)
       {
+        this.addCssClass(['anchor']);
+
         var rootHeight = qx.ui.mobile.dialog.Popup.ROOT.getHeight();
         var rootWidth = qx.ui.mobile.dialog.Popup.ROOT.getWidth();
 
@@ -190,8 +186,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         }, anchorPosition, {
           left: 0,
           right: 0,
-          top: this.__arrowSize,
-          bottom: this.__arrowSize
+          top: 0,
+          bottom: 0
         }, "bottom-left", "keep-align", "keep-align");
 
         // Reset Anchor.
@@ -212,14 +208,14 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
           this._positionToCenter();
         } else {
           if (isTop) {
-            this.__arrow.addCssClass('bottom');
+            this.addCssClass('bottom');
           } else {
-            this.__arrow.addCssClass('top');
+            this.addCssClass('top');
           }
           if (isLeft) {
-            this.__arrow.addCssClass('right');
+            this.addCssClass('right');
           } else {
-            this.__arrow.addCssClass('left');
+            this.addCssClass('left');
           }
 
           this.placeTo(computedPopupPosition.left, computedPopupPosition.top);
@@ -596,7 +592,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
   destruct : function()
   {
     this.__unregisterEventListener();
-    this._disposeObjects("__childrenContainer","__arrow");
+    this._disposeObjects("__childrenContainer");
 
     this.__isShown = this.__percentageTop = this._anchor = this.__widget = this.__lastPopupDimension = null;
   }

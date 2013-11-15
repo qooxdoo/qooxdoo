@@ -86,6 +86,7 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       this.__goBackBtn = new qx.ui.mobile.toolbar.Button(
         null, mobileshowcase.page.Toolbar.__toolbarButtonImages[0]
       );
+      this.__goBackBtn.setShow("icon");
       
        this.__goBackBtn.addListener("tap", function(){
         var popup = this.__createAreYouSurePopup( this.__goBackBtn);
@@ -96,6 +97,7 @@ qx.Class.define("mobileshowcase.page.Toolbar",
         null, mobileshowcase.page.Toolbar.__toolbarButtonImages[1]
       );
       this.__loadButton.setGap(0);
+      this.__loadButton.setShow("icon");
 
       this.__loadButton.addListener("tap", function(){
         var popup = this.__createSearchPopup();
@@ -111,9 +113,9 @@ qx.Class.define("mobileshowcase.page.Toolbar",
 
       toolbar.add(searchBtn);
       toolbar.add(new qx.ui.mobile.toolbar.Separator());
-      toolbar.add( this.__goBackBtn);
+      toolbar.add(this.__goBackBtn);
       toolbar.add(new qx.ui.mobile.toolbar.Separator());
-      toolbar.add( this.__loadButton);
+      toolbar.add(this.__loadButton);
       toolbar.add(new qx.ui.mobile.toolbar.Separator());
       toolbar.add(deleteButton);
     },

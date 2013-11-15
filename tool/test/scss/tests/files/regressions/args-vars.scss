@@ -1,0 +1,11 @@
+@option style:legacy;
+
+@mixin col($color, $background: $color, $border: null) {
+  a {
+    display: block;
+    color: $color;
+    background: $background;
+  }
+}
+
+@include col(red);

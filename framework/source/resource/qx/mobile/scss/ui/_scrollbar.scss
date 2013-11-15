@@ -1,0 +1,23 @@
+//
+// SCROLLBAR 
+//
+
+.scrollbarV > div {
+  @include background-clip(padding-box);
+  @include box-sizing(border-box);
+  @include border-radius(rem(4));
+
+  background-color: #888888;
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+}
+
+.scrollbarV {
+  position: absolute;
+  top: rem(2);
+  right: rem(2);
+  bottom: 0px;
+  width: rem(6);
+  z-index: 100;
+}

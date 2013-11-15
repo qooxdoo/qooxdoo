@@ -1,0 +1,11 @@
+@option style:legacy;
+
+$helvetica-font-fallbacks: "Helvetica Neue", Arial, Helvetica, sans-serif !default;
+
+@font-face {
+    font-family: "DaxlinePro-Thin";
+}
+
+.title-thin {
+    font-family: "DaxlinePro-Thin", $helvetica-font-fallbacks;
+}

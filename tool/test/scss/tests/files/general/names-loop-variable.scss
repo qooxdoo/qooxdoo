@@ -1,0 +1,7 @@
+@option style:legacy;
+
+a {
+	@each $link_color in red, blue {
+		color: $link-color;
+	}
+}

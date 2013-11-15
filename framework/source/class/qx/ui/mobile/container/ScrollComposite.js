@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     this.addListener("touchend", this._onTouchEnd, this);
     this.addListener("swipe", this._onSwipe, this);
 
-    this._setLayout(new qx.ui.mobile.layout.VBox());
+    this._setLayout(new qx.ui.mobile.layout.HBox());
     this._add(this._scrollContainer, {flex:1});
 
     this._updateScrollIndicator(this.__lastOffset[1]);
@@ -117,13 +117,26 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       apply : "_updateScrollIndicator"
     },
 
+
+    /**
+    * This flag controls whether this widget has a fixed height
+    * or grows till the property value of <code>height</code> has reached.
+    */
+    fixedHeight :
+    {
+      init : false,
+      check : "Boolean",
+      apply : "_applyFixedHeight"
+    },
+
+
     /**
      * The height of this widget.
      * Allowed values are length or percentage values according to <a src="https://developer.mozilla.org/en-US/docs/CSS/height" target="_blank">CSS height syntax</a>.
      */
     height :
     {
-      init : "150px",
+      init : "10rem",
       check : "String",
       nullable : true,
       apply : "_applyHeight"
@@ -140,6 +153,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     __isVerticalScroll : null,
     __distanceX : null,
     __distanceY : null,
+    __preventEvents : true,
 
 
     /**
@@ -157,6 +171,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      */
     _createScrollContainer : function() {
       var scrollContainer = new qx.ui.mobile.container.Composite();
+      scrollContainer.setTransformUnit("px");
       scrollContainer.addCssClass("scroll-container-child");
       return scrollContainer;
     },
@@ -173,7 +188,9 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       this.__touchStartPoints[0] = evt.getAllTouches()[0].screenX;
       this.__touchStartPoints[1] = evt.getAllTouches()[0].screenY;
 
-      evt.stopPropagation();
+      if (this.__preventEvents === true) {
+        evt.stopPropagation();
+      }
     },
 
 
@@ -206,8 +223,10 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
       this._updateScrollIndicator(this.__currentOffset[1]);
 
-      evt.stopPropagation();
-      evt.preventDefault();
+      if (this.__preventEvents === true) {
+        evt.stopPropagation();
+        evt.preventDefault();
+      }
     },
 
 
@@ -216,7 +235,9 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * @param evt {qx.event.type.Touch} The touch event.
      */
     _onTouchEnd : function(evt) {
-      evt.stopPropagation();
+      if (this.__preventEvents === true) {
+        evt.stopPropagation();
+      }
     },
 
 
@@ -278,7 +299,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      */
     scrollTo : function(positionX, positionY) {
       var targetElement = this._scrollContainer.getContainerElement();
-      var lowerLimitY = targetElement.scrollHeight - targetElement.offsetHeight;
+
+      var lowerLimitY = targetElement.scrollHeight - this.getContentElement().clientHeight;
       var lowerLimitX = targetElement.scrollWidth - targetElement.offsetWidth - 4;
 
       var oldY = this._scrollContainer.getTranslateY();
@@ -415,8 +437,18 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
 
     // Property apply
+    _applyFixedHeight : function(value, old) {
+      this._applyHeight(this.getHeight());
+    },
+
+
+    // Property apply
     _applyHeight : function(value, old) {
-      qx.bom.element.Style.set(this._scrollContainer.getContainerElement(), "max-height", value);
+      var cssProperty = "maxHeight";
+      if (this.getFixedHeight() === true) {
+        cssProperty = "height";
+      }
+      qx.bom.element.Style.set(this.getContainerElement(), cssProperty, this.getHeight());
     },
 
 
@@ -424,7 +456,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * Deactivates any scroll easing for the scrollContainer.
      */
     _applyNoEasing : function() {
-       this._applyEasing(null);
+      this._applyEasing(null);
     },
 
 
@@ -513,6 +545,16 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     _fixChildElementsHeight : function(evt) {
       this.getContainerElement().style.height = 'auto';
       this.getContainerElement().style.height = this.getContainerElement().scrollHeight+'px';
+    },
+
+
+    /**
+     * Setter for the <code>preventEvents</code> flag, which controls whether 
+     * touch events should be passed to contained widgets.
+     * @internal
+     */
+    setPreventEvents : function(value) {
+      this.__preventEvents = value;
     }
   },
 

@@ -1,0 +1,11 @@
+@option style:legacy;
+
+@import "mixins-context";
+
+
+$fourth-color: orange;  // This variable, to be seen in mymyxin() needs to be globally declared outside below the scope.
+
+div {
+	$second-color: blue;  // This variable, declared globally from in _mixins-context is only assigned.
+	@include mymixin(yellow);
+}

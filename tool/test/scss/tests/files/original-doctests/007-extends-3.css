@@ -1,0 +1,11 @@
+.basicClass, .specialClass {
+  padding: 20px;
+  background-color: #FF0000;
+}
+.basicClass a, .specialClass a, .specialLink {
+  text-decoration: none;
+}
+.specialClass {
+  padding: 10px;
+  font-size: 14px;
+}

@@ -88,7 +88,7 @@ qx.Class.define("mobileshowcase.Application",
       var dataBinding = new mobileshowcase.page.DataBinding();
       var maps = new mobileshowcase.page.Maps();
       var canvas = new mobileshowcase.page.Canvas();
-      var themeSwitcher = new mobileshowcase.page.ThemeSwitcher();
+      var theming = new mobileshowcase.page.Theming();
 
       // Add the pages to the page manager
       var manager = new qx.ui.mobile.page.Manager();
@@ -108,7 +108,7 @@ qx.Class.define("mobileshowcase.Application",
         dataBinding,
         maps,
         canvas,
-        themeSwitcher
+        theming
       ]);
 
       // Initialize the navigation
@@ -158,6 +158,11 @@ qx.Class.define("mobileshowcase.Application",
       },this);
 
       nm.onGet("/animation", function(data) {
+        if(data && data.customData && data.customData.fromHistory === true ) {
+          data.customData.animation = "slide";
+          data.customData.fromHistory = false;
+          data.customData.reverse = (data.customData.action !== "back");
+        }
         animation.show(data.customData);
       },this);
 
@@ -202,9 +207,9 @@ qx.Class.define("mobileshowcase.Application",
         canvas.show();
       },this);
 
-      nm.onGet("/themeswitcher", function(data)
+      nm.onGet("/theming", function(data)
       {
-        themeSwitcher.show();
+        theming.show();
       },this);
 
       // start the navigation handling

@@ -30,16 +30,23 @@ qx.Bootstrap.define("qx.module.util.Function", {
      * the event should be handled (e.g. at keyboard input by the user) to prevent flooding
      * the handler with a large amounts of events.
      *
-     * @attachStatic{qxWeb, function.debounce}
+     * @attachStatic{qxWeb, func.debounce}
      * @param callback {Function} the callback which should be executed after the given delay
      * if the wrapper method is *not* called during this delay.
      * @param delay {Number} Delay in milliseconds
+     * @param immediate {Boolean} whether to run the callback at the beginning and then debounce
      * @return {Function} a wrapper function which <em>shields</em> the given callback function
      */
-    debounce : function(callback, delay)
+    debounce : function(callback, delay, immediate)
     {
       var wrapperFunction = function()
       {
+        arguments.callee.immediate = !!(immediate);
+
+        // store the current arguments at the function object
+        // to have access inside the interval method
+        arguments.callee.args = qxWeb.array.fromArguments(arguments);
+
         // it's necessary to store the context to be able to call
         // the callback within the right scope
         var context = this;
@@ -47,23 +54,28 @@ qx.Bootstrap.define("qx.module.util.Function", {
         // arguments.callee is the wrapper function itself
         // use this function object to store the 'intervalId' and the 'fired' state
         var id = arguments.callee.intervalId;
-        if (typeof id === "undefined" || id === null)
+        if (typeof id === "undefined")
         {
           // setup the interval for the first run
           var intervalId = window.setInterval((function() {
 
             // if the 'wrapperFunction' was *not* called during the last
-            // interval when can call the provided callback and clear the interval
-            if (!this.fired)
+            // interval then can call the provided callback and clear the interval
+            // except for 'immediate' mode
+            if (!this.fired && this.immediate === false)
             {
               window.clearInterval(this.intervalId);
-              this.intervalId = null;
-              callback.bind(context)();
+              delete this.intervalId;
+              callback.apply(context, this.args);
             }
             this.fired = false;
           }).bind(arguments.callee), delay);
 
           arguments.callee.intervalId = intervalId;
+
+          if (arguments.callee.immediate) {
+            callback.apply(context, arguments.callee.args);
+          }
         }
 
         // This prevents the logic to clear the interval
@@ -76,7 +88,7 @@ qx.Bootstrap.define("qx.module.util.Function", {
 
   defer : function(statics) {
     qxWeb.$attachStatic({
-      "function" : {
+      func : {
         debounce : statics.debounce
       }
     });

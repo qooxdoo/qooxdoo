@@ -1,3 +1,19 @@
+@function rem($value, $factor: 1.0) {
+  @if ($value != 0 and $value != auto) {
+    @if (unitless($value)) {
+      $value: $value * 1px;
+    }
+
+    @if (unit($factor) == "%") {
+      $factor: $factor / ($factor * 0 + 1) / 100;
+    }
+
+    $value: $factor*($value/16px) * 1rem;
+  }
+
+  @return $value;
+}
+
 @mixin tap-highlight-color($args) {
   -webkit-tap-highlight-color: $args;
   -moz-tap-highlight-color: $args;
@@ -281,90 +297,4 @@
   border-top: $size solid transparent;
   border-bottom: $size solid transparent;
   border-left: $size solid $color;
-}
-
-// From top to bottom
-@mixin gradient-vertical($begin, $end) {
-  background-image: -webkit-gradient(linear, center top, center bottom, from($begin), to($end));
-  background-image: -webkit-linear-gradient(top, $begin, $end);
-  background-image: -moz-linear-gradient(top, $begin, $end);
-  background-image: -ms-linear-gradient(top, $begin, $end);
-  background-image: linear-gradient(to bottom, $begin, $end);
-}
-
-// From top to bottom with intermediate color
-@mixin gradient-vertical-three($begin, $mid, $end, $stop: 50%) {
-  background-image: -webkit-gradient(linear, center top, center bottom, from($begin), color-stop(50%, $mid), to($end));
-  background-image: -webkit-linear-gradient(top, $begin, $mid $stop, $end);
-  background-image: -moz-linear-gradient(top, $begin, $mid $stop, $end);
-  background-image: -ms-linear-gradient(top, $begin, $mid $stop, $end);
-  background-image: linear-gradient(to bottom, $begin, $mid $stop, $end);
-}
-
-// From top to bottom with two intermediate colors
-@mixin gradient-vertical-four($begin, $mid1, $mid2, $end, $stop1: 33%, $stop2: 66%) {
-  background-image: -webkit-gradient(linear, center top, center bottom, from($begin), color-stop($stop1, $mid1), color-stop($stop2, $mid2), to($end));
-  background-image: -webkit-linear-gradient(top, $begin, $mid1 $stop1, $mid2 $stop2, $end);
-  background-image: -moz-linear-gradient(top, $begin, $mid1 $stop1, $mid2 $stop2, $end);
-  background-image: -ms-linear-gradient(top, $begin, $mid1 $stop1, $mid2 $stop2, $end);
-  background-image: linear-gradient(to bottom, $begin, $mid1 $stop1, $mid2 $stop2, $end);
-}
-
-// From top to bottom with three intermediate colors
-@mixin gradient-vertical-five($begin, $mid1, $mid2, $mid3, $end, $stop1: 25%, $stop2: 50%, $stop3: 75%) {
-  background-image: -webkit-gradient(linear, center top, center bottom, from($begin), color-stop($stop1, $mid1), color-stop($stop2, $mid2), color-stop($stop3, $mid3), to($end));
-  background-image: -webkit-linear-gradient(top, $begin, $mid1 $stop1, $mid2 $stop2, $mid3 $stop3, $end);
-  background-image: -moz-linear-gradient(top, $begin, $mid1 $stop1, $mid2 $stop2, $mid3 $stop3, $end);
-  background-image: -ms-linear-gradient(top, $begin, $mid1 $stop1, $mid2 $stop2, $mid3 $stop3, $end);
-  background-image: linear-gradient(to bottom, $begin, $mid1 $stop1, $mid2 $stop2, $mid3 $stop3, $end);
-}
-
-// From left to right
-@mixin gradient-horizontal($begin, $end) {
-  background-image: -webkit-gradient(linear, center left, center right, from($begin), to($end));
-  background-image: -webkit-linear-gradient(left, $begin, $end);
-  background-image: -moz-linear-gradient(left, $begin, $end);
-  background-image: -ms-linear-gradient(left, $begin, $end);
-  background-image: linear-gradient(to right, $begin, $end);
-}
-
-// From left to right with intermediate color
-@mixin gradient-horizontal-three($begin, $mid, $end, $stop: 50%) {
-  background-image: -webkit-gradient(linear, center left, center bottom, from($begin), color-stop($stop, $mid), to($end));
-  background-image: -webkit-linear-gradient(left, $begin, $mid $stop, $end);
-  background-image: -moz-linear-gradient(left, $begin, $mid $stop, $end);
-  background-image: -ms-linear-gradient(left, $begin, $mid $stop, $end);
-  background-image: linear-gradient(to right, $begin, $mid $stop, $end);
-}
-
-// From left to right with two intermediate colors
-@mixin gradient-horizontal-four($begin, $mid1, $mid2, $end, $stop1: 33%, $stop2: 66%) {
-  background-image: -webkit-gradient(
-    linear,
-    left bottom,
-    right top,
-    from($begin),
-    color-stop($stop1, $mid1),
-    color-stop($stop2, $mid2),
-    to($end)
-  );
-  background-image: -webkit-linear-gradient(left, $begin, $mid1 $stop1, $mid2 $stop2, $end);
-  background-image: -moz-linear-gradient(left, $begin, $mid1 $stop1, $mid2 $stop2, $end);
-  background-image: linear-gradient(to right, $begin, $mid1 $stop1, $mid2 $stop2, $end);
-}
-
-// Radial with two stops
-@mixin gradient-radial($x, $y, $begin, $stop1, $end, $stop2) {
-  background-image: -webkit-radial-gradient($x $y, circle, $begin $stop1, $end $stop2);
-  background-image: -moz-radial-gradient($x $y, circle, $begin $stop1, $end $stop2);
-  background-image: -ms-radial-gradient($x $y, circle, $begin $stop1, $end $stop2);
-  background-image: radial-gradient($x $y, circle, $begin $stop1, $end $stop2);
-}
-
-// Radial with two stops
-@mixin gradient-ellipse($x, $y, $begin, $stop1, $end, $stop2) {
-  background-image: -webkit-radial-gradient($x $y, ellipse farthest-side, $begin $stop1, $end $stop2);
-  background-image: -moz-radial-gradient($x $y, ellipse farthest-side, $begin $stop1, $end $stop2);
-  background-image: -ms-radial-gradient($x $y, ellipse farthest-side, $begin $stop1, $end $stop2);
-  background-image: radial-gradient($x $y, ellipse farthest-side, $begin $stop1, $end $stop2);
 }

@@ -1,0 +1,23 @@
+.pane {
+  ::selection,
+  :root,
+  input,
+  input#someid,
+  input[target],
+  input[type="submit"],
+  input[target=_blank],
+  input[title~=flower],
+  input[lang|=en],
+  div>input,
+  div~input,
+  div+input,
+  input:lang(it),
+  input:checked,
+  input:disabled,
+  input:not(.ex),
+  {
+    &.colored {
+      color: green;
+    }
+  }
+}

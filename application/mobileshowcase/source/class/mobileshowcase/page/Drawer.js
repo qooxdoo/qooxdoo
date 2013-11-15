@@ -50,7 +50,7 @@ qx.Class.define("mobileshowcase.page.Drawer",
       var closeDrawerButton = new qx.ui.mobile.form.Button("Close");
       closeDrawerButton.addListener("tap", function(){target.hide()},this);
 
-      var drawerContent = new qx.ui.mobile.form.Group([new qx.ui.mobile.basic.Label("This the "+target.getOrientation()+" drawer."), closeDrawerButton]);
+      var drawerContent = new qx.ui.mobile.form.Group([new qx.ui.mobile.basic.Label("This is the "+target.getOrientation()+" drawer."), closeDrawerButton]);
       return drawerContent;
     },
 
@@ -95,7 +95,7 @@ qx.Class.define("mobileshowcase.page.Drawer",
 
       // Z POSITION TOGGLE BUTTON
 
-      var frontBackToggleButton = new qx.ui.mobile.form.ToggleButton(false, "Above","Below", 13);
+      var frontBackToggleButton = new qx.ui.mobile.form.ToggleButton(false, "Above","Below");
 
       frontBackToggleButton.addListener("changeValue",function() {
         this._togglePositionZ(drawerLeft);

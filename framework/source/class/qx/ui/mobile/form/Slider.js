@@ -67,7 +67,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
   {
     this.base(arguments);
     this._registerEventListener();
-    this._updateKnobPosition();
+    this._refresh();
   },
 
 
@@ -96,7 +96,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       check : "Integer",
       init : 0,
-      apply : "_updateKnobPosition",
+      apply : "_refresh",
       event : "changeMinimum"
     },
 
@@ -109,7 +109,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       check : "Integer",
       init : 100,
-      apply : "_updateKnobPosition",
+      apply : "_refresh",
       event : "changeMaximum"
     },
 
@@ -134,7 +134,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       check : "Boolean",
       init : false,
-      apply : "_updateKnobPosition"
+      apply : "_refresh"
     },
 
 
@@ -351,7 +351,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _setValue : function(value)
     {
       this.__value = value;
-      this._updateKnobPosition();
+      this._refresh();
     },
 
     /**

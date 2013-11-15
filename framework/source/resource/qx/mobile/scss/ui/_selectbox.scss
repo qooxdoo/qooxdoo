@@ -1,0 +1,66 @@
+
+//
+// SELECTBOX
+//
+
+.selectbox {
+  @extend .hbox;
+  @extend .boxAlignCenter;
+  
+  @include user-select(none);
+  @include border-radius($selectbox-border-radius); 
+  @include background($selectbox-background);
+  
+  border:none;
+  cursor:pointer;
+
+  vertical-align:middle;
+  height: rem(32);
+
+  text-indent: rem(4);
+
+  border: rem(1) solid $selectbox-border-color;
+  color: $selectbox-text-color;
+}
+
+
+.selectbox-selected > div > .list-itemlabel:after {
+  @include transform(rotate(-45deg));
+  
+  content: '';
+  position: absolute;
+  width: rem(32);
+  height: rem(5);
+  background: transparent;
+  right: rem(2);
+  border: rem(4) solid black;
+  border-top: 0;
+  border-right: 0;
+}
+
+.selectbox-selected > div > .list-itemlabel {
+  position:relative;
+}
+
+.selectbox-selected > .list-itemimage {
+  display:none;
+}
+
+.selectbox-unselected > .list-itemimage {
+  display:none;
+}
+
+.selectbox.active {
+  @include background($selectbox-active-background);
+  color: $selectbox-active-text-color;
+}
+
+// Tick
+.selectbox-selected > div > .list-itemlabel:after {
+  border: 0px solid transparent;
+}
+
+.selectbox-selected {
+  @include background($selectbox-item-selected-background);
+  color: $selectbox-item-selected-text-color !important;
+}

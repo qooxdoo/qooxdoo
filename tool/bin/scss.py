@@ -20,12 +20,31 @@
 ################################################################################
 
 ##
-# scss.py -- a .less to .css compiler
+# scss.py -- a .scss to .css compiler
 #
-# Command-line wrapper around the pyScss module (Sass/Less/Scss compiler)
+# Command-line wrapper around the pyScss module (SCSS compiler)
 ##
 
+import sys
 import qxenviron
-from scss import tool
 
-tool.main()
+##
+# Assure that sufficient Python version is present.
+#
+# @param fn function
+#
+def __assurePython26(fn):
+    def _fn():
+        if sys.version_info >= (2, 6) and sys.version_info < (3, 0):
+            fn()
+        else:
+            sys.exit("No *.scss compilation possible - requires Python 2.6+.")
+    return _fn
+
+@__assurePython26
+def main():
+    from scss import tool
+    tool.main()
+
+if __name__ == "__main__":
+    main()

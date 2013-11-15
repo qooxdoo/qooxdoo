@@ -1,0 +1,3 @@
+@option style:legacy, short_colors:yes, reverse_colors:yes;
+a:hover { text-decoration: underline }
+.hoverlink { @extend a:hover }

@@ -1,0 +1,13 @@
+h1 {
+    $foo: black;
+    color: $foo;
+    $foo: gray;
+
+    h2 {
+        color: $foo;
+        $foo: white;
+        color: $foo;
+    }
+
+    color: $foo;
+}

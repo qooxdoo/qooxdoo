@@ -1,0 +1,13 @@
+div {
+    // nulls should be omitted from evaluated lists
+    a: (1, null, 2, null, 3);
+    // but not from literal untouched lists
+    b: 1, null, 2, null, 3;
+
+    // entirely null lists become nothing
+    c: 1 (null, null) 2;
+    // empty properties aren't printed
+    d: (null, null);
+    // and it applies recursively
+    e: (((null, 1, null), (null, 2), null), (3, null, (null, null)));
+}

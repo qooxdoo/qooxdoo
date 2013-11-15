@@ -1,0 +1,14 @@
+@option style:legacy, warn_unused:yes;
+
+@import "functions-context";
+
+#test {
+	@import "functions-context";
+	@import "imports-unused";
+	@import "imports-unused-stuff";
+	width: grid-width(10);
+}
+
+div {
+	width: grid-width(20);
+}

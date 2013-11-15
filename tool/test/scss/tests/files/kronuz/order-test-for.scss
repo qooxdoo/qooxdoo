@@ -1,0 +1,17 @@
+@option style:legacy;
+
+div {
+  @for $i from 1 through 3 {
+    font-size: $i;
+  }
+}
+
+
+@for $i from 1 through 3 {
+  p {
+    width: $i;
+  }
+  .p#{$i} {
+    height: $i;
+  }
+}

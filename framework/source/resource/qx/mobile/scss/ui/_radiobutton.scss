@@ -1,0 +1,54 @@
+// Background
+.radio {
+  @include background($radiobutton-background);
+  @include border-radius($radiobutton-size);
+
+  display: inline-block;
+
+  width: $radiobutton-size;
+  height: $radiobutton-size;
+  border: rem(1) solid $radiobutton-border-color;
+
+  text-align: center;
+  position: relative;
+
+  z-index: 10;
+
+  margin: rem(2) auto;
+
+  box-sizing: border-box;
+}
+
+// Color dot
+.radio:after {
+  @include border-radius($radiobutton-size);
+  @include box-shadow(rem(1) rem(1)  rem(1) 0 $radiobutton-dot-shadow);
+
+  position: absolute;
+  display: block;
+
+  opacity: 0;
+  content: "";
+
+  z-index: 11;
+
+  width: $radiobutton-size/2;
+  height: $radiobutton-size/2;
+
+  top: 50%;
+  left: 50%;
+  margin-top: -1*$radiobutton-size/4;
+  margin-left: -1*$radiobutton-size/4;
+
+  background: $radiobutton-dot-color;
+}
+
+.radio.checked:after {
+  opacity: 1;
+}
+
+// Triggering CSS anti-aliasing on Android devices [BUG #7847]
+.root.android .radio:after {
+  content:".";
+  color:rgba(0,0,0,0);
+}

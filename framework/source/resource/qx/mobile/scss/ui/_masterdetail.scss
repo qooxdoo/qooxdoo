@@ -1,0 +1,19 @@
+//
+// MASTER DETAIL
+//
+
+.master-detail {
+  overflow:hidden;
+}
+
+.root.portrait .drawer:not(.hidden) + .master-detail-detail {
+  pointer-events:none;
+}
+
+.master-detail-master {
+  border-right: rem(1) solid $navigationpage-border-color;
+}
+
+.master-detail.portrait .master-detail-master:not(.hidden) {
+  @include box-shadow(0px 0px rem(10) rem(8) rgba(0,0,0,0.5));
+}

@@ -20,7 +20,7 @@
 ################################################################################
 
 import os, sys, re, types
-from ecmascript.frontend import treeutil
+from ecmascript.frontend import treeutil, treegenerator
 
 ##
 # Remove features (mainly methods) from a class
@@ -28,6 +28,9 @@ from ecmascript.frontend import treeutil
 
 def patch(tree, classObj, featureMap):
     
+    # change this to 'False' if you want logging instead of function removal
+    prune_dont_log = True
+
     feature_names = featureMap[classObj.id]
     # get class map
     qxDefine = treeutil.findQxDefine(tree)
@@ -42,13 +45,21 @@ def patch(tree, classObj, featureMap):
                 else:
                     parent = node.parent
                     assert parent.type == "keyvalue"
-                    #print "pruning: %s#%s" % (classObj.id, feature)
-                    parent.parent.removeChild(parent)  # remove the entire feature from the map
-                    # remove from featureMap
-                    if feature in feature_names:
-                        del featureMap[classObj.id][feature]
-                    # decrease the ref counts of the contained dependees
-                    decrementFromCode(classObj, node, featureMap)
+                    #print "static optimizing: %s#%s" % (classObj.id, feature)
+                    if prune_dont_log:
+                        # remove sub tree
+                        parent.parent.removeChild(parent)  # remove the entire feature from the map
+                        # remove from featureMap
+                        if feature in feature_names:
+                            del featureMap[classObj.id][feature]
+                        # decrease the ref counts of the contained dependees
+                        decrementFromCode(classObj, node, featureMap)
+                    else:
+                        # OR: only add runtime logging to functions
+                        block = treeutil.selectNode(node, 'function/body/block/statements')
+                        if block:
+                            LogStmt = treegenerator.parse("console.warn('Static optimization would have removed: " + classObj.id + '#' + feature + "');")
+                            block.addChild(LogStmt, 0)
 
 ##
 # Use this if a syntax tree is being removed from the build, to decrement its

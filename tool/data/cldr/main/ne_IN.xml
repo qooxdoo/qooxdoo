@@ -6,8 +6,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9280 $"/>
+		<generation date="$Date: 2013-08-27 13:07:13 -0500 (Tue, 27 Aug 2013) $"/>
 		<language type="ne"/>
 		<territory type="IN"/>
 	</identity>
@@ -50,16 +50,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 						</dayWidth>
 					</dayContext>
 				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="wide">
-							<quarter type="1">पहिलो पाउ</quarter>
-							<quarter type="2">दोस्रो पाउ</quarter>
-							<quarter type="3">तेस्रो पाउ</quarter>
-							<quarter type="4">चौथो पाउ</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
 				<dayPeriods>
 					<dayPeriodContext type="format">
 						<dayPeriodWidth type="wide">
@@ -117,6 +107,13 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>अञ्‍चल</displayName>
 			</field>
 		</fields>
+		<timeZoneNames>
+			<metazone type="India">
+				<short>
+					<standard>IST</standard>
+				</short>
+			</metazone>
+		</timeZoneNames>
 	</dates>
 	<numbers>
 		<currencies>
@@ -128,13 +125,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</currencies>
 	</numbers>
 	<units>
-		<unit type="week">
-			<unitPattern count="one">{0} साता</unitPattern>
-		</unit>
-		<unit type="year">
-			<unitPattern count="one">{0} वर्ष</unitPattern>
-			<unitPattern count="other">{0} वर्ष</unitPattern>
-		</unit>
+		<unitLength type="long">
+			<unit type="duration-week">
+				<unitPattern count="one">{0} साता</unitPattern>
+				<unitPattern count="other">{0} सप्ताह</unitPattern>
+			</unit>
+		</unitLength>
 	</units>
 </ldml>
 

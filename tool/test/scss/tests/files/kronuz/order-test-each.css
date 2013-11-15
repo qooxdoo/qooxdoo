@@ -1,0 +1,23 @@
+div {
+  font-size: 1;
+  font-size: 2;
+  font-size: 3;
+}
+p {
+  width: 1;
+}
+.p1 {
+  height: 1;
+}
+p {
+  width: 2;
+}
+.p2 {
+  height: 2;
+}
+p {
+  width: 3;
+}
+.p3 {
+  height: 3;
+}

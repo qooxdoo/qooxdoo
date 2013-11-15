@@ -1,0 +1,78 @@
+.collapsible-content {
+  @include background($collapsible-content-background-color);
+  border: rem(1) solid $collapsible-content-border-color;
+  overflow: hidden;
+}
+
+.collapsible.combined:not(.collapsed) .collapsible-header {
+  @include border-radius-top($collapsible-border-radius);
+}
+
+.collapsible.combined.collapsed .collapsible-header {
+  @include border-radius($collapsible-border-radius);
+}
+
+.collapsible.combined .collapsible-content {
+  @include border-radius-bottom($collapsible-border-radius);
+  padding: $collapsible-content-padding; 
+}
+
+.collapsible.combined:not(.collapsed) .collapsible-content {
+  border-top: 0px solid transparent;
+} 
+
+.collapsible:not(.combined) .collapsible-header {
+  @include border-radius($collapsible-border-radius);
+  margin-bottom: $collapsible-header-content-distance;
+}
+
+.collapsible:not(.combined) .collapsible-content {
+  @include border-radius($collapsible-border-radius);
+  padding: $collapsible-content-padding;
+}
+
+.collapsible-header {
+  @include background($collapsible-header-background);
+  position:relative;
+  padding: $collapsible-header-padding;
+  border: rem(1) solid $collapsible-header-border-color;
+}
+
+.collapsible-header:not(.active) {
+  color: $collapsible-header-text-color;
+}
+
+.collapsible-header.active {
+  @include background($collapsible-header-active-background);
+  color: $collapsible-header-active-text-color;
+}
+
+.collapsible.collapsed .collapsible-header.label:after {
+  @include triangle-down($collapsible-arrow-size,$collapsible-arrow-color);
+  
+  position: absolute;
+  top: 50%;
+  right: $collapsible-header-padding;
+  margin-top:-1*($collapsible-arrow-size)/2;
+  display:block;
+  content: ""; 
+}
+
+.collapsible.collapsed .collapsible-header.active.label:after {
+  @include triangle-down($collapsible-arrow-size,$collapsible-active-arrow-color);
+}
+
+.collapsible:not(.collapsed) .collapsible-header.label:after {
+  @include triangle-up($collapsible-arrow-size,$collapsible-arrow-color);
+
+  position: absolute;
+  top: 50%;
+  right: $collapsible-header-padding;
+  margin-top:-1*($collapsible-arrow-size)/2;
+  display:block;
+  content: ""; 
+}
+
+.collapsible:not(.collapsed) .collapsible-header.active.label:after {
+  @include triangle-up($collapsible-arrow-size,$collapsible-active-arrow-color);
+}

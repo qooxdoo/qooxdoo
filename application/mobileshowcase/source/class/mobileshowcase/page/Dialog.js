@@ -92,7 +92,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       var menuModel = new qx.data.Array();
       for (var i = 0; i < 50; i++) {
         menuModel.push("Action "+i);
-      };
+      }
 
       this.__menu = new qx.ui.mobile.dialog.Menu(menuModel);
       this.__menu.setTitle("Menu");
@@ -146,16 +146,19 @@ qx.Class.define("mobileshowcase.page.Dialog",
 
       var popupGroup = new qx.ui.mobile.form.Group([],false);
       popupGroup.add(this._createGroupTitle("Popup"));
+      popupGroup.setLayout(new qx.ui.mobile.layout.VBox());
       popupGroup.add(showPopupButton,{flex:1});
       popupGroup.add(showAnchorButton,{flex:1});
 
       var menuGroup = new qx.ui.mobile.form.Group([],false);
       menuGroup.add(this._createGroupTitle("Menu"));
+      menuGroup.setLayout(new qx.ui.mobile.layout.VBox());
       menuGroup.add(showMenuButton,{flex:1});
       menuGroup.add(showAnchorMenuButton,{flex:1});
 
       var otherGroup = new qx.ui.mobile.form.Group([],false);
       otherGroup.add(this._createGroupTitle("Other"));
+      otherGroup.setLayout(new qx.ui.mobile.layout.VBox());
       otherGroup.add(busyIndicatorButton,{flex:1});
       otherGroup.add(showPickerButton,{flex:1});
 
@@ -202,7 +205,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       var slotData = [];
       for (var i = 1; i <= daysInMonth; i++) {
         slotData.push("" + i);
-      };
+      }
       return new qx.data.Array(slotData);
     },
 
@@ -215,7 +218,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       var slotData = [];
       for (var i = 0; i < names.length; i++) {
         slotData.push("" + names[i]);
-      };
+      }
       return new qx.data.Array(slotData);
     },
 
@@ -227,7 +230,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       var slotData = [];
       for (var i = new Date().getFullYear(); i > 1950; i--) {
         slotData.push("" + i);
-      };
+      }
       return new qx.data.Array(slotData);
     },
 
@@ -324,7 +327,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
     // overridden
     _stop : function() {
       if (!this.__popup) {
-        return
+        return;
       }
 
       this.__popup.hide();

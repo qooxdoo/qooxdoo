@@ -1,0 +1,10 @@
+$first-color: red;
+$second-color: magenta;
+$third-color: grey;
+
+@mixin mymixin($third-color: green) {
+	first-color: $first-color;
+	second-color: $second-color;
+	third-color: $third-color;
+	fourth-color: $fourth-color;
+}

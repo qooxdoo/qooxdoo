@@ -1,0 +1,7 @@
+@option style:legacy;
+
+p, div {
+	#{nest('&:hover, &.hover', 'a')} {
+		color: red;
+	}
+}

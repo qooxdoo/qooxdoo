@@ -1,0 +1,44 @@
+div {
+  fa: a, b, c d e f;
+  fv: c d e f;
+  ft: arglist;
+  fj: 1 2 3 c d e f;
+  fjt: list;
+  fkt: list;
+  ba: a, b, c d e f;
+  bv: c d e f;
+  bt: list;
+  bj: 1 2 3 c d e f;
+  bjt: list;
+  /*                                                                        */
+  fa: a, b, c d e;
+  fv: c d e;
+  ft: arglist;
+  fj: 1 2 3 c d e;
+  fjt: list;
+  fkt: list;
+  ba: a, b, c;
+  bv: c;
+  bt: string;
+  bj: 1 2 3 c;
+  bjt: list;
+  /*                                                                        */
+  fa: a, c, d e;
+  fv: d e;
+  ft: arglist;
+  fj: 1 2 3 d e;
+  fjt: list;
+  fkt: list;
+  ba: a, c, d;
+  bv: d;
+  bt: string;
+  bj: 1 2 3 d;
+  bjt: list;
+  /*                                                                        */
+  fa: a, hey, hoo ha;
+  fv: hoo ha;
+  ft: arglist;
+  fj: 1 2 3 hoo ha;
+  fjt: list;
+  fkt: list;
+}

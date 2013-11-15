@@ -1,0 +1,13 @@
+div {
+  content: false;
+  content: true;
+  content: var 1/2 3 4;
+  content: lit 0.5 3 4;
+  content: true;
+  /***/
+  content: 3;
+  content: number;
+  content: 1/2;
+  content: 1/2;
+  content: true;
+}

@@ -55,20 +55,20 @@ qx.Class.define("mobileshowcase.page.Overview",
       });
 
       var data = [
-          {title : "Basic Widgets", subtitle : "Atoms, Buttons, Labels, Images...", path:"basic"},
-          {title : "Dialog Widgets", subtitle : "Dialogs, Popups, Confirm Dialogs...", path:"dialog"},
-          {title : "Carousel", subtitle : "A carousel container", path:"carousel"},
-          {title : "Drawer", subtitle : "Create a drawer container", path:"drawer"},
+          {title : "Basic Widgets", subtitle : "Buttons, Labels, Images, Atoms...", path:"basic"},
+          {title : "Dialog Widgets", subtitle : "Popups, Confirm Dialogs...", path:"dialog"},
           {title : "Form Elements", subtitle : "TextField, TextArea, Checkboxes...", path:"form"},
           {title : "List", subtitle : "A large list", path:"list"},
-          {title : "Tab Bar", subtitle : "Usings tabs to switch views", path:"tab"},
-          {title : "Toolbar", subtitle : "Toolbar, Buttons, Separators", path:"toolbar"},
+          {title : "Carousel", subtitle : "A carousel container", path:"carousel"},
+          {title : "Drawer", subtitle : "Create a drawer container", path:"drawer"},
+          {title : "Tab Bar", subtitle : "Using tabs to switch views", path:"tab"},
+          {title : "Toolbar", subtitle : "Toolbar buttons and separators", path:"toolbar"},
+          {title : "Maps", subtitle : "Geolocation on a fullscreen map", path:"maps"},
+          {title : "Canvas", subtitle : "Draw onto a HTML5 canvas", path:"canvas"},
           {title : "Events", subtitle : "Touch, Tap, Swipe...", path:"event"},
           {title : "Data Binding", subtitle : "See how data binding works", path:"databinding"},
           {title : "Page Transitions", subtitle : "Slide, Fade, Cube...", path:"animation"},
-          {title : "Maps", subtitle : "Geolocation on a fullscreen map", path:"maps"},
-          {title : "Canvas", subtitle : "Have a look at HTML5 canvas", path:"canvas"},
-          {title : "Theme Switcher", subtitle : "Switch between our themes...", path:"themeswitcher"}
+          {title : "Theming", subtitle : "Modify the look of an app...", path:"theming"}
       ];
 
       list.setModel(new qx.data.Array(data));

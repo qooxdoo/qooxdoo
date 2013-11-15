@@ -1,5 +1,3 @@
-@import "../../../../${REL_QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss/common/base";
-@import "../../../../${REL_QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss/theme/styles";
+@import "common/all";
 @import "styles";
-@import "../../../../${REL_QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss/basic/basic";
-@import "../../../../${REL_QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss/theme/theme";
+@import "ui/all";

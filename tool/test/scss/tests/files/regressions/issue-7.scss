@@ -1,0 +1,7 @@
+@option style:legacy, short_colors:no;
+a.button:hover {
+color: #000000;
+}
+button:hover {
+@extend a.button:hover;
+}

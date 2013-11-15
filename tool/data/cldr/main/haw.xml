@@ -6,8 +6,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9315 $"/>
+		<generation date="$Date: 2013-09-05 11:52:00 -0500 (Thu, 05 Sep 2013) $"/>
 		<language type="haw"/>
 	</identity>
 	<localeDisplayNames>
@@ -80,7 +80,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 	<characters>
 		<exemplarCharacters>[a ā e ē i ī o ō u ū h k l m n p w ʻ]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[b c d f g j q r s t v x y z]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="unconfirmed">[A E I O U H K L M N P W ʻ B C D F G J Q R S T V X Y Z]</exemplarCharacters>
+		<exemplarCharacters type="index" draft="unconfirmed">[A E I O U B C D F G H J K L M N P Q R S T V W ʻ X Y Z]</exemplarCharacters>
 	</characters>
 	<dates>
 		<calendars>
@@ -209,11 +209,37 @@ For terms of use, see http://www.unicode.org/copyright.html
 				</timeFormats>
 			</calendar>
 		</calendars>
+		<timeZoneNames>
+			<zone type="Pacific/Honolulu">
+				<short>
+					<generic>HST</generic>
+					<standard>HST</standard>
+					<daylight>HDT</daylight>
+				</short>
+			</zone>
+			<metazone type="Alaska">
+				<short>
+					<generic>AKT</generic>
+					<standard>AKST</standard>
+					<daylight>AKDT</daylight>
+				</short>
+			</metazone>
+			<metazone type="Hawaii_Aleutian">
+				<short>
+					<generic>HAT</generic>
+					<standard>HAST</standard>
+					<daylight>HADT</daylight>
+				</short>
+			</metazone>
+		</timeZoneNames>
 	</dates>
 	<numbers>
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
-				<currencyFormat>
+				<currencyFormat type="standard">
+					<pattern>¤#,##0.00</pattern>
+				</currencyFormat>
+				<currencyFormat type="accounting">
 					<pattern>¤#,##0.00;(¤#,##0.00)</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
@@ -225,34 +251,36 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</currencies>
 	</numbers>
 	<units>
-		<unit type="day">
-			<unitPattern count="one">{0} lā</unitPattern>
-			<unitPattern count="other">{0} lā</unitPattern>
-		</unit>
-		<unit type="hour">
-			<unitPattern count="one">{0} hola</unitPattern>
-			<unitPattern count="other">{0} hola</unitPattern>
-		</unit>
-		<unit type="minute">
-			<unitPattern count="one">{0} minuke</unitPattern>
-			<unitPattern count="other">{0} minuke</unitPattern>
-		</unit>
-		<unit type="month">
-			<unitPattern count="one">{0} mahina</unitPattern>
-			<unitPattern count="other">{0} mahina</unitPattern>
-		</unit>
-		<unit type="second">
-			<unitPattern count="one">{0} kekona</unitPattern>
-			<unitPattern count="other">{0} kekona</unitPattern>
-		</unit>
-		<unit type="week">
-			<unitPattern count="one">{0} pule</unitPattern>
-			<unitPattern count="other">{0} pule</unitPattern>
-		</unit>
-		<unit type="year">
-			<unitPattern count="one">{0} makahiki</unitPattern>
-			<unitPattern count="other">{0} makahiki</unitPattern>
-		</unit>
+		<unitLength type="long">
+			<unit type="duration-day">
+				<unitPattern count="one">{0} lā</unitPattern>
+				<unitPattern count="other">{0} lā</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">{0} hola</unitPattern>
+				<unitPattern count="other">{0} hola</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">{0} minuke</unitPattern>
+				<unitPattern count="other">{0} minuke</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">{0} mahina</unitPattern>
+				<unitPattern count="other">{0} mahina</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">{0} kekona</unitPattern>
+				<unitPattern count="other">{0} kekona</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">{0} pule</unitPattern>
+				<unitPattern count="other">{0} pule</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">{0} makahiki</unitPattern>
+				<unitPattern count="other">{0} makahiki</unitPattern>
+			</unit>
+		</unitLength>
 	</units>
 </ldml>
 

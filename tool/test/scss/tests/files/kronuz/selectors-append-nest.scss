@@ -1,0 +1,10 @@
+@option style:legacy;
+
+$_current: '&.current';
+$_selectors: append(nest('&, &:hover', 'li:hover'), unquote($_current));
+
+ul {
+	#{$_selectors} {
+		color: blue;
+	}
+}

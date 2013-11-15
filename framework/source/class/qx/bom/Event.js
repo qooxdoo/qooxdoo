@@ -272,6 +272,14 @@ qx.Bootstrap.define("qx.bom.Event",
      */
     supportsEvent : function(target, type)
     {
+      // transitionEnd support can not be detected generically for Internet Explorer 10+ [BUG #7875]
+      if (type.toLowerCase().indexOf("transitionend") != -1
+          && qx.core.Environment.get("engine.name") === "mshtml" 
+          && qx.core.Environment.get("browser.documentmode") > 9) 
+      {
+        return true;
+      }
+
       // The 'transitionend' event can only be detected on window objects,
       // not DOM elements [BUG #7249]
       if (target != window && type.toLowerCase().indexOf("transitionend") != -1) {

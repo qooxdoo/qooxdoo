@@ -6,14 +6,17 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8671 $"/>
-		<generation date="$Date: 2013-05-03 14:17:48 -0500 (Fri, 03 May 2013) $"/>
+		<version number="$Revision: 9280 $"/>
+		<generation date="$Date: 2013-08-27 13:07:13 -0500 (Tue, 27 Aug 2013) $"/>
 		<language type="fr"/>
 		<territory type="CA"/>
 	</identity>
 	<localeDisplayNames>
 		<languages>
+			<language type="en_GB" alt="short" draft="contributed">anglais (GB)</language>
 			<language type="es_ES" draft="contributed">espagnol ibérique</language>
+			<language type="fy" draft="contributed">frison</language>
+			<language type="gu" draft="contributed">goudjarâtî</language>
 			<language type="ps" alt="variant" draft="contributed">ps</language>
 			<language type="pt_PT" draft="contributed">portugais ibérique</language>
 			<language type="si" draft="contributed">singhalais</language>
@@ -21,22 +24,37 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ug" draft="contributed">ouïgour</language>
 			<language type="ug" alt="variant" draft="contributed">ouïghour</language>
 			<language type="und" draft="contributed">indéterminé</language>
+			<language type="ybb" draft="contributed">yémba</language>
 		</languages>
 		<scripts>
 			<script type="Arab" alt="variant" draft="contributed">Perso-arabe</script>
+			<script type="Beng" draft="contributed">bengâglî</script>
 			<script type="Hans" draft="contributed">idéogrammes han simplifiés</script>
+			<script type="Hans" alt="stand-alone" draft="contributed">chinois simplifié</script>
 			<script type="Hant" draft="contributed">idéogrammes han traditionnels</script>
+			<script type="Hant" alt="stand-alone" draft="contributed">chinois traditionnel</script>
+			<script type="Mlym" draft="contributed">malayâlam</script>
+			<script type="Orya" draft="contributed">oriyâ</script>
+			<script type="Sinh" draft="contributed">cingalais</script>
 		</scripts>
 		<territories>
+			<territory type="053" draft="contributed">Australie et Nouvelle-Zélande</territory>
 			<territory type="AC" draft="contributed">Île de l'Ascension</territory>
+			<territory type="BL" draft="contributed">Saint-Barthélémy</territory>
+			<territory type="BY" draft="contributed">Bélarus</territory>
+			<territory type="FM" draft="contributed">Micronésie</territory>
+			<territory type="GB" alt="short" draft="contributed">GB</territory>
 			<territory type="GS" draft="contributed">Géorgie du Sud et les îles Sandwich du Sud</territory>
-			<territory type="MK" alt="variant" draft="contributed">Macédoine</territory>
-			<territory type="ST" draft="contributed">Sao Tomé-et-Principe</territory>
-			<territory type="US" alt="short">É.-U.</territory>
-			<territory type="XK">Kosovo</territory>
+			<territory type="IO" draft="contributed">Territoire britannique de l'océan Indien</territory>
+			<territory type="MF" draft="contributed">Saint-Martin</territory>
+			<territory type="PS" draft="contributed">Territoire palestinien</territory>
+			<territory type="RE" draft="contributed">Réunion</territory>
+			<territory type="TC" draft="contributed">Îles Turks et Caïques</territory>
+			<territory type="UM" draft="contributed">Îles éloignées des États-Unis</territory>
 		</territories>
 		<keys>
 			<key type="calendar" draft="contributed">Calendrier</key>
+			<key type="collation" draft="contributed">ordonnancement</key>
 			<key type="currency" draft="contributed">Devise</key>
 			<key type="numbers" draft="contributed">Chiffres</key>
 		</keys>
@@ -66,6 +84,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type type="hebr" key="numbers" draft="contributed">Chiffre hébreux</type>
 			<type type="islamic" key="calendar" draft="contributed">Calendrier musulman</type>
 			<type type="islamic-civil" key="calendar" draft="contributed">Calendrier civil musulman</type>
+			<type type="islamic-tbla" key="calendar" draft="contributed">calendrier religieux musulman</type>
+			<type type="jpan" key="numbers" draft="contributed">Chiffres japonais</type>
 			<type type="jpanfin" key="numbers" draft="contributed">Chiffres monétaires japonais</type>
 			<type type="khmr" key="numbers" draft="contributed">Chiffres khmer</type>
 			<type type="knda" key="numbers" draft="contributed">Chiffres canara</type>
@@ -203,6 +223,16 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</calendar>
 			<calendar type="gregorian">
 				<dateFormats>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern draft="contributed">EEEE d MMMM y</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern draft="contributed">d MMMM y</pattern>
+						</dateFormat>
+					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
 							<pattern>y-MM-dd</pattern>
@@ -272,9 +302,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<greatestDifference id="d">E MM-dd – E MM-dd</greatestDifference>
 							<greatestDifference id="M">E MM-dd – E MM-dd</greatestDifference>
 						</intervalFormatItem>
-						<intervalFormatItem id="y">
-							<greatestDifference id="y">y–y</greatestDifference>
-						</intervalFormatItem>
 						<intervalFormatItem id="yM">
 							<greatestDifference id="M">y-MM – y-MM</greatestDifference>
 							<greatestDifference id="y">y-MM – y-MM</greatestDifference>
@@ -301,9 +328,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<greatestDifference id="M">'du' E d MMM 'au' E d MMM y</greatestDifference>
 							<greatestDifference id="y">'du' E d MMM y 'au' E d MMM y</greatestDifference>
 						</intervalFormatItem>
-						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="M">MMMM – MMMM y</greatestDifference>
-						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
 			</calendar>
@@ -313,21 +337,84 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<relative type="-1" draft="contributed">L'année dernière</relative>
 				<relative type="0" draft="contributed">Cette année</relative>
 				<relative type="1" draft="contributed">L'année prochaine</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">Dans {0} an</relativeTimePattern>
+					<relativeTimePattern count="other">Dans {0} ans</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">Il y a {0} an</relativeTimePattern>
+					<relativeTimePattern count="other">Il y a {0} ans</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="month">
 				<relative type="-1" draft="contributed">Le mois dernier</relative>
 				<relative type="0" draft="contributed">Ce mois-ci</relative>
 				<relative type="1" draft="contributed">Le mois prochain</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">Dans {0} mois</relativeTimePattern>
+					<relativeTimePattern count="other">Dans {0} mois</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">Il y a {0} mois</relativeTimePattern>
+					<relativeTimePattern count="other">Il y a {0} mois</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="week">
 				<relative type="-1" draft="contributed">La semaine dernière</relative>
 				<relative type="0" draft="contributed">Cette semaine</relative>
 				<relative type="1" draft="contributed">La semaine prochaine</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">Dans {0} semaine</relativeTimePattern>
+					<relativeTimePattern count="other">Dans {0} semaines</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">Il y a {0} semaine</relativeTimePattern>
+					<relativeTimePattern count="other">Il y a {0} semaines</relativeTimePattern>
+				</relativeTime>
+			</field>
+			<field type="day">
+				<relativeTime type="future">
+					<relativeTimePattern count="one">Dans {0} jour</relativeTimePattern>
+					<relativeTimePattern count="other">Dans {0} jours</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">Il y a {0} jour</relativeTimePattern>
+					<relativeTimePattern count="other">Il y a {0} jours</relativeTimePattern>
+				</relativeTime>
+			</field>
+			<field type="hour">
+				<relativeTime type="future">
+					<relativeTimePattern count="one">Dans {0} heure</relativeTimePattern>
+					<relativeTimePattern count="other">Dans {0} heures</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">Il y a {0} heure</relativeTimePattern>
+					<relativeTimePattern count="other">Il y a {0} heures</relativeTimePattern>
+				</relativeTime>
+			</field>
+			<field type="minute">
+				<relativeTime type="future">
+					<relativeTimePattern count="one">Dans {0} minute</relativeTimePattern>
+					<relativeTimePattern count="other">Dans {0} minutes</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">Il y a {0} minute</relativeTimePattern>
+					<relativeTimePattern count="other">Il y a {0} minutes</relativeTimePattern>
+				</relativeTime>
+			</field>
+			<field type="second">
+				<relativeTime type="future">
+					<relativeTimePattern count="one">Dans {0} seconde</relativeTimePattern>
+					<relativeTimePattern count="other">Dans {0} secondes</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">Il y a {0} seconde</relativeTimePattern>
+					<relativeTimePattern count="other">Il y a {0} secondes</relativeTimePattern>
+				</relativeTime>
 			</field>
 		</fields>
 		<timeZoneNames>
 			<regionFormat draft="contributed">Heure de {0}</regionFormat>
-			<fallbackRegionFormat draft="contributed">Heure de {1} ({0})</fallbackRegionFormat>
 			<zone type="America/Barbados">
 				<exemplarCity draft="contributed">Barbade (La)</exemplarCity>
 			</zone>
@@ -342,9 +429,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</zone>
 			<zone type="Atlantic/Faeroe">
 				<exemplarCity draft="contributed">Îles Féroé</exemplarCity>
-			</zone>
-			<zone type="America/Godthab">
-				<exemplarCity draft="contributed">Nuuk</exemplarCity>
 			</zone>
 			<zone type="Indian/Chagos">
 				<exemplarCity draft="contributed">Archipel des Chagos</exemplarCity>
@@ -386,6 +470,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<exemplarCity draft="contributed">Uvéa</exemplarCity>
 			</zone>
 			<metazone type="America_Central">
+				<long>
+					<generic draft="contributed">heure du Centre</generic>
+					<standard draft="contributed">heure normale du Centre</standard>
+					<daylight draft="contributed">heure avancée du Centre</daylight>
+				</long>
 				<short>
 					<generic>HC</generic>
 					<standard>HNC</standard>
@@ -393,6 +482,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				</short>
 			</metazone>
 			<metazone type="America_Eastern">
+				<long>
+					<generic draft="contributed">heure de l’Est</generic>
+					<standard draft="contributed">heure normale de l’Est</standard>
+					<daylight draft="contributed">heure avancée de l’Est</daylight>
+				</long>
 				<short>
 					<generic>HE</generic>
 					<standard>HNE</standard>
@@ -407,15 +501,25 @@ For terms of use, see http://www.unicode.org/copyright.html
 				</short>
 			</metazone>
 			<metazone type="America_Pacific">
+				<long>
+					<generic draft="contributed">heure du Pacifique</generic>
+					<standard draft="contributed">heure normale du Pacifique</standard>
+					<daylight draft="contributed">heure avancée du Pacifique</daylight>
+				</long>
 				<short>
 					<generic>HP</generic>
 					<standard>HNP</standard>
 					<daylight>HAP</daylight>
 				</short>
 			</metazone>
-			<metazone type="Indonesia_Eastern">
+			<metazone type="Ecuador">
 				<long>
-					<standard draft="contributed">heure de l’Est indonésien</standard>
+					<standard draft="contributed">heure normale d’Équateur</standard>
+				</long>
+			</metazone>
+			<metazone type="French_Guiana">
+				<long>
+					<standard draft="contributed">heure de Guyane française</standard>
 				</long>
 			</metazone>
 			<metazone type="Newfoundland">
@@ -425,121 +529,31 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<daylight>HAT</daylight>
 				</short>
 			</metazone>
+			<metazone type="Uruguay">
+				<long>
+					<generic draft="contributed">heure de l'Uruguay</generic>
+					<standard draft="contributed">heure normale de l'Uruguay</standard>
+					<daylight draft="contributed">heure avancée de l'Uruguay</daylight>
+				</long>
+			</metazone>
 		</timeZoneNames>
 	</dates>
 	<numbers>
 		<currencies>
-			<currency type="AFN">
-				<symbol draft="contributed">AFN</symbol>
-			</currency>
-			<currency type="BAM">
-				<symbol draft="contributed">BAM</symbol>
-			</currency>
-			<currency type="BDT">
-				<symbol draft="contributed">BDT</symbol>
-			</currency>
 			<currency type="CAD">
 				<symbol>$</symbol>
 			</currency>
 			<currency type="CNY">
 				<symbol draft="contributed">CN¥</symbol>
 			</currency>
-			<currency type="DJF">
-				<symbol draft="contributed">DJF</symbol>
-			</currency>
 			<currency type="GYD">
 				<displayName count="one" draft="contributed">dollar guyanien</displayName>
 				<displayName count="other" draft="contributed">dollars guyaniens</displayName>
 			</currency>
-			<currency type="IDR">
-				<symbol draft="contributed">IDR</symbol>
-			</currency>
-			<currency type="MMK">
-				<symbol draft="contributed">MMK</symbol>
-			</currency>
-			<currency type="MNT">
-				<symbol draft="contributed">MNT</symbol>
-			</currency>
-			<currency type="MVR">
-				<symbol draft="contributed">MVR</symbol>
-			</currency>
-			<currency type="MYR">
-				<symbol draft="contributed">MYR</symbol>
-			</currency>
-			<currency type="PGK">
-				<symbol draft="contributed">PGK</symbol>
-			</currency>
-			<currency type="TOP">
-				<symbol draft="contributed">TOP</symbol>
-			</currency>
-			<currency type="VUV">
-				<symbol draft="contributed">VUV</symbol>
-			</currency>
 			<currency type="WST">
 				<symbol draft="contributed">WST</symbol>
 			</currency>
-			<currency type="XOF">
-				<symbol draft="contributed">F CFA</symbol>
-			</currency>
 		</currencies>
 	</numbers>
-	<units>
-		<unit type="day-future">
-			<unitPattern count="one" draft="contributed">Dans {0} jour</unitPattern>
-			<unitPattern count="other" draft="contributed">Dans {0} jours</unitPattern>
-		</unit>
-		<unit type="day-past">
-			<unitPattern count="one" draft="contributed">Il y a {0} jour</unitPattern>
-			<unitPattern count="other" draft="contributed">Il y a {0} jours</unitPattern>
-		</unit>
-		<unit type="hour-future">
-			<unitPattern count="one" draft="contributed">Dans {0} heure</unitPattern>
-			<unitPattern count="other" draft="contributed">Dans {0} heures</unitPattern>
-		</unit>
-		<unit type="hour-past">
-			<unitPattern count="one" draft="contributed">Il y a {0} heure</unitPattern>
-			<unitPattern count="other" draft="contributed">Il y a {0} heures</unitPattern>
-		</unit>
-		<unit type="minute-future">
-			<unitPattern count="one" draft="contributed">Dans {0} minute</unitPattern>
-			<unitPattern count="other" draft="contributed">Dans {0} minutes</unitPattern>
-		</unit>
-		<unit type="minute-past">
-			<unitPattern count="one" draft="contributed">Il y a {0} minute</unitPattern>
-			<unitPattern count="other" draft="contributed">Il y a {0} minutes</unitPattern>
-		</unit>
-		<unit type="month-future">
-			<unitPattern count="one" draft="contributed">Dans {0} mois</unitPattern>
-			<unitPattern count="other" draft="contributed">Dans {0} mois</unitPattern>
-		</unit>
-		<unit type="month-past">
-			<unitPattern count="one" draft="contributed">Il y a {0} mois</unitPattern>
-			<unitPattern count="other" draft="contributed">Il y a {0} mois</unitPattern>
-		</unit>
-		<unit type="second-future">
-			<unitPattern count="one" draft="contributed">Dans {0} seconde</unitPattern>
-			<unitPattern count="other" draft="contributed">Dans {0} secondes</unitPattern>
-		</unit>
-		<unit type="second-past">
-			<unitPattern count="one" draft="contributed">Il y a {0} seconde</unitPattern>
-			<unitPattern count="other" draft="contributed">Il y a {0} secondes</unitPattern>
-		</unit>
-		<unit type="week-future">
-			<unitPattern count="one" draft="contributed">Dans {0} semaine</unitPattern>
-			<unitPattern count="other" draft="contributed">Dans {0} semaines</unitPattern>
-		</unit>
-		<unit type="week-past">
-			<unitPattern count="one" draft="contributed">Il y a {0} semaine</unitPattern>
-			<unitPattern count="other" draft="contributed">Il y a {0} semaines</unitPattern>
-		</unit>
-		<unit type="year-future">
-			<unitPattern count="one" draft="contributed">Dans {0} an</unitPattern>
-			<unitPattern count="other" draft="contributed">Dans {0} ans</unitPattern>
-		</unit>
-		<unit type="year-past">
-			<unitPattern count="one" draft="contributed">Il y a {0} an</unitPattern>
-			<unitPattern count="other" draft="contributed">Il y a {0} ans</unitPattern>
-		</unit>
-	</units>
 </ldml>
 

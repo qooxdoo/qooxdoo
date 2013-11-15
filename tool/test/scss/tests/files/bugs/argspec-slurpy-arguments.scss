@@ -1,0 +1,18 @@
+@mixin box-shadow($shadows...) {
+    box-shadow: $shadows;
+}
+
+@function reduce($left, $right, $remaining...) {
+    $ret: $left + $right;
+    @if length($remaining) > 0 {
+        @return reduce($ret, $remaining...);
+    }
+    @else {
+        @return $ret;
+    }
+}
+
+.shadows {
+    @include box-shadow(0px 4px 5px #666, 2px 6px 10px #999);
+    margin: reduce(1em, 2em, 3em, 4em);
+}

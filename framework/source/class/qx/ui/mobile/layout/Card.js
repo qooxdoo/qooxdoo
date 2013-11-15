@@ -203,7 +203,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
         this.__animation = properties.animation || this.getDefaultAnimation();
 
-        properties.reverse = properties.reverse == null ? false : properties.reverse;
+        properties.reverse = properties.reverse === null ? false : properties.reverse;
 
         this.__reverse = properties.fromHistory || properties.reverse;
 
@@ -233,7 +233,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
      */
     _fixWidgetSize : function(widget) {
       if(widget) {
-        var hasResizeMixin = qx.Class.hasMixin(widget.constructor,qx.ui.mobile.core.MResize)
+        var hasResizeMixin = qx.Class.hasMixin(widget.constructor,qx.ui.mobile.core.MResize);
         if(hasResizeMixin) {
           // Size has to be fixed for animation.
           widget.fixSize();
@@ -267,9 +267,6 @@ qx.Class.define("qx.ui.mobile.layout.Card",
     __startAnimation : function(widget)
     {
       // Fix size of current and next widget, then start animation.
-      this._fixWidgetSize(this.__currentWidget);
-      this._fixWidgetSize(this.__nextWidget);
-
       this.__inAnimation = true;
 
       this.fireDataEvent("animationStart", [this.__currentWidget, widget]);
@@ -329,10 +326,6 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
         qx.bom.element.Class.removeClasses(fromElement, this.__getAnimationClasses("out"));
         qx.bom.element.Class.removeClasses(toElement, this.__getAnimationClasses("in"));
-
-        // Release fixed widget size, for further layout adaption.
-        this._releaseWidgetSize(this.__currentWidget);
-        this._releaseWidgetSize(this.__nextWidget);
 
         this._swapWidget();
         this._widget.removeCssClass("animationParent");

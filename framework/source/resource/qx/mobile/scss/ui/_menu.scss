@@ -1,0 +1,18 @@
+//
+// MENU
+// 
+
+.menu {
+  @extend .popup;
+  min-width: rem(140);
+}
+
+.menu .list {
+  border: none !important;
+  background: none;
+}
+
+.item-selected {
+  @include background($menu-item-selected-background);
+  color: $menu-item-selected-text-color !important;
+}

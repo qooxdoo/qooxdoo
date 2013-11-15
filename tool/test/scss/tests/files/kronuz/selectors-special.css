@@ -1,0 +1,9 @@
+.pane ::selection.colored, .pane :root.colored, .pane input.colored,
+.pane input#someid.colored, .pane input[target].colored,
+.pane input[type="submit"].colored, .pane input[target=_blank].colored,
+.pane input[title~=flower].colored, .pane input[lang|=en].colored,
+.pane div > input.colored, .pane div ~ input.colored, .pane div + input.colored,
+.pane input:lang(it).colored, .pane input:checked.colored,
+.pane input:disabled.colored, .pane input:not(.ex).colored {
+  color: green;
+}

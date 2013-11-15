@@ -6,8 +6,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9208 $"/>
+		<generation date="$Date: 2013-08-14 01:51:50 -0500 (Wed, 14 Aug 2013) $"/>
 		<language type="es"/>
 		<territory type="CO"/>
 	</identity>
@@ -26,23 +26,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>H:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>H:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>H:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
 				<dateTimeFormats>
 					<intervalFormats>
 						<intervalFormatFallback draft="unconfirmed">{0} a el {1}</intervalFormatFallback>
@@ -147,19 +130,24 @@ For terms of use, see http://www.unicode.org/copyright.html
 					</dateFormatLength>
 				</dateFormats>
 				<timeFormats>
+					<timeFormatLength type="full">
+						<timeFormat>
+							<pattern>h:mm:ss a (zzzz)</pattern>
+						</timeFormat>
+					</timeFormatLength>
 					<timeFormatLength type="long">
 						<timeFormat>
-							<pattern>H:mm:ss z</pattern>
+							<pattern>h:mm:ss a z</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="medium">
 						<timeFormat>
-							<pattern>H:mm:ss</pattern>
+							<pattern>h:mm:ss a</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="short">
 						<timeFormat>
-							<pattern>H:mm</pattern>
+							<pattern>h:mm a</pattern>
 						</timeFormat>
 					</timeFormatLength>
 				</timeFormats>
@@ -264,7 +252,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<currency type="COP">
 				<symbol>$</symbol>
 			</currency>
+			<currency type="USD">
+				<symbol>US$</symbol>
+			</currency>
 		</currencies>
 	</numbers>
 </ldml>
-
