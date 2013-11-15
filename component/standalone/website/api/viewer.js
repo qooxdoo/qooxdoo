@@ -574,9 +574,9 @@ q.ready(function() {
     if (data.fileName) {
       addClassDoc(data.fileName, module);
     } else if (data.desc) {
-      module.append(parse(data.desc));
+      module.append(q.create("<div>").setHtml(parse(data.desc)));
     } else if (name == "Core") {
-      module.append(parse(desc));
+      module.append(q.create("<div>").setHtml(parse(desc)));
     }
 
     if (data.events) {
