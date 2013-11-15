@@ -140,12 +140,14 @@ qx.Bootstrap.define("qxWeb", {
      *   attached to a namespace.
      * @param config {Map ? null} Class definition structure. The configuration map has the following keys:
      *     <table>
-     *       <tr><th>Name</th><th>Type</th><th>Description</th></tr>
-     *       <tr><th>extend</th><td>Class</td><td>The super class the current class inherits from.</td></tr>
-     *       <tr><th>construct</th><td>Function</td><td>The constructor of the class.</td></tr>
-     *       <tr><th>statics</th><td>Map</td><td>Map of static values / functions of the class.</td></tr>
-     *       <tr><th>members</th><td>Map</td><td>Map of instance members of the class.</td></tr>
-     *       <tr><th>defer</th><td>Function</td><td>Function that is called at the end of
+     *       <thead>
+     *         <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+     *       </thead>
+     *       <tr><td>extend</td><td>Class</td><td>The super class the current class inherits from.</td></tr>
+     *       <tr><td>construct</td><td>Function</td><td>The constructor of the class.</td></tr>
+     *       <tr><td>statics</td><td>Map</td><td>Map of static values / functions of the class.</td></tr>
+     *       <tr><td>members</td><td>Map</td><td>Map of instance members of the class.</td></tr>
+     *       <tr><td>defer</td><td>Function</td><td>Function that is called at the end of
      *          processing the class declaration.</td></tr>
      *     </table>
      * @return {Function} The defined class.
