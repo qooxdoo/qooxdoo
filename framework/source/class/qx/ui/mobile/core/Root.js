@@ -118,26 +118,49 @@ qx.Class.define("qx.ui.mobile.core.Root",
 
     /**
      * Returns the application's scale factor.
-     * @return {Number} the scale factor.
+     * @return {Number} the scale factor. For the total scale of an app, you
+     * might have to multiply this value by the device pixel ratio. The returned
+     * is rounded to three decimals for a better precision in calculations. When
+     * displaying the scale factor, you might want to round to two decimals
+     * (<code>.toFixed(2)</code>).
      */
-    getScaleFactor: function(value)
+    getScaleFactor: function()
     {
       var scaleFactor = null;
-      var fontSize = qx.bom.element.Style.get(document.documentElement, "fontSize");
+      var appScaleFactor = 1;
 
-      if (fontSize.indexOf("px") != -1)
+      // determine font-size style in percent if available
+      var fontSize = document.documentElement.style.fontSize;
+      if (fontSize.indexOf("%") !== -1) {
+        appScaleFactor = (parseInt(fontSize, 10) / 100);
+      }
+
+      // start from font-size computed style in pixels if available;
+      fontSize = qx.bom.element.Style.get(document.documentElement, "fontSize");
+      if (fontSize.indexOf("px") !== -1)
       {
         scaleFactor = parseFloat(fontSize);
+
         if (scaleFactor>15 && scaleFactor<17) {
           // iron out minor deviations from the base 16px size
           scaleFactor = 16;
         }
 
+        if (appScaleFactor !== 1) {
+          // if font-size style is set in percent
+          scaleFactor = Math.round(scaleFactor/appScaleFactor);
+        }
+
+        // relative to the 16px base font
         scaleFactor = (scaleFactor/16);
 
-        // round to a two-decimal float
-        scaleFactor = parseFloat(scaleFactor.toFixed(2));
+        // apply percentage-based font-size
+        scaleFactor *= appScaleFactor;
+
+        // round to a tree-decimal float
+        scaleFactor = parseFloat(scaleFactor.toFixed(3));
       }
+
       return scaleFactor;
     },
 
@@ -147,8 +170,7 @@ qx.Class.define("qx.ui.mobile.core.Root",
     * @param value {Number} the scale factor.
     */
     setScaleFactor : function(value) {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertNumber(value, "The scale factor is asserted to be of type Number");
       }
 
