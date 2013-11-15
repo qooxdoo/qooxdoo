@@ -131,7 +131,7 @@ qx.Class.define("mobileshowcase.page.Theming",
     * Refreshes the label which displays the pixel ratio, scale factor etc.
     */
     _updateDemoImageLabel : function() {
-      var pixelRatio = qx.core.Environment.get("device.pixelRatio");
+      var pixelRatio = parseFloat(qx.core.Environment.get("device.pixelRatio").toFixed(2));
       var scaleFactor = qx.core.Init.getApplication().getRoot().getScaleFactor();
 
       var demoLabelTemplate = "<div>Best available image for final scale<span>%1</span></div> <div><br/></div> <div>Device pixel ratio:<span>%2</span></div>  <div>Computed application scale:<span>%3</span></div> ";
@@ -146,8 +146,12 @@ qx.Class.define("mobileshowcase.page.Theming",
     * @param x {Number}
     * @return {String} the formatted number
     */
-    __format : function (x)
+    __format : function(x)
     {
+      if (x == null) {
+        return "(unknown)";
+      }
+
       x = x.toFixed(2);
       x = x.replace(/(\d)0/, "$1");
       return x;
@@ -206,7 +210,7 @@ qx.Class.define("mobileshowcase.page.Theming",
       var blocker = qx.ui.mobile.core.Blocker.getInstance();
       qx.bom.element.Style.set(blocker.getContentElement(), "transition", "all 500ms");
       qx.bom.element.Style.set(blocker.getContentElement(), "backgroundColor", "rgba(255,255,255,0)");
-      
+
       blocker.show();
 
       setTimeout(function() {
@@ -252,7 +256,7 @@ qx.Class.define("mobileshowcase.page.Theming",
       qx.bom.element.Style.set(blocker.getContentElement(), "backgroundColor", null);
       blocker.hide();
     },
-    
+
 
     /**
      * Switches the theme of the application to the target theme.
