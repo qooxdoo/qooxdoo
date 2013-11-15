@@ -49,7 +49,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
       if (contentElementHeight > parentContentElementHeight) {
         var scrollTop = this.getContentElement().scrollTop;
         var maxScrollTop = contentElementHeight - parentContentElementHeight;
-        if (scrollTop == 0) {
+        if (scrollTop === 0) {
           this.getContentElement().scrollTop = 1;
         } else if (scrollTop == maxScrollTop) {
           this.getContentElement().scrollTop = maxScrollTop - 1;
@@ -67,7 +67,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
      */
     _createScrollElement : function()
     {
-      return null
+      return null;
     },
 
 
@@ -78,7 +78,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
      */
     _getScrollContentElement : function()
     {
-      return null
+      return null;
     },
 
 

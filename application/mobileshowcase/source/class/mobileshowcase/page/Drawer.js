@@ -48,7 +48,9 @@ qx.Class.define("mobileshowcase.page.Drawer",
     /** Factory method for the a demo drawer's content. */
     _createDrawerContent : function(target) {
       var closeDrawerButton = new qx.ui.mobile.form.Button("Close");
-      closeDrawerButton.addListener("tap", function(){target.hide()},this);
+      closeDrawerButton.addListener("tap", function() {
+        target.hide();
+      }, this);
 
       var drawerContent = new qx.ui.mobile.form.Group([new qx.ui.mobile.basic.Label("This is the "+target.getOrientation()+" drawer."), closeDrawerButton]);
       return drawerContent;
@@ -123,10 +125,10 @@ qx.Class.define("mobileshowcase.page.Drawer",
       qx.bom.element.Style.set(target.getContainerElement(),"transitionDuration","0s");
 
       if(target.getPositionZ() == "above") {
-        target.setPositionZ("below")
+        target.setPositionZ("below");
       }
       else {
-        target.setPositionZ("above")
+        target.setPositionZ("above");
       }
 
       qx.event.Timer.once(function() {

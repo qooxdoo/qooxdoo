@@ -79,8 +79,6 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       qx.core.Init.getApplication().getRoot().add(this);
     }
 
-    this.__timers = [];
-
     this.__parent = this.getLayoutParent();
     this.__parent.addCssClass("drawer-parent");
 
