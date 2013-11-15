@@ -1,9 +1,12 @@
 .scroll {
   position:relative;
-
-  height:100%;
-
   overflow:hidden;
+  height:100%;
+}
+
+// Bugfix for Blackberry Z10
+.root.blackberry .scroll {
+  z-index: 0;
 }
 
 .iscroll {
