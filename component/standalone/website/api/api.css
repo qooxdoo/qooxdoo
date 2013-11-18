@@ -70,6 +70,7 @@ body {
   border: none;
   font-size: 14px;
   padding: 7px 5px;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   background-color: transparent;
   outline: none;
@@ -292,16 +293,22 @@ body {
   border: 1px solid #DDD;
   background-color: #F6F6F6;
   color: #3d72c9;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-family: "Batch";
   font-size: 30px;
-  line-height: 1em;
+  line-height: 30px;
   z-index: 200;
 
   -moz-transition: left 500ms;
   -webkit-transition: left 500ms;
   -o-transition: left 500ms;
   transition: left 500ms;
+}
+
+#showNav::-moz-focus-inner {
+  padding: 0;
+  border: 0;
 }
 
 ul {
