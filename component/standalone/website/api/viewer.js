@@ -854,17 +854,18 @@ q.ready(function() {
 
       // wait for the accordion pages to be measured
       var buttonTops;
+      var listOffset = q("#list").getPosition().top;
       setTimeout(function() {
         acc.fadeIn(200);
         buttonTops = [];
         acc.find(".qx-accordion-button").forEach(function(button, index) {
-          buttonTops[index] = (button.offsetTop);
+          buttonTops[index] = (q(button).getPosition().top);
         });
       }, 200);
 
 
       acc.on("changeSelected", function(index) {
-        var buttonTop = buttonTops[index];
+        var buttonTop = buttonTops[index] - listOffset;
         var scrollTop = q("#navContainer").getProperty("scrollTop");
         q("#navContainer").animate({
           duration: 500,
