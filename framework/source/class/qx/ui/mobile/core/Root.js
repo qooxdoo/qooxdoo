@@ -47,6 +47,13 @@ qx.Class.define("qx.ui.mobile.core.Root",
 
     qx.event.Registration.addListener(window, "orientationchange", this._onOrientationChange, this);
 
+    // Bugfix #7717 - On iOS7 the headers are partially covered by the browser's chrome.
+    if (qx.core.Environment.get("os.name") == "ios" && qx.core.Environment.get("os.version").substring(0, 1) == "7") {
+      qx.bom.Element.addListener(window, "scroll", function() {
+        window.scrollTo(0, 0);
+      });
+    }
+
     this._onOrientationChange();
   },
 
@@ -229,10 +236,7 @@ qx.Class.define("qx.ui.mobile.core.Root",
       // Bugfix #7717 - On iOS7 the headers are partially covered by the browser's chrome.
       if(qx.core.Environment.get("os.name") == "ios" && qx.core.Environment.get("os.version").substring(0,1) == "7") {
         document.documentElement.style.height = window.innerHeight + "px";
-
-        qx.bom.Element.addListener(window,"scroll",function() {
-          window.scrollTo(0, 0);
-        });
+        window.scrollTo(0, 0);
       }
     }
   },
