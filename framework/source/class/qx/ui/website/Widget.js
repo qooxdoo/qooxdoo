@@ -35,6 +35,22 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
   extend : qxWeb,
 
   statics : {
+
+    /**
+     * Factory method for the widget which converts a standard
+     * collection into a collection of widgets.
+     *
+     * @return {qx.ui.website.Widget} A collection of widgets.
+     *
+     * @attach {qxWeb}
+     */
+    widget : function() {
+      var widgets = new qx.ui.website.Widget(this);
+      widgets.init();
+      return widgets;
+    },
+
+
     /**
      * Creates a new collection from the given argument. This can either be an
      * HTML string, a single DOM element or an array of elements
@@ -118,6 +134,12 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
   members : {
     __cssPrefix : null,
 
+
+    /**
+     * Responsible for initializing of the widget. This checks for the data attribute
+     * named <code>data-qx-class</code> and initializes the widget if necessary.
+     * @return {Boolean} <code>true</code> if the widget has been initialized
+     */
     init : function() {
       if (this.getProperty("$$qx-widget-initialized")) {
         return false;
@@ -161,7 +183,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
 
     /**
      * Returns weather the first widget in the collection is enabled or not.
-     * 
+     *
      * @return {Boolean} The enabled state of the collection.
      */
     getEnabled : function() {
@@ -169,19 +191,49 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
     },
 
 
-
+    /**
+     * Setter for the widget-specific templates. The available templates can
+     * be found in the documentation of the corresponding widget. The templates
+     * will be rendered using
+     * <a href='https://github.com/janl/mustache.js/'>mustache.js</a>.
+     *
+     * Please keep in mind to call {@link widget.render} after you change any
+     * template or config setting.
+     *
+     * @param name {String} The name of the template.
+     * @param tamplate {String} The template string.
+     *
+     * @return {qx.ui.website.Widget} The widget instance for chaining.
+     */
     setTemplate : function(name, template) {
       return this._setData("templates", name, template);
     },
 
 
-
+    /**
+     * Setter for the widget-specific config. The available config settings can
+     * be found in the documentation of the corresponding widget. Each config
+     * setting can be set in the markup as data-attribute, prefixed with
+     * <code>data-qx</code> e.g. <code>data-qx-length="5"</code>.
+     *
+     * Please keep in mind to call {@link widget.render} after you change any
+     * template or config setting.
+     *
+     * @param name {String} The name of the config.
+     * @return {qx.ui.website.Widget} The widget instance for chaining.
+     */
     setConfig : function(name, config) {
       return this._setData("config", name, config);
     },
 
 
-
+    /**
+     * Helper to set either config or template values.
+     *
+     * @param type {String} Either <code>templates</code> or <code>config</code>.
+     * @param name {String} The name for the value to store.
+     * @param data {var} The data to store.
+     */
     _setData : function(type, name, data) {
       this.forEach(function(item) {
         if (!item[type]) {
@@ -194,16 +246,41 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
     },
 
 
+    /**
+     * Returns the used template. This includes custom templates
+     * as the default templates defined by the widgets.
+     *
+     * @param name {String} The name of the template.
+     * @return {String} The template string or <code>undefined</code>.
+     */
     getTemplate : function(name) {
       return this._getData("templates", name);
     },
 
 
+    /**
+     * Returns the config setting currently in use for the given widget.
+     * This can either be the user set config value, the value set in
+     * the markup via data-attribute, the widgets default config value or
+     * <code>undefined</code>, if non is set.
+     *
+     * @param name {String} The name of the config.
+     * @return {var} The value of the config or <code>undefined</code>.
+     */
     getConfig : function(name) {
       return this._getData("config", name);
     },
 
 
+    /**
+     * Internal helper for querying the values for templates and configs. In the
+     * case of a config value, the method also reads the corresponding data-attribute
+     * for possible values.
+     * 
+     * @param type {String} Either <code>templates</code> or <code>config</code>.
+     * @param name {String} The name for the value to fetch.
+     * @return {var} The value store for the given arguments.
+     */
     _getData : function(type, name) {
       var storage = this.getProperty(type);
       var item;
@@ -235,12 +312,24 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
     },
 
 
+    /**
+     * The render method is responsible for applying changed config
+     * and template settings. This method is usually overridden and specified
+     * by the subclassing widgets like the slider or tabs.
+     *
+     * @return {qx.ui.website.Widget} The widget collection for chaining.
+     */
     render : function() {
       // empty method
+      return this;
     },
 
 
-
+    /**
+     * Disposing of widget which makes sure all objects are ready for
+     * garbage collection. This is mainly deleting connections to the
+     * DOM including event listeners.
+     */
     dispose : function() {
       this.removeAttribute("data-qx-class");
       this.setProperty("config", undefined);
@@ -263,7 +352,8 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
   defer : function(statics) {
     qxWeb.$attach({
       onWidget : statics.onWidget,
-      offWidget : statics.offWidget
+      offWidget : statics.offWidget,
+      widget: statics.widget
     });
     qxWeb.$attachStatic({
       initWidgets : statics.initWidgets
