@@ -109,27 +109,27 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.__picker = this._createPicker(showPickerButton);
 
       // ANCHORED MENU POPUP
-      var showAnchorMenuButton = new qx.ui.mobile.form.Button("Anchor Menu");
-      showAnchorMenuButton.addListener("tap", function(e) {
-          this._stop();
-          this.__anchorMenu.show();
-      }, this);
-
       var anchorMenuModel = new qx.data.Array(["Red", "Green", "Blue"]);
       this.__anchorMenu = new qx.ui.mobile.dialog.Menu(anchorMenuModel, showAnchorMenuButton);
       this.__anchorMenu.setTitle("Colors");
 
       // BUTTONS
+     
+      var showAnchorMenuButton = new qx.ui.mobile.form.Button("Anchor Menu");
+      showAnchorMenuButton.addListener("tap", function(e) {
+        this._stop();
+        this.__anchorMenu.show();
+      }, this);
       var showModalDialogButton = new qx.ui.mobile.form.Button("Modal Popup");
       showModalDialogButton.addListener("tap", function(e) {
-          this._stop();
-          this.__modalDialogPopup.show();
+        this._stop();
+        this.__modalDialogPopup.show();
       }, this);
 
       var showPopupButton = new qx.ui.mobile.form.Button("Popup");
       showPopupButton.addListener("tap", function(e) {
-          this._stop();
-          this.__popup.show();
+        this._stop();
+        this.__popup.show();
       }, this);
 
       var busyIndicatorButton = new qx.ui.mobile.form.Button("Busy Indicator");
@@ -140,8 +140,8 @@ qx.Class.define("mobileshowcase.page.Dialog",
 
       var showMenuButton = new qx.ui.mobile.form.Button("Menu");
       showMenuButton.addListener("tap", function(e) {
-          this._stop();
-          this.__menu.show();
+        this._stop();
+        this.__menu.show();
       }, this);
 
       var popupGroup = new qx.ui.mobile.form.Group([],false);
@@ -236,11 +236,46 @@ qx.Class.define("mobileshowcase.page.Dialog",
 
 
     /**
+     * Creates the popup widget to show when backButton is tapped
+     */
+    __createAnchorPopup : function(anchor)
+    {
+      if (this.__anchorPopup) {
+        return this.__anchorPopup;
+      }
+
+      var popupWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
+      popupWidget.add(new qx.ui.mobile.basic.Label("Are you sure?"));
+
+      var buttonsWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
+      var okButton = new qx.ui.mobile.form.Button("Yes");
+      var cancelButton = new qx.ui.mobile.form.Button("No");
+
+      buttonsWidget.add(okButton, {
+        flex: 1
+      });
+      buttonsWidget.add(cancelButton, {
+        flex: 1
+      });
+      popupWidget.add(buttonsWidget);
+
+      okButton.addListener("tap", function() {
+        this.__anchorPopup.hide();
+      }, this);
+      cancelButton.addListener("tap", function() {
+        this.__anchorPopup.hide();
+      }, this);
+
+      return new qx.ui.mobile.dialog.Popup(popupWidget, anchor);
+    },
+
+
+    /**
      * Reacts on "changeSelection" event on picker, and displays the values on resultsLabel.
      */
     __onPickerChangeSelection : function(e) {
       if (e.getData().slot > 0) {
-        this._updatePickerDaySlot();
+        setTimeout(this._updatePickerDaySlot.bind(this), 100);
       }
       this.__resultsLabel.setValue("Received <b>changeSelection</b> from Picker Dialog. [slot: "+ e.getData().slot+ "] [item: "+ e.getData().item+"]");
     },
@@ -278,9 +313,9 @@ qx.Class.define("mobileshowcase.page.Dialog",
     __onPickerConfirmSelection : function(e) {
       this.__resultsLabel.setValue("");
 
-      for(var i =0; i<e.getData().length;i++) {
+      for (var i = 0; i < e.getData().length; i++) {
         var data = e.getData()[i];
-        this.__resultsLabel.setValue(this.__resultsLabel.getValue()+ " Received <b>confirmSelection</b> from Picker Dialog. [slot: "+ data.slot+ "] [item: "+ data.item+"] <br>");
+        this.__resultsLabel.setValue(this.__resultsLabel.getValue() + " Received <b>confirmSelection</b> from Picker Dialog. [slot: " + data.slot + "] [item: " + data.item + "] <br>");
       }
     },
 
@@ -290,37 +325,6 @@ qx.Class.define("mobileshowcase.page.Dialog",
      */
     __onMenuChangeSelection : function(e) {
        this.__resultsLabel.setValue("Received <b>changeSelection</b> from Menu Dialog. [index: "+ e.getData().index+ "] [item: "+ e.getData().item+"]");
-    },
-
-
-    /**
-     * Creates the popup widget to show when backButton is tapped
-     */
-    __createAnchorPopup : function(anchor)
-    {
-      if(this.__anchorPopup) {
-        return this.__anchorPopup;
-      }
-
-      var popupWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
-      popupWidget.add(new qx.ui.mobile.basic.Label("Are you sure?"));
-      
-      var buttonsWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
-      var okButton = new qx.ui.mobile.form.Button("Yes");
-      var cancelButton = new qx.ui.mobile.form.Button("No");
-
-      buttonsWidget.add(okButton, {flex:1});
-      buttonsWidget.add(cancelButton, {flex:1});
-      popupWidget.add(buttonsWidget);
-
-      okButton.addListener("tap", function(){
-        this.__anchorPopup.hide();
-      }, this);
-      cancelButton.addListener("tap", function(){
-        this.__anchorPopup.hide();
-      }, this);
-
-      return new qx.ui.mobile.dialog.Popup(popupWidget, anchor);
     },
 
 
