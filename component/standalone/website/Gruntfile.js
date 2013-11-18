@@ -43,6 +43,13 @@ module.exports = function(grunt) {
         src: ['api/samples/*.js'],
         dest: 'api/script/samples.js'
       }
+    },
+
+    watch: {
+      samples: {
+        files: ['api/samples/*.js'],
+        tasks: ['concat:samples']
+      },
     }
   };
 
@@ -55,6 +62,7 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   // 'extend' API job
   grunt.task.renameTask('api', 'generate-api');
