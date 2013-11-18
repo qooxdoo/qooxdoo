@@ -11,8 +11,9 @@
 .carousel-scroller {
   @include transition(all ease-out);
   @include transform(translate3d(0,0,0));
-  vertical-align:top;
-  text-align:left;
+  vertical-align: top;
+  text-align: left;
+  overflow:hidden;
 }
 
 .carousel-page {
