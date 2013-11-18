@@ -72,6 +72,8 @@
  *   </tbody>
  * </table>
  *
+ * <h2 class="widget-markup">Example DOM Structure</h2>
+ *
  * @require(qx.module.Template)
  * @require(qx.module.Animation)
  *

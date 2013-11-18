@@ -28,7 +28,7 @@ addSample("rating.render", {
 
 addSample(".rating", {
   javascript: function() {
-    q.create("<div>").rating().appendTo(document);
+    q.create("<div>").rating(3, "π", 7).appendTo(document);
   },
   executable: true
 });
@@ -36,7 +36,8 @@ addSample(".rating", {
 addSample(".rating", {
   html: ['<div id="target"></div>'],
   javascript: function() {
-    q("#target").rating(3, "π", 7);
+    q("#target").rating();
   },
-  executable: true
+  executable: true,
+  showMarkup: true
 });
