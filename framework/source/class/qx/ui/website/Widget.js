@@ -235,21 +235,6 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
     },
 
 
-    setSelectable : function(value) {
-      if (!this[0]) {
-        return;
-      }
-      var contentElement = this.eq(0);
-      contentElement.setAttribute("qxSelectable", value ? "on" : "off");
-      var userSelect = qx.core.Environment.get("css.userselect");
-      if (userSelect) {
-        contentElement.setStyle(userSelect, value ? "text" :
-          qx.core.Environment.get("css.userselect.none"));
-      }
-      return this;
-    },
-
-
     render : function() {
       // empty method
     },
