@@ -265,6 +265,8 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       var weeks = [];
       var startOfWeek = 1;
 
+      var cssPrefix = this.getCssPrefix();
+
       var helpDate = new Date(date.getFullYear(), date.getMonth(), 1);
 
       var firstDayOfWeek = helpDate.getDay();
@@ -279,11 +281,11 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
         var data = {row: []};
 
         for (var i=0; i<7; i++) {
-          var cssClasses = helpDate.getMonth() !== date.getMonth() ? "othermonth" : "";
+          var cssClasses = helpDate.getMonth() !== date.getMonth() ? cssPrefix + "-othermonth" : "";
           if (this.getProperty("value")) {
-            cssClasses += helpDate.toDateString() === this.getProperty("value").toDateString() ? " selected" : "";
+            cssClasses += helpDate.toDateString() === this.getProperty("value").toDateString() ? " " + cssPrefix + "-selected" : "";
           }
-          cssClasses += today.toDateString() === helpDate.toDateString() ? " today" : "";
+          cssClasses += today.toDateString() === helpDate.toDateString() ? " " + cssPrefix + "-today" : "";
 
           data.row.push({
             day: helpDate.getDate(),
