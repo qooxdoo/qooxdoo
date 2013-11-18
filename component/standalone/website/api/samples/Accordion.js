@@ -1,5 +1,5 @@
 addSample(".accordion", {
-  html : [
+  html: [
     '<div id="accordion-example">',
     '  <ul>',
     '    <li><button data-qx-tab-page="#page0">First Page</button></li>',
@@ -10,8 +10,24 @@ addSample(".accordion", {
     '</div>'
   ],
   javascript: function() {
-    q("#accordion-example").accordion();
+q("#accordion-example").accordion();
   },
   executable: true,
   showMarkup: true
+});
+
+addSample(".accordion", {
+  javascript: function() {
+    // programmatic Accordion creation (no pre-existing markup)
+    var accordion = q.create('<div></div>')
+    .appendTo(document.body)
+    .accordion()
+    .addButton('First Page', '#page0');
+
+    accordion.find("ul").append(q.create('<li id="page0" class="qx-accordion-page">First Page Content</li>'));
+    accordion.addButton('Second Page', '#page1')
+    .find("ul").append(q.create('<li id="page1" class="qx-accordion-page">Second Page Content</li>'));
+    accordion.render();
+  },
+  executable: true
 });
