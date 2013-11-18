@@ -25,6 +25,51 @@
  * buttons to switch to the next or previous month as well as a button for
  * each day in the month.
  *
+ * <h2>CSS Classes</h2>
+ * <table>
+ *   <thead>
+ *     <tr>
+ *       <td>Class Name</td>
+ *       <td>Applied to</td>
+ *       <td>Description</td>
+ *     </tr>
+ *   </thead>
+ *   <tbody>
+ *     <tr>
+ *       <td><code>qx-calendar</code></td>
+ *       <td>Container element</td>
+ *       <td>Identifies the Calendar widget</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-calendar-prev</code></td>
+ *       <td><code>button</code></td>
+ *       <td>Identifies and styles the "previous month" button</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-calendar-next</code></td>
+ *       <td><code>button</code></td>
+ *       <td>Identifies and styles the "next month" button</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-calendar-othermonth</code></td>
+ *       <td>Day cell (<code>td</code>)</td>
+ *       <td>Identifies and styles calendar cells for days from the previous or following month</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-calendar-day</code></td>
+ *       <td>Day (<code>button</code>)</td>
+ *       <td>Identifies and styles the day buttons</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-calendar-selected</code></td>
+ *       <td>Day cell (<code>td</code>)</td>
+ *       <td>Identifies and styles the cell containing the selected day's button</td>
+ *     </tr>
+ *   </tbody>
+ * </table>
+ *
+ * <h2 class="widget-markup">Example DOM Structure</h2>
+ *
  * @require(qx.module.Template)
  *
  * @group (Widget)
