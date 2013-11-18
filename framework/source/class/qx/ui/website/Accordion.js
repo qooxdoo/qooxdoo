@@ -209,9 +209,7 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
             showAnim = qxWeb.object.clone(showAnim, true);
             showAnim.duration = 1;
             page.setStyle("height", "")
-            .once("animationStart", function() {
-              page.show();
-            })
+            .show()
             .once("animationEnd",  function() {
               this._storeInitialStyles(page);
               if (!button.hasClass(cssPrefix + "-button-active")) {
