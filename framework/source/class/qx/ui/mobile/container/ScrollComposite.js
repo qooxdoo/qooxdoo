@@ -566,6 +566,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     /**
      * Setter for the <code>preventEvents</code> flag, which controls whether 
      * touch events should be passed to contained widgets.
+     * @param value {Boolean} flag if the events will be prevented.
      * @internal
      */
     setPreventEvents : function(value) {
