@@ -214,10 +214,10 @@ body {
   bottom: 0;
   right: 0;
 
-  -moz-transition: left 500ms;
-  -webkit-transition: left 500ms;
-  -o-transition: left 500ms;
-  transition: left 500ms;
+  -moz-transition: left 500ms, top 500ms;
+  -webkit-transition: left 500ms, top 500ms;
+  -o-transition: left 500ms, top 500ms;
+  transition: left 500ms, top 500ms;
 }
 
 #content h1 {
@@ -453,6 +453,7 @@ p {
   }
 
   #content {
+    top: 67px;
     left: 10px;
   }
 
