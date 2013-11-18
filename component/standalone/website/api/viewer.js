@@ -51,6 +51,17 @@ q.ready(function() {
     "Plugin_API": "&#xF063;"
   };
 
+  var listOrder = [
+    "Core",
+    "Extras",
+    "IO",
+    "Event_Normalization",
+    "Utilities",
+    "Polyfill",
+    "Widget",
+    "Plugin_API"
+  ];
+
   var configReplacements = q.$$qx.core.Environment.get("apiviewer.modulenamereplacements");
   var replacements = [];
   for (var exp in configReplacements) {
@@ -390,6 +401,29 @@ q.ready(function() {
     groupPage.append(ul);
   };
 
+  var sortList = function() {
+    var groups = {};
+    q("#list").find(">ul > .qx-accordion-button").forEach(function(li) {
+      li = q(li);
+      var groupName = li.getData("qxTabPage").replace("#list-group-", "");
+      var next = li.getNext()[0];
+      li.remove();
+      next.remove();
+      groups[groupName] = [
+        li[0],
+        next
+      ];
+    });
+
+    listOrder.forEach(function(groupName) {
+      q("#list >ul").append(groups[groupName]);
+      delete groups[groupName];
+    });
+
+    for (var groupName in groups) {
+      q("#list >ul").append(groups[groupName]);
+    }
+  };
 
   var isMethodMissing = function(name, classname) {
     var checkMissing = q.$$qx.core.Environment.get("apiviewer.check.missingmethods");
@@ -848,6 +882,7 @@ q.ready(function() {
       extractPluginApi();
       moveMethodsToReturnTypes();
       renderList();
+      sortList();
       renderContent();
       loadSamples();
       var acc = q("#list").accordion();
