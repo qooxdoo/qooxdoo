@@ -25,13 +25,27 @@ body {
   overflow: auto;
   border: none;
 
-  -moz-transition: left 500ms;
-  -webkit-transition: left 500ms;
-  -o-transition: left 500ms;
-  transition: left 500ms;
+  -moz-transition: left 500ms, top 500ms;
+  -webkit-transition: left 500ms, top 500ms;
+  -o-transition: left 500ms, top 500ms;
+  transition: left 500ms, top 500ms;
+}
+
+#navContainer:after {
+  content: ' ';
+  background-color: white;
+  display: block;
+  position: fixed;
+  top: inherit;
+  left: inherit;
+  width: 264px;
+  height: 21px;
 }
 
 .filter {
+  position: fixed;
+  background-color: white;
+  width: 261px;
   border-radius: 5px;
   margin-bottom: 10px;
   border: 1px solid #DDD;
@@ -63,6 +77,8 @@ body {
 
 #list {
   overflow-y: auto;
+  max-width: 261px;
+  margin-top: 50px;
 }
 
 #list > ul {
@@ -421,6 +437,7 @@ p {
 @media (max-width: 800px),
 (orientation:portrait) {
   #navContainer {
+    top: 67px;
     left : -295px;
     border-right: 1px solid #DDD;
   }
