@@ -575,10 +575,6 @@ q.ready(function() {
       addClassDoc(data.fileName, module);
     } else if (data.desc) {
       module.append(q.create("<div>").setHtml(parse(data.desc)));
-      if (module.find(".widget-markup").length > 0) {
-        var html = getWidgetMarkup(name.toLowerCase());
-        html.appendTo(module.getChildren().getLast());
-      }
 
     } else if (name == "Core") {
       module.append(q.create("<div>").setHtml(parse(desc)));
@@ -608,19 +604,6 @@ q.ready(function() {
     data["member"].forEach(function(method) {
       module.append(renderMethod(method, prefix));
     });
-  };
-
-  var getWidgetMarkup = function(name) {
-    var playpen = q("#playpen");
-    var widget = q.create("<div>")[name]().appendTo(playpen);
-    var html = playpen.getHtml();
-    html = html.replace(/></g, ">\n<");
-    textNode = document.createTextNode(html);
-    widget.dispose();
-    playpen.setHtml("");
-    var codeEl =  q.create("<code>");
-    codeEl[0].appendChild(textNode);
-    return q.create("<pre class='markup'>").append(codeEl);
   };
 
 
@@ -1301,6 +1284,34 @@ q.ready(function() {
     }
   };
 
+
+  var appendWidgetMarkup = function(methodName, sample) {
+    if (!sample.showMarkup) {
+      return;
+    }
+    var moduleName = q.string.firstUp(methodName.substr(1));
+    var markupHeader = q("#" + moduleName).getParents().find(".widget-markup");
+    var pen = q("#playpen");
+    if (sample.html) {
+      pen.setHtml(sample.html.join("\n"));
+    }
+    sample.javascript();
+    var html = pen.getHtml();
+    var textNode = document.createTextNode(html);
+    var codeEl = q.create('<code>');
+    codeEl[0].appendChild(textNode);
+    var preEl = q.create('<pre class="markup">').append(codeEl)
+    .insertAfter(markupHeader);
+
+    if (useHighlighter) {
+      hljs.highlightBlock(preEl[0]);
+    }
+
+    pen.find(".qx-widget").dispose();
+    pen.setHtml("");
+  };
+
+
   /**
    * Adds sample code to a method's documentation. Code can be supplied wrapped in
    * a function or as a map with one or more of the keys js, css and html.
@@ -1349,6 +1360,7 @@ q.ready(function() {
       method.append(headerElement);
     }
 
+    appendWidgetMarkup(methodName, sampleMap);
     appendSample(sampleMap, headerElement);
     scrollContentIntoView();
   };
