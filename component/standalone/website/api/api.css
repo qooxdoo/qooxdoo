@@ -239,6 +239,11 @@ body {
 #header {
   width: auto;
   padding-left: 15px;
+
+  -moz-transition: padding-top 500ms, padding-bottom 500ms;
+  -webkit-transition: padding-top 500ms, padding-bottom 500ms;
+  -o-transition: padding-top 500ms, padding-bottom 500ms;
+  transition: padding-top 500ms, padding-bottom 500ms;
 }
 
 #header h1 {
@@ -249,10 +254,10 @@ body {
   white-space: nowrap;
   z-index: 20;
 
-  -moz-transition: left 500ms;
-  -webkit-transition: left 500ms;
-  -o-transition: left 500ms;
-  transition: left 500ms;
+  -moz-transition: left 500ms, font-size 500ms, padding-top 500ms;
+  -webkit-transition: left 500ms, font-size 500ms, padding-top 500ms;
+  -o-transition: left 500ms, font-size 500ms, padding-top 500ms;
+  transition: left 500ms, font-size 500ms, padding-top 500ms;
 }
 
 #header-wrapper {
@@ -428,7 +433,14 @@ p {
     left: 0;
   }
 
+  #header {
+    padding-top: 15px;
+    padding-bottom: 10px;
+  }
+
   #header h1 {
     left: 0;
+    font-size: 25px;
+    padding-top: 3px;
   }
 }
