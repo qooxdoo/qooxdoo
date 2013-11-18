@@ -243,6 +243,16 @@ q.ready(function() {
       if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
         var ast = JSON.parse(xhr.responseText);
         var moduleName = ast.attributes.name;
+        getByType(ast, "methods-static").children = [];
+        if (data[moduleName]) {
+          data[moduleName].member.forEach(function(method) {
+            var attach = getByType(method, "attach");
+            var prefix = attach.attributes.targetClass == "qxWeb" ? "" : attach.attributes.targetClass;
+            prefix += "." + method.attributes.name;
+            method.attributes.prefixedMethodName = prefix;
+            getByType(ast, "methods").children.unshift(method);
+          });
+        }
         data[moduleName] = {
           type: "class",
           ast : ast,
