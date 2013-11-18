@@ -49,9 +49,12 @@ body {
   border-radius: 5px;
   margin-bottom: 10px;
   border: 1px solid #DDD;
-  -webkit-box-shadow: inset 1px 1px 1px rgba(50, 50, 50, 0.75);
-  -moz-box-shadow: inset 1px 1px 1px rgba(50, 50, 50, 0.75);
-  box-shadow: inset 1px 1px 1px rgba(50, 50, 50, 0.75);
+  -webkit-box-shadow: inset 1px 1px 1px rgba(50, 50, 50, 0.75),
+  0 5px 10px 10px white;
+  -moz-box-shadow: inset 1px 1px 1px rgba(50, 50, 50, 0.75),
+  0 5px 10px 10px white;
+  box-shadow: inset 1px 1px 1px rgba(50, 50, 50, 0.75),
+  0 5px 10px 10px white;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
