@@ -411,6 +411,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       this.__carouselWidth = qx.bom.element.Dimension.getWidth(this.getContentElement());
 
       qx.bom.element.Style.set(this.__carouselScroller.getContentElement(), "width", this.__pages.length * this.__carouselWidth + "px");
+      qx.bom.element.Style.set(this.__carouselScroller.getContentElement(), "height", this.getHeight() + "px");
 
       this.__pageWidth = this.__carouselWidth;
 
@@ -667,7 +668,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       if (this.__paginationLabels.length) {
         var paginationLabelWidth = 1.5 * qx.bom.element.Dimension.getWidth(this.__paginationLabels[0].getContentElement());
         var paginationWidth = paginationLabelWidth * this.__paginationLabels.length;
-        
+
         var margin = "0px";
         var left = null;
         var translate = (this.__carouselWidth / 2) - newActiveIndex * paginationLabelWidth;
@@ -680,6 +681,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
         qx.bom.element.Style.set(this.__pagination.getContentElement(), "marginLeft", margin);
         qx.bom.element.Style.set(this.__pagination.getContentElement(), "left", left);
+        qx.bom.element.Style.set(this.__pagination.getContentElement(), "width", paginationWidth + "rem");
+        
         this.__pagination.setTranslateX(translate);
       }
     },
