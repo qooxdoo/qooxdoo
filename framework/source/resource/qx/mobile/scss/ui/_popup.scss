@@ -4,10 +4,11 @@
 
 $dialog-arrow-space: rem(2);
 
+
+
 .popup {
   @include background($dialog-background);
   @include border-radius($dialog-border-radius);
-  @include box-shadow(0px rem(2) rem(7) 0px rgba(0,0,0,0.5));
 
   position: absolute;
   width: auto;
@@ -23,6 +24,14 @@ $dialog-arrow-space: rem(2);
 
   border: rem(2) solid $dialog-border-color;
   color: $dialog-title-text-color; 
+}
+
+.root.ios .popup {
+  -webkit-filter: drop-shadow(0 rem(2) rem(7) rgba(0,0,0,0.5));
+}
+
+.root:not(.ios) .popup {
+  @include box-shadow(0px rem(2) rem(7) 0px rgba(0,0,0,0.5));
 }
 
 .popup-title {
