@@ -174,6 +174,8 @@ qx.Bootstrap.define("qx.ui.website.Slider",
      * Sets the current value of the slider.
      *
      * @param value {Integer} new value of the slider
+     *
+     * @return {qx.ui.website.Slider} The collection for chaining
      */
     setValue : function(value)
     {
@@ -230,6 +232,10 @@ qx.Bootstrap.define("qx.ui.website.Slider",
     },
 
 
+    /**
+     * Returns the content that should be displayed in the knob
+     * @return {String} knob content
+     */
     _getKnobContent : function() {
       return qxWeb.template.render(
         this.getTemplate("knobContent"), {value: this.getValue()}
@@ -237,12 +243,20 @@ qx.Bootstrap.define("qx.ui.website.Slider",
     },
 
 
+    /**
+     * Returns half of the slider knob's width, used for positioning
+     * @return {Integer} half knob width
+     */
     _getHalfKnobWidth : function() {
       var knobWidth = this.getChildren("." + this.getCssPrefix() + "-knob").getWidth();
       return parseInt(knobWidth / 2, 10);
     },
 
 
+    /**
+     * Returns the boundaries (in pixels) of the slider's range of motion
+     * @return {Map} a map with the keys <code>min</code> and <code>max</code>
+     */
     _getDragBoundaries : function()
     {
       var paddingLeft = parseInt(this.getStyle("paddingLeft") || 0);
@@ -256,8 +270,10 @@ qx.Bootstrap.define("qx.ui.website.Slider",
 
 
     /**
-     * Creates a lookup table to get the pixel values for each slider step.
-     * And computes the "breakpoint" between two steps in pixel.
+     * Creates a lookup table to get the pixel values for each slider step
+     * and computes the "breakpoint" between two steps in pixel.
+     *
+     * @return {Integer[]} list of pixel values
      */
     _getPixels : function()
     {
@@ -425,29 +441,49 @@ qx.Bootstrap.define("qx.ui.website.Slider",
     },
 
 
+    /**
+     * Prevents drag event propagation
+     * @param e {Event} e drag start event
+     */
     _onDragStart : function(e) {
       e.stopPropagation();
       e.preventDefault();
     },
 
 
+    /**
+     * Delegates the Slider's focus to the knob
+     * @param e {Event} focus event
+     */
     _onSliderFocus : function(e) {
       this.getChildren("." + this.getCssPrefix() + "-knob").focus();
     },
 
 
+    /**
+     * Attaches the event listener for keyboard support to the knob on focus
+     * @param e {Event} focus event
+     */
     _onKnobFocus : function(e) {
       this.getChildren("." + this.getCssPrefix() + "-knob")
         .onWidget("keydown", this._onKeyDown, this);
     },
 
 
+    /**
+     * Removes the event listener for keyboard support from the knob on blur
+     * @param e {Event} blur event
+     */
     _onKnobBlur : function(e) {
       this.getChildren("." + this.getCssPrefix() + "-knob")
         .offWidget("keydown", this._onKeyDown, this);
     },
 
 
+    /**
+     * Moves the knob if the left or right arrow key is pressed
+     * @param e {Event} keydown event
+     */
     _onKeyDown : function(e) {
       var newValue;
       var currentValue = this.getValue();

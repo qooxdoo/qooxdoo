@@ -69,7 +69,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * @attach {qxWeb}
      * @param type {String} Type of the event to listen for
      * @param listener {Function} Listener callback
-     * @param context {Object?} Context the callback function will be executed in.
+     * @param ctx {Object?} Context the callback function will be executed in.
      * Default: The element on which the listener was registered
      * @param useCapture {Boolean?} Attach the listener to the capturing
      * phase if true.
@@ -95,7 +95,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * @attach {qxWeb}
      * @param type {String} Type of the event to listen for
      * @param listener {Function} Listener callback
-     * @param context {Object?} Context the callback function will be executed in.
+     * @param ctx {Object?} Context the callback function will be executed in.
      * Default: The element on which the listener was registered
      * @param useCapture {Boolean?} Attach the listener to the capturing
      * phase if true.
@@ -173,6 +173,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * elements and all its children.
      *
      * @param value {Boolean} The enabled value.
+     * @return {qx.ui.website.Widget} The collection for chaining
      */
     setEnabled : function(value) {
       this.setAttribute("disabled", !value);
@@ -201,7 +202,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * template or config setting.
      *
      * @param name {String} The name of the template.
-     * @param tamplate {String} The template string.
+     * @param template {String} The template string.
      *
      * @return {qx.ui.website.Widget} The widget instance for chaining.
      */
@@ -219,7 +220,8 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * Please keep in mind to call {@link widget.render} after you change any
      * template or config setting.
      *
-     * @param name {String} The name of the config.
+     * @param name {String} The name of the config setting.
+     * @param config {var} The value of the config setting.
      * @return {qx.ui.website.Widget} The widget instance for chaining.
      */
     setConfig : function(name, config) {
@@ -233,6 +235,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * @param type {String} Either <code>templates</code> or <code>config</code>.
      * @param name {String} The name for the value to store.
      * @param data {var} The data to store.
+     * @return {qx.ui.website.Widget} The widget instance for chaining.
      */
     _setData : function(type, name, data) {
       this.forEach(function(item) {
@@ -276,7 +279,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * Internal helper for querying the values for templates and configs. In the
      * case of a config value, the method also reads the corresponding data-attribute
      * for possible values.
-     * 
+     *
      * @param type {String} Either <code>templates</code> or <code>config</code>.
      * @param name {String} The name for the value to fetch.
      * @return {var} The value store for the given arguments.
@@ -327,8 +330,9 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
 
     /**
      * Disposing of widget which makes sure all objects are ready for
-     * garbage collection. This is mainly deleting connections to the
+     * garbage collection. This mainly means deleting connections to the
      * DOM including event listeners.
+     * @return {qxWeb} Plain qxWeb collection
      */
     dispose : function() {
       this.removeAttribute("data-qx-class");

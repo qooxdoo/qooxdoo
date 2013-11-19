@@ -143,6 +143,10 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
 
   events : {
+    /**
+     * Fired when the selected page has changed. The value is
+     * the newly selected page's index
+     */
     "changeSelected" : "Number"
   },
 

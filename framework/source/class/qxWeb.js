@@ -347,6 +347,7 @@ qx.Bootstrap.define("qxWeb", {
      * @param func {Function} Callback function. Will be called with three arguments:
      * The element, the element's index within the collection and the collection itself.
      * @param ctx {Object} The context for the callback function (default: The collection)
+     * @return {q} The collection for chaining
      */
     _forEachElement : function(func, ctx) {
       for (var i=0, l=this.length; i<l; i++) {
@@ -366,6 +367,7 @@ qx.Bootstrap.define("qxWeb", {
      * The element wrappend in a collection, the element's index within the collection and
      * the collection itself.
      * @param ctx {Object} The context for the callback function (default: The collection)
+     * @return {q} The collection for chaining
      */
     _forEachElementWrapped : function(func, ctx) {
       this._forEachElement(function(item, idx, arr) {
