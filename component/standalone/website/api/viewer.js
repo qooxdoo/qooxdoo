@@ -349,37 +349,44 @@ q.ready(function() {
     var checkMissing = q.$$qx.core.Environment.get("apiviewer.check.missingmethods");
     var className = convertNameToCssClass(id, "nav-");
 
+    var factoryName;
     var group = data.group;
     var ul = q.create("<ul></ul>");
     data["static"].forEach(function(ast) {
       if (!group && ast.attributes.group) {
         group = ast.attributes.group;
       }
-      var name = getMethodName(ast, prefix);
+      var methodName = getMethodName(ast, prefix);
       var missing = false;
       if (checkMissing !== false) {
-        missing = isMethodMissing(name, data.classname);
+        missing = isMethodMissing(methodName, data.classname);
       }
       q.template.get("list-item", {
-        name: name + "()",
-        classname: convertNameToCssClass(name, "nav-"),
+        name: methodName + "()",
+        classname: convertNameToCssClass(methodName, "nav-"),
         missing: missing,
-        link: name,
-        plugin: isPluginMethod(name)
+        link: methodName,
+        plugin: isPluginMethod(methodName)
       }).appendTo(ul);
     });
     data["member"].forEach(function(ast) {
       if (!group && ast.attributes.group) {
         group = ast.attributes.group;
       }
-      var name = getMethodName(ast, prefix);
-      var missing = isMethodMissing(name, data.classname);
+      var methodName = getMethodName(ast, prefix);
+      var methodIsFactory = isFactory(ast, name);
+      factoryName = methodIsFactory ? methodName + "()": factoryName;
+      if (methodIsFactory) {
+        return;
+      }
+
+      var missing = isMethodMissing(methodName, data.classname);
       q.template.get("list-item", {
-        name: name + "()",
-        classname: convertNameToCssClass(name, "nav-"),
+        name: methodName + "()",
+        classname: convertNameToCssClass(methodName, "nav-"),
         missing: missing,
-        link: name,
-        plugin: isPluginMethod(name)
+        link: methodName,
+        plugin: isPluginMethod(methodName)
       }).appendTo(ul);
     });
 
@@ -405,7 +412,9 @@ q.ready(function() {
     }
 
     if (name !== "Core") {
-      groupPage.append(q.create('<a href="#' + id + '"><h2 class="nav-' + id + '">' + name + '</h2></a>'));
+      var headerText = factoryName || name;
+      var header = q.create('<h2 class="nav-' + id + '">' + headerText + '</h2>');
+      groupPage.append(q.create('<a href="#' + id + '"></a>').append(header));
     }
 
     groupPage.append(ul);
@@ -433,6 +442,23 @@ q.ready(function() {
     for (var groupName in groups) {
       q("#list >ul").append(groups[groupName]);
     }
+  };
+
+  var isFactory = function(ast, moduleName) {
+    var type;
+    var returnType = getByType(ast, "return");
+    returnType && getByType(returnType, "types").children.forEach(function(item) {
+      type = item.attributes.type;
+    });
+    if (type) {
+      var returnModuleName = getModuleNameFromClassName(type);
+      var attach = getByType(ast, "attach");
+      if (!attach.attributes.targetClass) {
+        attach = getByType(ast, "attachStatic");
+      }
+      return returnModuleName == moduleName && attach.attributes.targetClass == "qxWeb";
+    }
+    return false;
   };
 
   var isMethodMissing = function(name, classname) {
@@ -647,7 +673,12 @@ q.ready(function() {
       module.append(renderMethod(method, prefix));
     });
     data["member"].forEach(function(method) {
-      module.append(renderMethod(method, prefix));
+      var methodDoc = renderMethod(method, prefix);
+      if (isFactory(method, name)) {
+        methodDoc.addClass("factory");
+        module.append(q.create("<h2>Factory Method</h2>"));
+      }
+      module.append(methodDoc);
     });
   };
 

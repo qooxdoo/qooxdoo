@@ -237,6 +237,10 @@ body {
   margin-bottom: 0;
 }
 
+#content .factory h2 {
+  margin-top: 5px;
+}
+
 #content h4 {
   color: #3d72c9;
   font-weight: bold;
