@@ -477,7 +477,8 @@ qx.Bootstrap.define("qx.bom.element.Style",
           // Then we must use the <code>getComputedStyle</code> of the document
           // where the element is defined.
 
-          var getStyle = qx.dom.Node.getDocument(element).defaultView.getComputedStyle;
+          var doc = qx.dom.Node.getDocument(element);
+          var getStyle = doc.defaultView ? doc.defaultView.getComputedStyle : undefined;
 
           if (getStyle !== undefined)
           {
