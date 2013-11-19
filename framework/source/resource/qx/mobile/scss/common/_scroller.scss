@@ -44,4 +44,6 @@
 .scroll.native {
   -webkit-overflow-scrolling:touch;
   overflow:scroll;
+  -ms-touch-chaining:none;
+  -ms-touch-action:pan-y;
 }

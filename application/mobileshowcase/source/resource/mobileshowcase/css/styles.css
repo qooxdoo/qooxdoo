@@ -2,6 +2,8 @@
 /* EVENT */
 
 .eventcontainer {
+  -ms-touch-action: none;
+
   position:relative;
   overflow:hidden;
 
@@ -9,6 +11,8 @@
 }
 
 .container-touch-area {
+  -ms-touch-action: none;
+
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#000000), color-stop(100%,#555555));
   background: -webkit-linear-gradient(top, #000000 0%,#555555 100%);
   background: -moz-linear-gradient(top, #000000 0%,#555555 100%);
