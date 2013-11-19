@@ -13,6 +13,8 @@
   margin-left: ($slider-knob-width/2); 
   margin-right: ($slider-knob-width/2);
 
+  -ms-touch-action: none;
+
   border: rem(1) solid $slider-border-color;
 }
 

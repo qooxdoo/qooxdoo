@@ -109,17 +109,17 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.__picker = this._createPicker(showPickerButton);
 
       // ANCHORED MENU POPUP
+          var showAnchorMenuButton = new qx.ui.mobile.form.Button("Anchor Menu");
+      showAnchorMenuButton.addListener("tap", function(e) {
+        this._stop();
+        this.__anchorMenu.show();
+      }, this);
+
       var anchorMenuModel = new qx.data.Array(["Red", "Green", "Blue"]);
       this.__anchorMenu = new qx.ui.mobile.dialog.Menu(anchorMenuModel, showAnchorMenuButton);
       this.__anchorMenu.setTitle("Colors");
 
       // BUTTONS
-     
-      var showAnchorMenuButton = new qx.ui.mobile.form.Button("Anchor Menu");
-      showAnchorMenuButton.addListener("tap", function(e) {
-        this._stop();
-        this.__anchorMenu.show();
-      }, this);
       var showModalDialogButton = new qx.ui.mobile.form.Button("Modal Popup");
       showModalDialogButton.addListener("tap", function(e) {
         this._stop();

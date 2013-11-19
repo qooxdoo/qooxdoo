@@ -137,6 +137,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
     _addInScrollComposite : function(item,name) {
       var scrollContainer = new qx.ui.mobile.container.ScrollComposite();
       scrollContainer.setFixedHeight(true);
+      scrollContainer.setShowScrollIndicator(false);
       scrollContainer.add(item, {
         flex: 1
       });

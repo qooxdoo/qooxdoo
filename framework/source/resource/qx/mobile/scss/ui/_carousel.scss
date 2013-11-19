@@ -6,6 +6,8 @@
   overflow:hidden;
   position:relative;
   text-align: center;
+
+  -ms-touch-action: pan-y;
 }
 
 .carousel-scroller {

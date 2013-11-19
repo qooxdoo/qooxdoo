@@ -4,8 +4,6 @@
 
 $dialog-arrow-space: rem(2);
 
-
-
 .popup {
   @include background($dialog-background);
   @include border-radius($dialog-border-radius);

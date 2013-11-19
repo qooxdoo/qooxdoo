@@ -28,6 +28,8 @@
  
   position:relative;
   overflow:hidden;
+
+  -ms-touch-action:none;
 }
 
 .scroll-container-child {
@@ -41,4 +43,5 @@
 .scroll.native {
   -webkit-overflow-scrolling:touch;
   overflow:scroll;
+  
 }
