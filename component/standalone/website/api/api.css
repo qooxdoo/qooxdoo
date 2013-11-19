@@ -45,7 +45,7 @@ body {
 .filter {
   position: fixed;
   background-color: white;
-  width: 261px;
+  width: 260px;
   border-radius: 5px;
   margin-bottom: 10px;
   border: 1px solid #DDD;
@@ -60,7 +60,8 @@ body {
 }
 
 .filter span {
-  margin: 0 0 0 10px;
+  float: left;
+  margin: 5px 5px 0 10px;
   font-size: 14px;
   font-family: "Batch";
   font-weight: bold;
@@ -68,11 +69,11 @@ body {
 }
 
 .filter input {
-  display: table-cell;
-  width: 89%;
+  width: 224px;
+  margin: 2px 0 1px 0;
   border: none;
   font-size: 14px;
-  padding: 7px 5px;
+  padding:7px 5px;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   background-color: transparent;
