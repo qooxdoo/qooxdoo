@@ -20,21 +20,6 @@
 /**
  * Module for mediaqueries evaluation. The module is a wrapper for media.match.js,
  * that implements a polyfill for window.matchMedia when it's not supported natively.
- *
- * Usage:
- *
- * <pre class="javascript">
- * qxWeb.matchMedia("screen and (min-width: 480px)").matches; // true or false
- * </pre>
- *
- * or
- * <pre class="javascript">
- * var mql = qxWeb.matchMedia("screen and (min-width: 480px)");
- * mql.on("change",function(mql){
- *  //Do your stuff
- * });
- * </pre>
- *
  */
 qx.Bootstrap.define("qx.module.MatchMedia", {
 
