@@ -48,8 +48,30 @@ module.exports = function(grunt) {
     watch: {
       samples: {
         files: ['api/samples/*.js'],
-        tasks: ['concat:samples']
+        tasks: ['concat:samples', "notify:samples"]
       },
+      "api-data": {
+        files: ['../../../framework/source/**/*.js'],
+        tasks: ['api-data', "notify:apidata"]
+      }
+    },
+
+    notify: {
+      samples: {
+        options: {
+          message: 'Samples build and saved.'
+        }
+      },
+      apidata: {
+        options: {
+          message: 'API-Data generated.'
+        }
+      },
+      api: {
+        options: {
+          message: 'API-Viewer generated.'
+        }
+      }
     }
   };
 
@@ -63,12 +85,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-notify');
 
   // 'extend' API job
   grunt.task.renameTask('api', 'generate-api');
   grunt.task.registerTask(
     'api',
     'Concat the samples and generate the API.',
-    ["concat:samples", "generate-api"]
+    ["concat:samples", "generate-api", "notify:api"]
   );
 };
