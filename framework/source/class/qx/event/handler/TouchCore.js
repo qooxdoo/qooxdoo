@@ -261,7 +261,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
         }
       }
 
-      this._fireEvent(domEvent, type);
+      this._fireEvent(domEvent, type, this.__originalTarget);
       this.__checkAndFireGesture(domEvent, type);
     },
 
@@ -478,7 +478,6 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     __gestureEnd : function(domEvent, target)
     {
       this.__onMove = false;
-
       // delete the long tap
       this.__stopLongTapTimer();
 
@@ -507,7 +506,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
               eventType = qx.event.type.Swipe;
             }
             domEvent.swipe = swipe;
-            this._fireEvent(domEvent, "swipe", target, eventType);
+            this._fireEvent(domEvent, "swipe", this.__originalTarget, eventType);
           }
         }
       }
@@ -528,7 +527,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       var duration = new Date().getTime() - this.__startTime;
       var axis = (Math.abs(deltaCoordinates.x) >= Math.abs(deltaCoordinates.y)) ? "x" : "y";
       var distance = deltaCoordinates[axis];
-      var direction = clazz.SWIPE_DIRECTION[axis][distance < 0 ? 0 : 1]
+      var direction = clazz.SWIPE_DIRECTION[axis][distance < 0 ? 0 : 1];
       var velocity = (duration !== 0) ? distance/duration : 0;
 
       var swipe = null;
