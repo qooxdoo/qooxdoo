@@ -4,7 +4,11 @@ qx.Class.define("qx.test.performance.widget.WidgetWithDecorator",
 
   construct : function() {
     this.base(arguments);
-    this.__decorator = new qx.ui.decoration.Single(1, "solid", "red");
+    this.__decorator = new qx.ui.decoration.Decorator().set({
+      width: 1,
+      style: "solid",
+      color: "red"
+    });
   },
 
   members :
