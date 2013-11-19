@@ -418,7 +418,7 @@ q.ready(function() {
       var groupName = li.getData("qxTabPage").replace("#list-group-", "");
       var next = li.getNext()[0];
       li.remove();
-      next.remove();
+      next.parentNode.removeChild(next);
       groups[groupName] = [
         li[0],
         next
@@ -1246,13 +1246,13 @@ q.ready(function() {
     var el = q(location.hash.replace(".", "\\."));
     if (el.length > 0) {
       el[0].scrollIntoView();
-    }
 
-    var listSelector = el[0].id ? ".nav-" + el[0].id.replace(".", "") : null;
-    if (listSelector) {
-      var page = q(listSelector).getAncestors(".qx-accordion-page");
-      var index = q("#list .qx-accordion-page").indexOf(page);
-      q("#list").select(index);
+      var listSelector = el[0].id ? ".nav-" + el[0].id.replace(".", "") : null;
+      if (listSelector) {
+        var page = q(listSelector).getAncestors(".qx-accordion-page");
+        var index = q("#list .qx-accordion-page").indexOf(page);
+        q("#list").select(index);
+      }
     }
 
   }, 300);
