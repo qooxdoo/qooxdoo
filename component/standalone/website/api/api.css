@@ -145,6 +145,12 @@ body {
   margin-right: 15px;
 }
 
+.module h1 span {
+  font-size: 65%;
+  color: #262626;
+  font-weight: 600;
+}
+
 #list .qx-accordion-button-active {
   border-bottom: 1px solid #DDD;
   background-color: #3d72c9;

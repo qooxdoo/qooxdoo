@@ -601,20 +601,21 @@ q.ready(function() {
       newName = newName[newName.length -1];
       var ignore = IGNORE_TYPES.indexOf(newName) != -1 ||
                    MDC_LINKS[data.superclass] !== undefined;
+      var link = newName;
+      if (newName == "qxWeb") {
+        link = "Core";
+        newName = "q";
+        ignore = false;
+      }
 
       var superClass = ignore ? newName :
-      "<a href='#" + newName + "'>" + newName + "</a>";
-      module.append(q.create(
-        "<div class='extends'><h2>Extends</h2>" +
-        superClass +
-        "</div>"
-      ));
+      "<span> extends <a href='#" + link + "'>" + newName + "</a></span>";
+      module.getChildren("h1").append(q.create(superClass));
 
       if (!ignore) {
         loadClass(data.superclass);
       }
     }
-
     if (data.fileName) {
       addClassDoc(data.fileName, module);
     } else if (data.desc) {
