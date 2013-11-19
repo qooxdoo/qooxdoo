@@ -2,7 +2,6 @@
   position:relative;
   overflow:hidden;
   height:100%;
-
 }
 
 // Bugfix for Blackberry Z10
@@ -42,8 +41,9 @@
 }
 
 .scroll.native {
-  -webkit-overflow-scrolling:touch;
   overflow:scroll;
-  -ms-touch-chaining:none;
+  
+  -webkit-overflow-scrolling:touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
   -ms-touch-action:pan-y;
 }
