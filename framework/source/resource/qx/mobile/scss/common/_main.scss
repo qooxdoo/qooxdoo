@@ -73,6 +73,10 @@ img.no-content {
   position:relative;
 }
 
+.root canvas {
+  -ms-touch-action: none;
+}
+
 // ANDROID BUGFIXES
 
 // Bugfix for Android 2.x, adds a scale(1) to the element,
