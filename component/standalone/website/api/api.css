@@ -127,6 +127,10 @@ body {
   line-height: 17px;
 }
 
+#list .qx-accordion-button.no-matches {
+  pointer-events: none;
+}
+
 #list .qx-accordion-button.no-matches:after {
   background-color: #ddd;
 }
