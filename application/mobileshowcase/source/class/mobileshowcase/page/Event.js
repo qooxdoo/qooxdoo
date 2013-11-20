@@ -209,7 +209,7 @@ qx.Class.define("mobileshowcase.page.Event",
       this.__initialScale = this.__currentScale;
 
       if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
-         this._getScrollContainer().enable();
+        this._getScrollContainer().enable();
       }
     },
 
