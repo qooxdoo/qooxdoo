@@ -47,8 +47,11 @@ qx.Bootstrap.define("qx.bom.client.Event",
      * @internal
      * @return {Boolean} <code>true</code> if pointer events are supported.
      */
-    getMsPointer : function() {
-      if ("msPointerEnabled" in window.navigator || "pointerEnabled" in window.navigator) {
+    getMsPointer : function()
+    {
+      if ("pointerEnabled" in window.navigator) {
+        return window.navigator.pointerEnabled;
+      } else if ("msPointerEnabled" in window.navigator) {
         return window.navigator.msPointerEnabled;
       }
 
