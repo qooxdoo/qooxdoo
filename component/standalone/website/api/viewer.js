@@ -90,12 +90,7 @@ q.ready(function() {
     }
 
     debouncedHideFiltered(value);
-    debouncedRenderList();
   });
-
-  var debouncedRenderList = q.func.debounce(function() {
-    q("#list").render();
-  }, 500);
 
   var debouncedHideFiltered = q.func.debounce(function(value) {
     hideFiltered(value);
@@ -128,6 +123,8 @@ q.ready(function() {
         groupButton.removeClass("no-matches");
       }
     });
+
+    q("#list").render();
   };
 
 

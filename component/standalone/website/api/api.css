@@ -171,16 +171,16 @@ body {
 
 #list .qx-accordion-page {
   list-style: none;
+  padding-bottom: 10px;
+  margin-bottom: 0;
 }
 
 #list .qx-accordion-page ul {
   border-bottom: 1px solid #DDD;
   padding-bottom: 10px;
   list-style: none;
-}
-
-#list .qx-accordion-page ul:last-child {
-  border-bottom: none;
+  margin-top: 10px;
+  margin-bottom: 0;
 }
 
 #list .qx-accordion-page ul > li {
@@ -189,10 +189,6 @@ body {
   -webkit-transition: opacity 1s;
   -o-transition: opacity 1s;
   transition: opacity 1s;
-}
-
-#list .qx-accordion-page ul > li:first-child {
-  margin-top: 10px;
 }
 
 #list .qx-accordion-page ul > li a {
