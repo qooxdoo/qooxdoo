@@ -556,7 +556,7 @@ class PartBuilder(object):
         def isCommon(package, collapse_group):
             return sum([int(package in part.packages) for part in collapse_group]) == len(collapse_group)
 
-        def getUniquePackages(part, collapse_group, packages):
+        def getUniquePackages(part, collapse_group):
             uniques = {}
             for package in part.packages:
                 if isUnique(package, collapse_group):
@@ -568,7 +568,7 @@ class PartBuilder(object):
             return uniques
         getUniquePackages.key = 'unique'
 
-        def getCommonPackages(part, collapse_group, packages):
+        def getCommonPackages(part, collapse_group):
             commons = {}
             for package in part.packages:
                 if isCommon(package, collapse_group):
@@ -588,11 +588,11 @@ class PartBuilder(object):
                 while oldpackages != part.packages:
                     oldpackages = part.packages[:]
                     for package in reversed(part.packagesSorted):   # start with "smallest" package
-                        selected_packages = selectFunc(part, collapse_group, script.packages)
-                                                # have to re-calculate, to account for modified script.packages
+                        selected_packages = selectFunc(part, collapse_group) # re-calculate b.o. modified part.packages
                         if package.id in selected_packages:
-                            mergedPackage, targetPackage = self._mergePackage(package, script, selected_packages.values(), seen_targets)
-                            if mergedPackage:   # on success == package
+                            (mergedPackage, 
+                            targetPackage) = self._mergePackage(package, script, selected_packages.values(), seen_targets)
+                            if mergedPackage:   # on success: mergedPackage == package
                                 script.packages.remove(mergedPackage)
                                 curr_targets.add(targetPackage)
 
@@ -626,6 +626,12 @@ class PartBuilder(object):
         return
 
 
+    ##
+    # Try to find a target package for <fromPackage> and, if found, merge
+    # <fromPackage> into the target package.
+    # On merge, maintains package.dependencies and part.packages.
+    # But leave it to the caller to pot. remove <fromPackage> from script.packages.
+    # @return (<fromPackage>,<toPackage>) on success, else (None,None)
     def _mergePackage(self, fromPackage, script, packages, seen_targets=None):
 
         def updatePartDependencies(part, packageDeps):
@@ -635,7 +641,7 @@ class PartBuilder(object):
                     part.packages.append(package)
                     # update package's part bit mask
                     package.part_mask |= part.bit_mask
-                    # recurse
+                    # make sure the new package's dependencies are also included
                     updatePartDependencies(part, package.packageDeps)
             return
 
@@ -664,7 +670,7 @@ class PartBuilder(object):
                     break
             else:
                 break
-        if toPackage == None:
+        if not toPackage:
             self._console.outdent()
             return None, None
         self._console.debug("Merge package #%s into #%s" % (fromPackage.id, toPackage.id))
@@ -674,7 +680,7 @@ class PartBuilder(object):
         toPackage = mergeContAndDeps(fromPackage, toPackage)
 
         # Update package dependencies:
-        # all packages that depended on fromPackage depend now from toPackage
+        # all packages that depended on fromPackage depend now on toPackage
         for package in script.packages:
             if fromPackage in package.packageDeps:
                 # replace fromPackage with toPackage
