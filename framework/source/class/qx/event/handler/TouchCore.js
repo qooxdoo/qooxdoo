@@ -531,7 +531,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       var duration = new Date().getTime() - this.__startTime;
       var axis = (Math.abs(deltaCoordinates.x) >= Math.abs(deltaCoordinates.y)) ? "x" : "y";
       var distance = deltaCoordinates[axis];
-      var direction = clazz.SWIPE_DIRECTION[axis][distance < 0 ? 0 : 1]
+      var direction = clazz.SWIPE_DIRECTION[axis][distance < 0 ? 0 : 1];
       var velocity = (duration !== 0) ? distance/duration : 0;
 
       var swipe = null;
