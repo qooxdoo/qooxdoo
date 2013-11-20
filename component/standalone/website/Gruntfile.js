@@ -20,8 +20,8 @@ var _qx = {
 };
 
 // requires
-var qxConf = require(_qx.sdkPath + '/tool/data/grunt/config/application.js');
-var qxTasks = require(_qx.sdkPath + '/tool/data/grunt/tasks/tasks.js');
+var qxConf = require(_qx.sdkPath + '/tool/grunt/config/application.js');
+var qxTasks = require(_qx.sdkPath + '/tool/grunt/tasks/tasks.js');
 
 // grunt
 module.exports = function(grunt) {
