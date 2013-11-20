@@ -267,7 +267,9 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
           this._doScrollLoop();
         }
       } else {
-        this.setCurrentIndex(this.getCurrentIndex() + 1);
+        setTimeout(function() {
+          this.setCurrentIndex(this.getCurrentIndex() + 1);
+        }.bind(this), 0);
       }
     },
 
@@ -281,7 +283,9 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
           this._doScrollLoop();
         }
       } else {
-        this.setCurrentIndex(this.getCurrentIndex() - 1);
+        setTimeout(function() {
+          this.setCurrentIndex(this.getCurrentIndex() - 1);
+        }.bind(this), 0);
       }
     },
 
@@ -675,17 +679,14 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
         var paginationLabelWidth = paginationWidth/this.__paginationLabels.length;
 
-        var margin = "0px";
         var left = null;
         var translate = (this.__carouselWidth / 2) - newActiveIndex * paginationLabelWidth - paginationLabelWidth / 2;
 
         if (paginationWidth < this.__carouselWidth) {
-          margin = (-paginationWidth / 32) + "rem";
-          left = this.__carouselWidth / 2 + "px";
+          left = this.__carouselWidth / 2 - paginationWidth / 2 + "px";
           translate = 0;
         }
 
-        qx.bom.element.Style.set(this.__pagination.getContentElement(), "marginLeft", margin);
         qx.bom.element.Style.set(this.__pagination.getContentElement(), "left", left);
 
         this.__pagination.setTranslateX(translate);
