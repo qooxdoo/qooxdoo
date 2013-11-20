@@ -111,11 +111,11 @@ qx.Class.define("mobileshowcase.page.Canvas",
      */
     __clearCanvas : function() {
       this.__canvas.getContentElement().width = this.__canvas.getContentElement().width;
-
       var ctx = this.__canvas.getContext2d();
-      ctx.fillStyle="#ffffff";
-      ctx.fillRect(0,0,this.__canvasWidth,this.__canvasHeight);
-      ctx.stroke();
+      ctx.clearRect(0, 0, this.__canvasWidth, this.__canvasHeight);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, this.__canvasWidth, this.__canvasHeight);
+      ctx.fill();
     },
 
 
@@ -154,14 +154,15 @@ qx.Class.define("mobileshowcase.page.Canvas",
      */
     __draw : function(touches) {
       var ctx = this.__canvas.getContext2d();
-
       for(var i = 0; i < touches.length; i++) {
         var lastPoint = this.__lastPoints[i];
 
         var touchLeft = touches[i].clientX-this.__canvasLeft;
         var touchTop = touches[i].clientY-this.__canvasTop;
 
-        if(lastPoint != null) {
+        var opacity = null;
+
+        if(lastPoint !== null) {
           ctx.beginPath();
           ctx.lineCap = 'round';
           ctx.moveTo(lastPoint.x, lastPoint.y);
@@ -172,7 +173,7 @@ qx.Class.define("mobileshowcase.page.Canvas",
 
           var velocity = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
 
-          var opacity =  (100 - velocity) / 100;
+          opacity =  (100 - velocity) / 100;
           opacity = Math.round(opacity*Math.pow(10,2))/Math.pow(10,2);
 
           if(!lastPoint.opacity) {
@@ -195,10 +196,10 @@ qx.Class.define("mobileshowcase.page.Canvas",
         }
 
         this.__lastPoints[i] = {
-          "x":touchLeft,
-          "y":touchTop,
-          "opacity":opacity
-        }
+          "x": touchLeft,
+          "y": touchTop,
+          "opacity": opacity
+        };
       }
     },
 
