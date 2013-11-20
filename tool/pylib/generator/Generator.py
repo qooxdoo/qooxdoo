@@ -31,7 +31,6 @@ from generator.output.PartBuilder      import PartBuilder
 from generator.output.Script           import Script
 from generator.output.Package          import Package
 from generator.output.Part             import Part
-from generator.code.qcEnvClass       import qcEnvClass
 from generator.output.CodeGenerator  import CodeGenerator
 from generator.action.ActionLib      import ActionLib
 from generator.action.Locale         import Locale as LocaleCls

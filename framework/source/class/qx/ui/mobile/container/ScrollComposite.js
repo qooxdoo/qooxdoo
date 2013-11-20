@@ -185,8 +185,11 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       this.__isVerticalScroll = (this.getScrollableX() && this.getScrollableY()) ? null : this.getScrollableY();
 
       this._applyNoEasing();
-      this.__touchStartPoints[0] = evt.getAllTouches()[0].screenX;
-      this.__touchStartPoints[1] = evt.getAllTouches()[0].screenY;
+      this.__touchStartPoints[0] = evt.getViewportLeft();
+      this.__touchStartPoints[1] = evt.getViewportTop();
+
+      this.__distanceX = 0;
+      this.__distanceY = 0;
 
       if (this.__preventEvents === true) {
         evt.stopPropagation();
@@ -199,33 +202,45 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * @param evt {qx.event.type.Touch} The touch event
      */
     _onTouchMove : function(evt) {
-      this.__distanceX = evt.getAllTouches()[0].screenX - this.__touchStartPoints[0];
-      this.__distanceY = evt.getAllTouches()[0].screenY - this.__touchStartPoints[1];
+      if (this.isScrollableX()) {
+        this.__distanceX = evt.getViewportLeft() - this.__touchStartPoints[0];
 
-      if (this.__isVerticalScroll === null) {
-        var cosDelta = this.__distanceX / this.__distanceY;
-        this.__isVerticalScroll = Math.abs(cosDelta) < 2;
+        this.__calcVerticalScroll();
+
+        if (Math.abs(this.__distanceY) < 3 || !this.isScrollableY() || !this.__isVerticalScroll) {
+          this.__distanceY = 0;
+        }
+
+        this.__currentOffset[0] = Math.floor(this.__lastOffset[0] + this.__distanceX);
+        this._scrollContainer.setTranslateX(this.__currentOffset[0]);
       }
 
-      if (Math.abs(this.__distanceX) < 3 || !this.isScrollableX() || this.__isVerticalScroll) {
-        this.__distanceX = 0;
+      if (this.isScrollableY()) {
+        this.__distanceY = evt.getViewportTop() - this.__touchStartPoints[1];
+
+        this.__calcVerticalScroll();
+
+        if (Math.abs(this.__distanceX) < 3 || !this.isScrollableX() || this.__isVerticalScroll) {
+          this.__distanceX = 0;
+        }
+
+        this.__currentOffset[1] = Math.floor(this.__lastOffset[1] + this.__distanceY);
+        this._scrollContainer.setTranslateY(this.__currentOffset[1]);
+
+        this._updateScrollIndicator(this.__currentOffset[1]);
       }
-
-      if (Math.abs(this.__distanceY) < 3 || !this.isScrollableY() || !this.__isVerticalScroll) {
-        this.__distanceY = 0;
-      }
-
-      this.__currentOffset[0] = this.__lastOffset[0] + this.__distanceX;
-      this._scrollContainer.setTranslateX(this.__currentOffset[0]);
-
-      this.__currentOffset[1] = this.__lastOffset[1] + this.__distanceY;
-      this._scrollContainer.setTranslateY(this.__currentOffset[1]);
-
-      this._updateScrollIndicator(this.__currentOffset[1]);
 
       if (this.__preventEvents === true) {
         evt.stopPropagation();
         evt.preventDefault();
+      }
+    },
+
+
+    /** Calculates whether the touch gesture is vertical or horizontal. */
+    __calcVerticalScroll : function() {
+      if (this.__isVerticalScroll === null) {
+        this.__isVerticalScroll = Math.abs(this.__distanceX / this.__distanceY) < 2;
       }
     },
 
@@ -551,6 +566,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     /**
      * Setter for the <code>preventEvents</code> flag, which controls whether 
      * touch events should be passed to contained widgets.
+     * @param value {Boolean} flag if the events will be prevented.
      * @internal
      */
     setPreventEvents : function(value) {

@@ -123,10 +123,17 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       Event.addNativeListener(this.__target, "touchcancel", this.__onTouchEventWrapper);
 
       if (qx.core.Environment.get("event.mspointer")) {
+        // IE 10
         Event.addNativeListener(this.__target, "MSPointerDown", this.__onTouchEventWrapper);
         Event.addNativeListener(this.__target, "MSPointerMove", this.__onTouchEventWrapper);
         Event.addNativeListener(this.__target, "MSPointerUp", this.__onTouchEventWrapper);
         Event.addNativeListener(this.__target, "MSPointerCancel", this.__onTouchEventWrapper);
+
+        // IE 11+
+        Event.addNativeListener(this.__target, "pointerdown", this.__onTouchEventWrapper);
+        Event.addNativeListener(this.__target, "pointermove", this.__onTouchEventWrapper);
+        Event.addNativeListener(this.__target, "pointerup", this.__onTouchEventWrapper);
+        Event.addNativeListener(this.__target, "pointercancel", this.__onTouchEventWrapper);
       }
     },
 
@@ -151,10 +158,17 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       Event.removeNativeListener(this.__target, "touchcancel", this.__onTouchEventWrapper);
 
       if (qx.core.Environment.get("event.mspointer")) {
+        // IE 10
         Event.removeNativeListener(this.__target, "MSPointerDown", this.__onTouchEventWrapper);
         Event.removeNativeListener(this.__target, "MSPointerMove", this.__onTouchEventWrapper);
         Event.removeNativeListener(this.__target, "MSPointerUp", this.__onTouchEventWrapper);
         Event.removeNativeListener(this.__target, "MSPointerCancel", this.__onTouchEventWrapper);
+
+        // IE 11+
+        Event.removeNativeListener(this.__target, "pointerdown", this.__onTouchEventWrapper);
+        Event.removeNativeListener(this.__target, "pointermove", this.__onTouchEventWrapper);
+        Event.removeNativeListener(this.__target, "pointerup", this.__onTouchEventWrapper);
+        Event.removeNativeListener(this.__target, "pointercancel", this.__onTouchEventWrapper);
       }
     },
 
@@ -215,17 +229,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
         domEvent.targetTouches = [domEvent];
         domEvent.touches = [domEvent];
 
-        if(type == "MSPointerDown") {
-          type = "touchstart"
-        } else if (type == "MSPointerUp") {
-          type = "touchend";
-        } else if(type == "MSPointerMove") {
-          if (this.__onMove == true) {
-            type = "touchmove";
-          }
-        } else if(type == "MSPointerCancel") {
-          type = "touchcancel";
-        }
+        type = this._parsePointerEvent(type);
       }
 
       if (type == "touchstart") {
@@ -257,8 +261,30 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
         }
       }
 
-      this._fireEvent(domEvent, type);
+      this._fireEvent(domEvent, type, this.__originalTarget);
       this.__checkAndFireGesture(domEvent, type);
+    },
+
+
+    /**
+    * Parses the a pointer event type into the corresponding touch event type.
+    * @param type {String} the event type to parse. 
+    * @return {String} the parsed event name.
+    */
+    _parsePointerEvent : function(type) {
+      if (type.toLowerCase().indexOf("pointerdown") != -1) {
+        return "touchstart";
+      } else if (type.toLowerCase().indexOf("pointerup") != -1) {
+        return "touchend";
+      } else if (type.toLowerCase().indexOf("pointermove") != -1) {
+        if (this.__onMove === true) {
+          return "touchmove";
+        }
+      } else if (type.toLowerCase().indexOf("pointercancel") != -1) {
+        return "touchcancel";
+      }
+
+      return type;
     },
 
 
@@ -452,7 +478,6 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     __gestureEnd : function(domEvent, target)
     {
       this.__onMove = false;
-
       // delete the long tap
       this.__stopLongTapTimer();
 
@@ -481,7 +506,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
               eventType = qx.event.type.Swipe;
             }
             domEvent.swipe = swipe;
-            this._fireEvent(domEvent, "swipe", target, eventType);
+            this._fireEvent(domEvent, "swipe", this.__originalTarget, eventType);
           }
         }
       }
@@ -502,7 +527,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       var duration = new Date().getTime() - this.__startTime;
       var axis = (Math.abs(deltaCoordinates.x) >= Math.abs(deltaCoordinates.y)) ? "x" : "y";
       var distance = deltaCoordinates[axis];
-      var direction = clazz.SWIPE_DIRECTION[axis][distance < 0 ? 0 : 1]
+      var direction = clazz.SWIPE_DIRECTION[axis][distance < 0 ? 0 : 1];
       var velocity = (duration !== 0) ? distance/duration : 0;
 
       var swipe = null;

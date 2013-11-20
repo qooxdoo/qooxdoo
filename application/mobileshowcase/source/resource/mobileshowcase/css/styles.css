@@ -2,6 +2,8 @@
 /* EVENT */
 
 .eventcontainer {
+  -ms-touch-action: none;
+
   position:relative;
   overflow:hidden;
 
@@ -9,6 +11,8 @@
 }
 
 .container-touch-area {
+  -ms-touch-action: none;
+
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#000000), color-stop(100%,#555555));
   background: -webkit-linear-gradient(top, #000000 0%,#555555 100%);
   background: -moz-linear-gradient(top, #000000 0%,#555555 100%);
@@ -17,7 +21,7 @@
 
   min-height:400px;
   color:#ffffff;
-  padding:5px;
+  padding: 5px;
 
   cursor:default;
 
@@ -28,12 +32,12 @@
 
 .touch {
   position:absolute;
-  top:0px;
-  left:0px;
+  top:0;
+  left:0;
   width:70px;
   height:70px;
 
-  border:4px solid white;
+  border: 4px solid white;
 
   border-radius: 70px;
   -moz-border-radius: 70px;
@@ -49,6 +53,7 @@
 .gesture-target {
   transform: scale(0.5);
   -webkit-transform: scale(0.5);
+  -moz-transform: scale(0.5);
   z-index:1000;
   position:absolute;
   top: 0;
@@ -66,10 +71,10 @@
 /* CAROUSEL */
 
 .carousel-page > .label {
-  padding: 10px;
+  padding: 0.8rem;
   font-family: helvetica;
   font-weight: bold;
-  font-size: 2.5em;
+  font-size: 2em;
 }
 
 .carousel-example-1 {
@@ -95,6 +100,11 @@
 .carousel-example-5 {
   background-color: #F4651C;
   color: #222222;
+}
+
+.carousel-example-6 {
+  background-color: #0C2550;
+  color: white;
 }
 
 /* TAB */

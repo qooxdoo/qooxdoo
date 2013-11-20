@@ -266,7 +266,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
      * @param slotData {qx.data.Array} the picker slot data to display.
      */
     addSlot : function(slotData) {
-      if(slotData != null && slotData instanceof qx.data.Array) {
+      if(slotData !== null && slotData instanceof qx.data.Array) {
         this.__pickerModel.push(slotData);
         slotData.addListener("changeBubble", this._onChangeBubble, {self:this,index:this.__pickerModel.length - 1});
         this._render();
@@ -449,8 +449,8 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
      */
     _onTouchStart : function(evt) {
       var target = evt.getCurrentTarget().getContainerElement();
-      var touchX = evt.getScreenLeft();
-      var touchY = evt.getScreenTop();
+      var touchX = evt.getViewportLeft();
+      var touchY = evt.getViewportTop();
 
       this.__targetIndex[target.id] = this.__selectedIndex[target.id];
 
@@ -476,7 +476,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       if(!touchStartPoint) {
         return;
       }
-      var deltaY = evt.getScreenTop() - touchStartPoint.y;
+      var deltaY = evt.getViewportTop() - touchStartPoint.y;
 
       var isSwipe = Math.abs(deltaY) >= this.__labelHeight/2;
 
@@ -527,7 +527,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       if(!touchStartPoint) {
         return;
       }
-      var deltaY = evt.getScreenTop() - touchStartPoint.y;
+      var deltaY = evt.getViewportTop() - touchStartPoint.y;
 
       var selectedIndex = this.__selectedIndex[targetElement.id];
       var offsetTop = -selectedIndex*this.__labelHeight;
@@ -536,7 +536,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
       // BOUNCING
       var slotHeight = targetElement.offsetHeight;
-      var pickerHeight = parseInt(target.getLayoutParent().getContainerElement().offsetHeight);
+      var pickerHeight = parseInt(target.getLayoutParent().getContainerElement().offsetHeight, 10);
       var upperBounce = this.__labelHeight;
       var lowerBounce = (-slotHeight + pickerHeight * 2);
       
@@ -571,13 +571,13 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     _updateSlot : function(targetElement, useTransition) {
       this._fixPickerSlotHeight(targetElement);
 
-      if(typeof useTransition == undefined) {
+      if(typeof useTransition === undefined) {
         useTransition = true;
       }
 
       if(qx.core.Environment.get("os.name") == "ios") {
         var transitionDuration = "200ms";
-        if(useTransition == false) {
+        if(useTransition === false) {
           transitionDuration = "0s";
         }
         qx.bom.element.Style.set(targetElement,"transitionDuration", transitionDuration);
@@ -686,7 +686,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
         var oldPickerSlotContent = pickerSlot.removeAll();
         for (var j = 0; j < oldPickerSlotContent.length; j++) {
           oldPickerSlotContent[j].dispose();
-        };
+        }
 
         pickerSlot.destroy();
       }

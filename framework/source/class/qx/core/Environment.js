@@ -955,14 +955,6 @@ qx.Bootstrap.define("qx.core.Environment",
      *   (Details in the class doc)
      */
     get : function(key) {
-      // @deprecated {3.0}
-      if (qx.Bootstrap.DEBUG) {
-        if (key === "event.pointer") {
-          key = "css.pointerevents";
-          qx.Bootstrap.warn("The environment key 'event.pointer' is deprecated, " +
-            "please use 'css.pointerevents' instead.");
-        }
-      }
       // @deprecated {3.1}
       if (qx.Bootstrap.DEBUG) {
         if (key === "json") {

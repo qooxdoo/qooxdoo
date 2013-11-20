@@ -444,34 +444,68 @@ qx.Bootstrap.define("qx.bom.element.Style",
      *    special implementations for some properties
      * @return {var} The value of the property
      */
-    get : qx.core.Environment.select("engine.name",
+    get : function(element, name, mode, smart)
     {
-      "mshtml" : function(element, name, mode, smart)
+      // normalize name
+      name = this.__styleNames[name] || this.__getStyleName(name) || name;
+
+      // special handling
+      if (smart!==false && this.__special[name]) {
+        return this.__special[name].get(element, mode);
+      }
+
+      // switch to right mode
+      switch(mode)
       {
-        // normalize name
-        name = this.__styleNames[name] || this.__getStyleName(name) || name;
-
-        // special handling
-        if (smart!==false && this.__special[name]) {
-          return this.__special[name].get(element, mode);
-        }
-
-        // if the element is not inserted into the document "currentStyle"
-        // may be undefined. In this case always return the local style.
-        if (!element.currentStyle) {
+        case this.LOCAL_MODE:
           return element.style[name] || "";
-        }
 
-        // switch to right mode
-        switch(mode)
-        {
-          case this.LOCAL_MODE:
-            return element.style[name] || "";
-
-          case this.CASCADED_MODE:
+        case this.CASCADED_MODE:
+          // Currently only supported by Opera and Internet Explorer
+          if (element.currentStyle) {
             return element.currentStyle[name] || "";
+          }
 
-          default:
+          throw new Error("Cascaded styles are not supported in this browser!");
+
+        default:
+          // Opera, Mozilla and Safari 3+ also have a global getComputedStyle which is identical
+          // to the one found under document.defaultView.
+
+          // The problem with this is however that this does not work correctly
+          // when working with frames and access an element of another frame.
+          // Then we must use the <code>getComputedStyle</code> of the document
+          // where the element is defined.
+
+          var doc = qx.dom.Node.getDocument(element);
+          var getStyle = doc.defaultView ? doc.defaultView.getComputedStyle : undefined;
+
+          if (getStyle !== undefined)
+          {
+            // Support for the DOM2 getComputedStyle method
+            //
+            // Safari >= 3 & Gecko > 1.4 expose all properties to the returned
+            // CSSStyleDeclaration object. In older browsers the function
+            // "getPropertyValue" is needed to access the values.
+            //
+            // On a computed style object all properties are read-only which is
+            // identical to the behavior of MSHTML's "currentStyle".
+
+            var computed = getStyle(element, null);
+            // All relevant browsers expose the configured style properties to
+            // the CSSStyleDeclaration objects
+            if (computed && computed[name]) {
+              return computed[name];
+            }
+          }
+          else
+          {
+            // if the element is not inserted into the document "currentStyle"
+            // may be undefined. In this case always return the local style.
+            if (!element.currentStyle) {
+              return element.style[name] || "";
+            }
+
             // Read cascaded style. Shorthand properties like "border" are not available
             // on the currentStyle object.
             var currentStyle = element.currentStyle[name] || element.style[name] || "";
@@ -483,13 +517,13 @@ qx.Bootstrap.define("qx.bom.element.Style",
 
             // Try to convert non-pixel values
             var pixel = this.__mshtmlPixel[name];
-            if (pixel)
+            if (pixel && (pixel in element.style))
             {
               // Backup local and runtime style
               var localStyle = element.style[name];
 
               // Overwrite local value with cascaded value
-              // This is needed to have the pixel value setupped
+              // This is needed to have the pixel value setup
               element.style[name] = currentStyle || 0;
 
               // Read pixel value and add "px"
@@ -504,61 +538,11 @@ qx.Bootstrap.define("qx.bom.element.Style",
 
             // Just the current style
             return currentStyle;
-        }
-      },
+          }
 
-      "default" : function(element, name, mode, smart)
-      {
-        // normalize name
-        name = this.__styleNames[name] || this.__getStyleName(name) || name;
-
-        // special handling
-        if (smart!==false && this.__special[name]) {
-          return this.__special[name].get(element, mode);
-        }
-
-        // switch to right mode
-        switch(mode)
-        {
-          case this.LOCAL_MODE:
-            return element.style[name] || "";
-
-          case this.CASCADED_MODE:
-            // Currently only supported by Opera and Internet Explorer
-            if (element.currentStyle) {
-              return element.currentStyle[name] || "";
-            }
-
-            throw new Error("Cascaded styles are not supported in this browser!");
-
-          // Support for the DOM2 getComputedStyle method
-          //
-          // Safari >= 3 & Gecko > 1.4 expose all properties to the returned
-          // CSSStyleDeclaration object. In older browsers the function
-          // "getPropertyValue" is needed to access the values.
-          //
-          // On a computed style object all properties are read-only which is
-          // identical to the behavior of MSHTML's "currentStyle".
-          default:
-            // Opera, Mozilla and Safari 3+ also have a global getComputedStyle which is identical
-            // to the one found under document.defaultView.
-
-            // The problem with this is however that this does not work correctly
-            // when working with frames and access an element of another frame.
-            // Then we must use the <code>getComputedStyle</code> of the document
-            // where the element is defined.
-            var doc = qx.dom.Node.getDocument(element);
-            var computed = doc.defaultView.getComputedStyle(element, null);
-
-            // All relevant browsers expose the configured style properties to
-            // the CSSStyleDeclaration objects
-            if (computed && computed[name]) {
-              return computed[name];
-            }
-            return element.style[name] || "";
-        }
+          return element.style[name] || "";
       }
-    })
+    }
   },
 
   defer : function(statics) {

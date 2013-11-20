@@ -100,7 +100,7 @@ qx.Theme.define("showcase.theme.Appearance",
       {
         return {
           backgroundColor: "black",
-          decorator: new qx.ui.decoration.Single().set({
+          decorator: (new qx.ui.decoration.Decorator()).set({
             top: [1, "solid", "white"],
             bottom: [1, "solid", "white"]
           }),
