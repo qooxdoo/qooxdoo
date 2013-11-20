@@ -58,6 +58,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     }
 
     this.__menuContainer = new qx.ui.mobile.container.Composite();
+    this.__menuContainer.addCssClass("menu-container");
     this.__clearButton = this._createClearButton();
     this.__listScroller = this._createListScroller(this.__selectionList);
 
