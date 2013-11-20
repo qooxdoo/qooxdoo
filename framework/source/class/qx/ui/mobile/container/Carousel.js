@@ -528,7 +528,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     * @param evt {qx.event.type.Touch} the touchend event.
     */
     _onTouchEnd : function(evt) {
-      if(evt.getAllTouches().length === 0) {
+      if(evt.getAllTouches().length < 2) {
         this._refreshScrollerPosition();
       }
     },
@@ -539,7 +539,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param evt {qx.event.type.Swipe} The swipe event.
      */
     _onSwipe : function(evt) {
-      if (evt.getDuration() < 750 && Math.abs(evt.getDistance()) > 30) {
+      if (evt.getDuration() < 750 && Math.abs(evt.getDistance()) > 50) {
         var duration = this._calculateTransitionDuration(this.__deltaX, evt.getDuration());
         this._setTransitionDuration(duration);
         if (evt.getDirection() == "left") {
