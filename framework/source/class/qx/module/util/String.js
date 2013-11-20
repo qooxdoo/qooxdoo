@@ -109,7 +109,21 @@ qx.Bootstrap.define("qx.module.util.String", {
      * @param str {String} the string where to escape the chars.
      * @return {String} the string with the escaped chars.
      */
-    escapeRegexpChars : qx.lang.String.escapeRegexpChars
+    escapeRegexpChars : qx.lang.String.escapeRegexpChars,
+
+
+    /**
+     * Escapes the characters in a <code>String</code> using HTML entities.
+     *
+     * For example: <tt>"bread" & "butter"</tt> => <tt>&amp;quot;bread&amp;quot; &amp;amp; &amp;quot;butter&amp;quot;</tt>.
+     * Supports all known HTML 4.0 entities, including funky accents.
+     *
+     * @attachStatic {qxWeb, string.escapeHtml}
+     * @signature function(str)
+     * @param str {String} the String to escape
+     * @return {String} a new escaped String
+     */
+    escapeHtml : qx.bom.String.escape
   },
 
 
@@ -122,7 +136,8 @@ qx.Bootstrap.define("qx.module.util.String", {
         firstLow : statics.firstLow,
         startsWith : statics.startsWith,
         endsWith : statics.endsWith,
-        escapeRegexpChars : statics.escapeRegexpChars
+        escapeRegexpChars : statics.escapeRegexpChars,
+        escapeHtml : statics.escapeHtml
       }
     });
   }
