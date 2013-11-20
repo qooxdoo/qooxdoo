@@ -566,7 +566,6 @@ class PartBuilder(object):
                     else:
                         uniques[package.id] = package
             return uniques
-
         getUniquePackages.key = 'unique'
 
         def getCommonPackages(part, collapse_group, packages):
@@ -575,7 +574,6 @@ class PartBuilder(object):
                 if isCommon(package, collapse_group):
                     commons[package.id] = package
             return commons
-
         getCommonPackages.key = 'common'
 
 
