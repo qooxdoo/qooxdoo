@@ -430,13 +430,14 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
 
     /**
-     * Calculates the needes picker slot height, by it child labels.
+     * Calculates the needed picker slot height, by it child labels.
      * @param target {Element} The target element.
      */
     _fixPickerSlotHeight : function(target) {
-      this.__labelHeight = target.children[0].offsetHeight;
+      this.__labelHeight = qx.bom.element.Style.get(target.children[0],"height", 1);
+      this.__labelHeight = parseFloat(this.__labelHeight,10);
 
-      var labelCount = target.children.length;
+      var labelCount = this._getModelByElement(target).length;
       var pickerSlotHeight = labelCount * this.__labelHeight;
 
       qx.bom.element.Style.set(target, "height", pickerSlotHeight+"px");
@@ -455,7 +456,10 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       this.__targetIndex[target.id] = this.__selectedIndex[target.id];
 
       qx.bom.element.Style.set(target, "transitionDuration", "0s");
-      this.__slotTouchStartPoints[target.id] = {x:touchX, y:touchY};
+      this.__slotTouchStartPoints[target.id] = {
+        x: touchX,
+        y: touchY
+      };
 
       this._fixPickerSlotHeight(target);
 
@@ -595,8 +599,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     */
     _updateAllSlots : function() {
       for(var i = 0; i < this.__slotElements.length; i++) {
-        var slotElement = this.__slotElements[i];
-        this._updateSlot(slotElement);
+        this._updateSlot(this.__slotElements[i]);
       }
     },
 
@@ -635,7 +638,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       var oldPickerSlotContent = pickerSlot.removeAll();
       for (var i = 0; i < oldPickerSlotContent.length; i++) {
         oldPickerSlotContent[i].dispose();
-      };
+      }
 
       var slotValues = this.__pickerModel.getItem(slotIndex);
       var slotLength = slotValues.getLength();
@@ -644,7 +647,9 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
         var labelValue = slotValues.getItem(slotValueIndex);
         var pickerLabel = this._createPickerValueLabel(labelValue);
 
-        pickerSlot.add(pickerLabel,{flex:1});
+        pickerSlot.add(pickerLabel, {
+          flex: 1
+        });
       }
     },
 
