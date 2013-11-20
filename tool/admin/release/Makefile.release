@@ -85,7 +85,7 @@ COMPONENTS = apiviewer testrunner inspector server website
 FRAMEWORK_TARGETS = api test test-mobile dependencies
 TUTORIALS = mobiletweets tweets website
 
-WEBSITE_MODULES = core animation blocker cookie dataset dev io matchmedia messaging placeholder placement rest storage template textselection transform util
+WEBSITE_MODULES = core animation blocker cookie dataset dev io matchmedia messaging placeholder placement rest storage template textselection transform util ui
 WEBSITE_MODULES_ZIP = q-modules-$(FRAMEWORK_VERSION).js.zip
 WEBSITE_MODULES_MIN_ZIP = q-modules-$(FRAMEWORK_VERSION).min.js.zip
 WEBSITE_VERSION_STR = -${FRAMEWORK_VERSION}
@@ -463,7 +463,7 @@ build-components:
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-min ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-module-all ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-module-all-min ) || exit 1; \
-			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) api ) || exit 1; \
+			( cd component/standalone/$$COMPONENT && grunt api ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) test ) || exit 1; \
 		elif [ "$$COMPONENT" = "server" ]; then \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build ) || exit 1; \
