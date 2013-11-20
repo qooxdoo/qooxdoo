@@ -41,7 +41,8 @@
 }
 
 .scroll.native {
-  overflow:scroll;
+  overflow-y:scroll;
+  overflow-x:hidden;
   
   -webkit-overflow-scrolling:touch;
   -ms-overflow-style: -ms-autohiding-scrollbar;
