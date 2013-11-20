@@ -138,7 +138,9 @@ qx.Bootstrap.define("qx.bom.client.Device",
      * @return {Boolean} <code>true</code>, if the device supports touch
      */
     getTouch : function() {
-      return ("ontouchstart" in window) || window.navigator.msMaxTouchPoints > 1;
+      return (("ontouchstart" in window) ||
+        window.navigator.maxTouchPoints > 0 ||
+        window.navigator.msMaxTouchPoints > 0);
     }
   },
 
