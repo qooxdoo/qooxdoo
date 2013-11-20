@@ -666,12 +666,18 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       }
 
       if (this.__paginationLabels.length) {
-        var paginationLabelWidth = 1.5 * qx.bom.element.Dimension.getWidth(this.__paginationLabels[0].getContentElement());
-        var paginationWidth = paginationLabelWidth * this.__paginationLabels.length;
+        var paginationStyle = getComputedStyle(this.__pagination.getContentElement());
+        var paginationWidth = parseFloat(paginationStyle.width,10);
+
+        if(isNaN(paginationWidth)) {
+          return;
+        }
+
+        var paginationLabelWidth = paginationWidth/this.__paginationLabels.length;
 
         var margin = "0px";
         var left = null;
-        var translate = (this.__carouselWidth / 2) - newActiveIndex * paginationLabelWidth;
+        var translate = (this.__carouselWidth / 2) - newActiveIndex * paginationLabelWidth - paginationLabelWidth / 2;
 
         if (paginationWidth < this.__carouselWidth) {
           margin = (-paginationWidth / 32) + "rem";
@@ -681,8 +687,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
         qx.bom.element.Style.set(this.__pagination.getContentElement(), "marginLeft", margin);
         qx.bom.element.Style.set(this.__pagination.getContentElement(), "left", left);
-        qx.bom.element.Style.set(this.__pagination.getContentElement(), "width", paginationWidth + "rem");
-        
+
         this.__pagination.setTranslateX(translate);
       }
     },

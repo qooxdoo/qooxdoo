@@ -27,12 +27,13 @@
 .carousel-pagination {
   -webkit-transition: -webkit-transform 2s;
   -moz-transition: -moz-transform 2s;
+  transition: transform 2s;
   position:absolute;
   bottom: $carousel-pagination-size/2;
   height: $carousel-pagination-size;
   line-height: 0;
   width: auto;
-  overflow-y: hidden;
+  white-space: nowrap;
 }
 
 .carousel-pagination-label + .carousel-pagination-label {
@@ -49,7 +50,7 @@
 
   display:inline-block;
 
-  width: $carousel-pagination-size;
+  min-width: $carousel-pagination-size;
   height: $carousel-pagination-size;
   line-height: $carousel-pagination-size;
   overflow: hidden;
