@@ -229,7 +229,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
         domEvent.targetTouches = [domEvent];
         domEvent.touches = [domEvent];
 
-        type = this._parsePointerEvent(type);
+        type = this._mapPointerEvent(type);
       }
 
       if (type == "touchstart") {
@@ -267,20 +267,23 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
 
 
     /**
-    * Parses the a pointer event type into the corresponding touch event type.
-    * @param type {String} the event type to parse. 
+    * Maps a pointer event type to the corresponding touch event type.
+    * @param type {String} the event type to parse.
     * @return {String} the parsed event name.
     */
-    _parsePointerEvent : function(type) {
-      if (type.toLowerCase().indexOf("pointerdown") != -1) {
+    _mapPointerEvent : function(type)
+    {
+      type = type.toLowerCase();
+
+      if (type.indexOf("pointerdown") !== -1) {
         return "touchstart";
-      } else if (type.toLowerCase().indexOf("pointerup") != -1) {
+      } else if (type.indexOf("pointerup") !== -1) {
         return "touchend";
-      } else if (type.toLowerCase().indexOf("pointermove") != -1) {
+      } else if (type.indexOf("pointermove") !== -1) {
         if (this.__onMove === true) {
           return "touchmove";
         }
-      } else if (type.toLowerCase().indexOf("pointercancel") != -1) {
+      } else if (type.indexOf("pointercancel") !== -1) {
         return "touchcancel";
       }
 
