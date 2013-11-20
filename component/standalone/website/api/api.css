@@ -127,6 +127,10 @@ body {
   line-height: 17px;
 }
 
+#list .qx-accordion-button.no-matches:after {
+  background-color: #ddd;
+}
+
 #list .qx-accordion-button-active:after {
   content: attr(data-results);
   float: right;

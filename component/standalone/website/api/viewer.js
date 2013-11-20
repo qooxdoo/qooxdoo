@@ -77,6 +77,8 @@ q.ready(function() {
     var value = filterField.getValue();
 
     if (!value) {
+      clearInterval(debouncedHideFiltered.intervalId);
+      delete debouncedHideFiltered.intervalId;
       q("#list .qx-accordion-button")._forEachElementWrapped(function(button) {
         button.setData("results", "");
       });
@@ -100,27 +102,32 @@ q.ready(function() {
   }, 500);
 
   var hideFiltered = function(query) {
-    q("#list .qx-accordion-page ul").hide();
-    q("#list .qx-accordion-page li").hide();
-    q("#list .qx-accordion-page > a").hide();
-
+    q("#list .qx-accordion-page > a").hide(); // module headers
+    q("#list .qx-accordion-page ul").hide(); // method lists
+    q("#list .qx-accordion-page li").hide(); // method items
     var regEx = new RegExp(query, "i");
-    var result = findGroupMethods(query);
-    q("#list .qx-accordion-button")._forEachElementWrapped(function(button) {
-      var groupName = button.getHtml().replace(" ", "_");
-      var resultCount = result[groupName] ? result[groupName].length : "";
-      button.setData("results", resultCount);
-      var page = button.getNext();
-      page.find("li")._forEachElementWrapped(function(item) {
-        var methodName = item.find("a").getHtml();
+
+    q("#list .qx-accordion-button").forEach(function(groupButton) {
+      var groupResults = 0;
+      groupButton = q(groupButton);
+      var groupPage = groupButton.getNext();
+      groupPage.find("> ul > li").forEach(function(item) {
+        item = q(item);
+        var methodName = item.getChildren("a").getHtml();
         if (regEx.exec(methodName)) {
-          item.getParents().show();
-          item.getParents().getPrev().show();
-          item.show();
+          groupResults++;
+          item.show(); // method items
+          item.getParents().show(); // method lists
+          item.getParents().getPrev().show(); // module headers
         }
       });
+      groupButton.setData("results", groupResults);
+      if (groupResults == 0) {
+        groupButton.addClass("no-matches");
+      } else {
+        groupButton.removeClass("no-matches");
+      }
     });
-
   };
 
 
@@ -1322,34 +1329,6 @@ q.ready(function() {
     return (prefix || "")+name.replace(/(\.|\$|#)*/g, "");
   };
 
-
-  var findGroupMethods = function(query) {
-    var matches = {};
-    if (!query) {
-      return matches;
-    }
-    var regEx = new RegExp(query, "i");
-
-    var findMatchingMethods = function(methodList, group) {
-      if (!group) {
-        group = "Extras";
-      }
-      for (var i=0, l=methodList.length; i<l; i++) {
-        var method = methodList[i];
-        var match = regEx.exec(method.attributes.name);
-        if (match) {
-          if (!matches[group]) {
-            matches[group] = [];
-          }
-          matches[group].push(method.attributes.name);
-        }
-      }
-    };
-
-    forEachMethodList(findMatchingMethods);
-
-    return matches;
-  };
 
   var forEachMethodList = function(callback) {
     for (var moduleName in data) {
