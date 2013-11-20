@@ -551,20 +551,10 @@ class PartBuilder(object):
             return collapseGroups
 
         def isUnique(package, collapse_group):
-            seen = 0
-            for part in collapse_group:
-                if package in part.packages:
-                    seen += 1
-                    if seen > 1:
-                        return False
-            return True
+            return sum([int(package in part.packages) for part in collapse_group]) == 1
 
         def isCommon(package, collapse_group):
-            seen = 0
-            for part in collapse_group:
-                if package in part.packages:
-                    seen += 1
-            return seen == len(collapse_group)
+            return sum([int(package in part.packages) for part in collapse_group]) == len(collapse_group)
 
         def getUniquePackages(part, collapse_group, packages):
             uniques = {}
