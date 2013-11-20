@@ -6,6 +6,7 @@
   @include backface-visibility(hidden);
   @include background($navigationbar-background);
 
+  min-height: $navigationbar-height;
   height: $navigationbar-height;
   color: $navigationbar-text-color; 
 
