@@ -650,6 +650,7 @@ q.ready(function() {
         loadClass(data.superclass);
       }
     }
+
     if (data.fileName) {
       addClassDoc(data.fileName, module);
     } else if (data.desc) {
@@ -675,6 +676,14 @@ q.ready(function() {
       }
       var typesEl = renderTypes(types);
       module.append(typesEl);
+    }
+
+    if (data.templates && data.templates.desc) {
+      renderWidgetSettings(data, module, "templates");
+    }
+
+    if (data.config && data.config.desc) {
+      renderWidgetSettings(data, module, "config");
     }
 
     data["static"].forEach(function(method) {
@@ -854,7 +863,7 @@ q.ready(function() {
 
 
   var renderClass = function(ast, prefix, inList) {
-    var module = {"member": [], "static" : []};
+    var module = {"member": [], "static": [], "templates": {}, "config": {}};
 
     getByType(ast, "methods").children.forEach(function(method) {
       // skip internal methods
@@ -873,9 +882,15 @@ q.ready(function() {
     var constants = getByType(ast, "constants");
     for (var i=0; i < constants.children.length; i++) {
       var constant = constants.children[i];
-      if (constant.attributes.name == "TYPES") {
+      var constName = constant.attributes.name;
+      if (constName == "TYPES") {
         module.types = constant.attributes.value;
-        break;
+        continue;
+      } else {
+        if (constName == "_templates" || constName == "_config") {
+          var desc = getByType(constant, "desc");
+          module[constName.replace("_", "")].desc = desc.attributes.text;
+        }
       }
     }
 
@@ -892,6 +907,13 @@ q.ready(function() {
     }
   };
 
+
+  var renderWidgetSettings = function(data, module, type) {
+    var upperType = q.string.firstUp(type);
+    module.append(q.create("<h2>" + upperType + " <a title='More information on " + type + "' class='info' href='#widget.set" + upperType + "'>i</a></h2>"));
+    var desc = parse(data[type].desc);
+    module.append(q.create("<div>").setHtml(desc).addClass("widget-settings"));
+  };
 
   /**
    * PARSER
@@ -911,6 +933,18 @@ q.ready(function() {
       var name = getModuleName(links[1]);
       text = text.replace(links[0], "<a href='#" + name + "'>" + name + "</a>");
     }
+
+    // escape all html tags in pre tags
+    var blocks = text.split("<pre>");
+    blocks.forEach(function(block, i) {
+      var innerBlock = block.split("</pre>");
+      if (innerBlock.length <= 1) {
+        return;
+      }
+      innerBlock[0] = q.string.escapeHtml(innerBlock[0]);
+      blocks[i] = innerBlock.join("</code></pre>");
+    });
+    text = blocks.join("<pre><code>");
     return text;
   };
 

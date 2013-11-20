@@ -80,31 +80,94 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
 
   statics : {
 
+    /**
+     * *button*
+     *
+     * Template for the list items containing the panel buttons.
+     *
+     * Default value:
+     * <pre><li><button>{{{content}}}</button></li></pre>
+     */
     _templates : {
       button : "<li><button>{{{content}}}</button></li>"
     },
 
+    /**
+     * *animationTiming*
+     *
+     * Controls the page switching animation sequence:
+     * "sequential" means the animation to show the new page will
+     * only start after the animation to hide the old page is
+     * finished. "parallel" means the animations will be started
+     * (almost) simultaneously.
+     *
+     * Default value: <pre>parallel</pre>
+     *
+     *
+     * *animationStyles*
+     *
+     * Style properties used to animate page switching. Allowed values:
+     * "parallel", "sequential"
+     *
+     * Default value:
+     * <pre>["height", "paddingTop", "paddingBottom"]</pre>
+     *
+     *
+     * *hideAnimation*
+     *
+     * The animation used to hide the previous page when
+     * a new one is selected
+     *
+     * Default value:
+     * <pre>{
+     *   duration: 500,
+     *   delay: 0,
+     *   keep: 100,
+     *   timing: "linear",
+     *   keyFrames: {
+     *     0: {
+     *       height : "{{height}}",
+     *       paddingTop : "{{paddingTop}}",
+     *       paddingBottom : "{{paddingBottom}}"
+     *     },
+     *     100: {
+     *       height : "0px",
+     *       paddingTop: "0px",
+     *       paddingBottom: "0px"
+     *     }
+     *   }
+     * }</pre>
+     *
+     *
+     * *showAnimation*
+     *
+     * The animation used to show a newly selected page.
+     *
+     * Default value:
+     * <pre>{
+     *   duration: 500,
+     *   delay: 0,
+     *   keep: 100,
+     *   timing: "linear",
+     *   keyFrames: {
+     *     0: {
+     *       height : "0px",
+     *       paddingTop: "0px",
+     *       paddingBottom: "0px"
+     *     },
+     *     100 : {
+     *       height :  "{{height}}",
+     *       paddingTop : "{{paddingTop}}",
+     *       paddingBottom : "{{paddingBottom}}"
+     *     }
+     *   }
+     * }</pre>
+     */
     _config : {
-      /**
-       * Controls the page switching animation sequence:
-       * "sequential" means the animation to show the new page will
-       * only start after the animation to hide the old page is
-       * finished. "parallel" means the animations will be started
-       * (almost) simultaneously.
-       */
-      animationTiming : "parallel", // "sequential"
+      animationTiming : "parallel",
 
-
-      /**
-       * Style properties used to animate page switching.
-       */
       animationStyles : ["height", "paddingTop", "paddingBottom"],
 
-
-      /**
-       * The animation used to hide the previous page when
-       * a new one is selected
-       */
       hideAnimation : {
         duration: 500,
         delay: 0,
@@ -124,10 +187,6 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
         }
       },
 
-
-      /**
-       * The animation used to show a newly selected page
-       */
       showAnimation : {
         duration: 500,
         delay: 0,
