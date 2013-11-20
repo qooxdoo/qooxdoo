@@ -106,32 +106,57 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
     },
 
 
+    /**
+     * *button*
+     *
+     * Template used by {@link #addButton} to create a new button.
+     *
+     * Default value: <pre><li><button>{{{content}}}</button></li></pre>
+     */
     _templates : {
       button : "<li><button>{{{content}}}</button></li>"
     },
 
 
+    /**
+     * *align*
+     *
+     * Configuration for the alignment of the tab buttons. This possible
+     * values are <code>left</code>, <code>justify</code> and
+     * <code>right</code>
+     *
+     * Default value: <pre>left</pre>
+     *
+     *
+     * *animationTiming*
+     *
+     * Controls the page switching animation sequence:
+     * "sequential" means the animation to show the new page will
+     * only start after the animation to hide the old page is
+     * finished. "parallel" means the animations will be started
+     * (almost) simultaneously.
+     *
+     * Default value: <pre>parallel</pre>
+     *
+     *
+     * *hideAnimation*
+     *
+     * The animation used to hide the previous page when
+     * a new one is selected
+     *
+     * Default value: <pre>null</pre>
+     *
+     *
+     * *showAnimation*
+     *
+     * The animation used to show a newly selected page.
+     *
+     * Default value: <pre>null</pre>
+     */
     _config : {
-      align : "left", // "justify", "right"
-
-      /**
-       * Controls the page switching animation sequence:
-       * "sequential" means the animation to show the new page will
-       * only start after the animation to hide the old page is
-       * finished. "parallel" means the animations will be started
-       * (almost) simultaneously.
-       */
+      align : "left",
       animationTiming : "sequential",
-
-      /**
-       * The animation used to show a newly selected page
-       */
       showAnimation : null,
-
-      /**
-       * The animation used to hide the previous page when
-       * a new one is selected
-       */
       hideAnimation : null
     }
   },

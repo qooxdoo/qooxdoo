@@ -65,6 +65,39 @@ qx.Bootstrap.define("qx.ui.website.Slider",
   extend : qx.ui.website.Widget,
 
   statics : {
+    /**
+     * *step*
+     *
+     * The steps can be either a number or an array of predefined steps. In the
+     * case of a number, it defines the amount of each step. In the case of an
+     * array, the values of the array will be used as step values.
+     *
+     * Default value: <pre>1</pre>
+     *
+     *
+     * *minimum*
+     *
+     * The minimum value of the slider. This will only be used if no explicit
+     * steps are given.
+     *
+     * Default value: <pre>0</pre>
+     *
+     *
+     * *maximum*
+     *
+     * The maximum value of the slider. This will only be used if no explicit
+     * steps are given.
+     *
+     * Default value: <pre>100</pre>
+     *
+     *
+     * *offset*
+     *
+     * The amount of pixel the slider should be position away from its left and
+     * right border.
+     *
+     * Default value: <pre>o</pre>
+     */
     _config : {
       minimum : 0,
       maximum : 100,
@@ -72,6 +105,14 @@ qx.Bootstrap.define("qx.ui.website.Slider",
       step : 1
     },
 
+
+    /**
+     * *knobContent*
+     *
+     * The content of the knob element.
+     *
+     * Default value: <pre>{{value}}</pre>
+     */
     _templates : {
       knobContent : "{{value}}"
     },

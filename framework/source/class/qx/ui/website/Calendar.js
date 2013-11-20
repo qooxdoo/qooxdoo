@@ -78,30 +78,85 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
   extend : qx.ui.website.Widget,
 
   statics : {
+    /**
+     * *control*
+     *
+     * Template for the controls. This should be a <code>tr</code> tag containing
+     * the first row of the calendar.
+     * 
+     * Default value:
+     * <pre><tr>
+     *  <td colspan='1'><button class='{{cssPrefix}}-prev' title='Previous Month'>&lt;</button></td>
+     *  <td colspan='5'>{{month}} {{year}}</td>
+     *  <td colspan='1'><button class='{{cssPrefix}}-next' title='Next Month'>&gt;</button></td>
+     * </tr></pre>
+     *
+     *
+     * *dayRow*
+     *
+     * Template for the row of each day. This should be a tr tag containing the day names.
+     *
+     * Default value:
+     * <pre><tr>
+     *  {{#row}}<td>{{.}}</td>{{/row}}
+     * </tr></pre>
+     *
+     *
+     * *row*
+     *
+     * Template for the row of days. This should be a <code>tr</code> tag containing
+     * a <code>button</code> for each day.
+     *
+     * Default value:
+     * <pre><tr>
+     *   {{#row}}<td class='{{cssClass}}'>
+     *     <button class='{{cssPrefix}}-day' value='{{date}}'>{{day}}</button>
+     *   </td>{{/row}}
+     * </tr></pre>
+     *
+     *
+     * *table*
+     *
+     * Wrapper template for all other templates. This should be a table.
+     *
+     * Default value:
+     * <pre><table><thead>{{{thead}}}</thead><tbody>{{{tbody}}}</tbody></table></pre>
+     */
     _templates : {
-      /** Template for the control. This should be a tr tag containing the first row of the calendar. */
       controls : "<tr>" +
                    "<td colspan='1'><button class='{{cssPrefix}}-prev' title='Previous Month'>&lt;</button></td>" +
                    "<td colspan='5'>{{month}} {{year}}</td>" +
                    "<td colspan='1'><button class='{{cssPrefix}}-next' title='Next Month'>&gt;</button></td>" +
                  "</tr>",
-      /** Template for the row of each day. This should be a tr tag containing the day names. */
       dayRow : "<tr>" +
                  "{{#row}}<td>{{.}}</td>{{/row}}" +
                "</tr>",
-      /** Template for the row of days. This should be a tr tag containing a button for each day. */
       row : "<tr>" +
               "{{#row}}<td class='{{cssClass}}'><button class='{{cssPrefix}}-day' value='{{date}}'>{{day}}</button></td>{{/row}}" +
             "</tr>",
-      /** Wrapper template for all other templates. This should be a table. */
       table : "<table><thead>{{{thead}}}</thead><tbody>{{{tbody}}}</tbody></table>"
     },
 
 
+    /**
+     * *monthNames*
+     *
+     * Array of strings containing the names of the month.
+     *
+     * Default value:
+     * <pre>["January", "February", "March", "April", "May", "June",
+     *  "July", "August", "September", "October", "November", "December"]</pre>
+     *
+     *
+     * *dayNames*
+     *
+     * Array of strings containing the day names.
+     *
+     * Default values:
+     * <pre>["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]</pre>
+     */
     _config : {
-      /** Array of strings containing the names of the month. */
       monthNames : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-      /** Array of strings containing the day names. */
       dayNames : ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     },
 

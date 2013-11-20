@@ -66,10 +66,23 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
 
 
   statics : {
+    /**
+     * *length*
+     *
+     * The length of the rating widget.
+     *
+     * Default value: <pre>5</pre>
+     *
+     *
+     * *symbol*
+     *
+     * The symbol used to render the rating items. This can be any
+     * String e.g. a UTF-8 character.
+     *
+     * Default value: <pre>★</pre>
+     */
     _config : {
-      /** The length of the rating widget. */
       length : 5,
-      /** The symbol used to render the rating items. */
       symbol : "★"
     },
 
