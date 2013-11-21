@@ -145,7 +145,7 @@ proxies:
   Internet Options.
 * On MacOS, the Internet Config is queried in this case.
 * See the `module documentation
-  <http://docs.python.org/release/2.5.4/lib/module-urllib.html>`__ for more
+  <http://docs.python.org/2/library/urllib.html>`__ for more
   details.
 
 The remainder of this chapter now details the maintainer view, or how to provide

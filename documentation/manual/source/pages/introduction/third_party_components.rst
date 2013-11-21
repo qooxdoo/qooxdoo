@@ -3,10 +3,16 @@
 Third-party Components
 ***************************
 
-The qooxdoo project makes use of components and tools from other projects and endeavours. This applies to the framework %{JS} class code, the tool chain, and static resources. This page gives an overview over those components which are included with the SDK or other deliverables. Please refer to the contained files for version information of a particular component.
+The qooxdoo project makes use of components and tools from other projects and
+endeavours. This applies to the framework %{JS} class code, the tool chain, and
+static resources. This page gives an overview over those components which are
+included with the SDK or other deliverables. Please refer to the contained
+files for version information of a particular component.
 
-Besides foreign files we have included in the project, we also want to list the tools we use to either produce or consume genuine files of our source tree (beyond basic text editors ;-), so it is easy to oversee all the project's dependencies.
-
+Besides foreign files we have included in the project, we also want to list the
+tools we use to either produce or consume genuine files of our source tree
+(beyond basic text editors ;-), so it is easy to oversee all the project's
+dependencies.
 
 .. _pages/introduction/third_party_components#js_code:
 
@@ -104,7 +110,7 @@ Tool Chain
 ===========
 
 These are the Python modules we use that are not self-written nor part of a
-vanilla Python 2.5 SDK. While they are shipped with our SDK they are only used
+vanilla Python 2.6 SDK. While they are shipped with our SDK they are only used
 while the tool chain runs, and never become part of the resulting custom
 application.
 
