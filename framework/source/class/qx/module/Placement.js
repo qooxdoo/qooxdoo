@@ -137,8 +137,6 @@ qxWeb.define("qx.module.Placement", {
 
       var newLocation = qx.module.Placement._computePlacement(axes, size, area, targetLocation, offsets, newPosition);
 
-      var targetDisplay = target.getStyle("display");
-
       while (parent.length > 0) {
         if (parent.getStyle("position") == "relative" ) {
           var offset = parent.getOffset();
