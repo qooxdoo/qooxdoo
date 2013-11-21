@@ -76,7 +76,7 @@
 
   <!-- TEMPLATES -->
   <script type="text/template" charset="utf-8" id="list-item">
-    <li class="{{classname}}{{#plugin}} plugin{{/plugin}}">{{#missing}}<b style="color: red;">!! </b>{{/missing}}<a href="#{{link}}">{{name}}</a></li>
+    <li class="{{classname}}{{#plugin}} plugin{{/plugin}}"><a href="#{{link}}" class="{{#missing}}warning{{/missing}}">{{name}}</a></li>
   </script>
 
   <script type="text/template" charset="utf-8" id="method">

@@ -945,6 +945,12 @@ q.ready(function() {
       blocks[i] = innerBlock.join("</code></pre>");
     });
     text = blocks.join("<pre><code>");
+
+    // replace experimental text
+    text = text.replace(/\b(experimental)\b/gi, function(exp) {
+      return "<span class='warning'>" + exp + "</span>";
+    });
+
     return text;
   };
 

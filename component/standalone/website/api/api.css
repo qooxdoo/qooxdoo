@@ -31,6 +31,15 @@ body {
   transition: left 500ms, top 500ms;
 }
 
+.warning:before {
+  font-size: 14px;
+  font-family: "Batch";
+  font-weight: bold;
+  color: #D26555;
+  content: " \F15A";
+  margin-right: 5px;
+}
+
 #navContainer:after {
   content: ' ';
   background-color: white;
