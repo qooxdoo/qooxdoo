@@ -85,6 +85,7 @@ q.ready(function() {
       q("#list .qx-accordion-page ul").show();
       q("#list .qx-accordion-page li").show();
       q("#list .qx-accordion-page > a").show();
+      q("#list .qx-accordion-button").removeClass("no-matches"); // allow click on every group button
       q("#list").render();
       return;
     }
@@ -100,6 +101,7 @@ q.ready(function() {
     q("#list .qx-accordion-page > a").hide(); // module headers
     q("#list .qx-accordion-page ul").hide(); // method lists
     q("#list .qx-accordion-page li").hide(); // method items
+    q("#list .qx-accordion-button").removeClass("no-matches"); // allow click on every group button
     var regEx = new RegExp(query, "i");
 
     q("#list .qx-accordion-button").forEach(function(groupButton) {
@@ -119,8 +121,6 @@ q.ready(function() {
       groupButton.setData("results", groupResults);
       if (groupResults == 0) {
         groupButton.addClass("no-matches");
-      } else {
-        groupButton.removeClass("no-matches");
       }
     });
 
@@ -679,7 +679,7 @@ q.ready(function() {
     }
 
     if (data.templates && data.templates.desc) {
-      renderWidgetSettings(data, module, "templates");
+      renderWidgetSettings(data, module, "templates", "#widget.setTemplate");
     }
 
     if (data.config && data.config.desc) {
@@ -908,12 +908,16 @@ q.ready(function() {
   };
 
 
-  var renderWidgetSettings = function(data, module, type) {
+  var renderWidgetSettings = function(data, module, type, linkTarget) {
     var upperType = q.string.firstUp(type);
-    module.append(q.create("<h2>" + upperType + " <a title='More information on " + type + "' class='info' href='#widget.set" + upperType + "'>i</a></h2>"));
+    if (!linkTarget) {
+      linkTarget = "#widget.set" + upperType;
+    }
+    module.append(q.create("<h2>" + upperType + " <a title='More information on " + type + "' class='info' href='" + linkTarget + "'>i</a></h2>"));
     var desc = parse(data[type].desc);
     module.append(q.create("<div>").setHtml(desc).addClass("widget-settings"));
   };
+
 
   /**
    * PARSER
@@ -922,6 +926,7 @@ q.ready(function() {
     if (!text) {
       return;
     }
+
     // @links: methods
     text = text.replace(/\{@link .*?#(.*?)\}/g, "<code><a href='#.$1'>.$1()</a></code>");
     // @links: core
@@ -935,7 +940,7 @@ q.ready(function() {
     }
 
     // escape all html tags in pre tags
-    var blocks = text.split("<pre>");
+    var blocks = text.split(/<pre.*?>/g);
     blocks.forEach(function(block, i) {
       var innerBlock = block.split("</pre>");
       if (innerBlock.length <= 1) {
