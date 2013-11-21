@@ -267,9 +267,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
           this._doScrollLoop();
         }
       } else {
-        setTimeout(function() {
-          this.setCurrentIndex(this.getCurrentIndex() + 1);
-        }.bind(this), 0);
+        this.setCurrentIndex(this.getCurrentIndex() + 1);
       }
     },
 
@@ -283,9 +281,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
           this._doScrollLoop();
         }
       } else {
-        setTimeout(function() {
-          this.setCurrentIndex(this.getCurrentIndex() - 1);
-        }.bind(this), 0);
+        this.setCurrentIndex(this.getCurrentIndex() - 1);
       }
     },
 

@@ -249,7 +249,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       }
       this.__isShown = true;
 
-      if(this.getModal())
+      if(this.getModal() === true)
       {
         qx.ui.mobile.core.Blocker.getInstance().show();
 

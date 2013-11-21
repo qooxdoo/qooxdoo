@@ -20,7 +20,7 @@
 /**
  *
  * The picker widget gives the user the possibility to select a value out of an array
- * of values. The picker widget is always shown in a {@link qx.ui.mobile.dialog.Dialog}.
+ * of values. The picker widget is always shown in a {@link qx.ui.mobile.dialog.Popup}.
  *
  * The picker widget is able to display multiple picker slots, for letting the user choose
  * several values at one time, in one single dialog.

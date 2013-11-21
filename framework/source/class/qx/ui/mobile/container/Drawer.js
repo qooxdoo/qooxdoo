@@ -183,6 +183,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     __parent : null,
     __inAnimation : null,
     __lastLandscape : null,
+    __transitionEnabled : null,
 
 
     // property apply
@@ -558,8 +559,6 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     this.__parent.removeListener("touchstart", this._onParentTouchStart, this);
     this.__parent.removeListener("back", this.forceHide, this);
 
-    this.__touchStartPosition = null;
-    this.__inAnimation = null;
-    this.__parent = null;
+    this.__touchStartPosition = this.__inAnimation = this.__parent = this.__transitionEnabled = null;
   }
 });
