@@ -123,6 +123,8 @@ qx.Bootstrap.define("qx.ui.website.Slider",
      * slider widgets.
      *
      * @param value {Number?} The initial value of each slider widget
+     * @param step {Number|Array?} The step config value to configure the step
+     * width or the steps as array of numbers.
      * @return {qx.ui.website.Slider} A new Slider collection.
      * @attach {qxWeb}
      */
