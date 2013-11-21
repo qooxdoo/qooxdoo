@@ -80,7 +80,7 @@ qx.Bootstrap.define("qx.ui.website.Slider",
      * The minimum value of the slider. This will only be used if no explicit
      * steps are given.
      *
-     * Default value: <pre>0</pre>
+     * Default value: <pre>0 </pre>
      *
      *
      * *maximum*
@@ -96,7 +96,7 @@ qx.Bootstrap.define("qx.ui.website.Slider",
      * The amount of pixel the slider should be position away from its left and
      * right border.
      *
-     * Default value: <pre>o</pre>
+     * Default value: <pre>0 </pre>
      */
     _config : {
       minimum : 0,
