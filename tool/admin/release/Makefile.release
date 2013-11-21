@@ -80,7 +80,7 @@ CMD_SYNC_BACKUP = $(CMD_NICE) rsync --recursive --delete --inplace --copy-links
 RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
-APPLICATIONS = tutorial todo feedreader mobileshowcase playground showcase widgetbrowser featureconfigeditor github demobrowser
+APPLICATIONS = websitewidgetbrowser tutorial todo feedreader mobileshowcase playground showcase widgetbrowser featureconfigeditor github demobrowser
 COMPONENTS = apiviewer testrunner inspector server website
 FRAMEWORK_TARGETS = api test test-mobile dependencies
 TUTORIALS = mobiletweets tweets website
@@ -334,7 +334,7 @@ distclean:
 	@for APPLICATION in $(APPLICATIONS); do \
 		F="application/$$APPLICATION"; \
 		if [ -e $$F ]; then \
-			if [ "$$APPLICATION" != "todo" ]; then \
+			if [ "$$APPLICATION" != "websitewidgetbrowser"]; then \
 				(( cd $$F && $(CMD_GENERATOR) distclean ) || ( echo "Unable to distclean $$F"; exit 1 )); \
 			fi; \
 		fi; \
@@ -485,7 +485,7 @@ source-apps:
 	@time for APPLICATION in $(APPLICATIONS); do \
 		if [ "$$APPLICATION" = "feedreader" ]; then \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) source,source-mobile ) || exit 1; \
-		elif [ "$$APPLICATION" = "todo" ]; then \
+		elif [ "$$APPLICATION" = "todo" ]; then noop; \
 		else \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) source ) || exit 1; \
 		fi; \
@@ -702,6 +702,8 @@ check-apps:
 			F="application/$$TARGET/build-indigo/script/$$TARGET.js"; \
 		elif [ "$$TARGET" = "todo" ] ; then \
 			F="application/$$TARGET/$$TARGET.js"; \
+		elif [ "$$TARGET" = "websitewidgetbrowser" ] ; then \
+			F="application/$$TARGET/script/samples.js"; \
 		else \
 			F="application/$$TARGET/build/script/$$TARGET.js"; \
 		fi; \
@@ -779,6 +781,12 @@ publish-apps:
 		elif [ "$$APPLICATION" = "todo" ]; then \
 			$(CMD_SYNC_ONLINE) application/$$APPLICATION/script $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 			$(CMD_SYNC_ONLINE) application/$$APPLICATION/todo.* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/index.html $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+		elif [ "$$APPLICATION" = "websitewidgetbrowser" ]; then \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/demo $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/script $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/*.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/*.css $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 			$(CMD_SYNC_ONLINE) application/$$APPLICATION/index.html $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
 		else \
 			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
