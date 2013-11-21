@@ -22,6 +22,7 @@
  * DOM manipulation module
  *
  * @ignore(qx.bom.element, qx.bom.element.AnimationJs)
+ * @group (Core)
  */
 qx.Bootstrap.define("qx.module.Manipulating", {
   statics :
@@ -39,7 +40,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @return {qxWeb} Collection of elements
      */
     create : function(html, context) {
-      return qxWeb.$init(qx.bom.Html.clean([html], context));
+      return qxWeb.$init(qx.bom.Html.clean([html], context), qxWeb);
     },
 
 
@@ -78,7 +79,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      */
     append : function(html) {
       var arr = qx.bom.Html.clean([html]);
-      var children = qxWeb.$init(arr);
+      var children = qxWeb.$init(arr, qxWeb);
 
       this._forEachElement(function(item, index) {
         for (var j=0, m=children.length; j < m; j++) {
@@ -107,20 +108,18 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @return {qxWeb} The collection for chaining
      */
     appendTo : function(parent) {
-      //var func = ;
-
       parent = qx.module.Manipulating.__getElementArray(parent);
       for (var i=0, l=parent.length; i < l; i++) {
         this._forEachElement(function(item, j) {
-        if (i == 0) {
-          // first parent: move the target node(s)
-          qx.dom.Element.insertEnd(this[j], parent[i]);
-        }
-        else {
-          // further parents: clone the target node(s)
-          qx.dom.Element.insertEnd(this.eq(j).clone(true)[0], parent[i]);
-        }
-      })
+          if (i == 0) {
+            // first parent: move the target node(s)
+            qx.dom.Element.insertEnd(this[j], parent[i]);
+          }
+          else {
+            // further parents: clone the target node(s)
+            qx.dom.Element.insertEnd(this.eq(j).clone(true)[0], parent[i]);
+          }
+        });
       }
 
       return this;

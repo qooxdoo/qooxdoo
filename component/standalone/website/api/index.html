@@ -20,6 +20,7 @@
   <script type="text/javascript" charset="utf-8" src="script/q-textselection.min.js"></script>
   <script type="text/javascript" charset="utf-8" src="script/q-transform.min.js"></script>
   <script type="text/javascript" charset="utf-8" src="script/q-util.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="script/q-ui.min.js"></script>
   <script type="text/javascript" charset="utf-8" src="viewer.js"></script>
   <link href="http://resources.qooxdoo.org/stylesheets/reset.css" rel="stylesheet" type="text/css">
   <link href="http://resources.qooxdoo.org/stylesheets/base.css" rel="stylesheet" type="text/css">
@@ -48,26 +49,39 @@
   <!-- HEADER -->
   <div id="header-wrapper">
     <div id="header">
+      <button id="showNav" value="0">&#xF0AA;</button>
       <h1>qx.Website API Documentation</h1>
-      <div id="plugintoggle"><span>show</span> plugin API</div>
     </div>
     <div class="decoration"></div>
   </div>
 
   <!-- CONTENT -->
-  <div id="list"></div>
+
+  <div id="navContainer">
+    <div class="filter">
+      <span>&#xF094;</span>
+      <input type="search" placeholder="Filter Methods">
+    </div>
+    <div id="list" style="opacity: 0"
+      data-qx-class="qx.ui.website.Accordion">
+      <ul>
+      </ul>
+    </div>
+  </div>
+
+
   <div id="content">
     <div id="warning"><h1 style='color: #C00F00'>Error while loading!</h1><em>Has the application been generated? (generate.py api)</em></div>
   </div>
 
   <!-- TEMPLATES -->
   <script type="text/template" charset="utf-8" id="list-item">
-    <li class="{{classname}}{{#plugin}} plugin{{/plugin}}">{{#missing}}<b style="color: red;">!! </b>{{/missing}}<a href="#{{link}}">{{name}}</a></li>
+    <li class="{{classname}}{{#plugin}} plugin{{/plugin}}"><a href="#{{link}}" class="{{#missing}}warning{{/missing}}">{{name}}</a></li>
   </script>
 
   <script type="text/template" charset="utf-8" id="method">
   <div id="{{name}}" class="method{{#plugin}} plugin{{/plugin}}">
-    <h2 class="method-header box">{{name}} ({{{printParams}}}) <span class="returns">{{{returns.printTypes}}}</span></h2>
+    <h2 class="method-header box" {{#plugin}}data-icon="{{{icon}}}" title="{{title}}"{{/plugin}}>{{name}} ({{{printParams}}}) <span class="returns">{{{returns.printTypes}}}</span></h2>
     <div>
     {{{desc}}}
     </div>
@@ -90,7 +104,7 @@
 
   <script type="text/template" charset="utf-8" id="events">
     <div class="events">
-      <h2>Events</h2>
+      <h2>Events <a title='More information on events' class='info' href='#.on'>i</a></h2></h2>
       <ul>
         {{#events}}
         <li class="inline">{{{type}}} <code>{{name}}</code> {{{desc}}}</li>
@@ -109,6 +123,9 @@
       </ul>
     <div>
   </script>
+
+  <iframe id="fiddleframe" src="fiddleframe.html"></iframe>
+  <div id="playpen"></div>
 
 </body>
 </html>

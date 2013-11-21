@@ -639,6 +639,28 @@ testrunner.define({
     }, this);
   },
 
+  testForEachElement : function() {
+    var test = q.create("<div/><h1/>").add(window);
+    var exec = 0;
+    test._forEachElement(function(item) {
+      exec++;
+      this.assertNotEquals(window, item);
+      this.assertEquals(1, item.nodeType);
+    }, this);
+    this.assertEquals(2, exec);
+
+    exec = 0;
+    test._forEachElementWrapped(function(item) {
+      exec++;
+      this.assertNotEquals(window, item);
+      this.assertNotEquals(window, item[0]);
+      this.assertInstance(item, qxWeb);
+      this.assertEquals(1, item[0].nodeType);
+      this.assertEquals(1, item.length);
+    }, this);
+    this.assertEquals(2, exec);
+  },
+
   testGetParents : function() {
     var test = q.create("<div id='testdiv'/>");
     test.appendTo(this.sandbox[0]);
@@ -1185,6 +1207,24 @@ testrunner.define({
     node1 = q.create("<div><p>Foo</p></div>");
     node2 = q.create("<div><p>Foo</p><p>Foo</p></div>");
     this.assertFalse(q.equalNodes(node1, node2));
+
+  },
+
+
+  testContains : function() {
+    this.sandbox.append("<h2 class='foo'>Foo</h2>");
+
+    this.assertEquals(1, qxWeb(document.documentElement).contains(document.body).length);
+    this.assertEquals(1, this.sandbox.contains(q("#sandbox .foo")[0]).length);
+    this.assertEquals(0, this.sandbox.contains(window).length);
+
+    this.assertEquals(1, this.sandbox.contains(q("#sandbox .foo")).length);
+    this.assertEquals(0, this.sandbox.contains(q("#sandbox .nope")).length);
+
+    this.sandbox.push(window);
+    this.sandbox.push(q.create("<div>")[0]);
+    this.assertEquals(2, this.sandbox.contains(q("#sandbox .foo")).length);
+    this.assertEquals(0, this.sandbox.contains(q("#sandbox .nope")).length);
   }
 });
 
@@ -1798,6 +1838,35 @@ testrunner.define({
     this.assertTrue(test.hasListener("mousedown"));
     test.off("mousedown", cb);
     this.assertFalse(test.hasListener("mousedown"));
+  },
+
+  testHasListenerWithHandler : function() {
+    var test = q.create('<div></div>').appendTo("#sandbox");
+    var cb = function() {};
+    test.on("mousedown", cb);
+    this.assertTrue(test.hasListener("mousedown", cb));
+    this.assertFalse(test.hasListener("mousedown", function() {}));
+    test.off("mousedown", cb);
+    this.assertFalse(test.hasListener("mousedown", cb));
+
+    var ctx = {};
+    test.on("mousedown", cb, ctx);
+    this.assertTrue(test.hasListener("mousedown", cb));
+    this.assertFalse(test.hasListener("mousedown", function() {}));
+    test.off("mousedown", cb, ctx);
+    this.assertFalse(test.hasListener("mousedown", cb));
+  },
+
+  testHasListenerWithContext : function() {
+    var test = q.create('<div></div>').appendTo("#sandbox");
+    var cb = function() {};
+    var ctx = {};
+
+    test.on("mousedown", cb, ctx);
+    this.assertTrue(test.hasListener("mousedown", cb, ctx));
+    this.assertFalse(test.hasListener("mousedown", cb, {}));
+    test.off("mousedown", cb, ctx);
+    this.assertFalse(test.hasListener("mousedown", cb, ctx));
   },
 
   testContext : function()
@@ -3647,5 +3716,616 @@ testrunner.define({
       this.assertEquals(checkContext, context);
       this.assertEquals("interval_0", data);
     }, this);
+  }
+});
+
+
+
+/* **************
+ * WIDGETS
+ * ************ */
+
+
+testrunner.define({
+  classname: "ui.Widget",
+
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+
+  testConstructor : function() {
+    var w = new qxWeb.$$qx.ui.website.Widget(qxWeb("#sandbox"));
+    w.init();
+    this.assertEquals("qx.ui.website.Widget", w.getAttribute("data-qx-class"));
+  },
+
+  testIsCollection : function() {
+    var w = new qxWeb.$$qx.ui.website.Widget(qxWeb("#sandbox"));
+    this.assertTrue(w instanceof qxWeb);
+  },
+
+  testSetGetConfigProperty : function() {
+    var w = new qxWeb.$$qx.ui.website.Widget(qxWeb("#sandbox"));
+    w.setConfig("a", 123);
+    this.assertEquals(123, w.getConfig("a"));
+  },
+
+  testSetGetConfigAttribute : function() {
+    var value = ["bar", "baz"];
+    var coll = qxWeb.create("<div>").setAttribute("data-qx-config-foo-bar", JSON.stringify(value));
+    var w = new qxWeb.$$qx.ui.website.Widget(coll);
+    this.assertArrayEquals(value, w.getConfig("fooBar"));
+  },
+
+  testDispose : function() {
+    var w = new qxWeb.$$qx.ui.website.Widget(qxWeb("#sandbox"));
+    w.init();
+    this.assertEquals("qx.ui.website.Widget", qxWeb("#sandbox").classname);
+    this.assertInstance(w.dispose(), qxWeb);
+    this.assertEquals("qxWeb", qxWeb("#sandbox").classname);
+  },
+
+  testDisposeWithConfig : function() {
+    var w = new qxWeb.$$qx.ui.website.Widget(qxWeb("#sandbox"));
+    w.setConfig("test", "123");
+    w.setTemplate("test", "456");
+    w.dispose();
+    w = new qxWeb.$$qx.ui.website.Widget(qxWeb("#sandbox"));
+    this.assertUndefined(w.getConfig("test"));
+    this.assertUndefined(w.getTemplate("test"));
+    this.assertUndefined(w.getTemplate("uiuibgkabfg"));
+  },
+
+  testOnOffWidget : function() {
+    var w = new qxWeb.$$qx.ui.website.Widget(qxWeb("#sandbox"));
+    var called = 0;
+    var clb = function() {
+      called++;
+    };
+    w.onWidget("foo", clb, w);
+
+    w.emit("foo");
+    this.assertEquals(1, called);
+
+    w.onWidget("foo", clb, w);
+
+    w.emit("foo");
+    this.assertEquals(2, called);
+
+    w.offWidget("foo", clb, w);
+    w.emit("foo");
+    this.assertEquals(2, called);
+  },
+
+  testOnOffWidgetDifferentCallback : function() {
+    var w = new qxWeb.$$qx.ui.website.Widget(qxWeb("#sandbox"));
+    var called = 0;
+    var clb = function() {
+      called++;
+    };
+    w.onWidget("foo", clb, w);
+
+    w.emit("foo");
+    this.assertEquals(1, called);
+
+    w.onWidget("foo", function() {
+      clb();
+    }, w);
+
+    w.emit("foo");
+    this.assertEquals(3, called);
+
+    w.offWidget("foo", clb, w);
+    w.emit("foo");
+    this.assertEquals(4, called);
+  },
+
+  testOnOffWidgetDifferentContext : function() {
+    var w = new qxWeb.$$qx.ui.website.Widget(qxWeb("#sandbox"));
+    var called = 0;
+    var clb = function() {
+      called++;
+    };
+    w.onWidget("foo", clb, {});
+
+    w.emit("foo");
+    this.assertEquals(1, called);
+
+    w.onWidget("foo", clb, {});
+
+    w.emit("foo");
+    this.assertEquals(2, called);
+
+    w.offWidget("foo", clb, {});
+    w.emit("foo");
+    this.assertEquals(2, called);
+  },
+
+  testOnOffWidgetMultipleItems : function() {
+    q.create("<div></div><div></div>").appendTo(this.sandbox);
+    this.sandbox.getChildren().setData("qxClass", "qx.ui.website.Widget");
+    var w = this.sandbox.getChildren();
+    var called = 0;
+    var clb = function() {
+      called++;
+    };
+    w.onWidget("foo", clb, w);
+
+    w.emit("foo");
+    this.assertEquals(2, called);
+
+    w.onWidget("foo", clb, w);
+
+    w.emit("foo");
+    this.assertEquals(4, called);
+
+    w.getFirst().emit("foo");
+    this.assertEquals(5, called);
+
+    w.offWidget("foo", clb, w);
+    w.getFirst().emit("foo");
+    this.assertEquals(5, called);
+  },
+
+  testOnOffWidgetMultipleCollections : function() {
+    new qxWeb.$$qx.ui.website.Widget(qxWeb("#sandbox"));
+    var called = 0;
+    var clb = function() {
+      called++;
+    };
+    q("#sandbox").onWidget("foo", clb, q("#sandbox"));
+
+    q("#sandbox").emit("foo");
+    this.assertEquals(1, called);
+
+    q("#sandbox").onWidget("foo", clb, q("#sandbox"));
+
+    q("#sandbox").emit("foo");
+    this.assertEquals(2, called);
+
+    q("#sandbox").offWidget("foo", clb, q("#sandbox"));
+    this.assertEquals(2, called);
+  }
+});
+
+
+testrunner.define({
+  classname: "ui.Button",
+
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+
+  testPlainConstructor : function() {
+    var b = q("#sandbox").button();
+    this.assertTrue(b.hasClass("qx-button"));
+    this.assertEquals(1, b.find("span").length);
+    this.assertEquals(1, b.find("img").length);
+    this.assertEquals("none", b.find("img").getStyle("display"));
+  },
+
+  testFullConstructor : function() {
+    var label = "Label";
+    var img = "http://qooxdoo.org/_media/website.png";
+    var b = q("#sandbox").button(label, img);
+    this.assertEquals(label, b.find("span").getHtml());
+    this.assertEquals(img, b.find("img").getAttribute("src"));
+    this.assertEquals("inline", b.find("img").getStyle("display"));
+  },
+
+  testGetSetLabel : function() {
+    var b = q("#sandbox").button();
+    this.assertNull(b.getLabel());
+    b.setLabel("Foo");
+    this.assertEquals("Foo", b.getLabel())
+  },
+
+  testGetSetIcon : function() {
+    var img = "http://qooxdoo.org/_media/website.png";
+    var b = q("#sandbox").button();
+    this.assertNull(b.getIcon());
+    b.setIcon(img);
+    this.assertEquals(img, b.getIcon());
+  },
+
+  testSetMenu : function() {
+    var menu = q.create("<div>").setStyle("display", "none").appendTo("#sandbox");
+    var b = q.create("<button>").appendTo("#sandbox").button().setMenu(menu);
+    var ev = {stopPropagation : function() {}};
+    b.emit("click", ev);
+    this.assertEquals("block", menu.getStyle("display"));
+    this.assertEquals("absolute", menu.getStyle("position"));
+    b.emit("click", ev);
+    this.assertEquals("none", menu.getStyle("display"));
+  }
+});
+
+testrunner.define({
+  classname: "ui.Rating",
+
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+
+  testPlainConstructor : function() {
+    var r = q("#sandbox").rating();
+    this.assertEquals(0, r.getValue());
+    this.assertEquals(5, r.getConfig("length"));
+    this.assertEquals("★", r.getConfig("symbol"));
+  },
+
+  testFullConstructor : function() {
+    var r = q("#sandbox").rating(7, "X", 11);
+    this.assertEquals(7, r.getValue());
+    this.assertEquals(11, r.getConfig("length"));
+    this.assertEquals("X", r.getConfig("symbol"));
+  },
+
+  testSetGetValue : function() {
+    var r = q("#sandbox").rating();
+    r.setValue(3);
+    this.assertEquals(3, r.getValue());
+  },
+
+  testChangeEvent : function() {
+    var r = q("#sandbox").rating();
+    var triggered = false;
+    r.on("changeValue", function(value) {
+      triggered = true;
+      this.assertEquals(3, value);
+    }, this);
+    r.setValue(3);
+    this.assertTrue(triggered);
+  },
+
+  testSetSymbol : function() {
+    var r = q("#sandbox").rating();
+    this.assertEquals("★", r.getChildren().getHtml());
+    r.setConfig("symbol", "X").render();
+    this.assertEquals("X", r.getChildren().getHtml());
+  },
+
+  testSetLength : function() {
+    var r = q("#sandbox").rating();
+    this.assertEquals(5, r.getChildren().length);
+    r.setValue(2);
+    r.setConfig("length", 7).render();
+    this.assertEquals(7, r.getChildren().length);
+    this.assertEquals(2, r.getValue());
+  },
+
+  testTwoCollections : function() {
+    var r = q("#sandbox").rating();
+    var rr = q("#sandbox").rating();
+    r.setValue(2);
+    this.assertEquals(2, r.getValue());
+    this.assertEquals(2, rr.getValue());
+  },
+
+  testTwoRatings : function() {
+    q.create("<div/><div/>").rating().appendTo("#sandbox");
+    q("#sandbox").getChildren().setValue(2);
+    this.assertEquals(2, q("#sandbox").getChildren().getValue());
+    this.assertEquals(2, q("#sandbox").getChildren().eq(0).getValue());
+    this.assertEquals(2, q("#sandbox").getChildren().eq(1).getValue());
+  },
+
+  testListenerRemove : function() {
+    var r = q("#sandbox").rating();
+    var calledChange = 0;
+    var calledCustom = 0;
+
+    r.on("changeValue", function() {
+      calledChange++;
+    });
+    r.on("custom", function() {
+      calledCustom++;
+    });
+
+    r.dispose();
+    q("#sandbox").rating().setValue(3).emit("custom");
+
+    this.assertEquals(0, calledChange);
+    this.assertEquals(1, calledCustom);
+  }
+});
+
+testrunner.define({
+  classname: "ui.Calendar",
+
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+
+  testSetGetValue : function() {
+    var now = new Date();
+    var cal = q("#sandbox").calendar(now);
+    this.assertEquals(now.toDateString(), cal.getValue().toDateString());
+  },
+
+  testChangeEvent : function() {
+    var cal = q("#sandbox").calendar(now);
+    var now = new Date();
+    cal.on("changeValue", function() {
+      this.resume(function() {
+        this.assertEquals(now.toDateString(), cal.getValue().toDateString());
+      }, this);
+    }.bind(this));
+
+    setTimeout(function() {
+      cal.setValue(now);
+    }, 100);
+
+    this.wait(250);
+  },
+
+  testConfig : function() {
+    var now = new Date();
+    var cal = q("#sandbox").calendar(now);
+    var monthNames = cal.getConfig("monthNames").map(function(month) {
+      return month.substr(0, 3).toUpperCase()
+    });
+    var dayNames = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
+    cal.setConfig("monthNames", monthNames).setConfig("dayNames", dayNames).render();
+
+    var displayedMonth = cal.find("thead tr:nth-child(1) td:nth-child(2)").getHtml();
+    this.assertEquals(0, displayedMonth.indexOf(monthNames[now.getMonth()]));
+
+    var displayedDays = cal.find("thead tr:nth-child(2) td").toArray().map(function(cell) {
+      return qxWeb(cell).getHtml();
+    });
+    this.assertArrayEquals(dayNames, displayedDays);
+  },
+
+  testTemplates : function() {
+    var now = new Date();
+    var cal = q("#sandbox").calendar(now);
+
+    var newClass = "my-cool-calendar";
+    cal.setTemplate("table", cal.getTemplate("table")
+      .replace("<table>", "<table class='" + newClass + "'>"));
+
+    var newPrev = "prev";
+    cal.setTemplate("controls", cal.getTemplate("controls")
+      .replace("&lt;", newPrev));
+
+    cal.render();
+
+    this.assertEquals(1, q("." + newClass).length);
+
+    var displayedPrev = cal.find("thead tr:nth-child(1) td:nth-child(1) button").getHtml();
+    this.assertEquals(displayedPrev, newPrev);
+  },
+
+  testTwoCollections : function() {
+    var now = new Date();
+    var c0 = q("#sandbox").calendar();
+    var c1 = q("#sandbox").calendar();
+    c0.setValue(now);
+
+    this.assertEquals(now.toDateString(), c0.getValue().toDateString());
+    this.assertEquals(now.toDateString(), c1.getValue().toDateString());
+  }
+});
+
+testrunner.define({
+  classname: "ui.Slider",
+
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+
+  testPlainConstructor : function() {
+    var slider = q("#sandbox").slider();
+    this.assertTrue(slider.hasClass("qx-slider"));
+    this.assertEquals(1, slider.getChildren().length);
+    this.assertTrue(slider.getChildren().eq(0).hasClass("qx-slider-knob"));
+  },
+
+  testFullConstructor : function() {
+    var slider = q("#sandbox").slider(10, [1,2,3,4]);
+    this.assertEquals(10, slider.getValue());
+    this.assertEquals(0, slider.getConfig("minimum"));
+    this.assertEquals(100, slider.getConfig("maximum"));
+    this.assertArrayEquals([1,2,3,4], slider.getConfig("step"));
+  },
+
+  testSetGetValue : function() {
+    var slider = q("#sandbox").slider();
+    this.assertEquals(0, slider.getValue());
+    slider.setValue(30);
+    this.assertEquals(30, slider.getValue());
+  },
+
+  testGivenKnob : function() {
+    var knob = q.create("<div class='qx-slider-knob test-class'>").appendTo("#sandbox");
+    var extra = q.create("<h2>Hello</h2>").appendTo("#sandbox");
+    var slider = q("#sandbox").slider();
+    this.assertTrue(slider.hasClass("qx-slider"));
+    this.assertEquals(2, slider.getChildren().length);
+    this.assertEquals(1, slider.getChildren(".test-class").length);
+    this.assertEquals(knob[0], slider.getChildren(".test-class")[0]);
+    this.assertEquals(1, slider.getChildren("h2").length);
+  },
+
+  testStepAsNumber : function() {
+    var slider = q("#sandbox").slider().setConfig("step", 10).render();
+    this.assertEquals(0, slider.getValue());
+    slider.setValue(14);
+    this.assertEquals(10, slider.getValue());
+    slider.setValue(16);
+    this.assertEquals(20, slider.getValue());
+  },
+
+  testStepAsArray : function() {
+    var slider = q("#sandbox").slider().setConfig("step", [1,2,4,8,16]).render();
+    this.assertEquals(1, slider.getValue());
+    slider.setValue(4);
+    this.assertEquals(4, slider.getValue());
+  },
+
+  testStepReset : function() {
+    var slider = q("#sandbox").slider().setConfig("step", [1,2,4,8,16]).render();
+    slider.setValue(4);
+    slider.setConfig("step", null).render();
+    this.assertEquals(4, slider.getValue());
+  },
+
+  testTwoSliders : function() {
+    q.create("<div>").appendTo("#sandbox");
+    q.create("<div>").appendTo("#sandbox");
+    q("#sandbox").getChildren().slider();
+    q("#sandbox").getChildren().eq(1).setValue(30);
+    this.assertEquals(0, q("#sandbox").getChildren().eq(0).getValue());
+    this.assertEquals(30, q("#sandbox").getChildren().eq(1).getValue());
+  },
+
+  testMinMaxValue : function() {
+    var slider = q("#sandbox").slider();
+    slider.setConfig("minimum", -10);
+    slider.setConfig("maximum", 10).render();
+    this.assertEquals(0, slider.getValue());
+    slider.setValue(-20).render();
+    this.assertEquals(-10, slider.getValue());
+    slider.setValue(20).render();
+    this.assertEquals(10, slider.getValue());
+  },
+
+  testMultipleInstances : function() {
+    var slider = q("#sandbox").slider();
+    this.assertEquals("qx.ui.website.Slider", q("#sandbox").classname);
+    q("#sandbox").setValue(10);
+    this.assertEquals(10, q("#sandbox").getValue());
+  },
+
+  testOffset : function() {
+    var slider = q("#sandbox").slider().setConfig("offset", 20).render();
+    var knob = slider.getChildren(".qx-slider-knob");
+    this.assertEquals(20, knob.getPosition().left);
+    slider.setValue(100);
+    this.assertEquals(-20, knob.getPosition().right);
+  },
+
+  testDragBoundaries : function() {
+    var slider = q("#sandbox").slider()
+    .setStyles({
+      position: "fixed",
+      left: 0,
+      top: 0,
+      width: "500px"
+    });
+
+    this.assertEquals(parseInt(slider.getStyle("paddingLeft")), slider._getDragBoundaries().min);
+    this.assertEquals(slider.getWidth() - parseInt(slider.getStyle("paddingRight")), slider._getDragBoundaries().max);
+
+    var offset = 10;
+    slider.setConfig("offset", offset).render();
+
+    var expectedMin = parseInt(slider.getStyle("paddingLeft")) + offset;
+    var expectedMax = slider.getWidth() - parseInt(slider.getStyle("paddingRight")) - offset;
+    this.assertEquals(expectedMin, slider._getDragBoundaries().min);
+    this.assertEquals(expectedMax, slider._getDragBoundaries().max);
+  },
+
+  testNearestValue : function() {
+    var slider = q("#sandbox").slider()
+    .setStyles({
+      position: "fixed",
+      left: 0,
+      top: 0,
+      width: "500px"
+    });
+
+    this.assertEquals(0, slider._getNearestValue(0));
+    this.assertEquals(50, slider._getNearestValue(slider.getWidth() / 2));
+    this.assertEquals(100, slider._getNearestValue(slider.getWidth()));
+
+    slider.setConfig("step", [1, 2, 3, 4, 5, 6, 7]).render();
+    this.assertEquals(1, slider._getNearestValue(0));
+    this.assertEquals(4, slider._getNearestValue(slider.getWidth() / 2));
+    this.assertEquals(7, slider._getNearestValue(slider.getWidth()));
+  }
+});
+
+testrunner.define({
+  classname: "ui.Tabs",
+
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+
+  testPlainConstructor : function() {
+    var tabs = q("#sandbox").tabs();
+    this.assertTrue(tabs.hasClass("qx-tabs"));
+    this.assertEquals(1, tabs.getChildren().length);
+    this.assertTrue(tabs.getChildren().eq(0).is("ul"));
+    this.assertFalse(tabs.getChildren().eq(0).hasClass("qx-tabs-justify"));
+    this.assertFalse(tabs.getChildren().eq(0).hasClass("qx-tabs-right"));
+  },
+
+  testConstructorWithDom : function() {
+    q("#sandbox").append(q.create("<ul><li data-qx-tab-page='#cont1'><button>Foo</button></li><li data-qx-tab-page='#cont0'><button>Foo</button></li></ul><div id='cont0'>Content0</div><div id='cont1'>Content1</div>"));
+    var tabs = q("#sandbox").tabs();
+    this.assertTrue(tabs.find("ul li.qx-tabs-button").length == 2);
+    this.assertTrue(tabs.find("ul li").getFirst().hasClass("qx-tabs-button-active"));
+    this.assertEquals("block", tabs.find("#cont1").getStyle("display"));
+    this.assertEquals("none", tabs.find("#cont0").getStyle("display"));
+  },
+
+  testMultipleInstances : function() {
+    var tabs = q("#sandbox").tabs("right");
+    this.assertTrue(q("#sandbox").getChildren().eq(0).hasClass("qx-tabs-right"));
+  },
+
+  testAddButton : function() {
+    var tabs = q("#sandbox").tabs();
+    tabs.addButton("Foo");
+    this.assertEquals(1, tabs.find("ul li button").length);
+    q("#sandbox").append(q.create("<div id='cont'>content</div>"));
+    tabs.addButton("Bar", "#cont");
+    this.assertEquals(2, tabs.find("ul li button").length);
+    this.assertEquals("none", q("#cont").getStyle("display"));
+  },
+
+  testTwoTabs : function() {
+    var tabs = q.create('<div/><div/>').appendTo("#sandbox").tabs();
+    tabs.addButton("Foo");
+    this.assertEquals(2, tabs.find(".qx-tabs-button").length);
+  },
+
+  testSelectPage : function() {
+    var tabs = q("#sandbox").tabs();
+    tabs.addButton("Foo").addButton("Bar");
+    this.assertTrue(tabs.find("ul li").getFirst().hasClass("qx-tabs-button-active"));
+    this.assertFalse(tabs.find("ul li").eq(1).hasClass("qx-tabs-button-active"));
+    tabs.select(1);
+    this.assertFalse(tabs.find("ul li").eq(0).hasClass("qx-tabs-button-active"));
+    this.assertTrue(tabs.find("ul li").eq(1).hasClass("qx-tabs-button-active"));
+  },
+
+  testChangePage : function() {
+    var tabs = q("#sandbox").tabs();
+    var called = 0;
+    tabs.addButton("Foo").addButton("Bar");
+    tabs.on("changeSelected", function(idx) {
+      called++;
+      this.assertEquals(1, idx);
+    }, this);
+    tabs.select(1);
+    this.assertEquals(1, called);
+  },
+
+  testDispose : function() {
+    var tabs = q("#sandbox").tabs().addButton("Foo").dispose();
+    this.assertNull(tabs.getHtml());
+    this.assertFalse(tabs.hasClass("qx-tabs"));
+  },
+
+  testJustify : function() {
+    var tabs = q("#sandbox").tabs("justify");
+    this.assertTrue(tabs.getChildren().eq(0).hasClass("qx-tabs-justify"));
+    tabs.setConfig("align", "left").render();
+    this.assertFalse(tabs.getChildren().eq(0).hasClass("qx-tabs-justify"));
+  },
+
+  testRight : function() {
+    var tabs = q("#sandbox").tabs("right");
+    this.assertTrue(tabs.getChildren().eq(0).hasClass("qx-tabs-right"));
+    tabs.setConfig("align", "left").render();
+    this.assertFalse(tabs.getChildren().eq(0).hasClass("qx-tabs-right"));
   }
 });

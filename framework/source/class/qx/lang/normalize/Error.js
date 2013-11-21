@@ -24,6 +24,8 @@
  * *toString*:
  * <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Error/toString">MDN documentation</a> |
  * <a href="http://es5.github.com/#x15.11.4.4">Annotated ES5 Spec</a>
+ *
+ * @group (Polyfill)
  */
 qx.Bootstrap.define("qx.lang.normalize.Error",
 {

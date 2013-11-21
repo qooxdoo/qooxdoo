@@ -20,7 +20,7 @@
 /**
  * A Collection of utility functions to escape and unescape strings.
  */
-qx.Class.define("qx.bom.String",
+qx.Bootstrap.define("qx.bom.String",
 {
   /*
   *****************************************************************************
@@ -446,5 +446,5 @@ qx.Class.define("qx.bom.String",
   {
     /** Mapping of char codes to HTML entity names */
     statics.FROM_CHARCODE = qx.lang.Object.invert(statics.TO_CHARCODE)
-  }
+;  }
 });

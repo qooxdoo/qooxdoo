@@ -20,6 +20,7 @@
 
 /**
  * Attribute/Property handling for DOM elements.
+ * @group (Core)
  */
 qx.Bootstrap.define("qx.module.Attribute", {
   statics :

@@ -61,6 +61,8 @@
  * Here is a little sample of how to use <code>indexOf</code> e.g.
  * <pre class="javascript">var a = ["a", "b", "c"];
  * a.indexOf("b"); // returns 1</pre>
+ *
+ * @group (Polyfill)
  */
 qx.Bootstrap.define("qx.lang.normalize.Array", {
 

@@ -1,0 +1,207 @@
+
+/**
+* Creates a plain-colored, a linear gradient or a radial gradient background,
+* based on the first keyword of the $values list.
+*
+* If the first value is a color (or "transparent"), the mixin creates a plain colored background with it.
+* If multiple values are passed, the background mixins attempts to create a linear gradient through "linear-gradient" mixin.
+*/
+@mixin background($values) {
+  @if (length($values) == 1)  {
+    background-color: $values;
+  } @else {
+    @include linear-gradient($values...);
+  }
+}
+
+/*
+* See documentation:
+* http://bourbon.io/docs/#linear-gradient
+*
+* https://github.com/thoughtbot/bourbon/blob/master/app/assets/stylesheets/css3/_linear-gradient.scss
+*/
+@mixin linear-gradient($pos, $G1, $G2: null,
+                       $G3: null, $G4: null,
+                       $G5: null, $G6: null,
+                       $G7: null, $G8: null,
+                       $G9: null, $G10: null,
+                       $fallback: null) {
+
+  // Detect what type of value exists in $pos
+  $pos-type: type-of(nth($pos, 1));
+  $pos-spec: null;
+  $pos-degree: null;
+
+  // If $pos is missing from mixin, reassign vars and add default position
+  @if ($pos-type == color) or (nth($pos, 1) == "transparent")  {
+    $G10: $G9; $G9: $G8; $G8: $G7; $G7: $G6; $G6: $G5;
+     $G5: $G4; $G4: $G3; $G3: $G2; $G2: $G1; $G1: $pos;
+     $pos: null;
+  }
+
+  @if $pos {
+    $positions: _linear-positions-parser($pos);
+    $pos-degree: nth($positions, 1);
+    $pos-spec:   nth($positions, 2);
+  }
+
+  $full: $G1, $G2, $G3, $G4, $G5, $G6, $G7, $G8, $G9, $G10;
+
+  // Set $G1 as the default fallback color
+  $fallback-color: nth($G1, 1);
+
+  // If $fallback is a color use that color as the fallback color
+  @if (type-of($fallback) == color) or ($fallback == "transparent") {
+    $fallback-color: $fallback;
+  }
+
+  background-color: $fallback-color;
+  background-image: -webkit-linear-gradient($pos-degree $full);
+  background-image: -moz-linear-gradient($pos-degree $full);
+  background-image: -ms-linear-gradient($pos-degree $full);
+  background-image: unquote(_webkit-gradient($full, $pos));
+  background-image: unquote("linear-gradient(#{$pos-spec}#{$full})");
+}
+
+/**
+* This function creates a linear-gradient string for the old webkit syntax, based
+* on parametes $values.
+*
+* The parameter $direction is assumed be one of these values:
+* ["to left","to right","to top","to bottom","45deg","-45deg"]
+*
+* If no direction is passed, or an invalid value occurs, the default gradient is created
+* from top to bottom direction.
+*
+* For the old webkit gradient syntax ("-webkit-gradient"), please have a look at:
+* https://www.webkit.org/blog/175/introducing-css-gradients/
+*
+*/
+@function _webkit-gradient($values, $direction: null) {
+  $last:  length($values);
+
+  // Detect $values length, because it might contain null values.
+  @for $i from 1 through length($values) {
+    @if (nth($values, $i) != null) {
+      $last: $i;
+    }
+  }
+
+  $i:1;
+  $stops: "";
+
+  @each $value in $values {
+    @if ($value != null) {
+
+      $current: nth($values, $i);
+      $next: nth($values, $i + 1);
+
+      // If no position is passed inside color-stop, it calculates the position in percent.
+      $pos: ($i - 1)*(1/($last - 1));
+
+      // Separator between color-stops.
+      $separator: "";
+      @if ($i > 1) {
+        $separator: ", ";
+      }
+
+      $color: "";
+      @if (length($current) > 1) {
+        $pos: nth($current, 2);
+        $color: nth($current, 1);
+      } @else {
+        $color: $current;
+      }
+
+      $stops: $stops  + $separator + "color-stop(#{$pos}, #{$color})";
+
+      $i: $i +1;
+    }
+  }
+
+  $point: "center top, center bottom";
+  @if ($direction != null) {
+    $direction: ""+$direction;
+    @if (""+$direction == "to left") {
+      $point: "right center, left center";
+    } @else if (""+$direction == "to right") {
+      $point: "left center, right center";
+    } @else if (""+$direction == "to top") {
+      $point: "center bottom, center top";
+    } @else if (""+$direction == "to bottom") {
+      $point: "center top, center bottom";
+    } @else if (""+$direction == "45deg") {
+      $point: "0% 100%, 100% 0%";
+    } @else if (""+$direction == "-45deg") {
+      $point: "0% 0%, 100% 100%";
+    }
+  }
+
+  @return "-webkit-gradient(linear, #{$point}, #{$stops})";
+}
+
+
+/**
+* https://github.com/thoughtbot/bourbon/blob/master/app/assets/stylesheets/helpers/_linear-positions-parser.scss
+*/
+@function _linear-positions-parser($pos) {
+  $type: type-of(nth($pos, 1));
+  $spec: null;
+  $degree: null;
+  $side: null;
+  $corner: null;
+  $length: length($pos);
+  // Parse Side and corner positions
+  @if ($length > 1) {
+    @if nth($pos, 1) == "to" { // Newer syntax
+      $side: nth($pos, 2);
+
+      @if $length == 2 { // eg. to top
+        // Swap for backwards compatability
+        $degree: _position-flipper(nth($pos, 2));
+      }
+      @else if $length == 3 { // eg. to top left
+        $corner: nth($pos, 3);
+      }
+    }
+    @else if $length == 2 { // Older syntax ("top left")
+      $side: _position-flipper(nth($pos, 1));
+      $corner: _position-flipper(nth($pos, 2));
+    }
+
+    @if ("#{$side} #{$corner}" == "left top") or ("#{$side} #{$corner}" == "top left") {
+      $degree: _position-flipper(#{$side}) _position-flipper(#{$corner});
+    }
+    @else if ("#{$side} #{$corner}" == "right top") or ("#{$side} #{$corner}" == "top right") {
+      $degree: _position-flipper(#{$side}) _position-flipper(#{$corner});
+    }
+    @else if ("#{$side} #{$corner}" == "right bottom") or ("#{$side} #{$corner}" == "bottom right") {
+      $degree: _position-flipper(#{$side}) _position-flipper(#{$corner});
+    }
+    @else if ("#{$side} #{$corner}" == "left bottom") or ("#{$side} #{$corner}" == "bottom left") {
+      $degree: _position-flipper(#{$side}) _position-flipper(#{$corner});
+    }
+    $spec: to $side $corner;
+  }
+  @else if $length == 1 {
+    // Swap for backwards compatability
+    @if $type == string {
+      $degree: $pos;
+      $spec: to _position-flipper($pos);
+    }
+    @else {
+      $degree: -270 - $pos; //rotate the gradient opposite from spec
+      $spec: $pos;
+    }
+  }
+  $degree: unquote($degree + ",");
+  $spec:   unquote($spec + ",");
+  @return $degree $spec;
+}
+
+@function _position-flipper($pos) {
+ @return if($pos == left, right, null)
+         if($pos == right, left, null)
+         if($pos == top, bottom, null)
+         if($pos == bottom, top, null);
+}

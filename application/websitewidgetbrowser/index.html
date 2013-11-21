@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qx.Website Widget Browser</title>
+  <script type="text/javascript">
+  var script = location.search.indexOf("source") === -1 ? "q.min.js" : "q-source.js";
+  document.write('<scr' + 'ipt type="text/javascript" src="script/' + script + '"></scr' + 'ipt>');
+  </script>
+  <script type="text/javascript" src="widgetbrowser.js"></script>
+  <link href="http://resources.qooxdoo.org/stylesheets/base.css" rel="stylesheet" type="text/css">
+  <link href="http://resources.qooxdoo.org/stylesheets/layout.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="../../framework/source/resource/qx/website/css/indigo.css"/>
+  <link href="styles.css" rel="stylesheet" type="text/css">
+  <script src="highlight.pack.js"></script>
+  <link rel="stylesheet" href="default.highlight.css">
+  <script type="text/javascript">
+  if (location.hostname === "demo.qooxdoo.org") {
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-415440-1']);
+    _gaq.push(['_setDomainName', 'qooxdoo.org']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  }
+  </script>
+</head>
+<body>
+  <!-- HEADER -->
+  <div id="header-wrapper">
+    <div id="header">
+      <h1>qx.Website Widget Browser</h1>
+      <div id="sizeSlider" data-qx-class="qx.ui.website.Slider" data-qx-config-minimum="100" data-qx-config-maximum="250">
+      </div>
+    </div>
+    <div class="decoration"></div>
+  </div>
+
+  <div id="content" data-qx-class="qx.ui.website.Tabs" data-qx-config-align="justify">
+
+    <div class="disable">
+      <input type="checkbox" id="toggle_disable" />
+      <label for="toggle_disable">Disable Widgets</label>
+    </div>
+
+    <ul>
+      <li data-qx-tab-page="#button-page"><button>Button</button></li>
+      <li data-qx-tab-page="#calendar-page"><button>Calendar</button></li>
+      <li data-qx-tab-page="#rating-page"><button>Rating</button></li>
+      <li data-qx-tab-page="#slider-page"><button>Slider</button></li>
+      <li data-qx-tab-page="#tabs-page"><button>Tabs</button></li>
+      <li data-qx-tab-page="#accordion-page"><button>Accordion</button></li>
+    </ul>
+
+    <div class="qx-tabs-container">
+      <div id="button-page">
+        <div class="demo-container"></div>
+      </div>
+
+      <div id="calendar-page">
+        <div class="demo-container"></div>
+      </div>
+
+      <div id="rating-page">
+        <div class="demo-container"></div>
+      </div>
+
+      <div id="slider-page">
+        <div class="demo-container"></div>
+      </div>
+
+      <div id="tabs-page">
+        <div class="demo-container"></div>
+      </div>
+
+      <div id="accordion-page">
+        <div class="demo-container"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -51,6 +51,8 @@
  * @require(qx.bom.request.Script#getResponseHeader)
  * @require(qx.bom.request.Script#setDetermineSuccess)
  * @require(qx.bom.request.Script#setRequestHeader)
+ *
+ * @group (IO)
  */
 
 qx.Bootstrap.define("qx.bom.request.Script",

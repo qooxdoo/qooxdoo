@@ -47,6 +47,8 @@
  * @require(qx.bom.request.Script#onabort)
  * @require(qx.bom.request.Script#ontimeout)
  * @require(qx.bom.request.Script#send)
+ *
+ * @group (IO)
  */
 qx.Bootstrap.define("qx.bom.request.Jsonp",
 {

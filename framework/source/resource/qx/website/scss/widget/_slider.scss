@@ -1,0 +1,68 @@
+$slider-background : #8E8E8E, #B7B7B7;
+$slider-background-disabled : lighten(#8E8E8E, 40%), lighten(#B7B7B7, 20%);
+$slider-border: #7B7B7B;
+
+$slider-knob-background : #F7F7F7, #E8E8E8;
+$slider-knob-background-disabled : #F7F7F7, lighten(#E8E8E8, 5%);
+$slider-knob-background-active : darken(#F7F7F7, 25%), darken(#E8E8E8, 25%);
+
+.qx-slider {
+  overflow-y: visible;
+  overflow-x: visible;
+  cursor: pointer;
+  padding: 0 rem(18);
+}
+
+.qx-slider:before {
+  position: relative;
+  content: '';
+  width: 100%;
+  line-height: 0.3;
+  border: rem(1) solid $slider-border;
+  display: inline-block;
+  @include border-radius(rem(3));
+  @include background($slider-background);
+  top: rem(26);
+  height: rem(7);
+  @include box-sizing(border-box);
+}
+
+.qx-slider-knob {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+
+  @include user-select(none);
+
+  width: rem(36);
+  height: rem(36);
+
+  font-weight: bold;
+  text-align: center;
+
+  border: rem(1) solid $slider-border;
+  @include background($slider-knob-background);
+  @include border-radius(rem(60));
+
+  line-height: 0;
+}
+
+.qx-slider-knob:active {
+  @include background($slider-knob-background-active);
+  color: $background-color;
+}
+
+.qx-slider[disabled]:before {
+  border: rem(1) solid lighten($slider-border, 40%);
+  @include background($slider-background-disabled);
+}
+
+.qx-slider-knob[disabled] {
+  border: rem(1) solid lighten($slider-border, 30%);
+  @include background($slider-knob-background-disabled);
+  color: lighten($slider-border, 25%);
+}
+
+.qx-slider-knob:focus {
+  outline: none;
+}

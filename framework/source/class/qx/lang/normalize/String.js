@@ -25,6 +25,8 @@
  * *trim*:
  * <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String/Trim">MDN documentation</a> |
  * <a href="http://es5.github.com/#x15.5.4.20">Annotated ES5 Spec</a>
+ *
+ * @group (Polyfill)
  */
 qx.Bootstrap.define("qx.lang.normalize.String", {
   defer : function() {

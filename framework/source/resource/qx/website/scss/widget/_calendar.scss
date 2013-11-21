@@ -1,0 +1,88 @@
+.qx-calendar table {
+  border-width: rem(1);
+  border-color: $border-color;
+  border-collapse: collapse;
+  text-align: center;
+  border-spacing: 0;
+}
+
+.qx-calendar button {
+  cursor: pointer;
+}
+
+.qx-calendar button:focus {
+  -webkit-text-stroke: rem(1) $highlight-color;
+  color: $highlight-color;
+}
+
+.qx-calendar thead {
+  border-width: rem(1);
+  border-style: solid;
+  border-color: $border-color;
+  font-weight: bold;
+}
+
+.qx-calendar-othermonth button {
+  color: $highlight-color-disabled;
+}
+
+.qx-calendar-today {
+  background-color: lighten($highlight-color-disabled, 30%);
+}
+
+.qx-calendar thead td {
+  padding: rem(2) rem(6);
+  width: 14.3%;
+}
+
+.qx-calendar td {
+  border-width: rem(1);
+  border-style: solid;
+  border-color: $border-color;
+  background-color: $background-color;
+}
+
+.qx-calendar td button {
+  margin: 0;
+  width: 100%;
+  line-height: 2;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+.qx-calendar thead tr:first-child td:first-child {
+  border-right: 0;
+}
+
+.qx-calendar thead tr:first-child td:nth-child(2) {
+  border-left: 0;
+  border-right: 0;
+  text-align: center;
+}
+
+.qx-calendar thead tr:first-child td:last-child {
+  border-left: 0;
+  text-align: right;
+}
+
+td.qx-calendar-selected {
+  background-color: $highlight-color;
+}
+
+td.qx-calendar-selected button {
+  color: $background-color;
+}
+
+td.qx-calendar-selected button:focus {
+  -webkit-text-stroke: 0;
+  color: $background-color;
+}
+
+.qx-calendar table[disabled] {
+  color: $highlight-color-disabled;
+}
+
+.qx-calendar[disabled] .selected {
+  background-color: $highlight-color-disabled;
+}

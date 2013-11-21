@@ -22,6 +22,8 @@
  *
  * @require(qx.module.Environment)
  * @require(qx.module.Event)
+ *
+ * @group (Event_Normalization)
  */
 qx.Bootstrap.define("qx.module.event.Mouse", {
   statics :

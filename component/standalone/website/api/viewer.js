@@ -40,15 +40,108 @@ q.ready(function() {
 
   // global storage for the method index
   var data = {};
+  var icons = {
+    "Core": "&#xF0C7;",
+    "Extras": "&#xF01D;",
+    "Polyfill": "&#xF0DA;",
+    "Widget": "&#xF124;",
+    "IO": "&#xF0BB;",
+    "Event_Normalization": "&#xF076;",
+    "Utilities": "&#xF04E;",
+    "Plugin_API": "&#xF063;"
+  };
 
-  // plugin toggle
-  q("#plugintoggle").on("click", function() {
-    var txt = this.getChildren("span");
-    var hide = txt.getHtml() == "show";
-    txt.setHtml(hide ? "hide" : "show");
-    q(".plugin").setStyle("display", hide ? "block" : "none");
-    q("li.plugin").setStyle("display", hide ? "list-item" : "none");
+  var listOrder = [
+    "Core",
+    "Extras",
+    "IO",
+    "Event_Normalization",
+    "Utilities",
+    "Polyfill",
+    "Widget",
+    "Plugin_API"
+  ];
+
+  var configReplacements = q.$$qx.core.Environment.get("apiviewer.modulenamereplacements");
+  var replacements = [];
+  for (var exp in configReplacements) {
+    replacements.push({
+      regExp: new RegExp(exp),
+      replacement: configReplacements[exp]
+    });
+  }
+
+  var filterTimeout;
+  var filterField = q(".filter input");
+  filterField.on("input", function() {
+    var value = filterField.getValue();
+
+    if (!value) {
+      clearInterval(debouncedHideFiltered.intervalId);
+      delete debouncedHideFiltered.intervalId;
+      q("#list .qx-accordion-button")._forEachElementWrapped(function(button) {
+        button.setData("results", "");
+      });
+      q("#list .qx-accordion-page ul").show();
+      q("#list .qx-accordion-page li").show();
+      q("#list .qx-accordion-page > a").show();
+      q("#list").render();
+      return;
+    }
+
+    debouncedHideFiltered(value);
   });
+
+  var debouncedHideFiltered = q.func.debounce(function(value) {
+    hideFiltered(value);
+  }, 500);
+
+  var hideFiltered = function(query) {
+    q("#list .qx-accordion-page > a").hide(); // module headers
+    q("#list .qx-accordion-page ul").hide(); // method lists
+    q("#list .qx-accordion-page li").hide(); // method items
+    var regEx = new RegExp(query, "i");
+
+    q("#list .qx-accordion-button").forEach(function(groupButton) {
+      var groupResults = 0;
+      groupButton = q(groupButton);
+      var groupPage = groupButton.getNext();
+      groupPage.find("> ul > li").forEach(function(item) {
+        item = q(item);
+        var methodName = item.getChildren("a").getHtml();
+        if (regEx.exec(methodName)) {
+          groupResults++;
+          item.show(); // method items
+          item.getParents().show(); // method lists
+          item.getParents().getPrev().show(); // module headers
+        }
+      });
+      groupButton.setData("results", groupResults);
+      if (groupResults == 0) {
+        groupButton.addClass("no-matches");
+      } else {
+        groupButton.removeClass("no-matches");
+      }
+    });
+
+    q("#list").render();
+  };
+
+
+  q("html").on("click", function(ev) {
+    var showNav = q("#showNav");
+    var value = parseInt(showNav.getValue());
+    if (value == 1 && q("#list").contains(ev.getTarget()).length == 0) {
+      q("#navContainer").setStyle("left", "");
+      showNav.setValue(0);
+    }
+
+    else if (value == 0 && showNav[0] == ev.getTarget()) {
+      q("#navContainer").setStyle("left", "10px");
+      showNav.setValue(1);
+    }
+  });
+
 
   // load API data of q
   q.io.xhr("script/qxWeb.json").on("loadend", function(xhr) {
@@ -61,31 +154,9 @@ q.ready(function() {
       data["Core"]["static"].push(getByType(construct, "method"));
 
       createData(ast);
-      renderList();
-      renderContent();
       loadEventNorm();
       loadPolyfills();
       onContentReady();
-      attachOnScroll();
-
-      if (location.hash) {
-        location.href = location.href;
-        __lastHashChange = Date.now();
-        // [BUG #7518] initial scroll to hash (again) on first page load
-        // cause sample loading screwed scroll position slightly up
-        fixScrollPosition();
-        scrollNavItemIntoView(false);
-      }
-      else {
-        // force a scroll event so the topmost module's samples are loaded
-        window.setTimeout(function() {
-          var cont = document.getElementById("content");
-          if (cont.scrollTop == 0) {
-            cont.scrollTop = 1;
-            cont.scrollTop = 0;
-          }
-        }, 100);
-      }
     };
 
     var isFileProtocol = function() {
@@ -108,11 +179,6 @@ q.ready(function() {
     }
   }).send();
 
-  var __lastHashChange = null;
-  q(window).on("hashchange", function(ev) {
-    __lastHashChange = Date.now();
-    scrollNavItemIntoView(false);
-  });
 
   var loadEventNorm = function() {
     var norm = q.env.get("q.eventtypes");
@@ -124,26 +190,18 @@ q.ready(function() {
           loading--;
           if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
             var ast = JSON.parse(xhr.responseText);
-            renderEventNorm(ast);
+            var name = ast.attributes.name;
+            data[name] = {
+              type: "class",
+              prefix: "event.",
+              ast : ast
+            };
           } else {
             console && console.warn("Event normalization '" + name + "' could not be loaded.");
           }
           onContentReady();
         }).send();
       });
-    }
-  };
-
-  var eventNormAsts = [];
-  var renderEventNorm = function(ast) {
-    eventNormAsts.push(ast);
-    if (q.env.get("q.eventtypes").split(",").length > eventNormAsts.length) {
-      return;
-    }
-
-    q("#list").append(q.create("<h1>Event Types</h1>"));
-    for (var i=0; i < eventNormAsts.length; i++) {
-      renderClass(eventNormAsts[i], "event.");
     }
   };
 
@@ -161,26 +219,17 @@ q.ready(function() {
         loading--;
         if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
           var ast = JSON.parse(xhr.responseText);
-          renderPolyfill(ast);
+          var name = ast.attributes.name;
+          data[name] = {
+            type: "class",
+            prefix: "normalize.",
+            ast : ast
+          };
         } else {
           console && console.warn("Polyfill '" + clazz + "' could not be loaded.");
         }
         onContentReady();
       }).send();
-    }
-  };
-
-
-  var polyfillAsts = [];
-  var renderPolyfill = function(ast) {
-    polyfillAsts.push(ast);
-    if (polyfillClasses.length > polyfillAsts.length) {
-      return;
-    }
-
-    q("#list").append(q.create("<h1>Polyfills</h1>"));
-    for (var i=0; i < polyfillAsts.length; i++) {
-      renderClass(polyfillAsts[i], "normalize.");
     }
   };
 
@@ -201,7 +250,22 @@ q.ready(function() {
       loading--;
       if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
         var ast = JSON.parse(xhr.responseText);
-        renderClass(ast);
+        var moduleName = ast.attributes.name;
+        getByType(ast, "methods-static").children = [];
+        if (data[moduleName]) {
+          data[moduleName].member.forEach(function(method) {
+            var attach = getByType(method, "attach");
+            var prefix = attach.attributes.targetClass == "qxWeb" ? "" : attach.attributes.targetClass;
+            prefix += "." + method.attributes.name;
+            method.attributes.prefixedMethodName = prefix;
+            getByType(ast, "methods").children.unshift(method);
+          });
+        }
+        data[moduleName] = {
+          type: "class",
+          ast : ast,
+          prefix: ""
+        };
       } else {
         name = getModuleNameFromClassName(name);
         q("#content").append(
@@ -212,6 +276,18 @@ q.ready(function() {
     }).send();
   };
 
+
+  var loadReturnTypes = function(method) {
+    var returnType = getByType(method, "return");
+    if (returnType) {
+      getByType(returnType, "types").children.forEach(function(item) {
+        var type = item.attributes.type;
+        if (IGNORE_TYPES.indexOf(type) == -1 && MDC_LINKS[type] === undefined) {
+          loadClass(type);
+        }
+      });
+    }
+  };
 
 
   /**
@@ -226,7 +302,16 @@ q.ready(function() {
     for (var module in data) {
       data[module]["static"].sort(sortMethods);
       data[module]["member"].sort(sortMethods);
+      data[module]["static"].forEach(loadReturnTypes);
+      data[module]["member"].forEach(loadReturnTypes);
     }
+
+    var setGroup = function(method) {
+      method.attributes.group = "Core";
+    };
+
+    data["Core"]["static"].forEach(setGroup);
+    data["Core"]["member"].forEach(setGroup);
   };
 
 
@@ -256,53 +341,133 @@ q.ready(function() {
    */
   var renderList = function() {
     var keys = getDataKeys();
-    q("#list").append(q.create("<h1>Modules</h1>"));
     for (var i = 0; i < keys.length; i++) {
       var module = keys[i];
-      renderListModule(module, data[module]);
+      if (data[module].type == "class") {
+        renderClass(data[module].ast, data[module].prefix, true);
+      } else {
+        renderListModule(module, data[module]);
+      }
     }
   };
 
 
-  var renderListModule = function(name, data, prefix) {
+  var renderListModule = function(id, data, prefix) {
+    var name = id.replace(/_/g, " ");
     var checkMissing = q.$$qx.core.Environment.get("apiviewer.check.missingmethods");
+    var className = convertNameToCssClass(id, "nav-");
 
-    var list = q("#list");
-    var className = convertNameToCssClass(name, "nav-");
-    if (prefix && prefix != "event." && prefix != "normalize.") {
-      list.append(q.create("<a href='#" + name + "'><h1 class='"+className+"'>" + name + "</h1></a>"));
-    } else {
-      list.append(q.create("<a href='#" + name + "'><h2 class='"+className+"'>" + name + "</h2></a>"));
-    }
-
-    var ul = q.create("<ul></ul>").appendTo(list);
+    var factoryName;
+    var group = data.group;
+    var ul = q.create("<ul></ul>");
     data["static"].forEach(function(ast) {
-      var name = getMethodName(ast, prefix);
+      if (!group && ast.attributes.group) {
+        group = ast.attributes.group;
+      }
+      var methodName = getMethodName(ast, prefix);
       var missing = false;
       if (checkMissing !== false) {
-        missing = isMethodMissing(name, data.classname);
+        missing = isMethodMissing(methodName, data.classname);
       }
       q.template.get("list-item", {
-        name: name + "()",
-        classname: convertNameToCssClass(name, "nav-"),
+        name: methodName + "()",
+        classname: convertNameToCssClass(methodName, "nav-"),
         missing: missing,
-        link: name,
-        plugin: isPluginMethod(name)
+        link: methodName,
+        plugin: isPluginMethod(methodName)
       }).appendTo(ul);
     });
     data["member"].forEach(function(ast) {
-      var name = getMethodName(ast, prefix);
-      var missing = isMethodMissing(name, data.classname);
+      if (!group && ast.attributes.group) {
+        group = ast.attributes.group;
+      }
+      var methodName = getMethodName(ast, prefix);
+      var methodIsFactory = isFactory(ast, name);
+      factoryName = methodIsFactory ? methodName + "()": factoryName;
+      if (methodIsFactory) {
+        return;
+      }
+
+      var missing = isMethodMissing(methodName, data.classname);
       q.template.get("list-item", {
-        name: name + "()",
-        classname: convertNameToCssClass(name, "nav-"),
+        name: methodName + "()",
+        classname: convertNameToCssClass(methodName, "nav-"),
         missing: missing,
-        link: name,
-        plugin: isPluginMethod(name)
+        link: methodName,
+        plugin: isPluginMethod(methodName)
       }).appendTo(ul);
     });
+
+    if (!group) {
+      group = "Extras";
+    }
+
+    if (!data.group) {
+      data.group = group;
+    }
+
+    var groupId = "list-group-" + group;
+
+    var groupPage = q("#list").find("> ul > #" + groupId);
+    if (groupPage.length == 0) {
+      var groupIcon = icons[group];
+      if (groupIcon) {
+        groupIcon = "data-icon='" + groupIcon + "'";
+      }
+      var button = q.create("<li " + groupIcon + " data-qx-tab-page='#" + groupId + "' class='qx-accordion-button'>" + group.replace("_", " ") + "</li>")
+        .appendTo("#list > ul");
+      groupPage = q.create("<li class='qx-accordion-page' id='" + groupId + "'></li>").appendTo("#list > ul");
+    }
+
+    if (name !== "Core") {
+      var headerText = factoryName || name;
+      var header = q.create('<h2 class="nav-' + id + '">' + headerText + '</h2>');
+      groupPage.append(q.create('<a href="#' + id + '"></a>').append(header));
+    }
+
+    groupPage.append(ul);
   };
 
+  var sortList = function() {
+    var groups = {};
+    q("#list").find(">ul > .qx-accordion-button").forEach(function(li) {
+      li = q(li);
+      var groupName = li.getData("qxTabPage").replace("#list-group-", "");
+      var next = li.getNext()[0];
+      li.remove();
+      next.parentNode.removeChild(next);
+      groups[groupName] = [
+        li[0],
+        next
+      ];
+    });
+
+    listOrder.forEach(function(groupName) {
+      q("#list >ul").append(groups[groupName]);
+      delete groups[groupName];
+    });
+
+    for (var groupName in groups) {
+      q("#list >ul").append(groups[groupName]);
+    }
+  };
+
+  var isFactory = function(ast, moduleName) {
+    var type;
+    var returnType = getByType(ast, "return");
+    returnType && getByType(returnType, "types").children.forEach(function(item) {
+      type = item.attributes.type;
+    });
+    if (type) {
+      var returnModuleName = getModuleNameFromClassName(type);
+      var attach = getByType(ast, "attach");
+      if (!attach.attributes.targetClass) {
+        attach = getByType(ast, "attachStatic");
+      }
+      return returnModuleName == moduleName && attach.attributes.targetClass == "qxWeb";
+    }
+    return false;
+  };
 
   var isMethodMissing = function(name, classname) {
     var checkMissing = q.$$qx.core.Environment.get("apiviewer.check.missingmethods");
@@ -342,35 +507,144 @@ q.ready(function() {
     return false;
   };
 
+  var extractPluginApi = function() {
+    for (var moduleName in data) {
+      var moduleData = data[moduleName];
+      if (moduleData.static) {
+        var pluginModuleName;
+        for (var i=moduleData.static.length - 1; i>=0; i--) {
+          var method = moduleData.static[i];
+          if (method.attributes.name.indexOf("$") === 0) {
+            pluginModuleName = moduleName + "_Plugin_API";
+            if (!data[pluginModuleName]) {
+              data[pluginModuleName] = {
+                member: [],
+                static: []
+              };
+            }
+            method.attributes.group = "Plugin_API";
+            data[pluginModuleName].static.push(method);
+            moduleData.static.splice(i, 1);
+          }
+        }
+        if (pluginModuleName) {
+          data[pluginModuleName].static.sort(sortMethods);
+        }
+      }
+    }
+  };
+
+  /**
+   * Move methods that return a class instance to the documentation
+   * of that class
+   */
+  var moveMethodsToReturnTypes = function() {
+    var removeMethods = [];
+    forEachMethodList(function(methods, groupName) {
+      methods.forEach(function(method) {
+        var returnType = getByType(method, "return");
+        if (returnType) {
+          var type;
+          getByType(returnType, "types").children.forEach(function(item) {
+            type = item.attributes.type;
+          });
+          // if we have a return type
+          if (type) {
+            var module = getModuleNameFromClassName(type);
+            // if we have docs for the return type
+            if (data[module] && data[module].type == "class" &&
+                type == data[module].ast.attributes.fullName) {
+
+              var attach = getByType(method, "attach");
+              var attachStatic = getByType(method, "attachStatic");
+              var isAttachStatic = attachStatic.type == "attachStatic";
+              var returnTypeMethods = getByType(data[module].ast, "methods");
+
+              // ignore attached methods of returned types
+              if (returnTypeMethods.children.indexOf(method) == -1) {
+                var prefix;
+                if (isAttachStatic) {
+                  prefix = attachStatic.attributes.targetClass == "qxWeb" ? "q" : attachStatic.attributes.targetClass;
+                  prefix += "." + attachStatic.attributes.targetMethod;
+                } else {
+                  prefix = attach.attributes.targetClass == "qxWeb" ? "" : attach.attributes.targetClass;
+                  prefix += "." + method.attributes.name;
+                }
+                method.attributes.prefixedMethodName = prefix;
+
+                returnTypeMethods.children.unshift(method);
+                removeMethods.push({method: method, parent: methods});
+              }
+            }
+          }
+        }
+      });
+    });
+
+    removeMethods.forEach(function(obj) {
+      obj.parent.splice(obj.parent.indexOf(obj.method), 1);
+    });
+  };
+
   /**
    * CONTENT
    */
-  var renderContent = function() {
+  renderContent = function() {
     var keys = getDataKeys();
     for (var i = 0; i < keys.length; i++) {
-      renderModule(keys[i], data[keys[i]]);
+      if (data[keys[i]].ast) {
+        renderClass(data[keys[i]].ast, data[keys[i]].prefix);
+      } else {
+        renderModule(keys[i], data[keys[i]]);
+      }
     }
   };
 
 
   var renderModule = function(name, data, prefix) {
     // render module desc
-    var module = q.create("<div class='module'>").appendTo("#content");
-    module.append(q.create("<h1 id='" + name + "'>" + name + "</h1>"));
+    var group = data.group;
+    if (!group) {
+      if (data.static[0]) {
+        group = data.static[0].attributes.group;
+      }
+    }
+    if (!group) {
+      if (data.member[0]) {
+        group = data.member[0].attributes.group;
+      }
+    }
+    if (!group) {
+      group = "Extras";
+    }
+    var groupIcon = icons[group];
+    if (groupIcon) {
+      groupIcon = "data-icon='" + groupIcon + "'";
+    }
+
+    var groupEl = q("#content #group_" + group);
+    if (groupEl.length === 0) {
+      groupEl = q.create('<div id="group_' + group + '"></div>').appendTo("#content");
+    }
+
+    var module = q.create("<div class='module'>").appendTo(groupEl);
+    module.append(q.create("<h1 " + groupIcon + "id='" + name + "'>" + name.replace(/_/g, " ") + "</h1>"));
 
     if (data.superclass) {
       var newName = data.superclass.split(".");
       newName = newName[newName.length -1];
       var ignore = IGNORE_TYPES.indexOf(newName) != -1 ||
                    MDC_LINKS[data.superclass] !== undefined;
+      var link = newName;
+      if (newName == "qxWeb") {
+        link = "Core";
+        newName = "q";
+        ignore = false;
+      }
 
       var superClass = ignore ? newName :
-      "<a href='#" + newName + "'>" + newName + "</a>";
-      module.append(q.create(
-        "<div class='extends'><h2>Extends</h2>" +
-        superClass +
-        "</div>"
-      ));
+      "<span> extends <a href='#" + link + "'>" + newName + "</a></span>";
+      module.getChildren("h1").append(q.create(superClass));
 
       if (!ignore) {
         loadClass(data.superclass);
@@ -380,9 +654,10 @@ q.ready(function() {
     if (data.fileName) {
       addClassDoc(data.fileName, module);
     } else if (data.desc) {
-      module.append(parse(data.desc));
+      module.append(q.create("<div>").setHtml(parse(data.desc)));
+
     } else if (name == "Core") {
-      module.append(parse(desc));
+      module.append(q.create("<div>").setHtml(parse(desc)));
     }
 
     if (data.events) {
@@ -403,11 +678,24 @@ q.ready(function() {
       module.append(typesEl);
     }
 
+    if (data.templates && data.templates.desc) {
+      renderWidgetSettings(data, module, "templates");
+    }
+
+    if (data.config && data.config.desc) {
+      renderWidgetSettings(data, module, "config");
+    }
+
     data["static"].forEach(function(method) {
       module.append(renderMethod(method, prefix));
     });
     data["member"].forEach(function(method) {
-      module.append(renderMethod(method, prefix));
+      var methodDoc = renderMethod(method, prefix);
+      if (isFactory(method, name)) {
+        methodDoc.addClass("factory");
+        module.append(q.create("<h2>Factory Method</h2>"));
+      }
+      module.append(methodDoc);
     });
   };
 
@@ -441,9 +729,6 @@ q.ready(function() {
       getByType(returnType, "types").children.forEach(function(item) {
         var type = item.attributes.type;
         data.returns.types.push(type);
-        if (IGNORE_TYPES.indexOf(type) == -1 && MDC_LINKS[type] == undefined) {
-          loadClass(type);
-        }
       });
     }
     data.returns.printTypes = printTypes;
@@ -477,6 +762,10 @@ q.ready(function() {
     data.paramsExist = data.params.length > 0;
 
     data.plugin = isPluginMethod(data.name);
+    if (data.plugin) {
+      data.icon = icons["Plugin_API"];
+      data.title = "Plugin API";
+    }
 
     return q.template.get("method", data);
   };
@@ -489,6 +778,7 @@ q.ready(function() {
       parent.append(desc);
       return;
     }
+
     loading++;
     q.io.xhr("script/" + name + ".json").on("loadend", function(xhr) {
       loading--;
@@ -572,8 +862,8 @@ q.ready(function() {
   };
 
 
-  var renderClass = function(ast, prefix) {
-    var module = {"member": [], "static" : []};
+  var renderClass = function(ast, prefix, inList) {
+    var module = {"member": [], "static": [], "templates": {}, "config": {}};
 
     getByType(ast, "methods").children.forEach(function(method) {
       // skip internal methods
@@ -583,22 +873,24 @@ q.ready(function() {
       module.member.push(method);
     });
 
-    getByType(ast, "methods-static").children.forEach(function(method) {
-      // skip internal methods
-      if (isInternal(method)) {
-        return;
-      }
-      module["static"].push(method);
-    });
+    // classes are always return types so their static members are
+    // not accessible - ignore them
+
     var name = ast.attributes.name;
 
     // event normalization types
     var constants = getByType(ast, "constants");
     for (var i=0; i < constants.children.length; i++) {
       var constant = constants.children[i];
-      if (constant.attributes.name == "TYPES") {
+      var constName = constant.attributes.name;
+      if (constName == "TYPES") {
         module.types = constant.attributes.value;
-        break;
+        continue;
+      } else {
+        if (constName == "_templates" || constName == "_config") {
+          var desc = getByType(constant, "desc");
+          module[constName.replace("_", "")].desc = desc.attributes.text;
+        }
       }
     }
 
@@ -606,11 +898,22 @@ q.ready(function() {
     module.events = getEvents(ast);
     module.classname = ast.attributes.fullName;
     module.superclass= ast.attributes.superClass;
+    module.group = ast.attributes.group || "Extras";
 
-    renderListModule(name, module, prefix || name + ".");
-    renderModule(name, module, prefix || name + ".");
+    if (inList) {
+      renderListModule(name, module, prefix || name + ".");
+    } else {
+      renderModule(name, module, prefix || name + ".");
+    }
   };
 
+
+  var renderWidgetSettings = function(data, module, type) {
+    var upperType = q.string.firstUp(type);
+    module.append(q.create("<h2>" + upperType + " <a title='More information on " + type + "' class='info' href='#widget.set" + upperType + "'>i</a></h2>"));
+    var desc = parse(data[type].desc);
+    module.append(q.create("<div>").setHtml(desc).addClass("widget-settings"));
+  };
 
   /**
    * PARSER
@@ -630,6 +933,24 @@ q.ready(function() {
       var name = getModuleName(links[1]);
       text = text.replace(links[0], "<a href='#" + name + "'>" + name + "</a>");
     }
+
+    // escape all html tags in pre tags
+    var blocks = text.split("<pre>");
+    blocks.forEach(function(block, i) {
+      var innerBlock = block.split("</pre>");
+      if (innerBlock.length <= 1) {
+        return;
+      }
+      innerBlock[0] = q.string.escapeHtml(innerBlock[0]);
+      blocks[i] = innerBlock.join("</code></pre>");
+    });
+    text = blocks.join("<pre><code>");
+
+    // replace experimental text
+    text = text.replace(/\b(experimental)\b/gi, function(exp) {
+      return "<span class='warning'>" + exp + "</span>";
+    });
+
     return text;
   };
 
@@ -640,18 +961,61 @@ q.ready(function() {
   var loading = 0;
   // no highlighting for IE < 9
   var useHighlighter = !(q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 9);
+
   var onContentReady = function() {
     if (loading > 0) {
       return;
     }
+
+    var listRendered = q("#list").find("> ul > li").length > 0;
+    if (!listRendered) {
+      extractPluginApi();
+      moveMethodsToReturnTypes();
+      renderList();
+      sortList();
+      renderContent();
+      loadSamples();
+      var acc = q("#list").accordion();
+
+      // wait for the accordion pages to be measured
+      var buttonTops;
+      var listOffset = q("#list").getPosition().top;
+      setTimeout(function() {
+        acc.fadeIn(200);
+        buttonTops = [];
+        acc.find(".qx-accordion-button").forEach(function(button, index) {
+          buttonTops[index] = (q(button).getPosition().top);
+        });
+      }, 200);
+
+
+      acc.on("changeSelected", function(index) {
+        var buttonTop = buttonTops[index] - listOffset;
+        var scrollTop = q("#navContainer").getProperty("scrollTop");
+        q("#navContainer").animate({
+          duration: 500,
+          keep: 100,
+          timing: "linear",
+          keyFrames: {
+            0: {scrollTop: scrollTop},
+            100: {scrollTop: buttonTop}
+          }
+        });
+      });
+    }
+
     // enable syntax highlighting
     if (useHighlighter) {
       q('pre').forEach(function(el) {hljs.highlightBlock(el);});
     }
 
-    fixInternalLinks();
+    if (fixLinks) {
+      fixInternalLinks();
+      fixLinks = false;
+    }
   };
 
+  var fixLinks = true;
   // replace links to qx classes with internal targets, e.g.
   // #qx.bom.rest.Resource -> #Resource
   var fixInternalLinks = function() {
@@ -667,38 +1031,9 @@ q.ready(function() {
     });
   };
 
-  // load sample code as modules are scrolled into view
-  var seenModules = [];
-  var loadModuleSamples = function(module) {
-    var moduleName = module.getChildren("h1").getHtml();
-    var sampleUri = "./samples/" + moduleName + ".js";
-    q.io.script(sampleUri).send();
-  };
 
-  var attachOnScroll = function() {
-    var lastCheck;
-
-    var onScroll = function(ev) {
-      if (lastCheck && Date.now() - lastCheck < 500) {
-        return;
-      }
-      q(".module").forEach(function(item, index, modules) {
-        var module = modules.eq(index);
-        if (seenModules.indexOf(module[0]) == -1) {
-          var pos = module.getPosition();
-          var content = q("#content");
-          var isVisible = pos.top < content.getHeight() && (pos.bottom > 0 ||
-            (pos.bottom + content.getHeight()) > 0);
-          if (isVisible) {
-            loadModuleSamples(module);
-            seenModules.push(module[0]);
-          }
-        }
-      });
-      lastCheck = Date.now();
-    };
-
-    q("#content").on("scroll", onScroll);
+  var loadSamples = function() {
+    q.io.script("script/samples.js").send();
   };
 
 
@@ -740,7 +1075,10 @@ q.ready(function() {
    if (!attach) {
      return "Core";
    }
-   attach = attach.replace("qx.module.", "");
+
+   replacements.forEach(function(map) {
+    attach = attach.replace(map.regExp, map.replacement);
+   });
    return attach;
   };
 
@@ -762,8 +1100,15 @@ q.ready(function() {
 
 
   var getMethodName = function(item, prefix) {
+    if (item.attributes.prefixedMethodName) {
+      return item.attributes.prefixedMethodName;
+    }
+
     var attachData = getByType(item, "attachStatic");
     if (prefix) {
+      if (item.attributes.prefix) {
+        prefix = item.attributes.prefix;
+      }
       if (!item.attributes.isStatic) {
         prefix = prefix.toLowerCase();
       }
@@ -846,8 +1191,6 @@ q.ready(function() {
     return snippet;
   };
 
-  __sampleFinalizeTimeout = null;
-
   var appendSample = function(sample, header) {
     if (!header[0]) {
       console && console.warn("Sample could not be attached for '", method, "'.");
@@ -912,8 +1255,6 @@ q.ready(function() {
       codeContainer.append(jsEl);
     }
 
-    styleCodeBoxes(codeContainer);
-
     if (useHighlighter) {
       htmlEl && hljs.highlightBlock(htmlEl);
       cssEl && hljs.highlightBlock(cssEl);
@@ -927,44 +1268,6 @@ q.ready(function() {
     {
       createFiddleButton(sample).appendTo(sampleEl);
     }
-
-    if (__sampleFinalizeTimeout) {
-      clearTimeout(__sampleFinalizeTimeout);
-    }
-    __sampleFinalizeTimeout = setTimeout(function() {
-      if (__lastHashChange && (Date.now() - __lastHashChange) <= 2000) {
-        fixScrollPosition();
-      }
-    }, 500);
-  };
-
-  /**
-   * Styles the sample container based on the amount of code elements
-   * @param codeContainer {qxWeb} Collection containing the container element
-   */
-  var styleCodeBoxes = function(codeContainer) {
-    var codeBoxes = codeContainer.find("pre");
-    if (codeBoxes.length > 1) {
-      codeContainer.setStyles({display: "table",
-                              width: "100%"});
-      codeBoxes.setStyle("display", "table-cell");
-    }
-
-    if (codeBoxes.length == 2) {
-      codeBoxes.eq(0).setStyle("width", "50%");
-      codeBoxes.eq(1).setStyle("width", "50%");
-    }
-    else if (codeBoxes.length == 3) {
-      codeBoxes.eq(0).setStyle("width", "25%");
-      codeBoxes.eq(1).setStyle("width", "25%");
-      codeBoxes.eq(2).setStyle("width", "50%");
-    }
-
-    codeBoxes.getFirst().setStyle("borderTopLeftRadius", codeContainer.getStyle("borderTopLeftRadius"));
-    codeBoxes.getLast().setStyles({
-      borderTopRightRadius: codeContainer.getStyle("borderTopRightRadius"),
-      borderRight: "none"
-    });
   };
 
   /**
@@ -990,20 +1293,14 @@ q.ready(function() {
     }
   };
 
-  var createFiddleButton = function(sample) {
-    var qVersion = q.env.get("qx.version");
-    var qUrl = "http://demo.qooxdoo.org/" + qVersion + "/framework/q-" +
-      qVersion + ".min.js";
-    var qScript = '<script type="text/javascript" src="' + qUrl + '"></script>';
+  var qVersion = q.env.get("qx.version");
+  var qUrl = "http://demo.qooxdoo.org/" + qVersion + "/framework/q-" +
+    qVersion + ".min.js";
+  var qScript = '<script type="text/javascript" src="' + qUrl + '"></script>';
 
-    return q.create("<iframe></iframe>").setAttributes({
-      src: "fiddleframe.html",
-      marginheight: 0,
-      marginwidth: 0,
-      frameborder: 0
-    })
-    .addClass("fiddleframe").on("load", function(ev) {
-      var iframeBody = q(this[0].contentWindow.document.body);
+  var createFiddleButton = function(sample) {
+    return q.create("<button class='fiddlebutton'>Edit/run on jsFiddle</button>").on("click", function() {
+      var iframeBody = q(q("#fiddleframe")[0].contentWindow.document.body);
 
       if (sample.javascript) {
         iframeBody.find("#js").setAttribute("value", sample.javascript);
@@ -1021,19 +1318,24 @@ q.ready(function() {
         iframeBody.find("#html").setAttribute("value", qScript);
       }
 
-      var button = iframeBody.find("button");
-      this.setStyles({
-        width: (button.getWidth() + 2) + "px",
-        height: button.getHeight() + "px"
-      });
+      iframeBody.find("form")[0].submit();
     });
   };
 
-  var fixScrollPosition = function() {
-    var hash = window.location.hash;
-    window.location.hash = '';
-    window.location.hash = hash;
-  };
+  var scrollContentIntoView = q.func.debounce(function() {
+    var el = q(location.hash.replace(".", "\\."));
+    if (el.length > 0) {
+      el[0].scrollIntoView();
+
+      var listSelector = el[0].id ? ".nav-" + el[0].id.replace(".", "") : null;
+      if (listSelector) {
+        var page = q(listSelector).getAncestors(".qx-accordion-page");
+        var index = q("#list .qx-accordion-page").indexOf(page);
+        q("#list").select(index);
+      }
+    }
+
+  }, 300);
 
   var scrollNavItemIntoView = function(forceIfAlreadyInViewport) {
     var hash = window.location.hash,
@@ -1063,6 +1365,58 @@ q.ready(function() {
   var convertNameToCssClass = function(name, prefix) {
     return (prefix || "")+name.replace(/(\.|\$|#)*/g, "");
   };
+
+
+  var forEachMethodList = function(callback) {
+    for (var moduleName in data) {
+      var moduleData = data[moduleName];
+      if (moduleData.member) {
+        callback(moduleData.member, moduleData.group);
+      }
+      if (moduleData.static) {
+        callback(moduleData.static, moduleData.group);
+      }
+      if (moduleData.ast && moduleData.ast.children) {
+        for (var i=0, l=moduleData.ast.children.length; i<l; i++) {
+          var childNode = moduleData.ast.children[i];
+          if (childNode.type &&
+              childNode.type.indexOf("methods") === 0 &&
+              childNode.children)
+          {
+            callback(childNode.children, moduleData.ast.attributes.group);
+          }
+        }
+      }
+    }
+  };
+
+
+  var appendWidgetMarkup = function(methodName, sample) {
+    if (!sample.showMarkup) {
+      return;
+    }
+    var moduleName = q.string.firstUp(methodName.substr(1));
+    var markupHeader = q("#" + moduleName).getParents().find(".widget-markup");
+    var pen = q("#playpen");
+    if (sample.html) {
+      pen.setHtml(sample.html.join("\n"));
+    }
+    sample.javascript();
+    var html = pen.getHtml();
+    var textNode = document.createTextNode(html);
+    var codeEl = q.create('<code>');
+    codeEl[0].appendChild(textNode);
+    var preEl = q.create('<pre class="markup">').append(codeEl)
+    .insertAfter(markupHeader);
+
+    if (useHighlighter) {
+      hljs.highlightBlock(preEl[0]);
+    }
+
+    pen.find(".qx-widget").dispose();
+    pen.setHtml("");
+  };
+
 
   /**
    * Adds sample code to a method's documentation. Code can be supplied wrapped in
@@ -1112,6 +1466,8 @@ q.ready(function() {
       method.append(headerElement);
     }
 
+    appendWidgetMarkup(methodName, sampleMap);
     appendSample(sampleMap, headerElement);
+    scrollContentIntoView();
   };
 });

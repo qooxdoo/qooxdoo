@@ -20,8 +20,8 @@ var _qx = {
 };
 
 // requires
-var qxConf = require(_qx.sdkPath + '/tool/data/grunt/config/application.js');
-var qxTasks = require(_qx.sdkPath + '/tool/data/grunt/tasks/tasks.js');
+var qxConf = require(_qx.sdkPath + '/tool/grunt/config/application.js');
+var qxTasks = require(_qx.sdkPath + '/tool/grunt/tasks/tasks.js');
 
 // grunt
 module.exports = function(grunt) {
@@ -31,25 +31,67 @@ module.exports = function(grunt) {
         "APPLICATION": "library",
         "QOOXDOO_PATH": _qx.sdkPath,
         "QOOXDOO_VERSION": "3.1",
-        "CACHE": "<%= grunt_qx.TMPDIR %>/qx<%= qx.let.QOOXDOO_VERSION %>/cache",
+        "CACHE": "<%= grunt_qx.TMPDIR %>/qx<%= qx.let.QOOXDOO_VERSION %>/cache"
       }
     },
-    /*
-    myTask: {
-      options: {},
-      myTarget: {
-        options: {}
+
+    concat: {
+      options: {
+        separator: ';'
+      },
+      samples : {
+        src: ['api/samples/*.js'],
+        dest: 'api/script/samples.js'
+      }
+    },
+
+    watch: {
+      samples: {
+        files: ['api/samples/*.js'],
+        tasks: ['concat:samples', "notify:samples"]
+      },
+      "api-data": {
+        files: ['../../../framework/source/**/*.js'],
+        tasks: ['api-data', "notify:apidata"]
+      }
+    },
+
+    notify: {
+      samples: {
+        options: {
+          message: 'Samples build and saved.'
+        }
+      },
+      apidata: {
+        options: {
+          message: 'API-Data generated.'
+        }
+      },
+      api: {
+        options: {
+          message: 'API-Viewer generated.'
+        }
       }
     }
-    */
   };
 
+
+
   var mergedConf = qxConf.mergeConfig(config);
-  // console.log(mergedConf);
-  // process.exit();
   grunt.initConfig(mergedConf);
 
   qxTasks.registerTasks(grunt, _qx.generatorJobs);
 
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-notify');
+
+  // 'extend' API job
+  grunt.task.renameTask('api', 'generate-api');
+  grunt.task.registerTask(
+    'api',
+    'Concat the samples and generate the API.',
+    ["concat:samples", "generate-api", "notify:api"]
+  );
 };

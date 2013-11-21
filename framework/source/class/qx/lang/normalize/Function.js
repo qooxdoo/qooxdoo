@@ -71,7 +71,7 @@
  * Example for the <code>bind</code> method:
  * <pre class='javascript'>
  * // sample code, assumes the used variables are already defined
- * 
+ *
  * // the listener method demonstrates how to pass dynamic values
  * // to a method using 'bind'
  * var changeValueListener = function(value, event) {
@@ -84,6 +84,8 @@
  *   myComponent.on("changeValue", changeValueListener.bind(myComponent, myArray[i]));
  * }
  * </pre>
+ *
+ * @group (Polyfill)
  */
 qx.Bootstrap.define("qx.lang.normalize.Function", {
 

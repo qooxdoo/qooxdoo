@@ -25,9 +25,9 @@ var registerGeneratorJobs = function(grunt, jobs, supersededJobs) {
 };
 
 var registerNodeTasks = function(grunt, relSdkPath) {
-  grunt.loadTasks(relSdkPath + '/tool/data/grunt/tasks/application');
-  grunt.loadTasks(relSdkPath + '/tool/data/grunt/tasks/info/tasks');
-  grunt.loadTasks(relSdkPath + '/tool/data/grunt/tasks/copy-files/tasks');
+  grunt.loadTasks(relSdkPath + '/tool/grunt/tasks/application');
+  grunt.loadTasks(relSdkPath + '/tool/grunt/tasks/info/tasks');
+  grunt.loadTasks(relSdkPath + '/tool/grunt/tasks/copy-files/tasks');
 };
 
 var registerTasks = function(grunt, generatorJobs) {

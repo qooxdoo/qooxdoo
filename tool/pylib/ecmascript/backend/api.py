@@ -997,6 +997,12 @@ def findAttachMethods(docTree):
                     cmethod.set("isStatic", False)
                 cmethod.set("sourceClass", child.get("sourceClass"))
                 cmethod.set("sourceMethod", method.get("name"))
+                clazz = None
+                for node in treeutil.findNode(docTree, ["class"], [("fullName", child.get("sourceClass"))]):
+                    clazz = node
+                if clazz and "group" in clazz.attributes:
+                    cmethod.set("group", clazz.attributes["group"])
+
 
     return attachMap
 
@@ -1206,6 +1212,9 @@ def classNodeFromDocTree(docTree, fullClassName, commentAttributes = None):
             # Add description
             if attrib["category"] == "description":
                 classNode = addChildIf(classNode, *(handleJSDocDecsription(attrib)))
+
+            elif attrib["category"] == "group":
+                classNode.set("group", attrib["name"])
 
             elif attrib["category"] == "see":
                 classNode = addChildIf(classNode, *(handleJSDocSee(attrib)))
