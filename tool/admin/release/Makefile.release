@@ -64,6 +64,8 @@ OPT_GENERATOR =
 QOOXDOO_RELEASE = QOOXDOO_RELEASE=1
 endif
 
+
+CMD_GRUNT := "grunt"
 CMD_GENERATOR := $(CMD_PYTHON) "$(CURDIR)/tool/bin/generator.py" $(OPT_GENERATOR)
 CMD_GENERATOR_NOOPTS := $(CMD_PYTHON) "$(CURDIR)/tool/bin/generator.py"
 STAGING_HOST = qooxdoo@webtechfe-test01.schlund.de
@@ -451,6 +453,8 @@ build-apps:
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) build,build-mobile,build-website ) || exit 1; \
 			elif [ "$$APPLICATION" = "todo" ]; then \
 				( cd application/$$APPLICATION && $(CMD_GENERATOR) build-mini ) || exit 1; \
+			elif [ "$$APPLICATION" = "websitewidgetbrowser" ]; then \
+				( cd application/$$APPLICATION && $(CMD_GRUNT) build ) || exit 1; \
 		else \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) build ) || exit 1; \
 		fi; \
@@ -463,7 +467,7 @@ build-components:
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-min ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-module-all ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-module-all-min ) || exit 1; \
-			( cd component/standalone/$$COMPONENT && grunt api ) || exit 1; \
+			( cd component/standalone/$$COMPONENT && $(CMD_GRUNT) api ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) test ) || exit 1; \
 		elif [ "$$COMPONENT" = "server" ]; then \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build ) || exit 1; \
