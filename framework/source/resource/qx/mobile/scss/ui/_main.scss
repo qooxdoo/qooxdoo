@@ -24,7 +24,7 @@ body {
 }
 
 .group {
-  margin:rem(10);
+  margin: rem(10);
 }
 
 .group.bordered {
@@ -32,9 +32,13 @@ body {
   @include background($group-background);
 
   border: rem(1) solid $group-border-color;
-  padding:rem(10);
+  padding: rem(10);
 }
 
 .animationChild {
   @include background($navigationpage-background);
+}
+
+div.vbox > .label + .hbox {
+  margin-top: 0.3em;
 }

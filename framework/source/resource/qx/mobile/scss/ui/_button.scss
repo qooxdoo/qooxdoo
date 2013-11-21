@@ -40,6 +40,10 @@ div:not(.hbox) > .button + .button {
   margin-top: 0.3em;
 }
 
+div:not(.hbox) > .text-field + .button {
+  margin-top: 0.3em;
+}
+
 .hbox > .button + .button {
   margin-left: 0.3em;
 }
