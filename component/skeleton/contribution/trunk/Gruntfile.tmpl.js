@@ -35,7 +35,7 @@ module.exports = function(grunt) {
   });
 
 
-  grunt.loadTasks(QOOXDOO_PATH + '/tool/data/grunt/tasks/application');
+  grunt.loadTasks(QOOXDOO_PATH + '/tool/grunt/tasks/application');
   
   // register generator jobs for shell exists
   generator_jobs.forEach(function (gen_job) {
