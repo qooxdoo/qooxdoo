@@ -30,6 +30,7 @@
 # output, etc. on a single JS file.
 #
 ##
+from __future__ import print_function
 
 import sys, os, optparse, string, types, pprint, copy
 import qxenviron
@@ -93,8 +94,8 @@ def interruptCleanup(interruptRegistry):
     for func in interruptRegistry.Callbacks:
         try:
             func()
-        except Error, e:
-            print >>sys.stderr, e  # just keep on with the others
+        except Error as e:
+            print(e, file=sys.stderr) # just keep on with the others
 
 
 def get_args():
@@ -207,16 +208,16 @@ def read_config(options):
 
 def run_lint(fileName, fileContent, options, args):
     if not options.quiet:
-        print ">>> Executing ecmalint..."
-    print "Needs implementation"
+        print(">>> Executing ecmalint...")
+    print("Needs implementation")
 
 def run_tree(fileName, fileContent, options, args):
     tokens = tokenizer.Tokenizer().parseStream(fileContent, fileName)
-    if not options.quiet: print ">>> Creating tree..."
+    if not options.quiet: print(">>> Creating tree...")
     tree = treegenerator.createFileTree(tokens)
     #tree = treegenerator_3.createFileTree(tokens)
-    if not options.quiet: print ">>> Printing out tree..."
-    print tree.toXml().encode('utf-8')
+    if not options.quiet: print(">>> Printing out tree...")
+    print(tree.toXml().encode('utf-8'))
     return
 
 def run_pretty(fileName, fileContent, options, args):
@@ -231,7 +232,7 @@ def run_pretty(fileName, fileContent, options, args):
     result = [u'']
     result = formatter.formatNode(tree, optns, result)
     result = u''.join(result)
-    print result
+    print(result)
     return
 
 def run_dependencies(fileName, fileContent, options, args):
@@ -241,14 +242,14 @@ def run_compile(fileName, fileContent, options, args):
     fileId = fileName
     tokens = tokenizer.Tokenizer().parseStream(fileContent, fileName)
     if not options.quiet:
-        print ">>> Creating tree..."
+        print(">>> Creating tree...")
     tree = treegenerator.createFileTree(tokens)
     tree = scopes.create_scopes(tree)
 
     # optimizing tree
     if len(options.variants) > 0:
         if not options.quiet:
-            print ">>> Selecting variants..."
+            print(">>> Selecting variants...")
         varmap = {}
         for entry in options.variants:
             pos = entry.index(":")
@@ -258,32 +259,32 @@ def run_compile(fileName, fileContent, options, args):
 
     if options.all or options.basecalls:
         if not options.quiet:
-            print ">>> Optimizing basecalls..."
+            print(">>> Optimizing basecalls...")
         basecalloptimizer.patch(tree)
 
     #if options.all or options.inline:
     #    if not options.quiet:
-    #        print ">>> Optimizing inline..."
+    #        print(">>> Optimizing inline...")
     #    inlineoptimizer.patch(tree)
 
     if options.all or options.strings:
         if not options.quiet:
-            print ">>> Optimizing strings..."
+            print(">>> Optimizing strings...")
         _optimizeStrings(tree, fileId)
 
     if options.all or options.variables:
         if not options.quiet:
-            print ">>> Optimizing variables..."
+            print(">>> Optimizing variables...")
         variableoptimizer.search(tree)
 
     if options.all or options.globals:
         if not options.quiet:
-            print ">>> Optimizing globals..."
+            print(">>> Optimizing globals...")
         tree = globalsoptimizer.process(tree)
 
     if options.all or options.privates:
         if not options.quiet:
-            print ">>> Optimizing privates..."
+            print(">>> Optimizing privates...")
         privates = {}
         if options.cache:
             cache = Cache(options.cache,
@@ -297,11 +298,11 @@ def run_compile(fileName, fileContent, options, args):
             cache.write(options.privateskey, privates)
 
     if not options.quiet:
-        print ">>> Compiling..."
+        print(">>> Compiling...")
     result = [u'']
     result = Packer().serializeNode(tree, None, result, True)
     result = u''.join(result)
-    print result.encode('utf-8')
+    print(result.encode('utf-8'))
 
     return
 
@@ -310,13 +311,13 @@ def main():
     (options, args) = get_args()
 
     if len(args) == 0:
-        print ">>> Missing filename!"
+        print(">>> Missing filename!")
         return
 
     for fileName in args:
         if not options.quiet:
-            print fileName, ":"
-            print ">>> Parsing file..."
+            print(fileName, ":")
+            print(">>> Parsing file...")
 
         if fileName == "-":
             # enables: echo "1+2" | compile.py -
@@ -350,7 +351,7 @@ if __name__ == '__main__':
         main()
 
     except KeyboardInterrupt:
-        print
-        print "Keyboard interrupt!"
+        print()
+        print("Keyboard interrupt!")
         interruptCleanup(interruptRegistry)
         sys.exit(1)

@@ -23,6 +23,11 @@ import sys, os
 # qxenviron.py -- provide PYTHONPATH extension
 ##
 
+# assure that sufficient Python version is present.
+if sys.version_info < (2, 6) or sys.version_info >= (3, 0):
+    sys.exit("Please use Python 2.x (2.6 or above). Your version (Python %d.%d)" \
+      " isn't supported.\n" % (sys.version_info[0], sys.version_info[1]))
+
 # calculate script path
 scriptDir = os.path.dirname(os.path.abspath(__file__))
 QXPYLIB = os.path.normpath(os.path.join(scriptDir, os.pardir, "pylib"))

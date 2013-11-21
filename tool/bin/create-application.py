@@ -19,6 +19,7 @@
 #    * Andreas Ecker (ecker)
 #
 ################################################################################
+from __future__ import print_function
 
 import re, os, sys, optparse, shutil, errno, stat, codecs, glob, types, subprocess, tempfile
 from string import Template
@@ -162,7 +163,8 @@ def createApplication(options):
                     os.makedirs(os.path.dirname(dst_path))
                 shutil.copy(src_path, dst_path)
             else:
-                print >>sys.stderr, "Warning: Source file \"%s\" not available - please see the skeleton's readme.txt" % src_path
+                msg = "Warning: Source file \"{0}\" not available - please see the skeleton's readme.txt".format(src_path)
+                print(msg, file=sys.stderr) # just keep on with the others
 
     # rename files
     rename_folders(appDir, options.namespace)
@@ -525,6 +527,6 @@ if __name__ == '__main__':
         main()
 
     except KeyboardInterrupt:
-        print
-        print "Keyboard interrupt!"
+        print()
+        print("Keyboard interrupt!")
         sys.exit(1)

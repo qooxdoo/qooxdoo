@@ -46,12 +46,12 @@ def createInitFile(pkg_name, path):
         "PACKAGE" : pkg_name,
         }))
     f.close()
-    print "  writing: " + path
+    print("  writing: " + path)
 
 def main():
     global template
-    rootDir   = sys.argv[1]
-    #templFile = sys.argv[2] 
+    rootDir = sys.argv[1]
+    #templFile = sys.argv[2]
     template = string.Template(templString)
     # run through class tree
     # check for __init__.js
@@ -67,6 +67,8 @@ def main():
             createInitFile(pkg_name, os.path.join(path, initFName))
 
 if __name__ == "__main__":
+    if not len(sys.argv) >= 2:
+        sys.exit("Expecting directory as first argument.")
     main()
 
 

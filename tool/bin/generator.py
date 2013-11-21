@@ -19,6 +19,7 @@
 #    * Thomas Herchenroeder (thron7)
 #
 ################################################################################
+from __future__ import print_function
 
 import sys, os, string, types, pprint
 import qxenviron
@@ -65,8 +66,8 @@ def interruptCleanup():
     for func in interruptRegistry.Callbacks:
         try:
             func()
-        except Error, e:
-            print >>sys.stderr, e  # just keep on with the others
+        except Error as e:
+            print(e, file=sys.stderr)  # just keep on with the others
 
 ##
 # This can be used with sys.settrace(). It records the max. stack size during
@@ -247,12 +248,12 @@ if __name__ == '__main__':
         main()
 
     except KeyboardInterrupt:
-        print
-        print "Keyboard interrupt!"
+        print()
+        print("Keyboard interrupt!")
         interruptCleanup()
         sys.exit(2)
 
-    except Exception, e:
+    except Exception as e:
         interruptCleanup()
         if (options == None or            # do a stack trace if we fail when parsing options
            (hasattr(options, "stacktrace") and options.stacktrace)):  # or when 'stacktrace' is enabled
@@ -264,10 +265,10 @@ if __name__ == '__main__':
             except:
                 pass
             if err: # there's something to print
-                #print >> sys.stderr, e
-                print >> sys.stderr, type(e), ":",
+                print(type(e), ":", file=sys.stderr)
                 for el in e.args:
-                    print >> sys.stderr, str(el)[:300]
+                    print(str(el)[:300], file=sys.stderr)
             else:
-                print >> sys.stderr, "\nTerminating on %s; please re-run with -s." % type(e)
+                msg = "\nTerminating on {0}; please re-run with -s.".format(type(e))
+                print(msg, file=sys.stderr)
             sys.exit(1)

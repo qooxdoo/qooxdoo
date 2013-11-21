@@ -43,10 +43,10 @@ TMPOUT = os.path.join(tempfile.gettempdir(), "tmp-iconpkg.png")
 
 def main():
     global console
-    
+
     # Init console object
     console = Log()
-    
+
     if len(sys.argv[1:]) == 0:
         basename = os.path.basename(sys.argv[0])
         console.info("Usage: %s [options]" % basename)
@@ -69,7 +69,7 @@ def main():
     source = os.path.abspath(options.source)
     target = os.path.abspath(options.target)
     sync = options.sync
-    
+
     console.info("Processing theme...")
     console.info("Source folder: %s" % source)
     console.info("Target folder: %s" % target)
@@ -78,7 +78,7 @@ def main():
     # Process entries
     for entry in data:
         name = entry[0]
-        
+
         console.info("Processing entry %s" % name)
         console.indent()
 
@@ -88,7 +88,7 @@ def main():
         short = name.split("/")[1]
         names = []
         names.extend(entry)
-            
+
         # Copy images in different sizes
         for size in SIZES:
             copyFile(source, target, entry, size, sync)
@@ -101,14 +101,14 @@ def main():
 def copyFile(source, target, names, size, sync):
     name = names[0]
     dest = os.path.join(target, str(size), name + ".png")
-    
+
     # Get scalable
     scale = getScalable(source, names, size)
-    
+
     if not scale:
         console.warn("Missing %spx icon" % size)
         return
-        
+
 
     # Syncronization support
     if sync:
@@ -117,34 +117,34 @@ def copyFile(source, target, names, size, sync):
             destTime = os.stat(dest).st_mtime
             sourceTime = os.stat(scale).st_mtime
             process = sourceTime > destTime
-            
+
         except OSError:
             # Ignore non existent files
             pass
-            
+
         if not process:
             return
 
-        
+
     # Convert to pixmap
     pixmap = getPixmap(scale, size)
     if not pixmap:
         return
-        
+
     if not isinstance(pixmap, basestring):
         keeper = pixmap
         pixmap = pixmap.name
 
     console.debug("copying: %s" % pixmap)
     console.debug("     to: %s" % dest)
-    
+
     destDir = os.path.dirname(dest)
 
     try:
         os.stat(destDir)
     except OSError:
         os.makedirs(destDir)
-        
+
     shutil.copy(pixmap, dest)
 
     try: os.remove(TMPPNG)
@@ -155,7 +155,7 @@ def getPixmap(scale, size):
     console.debug("Rendering image...")
     pngtmp = file(TMPPNG, "wb")
     outtmp = file(TMPOUT, "wb")
-    
+
     if SVG == "rsvg.cmd":
         svgreturn = subprocess.Popen(["rsvg-convert", "-w", str(size), "-h", str(size), "-a", "-o", pngtmp.name, scale], stderr=outtmp, stdout=outtmp).wait()
     elif SVG == "inkscape.cmd":
@@ -166,7 +166,7 @@ def getPixmap(scale, size):
         svgreturn = subprocess.Popen(["java", "-jar", "batik/batik-rasterizer.jar", "-w", str(size), "-h", str(size), "-m", "image/png", "-d", pngtmp.name, scale], stderr=outtmp, stdout=outtmp).wait()
     else:
         svgreturn = 1
-        
+
     if svgreturn != 0:
         console.error("Could not convert SVG file: %s" % scale)
         sys.exit(1)
@@ -177,18 +177,18 @@ def getPixmap(scale, size):
 def getScalable(path, names, size):
     extensions = [ "svg", "svgz" ]
     optimized = SIZES[SIZES.index(size):]
-    
+
     for name in names:
         category = name[:name.index("/")]
         filename = name[name.index("/")+1:]
-        
+
         files = []
         for ext in extensions:
             for optsize in optimized:
                 files.append("scalable/%s/small/%sx%s/%s.%s" % (category, optsize, optsize, filename, ext))
 
             files.append("scalable/%s/%s.%s" % (category, filename, ext))
-        
+
         for name in files:
             fullname = os.path.join(path, name)
             try:
@@ -242,6 +242,6 @@ if __name__ == '__main__':
         main()
 
     except KeyboardInterrupt:
-        print
-        print "Keyboard interrupt!"
+        print()
+        print("Keyboard interrupt!")
         sys.exit(1)
