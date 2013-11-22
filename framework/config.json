@@ -319,13 +319,14 @@
       "let" :
       {
         "MOBILE_THEME_PATH" : "source/resource/qx/mobile/",
+        "SHARED_THEME_PATH" : "source/resource/qx/scss/"
       },
       "watch-files" :
       {
         "paths"    : ["source/resource/qx/mobile/scss"],
         "command" :
         {
-          "line"  : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/scss.py ${MOBILE_THEME_PATH}scss/flat.scss -o ${MOBILE_THEME_PATH}css/flat.css --load-path=${MOBILE_THEME_PATH}scss && ${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/scss.py ${MOBILE_THEME_PATH}scss/indigo.scss -o ${MOBILE_THEME_PATH}css/indigo.css --load-path=${MOBILE_THEME_PATH}scss",
+          "line"  : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/scss.py ${MOBILE_THEME_PATH}scss/flat.scss -o ${MOBILE_THEME_PATH}css/flat.css --load-path=${MOBILE_THEME_PATH}scss,${SHARED_THEME_PATH} && ${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/scss.py ${MOBILE_THEME_PATH}scss/indigo.scss -o ${MOBILE_THEME_PATH}css/indigo.css --load-path=${MOBILE_THEME_PATH}scss,${SHARED_THEME_PATH}",
           "exec-on-startup" : true
         },
         "include" : [ "*.scss" ],

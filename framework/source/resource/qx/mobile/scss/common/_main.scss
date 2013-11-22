@@ -3,9 +3,12 @@
 //
 // This stylesheet contains all styles, which are necessary/useful for ALL themes.
 //
-//
 
-.mobile *, .mobile {
+.exclude {
+  display:none !important;
+}
+
+.mobile *, .mobile  {
   @include tap-highlight-color(rgba(0,0,0,0));
   margin: 0;
   padding: 0;
