@@ -1411,11 +1411,18 @@ q.ready(function() {
     var textNode = document.createTextNode(html);
     var codeEl = q.create('<code>');
     codeEl[0].appendChild(textNode);
-    var preEl = q.create('<pre class="markup">').append(codeEl)
+
+    var accordion = q.template.get("widget-dom", {
+      title: "Expand",
+      pageId: "widget-dom-" + methodName.replace(".", "")
+    })
     .insertAfter(markupHeader);
+    //markupHeader.remove();
+    var pre = accordion.find("pre").append(codeEl);
+    accordion.accordion();
 
     if (useHighlighter) {
-      hljs.highlightBlock(preEl[0]);
+      hljs.highlightBlock(pre[0]);
     }
 
     pen.find(".qx-widget").dispose();

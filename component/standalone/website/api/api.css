@@ -101,9 +101,16 @@ body {
   border-radius: 5px;
 }
 
-#list .qx-accordion-button {
-  list-style: none;
+.qx-accordion-button {
   cursor: pointer;
+  list-style: none;
+}
+
+.qx-accordion-page {
+  list-style: none;
+}
+
+#list .qx-accordion-button {
   padding: 5px 10px;
   color: #3d72c9;
   font-size: 18px;
@@ -218,11 +225,6 @@ body {
   font-size: 14px;
   margin-top: 16px;
   line-height: 1;
-}
-
-.markup {
-  margin-top: 5px;
-  background-color: #F0F0F0;
 }
 
 #content {
@@ -485,6 +487,47 @@ p {
 
 #content .info:hover {
   color: white;
+}
+
+.widget-dom .qx-accordion-button button {
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.widget-dom .qx-accordion-button button:focus {
+  outline: none;
+}
+
+.widget-dom .qx-accordion-button button:before {
+
+  font-size: 14px;
+  font-family: "Batch";
+  font-weight: bold;
+  color: #3d72c9;
+  content: "\F01D";
+  margin-right: 5px;
+}
+
+.widget-dom .qx-accordion-button-active button:before {
+  content: "\F01E";
+}
+
+.widget-dom .qx-accordion-button button:after {
+  content: "Show";
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.widget-dom .qx-accordion-button-active button:after {
+  content: "Hide";
+  cursor: pointer;
+}
+
+.widget-dom pre {
+  background-color: #F0F0F0;
 }
 
 @media (max-width: 800px),

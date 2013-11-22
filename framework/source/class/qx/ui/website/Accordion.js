@@ -69,7 +69,7 @@
  *   </tbody>
  * </table>
  *
- * <h2 class="widget-markup">Example DOM Structure</h2>
+ * <h2 class="widget-markup">Generated DOM Structure</h2>
  *
  * @require(qx.module.util.Object)
  *

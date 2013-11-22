@@ -68,7 +68,7 @@
  *   </tbody>
  * </table>
  *
- * <h2 class="widget-markup">Example DOM Structure</h2>
+ * <h2 class="widget-markup">Generated DOM Structure</h2>
  *
  * @require(qx.module.Template)
  *
@@ -83,7 +83,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      *
      * Template for the controls. This should be a <code>tr</code> tag containing
      * the first row of the calendar.
-     * 
+     *
      * Default value:
      * <pre><tr>
      *  <td colspan='1'><button class='{{cssPrefix}}-prev' title='Previous Month'>&lt;</button></td>
