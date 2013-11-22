@@ -329,7 +329,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
 
 
     /**
-     * Disposing of widget which makes sure all objects are ready for
+     * Dispose the widget, making sure all objects are ready for
      * garbage collection. This mainly means deleting connections to the
      * DOM including event listeners.
      * @return {qxWeb} Plain qxWeb collection
