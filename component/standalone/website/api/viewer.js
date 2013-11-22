@@ -731,7 +731,9 @@ q.ready(function() {
         data.returns.types.push(type);
       });
     }
-    data.returns.printTypes = printTypes;
+    data.returns.printTypes = function() {
+      return printTypes(data);
+    };
 
     // add the parameters
     data.params = [];
@@ -755,7 +757,9 @@ q.ready(function() {
         }
         paramData.types.push(typeString);
       }
-      paramData.printTypes = printTypes;
+      paramData.printTypes = function() {
+        return printTypes(paramData);
+      };
       data.params.push(paramData);
     }
     data.printParams = printParams;
@@ -849,9 +853,9 @@ q.ready(function() {
     return params;
   };
 
-  var printTypes = function() {
+  var printTypes = function(data) {
     var params = "";
-    var types = this.types || this.returns.types;
+    var types = data.types || data.returns.types;
     for (var i = 0; i < types.length; i++) {
       params += addTypeLink(types[i]);
       if (i < types.length - 1) {
