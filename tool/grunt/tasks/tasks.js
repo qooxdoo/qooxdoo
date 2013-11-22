@@ -31,9 +31,9 @@ var registerNodeTasks = function(grunt, relSdkPath) {
 };
 
 var registerTasks = function(grunt, generatorJobs) {
-  var qx = grunt.config.get('qx');
+  var common = grunt.config.get('common');
   registerGeneratorJobs(grunt, generatorJobs, getSupersededJobs());
-  registerNodeTasks(grunt, qx.let.QOOXDOO_PATH);
+  registerNodeTasks(grunt, common.QOOXDOO_PATH);
 };
 
 
