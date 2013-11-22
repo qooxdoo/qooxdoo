@@ -78,6 +78,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     this.__target = target;
     this.__emitter = emitter;
     this._initTouchObserver();
+    this.__pointers = [];
   },
 
 
@@ -100,6 +101,8 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     __beginRotation : null,
 
     __longTapTimer : null,
+
+    __pointers : null,
 
 
     /*
@@ -197,7 +200,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
      * @param touch1 {Event} The touch event from the browser.
      * @return {Number} the calculated distance.
      */
-    _getScalingDistance: function(touch0, touch1) {
+    _getScalingDistance : function(touch0, touch1) {
       return(Math.sqrt( Math.pow(touch0.pageX - touch1.pageX, 2) + Math.pow(touch0.pageY - touch1.pageY, 2) ));
     },
 
@@ -208,7 +211,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
      * @param touch1 {Event} The touch event from the browser.
      * @return {Number} the calculated rotation.
      */
-    _getRotationAngle: function(touch0, touch1) {
+    _getRotationAngle :  function(touch0, touch1) {
       var x = touch0.pageX - touch1.pageX;
       var y = touch0.pageY - touch1.pageY;
       return(Math.atan2(y, x)*180/Math.PI);
@@ -225,11 +228,12 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     {
       var type = type || domEvent.type;
       if (qx.core.Environment.get("event.mspointer")) {
-        domEvent.changedTouches = [domEvent];
-        domEvent.targetTouches = [domEvent];
-        domEvent.touches = [domEvent];
-
         type = this._mapPointerEvent(type);
+        var touches = this._detectTouchesByPointer(domEvent, type);
+
+        domEvent.changedTouches = touches;
+        domEvent.targetTouches = touches;
+        domEvent.touches = touches;
       }
 
       if (type == "touchstart") {
@@ -250,7 +254,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
           domEvent.scale = currentScalingDistance / this.__beginScalingDistance;
         }
 
-         // Polyfill for rotation
+        // Polyfill for rotation
         if(typeof domEvent.rotation == "undefined" && domEvent.targetTouches.length > 1) {
           var currentRotation = this._getRotationAngle(domEvent.targetTouches[0], domEvent.targetTouches[1]);
           domEvent.rotation = currentRotation - this.__beginRotation;
@@ -263,6 +267,36 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
 
       this._fireEvent(domEvent, type, this.__originalTarget);
       this.__checkAndFireGesture(domEvent, type);
+
+      if (qx.core.Environment.get("event.mspointer")) {
+        if (type == "touchend" || type == "touchcancel") {
+          delete this.__pointers[domEvent.pointerId];
+        }
+      }
+    },
+
+
+    /**
+    * Creates an array with all current used touches out of multiple serial pointer events.
+    * Needed because pointerEvents do not provide a touch list.
+    * @param domEvent {Event} DOM event
+    * @param type {String ? null} type of the event
+    * @return {Array} touch list array.
+    */
+    _detectTouchesByPointer : function(domEvent, type) {
+      var touches = [];
+      if (type == "touchstart") {
+        this.__pointers[domEvent.pointerId] = domEvent;
+      } else if (type == "touchmove") {
+        this.__pointers[domEvent.pointerId] = domEvent;
+      }
+
+      for (var pointerId in this.__pointers) {
+        var pointer = this.__pointers[pointerId];
+        touches.push(pointer);
+      }
+
+      return touches;
     },
 
 
@@ -353,20 +387,22 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
      * @return {Element | null} Event target
      */
     __evaluateTarget : function(domEvent) {
-      if(domEvent && domEvent.touches){
-        var clientX = domEvent.touches[0].clientX;
-        var clientY = domEvent.touches[0].clientY;
+      var clientX = null;
+      var clientY = null;
+      if(domEvent && domEvent.touches && domEvent.touches.length !== 0){
+        clientX = domEvent.touches[0].clientX;
+        clientY = domEvent.touches[0].clientY;
       }
 
       // Retrieve an array with elements on point X/Y.
       var hitTargets = document.msElementsFromPoint(clientX, clientY);
       if(hitTargets) {
         // Traverse this array for the elements which has no pointer-events:none inside.
-        for(var i=0; i < hitTargets.length; i++) {
+        for (var i = 0; i < hitTargets.length; i++) {
           var currentTarget = hitTargets[i];
-          var pointerEvents = qx.bom.element.Style.get(currentTarget,"pointer-events",3);
+          var pointerEvents = qx.bom.element.Style.get(currentTarget, "pointer-events", 3);
 
-          if(pointerEvents != "none") {
+          if (pointerEvents != "none") {
             return currentTarget;
           }
         }
@@ -582,7 +618,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     dispose : function()
     {
       this._stopTouchObserver();
-      this.__originalTarget = this.__target = this.__emitter = this.__beginScalingDistance = this.__beginRotation = null;
+      this.__originalTarget = this.__target = this.__pointers = this.__emitter = this.__beginScalingDistance = this.__beginRotation = null;
       this.__stopLongTapTimer();
     }
   }
