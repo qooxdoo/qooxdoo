@@ -50,6 +50,7 @@ qx.Bootstrap.define("qx.ui.website.Input", {
      * attribute.
      *
      * @param value {Boolean} true, if the input element should be enabled.
+     * @return {qx.ui.website.Input} The collection for chaining
      */
     setEnabled : function(value) {
       this.setAttribute("disabled", value===false);
@@ -69,6 +70,8 @@ qx.Bootstrap.define("qx.ui.website.Input", {
           });
         }
       }
+
+      return this;
     },
 
 
@@ -79,6 +82,7 @@ qx.Bootstrap.define("qx.ui.website.Input", {
      * enabled state.
      *
      * @param value {Boolean} True, if the element should be selectable.
+     * @return {qx.ui.website.Input} The collection for chaining
      */
     setSelectable : function(value) {
       if (!this[0]) {
@@ -100,6 +104,7 @@ qx.Bootstrap.define("qx.ui.website.Input", {
         contentElement.setStyle(userSelect, value ? "text" :
           qx.core.Environment.get("css.userselect.none"));
       }
+
       return this;
     }
   }
