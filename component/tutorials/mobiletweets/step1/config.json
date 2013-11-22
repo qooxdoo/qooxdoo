@@ -115,7 +115,7 @@
     "build" :
     {
       "let" : {
-        "BUILD_PATH" : "${ROOT}/build-${PLATFORM}"
+        "BUILD_PATH" : "${ROOT}/build"
       },
       "asset-let" : {
         "qx.mobile.platform" : [ "${PLATFORM}" ]
