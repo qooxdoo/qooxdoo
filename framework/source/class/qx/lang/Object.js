@@ -22,6 +22,7 @@
  * Helper functions to handle Object as a Hash map.
  *
  * @require(qx.lang.normalize.Object)
+ * @ignore(qx.core.Assert)
  */
 qx.Bootstrap.define("qx.lang.Object",
 {
