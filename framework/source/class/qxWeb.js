@@ -244,17 +244,6 @@ qx.Bootstrap.define("qxWeb", {
 
 
     /**
-     * Recreates a collection which is free of all duplicate elements from the original.
-     *
-     * @return {q} Returns a copy with no duplicates
-     */
-    unique : function() {
-      var unique = qx.lang.Array.unique(this);
-      return qxWeb.$init(unique, this.constructor);
-    },
-
-
-    /**
      * Removes the given number of items and returns the removed items as a new collection.
      * This method can also add items. Take a look at the
      * <a href='https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/splice' target='_blank'>documentation of MDN</a> for more details.
