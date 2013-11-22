@@ -1,6 +1,7 @@
 // global conf
-var _qx = {
-  sdkPath: "..",
+var common = {
+  QOOXDOO_PATH: "..",
+  APPLICATION : "framework",
   generatorJobs: [
     ["api", ""],
     ["api-data", "create api doc json data files"],
@@ -30,18 +31,18 @@ var _qx = {
 };
 
 // requires
-var qxConf = require(_qx.sdkPath + '/tool/grunt/config/application.js');
-var qxTasks = require(_qx.sdkPath + '/tool/grunt/tasks/tasks.js');
+var qxConf = require(common.QOOXDOO_PATH + '/tool/grunt/config/application.js');
+var qxTasks = require(common.QOOXDOO_PATH + '/tool/grunt/tasks/tasks.js');
 
 // grunt
 module.exports = function(grunt) {
   var config = {
     qx: {
-      "APPLICATION": "framework",
-      "QOOXDOO_PATH": "..",
-      "QOOXDOO_VERSION": "3.1",
-      "CACHE": "<%= qx.TMPDIR %>/qx<%= qx.QOOXDOO_VERSION %>/cache",
+      let : {}
     },
+
+    common : common,
+
     /*
     myTask: {
       options: {},
@@ -57,7 +58,7 @@ module.exports = function(grunt) {
   // process.exit();
   grunt.initConfig(mergedConf);
 
-  qxTasks.registerTasks(grunt, _qx.generatorJobs);
+  qxTasks.registerTasks(grunt, common.generatorJobs);
 
   grunt.loadNpmTasks('grunt-contrib-clean');
 };
