@@ -87,6 +87,11 @@ module.exports = function(grunt) {
       }
     });
 
+    process.on('SIGINT', function() {
+      fs.unlinkSync(gen_conf_file);
+    });
+
+
     var cmd = [
       './generate.py',
       (job || ''),
