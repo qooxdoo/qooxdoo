@@ -14,8 +14,8 @@ input.invalid {
   border: rem(1) solid $input-invalid-border-color !important;
 }
 
-input, .text-area { 
-  font-family: $application-font; 
+input, .text-area {
+  font-family: $application-font;
 }
 
 input, select {
@@ -44,7 +44,7 @@ input, select, .text-area {
 }
 
 .text-field.invalid, .password-field.invalid, .text-area.invalid {
-  border: 1em solid red;
+  border: rem(1) solid $input-invalid-border-color !important;
 }
 
 .text-area {
