@@ -1,6 +1,8 @@
 // global conf
-var _qx = {
-  sdkPath: "../../..",
+var common = {
+  QOOXDOO_PATH : "../../..",
+  QOOXDOO_VERSION : "3.1",
+  APPLICATION: "library",
   generatorJobs: [
     ["api", "Create a qx.Website Apiviewer"],
     ["api-data", "Create API data for the qx.Website API viewer"],
@@ -20,20 +22,19 @@ var _qx = {
 };
 
 // requires
-var qxConf = require(_qx.sdkPath + '/tool/grunt/config/application.js');
-var qxTasks = require(_qx.sdkPath + '/tool/grunt/tasks/tasks.js');
+var qxConf = require(common.QOOXDOO_PATH + '/tool/grunt/config/application.js');
+var qxTasks = require(common.QOOXDOO_PATH + '/tool/grunt/tasks/tasks.js');
 
 // grunt
 module.exports = function(grunt) {
+
   var config = {
-    qx: {
-      "let" : {
-        "APPLICATION": "library",
-        "QOOXDOO_PATH": _qx.sdkPath,
-        "QOOXDOO_VERSION": "3.1",
-        "CACHE": "<%= grunt_qx.TMPDIR %>/qx<%= qx.let.QOOXDOO_VERSION %>/cache"
+    generator_config: {
+      let : {
       }
     },
+
+    common : common,
 
     concat: {
       options: {
@@ -80,7 +81,7 @@ module.exports = function(grunt) {
   var mergedConf = qxConf.mergeConfig(config);
   grunt.initConfig(mergedConf);
 
-  qxTasks.registerTasks(grunt, _qx.generatorJobs);
+  qxTasks.registerTasks(grunt, common.generatorJobs);
 
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-concat');

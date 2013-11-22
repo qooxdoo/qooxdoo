@@ -64,7 +64,7 @@ module.exports = function(grunt) {
      * TODO: support more than just global 'let'
      */
 
-    var config_map = grunt.config.get('qx');
+    var config_map = grunt.config.get('generator_config');
     // link to original config file
     if (!config_map.include) {
       config_map.include = [];
