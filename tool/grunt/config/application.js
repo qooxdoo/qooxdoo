@@ -12,6 +12,7 @@ var getConfig = function() {
     common: {
       "ROOT" : ".",
       "QOOXDOO_PATH" : "../../..",
+      "QOOXDOO_VERSION" : "3.1",
       "TMPDIR": os.tmpdir(),
       "CACHE" : "<%= common.TMPDIR %>/qx<%= common.QOOXDOO_VERSION %>/cache",
       "CACHE_KEY" :

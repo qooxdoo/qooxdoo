@@ -150,6 +150,9 @@ Files = {
         r'q-[a-z]+-(%s).js' % qxversion_regexp,
         r'q-[a-z]+-(%s).min.js' % qxversion_regexp,
         ],
+    "./tool/grunt/config/application.js" : [
+        r'"QOOXDOO_VERSION"\s*:\s*"(%s)"' % qxversion_regexp,
+        ],
     "./component/skeleton/server/readme.txt" : [
         r'qx-oo-(%s).min.js' % qxversion_regexp,
         ],
