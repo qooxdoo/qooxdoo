@@ -84,7 +84,14 @@ qx.Class.define("qx.event.handler.DragDrop",
     },
 
     /** @type {Integer} Whether the method "canHandleEvent" must be called */
-    IGNORE_CAN_HANDLE : true
+    IGNORE_CAN_HANDLE : true,
+    
+    /** 
+     * Array of strings holding the names of the allowed mouse buttons
+     * for Drag & Drop. The default is "left" but could be extended with 
+     * "middle" or "right"
+     */
+    ALLOWED_BUTTONS: ["left"]
   },
 
 
@@ -550,7 +557,8 @@ qx.Class.define("qx.event.handler.DragDrop",
      */
     _onMouseDown : function(e)
     {
-      if (this.__sessionActive || e.getButton() !== "left") {
+      var isButtonOk = qx.event.handler.DragDrop.ALLOWED_BUTTONS.indexOf(e.getButton()) !== -1;
+      if (this.__sessionActive || !isButtonOk) {
         return;
       }
 
