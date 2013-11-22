@@ -68,7 +68,7 @@ var resizeHandler = function() {
 };
 
 var winCollection = q(window);
-winCollection.on("resize", q.function.defer(resizeHandler, 500), winCollection);
+winCollection.on("resize", q.func.debounce(resizeHandler, 500), winCollection);
   },
   executable: true
 });
