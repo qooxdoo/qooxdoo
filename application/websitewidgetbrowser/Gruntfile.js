@@ -49,7 +49,12 @@ module.exports = function(grunt) {
     notify: {
       build: {
         options: {
-          message: 'Website Widget Browser generated.'
+          message: 'Website Widget Browser (build version) generated.'
+        }
+      },
+      source: {
+        options: {
+          message: 'Website Widget Browser (source version) generated.'
         }
       }
     }
@@ -73,5 +78,13 @@ module.exports = function(grunt) {
     'build',
     'Concat the samples and generate the API.',
     ["build-min", "sass:indigo", "notify:build"]
+  );
+
+  // 'extend' source job
+  grunt.task.renameTask('source', 'generate-source');
+  grunt.task.registerTask(
+    'source',
+    'Concat the samples and generate the API.',
+    ["generate-source", "sass:indigo", "notify:source"]
   );
 };
