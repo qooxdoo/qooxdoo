@@ -60,7 +60,7 @@ qx.Bootstrap.define("qx.bom.client.Scroll",
         return true;
       }
 
-      if (qx.core.Environment.get("os.name") == "win") {
+      if (qx.core.Environment.get("event.mspointer")) {
         return true;
       }
 

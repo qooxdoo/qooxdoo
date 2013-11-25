@@ -464,8 +464,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       var transformValueArray = transformMatrix.substr(7, transformMatrix.length - 8).split(', ');
 
       var i = 4;
-      // Special handling for IE10, because transformation matrix has a different order.
-      if(qx.core.Environment.get("os.name") == "win") {
+      // Check if MSCSSMatrix is used.
+      if('MSCSSMatrix' in window) {
         i = transformValueArray.length - 4;
       }
 
