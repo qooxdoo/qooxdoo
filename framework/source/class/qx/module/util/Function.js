@@ -47,7 +47,7 @@ qx.Bootstrap.define("qx.module.util.Function", {
 
         // store the current arguments at the function object
         // to have access inside the interval method
-        arguments.callee.args = qxWeb.array.fromArguments(arguments);
+        arguments.callee.args = qx.lang.Array.fromArguments(arguments);
 
         // it's necessary to store the context to be able to call
         // the callback within the right scope
