@@ -55,7 +55,9 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
           this.getContentElement().scrollTop = maxScrollTop - 1;
         }
       } else {
-        evt.preventDefault();
+        if (!(evt.getTarget() instanceof qx.ui.mobile.form.Input)) {
+          evt.preventDefault();
+        }
       }
     },
 
@@ -67,7 +69,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
      */
     _createScrollElement : function()
     {
-      return null
+      return null;
     },
 
 
@@ -78,7 +80,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
      */
     _getScrollContentElement : function()
     {
-      return null
+      return null;
     },
 
 
