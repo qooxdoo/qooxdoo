@@ -57,6 +57,17 @@ module.exports = function(grunt) {
       }
     },
 
+    sass: {
+      api: {
+        options: {
+          style: 'compressed'
+        },
+        files: {
+          'api/script/indigo.css': common.QOOXDOO_PATH + '/framework/source/resource/qx/website/scss/indigo.scss'
+        }
+      }
+    },
+
     notify: {
       samples: {
         options: {
@@ -87,12 +98,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-notify');
+  grunt.loadNpmTasks('grunt-contrib-sass');
 
   // 'extend' API job
   grunt.task.renameTask('api', 'generate-api');
   grunt.task.registerTask(
     'api',
     'Concat the samples and generate the API.',
-    ["concat:samples", "generate-api", "notify:api"]
+    ["concat:samples", "generate-api", "sass:api", "notify:api"]
   );
 };

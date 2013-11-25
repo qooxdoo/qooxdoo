@@ -1315,7 +1315,10 @@ q.ready(function() {
   var qVersion = q.env.get("qx.version");
   var qUrl = "http://demo.qooxdoo.org/" + qVersion + "/framework/q-" +
     qVersion + ".min.js";
+  var indigoUrl = "http://demo.qooxdoo.org/" + qVersion + "/framework/indigo-" +
+      qVersion + ".css";
   var qScript = '<script type="text/javascript" src="' + qUrl + '"></script>';
+  var indigoLink = '<link rel="stylesheet" type="text/css" href="' + indigoUrl + '"/>';
 
   var createFiddleButton = function(sample) {
     return q.create("<button class='fiddlebutton'>Edit/run on jsFiddle</button>").on("click", function() {
@@ -1331,7 +1334,7 @@ q.ready(function() {
 
       if (sample.html) {
         iframeBody.find("#html").setAttribute("value", sample.html);
-        iframeBody.find("#html").setAttribute("value", qScript + '\n' + sample.html);
+        iframeBody.find("#html").setAttribute("value", qScript + '\n' + indigoLink + '\n' + sample.html);
       }
       else {
         iframeBody.find("#html").setAttribute("value", qScript);
