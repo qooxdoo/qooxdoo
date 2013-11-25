@@ -88,13 +88,70 @@ qx.Bootstrap.define("qx.module.util.Function", {
       };
 
       return wrapperFunction;
+    },
+
+
+    /**
+     * Returns a throttled version of the given callback. The execution of the callback
+     * is throttled which means it is only executed in the given interval.
+     * This mechanism is very useful for event handling: only in specified intervals
+     * the event should be handled (e.g. at resize of the browser window) to prevent flooding
+     * the handler with a large amounts of events.
+     *
+     * @attachStatic{qxWeb, func.throttle}
+     * @param callback {Function} the callback which should be executed in the given interval
+     * @param interval {Number} Interval in milliseconds
+     * @param immediate {Boolean} whether to run the callback at the beginning and then throttle
+     * @return {Function} a wrapper function which <em>shields</em> the given callback function
+     */
+    throttle : function(callback, interval, immediate) {
+      var wrapperFunction = function() {
+        arguments.callee.immediate = !!(immediate);
+
+        // store the current arguments at the function object
+        // to have access inside the interval method
+        arguments.callee.args = qx.lang.Array.fromArguments(arguments);
+
+        // it's necessary to store the context to be able to call
+        // the callback within the right scope
+        var context = this;
+
+        // marker if the wrapperFunction was called e.g. as an event listener
+        arguments.callee.toFire = true;
+
+        var id = arguments.callee.intervalId;
+        if (typeof id === "undefined") {
+
+          var intervalId = window.setInterval((function() {
+
+            if (this.toFire) {
+              callback.apply(context, this.args);
+            } else {
+              window.clearInterval(intervalId);
+              delete this.intervalId;
+            }
+            this.toFire = false;
+
+          }).bind(arguments.callee), interval);
+
+          arguments.callee.intervalId = intervalId;
+
+          if (arguments.callee.immediate === true) {
+            callback.apply(context, arguments.callee.args);
+            arguments.callee.toFire = false;
+          }
+        }
+      };
+
+      return wrapperFunction;
     }
   },
 
   defer : function(statics) {
     qxWeb.$attachStatic({
       func : {
-        debounce : statics.debounce
+        debounce : statics.debounce,
+        throttle : statics.throttle
       }
     });
   }
