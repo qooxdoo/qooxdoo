@@ -6,7 +6,7 @@
     "url" : "https://github.com/qooxdoo/qooxdoo"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
+    "grunt": "~0.4.2",
     "grunt-contrib-clean": "~0.5.0"
   }
 }
