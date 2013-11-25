@@ -86,7 +86,7 @@ qx.Bootstrap.define("qx.ui.website.Input", {
      */
     setSelectable : function(value) {
       if (!this[0]) {
-        return;
+        return this;
       }
 
       var enabled = this.__enabled;
