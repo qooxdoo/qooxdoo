@@ -62,11 +62,14 @@ qx.Bootstrap.define("qx.module.util.Function", {
             // if the 'wrapperFunction' was *not* called during the last
             // interval then can call the provided callback and clear the interval
             // except for 'immediate' mode
-            if (!this.fired && this.immediate === false)
+            if (!this.fired)
             {
               window.clearInterval(this.intervalId);
               delete this.intervalId;
-              callback.apply(context, this.args);
+
+              if (this.immediate === false) {
+                callback.apply(context, this.args);
+              }
             }
             this.fired = false;
           }).bind(arguments.callee), delay);

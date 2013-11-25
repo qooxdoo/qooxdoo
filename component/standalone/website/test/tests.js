@@ -3653,9 +3653,9 @@ testrunner.define({
         this.assertTrue(checkCalled);
         this.assertEquals(1, called);
       });
-    }).bind(this), 1000);
+    }).bind(this), 800);
 
-    this.wait(1500);
+    this.wait(1000);
   },
 
   testFunctionDebounceWithEvents : function() {
@@ -3707,14 +3707,18 @@ testrunner.define({
 
       if (counter === 20) {
         window.clearInterval(intervalId);
+
+        window.setTimeout((function() {
+          this.emit("myEvent", "interval_" + counter);
+        }).bind(this), 500);
       }
     }).bind(this.sandbox), 50);
 
     var checkContext = this.sandbox;
-    this.wait(1500, function() {
-      this.assertEquals(1, callCounter);
+    this.wait(2000, function() {
+      this.assertEquals(2, callCounter);
       this.assertEquals(checkContext, context);
-      this.assertEquals("interval_0", data);
+      this.assertEquals("interval_20", data);
     }, this);
   }
 });
