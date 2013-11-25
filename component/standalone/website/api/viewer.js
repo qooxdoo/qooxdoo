@@ -312,6 +312,20 @@ q.ready(function() {
 
     data["Core"]["static"].forEach(setGroup);
     data["Core"]["member"].forEach(setGroup);
+
+    for (var moduleName in data) {
+      var group = data[moduleName].group;
+      if (!group && data[moduleName].member.length > 0) {
+        group = data[moduleName].member[0].attributes.group;
+      }
+      if (!group && data[moduleName].static.length > 0) {
+        group = data[moduleName].static[0].attributes.group;
+      }
+      if (!group) {
+        group = "Extras";
+      }
+      data[moduleName].group = group;
+    }
   };
 
 
@@ -358,12 +372,8 @@ q.ready(function() {
     var className = convertNameToCssClass(id, "nav-");
 
     var factoryName;
-    var group = data.group;
     var ul = q.create("<ul></ul>");
     data["static"].forEach(function(ast) {
-      if (!group && ast.attributes.group) {
-        group = ast.attributes.group;
-      }
       var methodName = getMethodName(ast, prefix);
       var missing = false;
       if (checkMissing !== false) {
@@ -378,9 +388,6 @@ q.ready(function() {
       }).appendTo(ul);
     });
     data["member"].forEach(function(ast) {
-      if (!group && ast.attributes.group) {
-        group = ast.attributes.group;
-      }
       var methodName = getMethodName(ast, prefix);
       var methodIsFactory = isFactory(ast, name);
       factoryName = methodIsFactory ? methodName + "()": factoryName;
@@ -398,14 +405,7 @@ q.ready(function() {
       }).appendTo(ul);
     });
 
-    if (!group) {
-      group = "Extras";
-    }
-
-    if (!data.group) {
-      data.group = group;
-    }
-
+    var group = data.group;
     var groupId = "list-group-" + group;
 
     var groupPage = q("#list").find("> ul > #" + groupId);
@@ -427,6 +427,7 @@ q.ready(function() {
 
     groupPage.append(ul);
   };
+
 
   var sortList = function() {
     var groups = {};
@@ -519,7 +520,8 @@ q.ready(function() {
             if (!data[pluginModuleName]) {
               data[pluginModuleName] = {
                 member: [],
-                static: []
+                static: [],
+                group: "Plugin_API"
               };
             }
             method.attributes.group = "Plugin_API";
