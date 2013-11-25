@@ -584,7 +584,15 @@ q.ready(function() {
     });
 
     removeMethods.forEach(function(obj) {
+      // remove the methods from the former parents
       obj.parent.splice(obj.parent.indexOf(obj.method), 1);
+      // get the name for the old module / class
+      var sourceModuleName = getModuleName(obj.method.attributes.sourceClass);
+      var sourceModule = data[sourceModuleName];
+      // if the old module / class is empty, remove it
+      if (sourceModule.static.length == 0 && sourceModule.member.length == 0) {
+        delete data[sourceModuleName];
+      }
     });
   };
 
