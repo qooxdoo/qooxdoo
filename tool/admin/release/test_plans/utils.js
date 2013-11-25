@@ -33,7 +33,7 @@ function autonumbering() {
 
 var qxversion = "3.1";
 
-function expandVersion(s){
+function expandVersion(s) {
   while (s.indexOf('$(qxversion)') > -1) {
     s  = s.replace('$(qxversion)', qxversion);
   }
@@ -42,7 +42,7 @@ function expandVersion(s){
 
 //  Call this in onload handlers.
 function adjustVersionStrings(){
-  var elems = document.getElementsByClassName("versstring");
+  var elems = document.getElementsByName("versstring");
   for (var i=0, l=elems.length; i<l; i++){
     var e = elems[i];
     e.innerHTML = expandVersion(e.innerHTML);
