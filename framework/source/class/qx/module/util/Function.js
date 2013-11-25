@@ -18,6 +18,8 @@
 ************************************************************************ */
 /**
  * Utility module to give some support to work with functions.
+ *
+ * @group (Utilities)
  */
 qx.Bootstrap.define("qx.module.util.Function", {
 
