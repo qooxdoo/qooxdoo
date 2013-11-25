@@ -707,7 +707,7 @@ check-apps:
 		elif [ "$$TARGET" = "todo" ] ; then \
 			F="application/$$TARGET/$$TARGET.js"; \
 		elif [ "$$TARGET" = "websitewidgetbrowser" ] ; then \
-			F="application/$$TARGET/script/samples.js"; \
+			F="application/$$TARGET/script/indigo.css"; \
 		else \
 			F="application/$$TARGET/build/script/$$TARGET.js"; \
 		fi; \
