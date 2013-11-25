@@ -104,6 +104,8 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
 
     __pointers : null,
 
+    __touchEventNames : null,
+
 
     /*
     ---------------------------------------------------------------------------
@@ -118,25 +120,21 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     {
       this.__onTouchEventWrapper = qx.lang.Function.listener(this._onTouchEvent, this);
 
-      var Event = qx.bom.Event;
-
-      Event.addNativeListener(this.__target, "touchstart", this.__onTouchEventWrapper);
-      Event.addNativeListener(this.__target, "touchmove", this.__onTouchEventWrapper);
-      Event.addNativeListener(this.__target, "touchend", this.__onTouchEventWrapper);
-      Event.addNativeListener(this.__target, "touchcancel", this.__onTouchEventWrapper);
+      this.__touchEventNames = ["touchstart", "touchmove", "touchend", "touchcancel"];
 
       if (qx.core.Environment.get("event.mspointer")) {
-        // IE 10
-        Event.addNativeListener(this.__target, "MSPointerDown", this.__onTouchEventWrapper);
-        Event.addNativeListener(this.__target, "MSPointerMove", this.__onTouchEventWrapper);
-        Event.addNativeListener(this.__target, "MSPointerUp", this.__onTouchEventWrapper);
-        Event.addNativeListener(this.__target, "MSPointerCancel", this.__onTouchEventWrapper);
+        var engineVersion = parseInt(qx.core.Environment.get("engine.version"), 10);
+        if (engineVersion == 10) {
+          // IE 10
+          this.__touchEventNames = ["MSPointerDown", "MSPointerMove", "MSPointerUp", "MSPointerCancel"];
+        } else {
+          // IE 11+
+          this.__touchEventNames = ["pointerdown", "pointermove", "pointerup", "pointercancel"];
+        }
+      }
 
-        // IE 11+
-        Event.addNativeListener(this.__target, "pointerdown", this.__onTouchEventWrapper);
-        Event.addNativeListener(this.__target, "pointermove", this.__onTouchEventWrapper);
-        Event.addNativeListener(this.__target, "pointerup", this.__onTouchEventWrapper);
-        Event.addNativeListener(this.__target, "pointercancel", this.__onTouchEventWrapper);
+      for (var i = 0; i < this.__touchEventNames.length; i++) {
+        qx.bom.Event.addNativeListener(this.__target, this.__touchEventNames[i], this.__onTouchEventWrapper);
       }
     },
 
@@ -153,25 +151,8 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
      */
     _stopTouchObserver : function()
     {
-      var Event = qx.bom.Event;
-
-      Event.removeNativeListener(this.__target, "touchstart", this.__onTouchEventWrapper);
-      Event.removeNativeListener(this.__target, "touchmove", this.__onTouchEventWrapper);
-      Event.removeNativeListener(this.__target, "touchend", this.__onTouchEventWrapper);
-      Event.removeNativeListener(this.__target, "touchcancel", this.__onTouchEventWrapper);
-
-      if (qx.core.Environment.get("event.mspointer")) {
-        // IE 10
-        Event.removeNativeListener(this.__target, "MSPointerDown", this.__onTouchEventWrapper);
-        Event.removeNativeListener(this.__target, "MSPointerMove", this.__onTouchEventWrapper);
-        Event.removeNativeListener(this.__target, "MSPointerUp", this.__onTouchEventWrapper);
-        Event.removeNativeListener(this.__target, "MSPointerCancel", this.__onTouchEventWrapper);
-
-        // IE 11+
-        Event.removeNativeListener(this.__target, "pointerdown", this.__onTouchEventWrapper);
-        Event.removeNativeListener(this.__target, "pointermove", this.__onTouchEventWrapper);
-        Event.removeNativeListener(this.__target, "pointerup", this.__onTouchEventWrapper);
-        Event.removeNativeListener(this.__target, "pointercancel", this.__onTouchEventWrapper);
+      for (var i = 0; i < this.__touchEventNames.length; i++) {
+        qx.bom.Event.removeNativeListener(this.__target, this.__touchEventNames[i], this.__onTouchEventWrapper);
       }
     },
 
@@ -618,7 +599,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     dispose : function()
     {
       this._stopTouchObserver();
-      this.__originalTarget = this.__target = this.__pointers = this.__emitter = this.__beginScalingDistance = this.__beginRotation = null;
+      this.__originalTarget = this.__target = this.__touchEventNames = this.__pointers = this.__emitter = this.__beginScalingDistance = this.__beginRotation = null;
       this.__stopLongTapTimer();
     }
   }
