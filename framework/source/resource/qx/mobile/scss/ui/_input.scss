@@ -43,7 +43,7 @@ input, select, .text-area {
   outline: none;
 }
 
-.text-field.invalid, .password-field.invalid, .text-area.invalid {
+.text-field.invalid, .checkbox.invalid, .radio.invalid, .password-field.invalid, .text-area.invalid {
   border: rem(1) solid $input-invalid-border-color !important;
 }
 
