@@ -58,6 +58,8 @@ qx.Class.define("test.Application",
         Below is your actual application code...
       -------------------------------------------------------------------------
       */
+
+      new qx.bom.MediaQueryListener();
     }
   }
 });
