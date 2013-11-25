@@ -998,7 +998,7 @@ Do you want to start the migration now? [no] : """ % LOGFILE)
 
 The complete output of the migration process has been logged to the file '{0}'.
 
-""").format(LOGFILE)
+""".format(LOGFILE))
 
 
 
