@@ -18,6 +18,7 @@ module.exports = function(grunt) {
     grunt.log.subhead('Environment info:');
     grunt.log.writeln('Platform: ' + os.type() + " " + os.arch() + " " + os.release());
     grunt.log.writeln('Node.js: ' + process.version);
+    grunt.log.writeln('Grunt: ' + grunt.version);
 
     var options = this.options();
 
