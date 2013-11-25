@@ -23,7 +23,7 @@ import optparse
 
 ##
 # A subclass of optparse.OptionParser, to add all our generator options
-## 
+##
 
 class GeneratorArguments(optparse.OptionParser):
 
@@ -35,7 +35,7 @@ class GeneratorArguments(optparse.OptionParser):
 Arguments:
   job,...               a list of jobs (like 'source' or 'copy-files',
                         without the quotes) to run
-  x                     use 'x' (or some undefined job name) to get a 
+  x                     use 'x' (or some undefined job name) to get a
                         list of all available jobs from the configuration file'''
         self.set_usage(usage_str)
 
@@ -49,7 +49,10 @@ Arguments:
         self.add_option("-s", "--stacktrace", action="store_true", dest="stacktrace", default=False, help="enable stack traces on fatal exceptions")
         self.add_option("-m", "--macro", dest="letmacros", metavar="KEY:VAL", action="map", type="string", default={}, help="define/overwrite a global 'let' macro KEY with value VAL")
         self.add_option("-I", "--no-progress-indicator", dest="show_progress_indicator", action="store_false", default=True, help="suppress animated progress indication")
-        
+
+        # Grunt compat
+        self.add_option("--list-jobs", action="store_true", dest="listjobs", default=False, help=optparse.SUPPRESS_HELP)
+
         # Dynamic options (currently not supported)
         #self.add_option("--setting", action="extend", dest="settings", metavar="KEY:VALUE", type="string", default=[], help="Used settings")
         #self.add_option("--variant", action="extend", dest="variants", metavar="KEY:VALUE", type="string", default=[], help="Selected variants")

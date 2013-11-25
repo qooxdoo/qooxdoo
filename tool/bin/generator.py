@@ -87,12 +87,19 @@ def stacktrace(frame, event, arg):
 def listJobs(console, jobs, config):
     console.info("Available jobs:")
     console.indent()
-    for job in sorted(jobs):
-        jdesc = config.getJob(job).getFeature("desc", "")
-        if jdesc:
-            jdesc = " \t -- %s" % (jdesc,)
-        console.info(job + jdesc)
+    jobsAndDesc = getJobsDesc(jobs, config)
+    for jname in sorted(jobsAndDesc.iterkeys()):
+        jdesc = jobsAndDesc[jname]
+        console.info(jname + (" \t -- " + jdesc if jdesc else ""))
     console.outdent()
+
+def getJobsDesc(jobs, config):
+    jobsAndDesc = {}
+    for jname in jobs:
+        jdesc = config.getJob(jname).getFeature("desc", "")
+        jobsAndDesc[jname] = jdesc
+
+    return jobsAndDesc
 
 def getUserConfig(config):
     generatorPrefsPath = os.path.join(qxUserHome, "generator.json")
@@ -111,6 +118,18 @@ def getAdditonalArgs(config, args):
         config.set("let", globallet)
 
     return config
+
+def initConfig(console, options, args):
+   # Load application configuration
+   config = Config(console, options.config, **options.letmacros)
+
+   # Load user configuration (preferences)
+   config = getUserConfig(config)
+
+   # Insert remaining command line args
+   config = getAdditonalArgs(config, args[1:])
+
+   return config;
 
 
 def main():
@@ -137,6 +156,14 @@ def main():
     console = Log(options.logfile, level)
     Context.console = console
 
+    # Grunt compat: Print list of jobs as json
+    if options.listjobs:
+        config = initConfig(console, options, args)
+        config.resolveIncludes()
+        from misc import json
+        print(json.dumpsPretty(getJobsDesc(config.getExportedJobsList(), config)))
+        sys.exit(0)
+
     # Treat verbosity of pre-job processing
     if options.config_verbose:
         console.setLevel("debug")
@@ -153,14 +180,7 @@ def main():
     console.info(u"Processing configuration")
     console.debug(u"    file: %s" % options.config)
 
-    # Load application configuration
-    config = Config(console, options.config, **options.letmacros)
-
-    # Load user configuration (preferences)
-    config = getUserConfig(config)
-
-    # Insert remaining command line args
-    config = getAdditonalArgs(config, args[1:])
+    config = initConfig(console, options, args);
 
     # Early check for log filter -- doesn't work as there is no job selected yet
     #console.setFilter(config.get("log/filter/debug", []))
