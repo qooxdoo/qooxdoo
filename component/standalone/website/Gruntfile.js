@@ -58,12 +58,12 @@ module.exports = function(grunt) {
     },
 
     sass: {
-      api: {
+      indigo: {
         options: {
           style: 'compressed'
         },
         files: {
-          'api/script/indigo.css': common.QOOXDOO_PATH + '/framework/source/resource/qx/website/scss/indigo.scss'
+          'script/indigo.css': common.QOOXDOO_PATH + '/framework/source/resource/qx/website/scss/indigo.scss'
         }
       }
     },
@@ -105,6 +105,6 @@ module.exports = function(grunt) {
   grunt.task.registerTask(
     'api',
     'Concat the samples and generate the API.',
-    ["concat:samples", "generate-api", "sass:api", "notify:api"]
+    ["concat:samples", "generate-api", "sass:indigo", "notify:api"]
   );
 };
