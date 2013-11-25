@@ -464,6 +464,8 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       var timing = this.getConfig("animationTiming");
       var oldOverflow = oldPage.getStyle("overflow");
 
+      this._toggleClickListeners(false);
+
       if (hideAnimation) {
         if (oldOverflow == "visible") {
           oldPage.setStyle("overflow", "hidden");
@@ -498,10 +500,12 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      */
     _showNewPage : function(newPage, showAnimation) {
       if (newPage.length == 0) {
+        this._toggleClickListeners(true);
         return;
       }
 
       if (!showAnimation) {
+        this._toggleClickListeners(true);
         newPage.show();
         return;
       }
@@ -526,8 +530,22 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         if (newOverflow == "visible") {
           newPage.setStyle("overflow", newOverflow);
         }
-      })
+        this._toggleClickListeners(true);
+      }.bind(this))
       .animate(showAnimation);
+    },
+
+
+    /**
+     * Enable/disable the click listeners on the page buttons. This is used
+     * to prevent interaction while page change animations are running.
+     * @param on {Boolean} <code>true</code> enables listeners
+     */
+    _toggleClickListeners : function(on) {
+      var func = on ? "onWidget" : "offWidget";
+      this.find("." + this.getCssPrefix() + "-button")._forEachElementWrapped(function(button) {
+        button[func]("click", this._onClick);
+      }.bind(this));
     },
 
 
