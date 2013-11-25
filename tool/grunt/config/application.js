@@ -5,8 +5,8 @@ var deepmerge = require('deepmerge');
 
 var getConfig = function() {
   return {
-    generator_config : {
-      let : {} 
+    generator_config: {
+      let: {}
     },
 
     common: {

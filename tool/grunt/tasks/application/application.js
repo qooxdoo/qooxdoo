@@ -4,32 +4,7 @@ var fs = require('fs');
 var crypto = require('crypto');
 
 /**
- * Run generate.py ??? to obtain job list.
- */
-function get_current_jobs() {
-    var done = this.async();
-
-    var exec = require('child_process').exec, child;
-
-    var cmd = './generate.py __x_';
-
-    child = exec(cmd,
-      function (error, stdout, stderr) {
-        if (error !== null) {
-          console.error('stderr: ' + stderr);
-          console.error('exec error: ' + error);
-        }
-        done(error === null);
-    });
-
-    child.stdout.on("data", function(data) {
-      console.log(data);
-    })
-
-}
-
-/**
- * TODO: This is a quick hack from http://stackoverflow.com/a/15365656/127465 
+ * TODO: This is a quick hack from http://stackoverflow.com/a/15365656/127465
  * It should eventually be replaced by something more decent, like
  * https://npmjs.org/package/temporary
  */
@@ -40,9 +15,6 @@ function temp_file_name(path) {
   } while (fs.existsSync(path + "/" + filename))
   return filename;
 }
-
-//var generator_jobs = get_current_jobs();
-
 
 module.exports = function(grunt) {
 
@@ -69,10 +41,10 @@ module.exports = function(grunt) {
     if (!config_map.include) {
       config_map.include = [];
     }
-    config_map.include.push( 
+    config_map.include.push(
       // TODO: inspect if gargs has '-c <otherconfig>'
       // TODO: with this synthetic config file, the original 'default' job is not detected
-       { 
+       {
           "path" : "./config.json",
           "bypass-export-list" : true
         });

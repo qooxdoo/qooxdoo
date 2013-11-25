@@ -1,10 +1,7 @@
 // global conf
 var common = {
-
   QOOXDOO_VERSION : "${QOOXDOO_VERSION}",
-  QOOXDOO_PATH: "${REL_QOOXDOO_PATH}",
-  generatorJobs: ${JOBS_AND_DESCS}
-  
+  QOOXDOO_PATH: "${REL_QOOXDOO_PATH}"
 };
 
 // requires
@@ -15,11 +12,11 @@ var qxTasks = require(common.QOOXDOO_PATH + '/tool/grunt/tasks/tasks.js');
 module.exports = function(grunt) {
   var config = {
 
-    generator_config : {
-      let : { }
+    generator_config: {
+      let: { }
     },
 
-    common : common,
+    common: common,
 
     /*
     myTask: {
@@ -36,7 +33,7 @@ module.exports = function(grunt) {
   // process.exit();
   grunt.initConfig(mergedConf);
 
-  qxTasks.registerTasks(grunt, common.generatorJobs);
+  qxTasks.registerTasks(grunt);
 
   grunt.loadNpmTasks('grunt-contrib-clean');
 };
