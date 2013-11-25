@@ -23,7 +23,7 @@
  *
  * @deprecated{3.1}
  */
-qx.Bootstrap.define("qx.bom.MediaQuery", {
+qx.Bootstrap.define("qx.bom.MediaQueryListener", {
 
   extend : qx.bom.MediaQuery,
 
