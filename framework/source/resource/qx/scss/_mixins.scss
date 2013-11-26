@@ -32,6 +32,56 @@
   @include border-radius-bottom($args);
 }
 
+@mixin border-radius-top($args) {
+  -moz-border-radius-topleft:$args;
+  -moz-border-radius-topright:$args;
+
+  -webkit-border-radius-topleft:$args;
+  -webkit-border-radius-topright:$args;
+
+  border-top-right-radius: $args;
+  border-top-left-radius: $args;
+}
+
+@mixin border-radius-right($args) {
+  -moz-border-radius-bottomright:$args;
+  -moz-border-radius-topright:$args;
+
+  -webkit-border-radius-bottomright:$args;
+  -webkit-border-radius-topright:$args;
+
+  border-top-right-radius: $args;
+  border-bottom-right-radius: $args;
+}
+
+@mixin border-radius-left($args) {
+  -moz-border-radius-bottomleft:$args;
+  -moz-border-radius-topleft:$args;
+
+  -webkit-border-radius-bottomleft:$args;
+  -webkit-border-radius-topleft:$args;
+
+  border-top-left-radius: $args;
+  border-bottom-left-radius: $args;
+}
+
+@mixin border-radius-bottom($args) {
+  -moz-border-radius-bottomleft:$args;
+  -moz-border-radius-bottomright:$args;
+
+  -webkit-border-radius-bottomleft:$args;
+  -webkit-border-radius-bottomright:$args;
+
+  border-bottom-right-radius: $args;
+  border-bottom-left-radius: $args;
+}
+
+@mixin border-radius-bottom-left($args) {
+  -moz-border-radius-bottomleft:$args;
+  -webkit-border-radius-bottomleft:$args;
+  border-bottom-left-radius: $args;
+}
+
 @mixin box-shadow($args) {
   -webkit-box-shadow: $args;
   -moz-box-shadow: $args;

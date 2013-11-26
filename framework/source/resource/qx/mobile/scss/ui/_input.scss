@@ -10,19 +10,19 @@
   color:  $input-text-color;
 }
 
-input.invalid {
+.mobile input.invalid {
   border: rem(1) solid $input-invalid-border-color !important;
 }
 
-input, .text-area {
+.mobile input, .text-area {
   font-family: $application-font;
 }
 
-input, select {
+.mobile input, .mobile select {
   vertical-align: middle;
 }
 
-input, select, .text-area {
+.mobile input, .mobile select, .text-area {
   font-size: rem(15);
 }
 
