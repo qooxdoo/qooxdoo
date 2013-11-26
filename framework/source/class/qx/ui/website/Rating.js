@@ -171,6 +171,9 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
      * @return {qx.ui.website.Rating} <code>this</code> reference for chaining.
      */
     setValue : function(value) {
+      if (this.getValue() == value) {
+        return this;
+      }
       if (value < 0) {
         value = 0;
       }
