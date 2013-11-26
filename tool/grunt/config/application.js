@@ -1,28 +1,38 @@
 'use strict';
 
+var fs = require('fs');
 var os = require('os');
 var deepmerge = require('deepmerge');
 
+var common = {
+  "ROOT" : ".",
+  "QOOXDOO_PATH" : "../../..",
+  "TMPDIR": os.tmpdir(),
+  "CACHE" : "<%= common.TMPDIR %>/qx<%= common.QOOXDOO_VERSION %>/cache",
+  "CACHE_KEY" :
+  {
+    "compile" : "<%= common.CACHE %>",
+    "downloads" : "<%= common.CACHE %>/downloads",
+  },
+  "SOURCE_PATH" : "<%= common.ROOT %>/source",
+  "BUILD_PATH" : "<%= common.ROOT %>/build"
+};
+
+function getQxVersion(qxPath) {
+  var vers = fs.readFileSync(fs.realpathSync(__dirname + '/' + qxPath) + '/version.txt', 'utf-8');
+  return vers.trim();
+}
+
+common.QOOXDOO_VERSION = getQxVersion(common.QOOXDOO_PATH);
+
 var getConfig = function() {
-  return {
+  var config = {
     generator_config: {
       let: {}
     },
 
-    common: {
-      "ROOT" : ".",
-      "QOOXDOO_PATH" : "../../..",
-      "QOOXDOO_VERSION" : "3.1",
-      "TMPDIR": os.tmpdir(),
-      "CACHE" : "<%= common.TMPDIR %>/qx<%= common.QOOXDOO_VERSION %>/cache",
-      "CACHE_KEY" :
-      {
-        "compile" : "<%= common.CACHE %>",
-        "downloads" : "<%= common.CACHE %>/downloads",
-      },
-      "SOURCE_PATH" : "<%= common.ROOT %>/source",
-      "BUILD_PATH" : "<%= common.ROOT %>/build"
-    },
+    common : common,
+
     /* grunt-contrib-clean */
     clean: {
       options: {
@@ -58,6 +68,8 @@ var getConfig = function() {
       }
     }
   };
+
+  return config;
 };
 
 var mergeConfig = function(config) {
