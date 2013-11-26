@@ -337,7 +337,7 @@ distclean:
 	@for APPLICATION in $(APPLICATIONS); do \
 		F="application/$$APPLICATION"; \
 		if [ -e $$F ]; then \
-			if [ "$$APPLICATION" != "websitewidgetbrowser"]; then \
+			if [ "$$APPLICATION" != "websitewidgetbrowser" ]; then \
 				(( cd $$F && $(CMD_GENERATOR) distclean ) || ( echo "Unable to distclean $$F"; exit 1 )); \
 			fi; \
 		fi; \
