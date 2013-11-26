@@ -24,6 +24,7 @@
  *
  * @ignore(qx.theme.*)
  * @ignore(qx.Class)
+ * @ignore(qx.Class.*)
  */
 qx.Bootstrap.define("qx.util.ColorUtil",
 {
