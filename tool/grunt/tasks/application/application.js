@@ -12,7 +12,7 @@ function temp_file_name(path) {
   var filename;
   do {
     filename = 'conf'+crypto.randomBytes(4).readUInt32LE(0)+'.tmp';
-  } while (fs.existsSync(path + "/" + filename))
+  } while (fs.existsSync(path + "/" + filename));
   return filename;
 }
 
@@ -65,7 +65,7 @@ module.exports = function(grunt) {
 
 
     var cmd = [
-      './generate.py',
+      'python generate.py',
       (job || ''),
       '-s -c ' + gen_conf_file,
       (opt_string || '')
