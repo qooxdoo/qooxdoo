@@ -2,6 +2,7 @@
 
 var fs = require('fs');
 var crypto = require('crypto');
+var exec = require('child_process').exec;
 
 /**
  * TODO: This is a quick hack from http://stackoverflow.com/a/15365656/127465
@@ -23,17 +24,15 @@ module.exports = function(grunt) {
     //grunt.log.write("Args: " + job + "," + args);
     var opt_string = grunt.option('gargs');
     var done = this.async();
-
-    var exec = require('child_process').exec, child;
+    var child;
 
     /*
      * Customize generator jobs from Gruntfile.
      *
-     * read grunt.config.qx, write it out as a temp. generator .json config
-     * which includes the default config.json (or the one named with -c), and
-     * has all the grunt.config vars as global 'let' vars
-     *
-     * TODO: support more than just global 'let'
+     * read grunt.config.generator_config, which should have the normal Generator
+     * config.json structure.
+     * write it out as a temp. generator .json config which top
+     * level-"include"s the default config.json (or the one named with -c)
      */
 
     var config_map = grunt.config.get('generator_config');
