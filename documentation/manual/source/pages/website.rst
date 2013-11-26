@@ -14,6 +14,13 @@ General
    website/overview
    website/modules
 
+Widget Library
+==============
+
+.. toctree::
+   :maxdepth: 2
+
+   website/widgets
 
 Tutorials
 =========
