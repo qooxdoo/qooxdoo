@@ -712,10 +712,10 @@ input::-webkit-inner-spin-button {
   text-indent: 4px;
   height: 1.7em; }
 
-input, select {
+.mobile input, .mobile select {
   vertical-align: middle; }
 
-input, select, .text-area {
+.mobile input, .mobile select, .text-area {
   font-size: 0.9em; }
 
 .text-field {
