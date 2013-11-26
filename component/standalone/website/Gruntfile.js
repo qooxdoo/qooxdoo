@@ -71,17 +71,27 @@ module.exports = function(grunt) {
     notify: {
       samples: {
         options: {
-          message: 'Samples build and saved.'
+          message: 'Samples built and saved.'
         }
       },
       apidata: {
         options: {
-          message: 'API-Data generated.'
+          message: 'API data generated.'
         }
       },
       api: {
         options: {
-          message: 'API-Viewer generated.'
+          message: 'API viewer generated.'
+        }
+      },
+      source: {
+        options: {
+          message: 'qx.Website source version generated.'
+        }
+      },
+      build: {
+        options: {
+          message: 'qx.Website unminified build version generated.'
         }
       }
     }
@@ -106,5 +116,21 @@ module.exports = function(grunt) {
     'api',
     'Concat the samples and generate the API.',
     ["concat:samples", "generate-api", "sass:indigo", "notify:api"]
+  );
+
+  // 'extend' source job
+  grunt.task.renameTask('source', 'generate-source');
+  grunt.task.registerTask(
+    'source',
+    'Generate the source version of qx.Website and the widget CSS',
+    ["generate-source", "sass:indigo", "notify:source"]
+  );
+
+  // 'extend' build job
+  grunt.task.renameTask('build', 'generate-build');
+  grunt.task.registerTask(
+    'build',
+    'Generate the build version of qx.Website and the widget CSS',
+    ["generate-build", "sass:indigo", "notify:build"]
   );
 };
