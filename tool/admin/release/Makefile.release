@@ -26,6 +26,7 @@
 
 # Ubuntu's /bin/sh struggles with 'time' (bug#4398)
 SHELL = /bin/bash
+.SHELLFLAGS = -Oextglob  # allow ?(...), etc. glob patterns
 
 FRAMEWORK_VERSION := $(shell cat version.txt)
 FRAMEWORK_SVNINFO := $(shell python tool/admin/bin/svninfo.py .)
@@ -669,10 +670,13 @@ versioned_basename = $(if $(patsubst %.min.js,, $(call leafname, $(1))), \
 ##
 # "q-core.js" -> "q-core-3.1.js" (also for .min.js files)
 #
-# text expansion macro that works also with shell vars within recipies
+# text expansion macro that works also with shell vars within recipes
 # syntax: $(call make_versioned,L)
 #
-make_versioned = $(1)="$${$(1)/%.min.js/$(WEBSITE_VERSION_STR).min.js}"; if [[ "$$$(1)" != *$(WEBSITE_VERSION_STR).min.js ]]; then $(1)="$${$(1)/%.js/$(WEBSITE_VERSION_STR).js}"; fi;
+make_versioned = \
+	_ext_=$$(echo $${$(1)} | sed -r -e 's/^([[:alnum:]-]+)(\.min)?(\.[^.]+)$$/\2\3/'); \
+	_base_=$$(echo $${$(1)} | sed -r -e 's/^([[:alnum:]-]+)(\.min)?(\.[^.]+)$$/\1/'); \
+	$(1)="$${_base_}$(WEBSITE_VERSION_STR)$${_ext_}";
 
 publish-build-q-zip:
 	@( cd component/standalone/website; \
@@ -818,12 +822,11 @@ publish-apps:
 		elif [ "$$COMPONENT" = "testrunner" ]; then \
 			$(CMD_SYNC_ONLINE) component/testrunner/build/script/$$COMPONENT-portable.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT/script/$$COMPONENT-portable.js || exit 1; \
 		elif [ "$$COMPONENT" = "website" ]; then \
-			for F in `echo component/standalone/$$COMPONENT/script/q*.js`; do \
+			WS="component/standalone/$$COMPONENT/script"; \
+			for F in `echo $$WS/q*.js $$WS/indigo.css`; do \
 				L=`basename $$F`; \
-				if [ "$$COMPONENT" == "website" ]; then \
-					if [[ "$$L" =~ 'q-source' ]] ; then \
-						continue; \
-					fi; \
+				if [[ "$$L" =~ 'q-source' ]] ; then \
+					continue; \
 				fi; \
 				$(call make_versioned,L) \
 				$(CMD_SYNC_ONLINE) $$F $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework/$$L || exit 1; \
