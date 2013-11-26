@@ -8,18 +8,7 @@ $scShadowColorLight: rgba(0,0,0,0.2);
 
 .scroll-container {
   @include background($input-background);
-  @include border-radius($input-border-radius);
-  @include box-inset-multi-shadow(
-        0px $scShadowOffset $scShadowOffset -1*$scShadowOffset $scShadowColorLight, 
-        0px -1*$scShadowOffset $scShadowOffset -1*$scShadowOffset $scShadowColorLight
-  );
-
   border: rem(1) solid $input-border-color;
-}
-
-.root:not(.blackberry) .scroll-container {
-  /* this fixes the overflow:hidden for border-radius in Chrome/Opera */
-  -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC); 
 }
 
 .scroll-container:before {
