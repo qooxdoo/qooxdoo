@@ -11,7 +11,7 @@
 </ul>
 
 <script type="text/javascript">
-  q("#button-page button").button();
+  q("#button-page button").button().on("click", logEvent("click"));
   var menu = q("#menu").addClass("qx-menu").appendTo(document.body).hide();
   q("#menu-button").setMenu(menu);
 </script>

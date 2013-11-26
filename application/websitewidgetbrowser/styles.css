@@ -88,11 +88,18 @@ video {
 #header {
   width: auto;
   padding-left: 15px;
-  padding-bottom: 0px;
 }
 
 #header h1 {
   width: auto;
+}
+
+#sidebar h2 {
+  font-size: 1.5em;
+}
+
+#sidebar * {
+  font-size: 1em;
 }
 
 h2 {
@@ -110,15 +117,31 @@ label, p, button, td, code, li {
   z-index: 1;
 }
 
+#sidebar {
+  border: 1px solid #bbb;
+  float: right;
+  position: absolute;
+  right: 20px;
+  top: 102px;
+  width: 180px;
+  padding: 10px;
+}
+
+#eventlog {
+  background: #F0F0F0;
+  min-height: 200px;
+  max-height: 400px;
+  overflow: auto;
+}
+
 #content {
   margin-top: 82px;
+  margin-right: 220px;
   padding: 20px;
 }
 
 .disable {
-  float: right;
-  margin: 0 5px;
-  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .disable label,
@@ -148,11 +171,9 @@ pre.demo-cell {
 }
 
 #sizeSlider {
-  position: relative;
-  width: 50%;
-  float: right;
-  top: -20px;
-  margin-right: 20px;
+  margin-top: -25px;
+  margin-bottom: 10px;
+  padding: 0 24px;
 }
 
 #sizeSlider > * {
@@ -167,9 +188,6 @@ pre.demo-cell {
   font-size: 13px;
 }
 
-#sizeSlider.qx-slider {
-  padding: 0 18px;
-}
 
 #sizeSlider.qx-slider:before {
   border: 1px solid #7B7B7B;

@@ -89,6 +89,24 @@ q.ready(function() {
 
 
   /**
+   * Logs the given data to the events log.
+   * @param data {var} The data given by the event.
+   */
+  var logEvent = function(type) {
+    return (function(data) {
+      var firstChild = q("#eventlog").getChildren().eq(0);
+      var entry = q.create(q.template.get("eventlogtemplate", {name: type, data: data}));
+      if (firstChild.length > 0) {
+        entry.insertBefore(firstChild);
+      } else {
+        entry.appendTo("#eventlog");
+      }
+    });
+  };
+
+
+
+  /**
    * Create the DOM structure for a demo and the box showing the demo's code
    * @param demoTitle {String} The demo's title (see the demos map)
    * @param demoCode {String} The demo's JavaScript code
