@@ -1,34 +1,30 @@
 'use strict';
 
-
-// requires
+// native
 var fs = require('fs');
 var async = require('async');
 var os = require('os');
 var path = require('path');
 
+// third party
+var shell = require('shelljs');
+
+// lib
 var qx = {};
 qx.tool = {};
 qx.tool.Cache = require('../lib/qx/tool/Cache');
 
 
 // functions
-var queryAndWriteCurrentJobs = function(cacheFilePath, cache, callback) {
-    var exec = require('child_process').exec;
-    var cmd = 'python generate.py --list-jobs';
-    var jobs = {};
+var queryAndWriteCurrentJobs = function(cacheFilePath, cache) {
+  var cmd = 'python generate.py --list-jobs';
+  var jobs = {};
 
-    exec(cmd,
-      function (error, stdout, stderr) {
-        if (error === null) {
-          jobs.timestamp = new Date().getTime();
-          jobs.map = JSON.parse(stdout);
-          cache.write(cacheFilePath, JSON.stringify(jobs));
-          callback(null, jobs.map);
-        } else {
-          callback(stderr + '|' + error);
-        }
-    });
+  var stdout = shell.exec(cmd, {silent:true}).output;
+  jobs.timestamp = new Date().getTime();
+  jobs.map = JSON.parse(stdout);
+  cache.write(cacheFilePath, JSON.stringify(jobs));
+  return jobs.map;
 };
 
 var getCacheContents = function(cacheFilePath, cache) {
@@ -36,21 +32,21 @@ var getCacheContents = function(cacheFilePath, cache) {
 };
 
 var retrieveGeneratorJobsFromCache = function(files, cache) {
-    if (!fs.existsSync(files.config)) {
-      // fail early
-      return;
-    }
+  if (!fs.existsSync(files.config)) {
+    // fail early
+    return;
+  }
 
-    var cachedJobs = {};
-    if (cache.has(files.jobsAndDesc)) {
-      cachedJobs = getCacheContents(files.jobsAndDesc, cache);
-    }
+  var cachedJobs = {};
+  if (cache.has(files.jobsAndDesc)) {
+    cachedJobs = getCacheContents(files.jobsAndDesc, cache);
+  }
 
-    var configTimestamp = fs.statSync(files.config).ctime.getTime();
+  var configTimestamp = fs.statSync(files.config).ctime.getTime();
 
-    return (cachedJobs && cachedJobs.timestamp && cachedJobs.timestamp >= configTimestamp)
-           ? cachedJobs.map
-           : null;
+  return (cachedJobs && cachedJobs.timestamp && cachedJobs.timestamp >= configTimestamp)
+         ? cachedJobs.map
+         : null;
 };
 
 var getSupersededJobs = function() {
@@ -92,31 +88,17 @@ var registerTasks = function(grunt) {
     "config": "config.json",
     "jobsAndDesc": "jobsAndDesc-" + fs.realpathSync(conf.ROOT)
   };
-  var jobs = retrieveGeneratorJobsFromCache(files, cache);
 
+  var jobs = retrieveGeneratorJobsFromCache(files, cache);
   if (jobs) {
-    // synchronously
     registerGeneratorJobsAsTasks(grunt, jobs, getSupersededJobs());
     registerNodeTasks(grunt, conf.QOOXDOO_PATH);
   } else {
-    // asynchronously: run 'generate.py --list-jobs'
-    async.series([
-        function(callback) {
-          queryAndWriteCurrentJobs(files.jobsAndDesc, cache, callback);
-        }
-      ],
-      function(err, results) {
-        if (err) {
-          throw err;
-        }
-
-        jobs = (results) ? results : retrieveGeneratorJobsFromCache(files, cache);
-        if (jobs !== null) {
-          registerGeneratorJobsAsTasks(grunt, jobs, getSupersededJobs());
-        }
-        registerNodeTasks(grunt, conf.QOOXDOO_PATH);
-      }
-    );
+    jobs = queryAndWriteCurrentJobs(files.jobsAndDesc, cache);
+    if (jobs !== null) {
+      registerGeneratorJobsAsTasks(grunt, jobs, getSupersededJobs());
+    }
+    registerNodeTasks(grunt, conf.QOOXDOO_PATH);
   }
 };
 

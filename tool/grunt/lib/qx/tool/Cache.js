@@ -17,12 +17,14 @@
 
 ************************************************************************ */
 
-// internal
+// native
 var fs = require('fs');
 var path = require('path');
 var crypto = require('crypto');
+
 // third party
-var mkdirp = require('mkdirp');
+var shell = require('shelljs');
+
 // qx
 var q = require('qooxdoo');
 
@@ -153,7 +155,7 @@ q.Class.define("qx.tool.Cache",
      */
     __createCacheDir: function(path, checkfilePath) {
       if (!fs.existsSync(path)) {
-        mkdirp.sync(path);
+        shell.mkdir('-p', path);
         this.__updateCheckfile(checkfilePath, qx.tool.Cache.CACHE_REVISION);
       }
 
