@@ -12,16 +12,7 @@
   background: none;
 }
 
-.menu .scroll-container {
-  border: none !important;
-}
-
 .item-selected {
   @include background($menu-item-selected-background);
   color: $menu-item-selected-text-color !important;
-}
-
-.menu-container {
-  @include border-radius($list-border-radius + 0.1rem);
-  border: rem(1) solid $list-border-color;
 }

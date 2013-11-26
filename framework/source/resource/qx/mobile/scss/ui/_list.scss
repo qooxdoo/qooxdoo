@@ -38,7 +38,9 @@
   border-top: rem(1) solid $list-border-color;
 }
 
-
+.list-item:last-child, .list-item:last-child a {
+  @include border-radius-bottom($list-border-radius);
+}
 
 .list .list-item.active {
   @include background($list-active-background);
@@ -68,4 +70,12 @@
 
 .list .list-item.arrow.active:after {
   border-color: $list-active-arrow-color;
+}
+
+.list-item:first-child, .list-item:first-child a {
+  @include border-radius-top($list-border-radius);
+}
+
+.list-item:last-child, .list-item:last-child a {
+  @include border-radius-bottom($list-border-radius);
 }
