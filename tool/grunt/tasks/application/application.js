@@ -59,15 +59,12 @@ module.exports = function(grunt) {
       }
     });
 
-    process.on('SIGINT', function() {
-      fs.unlinkSync(gen_conf_file);
-    });
-
 
     var cmd = [
       'python generate.py',
       (job || ''),
-      '-s -c ' + gen_conf_file,
+      //'-s',
+      '-c ' + gen_conf_file,
       (opt_string || '')
     ].join(' ');
 
@@ -82,12 +79,20 @@ module.exports = function(grunt) {
         done(error === null);
     });
 
+    // forward child STDOUT
     child.stdout.on("data", function(data) {
       grunt.log.write(data);
     });
 
+    // clean-up on child exit
     child.on('close', function(code) {
       fs.unlinkSync(gen_conf_file);
+    });
+
+    // handle interrupt signal (Ctrl-C)
+    process.on('SIGINT', function() {
+      child.kill('SIGINT'); // forward to child
+      //fs.unlinkSync(gen_conf_file);  // is done automatically on 'close'
     });
 
   });
