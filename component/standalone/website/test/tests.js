@@ -3725,13 +3725,11 @@ testrunner.define({
 
   testFunctionThrottle : function()
   {
-    var callInfo = [];
     var intervalCounter = 0;
-
-    var spy = function(data) {
-      callInfo.push(data);
+    var callInfo = [];
+    var spy = function() {
+      callInfo.push(Date.now());
     };
-
     var throttled = q.func.throttle(spy, 250);
 
     var intervalId = window.setInterval((function() {
@@ -3744,33 +3742,78 @@ testrunner.define({
 
     window.setTimeout((function() {
       this.resume(function() {
-        this.assertEquals(6, callInfo.length);
-        this.assertEquals(3, callInfo[0]);
-        this.assertEquals(6, callInfo[1]);
-        this.assertEquals(9, callInfo[2]);
-        this.assertEquals(12, callInfo[3]);
-        this.assertEquals(15, callInfo[4]);
-        this.assertEquals(18, callInfo[5]);
+        this.assertEquals(7, callInfo.length);
       });
     }).bind(this), 1800);
 
     this.wait(2000);
   },
 
-  testFunctionThrottleWithEvents : function() {
-
-    var context;
-    var data = [];
-    var myCallback = function(e) {
-      context = this;
-      data.push(e);
+  testFunctionThrottleNoTrailing : function()
+  {
+    var intervalCounter = 0;
+    var callInfo = [];
+    var spy = function() {
+      callInfo.push(Date.now());
     };
+    var throttled = q.func.throttle(spy, 250, { trailing: false });
 
-    this.sandbox.on("myEvent", q.func.throttle(myCallback, 250), this.sandbox);
+    var intervalId = window.setInterval((function() {
+      throttled();
+      if (intervalCounter == 20) {
+        window.clearInterval(intervalId);
+      }
+      intervalCounter++;
+    }).bind(this), 80);
+
+    window.setTimeout((function() {
+      this.resume(function() {
+        this.assertEquals(6, callInfo.length);
+      });
+    }).bind(this), 1800);
+
+    this.wait(2000);
+  },
+
+  testFunctionThrottleNoLeadingNoTrailing : function()
+  {
+    var intervalCounter = 0;
+    var callInfo = [];
+    var spy = function() {
+      callInfo.push(Date.now());
+    };
+    var throttled = q.func.throttle(spy, 250, { leading: false, trailing: false });
+
+    var intervalId = window.setInterval((function() {
+      throttled();
+      if (intervalCounter == 20) {
+        window.clearInterval(intervalId);
+      }
+      intervalCounter++;
+    }).bind(this), 80);
+
+    window.setTimeout((function() {
+      this.resume(function() {
+        this.assertEquals(5, callInfo.length);
+      });
+    }).bind(this), 1800);
+
+    this.wait(2000);
+  },
+
+  testFunctionThrottleWithEvents : function()
+  {
+    var context;
+    var callInfo = [];
+    var spy = function(e) {
+      context = this;
+      callInfo.push(Date.now());
+    };
+    this.sandbox.on("myEvent", q.func.throttle(spy, 250), this.sandbox);
 
     var counter = 0;
     var intervalId = window.setInterval((function() {
-      this.emit("myEvent", "interval_" + counter);
+      this.emit("myEvent");
 
       if (counter === 14) {
         window.clearInterval(intervalId);
@@ -3781,51 +3824,37 @@ testrunner.define({
     var checkContext = this.sandbox;
     this.wait(2000, function() {
       this.assertEquals(checkContext, context);
-      this.assertEquals(6, data.length);
-      this.assertEquals("interval_2", data[0]);
-      this.assertEquals("interval_14", data[5]);
+      this.assertEquals(7, callInfo.length);
     }, this);
   },
 
-  testFunctionThrottleWithImmediateEvents : function() {
+  testFunctionThrottleWithLeadingEvents : function() {
     var context;
-    var data = [];
-    var myCallback = function(e) {
+    var callInfo = [];
+    var spy = function(e) {
       context = this;
-      data.push(e);
+      callInfo.push(Date.now());
     };
-
-    this.sandbox.on("myEvent", q.func.throttle(myCallback, 250, true), this.sandbox);
+    this.sandbox.on("myEvent", q.func.throttle(spy, 250, { trailing: false }), this.sandbox);
 
     var counter = 0;
     var intervalId = window.setInterval((function() {
-      this.emit("myEvent", "interval_" + counter);
+      this.emit("myEvent");
 
       if (counter === 14) {
         window.clearInterval(intervalId);
 
-        window.setTimeout((function(count) {
-          this.emit("myEvent", "interval_" + count);
-        }).bind(this, ++counter), 500);
+        window.setTimeout((function() {
+          this.emit("myEvent");
+        }).bind(this), 500);
       }
       counter++;
     }).bind(this.sandbox), 100);
 
     var checkContext = this.sandbox;
     this.wait(2500, function() {
-      this.assertEquals(8, data.length);
+      this.assertEquals(6, callInfo.length);
       this.assertEquals(checkContext, context);
-
-      // test only the first and last values since the
-      // function calls in-between are not deterministic
-      // because intervals are overlapping each other
-      this.assertEquals("interval_0", data[0]);
-
-      // last interval value
-      this.assertEquals("interval_14", data[6]);
-
-      // immediate value of the additional timeout
-      this.assertEquals("interval_15", data[7]);
     }, this);
   }
 });

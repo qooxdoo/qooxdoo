@@ -15,6 +15,20 @@
    Authors:
      * Alexander Steitz (aback)
 
+   ======================================================================
+
+   This class contains code based on the following work:
+
+   * Underscore.js
+     http://underscorejs.org
+     Version 1.5.2
+
+     Copyright:
+       2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+
+     License:
+       MIT: http://www.opensource.org/licenses/mit-license.php
+
 ************************************************************************ */
 /**
  * Utility module to give some support to work with functions.
@@ -101,12 +115,58 @@ qx.Bootstrap.define("qx.module.util.Function", {
      * @attachStatic{qxWeb, func.throttle}
      * @param callback {Function} the callback which should be executed in the given interval
      * @param interval {Number} Interval in milliseconds
-     * @param immediate {Boolean} whether to run the callback at the beginning and then throttle
+     * @param options {Map} the keys are <code>leading</code> and <code>trailing</code> to control the
+     * firing of events precisely.
      * @return {Function} a wrapper function which <em>shields</em> the given callback function
      */
-    throttle : function(callback, interval, immediate) {
-      var wrapperFunction = function() {
-        arguments.callee.immediate = !!(immediate);
+    throttle : function(callback, interval, options)
+    {
+      if (typeof options === "undefined") {
+        options = {};
+      }
+
+      var context, args, result;
+      var timeout = null;
+      var previous = 0;
+
+      var later = function() {
+        previous = options.leading === false ? 0 : new Date();
+        timeout = null;
+        result = callback.apply(context, args);
+      };
+
+      return function() {
+        var now = new Date();
+        if (!previous && options.leading === false) {
+          previous = now;
+        }
+
+        var remaining = interval - (now - previous);
+        context = this;
+        args = arguments;
+        if (remaining <= 0)
+        {
+          window.clearTimeout(timeout);
+          timeout = null;
+          previous = now;
+          result = callback.apply(context, args);
+        } else if (!timeout && options.trailing !== false) {
+          timeout = window.setTimeout(later, remaining);
+        }
+        return result;
+      };
+    },
+
+
+    ___throttle : function(callback, interval, options) {
+      var wrapperFunction = function()
+      {
+        if (typeof options === "undefined") {
+          options = {};
+        }
+
+        arguments.callee.immediate = !!(options.immediate);
+        arguments.callee.trailing = !!(options.trailing);
 
         // store the current arguments at the function object
         // to have access inside the interval method
