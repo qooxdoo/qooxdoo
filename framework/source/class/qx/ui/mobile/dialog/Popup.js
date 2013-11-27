@@ -371,14 +371,11 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     _positionToCenter : function()
     {
       var container = this.getContainerElement();
-
       container.style.position = "absolute";
-      var childDimension = qx.bom.element.Dimension.getSize(container);
-
       container.style.left = "50%";
       container.style.top = "50%";
-      container.style.marginLeft = -(childDimension.width/2) + "px";
-      container.style.marginTop = -(childDimension.height/2) + "px";
+      container.style.marginLeft = -(container.offsetWidth/2) + "px";
+      container.style.marginTop = -(container.offsetHeight/2) + "px";
     },
 
 
