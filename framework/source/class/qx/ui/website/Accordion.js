@@ -260,29 +260,14 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
       this._forEachElementWrapped(function(tabs) {
         tabs.find("> ul > ." + cssPrefix + "-button")._forEachElementWrapped(function(button) {
           var page = this._getPage(button);
-          if (page.length == 0) {
+          if (page.length === 0) {
             return;
           }
-          var showAnim = tabs.getConfig("showAnimation");
-          if (showAnim) {
-            showAnim = qxWeb.object.clone(showAnim, true);
-            showAnim.duration = 1;
-            page.setStyle("height", "")
-            .show()
-            .once("animationEnd",  function() {
-              this._storeInitialStyles(page);
-              if (!button.hasClass(cssPrefix + "-button-active")) {
-                page.hide();
-              }
-            }, this)
-            .animate(showAnim);
+          this._storeInitialStyles(page);
+          if (button.hasClass(cssPrefix + "-button-active")) {
+            page.show();
           } else {
-            this._storeInitialStyles(page);
-            if (button.hasClass(cssPrefix + "-button-active")) {
-              page.show();
-            } else {
-              page.hide();
-            }
+            page.hide();
           }
         }.bind(this));
 
@@ -310,7 +295,12 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
         page.show();
       }
 
-      page.setProperty("initialStyles", page.getStyles(this.getConfig("animationStyles")));
+      var styles = page.getStyles(this.getConfig("animationStyles"));
+      if (styles.height) {
+        styles.height = page.getHeight() + "px";
+      }
+
+      page.setProperty("initialStyles", styles);
       if (isHidden) {
         if (accHeight) {
           accordion.setStyle("height", "");

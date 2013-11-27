@@ -510,6 +510,11 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         return;
       }
 
+      showAnimation = JSON.parse(qxWeb.template.render(
+        JSON.stringify(showAnimation),
+        newPage.getProperty("initialStyles")
+      ));
+
       // apply the first frame of the animation before showing the
       // page to prevent an ugly visible "jump"
       if (showAnimation.keyFrames &&
