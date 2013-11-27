@@ -131,7 +131,7 @@ q.ready(function() {
   q("html").on("click", function(ev) {
     var showNav = q("#showNav");
     var value = parseInt(showNav.getValue());
-    if (value == 1 && q("#list").contains(ev.getTarget()).length == 0) {
+    if (value == 1 && q("#navContainer").contains(ev.getTarget()).length == 0) {
       q("#navContainer").setStyle("left", "");
       showNav.setValue(0);
     }
