@@ -36,7 +36,6 @@
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  height: 140px;
   overflow: hidden;
   background-color: white;
   padding: 10px;
@@ -46,4 +45,9 @@
 <script type="text/javascript">
 q.initWidgets("#accordion-page");
 q("#accordion-page .qx-accordion").on("changeSelected", logEvent("changeSelected"));
+
+// react on application scaling
+q("#sizeSlider").on("changeValue", q.func.debounce(function() {
+  q("#accordion-page .qx-accordion").render(); // trigger a render on size changes
+}, 200));
 </script>

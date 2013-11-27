@@ -20,6 +20,7 @@
   background: $background-color;
   color: $highlight-color;
   line-height: 1;
+  min-height: rem(35);
 }
 
 .qx-button:hover {
@@ -36,7 +37,7 @@
 }
 
 .qx-button img {
-  margin-left: rem(10);
+  margin-left: rem(3);
 }
 
 .qx-button img,span {
