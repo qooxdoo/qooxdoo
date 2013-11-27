@@ -198,7 +198,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * will be rendered using
      * <a href='https://github.com/janl/mustache.js/'>mustache.js</a>.
      *
-     * Please keep in mind to call {@link widget.render} after you change any
+     * Please keep in mind to call {@link #render} after you change any
      * template or config setting.
      *
      * @param name {String} The name of the template.
@@ -217,7 +217,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * setting can be set in the markup as data-attribute, prefixed with
      * <code>data-qx</code> e.g. <code>data-qx-length="5"</code>.
      *
-     * Please keep in mind to call {@link widget.render} after you change any
+     * Please keep in mind to call {@link #render} after you change any
      * template or config setting.
      *
      * @param name {String} The name of the config setting.

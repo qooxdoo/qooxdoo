@@ -102,8 +102,8 @@ qx.Bootstrap.define("qx.module.Animation", {
      *   is a map itself which holds css properties or transforms
      *   (Transforms only for CSS Animations).
      *
-     * *origin* maps to the transform origin: {@link https://developer.mozilla.org/en-US/docs/Web/CSS/transform-origin}
-     *   (Only for CSS animations).
+     * *origin* maps to the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transform-origin">transform origin</a>
+     * (Only for CSS animations).
      *
      * *repeat* is the amount of time the animation should be run in
      *   sequence. You can also use "infinite".
