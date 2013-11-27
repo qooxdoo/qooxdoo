@@ -155,7 +155,7 @@ q.ready(function() {
   };
 
   var version = q.$$qx.core.Environment.get("qx.version");
-  title = version ? "qx.Website " + version + " Widget Browser" : "qx.Website Widget Browser";
+  title = version ? "Widget Browser <span>qx.Website " + version + "</span>" : "Widget Browser <span>qx.Website</span>";
   q("h1").setHtml(title);
   document.title = title;
 

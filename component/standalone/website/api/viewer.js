@@ -32,7 +32,7 @@ q.ready(function() {
   else {
     var version = q.$$qx.core.Environment.get("qx.version");
     if (version) {
-      title = "qx.Website " + version + " API Documentation";
+      title = "API Documentation <span>qx.Website " + version + "</span>";
     }
   }
   q("h1").setHtml(title);

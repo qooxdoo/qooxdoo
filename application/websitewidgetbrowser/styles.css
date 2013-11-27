@@ -91,7 +91,15 @@ video {
 }
 
 #header h1 {
-  width: auto;
+  width: 100%;
+}
+
+#header h1 span {
+  float: right;
+  font-weight: 100;
+  font-size: 60%;
+  margin-top: 8px;
+  margin-right: 20px;
 }
 
 #sidebar h2 {

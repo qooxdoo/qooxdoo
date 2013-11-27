@@ -306,6 +306,14 @@ body {
   transition: left 500ms, font-size 500ms, padding-top 500ms;
 }
 
+#header h1 span {
+  position: absolute;
+  font-weight: 100;
+  font-size: 60%;
+  top: 8px;
+  right: -30px;
+}
+
 #header-wrapper {
   position: fixed;
   width: 100%;
@@ -556,5 +564,9 @@ p {
     left: 0;
     font-size: 25px;
     padding-top: 3px;
+  }
+
+  #header h1 span {
+    right: 20px;
   }
 }
