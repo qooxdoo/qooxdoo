@@ -1361,11 +1361,11 @@ q.ready(function() {
   };
 
   var scrollContentIntoView = q.func.debounce(function() {
-    var el = q(location.hash.replace(".", "\\."));
+    var el = q(location.hash.replace(".", "\\.").replace("$", "\\$"));
     if (el.length > 0) {
       el[0].scrollIntoView();
 
-      var listSelector = el[0].id ? ".nav-" + el[0].id.replace(".", "") : null;
+      var listSelector = el[0].id ? ".nav-" + el[0].id.replace(".", "").replace("$", "") : null;
       if (listSelector) {
         var page = q(listSelector).getAncestors(".qx-accordion-page");
         var index = q("#list .qx-accordion-page").indexOf(page);
