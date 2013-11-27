@@ -741,9 +741,7 @@ q.ready(function() {
         data.returns.types.push(type);
       });
     }
-    data.returns.printTypes = function() {
-      return printTypes(data);
-    };
+    data.returns.printTypes = printTypes.bind(null, data);
 
     // add the parameters
     data.params = [];
@@ -767,9 +765,7 @@ q.ready(function() {
         }
         paramData.types.push(typeString);
       }
-      paramData.printTypes = function() {
-        return printTypes(paramData);
-      };
+      paramData.printTypes = printTypes.bind(null, paramData);
       data.params.push(paramData);
     }
     data.printParams = printParams;
