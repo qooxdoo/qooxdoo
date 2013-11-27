@@ -647,18 +647,6 @@ manual-check-pdf:
 publish-build: build-apps build-components publish-build-q-zip tutorials-build build-framework resources-build manual-build
 
 ##
-# "foo/bar/baz/q-core.js" -> "q-core-3.1.js" (also for .min.js files)
-#
-# make function to return file name with version string
-# syntax: $(call versioned_basename, foo/bar/baz/q-core.js)
-#
-leafname = $(subst $(dir $(1)),, $(1))
-versioned_basename = $(if $(patsubst %.min.js,, $(call leafname, $(1))), \
-  $(subst .js,"$(WEBSITE_VERSION_STR).js", $(call leafname, $(1))), \
-  $(subst .min.js,"$(WEBSITE_VERSION_STR).min.js", $(call leafname, $(1))) \
-)
-
-##
 # "q-core.js" -> "q-core-3.1.js" (also for .min.js files)
 #
 # text expansion macro that works also with shell vars within recipes
