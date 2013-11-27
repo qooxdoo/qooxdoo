@@ -450,7 +450,7 @@ qx.Bootstrap.define("qx.ui.website.Slider",
         this.__valueToPosition(this.getValue());
 
         qxWeb(document.documentElement).off("mousemove", this._onMouseMove, this)
-        .setStyle("cursor", null);
+        .setStyle("cursor", "auto");
       }
 
       e.stopPropagation();
