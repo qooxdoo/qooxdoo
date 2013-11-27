@@ -10,7 +10,6 @@
   font-weight: $list-title-font-weight;
   font-style: $application-font;
   cursor:pointer;
-  border: rem(1) solid $list-border-color;
 }
 
 .list .list-item {
@@ -18,6 +17,7 @@
   padding: rem(10) rem(25) rem(10) rem(10);
   position:relative;
   color: $list-title-text-color;
+  border: rem(1) solid $list-border-color;
 }
 
 .list .list-item .list-itemlabel {
@@ -35,12 +35,9 @@
 }
 
 .list-item + .list-item {
-  border-top: rem(1) solid $list-border-color;
+  border-top: none;
 }
 
-.list-item:last-child, .list-item:last-child a {
-  @include border-radius-bottom($list-border-radius);
-}
 
 .list .list-item.active {
   @include background($list-active-background);

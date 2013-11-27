@@ -7,13 +7,25 @@
   min-width: rem(140);
 }
 
-.menu .list {
-  border: none !important;
-  background: none;
-}
 
-.menu .list-item {
-  @include border-radius(0);
+.menu {
+  .list {
+    background: none;
+  }
+
+  .list-item {
+    @include border-radius(0);
+    border-left: none !important;
+    border-right: none !important;
+  }
+
+  .list-item:first-child {
+    border-top: none !important;
+  }
+
+  .list-item:last-child {
+    border-bottom: none !important;
+  }
 }
 
 .item-selected {
