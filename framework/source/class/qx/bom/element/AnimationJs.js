@@ -158,7 +158,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
           if (units[name] == undefined) {
             var item = keyFrames[percent][name];
             if (typeof item == "string") {
-              units[name] = item.substring((parseInt(item, 10)+"").length, item.length);
+              units[name] = item.substring((parseFloat(item)+"").length, item.length);
             } else {
               units[name] = "";
             }
@@ -240,8 +240,8 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
 
             delta[i][name] = qx.util.ColorUtil.rgbToHexString(stepValue);
 
-          } else if (!isNaN(parseInt(nItem, 10))) {
-            var unit = nItem.substring((parseInt(nItem, 10)+"").length, nItem.length);
+          } else if (!isNaN(parseFloat(nItem))) {
+            var unit = nItem.substring((parseFloat(nItem)+"").length, nItem.length);
             var range = parseFloat(nItem) - parseFloat(last[name]);
             delta[i][name] = (parseFloat(last[name]) + range * qx.bom.AnimationFrame.calculateTiming(timing, i / steps)) + unit;
           } else {
