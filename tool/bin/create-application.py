@@ -39,10 +39,11 @@ GENERATE_PY   = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "tool", "da
 PACKAGE_JSON  = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "tool", "grunt", "package.tmpl.json")))
 APP_DIRS      = [x for x in os.listdir(SKELETON_DIR) if not re.match(r'^\.',x)]
 
-R_ILLEGAL_NS_CHAR = re.compile(r'(?u)[^\.\w]')  # allow unicode, but disallow $
-R_SHORT_DESC      = re.compile(r'(?m)^short::\s*(.*)$')  # to search "short:: ..." in skeleton's 'readme.txt'
-R_COPY_FILE       = re.compile(r'(?m)^copy_file::\s*(.*)$')  # special files to copy from SDK for this skeleton
-QOOXDOO_VERSION   = ''  # will be filled later
+R_ILLEGAL_NS_CHAR   = re.compile(r'(?u)[^\.\w]')  # allow unicode, but disallow $
+R_SHORT_DESC        = re.compile(r'(?m)^short::\s*(.*)$')  # to search "short:: ..." in skeleton's 'readme.txt'
+R_COPY_FILE         = re.compile(r'(?m)^copy_file::\s*(.*)$')  # special files to copy from SDK for this skeleton
+R_ILLEGAL_NODE_VERS = re.compile(r'^v0\.\d\.') # require Node.js version >= 0.10.0
+QOOXDOO_VERSION     = ''  # will be filled later
 
 class TARGET:
     GENERATOR = 1
@@ -498,7 +499,18 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
     checkNamespace(options)
     getQxVersion()
     outDir = createApplication(options)
-    npm_install(outDir, options)
+
+    try:
+        proc = subprocess.Popen(['node', '-v'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdoutNode = proc.communicate()[0].strip()
+        if R_ILLEGAL_NODE_VERS.search(stdoutNode):
+            console.log("Please use Node.js >= v0.10.0 if you want to use the Grunt toolchain.")
+            console.log("Your Node.js version ({0}) isn't supported.".format(stdoutNode))
+        else:
+            npm_install(outDir, options)
+    except OSError:
+        # console.log("Node.js isn't installed - skipping 'npm install' for Grunt toolchain...")
+        pass
 
     console.log("DONE")
 
