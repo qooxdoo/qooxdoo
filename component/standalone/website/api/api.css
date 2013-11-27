@@ -52,6 +52,7 @@ body {
 }
 
 .filter {
+  z-index: 1;
   position: fixed;
   background-color: white;
   width: 260px;
@@ -87,6 +88,7 @@ body {
   box-sizing: border-box;
   background-color: transparent;
   outline: none;
+  -webkit-appearance: none;
 }
 
 #list {
@@ -132,7 +134,8 @@ body {
 
 #list .qx-accordion-button:after {
   content: attr(data-results);
-  float: right;
+  position: absolute;
+  right: 40px;
   color: white;
   background-color: #3d72c9;
   font-size: 13px;

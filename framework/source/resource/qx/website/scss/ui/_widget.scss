@@ -41,3 +41,7 @@ html {
   cursor: default;
   pointer-events: none;
 }
+
+.qx-widget *::-moz-focus-inner {
+  border: 0;
+}
