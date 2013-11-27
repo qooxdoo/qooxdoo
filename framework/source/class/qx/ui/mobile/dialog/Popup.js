@@ -362,10 +362,10 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     {
       var container = this.getContainerElement();
       container.style.position = "absolute";
-      container.style.left = "50%";
-      container.style.top = "50%";
       container.style.marginLeft = -(container.offsetWidth/2) + "px";
       container.style.marginTop = -(container.offsetHeight/2) + "px";
+      container.style.left = "50%";
+      container.style.top = "50%";
     },
 
 
