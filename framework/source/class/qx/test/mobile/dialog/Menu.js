@@ -51,8 +51,11 @@ qx.Class.define("qx.test.mobile.dialog.Menu",
       var expected = menu.getSelectionList().getListItemHeight() * visibleItems;
 
       var listHeight = qx.bom.element.Style.get(menu._getListScroller().getContentElement(),"height");
+      
+      listHeight = Math.floor(parseFloat(listHeight,10) * 100);
+      expected = Math.floor(expected * 100);
 
-      this.assertEquals(listHeight, expected+"px");
+      this.assertEquals(listHeight, expected);
     },
 
 
