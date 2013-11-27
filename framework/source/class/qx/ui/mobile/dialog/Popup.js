@@ -363,12 +363,9 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       var container = this.getContainerElement();
 
       container.style.position = "absolute";
-      var childDimension = qx.bom.element.Dimension.getSize(container);
-
       container.style.left = "50%";
       container.style.top = "50%";
-      container.style.marginLeft = -(childDimension.width/2) + "px";
-      container.style.marginTop = -(childDimension.height/2) + "px";
+      qx.bom.element.Style.set(container,"transform","translate3d(-50%,-50%,0)");
     },
 
 
@@ -380,8 +377,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       var container = this.getContainerElement();
       container.style.left = "0px";
       container.style.top = "0px";
-      container.style.marginLeft = null;
-      container.style.marginTop = null;
+      qx.bom.element.Style.set(container,"transform",null);
     },
 
 
