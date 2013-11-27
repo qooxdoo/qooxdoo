@@ -28,11 +28,11 @@ body {
   line-height: 1.8;
   color: #262626;
 }
-a, a:active, a:focus, a:hover, a:visited {
+a, a:visited, a:focus, a:hover, a:active {
   text-decoration: none;
   color: inherit;
 }
-b, strong {
+strong, b {
   font-weight: bold;
 }
 em, i {
@@ -67,9 +67,9 @@ h4 {
 p {
   margin-bottom: 1em;
 }
-.literal, code, pre {
-  font-family: "Andale Mono", "Consolas", "Bitstream Vera Sans Mono", "Courier New",
-    Courier, monospace !important;
+pre, code, .literal {
+  font-family: "Andale Mono", "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier,
+    monospace !important;
 }
 pre {
   font-size: 12px;
@@ -100,12 +100,12 @@ blockquote {
   padding-left: 4px;
 }
 blockquote blockquote {
-  border-left: 2px solid #aaaaaa;
+  border-left: 2px solid #aaa;
 }
 blockquote blockquote blockquote {
-  border-left: 2px solid #777777;
+  border-left: 2px solid #777;
 }
-ol, ul {
+ul, ol {
   margin-bottom: 1em;
 }
 table {
@@ -119,11 +119,11 @@ table td, table th {
   padding: 3px;
 }
 #main a, .main a {
-  color: #333333;
+  color: #333;
   text-decoration: underline;
 }
 #main a:hover, .main a:hover {
-  color: rgb(21.065%, 41.741%, 75.68%);
+  color: #366ac1;
   text-decoration: underline;
 }
 #main .highlight, .main .highlight {
@@ -135,14 +135,13 @@ table td, table th {
 #main a.button:hover, .main a.button:hover {
   color: inherit;
 }
-#main h1 a, #main h2 a, #main h3 a, #main h4 a, #main h5 a,
-.main h1 a, .main h2 a, .main h3 a, .main h4 a, .main h5 a {
+#main h1 a, #main h2 a, #main h3 a, #main h4 a, #main h5 a, .main h1 a,
+.main h2 a, .main h3 a, .main h4 a, .main h5 a {
   color: inherit;
   text-decoration: none;
 }
-#main h1 a:hover, #main h2 a:hover, #main h3 a:hover,
-#main h4 a:hover, #main h5 a:hover, .main h1 a:hover,
-.main h2 a:hover, .main h3 a:hover, .main h4 a:hover,
-.main h5 a:hover {
+#main h1 a:hover, #main h2 a:hover, #main h3 a:hover, #main h4 a:hover,
+#main h5 a:hover, .main h1 a:hover, .main h2 a:hover, .main h3 a:hover,
+.main h4 a:hover, .main h5 a:hover {
   text-decoration: none;
 }
