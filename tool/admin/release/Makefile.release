@@ -471,9 +471,9 @@ build-components:
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-min ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-module-all ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-module-all-min ) || exit 1; \
+			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) test ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GRUNT) api ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GRUNT) sass ) || exit 1; \
-			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) test ) || exit 1; \
 		elif [ "$$COMPONENT" = "server" ]; then \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-min ) || exit 1; \
@@ -644,20 +644,7 @@ manual-check-pdf:
 # PUBLISH TARGETS
 ################################################################################
 
-publish-build: build-apps publish-build-components publish-build-q-zip tutorials-build build-framework resources-build manual-build
-
-publish-build-components:
-	@( cd component/inspector && $(CMD_GENERATOR) build ) || exit 1
-	@( cd component/testrunner && $(CMD_GENERATOR) build ) || exit 1
-	@( cd component/testrunner && $(CMD_GENERATOR) portable-build ) || exit 1;
-	@( cd component/standalone/website && $(CMD_GENERATOR) build ) || exit 1
-	@( cd component/standalone/website && $(CMD_GENERATOR) api ) || exit 1
-	@( cd component/standalone/website && $(CMD_GENERATOR) build-min ) || exit 1
-	@( cd component/standalone/website && $(CMD_GENERATOR) build-module-all ) || exit 1
-	@( cd component/standalone/website && $(CMD_GENERATOR) build-module-all-min ) || exit 1
-	@( cd component/standalone/website && $(CMD_GENERATOR) test ) || exit 1
-	@( cd component/standalone/server && $(CMD_GENERATOR) build ) || exit 1
-	@( cd component/standalone/server && $(CMD_GENERATOR) build-min ) || exit 1
+publish-build: build-apps build-components publish-build-q-zip tutorials-build build-framework resources-build manual-build
 
 ##
 # "foo/bar/baz/q-core.js" -> "q-core-3.1.js" (also for .min.js files)
