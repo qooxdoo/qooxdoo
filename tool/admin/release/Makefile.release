@@ -66,7 +66,8 @@ QOOXDOO_RELEASE = QOOXDOO_RELEASE=1
 endif
 
 
-CMD_GRUNT := "grunt"
+CMD_GRUNT := grunt
+CMD_NPM := npm
 CMD_GENERATOR := $(CMD_PYTHON) "$(CURDIR)/tool/bin/generator.py" $(OPT_GENERATOR)
 CMD_GENERATOR_NOOPTS := $(CMD_PYTHON) "$(CURDIR)/tool/bin/generator.py"
 STAGING_HOST = qooxdoo@webtechfe-test01.schlund.de
@@ -455,6 +456,7 @@ build-apps:
 			elif [ "$$APPLICATION" = "todo" ]; then \
 				( cd application/$$APPLICATION && $(CMD_GENERATOR) build-mini ) || exit 1; \
 			elif [ "$$APPLICATION" = "websitewidgetbrowser" ]; then \
+				( cd application/$$APPLICATION && $(CMD_NPM) install ) || exit 1; \
 				( cd application/$$APPLICATION && $(CMD_GRUNT) build ) || exit 1; \
 		else \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) build ) || exit 1; \
@@ -464,11 +466,13 @@ build-apps:
 build-components:
 	@time for COMPONENT in $(COMPONENTS); do \
 		if [ "$$COMPONENT" = "website" ]; then \
+			( cd component/standalone/$$COMPONENT && $(CMD_NPM) install ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-min ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-module-all ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-module-all-min ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GRUNT) api ) || exit 1; \
+			( cd component/standalone/$$COMPONENT && $(CMD_GRUNT) sass ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) test ) || exit 1; \
 		elif [ "$$COMPONENT" = "server" ]; then \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build ) || exit 1; \
