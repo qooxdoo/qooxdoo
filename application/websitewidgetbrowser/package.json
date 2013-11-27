@@ -1,5 +1,6 @@
 {
   "name": "websitewidgetbrowser",
+  "description": "A browser app for qx.Website widgets",
   "version": "3.1.0",
   "repository": {
     "type": "git",
