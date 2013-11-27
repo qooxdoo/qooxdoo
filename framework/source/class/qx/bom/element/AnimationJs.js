@@ -165,7 +165,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
           if (units[name] == undefined) {
             var item = keyFrames[percent][name];
             if (typeof item == "string") {
-              units[name] = item.substring((parseInt(item, 10)+"").length, item.length);
+              units[name] = this.__getUnit(item);
             } else {
               units[name] = "";
             }
@@ -298,19 +298,19 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
             for (var j=0; j < value0.length; j++) {
               var range = value0[j] - value1[j];
               var x = calculationIndex / stepsToNext;
-              var timingX = qx.bom.AnimationFrame.calculateTiming(timing, x)
+              var timingX = qx.bom.AnimationFrame.calculateTiming(timing, x);
               stepValue[j] = parseInt(value0[j] - range * timingX, 10);
-            };
+            }
 
             delta[i][name] = qx.util.ColorUtil.rgbToHexString(stepValue);
 
-          } else if (!isNaN(parseInt(nItem, 10))) {
+          } else if (!isNaN(parseFloat(nItem))) {
             var x = calculationIndex / stepsToNext;
             delta[i][name] = this.__getNextValue(nItem, last[name], timing, x);
           } else {
             delta[i][name] = last[name] + "";
           }
-        };
+        }
         // save all transformations in the delta values
         if (transforms) {
           var transformStyle = qx.bom.element.Transform.getCss(transforms).split(":");
@@ -320,7 +320,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         }
 
         calculationIndex++;
-      };
+      }
       // make sure the last key frame is right
       delta[delta.length -1] = this.__normalizeKeyFrameTransforms(keyFrames[100]);
 
@@ -331,11 +331,11 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
     /**
      * Ties to parse out the unit of the given value.
      *
-     * @param item {String} A CSS value including it's unit.
+     * @param item {String} A CSS value including its unit.
      * @return {String} The unit of the given value.
      */
     __getUnit : function(item) {
-      return item.substring((parseInt(item, 10) + "").length, item.length);
+      return item.substring((parseFloat(item) + "").length, item.length);
     },
 
 
