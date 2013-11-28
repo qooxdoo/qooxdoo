@@ -47,19 +47,10 @@ qx.Class.define("qx.ui.mobile.core.Root",
 
     qx.event.Registration.addListener(window, "orientationchange", this._onOrientationChange, this);
 
-    // Bugfix #7717 - On iOS7 the headers are partially covered by the browser's chrome.
+    // [BUG #7785] Document element's clientHeight is calculated wrong on iPad iOS7
     if (qx.core.Environment.get("os.name") == "ios" && window.innerHeight != document.documentElement.clientHeight) {
-      var fixViewportHeight = function() {
-        document.documentElement.style.height = window.innerHeight + "px";
-        if (document.body.scrollTop !== 0) {
-          window.scrollTo(0, 0);
-        }
-      }.bind(this);
-
-      window.addEventListener("scroll", fixViewportHeight, false);
-      window.addEventListener("orientationchange", fixViewportHeight, false);
-      fixViewportHeight();
-
+      qx.event.Registration.addListener(window, "orientationchange", this.__fixViewportHeight, this);
+      qx.event.Registration.addListener(window, "scroll", this.__fixViewportHeight, this);
       document.body.style.webkitTransform = "translate3d(0,0,0)";
     }
 
@@ -221,6 +212,18 @@ qx.Class.define("qx.ui.mobile.core.Root",
 
 
     /**
+    * Fixes the viewport height bug on iOS7 and iPad.
+    * @internal
+    */
+    __fixViewportHeight : function() {
+      document.documentElement.style.height = window.innerHeight + "px";
+      if (document.body.scrollTop !== 0) {
+        window.scrollTo(0, 0);
+      }
+    },
+
+
+    /**
      * Event handler. Called when the orientation of the device is changed.
      *
      * @param evt {qx.event.type.Orientation} The handled orientation change event
@@ -254,5 +257,10 @@ qx.Class.define("qx.ui.mobile.core.Root",
   destruct : function() {
     this.__root = null;
     qx.event.Registration.removeListener(window, "orientationchange", this._onOrientationChange, this);
+
+    if (qx.core.Environment.get("os.name") == "ios") {
+      qx.event.Registration.removeListener(window, "orientationchange", this.__fixViewportHeight, this);
+      qx.event.Registration.removeListener(window, "scroll", this.__fixViewportHeight, this);
+    }
   }
 });
