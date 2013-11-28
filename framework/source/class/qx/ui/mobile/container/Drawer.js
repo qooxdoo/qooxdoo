@@ -287,7 +287,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       var height = null;
       var width = null;
 
-      var remSize = (value/16);
+      var remSize = (value / 16);
 
       if (this.getOrientation() == "left" || this.getOrientation() == "right") {
         width = remSize + "rem";

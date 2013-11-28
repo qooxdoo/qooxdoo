@@ -106,11 +106,6 @@ img.no-content {
 
 // IOS BUGFIXES
 
-// Bugfix #7717 - On iOS7 the headers are partially covered by the browser's chrome.
-.root.ios.v7 .master-detail-master > * {
-  max-height: calc(unquote("100% - 20px"));
-}
-
 // iOS flickering bug fix for slider.
 .ios .slider, .slider > div:after{
   -webkit-backface-visibility: hidden;
