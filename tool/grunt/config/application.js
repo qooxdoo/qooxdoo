@@ -56,17 +56,6 @@ var getConfig = function() {
         cachePaths: "<%= common.CACHE_KEY %>"
       }
     },
-
-    /* qx-copy-files */
-    "copy-files" : {
-      options: {
-        files  : [
-          "index.html"
-        ],
-        source : "<%= common.SOURCE_PATH %>",
-        target : "<%= common.BUILD_PATH %>",
-      }
-    }
   };
 
   return config;

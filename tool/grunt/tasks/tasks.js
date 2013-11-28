@@ -78,7 +78,6 @@ var registerNodeTasks = function(grunt, relSdkPath) {
   //   * rename in tasks/generator
   grunt.loadTasks(relSdkPath + '/tool/grunt/tasks/application');
   grunt.loadTasks(relSdkPath + '/tool/grunt/tasks/info/tasks');
-  grunt.loadTasks(relSdkPath + '/tool/grunt/tasks/copy-files/tasks');
 };
 
 var registerTasks = function(grunt) {
