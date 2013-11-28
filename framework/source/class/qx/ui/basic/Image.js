@@ -542,6 +542,14 @@ qx.Class.define("qx.ui.basic.Image",
           newEl.setStyles(styles, true);
           newEl.setSelectable(this.getSelectable());
 
+          if (!currentContentElement.isVisible()) {
+            elementToAdd.hide();
+          }
+
+          if (!currentContentElement.isIncluded()) {
+            elementToAdd.exclude();
+          }
+
           var container = currentContentElement.getParent();
 
           if (container) {
