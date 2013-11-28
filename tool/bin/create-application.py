@@ -439,6 +439,54 @@ def listSkeletons(console, info):
             sdesc = "%s -- %s" % ((12 - len(skeleton)) * " ", info[skeleton]["short"])
         console.info(skeleton + sdesc)
 
+##
+# checks for Node and sufficient version
+def isNodeInstalled():
+    node_version = None
+    try:
+        proc = subprocess.Popen(['node', '-v'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        node_version = proc.communicate()[0].strip()
+        if R_ILLEGAL_NODE_VERS.search(node_version):
+            console.log("Please use Node.js >= v0.10.0 if you want to use the Grunt toolchain.")
+            console.log("Your Node.js version ({0}) isn't supported.".format(node_version))
+            node_version = None
+    except OSError:
+        # console.log("Node.js isn't installed - skipping 'npm install' for Grunt toolchain...")
+        pass
+    return node_version
+
+
+##
+# if Node modules have already been downloaded, use those
+# TODO: invalidate cache on tool change
+def getCachedNodeModules(options):
+    # using dedicated cache path, so it's not deleted with 'distclean' jobs
+    cache_path = os.path.join(FRAMEWORK_DIR, "tool/cache/node")
+    package_json = os.path.join(FRAMEWORK_DIR, "tool/grunt/package.generalized.json")
+    modules_path = os.path.join(cache_path, "node_modules")
+    if not os.path.exists(modules_path):
+        # parent dir
+        if not os.path.exists(cache_path):
+            os.makedirs(cache_path)
+        # readme.txt
+        (open(os.path.join(cache_path,"readme.txt"), 'w') # TODO: should use os.open(..,os.O_CREAT|os.O_EXCL|os.O_RDWR) for locking
+            .write("toolchain_grunt_modules")) # suppress npm install warnings
+        # package.json
+        shutil.copy(package_json, os.path.join(cache_path,"package.json"))
+        # npm install
+        npm_install(cache_path, options)
+    return modules_path
+
+
+##
+# if Node is installed, provide the necessary modules for Grunt
+def runNpmIf(outDir, options):
+    if not isNodeInstalled():
+        return
+    modules_root = getCachedNodeModules(options)
+    shutil.copytree(modules_root, os.path.join(outDir,"node_modules"))
+    return
+
 
 def main():
     parser = optparse.OptionParser()
@@ -499,20 +547,10 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
     checkNamespace(options)
     getQxVersion()
     outDir = createApplication(options)
-
-    try:
-        proc = subprocess.Popen(['node', '-v'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdoutNode = proc.communicate()[0].strip()
-        if R_ILLEGAL_NODE_VERS.search(stdoutNode):
-            console.log("Please use Node.js >= v0.10.0 if you want to use the Grunt toolchain.")
-            console.log("Your Node.js version ({0}) isn't supported.".format(stdoutNode))
-        else:
-            npm_install(outDir, options)
-    except OSError:
-        # console.log("Node.js isn't installed - skipping 'npm install' for Grunt toolchain...")
-        pass
+    runNpmIf(outDir, options)
 
     console.log("DONE")
+    return
 
 
 pattern = r"""
