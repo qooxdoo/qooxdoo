@@ -157,6 +157,27 @@ application.
    * - `textile <http://pypi.python.org/pypi/textile/>`_
      - `BSD <http://www.opensource.org/licenses/bsd-license.php>`_
 
+These are the Node.js modules we use that are not self-written nor part of a
+vanilla Node.js v0.10+. While they are shipped with our SDK they are only used
+while the tool chain runs, and never become part of the resulting custom
+application.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Module
+     - License
+
+   * - `async <https://npmjs.org/package/async>`_
+     - `MIT`_
+
+   * - `deepmerge <https://npmjs.org/package/deepmerge>`_
+     - `MIT`_
+
+   * - `shelljs <https://npmjs.org/package/shelljs>`_
+     - `BSD (3-Clause)`_
+
 
 .. _pages/introduction/third_party_components#other:
 
