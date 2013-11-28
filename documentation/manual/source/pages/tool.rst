@@ -86,6 +86,14 @@ References
 * :doc:`tool/generator/generator_config_ref`
 * :doc:`tool/generator/generator_config_macros`
 
+Grunt
+=====
+
+.. toctree::
+   :maxdepth: 1
+
+   tool/grunt
+
 Lint
 =============
 
