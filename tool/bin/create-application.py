@@ -36,7 +36,8 @@ SCRIPT_DIR    = qxenviron.scriptDir
 FRAMEWORK_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, os.pardir, os.pardir))
 SKELETON_DIR  = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "component", "skeleton")))
 GENERATE_PY   = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "tool", "data", "generator", "generate.tmpl.py")))
-PACKAGE_JSON  = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "tool", "grunt", "package.tmpl.json")))
+PACKAGE_JSON  = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "tool", "grunt", "data", "package.tmpl.json")))
+GRUNTFILE     = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "tool", "grunt", "data", "Gruntfile.tmpl.js")))
 APP_DIRS      = [x for x in os.listdir(SKELETON_DIR) if not re.match(r'^\.',x)]
 
 R_ILLEGAL_NS_CHAR   = re.compile(r'(?u)[^\.\w]')  # allow unicode, but disallow $
@@ -95,21 +96,11 @@ def npm_install(skel_dir, options):
         shellCmd.execute(npm_install, os.path.join(skel_dir, 'demo/default'))
 
 
-def getJobsAndDescriptions(appDir):
-    jobsAndDescs = []
-    # 'x' is an unknown job which outputs all known jobs which we are interested in
-    proc = subprocess.Popen(['python', 'generate.py', '__x_'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=appDir)
-    stdoutGenerator = proc.communicate()[0]
-    splittedLines = stdoutGenerator.splitlines()
-    for line in splittedLines:
-        if line.startswith('  - ') and '--' in line:
-           jobLine = line.split('--')
-           job = jobLine[0].strip(' -\t')
-           desc = jobLine[1].strip()
-           jobsAndDescs.append([job, desc])
-
-    return jobsAndDescs
-
+def copyGenericIfNoSpecific(specificFilename, genericFilepath, destFilepath, appType):
+    if not os.path.isfile(os.path.join(destFilepath, specificFilename)):
+      shutil.copy(genericFilepath, destFilepath)
+      if appType == "contribution":
+          shutil.copy(genericFilepath, os.path.join(destFilepath, "demo", "default"))
 
 def createApplication(options):
     out = options.out
@@ -136,22 +127,14 @@ def createApplication(options):
     is_contribution = options.type == "contribution"
     appDir = os.path.join(outDir, "trunk") if is_contribution else outDir
     app_infos = APP_INFOS[options.type]
-    demo_suffix = "demo/default" if is_contribution else ''
 
     # copy the template structure
     copySkeleton(options.skeleton_path, options.type, outDir, options.namespace)
 
-    # individual copies from tool/data
-    # generate.py
-    shutil.copy(GENERATE_PY, appDir)
-    if is_contribution:
-        shutil.copy(GENERATE_PY, os.path.join(appDir, *demo_suffix.split("/")))
-
-    # copy generic package.json if no specific available
-    if not os.path.isfile(os.path.join(appDir, "package.tmpl.json")):
-      shutil.copy(PACKAGE_JSON, appDir)
-      if is_contribution:
-          shutil.copy(PACKAGE_JSON, os.path.join(appDir, *demo_suffix.split("/")))
+    # copy generic file if no more specific is available
+    copyGenericIfNoSpecific("", GENERATE_PY, appDir, options.type)
+    copyGenericIfNoSpecific("package.tmpl.json", PACKAGE_JSON, appDir, options.type)
+    copyGenericIfNoSpecific("Gruntfile.tmpl.js", GRUNTFILE, appDir, options.type)
 
     # copy files
     if isinstance(app_infos['copy_file'], types.ListType):
@@ -255,11 +238,8 @@ def patchSkeleton(appDir, framework_dir, options):
     renderTemplates(filePaths, options, relPath, absPath, TARGET.GENERATOR)
     chmodPyFiles(appDir)
 
-    # fetch jobs and their desc
-    jobsAndDescs = getJobsAndDescriptions(appDir)
-
-    # now render Gruntfile with jobsAndDescs
-    renderTemplates(gruntfileFilePaths, options, relPath, absPath, TARGET.GRUNT, jobsAndDescs=jobsAndDescs)
+    # now render Gruntfile
+    renderTemplates(gruntfileFilePaths, options, relPath, absPath, TARGET.GRUNT)
 
 
 def determineAbsPathToSdk(framework_dir):
@@ -316,7 +296,7 @@ def gruntifyMacros(s):
     return re.sub(r'\$\{(?P<macro>[a-zA-Z0-9_\-]+)\}', macroReplace, s)
 
 
-def renderTemplates(inAndOutFilePaths, options, relPathToSdk, absPathToSdk, renderTarget, jobsAndDescs=[]):
+def renderTemplates(inAndOutFilePaths, options, relPathToSdk, absPathToSdk, renderTarget):
     for inFile, outFile in inAndOutFilePaths:
         console.log("Patching file '%s'" % outFile)
 
@@ -335,7 +315,6 @@ def renderTemplates(inAndOutFilePaths, options, relPathToSdk, absPathToSdk, rend
         }
 
         if renderTarget == TARGET.GRUNT:
-            context["JOBS_AND_DESCS"] = jobsAndDescs
             for k, v in context.iteritems():
                 if isinstance(v, (str, unicode)):
                     context[k] = gruntifyMacros(v);

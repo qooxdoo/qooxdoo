@@ -2,23 +2,6 @@
 var common = {
   QOOXDOO_VERSION : "3.1",
   QOOXDOO_PATH: "../..",
-
-  generatorJobs: [
-    ["api", "Create a qx.Website Apiviewer"],
-    ["api-data", "Create API data for the qx.Website API viewer"],
-    ["build", ""],
-    ["build-min", ""],
-    ["build-module-all", ""],
-    ["build-module-all-min", ""],
-    ["clean", "remove local generated files"],
-    ["distclean", "remove local generated files and global cache"],
-    ["log-deps", ""],
-    ["source", ""],
-    ["test", ""],
-    ["test-module", ""],
-    ["test-source", ""],
-    ["validate-config", "validates the 'config.json' itself - if jobname arg is given checks dedicated job only"]
-  ]
 };
 
 // requires
@@ -29,11 +12,11 @@ var qxTasks = require(common.QOOXDOO_PATH + '/tool/grunt/tasks/tasks.js');
 module.exports = function(grunt) {
   var config = {
     qx: {
-      let : {
+      let: {
       }
     },
 
-    common : common,
+    common: common,
 
     sass: {
       indigo: {
@@ -60,12 +43,10 @@ module.exports = function(grunt) {
     }
   };
 
-
-
   var mergedConf = qxConf.mergeConfig(config);
   grunt.initConfig(mergedConf);
 
-  qxTasks.registerTasks(grunt, common.generatorJobs);
+  qxTasks.registerTasks(grunt);
 
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-notify');
