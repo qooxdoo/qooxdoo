@@ -51,6 +51,7 @@ qx.Class.define("qx.ui.mobile.core.Root",
     if (qx.core.Environment.get("os.name") == "ios" && window.innerHeight != document.documentElement.clientHeight) {
       qx.event.Registration.addListener(window, "orientationchange", this.__fixViewportHeight, this);
       qx.event.Registration.addListener(window, "scroll", this.__fixViewportHeight, this);
+      this.__fixViewportHeight();
       document.body.style.webkitTransform = "translate3d(0,0,0)";
     }
 
