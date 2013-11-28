@@ -2704,6 +2704,42 @@ qx.Class.define("qx.html.Element",
       }
 
       return false;
+    },
+
+
+    /**
+     * Serializes and returns all event listeners attached to this element
+     * @return {Map[]} an Array containing a map for each listener. The maps
+     * have the following keys:
+     * <ul>
+     *   <li><code>type</code> (String): Event name</li>
+     *   <li><code>handler</code> (Function): Callback function</li>
+     *   <li><code>self</code> (Object): The callback's context</li>
+     *   <li><code>capture</code> (Boolean): If <code>true</code>, the listener is
+     * attached to the capturing phase</li>
+     * </ul>
+     */
+    getListeners : function() {
+      if (this.$$disposed) {
+        return null;
+      }
+
+      if (this.__element) {
+        return qx.event.Registration.getManager(this.__element).serializeListeners(this.__element);
+      }
+
+      var listeners = [];
+      for (var id in this.__eventValues) {
+        var listenerData = this.__eventValues[id];
+        listeners.push({
+          type: listenerData.type,
+          handler: listenerData.listener,
+          self: listenerData.self,
+          capture: listenerData.capture
+        });
+      }
+
+      return listeners;
     }
   },
 
