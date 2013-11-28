@@ -115,6 +115,13 @@
     {
       "let" : {
         "BUILD_PATH" : "${ROOT}/source"
+      },
+      "compile-options" :
+      {
+        "uris" : 
+        {
+          "add-nocache-param" : true
+        }
       }
     },
 
