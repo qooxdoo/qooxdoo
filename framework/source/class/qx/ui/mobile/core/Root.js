@@ -47,6 +47,21 @@ qx.Class.define("qx.ui.mobile.core.Root",
 
     qx.event.Registration.addListener(window, "orientationchange", this._onOrientationChange, this);
 
+    if (qx.core.Environment.get("os.name") == "ios" && window.innerHeight != document.documentElement.clientHeight) {
+      var fixViewportHeight = function() {
+        document.documentElement.style.height = window.innerHeight + "px";
+        if (document.body.scrollTop !== 0) {
+          window.scrollTo(0, 0);
+        }
+      }.bind(this);
+
+      window.addEventListener("scroll", fixViewportHeight, false);
+      window.addEventListener("orientationchange", fixViewportHeight, false);
+      fixViewportHeight();
+
+      document.body.style.webkitTransform = "translate3d(0,0,0)";
+    }
+
     this._onOrientationChange();
   },
 
@@ -142,12 +157,6 @@ qx.Class.define("qx.ui.mobile.core.Root",
         this.addCssClass("landscape");
         this.removeCssClass("portrait");
       }
-
-      // Bugfix #7717 - On iOS7 the headers are partially covered by the browser's chrome.
-      if(qx.core.Environment.get("os.name") == "ios") {
-        document.documentElement.style.height = window.innerHeight + "px";
-        window.scrollTo(0, 0);
-      } 
     }
   },
 
