@@ -568,6 +568,13 @@ qx.Class.define("qx.ui.basic.Image",
           qx.html.Element.flush();
           var currentDomEl = currentEl.getDomElement();
           var newDomEl = elementToAdd.getDomElement();
+
+          // copy event listeners
+          var listeners = currentContentElement.getListeners() || [];
+          listeners.forEach(function(listenerData) {
+            elementToAdd.addListener(listenerData.type, listenerData.handler, listenerData.self, listenerData.capture);
+          });
+
           if (currentDomEl && newDomEl) {
             // Switch the DOM elements' hash codes. This is required for the event
             // layer to work [BUG #7447]
