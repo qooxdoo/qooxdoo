@@ -441,7 +441,7 @@ def isNodeInstalled():
 def getCachedNodeModules(options):
     # using dedicated cache path, so it's not deleted with 'distclean' jobs
     cache_path = os.path.join(FRAMEWORK_DIR, "tool/cache/node")
-    package_json = os.path.join(FRAMEWORK_DIR, "tool/grunt/package.generalized.json")
+    package_json = os.path.join(FRAMEWORK_DIR, "tool/grunt/data/package.generalized.json")
     modules_path = os.path.join(cache_path, "node_modules")
     if not os.path.exists(modules_path):
         # parent dir
