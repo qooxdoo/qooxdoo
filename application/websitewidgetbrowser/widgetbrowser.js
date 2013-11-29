@@ -105,6 +105,41 @@ q.ready(function() {
   };
 
 
+  var formatCode = function(code) {
+    var lines = code.split("\n");
+
+    lines = lines.filter(function(line, idx, lines) {
+      if (line.length === 0) {
+        // blank first or last line
+        if (idx === 0 || idx === lines.length - 1 ||
+          // consecutive blank lines
+          (lines[idx + 1] !== undefined && lines[idx + 1].length === 0)) {
+          return false;
+        }
+      }
+      return true;
+    });
+
+    // remove the first line's indentation from all lines
+    var ws = lines[0].match(/^(\s+)/);
+    var indent = ws ? ws[1].length : 0;
+    if (indent > 0) {
+      var reg = new RegExp("^\\s{" + indent + "}");
+      lines = lines.map(function(line) {
+        return line.replace(reg, "");
+      });
+    }
+
+    return lines.join("\n");
+  };
+
+
+  var stripTags = function(code) {
+    // multiline strings are no fun
+    code = code.replace(/\n/gm, "@br@");
+    code = code.replace(/<script.*?<\/script>/g, "").replace(/<style.*?<\/style>/g, "");
+    return code.split("@br@").join("\n");
+  };
 
   /**
    * Create the DOM structure for a demo and the box showing the demo's code
@@ -122,16 +157,47 @@ q.ready(function() {
       // preceded by a "visible" node (i.e. containing text)
       demoCell[0].removeChild(demoCell[0].firstChild);
     }
-    q.create("<h2>" + demoTitle + "</h2>").insertBefore(demoCell.getChildren().getFirst());
+    q.create("<h1>" + demoTitle + "</h1>").insertBefore(demoCell.getChildren().getFirst());
 
-    q.create("<p class='code-header'>Demo Code</p>").appendTo(demoCell);
-    pre = q.create("<pre class='demo-cell html'></pre>");
+    var clone = demoCell.clone();
+
+    var styles = clone.find("style").remove();
+    var scripts = clone.find("script").remove();
+
+    q.create("<p class='code-header'>HTML</p>").appendTo(demoCell);
+    var pre = q.create("<pre class='demo-cell html'></pre>");
+    demoCode = formatCode(stripTags(demoCode));
     q.create("<code>").appendTo(pre)[0].appendChild(document.createTextNode(demoCode));
     pre.appendTo(demoCell);
-    if (q.env.get("engine.name") !== "mshtml" ||
-      q.env.get("engine.version") > 8) {
+    if (!legacyIe) {
       hljs.highlightBlock(pre[0]);
     }
+
+    if (styles.length > 0) {
+      q.create("<p class='code-header'>CSS</p>").appendTo(demoCell);
+    }
+    styles._forEachElementWrapped(function(style) {
+      var pre = q.create("<pre class='demo-cell css'></pre>");
+      var code = formatCode(style.getHtml());
+      q.create("<code>").appendTo(pre)[0].appendChild(document.createTextNode(code));
+      pre.appendTo(demoCell);
+      if (!legacyIe) {
+        hljs.highlightBlock(pre[0]);
+      }
+    });
+
+    if (scripts.length > 0) {
+      q.create("<p class='code-header'>JavaScript</p>").appendTo(demoCell);
+    }
+    scripts._forEachElementWrapped(function(script) {
+      var pre = q.create("<pre class='demo-cell javascript'></pre>");
+      var code = formatCode(script.getHtml());
+      q.create("<code>").appendTo(pre)[0].appendChild(document.createTextNode(code));
+      pre.appendTo(demoCell);
+      if (!legacyIe) {
+        hljs.highlightBlock(pre[0]);
+      }
+    });
 
     return demoCell;
   };

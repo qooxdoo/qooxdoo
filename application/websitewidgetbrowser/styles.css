@@ -171,11 +171,12 @@ pre.demo-cell {
 }
 
 .demo-cell:first-child {
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 .code-header {
   margin: 1em 0 0 0;
+  font-weight: bold;
 }
 
 #sizeSlider {
