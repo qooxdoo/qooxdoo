@@ -156,14 +156,45 @@ qx.Class.define("qx.ui.mobile.form.Label",
 
 
     /**
+    * Event handler for the <code>changeEnabled</code> event on the target.
+    * @param evt {qx.event.type.Data} the changeEnabled event. 
+    */
+    _changeEnabled: function(evt) {
+      if (evt) {
+        this.setEnabled(evt.getData());
+      }
+    },
+
+
+    /**
      * Setter for the "for" attribute of this label.
-     * The for attribute specifies which form element a label is bound to.
+     * The "for" attribute specifies which form element a label is bound to.
      *
      * @param elementId {String} The id of the element the label is bound to.
      *
      */
-    setLabelFor : function(elementId) {
-      this._setAttribute("for",elementId);
+    setLabelFor: function(elementId) {
+      var oldTarget = qx.ui.mobile.core.Widget.getWidgetById(this._getAttribute("for"));
+      var newTarget = qx.ui.mobile.core.Widget.getWidgetById(elementId);
+
+      if (oldTarget) {
+        oldTarget.removeListener("changeEnabled", this._changeEnabled, this);
+      }
+
+      if (newTarget) {
+        newTarget.addListener("changeEnabled", this._changeEnabled, this);
+        this.setEnabled(newTarget.getEnabled());
+      }
+
+      this._setAttribute("for", elementId);
+    }
+  },
+
+
+  destruct : function() {
+    var oldTarget = qx.ui.mobile.core.Widget.getWidgetById(this._getAttribute("for"));
+    if (oldTarget) {
+      oldTarget.removeListener("changeEnabled", this._changeEnabled, this);
     }
   }
 });
