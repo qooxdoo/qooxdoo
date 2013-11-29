@@ -200,8 +200,35 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
       this.fireDataEvent("input", evt.getData(), true);
       if (this.getLiveUpdate())
       {
+        var caretPosition = this._getCaretPosition();
         this.setValue(evt.getData());
+        this._setCaretPosition(caretPosition);
       }
+    },
+
+    /*
+    * Returns the caret position of this widget.
+    * @return {Integer} the caret position.
+    */
+    _getCaretPosition: function() {
+      var val = this.getContentElement().value;
+      var position = val.slice(0, this.getContentElement().selectionStart).length;
+      return position;
+    },
+
+
+    /**
+     * Sets the caret position on this widget.
+     * @param position {Integer} the caret position.
+     */
+    _setCaretPosition: function(position) {
+      var element = this.getContentElement();
+      setTimeout(function() {
+        if (element.setSelectionRange) {
+          element.focus();
+          element.setSelectionRange(position, position);
+        }
+      }, 0);
     },
 
 
