@@ -259,15 +259,6 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     },
 
 
-    /**
-     * TouchHandler for scrollContainer
-     * @param evt {qx.event.type.Touch} The touch event.
-     */
-    _onTouchEnd : function(evt) {
-      evt.stopPropagation();
-    },
-
-
      /**
      * Swipe handler for scrollContainer.
      * @param evt {qx.event.type.Swipe} The swipe event.
@@ -535,8 +526,10 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
 
     /**
-     * Setter for the <code>preventEvents</code> flag, which controls whether 
+     * Setter for the <code>preventEvents</code> flag, which controls whether
      * touch events should be passed to contained widgets.
+     * @param value {Boolean} <code>true</code> if touch events should be
+     * prevented
      * @internal
      */
     setPreventEvents : function(value) {
