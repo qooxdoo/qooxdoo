@@ -169,7 +169,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
       if(this.__anchor)
       {
-        this.addCssClass(['anchor']);
+        this.addCssClass('anchor');
 
         var rootHeight = qx.ui.mobile.dialog.Popup.ROOT.getHeight();
         var rootWidth = qx.ui.mobile.dialog.Popup.ROOT.getWidth();
@@ -400,7 +400,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       qx.event.Registration.addListener(window, "resize", this._updatePosition, this);
 
       if(this.__anchor) {
-        this.__anchor.setAnonymous(true);
+        this.__anchor.addCssClass("anchor-target");
         qx.ui.mobile.dialog.Popup.ROOT.addListener("touchstart",this._trackUserTouch,this);
       }
 
@@ -416,7 +416,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       qx.event.Registration.removeListener(window, "resize", this._updatePosition, this);
 
       if(this.__anchor) {
-        this.__anchor.setAnonymous(false);
+        this.__anchor.removeCssClass("anchor-target");
         qx.ui.mobile.dialog.Popup.ROOT.removeListener("touchstart", this._trackUserTouch, this);
       }
 

@@ -24,6 +24,10 @@ $dialog-arrow-space: rem(2);
   color: $dialog-title-text-color; 
 }
 
+.anchor-target {
+  pointer-events:none;
+}
+
 .root.ios .popup {
   -webkit-filter: drop-shadow(0 rem(2) rem(7) rgba(0,0,0,0.5));
 }
