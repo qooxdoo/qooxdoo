@@ -369,16 +369,16 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
      * @param index {Integer}, the index of the listItem to which the listScroller should scroll to.
      */
     scrollToItem : function(index) {
-      if(this.__selectionList.getModel() != null) {
+      var scrollY = 0;
+
+      if (index !== null && this.__selectionList.getModel() != null) {
         var listScrollChild = this.__listScroller.getScrollContainer();
         var listScrollHeight = listScrollChild.getContainerElement().scrollHeight;
-        var listItemHeight = listScrollHeight/this.__selectionList.getModel().length;
-      }
+        var listItemHeight = listScrollHeight / this.__selectionList.getModel().length;
 
-
-      var scrollY = 0;
-      if(index !== null) {
-        scrollY = index * listItemHeight;
+        if (listItemHeight) {
+          scrollY = index * listItemHeight;
+        }
       }
 
       this.__listScroller.scrollTo(0, -scrollY);
