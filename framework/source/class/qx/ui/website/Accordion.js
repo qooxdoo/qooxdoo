@@ -303,6 +303,7 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
 
       var styles = page.getStyles(this.getConfig("animationStyles"));
       if (styles.height) {
+        page[0].style.height = "";
         styles.height = page.getHeight() + "px";
       }
 
