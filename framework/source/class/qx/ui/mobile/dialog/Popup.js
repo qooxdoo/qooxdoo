@@ -323,8 +323,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     placeTo : function(left, top)
     {
-      qx.bom.element.Style.set(this.getContainerElement(),"left",left+"px");
-      qx.bom.element.Style.set(this.getContainerElement(),"top",top+"px");
+      this._setStyle("left",left+"px");
+      this._setStyle("top",top+"px");
     },
 
 
