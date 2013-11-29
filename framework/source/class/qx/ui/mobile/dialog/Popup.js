@@ -313,8 +313,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     placeTo : function(left, top)
     {
-      qx.bom.element.Style.set(this.getContainerElement(),"left",left+"px");
-      qx.bom.element.Style.set(this.getContainerElement(),"top",top+"px");
+      this._setStyle("left",left+"px");
+      this._setStyle("top",top+"px");
     },
 
 
@@ -390,8 +390,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       qx.event.Registration.addListener(window, "resize", this._updatePosition, this);
 
       if(this.__anchor) {
-        var appRoot = qx.ui.mobile.dialog.Popup.ROOT;
-        appRoot.addListener("touchstart",this._trackUserTouch,this);
+        this.__anchor.setAnonymous(true);
+        qx.ui.mobile.dialog.Popup.ROOT.addListener("touchstart",this._trackUserTouch,this);
       }
 
       this.addListener("touchstart", this._preventTouch, this);
@@ -406,8 +406,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       qx.event.Registration.removeListener(window, "resize", this._updatePosition, this);
 
       if(this.__anchor) {
-        var appRoot = qx.ui.mobile.dialog.Popup.ROOT;
-        appRoot.removeListener("touchstart", this._trackUserTouch, this);
+        this.__anchor.setAnonymous(false);
+        qx.ui.mobile.dialog.Popup.ROOT.removeListener("touchstart", this._trackUserTouch, this);
       }
 
       this.removeListener("touchstart", this._preventTouch, this);
