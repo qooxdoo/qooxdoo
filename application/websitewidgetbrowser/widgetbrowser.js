@@ -8,11 +8,12 @@ q.ready(function() {
     accordion : ["Default"]
   };
 
+
   /**
    * Disable/enable all widgets on each tab
    */
-  var onDisable = function() {
-    var enabled = !this.getAttribute("checked");
+  var disableWidgets = function() {
+    var enabled = !q(".disable input").getAttribute("checked");
     q("#content > ul > .qx-tabs-button")._forEachElementWrapped(function(button) {
       var selector = button.getData("qx-tab-page");
       var widgets = q(selector).find("*[data-qx-class]");
@@ -21,6 +22,7 @@ q.ready(function() {
       }
     });
   };
+
 
   /**
    * Select the tab with the given title
@@ -34,6 +36,7 @@ q.ready(function() {
       q("#content").select(index);
     }
   };
+
 
   var demosToLoad;
   var loadedDemos;
@@ -85,6 +88,8 @@ q.ready(function() {
         eval(script.innerHTML);
       });
     });
+
+    disableWidgets();
   };
 
 
@@ -231,7 +236,7 @@ q.ready(function() {
   q("#content")
   .on("changeSelected", onChangeSelected);
 
-  q(".disable input").on("change", onDisable);
+  q(".disable input").on("change", disableWidgets);
 
   q("#sizeSlider")
   .setTemplate("knobContent", "{{value}}%").render()
