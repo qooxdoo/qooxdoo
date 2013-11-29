@@ -93,6 +93,12 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
     },
 
     /**
+     * *preselected*
+     * The index of the page that should be opened after initial
+     * rendering, or <code>nullcode> if no page should be opened.
+     *
+     * Default value: <pre>null</pre>
+     *
      * *animationTiming*
      *
      * Controls the page switching animation sequence:
@@ -164,6 +170,8 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
      * }</pre>
      */
     _config : {
+      preselected : null,
+
       animationTiming : "parallel",
 
       animationStyles : ["height", "paddingTop", "paddingBottom"],
@@ -219,7 +227,9 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
      */
     accordion : function(preselected) {
       var accordion =  new qx.ui.website.Accordion(this);
-      accordion._preselected = preselected || null;
+      if (preselected) {
+        tabs.setConfig("preselected", preselected);
+      }
       accordion.init();
 
       return accordion;
@@ -236,10 +246,6 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
   members : {
 
     init : function() {
-      if (this._preselected === undefined) {
-        this._preselected = null;
-      }
-
       if (!this.base(arguments)) {
         return false;
       }

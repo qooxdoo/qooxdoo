@@ -95,7 +95,10 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      */
     tabs : function(align, preselected) {
       var tabs =  new qx.ui.website.Tabs(this);
-      tabs._preselected = preselected || 0;
+      if (typeof preselected == "number") {
+        tabs.setConfig("preselected", preselected);
+      }
+
       tabs.init();
       if (align) {
         tabs.setConfig("align", align);
@@ -119,6 +122,12 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
 
     /**
+     * *preselected*
+     * The index of the page that should be opened after initial
+     * rendering, or <code>nullcode> if no page should be opened.
+     *
+     * Default value: <pre>0</pre>
+     *
      * *align*
      *
      * Configuration for the alignment of the tab buttons. This possible
@@ -154,6 +163,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * Default value: <pre>null</pre>
      */
     _config : {
+      preselected : 0,
       align : "left",
       animationTiming : "sequential",
       showAnimation : null,
@@ -181,10 +191,6 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
     init : function() {
       if (!this.base(arguments)) {
         return false;
-      }
-
-      if (this._preselected === undefined) {
-        this._preselected = 0;
       }
 
       this._forEachElementWrapped(function(tabs) {
@@ -229,8 +235,9 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         }
 
         var active = buttons.filter("." + cssPrefix + "-button-active");
-        if (active.length === 0 && typeof this._preselected == "number") {
-          buttons.eq(this._preselected).addClass(cssPrefix + "-button-active");
+        var preselected = this.getConfig("preselected");
+        if (active.length === 0 && typeof preselected == "number") {
+          buttons.eq(preselected).addClass(cssPrefix + "-button-active");
         }
         this._getPage(buttons.filter("." + cssPrefix + "-button-active")).show();
 
