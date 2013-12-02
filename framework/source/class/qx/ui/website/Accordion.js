@@ -228,7 +228,7 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
     accordion : function(preselected) {
       var accordion =  new qx.ui.website.Accordion(this);
       if (preselected) {
-        tabs.setConfig("preselected", preselected);
+        accordion.setConfig("preselected", preselected);
       }
       accordion.init();
 
