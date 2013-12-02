@@ -81,6 +81,11 @@ q.ready(function() {
       delete debouncedHideFiltered.intervalId;
       q("#list .qx-accordion-button")._forEachElementWrapped(function(button) {
         button.setData("results", "");
+        if (q.env.get("engine.name") == "mshtml") {
+          // IE won't re-apply the element's styles (which use the data
+          // attribute) if element.dataset is used
+          button.setAttribute("data-results", "");
+        }
       });
       q("#list .qx-accordion-page ul").show();
       q("#list .qx-accordion-page li").show();
@@ -122,6 +127,11 @@ q.ready(function() {
         }
       });
       groupButton.setData("results", groupResults);
+      if (q.env.get("engine.name") == "mshtml") {
+        // IE won't re-apply the element's styles (which use the data
+        // attribute) if element.dataset is used
+        groupButton.setAttribute("data-results", groupResults);
+      }
       if (groupResults == 0) {
         groupButton.addClass("no-matches");
       }
