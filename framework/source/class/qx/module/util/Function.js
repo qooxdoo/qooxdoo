@@ -155,55 +155,6 @@ qx.Bootstrap.define("qx.module.util.Function", {
         }
         return result;
       };
-    },
-
-
-    ___throttle : function(callback, interval, options) {
-      var wrapperFunction = function()
-      {
-        if (typeof options === "undefined") {
-          options = {};
-        }
-
-        arguments.callee.immediate = !!(options.immediate);
-        arguments.callee.trailing = !!(options.trailing);
-
-        // store the current arguments at the function object
-        // to have access inside the interval method
-        arguments.callee.args = qx.lang.Array.fromArguments(arguments);
-
-        // it's necessary to store the context to be able to call
-        // the callback within the right scope
-        var context = this;
-
-        // marker if the wrapperFunction was called e.g. as an event listener
-        arguments.callee.toFire = true;
-
-        var id = arguments.callee.intervalId;
-        if (typeof id === "undefined") {
-
-          var intervalId = window.setInterval((function() {
-
-            if (this.toFire) {
-              callback.apply(context, this.args);
-            } else {
-              window.clearInterval(intervalId);
-              delete this.intervalId;
-            }
-            this.toFire = false;
-
-          }).bind(arguments.callee), interval);
-
-          arguments.callee.intervalId = intervalId;
-
-          if (arguments.callee.immediate === true) {
-            callback.apply(context, arguments.callee.args);
-            arguments.callee.toFire = false;
-          }
-        }
-      };
-
-      return wrapperFunction;
     }
   },
 
