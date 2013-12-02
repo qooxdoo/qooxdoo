@@ -206,7 +206,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
       }
     },
 
-    /*
+   /**
     * Returns the caret position of this widget.
     * @return {Integer} the caret position.
     */
