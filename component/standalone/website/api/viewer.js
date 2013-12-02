@@ -24,19 +24,21 @@ q.ready(function() {
   // remove the warning
   q("#warning").setStyle("display", "none");
 
-  var title = "qx.Website API Documentation";
+  var title, docTitle;
   var customTitle = q.$$qx.core.Environment.get("apiviewer.title");
   if (customTitle) {
     title = customTitle;
+    docTitle = title;
   }
   else {
     var version = q.$$qx.core.Environment.get("qx.version");
     if (version) {
       title = "API Documentation <span>qx.Website " + version + "</span>";
+      docTitle = "qx.Website " + version + " API Documentation";
     }
   }
   q("h1").setHtml(title);
-  document.title = title;
+  document.title = docTitle;
 
   // global storage for the method index
   var data = {};
