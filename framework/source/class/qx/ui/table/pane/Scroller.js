@@ -71,14 +71,14 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this._add(this.__top, {row: 0, column: 0, colSpan: 2});
 
     // embed header into a scrollable container
-    this.__headerClipper = new qx.ui.table.pane.Clipper();
-    this.__headerClipper.add(this.__header);
-    this.__headerClipper.addListener("losecapture", this._onChangeCaptureHeader, this);
-    this.__headerClipper.addListener("mousemove", this._onMousemoveHeader, this);
-    this.__headerClipper.addListener("mousedown", this._onMousedownHeader, this);
-    this.__headerClipper.addListener("mouseup", this._onMouseupHeader, this);
-    this.__headerClipper.addListener("click", this._onClickHeader, this);
-    this.__top.add(this.__headerClipper, {flex: 1});
+    this._headerClipper = new qx.ui.table.pane.Clipper();
+    this._headerClipper.add(this.__header);
+    this._headerClipper.addListener("losecapture", this._onChangeCaptureHeader, this);
+    this._headerClipper.addListener("mousemove", this._onMousemoveHeader, this);
+    this._headerClipper.addListener("mousedown", this._onMousedownHeader, this);
+    this._headerClipper.addListener("mouseup", this._onMouseupHeader, this);
+    this._headerClipper.addListener("click", this._onClickHeader, this);
+    this.__top.add(this._headerClipper, {flex: 1});
 
     // embed pane into a scrollable container
     this.__paneClipper = new qx.ui.table.pane.Clipper();
@@ -352,10 +352,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     __updateContentPlanned : null,
     __onintervalWrapper : null,
 
-    __moveColumn : null,
+    _moveColumn : null,
     __lastMoveColPos : null,
-    __lastMoveTargetX : null,
-    __lastMoveTargetScroller : null,
+    _lastMoveTargetX : null,
+    _lastMoveTargetScroller : null,
     __lastMoveMousePageX : null,
 
     __resizeColumn : null,
@@ -378,7 +378,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     __horScrollBar : null,
     __verScrollBar : null,
     __header : null,
-    __headerClipper : null,
+    _headerClipper : null,
     __tablePane : null,
     __paneClipper : null,
     __clipperContainer : null,
@@ -825,7 +825,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var scrollLeft = e.getData();
 
       this.fireDataEvent("changeScrollX", scrollLeft, e.getOldData());
-      this.__headerClipper.scrollToX(scrollLeft);
+      this._headerClipper.scrollToX(scrollLeft);
       this.__paneClipper.scrollToX(scrollLeft);
     },
 
@@ -960,20 +960,20 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       {
         this.__lastMoveColPos += pageX - this.__lastMoveMousePageX;
 
-        this.__header.showColumnMoveFeedback(this.__moveColumn, this.__lastMoveColPos);
+        this.__header.showColumnMoveFeedback(this._moveColumn, this.__lastMoveColPos);
 
         // Get the responsible scroller
         var targetScroller = this.__table.getTablePaneScrollerAtPageX(pageX);
-        if (this.__lastMoveTargetScroller && this.__lastMoveTargetScroller != targetScroller) {
-          this.__lastMoveTargetScroller.hideColumnMoveFeedback();
+        if (this._lastMoveTargetScroller && this._lastMoveTargetScroller != targetScroller) {
+          this._lastMoveTargetScroller.hideColumnMoveFeedback();
         }
         if (targetScroller != null) {
-          this.__lastMoveTargetX = targetScroller.showColumnMoveFeedback(pageX);
+          this._lastMoveTargetX = targetScroller.showColumnMoveFeedback(pageX);
         } else {
-          this.__lastMoveTargetX = null;
+          this._lastMoveTargetX = null;
         }
 
-        this.__lastMoveTargetScroller = targetScroller;
+        this._lastMoveTargetScroller = targetScroller;
         this.__lastMoveMousePageX = pageX;
       }
     },
@@ -1010,7 +1010,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         useResizeCursor = true;
         e.stopPropagation();
       }
-      else if (this.__moveColumn != null)
+      else if (this._moveColumn != null)
       {
         // We are moving a column
         this.__handleMoveColumn(pageX);
@@ -1123,7 +1123,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       this.__resizeColumn = resizeCol;
       this.__lastResizeMousePageX = pageX;
       this.__lastResizeWidth = columnModel.getColumnWidth(this.__resizeColumn);
-      this.__headerClipper.capture();
+      this._headerClipper.capture();
     },
 
 
@@ -1136,10 +1136,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     _startMoveHeader : function(moveCol, pageX)
     {
       // Prepare column moving
-      this.__moveColumn = moveCol;
+      this._moveColumn = moveCol;
       this.__lastMoveMousePageX = pageX;
       this.__lastMoveColPos = this.getTablePaneModel().getColumnLeft(moveCol);
-      this.__headerClipper.capture();
+      this._headerClipper.capture();
     },
 
 
@@ -1254,7 +1254,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this._stopResizeHeader();
       }
 
-      if (this.__moveColumn != null) {
+      if (this._moveColumn != null) {
         this._stopMoveHeader();
       }
     },
@@ -1277,7 +1277,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       }
 
       this.__resizeColumn = null;
-      this.__headerClipper.releaseCapture();
+      this._headerClipper.releaseCapture();
 
       this.getApplicationRoot().setGlobalCursor(null);
       this.setCursor(null);
@@ -1301,14 +1301,14 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       // We are moving a column -> Drop the column
       this.__header.hideColumnMoveFeedback();
-      if (this.__lastMoveTargetScroller) {
-        this.__lastMoveTargetScroller.hideColumnMoveFeedback();
+      if (this._lastMoveTargetScroller) {
+        this._lastMoveTargetScroller.hideColumnMoveFeedback();
       }
 
-      if (this.__lastMoveTargetX != null)
+      if (this._lastMoveTargetX != null)
       {
-        var fromVisXPos = paneModel.getFirstColumnX() + paneModel.getX(this.__moveColumn);
-        var toVisXPos = this.__lastMoveTargetX;
+        var fromVisXPos = paneModel.getFirstColumnX() + paneModel.getX(this._moveColumn);
+        var toVisXPos = this._lastMoveTargetX;
         if (toVisXPos != fromVisXPos && toVisXPos != fromVisXPos + 1)
         {
           // The column was really moved to another position
@@ -1333,9 +1333,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         }
       }
 
-      this.__moveColumn = null;
-      this.__lastMoveTargetX = null;
-      this.__headerClipper.releaseCapture();
+      this._moveColumn = null;
+      this._lastMoveTargetX = null;
+      this._headerClipper.releaseCapture();
     },
 
 
@@ -1378,7 +1378,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this.__ignoreClick = true;
         e.stop();
       }
-      else if (this.__moveColumn != null)
+      else if (this._moveColumn != null)
       {
         this._stopMoveHeader();
         e.stop();
@@ -2412,7 +2412,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
     this.__lastMouseDownCell = this.__topRightWidget = this.__table = null;
     this._disposeObjects("__horScrollBar", "__verScrollBar",
-                         "__headerClipper", "__paneClipper", "__focusIndicator",
+                         "_headerClipper", "__paneClipper", "__focusIndicator",
                          "__header", "__tablePane", "__top", "__timer",
                          "__clipperContainer");
   }
