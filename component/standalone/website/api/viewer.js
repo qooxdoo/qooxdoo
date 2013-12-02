@@ -73,9 +73,7 @@ q.ready(function() {
     });
   }
 
-  var filterTimeout;
-  var filterField = q(".filter input");
-  filterField.on("input", function() {
+  var onFilterInput = function() {
     var value = filterField.getValue();
 
     if (!value) {
@@ -93,7 +91,10 @@ q.ready(function() {
     }
 
     debouncedHideFiltered(value);
-  });
+  };
+
+  var filterField = q(".filter input");
+  filterField.on("input", onFilterInput);
 
   var debouncedHideFiltered = q.func.debounce(function(value) {
     hideFiltered(value);
@@ -1019,14 +1020,15 @@ q.ready(function() {
           }
         });
       });
-    }
+    } else {
+      // enable syntax highlighting
+      if (useHighlighter) {
+        q('pre').forEach(function(el) {hljs.highlightBlock(el);});
+      }
 
-    // enable syntax highlighting
-    if (useHighlighter) {
-      q('pre').forEach(function(el) {hljs.highlightBlock(el);});
+      fixInternalLinks();
+      setTimeout(onFilterInput, 200);
     }
-
-    fixInternalLinks();
   };
 
   var fixLinks = true;
