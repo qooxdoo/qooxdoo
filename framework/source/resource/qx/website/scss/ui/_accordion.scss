@@ -55,6 +55,10 @@
 
 .qx-accordion-page {
   @include user-select(text);
+  @include box-sizing(border-box);
+  overflow: hidden;
+  background-color: white;
+  padding: rem(8) rem(12);
 }
 
 .qx-accordion-button[disabled] {
