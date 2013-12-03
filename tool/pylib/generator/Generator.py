@@ -294,9 +294,6 @@ class Generator(object):
                     partObj.deps = initial_deps[:]
                     script.parts = { "boot" : partObj }
 
-            #from pprint import pprint
-            #pprint(script.packages[0].classes)
-            #import pydb; pydb.debugger()
             return boot, partPackages, packageClasses
 
 
