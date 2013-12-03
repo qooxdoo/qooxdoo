@@ -152,8 +152,15 @@ q.ready(function() {
     }
 
     else if (value == 0 && showNav[0] == ev.getTarget()) {
-      q("#navContainer").setStyle("left", "10px");
+      q("#navContainer").setStyle("left", "0px");
       showNav.setValue(1);
+    }
+  });
+
+  q.matchMedia("(max-width: 800px), (orientation:portrait)").on("change", function(e) {
+    if (!e.matches) {
+      // reset the left property (menu is open and query changes)
+      q("#navContainer").setStyle("left", "");
     }
   });
 
@@ -1220,9 +1227,10 @@ q.ready(function() {
 
   // mobile support
   if (q.env.get("device.type") != "desktop") {
-    q("#list").setStyles({position: "absolute", bottom: "auto"});
+    q("#list").setStyles({position: "absolute", bottom: "auto", marginTop: "10px"});
     q("#content").setStyles({position: "absolute", bottom: "auto"});
-    q("#header-wrapper").setStyle("position", "absolute");
+    q(".filter").setStyle("position", "static");
+    q("#navContainer").addClass("mobile-navContainer");
   }
 
   var outdentWhitespace = function (snippet) {
