@@ -21,6 +21,8 @@
  * @lint ignoreUndefined(q, qxWeb, samples, hljs)
  */
 q.ready(function() {
+  FastClick.attach(document.body);
+
   // remove the warning
   q("#warning").setStyle("display", "none");
 
