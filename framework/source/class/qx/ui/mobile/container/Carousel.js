@@ -581,7 +581,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
 
     /**
-     * @deprecated {3.1} Please use _setTransitionDuration instead.
+     * @deprecated {3.5} Please use _setTransitionDuration instead.
      *
      * Determines whether a transition should be shown on carouselScroller move or not.
      * Target value will be buffered, and only be set on target element when target value is different
@@ -607,7 +607,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
 
     /**
-     * @deprecated {3.1} This method is not used anymore.
+     * @deprecated {3.5} This method is not used anymore.
      *
      * If velocity of swipe is above this value, the swipe will trigger a page change on carousel.
      * A swipe to left would trigger an increase, a swipe to right a decrease of pageIndex.

@@ -147,7 +147,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
 
 
     /**
-     * @deprecated {3.1} Please use this._addRow(item, name, new qx.ui.mobile.layout.VBox()) instead.
+     * @deprecated {3.5} Please use this._addRow(item, name, new qx.ui.mobile.layout.VBox()) instead.
      *
      * Adds a label and the widgets in two separate lines (rows).
      * @param item {qx.ui.mobile.core.Widget} A form item to render.
@@ -159,7 +159,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
 
 
     /**
-     * @deprecated {3.1} Please use this._addRow(item, name, new qx.ui.mobile.layout.HBox()) instead.
+     * @deprecated {3.5} Please use this._addRow(item, name, new qx.ui.mobile.layout.HBox()) instead.
      *
      * Adds a label and it according widget in one line (row).
      * @param item {qx.ui.mobile.core.Widget} A form item to render.

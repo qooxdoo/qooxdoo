@@ -575,7 +575,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
 
     /**
-     * @deprecated {3.1} Please use qx.ui.mobile.core.Blocker.getInstance() instead.
+     * @deprecated {3.5} Please use qx.ui.mobile.core.Blocker.getInstance() instead.
      *
      * Returns the blocker widget.
      *

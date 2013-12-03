@@ -217,7 +217,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
 
     /**
-    * @deprecated {3.1} Please use setSize() instead.
+    * @deprecated {3.5} Please use setSize() instead.
     * Sets the user value of the property width.
     * @param value {Integer} New value for property 
     */
@@ -227,7 +227,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
 
     /**
-    * @deprecated {3.1} Please use getSize() instead.
+    * @deprecated {3.5} Please use getSize() instead.
     * Gets the user value of the property width.
     * @return {Integer} the value.
     */
@@ -237,7 +237,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
 
     /**
-    * @deprecated {3.1} Please use resetSize() instead.
+    * @deprecated {3.5} Please use resetSize() instead.
     * Resets the user value of the property width.
     */
     resetWidth : function() {
@@ -246,7 +246,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
 
     /**
-    * @deprecated {3.1} Please use setSize() instead.
+    * @deprecated {3.5} Please use setSize() instead.
     * Sets the user value of the property height.
     * @param value {Integer} New value for property 
     */
@@ -256,7 +256,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
 
     /**
-    * @deprecated {3.1} Please use getSize() instead.
+    * @deprecated {3.5} Please use getSize() instead.
     * Gets the user value of the property height.
     * @return {Integer} the value.
     */
@@ -266,7 +266,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
 
     /**
-    * @deprecated {3.1} Please use resetSize() instead.
+    * @deprecated {3.5} Please use resetSize() instead.
     * Resets the user value of the property height.
     */
     resetHeight : function() {
@@ -275,7 +275,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
 
     /**
-     * @deprecated {3.1} Please use this.__parent.toggleCssClass instead.
+     * @deprecated {3.5} Please use this.__parent.toggleCssClass instead.
      */
     _toggleParentBlockedState : function() {
       this.__parent.toggleCssClass("blocked");

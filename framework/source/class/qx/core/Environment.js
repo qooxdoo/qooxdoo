@@ -955,7 +955,7 @@ qx.Bootstrap.define("qx.core.Environment",
      *   (Details in the class doc)
      */
     get : function(key) {
-      // @deprecated {3.1}
+      // @deprecated {3.5}
       if (qx.Bootstrap.DEBUG) {
         if (key === "json") {
           qx.Bootstrap.warn("The environment key 'json' is deprecated " +
