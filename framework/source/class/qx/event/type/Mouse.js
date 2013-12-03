@@ -47,12 +47,12 @@ qx.Class.define("qx.event.type.Mouse",
       var clone = this.base(arguments, nativeEvent, clone);
 
       clone.button = nativeEvent.button;
-      clone.clientX = nativeEvent.clientX;
-      clone.clientY = nativeEvent.clientY;
-      clone.pageX = nativeEvent.pageX;
-      clone.pageY = nativeEvent.pageY;
-      clone.screenX = nativeEvent.screenX;
-      clone.screenY = nativeEvent.screenY;
+      clone.clientX = Math.round(nativeEvent.clientX);
+      clone.clientY = Math.round(nativeEvent.clientY);
+      clone.pageX = Math.round(nativeEvent.pageX);
+      clone.pageY = Math.round(nativeEvent.pageY);
+      clone.screenX = Math.round(nativeEvent.screenX);
+      clone.screenY = Math.round(nativeEvent.screenY);
       clone.wheelDelta = nativeEvent.wheelDelta;
       clone.wheelDeltaX = nativeEvent.wheelDeltaX;
       clone.wheelDeltaY = nativeEvent.wheelDeltaY;
@@ -201,7 +201,7 @@ qx.Class.define("qx.event.type.Mouse",
      * @return {Integer} The horizontal mouse position
      */
     getViewportLeft : function() {
-      return this._native.clientX;
+      return Math.round(this._native.clientX);
     },
 
 
@@ -213,7 +213,7 @@ qx.Class.define("qx.event.type.Mouse",
      * @signature function()
      */
     getViewportTop : function() {
-      return this._native.clientY;
+      return Math.round(this._native.clientY);
     },
 
 
@@ -227,10 +227,10 @@ qx.Class.define("qx.event.type.Mouse",
     getDocumentLeft : function()
     {
       if (this._native.pageX !== undefined) {
-        return this._native.pageX;
+        return Math.round(this._native.pageX);
       } else {
         var win = qx.dom.Node.getWindow(this._native.srcElement);
-        return this._native.clientX + qx.bom.Viewport.getScrollLeft(win);
+        return Math.round(this._native.clientX) + qx.bom.Viewport.getScrollLeft(win);
       }
     },
 
@@ -245,10 +245,10 @@ qx.Class.define("qx.event.type.Mouse",
     getDocumentTop : function()
     {
       if (this._native.pageY !== undefined) {
-        return this._native.pageY;
+        return Math.round(this._native.pageY);
       } else {
         var win = qx.dom.Node.getWindow(this._native.srcElement);
-        return this._native.clientY + qx.bom.Viewport.getScrollTop(win);
+        return Math.round(this._native.clientY) + qx.bom.Viewport.getScrollTop(win);
       }
     },
 
@@ -263,7 +263,7 @@ qx.Class.define("qx.event.type.Mouse",
      * @return {Integer} The horizontal mouse position on the screen.
      */
     getScreenLeft : function() {
-      return this._native.screenX;
+      return Math.round(this._native.screenX);
     },
 
 
@@ -277,7 +277,7 @@ qx.Class.define("qx.event.type.Mouse",
      * @return {Integer} The vertical mouse position on the screen.
      */
     getScreenTop : function() {
-      return this._native.screenY;
+      return Math.round(this._native.screenY);
     }
   }
 });
