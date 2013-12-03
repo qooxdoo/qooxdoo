@@ -93,10 +93,10 @@ qx.Class.define("qx.event.type.Drag",
       }
 
       if (this._native.pageX !== undefined) {
-        return this._native.pageX;
+        return Math.round(this._native.pageX);
       } else {
         var win = qx.dom.Node.getWindow(this._native.srcElement);
-        return this._native.clientX + qx.bom.Viewport.getScrollLeft(win);
+        return Math.round(this._native.clientX) + qx.bom.Viewport.getScrollLeft(win);
       }
     },
 
@@ -115,10 +115,10 @@ qx.Class.define("qx.event.type.Drag",
       }
 
       if (this._native.pageY !== undefined) {
-        return this._native.pageY;
+        return Math.round(this._native.pageY);
       } else {
         var win = qx.dom.Node.getWindow(this._native.srcElement);
-        return this._native.clientY + qx.bom.Viewport.getScrollTop(win);
+        return Math.round(this._native.clientY) + qx.bom.Viewport.getScrollTop(win);
       }
     },
 
