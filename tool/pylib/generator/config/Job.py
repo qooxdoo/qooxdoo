@@ -541,7 +541,7 @@ class Job(object):
                 if isinstance(source[key], types.ListType):
                     s1 = source[key][:]
                 elif isinstance(source[key], types.DictType):
-                    s1 = source[key].copy()
+                    s1 = copy.deepcopy(source[key])
                 else:
                     s1 = source[key]
                 target[key] = s1
@@ -557,7 +557,7 @@ class Job(object):
     def mapMerge(self, source, target):
         """merge source map into target, but don't overwrite existing
            keys in target (unlike target.update(source))"""
-        t = source.copy()
+        t = copy.deepcopy(source)
         t.update(target)  # target keys take precedence
         return t
 
@@ -571,7 +571,7 @@ class Job(object):
                 if isinstance(e, types.ListType):
                     e1 = e[:]
                 elif isinstance(e, types.DictType):
-                    e1 = e.copy()
+                    e1 = copy.deepcopy(e)
                 else:
                     e1 = e
                 t.append(e1) # make sure we have our own copy of container types
