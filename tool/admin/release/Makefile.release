@@ -662,7 +662,7 @@ publish-build-q-zip:
 		D=`mktemp -d --tmpdir=.`; \
 		mkdir $$D/script; \
 		for F in $(WEBSITE_MODULES); do \
-			for FF in `echo script/q-$$F.*`; do \
+			for FF in `echo script/q-$$F.* script/*.css`; do \
 				L=`basename $$FF`; \
 				$(call make_versioned,L) \
 				$(CMD_SYNC_OFFLINE) $$FF $$D/script/$$L; \
@@ -670,8 +670,8 @@ publish-build-q-zip:
 		done; \
 		shopt -s extglob; \
 		rm -f script/$(WEBSITE_MODULES_ZIP) script/$(WEBSITE_MODULES_MIN_ZIP); \
-		eval "$(CMD_ZIP) -qj script/$(WEBSITE_MODULES_ZIP) $$D/script/!(*.min).js"  || exit 1; \
-		eval "$(CMD_ZIP) -qj script/$(WEBSITE_MODULES_MIN_ZIP) $$D/script/*.min.js"  || exit 1; \
+		eval "$(CMD_ZIP) -qj script/$(WEBSITE_MODULES_ZIP) $$D/script/!(*.min).js" $$D/script/*.css || exit 1; \
+		eval "$(CMD_ZIP) -qj script/$(WEBSITE_MODULES_MIN_ZIP) $$D/script/*.min.js" $$D/script/*.css  || exit 1; \
 		rm -fr $$D; \
 	)
 
