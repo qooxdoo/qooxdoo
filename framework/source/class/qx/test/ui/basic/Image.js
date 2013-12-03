@@ -190,7 +190,7 @@ qx.Class.define("qx.test.ui.basic.Image",
 
 
     testLoadedEvent : function() {
-      var source = "../resource/qx/icon/Tango/32/places/folder.png";
+      var source = "../resource/qx/icon/Tango/16/places/folder.png";
       if (qx.io.ImageLoader.isLoaded(source)) {
         this.debug("testLoadedEvent skipped! Image already loaded.");
         return;
