@@ -21,7 +21,7 @@
  * This class is to test css media queries. It implements a polyfill for
  * window.matchMedia if not supported natively.
  *
- * @deprecated{3.5}
+ * @deprecated {3.5}
  */
 qx.Bootstrap.define("qx.bom.MediaQueryListener", {
 
@@ -30,7 +30,7 @@ qx.Bootstrap.define("qx.bom.MediaQueryListener", {
   /**
    * @param query {String} the media query to evaluate
    * @param ctxWindow {Object?window} the window object which should be operated on
-   * @deprecated{3.5}
+   * @deprecated {3.5}
    */
   construct : function(query, ctxWindow) {
     this.base(arguments, query, ctxWindow);

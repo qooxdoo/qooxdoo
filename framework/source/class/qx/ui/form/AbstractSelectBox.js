@@ -317,7 +317,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      * Close the pop-up if the mousewheel event isn't on the pup-up window.
      *
      * @param e {qx.event.type.Mouse} Mousewheel event.
-     * @deprecated{3.5} The widget does not need a mousewheel handler anymore.
+     * @deprecated {3.5} The widget does not need a mousewheel handler anymore.
      */
     _onMousewheel : function(e) {},
 
@@ -370,7 +370,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
   destruct : function()
   {
-    // @deprecated{3.5}
+    // @deprecated {3.5}
     var root = qx.core.Init.getApplication().getRoot();
     if (root) {
       root.removeListener("mousewheel", this._onMousewheel, this, true);
