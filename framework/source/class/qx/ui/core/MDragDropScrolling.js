@@ -243,7 +243,7 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
      */
     _calculateScrollAmount : function(scrollbarSize, exceedanceAmount)
     {
-      return ((scrollbarSize / 100) * exceedanceAmount) * this.getDragScrollSlowDownFactor();
+      return Math.floor(((scrollbarSize / 100) * exceedanceAmount) * this.getDragScrollSlowDownFactor());
     },
 
     /**
