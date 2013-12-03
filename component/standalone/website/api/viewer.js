@@ -427,7 +427,7 @@ q.ready(function() {
       if (groupIcon) {
         groupIcon = "data-icon='" + groupIcon + "'";
       }
-      var button = q.create("<li " + groupIcon + " data-qx-tab-page='#" + groupId + "' class='qx-accordion-button'>" + group.replace("_", " ") + "</li>")
+      var button = q.create("<li " + groupIcon + " data-qx-accordion-page='#" + groupId + "' class='qx-accordion-button'>" + group.replace("_", " ") + "</li>")
         .appendTo("#list > ul");
       groupPage = q.create("<li class='qx-accordion-page' id='" + groupId + "'></li>").appendTo("#list > ul");
     }
@@ -446,7 +446,7 @@ q.ready(function() {
     var groups = {};
     q("#list").find(">ul > .qx-accordion-button").forEach(function(li) {
       li = q(li);
-      var groupName = li.getData("qxTabPage").replace("#list-group-", "");
+      var groupName = li.getData("qxAccordionPage").replace("#list-group-", "");
       var next = li.getNext()[0];
       li.remove();
       next.parentNode.removeChild(next);

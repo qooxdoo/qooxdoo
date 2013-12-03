@@ -4398,7 +4398,7 @@ testrunner.define({
   },
 
   testConstructorWithDom : function() {
-    q("#sandbox").append(q.create("<ul><li data-qx-tab-page='#cont1'><button>Foo</button></li><li data-qx-tab-page='#cont0'><button>Foo</button></li></ul><div id='cont0'>Content0</div><div id='cont1'>Content1</div>"));
+    q("#sandbox").append(q.create("<ul><li data-qx-tabs-page='#cont1'><button>Foo</button></li><li data-qx-tabs-page='#cont0'><button>Foo</button></li></ul><div id='cont0'>Content0</div><div id='cont1'>Content1</div>"));
     var tabs = q("#sandbox").tabs();
     this.assertTrue(tabs.find("ul li.qx-tabs-button").length == 2);
     this.assertTrue(tabs.find("ul li").getFirst().hasClass("qx-tabs-button-active"));

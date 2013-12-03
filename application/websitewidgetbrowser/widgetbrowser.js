@@ -15,7 +15,7 @@ q.ready(function() {
   var disableWidgets = function() {
     var enabled = !q(".disable input").getAttribute("checked");
     q("#content > ul > .qx-tabs-button")._forEachElementWrapped(function(button) {
-      var selector = button.getData("qx-tab-page");
+      var selector = button.getData("qx-tabs-page");
       var widgets = q(selector).find("*[data-qx-class]");
       if (widgets.length > 0) {
         widgets.setEnabled(enabled);
@@ -78,7 +78,7 @@ q.ready(function() {
    * @param category {String} The category of the demos (see demos map)
    */
   var appendDemos = function(category) {
-    var pageSelector = q("#content").find("> ul > .qx-tabs-button-active").getData("qxTabPage");
+    var pageSelector = q("#content").find("> ul > .qx-tabs-button-active").getData("qxTabsPage");
 
     demos[category].forEach(function(title) {
       var demoCell = loadedDemos[title];
@@ -217,7 +217,7 @@ q.ready(function() {
     var buttonText = button.getChildren("button").getHtml();
     location.hash = buttonText;
 
-    var demoPageSelector = button.getData("qxTabPage");
+    var demoPageSelector = button.getData("qxTabsPage");
     if (q(demoPageSelector).getChildren(".demo-container").getChildren().length > 0) {
       return;
     }

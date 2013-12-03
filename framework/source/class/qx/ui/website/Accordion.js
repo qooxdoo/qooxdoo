@@ -31,7 +31,7 @@
  * The Accordion contains an unordered list element (<code>ul</code>), which
  * will be created if not already present.
  * Headers and pages are list items (<code>li</code>). Each header must contain
- * a button with a <code>tabPage</code> data attribute where the value is a
+ * a button with an <code>accordionPage</code> data attribute where the value is a
  * CSS selector string identifying the corresponding page. Headers and pages
  * will not be created automatically. They can be predefined in the DOM before
  * the <code>q().accordion()</code> factory method is called, or added programmatically.
@@ -95,7 +95,7 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
     /**
      * *preselected*
      * The index of the page that should be opened after initial
-     * rendering, or <code>nullcode> if no page should be opened.
+     * rendering, or <code>null</code> if no page should be opened.
      *
      * Default value: <pre>null</pre>
      *
@@ -251,11 +251,12 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
       }
 
       var cssPrefix = this.getCssPrefix();
-      this._forEachElementWrapped(function(tabs) {
-        tabs.find("> ul > ." + cssPrefix + "-page")._forEachElementWrapped(function(page) {
-          tabs._storeInitialStyles(page);
-        }.bind(tabs));
-        tabs.render();
+      this._forEachElementWrapped(function(accordion) {
+        accordion.find("> ul > ." + cssPrefix + "-button")._forEachElementWrapped(function(button) {
+          var page = accordion._getPage(button);
+          accordion._storeInitialStyles(page);
+        }.bind(accordion));
+        accordion.render();
       });
 
     },
@@ -263,8 +264,8 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
 
     render : function() {
       var cssPrefix = this.getCssPrefix();
-      this._forEachElementWrapped(function(tabs) {
-        tabs.find("> ul > ." + cssPrefix + "-button")._forEachElementWrapped(function(button) {
+      this._forEachElementWrapped(function(accordion) {
+        accordion.find("> ul > ." + cssPrefix + "-button")._forEachElementWrapped(function(button) {
           var page = this._getPage(button);
           if (page.length === 0) {
             return;
@@ -378,8 +379,8 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
       var cssPrefix = this.getCssPrefix();
       var sameButton = false;
 
-      this._forEachElementWrapped(function(tabs) {
-        var oldButton = tabs.find("> ul > ." + cssPrefix + "-button-active");
+      this._forEachElementWrapped(function(accordion) {
+        var oldButton = accordion.find("> ul > ." + cssPrefix + "-button-active");
         if (oldButton[0] == clickedButton) {
           sameButton = true;
           oldButton.removeClass(cssPrefix + "-button-active");

@@ -29,7 +29,7 @@
  * Each Tabs widget contains an unordered list element (<code>ul</code>), which
  * will be created if not already present.
  * The tabs are list items (<code>li</code>). Each tab can contain
- * a button with a <code>tabPage</code> data attribute where the value is a
+ * a button with a <code>tabsPage</code> data attribute where the value is a
  * CSS selector string identifying the corresponding page. Headers and pages
  * will not be created automatically. They can be predefined in the DOM before
  * the <code>q().tabs()</code> factory method is called, or added programmatically.
@@ -217,15 +217,22 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
         var buttons = tabs.getChildren("ul").getFirst()
           .getChildren("li").not("." + cssPrefix + "-page");
-        buttons.addClass(cssPrefix + "-button")._forEachElementWrapped(function(button) {
-          tabs._getPage(button).hide();
-          button.onWidget("click", this._onClick, tabs);
+        buttons._forEachElementWrapped(function(button) {
+          var pageSelector = button.getData(cssPrefix + "-page");
+          if (!pageSelector) {
+            return;
+          }
+          button.addClass(cssPrefix + "-button")
+            .onWidget("click", this._onClick, tabs);
 
-          var pageSelector = button.getData("qx-tab-page");
-          if (pageSelector) {
-            qxWeb(pageSelector).addClass(cssPrefix + "-page");
+          var page = tabs._getPage(button);
+          if (page.length > 0) {
+            page.hide().addClass(cssPrefix + "-page");
           }
         }.bind(this));
+
+        // ignore pageless buttons
+        buttons = buttons.filter("." + cssPrefix + "-button");
 
         if (align == "right") {
           buttons.remove();
@@ -255,7 +262,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         var selected;
         tabs.find("> ul > ." + cssPrefix + "-button")._forEachElementWrapped(function(li) {
           li.offWidget("click", tabs._onClick, tabs);
-          pages.push(li.getData("qx-tab-page"));
+          pages.push(li.getData(cssPrefix + "-page"));
           content.push(li.find("> button").getHtml());
           if (li.hasClass(cssPrefix + "-button-active")) {
             selected = content.length - 1;
@@ -331,7 +338,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         }
 
         if (pageSelector) {
-          link.setData("qx-tab-page", pageSelector);
+          link.setData(cssPrefix + "-page", pageSelector);
           var page = this._getPage(link);
           page.addClass(cssPrefix + "-page");
           if (!link.hasClass(cssPrefix + "-button-active")) {
@@ -570,7 +577,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
     _getPage : function(button) {
       var pageSelector;
       if (button) {
-        pageSelector = button.getData("qx-tab-page");
+        pageSelector = button.getData(this.getCssPrefix() + "-page");
       }
       return qxWeb(pageSelector);
     },
