@@ -543,7 +543,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       var pickerHeight = parseInt(target.getLayoutParent().getContainerElement().offsetHeight, 10);
       var upperBounce = this.__labelHeight;
       var lowerBounce = (-slotHeight + pickerHeight * 2);
-      
+
       if(targetOffset > upperBounce) {
         targetOffset = upperBounce;
       }
@@ -631,8 +631,8 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
     /**
     * Renders the content (the labels) of a picker slot.
-    * @param pickerSlot {qx.ui.mobile.core.Widget} the target picker slot, where the labels should be added to. 
-    * @param slotIndex {Integer} the slotIndex of the pickerSlot. 
+    * @param pickerSlot {qx.ui.mobile.core.Widget} the target picker slot, where the labels should be added to.
+    * @param slotIndex {Integer} the slotIndex of the pickerSlot.
     */
     _renderPickerSlotContent : function(pickerSlot, slotIndex) {
       var oldPickerSlotContent = pickerSlot.removeAll();

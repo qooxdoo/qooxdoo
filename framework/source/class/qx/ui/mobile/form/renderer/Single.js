@@ -39,7 +39,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
 
 
   statics : {
-    
+
     /** @type {Array} qx.Mobile form widgets which are rendered in one single line. */
     ONE_LINE_WIDGETS : [
       qx.ui.mobile.form.ToggleButton,
@@ -172,8 +172,8 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
 
     /**
     * Adds a label and its according widget in a row and applies the given layout.
-    * @param item {qx.ui.mobile.core.Widget} A form item to render. 
-    * @param name {String} A name for the form item. 
+    * @param item {qx.ui.mobile.core.Widget} A form item to render.
+    * @param name {String} A name for the form item.
     * @param layout {qx.ui.mobile.layout.Abstract} layout of the rendered row.
     */
     _addRow : function(item, name, layout) {

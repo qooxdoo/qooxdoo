@@ -216,7 +216,7 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
           if(iOsMatch[4]) {
             return iOsMatch[2]+"."+ iOsMatch[3]+"."+ iOsMatch[4];
           } else {
-            return iOsMatch[2]+"."+ iOsMatch[3];            
+            return iOsMatch[2]+"."+ iOsMatch[3];
           }
         }
       }

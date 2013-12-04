@@ -146,7 +146,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       init : "percent",
       check : [ "value", "percent" ],
-      nullable : true, 
+      nullable : true,
       apply : "_applyDisplayValue"
     }
   },
@@ -394,8 +394,8 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
 
     /**
-     * @deprecated {3.5} This method is not available anymore. 
-     * 
+     * @deprecated {3.5} This method is not available anymore.
+     *
      * Determines whether the knob position needs an offset.
      * This offset is needed for preventing the knob to be shown outside the
      * range.

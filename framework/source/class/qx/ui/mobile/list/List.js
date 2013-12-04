@@ -364,7 +364,7 @@ qx.Class.define("qx.ui.mobile.list.List",
     * @internal
     * Returns the height of one single list item.
     * @return {Integer} the height of a list item in px.
-    */ 
+    */
     getListItemHeight : function() {
       var listItemHeight = 0;
       if (this.getModel() != null && this.getModel().length > 0) {

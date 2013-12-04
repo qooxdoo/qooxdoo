@@ -69,7 +69,7 @@ qx.Class.define("mobileshowcase.page.Form",
 
       this.__result = new qx.ui.mobile.form.Label();
       this.__result.addCssClass("registration-result");
-      
+
       var popupContent = new qx.ui.mobile.container.Composite();
       this.__closeResultPopup = new qx.ui.mobile.form.Button("OK");
       this.__closeResultPopup.addListener("tap", function() {

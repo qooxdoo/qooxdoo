@@ -94,7 +94,7 @@ qx.Class.define("qx.test.mobile.form.NumberField",
 
       this.assertEquals('',numberField.getValue());
       this.assertEquals(null, qx.bom.element.Attribute.get(numberField.getContainerElement(),'value'));
-      
+
       numberField.setValue(15);
       this.assertEquals(15,numberField.getValue());
 

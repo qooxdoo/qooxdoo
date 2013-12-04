@@ -1164,7 +1164,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       if(this.getRotation() != null) {
         propertyValue = propertyValue + "rotate("+this.getRotation()+"deg) ";
       }
-      
+
       if(this.getScaleX() != null && this.getScaleY() != null) {
         propertyValue = propertyValue + "scale("+this.getScaleX()+","+this.getScaleY()+") ";
       }

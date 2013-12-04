@@ -130,8 +130,8 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     },
 
 
-    /** The size of the drawer in <code>px</code>. This value is interpreted as width if 
-    * orientation is <code>left | right</code>, as height if orientation is 
+    /** The size of the drawer in <code>px</code>. This value is interpreted as width if
+    * orientation is <code>left | right</code>, as height if orientation is
     * <code>top | bottom</code>. */
     size : {
       check : "Integer",
@@ -219,7 +219,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     /**
     * @deprecated {3.5} Please use setSize() instead.
     * Sets the user value of the property width.
-    * @param value {Integer} New value for property 
+    * @param value {Integer} New value for property
     */
     setWidth : function(value) {
       this.setSize(value);
@@ -248,7 +248,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     /**
     * @deprecated {3.5} Please use setSize() instead.
     * Sets the user value of the property height.
-    * @param value {Integer} New value for property 
+    * @param value {Integer} New value for property
     */
     setHeight : function(value) {
       this.setSize(value);
@@ -302,7 +302,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
     /**
     * Handler for the "transitionEnd" event.
-    * @param evt {Event} the event. 
+    * @param evt {Event} the event.
     */
     _onTransitionEnd : function(evt) {
       if(evt) {
@@ -311,7 +311,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
       this.__inAnimation = false;
       this._disableTransition();
-      
+
       if (this.isHidden()) {
         this.exclude();
         this.__parent.removeCssClass("blocked");
@@ -389,7 +389,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       if(this.__inAnimation || this.isHidden()) {
         return;
       }
-      
+
       this.__lastLandscape = qx.bom.Viewport.isLandscape();
 
       if (this.getPositionZ() == "below") {

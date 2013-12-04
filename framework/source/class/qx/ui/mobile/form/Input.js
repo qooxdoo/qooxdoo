@@ -46,7 +46,7 @@ qx.Class.define("qx.ui.mobile.form.Input",
     this.base(arguments);
     this._setAttribute("type", this._getType());
 
-    // BUG #7756 
+    // BUG #7756
     if(qx.core.Environment.get("os.name") == "ios") {
       this.addListener("blur", this._onBlur, this);
       this.addListener("focus", this._onFocus, this);
@@ -107,7 +107,7 @@ qx.Class.define("qx.ui.mobile.form.Input",
 
 
   destruct : function() {
-    // BUG #7756 
+    // BUG #7756
     if (qx.core.Environment.get("os.name") == "ios") {
       this.removeListener("focus", this._onFocus, this);
       this.removeListener("blur", this._onBlur, this);

@@ -168,7 +168,7 @@ qx.Class.define("mobileshowcase.page.Maps",
      * @param longitude {Number} the longitude of the position.
      * @param latitude {Number} the latitude of the position.
      * @param zoom {Integer} zoom level.
-     * @param showMarker {Boolean} if a marker should be drawn at the defined position. 
+     * @param showMarker {Boolean} if a marker should be drawn at the defined position.
      */
     _zoomToPosition : function(longitude, latitude, zoom, showMarker) {
       var fromProjection = new OpenLayers.Projection("EPSG:4326");

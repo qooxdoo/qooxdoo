@@ -26,9 +26,9 @@ qx.Class.define("qx.test.mobile.dialog.Popup",
     testShow: function() {
       var label = new qx.ui.mobile.basic.Label("test");
       var popup = new qx.ui.mobile.dialog.Popup(label);
-      
+
       this.assertFalse(popup.isVisible());
-      
+
       popup.show();
 
       this.assertTrue(popup.isVisible());
@@ -45,7 +45,7 @@ qx.Class.define("qx.test.mobile.dialog.Popup",
 
       var blocker = qx.ui.mobile.core.Blocker.getInstance();
       blocker.forceHide();
-      
+
       // Modal mode false test cases, no changes expected.
       popup.setModal(false);
       popup.show();
@@ -57,7 +57,7 @@ qx.Class.define("qx.test.mobile.dialog.Popup",
 
       this.assertFalse(popup.isVisible(), 'popup should not be visible.');
       this.assertFalse(blocker.isShown(), 'Modal mode is false, called popup.hide(), blocker should be still hidden.');
-            
+
       popup.show();
 
       this.assertFalse(blocker.isShown(), 'Modal mode is false, called popup.show(), blocker should be still hidden.');

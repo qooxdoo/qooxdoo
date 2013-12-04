@@ -109,7 +109,7 @@ qx.Class.define("mobileshowcase.page.Carousel",
 
       var moreGroup = new qx.ui.mobile.form.Group([moreButton],false);
       moreGroup.setLayout(new qx.ui.mobile.layout.HBox());
-   
+
       page5.add(moreGroup);
 
       var page6 = new qx.ui.mobile.container.Composite();

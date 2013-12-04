@@ -30,7 +30,7 @@ qx.Class.define("qx.test.mobile.form.Label",
       label.setLabelFor(target.getId());
 
       var foundValue = label.getContentElement().getAttribute("for");
-      
+
       this.assertEquals(target.getId(),foundValue,"'For' attribute has an unexpected value.");
 
       label.destroy();
@@ -44,14 +44,14 @@ qx.Class.define("qx.test.mobile.form.Label",
       var target = new qx.ui.mobile.form.TextField("foo");
 
       target.setEnabled(false);
-      
+
       label.setLabelFor(target.getId());
 
       // check if state is considered before label.for is set.
       this.assertFalse(label.isEnabled());
 
       target.setEnabled(true);
-      
+
       this.assertTrue(label.isEnabled());
 
       target.setEnabled(false);

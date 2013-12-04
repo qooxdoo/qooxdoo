@@ -60,7 +60,7 @@ qx.Class.define("qx.test.ui.tree.virtual.UtilTest",
         var result = qx.ui.tree.core.Util.isNode(item, "kids");
 
         if (item.getKids !== undefined) {
-          this.assertTrue(result);      
+          this.assertTrue(result);
         } else {
           this.assertFalse(result);
         }
