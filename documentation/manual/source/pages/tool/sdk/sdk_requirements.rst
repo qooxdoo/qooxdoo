@@ -78,7 +78,7 @@ might arise.
 `Cygwin <http://www.cygwin.com/>`_ can be used as an optional free and powerful
 Unix-like environment for Windows. You won't need a native Python installation,
 just make sure to include Cygwin's **built-in** Python as an additional package
-when using Cygwin's `setup program <http://cygwin.com/setup.exe>`_.
+when using Cygwin's `setup program <http://cygwin.com/install.html>`_.
 
 |image2| Mac
 ^^^^^^^^^^^^
