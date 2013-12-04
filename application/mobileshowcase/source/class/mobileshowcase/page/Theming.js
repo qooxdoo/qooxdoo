@@ -57,6 +57,8 @@ qx.Class.define("mobileshowcase.page.Theming",
     __themes : null,
     __slider : null,
     __demoImageLabel : null,
+    __appScale : null,
+    __fontScale : null,
 
 
     /**
@@ -85,7 +87,30 @@ qx.Class.define("mobileshowcase.page.Theming",
       this.__createThemeChooser();
       this.__createThemeScaleControl();
       this.__createImageResolutionHandlingDemo();
+
+      // react on possible font size changes (triggering a different device pixel ratio)
+      qx.event.Registration.addListener(window, "resize", this._onChangeScale);
+
+      qx.core.Init.getApplication().getRoot().addListener("changeAppScale", this._updateDemoImageLabel, this);
     },
+
+
+    /** Check on possible scale changes. */
+    _onChangeScale : qx.module.util.Function.debounce(function(e)
+    {
+      var root = qx.core.Init.getApplication().getRoot();
+
+      var appScale = root.getAppScale();
+      var fontScale = root.getFontScale();
+
+      if(appScale != this.__appScale || fontScale != this.__fontScale)
+      {
+        this.__appScale = appScale;
+        this.__fontScale = fontScale;
+
+        root.fireEvent("changeAppScale");
+      }
+    }.bind(this), 200),
 
 
     /** Creates the form which controls the chosen qx.Mobile theme. */
@@ -130,12 +155,14 @@ qx.Class.define("mobileshowcase.page.Theming",
    /**
     * Refreshes the label which displays the pixel ratio, scale factor etc.
     */
-    _updateDemoImageLabel : function() {
-      var pixelRatio = parseFloat(qx.core.Environment.get("device.pixelRatio").toFixed(2));
-      var scaleFactor = qx.core.Init.getApplication().getRoot().getScaleFactor();
+    _updateDemoImageLabel : function()
+    {
+      var pixelRatio = parseFloat(qx.bom.client.Device.getDevicePixelRatio().toFixed(2));
+      var fontScale = qx.core.Init.getApplication().getRoot().getFontScale();
+      var appScale = qx.core.Init.getApplication().getRoot().getAppScale();
 
-      var demoLabelTemplate = "<div>Best available image for final scale<span>%1</span></div> <div><br/></div> <div>Device pixel ratio:<span>%2</span></div>  <div>Computed application scale:<span>%3</span></div> ";
-      var labelContent = qx.lang.String.format(demoLabelTemplate, [this.__format(pixelRatio*scaleFactor), this.__format(pixelRatio), this.__format(scaleFactor)]);
+      var demoLabelTemplate = "<div>Best available image for total app scale<span>%1</span></div> <div><br/></div> <div>Device pixel ratio:<span>%2</span></div>  <div>Computed font scale:<span>%3</span></div> ";
+      var labelContent = qx.lang.String.format(demoLabelTemplate, [this.__format(appScale), this.__format(pixelRatio), this.__format(fontScale)]);
 
       this.__demoImageLabel.setValue(labelContent);
     },
@@ -163,7 +190,7 @@ qx.Class.define("mobileshowcase.page.Theming",
      */
     __createThemeScaleControl : function()
     {
-      this.getContent().add(new qx.ui.mobile.form.Title("Adjust the scale"));
+      this.getContent().add(new qx.ui.mobile.form.Title("Adjust font scale"));
 
       var form = new qx.ui.mobile.form.Form();
       var slider = this.__slider = new qx.ui.mobile.form.Slider();
@@ -174,7 +201,7 @@ qx.Class.define("mobileshowcase.page.Theming",
         "value": 100,
         "step": 10
       });
-      form.add(slider,"Custom Application Scale in %");
+      form.add(slider, "Custom Font Scale in %");
 
       var useScaleButton = new qx.ui.mobile.form.Button("Apply");
       useScaleButton.addListener("tap", this._onApplyScaleButtonTap, this);
@@ -189,7 +216,7 @@ qx.Class.define("mobileshowcase.page.Theming",
     * Handler for "tap" event on applyScaleButton. Applies the app's root font size in relation to slider value.
     */
     _onApplyScaleButtonTap : function() {
-      qx.core.Init.getApplication().getRoot().setScaleFactor(this.__slider.getValue()/100);
+      qx.core.Init.getApplication().getRoot().setFontScale(this.__slider.getValue()/100);
 
       this._updateDemoImageLabel();
 
@@ -282,6 +309,18 @@ qx.Class.define("mobileshowcase.page.Theming",
     _back : function()
     {
       qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
-    }
+    },
+
+    /*
+     *****************************************************************************
+       DESTRUCTOR
+     *****************************************************************************
+     */
+     destruct : function()
+     {
+       qx.event.Registration.removeListener(window, "resize", this._onChangeScale);
+
+       qx.core.Init.getApplication().getRoot().removeListener("changeAppScale", this._updateDemoImageLabel, this);
+     }
   }
 });
