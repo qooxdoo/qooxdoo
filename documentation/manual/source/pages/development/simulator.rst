@@ -27,7 +27,7 @@ How it works
 
 Similar to :ref:`unit tests <pages/unit_testing#unit_testing>`, Simulator test cases are defined as qooxdoo classes living in the application's source directory. As such they support qooxdoo's OO features such as inheritance and nested namespaces. The setUp, testSomething, tearDown pattern is supported, as well as all assertion functions defined by `qx.core.MAssert <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.MAssert>`_.
 
-The main API that is used to define the test logic is **QxSelenium**, which means the `DefaultSelenium API <http://jarvana.com/jarvana/view/org/seleniumhq/selenium/selenium-rc-documentation/1.0/selenium-rc-documentation-1.0-doc.zip!/java/com/thoughtworks/selenium/DefaultSelenium.html>`_ plus the Locator strategies and commands from the `qooxdoo user extensions for Selenium <http://qooxdoo.org/contrib/project/simulator#selenium_user_extension_for_qooxdoo>`_.
+The main API that is used to define the test logic is **QxSelenium**, which means the `DefaultSelenium API <http://release.seleniumhq.org/selenium-remote-control/1.0-beta-2/doc/java/com/thoughtworks/selenium/DefaultSelenium.html>`_ plus the Locator strategies and commands from the `qooxdoo user extensions for Selenium <http://qooxdoo.org/contrib/project/simulator#selenium_user_extension_for_qooxdoo>`_.
 
 As with qooxdoo's unit testing framework, the Generator is used to create a test runner application (the Simulator). User-defined test classes are included into this application, which extends `qx.application.Native <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Native>`_ and uses a simplified loader so it can run in Rhino.
 
