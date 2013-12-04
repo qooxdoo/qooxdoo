@@ -83,7 +83,7 @@ qx.Class.define("qx.ui.mobile.form.TextField",
 
     /**
     * Event handler for <code>keypress</code> event.
-    * @param evt {qx.event.type.KeySequence} the keypress event. 
+    * @param evt {qx.event.type.KeySequence} the keypress event.
     */
     _onKeyPress : function(evt) {
       // On return

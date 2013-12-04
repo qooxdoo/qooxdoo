@@ -631,8 +631,8 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
     /**
     * Renders the content (the labels) of a picker slot.
-    * @param pickerSlot {qx.ui.mobile.core.Widget} the target picker slot, where the labels should be added to. 
-    * @param slotIndex {Integer} the slotIndex of the pickerSlot. 
+    * @param pickerSlot {qx.ui.mobile.core.Widget} the target picker slot, where the labels should be added to.
+    * @param slotIndex {Integer} the slotIndex of the pickerSlot.
     */
     _renderPickerSlotContent : function(pickerSlot, slotIndex) {
       var oldPickerSlotContent = pickerSlot.removeAll();

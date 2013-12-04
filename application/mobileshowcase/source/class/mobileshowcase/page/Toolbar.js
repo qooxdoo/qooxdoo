@@ -86,7 +86,7 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       this.__goBackBtn = new qx.ui.mobile.toolbar.Button(
         null, mobileshowcase.page.Toolbar.__toolbarButtonImages[0]
       );
-      
+
        this.__goBackBtn.addListener("tap", function(){
         var popup = this.__createAreYouSurePopup( this.__goBackBtn);
         popup.show();
@@ -201,7 +201,7 @@ qx.Class.define("mobileshowcase.page.Toolbar",
 
       popupWidget.add(searchField);
       popupWidget.add(searchButton);
-     
+
       this.__searchDialog = new qx.ui.mobile.dialog.Popup(popupWidget);
       this.__searchDialog.setModal(true);
       this.__searchDialog.setTitle('Search ...');

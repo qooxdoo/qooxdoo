@@ -81,6 +81,6 @@ qx.Class.define("qx.ui.mobile.navigationbar.NavigationBar",
 
   destruct : function()
   {
-    this.removeListener("touchstart", qx.bom.Event.preventDefault, this);  
+    this.removeListener("touchstart", qx.bom.Event.preventDefault, this);
   }
 });

@@ -344,7 +344,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
             transforms[style] = frame[style];
           } else {
             var propName = qx.bom.Style.getPropertyName(style);
-            var prefixed = (propName !== null) ? 
+            var prefixed = (propName !== null) ?
               qx.bom.Style.getCssName(propName) : "";
             rule += (prefixed || style) + ":" + frame[style] + ";";
           }

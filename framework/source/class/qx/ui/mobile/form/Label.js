@@ -157,7 +157,7 @@ qx.Class.define("qx.ui.mobile.form.Label",
 
     /**
     * Event handler for the <code>changeEnabled</code> event on the target.
-    * @param evt {qx.event.type.Data} the changeEnabled event. 
+    * @param evt {qx.event.type.Data} the changeEnabled event.
     */
     _changeEnabled: function(evt) {
       if (evt) {

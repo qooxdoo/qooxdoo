@@ -117,7 +117,7 @@ qx.Bootstrap.define("qx.bom.Viewport",
       if(qx.core.Environment.get("os.name") == "ios" && window.innerHeight != doc.documentElement.clientHeight) {
         return window.innerHeight;
       }
-      
+
       return qx.bom.Document.isStandardMode(win) ? doc.documentElement.clientHeight : doc.body.clientHeight;
     },
 

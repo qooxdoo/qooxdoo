@@ -79,7 +79,7 @@ qx.Class.define("feedreader.view.mobile.ArticlePage",
           }
         });
       }
-       
+
     }
   }
 });
