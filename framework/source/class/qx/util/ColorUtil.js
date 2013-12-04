@@ -269,7 +269,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
      * @return {String} an RGB string
      */
     rgbToRgbString : function(rgb) {
-      return "rgb" + (rgb[3] ? "a" : "") +  "(" + rgb.join(",") + ")";
+      return "rgb" + (rgb[3] !== undefined ? "a" : "") +  "(" + rgb.join(",") + ")";
     },
 
 

@@ -25,6 +25,14 @@ qx.Class.define("qx.test.util.ColorUtil",
   members :
   {
 
+    testRgbToRgbString : function()
+    {
+      this.assertEquals("rgba(255,0,0,1)", qx.util.ColorUtil.rgbToRgbString([255, 0, 0, 1]));
+      this.assertEquals("rgba(255,0,0,0.5)", qx.util.ColorUtil.rgbToRgbString([255, 0, 0, 0.5]));
+      this.assertEquals("rgba(255,0,0,0)", qx.util.ColorUtil.rgbToRgbString([255, 0, 0, 0]));
+      this.assertEquals("rgb(255,0,0)", qx.util.ColorUtil.rgbToRgbString([255, 0, 0]));
+    },
+
     testCssStringToRgb : function()
     {
       this.assertEquals("255,0,0", qx.util.ColorUtil.cssStringToRgb("rgba(255,0,0,1)"));
