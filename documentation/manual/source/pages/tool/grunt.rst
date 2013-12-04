@@ -21,9 +21,9 @@ What?
 
 `Grunt`_ is a task runner or build tool (comparable for example with Make,
 Apache Maven, Apache Ant, Rake etc.). It enables you to configure tasks which
-then automate common working steps for you like e.g. building, linting, testing
+then automates common working steps for you like e.g. building, linting, testing
 or deploying your project. It's probably the most popular build tool in the
-Node.js environment right now.
+`Node.js <http://www.nodejs.org>`_ environment right now.
 
 Tasks are configured in a JavaScript file called `Gruntfile.js`_ which makes
 it really easy to get started (everybody working with qooxdoo should be familiar
@@ -50,10 +50,10 @@ infrastructure and commodity tasks.
 Installing Node.js and the Grunt CLI
 ====================================
 
-The Grunt frontend requires a `Node.js <http://www.nodejs.org>`_ installation
-(v0.10.0 or above) and the `Grunt CLI <http://gruntjs.com/getting-started>`_
-(v0.4.2 or above). However, being a frontend to the Generator you need its
-requirements (i.e. Python) installed too, of course.
+The Grunt frontend requires a `Node.js`_ installation (v0.10.0 or above) and
+the `Grunt CLI <http://gruntjs.com/getting-started>`_ (v0.4.2 or above).
+However, being a frontend to the Generator you need its requirements (i.e.
+Python) installed too, of course.
 
 As a %{qooxdoo} user you currently do not need any Node.js (or `npm
 <https://npmjs.org/doc/cli/npm.html>`_ - which gets installed along with
@@ -95,18 +95,18 @@ then). This ensures that you are still able to use all the Generator
 functionality already available. Here are some Grunt tasks and their Generator
 job counterparts:
 
-==========================   =============================   ===========================================
-Grunt                        Generator                       Comments
-==========================   =============================   ===========================================
-grunt                        generate.py                     *runs the default job from the* ``config.json``
-grunt source                 generate.py source
-grunt info                   generate.py info                *different output because of different impl.*
-grunt generate:info          generate.py info                *all jobs are also available via generate:{job}*
-grunt clean                  \-
-grunt clean:clean            generate.py clean
-grunt clean:cache            ?
-grunt clean:dist             generate.py distclean
-==========================   =============================   ===========================================
+============================   ======================================   ===========================================
+Grunt                          Generator                                Comments
+============================   ======================================   ===========================================
+grunt                          generate.py                              *runs the default job from the* ``config.json``
+grunt source                   generate.py source                       \-
+grunt info                     generate.py info                         *different output because of different implementation*
+grunt generate:info            generate.py info                         *all jobs are also available via generate:{jobName}*
+grunt clean                    generate.py clean,distclean              *multi-tasks given no target run all targets*
+grunt clean:clean              generate.py clean                        \-
+grunt clean:cache              \-                                       *part of generate.py distclean*
+grunt clean:dist               generate.py distclean                    *the existing distclean cleans also the cache*
+============================   ======================================   ===========================================
 
 See also the FAQ below for important differences between Grunt
 and the Generator.
@@ -115,7 +115,7 @@ and the Generator.
 Grunt Plugins
 =============
 
-In order to get more out of Grunt you can extend Grunt via Plugins.  `Grunt
+Nearly all functionality Grunt offers is implemented as plugin. `Grunt
 Plugins`_ are basically regular npm packages with the keyword ``gruntplugin``,
 which are distributed via `npmjs.org <https://npmjs.org/>`_. A common
 convention is to prefix them with ``"grunt-"``.
@@ -178,7 +178,7 @@ The only parts specific to qooxdoo are:
 
 This will register a task for each Generator job (under the same name). The
 tasks may be written in Python (from the Generator) or in JavaScript. After
-``qx.registerTasks`` you are free to include your own Grunt plugins you like to
+``qxTasks.registerTasks()`` you are free to include your own Grunt plugins you like to
 use. Here we are loading the clean task from the official
 ``grunt-contrib-clean`` plugin which gets its config injected within
 ``qxConf.mergeConfig()``.
@@ -215,7 +215,7 @@ FAQ
    Which tasks are available?
       Run ``grunt --help`` to see all registered tasks.
 
-   Will Grunt see my newly added (and also exported!) jobs from my config.json?
+   Will Grunt also register my newly added (and exported!) jobs from my config.json?
       Yes it should, otherwise it's a bug.
 
    How do I provide Generator options like ``-v``?
@@ -223,13 +223,13 @@ FAQ
       translates to ``grunt lint --gargs="-v"``
 
    What's the colon for - what's the matter with ``grunt clean`` and ``grunt clean:clean``?
-      Grunt supports targets (via ``grunt taskName:targetName``). If no target
-      is specified Grunt behaves somewhat counter-intuitive because it will run
-      **all targets**. So be aware that most of the time you want for example
-      ``grunt clean:clean`` and **not** ``grunt clean`` (which would
-      successively run ``clean:clean``, ``clean:cache`` and ``clean:dist``).
-      ``grunt clean`` is the only so called multi-task at the moment we
-      provide.
+      Grunt supports targets (``grunt taskName:targetName``) via so-called `multi
+      tasks <http://gruntjs.com/creating-tasks#multi-tasks>`_. If no target is specified
+      Grunt behaves somewhat counter-intuitive because it will run **all
+      targets**. So be aware that most of the time you want for example ``grunt
+      clean:clean`` and **not** ``grunt clean`` (which would successively run
+      ``clean:clean``, ``clean:cache`` and ``clean:dist``).  ``grunt clean`` is
+      the only multi task we provide at the moment.
 
    How can I run the Generator job I have known before? *OR*
    Why does ``grunt xyz`` behave differently than ``generate.py xyz``?
@@ -237,4 +237,4 @@ FAQ
       (now implemented in JavaScript) under the same name as before because
       it should replace the former one eventually.
       You are always able to run former Generator jobs via ``grunt
-      generate:jobName`` or of course ``generate.py xyz``.
+      generate:jobName`` or of course with ``generate.py xyz``.
