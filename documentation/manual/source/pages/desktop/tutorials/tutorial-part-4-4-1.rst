@@ -20,7 +20,7 @@ The Simulator is based on those parts of the Selenium project that were formerly
 
 The testing API: QxSelenium
 ===========================
-Simulator Test cases are defined as qooxdoo classes inheriting from ``simulator.unit.TestCase``. Similar to unit tests, they live in the namespace of the application they're testing and support the setUp/testSomething/tearDown pattern. Test methods interact with an application by using the **QxSelenium API**. This consists of the `DefaultSelenium <http://www.jarvana.com/jarvana/view/org/seleniumhq/selenium/selenium/2.0a2/selenium-2.0a2-javadoc.jar!/com/thoughtworks/selenium/DefaultSelenium.html>`_ API plus several qooxdoo-specific additions. You can get an API reference for these by running ``generate.py api`` in the qooxdoo SDK's ``component/simulator`` directory and then opening ``/component/simulator/api/`` in your browser.
+Simulator Test cases are defined as qooxdoo classes inheriting from ``simulator.unit.TestCase``. Similar to unit tests, they live in the namespace of the application they're testing and support the setUp/testSomething/tearDown pattern. Test methods interact with an application by using the **QxSelenium API**. This consists of the `DefaultSelenium <http://release.seleniumhq.org/selenium-remote-control/1.0-beta-2/doc/java/com/thoughtworks/selenium/DefaultSelenium.html>`_ API plus several qooxdoo-specific additions. You can get an API reference for these by running ``generate.py api`` in the qooxdoo SDK's ``component/simulator`` directory and then opening ``/component/simulator/api/`` in your browser.
 
 .. _pages/desktop/tutorials/tutorial-part-4-4-1#setup:
 
