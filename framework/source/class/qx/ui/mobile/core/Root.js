@@ -96,9 +96,10 @@ qx.Class.define("qx.ui.mobile.core.Root",
   events :
   {
     /**
-     * Event is fired when the scale factor of the application has changed.
+     * Event is fired when the app scale factor of the application has (or
+     * might have) changed.
      */
-    "changeScaleFactor" : "qx.event.type.Event"
+    "changeAppScale" : "qx.event.type.Event"
   },
 
 
@@ -125,59 +126,85 @@ qx.Class.define("qx.ui.mobile.core.Root",
 
 
     /**
-     * Returns the application's scale factor.
-     * @return {Number} the scale factor. For the total scale of an app, you
-     * might have to multiply this value by the device pixel ratio. The returned
-     * is rounded to three decimals for a better precision in calculations. When
-     * displaying the scale factor, you might want to round to two decimals
-     * (<code>.toFixed(2)</code>).
+     * Returns the application's total scale factor. It takes into account both
+     * the application's font scale (determined by {@link #getFontScale}) and
+     * the device pixel ratio. The latter could be modified at runtime by the
+     * browsers font scaling/zooming feature.
+     *
+     * @return {Number|null} the app scale factor. If a valid app scale could
+     * be determined, it is rounded to a two decimal number. If it could not be
+     * determined, <code>null</code> is returned.
      */
-    getScaleFactor: function()
+    getAppScale: function()
     {
-      var scaleFactor = null;
-      var appScaleFactor = 1;
+      var pixelRatio = parseFloat(qx.bom.client.Device.getDevicePixelRatio().toFixed(2));
+      var fontScale = this.getFontScale();
+
+      if (!isNaN(pixelRatio*fontScale)) {
+        return parseFloat((pixelRatio*fontScale).toFixed(2));
+      } else {
+        return null;
+      }
+    },
+
+
+    /**
+     * Returns the application's font scale factor.
+     *
+     * @return {Number|null} the font scale factor. If a valid font scale could
+     * be determined, it is rounded to a three decimal number. For displaying
+     * the scale factor, you might want to round to two decimals
+     * (<code>.toFixed(2)</code>). If it could not be determined,
+     * <code>null</code> is returned.
+     */
+    getFontScale: function()
+    {
+      var fontScale = null;
+      var appScale = 1;
 
       // determine font-size style in percent if available
       var fontSize = document.documentElement.style.fontSize;
       if (fontSize.indexOf("%") !== -1) {
-        appScaleFactor = (parseInt(fontSize, 10) / 100);
+        appScale = (parseInt(fontSize, 10) / 100);
       }
 
       // start from font-size computed style in pixels if available;
       fontSize = qx.bom.element.Style.get(document.documentElement, "fontSize");
       if (fontSize.indexOf("px") !== -1)
       {
-        scaleFactor = parseFloat(fontSize);
+        fontSize = parseFloat(fontSize);
 
-        if (scaleFactor>15 && scaleFactor<17) {
+        if (fontSize>15 && fontSize<17) {
           // iron out minor deviations from the base 16px size
-          scaleFactor = 16;
+          fontSize = 16;
         }
 
-        if (appScaleFactor !== 1) {
+        if (appScale !== 1) {
           // if font-size style is set in percent
-          scaleFactor = Math.round(scaleFactor/appScaleFactor);
+          fontSize = Math.round(fontSize/appScale);
         }
 
         // relative to the 16px base font
-        scaleFactor = (scaleFactor/16);
+        fontScale = (fontSize/16);
 
         // apply percentage-based font-size
-        scaleFactor *= appScaleFactor;
+        fontScale *= appScale;
 
         // round to a tree-decimal float
-        scaleFactor = parseFloat(scaleFactor.toFixed(3));
+        fontScale = parseFloat(fontScale.toFixed(3));
       }
 
-      return scaleFactor;
+      return fontScale;
     },
 
 
     /**
-    * Sets the application's scale factor.
-    * @param value {Number} the scale factor.
+    * Sets the application's font scale factor, i.e. relative to a default 100%
+    * font size.
+    *
+    * @param value {Number} the font scale factor.
     */
-    setScaleFactor : function(value) {
+    setFontScale : function(value) {
       if (qx.core.Environment.get("qx.debug")) {
         this.assertNumber(value, "The scale factor is asserted to be of type Number");
       }
@@ -190,7 +217,7 @@ qx.Class.define("qx.ui.mobile.core.Root",
       docElement.clientWidth = docElement.clientWidth;
       docElement.style.display = "";
 
-      this.fireEvent("changeScaleFactor");
+      this.fireEvent("changeAppScale");
     },
 
 

@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2013 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -58,7 +58,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
       this.initSource();
     }
 
-    qx.core.Init.getApplication().getRoot().addListener("changeScaleFactor", this._onChangeScaleFactor, this);
+    qx.core.Init.getApplication().getRoot().addListener("changeAppScale", this._onChangeAppScale, this);
   },
 
 
@@ -146,7 +146,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
           ImageLoader.load(source, this.__loaderCallback, this);
         }
 
-        // If a no high resolution version of the source was found, apply the source.
+        // If a no high-resolution version of the source was found, apply the source.
         if (foundHighResolutionSource == false) {
           this._setSource(source);
         }
@@ -157,31 +157,31 @@ qx.Class.define("qx.ui.mobile.basic.Image",
 
 
     /**
-    * Event handler for "changeScaleFactor" on application root.
+    * Event handler for "changeAppScale" on application root.
     * Reloads the image source.
     */
-    _onChangeScaleFactor : function() {
+    _onChangeAppScale : function() {
       this._applySource(this.getSource());
     },
 
 
     /**
-    * Detects whether there is a high resolution image available.
-    * A high resolution image is assumed to have the same file name as
+    * Detects whether there is a high-resolution image available.
+    * A high-resolution image is assumed to have the same file name as
     * the parameter source, but with a pixelRatio identifier before the file
     * extension, like "@2x".
-    * Medium Resolution: "example.png", high resolution: "example@2x.png"
+    * Medium Resolution: "example.png", high-resolution: "example@2x.png"
     * If an image with a higher resolution is available, the method
-    * "_createHighResolutionOverlay" is called.
+    * {@link #_createHighResolutionOverlay} is called.
     *
     * @param source {String} source of the medium resolution image.
-    * @return {Boolean} If a high resolution image source was found or not.
+    * @return {Boolean} If a high-resolution image source was found or not.
     */
     _findHighResolutionSource: function(source) {
       var pixelRatioCandidates = qx.ui.mobile.basic.Image.PIXEL_RATIOS;
 
       // Calculate the optimal ratio, based on the rem scale factor of the application and the device pixel ratio.
-      var factor = qx.core.Environment.get("device.pixelRatio") * qx.core.Init.getApplication().getRoot().getScaleFactor();
+      var factor = qx.core.Init.getApplication().getRoot().getAppScale();
       if (factor <= 1) {
         return false;
       }
@@ -213,11 +213,11 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     },
 
     /**
-    * Returns the source name for the high resolution image based on the passed
+    * Returns the source name for the high-resolution image based on the passed
     * parameters.
     * @param source {String} the source of the medium resolution image.
-    * @param pixelRatio {Number} the pixel ratio of the high resolution image.
-    * @return {String} the high resolution source name or null if no source could be found.
+    * @param pixelRatio {Number} the pixel ratio of the high-resolution image.
+    * @return {String} the high-resolution source name or null if no source could be found.
     */
     _getHighResolutionSource : function(source, pixelRatio) {
       var fileExtIndex = source.lastIndexOf('.');
@@ -238,10 +238,10 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     * but has the same size and position as the source image.
     * The original image widget is hidden by this method.
     *
-    * @param highResSource {String} Image source of the high resolution image.
+    * @param highResSource {String} Image source of the high-resolution image.
     */
     _createHighResolutionOverlay : function(highResSource) {
-      // Replace the source through transparent pixel for making the high resolution background image visible.
+      // Replace the source through transparent pixel for making the high-resolution background image visible.
       this._setSource("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
       this._setStyle("backgroundImage","url("+qx.util.ResourceManager.getInstance().toUri(highResSource)+")");
       this._setStyle("backgroundSize","100%");
@@ -313,6 +313,6 @@ qx.Class.define("qx.ui.mobile.basic.Image",
 
 
   destruct : function() {
-    qx.core.Init.getApplication().getRoot().removeListener("changeScaleFactor", this._onChangeScaleFactor, this);
+    qx.core.Init.getApplication().getRoot().removeListener("changeAppScale", this._onChangeAppScale, this);
   }
 });
