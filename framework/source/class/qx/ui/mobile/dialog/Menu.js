@@ -394,7 +394,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
   destruct : function()
   {
     this.__selectionList.removeListener("tap", this._onSelectionListTap, this);
-    this._getBlocker().removeListener("tap", this.hide, this);
+    qx.ui.mobile.core.Blocker.getInstance().removeListener("tap", this.hide, this);
     this._disposeObjects("__selectionList","__clearButton","__listScroller","__menuContainer");
   }
 

@@ -1,14 +1,8 @@
-\bqx\.ui\.mobile\.form\.Slider\._getOffsetForKnob\b=The method '_getOffsetForKnob()' is not available anymore.
 \bqx\.io\.ScriptLoader\b=The experimental ScriptLoader has been removed. Please use 'qx.bom.request.Script' instead.
-\bqx\.ui\.mobile\.form\.renderer\.Single\._addInSeparateLines\b=The method '_addInSeparateLines()' is deprecated. Please use this._addRow(item, name, new qx.ui.mobile.layout.VBox()) instead.
-\bqx\.ui\.mobile\.form\.renderer\.Single\._addInOneLine\b=The method '_addInOneLine()' is deprecated. Please use 'this._addRow(item, name, new qx.ui.mobile.layout.HBox())' instead.
-\bqx\.ui\.mobile\.dialog\.Popup\._getBlocker\b=The method '_getBlocker()' is deprecated. Please use 'qx.ui.mobile.core.Blocker.getInstance()' instead.
-\bqx\.ui\.mobile\.container\.Drawer\.getWidth\b=The method 'getWidth()' is deprecated. Please use 'getSize()' instead.
-\bqx\.ui\.mobile\.container\.Drawer\.getHeight\b=The method 'getHeight()' is deprecated. Please use 'getSize()' instead.
-\bqx\.ui\.mobile\.container\.Drawer\.setWidth\b=The method 'setWidth()' is deprecated. Please use 'setSize()' instead.
-\bqx\.ui\.mobile\.container\.Drawer\.setHeight\b=The method 'setHeight()' is deprecated. Please use 'setSize()' instead.
-\bqx\.ui\.mobile\.container\.Drawer\.resetWidth\b=The method 'resetWidth()' is deprecated. Please use 'resetSize()' instead.
-\bqx\.ui\.mobile\.container\.Drawer\.resetHeight\b=The method 'resetHeight()' is deprecated. Please use 'resetSize()' instead.
+\b_getOffsetForKnob\b=The method '_getOffsetForKnob()' is not available anymore.
+\b_addInSeparateLines\b=The method '_addInSeparateLines()' is deprecated. Please use this._addRow(item, name, new qx.ui.mobile.layout.VBox()) instead.
+\b_addInOneLine\b=The method '_addInOneLine()' is deprecated. Please use 'this._addRow(item, name, new qx.ui.mobile.layout.HBox())' instead.
+\b_getBlocker\b=The method '_getBlocker()' is deprecated. Please use 'qx.ui.mobile.core.Blocker.getInstance()' instead.
 
 
 

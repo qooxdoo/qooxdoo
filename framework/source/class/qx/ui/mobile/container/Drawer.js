@@ -222,6 +222,10 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     * @param value {Integer} New value for property
     */
     setWidth : function(value) {
+      if (qx.core.Environment.get("qx.debug"))
+      {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee,"The method 'setWidth()' is deprecated. Please use 'setSize()' instead.");
+      }
       this.setSize(value);
     },
 
@@ -232,6 +236,10 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     * @return {Integer} the value.
     */
     getWidth : function() {
+      if (qx.core.Environment.get("qx.debug"))
+      {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee,"The method 'getWidth()' is deprecated. Please use 'getSize()' instead.");
+      }
       return this.getSize();
     },
 
@@ -241,6 +249,10 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     * Resets the user value of the property width.
     */
     resetWidth : function() {
+      if (qx.core.Environment.get("qx.debug"))
+      {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee,"The method 'resetWidth()' is deprecated. Please use 'resetSize()' instead.");
+      }
       this.resetSize();
     },
 
@@ -251,6 +263,10 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     * @param value {Integer} New value for property
     */
     setHeight : function(value) {
+      if (qx.core.Environment.get("qx.debug"))
+      {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee,"The method 'setHeight()' is deprecated. Please use 'setSize()' instead.");
+      }
       this.setSize(value);
     },
 
@@ -261,6 +277,10 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     * @return {Integer} the value.
     */
     getHeight : function() {
+      if (qx.core.Environment.get("qx.debug"))
+      {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee,"The method 'getHeight()' is deprecated. Please use 'getSize()' instead.");
+      }
       return this.getSize();
     },
 
@@ -270,6 +290,10 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     * Resets the user value of the property height.
     */
     resetHeight : function() {
+      if (qx.core.Environment.get("qx.debug"))
+      {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee,"The method 'resetHeight()' is deprecated. Please use 'resetSize()' instead.");
+      }
       this.resetSize();
     },
 
