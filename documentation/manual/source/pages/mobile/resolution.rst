@@ -36,7 +36,7 @@ Resolution-independent Theming
 
 Since %{Mobile} 3.5 all themes that ship with the SDK are resolution-independent. They no longer use pixel values internally, but derive all their individual sizes (such as paddings or border widths) from the global application font size.
 
-Technically this is achieved by using the relative unit ```rem``` throughout the theme. Hint: When you modify the built-in themes to create your own custom themes, simply stick to ``rem`` (i.e. avoid ``px``), and your custom themes will also be resolution-independent.
+Technically this is achieved by using the relative unit ``rem`` throughout the theme. Hint: When you modify the built-in themes to create your own custom themes, simply stick to ``rem`` (i.e. avoid ``px``), and your custom themes will also be resolution-independent.
 
 Thus, at startup (or at reload) your app will layout with respect to the font size setting of your browser. Also at runtime, whenever you decrease or increase the application's font size, the theme (and therefore the entire visual part of your app) will adjust itself accordingly.
 
@@ -65,7 +65,7 @@ The first image shows a font scale of ``0.5``, the scale on the second is ``1.5`
 App Scale
 ---------
 
-The font scale isn't the only scale parameter. Usually one would be interested in the total app scale. This app scale expresses the effective scaling of your app. For instance, if the app scale is ```1.75```, an image with an original width of 100px, would appear on the display as 175 pixels wide.
+The font scale isn't the only scale parameter. Usually one would be interested in the total app scale. This app scale expresses the effective scaling of your app. For instance, if the app scale is ``1.75``, an image with an original width of 100px, would appear on the display as 175 pixels wide.
 
 ::
 
@@ -94,7 +94,7 @@ default resolution image, but are annotated with the corresponding optimal scale
 As an example, assume the following medium resolution image is part of your project's resources:
 ``source/resource/<APP_NAME>/icon/image.png``
 
-The "resolution" of an image is given by the total amount of pixels available in each dimension. Lets say ``ìmage.png```is 200 x 100 pixels. In your image processing tool (e.g. Photoshop) take the original, high-quality sources that you created the regular image from. Now create a high-resolution version. Optimized for app scale 200% its resolution would become 400 x 200 pixels. Save that larger image as ``image@2x.png``. Do so for any scales and images you like to support. That's it.
+The "resolution" of an image is given by the total amount of pixels available in each dimension. Lets say ``image.png`` is 200 x 100 pixels. In your image processing tool (e.g. Photoshop) take the original, high-quality sources that you created the regular image from. Now create a high-resolution version. Optimized for app scale 200% its resolution would become 400 x 200 pixels. Save that larger image as ``image@2x.png``. Do so for any scales and images you like to support. That's it.
 
 Remember that not just the device pixel ratio determines the effective app scale. If device pixel ratio returns ``1.5`` but your font scale  is ``2``, then the best image resolution would be ``3x``. The application would try to display the resource ``image@3x.png``.
 
