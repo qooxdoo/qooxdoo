@@ -599,15 +599,13 @@ input::-webkit-inner-spin-button {
 .mobile input, .mobile select, .text-area {
   font-size: 0.9em; }
 
-.text-field {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box; }
-
 .text-field, .password-field, .number-field, .text-area {
   -webkit-appearance: textarea;
   -moz-appearance: textarea;
   appearance: textarea;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   width: 100%;
   outline: none; }
 
