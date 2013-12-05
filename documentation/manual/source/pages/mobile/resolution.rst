@@ -69,7 +69,7 @@ The font scale isn't the only scale parameter. Usually one would be interested i
 
 ::
 
-  var scale = qx.core.Init.getApplication().getRoot().setAppScale();
+  var scale = qx.core.Init.getApplication().getRoot().getAppScale();
 
 
 The app scale calculation takes into account both the font scale as well as the reported device pixel ratio. As mentioned above modern desktop browsers tend to modify the pixel ratio when changing  built-in font sizes. So with both parameters the effective app scale can be determined quite reliably on many modern browsers.
