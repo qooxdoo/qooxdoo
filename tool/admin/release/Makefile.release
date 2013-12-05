@@ -71,6 +71,7 @@ CMD_NPM := npm
 CMD_GENERATOR := $(CMD_PYTHON) "$(CURDIR)/tool/bin/generator.py" $(OPT_GENERATOR)
 CMD_GENERATOR_NOOPTS := $(CMD_PYTHON) "$(CURDIR)/tool/bin/generator.py"
 STAGING_HOST = qooxdoo@webtechfe-test01.schlund.de
+PRODUCTION_HOST = qooxdoo@webtechfe01.schlund.de
 
 FILES_TEXT = \( -name "*.py" -o -name "*.sh" -o -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO \)
 FILES_TEMP = \( -name "*.rej" -o -name "*.orig" -o -name "*.pyc" -o -name "*.pyo" -o -name "*.bak" -o -name "*.old" -o -name "*~" -o -name "messages.pot" \)
@@ -831,6 +832,18 @@ publish-apps:
 publish-production:
 	@echo "  * Pushing to production host..."
 	@ssh -A $(STAGING_HOST) /var/www/qooxdoo/bin/webtechfe01.mirror.sh
+
+
+##
+# a publish-production target that only syncs the current version on the production
+# server instead of the entire /demo/ etc. folders (should be much faster)
+publish-production1:
+	@echo "  * Pushing to production host..."
+	@# demos
+	@ssh -A $(STAGING_HOST) $(CMD_SYNC_ONLINE) --verbose /var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/ $(PRODUCTION_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/
+	@# manual
+	@ssh -A $(STAGING_HOST) $(CMD_SYNC_ONLINE) --verbose /var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/ $(PRODUCTION_HOST):/var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/
+
 
 publish-backup:
 	@echo "  * Backing up devel version on server; this will take some time..."
