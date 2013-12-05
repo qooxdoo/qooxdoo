@@ -5,7 +5,7 @@ Resolution and Pixel Density
 
 Typical mobile devices like smartphones and tablets come in all kinds of resolutions and pixel densities. %{Mobile} applications are able to adapt to all those different environments as described in the following sections.
 
-Fortunately, you don't have to care much, as the framework handles most of it automatically. But it also enables to further optimize for a great user experience on such devices as explained below.
+Fortunately, you don't have to care much, as the framework handles most of it automatically. But it also enables you to further optimize for a great user experience on such devices as explained below.
 
 
 High Pixel Density
@@ -26,7 +26,7 @@ The following device pixel ratios are common on mobile devices:
     * 2 (xhdpi)
     * 3 (xxhdpi)
 
-The device pixel ratio is chosen by the manufacturer to properly match the pixel-density of the device to the physical resolution and dimensions. But surprisingly and despite its name, it is not just a device-specific, fixed value. For instance, modern desktop browsers also change the value of device pixel ratio at runtime when you change the browser's font size. %{Mobile} handles that for you transparently.
+The device pixel ratio is chosen by the manufacturer to properly match the pixel-density to the device's physical resolution and dimensions. But surprisingly and despite its name, it is not just a device-specific, fixed value. For instance, modern desktop browsers also change the value of device pixel ratio at runtime when you change the browser's font size. %{Mobile} handles that for you transparently.
 
 In summary, a %{Mobile} app takes high-density displays into account for layout sizes, font sizes, and high-resolution images.
 
