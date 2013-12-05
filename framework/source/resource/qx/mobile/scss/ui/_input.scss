@@ -26,15 +26,11 @@
   font-size: rem(15);
 }
 
-
 .text-field:not(.selectbox), .number-field, .password-field {
   @include background-clip(padding-box);
+  @include box-sizing(border-box);
   text-indent: rem(4);
   height: rem(26);
-}
-
-.text-field {
-  @include box-sizing(border-box);
 }
 
 .text-field, .password-field, .number-field, .text-area {
