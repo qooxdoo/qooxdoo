@@ -839,9 +839,14 @@ publish-production:
 # server instead of the entire /demo/ etc. folders (should be much faster)
 publish-production1:
 	@echo "  * Pushing to production host..."
+	@# devel backup
+	@echo "    - Pushing devel backup..."
+	@ssh -A $(STAGING_HOST) $(CMD_SYNC_ONLINE) --verbose /var/www/qooxdoo/demo/0.0.devel_backlog/ $(PRODUCTION_HOST):/var/www/qooxdoo/demo/0.0.devel_backlog/
 	@# demos
+	@echo "    - Pushing demos..."
 	@ssh -A $(STAGING_HOST) $(CMD_SYNC_ONLINE) --verbose /var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/ $(PRODUCTION_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/
 	@# manual
+	@echo "    - Pushing manual..."
 	@ssh -A $(STAGING_HOST) $(CMD_SYNC_ONLINE) --verbose /var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/ $(PRODUCTION_HOST):/var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/
 
 
