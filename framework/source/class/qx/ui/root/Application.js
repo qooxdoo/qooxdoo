@@ -84,6 +84,9 @@ qx.Class.define("qx.ui.root.Application",
     qx.ui.core.FocusHandler.getInstance().connectTo(this);
 
     this.getContentElement().disableScrolling();
+
+    // quick fix for [BUG #7680]
+    this.getContentElement().setStyle("-webkit-backface-visibility", "hidden");
   },
 
 
