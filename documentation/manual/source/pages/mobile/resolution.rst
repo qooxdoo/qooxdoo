@@ -8,12 +8,12 @@ The following device pixel ratios are common on mobile devices:
 
 * iOS
     * 1
-    * 2 ("Retina") 
+    * 2 ("Retina")
 * Android
     * 1 (mdpi)
     * 1.5 (hdpi)
     * 2 (xhdpi)
-    * 3 (xxhdpi) 
+    * 3 (xxhdpi)
 
 Application Scale Factor vs. Device Pixel Ratio
 -----------------------------------------------
@@ -22,11 +22,11 @@ You can adjust the scale factor of your %{Mobile} application.
 This feature lets you adapt your application to the usability needs of your target audience, and
 makes it possible to scale it to the display specifications of your target devices.
 
-You justify the value through the method ``setScaleFactor`` on ``qx.ui.mobile.core.Root``:
+You justify the value through the method ``setFontScale`` on ``qx.ui.mobile.core.Root``:
 
 ::
 
-  qx.core.Init.getApplication().getRoot().setScaleFactor(2);
+  qx.core.Init.getApplication().getRoot().setFontScale(2);
 
 First image shows a scale factor set to value ``0.5`` and second set to ``1.5``:
 
@@ -44,7 +44,7 @@ The application calculates the best image resolution (the optimal ratio) for you
 
 ::
 
-  optimalRatio = scaleFactor * devicePixelRatio
+  optimalRatio = fontScale * devicePixelRatio
 
 
 If the ``optimalRatio`` is above ``1``, %{Mobile} searches for high resolution images and calculates which resolution fits the best.
@@ -52,8 +52,8 @@ If the ``optimalRatio`` is above ``1``, %{Mobile} searches for high resolution i
 Location and naming conventions
 -------------------------------
 
-The high resolution images are assumed to be located in the same folder as the 
-medium resolution image, but annotated with the pixel ratio before the file extension: 
+The high resolution images are assumed to be located in the same folder as the
+medium resolution image, but annotated with the pixel ratio before the file extension:
 
 ``<filename>@<devicePixelRatio>.<fileextension>``
 
@@ -79,7 +79,7 @@ Fallback
 %{Mobile} checks for the most common image resolution sizes:
 
 * ``@3x``
-* ``@2x`` 
+* ``@2x``
 * ``@1.5x``
 
 You can adjust the pixel ratio checks by modifying this static array:
@@ -88,7 +88,7 @@ You can adjust the pixel ratio checks by modifying this static array:
 
 For the best visual result %{Mobile} uses a fallback logic:
 
-1. The logic searches for an image with a higher resolution, which is the nearest to the optimal ratio. 
+1. The logic searches for an image with a higher resolution, which is the nearest to the optimal ratio.
 
 2. The logic searches for an image with a lower resolution, which is the nearest to to the optimal ratio.
 
