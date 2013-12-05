@@ -6,9 +6,9 @@ Theming
 CSS and SCSS
 ============
 
-Theming in qooxdoo mobile is done with `SCSS <http://www.sass-lang.com/>`_.
+Theming in %{Mobile} is done with `SCSS <http://www.sass-lang.com/>`_.
 SCSS is an extension for CSS to enable style sheets to be more modular and
-maintainable.  In SCSS you can you use variables,  create mixins, import other
+maintainable.  In SCSS you can you use variables, create mixins, import other
 style files and reuse CSS statements.
 
 Despite our use of SCSS you do not have to be an SCSS expert. The main SCSS
@@ -22,6 +22,7 @@ any SCSS files they have to be compiled into CSS, otherwise you will not see any
 changes.
 
 .. _pages/mobile/theming#scss-compilation:
+
 
 SCSS Compilation
 ================
@@ -46,6 +47,7 @@ of SCSS, you might want to install the `SCSS reference implementation
 your machine. You can use the Ruby compiler everywhere you would use the qooxdoo
 built-in compiler.
 
+
 Watching SCSS files with qooxdoo's built-in SCSS compiler
 =========================================================
 
@@ -62,9 +64,9 @@ generator :ref:`watch-scss
 
     ./generate.py watch-scss
 
-
 It recognizes any changes made to the SCSS files in your qx.Mobile application
 and triggers the compilation to CSS automatically.
+
 
 Watching SCSS files with SASS tool
 ==================================
@@ -82,32 +84,32 @@ watching changes:
 
 As mentioned before, it needs the official SASS compiler installed on your system.
 
+
 qx.Mobile Themes
 ================
 
-qx.Mobile provides one custom theme which can be adjusted to fit the design guidelines of
- several platforms like iOS, Android, Windows Phone or Blackberry OS.
+qx.Mobile provides a custom theme which you can adjust to fit your application's design goals. This could either follow your corporate design or the guidelines of native platforms like iOS, Android, Windows Phone or Blackberry OS.
 
-Despite of deliver several stylesheets which imitate the Native Look, we are 
-providing a easy to customize theming system, which helps you to adapt to a platform's
-look & feel.
+Instead of trying to deliver several stylesheets which mimic some native look, we
+provide a powerful yet easy system to create custom themes. This way you have all the possibilities to adapt your mobile app to  any look & feel.
 
-As a starting point we use the qx.Mobile "Indigo" theme. This theme can be modified
-by developers in many ways, like setting colors or change the appearance of the widgets etc. the used border
-radius etc.
+As a starting point use the qx.Mobile "Indigo" theme. This theme can be modified
+by developers in many ways, like setting colors or change the appearance of widgets, e.g. their border
+radius, etc. See the section below on custom theming.
+
 
 Switching themes in your qx.Mobile application
 ==============================================
 
-You can change the used theme of your qx.Mobile application by opening the
-``config.json`` in your application root. There you find the macro called
-``MOBILE_THEME``. The default value is ``custom``. 
+You can change the theme used by your qx.Mobile application. Open the file
+``config.json`` in your application root folder. There you find a macro called
+``MOBILE_THEME``. Its default value is ``custom``.
 
-Assumed you change the value to ``flat``, qx.Mobile creates a link to a stylesheet located in 
+Assumed you change the value to ``flat``, qx.Mobile creates a link to a stylesheet located in
 
-``<APP_ROOT>/source/resource/<APP_NAME>/mobile/css/`` 
+``<APP_ROOT>/source/resource/<APP_NAME>/mobile/css/``
 
-which is named: 
+which is named:
 
 ``flat.css``
 
@@ -122,8 +124,8 @@ root:
 Adjusting the custom theme
 ==========================
 
-In the qx.Mobile Showcase you can have a look at our default theme, called
-"Indigo". This theme styles will be used as the starting point for your custom theme.
+In the qx.Mobile Showcase you can have a look at the default theme, called
+"Indigo". This theme's styles will become the starting point for your custom theme.
 
 For customization, please follow these steps:
 
@@ -140,7 +142,7 @@ For customization, please follow these steps:
 2.  Have a look in your application's resource folder:
     ``<APP_ROOT>/source/resource/<APP_NAME>/mobile/scss/_styles.scss``
 
-    This is the key file for customizing our default theme to your needs.
+    This is the key file for customizing the default theme to your needs.
 
     In ``_styles.scss`` you find various variables for the customization of
     your qx.Mobile application.
@@ -161,18 +163,17 @@ For customization, please follow these steps:
     .. image:: gradient-green.png
       :scale: 50%
 
-That is all you need to know for customizing the theme of a qx.Mobile app. Try the other
-SCSS variables of your ``_styles.scss``!
+That is all you need to know to get started customizing the theme of your qx.Mobile app. Continue to adjust the other
+SCSS variables inside ``_styles.scss``!
 
 The background variables
 ========================
 
-The most theming variables accept one single value.
-A special case are the background variables. These accept multiple values, separated by ``,`` for creating gradients,
-or one value for coloring the background in one single color. Additionally you can adjust the position 
-of the color stops and adjust the direction of the gradient, as you know it from CSS linear-gradient syntax.
+Most theming variables accept only a single value.
+Background variables are special: With only one value you set the background to a single color. With multiple values, separated by ``,`` you create linear gradients. Additionally you can adjust the position
+of the color stops and adjust the direction of the gradient, just as you know from CSS linear gradient syntax.
 
-This trick works for all variables which ends with ``-background``. It accepts up to 10 color stops.
+This feature works for all variables which end in ``-background``. It accepts up to 10 color stops.
 
 Examples:
 
@@ -204,8 +205,8 @@ Examples:
 
 ::
 
-    // This creates a diagonal background gradient 
-    // from red to maroon to black, with special positions 
+    // This creates a diagonal background gradient
+    // from red to maroon to black, with special positions
     // of the color stops
     $navigationbar-background:  45deg, red 33%, maroon 50%, black 66%;
 
@@ -217,7 +218,7 @@ Examples:
 Extending the customized theme with CSS
 =======================================
 
-Additionally to the customization of the variables in ``_styles.scss`` you can 
+In addition to the customization of variables in ``_styles.scss`` you can
 extend the theme with your own CSS rules. In this case you can append your CSS statements to this file:
 
 ``<APP_ROOT>/source/resource/<APP_NAME>/mobile/css/custom.scss``
@@ -232,19 +233,18 @@ have a look at the SASS website:
 Resolution Independence
 =======================
 
-The qx.Mobile theme can be scaled for adjusting the application to 
+A qx.Mobile theme can be scaled to adjust the application to
 the resolution of your target devices.
 
 To reach this goal, qx.Mobile theming strictly uses ``rem``
-units instead of ``px`` inside its stylesheets. 
+units instead of ``px`` inside its stylesheets.
 
-If you are not familiar with the CSS unit ``rem``, please have a look at 
+If you are not familiar with the CSS unit ``rem``, please have a look at
 `MDN CSS Units <https://developer.mozilla.org/en-US/docs/Web/CSS/length>`_.
 
 Thinking in ``rem`` units might be difficult, and that is why we added a SCSS function named ``rem()``.
-This function gives you the possibility to think in ``px``, but converts the ``px`` value 
-to corresponding ``rem`` on SCSS compiling. If you want to use the feature of resolution independence, 
-it is necessary to use this function inside your ``_styles.scss``.
+This function gives you the possibility to continue to think in ``px``, but converts the ``px`` value
+to a corresponding ``rem`` on SCSS compilation. As you certainly want to keep the feature of resolution independence in your custom theme, always avoid ``px`` and use this function inside your ``_styles.scss``.
 
 Example:
 
@@ -257,14 +257,14 @@ Example:
 Improving your theming workflow
 ===============================
 
-With these steps you are able to improve the layouting workflow of your qx.Mobile application:
+With the following suggestion you can further improve the theming workflow of your qx.Mobile application:
 
 * `CSS Auto Reload for Chrome
   <https://chrome.google.com/webstore/detail/css-auto-reload/fiikhcfekfejbleebdkkjjgalkcgjoip>`_
 
 This plug-in recognizes when a website's CSS has changed and updates the CSS
-automatically, without a reload of the site. This plug-in works perfectly in
-combination with our SCSS watch-job.
+automatically, without reloading the entire document. This plug-in works perfectly in
+combination with the SCSS watch job.
 
 The result: You just have to change a qx.Mobile's SCSS, save it and the qx.Mobile application in Chrome
-updates after a few seconds, and keeps the current state of the application.
+updates after a few seconds, while keeping the current state of the application.

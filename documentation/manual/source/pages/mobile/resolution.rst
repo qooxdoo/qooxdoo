@@ -34,9 +34,7 @@ In summary, a %{Mobile} app takes high-density displays into account for layout 
 Resolution-independent Theming
 ------------------------------
 
-Since %{Mobile} 3.5 all themes that ship with the SDK are resolution-independent. They no longer use pixel values internally, but derive all their individual sizes (such as paddings or border widths) from the global application font size.
-
-Technically this is achieved by using the relative unit ``rem`` throughout the theme. Hint: When you modify the built-in themes to create your own custom themes, simply stick to ``rem`` (i.e. avoid ``px``), and your custom themes will also be resolution-independent.
+Since %{Mobile} 3.5 all themes that ship with the SDK are resolution-independent. They no longer use pixel values internally, but derive all their individual sizes (such as paddings or border widths) from the global application font size. Technically this is achieved by using the relative unit ``rem`` throughout the theme.
 
 Thus, at startup (or at reload) your app will layout with respect to the font size setting of your browser. Also at runtime, whenever you decrease or increase the application's font size, the theme (and therefore the entire visual part of your app) will adjust itself accordingly.
 
