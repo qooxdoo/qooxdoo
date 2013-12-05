@@ -112,9 +112,6 @@ qx.Class.define("playground.Application",
       // Call super class
       this.base(arguments);
 
-      // quickfix for the playground for BUG #7680
-      this.getRoot().getContentElement().setStyle("-webkit-backface-visibility", "hidden");
-
       // register error handler
       qx.event.GlobalError.setErrorHandler(this.__onGlobalError, this);
 
