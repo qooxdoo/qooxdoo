@@ -58,7 +58,11 @@ qx.Class.define("qx.ui.mobile.basic.Image",
       this.initSource();
     }
 
-    qx.core.Init.getApplication().getRoot().addListener("changeAppScale", this._onChangeAppScale, this);
+    if (qx.ui.mobile.basic.Image.ROOT === null) {
+      qx.ui.mobile.basic.Image.ROOT = qx.core.Init.getApplication().getRoot();
+    }
+
+    qx.ui.mobile.basic.Image.ROOT.addListener("changeAppScale", this._onChangeAppScale, this);
   },
 
 
@@ -87,7 +91,10 @@ qx.Class.define("qx.ui.mobile.basic.Image",
   statics :
   {
     /** @type {Array} Possible pixel ratios of the current device operating system */
-    PIXEL_RATIOS : null
+    PIXEL_RATIOS : null,
+
+    /** @type {qx.ui.mobile.core.Root} the mobile application root */
+    ROOT : null
   },
 
 
@@ -181,7 +188,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
       var pixelRatioCandidates = qx.ui.mobile.basic.Image.PIXEL_RATIOS;
 
       // Calculate the optimal ratio, based on the rem scale factor of the application and the device pixel ratio.
-      var factor = qx.core.Init.getApplication().getRoot().getAppScale();
+      var factor = qx.ui.mobile.basic.Image.ROOT.getAppScale();
       if (factor <= 1) {
         return false;
       }
@@ -313,6 +320,6 @@ qx.Class.define("qx.ui.mobile.basic.Image",
 
 
   destruct : function() {
-    qx.core.Init.getApplication().getRoot().removeListener("changeAppScale", this._onChangeAppScale, this);
+    qx.ui.mobile.basic.Image.ROOT.removeListener("changeAppScale", this._onChangeAppScale, this);
   }
 });
