@@ -221,9 +221,26 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
     */
 
     __onTouchMove : function(e) {
-      this.__leftPaddle.setStyles({"top" : (e.getAllTouches()[0].pageY - 50) + "px"});
-      if(e.getAllTouches().length>1) {
-        this.__rightPaddle.setStyles({"top" : (e.getAllTouches()[1].pageY - 50) + "px"});
+      var players = e.getAllTouches().length;
+      var firstTouch = e.getAllTouches()[0];
+
+      var player1 = firstTouch.pageY;
+      var player2 = 0;
+
+      if (players > 1) {
+        var secondTouch = e.getAllTouches()[1];
+        if(firstTouch.pageX<secondTouch.pageX) {
+          player1 = firstTouch.pageY;
+          player2 = secondTouch.pageY;
+        } else {
+          player1 = secondTouch.pageY;
+          player2 = firstTouch.pageY;
+        }
+      }
+
+      this.__leftPaddle.setStyles({"top" : (player1 - 50) + "px"});
+      if(players > 1) {
+        this.__rightPaddle.setStyles({"top" : (player2 - 50) + "px"});
       }
       
       e.preventDefault();
