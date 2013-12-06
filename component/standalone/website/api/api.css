@@ -597,3 +597,9 @@ p {
     margin-left: 10px;
   }
 }
+
+@media (max-width: 400px) {
+  #header span {
+    display: none;
+  }
+}
