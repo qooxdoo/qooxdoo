@@ -149,7 +149,7 @@ qx.Class.define("demobrowser.demo.mobile.Fingers",
         });
       };
 
-      e.stop();
+      e.preventDefault();
     }
   }
 });

@@ -120,6 +120,8 @@ qx.Class.define("demobrowser.demo.mobile.ScaleImage",
           "top" : top + "px"
         });
       }
+
+      e.preventDefault();
     },
 
 

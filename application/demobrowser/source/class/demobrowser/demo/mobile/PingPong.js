@@ -104,14 +104,14 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
       this.__leftPaddle = this.__createPaddle("left");
       leftField.add(this.__leftPaddle);
       leftField.addListener("touchmove",
-        qx.lang.Function.bind(this.__onTouchMove, this, this.__leftPaddle),
+        qx.lang.Function.bind(this.__onTouchMove, this),
         this
       );
 
       this.__rightPaddle = this.__createPaddle("right");
       rightField.add(this.__rightPaddle);
       rightField.addListener("touchmove",
-        qx.lang.Function.bind(this.__onTouchMove, this, this.__rightPaddle),
+        qx.lang.Function.bind(this.__onTouchMove, this),
         this
       );
 
@@ -220,8 +220,13 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
     ---------------------------------------------------------------------------
     */
 
-    __onTouchMove : function(paddle, e) {
-      paddle.setStyles({"top" : (e.getDocumentTop() - 50) + "px"});
+    __onTouchMove : function(e) {
+      this.__leftPaddle.setStyles({"top" : (e.getAllTouches()[0].pageY - 50) + "px"});
+      if(e.getAllTouches().length>1) {
+        this.__rightPaddle.setStyles({"top" : (e.getAllTouches()[1].pageY - 50) + "px"});
+      }
+      
+      e.preventDefault();
     },
 
 
