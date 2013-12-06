@@ -210,31 +210,27 @@ Now try ``grunt info`` - it should print out something similar to ``generate.py 
 FAQ
 ===
 
-.. glossary::
+Which tasks are available?
+    Run ``grunt --help`` to see all registered tasks.
 
-   Which tasks are available?
-      Run ``grunt --help`` to see all registered tasks.
+Will Grunt also register my newly added (and exported!) jobs from my config.json?
+    Yes it should, otherwise it's a bug.
 
-   Will Grunt also register my newly added (and exported!) jobs from my config.json?
-      Yes it should, otherwise it's a bug.
+How do I provide Generator options like ``-v``?
+    You have to use ``--gargs``. For example ``generate.py lint -v``
+    translates to ``grunt lint --gargs="-v"``
 
-   How do I provide Generator options like ``-v``?
-      You have to use ``--gargs``. For example ``generate.py lint -v``
-      translates to ``grunt lint --gargs="-v"``
+What's the colon for - what's the matter with ``grunt clean`` and ``grunt clean:clean``?
+    Grunt supports targets (``grunt taskName:targetName``) via so-called `multi
+    tasks <http://gruntjs.com/creating-tasks#multi-tasks>`_. If no target is
+    specified Grunt behaves somewhat counter-intuitive because it will run **all
+    targets**. So be aware that most of the time you want for example ``grunt
+    clean:clean`` and **not** ``grunt clean`` (which would successively run
+    ``clean:clean``, ``clean:cache`` and ``clean:dist``).  ``grunt clean`` is the
+    only multi task we provide at the moment.
 
-   What's the colon for - what's the matter with ``grunt clean`` and ``grunt clean:clean``?
-      Grunt supports targets (``grunt taskName:targetName``) via so-called `multi
-      tasks <http://gruntjs.com/creating-tasks#multi-tasks>`_. If no target is specified
-      Grunt behaves somewhat counter-intuitive because it will run **all
-      targets**. So be aware that most of the time you want for example ``grunt
-      clean:clean`` and **not** ``grunt clean`` (which would successively run
-      ``clean:clean``, ``clean:cache`` and ``clean:dist``).  ``grunt clean`` is
-      the only multi task we provide at the moment.
-
-   How can I run the Generator job I have known before? *OR*
-   Why does ``grunt xyz`` behave differently than ``generate.py xyz``?
-      This happens probably because we are registering a task
-      (now implemented in JavaScript) under the same name as before because
-      it should replace the former one eventually.
-      You are always able to run former Generator jobs via ``grunt
-      generate:jobName`` or of course with ``generate.py xyz``.
+How can I run the Generator job I have known before or why does ``grunt xyz`` differ from ``generate.py xyz``?
+    This happens probably because we are registering a task (now implemented in
+    JavaScript) under the same name as before because it should replace the former
+    one eventually. You are always able to run former Generator jobs via ``grunt
+    generate:jobName`` or of course with ``generate.py xyz``.
