@@ -1047,6 +1047,7 @@ q.ready(function() {
 
       fixInternalLinks();
       setTimeout(onFilterInput, 200);
+      window.onhashchange = highlightNavItem;
     }
   };
 
@@ -1088,6 +1089,13 @@ q.ready(function() {
       }
     });
   }, 200);
+
+  var highlightNavItem = function() {
+    var hash = window.location.hash,
+        navItems = q("."+convertNameToCssClass(hash, "nav-"));
+    q("#list .qx-accordion-page ul > li").removeClass("selected");
+    navItems.addClass("selected");
+  };
 
 
   var loadSamples = function() {
@@ -1395,20 +1403,10 @@ q.ready(function() {
       }
     }
 
+    highlightNavItem();
+
   }, 300);
 
-  var scrollNavItemIntoView = function(forceIfAlreadyInViewport) {
-    var hash = window.location.hash,
-        navItems = q("."+convertNameToCssClass(hash, "nav-")),
-        navParent = q("#list");
-
-    if (navItems && navItems.length === 1) {
-      elInViewport = isElementInViewport(navItems, navParent);
-      if (!elInViewport || (elInViewport && forceIfAlreadyInViewport)) {
-        navItems[0].scrollIntoView(true);
-      }
-    }
-  };
 
   var isElementInViewport = function(el, diffBoundingRectContainer) {
     var rect = el.getOffset(),

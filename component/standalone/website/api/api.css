@@ -226,7 +226,8 @@ body {
   display: block;
 }
 
-#list .qx-accordion-page ul li:hover {
+#list .qx-accordion-page ul li:hover,
+#list .qx-accordion-page ul > .selected {
   background-color: #e7e7e7;
 }
 
