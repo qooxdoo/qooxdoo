@@ -457,7 +457,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
     /**
      * Returns the current horizontal position of the carousel scrolling container.
-     * @return {Number} the horizontonal position
+     * @return {Number} the horizontal position
      */
     _getScrollerOffset : function() {
       var transformMatrix = qx.bom.element.Style.get(this.__carouselScroller.getContentElement(), "transform");
