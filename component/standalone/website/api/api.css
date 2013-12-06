@@ -17,7 +17,7 @@ body {
   top: 82px;
   bottom: 0;
   left: 20px;
-  width: 276px;
+  width: 280px;
   padding-top: 20px;
   padding-right: 10px;
 
@@ -100,8 +100,8 @@ body {
 
 #list {
   overflow-y: auto;
-  max-width: 261px;
-  width: 261px;
+  max-width: 260px;
+  width: 260px;
   margin-top: 50px;
 }
 
@@ -555,10 +555,10 @@ p {
 (orientation:portrait) {
   #navContainer {
     top: 67px;
-    left : -295px;
+    left : -305px;
     border-right: 1px solid #DDD;
     background-color: white;
-    width: auto;
+    width: 290px;
   }
 
   #navContainer:after {
