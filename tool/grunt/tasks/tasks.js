@@ -51,8 +51,9 @@ var retrieveGeneratorJobsFromCache = function(files, cache) {
 
 var getSupersededJobs = function() {
   return {
-    clean: "clean:clean",
-    distclean: "clean:dist",
+    // defer replacement of generate:clean and generate:distclean
+    // clean: "clean:clean",
+    // distclean: "clean:dist",
     info: "info"
   };
 };

@@ -102,10 +102,6 @@ grunt                          generate.py                              *runs th
 grunt source                   generate.py source                       \-
 grunt info                     generate.py info                         *different output because of different implementation*
 grunt generate:info            generate.py info                         *all jobs are also available via generate:{jobName}*
-grunt clean                    generate.py clean,distclean              *multi-tasks given no target run all targets*
-grunt clean:clean              generate.py clean                        \-
-grunt clean:cache              \-                                       *part of generate.py distclean*
-grunt clean:dist               generate.py distclean                    *the existing distclean cleans also the cache*
 ============================   ======================================   ===========================================
 
 See also the FAQ below for important differences between Grunt
@@ -133,8 +129,8 @@ This is how a Gruntfile might look like after creating a new qooxdoo app:
 
     // global conf
     var common = {
-      QOOXDOO_VERSION: "3.5",
-      QOOXDOO_PATH: "../qooxdoo-sdk"
+      QOOXDOO_VERSION: '3.5',
+      QOOXDOO_PATH: '../qooxdoo-sdk'
     };
 
     // requires
@@ -146,7 +142,8 @@ This is how a Gruntfile might look like after creating a new qooxdoo app:
       var config = {
 
         generator_config: {
-          let: { }
+          let: {
+          }
         },
 
         common: common,
@@ -162,13 +159,11 @@ This is how a Gruntfile might look like after creating a new qooxdoo app:
       };
 
       var mergedConf = qxConf.mergeConfig(config);
-      // console.log(mergedConf);
-      // process.exit();
       grunt.initConfig(mergedConf);
 
       qxTasks.registerTasks(grunt);
 
-      grunt.loadNpmTasks('grunt-contrib-clean');
+      // grunt.loadNpmTasks('grunt-my-plugin');
     };
 
 The only parts specific to qooxdoo are:
@@ -178,10 +173,8 @@ The only parts specific to qooxdoo are:
 
 This will register a task for each Generator job (under the same name). The
 tasks may be written in Python (from the Generator) or in JavaScript. After
-``qxTasks.registerTasks()`` you are free to include your own Grunt plugins you like to
-use. Here we are loading the clean task from the official
-``grunt-contrib-clean`` plugin which gets its config injected within
-``qxConf.mergeConfig()``.
+``qxTasks.registerTasks()`` you are free to include the Grunt plugins
+you like to use.
 
 
 Gruntify existing apps
@@ -220,17 +213,9 @@ How do I provide Generator options like ``-v``?
     You have to use ``--gargs``. For example ``generate.py lint -v``
     translates to ``grunt lint --gargs="-v"``
 
-What's the colon for - what's the matter with ``grunt clean`` and ``grunt clean:clean``?
-    Grunt supports targets (``grunt taskName:targetName``) via so-called `multi
-    tasks <http://gruntjs.com/creating-tasks#multi-tasks>`_. If no target is
-    specified Grunt behaves somewhat counter-intuitive because it will run **all
-    targets**. So be aware that most of the time you want for example ``grunt
-    clean:clean`` and **not** ``grunt clean`` (which would successively run
-    ``clean:clean``, ``clean:cache`` and ``clean:dist``).  ``grunt clean`` is the
-    only multi task we provide at the moment.
-
 How can I run the Generator job I have known before or why does ``grunt xyz`` differ from ``generate.py xyz``?
     This happens probably because we are registering a task (now implemented in
     JavaScript) under the same name as before because it should replace the former
     one eventually. You are always able to run former Generator jobs via ``grunt
-    generate:jobName`` or of course with ``generate.py xyz``.
+    generate:jobName`` or of course with ``generate.py xyz``. The only task
+    which is not delegated to the Generator right now is ``info``.

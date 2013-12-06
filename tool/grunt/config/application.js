@@ -38,6 +38,8 @@ var getConfig = function() {
     common: common,
 
     /* grunt-contrib-clean */
+    // defer replacement of generate:clean and generate:distclean
+    /*
     clean: {
       options: {
         force: true
@@ -53,6 +55,7 @@ var getConfig = function() {
       cache: ["<%= common.CACHE_KEY.compile %>",
               "<%= common.CACHE_KEY.downloads %>"]
     },
+    */
     /* grunt-qx-info */
     info: {
       options: {

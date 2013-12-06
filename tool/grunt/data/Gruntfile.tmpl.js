@@ -1,7 +1,7 @@
 // global conf
 var common = {
-  QOOXDOO_VERSION : "${QOOXDOO_VERSION}",
-  QOOXDOO_PATH: "${REL_QOOXDOO_PATH}"
+  QOOXDOO_VERSION: '${QOOXDOO_VERSION}',
+  QOOXDOO_PATH: '${REL_QOOXDOO_PATH}'
 };
 
 // requires
@@ -13,7 +13,8 @@ module.exports = function(grunt) {
   var config = {
 
     generator_config: {
-      let: { }
+      let: {
+      }
     },
 
     common: common,
@@ -29,11 +30,9 @@ module.exports = function(grunt) {
   };
 
   var mergedConf = qxConf.mergeConfig(config);
-  // console.log(mergedConf);
-  // process.exit();
   grunt.initConfig(mergedConf);
 
   qxTasks.registerTasks(grunt);
 
-  grunt.loadNpmTasks('grunt-contrib-clean');
+  // grunt.loadNpmTasks('grunt-my-plugin');
 };
