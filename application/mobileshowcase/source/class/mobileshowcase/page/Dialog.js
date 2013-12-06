@@ -163,6 +163,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       otherGroup.add(showPickerButton,{flex:1});
 
       var groupContainer = new qx.ui.mobile.container.Composite();
+      groupContainer.addCssClass("dialog-group");
       groupContainer.setLayout(new qx.ui.mobile.layout.HBox());
       groupContainer.add(popupGroup, {flex:1});
       groupContainer.add(menuGroup, {flex:1});
