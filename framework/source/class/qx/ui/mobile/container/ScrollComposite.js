@@ -253,6 +253,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       if (this.__preventEvents === true) {
         evt.stopPropagation();
       }
+
+      this.scrollTo(this.__currentOffset[0], this.__currentOffset[1]);
     },
 
 
@@ -471,7 +473,9 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * Deactivates any scroll easing for the scrollContainer.
      */
     _applyNoEasing : function() {
-      this._applyEasing(null);
+      this._scrollContainer.removeCssClass("momentum-ease");
+      this._scrollContainer.removeCssClass("bounce-ease");
+      this._scrollContainer.removeCssClass("scroll-bounce-ease");
     },
 
 
@@ -480,7 +484,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * Appears like a "ease-out" easing function.
      */
     _applyMomentumEasing : function() {
-      this._applyEasing("1500ms cubic-bezier(0.000, 0.075, 0.000, 1.00)");
+      this._applyNoEasing();
+      this._scrollContainer.addCssClass("momentum-ease");
     },
 
 
@@ -489,7 +494,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * Used when user drags the scrollContainer over the edge manually.
      */
     _applyBounceEasing : function() {
-      this._applyEasing("400ms cubic-bezier(0.33, 0.66, 0.66, 1)");
+      this._applyNoEasing();
+      this._scrollContainer.addCssClass("bounce-ease");
     },
 
 
@@ -500,21 +506,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * Causes the effect that scrollContainers scrolls to far and bounces back to right position.
      */
     _applyScrollBounceEasing : function() {
-      this._applyEasing("1000ms cubic-bezier(0.000, 0.075, 0.000, 1.50)");
-    },
-
-
-    /**
-     * Applies an transition easing to the scrollContainer.
-     * @param easing {String} the css transition easing value
-     */
-    _applyEasing : function(easing) {
-      if(easing !== null) {
-        var transformPropertyName = qx.bom.Style.getPropertyName("transform");
-        var transformCssName = qx.bom.Style.getCssName(transformPropertyName);
-        easing = transformCssName+" "+easing;
-      }
-      qx.bom.element.Style.set(this._scrollContainer.getContainerElement(),"transition", easing);
+      this._applyNoEasing();
+      this._scrollContainer.addCssClass("scroll-bounce-ease");
     },
 
 
