@@ -58,7 +58,11 @@ qx.Class.define("playground.view.WebsiteContent",
       container.setMarginLeft(-parseInt(bounds.width/2));
 
       // no rotation for font rendering breaking gecko
-      if (qx.core.Environment.get("engine.name") != "gecko") {
+      // also looks terrible in IE < 10
+      if (qx.core.Environment.get("engine.name") != "gecko" &&
+          (qx.core.Environment.get("engine.name") != "mshtml" ||
+           qx.core.Environment.get("browser.documentmode") > 9)
+        ) {
         // rotate a bit
         var el = container.getContentElement().getDomElement();
         qx.bom.element.Transform.rotate(el, "-2deg");
