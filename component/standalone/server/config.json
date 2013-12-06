@@ -22,6 +22,7 @@
 
   "export" :
   [
+    "api",
     "build",
     "build-min",
     "clean",
