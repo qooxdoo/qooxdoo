@@ -202,7 +202,14 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
       {
         var caretPosition = this._getCaretPosition();
         this.setValue(evt.getData());
-        this._setCaretPosition(caretPosition);
+
+        if (qx.core.Environment.get("event.mspointer")) {
+          setTimeout(function() {
+            this._setCaretPosition(caretPosition);
+          }.bind(this), 0);
+        } else {
+          this._setCaretPosition(caretPosition);
+        }
       }
     },
 
@@ -224,12 +231,10 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
      */
     _setCaretPosition: function(position) {
       var element = this.getContentElement();
-      setTimeout(function() {
-        if (element.setSelectionRange) {
-          element.focus();
-          element.setSelectionRange(position, position);
-        }
-      }, 0);
+      if (element.setSelectionRange) {
+        element.focus();
+        element.setSelectionRange(position, position);
+      }
     },
 
 
@@ -243,7 +248,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
       if (this.__oldValue != value)
       {
         this.__oldValue = value;
-        this.fireDataEvent("changeValue", value)
+        this.fireDataEvent("changeValue", value);
       }
     }
   }
