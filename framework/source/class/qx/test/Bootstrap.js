@@ -37,6 +37,14 @@ qx.Class.define("qx.test.Bootstrap",
       }});
 
       this.assertTrue(clazz.test());
+
+      var clazz = qx.Bootstrap.define(null, {statics : {
+        test2 : function() {
+          return true;
+        }
+      }});
+
+      this.assertTrue(clazz.test2());
     },
 
     testAlternativeRoot : function() {

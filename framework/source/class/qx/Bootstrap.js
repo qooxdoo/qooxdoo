@@ -153,7 +153,7 @@ qx.Bootstrap = {
     {
       clazz = config.statics || {};
 
-      // Merge class into former class (nedded for 'optimize: ["statics"]')
+      // Merge class into former class (needed for 'optimize: ["statics"]')
       if (qx.Bootstrap.$$registry && qx.Bootstrap.$$registry[name]) {
         var formerClass = qx.Bootstrap.$$registry[name];
 
@@ -167,7 +167,7 @@ qx.Bootstrap = {
           for (var curProp in clazz) {
             formerClass[curProp] = clazz[curProp];
           }
-          return;
+          return formerClass;
         }
       }
     }
@@ -194,7 +194,9 @@ qx.Bootstrap = {
     }
 
     // Store class reference in global class registry
-    qx.Bootstrap.$$registry[name] = clazz;
+    if (name != null) {
+      qx.Bootstrap.$$registry[name] = clazz;
+    }
 
     return clazz;
   }
