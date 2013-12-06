@@ -63,7 +63,7 @@
  *     </tr>
  *     <tr>
  *       <td><code>qx-accordion-page</code></td>
- *       <td>Page header (<code>li</code>)</td>
+ *       <td>Page (<code>li</code>)</td>
  *       <td>Identifies and styles the pages</td>
  *     </tr>
  *   </tbody>
