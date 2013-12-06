@@ -80,6 +80,7 @@ qx.Class.define("apiviewer.Viewer",
     if (parsedUri.queryKey && parsedUri.queryKey.search) {
       this._searchView.search(parsedUri.queryKey.search);
       toggleView.setSelection([this._searchView]);
+      this.__toggleGroup.setSelection([this.__toggleGroup.getChildren()[1]]);
     }
   },
 
