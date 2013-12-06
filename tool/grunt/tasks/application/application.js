@@ -2,7 +2,7 @@
 
 var fs = require('fs');
 var crypto = require('crypto');
-var exec = require('child_process').exec;
+var child_process = require('child_process');
 
 /**
  * TODO: This is a quick hack from http://stackoverflow.com/a/15365656/127465
@@ -25,6 +25,7 @@ module.exports = function(grunt) {
     var opt_string = grunt.option('gargs');
     var done = this.async();
     var child;
+    var child_killed = false;
 
     /*
      * Customize generator jobs from Gruntfile.
@@ -69,9 +70,9 @@ module.exports = function(grunt) {
 
     grunt.log.write("Running: '" + cmd + "'");
 
-    child = exec(cmd,
+    child = child_process.exec(cmd,
       function (error, stdout, stderr) {
-        if (error !== null) {
+        if (error !== null && !child_killed) {
           grunt.log.error('stderr: ' + stderr);
           grunt.log.error('exec error: ' + error);
         }
@@ -86,11 +87,15 @@ module.exports = function(grunt) {
     // clean-up on child exit
     child.on('close', function(code) {
       fs.unlinkSync(gen_conf_file);
+      if (child_killed) {
+        grunt.fail.fatal("Interrupting task", 0);
+      }
     });
 
     // handle interrupt signal (Ctrl-C)
     process.on('SIGINT', function() {
       child.kill('SIGINT'); // forward to child
+      child_killed = true;
       //fs.unlinkSync(gen_conf_file);  // is done automatically on 'close'
     });
 
