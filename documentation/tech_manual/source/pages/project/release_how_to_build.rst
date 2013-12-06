@@ -107,6 +107,9 @@ Idealy, use a fresh directory for a checkout, not your normal workspace. This as
 .. code-block:: bash
 
     $ git clone git://github.com/qooxdoo/qooxdoo.git
+    # or
+    $ git clean -d -x -f
+
 
 If you are using your normal workspace, make at least sure to run a *distclean*.
 
@@ -122,7 +125,6 @@ Creating demo apps
 
 .. code-block:: bash
 
-    $ cd $qooxdoo
     $ make DO_RELEASE=1 -f tool/admin/release/Makefile.release publish-build
 
 The ``publish-build`` target will create the standard apps as is regularly done for the online demos. This is usually what you want for the application and component tests.
@@ -134,12 +136,24 @@ Creating release archives
 
 .. code-block:: bash
 
-    $ cd $qooxdoo
     $ make DO_RELEASE=1 -f tool/admin/release/Makefile.release release-sdk-sans-clean
 
 This will create release kit(s) in the ``./release`` subdirectory.
 
 The ``$qooxdoo`` root directory should be made available through a local web server so that testers can access both the applications and the archives.
+
+.. _pages/project/release_how_to_build.rst#pre_publish_demos:
+
+Pre-publish demos
+------------------
+
+Do a ``publish`` of the demos before testing starts. This assures that all links are working which are exercised during release testing. This includes links to the manual, Demobrowser and Playground, but also library links like ``q.min.js`` that are used in JsFiddle examples.
+
+.. code-block:: bash
+
+    $ make DO_RELEASE=1 -f tool/admin/release/Makefile.release publish
+
+This means that the new version of the demos and manual will be online on our production machine, but the ``current`` link is not updated yet, and the version is not yet announced so there is little issue for confusion for the users.
 
 .. _pages/project/release_how_to_build.rst#test:
 
@@ -222,7 +236,6 @@ Once the final build has been made, you can put the demos created in the above s
 
 .. code-block:: bash
 
-    $ cd $qooxdoo
     $ make DO_RELEASE=1 -f tool/admin/release/Makefile.release publish
 
 This will create the appropriate *version* subdirectory on the *demo* web server, and copy all demos underneath it, together with an *index.html* in a suitable form.
