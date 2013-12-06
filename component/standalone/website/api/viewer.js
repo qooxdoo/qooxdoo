@@ -1322,9 +1322,7 @@ q.ready(function() {
 
     addMethodLinks(jsEl, header.getParents().getAttribute("id"));
 
-    if (useHighlighter && sample.executable &&
-      q.env.get("engine.name") != "mshtml")
-    {
+    if (sample.executable && q.env.get("engine.name") != "mshtml") {
       createFiddleButton(sample).appendTo(sampleEl);
     }
   };
