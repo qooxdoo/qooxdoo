@@ -62,14 +62,16 @@
       {
         "files" :
         [
-          "samples",
           "api.css",
+          "batch-icons-webfont.*",
           "default.highlight.css",
+          "fastclick.min.js",
           "fiddleframe.html",
           "highlight.LICENSE",
           "highlight.pack.js",
           "index.html",
           "jsfiddle-logo_small.png",
+          "samples",
           "viewer.js"
         ],
         "source" : "$${WEBSITE}/api",
