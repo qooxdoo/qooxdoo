@@ -9,6 +9,23 @@ $scShadowColorLight: rgba(0,0,0,0.2);
 .scroll-container {
   @include background($input-background);
   border: rem(1) solid $input-border-color;
+
+   // iOS6 flickering bug fix
+  -webkit-perspective: 1000;
+  -webkit-backface-visibility: hidden;
+ 
+  position:relative;
+  overflow:hidden;
+
+  -ms-touch-action:none;
+}
+
+.scroll-container-child {
+  position:relative;
+}
+
+.scroll-container.scrollable-top:before, .scroll-container.scrollable-bottom:after {
+  pointer-events:none;
 }
 
 .scroll-container:before {

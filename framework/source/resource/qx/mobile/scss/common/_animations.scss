@@ -1,4 +1,4 @@
-.layout-card {
+.animationParent {
   @include perspective(800);
   @include transform-style(preserve-3d);
 }
@@ -33,12 +33,4 @@
 
 .slideup.out.reverse {
   z-index: 10;
-}
-
-//
-// SWAP
-//
-
-.swap {
-  @include transform(perspective(800));
 }

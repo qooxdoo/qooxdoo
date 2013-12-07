@@ -21,25 +21,6 @@
   @include transform(scale(1));
 }
 
-.scroll-container {
-  // iOS6 flickering bug fix
-  -webkit-perspective: 1000;
-  -webkit-backface-visibility: hidden;
- 
-  position:relative;
-  overflow:hidden;
-
-  -ms-touch-action:none;
-}
-
-.scroll-container-child {
-  position:relative;
-}
-
-.scroll-container.scrollable-top:before, .scroll-container.scrollable-bottom:after {
-  pointer-events:none;
-}
-
 .scroll.native {
   overflow-y:scroll;
   overflow-x:hidden;
