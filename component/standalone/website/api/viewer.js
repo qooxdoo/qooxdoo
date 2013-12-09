@@ -1236,7 +1236,6 @@ q.ready(function() {
   // mobile support
   if (q.env.get("device.type") != "desktop") {
     q("#list").setStyles({position: "absolute", bottom: "auto", marginTop: "10px"});
-    q("#content").setStyles({position: "absolute", bottom: "auto"});
     q(".filter").setStyle("position", "static");
     q("#navContainer").addClass("mobile-navContainer");
   }
