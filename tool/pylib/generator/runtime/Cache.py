@@ -29,7 +29,7 @@ from generator.runtime.Log import Log
 
 memcache  = {} # {key: {'content':content, 'time': (time.time()}}
 check_file     = u".cache_check_file"
-CACHE_REVISION = 0x23017fb # set this to a unique value (e.g. commit hash prefix)
+CACHE_REVISION = 0x2f46be5 # set this to a unique value (e.g. commit hash prefix)
                            # when existing caches need clearing
 CACHE_THRESHOLD = 500 # lower bound for the number of files in the compile cache for it to be considered "saturated"
 

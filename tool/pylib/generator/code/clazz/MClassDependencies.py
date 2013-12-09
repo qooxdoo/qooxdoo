@@ -168,7 +168,8 @@ class MClassDependencies(object):
 
         classVariants = self.classVariants()
         relevantVariants = self.projectClassVariantsToCurrent(classVariants, variantSet)
-        cacheId = "deps-%s-%s" % (self.path, util.toString(relevantVariants))
+        statics_optim = 'statics' in Context.jobconf.get("compile-options/code/optimize",[])
+        cacheId = "deps-%s-%s-%s" % (self.path, util.toString(relevantVariants), int(statics_optim))
         cached = True
 
         # try compile cache
@@ -179,7 +180,7 @@ class MClassDependencies(object):
         if (True  # just a switch
             and deps == None  
             # TODO: temp. hack to work around issue with 'statics' optimization and dependencies.json
-            and 'statics' not in Context.jobconf.get("compile-options/code/optimize",[])
+            and not statics_optim
            ):
             deps_json, cacheModTime = self.library.getDependencies(self.id)
             if deps_json is not None:
