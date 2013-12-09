@@ -130,6 +130,9 @@ qx.Class.define("qx.ui.mobile.form.Label",
 
   members :
   {
+    __forWidget : null,
+
+
      // overridden
     _getTagName : function()
     {
@@ -174,16 +177,15 @@ qx.Class.define("qx.ui.mobile.form.Label",
      *
      */
     setLabelFor: function(elementId) {
-      var oldTarget = qx.ui.mobile.core.Widget.getWidgetById(this._getAttribute("for"));
-      var newTarget = qx.ui.mobile.core.Widget.getWidgetById(elementId);
-
-      if (oldTarget) {
-        oldTarget.removeListener("changeEnabled", this._changeEnabled, this);
+      if (this.__forWidget) {
+        this.__forWidget.removeListener("changeEnabled", this._changeEnabled, this);
       }
 
-      if (newTarget) {
-        newTarget.addListener("changeEnabled", this._changeEnabled, this);
-        this.setEnabled(newTarget.getEnabled());
+      this.__forWidget = qx.ui.mobile.core.Widget.getWidgetById(elementId);
+
+      if (this.__forWidget) {
+        this.__forWidget.addListener("changeEnabled", this._changeEnabled, this);
+        this.setEnabled(this.__forWidget.getEnabled());
       }
 
       this._setAttribute("for", elementId);
@@ -192,9 +194,9 @@ qx.Class.define("qx.ui.mobile.form.Label",
 
 
   destruct : function() {
-    var oldTarget = qx.ui.mobile.core.Widget.getWidgetById(this._getAttribute("for"));
-    if (oldTarget) {
-      oldTarget.removeListener("changeEnabled", this._changeEnabled, this);
+    if (this.__forWidget) {
+      this.__forWidget.removeListener("changeEnabled", this._changeEnabled, this);
+      this.__forWidget = null;
     }
   }
 });
