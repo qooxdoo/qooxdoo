@@ -52,14 +52,15 @@ qx.Class.define("qx.ui.mobile.basic.Image",
   construct : function(source)
   {
     this.base(arguments);
+
+    if (qx.ui.mobile.basic.Image.ROOT === null) {
+      qx.ui.mobile.basic.Image.ROOT = qx.core.Init.getApplication().getRoot();
+    }
+
     if (source) {
       this.setSource(source);
     } else {
       this.initSource();
-    }
-
-    if (qx.ui.mobile.basic.Image.ROOT === null) {
-      qx.ui.mobile.basic.Image.ROOT = qx.core.Init.getApplication().getRoot();
     }
 
     qx.ui.mobile.basic.Image.ROOT.addListener("changeAppScale", this._onChangeAppScale, this);
