@@ -545,13 +545,19 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       if (newOverflow == "visible") {
         newPage.setStyle("overflow", "hidden");
       }
+
       newPage.once("animationEnd", function() {
         if (newOverflow == "visible") {
           newPage.setStyle("overflow", newOverflow);
         }
         this._toggleClickListeners(true);
-      }.bind(this))
-      .animate(showAnimation);
+      }.bind(this));
+
+      if (newPage.isPlaying()) {
+        // workaround for bug #7982
+        newPage.stop().emit("animationEnd");
+      }
+      newPage.animate(showAnimation);
     },
 
 
