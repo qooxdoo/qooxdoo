@@ -213,9 +213,11 @@ qx.Class.define("qx.ui.mobile.core.Root",
       docElement.style.fontSize = value * 100 + "%";
 
       // Force relayout - important for new Android devices and Firefox.
-      docElement.style.display = "none";
-      docElement.clientWidth = docElement.clientWidth;
-      docElement.style.display = "";
+      setTimeout(function() {
+        docElement.style.display = "none";
+        docElement.clientWidth = docElement.clientWidth;
+        docElement.style.display = "";
+      }, 0);
 
       this.fireEvent("changeAppScale");
     },
