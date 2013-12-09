@@ -13,9 +13,9 @@ qooxdoo mobile was tested with the native browsers of the following operating
 systems:
 
 * iOS
-* Android 1.6+
-* BlackBerry 10 OS (Playbook + Z10)
-* Windows Phone 8 (Experimental)
+* Android 1.6+ (Stock Browser and Chrome Mobile)
+* Windows Phone 8
+* BlackBerry 10 OS
 
 Supported Desktop Browsers
 ==========================
@@ -41,6 +41,7 @@ Features
 * Fixed toolbars and momentum scrolling via `iScroll <http://cubiq.org/iscroll-4>`_
 * Basic `PhoneGap <http://www.phonegap.com/>`_ support
 * Support for high-resolution displays ("Retina display support")
+* Built-in handling of high DPI images for variable pixel densities
 
 
 .. _pages/mobile_overview#api:
