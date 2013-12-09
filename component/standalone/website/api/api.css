@@ -142,8 +142,7 @@ body {
 
 #list .qx-accordion-button:after {
   content: attr(data-results);
-  position: absolute;
-  right: 40px;
+  float: right;
   color: white;
   background-color: #3d72c9;
   font-size: 13px;
@@ -152,6 +151,11 @@ body {
   border-radius: 10px;
   font-weight: bold;
   line-height: 17px;
+
+  -moz-transition:color 1s, background-color 1s;
+  -webkit-transition:color 1s, background-color 1s;
+  -o-transition:color 1s, background-color 1s;
+  transition:color 1s, background-color 1s;
 }
 
 #list .qx-accordion-button.no-matches {
@@ -163,16 +167,8 @@ body {
 }
 
 #list .qx-accordion-button-active:after {
-  content: attr(data-results);
-  float: right;
   color: #3d72c9;
   background-color: white;
-  font-size: 13px;
-  padding: 0px 6px;
-  margin-top: 8px;
-  border-radius: 10px;
-  font-weight: bold;
-  line-height: 17px;
 }
 
 .module h1:before {
@@ -284,10 +280,6 @@ body {
 
 #content a:hover {
   color: #366AC1;
-}
-
-#list h2, #list ul {
-  white-space: nowrap;
 }
 
 #list ul li {
