@@ -4350,14 +4350,14 @@ testrunner.define({
       width: "500px"
     });
 
-    this.assertEquals(parseInt(slider.getStyle("paddingLeft")), slider._getDragBoundaries().min);
-    this.assertEquals(slider.getWidth() - parseInt(slider.getStyle("paddingRight")), slider._getDragBoundaries().max);
+    this.assertEquals(Math.ceil(parseFloat(slider.getStyle("paddingLeft"))), slider._getDragBoundaries().min);
+    this.assertEquals(slider.getWidth() - Math.ceil(parseFloat(slider.getStyle("paddingRight"))), slider._getDragBoundaries().max);
 
     var offset = 10;
     slider.setConfig("offset", offset).render();
 
-    var expectedMin = parseInt(slider.getStyle("paddingLeft")) + offset;
-    var expectedMax = slider.getWidth() - parseInt(slider.getStyle("paddingRight")) - offset;
+    var expectedMin = Math.ceil(parseFloat(slider.getStyle("paddingLeft"))) + offset;
+    var expectedMax = slider.getWidth() - Math.ceil(parseFloat(slider.getStyle("paddingRight"))) - offset;
     this.assertEquals(expectedMin, slider._getDragBoundaries().min);
     this.assertEquals(expectedMax, slider._getDragBoundaries().max);
   },
