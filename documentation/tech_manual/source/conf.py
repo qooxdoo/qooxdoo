@@ -45,15 +45,15 @@ copyright = u'2013, qooxdoo developers'
 # built documents.
 #
 # The short X.Y version.
-version = '3.5'
+version = '3.5.1'
 # The full version, including alpha/beta/rc tags.
-release = '3.5'
+release = '3.5.1'
 
 # qooxdoo Source Text Macros
 # use e.g. as "%{version}" anywhere in .rst files
 vMajor = "3"
 vMinor = "5"
-vPatch = ""
+vPatch = "1"
 qxmacros = {
     "version"  : vMajor + '.' + vMinor + (('.' + vPatch) if vPatch else '')
    ,"versionL" : vMajor + '.' + vMinor + '.x' # latest in this line
