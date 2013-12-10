@@ -1,7 +1,7 @@
 // Rhino-specific tests for qx-oo
 
 load(['script/testrunner.js']);
-load(['../script/qx-oo-3.0.2.js']);
+load(['../script/qx-oo-3.0.3.js']);
 load(['tests-common.js']);
 
 testrunner.define({
