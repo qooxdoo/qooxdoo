@@ -829,13 +829,7 @@ publish-apps:
 		fi; \
 	done
 
-##
-# Syncs the entire .../demo/ and .../manual/ trees to production.
-publish-production-all:
-	@echo "  * Pushing to production host..."
-	@ssh -A $(STAGING_HOST) /var/www/qooxdoo/bin/webtechfe01.mirror.sh
-
-
+ifeq ($(DO_RELEASE),)
 ##
 # a publish-production target that only syncs the current version on the production
 # server instead of the entire /demo/ etc. folders (should be much faster)
@@ -850,6 +844,13 @@ publish-production:
 	@# manual
 	@echo "    - Pushing manual..."
 	@ssh -A $(STAGING_HOST) $(CMD_SYNC_ONLINE) --verbose /var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/ $(PRODUCTION_HOST):/var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/
+else
+##
+# Syncs the entire .../demo/ and .../manual/ trees to production.
+publish-production:
+	@echo "  * Pushing to production host..."
+	@ssh -A $(STAGING_HOST) /var/www/qooxdoo/bin/webtechfe01.mirror.sh
+endif
 
 
 publish-backup:
