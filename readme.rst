@@ -36,7 +36,7 @@ Quick start
 ===========
 
 It is easy to get started with qooxdoo. For detailed information please
-see http://manual.qooxdoo.org/3.5/pages/getting_started.html .
+see http://manual.qooxdoo.org/3.6/pages/getting_started.html .
 
 For the impatient, here is a short version:
 
@@ -79,10 +79,10 @@ Learn more
   http://demo.qooxdoo.org
 
 * Release Notes
-  http://qooxdoo.org/project/release_notes/3.5
+  http://qooxdoo.org/project/release_notes/3.6
 
 * User Manual
-  http://manual.qooxdoo.org/3.5
+  http://manual.qooxdoo.org/3.6
 
 * API Documentation
-  http://api.qooxdoo.org/3.5
+  http://api.qooxdoo.org/3.6
