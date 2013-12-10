@@ -80,19 +80,19 @@ qx.Class.define("mobileshowcase.page.Drawer",
       var drawerSize = 175;
 
       var drawerBottom = this._createDrawer("bottom");
-      drawerBottom.setHeight(drawerSize);
+      drawerBottom.setSize(drawerSize);
       drawerBottom.add(this._createDrawerContent(drawerBottom));
 
       var drawerTop = this._createDrawer("top");
-      drawerTop.setHeight(drawerSize);
+      drawerTop.setSize(drawerSize);
       drawerTop.add(this._createDrawerContent(drawerTop));
 
       var drawerLeft = this._createDrawer("left");
-      drawerLeft.setWidth(drawerSize);
+      drawerLeft.setSize(drawerSize);
       drawerLeft.add(this._createDrawerContent(drawerLeft));
 
       var drawerRight = this._createDrawer("right");
-      drawerRight.setWidth(drawerSize);
+      drawerRight.setSize(drawerSize);
       drawerRight.add(this._createDrawerContent(drawerRight));
 
       // Z POSITION TOGGLE BUTTON

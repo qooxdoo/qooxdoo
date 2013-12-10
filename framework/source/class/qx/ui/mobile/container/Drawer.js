@@ -201,15 +201,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       this.removeCssClass(old);
       this.addCssClass(value);
 
-      if(value == "above") {
-        // Reset transitions for "below" mode.
-        if(this.__parent) {
-          this.__parent.setTranslateX(null);
-          this.__parent.setTranslateY(null);
-        }
-        this.setTranslateX(null);
-        this.setTranslateY(null);
-      } else {
+      if(this.__parent) {
         this.__parent.setTranslateX(0);
         this.__parent.setTranslateY(0);
       }
@@ -370,28 +362,17 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       this.__lastLandscape = qx.bom.Viewport.isLandscape();
 
       if (this.getPositionZ() == "below") {
-        if(this.__parent) {
-          this.__parent.setTranslateX(0);
-          this.__parent.setTranslateY(0);
-        }
-
-        this.setTranslateX(0);
-        this.setTranslateY(0);
-
-        if(this.getOrientation() == "left") {
+        if (this.getOrientation() == "left") {
           this.__parent.setTranslateX(this.getSize());
-          this.setTranslateX(-this.getSize());
-        } else if(this.getOrientation() == "right") {
+        } else if (this.getOrientation() == "right") {
           this.__parent.setTranslateX(-this.getSize());
-          this.setTranslateX(this.getSize());
-        } else if(this.getOrientation() == "top") {
+        } else if (this.getOrientation() == "top") {
           this.__parent.setTranslateY(this.getSize());
-          this.setTranslateY(-this.getSize());
-        } else if(this.getOrientation() == "bottom") {
+        } else if (this.getOrientation() == "bottom") {
           this.__parent.setTranslateY(-this.getSize());
-          this.setTranslateY(this.getSize());
         }
       }
+
       if (this.getTransitionDuration() > 0) {
         this._enableTransition();
         this.__inAnimation = true;
@@ -451,7 +432,6 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       this.__parent.removeCssClass("blocked");
 
       this.addCssClass("hidden");
-      this.exclude();
     },
 
 
