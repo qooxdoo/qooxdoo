@@ -38,19 +38,19 @@
   bottom:0;
 }
 
-.drawer.left.above.hidden {
+.drawer.left.above.hidden, .drawer.left.below{
   @include transform(translateX(-100%));
 }
 
-.drawer.right.above.hidden {
+.drawer.right.above.hidden, .drawer.right.below {
   @include transform(translateX(100%));
 }
 
-.drawer.top.above.hidden {
+.drawer.top.above.hidden, .drawer.top.below {
   @include transform(translateY(-100%));
 }
 
-.drawer.bottom.above.hidden {
+.drawer.bottom.above.hidden, .drawer.bottom.below {
   @include transform(translateY(100%));
 }
 
@@ -63,7 +63,7 @@
 }
 
 .animationChild .drawer {
-  display:none;
+  display: none;
 }
 
 .root.portrait .master-detail-master:not(.hidden) {
