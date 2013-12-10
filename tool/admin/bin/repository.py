@@ -40,6 +40,7 @@ global shell
 shell = ShellCmd()
 
 qxPatchReleases = {
+  "3.0": "3.0.2",
   "2.1": "2.1.1",
   "2.0": "2.0.4",
   "1.6": "1.6.1",
