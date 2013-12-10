@@ -247,10 +247,16 @@ q.ready(function() {
     loadDemos(demoName);
   };
 
+  var appName = "Widget Browser";
+  var componentName = "qx.Website";
+  var compVer = componentName;
   var version = q.$$qx.core.Environment.get("qx.version");
-  title = version ? "Widget Browser <span>qx.Website " + version + "</span>" : "Widget Browser <span>qx.Website</span>";
-  q("h1").setHtml(title);
-  document.title = title;
+  if (version) {
+    compVer = componentName + " " + version;
+  }
+
+  q("h1").setHtml(appName + "<span>" + compVer + "</span>");
+  document.title = compVer + " " + appName;
 
 
   qxWeb.initWidgets();
