@@ -1,5 +1,5 @@
 %{Mobile}
-****************
+*********
 
 %{Mobile} is %{qooxdoo}'s mobile framework. It provides specific UI classes for touch devices, handling of mobile events like swiping, and specific styling. It is suitable for various mobile web browsers on iOS and Android platforms.
 
@@ -30,6 +30,7 @@ Development
    
    mobile/mobile_tablet_switch
    mobile/theming
+   mobile/theme_migration
    mobile/resolution
    mobile/debugging
 
