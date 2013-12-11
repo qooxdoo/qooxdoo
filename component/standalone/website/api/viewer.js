@@ -1046,7 +1046,9 @@ q.ready(function() {
       }
 
       fixInternalLinks();
-      setTimeout(onFilterInput, 200);
+      if (q(".filter input").getValue()) {
+        setTimeout(onFilterInput, 200);
+      }
       window.onhashchange = highlightNavItem;
     }
   };
