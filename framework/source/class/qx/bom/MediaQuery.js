@@ -225,6 +225,9 @@ qx.Bootstrap.define("qx.bom.MediaQuery", {
                       return true;
                   }
 
+                  //Updating features
+                  _setFeature();
+
                   do {
                       mq          = mql[mqLength - mqIndex];
                       negate      = false;
