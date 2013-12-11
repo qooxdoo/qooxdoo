@@ -1,5 +1,3 @@
-@import "../../../scss/mixins";
-
 @mixin tap-highlight-color($args) {
   -webkit-tap-highlight-color: $args;
   -moz-tap-highlight-color: $args;
