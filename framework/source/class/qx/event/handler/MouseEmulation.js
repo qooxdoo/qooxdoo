@@ -357,6 +357,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
       var target = e.getTarget();
       var nativeEvent = this.__getDefaultFakeEvent(target, e.getChangedTargetTouches()[0]);
 
+      // Fire still pending mousedown event now
       if(this._mouseDownDelayTimerId && this._delayedMouseDownEvent && this._originalMouseDownEvent){
         this.__timerManager.stop(this._mouseDownDelayTimerId);
 
