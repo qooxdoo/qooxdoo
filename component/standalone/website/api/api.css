@@ -118,6 +118,12 @@ body {
 
 .qx-accordion-page {
   list-style: none;
+  overflow: hidden;
+
+  -moz-transition: height 500ms, padding 500ms, margin 500ms;
+  -webkit-transition: height 500ms, padding 500ms, margin 500ms;
+  -o-transition: height 500ms, padding 500ms, margin 500ms;
+  transition: height 500ms, padding 500ms, margin 500ms;
 }
 
 #list .qx-accordion-button {

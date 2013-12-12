@@ -24,8 +24,7 @@
  * each with a header.
  * By default, only one page is visible while the others are collapsed.
  * Clicking a collapsed page's header will expand it while collapsing the
- * previously expanded page. The expand and collapse operations can be
- * visually customized using CSS animations.
+ * previously expanded page.
  *
  * <h2>Markup</h2>
  * The Accordion contains an unordered list element (<code>ul</code>), which
@@ -99,120 +98,19 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
      *
      * Default value: <pre>null</pre>
      *
-     * *animationTiming*
-     *
-     * Controls the page switching animation sequence:
-     * "sequential" means the animation to show the new page will
-     * only start after the animation to hide the old page is
-     * finished. "parallel" means the animations will be started
-     * (almost) simultaneously.
-     *
-     * Default value: <pre>parallel</pre>
-     *
-     *
-     * *animationStyles*
-     *
-     * Style properties used to animate page switching. Allowed values:
-     * "parallel", "sequential"
-     *
-     * Default value:
-     * <pre>["height", "paddingTop", "paddingBottom"]</pre>
-     *
-     *
-     * *hideAnimation*
-     *
-     * The animation used to hide the previous page when
-     * a new one is selected
-     *
-     * Default value:
-     * <pre>{
-     *   duration: 500,
-     *   delay: 0,
-     *   keep: 100,
-     *   timing: "linear",
-     *   keyFrames: {
-     *     0: {
-     *       height : "{{height}}",
-     *       paddingTop : "{{paddingTop}}",
-     *       paddingBottom : "{{paddingBottom}}"
-     *     },
-     *     100: {
-     *       height : "0px",
-     *       paddingTop: "0px",
-     *       paddingBottom: "0px"
-     *     }
-     *   }
-     * }</pre>
-     *
-     *
-     * *showAnimation*
-     *
-     * The animation used to show a newly selected page.
-     *
-     * Default value:
-     * <pre>{
-     *   duration: 500,
-     *   delay: 0,
-     *   keep: 100,
-     *   timing: "linear",
-     *   keyFrames: {
-     *     0: {
-     *       height : "0px",
-     *       paddingTop: "0px",
-     *       paddingBottom: "0px"
-     *     },
-     *     100 : {
-     *       height :  "{{height}}",
-     *       paddingTop : "{{paddingTop}}",
-     *       paddingBottom : "{{paddingBottom}}"
-     *     }
-     *   }
-     * }</pre>
      */
     _config : {
       preselected : null,
 
-      animationTiming : "parallel",
-
-      animationStyles : ["height", "paddingTop", "paddingBottom"],
-
-      hideAnimation : {
-        duration: 500,
-        delay: 0,
-        keep: 100,
-        timing: "linear",
-        keyFrames: {
-          0: {
-            height : "{{height}}",
-            paddingTop : "{{paddingTop}}",
-            paddingBottom : "{{paddingBottom}}"
-          },
-          100: {
-            height : "0px",
-            paddingTop: "0px",
-            paddingBottom: "0px"
-          }
-        }
-      },
-
-      showAnimation : {
-        duration: 500,
-        delay: 0,
-        keep: 100,
-        timing: "linear",
-        keyFrames: {
-          0: {
-            height : "0px",
-            paddingTop: "0px",
-            paddingBottom: "0px"
-          },
-          100 : {
-            height :  "{{height}}",
-            paddingTop : "{{paddingTop}}",
-            paddingBottom : "{{paddingBottom}}"
-          }
-        }
-      }
+      pageStyles : [
+        "height",
+        "paddingTop",
+        "paddingBottom",
+        "marginTop",
+        "marginBottom",
+        "borderTopWidth",
+        "borderBottomWidth"
+      ]
     },
 
 
@@ -246,19 +144,16 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
   members : {
 
     init : function() {
+      this.__toggleTransitions(false);
       if (!this.base(arguments)) {
         return false;
       }
 
       var cssPrefix = this.getCssPrefix();
       this._forEachElementWrapped(function(accordion) {
-        accordion.find("> ul > ." + cssPrefix + "-button")._forEachElementWrapped(function(button) {
-          var page = accordion._getPage(button);
-          accordion._storeInitialStyles(page);
-        }.bind(accordion));
         accordion.render();
       });
-
+      this.__toggleTransitions(true);
     },
 
 
@@ -270,12 +165,16 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
           if (page.length === 0) {
             return;
           }
+
+          this.__deactivateTransition(page);
           this._storeInitialStyles(page);
           if (button.hasClass(cssPrefix + "-button-active")) {
-            page.show();
+            this._switchPages(null, page);
           } else {
-            page.hide();
+            this._switchPages(page, null);
           }
+          this.__activateTransition(page);
+
         }.bind(this));
 
       }.bind(this));
@@ -285,35 +184,17 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
 
 
     /**
-     * Stores the page's styles for the switching animations
+     * Stores the page's styles for the switch
      * @param page {qxWeb} Accordion page
      */
     _storeInitialStyles : function(page) {
-      var isHidden = page.getStyle("display") === "none";
-      var accordion = page.getAncestors("." + this.getCssPrefix());
-      var accHeight;
-      if (!accordion[0].style.height) {
-        accHeight = accordion.getHeight();
-      }
-      if (isHidden) {
-        if (accHeight) {
-          accordion.setStyle("height", accHeight + "px");
-        }
-        page.show();
-      }
-
-      var styles = page.getStyles(this.getConfig("animationStyles"));
-      if (styles.height) {
+      var properties = this.getConfig("pageStyles");
+      if (properties.indexOf("height") != -1) {
         page[0].style.height = "";
-        styles.height = page.getHeight() + "px";
       }
-
+      var styles = page.getStyles(properties);
+      styles.height = page.getHeight() + "px";
       page.setProperty("initialStyles", styles);
-      if (isHidden) {
-        if (accHeight) {
-          accordion.setStyle("height", "");
-        }
-      }
     },
 
 
@@ -322,27 +203,85 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
       var oldPage = this._getPage(oldButton);
       var newPage = this._getPage(newButton);
 
-      if (newPage.length > 0) {
-        var showAnimation = this.getConfig("showAnimation");
-        if (showAnimation) {
-          showAnimation = JSON.parse(qxWeb.template.render(
-            JSON.stringify(showAnimation),
-            newPage.getProperty("initialStyles")
-          ));
+      this._switchPages(oldPage, newPage);
+    },
+
+
+    // overridden
+    _switchPages : function(oldPage, newPage) {
+      if (oldPage && oldPage.length > 0) {
+        if (oldPage.getProperty("initialStyles")) {
+          var closedStyles = {
+            height: "0px"
+          };
+          this.getConfig("pageStyles").forEach(function(prop) {
+            closedStyles[prop] = "0px";
+          });
+          oldPage.setStyles(closedStyles);
         }
       }
 
-      if (oldPage.length > 0) {
-        var hideAnimation = this.getConfig("hideAnimation");
-        if (hideAnimation) {
-          hideAnimation = JSON.parse(qxWeb.template.render(
-            JSON.stringify(hideAnimation),
-            {height: oldPage.getHeight() + "px"}
-          ));
+      if (newPage && newPage.length > 0) {
+        var openedStyles = newPage.getProperty("initialStyles");
+        if (openedStyles) {
+          newPage.setStyles(openedStyles);
         }
       }
+    },
 
-      this._switchPages(oldPage, newPage, hideAnimation, showAnimation);
+
+    /**
+     * Activates or deactivates the CSS transition styles on all
+     * pages
+     *
+     * @param on {Boolean?} <code>true</code>: activate transitions
+     */
+    __toggleTransitions : function(on) {
+      this._forEachElementWrapped(function(accordion) {
+        accordion.find("> ul > ." + this.getCssPrefix() + "-page")
+        ._forEachElementWrapped(function(page) {
+          if (on) {
+            this.__activateTransition(page);
+          } else {
+            this.__deactivateTransition(page);
+          }
+        }.bind(this));
+      }.bind(this));
+    },
+
+
+    /**
+     * Stores an element's CSS transition styles in a property
+     * and removes them from the style declaration
+     *
+     * @param elem {qxWeb} Element
+     */
+    __deactivateTransition : function(elem) {
+      var transition = elem.getStyles([
+        "transitionDelay",
+        "transitionDuration",
+        "transitionProperty",
+        "transitionTimingFunction"
+      ]);
+      if (transition.transitionProperty.indexOf("none") == -1) {
+        elem.setProperty("__qxtransition", transition);
+        elem.setStyle("transition", "none");
+      }
+    },
+
+
+    /**
+     * Restores an element's transition styles
+     *
+     * @param elem {qxWeb} Element
+     */
+    __activateTransition : function(elem) {
+      var transition = elem.getProperty("__qxtransition");
+      var style = elem.getStyle("transitionProperty");
+      if (transition && style.indexOf("none") != -1) {
+        elem.setStyles(transition);
+        elem.setProperty("__qxtransition", "");
+      }
     },
 
 

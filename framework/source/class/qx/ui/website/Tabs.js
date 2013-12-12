@@ -75,7 +75,6 @@
  * <h2 class="widget-markup">Generated DOM Structure</h2>
  *
  * @require(qx.module.Template)
- * @require(qx.module.Animation)
  *
  * @group (Widget)
  */
@@ -136,38 +135,10 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      *
      * Default value: <pre>left</pre>
      *
-     *
-     * *animationTiming*
-     *
-     * Controls the page switching animation sequence:
-     * "sequential" means the animation to show the new page will
-     * only start after the animation to hide the old page is
-     * finished. "parallel" means the animations will be started
-     * (almost) simultaneously.
-     *
-     * Default value: <pre>parallel</pre>
-     *
-     *
-     * *hideAnimation*
-     *
-     * The animation used to hide the previous page when
-     * a new one is selected
-     *
-     * Default value: <pre>null</pre>
-     *
-     *
-     * *showAnimation*
-     *
-     * The animation used to show a newly selected page.
-     *
-     * Default value: <pre>null</pre>
      */
     _config : {
       preselected : 0,
-      align : "left",
-      animationTiming : "sequential",
-      showAnimation : null,
-      hideAnimation : null
+      align : "left"
     }
   },
 
@@ -227,8 +198,10 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
           var page = tabs._getPage(button);
           if (page.length > 0) {
-            page.hide().addClass(cssPrefix + "-page");
+            page.addClass(cssPrefix + "-page");
           }
+
+          this._showPage(null, button);
         }.bind(this));
 
         // ignore pageless buttons
@@ -244,15 +217,19 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         var active = buttons.filter("." + cssPrefix + "-button-active");
         var preselected = this.getConfig("preselected");
         if (active.length === 0 && typeof preselected == "number") {
-          buttons.eq(preselected).addClass(cssPrefix + "-button-active");
+          active = buttons.eq(preselected).addClass(cssPrefix + "-button-active");
         }
-        this._getPage(buttons.filter("." + cssPrefix + "-button-active")).show();
+
+        if (active.length > 0) {
+          this._showPage(active, null);
+        }
 
         tabs.getChildren("ul").getFirst().onWidget("keydown", this._onKeyDown, this);
       }.bind(this));
 
       return true;
     },
+
 
     render : function() {
       var cssPrefix = this.getCssPrefix();
@@ -287,9 +264,9 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           if (i == selected) {
             tabs.find("> ul > ." + cssPrefix + "-button:first-child").removeClass(cssPrefix + "-button-active");
             tabs.find("> ul > ." + cssPrefix + "-button:last-child").addClass(cssPrefix + "-button-active");
-            page.show();
+            tabs._switchPages(null, page);
           } else {
-            page.hide();
+            tabs._switchPages(page, null);
           }
         });
 
@@ -341,8 +318,10 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           link.setData(cssPrefix + "-page", pageSelector);
           var page = this._getPage(link);
           page.addClass(cssPrefix + "-page");
-          if (!link.hasClass(cssPrefix + "-button-active")) {
-            page.hide();
+          if (link.hasClass(cssPrefix + "-button-active")) {
+            this._switchPages(null, page);
+          } else {
+            this._switchPages(page, null);
           }
         }
       }, this);
@@ -460,9 +439,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         return;
       }
 
-      var showAnimation = this.getConfig("showAnimation");
-      var hideAnimation = this.getConfig("hideAnimation");
-      this._switchPages(oldPage, newPage, hideAnimation, showAnimation);
+      this._switchPages(oldPage, newPage);
     },
 
 
@@ -471,106 +448,15 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      *
      * @param oldPage {qxWeb} the previously selected page
      * @param newPage {qxWeb} the newly selected page
-     * @param hideAnimation {Map} animation description used to hide the old page
-     * @param showAnimation {Map} animation description used to show the new page
      */
-    _switchPages : function(oldPage, newPage, hideAnimation, showAnimation) {
-      var timing = this.getConfig("animationTiming");
-      var oldOverflow = oldPage.getStyle("overflow");
-
-      this._toggleClickListeners(false);
-
-      if (hideAnimation) {
-        if (oldOverflow == "visible") {
-          oldPage.setStyle("overflow", "hidden");
-        }
-        oldPage.once("animationEnd", function() {
-          oldPage.hide();
-          if (oldOverflow == "visible") {
-            oldPage.setStyle("overflow", oldOverflow);
-          }
-          if (timing == "sequential") {
-            this._showNewPage(newPage, showAnimation);
-          }
-        }, this);
-
-        if (timing == "parallel") {
-          this._showNewPage(newPage, showAnimation);
-        }
-
-        oldPage.animate(hideAnimation);
-      } else {
+    _switchPages : function(oldPage, newPage) {
+      if (oldPage) {
         oldPage.hide();
-        this._showNewPage(newPage, showAnimation);
-      }
-    },
-
-
-    /**
-     * Shows a newly selected tab page
-     *
-     * @param newPage {qxWeb} the newly selected page
-     * @param showAnimation {Map} animation description used to show the new pag
-     */
-    _showNewPage : function(newPage, showAnimation) {
-      if (newPage.length == 0) {
-        this._toggleClickListeners(true);
-        return;
       }
 
-      if (!showAnimation) {
-        this._toggleClickListeners(true);
+      if (newPage) {
         newPage.show();
-        return;
       }
-
-      showAnimation = JSON.parse(qxWeb.template.render(
-        JSON.stringify(showAnimation),
-        newPage.getProperty("initialStyles")
-      ));
-
-      // apply the first frame of the animation before showing the
-      // page to prevent an ugly visible "jump"
-      if (showAnimation.keyFrames &&
-            showAnimation.keyFrames["0"])
-      {
-        newPage.setStyles(showAnimation.keyFrames["0"]);
-      }
-
-      newPage.show();
-
-      // set overflow to hidden so that the content won't show
-      // outside of the page as it grows
-      var newOverflow = newPage.getStyle("overflow");
-      if (newOverflow == "visible") {
-        newPage.setStyle("overflow", "hidden");
-      }
-
-      newPage.once("animationEnd", function() {
-        if (newOverflow == "visible") {
-          newPage.setStyle("overflow", newOverflow);
-        }
-        this._toggleClickListeners(true);
-      }.bind(this));
-
-      if (newPage.isPlaying()) {
-        // workaround for bug #7982
-        newPage.stop().emit("animationEnd");
-      }
-      newPage.animate(showAnimation);
-    },
-
-
-    /**
-     * Enable/disable the click listeners on the page buttons. This is used
-     * to prevent interaction while page change animations are running.
-     * @param on {Boolean} <code>true</code> enables listeners
-     */
-    _toggleClickListeners : function(on) {
-      var func = on ? "onWidget" : "offWidget";
-      this.find("." + this.getCssPrefix() + "-button")._forEachElementWrapped(function(button) {
-        button[func]("click", this._onClick);
-      }.bind(this));
     },
 
 

@@ -28,12 +28,6 @@
   transform-style: $args;
 }
 
-@mixin transition($args) {
-  -webkit-transition: $args;
-  -moz-transition: $args;
-  transition: $args;
-}
-
 @mixin transition-duration($args) {
   -webkit-transition-duration: $args;
   -moz-transition-duration: $args;
