@@ -111,22 +111,9 @@ body {
   border-radius: 5px;
 }
 
-.qx-accordion-button {
+#list .qx-accordion-button {
   cursor: pointer;
   list-style: none;
-}
-
-.qx-accordion-page {
-  list-style: none;
-  overflow: hidden;
-
-  -moz-transition: height 500ms, padding 500ms, margin 500ms;
-  -webkit-transition: height 500ms, padding 500ms, margin 500ms;
-  -o-transition: height 500ms, padding 500ms, margin 500ms;
-  transition: height 500ms, padding 500ms, margin 500ms;
-}
-
-#list .qx-accordion-button {
   padding: 5px 10px;
   color: #3d72c9;
   font-size: 18px;
@@ -203,9 +190,24 @@ body {
 }
 
 #list .qx-accordion-page {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   list-style: none;
+  overflow: hidden;
+
+  -moz-transition: height 500ms, padding 500ms, margin 500ms;
+  -webkit-transition: height 500ms, padding 500ms, margin 500ms;
+  -o-transition: height 500ms, padding 500ms, margin 500ms;
+  transition: height 500ms, padding 500ms, margin 500ms;
+
   padding-bottom: 10px;
   margin-bottom: 0;
+}
+
+#list .qx-accordion-page-closed {
+  height: 0;
+  padding-bottom: 0;
 }
 
 #list .qx-accordion-page ul {

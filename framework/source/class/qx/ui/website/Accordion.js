@@ -100,17 +100,7 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
      *
      */
     _config : {
-      preselected : null,
-
-      pageStyles : [
-        "height",
-        "paddingTop",
-        "paddingBottom",
-        "marginTop",
-        "marginBottom",
-        "borderTopWidth",
-        "borderBottomWidth"
-      ]
+      preselected : null
     },
 
 
@@ -149,7 +139,6 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
         return false;
       }
 
-      var cssPrefix = this.getCssPrefix();
       this._forEachElementWrapped(function(accordion) {
         accordion.render();
       });
@@ -160,14 +149,15 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
     render : function() {
       var cssPrefix = this.getCssPrefix();
       this._forEachElementWrapped(function(accordion) {
-        accordion.find("> ul > ." + cssPrefix + "-button")._forEachElementWrapped(function(button) {
+        accordion.find("> ul > ." + cssPrefix + "-button")
+        ._forEachElementWrapped(function(button) {
           var page = this._getPage(button);
           if (page.length === 0) {
             return;
           }
 
           this.__deactivateTransition(page);
-          this._storeInitialStyles(page);
+          this._storePageHeight(page);
           if (button.hasClass(cssPrefix + "-button-active")) {
             this._switchPages(null, page);
           } else {
@@ -176,7 +166,6 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
           this.__activateTransition(page);
 
         }.bind(this));
-
       }.bind(this));
 
       return this;
@@ -184,17 +173,41 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
 
 
     /**
-     * Stores the page's styles for the switch
+     * Stores the page's height in both opened and closed states
+     * for the page switch
      * @param page {qxWeb} Accordion page
      */
-    _storeInitialStyles : function(page) {
-      var properties = this.getConfig("pageStyles");
-      if (properties.indexOf("height") != -1) {
-        page[0].style.height = "";
+    _storePageHeight : function(page) {
+      var closedClass = this.getCssPrefix() + "-page-closed";
+      var openedHeight;
+      var closedHeight;
+
+      page[0].style.height = "";
+
+      if (page.hasClass(closedClass)) {
+        closedHeight = page.getHeight();
+        page.toggleClass(closedClass);
+        openedHeight = page.getHeight();
+        page.toggleClass(closedClass);
+      } else {
+        openedHeight = page.getHeight();
+        page.toggleClass(closedClass);
+        closedHeight = page.getHeight();
+        page.toggleClass(closedClass);
       }
-      var styles = page.getStyles(properties);
-      styles.height = page.getHeight() + "px";
-      page.setProperty("initialStyles", styles);
+
+      if (openedHeight !== closedHeight) {
+        // closed page has changed height: store the initial height to
+        // be applied on open. This is necessary because changing the
+        // "height" style property back to "auto" from a fixed value
+        // does not trigger a CSS transition.
+        page.setProperty("openedHeight", openedHeight + "px");
+        page.setProperty("closedHeight", closedHeight + "px");
+      } else {
+        // height doesn't change on close: set a flag so we know the
+        // page has been initialized.
+        page.setProperty("openedHeight", true);
+      }
     },
 
 
@@ -209,22 +222,26 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
 
     // overridden
     _switchPages : function(oldPage, newPage) {
+      var prefix = this.getCssPrefix();
       if (oldPage && oldPage.length > 0) {
-        if (oldPage.getProperty("initialStyles")) {
-          var closedStyles = {
-            height: "0px"
-          };
-          this.getConfig("pageStyles").forEach(function(prop) {
-            closedStyles[prop] = "0px";
-          });
-          oldPage.setStyles(closedStyles);
+        // don't apply before initial rendering, i.e. while we're
+        // in the base class' init method.
+        if (oldPage.getProperty("openedHeight")) {
+          oldPage.addClass(prefix + "-page-closed");
+          var closedHeight = oldPage.getProperty("closedHeight");
+          if (closedHeight) {
+            oldPage.setStyle("height", closedHeight);
+          }
         }
       }
 
       if (newPage && newPage.length > 0) {
-        var openedStyles = newPage.getProperty("initialStyles");
-        if (openedStyles) {
-          newPage.setStyles(openedStyles);
+        var openedHeight = newPage.getProperty("openedHeight");
+        if (openedHeight) {
+          newPage.removeClass(prefix + "-page-closed");
+          if (qxWeb.type.get(openedHeight) == "String") {
+            newPage.setStyle("height", openedHeight);
+          }
         }
       }
     },

@@ -59,7 +59,13 @@
   padding: rem(8) rem(12);
   @include user-select(text);
   background-color: white;
-  @include transition(height 500ms, padding 500ms, margin 500ms);
+  @include transition(height 500ms, padding-top 500ms, padding-bottom 500ms, margin-top 500ms, margin-bottom 500ms);
+}
+
+.qx-accordion-page-closed {
+  height: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
 .qx-accordion-button[disabled] {
