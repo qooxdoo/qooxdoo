@@ -255,6 +255,9 @@ qx.Bootstrap.define("qx.io.ImageLoader",
         // Cleanup listeners
         element.onload = element.onerror = null;
 
+        // prevent further loading
+        element.src = "";
+
         // Cleanup entry
         delete entry.callbacks;
         delete entry.element;
