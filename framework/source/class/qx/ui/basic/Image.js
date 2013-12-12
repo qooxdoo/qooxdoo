@@ -79,7 +79,7 @@ qx.Class.define("qx.ui.basic.Image",
 
   properties :
   {
-    /** The URL of the image */
+    /** The URL of the image. Setting it will possibly abort loading of current image. */
     source :
     {
       check : "String",
