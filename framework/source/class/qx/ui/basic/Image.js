@@ -293,7 +293,15 @@ qx.Class.define("qx.ui.basic.Image",
 
 
     // property apply
-    _applySource : function(value) {
+    _applySource : function(value, old) 
+    {
+      // abort loading current image
+      if (old) {
+        if (qx.io.ImageLoader.isLoading(old)) {
+          qx.io.ImageLoader.abort(old);
+        }
+      }
+
       this._styleSource();
     },
 

@@ -189,12 +189,11 @@ qx.Class.define("qx.test.ui.basic.Image",
     },
 
 
-    testLoadedEvent : function() {
-      var source = "../resource/qx/icon/Tango/16/places/folder.png";
-      if (qx.io.ImageLoader.isLoaded(source)) {
-        this.debug("testLoadedEvent skipped! Image already loaded.");
-        return;
-      }
+    testLoadedEvent : function() 
+    {
+      var source = "../resource/qx/icon/Tango/16/places/folder.png?"+ Date.now();
+      this.assertFalse(qx.io.ImageLoader.isLoaded(source), "Image already loaded, but this should not happen!");
+
       var image = new qx.ui.basic.Image(source);
       image.addListener("loaded", function() {
         this.resume(function() {
@@ -207,6 +206,21 @@ qx.Class.define("qx.test.ui.basic.Image",
       }, this);
 
       this.wait();
+    },
+
+
+    "test: Abort image loading on changing source" : function() 
+    {
+      // image will be received with a delay of 2 sec
+      var sourceA = "../resource/qx/test/delayedImage.php?" + Date.now();
+
+      var sourceB = "../resource/qx/icon/Tango/16/places/folder.png?" + Date.now();
+
+      var image = new qx.ui.basic.Image(sourceA);
+      this.assertTrue(qx.io.ImageLoader.isLoading(sourceA), "SourceA should be in loading state!");
+
+      image.setSource(sourceB);
+      this.assertFalse(qx.io.ImageLoader.isLoaded(sourceA), "SourceA should not be loaded after source change!");
     }
   }
 });
