@@ -71,19 +71,34 @@ and triggers the compilation to CSS automatically.
 Watching SCSS files with SASS tool
 ==================================
 
-If you decide to use the official SASS compiler, please follow these steps for
-watching changes:
-
-1. Switch to ``<APP_ROOT>/source/resource/<APP_NAME>/mobile/scss``
-
-2. Start the SASS watching tool with:
+If you decide to use the official SASS compiler, please replace the ``watch-scss`` job of your app-specific ``config.json``:
 
 ::
 
-  sass -I <QOOXDOO_PATH>/framework/source/resource/qx/mobile/scss/ --watch .:../css
+    "watch-scss" :
+    {
+      "desc"   : "Watch and compile the theme scss",
+      "extend" : ["cache"],
+      "let" :
+      {
+        "QX_MOBILE_THEME_PATH" : "${QOOXDOO_PATH}/framework/source/resource/qx/mobile",
+        "QX_SHARED_THEME_PATH" : "${QOOXDOO_PATH}/framework/source/resource/qx/scss",
+        "MOBILE_THEME_PATH" : "source/resource/${APPLICATION}"
+      },
+      "watch-files" :
+      {
+        "paths"    : ["${MOBILE_THEME_PATH}/scss"],
+        "command" :
+        {
+          "line"  : "sass -t compressed -I ${MOBILE_THEME_PATH}/scss -I ${QX_MOBILE_THEME_PATH}/scss -I ${QX_SHARED_THEME_PATH} --watch ${MOBILE_THEME_PATH}/scss:${MOBILE_THEME_PATH}/css",
+          "exec-on-startup" : true
+        },
+        "include" : [ "*.scss" ],
+        "include-dirs" : false
+      }
+    }
 
 As mentioned before, it needs the official SASS compiler installed on your system.
-
 
 qx.Mobile Themes
 ================
