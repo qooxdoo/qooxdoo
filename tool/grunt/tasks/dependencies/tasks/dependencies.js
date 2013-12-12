@@ -1,9 +1,6 @@
 /*
  * grunt-dependencies
  * https://github.com/qooxdoo/qooxdoo
- *
- * Copyright (c) 2013 thron7
- * Licensed under the MIT license.
  */
 
 'use strict';

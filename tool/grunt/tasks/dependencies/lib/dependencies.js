@@ -27,9 +27,17 @@
 var escope = require('escope');
 var esparent = require('./esparent');
 var escodegen = require('escodegen');
+var js_builtins = require('../node_modules/jshint/src/vars'); // TODO: this is darn ugly, as i have to poke into internal modules of jshint
+var pipeline = require('./util').pipeline;
+var filter = require('./util').filter;
+var _ = require('underscore');
+
+function is_var(node) {
+  return ["Identifier", "MemberExpression"].indexOf(node.type) !== -1;
+}
 
 function findVarRoot (var_node) {
-  if (!{Identifier:1,MemberExpression:1}[var_node.type]) {
+  if (!is_var(var_node)) {
     return undefined;
   } else {
     while (var_node.parent 
@@ -67,7 +75,23 @@ function dependencies_from_envcalls(scope, optObj) {
 }
 
 function not_builtin(ref) {
-  
+  var ident = ref.identifier;
+  if (ident.type !== "Identifier")
+    return true;
+  // check in various js_builtins maps
+  if ([
+      'reservedVars', 
+      'ecmaIdentifiers', 
+      'browser', 
+      'devel', 
+      'worker', 
+      'nonstandard'
+    ].some(function(el){
+        return ident.name in js_builtins[el];
+      })
+    )
+      return false;
+  return true;
 }
 
 function not_jsignored(ref) {
@@ -88,12 +112,13 @@ function analyze(etree, optObj) {
 
   esparent.annotate(etree);
   var scope_globals = dependencies_from_ast(scope_manager.scopes[0], optObj);
-  // filter built-ins
-  // filter jsdoc @ignore
-  // add environment feature checks
-  // check library classes
+  var result = pipeline(scope_globals
+    , _.partial(filter, not_builtin) // filter built-ins
+    // filter jsdoc @ignore
+    // add environment feature checks
+    // check library classes
+    );
 
-  result = scope_globals;
   return result;
 }
 
