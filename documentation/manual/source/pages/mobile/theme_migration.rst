@@ -44,15 +44,15 @@ The watch-scss job was changed in ``3.5``. Please replace your existing ``watch-
       "extend" : ["cache"],
        "let" :
       {
-        "MOBILE_THEME_PATH" : "$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss",
-        "SHARED_THEME_PATH" : "$${QOOXDOO_PATH}/framework/source/resource/qx/scss"
+        "MOBILE_THEME_PATH" : "${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss",
+        "SHARED_THEME_PATH" : "${QOOXDOO_PATH}/framework/source/resource/qx/scss"
       },
       "watch-files" :
       {
-        "paths"    : ["source/resource/$${APPLICATION_PATH}/scss"],
+        "paths"    : ["source/resource/${APPLICATION_PATH}/scss"],
         "command" :
         {
-          "line"  : "$${PYTHON_CMD} $${QOOXDOO_PATH}/tool/bin/scss.py source/resource/$${APPLICATION_PATH}/scss/custom.scss -o source/resource/$${APPLICATION_PATH}/css/custom.css --load-path=source/resource/$${APPLICATION_PATH}/scss,$${MOBILE_THEME_PATH},$${SHARED_THEME_PATH}",
+          "line"  : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/scss.py source/resource/${APPLICATION_PATH}/scss/custom.scss -o source/resource/${APPLICATION_PATH}/css/custom.css --load-path=source/resource/${APPLICATION_PATH}/scss,${MOBILE_THEME_PATH},${SHARED_THEME_PATH}",
           "exec-on-startup" : true,
           "per-file" : false
         }
