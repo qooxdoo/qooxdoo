@@ -334,25 +334,16 @@
       }
     },
 
-    /*"watch-scss" :
+    /*"watch-scss" : 
     {
-      "desc"   : "Watch and compile the theme scss",
-      "extend" : ["cache"],
-      "let" :
-      {
-        "QX_MOBILE_THEME_PATH" : "source/resource/qx/mobile",
-        "QX_SHARED_THEME_PATH" : "source/resource/qx/scss"
+      "desc": "Watch and compile the theme scss",
+      "extend": ["cache"],
+      "let": {
+        "QX_MOBILE_THEME_PATH": "source/resource/qx/mobile",
+        "QX_SHARED_THEME_PATH": "source/resource/qx/scss"
       },
-      "watch-files" :
-      {
-        "paths"    : ["source/resource/qx/mobile/scss"],
-        "command" :
-        {
-          "line"  : "sass -I ${QX_MOBILE_THEME_PATH}/scss -I ${QX_SHARED_THEME_PATH} --watch ${QX_MOBILE_THEME_PATH}/scss:${QX_MOBILE_THEME_PATH}/css",
-          "exec-on-startup" : true
-        },
-        "include" : [ "*.scss" ],
-        "include-dirs" : false
+      "shell": {
+        "command": "sass -t compressed -I ${QX_MOBILE_THEME_PATH}/scss -I ${QX_SHARED_THEME_PATH} --watch ${QX_MOBILE_THEME_PATH}/scss:${QX_MOBILE_THEME_PATH}/css"
       }
     },*/
 
