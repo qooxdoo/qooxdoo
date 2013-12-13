@@ -230,20 +230,23 @@
           "per-file" : false
         }
       }
-    },
+    }
 
 
-    /*"watch-scss" : 
+    /*"watch-scss" :
     {
-      "desc": "Watch and compile the custom.scss via Ruby SASS compiler",
-      "extend": ["cache"],
-      "let": {
-        "QX_MOBILE_THEME_PATH": "source/resource/qx/mobile",
-        "QX_SHARED_THEME_PATH": "source/resource/qx/scss"
+      "desc"   : "Watch and compile the theme scss",
+      "extend" : ["cache"],
+      "let" :
+      {
+        "QX_MOBILE_THEME_PATH" : "$${QOOXDOO_PATH}/framework/source/resource/qx/mobile",
+        "QX_SHARED_THEME_PATH" : "$${QOOXDOO_PATH}/framework/source/resource/qx/scss",
+        "MOBILE_THEME_PATH" : "source/resource/$${APPLICATION}"
       },
-      "shell": {
-        "command": "sass -C -t compressed -I $${QX_MOBILE_THEME_PATH}/scss -I $${QX_SHARED_THEME_PATH} --watch $${QX_MOBILE_THEME_PATH}/scss:$${QX_MOBILE_THEME_PATH}/css"
+      "shell" :
+      {
+        "command" : "sass -C -t compressed -I $${MOBILE_THEME_PATH}/scss -I $${QX_MOBILE_THEME_PATH}/scss -I $${QX_SHARED_THEME_PATH} --watch $${MOBILE_THEME_PATH}/scss:$${MOBILE_THEME_PATH}/css"
       }
-    },*/
+    }*/
   }
 }

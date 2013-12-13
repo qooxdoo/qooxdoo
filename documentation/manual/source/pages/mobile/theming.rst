@@ -85,16 +85,9 @@ If you decide to use the official SASS compiler, please replace the ``watch-scss
         "QX_SHARED_THEME_PATH" : "${QOOXDOO_PATH}/framework/source/resource/qx/scss",
         "MOBILE_THEME_PATH" : "source/resource/${APPLICATION}"
       },
-      "watch-files" :
+      "shell" :
       {
-        "paths"    : ["${MOBILE_THEME_PATH}/scss"],
-        "command" :
-        {
-          "line"  : "sass -t compressed -I ${MOBILE_THEME_PATH}/scss -I ${QX_MOBILE_THEME_PATH}/scss -I ${QX_SHARED_THEME_PATH} --watch ${MOBILE_THEME_PATH}/scss:${MOBILE_THEME_PATH}/css",
-          "exec-on-startup" : true
-        },
-        "include" : [ "*.scss" ],
-        "include-dirs" : false
+        "command" : "sass -C -t compressed -I ${MOBILE_THEME_PATH}/scss -I ${QX_MOBILE_THEME_PATH}/scss -I ${QX_SHARED_THEME_PATH} --watch ${MOBILE_THEME_PATH}/scss:${MOBILE_THEME_PATH}/css"
       }
     }
 
