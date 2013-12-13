@@ -29,6 +29,7 @@ var esparent = require('./esparent');
 var escodegen = require('escodegen');
 var js_builtins = require('../node_modules/jshint/src/vars'); // TODO: this is darn ugly, as i have to poke into internal modules of jshint
 var pipeline = require('./util').pipeline;
+var load_time = require('./load_time');
 var filter = require('./util').filter;
 var _ = require('underscore');
 
@@ -110,7 +111,9 @@ function analyze(etree, optObj) {
   var result = [];
   var scope_manager = escope.analyze(etree);
 
-  esparent.annotate(etree);
+  esparent.annotate(etree);  // add parent relations to AST
+  load_time.annotate(scope_manager.scopes[0],  // add load/runtime annotations to scopes
+    true);  // TODO: this should be a dynamic parameter to analyze()
   var scope_globals = dependencies_from_ast(scope_manager.scopes[0], optObj);
   var result = pipeline(scope_globals
     , _.partial(filter, not_builtin) // filter built-ins
