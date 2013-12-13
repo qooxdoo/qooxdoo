@@ -230,6 +230,20 @@
           "per-file" : false
         }
       }
-    }
+    },
+
+
+    /*"watch-scss" : 
+    {
+      "desc": "Watch and compile the custom.scss via Ruby SASS compiler",
+      "extend": ["cache"],
+      "let": {
+        "QX_MOBILE_THEME_PATH": "source/resource/qx/mobile",
+        "QX_SHARED_THEME_PATH": "source/resource/qx/scss"
+      },
+      "shell": {
+        "command": "sass -C -t compressed -I $${QX_MOBILE_THEME_PATH}/scss -I $${QX_SHARED_THEME_PATH} --watch $${QX_MOBILE_THEME_PATH}/scss:$${QX_MOBILE_THEME_PATH}/css"
+      }
+    },*/
   }
 }
