@@ -343,7 +343,7 @@
         "QX_SHARED_THEME_PATH": "source/resource/qx/scss"
       },
       "shell": {
-        "command": "sass -t compressed -I ${QX_MOBILE_THEME_PATH}/scss -I ${QX_SHARED_THEME_PATH} --watch ${QX_MOBILE_THEME_PATH}/scss:${QX_MOBILE_THEME_PATH}/css"
+        "command": "sass -C -t compressed -I ${QX_MOBILE_THEME_PATH}/scss -I ${QX_SHARED_THEME_PATH} --watch ${QX_MOBILE_THEME_PATH}/scss:${QX_MOBILE_THEME_PATH}/css"
       }
     },*/
 
