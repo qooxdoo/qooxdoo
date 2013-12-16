@@ -137,29 +137,25 @@ qx.Class.define("qx.ui.mobile.basic.Image",
 
 
     // property apply
-    _applySource : function(value, old)
-    {
+    _applySource: function(value, old) {
       var source = value;
-      if (source && source.indexOf('data:') != 0) {
-        var resourceManager = qx.util.ResourceManager.getInstance();
-
+      var resourceManager = qx.util.ResourceManager.getInstance();
+      var uri = resourceManager.toUri(source);
+      if (source && source.indexOf('data:') != 0 && resourceManager.has(source)) {
         this._setStyle("width", resourceManager.getImageWidth(source) / 16 + "rem");
         this._setStyle("height", resourceManager.getImageHeight(source) / 16 + "rem");
 
-        var foundHighResolutionSource = this._findHighResolutionSource(source);
-
-        source = resourceManager.toUri(source);
-        var ImageLoader = qx.io.ImageLoader;
-        if (!ImageLoader.isFailed(source) && !ImageLoader.isLoaded(source)) {
-          ImageLoader.load(source, this.__loaderCallback, this);
-        }
-
         // If a no high-resolution version of the source was found, apply the source.
-        if (foundHighResolutionSource == false) {
-          this._setSource(source);
+        if (this._findHighResolutionSource(source) == false) {
+          this._setSource(uri);
         }
       } else {
-        this._setSource(source);
+        this._setSource(uri);
+      }
+
+      var ImageLoader = qx.io.ImageLoader;
+      if (!ImageLoader.isFailed(uri) && !ImageLoader.isLoaded(uri)) {
+        ImageLoader.load(uri, this.__loaderCallback, this);
       }
     },
 
