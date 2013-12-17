@@ -68,7 +68,6 @@ qx.Class.define("mobileshowcase.page.Dialog",
       // EXAMPLE WIDGETS
       var busyIndicator = new qx.ui.mobile.dialog.BusyIndicator("Please wait...");
       this.__busyPopup = new qx.ui.mobile.dialog.Popup(busyIndicator);
-      this.__busyPopup.setTitle("Loading...");
 
       // DEFAULT POPUP
       this.__popup = new qx.ui.mobile.dialog.Popup(closeDialogButton1);
