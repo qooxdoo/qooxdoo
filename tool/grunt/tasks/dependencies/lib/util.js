@@ -31,7 +31,32 @@ function filter(iterator, list) {
   return _.filter(list, iterator);
 }
 
+/**
+ * Append sList to the end of tList.
+ */
+function concat(sList, tList) {
+  return tList.concat(sList);
+}
+
+/** Safe access to deep object members */
+function get(obj, propertyPath) {
+  var o = obj;
+  propertyPath.split('.').every(function(attr) {
+    if (attr in o) {
+      o = o[attr];
+      return true;
+    } else {
+      o = undefined;
+      // break iteration
+      return false;
+    }
+  });
+  return o;
+}
+
 module.exports = {
   pipeline: pipeline,
-  filter: filter
+  filter: filter,
+  concat: concat,
+  get: get,
 };

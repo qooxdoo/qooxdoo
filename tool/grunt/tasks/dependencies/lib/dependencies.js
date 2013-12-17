@@ -24,13 +24,16 @@
 
 // Requirements
 
+var fs = require('fs');
+var path = require('path');
 var escope = require('escope');
 var esparent = require('./esparent');
 var escodegen = require('escodegen');
 var js_builtins = require('../node_modules/jshint/src/vars'); // TODO: this is darn ugly, as i have to poke into internal modules of jshint
 var pipeline = require('./util').pipeline;
-var load_time = require('./load_time');
 var filter = require('./util').filter;
+var load_time = require('./load_time');
+var qcenvironment = require('./qcenvironment');
 var _ = require('underscore');
 
 function is_var(node) {
@@ -118,9 +121,16 @@ function analyze(etree, optObj) {
   var result = pipeline(scope_globals
     , _.partial(filter, not_builtin) // filter built-ins
     // filter jsdoc @ignore
-    // add environment feature checks
     // check library classes
     );
+
+  // TBD: turn Reference()s into strings?
+
+  // add feature classes from q.c.Environment calls
+  var qcEnvClassCode = fs.readFileSync(fs.realpathSync(
+    path.join(__dirname, "../../../../../framework/source/class/qx/core/Environment.js")), 
+    {encoding: "utf-8"});
+  result = result.concat(qcenvironment.extract(etree, qcEnvClassCode));
 
   return result;
 }

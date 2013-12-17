@@ -2,6 +2,7 @@
 
 var grunt = require('grunt');
 var esparent = require('../lib/esparent.js');
+var _ = require('underscore');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -58,7 +59,10 @@ exports.dependencies = {
     //grunt.log.writeln(deps);
     console.log();
     console.log(deps.map( function (dep) {
-      return depsana.assemble(dep.identifier);
+      if (_.isString(dep))
+        return dep;
+      else 
+        return depsana.assemble(dep.identifier);
     }));
     test.ok(true);
     test.done()
