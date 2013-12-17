@@ -52,7 +52,7 @@ qx.Class.define("mobileshowcase.page.Drawer",
         target.hide();
       }, this);
 
-      var drawerContent = new qx.ui.mobile.form.Group([new qx.ui.mobile.basic.Label("This is the "+target.getOrientation()+" drawer."), closeDrawerButton]);
+      var drawerContent = new qx.ui.mobile.form.Group([new qx.ui.mobile.form.Label("This is the "+target.getOrientation()+" drawer."), closeDrawerButton]);
       return drawerContent;
     },
 

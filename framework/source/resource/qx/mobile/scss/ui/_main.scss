@@ -34,3 +34,5 @@
 .animationChild {
   @include background($navigationpage-background);
 }
+
+@include createGap((".gap"),rem(5));

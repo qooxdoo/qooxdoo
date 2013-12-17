@@ -87,6 +87,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     this.addListener("swipe", this._onSwipe, this);
     this.addListener("touchmove", this._onTouch, this);
 
+    this.addCssClass("gap");
   },
 
 

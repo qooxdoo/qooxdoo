@@ -54,6 +54,8 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
   {
     this.base(arguments);
     this.__createChildren(label, icon);
+
+    this.addCssClass("gap");
   },
 
   /*

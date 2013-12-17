@@ -46,8 +46,9 @@
 }
 
 @mixin border-radius($args) {
-  @include border-radius-top($args);
-  @include border-radius-bottom($args);
+  -moz-border-radius:$args;
+  -webkit-border-radius:$args;
+  border-radius: $args;
 }
 
 @mixin border-radius-top($args) {

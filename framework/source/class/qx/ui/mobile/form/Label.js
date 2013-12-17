@@ -65,6 +65,7 @@ qx.Class.define("qx.ui.mobile.form.Label",
     }
 
     this.addCssClass("boxAlignCenter");
+    this.addCssClass("gap");
     this._setLayout(new qx.ui.mobile.layout.HBox());
 
     this.initWrap();

@@ -45,6 +45,7 @@ qx.Class.define("qx.ui.mobile.form.Input",
   {
     this.base(arguments);
     this._setAttribute("type", this._getType());
+    this.addCssClass("gap");
 
     // BUG #7756
     if(qx.core.Environment.get("os.name") == "ios") {

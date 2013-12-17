@@ -68,6 +68,8 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     this.base(arguments);
     this._registerEventListener();
     this._refresh();
+
+    this.addCssClass("gap");
   },
 
 
