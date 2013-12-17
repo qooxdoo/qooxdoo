@@ -1,4 +1,10 @@
 
+/* BASIC */
+
+.atom + .atom {
+  margin-top: 0.5rem;
+}
+
 /* EVENT */
 
 .eventcontainer {
