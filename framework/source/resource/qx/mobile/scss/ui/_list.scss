@@ -20,6 +20,10 @@
   border: rem(1) solid $list-border-color;
 }
 
+.list-itemimage {
+  margin-right: rem(8);
+}
+
 .list .list-item .list-itemlabel {
   font-size: $list-title-font-size;
 }

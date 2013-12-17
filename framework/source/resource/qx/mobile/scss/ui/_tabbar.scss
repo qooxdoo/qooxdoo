@@ -10,9 +10,15 @@
 }
 
 .tabButton {
-  @include border-radius-top(rem(4));
+  @include background($tabbar-inactive-background);
+  @include border-radius-top($tabbar-border-radius);
   @include background-clip(padding-box);
   @include box-sizing(border-box);
+
+  color:  $tabbar-inactive-text-color;
+
+  height:  $tabbar-height;
+  line-height:  $tabbar-height;
 
   // This is for equal sizes od the buttons when added in a toolbar or
   // other container with flex :1
@@ -21,16 +27,6 @@
   cursor:pointer;
 
   text-align: center;
-}
-
-.tabButton {
-  @include background($tabbar-inactive-background);
-  @include border-radius-top($tabbar-border-radius);
-
-  color:  $tabbar-inactive-text-color;
-
-  height:  $tabbar-height;
-  line-height:  $tabbar-height;
 
   $tab-button-border: rem(1) solid $tabbar-inactive-border-color;  
   border-top: $tab-button-border;

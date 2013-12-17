@@ -102,7 +102,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     defaultCssClass :
     {
       refine : true,
-      init : "toggleButton"
+      init : "togglebutton"
     }
   },
 
@@ -138,7 +138,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
      */
     _createSwitch : function() {
       var toggleButtonSwitch = new qx.ui.mobile.container.Composite();
-      toggleButtonSwitch.addCssClass("toggleButtonSwitch");
+      toggleButtonSwitch.addCssClass("togglebutton-switch");
       return toggleButtonSwitch;
     },
 

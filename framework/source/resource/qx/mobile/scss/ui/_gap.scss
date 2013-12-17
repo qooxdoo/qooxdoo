@@ -1,0 +1,17 @@
+//
+// GAP
+//
+
+$gapWidgets: (".togglebutton",
+              ".button",
+              ".checkbox",
+              ".radio",
+              "input",
+              ".atom",
+              ".slider",
+              ".toolbar-button",
+              ".navigationbar-button",
+              ".navigationbar-backbutton",
+              ".collapsible");
+
+@include createGap($gapWidgets,rem(5));

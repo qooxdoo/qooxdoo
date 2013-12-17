@@ -15,7 +15,7 @@
 }
 
 .root, .scroll {
-  font-family: $application-font;
+  font-family:  $application-font;
   color:  $application-text-color;
 }
 
@@ -33,8 +33,4 @@
 
 .animationChild {
   @include background($navigationpage-background);
-}
-
-div.vbox > .label + .hbox {
-  margin-top: rem(5);
 }

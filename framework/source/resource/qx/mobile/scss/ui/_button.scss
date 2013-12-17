@@ -36,14 +36,3 @@
   @extend .boxFlex1
 }
 
-div:not(.hbox) > .button + .button {
-  margin-top: rem(5);
-}
-
-div:not(.hbox) > .text-field + .button {
-  margin-top: rem(5);
-}
-
-.hbox > .button + .button {
-  margin-left: rem(5);
-}

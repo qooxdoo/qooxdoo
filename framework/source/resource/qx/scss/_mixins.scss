@@ -14,6 +14,24 @@
   @return $value;
 }
 
+@mixin createGap($widgets, $size) {
+  @for $i from 0 to length($widgets) {
+    $first-widget: nth($widgets, $i+1);
+
+    @for $j from 0 to length($widgets) {
+      $second-widget: nth($widgets, $j+1);
+
+      .hbox > #{$first-widget}:not(.exclude) + #{$second-widget} {
+        margin-left: $size;
+      }
+
+      div:not(.hbox) > #{$first-widget}:not(.exclude) + #{$second-widget} {
+        margin-top: $size;
+      }
+    }
+  }
+}
+
 @mixin background-clip($args) {
   -webkit-background-clip: $args;
   -moz-background-clip: $args;

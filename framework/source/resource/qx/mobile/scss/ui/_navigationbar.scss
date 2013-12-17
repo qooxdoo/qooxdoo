@@ -51,9 +51,12 @@
   padding-right: rem(5);
 
   height: $navigationbar-height - $navigationbar-padding * 2;
-  margin: $navigationbar-padding;
 
   min-width: rem(50);
+}
+
+.left-container, .right-container {
+  padding: $navigationbar-padding;
 }
 
 .navigationbar-button > div, .navigationbar-backbutton > div {

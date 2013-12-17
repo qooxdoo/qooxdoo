@@ -21,10 +21,6 @@
   @include transform(translateY(-($navigationbar-height)));
 }
 
-.left-container > * {
-  margin-right:rem(4);
-}
-
 .left-container {
   position:absolute;
   left: 0;

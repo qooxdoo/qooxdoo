@@ -14,22 +14,19 @@
   border: rem(1) solid $input-invalid-border-color !important;
 }
 
-.mobile input, .text-area {
-  font-family: $application-font;
-}
-
 .mobile input, .mobile select {
   vertical-align: middle;
 }
 
 .mobile input, .mobile select, .text-area {
+  font-family: $application-font;
   font-size: rem(15);
 }
 
 .text-field:not(.selectbox), .number-field, .password-field {
   @include background-clip(padding-box);
   @include box-sizing(border-box);
-  text-indent: rem(4);
+  text-indent: rem(5);
   height: rem(26);
 }
 
@@ -48,8 +45,6 @@
   @include background-clip(padding-box);
   @include background($input-background);
   resize: none;
-  padding-top:rem(4);
-  text-indent:rem(4);
   height: rem(3);
   overflow:hidden;
 }

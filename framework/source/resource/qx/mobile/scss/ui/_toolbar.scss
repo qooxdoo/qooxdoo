@@ -9,6 +9,8 @@
   @include background($toolbar-background);
   @include border-radius($toolbar-border-radius); 
 
+  overflow: hidden;
+
   color: $toolbar-text-color;
   border: rem(1) solid $toolbar-border-color;
 
@@ -16,15 +18,11 @@
   font-weight: $toolbar-font-weight;
   
   width:0;
-
-  padding-left: rem(4);
-  padding-right: rem(4);
-  
-  overflow: hidden;
-  
+  height: 100%;
   line-height:normal;
 
-  height: 100%;
+  padding-left: $toolbar-padding;
+  padding-right: $toolbar-padding;
 }
 
 .toolbar-button.active {
@@ -40,9 +38,10 @@
   @include box-align(stretch);
   
   z-index: 1;
-  padding: rem(2);
+  padding: $toolbar-padding;
   height: rem(50);
-  height: -moz-calc(rem(50) + rem(4));
+  
+  height: -moz-calc(rem(50) + $toolbar-padding);
 }
 
 .toolbar-button img {
@@ -62,9 +61,5 @@
 }
 
 .toolbar-separator {
-  width: rem(5);
-}
-
-.list-itemimage {
-  margin-right: rem(8);
+  width: $toolbar-padding;
 }
