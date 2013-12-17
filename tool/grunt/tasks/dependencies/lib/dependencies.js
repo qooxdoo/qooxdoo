@@ -124,6 +124,13 @@ function analyze(etree, optObj) {
     // check library classes
     );
 
+  // TBD: add transitive deps
+    // go through 'load' deps
+    // check if 'needs_recursion' (these can only be function calls)
+    // get function implementation
+    // add all its dependencies to originator's deps (load/runtime doesn't matter anymore)
+    // recurse on those dependencies
+
   // TBD: turn Reference()s into strings?
 
   // add feature classes from q.c.Environment calls
