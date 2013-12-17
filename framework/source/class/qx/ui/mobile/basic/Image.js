@@ -95,7 +95,11 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     PIXEL_RATIOS : null,
 
     /** @type {qx.ui.mobile.core.Root} the mobile application root */
-    ROOT : null
+    ROOT : null,
+
+
+    /** @type {String} a 1px*1px sized transparent image. */
+    PLACEHOLDER_IMAGE : null
   },
 
 
@@ -246,7 +250,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     */
     _createHighResolutionOverlay : function(highResSource) {
       // Replace the source through transparent pixel for making the high-resolution background image visible.
-      this._setSource("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
+      this._setSource(qx.ui.mobile.basic.Image.PLACEHOLDER_IMAGE);
       this._setStyle("backgroundImage","url("+qx.util.ResourceManager.getInstance().toUri(highResSource)+")");
       this._setStyle("backgroundSize","100%");
       this._setStyle("backgroundRepeat","no-repeat");
@@ -313,6 +317,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
 
   defer : function(statics) {
     statics.PIXEL_RATIOS = ["3", "2", "1.5"];
+    statics.PLACEHOLDER_IMAGE = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
   },
 
 
