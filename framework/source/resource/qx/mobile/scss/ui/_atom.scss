@@ -1,0 +1,15 @@
+.atom > .hbox:not(.boxReverse) > img {
+  margin-right: $application-gap-size;
+}
+
+.atom > .hbox.boxReverse > img {
+  margin-left: $application-gap-size;
+}
+
+.atom > .vbox:not(.boxReverse) > img {
+  margin-bottom: $application-gap-size;
+}
+
+.atom > .vbox.boxReverse > img {
+  margin-top: $application-gap-size;
+}

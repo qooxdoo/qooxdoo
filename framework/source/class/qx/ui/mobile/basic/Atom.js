@@ -54,7 +54,6 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
   {
     this.base(arguments);
     this.__createChildren(label, icon);
-    this.__updateGap(this.getIconPosition(),4);
   },
 
   /*
@@ -92,6 +91,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
 
 
     /**
+     * @deprecated {4.0} Please use SCSS variable $application-gap-size instead.
      * The space between the icon and the label
      */
     gap :
@@ -151,9 +151,6 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
 
       this.__childrenContainer.setLayout(targetLayout);
 
-      this.__updateGap(old, null);
-      this.__updateGap(value,this.getGap());
-
       this._domUpdated();
     },
 
@@ -177,55 +174,13 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       }
     },
 
-    // property apply
+    /* @deprecated {3.5} Please use SCSS variable $application-gap-size instead. */
     _applyGap : function(value, old)
     {
-      this.__updateGap(this.getIconPosition(),value);
-    },
-
-
-    /**
-     * Updates the gap between icon and label text.
-     * @param iconPosition {String} position of the icon: "left", "bottom", "right", "top".
-     * @param value {Integer} size of the gap.
-     */
-    __updateGap : function (iconPosition, value) {
-
-      if(this.__icon)
+      if (qx.core.Environment.get("qx.debug"))
       {
-        // Then set new margin gap.
-        var newMarginPosition = this.__getOpposedPosition(iconPosition);
-        var newPropKey = 'margin'+qx.lang.String.firstUp(newMarginPosition);
-
-        if(value) {
-          this.__icon._setStyle(newPropKey, value/16 + 'rem');
-        } else {
-          this.__icon._setStyle(newPropKey, null);
-        }
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee,"The property 'gap' is deprecated. Please use SCSS variable $application-gap-size instead.");
       }
-    },
-
-    /**
-     * Returns the opposed position for a given position.
-     * @param position {String} "left", "right", "bottom", "right" position.
-     * @return {String} opposed position.
-     */
-    __getOpposedPosition : function(position)
-    {
-      var opposedPosition = 'left';
-      switch(position)
-      {
-        case 'top':
-          opposedPosition = 'bottom';
-          break;
-        case 'bottom':
-          opposedPosition = 'top';
-          break;
-        case 'left':
-          opposedPosition = 'right';
-          break;
-      }
-      return opposedPosition;
     },
 
 

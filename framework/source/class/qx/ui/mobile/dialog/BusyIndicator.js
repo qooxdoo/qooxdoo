@@ -51,13 +51,6 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
 
   properties :
   {
-    // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "spinner-container"
-    },
-
 
     /**
      * The spinner css class to use.
