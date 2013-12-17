@@ -185,7 +185,7 @@
     },
 
     "libraries" : {
-      
+
       "library" :
       [
         {
@@ -285,7 +285,9 @@
         "qx.globalErrorHandling" : true,
         "testrunner.testParts" : false,
         "qx.allowUrlSettings" : true,
-        "qx.application" : "${TEST_LOADER}"
+        "qx.application" : "${TEST_LOADER}",
+        "qx.testNameSpace" : "${TEST_NAMESPACE}",
+        "qx.standaloneAutorun" : false
       },
 
       "cache" :
