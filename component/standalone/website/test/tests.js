@@ -3756,7 +3756,7 @@ testrunner.define({
     var spy = function() {
       callInfo.push(Date.now());
     };
-    var throttled = q.func.throttle(spy, 250, { trailing: false });
+    var throttled = q.func.throttle(spy, 500, { trailing: false });
 
     var intervalId = window.setInterval((function() {
       throttled();
@@ -3768,7 +3768,7 @@ testrunner.define({
 
     window.setTimeout((function() {
       this.resume(function() {
-        this.assertEquals(6, callInfo.length);
+        this.assertEquals(3, callInfo.length);
       });
     }).bind(this), 1800);
 
@@ -3782,7 +3782,7 @@ testrunner.define({
     var spy = function() {
       callInfo.push(Date.now());
     };
-    var throttled = q.func.throttle(spy, 250, { leading: false, trailing: false });
+    var throttled = q.func.throttle(spy, 500, { leading: false, trailing: false });
 
     var intervalId = window.setInterval((function() {
       throttled();
@@ -3794,7 +3794,7 @@ testrunner.define({
 
     window.setTimeout((function() {
       this.resume(function() {
-        this.assertEquals(5, callInfo.length);
+        this.assertEquals(2, callInfo.length);
       });
     }).bind(this), 1800);
 
