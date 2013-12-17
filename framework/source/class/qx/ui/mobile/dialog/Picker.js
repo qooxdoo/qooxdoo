@@ -87,6 +87,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     }
 
     this.__pickerContainer.addCssClass("picker-container");
+    this.__pickerContainer.addCssClass("gap");
 
     this.__pickerContent = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
 
@@ -99,7 +100,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     var buttonContainer = this.__pickerButtonContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
     buttonContainer.add(this.__pickerConfirmButton,{flex:1});
     buttonContainer.add(this.__pickerCancelButton,{flex:1});
-    buttonContainer.addCssClass("picker-button-container");
+    buttonContainer.addCssClass("gap");
 
     this.__pickerContent.add(this.__pickerContainer);
     this.__pickerContent.add(buttonContainer);
