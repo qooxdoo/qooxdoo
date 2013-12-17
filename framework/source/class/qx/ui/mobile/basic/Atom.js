@@ -137,44 +137,44 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
 
         // property apply
     _applyIconPosition : function(value, old) {
-        var targetLayout;
-        var verticalLayout = ["top", "bottom"].indexOf(value) != -1;
+      var targetLayout;
+      var verticalLayout = ["top", "bottom"].indexOf(value) != -1;
 
-        if(verticalLayout) {
-           targetLayout = new qx.ui.mobile.layout.VBox();
-        } else {
-           targetLayout = new qx.ui.mobile.layout.HBox();
-        }
+      if(verticalLayout) {
+         targetLayout = new qx.ui.mobile.layout.VBox();
+      } else {
+         targetLayout = new qx.ui.mobile.layout.HBox();
+      }
 
-        var isReverse = ["right", "bottom"].indexOf(value) != -1;
-        targetLayout.setReversed(isReverse);
+      var isReverse = ["right", "bottom"].indexOf(value) != -1;
+      targetLayout.setReversed(isReverse);
 
-        this.__childrenContainer.setLayout(targetLayout);
+      this.__childrenContainer.setLayout(targetLayout);
 
-        this.__updateGap(old, null);
-        this.__updateGap(value,this.getGap());
+      this.__updateGap(old, null);
+      this.__updateGap(value,this.getGap());
 
-        this._domUpdated();
+      this._domUpdated();
     },
 
 
     // property apply
     _applyShow : function(value, old)
     {
-        if(this.__label) {
-            if(value === 'both' || value === 'label') {
-                this.__label.show();
-            } else if(value === 'icon') {
-                this.__label.exclude();
-            }
+      if(this.__label) {
+        if(value === 'both' || value === 'label') {
+          this.__label.show();
+        } else if(value === 'icon') {
+          this.__label.exclude();
         }
-        if(this.__icon) {
-            if(value === 'both' || value === 'icon') {
-                this.__icon.show();
-            } else if(value === 'label') {
-                this.__icon.exclude();
-            }
+      }
+      if(this.__icon) {
+        if(value === 'both' || value === 'icon') {
+          this.__icon.show();
+        } else if(value === 'label') {
+          this.__icon.exclude();
         }
+      }
     },
 
     // property apply
@@ -198,11 +198,10 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
         var newPropKey = 'margin'+qx.lang.String.firstUp(newMarginPosition);
 
         if(value) {
-          this.__icon._setStyle(newPropKey, value + 'px');
+          this.__icon._setStyle(newPropKey, value/16 + 'rem');
         } else {
           this.__icon._setStyle(newPropKey, null);
         }
-
       }
     },
 
@@ -233,12 +232,9 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
     // property apply
     _applyLabel : function(value, old)
     {
-      if(this.__label)
-      {
+      if (this.__label) {
         this.__label.setValue(value);
-      }
-      else
-      {
+      } else {
         this.__label = this._createLabelWidget(value);
       }
     },
@@ -247,12 +243,9 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
     // property apply
     _applyIcon : function(value, old)
     {
-      if(this.__icon)
-      {
+      if (this.__icon) {
         this.__icon.setSource(value);
-      }
-      else
-      {
+      } else {
         this.__icon = this._createIconWidget(value);
       }
     },
@@ -287,8 +280,8 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
     _createIconWidget : function(iconUrl)
     {
       var iconWidget = new qx.ui.mobile.basic.Image(iconUrl);
+      qx.bom.element.Style.set(iconWidget.getContentElement(),"display","block");
       iconWidget.setAnonymous(true);
-
       return iconWidget;
     },
 
@@ -317,7 +310,6 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
      *
      */
     __createChildren : function(label, icon) {
-
       this.__label = this._createLabelWidget(label);
       if(label)
       {
@@ -325,8 +317,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       }
 
       this.__icon = this._createIconWidget(icon);
-      if(icon)
-      {
+      if (icon) {
         this.setIcon(icon);
       } else {
         this.__icon.exclude();
@@ -376,7 +367,6 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
   */
 
   destruct : function() {
-      this._disposeObjects("__label", "__icon", "__childrenContainer");
+    this._disposeObjects("__label", "__icon", "__childrenContainer");
   }
-
 });
