@@ -84,24 +84,14 @@ qx.Class.define("mobileshowcase.page.Basic",
       var exImage = new qx.ui.mobile.basic.Image("mobileshowcase/icon/mobile.png");
 
       // ATOMS
-      var positions = [ "left", "right", "top", "bottom" ]
-
+      var positions = [ "top", "left", "right", "bottom" ];
       var iconSrc = "mobileshowcase/icon/mobile.png";
-      var exAtomLeft = new qx.ui.mobile.basic.Atom("Icon Position: left", iconSrc);
-      exAtomLeft.setIconPosition(positions[0]);
-      exAtomLeft.addCssClass("space-top");
-
-      var exAtomRight = new qx.ui.mobile.basic.Atom("Icon Position: right", iconSrc);
-      exAtomRight.setIconPosition(positions[1]);
-      exAtomRight.addCssClass("space-top");
-
-      var exAtomTop = new qx.ui.mobile.basic.Atom("Icon Position: top", iconSrc);
-      exAtomTop.setIconPosition(positions[2]);
-      exAtomTop.addCssClass("space-top");
-
-      var exAtomBottom = new qx.ui.mobile.basic.Atom("Icon Position: bottom", iconSrc);
-      exAtomBottom.setIconPosition(positions[3]);
-      exAtomBottom.addCssClass("space-top");
+      var atomGroup = new qx.ui.mobile.form.Group();
+      for (var i = 0; i < positions.length; i++) {
+        var atomExample = new qx.ui.mobile.basic.Atom("Icon Position: "+positions[i], iconSrc);
+        atomExample.setIconPosition(positions[i]);
+        atomGroup.add(atomExample);
+      }
 
       var collapsible = this._createCollapsible();
 
@@ -136,7 +126,6 @@ qx.Class.define("mobileshowcase.page.Basic",
 
       this.getContent().add(new qx.ui.mobile.form.Title("Atoms"));
 
-      var atomGroup = new qx.ui.mobile.form.Group([exAtomLeft,exAtomTop,exAtomRight,exAtomBottom]);
       this.getContent().add(atomGroup);
     },
 
