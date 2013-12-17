@@ -244,9 +244,6 @@ qx.Class.define("mobileshowcase.page.Dialog",
         return this.__anchorPopup;
       }
 
-      var popupWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
-      popupWidget.add(new qx.ui.mobile.basic.Label("Are you sure?"));
-
       var buttonsWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
       var okButton = new qx.ui.mobile.form.Button("Yes");
       var cancelButton = new qx.ui.mobile.form.Button("No");
@@ -257,7 +254,6 @@ qx.Class.define("mobileshowcase.page.Dialog",
       buttonsWidget.add(cancelButton, {
         flex: 1
       });
-      popupWidget.add(buttonsWidget);
 
       okButton.addListener("tap", function() {
         this.__anchorPopup.hide();
@@ -266,7 +262,9 @@ qx.Class.define("mobileshowcase.page.Dialog",
         this.__anchorPopup.hide();
       }, this);
 
-      return new qx.ui.mobile.dialog.Popup(popupWidget, anchor);
+      var popup = new qx.ui.mobile.dialog.Popup(buttonsWidget, anchor);
+      popup.setTitle("Are you sure?");
+      return popup;
     },
 
 

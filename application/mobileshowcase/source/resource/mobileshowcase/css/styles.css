@@ -1,10 +1,3 @@
-
-/* BASIC */
-
-.atom + .atom {
-  margin-top: 0.5rem;
-}
-
 /* EVENT */
 
 .eventcontainer {
@@ -68,10 +61,6 @@
 
 .marginExpander {
   margin-right: 5px;
-}
-
-.toggleButton {
-  margin-top:2px;
 }
 
 /* CAROUSEL */

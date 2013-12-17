@@ -112,11 +112,8 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       }, this);
 
       toolbar.add(searchBtn);
-      toolbar.add(new qx.ui.mobile.toolbar.Separator());
       toolbar.add(this.__goBackBtn);
-      toolbar.add(new qx.ui.mobile.toolbar.Separator());
       toolbar.add(this.__loadButton);
-      toolbar.add(new qx.ui.mobile.toolbar.Separator());
       toolbar.add(deleteButton);
     },
 

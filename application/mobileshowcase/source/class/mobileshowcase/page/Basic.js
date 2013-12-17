@@ -36,11 +36,15 @@ qx.Class.define("mobileshowcase.page.Basic",
     this.setTitle("Basic Widgets");
     this.setShowBackButton(true);
     this.setBackButtonText("Back");
+    this._widgets = [];
   },
 
 
   members :
   {
+
+    _widgets : null,
+
     // overridden
     _initialize : function()
     {
@@ -53,15 +57,9 @@ qx.Class.define("mobileshowcase.page.Basic",
       var toggleEnableButton = new qx.ui.mobile.form.ToggleButton(true,"Enable","Disable");
 
       toggleEnableButton.addListener("changeValue", function(e) {
-        exImage.toggleEnabled();
-        exToggleButton.toggleEnabled();
-        exLabel.toggleEnabled();
-        exButton.toggleEnabled();
-        exAtomLeft.toggleEnabled();
-        exAtomRight.toggleEnabled();
-        exAtomTop.toggleEnabled();
-        exAtomBottom.toggleEnabled();
-        collapsible.toggleEnabled();
+        for (var i = 0; i < this._widgets.length; i++) {
+          this._widgets[i].toggleEnabled();
+        }
       }, this);
 
 
@@ -71,7 +69,7 @@ qx.Class.define("mobileshowcase.page.Basic",
         exLabel.toggleWrap();
       }, this);
 
-      // WIDGETS 4 EXAMPLE
+      // EXAMPLE WIDGETS
       var exButton = new qx.ui.mobile.form.Button("Button");
 
       var exToggleButton = new qx.ui.mobile.form.ToggleButton(false);
@@ -91,9 +89,16 @@ qx.Class.define("mobileshowcase.page.Basic",
         var atomExample = new qx.ui.mobile.basic.Atom("Icon Position: "+positions[i], iconSrc);
         atomExample.setIconPosition(positions[i]);
         atomGroup.add(atomExample);
+        this._widgets.push(atomExample);
       }
 
-      var collapsible = this._createCollapsible();
+      var exCollapsible = this._createCollapsible();
+
+      this._widgets.push(exButton);
+      this._widgets.push(exToggleButton);
+      this._widgets.push(exLabel);
+      this._widgets.push(exImage);
+      this._widgets.push(exCollapsible);
 
       // BUILD VIEW
 
@@ -111,21 +116,12 @@ qx.Class.define("mobileshowcase.page.Basic",
       this.getContent().add(toggleButtonGroup);
 
       this.getContent().add(new qx.ui.mobile.form.Title("Label"));
-
-      var labelGroup = new qx.ui.mobile.form.Group();
-      labelGroup.add(exLabel);
-      this.getContent().add(labelGroup);
-
+      this.getContent().add(new qx.ui.mobile.form.Group([exLabel]));
       this.getContent().add(new qx.ui.mobile.form.Title("Image"));
-
-      var imageGroup = new qx.ui.mobile.form.Group([exImage],false);
-      this.getContent().add(imageGroup);
-
+      this.getContent().add(new qx.ui.mobile.form.Group([exImage],false));
       this.getContent().add(new qx.ui.mobile.form.Title("Collapsible"));
-      this.getContent().add(new qx.ui.mobile.form.Group([collapsible],false));
-
+      this.getContent().add(new qx.ui.mobile.form.Group([exCollapsible],false));
       this.getContent().add(new qx.ui.mobile.form.Title("Atoms"));
-
       this.getContent().add(atomGroup);
     },
 
