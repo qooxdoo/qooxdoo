@@ -185,8 +185,8 @@ qx.Class.define("testrunner.view.Html", {
       .append('<label for="togglepassed">Show successful tests</label>');
 
       if (this.__nativeProfiling) {
-        controls.append(q.create('<input type="checkbox">').setAttributes({id: "nativeprofiling"}))
-        .append('<label for="nativeprofiling">Use native console profiling feature for performance tests</label>');
+        controls.append(q.create('<input type="checkbox">').setAttributes({id: "nativeprofiling"}).hide())
+        .append(q.create('<label for="nativeprofiling">Use native console profiling feature for performance tests</label>').hide());
       }
 
       return controls;
@@ -712,6 +712,24 @@ qx.Class.define("testrunner.view.Html", {
       this._createTestList(this.__testNamesList);
 
       this._applyCookieSelection();
+
+      if (qx.Class.hasMixin(this.constructor, testrunner.view.MPerformance) &&
+        window.console && window.console.profile)
+      {
+        var autWindow = window;
+        if (qx.core.Environment.get("testrunner.testOrigin") == "iframe") {
+          autWindow = qx.bom.Iframe.getWindow(this.getIframe());
+        }
+
+        var mixin = autWindow.qx.dev.unit.MMeasure;
+        if (testrunner.runner.ModelUtil.hasTestClassWithMixin(this.__testModel, mixin, autWindow)) {
+          q("#nativeprofiling").getNext().show();
+          q("#nativeprofiling").show();
+        } else {
+          q("#nativeprofiling").getNext().hide();
+          q("#nativeprofiling").hide();
+        }
+      }
     },
 
 

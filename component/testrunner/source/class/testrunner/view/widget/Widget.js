@@ -204,6 +204,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
     __stack : null,
     __logView : null,
     __testResults : null,
+    __nativeProfilingToggle : null,
 
     /**
      * Returns the iframe element the AUT should be loaded in.
@@ -348,31 +349,30 @@ qx.Class.define("testrunner.view.widget.Widget", {
         converter : function(data)
         {
           qx.bom.Cookie.set("testrunner.autoReload", data.toString(), 365);
-          return data
+          return data;
         }
       });
       part3.add(autoReloadToggle);
 
-      if (qx.core.Environment.get("testrunner.performance") &&
-        qx.Class.hasMixin(this.constructor, testrunner.view.MPerformance) &&
-        window.console && window.console.profile)
-      {
-        var nativeProfilingToggle = new qx.ui.toolbar.CheckBox(this.__app.tr("Native Profiling"), "icon/22/actions/document-open-recent.png");
-        nativeProfilingToggle.setToolTipText("Additionally use the browser's native"
-          + " profiling feature (console.profile) for performance tests");
-        var nativeProfilingValue = qx.bom.Cookie.get("testrunner.nativeProfiling");
-        if (nativeProfilingValue !== null) {
-          nativeProfilingToggle.setValue(eval(nativeProfilingValue));
-        }
-        nativeProfilingToggle.bind("value", this, "nativeProfiling", {
-          converter : function(data)
-          {
-            qx.bom.Cookie.set("testrunner.nativeProfiling", data.toString(), 365);
-            return data
-          }
-        });
-        part3.add(nativeProfilingToggle);
+      var nativeProfilingToggle = this.__nativeProfilingToggle = new qx.ui.toolbar.CheckBox(
+        this.__app.tr("Native Profiling"),
+        "icon/22/actions/document-open-recent.png"
+      );
+      nativeProfilingToggle.setToolTipText("Additionally use the browser's native"
+        + " profiling feature (console.profile) for performance tests");
+      var nativeProfilingValue = qx.bom.Cookie.get("testrunner.nativeProfiling");
+      if (nativeProfilingValue !== null) {
+        nativeProfilingToggle.setValue(eval(nativeProfilingValue));
       }
+      nativeProfilingToggle.bind("value", this, "nativeProfiling", {
+        converter : function(data)
+        {
+          qx.bom.Cookie.set("testrunner.nativeProfiling", data.toString(), 365);
+          return data;
+        }
+      });
+      part3.add(nativeProfilingToggle);
+      nativeProfilingToggle.exclude();
 
       // enable overflow handling
       toolbar.setOverflowHandling(true);
@@ -993,14 +993,31 @@ qx.Class.define("testrunner.view.widget.Widget", {
 
     _applyTestModel : function(value, old)
     {
-      if (value && value !== old) {
-        var model = qx.data.marshal.Json.createModel(value);
-        this.__testTree.setModel(model);
-        this.__testTree.openNode(model.getChildren().getItem(0));
-        this.__testResultView.clear();
+      if (!value || value === old) {
+        return;
       }
 
+      var model = qx.data.marshal.Json.createModel(value);
+      this.__testTree.setModel(model);
+      this.__testTree.openNode(model.getChildren().getItem(0));
+      this.__testResultView.clear();
+
+      if (qx.Class.hasMixin(this.constructor, testrunner.view.MPerformance) &&
+        window.console && window.console.profile)
+      {
+        var autWindow = window;
+        if (qx.core.Environment.get("testrunner.testOrigin") == "iframe") {
+          autWindow = qx.bom.Iframe.getWindow(this.getIframe());
+        }
+        var mixin = autWindow.qx.dev.unit.MMeasure;
+        if (testrunner.runner.ModelUtil.hasTestClassWithMixin(model, mixin, autWindow)) {
+          this.__nativeProfilingToggle.show();
+        } else {
+          this.__nativeProfilingToggle.exclude();
+        }
+      }
     },
+
 
     _applyTestCount : function(value, old)
     {},
