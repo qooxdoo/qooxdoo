@@ -40,21 +40,24 @@ qx.Class.define("mobileshowcase.page.Theming",
     this.setShowBackButton(true);
     this.setBackButtonText("Back");
 
-    this.__themes = [{
+    this.__preloadThemes();
+  },
+
+
+  statics :
+  {
+    THEMES : [{
       "name": "Indigo",
       "css": "qx/mobile/css/indigo.css"
     }, {
       "name": "Flat",
       "css": "qx/mobile/css/flat.css"
-    }];
-
-    this.__preloadThemes();
+    }]
   },
 
 
   members :
   {
-    __themes : null,
     __slider : null,
     __demoImageLabel : null,
     __appScale : null,
@@ -65,8 +68,8 @@ qx.Class.define("mobileshowcase.page.Theming",
      * Preloads all css files for preventing flickering on theme switches.
      */
     __preloadThemes : function() {
-      for(var i = 0; i < this.__themes.length; i++) {
-        var cssResource = this.__themes[i].css;
+      for(var i = 0; i < this.self(arguments).THEMES.length; i++) {
+        var cssResource = this.self(arguments).THEMES[i].css;
         var cssURI = qx.util.ResourceManager.getInstance().toUri(cssResource);
 
         var req = new qx.bom.request.Xhr();
@@ -119,10 +122,10 @@ qx.Class.define("mobileshowcase.page.Theming",
       var themeForm = new qx.ui.mobile.form.Form();
 
       var themeRadioGroup = new qx.ui.mobile.form.RadioGroup();
-      for (var i = 0; i < this.__themes.length; i++) {
+      for (var i = 0; i < this.self(arguments).THEMES.length; i++) {
         var radioButton = new qx.ui.mobile.form.RadioButton();
         themeRadioGroup.add(radioButton);
-        themeForm.add(radioButton, this.__themes[i].name);
+        themeForm.add(radioButton, this.self(arguments).THEMES[i].name);
 
         radioButton.addListener("tap", this.__switchTheme, {
           "self": this,
@@ -290,7 +293,7 @@ qx.Class.define("mobileshowcase.page.Theming",
      * @param src {qx.ui.mobile.core.Widget} Source widget of this event.
      */
     __switchTheme : function() {
-      var cssResource = this.self.__themes[this.index].css;
+      var cssResource = this.self.self(arguments).THEMES[this.index].css;
       var cssURI = qx.util.ResourceManager.getInstance().toUri(cssResource);
       this.self.__changeCSS(cssURI, 1);
     },
@@ -301,7 +304,7 @@ qx.Class.define("mobileshowcase.page.Theming",
      * @param cssFile {String} The css file url.
      */
     appendTheme : function(themeData) {
-      this.__themes.push(themeData);
+      this.self(arguments).THEMES.push(themeData);
     },
 
 
