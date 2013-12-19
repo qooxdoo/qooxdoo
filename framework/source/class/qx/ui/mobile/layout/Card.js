@@ -138,7 +138,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       this.base(arguments);
       if (widget) {
         widget.addCssClass("layout-card-item");
-        widget.addCssClass("boxFlex1");
+        widget.addCssClass("flex1");
         widget.exclude();
       }
     },
