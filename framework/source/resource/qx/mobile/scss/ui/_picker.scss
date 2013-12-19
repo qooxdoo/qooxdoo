@@ -16,12 +16,6 @@
   padding-bottom:  $picker-height;
 }
 
-@-moz-document url-prefix() {
-  .picker-slot {
-    padding-top: ($picker-height/2);
-  }
-}
-
 .picker-slot * {
   -webkit-backface-visibility:hidden;
 }
@@ -44,6 +38,7 @@
 .picker-container {
   @include border-radius($picker-spinning-wheel-border-radius);
   @include background($picker-spinning-wheel-background);
+  @include flex-justify-content(flex-start);
   overflow:hidden;
   position:relative;
   height: $picker-height;

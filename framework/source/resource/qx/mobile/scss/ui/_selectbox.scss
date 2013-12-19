@@ -5,7 +5,7 @@
 
 .selectbox {
   @extend .hbox;
-  @extend .boxAlignCenter;
+  @extend .flex-align-center;
   
   @include user-select(none);
   @include border-radius($selectbox-border-radius); 

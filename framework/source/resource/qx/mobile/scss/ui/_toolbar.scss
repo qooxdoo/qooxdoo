@@ -49,7 +49,7 @@
 }
 
 .toolbar-button > div {
-  @extend .boxFlex;
+  @extend .flex1;
 }
 
 .toolbar-button .label {
