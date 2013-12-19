@@ -97,13 +97,13 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     this.__pickerCancelButton = new qx.ui.mobile.form.Button("Cancel");
     this.__pickerCancelButton.addListener("tap", this.hide, this);
 
-    var buttonContainer = this.__pickerButtonContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
-    buttonContainer.add(this.__pickerConfirmButton,{flex:1});
-    buttonContainer.add(this.__pickerCancelButton,{flex:1});
-    buttonContainer.addCssClass("gap");
+    this.__pickerButtonContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
+    this.__pickerButtonContainer.add(this.__pickerConfirmButton);
+    this.__pickerButtonContainer.add(this.__pickerCancelButton);
+    this.__pickerButtonContainer.addCssClass("gap");
 
     this.__pickerContent.add(this.__pickerContainer);
-    this.__pickerContent.add(buttonContainer);
+    this.__pickerContent.add(this.__pickerButtonContainer);
 
     if(anchor) {
       this.setModal(false);
@@ -624,7 +624,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
         var pickerSlot = this._createPickerSlot(slotIndex);
         this.__slotElements.push(pickerSlot.getContentElement());
-        this.__pickerContainer.add(pickerSlot,{flex:1});
+        this.__pickerContainer.add(pickerSlot);
 
         this._renderPickerSlotContent(pickerSlot, slotIndex);
       }
