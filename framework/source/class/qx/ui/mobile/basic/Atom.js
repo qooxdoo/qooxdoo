@@ -143,9 +143,9 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       var verticalLayout = ["top", "bottom"].indexOf(value) != -1;
 
       if(verticalLayout) {
-         targetLayout = new qx.ui.mobile.layout.VBox();
+        targetLayout = new qx.ui.mobile.layout.VBox();
       } else {
-         targetLayout = new qx.ui.mobile.layout.HBox();
+        targetLayout = new qx.ui.mobile.layout.HBox();
       }
 
       var isReverse = ["right", "bottom"].indexOf(value) != -1;
@@ -239,6 +239,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       var iconWidget = new qx.ui.mobile.basic.Image(iconUrl);
       qx.bom.element.Style.set(iconWidget.getContentElement(),"display","block");
       iconWidget.setAnonymous(true);
+      iconWidget.addCssClass("gap");
       return iconWidget;
     },
 
@@ -254,7 +255,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       var labelWidget = new qx.ui.mobile.basic.Label(label);
       labelWidget.setAnonymous(true);
       labelWidget.setWrap(false);
-
+      labelWidget.addCssClass("gap");
       return labelWidget;
     },
 
@@ -292,16 +293,16 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       }
 
       this.__childrenContainer = new qx.ui.mobile.container.Composite(layout);
-      this.__childrenContainer.addCssClass("box-centered");
+      this.__childrenContainer.addCssClass("flex-center");
       this.__childrenContainer.setAnonymous(true);
 
       if(this.__icon) {
-        this.__childrenContainer.add(this.__icon, {flex : 0});
+        this.__childrenContainer.add(this.__icon);
       }
 
       if(this.__label) {
-        this.__label.addCssClass("box-centered");
-        this.__childrenContainer.add(this.__label, {flex : 0});
+        this.__label.addCssClass("flex-center");
+        this.__childrenContainer.add(this.__label);
       }
 
       // Show/Hide Label/Icon

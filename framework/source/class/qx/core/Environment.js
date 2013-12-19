@@ -201,6 +201,10 @@
  *       <td>{@link qx.bom.client.Css#getPointerEvents}</td>
  *     </tr>
  *     <tr>
+ *       <td>css.flexboxSyntax</td><td><i>String</i> or <i>null</i></td><td><code>"flex"</code></td>
+ *       <td>{@link qx.bom.client.Css#getFlexboxSyntax}</td>
+ *     </tr>
+ *     <tr>
  *       <td colspan="4"><b>device</b></td>
  *     </tr>
  *     <tr>

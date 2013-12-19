@@ -76,6 +76,8 @@
   transform-origin: $args;
 }
 
+// FLEXIBLE BOX LAYOUT: OLD SYNTAX
+
 @mixin box-orient($args) {
   -webkit-box-orient: $args;
   -moz-box-orient: $args;
@@ -85,27 +87,23 @@
 @mixin box-align($args) {
   -webkit-box-align: $args;
   -moz-box-align: $args;
-  -ms-flex-align: $args;
   box-align: $args;
 }
 
 @mixin box-flex($args) {
-  -webkit-box-flex: $args;
-  -moz-box-flex: $args;
-  -ms-flex: $args $args auto;
+  -webkit-box-flex: $args;      /* OLD - iOS 6-, Safari 3.1-6 */
+  -moz-box-flex: $args;         /* OLD - Firefox 19- */
   box-flex: $args;
 }
 
 @mixin box-direction($args) {
   -webkit-box-direction: $args;
   -moz-box-direction: $args;
-  box-direction: $args;
 }
 
 @mixin box-pack($args) {
   -webkit-box-pack: $args;
   -moz-box-pack: $args;
-  -ms-flex-pack: $args;
   box-pack: $args;
 }
 
@@ -115,17 +113,37 @@
   box-flex-group: $args;
 }
 
-@mixin box-ordinal-group($args) {
-  -moz-box-ordinal-group:$args;
-  -webkit-box-ordinal-group:$args;
-  box-ordinal-group:$args;
+// FLEXIBLE BOX LAYOUT: SYNTAX 08 2012
+
+@mixin flex($args) {
+  -webkit-flex: $args $args auto;              /* Chrome */
+  -ms-flex: $args $args auto;       /* IE 10 */ 
+  flex: $args $args;                /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 
-// FLEXBOX LAYOUT: SYNTAX 08 2012
 
-@mixin flexbox-direction($args) {
-  -ms-flex-direction: $args;
+@mixin flex-align-items($args) {
+  -ms-flex-align: $args;            /* IE 10 */
+  -ms-align-items: $args;           /* IE 10+ */
+  -webkit-align-items: $args;       /* Chrome */
+  align-items: $args;               /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
+
+@mixin flex-direction($args) {
+  -ms-flex-direction: $args;        /* IE 10 */
+  -webkit-flex-direction: $args;    /* Chrome */
+  flex-direction: $args;            /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+
+
+@mixin flex-justify-content($args) {
+  -ms-justify-content: $args;       /* IE 10+ */
+  -ms-flex-pack: $args;             /* IE 10 */
+  -webkit-justify-content: $args;   /* Chrome */
+  justify-content: $args;           /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+
+// -------------------------------
 
 @mixin border-image($args) {
   -webkit-border-image: $args;

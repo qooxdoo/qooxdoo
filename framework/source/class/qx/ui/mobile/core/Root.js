@@ -55,6 +55,11 @@ qx.Class.define("qx.ui.mobile.core.Root",
       document.body.style.webkitTransform = "translate3d(0,0,0)";
     }
 
+    var flexboxSyntax = qx.core.Environment.get("css.flexboxSyntax");
+    if (flexboxSyntax === "flex" || flexboxSyntax === "flexbox") {
+      this.addCssClass("flex-ready");
+    }
+
     this._onOrientationChange();
   },
 
