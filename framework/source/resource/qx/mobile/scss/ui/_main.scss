@@ -6,6 +6,9 @@
 .page {
   @include backface-visibility(hidden);
 
+  height:100%;
+  width:100%;
+
   /* Disable touch behaviors, like pan and zoom for IE10*/
   -ms-touch-action: none;
 }
@@ -35,4 +38,18 @@
   @include background($navigationpage-background);
 }
 
-@include createGap((".gap"),rem(5));
+.hbox:not(.flex-reverse) > .gap:not(.exclude) + #{$second-widget} {
+  margin-left: rem(5);
+}
+
+div:not(.hbox):not(.flex-reverse) > .gap:not(.exclude) + #{$second-widget} {
+  margin-top: rem(5);
+}
+
+.hbox.flex-reverse > .gap:not(.exclude) + #{$second-widget} {
+  margin-right: rem(5);
+}
+
+div:not(.hbox).flex-reverse > .gap:not(.exclude) + #{$second-widget} {
+  margin-bottom: rem(5);
+}
