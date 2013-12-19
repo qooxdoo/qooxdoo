@@ -85,8 +85,6 @@ qx.Class.define("qx.ui.mobile.list.List",
     if (qx.core.Environment.get("qx.dynlocale")) {
       qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
     }
-
-    this._setLayout(new qx.ui.mobile.layout.VBox());
   },
 
 
