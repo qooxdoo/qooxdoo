@@ -108,7 +108,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.__picker = this._createPicker(showPickerButton);
 
       // ANCHORED MENU POPUP
-          var showAnchorMenuButton = new qx.ui.mobile.form.Button("Anchor Menu");
+      var showAnchorMenuButton = new qx.ui.mobile.form.Button("Anchor Menu");
       showAnchorMenuButton.addListener("tap", function(e) {
         this._stop();
         this.__anchorMenu.show();
