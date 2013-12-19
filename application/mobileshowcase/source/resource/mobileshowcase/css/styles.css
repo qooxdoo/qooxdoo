@@ -156,7 +156,6 @@
 /* DIALOG */
 
 .dialog-group-title {
-  padding-left: 0.5rem;
   font-size: 1em;
   text-align:center;
   display:block;
@@ -210,6 +209,7 @@
 #mapMenu {
   position:absolute;
   z-index: 5000;
+  top: 0px;
   right: 0px;
 
   background-color: white;
@@ -221,10 +221,6 @@
 #mapMenu .group.bordered {
   background-color:white !important;
   padding:8px;
-}
-
-#mapMenu .group.bordered .toggleButton {
-  margin:0 auto;
 }
 
 .osmMapLabel{
