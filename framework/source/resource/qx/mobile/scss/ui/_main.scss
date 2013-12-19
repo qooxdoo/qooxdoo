@@ -38,18 +38,19 @@
   @include background($navigationpage-background);
 }
 
-.hbox:not(.flex-reverse) > .gap:not(.exclude) + #{$second-widget} {
+.hbox:not(.flex-reverse) > .gap:not(.exclude) + .gap {
   margin-left: rem(5);
 }
 
-div:not(.hbox):not(.flex-reverse) > .gap:not(.exclude) + #{$second-widget} {
+div:not(.hbox):not(.flex-reverse) > .gap:not(.exclude) + .gap {
   margin-top: rem(5);
 }
 
-.hbox.flex-reverse > .gap:not(.exclude) + #{$second-widget} {
+.hbox.flex-reverse > .gap:not(.exclude) + .gap {
   margin-right: rem(5);
 }
 
-div:not(.hbox).flex-reverse > .gap:not(.exclude) + #{$second-widget} {
+div:not(.hbox).flex-reverse > .gap:not(.exclude) + .gap {
   margin-bottom: rem(5);
 }
+
