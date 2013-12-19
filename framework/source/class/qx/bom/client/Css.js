@@ -483,6 +483,43 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
       }
       return false;
+    },
+
+
+    /**
+     * Returns which Flexbox syntax is supported by the browser.
+     * <code>display: box;</code> old 2009 version of Flexbox.
+     * <code>display: flexbox;</code> tweener phase in 2011.
+     * <code>display: flex;</code> current specification.
+     * @internal
+     * @return {String} <code>flex</code>,<code>flexbox</code>,<code>box</code> or <code>null</code>
+     */
+    getFlexboxSyntax : function() {
+      var detectedSyntax = null;
+
+      var detector = document.createElement("detect");
+      var flexSyntax = [{
+        value: "flex",
+        syntax: "flex"
+      }, {
+        value: "-ms-flexbox",
+        syntax: "flexbox"
+      }, {
+        value: "-webkit-flex",
+        syntax: "flex"
+      }];
+
+      for (var i = 0; i < flexSyntax.length; i++) {
+        detector.style.display = flexSyntax[i].value;
+        if (detector.style.display === flexSyntax[i].value) {
+          detectedSyntax = flexSyntax[i].syntax;
+          break;
+        }
+      }
+
+      detector = null;
+
+      return detectedSyntax;
     }
   },
 
@@ -513,5 +550,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.textShadow.filter", statics.getFilterTextShadow);
     qx.core.Environment.add("css.alphaimageloaderneeded", statics.getAlphaImageLoaderNeeded);
     qx.core.Environment.add("css.pointerevents", statics.getPointerEvents);
+    qx.core.Environment.add("css.flexboxSyntax", statics.getFlexboxSyntax);
   }
 });
