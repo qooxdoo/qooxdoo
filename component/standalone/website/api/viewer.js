@@ -42,8 +42,6 @@ q.ready(function() {
   q("h1").setHtml(title);
   document.title = docTitle;
 
-  // global storage for the method index
-  var data = {};
   var icons = {
     "Core": "&#xF0C7;",
     "Extras": "&#xF01D;",
@@ -165,207 +163,6 @@ q.ready(function() {
   });
 
 
-  // load API data of q
-  q.io.xhr("script/qxWeb.json").on("loadend", function(xhr) {
-    var handleSuccess = function() {
-      var ast = JSON.parse(xhr.responseText);
-
-      // constructor
-      var construct = getByType(ast, "constructor");
-      data["Core"] = {"static" : [], "member": []};
-      data["Core"]["static"].push(getByType(construct, "method"));
-
-      createData(ast);
-      loadEventNorm();
-      loadPolyfills();
-      onContentReady();
-    };
-
-    var isFileProtocol = function() {
-      return (location.protocol.indexOf("file") === 0);
-    };
-
-    if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
-      if (q.env.get("engine.name") == "mshtml" && isFileProtocol()) {
-        // postpone data processing in IE when using file protocol
-        // to prevent rendering no module doc at all
-        window.setTimeout(handleSuccess, 0);
-      } else {
-        handleSuccess();
-      }
-    } else {
-      q("#warning").setStyle("display", "block");
-      if (isFileProtocol()) {
-        q("#warning em").setHtml("File protocol not supported. Please load the application via HTTP.");
-      }
-    }
-  }).send();
-
-
-  var loadEventNorm = function() {
-    var norm = q.env.get("q.eventtypes");
-    if (norm) {
-      norm = norm.split(",");
-      norm.forEach(function(name) {
-        loading++;
-        q.io.xhr("script/" + name + ".json").on("loadend", function(xhr) {
-          loading--;
-          if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
-            var ast = JSON.parse(xhr.responseText);
-            var name = ast.attributes.name;
-            data[name] = {
-              type: "class",
-              prefix: "event.",
-              ast : ast
-            };
-          } else {
-            console && console.warn("Event normalization '" + name + "' could not be loaded.");
-          }
-          onContentReady();
-        }).send();
-      });
-    }
-  };
-
-
-  polyfillClasses = [];
-  var loadPolyfills = function() {
-    if (!(q.$$qx.module.Polyfill && q.$$qx.lang.normalize) ) {
-      return;
-    }
-
-    polyfillClasses = Object.keys(q.$$qx.lang.normalize);
-    for (var clazz in q.$$qx.lang.normalize) {
-      loading++;
-      q.io.xhr("script/qx.lang.normalize." + clazz + ".json").on("loadend", function(xhr) {
-        loading--;
-        if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
-          var ast = JSON.parse(xhr.responseText);
-          var name = ast.attributes.name;
-          data[name] = {
-            type: "class",
-            prefix: "normalize.",
-            ast : ast
-          };
-        } else {
-          console && console.warn("Polyfill '" + clazz + "' could not be loaded.");
-        }
-        onContentReady();
-      }).send();
-    }
-  };
-
-
-  var loadedClasses = [];
-  var loadClass = function(name) {
-    if (loadedClasses.indexOf(name) != -1) {
-      return;
-    }
-    // ignore the q class
-    if (name == "q") {
-      return;
-    }
-
-    loadedClasses.push(name);
-    loading++;
-    q.io.xhr("script/" + name + ".json").on("loadend", function(xhr) {
-      loading--;
-      if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
-        var ast = JSON.parse(xhr.responseText);
-        var moduleName = ast.attributes.name;
-        getByType(ast, "methods-static").children = [];
-        if (data[moduleName]) {
-          data[moduleName].member.forEach(function(method) {
-            var attach = getByType(method, "attach");
-            var prefix = attach.attributes.targetClass == "qxWeb" ? "" : attach.attributes.targetClass;
-            prefix += "." + method.attributes.name;
-            method.attributes.prefixedMethodName = prefix;
-            getByType(ast, "methods").children.unshift(method);
-          });
-        }
-        data[moduleName] = {
-          type: "class",
-          ast : ast,
-          prefix: ""
-        };
-      } else {
-        name = getModuleNameFromClassName(name);
-        q("#content").append(
-          q.create("<h1>" + name + "</h1><p style='color: #C00F00'><em>Failed to load " + name + " documentation!</em></p>")
-        );
-      }
-      onContentReady();
-    }).send();
-  };
-
-
-  var loadReturnTypes = function(method) {
-    var returnType = getByType(method, "return");
-    if (returnType) {
-      getByType(returnType, "types").children.forEach(function(item) {
-        var type = item.attributes.type;
-        if (IGNORE_TYPES.indexOf(type) == -1 && MDC_LINKS[type] === undefined) {
-          loadClass(type);
-        }
-      });
-    }
-  };
-
-
-  /**
-   * DATA PROCESSING
-   */
-  var desc = "";
-  var createData = function(ast) {
-    desc = getByType(ast, "desc").attributes.text;
-    attachData(getByType(ast, "methods-static"), "static");
-    attachData(getByType(ast, "methods"), "member");
-    // sort all methods
-    for (var module in data) {
-      data[module]["static"].sort(sortMethods);
-      data[module]["member"].sort(sortMethods);
-      data[module]["static"].forEach(loadReturnTypes);
-      data[module]["member"].forEach(loadReturnTypes);
-    }
-
-    var setGroup = function(method) {
-      method.attributes.group = "Core";
-    };
-
-    data["Core"]["static"].forEach(setGroup);
-    data["Core"]["member"].forEach(setGroup);
-
-    for (var moduleName in data) {
-      var group = data[moduleName].group;
-      if (!group && data[moduleName].member.length > 0) {
-        group = data[moduleName].member[0].attributes.group;
-      }
-      if (!group && data[moduleName].static.length > 0) {
-        group = data[moduleName].static[0].attributes.group;
-      }
-      if (!group) {
-        group = "Extras";
-      }
-      data[moduleName].group = group;
-    }
-  };
-
-
-  var attachData = function(ast, type) {
-    ast && ast.children.forEach(function(item) {
-      // skip internal methods
-      if (isInternal(item)) {
-        return;
-      }
-      var module = getModuleName(item.attributes.sourceClass);
-      if (!data[module]) {
-        data[module] = {"static": [], "member": [], fileName: item.attributes.sourceClass};
-      }
-      data[module][type].push(item);
-    });
-  };
-
-
   var sortMethods = function(a, b) {
     return getMethodName(a) > getMethodName(b) ? 1 : -1;
   };
@@ -375,28 +172,28 @@ q.ready(function() {
    * LIST
    * @lint ignoreUndefined(q)
    */
-  var renderList = function() {
-    var keys = getDataKeys();
+  var renderList = function(data) {
+    var keys = data.getKeys();
     for (var i = 0; i < keys.length; i++) {
-      var module = keys[i];
-      if (data[module].type == "class") {
-        renderClass(data[module].ast, data[module].prefix, true);
-      } else {
-        renderListModule(module, data[module]);
-      }
+      var moduleName = keys[i];
+      var module = data.getModule(moduleName);
+      renderListModule(moduleName, module);
     }
   };
 
 
-  var renderListModule = function(id, data, prefix) {
+  var renderListModule = function(id, data) {
     var name = id.replace(/_/g, " ");
     var checkMissing = q.$$qx.core.Environment.get("apiviewer.check.missingmethods");
     var className = convertNameToCssClass(id, "nav-");
 
     var factoryName;
     var ul = q.create("<ul></ul>");
-    data["static"].forEach(function(ast) {
-      var methodName = getMethodName(ast, prefix);
+    data["static"].forEach(function(methodAst) {
+      if (isInternal(methodAst)) {
+        return;
+      }
+      var methodName = getMethodName(methodAst, data.prefix);
       var missing = false;
       if (checkMissing !== false) {
         missing = isMethodMissing(methodName, data.classname);
@@ -409,11 +206,12 @@ q.ready(function() {
         plugin: isPluginMethod(methodName)
       }).appendTo(ul);
     });
-    data["member"].forEach(function(ast) {
-      var methodName = getMethodName(ast, prefix);
-      var methodIsFactory = isFactory(ast, name);
+
+    data["member"].forEach(function(methodAst) {
+      var methodName = getMethodName(methodAst, data.prefix);
+      var methodIsFactory = isFactory(methodAst, name);
       factoryName = methodIsFactory ? methodName + "()": factoryName;
-      if (methodIsFactory) {
+      if (methodIsFactory || isInternal(methodAst)) {
         return;
       }
 
@@ -475,17 +273,17 @@ q.ready(function() {
     }
   };
 
-  var isFactory = function(ast, moduleName) {
+  var isFactory = function(methodAst, moduleName) {
     var type;
-    var returnType = getByType(ast, "return");
+    var returnType = getByType(methodAst, "return");
     returnType && getByType(returnType, "types").children.forEach(function(item) {
       type = item.attributes.type;
     });
     if (type) {
       var returnModuleName = getModuleNameFromClassName(type);
-      var attach = getByType(ast, "attach");
+      var attach = getByType(methodAst, "attach");
       if (!attach.attributes.targetClass) {
-        attach = getByType(ast, "attachStatic");
+        attach = getByType(methodAst, "attachStatic");
       }
       return returnModuleName == moduleName && attach.attributes.targetClass == "qxWeb";
     }
@@ -530,110 +328,21 @@ q.ready(function() {
     return false;
   };
 
-  var extractPluginApi = function() {
-    for (var moduleName in data) {
-      var moduleData = data[moduleName];
-      if (moduleData.static) {
-        var pluginModuleName;
-        for (var i=moduleData.static.length - 1; i>=0; i--) {
-          var method = moduleData.static[i];
-          if (method.attributes.name.indexOf("$") === 0) {
-            pluginModuleName = moduleName + "_Plugin_API";
-            if (!data[pluginModuleName]) {
-              data[pluginModuleName] = {
-                member: [],
-                static: [],
-                group: "Plugin_API"
-              };
-            }
-            method.attributes.group = "Plugin_API";
-            data[pluginModuleName].static.push(method);
-            moduleData.static.splice(i, 1);
-          }
-        }
-        if (pluginModuleName) {
-          data[pluginModuleName].static.sort(sortMethods);
-        }
-      }
-    }
-  };
-
-  /**
-   * Move methods that return a class instance to the documentation
-   * of that class
-   */
-  var moveMethodsToReturnTypes = function() {
-    var removeMethods = [];
-    forEachMethodList(function(methods, groupName) {
-      methods.forEach(function(method) {
-        var returnType = getByType(method, "return");
-        if (returnType) {
-          var type;
-          getByType(returnType, "types").children.forEach(function(item) {
-            type = item.attributes.type;
-          });
-          // if we have a return type
-          if (type) {
-            var module = getModuleNameFromClassName(type);
-            // if we have docs for the return type
-            if (data[module] && data[module].type == "class" &&
-                type == data[module].ast.attributes.fullName) {
-
-              var attach = getByType(method, "attach");
-              var attachStatic = getByType(method, "attachStatic");
-              var isAttachStatic = attachStatic.type == "attachStatic";
-              var returnTypeMethods = getByType(data[module].ast, "methods");
-
-              // ignore attached methods of returned types
-              if (returnTypeMethods.children.indexOf(method) == -1) {
-                var prefix;
-                if (isAttachStatic) {
-                  prefix = attachStatic.attributes.targetClass == "qxWeb" ? "q" : attachStatic.attributes.targetClass;
-                  prefix += "." + attachStatic.attributes.targetMethod;
-                } else {
-                  prefix = attach.attributes.targetClass == "qxWeb" ? "" : attach.attributes.targetClass;
-                  prefix += "." + method.attributes.name;
-                }
-                method.attributes.prefixedMethodName = prefix;
-
-                returnTypeMethods.children.unshift(method);
-                removeMethods.push({method: method, parent: methods});
-              }
-            }
-          }
-        }
-      });
-    });
-
-    removeMethods.forEach(function(obj) {
-      // remove the methods from the former parents
-      obj.parent.splice(obj.parent.indexOf(obj.method), 1);
-      // get the name for the old module / class
-      var sourceModuleName = getModuleName(obj.method.attributes.sourceClass);
-      var sourceModule = data[sourceModuleName];
-      // if the old module / class is empty, remove it
-      if (sourceModule.static.length == 0 && sourceModule.member.length == 0) {
-        delete data[sourceModuleName];
-      }
-    });
-  };
 
   /**
    * CONTENT
    */
-  renderContent = function() {
-    var keys = getDataKeys();
+  renderContent = function(data) {
+    var keys = data.getKeys();
     for (var i = 0; i < keys.length; i++) {
-      if (data[keys[i]].ast) {
-        renderClass(data[keys[i]].ast, data[keys[i]].prefix);
-      } else {
-        renderModule(keys[i], data[keys[i]]);
-      }
+      var moduleName = keys[i];
+      var module = data.getModule(moduleName);
+      renderModule(keys[i], module);
     }
   };
 
 
-  var renderModule = function(name, data, prefix) {
+  var renderModule = function(name, data) {
     // render module desc
     var group = data.group;
     if (!group) {
@@ -662,11 +371,11 @@ q.ready(function() {
     var module = q.create("<div class='module'>").appendTo(groupEl);
     module.append(q.create("<h1 " + groupIcon + "id='" + name + "'>" + name.replace(/_/g, " ") + "</h1>"));
 
-    if (data.superclass) {
-      var newName = data.superclass.split(".");
+    if (data.superClass) {
+      var newName = data.superClass.split(".");
       newName = newName[newName.length -1];
       var ignore = IGNORE_TYPES.indexOf(newName) != -1 ||
-                   MDC_LINKS[data.superclass] !== undefined;
+                   MDC_LINKS[data.superClass] !== undefined;
       var link = newName;
       if (newName == "qxWeb") {
         link = "Core";
@@ -677,19 +386,10 @@ q.ready(function() {
       var superClass = ignore ? newName :
       "<span> extends <a href='#" + link + "'>" + newName + "</a></span>";
       module.getChildren("h1").append(q.create(superClass));
-
-      if (!ignore) {
-        loadClass(data.superclass);
-      }
     }
 
-    if (data.fileName) {
-      addClassDoc(data.fileName, module);
-    } else if (data.desc) {
+    if (data.desc) {
       module.append(q.create("<div>").setHtml(parse(data.desc)));
-
-    } else if (name == "Core") {
-      module.append(q.create("<div>").setHtml(parse(desc)));
     }
 
     if (data.events) {
@@ -710,33 +410,33 @@ q.ready(function() {
       module.append(typesEl);
     }
 
-    if (data.templates && data.templates.desc) {
+    if (data.templates) {
       renderWidgetSettings(data, module, "templates", "#widget.setTemplate");
     }
 
-    if (data.config && data.config.desc) {
+    if (data.config) {
       renderWidgetSettings(data, module, "config");
     }
 
     data["static"].forEach(function(method) {
-      module.append(renderMethod(method, prefix));
+      if (!isInternal(method)) {
+        module.append(renderMethod(method, data.prefix));
+      }
     });
     data["member"].forEach(function(method) {
-      var methodDoc = renderMethod(method, prefix);
-      if (isFactory(method, name)) {
-        methodDoc.addClass("factory");
-        module.append(q.create("<h2>Factory Method</h2>"));
+      if (!isInternal(method)) {
+        var methodDoc = renderMethod(method, data.prefix);
+        if (isFactory(method, name)) {
+          methodDoc.addClass("factory");
+          module.append(q.create("<h2>Factory Method</h2>"));
+        }
+        module.append(methodDoc);
       }
-      module.append(methodDoc);
     });
   };
 
 
   var renderMethod = function(method, prefix) {
-    // skip internal methods
-    if (isInternal(method)) {
-      return;
-    }
     // add the name
     var data = {name: getMethodName(method, prefix)};
 
@@ -803,60 +503,6 @@ q.ready(function() {
   };
 
 
-  var addClassDoc = function(name, parent) {
-    if (name) {
-      name = name.split("#")[0];
-    } else {
-      parent.append(desc);
-      return;
-    }
-
-    loading++;
-    q.io.xhr("script/" + name + ".json").on("loadend", function(xhr) {
-      loading--;
-      if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
-        var ast = JSON.parse(xhr.responseText);
-        // class doc
-        var desc = getByType(ast, "desc");
-        var classDoc;
-        if (desc && desc.attributes && desc.attributes.text) {
-          classDoc = q.create(parse(desc.attributes.text));
-          classDoc.insertAfter(parent.find("h1"));
-        }
-
-        var eventsEl = renderEvents(getEvents(ast));
-        if (eventsEl) {
-          if (classDoc) {
-            eventsEl.insertAfter(classDoc.getLast());
-          } else {
-            eventsEl.insertAfter(parent.find("h1"));
-          }
-        }
-      } else {
-        parent.append(
-          q.create("<p style='color: #C00F00'><em>Failed to load module documentation!</em></p>")
-        );
-      }
-      onContentReady();
-    }).send();
-  };
-
-
-  var getEvents = function(ast) {
-    var events = getByType(ast, "events");
-    var data = [];
-    events.children.forEach(function(event) {
-      var name = event.attributes.name;
-      var desc = getByType(event, "desc").attributes.text;
-      var type = getByType(event, "types").children[0].attributes.type;
-      // ignore undefined as type
-      type = type == "undefined" ? "" : addTypeLink(type);
-      data.push({name: name, type: type, desc: desc});
-    });
-    return data;
-  };
-
-
   var renderEvents = function(events) {
     if (events.length == 0) {
       return null;
@@ -894,59 +540,13 @@ q.ready(function() {
   };
 
 
-  var renderClass = function(ast, prefix, inList) {
-    var module = {"member": [], "static": [], "templates": {}, "config": {}};
-
-    getByType(ast, "methods").children.forEach(function(method) {
-      // skip internal methods
-      if (isInternal(method)) {
-        return;
-      }
-      module.member.push(method);
-    });
-
-    // classes are always return types so their static members are
-    // not accessible - ignore them
-
-    var name = ast.attributes.name;
-
-    // event normalization types
-    var constants = getByType(ast, "constants");
-    for (var i=0; i < constants.children.length; i++) {
-      var constant = constants.children[i];
-      var constName = constant.attributes.name;
-      if (constName == "TYPES") {
-        module.types = constant.attributes.value;
-        continue;
-      } else {
-        if (constName == "_templates" || constName == "_config") {
-          var desc = getByType(constant, "desc");
-          module[constName.replace("_", "")].desc = desc.attributes.text;
-        }
-      }
-    }
-
-    module.desc = getByType(ast, "desc").attributes.text || "";
-    module.events = getEvents(ast);
-    module.classname = ast.attributes.fullName;
-    module.superclass= ast.attributes.superClass;
-    module.group = ast.attributes.group || "Extras";
-
-    if (inList) {
-      renderListModule(name, module, prefix || name + ".");
-    } else {
-      renderModule(name, module, prefix || name + ".");
-    }
-  };
-
-
   var renderWidgetSettings = function(data, module, type, linkTarget) {
     var upperType = q.string.firstUp(type);
     if (!linkTarget) {
       linkTarget = "#widget.set" + upperType;
     }
     module.append(q.create("<h2>" + upperType + " <a title='More information on " + type + "' class='info' href='" + linkTarget + "'>i</a></h2>"));
-    var desc = parse(data[type].desc);
+    var desc = parse(data[type]);
     module.append(q.create("<div>").setHtml(desc).addClass("widget-settings"));
   };
 
@@ -995,22 +595,15 @@ q.ready(function() {
   /**
    * FINALIZE
    */
-  var loading = 0;
   // no highlighting for IE < 9
   var useHighlighter = !(q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 9);
 
   var onContentReady = function() {
-    if (loading > 0) {
-      return;
-    }
-
     var listRendered = q("#list").find("> ul > li").length > 0;
     if (!listRendered) {
-      extractPluginApi();
-      moveMethodsToReturnTypes();
-      renderList();
+      renderList(this);
       sortList();
-      renderContent();
+      renderContent(this);
       loadSamples();
       var acc = q("#list").accordion();
 
@@ -1108,24 +701,6 @@ q.ready(function() {
   /**
    * HELPERS
    */
-   var getDataKeys = function() {
-     var keys = [];
-     for (var key in data) {
-       keys.push(key);
-     }
-     keys.sort(function(a, b) {
-       if (a == "Core") {
-         return -1;
-       }
-       if (b == "Core") {
-         return 1;
-       }
-       return a < b ? -1 : +1;
-     });
-     return keys;
-   };
-
-
   var getByType = function(ast, type) {
     if (ast.children) {
       for (var i=0; i < ast.children.length; i++) {
@@ -1171,7 +746,6 @@ q.ready(function() {
     if (item.attributes.prefixedMethodName) {
       return item.attributes.prefixedMethodName;
     }
-
     var attachData = getByType(item, "attachStatic");
     if (prefix) {
       if (item.attributes.prefix) {
@@ -1426,30 +1000,6 @@ q.ready(function() {
   };
 
 
-  var forEachMethodList = function(callback) {
-    for (var moduleName in data) {
-      var moduleData = data[moduleName];
-      if (moduleData.member) {
-        callback(moduleData.member, moduleData.group);
-      }
-      if (moduleData.static) {
-        callback(moduleData.static, moduleData.group);
-      }
-      if (moduleData.ast && moduleData.ast.children) {
-        for (var i=0, l=moduleData.ast.children.length; i<l; i++) {
-          var childNode = moduleData.ast.children[i];
-          if (childNode.type &&
-              childNode.type.indexOf("methods") === 0 &&
-              childNode.children)
-          {
-            callback(childNode.children, moduleData.ast.attributes.group);
-          }
-        }
-      }
-    }
-  };
-
-
   var appendWidgetMarkup = function(methodName, sample) {
     if (!sample.showMarkup) {
       return;
@@ -1536,4 +1086,477 @@ q.ready(function() {
     appendSample(sampleMap, headerElement);
     scrollContentIntoView();
   };
+
+
+  var Data = q.define({
+    // TODO: Attach Emitter to qxWeb
+    extend : q.$$qx.event.Emitter,
+
+    construct : function() {
+      this.__data = {};
+      this.__polyfillClasses = [];
+      this.__loadedClasses = [];
+      this._loadIndex();
+    },
+
+    members : {
+      __data : null,
+      __desc : "",
+      __polyfillClasses : null,
+      __loading : 0,
+      __loadedClasses : null,
+
+      _loadIndex : function() {
+        // load API data of q
+        q.io.xhr("script/qxWeb.json").on("loadend", function(xhr) {
+          var isFileProtocol = function() {
+            return (location.protocol.indexOf("file") === 0);
+          };
+
+          if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
+            var ast = JSON.parse(xhr.responseText);
+            if (q.env.get("engine.name") == "mshtml" && isFileProtocol()) {
+              // postpone data processing in IE when using file protocol
+              // to prevent rendering no module doc at all
+              window.setTimeout(this._handleSuccess.bind(this, ast), 0);
+            } else {
+              this._handleSuccess(ast);
+            }
+          } else {
+            //TODO: Event/Exception
+            q("#warning").setStyle("display", "block");
+            if (isFileProtocol()) {
+              q("#warning em").setHtml("File protocol not supported. Please load the application via HTTP.");
+            }
+          }
+        }, this).send();
+      },
+
+
+      _handleSuccess : function(ast) {
+        // constructor
+        var construct = getByType(ast, "constructor");
+        this.__data["Core"] = {"static" : [], "member": []};
+        this.__data["Core"]["static"].push(getByType(construct, "method"));
+        this.__data["Core"]["desc"] = getByType(ast, "desc").attributes.text;
+
+        this._saveIndex(ast);
+
+        for (var module in this.__data) {
+          var fileName = this.__data[module].fileName;
+          if (fileName) {
+            this._loadModuleDoc(fileName, module);
+          }
+        }
+
+        this._loadEventNorm();
+        this._loadPolyfills();
+        this._checkReady();
+      },
+
+
+      _saveIndex : function(ast) {
+        this.__desc = getByType(ast, "desc").attributes.text;
+        this._attachMethodsToModules(getByType(ast, "methods-static"), "static");
+        this._attachMethodsToModules(getByType(ast, "methods"), "member");
+        // sort all methods
+        for (var module in this.__data) {
+          this.__data[module]["static"].sort(sortMethods);
+          this.__data[module]["member"].sort(sortMethods);
+          this.__data[module]["static"].forEach(this._loadReturnTypes.bind(this));
+          this.__data[module]["member"].forEach(this._loadReturnTypes.bind(this));
+        }
+
+        var setGroup = function(method) {
+          method.attributes.group = "Core";
+        };
+
+        this.__data["Core"]["static"].forEach(setGroup);
+        this.__data["Core"]["member"].forEach(setGroup);
+
+        for (var moduleName in this.__data) {
+          var group = this.__data[moduleName].group;
+          if (!group && this.__data[moduleName].member.length > 0) {
+            group = this.__data[moduleName].member[0].attributes.group;
+          }
+          if (!group && this.__data[moduleName].static.length > 0) {
+            group = this.__data[moduleName].static[0].attributes.group;
+          }
+          if (!group) {
+            group = "Extras";
+          }
+          this.__data[moduleName].group = group;
+        }
+      },
+
+
+      _attachMethodsToModules : function(ast, type) {
+        ast && ast.children.forEach(function(item) {
+          // skip internal methods
+          if (isInternal(item)) {
+            return;
+          }
+          var module = getModuleName(item.attributes.sourceClass);
+          if (!this.__data[module]) {
+            this.__data[module] = {"static": [], "member": [], fileName: item.attributes.sourceClass};
+          }
+          this.__data[module][type].push(item);
+        }.bind(this));
+      },
+
+
+      _loadEventNorm : function() {
+        var norm = q.env.get("q.eventtypes");
+        if (norm) {
+          norm = norm.split(",");
+          norm.forEach(function(name) {
+            this.__loading++;
+            q.io.xhr("script/" + name + ".json").on("loadend", function(xhr) {
+              this.__loading--;
+              if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
+                var ast = JSON.parse(xhr.responseText);
+                var moduleName = ast.attributes.name;
+                this._saveClassData(moduleName, ast);
+                this.__data[moduleName].prefix = "event.";
+              } else {
+                console && console.warn("Event normalization '" + name + "' could not be loaded.");
+              }
+              this._checkReady();
+            }, this).send();
+          }.bind(this));
+        }
+      },
+
+
+      _loadPolyfills : function() {
+        if (!(q.$$qx.module.Polyfill && q.$$qx.lang.normalize) ) {
+          return;
+        }
+
+        this.__polyfillClasses = Object.keys(q.$$qx.lang.normalize);
+        for (var clazz in q.$$qx.lang.normalize) {
+          this.__loading++;
+          q.io.xhr("script/qx.lang.normalize." + clazz + ".json").on("loadend", function(xhr) {
+            this.__loading--;
+            if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
+              var ast = JSON.parse(xhr.responseText);
+              var moduleName = ast.attributes.name;
+
+              this._saveClassData(moduleName, ast);
+              this.__data[moduleName].prefix = "normalize.";
+            } else {
+              console && console.warn("Polyfill '" + clazz + "' could not be loaded.");
+            }
+            this._checkReady();
+          }, this).send();
+        }
+      },
+
+
+      _loadClass : function(className) {
+        if (this.__loadedClasses.indexOf(className) != -1) {
+          return;
+        }
+        // ignore the q class
+        if (className == "q") {
+          return;
+        }
+
+        this.__loadedClasses.push(className);
+        this.__loading++;
+        q.io.xhr("script/" + className + ".json").on("loadend", function(xhr) {
+          this.__loading--;
+          if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
+            var ast = JSON.parse(xhr.responseText);
+            var moduleName = ast.attributes.name;
+            getByType(ast, "methods-static").children = [];
+            if (this.__data[moduleName]) {
+              this.__data[moduleName].member.forEach(function(method) {
+                var attach = getByType(method, "attach");
+                var prefix = attach.attributes.targetClass == "qxWeb" ? "" : attach.attributes.targetClass;
+                prefix += "." + method.attributes.name;
+                method.attributes.prefixedMethodName = prefix;
+                getByType(ast, "methods").children.unshift(method);
+              });
+            }
+
+            getByType(ast, "methods").children.forEach(function(method) {
+              if (!method.attributes.prefixedMethodName) {
+                method.attributes.prefixedMethodName = moduleName.toLowerCase() + "." + method.attributes.name;
+              }
+            });
+
+            this._saveClassData(moduleName, ast);
+
+            var superClass = ast.attributes.superClass;
+            if (superClass) {
+              var newName = superClass.split(".");
+              newName = newName[newName.length -1];
+              this.__data[moduleName].superClass = superClass;
+              var ignore = IGNORE_TYPES.indexOf(newName) != -1 ||
+                           MDC_LINKS[superClass] !== undefined;
+              if (!ignore) {
+                this._loadClass(superClass);
+              }
+            }
+
+          } else {
+            className = getModuleNameFromClassName(className);
+            //TODO: Event/Exception
+            q("#content").append(
+              q.create("<h1>" + className + "</h1><p style='color: #C00F00'><em>Failed to load " + className + " documentation!</em></p>")
+            );
+          }
+          this._checkReady();
+        }, this).send();
+      },
+
+
+      _loadReturnTypes : function(method) {
+        var returnType = getByType(method, "return");
+        if (returnType) {
+          getByType(returnType, "types").children.forEach(function(item) {
+            var type = item.attributes.type;
+            if (IGNORE_TYPES.indexOf(type) == -1 && MDC_LINKS[type] === undefined) {
+              this._loadClass(type);
+            }
+          }.bind(this));
+        }
+      },
+
+
+      _loadModuleDoc : function(className, moduleName) {
+        this.__loading++;
+        q.io.xhr("script/" + className + ".json").on("loadend", function(xhr) {
+          this.__loading--;
+          if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
+            var ast = JSON.parse(xhr.responseText);
+            // class doc
+            var desc = getByType(ast, "desc");
+            if (desc && desc.attributes && desc.attributes.text) {
+              this.__data[moduleName].desc = desc.attributes.text;
+            }
+            this.__data[moduleName].events = this._getEvents(ast);
+          } else {
+            //TODO
+            // parent.append(
+            //   q.create("<p style='color: #C00F00'><em>Failed to load module documentation!</em></p>")
+            // );
+          }
+          this._checkReady();
+        }, this).send();
+      },
+
+      _saveClassData : function(moduleName, ast) {
+        this.__data[moduleName] = {
+          desc : "",
+          events : this._getEvents(ast),
+          fileName : ast.attributes.fullName,
+          group : ast.attributes.group || "Extras",
+          member: getByType(ast, "methods").children,
+          "static": []
+        };
+
+        var desc = getByType(ast, "desc");
+        if (desc && desc.attributes && desc.attributes.text) {
+          this.__data[moduleName].desc = desc.attributes.text;
+        }
+
+        var constants = getByType(ast, "constants");
+        for (var i=0; i < constants.children.length; i++) {
+          var constant = constants.children[i];
+          var constName = constant.attributes.name;
+          if (constName == "TYPES") {
+            this.__data[moduleName].types = constant.attributes.value;
+            continue;
+          } else {
+            if (constName == "_templates" || constName == "_config") {
+              var desc = getByType(constant, "desc");
+              this.__data[moduleName][constName.replace("_", "")] = desc.attributes.text;
+            }
+          }
+        }
+      },
+
+
+      _extractPluginApi : function() {
+        for (var moduleName in this.__data) {
+          var moduleData = this.__data[moduleName];
+          if (moduleData.static) {
+            var pluginModuleName;
+            for (var i=moduleData.static.length - 1; i>=0; i--) {
+              var method = moduleData.static[i];
+              if (method.attributes.name.indexOf("$") === 0) {
+                pluginModuleName = moduleName + "_Plugin_API";
+                if (!this.__data[pluginModuleName]) {
+                  this.__data[pluginModuleName] = {
+                    member: [],
+                    static: [],
+                    group: "Plugin_API"
+                  };
+                }
+                method.attributes.group = "Plugin_API";
+                this.__data[pluginModuleName].static.push(method);
+                moduleData.static.splice(i, 1);
+              }
+            }
+            if (pluginModuleName) {
+              this.__data[pluginModuleName].static.sort(sortMethods);
+            }
+          }
+        }
+      },
+
+
+      /**
+       * Move methods that return a class instance to the documentation
+       * of that class
+       */
+      _moveMethodsToReturnTypes : function() {
+        var removeMethods = [];
+        this.forEachMethodList(function(methods, groupName) {
+          methods.forEach(function(method) {
+            var returnType = getByType(method, "return");
+            if (returnType) {
+              var type;
+              getByType(returnType, "types").children.forEach(function(item) {
+                type = item.attributes.type;
+              });
+              // if we have a return type
+              if (type) {
+                var module = getModuleNameFromClassName(type);
+                // if we have docs for the return type
+                if (this.__data[module] &&
+                    type == this.__data[module].fileName) {
+
+                  var attach = getByType(method, "attach");
+                  var attachStatic = getByType(method, "attachStatic");
+                  var isAttachStatic = attachStatic.type == "attachStatic";
+                  var returnTypeMethods = this.__data[module].member;
+
+                  // ignore attached methods of returned types
+                  if (returnTypeMethods.indexOf(method) == -1) {
+                    var prefix;
+                    if (isAttachStatic) {
+                      prefix = attachStatic.attributes.targetClass == "qxWeb" ? "q" : attachStatic.attributes.targetClass;
+                      prefix += "." + attachStatic.attributes.targetMethod;
+                    } else {
+                      prefix = attach.attributes.targetClass == "qxWeb" ? "" : attach.attributes.targetClass;
+                      prefix += "." + method.attributes.name;
+                    }
+                    method.attributes.prefixedMethodName = prefix;
+
+                    returnTypeMethods.unshift(method);
+                    removeMethods.push({method: method, parent: methods});
+                  }
+                }
+              }
+            }
+          }.bind(this));
+        }.bind(this));
+
+        removeMethods.forEach(function(obj) {
+          // remove the methods from the former parents
+          obj.parent.splice(obj.parent.indexOf(obj.method), 1);
+          // get the name for the old module / class
+          var sourceModuleName = getModuleName(obj.method.attributes.sourceClass);
+          var sourceModule = this.__data[sourceModuleName];
+          // if the old module / class is empty, remove it
+          if (sourceModule.static.length == 0 && sourceModule.member.length == 0) {
+            delete this.__data[sourceModuleName];
+          }
+        }.bind(this));
+      },
+
+
+      getKeys : function() {
+        var keys = [];
+        for (var key in this.__data) {
+          keys.push(key);
+        }
+        keys.sort(function(a, b) {
+          if (a == "Core") {
+            return -1;
+          }
+          if (b == "Core") {
+            return 1;
+          }
+          return a < b ? -1 : +1;
+        });
+        return keys;
+      },
+
+
+      /**
+       * Returns the API data for one module
+       * @param moduleName {String} The module name
+       * @return {Map} A map containing the following keys:
+       *   * superClass (optional) The fully qualified name of the module's super class
+       *   * desc The module's class documentation
+       *   * events Array of event documentation nodes
+       *   * fileName (optional) The fully qualified name of the module's origin class
+       *   * group (optional) The module's group name, e.g. IO, Core, ...
+       *   * member list of member method nodes
+       *   * static list of static method nodes
+       *   * prefix (optional) prefix for method names, e.g. "event."
+       *   * types (optional) list of event type nodes (for event normalizations)
+       *   * templates (optional) rendering templates documentation (for Widgets)
+       *   * config (optional) config option documentation (for Widgets)
+       */
+      getModule : function(moduleName) {
+        return this.__data[moduleName];
+      },
+
+
+      forEachMethodList : function(callback) {
+        for (var moduleName in this.__data) {
+          var moduleData = this.__data[moduleName];
+          if (moduleData.member) {
+            callback(moduleData.member, moduleData.group);
+          }
+          if (moduleData.static) {
+            callback(moduleData.static, moduleData.group);
+          }
+          if (moduleData.ast && moduleData.ast.children) {
+            for (var i=0, l=moduleData.ast.children.length; i<l; i++) {
+              var childNode = moduleData.ast.children[i];
+              if (childNode.type &&
+                  childNode.type.indexOf("methods") === 0 &&
+                  childNode.children)
+              {
+                callback(childNode.children, moduleData.ast.attributes.group);
+              }
+            }
+          }
+        }
+      },
+
+      _getEvents : function(ast) {
+        var events = getByType(ast, "events");
+        var data = [];
+        events.children.forEach(function(event) {
+          var name = event.attributes.name;
+          var desc = getByType(event, "desc").attributes.text;
+          var type = getByType(event, "types").children[0].attributes.type;
+          // ignore undefined as type
+          type = type == "undefined" ? "" : addTypeLink(type);
+          data.push({name: name, type: type, desc: desc});
+        });
+        return data;
+      },
+
+
+      _checkReady : function() {
+        if (this.__loading === 0) {
+          this._extractPluginApi();
+          this._moveMethodsToReturnTypes();
+          this.emit("ready");
+        }
+      }
+
+    }
+  });
+
+  var data = new Data();
+  data.on("ready", onContentReady, data);
 });
