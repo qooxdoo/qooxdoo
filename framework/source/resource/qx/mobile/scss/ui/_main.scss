@@ -6,11 +6,13 @@
 .page {
   @include backface-visibility(hidden);
 
-  height:100%;
-  width:100%;
-
   /* Disable touch behaviors, like pan and zoom for IE10*/
   -ms-touch-action: none;
+}
+
+.root:not(.android) .page {
+  height: 100%;
+  width:100%;
 }
 
 .content:not(.group) .form-title {

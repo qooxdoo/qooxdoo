@@ -116,9 +116,9 @@
 // FLEXIBLE BOX LAYOUT: SYNTAX 08 2012
 
 @mixin flex($args) {
-  -webkit-flex: $args $args auto;              /* Chrome */
+  -webkit-flex: $args $args auto;   /* Chrome */
   -ms-flex: $args $args auto;       /* IE 10 */ 
-  flex: $args $args;                /* NEW, Spec - Opera 12.1, Firefox 20+ */
+  flex: $args $args auto;           /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 
 

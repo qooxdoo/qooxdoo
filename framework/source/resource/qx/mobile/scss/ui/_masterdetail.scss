@@ -6,6 +6,10 @@
   overflow:hidden;
 }
 
+.master-detail-detail {
+  height: 100%;
+}
+
 .root.portrait .drawer:not(.hidden) + .master-detail-detail {
   pointer-events:none;
 }

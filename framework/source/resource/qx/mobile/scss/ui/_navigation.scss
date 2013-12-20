@@ -6,6 +6,7 @@
   @include transition(-webkit-transform 0.8s ease-in-out);
   @include transform(translateY(0px));
   
+  height: 100%;
   overflow:hidden;
   margin-bottom:0px;
   -webkit-backface-visibility:hidden;

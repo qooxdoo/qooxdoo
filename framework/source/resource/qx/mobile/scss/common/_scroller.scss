@@ -5,14 +5,16 @@
 }
 
 // Bugfix for Blackberry Z10
-.root.blackberry .scroll {
-  z-index: 0;
+.root.blackberry {
+  .scroll {
+    z-index: 0;
+  }
 }
 
 .iscroll {
   width:100%;
   position:absolute;
-  padding-bottom:10px; // TODO: Experimental
+  padding-bottom: 10px; // TODO: Experimental
 }
 
 // Bugfix for Android 2.x, adds a scale(1) to the element,
