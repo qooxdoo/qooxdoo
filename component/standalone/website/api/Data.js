@@ -254,25 +254,28 @@ var Data = q.define({
     },
 
 
+    __loadSimpleClass : function(type, name) {
+      this.__loading++;
+      q.io.xhr("script/" + name + ".json").on("loadend", function(xhr) {
+        this.__loading--;
+        if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
+          var ast = JSON.parse(xhr.responseText);
+          var moduleName = ast.attributes.name;
+          this._saveClassData(moduleName, ast);
+          this.__data[moduleName].prefix = type + ".";
+        } else {
+          console && console.error(name + "' could not be loaded.");
+        }
+        this._checkReady();
+      }, this).send();
+    },
+
+
     _loadEventNorm : function() {
       var norm = q.env.get("q.eventtypes");
       if (norm) {
         norm = norm.split(",");
-        norm.forEach(function(name) {
-          this.__loading++;
-          q.io.xhr("script/" + name + ".json").on("loadend", function(xhr) {
-            this.__loading--;
-            if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
-              var ast = JSON.parse(xhr.responseText);
-              var moduleName = ast.attributes.name;
-              this._saveClassData(moduleName, ast);
-              this.__data[moduleName].prefix = "event.";
-            } else {
-              console && console.warn("Event normalization '" + name + "' could not be loaded.");
-            }
-            this._checkReady();
-          }, this).send();
-        }.bind(this));
+        norm.forEach(this.__loadSimpleClass.bind(this, "event"));
       }
     },
 
@@ -283,21 +286,9 @@ var Data = q.define({
       }
 
       this.__polyfillClasses = Object.keys(q.$$qx.lang.normalize);
-      for (var clazz in q.$$qx.lang.normalize) {
-        this.__loading++;
-        q.io.xhr("script/qx.lang.normalize." + clazz + ".json").on("loadend", function(xhr) {
-          this.__loading--;
-          if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
-            var ast = JSON.parse(xhr.responseText);
-            var moduleName = ast.attributes.name;
 
-            this._saveClassData(moduleName, ast);
-            this.__data[moduleName].prefix = "normalize.";
-          } else {
-            console && console.warn("Polyfill '" + clazz + "' could not be loaded.");
-          }
-          this._checkReady();
-        }, this).send();
+      for (var clazz in q.$$qx.lang.normalize) {
+        this.__loadSimpleClass("normalize", "qx.lang.normalize." + clazz);
       }
     },
 
