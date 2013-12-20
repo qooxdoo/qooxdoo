@@ -171,11 +171,7 @@ var Data = q.define({
             this._handleSuccess(ast);
           }
         } else {
-          //TODO: Event/Exception
-          q("#warning").setStyle("display", "block");
-          if (isFileProtocol()) {
-            q("#warning em").setHtml("File protocol not supported. Please load the application via HTTP.");
-          }
+          this.emit("loadingFailed");
         }
       }, this).send();
     },
@@ -354,11 +350,7 @@ var Data = q.define({
           }
 
         } else {
-          className = Data.getModuleNameFromClassName(className);
-          //TODO: Event/Exception
-          q("#content").append(
-            q.create("<h1>" + className + "</h1><p style='color: #C00F00'><em>Failed to load " + className + " documentation!</em></p>")
-          );
+          console && console.error("Couldn't load class doc for ", className);
         }
         this._checkReady();
       }, this).send();
@@ -391,10 +383,7 @@ var Data = q.define({
           }
           this.__data[moduleName].events = this._getEvents(ast);
         } else {
-          //TODO
-          // parent.append(
-          //   q.create("<p style='color: #C00F00'><em>Failed to load module documentation!</em></p>")
-          // );
+          console && console.error("Couldn't load class doc for ", className);
         }
         this._checkReady();
       }, this).send();

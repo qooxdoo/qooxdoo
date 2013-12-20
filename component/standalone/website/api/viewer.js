@@ -976,4 +976,10 @@ q.ready(function() {
   Data.MODULE_NAME_REPLACEMENTS = replacements;
   var data = new Data();
   data.on("ready", onContentReady, data);
+  data.on("loadingFailed", function() {
+    q("#warning").setStyle("display", "block");
+    if (isFileProtocol()) {
+      q("#warning em").setHtml("File protocol not supported. Please load the application via HTTP.");
+    }
+  });
 });
