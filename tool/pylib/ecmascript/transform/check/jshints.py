@@ -25,7 +25,7 @@ from generator.code.HintArgument import HintArgument
 from generator import Context as context
 
 ##
-# A visitor on a Scope() tree to collect identifier nodes with global scope.
+# A visitor on a syntax tree to create a tree of Hint() objects from JSDoc comments.
 #
 class CreateHintsVisitor(treeutil.NodeVisitor):
 
