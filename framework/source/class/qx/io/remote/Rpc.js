@@ -191,7 +191,8 @@ qx.Class.define("qx.io.remote.Rpc",
     localError :
     {
       timeout : 1,
-      abort   : 2
+      abort   : 2,
+      nodata  : 3
     },
 
 
@@ -686,6 +687,17 @@ qx.Class.define("qx.io.remote.Rpc",
       req.addListener("completed", function(evt)
       {
         response = evt.getContent();
+
+        // server may have reset, giving us no data on our requests
+        if (response === null)
+        {
+          ex = makeException(qx.io.remote.Rpc.origin.local,
+                             qx.io.remote.Rpc.localError.nodata,
+                             "No data in response to " + whichMethod);
+          id = this.getSequenceNumber();
+          handleRequestFinished("failed", eventTarget);
+          return;
+        }
 
         // Parse. Skip when response is already an object
         // because the script transport was used.
