@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.mobile.form.Label",
     _applyWrap : function(value, old)
     {
       if (value) {
-        this.removeCssClass("no-wrap")
+        this.removeCssClass("no-wrap");
       } else {
         this.addCssClass("no-wrap");
       }

@@ -295,8 +295,9 @@ qx.Class.define("mobileshowcase.page.Dialog",
     * @return {qx.ui.mobile.form.Label} the group title label.
     */
     _createGroupTitle : function(value) {
-      var titleLabel = new qx.ui.mobile.form.Label(value);
+      var titleLabel = new qx.ui.mobile.basic.Label(value);
       titleLabel.addCssClass("dialog-group-title");
+      titleLabel.addCssClass("gap");
       return titleLabel;
     },
 
