@@ -19,6 +19,8 @@
 ************************************************************************ */
 
 /**
+ * @deprecated {3.5} Please use the qx.ui.mobile.page.Manager for this purpose.
+ *
  * The master/detail container divides an area into two panes, master and detail. The master
  * can be detached when the orientation of the device changes to portrait.
  * This container provides an optimized view for tablet and mobile devices.
