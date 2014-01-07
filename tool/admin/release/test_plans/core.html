@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Tool Chain Test Matrix</title>
+    <title>Core Test Matrix</title>
     <style type="text/css">
      body { margin: 0px; padding: 0px }
      table {
@@ -22,9 +22,9 @@
   </style>
     <script type="text/javascript" src="utils.js"></script>
   </head>
-  <body onload="adjustVersionStrings();autonumbering(); colorNA()">
-    <em>$Rev$</em>
-    <div align="center"><b>qooxdoo <span name="versstring">$(qxversion)</span></b></div>
+  <body onload="adjustVersionStrings(); autonumbering(); minitests([]); colorNA();">
+  <h1 align="center">Core Tests - qooxdoo <span name="versstring">$(qxversion)</span></h1>
+
     <h3 valign="left">Tool Chain Tests - Grunt &amp; Generator</h3>
     <h4>Reminder: Run tests via grunt frontend ('grunt source' vs. 'generate.py source')</h4>
     <table border="1" cellpadding="2" cellspacing="0">
@@ -617,6 +617,154 @@ vers:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb
         </tr>
       </tbody>
     </table>
+
+
+    <!--  Manual -->
+    <table border="1" cellpadding="2" cellspacing="0">
+      <thead> <tr>
+          <th rowspan="3" colspan="2">Documentatin Tests</th>
+          <td colspan="7" rowspan="1" style="vertical-align: top;">Platform</td>
+        </tr>
+        <tr class="platforms">
+          <td><b>IE11</b><br>
+            Win7</td>
+          <td><b>IE9</b><br>
+            Win7</td>
+          <td><b>Safari</b><br>
+            iPad<br>
+          </td>
+          <td><b>Chrome Stable</b><br>
+            Linux</td>
+          <td><span style="font-weight: bold;">Safari</span><br>
+            OSX</td>
+          <td><span style="font-weight: bold;">FF Stable</span><br>
+            Win7</td>
+          <td><b>Opera Stable</b><br>
+            OSX<br>
+          </td>
+        </tr>
+        <tr class="platforms">
+          <td>DW<br>
+          </td>
+          <td>CZ<br>
+          </td>
+          <td>MW<br>
+          </td>
+          <td>TH<br>
+          </td>
+          <td>AP<br>
+          </td>
+          <td>AS<br>
+          </td>
+          <td>RS<br>
+          </td>
+        </tr>
+      </thead>
+      <!-- Don't worry about the line numbers - they will be auto-adjusted. Just make sure to use the 'name="number"' attribute -->
+      <tbody>
+        <tr>
+          <th name="number">8</th>
+          <th rowspan="1" colspan="8">Manual</th>
+        </tr>
+        <tr>
+          <td name="number" width="2%">13.1</td>
+          <td>Check index.html (general layout, topic listing)</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" width="2%">13.2</td>
+          <td>Check a few content pages (general layout)</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" width="2%">13.3</td>
+          <td>Check breadcrumbs</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" width="2%">13.4</td>
+          <td>Try the Search tool (number of hits, display of search
+            results)</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" width="2%">13.5</td>
+          <td>PDF (don't use index.html link, but
+            ...build/latex/qooxdoo.pdf; should be around 500-600 pages)</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
+
+
     Legend: <img
       src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">
     &nbsp;Ok &nbsp;&nbsp;&nbsp; (<img

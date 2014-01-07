@@ -2,18 +2,18 @@
 <html lang="en">
   <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type">
-    <title>Mobile Application Test Matrix</title>
+    <title>Mobile Test Matrix</title>
     <style type="text/css">
     th { 
       vertical-align: top; 
       text-align: left;
       page-break-after: avoid;
     }
-    
+
     /* s. http://tinyurl.com/49eatag */
-    table { 
+    table {
       /*margin: 10px;*/
-      page-break-inside:auto 
+      page-break-inside:auto
     }
     tr    { page-break-inside:avoid; page-break-after:auto }
     thead { display:table-header-group }
@@ -29,12 +29,11 @@
 	</style>
     <script type="text/javascript" src="utils.js"></script>
   </head>
-  <body onload="adjustVersionStrings();autonumbering();">
-    <div> <em>$Rev$</em> </div>
-    <div align="center"><b>qooxdoo <span name="versstring">$(qxversion)</span></b></div>
+  <body onload="adjustVersionStrings(); autonumbering(); minitests([]); colorNA();">
+  <h1 align="center">Mobile Tests - qooxdoo <span name="versstring">$(qxversion)</span></h1>
     <table border="1" cellpadding="2" cellspacing="0">
       <thead> <tr>
-          <th rowspan="3" colspan="2">Mobile Application Tests</th>
+          <th rowspan="3" colspan="2">Application Tests</th>
           <th colspan="6">Platform</th>
         </tr>
         <tr>
@@ -78,7 +77,7 @@
         <!-- Don't worry about the line numbers - they will be auto-adjusted. Just make sure to use the 'name="number"' attribute -->
         <tr>
           <th name="number">1</th>
-          <th colspan="7">Feed Reader - Mobile</th>
+          <th colspan="7">Feed Reader</th>
         </tr>
         <tr>
           <td name="number" width="2%">1.1</td>
@@ -178,7 +177,7 @@
         </tr>
         <tr>
           <th name="number">2</th>
-          <th colspan="7">Mobile Showcase</th>
+          <th colspan="7">Showcase</th>
         </tr>
         <tr>
           <td name="number" width="2%">2.1</td>

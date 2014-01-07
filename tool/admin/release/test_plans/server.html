@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>Library Test Matrix</title>
+  <title>Server Test Matrix</title>
   <style type="text/css">
      body { margin: 0px; padding: 0px }
      table {
@@ -25,10 +25,8 @@
   </style>
   <script type="text/javascript" src="utils.js"></script>
 </head>
-<body onload="adjustVersionStrings();autonumbering();">
-<em>$Rev$</em>
-<div align="center"><b>qooxdoo <span name="versstring">$(qxversion)</span></b></div>
-<h3 valign="left">Library Tests</h3>
+  <body onload="adjustVersionStrings(); autonumbering(); minitests([]); colorNA();">
+  <h1 align="center">Server Tests - qooxdoo <span name="versstring">$(qxversion)</span></h1>
 <table border="1" cellpadding="2" cellspacing="0">
 <!-- Don't worry about the line numbers - they will be auto-adjusted. Just make sure to use the 'name="number"' attribute -->
   <tbody>

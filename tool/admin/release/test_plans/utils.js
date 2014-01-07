@@ -75,7 +75,7 @@ function colorNA() {
   var tds = document.querySelectorAll("td");
   for (var i = 0; i < tds.length; i++) {
     var td = tds[i];
-    if (td.innerHTML == "N/A") {
+    if (td.innerHTML.indexOf("N/A") !== -1) {
       td.style.backgroundColor = "#ddd";
       td.style.textAlign = "center";
     }

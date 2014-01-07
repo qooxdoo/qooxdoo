@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type">
-    <title>Application Test Matrix</title>
+    <title>Desktop Test Matrix</title>
     <style type="text/css">
     th {
       vertical-align: top;
@@ -39,10 +39,9 @@
 	</style>
     <script type="text/javascript" src="utils.js"></script>
   </head>
-  <body onload="adjustVersionStrings(); autonumbering();
-    minitests([]); colorNA();">
-    <div> <em>$Rev$</em> </div>
-    <div align="center"><b>qooxdoo <span name="versstring">$(qxversion)</span> (Desktop)</b></div>
+  <body onload="adjustVersionStrings(); autonumbering(); minitests([]); colorNA();">
+  <h1 align="center">Desktop Tests - qooxdoo <span name="versstring">$(qxversion)</span></h1>
+
     <table border="1" cellpadding="2" cellspacing="0">
       <thead> <tr>
           <th rowspan="3" colspan="2">Application Tests</th>
@@ -722,7 +721,7 @@
         </tr>
         <tr>
           <th name="number">4</th>
-          <th rowspan="1" colspan="8">Feed Reader - Desktop<br>
+          <th rowspan="1" colspan="8">Feed Reader<br>
           </th>
         </tr>
         <tr class="mini">
@@ -1739,103 +1738,7 @@
           <td><br>
           </td>
         </tr>
-        <!-- Manual --> <tr>
-          <th name="number">13</th>
-          <th rowspan="1" colspan="8">Manual</th>
-        </tr>
-        <tr class="mini">
-          <td name="number" width="2%">13.1</td>
-          <td>Check index.html (general layout, topic listing)</td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td style="vertical-align: top;"><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-        </tr>
-        <tr class="mini">
-          <td name="number" width="2%">13.2</td>
-          <td>Check a few content pages (general layout)</td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td style="vertical-align: top;"><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-        </tr>
-        <tr>
-          <td name="number" width="2%">13.3</td>
-          <td>Check breadcrumbs</td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td style="vertical-align: top;"><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-        </tr>
-        <tr>
-          <td name="number" width="2%">13.4</td>
-          <td>Try the Search tool (number of hits, display of search
-            results)</td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td style="vertical-align: top;"><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-        </tr>
-        <tr>
-          <td name="number" width="2%">13.5</td>
-          <td>PDF (don't use index.html link, but
-            ...build/latex/qooxdoo.pdf; should be around 500-600 pages)</td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td style="vertical-align: top;"><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-        </tr>
-        <!-- WEBSITE API --><!-- WEBSITE TESTS --><!-- TUTORIAL TESTS -->
+
         <tr>
           <th name="number">15</th>
           <th rowspan="1" colspan="8">Tutorial Samples</th>
