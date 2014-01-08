@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
 
   /**
-   * @param widget {qx.ui.mobile.core.Widget} the widget the will be shown in the popup
+   * @param widget {qx.ui.mobile.core.Widget} the widget that will be shown in the popup
    * @param anchor {qx.ui.mobile.core.Widget?} optional parameter, a widget to attach this popup to
    */
   construct : function(widget, anchor)
