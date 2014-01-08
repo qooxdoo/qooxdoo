@@ -253,8 +253,6 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       if (this.__preventEvents === true) {
         evt.stopPropagation();
       }
-
-      this.scrollTo(this.__currentOffset[0], this.__currentOffset[1]);
     },
 
 
@@ -315,6 +313,9 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * @param positionY {Integer} target offset y
      */
     scrollTo : function(positionX, positionY) {
+      positionX = Math.floor(positionX);
+      positionY = Math.floor(positionY);
+
       var targetElement = this._scrollContainer.getContainerElement();
 
       var lowerLimitY = targetElement.scrollHeight - this.getContentElement().clientHeight;

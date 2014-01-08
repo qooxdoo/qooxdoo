@@ -214,7 +214,9 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
      */
     _createListScroller : function(selectionList) {
       var listScroller = new qx.ui.mobile.container.ScrollComposite();
-      listScroller.add(selectionList, {flex:1});
+      listScroller.add(selectionList, {
+        flex: 1
+      });
       listScroller.addCssClass("menu-scroller");
       listScroller.setHeight(null);
       listScroller.setPreventEvents(false);
@@ -370,11 +372,16 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
      */
     scrollToItem : function(index) {
       var scrollY = 0;
-
       if (index !== null && this.__selectionList.getModel() != null) {
         var listScrollChild = this.__listScroller.getScrollContainer();
+        var listItemLength = this.__selectionList.getModel().length;
         var listScrollHeight = listScrollChild.getContainerElement().scrollHeight;
-        var listItemHeight = listScrollHeight / this.__selectionList.getModel().length;
+        var listItemHeight = listScrollHeight / listItemLength;
+
+        var lastItemIndex = listItemLength - this.getVisibleListItems();
+        if(index > lastItemIndex) {
+          index = lastItemIndex;
+        }
 
         if (listItemHeight) {
           scrollY = index * listItemHeight;
