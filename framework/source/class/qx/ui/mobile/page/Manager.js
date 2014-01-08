@@ -82,6 +82,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       this.__masterContainer = this._createMasterContainer();
       this.__detailContainer = this._createDetailContainer();
 
+      qx.bom.Element.addListener(this.__masterContainer.getContainerElement(),"transitionEnd",this._onMasterTransitionEnd, this);
+
       this.__masterButton = this._createMasterButton();
       this.__masterButton.addListener("tap", this._onMasterButtonTap, this);
 
@@ -366,6 +368,16 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
 
     /**
+    * Called when MasterContainer receives a <code>transitionEnd</code> event.
+    */
+    _onMasterTransitionEnd : function() {
+      if (qx.bom.Viewport.isLandscape() && this.isMasterContainerHidden() === false) {
+        this._createDetailContainerGap();
+      }
+    },
+
+
+    /**
      * Adds an array of NavigationPage to the target container.
      * @param pages {qx.ui.mobile.page.NavigationPage[]|qx.ui.mobile.page.NavigationPage} Array of NavigationPages, or NavigationPage.
      * @param target {qx.ui.mobile.container.Navigation} target navigation container.
@@ -423,7 +435,6 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
       if (qx.bom.Viewport.isLandscape()) {
         this.setMasterContainerHidden(false);
-        this._createDetailContainerGap();
         this.__masterButton.exclude();
       }
     },
@@ -452,9 +463,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       }
 
       if(qx.bom.Viewport.isLandscape()) {
-        this.__masterContainer.setTransitionDuration(0);
         if(this.isMasterContainerHidden() === false) {
-          this._createDetailContainerGap();
           this.__masterContainer.show();
         } else {
           this._removeDetailContainerGap();
@@ -462,7 +471,6 @@ qx.Class.define("qx.ui.mobile.page.Manager",
         }
         this.__masterContainer.setHideOnParentTouch(false);
       } else {
-        this.__masterContainer.setTransitionDuration(500);
         this.__masterContainer.setHideOnParentTouch(true);
         this.__masterContainer.hide();
         this._removeDetailContainerGap();
@@ -473,12 +481,20 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
 
     /**
+    * Returns the corresponding CSS property key which fits to the drawer's orientation.
+    * @return {String} the CSS property key.
+    */
+    _getGapPropertyKey : function() {
+      return "padding"+ qx.lang.String.capitalize(this.__masterContainer.getOrientation());
+    },
+
+
+    /**
      * Moves detailContainer to the right edge of MasterContainer.
      * Creates spaces for aligning master and detail container aside each other.
      */
     _createDetailContainerGap : function() {
-      qx.bom.element.Style.set(this.__detailContainer.getContainerElement(), "paddingLeft", this.__masterContainer.getSize()/16+"rem");
-
+      qx.bom.element.Style.set(this.__detailContainer.getContainerElement(), this._getGapPropertyKey(), this.__masterContainer.getSize() / 16 + "rem");
       qx.event.Registration.fireEvent(window, "resize");
     },
 
@@ -487,8 +503,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
      * Moves detailContainer to the left edge of viewport.
      */
     _removeDetailContainerGap : function() {
-      qx.bom.element.Style.set(this.__detailContainer.getContainerElement(), "paddingLeft", null);
-
+      qx.bom.element.Style.set(this.__detailContainer.getContainerElement(), this._getGapPropertyKey(), null);
       qx.event.Registration.fireEvent(window, "resize");
     },
 
@@ -553,6 +568,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
   destruct : function()
   {
+    qx.bom.Element.removeListener(this.__masterContainer.getContainerElement(),"transitionEnd",this._onMasterTransitionEnd, this);
+
     if(this.__masterPages) {
       for(var i = 0; i < this.__masterPages.length; i++) {
         var masterPage = this.__masterPages[i];
