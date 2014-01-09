@@ -56,6 +56,7 @@ qx.Class.define("qx.event.type.Touch",
 
         clone.scale = nativeEvent.scale;
         clone.rotation = nativeEvent.rotation;
+        clone.delta = nativeEvent.delta;
         clone.srcElement = nativeEvent.srcElement;
 
         clone.targetTouches = [];
@@ -105,7 +106,7 @@ qx.Class.define("qx.event.type.Touch",
        *     https://developer.apple.com/library/safari/#documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
        */
       getTargetTouches : function() {
-          return this._native.targetTouches;
+        return this._native.targetTouches;
       },
 
 
@@ -168,6 +169,18 @@ qx.Class.define("qx.event.type.Touch",
 
 
       /**
+       * Returns an array with the calculated delta coordinates of all active touches, 
+       * relative to the position on <code>touchstart</code> event.
+       *
+       * @return {Array} an array with objects for each active touch which contains the delta as <code>x</code> and
+       * <code>y</code>, the touch identifier as <code>identifier</code> and the movement axis as <code>axis</code>.
+       */
+      getDelta : function() {
+        return this._native.delta;
+      },
+
+
+      /**
        * Get the horizontal position at which the event occurred relative to the
        * left of the document. This property takes into account any scrolling of
        * the page.
@@ -213,7 +226,7 @@ qx.Class.define("qx.event.type.Touch",
        * @return {Integer} The vertical position of the touch
        */
       getScreenTop: function(touchIndex) {
-          return this.__getEventSpecificTouch(touchIndex).screenY;
+        return this.__getEventSpecificTouch(touchIndex).screenY;
       },
 
 
@@ -225,7 +238,7 @@ qx.Class.define("qx.event.type.Touch",
        * @return {Integer} The horizontal position of the touch
        */
       getViewportLeft : function(touchIndex) {
-          return this.__getEventSpecificTouch(touchIndex).clientX;
+        return this.__getEventSpecificTouch(touchIndex).clientX;
       },
 
 
@@ -237,7 +250,7 @@ qx.Class.define("qx.event.type.Touch",
        * @return {Integer} The vertical position of the touch
        */
       getViewportTop : function(touchIndex) {
-          return this.__getEventSpecificTouch(touchIndex).clientY;
+        return this.__getEventSpecificTouch(touchIndex).clientY;
       },
 
 

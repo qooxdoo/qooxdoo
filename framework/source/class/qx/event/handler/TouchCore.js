@@ -79,6 +79,8 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     this.__emitter = emitter;
     this._initTouchObserver();
     this.__pointers = [];
+
+    this.__touchStartPosition = {};
   },
 
 
@@ -90,8 +92,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
 
     __originalTarget : null,
 
-    __startPageX : null,
-    __startPageY : null,
+    __touchStartPosition : null,
     __startTime : null,
     __isSingleTouchGesture : null,
     __isTapGesture : null,
@@ -200,6 +201,52 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
 
 
     /**
+     * Calculates the delta of the touch position relative to its position when <code>touchstart/code> event occured.
+     * @param touches {Array} an array with the current active touches, provided by <code>touchmove/code> event.
+     * @return {Array} an array containing objects with the calculated delta as <code>x</code>,
+     * <code>y</code> and the identifier of the corresponding touch.
+     */
+    _calcTouchesDelta : function(touches) {
+      var delta = [];
+      for (var i = 0; i < touches.length; i++) {
+        delta.push(this._calcSingleTouchDelta(touches[i]));
+      }
+      return delta;
+    },
+
+
+    /**
+     * Calculates the delta of one single touch position relative to its position when <code>touchstart/code> event occured.
+     * @param touch {Event} the current active touch, provided by <code>touchmove/code> event.
+     * @return {Map} a map containing deltaX as <code>x</code>, deltaY as <code>y</code>, the direction of the movement as <code>axis</code> and the touch identifier as <code>identifier</code>.
+     */
+    _calcSingleTouchDelta : function(touch) {
+      if (this.__touchStartPosition.hasOwnProperty(touch.identifier)) {
+        var touchStartPosition = this.__touchStartPosition[touch.identifier];
+        var deltaX = Math.floor(touch.clientX - touchStartPosition[0]);
+        var deltaY = Math.floor(touch.clientY - touchStartPosition[1]);
+        var axis = "x";
+        if (Math.abs(deltaX / deltaY) < 1) {
+          axis = "y";
+        }
+        return {
+          "x": deltaX,
+          "y": deltaY,
+          "axis": axis,
+          "identifier": touch.identifier
+        };
+      } else {
+        return {
+          "x": 0,
+          "y": 0,
+          "axis": null,
+          "identifier": touch.identifier
+        };
+      }
+    },
+
+
+    /**
      * Called by an event handler.
      *
      * @param domEvent {Event} DOM event
@@ -217,6 +264,8 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
         domEvent.touches = touches;
       }
 
+      domEvent.delta = [];
+
       if (type == "touchstart") {
         this.__originalTarget = this._getTarget(domEvent);
 
@@ -227,19 +276,20 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
           this.__beginRotation = this._getRotationAngle(domEvent.touches[0], domEvent.touches[1]);
         }
       }
-
-      if(type =="touchmove") {
+      
+      if(type == "touchmove") {
         // Polyfill for scale
         if(typeof domEvent.scale == "undefined" && domEvent.targetTouches.length > 1) {
           var currentScalingDistance = this._getScalingDistance(domEvent.targetTouches[0],domEvent.targetTouches[1]);
           domEvent.scale = currentScalingDistance / this.__beginScalingDistance;
         }
-
         // Polyfill for rotation
         if(typeof domEvent.rotation == "undefined" && domEvent.targetTouches.length > 1) {
           var currentRotation = this._getRotationAngle(domEvent.targetTouches[0], domEvent.targetTouches[1]);
           domEvent.rotation = currentRotation - this.__beginRotation;
         }
+
+        domEvent.delta = this._calcTouchesDelta(domEvent.targetTouches);
 
         if (this.__isTapGesture) {
           this.__isTapGesture = this._isBelowTapMaxDistance(domEvent.changedTouches[0]);
@@ -253,6 +303,10 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
         if (type == "touchend" || type == "touchcancel") {
           delete this.__pointers[domEvent.pointerId];
         }
+      }
+
+      if (type == "touchend" || type == "touchcancel") {
+        delete this.__touchStartPosition[domEvent.changedTouches[0].identifier];
       }
     },
 
@@ -314,11 +368,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
      * @return {Boolean} true if distance is below TAP_MAX_DISTANCE.
      */
     _isBelowTapMaxDistance: function(touch) {
-      var deltaCoordinates = {
-        x: touch.screenX - this.__startPageX,
-        y: touch.screenY - this.__startPageY
-      };
-
+      var deltaCoordinates = this._calcSingleTouchDelta(touch);
       var clazz = qx.event.handler.TouchCore;
 
       return (Math.abs(deltaCoordinates.x) <= clazz.TAP_MAX_DISTANCE &&
@@ -453,8 +503,12 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     {
       var touch = domEvent.changedTouches[0];
       this.__onMove = true;
-      this.__startPageX = touch.screenX;
-      this.__startPageY = touch.screenY;
+
+      for (var i = 0; i < domEvent.changedTouches.length; i++) {
+        var changedTouch = domEvent.changedTouches[i];
+        this.__touchStartPosition[changedTouch.identifier] = [changedTouch.clientX,changedTouch.clientY];
+      }
+
       this.__startTime = new Date().getTime();
       this.__isSingleTouchGesture = domEvent.targetTouches.length === 1;
       // start the long tap timer
@@ -504,13 +558,6 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
 
       if (this.__isSingleTouchGesture)
       {
-        var touch = domEvent.changedTouches[0];
-
-        var deltaCoordinates = {
-            x : touch.screenX - this.__startPageX,
-            y : touch.screenY - this.__startPageY
-        };
-
         var eventType;
 
         if (this.__originalTarget == target && this.__isTapGesture) {
@@ -521,7 +568,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
         }
         else
         {
-          var swipe = this.__getSwipeGesture(domEvent, target, deltaCoordinates);
+          var swipe = this.__getSwipeGesture(domEvent, target);
           if (swipe) {
             if (qx.event && qx.event.type && qx.event.type.Swipe) {
               eventType = qx.event.type.Swipe;
@@ -539,11 +586,11 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
      *
      * @param domEvent {Event} DOM event
      * @param target {Element} event target
-     * @param deltaCoordinates {Map} delta x/y coordinates since the gesture started.
      * @return {Map} returns the swipe data when the user performed a swipe, null if the gesture was no swipe.
      */
-    __getSwipeGesture : function(domEvent, target, deltaCoordinates)
+    __getSwipeGesture : function(domEvent, target)
     {
+      var deltaCoordinates = this._calcSingleTouchDelta(domEvent.changedTouches[0]);
       var clazz = qx.event.handler.TouchCore;
       var duration = new Date().getTime() - this.__startTime;
       var axis = (Math.abs(deltaCoordinates.x) >= Math.abs(deltaCoordinates.y)) ? "x" : "y";
