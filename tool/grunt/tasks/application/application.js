@@ -84,6 +84,11 @@ module.exports = function(grunt) {
       grunt.log.write(data);
     });
 
+    // forward child STDERR
+    child.stderr.on("data", function(data) {
+      grunt.log.error(data);
+    });
+
     // clean-up on child exit
     child.on('close', function(code) {
       fs.unlinkSync(gen_conf_file);
