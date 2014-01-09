@@ -34,6 +34,11 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * When no <code>context</code> is given the global document is used to
      * create new DOM elements.
      *
+     * <strong>Note:</strong> When a complex HTML string is provided the <code>innerHTML</code>
+     * mechanism of the browser is used. Some browsers do filter out elements like <code>&lt;html&gt;</code>,
+     * <code>&lt;head&gt;</code> or <code>&lt;body&gt;</code>. The better approach is to create
+     * a single element and the appending the child nodes like in the example below.
+     *
      * @attachStatic{qxWeb}
      * @param html {String|Element[]} HTML string or DOM element(s)
      * @param context {Document?document} Context in which the elements should be created

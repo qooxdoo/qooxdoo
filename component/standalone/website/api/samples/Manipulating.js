@@ -13,6 +13,14 @@ addSample("q.create", {
   executable: true
 });
 
+addSample("q.create", function() {
+  // won't work as expected - the result will only contain the 'title' element
+  var headElement = q.create('<head><title>My title</title></head>');
+
+  // better approach is to use
+  var headElement = q.create('<head>').append('<title>My title</title>');
+});
+
 addSample(".after", {
   html: ['<ul id="move-pool">',
          '  <li>staying 1</li>',
