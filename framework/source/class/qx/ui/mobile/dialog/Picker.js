@@ -683,7 +683,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     _removePickerSlots : function() {
       var children = this.__pickerContainer.getChildren();
 
-      for(var i = children.length-1; i >= 0 ; i--) {
+      for (var i = children.length - 1; i >= 0; i--) {
         var pickerSlot = children[i];
 
         pickerSlot.removeListener("touchstart", this._onTouchStart, this);
