@@ -36,7 +36,7 @@ qx.Class.define("mobileshowcase.page.Event",
     this.__touchCircleTop = [];
     this.__touchPoints = [];
 
-    for (var i=0; i < 15; i++) {
+    for (var i = 0; i < 15; i++) {
       this.__touchCircleLeft[i] = -1000;
       this.__touchCircleTop[i] = -1000;
     }
@@ -341,7 +341,7 @@ qx.Class.define("mobileshowcase.page.Event",
     // overridden
     _back : function()
     {
-     qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
+      qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
     }
   }
 });
