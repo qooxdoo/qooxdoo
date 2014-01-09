@@ -66,7 +66,6 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       this.setTransitionDuration(transitionDuration);
     }
 
-    this.__touchStartPosition = [0, 0];
     this.__snapPointsX = [];
     this.__onMoveOffset = [0, 0];
     this.__lastOffset = [0, 0];
@@ -179,7 +178,6 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     __carouselWidth : null,
     __paginationLabels : null,
     __pagination : null,
-    __touchStartPosition : null,
     __snapPointsX : null,
     __onMoveOffset : null,
     __lastOffset : null,
@@ -478,9 +476,6 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param evt {qx.event.type.Touch} The touch event.
      */
     _onTouchStart : function(evt) {
-      this.__touchStartPosition[0] = evt.getViewportLeft();
-      this.__touchStartPosition[1] = evt.getViewportTop();
-
       this.__lastOffset[0] = this._getScrollerOffset();
       this.__isPageScrollTarget = null;
 
@@ -497,8 +492,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     _onTouchMove : function(evt) {
       this._setTransitionDuration(0);
 
-      this.__deltaX = evt.getViewportLeft() - this.__touchStartPosition[0];
-      this.__deltaY = evt.getViewportTop() - this.__touchStartPosition[1];
+      this.__deltaX = evt.getDelta()[0].x;
+      this.__deltaY = evt.getDelta()[0].y;
 
       if (this.__isPageScrollTarget === null) {
         var cosDelta = this.__deltaX / this.__deltaY;
@@ -731,6 +726,6 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     this._disposeObjects("__carouselScroller"," __pagination");
     qx.util.DisposeUtil.disposeArray(this,"__paginationLabels");
 
-    this.__pages = this.__paginationLabels = this.__touchStartPosition = this.__snapPointsX = this.__onMoveOffset = this.__lastOffset = this.__boundsX = this.__isPageScrollTarget = null;
+    this.__pages = this.__paginationLabels = this.__snapPointsX = this.__onMoveOffset = this.__lastOffset = this.__boundsX = this.__isPageScrollTarget = null;
   }
 });
