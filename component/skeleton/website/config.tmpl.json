@@ -48,7 +48,7 @@
   {
     "api" :
     {
-      "let" : 
+      "let" :
       {
         "QFILES_VERSION_PART": ""
       },
@@ -81,7 +81,7 @@
 
     "test" :
     {
-      "let" : 
+      "let" :
       {
         "QFILES_VERSION_PART": ""
       }
