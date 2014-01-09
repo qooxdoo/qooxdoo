@@ -155,10 +155,10 @@ class MClassDependencies(object):
                                 # much faster, as it is only calculated once (when called without (force=True));
                                 # the downside is that a change of one class in a library will result in cache
                                 # invalidation for *all* classes in this lib; that's the trade-off;
-                                # i'd love to just check the libs directly ("for lib in script.libraries: 
+                                # i'd love to just check the libs directly ("for lib in script.libraries:
                                 # if cacheModTime < lib.mostRecentlyChangedFile()[1]:..."), but I don't
                                 # have access to the script here in Class.
-            
+
             return result
         # -- Main ---------------------------------------------------------
 
@@ -178,7 +178,7 @@ class MClassDependencies(object):
 
         # try dependencies.json
         if (True  # just a switch
-            and deps == None  
+            and deps == None
             # TODO: temp. hack to work around issue with 'statics' optimization and dependencies.json
             and not statics_optim
            ):
@@ -198,7 +198,7 @@ class MClassDependencies(object):
             if not tree: # don't cache for a passed-in tree
                 classInfo[cacheId] = (deps, time.time())
                 self._writeClassCache(classInfo)
-        
+
         return deps, cached
 
         # end:dependencies()
@@ -265,7 +265,7 @@ class MClassDependencies(object):
     # that are not covered by the current scope chain.
     #
     # Node -> Node[]  (head nodes)
-    # 
+    #
     def dependencies_from_ast(self, tree):
         result = []
 
@@ -400,7 +400,7 @@ class MClassDependencies(object):
         # .name, .attribute
         assembled = (treeutil.assembleVariable(node))[0]
         className = gs.test_for_libsymbol(assembled, ClassesAll, []) # TODO: no namespaces!?
-        if not className: 
+        if not className:
             is_lib_class = False
             className = assembled
             classAttribute = ''
@@ -435,12 +435,12 @@ class MClassDependencies(object):
         # Mark items that need recursive analysis of their dependencies (bug#1455)
         if (is_lib_class and
             scope.is_load_time and
-            (treeutil.isCallOperand(var_root) or 
+            (treeutil.isCallOperand(var_root) or
              treeutil.isNEWoperand(var_root))):
             depsItem.needsRecursion = True
 
         return depsItem
-        
+
 
     ##
     # DepsItem Factory: Create a DependencyItem() for each Feature Check class.
@@ -498,7 +498,7 @@ class MClassDependencies(object):
             , bind(filter, not_jsignore_envcall)
         )
         dependencies = code_deps + envcall_deps
-        
+
         [setattr(x,'node',None) for x in dependencies]  # remove AST links (for easier caching)
         depsList.extend(dependencies)
 
@@ -621,13 +621,13 @@ class MClassDependencies(object):
             # 'include' value according to Class spec.
             if includeVal.type in NODE_VARIABLE_TYPES + ('array',):
                 includeVal = treeutil.variableOrArrayNodeToArray(includeVal)
-            
+
             # assume qx.core.Environment.filter() call
             else:
                 filterMap = variantoptimizer.getFilterMap(includeVal, self.id)
                 includeSymbols = []
                 for key, node in filterMap.items():
-                    # only consider true or undefined 
+                    # only consider true or undefined
                     #if key not in variants or (key in variants and bool(variants[key]):
                     # map value has to be value/variable
                     variable =  node.children[0]
@@ -649,7 +649,7 @@ class MClassDependencies(object):
                 return rclass, keyval
         return None, None
 
-    
+
     ##
     # Returns the AST node of a class feature (e.g. memeber method) if it exists
     def getFeatureNode(self, featureId, variants, classMap=None):
@@ -717,7 +717,7 @@ class MClassDependencies(object):
         # <classId>. recurse on the immediate dependencies in the method code.
         #
         # @param deps accumulator variable set((c1,m1), (c2,m2),...)
-        
+
         def getTransitiveDepsR(dependencyItem, variantString, totalDeps):
 
             # We don't add the in-param to the global result
@@ -762,10 +762,10 @@ class MClassDependencies(object):
 
             # lookup error
             if not defClassId or defClassId not in ClassesAll:
-                console.debug("Skipping unknown definition of dependency: %s#%s (%s:%d)" % (classId, 
+                console.debug("Skipping unknown definition of dependency: %s#%s (%s:%d)" % (classId,
                               methodId, dependencyItem.requestor, dependencyItem.line))
                 return set()
-            
+
             defDepsItem = DependencyItem(defClassId, methodId, classId)
             if dependencyItem.isCall:
                 defDepsItem.isCall = True  # if the dep is an inherited method being called, pursue the parent method as call
@@ -795,7 +795,7 @@ class MClassDependencies(object):
                     # TODO: is this the right API?!
                     depslist = []
                     if attribNode.type == 'value':
-                       attribNode = attribNode.children[0] 
+                       attribNode = attribNode.children[0]
                     self._analyzeClassDepsNode(attribNode, depslist, inLoadContext=False)
                     console.debug( "shallow dependencies: %r" % (depslist,))
 
@@ -820,7 +820,7 @@ class MClassDependencies(object):
             #       around 'attribNode.getChild("function",...)')
             if not function_pruned:
                 cache.write(cacheId, localDeps, memory=True, writeToFile=False)
-             
+
             console.outdent()
             return localDeps
 
