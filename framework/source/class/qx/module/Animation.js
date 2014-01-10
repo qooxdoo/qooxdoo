@@ -40,13 +40,6 @@ qx.Bootstrap.define("qx.module.Animation", {
   statics :
   {
     /**
-     * End value for opacity style. This value is modified for all browsers which are
-     * 'optimizing' this style value by not setting it (like IE9). This leads to a wrong
-     * end state for the 'fadeIn' animation if a opacity value is set by CSS.
-     */
-    __opacityEndValue : 1,
-
-    /**
      * Returns the stored animation handles. The handles are only
      * available while an animation is running.
      *
@@ -76,7 +69,7 @@ qx.Bootstrap.define("qx.module.Animation", {
      */
     _fadeIn : {duration: 700, timing: "ease-in", keep: 100, keyFrames : {
       0: {opacity: 0},
-      100: {opacity: qx.module.Animation.__opacityEndValue}
+      100: {opacity: 1}
     }},
 
 
@@ -322,8 +315,15 @@ qx.Bootstrap.define("qx.module.Animation", {
       "getAnimationHandles" : statics.getAnimationHandles
     });
 
+    /**
+     * End value for opacity style. This value is modified for all browsers which are
+     * 'optimizing' this style value by not setting it (like IE9). This leads to a wrong
+     * end state for the 'fadeIn' animation if a opacity value is set by CSS.
+     */
     if (qxWeb.env.get("browser.name") === "ie" && qxWeb.env.get("browser.version") <= 9) {
-      statics.__opacityEndValue = 0.99;
+      // has to be fixed using direct access since we cannot store the value as static member.
+      // The 'fadeIn' description is evualated during class definition
+      statics._fadeIn.keyFrames[100].opacity = 0.99;
     }
   }
 });
