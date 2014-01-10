@@ -1673,15 +1673,39 @@ testrunner.define({
   },
 
   testFadeIn : function() {
+    var testValue = (qxWeb.env.get("browser.name") === "ie" &&
+                     qxWeb.env.get("browser.version") <= 9) ? 0.99 : 1;
+
     var test = q.create("<div id='testdiv'/>");
     test.appendTo(this.sandbox[0]);
     test.fadeIn();
     test.on("animationEnd", function() {
       this.resume(function() {
-        this.assertEquals(1, test.getStyle("opacity"), "not visible after the animation");
+        this.assertEquals(testValue, test.getStyle("opacity"), "not visible after the animation");
         test.remove();
       }, this);
     }, this);
+    this.wait();
+  },
+
+  testFadeInWithInvisibleElement : function() {
+    var testValue = (qxWeb.env.get("browser.name") === "ie" &&
+                     qxWeb.env.get("browser.version") <= 9) ? 0.99 : 1;
+
+    var styleSheet = "./style2.css";
+    q.includeStylesheet(styleSheet);
+
+    var test = q.create('<div id="invisible"></div>');
+    test.appendTo(this.sandbox[0]);
+    test.fadeIn();
+
+    test.on('animationEnd', function() {
+      this.resume(function() {
+        this.assertEquals(testValue, test.getStyle('opacity'), 'not visible after the animation');
+        test.remove();
+      }, this);
+    }, this);
+
     this.wait();
   },
 
