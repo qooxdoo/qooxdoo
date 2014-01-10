@@ -1,3 +1,7 @@
 #affe {
   border: 1px solid red;
 }
+
+#invisible {
+  opacity : 0;
+}
