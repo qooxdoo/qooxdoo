@@ -1043,7 +1043,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
       if (this.__layoutManager) {
         this.__layoutManager.connectToWidget(null);
-        for (var i=0; i < length; i++) {
+        for (var i=0; i < this._getChildren().length; i++) {
           var child = this._getChildren()[i];
           this.__layoutManager.disconnectFromChildWidget(child);
         }
