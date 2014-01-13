@@ -501,7 +501,6 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
      */
     __gestureStart : function(domEvent, target)
     {
-      var touch = domEvent.changedTouches[0];
       this.__onMove = true;
 
       for (var i = 0; i < domEvent.changedTouches.length; i++) {
