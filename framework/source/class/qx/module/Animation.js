@@ -24,6 +24,7 @@
  *
  * @require(qx.module.Css)
  * @require(qx.module.Event)
+ * @require(qx.module.Environment)
  */
 qx.Bootstrap.define("qx.module.Animation", {
   events : {
