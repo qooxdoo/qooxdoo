@@ -17,6 +17,7 @@
 #  Authors:
 #    * Sebastian Werner (wpbasti)
 #    * Thomas Herchenroeder (thron7)
+#    * Richard Sternagel (rsternagel)
 #
 ################################################################################
 
@@ -27,8 +28,8 @@
 # - PartBuilder.getPackages()
 ##
 
-import sys, collections
-from misc                    import util
+from misc.Collections        import OrderedDict
+from misc.Collections        import DefaultOrderedDict
 from generator.output.Part     import Part
 from generator.output.Package  import Package
 from generator.code.Class    import CompileOptions
@@ -152,7 +153,6 @@ class PartBuilder(object):
         self._console.indent()
         bomb_on_error = self._jobconf.get("packages/verifier-bombs-on-error", True)
         allpartsclasses = []
-        classesObj = dict((cls.id, cls) for cls in script.classesObj)
 
         # 5) Check consistency between package.part_mask and part.packages
         self._console.debug("Verifying packages-to-parts relations...")
@@ -184,7 +184,7 @@ class PartBuilder(object):
             for classId in part.initial_deps:
                 if classId not in classList:
                     handleError("Defining class not included in part: '%s'" % (classId,))
-                    
+
             # 2) Check individual class deps are fullfilled in part
             # 3) Check classes are in load-order
             # alternative: check part.deps against classSet
@@ -202,12 +202,12 @@ class PartBuilder(object):
                         try:
                             depsIdx = classList.index(depsId)
                         except ValueError:
-                            handleError("Unfullfilled dependency of class '%s'[%d,%d]: '%s'" % 
+                            handleError("Unfullfilled dependency of class '%s'[%d,%d]: '%s'" %
                                (clazz.id, package.id, classIdx, depsId))
                             continue
                         if depsId in loadDeps and classIdx < depsIdx:
-                            handleError("Load-dep loaded after using class ('%s'[%d,%d]):  '%s'[%d,%d]" % 
-                               (clazz.id, package.id, classIdx, 
+                            handleError("Load-dep loaded after using class ('%s'[%d,%d]):  '%s'[%d,%d]" %
+                               (clazz.id, package.id, classIdx,
                                 depsId, classPackage[depsIdx][0], classPackage[depsIdx][1]))
                     #if missingDeps:  # there is a load dep not in the part
                     #    self._console.warn("Unfullfilled load dependencies of class '%s': %r" % (classId, tuple(missingDeps)))
@@ -303,7 +303,6 @@ class PartBuilder(object):
         self._console.outdent()
         return parts
 
-
     ##
     # Cut an initial set of packages out of the set of classes needed by the parts
     # @returns {Array} [ Package ]
@@ -313,7 +312,7 @@ class PartBuilder(object):
         # Collect classes from parts, recording which class is used in which part
         # @returns {Map} { classId : parts_bit_mask }
         def getClassesFromParts(partObjs):
-            allClasses = collections.defaultdict(lambda: 0)
+            allClasses = DefaultOrderedDict(lambda: 0)
             for part in partObjs:
                 for classId in part.deps:
                     allClasses[classId] |= part.bit_mask  # a class used by multiple parts gets multiple bits
@@ -340,7 +339,7 @@ class PartBuilder(object):
         self._console.indent()
 
         parts = script.parts.values()
-        classesObj = dict((cls.id, cls) for cls in script.classesObj)
+        classesObj = OrderedDict((cls.id, cls) for cls in script.classesObj)
         # generate list of all classes from the part dependencies
         allClasses = getClassesFromParts(parts)
 
@@ -353,7 +352,7 @@ class PartBuilder(object):
             for part in parts:
                 if package.id & part.bit_mask:
                     part.packages.append(package)
-                    
+
         # Register dependencies between packages
         for package in packages:
             # get all direct (load)deps of this package
@@ -368,7 +367,7 @@ class PartBuilder(object):
                 for otherpackage in packages:
                     if otherpackage != package and classId in (x.id for x in otherpackage.classes):
                         package.packageDeps.add(otherpackage)
-         
+
         self._console.outdent()
         return packages
 
@@ -391,7 +390,7 @@ class PartBuilder(object):
     ##
     # Support for merging small packages.
     #
-    # Small (as specified in the config) packages are detected, starting with 
+    # Small (as specified in the config) packages are detected, starting with
     # those that are used by the fewest parts, and are merged into packages that
     # are used by the same and more parts.
 
@@ -406,7 +405,7 @@ class PartBuilder(object):
         self._console.indent()
         self._console.debug("Minimum size: %sKB" % minPackageSize)
         self._console.indent()
-        
+
         if minPackageSizeForUnshared == None:
             minPackageSizeForUnshared = minPackageSize
 
@@ -424,7 +423,7 @@ class PartBuilder(object):
             oldpackages = set(script.packages)
             allPackages = script.packagesSorted()
             allPackages.reverse()
-            
+
             # Test and optimize 'fromId'
             for fromPackage in allPackages:
                 self._console.dot()
@@ -457,7 +456,7 @@ class PartBuilder(object):
 
 
     ##
-    # get the "smallest" package (in the sense of _sortPackages()) that is 
+    # get the "smallest" package (in the sense of _sortPackages()) that is
     # in all parts mergePackage is in, and is earlier in the corresponding
     # packages lists
     def _findMergeTarget(self, mergePackage, packages):
@@ -465,11 +464,11 @@ class PartBuilder(object):
         ##
         # if another package id has the same bits turned on, it is available
         # in the same parts.
-        def areInSameParts(mergePackage, package):  
+        def areInSameParts(mergePackage, package):
             return (mergePackage.id & package.id) == mergePackage.id
 
         ##
-        # check if any of the deps of mergePackage depend on targetPackage - 
+        # check if any of the deps of mergePackage depend on targetPackage -
         # if merging mergePackage into targetPackage, this would be creating
         # circular dependencies
         def noCircularDeps(mergePackage, targetPackage):
@@ -502,12 +501,12 @@ class PartBuilder(object):
             if not noCircularDeps(mergePackage, targetPackage):
                 self._console.debug("Problematic #%d (circular dependencies)" % targetPackage.id)
                 if addtl_merge_constraints:
-                    continue   
+                    continue
                 # why accept this by default?
             if not depsAvailWhereTarget(mergePackage, targetPackage):
                 self._console.debug("Problematic #%d (dependencies not always available)" % targetPackage.id)
                 if addtl_merge_constraints:
-                    continue   
+                    continue
                 # why accept this by default?
 
             yield targetPackage
@@ -528,7 +527,7 @@ class PartBuilder(object):
     # share eventually.
 
     def collapsePartsByOrder(self, script, collapse_groups=None):
-        
+
         def getCollapseGroupsOrdered(parts, ):
             # returns dict of parts grouped by collapse index
             # { 0 : set('boot'), 1 : set(part1, part2), 2 : ... }
@@ -591,8 +590,8 @@ class PartBuilder(object):
                     for package in reversed(part.packagesSorted):   # start with "smallest" package
                         selected_packages = selectFunc(part, collapse_group) # re-calculate b.o. modified part.packages
                         if package.id in selected_packages:
-                            (mergedPackage, 
-                            targetPackage) = self._mergePackage(package, script, 
+                            (mergedPackage,
+                            targetPackage) = self._mergePackage(package, script,
                                 selected_packages.values(), # TODO: How should areInSameParts() ever succeed with uniquePackages?!
                                 seen_targets)
                             if mergedPackage:   # on success: mergedPackage == package
@@ -602,7 +601,7 @@ class PartBuilder(object):
             seen_targets.update(curr_targets)
             self._console.outdent()
             return script.parts, script.packages
-        
+
         # ---------------------------------------------------------------------
 
         self._console.debug("")
@@ -707,7 +706,7 @@ class PartBuilder(object):
                 updatePartDependencies(part, fromPackage.packageDeps)
 
         # remove of fromPackage from global packages list is easier handled in the caller
-        
+
         self._console.outdent()
         self._console.outdent()
         return fromPackage, toPackage  # to allow caller check for merging and further clean-up fromPackage
@@ -736,7 +735,8 @@ class PartBuilder(object):
         for package in packages:
             # TODO: temp. kludge, to pass classIds to sortClasses()
             #       sortClasses() should take Class() objects directly
-            classMap = dict((cls.id, cls) for cls in package.classes)
+
+            classMap = OrderedDict((cls.id, cls) for cls in package.classes)
             classIds = self._depLoader.sortClasses(classMap.keys(), script.variants, script.buildType)
             package.classes = [classMap[x] for x in classIds]
 
@@ -749,7 +749,7 @@ class PartBuilder(object):
     def _sortPackagesTopological(self, packages): # packages : [Package]
 
         import graph
-        
+
         # create graph object
         gr = graph.digraph()
 
