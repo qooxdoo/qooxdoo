@@ -253,23 +253,39 @@ class Generator(object):
             variants = script.variants
             self._partBuilder = PartBuilder(self._console, self._depLoader)
 
-            # Use the 'packages' configuration in the job or
-            # create a synthetic job key and let evalPackagesConfig do the rest
-            if not self._job.get("packages"):
-                package_config = {
-                    "parts" : {
-                        "boot" : {
-                            "include" : includeWithDeps
-                        }
-                    },
-                    "init" : "boot"
-                }
-                self._job.setFeature("packages", package_config)
+            # Use the 'packages' configuration in the job or fake it dynamically.
 
-            (boot,
-            partPackages,           # partPackages[partId]=[0,1,3]
-            packageClasses          # packageClasses[0]=['qx.Class','qx.bom.Stylesheet',...]
-            ) = evalPackagesConfig(excludeWithDeps, classList, variants)
+            # Using a synthetic config object and running evalPackagesConfig()
+            # in any case doesn't pay off, because the Generator then prints
+            # out messages regarding parts which irritates the user and assumes
+            # that includeWithDeps is used (and fails with includeNoDeps).
+            if self._job.get("packages"):
+                (boot,
+                partPackages,           # partPackages[partId]=[0,1,3]
+                packageClasses          # packageClasses[0]=['qx.Class','qx.bom.Stylesheet',...]
+                ) = evalPackagesConfig(excludeWithDeps, classList, variants)
+            else:
+                # bug#7667: Tried to consolidate with if body above, but the
+                # codebase needs too many adaptions to be also compatible with
+                # includeNoDeps (e.g. "=myClass" in config). Therefore this
+                # code branch is kept: Instead of computing the deps, the
+                # classes from script.classesObj are used.
+
+                # Emulate a 'boot' part
+                boot = "boot"
+                partPackages = { "boot" : [0] }
+                packageClasses = [classList]
+                # patch script object
+                script.boot = boot
+                packageObj = Package(0)
+                packageObj.classes = script.classesObj
+                script.packages.append(packageObj)
+                partObj = Part("boot")
+                partObj.packages.append(packageObj)
+                initial_deps = list(set(includeWithDeps).difference(script.excludes)) # defining classes from config minus expanded excludes
+                partObj.initial_deps = initial_deps
+                partObj.deps = initial_deps[:]
+                script.parts = { "boot" : partObj }
 
             return boot, partPackages, packageClasses
 
