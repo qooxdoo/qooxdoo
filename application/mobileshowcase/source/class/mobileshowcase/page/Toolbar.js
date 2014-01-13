@@ -96,7 +96,6 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       this.__loadButton = new qx.ui.mobile.toolbar.Button(
         null, mobileshowcase.page.Toolbar.__toolbarButtonImages[1]
       );
-      this.__loadButton.setGap(0);
       this.__loadButton.setShow("icon");
 
       this.__loadButton.addListener("tap", function(){
