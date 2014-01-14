@@ -623,14 +623,17 @@ qx.Class.define("qx.event.handler.Focus",
 
       "webkit" : function(domEvent)
       {
-        var target = qx.bom.Event.getTarget(domEvent);
+        var relatedTarget = qx.bom.Event.getRelatedTarget(domEvent);
 
-        if (target === this.getFocus()) {
-          this.resetFocus();
-        }
+        if (relatedTarget == null) {
+          var target = qx.bom.Event.getTarget(domEvent);
+          if (target === this.getFocus()) {
+            this.resetFocus();
+          }
 
-        if (target === this.getActive()) {
-          this.resetActive();
+          if (target === this.getActive()) {
+            this.resetActive();
+          }
         }
       },
 
