@@ -16,7 +16,7 @@
 
   z-index:1;
 
-  -ms-touch-action: pan-x;
+  @include touch-action(pan-x);
 }
 
 .title {

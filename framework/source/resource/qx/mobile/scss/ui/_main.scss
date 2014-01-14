@@ -4,10 +4,9 @@
 }
 
 .page {
-  @include backface-visibility(hidden);
-
   /* Disable touch behaviors, like pan and zoom for IE10*/
-  -ms-touch-action: none;
+  @include touch-action(none);
+  @include backface-visibility(hidden);
 }
 
 .root:not(.android) .page {

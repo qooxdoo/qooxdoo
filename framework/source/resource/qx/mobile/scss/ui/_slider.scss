@@ -6,14 +6,15 @@
   @include border-radius($slider-border-radius);
   @include background($slider-background);
   @include transform(translate3d(0,($slider-knob-height/2),0));
-  
+  @include touch-action(none);
+
   overflow: visible;
 
   margin-bottom: $slider-knob-height;
   margin-left: ($slider-knob-width/2); 
   margin-right: ($slider-knob-width/2);
 
-  -ms-touch-action: none;
+
 
   border: rem(1) solid $slider-border-color;
 }

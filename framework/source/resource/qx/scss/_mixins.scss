@@ -20,6 +20,11 @@
   background-clip: $args;
 }
 
+@mixin touch-action($args) {
+  -ms-touch-action: $args;
+  touch-action: $args;
+}
+
 @mixin user-select($args) {
   -webkit-user-select: $args;
   -moz-user-select: $args;

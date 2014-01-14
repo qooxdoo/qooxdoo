@@ -7,6 +7,7 @@ $dialog-arrow-space: rem(2);
 .popup {
   @include background($dialog-background);
   @include border-radius($dialog-border-radius);
+  @include touch-action(none);
 
   position: absolute;
   width: auto;
@@ -14,8 +15,6 @@ $dialog-arrow-space: rem(2);
   max-width: 90%;
   z-index: 101;
   clear: both;
-
-  -ms-touch-action: none;
 
   // Fallback if no gradient could be set.
   background-color: nth($dialog-background,1);

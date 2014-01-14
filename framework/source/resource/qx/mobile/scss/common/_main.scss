@@ -73,7 +73,7 @@ img.no-content {
 }
 
 .root canvas {
-  -ms-touch-action: none;
+  @include touch-action(none);
 }
 
 // ANDROID BUGFIXES
