@@ -83,6 +83,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     this.setReadOnly(true);
 
     this.addListener("focus", this.blur);
+    this.addListener("tap", this._onTap, this);
 
     // Selection dialog creation.
     this.__selectionDialog = this._createSelectionDialog();
@@ -329,6 +330,17 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
 
     /**
+    * Handler for <code>tap</code> event on this widget.
+    * @param evt {qx.event.type.Tap} the handling tap event. 
+    */
+    _onTap : function(evt) {
+      // request focus so that it leaves previous widget
+      // such as text field and hide virtual keyboard.
+      evt.getOriginalTarget().focus();
+    },
+
+
+    /**
      * Validates the selection value.
      * @param value {Integer} the selection value to validate.
      */
@@ -388,5 +400,6 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     this._disposeObjects("__selectionDialog","__selectionDialogTitle");
 
     this.removeListener("focus", this.blur);
+    this.removeListener("tap", this._onTap, this);
   }
 });
