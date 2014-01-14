@@ -5,6 +5,7 @@
 .navigationbar {
   @include backface-visibility(hidden);
   @include background($navigationbar-background);
+  @include touch-action(pan-x);
 
   min-height: $navigationbar-height;
   height: $navigationbar-height;
@@ -15,8 +16,6 @@
   position: relative;
 
   z-index:1;
-
-  @include touch-action(pan-x);
 }
 
 .title {
