@@ -568,8 +568,6 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
   destruct : function()
   {
-    qx.bom.Element.removeListener(this.__masterContainer.getContainerElement(),"transitionEnd",this._onMasterTransitionEnd, this);
-
     if(this.__masterPages) {
       for(var i = 0; i < this.__masterPages.length; i++) {
         var masterPage = this.__masterPages[i];
@@ -587,6 +585,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
     if(this.__isTablet) {
       this.__masterContainer.removeListener("resize", this._onLayoutChange, this);
+      qx.bom.Element.removeListener(this.__masterContainer.getContainerElement(), "transitionEnd", this._onMasterTransitionEnd, this);
       qx.event.Registration.removeListener(window, "orientationchange", this._onLayoutChange, this);
     }
 
