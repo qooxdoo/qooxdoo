@@ -359,6 +359,9 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * @param e {Event} Click event
      */
     _onClick : function(e) {
+      if (!this.getEnabled()) {
+        return;
+      }
       var clickedButton = e.getCurrentTarget();
       var cssPrefix = this.getCssPrefix();
       this._forEachElementWrapped(function(tabs) {

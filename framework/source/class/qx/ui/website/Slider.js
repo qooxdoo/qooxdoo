@@ -408,7 +408,8 @@ qx.Bootstrap.define("qx.ui.website.Slider",
      * @param e {qx.event.Emitter} Incoming event object
      */
     _onClick : function(e) {
-      if (e.getDocumentLeft() === 0 && e.getDocumentTop() === 0) {
+      if ((e.getDocumentLeft() === 0 && e.getDocumentTop() === 0) ||
+        !this.getEnabled()) {
         return;
       }
       this.setValue(this._getNearestValue(e.getDocumentLeft()));
