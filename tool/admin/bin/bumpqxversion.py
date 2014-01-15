@@ -109,6 +109,9 @@ Files = {
         r'"version"\s*:\s*"(%s)"'              % qxversion_regexp,
         r'"qooxdoo-versions"\s*:\s*\["(%s)"\]' % qxversion_regexp,
         ],
+    "./framework/package.json" : [
+        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
+        ],
     "./documentation/manual/source/conf.py" : [
         r'^\s*version\s*=\s*[\'"](%s)[\'"]' % qxversion_regexp,
         r'^\s*release\s*=\s*[\'"](%s)[\'"]' % qxversion_regexp,
@@ -127,6 +130,12 @@ Files = {
         ],
     "./application/demobrowser/source/demo/welcome.html" : [
         r'var qxversion = "(%s)"'    % qxversion_regexp,
+        ],
+    "./application/websitewidgetbrowser/Gruntfile.js": [
+        r'QOOXDOO_VERSION\s*:\s*"(%s)",' % qxversion_regexp,
+        ],
+    "./application/websitewidgetbrowser/package.json": [
+        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
         ],
     "./tool/admin/release/test_plans/utils.js"  : [
         r'var qxversion = "(%s)"'    % qxversion_regexp
@@ -150,21 +159,21 @@ Files = {
         r'q-[a-z]+-(%s).js' % qxversion_regexp,
         r'q-[a-z]+-(%s).min.js' % qxversion_regexp,
         ],
-    "./tool/grunt/config/application.js" : [
-        r'"QOOXDOO_VERSION"\s*:\s*"(%s)"' % qxversion_regexp,
-        ],
     "./component/skeleton/server/readme.txt" : [
         r'qx-oo-(%s).min.js' % qxversion_regexp,
         ],
     "./component/skeleton/website/index.html" : [
         r'q-(%s).min.js' % qxversion_regexp,
         ],
-    "./component/skeleton/website/test/index.tmpl.html" : [
-        r'q-(%s).js' % qxversion_regexp,
-        ],
     "./component/skeleton/website/readme.txt" : [
         r'q-(%s).js' % qxversion_regexp,
         r'q-(%s).min.js' % qxversion_regexp,
+        ],
+    "./component/standalone/website/Gruntfile.js": [
+        r'QOOXDOO_VERSION\s*:\s*"(%s)",' % qxversion_regexp,
+        ],
+    "./component/standalone/website/package.json": [
+        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
         ],
 }
 
