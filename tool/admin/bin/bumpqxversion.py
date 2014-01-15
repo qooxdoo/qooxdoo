@@ -94,22 +94,34 @@ def npm_version_string(vers_parts):
 #
 #
 Files = {
-    "./version.txt" : [
-        r'^(.+)$'
+    "./application/demobrowser/source/demo/welcome.html" : [
+        r'var qxversion = "(%s)"'    % qxversion_regexp,
         ],
-    "./index.html"  : [
-        r'var qxversion = "(%s)"'    % qxversion_regexp
+    "./application/websitewidgetbrowser/Gruntfile.js": [
+        r'QOOXDOO_VERSION\s*:\s*"(%s)",' % qxversion_regexp,
         ],
-    "./readme.rst"  : [
-        r'manual.qooxdoo.org/(%s)\b' % qxversion_regexp,
-        r'api.qooxdoo.org/(%s)\b' % qxversion_regexp,
-        r'qooxdoo.org/project/release_notes/(%s)\b' % qxversion_regexp
+    "./application/websitewidgetbrowser/package.json": [
+        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
         ],
-    "./framework/Manifest.json" : [
-        r'"version"\s*:\s*"(%s)"'              % qxversion_regexp,
-        r'"qooxdoo-versions"\s*:\s*\["(%s)"\]' % qxversion_regexp,
+    "./component/skeleton/server/readme.txt" : [
+        r'qx-oo-(%s).min.js' % qxversion_regexp,
         ],
-    "./framework/package.json" : [
+    "./component/skeleton/website/index.html" : [
+        r'q-(%s).min.js' % qxversion_regexp,
+        ],
+    "./component/skeleton/website/readme.txt" : [
+        r'q-(%s).js' % qxversion_regexp,
+        r'q-(%s).min.js' % qxversion_regexp,
+        ],
+    "./component/standalone/server/npm/package.json" : [
+        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
+        r'"main"\s*:\s*"qx-oo-(%s)"' % qxversion_regexp,
+        r'"homepage"\s*:\s*"http://manual.qooxdoo.org/(%s)/pages/core.html"' % qxversion_regexp,
+        ],
+    "./component/standalone/website/Gruntfile.js": [
+        r'QOOXDOO_VERSION\s*:\s*"(%s)",' % qxversion_regexp,
+        ],
+    "./component/standalone/website/package.json": [
         (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
         ],
     "./documentation/manual/source/conf.py" : [
@@ -128,28 +140,20 @@ Files = {
         (r'^\s*vPatch\s*=\s*[\'"](%s)[\'"]' % vPatch_regexp, 2),
         (r'^\s*git_branch\s*=\s*[\'"](%s)[\'"]' % git_branch_regexp, git_branch),
         ],
-    "./application/demobrowser/source/demo/welcome.html" : [
-        r'var qxversion = "(%s)"'    % qxversion_regexp,
+    "./framework/Manifest.json" : [
+        r'"version"\s*:\s*"(%s)"'              % qxversion_regexp,
+        r'"qooxdoo-versions"\s*:\s*\["(%s)"\]' % qxversion_regexp,
         ],
-    "./application/websitewidgetbrowser/Gruntfile.js": [
-        r'QOOXDOO_VERSION\s*:\s*"(%s)",' % qxversion_regexp,
-        ],
-    "./application/websitewidgetbrowser/package.json": [
+    "./framework/package.json" : [
         (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
         ],
-    "./tool/admin/release/test_plans/utils.js"  : [
+    "./index.html"  : [
         r'var qxversion = "(%s)"'    % qxversion_regexp
         ],
-    "./component/standalone/server/npm/package.json" : [
-        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
-        r'"main"\s*:\s*"qx-oo-(%s)"' % qxversion_regexp,
-        r'"homepage"\s*:\s*"http://manual.qooxdoo.org/(%s)/pages/core.html"' % qxversion_regexp,
-        ],
-    "./tool/data/generator/copyright.include.js" : [
-        r'qooxdoo v(%s) \|' % qxversion_regexp,
-        ],
-    "./tool/data/generator/active_reload.js" : [
-        r'qooxdoo v(%s) \|' % qxversion_regexp,
+    "./readme.rst"  : [
+        r'manual.qooxdoo.org/(%s)\b' % qxversion_regexp,
+        r'api.qooxdoo.org/(%s)\b' % qxversion_regexp,
+        r'qooxdoo.org/project/release_notes/(%s)\b' % qxversion_regexp
         ],
     "./tool/admin/release/index.html" : [
         r'qx-oo-(%s).js' % qxversion_regexp,
@@ -159,21 +163,17 @@ Files = {
         r'q-[a-z]+-(%s).js' % qxversion_regexp,
         r'q-[a-z]+-(%s).min.js' % qxversion_regexp,
         ],
-    "./component/skeleton/server/readme.txt" : [
-        r'qx-oo-(%s).min.js' % qxversion_regexp,
+    "./tool/admin/release/test_plans/utils.js"  : [
+        r'var qxversion = "(%s)"'    % qxversion_regexp
         ],
-    "./component/skeleton/website/index.html" : [
-        r'q-(%s).min.js' % qxversion_regexp,
+    "./tool/data/generator/active_reload.js" : [
+        r'qooxdoo v(%s) \|' % qxversion_regexp,
         ],
-    "./component/skeleton/website/readme.txt" : [
-        r'q-(%s).js' % qxversion_regexp,
-        r'q-(%s).min.js' % qxversion_regexp,
+    "./tool/data/generator/copyright.include.js" : [
+        r'qooxdoo v(%s) \|' % qxversion_regexp,
         ],
-    "./component/standalone/website/Gruntfile.js": [
-        r'QOOXDOO_VERSION\s*:\s*"(%s)",' % qxversion_regexp,
-        ],
-    "./component/standalone/website/package.json": [
-        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
+    "./version.txt" : [
+        r'^(.+)$'
         ],
 }
 
