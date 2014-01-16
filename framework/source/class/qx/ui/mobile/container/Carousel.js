@@ -426,7 +426,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
     /**
      * Synchronizes the positions of the scroller to the current shown page index.
-     * @param transitionDuration {type} the duration of the transition from old to new position. 
+     * @param transitionDuration {Number} the duration of the transition from old to new position. 
      */
     _refreshScrollerPosition : function(transitionDuration) {
       setTimeout(function() {
