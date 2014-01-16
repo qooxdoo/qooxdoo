@@ -426,11 +426,11 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
     /**
      * Synchronizes the positions of the scroller to the current shown page index.
-     * @param evt {qx.event.type.Event} description
+     * @param transitionDuration {type} the duration of the transition from old to new position. 
      */
-    _refreshScrollerPosition : function(evt) {
+    _refreshScrollerPosition : function(transitionDuration) {
       setTimeout(function() {
-        this._setTransitionDuration(this.getTransitionDuration());
+        this._setTransitionDuration(transitionDuration);
         this._scrollToPage(this.getCurrentIndex());
       }.bind(this), 0);
     },
@@ -442,7 +442,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     _onDomUpdated : function() {
       this.__carouselWidth = qx.bom.element.Dimension.getWidth(this.getContentElement());
       this.__carouselScrollerWidth = qx.bom.element.Dimension.getWidth(this.__carouselScroller.getContentElement());
-      this._refreshScrollerPosition();
+      this._refreshScrollerPosition(0);
     },
 
 
@@ -526,7 +526,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     */
     _onTouchEnd : function(evt) {
       if(evt.getAllTouches().length < 2) {
-        this._refreshScrollerPosition();
+        this._refreshScrollerPosition(this.getTransitionDuration());
       }
     },
 
