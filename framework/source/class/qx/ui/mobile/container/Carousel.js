@@ -82,11 +82,11 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     carouselScroller.addListener("swipe", this._onSwipe, this);
     carouselScroller.addListener("touchend", this._onTouchEnd, this);
 
-    qx.bom.Element.addListener(this.__carouselScroller.getContainerElement(),"transitionEnd",this._onScrollerTransitionEnd, this);
 
     this.addListener("domupdated", this._onDomUpdated, this);
     this.addListener("appear", this._onContainerUpdate, this);
 
+    qx.event.Registration.addListener(this.__carouselScroller.getContainerElement(),"transitionEnd",this._onScrollerTransitionEnd, this);
     qx.event.Registration.addListener(window, "orientationchange", this._onContainerUpdate, this);
     qx.event.Registration.addListener(window, "resize", this._onContainerUpdate, this);
     qx.event.Registration.addListener(this.getContentElement(), "scroll", this._onNativeScroll, this);
@@ -707,8 +707,6 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       this.__carouselScroller.removeListener("touchmove", this._onTouchMove, this);
       this.__carouselScroller.removeListener("swipe", this._onSwipe, this);
       this.__carouselScroller.removeListener("touchend", this._onTouchEnd, this);
-
-      qx.bom.Element.removeListener(this.__carouselScroller.getContainerElement(), "transitionEnd", this._onScrollerTransitionEnd, this);
 
       this.removeListener("appear", this._onContainerUpdate, this);
       this.removeListener("domupdated", this._onDomUpdated, this);

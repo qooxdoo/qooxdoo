@@ -585,7 +585,6 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
     if(this.__isTablet) {
       this.__masterContainer.removeListener("resize", this._onLayoutChange, this);
-      qx.bom.Element.removeListener(this.__masterContainer.getContainerElement(), "transitionEnd", this._onMasterTransitionEnd, this);
       qx.event.Registration.removeListener(window, "orientationchange", this._onLayoutChange, this);
     }
 
