@@ -68,6 +68,11 @@ module.exports = function(grunt) {
           message: 'API viewer generated.'
         }
       },
+      test: {
+        options: {
+          message: 'Test Runner generated.'
+        }
+      },
       source: {
         options: {
           message: 'qx.Website source version generated.'
@@ -98,6 +103,28 @@ module.exports = function(grunt) {
     'api',
     'Concat the samples and generate the API.',
     ["concat:samples", "generate-api", "sass:indigo", "notify:api"]
+  );
+
+  // 'extend' test jobs
+  grunt.task.renameTask('test', 'generate-test');
+  grunt.task.registerTask(
+    'test',
+    'Generate the Indigo CSS and the Test Runner (using a minified version of qx.Website).',
+    ["generate-test", "sass:indigo", "notify:test"]
+  );
+
+  grunt.task.renameTask('test-source', 'generate-test-source');
+  grunt.task.registerTask(
+    'test-source',
+    'Generate the Indigo CSS and the Test Runner (using a source version of qx.Website).',
+    ["generate-test-source", "sass:indigo", "notify:test"]
+  );
+
+  grunt.task.renameTask('test-module', 'generate-test-module');
+  grunt.task.registerTask(
+    'test-module',
+    'Generate the Indigo CSS and the Test Runner (using a modular version of qx.Website).',
+    ["generate-test-module", "sass:indigo", "notify:test"]
   );
 
   // 'extend' source job
