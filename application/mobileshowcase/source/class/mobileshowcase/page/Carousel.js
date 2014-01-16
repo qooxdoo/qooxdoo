@@ -36,12 +36,8 @@ qx.Class.define("mobileshowcase.page.Carousel",
   members :
   {
     // overridden
-    _initialize : function()
-    {
-      this.base(arguments);
-
+    _createScrollContainer : function() {
       var carousel = new qx.ui.mobile.container.Carousel(0.5);
-      carousel.setHeight(350);
 
       var page1 = new qx.ui.mobile.container.Composite();
       page1.addCssClass("carousel-example-1");
@@ -123,9 +119,14 @@ qx.Class.define("mobileshowcase.page.Carousel",
       carousel.add(page5);
       carousel.add(page6);
 
-      this.getContent().add(carousel);
+      return carousel;
     },
 
+
+    // overridden
+    _createContent : function() {
+      return null;
+    },
 
 
     // overridden

@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     this.__pages = [];
     this.__paginationLabels = [];
 
-    var carouselScroller = this.__carouselScroller = new qx.ui.mobile.container.Composite();
+    var carouselScroller = this.__carouselScroller = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
     carouselScroller.setTransformUnit("px");
     carouselScroller.addCssClass("carousel-scroller");
 
@@ -96,6 +96,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     pagination.setTransformUnit("px");
     pagination.addCssClass("carousel-pagination");
 
+    this.setLayout(new qx.ui.mobile.layout.VBox());
 
     this._add(carouselScroller, {
       flex: 1
@@ -136,11 +137,12 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
 
     /**
-     * Defines the height of the carousel.
+     * Defines the height of the carousel. If value is equal to <code>null</code> the height is set to <code>100%</code>.
      */
     height : {
       check : "Number",
       init : 200,
+      nullable : true,
       apply : "_updateCarouselLayout"
     },
 
@@ -183,7 +185,6 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     __lastOffset : null,
     __boundsX : null,
     __pages : null,
-    __pageWidth : 0,
     __showTransition : null,
     __isPageScrollTarget : null,
     __deltaX : null,
@@ -294,7 +295,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
         return;
       }
 
-      var snapPoint = -pageIndex * this.__pageWidth;
+      var snapPoint = -pageIndex * this.__carouselWidth;
       this._updateScrollerPosition(snapPoint);
 
       // Update lastOffset, because snapPoint has changed.
@@ -402,20 +403,21 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * Updates the layout of the carousel the carousel scroller and its pages.
      */
     _updateCarouselLayout : function() {
-      var carouselContainerElement = this.getContainerElement();
-      if (!carouselContainerElement) {
+      if (!this.getContainerElement()) {
         return;
       }
-      this.__carouselWidth = qx.bom.element.Dimension.getWidth(this.getContentElement());
+      this.__carouselWidth = qx.bom.element.Dimension.getWidth(this.getContainerElement());
+
+      if (this.getHeight() !== null) {
+        this._setStyle("height", this.getHeight() / 16 + "rem");
+      } else {
+        this._setStyle("height", "100%");
+      }
 
       qx.bom.element.Style.set(this.__carouselScroller.getContentElement(), "width", this.__pages.length * this.__carouselWidth + "px");
-      qx.bom.element.Style.set(this.__carouselScroller.getContentElement(), "height", this.getHeight() + "px");
-
-      this.__pageWidth = this.__carouselWidth;
 
       for (var i = 0; i < this.__pages.length; i++) {
         qx.bom.element.Style.set(this.__pages[i].getContentElement(), "width", this.__carouselWidth + "px");
-        qx.bom.element.Style.set(this.__pages[i].getContentElement(), "height", this.getHeight() + "px");
       }
 
       this._updatePagination(this.getCurrentIndex(), this.getCurrentIndex());
@@ -556,7 +558,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     * @return {Number} the transition duration.
     */
     _calculateTransitionDuration : function(deltaX, duration) {
-      var distanceX = this.__pageWidth - Math.abs(deltaX);
+      var distanceX = this.__carouselWidth - Math.abs(deltaX);
       var transitionDuration = (distanceX / Math.abs(deltaX)) * duration;
       return (transitionDuration / 1000);
     },
@@ -629,7 +631,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
       // Determine nearest snapPoint.
       for (var i = 0; i < this.__pages.length; i++) {
-        var snapPoint = -i * this.__pageWidth;
+        var snapPoint = -i * this.__carouselWidth;
         var distance = this.__onMoveOffset[0] - snapPoint;
         if (Math.abs(distance) < leastDistance) {
           leastDistance = Math.abs(distance);
