@@ -82,8 +82,6 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     carouselScroller.addListener("swipe", this._onSwipe, this);
     carouselScroller.addListener("touchend", this._onTouchEnd, this);
 
-
-    this.addListener("domupdated", this._onDomUpdated, this);
     this.addListener("appear", this._onContainerUpdate, this);
 
     qx.event.Registration.addListener(this.__carouselScroller.getContainerElement(),"transitionEnd",this._onScrollerTransitionEnd, this);
@@ -206,12 +204,13 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       page.addCssClass("carousel-page");
 
       this.__pages.push(page);
-      this.__carouselScroller.add(page);
+      this.__carouselScroller.add(page,{flex:1});
 
       var paginationLabel = this._createPaginationLabel();
       this.__paginationLabels.push(paginationLabel);
       this.__pagination.add(paginationLabel);
 
+      this._setTransitionDuration(0);
       this._updateCarouselLayout();
     },
 
@@ -426,23 +425,10 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
     /**
      * Synchronizes the positions of the scroller to the current shown page index.
-     * @param transitionDuration {Number} the duration of the transition from old to new position. 
      */
-    _refreshScrollerPosition : function(transitionDuration) {
-      setTimeout(function() {
-        this._setTransitionDuration(transitionDuration);
-        this._scrollToPage(this.getCurrentIndex());
-      }.bind(this), 0);
-    },
-
-
-    /**
-    * Handler for <code>domupdated</code> event on carousel.
-    */
-    _onDomUpdated : function() {
-      this.__carouselWidth = qx.bom.element.Dimension.getWidth(this.getContentElement());
+    _refreshScrollerPosition : function() {
       this.__carouselScrollerWidth = qx.bom.element.Dimension.getWidth(this.__carouselScroller.getContentElement());
-      this._refreshScrollerPosition(0);
+      this._scrollToPage(this.getCurrentIndex());
     },
 
 
@@ -452,6 +438,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     _onContainerUpdate : function() {
       this._setTransitionDuration(0);
       this._updateCarouselLayout();
+      this._refreshScrollerPosition();
     },
 
 
@@ -526,7 +513,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     */
     _onTouchEnd : function(evt) {
       if(evt.getAllTouches().length < 2) {
-        this._refreshScrollerPosition(this.getTransitionDuration());
+        this._setTransitionDuration(this.getTransitionDuration());
+        this._refreshScrollerPosition();
       }
     },
 
@@ -709,7 +697,6 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       this.__carouselScroller.removeListener("touchend", this._onTouchEnd, this);
 
       this.removeListener("appear", this._onContainerUpdate, this);
-      this.removeListener("domupdated", this._onDomUpdated, this);
 
       qx.event.Registration.removeListener(window, "orientationchange", this._onContainerUpdate, this);
       qx.event.Registration.removeListener(window, "resize", this._onContainerUpdate, this);
