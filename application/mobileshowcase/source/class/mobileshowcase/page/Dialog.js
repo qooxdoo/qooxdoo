@@ -188,6 +188,11 @@ qx.Class.define("mobileshowcase.page.Dialog",
       picker.addSlot(this._createMonthPickerSlot());
       picker.addSlot(this._createYearPickerSlot());
 
+      // Set current date.
+      var date = new Date();
+      picker.setSelectedIndex(0, date.getDate() - 1);
+      picker.setSelectedIndex(1, date.getMonth());
+
       picker.addListener("changeSelection", this.__onPickerChangeSelection,this);
       picker.addListener("confirmSelection", this.__onPickerConfirmSelection,this);
       return picker;
