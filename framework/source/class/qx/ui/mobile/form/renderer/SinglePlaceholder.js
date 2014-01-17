@@ -39,6 +39,8 @@ qx.Class.define("qx.ui.mobile.form.renderer.SinglePlaceholder",
   construct : function(form)
   {
     this.base(arguments,form);
+    this.addCssClass("single-placeholder");
+    this.removeCssClass("single");
   },
 
 
@@ -49,16 +51,36 @@ qx.Class.define("qx.ui.mobile.form.renderer.SinglePlaceholder",
     addItems : function(items, names, title) {
       if(title != null)
       {
-        this._showGroupHeader(title);
+        this._addGroupHeader(title);
       }
       for(var i=0, l=items.length; i<l; i++)
       {
-        var row = new qx.ui.mobile.form.Row();
-        if (items[i].setPlaceholder === undefined) {
-          throw new Error("Only widgets with placeholders supported.");
+        var row = new qx.ui.mobile.form.Row(new qx.ui.mobile.layout.HBox());
+        var item = items[i];
+        var name = names[i];
+        
+        if(item instanceof qx.ui.mobile.form.TextArea) {
+          var scrollContainer = new qx.ui.mobile.container.ScrollComposite();
+          scrollContainer.setFixedHeight(true);
+          scrollContainer.setShowScrollIndicator(false);
+          scrollContainer.add(item, {
+            flex: 1
+          });
+
+          row.add(scrollContainer, {flex:1});
+        } else {
+          if (item.setPlaceholder === undefined) {
+            if(name !== null) {
+              var label = new qx.ui.mobile.form.Label("<p>"+name+"</p>");
+              label.setLabelFor(item.getId());
+              row.add(label, {flex:1});
+            }
+            row.add(item);
+          } else {
+            item.setPlaceholder(name);
+            row.add(item, {flex:1});
+          }
         }
-        items[i].setPlaceholder(names[i]);
-        row.add(items[i]);
         this._add(row);
       }
     }

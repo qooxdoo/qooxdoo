@@ -7,9 +7,6 @@
   margin-bottom: rem(10);
   background-color:transparent;
   border: none;
-
-  font-weight: $form-font-weight;
-
   padding: 0;
   cursor:pointer;
 }
@@ -45,9 +42,38 @@
   text-overflow: ellipsis;
 }
 
-.form .text-field, .form .number-field, .form .password-field {
-  display:block;
-  width: 50%;
+.form.single {
+  .text-field, .number-field, .password-field {
+    display:block;
+    width: 50%;
+  }
+
+  .form {
+    font-weight: $form-font-weight;
+  }
+}
+
+.form.single-placeholder {
+  @include background($form-background);
+  @include border-radius($form-border-radius);
+  border:rem(1) solid $form-border-color;
+  padding: rem(10);
+
+  .form-row-group-title {
+    font-weight: $form-font-weight;
+    padding: rem(0) rem(0) rem(10) rem(0);
+  }
+
+  .form-row {
+    .slider  {
+      width: 50%;
+      margin-left: rem(20);
+    }
+  }
+
+  .text-field, .number-field, .password-field {
+    display:block;
+  }
 }
 
 .form-title {
@@ -60,12 +86,8 @@
   text-indent: rem(5);
 }
 
-//
-// RENDERING
-//
-
 .form-row-group-title {
-  padding: rem(10) rem(24) rem(10) rem(10);
+  padding: rem(10) rem(10) rem(10) rem(10);
 }
 
 .form-row-group-first, .form-row-group-last {
@@ -115,10 +137,7 @@
 .form-row-group-title {
   color: $form-title-text-color;
   font-weight:normal;
-
-  margin-bottom:rem(10);
   border:none;
-  padding-bottom:0px;
 } 
 
 .form-row-content, .form-element-error {

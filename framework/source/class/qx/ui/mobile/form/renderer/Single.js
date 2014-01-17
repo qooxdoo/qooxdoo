@@ -35,6 +35,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
     this._rows = [];
     this._labels = [];
     this.base(arguments,form);
+    this.addCssClass("single");
   },
 
 
