@@ -167,9 +167,13 @@ qx.Class.define("mobileshowcase.Application",
       },this);
 
       nm.onGet("/animation/{animation}", function(data) {
-        var animation = data.params.animation;
-        animationLanding.setAnimation(animation);
-        animationLanding.show({animation:animation});
+        animationLanding.setAnimation(data.params.animation);
+        if(animationLanding.isVisible()) {
+          animation.show({"animation":data.params.animation});
+        } else {
+          animationLanding.show({"animation":data.params.animation});
+        }
+        
       },this);
 
       nm.onGet("/basic", function(data)

@@ -33,6 +33,32 @@ qx.Class.define("mobileshowcase.page.Animation",
   },
 
 
+  statics: {
+    ANIMATION_DATA: [{
+      title: "Slide",
+      animation: "slide"
+    }, {
+      title: "Pop",
+      animation: "pop"
+    }, {
+      title: "Fade",
+      animation: "fade"
+    }, {
+      title: "Slide up",
+      animation: "slideup"
+    }, {
+      title: "Flip",
+      animation: "flip"
+    }, {
+      title: "Swap",
+      animation: "swap"
+    }, {
+      title: "Cube",
+      animation: "cube"
+    }]
+  },
+
+
   members :
   {
     // overridden
@@ -48,23 +74,15 @@ qx.Class.define("mobileshowcase.page.Animation",
         }
       });
 
-      var data = [
-          {title: "Slide", animation: "slide"},
-          {title: "Pop", animation: "pop"},
-          {title: "Fade", animation: "fade"},
-          {title: "Slide up", animation: "slideup"},
-          {title: "Flip", animation: "flip"},
-          {title: "Swap", animation: "swap"},
-          {title: "Cube", animation: "cube"}
-      ];
+      list.addCssClass("animation-list-1");
 
-      list.setModel(new qx.data.Array(data));
+      list.setModel(new qx.data.Array(mobileshowcase.page.Animation.ANIMATION_DATA));
       list.addListener("changeSelection", function(evt) {
         // In Tablet Mode, animation should be shown for this showcase part.
         // On animation landing >> setShowAnimation(false) is called.
         this.getLayoutParent().getLayout().setShowAnimation(true);
 
-        var animation = data[evt.getData()].animation;
+        var animation = mobileshowcase.page.Animation.ANIMATION_DATA[evt.getData()].animation;
         qx.core.Init.getApplication().getRouting().executeGet("/animation/" + animation);
       }, this);
       this.getContent().add(list);

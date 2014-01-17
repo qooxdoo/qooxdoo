@@ -37,7 +37,6 @@
   height:70px;
 
   border: 4px solid white;
-
   border-radius: 70px;
   -moz-border-radius: 70px;
   -webkit-border-radius: 70px;
@@ -241,6 +240,12 @@
   -webkit-border-radius: 0.4em;
   box-shadow: 2px 2px 3px 0px #444444;
   border:1px solid #888888;
+}
+
+/* PAGE TRANSITIONS */
+
+.animation-list-1 .list-item:nth-child(even), .animation-list-2 .list-item:nth-child(odd) {
+  background-color: #eee !important;
 }
 
 /* THEME SWITCHER */
