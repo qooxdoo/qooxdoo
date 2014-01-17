@@ -7,18 +7,8 @@
   margin-bottom: rem(10);
   background-color:transparent;
   border: none;
-
-  font-weight: $form-font-weight;
-
   padding: 0;
   cursor:pointer;
-}
-
-.form {
-  .text-field, .number-field, .password-field {
-    display:block;
-    width: 50%;
-  }
 }
 
 .form-row {
@@ -106,16 +96,45 @@
 }
 
 .form-row-group-title {
-  padding: rem(10) rem(24) rem(10) rem(10);
   color: $form-title-text-color;
   font-weight:normal;
-  margin-bottom:rem(10);
   border:none;
-  padding-bottom:0px;
+}
+
+.form.single-placeholder {
+  @include background($form-background);
+  @include border-radius($form-border-radius);
+  border:rem(1) solid $form-border-color;
+  padding: rem(10);
+
+  .form-row-group-title {
+    font-weight: $form-font-weight;
+    padding: rem(0) rem(0) rem(10) rem(0);
+  }
+
+  .form-row {
+    .slider  {
+      width: 50%;
+      margin-left: rem(20);
+    }
+  }
+}
+
+.form.single {
+  font-weight: $form-font-weight;
+
+  .text-field, .number-field, .password-field {
+    display:block;
+    width: 50%;
+  }
+
+  .form-row-group-title {
+    padding: rem(10) rem(10) rem(10) rem(10);
+  }
 }
 
 .form-row-group-title:nth-child(n+2) {
-  margin-top: rem(14);
+  margin-top: rem(20);
 }
 
 .form-row-group-first, 
