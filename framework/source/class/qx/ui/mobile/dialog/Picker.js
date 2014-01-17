@@ -624,7 +624,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
         var pickerSlot = this._createPickerSlot(slotIndex);
         this.__slotElements.push(pickerSlot.getContentElement());
-        this.__pickerContainer.add(pickerSlot);
+        this.__pickerContainer.add(pickerSlot, {flex:1});
 
         this._renderPickerSlotContent(pickerSlot, slotIndex);
       }
