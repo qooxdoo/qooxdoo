@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.mobile.form.Input",
     * Scrolls this widget into view. The scrolled widget is aligned with the top of the scroll area.
     * @param evt {qx.event.type.Focus} the focus event 
     */
-    __scrollIntoView: function(evt) {
+    __scrollIntoView : function(evt) {
       var target = evt.getTarget();
       while (!(target instanceof qx.ui.mobile.page.NavigationPage)) {
         var parent = target.getLayoutParent();
