@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2014 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,6 +14,7 @@
 
    Authors:
      * Tino Butz (tbtz)
+     * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
 
@@ -35,37 +36,20 @@ qx.Class.define("qx.ui.mobile.form.Input",
   type : "abstract",
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   construct : function()
   {
     this.base(arguments);
     this._setAttribute("type", this._getType());
     this.addCssClass("gap");
 
-    // BUG #7756
-    if(qx.core.Environment.get("os.name") == "ios") {
-      this.addListener("blur", this._onBlur, this);
-      this.addListener("focus", this._onFocus, this);
-    }
+    this.addListener("focus", this._onFocus, this);
   },
 
 
-  statics:
-  {
-    SCROLL_TIMER_ID : null
+  statics : {
+    SCROLL_FOCUS_TIMEOUT : 0
   },
 
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -89,29 +73,48 @@ qx.Class.define("qx.ui.mobile.form.Input",
 
 
     /**
-     * Handles the focus event on this input.
-     */
-    _onFocus: function() {
-      clearTimeout(qx.ui.mobile.form.Input.SCROLL_TIMER_ID);
+    * Scrolls this widget into view. The scrolled widget is aligned with the top of the scroll area.
+    * @param evt {qx.event.type.Focus} the focus event 
+    */
+    __scrollIntoView: function(evt) {
+      var target = evt.getTarget();
+      while (!(target instanceof qx.ui.mobile.page.NavigationPage)) {
+        var parent = target.getLayoutParent();
+        if (parent instanceof qx.ui.mobile.core.Root) {
+          return;
+        }
+        target = parent;
+      }
+      if (target.scrollToWidget) {
+        target.scrollToWidget(evt.getTarget());
+      }
     },
 
 
     /**
-     * Handles the blur event on this input.
+     * Handles the focus event on this input widget.
+     * @param evt {qx.event.type.Focus} the focus event 
      */
-    _onBlur: function() {
-      qx.ui.mobile.form.Input.SCROLL_TIMER_ID = setTimeout(function() {
-        window.scrollTo(0, 0);
-      }, 150);
+    _onFocus : function(evt) {
+      if (qx.core.Environment.get("os.name") == "android") {
+        setTimeout(function() {
+          this.__scrollIntoView(evt);
+        }.bind(this), qx.ui.mobile.form.Input.SCROLL_FOCUS_TIMEOUT);
+      } else {
+        this.__scrollIntoView(evt);
+      }
     }
   },
 
 
   destruct : function() {
-    // BUG #7756
-    if (qx.core.Environment.get("os.name") == "ios") {
-      this.removeListener("focus", this._onFocus, this);
-      this.removeListener("blur", this._onBlur, this);
+    this.removeListener("focus", this._onFocus, this);
+  },
+
+
+  defer : function(statics) {
+    if (qx.core.Environment.get("os.name") == "android") {
+      statics.SCROLL_FOCUS_TIMEOUT = 100;
     }
   }
 });
