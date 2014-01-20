@@ -1,20 +1,21 @@
 /* *****************************************************************************
- 
+
    qooxdoo - the new era of web development
- 
+
    http://qooxdoo.org
- 
+
    Copyright:
      2006-2013 1&1 Internet AG, Germany, http://www.1und1.de
- 
+
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
      EPL: http://www.eclipse.org/org/documents/epl-v10.php
      See the LICENSE file in the project's top-level directory for details.
- 
+
    Authors:
      * Thomas Herchenroeder (thron7)
- 
+     * Richard Sternagel (rsternagel)
+
 ***************************************************************************** */
 
 /**
@@ -22,7 +23,10 @@
  *
  */
 
+
+//------------------------------------------------------------------------------
 // Requirements
+//------------------------------------------------------------------------------
 
 var fs = require('fs');
 var path = require('path');
@@ -44,9 +48,9 @@ function findVarRoot (var_node) {
   if (!is_var(var_node)) {
     return undefined;
   } else {
-    while (var_node.parent 
+    while (var_node.parent
       && var_node.parent.type === 'MemberExpression'
-      && var_node.parent.computed == false) {
+      && var_node.parent.computed === false) {
         var_node = var_node.parent;
       }
     return var_node;
@@ -75,35 +79,37 @@ function dependencies_from_ast(scope, optObj) {
 }
 
 function dependencies_from_envcalls(scope, optObj) {
-  
+
 }
 
 function not_builtin(ref) {
   var ident = ref.identifier;
-  if (ident.type !== "Identifier")
+  if (ident.type !== "Identifier") {
     return true;
+  }
   // check in various js_builtins maps
   if ([
-      'reservedVars', 
-      'ecmaIdentifiers', 
-      'browser', 
-      'devel', 
-      'worker', 
+      'reservedVars',
+      'ecmaIdentifiers',
+      'browser',
+      'devel',
+      'worker',
       'nonstandard'
     ].some(function(el){
         return ident.name in js_builtins[el];
       })
-    )
+    ) {
       return false;
+  }
   return true;
 }
 
 function not_jsignored(ref) {
-  
+
 }
 
 function not_jsignore_envcall(ref) {
-  
+
 }
 
 /**
@@ -137,7 +143,7 @@ function getClassMaps(etree, optObj) {
   controller.traverse(etree, {
     enter : function (node,parent) {
       if (is_factory_call(node) && hasParentContext(node, "Program/ExpressionStatement")){
-        
+
       }
     }
   }
@@ -147,12 +153,12 @@ function getClassMaps(etree, optObj) {
 /**
  * Gather the remain globals that are not referenced outside of class maps.
  *
- * Approach: Take the .through references from the global escope.Scope and 
+ * Approach: Take the .through references from the global escope.Scope and
  * remove those references that point inside class maps. The remaining are
  * unresolved symbols referenced in code that is not part of a class map.
  */
 function get_non_class_deps(etree, deps_map, optObj) {
-  
+
 }
 
 /**
@@ -187,9 +193,18 @@ function get_non_class_deps(etree, deps_map, optObj) {
  * @returns {Object} map embedding dependencies { 'custom.ClassA' : { extend : [escope.References] } }
  */
 var KeysWithSubMaps = {
-  statics:true, 
+  statics:true,
   members:true,
 };
+
+
+/**
+ * Get deps by analysing this paricular (sub)tree.
+ */
+function analyze_tree(etree, optObj) {
+
+}
+
 function analyze_as_map(etree, optObj) {
   var result = {};
 
@@ -223,34 +238,32 @@ function analyze_as_map(etree, optObj) {
   return result;
 }
 
-
-/**
- * Get deps by analysing this paricular (sub)tree.
- */
-function analyze_tree(etree, optObj) {
-  
-}
+//------------------------------------------------------------------------------
+// Public Interface
+//------------------------------------------------------------------------------
 
 /**
  * Interface function.
  * Analyze an Esprima tree for unresolved references.
+ *
+ * @param etree {Object} AST from esprima
+ * @paramoptObj {Object} options
  * @returns {escope.Reference[]}
  */
 function analyze(etree, optObj) {
   var result = [];
-  var scope_manager = escope.analyze(etree);
-  scope_manager.attach();
+  var globalScope = escope.analyze(etree).scopes[0];
 
   esparent.annotate(etree);  // TODO: don't call here if called from analyze_as_map()!
-  load_time.annotate(scope_manager.scopes[0],  // add load/runtime annotations to scopes
+  load_time.annotate(globalScope,  // add load/runtime annotations to scopes
     true);  // TODO: this should be a dynamic parameter to analyze()
   // Deps from Scope
-  var scope_globals = dependencies_from_ast(scope_manager.scopes[0], optObj);
+  var scope_globals = dependencies_from_ast(globalScope, optObj);
   // -- alt: Deps from Tree
 
 
-  var result = pipeline(scope_globals
-    , _.partial(filter, not_builtin) // filter built-ins
+  result = pipeline(scope_globals,
+    _.partial(filter, not_builtin) // filter built-ins
     // add jsdoc @require etc.
     // filter jsdoc @ignore
     // check library classes
@@ -267,14 +280,16 @@ function analyze(etree, optObj) {
 
   // add feature classes from q.c.Environment calls
   var qcEnvClassCode = fs.readFileSync(fs.realpathSync(
-    path.join(__dirname, "../../../../../framework/source/class/qx/core/Environment.js")), 
+    path.join(__dirname, "../../../../../framework/source/class/qx/core/Environment.js")),
     {encoding: "utf-8"});
   result = result.concat(qcenvironment.extract(etree, qcEnvClassCode));
 
-  scope_manager.detach();
-
   return result;
 }
+
+//------------------------------------------------------------------------------
+// Exports
+//------------------------------------------------------------------------------
 
 module.exports = {
   analyze : analyze,

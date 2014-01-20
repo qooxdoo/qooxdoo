@@ -14,10 +14,10 @@ var get = require('./util').get;
 function getFeatureTable(classCode) {
 
     function is_feature_map (node) {
-        return (node.type == "Property"
-            && node.key.type == "Identifier"
-            && node.key.name == "_checksMap"
-            && node.value.type ==  "ObjectExpression"
+        return (node.type === "Property"
+            && node.key.type === "Identifier"
+            && node.key.name === "_checksMap"
+            && node.value.type ===  "ObjectExpression"
             /*
             && node.parent
             && node.parent.type == "Property"
@@ -45,10 +45,10 @@ function getFeatureTable(classCode) {
 }
 
 var InterestingEnvMethods = {
-    "select"      : true, 
-    "selectAsync" : true, 
-    "get"         : true, 
-    "getAsync"    : true, 
+    "select"      : true,
+    "selectAsync" : true,
+    "get"         : true,
+    "getAsync"    : true,
     "filter"      : true
 };
 function findVariantNodes(etree) {
@@ -58,13 +58,13 @@ function findVariantNodes(etree) {
     controller.traverse(etree, {
         enter : function (node, parent) {
             // pick calls to qx.core.Environment.get|select|filter
-            if (node.type == 'CallExpression'
-                && get(node, "callee.object.object.object.name") == 'qx'
-                && get(node, "callee.object.object.property.name") == 'core'
-                && get(node, "callee.object.property.name") == 'Environment'
-                && get(node, "callee.property.name") in InterestingEnvMethods
-            )
+            if (node.type === 'CallExpression'
+                && get(node, "callee.object.object.object.name") === 'qx'
+                && get(node, "callee.object.object.property.name") === 'core'
+                && get(node, "callee.object.property.name") === 'Environment'
+                && get(node, "callee.property.name") in InterestingEnvMethods) {
                 result.push(node);
+            }
         }
     });
     return result;
@@ -76,7 +76,7 @@ function findVariantNodes(etree) {
 function getEnvMethod(call_node) {
     // brute force, expecting 'CallExpression'
     return get(call_node, "callee.property.name");
-    
+
 }
 
 /** Get the 'foo' from a qx.core.Environment.*('foo') call. */
@@ -87,7 +87,7 @@ function getEnvKey(call_node) {
 /**
  * Interface function
  *
- * Take a tree and return the list of feature classes used through 
+ * Take a tree and return the list of feature classes used through
  * qx.core.Environment.* calls
  */
 function extract(etree, qcEnvClassCode) {
@@ -101,12 +101,12 @@ function extract(etree, qcEnvClassCode) {
             // look up corresponding feature class
             if (feature_to_class[env_key]) {
                 // add to result
-                console.log("Found: " + env_key + " : " + feature_to_class[env_key]);
+                // console.log("Found: " + env_key + " : " + feature_to_class[env_key]);
                 result.push(feature_to_class[env_key]);
             }
         }
     });
-    return result
+    return result;
 }
 
 module.exports = {
