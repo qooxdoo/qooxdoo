@@ -233,8 +233,11 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
     */
     _getCaretPosition: function() {
       var val = this.getContentElement().value;
-      var position = val.slice(0, this.getContentElement().selectionStart).length;
-      return position;
+      if(val) {
+        return val.slice(0, this.getContentElement().selectionStart).length;
+      } else {
+        return null;
+      }
     },
 
 
@@ -243,10 +246,11 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
      * @param position {Integer} the caret position.
      */
     _setCaretPosition: function(position) {
-      var element = this.getContentElement();
-      if (element.setSelectionRange) {
-        element.focus();
-        element.setSelectionRange(position, position);
+      if(position) {
+        var element = this.getContentElement();
+        if (element.setSelectionRange) {
+          element.setSelectionRange(position, position);
+        }
       }
     },
 
