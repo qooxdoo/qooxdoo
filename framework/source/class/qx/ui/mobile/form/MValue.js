@@ -115,6 +115,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
   members :
   {
     __oldValue : null,
+    __inputTimeoutHandle : null,
 
 
     /**
@@ -197,17 +198,29 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
      */
     _onInput : function(evt)
     {
-      this.fireDataEvent("input", evt.getData(), true);
+      var data = evt.getData();
+      this.fireDataEvent("input", data, true);
       if (this.getLiveUpdate())
       {
         var caretPosition = this._getCaretPosition();
-        this.setValue(evt.getData());
-
+        if (this.__inputTimeoutHandle) {
+          clearTimeout(this.__inputTimeoutHandle);
+        }
         if (qx.core.Environment.get("event.mspointer")) {
-          setTimeout(function() {
+          this.__inputTimeoutHandle = setTimeout(function() {
+            this.setValue(data);
             this._setCaretPosition(caretPosition);
-          }.bind(this), 0);
+            this.__inputTimeoutHandle = null;
+          }.bind(this), 500);
+        } else if (qx.core.Environment.get("os.name") == "android") {
+          this.__inputTimeoutHandle = setTimeout(function() {
+            this.blur();
+            this.setValue(data);
+            this.focus();
+            this.__inputTimeoutHandle = null;
+          }.bind(this), 500);
         } else {
+          this.setValue(data);
           this._setCaretPosition(caretPosition);
         }
       }
