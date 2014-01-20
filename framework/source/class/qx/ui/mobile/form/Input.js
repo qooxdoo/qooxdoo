@@ -42,7 +42,7 @@ qx.Class.define("qx.ui.mobile.form.Input",
     this._setAttribute("type", this._getType());
     this.addCssClass("gap");
 
-    this.addListener("focus", this._onFocus, this);
+    this.addListener("click", this._onClick, this);
   },
 
 
@@ -92,13 +92,18 @@ qx.Class.define("qx.ui.mobile.form.Input",
 
 
     /**
-     * Handles the focus event on this input widget.
-     * @param evt {qx.event.type.Focus} the focus event 
+     * Handles the click event on this input widget.
+     * @param evt {qx.event.type.Event} the click event 
      */
-    _onFocus : function(evt) {
-      if (qx.core.Environment.get("os.name") == "android") {
+    _onClick : function(evt) {
+      if (!(evt.getTarget() instanceof qx.ui.mobile.form.TextField) && !(evt.getTarget() instanceof qx.ui.mobile.form.NumberField)) {
+        return;
+      }
+      if (qx.ui.mobile.form.Input.SCROLL_FOCUS_TIMEOUT > 0) {
+        this.__scrollIntoView(evt);
         setTimeout(function() {
-          this.__scrollIntoView(evt);
+          this.blur();
+          this.focus();
         }.bind(this), qx.ui.mobile.form.Input.SCROLL_FOCUS_TIMEOUT);
       } else {
         this.__scrollIntoView(evt);
@@ -108,7 +113,7 @@ qx.Class.define("qx.ui.mobile.form.Input",
 
 
   destruct : function() {
-    this.removeListener("focus", this._onFocus, this);
+    this.removeListener("click", this._onClick, this);
   },
 
 
