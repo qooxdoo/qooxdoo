@@ -43,6 +43,9 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
 
     qx.event.Registration.addListener(this.getContentElement(), "change", this._onChangeContent, this);
     qx.event.Registration.addListener(this.getContentElement(), "input", this._onInput, this);
+
+    this.addListener("focus", this._onFocus,this);
+    this.addListener("blur", this._onBlur,this);
   },
 
 
@@ -116,6 +119,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
   {
     __oldValue : null,
     __inputTimeoutHandle : null,
+    __hasFocus : null,
 
 
     /**
@@ -138,6 +142,31 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
       {
         return value || "";
       }
+    },
+
+
+    /**
+    * Handler for <code>focus</code> event.
+    */
+    _onFocus : function() {
+      this.__hasFocus = true;
+    },
+
+
+    /**
+    * Handler for <code>blur</code> event.
+    */
+    _onBlur : function() {
+      this.__hasFocus = false;
+    },
+
+
+    /**
+    * Returns whether this widget has focus or not.
+    * @return {Boolean} <code>true</code> or <code>false</code>
+    */
+    hasFocus : function() {
+      return this.__hasFocus;
     },
 
 
@@ -202,23 +231,17 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
       this.fireDataEvent("input", data, true);
       if (this.getLiveUpdate())
       {
-        
-        if (this.__inputTimeoutHandle) {
-          clearTimeout(this.__inputTimeoutHandle);
-        }
-        if (qx.core.Environment.get("event.mspointer")) {
+        if (qx.core.Environment.get("event.mspointer") || qx.core.Environment.get("os.name") == "android") {
+          if (this.__inputTimeoutHandle) {
+            clearTimeout(this.__inputTimeoutHandle);
+          }
           this.__inputTimeoutHandle = setTimeout(function() {
             var caretPosition = this._getCaretPosition();
             this.setValue(data);
             this._setCaretPosition(caretPosition);
           }.bind(this), 500);
-        } else if (qx.core.Environment.get("os.name") == "android") {
-          this.__inputTimeoutHandle = setTimeout(function() {
-            var caretPosition = this._getCaretPosition();
-            this.setValue(data);
-            this._setCaretPosition(caretPosition);
-          }.bind(this), 1000);
-        } else {
+        }
+        else {
           var caretPosition = this._getCaretPosition();
           this.setValue(data);
           this._setCaretPosition(caretPosition);
@@ -231,7 +254,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
     * Returns the caret position of this widget.
     * @return {Integer} the caret position.
     */
-    _getCaretPosition: function() {
+    _getCaretPosition : function() {
       var val = this.getContentElement().value;
       if(val) {
         return val.slice(0, this.getContentElement().selectionStart).length;
@@ -246,10 +269,9 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
      * @param position {Integer} the caret position.
      */
     _setCaretPosition: function(position) {
-      if(position != null) {
-        var element = this.getContentElement();
-        if (element.setSelectionRange) {
-          element.setSelectionRange(position, position);
+      if (position != null && this.hasFocus()) {
+        if (this.getContentElement().setSelectionRange) {
+          this.getContentElement().setSelectionRange(position, position);
         }
       }
     },
@@ -268,5 +290,11 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
         this.fireDataEvent("changeValue", value);
       }
     }
+  },
+
+
+  destruct : function() {
+    this.removeListener("focus", this._onFocus,this);
+    this.removeListener("blur", this._onBlur,this);
   }
 });
