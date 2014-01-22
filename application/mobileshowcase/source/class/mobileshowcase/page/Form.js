@@ -239,7 +239,7 @@ qx.Class.define("mobileshowcase.page.Form",
         // Scroll to invalid field.
         var invalidItems = this.__form.getInvalidItems();
 
-        this.scrollToWidget(invalidItems[0].getLayoutParent(), 500);
+        this._getScrollContainer().scrollToWidget(invalidItems[0].getLayoutParent(), 500);
       }
     },
 

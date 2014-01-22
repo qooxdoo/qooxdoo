@@ -18,6 +18,9 @@
 ************************************************************************ */
 
 /**
+ * @require(qx.module.Animation)
+ * @require(qx.module.Manipulating)
+ *
  * Mixin for the {@link Scroll} container. Used when the variant
  * <code>qx.mobile.nativescroll</code> is set to "on".
  */
@@ -38,7 +41,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
   {
     /**
      * Handler for "touchstart" event.
-     * Prevents "rubber-banding" effect of page.
+     * Prevents "rubber-banding" effect of page in iOS.
      * @param evt {qx.event.type.Touch} The touch event.
      */
     _onTouchStart : function(evt) {
@@ -74,6 +77,15 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
 
 
     /**
+     * Returns the current scroll position
+     * @return {Array} an array with <code>[scrollLeft,scrollTop]</code>.
+     */
+     _getPosition : function() {
+       return [this.getContentElement().scrollLeft, this.getContentElement().scrollTop];
+     },
+
+
+    /**
      * Mixin method. Returns the scroll content element.
      *
      * @return {Element} The scroll content element
@@ -92,8 +104,9 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
     * @param time {Integer} is always <code>0</code> for this mixin.
     */
     _scrollTo : function(x, y, time) {
-      this.getContentElement().scrollLeft = x;
-      this.getContentElement().scrollTop = y;
+      var element = q(this.getContentElement());
+      element.setScrollLeft(x, time);
+      element.setScrollTop(y, time);
     },
 
 
@@ -111,7 +124,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
       var offsetParent = qx.bom.element.Location.getOffsetParent(targetElement);
       var location = qx.bom.element.Location.getRelative(offsetParent, targetElement, "scroll", "scroll");
 
-      this._scrollTo(Math.abs(location.left), Math.abs(location.top), time);
+      this._scrollTo(Math.abs(location.left), Math.abs(location.top) - 10, time);
     }
   }
 });

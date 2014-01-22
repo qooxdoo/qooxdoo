@@ -45,6 +45,8 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
   {
     this.__initScroll();
     this.__registerEventListeners();
+
+    this.__currentX = this.__currentY = 0;
   },
 
 
@@ -57,6 +59,8 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
   members :
   {
     __scroll : null,
+    __currentX : null,
+    __currentY : null,
 
     /**
      * Mixin method. Creates the scroll element.
@@ -82,7 +86,17 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     },
 
 
-   /**
+
+    /**
+    * Returns the current scroll position
+    * @return {Array} an array with the <code>[scrollLeft,scrollTop]</code>.
+    */
+    _getPosition : function() {
+      return [this.__currentX, this.__currentY];
+    },
+
+
+    /**
     * Scrolls the wrapper contents to the x/y coordinates in a given period.
     *
     * @param x {Integer} X coordinate to scroll to.
@@ -93,7 +107,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     _scrollTo : function(x, y, time)
     {
       if (this.__scroll) {
-        this.__scroll.scrollTo(x, y, time);
+        this.__scroll.scrollTo(-x, -y, time);
       }
     },
 
@@ -185,6 +199,8 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
           // Alert interested parties that we scrolled to end of page.
           if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
           {
+            container.__currentX = -this.x;
+            container.__currentY = -this.y;
             if(this.y == this.maxScrollY) {
               container.fireEvent("pageEnd");
             }

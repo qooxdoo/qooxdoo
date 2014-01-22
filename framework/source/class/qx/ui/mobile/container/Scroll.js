@@ -153,7 +153,18 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
      },
 
 
+     /**
+     * Returns the current scroll position
+     * @return {Array} an array with <code>[scrollLeft,scrollTop]</code>.
+     */
+     getPosition : function() {
+       return this._getPosition();
+     },
+
+
     /**
+      * @deprecated {4.0} This method is deprecated. Please use 'scrollToWidget()' instead.
+      * 
       * Scrolls the wrapper contents to the widgets coordinates in a given
       * period.
       *
@@ -164,15 +175,29 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       */
      scrollToElement : function(elementId, time)
      {
-       this._scrollToElement(elementId, time);
-     }
+        if (qx.core.Environment.get("qx.debug"))
+        {
+          qx.log.Logger.deprecatedMethodWarning(arguments.callee,"The method 'scrollToElement()' is deprecated. Please use 'scrollToWidget()'.");
+        }
+        this._scrollToElement(elementId, time);
+     },
+
+
+    /**
+     * Scrolls the wrapper contents to the widgets coordinates in a given
+     * period.
+     *
+     * @param widget {qx.ui.mobile.core.Widget} the widget, the scroll container should scroll to.
+     * @param time {Integer} Time slice in which scrolling should
+     *              be done.
+     */
+    scrollToWidget: function(widget, time) {
+      if (widget) {
+        this._scrollToElement(widget.getId(), time);
+      }
+    }
   },
 
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
 
   defer : function(statics)
   {

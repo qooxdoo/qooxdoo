@@ -42,12 +42,12 @@ qx.Class.define("qx.ui.mobile.form.Input",
     this._setAttribute("type", this._getType());
     this.addCssClass("gap");
 
-    this.addListener("click", this._onClick, this);
+    this.addListener("focus", this._onSelected, this);
   },
 
 
   statics : {
-    SCROLL_FOCUS_TIMEOUT : 0
+    SCROLL_DURATION : null
   },
 
 
@@ -73,53 +73,55 @@ qx.Class.define("qx.ui.mobile.form.Input",
 
 
     /**
-    * Scrolls this widget into view. The scrolled widget is aligned with the top of the scroll area.
-    * @param evt {qx.event.type.Focus} the focus event 
+    * Returns the parent scroll container of this widget.
+    * @return {qx.ui.mobile.container.Scroll} the parent scroll container or <code>null</code>
     */
-    __scrollIntoView : function(evt) {
-      var target = evt.getTarget();
-      while (!(target instanceof qx.ui.mobile.page.NavigationPage)) {
-        var parent = target.getLayoutParent();
-        if (parent instanceof qx.ui.mobile.core.Root) {
-          return;
+    __getScrollTarget : function() {
+      var scrollTarget = this;
+      while (!(scrollTarget.scrollToWidget)) {
+        var layoutParent = scrollTarget.getLayoutParent();
+        if (layoutParent instanceof qx.ui.mobile.core.Root) {
+          return null;
         }
-        target = parent;
+        scrollTarget = layoutParent;
       }
-      if (target.scrollToWidget) {
-        target.scrollToWidget(evt.getTarget());
-      }
+      return scrollTarget;
     },
 
 
     /**
-     * Handles the click event on this input widget.
-     * @param evt {qx.event.type.Event} the click event 
+     * Handles the <code>click</code> and <code>focus</code> event on this input widget.
+     * @param evt {qx.event.type.Event} <code>click</code> or <code>focus</code> event
      */
-    _onClick : function(evt) {
+    _onSelected : function(evt) {
       if (!(evt.getTarget() instanceof qx.ui.mobile.form.TextField) && !(evt.getTarget() instanceof qx.ui.mobile.form.NumberField)) {
         return;
       }
-      if (qx.ui.mobile.form.Input.SCROLL_FOCUS_TIMEOUT > 0) {
-        this.__scrollIntoView(evt);
+
+      var scrollTarget = this.__getScrollTarget();
+      if(scrollTarget && scrollTarget.scrollToWidget) {
+        scrollTarget.scrollToWidget(this, qx.ui.mobile.form.Input.SCROLL_DURATION);
+      }
+
+      // Re-render input field caret after scrolling.
+      if (qx.core.Environment.get("os.name") == "android") {
         setTimeout(function() {
-          this.blur();
-          this.focus();
-        }.bind(this), qx.ui.mobile.form.Input.SCROLL_FOCUS_TIMEOUT);
-      } else {
-        this.__scrollIntoView(evt);
+          this._setStyle("width","0px");
+          setTimeout(function() {
+            this._setStyle("width", null);
+          }.bind(this), 0);
+        }.bind(this), qx.ui.mobile.form.Input.SCROLL_DURATION);
       }
     }
   },
 
 
   destruct : function() {
-    this.removeListener("click", this._onClick, this);
+    this.removeListener("focus", this._onSelected, this);
   },
 
 
   defer : function(statics) {
-    if (qx.core.Environment.get("os.name") == "android") {
-      statics.SCROLL_FOCUS_TIMEOUT = 100;
-    }
+    statics.SCROLL_DURATION = 0;
   }
 });
