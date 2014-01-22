@@ -124,7 +124,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
       var offsetParent = qx.bom.element.Location.getOffsetParent(targetElement);
       var location = qx.bom.element.Location.getRelative(offsetParent, targetElement, "scroll", "scroll");
 
-      this._scrollTo(Math.abs(location.left), Math.abs(location.top) - 10, time);
+      this._scrollTo(Math.abs(location.left), Math.abs(location.top), time);
     }
   }
 });

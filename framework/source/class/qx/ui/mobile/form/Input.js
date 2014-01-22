@@ -42,7 +42,11 @@ qx.Class.define("qx.ui.mobile.form.Input",
     this._setAttribute("type", this._getType());
     this.addCssClass("gap");
 
-    this.addListener("focus", this._onSelected, this);
+    if (qx.core.Environment.get("os.name") == "android") {
+      this.addListener("click", this._onSelected, this);
+    } else {
+      this.addListener("focus", this._onSelected, this);
+    }
   },
 
 
@@ -100,24 +104,26 @@ qx.Class.define("qx.ui.mobile.form.Input",
 
       var scrollTarget = this.__getScrollTarget();
       if(scrollTarget && scrollTarget.scrollToWidget) {
-        scrollTarget.scrollToWidget(this, qx.ui.mobile.form.Input.SCROLL_DURATION);
+        scrollTarget.scrollToWidget(this.getLayoutParent(), qx.ui.mobile.form.Input.SCROLL_DURATION);
       }
 
       // Re-render input field caret after scrolling.
       if (qx.core.Environment.get("os.name") == "android") {
         setTimeout(function() {
-          this._setStyle("width","0px");
-          setTimeout(function() {
-            this._setStyle("width", null);
-          }.bind(this), 0);
-        }.bind(this), qx.ui.mobile.form.Input.SCROLL_DURATION);
+          this.blur();
+          this.focus();
+        }.bind(this), 50 + qx.ui.mobile.form.Input.SCROLL_DURATION);
       }
     }
   },
 
 
   destruct : function() {
-    this.removeListener("focus", this._onSelected, this);
+    if (qx.core.Environment.get("os.name") == "android") {
+      this.addListener("click", this._onSelected, this);
+    } else {
+      this.addListener("focus", this._onSelected, this);
+    }
   },
 
 
