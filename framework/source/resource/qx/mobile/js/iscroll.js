@@ -999,7 +999,7 @@ iScroll.prototype = {
     pos.top = pos.top > that.minScrollY ? that.minScrollY : pos.top < that.maxScrollY ? that.maxScrollY : pos.top;
     time = time === undefined ? m.max(m.abs(pos.left)*2, m.abs(pos.top)*2) : time;
 
-    that.scrollTo(pos.left, pos.top, time);
+    that.scrollTo(pos.left, pos.top + 10, time);
   },
 
   scrollToPage: function (pageX, pageY, time) {
