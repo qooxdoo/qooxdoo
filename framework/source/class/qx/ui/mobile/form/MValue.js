@@ -202,24 +202,24 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
       this.fireDataEvent("input", data, true);
       if (this.getLiveUpdate())
       {
-        var caretPosition = this._getCaretPosition();
+        
         if (this.__inputTimeoutHandle) {
           clearTimeout(this.__inputTimeoutHandle);
         }
         if (qx.core.Environment.get("event.mspointer")) {
           this.__inputTimeoutHandle = setTimeout(function() {
+            var caretPosition = this._getCaretPosition();
             this.setValue(data);
             this._setCaretPosition(caretPosition);
-            this.__inputTimeoutHandle = null;
           }.bind(this), 500);
         } else if (qx.core.Environment.get("os.name") == "android") {
           this.__inputTimeoutHandle = setTimeout(function() {
-            this.blur();
+            var caretPosition = this._getCaretPosition();
             this.setValue(data);
-            this.focus();
-            this.__inputTimeoutHandle = null;
-          }.bind(this), 500);
+            this._setCaretPosition(caretPosition);
+          }.bind(this), 1000);
         } else {
+          var caretPosition = this._getCaretPosition();
           this.setValue(data);
           this._setCaretPosition(caretPosition);
         }
@@ -246,7 +246,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
      * @param position {Integer} the caret position.
      */
     _setCaretPosition: function(position) {
-      if(position) {
+      if(position != null) {
         var element = this.getContentElement();
         if (element.setSelectionRange) {
           element.setSelectionRange(position, position);
