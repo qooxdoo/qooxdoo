@@ -510,7 +510,12 @@ qx.Bootstrap.define("qx.bom.client.Css",
       }];
 
       for (var i = 0; i < flexSyntax.length; i++) {
-        detector.style.display = flexSyntax[i].value;
+        // old IEs will throw an "Invalid argument" exception here
+        try {
+          detector.style.display = flexSyntax[i].value;
+        } catch(ex) {
+          return null;
+        }
         if (detector.style.display === flexSyntax[i].value) {
           detectedSyntax = flexSyntax[i].syntax;
           break;
