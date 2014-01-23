@@ -42,16 +42,7 @@ qx.Class.define("qx.ui.mobile.form.Input",
     this._setAttribute("type", this._getType());
     this.addCssClass("gap");
 
-    if (qx.core.Environment.get("os.name") == "android") {
-      this.addListener("click", this._onSelected, this);
-    } else {
-      this.addListener("focus", this._onSelected, this);
-    }
-  },
-
-
-  statics : {
-    SCROLL_DURATION : null
+    this.addListener("focus", this._onSelected, this);
   },
 
 
@@ -80,16 +71,20 @@ qx.Class.define("qx.ui.mobile.form.Input",
     * Returns the parent scroll container of this widget.
     * @return {qx.ui.mobile.container.Scroll} the parent scroll container or <code>null</code>
     */
-    __getScrollTarget : function() {
-      var scrollTarget = this;
-      while (!(scrollTarget.scrollToWidget)) {
-        var layoutParent = scrollTarget.getLayoutParent();
-        if (layoutParent instanceof qx.ui.mobile.core.Root) {
+    __getScrollContainer : function() {
+      var scroll = this;
+      while (!(scroll instanceof qx.ui.mobile.container.Scroll)) {
+        if (scroll.getLayoutParent) {
+          var layoutParent = scroll.getLayoutParent();
+          if (layoutParent instanceof qx.ui.mobile.core.Root) {
+            return null;
+          }
+          scroll = layoutParent;
+        } else {
           return null;
         }
-        scrollTarget = layoutParent;
       }
-      return scrollTarget;
+      return scroll;
     },
 
 
@@ -102,32 +97,33 @@ qx.Class.define("qx.ui.mobile.form.Input",
         return;
       }
 
-      var scrollTarget = this.__getScrollTarget();
-      if(scrollTarget && scrollTarget.scrollToWidget) {
-        scrollTarget.scrollToWidget(this.getLayoutParent(), qx.ui.mobile.form.Input.SCROLL_DURATION);
+      var scrollContainer = this.__getScrollContainer();
+      if(scrollContainer === null) {
+        return;
       }
 
-      // Re-render input field caret after scrolling.
-      if (qx.core.Environment.get("os.name") == "android") {
+      if (qx.core.Environment.get("os.name") == "ios") {
+        scrollContainer.scrollToWidget(this.getLayoutParent(), 0);
+      } else {
         setTimeout(function() {
-          this.blur();
-          this.focus();
-        }.bind(this), 50 + qx.ui.mobile.form.Input.SCROLL_DURATION);
+          scrollContainer.scrollToWidget(this.getLayoutParent(), 0);
+
+          if (qx.core.Environment.get("os.name") == "android") {
+            var old = this._getCaretPosition();
+            window.getSelection().empty();
+
+            setTimeout(function() {
+              this._setCaretPosition(old);
+            }.bind(this), 50);
+          }
+
+        }.bind(this), 0);
       }
     }
   },
 
 
   destruct : function() {
-    if (qx.core.Environment.get("os.name") == "android") {
-      this.addListener("click", this._onSelected, this);
-    } else {
-      this.addListener("focus", this._onSelected, this);
-    }
-  },
-
-
-  defer : function(statics) {
-    statics.SCROLL_DURATION = 0;
+    this.addListener("focus", this._onSelected, this);
   }
 });

@@ -45,13 +45,10 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
      * @param evt {qx.event.type.Touch} The touch event.
      */
     _onTouchStart : function(evt) {
-      var parentContentElementHeight = this.getLayoutParent().getContentElement().offsetHeight;
-      var contentElementHeight = this.getContentElement().scrollHeight;
-
       // If scroll container is scrollable
-      if (contentElementHeight > parentContentElementHeight) {
+      if (this._isScrollable()) {
         var scrollTop = this.getContentElement().scrollTop;
-        var maxScrollTop = contentElementHeight - parentContentElementHeight;
+        var maxScrollTop = this.getContentElement().scrollHeight - this.getLayoutParent().getContentElement().offsetHeight;
         if (scrollTop === 0) {
           this.getContentElement().scrollTop = 1;
         } else if (scrollTop == maxScrollTop) {
@@ -62,6 +59,20 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
           evt.preventDefault();
         }
       }
+    },
+
+
+    /**
+    * Detects whether this scroll container is scrollable or not.
+    * @return {Boolean} <code>true</code> or <code>false</code>
+    */
+    _isScrollable : function() {
+      if(this.getLayoutParent() === null) {
+        return false;
+      }
+      var parentHeight = this.getLayoutParent().getContentElement().offsetHeight;
+      var contentHeight = this.getContentElement().scrollHeight;
+      return parentHeight < contentHeight;
     },
 
 

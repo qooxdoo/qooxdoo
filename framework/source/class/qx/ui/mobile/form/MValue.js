@@ -259,7 +259,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
       if(val) {
         return val.slice(0, this.getContentElement().selectionStart).length;
       } else {
-        return null;
+        return val.length;
       }
     },
 

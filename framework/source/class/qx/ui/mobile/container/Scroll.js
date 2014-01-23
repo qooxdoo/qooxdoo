@@ -162,6 +162,15 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
      },
 
 
+     /**
+     * Detects whether this scroll container is scrollable or not.
+     * @return {Boolean} <code>true</code> or <code>false</code>
+     */
+     isScrollable : function() {
+      return this._isScrollable();
+     },
+
+
     /**
       * @deprecated {4.0} This method is deprecated. Please use 'scrollToWidget()' instead.
       * 
