@@ -92,7 +92,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     */
     _scrollTo : function(x, y, time)
     {
-      if (this.__scroll) {
+      if (this.__scroll && this._isScrollable()) {
         this.__scroll.scrollTo(x, y, time);
       }
     },
@@ -108,10 +108,12 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     */
     _scrollToElement : function(elementId, time)
     {
-      if(typeof time === "undefined") {
-        time = 0;
-      }
-      if (this.__scroll) {
+      
+      if (this.__scroll && this._isScrollable()) {
+        if(typeof time === "undefined") {
+          time = 0;
+        }
+        
         this.__scroll.scrollToElement("#"+elementId, time);
       }
     },
@@ -144,6 +146,20 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
       } else {
         this._setScroll(this.__createScrollInstance());
       }
+    },
+
+
+    /**
+    * Detects whether this scroll container is scrollable or not.
+    * @return {Boolean} <code>true</code> or <code>false</code>
+    */
+    _isScrollable : function() {
+      if(this.getLayoutParent() === null) {
+        return false;
+      }
+      var parentHeight = this.getLayoutParent().getContentElement().offsetHeight;
+      var contentHeight = this.getContentElement().scrollHeight;
+      return parentHeight < contentHeight;
     },
 
 

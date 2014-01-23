@@ -140,32 +140,56 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
 
 
     /**
-     * Scrolls the wrapper contents to the x/y coordinates in a given time.
-     *
-     * @param x {Integer} X coordinate to scroll to.
-     * @param y {Integer} Y coordinate to scroll to.
-     * @param time {Integer} Time slice in which scrolling should
-     *              be done.
-     */
-     scrollTo : function(x, y, time)
-     {
-       this._scrollTo(x, y, time);
-     },
+    * Scrolls the wrapper contents to the x/y coordinates in a given time.
+    *
+    * @param x {Integer} X coordinate to scroll to.
+    * @param y {Integer} Y coordinate to scroll to.
+    * @param time {Integer} Time slice in which scrolling should
+    *              be done.
+    */
+    scrollTo : function(x, y, time)
+    {
+     this._scrollTo(x, y, time);
+    },
 
 
     /**
-      * Scrolls the wrapper contents to the widgets coordinates in a given
-      * period.
-      *
-      * @param elementId {String} the elementId, the scroll container should scroll to.
-      * @param time {Integer?0} Time slice in which scrolling should
-      *              be done (in seconds).
-      *
-      */
-     scrollToElement : function(elementId, time)
-     {
-       this._scrollToElement(elementId, time);
-     }
+    * Scrolls the wrapper contents to the widgets coordinates in a given
+    * period.
+    *
+    * @param elementId {String} the elementId, the scroll container should scroll to.
+    * @param time {Integer?0} Time slice in which scrolling should
+    *              be done (in seconds).
+    *
+    */
+    scrollToElement : function(elementId, time)
+    {
+     this._scrollToElement(elementId, time);
+    },
+
+
+    /**
+    * Detects whether this scroll container is scrollable or not.
+    * @return {Boolean} <code>true</code> or <code>false</code>
+    */
+    isScrollable : function() {
+      return this._isScrollable();
+    },
+
+
+    /**
+     * Scrolls the wrapper contents to the widgets coordinates in a given
+     * period.
+     *
+     * @param widget {qx.ui.mobile.core.Widget} the widget, the scroll container should scroll to.
+     * @param time {Integer} Time slice in which scrolling should
+     *              be done.
+     */
+    scrollToWidget: function(widget, time) {
+      if (widget) {
+        this._scrollToElement(widget.getId(), time);
+      }
+    }
   },
 
   /*

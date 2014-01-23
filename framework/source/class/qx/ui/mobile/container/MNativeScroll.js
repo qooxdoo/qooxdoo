@@ -84,6 +84,20 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
     },
 
 
+    /**
+    * Detects whether this scroll container is scrollable or not.
+    * @return {Boolean} <code>true</code> or <code>false</code>
+    */
+    _isScrollable : function() {
+      if(this.getLayoutParent() === null) {
+        return false;
+      }
+      var parentHeight = this.getLayoutParent().getContentElement().offsetHeight;
+      var contentHeight = this.getContentElement().scrollHeight;
+      return parentHeight < contentHeight;
+    },
+
+
    /**
     * Scrolls the wrapper contents to the x/y coordinates in a given period.
     *

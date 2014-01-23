@@ -40,13 +40,7 @@ qx.Class.define("qx.ui.mobile.form.Input",
   {
     this.base(arguments);
     this._setAttribute("type", this._getType());
-
-    this.addListener("click", this._onClick, this);
-  },
-
-
-  statics : {
-    SCROLL_FOCUS_TIMEOUT : 0
+    this.addListener("focus", this._onSelected, this);
   },
 
 
@@ -72,53 +66,62 @@ qx.Class.define("qx.ui.mobile.form.Input",
 
 
     /**
-    * Scrolls this widget into view. The scrolled widget is aligned with the top of the scroll area.
-    * @param evt {qx.event.type.Focus} the focus event 
+    * Returns the parent scroll container of this widget.
+    * @return {qx.ui.mobile.container.Scroll} the parent scroll container or <code>null</code>
     */
-    __scrollIntoView: function(evt) {
-      var target = evt.getTarget();
-      while (!(target instanceof qx.ui.mobile.page.NavigationPage)) {
-        var parent = target.getLayoutParent();
-        if (parent instanceof qx.ui.mobile.core.Root) {
-          return;
+    __getScrollContainer : function() {
+      var scroll = this;
+      while (!(scroll instanceof qx.ui.mobile.container.Scroll)) {
+        if (scroll.getLayoutParent) {
+          var layoutParent = scroll.getLayoutParent();
+          if (layoutParent instanceof qx.ui.mobile.core.Root) {
+            return null;
+          }
+          scroll = layoutParent;
+        } else {
+          return null;
         }
-        target = parent;
       }
-      if (target.scrollToWidget) {
-        target.scrollToWidget(evt.getTarget());
-      }
+      return scroll;
     },
 
 
     /**
-     * Handles the click event on this input widget.
-     * @param evt {qx.event.type.Event} the click event 
+     * Handles the <code>click</code> and <code>focus</code> event on this input widget.
+     * @param evt {qx.event.type.Event} <code>click</code> or <code>focus</code> event
      */
-    _onClick : function(evt) {
+    _onSelected : function(evt) {
       if (!(evt.getTarget() instanceof qx.ui.mobile.form.TextField) && !(evt.getTarget() instanceof qx.ui.mobile.form.NumberField)) {
         return;
       }
-      if (qx.ui.mobile.form.Input.SCROLL_FOCUS_TIMEOUT > 0) {
-        this.__scrollIntoView(evt);
-        setTimeout(function() {
-          this.blur();
-          this.focus();
-        }.bind(this), qx.ui.mobile.form.Input.SCROLL_FOCUS_TIMEOUT);
+
+      var scrollContainer = this.__getScrollContainer();
+      if(scrollContainer === null) {
+        return;
+      }
+
+      if (qx.core.Environment.get("os.name") == "ios") {
+        scrollContainer.scrollToWidget(this.getLayoutParent(), 0);
       } else {
-        this.__scrollIntoView(evt);
+        setTimeout(function() {
+          scrollContainer.scrollToWidget(this.getLayoutParent(), 0);
+
+          if (qx.core.Environment.get("os.name") == "android") {
+            var old = this._getCaretPosition();
+            window.getSelection().empty();
+
+            setTimeout(function() {
+              this._setCaretPosition(old);
+            }.bind(this), 50);
+          }
+
+        }.bind(this), 0);
       }
     }
   },
 
 
   destruct : function() {
-    this.removeListener("click", this._onClick, this);
-  },
-
-
-  defer : function(statics) {
-    if (qx.core.Environment.get("os.name") == "android") {
-      statics.SCROLL_FOCUS_TIMEOUT = 100;
-    }
+    this.removeListener("focus", this._onFocus, this);
   }
 });
