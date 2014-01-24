@@ -53,6 +53,8 @@ exports.dependencies = {
   },
   */
   analyze_tree : function (test) {
+    var depAnalyzer = require('../lib/depAnalyzer.js');
+
     // var filePath = 'test/data/qx/util/ResourceManager.js';
     var filePath = 'test/data/qx/Class.js';
 
@@ -62,7 +64,6 @@ exports.dependencies = {
     parentAnnotator.annotate(tree);
     classNameAnnotator.annotate(tree, filePath);
 
-    var depAnalyzer = require('../lib/depAnalyzer.js');
     var deps = depAnalyzer.analyze(tree);
     // console.log(deps);
     // debugger;

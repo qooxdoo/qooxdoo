@@ -38,6 +38,17 @@ function concat(sList, tList) {
   return tList.concat(sList);
 }
 
+/**
+ * File path to fqClassName conversion.
+ *
+ *  "foo/bar/qx/Foo/Bar.js" => "qx.Foo.Bar"
+ */
+function classNameFrom(filePath) {
+  var qxPos = filePath.indexOf("qx");
+  var fqClassName = filePath.substr(qxPos).replace(/\//g, ".").replace(".js", "");
+  return fqClassName;
+}
+
 /** Safe access to deep object members */
 function get(obj, propertyPath) {
   var o = obj;
@@ -58,5 +69,6 @@ module.exports = {
   pipeline: pipeline,
   filter: filter,
   concat: concat,
+  classNameFrom: classNameFrom,
   get: get,
 };

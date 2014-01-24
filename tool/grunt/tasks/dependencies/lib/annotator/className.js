@@ -27,6 +27,8 @@
  *  tree root node
  */
 
+var util = require('../util');
+
 /**
  * Augmentation key for tree.
  */
@@ -38,9 +40,7 @@ var annotateKey = "qxClassName";
  *  "foo/bar/qx/Foo/Bar.js" => "qx.Foo.Bar"
  */
 function annotate (tree, filePath) {
-  var qxPos = filePath.indexOf("qx");
-  var fqClassName = filePath.substr(qxPos).replace(/\//g, ".").replace(".js", "");
-  tree[annotateKey] = fqClassName;
+  tree[annotateKey] = util.classNameFrom(filePath);
 }
 
 module.exports = {

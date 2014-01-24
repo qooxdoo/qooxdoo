@@ -37,8 +37,7 @@ var js_builtins = require('../node_modules/jshint/src/vars'); // TODO: this is d
 var parentAnnotator = require('./annotator/parent');
 var loadTimeAnnotator = require('./annotator/loadTime');
 var qxCoreEnv = require('./qxCoreEnv');
-var pipeline = require('./util').pipeline;
-var filter = require('./util').filter;
+var util = require('./util');
 
 function is_var(node) {
   return ["Identifier", "MemberExpression"].indexOf(node.type) !== -1;
@@ -309,9 +308,9 @@ function analyze(tree, qxCoreEnvClassCode) {
   var scope_globals = dependencies_from_ast(globalScope);
   // -- alt: Deps from Tree
 
-  deps = pipeline(scope_globals,
-    _.partial(filter, not_builtin),     // e.g. document, window, undefined ...
-    _.partial(filter, not_qxinternal)  // e.g. qx.$$libraries, qx$$resources ...
+  deps = util.pipeline(scope_globals,
+    _.partial(util.filter, not_builtin),     // e.g. document, window, undefined ...
+    _.partial(util.filter, not_qxinternal)  // e.g. qx.$$libraries, qx$$resources ...
     // add jsdoc @require etc.
     // filter jsdoc @ignore
     // check library classes
