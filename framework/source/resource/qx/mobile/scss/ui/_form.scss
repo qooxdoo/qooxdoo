@@ -139,7 +139,6 @@
 
 .form-row-group-first, 
 .form-row-group-last {
-  @include border-radius-top($form-border-radius);
   @include background($form-background);
   height: 0px;
   padding: rem(2);
@@ -147,6 +146,7 @@
 }
 
 .form-row-group-first {
+  @include border-radius-top($form-border-radius);
   border-top: rem(1) solid $form-border-color;
   border-left: rem(1) solid $form-border-color;
   border-right: rem(1) solid $form-border-color;
@@ -154,6 +154,7 @@
 }
 
 .form-row-group-last {
+  @include border-radius-bottom($form-border-radius);
   border-top: 0px transparent;
   border-bottom: rem(1) solid $form-border-color;
   border-left: rem(1) solid $form-border-color;
