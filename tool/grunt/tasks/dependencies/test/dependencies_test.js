@@ -53,8 +53,8 @@ exports.dependencies = {
   },
   */
   analyze_tree : function (test) {
-    var filePath = 'test/data/qx/util/ResourceManager.js';
-    // var filePath = 'test/data/qx/Class.js';
+    // var filePath = 'test/data/qx/util/ResourceManager.js';
+    var filePath = 'test/data/qx/Class.js';
 
     var jsCode = grunt.file.read(filePath);
     var tree = esprima.parse(jsCode);
@@ -67,7 +67,7 @@ exports.dependencies = {
     // console.log(deps);
     // debugger;
 
-    console.log(depAnalyzer.unify(deps));
+    console.log(deps);
 
     test.ok(true);
     test.done();

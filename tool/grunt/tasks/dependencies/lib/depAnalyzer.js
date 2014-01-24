@@ -266,29 +266,50 @@ function analyze_as_map(etree, optObj) {
   return result;
 }
 
+/**
+ * Unify and sanitize (only strings, uniq, sort and no self reference) dependencies.
+ */
+function unify(deps, className) {
+    // flatten (ref2string)
+    var shallowDeps = deps.map( function (dep) {
+      if (_.isString(dep)) {
+        return dep;
+      } else {
+        return assemble(dep.identifier);
+      }
+    });
+
+    // sort & uniq
+    shallowDeps = _.sortBy(_.uniq(shallowDeps), function(char) {
+      return char;
+    });
+
+    // no self ref
+    return _.without(shallowDeps, className);
+}
+
 //------------------------------------------------------------------------------
 // Public Interface
 //------------------------------------------------------------------------------
 
 /**
- * Analyze an Esprima tree for unresolved references.
+ * Analyze an esprima tree for unresolved references (i.e. dependencies).
  *
- * @param etree {Object} AST from esprima
- * @returns {escope.Reference[]}
+ * @param tree {Object} AST from esprima
+ * @returns {String[]}
  */
-function analyze(etree, qxCoreEnvClassCode) {
-  var result = [];
-  var globalScope = escope.analyze(etree).scopes[0];
+function analyze(tree, qxCoreEnvClassCode) {
+  var deps = [];
+  var globalScope = escope.analyze(tree).scopes[0];
 
-  parentAnnotator.annotate(etree);  // TODO: don't call here if called from analyze_as_map()!
+  parentAnnotator.annotate(tree);  // TODO: don't call here if called from analyze_as_map()!
   loadTimeAnnotator.annotate(globalScope,  // add load/runtime annotations to scopes
     true);  // TODO: this should be a dynamic parameter to analyze()
   // Deps from Scope
   var scope_globals = dependencies_from_ast(globalScope);
   // -- alt: Deps from Tree
 
-
-  result = pipeline(scope_globals,
+  deps = pipeline(scope_globals,
     _.partial(filter, not_builtin),     // e.g. document, window, undefined ...
     _.partial(filter, not_qxinternal)  // e.g. qx.$$libraries, qx$$resources ...
     // add jsdoc @require etc.
@@ -303,29 +324,9 @@ function analyze(etree, qxCoreEnvClassCode) {
     // add all its dependencies to originator's deps (load/runtime doesn't matter anymore)
     // recurse on those dependencies
 
-  // TBD: turn Reference()s into strings?
-
   // add feature classes from qx.core.Environment calls
-  result = result.concat(qxCoreEnv.extract(etree));
-
-  return result;
-}
-
-
-/**
- * Unify (only strings, uniq and sort) dependencies.
- */
-function unify(deps) {
-    var shallowDeps = deps.map( function (dep) {
-      if (_.isString(dep)) {
-        return dep;
-      } else {
-        return assemble(dep.identifier);
-      }
-    });
-    return _.sortBy(_.uniq(shallowDeps), function(char){
-      return char;
-    });
+  deps = deps.concat(qxCoreEnv.extract(tree));
+  return unify(deps, tree.qxClassName);
 }
 
 //------------------------------------------------------------------------------
@@ -333,6 +334,5 @@ function unify(deps) {
 //------------------------------------------------------------------------------
 
 module.exports = {
-  analyze : analyze,
-  unify : unify
+  analyze : analyze
 };
