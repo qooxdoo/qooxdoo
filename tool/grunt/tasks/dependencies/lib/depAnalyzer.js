@@ -28,17 +28,17 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-var fs = require('fs');
-var path = require('path');
 var escope = require('escope');
-var esparent = require('./esparent');
 var escodegen = require('escodegen');
+var _ = require('underscore');
+
 var js_builtins = require('../node_modules/jshint/src/vars'); // TODO: this is darn ugly, as i have to poke into internal modules of jshint
+
+var parentAnnotator = require('./annotator/parent');
+var loadTimeAnnotator = require('./annotator/loadTime');
+var qxCoreEnv = require('./qxCoreEnv');
 var pipeline = require('./util').pipeline;
 var filter = require('./util').filter;
-var load_time = require('./load_time');
-var qcenvironment = require('./qcenvironment');
-var _ = require('underscore');
 
 function is_var(node) {
   return ["Identifier", "MemberExpression"].indexOf(node.type) !== -1;
@@ -60,13 +60,24 @@ function findVarRoot (var_node) {
 /**
  * Takes a variable AST node and returns the longest possible variable name.
  */
-function assemble(var_node) {
-  var var_root = findVarRoot(var_node);
-  var assembled = escodegen.generate(var_root);
+function assemble(varNode, withMethodName) {
+  var varRoot = findVarRoot(varNode);
+  var assembled = escodegen.generate(varRoot);
+  withMethodName = withMethodName || false;
+
+  if (!withMethodName) {
+    var posOfLastDot = assembled.lastIndexOf('.');
+    var firstCharLastWord = assembled[posOfLastDot+1];
+    if (firstCharLastWord === firstCharLastWord.toLowerCase()) {
+      // cut off method name
+      assembled = assembled.substr(0, posOfLastDot);
+    }
+  }
+
   return assembled;
 }
 
-function dependencies_from_ast(scope, optObj) {
+function dependencies_from_ast(scope) {
 
   var dependencies = [];
 
@@ -87,19 +98,36 @@ function not_builtin(ref) {
   if (ident.type !== "Identifier") {
     return true;
   }
+
+  var isBuiltin = function(el) {
+    return ident.name in js_builtins[el];
+  };
+
   // check in various js_builtins maps
-  if ([
-      'reservedVars',
-      'ecmaIdentifiers',
-      'browser',
-      'devel',
-      'worker',
-      'nonstandard'
-    ].some(function(el){
-        return ident.name in js_builtins[el];
-      })
-    ) {
+  if (['reservedVars',
+       'ecmaIdentifiers',
+       'browser',
+       'devel',
+       'worker',
+       'nonstandard'].some(isBuiltin)) {
       return false;
+  }
+  return true;
+}
+
+/**
+ *  Filter "qx.$$foo" dependencies (e.g. qx.$$libraries, qx$$resources ...).
+ */
+function not_qxinternal(ref) {
+  var ident = ref.identifier;
+  if (ident.type !== "Identifier") {
+    return true;
+  }
+  if (ident.parent && ident.parent.property) {
+    if (ident.parent.property.name[0] === "$"
+    &&  ident.parent.property.name[1] === "$") {
+      return false;
+    }
   }
   return true;
 }
@@ -243,27 +271,26 @@ function analyze_as_map(etree, optObj) {
 //------------------------------------------------------------------------------
 
 /**
- * Interface function.
  * Analyze an Esprima tree for unresolved references.
  *
  * @param etree {Object} AST from esprima
- * @paramoptObj {Object} options
  * @returns {escope.Reference[]}
  */
-function analyze(etree, optObj) {
+function analyze(etree, qxCoreEnvClassCode) {
   var result = [];
   var globalScope = escope.analyze(etree).scopes[0];
 
-  esparent.annotate(etree);  // TODO: don't call here if called from analyze_as_map()!
-  load_time.annotate(globalScope,  // add load/runtime annotations to scopes
+  parentAnnotator.annotate(etree);  // TODO: don't call here if called from analyze_as_map()!
+  loadTimeAnnotator.annotate(globalScope,  // add load/runtime annotations to scopes
     true);  // TODO: this should be a dynamic parameter to analyze()
   // Deps from Scope
-  var scope_globals = dependencies_from_ast(globalScope, optObj);
+  var scope_globals = dependencies_from_ast(globalScope);
   // -- alt: Deps from Tree
 
 
   result = pipeline(scope_globals,
-    _.partial(filter, not_builtin) // filter built-ins
+    _.partial(filter, not_builtin),     // e.g. document, window, undefined ...
+    _.partial(filter, not_qxinternal)  // e.g. qx.$$libraries, qx$$resources ...
     // add jsdoc @require etc.
     // filter jsdoc @ignore
     // check library classes
@@ -278,13 +305,27 @@ function analyze(etree, optObj) {
 
   // TBD: turn Reference()s into strings?
 
-  // add feature classes from q.c.Environment calls
-  var qcEnvClassCode = fs.readFileSync(fs.realpathSync(
-    path.join(__dirname, "../../../../../framework/source/class/qx/core/Environment.js")),
-    {encoding: "utf-8"});
-  result = result.concat(qcenvironment.extract(etree, qcEnvClassCode));
+  // add feature classes from qx.core.Environment calls
+  result = result.concat(qxCoreEnv.extract(etree));
 
   return result;
+}
+
+
+/**
+ * Unify (only strings, uniq and sort) dependencies.
+ */
+function unify(deps) {
+    var shallowDeps = deps.map( function (dep) {
+      if (_.isString(dep)) {
+        return dep;
+      } else {
+        return assemble(dep.identifier);
+      }
+    });
+    return _.sortBy(_.uniq(shallowDeps), function(char){
+      return char;
+    });
 }
 
 //------------------------------------------------------------------------------
@@ -293,5 +334,5 @@ function analyze(etree, optObj) {
 
 module.exports = {
   analyze : analyze,
-  assemble : assemble
+  unify : unify
 };

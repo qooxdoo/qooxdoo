@@ -1,8 +1,11 @@
 'use strict';
 
 var grunt = require('grunt');
-var esparent = require('../lib/esparent.js');
+var esprima = require('esprima');
 var _ = require('underscore');
+
+var parentAnnotator = require('../lib/annotator/parent.js');
+var classNameAnnotator = require('../lib/annotator/className.js');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -50,21 +53,23 @@ exports.dependencies = {
   },
   */
   analyze_tree : function (test) {
-    var js_code = grunt.file.read('test/data/ResourceManager.js');
-    var esprima = require('esprima');
-    var tree = esprima.parse(js_code);
-    esparent.annotate(tree);
-    var depsana = require('../lib/dependencies.js');
-    var deps = depsana.analyze(tree, {});
-    //grunt.log.writeln(deps);
-    console.log();
-    console.log(deps.map( function (dep) {
-      if (_.isString(dep))
-        return dep;
-      else 
-        return depsana.assemble(dep.identifier);
-    }));
+    var filePath = 'test/data/qx/util/ResourceManager.js';
+    // var filePath = 'test/data/qx/Class.js';
+
+    var jsCode = grunt.file.read(filePath);
+    var tree = esprima.parse(jsCode);
+
+    parentAnnotator.annotate(tree);
+    classNameAnnotator.annotate(tree, filePath);
+
+    var depAnalyzer = require('../lib/depAnalyzer.js');
+    var deps = depAnalyzer.analyze(tree);
+    // console.log(deps);
+    // debugger;
+
+    console.log(depAnalyzer.unify(deps));
+
     test.ok(true);
-    test.done()
+    test.done();
   }
 };
