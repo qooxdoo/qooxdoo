@@ -4,8 +4,9 @@ var grunt = require('grunt');
 var esprima = require('esprima');
 var _ = require('underscore');
 
-var parentAnnotator = require('../lib/annotator/parent.js');
-var classNameAnnotator = require('../lib/annotator/className.js');
+var parentAnnotator = require('../lib/annotator/parent');
+var classNameAnnotator = require('../lib/annotator/className');
+var util = require('../lib/util');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -54,21 +55,54 @@ exports.dependencies = {
   */
   analyze_tree : function (test) {
     var depAnalyzer = require('../lib/depAnalyzer.js');
+    var classesDeps = {};
 
     // var filePath = 'test/data/qx/util/ResourceManager.js';
-    var filePath = 'test/data/qx/Class.js';
+    // var filePath = 'test/data/qx/Class.js';
+    var filePaths = [
+        // 'test/data/qx/Class.js',
+        'test/data/qx/bom/client/Engine.js',
+        // 'test/data/qx/bom/client/Transport.js',
+        'test/data/qx/core/Environment.js',
+        'test/data/qx/core/Object.js',
+        // 'test/data/qx/util/ResourceManager.js',
+        // 'test/data/qx/util/LibraryManager.js'
+    ];
 
-    var jsCode = grunt.file.read(filePath);
-    var tree = esprima.parse(jsCode);
+    // └── qx
+    //     ├── Class.js
+    //     ├── bom
+    //     │   └── client
+    //     │       ├── Engine.js
+    //     │       └── Transport.js
+    //     ├── core
+    //     │   ├── Environment.js
+    //     │   └── Object.js
+    //     └── util
+    //         ├── LibraryManager.js
+    //         └── ResourceManager.js
 
-    parentAnnotator.annotate(tree);
-    classNameAnnotator.annotate(tree, filePath);
+    filePaths.forEach( function (filePath) {
+      var jsCode = grunt.file.read(filePath);
+      var tree = esprima.parse(jsCode);
 
-    var deps = depAnalyzer.analyze(tree);
-    // console.log(deps);
-    // debugger;
+      parentAnnotator.annotate(tree);
+      classNameAnnotator.annotate(tree, filePath);
 
-    console.log(deps);
+      var classDeps = depAnalyzer.analyze(tree);
+
+      classesDeps[util.classNameFrom(filePath)] = classDeps;
+    });
+
+    var Toposort = require('toposort-class');
+    var tsort = new Toposort();
+
+    for (var clazz in classesDeps) {
+      tsort.add(clazz, classesDeps[clazz]);
+    }
+
+    console.log(classesDeps);
+    console.log(tsort.sort().reverse());
 
     test.ok(true);
     test.done();

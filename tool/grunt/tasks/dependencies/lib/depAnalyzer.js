@@ -58,17 +58,33 @@ function findVarRoot (var_node) {
 
 /**
  * Takes a variable AST node and returns the longest possible variable name.
+ *
+ * @returns {String}
  */
 function assemble(varNode, withMethodName) {
+
   var varRoot = findVarRoot(varNode);
   var assembled = escodegen.generate(varRoot);
   withMethodName = withMethodName || false;
 
   if (!withMethodName) {
     var posOfLastDot = assembled.lastIndexOf('.');
+
+    if (posOfLastDot === -1) {
+      // e.g. qx
+      return assembled;
+    }
+
     var firstCharLastWord = assembled[posOfLastDot+1];
-    if (firstCharLastWord === firstCharLastWord.toLowerCase()) {
-      // cut off method name
+    var lastSnippet = assembled.substr(posOfLastDot);
+    var isUpperCaseWord = function(char) {
+      return char.toUpperCase();
+    };
+
+    // cut off method name (e.g. starting with '_' or lower case char)
+    // or constants (e.g. Bootstrap.DEBUG)
+    if (firstCharLastWord !== firstCharLastWord.toUpperCase() ||
+        lastSnippet.split("").every(isUpperCaseWord)) {
       assembled = assembled.substr(0, posOfLastDot);
     }
   }
@@ -277,6 +293,9 @@ function unify(deps, className) {
         return assemble(dep.identifier);
       }
     });
+
+    // no empty deps (e.g. "qx" global which will exist)
+    shallowDeps = _.without(shallowDeps, "qx");
 
     // sort & uniq
     shallowDeps = _.sortBy(_.uniq(shallowDeps), function(char) {
