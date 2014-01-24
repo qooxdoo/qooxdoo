@@ -312,7 +312,7 @@
       }
     },
 
-    "watch-scss" :
+    /*"watch-scss" :
     {
       "desc"   : "Watch and compile the theme with pyScss",
       "extend" : ["cache"],
@@ -332,9 +332,9 @@
         "include" : [ "*.scss" ],
         "include-dirs" : false
       }
-    },
+    },*/
 
-    /*"watch-scss" : 
+    "watch-scss" : 
     {
       "desc": "Watch and compile the theme scss",
       "extend": ["cache"],
@@ -345,7 +345,7 @@
       "shell": {
         "command": "sass -C -t compressed -I ${QX_MOBILE_THEME_PATH}/scss -I ${QX_SHARED_THEME_PATH} --watch ${QX_MOBILE_THEME_PATH}/scss:${QX_MOBILE_THEME_PATH}/css"
       }
-    },*/
+    },
 
     "pretty-test" :
     {
