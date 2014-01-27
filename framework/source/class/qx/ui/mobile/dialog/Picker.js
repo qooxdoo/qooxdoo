@@ -82,7 +82,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     this.__pickerContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
 
     // Set PickerContainer anonymous on IE, because of pointer-events which should be ignored.
-    if(qx.core.Environment.get("engine.name") == "mshtml") {
+    if(qx.core.Environment.get("browser.name") == "iemobile" || qx.core.Environment.get("browser.name") == "ie") {
       this.__pickerContainer.setAnonymous(true);
     }
 

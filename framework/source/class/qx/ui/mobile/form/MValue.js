@@ -231,7 +231,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
       this.fireDataEvent("input", data, true);
       if (this.getLiveUpdate())
       {
-        if (qx.core.Environment.get("event.mspointer") || qx.core.Environment.get("os.name") == "android") {
+        if (qx.core.Environment.get("browser.name") == "iemobile" || qx.core.Environment.get("os.name") == "android") {
           if (this.__inputTimeoutHandle) {
             clearTimeout(this.__inputTimeoutHandle);
           }
