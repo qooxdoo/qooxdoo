@@ -103,6 +103,11 @@ qx.Bootstrap.define("qx.bom.client.Browser",
           if (qx.bom.client.OperatingSystem.getVersion() === "ce") {
             name = "iemobile";
           }
+
+          var reg = new RegExp("IEMobile");
+          if (agent.match(reg)) {
+            name = "iemobile";
+          }
         }
       }
       else if (engine === "opera")
