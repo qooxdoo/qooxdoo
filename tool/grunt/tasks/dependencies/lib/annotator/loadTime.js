@@ -66,7 +66,7 @@ function annotate(scope, parent_load) {
       scope[annotateKey] = parent_load; // inherit
     }
     for (var cld in scope.childScopes) {
-        annotate(cld, scope[annotateKey]);
+      annotate(scope.childScopes[cld], scope[annotateKey]);
     }
 }
 
