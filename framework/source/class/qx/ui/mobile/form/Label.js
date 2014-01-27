@@ -147,7 +147,12 @@ qx.Class.define("qx.ui.mobile.form.Label",
     // property apply
     _applyValue : function(value, old)
     {
-      this._setHtml(value);
+      var html = value;
+      // [BUG #7871] Bugfix for IE 10 for enabling word-wrap within a flexbox layout. 
+      if (qx.core.Environment.get("event.mspointer")) {
+        html = "<p>" + value + "</p>";
+      }
+      this._setHtml(html);
     },
 
 
