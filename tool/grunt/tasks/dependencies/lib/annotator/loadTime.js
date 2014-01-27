@@ -31,20 +31,20 @@
 /**
  * Augmentation key for tree.
  */
-var annotateKey = "is_load_time";
+var annotateKey = "isLoadTime";
 
-function is_defer_function(node) {
-    return (
-        node.type === "FunctionExpression" &&
-        node.parent.type === 'Property' &&
-        node.parent.key.type === 'Identifier' &&
-        node.parent.key.name === 'defer'
-    );
+function isDeferFunction(node) {
+  return (
+    node.type === "FunctionExpression" &&
+    node.parent.type === 'Property' &&
+    node.parent.key.type === 'Identifier' &&
+    node.parent.key.name === 'defer'
+  );
 }
 
-function is_immediate_call(node) {
-    return (node.type === "FunctionExpression"
-        && node.parent.type === "CallExpression");
+function isImmediateCall(node) {
+  return (node.type === "FunctionExpression"
+          && node.parent.type === "CallExpression");
 }
 
 /**
@@ -53,15 +53,15 @@ function is_immediate_call(node) {
 function annotate(scope, parent_load) {
     var node = scope.block;
     if (scope.type === 'global') {
-        scope[annotateKey] = true;
+      scope[annotateKey] = true;
     } else if (scope.type === 'function') {
-        if (is_defer_function(node)) {
-            scope[annotateKey] = true;
-        } else if (is_immediate_call(node)) {
-            scope[annotateKey] = parent_load; // inherit
-        } else {
-            scope[annotateKey] = false;
-        }
+      if (isDeferFunction(node)) {
+        scope[annotateKey] = true;
+      } else if (isImmediateCall(node)) {
+        scope[annotateKey] = parent_load; // inherit
+      } else {
+        scope[annotateKey] = false;
+      }
     } else {
       scope[annotateKey] = parent_load; // inherit
     }
@@ -71,5 +71,5 @@ function annotate(scope, parent_load) {
 }
 
 module.exports = {
-    annotate : annotate,
+  annotate : annotate,
 };
