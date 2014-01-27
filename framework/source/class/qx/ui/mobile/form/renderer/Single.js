@@ -182,7 +182,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
       row.addCssClass("form-row-content");
 
       if(name !== null) {
-        var label = new qx.ui.mobile.form.Label("<p>"+name+"</p>");
+        var label = new qx.ui.mobile.form.Label(name);
         label.setLabelFor(item.getId());
         row.add(label, {flex:1});
         this._labels.push(label);
