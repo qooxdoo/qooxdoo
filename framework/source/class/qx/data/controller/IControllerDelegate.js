@@ -75,7 +75,7 @@ qx.Interface.define("qx.data.controller.IControllerDelegate",
      *
      * @param controller {var} The currently used controller.
      * @param item {qx.ui.core.Widget} The created and used item.
-     * @param id {Number} The id for the binding.
+     * @param id {var} The id for the binding.
      */
     bindItem : function(controller, item, id) {}
   }
