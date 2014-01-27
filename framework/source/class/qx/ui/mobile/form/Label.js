@@ -70,6 +70,10 @@ qx.Class.define("qx.ui.mobile.form.Label",
       "alignX": "left"
     }));
     this.initWrap();
+
+    if (qx.core.Environment.get("qx.dynlocale")) {
+      qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
+    }
   },
 
 
@@ -191,7 +195,27 @@ qx.Class.define("qx.ui.mobile.form.Label",
       }
 
       this._setAttribute("for", elementId);
-    }
+    },
+
+
+    /**
+     * Locale change event handler
+     *
+     * @signature function(e)
+     * @param e {Event} the change event
+     */
+    _onChangeLocale : qx.core.Environment.select("qx.dynlocale",
+    {
+      "true" : function(e)
+      {
+        var content = this.getValue();
+        if (content && content.translate) {
+          this.setValue(content.translate());
+        }
+      },
+
+      "false" : null
+    })
   },
 
 
