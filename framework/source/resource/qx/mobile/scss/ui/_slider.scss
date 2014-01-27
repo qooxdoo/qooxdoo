@@ -14,15 +14,13 @@
   margin-left: ($slider-knob-width/2); 
   margin-right: ($slider-knob-width/2);
 
-
-
   border: rem(1) solid $slider-border-color;
 }
 
 // Extended touch area
 .slider:before {
   content: "";
-  height: ($slider-knob-height);
+  height: $slider-knob-height;
   position: absolute;
   top: -($slider-knob-height/2) + ($slider-height/2);
   left:  -($slider-knob-width/2);
@@ -37,6 +35,7 @@
   @include background($slider-active-area);
 
   height: $slider-height;
+  line-height: $slider-knob-height;
   pointer-events: none;
   position: relative;
 }
@@ -44,7 +43,7 @@
 // Knob
 .slider > div:after { 
   @include border-radius($slider-knob-border-radius);
-  @include box-shadow(0px 0px rem(3) $slider-shadow);
+  @include box-shadow(0 0 rem(3) $slider-shadow);
   @include background($slider-knob-background);
   
   position: absolute;
@@ -53,8 +52,6 @@
   content: "";
 
   border: rem(1) solid $slider-knob-border-color;
-
-  line-height: $slider-knob-height;
 
   height: $slider-knob-height;
   width: $slider-knob-width;
