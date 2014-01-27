@@ -56,6 +56,7 @@ qx.Class.define("qx.event.type.Touch",
 
         clone.scale = nativeEvent.scale;
         clone.rotation = nativeEvent.rotation;
+        clone._rotation = nativeEvent._rotation;
         clone.delta = nativeEvent.delta;
         clone.srcElement = nativeEvent.srcElement;
 
@@ -125,7 +126,7 @@ qx.Class.define("qx.event.type.Touch",
        *     https://developer.apple.com/library/safari/#documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
        */
       getChangedTargetTouches : function() {
-          return this._native.changedTouches;
+        return this._native.changedTouches;
       },
 
 
@@ -164,7 +165,11 @@ qx.Class.define("qx.event.type.Touch",
        * @return {Float} The rotation delta
        */
       getRotation : function() {
-        return this._native.rotation;
+        if(typeof this._native._rotation === "undefined") {
+          return this._native.rotation;
+        } else {
+          return this._native._rotation;
+        }
       },
 
 

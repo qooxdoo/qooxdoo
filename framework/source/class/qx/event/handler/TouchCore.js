@@ -284,9 +284,9 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
           domEvent.scale = currentScalingDistance / this.__beginScalingDistance;
         }
         // Polyfill for rotation
-        if(typeof domEvent.rotation == "undefined" && domEvent.targetTouches.length > 1) {
+        if((typeof domEvent.rotation == "undefined" || qx.core.Environment.get("event.mspointer")) && domEvent.targetTouches.length > 1) {
           var currentRotation = this._getRotationAngle(domEvent.targetTouches[0], domEvent.targetTouches[1]);
-          domEvent.rotation = currentRotation - this.__beginRotation;
+          domEvent._rotation = currentRotation - this.__beginRotation;
         }
 
         domEvent.delta = this._calcTouchesDelta(domEvent.targetTouches);
