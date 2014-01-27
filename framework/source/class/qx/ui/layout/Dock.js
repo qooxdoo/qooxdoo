@@ -103,8 +103,8 @@ qx.Class.define("qx.ui.layout.Dock",
   /**
    * @param spacingX {Integer?0} The horizontal spacing. Sets {@link #spacingX}.
    * @param spacingY {Integer?0} The vertical spacing. Sets {@link #spacingY}.
-   * @param separatorX {Decorator} Separator to render between columns
-   * @param separatorY {Decorator} Separator to render between rows
+   * @param separatorX {String|qx.ui.decoration.IDecorator} Separator to render between columns
+   * @param separatorY {String|qx.ui.decoration.IDecorator} Separator to render between rows
    */
   construct : function(spacingX, spacingY, separatorX, separatorY)
   {
