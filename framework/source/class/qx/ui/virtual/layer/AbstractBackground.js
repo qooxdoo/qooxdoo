@@ -175,7 +175,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
      * Sets the decorator for the given index
      *
      * @param index {Integer} Index to set the color for
-     * @param decorator {Decorator|null} the decorator to set. A value of
+     * @param decorator {qx.ui.decoration.IDecorator|null} the decorator to set. A value of
      *    <code>null</code> will reset the decorator.
      */
     setBackground : function(index, decorator)
@@ -193,7 +193,7 @@ qx.Class.define("qx.ui.virtual.layer.AbstractBackground",
      * Get the decorator at the given index
      *
      * @param index {Integer} The index to get the decorator for.
-     * @return {Decorator} The decorator at the given index
+     * @return {qx.ui.decoration.IDecorator} The decorator at the given index
      */
     getBackground : function(index) {
       return this.__decorators[index];

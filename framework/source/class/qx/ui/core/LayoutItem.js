@@ -421,7 +421,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     /**
      * Renders a separator between two children
      *
-     * @param separator {Decorator} The separator to render
+     * @param separator {String|qx.ui.decoration.IDecorator} The separator to render
      * @param bounds {Map} Contains the left and top coordinate and the width and height
      *    of the separator to render.
      */
