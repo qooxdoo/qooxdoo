@@ -45,11 +45,12 @@
   @include border-radius($slider-knob-border-radius);
   @include box-shadow(0 0 rem(3) $slider-shadow);
   @include background($slider-knob-background);
-  
+
   position: absolute;
   display: block;
   text-align: center;
   content: "";
+  pointer-events: none;
 
   border: rem(1) solid $slider-knob-border-color;
 
