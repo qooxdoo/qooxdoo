@@ -62,7 +62,6 @@ function findVarRoot (var_node) {
  * @returns {String}
  */
 function assemble(varNode, withMethodName) {
-
   var varRoot = findVarRoot(varNode);
   var assembled = escodegen.generate(varRoot);
   withMethodName = withMethodName || false;
@@ -76,19 +75,24 @@ function assemble(varNode, withMethodName) {
     }
 
     var firstCharLastWord = assembled[posOfLastDot+1];
-    var lastSnippet = assembled.substr(posOfLastDot);
-    var isUpperCaseWord = function(char) {
-      return char.toUpperCase();
+    var lastSnippet = assembled.substr(posOfLastDot+1);
+    var isUpperCase = function(charOrWord) {
+      return charOrWord === charOrWord.toUpperCase();
     };
 
-    // cut off method name (e.g. starting with '_' or lower case char)
+    // cut off method name (e.g. starting with [_$a-z]+)
     // or constants (e.g. Bootstrap.DEBUG)
-    if (firstCharLastWord !== firstCharLastWord.toUpperCase() ||
-        lastSnippet.split("").every(isUpperCaseWord)) {
+    if (firstCharLastWord === firstCharLastWord.toLowerCase() ||
+        lastSnippet.split("").every(isUpperCase)) {
       assembled = assembled.substr(0, posOfLastDot);
+    } else {
     }
   }
 
+  // should be
+  //  - qx.[foo.]MMyMixin        XOR
+  //  - qx.[foo.]IEventHandler   XOR
+  //  - qx.[foo.]NomalClassName
   return assembled;
 }
 
@@ -118,33 +122,62 @@ function not_builtin(ref) {
     return ident.name in js_builtins[el];
   };
 
+  var missingOrCustom = ["undefined", "exports", "define"];
+
   // check in various js_builtins maps
   if (['reservedVars',
        'ecmaIdentifiers',
        'browser',
        'devel',
        'worker',
-       'nonstandard'].some(isBuiltin)) {
+       'nonstandard'].some(isBuiltin) || missingOrCustom.indexOf(ident.name) !== -1) {
       return false;
   }
   return true;
 }
 
 /**
- *  Filter "qx.$$foo" dependencies (e.g. qx.$$libraries, qx$$resources ...).
+ *  Filter "qx.$$foo" or "qx.foo.$$bar" dependencies (e.g. qx.$$libraries, qx$$resources ...).
  */
 function not_qxinternal(ref) {
+  var propertyPath;
   var ident = ref.identifier;
+
   if (ident.type !== "Identifier") {
     return true;
   }
-  if (ident.parent && ident.parent.property) {
-    if (ident.parent.property.name[0] === "$"
-    &&  ident.parent.property.name[1] === "$") {
+
+  var startsWithTwoDollars = function(propertyPath, propName) {
+    return (propertyPath[propName][0] === "$" && propertyPath[propName][1] === "$");
+  };
+
+  // e.g. qx.$$libraries
+  if (propertyPath = util.get(ident, "parent.property")) {
+    if (startsWithTwoDollars(propertyPath, "name")) {
       return false;
     }
   }
+
+
+  // e.g. qx.Bootstrap.$$logs
+  if (propertyPath = util.get(ident, "parent.property.parent.parent.property")) {
+    if (startsWithTwoDollars(propertyPath, "name")) {
+      return false;
+    }
+  }
+
+  // e.g. qx.core.Property.$$method
+  if (propertyPath = util.get(ident, "parent.property.parent.parent.property.parent.parent.property")) {
+    if (startsWithTwoDollars(propertyPath, "name")) {
+      return false;
+    }
+  }
+
   return true;
+}
+
+function not_runtime(ref) {
+  return !!(ref && ref.from && ref.from.isLoadTime);
 }
 
 function not_jsignored(ref) {
@@ -316,24 +349,31 @@ function unify(deps, className) {
  * @param tree {Object} AST from esprima
  * @returns {String[]}
  */
-function analyze(tree, qxCoreEnvClassCode) {
+function analyze(tree, opts) {
   var deps = [];
+  var filteredScopeRefs = [];
   var globalScope = escope.analyze(tree).scopes[0];
 
   parentAnnotator.annotate(tree);  // TODO: don't call here if called from analyze_as_map()!
   loadTimeAnnotator.annotate(globalScope,  // add load/runtime annotations to scopes
     true);  // TODO: this should be a dynamic parameter to analyze()
+
   // Deps from Scope
-  var scope_globals = dependencies_from_ast(globalScope);
+  var scopesRef = dependencies_from_ast(globalScope);
   // -- alt: Deps from Tree
 
-  deps = util.pipeline(scope_globals,
+  filteredScopeRefs = util.pipeline(scopesRef,
     _.partial(util.filter, not_builtin),     // e.g. document, window, undefined ...
-    _.partial(util.filter, not_qxinternal)  // e.g. qx.$$libraries, qx$$resources ...
+    _.partial(util.filter, not_qxinternal)   // e.g. qx.$$libraries, qx$$resources ...
     // add jsdoc @require etc.
     // filter jsdoc @ignore
     // check library classes
-    );
+  );
+
+  if (opts && opts.onlyLoadTime) {
+    filteredScopeRefs = util.pipeline(filteredScopeRefs,
+      _.partial(util.filter, not_runtime));
+  }
 
   // TBD: add transitive deps
     // go through 'load' deps
@@ -343,7 +383,7 @@ function analyze(tree, qxCoreEnvClassCode) {
     // recurse on those dependencies
 
   // add feature classes from qx.core.Environment calls
-  deps = deps.concat(qxCoreEnv.extract(tree));
+  deps = filteredScopeRefs.concat(qxCoreEnv.extract(tree));
   return unify(deps, tree.qxClassName);
 }
 
