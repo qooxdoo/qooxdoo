@@ -106,6 +106,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
       }, this);
 
       this.__picker = this._createPicker(showPickerButton);
+      this._updatePickerDaySlot();
 
       // ANCHORED MENU POPUP
       var showAnchorMenuButton = new qx.ui.mobile.form.Button("Anchor Menu");
