@@ -168,8 +168,6 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _containerElementWidth : null,
     _containerElementLeft : null,
     _pixelPerStep : null,
-    _throttledOnTouchMove : null,
-    _throttledUpdateKnobLabel : null,
     __value: 0,
 
 
@@ -215,13 +213,8 @@ qx.Class.define("qx.ui.mobile.form.Slider",
      */
     _registerEventListener : function()
     {
-      this._throttledOnTouchMove = qx.module.util.Function.throttle(this._onTouchMove, 25);
-      this._throttledUpdateKnobLabel = qx.module.util.Function.throttle(this._updateKnobLabel, 250);
-
       this.addListener("touchstart", this._onTouchStart, this);
-      this.addListener("touchmove", this._throttledOnTouchMove, this);
-      this.addListener("touchmove", this._throttledUpdateKnobLabel, this);
-
+      this.addListener("touchmove", this._onTouchMove, this);
       this.addListener("appear", this._refresh, this);
 
       qx.event.Registration.addListener(window, "resize", this._refresh, this);
@@ -236,8 +229,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _unregisterEventListener : function()
     {
       this.removeListener("touchstart", this._onTouchStart, this);
-      this.removeListener("touchmove", this._throttledOnTouchMove, this);
-      this.removeListener("touchmove", this._throttledUpdateKnobLabel, this);
+      this.removeListener("touchmove", this._onTouchMove, this);
       this.removeListener("appear", this._refresh, this);
 
       qx.event.Registration.removeListener(window, "resize", this._refresh, this);
@@ -253,7 +245,6 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       this._updateSizes();
       this._updateKnobPosition();
-      this._updateKnobLabel();
     },
 
 
@@ -337,7 +328,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _setValue : function(value)
     {
       this.__value = value;
-      this._refresh();
+      qx.bom.AnimationFrame.request(this._refresh, this);
     },
 
     /**
@@ -361,16 +352,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       var position = Math.floor(this._percentToPosition(width, percent));
 
       qx.bom.element.Style.set(this._getKnobElement(), "width", width - (width - position) + "px");
-    },
-
-
-    /**
-     * Updates the knob label (percent/value display).
-     */
-    _updateKnobLabel : function() {
-      var value = this.getValue();
-      var percent = this._valueToPercent(value);
-      qx.bom.element.Attribute.set(this._getKnobElement(), "data-value", value);
+      qx.bom.element.Attribute.set(this._getKnobElement(), "data-value", this.getValue());
       qx.bom.element.Attribute.set(this._getKnobElement(), "data-percent", Math.floor(percent));
     },
 
