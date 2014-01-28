@@ -1077,6 +1077,8 @@ testrunner.define({
   {
     this.assertTrue(q.isElement(document.body));
     this.assertTrue(q.isElement(q("#sandbox")[0]));
+    this.assertTrue(q.isElement(q("#sandbox")));
+    this.assertTrue(q.isElement("#sandbox"));
     this.assertFalse(q.isElement({}));
     q.create('<span id="affe">text</span>').appendTo(this.sandbox[0]);
     this.assertFalse(q.isElement(q("#sandbox #affe")[0].firstChild));
@@ -1086,6 +1088,8 @@ testrunner.define({
   {
     this.assertTrue(q.isNode(document));
     this.assertTrue(q.isNode(q("#sandbox")[0]));
+    this.assertTrue(q.isNode(q("#sandbox")));
+    this.assertTrue(q.isNode("#sandbox"));
     this.assertFalse(q.isNode({}));
     q.create('<span id="affe">text</span>').appendTo(this.sandbox[0]);
     this.assertTrue(q.isNode(q("#sandbox #affe")[0].firstChild));
@@ -1102,11 +1106,14 @@ testrunner.define({
   testGetWindow : function()
   {
     this.assertEquals(window, q.getWindow(q("#sandbox")[0]));
+    this.assertEquals(window, q.getWindow(q("#sandbox")));
+    this.assertEquals(window, q.getWindow(q("#sandbox")[0]));
   },
 
   testIsWindow : function()
   {
     this.assertTrue(q.isWindow(window));
+    this.assertTrue(q.isWindow(q(window)));
     this.assertFalse(q.isWindow(document));
     this.assertFalse(q.isWindow(document.body));
   },
@@ -1114,6 +1121,8 @@ testrunner.define({
   testGetDocument : function()
   {
     this.assertEquals(document, q.getDocument(q("#sandbox")[0]));
+    this.assertEquals(document, q.getDocument(q("#sandbox")));
+    this.assertEquals(document, q.getDocument("#sandbox"));
     this.assertEquals(document, q.getDocument(window));
     this.assertEquals(document, q.getDocument(document));
   },
@@ -1121,22 +1130,32 @@ testrunner.define({
   testGetNodeName : function()
   {
     this.assertEquals("html", q.getNodeName(document.documentElement));
+    this.assertEquals("div", q.getNodeName("#sandbox"));
+    this.assertEquals("div", q.getNodeName(q("#sandbox")));
+    this.assertEquals("div", q.getNodeName(q("#sandbox")[0]));
   },
 
   testGetNodeText : function()
   {
     this.assertEquals("monkeycheese", q.getNodeText(q.create("<div>monkey<p>cheese</p></div>")[0]));
+    this.assertEquals("monkeycheese", q.getNodeText(q.create("<div>monkey<p>cheese</p></div>")));
+    q("#sandbox").setHtml("monkeycheese");
+    this.assertEquals("monkeycheese", q.getNodeText("#sandbox"));
   },
 
   testIsBlockNode : function()
   {
     this.assertTrue(q.isBlockNode(document.createElement("p")));
+    this.assertTrue(q.isBlockNode("#sandbox"));
+    this.assertTrue(q.isBlockNode(q("#sandbox")));
     this.assertFalse(q.isBlockNode(document.createElement("span")));
   },
 
   testIsNodeName : function()
   {
     this.assertTrue(q.isNodeName(document.createElement("p"), "p"));
+    this.assertTrue(q.isNodeName(q("#sandbox"), "div"));
+    this.assertTrue(q.isNodeName("#sandbox", "div"));
     this.assertTrue(q.isNodeName(document.createTextNode("bla"), "#text"));
   },
 

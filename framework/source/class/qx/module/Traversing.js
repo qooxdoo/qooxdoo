@@ -585,14 +585,32 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
 
     /**
+     * Helper which returns the element from the given argument. If it's a collection,
+     * it returns it's first child. If it's a string, it tries to use the string
+     * as selector and returns the first child of the new collection.
+     * @param arg {Node|String|qxWeb} The element.
+     * @return {Node|var} If a node can be extracted, the node element will be return.
+     *   If not, at given argument will be returned.
+     */
+    __getElementFromArgument : function(arg) {
+      if (arg instanceof qxWeb) {
+        return arg[0];
+      } else if (qx.Bootstrap.isString(arg)) {
+        return qxWeb(arg)[0];
+      }
+      return arg;
+    },
+
+
+    /**
      * Checks if the given object is a DOM element
      *
      * @attachStatic{qxWeb}
-     * @param element {Object} Object to check
+     * @param selector {Object|String|qxWeb} Object to check
      * @return {Boolean} <code>true</code> if the object is a DOM element
      */
-    isElement : function(element) {
-      return qx.dom.Node.isElement(element);
+    isElement : function(selector) {
+      return qx.dom.Node.isElement(qx.module.Traversing.__getElementFromArgument(selector));
     },
 
 
@@ -600,11 +618,11 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * Checks if the given object is a DOM node
      *
      * @attachStatic{qxWeb}
-     * @param node {Object} Object to check
+     * @param selector {Node|String|qxWeb} Object to check
      * @return {Boolean} <code>true</code> if the object is a DOM node
      */
-    isNode : function(node) {
-      return qx.dom.Node.isNode(node);
+    isNode : function(selector) {
+      return qx.dom.Node.isNode(qx.module.Traversing.__getElementFromArgument(selector));
     },
 
 
@@ -612,12 +630,12 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * Whether the node has the given node name
      *
      * @attachStatic{qxWeb}
-     * @param node {Node} the node to check
+     * @param selector {Node|String|qxWeb} the node to check
      * @param  nodeName {String} the node name to check for
      * @return {Boolean} <code>true</code> if the node has the given name
      */
-    isNodeName : function(node, nodeName) {
-      return qx.dom.Node.isNodeName(node, nodeName);
+    isNodeName : function(selector, nodeName) {
+      return qx.dom.Node.isNodeName(qx.module.Traversing.__getElementFromArgument(selector), nodeName);
     },
 
 
@@ -637,11 +655,11 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * Returns the DOM2 <code>defaultView</code> (window) for the given node.
      *
      * @attachStatic{qxWeb}
-     * @param node {Node|Document|Window} Node to inspect
+     * @param selector {Node|Document|Window|String|qxWeb} Node to inspect
      * @return {Window} the <code>defaultView</code> for the given node
      */
-    getWindow : function(node) {
-      return qx.dom.Node.getWindow(node);
+    getWindow : function(selector) {
+      return qx.dom.Node.getWindow(qx.module.Traversing.__getElementFromArgument(selector));
     },
 
     /**
@@ -660,10 +678,13 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * Check whether the given object is a browser window object.
      *
      * @attachStatic{qxWeb}
-     * @param obj {Object} the object to be tested
+     * @param obj {Object|qxWeb} the object to be tested
      * @return {Boolean} <code>true</code> if the object is a window object
      */
     isWindow : function(obj) {
+      if (obj instanceof qxWeb) {
+        obj = obj[0];
+      }
       return qx.dom.Node.isWindow(obj);
     },
 
@@ -672,22 +693,22 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * Returns the owner document of the given node
      *
      * @attachStatic{qxWeb}
-     * @param node {Node} Node to get the document for
+     * @param selector {Node|String|qxWeb} Node to get the document for
      * @return {Document|null} The document of the given DOM node
      */
-    getDocument : function(node) {
-      return qx.dom.Node.getDocument(node);
+    getDocument : function(selector) {
+      return qx.dom.Node.getDocument(qx.module.Traversing.__getElementFromArgument(selector));
     },
 
     /**
      * Get the DOM node's name as a lowercase string
      *
      * @attachStatic{qxWeb}
-     * @param node {Node} DOM Node
+     * @param selector {Node|String|qxWeb} DOM Node
      * @return {String} node name
      */
-    getNodeName : function(node) {
-      return qx.dom.Node.getName(node);
+    getNodeName : function(selector) {
+      return qx.dom.Node.getName(qx.module.Traversing.__getElementFromArgument(selector));
     },
 
     /**
@@ -695,24 +716,24 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * NODE_ELEMENT, NODE_ATTRIBUTE, NODE_TEXT, NODE_CDATA
      *
      * @attachStatic{qxWeb}
-     * @param node {Node} the node from where the search should start. If the
+     * @param selector {Node|String|qxWeb} the node from where the search should start. If the
      * node has subnodes the text contents are recursively retreived and joined
      * @return {String} the joined text content of the given node or null if not
      * appropriate.
      */
-    getNodeText : function(node) {
-      return qx.dom.Node.getText(node);
+    getNodeText : function(selector) {
+      return qx.dom.Node.getText(qx.module.Traversing.__getElementFromArgument(selector));
     },
 
     /**
      * Checks if the given node is a block node
      *
      * @attachStatic{qxWeb}
-     * @param node {Node} the node to check
+     * @param selector {Node|String|qxWeb} the node to check
      * @return {Boolean} <code>true</code> if the node is a block node
      */
-    isBlockNode : function(node) {
-      return qx.dom.Node.isBlockNode(node);
+    isBlockNode : function(selector) {
+      return qx.dom.Node.isBlockNode(qx.module.Traversing.__getElementFromArgument(selector));
     },
 
 
