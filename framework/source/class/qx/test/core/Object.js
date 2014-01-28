@@ -75,6 +75,22 @@ qx.Class.define("qx.test.core.Object",
     },
 
 
+    testAddListenerOnceWithSameListener : function()
+    {
+      var called = 0;
+      var listener = function() {
+        // debugger;
+        called++;
+      };
+      this.addListenerOnce("test", listener);
+      this.addListenerOnce("test2", listener);
+      this.fireEvent("test");
+      this.assertEquals(1, called);
+      this.fireEvent("test");
+      this.assertEquals(1, called);
+    },
+
+
     testRemoveListenerById : function()
     {
       var id = this.addListener("testRemoveListenerById", function() {}, this, false);
