@@ -350,7 +350,10 @@ function unify(deps, className) {
  * @returns {String[]}
  */
 function analyze(tree, opts) {
-  var deps = [];
+  var deps = {
+    'load' : [],
+    'run' : [],
+  };
   var filteredScopeRefs = [];
   var globalScope = escope.analyze(tree).scopes[0];
 
@@ -370,10 +373,8 @@ function analyze(tree, opts) {
     // check library classes
   );
 
-  if (opts && opts.onlyLoadTime) {
-    filteredScopeRefs = util.pipeline(filteredScopeRefs,
-      _.partial(util.filter, not_runtime));
-  }
+  deps.load = filteredScopeRefs.filter(not_runtime);
+  deps.run = _.difference(filteredScopeRefs, deps.load);
 
   // TBD: add transitive deps
     // go through 'load' deps
@@ -383,8 +384,16 @@ function analyze(tree, opts) {
     // recurse on those dependencies
 
   // add feature classes from qx.core.Environment calls
-  deps = filteredScopeRefs.concat(qxCoreEnv.extract(tree));
-  return unify(deps, tree.qxClassName);
+  deps.run = deps.run.concat(qxCoreEnv.extract(tree));
+
+  // unify
+  deps.load = unify(deps.load, tree.qxClassName);
+  deps.run = unify(deps.run, tree.qxClassName);
+
+  // overlappings aren't important - remove them
+  deps.run = _.difference(deps.run, deps.load);
+
+  return (opts && opts.flattened ? deps.load.concat(deps.run) : deps);
 }
 
 //------------------------------------------------------------------------------

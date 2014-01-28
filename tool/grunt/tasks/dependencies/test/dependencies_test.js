@@ -108,8 +108,8 @@ exports.dependencies = {
         '../../../../framework/source/class/qx/dom/Node.js',
         '../../../../framework/source/class/qx/data/MBinding.js',
         '../../../../framework/source/class/qx/data/SingleValueBinding.js',
-        '../../../../framework/source/class/qx/dev/Debug.js',
         // '../../../../framework/source/class/qx/dev/StackTrace.js',  // cyclic warnings
+        '../../../../framework/source/class/qx/event/GlobalError.js',
         '../../../../framework/source/class/qx/event/IEventDispatcher.js',
         '../../../../framework/source/class/qx/event/IEventHandler.js',
         '../../../../framework/source/class/qx/event/Manager.js',
@@ -141,7 +141,7 @@ exports.dependencies = {
       parentAnnotator.annotate(tree);
       classNameAnnotator.annotate(tree, filePath);
 
-      var classDeps = depAnalyzer.analyze(tree, {onlyLoadTime: false});
+      var classDeps = depAnalyzer.analyze(tree, {flattened: true});
 
       classesDeps[util.classNameFrom(filePath)] = classDeps;
     });
