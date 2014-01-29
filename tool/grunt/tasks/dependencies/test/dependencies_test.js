@@ -57,7 +57,7 @@ exports.dependencies = {
     var depAnalyzer = require('../lib/depAnalyzer.js');
     var classesDeps = {};
 
-    // static (non self discovering with class entry point)
+    // static => non self discovering with class entry point
     var filePaths = [
         '../../../../framework/source/class/qx/Bootstrap.js',
 
@@ -131,20 +131,102 @@ exports.dependencies = {
         '../../../../framework/source/class/qx/util/RingBuffer.js',
     ];
 
-    // dynamic (self discovering with class entry point)
-    // TBD
+    var collectDepsStatic = function(filePaths) {
+      filePaths.forEach(function (filePath) {
+        var jsCode = grunt.file.read(filePath);
+        var tree = esprima.parse(jsCode);
 
-    filePaths.forEach( function (filePath) {
-      var jsCode = grunt.file.read(filePath);
-      var tree = esprima.parse(jsCode);
+        parentAnnotator.annotate(tree);
+        classNameAnnotator.annotate(tree, filePath);
 
-      parentAnnotator.annotate(tree);
-      classNameAnnotator.annotate(tree, filePath);
+        var classDeps = depAnalyzer.analyze(tree, {flattened: true});
 
-      var classDeps = depAnalyzer.analyze(tree, {flattened: true});
+        classesDeps[util.classNameFrom(filePath)] = classDeps;
+      });
 
-      classesDeps[util.classNameFrom(filePath)] = classDeps;
-    });
+      return classesDeps;
+    };
+
+    // dynamic => self discovering (recursive) with class entry point
+    var collectDepsDynamic = function(initFilePath) {
+      var basePath = '../../../../framework/source/class/';
+
+      var recurse = function(filePath, seenClasses) {
+        var jsCode = grunt.file.read(filePath);
+        var tree = esprima.parse(jsCode);
+
+        parentAnnotator.annotate(tree);
+        classNameAnnotator.annotate(tree, filePath);
+
+        var classDeps = [];
+        if (seenClasses.length <= 1) {
+          // load deps only for seed class
+          var tmpDeps = depAnalyzer.analyze(tree, {flattened: false});
+          classDeps = tmpDeps.load;
+        } else {
+          classDeps = depAnalyzer.analyze(tree, {flattened: true});
+        }
+
+        var className = util.classNameFrom(filePath);
+        classesDeps[className] = classDeps;
+
+        // TODO: Add and interpret @ignores to prevent cyclic dep warnings
+        var ignoredDeps = {
+          'qx.Bootstrap': [
+            'qx.data',
+            'qx.data.IListData',
+            'qx.util.OOUtil'
+          ],
+          'qx.util.DisposeUtil' : [
+            'qx.ui.container.Composite',
+            'qx.ui.container.Scroll',
+            'qx.ui.container.SlideBar',
+            'qx.ui.container.Stack'
+          ],
+          'qx.core.ObjectRegistry': [
+            'qx.dev.Debug',
+            'qx.dev.StackTrace'
+          ],
+          'qx.core.Property': [
+            'qx.Interface'
+          ],
+          'qx.dev.StackTrace': [
+            'qx.bom.client.EcmaScript.*',
+            'qx.Class.*'
+          ],
+          'qx.core.Environment': [
+            'qx.core',
+            'qx.core.Environment'
+          ]
+        };
+
+        for (var key in classDeps) {
+          var dep = classDeps[key];
+
+          if (ignoredDeps[className] && ignoredDeps[className].indexOf(dep) !== -1) {
+            // skip ignoredDeps
+            // console.log("skipping: "+className+"|"+dep);
+            continue;
+          }
+
+          if (seenClasses.indexOf(dep) === -1) {
+            seenClasses.push(dep);
+            recurse(util.filePathFrom(dep, basePath), seenClasses);
+          }
+        }
+
+        return classesDeps;
+      };
+
+      // start with initFilePath and corresponding class
+      return recurse(initFilePath, [util.classNameFrom(initFilePath)]);
+    };
+
+    // classesDeps = collectDepsStatic(filePaths);
+    classesDeps = collectDepsDynamic("../../../../framework/source/class/qx/util/ResourceManager.js");
+    // classesDeps = collectDepsDynamic("../../../../framework/source/class/qx/core/Assert.js");
+
+    // --
 
     var Toposort = require('toposort-class');
     var tsort = new Toposort();
@@ -152,21 +234,16 @@ exports.dependencies = {
     for (var clazz in classesDeps) {
 
       // TODO: Add and interpret @ignores to prevent cyclic dep warnings
-      if (clazz === "qx.Bootstrap"
-      ||  clazz === "qx.core.Property" && classesDeps[clazz].indexOf("qx.Class")) {
-        // qx.Bootstrap:
+      if (clazz === "qx.Bootstrap") {
         // * @ignore(qx.data.IListData)
         // * @ignore(qx.util.OOUtil)
-        //
-        // qx.core.Property:
-        // * @ignore(qx.Class)
+        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.data.IListData");
+        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.util.OOUtil");
+      }
 
-        // qx.util.DisposeUtil:
-        // * @ignore(qx.ui.container.Composite)
-        // * @ignore(qx.ui.container.Scroll)
-        // * @ignore(qx.ui.container.SlideBar)
-        // * @ignore(qx.ui.container.Stack)
-        continue;
+      if (clazz === "qx.core.Property") {
+        // * @ignore(qx.Class)
+        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.Class");
       }
 
       // TODO: Add and interpret @ignores to prevent cyclic dep warnings
@@ -191,6 +268,8 @@ exports.dependencies = {
       tsort.add(clazz, classesDeps[clazz]);
     }
 
+    // console.log(Object.keys(classesDeps));
+    // console.log(Object.keys(classesDeps).length);
     console.log(classesDeps);
     console.log(tsort.sort().reverse());
 
