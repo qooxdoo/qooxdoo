@@ -49,6 +49,17 @@ function classNameFrom(filePath) {
   return fqClassName;
 }
 
+/**
+ * FqClassName to file path conversion.
+ *
+ *  "qx.Foo.Bar" => "foo/bar/qx/Foo/Bar.js"
+ */
+function filePathFrom(className, basePath) {
+  var path = className.replace(/\./g, "/") + ".js";
+  basePath = basePath[basePath.length-1] === "/" ? basePath : basePath + "/";
+  return basePath + path;
+}
+
 /** Safe access to deep object members */
 function get(obj, propertyPath) {
   var o = obj;
@@ -70,5 +81,6 @@ module.exports = {
   filter: filter,
   concat: concat,
   classNameFrom: classNameFrom,
+  filePathFrom: filePathFrom,
   get: get,
 };
