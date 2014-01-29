@@ -89,7 +89,6 @@ qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
 
    members :
   {
-
     _form : null,
 
 

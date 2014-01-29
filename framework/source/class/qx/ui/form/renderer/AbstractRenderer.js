@@ -183,7 +183,7 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
     }
     this._names = null;
 
-    // remove all created lables
+    // remove all created labels
     for (var i=0; i < this._labels.length; i++) {
       this._labels[i].dispose();
     };

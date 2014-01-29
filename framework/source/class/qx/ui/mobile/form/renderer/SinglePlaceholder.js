@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.SinglePlaceholder",
         var row = new qx.ui.mobile.form.Row(new qx.ui.mobile.layout.HBox());
         var item = items[i];
         var name = names[i];
-        
+
         if(item instanceof qx.ui.mobile.form.TextArea) {
           var scrollContainer = new qx.ui.mobile.container.ScrollComposite();
           scrollContainer.setFixedHeight(true);
@@ -75,7 +75,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.SinglePlaceholder",
             row.add(item, {flex:1});
           }
         }
-        
+
         this._add(row);
       }
     }
