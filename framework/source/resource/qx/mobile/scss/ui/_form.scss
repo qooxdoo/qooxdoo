@@ -82,12 +82,6 @@
   border-top: 0;
 }
 
-.form-row-content, .form-element-error {
-  @include background($form-background);
-  border-left:rem(1) solid $form-border-color;
-  border-right:rem(1) solid $form-border-color;
-}
-
 .form-element-error {
   color: red;
   text-align: right;
@@ -130,6 +124,12 @@
 
   .form-row-group-title {
     padding: rem(10) rem(10) rem(10) rem(10);
+  }
+
+  .form-row-content, .form-element-error {
+    @include background($form-background);
+    border-left:rem(1) solid $form-border-color;
+    border-right:rem(1) solid $form-border-color;
   }
 }
 
