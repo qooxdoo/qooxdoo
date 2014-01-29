@@ -56,9 +56,17 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
 
   members :
   {
-
     _rows : null,
     _labels : null,
+
+
+    _onFormChange : function() {
+      this._disposeArray("_labels");
+      this._disposeArray("_rows");
+      this._rows = [];
+      this._labels = [];
+      this.base(arguments);
+    },
 
     /**
      * A collection of error containers used to keep the error messages
@@ -118,6 +126,10 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
           } else {
             this._addRow(item, name, new qx.ui.mobile.layout.VBox());
           }
+        }
+
+        if (!item.isValid()) {
+          this.showErrorForItem(item);
         }
 
         if(!isLastItem) {

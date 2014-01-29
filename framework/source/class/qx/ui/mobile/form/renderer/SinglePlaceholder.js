@@ -77,6 +77,10 @@ qx.Class.define("qx.ui.mobile.form.renderer.SinglePlaceholder",
         }
 
         this._add(row);
+
+        if (!item.isValid()) {
+          this.showErrorForItem(item);
+        }
       }
     }
 
