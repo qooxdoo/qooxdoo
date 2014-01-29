@@ -133,7 +133,7 @@ function not_builtin(ref) {
     return ident.name in js_builtins[el];
   };
 
-  var missingOrCustom = ["undefined", "exports", "define"];
+  var missingOrCustom = ["undefined", "exports", "define", "Infinity"];
 
   // check in various js_builtins maps
   if (['reservedVars',
