@@ -57,7 +57,8 @@ function findVarRoot (var_node) {
 }
 
 /**
- * Takes a variable AST node and returns the longest possible variable name.
+ * Takes a variable AST node and returns the longest
+ * possible variable name (with or without method name).
  *
  * @returns {String}
  */
@@ -67,26 +68,36 @@ function assemble(varNode, withMethodName) {
   withMethodName = withMethodName || false;
 
   if (!withMethodName) {
-    var posOfLastDot = assembled.lastIndexOf('.');
-
-    if (posOfLastDot === -1) {
-      // e.g. qx
-      return assembled;
-    }
-
-    var firstCharLastWord = assembled[posOfLastDot+1];
-    var lastSnippet = assembled.substr(posOfLastDot+1);
-    var isUpperCase = function(charOrWord) {
-      return charOrWord === charOrWord.toUpperCase();
-    };
-
     // cut off method name (e.g. starting with [_$a-z]+)
     // or constants (e.g. Bootstrap.DEBUG)
-    if (firstCharLastWord === firstCharLastWord.toLowerCase() ||
-        lastSnippet.split("").every(isUpperCase)) {
-      assembled = assembled.substr(0, posOfLastDot);
-    } else {
-    }
+    var cutOff = function(assembled) {
+      var posOfLastDot = assembled.lastIndexOf('.');
+
+      if (posOfLastDot === -1) {
+        // e.g. qx
+        return assembled;
+      }
+
+      var firstCharLastWord = assembled[posOfLastDot+1];
+      var lastSnippet = assembled.substr(posOfLastDot+1);
+      var isUpperCase = function(charOrWord) {
+        return charOrWord === charOrWord.toUpperCase();
+      };
+      var needsCut = function() {
+        return (firstCharLastWord === firstCharLastWord.toLowerCase() ||
+          lastSnippet.split("").every(isUpperCase));
+      };
+
+      if (needsCut()) {
+        assembled = assembled.substr(0, posOfLastDot);
+        // recurse because of sth. like 'qx.bom.Style.__supports.call'
+        return cutOff(assembled);
+      }
+
+      return assembled;
+    };
+
+    assembled = cutOff(assembled);
   }
 
   // should be
