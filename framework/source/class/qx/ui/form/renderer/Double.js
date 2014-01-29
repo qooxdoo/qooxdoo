@@ -44,6 +44,16 @@ qx.Class.define("qx.ui.form.renderer.Double",
     _row : 0,
     _buttonRow : null,
 
+
+    // overridden
+    _onFormChange : function() {
+      this._buttonRow.destroy();
+      this._buttonRow = null;
+      this._row = 0;
+      this.base(arguments);
+    },
+
+
     /**
      * Add a group of form items with the corresponding names. The names are
      * displayed as label.
