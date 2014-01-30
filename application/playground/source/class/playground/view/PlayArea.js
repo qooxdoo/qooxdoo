@@ -40,6 +40,8 @@ qx.Class.define("playground.view.PlayArea",
     this.add(this.__mobileArea);
 
     this.setBackgroundColor("white");
+    // minor fix for Chrome (caption bar was not visible)
+    this.getContentElement().setStyle("-webkit-backface-visibility", "hidden");
   },
 
 
