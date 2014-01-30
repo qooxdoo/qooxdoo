@@ -153,14 +153,14 @@ qxWeb.define("qx.module.Blocker", {
      * @param ev {Event} resize event
      */
     __onWindowResize : function(ev) {
-      var win = this[0];
+      var doc = q(this[0].document);
       var size = {
-        width : this.getWidth() + "px",
-        height : this.getHeight() + "px"
-      }
-      qxWeb(win.document.__blocker.div).setStyles(size);
-      if (win.document.__blocker.iframe) {
-        qxWeb(win.document.__blocker.iframe).setStyles(size);
+        width : doc.getWidth() + "px",
+        height : doc.getHeight() + "px"
+      };
+      qxWeb(doc[0].__blocker.div).setStyles(size);
+      if (doc[0].__blocker.iframe) {
+        qxWeb(doc[0].__blocker.iframe).setStyles(size);
       }
     },
 
