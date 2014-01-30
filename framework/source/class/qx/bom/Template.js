@@ -154,6 +154,13 @@ qx.Bootstrap.define("qx.bom.Template", {
 });
 
 (function() {
+// prevent using CommonJS exports object, 
+// by shadowing global exports object
+var exports;
+
+// prevent using AMD compatible loader,
+// by shadowing global define function
+var define;
 
 /**
  * Below is the original mustache.js code. Snapshot date is mentioned in
