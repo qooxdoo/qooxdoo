@@ -386,11 +386,14 @@ var Data = q.define({
         desc : "",
         events : this._getEvents(ast),
         fileName : ast.attributes.fullName,
-        group : ast.attributes.group || "Extras",
-        "static": []
+        group : ast.attributes.group || "Extras"
       };
 
       this.__data[moduleName].member = Data.getByType(ast, "methods").children.filter(function(method) {
+        return !Data.__isInternal(method);
+      });
+
+      this.__data[moduleName].static = Data.getByType(ast, "methods-static").children.filter(function(method) {
         return !Data.__isInternal(method);
       });
 

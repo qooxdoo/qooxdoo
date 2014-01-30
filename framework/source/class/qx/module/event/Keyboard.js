@@ -138,6 +138,7 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
      * for the "keyup" event and emitting the missing event if necessary
      *
      * @param element {Element} Target element
+     * @internal
      */
     registerInputFix : function(element) {
       if (element.type === "text" || element.type === "password" || element.type === "textarea")
@@ -151,7 +152,9 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
 
     /**
      * Removes the IE9 input event fix
+     *
      * @param element {Element} target element
+     * @internal
      */
     unregisterInputFix : function(element) {
       if (element.__inputFix && !qxWeb(element).hasListener("input")) {
