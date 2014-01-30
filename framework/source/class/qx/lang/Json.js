@@ -210,6 +210,19 @@ qx.Bootstrap.define("qx.lang.Json",
   }
 });
 
+(function () {
+  // define JSON3 object
+  var JSON3;
+
+  // prevent using CommonJS exports object, 
+  // by shadowing global exports object
+  var exports;
+
+  // prevent using AMD compatible loader,
+  // by shadowing global define function
+  var define;
+
+
 /*! JSON v3.2.5 | http://bestiejs.github.io/json3 | Copyright 2012-2013, Kit Cambridge | http://kit.mit-license.org */
 /**
  * @ignore(define.*, exports)
@@ -1065,6 +1078,7 @@ qx.Bootstrap.define("qx.lang.Json",
   }
 }(this));
 // End of original code.
+}());
 
 // Finally expose (polyfilled) window.JSON as qx.lang.Json.JSON
 qx.lang.Json.stringify = window.JSON.stringify;
