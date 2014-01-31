@@ -52,7 +52,7 @@ qx.Class.define("qx.test.event.type.Focus",
         text2.focus();
       }, 100);
 
-      this.wait(200);
+      this.wait(500);
     }
   }
 });
