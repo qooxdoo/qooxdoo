@@ -186,12 +186,18 @@ qx.Bootstrap.define("qxWeb", {
       return this;
     }
 
-    if (qx.Bootstrap.isString(selector)) {
+    if (!selector) {
+      selector = [];
+    }
+    else if (qx.Bootstrap.isString(selector)) {
       if (context instanceof qxWeb) {
         context = context[0];
       }
       selector = qx.bom.Selector.query(selector, context);
-    } else if (!(qx.Bootstrap.isArray(selector))) {
+    }
+    else if ((selector.nodeType === 1 || selector.nodeType === 9) ||
+      (selector.history && selector.location && selector.document))
+    {
       selector = [selector];
     }
     return qxWeb.$init(selector, qxWeb);

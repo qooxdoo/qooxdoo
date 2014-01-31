@@ -108,6 +108,39 @@ testrunner.define({
     this.assertEquals(document.getElementById("foo"), collection[0]);
   },
 
+  testInit : function() {
+    var select = document.createElement("select");
+    document.getElementById("sandbox").appendChild(select);
+    var opt = document.createElement("option");
+    select.appendChild(opt);
+
+    // Element
+    var coll = q(select);
+    this.assertEquals(1, coll.length, "affe0");
+    this.assertEquals(select, coll[0]);
+
+    // Array of elements
+    coll = q([select]);
+    this.assertEquals(1, coll.length, "affe1");
+    this.assertEquals(select, coll[0]);
+
+    // NodeList
+    coll = q(document.getElementsByTagName("select"));
+    this.assertEquals(1, coll.length, "affe2");
+    this.assertEquals(select, coll[0]);
+
+    // HtmlCollection
+    if (typeof select.selectedOptions !== "undefined") {
+      coll = q(select.selectedOptions);
+      this.assertEquals(1, coll.length, "affe3");
+      this.assertEquals(opt, coll[0]);
+    }
+
+    // Bogus
+    coll = q({length: 5});
+    this.assertEquals(0, coll.length);
+  },
+
   testContext : function() {
     var container1 = document.createElement("div");
     var inner1 = document.createElement("h2");
