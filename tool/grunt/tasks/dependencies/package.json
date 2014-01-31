@@ -38,7 +38,8 @@
     "escodegen": "~1.0.1",
     "jshint": "~2.3.0",
     "underscore": "~1.5.2",
-    "toposort-class": "~0.3.0"
+    "toposort-class": "~0.3.0",
+    "doctrine": "~0.2.0"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.6.0",

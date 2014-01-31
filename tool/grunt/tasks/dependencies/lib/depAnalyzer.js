@@ -20,7 +20,6 @@
 
 /**
  * Calculate external dependencies of an Esprima AST.
- *
  */
 
 
@@ -30,21 +29,23 @@
 
 var escope = require('escope');
 var escodegen = require('escodegen');
+var doctrine = require('doctrine');
 var _ = require('underscore');
 
-var js_builtins = require('../node_modules/jshint/src/vars'); // TODO: this is darn ugly, as i have to poke into internal modules of jshint
+// not pretty (require internals of jshint) but works
+var js_builtins = require('../node_modules/jshint/src/vars');
 
 var parentAnnotator = require('./annotator/parent');
 var loadTimeAnnotator = require('./annotator/loadTime');
 var qxCoreEnv = require('./qxCoreEnv');
 var util = require('./util');
 
-function is_var(node) {
+function isVar(node) {
   return ["Identifier", "MemberExpression"].indexOf(node.type) !== -1;
 }
 
 function findVarRoot (var_node) {
-  if (!is_var(var_node)) {
+  if (!isVar(var_node)) {
     return undefined;
   } else {
     while (var_node.parent
@@ -107,8 +108,7 @@ function assemble(varNode, withMethodName) {
   return assembled;
 }
 
-function dependencies_from_ast(scope) {
-
+function dependenciesFromAst(scope) {
   var dependencies = [];
 
   scope.through.forEach( function (ref) {
@@ -116,13 +116,13 @@ function dependencies_from_ast(scope) {
       dependencies.push(ref);
     }
   });
+
   return dependencies;
 }
 
-function dependencies_from_envcalls(scope, optObj) {
-
-}
-
+/**
+ * Identify builtins and reserved words.
+ */
 function not_builtin(ref) {
   var ident = ref.identifier;
   if (ident.type !== "Identifier") {
@@ -133,7 +133,7 @@ function not_builtin(ref) {
     return ident.name in js_builtins[el];
   };
 
-  var missingOrCustom = ["undefined", "exports", "define", "Infinity"];
+  var missingOrCustom = ["undefined", "Infinity", "performance"];
 
   // check in various js_builtins maps
   if (['reservedVars',
@@ -141,6 +141,7 @@ function not_builtin(ref) {
        'browser',
        'devel',
        'worker',
+       'wsh',
        'nonstandard'].some(isBuiltin) || missingOrCustom.indexOf(ident.name) !== -1) {
       return false;
   }
@@ -148,7 +149,8 @@ function not_builtin(ref) {
 }
 
 /**
- *  Filter "qx.$$foo" or "qx.foo.$$bar" dependencies (e.g. qx.$$libraries, qx$$resources ...).
+ *  Identify "qx.$$foo", "qx.foo.$$bar" and "qx.foo.Bar.$$method" dependencies
+ *  (e.g. qx.$$libraries, qx.$$resources ...).
  */
 function not_qxinternal(ref) {
   var propertyPath;
@@ -159,7 +161,9 @@ function not_qxinternal(ref) {
   }
 
   var startsWithTwoDollars = function(propertyPath, propName) {
-    return (propertyPath[propName][0] === "$" && propertyPath[propName][1] === "$");
+    return (propertyPath[propName]
+            && propertyPath[propName][0] === "$"
+            && propertyPath[propName][1] === "$");
   };
 
   // e.g. qx.$$libraries
@@ -189,14 +193,6 @@ function not_qxinternal(ref) {
 
 function not_runtime(ref) {
   return !!(ref && ref.from && ref.from.isLoadTime);
-}
-
-function not_jsignored(ref) {
-
-}
-
-function not_jsignore_envcall(ref) {
-
 }
 
 /**
@@ -329,25 +325,133 @@ function analyze_as_map(etree, optObj) {
  * Unify and sanitize (only strings, uniq, sort and no self reference) dependencies.
  */
 function unify(deps, className) {
-    // flatten (ref2string)
-    var shallowDeps = deps.map( function (dep) {
-      if (_.isString(dep)) {
-        return dep;
+  // flatten (ref2string)
+  var shallowDeps = deps.map(function (dep) {
+    if (_.isString(dep)) {
+      return dep;
+    } else {
+      return assemble(dep.identifier);
+    }
+  });
+
+  // no empty deps (e.g. "qx" global which will exist)
+  shallowDeps = _.without(shallowDeps, "qx");
+
+  // sort & uniq
+  shallowDeps = _.sortBy(_.uniq(shallowDeps), function(char) {
+    return char;
+  });
+
+  // no self ref
+  return _.without(shallowDeps, className);
+}
+
+function getClassesFromTagDesc(tag) {
+  var classes = [];
+  if (/\(([^, ]+(, ?)?)+\)/.test(tag)) {
+    classes = tag.slice(1, -1).split(",").map(function (clazz) {
+      return clazz.trim();
+    });
+  }
+  return classes;
+}
+
+function applyIgnoreRequireAndUse(deps, atHints) {
+  var toBeFiltered = [];
+  var collectIgnoredDeps = function(dep) {
+    atHints.ignore.forEach(function(ignore) {
+      if (toBeFiltered.indexOf(ignore) === -1) {
+        var ignoreRegex = new RegExp("^"+ignore+"$");
+        if (ignoreRegex.test(dep)) {
+          toBeFiltered.push(dep);
+        }
+      }
+    });
+  };
+  var shouldBeIgnored = function(dep) {
+    return (toBeFiltered.indexOf(dep) === -1);
+  };
+
+  // @ignore
+  if (atHints.ignore.length > 0) {
+    for (var key in deps) {
+      toBeFiltered = [];
+      deps[key].forEach(collectIgnoredDeps);
+      deps[key] = deps[key].filter(shouldBeIgnored);
+    }
+  }
+
+  var classesOnly = [];
+  var ignoreHashMethodAugmentation = function(hints) {
+    var classesOnly = [];
+    hints.forEach(function(dep) {
+      var posHash = 0;
+      // TODO: ignore qx.foo.Bar#getMyWhatever for now
+      // just require/use whole class
+      if ((posHash = dep.indexOf("#")) !== -1) {
+        classesOnly.push(dep.substr(0, posHash));
       } else {
-        return assemble(dep.identifier);
+        classesOnly.push(dep);
       }
     });
 
-    // no empty deps (e.g. "qx" global which will exist)
-    shallowDeps = _.without(shallowDeps, "qx");
+    return classesOnly;
+  };
 
-    // sort & uniq
-    shallowDeps = _.sortBy(_.uniq(shallowDeps), function(char) {
-      return char;
-    });
+  // @use
+  if (atHints.use.length > 0) {
+    classesOnly = [];
+    classesOnly = ignoreHashMethodAugmentation(atHints.use);
+    deps.run = deps.run.concat(classesOnly);
+  }
 
-    // no self ref
-    return _.without(shallowDeps, className);
+  // @require
+  if (atHints.require.length > 0) {
+    classesOnly = [];
+    classesOnly = ignoreHashMethodAugmentation(atHints.require);
+    deps.load = deps.load.concat(classesOnly);
+  }
+
+  return deps;
+}
+
+
+function collectAtHintsFromComments(tree) {
+  var topLevelCodeUnitLines = [];
+  var atHints = {
+    'ignore': [],
+    'require': [],
+    'use': []
+  };
+
+  // only consider top level @ignore/@require/@use here for now
+  // @ignore may be used within methods (which is neglected here)
+  tree.body.forEach(function (codeUnit) {
+    topLevelCodeUnitLines.push(codeUnit.loc.start.line);
+  });
+
+  tree.comments.forEach(function (comment) {
+    if (comment.type === 'Block'
+        && topLevelCodeUnitLines.indexOf(comment.loc.end.line+1) !== -1) {
+        var jsdoc = doctrine.parse(comment.value, { unwrap: true });
+        jsdoc.tags.forEach(function (tag) {
+            switch(tag.title) {
+              case 'ignore':
+                atHints.ignore = atHints.ignore.concat(getClassesFromTagDesc(tag.description));
+                break;
+              case 'require':
+                atHints.require = atHints.require.concat(getClassesFromTagDesc(tag.description));
+                break;
+              case 'use':
+                atHints.use = atHints.use.concat(getClassesFromTagDesc(tag.description));
+                break;
+              default:
+            }
+        });
+    }
+  });
+
+  return atHints;
 }
 
 //------------------------------------------------------------------------------
@@ -365,6 +469,7 @@ function analyze(tree, opts) {
     'load' : [],
     'run' : [],
   };
+  var atHints = {};
   var filteredScopeRefs = [];
   var globalScope = escope.analyze(tree).scopes[0];
 
@@ -372,15 +477,17 @@ function analyze(tree, opts) {
   loadTimeAnnotator.annotate(globalScope,  // add load/runtime annotations to scopes
     true);  // TODO: this should be a dynamic parameter to analyze()
 
-  // Deps from Scope
-  var scopesRef = dependencies_from_ast(globalScope);
+  // deps from Scope
+  var scopesRef = dependenciesFromAst(globalScope);
+
+  // top level atHints from tree
+  atHints = collectAtHintsFromComments(tree);
+
   // -- alt: Deps from Tree
 
   filteredScopeRefs = util.pipeline(scopesRef,
     _.partial(util.filter, not_builtin),     // e.g. document, window, undefined ...
     _.partial(util.filter, not_qxinternal)   // e.g. qx.$$libraries, qx$$resources ...
-    // add jsdoc @require etc.
-    // filter jsdoc @ignore
     // check library classes
   );
 
@@ -401,7 +508,11 @@ function analyze(tree, opts) {
   deps.load = unify(deps.load, tree.qxClassName);
   deps.run = unify(deps.run, tree.qxClassName);
 
+  // add/remove deps according to atHints
+  deps = applyIgnoreRequireAndUse(deps, atHints);
+
   // overlappings aren't important - remove them
+  // i.e. if it's already in load remove from run
   deps.run = _.difference(deps.run, deps.load);
 
   return (opts && opts.flattened ? deps.load.concat(deps.run) : deps);

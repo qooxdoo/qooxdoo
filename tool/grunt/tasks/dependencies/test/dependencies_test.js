@@ -2,6 +2,7 @@
 
 var grunt = require('grunt');
 var esprima = require('esprima');
+var doctrine = require('doctrine');
 var _ = require('underscore');
 
 var parentAnnotator = require('../lib/annotator/parent');
@@ -60,27 +61,12 @@ exports.dependencies = {
     // static => non self discovering with class entry point
     var filePaths = [
         '../../../../framework/source/class/qx/Bootstrap.js',
-
         '../../../../framework/source/class/qx/Class.js',
-        // qx.Class
-        // * @require(qx.lang.normalize.Array)
-        // * @require(qx.lang.normalize.Date)
-        // * @require(qx.lang.normalize.Error)
-        // * @require(qx.lang.normalize.Function)
-        // * @require(qx.lang.normalize.String)
-        // * @require(qx.lang.normalize.Object)
-        '../../../../framework/source/class/qx/lang/normalize/Array.js',
-        '../../../../framework/source/class/qx/lang/normalize/Date.js',
-        '../../../../framework/source/class/qx/lang/normalize/Error.js',
-        '../../../../framework/source/class/qx/lang/normalize/Function.js',
-        '../../../../framework/source/class/qx/lang/normalize/String.js',
-        '../../../../framework/source/class/qx/lang/normalize/Object.js',
-
         '../../../../framework/source/class/qx/Interface.js',
         '../../../../framework/source/class/qx/Mixin.js',
         '../../../../framework/source/class/qx/bom/Event.js',
         '../../../../framework/source/class/qx/bom/client/Browser.js',
-        // '../../../../framework/source/class/qx/bom/client/CssTransition.js',  // cyclic warnings
+        '../../../../framework/source/class/qx/bom/client/CssTransition.js',
         '../../../../framework/source/class/qx/bom/client/Engine.js',
         '../../../../framework/source/class/qx/bom/client/EcmaScript.js',
         '../../../../framework/source/class/qx/bom/client/OperatingSystem.js',
@@ -90,14 +76,7 @@ exports.dependencies = {
         '../../../../framework/source/class/qx/core/Environment.js',
         '../../../../framework/source/class/qx/core/MAssert.js',
         '../../../../framework/source/class/qx/core/Assert.js',
-
         '../../../../framework/source/class/qx/core/MEvent.js',
-        // qx.core.MEvent.js
-        // * @use(qx.event.dispatch.Direct)
-        // * @use(qx.event.handler.Object)
-        '../../../../framework/source/class/qx/event/dispatch/Direct.js',
-        '../../../../framework/source/class/qx/event/handler/Object.js',
-
         '../../../../framework/source/class/qx/core/MLogging.js',
         '../../../../framework/source/class/qx/core/MProperty.js',
         '../../../../framework/source/class/qx/core/ObjectRegistry.js',
@@ -108,7 +87,7 @@ exports.dependencies = {
         '../../../../framework/source/class/qx/dom/Node.js',
         '../../../../framework/source/class/qx/data/MBinding.js',
         '../../../../framework/source/class/qx/data/SingleValueBinding.js',
-        // '../../../../framework/source/class/qx/dev/StackTrace.js',  // cyclic warnings
+        '../../../../framework/source/class/qx/dev/StackTrace.js',
         '../../../../framework/source/class/qx/event/GlobalError.js',
         '../../../../framework/source/class/qx/event/IEventDispatcher.js',
         '../../../../framework/source/class/qx/event/IEventHandler.js',
@@ -119,7 +98,7 @@ exports.dependencies = {
         '../../../../framework/source/class/qx/lang/Array.js',
         '../../../../framework/source/class/qx/log/Logger.js',
         '../../../../framework/source/class/qx/log/appender/RingBuffer.js',
-        // '../../../../framework/source/class/qx/lang/Function.js',  // cyclic warning
+        '../../../../framework/source/class/qx/lang/Function.js',
         '../../../../framework/source/class/qx/lang/Json.js',
         '../../../../framework/source/class/qx/lang/String.js',
         '../../../../framework/source/class/qx/lang/Type.js',
@@ -134,7 +113,7 @@ exports.dependencies = {
     var collectDepsStatic = function(filePaths) {
       filePaths.forEach(function (filePath) {
         var jsCode = grunt.file.read(filePath);
-        var tree = esprima.parse(jsCode);
+        var tree = esprima.parse(jsCode, {comment: true, loc: true});
 
         parentAnnotator.annotate(tree);
         classNameAnnotator.annotate(tree, filePath);
@@ -153,64 +132,23 @@ exports.dependencies = {
 
       var recurse = function(filePath, seenClasses) {
         var jsCode = grunt.file.read(filePath);
-        var tree = esprima.parse(jsCode);
+        var tree = esprima.parse(jsCode, {comment: true, loc: true});
 
         parentAnnotator.annotate(tree);
         classNameAnnotator.annotate(tree, filePath);
 
         var classDeps = [];
-        if (seenClasses.length <= 1) {
-          // load deps only for seed class
-          var tmpDeps = depAnalyzer.analyze(tree, {flattened: false});
-          classDeps = tmpDeps.load;
-        } else {
-          classDeps = depAnalyzer.analyze(tree, {flattened: true});
-        }
+        classDeps = depAnalyzer.analyze(tree, {flattened: true});
 
         var className = util.classNameFrom(filePath);
         classesDeps[className] = classDeps;
 
-        // TODO: Add and interpret @ignores to prevent cyclic dep warnings
-        var ignoredDeps = {
-          'qx.Bootstrap': [
-            'qx.data',
-            'qx.data.IListData',
-            'qx.util.OOUtil'
-          ],
-          'qx.util.DisposeUtil' : [
-            'qx.ui.container.Composite',
-            'qx.ui.container.Scroll',
-            'qx.ui.container.SlideBar',
-            'qx.ui.container.Stack'
-          ],
-          'qx.core.ObjectRegistry': [
-            'qx.dev.Debug',
-            'qx.dev.StackTrace'
-          ],
-          'qx.core.Property': [
-            'qx.Interface'
-          ],
-          'qx.dev.StackTrace': [
-            'qx.bom.client.EcmaScript.*',
-            'qx.Class.*'
-          ],
-          'qx.core.Environment': [
-            'qx.core',
-            'qx.core.Environment'
-          ]
-        };
-
         for (var key in classDeps) {
           var dep = classDeps[key];
 
-          if (ignoredDeps[className] && ignoredDeps[className].indexOf(dep) !== -1) {
-            // skip ignoredDeps
-            // console.log("skipping: "+className+"|"+dep);
-            continue;
-          }
-
           if (seenClasses.indexOf(dep) === -1) {
             seenClasses.push(dep);
+
             recurse(util.filePathFrom(dep, basePath), seenClasses);
           }
         }
@@ -233,36 +171,42 @@ exports.dependencies = {
 
     for (var clazz in classesDeps) {
 
-      // TODO: Add and interpret @ignores to prevent cyclic dep warnings
-      if (clazz === "qx.Bootstrap") {
-        // * @ignore(qx.data.IListData)
-        // * @ignore(qx.util.OOUtil)
-        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.data.IListData");
-        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.util.OOUtil");
-      }
-
       if (clazz === "qx.core.Property") {
-        // * @ignore(qx.Class)
         classesDeps[clazz] = _.without(classesDeps[clazz], "qx.Class");
       }
 
-      // TODO: Add and interpret @ignores to prevent cyclic dep warnings
-      if (clazz === "qx.util.DisposeUtil") {
-        // * @ignore(qx.ui.container.Composite)
-        // * @ignore(qx.ui.container.Scroll)
-        // * @ignore(qx.ui.container.SlideBar)
-        // * @ignore(qx.ui.container.Stack)
-        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.ui.container.Composite");
-        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.ui.container.Scroll");
-        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.ui.container.SlideBar");
-        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.ui.container.Stack");
+      if (clazz === "qx.core.ObjectRegistry") {
+        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.dev.StackTrace");
       }
 
-      // TODO: Add and interpret @ignores to prevent cyclic dep warnings
-      if (clazz === "qx.core.ObjectRegistry") {
-        // * @ignore(qx.dev, qx.dev.Debug.*)
-        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.dev.Debug");
-        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.dev.StackTrace");
+      if (clazz === "qx.bom.client.CssTransition") {
+        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.bom.Event");
+      }
+
+      if (clazz === "qx.util.ObjectPool" || clazz === "qx.event.handler.Object") {
+        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.core.Object");
+      }
+
+      if (clazz === "qx.event.type.Event") {
+        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.core.Object");
+        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.event.Registration");
+      }
+
+      if (clazz === "qx.lang.Array" || clazz === "qx.lang.Function" || clazz === "qx.core.GlobalError") {
+        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.core.Assert");
+      }
+
+      if (clazz === "qx.event.dispatch.Direct") {
+        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.Class");
+        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.core.Object");
+        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.event.IEventDispatcher");
+        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.event.Registration");
+        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.event.type.Event");
+      }
+
+      if (clazz === "qx.event.type.Data") {
+        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.Class");
+        classesDeps[clazz] = _.without(classesDeps[clazz], "qx.event.type.Event");
       }
 
       tsort.add(clazz, classesDeps[clazz]);
