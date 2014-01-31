@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.mobile.form.Input",
       while (!(scroll instanceof qx.ui.mobile.container.Scroll)) {
         if (scroll.getLayoutParent) {
           var layoutParent = scroll.getLayoutParent();
-          if (layoutParent instanceof qx.ui.mobile.core.Root) {
+          if (layoutParent == null || layoutParent instanceof qx.ui.mobile.core.Root) {
             return null;
           }
           scroll = layoutParent;
