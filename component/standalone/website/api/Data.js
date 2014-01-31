@@ -382,24 +382,35 @@ var Data = q.define({
 
 
     _saveClassData : function(moduleName, ast) {
-      this.__data[moduleName] = {
-        desc : "",
-        events : this._getEvents(ast),
-        fileName : ast.attributes.fullName,
-        group : ast.attributes.group || "Extras"
-      };
+      if (!this.__data[moduleName]) {
+        this.__data[moduleName] = {
+          desc : "",
+          events : [],
+          fileName : ast.attributes.fullName,
+          group : ast.attributes.group || "Extras",
+          member : [],
+          static : [],
+        };
+      }
 
-      this.__data[moduleName].member = Data.getByType(ast, "methods").children.filter(function(method) {
+      if (!this.__data[moduleName].events) {
+        this.__data[moduleName].events = [];
+      }
+      this.__data[moduleName].events = this.__data[moduleName].events.concat(this._getEvents(ast));
+
+      this.__data[moduleName].member = this.__data[moduleName].member.concat(Data.getByType(ast, "methods").children.filter(function(method) {
         return !Data.__isInternal(method);
-      });
+      }));
 
-      this.__data[moduleName].static = Data.getByType(ast, "methods-static").children.filter(function(method) {
+      this.__data[moduleName].static = this.__data[moduleName].static.concat(Data.getByType(ast, "methods-static").children.filter(function(method) {
         return !Data.__isInternal(method);
-      });
+      }));
 
-      var desc = Data.getByType(ast, "desc");
-      if (desc && desc.attributes && desc.attributes.text) {
-        this.__data[moduleName].desc = desc.attributes.text;
+      if (!this.__data[moduleName].desc) {
+        var desc = Data.getByType(ast, "desc");
+        if (desc && desc.attributes && desc.attributes.text) {
+          this.__data[moduleName].desc = desc.attributes.text;
+        }
       }
 
       var constants = Data.getByType(ast, "constants");
