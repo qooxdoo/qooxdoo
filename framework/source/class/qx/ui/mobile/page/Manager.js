@@ -302,7 +302,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
           for(var i = 0; i < pages.length; i++) {
             var masterPage = pages[i];
-            qx.event.Registration.addListener(masterPage, "start", this._onMasterPageStart, this);
+            masterPage.addListener("start", this._onMasterPageStart, this);
           }
 
           if(this.__masterPages) {
@@ -344,7 +344,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
         for(var i = 0; i < pages.length; i++) {
           var detailPage = pages[i];
-          qx.event.Registration.addListener(detailPage, "start", this._onDetailPageStart, this);
+          detailPage.addListener("start", this._onDetailPageStart, this);
         }
 
         if(this.__detailPages) {
@@ -572,14 +572,14 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       for(var i = 0; i < this.__masterPages.length; i++) {
         var masterPage = this.__masterPages[i];
 
-        qx.event.Registration.removeListener(masterPage, "start", this._onMasterPageStart, this);
+        masterPage.removeListener("start", this._onMasterPageStart, this);
       }
     }
     if(this.___detailPages) {
       for(var j = 0; j < this.___detailPages.length; j++) {
         var detailPage = this.___detailPages[j];
 
-        qx.event.Registration.removeListener(detailPage, "start", this._onDetailPageStart, this);
+        detailPage.removeListener("start", this._onDetailPageStart, this);
       }
     }
 
