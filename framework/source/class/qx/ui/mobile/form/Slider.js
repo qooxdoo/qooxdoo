@@ -57,11 +57,6 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     qx.ui.form.INumberForm
   ],
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
 
   construct : function()
   {
@@ -72,14 +67,6 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     this.addCssClass("gap");
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
 
   properties :
   {
@@ -153,14 +140,6 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     }
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -254,9 +233,11 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _updateSizes : function()
     {
       var containerElement = this.getContainerElement();
-      this._containerElementWidth = qx.bom.element.Dimension.getWidth(containerElement);
-      this._containerElementLeft = qx.bom.element.Location.getLeft(containerElement);
-      this._pixelPerStep = this._getPixelPerStep(this._containerElementWidth);
+      if(containerElement) {
+        this._containerElementWidth = qx.bom.element.Dimension.getWidth(containerElement);
+        this._containerElementLeft = qx.bom.element.Location.getLeft(containerElement);
+        this._pixelPerStep = this._getPixelPerStep(this._containerElementWidth);
+      }
     },
 
 
@@ -351,9 +332,12 @@ qx.Class.define("qx.ui.mobile.form.Slider",
       var width = this._containerElementWidth;
       var position = Math.floor(this._percentToPosition(width, percent));
 
-      qx.bom.element.Style.set(this._getKnobElement(), "width", width - (width - position) + "px");
-      qx.bom.element.Attribute.set(this._getKnobElement(), "data-value", this.getValue());
-      qx.bom.element.Attribute.set(this._getKnobElement(), "data-percent", Math.floor(percent));
+      var knobElement = this._getKnobElement();
+      if (knobElement) {
+        qx.bom.element.Style.set(this._getKnobElement(), "width", width - (width - position) + "px");
+        qx.bom.element.Attribute.set(this._getKnobElement(), "data-value", this.getValue());
+        qx.bom.element.Attribute.set(this._getKnobElement(), "data-percent", Math.floor(percent));
+      }
     },
 
 
@@ -490,17 +474,8 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       return this.getMaximum() - this.getMinimum();
     }
-
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
 
   destruct : function()
   {
