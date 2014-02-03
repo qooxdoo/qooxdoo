@@ -157,17 +157,22 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      *
      * *minDate*
      *
-     * Earliest user-selectable date (<code>Date</code> object).
+     * Earliest user-selectable date (<code>Date</code> object). Default: <code>null</code> (no restriction).
      *
      * *maxDate*
      *
-     * Latest user-selectable date (<code>Date</code> object).
+     * Latest user-selectable date (<code>Date</code> object). Default: <code>null</code> (no restriction).
+     *
+     * *selectableWeekDays*
+     *
+     * Array of user-selectable week days (Sunday is 0). Default: <code>[0, 1, 2, 3, 4, 5, 6]</code> (no restrictions).
      */
     _config : {
       monthNames : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
       dayNames : ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
       minDate : null,
-      maxDate : null
+      maxDate : null,
+      selectableWeekDays : [0, 1, 2, 3, 4, 5, 6]
     },
 
 
@@ -245,8 +250,14 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      */
     setValue : function(value) {
       this._normalizeDate(value);
+
+      if (this.getConfig("selectableWeekDays").indexOf(value.getDay()) == -1) {
+        throw new Error("The given date's week day is not selectable.");
+      }
+
       var minDate = this.getConfig("minDate");
       var maxDate = this.getConfig("maxDate");
+
       if (minDate) {
         this._normalizeDate(minDate);
         if (value < minDate) {
@@ -444,7 +455,8 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
           cssClasses += today.toDateString() === helpDate.toDateString() ? " " + cssPrefix + "-today" : "";
 
           var disabled = "";
-          if ((minDate && helpDate < minDate) || (maxDate && helpDate > maxDate)) {
+          if ((minDate && helpDate < minDate) || (maxDate && helpDate > maxDate) ||
+            this.getConfig("selectableWeekDays").indexOf(helpDate.getDay()) == -1) {
             disabled = "disabled";
           }
 

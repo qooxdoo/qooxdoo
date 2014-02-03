@@ -4337,6 +4337,16 @@ testrunner.define({
     this.assertException(function() {
       cal.setValue(new Date(2015, 5, 7));
     });
+  },
+
+  testSelectableWeekDays : function() {
+    var cal = q("#sandbox").calendar(new Date(2014, 1, 3));
+    cal.setConfig("selectableWeekDays", [1, 2, 3, 4, 5]);
+    // valid day
+    cal.setValue(new Date(2014, 1, 3));
+    this.assertException(function() {
+      cal.setValue(new Date(2014, 1, 2));
+    });
   }
 });
 
