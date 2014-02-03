@@ -51,6 +51,10 @@
   outline: none;
 }
 
+.qx-calendar td button:disabled {
+  pointer-events: none;
+}
+
 .qx-calendar thead tr:first-child td:first-child {
   border-right: 0;
 }

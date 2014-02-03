@@ -124,15 +124,15 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      */
     _templates : {
       controls : "<tr>" +
-                   "<td colspan='1'><button class='{{cssPrefix}}-prev' title='Previous Month'>&lt;</button></td>" +
+                   "<td colspan='1'><button class='{{cssPrefix}}-prev' {{prevDisabled}} title='Previous Month'>&lt;</button></td>" +
                    "<td colspan='5'>{{month}} {{year}}</td>" +
-                   "<td colspan='1'><button class='{{cssPrefix}}-next' title='Next Month'>&gt;</button></td>" +
+                   "<td colspan='1'><button class='{{cssPrefix}}-next' {{nextDisabled}} title='Next Month'>&gt;</button></td>" +
                  "</tr>",
       dayRow : "<tr>" +
                  "{{#row}}<td>{{.}}</td>{{/row}}" +
                "</tr>",
       row : "<tr>" +
-              "{{#row}}<td class='{{cssClass}}'><button class='{{cssPrefix}}-day' value='{{date}}'>{{day}}</button></td>{{/row}}" +
+              "{{#row}}<td class='{{cssClass}}'><button class='{{cssPrefix}}-day' {{disabled}} value='{{date}}'>{{day}}</button></td>{{/row}}" +
             "</tr>",
       table : "<table><thead>{{{thead}}}</thead><tbody>{{{tbody}}}</tbody></table>"
     },
@@ -154,10 +154,20 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      *
      * Default values:
      * <pre>["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]</pre>
+     *
+     * *minDate*
+     *
+     * Earliest user-selectable date (<code>Date</code> object).
+     *
+     * *maxDate*
+     *
+     * Latest user-selectable date (<code>Date</code> object).
      */
     _config : {
       monthNames : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-      dayNames : ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+      dayNames : ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      minDate : null,
+      maxDate : null
     },
 
 
@@ -202,8 +212,10 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
         return false;
       }
 
+      var today = new Date();
+      this._normalizeDate(today);
       this._forEachElementWrapped(function(calendar) {
-        calendar.showValue(new Date());
+        calendar.showValue(today);
       });
 
       return true;
@@ -212,6 +224,14 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
     // overridden
     render : function() {
+      var minDate = this.getConfig("minDate");
+      if (minDate) {
+        this._normalizeDate(minDate);
+      }
+      var maxDate = this.getConfig("maxDate");
+      if (maxDate) {
+        this._normalizeDate(maxDate);
+      }
       this.showValue(this.getProperty("shownValue"));
       return this;
     },
@@ -224,6 +244,21 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      * @return {qx.ui.website.Calendar} The collection for chaining.
      */
     setValue : function(value) {
+      this._normalizeDate(value);
+      var minDate = this.getConfig("minDate");
+      var maxDate = this.getConfig("maxDate");
+      if (minDate) {
+        this._normalizeDate(minDate);
+        if (value < minDate) {
+          throw new Error("Given date " + value.toDateString() + " is earlier than configured minDate " + minDate.toDateString());
+        }
+      }
+      if (maxDate) {
+        this._normalizeDate(maxDate);
+        if (value > maxDate) {
+          throw new Error("Given date " + value.toDateString() + " is later than configured maxDate " + maxDate.toDateString());
+        }
+      }
       this.setProperty("value", value);
       this.showValue(value);
       this.emit("changeValue", value);
@@ -269,7 +304,8 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       this._forEachElementWrapped(function(item) {
         item.find("." + cssPrefix + "-prev").onWidget("click", this._prevMonth, item);
         item.find("." + cssPrefix + "-next").onWidget("click", this._nextMonth, item);
-        item.find("." + cssPrefix + "-day").onWidget("click", this._selectDay, item);
+        item.find("td").not(".qx-calendar-invalid")
+          .find("." + cssPrefix + "-day").onWidget("click", this._selectDay, item);
         item.onWidget("focus", this._onFocus, item, true)
         .onWidget("blur", this._onBlur, item, true);
       }, this);
@@ -335,10 +371,31 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      * @return {Map} A map containing the month and year.
      */
     _getControlsData : function(date) {
+
+      var prevDisabled = "";
+      var minDate = this.getConfig("minDate");
+      if (minDate) {
+        this._normalizeDate(minDate);
+        if (date.getMonth() <= minDate.getMonth()) {
+          prevDisabled = "disabled";
+        }
+      }
+
+      var nextDisabled = "";
+      var maxDate = this.getConfig("maxDate");
+      if (maxDate) {
+        this._normalizeDate(maxDate);
+        if (date.getMonth() >= maxDate.getMonth()) {
+          nextDisabled = "disabled";
+        }
+      }
+
       return {
         month: this.getConfig("monthNames")[date.getMonth()],
         year: date.getFullYear(),
-        cssPrefix : this.getCssPrefix()
+        cssPrefix : this.getCssPrefix(),
+        prevDisabled : prevDisabled,
+        nextDisabled : nextDisabled
       };
     },
 
@@ -363,20 +420,19 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      */
     _getWeekRows : function(date) {
       var weeks = [];
-      var startOfWeek = 1;
-
-      var cssPrefix = this.getCssPrefix();
-
-      var helpDate = new Date(date.getFullYear(), date.getMonth(), 1);
-
-      var firstDayOfWeek = helpDate.getDay();
       var today = new Date();
-
-      helpDate = new Date(date.getFullYear(), date.getMonth(), 1, 12, 0, 0);
-      var nrDaysOfLastMonth = (7 + firstDayOfWeek - startOfWeek) % 7;
-      helpDate.setDate(helpDate.getDate() - nrDaysOfLastMonth);
-
+      var helpDate = this._getHelpDate(date);
       var cssPrefix = this.getCssPrefix();
+
+      var minDate = this.getConfig("minDate");
+      if (minDate) {
+        this._normalizeDate(minDate);
+      }
+      var maxDate = this.getConfig("maxDate");
+      if (maxDate) {
+        this._normalizeDate(maxDate);
+      }
+
       for (var week=0; week<6; week++) {
         var data = {row: []};
 
@@ -387,11 +443,17 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
           }
           cssClasses += today.toDateString() === helpDate.toDateString() ? " " + cssPrefix + "-today" : "";
 
+          var disabled = "";
+          if ((minDate && helpDate < minDate) || (maxDate && helpDate > maxDate)) {
+            disabled = "disabled";
+          }
+
           data.row.push({
             day: helpDate.getDate(),
             date: helpDate.toDateString(),
             cssPrefix: cssPrefix,
-            cssClass: cssClasses
+            cssClass: cssClasses,
+            disabled: disabled
           });
           helpDate.setDate(helpDate.getDate() + 1);
         }
@@ -400,6 +462,27 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       }
 
       return weeks.join("");
+    },
+
+    _getHelpDate : function(date) {
+      var startOfWeek = 1; //TODO: config option
+      var helpDate = new Date(date.getFullYear(), date.getMonth(), 1);
+
+      var firstDayOfWeek = helpDate.getDay();
+
+      helpDate = new Date(date.getFullYear(), date.getMonth(), 1, 12, 0, 0);
+      var nrDaysOfLastMonth = (7 + firstDayOfWeek - startOfWeek) % 7;
+      helpDate.setDate(helpDate.getDate() - nrDaysOfLastMonth);
+      this._normalizeDate(helpDate);
+
+      return helpDate;
+    },
+
+    _normalizeDate : function(date) {
+      date.setHours(0);
+      date.setMinutes(0);
+      date.setSeconds(0);
+      date.setMilliseconds(0);
     },
 
 

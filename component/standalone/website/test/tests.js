@@ -4317,6 +4317,26 @@ testrunner.define({
 
     this.assertEquals(now.toDateString(), c0.getValue().toDateString());
     this.assertEquals(now.toDateString(), c1.getValue().toDateString());
+  },
+
+  testMinDate : function() {
+    var cal = q("#sandbox").calendar(new Date(2014, 1, 3));
+    cal.setConfig("minDate", new Date(2013, 5, 6));
+    // valid date
+    cal.setValue(new Date(2013, 5, 6));
+    this.assertException(function() {
+      cal.setValue(new Date(2013, 5, 5));
+    });
+  },
+
+  testMaxDate : function() {
+    var cal = q("#sandbox").calendar(new Date(2014, 1, 3));
+    cal.setConfig("maxDate", new Date(2015, 5, 6));
+    // valid date
+    cal.setValue(new Date(2015, 5, 6));
+    this.assertException(function() {
+      cal.setValue(new Date(2015, 5, 7));
+    });
   }
 });
 
