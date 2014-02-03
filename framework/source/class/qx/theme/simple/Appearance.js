@@ -104,7 +104,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           textColor : "tooltip-text",
           decorator : "tooltip",
           padding : [ 1, 3, 2, 3 ],
-          offset : [ 15, 5, 5, 5 ]
+          offset : [ 10, 5, 5, 5 ]
         };
       }
     },
