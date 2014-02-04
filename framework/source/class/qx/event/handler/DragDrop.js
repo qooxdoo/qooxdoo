@@ -636,6 +636,14 @@ qx.Class.define("qx.event.handler.DragDrop",
             this.__manager.addListener(this.__root, "keyup", this._onKeyUp, this, true);
             this.__manager.addListener(this.__root, "keypress", this._onKeyPress, this, true);
 
+            // Initialise the current droppable
+            var dropable = this.__findDroppable(e.getTarget());
+            if (dropable && dropable != this.__dropTarget)
+            {
+              this.__validDrop = this.__fireEvent("dragover", dropable, this.__dragTarget, true, e);
+              this.__dropTarget = dropable;
+            }
+            
             // Reevaluate current action
             var keys = this.__keys;
             keys.Control = e.isCtrlPressed();
