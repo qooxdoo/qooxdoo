@@ -205,7 +205,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
         properties.reverse = properties.reverse === null ? false : properties.reverse;
 
-        this.__reverse = properties.fromHistory || properties.reverse;
+        this.__reverse = properties.reverse;
 
         this.__startAnimation(widget);
       } else {
