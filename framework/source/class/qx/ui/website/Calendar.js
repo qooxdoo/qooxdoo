@@ -476,20 +476,33 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       return weeks.join("");
     },
 
+
+    /**
+     * Returns a date instance for the first visible day to be displayed
+     *
+     * @param date {Date} Current date
+     * @return {Date} Helper date
+     */
     _getHelpDate : function(date) {
       var startOfWeek = 1; //TODO: config option
       var helpDate = new Date(date.getFullYear(), date.getMonth(), 1);
 
       var firstDayOfWeek = helpDate.getDay();
 
-      helpDate = new Date(date.getFullYear(), date.getMonth(), 1, 12, 0, 0);
+      helpDate = new Date(date.getFullYear(), date.getMonth(), 1, 0, 0, 0);
       var nrDaysOfLastMonth = (7 + firstDayOfWeek - startOfWeek) % 7;
       helpDate.setDate(helpDate.getDate() - nrDaysOfLastMonth);
-      this._normalizeDate(helpDate);
 
       return helpDate;
     },
 
+
+    /**
+     * Sets the hours, minutes and seconds of a date object to 0
+     * to facilitate date comparisons.
+     *
+     * @param date {Date} Date to normalize
+     */
     _normalizeDate : function(date) {
       date.setHours(0);
       date.setMinutes(0);
