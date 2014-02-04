@@ -14,6 +14,7 @@
 
    Authors:
      * Tino Butz (tbtz)
+     * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
 
@@ -40,11 +41,6 @@ qx.Class.define("mobileshowcase.Application",
     }
   },
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -112,112 +108,54 @@ qx.Class.define("mobileshowcase.Application",
       ]);
 
       // Initialize the navigation
-      var nm = new qx.application.Routing();
-      this.setRouting(nm);
+      var routing = new qx.application.Routing();
+      this.setRouting(routing);
 
-      var isTablet = (qx.core.Environment.get("device.type") == "tablet");
-      var isDesktop = (qx.core.Environment.get("device.type") == "desktop");
-
-      if (isTablet||isDesktop) {
-        nm.onGet("/.*", function(data) {
-          overview.show();
-        },this);
-
-        nm.onGet("/", function(data) {
-          basic.show();
-        },this);
+      if (qx.core.Environment.get("device.type") == "tablet" ||
+       qx.core.Environment.get("device.type") == "desktop") {
+        routing.onGet("/.*", this._showPage, overview);
+        routing.onGet("/", this._showPage, basic);
       }
 
-      nm.onGet("/", function(data) {
-        overview.show(data.customData);
-      },this);
+      routing.onGet("/", this._showPage, overview);
+      routing.onGet("/basic", this._showPage, basic);
+      routing.onGet("/dialog", this._showPage, dialogs);
+      routing.onGet("/tab", this._showPage, tab);
+      routing.onGet("/form", this._showPage, form);
+      routing.onGet("/list", this._showPage, list);
+      routing.onGet("/toolbar", this._showPage, toolbar);
+      routing.onGet("/carousel", this._showPage, carousel);
+      routing.onGet("/drawer", this._showPage, drawer);
+      routing.onGet("/databinding", this._showPage, dataBinding);
+      routing.onGet("/event", this._showPage, events);
+      routing.onGet("/maps", this._showPage, maps);
+      routing.onGet("/canvas", this._showPage, canvas);
+      routing.onGet("/theming", this._showPage, theming);
+      routing.onGet("/animation", this._showPage, animation);
 
-      nm.onGet("/event", function(data)
-      {
-        events.show();
-      },this);
-
-      nm.onGet("/tab", function(data)
-      {
-        tab.show();
-      },this);
-
-      nm.onGet("/toolbar", function(data)
-      {
-        toolbar.show();
-      },this);
-
-      nm.onGet("/list", function(data)
-      {
-        list.show();
-      },this);
-
-      nm.onGet("/form", function(data)
-      {
-        form.show();
-      },this);
-
-      nm.onGet("/animation", function(data) {
-        if(data && data.customData && data.customData.fromHistory === true ) {
-          data.customData.animation = "slide";
-          data.customData.fromHistory = false;
-          data.customData.reverse = (data.customData.action !== "back");
-        }
-        animation.show(data.customData);
-      },this);
-
-      nm.onGet("/animation/{animation}", function(data) {
+      routing.onGet("/animation/{animation}", function(data) {
         animationLanding.setAnimation(data.params.animation);
-        if(animationLanding.isVisible()) {
-          animation.show({"animation":data.params.animation});
+        if (animationLanding.isVisible()) {
+          animation.show({
+            "animation": data.params.animation
+          });
         } else {
-          animationLanding.show({"animation":data.params.animation});
+          animationLanding.show({
+            "animation": data.params.animation
+          });
         }
-        
-      },this);
+      }, this);
 
-      nm.onGet("/basic", function(data)
-      {
-        basic.show();
-      },this);
+      routing.init();
+    },
 
-      nm.onGet("/dialog", function(data)
-      {
-        dialogs.show();
-      },this);
 
-      nm.onGet("/carousel", function(data)
-      {
-        carousel.show();
-      },this);
-
-      nm.onGet("/drawer", function(data)
-      {
-        drawer.show();
-      },this);
-
-      nm.onGet("/databinding", function(data)
-      {
-        dataBinding.show();
-      },this);
-
-      nm.onGet("/maps", function(data)
-      {
-        maps.show();
-      },this);
-
-      nm.onGet("/canvas", function(data)
-      {
-        canvas.show();
-      },this);
-
-      nm.onGet("/theming", function(data)
-      {
-        theming.show();
-      },this);
-
-      // start the navigation handling
-      nm.init();
+    /*
+    * Default behaviour when a route matches. Displays the corresponding page on screen.
+    * @param data {Map} the animation properties 
+    */
+    _showPage : function(data) {
+      this.show(data.customData);
     }
   }
 });
