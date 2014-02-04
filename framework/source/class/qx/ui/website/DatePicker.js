@@ -76,7 +76,12 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
      * @return {qx.ui.website.Calendar} calendar widget instance
      */
     getCalendar : function() {
-      return qxWeb('div#datepicker-' + this.getData('qx-calendar-id'));
+      var calendarCollection = qxWeb();
+      this._forEachElementWrapped(function(datepicker) {
+        calendarCollection = calendarCollection.concat(qxWeb('div#datepicker-' + datepicker.getData('qx-calendar-id')));
+      });
+
+      return calendarCollection;
     },
 
     // overridden
