@@ -85,6 +85,9 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
         return false;
       }
 
+      // all connected input elements can be set to 'readonly'
+      this.setAttribute('readonly', 'readonly');
+
       this._forEachElementWrapped(function(datepicker) {
         var uniqueId = Math.round(Math.random() * 10000);
         var calendar = qxWeb.create('<div id="datepicker-' + uniqueId + '"></div>').calendar();
@@ -108,6 +111,12 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
       });
 
       return true;
+    },
+
+    // overridden
+    render : function() {
+      this.getCalendar().render();
+      return this;
     },
 
     /**
