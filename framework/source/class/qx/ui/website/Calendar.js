@@ -41,9 +41,19 @@
  *       <td>Identifies the Calendar widget</td>
  *     </tr>
  *     <tr>
+ *       <td><code>qx-calendar-container</code></td>
+ *       <td>Container element (<code>table</code>)</td>
+ *       <td>Identifies the table container of the Calendar widget</td>
+ *     </tr>
+ *     <tr>
  *       <td><code>qx-calendar-prev</code></td>
  *       <td><code>button</code></td>
  *       <td>Identifies and styles the "previous month" button</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-calendar-prev-container</code></td>
+ *       <td>Container element (<code>td</code>)</td>
+ *       <td>Identifies and styles the "previous month" container</td>
  *     </tr>
  *     <tr>
  *       <td><code>qx-calendar-next</code></td>
@@ -51,14 +61,34 @@
  *       <td>Identifies and styles the "next month" button</td>
  *     </tr>
  *     <tr>
+ *       <td><code>qx-calendar-next-container</code></td>
+ *       <td>Container element (<code>td</code>)</td>
+ *       <td>Identifies and styles the "next month" container</td>
+ *     </tr>
+ *     <tr>
  *       <td><code>qx-calendar-othermonth</code></td>
  *       <td>Day cell (<code>td</code>)</td>
  *       <td>Identifies and styles calendar cells for days from the previous or following month</td>
  *     </tr>
  *     <tr>
+ *       <td><code>qx-calendar-dayname</code></td>
+ *       <td>Day name (<code>td</code>)</td>
+ *       <td>Identifies and styles the day name cell</td>
+ *     </tr>
+ *     <tr>
  *       <td><code>qx-calendar-day</code></td>
  *       <td>Day (<code>button</code>)</td>
  *       <td>Identifies and styles the day buttons</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-calendar-weekday</code></td>
+ *       <td>Day cell (<code>td</code>)</td>
+ *       <td>Identifies and styles the weekday cells</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-calendar-weekend</code></td>
+ *       <td>Day cell (<code>td</code>)</td>
+ *       <td>Identifies and styles the weekend cells</td>
  *     </tr>
  *     <tr>
  *       <td><code>qx-calendar-selected</code></td>
@@ -86,9 +116,9 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      *
      * Default value:
      * <pre><tr>
-     *  <td colspan='1'><button class='{{cssPrefix}}-prev' title='Previous Month'>&lt;</button></td>
+     *  <td colspan='1' class='{{cssPrefix}}-prev-container'><button class='{{cssPrefix}}-prev' title='Previous Month'>&lt;</button></td>
      *  <td colspan='5'>{{month}} {{year}}</td>
-     *  <td colspan='1'><button class='{{cssPrefix}}-next' title='Next Month'>&gt;</button></td>
+     *  <td colspan='1' class='{{cssPrefix}}-next-container'><button class='{{cssPrefix}}-next' title='Next Month'>&gt;</button></td>
      * </tr></pre>
      *
      *
@@ -98,7 +128,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      *
      * Default value:
      * <pre><tr>
-     *  {{#row}}<td>{{.}}</td>{{/row}}
+     *  {{#row}}<td class='{{cssPrefix}}-dayname'>{{.}}</td>{{/row}}
      * </tr></pre>
      *
      *
@@ -120,21 +150,21 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      * Wrapper template for all other templates. This should be a table.
      *
      * Default value:
-     * <pre><table><thead>{{{thead}}}</thead><tbody>{{{tbody}}}</tbody></table></pre>
+     * <pre><table class='{{cssPrefix}}-container'><thead>{{{thead}}}</thead><tbody>{{{tbody}}}</tbody></table></pre>
      */
     _templates : {
       controls : "<tr>" +
-                   "<td colspan='1'><button class='{{cssPrefix}}-prev' {{prevDisabled}} title='Previous Month'>&lt;</button></td>" +
-                   "<td colspan='5'>{{month}} {{year}}</td>" +
-                   "<td colspan='1'><button class='{{cssPrefix}}-next' {{nextDisabled}} title='Next Month'>&gt;</button></td>" +
+                   "<td colspan='1' class='{{cssPrefix}}-prev-container'><button class='{{cssPrefix}}-prev' {{prevDisabled}} title='Previous Month'>&lt;</button></td>" +
+                   "<td colspan='5' class='{{cssPrefix}}-month'>{{month}} {{year}}</td>" +
+                   "<td colspan='1' class='{{cssPrefix}}-next-container'><button class='{{cssPrefix}}-next' {{nextDisabled}} title='Next Month'>&gt;</button></td>" +
                  "</tr>",
       dayRow : "<tr>" +
-                 "{{#row}}<td>{{.}}</td>{{/row}}" +
+                 "{{#row}}<td class='{{cssPrefix}}-dayname'>{{.}}</td>{{/row}}" +
                "</tr>",
       row : "<tr>" +
               "{{#row}}<td class='{{cssClass}}'><button class='{{cssPrefix}}-day' {{disabled}} value='{{date}}'>{{day}}</button></td>{{/row}}" +
             "</tr>",
-      table : "<table><thead>{{{thead}}}</thead><tbody>{{{tbody}}}</tbody></table>"
+      table : "<table class='{{cssPrefix}}-container'><thead>{{{thead}}}</thead><tbody>{{{tbody}}}</tbody></table>"
     },
 
 
@@ -368,7 +398,8 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
       var data = {
         thead: controls + dayRow,
-        tbody: this._getWeekRows(date)
+        tbody: this._getWeekRows(date),
+        cssPrefix: this.getCssPrefix()
       };
 
       return qxWeb.template.render(this.getTemplate("table"), data);
@@ -418,7 +449,8 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      */
     _getDayRowData : function() {
       return {
-        row: this.getConfig("dayNames")
+        row: this.getConfig("dayNames"),
+        cssPrefix: this.getCssPrefix()
       };
     },
 
@@ -459,6 +491,8 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
             this.getConfig("selectableWeekDays").indexOf(helpDate.getDay()) == -1) {
             disabled = "disabled";
           }
+
+          cssClasses += (helpDate.getDay() === 0 || helpDate.getDay() === 6) ? " " + cssPrefix + "-weekend" : " " + cssPrefix + "-weekday";
 
           data.row.push({
             day: helpDate.getDate(),
