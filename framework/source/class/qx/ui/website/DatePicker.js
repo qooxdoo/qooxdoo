@@ -102,13 +102,13 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
         datepicker.setData('qx-calendar-id', uniqueId);
 
         // click listener to open / hide calendar
-        datepicker.on('click', datepicker._onClick);
+        datepicker.onWidget('click', datepicker._onClick);
 
         var bodyElement = qxWeb.getDocument(datepicker).body;
         qxWeb(bodyElement).on('click', datepicker._onBodyClick, datepicker, true);
 
         // react on date selection
-        calendar.on('changeValue', this._calendarChangeValue, datepicker);
+        calendar.on('changeValue', datepicker._calendarChangeValue, datepicker);
 
         if (date !== undefined) {
           calendar.setValue(date);
@@ -167,6 +167,20 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
       var formattedValue = this.getConfig('format').call(this, e);
       this.setValue(formattedValue);
       this.getCalendar().hide();
+    },
+
+    // overridden
+    dispose : function() {
+      this._forEachElementWrapped(function(datepicker) {
+        datepicker.offWidget('click', datepicker._onClick);
+
+        var bodyElement = qxWeb.getDocument(datepicker).body;
+        qxWeb(bodyElement).off('click', datepicker._onBodyClick, datepicker, true);
+
+        datepicker.getCalendar().off('changeValue', this._calendarChangeValue, datepicker);
+      });
+
+      return this.base(arguments);
     }
   },
 
