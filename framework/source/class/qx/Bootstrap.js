@@ -131,6 +131,7 @@ qx.Bootstrap = {
       proto = clazz.prototype;
       // Enable basecalls within constructor
       proto.base = qx.Bootstrap.base;
+      proto.name = proto.classname = name;
 
       var members = config.members || {};
       var key, member;
