@@ -2735,7 +2735,6 @@ testrunner.define({
   }
 });
 
-
 testrunner.define({
   classname : "ArrayUtil",
 
@@ -3530,6 +3529,13 @@ testrunner.define({
     if (q.env.get("css.placeholder")) {
       this.skip("Native placeholder supported.");
     }
+    testrunner.globalSetup();
+  },
+
+  tearDown : function() {
+    if (!q.env.get("css.placeholder")) {
+      testrunner.globalTeardown();
+    }
   },
 
 
@@ -3580,6 +3586,17 @@ testrunner.define({
     });
 
     all.remove();
+  },
+
+  testAbsolute : function() {
+    q.create('<div id="container">').setStyles({
+      position: "absolute",
+      top: "50px"
+    }).appendTo("#sandbox");
+
+    var input = q.create('<input type="text" placeholder="placeholder">').appendTo("#container");
+    q.placeholder.update();
+    this.assertEquals(input.getPosition().top, q("#sandbox label").getPosition().top);
   }
 });
 
