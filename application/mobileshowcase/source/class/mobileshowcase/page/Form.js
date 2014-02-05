@@ -61,11 +61,11 @@ qx.Class.define("mobileshowcase.page.Form",
 
       this.getContent().add(new qx.ui.mobile.form.renderer.Single(this.__form));
 
-      this.__submitButton = new qx.ui.mobile.form.Button("Submit");
-      this.__submitButton.addListener("tap", this._onButtonTap, this);
-      this.__submitButton.addListener("touchstart", qx.bom.Event.preventDefault, this);
-      this.__submitButton.setEnabled(false);
+      this.__submitButton = this._createSubmitButton();
       this.getContent().add(this.__submitButton);
+
+      this.__resetButton = this._createResetButton();
+      this.getContent().add(this.__resetButton);
 
       this.__result = new qx.ui.mobile.form.Label();
       this.__result.addCssClass("registration-result");
@@ -81,6 +81,30 @@ qx.Class.define("mobileshowcase.page.Form",
 
       this.__resultPopup = new qx.ui.mobile.dialog.Popup(popupContent);
       this.__resultPopup.setTitle("Registration Result");
+    },
+
+
+    /**
+    * Factory for the Submit Button.
+    * @return {qx.ui.mobile.form.Button} reset button
+    */
+    _createSubmitButton : function() {
+      var submitButton = new qx.ui.mobile.form.Button("Submit");
+      submitButton.addListener("tap", this._onSubmitButtonTap, this);
+      submitButton.addListener("touchstart", qx.bom.Event.preventDefault, this);
+      submitButton.setEnabled(false);
+      return submitButton;
+    },
+
+
+    /**
+    * Factory for the Reset Button.
+    * @return {qx.ui.mobile.form.Button} reset button
+    */
+    _createResetButton : function() {
+      var resetButton = new qx.ui.mobile.form.Button("Reset");
+      resetButton.addListener("tap", this._onResetButtonTap, this);
+      return resetButton;
     },
 
 
@@ -215,12 +239,14 @@ qx.Class.define("mobileshowcase.page.Form",
     },
 
 
-    /**
-     * Event handler.
-     *
-     * @param evt {qx.event.type.Tap} The tap event.
-     */
-    _onButtonTap : function()
+    /**  Event handler */
+    _onResetButtonTap : function() {
+      this.__form.reset();
+    },
+
+
+    /** Event handler. */
+    _onSubmitButtonTap : function()
     {
       if(this.__form.validate())
       {
