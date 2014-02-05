@@ -196,7 +196,7 @@ qx.Class.define("qx.theme.manager.Decoration",
         // styles key
         if (currentEntry.style) {
           for (var key in currentEntry.style) {
-            if (entry.style[key] == undefined) {
+            if (entry.style[key] === undefined) {
               entry.style[key] = qx.lang.Object.clone(currentEntry.style[key], true);
             }
           }
