@@ -172,6 +172,13 @@ qx.Class.define("qx.ui.mobile.form.Form",
     },
 
 
+    // overridden
+    reset : function() {
+      this.base(arguments);
+      this.__renderer.resetForm();
+    },
+
+
     /**
     * Returns the invalid items of the form, which were determined by {@link qx.ui.mobile.form.Form#validate} before.
     * It returns an empty array if no items are invalid.
