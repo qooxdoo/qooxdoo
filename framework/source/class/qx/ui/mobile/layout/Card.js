@@ -219,9 +219,11 @@ qx.Class.define("qx.ui.mobile.layout.Card",
      */
     _swapWidget : function() {
       if (this.__currentWidget) {
+        this.__currentWidget.removeCssClass("active");
         this.__currentWidget.exclude();
       }
       this.__currentWidget = this.__nextWidget;
+      this.__currentWidget.addCssClass("active");
     },
 
 

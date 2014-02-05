@@ -7,11 +7,15 @@
   /* Disable touch behaviors, like pan and zoom for IE10*/
   @include touch-action(none);
   @include backface-visibility(hidden);
-}
+  @include background($navigationpage-background);
 
-.root:not(.android) .page {
+  position: absolute;
   height: 100%;
   width:100%;
+}
+
+.page.active {
+  z-index: 1;
 }
 
 .content:not(.group) .form-title {
@@ -33,10 +37,6 @@
 
   border: rem(1) solid $group-border-color;
   padding: rem(10);
-}
-
-.animationChild {
-  @include background($navigationpage-background);
 }
 
 .hbox:not(.flex-reverse) > .gap:not(.exclude) + .gap {

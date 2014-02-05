@@ -38,6 +38,7 @@ qx.Class.define("mobileshowcase.page.Carousel",
     // overridden
     _createScrollContainer : function() {
       var carousel = new qx.ui.mobile.container.Carousel(0.5);
+      carousel.setHeight(null);
 
       var page1 = new qx.ui.mobile.container.Composite();
       page1.addCssClass("carousel-example-1");
@@ -132,7 +133,7 @@ qx.Class.define("mobileshowcase.page.Carousel",
     // overridden
     _back : function()
     {
-     qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
+      qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
     }
   }
 });
