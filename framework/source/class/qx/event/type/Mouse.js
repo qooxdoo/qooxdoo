@@ -49,8 +49,8 @@ qx.Class.define("qx.event.type.Mouse",
       clone.button = nativeEvent.button;
       clone.clientX = Math.round(nativeEvent.clientX);
       clone.clientY = Math.round(nativeEvent.clientY);
-      clone.pageX = Math.round(nativeEvent.pageX);
-      clone.pageY = Math.round(nativeEvent.pageY);
+      clone.pageX = nativeEvent.pageX ? Math.round(nativeEvent.pageX) : undefined;
+      clone.pageY = nativeEvent.pageY ? Math.round(nativeEvent.pageY) : undefined;
       clone.screenX = Math.round(nativeEvent.screenX);
       clone.screenY = Math.round(nativeEvent.screenY);
       clone.wheelDelta = nativeEvent.wheelDelta;
