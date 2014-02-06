@@ -484,6 +484,11 @@ qx.Class.define("qx.ui.form.validation.Manager",
             if (!(item.getContentLocation)) {
               return;
             }
+            // only consider items on the screen
+            if (item.isSeeable() === false) {
+              continue;
+            }
+
             tooltip.setLabel(item.getInvalidMessage());
 
             if (tooltip.getPlaceMethod() == "mouse") {
