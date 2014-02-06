@@ -85,6 +85,12 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
     },
 
     // overridden
+    /**
+     * Initializes the date picker widget
+     *
+     * @param date {Date} A JavaScript Date object to set the current date
+     * @return {Boolean} <code>true</code> if the widget has been initialized
+     */
     init : function(date) {
       if (!this.base(arguments)) {
         return false;
