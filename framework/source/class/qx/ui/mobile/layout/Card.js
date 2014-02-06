@@ -202,12 +202,16 @@ qx.Class.define("qx.ui.mobile.layout.Card",
         properties = properties || {};
 
         this.__animation = properties.animation || this.getDefaultAnimation();
+        if (properties.action && properties.action === "back") {
+          this.__reverse = true;
+        } else {
+          properties.reverse = properties.reverse === null ? false : properties.reverse;
+          this.__reverse = properties.reverse;
+        }
 
-        properties.reverse = properties.reverse === null ? false : properties.reverse;
-
-        this.__reverse = properties.reverse;
-
-        this.__startAnimation(widget);
+        qx.bom.AnimationFrame.request(function() {
+          this.__startAnimation(widget);
+        }, this);
       } else {
         this._swapWidget();
       }
