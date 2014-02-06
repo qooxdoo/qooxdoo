@@ -161,13 +161,11 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     _createContent : function()
     {
       this.__layout = new qx.ui.mobile.layout.Card();
-      var content = new qx.ui.mobile.container.Composite(this.__layout);
       this.__layout.addListener("updateLayout", this._onUpdateLayout, this);
-
-      this.getLayout().addListener("animationStart", this._onAnimationStart, this);
-      this.getLayout().addListener("animationEnd", this._onAnimationEnd, this);
-
-      return content;
+      this.__layout.addListener("animationStart", this._onAnimationStart, this);
+      this.__layout.addListener("animationEnd", this._onAnimationEnd, this);
+      
+      return new qx.ui.mobile.container.Composite(this.__layout);
     },
 
 
