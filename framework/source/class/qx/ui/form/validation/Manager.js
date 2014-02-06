@@ -18,8 +18,9 @@
 ************************************************************************ */
 /**
  * This validation manager is responsible for validation of forms.
+ *
  * @ignore(qx.ui.tooltip)
- * @ignore(qx.ui.tooltip.Manager)
+ * @ignore(qx.ui.tooltip.Manager.*)
  */
 qx.Class.define("qx.ui.form.validation.Manager",
 {
