@@ -67,7 +67,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
 
   construct : function(layout)
   {
-    this.base(arguments, layout);
+    this.base(arguments, layout || new qx.ui.mobile.layout.VBox());
   },
 
 

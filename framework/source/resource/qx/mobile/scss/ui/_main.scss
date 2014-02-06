@@ -14,8 +14,8 @@
   width:100%;
 }
 
-.page.active {
-  z-index: 1;
+.page.active:not(.animationChild) {
+  z-index: 100;
 }
 
 .content:not(.group) .form-title {
