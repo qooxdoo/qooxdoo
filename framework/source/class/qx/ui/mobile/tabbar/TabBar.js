@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
   construct : function()
   {
     this.base(arguments);
-    this._setLayout(new qx.ui.mobile.layout.HBox(null, "middle"));
+    this._setLayout(new qx.ui.mobile.layout.HBox());
     this.addListener("tap", this._onTap, this);
     this.addListener("touchstart", qx.bom.Event.preventDefault, this);
   },

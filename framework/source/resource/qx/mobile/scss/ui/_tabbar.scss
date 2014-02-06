@@ -2,11 +2,11 @@
 // TABBAR   
 //
 .tabBar {
-  bottom: rem(16);
-  border-bottom: rem(3) solid $tabbar-divider-color;
   padding-top: $tabbar-button-distance;
   padding-left: $tabbar-button-distance;
   padding-right: $tabbar-button-distance;
+  border-bottom: rem(3) solid $tabbar-divider-color;
+  min-height: $tabbar-height;
 }
 
 .tabButton {
@@ -17,8 +17,7 @@
 
   color:  $tabbar-inactive-text-color;
 
-  height:  $tabbar-height;
-  line-height:  $tabbar-height;
+  line-height:  $tabbar-height - $tabbar-button-distance;
 
   // This is for equal sizes od the buttons when added in a toolbar or
   // other container with flex :1
@@ -40,7 +39,6 @@
 
 .tabButton.active, .tabButton.selected {
   @include background($tabbar-active-background);
-
   border: rem(1) solid $tabbar-active-border-color;
   border-bottom: 0px solid transparent;
 }
