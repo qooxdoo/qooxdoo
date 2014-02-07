@@ -23,14 +23,12 @@
  */
 qx.Class.define("mobileshowcase.page.Form",
 {
-  extend : qx.ui.mobile.page.NavigationPage,
+  extend : mobileshowcase.page.Abstract,
 
   construct : function()
   {
     this.base(arguments);
     this.setTitle("Form");
-    this.setShowBackButton(true);
-    this.setBackButtonText("Back");
   },
 
 
@@ -276,13 +274,6 @@ qx.Class.define("mobileshowcase.page.Form",
         this.__resultPopup.hide();
       }
       this.base(arguments);
-    },
-
-
-    // overridden
-    _back : function()
-    {
-      qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
     }
   }
 });

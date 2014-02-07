@@ -28,14 +28,12 @@
  */
 qx.Class.define("mobileshowcase.page.Basic",
 {
-  extend : qx.ui.mobile.page.NavigationPage,
+  extend : mobileshowcase.page.Abstract,
 
   construct : function()
   {
     this.base(arguments,false);
     this.setTitle("Basic Widgets");
-    this.setShowBackButton(true);
-    this.setBackButtonText("Back");
     this._widgets = [];
   },
 
@@ -131,13 +129,6 @@ qx.Class.define("mobileshowcase.page.Basic",
       var label = new qx.ui.mobile.basic.Label("This is the content of the Collapsible.");
       collapsible.add(label);
       return collapsible;
-    },
-
-
-    // overridden
-    _back : function()
-    {
-      qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
     }
   }
 });

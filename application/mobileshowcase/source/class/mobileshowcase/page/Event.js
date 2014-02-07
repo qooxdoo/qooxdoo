@@ -23,14 +23,12 @@
  */
 qx.Class.define("mobileshowcase.page.Event",
 {
-  extend : qx.ui.mobile.page.NavigationPage,
+  extend : mobileshowcase.page.Abstract,
 
   construct : function()
   {
     this.base(arguments, false);
     this.setTitle("Events");
-    this.setShowBackButton(true);
-    this.setBackButtonText("Back");
 
     this.__touchCircleLeft = [];
     this.__touchCircleTop = [];
@@ -335,13 +333,6 @@ qx.Class.define("mobileshowcase.page.Event",
         touchPoint.setTranslateX(this.__touchCircleLeft[i]);
         touchPoint.setTranslateY(this.__touchCircleTop[i]);
       }
-    },
-
-
-    // overridden
-    _back : function()
-    {
-      qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
     }
   }
 });

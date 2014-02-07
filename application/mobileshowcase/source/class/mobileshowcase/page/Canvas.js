@@ -25,14 +25,12 @@
  */
 qx.Class.define("mobileshowcase.page.Canvas",
 {
-  extend : qx.ui.mobile.page.NavigationPage,
+  extend : mobileshowcase.page.Abstract,
 
   construct : function()
   {
     this.base(arguments,false);
     this.setTitle("Canvas");
-    this.setShowBackButton(true);
-    this.setBackButtonText("Back");
   },
 
 
@@ -204,18 +202,6 @@ qx.Class.define("mobileshowcase.page.Canvas",
     },
 
 
-    // overridden
-    _back : function()
-    {
-      qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
-    },
-
-
-    /*
-    *****************************************************************************
-      DESTRUCTOR
-    *****************************************************************************
-    */
     destruct : function()
     {
       this._disposeObjects();

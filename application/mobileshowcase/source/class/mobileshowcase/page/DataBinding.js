@@ -22,14 +22,12 @@
  */
 qx.Class.define("mobileshowcase.page.DataBinding",
 {
-  extend : qx.ui.mobile.page.NavigationPage,
+  extend : mobileshowcase.page.Abstract,
 
   construct : function()
   {
     this.base(arguments);
     this.setTitle("Data Binding");
-    this.setShowBackButton(true);
-    this.setBackButtonText("Back");
 
     this.__timer = new qx.event.Timer(50);
     this.__timer.addListener("interval", this.__onInterval, this);
@@ -221,18 +219,6 @@ qx.Class.define("mobileshowcase.page.DataBinding",
     },
 
 
-    // overridden
-    _back : function()
-    {
-      qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
-    },
-
-
-    /*
-    *****************************************************************************
-      DESTRUCTOR
-    *****************************************************************************
-    */
     destruct : function() {
       this.__timer.removeListener("interval", this.__onInterval, this);
 

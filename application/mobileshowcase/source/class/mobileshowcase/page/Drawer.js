@@ -22,14 +22,12 @@
  */
 qx.Class.define("mobileshowcase.page.Drawer",
 {
-  extend : qx.ui.mobile.page.NavigationPage,
+  extend : mobileshowcase.page.Abstract,
 
   construct : function()
   {
     this.base(arguments, false);
     this.setTitle("Drawer");
-    this.setShowBackButton(true);
-    this.setBackButtonText("Back");
   },
 
 
@@ -134,13 +132,6 @@ qx.Class.define("mobileshowcase.page.Drawer",
       qx.event.Timer.once(function() {
         qx.bom.element.Style.set(this,"transitionDuration", null);
       },target.getContainerElement(),0);
-    },
-
-
-    // overridden
-    _back : function()
-    {
-      qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
     }
   }
 });

@@ -31,14 +31,12 @@
  */
 qx.Class.define("mobileshowcase.page.Theming",
 {
-  extend : qx.ui.mobile.page.NavigationPage,
+  extend : mobileshowcase.page.Abstract,
 
   construct : function()
   {
     this.base(arguments, false);
     this.setTitle("Theming");
-    this.setShowBackButton(true);
-    this.setBackButtonText("Back");
 
     this.__preloadThemes();
   },
@@ -307,23 +305,12 @@ qx.Class.define("mobileshowcase.page.Theming",
       this.self(arguments).THEMES.push(themeData);
     },
 
-
-    // overridden
-    _back : function()
+    
+    destruct : function()
     {
-      qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
-    },
+     qx.event.Registration.removeListener(window, "resize", this._onChangeScale);
 
-    /*
-     *****************************************************************************
-       DESTRUCTOR
-     *****************************************************************************
-     */
-     destruct : function()
-     {
-       qx.event.Registration.removeListener(window, "resize", this._onChangeScale);
-
-       qx.core.Init.getApplication().getRoot().removeListener("changeAppScale", this._updateDemoImageLabel, this);
-     }
+     qx.core.Init.getApplication().getRoot().removeListener("changeAppScale", this._updateDemoImageLabel, this);
+    }
   }
 });

@@ -22,15 +22,13 @@
  */
 qx.Class.define("mobileshowcase.page.Tab",
 {
-  extend : qx.ui.mobile.page.NavigationPage,
+  extend : mobileshowcase.page.Abstract,
 
 
   construct : function()
   {
     this.base(arguments);
     this.setTitle("Tabs");
-    this.setShowBackButton(true);
-    this.setBackButtonText("Back");
   },
 
 
@@ -99,13 +97,6 @@ qx.Class.define("mobileshowcase.page.Tab",
       var label = new qx.ui.mobile.basic.Label(text);
       this.getContent().add(label);
       return label;
-    },
-
-
-    // overridden
-    _back : function()
-    {
-      qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
     }
   }
 });

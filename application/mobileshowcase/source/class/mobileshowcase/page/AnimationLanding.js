@@ -24,15 +24,13 @@
  */
 qx.Class.define("mobileshowcase.page.AnimationLanding",
 {
-  extend : qx.ui.mobile.page.NavigationPage,
+  extend : mobileshowcase.page.Abstract,
 
   construct : function()
   {
     this.base(arguments, true);
     this.setTitle("Page Transitions");
-    this.setShowBackButton(true);
     this.setShowBackButtonOnTablet(true);
-    this.setBackButtonText("Reverse");
   },
 
   properties :

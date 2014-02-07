@@ -25,13 +25,11 @@
  */
 qx.Class.define("mobileshowcase.page.Maps",
 {
-  extend : qx.ui.mobile.page.NavigationPage,
+  extend : mobileshowcase.page.Abstract,
 
   construct : function() {
     this.base(arguments,false);
     this.setTitle("Maps");
-    this.setShowBackButton(true);
-    this.setBackButtonText("Back");
 
     this._geolocationEnabled = qx.core.Environment.get("html.geolocation");
   },
@@ -252,18 +250,6 @@ qx.Class.define("mobileshowcase.page.Maps",
     },
 
 
-    // overridden
-    _back : function()
-    {
-      qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
-    },
-
-
-    /*
-    *****************************************************************************
-      DESTRUCTOR
-    *****************************************************************************
-    */
     destruct : function()
     {
       this._disposeObjects("_mapUri","_map","_myPositionMarker","_markers","_showMyPositionButton","_mapnikLayer");

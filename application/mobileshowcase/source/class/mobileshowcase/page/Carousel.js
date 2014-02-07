@@ -22,14 +22,12 @@
  */
 qx.Class.define("mobileshowcase.page.Carousel",
 {
-  extend : qx.ui.mobile.page.NavigationPage,
+  extend : mobileshowcase.page.Abstract,
 
   construct : function()
   {
     this.base(arguments);
     this.setTitle("Carousel");
-    this.setShowBackButton(true);
-    this.setBackButtonText("Back");
   },
 
 
@@ -127,13 +125,6 @@ qx.Class.define("mobileshowcase.page.Carousel",
     // overridden
     _createContent : function() {
       return null;
-    },
-
-
-    // overridden
-    _back : function()
-    {
-      qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
     }
   }
 });

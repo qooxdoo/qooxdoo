@@ -22,14 +22,12 @@
  */
 qx.Class.define("mobileshowcase.page.List",
 {
-  extend : qx.ui.mobile.page.NavigationPage,
+  extend : mobileshowcase.page.Abstract,
 
   construct : function()
   {
     this.base(arguments);
     this.setTitle("List");
-    this.setShowBackButton(true);
-    this.setBackButtonText("Back");
   },
 
 
@@ -82,13 +80,6 @@ qx.Class.define("mobileshowcase.page.List",
         popup.show();
       }, this);
       this.getContent().add(list);
-    },
-
-
-    // overridden
-    _back : function()
-    {
-     qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
     }
   }
 });

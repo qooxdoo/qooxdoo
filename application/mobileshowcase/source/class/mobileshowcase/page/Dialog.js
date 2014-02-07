@@ -25,14 +25,12 @@
  */
 qx.Class.define("mobileshowcase.page.Dialog",
 {
-  extend : qx.ui.mobile.page.NavigationPage,
+  extend : mobileshowcase.page.Abstract,
 
   construct : function()
   {
     this.base(arguments,false);
     this.setTitle("Dialog Widgets");
-    this.setShowBackButton(true);
-    this.setBackButtonText("Back");
   },
 
 
@@ -342,13 +340,6 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.__menu.hide();
       this.__anchorMenu.hide();
       this.__picker.hide();
-    },
-
-
-    // overridden
-    _back : function()
-    {
-      qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
     }
   }
 });

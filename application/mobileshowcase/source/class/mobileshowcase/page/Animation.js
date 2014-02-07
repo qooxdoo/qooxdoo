@@ -22,14 +22,12 @@
  */
 qx.Class.define("mobileshowcase.page.Animation",
 {
-  extend : qx.ui.mobile.page.NavigationPage,
+  extend : mobileshowcase.page.Abstract,
 
   construct : function()
   {
     this.base(arguments);
     this.setTitle("Page Transitions");
-    this.setShowBackButton(true);
-    this.setBackButtonText("Back");
   },
 
 
@@ -86,13 +84,6 @@ qx.Class.define("mobileshowcase.page.Animation",
         qx.core.Init.getApplication().getRouting().executeGet("/animation/" + animation);
       }, this);
       this.getContent().add(list);
-    },
-
-
-    // overridden
-    _back : function()
-    {
-     qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
     }
   }
 });

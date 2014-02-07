@@ -28,18 +28,18 @@
  */
 qx.Class.define("mobileshowcase.page.Toolbar",
 {
-  extend : qx.ui.mobile.page.NavigationPage,
+  extend : mobileshowcase.page.Abstract,
+
 
   statics : {
     __toolbarButtonImages: ["mobileshowcase/icon/arrowleft.png","mobileshowcase/icon/camera.png"]
   },
 
+
   construct : function()
   {
     this.base(arguments,false);
     this.setTitle("Toolbar");
-    this.setShowBackButton(true);
-    this.setBackButtonText("Back");
   },
 
 
@@ -218,13 +218,6 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       if (this.__searchDialog) {
         this.__searchDialog.hide();
       }
-    },
-
-
-    // overridden
-    _back : function()
-    {
-      qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
     }
   }
 });
