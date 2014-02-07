@@ -170,7 +170,7 @@ qx.Class.define("qx.ui.basic.Image",
 
 
     /** Fired when the pending request has been aborted. */
-    aborted : "qx.event.type.Event",
+    aborted : "qx.event.type.Event"
   },
 
 
