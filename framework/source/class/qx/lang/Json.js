@@ -210,6 +210,11 @@ qx.Bootstrap.define("qx.lang.Json",
   }
 });
 
+/**
+ * @ignore(define.*, exports)
+ * @lint ignoreUnused(JSON3)
+ * @lint ignoreNoLoopBlock()
+ */
 (function () {
   // define JSON3 object
   var JSON3;
@@ -224,10 +229,6 @@ qx.Bootstrap.define("qx.lang.Json",
 
 
 /*! JSON v3.2.5 | http://bestiejs.github.io/json3 | Copyright 2012-2013, Kit Cambridge | http://kit.mit-license.org */
-/**
- * @ignore(define.*, exports)
- * @lint ignoreNoLoopBlock()
- */
 (function (window) {
   // Convenience aliases.
   var getClass = {}.toString, isProperty, forEach, undef;
