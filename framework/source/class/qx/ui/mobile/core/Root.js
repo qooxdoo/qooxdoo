@@ -49,10 +49,7 @@ qx.Class.define("qx.ui.mobile.core.Root",
 
     // [BUG #7785] Document element's clientHeight is calculated wrong on iPad iOS7
     if (qx.core.Environment.get("os.name") == "ios" && window.innerHeight != document.documentElement.clientHeight) {
-      qx.event.Registration.addListener(window, "orientationchange", this.__fixViewportHeight, this);
-      qx.event.Registration.addListener(window, "scroll", this.__fixViewportHeight, this);
-      this.__fixViewportHeight();
-      document.body.style.webkitTransform = "translate3d(0,0,0)";
+      this.addCssClass("ios-viewport-fix");
     }
 
     var flexboxSyntax = qx.core.Environment.get("css.flexboxSyntax");
@@ -243,18 +240,6 @@ qx.Class.define("qx.ui.mobile.core.Root",
     */
     getHeight : function() {
       return qx.bom.element.Dimension.getHeight(this.__root);
-    },
-
-
-    /**
-    * Fixes the viewport height bug on iOS7 and iPad.
-    * @internal
-    */
-    __fixViewportHeight : function() {
-      document.documentElement.style.height = window.innerHeight + "px";
-      if (document.body.scrollTop !== 0) {
-        window.scrollTo(0, 0);
-      }
     },
 
 
