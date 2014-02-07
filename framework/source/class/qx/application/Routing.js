@@ -447,6 +447,23 @@ qx.Bootstrap.define("qx.application.Routing", {
 
 
     /**
+    * Navigates back to the previous executed path.
+    * @param customData {Map?} The given custom data that should be propagated
+    */
+    back : function(customData) {
+      if (qx.application.Routing.__back.length > 1) {
+        var backPath = qx.application.Routing.__back[1].path;
+
+        if (customData) {
+          customData["action"] = "back";
+        }
+
+        this._executeGet(backPath, customData);
+      }
+    },
+
+
+    /**
      * Decouples the Routing from the navigation handler.
      */
     dispose : function() {
