@@ -124,6 +124,6 @@ qx.Class.define("qx.ui.mobile.form.Input",
 
 
   destruct : function() {
-    this.addListener("focus", this._onSelected, this);
+    this.removeListener("focus", this._onSelected, this);
   }
 });
