@@ -471,6 +471,10 @@ function analyze(tree, opts) {
   };
   var atHints = {};
   var filteredScopeRefs = [];
+  var envCallDeps = {
+    'load': [],
+    'run': []
+  };
   var globalScope = escope.analyze(tree).scopes[0];
 
   parentAnnotator.annotate(tree);  // TODO: don't call here if called from analyze_as_map()!
@@ -494,15 +498,10 @@ function analyze(tree, opts) {
   deps.load = filteredScopeRefs.filter(not_runtime);
   deps.run = _.difference(filteredScopeRefs, deps.load);
 
-  // TBD: add transitive deps
-    // go through 'load' deps
-    // check if 'needs_recursion' (these can only be function calls)
-    // get function implementation
-    // add all its dependencies to originator's deps (load/runtime doesn't matter anymore)
-    // recurse on those dependencies
-
   // add feature classes from qx.core.Environment calls
-  deps.run = deps.run.concat(qxCoreEnv.extract(tree));
+  envCallDeps = qxCoreEnv.extract(tree, filteredScopeRefs);
+  deps.load = deps.load.concat(envCallDeps.load);
+  deps.run = deps.run.concat(envCallDeps.run);
 
   // unify
   deps.load = unify(deps.load, tree.qxClassName);

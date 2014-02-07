@@ -12,15 +12,6 @@ var escodegen = require('escodegen');
 var parentAnnotator = require('./annotator/parent');
 var get = require('./util').get;
 
-var InterestingEnvMethods = {
-    "select"      : true,
-    "selectAsync" : true,
-    "get"         : true,
-    "getAsync"    : true,
-    "filter"      : true
-};
-
-
 // cache fore file contents
 var qxCoreEnvCode = "";
 
@@ -62,6 +53,14 @@ function getFeatureTable(classCode) {
 
 function findVariantNodes(etree) {
     var result = [];
+    var interestingEnvMethods = {
+        "select"      : true,
+        "selectAsync" : true,
+        "get"         : true,
+        "getAsync"    : true,
+        "filter"      : true
+    };
+
     // walk etree
     var controller = new estraverse.Controller();
     controller.traverse(etree, {
@@ -71,12 +70,47 @@ function findVariantNodes(etree) {
                 && get(node, "callee.object.object.object.name") === 'qx'
                 && get(node, "callee.object.object.property.name") === 'core'
                 && get(node, "callee.object.property.name") === 'Environment'
-                && get(node, "callee.property.name") in InterestingEnvMethods) {
+                && get(node, "callee.property.name") in interestingEnvMethods) {
                 result.push(node);
             }
         }
     });
     return result;
+}
+
+function addLoadRunInformation(nodes, scopes) {
+  nodes.forEach(function (node) {
+    var envCallLine = node.loc.start.line;
+    for (var i=0; i<scopes.length; i++) {
+      var curScope = scopes[i].from;
+      if (curScope.isLoadTime === false) {
+        continue;
+      }
+
+      var scopeStartLine = curScope.block.loc.start.line;
+      var scopeEndLine = curScope.block.loc.end.line;
+
+      // TODO: add column
+      if (envCallLine > scopeStartLine && envCallLine < scopeEndLine) {
+        node.isLoadTime = true;
+      } else {
+        node.isLoadTime = false;
+      }
+    }
+  });
+
+  return nodes;
+}
+
+
+function addEnvCallDependency(fqMethodName, node, result) {
+  if (node.isLoadTime === true) {
+    result.load.push(fqMethodName);
+  } else {
+    result.run.push(fqMethodName);
+  }
+
+  return result;
 }
 
 /**
@@ -105,34 +139,42 @@ function getClassCode() {
  * Take a tree and return the list of feature classes used through
  * qx.core.Environment.* calls
  */
-function extract(etree, withMethodName) {
-    var result = [];
+function extract(etree, scopes, withMethodName) {
+    var result = {
+      "load": [],
+      "run": []
+    };
     var featureToClass = {};
-    var envCalls = [];
+    var envCallNodes = [];
 
+    withMethodName = withMethodName || false;
     qxCoreEnvCode = qxCoreEnvCode || getClassCode();
     featureToClass = getFeatureTable(qxCoreEnvCode); // { "plugin.flash" : "qx.bom.client.Flash#isAvailable" }
-    envCalls = findVariantNodes(etree);
-    withMethodName = withMethodName || false;
 
-    envCalls.forEach(function (node) {
+    envCallNodes = findVariantNodes(etree);
+
+    if (envCallNodes.length >= 1) {
+      envCallNodes = addLoadRunInformation(envCallNodes, scopes);
+      envCallNodes.forEach(function (node) {
         if (getEnvMethod(node) in {select:1, get:1, filter:1}) {
-            // extract environment key
-            var env_key = getEnvKey(node);
-            // look up corresponding feature class
-            var fqMethodName = featureToClass[env_key];
-            if (fqMethodName) {
-                // add to result
-                // console.log("Found: " + env_key + " : " + featureToClass[env_key]);
-                if (!withMethodName) {
-                  var posOfLastDot = fqMethodName.lastIndexOf('.');
-                  result.push(fqMethodName.substr(0, posOfLastDot));
-                } else {
-                  result.push(fqMethodName);
-                }
+          // extract environment key
+          var env_key = getEnvKey(node);
+          // look up corresponding feature class
+          var fqMethodName = featureToClass[env_key];
+          if (fqMethodName) {
+            // add to result
+            // console.log("Found: " + env_key + " : " + featureToClass[env_key]);
+            if (!withMethodName) {
+              var posOfLastDot = fqMethodName.lastIndexOf('.');
+              result = addEnvCallDependency(fqMethodName.substr(0, posOfLastDot), node, result);
+            } else {
+              result = addEnvCallDependency(fqMethodName, node, result);
             }
+          }
         }
-    });
+      });
+    }
+
     return result;
 }
 
