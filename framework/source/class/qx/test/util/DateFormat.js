@@ -26,6 +26,7 @@ qx.Class.define("qx.test.util.DateFormat",
 
   // result contain an object with what should be expected, the result to test the date against
   __dates : [
+    {'date' : new Date(2000, 2, 14), 'result' : {}},
     {'date' : new Date(2006, 2, 14), 'result' : {}},
     {'date' : new Date(2007, 3, 14), 'result' : {}},
     {'date' : new Date(2009, 10, 30), 'result' : {}},
