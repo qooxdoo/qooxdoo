@@ -166,7 +166,11 @@ qx.Class.define("qx.ui.basic.Image",
      * Fired if the image has been loaded. This is even true for managed 
      * resources (images known by generator).
      */
-    loaded : "qx.event.type.Event"
+    loaded : "qx.event.type.Event",
+
+
+    /** Fired when the pending request has been aborted. */
+    aborted : "qx.event.type.Event",
   },
 
 
@@ -479,6 +483,8 @@ qx.Class.define("qx.ui.basic.Image",
         // prevent firing of the event if source changed in the meantime
         if (rId === this.__requestId) {
           this.fireEvent("loaded");
+        } else {
+          this.fireEvent("aborted");
         }
       }.bind(this, this.__requestId));
     },
@@ -800,6 +806,7 @@ qx.Class.define("qx.ui.basic.Image",
 
       // Ignore when the source has already been modified
       if (source !== qx.util.AliasManager.getInstance().resolve(this.getSource())) {
+        this.fireEvent("aborted");
         return;
       }
 
@@ -808,7 +815,7 @@ qx.Class.define("qx.ui.basic.Image",
         this.warn("Image could not be loaded: " + source);
         this.fireEvent("loadingFailed");
       } else if (imageInfo.aborted) {
-        // ignore the rest because it is aborted
+        this.fireEvent("aborted");
         return;
       } else {
         this.fireEvent("loaded");
