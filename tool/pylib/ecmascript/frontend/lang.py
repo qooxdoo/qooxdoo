@@ -220,28 +220,64 @@ RESERVED = {
     "true" : "TRUE",
     "false" : "FALSE",
 
-    # Future reserved Ecma 5
-    "class": "FUTURE_RESERVED_WORD",
-    "const": "FUTURE_RESERVED_WORD",
+    # Future reserved  (ECMAScript 3)
+    "abstract": "FUTURE_RESERVED_WORD",
     "enum": "FUTURE_RESERVED_WORD",
+    "int": "FUTURE_RESERVED_WORD",
+    "short": "FUTURE_RESERVED_WORD",
+    "boolean": "FUTURE_RESERVED_WORD",
     "export": "FUTURE_RESERVED_WORD",
-    "extends": "FUTURE_RESERVED_WORD",
-    "import": "FUTURE_RESERVED_WORD",
-    "super": "FUTURE_RESERVED_WORD",
-
-    # Future reserved Ecma 5 (Strict)
-    "implements": "FUTURE_RESERVED_WORD",
     "interface": "FUTURE_RESERVED_WORD",
-    "let": "FUTURE_RESERVED_WORD",
-    "package": "FUTURE_RESERVED_WORD",
-    "private": "FUTURE_RESERVED_WORD",
-    "protected": "FUTURE_RESERVED_WORD",
-    "public": "FUTURE_RESERVED_WORD",
     "static": "FUTURE_RESERVED_WORD",
-    "yield": "FUTURE_RESERVED_WORD"
+    "byte": "FUTURE_RESERVED_WORD",
+    "extends": "FUTURE_RESERVED_WORD",
+    "long": "FUTURE_RESERVED_WORD",
+    "super": "FUTURE_RESERVED_WORD",
+    "char": "FUTURE_RESERVED_WORD",
+    "final": "FUTURE_RESERVED_WORD",
+    "native": "FUTURE_RESERVED_WORD",
+    "synchronized": "FUTURE_RESERVED_WORD",
+    "class": "FUTURE_RESERVED_WORD",
+    "float": "FUTURE_RESERVED_WORD",
+    "package": "FUTURE_RESERVED_WORD",
+    "throws": "FUTURE_RESERVED_WORD",
+    "const": "FUTURE_RESERVED_WORD",
+    "goto": "FUTURE_RESERVED_WORD",
+    "private": "FUTURE_RESERVED_WORD",
+    "transient": "FUTURE_RESERVED_WORD",
+    # not yet supported, should issue a warning
+    #"debugger": "DEBUGGER",
+    "implements": "FUTURE_RESERVED_WORD",
+    "protected": "FUTURE_RESERVED_WORD",
+    "volatile": "FUTURE_RESERVED_WORD",
+    "double": "FUTURE_RESERVED_WORD",
+    "import": "FUTURE_RESERVED_WORD",
+    "public": "FUTURE_RESERVED_WORD"
 
-      # not yet supported, should issue a warning
-      #"debugger": "DEBUGGER",
+    # BUG #8089: backed out ES5 reserved keywords for now (see bug)
+
+    # # Future reserved ECMAScript 5
+    # "class": "FUTURE_RESERVED_WORD",
+    # "const": "FUTURE_RESERVED_WORD",
+    # "enum": "FUTURE_RESERVED_WORD",
+    # "export": "FUTURE_RESERVED_WORD",
+    # "extends": "FUTURE_RESERVED_WORD",
+    # "import": "FUTURE_RESERVED_WORD",
+    # "super": "FUTURE_RESERVED_WORD",
+
+    # Future reserved ECMAScript 5 (Strict)
+    # "implements": "FUTURE_RESERVED_WORD",
+    # "interface": "FUTURE_RESERVED_WORD",
+    # "let": "FUTURE_RESERVED_WORD",
+    # "package": "FUTURE_RESERVED_WORD",
+    # "private": "FUTURE_RESERVED_WORD",
+    # "protected": "FUTURE_RESERVED_WORD",
+    # "public": "FUTURE_RESERVED_WORD",
+    # "static": "FUTURE_RESERVED_WORD",
+    # "yield": "FUTURE_RESERVED_WORD"
+
+    # not yet supported, should issue a warning
+    #"debugger": "DEBUGGER",
 }
 
 
