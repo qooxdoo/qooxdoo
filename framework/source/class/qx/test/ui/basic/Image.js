@@ -26,6 +26,7 @@
 qx.Class.define("qx.test.ui.basic.Image",
 {
   extend : qx.test.ui.LayoutTestCase,
+  include : qx.dev.unit.MMock,
 
   members :
   {
@@ -205,7 +206,7 @@ qx.Class.define("qx.test.ui.basic.Image",
         });
       }, this);
 
-      this.wait();
+      this.wait(1000);
     },
 
 
@@ -221,6 +222,69 @@ qx.Class.define("qx.test.ui.basic.Image",
 
       image.setSource(sourceB);
       this.assertFalse(qx.io.ImageLoader.isLoaded(sourceA), "SourceA should not be loaded after source change!");
+    },
+
+
+    testLoadedEventForUnmanagedImage : function() 
+    {
+      var source = "../resource/qx/icon/Tango/16/places/folder.png?"+ Date.now();
+      this.assertFalse(qx.io.ImageLoader.isLoaded(source), "Image already loaded, but this should not happen!");
+
+      var image = new qx.ui.basic.Image();
+      // spy the load event, it must be called twice at the end of this test
+      var spyhandler = this.spy();
+      image.addListener("loaded", spyhandler, this);
+
+      // load first time
+      image.setSource(source);
+
+      // load second time
+      image.addListenerOnce("loaded", function(){
+        image.resetSource();
+        image.setSource(source);
+
+        // load thrice
+        image.resetSource();
+        image.setSource(source);
+      }, this);
+
+      this.wait(500, function(){
+        //even if we called setSource thrice, the loaded event must be called only twice
+        this.assertCalledTwice(spyhandler);
+        // use a timeout to dipose the image because it needs to
+        // end its processing after the event has been fired.
+        window.setTimeout(function() {
+          image.destroy();
+        });
+      }.bind(this));
+    },
+
+
+    testLoadedEventForManagedImage : function() 
+    {
+      var source = "qx/icon/Tango/48/places/folder.png";
+      var image = new qx.ui.basic.Image();
+      // spy the load event, it must be called twice at the end of this test
+      var spyhandler = this.spy();
+      image.addListener("loaded", spyhandler, this);
+
+      // load first time
+      image.setSource(source);
+
+      // load second time
+      image.addListenerOnce("loaded", function(){
+        image.resetSource();
+        image.setSource(source);
+      }, this);
+
+      this.wait(500, function(){
+        this.assertCalledTwice(spyhandler);
+        // use a timeout to dipose the image because it needs to
+        // end its processing after the event has been fired.
+        window.setTimeout(function() {
+          image.destroy();
+        });
+      }.bind(this));
     }
   }
 });

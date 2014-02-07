@@ -156,19 +156,15 @@ qx.Class.define("qx.ui.basic.Image",
   events :
   {
     /**
-     * Fired if the image source can not be loaded.
-     *
-     * *Attention*: This event is only used for images which are loaded externally
-     * (aka unmanaged images).
+     * Fired if the image source can not be loaded. This event can only be 
+     * fired for the first loading of an unmanaged resource (external image). 
      */
     loadingFailed : "qx.event.type.Event",
 
 
     /**
-     * Fired if the image has been loaded.
-     *
-     * *Attention*: This event is only used for images which are loaded externally
-     * (aka unmanaged images).
+     * Fired if the image has been loaded. This is even true for managed 
+     * resources (images known by generator).
      */
     loaded : "qx.event.type.Event"
   },
@@ -189,6 +185,7 @@ qx.Class.define("qx.ui.basic.Image",
     __contentElements : null,
     __currentContentElement : null,
     __wrapper : null,
+    __requestId : 0,
 
 
     //overridden
@@ -454,19 +451,51 @@ qx.Class.define("qx.ui.basic.Image",
         element.tagNameHint = qx.bom.element.Decoration.getTagName(repeat, source);
       }
 
+      var contentEl = this.__getContentElement();
+
+      // Detect if the image registry knows this image
+      if (qx.util.ResourceManager.getInstance().has(source)) {
+        this.__setManagedImage(contentEl, source);
+        this.__fireLoadEvent();
+      } else if (qx.io.ImageLoader.isLoaded(source)) {
+        this.__setUnmanagedImage(contentEl, source);
+        this.__fireLoadEvent();
+      } else {
+        this.__loadUnmanagedImage(contentEl, source);
+      }
+    },
+
+
+    /**
+     * Helper function, which fires <code>loaded</code> event asynchronously.
+     * It emulates native <code>loaded</code> event of an image object. This 
+     * helper will be called, if you try to load a managed image or an 
+     * previously loaded unmanaged image.
+     */
+    __fireLoadEvent : function()
+    {
+      this.__requestId++;
+      qx.bom.AnimationFrame.request(function(rId){
+        // prevent firing of the event if source changed in the meantime
+        if (rId === this.__requestId) {
+          this.fireEvent("loaded");
+        }
+      }.bind(this, this.__requestId));
+    },
+
+
+    /**
+     * Returns the content element.
+     * @return {qx.html.Image} content element
+     */
+    __getContentElement : function()
+    {
       var contentEl = this.__currentContentElement;
       if (this.__wrapper) {
         contentEl = contentEl.getChild(0);
       }
 
-      // Detect if the image registry knows this image
-      if (qx.util.ResourceManager.getInstance().has(source)) {
-        this.__setManagedImage(contentEl, source);
-      } else if (qx.io.ImageLoader.isLoaded(source)) {
-        this.__setUnmanagedImage(contentEl, source);
-      } else {
-        this.__loadUnmanagedImage(contentEl, source);
-      }
+      return contentEl;
     },
 
 
@@ -568,7 +597,7 @@ qx.Class.define("qx.ui.basic.Image",
           // force re-application of source so __setSource is called again
           var hint = newEl.getNodeName();
           newEl.setSource(null);
-          var currentEl = this.__wrapper ? this.__currentContentElement.getChild(0) : this.__currentContentElement;
+          var currentEl = this.__getContentElement();
           newEl.tagNameHint = hint;
           newEl.setAttribute("class", currentEl.getAttribute("class"));
 
@@ -785,8 +814,8 @@ qx.Class.define("qx.ui.basic.Image",
         this.fireEvent("loaded");
       }
 
-      // Update image (again)
-      this._styleSource();
+      // Update image
+      this.__setUnmanagedImage(this.__getContentElement(), source);
     },
 
 
@@ -818,6 +847,10 @@ qx.Class.define("qx.ui.basic.Image",
 
   destruct : function() {
     delete this.__currentContentElement;
+    if (this.__wrapper) {
+      delete this.__wrapper;
+    }
+
     this._disposeMap("__contentElements");
   }
 });
