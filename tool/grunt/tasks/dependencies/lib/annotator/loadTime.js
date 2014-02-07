@@ -51,23 +51,23 @@ function isImmediateCall(node) {
  * Annotate escopes with load-/run-time marks.
  */
 function annotate(scope, parent_load) {
-    var node = scope.block;
-    if (scope.type === 'global') {
+  var node = scope.block;
+  if (scope.type === 'global') {
+    scope[annotateKey] = true;
+  } else if (scope.type === 'function') {
+    if (isDeferFunction(node)) {
       scope[annotateKey] = true;
-    } else if (scope.type === 'function') {
-      if (isDeferFunction(node)) {
-        scope[annotateKey] = true;
-      } else if (isImmediateCall(node)) {
-        scope[annotateKey] = parent_load; // inherit
-      } else {
-        scope[annotateKey] = false;
-      }
-    } else {
+    } else if (isImmediateCall(node)) {
       scope[annotateKey] = parent_load; // inherit
+    } else {
+      scope[annotateKey] = false;
     }
-    for (var cld in scope.childScopes) {
-      annotate(scope.childScopes[cld], scope[annotateKey]);
-    }
+  } else {
+    scope[annotateKey] = parent_load; // inherit
+  }
+  for (var cld in scope.childScopes) {
+    annotate(scope.childScopes[cld], scope[annotateKey]);
+  }
 }
 
 module.exports = {

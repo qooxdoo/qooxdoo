@@ -20,62 +20,62 @@ var qxCoreEnvCode = "";
  */
 function getFeatureTable(classCode) {
 
-    function is_feature_map (node) {
-        return (node.type === "Property"
-            && node.key.type === "Identifier"
-            && node.key.name === "_checksMap"
-            && node.value.type ===  "ObjectExpression"
-            /*
-            && node.parent
-            && node.parent.type == "Property"
-            && node.parent.key.type == "Identifier"
-            && node.parent.key.name == "statics"
-            */
-        );
+  function is_feature_map (node) {
+    return (node.type === "Property"
+      && node.key.type === "Identifier"
+      && node.key.name === "_checksMap"
+      && node.value.type ===  "ObjectExpression"
+      /*
+      && node.parent
+      && node.parent.type == "Property"
+      && node.parent.key.type == "Identifier"
+      && node.parent.key.name == "statics"
+      */
+    );
+  }
+
+  var feature_map = {};
+  // parse classCode
+  var etree = esprima.parse(classCode);
+  //parentAnnotator.annotate(etree);
+
+  // search feature map
+  var controller = new estraverse.Controller();
+  controller.traverse(etree, {
+    enter : function (node, parent) {
+      if (is_feature_map(node)) {
+        feature_map = node.value;
+      }
     }
-
-    var feature_map = {};
-    // parse classCode
-    var etree = esprima.parse(classCode);
-    //parentAnnotator.annotate(etree);
-
-    // search feature map
-    var controller = new estraverse.Controller();
-    controller.traverse(etree, {
-        enter : function (node, parent) {
-            if (is_feature_map(node)) {
-                feature_map = node.value;
-            }
-        }
-    });
-    return eval('(' + escodegen.generate(feature_map) + ')');
+  });
+  return eval('(' + escodegen.generate(feature_map) + ')');
 }
 
 function findVariantNodes(etree) {
-    var result = [];
-    var interestingEnvMethods = {
-        "select"      : true,
-        "selectAsync" : true,
-        "get"         : true,
-        "getAsync"    : true,
-        "filter"      : true
-    };
+  var result = [];
+  var interestingEnvMethods = {
+    "select"      : true,
+    "selectAsync" : true,
+    "get"         : true,
+    "getAsync"    : true,
+    "filter"      : true
+  };
 
-    // walk etree
-    var controller = new estraverse.Controller();
-    controller.traverse(etree, {
-        enter : function (node, parent) {
-            // pick calls to qx.core.Environment.get|select|filter
-            if (node.type === 'CallExpression'
-                && get(node, "callee.object.object.object.name") === 'qx'
-                && get(node, "callee.object.object.property.name") === 'core'
-                && get(node, "callee.object.property.name") === 'Environment'
-                && get(node, "callee.property.name") in interestingEnvMethods) {
-                result.push(node);
-            }
-        }
-    });
-    return result;
+  // walk etree
+  var controller = new estraverse.Controller();
+  controller.traverse(etree, {
+    enter : function (node, parent) {
+      // pick calls to qx.core.Environment.get|select|filter
+      if (node.type === 'CallExpression'
+          && get(node, "callee.object.object.object.name") === 'qx'
+          && get(node, "callee.object.object.property.name") === 'core'
+          && get(node, "callee.object.property.name") === 'Environment'
+          && get(node, "callee.property.name") in interestingEnvMethods) {
+            result.push(node);
+      }
+    }
+  });
+  return result;
 }
 
 function addLoadRunInformation(nodes, scopes) {
@@ -117,14 +117,14 @@ function addEnvCallDependency(fqMethodName, node, result) {
  * Get the 'get' from a qx.core.Environment.get call.
  */
 function getEnvMethod(call_node) {
-    // brute force, expecting 'CallExpression'
-    return get(call_node, "callee.property.name");
+  // brute force, expecting 'CallExpression'
+  return get(call_node, "callee.property.name");
 
 }
 
 /** Get the 'foo' from a qx.core.Environment.*('foo') call. */
 function getEnvKey(call_node) {
-    return get(call_node, "arguments.0.value");
+  return get(call_node, "arguments.0.value");
 }
 
 function getClassCode() {
@@ -140,44 +140,44 @@ function getClassCode() {
  * qx.core.Environment.* calls
  */
 function extract(etree, scopes, withMethodName) {
-    var result = {
-      "load": [],
-      "run": []
-    };
-    var featureToClass = {};
-    var envCallNodes = [];
+  var result = {
+    "load": [],
+    "run": []
+  };
+  var featureToClass = {};
+  var envCallNodes = [];
 
-    withMethodName = withMethodName || false;
-    qxCoreEnvCode = qxCoreEnvCode || getClassCode();
-    featureToClass = getFeatureTable(qxCoreEnvCode); // { "plugin.flash" : "qx.bom.client.Flash#isAvailable" }
+  withMethodName = withMethodName || false;
+  qxCoreEnvCode = qxCoreEnvCode || getClassCode();
+  featureToClass = getFeatureTable(qxCoreEnvCode); // { "plugin.flash" : "qx.bom.client.Flash#isAvailable" }
 
-    envCallNodes = findVariantNodes(etree);
+  envCallNodes = findVariantNodes(etree);
 
-    if (envCallNodes.length >= 1) {
-      envCallNodes = addLoadRunInformation(envCallNodes, scopes);
-      envCallNodes.forEach(function (node) {
-        if (getEnvMethod(node) in {select:1, get:1, filter:1}) {
-          // extract environment key
-          var env_key = getEnvKey(node);
-          // look up corresponding feature class
-          var fqMethodName = featureToClass[env_key];
-          if (fqMethodName) {
-            // add to result
-            // console.log("Found: " + env_key + " : " + featureToClass[env_key]);
-            if (!withMethodName) {
-              var posOfLastDot = fqMethodName.lastIndexOf('.');
-              result = addEnvCallDependency(fqMethodName.substr(0, posOfLastDot), node, result);
-            } else {
-              result = addEnvCallDependency(fqMethodName, node, result);
-            }
+  if (envCallNodes.length >= 1) {
+    envCallNodes = addLoadRunInformation(envCallNodes, scopes);
+    envCallNodes.forEach(function (node) {
+      if (getEnvMethod(node) in {select:1, get:1, filter:1}) {
+        // extract environment key
+        var env_key = getEnvKey(node);
+        // look up corresponding feature class
+        var fqMethodName = featureToClass[env_key];
+        if (fqMethodName) {
+          // add to result
+          // console.log("Found: " + env_key + " : " + featureToClass[env_key]);
+          if (!withMethodName) {
+            var posOfLastDot = fqMethodName.lastIndexOf('.');
+            result = addEnvCallDependency(fqMethodName.substr(0, posOfLastDot), node, result);
+          } else {
+            result = addEnvCallDependency(fqMethodName, node, result);
           }
         }
-      });
-    }
+      }
+    });
+  }
 
-    return result;
+  return result;
 }
 
 module.exports = {
-    extract : extract
+  extract : extract
 };
