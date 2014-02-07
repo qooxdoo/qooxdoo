@@ -86,18 +86,22 @@ img.no-content {
 
 // Android ICS (4.0 - 4.0.4) Fix for input field overlay bug
 // See: https://code.google.com/p/android/issues/detail?id=30964
-.text-field:not(.selectbox), .number-field, .password-field {
-  -webkit-user-modify: read-write-plaintext-only;
-  -webkit-tap-highlight-color:rgba(0,0,0,0);
-  outline-style: none;
+.root.android.v4 {
+  .text-field:not(.selectbox), .number-field, .password-field {
+    -webkit-user-modify: read-write-plaintext-only;
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
+    outline-style: none;
+  }
 }
 
 // Android 2.x Fix for password field overlay bug
 // See: http://stackoverflow.com/questions/9423101/disable-android-browsers-input-overlays
-.root.android.v2 .password-field {
-  position:relative;
-  top:-10000px;
-  @include transform(translate3d(0,10000px,0));
+.root.android.v2 {
+  .text-field:not(.selectbox), .number-field, .password-field {
+    position:relative;
+    top:-10000px;
+    @include transform(translate3d(0,10000px,0));
+  }
 }
 
 // IOS BUGFIXES
