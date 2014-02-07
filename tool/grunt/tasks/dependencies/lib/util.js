@@ -43,10 +43,16 @@ function concat(sList, tList) {
  *
  *  "foo/bar/qx/Foo/Bar.js" => "qx.Foo.Bar"
  */
-function classNameFrom(filePath) {
-  var qxPos = filePath.indexOf("qx");
-  var fqClassName = filePath.substr(qxPos).replace(/\//g, ".").replace(".js", "");
-  return fqClassName;
+function classNameFrom(filePath, basePath) {
+  // bear in mind
+  //  * ${APPLICATION}              => {appname}
+  //  * ${APPLICATION_MAIN_CLASS}   => {appname}.Application
+  //  * ${QXTHEME}                  => {appname}.theme.Theme
+  if (basePath) {
+    basePath = basePath[basePath.length-1] === "/" ? basePath : basePath + "/";
+    filePath.replace(basePath, "");
+  }
+  return filePath.replace(/\//g, ".").replace(".js", "");
 }
 
 /**
@@ -56,7 +62,9 @@ function classNameFrom(filePath) {
  */
 function filePathFrom(className, basePath) {
   var path = className.replace(/\./g, "/") + ".js";
-  basePath = basePath[basePath.length-1] === "/" ? basePath : basePath + "/";
+  basePath = (basePath)
+             ? basePath[basePath.length-1] === "/" ? basePath : basePath + "/"
+             : "";
   return basePath + path;
 }
 
