@@ -39,7 +39,7 @@
  *     alert("Button was clicked");
  *   }, this);
  *
- *   this.getRoot.add(button);
+ *   this.getRoot().add(button);
  * </pre>
  *
  * This example creates a button with the label "Hello World" and attaches an
