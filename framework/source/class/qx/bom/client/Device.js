@@ -84,7 +84,7 @@ qx.Bootstrap.define("qx.bom.client.Device",
      * @return {String} The device type name of determined device: "mobile","desktop","tablet"
      */
     detectDeviceType : function(userAgentString) {
-      var deviceTypeByDPI = this.detectDeviceTypeByDPI();
+      var deviceTypeByDPI = qx.bom.client.Device.detectDeviceTypeByDPI();
       if (deviceTypeByDPI) {
         return deviceTypeByDPI;
       } else if (qx.bom.client.Device.detectTabletDevice(userAgentString)) {
