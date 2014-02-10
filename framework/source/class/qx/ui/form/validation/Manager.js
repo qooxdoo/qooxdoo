@@ -452,7 +452,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * @param value {Boolean|null} The new valid value of the manager.
      */
     __setValid: function(value) {
-      this.__showToolTip(value);
+      this._showToolTip(value);
       var oldValue = this.__valid;
       this.__valid = value;
       // check for the change event
@@ -467,7 +467,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * widgets based on qx.ui.core.Widget.
      * @param valid {Boolean} <code>false</code>, if the tooltip should be shown
      */
-    __showToolTip : function(valid) {
+    _showToolTip : function(valid) {
       // ignore if we don't have a tooltip manager e.g. mobile apps
       if (!qx.ui.tooltip || !qx.ui.tooltip.Manager) {
         return;
