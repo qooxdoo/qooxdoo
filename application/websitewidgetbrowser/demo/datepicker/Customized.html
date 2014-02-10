@@ -1,0 +1,14 @@
+<input id="datepicker-customized"></input>
+
+
+<script type="text/javascript">
+ var picker = q("#datepicker-customized").datepicker();
+ picker.setConfig("format", function(date) {
+  return date.toDateString();
+ });
+
+ picker.getCalendar().setConfig('minDate', new Date());
+ picker.getCalendar().setConfig('selectableWeekDays', [ 1, 2, 3, 4, 5 ]);
+
+ picker.render();
+</script>
