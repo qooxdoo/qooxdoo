@@ -37,7 +37,7 @@ qx.Class.define("qx.ui.form.Form",
     this.__groups = [];
     this._buttons = [];
     this._buttonOptions = [];
-    this._validationManager = new qx.ui.form.validation.Manager();
+    this._validationManager = this._createValidationManager();
     this._resetter = this._createResetter();
   },
 
@@ -406,6 +406,18 @@ qx.Class.define("qx.ui.form.Form",
     },
 
 
+    /**
+     * Creates and returns the used validation manager class.
+     *
+     * @return {qx.ui.form.validation.Manager} the validation manager class.
+     *
+     * @internal
+     */
+    _createValidationManager : function() {
+      return new qx.ui.form.validation.Manager();
+    },
+    
+    
     /**
      * Creates and returns the used resetter class.
      *
