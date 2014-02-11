@@ -407,23 +407,19 @@ qx.Class.define("qx.ui.form.Form",
 
 
     /**
-     * Creates and returns the used validation manager class.
+     * Creates and returns the used validation manager.
      *
-     * @return {qx.ui.form.validation.Manager} the validation manager class.
-     *
-     * @internal
+     * @return {qx.ui.form.validation.Manager} The validation manager.
      */
     _createValidationManager : function() {
       return new qx.ui.form.validation.Manager();
     },
-    
-    
+
+
     /**
-     * Creates and returns the used resetter class.
+     * Creates and returns the used resetter.
      *
      * @return {qx.ui.form.Resetter} the resetter class.
-     *
-     * @internal
      */
     _createResetter : function() {
       return new qx.ui.form.Resetter();
