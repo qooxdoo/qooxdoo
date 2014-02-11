@@ -129,7 +129,7 @@ function getEnvKey(call_node) {
 
 function getClassCode() {
   return fs.readFileSync(fs.realpathSync(
-    path.join(__dirname, "../../../../../framework/source/class/qx/core/Environment.js")),
+    path.join(__dirname, "../../../../../../framework/source/class/qx/core/Environment.js")),
     {encoding: "utf-8"});
 }
 

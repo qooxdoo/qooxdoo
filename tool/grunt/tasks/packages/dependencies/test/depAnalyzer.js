@@ -1,7 +1,4 @@
 'use strict';
-
-var grunt = require('grunt');
-
 /*
   ======== A Handy Little Nodeunit Reference ========
   https://github.com/caolan/nodeunit
@@ -61,7 +58,7 @@ exports.dependencies = {
 
     classesDeps = depAnalyzer.collectDepsRecursive(
       ['/Users/rsternagel/workspace/depTest/source/class/',
-       '../../../../framework/source/class/'],
+       '../../../../../framework/source/class/'],
       ['depTest/Application.js',
        'depTest/theme/Theme.js'],
       { "deptest": "depTest" }
