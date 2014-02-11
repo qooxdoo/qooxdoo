@@ -84,45 +84,13 @@ qx.Bootstrap.define("qx.bom.client.Device",
      * @return {String} The device type name of determined device: "mobile","desktop","tablet"
      */
     detectDeviceType : function(userAgentString) {
-      var deviceTypeByDPI = this.detectDeviceTypeByDPI();
-      if (deviceTypeByDPI) {
-        return deviceTypeByDPI;
-      } else if (qx.bom.client.Device.detectTabletDevice(userAgentString)) {
+      if(qx.bom.client.Device.detectTabletDevice(userAgentString)){
         return "tablet";
-      } else if (qx.bom.client.Device.detectMobileDevice(userAgentString)) {
+      } else if (qx.bom.client.Device.detectMobileDevice(userAgentString)){
         return "mobile";
       }
 
       return "desktop";
-    },
-
-
-    /**
-    * Detects the device type based upon the device dpi.
-    * @return {String|null} the device type if dpi could be detected or null.
-    */
-    detectDeviceTypeByDPI : function() {
-      if (window.matchMedia) {
-        for (var i = 90; i < 300; i = i + 10) {
-          if (window.matchMedia("(max-resolution:" + i + "dpi)").matches) {
-            var score;
-            if (document.body.offsetWidth < document.body.offsetHeight) {
-              score = document.body.offsetWidth / i;
-            } else {
-              score = document.body.offsetHeight / i;
-            }
-
-            if (score < 3.25) {
-              return "mobile";
-            } else if (score <= 8) {
-              return "tablet";
-            } else {
-              return "desktop";
-            }
-          }
-        }
-      }
-      return null;
     },
 
 
