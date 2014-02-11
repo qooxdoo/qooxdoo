@@ -1,16 +1,6 @@
 'use strict';
 
-var path = require('path');
-
 var grunt = require('grunt');
-var esprima = require('esprima');
-var doctrine = require('doctrine');
-var Toposort = require('toposort-class');
-var _ = require('underscore');
-
-var parentAnnotator = require('../lib/annotator/parent');
-var classNameAnnotator = require('../lib/annotator/className');
-var util = require('../lib/util');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -57,85 +47,27 @@ exports.dependencies = {
     test.done();
   },
   */
-  analyze_tree : function (test) {
+  getClassListLoadOrder : function (test) {
     var depAnalyzer = require('../lib/depAnalyzer.js');
+    var classListLoadOrder = [];
     var classesDeps = {};
 
-    // dynamic => self discovering (recursive) with class entry point
-    var collectDepsDynamic = function(basePaths, initFilePaths, namespacePathMap) {
-      var classesDeps = {};
-      var namespacePathMap = namespacePathMap || {};
+    // classesDeps = depAnalyzer.collectDepsRecursive(
+    //   ['../../../../framework/source/class/'], ['qx/dev/StackTrace.js']
+    // );
+    // classesDeps = depAnalyzer.collectDepsRecursive(
+    //   ['../../../../framework/source/class/'], ['qx/event/GlobalError.js']
+    // );
 
-      var getMatchingPath = function(basePaths, filePath) {
-        for (var i=0; i<basePaths.length; i++) {
-          if (grunt.file.exists(basePaths[i], filePath)) {
-            return basePaths[i];
-          }
-        }
-      };
+    classesDeps = depAnalyzer.collectDepsRecursive(
+      ['/Users/rsternagel/workspace/depTest/source/class/',
+       '../../../../framework/source/class/'],
+      ['depTest/Application.js',
+       'depTest/theme/Theme.js'],
+      { "deptest": "depTest" }
+    );
 
-      var getClassNamesFromPaths = function(filePaths) {
-        return filePaths.map(function(path) {
-          return util.classNameFrom(path);
-        });
-      };
-
-      var recurse = function(basePaths, shortFilePaths, seenClasses) {
-        for (var i=0; i<shortFilePaths.length; i++) {
-          var shortFilePath = shortFilePaths[i];
-          var curBasePath = getMatchingPath(basePaths, shortFilePath);
-          var curFullPath = path.join(curBasePath, shortFilePath);
-          var jsCode = grunt.file.read(curFullPath);
-          var tree = esprima.parse(jsCode, {comment: true, loc: true});
-          var classDeps = {
-            'load': [],
-            'run': []
-          };
-
-          parentAnnotator.annotate(tree);
-          classNameAnnotator.annotate(tree, shortFilePath);
-
-          classDeps = depAnalyzer.analyze(tree, {flattened: false});
-
-          for (var namespacePath in namespacePathMap) {
-            shortFilePath = shortFilePath.replace(namespacePathMap[namespacePath], namespacePath);
-          }
-
-          var className = util.classNameFrom(shortFilePath);
-          classesDeps[className] = classDeps;
-
-          var loadAndRun = classDeps.load.concat(classDeps.run);
-          for (var j=0; j<loadAndRun.length; j++) {
-            var dep = loadAndRun[j];
-
-            if (seenClasses.indexOf(dep) === -1) {
-              seenClasses.push(dep);
-
-              var depShortFilePath = util.filePathFrom(dep);
-              recurse(basePaths, [depShortFilePath], seenClasses);
-            }
-          }
-
-        }
-        return classesDeps;
-      };
-
-      // start with initFilePaths and corresponding classes
-      return recurse(basePaths, initFilePaths, getClassNamesFromPaths(initFilePaths));
-    };
-
-    // classesDeps = collectDepsDynamic(['../../../../framework/source/class/'], ['qx/dev/StackTrace.js']);
-    // classesDeps = collectDepsDynamic(['../../../../framework/source/class/'], ['qx/event/GlobalError.js']);
-    classesDeps = collectDepsDynamic(['/Users/rsternagel/workspace/depTest/source/class/',
-                                      '../../../../framework/source/class/'],
-                                     ['depTest/Application.js', 'depTest/theme/Theme.js'],
-                                     { "deptest": "depTest" });
-
-    var tsort = new Toposort();
-    for (var clazz in classesDeps) {
-      tsort.add(clazz, classesDeps[clazz].load);
-    }
-    var classListLoadOrder = tsort.sort().reverse();
+    classListLoadOrder = depAnalyzer.sortDepsTopologically(classesDeps, "load");
 
     console.log(classesDeps);
     console.log(classListLoadOrder, classListLoadOrder.length);

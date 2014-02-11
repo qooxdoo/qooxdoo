@@ -27,15 +27,24 @@
 // Requirements
 //------------------------------------------------------------------------------
 
+// native
+var fs = require('fs');
+var path = require('path');
+
+// third party
+var esprima = require('esprima');
 var escope = require('escope');
 var escodegen = require('escodegen');
 var doctrine = require('doctrine');
+var Toposort = require('toposort-class');
 var _ = require('underscore');
 
 // not pretty (require internals of jshint) but works
 var js_builtins = require('../node_modules/jshint/src/vars');
 
+// local
 var parentAnnotator = require('./annotator/parent');
+var classNameAnnotator = require('./annotator/className');
 var loadTimeAnnotator = require('./annotator/loadTime');
 var qxCoreEnv = require('./qxCoreEnv');
 var util = require('./util');
@@ -464,7 +473,7 @@ function collectAtHintsFromComments(tree) {
  * @param tree {Object} AST from esprima
  * @returns {String[]}
  */
-function analyze(tree, opts) {
+function findUnresolvedDeps(tree, opts) {
   var deps = {
     'load' : [],
     'run' : [],
@@ -517,10 +526,87 @@ function analyze(tree, opts) {
   return (opts && opts.flattened ? deps.load.concat(deps.run) : deps);
 }
 
+// dynamic => self discovering (recursive) with class entry point
+function collectDepsRecursive(basePaths, initFilePaths, namespacePathMap) {
+  var classesDeps = {};
+  var namespacePathMap = namespacePathMap || {};
+
+  var getMatchingPath = function(basePaths, filePath) {
+    for (var i=0; i<basePaths.length; i++) {
+      if (fs.existsSync(path.join(basePaths[i], filePath))) {
+        return basePaths[i];
+      }
+    }
+  };
+
+  var getClassNamesFromPaths = function(filePaths) {
+    return filePaths.map(function(path) {
+      return util.classNameFrom(path);
+    });
+  };
+
+  var recurse = function(basePaths, shortFilePaths, seenClasses) {
+    for (var i=0; i<shortFilePaths.length; i++) {
+      var shortFilePath = shortFilePaths[i];
+      var curBasePath = getMatchingPath(basePaths, shortFilePath);
+      var curFullPath = path.join(curBasePath, shortFilePath);
+      var jsCode = fs.readFileSync(curFullPath, {encoding: 'utf8'});
+      var tree = esprima.parse(jsCode, {comment: true, loc: true});
+      var classDeps = {
+        'load': [],
+        'run': []
+      };
+
+      parentAnnotator.annotate(tree);
+      classNameAnnotator.annotate(tree, shortFilePath);
+
+      classDeps = findUnresolvedDeps(tree, {flattened: false});
+
+      for (var namespacePath in namespacePathMap) {
+        shortFilePath = shortFilePath.replace(namespacePathMap[namespacePath], namespacePath);
+      }
+
+      var className = util.classNameFrom(shortFilePath);
+      classesDeps[className] = classDeps;
+
+      var loadAndRun = classDeps.load.concat(classDeps.run);
+      for (var j=0; j<loadAndRun.length; j++) {
+        var dep = loadAndRun[j];
+
+        if (seenClasses.indexOf(dep) === -1) {
+          seenClasses.push(dep);
+
+          var depShortFilePath = util.filePathFrom(dep);
+          recurse(basePaths, [depShortFilePath], seenClasses);
+        }
+      }
+
+    }
+    return classesDeps;
+  };
+
+  // start with initFilePaths and corresponding classes
+  return recurse(basePaths, initFilePaths, getClassNamesFromPaths(initFilePaths));
+}
+
+function sortDepsTopologically(classesDeps, subkey) {
+    var tsort = new Toposort();
+    var classListLoadOrder = [];
+
+    for (var clazz in classesDeps) {
+      tsort.add(clazz, classesDeps[clazz][subkey]);
+    }
+    classListLoadOrder = tsort.sort().reverse();
+
+    return classListLoadOrder;
+}
+
 //------------------------------------------------------------------------------
 // Exports
 //------------------------------------------------------------------------------
 
 module.exports = {
-  analyze : analyze
+  findUnresolvedDeps : findUnresolvedDeps,
+  collectDepsRecursive : collectDepsRecursive,
+  sortDepsTopologically : sortDepsTopologically
 };
