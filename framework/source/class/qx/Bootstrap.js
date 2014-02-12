@@ -44,7 +44,7 @@ qx.Bootstrap = {
   {
     var splits = name.split(".");
     var part = splits[0];
-    var parent = this.__root && this.__root[part] ? this.__root : window;
+    var parent = qx.$$namespaceRoot && qx.$$namespaceRoot[part] ? qx.$$namespaceRoot : window;
 
     for (var i=0, len=splits.length-1; i<len; i++, part=splits[i])
     {
@@ -212,10 +212,6 @@ qx.Bootstrap.define("qx.Bootstrap",
 {
   statics :
   {
-    /** Root for create namespace. **/
-    __root : null,
-
-
     /** Timestamp of qooxdoo based application startup */
     LOADSTART : qx.$$start || new Date(),
 
@@ -292,7 +288,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @internal
      */
     setRoot : function(root) {
-      this.__root = root;
+      qx.$$namespaceRoot = root;
     },
 
     /**
