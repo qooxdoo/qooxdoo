@@ -36,19 +36,19 @@ qx.Class.define("qx.test.mobile.form.Slider",
         slider.nextValue();
       }, function(evt) {
         this.assertEquals(4, evt.getData());
-      });
+      }.bind(this));
 
       this.assertEventFired(slider, "changeValue", function() {
         slider.setValue(11);
       }, function(evt) {
         this.assertEquals(11, evt.getData());
-      });
+      }.bind(this));
 
       this.assertEventFired(slider, "changeValue", function() {
         slider.previousValue();
       }, function(evt) {
         this.assertEquals(7, evt.getData());
-      });
+      }.bind(this));
 
       slider.destroy();
     },
