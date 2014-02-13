@@ -76,8 +76,7 @@ var registerGeneratorJobsAsTasks = function(grunt, jobs, supersededJobs) {
 var registerNodeTasks = function(grunt, relSdkPath) {
   // TODO:
   //   * move to registerGeneratorJobs
-  //   * rename in tasks/generator
-  grunt.loadTasks(relSdkPath + '/tool/grunt/tasks/application');
+  grunt.loadTasks(relSdkPath + '/tool/grunt/tasks/generate');
   grunt.loadTasks(relSdkPath + '/tool/grunt/tasks/info/tasks');
 };
 
