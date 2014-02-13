@@ -47,6 +47,7 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     this.__manager = manager;
     this.__window = manager.getWindow();
     this.__root = this.__window.document;
+    this.__timerManager = qx.util.TimerManager.getInstance();
 
     // Initialize observers
     if (qx.event.handler.MouseEmulation.ON) {
@@ -95,6 +96,10 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     __lastPos : null,
     __impulseTimerId : null,
     __impulseRequestId : null,
+    __timerManager: null,
+    _delayedMouseDownEvent: null,
+    _mouseDownDelayTimerId: null,
+    _originalMouseDownEvent: null,
 
 
     // interface implementation
@@ -267,13 +272,20 @@ qx.Class.define("qx.event.handler.MouseEmulation",
      */
     __onTouchStart : function(e) {
       var target = e.getTarget();
-      var nativeEvent = this.__getDefaultFakeEvent(target, e.getAllTouches()[0]);
-      // do not fake mousedown on IE (Mouse Handler can take original event)
-      if (qx.core.Environment.get("event.touch")) {
-        if (!this.__fireEvent(nativeEvent, "mousedown", target)) {
-          e.preventDefault();
+      var nativeEvent = this._delayedMouseDownEvent = this.__getDefaultFakeEvent(target, e.getAllTouches()[0]);
+
+      this._originalMouseDownEvent = e;
+
+      // Delay the mouse down event until the touch-up was received or a or 80ms has elapsed.
+      // This allows to scroll a list without selection an item.
+      this._mouseDownDelayTimerId = this.__timerManager.start(function(){
+        if (qx.core.Environment.get("event.touch")) {
+          if (!this.__fireEvent(nativeEvent, "mousedown", target)) {
+            e.preventDefault();
+          }
         }
-      }
+      }, 0, this, null, 80);
+
       this.__lastPos = {x: nativeEvent.screenX, y: nativeEvent.screenY};
       this.__startPos = {x: nativeEvent.screenX, y: nativeEvent.screenY};
 
@@ -293,6 +305,14 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     __onTouchMove : function(e) {
       var target = e.getTarget();
       var nativeEvent = this.__getDefaultFakeEvent(target, e.getChangedTargetTouches()[0]);
+
+      // Cancel pending mouse down events
+      if(this._mouseDownDelayTimerId && this._delayedMouseDownEvent){
+        this.__timerManager.stop(this._mouseDownDelayTimerId);
+        this._delayedMouseDownEvent = null;
+        this._mouseDownDelayTimerId = null;
+        this._originalMouseDownEvent = null;
+      }
 
       // do not fake mousemove on IE (Mouse Handler can take original event)
       if (qx.core.Environment.get("event.touch")) {
@@ -336,6 +356,21 @@ qx.Class.define("qx.event.handler.MouseEmulation",
     __onTouchEnd : function(e) {
       var target = e.getTarget();
       var nativeEvent = this.__getDefaultFakeEvent(target, e.getChangedTargetTouches()[0]);
+
+      // Fire still pending mousedown event now
+      if(this._mouseDownDelayTimerId && this._delayedMouseDownEvent && this._originalMouseDownEvent){
+        this.__timerManager.stop(this._mouseDownDelayTimerId);
+
+        if (qx.core.Environment.get("event.touch")) {
+          if (!this.__fireEvent(this._delayedMouseDownEvent, "mousedown", target)) {
+            this._originalMouseDownEvent.preventDefault();
+          }
+        }
+
+        this._delayedMouseDownEvent = null;
+        this._mouseDownDelayTimerId = null;
+        this._originalMouseDownEvent = null;
+      }
 
       // do not fake mouseup on IE (Mouse Handler can take original event)
       if (qx.core.Environment.get("event.touch")) {
