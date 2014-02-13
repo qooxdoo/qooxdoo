@@ -557,9 +557,7 @@ function collectDepsRecursive(basePaths, initFilePaths, namespacePathMap) {
         'run': []
       };
 
-      parentAnnotator.annotate(tree);
       classNameAnnotator.annotate(tree, shortFilePath);
-
       classDeps = findUnresolvedDeps(tree, {flattened: false});
 
       for (var namespacePath in namespacePathMap) {
