@@ -3,6 +3,12 @@
 Tutorial Part 4.4.1: Automated UI Testing
 *****************************************
 
+.. note::
+
+    The Simulator component is based on Selenium RC, which is deprecated. It is thus no
+    longer supported and will be removed from the qooxdoo framework in the near future.
+    The `qxwebdriver-java library <https://github.com/qooxdoo/qxwebdriver-java/>`_ provides a more modern alternative based on Selenium RC's replacement, WebDriver.
+
 Having previously covered :doc:`unit testing </pages/desktop/tutorials/tutorial-part-4-4>`, it's time to take a look at qooxdoo's built-in facilities for automated UI testing. Over the course of this tutorial, we'll set up the required infrastructure and develop a test case that interacts with the tweets application from the previous tutorials.
 
 |Simulator executing a test suite|

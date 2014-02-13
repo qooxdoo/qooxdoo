@@ -1220,8 +1220,8 @@ and it will work from everywhere.
 
 .. _pages/tool/generator/generator_config_ref#simulate:
 
-simulate
-========
+simulate (deprecated)
+=====================
 
 Runs a suite of GUI tests (simulated interaction). Takes a map.
 

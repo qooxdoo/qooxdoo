@@ -67,8 +67,8 @@ Default Jobs
     * - profiling
       - includer job, to activate profiling
     * - simulation-build
-      - create a runner app for simulated interaction tests
-    * - simulation-run
+      - create a runner app for simulated interaction tests (deprecated)
+    * - simulation-run (deprecated)
       - launches simulated interaction tests generated with simulation-build
     * - source
       - create source version of current application
