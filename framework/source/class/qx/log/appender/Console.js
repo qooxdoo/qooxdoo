@@ -307,6 +307,15 @@ qx.Class.define("qx.log.appender.Console",
      */
     __onKeyPress : function(e)
     {
+      if (e instanceof qx.event.type.Tap) {
+        var target = e.getTarget();
+
+        if (target && target.className && target.className.indexOf("navigationbar") != -1) {
+          this.toggle();
+        }
+        return;
+      }
+
       var iden = e.getKeyIdentifier();
 
       // Console toggling
@@ -357,5 +366,6 @@ qx.Class.define("qx.log.appender.Console",
 
   defer : function(statics) {
     qx.event.Registration.addListener(document.documentElement, "keypress", statics.__onKeyPress, statics);
+    qx.event.Registration.addListener(document.documentElement, "longtap", statics.__onKeyPress, statics);
   }
 });

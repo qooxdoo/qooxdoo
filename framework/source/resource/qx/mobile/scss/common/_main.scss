@@ -76,6 +76,19 @@ img.no-content {
   @include touch-action(none);
 }
 
+// QOOXDOO CONSOLE
+
+.mobile .qxconsole {
+  width: 100%;
+  font-size: 13px;
+}
+
+.mobile .qxconsole .messages {
+  overflow:scroll !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+
 // ANDROID BUGFIXES
 
 // Bugfix for Android 2.x, adds a scale(1) to the element,

@@ -41,7 +41,8 @@ qx.Class.define("${Namespace}.Application",
       {
         // support native logging capabilities, e.g. Firebug for Firefox
         qx.log.appender.Native;
-        // support additional cross-browser console. Press F7 to toggle visibility
+        // support additional cross-browser console. 
+        // Trigger a "longtap" event on the navigation bar for opening it.
         qx.log.appender.Console;
       }
 
