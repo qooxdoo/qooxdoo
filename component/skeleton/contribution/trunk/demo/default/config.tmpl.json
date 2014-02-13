@@ -28,8 +28,6 @@
     "source-server",
     "source-server-reload",
     "source-httpd-config",
-    "simulation-build",
-    "simulation-run",
     "test",
     "test-source",
     "translation",
@@ -37,7 +35,7 @@
     "validate-manifest",
     "watch"
   ],
-  
+
   "default-job" : "source-hybrid",
 
   "let" :
@@ -45,20 +43,20 @@
     "APPLICATION"  : "${Namespace}.demo",
     "QOOXDOO_PATH" : "../../${REL_QOOXDOO_PATH}",
     "QXTHEME"      : "${Namespace}.demo.theme.Theme",
-    "API_EXCLUDE"  : ["qx.test.*", "$${APPLICATION}.theme.*", "$${APPLICATION}.test.*", "$${APPLICATION}.simulation.*"],
+    "API_EXCLUDE"  : ["qx.test.*", "$${APPLICATION}.theme.*", "$${APPLICATION}.test.*"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${Cache}",
     "ROOT"         : "."
   },
 
-  "config-warnings" : 
+  "config-warnings" :
   {
     "job-shadowing" : ["libraries"]
   },
 
   "jobs" :
   {
-    "libraries" : 
+    "libraries" :
     {
       "library" :
       [

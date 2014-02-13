@@ -11,7 +11,7 @@
 /**
  * This is the main application class of your custom application "${Name}".
  *
- * If you have added resources to your app, remove the first '@' in the 
+ * If you have added resources to your app, remove the first '@' in the
  * following line to make use of them.
  * @@asset(${Namespace}/*)
  *
@@ -33,7 +33,7 @@ qx.Class.define("${Namespace}.Application",
   members :
   {
     /**
-     * This method contains the initial application code and gets called 
+     * This method contains the initial application code and gets called
      * during startup of the application
      */
     main : function()
@@ -76,13 +76,7 @@ qx.Class.define("${Namespace}.Application",
       }
       if (opts) {
         opts = opts.replace(/\\\{/g, "{").replace(/\\\}/g, "}");
-        try {
-          opts = qx.lang.Json.parse(opts);
-        } catch(ex) {
-          var msg = ex.toString() + "\nMake sure none of the settings configured"
-          + " in simulation-run/environment contain paths with spaces!";
-          throw new Error(msg);
-        }
+        opts = qx.lang.Json.parse(opts);
         for (var prop in opts) {
           var value = opts[prop];
           if (typeof value == "string") {

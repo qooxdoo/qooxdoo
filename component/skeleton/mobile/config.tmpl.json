@@ -22,8 +22,6 @@
     "migration",
     "pretty",
     "profiling",
-    "simulation-build",
-    "simulation-run",
     "source",
     "source-all",
     "source-hybrid",
@@ -163,8 +161,7 @@
       "=exclude" :
       [
         "qx.test.*",
-        "$${APPLICATION}.test.*",
-        "$${APPLICATION}.simulation.*"
+        "$${APPLICATION}.test.*"
       ],
       "add-css" : [
         { "uri" : "./resource/$${MOBILE_THEME_PATH}" },
