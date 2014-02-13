@@ -17,11 +17,9 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-************************************************************************ */
-
 /**
  * Common interactions for widgets that inherit from {@link qx.core.Object}
+ * @deprecated{3.6}
  */
 qx.Class.define("simulator.qxwebdriver.interaction.core.Object", {
 

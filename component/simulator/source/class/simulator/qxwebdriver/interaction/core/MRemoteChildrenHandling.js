@@ -17,11 +17,9 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-************************************************************************ */
-
 /**
  * Interaction helpers for widgets that implement {@link qx.ui.core.MRemoteChildrenHandling}
+ * @deprecated{3.6}
  */
 qx.Class.define("simulator.qxwebdriver.interaction.core.MRemoteChildrenHandling", {
 

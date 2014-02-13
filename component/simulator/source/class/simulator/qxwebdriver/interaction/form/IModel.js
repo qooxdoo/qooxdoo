@@ -19,6 +19,7 @@
 
 /**
  * Interactions for widgets that implement {@link qx.ui.form.IModel}
+ * @deprecated{3.6}
  */
 qx.Class.define("simulator.qxwebdriver.interaction.form.IModel", {
 
