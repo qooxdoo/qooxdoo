@@ -35,8 +35,6 @@
       "build-script",
       "image-combine",
       "libraries",
-      "simulation-build",
-      "simulation-run",
       "translation"
     ],
 
@@ -245,41 +243,6 @@
       "=packages" : {}
     },
 
-
-    // -- Simulation Jobs ------------------------------------------------------
-
-    "simulation-run" :
-    {
-      "environment" :
-      {
-        "simulator.selServer"   : "${SELENIUM_SERVER}",
-        "simulator.selPort"     : "${SELENIUM_PORT}",
-        "simulator.testBrowser" : "${SELENIUM_BROWSER}",
-        "simulator.autHost"     : "${AUT_HOST}",
-        "simulator.autPath"     : "${AUT_PATH}",
-        "simulator.reportServer": "${SIMULATOR_REPORTSERVER}",
-        "simulator.applicationLog" : true,
-        "simulator.globalErrorLogging" : true
-      }
-    },
-
-    "simulation-build" :
-    {
-      "let" :
-      {
-        "SIMULATION_INCLUDE" : "feedreader.simulation.ria.*"
-      }
-    },
-
-    "simulation-build-mobile" :
-    {
-      "extend" : ["simulation-build"],
-
-      "let" :
-      {
-        "SIMULATION_INCLUDE" : "feedreader.simulation.mobile.*"
-      }
-    },
 
     // -- Image Jobs ------------------------------------------------------
 

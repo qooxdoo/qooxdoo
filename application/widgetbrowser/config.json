@@ -29,7 +29,7 @@
 
   "config-warnings" :
   {
-    "job-shadowing" : ["common", "simulation-run", "translation", "libraries"],
+    "job-shadowing" : ["common", "translation", "libraries"],
 
     "environment" : [ "non-literal-keys" ]
   },
@@ -151,21 +151,6 @@
           }
 
         }
-      }
-    },
-
-    "simulation-run" :
-    {
-      "environment" :
-      {
-        "simulator.selServer"   : "${SELENIUM_SERVER}",
-        "simulator.selPort"     : "${SELENIUM_PORT}",
-        "simulator.testBrowser" : "${SELENIUM_BROWSER}",
-        "simulator.autHost"     : "${AUT_HOST}",
-        "simulator.autPath"     : "${AUT_PATH}",
-        "simulator.reportServer": "${SIMULATOR_REPORTSERVER}",
-        "simulator.applicationLog" : true,
-        "simulator.globalErrorLogging" : true
       }
     }
 
