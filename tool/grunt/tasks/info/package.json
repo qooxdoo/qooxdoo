@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/qooxdoo/qooxdoo"
+    "url": "git://github.com/qooxdoo/qooxdoo.git"
   },
   "bugs": {
     "url": "http://bugzilla.qooxdoo.org/"
@@ -26,13 +26,13 @@
   ],
   "main": "Gruntfile.js",
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">= 0.10.0"
   },
   "scripts": {
     "test": "grunt test"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "~0.6.4",
+    "grunt-contrib-jshint": "~0.8.0",
     "grunt": "~0.4.2"
   },
   "peerDependencies": {
@@ -41,8 +41,6 @@
   "keywords": [
     "gruntplugin"
   ],
-  // before publishing create README.md
-  // (see other grunt plugins)
-  // then this can be removed
+  "//": "before publishing create README.md then this can be removed",
   "private" : true
 }
