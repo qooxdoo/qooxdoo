@@ -12,7 +12,7 @@
   [
     "watch"
   ],
-  
+
   "default-job" : "source-hybrid",
 
   "let" :
@@ -20,15 +20,15 @@
     "APPLICATION"  : "manual",
     "QOOXDOO_PATH" : "../..",
     "QXTHEME"      : "manual.theme.Theme",
-    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
+    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : "."
   },
 
-  "config-warnings" : 
+  "config-warnings" :
   {
-    "job-shadowing" : 
+    "job-shadowing" :
     [
       "watch"
     ]
@@ -36,12 +36,12 @@
 
   "jobs" :
   {
-    "watch" : 
+    "watch" :
     {
-      "watch-files" : 
+      "watch-files" :
       {
         "=paths" : [ "source" ],
-        "command" : 
+        "command" :
         {
           "line" : "sphinx-build -b html -d build/doctrees source build/html %(FILE)",
           "per-file" : true

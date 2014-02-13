@@ -21,8 +21,6 @@
     "migration",
     "pretty",
     "profiling",
-    "simulation-build",
-    "simulation-run",
     "source",
     "source-all",
     "source-hybrid",
@@ -56,7 +54,7 @@
       "build-script",
       "source-script"
     ],
-    
+
     "environment" : ["non-literal-keys"]
   },
 
@@ -164,8 +162,7 @@
       "=exclude" :
       [
         "qx.test.*",
-        "${APPLICATION}.test.*",
-        "${APPLICATION}.simulation.*"
+        "${APPLICATION}.test.*"
       ],
       "asset-let" : {
         "qx.mobile.platform" : [ "${PLATFORM}" ]
