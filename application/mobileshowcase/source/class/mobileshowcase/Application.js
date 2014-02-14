@@ -27,7 +27,7 @@
 
 /**
  * This is the main application class for the mobile showcase app.
- *
+ * @require(qx.log.appender.Console)
  * @asset(mobileshowcase/*)
  */
 qx.Class.define("mobileshowcase.Application",
@@ -58,8 +58,6 @@ qx.Class.define("mobileshowcase.Application",
       {
         // support native logging capabilities, e.g. Firebug for Firefox
         qx.log.appender.Native;
-        // support additional cross-browser console. Press F7 to toggle visibility
-        qx.log.appender.Console;
       }
 
       /*
