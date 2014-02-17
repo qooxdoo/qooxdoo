@@ -725,9 +725,26 @@ So in short, the ``ROOT``, ``BUILD_PATH``, ``API_INCLUDE`` and ``API_EXCLUDE`` m
 Variant-specific Builds
 -----------------------
 
-The *environment* configuration key allows you to create different variants from the same code base. Variants enable the selection and removal of code from the build version. A variant is a concrete build of your application with a specific set of environment values "wired in". Code not covered by this set of values is removed, so the resulting script code is leaner. We call this code *variant-optimized*. But as a consequence, such a variant usually cannot handle situations where other values of the same environment keys are needed. The generated code is *variant-specific*. The generator can create multiple variants in one go. Variants can be used to implement feature-based builds, or to remove debugging code from the build version. It is comparable to conditional compilation in C/C++.
+The *environment* configuration key allows you to create different variants
+from the same code base. Variants enable the selection and removal of code from
+the build version. A variant is a concrete build of your application with a
+specific set of environment values "wired in". Code not covered by this set of
+values is removed, so the resulting script code is leaner. We call this code
+*variant-optimized*. But as a consequence, such a variant usually cannot handle
+situations where other values of the same environment keys are needed. The
+generated code is *variant-specific*. The generator can create multiple
+variants in one go. Variants can be used to implement feature-based builds, or
+to remove debugging code from the build version. It is comparable to
+conditional compilation in C/C++.
 
-For any generation process of a build version of an app, there is a certain set of environment settings in effect. If variant optimization is turned on, code is variant-optimized by looking at certain calls to `qx.core.Environment <http://demo.qooxdoo.org/%{version}/apiviewer#qx.core.Environment>`__ that reference an environment key that has an existing setting. See the :ref:`optimization section <pages/tool/generator/generator_optimizations#variants>` for details about that.
+For any generation process of a build version of an app, there is a certain set
+of environment settings in effect. If variant optimization is turned on, code
+is variant-optimized by looking at certain calls to `qx.core.Environment
+<http://demo.qooxdoo.org/%{version}/apiviewer#qx.core.Environment>`__ that
+reference an environment key that has an existing setting. See the
+:ref:`optimization section
+<pages/tool/generator/generator_optimizations#variants>` for details about
+that.
 
 
 .. _pages/tool/generator/generator_config_articles#environment_multiple_go:
@@ -735,7 +752,14 @@ For any generation process of a build version of an app, there is a certain set 
 How to Create Multiple Variants in One Go
 -----------------------------------------
 
-The above section mentions the optimization for a single build output, where for each environment key there is exactly one value. (This is also how the qooxdoo run time sees the environment). The generator configuration has an additional feature attached to environment settings. If you specify **more than one** value for an environment key (in a list), the generator will automatically generate multiple output files. Each of the builds will be created with one of the values from the list in effect. Here is an example for such a configuration::
+The above section mentions the optimization for a single build output, where
+for each environment key there is exactly one value. (This is also how the
+qooxdoo run time sees the environment). The generator configuration has an
+additional feature attached to environment settings. If you specify **more than
+one** value for an environment key (in a list), the generator will
+automatically generate multiple output files. Each of the builds will be
+created with one of the values from the list in effect. Here is an example for
+such a configuration::
 
     "environment" : {
       "foo" : [13, 26],
@@ -743,9 +767,12 @@ The above section mentions the optimization for a single build output, where for
       "baz" : true
     }
 
-The environment set for producing the first build output would be ``{foo:13, bar:"hugo", baz:true}``, the set for the second ``{foo:26, bar:"hugo", baz:true}``.
+The environment set for producing the first build output would be ``{foo:13,
+bar:"hugo", baz:true}``, the set for the second ``{foo:26, bar:"hugo",
+baz:true}``.
 
-For configurations with multiple keys with lists as values, the process is repeated for any possible combination of values. E.g.
+For configurations with multiple keys with lists as values, the process is
+repeated for any possible combination of values. E.g.
 
 
 ::
@@ -766,9 +793,16 @@ would result in 4 runs with the following environment sets in effect:
 Caveat
 ------
 
-The special caveat when creating multiple build files in one go is that you need to adapt to this in the configuration of the **output file name**. If you have just a single output file name, every generated build script will be saved over the previous! I.e. the generator might produce multiple output files, but they are all stored under the same name, so what you get eventually is just the last of those output file.
+The special caveat when creating multiple build files in one go is that you
+need to adapt to this in the configuration of the **output file name**. If you
+have just a single output file name, every generated build script will be saved
+over the previous! I.e. the generator might produce multiple output files, but
+they are all stored under the same name, so what you get eventually is just the
+last of those output file.
 
-The cure is to hint to the generator to create different output files during processing. This is done by using a simple macro that reflects the current value of an environment key in the output file name.
+The cure is to hint to the generator to create different output files during
+processing. This is done by using a simple macro that reflects the current
+value of an environment key in the output file name.
 
 ::
 
@@ -786,10 +820,26 @@ The cure is to hint to the generator to create different output files during pro
 
 This will two output files in the *build/script* path, ``myapp_bar.js`` and ``myapp_baz.js``.
 
+However there are two additional catches:
+
+ * You can't generate a source version of the variant builds.
+ * The script path within ``build/index.html`` is wrong and has to be adapted
+   manually.
+
+During the build the ``index.html`` is copied from ``source/index.html`` to
+``build/index.html`` which references a script file named ``myapp.js``. But now
+you have two new files (``build/script/myapp_bar.js``,
+``build/script/myapp_baz.js``) and no ``build/script/myapp.js``.
+
+You can change the ``build/index.html`` manually but it gets overridden every
+time. This can be a workaround for the time being.
+
 .. _pages/tool/generator/generator_config_articles#browser-specific_builds:
 
 Browser-specific Builds
 -----------------------
 
-By predefining select environment keys, builds can be tailored towards specific clients. See the :ref:`Feature Configuration Editor article <pages/application/featureconfigeditor#featureconfigeditor>` for instructions.
+By predefining select environment keys, builds can be tailored towards specific
+clients. See the :ref:`Feature Configuration Editor article
+<pages/application/featureconfigeditor#featureconfigeditor>` for instructions.
 
