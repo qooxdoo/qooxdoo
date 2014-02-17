@@ -34,11 +34,22 @@ qx.Class.define("qx.util.format.NumberFormat",
 
   /**
    * @param locale {String} optional locale to be used
+   * @throws {Error} If the number of arguments !== 1 and the argument is not a string.
    */
   construct : function(locale)
   {
     this.base(arguments);
-    this.__locale = locale;
+    if (arguments.length > 0) {
+      if (arguments.length === 1) {
+        if (qx.lang.Type.isString(locale)) {
+          this.__locale = locale;
+        } else {
+          throw new Error("Wrong argument type. String is expected.");
+        }
+      } else {
+        throw new Error("Wrong number of arguments.");
+      }
+    }
   },
 
 

@@ -41,6 +41,41 @@ qx.Class.define("qx.test.util.NumberFormat",
       this.__nf.dispose();
     },
 
+    testNumberFormatConstructor: function() {
+      var wrongArgs = [null, undefined, NaN, Infinity, 1, {}, [], true],
+          correctArgs = ["de_DE"],
+          nf, i, len;
+
+      try {
+        nf = new qx.util.format.NumberFormat();
+      } catch (e) {
+        this.fail("Failed on an empty arguments list");
+      }
+
+      try {
+        nf = new qx.util.format.NumberFormat("de_DE", true);
+        this.fail("Did not fail on wrong arguments number");
+      } catch (e) {
+
+      }
+
+      for (i = 0, len= wrongArgs.length; i < len; i += 1) {
+        try {
+          nf = new qx.util.format.NumberFormat(wrongArgs[i]);
+          this.fail("A wrong argument did not raise an error: " + wrongArgs[i]);
+        } catch (e) {
+
+        }
+      }
+
+      for (i = 0, len= correctArgs.length; i < len; i += 1) {
+        try {
+          nf = new qx.util.format.NumberFormat(correctArgs[i]);
+        } catch (e) {
+          this.fail("A correct argument did raise an error: " + correctArgs[i]);
+        }
+      }
+    },
 
     testNumberFormat : function()
     {
