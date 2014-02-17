@@ -21,6 +21,7 @@
  * Connects the widgets to the browser DOM events.
  *
  * @require(qx.event.handler.Touch)
+ * @require(qx.event.handler.Pointer)
  * @require(qx.event.dispatch.DomBubbling)
  * @require(qx.ui.mobile.core.Widget)
  */
@@ -113,7 +114,14 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
       touchcancel : 1,
       tap : 1,
       longtap : 1,
-      swipe : 1
+      swipe : 1,
+
+      pointermove : 1,
+      pointerover : 1,
+      pointerout : 1,
+      pointerdown : 1,
+      pointerup : 1,
+      pointercancel : 1
     },
 
     /** @type {Integer} Whether the method "canHandleEvent" must be called */
