@@ -15,8 +15,9 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
   {
     this.__target = target;
     this.__emitter = emitter;
-    this._initPointerObserver();
     this.__pointerEventNames = [];
+
+    this._initPointerObserver();
   },
 
   members : {
@@ -37,10 +38,9 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           // IE 11+
           this.__pointerEventNames = ["pointerdown", "pointermove", "pointerup", "pointercancel"];
         }
-      }
-
-      for (var i = 0; i < this.__pointerEventNames.length; i++) {
-        qx.bom.Event.addNativeListener(this.__target, this.__pointerEventNames[i], this.__onPointerEventWrapper);
+        for (var i = 0; i < this.__pointerEventNames.length; i++) {
+          qx.bom.Event.addNativeListener(this.__target, this.__pointerEventNames[i], this.__onPointerEventWrapper);
+        }
       }
     },
 
