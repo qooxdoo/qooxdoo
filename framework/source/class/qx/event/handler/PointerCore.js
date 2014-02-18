@@ -27,6 +27,34 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
   extend : Object,
 
+  statics : {
+    MOUSE_TO_POINTER_MAPPING: {
+      mousedown: "pointerdown",
+      mouseup: "pointerup",
+      mousemove: "pointermove",
+      contextmenu: "pointerup",
+      mouseout: "pointerout",
+      mouseover: "pointerover"
+    },
+
+    MOUSE_PROPERTIES : {
+      bubbles : false,
+      cancelable : false,
+      view : null,
+      detail : null,
+      screenX : 0,
+      screenY : 0,
+      clientX : 0,
+      clientY : 0,
+      ctrlKey : false,
+      altKey : false,
+      shiftKey : false,
+      metaKey : false,
+      button : 0,
+      relatedTarget : null
+    }
+  },
+
   /**
    * Create a new instance
    *
@@ -37,35 +65,55 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
   {
     this.__target = target;
     this.__emitter = emitter;
-    this.__pointerEventNames = [];
-    this._initPointerObserver();
+    this.__eventNames = [];
+    this.__mousedown = false;
+    if (qx.core.Environment.get("event.mspointer")) {
+      this._initPointerObserver();
+    }
+    // else if (qx.core.Environment.get("device.touch")) {
+    //   this._initTouchObserver();
+    // }
+    else {
+      this._initMouseObserver();
+    }
   },
 
   members : {
 
     __emitter : null,
-    __pointerEventNames : null,
-    __onPointerEventWrapper : null,
+    __eventNames : null,
+    __wrappedListener : null,
+    __mousedown : null,
 
     /**
      * Adds listeners to native pointer events if supported
      */
     _initPointerObserver : function() {
-      if (qx.core.Environment.get("event.mspointer")) {
-        this.__onPointerEventWrapper = qx.lang.Function.listener(this._onPointerEvent, this);
+      this.__wrappedListener = qx.lang.Function.listener(this._onPointerEvent, this);
 
-        var engineVersion = parseInt(qx.core.Environment.get("engine.version"), 10);
-        if (engineVersion == 10) {
-          // IE 10
-          this.__pointerEventNames = ["MSPointerDown", "MSPointerMove", "MSPointerUp", "MSPointerCancel"];
-        } else {
-          // IE 11+
-          this.__pointerEventNames = ["pointerdown", "pointermove", "pointerup", "pointercancel"];
-        }
-        for (var i = 0; i < this.__pointerEventNames.length; i++) {
-          qx.bom.Event.addNativeListener(this.__target, this.__pointerEventNames[i], this.__onPointerEventWrapper);
-        }
+      var engineVersion = parseInt(qx.core.Environment.get("engine.version"), 10);
+      if (engineVersion == 10) {
+        // IE 10
+        this.__eventNames = ["MSPointerDown", "MSPointerMove", "MSPointerUp", "MSPointerCancel"];
+      } else {
+        // IE 11+
+        this.__eventNames = ["pointerdown", "pointermove", "pointerup", "pointercancel"];
       }
+      for (var i = 0; i < this.__eventNames.length; i++) {
+        qx.bom.Event.addNativeListener(this.__target, this.__eventNames[i], this.__wrappedListener);
+      }
+    },
+
+    _initTouchObserver : function() {
+      this.__wrappedListener = qx.lang.Function.listener(this._onTouchEvent, this);
+    },
+
+    _initMouseObserver : function() {
+      this.__eventNames = ["mousedown", "mouseup", "mousemove", "mouseover", "mouseout", "contextmenu"];
+      this.__wrappedListener = qx.lang.Function.listener(this._onMouseEvent, this);
+      this.__eventNames.forEach(function(type) {
+        qx.bom.Event.addNativeListener(this.__target, type, this.__wrappedListener);
+      }.bind(this));
     },
 
     /**
@@ -76,12 +124,64 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
     },
 
+    _onTouchEvent : function(domEvent) {
+
+    },
+
+    _onMouseEvent : function(domEvent) {
+      if (domEvent.type == "mousedown" && this.__mousedown) {
+        return;
+      }
+      if (domEvent.type == "contextmenu") {
+        this.__mousedown = false;
+      }
+      var type = qx.event.handler.PointerCore.MOUSE_TO_POINTER_MAPPING[domEvent.type];
+      var props = qx.lang.Object.clone(qx.event.handler.PointerCore.MOUSE_PROPERTIES);
+
+      var propNames = Object.keys(props);
+      for (var i=0; i<propNames.length; i++) {
+        if (typeof domEvent[propNames[i]] !== "undefined") {
+          props[propNames[i]] = domEvent[propNames[i]];
+        }
+      }
+
+      var evt = new MouseEvent(type);
+      evt.initMouseEvent(type, props.bubbles, props.cancelable, props.view, props.detail,
+        props.screenX, props.screenY, props.clientX, props.clientY, props.ctrlKey,
+        props.altKey, props.shiftKey, props.metaKey, props.button, props.relatedTarget);
+
+      var buttons;
+      switch (domEvent.which) {
+        case 1:
+          buttons = 1;
+          break;
+        case 2:
+          buttons = 4;
+          break;
+        case 3:
+          buttons = 2;
+          break;
+        default:
+          buttons = 0;
+      }
+      evt.buttons = buttons;
+
+      this._fireEvent(evt, type, domEvent.target);
+
+      if (type == "pointerdown") {
+        this.__mousedown = true;
+      }
+      else if (type == "pointerup") {
+        this.__mousedown = false;
+      }
+    },
+
     /**
      * Removes native pointer event listeners.
      */
-    _stopPointerObserver : function() {
-      for (var i = 0; i < this.__pointerEventNames.length; i++) {
-        qx.bom.Event.removeNativeListener(this.__target, this.__pointerEventNames[i], this.__onPointerEventWrapper);
+    _stopObserver : function() {
+      for (var i = 0; i < this.__eventNames.length; i++) {
+        qx.bom.Event.removeNativeListener(this.__target, this.__eventNames[i], this.__wrappedListener);
       }
     },
 
@@ -94,11 +194,8 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      */
     _fireEvent : function(domEvent, type, target)
     {
-      if (!target) {
-        target = this._getTarget(domEvent);
-      }
-
-      var type = type || domEvent.type;
+      target = target || domEvent.target;
+      type = type || domEvent.type;
 
       if (target && target.nodeType && this.__emitter)
       {
@@ -110,7 +207,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      * Dispose this object
      */
     dispose : function() {
-      this._stopPointerObserver();
+      this._stopObserver();
     }
   }
 });
