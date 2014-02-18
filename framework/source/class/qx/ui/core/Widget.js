@@ -179,9 +179,31 @@ qx.Class.define("qx.ui.core.Widget",
     /** Fired when a finger swipes over the screen. */
     swipe : "qx.event.type.Touch",
 
+    /** Fired if a pointer (mouse/touch/pen) moves or changes any of it's values. */
+    pointermove : "qx.event.type.Pointer",
+
+    /** Fired if a pointer (mouse/touch/pen) hovers the widget. */
+    pointerover : "qx.event.type.Pointer",
+
+    /** Fired if a pointer (mouse/touch/pen) leaves this widget. */
+    pointerout : "qx.event.type.Pointer",
+
     /**
-     * This event if fired if a keyboard key is released.
-     **/
+     * Fired if a pointer (mouse/touch/pen) button is pressed or
+     * a finger touches the widget.
+     */
+    pointerdown : "qx.event.type.Pointer",
+
+    /**
+     * Fired if all pointer (mouse/touch/pen) buttons are released or
+     * the finger is lifted from the widget.
+     */
+    pointerup : "qx.event.type.Pointer",
+
+    /** Fired if a pointer (mouse/touch/pen) action is canceled. */
+    pointercancel : "qx.event.type.Pointer",
+
+    /** This event if fired if a keyboard key is released. */
     keyup : "qx.event.type.KeySequence",
 
     /**
