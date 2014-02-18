@@ -139,12 +139,7 @@ qx.Class.define("qx.ui.form.TextArea",
       var contentElement = this.getContentElement();
       var scrollY = contentElement.getScrollY();
 
-      if (qx.event.handler.MouseEmulation.ON) {
-        contentElement.scrollToY(scrollY + e.getWheelDelta("y"));
-      } else {
-        contentElement.scrollToY(scrollY + e.getWheelDelta("y") * this.getSingleStep());
-      }
-
+      contentElement.scrollToY(scrollY + e.getWheelDelta("y") * this.getSingleStep());
 
       var newScrollY = contentElement.getScrollY();
 

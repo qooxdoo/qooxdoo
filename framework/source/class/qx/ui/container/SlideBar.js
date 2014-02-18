@@ -364,12 +364,7 @@ qx.Class.define("qx.ui.container.SlideBar",
           e.stop();
         }
       }
-      if (qx.event.handler.MouseEmulation.ON) {
-        this.scrollBy(delta);
-      } else {
-        this.scrollBy(delta * this.getScrollStep());
-      }
-
+      this.scrollBy(delta * this.getScrollStep());
     },
 
 

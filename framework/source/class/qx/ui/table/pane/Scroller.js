@@ -863,11 +863,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       } else if (delta < 0 && delta > -1) {
         delta = -1;
       }
-      if (qx.event.handler.MouseEmulation.ON) {
-        this.__verScrollBar.scrollBy(delta);
-      } else {
-        this.__verScrollBar.scrollBySteps(delta);
-      }
+      this.__verScrollBar.scrollBySteps(delta);
 
       var scrolled = delta != 0 && !this.__isAtEdge(this.__verScrollBar, delta);
 
@@ -879,11 +875,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       } else if (delta < 0 && delta > -1) {
         delta = -1;
       }
-      if (qx.event.handler.MouseEmulation.ON) {
-        this.__horScrollBar.scrollBy(delta);
-      } else {
-        this.__horScrollBar.scrollBySteps(delta);
-      }
+      this.__horScrollBar.scrollBySteps(delta);
 
       // Update the focus
       if (this.__lastMousePageX && this.getFocusCellOnMouseMove()) {

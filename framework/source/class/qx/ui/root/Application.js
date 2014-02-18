@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.root.Application",
     this.__doc = doc;
 
     // disable the tap highlight color for touch devices
-    if (qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse")) {
+    if (qx.core.Environment.get("event.touch")) {
       // only apply if the body is really already there (just in case)
       if (doc.body) {
         doc.body.style["WebkitTapHighlightColor"] = "rgba(0,0,0,0)";

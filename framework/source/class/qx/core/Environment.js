@@ -705,14 +705,9 @@
  *       <td>qx.dyntheme</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
-
  *     <tr>
  *       <td>qx.globalErrorHandling</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td><i>default:</i> <code>true</code></td>
- *     </tr>
- *     <tr>
- *       <td>qx.emulatemouse</td><td><i>Boolean</i></td><td><code>false</code></td>
- *       <td><i>default:</i> <code>false</code></td>
  *     </tr>
  *     <tr>
  *       <td>qx.mobile.emulatetouch</td><td><i>Boolean</i></td><td><code>false</code></td>
@@ -959,11 +954,16 @@ qx.Bootstrap.define("qx.core.Environment",
      *   (Details in the class doc)
      */
     get : function(key) {
-      // @deprecated {3.5}
       if (qx.Bootstrap.DEBUG) {
+        // @deprecated {3.5}
         if (key === "json") {
           qx.Bootstrap.warn("The environment key 'json' is deprecated " +
             "and will eventually be removed.");
+        }
+        // @deprecated {4.0}
+        if (key === "qx.emulatemouse") {
+          qx.Bootstrap.warn("The environment key 'qx.emulatemouse' has been removed. " +
+            "See the release notes for more details.");
         }
       }
       // check the cache
@@ -1270,7 +1270,7 @@ qx.Bootstrap.define("qx.core.Environment",
       this.add("qx.dynlocale", function() {return true;});
       this.add("qx.dyntheme", function() {return true;});
       this.add("qx.mobile.emulatetouch", function() {return false;});
-      this.add("qx.emulatemouse", function() {return false;});
+      this.add("qx.emulatemouse", function() {return false;}); // @deprecated {4.0}
       this.add("qx.blankpage", function() { return "qx/static/blank.html";});
 
       this.add("qx.dynamicmousewheel", function() {return true;});

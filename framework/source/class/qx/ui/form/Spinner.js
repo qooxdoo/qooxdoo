@@ -94,10 +94,7 @@ qx.Class.define("qx.ui.form.Spinner",
     // EVENTS
     this.addListener("keydown", this._onKeyDown, this);
     this.addListener("keyup", this._onKeyUp, this);
-    if (!(qx.event.handler.MouseEmulation.ON)) {
-      this.addListener("mousewheel", this._onMouseWheel, this);
-    }
-
+    this.addListener("mousewheel", this._onMouseWheel, this);
 
     if (qx.core.Environment.get("qx.dynlocale")) {
       qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);

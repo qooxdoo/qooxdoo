@@ -3018,9 +3018,6 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyDraggable : function(value, old)
     {
-      if (qx.event.handler.MouseEmulation.ON) {
-        return;
-      }
       if (!this.isEnabled() && value === true) {
         value = false;
       }

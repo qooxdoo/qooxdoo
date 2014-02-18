@@ -752,8 +752,6 @@ qx.Class.define("qx.event.handler.DragDrop",
   */
 
   defer : function(statics) {
-    if (!qx.event.handler.MouseEmulation.ON) {
-      qx.event.Registration.addHandler(statics);
-    }
+    qx.event.Registration.addHandler(statics);
   }
 });

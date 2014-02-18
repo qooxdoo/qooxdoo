@@ -62,9 +62,8 @@ qx.Class.define("qx.event.handler.Focus",
     this._body = this._document.body;
 
     // abstraction
-    var useTouch = qx.core.Environment.get("event.touch") && qx.event.handler.MouseEmulation.ON;
-    this.__down = useTouch ? "touchstart" : "mousedown";
-    this.__up = useTouch ? "touchend" : "mouseup";
+    this.__down = "mousedown";
+    this.__up = "mouseup";
 
     // Initialize
     this._initObserver();
@@ -820,19 +819,6 @@ qx.Class.define("qx.event.handler.Focus",
 
         if (focusTarget) {
           this.setFocus(focusTarget);
-          if (qx.core.Environment.get("event.touch") && qx.event.handler.MouseEmulation.ON) {
-            // use a timeout to make sure the kex inputs are working [#7867]
-            qx.event.GlobalError.observeMethod(window.setTimeout(function() {
-              try {
-                // if the element is already focused, blur and refocus
-                // it to make sure the keyboard is shown on tap
-                if (document.activeElement == focusTarget) {
-                  focusTarget.blur();
-                }
-                focusTarget.focus();
-              } catch(ex) {};
-            }, 200));
-          }
         } else {
           qx.bom.Event.preventDefault(domEvent);
         }

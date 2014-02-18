@@ -338,12 +338,8 @@ qx.Class.define("qx.ui.form.Slider",
       var axis = this.getOrientation() === "horizontal" ? "x" : "y";
       var delta = e.getWheelDelta(axis);
 
-      if (qx.event.handler.MouseEmulation.ON) {
-        this.slideBy(-delta);
-      } else {
-        var direction =  delta > 0 ? 1 : delta < 0 ? -1 : 0;
-        this.slideBy(direction * this.getSingleStep());
-      }
+      var direction =  delta > 0 ? 1 : delta < 0 ? -1 : 0;
+      this.slideBy(direction * this.getSingleStep());
 
       e.stop();
     },
