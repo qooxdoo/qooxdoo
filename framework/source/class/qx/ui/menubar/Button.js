@@ -158,7 +158,7 @@ qx.Class.define("qx.ui.menubar.Button",
     },
 
     // overridden
-    _onMouseUp : function(e)
+    _onPointerUp : function(e)
     {
       this.base(arguments, e);
 
@@ -170,11 +170,11 @@ qx.Class.define("qx.ui.menubar.Button",
     },
 
     /**
-     * Event listener for mouseover event
+     * Event listener for pointerover event
      *
-     * @param e {qx.event.type.Mouse} mouseover event object
+     * @param e {qx.event.type.Pointer} pointerover event object
      */
-    _onMouseOver : function(e)
+    _onPointerOver : function(e)
     {
       // Add hovered state
       this.addState("hovered");
