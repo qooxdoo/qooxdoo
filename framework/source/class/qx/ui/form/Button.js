@@ -20,7 +20,7 @@
 
 /**
  * A Button widget which supports various states and allows it to be used
- * via the mouse and the keyboard.
+ * via the mouse, touch, pen and the keyboard.
  *
  * If the user presses the button by clicking on it, or the <code>Enter</code> or
  * <code>Space</code> keys, the button fires an {@link qx.ui.core.MExecutable#execute} event.
@@ -77,17 +77,17 @@ qx.Class.define("qx.ui.form.Button",
     }
 
     // Add listeners
-    this.addListener("mouseover", this._onMouseOver);
-    this.addListener("mouseout", this._onMouseOut);
-    this.addListener("mousedown", this._onMouseDown);
-    this.addListener("mouseup", this._onMouseUp);
-    this.addListener("click", this._onClick);
+    this.addListener("pointerover", this._onPointerOver);
+    this.addListener("pointerout", this._onPointerOut);
+    this.addListener("pointerdown", this._onPointerDown);
+    this.addListener("pointerup", this._onPointerUp);
+    this.addListener("tab", this._onTab);
 
     this.addListener("keydown", this._onKeyDown);
     this.addListener("keyup", this._onKeyUp);
 
     // Stop events
-    this.addListener("dblclick", this._onStopEvent);
+    this.addListener("dbltab", this._onStopEvent);
   },
 
 
@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.form.Button",
     */
 
     /**
-     * Listener method for "mouseover" event
+     * Listener method for "pointerover" event
      * <ul>
      * <li>Adds state "hovered"</li>
      * <li>Removes "abandoned" and adds "pressed" state (if "abandoned" state is set)</li>
@@ -196,7 +196,7 @@ qx.Class.define("qx.ui.form.Button",
      *
      * @param e {Event} Mouse event
      */
-    _onMouseOver : function(e)
+    _onPointerOver : function(e)
     {
       if (!this.isEnabled() || e.getTarget() !== this) {
         return;
@@ -211,9 +211,20 @@ qx.Class.define("qx.ui.form.Button",
       this.addState("hovered");
     },
 
+    /**
+     * Former listener method for "mouseover" event.
+     * @deprecated {4.0} Please use pointer events instead.
+     */
+    _onMouseOver : function() {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "Please use '_onPointerDown' instead.");
+      }
+    },
+
 
     /**
-     * Listener method for "mouseout" event
+     * Listener method for "pointerout" event
      * <ul>
      * <li>Removes "hovered" state</li>
      * <li>Adds "abandoned" and removes "pressed" state (if "pressed" state is set)</li>
@@ -221,7 +232,7 @@ qx.Class.define("qx.ui.form.Button",
      *
      * @param e {Event} Mouse event
      */
-    _onMouseOut : function(e)
+    _onPointerOut : function(e)
     {
       if (!this.isEnabled() || e.getTarget() !== this) {
         return;
@@ -238,7 +249,19 @@ qx.Class.define("qx.ui.form.Button",
 
 
     /**
-     * Listener method for "mousedown" event
+     * Former listener method for "mouseout" event.
+     * @deprecated {4.0} Please use pointer events instead.
+     */
+    _onMouseOver : function() {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "Please use '_onPointerOut' instead.");
+      }
+    },
+
+
+    /**
+     * Listener method for "pointerdown" event
      * <ul>
      * <li>Removes "abandoned" state</li>
      * <li>Adds "pressed" state</li>
@@ -246,7 +269,7 @@ qx.Class.define("qx.ui.form.Button",
      *
      * @param e {Event} Mouse event
      */
-    _onMouseDown : function(e)
+    _onPointerDown : function(e)
     {
       if (!e.isLeftPressed()) {
         return;
@@ -254,7 +277,7 @@ qx.Class.define("qx.ui.form.Button",
 
       e.stopPropagation();
 
-      // Activate capturing if the button get a mouseout while
+      // Activate capturing if the button get a pointerout while
       // the button is pressed.
       this.capture();
 
@@ -264,7 +287,19 @@ qx.Class.define("qx.ui.form.Button",
 
 
     /**
-     * Listener method for "mouseup" event
+     * Former listener method for "mousedown" event.
+     * @deprecated {4.0} Please use pointer events instead.
+     */
+    _onMouseDown : function() {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "Please use '_onPointerDown' instead.");
+      }
+    },
+
+
+    /**
+     * Listener method for "pointerup" event
      * <ul>
      * <li>Removes "pressed" state (if set)</li>
      * <li>Removes "abandoned" state (if set)</li>
@@ -273,7 +308,7 @@ qx.Class.define("qx.ui.form.Button",
      *
      * @param e {Event} Mouse event
      */
-    _onMouseUp : function(e)
+    _onPointerUp : function(e)
     {
       this.releaseCapture();
 
@@ -302,13 +337,37 @@ qx.Class.define("qx.ui.form.Button",
 
 
     /**
+     * Former listener method for "mouseup" event.
+     * @deprecated {4.0} Please use pointer events instead.
+     */
+    _onMouseUp : function() {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "Please use '_onPointerUp' instead.");
+      }
+    },
+
+
+    /**
      * Listener method for "click" event which stops the propagation.
      *
      * @param e {qx.event.type.Mouse} Mouse event
      */
-    _onClick : function(e) {
+    _onTab : function(e) {
       e.stopPropagation();
     },
+
+
+    /**
+     * Former listener method for "click" event.
+     * @deprecated {4.0} Please use pointer events instead.
+     */
+    _onClick : function() {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "Please use '_onTab' instead.");
+      }
+    },    
 
 
     /**
