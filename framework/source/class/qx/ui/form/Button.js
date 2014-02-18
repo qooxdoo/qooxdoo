@@ -252,7 +252,11 @@ qx.Class.define("qx.ui.form.Button",
      * Former listener method for "mouseout" event.
      * @deprecated {4.0} Please use pointer events instead.
      */
+<<<<<<< HEAD
     _onMouseOver : function() {
+=======
+    _onMouseOut : function() {
+>>>>>>> [BUG #8117] Changed Button to use new pointer events.
       if (qx.core.Environment.get("qx.debug")) {
         qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
           "Please use '_onPointerOut' instead.");
