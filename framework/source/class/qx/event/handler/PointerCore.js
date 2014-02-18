@@ -1,4 +1,26 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2014 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Christopher Zuendorf (czuendorf)
+     * Daniel Wagner (danielwagner)
+
+************************************************************************ */
+
 /**
+ * Low-level pointer event handler.
+ *
  * @require(qx.bom.client.Event)
  */
 qx.Bootstrap.define("qx.event.handler.PointerCore", {
@@ -16,7 +38,6 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     this.__target = target;
     this.__emitter = emitter;
     this.__pointerEventNames = [];
-
     this._initPointerObserver();
   },
 
@@ -26,6 +47,9 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     __pointerEventNames : null,
     __onPointerEventWrapper : null,
 
+    /**
+     * Adds listeners to native pointer events if supported
+     */
     _initPointerObserver : function() {
       if (qx.core.Environment.get("event.mspointer")) {
         this.__onPointerEventWrapper = qx.lang.Function.listener(this._onPointerEvent, this);
@@ -44,10 +68,17 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       }
     },
 
+    /**
+     * Handler for native pointer events
+     * @param domEvent {Event} Native pointer event
+     */
     _onPointerEvent : function(domEvent) {
-      this._fireEvent(domEvent, domEvent.type, qx.bom.Event.getTarget(domEvent));
+
     },
 
+    /**
+     * Removes native pointer event listeners.
+     */
     _stopPointerObserver : function() {
       for (var i = 0; i < this.__pointerEventNames.length; i++) {
         qx.bom.Event.removeNativeListener(this.__target, this.__pointerEventNames[i], this.__onPointerEventWrapper);

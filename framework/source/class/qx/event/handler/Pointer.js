@@ -1,3 +1,26 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2014 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Christopher Zuendorf (czuendorf)
+     * Daniel Wagner (danielwagner)
+
+************************************************************************ */
+
+/**
+ * Unified pointer event handler.
+ */
 qx.Class.define("qx.event.handler.Pointer",
 {
   extend : qx.event.handler.PointerCore,
@@ -91,6 +114,11 @@ qx.Class.define("qx.event.handler.Pointer",
       qx.event.Registration.fireEvent(this.__window, "useraction", qx.event.type.Data, [type]);
     },
 
+    // overridden
+    _onPointerEvent : function(domEvent) {
+      this._fireEvent(domEvent, domEvent.type, qx.bom.Event.getTarget(domEvent));
+    },
+
 
     /**
      * Dispose this object
@@ -98,7 +126,6 @@ qx.Class.define("qx.event.handler.Pointer",
     dispose : function()
     {
       this.__callBase("dispose");
-      //this._stopMouseObserver();
       this.__manager = this.__window = this.__root = null;
     },
 
