@@ -2405,6 +2405,9 @@ testrunner.define({
   testRegister : function()
   {
     this.require(["qx.debug"]);
+    if (q.$$qx.core.Environment.get("event.mspointer")) {
+      this.skip("Pointer events supported natively.");
+    }
     var cb = function() {};
     var test = q.create('<div></div>').appendTo(this.sandbox[0])
     .on("pointerdown", cb).on("tap", cb);

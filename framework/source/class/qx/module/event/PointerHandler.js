@@ -77,6 +77,8 @@ qx.Bootstrap.define("qx.module.event.PointerHandler", {
 
   defer : function(statics)
   {
-    qxWeb.$registerEventHook(statics.TYPES, statics.register, statics.unregister);
+    if (!qx.core.Environment.get("event.mspointer")) {
+      qxWeb.$registerEventHook(statics.TYPES, statics.register, statics.unregister);
+    }
   }
 });
