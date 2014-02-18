@@ -2397,6 +2397,27 @@ testrunner.define({
 
 
 testrunner.define({
+  classname : "event.PointerHandler",
+
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+
+  testRegister : function()
+  {
+    this.require(["qx.debug"]);
+    var cb = function() {};
+    var test = q.create('<div></div>').appendTo(this.sandbox[0])
+    .on("pointerdown", cb).on("tap", cb);
+    this.assertEquals("qx.event.handler.PointerCore", test[0].__pointerHandler.classname);
+    test.off("pointerup", cb);
+    this.assertNotNull(test[0].__pointerHandler);
+    test.off("pointerdown", cb)
+    this.assertNull(test[0].__pointerHandler);
+  }
+});
+
+
+testrunner.define({
   classname : "Templates",
 
   setUp : testrunner.globalSetup,
