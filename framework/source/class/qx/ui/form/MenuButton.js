@@ -188,8 +188,7 @@ qx.Class.define("qx.ui.form.MenuButton",
 
 
     // overridden
-    _onMouseDown : function(e)
-    {
+    _onPointerDown : function(e) {
       // call the base function to get into the capture phase [BUG #4340]
       this.base(arguments, e);
 
@@ -215,8 +214,7 @@ qx.Class.define("qx.ui.form.MenuButton",
 
 
     // overridden
-    _onMouseUp : function(e)
-    {
+    _onPointerUp : function(e) {
       // call base for firing the execute event
       this.base(arguments, e);
 
@@ -227,16 +225,14 @@ qx.Class.define("qx.ui.form.MenuButton",
 
 
     // overridden
-    _onMouseOver : function(e)
-    {
+    _onPointerOver : function(e) {
       // Add hovered state
       this.addState("hovered");
     },
 
 
     // overridden
-    _onMouseOut : function(e)
-    {
+    _onPointerOut : function(e) {
       // Just remove the hover state
       this.removeState("hovered");
     },
