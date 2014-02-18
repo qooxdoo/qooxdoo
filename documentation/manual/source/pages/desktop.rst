@@ -68,7 +68,6 @@ Technical Concepts
    desktop/html_element_handling
    desktop/focus_layer_impl
    desktop/using_q
-   desktop/on_mobile
 
 
 Tutorials
