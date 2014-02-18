@@ -147,8 +147,11 @@ class MClassI18N(object):
                 if strings[0]:
                     entry["id"] = strings[0]
 
-            if method in ("trn", "trnc") and lenStrings > 1:
+            if method == "trn" and lenStrings > 1:
                 entry["plural"] = strings[1]
+
+            if method == "trnc" and lenStrings > 2:
+                entry["plural"] = strings[2]
 
         # register the entry only if we have a proper key
         if "id" in entry:
