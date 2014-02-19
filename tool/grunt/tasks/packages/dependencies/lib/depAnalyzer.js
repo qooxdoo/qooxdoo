@@ -365,6 +365,14 @@ function getClassesFromTagDesc(tag) {
   return classes;
 }
 
+function getResourcesFromTagDesc(tag) {
+  var resource = "";
+  if (/\([^)]+\)/.test(tag)) {
+    resource = tag.slice(1, -1);
+  }
+  return resource;
+}
+
 function applyIgnoreRequireAndUse(deps, atHints) {
   var toBeFiltered = [];
   var collectIgnoredDeps = function(dep) {
@@ -383,7 +391,7 @@ function applyIgnoreRequireAndUse(deps, atHints) {
 
   // @ignore
   if (atHints.ignore.length > 0) {
-    for (var key in deps) {
+    for (var key in {load: true, run: true}) {
       toBeFiltered = [];
       deps[key].forEach(collectIgnoredDeps);
       deps[key] = deps[key].filter(shouldBeIgnored);
@@ -430,18 +438,27 @@ function collectAtHintsFromComments(tree) {
   var atHints = {
     'ignore': [],
     'require': [],
-    'use': []
+    'use': [],
+    'asset': [],
+    'cldr': false
   };
 
-  // only consider top level @ignore/@require/@use here for now
-  // @ignore may be used within methods (which is neglected here)
+  var isFileOrClassScopeComment = function(comment, topLevelCodeUnitLines) {
+    return (comment.type === 'Block'
+            && (topLevelCodeUnitLines.indexOf(comment.loc.end.line+1) !== -1  // class scope
+                || comment.loc.end.line < topLevelCodeUnitLines[0]));         // file scope
+  };
+
+  // collect only file and class scope which means only top level
+  // @ignore/@require/@use/@asset/@cldr are consider here for now. This may be
+  // important later cause @ignore can be used within methods (which is
+  // neglected here) also!
   tree.body.forEach(function (codeUnit) {
     topLevelCodeUnitLines.push(codeUnit.loc.start.line);
   });
 
   tree.comments.forEach(function (comment) {
-    if (comment.type === 'Block'
-        && topLevelCodeUnitLines.indexOf(comment.loc.end.line+1) !== -1) {
+    if (isFileOrClassScopeComment(comment, topLevelCodeUnitLines)) {
         var jsdoc = doctrine.parse(comment.value, { unwrap: true });
         jsdoc.tags.forEach(function (tag) {
             switch(tag.title) {
@@ -453,6 +470,12 @@ function collectAtHintsFromComments(tree) {
                 break;
               case 'use':
                 atHints.use = atHints.use.concat(getClassesFromTagDesc(tag.description));
+                break;
+              case 'asset':
+                atHints.asset = atHints.asset.concat(getResourcesFromTagDesc(tag.description));
+                break;
+              case 'cldr':
+                atHints.cldr = true;
                 break;
               default:
             }
@@ -477,6 +500,7 @@ function findUnresolvedDeps(tree, opts) {
   var deps = {
     'load' : [],
     'run' : [],
+    'athint': {}
   };
   var atHints = {};
   var filteredScopeRefs = [];
@@ -495,6 +519,7 @@ function findUnresolvedDeps(tree, opts) {
 
   // top level atHints from tree
   atHints = collectAtHintsFromComments(tree);
+  deps.athint = atHints;
 
   // -- alt: Deps from Tree
 
@@ -599,6 +624,60 @@ function sortDepsTopologically(classesDeps, subkey) {
     return classListLoadOrder;
 }
 
+function createAtHintsIndex(deps, options) {
+  var idx = {
+    ignore: {},
+    require: {},
+    use: {},
+    asset: {},
+    cldr: []
+  };
+  var opts = {};
+  var clazz = "";
+  var key = "";
+
+  if (!options) {
+    options = {};
+  }
+
+  // merge options and default values
+  opts = {
+    ignore: options.ignore === false ? false : true,
+    require: options.require === false ? false : true,
+    use: options.use === false ? false : true,
+    asset: options.asset === false ? false : true,
+    cldr: options.cldr === false ? false : true
+  };
+
+  // collect hints
+  for (clazz in deps) {
+    if (deps[clazz].athint.ignore.length > 0) {
+      idx.ignore[clazz] = deps[clazz].athint.ignore;
+    }
+    if (deps[clazz].athint.require.length > 0) {
+      idx.require[clazz] = deps[clazz].athint.require;
+    }
+    if (deps[clazz].athint.use.length > 0) {
+      idx.use[clazz] = deps[clazz].athint.use;
+    }
+    if (deps[clazz].athint.asset.length > 0) {
+      idx.asset[clazz] = deps[clazz].athint.asset;
+    }
+    if (deps[clazz].athint.cldr) {
+      idx.cldr.push(clazz);
+    }
+  }
+
+  // remove unwanted
+  for (key in idx) {
+    if (opts[key] === false && idx[key]) {
+      delete idx[key];
+    }
+  }
+
+  return idx;
+}
+
 //------------------------------------------------------------------------------
 // Exports
 //------------------------------------------------------------------------------
@@ -606,5 +685,6 @@ function sortDepsTopologically(classesDeps, subkey) {
 module.exports = {
   findUnresolvedDeps : findUnresolvedDeps,
   collectDepsRecursive : collectDepsRecursive,
+  createAtHintsIndex : createAtHintsIndex,
   sortDepsTopologically : sortDepsTopologically
 };
