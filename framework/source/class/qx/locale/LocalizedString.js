@@ -63,4 +63,4 @@ qx.Class.define("qx.locale.LocalizedString",
       return this.__messageId;
     }
   }
-})
+});
