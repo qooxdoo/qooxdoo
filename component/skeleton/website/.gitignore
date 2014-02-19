@@ -2,3 +2,6 @@
 /api/
 /script/
 /test/script/
+
+# node-related files
+/node_modules
