@@ -48,7 +48,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     this.__target = target;
     this.__emitter = emitter;
     this.__eventNames = [];
-    this.__mousedown = false;
+    this.__buttonStates = [];
     if (qx.core.Environment.get("event.mspointer")) {
       this._initPointerObserver();
     }
@@ -65,7 +65,8 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     __emitter : null,
     __eventNames : null,
     __wrappedListener : null,
-    __mousedown : null,
+    __lastButtonState: null,
+    __buttonStates: null,
 
     /**
      * Adds listeners to native pointer events if supported
@@ -112,24 +113,40 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     },
 
     _onMouseEvent : function(domEvent) {
-      if (domEvent.type == "mousedown" && this.__mousedown) {
-        return;
+      if (domEvent.type == "mousedown") {
+        this.__buttonStates[domEvent.button] = 1;
+      } else if (domEvent.type == "mouseup") {
+        this.__buttonStates[domEvent.button] = 0;
       }
-      if (domEvent.type == "contextmenu") {
-        this.__mousedown = false;
-      }
+
       var type = qx.event.handler.PointerCore.MOUSE_TO_POINTER_MAPPING[domEvent.type];
 
       var evt = new qx.event.type.native.Pointer(type, domEvent);
+      evt.isPrimary = true;
+      evt.pointerType = "mouse";
+
+      var buttonsPressed = qx.lang.Array.sum(this.__buttonStates);
+
+      if (this.__lastButtonState != buttonsPressed) {
+        var moveEvt = new qx.event.type.native.Pointer("pointermove", domEvent);
+        moveEvt.isPrimary = true;
+        moveEvt.pointerType = "mouse";
+        this._fireEvent(moveEvt, "pointermove", this.__target);
+      }
+
+      this.__lastButtonState = buttonsPressed;
+
+      if ((domEvent.type == "mousedown" && buttonsPressed > 1) ||
+        (domEvent.type == "mouseup" && buttonsPressed > 0))
+      {
+        return;
+      }
+
+      if (domEvent.type == "contextmenu") {
+        this.__buttonStates = [];
+      }
 
       this._fireEvent(evt, type, this.__target);
-
-      if (type == "pointerdown") {
-        this.__mousedown = true;
-      }
-      else if (type == "pointerup") {
-        this.__mousedown = false;
-      }
     },
 
     /**
