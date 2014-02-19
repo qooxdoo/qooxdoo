@@ -31,7 +31,14 @@ qx.Bootstrap.define("qx.module.event.PointerHandler", {
     /**
      * List of events that require a pointer handler
      */
-    TYPES : ["pointermove", "pointerover", "pointerout", "pointerdown", "pointerup", "pointercancel"],
+    TYPES : [
+      "pointermove",
+      "pointerover",
+      "pointerout",
+      "pointerdown",
+      "pointerup",
+      "pointercancel"
+    ],
 
     /**
      * Creates a pointer handler for the given element when a pointer event listener

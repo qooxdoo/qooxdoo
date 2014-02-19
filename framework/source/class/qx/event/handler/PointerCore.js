@@ -35,23 +35,6 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       contextmenu: "pointerup",
       mouseout: "pointerout",
       mouseover: "pointerover"
-    },
-
-    MOUSE_PROPERTIES : {
-      bubbles : false,
-      cancelable : false,
-      view : null,
-      detail : null,
-      screenX : 0,
-      screenY : 0,
-      clientX : 0,
-      clientY : 0,
-      ctrlKey : false,
-      altKey : false,
-      shiftKey : false,
-      metaKey : false,
-      button : 0,
-      relatedTarget : null
     }
   },
 
@@ -61,8 +44,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
    * @param target {Element} element on which to listen for native touch events
    * @param emitter {qx.event.Emitter} Event emitter object
    */
-  construct : function(target, emitter)
-  {
+  construct : function(target, emitter) {
     this.__target = target;
     this.__emitter = emitter;
     this.__eventNames = [];
@@ -91,8 +73,9 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     _initPointerObserver : function() {
       this.__wrappedListener = qx.lang.Function.listener(this._onPointerEvent, this);
 
-      var engineVersion = parseInt(qx.core.Environment.get("engine.version"), 10);
-      if (engineVersion == 10) {
+      var engineName = qx.core.Environment.get("engine.name");
+      var docMode = parseInt(qx.core.Environment.get("browser.documentmode"), 10);
+      if (engineName == "mshtml" && docMode == 10) {
         // IE 10
         this.__eventNames = ["MSPointerDown", "MSPointerMove", "MSPointerUp", "MSPointerCancel"];
       } else {
@@ -136,37 +119,10 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         this.__mousedown = false;
       }
       var type = qx.event.handler.PointerCore.MOUSE_TO_POINTER_MAPPING[domEvent.type];
-      var props = qx.lang.Object.clone(qx.event.handler.PointerCore.MOUSE_PROPERTIES);
 
-      var propNames = Object.keys(props);
-      for (var i=0; i<propNames.length; i++) {
-        if (typeof domEvent[propNames[i]] !== "undefined") {
-          props[propNames[i]] = domEvent[propNames[i]];
-        }
-      }
+      var evt = new qx.event.type.native.Pointer(type, domEvent);
 
-      var evt = new MouseEvent(type);
-      evt.initMouseEvent(type, props.bubbles, props.cancelable, props.view, props.detail,
-        props.screenX, props.screenY, props.clientX, props.clientY, props.ctrlKey,
-        props.altKey, props.shiftKey, props.metaKey, props.button, props.relatedTarget);
-
-      var buttons;
-      switch (domEvent.which) {
-        case 1:
-          buttons = 1;
-          break;
-        case 2:
-          buttons = 4;
-          break;
-        case 3:
-          buttons = 2;
-          break;
-        default:
-          buttons = 0;
-      }
-      evt.buttons = buttons;
-
-      this._fireEvent(evt, type, domEvent.target);
+      this._fireEvent(evt, type, this.__target);
 
       if (type == "pointerdown") {
         this.__mousedown = true;
