@@ -73,6 +73,8 @@ of the following functions:
 * ``this.tr()``: translate a message
 * ``this.trn()``: translate a message that supports a plural form
 * ``this.trc()``: translate a message and providing a comment
+* ``this.trnc()``: translate a message that supports a plural form and
+  providing a comment
 * ``this.marktr()``: mark a string for translation, but do not perform any
   translation
 
@@ -155,7 +157,8 @@ Example:
 ::
 
     var n = 2;
-    var label = new qx.ui.basic.Label(this.trn("Copied one file.", "Copied %1 files.", n, n));
+    var label = new qx.ui.basic.Label(this.trn("Copied one file.",
+    "Copied %1 files.", n, n));
 
 Like *tr*, translates a message but takes differences between singular and
 plural forms into account. The first argument represents the singular form
@@ -172,7 +175,8 @@ Example:
 
 ::
 
-    var label = new qx.ui.basic.Label(this.trc("Helpful comment for the translator", "Hello World"));
+    var label = new qx.ui.basic.Label(this.trc("Helpful comment for the
+    translator", "Hello World"));
 
 Translates the message as the *tr* method, but provides an additional comment
 which can be used to add some contextual information for the translator. This
@@ -180,6 +184,21 @@ meaningful comment should help the translator to find the correct translation
 for the given string.
 
 .. _pages/internationalization#marktr:
+
+trnc
+""""
+
+Example:
+
+::
+
+    var n = 2;
+    var label = new qx.ui.basic.Label(this.trnc("Helpful comment for
+    translator", "Copied one file.", "Copied %1 files.", n, n));
+
+Combines *trc* with *trn*, i.e. same as *trn* but first argument is comment.
+
+.. _pages/internationalization#trnc:
 
 marktr
 """"""
@@ -312,5 +331,6 @@ A widget that needs custom update logic may listen to this event:
 
 ::
 
-    qx.locale.Manager.getInstance().addListener("changeLocale", this._update, this);
+    qx.locale.Manager.getInstance().addListener("changeLocale",
+    this._update, this);
 
