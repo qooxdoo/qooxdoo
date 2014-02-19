@@ -45,7 +45,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
    * @param emitter {qx.event.Emitter} Event emitter object
    */
   construct : function(target, emitter) {
-    this.__target = target;
+    this.__defaultTarget = target;
     this.__emitter = emitter;
     this.__eventNames = [];
     this.__buttonStates = [];
@@ -84,7 +84,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         this.__eventNames = ["pointerdown", "pointermove", "pointerup", "pointercancel"];
       }
       for (var i = 0; i < this.__eventNames.length; i++) {
-        qx.bom.Event.addNativeListener(this.__target, this.__eventNames[i], this.__wrappedListener);
+        qx.bom.Event.addNativeListener(this.__defaultTarget, this.__eventNames[i], this.__wrappedListener);
       }
     },
 
@@ -96,7 +96,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       this.__eventNames = ["mousedown", "mouseup", "mousemove", "mouseover", "mouseout", "contextmenu"];
       this.__wrappedListener = qx.lang.Function.listener(this._onMouseEvent, this);
       this.__eventNames.forEach(function(type) {
-        qx.bom.Event.addNativeListener(this.__target, type, this.__wrappedListener);
+        qx.bom.Event.addNativeListener(this.__defaultTarget, type, this.__wrappedListener);
       }.bind(this));
     },
 
@@ -120,6 +120,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       }
 
       var type = qx.event.handler.PointerCore.MOUSE_TO_POINTER_MAPPING[domEvent.type];
+      var target = qx.bom.Event.getTarget(domEvent);
 
       var evt = new qx.event.type.native.Pointer(type, domEvent);
       evt.isPrimary = true;
@@ -131,7 +132,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         var moveEvt = new qx.event.type.native.Pointer("pointermove", domEvent);
         moveEvt.isPrimary = true;
         moveEvt.pointerType = "mouse";
-        this._fireEvent(moveEvt, "pointermove", this.__target);
+        this._fireEvent(moveEvt, "pointermove", target);
       }
 
       this.__lastButtonState = buttonsPressed;
@@ -146,7 +147,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         this.__buttonStates = [];
       }
 
-      this._fireEvent(evt, type, this.__target);
+      this._fireEvent(evt, type, target);
     },
 
     /**
@@ -154,7 +155,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      */
     _stopObserver : function() {
       for (var i = 0; i < this.__eventNames.length; i++) {
-        qx.bom.Event.removeNativeListener(this.__target, this.__eventNames[i], this.__wrappedListener);
+        qx.bom.Event.removeNativeListener(this.__defaultTarget, this.__eventNames[i], this.__wrappedListener);
       }
     },
 
