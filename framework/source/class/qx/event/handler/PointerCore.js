@@ -32,7 +32,6 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       mousedown: "pointerdown",
       mouseup: "pointerup",
       mousemove: "pointermove",
-      contextmenu: "pointerup",
       mouseout: "pointerout",
       mouseover: "pointerover"
     }
@@ -67,6 +66,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     __wrappedListener : null,
     __lastButtonState: null,
     __buttonStates: null,
+    __contextMenu : false,
 
     /**
      * Adds listeners to native pointer events if supported
@@ -117,6 +117,10 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         this.__buttonStates[domEvent.button] = 1;
       } else if (domEvent.type == "mouseup") {
         this.__buttonStates[domEvent.button] = 0;
+        if (this.__contextMenu) {
+          this.__contextMenu = false;
+          return;
+        }
       }
 
       var type = qx.event.handler.PointerCore.MOUSE_TO_POINTER_MAPPING[domEvent.type];
@@ -144,10 +148,13 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       }
 
       if (domEvent.type == "contextmenu") {
-        this.__buttonStates = [];
+        this.__buttonStates[domEvent.button] = 0;
+        this.__contextMenu = true;
+        return;
       }
 
       this._fireEvent(evt, type, target);
+      this.__contextMenu = false;
     },
 
     /**
