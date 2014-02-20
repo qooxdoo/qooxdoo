@@ -20,7 +20,7 @@
 /**
  * A toggle Button widget
  *
- * If the user presses the button by clicking on it pressing the enter or
+ * If the user presses the button by taping on it pressing the enter or
  * space key, the button toggles between the pressed an not pressed states.
  * There is no execute event, only a {@link qx.ui.form.ToggleButton#changeValue}
  * event.
@@ -219,6 +219,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
 
     /**
      * Former listener method for "mouseover" event.
+     * @deprecated {4.0}
      */
     _onMouseOver : function() {
       if (qx.core.Environment.get("qx.debug")) {
@@ -259,6 +260,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
 
     /**
      * Former listener method for "mouseover" event.
+     * @deprecated {4.0}
      */
     _onMouseOut : function() {
       if (qx.core.Environment.get("qx.debug")) {
@@ -296,6 +298,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
 
     /**
      * Former listener method for "mouseover" event.
+     * @deprecated {4.0}
      */
     _onMouseDown : function() {
       if (qx.core.Environment.get("qx.debug")) {
@@ -333,6 +336,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
 
     /**
      * Former listener method for "mouseover" event.
+     * @deprecated {4.0}
      */
     _onMouseUp : function() {
       if (qx.core.Environment.get("qx.debug")) {

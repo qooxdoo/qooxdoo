@@ -847,11 +847,23 @@ qx.Class.define("qx.ui.form.AbstractField",
     /**
      * Remove the fake placeholder
      */
-    _onMouseDownPlaceholder : function() {
+    _onPointerDownPlaceholder : function() {
       window.setTimeout(function() {
         this.focus();
       }.bind(this), 0);
     },
+
+    /**
+     * Remove the fake placeholder
+     * @deprecated {4.0}
+     */
+    _onMouseDownPlaceholder : function() {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "Please use '_onPointerDownPlaceholder' instead.");
+      }
+    },
+
 
 
     /**
@@ -897,7 +909,7 @@ qx.Class.define("qx.ui.form.AbstractField",
           "visibility" : "hidden"
         });
 
-        this._placeholder.addListener("mousedown", this._onMouseDownPlaceholder, this);
+        this._placeholder.addListener("pointerdown", this._onPointerDownPlaceholder, this);
       }
       return this._placeholder;
     },
@@ -1021,7 +1033,7 @@ qx.Class.define("qx.ui.form.AbstractField",
   destruct : function()
   {
     if (this._placeholder) {
-      this._placeholder.removeListener("mousedown", this._onMouseDownPlaceholder, this);
+      this._placeholder.removeListener("pointerdown", this._onPointerDownPlaceholder, this);
       var parent = this._placeholder.getParent();
       if (parent) {
         parent.remove(this._placeholder);

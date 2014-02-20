@@ -146,7 +146,7 @@ qx.Class.define("qx.ui.form.Spinner",
       init : true
     },
 
-    /** The amount to increment on each event (keypress or mousedown) */
+    /** The amount to increment on each event (keypress or pointerdown) */
     singleStep:
     {
       check : "Number",

@@ -86,15 +86,15 @@ qx.Class.define("qx.ui.form.Slider",
     // Add listeners
     this.addListener("keypress", this._onKeyPress);
     this.addListener("mousewheel", this._onMouseWheel);
-    this.addListener("mousedown", this._onMouseDown);
-    this.addListener("mouseup", this._onMouseUp);
-    this.addListener("losecapture", this._onMouseUp);
+    this.addListener("pointerdown", this._onPointerDown);
+    this.addListener("pointerup", this._onPointerUp);
+    this.addListener("losecapture", this._onPointerUp);
     this.addListener("resize", this._onUpdate);
 
     // Stop events
     this.addListener("contextmenu", this._onStopEvent);
-    this.addListener("click", this._onStopEvent);
-    this.addListener("dblclick", this._onStopEvent);
+    this.addListener("tap", this._onStopEvent);
+    this.addListener("dbltap", this._onStopEvent);
 
     // Initialize orientation
     if (orientation != null) {
@@ -287,8 +287,8 @@ qx.Class.define("qx.ui.form.Slider",
           control = new qx.ui.core.Widget();
 
           control.addListener("resize", this._onUpdate, this);
-          control.addListener("mouseover", this._onMouseOver);
-          control.addListener("mouseout", this._onMouseOut);
+          control.addListener("pointerover", this._onPointerOver);
+          control.addListener("pointerout", this._onPointerOut);
           this._add(control);
           break;
       }
@@ -305,14 +305,42 @@ qx.Class.define("qx.ui.form.Slider",
 
 
     /**
+     * Event handler for pointerover events at the knob child control.
+     *
+     * Adds the 'hovered' state
+     *
+     * @param e {qx.event.type.Pointer} Incoming pointer event
+     */
+    _onPointerOver : function(e) {
+      this.addState("hovered");
+    },
+
+
+    /**
      * Event handler for mouseover events at the knob child control.
      *
      * Adds the 'hovered' state
      *
      * @param e {qx.event.type.Mouse} Incoming mouse event
+     * @deprecated {4.0}
      */
     _onMouseOver : function(e) {
-      this.addState("hovered");
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "Please use '_onPointerOver' instead.");
+      }
+    },
+
+
+    /**
+     * Event handler for pointerout events at the knob child control.
+     *
+     * Removes the 'hovered' state
+     *
+     * @param e {qx.event.type.Pointer} Incoming pointer event
+     */
+    _onPointerOut : function(e) {
+      this.removeState("hovered");
     },
 
 
@@ -322,9 +350,13 @@ qx.Class.define("qx.ui.form.Slider",
      * Removes the 'hovered' state
      *
      * @param e {qx.event.type.Mouse} Incoming mouse event
+     * @deprecated {4.0}
      */
     _onMouseOut : function(e) {
-      this.removeState("hovered");
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "Please use '_onPointerOut' instead.");
+      }
     },
 
 
@@ -394,11 +426,11 @@ qx.Class.define("qx.ui.form.Slider",
 
 
     /**
-     * Listener of mousedown event. Initializes drag or tracking mode.
+     * Listener of pointerdown event. Initializes drag or tracking mode.
      *
-     * @param e {qx.event.type.Mouse} Incoming event object
+     * @param e {qx.event.type.Pointer} Incoming event object
      */
-    _onMouseDown : function(e)
+    _onPointerDown : function(e)
     {
       // this can happen if the user releases the button while dragging outside
       // of the browser viewport
@@ -471,7 +503,7 @@ qx.Class.define("qx.ui.form.Slider",
       }
 
       // Register move listener
-      this.addListener("mousemove", this._onMouseMove);
+      this.addListener("pointermove", this._onPointerMove);
 
       // Activate capturing
       this.capture();
@@ -482,12 +514,26 @@ qx.Class.define("qx.ui.form.Slider",
 
 
     /**
-     * Listener of mouseup event. Used for cleanup of previously
-     * initialized modes.
+     * Listener of mousedown event. Initializes drag or tracking mode.
      *
      * @param e {qx.event.type.Mouse} Incoming event object
+     * @deprecated {4.0}
      */
-    _onMouseUp : function(e)
+    _onMouseDown : function(e) {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "Please use '_onPointerDown' instead.");
+      }
+    },
+
+
+    /**
+     * Listener of pointerup event. Used for cleanup of previously
+     * initialized modes.
+     *
+     * @param e {qx.event.type.Pointer} Incoming event object
+     */
+    _onPointerUp : function(e)
     {
       if (this.__dragMode)
       {
@@ -507,9 +553,9 @@ qx.Class.define("qx.ui.form.Slider",
         // remove state
         this.getChildControl("knob").removeState("pressed");
 
-        // it's necessary to check whether the mouse cursor is over the knob widget to be able to
+        // it's necessary to check whether the cursor is over the knob widget to be able to
         // to decide whether to remove the 'hovered' state.
-        if (e.getType() === "mouseup")
+        if (e.getType() === "pointerup")
         {
           var deltaSlider;
           var deltaPosition;
@@ -552,21 +598,37 @@ qx.Class.define("qx.ui.form.Slider",
       }
 
       // Remove move listener again
-      this.removeListener("mousemove", this._onMouseMove);
+      this.removeListener("pointermove", this._onPointerMove);
 
       // Stop event
-      if (e.getType() === "mouseup") {
+      if (e.getType() === "pointerup") {
         e.stopPropagation();
       }
     },
 
 
     /**
-     * Listener of mousemove event for the knob. Only used in drag mode.
+     * Listener of mouseup event. Used for cleanup of previously
+     * initialized modes.
      *
      * @param e {qx.event.type.Mouse} Incoming event object
+     * @deprecated {4.0}
      */
-    _onMouseMove : function(e)
+    _onMouseUp : function(e)
+    {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "Please use '_onPointerUp' instead.");
+      }
+    },
+
+
+    /**
+     * Listener of pointermove event for the knob. Only used in drag mode.
+     *
+     * @param e {qx.event.type.Pointer} Incoming event object
+     */
+    _onPointerMove : function(e)
     {
       if (this.__dragMode)
       {
@@ -578,12 +640,26 @@ qx.Class.define("qx.ui.form.Slider",
       }
       else if (this.__trackingMode)
       {
-        // Update tracking end on mousemove
+        // Update tracking end on pointermove
         this.__computeTrackingEnd(e);
       }
 
       // Stop event
       e.stopPropagation();
+    },
+
+
+    /**
+     * Listener of mousemove event for the knob. Only used in drag mode.
+     *
+     * @param e {qx.event.type.Mouse} Incoming event object
+     */
+    _onMouseMove : function(e)
+    {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "Please use '_onPointerMove' instead.");
+      }
     },
 
 
@@ -605,7 +681,7 @@ qx.Class.define("qx.ui.form.Slider",
         value = this.getMaximum();
       }
 
-      // Stop at tracking position (where the mouse is pressed down)
+      // Stop at tracking position (where the pointer is pressed down)
       var slideBack = this.__trackingDirection == -1;
       if ((slideBack && value <= this.__trackingEnd) || (!slideBack && value >= this.__trackingEnd)) {
         value = this.__trackingEnd;
@@ -663,9 +739,9 @@ qx.Class.define("qx.ui.form.Slider",
 
     /**
      * Computes the value where the tracking should end depending on
-     * the current mouse position.
+     * the current pointer position.
      *
-     * @param e {qx.event.type.Mouse} Incoming mouse event
+     * @param e {qx.event.type.Pointer} Incoming pointer event
      */
     __computeTrackingEnd : function(e)
     {

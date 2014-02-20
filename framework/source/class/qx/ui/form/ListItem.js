@@ -49,8 +49,8 @@ qx.Class.define("qx.ui.form.ListItem",
       this.setModel(model);
     }
 
-    this.addListener("mouseover", this._onMouseOver, this);
-    this.addListener("mouseout", this._onMouseOut, this);
+    this.addListener("pointerover", this._onPointerOver, this);
+    this.addListener("pointerout", this._onPointerOut, this);
   },
 
 
@@ -103,23 +103,47 @@ qx.Class.define("qx.ui.form.ListItem",
 
 
     /**
-     * Event handler for the mouse over event.
+     * Event handler for the pointer over event.
      */
-    _onMouseOver : function() {
+    _onPointerOver : function() {
       this.addState("hovered");
     },
 
 
     /**
+     * Event handler for the pointer out event.
+     */
+    _onPointerOut : function() {
+      this.removeState("hovered");
+    },
+
+
+    /**
+     * Event handler for the mouse over event.
+     * @deprecated {4.0}
+     */
+    _onMouseOver : function() {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "Please use '_onPointerOver' instead.");
+      }
+    },
+
+
+    /**
      * Event handler for the mouse out event.
+     * @deprecated {4.0}
      */
     _onMouseOut : function() {
-      this.removeState("hovered");
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "Please use '_onPointerOut' instead.");
+      }
     }
   },
 
   destruct : function() {
-    this.removeListener("mouseover", this._onMouseOver, this);
-    this.removeListener("mouseout", this._onMouseOut, this);
+    this.removeListener("pointerover", this._onPointerOver, this);
+    this.removeListener("pointerout", this._onPointerOut, this);
   }
 });

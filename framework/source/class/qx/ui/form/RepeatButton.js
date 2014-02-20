@@ -132,7 +132,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
 
 
     /**
-     * Calling this function is like a click from the user on the
+     * Calling this function is like a tap from the user on the
      * button with all consequences.
      * <span style='color: red'>Be sure to call the {@link #release} function.</span>
      *

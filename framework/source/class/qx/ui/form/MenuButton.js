@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * A button which opens the connected menu when clicking on it.
+ * A button which opens the connected menu when taping on it.
  */
 qx.Class.define("qx.ui.form.MenuButton",
 {
@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.form.MenuButton",
 
   properties :
   {
-    /** The menu instance to show when clicking on the button */
+    /** The menu instance to show when taping on the button */
     menu :
     {
       check : "qx.ui.menu.Menu",

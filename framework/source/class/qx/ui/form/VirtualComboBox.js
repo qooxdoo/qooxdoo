@@ -303,11 +303,11 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
 
 
     // overridden
-    _handleMouse : function(event) {
+    _handlePointer : function(event) {
       this.base(arguments, event);
 
       var type = event.getType();
-      if (type !== "click") {
+      if (type !== "tap") {
         return;
       }
 
