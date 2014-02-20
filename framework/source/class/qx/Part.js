@@ -233,6 +233,16 @@ qx.Bootstrap.define("qx.Part",
       var parts = [];
       for (var i=0; i<partNames.length; i++) {
         parts.push(this.__parts[partNames[i]]);
+        /*
+        var part = this.__parts[partNames[i]];
+        if (part === undefined) {
+          var registeredPartNames = qx.Bootstrap.keys(this.getParts());
+          throw new Error('Part "' + partNames[i] + '" not found in parts (' +
+            registeredPartNames.join(', ') + ')');
+        } else {
+          parts.push(part);
+        }
+        */
       }
 
       var partsLoaded = 0;
