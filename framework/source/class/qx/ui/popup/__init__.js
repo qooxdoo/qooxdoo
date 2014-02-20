@@ -16,7 +16,7 @@
   *
   * popup.add(new qx.ui.basic.Atom("Hello World #1", "icon/32/apps/media-photo-album.png"));
   *
-  * button.addListener("click", function(e)
+  * button.addListener("execute", function(e)
   * {
   *   popup.placeToMouse(e);
   *   popup.show();
