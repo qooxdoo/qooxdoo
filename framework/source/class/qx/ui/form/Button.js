@@ -81,13 +81,13 @@ qx.Class.define("qx.ui.form.Button",
     this.addListener("pointerout", this._onPointerOut);
     this.addListener("pointerdown", this._onPointerDown);
     this.addListener("pointerup", this._onPointerUp);
-    this.addListener("tab", this._onTab);
+    this.addListener("tap", this._onTap);
 
     this.addListener("keydown", this._onKeyDown);
     this.addListener("keyup", this._onKeyUp);
 
     // Stop events
-    this.addListener("dbltab", this._onStopEvent);
+    this.addListener("dbltap", this._onStopEvent);
   },
 
 
@@ -353,7 +353,7 @@ qx.Class.define("qx.ui.form.Button",
      *
      * @param e {qx.event.type.Mouse} Mouse event
      */
-    _onTab : function(e) {
+    _onTap : function(e) {
       e.stopPropagation();
     },
 
@@ -365,7 +365,7 @@ qx.Class.define("qx.ui.form.Button",
     _onClick : function() {
       if (qx.core.Environment.get("qx.debug")) {
         qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onTab' instead.");
+          "Please use '_onTap' instead.");
       }
     },    
 
