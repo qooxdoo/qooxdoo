@@ -48,13 +48,7 @@ exports.dependencies = {
     var depAnalyzer = require('../lib/depAnalyzer.js');
     var classListLoadOrder = [];
     var classesDeps = {};
-
-    // classesDeps = depAnalyzer.collectDepsRecursive(
-    //   ['../../../../framework/source/class/'], ['qx/dev/StackTrace.js']
-    // );
-    // classesDeps = depAnalyzer.collectDepsRecursive(
-    //   ['../../../../framework/source/class/'], ['qx/event/GlobalError.js']
-    // );
+    var atHintIndex = {};
 
     classesDeps = depAnalyzer.collectDepsRecursive(
       ['/Users/rsternagel/workspace/depTest/source/class/',
@@ -64,10 +58,20 @@ exports.dependencies = {
       { "deptest": "depTest" }
     );
 
-    classListLoadOrder = depAnalyzer.sortDepsTopologically(classesDeps, "load");
+    /*
+    classesDeps = depAnalyzer.collectDepsRecursive(
+      ['../../../../../framework/source/class/'],
+      ['qx/locale/Manager.js'],
+      {}
+    );
+    */
 
-    console.log(classesDeps);
+    classListLoadOrder = depAnalyzer.sortDepsTopologically(classesDeps, "load");
+    atHintIndex = depAnalyzer.createAtHintsIndex(classesDeps);
+
+    console.log(JSON.stringify(classesDeps, null, 2));
     console.log(classListLoadOrder, classListLoadOrder.length);
+    console.log(atHintIndex);
 
     test.ok(true);
     test.done();
