@@ -233,7 +233,6 @@ qx.Bootstrap.define("qx.Part",
       var parts = [];
       for (var i=0; i<partNames.length; i++) {
         parts.push(this.__parts[partNames[i]]);
-        /*
         var part = this.__parts[partNames[i]];
         if (part === undefined) {
           var registeredPartNames = qx.Bootstrap.keys(this.getParts());
@@ -242,7 +241,6 @@ qx.Bootstrap.define("qx.Part",
         } else {
           parts.push(part);
         }
-        */
       }
 
       var partsLoaded = 0;
