@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 qx.Bootstrap.define("qx.event.type.native.Pointer", {
-  extend: Object,
+  extend: qx.event.type.native.Custom,
 
   statics : {
     PROPERTIES : {
@@ -31,6 +31,8 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
       screenY : 0,
       clientX : 0,
       clientY : 0,
+      pageX : 0,
+      pageY : 0,
       ctrlKey : false,
       altKey : false,
       shiftKey : false,
@@ -38,10 +40,10 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
       button : 0,
       relatedTarget : null,
 
-      pointerId: 0,
+      pointerId: 1,
       width: 0,
       height: 0,
-      pressure: 0,
+      pressure: 0.5,
       tiltX: 0,
       tiltY: 0,
       pointerType: '',
@@ -50,59 +52,71 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
     }
   },
 
-  construct : function(type, domEvent) {
-    var evt;
-    if (typeof window.MouseEvent == "function") {
-      evt = new window.MouseEvent(type);
-    } else if (typeof document.createEvent == "function") {
-      evt = document.createEvent("MouseEvents");
-    } else if (typeof document.createEventObject == "object") {
-      evt = document.createEventObject();
-      evt.type = type;
-    }
+  construct : function(type, domEvent, customProps) {
+    return this.base(arguments, type, domEvent, customProps);
+  },
 
-    var properties = qx.lang.Object.clone(qx.event.type.native.Pointer.PROPERTIES);
-    var propNames = Object.keys(qx.event.type.native.Pointer.PROPERTIES);
-    for (var i=0; i<propNames.length; i++) {
-      var propName = propNames[i];
-      if (propName in domEvent) {
-        properties[propName] = domEvent[propName];
+  members : {
+
+    createEvent : function() {
+      var evt;
+        if (typeof window.MouseEvent == "function") {
+        evt = new window.MouseEvent(this._type);
+      } else if (typeof document.createEvent == "function") {
+        evt = document.createEvent("MouseEvents");
+      } else if (typeof document.createEventObject == "object") {
+        evt = document.createEventObject();
+        evt.type = this._type;
+      }
+      return evt;
+    },
+
+
+    initEvent : function(domEvent, customProps) {
+      var evt = this._event;
+      var properties = qx.lang.Object.clone(qx.event.type.native.Pointer.PROPERTIES);
+      var propNames = Object.keys(qx.event.type.native.Pointer.PROPERTIES);
+      for (var i=0; i<propNames.length; i++) {
+        var propName = propNames[i];
+        if (propName in domEvent) {
+          properties[propName] = domEvent[propName];
+        }
+        if (customProps && customProps[propName]) {
+          properties[propName] =  customProps[propName];
+        }
+      }
+
+      var buttons;
+      switch (domEvent.which) {
+        case 1:
+          buttons = 1;
+          break;
+        case 2:
+          buttons = 4;
+          break;
+        case 3:
+          buttons = 2;
+          break;
+        default:
+          buttons = 0;
+      }
+
+      if (domEvent.pressure) {
+        properties.pressure = domEvent.pressure;
+      }
+
+      if (buttons) {
+        properties.buttons = buttons;
+        properties.pressure = buttons ? 0.5 : 0;
+      }
+
+      evt.initMouseEvent && evt.initMouseEvent(this._type, properties.bubbles, properties.cancelable, properties.view, properties.detail,
+          properties.screenX, properties.screenY, properties.clientX, properties.clientY, properties.ctrlKey,
+          properties.altKey, properties.shiftKey, properties.metaKey, properties.button, properties.relatedTarget);
+
+      for (var prop in properties) {
+        evt[prop] = properties[prop];
       }
     }
-
-    var buttons;
-    switch (domEvent.which) {
-      case 1:
-        buttons = 1;
-        break;
-      case 2:
-        buttons = 4;
-        break;
-      case 3:
-        buttons = 2;
-        break;
-      default:
-        buttons = 0;
-    }
-
-    if (buttons) {
-      properties.buttons = buttons;
-    }
-
-    if (domEvent.pressure) {
-      properties.pressure = domEvent.pressure;
-    } else {
-      properties.pressure = buttons ? 0.5 : 0;
-    }
-
-    evt.initMouseEvent(type, properties.bubbles, properties.cancelable, properties.view, properties.detail,
-        properties.screenX, properties.screenY, properties.clientX, properties.clientY, properties.ctrlKey,
-        properties.altKey, properties.shiftKey, properties.metaKey, properties.button, properties.relatedTarget);
-
-    for (var prop in properties) {
-      evt[prop] = properties[prop];
-    }
-
-    return evt;
   }
 });

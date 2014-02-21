@@ -34,6 +34,24 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       mousemove: "pointermove",
       mouseout: "pointerout",
       mouseover: "pointerover"
+    },
+
+    TOUCH_TO_POINTER_MAPPING: {
+      touchstart: "pointerdown",
+      touchend: "pointerup",
+      touchmove: "pointermove",
+      touchcancel: "pointercancel"
+    },
+
+    MSPOINTER_TO_POINTER_MAPPING: {
+      MSPointerDown : "pointerdown",
+      MSPointerMove : "pointermove",
+      MSPointerUp : "pointerup",
+      MSPointerCancel : "pointercancel",
+      MSPointerLeave : "pointerleave",
+      MSPointerEnter: "pointerenter",
+      MSPointerOver : "pointerover",
+      MSPointerOut : "pointerout"
     }
   },
 
@@ -49,13 +67,20 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     this.__eventNames = [];
     this.__buttonStates = [];
     if (qx.core.Environment.get("event.mspointer")) {
-      this._initPointerObserver();
+      var engineName = qx.core.Environment.get("engine.name");
+      var docMode = parseInt(qx.core.Environment.get("browser.documentmode"), 10);
+      if (engineName == "mshtml" && docMode == 10) {
+        this.__eventNames = ["MSPointerDown", "MSPointerMove", "MSPointerUp", "MSPointerCancel"];
+        this._initPointerObserver();
+      }
     }
-    // else if (qx.core.Environment.get("device.touch")) {
-    //   this._initTouchObserver();
-    // }
+    else if (qx.core.Environment.get("device.touch")) {
+      this.__eventNames = ["touchstart", "touchend", "touchmove", "touchcancel"];
+      this._initObserver(this._onTouchEvent);
+    }
     else {
-      this._initMouseObserver();
+      this.__eventNames = ["mousedown", "mouseup", "mousemove", "mouseover", "mouseout", "contextmenu"];
+      this._initObserver(this._onMouseEvent);
     }
   },
 
@@ -73,28 +98,11 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      */
     _initPointerObserver : function() {
       this.__wrappedListener = qx.lang.Function.listener(this._onPointerEvent, this);
-
-      var engineName = qx.core.Environment.get("engine.name");
-      var docMode = parseInt(qx.core.Environment.get("browser.documentmode"), 10);
-      if (engineName == "mshtml" && docMode == 10) {
-        // IE 10
-        this.__eventNames = ["MSPointerDown", "MSPointerMove", "MSPointerUp", "MSPointerCancel"];
-      } else {
-        // IE 11+
-        this.__eventNames = ["pointerdown", "pointermove", "pointerup", "pointercancel"];
-      }
-      for (var i = 0; i < this.__eventNames.length; i++) {
-        qx.bom.Event.addNativeListener(this.__defaultTarget, this.__eventNames[i], this.__wrappedListener);
-      }
+      this._initObserver(this._onPointerEvent);
     },
 
-    _initTouchObserver : function() {
-      this.__wrappedListener = qx.lang.Function.listener(this._onTouchEvent, this);
-    },
-
-    _initMouseObserver : function() {
-      this.__eventNames = ["mousedown", "mouseup", "mousemove", "mouseover", "mouseout", "contextmenu"];
-      this.__wrappedListener = qx.lang.Function.listener(this._onMouseEvent, this);
+    _initObserver : function(callback) {
+      this.__wrappedListener = qx.lang.Function.listener(callback, this);
       this.__eventNames.forEach(function(type) {
         qx.bom.Event.addNativeListener(this.__defaultTarget, type, this.__wrappedListener);
       }.bind(this));
@@ -105,11 +113,34 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      * @param domEvent {Event} Native pointer event
      */
     _onPointerEvent : function(domEvent) {
-
+      var type = qx.event.handler.PointerCore.MSPOINTER_TO_POINTER_MAPPING[domEvent.type];
+      var target = qx.bom.Event.getTarget(domEvent);
+      domEvent.type = type;
+      var evt = new qx.event.type.native.Pointer(type, domEvent);
+      this._fireEvent(evt, type, target);
     },
 
     _onTouchEvent : function(domEvent) {
-
+      var type = qx.event.handler.PointerCore.TOUCH_TO_POINTER_MAPPING[domEvent.type];
+      var target = qx.bom.Event.getTarget(domEvent);
+      var changedTouches = domEvent.changedTouches;
+      for (var i=0, l=domEvent.changedTouches.length; i<l; i++) {
+        var touch = domEvent.changedTouches[i];
+        var touchProps = {
+          clientX: touch.clientX,
+          clientY: touch.clientY,
+          identifier: touch.identifier,
+          pageX: touch.pageX,
+          pageY: touch.pageY,
+          screenX: touch.screenX,
+          screenY: touch.screenY,
+          target: touch.target
+        };
+        var evt = new qx.event.type.native.Pointer(type, domEvent, touchProps);
+        evt.isPrimary = true; //TODO
+        evt.pointerType = "touch";
+        this._fireEvent(evt, type, target);
+      }
     },
 
     _onMouseEvent : function(domEvent) {
