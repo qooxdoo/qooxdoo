@@ -60,12 +60,12 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
   },
 
   members : {
-
+    __defaultTarget : null,
     __emitter : null,
     __eventNames : null,
     __wrappedListener : null,
-    __lastButtonState: null,
-    __buttonStates: null,
+    __lastButtonState : null,
+    __buttonStates : null,
     __contextMenu : false,
 
     /**
@@ -178,8 +178,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       target = target || domEvent.target;
       type = type || domEvent.type;
 
-      if (target && target.nodeType && this.__emitter)
-      {
+      if (target && target.nodeType && this.__emitter) {
         this.__emitter.emit(type, domEvent);
       }
     },
@@ -189,6 +188,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      */
     dispose : function() {
       this._stopObserver();
+      this.__defaultTarget = this.__emitter = null;
     }
   }
 });

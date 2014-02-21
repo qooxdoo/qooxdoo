@@ -53,12 +53,9 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
   construct : function(type, domEvent) {
     var evt;
     if (typeof window.MouseEvent == "function") {
-      evt = new MouseEvent(type);
+      evt = new window.MouseEvent(type);
     } else if (typeof document.createEvent == "function") {
       evt = document.createEvent("MouseEvents");
-      evt.initMouseEvent(type, properties.bubbles, properties.cancelable, properties.view, properties.detail,
-        properties.screenX, properties.screenY, properties.clientX, properties.clientY, properties.ctrlKey,
-        properties.altKey, properties.shiftKey, properties.metaKey, properties.button, properties.relatedTarget);
     } else if (typeof document.createEventObject == "object") {
       evt = document.createEventObject();
       evt.type = type;
@@ -97,6 +94,10 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
     } else {
       properties.pressure = buttons ? 0.5 : 0;
     }
+
+    evt.initMouseEvent(type, properties.bubbles, properties.cancelable, properties.view, properties.detail,
+        properties.screenX, properties.screenY, properties.clientX, properties.clientY, properties.ctrlKey,
+        properties.altKey, properties.shiftKey, properties.metaKey, properties.button, properties.relatedTarget);
 
     for (var prop in properties) {
       evt[prop] = properties[prop];

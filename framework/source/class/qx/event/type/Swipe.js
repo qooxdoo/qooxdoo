@@ -24,7 +24,7 @@
  */
 qx.Class.define("qx.event.type.Swipe",
 {
-    extend : qx.event.type.Touch,
+    extend : qx.event.type.Pointer,
 
 
     /*
