@@ -84,7 +84,10 @@ qx.Bootstrap.define("qx.module.event.PointerHandler", {
 
   defer : function(statics)
   {
-    if (!qx.core.Environment.get("event.mspointer")) {
+    var engineName = q.env.get("engine.name");
+    var docMode = parseInt(q.env.get("browser.documentmode"), 10);
+    // apply event name normalization in IE 10
+    if (!qx.core.Environment.get("event.mspointer") || (engineName == "mshtml" && docMode == 10)) {
       qxWeb.$registerEventHook(statics.TYPES, statics.register, statics.unregister);
     }
   }
