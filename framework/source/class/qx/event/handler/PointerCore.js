@@ -187,9 +187,9 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     */
     _onMouseEvent : function(domEvent) {
       if (domEvent.type == "mousedown") {
-        this.__buttonStates[domEvent.button] = 1;
+        this.__buttonStates[domEvent.which] = 1;
       } else if (domEvent.type == "mouseup") {
-        this.__buttonStates[domEvent.button] = 0;
+        this.__buttonStates[domEvent.which] = 0;
         if (this.__contextMenu) {
           this.__contextMenu = false;
           return;
@@ -220,7 +220,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       }
 
       if (domEvent.type == "contextmenu") {
-        this.__buttonStates[domEvent.button] = 0;
+        this.__buttonStates[domEvent.which] = 0;
         this.__contextMenu = true;
         return;
       }

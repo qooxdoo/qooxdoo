@@ -38,6 +38,7 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
       shiftKey : false,
       metaKey : false,
       button : 0,
+      which : 0,
       relatedTarget : null,
 
       pointerId: 1,

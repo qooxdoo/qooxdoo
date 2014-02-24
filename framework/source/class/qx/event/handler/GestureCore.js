@@ -191,8 +191,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     _fireEvent : function(domEvent, type, target) {
       target = target || domEvent.target;
 
-      var evt = document.createEvent('Event');
-      evt.initEvent(type, true, true);
+      var evt = new qx.event.type.native.Custom(type, domEvent);
 
       if (target && target.nodeType && this.__emitter) {
         this.__emitter.emit(type, evt);
