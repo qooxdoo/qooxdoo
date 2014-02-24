@@ -114,8 +114,8 @@ qx.Class.define("qx.bom.webfonts.Manager", {
 
       // old IEs need a break in between adding @font-face rules
       if (qx.core.Environment.get("engine.name") == "mshtml" && (
-          parseInt(qx.core.Environment.get("engine.version")) < 9) ||
-          qx.core.Environment.get("browser.documentmode") < 9) {
+          parseInt(qx.core.Environment.get("engine.version")) < 9 ||
+          qx.core.Environment.get("browser.documentmode") < 9)) {
         if (!this.__queueInterval) {
           this.__queueInterval = new qx.event.Timer(100);
           this.__queueInterval.addListener("interval", this.__flushQueue, this);
@@ -466,6 +466,10 @@ qx.Class.define("qx.bom.webfonts.Manager", {
 
   destruct : function()
   {
+    if (this.__queueInterval) {
+      this.__queueInterval.stop();
+      this.__queueInterval.dispose();
+    }
     delete this.__createdStyles;
     this.removeStyleSheet();
     for (var prop in this.__validators) {
