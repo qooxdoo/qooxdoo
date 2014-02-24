@@ -74,8 +74,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         this.__eventNames = ["MSPointerDown", "MSPointerMove", "MSPointerUp", "MSPointerCancel"];
         this._initPointerObserver();
       }
-    }
-    else { 
+    } else {
       if (qx.core.Environment.get("device.touch")) {
         this.__eventNames = ["touchstart", "touchend", "touchmove", "touchcancel"];
         this._initObserver(this._onTouchEvent);
@@ -104,6 +103,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       this._initObserver(this._onPointerEvent);
     },
 
+
     _initObserver : function(callback) {
       this.__wrappedListener = qx.lang.Function.listener(callback, this);
       this.__eventNames.forEach(function(type) {
@@ -113,7 +113,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
     /**
      * Handler for native pointer events
-     * @param domEvent {Event} Native pointer event
+     * @param domEvent {Event}  Native DOM event
      */
     _onPointerEvent : function(domEvent) {
       var type = qx.event.handler.PointerCore.MSPOINTER_TO_POINTER_MAPPING[domEvent.type];
@@ -123,6 +123,10 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       this._fireEvent(evt, type, target);
     },
 
+    /**
+     * Handler for touch events
+     * @param domEvent {Event} Native DOM event
+     */
     _onTouchEvent: function(domEvent) {
       var type = qx.event.handler.PointerCore.TOUCH_TO_POINTER_MAPPING[domEvent.type];
       var target = qx.bom.Event.getTarget(domEvent);
@@ -133,7 +137,6 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       }
 
       for (var i = 0, l = changedTouches.length; i < l; i++) {
-
         var touch = changedTouches[i];
 
         var touchProps = {
@@ -147,9 +150,13 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           target: touch.target
         };
 
-        var evt = new qx.event.type.native.Pointer(type, domEvent, touchProps);
-        evt.pointerType = "touch";
-        evt.pointerId = touch.identifier + 2;
+        if (domEvent.type == "touchstart") {
+          // Fire pointerenter before pointerdown
+          var evt = this._createPointerEvent("pointerover", domEvent, "touch", touch.identifier + 2, touchProps);
+          this._fireEvent(evt, type, target);
+        }
+
+        var evt = this._createPointerEvent(type, domEvent, "touch", touch.identifier + 2, touchProps);
 
         if (domEvent.type == "touchstart" || domEvent.type == "touchmove" || domEvent.type == "touchmove" || domEvent.type == "touchend" || domEvent.type == "touchcancel") {
           if (touch.identifier == this.__primaryIdentifier) {
@@ -160,11 +167,13 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         }
 
         this._fireEvent(evt, type, target);
-      }
 
-      if (domEvent.type == "touchend" || domEvent.type == "touchcancel") {
-        for (var j = 0; j < changedTouches.length; j++) {
-          if (this.__primaryIdentifier == changedTouches[j].identifier) {
+        if (domEvent.type == "touchend" || domEvent.type == "touchcancel") {
+          // Fire pointerout after pointerup
+          var evt = this._createPointerEvent("pointerout", domEvent, "touch", touch.identifier + 2, touchProps);
+          this._fireEvent(evt, type, target);
+
+          if (this.__primaryIdentifier == touch.identifier) {
             this.__primaryIdentifier = null;
           }
         }
@@ -172,6 +181,10 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     },
 
 
+    /**
+    * Handler for touch events
+    * @param domEvent {Event} Native DOM event
+    */
     _onMouseEvent : function(domEvent) {
       if (domEvent.type == "mousedown") {
         this.__buttonStates[domEvent.button] = 1;
@@ -186,10 +199,8 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       var type = qx.event.handler.PointerCore.MOUSE_TO_POINTER_MAPPING[domEvent.type];
       var target = qx.bom.Event.getTarget(domEvent);
 
-      var evt = new qx.event.type.native.Pointer(type, domEvent);
+      var evt = this._createPointerEvent(type, domEvent, "mouse", 1);
       evt.isPrimary = true;
-      evt.pointerType = "mouse";
-      evt.pointerId = 1;
 
       var buttonsPressed = qx.lang.Array.sum(this.__buttonStates);
 
@@ -217,6 +228,15 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       this._fireEvent(evt, type, target);
       this.__contextMenu = false;
     },
+
+
+    _createPointerEvent : function(type, domEvent, pointerType, pointerId, properties) {
+      var evt = new qx.event.type.native.Pointer(type, domEvent, properties);
+      evt.pointerType = pointerType;
+      evt.pointerId = pointerId;
+      return evt;
+    },
+
 
     /**
      * Removes native pointer event listeners.

@@ -47,7 +47,6 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
       tiltX: 0,
       tiltY: 0,
       pointerType: '',
-      hwTimestamp: 0,
       isPrimary: false
     }
   },
@@ -76,13 +75,13 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
       var evt = this._event;
       var properties = qx.lang.Object.clone(qx.event.type.native.Pointer.PROPERTIES);
       var propNames = Object.keys(qx.event.type.native.Pointer.PROPERTIES);
-      for (var i=0; i<propNames.length; i++) {
+      for (var i = 0; i < propNames.length; i++) {
         var propName = propNames[i];
         if (propName in domEvent) {
           properties[propName] = domEvent[propName];
         }
         if (customProps && customProps[propName]) {
-          properties[propName] =  customProps[propName];
+          properties[propName] = customProps[propName];
         }
       }
 
