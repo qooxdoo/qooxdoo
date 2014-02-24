@@ -63,14 +63,16 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         type = domEvent.type;
       }
 
+      if(!domEvent.isPrimary) {
+        return;
+      }
+
       if (type == "pointerdown") {
         this.__isTapGesture = true;
         this.gestureStart(domEvent, target);
-      }
-      else if (type == "pointermove") {
+      } else if (type == "pointermove") {
         this.gestureChange(domEvent, target);
-      }
-      else if (type == "pointerup") {
+      } else if (type == "pointerup") {
         this.gestureEnd(domEvent, target);
       }
     },
@@ -83,8 +85,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      */
     gestureStart : function(domEvent, target) {
       this.__onMove = true;
-
-      this.__gestureStartPosition[this._getIdentifier(domEvent)] = [domEvent.clientX, domEvent.clientY];
+      this.__gestureStartPosition[domEvent.pointerId] = [domEvent.clientX, domEvent.clientY];
 
       this.__startTime = new Date().getTime();
 
@@ -93,9 +94,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         this.__fireLongTap.bind(this, domEvent, target),
         qx.event.handler.GestureCore.LONGTAP_TIME
       );
-      // } else {
-      //   this.__stopLongTapTimer();
-      // }
     },
 
     /**
@@ -114,13 +112,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       }
     },
 
-    _getIdentifier : function(domEvent) {
-      if (domEvent.changedTouches) {
-        //TODO
-      } else {
-        return 0;
-      }
-    },
 
     /**
      * Checks if the distance between the x/y coordinates of "touchstart" and "touchmove" event
@@ -140,8 +131,9 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
               Math.abs(delta[1]) <= clazz.TAP_MAX_DISTANCE);
     },
 
+
     _getDeltaCoordinates : function(domEvent) {
-      var position = this.__gestureStartPosition[this._getIdentifier(domEvent)];
+      var position = this.__gestureStartPosition[domEvent.pointerId];
       if (!position) {
         return null;
       }
@@ -182,7 +174,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         }
       }
 
-      delete this.__gestureStartPosition[this._getIdentifier(domEvent)];
+      delete this.__gestureStartPosition[domEvent.pointerId];
     },
 
     /**
