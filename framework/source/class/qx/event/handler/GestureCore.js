@@ -39,7 +39,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
   members : {
     __defaultTarget : null,
     __emitter : null,
-    __onMove : null,
     __gestureStartPosition : null,
     __startTime : null,
     __longTapTimer : null,
@@ -73,6 +72,10 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       } else if (type == "pointermove") {
         this.gestureChange(domEvent, target);
       } else if (type == "pointerup") {
+        // If no start position is available for this pointerup event, cancel gesture recognition.
+        if (Object.keys(this.__gestureStartPosition).length == 0) {
+          return;
+        }
         this.gestureEnd(domEvent, target);
       }
     },
@@ -84,7 +87,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element} event target
      */
     gestureStart : function(domEvent, target) {
-      this.__onMove = true;
       this.__gestureStartPosition[domEvent.pointerId] = [domEvent.clientX, domEvent.clientY];
 
       this.__startTime = new Date().getTime();
@@ -114,10 +116,10 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
 
     /**
-     * Checks if the distance between the x/y coordinates of "touchstart" and "touchmove" event
+     * Checks if the distance between the x/y coordinates of DOM event
      * exceeds TAP_MAX_DISTANCE and returns the result.
      *
-     * @param domEvent {Event} The "touchmove" event from the browser.
+     * @param domEvent {Event} The DOM event from the browser.
      * @return {Boolean} true if distance is below TAP_MAX_DISTANCE.
      */
     _isBelowTapMaxDistance: function(domEvent) {
@@ -132,6 +134,10 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     },
 
 
+    /**
+    * Calculates the delta coordinates in relation to the position on <code>pointerstart</code> event.
+    * @param domEvent {Event} The DOM event from the browser.
+    */
     _getDeltaCoordinates : function(domEvent) {
       var position = this.__gestureStartPosition[domEvent.pointerId];
       if (!position) {
@@ -151,7 +157,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element} event target
      */
     gestureEnd : function(domEvent, target) {
-      this.__onMove = false;
 
       // delete the long tap
       this.__stopLongTapTimer();
@@ -173,7 +178,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
           this._fireEvent(domEvent, "swipe", target, eventType);
         }
       }
-
       delete this.__gestureStartPosition[domEvent.pointerId];
     },
 
