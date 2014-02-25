@@ -128,6 +128,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       var type = qx.event.handler.PointerCore.TOUCH_TO_POINTER_MAPPING[domEvent.type];
       var target = qx.bom.Event.getTarget(domEvent);
       var changedTouches = domEvent.changedTouches;
+      domEvent.stopPropagation();
 
       if (domEvent.type == "touchstart" && !this.__primaryIdentifier) {
         this.__primaryIdentifier = changedTouches[0].identifier;
