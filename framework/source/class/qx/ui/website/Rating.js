@@ -240,7 +240,7 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
     /**
      * Tap handler which updates the value depending on the selected element.
      *
-     * @param e {Event} The native click event.
+     * @param e {Event} tap event
      */
     _onTap : function(e) {
       var parents = qxWeb(e.getTarget()).getParents();

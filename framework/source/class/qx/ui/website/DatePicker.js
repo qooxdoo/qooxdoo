@@ -107,11 +107,11 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
         // create the connection between the date picker and the corresponding calendar widget
         datepicker.setData('qx-calendar-id', uniqueId);
 
-        // click listener to open / hide calendar
+        // click/tap listener to open / hide calendar
         datepicker.onWidget('tap', datepicker._onTap);
 
         var bodyElement = qxWeb.getDocument(datepicker).body;
-        qxWeb(bodyElement).on('tap', datepicker._onBodyClick, datepicker, true);
+        qxWeb(bodyElement).on('tap', datepicker._onBodyTap, datepicker, true);
 
         // react on date selection
         calendar.on('changeValue', datepicker._calendarChangeValue, datepicker);
@@ -131,10 +131,10 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
     },
 
     /**
-     * Listener which handles clicks on the associated input element and
+     * Listener which handles clicks/taps on the associated input element and
      * opens / hides the calendar.
      *
-     * @param e {Event} Native click event
+     * @param e {Event} tap event
      */
     _onTap : function(e) {
       var calendar = qxWeb('div#datepicker-' + this.getData('qx-calendar-id'));
@@ -146,16 +146,16 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
 
     /**
      * Listener to the body element to be able to hide the calendar if the user clicks
-     * outside the calendar.
+     * or taps outside the calendar.
      *
-     * @param e {Event} native click event
+     * @param e {Event} tap event
      */
-    _onBodyClick : function(e) {
+    _onBodyTap : function(e) {
       // only check for this if the calendar is actually open
       if (this.getCalendar().isRendered()) {
-        var clickedCol = qxWeb(e.getTarget());
+        var tappedCol = qxWeb(e.getTarget());
 
-        if (clickedCol.isChildOf(this.getCalendar()) === false) {
+        if (tappedCol.isChildOf(this.getCalendar()) === false) {
           this.getCalendar().hide();
         }
       }
@@ -181,7 +181,7 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
         datepicker.offWidget('tap', datepicker._onTap);
 
         var bodyElement = qxWeb.getDocument(datepicker).body;
-        qxWeb(bodyElement).off('tap', datepicker._onBodyClick, datepicker, true);
+        qxWeb(bodyElement).off('tap', datepicker._onBodyTap, datepicker, true);
 
         datepicker.getCalendar().off('changeValue', this._calendarChangeValue, datepicker);
       });
