@@ -286,21 +286,6 @@ qx.Class.define("qx.ui.form.SplitButton",
 
 
     /**
-     * Listener for <code>mouseover</code> event
-     *
-     * @param e {qx.event.type.Mouse} mouseover event
-     * @deprecated {4.0}
-     */
-    _onMouseOver : function(e)
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerOver' instead.");
-      }
-    },
-
-
-    /**
      * Listener for <code>pointerout</code> event
      *
      * @param e {qx.event.type.Pointer} pointerout event
@@ -334,21 +319,6 @@ qx.Class.define("qx.ui.form.SplitButton",
 
       // Finally remove state
       this.removeState("hovered");
-    },
-
-
-    /**
-     * Listener for <code>mouseout</code> event
-     *
-     * @param e {qx.event.type.Mouse} mouseout event
-     * @deprecated {4.0}
-     */
-    _onMouseOut : function(e)
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerOut' instead.");
-      }
     },
 
 

@@ -236,19 +236,6 @@ qx.Class.define("qx.ui.menu.AbstractButton",
       // pass
     },
 
-    /**
-     * Event listener for click
-     *
-     * @param e {qx.event.type.Mouse} mouseup event
-     * @deprecated {4.0}
-     */
-    _onClick : function(e) {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onTap' instead.");
-      }
-    },
-
 
     /**
      * Event listener for keypress event

@@ -281,27 +281,6 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
 
     /**
-     * Listener method for "mouseover" event.
-     *
-     * <ul>
-     * <li>Adds state "hovered"</li>
-     * <li>Removes "abandoned" and adds "pressed" state (if "abandoned" state
-     *   is set)</li>
-     * </ul>
-     *
-     * @param event {Event} Mouse event
-     * @deprecated {4.0}
-     */
-    _onMouseOver : function(event)
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerOver' instead.");
-      }
-    },
-
-
-    /**
      * Listener method for "pointerout" event.
      *
      * <ul>
@@ -324,27 +303,6 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       {
         this.removeState("pressed");
         this.addState("abandoned");
-      }
-    },
-
-
-    /**
-     * Listener method for "mouseout" event.
-     *
-     * <ul>
-     * <li>Removes "hovered" state</li>
-     * <li>Adds "abandoned" and removes "pressed" state (if "pressed" state
-     *   is set)</li>
-     * </ul>
-     *
-     * @param event {Event} Mouse event
-     * @deprecated {4.0}
-     */
-    _onMouseOut : function(event)
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerOut' instead.");
       }
     },
 

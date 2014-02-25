@@ -147,20 +147,6 @@ qx.Class.define("qx.ui.form.HoverButton",
 
 
     /**
-     * Start timer on pointer over
-     *
-     * @param e {qx.event.type.Mouse} The mouse event
-     * @deprecated {4.0}
-     */
-    _onMouseOver : function(e) {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerOver' instead.");
-      }
-    },
-
-
-    /**
      * Stop timer on pointer out
      *
      * @param e {qx.event.type.Pointer} The pointer event
@@ -172,21 +158,6 @@ qx.Class.define("qx.ui.form.HoverButton",
 
       if (!this.isEnabled() || e.getTarget() !== this) {
         return;
-      }
-    },
-
-
-    /**
-     * Stop timer on pointer out
-     *
-     * @param e {qx.event.type.Mouse} The mouse event
-     * @deprecated {4.0}
-     */
-    _onMouseOut : function(e)
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerOut' instead.");
       }
     },
 

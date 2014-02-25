@@ -270,25 +270,6 @@ qx.Class.define("qx.ui.form.SelectBox",
 
 
     /**
-     * Listener method for "mouseover" event
-     * <ul>
-     * <li>Adds state "hovered"</li>
-     * <li>Removes "abandoned" and adds "pressed" state (if "abandoned" state is set)</li>
-     * </ul>
-     *
-     * @param e {qx.event.type.Mouse} Mouse event
-     * @deprecated {4.0}
-     */
-    _onMouseOver : function(e)
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerOver' instead.");
-      }
-    },
-
-
-    /**
      * Listener method for "pointerout" event
      * <ul>
      * <li>Removes "hovered" state</li>
@@ -314,45 +295,12 @@ qx.Class.define("qx.ui.form.SelectBox",
 
 
     /**
-     * Listener method for "mouseout" event
-     * <ul>
-     * <li>Removes "hovered" state</li>
-     * <li>Adds "abandoned" and removes "pressed" state (if "pressed" state is set)</li>
-     * </ul>
-     *
-     * @param e {qx.event.type.Mouse} Mouse event
-     * @deprecated {4.0}
-     */
-    _onMouseOut : function(e)
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerOut' instead.");
-      }
-    },
-
-
-    /**
      * Toggles the popup's visibility.
      *
      * @param e {qx.event.type.Pointer} Pointer event
      */
     _onTap : function(e) {
       this.toggle();
-    },
-
-
-    /**
-     * Toggles the popup's visibility.
-     *
-     * @param e {qx.event.type.Mouse} Mouse event
-     * @deprecated {4.0}
-     */
-    _onClick : function(e) {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onTap' instead.");
-      }
     },
 
 

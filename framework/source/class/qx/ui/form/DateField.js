@@ -479,20 +479,6 @@ qx.Class.define("qx.ui.form.DateField",
 
 
     /**
-     * Toggles the popup's visibility.
-     *
-     * @param e {qx.event.type.Mouse} Mouse click event
-     * @deprecated {4.0}
-     */
-    _onClick : function(e) {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onTap' instead.");
-      }
-    },
-
-
-    /**
      * Handler for the blur event of the current widget.
      *
      * @param e {qx.event.type.Focus} The blur event.

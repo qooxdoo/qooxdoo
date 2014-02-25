@@ -466,21 +466,6 @@ qx.Class.define("qx.ui.menu.Manager",
     },
 
 
-    /**
-     * Event handler for mousedown events
-     *
-     * @param e {qx.event.type.Mouse} mousedown event
-     * @deprecated {4.0}
-     */
-    _onMouseDown : function(e)
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerDown' instead.");
-      }
-    },
-
-
     /*
     ---------------------------------------------------------------------------
       KEY EVENT HANDLING

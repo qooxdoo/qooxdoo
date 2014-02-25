@@ -276,20 +276,6 @@ qx.Class.define("qx.ui.form.ComboBox",
     },
 
 
-    /**
-     * Toggles the popup's visibility.
-     *
-     * @param e {qx.event.type.Mouse} Mouse click event
-     * @deprecated {4.0}
-     */
-    _onClick : function(e) {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onTap' instead.");
-      }
-    },
-
-
     // overridden
     _onListPointerDown : function(e) {
       this._setPreselectedItem();

@@ -218,18 +218,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
 
 
     /**
-     * Former listener method for "mouseover" event.
-     * @deprecated {4.0}
-     */
-    _onMouseOver : function() {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerOver' instead.");
-      }
-    },
-
-
-    /**
      * Listener method for "pointerout" event.
      * <ul>
      * <li>Removes "hovered" state</li>
@@ -254,18 +242,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
         }
 
         this.addState("abandoned");
-      }
-    },
-
-
-    /**
-     * Former listener method for "mouseover" event.
-     * @deprecated {4.0}
-     */
-    _onMouseOut : function() {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerOut' instead.");
       }
     },
 
@@ -297,18 +273,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
 
 
     /**
-     * Former listener method for "mouseover" event.
-     * @deprecated {4.0}
-     */
-    _onMouseDown : function() {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerDown' instead.");
-      }
-    },
-
-
-    /**
      * Listener method for "pointerup" event.
      * <ul>
      * <li>Releases capturing</li>
@@ -331,18 +295,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
 
       this.removeState("pressed");
       e.stopPropagation();
-    },
-
-
-    /**
-     * Former listener method for "mouseover" event.
-     * @deprecated {4.0}
-     */
-    _onMouseUp : function() {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerUp' instead.");
-      }
     },
 
 

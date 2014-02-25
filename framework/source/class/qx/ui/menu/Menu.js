@@ -776,21 +776,6 @@ qx.Class.define("qx.ui.menu.Menu",
 
 
     /**
-     * Event listener for mouseover event.
-     *
-     * @param e {qx.event.type.Mouse} mouseover event
-     * @deprecated {4.0}
-     */
-    _onMouseOver : function(e)
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerOver' instead.");
-      }
-    },
-
-
-    /**
      * Event listener for pointerout event.
      *
      * @param e {qx.event.type.Pointer} pointerout event
@@ -821,20 +806,6 @@ qx.Class.define("qx.ui.menu.Menu",
         if (this.__scheduledOpen) {
           mgr.cancelOpen(this.__scheduledOpen);
         }
-      }
-    },
-
-
-    /**
-     * Event listener for mouseout event.
-     *
-     * @param e {qx.event.type.Mouse} mouseout event
-     */
-    _onPointerOut : function(e)
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerOut' instead.");
       }
     }
   },

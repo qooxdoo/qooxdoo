@@ -329,20 +329,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
 
     /**
-     * Redirects mousedown event from the list to this widget.
-     *
-     * @param e {qx.event.type.Mouse} Mouse Event
-     * @deprecated {4.0}
-     */
-    _onListMouseDown : function(e) {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onListPointerDown' instead.");
-      }
-    },
-
-
-    /**
      * Redirects pointerdown event from the list to this widget.
      *
      * @param e {qx.event.type.Pointer} Pointer Event

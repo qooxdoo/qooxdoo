@@ -115,30 +115,6 @@ qx.Class.define("qx.ui.form.ListItem",
      */
     _onPointerOut : function() {
       this.removeState("hovered");
-    },
-
-
-    /**
-     * Event handler for the mouse over event.
-     * @deprecated {4.0}
-     */
-    _onMouseOver : function() {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerOver' instead.");
-      }
-    },
-
-
-    /**
-     * Event handler for the mouse out event.
-     * @deprecated {4.0}
-     */
-    _onMouseOut : function() {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerOut' instead.");
-      }
     }
   },
 

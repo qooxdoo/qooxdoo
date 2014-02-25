@@ -853,18 +853,6 @@ qx.Class.define("qx.ui.form.AbstractField",
       }.bind(this), 0);
     },
 
-    /**
-     * Remove the fake placeholder
-     * @deprecated {4.0}
-     */
-    _onMouseDownPlaceholder : function() {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerDownPlaceholder' instead.");
-      }
-    },
-
-
 
     /**
      * Helper to remove the placeholder. Deletes the placeholder text from the

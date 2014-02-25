@@ -211,17 +211,6 @@ qx.Class.define("qx.ui.form.Button",
       this.addState("hovered");
     },
 
-    /**
-     * Former listener method for "mouseover" event.
-     * @deprecated {4.0} Please use pointer events instead.
-     */
-    _onMouseOver : function() {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerOver' instead.");
-      }
-    },
-
 
     /**
      * Listener method for "pointerout" event
@@ -249,18 +238,6 @@ qx.Class.define("qx.ui.form.Button",
 
 
     /**
-     * Former listener method for "mouseout" event.
-     * @deprecated {4.0} Please use pointer events instead.
-     */
-    _onMouseOut : function() {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerOut' instead.");
-      }
-    },
-
-
-    /**
      * Listener method for "pointerdown" event
      * <ul>
      * <li>Removes "abandoned" state</li>
@@ -283,18 +260,6 @@ qx.Class.define("qx.ui.form.Button",
 
       this.removeState("abandoned");
       this.addState("pressed");
-    },
-
-
-    /**
-     * Former listener method for "mousedown" event.
-     * @deprecated {4.0} Please use pointer events instead.
-     */
-    _onMouseDown : function() {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerDown' instead.");
-      }
     },
 
 
@@ -337,18 +302,6 @@ qx.Class.define("qx.ui.form.Button",
 
 
     /**
-     * Former listener method for "mouseup" event.
-     * @deprecated {4.0} Please use pointer events instead.
-     */
-    _onMouseUp : function() {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerUp' instead.");
-      }
-    },
-
-
-    /**
      * Listener method for "click" event which stops the propagation.
      *
      * @param e {qx.event.type.Mouse} Mouse event
@@ -356,18 +309,6 @@ qx.Class.define("qx.ui.form.Button",
     _onTap : function(e) {
       e.stopPropagation();
     },
-
-
-    /**
-     * Former listener method for "click" event.
-     * @deprecated {4.0} Please use pointer events instead.
-     */
-    _onClick : function() {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onTap' instead.");
-      }
-    },    
 
 
     /**

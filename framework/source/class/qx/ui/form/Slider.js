@@ -317,22 +317,6 @@ qx.Class.define("qx.ui.form.Slider",
 
 
     /**
-     * Event handler for mouseover events at the knob child control.
-     *
-     * Adds the 'hovered' state
-     *
-     * @param e {qx.event.type.Mouse} Incoming mouse event
-     * @deprecated {4.0}
-     */
-    _onMouseOver : function(e) {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerOver' instead.");
-      }
-    },
-
-
-    /**
      * Event handler for pointerout events at the knob child control.
      *
      * Removes the 'hovered' state
@@ -341,22 +325,6 @@ qx.Class.define("qx.ui.form.Slider",
      */
     _onPointerOut : function(e) {
       this.removeState("hovered");
-    },
-
-
-    /**
-     * Event handler for mouseout events at the knob child control.
-     *
-     * Removes the 'hovered' state
-     *
-     * @param e {qx.event.type.Mouse} Incoming mouse event
-     * @deprecated {4.0}
-     */
-    _onMouseOut : function(e) {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerOut' instead.");
-      }
     },
 
 
@@ -514,20 +482,6 @@ qx.Class.define("qx.ui.form.Slider",
 
 
     /**
-     * Listener of mousedown event. Initializes drag or tracking mode.
-     *
-     * @param e {qx.event.type.Mouse} Incoming event object
-     * @deprecated {4.0}
-     */
-    _onMouseDown : function(e) {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerDown' instead.");
-      }
-    },
-
-
-    /**
      * Listener of pointerup event. Used for cleanup of previously
      * initialized modes.
      *
@@ -608,22 +562,6 @@ qx.Class.define("qx.ui.form.Slider",
 
 
     /**
-     * Listener of mouseup event. Used for cleanup of previously
-     * initialized modes.
-     *
-     * @param e {qx.event.type.Mouse} Incoming event object
-     * @deprecated {4.0}
-     */
-    _onMouseUp : function(e)
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerUp' instead.");
-      }
-    },
-
-
-    /**
      * Listener of pointermove event for the knob. Only used in drag mode.
      *
      * @param e {qx.event.type.Pointer} Incoming event object
@@ -646,20 +584,6 @@ qx.Class.define("qx.ui.form.Slider",
 
       // Stop event
       e.stopPropagation();
-    },
-
-
-    /**
-     * Listener of mousemove event for the knob. Only used in drag mode.
-     *
-     * @param e {qx.event.type.Mouse} Incoming event object
-     */
-    _onMouseMove : function(e)
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
-          "Please use '_onPointerMove' instead.");
-      }
     },
 
 
