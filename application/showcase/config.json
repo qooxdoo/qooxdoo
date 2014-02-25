@@ -98,10 +98,6 @@
           {
             "include" : ["showcase.page.tree.Content"]
           },
-          "htmleditor":
-          {
-            "include" : ["showcase.page.htmleditor.Content"]
-          },
           "i18n":
           {
             "include" : ["showcase.page.i18n.Content"]
