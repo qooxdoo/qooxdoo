@@ -62,7 +62,7 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
       this.setIcon(icon);
     }
 
-    this.addListener("mouseover", this._onMouseOver, this);
+    this.addListener("pointerover", this._onPointerOver, this);
   },
 
 
@@ -190,11 +190,11 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
 
 
     /**
-     * Listener method for "mouseover" event
+     * Listener method for "pointerover" event
      *
-     * @param e {qx.event.type.Event} Mouse event
+     * @param e {qx.event.type.Pointer} Pointer event
      */
-    _onMouseOver : function(e) {
+    _onPointerOver : function(e) {
       //this.hide();
     },
 
