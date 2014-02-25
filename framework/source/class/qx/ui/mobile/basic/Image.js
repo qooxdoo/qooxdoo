@@ -146,20 +146,17 @@ qx.Class.define("qx.ui.mobile.basic.Image",
       var resourceManager = qx.util.ResourceManager.getInstance();
       var uri = resourceManager.toUri(source);
       if (source && source.indexOf('data:') != 0 && resourceManager.has(source)) {
-        this._setStyle("width", resourceManager.getImageWidth(source) / 16 + "rem");
-        this._setStyle("height", resourceManager.getImageHeight(source) / 16 + "rem");
-
-        // If a no high-resolution version of the source was found, apply the source.
         if (this._findHighResolutionSource(source) == false) {
+          // If no high-resolution version of the source was found, apply the source.
+          var ImageLoader = qx.io.ImageLoader;
+          if (!ImageLoader.isFailed(uri) && !ImageLoader.isLoaded(uri)) {
+            ImageLoader.load(uri, this.__loaderCallback, this);
+          }
+
           this._setSource(uri);
         }
       } else {
         this._setSource(uri);
-      }
-
-      var ImageLoader = qx.io.ImageLoader;
-      if (!ImageLoader.isFailed(uri) && !ImageLoader.isLoaded(uri)) {
-        ImageLoader.load(uri, this.__loaderCallback, this);
       }
     },
 
@@ -185,7 +182,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     * @param source {String} source of the medium resolution image.
     * @return {Boolean} If a high-resolution image source was found or not.
     */
-    _findHighResolutionSource: function(source) {
+    _findHighResolutionSource: function(lowResImgSrc) {
       var pixelRatioCandidates = qx.ui.mobile.basic.Image.PIXEL_RATIOS;
 
       // Calculate the optimal ratio, based on the rem scale factor of the application and the device pixel ratio.
@@ -197,22 +194,22 @@ qx.Class.define("qx.ui.mobile.basic.Image",
       var i = pixelRatioCandidates.length;
       while (i > 0 && factor > pixelRatioCandidates[--i]) {}
 
-      var imgSrc;
+      var hiResImgSrc;
 
       // Search for best img with a higher resolution.
       for (var k = i; k >= 0; k--) {
-        imgSrc = this._getHighResolutionSource(source, pixelRatioCandidates[k]);
-        if (imgSrc) {
-          this._createHighResolutionOverlay(imgSrc);
+        hiResImgSrc = this._getHighResolutionSource(lowResImgSrc, pixelRatioCandidates[k]);
+        if (hiResImgSrc) {
+          this._createHighResolutionOverlay(hiResImgSrc,lowResImgSrc);
           return true;
         }
       }
 
       // Search for best img with a lower resolution.
       for (var k = i + 1; k < pixelRatioCandidates.length; k++) {
-        imgSrc = this._getHighResolutionSource(source, pixelRatioCandidates[k]);
-        if (imgSrc) {
-          this._createHighResolutionOverlay(imgSrc);
+        hiResImgSrc = this._getHighResolutionSource(lowResImgSrc, pixelRatioCandidates[k]);
+        if (hiResImgSrc) {
+          this._createHighResolutionOverlay(hiResImgSrc,lowResImgSrc);
           return true;
         }
       }
@@ -247,14 +244,18 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     * The original image widget is hidden by this method.
     *
     * @param highResSource {String} Image source of the high-resolution image.
+    * @param lowResSource {String} Image source of the low-resolution image.
     */
-    _createHighResolutionOverlay : function(highResSource) {
+    _createHighResolutionOverlay : function(highResSource, lowResSource) {
       // Replace the source through transparent pixel for making the high-resolution background image visible.
       this._setSource(qx.ui.mobile.basic.Image.PLACEHOLDER_IMAGE);
-      this._setStyle("backgroundImage","url("+qx.util.ResourceManager.getInstance().toUri(highResSource)+")");
+      var resourceManager = qx.util.ResourceManager.getInstance();
+      this._setStyle("backgroundImage","url("+resourceManager.toUri(highResSource)+")");
       this._setStyle("backgroundSize","100%");
       this._setStyle("backgroundRepeat","no-repeat");
       this._setStyle("backgroundPosition","50% 50%");
+      this._setStyle("width", resourceManager.getImageWidth(lowResSource) / 16 + "rem");
+      this._setStyle("height", resourceManager.getImageHeight(lowResSource) / 16 + "rem");
     },
 
 
