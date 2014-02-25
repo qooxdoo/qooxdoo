@@ -235,10 +235,37 @@ qx.Class.define("qx.test.Part",
           this.assertEquals("complete", states[0]);
           this.assertEquals("complete", states[1]);
           this.assertEquals("error", states[2]);
+
+          delete qx.Part.$$instance;
         }, this);
       }, this);
 
       this.wait();
+    },
+
+    testRequireUnknownPart: function () {
+      qx.test.PART_FILES = [];
+
+      // create a dummy loader
+      var loader = {
+        parts : {
+          "affe" : ["p0"]
+        },
+        packages : {
+          p0 : { uris : ["boot.js"]}
+        },
+        boot: "affe"
+      };
+
+      var partLoader = new qx.Part(loader);
+      qx.Part.$$instance = partLoader;
+
+      // require unknown part
+      this.assertException(function () {
+        partLoader.require(['unknown']);
+      }, Error);
+
+      delete qx.Part.$$instance;
     }
   }
 });

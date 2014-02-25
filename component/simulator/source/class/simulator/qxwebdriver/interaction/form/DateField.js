@@ -19,6 +19,7 @@
 
 /**
  * Interactions for {@link qx.ui.form.DateField} and derived widgets
+ * @deprecated{3.6}
  */
 qx.Class.define("simulator.qxwebdriver.interaction.form.DateField", {
 

@@ -18,7 +18,6 @@
 ************************************************************************ */
 
 /**
- * @require(qx.bom.htmlarea.HtmlArea)
  * @require(qx.io.remote.Request)
  * @require(qx.ui.core.scroll.MScrollBarFactory)
  */
@@ -487,7 +486,6 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("qx.allowUrlSettings"), "1");
       this.assertBoolean(qx.core.Environment.get("qx.allowUrlVariants"), "2");
       this.assertString(qx.core.Environment.get("qx.application"), "3");
-      this.assertBoolean(qx.core.Environment.get("qx.bom.htmlarea.HtmlArea.debug"), "4");
       this.assertNumber(qx.core.Environment.get("qx.debug.dispose.level"), "5");
       this.assertBoolean(qx.core.Environment.get("qx.globalErrorHandling"), "6");
       this.assertBoolean(qx.core.Environment.get("qx.debug.io.remote"), "7");

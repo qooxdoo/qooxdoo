@@ -17,7 +17,7 @@ When exploring the SDK tree, the following overview will give you an idea about 
 
 **component/**
 
-  * :ref:`helper applications and libraries <pages/application#developer_tools>` (used internally), like ``apiviewer``, ``testrunner`` or ``simulator``.
+  * :ref:`helper applications and libraries <pages/application#developer_tools>` (used internally), like ``apiviewer`` or ``testrunner``.
 
 **documentation/** - documentation files
 
@@ -41,7 +41,7 @@ When exploring the SDK tree, the following overview will give you an idea about 
 
     * ``translation`` - language-specific data as ``po`` files
 
-**tool/** - tool chain of the framework 
+**tool/** - tool chain of the framework
 
   * ``bin`` - executable scripts are located here, most importantly ``generator.py``
   * ``data`` - lots of data to be used by different tools, e.g. for localization, migration, etc.

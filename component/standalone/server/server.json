@@ -14,7 +14,7 @@
     "APPLICATION"  : "server",
     "QOOXDOO_PATH" : "../../..",
     "QXTHEME"      : "server.theme.Theme",
-    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
+    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     //"SFILES_VERSION_PART" : "-${QOOXDOO_VERSION}",
@@ -34,7 +34,7 @@
         "exclude" : ["qx.event.GlobalError"]
       },
 
-      "lint-check" : 
+      "lint-check" :
       {
         "allowed-globals" : [ "qx.event.GlobalError" ]
       },

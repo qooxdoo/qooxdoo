@@ -17,12 +17,11 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-************************************************************************ */
-
 /**
  * Provides functionality to capture the log messages of a tested qooxdoo
  * application.
+ *
+ * @deprecated{3.6}
  */
 
 qx.Mixin.define("simulator.MApplicationLogging",

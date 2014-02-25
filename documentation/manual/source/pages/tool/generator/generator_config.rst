@@ -158,7 +158,7 @@ First, here is an overview table, to list all possible keys in a job (if the key
   * - shell
     - Triggers the execution of one or more external command(s).
   * - simulate
-    - Triggers the execution of a suite of integration tests.
+    - Triggers the execution of a suite of integration tests (deprecated).
   * - slice-images
     - Triggers cutting images into regions.
   * - translate

@@ -21,6 +21,7 @@
  * Loads the WebDriverJs module and exposes it as simulator.webdriver
  * @ignore(require)
  * @ignore(simulator.webdriver)
+ * @deprecated{3.6}
  */
 qx.Class.define("simulator.qxwebdriver.WebDriverLoader", {
 

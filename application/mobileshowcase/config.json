@@ -21,8 +21,6 @@
     "migration",
     "pretty",
     "profiling",
-    "simulation-build",
-    "simulation-run",
     "source",
     "source-all",
     "source-hybrid",
@@ -117,7 +115,7 @@
       },
       "compile-options" :
       {
-        "uris" : 
+        "uris" :
         {
           "add-nocache-param" : true
         }
@@ -174,8 +172,7 @@
       "=exclude" :
       [
         "qx.test.*",
-        "${APPLICATION}.test.*",
-        "${APPLICATION}.simulation.*"
+        "${APPLICATION}.test.*"
       ],
       "add-css" : [
         { "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${THEME}.css" },

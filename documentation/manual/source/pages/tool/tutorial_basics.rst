@@ -22,7 +22,7 @@ gives you a complete list of those options.
 
 In the general case the Generator takes the name of a *job* to perform
 as its sole argument. You can even invoke it without any argument, and it will
-run the "default job" if the configuration defines one. 
+run the "default job" if the configuration defines one.
 
 Supplying a non-existing job name will result in
 the Generator providing a list of known jobs which it can perform. You
@@ -64,13 +64,13 @@ app, are the source jobs. Running ::
 
     generate.py
 
-will generate the so-called "source version" of your application in the default variant. 
+will generate the so-called "source version" of your application in the default variant.
 
 In general, the source version of an app is tailored towards development activities. It
 makes it easy to write code, run the application, test, debug and
 inspect the application code, fix issues, add enhancements, and repeat.
 
-In the :ref:`source <pages/tool/generator/generator_default_jobs#source>` job, all the classes of the app are in their original source form, and loaded from their original file paths on the file system. 
+In the :ref:`source <pages/tool/generator/generator_default_jobs#source>` job, all the classes of the app are in their original source form, and loaded from their original file paths on the file system.
 If you inspect your application in a JavaScript debugger like Firebug or
 Chrome Developer Tools, you can identify each of your custom files individually, read
 its code and comments, set breakpoints, inspect variables and so forth.
@@ -79,7 +79,7 @@ This job is particular interesting when you want to debug classes outside your c
 You only have to re-run this Generator job when you introduce new
 dependencies, e.g. by instantiating a class you haven't used before.
 This changes the set of necessary classes for your application, and the
-Generator has to re-create the corresponding loader. 
+Generator has to re-create the corresponding loader.
 
 In the :ref:`source-hybrid <pages/tool/generator/generator_default_jobs#source-hybrid>` version, the Generator will concatenate class files into a bunch of script files, except for your application classes which are loaded directly from their original path on the file system. This allows for a reasonable loading speed of your application in the browser while still providing convenient debug access to your own class files.
 
@@ -91,7 +91,7 @@ allows you develop your code even more freely as you don't have to
 re-generate the application when introducing new dependencies. All
 classes are already there, after all. The down-side is that due to the
 number of classes your app loads slower in the browser, so it's a
-trade-off between development speed and loading speed. 
+trade-off between development speed and loading speed.
 
 
 So if you are just getting
@@ -123,7 +123,7 @@ under a common root directory, usually named ``build``. The good thing
 here is that this makes the contents of this directory self-contained so
 you can copy it to the document tree of a web server, zip it up and send
 it by mail, and so forth. All necessary content will be included, and the
-app will just run when the contained *index.hmtl* is loaded. 
+app will just run when the contained *index.hmtl* is loaded.
 
 For an example let's suppose you have an application ``myapp`` and a web server
 instance running on a machine called ``fooserv``. Then, given suitable network
@@ -146,7 +146,7 @@ things. One of those is addressed in the :doc:`tweets tutorial </pages/desktop/t
 concerned with internationalization of an application. The Generator job
 in this context is ``translation``, and extracts translatable strings
 from your JavaScript source files into *.po* files. Here is a quick
-topical overview of those kinds of jobs: 
+topical overview of those kinds of jobs:
 
 Internationalization:
 
@@ -164,8 +164,6 @@ Development:
 -  ``test`` -- create an application-specific instance of the Testrunner
 -  ``inspector`` -- create an application-specific instance of the
    Inspector
--  ``simulation-build`` -- create a GUI testing application (to be used
-   with Selenium)
 
 Files:
 

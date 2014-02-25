@@ -22,6 +22,7 @@
 
 /**
  * Interactions for widgets implementing {@link qx.ui.core.ISingleSelection}
+ * @deprecated{3.6}
  */
 qx.Class.define("simulator.qxwebdriver.interaction.core.ISingleSelection", {
 

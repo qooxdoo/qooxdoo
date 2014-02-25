@@ -24,13 +24,11 @@
     "profiling",
     "source",
     "source-all",
-    "simulation-build",
-    "simulation-run",
     "test",
     "test-source",
     "translation"
   ],
-  
+
   "default-job" : "source",
 
   "let" :
@@ -44,7 +42,7 @@
     "ROOT"         : "."
   },
 
-  "config-warnings" : 
+  "config-warnings" :
   {
     "job-shadowing" : ["translation"]
   },

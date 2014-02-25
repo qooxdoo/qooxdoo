@@ -13,8 +13,8 @@ Runtimes
 * qooxdoo supports a wide range of JavaScript environments:
 
   * desktop browsers (Internet Explorer, Firefox, Opera, Safari, Chrome)
-  * mobile browsers (iOS, Android)
-  * browserless JS engines (node.js, Rhino, ...) 
+  * mobile browsers (iOS, Android, Windows Phone)
+  * browserless JS engines (node.js, Rhino, ...)
 
 * No plugins required (neither ActiveX, Java, Flash nor Silverlight needed)
 * Non-critical modifications of the native JavaScript objects to allow for easy integration with other libraries and custom code
@@ -25,7 +25,7 @@ Object-orientation
 ------------------
 
 * Framework is fully based on classes
-* Minimal pollution by global variables due to namespacing 
+* Minimal pollution by global variables due to namespacing
 * Besides regular classes, it offers abstract, static or singleton classes
 * Constructors and destructors
 * Public, protected and private members by naming convention, that can (partly) be enforced during development
@@ -83,7 +83,7 @@ Testing
 -------
 
 * Integrated unit testing framework :doc:`Test Runner </pages/development/frame_apps_testrunner>`
-* Integrated functional testing framework :doc:`Simulator </pages/development/simulator>`
+* Integrated functional testing framework :doc:`Simulator </pages/development/simulator>` (deprecated)
 
 .. _pages/introduction/features#deployment:
 

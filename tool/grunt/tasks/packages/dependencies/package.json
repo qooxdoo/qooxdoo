@@ -1,6 +1,7 @@
 {
   "name": "qx-dependencies",
-  "description": "",
+  "description": "Collect dependencies of qooxdoo code (e.g. unresolved symbols and asset-hints)",
+  "main": "lib/depAnalyzer.js",
   "version": "0.1.0",
   "homepage": "https://github.com/qooxdoo/qooxdoo",
   "author": {
@@ -25,7 +26,7 @@
     }
   ],
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">= 0.10.0"
   },
   "scripts": {
     "test": "./node_modules/nodeunit/bin/nodeunit tests"
@@ -42,5 +43,7 @@
   },
   "devDependencies": {
     "nodeunit":      "~0.8.4"
-  }
+  },
+  "//": "before publishing create README.md then this can be removed",
+  "private" : true
 }

@@ -19,6 +19,7 @@
 
 /**
  * Interactions for widgets extending {@link qx.ui.core.Widget}
+ * @deprecated{3.6}
  */
 qx.Class.define("simulator.qxwebdriver.interaction.core.Widget", {
 
