@@ -108,10 +108,10 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
         datepicker.setData('qx-calendar-id', uniqueId);
 
         // click listener to open / hide calendar
-        datepicker.onWidget('click', datepicker._onClick);
+        datepicker.onWidget('tap', datepicker._onTap);
 
         var bodyElement = qxWeb.getDocument(datepicker).body;
-        qxWeb(bodyElement).on('click', datepicker._onBodyClick, datepicker, true);
+        qxWeb(bodyElement).on('tap', datepicker._onBodyClick, datepicker, true);
 
         // react on date selection
         calendar.on('changeValue', datepicker._calendarChangeValue, datepicker);
@@ -136,7 +136,7 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
      *
      * @param e {Event} Native click event
      */
-    _onClick : function(e) {
+    _onTap : function(e) {
       var calendar = qxWeb('div#datepicker-' + this.getData('qx-calendar-id'));
       calendar.isRendered() ? this.getCalendar().hide() :
                               this.getCalendar().show().placeTo(this, 'bottom-left');
@@ -178,10 +178,10 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
     // overridden
     dispose : function() {
       this._forEachElementWrapped(function(datepicker) {
-        datepicker.offWidget('click', datepicker._onClick);
+        datepicker.offWidget('tap', datepicker._onTap);
 
         var bodyElement = qxWeb.getDocument(datepicker).body;
-        qxWeb(bodyElement).off('click', datepicker._onBodyClick, datepicker, true);
+        qxWeb(bodyElement).off('tap', datepicker._onBodyClick, datepicker, true);
 
         datepicker.getCalendar().off('changeValue', this._calendarChangeValue, datepicker);
       });

@@ -194,7 +194,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
             return;
           }
           button.addClass(cssPrefix + "-button")
-            .onWidget("click", this._onClick, tabs);
+            .onWidget("tap", this._onTap, tabs);
 
           var page = tabs._getPage(button);
           if (page.length > 0) {
@@ -238,7 +238,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         var pages= [];
         var selected;
         tabs.find("> ul > ." + cssPrefix + "-button")._forEachElementWrapped(function(li) {
-          li.offWidget("click", tabs._onClick, tabs);
+          li.offWidget("tap", tabs._onTap, tabs);
           pages.push(li.getData(cssPrefix + "-page"));
           content.push(li.find("> button").getHtml());
           if (li.hasClass(cssPrefix + "-button-active")) {
@@ -308,7 +308,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           link.appendTo(list);
         }
 
-        link.onWidget("click", this._onClick, item)
+        link.onWidget("tap", this._onTap, item)
         .addClass(cssPrefix + "-button");
         if (item.find("> ul ." + cssPrefix + "-button").length === 1) {
           link.addClass(cssPrefix + "-button-active");
@@ -354,19 +354,19 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
 
     /**
-     * Initiates the page switch when a button was clicked
+     * Initiates the page switch when a button was clicked/tapped
      *
-     * @param e {Event} Click event
+     * @param e {Event} Tap event
      */
-    _onClick : function(e) {
+    _onTap : function(e) {
       if (!this.getEnabled()) {
         return;
       }
-      var clickedButton = e.getCurrentTarget();
+      var tappedButton = e.getCurrentTarget();
       var cssPrefix = this.getCssPrefix();
       this._forEachElementWrapped(function(tabs) {
         var oldButton = tabs.find("> ul > ." + cssPrefix + "-button-active");
-        if (oldButton[0] == clickedButton) {
+        if (oldButton[0] == tappedButton) {
           return;
         }
         oldButton.removeClass(cssPrefix + "-button-active");
@@ -374,7 +374,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         var newButton;
         var buttons = tabs.find("> ul > ." + cssPrefix + "-button")
         ._forEachElementWrapped(function(button) {
-          if (clickedButton === button[0]) {
+          if (tappedButton === button[0]) {
             newButton = button;
           }
         });
@@ -432,7 +432,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
     /**
      * Initiates the page switch if a tab button is selected
      *
-     * @param newButton {qxWeb} clicked button
+     * @param newButton {qxWeb} selected button
      * @param oldButton {qxWeb} previously active button
      */
     _showPage : function(newButton, oldButton) {
@@ -481,7 +481,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
     dispose : function() {
       var cssPrefix = this.getCssPrefix();
       this._forEachElementWrapped(function(tabs) {
-        tabs.find("." + cssPrefix + "-button").offWidget("click", tabs._onClick, tabs);
+        tabs.find("." + cssPrefix + "-button").offWidget("tap", tabs._onTap, tabs);
         tabs.getChildren("ul").getFirst().offWidget("keydown", tabs._onKeyDown, tabs)
         .setHtml("");
       });

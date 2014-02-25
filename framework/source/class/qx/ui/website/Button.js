@@ -152,17 +152,17 @@ qx.Bootstrap.define("qx.ui.website.Button", {
 
 
     /**
-     * Sets the menu to be shown when the button is clicked
+     * Sets the menu to be shown when the button is clicked or tapped
      *
      * @param menu {qxWeb} menu element wrapped in a collection
      * @return {qxWeb} The collection for chaining
      */
     setMenu : function(menu) {
-      this.on("click", function(e) {
+      this.on("tap", function(e) {
         if (menu.getStyle("display") === "none") {
           menu.placeTo(this, "bottom-left");
           menu.show();
-          qxWeb(document).once("click", function() {
+          qxWeb(document).once("tap", function() {
             menu.hide();
           });
         } else {

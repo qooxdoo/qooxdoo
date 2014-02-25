@@ -333,9 +333,9 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
         if (item.getAttribute("tabindex") < 0) {
           item.setAttribute("tabindex", 0);
         }
-        item.find("." + cssPrefix + "-prev").offWidget("click", this._prevMonth, item);
-        item.find("." + cssPrefix + "-next").offWidget("click", this._nextMonth, item);
-        item.find("." + cssPrefix + "-day").offWidget("click", this._selectDay, item);
+        item.find("." + cssPrefix + "-prev").offWidget("tap", this._prevMonth, item);
+        item.find("." + cssPrefix + "-next").offWidget("tap", this._nextMonth, item);
+        item.find("." + cssPrefix + "-day").offWidget("tap", this._selectDay, item);
         item.offWidget("focus", this._onFocus, item, true)
         .offWidget("blur", this._onBlur, item, true);
       }, this);
@@ -343,10 +343,10 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       this.setHtml(this._getTable(value));
 
       this._forEachElementWrapped(function(item) {
-        item.find("." + cssPrefix + "-prev").onWidget("click", this._prevMonth, item);
-        item.find("." + cssPrefix + "-next").onWidget("click", this._nextMonth, item);
+        item.find("." + cssPrefix + "-prev").onWidget("tap", this._prevMonth, item);
+        item.find("." + cssPrefix + "-next").onWidget("tap", this._nextMonth, item);
         item.find("td").not(".qx-calendar-invalid")
-          .find("." + cssPrefix + "-day").onWidget("click", this._selectDay, item);
+          .find("." + cssPrefix + "-day").onWidget("tap", this._selectDay, item);
         item.onWidget("focus", this._onFocus, item, true)
         .onWidget("blur", this._onBlur, item, true);
       }, this);
@@ -375,7 +375,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
     /**
      * Sets the current value to the day selected by the user
-     * @param e {Event} The native click event.
+     * @param e {Event} The tap event.
      */
     _selectDay : function(e) {
       var day = qxWeb(e.getTarget());
@@ -671,9 +671,9 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
     dispose : function() {
       var cssPrefix = this.getCssPrefix();
       this._forEachElementWrapped(function(item) {
-        item.find("." + cssPrefix + "-prev").offWidget("click", this._prevMonth, item);
-        item.find("." + cssPrefix + "-next").offWidget("click", this._nextMonth, item);
-        item.find("." + cssPrefix + "-day").offWidget("click", this._selectDay, item);
+        item.find("." + cssPrefix + "-prev").offWidget("tap", this._prevMonth, item);
+        item.find("." + cssPrefix + "-next").offWidget("tap", this._nextMonth, item);
+        item.find("." + cssPrefix + "-day").offWidget("tap", this._selectDay, item);
         item.offWidget("focus", this._onFocus, item, true)
         .offWidget("blur", this._onBlur, item, true)
         .offWidget("keydown", this._onKeyDown, item);

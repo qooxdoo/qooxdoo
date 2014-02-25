@@ -54,7 +54,7 @@
  *
  * <h2 class="widget-markup">Generated DOM Structure</h2>
  *
- * @require(qx.module.event.Mouse)
+ * @require(qx.module.event.Pointer)
  * @require(qx.module.Transform)
  *
  *
@@ -153,7 +153,7 @@ qx.Bootstrap.define("qx.ui.website.Slider",
     /** Fired at each value change */
     "changeValue" : "Number",
 
-    /** Fired with each mouse move event */
+    /** Fired with each pointer move event */
     "changePosition" : "Number"
   },
 
@@ -177,9 +177,9 @@ qx.Bootstrap.define("qx.ui.website.Slider",
       }
 
       this._forEachElementWrapped(function(slider) {
-        slider.onWidget("click", slider._onClick, slider)
+        slider.onWidget("pointerup", slider._onPointerup, slider)
         .onWidget("focus", slider._onSliderFocus, slider);
-        qxWeb(document.documentElement).on("mouseup", slider._onMouseUp, slider);
+        qxWeb(document.documentElement).on("pointerup", slider._onPointerUp, slider);
         qxWeb(window).onWidget("resize", slider._onWindowResize, slider);
 
         if (slider.getChildren("." + cssPrefix + "-knob").length === 0) {
@@ -193,7 +193,7 @@ qx.Bootstrap.define("qx.ui.website.Slider",
           "unselectable": "true"
         })
         .setHtml(slider._getKnobContent())
-        .onWidget("mousedown", slider._onMouseDown, slider)
+        .onWidget("pointerdown", slider._onPointerDown, slider)
         .onWidget("dragstart", slider._onDragStart, slider)
         .onWidget("focus", slider._onKnobFocus, slider)
         .onWidget("blur", slider._onKnobBlur, slider);
@@ -403,11 +403,11 @@ qx.Bootstrap.define("qx.ui.website.Slider",
 
 
     /**
-     * Takes the click position and sets slider value to the nearest step.
+     * Reads the pointer's position and sets slider value to the nearest step.
      *
      * @param e {qx.event.Emitter} Incoming event object
      */
-    _onClick : function(e) {
+    _onPointerup : function(e) {
       if ((e.getDocumentLeft() === 0 && e.getDocumentTop() === 0) ||
         !this.getEnabled()) {
         return;
@@ -417,11 +417,11 @@ qx.Bootstrap.define("qx.ui.website.Slider",
 
 
     /**
-     * Listener of mousedown event. Initializes drag or tracking mode.
+     * Listener for the pointerdown event. Initializes drag or tracking mode.
      *
      * @param e {qx.event.Emitter} Incoming event object
      */
-    _onMouseDown : function(e) {
+    _onPointerDown : function(e) {
       // this can happen if the user releases the button while dragging outside
       // of the browser viewport
       if (this.__dragMode) {
@@ -430,7 +430,7 @@ qx.Bootstrap.define("qx.ui.website.Slider",
 
       this.__dragMode = true;
 
-      qxWeb(document.documentElement).on("mousemove", this._onMouseMove, this)
+      qxWeb(document.documentElement).on("pointermove", this._onPointerMove, this)
       .setStyle("cursor", "pointer");
 
       e.stopPropagation();
@@ -438,19 +438,19 @@ qx.Bootstrap.define("qx.ui.website.Slider",
 
 
     /**
-     * Listener of mouseup event. Used for cleanup of previously
+     * Listener for the pointerup event. Used for cleanup of previously
      * initialized modes.
      *
      * @param e {qx.event.Emitter} Incoming event object
      */
-    _onMouseUp : function(e) {
+    _onPointerUp : function(e) {
       if (this.__dragMode === true) {
         // Cleanup status flags
         delete this.__dragMode;
 
         this.__valueToPosition(this.getValue());
 
-        qxWeb(document.documentElement).off("mousemove", this._onMouseMove, this)
+        qxWeb(document.documentElement).off("pointermove", this._onPointerMove, this)
         .setStyle("cursor", "auto");
       }
 
@@ -459,11 +459,11 @@ qx.Bootstrap.define("qx.ui.website.Slider",
 
 
     /**
-     * Listener of mousemove event for the knob. Only used in drag mode.
+     * Listener for the pointermove event for the knob. Only used in drag mode.
      *
      * @param e {qx.event.Emitter} Incoming event object
      */
-    _onMouseMove : function(e) {
+    _onPointerMove : function(e) {
       e.preventDefault();
 
       if (this.__dragMode) {
@@ -628,12 +628,12 @@ qx.Bootstrap.define("qx.ui.website.Slider",
     dispose : function()
     {
       this._forEachElementWrapped(function(slider) {
-        qxWeb(document.documentElement).off("mouseup", slider._onMouseUp, slider);
+        qxWeb(document.documentElement).off("pointerup", slider._onPointerUp, slider);
         qxWeb(window).offWidget("resize", slider._onWindowResize, slider);
-        slider.offWidget("click", slider._onClick, slider)
+        slider.offWidget("pointerup", slider._onPointerup, slider)
         .offWidget("focus", slider._onSliderFocus, slider);
         slider.getChildren("." + this.getCssPrefix() + "-knob")
-        .offWidget("mousedown", slider._onMouseDown, slider)
+        .offWidget("pointerdown", slider._onPointerDown, slider)
         .offWidget("dragstart", slider._onDragStart, slider)
         .offWidget("focus", slider._onKnobFocus, slider)
         .offWidget("blur", slider._onKnobBlur, slider)

@@ -21,7 +21,7 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * This is a simple rating widget which can be used to display a predefined
- * number of symbols on which the user can click to give a rating e.g.
+ * number of symbols which the user can click or tap to give a rating e.g.
  * 3 out of 5 stars.
  *
  * <h2>Markup</h2>
@@ -156,7 +156,7 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
         .onWidget("blur", this._onBlur, rating)
         .getChildren("span")
           .addClasses([cssPrefix + "-item", cssPrefix + "-item-off"])
-          .onWidget("click", this._onClick, rating);
+          .onWidget("tap", this._onTap, rating);
       }.bind(this));
 
       return true;
@@ -221,14 +221,14 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
         if (diff > 0) {
           for (var i = 0; i < diff; i++) {
             qxWeb.create("<span>" + this.getConfig("symbol") + "</span>")
-            .onWidget("click", el._onClick, el)
+            .onWidget("tap", el._onTap, el)
             .addClasses([cssPrefix + "-item", cssPrefix + "-item-off"])
             .appendTo(el);
           }
         } else {
           for (var i = 0; i < Math.abs(diff); i++) {
             el.getChildren().getLast()
-            .offWidget("click", el._onClick, el)
+            .offWidget("tap", el._onTap, el)
             .remove();
           }
         }
@@ -238,11 +238,11 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
 
 
     /**
-     * Click handler which updates the value depending on the clicked element.
+     * Tap handler which updates the value depending on the selected element.
      *
      * @param e {Event} The native click event.
      */
-    _onClick : function(e) {
+    _onTap : function(e) {
       var parents = qxWeb(e.getTarget()).getParents();
       this.setValue(parents.getChildren().indexOf(e.getTarget()) + 1);
     },
@@ -288,7 +288,7 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
         qxWeb(document.documentElement).off("keydown", this._onKeyDown, rating);
         rating.offWidget("focus", this._onFocus, rating)
         .offWidget("blur", this._onBlur, rating);
-        rating.getChildren("span").offWidget("click", rating._onClick, rating);
+        rating.getChildren("span").offWidget("tap", rating._onTap, rating);
       });
       this.setHtml("");
 

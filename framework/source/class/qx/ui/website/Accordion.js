@@ -23,7 +23,7 @@
  * The Accordion is a group of vertically stacked panels (here called pages),
  * each with a header.
  * By default, only one page is visible while the others are collapsed.
- * Clicking a collapsed page's header will expand it while collapsing the
+ * Clicking or tapping a collapsed page's header will expand it while collapsing the
  * previously expanded page.
  *
  * <h2>Markup</h2>
@@ -330,14 +330,14 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
 
 
     // overridden
-    _onClick : function(e) {
-      var clickedButton = e.getCurrentTarget();
+    _onTap : function(e) {
+      var tappedButton = e.getCurrentTarget();
       var cssPrefix = this.getCssPrefix();
       var sameButton = false;
 
       this._forEachElementWrapped(function(accordion) {
         var oldButton = accordion.find("> ul > ." + cssPrefix + "-button-active");
-        if (oldButton[0] == clickedButton) {
+        if (oldButton[0] == tappedButton) {
           sameButton = true;
           oldButton.removeClass(cssPrefix + "-button-active");
           this._showPage(null, oldButton);
