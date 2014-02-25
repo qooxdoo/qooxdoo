@@ -53,12 +53,12 @@ qx.Bootstrap.define("qx.module.event.GestureHandler", {
       }
 
       if (!element.__gestureHandler) {
-        element.__gestureHandler = new qx.event.handler.GestureCore(element);
+        var handler = element.__gestureHandler = new qx.event.handler.GestureCore(element);
 
         qx.module.event.GestureHandler.POINTER_EVENTS.forEach(function(pointerType) {
           var propName = "__on" + pointerType;
           element[propName] = function(pointerEvent) {
-            element.__gestureHandler.checkAndFireGesture(pointerEvent, pointerType, element);
+            handler.checkAndFireGesture(pointerEvent, pointerType, element);
           };
           q(element).on(pointerType, element[propName], element.__gestureHandler);
         });
