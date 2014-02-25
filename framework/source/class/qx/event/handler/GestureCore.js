@@ -30,15 +30,13 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     LONGTAP_TIME : 500
   },
 
-  construct : function(target, emitter) {
+  construct : function(target) {
     this.__defaultTarget = target;
-    this.__emitter = emitter;
     this.__gestureStartPosition = {};
   },
 
   members : {
     __defaultTarget : null,
-    __emitter : null,
     __gestureStartPosition : null,
     __startTime : null,
     __longTapTimer : null,
@@ -166,7 +164,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         if (qx.event && qx.event.type && qx.event.type.Tap) {
           eventType = qx.event.type.Tap;
         }
-        this._fireEvent(domEvent, "tap", target, eventType);
+        this._fireEvent(domEvent, "tap", domEvent.target, eventType);
       }
       else {
         var swipe = this.__getSwipeGesture(domEvent, target);
@@ -175,7 +173,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
             eventType = qx.event.type.Swipe;
           }
           domEvent.swipe = swipe;
-          this._fireEvent(domEvent, "swipe", target, eventType);
+          this._fireEvent(domEvent, "swipe", domEvent.target, eventType);
         }
       }
       delete this.__gestureStartPosition[domEvent.pointerId];
@@ -192,10 +190,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       target = target || domEvent.target;
 
       var evt = new qx.event.type.native.Custom(type, domEvent);
-
-      if (target && target.nodeType && this.__emitter) {
-        this.__emitter.emit(type, evt);
-      }
+      target.dispatchEvent(evt);
     },
 
     /**
@@ -238,7 +233,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element} event target
      */
     __fireLongTap : function(domEvent, target) {
-      this._fireEvent(domEvent, "longtap", target, qx.event.type.Tap);
+      this._fireEvent(domEvent, "longtap", domEvent.target);
       this.__longTapTimer = null;
       // prevent the tap event
       this.__isTapGesture = false;
@@ -271,7 +266,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     },
 
     dispose : function() {
-      this.__originalTarget = this.__emitter = this.__defaultTarget = null;
+      this.__originalTarget = this.__defaultTarget = null;
       this.__stopLongTapTimer();
     }
   }

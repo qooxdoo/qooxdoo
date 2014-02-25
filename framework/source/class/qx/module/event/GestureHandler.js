@@ -40,19 +40,23 @@ qx.Bootstrap.define("qx.module.event.GestureHandler", {
      *
      * @param element {Element} DOM element
      */
-    register : function(element) {
-      if (!element.__gestureHandler) {
-        if (!element.__emitter) {
-          element.__emitter = new qx.event.Emitter();
-        }
-        element.__gestureHandler = new qx.event.handler.GestureCore(element, element.__emitter);
+    register : function(element, type) {
+      // force qx.bom.Event.supportsEvent to return true for this type so we
+      // can use the native addEventListener (synthetic gesture events use the
+      // native dispatchEvent).
+      if (!element["on" + type]) {
+        element["on" + type] = true;
+      }
 
-        qx.module.event.GestureHandler.POINTER_EVENTS.forEach(function(type) {
-          var propName = "__on" + type;
+      if (!element.__gestureHandler) {
+        element.__gestureHandler = new qx.event.handler.GestureCore(element);
+
+        qx.module.event.GestureHandler.POINTER_EVENTS.forEach(function(pointerType) {
+          var propName = "__on" + pointerType;
           element[propName] = function(pointerEvent) {
-            element.__gestureHandler.checkAndFireGesture(pointerEvent, type, element);
+            element.__gestureHandler.checkAndFireGesture(pointerEvent, pointerType, element);
           };
-          q(element).on(type, element[propName], element.__gestureHandler);
+          q(element).on(pointerType, element[propName], element.__gestureHandler);
         });
       }
     },
@@ -65,27 +69,8 @@ qx.Bootstrap.define("qx.module.event.GestureHandler", {
      */
     unregister : function(element) {
       if (element.__gestureHandler) {
-        if (!element.__emitter) {
-          element.__gestureHandler.dispose();
-          element.__gestureHandler = null;
-        }
-        else {
-          var hasGestureListener = false;
-          var listeners = element.__emitter.getListeners();
-          qx.module.event.GestureHandler.TYPES.forEach(function(type) {
-            if (type in listeners && listeners[type].length > 0) {
-              hasGestureListener = true;
-            }
-          });
-          if (!hasGestureListener) {
-            qx.module.event.GestureHandler.POINTER_EVENTS.forEach(function(type) {
-              var propName = "__on" + type;
-              q(element).off(type, element[propName], element.__gestureHandler);
-            });
-            element.__gestureHandler.dispose();
-            element.__gestureHandler = null;
-          }
-        }
+        element.__gestureHandler.dispose();
+        element.__gestureHandler = null;
       }
     }
   },

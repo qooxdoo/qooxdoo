@@ -46,12 +46,16 @@ qx.Bootstrap.define("qx.module.event.PointerHandler", {
      *
      * @param element {Element} DOM element
      */
-    register : function(element) {
+    register : function(element, type) {
+      // force qx.bom.Event.supportsEvent to return true for this type so we
+      // can use the native addEventListener (synthetic gesture events use the
+      // native dispatchEvent).
+      if (!element["on" + type]) {
+        element["on" + type] = true;
+      }
+
       if (!element.__pointerHandler) {
-        if (!element.__emitter) {
-          element.__emitter = new qx.event.Emitter();
-        }
-        element.__pointerHandler = new qx.event.handler.PointerCore(element, element.__emitter);
+        element.__pointerHandler = new qx.event.handler.PointerCore(element);
       }
     },
 
@@ -63,21 +67,7 @@ qx.Bootstrap.define("qx.module.event.PointerHandler", {
      */
     unregister : function(element) {
       if (element.__pointerHandler) {
-        if (!element.__emitter) {
-          element.__pointerHandler = null;
-        }
-        else {
-          var hasPointerListener = false;
-          var listeners = element.__emitter.getListeners();
-          qx.module.event.PointerHandler.TYPES.forEach(function(type) {
-            if (type in listeners && listeners[type].length > 0) {
-              hasPointerListener = true;
-            }
-          });
-          if (!hasPointerListener) {
-            element.__pointerHandler = null;
-          }
-        }
+        element.__pointerHandler = null;
       }
     }
   },

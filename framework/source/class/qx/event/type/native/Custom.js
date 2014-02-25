@@ -24,8 +24,8 @@ qx.Bootstrap.define("qx.event.type.native.Custom", {
 
   statics : {
     PROPERTIES : {
-      bubbles : false,
-      cancelable : false
+      bubbles : true,
+      cancelable : true
     }
   },
 
