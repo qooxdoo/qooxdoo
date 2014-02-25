@@ -156,12 +156,10 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
         var evt = this._createPointerEvent(type, domEvent, "touch", touch.identifier + 2, touchProps);
 
-        if (domEvent.type == "touchstart" || domEvent.type == "touchmove" || domEvent.type == "touchmove" || domEvent.type == "touchend" || domEvent.type == "touchcancel") {
+        if (domEvent.type == "touchstart" || domEvent.type == "touchmove" || domEvent.type == "touchend" || domEvent.type == "touchcancel") {
           if (touch.identifier == this.__primaryIdentifier) {
             evt.isPrimary = true;
           }
-
-          domEvent.preventDefault();
         }
 
         this._fireEvent(evt, type, target);
