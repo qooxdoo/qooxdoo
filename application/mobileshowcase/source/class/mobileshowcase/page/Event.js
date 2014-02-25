@@ -102,8 +102,8 @@ qx.Class.define("mobileshowcase.page.Event",
       this.__gestureTarget = new qx.ui.mobile.basic.Image("mobileshowcase/icon/HTML5_Badge_512.png");
 
       this.__gestureTarget.addCssClass("gesture-target");
-      //this.__gestureTarget.addListener("pointermove", this.__onGestureTargetTouchMove, this);
-      //this.__gestureTarget.addListener("pointerup", this.__onGestureTargetTouchEnd, this);
+      this.__gestureTarget.addListener("pointermove", this.__onGestureTargetTouchMove, this);
+      this.__gestureTarget.addListener("pointerup", this.__onGestureTargetTouchEnd, this);
       this.__gestureTarget.setDraggable(false);
       this.__gestureTarget.setTranslateX(-5000);
 
@@ -160,7 +160,7 @@ qx.Class.define("mobileshowcase.page.Event",
       
 
       // TODO
-      return;
+      //return;
 
 
 
@@ -174,7 +174,7 @@ qx.Class.define("mobileshowcase.page.Event",
       var containerLeft = qx.bom.element.Location.getLeft(containerElement, "padding");
       var containerTop = qx.bom.element.Location.getTop(containerElement, "padding");
 
-      if (evt.isMultiTouch())
+      /*if (evt.isMultiTouch())
       {
         this.__currentRotation = Math.round(evt.getRotation()) + Math.round(this.__initialRotation);
         this.__currentScale = evt.getScale() * this.__initialScale;
@@ -189,17 +189,17 @@ qx.Class.define("mobileshowcase.page.Event",
         this.__lastMultiTouchEventTime = new Date().getTime();
       }
       else
-      {
-        var timeSinceMultiTouch = new Date().getTime() - this.__lastMultiTouchEventTime;
+      {*/
+        //var timeSinceMultiTouch = new Date().getTime() - this.__lastMultiTouchEventTime;
 
-        if(timeSinceMultiTouch > 500) {
-          var touchLeft = evt.getAllTouches()[0].clientX;
-          var touchTop = evt.getAllTouches()[0].clientY;
+        //if(timeSinceMultiTouch > 500) {
+          var touchLeft = evt.getViewportLeft();
+          var touchTop = evt.getViewportTop();
 
           this.__logoLeft = touchLeft - containerLeft - offset;
           this.__logoTop = touchTop - containerTop - offset;
-        }
-      }
+        //}
+      //}
 
       qx.bom.AnimationFrame.request(this._render, this);
 
@@ -208,8 +208,8 @@ qx.Class.define("mobileshowcase.page.Event",
 
 
     __onGestureTargetTouchEnd : function() {
-      this.__initialRotation = this.__currentRotation;
-      this.__initialScale = this.__currentScale;
+      //this.__initialRotation = this.__currentRotation;
+      //this.__initialScale = this.__currentScale;
 
       if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
         this._getScrollContainer().enable();
