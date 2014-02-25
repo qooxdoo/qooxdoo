@@ -117,8 +117,8 @@ module.exports = {
           [ 'qx/decoration/Modern/toolbar/toolbar-part.gif' ]
     };
 
-    var imgsInfo = resources.collectImageInfoMaps(assets, resBasePathMap);
-    console.log(imgsInfo, Object.keys(imgsInfo).length);
+    var imgsInfo = resources.collectImageInfoMaps(assets, resBasePathMap, {metaFiles:true});
+    console.log(JSON.stringify(imgsInfo, null, 2), Object.keys(imgsInfo).length);
 
     test.ok(true);
     test.done();

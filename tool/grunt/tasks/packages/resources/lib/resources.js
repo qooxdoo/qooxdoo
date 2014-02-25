@@ -44,6 +44,23 @@ qxResources.Image = require('./qxResources/Image');
 // Privates
 //------------------------------------------------------------------------------
 
+function findResourceMetaFiles(root) {
+  return glob.sync("**/*.meta", {cwd: root});
+}
+
+function processMetaFiles(metaFilePaths, basePath) {
+  var combinedMap = {};
+
+  metaFilePaths.forEach(function(metaPath) {
+    var curAbsPath = path.join(basePath, metaPath);
+    var content = fs.readFileSync(curAbsPath, {encoding: 'utf8'});
+    var json = JSON.parse(content);
+    q.Bootstrap.objectMergeWith(combinedMap, json);
+  });
+
+  return combinedMap;
+}
+
 function basePathForNsExistsOrError(namespaces, resBasePathMap) {
   for (var i = 0; i < namespaces.length; i++) {
     var ns = namespaces[i];
@@ -147,35 +164,77 @@ function createImageInfoMaps(images) {
   var imgsInfo = {};
 
   images.forEach(function(img){
-    imgsInfo = q.Bootstrap.objectMergeWith(imgsInfo, img.stringify());
+    q.Bootstrap.objectMergeWith(imgsInfo, img.stringify());
   });
 
   return imgsInfo;
+}
+
+function collectUsedMetaEntries(assetNsPaths, resBasePathMap) {
+  var usedMetaEntries = {};
+  var ns = "";
+
+  for (ns in assetNsPaths) {
+    var l = assetNsPaths[ns].length;
+    var i = 0;
+    var imgPath = "";
+    var metaPaths = findResourceMetaFiles(resBasePathMap[ns]);
+    var metaEntries = processMetaFiles(metaPaths, resBasePathMap[ns]);
+
+    for (; i<l; i++) {
+      imgPath = assetNsPaths[ns][i];
+      if (metaEntries[imgPath]) {
+        usedMetaEntries[imgPath] = metaEntries[imgPath];
+        // insert namespace
+        usedMetaEntries[imgPath].splice(3, 0, ns);
+        // remove original entry
+        assetNsPaths[ns].splice(i, 1);
+      }
+    }
+  }
+
+  return usedMetaEntries;
 }
 
 //------------------------------------------------------------------------------
 // Public Interface
 //------------------------------------------------------------------------------
 
-function collectImageInfoMaps(assets, resBasePathMap) {
+function collectImageInfoMaps(assets, resBasePathMap, options) {
   var namespaces = [];
-  var ns = "";
   var images = [];
+  var opts = {};
+
+  if (!options) {
+    options = {};
+  }
+
+  // merge options and default values
+  opts = {
+    metaFiles: options.metaFiles === true ? true : false,
+  };
 
   assetNsPaths = flattenAssetPathsByNamespace(assets);
-  // console.log(assetNsPaths);
 
   namespaces = Object.keys(assetNsPaths);
   basePathForNsExistsOrError(namespaces, resBasePathMap);
 
   assetNsPaths = globAndSanitizePaths(assetNsPaths, resBasePathMap);
-  // console.log(assetNsPaths);
 
-  images = [];
-  for (ns in assetNsPaths) {
+  if (opts.metaFiles) {
+    var usedMetaEntries = {};
+    usedMetaEntries = collectUsedMetaEntries(assetNsPaths, resBasePathMap);
+  }
+
+  for (var ns in assetNsPaths) {
     images = images.concat(createImages(assetNsPaths[ns], ns, resBasePathMap[ns]));
   }
+
   imgsInfo = createImageInfoMaps(images);
+
+  if (opts.metaFiles) {
+    q.Bootstrap.objectMergeWith(imgsInfo, usedMetaEntries);
+  }
 
   return imgsInfo;
 }
@@ -185,5 +244,5 @@ function collectImageInfoMaps(assets, resBasePathMap) {
 //------------------------------------------------------------------------------
 
 module.exports = {
-  collectImageInfoMaps : collectImageInfoMaps
+  collectImageInfoMaps: collectImageInfoMaps,
 };
