@@ -91,6 +91,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         return;
       }
 
+      domEvent.stopPropagation();
+
       if (type == "pointerdown") {
         this.__isTapGesture = true;
         this.gestureStart(domEvent, target);
@@ -182,6 +184,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      *
      * @param domEvent {Event} DOM event
      * @param target {Element} event target
+     * @ignore(qx.event)
+     * @ignore(qx.event.type)
      */
     gestureEnd : function(domEvent, target) {
 
@@ -217,7 +221,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      */
     _fireEvent : function(domEvent, type, target) {
       target = domEvent.target || target;
-
       var evt = new qx.event.type.native.Custom(type, domEvent);
       target.dispatchEvent(evt);
     },
