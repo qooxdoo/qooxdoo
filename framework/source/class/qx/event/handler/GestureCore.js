@@ -164,7 +164,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         if (qx.event && qx.event.type && qx.event.type.Tap) {
           eventType = qx.event.type.Tap;
         }
-        this._fireEvent(domEvent, "tap", domEvent.target, eventType);
+        this._fireEvent(domEvent, "tap", domEvent.target || target, eventType);
       }
       else {
         var swipe = this.__getSwipeGesture(domEvent, target);
@@ -173,7 +173,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
             eventType = qx.event.type.Swipe;
           }
           domEvent.swipe = swipe;
-          this._fireEvent(domEvent, "swipe", domEvent.target, eventType);
+          this._fireEvent(domEvent, "swipe", domEvent.target || target, eventType);
         }
       }
       delete this.__gestureStartPosition[domEvent.pointerId];
@@ -187,7 +187,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element ? null} event target
      */
     _fireEvent : function(domEvent, type, target) {
-      target = target || domEvent.target;
+      target = domEvent.target || target;
 
       var evt = new qx.event.type.native.Custom(type, domEvent);
       target.dispatchEvent(evt);
@@ -233,7 +233,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element} event target
      */
     __fireLongTap : function(domEvent, target) {
-      this._fireEvent(domEvent, "longtap", domEvent.target);
+      this._fireEvent(domEvent, "longtap", domEvent.target || target);
       this.__longTapTimer = null;
       // prevent the tap event
       this.__isTapGesture = false;
