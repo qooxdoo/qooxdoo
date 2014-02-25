@@ -48,6 +48,10 @@ qx.Bootstrap.define("qx.module.event.GestureHandler", {
         element["on" + type] = true;
       }
 
+      if (!element.__gestureListeners) {
+        element.__gestureListeners = 0;
+      }
+
       if (!element.__gestureHandler) {
         element.__gestureHandler = new qx.event.handler.GestureCore(element);
 
@@ -59,6 +63,8 @@ qx.Bootstrap.define("qx.module.event.GestureHandler", {
           q(element).on(pointerType, element[propName], element.__gestureHandler);
         });
       }
+
+      element.__gestureListeners++;
     },
 
 
@@ -69,8 +75,11 @@ qx.Bootstrap.define("qx.module.event.GestureHandler", {
      */
     unregister : function(element) {
       if (element.__gestureHandler) {
-        element.__gestureHandler.dispose();
-        element.__gestureHandler = null;
+        element.__gestureListeners--;
+        if (element.__gestureListeners === 0) {
+          element.__gestureHandler.dispose();
+          element.__gestureHandler = null;
+        }
       }
     }
   },
