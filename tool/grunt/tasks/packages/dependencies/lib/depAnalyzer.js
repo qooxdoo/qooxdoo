@@ -49,6 +49,10 @@ var loadTimeAnnotator = require('./annotator/loadTime');
 var qxCoreEnv = require('./qxCoreEnv');
 var util = require('./util');
 
+//------------------------------------------------------------------------------
+// Privates
+//------------------------------------------------------------------------------
+
 function isVar(node) {
   return ["Identifier", "MemberExpression"].indexOf(node.type) !== -1;
 }

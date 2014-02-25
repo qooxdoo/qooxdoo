@@ -25,6 +25,7 @@ exports.dependencies = {
     done();
   },
 
+  // TODO: don't hardwire paths and resolve dep to needed app
   getClassListLoadOrder : function (test) {
     var depAnalyzer = require('../lib/depAnalyzer.js');
     var classListLoadOrder = [];
@@ -42,7 +43,11 @@ exports.dependencies = {
     /*
     classesDeps = depAnalyzer.collectDepsRecursive(
       ['../../../../../framework/source/class/'],
-      ['qx/locale/Manager.js'],
+      ['qx/Class.js',
+       'qx/Mixin.js',
+       'qx/Interface.js',
+       'qx/data/marshal/Json.js',
+       'qx/bom/client/Runtime.js'],
       {}
     );
     */
