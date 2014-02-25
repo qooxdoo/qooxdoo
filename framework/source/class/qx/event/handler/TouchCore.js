@@ -297,7 +297,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       }
 
       this._fireEvent(domEvent, type, this.__originalTarget);
-      this.__checkAndFireGesture(domEvent, type);
+      //this.__checkAndFireGesture(domEvent, type);
 
       if (qx.core.Environment.get("event.mspointer")) {
         if (type == "touchend" || type == "touchcancel") {
