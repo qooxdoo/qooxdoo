@@ -139,9 +139,9 @@ qx.Class.define("qx.ui.control.ColorPopup",
       {
         case "field":
           control = new qx.ui.core.Widget;
-          control.addListener("mousedown", this._onFieldMouseDown, this);
-          control.addListener("mouseover", this._onFieldMouseOver, this);
-          control.addListener("mouseout", this._onFieldMouseOut, this);
+          control.addListener("pointerdown", this._onFieldPointerDown, this);
+          control.addListener("pointerover", this._onFieldPointerOver, this);
+          control.addListener("pointerout", this._onFieldPointerOut, this);
           break;
 
         case "auto-button":
@@ -343,12 +343,12 @@ qx.Class.define("qx.ui.control.ColorPopup",
     */
 
     /**
-     * Listener of mousedown event on a color field. Sets the ColorPoup's value
+     * Listener of pointerdown event on a color field. Sets the ColorPoup's value
      * to field's color value and paint the preview pane.
      *
-     * @param e {qx.event.type.Mouse} Incoming event object
+     * @param e {qx.event.type.Pointer} Incoming event object
      */
-    _onFieldMouseDown : function(e)
+    _onFieldPointerDown : function(e)
     {
       var vValue = this.getChildControl("current-preview").getBackgroundColor();
       this.setValue(vValue);
@@ -360,22 +360,22 @@ qx.Class.define("qx.ui.control.ColorPopup",
 
 
     /**
-     * Listener of mousemove event on a color field. Sets preview pane's
+     * Listener of pointermove event on a color field. Sets preview pane's
      * background color to the field's color value.
      *
-     * @param e {qx.event.type.Mouse} Incoming event object
+     * @param e {qx.event.type.Pointer} Incoming event object
      */
-    _onFieldMouseOver : function(e) {
+    _onFieldPointerOver : function(e) {
       this.getChildControl("current-preview").setBackgroundColor(e.getTarget().getBackgroundColor());
     },
 
     /**
-     * Listener of mouseout event on a color field. Reset the preview pane's
+     * Listener of pointerout event on a color field. Reset the preview pane's
      * background color to the old color value.
      *
-     * @param e {qx.event.type.Mouse} Incoming event object
+     * @param e {qx.event.type.Pointer} Incoming event object
      */
-    _onFieldMouseOut : function(e) {
+    _onFieldPointerOut : function(e) {
       var red = this.getRed();
       var green = this.getGreen();
       var blue = this.getBlue();
