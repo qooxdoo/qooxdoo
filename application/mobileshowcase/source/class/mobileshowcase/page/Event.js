@@ -349,7 +349,7 @@ qx.Class.define("mobileshowcase.page.Event",
       this.__label.setValue(this.__labelBuffer);
 
       // Touch Circle Visualization
-      for (pointerId in this.__pointers) {
+      for (var pointerId in this.__pointers) {
         var pointer = this.__pointers[pointerId];
         if(pointer.target) {
           pointer.target.setTranslateX(pointer.x);
