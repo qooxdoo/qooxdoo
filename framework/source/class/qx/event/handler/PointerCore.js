@@ -194,8 +194,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       }
 
       var type = qx.event.handler.PointerCore.MOUSE_TO_POINTER_MAPPING[domEvent.type];
-      //var target = qx.bom.Event.getTarget(domEvent);
-      var target = domEvent.currentTarget;
+      var target = qx.bom.Event.getTarget(domEvent);
 
       var evt = this._createPointerEvent(type, domEvent, "mouse", 1);
       evt.isPrimary = true;
