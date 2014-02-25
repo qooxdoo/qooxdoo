@@ -40,6 +40,9 @@
   border-radius: 70px;
   -moz-border-radius: 70px;
   -webkit-border-radius: 70px;
+  
+  -webkit-box-shadow: 4px 4px 3px 0px rgba(0,0,0,0.2), 4px 4px 3px 0px rgba(0,0,0,0.2) inset;
+  box-shadow: 4px 4px 3px 0px rgba(0,0,0,0.2), 4px 4px 3px 0px rgba(0,0,0,0.2) inset;
 
   margin-left:-35px;
   margin-top:-35px;
