@@ -260,7 +260,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element} event target
      */
     __fireLongTap : function(domEvent, target) {
-      this._fireEvent(domEvent, "longtap", domEvent.target || target);
+      this._fireEvent(domEvent, "longtap", domEvent.target || target, qx.event.type.Tap);
       this.__longTapTimer = null;
       // prevent the tap event
       this.__isTapGesture = false;
