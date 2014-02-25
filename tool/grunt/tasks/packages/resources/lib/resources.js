@@ -129,36 +129,53 @@ function globAndSanitizePaths(assetNsPaths, resBasePathMap) {
   return assetNsPaths;
 }
 
+function createImages(imgPaths, ns, basePath) {
+  var images = [];
+  var l = imgPaths.length;
+  var i = 0;
+
+  for (; i<l; i++) {
+    img = new qxResources.Image(imgPaths[i], ns);
+    img.collectInfoAndPopulate(basePath);
+    images.push(img);
+  }
+
+  return images;
+}
+
+function createImageInfoMaps(images) {
+  var imgsInfo = {};
+
+  images.forEach(function(img){
+    imgsInfo = q.Bootstrap.objectMergeWith(imgsInfo, img.stringify());
+  });
+
+  return imgsInfo;
+}
+
 //------------------------------------------------------------------------------
 // Public Interface
 //------------------------------------------------------------------------------
 
 function collectImageInfoMaps(assets, resBasePathMap) {
+  var namespaces = [];
+  var ns = "";
+  var images = [];
+
   assetNsPaths = flattenAssetPathsByNamespace(assets);
   // console.log(assetNsPaths);
 
-  var namespaces = Object.keys(assetNsPaths);
+  namespaces = Object.keys(assetNsPaths);
   basePathForNsExistsOrError(namespaces, resBasePathMap);
 
   assetNsPaths = globAndSanitizePaths(assetNsPaths, resBasePathMap);
   // console.log(assetNsPaths);
 
-  var path = "";
-  var img = null;
-  var images = [];
-  for (var ns in assetNsPaths) {
-    for (var i=0; i<assetNsPaths[ns].length; i++) {
-      path = assetNsPaths[ns][i];
-      img = new qxResources.Image(path, ns);
-      img.collectInfoAndPopulate(resBasePathMap[ns]);
-      images.push(img);
-    }
+  images = [];
+  for (ns in assetNsPaths) {
+    images = images.concat(createImages(assetNsPaths[ns], ns, resBasePathMap[ns]));
   }
-
-  var imgsInfo = {};
-  images.forEach(function(img){
-    imgsInfo = q.Bootstrap.objectMergeWith(imgsInfo, img.stringify());
-  });
+  imgsInfo = createImageInfoMaps(images);
 
   return imgsInfo;
 }
