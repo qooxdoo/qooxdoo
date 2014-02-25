@@ -29,7 +29,7 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "test": "./node_modules/nodeunit/bin/nodeunit tests"
+    "test": "./node_modules/nodeunit/bin/nodeunit test"
   },
   "dependencies": {
     "estraverse": "~1.5.0",
