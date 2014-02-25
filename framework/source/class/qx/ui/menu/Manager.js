@@ -50,8 +50,8 @@ qx.Class.define("qx.ui.menu.Manager",
     var el = document.body;
     var Registration = qx.event.Registration;
 
-    // React on mouse events, but on native, to support inline applications
-    Registration.addListener(window.document.documentElement, "mousedown", this._onMouseDown, this, true);
+    // React on pointer/mouse events, but on native, to support inline applications
+    Registration.addListener(window.document.documentElement, "pointerdown", this._onPointerDown, this, true);
     Registration.addListener(el, "mousewheel", this._onMouseWheel, this, true);
 
     // React on keypress events
@@ -429,23 +429,23 @@ qx.Class.define("qx.ui.menu.Manager",
 
     /*
     ---------------------------------------------------------------------------
-      MOUSE EVENT HANDLERS
+      POINTER EVENT HANDLERS
     ---------------------------------------------------------------------------
     */
 
     /**
-     * Event handler for mousedown events
+     * Event handler for pointerdown events
      *
-     * @param e {qx.event.type.Mouse} mousedown event
+     * @param e {qx.event.type.Pointer} pointerdown event
      */
-    _onMouseDown : function(e)
+    _onPointerDown : function(e)
     {
       var target = e.getTarget();
       target = qx.ui.core.Widget.getWidgetByElement(target, true);
 
-      // If the target is 'null' the click appears on a DOM element witch is not
+      // If the target is 'null' the tap appears on a DOM element witch is not
       // a widget. This happens normally with an inline application, when the user
-      // clicks not in the inline application. In this case all all currently
+      // taps not in the inline application. In this case all all currently
       // open menus should be closed.
       if (target == null) {
         this.hideAll();
@@ -453,15 +453,30 @@ qx.Class.define("qx.ui.menu.Manager",
       }
 
       // If the target is the one which has opened the current menu
-      // we ignore the mousedown to let the button process the event
-      // further with toggling or ignoring the click.
+      // we ignore the pointerdown to let the button process the event
+      // further with toggling or ignoring the tap.
       if (target.getMenu && target.getMenu() && target.getMenu().isVisible()) {
         return;
       }
 
-      // All clicks not inside a menu will hide all currently open menus
+      // All taps not inside a menu will hide all currently open menus
       if (this.__objects.length > 0 && !this._isInMenu(target)) {
         this.hideAll();
+      }
+    },
+
+
+    /**
+     * Event handler for mousedown events
+     *
+     * @param e {qx.event.type.Mouse} mousedown event
+     * @deprecated {4.0}
+     */
+    _onMouseDown : function(e)
+    {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "Please use '_onPointerDown' instead.");
       }
     },
 
@@ -872,8 +887,8 @@ qx.Class.define("qx.ui.menu.Manager",
     var Registration = qx.event.Registration;
     var el = document.body;
 
-    // React on mousedown/mouseup events
-    Registration.removeListener(window.document.documentElement, "mousedown", this._onMouseDown, this, true);
+    // React on pointerdown events
+    Registration.removeListener(window.document.documentElement, "pointerdown", this._onPointerDown, this, true);
 
     // React on keypress events
     Registration.removeListener(el, "keydown", this._onKeyUpDown, this, true);

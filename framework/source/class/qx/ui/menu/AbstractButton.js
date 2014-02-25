@@ -49,7 +49,7 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     this._setLayout(new qx.ui.menu.ButtonLayout);
 
     // Add listeners
-    this.addListener("click", this._onClick);
+    this.addListener("tap", this._onTap);
     this.addListener("keypress", this._onKeyPress);
 
     // Add command listener
@@ -228,17 +228,30 @@ qx.Class.define("qx.ui.menu.AbstractButton",
 
 
     /**
+     * Event listener for tap
+     *
+     * @param e {qx.event.type.Pointer} pointer event
+     */
+    _onTap : function(e) {
+      // pass
+    },
+
+    /**
      * Event listener for click
      *
      * @param e {qx.event.type.Mouse} mouseup event
+     * @deprecated {4.0}
      */
     _onClick : function(e) {
-      // pass
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+          "Please use '_onTap' instead.");
+      }
     },
 
 
     /**
-     * Event listener for mouseup event
+     * Event listener for keypress event
      *
      * @param e {qx.event.type.KeySequence} keypress event
      */

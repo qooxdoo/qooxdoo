@@ -1524,7 +1524,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           // menu is allowed to be displayed normally. There's no need to
           // actually show an empty menu, though.
           if (menu.getChildren().length > 0) {
-            menu.openAtMouse(e);
+            menu.openAtPointer(e);
           }
           else
           {

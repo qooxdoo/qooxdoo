@@ -2978,7 +2978,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _onContextMenuOpen : function(e)
     {
-      this.getContextMenu().openAtMouse(e);
+      this.getContextMenu().openAtPointer(e);
 
       // Do not show native menu
       // don't open any other contextmenus
