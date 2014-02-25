@@ -58,12 +58,12 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this.initOrientation();
     }
 
-    // add all mouse listener to the blocker
-    this.__blocker.addListener("mousedown", this._onMouseDown, this);
-    this.__blocker.addListener("mouseup", this._onMouseUp, this);
-    this.__blocker.addListener("mousemove", this._onMouseMove, this);
-    this.__blocker.addListener("mouseout", this._onMouseOut, this);
-    this.__blocker.addListener("losecapture", this._onMouseUp, this);
+    // add all pointer listener to the blocker
+    this.__blocker.addListener("pointerdown", this._onPointerDown, this);
+    this.__blocker.addListener("pointerup", this._onPointerUp, this);
+    this.__blocker.addListener("pointermove", this._onPointerMove, this);
+    this.__blocker.addListener("pointerout", this._onPointerOut, this);
+    this.__blocker.addListener("losecapture", this._onPointerUp, this);
   },
 
 
@@ -85,7 +85,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
     },
 
     /**
-     * Distance between mouse cursor and splitter when the cursor should change
+     * Distance between pointer and splitter when the cursor should change
      * and enable resizing.
      */
     offset :
@@ -120,8 +120,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
     __splitterOffset : null,
     __activeDragSession : false,
-    __lastMouseX : null,
-    __lastMouseY : null,
+    __lastPointerX : null,
+    __lastPointerY : null,
     __isHorizontal : null,
     __beginSize : null,
     __endSize : null,
@@ -199,7 +199,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
     /**
      * Returns the blocker used over the splitter. this could be used for
-     * adding event listeners like click or dblclick.
+     * adding event listeners like tap or dbltap.
      *
      * @return {qx.ui.splitpane.Blocker} The used blocker element.
      *
@@ -382,27 +382,27 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
     /*
     ---------------------------------------------------------------------------
-      MOUSE LISTENERS
+      POINTER LISTENERS
     ---------------------------------------------------------------------------
     */
 
     /**
-     * Handler for mousedown event.
+     * Handler for pointerdown event.
      *
-     * Shows slider widget and starts drag session if mouse is near/on splitter widget.
+     * Shows slider widget and starts drag session if pointer is near/on splitter widget.
      *
-     * @param e {qx.event.type.Mouse} mouseDown event
+     * @param e {qx.event.type.Pointer} pointerdown event
      */
-    _onMouseDown : function(e)
+    _onPointerDown : function(e)
     {
-      // Only proceed if left mouse button is pressed and the splitter is active
+      // Only proceed if left pointer button is pressed and the splitter is active
       if (!e.isLeftPressed()) {
         return;
       }
 
       var splitter = this.getChildControl("splitter");
 
-      // Store offset between mouse event coordinates and splitter
+      // Store offset between pointer event coordinates and splitter
       var splitterLocation = splitter.getContentLocation();
       var paneLocation = this.getContentLocation();
       this.__splitterOffset = this.__isHorizontal ?
@@ -429,13 +429,13 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
 
     /**
-     * Handler for mousemove event.
+     * Handler for pointermove event.
      *
-     * @param e {qx.event.type.Mouse} mouseMove event
+     * @param e {qx.event.type.Pointer} pointermove event
      */
-    _onMouseMove : function(e)
+    _onPointerMove : function(e)
     {
-      this._setLastMousePosition(e.getDocumentLeft(), e.getDocumentTop());
+      this._setLastPointerPosition(e.getDocumentLeft(), e.getDocumentTop());
 
       // Check if slider is already being dragged
       if (this.__activeDragSession)
@@ -461,24 +461,24 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
 
     /**
-     * Handler for mouseout event
+     * Handler for pointerout event
      *
-     * @param e {qx.event.type.Mouse} mouseout event
+     * @param e {qx.event.type.Pointer} pointerout event
      */
-    _onMouseOut : function(e)
+    _onPointerOut : function(e)
     {
-      this._setLastMousePosition(e.getDocumentLeft(), e.getDocumentTop());
+      this._setLastPointerPosition(e.getDocumentLeft(), e.getDocumentTop());
     },
 
 
     /**
-     * Handler for mouseup event
+     * Handler for pointerup event
      *
      * Sets widget sizes if dragging session has been active.
      *
-     * @param e {qx.event.type.Mouse} mouseup event
+     * @param e {qx.event.type.Pointer} pointerup event
      */
-    _onMouseUp : function(e)
+    _onPointerUp : function(e)
     {
       if (!this.__activeDragSession) {
         return;
@@ -551,14 +551,14 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
 
     /**
-     * Computes widgets' sizes based on the mouse coordinate.
+     * Computes widgets' sizes based on the pointer coordinate.
      */
     __computeSizes : function()
     {
       if (this.__isHorizontal) {
-        var min="minWidth", size="width", max="maxWidth", mouse=this.__lastMouseX;
+        var min="minWidth", size="width", max="maxWidth", pointer=this.__lastPointerX;
       } else {
-        var min="minHeight", size="height", max="maxHeight", mouse=this.__lastMouseY;
+        var min="minHeight", size="height", max="maxHeight", pointer=this.__lastPointerY;
       }
 
       var children = this._getChildren();
@@ -569,7 +569,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var allocatedSize = children[2].getBounds()[size] + children[3].getBounds()[size];
 
       // Calculate widget sizes
-      var beginSize = mouse - this.__splitterOffset;
+      var beginSize = pointer - this.__splitterOffset;
       var endSize = allocatedSize - beginSize;
 
       // Respect minimum limits
@@ -613,15 +613,15 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
 
     /**
-     * Sets the last mouse position.
+     * Sets the last pointer position.
      *
-     * @param x {Integer} the x position of the mouse cursor.
-     * @param y {Integer} the y position of the mouse cursor.
+     * @param x {Integer} the x position of the pointer.
+     * @param y {Integer} the y position of the pointer.
      */
-     _setLastMousePosition : function(x, y)
+     _setLastPointerPosition : function(x, y)
      {
-       this.__lastMouseX = x;
-       this.__lastMouseY = y;
+       this.__lastPointerX = x;
+       this.__lastPointerY = y;
      }
   },
 
