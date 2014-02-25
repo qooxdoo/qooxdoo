@@ -97,7 +97,6 @@
       {
         "qx.version"     : "${APPLICATION}",
         "qx.application" : "${APPLICATION}.Application",
-        "qx.mobile.emulatetouch" : true,
         "qx.theme" : "${THEME}"
       },
 
