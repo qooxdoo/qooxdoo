@@ -34,10 +34,10 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
     /** @type {Map} The direction of a swipe relative to the axis */
     SWIPE_DIRECTION :
-    [
-      ["left", "right"],
-      ["up", "down"]
-    ],
+    {
+      x : ["left", "right"],
+      y : ["up", "down"]
+    },
 
     /** @type {Integer} The minimum distance of a swipe. Only if the x or y distance
      *      of the performed swipe is greater as or equal the value of this
@@ -154,24 +154,26 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       }
       var clazz = qx.event.handler.GestureCore;
 
-      return (Math.abs(delta[0]) <= clazz.TAP_MAX_DISTANCE &&
-              Math.abs(delta[1]) <= clazz.TAP_MAX_DISTANCE);
+      return (Math.abs(delta.x) <= clazz.TAP_MAX_DISTANCE &&
+              Math.abs(delta.y) <= clazz.TAP_MAX_DISTANCE);
     },
 
 
     /**
     * Calculates the delta coordinates in relation to the position on <code>pointerstart</code> event.
     * @param domEvent {Event} The DOM event from the browser.
+    * @return {Map} containing the deltaX as x, ans deltaY as y.
     */
     _getDeltaCoordinates : function(domEvent) {
-      var position = this.__gestureStartPosition[domEvent.pointerId];
-      if (!position) {
+      var startPosition = this.__gestureStartPosition[domEvent.pointerId];
+      if (!startPosition) {
         return null;
       }
-      return [
-        position[0] - domEvent.clientX,
-        position[1] - domEvent.clientY
-      ];
+
+      return {
+        "x":domEvent.clientX - startPosition[0],
+        "y":domEvent.clientY - startPosition[1]
+      };
     },
 
 
@@ -232,7 +234,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       var clazz = qx.event.handler.GestureCore;
       var deltaCoordinates = this._getDeltaCoordinates(domEvent);
       var duration = new Date().getTime() - this.__startTime;
-      var axis = (Math.abs(deltaCoordinates[0]) >= Math.abs(deltaCoordinates[1])) ? 0 : 1;
+      var axis = (Math.abs(deltaCoordinates.x) >= Math.abs(deltaCoordinates.y)) ? "x" : "y";
       var distance = deltaCoordinates[axis];
       var direction = clazz.SWIPE_DIRECTION[axis][distance < 0 ? 0 : 1];
       var velocity = (duration !== 0) ? distance/duration : 0;
