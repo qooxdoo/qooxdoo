@@ -95,7 +95,7 @@ qx.Class.define("qx.event.handler.Pointer",
     _fireEvent : function(domEvent, type, target, eventTypeClass)
     {
       if (!target) {
-        target = this._getTarget(domEvent);
+        target = qx.bom.Event.getTarget(domEvent);
       }
 
       if (!type) {

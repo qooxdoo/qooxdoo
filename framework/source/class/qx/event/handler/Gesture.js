@@ -124,7 +124,7 @@ qx.Class.define("qx.event.handler.Gesture",
      */
     _fireEvent : function(domEvent, type, target, eventTypeClass) {
       if (!target) {
-        target = this._getTarget(domEvent);
+        target = qx.bom.Event.getTarget(domEvent);
       }
 
       if (!type) {
