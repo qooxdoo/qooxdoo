@@ -29,7 +29,6 @@ Widgets Introduction
    desktop/ui_form_handling
    desktop/ui_menu_handling
    desktop/window_management
-   desktop/ui_html_editing
    desktop/ui_table_styling
 
 Widget Reference
