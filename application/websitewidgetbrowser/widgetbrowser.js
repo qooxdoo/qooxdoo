@@ -18,8 +18,6 @@
 
 ************************************************************************ */
 q.ready(function() {
-  // enable fastclick
-  FastClick.attach(document.body);
 
   var demos = {
     button : ["Default"],

@@ -21,7 +21,11 @@
  * @lint ignoreUndefined(q, qxWeb, samples, hljs)
  */
 q.ready(function() {
-  FastClick.attach(document.body);
+
+  // prevent touch scrolling
+  q(document).on("touchmove", function(e) {
+    e.preventDefault();
+  });
 
   // remove the warning
   q("#warning").setStyle("display", "none");
@@ -132,7 +136,7 @@ q.ready(function() {
   };
 
 
-  q("html").on("click", function(ev) {
+  q("html").on("tap", function(ev) {
     var showNav = q("#showNav");
     var value = parseInt(showNav.getValue());
     if (value == 1 && q("#navContainer").contains(ev.getTarget()).length == 0) {
@@ -819,7 +823,7 @@ q.ready(function() {
   var indigoLink = '<link rel="stylesheet" type="text/css" href="' + indigoUrl + '"/>';
 
   var createFiddleButton = function(sample) {
-    return q.create("<button class='fiddlebutton'>Edit/run on jsFiddle</button>").on("click", function() {
+    return q.create("<button class='fiddlebutton'>Edit/run on jsFiddle</button>").on("tap", function() {
       var iframeBody = q(q("#fiddleframe")[0].contentWindow.document.body);
 
       if (sample.javascript) {
