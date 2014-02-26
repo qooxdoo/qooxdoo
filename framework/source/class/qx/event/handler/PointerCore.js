@@ -169,10 +169,12 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
         var evt = this._createPointerEvent(type, domEvent, "touch", touch.identifier + 2, touchProps);
 
-        if (domEvent.type == "touchstart" || domEvent.type == "touchmove" || domEvent.type == "touchend" || domEvent.type == "touchcancel") {
-          if (touch.identifier == this.__primaryIdentifier) {
-            evt.isPrimary = true;
-          }
+        if (touch.identifier == this.__primaryIdentifier) {
+          evt.isPrimary = true;
+          this.__lastTouchPosition = {
+            "x": touch.clientX,
+            "y": touch.clientY
+          };
         }
 
         this._fireEvent(evt, type, target);
@@ -185,13 +187,6 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           if (this.__primaryIdentifier == touch.identifier) {
             this.__primaryIdentifier = null;
           }
-        }
-
-        if (evt.isPrimary) {
-          this.__lastTouchPosition = {
-            "x": touch.clientX,
-            "y": touch.clientY
-          };
         }
       }
     },
@@ -225,15 +220,10 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       var type = qx.event.handler.PointerCore.MOUSE_TO_POINTER_MAPPING[domEvent.type];
       var target = qx.bom.Event.getTarget(domEvent);
 
-      var evt = this._createPointerEvent(type, domEvent, "mouse", 1);
-      evt.isPrimary = true;
-
       var buttonsPressed = qx.lang.Array.sum(this.__buttonStates);
 
       if (this.__lastButtonState != buttonsPressed) {
-        var moveEvt = new qx.event.type.native.Pointer("pointermove", domEvent);
-        moveEvt.isPrimary = true;
-        moveEvt.pointerType = "mouse";
+        var moveEvt = this._createPointerEvent("pointermove", domEvent, "mouse", 1);
         this._fireEvent(moveEvt, "pointermove", target);
       }
 
@@ -251,6 +241,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         return;
       }
 
+      var evt = this._createPointerEvent(type, domEvent, "mouse", 1);
       this._fireEvent(evt, type, target);
       this.__contextMenu = false;
     },
@@ -289,6 +280,9 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       var evt = new qx.event.type.native.Pointer(type, domEvent, properties);
       evt.pointerType = pointerType;
       evt.pointerId = pointerId;
+      if(pointerType == "mouse") {
+        evt.isPrimary = true;
+      }
       return evt;
     },
 
