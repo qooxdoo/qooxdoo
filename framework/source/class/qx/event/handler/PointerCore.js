@@ -204,12 +204,13 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     * @param domEvent {Event} Native DOM event
     */
     _onMouseEvent : function(domEvent) {
+      domEvent.stopPropagation();
+
       // Simulated MouseEvents should not trigger PointerEvents.
       if(this._isSimulatedMouseEvent(domEvent)) {
         return;
       }
 
-      domEvent.stopPropagation();
       if (domEvent.type == "mousedown") {
         this.__buttonStates[domEvent.which] = 1;
       } else if (domEvent.type == "mouseup") {
