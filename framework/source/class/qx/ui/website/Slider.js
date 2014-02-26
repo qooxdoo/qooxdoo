@@ -177,9 +177,9 @@ qx.Bootstrap.define("qx.ui.website.Slider",
       }
 
       this._forEachElementWrapped(function(slider) {
-        slider.onWidget("pointerup", slider._onPointerup, slider)
+        slider.onWidget("pointerup", slider._onSliderPointerUp, slider)
         .onWidget("focus", slider._onSliderFocus, slider);
-        qxWeb(document.documentElement).on("pointerup", slider._onPointerUp, slider);
+        qxWeb(document.documentElement).on("pointerup", slider._onDocPointerUp, slider);
         qxWeb(window).onWidget("resize", slider._onWindowResize, slider);
 
         if (slider.getChildren("." + cssPrefix + "-knob").length === 0) {
@@ -407,7 +407,7 @@ qx.Bootstrap.define("qx.ui.website.Slider",
      *
      * @param e {qx.event.Emitter} Incoming event object
      */
-    _onPointerup : function(e) {
+    _onSliderPointerUp : function(e) {
       if ((e.getDocumentLeft() === 0 && e.getDocumentTop() === 0) ||
         !this.getEnabled()) {
         return;
@@ -443,7 +443,7 @@ qx.Bootstrap.define("qx.ui.website.Slider",
      *
      * @param e {qx.event.Emitter} Incoming event object
      */
-    _onPointerUp : function(e) {
+    _onDocPointerUp : function(e) {
       if (this.__dragMode === true) {
         // Cleanup status flags
         delete this.__dragMode;
@@ -628,9 +628,9 @@ qx.Bootstrap.define("qx.ui.website.Slider",
     dispose : function()
     {
       this._forEachElementWrapped(function(slider) {
-        qxWeb(document.documentElement).off("pointerup", slider._onPointerUp, slider);
+        qxWeb(document.documentElement).off("pointerup", slider._onDocPointerUp, slider);
         qxWeb(window).offWidget("resize", slider._onWindowResize, slider);
-        slider.offWidget("pointerup", slider._onPointerup, slider)
+        slider.offWidget("pointerup", slider._onSliderPointerUp, slider)
         .offWidget("focus", slider._onSliderFocus, slider);
         slider.getChildren("." + this.getCssPrefix() + "-knob")
         .offWidget("pointerdown", slider._onPointerDown, slider)
