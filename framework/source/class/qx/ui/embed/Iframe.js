@@ -62,8 +62,8 @@ qx.Class.define("qx.ui.embed.Iframe",
 
     this.base(arguments, source);
 
-    qx.event.Registration.addListener(document.body, "mousedown", this.block, this, true);
-    qx.event.Registration.addListener(document.body, "mouseup", this.release, this, true);
+    qx.event.Registration.addListener(document.body, "pointerdown", this.block, this, true);
+    qx.event.Registration.addListener(document.body, "pointerup", this.release, this, true);
     qx.event.Registration.addListener(document.body, "losecapture", this.release, this, true);
 
     this.__blockerElement = this._createBlockerElement();
@@ -178,7 +178,7 @@ qx.Class.define("qx.ui.embed.Iframe",
 
 
     /**
-     * Creates <div> element which is aligned over iframe node to avoid losing mouse events.
+     * Creates <div> element which is aligned over iframe node to avoid losing pointer events.
      *
      * @return {Object} Blocker element node
      */
@@ -218,7 +218,7 @@ qx.Class.define("qx.ui.embed.Iframe",
 
     /**
      * Cover the iframe with a transparent blocker div element. This prevents
-     * mouse or key events to be handled by the iframe. To release the blocker
+     * pointer or key events to be handled by the iframe. To release the blocker
      * use {@link #release}.
      *
      */
@@ -372,8 +372,8 @@ qx.Class.define("qx.ui.embed.Iframe",
     }
     this._disposeObjects("__blockerElement");
 
-    qx.event.Registration.removeListener(document.body, "mousedown", this.block, this, true);
-    qx.event.Registration.removeListener(document.body, "mouseup", this.release, this, true);
+    qx.event.Registration.removeListener(document.body, "pointerdown", this.block, this, true);
+    qx.event.Registration.removeListener(document.body, "pointerup", this.release, this, true);
     qx.event.Registration.removeListener(document.body, "losecapture", this.release, this, true);
   }
 });
