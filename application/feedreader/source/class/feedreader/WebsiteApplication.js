@@ -23,6 +23,7 @@
  * @require(qx.module.Attribute)
  * @require(qx.module.Animation)
  * @require(qx.module.Event)
+ * @require(qx.module.event.GestureHandler)
  * @require(qx.module.Template)
  * @require(qx.module.Manipulating)
  * @require(qx.module.Traversing)
@@ -69,9 +70,9 @@ qx.Class.define("feedreader.WebsiteApplication",
 
       // add a listener to the tree to change the selected feed
       var self = this;
-      tree.on("click", function(e) {
+      tree.on("tap", function(e) {
         var feed = (e.target || e.srcElement).feed;
-        // ignore clicks on headlines
+        // ignore clicks/taps on headlines
         if (!feed) {
           return;
         }

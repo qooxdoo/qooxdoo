@@ -29,6 +29,7 @@
  * @require(qx.module.Manipulating)
  * @require(qx.module.Attribute)
  * @require(qx.module.Event)
+ * @require(qx.module.event.GestureHandler)
  * @require(qx.module.event.Native)
  * @require(qx.module.Css)
  * @require(qx.module.Cookie)
@@ -199,8 +200,8 @@ qx.Class.define("testrunner.view.Html", {
     _bindMainControls : function()
     {
       var controls = q("#controls");
-      controls.getChildren("#run").on("click", this.__runTests, this);
-      controls.getChildren("#stop").on("click", this.__stopTests, this);
+      controls.getChildren("#run").on("tap", this.__runTests, this);
+      controls.getChildren("#stop").on("tap", this.__stopTests, this);
 
       controls.getChildren("#togglestack").on("change", function(ev) {
         this.setShowStack(ev.getTarget().checked);
@@ -359,7 +360,7 @@ qx.Class.define("testrunner.view.Html", {
       .append(q.create('<iframe onload="qx.event.handler.Iframe.onevent(this)" id="autframe">'))
       .appendTo("#frame_log");
 
-      q("#setiframesrc").on("click", this.__reloadAut, this);
+      q("#setiframesrc").on("tap", this.__reloadAut, this);
 
       return frameContainer.getChildren("#autframe")[0];
     },

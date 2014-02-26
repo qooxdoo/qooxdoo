@@ -45,8 +45,8 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
        duration = Math.max(1000, duration);
        duration = Math.min(200, duration);
 
-       // handler for the click on either the title or the indicator
-       var onClick = function(e) {
+       // handler for the click/tap on either the title or the indicator
+       var onTap = function(e) {
          if (content.__ah && content.__ah.isPlaying()) {
            return;
          }
@@ -104,8 +104,8 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
          }
        };
 
-       title.on("click", onClick);
-       indicator.on("click", onClick);
+       title.on("tap", onTap);
+       indicator.on("tap", onTap);
 
        return container;
      },
@@ -135,7 +135,7 @@ qx.Bootstrap.define("feedreader.view.website.Factory",
        label[0].feed = feed;
 
        // listener for the change to sync back the css class
-       label.on("click", function(e) {
+       label.on("tap", function(e) {
          var newItem = e.target;
          q("div[name='feedslabel']").removeClass("selectedFeed");
          q(newItem).addClass("selectedFeed");
