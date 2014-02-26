@@ -54,8 +54,6 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       MSPointerOut : "pointerout"
     },
 
-    SIM_MOUSE_DISTANCE : 25,
-
     SIM_MOUSE_DELAY : 250
   },
 
@@ -206,8 +204,11 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     _onMouseEvent : function(domEvent) {
       domEvent.stopPropagation();
 
-      // Simulated MouseEvents should not trigger PointerEvents.
-      if(this._isSimulatedMouseEvent(domEvent)) {
+      if(this._isSimulatedMouseEvent(domEvent.clientX,domEvent.clientY)) {
+        /* 
+          Simulated MouseEvents are fired by browsers directly after TouchEvents 
+          for improving compatibility. They should not trigger PointerEvents. 
+        */
         return;
       }
 
@@ -256,18 +257,16 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
 
     /**
-     * Detects whether the given mouse event is simulated or not.
-     * Simulated MouseEvents are fired by browsers right after
-     * TouchEvents for improving compatibility.
-     * @param domEvent {Event} native DOM event
-     * @return {Boolean} <code>true</code> if passed domEvent is a synthetic MouseEvent.
+     * Detects whether the given MouseEvent position is identical to the previously fired TouchEvent position.
+     * If <code>true</code> the corresponding event can be identified as simulated.
+     * @param x {Integer} current mouse x
+     * @param y {Integer} current mouse y
+     * @return {Boolean} <code>true</code> if passed mouse position is a synthetic MouseEvent.
      */
-    _isSimulatedMouseEvent: function(domEvent) {
+    _isSimulatedMouseEvent: function(x, y) {
       var timeSinceTouch = new Date().getTime() - this.__lastTouchTime;
       if (this.__lastTouchPosition && timeSinceTouch < qx.event.handler.PointerCore.SIM_MOUSE_DELAY) {
-        var deltaX = Math.abs(domEvent.clientX - this.__lastTouchPosition.x);
-        var deltaY = Math.abs(domEvent.clientY - this.__lastTouchPosition.y);
-        if (deltaX <= qx.event.handler.PointerCore.SIM_MOUSE_DISTANCE && deltaY <= qx.event.handler.PointerCore.SIM_MOUSE_DISTANCE) {
+        if (x == this.__lastTouchPosition.x && y == this.__lastTouchPosition.y) {
           return true;
         }
       }
