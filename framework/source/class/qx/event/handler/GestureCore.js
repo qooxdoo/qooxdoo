@@ -91,8 +91,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         return;
       }
 
-      domEvent.stopPropagation();
-
       if (type == "pointerdown") {
         this.__isTapGesture = true;
         this.gestureStart(domEvent, target);
