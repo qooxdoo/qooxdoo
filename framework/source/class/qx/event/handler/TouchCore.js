@@ -94,14 +94,10 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
 
     __touchStartPosition : null,
     __startTime : null,
-    __isSingleTouchGesture : null,
-    __isTapGesture : null,
     __onMove : null,
 
     __beginScalingDistance : null,
     __beginRotation : null,
-
-    __longTapTimer : null,
 
     __pointers : null,
 
@@ -269,8 +265,6 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       if (type == "touchstart") {
         this.__originalTarget = this._getTarget(domEvent);
 
-        this.__isTapGesture = true;
-
         if(domEvent.touches && domEvent.touches.length > 1) {
           this.__beginScalingDistance = this._getScalingDistance(domEvent.touches[0],domEvent.touches[1]);
           this.__beginRotation = this._getRotationAngle(domEvent.touches[0], domEvent.touches[1]);
@@ -295,14 +289,9 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
         }
 
         domEvent.delta = this._calcTouchesDelta(domEvent.targetTouches);
-
-        if (this.__isTapGesture) {
-          this.__isTapGesture = this._isBelowTapMaxDistance(domEvent.changedTouches[0]);
-        }
       }
 
       this._fireEvent(domEvent, type, this.__originalTarget);
-      //this.__checkAndFireGesture(domEvent, type);
 
       if (qx.core.Environment.get("event.mspointer")) {
         if (type == "touchend" || type == "touchcancel") {
@@ -352,40 +341,20 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       if (type.indexOf("pointerdown") !== -1) {
         return "touchstart";
       } else if (type.indexOf("pointerup") !== -1) {
+        this.__onMove = false;
         return "touchend";
       } else if (type.indexOf("pointermove") !== -1) {
         if (this.__onMove === true) {
           return "touchmove";
         }
       } else if (type.indexOf("pointercancel") !== -1) {
+        this.__onMove = false;
         return "touchcancel";
       }
 
       return type;
     },
 
-
-    /**
-     * Checks if the distance between the x/y coordinates of "touchstart" and "touchmove" event
-     * exceeds TAP_MAX_DISTANCE and returns the result.
-     *
-     * @param touch {Event} The "touchmove" event from the browser.
-     * @return {Boolean} true if distance is below TAP_MAX_DISTANCE.
-     */
-    _isBelowTapMaxDistance: function(touch) {
-      var deltaCoordinates = this._calcSingleTouchDelta(touch);
-      var clazz = qx.event.handler.TouchCore;
-
-      return (Math.abs(deltaCoordinates.x) <= clazz.TAP_MAX_DISTANCE &&
-              Math.abs(deltaCoordinates.y) <= clazz.TAP_MAX_DISTANCE);
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HELPERS
-    ---------------------------------------------------------------------------
-    */
 
     /**
      * Return the target of the event.
@@ -471,182 +440,12 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
 
 
     /**
-     * Checks if a gesture was made and fires the gesture event.
-     *
-     * @param domEvent {Event} DOM event
-     * @param type {String ? null} type of the event
-     * @param target {Element ? null} event target
-     */
-    __checkAndFireGesture : function(domEvent, type, target)
-    {
-      if (!target) {
-        target = this._getTarget(domEvent);
-      }
-      var type = type || domEvent.type;
-
-      if (type == "touchstart")
-      {
-        this.__gestureStart(domEvent, target);
-      }
-      else if (type == "touchmove") {
-        this.__gestureChange(domEvent, target);
-      }
-      else if (type == "touchend")
-      {
-        this.__gestureEnd(domEvent, target);
-      }
-    },
-
-
-    /**
-     * Helper method for gesture start.
-     *
-     * @param domEvent {Event} DOM event
-     * @param target {Element} event target
-     */
-    __gestureStart : function(domEvent, target)
-    {
-      this.__onMove = true;
-
-      this.__startTime = new Date().getTime();
-      this.__isSingleTouchGesture = domEvent.targetTouches.length === 1;
-      // start the long tap timer
-      if (this.__isSingleTouchGesture) {
-        this.__longTapTimer = window.setTimeout(
-          this.__fireLongTap.bind(this, domEvent, target),
-          qx.event.handler.TouchCore.LONGTAP_TIME
-        );
-      } else {
-        this.__stopLongTapTimer();
-      }
-    },
-
-
-    /**
-     * Helper method for gesture change.
-     *
-     * @param domEvent {Event} DOM event
-     * @param target {Element} event target
-     */
-    __gestureChange : function(domEvent, target)
-    {
-      // Abort a single touch gesture when another touch occurs.
-      if (this.__isSingleTouchGesture && domEvent.changedTouches.length > 1) {
-        this.__isSingleTouchGesture = false;
-      }
-
-      // abort long tap timer if the distance is too big
-      if (!this._isBelowTapMaxDistance(domEvent.changedTouches[0])) {
-        this.__stopLongTapTimer();
-      }
-    },
-
-
-    /**
-     * Helper method for gesture end.
-     *
-     * @param domEvent {Event} DOM event
-     * @param target {Element} event target
-     */
-    __gestureEnd : function(domEvent, target)
-    {
-      this.__onMove = false;
-
-      // delete the long tap
-      this.__stopLongTapTimer();
-
-      if (this.__isSingleTouchGesture)
-      {
-        var eventType;
-
-        if (this.__originalTarget == target && this.__isTapGesture) {
-          if (qx.event && qx.event.type && qx.event.type.Tap) {
-            eventType = qx.event.type.Tap;
-          }
-          this._fireEvent(domEvent, "tap", target, eventType);
-        }
-        else
-        {
-          var swipe = this.__getSwipeGesture(domEvent, target);
-          if (swipe) {
-            if (qx.event && qx.event.type && qx.event.type.Swipe) {
-              eventType = qx.event.type.Swipe;
-            }
-            domEvent.swipe = swipe;
-            this._fireEvent(domEvent, "swipe", this.__originalTarget, eventType);
-          }
-        }
-      }
-    },
-
-
-    /**
-     * Returns the swipe gesture when the user performed a swipe.
-     *
-     * @param domEvent {Event} DOM event
-     * @param target {Element} event target
-     * @return {Map} returns the swipe data when the user performed a swipe, null if the gesture was no swipe.
-     */
-    __getSwipeGesture : function(domEvent, target)
-    {
-      var deltaCoordinates = this._calcSingleTouchDelta(domEvent.changedTouches[0]);
-      var clazz = qx.event.handler.TouchCore;
-      var duration = new Date().getTime() - this.__startTime;
-      var axis = (Math.abs(deltaCoordinates.x) >= Math.abs(deltaCoordinates.y)) ? "x" : "y";
-      var distance = deltaCoordinates[axis];
-      var direction = clazz.SWIPE_DIRECTION[axis][distance < 0 ? 0 : 1];
-      var velocity = (duration !== 0) ? distance/duration : 0;
-
-      var swipe = null;
-      if (Math.abs(velocity) >= clazz.SWIPE_MIN_VELOCITY
-          && Math.abs(distance) >= clazz.SWIPE_MIN_DISTANCE)
-      {
-        swipe = {
-            startTime : this.__startTime,
-            duration : duration,
-            axis : axis,
-            direction : direction,
-            distance : distance,
-            velocity : velocity
-        };
-      }
-      return swipe;
-    },
-
-
-    /**
-     * Fires the long tap event.
-     *
-     * @param domEvent {Event} DOM event
-     * @param target {Element} event target
-     */
-    __fireLongTap : function(domEvent, target) {
-      this._fireEvent(domEvent, "longtap", target, qx.event.type.Tap);
-      this.__longTapTimer = null;
-      // prevent the tap event
-      this.__isTapGesture = false;
-    },
-
-
-    /**
-     * Stops the time for the long tap event.
-     */
-    __stopLongTapTimer : function() {
-      if (this.__longTapTimer) {
-        window.clearTimeout(this.__longTapTimer);
-        this.__longTapTimer = null;
-      }
-    },
-
-
-    /**
      * Dispose this object
      */
     dispose : function()
     {
       this._stopTouchObserver();
       this.__originalTarget = this.__target = this.__touchEventNames = this.__pointers = this.__emitter = this.__beginScalingDistance = this.__beginRotation = null;
-      this.__stopLongTapTimer();
     }
   }
 });
