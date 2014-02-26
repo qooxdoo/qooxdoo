@@ -57,10 +57,8 @@ qx.Bootstrap.define("qx.module.event.GestureHandler", {
 
         qx.module.event.GestureHandler.POINTER_EVENTS.forEach(function(pointerType) {
           var propName = "__on" + pointerType;
-          element[propName] = function(pointerEvent) {
-            handler.checkAndFireGesture(pointerEvent, pointerType, element);
-          };
-          q(element).on(pointerType, element[propName], element.__gestureHandler);
+          element[propName] = handler.checkAndFireGesture.bind(handler);
+          q(element).on(pointerType, element[propName]);
         });
       }
 
@@ -77,6 +75,10 @@ qx.Bootstrap.define("qx.module.event.GestureHandler", {
       if (element.__gestureHandler) {
         element.__gestureListeners--;
         if (element.__gestureListeners === 0) {
+          qx.module.event.GestureHandler.POINTER_EVENTS.forEach(function(pointerType) {
+            var propName = "__on" + pointerType;
+            q(element).off(pointerType, element[propName]);
+          });
           element.__gestureHandler.dispose();
           element.__gestureHandler = null;
         }
