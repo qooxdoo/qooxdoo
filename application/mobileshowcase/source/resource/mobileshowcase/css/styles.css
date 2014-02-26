@@ -55,6 +55,9 @@
   transform: scale(0.5);
   -webkit-transform: scale(0.5);
   -moz-transform: scale(0.5);
+  -webkit-filter: drop-shadow(rgba(0,0,0,0.5) 16px 16px 10px);
+  -moz-filter: drop-shadow(rgba(0,0,0,0.5) 16px 16px 10px);
+  filter: drop-shadow(rgba(0,0,0,0.5) 16px 16px 10px);
   z-index:1000;
   position:absolute;
   top: 0;
