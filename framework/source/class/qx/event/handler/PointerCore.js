@@ -52,7 +52,11 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       MSPointerEnter: "pointerenter",
       MSPointerOver : "pointerover",
       MSPointerOut : "pointerout"
-    }
+    },
+
+    DEDUP_DISTANCE : 25,
+
+    DEDUP_TIME : 250
   },
 
   /**
@@ -70,6 +74,9 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       var docMode = parseInt(qx.core.Environment.get("browser.documentmode"), 10);
       if (engineName == "mshtml" && docMode == 10) {
         this.__eventNames = ["MSPointerDown", "MSPointerMove", "MSPointerUp", "MSPointerCancel"];
+        this._initPointerObserver();
+      } else {
+        this.__eventNames = ["pointerdown", "pointermove", "pointerup", "pointercancel"];
         this._initPointerObserver();
       }
     } else {
@@ -91,6 +98,8 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     __buttonStates : null,
     __contextMenu : false,
     __primaryIdentifier : null,
+    __lastTouchTime : null,
+    __lastTouchPosition : null,
 
     /**
      * Adds listeners to native pointer events if supported
@@ -125,6 +134,8 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      * @param domEvent {Event} Native DOM event
      */
     _onTouchEvent: function(domEvent) {
+      this.__lastTouchTime = new Date().getTime();
+
       var type = qx.event.handler.PointerCore.TOUCH_TO_POINTER_MAPPING[domEvent.type];
       var target = qx.bom.Event.getTarget(domEvent);
       var changedTouches = domEvent.changedTouches;
@@ -173,6 +184,13 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
             this.__primaryIdentifier = null;
           }
         }
+
+        if (evt.isPrimary) {
+          this.__lastTouchPosition = {
+            "x": touch.clientX,
+            "y": touch.clientY
+          };
+        }
       }
     },
 
@@ -182,6 +200,11 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     * @param domEvent {Event} Native DOM event
     */
     _onMouseEvent : function(domEvent) {
+      // Simulated MouseEvents should not trigger PointerEvents.
+      if(this._isSimulatedMouseEvent(domEvent)) {
+        return;
+      }
+
       domEvent.stopPropagation();
       if (domEvent.type == "mousedown") {
         this.__buttonStates[domEvent.which] = 1;
@@ -227,6 +250,27 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     },
 
 
+    /**
+     * Detects whether the given mouse event is simulated or not. 
+     * Simulated MouseEvents are fired by browsers right after
+     * TouchEvents for improving compatibility.
+     * @param domEvent {Event} native DOM event 
+     * @return {Boolean} <code>true</code> if passed domEvent is a synthetic MouseEvent.
+     */
+    _isSimulatedMouseEvent: function(domEvent) {
+      var timeSinceTouch = new Date().getTime() - this.__lastTouchTime;
+      if (this.__lastTouchPosition && timeSinceTouch < qx.event.handler.PointerCore.DEDUP_TIME) {
+        var deltaX = Math.abs(domEvent.clientX - this.__lastTouchPosition.x);
+        var deltaY = Math.abs(domEvent.clientX - this.__lastTouchPosition.y);
+        if (deltaX <= qx.event.handler.PointerCore.DEDUP_DISTANCE && deltaX <= qx.event.handler.PointerCore.DEDUP_DISTANCE) {
+          return true;
+        }
+      }
+
+      return false;
+    },
+
+
     _createPointerEvent : function(type, domEvent, pointerType, pointerId, properties) {
       var evt = new qx.event.type.native.Pointer(type, domEvent, properties);
       evt.pointerType = pointerType;
@@ -264,7 +308,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      */
     dispose : function() {
       this._stopObserver();
-      this.__defaultTarget = null;
+      this.__defaultTarget = this.__lastTouchTime = this.__lastTouchPosition = null;
     }
   }
 });
