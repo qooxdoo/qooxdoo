@@ -49,8 +49,6 @@
     "source",
     "source-data",
     "source-hybrid",
-    "test",
-    "test-source",
     "translation",
     "migration",
     "validate-config",
