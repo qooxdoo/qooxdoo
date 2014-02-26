@@ -46,12 +46,6 @@ qx.Class.define("qx.event.type.Swipe",
       },
 
 
-      // overridden
-      _isTouchEnd : function() {
-        return true;
-      },
-
-
       /**
        * Returns the start time of the performed swipe.
        *

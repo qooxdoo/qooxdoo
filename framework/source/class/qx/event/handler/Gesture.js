@@ -83,6 +83,9 @@ qx.Class.define("qx.event.handler.Gesture",
       // Nothing needs to be done here
     },
 
+    /**
+     * Register pointer event listeners
+     */
     _initObserver : function() {
       this.__listener = qx.lang.Function.listener(this.checkAndFireGesture, this);
       qx.event.handler.Gesture.POINTER_EVENTS.forEach(function(type) {
@@ -97,7 +100,7 @@ qx.Class.define("qx.event.handler.Gesture",
      * @param type {String ? null} type of the event
      * @param target {Element ? null} event target
      */
-    checkAndFireGesture : function(pointerEvent) {
+    checkAndFireGesture : function(pointerEvent, type, target) {
       this.__callBase("checkAndFireGesture",
         [pointerEvent.getNativeEvent(), pointerEvent.getType(), pointerEvent.getTarget()]
       );
@@ -105,7 +108,7 @@ qx.Class.define("qx.event.handler.Gesture",
 
 
     /**
-     * Removes native pointer event listeners.
+     * Remove native pointer event listeners.
      */
     _stopObserver : function() {
       qx.event.handler.Gesture.POINTER_EVENTS.forEach(function(type) {
@@ -142,11 +145,6 @@ qx.Class.define("qx.event.handler.Gesture",
 
       // Fire user action event
       qx.event.Registration.fireEvent(this.__window, "useraction", qx.event.type.Data, [type]);
-    },
-
-    // overridden
-    _onPointerEvent : function(domEvent) {
-      this._fireEvent(domEvent, domEvent.type, qx.bom.Event.getTarget(domEvent));
     },
 
 

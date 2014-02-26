@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * Cross-browser custom UI event
+ */
 qx.Bootstrap.define("qx.event.type.native.Custom", {
 
   extend : Object,
@@ -29,10 +32,16 @@ qx.Bootstrap.define("qx.event.type.native.Custom", {
     }
   },
 
+  /**
+   * @param type {String} event type
+   * @param domEvent {Event} Native event that will be used as a template for the new event
+   * @param customProps {Map} Map of event properties (will override the domEvent's values)
+   * @return {Event} event object
+   */
   construct : function(type, domEvent, customProps) {
     this._type = type;
-    this._event = this.createEvent();
-    this.initEvent(domEvent, customProps);
+    this._event = this._createEvent();
+    this._initEvent(domEvent, customProps);
     return this._event;
   },
 
@@ -40,7 +49,12 @@ qx.Bootstrap.define("qx.event.type.native.Custom", {
     _type : null,
     _event : null,
 
-    createEvent : function() {
+
+    /**
+     * Creates a custom event object
+     * @return {Event} event object
+     */
+    _createEvent : function() {
       var evt;
         if (typeof window.CustomEvent == "function") {
         evt = new window.CustomEvent(this._type);
@@ -53,7 +67,13 @@ qx.Bootstrap.define("qx.event.type.native.Custom", {
       return evt;
     },
 
-    initEvent : function(domEvent, customProps) {
+    /**
+     * Initializes a custom event
+     *
+     * @param domEvent {Event} Native event that will be used as a template for the new event
+     * @param customProps {Map} Map of event properties (will override the domEvent's values)
+     */
+    _initEvent : function(domEvent, customProps) {
       var properties = qx.event.type.native.Custom.PROPERTIES;
       if (this._event.initEvent) {
         this._event.initEvent(this._type, properties.bubbles, properties.cancelable);

@@ -45,6 +45,7 @@ qx.Bootstrap.define("qx.module.event.PointerHandler", {
      * is attached to it
      *
      * @param element {Element} DOM element
+     * @param type {String} event type
      */
     register : function(element, type) {
       // force qx.bom.Event.supportsEvent to return true for this type so we

@@ -57,6 +57,9 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     LONGTAP_TIME : 500
   },
 
+  /**
+   * @param target {Element} DOM Element that should fire gesture events
+   */
   construct : function(target) {
     this.__defaultTarget = target;
     this.__gestureStartPosition = {};
@@ -228,7 +231,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      *
      * @param domEvent {Event} DOM event
      * @param target {Element} event target
-     * @param deltaCoordinates {Map} delta x/y coordinates since the gesture started.
      * @return {Map} returns the swipe data when the user performed a swipe, null if the gesture was no swipe.
      */
     __getSwipeGesture : function(domEvent, target) {
@@ -295,6 +297,10 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
               Math.abs(deltaCoordinates.y) <= clazz.TAP_MAX_DISTANCE);
     },
 
+
+    /**
+     * Dispose the current instance
+     */
     dispose : function() {
       this.__originalTarget = this.__defaultTarget = null;
       this.__stopLongTapTimer();

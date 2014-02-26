@@ -110,6 +110,10 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     },
 
 
+    /**
+     * Register native event listeners
+     * @param callback {Function} listener callback
+     */
     _initObserver : function(callback) {
       this.__wrappedListener = qx.lang.Function.listener(callback, this);
       this.__eventNames.forEach(function(type) {
@@ -251,10 +255,10 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
 
     /**
-     * Detects whether the given mouse event is simulated or not. 
+     * Detects whether the given mouse event is simulated or not.
      * Simulated MouseEvents are fired by browsers right after
      * TouchEvents for improving compatibility.
-     * @param domEvent {Event} native DOM event 
+     * @param domEvent {Event} native DOM event
      * @return {Boolean} <code>true</code> if passed domEvent is a synthetic MouseEvent.
      */
     _isSimulatedMouseEvent: function(domEvent) {
@@ -271,6 +275,16 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     },
 
 
+    /**
+     * Creates a custom pointer event
+     *
+     * @param type {String} Pointer event type, e.g. "pointerdown"
+     * @param domEvent {Event} Native event that will be used as a template for the new event
+     * @param pointerType {String} Pointer device type, e.g. "mouse" or "touch"
+     * @param pointerId {Integer} pointer ID
+     * @param properties {Map} Map of event properties (will override the domEvent's values)
+     * @return {Event} Pointer event
+     */
     _createPointerEvent : function(type, domEvent, pointerType, pointerId, properties) {
       var evt = new qx.event.type.native.Pointer(type, domEvent, properties);
       evt.pointerType = pointerType;

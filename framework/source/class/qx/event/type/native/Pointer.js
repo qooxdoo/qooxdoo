@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * Synthetic pointer event
+ */
 qx.Bootstrap.define("qx.event.type.native.Pointer", {
   extend: qx.event.type.native.Custom,
 
@@ -58,7 +61,7 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
 
   members : {
 
-    createEvent : function() {
+    _createEvent : function() {
       var evt;
         if (typeof window.MouseEvent == "function") {
         evt = new window.MouseEvent(this._type);
@@ -72,7 +75,7 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
     },
 
 
-    initEvent : function(domEvent, customProps) {
+    _initEvent : function(domEvent, customProps) {
       var evt = this._event;
       var properties = qx.lang.Object.clone(qx.event.type.native.Pointer.PROPERTIES);
       var propNames = Object.keys(qx.event.type.native.Pointer.PROPERTIES);
