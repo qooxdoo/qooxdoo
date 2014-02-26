@@ -54,9 +54,9 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       MSPointerOut : "pointerout"
     },
 
-    DEDUP_DISTANCE : 25,
+    SIM_MOUSE_DISTANCE : 25,
 
-    DEDUP_TIME : 250
+    SIM_MOUSE_DELAY : 250
   },
 
   /**
@@ -259,10 +259,10 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      */
     _isSimulatedMouseEvent: function(domEvent) {
       var timeSinceTouch = new Date().getTime() - this.__lastTouchTime;
-      if (this.__lastTouchPosition && timeSinceTouch < qx.event.handler.PointerCore.DEDUP_TIME) {
+      if (this.__lastTouchPosition && timeSinceTouch < qx.event.handler.PointerCore.SIM_MOUSE_DELAY) {
         var deltaX = Math.abs(domEvent.clientX - this.__lastTouchPosition.x);
-        var deltaY = Math.abs(domEvent.clientX - this.__lastTouchPosition.y);
-        if (deltaX <= qx.event.handler.PointerCore.DEDUP_DISTANCE && deltaX <= qx.event.handler.PointerCore.DEDUP_DISTANCE) {
+        var deltaY = Math.abs(domEvent.clientY - this.__lastTouchPosition.y);
+        if (deltaX <= qx.event.handler.PointerCore.SIM_MOUSE_DISTANCE && deltaY <= qx.event.handler.PointerCore.SIM_MOUSE_DISTANCE) {
           return true;
         }
       }

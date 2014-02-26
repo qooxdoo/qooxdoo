@@ -275,6 +275,11 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
           this.__beginScalingDistance = this._getScalingDistance(domEvent.touches[0],domEvent.touches[1]);
           this.__beginRotation = this._getRotationAngle(domEvent.touches[0], domEvent.touches[1]);
         }
+
+        for (var i = 0; i < domEvent.changedTouches.length; i++) {
+          var touch = domEvent.changedTouches[i];
+          this.__touchStartPosition[touch.identifier] = [touch.clientX,touch.clientY];
+        }
       }
       
       if(type == "touchmove") {
@@ -502,11 +507,6 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     __gestureStart : function(domEvent, target)
     {
       this.__onMove = true;
-
-      for (var i = 0; i < domEvent.changedTouches.length; i++) {
-        var changedTouch = domEvent.changedTouches[i];
-        this.__touchStartPosition[changedTouch.identifier] = [changedTouch.clientX,changedTouch.clientY];
-      }
 
       this.__startTime = new Date().getTime();
       this.__isSingleTouchGesture = domEvent.targetTouches.length === 1;
