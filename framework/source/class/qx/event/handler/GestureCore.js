@@ -170,9 +170,9 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       // abort long tap timer if the distance is too big
       if (this.__isTapGesture) {
         this.__isTapGesture = this._isBelowTapMaxDistance(domEvent);
-      }
-      if (this.__isTapGesture && !this._isBelowTapMaxDistance(domEvent)) {
-        this.__stopLongTapTimer();
+        if (!this.__isTapGesture) {
+          this.__stopLongTapTimer();
+        }
       }
     },
 
