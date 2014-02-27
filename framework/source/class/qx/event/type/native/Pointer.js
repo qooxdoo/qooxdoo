@@ -66,7 +66,10 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
         if (typeof window.MouseEvent == "function") {
         evt = new window.MouseEvent(this._type);
       } else if (typeof document.createEvent == "function") {
-        evt = document.createEvent("MouseEvents");
+        /* In IE9, the pageX property of synthetic MouseEvents is always 0
+         and cannot be overriden, so we create a plain UIEvent and add
+         the mouse event properties ourselves. */
+        evt = document.createEvent("UIEvents");
       } else if (typeof document.createEventObject == "object") {
         evt = document.createEventObject();
         evt.type = this._type;
@@ -113,9 +116,15 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
         properties.pressure = buttons ? 0.5 : 0;
       }
 
-      evt.initMouseEvent && evt.initMouseEvent(this._type, properties.bubbles, properties.cancelable, properties.view, properties.detail,
+      if (evt.initMouseEvent) {
+        evt.initMouseEvent(this._type, properties.bubbles, properties.cancelable, properties.view, properties.detail,
           properties.screenX, properties.screenY, properties.clientX, properties.clientY, properties.ctrlKey,
           properties.altKey, properties.shiftKey, properties.metaKey, properties.button, properties.relatedTarget);
+      }
+      else if (evt.initUIEvent) {
+        evt.initUIEvent(this._type,
+          properties.bubbles, properties.cancelable, properties.view, properties.detail);
+      }
 
       for (var prop in properties) {
         evt[prop] = properties[prop];
