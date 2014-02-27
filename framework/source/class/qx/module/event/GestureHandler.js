@@ -32,7 +32,6 @@ qx.Bootstrap.define("qx.module.event.GestureHandler", {
 
     TYPES : ["tap", "longtap", "swipe"],
 
-    POINTER_EVENTS : ["pointerdown", "pointerup", "pointermove"],
 
     /**
      * Creates a gesture handler for the given element when a gesture event listener
@@ -42,25 +41,12 @@ qx.Bootstrap.define("qx.module.event.GestureHandler", {
      * @param type {String} event type
      */
     register : function(element, type) {
-      // force qx.bom.Event.supportsEvent to return true for this type so we
-      // can use the native addEventListener (synthetic gesture events use the
-      // native dispatchEvent).
-      if (!element["on" + type]) {
-        element["on" + type] = true;
-      }
-
       if (!element.__gestureListeners) {
         element.__gestureListeners = 0;
       }
 
       if (!element.__gestureHandler) {
-        var handler = element.__gestureHandler = new qx.event.handler.GestureCore(element);
-
-        qx.module.event.GestureHandler.POINTER_EVENTS.forEach(function(pointerType) {
-          var propName = "__on" + pointerType;
-          element[propName] = handler.checkAndFireGesture.bind(handler);
-          q(element).on(pointerType, element[propName]);
-        });
+        element.__gestureHandler = new qx.event.handler.GestureCore(element);
       }
 
       element.__gestureListeners++;
@@ -76,10 +62,6 @@ qx.Bootstrap.define("qx.module.event.GestureHandler", {
       if (element.__gestureHandler) {
         element.__gestureListeners--;
         if (element.__gestureListeners === 0) {
-          qx.module.event.GestureHandler.POINTER_EVENTS.forEach(function(pointerType) {
-            var propName = "__on" + pointerType;
-            q(element).off(pointerType, element[propName]);
-          });
           element.__gestureHandler.dispose();
           element.__gestureHandler = null;
         }

@@ -30,6 +30,10 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
   statics : {
 
+    TYPES : ["tap", "swipe", "longtap"],
+
+    POINTER_EVENTS : ["pointerdown", "pointerup", "pointermove"],
+
     TAP_MAX_DISTANCE : qx.core.Environment.get("os.name") != "android" ? 10 : 40,
 
     /** @type {Map} The direction of a swipe relative to the axis */
@@ -63,6 +67,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
   construct : function(target) {
     this.__defaultTarget = target;
     this.__gestureStartPosition = {};
+    this._initObserver();
   },
 
   members : {
@@ -73,6 +78,34 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     __originalTarget : null,
     __isTapGesture : null,
     __eventName : null,
+
+    /**
+     * Register pointer event listeners
+     */
+    _initObserver : function() {
+      // force qx.bom.Event.supportsEvent to return true for this type so we
+      // can use the native addEventListener (synthetic gesture events use the
+      // native dispatchEvent).
+      qx.event.handler.GestureCore.TYPES.forEach(function(type) {
+        if (!this.__defaultTarget["on" + type]) {
+          this.__defaultTarget["on" + type] = true;
+        }
+      }.bind(this));
+
+      qx.event.handler.GestureCore.POINTER_EVENTS.forEach(function(pointerType) {
+        qxWeb(this.__defaultTarget).on(pointerType, this.checkAndFireGesture, this);
+      }.bind(this));
+    },
+
+
+    /**
+     * Remove native pointer event listeners.
+     */
+    _stopObserver : function() {
+      qx.event.handler.GestureCore.POINTER_EVENTS.forEach(function(pointerType) {
+        qxWeb(this.__defaultTarget).off(pointerType, this.checkAndFireGesture, this);
+      });
+    },
 
 
     /**
@@ -304,6 +337,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     dispose : function() {
       this.__originalTarget = this.__defaultTarget = null;
       this.__stopLongTapTimer();
+      this._stopObserver();
     }
   }
 });

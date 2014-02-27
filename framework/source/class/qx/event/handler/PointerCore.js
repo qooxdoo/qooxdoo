@@ -123,6 +123,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      * @param domEvent {Event}  Native DOM event
      */
     _onPointerEvent : function(domEvent) {
+      domEvent.stopPropagation();
       var type = qx.event.handler.PointerCore.MSPOINTER_TO_POINTER_MAPPING[domEvent.type];
       var target = qx.bom.Event.getTarget(domEvent);
       domEvent.type = type;

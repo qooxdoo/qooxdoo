@@ -59,7 +59,6 @@ qx.Class.define("qx.event.handler.Gesture",
     this.__root = this.__window.document;
 
     qx.event.handler.GestureCore.apply(this, [this.__root]);
-    this._initObserver();
   },
 
   members : {
@@ -83,9 +82,7 @@ qx.Class.define("qx.event.handler.Gesture",
       // Nothing needs to be done here
     },
 
-    /**
-     * Register pointer event listeners
-     */
+    // overridden
     _initObserver : function() {
       this.__listener = qx.lang.Function.listener(this.checkAndFireGesture, this);
       qx.event.handler.Gesture.POINTER_EVENTS.forEach(function(type) {
@@ -107,9 +104,7 @@ qx.Class.define("qx.event.handler.Gesture",
     },
 
 
-    /**
-     * Remove native pointer event listeners.
-     */
+    // overridden
     _stopObserver : function() {
       qx.event.handler.Gesture.POINTER_EVENTS.forEach(function(type) {
         qx.event.Registration.removeListener(this.__root, type, this.__listener);
