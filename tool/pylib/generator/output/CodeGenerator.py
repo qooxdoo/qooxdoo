@@ -83,7 +83,7 @@ class CodeGenerator(object):
             if scriptUri: out_sourceUri= scriptUri
             else:
                 out_sourceUri = self._computeResourceUri({
-                    'class': ".", 
+                    'class': ".",
                     'path': os.path.dirname(script.baseScriptPath)
                     }, OsPath(""), rType="class", appRoot=self.approot)
                 out_sourceUri = out_sourceUri.encodedValue()
@@ -111,9 +111,9 @@ class CodeGenerator(object):
         ##
         # passes results to compileAndWritePackage via Class._tmp_tree
         def doStaticsOptimizationIf(script, compConf, packages):
-            compOpts = CompileOptions(compConf.get("code/optimize",[]), script.variants, compConf.get("code/format",False)) 
+            compOpts = CompileOptions(compConf.get("code/optimize",[]), script.variants, compConf.get("code/format",False))
             if "statics" in compOpts.optimize:
-                script.classesObj = optimizeDeadCode(script.classesObj, script._featureMap, 
+                script.classesObj = optimizeDeadCode(script.classesObj, script._featureMap,
                     compOpts, treegen=treegenerator, log_progress=log_progress)
                 # make package.classes consistent with script.classesObj
                 for package in packages:
@@ -182,7 +182,7 @@ class CodeGenerator(object):
 
             # Whether boot package is inline
             vals["BootIsInline"] = loaderBootInline(script, compConf)
-                
+
             # Closure package information
             vals["ClosureParts"] = loaderClosureParts(script, compConf)
 
@@ -191,7 +191,7 @@ class CodeGenerator(object):
 
             # Script hook for qx.$$loader.decodeUris() function
             vals["DecodeUrisPlug"] = loaderDecodeUrisPlug(script, compConf)
-            
+
             # Enable "?nocache=...." for script loading?
             vals["NoCacheParam"] = loaderNocacheParam(script, compConf)
 
@@ -202,8 +202,8 @@ class CodeGenerator(object):
             try:
                 result = loaderFillTemplate(vals, template)
             except KeyError, e:
-                raise ValueError("Unknown macro used in loader template (%s): '%s'" % 
-                                 (templatePath, e.args[0])) 
+                raise ValueError("Unknown macro used in loader template (%s): '%s'" %
+                                 (templatePath, e.args[0]))
 
             # Compress it
             if False: # - nope; this is taking around 14s on my box, with parsing being 10s  :(
@@ -235,7 +235,7 @@ class CodeGenerator(object):
         def loaderLibInfo(script, compConf):
             pass
 
-        
+
         ##
         # Goes through all packages and returns the list of uri-like entries for
         # JS files in each package.
@@ -342,7 +342,7 @@ class CodeGenerator(object):
             else:
                 val = ""
                 # fake package data
-                for key, package in enumerate(script.packagesSorted()): 
+                for key, package in enumerate(script.packagesSorted()):
                     #val += "qx.$$packageData['%d']={};\n" % key
                     pass
             return val
@@ -396,7 +396,7 @@ class CodeGenerator(object):
         # scripts ("not package.has_source").
         # ---
         # theoretically, multiple scripts in a packages could be
-        # supported, if they're all compiled (no source scripts) and 
+        # supported, if they're all compiled (no source scripts) and
         # each is assigned its own closure key.
         def isClosurePackage(package, bootPackageId):
             if not package.has_source and not package.id == bootPackageId:
@@ -485,13 +485,13 @@ class CodeGenerator(object):
         # process "statics" optimization
         #
         def optimizeDeadCode(classList, featureMap, compConf, treegen, log_progress):
-            
+
             ##
             # define a criterion when optimization is saturated
             # (here: when nullrefs hasn't changed in 4 times)
             def atLimit(featureMap, lmin=[]):
                 # array of (class.id, feature) the feature ref count of which is 0
-                nullrefs = [(cls, feat) for cls in featureMap 
+                nullrefs = [(cls, feat) for cls in featureMap
                                 for feat in featureMap[cls] if not featureMap[cls][feat].hasref()]
                 cmin = len(nullrefs)
                 lmin.append(cmin)
@@ -735,7 +735,7 @@ class CodeGenerator(object):
                         if per_file_prefix:
                             package_data = per_file_prefix + package_data
                         package_uris = compileAndAdd(compiled_classes, package_uris, package_data, closureWrap)
-                
+
                 return package_uris
 
             # ------------------------------------
@@ -757,13 +757,13 @@ class CodeGenerator(object):
             package.files = write_uris(package_data, package_classes, per_file_prefix)
 
             return package
-            
+
         def first_script_path(script, packages):
             first_script = lambda pkgs: pkgs[0].files[0]
             untag_fname = lambda s: s.split(':')[1]
             fs_path = lambda bfile: (
                 os.path.join(os.path.dirname(script.baseScriptPath),os.path.basename(bfile)))
-            return pipeline( 
+            return pipeline(
                 first_script(packages)       # "__out__:fo%c3%b6bar.js"
                 ,untag_fname                 # "fo%c3%b6bar.js"
                 ,urllib.unquote              # "foöbar.js"
@@ -798,7 +798,7 @@ class CodeGenerator(object):
         variantKeys = set(script.variants.keys())
         allClassVariants = script.classVariants()
         allClassVariants.difference_update(variantKeys)
-        
+
         self._console.info("Generate application")
         self._console.indent()
 
@@ -830,7 +830,7 @@ class CodeGenerator(object):
 
 
     #def runCompiled_1(self, script):
-    #    
+    #
     #    def generate_app(script):
     #
     #        return pipeline(script
@@ -952,7 +952,7 @@ class CodeGenerator(object):
 
 
     ##
-    # computes a complete resource URI for the given resource type rType, 
+    # computes a complete resource URI for the given resource type rType,
     # from the information given in lib and, if lib doesn't provide a
     # general uri prefix for it, use appRoot and lib path to construct
     # one
@@ -1125,7 +1125,7 @@ class CodeGenerator(object):
                 else:
                     percent_ut = 0
                 self._console.debug(
-                    "%s:\t untranslated entries: %3d%% (%d/%d)" % (locale, percent_ut, 
+                    "%s:\t untranslated entries: %3d%% (%d/%d)" % (locale, percent_ut,
                         len(data['untranslated']), data['total'])
                 )
                 self._console.nl()
@@ -1202,7 +1202,7 @@ class CodeGenerator(object):
                 resUriRoot = self._computeResourceUri(lib, OsPath(""), rType="resource", appRoot=self.approot)
                 resUriRoot = resUriRoot.encodedValue()
                 qxlibs[lib.namespace]['resourceUri'] = "%s" % (resUriRoot,)
-            
+
             # add code root URI
             if scriptUri:
                 qxlibs[lib.namespace]['sourceUri'] = scriptUri
@@ -1210,7 +1210,7 @@ class CodeGenerator(object):
                 sourceUriRoot = self._computeResourceUri(lib, OsPath(""), rType="class", appRoot=self.approot)
                 sourceUriRoot = sourceUriRoot.encodedValue()
                 qxlibs[lib.namespace]['sourceUri'] = "%s" % (sourceUriRoot,)
-            
+
             # TODO: Add version, svn revision, maybe even authors, but at least homepage link, ...
 
             # add version info
@@ -1228,7 +1228,7 @@ class CodeGenerator(object):
     # the package.
     #
     # The created data structure is in the form suitable for inclusion in the
-    # generated scripts. For images, the information includes pre-calculated 
+    # generated scripts. For images, the information includes pre-calculated
     # sizes, and being part of a combined image.
     @staticmethod
     def packagesResourceInfo(script):
@@ -1243,7 +1243,7 @@ class CodeGenerator(object):
             package.data.resources = Script.createResourceStruct(package_resources, formatAsTree=False,
                                                          updateOnlyExistingSprites=True)
         return script
-    
+
 
     def writePackages(self, packages, script):
 
@@ -1254,7 +1254,7 @@ class CodeGenerator(object):
 
         return
 
-    
+
     def writePackage(self, content, filePath, script, isLoader=0):
         console.debug("Writing script file %s" % filePath)
         if script.scriptCompress and not isLoader:
