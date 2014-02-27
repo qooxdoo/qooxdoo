@@ -1,7 +1,7 @@
 {
   "name": "qx-resources",
   "description": "Collect resource information tailored for qooxdoo",
-  "main": "lib/locales.js",
+  "main": "lib/resources.js",
   "version": "0.1.0",
   "homepage": "https://github.com/qooxdoo/qooxdoo",
   "author": {
