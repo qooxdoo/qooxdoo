@@ -26,7 +26,7 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
 
   statics : {
     PROPERTIES : {
-      bubbles : false,
+      bubbles : true,
       cancelable : false,
       view : null,
       detail : null,

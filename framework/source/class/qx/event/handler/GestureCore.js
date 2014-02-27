@@ -75,7 +75,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     __gestureStartPosition : null,
     __startTime : null,
     __longTapTimer : null,
-    __originalTarget : null,
     __isTapGesture : null,
     __eventName : null,
 
@@ -116,15 +115,16 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element ? null} event target
      */
     checkAndFireGesture : function(domEvent, type, target) {
-      if (!target) {
-        target = qx.bom.Event.getTarget(domEvent);
+      if(!domEvent.isPrimary || domEvent.gestureProcessed) {
+        return;
       }
+
       if (!type) {
         type = domEvent.type;
       }
 
-      if(!domEvent.isPrimary) {
-        return;
+      if (!target) {
+        target = qx.bom.Event.getTarget(domEvent);
       }
 
       if (type == "pointerdown") {
@@ -134,7 +134,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         this.gestureChange(domEvent, target);
       } else if (type == "pointerup") {
         // If no start position is available for this pointerup event, cancel gesture recognition.
-        if (Object.keys(this.__gestureStartPosition).length == 0) {
+        if (Object.keys(this.__gestureStartPosition).length === 0) {
           return;
         }
         this.gestureEnd(domEvent, target);
@@ -148,6 +148,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element} event target
      */
     gestureStart : function(domEvent, target) {
+      domEvent.gestureProcessed = true;
       this.__gestureStartPosition[domEvent.pointerId] = [domEvent.clientX, domEvent.clientY];
 
       this.__startTime = new Date().getTime();
@@ -222,7 +223,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @ignore(qx.event.type)
      */
     gestureEnd : function(domEvent, target) {
-
       // delete the long tap
       this.__stopLongTapTimer();
       var eventType;
@@ -254,9 +254,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element ? null} event target
      */
     _fireEvent : function(domEvent, type, target) {
-      target = domEvent.target || target;
       var evt = new qx.event.type.native.Custom(type, domEvent);
-      target.dispatchEvent(evt);
+      this.__defaultTarget.dispatchEvent(evt);
     },
 
     /**
@@ -335,7 +334,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * Dispose the current instance
      */
     dispose : function() {
-      this.__originalTarget = this.__defaultTarget = null;
+      this.__defaultTarget =  null;
       this.__stopLongTapTimer();
       this._stopObserver();
     }

@@ -27,7 +27,7 @@ qx.Bootstrap.define("qx.event.type.native.Custom", {
 
   statics : {
     PROPERTIES : {
-      bubbles : true,
+      bubbles : false,
       cancelable : true
     }
   },
@@ -56,7 +56,7 @@ qx.Bootstrap.define("qx.event.type.native.Custom", {
      */
     _createEvent : function() {
       var evt;
-        if (typeof window.CustomEvent == "function") {
+      if (typeof window.CustomEvent == "function") {
         evt = new window.CustomEvent(this._type);
       } else if (typeof document.createEvent == "function") {
         evt = document.createEvent("UIEvents");
