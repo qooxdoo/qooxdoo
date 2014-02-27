@@ -25,20 +25,21 @@ module.exports = function(grunt) {
     source: {
       default_options: {
         options: {
+          // include: [u'myNamespace.Application', 'myNamespace.theme.Theme'],
         },
         files: {
           'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123'],
         },
       },
+      /*
       custom_options: {
         options: {
-          separator: ': ',
-          punctuation: ' !!!',
         },
         files: {
           'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123'],
         },
       },
+      */
     },
 
     nodeunit: {
