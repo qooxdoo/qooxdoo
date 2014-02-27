@@ -628,6 +628,40 @@ function sortDepsTopologically(classesDeps, subkey) {
     return classListLoadOrder;
 }
 
+function translateClassIdsToPaths(classList, options) {
+  if (!options) {
+    options = {};
+  }
+
+  // merge options and default values
+  opts = {
+    nsPrefix: options.nsPrefix === false ? false : true,
+  };
+
+  var translateToPath = function(classId) {
+    return classId.replace(/\./g, "/") + ".js";
+  };
+
+  var prependNamespace = function(classString) {
+    var posFirstSlash = classString.indexOf("/");
+
+    if (["qxWeb.js"].indexOf(classString) !== -1) {
+      return "qx:"+classString;
+    }
+
+    return (posFirstSlash !== -1)
+           ? classString.substr(0, posFirstSlash)+":"+classString
+           : classString;
+  };
+
+  classList = classList.map(translateToPath);
+  if (opts.nsPrefix) {
+    classList = classList.map(prependNamespace);
+  }
+
+  return classList;
+}
+
 function createAtHintsIndex(deps, options) {
   var idx = {
     ignore: {},
@@ -687,8 +721,9 @@ function createAtHintsIndex(deps, options) {
 //------------------------------------------------------------------------------
 
 module.exports = {
-  findUnresolvedDeps : findUnresolvedDeps,
-  collectDepsRecursive : collectDepsRecursive,
-  createAtHintsIndex : createAtHintsIndex,
-  sortDepsTopologically : sortDepsTopologically
+  findUnresolvedDeps: findUnresolvedDeps,
+  collectDepsRecursive: collectDepsRecursive,
+  createAtHintsIndex: createAtHintsIndex,
+  sortDepsTopologically: sortDepsTopologically,
+  translateClassIdsToPaths: translateClassIdsToPaths
 };

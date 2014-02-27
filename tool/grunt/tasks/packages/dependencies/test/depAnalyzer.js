@@ -29,6 +29,7 @@ exports.dependencies = {
   getClassListLoadOrder : function (test) {
     var depAnalyzer = require('../lib/depAnalyzer.js');
     var classListLoadOrder = [];
+    var classListPaths = [];
     var classesDeps = {};
     var atHintIndex = {};
 
@@ -53,10 +54,12 @@ exports.dependencies = {
     */
 
     classListLoadOrder = depAnalyzer.sortDepsTopologically(classesDeps, "load");
+    classListPaths = depAnalyzer.translateClassIdsToPaths(classListLoadOrder);
     atHintIndex = depAnalyzer.createAtHintsIndex(classesDeps);
 
     console.log(JSON.stringify(classesDeps, null, 2));
     console.log(classListLoadOrder, classListLoadOrder.length);
+    console.log(classListPaths);
     console.log(atHintIndex);
 
     test.ok(true);
