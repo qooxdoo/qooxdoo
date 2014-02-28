@@ -196,12 +196,12 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     * @param domEvent {Event} Native DOM event
     */
     _onMouseEvent : function(domEvent) {
-      domEvent.stopPropagation();
+      qx.bom.Event.stopPropagation(domEvent);
 
       if (this._isSimulatedMouseEvent(domEvent.clientX, domEvent.clientY)) {
-        /* 
-          Simulated MouseEvents are fired by browsers directly after TouchEvents 
-          for improving compatibility. They should not trigger PointerEvents. 
+        /*
+          Simulated MouseEvents are fired by browsers directly after TouchEvents
+          for improving compatibility. They should not trigger PointerEvents.
         */
         return;
       }
