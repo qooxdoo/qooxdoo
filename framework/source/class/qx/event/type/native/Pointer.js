@@ -102,6 +102,9 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
       // pointer properties
       for (var pointerPropName in qx.event.type.native.Pointer.POINTER_PROPERTIES) {
         properties[pointerPropName] = qx.event.type.native.Pointer.POINTER_PROPERTIES[pointerPropName];
+        if (pointerPropName in domEvent) {
+          properties[pointerPropName] = domEvent[pointerPropName];
+        }
         if (customProps && customProps[pointerPropName]) {
           properties[pointerPropName] = customProps[pointerPropName];
         }
