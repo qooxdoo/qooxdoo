@@ -103,7 +103,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     _stopObserver : function() {
       qx.event.handler.GestureCore.POINTER_EVENTS.forEach(function(pointerType) {
         qxWeb(this.__defaultTarget).off(pointerType, this.checkAndFireGesture, this);
-      });
+      }.bind(this));
     },
 
 
