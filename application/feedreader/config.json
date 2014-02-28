@@ -20,6 +20,8 @@
       "api",
       "api-data",
       "build",
+      "build-mobile",
+      "build-website",
       "clean",
       "distclean",
       "fix",
@@ -32,6 +34,8 @@
       "source",
       "source-all",
       "source-hybrid",
+      "source-mobile",
+      "source-website",
       "translation",
       "validate-config",
       "validate-manifest"
