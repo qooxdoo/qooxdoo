@@ -317,6 +317,11 @@
  *       <td>event.hashchange</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Event#getHashChange}</td>
  *     </tr>
+ *     <tr>
+ *       <td>event.dispatchevent</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Event#getDispatchEvent}</td>
+ *     </tr>
+ *
 
  *     <tr>
  *       <td colspan="4"><b>html</b></td>
@@ -841,6 +846,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "event.mspointer" : "qx.bom.client.Engine.getMsPointer",
       "event.help" : "qx.bom.client.Event.getHelp",
       "event.hashchange" : "qx.bom.client.Event.getHashChange",
+      "event.dispatchevent" : "qx.bom.client.Event.getDispatchEvent",
       "ecmascript.error.stacktrace"       : "qx.bom.client.EcmaScript.getStackTrace",
       "ecmascript.array.indexof" : "qx.bom.client.EcmaScript.getArrayIndexOf",
       "ecmascript.array.lastindexof" : "qx.bom.client.EcmaScript.getArrayLastIndexOf",

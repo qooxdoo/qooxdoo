@@ -25,7 +25,8 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
   extend: qx.event.type.native.Custom,
 
   statics : {
-    PROPERTIES : {
+
+    MOUSE_PROPERTIES : {
       bubbles : true,
       cancelable : false,
       view : null,
@@ -42,8 +43,10 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
       metaKey : false,
       button : 0,
       which : 0,
-      relatedTarget : null,
+      relatedTarget : null
+    },
 
+    POINTER_PROPERTIES : {
       pointerId: 1,
       width: 0,
       height: 0,
@@ -71,7 +74,8 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
          the mouse event properties ourselves. */
         evt = document.createEvent("UIEvents");
       } else if (typeof document.createEventObject == "object") {
-        evt = document.createEventObject();
+        // IE8 doesn't support custom event types
+        evt = {};
         evt.type = this._type;
       }
       return evt;
@@ -80,15 +84,26 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
 
     _initEvent : function(domEvent, customProps) {
       var evt = this._event;
-      var properties = qx.lang.Object.clone(qx.event.type.native.Pointer.PROPERTIES);
-      var propNames = Object.keys(qx.event.type.native.Pointer.PROPERTIES);
-      for (var i = 0; i < propNames.length; i++) {
-        var propName = propNames[i];
+
+      var properties = {};
+
+      // mouse properties
+      var mousePropNames = Object.keys(qx.event.type.native.Pointer.MOUSE_PROPERTIES);
+      for (var i = 0; i < mousePropNames.length; i++) {
+        var propName = mousePropNames[i];
         if (propName in domEvent) {
           properties[propName] = domEvent[propName];
         }
         if (customProps && customProps[propName]) {
           properties[propName] = customProps[propName];
+        }
+      }
+
+      // pointer properties
+      for (var pointerPropName in qx.event.type.native.Pointer.POINTER_PROPERTIES) {
+        properties[pointerPropName] = qx.event.type.native.Pointer.POINTER_PROPERTIES[pointerPropName];
+        if (customProps && customProps[pointerPropName]) {
+          properties[pointerPropName] = customProps[pointerPropName];
         }
       }
 
@@ -107,13 +122,13 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
           buttons = 0;
       }
 
-      if (domEvent.pressure) {
-        properties.pressure = domEvent.pressure;
-      }
-
       if (buttons) {
         properties.buttons = buttons;
         properties.pressure = buttons ? 0.5 : 0;
+      }
+
+      if (domEvent.pressure) {
+        properties.pressure = domEvent.pressure;
       }
 
       if (evt.initMouseEvent) {

@@ -61,7 +61,8 @@ qx.Bootstrap.define("qx.event.type.native.Custom", {
       } else if (typeof document.createEvent == "function") {
         evt = document.createEvent("UIEvents");
       } else if (typeof document.createEventObject == "object") {
-        evt = document.createEventObject();
+        // IE8 doesn't support custom event types
+        evt = {};
         evt.type = this._type;
       }
       return evt;

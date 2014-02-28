@@ -64,14 +64,16 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
   /**
    * @param target {Element} DOM Element that should fire gesture events
    */
-  construct : function(target) {
+  construct : function(target, emitter) {
     this.__defaultTarget = target;
+    this.__emitter = emitter;
     this.__gestureStartPosition = {};
     this._initObserver();
   },
 
   members : {
     __defaultTarget : null,
+    __emitter : null,
     __gestureStartPosition : null,
     __startTime : null,
     __longTapTimer : null,
@@ -254,8 +256,17 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element ? null} event target
      */
     _fireEvent : function(domEvent, type, target) {
-      var evt = new qx.event.type.native.Custom(type, domEvent);
-      this.__defaultTarget.dispatchEvent(evt);
+      if (qx.core.Environment.get("event.dispatchevent")) {
+        var evt = new qx.event.type.native.Custom(type, domEvent);
+        this.__defaultTarget.dispatchEvent(evt);
+      } else if(this.__defaultTarget.__emitter) {
+        var evt = new qx.event.type.native.Custom(type, domEvent, {
+          target : this.__defaultTarget,
+          currentTarget : this.__defaultTarget,
+          srcElement : this.__defaultTarget
+        });
+        this.__defaultTarget.__emitter.emit(type, evt);
+      }
     },
 
     /**
@@ -334,9 +345,9 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * Dispose the current instance
      */
     dispose : function() {
-      this.__defaultTarget =  null;
       this.__stopLongTapTimer();
       this._stopObserver();
+      this.__defaultTarget = this.__emitter = null;
     }
   }
 });

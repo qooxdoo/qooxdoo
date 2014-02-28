@@ -85,6 +85,15 @@ qx.Bootstrap.define("qx.bom.client.Event",
       return (engine !== "mshtml" && hashchange) ||
       (engine === "mshtml" && "documentMode" in document &&
        document.documentMode >= 8 && hashchange);
+    },
+
+
+    /**
+     * Checks if the DOM2 dispatchEvent method is available
+     * @return {Boolean} <code>true</code> if dispatchEvent is supported.
+     */
+    getDispatchEvent : function() {
+      return typeof document.dispatchEvent == "function";
     }
   },
 
@@ -93,5 +102,6 @@ qx.Bootstrap.define("qx.bom.client.Event",
     qx.core.Environment.add("event.mspointer", statics.getMsPointer);
     qx.core.Environment.add("event.help", statics.getHelp);
     qx.core.Environment.add("event.hashchange", statics.getHashChange);
+    qx.core.Environment.add("event.dispatchevent", statics.getDispatchEvent);
   }
 });

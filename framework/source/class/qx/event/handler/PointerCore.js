@@ -62,8 +62,9 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
    *
    * @param target {Element} element on which to listen for native touch events
    */
-  construct : function(target) {
+  construct : function(target, emitter) {
     this.__defaultTarget = target;
+    this.__emitter = emitter;
     this.__eventNames = [];
     this.__buttonStates = [];
 
@@ -90,6 +91,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
   members : {
     __defaultTarget : null,
+    __emitter : null,
     __eventNames : null,
     __wrappedListener : null,
     __lastButtonState : null,
@@ -312,7 +314,19 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       target = target || domEvent.target;
       type = type || domEvent.type;
 
-      target.dispatchEvent(domEvent);
+      if (qx.core.Environment.get("event.dispatchevent")) {
+        target.dispatchEvent(domEvent);
+      } else {
+        domEvent.target = target;
+        domEvent.srcElement = target;
+        while (target) {
+          if (target.__emitter) {
+            domEvent.currentTarget = target;
+            target.__emitter.emit(type, domEvent);
+          }
+          target = target.parentNode;
+        }
+      }
     },
 
     /**
@@ -320,7 +334,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      */
     dispose : function() {
       this._stopObserver();
-      this.__defaultTarget = this.__lastTouch = null;
+      this.__defaultTarget = this.__emitter = this.__lastTouch = null;
     }
   }
 });
