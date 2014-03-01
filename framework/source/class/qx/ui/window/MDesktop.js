@@ -40,9 +40,24 @@ qx.Mixin.define("qx.ui.window.MDesktop",
     {
       check : "qx.ui.window.Window",
       apply : "_applyActiveWindow",
+      event : "changeActiveWindow",
       init  : null,
       nullable : true
     }
+  },
+  
+  
+  events:
+  {
+    /**
+     * Fired when a window was added.
+     */
+    windowAdded: "qx.event.type.Data",
+
+    /**
+     * Fired when a window was removed.
+     */
+    windowRemoved: "qx.event.type.Data"
   },
 
 
@@ -166,10 +181,14 @@ qx.Mixin.define("qx.ui.window.MDesktop",
       if (!qx.lang.Array.contains(this.getWindows(), win))
       {
         this.getWindows().push(win);
+
+        this.fireDataEvent("windowAdded", win);
+
         win.addListener("changeActive", this._onChangeActive, this);
         win.addListener("changeModal", this._onChangeModal, this);
         win.addListener("changeVisibility", this._onChangeVisibility, this);
       }
+
       if (win.getActive()) {
         this.setActiveWindow(win);
       }
@@ -198,11 +217,18 @@ qx.Mixin.define("qx.ui.window.MDesktop",
      */
     _removeWindow : function(win)
     {
-      qx.lang.Array.remove(this.getWindows(), win);
-      win.removeListener("changeActive", this._onChangeActive, this);
-      win.removeListener("changeModal", this._onChangeModal, this);
-      win.removeListener("changeVisibility", this._onChangeVisibility, this);
-      this.getWindowManager().updateStack();
+      if (qx.lang.Array.contains(this.getWindows(), win))
+      {
+        qx.lang.Array.remove(this.getWindows(), win);
+
+        this.fireDataEvent("windowRemoved", win);
+
+        win.removeListener("changeActive", this._onChangeActive, this);
+        win.removeListener("changeModal", this._onChangeModal, this);
+        win.removeListener("changeVisibility", this._onChangeVisibility, this);
+
+        this.getWindowManager().updateStack();
+      }
     },
 
 
