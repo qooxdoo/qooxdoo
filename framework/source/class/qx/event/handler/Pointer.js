@@ -102,6 +102,8 @@ qx.Class.define("qx.event.handler.Pointer",
         type = domEvent.type;
       }
 
+      type = qx.event.handler.PointerCore.MSPOINTER_TO_POINTER_MAPPING[type] || type;
+
       if (target && target.nodeType)
       {
         qx.event.Registration.fireEvent(
