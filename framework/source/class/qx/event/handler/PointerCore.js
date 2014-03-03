@@ -63,6 +63,8 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
    * Create a new instance
    *
    * @param target {Element} element on which to listen for native touch events
+   * @param emitter {qx.event.Emitter?} Event emitter (used if dispatchEvent
+   * is not supported, e.g. in IE8)
    */
   construct : function(target, emitter) {
     this.__defaultTarget = target;

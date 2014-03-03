@@ -108,6 +108,7 @@ qx.Class.define("qx.ui.core.EventHandler",
       tap : 1,
       longtap : 1,
       swipe : 1,
+      dbltap : 1,
 
       // pointer events
       pointermove : 1,

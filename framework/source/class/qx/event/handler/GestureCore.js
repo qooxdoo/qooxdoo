@@ -30,7 +30,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
   statics : {
 
-    TYPES : ["tap", "swipe", "longtap"],
+    TYPES : ["tap", "swipe", "longtap", "dbltap"],
 
     POINTER_EVENTS : ["pointerdown", "pointerup", "pointermove"],
 
@@ -58,11 +58,19 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     /**
      * @type {Integer} The time delta in milliseconds to fire a long tap event.
      */
-    LONGTAP_TIME : 500
+    LONGTAP_TIME : 500,
+
+    /**
+     * @type {Integer} Maximum time between two tap events that will still trigger a
+     * dbltap event.
+     */
+    DOUBLETAP_TIME : 500
   },
 
   /**
    * @param target {Element} DOM Element that should fire gesture events
+   * @param emitter {qx.event.Emitter?} Event emitter (used if dispatchEvent
+   * is not supported, e.g. in IE8)
    */
   construct : function(target, emitter) {
     this.__defaultTarget = target;
@@ -79,6 +87,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     __longTapTimer : null,
     __isTapGesture : null,
     __eventName : null,
+    __lastTapTime : null,
 
     /**
      * Register pointer event listeners
@@ -234,8 +243,18 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
           eventType = qx.event.type.Tap;
         }
         this._fireEvent(domEvent, "tap", domEvent.target || target, eventType);
+
+        if (this.__lastTapTime) {
+          var diff = Date.now() - this.__lastTapTime;
+          if (diff <= qx.event.handler.GestureCore.DOUBLETAP_TIME) {
+            this._fireEvent(domEvent, "dbltap", domEvent.target || target, eventType);
+          }
+        }
+        this.__lastTapTime = Date.now();
+
       }
       else {
+        this.__lastTapTime = null;
         var swipe = this.__getSwipeGesture(domEvent, target);
         if (swipe) {
           if (qx.event && qx.event.type && qx.event.type.Swipe) {
@@ -256,11 +275,12 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element ? null} event target
      */
     _fireEvent : function(domEvent, type, target) {
+      var evt;
       if (qx.core.Environment.get("event.dispatchevent")) {
-        var evt = new qx.event.type.native.Custom(type, domEvent);
+        evt = new qx.event.type.native.Custom(type, domEvent);
         this.__defaultTarget.dispatchEvent(evt);
-      } else if(this.__defaultTarget.__emitter) {
-        var evt = new qx.event.type.native.Custom(type, domEvent, {
+      } else if (this.__defaultTarget.__emitter) {
+        evt = new qx.event.type.native.Custom(type, domEvent, {
           target : this.__defaultTarget,
           currentTarget : this.__defaultTarget,
           srcElement : this.__defaultTarget

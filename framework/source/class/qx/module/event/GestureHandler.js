@@ -30,7 +30,7 @@ qx.Bootstrap.define("qx.module.event.GestureHandler", {
 
   statics : {
 
-    TYPES : ["tap", "longtap", "swipe"],
+    TYPES : ["tap", "longtap", "swipe", "dbltap"],
 
 
     /**

@@ -30,7 +30,7 @@ qx.Bootstrap.define("qx.module.event.Touch", {
     /**
      * List of event types to be normalized
      */
-    TYPES : ["tap", "longtap", "swipe"],
+    TYPES : ["tap", "longtap", "swipe", "dbltap"],
 
 
     /**

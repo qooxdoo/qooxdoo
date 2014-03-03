@@ -36,7 +36,8 @@ qx.Class.define("qx.event.handler.Gesture",
     SUPPORTED_TYPES : {
       tap : 1,
       swipe : 1,
-      longtap : 1
+      longtap : 1,
+      dbltap : 1
     },
 
     POINTER_EVENTS : ["pointerdown", "pointerup", "pointermove"],
