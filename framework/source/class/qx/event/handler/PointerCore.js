@@ -104,7 +104,6 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      * Adds listeners to native pointer events if supported
      */
     _initPointerObserver : function() {
-      this.__wrappedListener = qx.lang.Function.listener(this._onPointerEvent, this);
       this._initObserver(this._onPointerEvent);
     },
 
