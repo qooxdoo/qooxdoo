@@ -54,7 +54,9 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       MSPointerOut : "pointerout"
     },
 
-    SIM_MOUSE_DELAY : 250
+    SIM_MOUSE_DISTANCE : 25,
+
+    SIM_MOUSE_DELAY : 1000
   },
 
   /**
@@ -261,8 +263,11 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       var touch = this.__lastTouch;
       if (touch) {
         var timeSinceTouch = new Date().getTime() - touch.time;
+        var dist = qx.event.handler.PointerCore.SIM_MOUSE_DISTANCE;
+        var distX = Math.abs(x - this.__lastTouch.x);
+        var distY = Math.abs(y - this.__lastTouch.y);
         if (timeSinceTouch < qx.event.handler.PointerCore.SIM_MOUSE_DELAY) {
-          if (x == touch.x && y == touch.y) {
+          if (Math.abs(Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2))) < dist) {
             return true;
           }
         }
