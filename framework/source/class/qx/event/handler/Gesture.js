@@ -19,6 +19,8 @@
 
 /**
  * Unified gesture event handler.
+ *
+ * @require(qx.event.handler.Pointer)
  */
 qx.Class.define("qx.event.handler.Gesture",
 {
