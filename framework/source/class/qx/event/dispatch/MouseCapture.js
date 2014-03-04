@@ -124,7 +124,15 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
       "dblclick": 1,
       "mousemove": 1,
       "mouseout": 1,
-      "mouseover": 1
+      "mouseover": 1,
+
+      "pointerdown" : 1,
+      "pointerup" : 1,
+      "pointermove" : 1,
+      "pointerover" : 1,
+      "pointerout" : 1,
+      "tap" : 1,
+      "dbltap" : 1
     },
 
 
