@@ -53,11 +53,6 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     qx.ui.form.IModel
   ],
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
 
   /**
    * @param value {Boolean?null} The value of the button
@@ -85,17 +80,11 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
 
     this.addListener("tap", this._onTap, this);
     this.addListener("swipe", this._onSwipe, this);
-    this.addListener("touchmove", this._onTouch, this);
+    this.addListener("touchmove", qx.bom.Event.preventDefault, this);
 
     this.addCssClass("gap");
   },
 
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
 
   properties :
   {
@@ -107,12 +96,6 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
     }
   },
 
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -188,20 +171,9 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
      */
     _onTap : function(evt)
     {
-      if(this._checkLastTouchTime()) {
+      if(this._checkLastPointerTime()) {
         this.toggle();
       }
-    },
-
-
-     /**
-     * Event handler. Called when the touchmove event occurs.
-     * Prevents bubbling, because on swipe no scrolling of outer container is wanted.
-     *
-     * @param evt {qx.event.type.Touch} The touch event.
-     */
-    _onTouch : function(evt) {
-      evt.stopPropagation();
     },
 
 
@@ -213,7 +185,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
      */
     _onSwipe : function(evt)
     {
-      if (this._checkLastTouchTime()) {
+      if (this._checkLastPointerTime()) {
         var direction = evt.getDirection();
         if (direction == "left") {
           if (this.__value == true) {
@@ -233,7 +205,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
      * Bugfix for several simulator/emulator, when tap is immediately followed by a swipe.
      * @return {Boolean} <code>true</code> if the last event was more than 500ms ago
      */
-    _checkLastTouchTime : function() {
+    _checkLastPointerTime : function() {
       var elapsedTime = new Date().getTime() - this.__lastToggleTimestamp;
       this.__lastToggleTimestamp = new Date().getTime();
       return elapsedTime>500;
@@ -241,16 +213,11 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
   },
 
 
- /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
   destruct : function()
   {
     this.removeListener("tap", this._onTap, this);
     this.removeListener("swipe", this._onSwipe, this);
+    this.removeListener("touchmove", qx.bom.Event.preventDefault, this);
 
     this._disposeObjects("__switch","__labelUnchecked","__labelChecked");
   }
