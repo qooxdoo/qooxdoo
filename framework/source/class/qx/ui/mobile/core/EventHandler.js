@@ -136,21 +136,24 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
 
 
     /**
-     * Event handler. Called when the touch start event occurs.
+     * Event handler. Called when the pointerdown event occurs.
      * Sets the <code>active</class> class to the event target after a certain
      * time.
      *
-     * @param domEvent {qx.event.type.Touch} The touch start event
+     * @param domEvent {qx.event.type.Pointer} The pointerdown event
      */
-    __onTouchStart : function(domEvent)
+    __onPointerDown : function(domEvent)
     {
+      if (!domEvent.isPrimary()) {
+        return;
+      }
+
       var EventHandler = qx.ui.mobile.core.EventHandler;
 
       EventHandler.__scrollLeft = qx.bom.Viewport.getScrollLeft();
       EventHandler.__scrollTop = qx.bom.Viewport.getScrollTop();
 
-      var touch = domEvent.getChangedTargetTouches()[0];
-      EventHandler.__startY = touch.screenY;
+      EventHandler.__startY = domEvent.screenY;
 
       EventHandler.__cancelActiveStateTimer();
 
@@ -172,31 +175,32 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
 
 
     /**
-     * Event handler. Called when the touch end event occurs.
+     * Event handler. Called when the pointerup event occurs.
      * Removes the <code>active</class> class from the event target.
      *
-     * @param domEvent {qx.event.type.Touch} The touch end event
+     * @param domEvent {qx.event.type.Pointer} The pointerup event
      */
-    __onTouchEnd : function(domEvent)
+    __onPointerUp : function(domEvent)
     {
       qx.ui.mobile.core.EventHandler.__removeActiveState();
     },
 
 
     /**
-     * Event handler. Called when the touch move event occurs.
+     * Event handler. Called when the pointermove event occurs.
      * Removes the <code>active</class> class from the event target
      * when the viewport was scrolled.
      *
-     * @param domEvent {qx.event.type.Touch} The touch move event
+     * @param domEvent {qx.event.type.Pointer} The pointermove event
      */
-    __onTouchMove : function(domEvent)
+    __onPointerMove : function(domEvent)
     {
+      if (!domEvent.isPrimary()) {
+        return;
+      }
+
       var EventHandler = qx.ui.mobile.core.EventHandler;
-
-      var touch = domEvent.getChangedTargetTouches()[0];
-
-      var deltaY = touch.screenY - EventHandler.__startY;
+      var deltaY = domEvent.screenY - EventHandler.__startY;
 
       if (EventHandler.__activeTarget && Math.abs(deltaY) >= qx.event.handler.TouchCore.TAP_MAX_DISTANCE) {
           EventHandler.__removeActiveState();
@@ -376,9 +380,9 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
   defer : function(statics)
   {
     qx.event.Registration.addHandler(statics);
-    qx.event.Registration.addListener(document, "touchstart", statics.__onTouchStart);
-    qx.event.Registration.addListener(document, "touchend", statics.__onTouchEnd);
-    qx.event.Registration.addListener(document, "touchcancel", statics.__onTouchEnd);
-    qx.event.Registration.addListener(document, "touchmove", statics.__onTouchMove);
+    qx.event.Registration.addListener(document, "pointerdown", statics.__onPointerDown);
+    qx.event.Registration.addListener(document, "pointerup", statics.__onPointerUp);
+    qx.event.Registration.addListener(document, "pointercancel", statics.__onPointerUp);
+    qx.event.Registration.addListener(document, "pointermove", statics.__onPointerMove);
   }
 });
