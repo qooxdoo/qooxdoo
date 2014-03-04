@@ -76,10 +76,10 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       var engineName = qx.core.Environment.get("engine.name");
       var docMode = parseInt(qx.core.Environment.get("browser.documentmode"), 10);
       if (engineName == "mshtml" && docMode == 10) {
-        this.__eventNames = ["MSPointerDown", "MSPointerMove", "MSPointerUp", "MSPointerCancel"];
+        this.__eventNames = ["MSPointerDown", "MSPointerMove", "MSPointerUp", "MSPointerCancel", "MSPointerOver", "MSPointerOut"];
         this._initPointerObserver();
       } else {
-        this.__eventNames = ["pointerdown", "pointermove", "pointerup", "pointercancel"];
+        this.__eventNames = ["pointerdown", "pointermove", "pointerup", "pointercancel", "pointerover", "pointerout"];
         this._initPointerObserver();
       }
     } else {
