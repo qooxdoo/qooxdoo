@@ -556,9 +556,8 @@ function findUnresolvedDeps(tree, opts) {
 }
 
 // dynamic => self discovering (recursive) with class entry point
-function collectDepsRecursive(basePaths, initFilePaths, namespacePathMap) {
+function collectDepsRecursive(basePaths, initClassIds) {
   var classesDeps = {};
-  var namespacePathMap = namespacePathMap || {};
 
   var getMatchingPath = function(basePaths, filePath) {
     for (var i=0; i<basePaths.length; i++) {
@@ -575,8 +574,9 @@ function collectDepsRecursive(basePaths, initFilePaths, namespacePathMap) {
   };
 
   var recurse = function(basePaths, shortFilePaths, seenClasses) {
+
     for (var i=0; i<shortFilePaths.length; i++) {
-      var shortFilePath = shortFilePaths[i];
+      var shortFilePath = util.filePathFrom(shortFilePaths[i]);
       var curBasePath = getMatchingPath(basePaths, shortFilePath);
       var curFullPath = path.join(curBasePath, shortFilePath);
       var jsCode = fs.readFileSync(curFullPath, {encoding: 'utf8'});
@@ -589,10 +589,6 @@ function collectDepsRecursive(basePaths, initFilePaths, namespacePathMap) {
       classNameAnnotator.annotate(tree, shortFilePath);
       classDeps = findUnresolvedDeps(tree, {flattened: false});
 
-      for (var namespacePath in namespacePathMap) {
-        shortFilePath = shortFilePath.replace(namespacePathMap[namespacePath], namespacePath);
-      }
-
       var className = util.classNameFrom(shortFilePath);
       classesDeps[className] = classDeps;
 
@@ -602,9 +598,7 @@ function collectDepsRecursive(basePaths, initFilePaths, namespacePathMap) {
 
         if (seenClasses.indexOf(dep) === -1) {
           seenClasses.push(dep);
-
-          var depShortFilePath = util.filePathFrom(dep);
-          recurse(basePaths, [depShortFilePath], seenClasses);
+          recurse(basePaths, [dep], seenClasses);
         }
       }
 
@@ -612,8 +606,8 @@ function collectDepsRecursive(basePaths, initFilePaths, namespacePathMap) {
     return classesDeps;
   };
 
-  // start with initFilePaths and corresponding classes
-  return recurse(basePaths, initFilePaths, getClassNamesFromPaths(initFilePaths));
+  // start with initClassIds
+  return recurse(basePaths, initClassIds, initClassIds);
 }
 
 function sortDepsTopologically(classesDeps, subkey) {

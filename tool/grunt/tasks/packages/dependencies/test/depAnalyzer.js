@@ -36,19 +36,17 @@ exports.dependencies = {
     classesDeps = depAnalyzer.collectDepsRecursive(
       ['/Users/rsternagel/workspace/depTest/source/class/',
        '../../../../../framework/source/class/'],
-      ['depTest/Application.js',
-       'depTest/theme/Theme.js'],
-      { "deptest": "depTest" }
+      ['deptest.Application', 'deptest.theme.Theme']
     );
 
     /*
     classesDeps = depAnalyzer.collectDepsRecursive(
       ['../../../../../framework/source/class/'],
-      ['qx/Class.js',
-       'qx/Mixin.js',
-       'qx/Interface.js',
-       'qx/data/marshal/Json.js',
-       'qx/bom/client/Runtime.js'],
+      ['qx.Class',
+       'qx.Mixin',
+       'qx.Interface',
+       'qx.data.marshal.Json',
+       'qx.bom.client.Runtime'],
       {}
     );
     */
