@@ -184,22 +184,6 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     },
 
 
-    // overridden
-    _createContainerElement : function()
-    {
-      var containerElement = this.base(arguments);
-
-      var showSelectionDialog = qx.lang.Function.bind(this.__showSelectionDialog, this);
-      qx.bom.Event.addNativeListener(containerElement, "click", showSelectionDialog, false);
-      qx.bom.Event.addNativeListener(containerElement, "touchend", showSelectionDialog, false);
-
-      qx.bom.Event.addNativeListener(containerElement, "click", qx.bom.Event.preventDefault, false);
-      qx.bom.Event.addNativeListener(containerElement, "touchstart", qx.bom.Event.preventDefault, false);
-
-      return containerElement;
-    },
-
-
     /**
      * Creates the menu dialog. Override this to customize the widget.
      *
@@ -336,6 +320,8 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     * @param evt {qx.event.type.Tap} the handling tap event. 
     */
     _onTap : function(evt) {
+      this.__showSelectionDialog();
+
       // request focus so that it leaves previous widget
       // such as text field and hide virtual keyboard.
       evt.getOriginalTarget().focus();
@@ -390,11 +376,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     }
   },
 
-  /*
-  *****************************************************************************
-      DESTRUCTOR
-  *****************************************************************************
-  */
+
   destruct : function()
   {
     this.__selectionDialog.removeListener("changeSelection", this._onChangeSelection, this);
