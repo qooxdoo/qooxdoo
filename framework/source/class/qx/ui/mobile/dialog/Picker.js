@@ -70,7 +70,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
   construct : function(anchor)
   {
     // parameter init.
-    this.__slotTouchStartPoints = {};
+    this.__slotPointerStartPoints = {};
     this.__selectedIndex = {};
     this.__targetIndex = {};
     this.__modelToSlotMap = {};
@@ -168,7 +168,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     __pickerContainer : null,
     __pickerButtonContainer : null,
     __pickerContent : null,
-    __slotTouchStartPoints : null,
+    __slotPointerStartPoints : null,
     __selectedIndex : null,
     __targetIndex : null,
     __modelToSlotMap : null,
@@ -447,20 +447,18 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
 
     /**
-     * Handler for touchstart events on picker slot.
-     * @param evt {qx.event.type.Touch} The touch event.
+     * Handler for pointerdown events on picker slot.
+     * @param evt {qx.event.type.Pointer} The pointer event..
      */
-    _onTouchStart : function(evt) {
+    _onPointerDown : function(evt) {
       var target = evt.getCurrentTarget().getContainerElement();
-      var touchX = evt.getViewportLeft();
-      var touchY = evt.getViewportTop();
 
       this.__targetIndex[target.id] = this.__selectedIndex[target.id];
 
       qx.bom.element.Style.set(target, "transitionDuration", "0s");
-      this.__slotTouchStartPoints[target.id] = {
-        x: touchX,
-        y: touchY
+      this.__slotPointerStartPoints[target.id] = {
+        x: evt.getViewportLeft(),
+        y: evt.getViewportTop()
       };
 
       this._fixPickerSlotHeight(target);
@@ -470,19 +468,19 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
 
     /**
-     * Handler for touchend events on picker slot.
-     * @param evt {qx.event.type.Touch} The touch event
+     * Handler for pointerup events on picker slot.
+     * @param evt {qx.event.type.Pointer} The pointer event.
      */
-    _onTouchEnd : function(evt) {
+    _onPointerUp : function(evt) {
       var target = evt.getCurrentTarget().getContainerElement();
       var model = this._getModelByElement(target);
       var slotIndex = this._getSlotIndexByElement(target);
 
-      var touchStartPoint = this.__slotTouchStartPoints[target.id];
-      if(!touchStartPoint) {
+      var pointerStartPoint = this.__slotPointerStartPoints[target.id];
+      if(!pointerStartPoint) {
         return;
       }
-      var deltaY = evt.getViewportTop() - touchStartPoint.y;
+      var deltaY = evt.getViewportTop() - pointerStartPoint.y;
 
       var isSwipe = Math.abs(deltaY) >= this.__labelHeight/2;
 
@@ -522,18 +520,18 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
 
     /**
-     * Handler for touchmove events on picker slot.
-     * @param evt {qx.event.type.Touch} The touch event
+     * Handler for pointermove events on picker slot.
+     * @param evt {qx.event.type.Pointer} The pointer event.
      */
-    _onTouchMove : function(evt) {
+    _onPointerMove : function(evt) {
       var target = evt.getCurrentTarget();
       var targetElement = evt.getCurrentTarget().getContainerElement();
 
-      var touchStartPoint = this.__slotTouchStartPoints[targetElement.id];
-      if(!touchStartPoint) {
+      var pointerStartPoint = this.__slotPointerStartPoints[targetElement.id];
+      if(!pointerStartPoint) {
         return;
       }
-      var deltaY = evt.getViewportTop() - touchStartPoint.y;
+      var deltaY = evt.getViewportTop() - pointerStartPoint.y;
 
       var selectedIndex = this.__selectedIndex[targetElement.id];
       var offsetTop = -selectedIndex*this.__labelHeight;
@@ -666,9 +664,9 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       pickerSlot.addCssClass("picker-slot");
       pickerSlot.setTransformUnit("px");
 
-      pickerSlot.addListener("touchstart", this._onTouchStart, this);
-      pickerSlot.addListener("touchmove", this._onTouchMove, this);
-      pickerSlot.addListener("touchend", this._onTouchEnd, this);
+      pickerSlot.addListener("pointerdown", this._onPointerDown, this);
+      pickerSlot.addListener("pointermove", this._onPointerMove, this);
+      pickerSlot.addListener("pointerup", this._onPointerUp, this);
 
       this.__modelToSlotMap[pickerSlot.getId()] = slotIndex;
       this.__selectedIndex[pickerSlot.getId()] = 0;
@@ -686,9 +684,9 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       for (var i = children.length - 1; i >= 0; i--) {
         var pickerSlot = children[i];
 
-        pickerSlot.removeListener("touchstart", this._onTouchStart, this);
-        pickerSlot.removeListener("touchmove", this._onTouchMove, this);
-        pickerSlot.removeListener("touchend", this._onTouchEnd, this);
+        pickerSlot.removeListener("pointerdown", this._onPointerDown, this);
+        pickerSlot.removeListener("pointermove", this._onPointerMove, this);
+        pickerSlot.removeListener("pointerup", this._onPointerUp, this);
 
         var oldPickerSlotContent = pickerSlot.removeAll();
         for (var j = 0; j < oldPickerSlotContent.length; j++) {
