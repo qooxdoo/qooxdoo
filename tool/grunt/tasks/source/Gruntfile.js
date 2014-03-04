@@ -9,13 +9,13 @@ module.exports = function(grunt) {
   grunt.initConfig({
 
     common: {
-      "APPLICATION" : "app",
+      "APPLICATION" : "myapp",
       "QOOXDOO_PATH": "../../../..",
       "LOCALES": ["en"],
       "QXTHEME": "<%= common.APPLICATION %>.theme.Theme",
       "ROOT": ".",
       "APPLICATION_MAIN_CLASS" : "<%= common.APPLICATION %>.Application",
-      "SOURCE_PATH": "<%= common.ROOT %>/test/data/app/source/script",
+      "SOURCE_PATH": "<%= common.ROOT %>/test/data/myapp/source/script",
     },
 
     jshint: {
@@ -42,7 +42,7 @@ module.exports = function(grunt) {
           includes: ["<%= common.APPLICATION_MAIN_CLASS %>", "<%= common.QXTHEME %>"],
           libraries: [
             "<%= common.QOOXDOO_PATH %>/framework/Manifest.json",
-            "<%= common.ROOT %>/test/data/app/Manifest.json"
+            "<%= common.ROOT %>/test/data/myapp/Manifest.json"
           ]
         },
       },

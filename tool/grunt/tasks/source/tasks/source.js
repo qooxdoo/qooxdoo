@@ -123,17 +123,17 @@ function runGruntTask(grunt) {
     var locResTransHash = createHashOver(locResTransContent).substr(0,12);
     var locResTransFileName = opts.appName + "." + locResTransHash + ".js";
 
-    // {"uris":["__out__:app.e2c18d74cbbe.js","qx:qx/Bootstrap.js", ...]}};
+    // {"uris":["__out__:myapp.e2c18d74cbbe.js","qx:qx/Bootstrap.js", ...]}};
     var packagesUris = {
       "uris": ["__out__:"+locResTransFileName].concat(classListPaths)
     };
 
     // TODO: get from Gruntfile or query somewhere (e.g. sourceUri & resourceUri et al.)
-    var libinfo = {"__out__":{"sourceUri":"script"},"app":{"resourceUri":"../source/resource","sourceUri":"../source/class"},"qx":{"resourceUri":"../../../../../../../../framework/source/resource","sourceUri":"../../../../../../../../framework/source/class","sourceViewUri":"https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"}};
+    var libinfo = {"__out__":{"sourceUri":"script"},"myapp":{"resourceUri":"../source/resource","sourceUri":"../source/class"},"qx":{"resourceUri":"../../../../../../../../framework/source/resource","sourceUri":"../../../../../../../../framework/source/class","sourceViewUri":"https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"}};
 
     // TODO: get from Gruntfile or query somewhere
     var ctx = {
-      EnvSettings: {"qx.application":"app.Application","qx.revision":"","qx.theme":"app.theme.Theme","qx.version":"3.6"},
+      EnvSettings: {"qx.application":"myapp.Application","qx.revision":"","qx.theme":"myapp.theme.Theme","qx.version":"3.6"},
       Libinfo: libinfo,
       Resources: {},
       Translations: locales,
