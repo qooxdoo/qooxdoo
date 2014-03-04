@@ -34,7 +34,8 @@
   "dependencies": {
     "qx-resources": "~0.1.0",
     "qx-locales": "~0.1.0",
-    "qx-dependencies": "~0.1.0"
+    "qx-dependencies": "~0.1.0",
+    "qx-libraries": "~0.1.0"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.8.0",
