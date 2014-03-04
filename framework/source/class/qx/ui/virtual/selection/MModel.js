@@ -81,7 +81,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
 
     /**
      * Enable drag selection (multi selection of items through
-     * dragging the mouse in pressed states).
+     * dragging the pointer in pressed states).
      *
      * Only possible for the selection modes <code>multi</code> and <code>additive</code>
      */
@@ -94,7 +94,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
 
 
     /**
-     * Enable quick selection mode, where no click is needed to change the selection.
+     * Enable quick selection mode, where no tap is needed to change the selection.
      *
      * Only possible for the modes <code>single</code> and <code>one</code>.
      */
@@ -165,7 +165,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
       this._manager = new qx.ui.virtual.selection.Row(
         this.getPane(), selectionDelegate
       );
-      this._manager.attachMouseEvents(this.getPane());
+      this._manager.attachPointerEvents(this.getPane());
       this._manager.attachKeyEvents(this);
       this._manager.addListener("changeSelection", this._onManagerChangeSelection, this);
     },

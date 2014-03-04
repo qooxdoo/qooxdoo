@@ -21,12 +21,12 @@
 /**
  * EXPERIMENTAL!
  *
- * A cell event instance contains all data for mouse events related to cells in
+ * A cell event instance contains all data for pointer events related to cells in
  * a pane.
  **/
 qx.Class.define("qx.ui.virtual.core.CellEvent",
 {
-  extend : qx.event.type.Mouse,
+  extend : qx.event.type.Pointer,
 
 
   properties :
@@ -53,7 +53,7 @@ qx.Class.define("qx.ui.virtual.core.CellEvent",
       * Initialize the event.
       *
       * @param scroller {qx.ui.table.pane.Scroller} The tables pane scroller.
-      * @param me {qx.event.type.Mouse} The original mouse event.
+      * @param me {qx.event.type.Pointer} The original pointer event.
       * @param row {Integer?null} The cell's row index.
       * @param column {Integer?null} The cell's column index.
       */
