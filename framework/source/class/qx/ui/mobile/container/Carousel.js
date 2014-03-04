@@ -77,10 +77,10 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     carouselScroller.setTransformUnit("px");
     carouselScroller.addCssClass("carousel-scroller");
 
-    carouselScroller.addListener("touchstart", this._onTouchStart, this);
-    carouselScroller.addListener("touchmove", this._onTouchMove, this);
+    carouselScroller.addListener("pointerdown", this._onPointerDown, this);
+    carouselScroller.addListener("pointermove", this._onPointerMove, this);
+    carouselScroller.addListener("pointerup", this._onPointerUp, this);
     carouselScroller.addListener("swipe", this._onSwipe, this);
-    carouselScroller.addListener("touchend", this._onTouchEnd, this);
 
     this.addListener("appear", this._onContainerUpdate, this);
 
@@ -461,10 +461,10 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
 
     /**
-     * Event handler for <code>touchstart</code> events.
-     * @param evt {qx.event.type.Touch} The touch event.
+     * Event handler for <code>pointerdown</code> events.
+     * @param evt {qx.event.type.Pointer} The pointer event.
      */
-    _onTouchStart : function(evt) {
+    _onPointerDown : function(evt) {
       this.__lastOffset[0] = this._getScrollerOffset();
       this.__isPageScrollTarget = null;
 
@@ -475,12 +475,14 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
 
     /**
-     * Event handler for <code>touchmove</code> events.
-     * @param evt {qx.event.type.Touch} The touch event.
+     * Event handler for <code>pointermove</code> events.
+     * @param evt {qx.event.type.Pointer} The pointer event.
      */
-    _onTouchMove : function(evt) {
+    _onPointerMove : function(evt) {
       this._setTransitionDuration(0);
 
+      // TODO listen to track gesture event and get delta;
+      return;
       this.__deltaX = evt.getDelta()[0].x;
       this.__deltaY = evt.getDelta()[0].y;
 
@@ -508,11 +510,11 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
 
     /**
-    * Handler for <code>touchend</code> event on carousel scroller.
-    * @param evt {qx.event.type.Touch} the touchend event.
+    * Handler for <code>pointerup</code> event on carousel scroller.
+    * @param evt {qx.event.type.Pointer} the pointerup event.
     */
-    _onTouchEnd : function(evt) {
-      if(evt.getAllTouches().length < 2) {
+    _onPointerUp : function(evt) {
+      if(evt.isPrimary()) {
         this._setTransitionDuration(this.getTransitionDuration());
         this._refreshScrollerPosition();
       }
@@ -541,7 +543,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     /**
     * Calculates the duration the transition will need till the next carousel
     * snap point is reached.
-    * @param deltaX {Integer} the distance on axis between touchstart and touchend.
+    * @param deltaX {Integer} the distance on axis between pointerdown and pointerup.
     * @param duration {Number} the swipe duration.
     * @return {Number} the transition duration.
     */
@@ -691,10 +693,10 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * Remove all listeners.
      */
     _removeListeners : function() {
-      this.__carouselScroller.removeListener("touchstart", this._onTouchStart, this);
-      this.__carouselScroller.removeListener("touchmove", this._onTouchMove, this);
+      this.__carouselScroller.removeListener("pointerdown", this._onPointerDown, this);
+      this.__carouselScroller.removeListener("pointermove", this._onPointerMove, this);
+      this.__carouselScroller.removeListener("pointerup", this._onPointerUp, this);
       this.__carouselScroller.removeListener("swipe", this._onSwipe, this);
-      this.__carouselScroller.removeListener("touchend", this._onTouchEnd, this);
 
       this.removeListener("appear", this._onContainerUpdate, this);
 
