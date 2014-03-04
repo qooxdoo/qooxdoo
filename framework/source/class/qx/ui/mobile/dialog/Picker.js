@@ -493,7 +493,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       } else {
         // TAP
         //
-        // Detect if user touches on upper third or lower third off spinning wheel.
+        // Detect if user taps on upper third or lower third off spinning wheel.
         // Depending on this detection, the value increases/decreases.
         var viewportTop = evt.getViewportTop();
 
