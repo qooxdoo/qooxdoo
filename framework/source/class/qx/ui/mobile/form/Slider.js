@@ -24,6 +24,7 @@
  * It lets the user move a slider handle along a horizontal
  * groove and translates the handle's position into an integer value
  * within the defined range.
+ *
  * *Example*
  *
  * Here is a little example of how to use the widget.
@@ -192,8 +193,9 @@ qx.Class.define("qx.ui.mobile.form.Slider",
      */
     _registerEventListener : function()
     {
-      this.addListener("touchstart", this._onTouchStart, this);
-      this.addListener("touchmove", this._onTouchMove, this);
+      this.addListener("pointerdown", this._onPointerDown, this);
+      this.addListener("pointermove", this._onPointerMove, this);
+      this.addListener("touchmove", qx.bom.Event.stopPropagation, this);
       this.addListener("appear", this._refresh, this);
 
       qx.event.Registration.addListener(window, "resize", this._refresh, this);
@@ -207,8 +209,9 @@ qx.Class.define("qx.ui.mobile.form.Slider",
      */
     _unregisterEventListener : function()
     {
-      this.removeListener("touchstart", this._onTouchStart, this);
-      this.removeListener("touchmove", this._onTouchMove, this);
+      this.removeListener("pointerdown", this._onPointerDown, this);
+      this.removeListener("pointermove", this._onPointerMove, this);
+      this.removeListener("touchmove", qx.bom.Event.stopPropagation, this);
       this.removeListener("appear", this._refresh, this);
 
       qx.event.Registration.removeListener(window, "resize", this._refresh, this);
@@ -242,13 +245,13 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
 
     /**
-     * Event handler. Called when the touch start event occurs.
+     * Event handler. Called when the <code>pointerdown</code> event occurs.
      *
-     * @param evt {qx.event.type.Touch} The touch event
+     * @param evt {qx.event.type.Pointer} The pointer event.
      */
-    _onTouchStart: function(evt)
+    _onPointerDown: function(evt)
     {
-      if (!evt.isMultiTouch())
+      if (evt.isPrimary())
       {
         this._updateSizes();
         var position = this._getPosition(evt.getDocumentLeft());
@@ -260,11 +263,11 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
 
     /**
-     * Event handler. Called when the touch move event occurs.
+     * Event handler. Called when the <code>pointermove</code> event occurs.
      *
-     * @param evt {qx.event.type.Touch} The touch event
+     * @param evt {qx.event.type.Pointer} The pointer event.
      */
-    _onTouchMove : function(evt)
+    _onPointerMove : function(evt)
     {
       var position = this._getPosition(evt.getDocumentLeft());
       this.setValue(this._positionToValue(position));
