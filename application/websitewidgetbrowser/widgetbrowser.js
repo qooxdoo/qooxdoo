@@ -185,10 +185,8 @@ q.ready(function() {
     }
     q.create("<h1>" + demoTitle + "</h1>").insertBefore(demoCell.getChildren().getFirst());
 
-    var clone = demoCell.clone();
-
-    var styles = clone.find("style").remove();
-    var scripts = clone.find("script").remove();
+    var styles = demoCell.find("style");
+    var scripts = demoCell.find("script");
 
     q.create("<p class='code-header'>HTML</p>").appendTo(demoCell);
     var pre = q.create("<pre class='demo-cell html'></pre>");
