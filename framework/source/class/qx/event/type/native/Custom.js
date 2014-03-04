@@ -79,6 +79,10 @@ qx.Bootstrap.define("qx.event.type.native.Custom", {
       if (this._event.initEvent) {
         this._event.initEvent(this._type, properties.bubbles, properties.cancelable);
       }
+
+      for (var prop in customProps) {
+        this._event[prop] = customProps[prop];
+      }
     }
   }
 });
