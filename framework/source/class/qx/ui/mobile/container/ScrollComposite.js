@@ -46,11 +46,6 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 {
   extend : qx.ui.mobile.container.Composite,
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
 
   /**
    * @param layout {qx.ui.mobile.layout.Abstract?null} The layout that should be used for this
@@ -62,13 +57,14 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
     this.__lastOffset = [0,0];
     this.__currentOffset = [0,0];
-    this.__touchStartPoints = [0,0];
+    this.__pointerStartPoints = [0,0];
 
     this._scrollContainer = this._createScrollContainer();
 
-    this.addListener("touchstart", this._onTouchStart, this);
-    this.addListener("touchmove", this._onTouchMove, this);
-    this.addListener("touchend", this._onTouchEnd, this);
+    this.addListener("touchmove", qx.bom.Event.stopPropagation, this);
+
+    this.addListener("pointerdown", this._onPointerDown, this);
+    this.addListener("pointermove", this._onPointerMove, this);
     this.addListener("swipe", this._onSwipe, this);
 
     this._setLayout(new qx.ui.mobile.layout.HBox());
@@ -147,13 +143,12 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
   members :
   {
     _scrollContainer : null,
-    __touchStartPoints : null,
+    __pointerStartPoints : null,
     __lastOffset : null,
     __currentOffset : null,
     __isVerticalScroll : null,
     __distanceX : null,
     __distanceY : null,
-    __preventEvents : true,
 
 
     /**
@@ -178,32 +173,28 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
 
     /**
-    * Handler for <code>touchstart</code> events on scrollContainer
-    * @param evt {qx.event.type.Touch} The touch event
+    * Handler for <code>pointerdown</code> events on scrollContainer
+    * @param evt {qx.event.type.Pointer} The pointer event.
     */
-    _onTouchStart : function(evt){
+    _onPointerDown : function(evt){
       this.__isVerticalScroll = (this.getScrollableX() && this.getScrollableY()) ? null : this.getScrollableY();
 
       this._applyNoEasing();
-      this.__touchStartPoints[0] = evt.getViewportLeft();
-      this.__touchStartPoints[1] = evt.getViewportTop();
+      this.__pointerStartPoints[0] = evt.getViewportLeft();
+      this.__pointerStartPoints[1] = evt.getViewportTop();
 
       this.__distanceX = 0;
       this.__distanceY = 0;
-
-      if (this.__preventEvents === true) {
-        evt.stopPropagation();
-      }
     },
 
 
     /**
-     * Handler for <code>touchmove</code> events on scrollContainer
-     * @param evt {qx.event.type.Touch} The touch event
+     * Handler for <code>pointermove</code> events on scrollContainer
+     * @param evt {qx.event.type.Pointer} The pointer event.
      */
-    _onTouchMove : function(evt) {
+    _onPointerMove : function(evt) {
       if (this.isScrollableX()) {
-        this.__distanceX = evt.getViewportLeft() - this.__touchStartPoints[0];
+        this.__distanceX = evt.getViewportLeft() - this.__pointerStartPoints[0];
 
         this.__calcVerticalScroll();
 
@@ -216,7 +207,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       }
 
       if (this.isScrollableY()) {
-        this.__distanceY = evt.getViewportTop() - this.__touchStartPoints[1];
+        this.__distanceY = evt.getViewportTop() - this.__pointerStartPoints[1];
 
         this.__calcVerticalScroll();
 
@@ -229,29 +220,13 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
         this._updateScrollIndicator(this.__currentOffset[1]);
       }
-
-      if (this.__preventEvents === true) {
-        evt.stopPropagation();
-        evt.preventDefault();
-      }
     },
 
 
-    /** Calculates whether the touch gesture is vertical or horizontal. */
+    /** Calculates whether the gesture is vertical or horizontal. */
     __calcVerticalScroll : function() {
       if (this.__isVerticalScroll === null) {
         this.__isVerticalScroll = Math.abs(this.__distanceX / this.__distanceY) < 2;
-      }
-    },
-
-
-    /**
-     * Handler for <code>touchend</code> events on scrollContainer
-     * @param evt {qx.event.type.Touch} The touch event.
-     */
-    _onTouchEnd : function(evt) {
-      if (this.__preventEvents === true) {
-        evt.stopPropagation();
       }
     },
 
@@ -554,32 +529,17 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     _fixChildElementsHeight : function(evt) {
       this.getContainerElement().style.height = 'auto';
       this.getContainerElement().style.height = this.getContainerElement().scrollHeight+'px';
-    },
-
-
-    /**
-     * Setter for the <code>preventEvents</code> flag, which controls whether
-     * touch events should be passed to contained widgets.
-     * @param value {Boolean} flag if the events will be prevented.
-     * @internal
-     */
-    setPreventEvents : function(value) {
-      this.__preventEvents = value;
     }
   },
 
 
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
   destruct : function()
   {
-    this.removeListener("touchstart",this._onTouchStart,this);
-    this.removeListener("touchmove",this._onTouchMove,this);
-    this.removeListener("touchend",this._onTouchEnd,this);
+    this.removeListener("pointerdown",this._onPointerDown,this);
+    this.removeListener("pointermove",this._onPointerMove,this);
     this.removeListener("swipe",this._onSwipe,this);
+
+    this.removeListener("touchmove", qx.bom.Event.stopPropagation, this);
 
     var children = this.getChildren();
     for(var i = 0; i < children.length; i++) {

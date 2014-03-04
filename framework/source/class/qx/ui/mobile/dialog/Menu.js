@@ -219,7 +219,6 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
       });
       listScroller.addCssClass("menu-scroller");
       listScroller.setHeight(null);
-      listScroller.setPreventEvents(false);
       return listScroller;
     },
 
