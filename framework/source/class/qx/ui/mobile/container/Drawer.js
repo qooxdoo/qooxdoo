@@ -25,14 +25,14 @@
  * in on <code>show()</code> and floats out on <code>hide()</code>. Additionally the drawer is shown by
  * swiping in reverse direction on the parent edge to where the drawer is placed
  * to: Orientation: <code>left</code>, Swipe: <code>right</code> on parents edge: Drawer is shown etc.
- * The drawer is hidden when user touches the parent area outside of the drawer.
- * This behaviour can be deactivated by the property <code>hideOnParentTouch</code>.
+ * The drawer is hidden when user taps the parent area outside of the drawer.
+ * This behaviour can be deactivated by the property <code>hideOnParentTap</code>.
  *
  * <pre class='javascript'>
  *
  *  var drawer = new qx.ui.mobile.container.Drawer();
  *  drawer.setOrientation("right");
- *  drawer.setTouchOffset(100);
+ *  drawer.setTapOffset(100);
  *
  *  var button = new qx.ui.mobile.form.Button("A Button");
  *  drawer.add(button);
@@ -68,9 +68,8 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     this.initOrientation();
     this.initPositionZ();
 
-    if(parent) {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+    if (parent) {
+      if (qx.core.Environment.get("qx.debug")) {
         this.assertInstance(parent, qx.ui.mobile.container.Composite);
       }
 
@@ -83,10 +82,10 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     this.__parent.addCssClass("drawer-parent");
 
     this.__parent.addListener("swipe", this._onParentSwipe,this);
-    this.__parent.addListener("touchstart", this._onParentTouchStart,this);
+    this.__parent.addListener("pointerdown", this._onParentPointerDown,this);
     this.__parent.addListener("back", this.forceHide, this);
 
-    this.__touchStartPosition = [0,0];
+    this.__pointerStartPosition = [0,0];
     this.__inAnimation = false;
 
     this.forceHide();
@@ -141,15 +140,15 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     },
 
 
-    /** Indicates whether the drawer should hide when the parent area of it is touched.  */
-    hideOnParentTouch : {
+    /** Indicates whether the drawer should hide when the parent area of it is tapped.  */
+    hideOnParentTap : {
       check : "Boolean",
       init : true
     },
 
 
-    /** Sets the size of the touching area, where the drawer reacts on swipes for opening itself. */
-    touchOffset : {
+    /** Sets the size of the tapping area, where the drawer reacts on swipes for opening itself. */
+    tapOffset : {
       check : "Integer",
       init : 20
     },
@@ -179,7 +178,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
   */
   members :
   {
-    __touchStartPosition : null,
+    __pointerStartPosition : null,
     __parent : null,
     __inAnimation : null,
     __lastLandscape : null,
@@ -486,25 +485,22 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
 
     /**
-     * Handles a touch on application's root.
-     * @param evt {qx.module.event.Touch} Handled touch event.
+     * Handles a tap on drawers's root.
+     * @param evt {qx.module.event.Pointer} Handled pointer event.
      */
-    _onParentTouchStart : function(evt) {
-      var clientX = evt.getAllTouches()[0].clientX;
-      var clientY = evt.getAllTouches()[0].clientY;
-
-      this.__touchStartPosition = [clientX,clientY];
+    _onParentPointerDown : function(evt) {
+      this.__pointerStartPosition = [evt.getViewportLeft(),evt.getViewportTop()];
 
       var isShown = !this.hasCssClass("hidden");
-      if(isShown && this.isHideOnParentTouch()) {
+      if(isShown && this.isHideOnParentTap()) {
         var location = qx.bom.element.Location.get(this.getContainerElement());
 
-        if (this.getOrientation() =="left" && this.__touchStartPosition[0] > location.right
-        || this.getOrientation() =="top" && this.__touchStartPosition[1] > location.bottom
-        || this.getOrientation() =="bottom" && this.__touchStartPosition[1] < location.top
-        || this.getOrientation() =="right" && this.__touchStartPosition[0] < location.left)
+        if (this.getOrientation() =="left" && this.__pointerStartPosition[0] > location.right
+        || this.getOrientation() =="top" && this.__pointerStartPosition[1] > location.bottom
+        || this.getOrientation() =="bottom" && this.__pointerStartPosition[1] < location.top
+        || this.getOrientation() =="right" && this.__pointerStartPosition[0] < location.left)
         {
-          // First touch on overlayed page should be ignored.
+          // First event on overlayed page should be ignored.
           evt.preventDefault();
 
           this.hide();
@@ -515,7 +511,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
     /**
      * Handles a swipe on layout parent.
-     * @param evt {qx.module.event.Touch} Handled touch event.
+     * @param evt {qx.module.event.Pointer} Handled pointer event.
      */
     _onParentSwipe : function(evt) {
       var direction = evt.getDirection();
@@ -526,23 +522,23 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
         if (
           (direction == "right"
           && this.getOrientation() == "left"
-          && this.__touchStartPosition[0] < location.right + this.getTouchOffset()
-          && this.__touchStartPosition[0] > location.right)
+          && this.__pointerStartPosition[0] < location.right + this.getTapOffset()
+          && this.__pointerStartPosition[0] > location.right)
           ||
           (direction == "left"
           && this.getOrientation() == "right"
-          && this.__touchStartPosition[0] > location.left - this.getTouchOffset()
-          && this.__touchStartPosition[0] < location.left)
+          && this.__pointerStartPosition[0] > location.left - this.getTapOffset()
+          && this.__pointerStartPosition[0] < location.left)
           ||
           (direction == "down"
           && this.getOrientation() == "top"
-          && this.__touchStartPosition[1] < this.getTouchOffset() + location.bottom
-          && this.__touchStartPosition[1] > location.bottom)
+          && this.__pointerStartPosition[1] < this.getTapOffset() + location.bottom
+          && this.__pointerStartPosition[1] > location.bottom)
           ||
           (direction == "up"
           && this.getOrientation() == "bottom"
-          && this.__touchStartPosition[1] > location.top - this.getTouchOffset()
-          && this.__touchStartPosition[1] < location.top)
+          && this.__pointerStartPosition[1] > location.top - this.getTapOffset()
+          && this.__pointerStartPosition[1] < location.top)
         )
         {
           this.show();
@@ -560,9 +556,9 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
   destruct : function()
   {
     this.__parent.removeListener("swipe", this._onParentSwipe, this);
-    this.__parent.removeListener("touchstart", this._onParentTouchStart, this);
+    this.__parent.removeListener("pointerdown", this._onParentPointerDown, this);
     this.__parent.removeListener("back", this.forceHide, this);
 
-    this.__touchStartPosition = this.__inAnimation = this.__parent = this.__transitionEnabled = null;
+    this.__pointerStartPosition = this.__inAnimation = this.__parent = this.__transitionEnabled = null;
   }
 });
