@@ -193,8 +193,8 @@ qx.Bootstrap.define("qx.lang.Object",
       // A strict comparison is necessary because `null == undefined`.
       if (object1 == null || object2 == null) return object1 === object2;
       // Compare `[[Class]]` names.
-      var className = toString.call(object1);
-      if (className != toString.call(object2)) return false;
+      var className = Object.prototype.toString.call(object1);
+      if (className != Object.prototype.toString.call(object2)) return false;
       switch (className) {
         // Strings, numbers, dates, and booleans are compared by value.
         case '[object String]':
@@ -254,17 +254,17 @@ qx.Bootstrap.define("qx.lang.Object",
       } else {
         // Deep compare objects.
         for (var key in object1) {
-          if (hasOwnProperty.call(object1, key)) {
+          if (Object.prototype.hasOwnProperty.call(object1, key)) {
             // Count the expected number of properties.
             size++;
             // Deep compare each member.
-            if (!(result = hasOwnProperty.call(object2, key) && qx.lang.Object.__equals(object1[key], object2[key], aStack, bStack))) break;
+            if (!(result = Object.prototype.hasOwnProperty.call(object2, key) && qx.lang.Object.__equals(object1[key], object2[key], aStack, bStack))) break;
           }
         }
         // Ensure that both objects contain the same number of properties.
         if (result) {
           for (key in object2) {
-            if (hasOwnProperty.call(object2, key) && !(size--)) break;
+            if (Object.prototype.hasOwnProperty.call(object2, key) && !(size--)) break;
           }
           result = !size;
         }

@@ -304,7 +304,7 @@ qx.Class.define("qx.test.lang.Object",
       this.assertTrue(qx.lang.Object.equals([1,2],[1,2]));
       this.assertFalse(qx.lang.Object.equals([1,2],[2,1]));
       this.assertFalse(qx.lang.Object.equals([1,2],[1,2,3]));
-      this.assertTrue(qx.lang.Object.equals(new Date("2011-03-31"), new Date("2011-03-31")));
+      this.assertTrue(qx.lang.Object.equals(new Date("03/31/2014"), new Date("03/31/2014")));
       this.assertFalse(qx.lang.Object.equals({1:{name:"mhc",age:28}, 2:{name:"arb",age:26}},{1:{name:"mhc",age:28}, 2:{name:"arb",age:27}}));
       this.assertFalse(qx.lang.Object.equals(function(x){return x;},function(y){return y+2;}));
 
