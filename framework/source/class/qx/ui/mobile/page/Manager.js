@@ -191,7 +191,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     _createMasterContainer : function() {
       var masterContainer = new qx.ui.mobile.container.Drawer(null, new qx.ui.mobile.layout.HBox());
       masterContainer.addCssClass("master-detail-master");
-      masterContainer.setHideOnParentTouch(false);
+      masterContainer.setHideOnParentTap(false);
       return masterContainer;
     },
 
@@ -469,9 +469,9 @@ qx.Class.define("qx.ui.mobile.page.Manager",
           this._removeDetailContainerGap();
           this.__masterContainer.hide();
         }
-        this.__masterContainer.setHideOnParentTouch(false);
+        this.__masterContainer.setHideOnParentTap(false);
       } else {
-        this.__masterContainer.setHideOnParentTouch(true);
+        this.__masterContainer.setHideOnParentTap(true);
         this.__masterContainer.hide();
         this._removeDetailContainerGap();
       }

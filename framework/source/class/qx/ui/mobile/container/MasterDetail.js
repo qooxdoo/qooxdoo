@@ -141,7 +141,7 @@ qx.Class.define("qx.ui.mobile.container.MasterDetail",
     _createMasterContainer : function() {
       var masterContainer = new qx.ui.mobile.container.Drawer(this, new qx.ui.mobile.layout.HBox());
       masterContainer.addCssClass("master-detail-master");
-      masterContainer.setHideOnParentTouch(false);
+      masterContainer.setHideOnParentTap(false);
       return masterContainer;
     },
 
