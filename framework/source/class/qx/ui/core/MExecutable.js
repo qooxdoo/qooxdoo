@@ -49,7 +49,7 @@ qx.Mixin.define("qx.ui.core.MExecutable",
   {
     /**
      * A command called if the {@link #execute} method is called, e.g. on a
-     * button click.
+     * button tap.
      */
     command :
     {

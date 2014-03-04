@@ -298,7 +298,7 @@ qx.Class.define("qx.ui.core.Widget",
     dragleave : "qx.event.type.Drag",
 
     /**
-     * Fired on a potential drop target when reaching it via the mouse.
+     * Fired on a potential drop target when reaching it via the pointer.
      * This event can be canceled if none of the incoming data types
      * are supported.
      *
@@ -308,7 +308,7 @@ qx.Class.define("qx.ui.core.Widget",
     dragover : "qx.event.type.Drag",
 
     /**
-     * Fired during the drag. Contains the current mouse coordinates
+     * Fired during the drag. Contains the current pointer coordinates
      * using {@link qx.event.type.Drag#getDocumentLeft} and
      * {@link qx.event.type.Drag#getDocumentTop}
      *
@@ -530,7 +530,7 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Mapping to native style property cursor.
      *
-     * The name of the cursor to show when the mouse pointer is over the widget.
+     * The name of the cursor to show when the pointer is over the widget.
      * This is any valid CSS2 cursor name defined by W3C.
      *
      * The following values are possible crossbrowser:
@@ -646,8 +646,8 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Whether the widget is enabled. Disabled widgets are usually grayed out
      * and do not process user created events. While in the disabled state most
-     * user input events are blocked. Only the {@link #mouseover} and
-     * {@link #mouseout} events will be dispatched.
+     * user input events are blocked. Only the {@link #pointerover} and
+     * {@link #pointerout} events will be dispatched.
      */
     enabled :
     {
@@ -2136,9 +2136,9 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /**
-     * Enables mouse event capturing. All mouse events will dispatched on this
+     * Enables pointer event capturing. All pointer events will dispatched on this
      * widget until capturing is disabled using {@link #releaseCapture} or a
-     * mouse button is clicked. If the widgets becomes the capturing widget the
+     * pointer button is clicked. If the widgets becomes the capturing widget the
      * {@link #capture} event is fired. Once it loses capture mode the
      * {@link #losecapture} event is fired.
      *
@@ -2152,7 +2152,7 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * Disables mouse capture mode enabled by {@link #capture}.
+     * Disables pointer capture mode enabled by {@link #capture}.
      */
     releaseCapture : function() {
       this.getContentElement().releaseCapture();
@@ -3087,7 +3087,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _onDragStart : function(e)
     {
-      this._getDragDropCursor().placeToMouse(e);
+      this._getDragDropCursor().placeToPointer(e);
       this.getApplicationRoot().setGlobalCursor("default");
     },
 
@@ -3098,7 +3098,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param e {qx.event.type.Drag} Drag event
      */
     _onDrag : function(e) {
-      this._getDragDropCursor().placeToMouse(e);
+      this._getDragDropCursor().placeToPointer(e);
     },
 
 

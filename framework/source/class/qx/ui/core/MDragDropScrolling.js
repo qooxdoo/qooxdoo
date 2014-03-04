@@ -131,7 +131,7 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
     },
 
     /**
-     * Gets the edge type or null if the mouse isn't within one of the thresholds.
+     * Gets the edge type or null if the pointer isn't within one of the thresholds.
      *
      * @param diff {Map} Difference map with all for edgeTypes.
      * @param thresholdX {Number} x-axis threshold.

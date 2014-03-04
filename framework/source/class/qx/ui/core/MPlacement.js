@@ -21,7 +21,7 @@
 
 /**
  * Methods to place popup like widgets to other widgets, points,
- * mouse event coordinates, etc.
+ * pointer event coordinates, etc.
  */
 qx.Mixin.define("qx.ui.core.MPlacement",
 {
@@ -120,12 +120,12 @@ qx.Mixin.define("qx.ui.core.MPlacement",
 
     /**
      * Whether the widget should be placed relative to an other widget or to
-     * the mouse cursor.
+     * the pointer.
      */
     placeMethod :
     {
-      check : ["widget", "mouse"],
-      init : "mouse",
+      check : ["widget", "pointer"],
+      init : "pointer",
       themeable: true
     },
 
@@ -162,7 +162,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       themeable : true
     },
 
-    /** Left offset of the mouse pointer (in pixel) */
+    /** Left offset of the pointer (in pixel) */
     offsetLeft :
     {
       check : "Integer",
@@ -170,7 +170,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       themeable : true
     },
 
-    /** Top offset of the mouse pointer (in pixel) */
+    /** Top offset of the pointer (in pixel) */
     offsetTop :
     {
       check : "Integer",
@@ -178,7 +178,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       themeable : true
     },
 
-    /** Right offset of the mouse pointer (in pixel) */
+    /** Right offset of the pointer (in pixel) */
     offsetRight :
     {
       check : "Integer",
@@ -186,7 +186,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       themeable : true
     },
 
-    /** Bottom offset of the mouse pointer (in pixel) */
+    /** Bottom offset of the pointer (in pixel) */
     offsetBottom :
     {
       check : "Integer",
@@ -411,11 +411,11 @@ qx.Mixin.define("qx.ui.core.MPlacement",
 
 
     /**
-     * Places the widget to the mouse cursor position.
+     * Places the widget to the pointer position.
      *
-     * @param event {qx.event.type.Mouse} Mouse event to align to
+     * @param event {qx.event.type.Pointer} Pointer event to align to
      */
-    placeToMouse : function(event)
+    placeToPointer : function(event)
     {
       var left = Math.round(event.getDocumentLeft());
       var top = Math.round(event.getDocumentTop());
