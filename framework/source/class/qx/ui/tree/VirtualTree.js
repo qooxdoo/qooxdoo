@@ -164,13 +164,13 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     /**
-     * Control whether clicks or double clicks should open or close the clicked
+     * Control whether tap or double tap should open or close the taped
      * item.
      */
     openMode :
     {
-      check: ["click", "dblclick", "none"],
-      init: "dblclick",
+      check: ["tap", "dbltap", "none"],
+      init: "dbltap",
       apply: "_applyOpenMode",
       event: "changeOpenMode",
       themeable: true
@@ -548,17 +548,17 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     {
       var pane = this.getPane();
 
-      //"click", "dblclick", "none"
-      if (value === "dblclick") {
-        pane.addListener("cellDblclick", this._onOpen, this);
-      } else if (value === "click") {
-        pane.addListener("cellClick", this._onOpen, this);
+      //"tap", "dbltap", "none"
+      if (value === "dbltap") {
+        pane.addListener("cellDbltap", this._onOpen, this);
+      } else if (value === "tap") {
+        pane.addListener("celltap", this._onOpen, this);
       }
 
-      if (old === "dblclick") {
-        pane.removeListener("cellDblclick", this._onOpen, this);
-      } else if (old === "click") {
-        pane.removeListener("cellClick", this._onOpen, this);
+      if (old === "dbltap") {
+        pane.removeListener("cellDbltap", this._onOpen, this);
+      } else if (old === "tap") {
+        pane.removeListener("cellTap", this._onOpen, this);
       }
     },
 
@@ -713,9 +713,9 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     /**
-     * Event handler to open/close clicked nodes.
+     * Event handler to open/close taped nodes.
      *
-     * @param event {qx.ui.virtual.core.CellEvent} The cell click event.
+     * @param event {qx.ui.virtual.core.CellEvent} The cell tap event.
      */
     _onOpen : function(event)
     {
@@ -1122,11 +1122,11 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     var pane = this.getPane()
     if (pane != null)
     {
-      if (pane.hasListener("cellDblclick")) {
-        pane.removeListener("cellDblclick", this._onOpen, this);
+      if (pane.hasListener("cellDbltap")) {
+        pane.removeListener("cellDbltap", this._onOpen, this);
       }
-      if (pane.hasListener("cellClick")) {
-        pane.removeListener("cellClick", this._onOpen, this);
+      if (pane.hasListener("cellTap")) {
+        pane.removeListener("cellTap", this._onOpen, this);
       }
     }
 
