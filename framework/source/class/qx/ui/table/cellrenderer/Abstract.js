@@ -159,8 +159,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
 
    /**
      * Retrieve any extra attributes the cell renderer wants applied to this
-     * cell. Extra attributes could be such things as
-     * "onclick='handleClick()';"
+     * cell.
      *
      * @param cellInfo {Map} The information about the cell.
      *          See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.

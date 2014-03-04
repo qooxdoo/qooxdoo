@@ -62,7 +62,7 @@ qx.Class.define("qx.ui.table.pane.Header",
   {
     __paneScroller : null,
     __moveFeedback : null,
-    __lastMouseOverColumn : null,
+    __lastPointerOverColumn : null,
     __blocker : null,
 
     /**
@@ -128,12 +128,12 @@ qx.Class.define("qx.ui.table.pane.Header",
      * @param width {Integer}
      *   The new width.
      *
-     * @param isMouseAction {Boolean}
+     * @param isPointerAction {Boolean}
      *   <i>true</i> if the column width is being changed as a result of a
-     *   mouse drag in the header; false or undefined otherwise.
+     *   pointer drag in the header; false or undefined otherwise.
      *
      */
-    setColumnWidth : function(col, width, isMouseAction)
+    setColumnWidth : function(col, width, isPointerAction)
     {
       var child = this.getHeaderWidgetAtColumn(col);
 
@@ -144,18 +144,18 @@ qx.Class.define("qx.ui.table.pane.Header",
 
 
     /**
-     * Sets the column the mouse is currently over.
+     * Sets the column the pointer is currently over.
      *
-     * @param col {Integer} the model index of the column the mouse is currently over or
-     *      null if the mouse is over no column.
+     * @param col {Integer} the model index of the column the pointer is currently over or
+     *      null if the pointer is over no column.
      */
-    setMouseOverColumn : function(col)
+    setPointerOverColumn : function(col)
     {
-      if (col != this.__lastMouseOverColumn)
+      if (col != this.__lastPointerOverColumn)
       {
-        if (this.__lastMouseOverColumn != null)
+        if (this.__lastPointerOverColumn != null)
         {
-          var widget = this.getHeaderWidgetAtColumn(this.__lastMouseOverColumn);
+          var widget = this.getHeaderWidgetAtColumn(this.__lastPointerOverColumn);
 
           if (widget != null) {
             widget.removeState("hovered");
@@ -166,7 +166,7 @@ qx.Class.define("qx.ui.table.pane.Header",
           this.getHeaderWidgetAtColumn(col).addState("hovered");
         }
 
-        this.__lastMouseOverColumn = col;
+        this.__lastPointerOverColumn = col;
       }
     },
 

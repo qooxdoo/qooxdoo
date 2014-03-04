@@ -38,7 +38,7 @@ qx.Class.define("qx.ui.table.headerrenderer.Icon",
 
   /**
    * @param iconUrl {String} URL to the icon to show
-   * @param tooltip {String ? ""} Text of the tooltip to show if the mouse hovers over the
+   * @param tooltip {String ? ""} Text of the tooltip to show if the pointer hovers over the
    *                             icon
    */
   construct : function(iconUrl, tooltip)
