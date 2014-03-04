@@ -32,20 +32,20 @@ module.exports = {
     var resources = require('../lib/resources.js');
 
     // real data should come from Manifest.json files
-    var absQxPath = "/Users/rsternagel/workspace/qooxdoo.git/";
-    var absAppPath = "/Users/rsternagel/workspace/deptest/";
-    var relQxResourcePath = "framework/source/resource";
+    var absQxPath = "../../../../../framework";
+    var absAppPath = "./test/data/myapp/";
+    var relQxResourcePath = "source/resource";
     var relAppResourcePath = "source/resource";
 
     var resBasePathMap = {
       "qx": path.join(absQxPath, relQxResourcePath),
-      "deptest": path.join(absAppPath, relAppResourcePath)
+      "myapp": path.join(absAppPath, relAppResourcePath)
     };
 
     // real data should come from dependencies package
     var assets = {
-     'deptest.Application':
-          [ 'deptest/*' ],
+     'myapp.Application':
+          [ 'myapp/*' ],
      'qx.ui.core.Widget':
           [ 'qx/static/blank.gif' ],
      'qx.theme.modern.Appearance':
