@@ -34,9 +34,9 @@ exports.dependencies = {
     var atHintIndex = {};
 
     classesDeps = depAnalyzer.collectDepsRecursive(
-      ['/Users/rsternagel/workspace/depTest/source/class/',
+      ['./test/data/myapp/source/class/',
        '../../../../../framework/source/class/'],
-      ['deptest.Application', 'deptest.theme.Theme']
+      ['myapp.Application', 'myapp.theme.Theme']
     );
 
     /*
