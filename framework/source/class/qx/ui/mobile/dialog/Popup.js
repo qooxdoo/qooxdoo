@@ -329,13 +329,13 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
 
     /**
-     * Tracks the user touch on root and hides the widget if touch start event
+     * Tracks the user tap on root and hides the widget if <code>pointerdown</code> event
      * occurs outside of the widgets bounds.
-     * @param evt {qx.event.type.Touch} the touch event.
+     * @param evt {qx.event.type.Pointer} the pointer event.
      */
-    _trackUserTouch : function(evt) {
-      var clientX = evt.getAllTouches()[0].clientX;
-      var clientY = evt.getAllTouches()[0].clientY;
+    _trackUserTap : function(evt) {
+      var clientX = evt.getViewportLeft();
+      var clientY = evt.getViewportTop();
 
       var popupLocation = qx.bom.element.Location.get(this.getContainerElement());
 
@@ -351,12 +351,12 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
 
     /**
-     * Handler for touchstart events on popup. Prevents default of <code>touchstart</code>
+     * Handler for <code>pointerdown</code> events on popup. Prevents default of <code>pointerdown</code>
      * if originalTarget was not of type {@link qx.ui.mobile.form.Input qx.ui.mobile.form.Input} or
      * {@link qx.ui.mobile.form.TextArea qx.ui.mobile.form.TextArea}
-     * @param evt {qx.event.type.Touch} The touch event.
+     * @param evt {qx.event.type.Pointer} The pointer event.
      */
-    _preventTouch : function(evt) {
+    _preventPointerDown : function(evt) {
       var originalTargetWidget = qx.ui.mobile.core.Widget.getWidgetById(evt.getOriginalTarget().id);
       if (!(originalTargetWidget instanceof qx.ui.mobile.form.Input)
           && !(originalTargetWidget instanceof qx.ui.mobile.form.TextArea)) {
@@ -401,10 +401,10 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
       if(this.__anchor) {
         this.__anchor.addCssClass("anchor-target");
-        qx.ui.mobile.dialog.Popup.ROOT.addListener("touchstart",this._trackUserTouch,this);
+        qx.ui.mobile.dialog.Popup.ROOT.addListener("pointerdown",this._trackUserTap,this);
       }
 
-      this.addListener("touchstart", this._preventTouch, this);
+      this.addListener("pointerdown", this._preventPointerDown, this);
     },
 
 
@@ -417,10 +417,10 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
       if(this.__anchor) {
         this.__anchor.removeCssClass("anchor-target");
-        qx.ui.mobile.dialog.Popup.ROOT.removeListener("touchstart", this._trackUserTouch, this);
+        qx.ui.mobile.dialog.Popup.ROOT.removeListener("pointerdown", this._trackUserTap, this);
       }
 
-      this.removeListener("touchstart", this._preventTouch, this);
+      this.removeListener("pointerdown", this._preventPointerDown, this);
     },
 
 
