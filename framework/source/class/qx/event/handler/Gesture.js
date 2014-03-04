@@ -69,6 +69,7 @@ qx.Class.define("qx.event.handler.Gesture",
     __window : null,
     __root : null,
     __listener : null,
+    __onDblClickWrapped : null,
 
 
     // interface implementation
@@ -91,6 +92,13 @@ qx.Class.define("qx.event.handler.Gesture",
       qx.event.handler.Gesture.POINTER_EVENTS.forEach(function(type) {
         qx.event.Registration.addListener(this.__root, type, this.__listener, this);
       }.bind(this));
+
+      if (qx.core.Environment.get("engine.name") == "mshtml" &&
+        qx.core.Environment.get("browser.documentmode") < 9)
+      {
+        this.__onDblClickWrapped = qx.lang.Function.listener(this._onDblClick, this);
+        qx.bom.Event.addNativeListener(this.__defaultTarget, "dblclick", this.__onDblClickWrapped);
+      }
     },
 
     /**
@@ -112,6 +120,12 @@ qx.Class.define("qx.event.handler.Gesture",
       qx.event.handler.Gesture.POINTER_EVENTS.forEach(function(type) {
         qx.event.Registration.removeListener(this.__root, type, this.__listener);
       }.bind(this));
+
+      if (qx.core.Environment.get("engine.name") == "mshtml" &&
+        qx.core.Environment.get("browser.documentmode") < 9)
+      {
+        qx.bom.Event.removeNativeListener(this.__defaultTarget, "dblclick", this.__onDblClickWrapped);
+      }
     },
 
 
@@ -153,7 +167,7 @@ qx.Class.define("qx.event.handler.Gesture",
     {
       this._stopObserver();
       this.__callBase("dispose");
-      this.__manager = this.__window = this.__root = null;
+      this.__manager = this.__window = this.__root = this.__onDblClickWrapped = null;
     },
 
 

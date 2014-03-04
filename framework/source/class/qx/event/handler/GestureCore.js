@@ -105,6 +105,12 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       qx.event.handler.GestureCore.POINTER_EVENTS.forEach(function(pointerType) {
         qxWeb(this.__defaultTarget).on(pointerType, this.checkAndFireGesture, this);
       }.bind(this));
+
+      if (qx.core.Environment.get("engine.name") == "mshtml" &&
+        qx.core.Environment.get("browser.documentmode") < 9)
+      {
+        qxWeb(this.__defaultTarget).on("dblclick", this._onDblClick, this);
+      }
     },
 
 
@@ -115,6 +121,12 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       qx.event.handler.GestureCore.POINTER_EVENTS.forEach(function(pointerType) {
         qxWeb(this.__defaultTarget).off(pointerType, this.checkAndFireGesture, this);
       }.bind(this));
+
+      if (qx.core.Environment.get("engine.name") == "mshtml" &&
+        qx.core.Environment.get("browser.documentmode") < 9)
+      {
+        qxWeb(this.__defaultTarget).off("dblclick", this._onDblClick, this);
+      }
     },
 
 
@@ -287,6 +299,23 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         });
         this.__defaultTarget.__emitter.emit(type, evt);
       }
+    },
+
+
+    /**
+     * Fire "tap" and "dbltap" events after a native "dblclick"
+     * event to fix IE 8's broken mouse event sequence.
+     *
+     * @param domEvent {Event} dblclick event
+     */
+    _onDblClick : function(domEvent) {
+      var eventType;
+      if (qx.event && qx.event.type && qx.event.type.Tap) {
+        eventType = qx.event.type.Tap;
+      }
+      var target = qx.bom.Event.getTarget(domEvent);
+      this._fireEvent(domEvent, "tap", target, eventType);
+      this._fireEvent(domEvent, "dbltap", target, eventType);
     },
 
     /**
