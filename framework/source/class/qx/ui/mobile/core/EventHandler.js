@@ -202,7 +202,7 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
       var EventHandler = qx.ui.mobile.core.EventHandler;
       var deltaY = domEvent.screenY - EventHandler.__startY;
 
-      if (EventHandler.__activeTarget && Math.abs(deltaY) >= qx.event.handler.TouchCore.TAP_MAX_DISTANCE) {
+      if (EventHandler.__activeTarget && Math.abs(deltaY) >= qx.event.handler.GestureCore.TAP_MAX_DISTANCE) {
           EventHandler.__removeActiveState();
       }
 
