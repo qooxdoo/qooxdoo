@@ -40,7 +40,7 @@ qx.Class.define("qx.event.handler.Gesture",
       dbltap : 1
     },
 
-    POINTER_EVENTS : ["pointerdown", "pointerup", "pointermove"],
+    GESTURE_EVENTS : ["gesturestart", "gestureend", "gesturechange"],
 
     /** @type {Integer} Which target check to use */
     TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE + qx.event.IEventHandler.TARGET_DOCUMENT,
@@ -89,7 +89,7 @@ qx.Class.define("qx.event.handler.Gesture",
     // overridden
     _initObserver : function() {
       this.__listener = qx.lang.Function.listener(this.checkAndFireGesture, this);
-      qx.event.handler.Gesture.POINTER_EVENTS.forEach(function(type) {
+      qx.event.handler.Gesture.GESTURE_EVENTS.forEach(function(type) {
         qx.event.Registration.addListener(this.__root, type, this.__listener, this);
       }.bind(this));
 
@@ -97,7 +97,7 @@ qx.Class.define("qx.event.handler.Gesture",
         qx.core.Environment.get("browser.documentmode") < 9)
       {
         this.__onDblClickWrapped = qx.lang.Function.listener(this._onDblClick, this);
-        qx.bom.Event.addNativeListener(this.__defaultTarget, "dblclick", this.__onDblClickWrapped);
+        qx.bom.Event.addNativeListener(this.__root, "dblclick", this.__onDblClickWrapped);
       }
     },
 
@@ -117,14 +117,14 @@ qx.Class.define("qx.event.handler.Gesture",
 
     // overridden
     _stopObserver : function() {
-      qx.event.handler.Gesture.POINTER_EVENTS.forEach(function(type) {
+      qx.event.handler.Gesture.GESTURE_EVENTS.forEach(function(type) {
         qx.event.Registration.removeListener(this.__root, type, this.__listener);
       }.bind(this));
 
       if (qx.core.Environment.get("engine.name") == "mshtml" &&
         qx.core.Environment.get("browser.documentmode") < 9)
       {
-        qx.bom.Event.removeNativeListener(this.__defaultTarget, "dblclick", this.__onDblClickWrapped);
+        qx.bom.Event.removeNativeListener(this.__root, "dblclick", this.__onDblClickWrapped);
       }
     },
 

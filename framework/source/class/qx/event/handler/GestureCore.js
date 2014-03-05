@@ -32,7 +32,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
     TYPES : ["tap", "swipe", "longtap", "dbltap"],
 
-    POINTER_EVENTS : ["pointerdown", "pointerup", "pointermove"],
+    GESTURE_EVENTS : ["gesturestart", "gestureend", "gesturechange"],
 
     TAP_MAX_DISTANCE : qx.core.Environment.get("os.name") != "android" ? 10 : 40,
 
@@ -102,8 +102,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         }
       }.bind(this));
 
-      qx.event.handler.GestureCore.POINTER_EVENTS.forEach(function(pointerType) {
-        qxWeb(this.__defaultTarget).on(pointerType, this.checkAndFireGesture, this);
+      qx.event.handler.GestureCore.GESTURE_EVENTS.forEach(function(gestureType) {
+        qxWeb(this.__defaultTarget).on(gestureType, this.checkAndFireGesture, this);
       }.bind(this));
 
       if (qx.core.Environment.get("engine.name") == "mshtml" &&
@@ -118,7 +118,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * Remove native pointer event listeners.
      */
     _stopObserver : function() {
-      qx.event.handler.GestureCore.POINTER_EVENTS.forEach(function(pointerType) {
+      qx.event.handler.GestureCore.GESTURE_EVENTS.forEach(function(pointerType) {
         qxWeb(this.__defaultTarget).off(pointerType, this.checkAndFireGesture, this);
       }.bind(this));
 
@@ -150,12 +150,12 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         target = qx.bom.Event.getTarget(domEvent);
       }
 
-      if (type == "pointerdown") {
+      if (type == "gesturestart") {
         this.__isTapGesture = true;
         this.gestureStart(domEvent, target);
-      } else if (type == "pointermove") {
+      } else if (type == "gesturechange") {
         this.gestureChange(domEvent, target);
-      } else if (type == "pointerup") {
+      } else if (type == "gestureend") {
         // If no start position is available for this pointerup event, cancel gesture recognition.
         if (Object.keys(this.__gestureStartPosition).length === 0) {
           return;

@@ -54,6 +54,12 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       MSPointerOut : "pointerout"
     },
 
+    POINTER_TO_GESTURE_MAPPING : {
+      pointerdown : "gesturestart",
+      pointerup : "gestureend",
+      pointermove : "gesturechange"
+    },
+
     SIM_MOUSE_DISTANCE : 25,
 
     SIM_MOUSE_DELAY : 1000
@@ -320,11 +326,23 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       target = target || domEvent.target;
       type = type || domEvent.type;
 
+      var gestureEvent;
+      if (type == "pointerdown" || type == "pointerup" || type == "pointermove") {
+        gestureEvent = this._createPointerEvent(qx.event.handler.PointerCore.POINTER_TO_GESTURE_MAPPING[type],
+          domEvent, domEvent.pointerType);
+      }
+
       if (qx.core.Environment.get("event.dispatchevent")) {
         target.dispatchEvent(domEvent);
+        if (gestureEvent) {
+          this.__defaultTarget.dispatchEvent(gestureEvent);
+        }
       } else {
         domEvent.target = target;
         domEvent.srcElement = target;
+        if (gestureEvent) {
+          this.__defaultTarget.__emitter.emit(gestureEvent.type, gestureEvent);
+        }
         while (target) {
           if (target.__emitter) {
             domEvent.currentTarget = target;

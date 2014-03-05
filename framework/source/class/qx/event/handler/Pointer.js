@@ -38,7 +38,11 @@ qx.Class.define("qx.event.handler.Pointer",
       pointerout : 1,
       pointerdown : 1,
       pointerup : 1,
-      pointercancel : 1
+      pointercancel : 1,
+
+      gesturestart : 1,
+      gesturechange : 1,
+      gestureend : 1
     },
 
     /** @type {Integer} Which target check to use */
@@ -90,9 +94,8 @@ qx.Class.define("qx.event.handler.Pointer",
      * @param domEvent {Event} DOM event
      * @param type {String ? null} type of the event
      * @param target {Element ? null} event target
-     * @param eventTypeClass {Class ? qx.event.type.Touch} the event type class
      */
-    _fireEvent : function(domEvent, type, target, eventTypeClass)
+    _fireEvent : function(domEvent, type, target)
     {
       if (!target) {
         target = qx.bom.Event.getTarget(domEvent);
@@ -109,8 +112,17 @@ qx.Class.define("qx.event.handler.Pointer",
         qx.event.Registration.fireEvent(
           target,
           type,
-          eventTypeClass||qx.event.type.Pointer,
+          qx.event.type.Pointer,
           [domEvent, target, null, true, true]
+        );
+      }
+
+      if (type == "pointerdown" || type == "pointerup" || type == "pointermove") {
+        qx.event.Registration.fireEvent(
+          this.__root,
+          qx.event.handler.PointerCore.POINTER_TO_GESTURE_MAPPING[type],
+          qx.event.type.Pointer,
+          [domEvent, target, null, false, false]
         );
       }
 
