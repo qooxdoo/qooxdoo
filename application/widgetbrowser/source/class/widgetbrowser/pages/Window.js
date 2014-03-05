@@ -321,7 +321,7 @@ qx.Class.define("widgetbrowser.pages.Window",
 
       var btn4 = new qx.ui.form.Button("No", "icon/16/actions/dialog-cancel.png");
       btn4.addListener("execute", function(e) {
-        alert("Sorry, please click 'Yes'!");
+        alert("Sorry, please tap 'Yes'!");
       });
       box.add(btn4);
 
