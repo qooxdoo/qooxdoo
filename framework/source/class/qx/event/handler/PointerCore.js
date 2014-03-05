@@ -330,6 +330,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       if (type == "pointerdown" || type == "pointerup" || type == "pointermove") {
         gestureEvent = this._createPointerEvent(qx.event.handler.PointerCore.POINTER_TO_GESTURE_MAPPING[type],
           domEvent, domEvent.pointerType);
+        gestureEvent.srcElement = target;
       }
 
       if (qx.core.Environment.get("event.dispatchevent")) {
@@ -348,6 +349,9 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           if (target.$$emitter) {
             domEvent.currentTarget = target;
             target.$$emitter.emit(type, domEvent);
+            if (gestureEvent && target.$$emitter) {
+              target.$$emitter.emit(gestureEvent.type, gestureEvent);
+            }
           }
           target = target.parentNode;
         }
