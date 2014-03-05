@@ -96,11 +96,11 @@ qx.Bootstrap.define("qx.module.Event", {
           qx.bom.Event.addNativeListener(el, type, bound, useCapture);
         }
         // create an emitter if necessary
-        if (!el.__emitter) {
-          el.__emitter = new qx.event.Emitter();
+        if (!el.$$emitter) {
+          el.$$emitter = new qx.event.Emitter();
         }
 
-        var id = el.__emitter.on(type, bound, ctx);
+        var id = el.$$emitter.on(type, bound, ctx);
         if (!el.__listener) {
           el.__listener = {};
         }
@@ -166,7 +166,7 @@ qx.Bootstrap.define("qx.module.Event", {
                 storedContext = el.__ctx[id];
               }
               // remove the listener from the emitter
-              el.__emitter.off(types[i], storedListener, storedContext || context);
+              el.$$emitter.off(types[i], storedListener, storedContext || context);
 
               // check if it's a bound listener which means it was a native event
               if (removeAll || storedListener.original == listener) {
@@ -224,8 +224,8 @@ qx.Bootstrap.define("qx.module.Event", {
     emit : function(type, data) {
       for (var j=0; j < this.length; j++) {
         var el = this[j];
-        if (el.__emitter) {
-          el.__emitter.emit(type, data);
+        if (el.$$emitter) {
+          el.$$emitter.emit(type, data);
         }
       }
       return this;
@@ -264,14 +264,14 @@ qx.Bootstrap.define("qx.module.Event", {
      * @return {Boolean} <code>true</code> if one or more listeners are attached
      */
     hasListener : function(type, listener, context) {
-      if (!this[0] || !this[0].__emitter ||
-        !this[0].__emitter.getListeners()[type])
+      if (!this[0] || !this[0].$$emitter ||
+        !this[0].$$emitter.getListeners()[type])
       {
         return false;
       }
 
       if (listener) {
-        var attachedListeners = this[0].__emitter.getListeners()[type];
+        var attachedListeners = this[0].$$emitter.getListeners()[type];
         for (var i = 0; i < attachedListeners.length; i++) {
           var hasListener = false;
           if (attachedListeners[i].listener == listener) {
@@ -294,7 +294,7 @@ qx.Bootstrap.define("qx.module.Event", {
         }
         return false;
       }
-      return this[0].__emitter.getListeners()[type].length > 0;
+      return this[0].$$emitter.getListeners()[type].length > 0;
     },
 
 
@@ -328,15 +328,15 @@ qx.Bootstrap.define("qx.module.Event", {
       }
       // make sure no emitter object has been copied
       targetCopy.forEach(function(el) {
-        el.__emitter = null;
+        el.$$emitter = null;
       });
 
       for (var i=0; i < source.length; i++) {
         var el = source[i];
-        if (!el.__emitter) {
+        if (!el.$$emitter) {
           continue;
         }
-        var storage = el.__emitter.getListeners();
+        var storage = el.$$emitter.getListeners();
         for (var name in storage) {
           for (var j = storage[name].length - 1; j >= 0; j--) {
             var listener = storage[name][j].listener;

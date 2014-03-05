@@ -345,9 +345,9 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           this.__emitter.emit(gestureEvent.type, gestureEvent);
         }
         while (target) {
-          if (target.__emitter) {
+          if (target.$$emitter) {
             domEvent.currentTarget = target;
-            target.__emitter.emit(type, domEvent);
+            target.$$emitter.emit(type, domEvent);
           }
           target = target.parentNode;
         }

@@ -179,7 +179,7 @@ qx.Bootstrap.define("qx.module.event.Keyboard", {
       if (!target.__oldInputValue || target.__oldInputValue !== newValue) {
         target.__oldInputValue = newValue;
         ev.type = ev._type = "input";
-        target.__emitter.emit("input", ev);
+        target.$$emitter.emit("input", ev);
       }
     }
   },

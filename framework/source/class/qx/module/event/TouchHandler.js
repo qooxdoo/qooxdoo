@@ -43,10 +43,10 @@ qx.Bootstrap.define("qx.module.event.TouchHandler", {
     register : function(element)
     {
       if (!element.__touchHandler) {
-        if (!element.__emitter) {
-          element.__emitter = new qx.event.Emitter();
+        if (!element.$$emitter) {
+          element.$$emitter = new qx.event.Emitter();
         }
-        element.__touchHandler = new qx.event.handler.TouchCore(element, element.__emitter);
+        element.__touchHandler = new qx.event.handler.TouchCore(element, element.$$emitter);
       }
     },
 
@@ -59,12 +59,12 @@ qx.Bootstrap.define("qx.module.event.TouchHandler", {
     unregister : function(element)
     {
       if (element.__touchHandler) {
-        if (!element.__emitter) {
+        if (!element.$$emitter) {
           element.__touchHandler = null;
         }
         else {
           var hasTouchListener = false;
-          var listeners = element.__emitter.getListeners();
+          var listeners = element.$$emitter.getListeners();
           qx.module.event.TouchHandler.TYPES.forEach(function(type) {
             if (type in listeners && listeners[type].length > 0) {
               hasTouchListener = true;
