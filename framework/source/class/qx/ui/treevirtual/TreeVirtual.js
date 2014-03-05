@@ -206,7 +206,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     this.setDataRowRenderer(custom.dataRowRenderer);
 
     // Move the focus with the mouse.  This controls the ROW focus indicator.
-    this.setFocusCellOnMouseMove(true);
+    this.setFocusCellOnPointerMove(true);
 
     // In a tree we don't typically want a visible cell focus indicator
     this.setShowCellFocusIndicator(false);

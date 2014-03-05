@@ -306,7 +306,7 @@ qx.Class.define("qx.ui.menu.Menu",
     openAtMouse : function(e)
     {
       if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, 
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
           "Please use '_onPointerOver' instead.");
       }
       this.openAtPointer(e);
@@ -320,7 +320,7 @@ qx.Class.define("qx.ui.menu.Menu",
      */
     openAtPointer : function(e)
     {
-      this.placeToMouse(e);
+      this.placeToPointer(e);
       this.__updateSlideBar();
       this.show();
 
