@@ -89,7 +89,7 @@ qx.Class.define("qx.event.handler.Pointer",
 
 
     /**
-     * Fire a touch event with the given parameters
+     * Fire a pointer event with the given parameters
      *
      * @param domEvent {Event} DOM event
      * @param type {String ? null} type of the event
@@ -109,6 +109,9 @@ qx.Class.define("qx.event.handler.Pointer",
 
       if (target && target.nodeType)
       {
+        // ensure compatibility with native events for IE8
+        domEvent.srcElement = target;
+
         qx.event.Registration.fireEvent(
           target,
           type,

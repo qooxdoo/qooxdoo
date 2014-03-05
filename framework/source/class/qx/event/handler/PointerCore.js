@@ -338,10 +338,11 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           this.__defaultTarget.dispatchEvent(gestureEvent);
         }
       } else {
-        domEvent.target = target;
+        // ensure compatibility with native events for IE8
         domEvent.srcElement = target;
+
         if (gestureEvent) {
-          this.__defaultTarget.__emitter.emit(gestureEvent.type, gestureEvent);
+          this.__emitter.emit(gestureEvent.type, gestureEvent);
         }
         while (target) {
           if (target.__emitter) {
