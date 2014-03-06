@@ -22,6 +22,7 @@
  * Support for native and custom events.
  *
  * @require(qx.module.Polyfill)
+ * @use(qx.module.event.PointerHandler)
  * @group (Core)
  */
 qx.Bootstrap.define("qx.module.Event", {
@@ -413,7 +414,7 @@ qx.Bootstrap.define("qx.module.Event", {
     /**
      * Bind one or two callbacks to the collection.
      * If only the first callback is defined the collection
-     * does react on 'mouseover' only.
+     * does react on 'pointerover' only.
      *
      * @attach {qxWeb}
      *
@@ -423,10 +424,10 @@ qx.Bootstrap.define("qx.module.Event", {
      */
     hover : function(callbackIn, callbackOut) {
 
-      this.on("mouseover", callbackIn, this);
+      this.on("pointerover", callbackIn, this);
 
       if (qx.lang.Type.isFunction(callbackOut)) {
-        this.on("mouseout", callbackOut, this);
+        this.on("pointerout", callbackOut, this);
       }
 
       return this;

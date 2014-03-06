@@ -21,7 +21,7 @@
 /**
  * Event handler, which supports drag events on DOM elements.
  *
- * @require(qx.event.handler.Mouse)
+ * @require(qx.event.handler.Pointer)
  * @require(qx.event.handler.Keyboard)
  * @require(qx.event.handler.Capture)
  */
@@ -49,8 +49,8 @@ qx.Class.define("qx.event.handler.DragDrop",
     this.__manager = manager;
     this.__root = manager.getWindow().document.documentElement;
 
-    // Initialize mousedown listener
-    this.__manager.addListener(this.__root, "mousedown", this._onMouseDown, this);
+    // Initialize pointerdown listener
+    this.__manager.addListener(this.__root, "pointerdown", this._onPointerDown, this);
 
     // Initialize data structures
     this.__rebuildStructures();
@@ -350,7 +350,7 @@ qx.Class.define("qx.event.handler.DragDrop",
      * @param relatedTarget {Object} Related target, i.e. drag or drop target
      *    depending on the drag event
      * @param cancelable {Boolean} Whether the event is cancelable
-     * @param original {qx.event.type.Mouse} Original mouse event
+     * @param original {qx.event.type.Pointer} Original pointer event
      * @return {Boolean} <code>true</code> if the event's default behavior was
      * not prevented
      */
@@ -423,8 +423,8 @@ qx.Class.define("qx.event.handler.DragDrop",
       this.__dragTarget = null;
 
       // Deregister from root events
-      this.__manager.removeListener(this.__root, "mousemove", this._onMouseMove, this, true);
-      this.__manager.removeListener(this.__root, "mouseup", this._onMouseUp, this, true);
+      this.__manager.removeListener(this.__root, "pointermove", this._onPointerMove, this, true);
+      this.__manager.removeListener(this.__root, "pointerup", this._onPointerUp, this, true);
 
       // Deregister from window's blur
       qx.event.Registration.removeListener(window, "blur", this._onWindowBlur, this);
@@ -442,8 +442,8 @@ qx.Class.define("qx.event.handler.DragDrop",
       if (this.__sessionActive)
       {
         // Deregister from root events
-        this.__manager.removeListener(this.__root, "mouseover", this._onMouseOver, this, true);
-        this.__manager.removeListener(this.__root, "mouseout", this._onMouseOut, this, true);
+        this.__manager.removeListener(this.__root, "pointerover", this._onPointerOver, this, true);
+        this.__manager.removeListener(this.__root, "pointerout", this._onPointerOut, this, true);
         this.__manager.removeListener(this.__root, "keydown", this._onKeyDown, this, true);
         this.__manager.removeListener(this.__root, "keyup", this._onKeyUp, this, true);
         this.__manager.removeListener(this.__root, "keypress", this._onKeyPress, this, true);
@@ -551,17 +551,16 @@ qx.Class.define("qx.event.handler.DragDrop",
 
 
     /**
-     * Event listener for root's <code>mousedown</code> event
+     * Event listener for root's <code>pointerdown</code> event
      *
-     * @param e {qx.event.type.Mouse} Event object
+     * @param e {qx.event.type.Pointer} Event object
      */
-    _onMouseDown : function(e)
+    _onPointerDown : function(e)
     {
       var isButtonOk = qx.event.handler.DragDrop.ALLOWED_BUTTONS.indexOf(e.getButton()) !== -1;
       if (this.__sessionActive || !isButtonOk) {
         return;
       }
-
       var dragable = this.__findDraggable(e.getTarget());
       if (dragable)
       {
@@ -573,8 +572,8 @@ qx.Class.define("qx.event.handler.DragDrop",
         this.__dragTarget = dragable;
 
         // Register move event to manager
-        this.__manager.addListener(this.__root, "mousemove", this._onMouseMove, this, true);
-        this.__manager.addListener(this.__root, "mouseup", this._onMouseUp, this, true);
+        this.__manager.addListener(this.__root, "pointermove", this._onPointerMove, this, true);
+        this.__manager.addListener(this.__root, "pointerup", this._onPointerUp, this, true);
 
         // Register window blur listener
         qx.event.Registration.addListener(window, "blur", this._onWindowBlur, this);
@@ -583,11 +582,11 @@ qx.Class.define("qx.event.handler.DragDrop",
 
 
     /**
-     * Event listener for root's <code>mouseup</code> event
+     * Event listener for root's <code>pointerup</code> event
      *
-     * @param e {qx.event.type.Mouse} Event object
+     * @param e {qx.event.type.Pointer} Event object
      */
-    _onMouseUp : function(e)
+    _onPointerUp : function(e)
     {
       // Fire drop event in success case
       if (this.__validDrop && this.__validAction) {
@@ -597,7 +596,6 @@ qx.Class.define("qx.event.handler.DragDrop",
       // Stop event
       if (this.__sessionActive && e.getTarget() == this.__dragTarget) {
         e.stopPropagation();
-        this.__preventNextClick();
       }
 
       // Clean up
@@ -606,11 +604,11 @@ qx.Class.define("qx.event.handler.DragDrop",
 
 
     /**
-     * Event listener for root's <code>mousemove</code> event
+     * Event listener for root's <code>pointermove</code> event
      *
-     * @param e {qx.event.type.Mouse} Event object
+     * @param e {qx.event.type.Pointer} Event object
      */
-    _onMouseMove : function(e)
+    _onPointerMove : function(e)
     {
       // Whether the session is already active
       if (this.__sessionActive)
@@ -630,8 +628,8 @@ qx.Class.define("qx.event.handler.DragDrop",
             this.__sessionActive = true;
 
             // Register to root events
-            this.__manager.addListener(this.__root, "mouseover", this._onMouseOver, this, true);
-            this.__manager.addListener(this.__root, "mouseout", this._onMouseOut, this, true);
+            this.__manager.addListener(this.__root, "pointerover", this._onPointerOver, this, true);
+            this.__manager.addListener(this.__root, "pointerout", this._onPointerOut, this, true);
             this.__manager.addListener(this.__root, "keydown", this._onKeyDown, this, true);
             this.__manager.addListener(this.__root, "keyup", this._onKeyUp, this, true);
             this.__manager.addListener(this.__root, "keypress", this._onKeyPress, this, true);
@@ -657,11 +655,11 @@ qx.Class.define("qx.event.handler.DragDrop",
 
 
     /**
-     * Event listener for root's <code>mouseover</code> event
+     * Event listener for root's <code>pointerover</code> event
      *
-     * @param e {qx.event.type.Mouse} Event object
+     * @param e {qx.event.type.Pointer} Event object
      */
-    _onMouseOver : function(e)
+    _onPointerOver : function(e)
     {
       var target = e.getTarget();
       var cursor = qx.ui.core.DragDropCursor.getInstance();
@@ -684,11 +682,11 @@ qx.Class.define("qx.event.handler.DragDrop",
 
 
     /**
-     * Event listener for root's <code>mouseout</code> event
+     * Event listener for root's <code>pointerout</code> event
      *
-     * @param e {qx.event.type.Mouse} Event object
+     * @param e {qx.event.type.Pointer} Event object
      */
-    _onMouseOut : function(e)
+    _onPointerOut : function(e)
     {
       var cursor = qx.ui.core.DragDropCursor.getInstance();
       var cursorEl = cursor.getContentElement().getDomElement();
@@ -712,17 +710,6 @@ qx.Class.define("qx.event.handler.DragDrop",
 
         qx.event.Timer.once(this.__detectAction, this, 0);
       }
-    },
-
-
-    /**
-     * Tells the mouse handler to prevent the next click.
-     */
-    __preventNextClick : function() {
-      var mouseHandler = qx.event.Registration.getManager(window).getHandler(
-        qx.event.handler.Mouse
-      );
-      mouseHandler.preventNextClick();
     }
   },
 

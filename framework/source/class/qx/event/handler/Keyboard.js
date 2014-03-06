@@ -220,7 +220,7 @@ qx.Class.define("qx.event.handler.Keyboard",
 
 
     /**
-     * Get the target element for mouse events
+     * Get the target element for key events
      *
      * @return {Element} the event target element
      */

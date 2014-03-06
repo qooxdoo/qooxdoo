@@ -302,9 +302,9 @@ qx.Class.define("qx.ui.form.Button",
 
 
     /**
-     * Listener method for "click" event which stops the propagation.
+     * Listener method for "tap" event which stops the propagation.
      *
-     * @param e {qx.event.type.Mouse} Mouse event
+     * @param e {qx.event.type.Pointer} Pointer event
      */
     _onTap : function(e) {
       e.stopPropagation();
