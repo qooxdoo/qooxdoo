@@ -821,7 +821,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     handlePointerOver : function(event)
     {
-      // All browsers (except Opera) fire a native "pointerover" event when a scroll appears
+      // All browsers (except Opera) fire a native "mouseover" event when a scroll appears
       // by keyboard interaction. We have to ignore the event to avoid a selection for
       // "pointerover" (quick selection). For more details see [BUG #4225]
       if(this.__oldScrollTop != null &&

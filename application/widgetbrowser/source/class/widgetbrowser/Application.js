@@ -64,7 +64,7 @@ qx.Class.define("widgetbrowser.Application",
 
       this.__tabs = this._createTabView();
       this.__tabs.set({
-        minWidth: 800,
+        minWidth: 700,
         padding: 15
       });
       scroll.add(this.__tabs);

@@ -202,6 +202,9 @@ qx.Class.define("qx.ui.form.RepeatButton",
 
       if (!value)
       {
+        // also release capture because out event is missing on iOS
+        this.releaseCapture();
+
         // remove button states
         this.removeState("pressed");
         this.removeState("abandoned");
