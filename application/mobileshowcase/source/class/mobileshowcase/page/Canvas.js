@@ -49,18 +49,18 @@ qx.Class.define("mobileshowcase.page.Canvas",
     {
       this.base(arguments);
 
-      this.__initLastPoints();
+      this.__lastPoints = {};
 
       var clearButton = new qx.ui.mobile.navigationbar.Button("Clear");
       clearButton.addListener("tap", this.__clearCanvas, this);
 
       this.getRightContainer().add(clearButton);
 
-      var canvas  = this.__canvas = new qx.ui.mobile.embed.Canvas();
+      var canvas = this.__canvas = new qx.ui.mobile.embed.Canvas();
 
-      canvas.addListener("touchstart", this._onTouchStart, this);
-      canvas.addListener("touchend", this._onTouchEnd, this);
-      canvas.addListener("touchmove", this._onTouchMove, this);
+      canvas.addListener("pointerdown", this._onPointerDown, this);
+      canvas.addListener("pointerup", this._onPointerUp, this);
+      canvas.addListener("pointermove", this._onPointerMove, this);
 
       canvas.setWidth(this.__canvasWidth);
       canvas.setHeight(this.__canvasHeight);
@@ -69,6 +69,11 @@ qx.Class.define("mobileshowcase.page.Canvas",
 
       this.__clearCanvas();
       this._drawExample();
+    },
+
+
+    _createScrollContainer : function() {
+      return new qx.ui.mobile.container.Composite();
     },
 
 
@@ -97,14 +102,6 @@ qx.Class.define("mobileshowcase.page.Canvas",
 
 
     /**
-     * Inits the lastPoints array.
-     */
-    __initLastPoints : function() {
-      this.__lastPoints = [null,null,null,null,null,null,null,null,null,null];
-    },
-
-
-    /**
      * Removes any drawings off the canvas.
      */
     __clearCanvas : function() {
@@ -118,29 +115,28 @@ qx.Class.define("mobileshowcase.page.Canvas",
 
 
     /**
-     * Handles the touch start event on canvas.
+     * Handles the touchend event on canvas.
      */
-    _onTouchStart : function(evt) {
-      this.__canvasLeft = qx.bom.element.Location.getLeft(this.__canvas.getContentElement(), "padding");
-      this.__canvasTop = qx.bom.element.Location.getTop(this.__canvas.getContentElement(), "padding");
-
-      this.__draw(evt.getAllTouches());
+    _onPointerUp : function(evt) {
+      this.__lastPoints = {};
     },
 
 
     /**
-     * Handles the touchend event on canvas.
+     * Handles the touch start event on canvas.
      */
-    _onTouchEnd : function(evt) {
-      this.__initLastPoints();
-    },
+    _onPointerDown : function(evt) {
+      this.__canvasLeft = qx.bom.element.Location.getLeft(this.__canvas.getContentElement(), "padding");
+      this.__canvasTop = qx.bom.element.Location.getTop(this.__canvas.getContentElement(), "padding");
 
+      this.__draw(evt);
+    },
 
     /**
      * Handles the touchmove event on canvas.
      */
-    _onTouchMove : function(evt) {
-      this.__draw(evt.getAllTouches());
+    _onPointerMove : function(evt) {
+      this.__draw(evt);
 
       evt.preventDefault();
       evt.stopPropagation();
@@ -148,44 +144,43 @@ qx.Class.define("mobileshowcase.page.Canvas",
 
 
     /**
-     * Draws the touches on canvas.
+     * Draws the line on canvas.
      */
-    __draw : function(touches) {
-      var ctx = this.__canvas.getContext2d();
-      for(var i = 0; i < touches.length; i++) {
-        var lastPoint = this.__lastPoints[i];
+    __draw: function(evt) {
+        var ctx = this.__canvas.getContext2d();
+        var lastPoint = this.__lastPoints[evt.getPointerId()];
 
-        var touchLeft = touches[i].clientX-this.__canvasLeft;
-        var touchTop = touches[i].clientY-this.__canvasTop;
+        var pointerLeft = evt.getViewportLeft() - this.__canvasLeft;
+        var pointerTop = evt.getViewportTop() - this.__canvasTop;
 
         var opacity = null;
 
-        if(lastPoint !== null) {
+        if (lastPoint) {
           ctx.beginPath();
           ctx.lineCap = 'round';
           ctx.moveTo(lastPoint.x, lastPoint.y);
-          ctx.lineTo(touchLeft,touchTop);
+          ctx.lineTo(pointerLeft, pointerTop);
 
-          var deltaX = Math.abs(lastPoint.x - touchLeft);
-          var deltaY = Math.abs(lastPoint.y - touchTop);
+          var deltaX = Math.abs(lastPoint.x - pointerLeft);
+          var deltaY = Math.abs(lastPoint.y - pointerTop);
 
-          var velocity = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+          var velocity = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-          opacity =  (100 - velocity) / 100;
-          opacity = Math.round(opacity*Math.pow(10,2))/Math.pow(10,2);
+          opacity = (100 - velocity) / 100;
+          opacity = Math.round(opacity * Math.pow(10, 2)) / Math.pow(10, 2);
 
-          if(!lastPoint.opacity) {
+          if (!lastPoint.opacity) {
             lastPoint.opacity = 1;
           }
 
-          if(opacity < 0.1) {
+          if (opacity < 0.1) {
             opacity = 0.1;
           }
 
           // linear gradient from start to end of line
-          var grad = ctx.createLinearGradient(lastPoint.x, lastPoint.y, touchLeft, touchTop);
-          grad.addColorStop(0, 'rgba(61,114,201,'+lastPoint.opacity+')');
-          grad.addColorStop(1, 'rgba(61,114,201,'+opacity+')');
+          var grad = ctx.createLinearGradient(lastPoint.x, lastPoint.y, pointerLeft, pointerTop);
+          grad.addColorStop(0, 'rgba(61,114,201,' + lastPoint.opacity + ')');
+          grad.addColorStop(1, 'rgba(61,114,201,' + opacity + ')');
           ctx.strokeStyle = grad;
 
           ctx.lineWidth = 1.5;
@@ -193,9 +188,9 @@ qx.Class.define("mobileshowcase.page.Canvas",
           ctx.stroke();
         }
 
-        this.__lastPoints[i] = {
-          "x": touchLeft,
-          "y": touchTop,
+        this.__lastPoints[evt.getPointerId()] = {
+          "x": pointerLeft,
+          "y": pointerTop,
           "opacity": opacity
         };
       }
@@ -206,5 +201,5 @@ qx.Class.define("mobileshowcase.page.Canvas",
     {
       this._disposeObjects();
     }
-  }
+  
 });
