@@ -89,7 +89,6 @@ qx.Class.define("mobileshowcase.page.Form",
     _createSubmitButton : function() {
       var submitButton = new qx.ui.mobile.form.Button("Submit");
       submitButton.addListener("tap", this._onSubmitButtonTap, this);
-      submitButton.addListener("touchstart", qx.bom.Event.preventDefault, this);
       submitButton.setEnabled(false);
       return submitButton;
     },
