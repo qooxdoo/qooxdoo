@@ -56,7 +56,7 @@ qx.Bootstrap.define("qx.event.type.native.Custom", {
      */
     _createEvent : function() {
       var evt;
-      if (typeof window.CustomEvent == "function") {
+      if (window.CustomEvent) {
         evt = new window.CustomEvent(this._type);
       } else if (typeof document.createEvent == "function") {
         evt = document.createEvent("UIEvents");

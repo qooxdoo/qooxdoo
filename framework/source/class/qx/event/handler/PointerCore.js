@@ -180,6 +180,9 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
         if (touch.identifier == this.__primaryIdentifier) {
           evt.isPrimary = true;
+          // always simulate left click on touch interactions for primary pointer
+          evt.button = 0;
+          evt.buttons = 1;
           this.__lastTouch = {
             "x": touch.clientX,
             "y": touch.clientY,

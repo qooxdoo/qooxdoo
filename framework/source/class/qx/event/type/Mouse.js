@@ -228,9 +228,11 @@ qx.Class.define("qx.event.type.Mouse",
     {
       if (this._native.pageX !== undefined) {
         return Math.round(this._native.pageX);
-      } else {
+      } else if (this._native.srcElement) {
         var win = qx.dom.Node.getWindow(this._native.srcElement);
         return Math.round(this._native.clientX) + qx.bom.Viewport.getScrollLeft(win);
+      } else {
+        return Math.round(this._native.clientX) + qx.bom.Viewport.getScrollLeft(window);
       }
     },
 
@@ -246,9 +248,11 @@ qx.Class.define("qx.event.type.Mouse",
     {
       if (this._native.pageY !== undefined) {
         return Math.round(this._native.pageY);
-      } else {
+      } else if (this._native.srcElement) {
         var win = qx.dom.Node.getWindow(this._native.srcElement);
         return Math.round(this._native.clientY) + qx.bom.Viewport.getScrollTop(win);
+      } else {
+        return Math.round(this._native.clientY) + qx.bom.Viewport.getScrollTop(window);
       }
     },
 
