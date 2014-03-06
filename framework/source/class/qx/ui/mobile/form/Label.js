@@ -74,6 +74,8 @@ qx.Class.define("qx.ui.mobile.form.Label",
     if (qx.core.Environment.get("qx.dynlocale")) {
       qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
     }
+
+    this.addListener("tap", this._onTap, this);
   },
 
 
@@ -204,6 +206,21 @@ qx.Class.define("qx.ui.mobile.form.Label",
     },
 
 
+    /** 
+     * Handler for <code>tap</code> event on the Label. This event will be delegated to target widget.
+     */
+    _onTap: function(evt) {
+      if (this.__forWidget && qx.core.Environment.get("event.dispatchevent")) {
+        var target = this.__forWidget.getContentElement();
+        qx.event.Registration.fireEvent(
+          target,
+          "tap",
+          qx.event.type.Tap, [evt.getNativeEvent(), target, null, true, true]
+        );
+      }
+    },
+
+
     /**
      * Locale change event handler
      *
@@ -226,6 +243,8 @@ qx.Class.define("qx.ui.mobile.form.Label",
 
 
   destruct : function() {
+    this.removeListener("tap", this._onTap, this);
+
     if (this.__forWidget) {
       this.__forWidget.removeListener("changeEnabled", this._changeEnabled, this);
       this.__forWidget = null;
