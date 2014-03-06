@@ -30,7 +30,7 @@ qx.Class.define("mobileshowcase.page.Event",
     this.base(arguments, false);
     this.setTitle("Events");
 
-    this.__touchPoints = [];
+    this.__circles = [];
 
     this.__pointers = {};
 
@@ -44,25 +44,25 @@ qx.Class.define("mobileshowcase.page.Event",
 
   members :
   {
-    __container : null,
-    __showcaseContainer : null,
-    __gestureTarget : null,
-    __gestureTargetWrap : null,
-    __label : null,
-    __inMove : null,
-    __touchPoints : null,
-    __lastEventType :"",
-    __initialScale : 0.3,
-    __initialRotation : -15,
-    __currentRotation : -15,
-    __currentScale : 0.3,
-    __maxScale : 1.5,
-    __minScale : 0.3,
-    __lastMultiTouchEventTime : 0,
+    __container: null,
+    __showcaseContainer: null,
+    __gestureTarget: null,
+    __gestureTargetWrap: null,
+    __label: null,
+    __inMove: null,
+    __circles: null,
+    __lastEventType: "",
+    __initialScale: 0.3,
+    __initialRotation: -15,
+    __currentRotation: -15,
+    __currentScale: 0.3,
+    __maxScale: 1.5,
+    __minScale: 0.3,
+    __lastMultiTouchEventTime: 0,
     __vendorPrefix: "webkit",
-    __logoLeft:-130,
-    __logoTop:-130,
-    __pointers : null,
+    __logoLeft: -130,
+    __logoTop: -130,
+    __pointers: null,
 
     __labelBuffer : "",
 
@@ -89,11 +89,11 @@ qx.Class.define("mobileshowcase.page.Event",
       containerTouchArea.addListener("longtap", this._onGesture, this);
       containerTouchArea.addListener("swipe", this._onGesture, this);
 
-      containerTouchArea.addListener("pointerdown", this._onTouch, this);
-      containerTouchArea.addListener("pointermove", this._onTouch, this);
-      containerTouchArea.addListener("pointerup", this._onTouch, this);
-      containerTouchArea.addListener("pointercancel", this._onTouch, this);
-      containerTouchArea.addListener("pointerout", this._onTouch, this);
+      containerTouchArea.addListener("pointerdown", this._onPointer, this);
+      containerTouchArea.addListener("pointermove", this._onPointer, this);
+      containerTouchArea.addListener("pointerup", this._onPointer, this);
+      containerTouchArea.addListener("pointercancel", this._onPointer, this);
+      containerTouchArea.addListener("pointerout", this._onPointer, this);
 
       qx.event.Registration.addListener(window, "orientationchange", this._onOrientationChange, this);
       container.add(containerTouchArea);
@@ -102,8 +102,8 @@ qx.Class.define("mobileshowcase.page.Event",
       this.__gestureTarget = new qx.ui.mobile.basic.Image("mobileshowcase/icon/HTML5_Badge_512.png");
 
       this.__gestureTarget.addCssClass("gesture-target");
-      this.__gestureTarget.addListener("pointermove", this.__onGestureTargetTouchMove, this);
-      this.__gestureTarget.addListener("pointerup", this.__onGestureTargetTouchEnd, this);
+      this.__gestureTarget.addListener("pointermove", this.__onGestureTargetMove, this);
+      this.__gestureTarget.addListener("pointerup", this.__onGestureTargetEnd, this);
       this.__gestureTarget.setDraggable(false);
       this.__gestureTarget.setTranslateX(-5000);
 
@@ -117,24 +117,24 @@ qx.Class.define("mobileshowcase.page.Event",
 
       container.add(this.__gestureTarget);
 
-      // TOUCH VISUALISATION CIRCLES
+      // POINTER VISUALISATION CIRCLES
       for (var i = 0; i < 15; i++) {
-        var touchPoint = new qx.ui.mobile.container.Composite();
-        touchPoint.addCssClass("touch");
+        var circle = new qx.ui.mobile.container.Composite();
+        circle.addCssClass("touch");
 
-        this.__touchPoints.push(touchPoint);
-        touchPoint.setTranslateX(-5000);
-        touchPoint.setAnonymous(true);
-        touchPoint.setTransformUnit("px");
+        this.__circles.push(circle);
+        circle.setTranslateX(-5000);
+        circle.setAnonymous(true);
+        circle.setTransformUnit("px");
 
-        containerTouchArea.add(touchPoint);
+        containerTouchArea.add(circle);
       }
 
       var label = this.__label = new qx.ui.mobile.basic.Label("Touch / Tap / Swipe this area");
       containerTouchArea.add(label);
 
-      var descriptionText = "<b>Testing Touch Events:</b> Touch / Tap / Swipe the area<br />\n\
-      <b>Testing Multi-touch Events:</b> Touch the area with multiple fingers<br />\n\
+      var descriptionText = "<b>Testing Pointer Events:</b> Touch / Tap / Swipe the area<br />\n\
+      <b>Testing Multi-Pointer Events:</b> Touch the area with multiple fingers<br />\n\
       ";
       if(!isAndroid2) {
         descriptionText += "<b>Testing Pinch/Zoom Gesture:</b> Touch HTML5 logo with two fingers<br />";
@@ -148,7 +148,7 @@ qx.Class.define("mobileshowcase.page.Event",
       this.getContent().add(descriptionGroup, {flex:1});
       this.getContent().add(containerGroup, {flex:1});
 
-      // Center background gradient, when multiple touches are available.
+      // Center background gradient, when multiple pointers are available.
       qx.bom.element.Style.set(this.__container.getContentElement(),"background","-"+this.__vendorPrefix+"-radial-gradient(50% 50%, cover, #1a82f7, #2F2727)");
 
       // Start rendering
@@ -156,14 +156,7 @@ qx.Class.define("mobileshowcase.page.Event",
     },
 
 
-    __onGestureTargetTouchMove : function(evt) {
-      
-
-      // TODO
-      //return;
-
-
-
+    __onGestureTargetMove : function(evt) {
       if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
         this._getScrollContainer().disable();
       }
@@ -193,11 +186,8 @@ qx.Class.define("mobileshowcase.page.Event",
         //var timeSinceMultiTouch = new Date().getTime() - this.__lastMultiTouchEventTime;
 
         //if(timeSinceMultiTouch > 500) {
-          var touchLeft = evt.getViewportLeft();
-          var touchTop = evt.getViewportTop();
-
-          this.__logoLeft = touchLeft - containerLeft - offset;
-          this.__logoTop = touchTop - containerTop - offset;
+          this.__logoLeft = evt.getViewportLeft() - containerLeft - offset;
+          this.__logoTop = evt.getViewportTop() - containerTop - offset;
         //}
       //}
 
@@ -207,7 +197,7 @@ qx.Class.define("mobileshowcase.page.Event",
     },
 
 
-    __onGestureTargetTouchEnd : function() {
+    __onGestureTargetEnd : function() {
       //this.__initialRotation = this.__currentRotation;
       //this.__initialScale = this.__currentScale;
 
@@ -241,19 +231,19 @@ qx.Class.define("mobileshowcase.page.Event",
 
 
     /**
-     * Reacts on touch events and updates the event container background and touch markers.
+     * Reacts on pointer events and updates the event container background and pointer markers.
      */
-    __updateTouchVisualisation : function(evt) {
+    __updatePointerVisualisation : function(evt) {
       var pointer = this.__pointers[evt.getPointerId()];
       if (pointer) {
-        var position = this._getTouchPointPosition(evt);
+        var position = this._getPointerPosition(evt);
         this.__pointers[evt.getPointerId()].x = position[0];
         this.__pointers[evt.getPointerId()].y = position[1];
       }
     },
 
 
-    _getTouchPointPosition : function(evt) {
+    _getPointerPosition : function(evt) {
       var containerLeft = qx.bom.element.Location.getLeft(this.__container.getContentElement(), "padding");
       var containerTop = qx.bom.element.Location.getTop(this.__container.getContentElement(), "padding");
       return [evt.getViewportLeft() - containerLeft,evt.getViewportTop() - containerTop];
@@ -263,13 +253,13 @@ qx.Class.define("mobileshowcase.page.Event",
     /**
      * Event handler.
      *
-     * @param evt {qx.event.type.Touch} The touch event.
+     * @param evt {qx.event.type.Pointer} The pointer event.
      */
-    _onTouch : function(evt)
+    _onPointer : function(evt)
     {
       var type = evt.getType();
 
-      this.__updateTouchVisualisation(evt);
+      this.__updatePointerVisualisation(evt);
       if(type == "pointerdown") {
         this.__labelBuffer = "";
       }
@@ -284,35 +274,34 @@ qx.Class.define("mobileshowcase.page.Event",
           this._getScrollContainer().disable();
         }
 
-        var position = this._getTouchPointPosition(evt);
+        var position = this._getPointerPosition(evt);
         this.__pointers[evt.getPointerId()] = {
           x: position[0],
           y: position[1],
-          target: this.__touchPoints.pop()
+          target: this.__circles.pop()
         };
       }
 
       if (Object.keys(this.__pointers).length > 0) {
         // Text output of event
         if (this.__lastEventType != evt.getType()) {
-          //q("#qx_id_18")[0].innerHTML = evt.getType();
           this.__labelBuffer = this.__labelBuffer + " " + evt.getType();
         }
         this.__lastEventType = evt.getType();
       }
 
       if (type == "pointerup") {
-        // Remove all touches out of visible area
+        // Remove all circles out of visible area
         var pointer = this.__pointers[evt.getPointerId()];
         if (pointer && pointer.target) {
-          this.__touchPoints.push(pointer.target);
+          this.__circles.push(pointer.target);
           pointer.target.setTranslateX(-1000);
           pointer.target.setTranslateY(-1000);
         }
 
         delete this.__pointers[evt.getPointerId()];
 
-        // Re-enable iScroll after touchend event
+        // Re-enable iScroll
         if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
           this._getScrollContainer().enable();
         }
@@ -322,7 +311,7 @@ qx.Class.define("mobileshowcase.page.Event",
         // Touch Circle Visualization
         var pointer = this.__pointers[evt.getPointerId()];
         if (pointer && pointer.target) {
-          this.__touchPoints.push(pointer.target);
+          this.__circles.push(pointer.target);
           pointer.target.setTranslateX(-1000);
           pointer.target.setTranslateY(-1000);
         }
