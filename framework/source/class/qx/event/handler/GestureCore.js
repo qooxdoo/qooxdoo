@@ -82,6 +82,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
   members : {
     __defaultTarget : null,
     __emitter : null,
+    __gestureTarget : null,
     __gestureStartPosition : null,
     __startTime : null,
     __longTapTimer : null,
@@ -172,6 +173,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      */
     gestureStart : function(domEvent, target) {
       domEvent.gestureProcessed = true;
+      this.__gestureTarget = target;
       this.__gestureStartPosition[domEvent.pointerId] = [domEvent.clientX, domEvent.clientY];
 
       this.__startTime = new Date().getTime();
@@ -250,6 +252,12 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       this.__stopLongTapTimer();
       var eventType;
 
+      if (target !== this.__gestureTarget) {
+        delete this.__gestureTarget;
+        delete this.__gestureStartPosition[domEvent.pointerId];
+        return;
+      }
+
       if (this.__isTapGesture) {
         if (qx.event && qx.event.type && qx.event.type.Tap) {
           eventType = qx.event.type.Tap;
@@ -276,6 +284,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
           this._fireEvent(domEvent, "swipe", domEvent.target || target, eventType);
         }
       }
+      delete this.__gestureTarget;
       delete this.__gestureStartPosition[domEvent.pointerId];
     },
 
@@ -397,7 +406,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     dispose : function() {
       this.__stopLongTapTimer();
       this._stopObserver();
-      this.__defaultTarget = this.__emitter = null;
+      this.__defaultTarget = this.__emitter = this.__gestureTarget = null;
     }
   }
 });
