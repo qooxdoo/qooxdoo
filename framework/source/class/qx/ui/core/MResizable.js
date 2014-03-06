@@ -399,7 +399,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
     __onResizePointerDown : function(e)
     {
       // Check for active resize
-      if (!this.__resizeActive || !this.getEnabled()) {
+      if (!this.__resizeActive || !this.getEnabled() || e.getPointerType() == "touch") {
         return;
       }
 
@@ -455,7 +455,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
     __onResizePointerUp : function(e)
     {
       // Check for active resize
-      if (!this.hasState("resize") || !this.getEnabled()) {
+      if (!this.hasState("resize") || !this.getEnabled() || e.getPointerType() == "touch") {
         return;
       }
 
@@ -530,7 +530,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
      */
     __onResizePointerMove : function(e)
     {
-      if (!this.getEnabled()) {
+      if (!this.getEnabled() || e.getPointerType() == "touch") {
         return;
       }
 
@@ -593,6 +593,9 @@ qx.Mixin.define("qx.ui.core.MResizable",
      */
     __onResizePointerOut : function(e)
     {
+      if (e.getPointerType() == "touch") {
+        return;
+      }
       // When the pointer left the window and resizing is not yet
       // active we must be sure to (especially) reset the global
       // cursor.
