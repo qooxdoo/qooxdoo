@@ -115,7 +115,7 @@ qx.Class.define("mobileshowcase.page.Canvas",
 
 
     /**
-     * Handles the touchend event on canvas.
+     * Handles the <code>pointerup</code> event on canvas.
      */
     _onPointerUp : function(evt) {
       this.__lastPoints = {};
@@ -123,7 +123,7 @@ qx.Class.define("mobileshowcase.page.Canvas",
 
 
     /**
-     * Handles the touch start event on canvas.
+     * Handles the <code>pointerdown</code>  event on canvas.
      */
     _onPointerDown : function(evt) {
       this.__canvasLeft = qx.bom.element.Location.getLeft(this.__canvas.getContentElement(), "padding");
@@ -133,7 +133,7 @@ qx.Class.define("mobileshowcase.page.Canvas",
     },
 
     /**
-     * Handles the touchmove event on canvas.
+     * Handles the <code>pointermove</code>  event on canvas.
      */
     _onPointerMove : function(evt) {
       this.__draw(evt);
