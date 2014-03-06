@@ -43,7 +43,10 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
       metaKey : false,
       button : 0,
       which : 0,
-      relatedTarget : null
+      relatedTarget : null,
+      //IE properties:
+      fromElement : null,
+      toElement : null
     },
 
     POINTER_PROPERTIES : {

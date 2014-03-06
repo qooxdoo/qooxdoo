@@ -175,7 +175,9 @@ qx.Bootstrap.define("qx.bom.Event",
 
         return e.relatedTarget;
       }
-      else if (e.fromElement !== undefined && e.type === "mouseover") {
+      else if (e.fromElement !== undefined &&
+        (e.type === "mouseover" || e.type === "pointerover"))
+      {
         return e.fromElement;
       } else if (e.toElement !== undefined) {
         return e.toElement;
