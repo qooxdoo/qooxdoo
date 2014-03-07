@@ -79,7 +79,7 @@ qx.Class.define("qx.ui.virtual.core.Pane",
   events :
   {
     /** Fired if a cell is taped. */
-    celltap : "qx.ui.virtual.core.CellEvent",
+    cellTap : "qx.ui.virtual.core.CellEvent",
 
     /** Fired if a cell is right-clicked. */
     cellContextmenu : "qx.ui.virtual.core.CellEvent",

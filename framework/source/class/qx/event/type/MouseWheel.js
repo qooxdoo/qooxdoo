@@ -27,13 +27,13 @@ qx.Class.define("qx.event.type.MouseWheel",
 
   statics : {
     /**
-     * The maximal mesured scroll wheel delta.
+     * The maximal measured scroll wheel delta.
      * @internal
      */
     MAXSCROLL : null,
 
     /**
-     * The minimal mesured scroll wheel delta.
+     * The minimal measured scroll wheel delta.
      * @internal
      */
     MINSCROLL : null,
