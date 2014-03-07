@@ -78,9 +78,12 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     carouselScroller.addCssClass("carousel-scroller");
 
     carouselScroller.addListener("pointerdown", this._onPointerDown, this);
-    carouselScroller.addListener("pointermove", this._onPointerMove, this);
     carouselScroller.addListener("pointerup", this._onPointerUp, this);
+    carouselScroller.addListener("track", this._onTrack, this);
     carouselScroller.addListener("swipe", this._onSwipe, this);
+
+    carouselScroller.addListener("touchstart", qx.bom.Event.preventDefault, this);
+    carouselScroller.addListener("touchstart", qx.bom.Event.stopPropagation, this);
 
     this.addListener("appear", this._onContainerUpdate, this);
 
@@ -135,7 +138,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
 
     /**
-     * Defines the height of the carousel. If value is equal to <code>null</code> the height is set to <code>100%</code>.
+     * Defines the height of the carousel. If value is equal to <code>null</code> 
+     * the height is set to <code>100%</code>.
      */
     height : {
       check : "Number",
@@ -465,6 +469,10 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param evt {qx.event.type.Pointer} The pointer event.
      */
     _onPointerDown : function(evt) {
+      if(!evt.isPrimary()) {
+        return;
+      }
+
       this.__lastOffset[0] = this._getScrollerOffset();
       this.__isPageScrollTarget = null;
 
@@ -475,20 +483,21 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
 
     /**
-     * Event handler for <code>pointermove</code> events.
-     * @param evt {qx.event.type.Pointer} The pointer event.
+     * Event handler for <code>track</code> events.
+     * @param evt {qx.event.type.Track} The track event.
      */
-    _onPointerMove : function(evt) {
+    _onTrack : function(evt) {
+      if(!evt.isPrimary()) {
+        return;
+      }
+
       this._setTransitionDuration(0);
 
-      // TODO listen to track gesture event and get delta;
-      return;
-      this.__deltaX = evt.getDelta()[0].x;
-      this.__deltaY = evt.getDelta()[0].y;
+      this.__deltaX = evt.getDelta().x;
+      this.__deltaY = evt.getDelta().y;
 
       if (this.__isPageScrollTarget === null) {
-        var cosDelta = this.__deltaX / this.__deltaY;
-        this.__isPageScrollTarget = Math.abs(cosDelta) < 1;
+        this.__isPageScrollTarget = (evt.getDelta().axis == "y");
       }
 
       if (!this.__isPageScrollTarget) {
@@ -502,9 +511,6 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
           this.__onMoveOffset[0] = this.__boundsX[0];
         }
         this._updateScrollerPosition(this.__onMoveOffset[0]);
-
-        evt.preventDefault();
-        evt.stopPropagation();
       }
     },
 
@@ -514,10 +520,12 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     * @param evt {qx.event.type.Pointer} the pointerup event.
     */
     _onPointerUp : function(evt) {
-      if(evt.isPrimary()) {
-        this._setTransitionDuration(this.getTransitionDuration());
-        this._refreshScrollerPosition();
+      if(!evt.isPrimary()) {
+        return;
       }
+
+      this._setTransitionDuration(this.getTransitionDuration());
+      this._refreshScrollerPosition();
     },
 
 
@@ -526,6 +534,10 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param evt {qx.event.type.Swipe} The swipe event.
      */
     _onSwipe : function(evt) {
+      if(!evt.isPrimary()) {
+        return;
+      }
+
       if (evt.getDuration() < 750 && Math.abs(evt.getDistance()) > 50) {
         var duration = this._calculateTransitionDuration(this.__deltaX, evt.getDuration());
         this._setTransitionDuration(duration);
@@ -694,9 +706,11 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      */
     _removeListeners : function() {
       this.__carouselScroller.removeListener("pointerdown", this._onPointerDown, this);
-      this.__carouselScroller.removeListener("pointermove", this._onPointerMove, this);
+      this.__carouselScroller.removeListener("track", this._onTrack, this);
       this.__carouselScroller.removeListener("pointerup", this._onPointerUp, this);
       this.__carouselScroller.removeListener("swipe", this._onSwipe, this);
+      this.__carouselScroller.removeListener("touchstart", qx.bom.Event.preventDefault, this);
+      this.__carouselScroller.removeListener("touchstart", qx.bom.Event.stopPropagation, this);
 
       this.removeListener("appear", this._onContainerUpdate, this);
 
