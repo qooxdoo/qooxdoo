@@ -28,6 +28,7 @@
  * @require(qx.event.handler.Orientation)
  * @require(qx.event.type.Tap)
  * @require(qx.event.type.Swipe)
+ * @require(qx.event.type.Track) 
  */
 qx.Class.define("qx.event.handler.Touch",
 {

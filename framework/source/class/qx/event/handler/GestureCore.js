@@ -30,7 +30,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
   statics : {
 
-    TYPES : ["tap", "swipe", "longtap", "dbltap"],
+    TYPES : ["tap", "swipe", "longtap", "dbltap", "track", "trackstart", "trackend"],
 
     GESTURE_EVENTS : ["gesturestart", "gestureend", "gesturechange"],
 
@@ -75,20 +75,15 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
   construct : function(target, emitter) {
     this.__defaultTarget = target;
     this.__emitter = emitter;
-    this.__gestureStartPosition = {};
+    this.__gesture = {};
     this._initObserver();
   },
 
   members : {
     __defaultTarget : null,
     __emitter : null,
-    __gestureTarget : null,
-    __gestureStartPosition : null,
-    __startTime : null,
-    __longTapTimer : null,
-    __isTapGesture : null,
+    __gesture : null,
     __eventName : null,
-    __lastTapTime : null,
 
     /**
      * Register pointer event listeners
@@ -139,9 +134,10 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element ? null} event target
      */
     checkAndFireGesture : function(domEvent, type, target) {
-      if(!domEvent.isPrimary || domEvent.gestureProcessed) {
-        return;
-      }
+      var gesture = this.__gesture[domEvent.pointerId];
+      //if(gesture && gesture.gestureProcessed) {
+      //  return;
+      //}
 
       if (!type) {
         type = domEvent.type;
@@ -152,15 +148,10 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       }
 
       if (type == "gesturestart") {
-        this.__isTapGesture = true;
         this.gestureStart(domEvent, target);
       } else if (type == "gesturechange") {
         this.gestureChange(domEvent, target);
       } else if (type == "gestureend") {
-        // If no start position is available for this pointerup event, cancel gesture recognition.
-        if (Object.keys(this.__gestureStartPosition).length === 0) {
-          return;
-        }
         this.gestureEnd(domEvent, target);
       }
     },
@@ -172,17 +163,21 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element} event target
      */
     gestureStart : function(domEvent, target) {
-      domEvent.gestureProcessed = true;
-      this.__gestureTarget = target;
-      this.__gestureStartPosition[domEvent.pointerId] = [domEvent.clientX, domEvent.clientY];
+      this.__gesture[domEvent.pointerId] = {
+        "gestureProcessed" : true,
+        "startX" : domEvent.clientX,
+        "startY" : domEvent.clientY,
+        "startTime" : new Date().getTime(),
+        "target" : target,
+        "isTap" : true,
+        "lastTapTime" : null,
+        "longTapTimer" : window.setTimeout(
+          this.__fireLongTap.bind(this, domEvent, target),
+          qx.event.handler.GestureCore.LONGTAP_TIME
+        )
+      };
 
-      this.__startTime = new Date().getTime();
-
-      // start the long tap timer
-      this.__longTapTimer = window.setTimeout(
-        this.__fireLongTap.bind(this, domEvent, target),
-        qx.event.handler.GestureCore.LONGTAP_TIME
-      );
+      this.__fireTrack("trackstart", domEvent, target);
     },
 
     /**
@@ -192,13 +187,78 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element} event target
      */
     gestureChange : function(domEvent, target) {
-      // abort long tap timer if the distance is too big
-      if (this.__isTapGesture) {
-        this.__isTapGesture = this._isBelowTapMaxDistance(domEvent);
-        if (!this.__isTapGesture) {
-          this.__stopLongTapTimer();
+      var gesture = this.__gesture[domEvent.pointerId];
+      if(gesture) {
+        this.__fireTrack("track", domEvent, target);
+        
+        // abort long tap timer if the distance is too big
+        if (gesture.isTap) {
+          gesture.isTap = this._isBelowTapMaxDistance(domEvent);
+          if (!gesture.isTap) {
+            this.__stopLongTapTimer(gesture);
+          }
         }
       }
+    },
+
+
+    /**
+     * Helper method for gesture end.
+     *
+     * @param domEvent {Event} DOM event
+     * @param target {Element} event target
+     * @ignore(qx.event)
+     * @ignore(qx.event.type)
+     */
+    gestureEnd : function(domEvent, target) {
+      // If no start position is available for this pointerup event, cancel gesture recognition.
+      if (Object.keys(this.__gesture).length === 0) {
+        return;
+      }
+
+      var gesture = this.__gesture[domEvent.pointerId];
+
+      // delete the long tap
+      this.__stopLongTapTimer(gesture);
+
+      var eventType;
+
+
+      if (target !== gesture.target) {
+        delete this.__gesture[domEvent.pointerId];
+        return;
+      }
+
+      if (gesture.isTap) {
+        if (qx.event && qx.event.type && qx.event.type.Tap) {
+          eventType = qx.event.type.Tap;
+        }
+        this._fireEvent(domEvent, "tap", domEvent.target || target, eventType);
+
+        if (gesture.lastTapTime) {
+          var diff = Date.now() - gesture.lastTapTime;
+          if (diff <= qx.event.handler.GestureCore.DOUBLETAP_TIME) {
+            this._fireEvent(domEvent, "dbltap", domEvent.target || target, eventType);
+          }
+        }
+        gesture.lastTapTime = Date.now();
+
+      }
+      else {
+        gesture.lastTapTime = null;
+        var swipe = this.__getSwipeGesture(domEvent, target);
+        if (swipe) {
+          if (qx.event && qx.event.type && qx.event.type.Swipe) {
+            eventType = qx.event.type.Swipe;
+          }
+          domEvent.swipe = swipe;
+          this._fireEvent(domEvent, "swipe", domEvent.target || target, eventType);
+        }
+      }
+
+      this.__fireTrack("trackend", domEvent, target);
+
+      delete this.__gesture[domEvent.pointerId];
     },
 
 
@@ -227,66 +287,26 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     * @return {Map} containing the deltaX as x, ans deltaY as y.
     */
     _getDeltaCoordinates : function(domEvent) {
-      var startPosition = this.__gestureStartPosition[domEvent.pointerId];
-      if (!startPosition) {
+      var gesture = this.__gesture[domEvent.pointerId];
+      if (!gesture) {
         return null;
       }
 
+      var deltaX = domEvent.clientX - gesture.startX;
+      var deltaY = domEvent.clientY - gesture.startY;
+
+      var axis = "x";
+      if (Math.abs(deltaX / deltaY) < 1) {
+        axis = "y";
+      }
+
       return {
-        "x":domEvent.clientX - startPosition[0],
-        "y":domEvent.clientY - startPosition[1]
+        "x": deltaX,
+        "y": deltaY,
+        "axis": axis
       };
     },
 
-
-    /**
-     * Helper method for gesture end.
-     *
-     * @param domEvent {Event} DOM event
-     * @param target {Element} event target
-     * @ignore(qx.event)
-     * @ignore(qx.event.type)
-     */
-    gestureEnd : function(domEvent, target) {
-      // delete the long tap
-      this.__stopLongTapTimer();
-      var eventType;
-
-      if (target !== this.__gestureTarget) {
-        delete this.__gestureTarget;
-        delete this.__gestureStartPosition[domEvent.pointerId];
-        return;
-      }
-
-      if (this.__isTapGesture) {
-        if (qx.event && qx.event.type && qx.event.type.Tap) {
-          eventType = qx.event.type.Tap;
-        }
-        this._fireEvent(domEvent, "tap", domEvent.target || target, eventType);
-
-        if (this.__lastTapTime) {
-          var diff = Date.now() - this.__lastTapTime;
-          if (diff <= qx.event.handler.GestureCore.DOUBLETAP_TIME) {
-            this._fireEvent(domEvent, "dbltap", domEvent.target || target, eventType);
-          }
-        }
-        this.__lastTapTime = Date.now();
-
-      }
-      else {
-        this.__lastTapTime = null;
-        var swipe = this.__getSwipeGesture(domEvent, target);
-        if (swipe) {
-          if (qx.event && qx.event.type && qx.event.type.Swipe) {
-            eventType = qx.event.type.Swipe;
-          }
-          domEvent.swipe = swipe;
-          this._fireEvent(domEvent, "swipe", domEvent.target || target, eventType);
-        }
-      }
-      delete this.__gestureTarget;
-      delete this.__gestureStartPosition[domEvent.pointerId];
-    },
 
     /**
      * Fire a gesture event with the given parameters
@@ -328,6 +348,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       this._fireEvent(domEvent, "dbltap", target, eventType);
     },
 
+
     /**
      * Returns the swipe gesture when the user performed a swipe.
      *
@@ -336,9 +357,11 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @return {Map} returns the swipe data when the user performed a swipe, null if the gesture was no swipe.
      */
     __getSwipeGesture : function(domEvent, target) {
+      var gesture = this.__gesture[domEvent.pointerId];
+
       var clazz = qx.event.handler.GestureCore;
       var deltaCoordinates = this._getDeltaCoordinates(domEvent);
-      var duration = new Date().getTime() - this.__startTime;
+      var duration = new Date().getTime() - gesture.startTime;
       var axis = (Math.abs(deltaCoordinates.x) >= Math.abs(deltaCoordinates.y)) ? "x" : "y";
       var distance = deltaCoordinates[axis];
       var direction = clazz.SWIPE_DIRECTION[axis][distance < 0 ? 0 : 1];
@@ -349,7 +372,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
           && Math.abs(distance) >= clazz.SWIPE_MIN_DISTANCE)
       {
         swipe = {
-            startTime : this.__startTime,
+            startTime : gesture.startTime,
             duration : duration,
             axis : axis,
             direction : direction,
@@ -360,6 +383,20 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       return swipe;
     },
 
+
+    /**
+     * Fires a track event.
+     *
+     * @param type {String} the track type
+     * @param domEvent {Event} DOM event
+     * @param target {Element} event target
+     */
+    __fireTrack : function(type, domEvent, target) {
+      domEvent.delta = this._getDeltaCoordinates(domEvent);
+      this._fireEvent(domEvent, type, domEvent.target || target, qx.event.type.Track);
+    },
+
+
     /**
      * Fires the long tap event.
      *
@@ -368,19 +405,20 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      */
     __fireLongTap : function(domEvent, target) {
       this._fireEvent(domEvent, "longtap", domEvent.target || target, qx.event.type.Tap);
-      this.__longTapTimer = null;
-      // prevent the tap event
-      this.__isTapGesture = false;
+
+      var gesture = this.__gesture[domEvent.pointerId];
+      gesture.longTapTimer = null;
+      gesture.isTap = false;
     },
 
 
     /**
      * Stops the time for the long tap event.
      */
-    __stopLongTapTimer : function() {
-      if (this.__longTapTimer) {
-        window.clearTimeout(this.__longTapTimer);
-        this.__longTapTimer = null;
+    __stopLongTapTimer : function(gesture) {
+      if (gesture.longTapTimer) {
+        window.clearTimeout(gesture.longTapTimer);
+        gesture.longTapTimer = null;
       }
     },
 
@@ -404,9 +442,10 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * Dispose the current instance
      */
     dispose : function() {
-      this.__stopLongTapTimer();
+      // TODO clear all timer of gesture array
+      //this.__stopLongTapTimer();
       this._stopObserver();
-      this.__defaultTarget = this.__emitter = this.__gestureTarget = null;
+      this.__defaultTarget = this.__emitter = null;
     }
   }
 });

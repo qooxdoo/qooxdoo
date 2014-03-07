@@ -102,8 +102,8 @@ qx.Class.define("mobileshowcase.page.Event",
       this.__gestureTarget = new qx.ui.mobile.basic.Image("mobileshowcase/icon/HTML5_Badge_512.png");
 
       this.__gestureTarget.addCssClass("gesture-target");
-      this.__gestureTarget.addListener("pointermove", this.__onGestureTargetMove, this);
-      this.__gestureTarget.addListener("pointerup", this.__onGestureTargetEnd, this);
+      this.__gestureTarget.addListener("track", this.__onTrack, this);
+      this.__gestureTarget.addListener("trackend", this.__onTrackEnd, this);
       this.__gestureTarget.setDraggable(false);
       this.__gestureTarget.setTranslateX(-5000);
 
@@ -156,7 +156,11 @@ qx.Class.define("mobileshowcase.page.Event",
     },
 
 
-    __onGestureTargetMove : function(evt) {
+    __onTrack : function(evt) {
+      if(!evt.isPrimary()) {
+        return;
+      }
+
       if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
         this._getScrollContainer().disable();
       }
@@ -197,7 +201,7 @@ qx.Class.define("mobileshowcase.page.Event",
     },
 
 
-    __onGestureTargetEnd : function() {
+    __onTrackEnd : function() {
       //this.__initialRotation = this.__currentRotation;
       //this.__initialScale = this.__currentScale;
 
