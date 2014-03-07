@@ -1,208 +1,329 @@
-/* ************************************************************************
-
-   qooxdoo - the new era of web development
-
-   http://qooxdoo.org
-
-   Copyright:
-     2014 1&1 Internet AG, Germany, http://www.1und1.de
-
-   License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
-     See the LICENSE file in the project's top-level directory for details.
-
-   Authors:
-     * Romeo Kenfack Tsakem (rkenfack)
-
-************************************************************************ */
-/**
- * @group (Widget)
- */
 qx.Bootstrap.define("qx.ui.website.Table", {
 
-  extend: qx.ui.website.Widget,
+      extend: qx.ui.website.Widget,
 
-  construct: function(selector, context) {
-    this.base(arguments, selector, context);
-  },
-
-
-  statics: {
-    /**
-     *
-     * @attach {qxWeb}
-     */
-    table: function(model) {
-      var table = new qx.ui.website.Table(this);
-      table.init(model);
-      return table;
-    }
-  },
+      construct: function(selector, context) {
+        this.base(arguments, selector, context);
+      },
 
 
+      statics: {
 
-  members: {
+        /**
+         *
+         * @attach {qxWeb}
+         */
+        table: function(model) {
+          var table = new qx.ui.website.Table(this);
+          table.init(model);
+          return table;
+        }
+      },
 
-    init: function(model) {
-      if (!this.base(arguments)) {
-        return false;
-      }
-      this.setTableCellValue("qx-cell-value-class");
-      this.__setModel(model);
-      return true;
-    },
 
 
-    setTableCellValue: function(className) {
-      this.setProperty("cellValueClass", className);
-    },
+      members: {
 
-    setModel: function(model) {
-      if (qx.lang.Type.isArray(model) && (model.length > 0)) {
-        this.setProperty("model", model);
-        this.setProperty("initialModel", model.slice(0));
-        this.render();
-      }
-    },
+        init: function(model) {
 
-    getModel: function() {
-      return this.getProperty("model");
-    },
-
-    getCell: function(i, j) {
-      console.log("3e")
-      return qxWeb(this[0].rows(i).item(j));
-    },
-
-    getCellValue: function(i, j) {
-      return this.__getCellValue(this.getCell(i, j))
-    },
-
-    setCellValue: function(i, j, value) {
-      this.__setCellValue(this.getCell(i, j), value);
-    },
-
-    sort: function(columnIndex, dir) {
-      this.setProperty("sortingClass", this.__setSortingClass(columnIndex, dir));
-      if (this.getProperty("model")) {
-        this.setProperty("initialModel", this.getProperty("model").slice(0));
-      }
-      this.setProperty("model", this.__sort(this.getModel(), columnIndex, dir));
-      this.render();
-    },
-
-    render: function() {
-      if (this.getProperty("model")) {
-        var sortedModel = this.getProperty("model");
-        var initialModel = this.getProperty("initialModel");
-        for (var i = 0, rows = sortedModel.length; i < rows; i++) {
-          for (var j = 0, cols = sortedModel[i].length; j < cols; j++) {
-            this.__setCellValue(initialModel[i][j].cell, sortedModel[i][j].value);
+          if (!this.base(arguments)) {
+            return false;
           }
-        }
 
-        this.setProperty("model", initialModel);
-        this.setProperty("initialModel", this.getProperty("model").slice(0));
-      }
-    },
+          this.setTableCellValue("qx-cell-value-class");
 
+          this.__setModel(model);
 
-    //Private API
-
-    __setModel: function(model) {
-      if (qx.lang.Type.isArray(model) && (model.length > 0)) {
-        this.setModel(model);
-      } else {
-        this.setProperty("model", this.__getModelFromHTML());
-      }
-    },
-
-    __setSortingClass: function(columnIndex, dir) {
-
-      var oldClass = this.getProperty("sortingClass");
-      if (oldClass) {
-        this.removeClass(oldClass);
-      }
-      var className = "qx-sort";
-      if (dir == "asc") {
-        className += "Asc" + "-" + columnIndex;
-      } else if (dir == "desc") {
-        className += "Desc" + "-" + columnIndex;
-      }
-      this.addClass(className);
-
-      return className;
-    },
-
-
-    __sort: function(model, columnIndex, direction) {
-      return model.sort(function(a, b) {
-        var x = a[columnIndex].value;
-        var y = b[columnIndex].value;
-        if (direction == "asc") {
-          return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-        } else if (direction == "desc") {
-          return ((x > y) ? -1 : ((x < y) ? 1 : 0));
-        }
-        return 0;
-      });
-    },
-
-
-    __getCellValue: function(cell) {
-      var valueNode = cell.find("." + this.getProperty("cellValueClass"));
-      if (valueNode.length == 0) {
-        valueNode = cell;
-      }
-      return valueNode.getTextContent();
-    },
-
-
-    __setCellValue: function(cell, value) {
-
-      var valueNode = cell.find("." + this.getProperty("cellValueClass"));
-      if (valueNode.length == 0) {
-        valueNode = cell;
-      }
-      valueNode.setTextContent(value);
-    },
-
-
-    __getModelFromHTML: function() {
-
-      var tableNode = this[0];
-      var tHead = qxWeb(tableNode.tHead);
-      var rows = tableNode.rows,
-        cells = null,
-        model = [],
-        currentRow = [];
-
-      for (var i = 0, l = rows.length; i < l; i++) {
-        currentRow = [];
-        cells = rows.item(i).cells;
-        if ((tHead.length > 0 && qxWeb(cells[0]).isChildOf(tHead)) || (cells[0].nodeName.toUpperCase() != "TD")) {
-          continue;
-        }
-        for (var j = 0, l2 = cells.length; j < l2; j++) {
-          currentRow.push({
-            cell: qxWeb(cells[j]),
-            value: this.__getCellValue(qxWeb(cells[j]))
+          var types = new Array(this.getProperty("__model")[0].length).join('0').split('');
+          types = types.map(function(item) {
+            return "String"
           });
+          this.setColumnTypes(types);
+
+          this.setProperty("caseSensitive", false);
+
+          this.setSortingFunction(this.__defaultColumnSort);
+
+          this.__registerEvents();
+
+          return true;
+        },
+
+        setCaseSensitive: function(sensitive) {
+          this.setProperty("caseSensitive", sensitive);
+          return this;
+        },
+
+        getCaseSensitive: function() {
+          return this.getProperty("caseSensitive");
+        },
+
+        setColumnTypes: function(types) {
+          types = types.map(function(type) {
+            return type.charAt(0).toUpperCase() + type.slice(1);
+          });
+          this.setProperty("types", types);
+          return this;
+        },
+
+        getColumnTypes: function() {
+          var types = this.getProperty("types").map(function(type) {
+            return type.charAt(0).toLowerCase() + type.slice(1);
+          });
+          return types;
+        },
+
+        setTableCellValue: function(className) {
+          this.setProperty("cellValueClass", className);
+          return this;
+        },
+
+
+        getCell: function(i, j) {
+          return qxWeb(this[0].rows(i).item(j));
+        },
+
+        setCompare: function(type, compareFunc) {
+          type = type.charAt(0).toUpperCase() + type.slice(1);
+          this.setProperty("__compare" + type, compareFunc);
+          return this;
+        },
+
+        unsetCompare: function(type) {
+          type = type.charAt(0).toUpperCase() + type.slice(1);
+          var compareFunc = this["__compare" + type] || function(x, y, direction) {
+              return 0;
+            };
+          this.setProperty("__compare" + type, compareFunc);
+          return this;
+        },
+
+        getCompareFunction: function(type) {
+          type = type.charAt(0).toUpperCase() + type.slice(1);
+          return this.getProperty("__compare" + type) || this["__compare" + type];
+        },
+
+        setSortingFunction: function(func) {
+          this.setProperty("__sortingFunction", func);
+          return this;
+        },
+
+        unsetSortingFunction: function() {
+          this.setProperty("__sortingFunction", this.__defaultColumnSort);
+          return this;
+        },
+
+        sort: function(columnIndex, dir) {
+          this.setProperty("sortingClass", this.__setSortingClass(columnIndex, dir));
+          this.setProperty("__model", this.__sort(this.getProperty("__model"), columnIndex, dir));
+          this.render();
+          return this;
+        },
+
+        getSortedData: function() {
+          var sortingClass = this.getProperty("sortingClass");
+          if (sortingClass) {
+            sortingClass = sortingClass.split("-");
+            return {
+              columnIndex: Number(sortingClass[2]),
+              direction: sortingClass[1].toLowerCase()
+            }
+          }
+          return null;
+        },
+
+        render: function() {
+          var sortedModel = this.getProperty("__model");
+          for (var i = 0, l = sortedModel.length; i < l; i++) {
+            if (i) {
+              qxWeb(sortedModel[i]).insertAfter(sortedModel[i - 1]);
+            } else {
+              var firstRow = qxWeb(sortedModel[i].parentNode.firstChild);
+              qxWeb(sortedModel[i]).insertBefore(firstRow);
+            }
+          }
+          return this;
+        },
+
+
+        //Private API
+        __registerEvents: function() {
+
+          this.on("click", this.__detectClickedCell);
+
+          this.on("selected", function(data) {
+            this.getProperty("__sortingFunction").bind(this)(data);
+          }, this);
+
+        },
+
+        __detectClickedCell: function(e) {
+          var cell = e.getTarget();
+          if (cell.nodeName.toUpperCase() == "TD" || cell.nodeName.toUpperCase() == "TH") {
+            var rows = Array.prototype.slice.call(this[0].rows);
+            var row = cell.parentNode,
+              cells = Array.prototype.slice.call(row.cells);
+            var rowIndex = rows.indexOf(row);
+            var cellIndex = cells.indexOf(cell);
+            this.emit("selected", {
+              rowNumber: rowIndex,
+              colNumber: cellIndex,
+              cell: qxWeb(cell),
+              row: qxWeb(row)
+            });
+          }
+        },
+
+        __setModel: function(model) {
+          if (qx.lang.Type.isArray(model) && (model.length > 0)) {
+             this.setProperty("__model", model);
+             this.render();
+          } else {
+            this.setProperty("__model", this.__getModelFromHTML());
+          }
+        },
+
+        __setSortingClass: function(columnIndex, dir) {
+          var oldClass = this.getProperty("sortingClass");
+          if (oldClass) {
+            this.removeClass(oldClass);
+          }
+          var className = "qx-";
+          if (dir == "asc") {
+            className += "Asc" + "-" + columnIndex;
+          } else if (dir == "desc") {
+            className += "Desc" + "-" + columnIndex;
+          }
+          this.addClass(className);
+
+          this.__addSortingClassToCol(this[0].tHead, columnIndex, dir);
+          this.__addSortingClassToCol(this[0].tFoot, columnIndex, dir);
+          return className;
+        },
+
+        __addSortingClassToCol: function(HeaderOrFooter, columnIndex, dir) {
+          if (HeaderOrFooter && HeaderOrFooter.rows.length > 0) {
+            qxWeb(HeaderOrFooter.rows.item(i).cells).removeClasses(["qx-asc", "qx-desc"]);
+            for (var i = 0, l = HeaderOrFooter.rows.length; i < l; i++) {
+              qxWeb(HeaderOrFooter.rows.item(i).cells.item(columnIndex)).addClass("qx-" + dir);
+            }
+          }
+        },
+
+
+        __sort: function(model, columnIndex, direction) {
+
+          var columnType = this.getProperty("types")[columnIndex];
+
+          if (!this["__compare" + columnType]) {
+            columnType = "String";
+          }
+          var compareFunc = this.getCompareFunction(columnType);
+          compareFunc = compareFunc.bind(this);
+          return model.sort(function(a, b) {
+            var x = this.__getCellValue(qxWeb(a.cells.item(columnIndex)));
+            var y = this.__getCellValue(qxWeb(b.cells.item(columnIndex)));
+            return compareFunc(x, y, direction);
+          }.bind(this));
+        },
+
+
+        __compareNumber: function(x, y, direction) {
+          x = Number(x) || 0;
+          y = Number(y) || 0;
+          if (direction == "asc") {
+            return x - y;
+          } else if (direction == "desc") {
+            return y - x;
+          }
+          return 0;
+        },
+
+
+        __compareDate: function(x, y, direction) {
+          x = (this.__isDate(x)) ? new Date(x) : new Date(0);
+          y = (this.__isDate(y)) ? new Date(y) : new Date(0);
+          return this.__compareNumber(x.getTime(), y.getTime());
+        },
+
+        __compareString: function(x, y, direction) {
+          if (!this.getCaseSensitive()) {
+            x = x.toLowerCase();
+            y = y.toLowerCase();
+          }
+          if (direction == "asc") {
+            return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+          } else if (direction == "desc") {
+            return ((x > y) ? -1 : ((x < y) ? 1 : 0));
+          }
+          return 0;
+        },
+
+
+        __getCellValue: function(cell) {
+          var valueNode = cell.find("." + this.getProperty("cellValueClass"));
+          if (valueNode.length == 0) {
+            valueNode = cell;
+          }
+          return (valueNode.getTextContent() || "");
+        },
+
+
+        __setCellValue: function(cell, value) {
+          var valueNode = cell.find("." + this.getProperty("cellValueClass"));
+          if (valueNode.length == 0) {
+            valueNode = cell;
+          }
+          valueNode.setTextContent(value);
+        },
+
+
+        __getModelFromHTML: function() {
+          var tableNode = this[0];
+          var rows = tableNode.rows,
+            model = [];
+          for (var i = 0, l = rows.length; i < l; i++) {
+            cells = rows.item(i).cells;
+            if ((cells.length > 0) && (cells[0].nodeName.toUpperCase() != "TD")) {
+              continue;
+            }
+            model.push(rows.item(i));
+          }
+          return model;
+        },
+
+
+        __defaultColumnSort: function(data) {
+          var dir = "asc";
+          var sortedData = this.getSortedData();
+          if (sortedData) {
+            if (data.colNumber == sortedData.columnIndex) {
+              if (sortedData.direction == dir) {
+                dir = "desc";
+              }
+            }
+          }
+          if (data.cell[0].nodeName.toUpperCase() == "TH") {
+            this.sort(data.colNumber, dir);
+          }
+        },
+
+        __isNumber: function(n) {
+          return (Object.prototype.toString.call(n) === '[object Number]' ||
+            Object.prototype.toString.call(n) === '[object String]') && !isNaN(parseFloat(n)) && isFinite(n.toString().replace(/^-/, ''));
+        },
+
+        __isDate: function(val) {
+          var d = new Date(val);
+          return !isNaN(d.valueOf());
         }
-        model.push(currentRow);
+      },
+
+
+      defer: function(statics) {
+        qxWeb.$attach({
+          table: statics.table
+        });
       }
 
-      return model;
-    }
-
-  },
-
-
-  defer: function(statics) {
-    qxWeb.$attach({
-      table: statics.table
     });
-  }
-
-});
