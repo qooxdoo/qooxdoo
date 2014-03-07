@@ -275,7 +275,7 @@ var Data = q.define({
       var norm = q.env.get("q.eventtypes");
       if (norm) {
         norm = norm.split(",");
-        norm.forEach(this.__loadSimpleClass.bind(this, "event"));
+        norm.forEach(this.__loadSimpleClass.bind(this, "Event"));
       }
     },
 
@@ -288,7 +288,7 @@ var Data = q.define({
       this.__polyfillClasses = Object.keys(q.$$qx.lang.normalize);
 
       for (var clazz in q.$$qx.lang.normalize) {
-        this.__loadSimpleClass("normalize", "qx.lang.normalize." + clazz);
+        this.__loadSimpleClass(clazz, "qx.lang.normalize." + clazz);
       }
     },
 
