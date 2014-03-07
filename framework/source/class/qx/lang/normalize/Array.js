@@ -17,10 +17,10 @@
 
 ************************************************************************ */
 /**
- * This class takes care of the normalization of the native 'Array' object.
- * Therefore it checks the availability of the following methods and appends
- * it, if not available. This means you can use the methods during
- * development in every browser. For usage samples, check out the attached links.
+ * This class is responsible for the normalization of the native 'Array' object.
+ * It checks if these methods are available and, if not, appends them to
+ * ensure compatibility in all browsers.
+ * For usage samples, check out the attached links.
  *
  * MDN documentation &copy; Mozilla Contributors.
  *
