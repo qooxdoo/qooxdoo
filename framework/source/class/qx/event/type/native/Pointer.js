@@ -26,28 +26,28 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
 
   statics : {
 
-    MOUSE_PROPERTIES : {
-      bubbles : true,
-      cancelable : false,
-      view : null,
-      detail : null,
-      screenX : 0,
-      screenY : 0,
-      clientX : 0,
-      clientY : 0,
-      pageX : 0,
-      pageY : 0,
-      ctrlKey : false,
-      altKey : false,
-      shiftKey : false,
-      metaKey : false,
-      button : 0,
-      which : 0,
-      relatedTarget : null,
-      //IE properties:
-      fromElement : null,
-      toElement : null
-    },
+    MOUSE_PROPERTIES : [
+      "bubbles",
+      "cancelable",
+      "view",
+      "detail",
+      "screenX",
+      "screenY",
+      "clientX",
+      "clientY",
+      "pageX",
+      "pageY",
+      "ctrlKey",
+      "altKey",
+      "shiftKey",
+      "metaKey",
+      "button",
+      "which",
+      "relatedTarget",
+      // IE8 properties:
+      "fromElement",
+      "toElement"
+    ],
 
     POINTER_PROPERTIES : {
       pointerId: 1,
@@ -91,7 +91,7 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
       var properties = {};
 
       // mouse properties
-      var mousePropNames = Object.keys(qx.event.type.native.Pointer.MOUSE_PROPERTIES);
+      var mousePropNames = qx.event.type.native.Pointer.MOUSE_PROPERTIES;
       for (var i = 0; i < mousePropNames.length; i++) {
         var propName = mousePropNames[i];
         if (propName in domEvent) {
