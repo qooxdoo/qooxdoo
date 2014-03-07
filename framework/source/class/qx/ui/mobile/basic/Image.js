@@ -141,19 +141,19 @@ qx.Class.define("qx.ui.mobile.basic.Image",
       var source = value;
       var resourceManager = qx.util.ResourceManager.getInstance();
       var uri = resourceManager.toUri(source);
-      if (source && source.indexOf('data:') != 0 && resourceManager.has(source)) {
-        if (this._findHighResolutionSource(source) == false) {
-          // If no high-resolution version of the source was found, apply the source.
-          var ImageLoader = qx.io.ImageLoader;
-          if (!ImageLoader.isFailed(uri) && !ImageLoader.isLoaded(uri)) {
-            ImageLoader.load(uri, this.__loaderCallback, this);
-          }
 
-          this._setSource(uri);
+      if (source && source.indexOf('data:') != 0) {
+        if (resourceManager.has(source) && this._findHighResolutionSource(source)) {
+          return;
         }
-      } else {
-        this._setSource(uri);
+
+        var ImageLoader = qx.io.ImageLoader;
+        if (!ImageLoader.isFailed(uri) && !ImageLoader.isLoaded(uri)) {
+          ImageLoader.load(uri, this.__loaderCallback, this);
+        }
       }
+
+      this._setSource(uri);
     },
 
 
@@ -175,7 +175,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     * If an image with a higher resolution is available, the method
     * {@link #_createHighResolutionOverlay} is called.
     *
-    * @param source {String} source of the medium resolution image.
+    * @param lowResImgSrc {String} source of the low resolution image.
     * @return {Boolean} If a high-resolution image source was found or not.
     */
     _findHighResolutionSource: function(lowResImgSrc) {
