@@ -19,8 +19,6 @@
 
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Tap event object.
  */
 qx.Class.define("qx.event.type.Tap",

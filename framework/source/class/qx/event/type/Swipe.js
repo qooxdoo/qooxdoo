@@ -19,7 +19,6 @@
 
 
 /**
- *
  * Swipe event object.
  */
 qx.Class.define("qx.event.type.Swipe",
