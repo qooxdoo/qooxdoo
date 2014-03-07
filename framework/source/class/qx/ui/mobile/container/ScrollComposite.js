@@ -57,14 +57,14 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
     this.__lastOffset = [0,0];
     this.__currentOffset = [0,0];
-    this.__pointerStartPoints = [0,0];
 
     this._scrollContainer = this._createScrollContainer();
 
-    this.addListener("touchmove", qx.bom.Event.stopPropagation, this);
+    this.addListener("touchstart", qx.bom.Event.preventDefault, this);
+    this.addListener("touchstart", qx.bom.Event.stopPropagation, this);
 
-    this.addListener("pointerdown", this._onPointerDown, this);
-    this.addListener("pointermove", this._onPointerMove, this);
+    this.addListener("trackstart", this._onTrackStart, this);
+    this.addListener("track", this._onTrack, this);
     this.addListener("swipe", this._onSwipe, this);
 
     this._setLayout(new qx.ui.mobile.layout.HBox());
@@ -143,12 +143,9 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
   members :
   {
     _scrollContainer : null,
-    __pointerStartPoints : null,
     __lastOffset : null,
     __currentOffset : null,
     __isVerticalScroll : null,
-    __distanceX : null,
-    __distanceY : null,
 
 
     /**
@@ -173,31 +170,28 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
 
     /**
-    * Handler for <code>pointerdown</code> events on scrollContainer
-    * @param evt {qx.event.type.Pointer} The pointer event.
+    * Handler for <code>trackstart</code> events on scrollContainer
+    * @param evt {qx.event.type.Track} The trackstart event.
     */
-    _onPointerDown : function(evt){
+    _onTrackStart : function(evt){
       this.__isVerticalScroll = (this.getScrollableX() && this.getScrollableY()) ? null : this.getScrollableY();
-
       this._applyNoEasing();
-      this.__pointerStartPoints[0] = evt.getViewportLeft();
-      this.__pointerStartPoints[1] = evt.getViewportTop();
-
-      this.__distanceX = 0;
-      this.__distanceY = 0;
     },
 
 
     /**
-     * Handler for <code>pointermove</code> events on scrollContainer
+     * Handler for <code>track</code> events on scrollContainer
      * @param evt {qx.event.type.Pointer} The pointer event.
      */
-    _onPointerMove : function(evt) {
+    _onTrack : function(evt) {
+      if (this.__isVerticalScroll === null) {
+        this.__isVerticalScroll = (evt.getDelta().axis == "y");
+      }
+
+      this.__distanceX = evt.getDelta().x;
+      this.__distanceY = evt.getDelta().y;
+
       if (this.isScrollableX()) {
-        this.__distanceX = evt.getViewportLeft() - this.__pointerStartPoints[0];
-
-        this.__calcVerticalScroll();
-
         if (Math.abs(this.__distanceY) < 3 || !this.isScrollableY() || !this.__isVerticalScroll) {
           this.__distanceY = 0;
         }
@@ -207,10 +201,6 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       }
 
       if (this.isScrollableY()) {
-        this.__distanceY = evt.getViewportTop() - this.__pointerStartPoints[1];
-
-        this.__calcVerticalScroll();
-
         if (Math.abs(this.__distanceX) < 3 || !this.isScrollableX() || this.__isVerticalScroll) {
           this.__distanceX = 0;
         }
@@ -219,14 +209,6 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
         this._scrollContainer.setTranslateY(this.__currentOffset[1]);
 
         this._updateScrollIndicator(this.__currentOffset[1]);
-      }
-    },
-
-
-    /** Calculates whether the gesture is vertical or horizontal. */
-    __calcVerticalScroll : function() {
-      if (this.__isVerticalScroll === null) {
-        this.__isVerticalScroll = Math.abs(this.__distanceX / this.__distanceY) < 2;
       }
     },
 
@@ -535,11 +517,12 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
   destruct : function()
   {
-    this.removeListener("pointerdown",this._onPointerDown,this);
-    this.removeListener("pointermove",this._onPointerMove,this);
+    this.removeListener("trackstart",this._onTrackStart,this);
+    this.removeListener("track",this._onTrack,this);
     this.removeListener("swipe",this._onSwipe,this);
 
-    this.removeListener("touchmove", qx.bom.Event.stopPropagation, this);
+    this.removeListener("touchstart", qx.bom.Event.preventDefault, this);
+    this.removeListener("touchstart", qx.bom.Event.stopPropagation, this);
 
     var children = this.getChildren();
     for(var i = 0; i < children.length; i++) {
