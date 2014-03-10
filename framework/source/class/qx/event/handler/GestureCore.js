@@ -442,8 +442,10 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * Dispose the current instance
      */
     dispose : function() {
-      // TODO clear all timer of gesture array
-      //this.__stopLongTapTimer();
+      for(var gesture in this.__gesture) {
+        this.__stopLongTapTimer(gesture);
+      }
+
       this._stopObserver();
       this.__defaultTarget = this.__emitter = null;
     }
