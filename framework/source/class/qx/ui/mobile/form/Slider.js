@@ -194,7 +194,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _registerEventListener : function()
     {
       this.addListener("pointerdown", this._onPointerDown, this);
-      this.addListener("pointermove", this._onPointerMove, this);
+      this.addListener("track", this._onTrack, this);
       this.addListener("touchmove", qx.bom.Event.stopPropagation, this);
       this.addListener("appear", this._refresh, this);
 
@@ -210,7 +210,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _unregisterEventListener : function()
     {
       this.removeListener("pointerdown", this._onPointerDown, this);
-      this.removeListener("pointermove", this._onPointerMove, this);
+      this.removeListener("track", this._onTrack, this);
       this.removeListener("touchmove", qx.bom.Event.stopPropagation, this);
       this.removeListener("appear", this._refresh, this);
 
@@ -263,11 +263,11 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
 
     /**
-     * Event handler. Called when the <code>pointermove</code> event occurs.
+     * Event handler. Called when the <code>track</code> event occurs.
      *
-     * @param evt {qx.event.type.Pointer} The pointer event.
+     * @param evt {qx.event.type.Track} The track event.
      */
-    _onPointerMove : function(evt)
+    _onTrack : function(evt)
     {
       var position = this._getPosition(evt.getDocumentLeft());
       this.setValue(this._positionToValue(position));
