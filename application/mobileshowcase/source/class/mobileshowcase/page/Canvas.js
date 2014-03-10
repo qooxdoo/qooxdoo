@@ -58,9 +58,9 @@ qx.Class.define("mobileshowcase.page.Canvas",
 
       var canvas = this.__canvas = new qx.ui.mobile.embed.Canvas();
 
-      canvas.addListener("pointerdown", this._onPointerDown, this);
-      canvas.addListener("pointerup", this._onPointerUp, this);
-      canvas.addListener("pointermove", this._onPointerMove, this);
+      canvas.addListener("trackstart", this._onTrackStart, this);
+      canvas.addListener("trackend", this._onTrackEnd, this);
+      canvas.addListener("track", this._onTrack, this);
 
       canvas.setWidth(this.__canvasWidth);
       canvas.setHeight(this.__canvasHeight);
@@ -115,17 +115,17 @@ qx.Class.define("mobileshowcase.page.Canvas",
 
 
     /**
-     * Handles the <code>pointerup</code> event on canvas.
+     * Handles the <code>trackend</code> event on canvas.
      */
-    _onPointerUp : function(evt) {
+    _onTrackEnd : function(evt) {
       this.__lastPoints = {};
     },
 
 
     /**
-     * Handles the <code>pointerdown</code>  event on canvas.
+     * Handles the <code>trackstart</code>  event on canvas.
      */
-    _onPointerDown : function(evt) {
+    _onTrackStart : function(evt) {
       this.__canvasLeft = qx.bom.element.Location.getLeft(this.__canvas.getContentElement(), "padding");
       this.__canvasTop = qx.bom.element.Location.getTop(this.__canvas.getContentElement(), "padding");
 
@@ -133,9 +133,9 @@ qx.Class.define("mobileshowcase.page.Canvas",
     },
 
     /**
-     * Handles the <code>pointermove</code>  event on canvas.
+     * Handles the <code>track</code>  event on canvas.
      */
-    _onPointerMove : function(evt) {
+    _onTrack : function(evt) {
       this.__draw(evt);
 
       evt.preventDefault();
