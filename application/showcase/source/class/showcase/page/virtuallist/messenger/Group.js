@@ -96,7 +96,7 @@ qx.Class.define("showcase.page.virtuallist.messenger.Group",
           break;
         case "icon" :
           control = new qx.ui.basic.Image("showcase/virtuallist/down.png");
-          control.addListener("click", this._onClick, this);
+          control.addListener("tap", this._onTap, this);
           break;
         case "count" :
           control = new qx.ui.basic.Label().set({
@@ -132,7 +132,7 @@ qx.Class.define("showcase.page.virtuallist.messenger.Group",
       this.getChildControl("count").setValue("(" + value + ")");
     },
 
-    _onClick : function(event) {
+    _onTap : function(event) {
       this.toggleOpen();
     }
   }
