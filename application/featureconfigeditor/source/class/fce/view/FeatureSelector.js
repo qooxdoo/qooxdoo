@@ -122,7 +122,7 @@ qx.Class.define("fce.view.FeatureSelector", {
           control = new fce.view.Table();
           control.setMinWidth(330);
           this.bind("filter", control, "filter");
-          control.addListener("cellDblclick", this.__onTableDoubleClick, this);
+          control.addListener("cellDbltap", this.__onTableDoubleTap, this);
           qx.data.SingleValueBinding.bind(control, "sourceProperty", this.getChildControl("list"), "modelValueProperty");
           break;
         case "list":
@@ -478,11 +478,11 @@ qx.Class.define("fce.view.FeatureSelector", {
 
 
     /**
-     * Adds a double-clicked table row's item to the list
+     * Adds a double-taped table row's item to the list
      *
      * @param ev {qx.ui.table.pane.CellEvent} cell event
      */
-    __onTableDoubleClick : function(ev)
+    __onTableDoubleTap : function(ev)
     {
       var table = this.getChildControl("table");
       var tableModel = table.getTableModel();
