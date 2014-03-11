@@ -69,7 +69,7 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
 
     _createEvent : function() {
       var evt;
-        if (window.MouseEvent) {
+        if (window.MouseEvent && qx.core.Environment.get("engine.name") !== "mshtml") {
         evt = new window.MouseEvent(this._type);
       } else if (typeof document.createEvent == "function") {
         /* In IE9, the pageX property of synthetic MouseEvents is always 0
