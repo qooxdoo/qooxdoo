@@ -143,26 +143,26 @@ qx.Class.define("playground.view.Samples",
       this.__list.setAppearance("sample-list");
       this.__list.setLabelPath("name");
 
-      // CARFULL: HACK TO GET THE SELECTION PREVENTED
-      this.__list._manager.detatchMouseEvents();
-      // store the old hous handler
-      var oldHandler = this.__list._manager.handleMouseDown;
+      // CAREFUL: HACK TO GET THE SELECTION PREVENTED
+      this.__list._manager.detatchPointerEvents();
+      // store the old pointer handler
+      var oldHandler = this.__list._manager.handlePointerDown;
       var self = this;
       // attach a new handler function
-      this.__list._manager.handleMouseDown = function(e) {
-        // fire the cancleable event
+      this.__list._manager.handlePointerDown = function(e) {
+        // fire the cancelable event
         var changeOk = self.fireEvent("beforeSelectSample", qx.event.type.Event, [false, true]);
         if (changeOk) {
           // if not canceled, execute the original handler
           oldHandler.call(self.__list._manager, e);
         }
       };
-      this.__list._manager.attachMouseEvents();
+      this.__list._manager.attachPointerEvents();
       // ////////////////////////////////////////////
 
       // set the delegate
       this.__list.setDelegate({
-        // filder: only show samples for the current mode
+        // filter: only show samples for the current mode
         filter : function(data) {
           return data.getMode() == self.getMode();
         },

@@ -38,7 +38,7 @@ msgstr ""
 "Kan inte lägga till exempelkoden till URL:en eftersom den är för lång. Vill "
 "du fortsättningsvis inaktivera denna varning?"
 
-msgid "Click OK to discard your changes."
+msgid "Tap OK to discard your changes."
 msgstr "Klicka Ok för att överge dina ändringar."
 
 msgid "Custom Code"

@@ -201,7 +201,7 @@ qx.Class.define("playground.Application",
       this.__playArea.addListener("toggleMaximize", this._onToggleMaximize, this);
       infosplit.add(this.__playArea, 2);
 
-      this.__mainsplit.getChildControl("splitter").addListener("mousedown", function() {
+      this.__mainsplit.getChildControl("splitter").addListener("pointerdown", function() {
         this.__editor.block();
       }, this);
 
@@ -759,7 +759,7 @@ qx.Class.define("playground.Application",
       var userCode = this.__editor.getCode();
       if (userCode && this.__isCodeNotEqual(userCode, this.getOriginCode()))
       {
-        if (!confirm(this.tr("Click OK to discard your changes.")))
+        if (!confirm(this.tr("Tap OK to discard your changes.")))
         {
           return true;
         }
