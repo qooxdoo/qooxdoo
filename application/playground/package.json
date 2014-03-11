@@ -1,0 +1,16 @@
+{
+  "name": "playground",
+  "version": "3.5.0",
+  "description": "Interactive playground to play and experiment with source code",
+  "main": "Gruntfile.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qooxdoo/qooxdoo"
+  },
+  "author": "The qooxdoo team",
+  "license": "LGPL",
+  "homepage": "https://github.com/qooxdoo/qooxdoo",
+  "devDependencies": {
+    "grunt": "~0.4.2"
+  }
+}

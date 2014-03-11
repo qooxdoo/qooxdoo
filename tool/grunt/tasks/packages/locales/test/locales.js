@@ -19,7 +19,7 @@
 
 'use strict';
 
-exports.dependencies = {
+module.exports = {
   setUp: function(done) {
     // setup here if necessary
     done();
@@ -34,4 +34,3 @@ exports.dependencies = {
     test.done();
   }
 };
-

@@ -1,7 +1,7 @@
 // global conf
 var common = {
   QOOXDOO_VERSION : "3.5",
-  QOOXDOO_PATH: "../..",
+  QOOXDOO_PATH: "../.."
 };
 
 // requires

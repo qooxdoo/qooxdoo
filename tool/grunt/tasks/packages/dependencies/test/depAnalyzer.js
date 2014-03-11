@@ -25,33 +25,39 @@ exports.dependencies = {
     done();
   },
 
+  // TODO: don't hardwire paths and resolve dep to needed app
   getClassListLoadOrder : function (test) {
     var depAnalyzer = require('../lib/depAnalyzer.js');
     var classListLoadOrder = [];
+    var classListPaths = [];
     var classesDeps = {};
     var atHintIndex = {};
 
     classesDeps = depAnalyzer.collectDepsRecursive(
-      ['/Users/rsternagel/workspace/depTest/source/class/',
+      ['./test/data/myapp/source/class/',
        '../../../../../framework/source/class/'],
-      ['depTest/Application.js',
-       'depTest/theme/Theme.js'],
-      { "deptest": "depTest" }
+      ['myapp.Application', 'myapp.theme.Theme']
     );
 
     /*
     classesDeps = depAnalyzer.collectDepsRecursive(
       ['../../../../../framework/source/class/'],
-      ['qx/locale/Manager.js'],
+      ['qx.Class',
+       'qx.Mixin',
+       'qx.Interface',
+       'qx.data.marshal.Json',
+       'qx.bom.client.Runtime'],
       {}
     );
     */
 
     classListLoadOrder = depAnalyzer.sortDepsTopologically(classesDeps, "load");
+    classListPaths = depAnalyzer.translateClassIdsToPaths(classListLoadOrder);
     atHintIndex = depAnalyzer.createAtHintsIndex(classesDeps);
 
     console.log(JSON.stringify(classesDeps, null, 2));
     console.log(classListLoadOrder, classListLoadOrder.length);
+    console.log(classListPaths);
     console.log(atHintIndex);
 
     test.ok(true);

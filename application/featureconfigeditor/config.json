@@ -32,8 +32,6 @@
     "source",
     "source-all",
     "source-hybrid",
-    "test",
-    "test-source",
     "translation",
     "validate-config",
     "validate-manifest"

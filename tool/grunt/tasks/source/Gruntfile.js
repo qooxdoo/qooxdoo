@@ -7,6 +7,17 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
+
+    common: {
+      "APPLICATION" : "myapp",
+      "QOOXDOO_PATH": "../../../..",
+      "LOCALES": ["en"],
+      "QXTHEME": "<%= common.APPLICATION %>.theme.Theme",
+      "ROOT": ".",
+      "APPLICATION_MAIN_CLASS" : "<%= common.APPLICATION %>.Application",
+      "SOURCE_PATH": "<%= common.ROOT %>/test/data/myapp/source/script",
+    },
+
     jshint: {
       all: [
         'Gruntfile.js',
@@ -25,20 +36,22 @@ module.exports = function(grunt) {
     source: {
       default_options: {
         options: {
-        },
-        files: {
-          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123'],
+          appName: "<%= common.APPLICATION %>",
+          sourcePath: "<%= common.SOURCE_PATH %>",
+          locales:  "<%= common.LOCALES %>",
+          includes: ["<%= common.APPLICATION_MAIN_CLASS %>", "<%= common.QXTHEME %>"],
+          libraries: [
+            "<%= common.QOOXDOO_PATH %>/framework/Manifest.json",
+            "<%= common.ROOT %>/test/data/myapp/Manifest.json"
+          ]
         },
       },
+      /*
       custom_options: {
         options: {
-          separator: ': ',
-          punctuation: ' !!!',
-        },
-        files: {
-          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123'],
         },
       },
+      */
     },
 
     nodeunit: {

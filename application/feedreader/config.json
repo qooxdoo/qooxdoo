@@ -15,6 +15,32 @@
     }
   ],
 
+  "export" :
+    [
+      "api",
+      "api-data",
+      "build",
+      "build-mobile",
+      "build-website",
+      "clean",
+      "distclean",
+      "fix",
+      "info",
+      "inspector",
+      "lint",
+      "migration",
+      "pretty",
+      "profiling",
+      "source",
+      "source-all",
+      "source-hybrid",
+      "source-mobile",
+      "source-website",
+      "translation",
+      "validate-config",
+      "validate-manifest"
+    ],
+
   "default-job" : "source",
 
   "let" :

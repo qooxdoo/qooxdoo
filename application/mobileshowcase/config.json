@@ -24,8 +24,6 @@
     "source",
     "source-all",
     "source-hybrid",
-    "test",
-    "test-source",
     "translation",
     "minify-css",
     "validate-config",

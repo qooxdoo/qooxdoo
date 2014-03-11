@@ -651,19 +651,6 @@
     },
 
 
-    "publish" :
-    {
-      "desc"    : "(this is an admin job for the qooxdoo project web site)",
-
-      "extend" : [ "scan-local-lib" ],
-
-      "shell" :
-      {
-        "command" : "rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn ${BUILD_PATH}/* root@qooxdoo.org:/var/www/qooxdoo/demo/${QOOXDOO_VERSION}/${APPLICATION}"
-      }
-    },
-
-
     "fix" :
     {
       "desc"    : "normalize whitespace in .js files of the current library (tabs, eol, ...)",
