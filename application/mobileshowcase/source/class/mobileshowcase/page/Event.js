@@ -352,8 +352,10 @@ qx.Class.define("mobileshowcase.page.Event",
 
         delete this.__pointers[pointerId];
 
-        this.__initialRotation = this.__currentRotation;
-        this.__initialScale = this.__currentScale;
+        if(evt.isPrimary()) {
+          this.__initialRotation = this.__currentRotation;
+          this.__initialScale = this.__currentScale;
+        }
 
         // Re-enable iScroll
         if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
