@@ -114,6 +114,8 @@ qx.Class.define("qx.ui.core.EventHandler",
       track : 1,
       trackend : 1,
       trackstart : 1,
+      pinch : 1,
+      rotate : 1,
 
       // pointer events
       pointermove : 1,

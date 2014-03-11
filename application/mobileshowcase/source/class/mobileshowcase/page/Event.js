@@ -102,8 +102,11 @@ qx.Class.define("mobileshowcase.page.Event",
       this.__gestureTarget = new qx.ui.mobile.basic.Image("mobileshowcase/icon/HTML5_Badge_512.png");
 
       this.__gestureTarget.addCssClass("gesture-target");
+      this.__gestureTarget.addListener("trackstart", this.__onTrackStart, this);
       this.__gestureTarget.addListener("track", this.__onTrack, this);
       this.__gestureTarget.addListener("trackend", this.__onTrackEnd, this);
+      this.__gestureTarget.addListener("pinch", this.__onPinch, this);
+      this.__gestureTarget.addListener("rotate", this.__onRotate, this);
       this.__gestureTarget.setDraggable(false);
       this.__gestureTarget.setTranslateX(-5000);
 
@@ -152,61 +155,20 @@ qx.Class.define("mobileshowcase.page.Event",
       qx.bom.element.Style.set(this.__container.getContentElement(),"background","-"+this.__vendorPrefix+"-radial-gradient(50% 50%, cover, #1a82f7, #2F2727)");
 
       // Start rendering
-      qx.bom.AnimationFrame.request(this._render, this);
+      qx.bom.AnimationFrame.request(this._renderLabel, this);
+      qx.bom.AnimationFrame.request(this._renderLogo, this);
     },
 
 
-    __onTrack : function(evt) {
-      if(!evt.isPrimary()) {
-        return;
-      }
-
-      if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
-        this._getScrollContainer().disable();
-      }
-
-      var offset = 256;
-
-      var containerElement = this.__showcaseContainer.getContentElement();
-      var containerLeft = qx.bom.element.Location.getLeft(containerElement, "padding");
-      var containerTop = qx.bom.element.Location.getTop(containerElement, "padding");
-
-      /*if (evt.isMultiTouch())
-      {
-        this.__currentRotation = Math.round(evt.getRotation()) + Math.round(this.__initialRotation);
-        this.__currentScale = evt.getScale() * this.__initialScale;
-
-        // Scale Range bounding
-        if(this.__currentScale < this.__minScale) {
-          this.__currentScale = this.__minScale;
-        } else if ( this.__currentScale > this.__maxScale) {
-          this.__currentScale = this.__maxScale;
-        }
-
-        this.__lastMultiTouchEventTime = new Date().getTime();
-      }
-      else
-      {*/
-        //var timeSinceMultiTouch = new Date().getTime() - this.__lastMultiTouchEventTime;
-
-        //if(timeSinceMultiTouch > 500) {
-          this.__logoLeft = evt.getViewportLeft() - containerLeft - offset;
-          this.__logoTop = evt.getViewportTop() - containerTop - offset;
-        //}
-      //}
-
-      qx.bom.AnimationFrame.request(this._render, this);
-
-      evt.preventDefault();
-    },
-
-
-    __onTrackEnd : function() {
-      //this.__initialRotation = this.__currentRotation;
-      //this.__initialScale = this.__currentScale;
-
-      if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
-        this._getScrollContainer().enable();
+    /**
+     * Event handler.
+     *
+     * @param evt {qx.event.type.Track} The track event.
+     */
+    __onTrackStart : function(evt) {
+      if(evt.isPrimary) {
+        this.__logoStartLeft = this.__logoLeft;
+        this.__logoStartTop = this.__logoTop;
       }
     },
 
@@ -214,20 +176,82 @@ qx.Class.define("mobileshowcase.page.Event",
     /**
      * Event handler.
      *
-     * @param evt {qx.event.type.Pointer} The gesture event.
+     * @param evt {qx.event.type.Track} The track event.
      */
-    _onGesture : function(evt) {
-      this.__labelBuffer += " "+evt.getType();
-      qx.bom.AnimationFrame.request(this._render, this);
+    __onTrack : function(evt) {
+      if (qx.core.Environment.get("qx.mobile.nativescroll") === false) {
+        this._getScrollContainer().disable();
+      }
+      var delta = evt.getDelta();
+
+      this.__logoLeft = this.__logoStartLeft + delta.x;
+      this.__logoTop = this.__logoStartTop + delta.y;
+
+      qx.bom.AnimationFrame.request(this._renderLogo, this);
     },
 
 
     /**
-     * Event handler for orientationchange event.
+     * Event handler.
+     *
+     * @param evt {qx.event.type.Track} The track event.
+     */
+    __onTrackEnd : function() {
+      if (qx.core.Environment.get("qx.mobile.nativescroll") === false) {
+        this._getScrollContainer().enable();
+      }
+
+      this.__initialRotation = this.__currentRotation;
+      this.__initialScale = this.__currentScale;
+    },
+
+
+    /**
+     * Event handler.
+     *
+     * @param evt {qx.event.type.Rotate} The rotate event.
+     */
+    __onRotate : function(evt) {
+      this.__currentRotation = this.__initialRotation + evt.getAngle();
+      qx.bom.AnimationFrame.request(this._renderLogo, this);
+    },
+
+
+    /**
+     * Event handler.
+     *
+     * @param evt {qx.event.type.Pinch} The pinch event.
+     */
+    __onPinch : function(evt) {
+      var scale = evt.getScale() * this.__initialScale;
+      this.__currentScale = (Math.round(scale * 100) / 100);
+
+      this.__currentScale = Math.max(this.__currentScale,this.__minScale);
+      this.__currentScale = Math.min(this.__currentScale,this.__maxScale);
+
+      qx.bom.AnimationFrame.request(this._renderLogo, this);
+    },
+
+
+    /**
+     * Event handler.
+     *
+     * @param evt {qx.event.type.Pointer} The pointer event.
+     */
+    _onGesture : function(evt) {
+      this.__labelBuffer += " "+evt.getType();
+      qx.bom.AnimationFrame.request(this._renderLabel, this);
+    },
+
+
+    /**
+     * Event handler for <code>orientationchange</code> event.
+     *
+     * @param evt {Event} The <code>orientationchange</code> event.
      */
     _onOrientationChange : function(evt) {
       var orientationMode = "Portrait";
-      if(evt.isLandscape()){
+      if (evt.isLandscape()) {
         orientationMode = "Landscape";
       }
       this.__labelBuffer = " " + evt.getType()+": "+orientationMode;
@@ -236,17 +260,52 @@ qx.Class.define("mobileshowcase.page.Event",
 
     /**
      * Reacts on pointer events and updates the event container background and pointer markers.
+     *
+     * @param evt {qx.event.type.Pointer} The pointer event.
      */
-    __updatePointerVisualisation : function(evt) {
-      var pointer = this.__pointers[evt.getPointerId()];
-      if (pointer) {
-        var position = this._getPointerPosition(evt);
-        this.__pointers[evt.getPointerId()].x = position[0];
-        this.__pointers[evt.getPointerId()].y = position[1];
+    _updatePointerPosition : function(evt) {
+      var position = this._getPointerPosition(evt);
+
+      this._setPointerCirclePosition(evt.getPointerId(), position[0], position[1]);
+    },
+
+
+    /**
+    * Resets the pointer circle position.
+    * 
+    * @param pointerId {Integer} corresponding pointerId.
+    */
+    _resetPointerPosition : function(pointerId) {
+      var pointer = this.__pointers[pointerId];
+      if (pointer && pointer.target) {
+        this.__circles.push(pointer.target);
+        pointer.target.setTranslateX(-1000);
+        pointer.target.setTranslateY(-1000);
       }
     },
 
 
+    /**
+    * Sets the pointer circle position.
+    * 
+    * @param pointerId {Integer} corresponding pointerId.
+    * @param x {Integer} pointer position x.
+    * @param y {Integer} pointer position y.
+    */
+    _setPointerCirclePosition : function(pointerId,x,y) {
+      var pointer = this.__pointers[pointerId];
+      if (pointer && pointer.target) {
+        pointer.target.setTranslateX(x);
+        pointer.target.setTranslateY(y);
+      }
+    },
+
+
+    /**
+    * Calculates the pointer position relative to its container.
+    *
+    * @param evt {qx.event.type.Pointer} The pointer event.
+    */
     _getPointerPosition : function(evt) {
       var containerLeft = qx.bom.element.Location.getLeft(this.__container.getContentElement(), "padding");
       var containerTop = qx.bom.element.Location.getTop(this.__container.getContentElement(), "padding");
@@ -262,11 +321,7 @@ qx.Class.define("mobileshowcase.page.Event",
     _onPointer : function(evt)
     {
       var type = evt.getType();
-
-      this.__updatePointerVisualisation(evt);
-      if(type == "pointerdown") {
-        this.__labelBuffer = "";
-      }
+      var pointerId = evt.getPointerId();
 
       if(type == "pointercancel") {
         this.__labelBuffer = type;
@@ -278,12 +333,36 @@ qx.Class.define("mobileshowcase.page.Event",
           this._getScrollContainer().disable();
         }
 
-        var position = this._getPointerPosition(evt);
-        this.__pointers[evt.getPointerId()] = {
-          x: position[0],
-          y: position[1],
+        this.__labelBuffer = "";
+
+        this.__pointers[pointerId] = {
           target: this.__circles.pop()
         };
+
+        this._updatePointerPosition(evt);
+      }
+
+      if(type == "pointermove") {
+        this._updatePointerPosition(evt);
+      }
+
+      if (type == "pointerup" || type == "pointercancel" ) {
+        // Remove all circles out of visible area
+        this._resetPointerPosition(pointerId);
+
+        delete this.__pointers[pointerId];
+
+        this.__initialRotation = this.__currentRotation;
+        this.__initialScale = this.__currentScale;
+
+        // Re-enable iScroll
+        if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
+          this._getScrollContainer().enable();
+        }
+      }
+
+      if (type == "pointercancel" || (evt.getPointerType() == "mouse" && type == "pointerout")) {
+        this.__labelBuffer = "";
       }
 
       if (Object.keys(this.__pointers).length > 0) {
@@ -294,42 +373,14 @@ qx.Class.define("mobileshowcase.page.Event",
         this.__lastEventType = evt.getType();
       }
 
-      if (type == "pointerup") {
-        // Remove all circles out of visible area
-        var pointer = this.__pointers[evt.getPointerId()];
-        if (pointer && pointer.target) {
-          this.__circles.push(pointer.target);
-          pointer.target.setTranslateX(-1000);
-          pointer.target.setTranslateY(-1000);
-        }
-
-        delete this.__pointers[evt.getPointerId()];
-
-        // Re-enable iScroll
-        if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
-          this._getScrollContainer().enable();
-        }
-      }
-
-      if (type == "pointercancel" || (evt.getPointerType() == "mouse" && type == "pointerout")) {
-        // Touch Circle Visualization
-        var pointer = this.__pointers[evt.getPointerId()];
-        if (pointer && pointer.target) {
-          this.__circles.push(pointer.target);
-          pointer.target.setTranslateX(-1000);
-          pointer.target.setTranslateY(-1000);
-        }
-
-        delete this.__pointers[evt.getPointerId()];
-
-        this.__labelBuffer = "";
-      }
-
-      qx.bom.AnimationFrame.request(this._render, this);
+      qx.bom.AnimationFrame.request(this._renderLabel, this);
     },
 
 
-    _render : function() {
+    /**
+    * Renders the position of the HTML5 Logo.
+    */
+    _renderLogo : function() {
       // Render HTML5 logo: rotation and scale.
       var gestureTargetElement = this.__gestureTarget.getContentElement();
 
@@ -338,17 +389,14 @@ qx.Class.define("mobileshowcase.page.Event",
       transitionValue = transitionValue + " rotate(" + (this.__currentRotation) + "deg)";
 
       qx.bom.element.Style.set(gestureTargetElement, "transform", transitionValue);
+    },
 
+
+    /**
+    * Renders the label text.
+    */
+    _renderLabel : function() {
       this.__label.setValue(this.__labelBuffer);
-
-      // Touch Circle Visualization
-      for (var pointerId in this.__pointers) {
-        var pointer = this.__pointers[pointerId];
-        if(pointer.target) {
-          pointer.target.setTranslateX(pointer.x);
-          pointer.target.setTranslateY(pointer.y);
-        }
-      }
     }
   }
 });

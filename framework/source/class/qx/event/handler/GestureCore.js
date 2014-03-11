@@ -30,7 +30,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
   statics : {
 
-    TYPES : ["tap", "swipe", "longtap", "dbltap", "track", "trackstart", "trackend"],
+    TYPES : ["tap", "swipe", "longtap", "dbltap", "track", "trackstart", "trackend", "rotate", "pinch"],
 
     GESTURE_EVENTS : ["gesturestart", "gestureend", "gesturechange"],
 
@@ -84,6 +84,9 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     __emitter : null,
     __gesture : null,
     __eventName : null,
+    __primaryTarget : null,
+    __isMultiPointerGesture : null,
+    __initialAngle : null,
 
     /**
      * Register pointer event listeners
@@ -166,9 +169,12 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       this.__gesture[domEvent.pointerId] = {
         "startX" : domEvent.clientX,
         "startY" : domEvent.clientY,
+        "clientX" : domEvent.clientX,
+        "clientY" : domEvent.clientY,
         "startTime" : new Date().getTime(),
         "target" : target,
         "isTap" : true,
+        "isPrimary" : domEvent.isPrimary,
         "lastTapTime" : null,
         "longTapTimer" : window.setTimeout(
           this.__fireLongTap.bind(this, domEvent, target),
@@ -176,8 +182,19 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         )
       };
 
+      if(domEvent.isPrimary) {
+        this.__primaryTarget = target;
+        this.__isMultiPointerGesture = false;
+      }
+
+      if(Object.keys(this.__gesture).length === 2) {
+        this.__initialAngle = this._calcAngle();
+        this.__initialDistance = this._calcDistance();
+      }
+
       this.__fireTrack("trackstart", domEvent, target);
     },
+
 
     /**
      * Helper method for gesture change.
@@ -188,8 +205,19 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     gestureChange : function(domEvent, target) {
       var gesture = this.__gesture[domEvent.pointerId];
       if(gesture) {
-        this.__fireTrack("track", domEvent, target);
+        gesture.clientX = domEvent.clientX;
+        gesture.clientY = domEvent.clientY;
 
+        if(!this.__isMultiPointerGesture) {
+          this.__fireTrack("track", domEvent, target);
+        }
+
+        if (Object.keys(this.__gesture).length === 2) {
+          this.__isMultiPointerGesture = true;
+          this.__fireRotate(domEvent, gesture.target);
+          this.__firePinch(domEvent, gesture.target);
+        }
+        
         // abort long tap timer if the distance is too big
         if (gesture.isTap) {
           gesture.isTap = this._isBelowTapMaxDistance(domEvent);
@@ -198,6 +226,54 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
           }
         }
       }
+    },
+
+
+    /**
+    * Calculates the angle of the primary and secondary pointer.
+    * @return {Number} the rotation angle of the 2 pointers.
+    */
+    _calcAngle : function() {
+      var pointerA = null;
+      var pointerB = null;
+    
+      for (var pointerId in this.__gesture) {
+        var gesture = this.__gesture[pointerId];
+
+        if (gesture.isPrimary) {
+          pointerA = gesture;
+        } else {
+          pointerB = gesture;
+        }
+      }
+
+      var x = pointerA.clientX - pointerB.clientX;
+      var y = pointerA.clientY - pointerB.clientY;
+
+      return (360 + Math.atan2(y, x) * (180/Math.PI)) % 360;
+    },
+
+
+    /**
+     * Calculates the scaling distance between two pointers.
+     * @return {Number} the calculated distance.
+     */
+    _calcDistance : function() {
+      var pointerA = null;
+      var pointerB = null;
+    
+      for (var pointerId in this.__gesture) {
+        var gesture = this.__gesture[pointerId];
+
+        if (gesture.isPrimary) {
+          pointerA = gesture;
+        } else {
+          pointerB = gesture;
+        }
+      }
+
+      var scale = Math.sqrt( Math.pow(pointerA.clientX - pointerB.clientX, 2) + Math.pow(pointerA.clientY - pointerB.clientY, 2));
+      return scale;
     },
 
 
@@ -397,6 +473,38 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     __fireTrack : function(type, domEvent, target) {
       domEvent.delta = this._getDeltaCoordinates(domEvent);
       this._fireEvent(domEvent, type, domEvent.target || target, qx.event.type.Track);
+    },
+
+
+
+    /**
+     * Fires a rotate event.
+     *
+     * @param domEvent {Event} DOM event
+     * @param target {Element} event target
+     */
+    __fireRotate : function(domEvent, target) {
+      if(!domEvent.isPrimary) {
+        var angle = this._calcAngle();
+        domEvent.angle = Math.round((angle - this.__initialAngle) % 360);
+        this._fireEvent(domEvent, "rotate", this.__primaryTarget, qx.event.type.Rotate);
+      }
+    },
+
+
+    /**
+     * Fires a pinch event.
+     *
+     * @param domEvent {Event} DOM event
+     * @param target {Element} event target
+     */
+    __firePinch: function(domEvent, target) {
+      if (!domEvent.isPrimary) {
+        var distance = this._calcDistance();
+        var scale = distance / this.__initialDistance;
+        domEvent.scale = (Math.round(scale * 100) / 100);
+        this._fireEvent(domEvent, "pinch", this.__primaryTarget, qx.event.type.Pinch);
+      }
     },
 
 
