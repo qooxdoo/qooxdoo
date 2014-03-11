@@ -428,6 +428,7 @@ qx.Class.define("qx.event.handler.Focus",
         // Register events
         qxWeb(this._document).on(this.__down, this.__onNativePointerDownWrapper, true);
         qxWeb(this._document).on(this.__up, this.__onNativePointerUpWrapper, true);
+
         qx.bom.Event.addNativeListener(this._document, "selectstart", this.__onNativeSelectStartWrapper, false);
 
         qx.bom.Event.addNativeListener(this._window, "DOMFocusOut", this.__onNativeFocusOutWrapper, true);

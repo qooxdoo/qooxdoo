@@ -42,6 +42,16 @@ qx.Bootstrap.define("qx.event.type.native.Custom", {
     this._type = type;
     this._event = this._createEvent();
     this._initEvent(domEvent, customProps);
+    this._event._original = domEvent;
+
+    this._event.preventDefault = function() {
+      if (this._original.preventDefault) {
+        this._original.preventDefault();
+      } else {
+        this._original.returnValue = false;
+      }
+    }
+
     return this._event;
   },
 
@@ -65,6 +75,7 @@ qx.Bootstrap.define("qx.event.type.native.Custom", {
         evt = {};
         evt.type = this._type;
       }
+
       return evt;
     },
 
