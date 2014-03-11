@@ -135,9 +135,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      */
     checkAndFireGesture : function(domEvent, type, target) {
       var gesture = this.__gesture[domEvent.pointerId];
-      //if(gesture && gesture.gestureProcessed) {
-      //  return;
-      //}
 
       if (!type) {
         type = domEvent.type;
@@ -163,8 +160,10 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element} event target
      */
     gestureStart : function(domEvent, target) {
+      if (this.__gesture[domEvent.pointerId]) {
+        return;
+      }
       this.__gesture[domEvent.pointerId] = {
-        "gestureProcessed" : true,
         "startX" : domEvent.clientX,
         "startY" : domEvent.clientY,
         "startTime" : new Date().getTime(),
