@@ -51,7 +51,6 @@ qx.Class.define("mobileshowcase.page.Event",
     __label: null,
     __inMove: null,
     __circles: null,
-    __lastEventType: "",
     __initialScale: 0.3,
     __initialRotation: -15,
     __currentRotation: -15,
@@ -63,8 +62,6 @@ qx.Class.define("mobileshowcase.page.Event",
     __logoLeft: -130,
     __logoTop: -130,
     __pointers: null,
-
-    __labelBuffer : "",
 
 
     // overridden
@@ -237,7 +234,10 @@ qx.Class.define("mobileshowcase.page.Event",
      * @param evt {qx.event.type.Pointer} The pointer event.
      */
     _onGesture : function(evt) {
-      this.__labelBuffer += " "+evt.getType();
+      var pointer = this.__pointers[evt.getPointerId()];
+      if(pointer) {
+        this.__pointers[evt.getPointerId()].events.push(evt.getType());
+      }
       qx.bom.AnimationFrame.request(this._renderLabel, this);
     },
 
@@ -252,7 +252,8 @@ qx.Class.define("mobileshowcase.page.Event",
       if (evt.isLandscape()) {
         orientationMode = "Landscape";
       }
-      this.__labelBuffer = " " + evt.getType()+": "+orientationMode;
+      // TODO
+      //this.__labelBuffer = " " + evt.getType()+": "+orientationMode;
     },
 
 
@@ -275,8 +276,10 @@ qx.Class.define("mobileshowcase.page.Event",
     */
     _resetPointerPosition : function(pointerId) {
       var pointer = this.__pointers[pointerId];
-      if (pointer && pointer.target) {
+
+      if (pointer && pointer.target && !pointer.remove) {
         this.__circles.push(pointer.target);
+        pointer.remove = true;
         pointer.target.setTranslateX(-1000);
         pointer.target.setTranslateY(-1000);
       }
@@ -292,7 +295,7 @@ qx.Class.define("mobileshowcase.page.Event",
     */
     _setPointerCirclePosition : function(pointerId,x,y) {
       var pointer = this.__pointers[pointerId];
-      if (pointer && pointer.target) {
+      if (pointer && pointer.target && pointer.remove == false) {
         pointer.target.setTranslateX(x);
         pointer.target.setTranslateY(y);
       }
@@ -321,20 +324,23 @@ qx.Class.define("mobileshowcase.page.Event",
       var type = evt.getType();
       var pointerId = evt.getPointerId();
 
-      if(type == "pointercancel") {
-        this.__labelBuffer = type;
-      }
-
       if (type == "pointerdown") {
+        for (var key in this.__pointers) {
+          var pointerToDelete = this.__pointers[key];
+          if(pointerToDelete.remove) {
+            delete this.__pointers[key];
+          }
+        }
+
         // Disable iScroll before
         if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
           this._getScrollContainer().disable();
         }
 
-        this.__labelBuffer = "";
-
         this.__pointers[pointerId] = {
-          target: this.__circles.pop()
+          target: this.__circles.pop(),
+          events: [],
+          remove: false
         };
 
         this._updatePointerPosition(evt);
@@ -344,11 +350,22 @@ qx.Class.define("mobileshowcase.page.Event",
         this._updatePointerPosition(evt);
       }
 
+      
+      if(this.__pointers[pointerId] && !this.__pointers[pointerId].remove) {
+        var pointerEvents = this.__pointers[pointerId].events;
+        if(pointerEvents.length > 0) {
+          var lastEventType = pointerEvents[pointerEvents.length -1];
+          if (lastEventType != type) {
+            pointerEvents.push(type);
+          }
+        } else {
+          pointerEvents.push(type);
+        }
+      }
+
       if (type == "pointerup" || type == "pointercancel" || type == "pointerout") {
         // Remove all circles out of visible area
         this._resetPointerPosition(pointerId);
-
-        delete this.__pointers[pointerId];
 
         if(evt.isPrimary()) {
           this.__initialRotation = this.__currentRotation;
@@ -359,18 +376,6 @@ qx.Class.define("mobileshowcase.page.Event",
         if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
           this._getScrollContainer().enable();
         }
-      }
-
-      if (type == "pointercancel" || type == "pointerout") {
-        this.__labelBuffer = "";
-      }
-
-      if (Object.keys(this.__pointers).length > 0) {
-        // Text output of event
-        if (this.__lastEventType != evt.getType()) {
-          this.__labelBuffer = this.__labelBuffer + " " + evt.getType();
-        }
-        this.__lastEventType = evt.getType();
       }
 
       qx.bom.AnimationFrame.request(this._renderLabel, this);
@@ -396,7 +401,16 @@ qx.Class.define("mobileshowcase.page.Event",
     * Renders the label text.
     */
     _renderLabel : function() {
-      this.__label.setValue(this.__labelBuffer);
+      var labelBuffer = "";
+      for (var pointerId in this.__pointers) {
+        var pointer = this.__pointers[pointerId];
+        labelBuffer = labelBuffer + pointerId + ": ";
+        for (var i = 0; i < pointer.events.length; i++) {
+          labelBuffer = labelBuffer + " [" + pointer.events[i] + "]";
+        };
+        labelBuffer = labelBuffer + "<br />";
+      };
+      this.__label.setValue(labelBuffer);
     }
   }
 });
