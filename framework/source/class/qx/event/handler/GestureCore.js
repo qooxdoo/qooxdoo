@@ -190,7 +190,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       var gesture = this.__gesture[domEvent.pointerId];
       if(gesture) {
         this.__fireTrack("track", domEvent, target);
-        
+
         // abort long tap timer if the distance is too big
         if (gesture.isTap) {
           gesture.isTap = this._isBelowTapMaxDistance(domEvent);
@@ -316,6 +316,10 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element ? null} event target
      */
     _fireEvent : function(domEvent, type, target) {
+      // The target may have been removed, e.g. menu hide on tap
+      if (!this.__defaultTarget) {
+        return;
+      }
       var evt;
       if (qx.core.Environment.get("event.dispatchevent")) {
         evt = new qx.event.type.native.Custom(type, domEvent);
