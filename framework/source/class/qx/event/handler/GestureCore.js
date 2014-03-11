@@ -167,11 +167,11 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         return;
       }
       this.__gesture[domEvent.pointerId] = {
+        "startTime" : new Date().getTime(),
         "startX" : domEvent.clientX,
         "startY" : domEvent.clientY,
         "clientX" : domEvent.clientX,
         "clientY" : domEvent.clientY,
-        "startTime" : new Date().getTime(),
         "target" : target,
         "isTap" : true,
         "isPrimary" : domEvent.isPrimary,
@@ -185,14 +185,14 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       if(domEvent.isPrimary) {
         this.__primaryTarget = target;
         this.__isMultiPointerGesture = false;
+        this.__fireTrack("trackstart", domEvent, target);
+      } else {
+        this.__isMultiPointerGesture = true;
+        if(Object.keys(this.__gesture).length === 2) {
+          this.__initialAngle = this._calcAngle();
+          this.__initialDistance = this._calcDistance();
+        }
       }
-
-      if(Object.keys(this.__gesture).length === 2) {
-        this.__initialAngle = this._calcAngle();
-        this.__initialDistance = this._calcDistance();
-      }
-
-      this.__fireTrack("trackstart", domEvent, target);
     },
 
 
@@ -208,14 +208,13 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         gesture.clientX = domEvent.clientX;
         gesture.clientY = domEvent.clientY;
 
-        if(!this.__isMultiPointerGesture) {
-          this.__fireTrack("track", domEvent, target);
-        }
-
         if (Object.keys(this.__gesture).length === 2) {
-          this.__isMultiPointerGesture = true;
           this.__fireRotate(domEvent, gesture.target);
           this.__firePinch(domEvent, gesture.target);
+        }
+
+        if(!this.__isMultiPointerGesture) {
+          this.__fireTrack("track", domEvent, gesture.target);
         }
         
         // abort long tap timer if the distance is too big
@@ -226,54 +225,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
           }
         }
       }
-    },
-
-
-    /**
-    * Calculates the angle of the primary and secondary pointer.
-    * @return {Number} the rotation angle of the 2 pointers.
-    */
-    _calcAngle : function() {
-      var pointerA = null;
-      var pointerB = null;
-    
-      for (var pointerId in this.__gesture) {
-        var gesture = this.__gesture[pointerId];
-
-        if (gesture.isPrimary) {
-          pointerA = gesture;
-        } else {
-          pointerB = gesture;
-        }
-      }
-
-      var x = pointerA.clientX - pointerB.clientX;
-      var y = pointerA.clientY - pointerB.clientY;
-
-      return (360 + Math.atan2(y, x) * (180/Math.PI)) % 360;
-    },
-
-
-    /**
-     * Calculates the scaling distance between two pointers.
-     * @return {Number} the calculated distance.
-     */
-    _calcDistance : function() {
-      var pointerA = null;
-      var pointerB = null;
-    
-      for (var pointerId in this.__gesture) {
-        var gesture = this.__gesture[pointerId];
-
-        if (gesture.isPrimary) {
-          pointerA = gesture;
-        } else {
-          pointerB = gesture;
-        }
-      }
-
-      var scale = Math.sqrt( Math.pow(pointerA.clientX - pointerB.clientX, 2) + Math.pow(pointerA.clientY - pointerB.clientY, 2));
-      return scale;
     },
 
 
@@ -331,9 +282,58 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         }
       }
 
+      this.__onTrack = false;
       this.__fireTrack("trackend", domEvent, target);
 
       delete this.__gesture[domEvent.pointerId];
+    },
+
+
+        /**
+    * Calculates the angle of the primary and secondary pointer.
+    * @return {Number} the rotation angle of the 2 pointers.
+    */
+    _calcAngle : function() {
+      var pointerA = null;
+      var pointerB = null;
+    
+      for (var pointerId in this.__gesture) {
+        var gesture = this.__gesture[pointerId];
+
+        if (gesture.isPrimary) {
+          pointerA = gesture;
+        } else {
+          pointerB = gesture;
+        }
+      }
+
+      var x = pointerA.clientX - pointerB.clientX;
+      var y = pointerA.clientY - pointerB.clientY;
+
+      return (360 + Math.atan2(y, x) * (180/Math.PI)) % 360;
+    },
+
+
+    /**
+     * Calculates the scaling distance between two pointers.
+     * @return {Number} the calculated distance.
+     */
+    _calcDistance : function() {
+      var pointerA = null;
+      var pointerB = null;
+    
+      for (var pointerId in this.__gesture) {
+        var gesture = this.__gesture[pointerId];
+
+        if (gesture.isPrimary) {
+          pointerA = gesture;
+        } else {
+          pointerB = gesture;
+        }
+      }
+
+      var scale = Math.sqrt( Math.pow(pointerA.clientX - pointerB.clientX, 2) + Math.pow(pointerA.clientY - pointerB.clientY, 2));
+      return scale;
     },
 
 

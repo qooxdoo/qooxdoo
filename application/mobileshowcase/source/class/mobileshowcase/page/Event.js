@@ -166,10 +166,8 @@ qx.Class.define("mobileshowcase.page.Event",
      * @param evt {qx.event.type.Track} The track event.
      */
     __onTrackStart : function(evt) {
-      if(evt.isPrimary) {
-        this.__logoStartLeft = this.__logoLeft;
-        this.__logoStartTop = this.__logoTop;
-      }
+      this.__logoStartLeft = this.__logoLeft;
+      this.__logoStartTop = this.__logoTop;
     },
 
 
@@ -182,8 +180,8 @@ qx.Class.define("mobileshowcase.page.Event",
       if (qx.core.Environment.get("qx.mobile.nativescroll") === false) {
         this._getScrollContainer().disable();
       }
-      var delta = evt.getDelta();
 
+      var delta = evt.getDelta();
       this.__logoLeft = this.__logoStartLeft + delta.x;
       this.__logoTop = this.__logoStartTop + delta.y;
 
@@ -346,7 +344,7 @@ qx.Class.define("mobileshowcase.page.Event",
         this._updatePointerPosition(evt);
       }
 
-      if (type == "pointerup" || type == "pointercancel" ) {
+      if (type == "pointerup" || type == "pointercancel" || type == "pointerout") {
         // Remove all circles out of visible area
         this._resetPointerPosition(pointerId);
 
@@ -363,7 +361,7 @@ qx.Class.define("mobileshowcase.page.Event",
         }
       }
 
-      if (type == "pointercancel" || (evt.getPointerType() == "mouse" && type == "pointerout")) {
+      if (type == "pointercancel" || type == "pointerout") {
         this.__labelBuffer = "";
       }
 
