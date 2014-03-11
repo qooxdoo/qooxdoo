@@ -94,13 +94,7 @@ qx.Bootstrap.define("qx.module.event.PointerHandler", {
     }
   },
 
-  defer : function(statics)
-  {
-    var engineName = qx.core.Environment.get("engine.name");
-    var docMode = parseInt(qx.core.Environment.get("browser.documentmode"), 10);
-    // apply event name normalization in IE 10
-    if (!qx.core.Environment.get("event.mspointer") || (engineName == "mshtml" && docMode == 10)) {
-      qxWeb.$registerEventHook(statics.TYPES, statics.register, statics.unregister);
-    }
+  defer : function(statics) {
+    qxWeb.$registerEventHook(statics.TYPES, statics.register, statics.unregister);
   }
 });

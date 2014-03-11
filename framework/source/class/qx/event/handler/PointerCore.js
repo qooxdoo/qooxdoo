@@ -85,6 +85,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         this.__eventNames = ["MSPointerDown", "MSPointerMove", "MSPointerUp", "MSPointerCancel", "MSPointerOver", "MSPointerOut"];
         this._initPointerObserver();
       } else {
+        this.__nativePointerEvents = true;
         this.__eventNames = ["pointerdown", "pointermove", "pointerup", "pointercancel", "pointerover", "pointerout"];
         this._initPointerObserver();
       }
@@ -103,6 +104,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     __defaultTarget : null,
     __emitter : null,
     __eventNames : null,
+    __nativePointerEvents : false,
     __wrappedListener : null,
     __lastButtonState : null,
     __buttonStates : null,
@@ -134,8 +136,10 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      * @param domEvent {Event}  Native DOM event
      */
     _onPointerEvent : function(domEvent) {
-      domEvent.stopPropagation();
-      var type = qx.event.handler.PointerCore.MSPOINTER_TO_POINTER_MAPPING[domEvent.type];
+      if (!this.__nativePointerEvents) {
+        domEvent.stopPropagation();
+      }
+      var type = qx.event.handler.PointerCore.MSPOINTER_TO_POINTER_MAPPING[domEvent.type] || domEvent.type;
       var target = qx.bom.Event.getTarget(domEvent);
       domEvent.type = type;
       var evt = new qx.event.type.native.Pointer(type, domEvent);
@@ -332,12 +336,14 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       var gestureEvent;
       if (type == "pointerdown" || type == "pointerup" || type == "pointermove") {
         gestureEvent = this._createPointerEvent(qx.event.handler.PointerCore.POINTER_TO_GESTURE_MAPPING[type],
-          domEvent, domEvent.pointerType);
+          domEvent, domEvent.pointerType, domEvent.pointerId);
         gestureEvent.srcElement = target;
       }
 
       if (qx.core.Environment.get("event.dispatchevent")) {
-        target.dispatchEvent(domEvent);
+        if (!this.__nativePointerEvents) {
+          target.dispatchEvent(domEvent);
+        }
         if (gestureEvent) {
           this.__defaultTarget.dispatchEvent(gestureEvent);
         }
