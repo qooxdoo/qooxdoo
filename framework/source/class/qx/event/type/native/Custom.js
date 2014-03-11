@@ -50,7 +50,21 @@ qx.Bootstrap.define("qx.event.type.native.Custom", {
       } else {
         this._original.returnValue = false;
       }
+    };
+
+    if (this._event.stopPropagation) {
+      this._event._nativeStopPropagation = this._event.stopPropagation;
     }
+
+    this._event.stopPropagation = function() {
+      this._stopped = true;
+      if (this._original.stopPropagation) {
+        this._original.stopPropagation();
+        this._nativeStopPropagation();
+      } else {
+        this._original.cancelBubble = true;
+      }
+    };
 
     return this._event;
   },

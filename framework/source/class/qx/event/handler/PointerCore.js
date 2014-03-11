@@ -357,8 +357,10 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         while (target) {
           if (target.$$emitter) {
             domEvent.currentTarget = target;
-            target.$$emitter.emit(type, domEvent);
-            if (gestureEvent && target.$$emitter) {
+            if (!domEvent._stopped) {
+              target.$$emitter.emit(type, domEvent);
+            }
+            if (gestureEvent) {
               target.$$emitter.emit(gestureEvent.type, gestureEvent);
             }
           }
