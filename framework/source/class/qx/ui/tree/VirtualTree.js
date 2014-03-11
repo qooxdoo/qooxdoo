@@ -164,7 +164,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     /**
-     * Control whether tap or double tap should open or close the taped
+     * Control whether tap or double tap should open or close the tapped
      * item.
      */
     openMode :
@@ -713,7 +713,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     /**
-     * Event handler to open/close taped nodes.
+     * Event handler to open/close tapped nodes.
      *
      * @param event {qx.ui.virtual.core.CellEvent} The cell tap event.
      */

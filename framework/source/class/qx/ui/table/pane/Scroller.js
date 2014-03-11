@@ -194,7 +194,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**See {@link qx.ui.table.Table#cellContextmenu}.*/
     "cellContextmenu" : "qx.ui.table.pane.CellEvent",
 
-    /** Dispatched when a sortable header was taped */
+    /** Dispatched when a sortable header was tapped */
     "beforeSort" : "qx.event.type.Data"
   },
 
@@ -302,7 +302,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
 
     /**
-     * Whether to reset the selection when a header cell is taped. Since
+     * Whether to reset the selection when a header cell is tapped. Since
      * most data models do not have provisions to retain a selection after
      * sorting, the default is to reset the selection in this case. Some data
      * models, however, do have the capability to retain the selection, so
@@ -1379,7 +1379,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
 
     /**
-     * Event handler. Called when the user taped a pointer button over the header.
+     * Event handler. Called when the user tapped a pointer button over the header.
      *
      * @param e {Map} the event.
      */
@@ -1442,7 +1442,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
 
     /**
-     * Event handler. Called when the user taped a pointer button over the pane.
+     * Event handler. Called when the user tapped a pointer button over the pane.
      *
      * @param e {Map} the event.
      */
@@ -1550,7 +1550,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
 
     /**
-     * Event handler. Called when the user double taped a pointer button over the pane.
+     * Event handler. Called when the user double tapped a pointer button over the pane.
      *
      * @param e {Map} the event.
      */

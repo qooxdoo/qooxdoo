@@ -456,7 +456,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
     /**
      * Sets the lead item. Generally the item which was last modified
-     * by the user (taped on etc.)
+     * by the user (tapped on etc.)
      *
      * @param value {Object} Any valid item or <code>null</code>
      */
@@ -478,7 +478,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
     /**
      * Returns the current lead item. Generally the item which was last modified
-     * by the user (taped on etc.)
+     * by the user (tapped on etc.)
      *
      * @return {Object} The lead item or <code>null</code>
      */
@@ -490,7 +490,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Sets the anchor item. This is the item which is the starting
      * point for all range selections. Normally this is the item which was
-     * taped on the last time without any modifier keys pressed.
+     * tapped on the last time without any modifier keys pressed.
      *
      * @param value {Object} Any valid item or <code>null</code>
      */
@@ -513,7 +513,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Returns the current anchor item. This is the item which is the starting
      * point for all range selections. Normally this is the item which was
-     * taped on the last time without any modifier keys pressed.
+     * tapped on the last time without any modifier keys pressed.
      *
      * @return {Object} The anchor item or <code>null</code>
      */
@@ -888,7 +888,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         (qx.core.Environment.get("os.name") == "osx" && event.isMetaPressed());
       var isShiftPressed = event.isShiftPressed();
 
-      // Taping on selected items deselect on pointerup, not on pointerdown
+      // tapping on selected items deselect on pointerup, not on pointerdown
       if (this.isItemSelected(item) && !isShiftPressed && !isCtrlPressed && !this.getDrag())
       {
         this.__pointerDownOnSelected = item;

@@ -22,7 +22,7 @@
 
 /**
  * A form widget which allows a single selection. Looks somewhat like
- * a normal button, but opens a list of items to select when taping on it.
+ * a normal button, but opens a list of items to select when tapping on it.
  *
  * Keep in mind that the SelectBox widget has always a selected item (due to the
  * single selection mode). Right after adding the first item a <code>changeSelection</code>

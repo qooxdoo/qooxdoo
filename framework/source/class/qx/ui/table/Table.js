@@ -261,12 +261,12 @@ qx.Class.define("qx.ui.table.Table",
     "verticalScrollBarChanged" : "qx.event.type.Data",
 
     /**
-     * Dispatched when a data cell has been taped.
+     * Dispatched when a data cell has been tapped.
      */
     "cellTap" : "qx.ui.table.pane.CellEvent",
 
     /**
-     * Dispatched when a data cell has been taped.
+     * Dispatched when a data cell has been tapped.
      */
     "cellDbltap" : "qx.ui.table.pane.CellEvent",
 
@@ -543,7 +543,7 @@ qx.Class.define("qx.ui.table.Table",
 
 
     /**
-     * Whether to reset the selection when a header cell is taped. Since
+     * Whether to reset the selection when a header cell is tapped. Since
      * most data models do not have provisions to retain a selection after
      * sorting, the default is to reset the selection in this case. Some data
      * models, however, do have the capability to retain the selection, so

@@ -78,13 +78,13 @@ qx.Class.define("qx.ui.virtual.core.Pane",
 
   events :
   {
-    /** Fired if a cell is taped. */
+    /** Fired if a cell is tapped. */
     cellTap : "qx.ui.virtual.core.CellEvent",
 
     /** Fired if a cell is right-clicked. */
     cellContextmenu : "qx.ui.virtual.core.CellEvent",
 
-    /** Fired if a cell is double-taped. */
+    /** Fired if a cell is double-tapped. */
     cellDbltap : "qx.ui.virtual.core.CellEvent",
 
     /** Fired on resize of either the container or the (virtual) content. */

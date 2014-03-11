@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.tree.Tree",
   properties :
   {
     /**
-     * Control whether tap or double tap should open or close the taped
+     * Control whether tap or double tap should open or close the tapped
      * folder.
      */
     openMode :

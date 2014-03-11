@@ -95,7 +95,7 @@ qx.Class.define("qx.ui.table.selection.Model",
      * selection. The difference with the previous one, is that multiple
      * selection is eased. A tap on an item, toggles its selection state.
      * On the other hand, MULTIPLE_INTERVAL_SELECTION does this behavior only
-     * when Ctrl-taping an item.
+     * when Ctrl-tapping an item.
      */
     MULTIPLE_INTERVAL_SELECTION_TOGGLE : 5
   },

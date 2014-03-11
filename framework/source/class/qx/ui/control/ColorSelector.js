@@ -91,10 +91,10 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
   events:
   {
-    /** Fired when the "OK" button is taped. */
+    /** Fired when the "OK" button is tapped. */
     "dialogok"     : "qx.event.type.Event",
 
-    /** Fired when the "Cancel" button is taped. */
+    /** Fired when the "Cancel" button is tapped. */
     "dialogcancel" : "qx.event.type.Event",
 
     /** Fired when the value changes */
@@ -1154,7 +1154,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
     /**
      * Listener of tap event on the color field.
-     * Sets red, green and blue values to taped color field's background color.
+     * Sets red, green and blue values to tapped color field's background color.
      *
      * @param e {qx.event.type.Pointer} Incoming event object
      */

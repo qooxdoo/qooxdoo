@@ -594,7 +594,7 @@ qx.Class.define("qx.ui.tabview.TabView",
 
 
     /**
-     * Removes the Page widget on which the close button was taped.
+     * Removes the Page widget on which the close button was tapped.
      *
      * @param e {qx.event.type.Pointer} pointer event
      */

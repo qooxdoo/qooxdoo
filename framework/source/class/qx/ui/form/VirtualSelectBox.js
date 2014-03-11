@@ -19,7 +19,7 @@
 
 /**
  * A form virtual widget which allows a single selection. Looks somewhat like
- * a normal button, but opens a virtual list of items to select when taping
+ * a normal button, but opens a virtual list of items to select when tapping
  * on it.
  *
  * @childControl spacer {qx.ui.core.Spacer} Flexible spacer widget.

@@ -20,7 +20,7 @@
 /**
  * A toggle Button widget
  *
- * If the user presses the button by taping on it pressing the enter or
+ * If the user presses the button by tapping on it pressing the enter or
  * space key, the button toggles between the pressed an not pressed states.
  * There is no execute event, only a {@link qx.ui.form.ToggleButton#changeValue}
  * event.

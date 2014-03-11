@@ -21,7 +21,7 @@
 /**
  * A *date chooser* is a small calendar including a navigation bar to switch the shown
  * month. It includes a column for the calendar week and shows one month. Selecting
- * a date is as easy as taping on it.
+ * a date is as easy as tapping on it.
  *
  * To be conform with all form widgets, the {@link qx.ui.form.IForm} interface
  * is implemented.
@@ -39,7 +39,7 @@
  * </pre>
  *
  * Additionally to a selection event an execute event is available which is
- * fired by doubletap or taping the space / enter key. With this event you
+ * fired by doubletap or tapping the space / enter key. With this event you
  * can for example save the selection and close the date chooser.
  *
  * @childControl navigation-bar {qx.ui.container.Composite} container for the navigation bar controls
@@ -437,7 +437,7 @@ qx.Class.define("qx.ui.control.DateChooser",
 
     /**
      * Handler which stops the propagation of the tap event if
-     * the navigation bar or calendar headers will be taped.
+     * the navigation bar or calendar headers will be tapped.
      *
      * @param e {qx.event.type.Pointer} The pointer up / down event
      */
@@ -453,7 +453,7 @@ qx.Class.define("qx.ui.control.DateChooser",
 
 
     /**
-     * Event handler. Called when a navigation button has been taped.
+     * Event handler. Called when a navigation button has been tapped.
      *
      * @param evt {qx.event.type.Data} The data event.
      */
@@ -500,7 +500,7 @@ qx.Class.define("qx.ui.control.DateChooser",
 
 
     /**
-     * Event handler. Called when a day has been taped.
+     * Event handler. Called when a day has been tapped.
      *
      * @param evt {qx.event.type.Data} The event.
      */
@@ -512,7 +512,7 @@ qx.Class.define("qx.ui.control.DateChooser",
 
 
     /**
-     * Event handler. Called when a day has been double-taped.
+     * Event handler. Called when a day has been double-tapped.
      */
     _onDayDblTap : function() {
       this.execute();

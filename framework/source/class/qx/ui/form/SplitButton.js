@@ -139,7 +139,7 @@ qx.Class.define("qx.ui.form.SplitButton",
     },
 
 
-    /** The menu instance to show when taping on the button */
+    /** The menu instance to show when tapping on the button */
     menu :
     {
       check : "qx.ui.menu.Menu",

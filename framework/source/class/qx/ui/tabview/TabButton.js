@@ -19,7 +19,7 @@
 
 /**
  * A TabButton is the tapable part sitting on the {@link qx.ui.tabview.Page}.
- * By taping on the TabButton the user can set a Page active.
+ * By tapping on the TabButton the user can set a Page active.
  *
  * @childControl label {qx.ui.basic.Label} label of the tab button
  * @childControl icon {qx.ui.basic.Image} icon of the tab button
@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.tabview.TabButton",
   events :
   {
     /**
-     * Fired by {@link qx.ui.tabview.Page} if the close button is taped.
+     * Fired by {@link qx.ui.tabview.Page} if the close button is tapped.
      *
      * Event data: The tab button.
      */
@@ -215,7 +215,7 @@ qx.Class.define("qx.ui.tabview.TabButton",
 
 
     /**
-     * Fires a "close" event when the close button is taped.
+     * Fires a "close" event when the close button is tapped.
      */
     _onCloseButtonTap : function() {
       this.fireDataEvent("close", this);
