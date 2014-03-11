@@ -277,10 +277,5 @@ qx.Class.define("qx.ui.mobile.core.Root",
   destruct : function() {
     this.__root = null;
     qx.event.Registration.removeListener(window, "orientationchange", this._onOrientationChange, this);
-
-    if (qx.core.Environment.get("os.name") == "ios") {
-      qx.event.Registration.removeListener(window, "orientationchange", this.__fixViewportHeight, this);
-      qx.event.Registration.removeListener(window, "scroll", this.__fixViewportHeight, this);
-    }
   }
 });
