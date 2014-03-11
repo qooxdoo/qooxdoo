@@ -24,6 +24,7 @@
  * @require(qx.module.Manipulating)
  * @require(qx.module.Traversing)
  * @require(qx.module.Template)
+ * @require(qx.module.event.GestureHandler)
  */
 qx.Class.define("demobrowser.demo.animation.Scroll",
 {
@@ -48,9 +49,9 @@ qx.Class.define("demobrowser.demo.animation.Scroll",
 
       // set a default scroll top
       this.reset();
-      q("#resetbutton").on("click", this.reset, this);
+      q("#resetbutton").on("tap", this.reset, this);
 
-      q("#startbutton").on("click", function() {
+      q("#startbutton").on("tap", function() {
         q(".list").addClass("scrolling").setScrollTop(250, 2000).once("animationEnd", function() {
           q(".list").removeClass("scrolling");
         });

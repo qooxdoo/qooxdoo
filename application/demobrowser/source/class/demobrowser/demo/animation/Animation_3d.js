@@ -19,6 +19,7 @@
 
 /**
  * @tag noPlayground
+ * @require(qx.module.event.PointerHandler)
  */
 qx.Class.define("demobrowser.demo.animation.Animation_3d",
 {
@@ -67,10 +68,10 @@ qx.Class.define("demobrowser.demo.animation.Animation_3d",
       // mouse handler
       var container = document.getElementById("container");
       qx.bom.element.Transform.setPerspective(container, 500);
-      qx.bom.Event.addNativeListener(container, "mouseover", function() {
+      qxWeb(container).on("pointerover", function() {
         qx.bom.element.Transform.setStyle(parent, "flat");
       });
-      qx.bom.Event.addNativeListener(container, "mouseout", function() {
+      qxWeb(container).on("pointerout", function() {
         qx.bom.element.Transform.setStyle(parent, "preserve-3d");
       });
     }
