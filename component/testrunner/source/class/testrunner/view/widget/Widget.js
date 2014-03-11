@@ -488,11 +488,11 @@ qx.Class.define("testrunner.view.widget.Widget", {
                 cachedItem.addListener('changeValue',qx.lang.Function.bind(listeners[j].handler,listeners[j].context));
               }
             }
-            listeners = qx.event.Registration.getManager(partButtons[i]).getListeners(partButtons[i],'click');
+            listeners = qx.event.Registration.getManager(partButtons[i]).getListeners(partButtons[i],'tap');
             if(listeners && listeners.length>0)
             {
               for(var j=0,k=listeners.length;j<k;j++) {
-                cachedItem.addListener('click',qx.lang.Function.bind(listeners[j].handler,listeners[j].context));
+                cachedItem.addListener('tap',qx.lang.Function.bind(listeners[j].handler,listeners[j].context));
               }
             }
             this.__overflowMenu.addAt(cachedItem, 0);
@@ -938,7 +938,7 @@ qx.Class.define("testrunner.view.widget.Widget", {
           this._applyTestCount(this.getTestCount());
           this.__testTree.setEnabled(true);
           // Don't apply the cookie selection if the previous state was
-          // "aborted" (user clicked stop, then run)
+          // "aborted" (user taped stop, then run)
           if (old === "loading") {
             this.__setSelectionFromCookie();
           }
