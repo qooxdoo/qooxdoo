@@ -183,8 +183,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       };
 
       if(domEvent.isPrimary) {
-        this.__primaryTarget = target;
         this.__isMultiPointerGesture = false;
+        this.__primaryTarget = target;
         this.__fireTrack("trackstart", domEvent, target);
       } else {
         this.__isMultiPointerGesture = true;
@@ -298,8 +298,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     
       for (var pointerId in this.__gesture) {
         var gesture = this.__gesture[pointerId];
-
-        if (gesture.isPrimary) {
+        if (pointerA === null) {
           pointerA = gesture;
         } else {
           pointerB = gesture;
@@ -323,8 +322,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     
       for (var pointerId in this.__gesture) {
         var gesture = this.__gesture[pointerId];
-
-        if (gesture.isPrimary) {
+        if (pointerA === null) {
           pointerA = gesture;
         } else {
           pointerB = gesture;
