@@ -40,9 +40,9 @@ qx.Class.define("qx.event.type.Rotate",
 
 
       /**
-       * Returns a float with the calculated angle between the first and second active pointers.
+       * Returns a number with the current calculated angle between the primary and secondary active pointers.
        *
-       * @return {Float} the angle of for the first two pointers.
+       * @return {Number} the angle of the two active pointers.
        */
       getAngle : function() {
         return this._native.angle;
