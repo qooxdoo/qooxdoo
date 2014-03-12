@@ -34,7 +34,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
     GESTURE_EVENTS : ["gesturestart", "gestureend", "gesturechange"],
 
-    TAP_MAX_DISTANCE : qx.core.Environment.get("os.name") != "android" ? 10 : 40,
+    TAP_MAX_DISTANCE : {"touch": 40, "mouse": 10, "pen": 20}, // values are educated guesses
 
     /** @type {Map} The direction of a swipe relative to the axis */
     SWIPE_DIRECTION :
@@ -76,6 +76,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     this.__defaultTarget = target;
     this.__emitter = emitter;
     this.__gesture = {};
+    this.__lastTap = {};
     this._initObserver();
   },
 
@@ -87,7 +88,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     __primaryTarget : null,
     __isMultiPointerGesture : null,
     __initialAngle : null,
-    __lastTapTime : null,
+    __lastTap : null,
 
     /**
      * Register pointer event listeners
@@ -216,7 +217,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         if(!this.__isMultiPointerGesture) {
           this.__fireTrack("track", domEvent, gesture.target);
         }
-        
+
         // abort long tap timer if the distance is too big
         if (gesture.isTap) {
           gesture.isTap = this._isBelowTapMaxDistance(domEvent);
@@ -260,17 +261,26 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         }
         this._fireEvent(domEvent, "tap", domEvent.target || target, eventType);
 
-        if (this.__lastTapTime) {
-          var diff = Date.now() - this.__lastTapTime;
-          this.__lastTapTime = null;
-          if (diff <= qx.event.handler.GestureCore.DOUBLETAP_TIME) {
-            this._fireEvent(domEvent, "dbltap", domEvent.target || target, eventType);
+        if (Object.keys(this.__lastTap).length > 0) {
+          // delete old tap entries
+          var limit = Date.now() - qx.event.handler.GestureCore.DOUBLETAP_TIME;
+          for (var time in this.__lastTap) {
+
+            if (time < limit) {
+              delete this.__lastTap[time];
+            } else {
+              if (this.__isBelowDoubleTapDistance(
+                this.__lastTap[time].x, this.__lastTap[time].y, domEvent.clientX, domEvent.clientY,
+                domEvent.pointerType
+              )) {
+                this._fireEvent(domEvent, "dbltap", domEvent.target || target, eventType);
+              }
+            }
           }
         }
-        this.__lastTapTime = Date.now();
+        this.__lastTap[Date.now()] = {x: domEvent.clientX, y: domEvent.clientY};
 
       } else {
-        this.__lastTapTime = null;
         var swipe = this.__getSwipeGesture(domEvent, target);
         if (swipe) {
           if (qx.event && qx.event.type && qx.event.type.Swipe) {
@@ -295,7 +305,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     _calcAngle : function() {
       var pointerA = null;
       var pointerB = null;
-    
+
       for (var pointerId in this.__gesture) {
         var gesture = this.__gesture[pointerId];
         if (pointerA === null) {
@@ -319,7 +329,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     _calcDistance : function() {
       var pointerA = null;
       var pointerB = null;
-    
+
       for (var pointerId in this.__gesture) {
         var gesture = this.__gesture[pointerId];
         if (pointerA === null) {
@@ -339,7 +349,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * exceeds TAP_MAX_DISTANCE and returns the result.
      *
      * @param domEvent {Event} The DOM event from the browser.
-     * @return {Boolean} true if distance is below TAP_MAX_DISTANCE.
+     * @return {Boolean|null} true if distance is below TAP_MAX_DISTANCE.
      */
     _isBelowTapMaxDistance: function(domEvent) {
       var delta = this._getDeltaCoordinates(domEvent);
@@ -348,8 +358,29 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       }
       var clazz = qx.event.handler.GestureCore;
 
-      return (Math.abs(delta.x) <= clazz.TAP_MAX_DISTANCE &&
-              Math.abs(delta.y) <= clazz.TAP_MAX_DISTANCE);
+      return (Math.abs(delta.x) <= clazz.TAP_MAX_DISTANCE[domEvent.pointerType] &&
+              Math.abs(delta.y) <= clazz.TAP_MAX_DISTANCE[domEvent.pointerType]);
+    },
+
+
+    /**
+     * Checks if the distance between the x1/y1 and x2/y2 is
+     * below the TAP_MAX_DISTANCE and returns the result.
+     *
+     * @param x1 {Number} The x position of point one.
+     * @param y1 {Number} The y position of point one.
+     * @param x2 {Number} The x position of point two.
+     * @param y2 {Number} The y position of point two.
+     * @param type {String} The pointer type e.g. "mouse"
+     * @return {Boolean} <code>true</code>, if points are in range
+     */
+    __isBelowDoubleTapDistance : function(x1, y1, x2, y2, type) {
+      var clazz = qx.event.handler.GestureCore;
+
+      var inX = Math.abs(x1 - x2) < clazz.TAP_MAX_DISTANCE[type];
+      var inY = Math.abs(y1 - y2) < clazz.TAP_MAX_DISTANCE[type];
+
+      return inX && inY;
     },
 
 
