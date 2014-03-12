@@ -35,7 +35,9 @@
     "qx-resources": "~0.1.0",
     "qx-locales": "~0.1.0",
     "qx-dependencies": "~0.1.0",
-    "qx-libraries": "~0.1.0"
+    "qx-libraries": "~0.1.0",
+    "qx-translations": "~0.1.0",
+    "path-is-inside": "~1.0.1"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.8.0",
@@ -50,5 +52,5 @@
     "gruntplugin"
   ],
   "//": "before publishing create README.md then this can be removed",
-  "private" : true
+  "private": true
 }
