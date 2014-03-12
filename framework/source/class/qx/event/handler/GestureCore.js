@@ -87,6 +87,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     __primaryTarget : null,
     __isMultiPointerGesture : null,
     __initialAngle : null,
+    __lastTapTime : null,
 
     /**
      * Register pointer event listeners
@@ -175,7 +176,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         "target" : target,
         "isTap" : true,
         "isPrimary" : domEvent.isPrimary,
-        "lastTapTime" : null,
         "longTapTimer" : window.setTimeout(
           this.__fireLongTap.bind(this, domEvent, target),
           qx.event.handler.GestureCore.LONGTAP_TIME
@@ -243,7 +243,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       }
 
       var gesture = this.__gesture[domEvent.pointerId];
-
       // delete the long tap
       this.__stopLongTapTimer(gesture);
 
@@ -261,17 +260,17 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         }
         this._fireEvent(domEvent, "tap", domEvent.target || target, eventType);
 
-        if (gesture.lastTapTime) {
-          var diff = Date.now() - gesture.lastTapTime;
+        if (this.__lastTapTime) {
+          var diff = Date.now() - this.__lastTapTime;
+          this.__lastTapTime = null;
           if (diff <= qx.event.handler.GestureCore.DOUBLETAP_TIME) {
             this._fireEvent(domEvent, "dbltap", domEvent.target || target, eventType);
           }
         }
-        gesture.lastTapTime = Date.now();
+        this.__lastTapTime = Date.now();
 
-      }
-      else {
-        gesture.lastTapTime = null;
+      } else {
+        this.__lastTapTime = null;
         var swipe = this.__getSwipeGesture(domEvent, target);
         if (swipe) {
           if (qx.event && qx.event.type && qx.event.type.Swipe) {
