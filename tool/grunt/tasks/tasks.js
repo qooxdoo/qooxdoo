@@ -1,8 +1,26 @@
+/* *****************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2014 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Richard Sternagel (rsternagel)
+
+***************************************************************************** */
+
 'use strict';
 
 // native
 var fs = require('fs');
-var async = require('async');
 var os = require('os');
 var path = require('path');
 
@@ -54,7 +72,8 @@ var getSupersededJobs = function() {
     // defer replacement of generate:clean and generate:distclean
     // clean: "clean:clean",
     // distclean: "clean:dist",
-    info: "info"
+    info: "info",
+    // source: "source"
   };
 };
 
@@ -78,6 +97,7 @@ var registerNodeTasks = function(grunt, relSdkPath) {
   //   * move to registerGeneratorJobs
   grunt.loadTasks(relSdkPath + '/tool/grunt/tasks/generate');
   grunt.loadTasks(relSdkPath + '/tool/grunt/tasks/info/tasks');
+  // grunt.loadTasks(relSdkPath + '/tool/grunt/tasks/source/tasks');
 };
 
 var registerTasks = function(grunt) {

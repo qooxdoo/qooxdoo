@@ -1,38 +1,25 @@
-// global conf
-var common = {
-  QOOXDOO_PATH: "..",
-  APPLICATION : "framework"
-};
-
 // requires
-var qxConf = require(common.QOOXDOO_PATH + '/tool/grunt/config/application.js');
-var qxTasks = require(common.QOOXDOO_PATH + '/tool/grunt/tasks/tasks.js');
+var util = require('util');
+var qx = require("../tool/grunt");
 
 // grunt
 module.exports = function(grunt) {
   var config = {
-    qx: {
-      let: {}
+    generator_config: {
+      let: {
+      }
     },
 
-    common: common,
-
-    /*
-    myTask: {
-      options: {},
-      myTarget: {
-        options: {}
-      }
+    common: {
+      "APPLICATION" : "qooxdoo",
+      "LOCALES": ["en"],
+      "QOOXDOO_PATH" : "../",
     }
-    */
   };
 
-  var mergedConf = qxConf.mergeConfig(config);
-  // console.log(mergedConf);
-  // process.exit();
+  var mergedConf = qx.config.mergeConfig(config);
+  // console.log(util.inspect(mergedConf, false, null));
   grunt.initConfig(mergedConf);
 
-  qxTasks.registerTasks(grunt);
-
-  grunt.loadNpmTasks('grunt-contrib-clean');
+  qx.tasks.registerTasks(grunt);
 };

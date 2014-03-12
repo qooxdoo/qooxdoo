@@ -1,3 +1,22 @@
+/* *****************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2014 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Richard Sternagel (rsternagel)
+
+***************************************************************************** */
+
 'use strict';
 
 // native
@@ -10,7 +29,8 @@ var deepmerge = require('deepmerge');
 
 var common = {
   "ROOT": ".",
-  "QOOXDOO_PATH" : "../../..",
+  "QOOXDOO_PATH": "../../..",
+  "QXTHEME": "<%= common.APPLICATION %>.theme.Theme",
   "TMPDIR": os.tmpdir(),
   "CACHE": "<%= common.TMPDIR %>/qx<%= common.QOOXDOO_VERSION %>/cache",
   "CACHE_KEY":
@@ -18,8 +38,15 @@ var common = {
     "compile": "<%= common.CACHE %>",
     "downloads": "<%= common.CACHE %>/downloads",
   },
+  "APPLICATION_MAIN_CLASS" : "<%= common.APPLICATION %>.Application",
   "SOURCE_PATH": "<%= common.ROOT %>/source",
-  "BUILD_PATH": "<%= common.ROOT %>/build"
+  "BUILD_PATH": "<%= common.ROOT %>/build",
+  "ENVIRONMENT": {
+    "qx.application": "<%= common.APPLICATION %>.Application",
+    "qx.revision":"",
+    "qx.theme": "<%= common.APPLICATION %>.theme.Theme",
+    "qx.version":"<%= common.QOOXDOO_VERSION %>"
+  }
 };
 
 var getQxVersion = function(relQxPath) {
@@ -56,6 +83,24 @@ var getConfig = function() {
               "<%= common.CACHE_KEY.downloads %>"]
     },
     */
+    /* grunt-qx-source */
+    /*
+    source: {
+      options: {
+        appName: "<%= common.APPLICATION %>",
+        qxPath: "<%= common.QOOXDOO_PATH %>",
+        sourcePath: "<%= common.SOURCE_PATH %>/script",
+        locales:  "<%= common.LOCALES %>",
+        includes: ["<%= common.APPLICATION_MAIN_CLASS %>", "<%= common.QXTHEME %>"],
+        excludes: [],
+        environment: common.ENVIRONMENT,
+        libraries: [
+          "<%= common.QOOXDOO_PATH %>/framework/Manifest.json",
+          "<%= common.ROOT %>/Manifest.json"
+        ]
+      }
+    },
+    */
     /* grunt-qx-info */
     info: {
       options: {
@@ -69,6 +114,8 @@ var getConfig = function() {
 };
 
 var mergeConfig = function(config) {
+  // TODO how to overwrite std config?
+  // recycle '={key}'-syntax from config.json?
   return deepmerge(getConfig(), config);
 };
 
