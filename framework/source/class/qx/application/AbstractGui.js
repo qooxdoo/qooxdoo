@@ -80,6 +80,10 @@ qx.Class.define("qx.application.AbstractGui",
       // Initialize tooltip manager
       qx.ui.tooltip.Manager.getInstance();
 
+      // block zooming for IE11+
+      // qx.ui.style.Stylesheet.getInstance().addRule("*", "-ms-content-zooming: none;")
+      qx.ui.style.Stylesheet.getInstance().addRule("*", "touch-action: none;")
+
       this.__root = this._createRootWidget();
     },
 
