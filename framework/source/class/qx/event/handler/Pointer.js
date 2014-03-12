@@ -118,19 +118,19 @@ qx.Class.define("qx.event.handler.Pointer",
           qx.event.type.Pointer,
           [domEvent, target, null, true, true]
         );
-      }
 
-      if (type == "pointerdown" || type == "pointerup" || type == "pointermove") {
-        qx.event.Registration.fireEvent(
-          this.__root,
-          qx.event.handler.PointerCore.POINTER_TO_GESTURE_MAPPING[type],
-          qx.event.type.Pointer,
-          [domEvent, target, null, false, false]
-        );
-      }
+        if (type == "pointerdown" || type == "pointerup" || type == "pointermove") {
+          qx.event.Registration.fireEvent(
+            this.__root,
+            qx.event.handler.PointerCore.POINTER_TO_GESTURE_MAPPING[type],
+            qx.event.type.Pointer,
+            [domEvent, target, null, false, false]
+          );
+        }
 
-      // Fire user action event
-      qx.event.Registration.fireEvent(this.__window, "useraction", qx.event.type.Data, [type]);
+        // Fire user action event
+        qx.event.Registration.fireEvent(this.__window, "useraction", qx.event.type.Data, [type]);
+      }
     },
 
     // overridden
