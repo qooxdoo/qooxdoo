@@ -2159,6 +2159,22 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    /**
+     * Checks if pointer event capturing is enabled for this widget.
+     *
+     * @return {Boolean} <code>true</code> if capturing is active
+     */
+    isCapturing : function() {
+      var el = this.getContentElement().getDomElement();
+      if (!el) {
+        return false;
+      }
+      var manager = qx.event.Registration.getManager(el);
+      var dispatcher = manager.getDispatcher(qx.event.dispatch.MouseCapture);
+      return el == dispatcher.getCaptureElement();
+    },
+
+
 
 
     /*
