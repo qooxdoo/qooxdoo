@@ -80,7 +80,7 @@ qx.Bootstrap.define("qx.event.type.native.Custom", {
      */
     _createEvent : function() {
       var evt;
-      if (window.CustomEvent && qx.core.Environment.get("engine.name") !== "mshtml") {
+      if (qx.core.Environment.get("event.customevent")) {
         evt = new window.CustomEvent(this._type);
       } else if (typeof document.createEvent == "function") {
         evt = document.createEvent("UIEvents");

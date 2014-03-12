@@ -94,6 +94,43 @@ qx.Bootstrap.define("qx.bom.client.Event",
      */
     getDispatchEvent : function() {
       return typeof document.dispatchEvent == "function";
+    },
+
+
+    /**
+     * Checks if the CustomEvent constructor is available and supports
+     * custom event types.
+     *
+     * @return {Boolean} <code>true</code> if Custom Events are available
+     */
+    getCustomEvent : function() {
+      if (!window.CustomEvent) {
+        return false;
+      }
+      try {
+        new window.CustomEvent("foo");
+        return true;
+      } catch(ex) {
+        return false;
+      }
+    },
+
+    /**
+     * Checks if the MouseEvent constructor is available and supports
+     * custom event types.
+     *
+     * @return {Boolean} <code>true</code> if Mouse Events are available
+     */
+    getMouseEvent : function() {
+      if (!window.MouseEvent) {
+        return false;
+      }
+      try {
+        new window.MouseEvent("foo");
+        return true;
+      } catch(ex) {
+        return false;
+      }
     }
   },
 
@@ -103,5 +140,7 @@ qx.Bootstrap.define("qx.bom.client.Event",
     qx.core.Environment.add("event.help", statics.getHelp);
     qx.core.Environment.add("event.hashchange", statics.getHashChange);
     qx.core.Environment.add("event.dispatchevent", statics.getDispatchEvent);
+    qx.core.Environment.add("event.customevent", statics.getCustomEvent);
+    qx.core.Environment.add("event.mouseevent", statics.getMouseEvent);
   }
 });

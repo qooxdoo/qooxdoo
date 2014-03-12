@@ -321,8 +321,15 @@
  *       <td>event.dispatchevent</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Event#getDispatchEvent}</td>
  *     </tr>
+ *     <tr>
+ *       <td>event.customevent</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Event#getCustomEvent}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>event.mouseevent</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Event#getMouseEvent}</td>
+ *     </tr>
  *
-
  *     <tr>
  *       <td colspan="4"><b>html</b></td>
  *     </tr>
@@ -847,6 +854,8 @@ qx.Bootstrap.define("qx.core.Environment",
       "event.help" : "qx.bom.client.Event.getHelp",
       "event.hashchange" : "qx.bom.client.Event.getHashChange",
       "event.dispatchevent" : "qx.bom.client.Event.getDispatchEvent",
+      "event.customevent" : "qx.bom.client.Event.getCustomEvent",
+      "event.mouseevent" : "qx.bom.client.Event.getMouseEvent",
       "ecmascript.error.stacktrace"       : "qx.bom.client.EcmaScript.getStackTrace",
       "ecmascript.array.indexof" : "qx.bom.client.EcmaScript.getArrayIndexOf",
       "ecmascript.array.lastindexof" : "qx.bom.client.EcmaScript.getArrayLastIndexOf",
