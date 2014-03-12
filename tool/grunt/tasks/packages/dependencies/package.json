@@ -39,11 +39,12 @@
     "jshint": "~2.3.0",
     "underscore": "~1.5.2",
     "toposort-class": "~0.3.0",
-    "doctrine": "~0.2.0"
+    "doctrine": "~0.2.0",
+    "minimatch": "~0.2.14"
   },
   "devDependencies": {
-    "nodeunit":      "~0.8.4"
+    "nodeunit": "~0.8.4"
   },
   "//": "before publishing create README.md then this can be removed",
-  "private" : true
+  "private": true
 }
