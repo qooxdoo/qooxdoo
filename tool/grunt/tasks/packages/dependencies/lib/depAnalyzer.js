@@ -463,27 +463,27 @@ function collectAtHintsFromComments(tree) {
 
   tree.comments.forEach(function (comment) {
     if (isFileOrClassScopeComment(comment, topLevelCodeUnitLines)) {
-        var jsdoc = doctrine.parse(comment.value, { unwrap: true });
-        jsdoc.tags.forEach(function (tag) {
-            switch(tag.title) {
-              case 'ignore':
-                atHints.ignore = atHints.ignore.concat(getClassesFromTagDesc(tag.description));
-                break;
-              case 'require':
-                atHints.require = atHints.require.concat(getClassesFromTagDesc(tag.description));
-                break;
-              case 'use':
-                atHints.use = atHints.use.concat(getClassesFromTagDesc(tag.description));
-                break;
-              case 'asset':
-                atHints.asset = atHints.asset.concat(getResourcesFromTagDesc(tag.description));
-                break;
-              case 'cldr':
-                atHints.cldr = true;
-                break;
-              default:
-            }
-        });
+      var jsdoc = doctrine.parse(comment.value, { unwrap: true });
+      jsdoc.tags.forEach(function (tag) {
+        switch(tag.title) {
+          case 'ignore':
+            atHints.ignore = atHints.ignore.concat(getClassesFromTagDesc(tag.description));
+            break;
+          case 'require':
+            atHints.require = atHints.require.concat(getClassesFromTagDesc(tag.description));
+            break;
+          case 'use':
+            atHints.use = atHints.use.concat(getClassesFromTagDesc(tag.description));
+            break;
+          case 'asset':
+            atHints.asset = atHints.asset.concat(getResourcesFromTagDesc(tag.description));
+            break;
+          case 'cldr':
+            atHints.cldr = true;
+            break;
+          default:
+        }
+      });
     }
   });
 
