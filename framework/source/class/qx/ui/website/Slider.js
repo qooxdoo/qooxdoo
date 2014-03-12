@@ -56,6 +56,8 @@
  *
  * @require(qx.module.event.Mouse)
  * @require(qx.module.Transform)
+ * @require(qx.module.Template)
+ * @require(qx.module.util.Type)
  *
  *
  * @group (Widget)
