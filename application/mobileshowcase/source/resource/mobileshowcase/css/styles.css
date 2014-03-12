@@ -9,6 +9,44 @@
   max-height:400px;
 }
 
+.eventcontainer .label {
+  text-align:left;
+  width: 100%;
+}
+
+.pointers {
+  min-height: 35px;
+  width: 100%;
+  float:left;
+}
+
+.pointer, .event {
+  float:left;
+  margin-top: 5px;
+  padding: 3px;
+  padding-left: 6px;
+  padding-right: 6px;
+  border-radius:4px;
+  -webkit-border-radius:4px;
+}
+
+.pointer {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f16529), color-stop(100%,#E44d26));
+  background: -webkit-linear-gradient(top, #f16529#E44d26 0%,#E44d26 100%);
+  background: -moz-linear-gradient(top, #f16529#E44d26 0%,#E44d26 100%);
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.event {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#888), color-stop(100%,#222));
+  background: -webkit-linear-gradient(top, #888 0%,#222 100%);
+  background: -moz-linear-gradient(top, #888 0%,#222 100%);
+}
+.event + .event {
+  margin-left: 5px;
+}
+
 .container-touch-area {
   -ms-touch-action: none;
 

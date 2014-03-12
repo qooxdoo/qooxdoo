@@ -92,7 +92,6 @@ qx.Class.define("mobileshowcase.page.Event",
       containerTouchArea.addListener("pointercancel", this._onPointer, this);
       containerTouchArea.addListener("pointerout", this._onPointer, this);
 
-      qx.event.Registration.addListener(window, "orientationchange", this._onOrientationChange, this);
       container.add(containerTouchArea);
 
       // GESTURE TARGET OBJECT
@@ -243,21 +242,6 @@ qx.Class.define("mobileshowcase.page.Event",
 
 
     /**
-     * Event handler for <code>orientationchange</code> event.
-     *
-     * @param evt {Event} The <code>orientationchange</code> event.
-     */
-    _onOrientationChange : function(evt) {
-      var orientationMode = "Portrait";
-      if (evt.isLandscape()) {
-        orientationMode = "Landscape";
-      }
-      // TODO
-      //this.__labelBuffer = " " + evt.getType()+": "+orientationMode;
-    },
-
-
-    /**
      * Reacts on pointer events and updates the event container background and pointer markers.
      *
      * @param evt {qx.event.type.Pointer} The pointer event.
@@ -404,11 +388,12 @@ qx.Class.define("mobileshowcase.page.Event",
       var labelBuffer = "";
       for (var pointerId in this.__pointers) {
         var pointer = this.__pointers[pointerId];
-        labelBuffer = labelBuffer + pointerId + ": ";
+         labelBuffer = labelBuffer + "<div class='pointers'>";
+        labelBuffer = labelBuffer + "<span class='pointer'>" + pointerId + "</span>";
         for (var i = 0; i < pointer.events.length; i++) {
-          labelBuffer = labelBuffer + " [" + pointer.events[i] + "]";
+          labelBuffer = labelBuffer + " <span class='event'>" + pointer.events[i] + "</span>";
         };
-        labelBuffer = labelBuffer + "<br />";
+        labelBuffer = labelBuffer + "</div>";
       };
       this.__label.setValue(labelBuffer);
     }
