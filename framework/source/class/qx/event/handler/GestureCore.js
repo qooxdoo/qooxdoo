@@ -288,7 +288,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     },
 
 
-        /**
+    /**
     * Calculates the angle of the primary and secondary pointer.
     * @return {Number} the rotation angle of the 2 pointers.
     */
