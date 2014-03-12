@@ -21,8 +21,8 @@
 /**
  * Synthetic pointer event
  */
-qx.Bootstrap.define("qx.event.type.native.Pointer", {
-  extend: qx.event.type.native.Custom,
+qx.Bootstrap.define("qx.event.type.dom.Pointer", {
+  extend: qx.event.type.dom.Custom,
 
   statics : {
 
@@ -91,7 +91,7 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
       var properties = {};
 
       // mouse properties
-      var mousePropNames = qx.event.type.native.Pointer.MOUSE_PROPERTIES;
+      var mousePropNames = qx.event.type.dom.Pointer.MOUSE_PROPERTIES;
       for (var i = 0; i < mousePropNames.length; i++) {
         var propName = mousePropNames[i];
         if (propName in domEvent) {
@@ -103,8 +103,8 @@ qx.Bootstrap.define("qx.event.type.native.Pointer", {
       }
 
       // pointer properties
-      for (var pointerPropName in qx.event.type.native.Pointer.POINTER_PROPERTIES) {
-        properties[pointerPropName] = qx.event.type.native.Pointer.POINTER_PROPERTIES[pointerPropName];
+      for (var pointerPropName in qx.event.type.dom.Pointer.POINTER_PROPERTIES) {
+        properties[pointerPropName] = qx.event.type.dom.Pointer.POINTER_PROPERTIES[pointerPropName];
         if (pointerPropName in domEvent) {
           properties[pointerPropName] = domEvent[pointerPropName];
         }

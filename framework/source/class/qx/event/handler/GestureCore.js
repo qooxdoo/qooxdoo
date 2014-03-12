@@ -425,10 +425,10 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       }
       var evt;
       if (qx.core.Environment.get("event.dispatchevent")) {
-        evt = new qx.event.type.native.Custom(type, domEvent);
+        evt = new qx.event.type.dom.Custom(type, domEvent);
         this.__defaultTarget.dispatchEvent(evt);
       } else if (this.__emitter) {
-        evt = new qx.event.type.native.Custom(type, domEvent, {
+        evt = new qx.event.type.dom.Custom(type, domEvent, {
           target : this.__defaultTarget,
           currentTarget : this.__defaultTarget,
           srcElement : this.__defaultTarget

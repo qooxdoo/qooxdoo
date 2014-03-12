@@ -142,7 +142,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       var type = qx.event.handler.PointerCore.MSPOINTER_TO_POINTER_MAPPING[domEvent.type] || domEvent.type;
       var target = qx.bom.Event.getTarget(domEvent);
       domEvent.type = type;
-      var evt = new qx.event.type.native.Pointer(type, domEvent);
+      var evt = new qx.event.type.dom.Pointer(type, domEvent);
       this._fireEvent(evt, type, target);
     },
 
@@ -302,7 +302,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      * @return {Event} Pointer event
      */
     _createPointerEvent : function(type, domEvent, pointerType, pointerId, properties) {
-      var evt = new qx.event.type.native.Pointer(type, domEvent, properties);
+      var evt = new qx.event.type.dom.Pointer(type, domEvent, properties);
       evt.pointerType = pointerType;
       evt.pointerId = pointerId;
       if(pointerType == "mouse") {
