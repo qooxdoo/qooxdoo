@@ -83,6 +83,7 @@ qx.Class.define("mobileshowcase.page.Event",
       containerTouchArea.addCssClass("container-touch-area");
 
       containerTouchArea.addListener("tap", this._onGesture, this);
+      containerTouchArea.addListener("dbltap", this._onGesture, this);
       containerTouchArea.addListener("longtap", this._onGesture, this);
       containerTouchArea.addListener("swipe", this._onGesture, this);
 
@@ -255,7 +256,7 @@ qx.Class.define("mobileshowcase.page.Event",
 
     /**
     * Resets the pointer circle position.
-    * 
+    *
     * @param pointerId {Integer} corresponding pointerId.
     */
     _resetPointerPosition : function(pointerId) {
@@ -272,7 +273,7 @@ qx.Class.define("mobileshowcase.page.Event",
 
     /**
     * Sets the pointer circle position.
-    * 
+    *
     * @param pointerId {Integer} corresponding pointerId.
     * @param x {Integer} pointer position x.
     * @param y {Integer} pointer position y.
@@ -334,7 +335,7 @@ qx.Class.define("mobileshowcase.page.Event",
         this._updatePointerPosition(evt);
       }
 
-      
+
       if(this.__pointers[pointerId] && !this.__pointers[pointerId].remove) {
         var pointerEvents = this.__pointers[pointerId].events;
         if(pointerEvents.length > 0) {

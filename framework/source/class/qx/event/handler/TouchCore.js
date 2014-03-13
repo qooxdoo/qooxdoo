@@ -94,7 +94,6 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
 
     __touchStartPosition : null,
     __startTime : null,
-    __onMove : null,
 
     __beginScalingDistance : null,
     __beginRotation : null,
@@ -275,7 +274,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
           this.__touchStartPosition[touch.identifier] = [touch.clientX,touch.clientY];
         }
       }
-      
+
       if(type == "touchmove") {
         // Polyfill for scale
         if(typeof domEvent.scale == "undefined" && domEvent.targetTouches.length > 1) {
@@ -341,14 +340,10 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       if (type.indexOf("pointerdown") !== -1) {
         return "touchstart";
       } else if (type.indexOf("pointerup") !== -1) {
-        this.__onMove = false;
         return "touchend";
       } else if (type.indexOf("pointermove") !== -1) {
-        if (this.__onMove === true) {
           return "touchmove";
-        }
       } else if (type.indexOf("pointercancel") !== -1) {
-        this.__onMove = false;
         return "touchcancel";
       }
 
