@@ -23,6 +23,7 @@
 
 /**
  * Shows the class details.
+ * @require(qx.module.event.GestureHandler)
  */
 qx.Class.define("apiviewer.ui.ClassViewer",
 {
@@ -421,15 +422,17 @@ qx.Class.define("apiviewer.ui.ClassViewer",
           // add icon in front of the TOC item
           tocItem.innerHTML = apiviewer.ui.ClassViewer.createImageHtml(iconURL[members[i]],members[i])+' ';
 
-          qx.bom.Element.addListener(tocItem,'click',(function(panel,firstItem){
-            return function()
-            {
-              this.__enableSection(firstItem, firstItem.getName());
-              qx.bom.element.Scroll.intoView(panel.getTitleElement(), null, "left", "top");
-              if(!panel.getIsOpen()) {
-                this.togglePanelVisibility(panel);
-              }
-            };})(panelByName[members[i]],memberList[0]),this,false);
+          q(tocItem).on('tap',
+            (function(panel, firstItem) {
+              return (function() {
+                this.__enableSection(firstItem, firstItem.getName());
+                qx.bom.element.Scroll.intoView(panel.getTitleElement(), null, "left", "top");
+                if(!panel.getIsOpen()) {
+                  this.togglePanelVisibility(panel);
+                }
+              }).bind(this);
+            }).bind(this)
+            (panelByName[members[i]], memberList[0]), false);
           var textSpan = qx.dom.Element.create('span');
           if(members[i] === 'methods-static' && qx.core.Environment.get("engine.name")=='webkit') {
             qx.bom.element.Style.set(textSpan,'margin-left','25px');
