@@ -171,16 +171,18 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           identifier: touch.identifier,
           screenX: touch.screenX,
           screenY: touch.screenY,
-          target: touch.target
+          target: touch.target,
+          pointerType: "touch",
+          pointerId: touch.identifier + 2
         };
 
         if (domEvent.type == "touchstart") {
           // Fire pointerenter before pointerdown
-          var evt = this._createPointerEvent("pointerover", domEvent, "touch", touch.identifier + 2, touchProps);
-          this._fireEvent(evt, "pointerover", target);
+          var overEvt = new qx.event.type.dom.Pointer("pointerover", domEvent, touchProps);
+          this._fireEvent(overEvt, "pointerover", target);
         }
 
-        var evt = this._createPointerEvent(type, domEvent, "touch", touch.identifier + 2, touchProps);
+        var evt = new qx.event.type.dom.Pointer(type, domEvent, touchProps);
 
         if (touch.identifier == this.__primaryIdentifier) {
           evt.isPrimary = true;
@@ -198,8 +200,8 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
         if (domEvent.type == "touchend" || domEvent.type == "touchcancel") {
           // Fire pointerout after pointerup
-          var evt = this._createPointerEvent("pointerout", domEvent, "touch", touch.identifier + 2, touchProps);
-          this._fireEvent(evt, "pointerout", target);
+          var outEvt = new qx.event.type.dom.Pointer("pointerout", domEvent, touchProps);
+          this._fireEvent(outEvt, "pointerout", target);
 
           if (this.__primaryIdentifier == touch.identifier) {
             this.__primaryIdentifier = null;
@@ -239,9 +241,11 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
       var buttonsPressed = qx.lang.Array.sum(this.__buttonStates);
 
+      var mouseProps = {pointerType : "mouse", pointerId: 1};
+
       if (this.__lastButtonState != buttonsPressed) {
         this.__lastButtonState = buttonsPressed;
-        var moveEvt = this._createPointerEvent("pointermove", domEvent, "mouse", 1);
+        var moveEvt = new qx.event.type.dom.Pointer("pointermove", domEvent, mouseProps);
         this._fireEvent(moveEvt, "pointermove", target);
       }
 
@@ -261,7 +265,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         return;
       }
 
-      var evt = this._createPointerEvent(type, domEvent, "mouse", 1);
+      var evt = new qx.event.type.dom.Pointer(type, domEvent, mouseProps);
       this._fireEvent(evt, type, target);
       this.__contextMenu = false;
     },
@@ -292,27 +296,6 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
 
     /**
-     * Creates a custom pointer event
-     *
-     * @param type {String} Pointer event type, e.g. "pointerdown"
-     * @param domEvent {Event} Native event that will be used as a template for the new event
-     * @param pointerType {String} Pointer device type, e.g. "mouse" or "touch"
-     * @param pointerId {Integer} pointer ID
-     * @param properties {Map} Map of event properties (will override the domEvent's values)
-     * @return {Event} Pointer event
-     */
-    _createPointerEvent : function(type, domEvent, pointerType, pointerId, properties) {
-      var evt = new qx.event.type.dom.Pointer(type, domEvent, properties);
-      evt.pointerType = pointerType;
-      evt.pointerId = pointerId;
-      if(pointerType == "mouse") {
-        evt.isPrimary = true;
-      }
-      return evt;
-    },
-
-
-    /**
      * Removes native pointer event listeners.
      */
     _stopObserver : function() {
@@ -335,8 +318,9 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
       var gestureEvent;
       if (type == "pointerdown" || type == "pointerup" || type == "pointermove") {
-        gestureEvent = this._createPointerEvent(qx.event.handler.PointerCore.POINTER_TO_GESTURE_MAPPING[type],
-          domEvent, domEvent.pointerType, domEvent.pointerId);
+        gestureEvent = new qx.event.type.dom.Pointer(
+          qx.event.handler.PointerCore.POINTER_TO_GESTURE_MAPPING[type],
+          domEvent);
         gestureEvent = qx.module.event.Pointer.normalize(gestureEvent);
         gestureEvent.srcElement = target;
       }
