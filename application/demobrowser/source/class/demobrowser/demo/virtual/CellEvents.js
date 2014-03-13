@@ -49,9 +49,9 @@ qx.Class.define("demobrowser.demo.virtual.CellEvents",
 
       var pane = scroller.getPane();
 
-      pane.addListener("cellClick", this._onCellClick, this);
+      pane.addListener("cellTap", this._onCellTap, this);
       pane.addListener("cellContextmenu", this._onContextMenu, this);
-      pane.addListener("cellDblclick", this._onDblclickPane, this);
+      pane.addListener("cellDbltap", this._onDbltapPane, this);
 
       pane.addLayer(this.layer);
 
@@ -67,9 +67,9 @@ qx.Class.define("demobrowser.demo.virtual.CellEvents",
       this.getRoot().add(this.logger, {left : 450, top : 10});
     },
 
-    _onCellClick : function(e)
+    _onCellTap : function(e)
     {
-      var msg = '<p style="color:green;">You clicked on cell ' + e.getRow() + ' / ' + e.getColumn() + '</p>';
+      var msg = '<p style="color:green;">You tappeded on cell ' + e.getRow() + ' / ' + e.getColumn() + '</p>';
       this.__fillLog(msg);
     },
 
@@ -80,9 +80,9 @@ qx.Class.define("demobrowser.demo.virtual.CellEvents",
     },
 
 
-    _onDblclickPane : function(e)
+    _onDbltapPane : function(e)
     {
-      var msg = '<p style="color:red;">You double clicked cell ' + e.getRow() + ' / ' + e.getColumn() + '</p>';
+      var msg = '<p style="color:red;">You double tapped cell ' + e.getRow() + ' / ' + e.getColumn() + '</p>';
       this.__fillLog(msg);
     },
 

@@ -44,7 +44,7 @@ qx.Class.define("demobrowser.demo.layout.HBox_Reversed",
         maxHeight:60,
         alignY:"top"}
       );
-      var w2 = new qx.ui.basic.Label("click to reverse").set({
+      var w2 = new qx.ui.basic.Label("tap to reverse").set({
         decorator: "main",
         rich: true,
         backgroundColor: "green",
@@ -64,7 +64,7 @@ qx.Class.define("demobrowser.demo.layout.HBox_Reversed",
       container.add(w2);
       container.add(w3);
 
-      container.addListener("mousedown", function(e) {
+      container.addListener("pointerdown", function(e) {
         box.setReversed(!box.getReversed());
       });
 

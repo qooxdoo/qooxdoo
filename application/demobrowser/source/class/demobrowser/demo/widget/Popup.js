@@ -63,9 +63,9 @@ qx.Class.define("demobrowser.demo.widget.Popup",
 
       popup.add(new qx.ui.basic.Atom("Hello World #1", "icon/32/apps/media-photo-album.png"));
 
-      button.addListener("click", function(e)
+      button.addListener("pointerdown", function(e)
       {
-        popup.placeToMouse(e);
+        popup.placeToPointer(e);
         popup.show();
       }, this);
 
@@ -86,9 +86,9 @@ qx.Class.define("demobrowser.demo.widget.Popup",
 
       popup.add(new qx.ui.basic.Atom("Hello World #1", "icon/32/apps/media-photo-album.png"));
 
-      button.addListener("click", function(e)
+      button.addListener("pointerdown", function(e)
       {
-        popup.placeToMouse(e);
+        popup.placeToPointer(e);
         popup.show();
       }, this);
 

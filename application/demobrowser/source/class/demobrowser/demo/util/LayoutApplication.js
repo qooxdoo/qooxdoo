@@ -39,7 +39,7 @@ qx.Class.define("demobrowser.demo.util.LayoutApplication",
       });
 
       var editor = new demobrowser.demo.util.PropertyEditor(root);
-      root.addListener("click", this._onClickRoot, this);
+      root.addListener("tap", this._onTapRoot, this);
 
       frame.add(editor, {edge: "east"});
       frame.add(root);
@@ -56,10 +56,10 @@ qx.Class.define("demobrowser.demo.util.LayoutApplication",
     },
 
 
-    _onClickRoot : function(e)
+    _onTapRoot : function(e)
     {
       if (e.getTarget() !== this._root) {
-        this._editor.handleWidgetClick(e);
+        this._editor.handleWidgetTap(e);
       }
     }
   },

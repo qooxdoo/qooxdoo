@@ -99,7 +99,7 @@ qx.Class.define("demobrowser.demo.widget.DateChooser",
       containerDescription.add(headerLabel);
       containerDescription.add(new qx.ui.basic.Label("- Use the cursors keys to move the selection."));
       containerDescription.add(new qx.ui.basic.Label("- Page-keys / shift + page-keys switch months/years."));
-      containerDescription.add(new qx.ui.basic.Label("- Double-click or enter/space-key will fire an execute event."));
+      containerDescription.add(new qx.ui.basic.Label("- Double-tap or enter/space-key will fire an execute event."));
       containerDescription.add(new qx.ui.basic.Label("- Escape will remove the selection."));
     }
   }

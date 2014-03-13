@@ -264,7 +264,7 @@ qx.Class.define("demobrowser.demo.showcase.Translation",
         showTrLabel.setValue(localeManager.translate(messageId,[],localeManager.getLocale()));
       }, this);
 
-      var showTrLabel = new qx.ui.basic.Label("click 'Show Translation' button to translate<br>the messageId in the current selected locale");
+      var showTrLabel = new qx.ui.basic.Label("tap 'Show Translation' button to translate<br>the messageId in the current selected locale");
       showTrLabel.setRich(true);
       showTrLabel.setAlignY('middle');
       container.add(showTrLabel, {row: 11,column: 3});

@@ -65,7 +65,7 @@ qx.Class.define("demobrowser.demo.animation.Animation_3d",
       });
       qx.bom.element.Transform.setOrigin(parent.children[1], "center top");
 
-      // mouse handler
+      // pointer handler
       var container = document.getElementById("container");
       qx.bom.element.Transform.setPerspective(container, 500);
       qxWeb(container).on("pointerover", function() {

@@ -137,8 +137,8 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
       commandFrame.add(new qx.ui.core.Spacer(spacerSize, spacerSize), {row: row++, column: 0});
       commandFrame.add(new qx.ui.basic.Label("Open mode:"), {row: row, column: 0});
       var modes = {
-        "click": "click",
-        "dblclick": "double click",
+        "tap": "tap",
+        "dbltap": "double tap",
         "none": "none"
       };
 

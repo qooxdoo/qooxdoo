@@ -161,9 +161,9 @@ qx.Class.define("demobrowser.demo.showcase.Localization",
       mypop.setValue("#23F3C1");
 
       var mybtn = new qx.ui.form.Button(this.tr("Open Color Popup"));
-      mybtn.addListener("mousedown", function(e)
+      mybtn.addListener("pointerdown", function(e)
       {
-        mypop.placeToMouse(e)
+        mypop.placeToPointer(e)
         mypop.show();
       });
       controls.add(mybtn, {row:5,column:0});
