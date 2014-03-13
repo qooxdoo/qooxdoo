@@ -63,7 +63,7 @@ qx.Bootstrap.define("qx.module.event.PointerHandler", {
         element.__pointerListeners = 0;
       }
 
-      if (!element.__pointerHandler) {
+      if (!element.$$pointerHandler) {
 
         if (!qx.core.Environment.get("event.dispatchevent")) {
           if (!element.$$emitter) {
@@ -71,7 +71,7 @@ qx.Bootstrap.define("qx.module.event.PointerHandler", {
           }
         }
 
-        element.__pointerHandler = new qx.event.handler.PointerCore(element, element.$$emitter);
+        element.$$pointerHandler = new qx.event.handler.PointerCore(element, element.$$emitter);
       }
 
       element.__pointerListeners++;
@@ -84,11 +84,11 @@ qx.Bootstrap.define("qx.module.event.PointerHandler", {
      * @param element {Element} DOM element
      */
     unregister : function(element) {
-      if (element.__pointerHandler) {
+      if (element.$$pointerHandler) {
         element.__pointerListeners--;
         if (element.__pointerListeners === 0) {
-          element.__pointerHandler.dispose();
-          element.__pointerHandler = null;
+          element.$$pointerHandler.dispose();
+          element.$$pointerHandler = null;
         }
       }
     }

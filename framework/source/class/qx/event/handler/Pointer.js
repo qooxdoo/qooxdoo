@@ -65,6 +65,7 @@ qx.Class.define("qx.event.handler.Pointer",
     this.__root = this.__window.document;
 
     qx.event.handler.PointerCore.apply(this, [this.__root]);
+    this.__root.$$pointerHandler = this;
   },
 
   members : {
