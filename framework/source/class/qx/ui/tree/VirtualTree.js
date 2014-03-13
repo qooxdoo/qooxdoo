@@ -552,7 +552,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       if (value === "dbltap") {
         pane.addListener("cellDbltap", this._onOpen, this);
       } else if (value === "tap") {
-        pane.addListener("celltap", this._onOpen, this);
+        pane.addListener("cellTap", this._onOpen, this);
       }
 
       if (old === "dbltap") {
