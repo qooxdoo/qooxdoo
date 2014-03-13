@@ -126,7 +126,23 @@ qx.Class.define("qx.event.type.Pointer",
      * @return {String} The type of the pointer.
      */
     getPointerType : function() {
-      return this._native.pointerType || "";
+      if (typeof this._native.pointerType == "string") {
+        return this._native.pointerType;
+      }
+
+      if (typeof this._native.pointerType == "number") {
+        if (this._native.pointerType == this._native.MSPOINTER_TYPE_MOUSE) {
+          return "mouse";
+        }
+        if (this._native.pointerType == this._native.MSPOINTER_TYPE_PEN) {
+          return "pen";
+        }
+        if (this._native.pointerType == this._native.MSPOINTER_TYPE_TOUCH) {
+          return "touch";
+        }
+      }
+
+      return "";
     },
 
 

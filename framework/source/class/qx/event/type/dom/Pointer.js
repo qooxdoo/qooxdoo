@@ -56,7 +56,7 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
       pressure: 0.5,
       tiltX: 0,
       tiltY: 0,
-      pointerType: '',
+      pointerType: "",
       isPrimary: false
     }
   },
@@ -149,6 +149,23 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
 
       for (var prop in properties) {
         evt[prop] = properties[prop];
+      }
+
+      // normalize Windows 8 pointer types
+      switch(evt.pointerType) {
+        case domEvent.MSPOINTER_TYPE_MOUSE:
+          evt.pointerType = "mouse";
+          break;
+        case domEvent.MSPOINTER_TYPE_PEN:
+          evt.pointerType = "pen";
+          break;
+        case domEvent.MSPOINTER_TYPE_TOUCH:
+          evt.pointerType = "touch";
+          break;
+      }
+
+      if (evt.pointerType == "mouse") {
+        evt.isPrimary = true;
       }
     }
   }
