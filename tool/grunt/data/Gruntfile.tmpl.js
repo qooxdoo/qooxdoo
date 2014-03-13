@@ -1,12 +1,6 @@
-// global conf
-var common = {
-  QOOXDOO_VERSION: '${QOOXDOO_VERSION}',
-  QOOXDOO_PATH: '${REL_QOOXDOO_PATH}'
-};
-
 // requires
-var qxConf = require(common.QOOXDOO_PATH + '/tool/grunt/config/application.js');
-var qxTasks = require(common.QOOXDOO_PATH + '/tool/grunt/tasks/tasks.js');
+var util = require('util');
+var qx = require("${REL_QOOXDOO_PATH}/tool/grunt");
 
 // grunt
 module.exports = function(grunt) {
@@ -17,7 +11,12 @@ module.exports = function(grunt) {
       }
     },
 
-    common: common,
+    common: {
+      "APPLICATION" : "${Namespace}",
+      "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
+      "LOCALES": ["en"],
+      "QXTHEME": "${Namespace}.theme.Theme"
+    }
 
     /*
     myTask: {
@@ -29,10 +28,11 @@ module.exports = function(grunt) {
     */
   };
 
-  var mergedConf = qxConf.mergeConfig(config);
+  var mergedConf = qx.config.mergeConfig(config);
+  // console.log(util.inspect(mergedConf, false, null));
   grunt.initConfig(mergedConf);
 
-  qxTasks.registerTasks(grunt);
+  qx.tasks.registerTasks(grunt);
 
   // grunt.loadNpmTasks('grunt-my-plugin');
 };

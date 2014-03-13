@@ -1,22 +1,21 @@
-// global conf
-var common = {
-  QOOXDOO_VERSION : "3.5",
-  QOOXDOO_PATH: "../.."
-};
-
 // requires
-var qxConf = require(common.QOOXDOO_PATH + '/tool/grunt/config/application.js');
-var qxTasks = require(common.QOOXDOO_PATH + '/tool/grunt/tasks/tasks.js');
+var util = require('util');
+var qx = require("../../tool/grunt");
 
 // grunt
 module.exports = function(grunt) {
   var config = {
-    qx: {
+    generator_config: {
       let: {
       }
     },
 
-    common: common,
+    common: {
+      "APPLICATION" : "websitewidgetbrowser",
+      "LOCALES": ["en"],
+      "QOOXDOO_PATH" : "../..",
+      "QXTHEME": "<%= common.APPLICATION %>.theme.Theme"
+    },
 
     sass: {
       indigo: {
@@ -24,7 +23,7 @@ module.exports = function(grunt) {
           style: 'compressed'
         },
         files: {
-          'script/indigo.css': common.QOOXDOO_PATH + '/framework/source/resource/qx/website/scss/indigo.scss'
+          'script/indigo.css': '<%= common.QOOXDOO_PATH %>/framework/source/resource/qx/website/scss/indigo.scss'
         }
       }
     },
@@ -43,10 +42,11 @@ module.exports = function(grunt) {
     }
   };
 
-  var mergedConf = qxConf.mergeConfig(config);
+  var mergedConf = qx.config.mergeConfig(config);
+  // console.log(util.inspect(mergedConf, false, null));
   grunt.initConfig(mergedConf);
 
-  qxTasks.registerTasks(grunt);
+  qx.tasks.registerTasks(grunt);
 
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-notify');

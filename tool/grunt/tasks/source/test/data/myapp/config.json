@@ -45,7 +45,7 @@
     "QOOXDOO_PATH" : "../../../../../../..",
     "QXTHEME"      : "myapp.theme.Theme",
     "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*"],
-    "LOCALES"      : [ "en" ],
+    "LOCALES"      : [ "en", "de" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : "."
   },

@@ -37,6 +37,7 @@ var escope = require('escope');
 var escodegen = require('escodegen');
 var doctrine = require('doctrine');
 var Toposort = require('toposort-class');
+var minimatch = require("minimatch");
 var _ = require('underscore');
 
 // not pretty (require internals of jshint) but works
@@ -463,27 +464,27 @@ function collectAtHintsFromComments(tree) {
 
   tree.comments.forEach(function (comment) {
     if (isFileOrClassScopeComment(comment, topLevelCodeUnitLines)) {
-        var jsdoc = doctrine.parse(comment.value, { unwrap: true });
-        jsdoc.tags.forEach(function (tag) {
-            switch(tag.title) {
-              case 'ignore':
-                atHints.ignore = atHints.ignore.concat(getClassesFromTagDesc(tag.description));
-                break;
-              case 'require':
-                atHints.require = atHints.require.concat(getClassesFromTagDesc(tag.description));
-                break;
-              case 'use':
-                atHints.use = atHints.use.concat(getClassesFromTagDesc(tag.description));
-                break;
-              case 'asset':
-                atHints.asset = atHints.asset.concat(getResourcesFromTagDesc(tag.description));
-                break;
-              case 'cldr':
-                atHints.cldr = true;
-                break;
-              default:
-            }
-        });
+      var jsdoc = doctrine.parse(comment.value, { unwrap: true });
+      jsdoc.tags.forEach(function (tag) {
+        switch(tag.title) {
+          case 'ignore':
+            atHints.ignore = atHints.ignore.concat(getClassesFromTagDesc(tag.description));
+            break;
+          case 'require':
+            atHints.require = atHints.require.concat(getClassesFromTagDesc(tag.description));
+            break;
+          case 'use':
+            atHints.use = atHints.use.concat(getClassesFromTagDesc(tag.description));
+            break;
+          case 'asset':
+            atHints.asset = atHints.asset.concat(getResourcesFromTagDesc(tag.description));
+            break;
+          case 'cldr':
+            atHints.cldr = true;
+            break;
+          default:
+        }
+      });
     }
   });
 
@@ -556,7 +557,7 @@ function findUnresolvedDeps(tree, opts) {
 }
 
 // dynamic => self discovering (recursive) with class entry point
-function collectDepsRecursive(basePaths, initClassIds) {
+function collectDepsRecursive(basePaths, initClassIds, excludedClassIds) {
   var classesDeps = {};
 
   var getMatchingPath = function(basePaths, filePath) {
@@ -573,10 +574,30 @@ function collectDepsRecursive(basePaths, initClassIds) {
     });
   };
 
-  var recurse = function(basePaths, shortFilePaths, seenClasses) {
+  var recurse = function(basePaths, classIds, seenOrSkippedClasses, excludedClassIds) {
 
-    for (var i=0; i<shortFilePaths.length; i++) {
-      var shortFilePath = util.filePathFrom(shortFilePaths[i]);
+    var isMatching = function(strToTest, expressions) {
+      var i = 0;
+      var l = expressions.length;
+
+      for (; i<l; i++) {
+        if (minimatch(strToTest, expressions[i])) {
+          return true;
+        }
+      }
+
+      return false;
+    };
+
+    var i = 0;
+    var l = classIds.length;
+    for (; i<l; i++) {
+      // skip excluded classes
+      if (isMatching(classIds[i], excludedClassIds)) {
+        continue;
+      }
+
+      var shortFilePath = util.filePathFrom(classIds[i]);
       var curBasePath = getMatchingPath(basePaths, shortFilePath);
       var curFullPath = path.join(curBasePath, shortFilePath);
       var jsCode = fs.readFileSync(curFullPath, {encoding: 'utf8'});
@@ -588,17 +609,20 @@ function collectDepsRecursive(basePaths, initClassIds) {
 
       classNameAnnotator.annotate(tree, shortFilePath);
       classDeps = findUnresolvedDeps(tree, {flattened: false});
-
       var className = util.classNameFrom(shortFilePath);
+
+      // Note: Excluded classes will still be entries in load and run deps!
+      // Maybe it's better to remove them here too ...
       classesDeps[className] = classDeps;
 
       var loadAndRun = classDeps.load.concat(classDeps.run);
       for (var j=0; j<loadAndRun.length; j++) {
         var dep = loadAndRun[j];
 
-        if (seenClasses.indexOf(dep) === -1) {
-          seenClasses.push(dep);
-          recurse(basePaths, [dep], seenClasses);
+        // only recurse non-skipped and non-excluded classes
+        if (!isMatching(dep, seenOrSkippedClasses.concat(excludedClassIds))) {
+          seenOrSkippedClasses.push(dep);
+          recurse(basePaths, [dep], seenOrSkippedClasses, excludedClassIds);
         }
       }
 
@@ -607,19 +631,41 @@ function collectDepsRecursive(basePaths, initClassIds) {
   };
 
   // start with initClassIds
-  return recurse(basePaths, initClassIds, initClassIds);
+  return recurse(basePaths, initClassIds, initClassIds, excludedClassIds);
 }
 
-function sortDepsTopologically(classesDeps, subkey) {
-    var tsort = new Toposort();
-    var classListLoadOrder = [];
+function sortDepsTopologically(classesDeps, subkey, excludedClassIds) {
+  var tsort = new Toposort();
+  var classListLoadOrder = [];
+  var i = 0;
+  var j = 0;
+  var k = 0;
+  var l = excludedClassIds.length;
+  var l2 = 0;
+  var l3 = 0;
+  var toBeRemoved = [];
 
-    for (var clazz in classesDeps) {
-      tsort.add(clazz, classesDeps[clazz][subkey]);
+  for (var clazz in classesDeps) {
+    tsort.add(clazz, classesDeps[clazz][subkey]);
+  }
+  classListLoadOrder = tsort.sort().reverse();
+
+  // take care of excludes
+  l2 = classListLoadOrder.length;
+  for (; i<l; i++) {
+    j = 0;
+    for (; j<l2; j++) {
+      if (minimatch(classListLoadOrder[j], excludedClassIds[i])) {
+        toBeRemoved.push(classListLoadOrder[j]);
+      }
     }
-    classListLoadOrder = tsort.sort().reverse();
+  }
+  l3 = toBeRemoved.length;
+  for (; k<l3; k++) {
+    classListLoadOrder = _.without(classListLoadOrder, toBeRemoved[k]);
+  }
 
-    return classListLoadOrder;
+  return classListLoadOrder;
 }
 
 function translateClassIdsToPaths(classList, options) {

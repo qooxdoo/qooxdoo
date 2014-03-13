@@ -4,19 +4,27 @@
 
 'use strict';
 
+var common = {
+  "APPLICATION" : "myapp",
+  "QOOXDOO_PATH": "../../../..",
+  "LOCALES": ["en", "de"],
+  "QXTHEME": "<%= common.APPLICATION %>.theme.Theme",
+  "ROOT": ".",
+  "APPLICATION_MAIN_CLASS" : "<%= common.APPLICATION %>.Application",
+  "SOURCE_PATH": "<%= common.ROOT %>/test/data/myapp/source",
+  "ENVIRONMENT": {
+    "qx.application": "<%= common.APPLICATION %>.Application",
+    "qx.revision":"",
+    "qx.theme": "<%= common.APPLICATION %>.theme.Theme",
+    "qx.version":"3.6"
+  }
+};
+
 module.exports = function(grunt) {
 
   grunt.initConfig({
 
-    common: {
-      "APPLICATION" : "myapp",
-      "QOOXDOO_PATH": "../../../..",
-      "LOCALES": ["en"],
-      "QXTHEME": "<%= common.APPLICATION %>.theme.Theme",
-      "ROOT": ".",
-      "APPLICATION_MAIN_CLASS" : "<%= common.APPLICATION %>.Application",
-      "SOURCE_PATH": "<%= common.ROOT %>/test/data/myapp/source/script",
-    },
+    common: common,
 
     jshint: {
       all: [
@@ -34,24 +42,19 @@ module.exports = function(grunt) {
     },
 
     source: {
-      default_options: {
-        options: {
-          appName: "<%= common.APPLICATION %>",
-          sourcePath: "<%= common.SOURCE_PATH %>",
-          locales:  "<%= common.LOCALES %>",
-          includes: ["<%= common.APPLICATION_MAIN_CLASS %>", "<%= common.QXTHEME %>"],
-          libraries: [
-            "<%= common.QOOXDOO_PATH %>/framework/Manifest.json",
-            "<%= common.ROOT %>/test/data/myapp/Manifest.json"
-          ]
-        },
+      options: {
+        appName: "<%= common.APPLICATION %>",
+        qxPath: "<%= common.QOOXDOO_PATH %>",
+        sourcePath: "<%= common.SOURCE_PATH %>/script",
+        locales:  "<%= common.LOCALES %>",
+        includes: ["<%= common.APPLICATION_MAIN_CLASS %>", "<%= common.QXTHEME %>"],
+        excludes: [],
+        environment: common.ENVIRONMENT,
+        libraries: [
+          "<%= common.QOOXDOO_PATH %>/framework/Manifest.json",
+          "<%= common.ROOT %>/test/data/myapp/Manifest.json"
+        ]
       },
-      /*
-      custom_options: {
-        options: {
-        },
-      },
-      */
     },
 
     nodeunit: {

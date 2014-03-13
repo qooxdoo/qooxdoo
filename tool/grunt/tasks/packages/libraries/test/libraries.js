@@ -25,7 +25,7 @@ exports.dependencies = {
     done();
   },
 
-  getManifestContents : function (test) {
+  getManifestContents: function (test) {
     var libraries = require('../lib/libraries.js');
     var testManifestPaths = [
       "./test/data/myapp/Manifest.json",

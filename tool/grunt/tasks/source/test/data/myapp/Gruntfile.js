@@ -13,7 +13,7 @@ module.exports = function(grunt) {
     common: {
       "APPLICATION" : "myapp",
       "QOOXDOO_PATH" : "../../../../../../..",
-      "LOCALES": ["en"],
+      "LOCALES": ["en", "de"],
       "QXTHEME": "myapp.theme.Theme"
     }
 

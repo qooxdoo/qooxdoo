@@ -30,11 +30,15 @@
 var crypto = require("crypto");
 var path = require("path");
 
+// third-party
+var pathIsInside = require("path-is-inside");
+
 // qx
 var qxRes = require("qx-resources");
 var qxLoc = require("qx-locales");
 var qxDep = require("qx-dependencies");
 var qxLib = require("qx-libraries");
+var qxTra = require("qx-translations");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -60,26 +64,24 @@ function renderLoaderTmpl(tmpl, ctx) {
   return tmpl;
 }
 
+
 //------------------------------------------------------------------------------
 // Public Interface
 //------------------------------------------------------------------------------
 
-function runGruntTask(grunt) {
+module.exports = function(grunt) {
+// function runGruntTask(grunt) {
 
-  grunt.registerMultiTask('source', 'create source version of current application', function() {
+  grunt.registerTask('source', 'create source version of current application', function() {
     var opts = this.options();
+    // console.log(opts);
 
     // TODO: better way of getting this path? user may also want to override
-    var loaderTemplatePath = "../../../data/generator/loader.tmpl.js";
+    var loaderTemplatePath = opts.qxPath + "/tool/data/generator/loader.tmpl.js";
 
     if (!grunt.file.exists(loaderTemplatePath)) {
       grunt.log.warn('Source file "' + loaderTemplatePath + '" not found.');
     }
-
-    var locales = {"C":{}};
-    opts.locales.forEach(function(locale){
-      locales[locale] = {};
-    });
 
     grunt.log.writeln('Scanning libraries ...');
     // -----------------------------------------
@@ -89,12 +91,12 @@ function runGruntTask(grunt) {
 
     grunt.log.writeln('Collecting classes ...');
     // -----------------------------------------
-    var classesDeps = qxDep.collectDepsRecursive(classPaths, opts.includes);
+    var classesDeps = qxDep.collectDepsRecursive(classPaths, opts.includes, opts.excludes);
     grunt.log.ok('Done.');
 
     grunt.log.writeln('Sorting ' + Object.keys(classesDeps).length + ' classes ...');
-    // -------------------------------------------------------------
-    var classListLoadOrder = qxDep.sortDepsTopologically(classesDeps, "load");
+    // ------------------------------------------------------------------------------
+    var classListLoadOrder = qxDep.sortDepsTopologically(classesDeps, "load", opts.excludes);
     var classListPaths = qxDep.translateClassIdsToPaths(classListLoadOrder);
     var atHintIndex = qxDep.createAtHintsIndex(classesDeps);
     grunt.log.ok('Done.');
@@ -108,7 +110,20 @@ function runGruntTask(grunt) {
     // ------------------------------------
     var resData = qxRes.collectImageInfoMaps(atHintIndex.asset, resBasePathMap, {metaFiles: true});
     grunt.log.ok('Done.');
-    var translation = locales;
+
+    grunt.log.writeln('Get translations ...');
+    // ---------------------------------------
+    var locales = {"C":{}};
+    var translationPaths = qxLib.getPathsFor("translation", opts.libraries);
+    var transData = {"C":{}};
+    opts.locales.forEach(function(locale){
+      locales[locale] = {};
+
+      transData[locale] = {};
+      transData[locale] = qxTra.getTranslationFor(locale, translationPaths);
+    });
+    grunt.log.ok('Done.');
+
 
     var locResTrans = {
       "locales": {
@@ -116,7 +131,7 @@ function runGruntTask(grunt) {
         "en": cldrData
       },
       "resources": resData,
-      "translations": translation
+      "translations": transData
     };
     var locResTransContent = "qx.$$packageData['0']=" + JSON.stringify(locResTrans) + ";";
 
@@ -128,12 +143,24 @@ function runGruntTask(grunt) {
       "uris": ["__out__:"+locResTransFileName].concat(classListPaths)
     };
 
-    // TODO: get from Gruntfile or query somewhere (e.g. sourceUri & resourceUri et al.)
-    var libinfo = {"__out__":{"sourceUri":"script"},"myapp":{"resourceUri":"../source/resource","sourceUri":"../source/class"},"qx":{"resourceUri":"../../../../../../../../framework/source/resource","sourceUri":"../../../../../../../../framework/source/class","sourceViewUri":"https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"}};
+    // qxPath depending on whether app is within qooxdoo sdk or not
+    var manifestPaths = qxLib.getManifestPaths(opts.libraries);
+    var resolved_qxPath = path.resolve(opts.qxPath);
+    var qxPath = pathIsInside(manifestPaths[opts.appName].base.abs, resolved_qxPath)
+                 ? path.relative(manifestPaths[opts.appName].base.abs, resolved_qxPath)
+                 : opts.qxPath;
+
+    var libinfo = {
+      "__out__":{"sourceUri":"script"},
+      "qx":{"resourceUri": "../"+qxPath+"/framework/source/resource",
+            "sourceUri": "../"+qxPath+"/framework/source/class",
+            "sourceViewUri":"https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"}
+    };
+    libinfo[opts.appName] = {"resourceUri":"../source/resource","sourceUri":"../source/class"};
 
     // TODO: get from Gruntfile or query somewhere
     var ctx = {
-      EnvSettings: {"qx.application":"myapp.Application","qx.revision":"","qx.theme":"myapp.theme.Theme","qx.version":"3.6"},
+      EnvSettings: opts.environment,
       Libinfo: libinfo,
       Resources: {},
       Translations: locales,
@@ -165,10 +192,10 @@ function runGruntTask(grunt) {
     grunt.log.ok('Done.');
   });
 
-}
+};
 
 //------------------------------------------------------------------------------
 // Exports
 //------------------------------------------------------------------------------
 
-module.exports = runGruntTask;
+// module.exports = runGruntTask;

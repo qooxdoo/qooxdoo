@@ -26,17 +26,20 @@ exports.dependencies = {
   },
 
   // TODO: don't hardwire paths and resolve dep to needed app
-  getClassListLoadOrder : function (test) {
+  getClassListLoadOrder: function (test) {
     var depAnalyzer = require('../lib/depAnalyzer.js');
     var classListLoadOrder = [];
     var classListPaths = [];
     var classesDeps = {};
     var atHintIndex = {};
 
+    var excludedClassIds = ['qx.theme.*'];
+
     classesDeps = depAnalyzer.collectDepsRecursive(
       ['./test/data/myapp/source/class/',
        '../../../../../framework/source/class/'],
-      ['myapp.Application', 'myapp.theme.Theme']
+      ['myapp.Application', 'myapp.theme.Theme'],
+      [] // excludedClassIds
     );
 
     /*
@@ -51,12 +54,14 @@ exports.dependencies = {
     );
     */
 
-    classListLoadOrder = depAnalyzer.sortDepsTopologically(classesDeps, "load");
+    classListLoadOrder = depAnalyzer.sortDepsTopologically(classesDeps, "load", []); // excludedClassIds
     classListPaths = depAnalyzer.translateClassIdsToPaths(classListLoadOrder);
     atHintIndex = depAnalyzer.createAtHintsIndex(classesDeps);
 
     console.log(JSON.stringify(classesDeps, null, 2));
     console.log(classListLoadOrder, classListLoadOrder.length);
+    // console.log(Object.keys(classesDeps).length);
+    // console.log(classListLoadOrder.length);
     console.log(classListPaths);
     console.log(atHintIndex);
 
