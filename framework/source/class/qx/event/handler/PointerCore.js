@@ -337,6 +337,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       if (type == "pointerdown" || type == "pointerup" || type == "pointermove") {
         gestureEvent = this._createPointerEvent(qx.event.handler.PointerCore.POINTER_TO_GESTURE_MAPPING[type],
           domEvent, domEvent.pointerType, domEvent.pointerId);
+        gestureEvent = qx.module.event.Pointer.normalize(gestureEvent);
         gestureEvent.srcElement = target;
       }
 

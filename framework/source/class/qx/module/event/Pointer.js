@@ -32,6 +32,36 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      */
     TYPES : ["pointerdown", "pointerup", "pointermove", "pointercancel", "pointerover", "pointerout"],
 
+    BIND_METHODS : ["getPointerType"],
+
+
+    /**
+     * Returns the device type which the event triggered. This can be one
+     * of the following strings: <code>mouse</code>, <code>pen</code>
+     * or <code>touch</code>.
+     *
+     * @return {String} The type of the pointer.
+     */
+    getPointerType : function() {
+      if (typeof this.pointerType == "string") {
+        return this.pointerType;
+      }
+
+      if (typeof this.pointerType == "number") {
+        if (this.pointerType == this.MSPOINTER_TYPE_MOUSE) {
+          return "mouse";
+        }
+        if (this.pointerType == this.MSPOINTER_TYPE_PEN) {
+          return "pen";
+        }
+        if (this.pointerType == this.MSPOINTER_TYPE_TOUCH) {
+          return "touch";
+        }
+      }
+
+      return "";
+    },
+
 
     /**
      * Manipulates the native event object, adding methods if they're not
@@ -52,6 +82,13 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
       for (var i=0, l=bindMethods.length; i<l; i++) {
         if (typeof event[bindMethods[i]] != "function") {
           event[bindMethods[i]] = qx.module.event.Mouse[bindMethods[i]].bind(event);
+        }
+      }
+
+      var bindMethods = qx.module.event.Pointer.BIND_METHODS;
+      for (var i=0, l=bindMethods.length; i<l; i++) {
+        if (typeof event[bindMethods[i]] != "function") {
+          event[bindMethods[i]] = qx.module.event.Pointer[bindMethods[i]].bind(event);
         }
       }
 

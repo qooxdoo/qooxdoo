@@ -271,7 +271,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
             } else {
               if (this.__isBelowDoubleTapDistance(
                 this.__lastTap[time].x, this.__lastTap[time].y, domEvent.clientX, domEvent.clientY,
-                domEvent.pointerType
+                domEvent.getPointerType()
               )) {
                 this._fireEvent(domEvent, "dbltap", domEvent.target || target, eventType);
               }
