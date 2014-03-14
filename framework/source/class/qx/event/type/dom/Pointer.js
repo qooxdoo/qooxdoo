@@ -97,7 +97,7 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
         if (propName in domEvent) {
           properties[propName] = domEvent[propName];
         }
-        if (customProps && customProps[propName]) {
+        if (customProps && customProps[propName] !== undefined) {
           properties[propName] = customProps[propName];
         }
       }
@@ -108,7 +108,7 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
         if (pointerPropName in domEvent) {
           properties[pointerPropName] = domEvent[pointerPropName];
         }
-        if (customProps && customProps[pointerPropName]) {
+        if (customProps && customProps[pointerPropName] !== undefined) {
           properties[pointerPropName] = customProps[pointerPropName];
         }
       }
