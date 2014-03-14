@@ -146,6 +146,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     __lastOffset : null,
     __currentOffset : null,
     __isVerticalScroll : null,
+    __onTouch : null,
+
 
 
     /**
@@ -174,6 +176,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     * @param evt {qx.event.type.Track} The trackstart event.
     */
     _onTrackStart : function(evt){
+      this.__onTouch = true;
       this.__isVerticalScroll = (this.getScrollableX() && this.getScrollableY()) ? null : this.getScrollableY();
       this._applyNoEasing();
     },
@@ -248,18 +251,48 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * Swipe handler for scrollContainer.
      * @param evt {qx.event.type.Swipe} The swipe event.
      */
-    _onSwipe : function(evt) {
-      var velocity = Math.abs(evt.getVelocity());
-
-      var swipeDuration = new Date().getTime() - evt.getStartTime();
-
-      if(this.isScrollableY() && this.__isVerticalScroll && swipeDuration < 500) {
-        this._applyMomentumEasing();
-
-        this.__currentOffset[1] = this.__currentOffset[1] + (velocity * 1.5 * this.__distanceY);
+    _onSwipe: function(evt) {
+      if (!evt.isPrimary()) {
+        return;
       }
 
-      this.scrollTo(this.__currentOffset[0], this.__currentOffset[1]);
+      if (this.isScrollableY() && this.__isVerticalScroll) {
+        var scrollLimit = this._calcScrollLimit();
+
+        this.__onTouch = false;
+        this._scrollStep(this.__currentOffset[1], evt.getVelocity(), 1, scrollLimit);
+      } else if (this.ScrollableX() && !this.__isVerticalScroll) {
+        this.scrollTo(this.__currentOffset[0], this.__currentOffset[1]);
+      }
+    },
+
+
+    /**
+    * Enables the momentum scrolling. This method will be called recursively, 
+    * and divides the scroll velocity on every step by the parameter momentum.
+    * @param startPosition {Number} the last known position of the scroll area. 
+    * @param velocity {Number} the current scroll velocity. 
+    * @param momentum {Number} the momentum factor.
+    * @param scrollLimit {Number} scrollLimit of the scroll area. 
+    */
+    _scrollStep: function(startPosition, velocity, momentum, scrollLimit) {
+      var nextPosition = startPosition + (velocity * 2);
+
+      this._scrollContainer.setTranslateY(nextPosition);
+      this.__lastOffset[1] = nextPosition;
+      this._updateScrollIndicator(this.__lastOffset[1]);
+
+      if (Math.abs(velocity) > 0.01 && !this.__onTouch) {
+        if (nextPosition > 0 || nextPosition < -scrollLimit[1]) {
+          momentum = momentum + Math.abs(nextPosition / 10000);
+        } else {
+          momentum = momentum + 0.00005;
+        }
+        var nextVelocity = (velocity / momentum);
+        setTimeout(this._scrollStep.bind(this), 2, nextPosition, nextVelocity, momentum, scrollLimit);
+      } else {
+        this.scrollTo(0, nextPosition);
+      }
     },
 
 
@@ -273,10 +306,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       positionX = Math.floor(positionX);
       positionY = Math.floor(positionY);
 
-      var targetElement = this._scrollContainer.getContainerElement();
-
-      var lowerLimitY = targetElement.scrollHeight - this.getContentElement().clientHeight;
-      var lowerLimitX = targetElement.scrollWidth - targetElement.offsetWidth - 4;
+      var scrollLimit = this._calcScrollLimit();
 
       var oldY = this._scrollContainer.getTranslateY();
 
@@ -292,27 +322,25 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       }
 
       // Lower Limit Y
-      if (positionY < -lowerLimitY) {
-        if (oldY > -lowerLimitY) {
+      if (positionY < -scrollLimit[1]) {
+        if (oldY > -scrollLimit[1]) {
           this._applyScrollBounceEasing();
         } else {
           this._applyBounceEasing();
         }
 
-        positionY = -lowerLimitY;
+        positionY = -scrollLimit[1];
       }
       if (!this.__isVerticalScroll) {
         // Left Limit X
         if (positionX >= 0) {
           this._applyBounceEasing();
-
           positionX = 0;
         }
         // Right Limit X
-        if (positionX < -lowerLimitX) {
+        if (positionX < -scrollLimit[0]) {
           this._applyBounceEasing();
-
-          positionX = -lowerLimitX;
+          positionX = -scrollLimit[0];
         }
       }
 
@@ -325,6 +353,18 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
         this.__lastOffset[1] = positionY;
       }
       this._updateScrollIndicator(this.__lastOffset[1]);
+    },
+
+
+    /**
+    * Calculates the lower scroll limit of the scroll container.
+    * @return {Array} an array with scroll limits: [x,y]
+    */
+    _calcScrollLimit : function() {
+      var targetElement = this._scrollContainer.getContainerElement();
+      var lowerLimitY = targetElement.scrollHeight - this.getContentElement().clientHeight;
+      var lowerLimitX = targetElement.scrollWidth - targetElement.offsetWidth - 4;
+      return [lowerLimitX,lowerLimitY];
     },
 
 
