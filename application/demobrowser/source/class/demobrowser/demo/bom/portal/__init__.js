@@ -1,3 +1,0 @@
-/**
- * portal application
- */
