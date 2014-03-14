@@ -100,14 +100,19 @@ qx.Bootstrap.define("qx.event.type.dom.Custom", {
      * @param customProps {Map} Map of event properties (will override the domEvent's values)
      */
     _initEvent : function(domEvent, customProps) {
-      var properties = qx.event.type.dom.Custom.PROPERTIES;
+      var properties = qx.lang.Object.clone(qx.event.type.dom.Custom.PROPERTIES);
+      for (var prop in customProps) {
+        properties[prop] = customProps[prop];
+      }
+
       if (this._event.initEvent) {
         this._event.initEvent(this._type, properties.bubbles, properties.cancelable);
       }
 
-      for (var prop in customProps) {
-        this._event[prop] = customProps[prop];
+      for (var prop in properties) {
+        this._event[prop] = properties[prop];
       }
+
     }
   }
 });
