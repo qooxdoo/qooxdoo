@@ -80,9 +80,17 @@ qx.Class.define("qx.application.AbstractGui",
       // Initialize tooltip manager
       qx.ui.tooltip.Manager.getInstance();
 
-      // block zooming for IE11+
-      // qx.ui.style.Stylesheet.getInstance().addRule("*", "-ms-content-zooming: none;")
-      qx.ui.style.Stylesheet.getInstance().addRule("*", "touch-action: none;")
+      var rule = ["touch-action: none;",
+      "-ms-touch-action: none;",
+      "-webkit-touch-callout: none;",
+      "-webkit-user-select: none;",
+      "-moz-user-select: none;",
+      "-ms-user-select: none;",
+      "-ms-touch-select: none;",
+      "user-select: none;",
+      "-webkit-tap-highlight-color: rgba(0,0,0,0);",
+      "-webkit-tap-highlight-color: transparent;"].join();
+      qx.ui.style.Stylesheet.getInstance().addRule("*", rule);
 
       this.__root = this._createRootWidget();
     },
