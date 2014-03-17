@@ -19,7 +19,9 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
-
+/**
+ * @require(qx.module.event.GestureHandler)
+ */
 qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
   type : "abstract",
@@ -1151,6 +1153,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         html.add('</table>');
 
         this.getBodyElement().innerHTML = html.get();
+        this._postProcessLinks(this.getBodyElement());
         apiviewer.ui.AbstractViewer.fixLinks(this.getBodyElement());
         apiviewer.ui.AbstractViewer.highlightCode(this.getBodyElement());
         this.getBodyElement().style.display = !this.getIsOpen() ? "none" : "";
@@ -1273,6 +1276,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
         // Update content
         textDiv.innerHTML = this.getItemTextHtml(node, this.getDocNode(), showDetails);
+        this._postProcessLinks(textDiv);
         apiviewer.ui.AbstractViewer.fixLinks(textDiv);
         apiviewer.ui.AbstractViewer.highlightCode(textDiv);
       }
@@ -1281,6 +1285,22 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         this.error("Toggling item details failed");
         this.error(exc);
       }
+    },
+
+
+    /**
+     * Convert mouseup and click listener attached to tap / pointerup listener.
+     * @param el {Element} The element containing the links.
+     */
+    _postProcessLinks : function(el) {
+      q("[onmouseup]", el).forEach(function(item) {
+        q(item).on("pointerup", item.onmouseup); 
+        delete item.onmouseup
+      });
+      q("[onclick]", el).forEach(function(item) {
+        q(item).on("tap", item.onclick);
+        delete item.click
+      });
     }
   },
 
