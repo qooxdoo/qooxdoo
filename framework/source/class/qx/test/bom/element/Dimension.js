@@ -76,6 +76,34 @@ qx.Class.define("qx.test.bom.element.Dimension",
 
     testContentWidthOfBlockElementWithPadding : function() {
       this.assertEquals(200, qx.bom.element.Dimension.getContentWidth(this.__blockElementWithPadding));
+    },
+
+    testRoundingErrorInGetWidthOrGetHeight : function() {
+      // width = left - right = 38.416656494140625
+      var mockElement1 = 
+      {
+        getBoundingClientRect : function() {
+          return {
+            right: 91.58332824707031,
+            left: 53.16667175292969
+          };
+        }
+      };
+      // exactly same width as mockElement1 
+      var mockElement2 = 
+      {
+        getBoundingClientRect : function() {
+          return {
+            right: 90.08332824707031,
+            left: 51.66667175292969
+          };
+        }
+      };
+      // make sure both mock objects have the same width
+      this.assertEquals(mockElement1.getBoundingClientRect().right - mockElement1.getBoundingClientRect().left, 
+       mockElement2.getBoundingClientRect().right - mockElement2.getBoundingClientRect().left);
+      // make sure that the width calculation for both objects returns the same
+      this.assertEquals(qx.bom.element.Dimension.getWidth(mockElement1), qx.bom.element.Dimension.getWidth(mockElement2));
     }
   }
 });
