@@ -43,18 +43,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       y : ["up", "down"]
     },
 
-    /** @type {Integer} The minimum distance of a swipe. Only if the x or y distance
-     *      of the performed swipe is greater as or equal the value of this
-     *      constant, a swipe event is fired.
-     */
-    SWIPE_MIN_DISTANCE : qx.core.Environment.get("os.name") != "android" ? 11 : 41,
-
-    /** @type {Integer} The minimum velocity of a swipe. Only if the velocity of the
-     *      performed swipe is greater as or equal the value of this constant, a
-     *      swipe event is fired.
-     */
-    SWIPE_MIN_VELOCITY : 0,
-
     /**
      * @type {Integer} The time delta in milliseconds to fire a long tap event.
      */
@@ -211,7 +199,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       if(gesture) {
         var oldClientX = gesture.clientX;
         var oldClientY = gesture.clientY;
-     
+
         gesture.clientX = domEvent.clientX;
         gesture.clientY = domEvent.clientY;
         gesture.lastEventTime = new Date().getTime();
@@ -294,7 +282,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         }
         this.__lastTap[Date.now()] = {x: domEvent.clientX, y: domEvent.clientY};
 
-      } else {
+      } else if (!this._isBelowTapMaxDistance(domEvent)) {
         var swipe = this.__getSwipeGesture(domEvent, target);
         if (swipe) {
           if (qx.event && qx.event.type && qx.event.type.Swipe) {
@@ -425,7 +413,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     /**
     * Calculates the delta coordinates in relation to the position on <code>pointerstart</code> event.
     * @param domEvent {Event} The DOM event from the browser.
-    * @return {Map} containing the deltaX as x, ans deltaY as y.
+    * @return {Map} containing the deltaX as x, and deltaY as y.
     */
     _getDeltaCoordinates : function(domEvent) {
       var gesture = this.__gesture[domEvent.pointerId];
@@ -520,7 +508,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         distance: distance,
         velocity: velocity
       };
-      
+
       return swipe;
     },
 
