@@ -78,32 +78,41 @@ qx.Class.define("qx.test.bom.element.Dimension",
       this.assertEquals(200, qx.bom.element.Dimension.getContentWidth(this.__blockElementWithPadding));
     },
 
-    testRoundingErrorInGetWidthOrGetHeight : function() {
-      // width = left - right = 38.416656494140625
+    testRoundingErrorInWidthAndHeightGetters : function() {
+      // width = left - right = height = bottom - top = 38.416656494140625
       var mockElement1 = 
       {
         getBoundingClientRect : function() {
           return {
             right: 91.58332824707031,
-            left: 53.16667175292969
+            left: 53.16667175292969,
+            bottom: 91.58332824707031,
+            top: 53.16667175292969
           };
         }
       };
-      // exactly same width as mockElement1 
+      // exactly same width and height as mockElement1 
       var mockElement2 = 
       {
         getBoundingClientRect : function() {
           return {
-            right: 90.08332824707031,
-            left: 51.66667175292969
+            right: 91.58332824707031,
+            left: 53.16667175292969,
+            bottom: 91.58332824707031,
+            top: 53.16667175292969
           };
         }
       };
       // make sure both mock objects have the same width
       this.assertEquals(mockElement1.getBoundingClientRect().right - mockElement1.getBoundingClientRect().left, 
        mockElement2.getBoundingClientRect().right - mockElement2.getBoundingClientRect().left);
-      // make sure that the width calculation for both objects returns the same
+      // ... and the same height
+      this.assertEquals(mockElement1.getBoundingClientRect().bottom - mockElement1.getBoundingClientRect().top, 
+       mockElement2.getBoundingClientRect().bottom - mockElement2.getBoundingClientRect().top);
+
+      // the width and height calculation for both objects should return the same
       this.assertEquals(qx.bom.element.Dimension.getWidth(mockElement1), qx.bom.element.Dimension.getWidth(mockElement2));
+      this.assertEquals(qx.bom.element.Dimension.getHeight(mockElement1), qx.bom.element.Dimension.getHeight(mockElement2));
     }
   }
 });
