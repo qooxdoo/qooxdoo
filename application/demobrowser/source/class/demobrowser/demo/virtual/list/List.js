@@ -40,7 +40,7 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
 
     this.__selectionManager = new qx.ui.virtual.selection.Row(this.getPane());
     this.__selectionManager.addListener("changeSelection", this._onChangeSelection, this);
-    this.__selectionManager.attachMouseEvents();
+    this.__selectionManager.attachPointerEvents();
     this.__selectionManager.attachKeyEvents(this);
     this.__selectionManager.attachListEvents(this);
 

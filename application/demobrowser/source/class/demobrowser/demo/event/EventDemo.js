@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 /**
- * Native mouse events
+ * Native pointer events
  *
  * @tag noPlayground
  *
