@@ -18,6 +18,7 @@
 ************************************************************************ */
 /**
  * @require(qx.module.Placeholder)
+ * @require(qx.module.event.GestureHandler)
  */
 
 qx.Class.define("demobrowser.demo.bom.Placeholder",
@@ -30,10 +31,10 @@ qx.Class.define("demobrowser.demo.bom.Placeholder",
     {
       this.base(arguments);
       // set the support label
-      q("#support").setHtml(q.env.get("css.placeholder"));
+      q("#support").setHtml(q.env.get("css.placeholder") + "");
 
       // add new textfields button
-      q("input[type=button]").setAttribute("disabled", null).on("click", this.addTextField);
+      q("input[type=button]").setAttribute("disabled", null).on("tap", this.addTextField);
 
       q.placeholder.update();
     },

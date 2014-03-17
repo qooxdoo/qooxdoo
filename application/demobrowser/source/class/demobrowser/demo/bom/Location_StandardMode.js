@@ -20,6 +20,7 @@
 
 /**
  * @tag noPlayground
+ * @require(qx.event.handler.Gesture)
  */
 qx.Class.define("demobrowser.demo.bom.Location_StandardMode",
 {
@@ -33,7 +34,7 @@ qx.Class.define("demobrowser.demo.bom.Location_StandardMode",
 
       var links = document.getElementById("list").getElementsByTagName("a");
       for (var i=0, l=links.length; i<l; i++) {
-        links[i].onclick = demobrowser.demo.bom.Location_StandardMode.jump;
+        qx.event.Registration.addListener(links[i], "tap", demobrowser.demo.bom.Location_StandardMode.jump);
       }
     }
   },

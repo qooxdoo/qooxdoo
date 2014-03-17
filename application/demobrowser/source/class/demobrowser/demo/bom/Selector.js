@@ -24,6 +24,7 @@
  * @tag noPlayground
  *
  * @require(qx.module.Core)
+ * @require(qx.module.event.GestureHandler)
  */
 qx.Class.define("demobrowser.demo.bom.Selector",
 {
@@ -56,13 +57,13 @@ qx.Class.define("demobrowser.demo.bom.Selector",
 
       // Work with attributes
       Logger.debug("href of first link: " + q("a").getAttribute("href"));
-      q("a").setAttribute("title", "Click to follow the link");
+      q("a").setAttribute("title", "Tap to follow the link");
 
       // Change classes
       q("h1,h2").addClass("header");
 
       // Add some events
-      q("p").on("click", function() { alert(this.innerHTML) });
+      q("p").on("tap", function() { alert(this.innerHTML) });
 
 
 
