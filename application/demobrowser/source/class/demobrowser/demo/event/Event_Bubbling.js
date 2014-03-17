@@ -28,7 +28,7 @@
  *
  * @use(qx.event.dispatch.DomBubbling)
  * @use(qx.event.handler.Keyboard)
- * @use(qx.event.handler.Mouse)
+ * @use(qx.event.handler.Pointer)
  * @use(qx.event.handler.Element)
  */
 qx.Class.define("demobrowser.demo.event.Event_Bubbling",
@@ -50,8 +50,8 @@ qx.Class.define("demobrowser.demo.event.Event_Bubbling",
 
       for (var i=1; i<10; i++) {
         var div = document.getElementById("div"+i);
-        qx.event.Registration.addListener(div, "click", this._cascadeCapture, this, true);
-        qx.event.Registration.addListener(div, "click", this._cascadeBubble, this, false);
+        qx.event.Registration.addListener(div, "tap", this._cascadeCapture, this, true);
+        qx.event.Registration.addListener(div, "tap", this._cascadeBubble, this, false);
       }
     },
 
