@@ -683,7 +683,6 @@ qx.Class.define("qx.event.handler.Focus",
         if (target === this._window || target === this._document)
         {
           this.__doWindowBlur();
-
           this.resetActive();
           this.resetFocus();
         }
@@ -1072,6 +1071,8 @@ qx.Class.define("qx.event.handler.Focus",
       if (value) {
         this.__fireEvent(value, old, "activate", true);
       }
+      // correct scroll position for iOS 7
+      window.scrollTo(0, 0);
     },
 
     // apply routine

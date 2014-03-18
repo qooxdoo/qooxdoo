@@ -60,14 +60,6 @@ qx.Class.define("qx.ui.root.Application",
     this.__window = qx.dom.Node.getWindow(doc);
     this.__doc = doc;
 
-    // disable the tap highlight color for touch devices
-    if (qx.core.Environment.get("event.touch")) {
-      // only apply if the body is really already there (just in case)
-      if (doc.body) {
-        doc.body.style["WebkitTapHighlightColor"] = "rgba(0,0,0,0)";
-      }
-    }
-
     // Base call
     this.base(arguments);
 
@@ -87,6 +79,11 @@ qx.Class.define("qx.ui.root.Application",
 
     // quick fix for [BUG #7680]
     this.getContentElement().setStyle("-webkit-backface-visibility", "hidden");
+
+    // prevent scrolling on touch devices
+    this.addListener("touchmove", function(e) {
+      e.preventDefault();
+    });
   },
 
 
@@ -174,8 +171,8 @@ qx.Class.define("qx.ui.root.Application",
     // overridden
     _computeSizeHint : function()
     {
-      var width = qx.bom.Viewport.getWidth(this.__window);
-      var height = qx.bom.Viewport.getHeight(this.__window);
+      var width = qx.bom.Viewport.getWidth(this.__window) + window.scrollX;
+      var height = qx.bom.Viewport.getHeight(this.__window) + window.scrollY;
 
       return {
         minWidth : width,

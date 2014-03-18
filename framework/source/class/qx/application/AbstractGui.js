@@ -93,6 +93,9 @@ qx.Class.define("qx.application.AbstractGui",
       qx.ui.style.Stylesheet.getInstance().addRule("*", rule);
 
       this.__root = this._createRootWidget();
+
+      // make sure we start with a good scroll position
+      window.scrollTo(0, 0);
     },
 
 
