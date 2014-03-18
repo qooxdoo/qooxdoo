@@ -4602,7 +4602,7 @@ testrunner.define({
 
   testReadOnlyInputElement : function() {
     var sandbox = q("#sandbox");
-    sandbox.append("<input type='text' id='datepicker' data-qx-class='qx.ui.website.DatePicker' data-qx-config-readonly='false' datevalue=''></input");
+    sandbox.append("<input type='text' id='datepicker' data-qx-class='qx.ui.website.DatePicker' data-qx-config-readonly='false' value=''></input");
 
     var datepicker = q("input#datepicker").datepicker();
 
@@ -4614,8 +4614,8 @@ testrunner.define({
 
   testReadOnlyInputElementWithConfig : function() {
     var sandbox = q("#sandbox");
-    sandbox.append("<input type='text' class='datepicker' data-qx-class='qx.ui.website.DatePicker' datevalue=''></input");
-    sandbox.append("<input type='text' class='datepicker' data-qx-class='qx.ui.website.DatePicker' datevalue=''></input");
+    sandbox.append("<input type='text' class='datepicker' data-qx-class='qx.ui.website.DatePicker' value=''></input");
+    sandbox.append("<input type='text' class='datepicker' data-qx-class='qx.ui.website.DatePicker' value=''></input");
 
     var datepicker = q("input.datepicker").datepicker();
 
