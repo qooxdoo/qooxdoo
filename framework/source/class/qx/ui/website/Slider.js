@@ -454,9 +454,9 @@ qx.Bootstrap.define("qx.ui.website.Slider",
 
         qxWeb(document.documentElement).off("mousemove", this._onMouseMove, this)
         .setStyle("cursor", "auto");
+        e.stopPropagation();
       }
 
-      e.stopPropagation();
     },
 
 
@@ -481,9 +481,8 @@ qx.Bootstrap.define("qx.ui.website.Slider",
             this.emit("changePosition", positionKnob);
           }
         }
+        e.stopPropagation();
       }
-
-      e.stopPropagation();
     },
 
 
