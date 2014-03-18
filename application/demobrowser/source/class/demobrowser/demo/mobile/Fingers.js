@@ -19,6 +19,8 @@
 
 /**
  * @tag noPlayground
+ * @require(qx.bom.Element) // mark as load-time dependency so that the required
+ * event dispatcher is loaded before listeners are registered
  */
 qx.Class.define("demobrowser.demo.mobile.Fingers",
 {
