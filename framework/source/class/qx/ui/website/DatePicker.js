@@ -41,11 +41,20 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
      * <pre>function(date) {
         return date.toLocaleDateString();
       }</pre>
+     *
+     * *readonly*
+     *
+     * Boolean value to control if the connected input element is read-only.
+     *
+     * Default value:
+     * <pre>true</pre>
      */
     _config : {
       format : function(date) {
         return date.toLocaleDateString();
-      }
+      },
+
+      readonly : true
     },
 
     /**
@@ -96,8 +105,10 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
         return false;
       }
 
-      // all connected input elements can be set to 'readonly'
-      this.setAttribute('readonly', 'readonly');
+      // all connected input elements are set to 'readonly' as default
+      if (this.getConfig('readonly')) {
+        this.setAttribute('readonly', 'readonly');
+      }
 
       this._forEachElementWrapped(function(datepicker) {
         var uniqueId = Math.round(Math.random() * 10000);
@@ -127,6 +138,9 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
     // overridden
     render : function() {
       this.getCalendar().render();
+
+      this.setAttribute('readonly', this.getConfig('readonly') ? 'readonly' : null);
+
       return this;
     },
 
@@ -184,6 +198,10 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
         qxWeb(bodyElement).off('click', datepicker._onBodyClick, datepicker, true);
 
         datepicker.getCalendar().off('changeValue', this._calendarChangeValue, datepicker);
+
+        var calendar = qxWeb('div#datepicker-' + datepicker.getData('qx-calendar-id'));
+        calendar.remove();
+        calendar.dispose();
       });
 
       return this.base(arguments);
