@@ -337,16 +337,14 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         // ensure compatibility with native events for IE8
         domEvent.srcElement = target;
 
-        if (gestureEvent) {
-          this.__emitter.emit(gestureEvent.type, gestureEvent);
-        }
         while (target) {
           if (target.$$emitter) {
             domEvent.currentTarget = target;
             if (!domEvent._stopped) {
               target.$$emitter.emit(type, domEvent);
             }
-            if (gestureEvent) {
+            if (gestureEvent && !gestureEvent._stopped) {
+              gestureEvent.currentTarget = target;
               target.$$emitter.emit(gestureEvent.type, gestureEvent);
             }
           }
