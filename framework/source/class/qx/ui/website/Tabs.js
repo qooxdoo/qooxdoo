@@ -123,7 +123,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
     /**
      * *preselected*
      * The index of the page that should be opened after initial
-     * rendering, or <code>nullcode> if no page should be opened.
+     * rendering, or <code>null</code> if no page should be opened.
      *
      * Default value: <pre>0</pre>
      *
