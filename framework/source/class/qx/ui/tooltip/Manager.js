@@ -283,6 +283,8 @@ qx.Class.define("qx.ui.tooltip.Manager",
     __onPointerOverRoot : function(e)
     {
       var target = qx.ui.core.Widget.getWidgetByElement(e.getTarget());
+      // take first coordinates as backup if no move event will be fired (e.g. touch devices)
+      this.__onPointerMoveRoot(e);
       this.showToolTip(target);
     },
 
@@ -366,10 +368,9 @@ qx.Class.define("qx.ui.tooltip.Manager",
       }
 
       var related = qx.ui.core.Widget.getWidgetByElement(e.getRelatedTarget());
-      if (!related) {
+      if (!related && e.getPointerType() == "mouse") {
         return;
       }
-
 
       var tooltip = this.getCurrent();
 
