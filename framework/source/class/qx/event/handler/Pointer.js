@@ -20,6 +20,8 @@
 
 /**
  * Unified pointer event handler.
+ *
+ * @require(qx.event.type.Pointer) // load-time dependency for early native events
  */
 qx.Class.define("qx.event.handler.Pointer",
 {

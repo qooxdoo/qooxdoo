@@ -32,6 +32,7 @@
  *
  * @require(qx.event.handler.Window)
  * @require(qx.event.handler.Keyboard)
+ * @require(qx.event.handler.Gesture)
  */
 qx.Class.define("qx.log.appender.Console",
 {
