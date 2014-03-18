@@ -23,6 +23,32 @@
  * This is a date picker widget used to combine an input element with a calendar widget
  * to select a date. The calendar itself is opened as popup to save visual space.
  *
+ * <h2>Markup</h2>
+ * Each Date Picker widget is connected to an existing input element.
+ *
+ * <h2>CSS Classes</h2>
+ * <table>
+ *   <thead>
+ *     <tr>
+ *       <td>Class Name</td>
+ *       <td>Applied to</td>
+ *       <td>Description</td>
+ *     </tr>
+ *   </thead>
+ *   <tbody>
+ *     <tr>
+ *       <td><code>qx-datepicker</code></td>
+ *       <td>Input element</td>
+ *       <td>Identifies the date picker widget</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-datepicker-icon</code></td>
+ *       <td>Icon element</td>
+ *       <td>Identifies the (if configured) image element to open the date picker</td>
+ *     </tr>
+ *   </tbody>
+ * </table>
+ *
  * @require(qx.module.Template)
  *
  * @group (Widget)
@@ -51,14 +77,17 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
      *
      * *icon*
      *
-     * If set this icon will be placed next to the input element as additional opener.
+     * Path to an icon which will be placed next to the input element as additional opener. If configured
+     * a necessary <code>img</code> element is created and equipped with the <code>qx-datepicker-icon</code>
+     * CSS class to style it.
      *
      * Default value:
      * <pre>null</pre>
      *
      * *mode*
      *
-     * Which control should trigger showing the date picker. Possible values are 'input', 'icon', 'both'.
+     * Which control should trigger showing the date picker.
+     * Possible values are <code>input</code>, <code>icon</code>, <code>both</code>.
      *
      * Default value:
      * <pre>input</pre>
