@@ -55,6 +55,13 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
      *
      * Default value:
      * <pre>null</pre>
+     *
+     * *mode*
+     *
+     * Which control should trigger showing the date picker. Possible values are 'input', 'icon', 'both'.
+     *
+     * Default value:
+     * <pre>input</pre>
      */
     _config : {
       format : function(date) {
@@ -63,7 +70,9 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
 
       readonly : true,
 
-      icon : null
+      icon : null,
+
+      mode : 'input'
     },
 
     /**
@@ -121,6 +130,7 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
 
         this.__setReadOnly(datepicker);
         this.__setIcon(datepicker);
+        this.__addInputListener(datepicker);
 
         var calendarId = 'datepicker-calendar-' + uniqueId;
         var calendar = qxWeb.create('<div id="' + calendarId + '"></div>').calendar();
@@ -128,9 +138,6 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
 
         // create the connection between the date picker and the corresponding calendar widget
         datepicker.setProperty('calendarId', calendarId);
-
-        // click listener to open / hide calendar
-        datepicker.onWidget('click', datepicker._onClick);
 
         // grab click events at the body element to be able to hide the calender popup
         // if the user clicks outside
@@ -155,6 +162,7 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
       this._forEachElementWrapped(function(datepicker) {
         this.__setReadOnly(datepicker);
         this.__setIcon(datepicker);
+        this.__addInputListener(datepicker);
       });
 
       return this;
@@ -245,9 +253,27 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
         });
 
         icon.addClass(this.getCssPrefix() + '-icon');
-        icon.on('click', this._onClick, collection);
+
+        var openingMode = collection.getConfig('mode');
+        if (openingMode === 'icon' || openingMode === 'both') {
+          icon.on('click', this._onClick, collection);
+        }
 
         icon.insertAfter(collection);
+      }
+    },
+
+    /**
+     * Helper method to add a listener to the connected input element
+     * if the configured mode is set.
+     *
+     * @param collection {qxWeb} collection to work on
+     */
+    __addInputListener : function(collection) {
+      if (collection.getConfig('mode') === 'icon') {
+        collection.offWidget('click', collection._onClick);
+      } else {
+        collection.onWidget('click', collection._onClick);
       }
     },
 
