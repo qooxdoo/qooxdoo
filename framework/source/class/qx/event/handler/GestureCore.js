@@ -154,7 +154,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      */
     gestureStart : function(domEvent, target) {
       if (this.__gesture[domEvent.pointerId]) {
-        return;
+        this.__stopLongTapTimer(this.__gesture[domEvent.pointerId]);
+        delete this.__gesture[domEvent.pointerId];
       }
       this.__gesture[domEvent.pointerId] = {
         "startTime" : new Date().getTime(),
@@ -206,7 +207,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
         if(oldClientX) {
           gesture.velocityX = gesture.clientX - oldClientX;
-        } 
+        }
         if(oldClientY) {
           gesture.velocityY = gesture.clientY - oldClientY;
         }
