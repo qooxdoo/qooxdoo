@@ -46,7 +46,19 @@ qx.Class.define("qx.event.handler.Gesture",
     TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE + qx.event.IEventHandler.TARGET_DOCUMENT,
 
     /** @type {Integer} Whether the method "canHandleEvent" must be called */
-    IGNORE_CAN_HANDLE : true
+    IGNORE_CAN_HANDLE : true,
+
+    EVENT_CLASSES : {
+      "tap": qx.event.type.Tap,
+      "longtap": qx.event.type.Tap,
+      "dbltap": qx.event.type.Tap,
+      "swipe": qx.event.type.Swipe,
+      "rotate": qx.event.type.Rotate,
+      "pinch": qx.event.type.Pinch,
+      "track": qx.event.type.Track,
+      "trackstart": qx.event.type.Track,
+      "trackend": qx.event.type.Track
+    }
   },
 
   /**
@@ -135,9 +147,8 @@ qx.Class.define("qx.event.handler.Gesture",
      * @param domEvent {Event} DOM event
      * @param type {String ? null} type of the event
      * @param target {Element ? null} event target
-     * @param eventTypeClass {Class ? qx.event.type.Touch} the event type class
      */
-    _fireEvent : function(domEvent, type, target, eventTypeClass) {
+    _fireEvent : function(domEvent, type, target) {
       if (!target) {
         target = qx.bom.Event.getTarget(domEvent);
       }
@@ -146,11 +157,13 @@ qx.Class.define("qx.event.handler.Gesture",
         type = domEvent.type;
       }
 
+      var eventTypeClass = qx.event.handler.Gesture.EVENT_CLASSES[type] || qx.event.type.Pointer;
+
       if (target && target.nodeType) {
         qx.event.Registration.fireEvent(
           target,
           type,
-          eventTypeClass||qx.event.type.Pointer,
+          eventTypeClass,
           [domEvent, target, null, true, true]
         );
       }

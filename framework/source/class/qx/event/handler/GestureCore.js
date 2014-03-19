@@ -21,9 +21,6 @@
 /**
  * Listens for (native or synthetic) pointer events and fires events
  * for gestures like "tap" or "swipe"
- *
- * @ignore(qx.event.type.Tap.*)
- * @ignore(qx.event.type.Swipe.*)
  */
 qx.Bootstrap.define("qx.event.handler.GestureCore", {
   extend : Object,
@@ -237,8 +234,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      *
      * @param domEvent {Event} DOM event
      * @param target {Element} event target
-     * @ignore(qx.event)
-     * @ignore(qx.event.type)
      */
     gestureEnd : function(domEvent, target) {
       // If no start position is available for this pointerup event, cancel gesture recognition.
@@ -259,10 +254,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       }
 
       if (gesture.isTap) {
-        if (qx.event && qx.event.type && qx.event.type.Tap) {
-          eventType = qx.event.type.Tap;
-        }
-        this._fireEvent(domEvent, "tap", domEvent.target || target, eventType);
+        this._fireEvent(domEvent, "tap", domEvent.target || target);
 
         if (Object.keys(this.__lastTap).length > 0) {
           // delete old tap entries
@@ -276,7 +268,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
                 this.__lastTap[time].x, this.__lastTap[time].y, domEvent.clientX, domEvent.clientY,
                 domEvent.getPointerType()
               )) {
-                this._fireEvent(domEvent, "dbltap", domEvent.target || target, eventType);
+                this._fireEvent(domEvent, "dbltap", domEvent.target || target);
               }
             }
           }
@@ -286,11 +278,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       } else if (!this._isBelowTapMaxDistance(domEvent)) {
         var swipe = this.__getSwipeGesture(domEvent, target);
         if (swipe) {
-          if (qx.event && qx.event.type && qx.event.type.Swipe) {
-            eventType = qx.event.type.Swipe;
-          }
           domEvent.swipe = swipe;
-          this._fireEvent(domEvent, "swipe", domEvent.target || target, eventType);
+          this._fireEvent(domEvent, "swipe", domEvent.target || target);
         }
       }
 
@@ -474,13 +463,9 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param domEvent {Event} dblclick event
      */
     _onDblClick : function(domEvent) {
-      var eventType;
-      if (qx.event && qx.event.type && qx.event.type.Tap) {
-        eventType = qx.event.type.Tap;
-      }
       var target = qx.bom.Event.getTarget(domEvent);
-      this._fireEvent(domEvent, "tap", target, eventType);
-      this._fireEvent(domEvent, "dbltap", target, eventType);
+      this._fireEvent(domEvent, "tap", target);
+      this._fireEvent(domEvent, "dbltap", target);
     },
 
 
@@ -524,7 +509,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      */
     __fireTrack : function(type, domEvent, target) {
       domEvent.delta = this._getDeltaCoordinates(domEvent);
-      this._fireEvent(domEvent, type, domEvent.target || target, qx.event.type.Track);
+      this._fireEvent(domEvent, type, domEvent.target || target);
     },
 
 
@@ -539,7 +524,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       if(!domEvent.isPrimary) {
         var angle = this._calcAngle();
         domEvent.angle = Math.round((angle - this.__initialAngle) % 360);
-        this._fireEvent(domEvent, "rotate", this.__primaryTarget, qx.event.type.Rotate);
+        this._fireEvent(domEvent, "rotate", this.__primaryTarget);
       }
     },
 
@@ -555,7 +540,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         var distance = this._calcDistance();
         var scale = distance / this.__initialDistance;
         domEvent.scale = (Math.round(scale * 100) / 100);
-        this._fireEvent(domEvent, "pinch", this.__primaryTarget, qx.event.type.Pinch);
+        this._fireEvent(domEvent, "pinch", this.__primaryTarget);
       }
     },
 
@@ -567,7 +552,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element} event target
      */
     __fireLongTap : function(domEvent, target) {
-      this._fireEvent(domEvent, "longtap", domEvent.target || target, qx.event.type.Tap);
+      this._fireEvent(domEvent, "longtap", domEvent.target || target);
 
       var gesture = this.__gesture[domEvent.pointerId];
       gesture.longTapTimer = null;
