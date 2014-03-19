@@ -200,7 +200,7 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
 
       if (qx.core.Environment.get("html.element.contains")) {
         // Fast check for all elements which are not in the DOM
-        if (!element.parentNode || !element.offsetParent) {
+        if (!element.parentNode) {
           return false;
         }
 
