@@ -1,1 +1,67 @@
 \bqx\.ui\.mobile\.container\.MasterDetail\b=The MasterDetail container is obsolete. Please use qx.ui.mobile.page.Manager instead.
+
+\b_onMouseOver\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onMouseOut\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onMouseDown\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onMouseUp\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onClick\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onMouseMove\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onMouseDownPlaceholder\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onListMouseDown\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_handleMouse\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onWindowMouseDown\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onCaptionMouseDblClick\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onMinimizeButtonClick\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onRestoreButtonClick\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onMaximizeButtonClick\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onCloseButtonClick\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_setLastMousePosition\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onFieldMouseDown\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onFieldMouseOver\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onFieldMouseOut\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onBrightnessHandleMouseDown\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onBrightnessHandleMouseUp\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onBrightnessHandleMouseMove\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onBrightnessFieldMouseDown\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onHueSaturationHandleMouseUp\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onHueSaturationHandleMouseMove\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onHueSaturationFieldMouseDown\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onColorFieldClick\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onNavButtonClicked\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onDayClicked\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onDayDblClicked\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onCloseButtonClick\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onMoveMouseDown\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onMoveMouseMove\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onMoveMouseUp\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onDblclick\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_getSelectableFromMouseEvent\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_applyFocusCellOnMouseMove\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_applyResetSelectionOnHeaderClick\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onMousemoveHeader\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onMousemovePane\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onMousedownHeader\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onMousedownPane\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onMouseupFocusIndicator\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onMouseupPane\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onMouseupHeader\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onClickHeader\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onClickPane\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onDblclickPane\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+\b_onMouseout\b=Please check if you override this framework funktion. A complete list of API changes can be found in the release notes.
+
+
+\bcellClick\b=Please check if you use this event. A complete list of API changes can be found in the release notes.
+\bcellDblclick\b=Please check if you use this event. A complete list of API changes can be found in the release notes.
+
+
+\bhandleClick\b=Please check if you use or override this framework funktion. A complete list of API changes can be found in the release notes.
+\bhandleMouseOver\b=Please check if you use or override this framework funktion. A complete list of API changes can be found in the release notes.
+\bhandleMouseDown\b=Please check if you use or override this framework funktion. A complete list of API changes can be found in the release notes.
+\bhandleMouseUp\b=Please check if you use or override this framework funktion. A complete list of API changes can be found in the release notes.
+\bhandleMouseMove\b=Please check if you use or override this framework funktion. A complete list of API changes can be found in the release notes.
+\battachMouseEvents\b=Please check if you use or override this framework funktion. A complete list of API changes can be found in the release notes.
+\bdetatchMouseEvents\b=Please check if you use or override this framework funktion. A complete list of API changes can be found in the release notes.
+\bopenAtMouse\b=Please check if you use or override this framework funktion. A complete list of API changes can be found in the release notes.
+\bplaceToMouse\b=Please check if you use or override this framework funktion. A complete list of API changes can be found in the release notes.
+\bsetMouseOverColumn\b=Please check if you use or override this framework funktion. A complete list of API changes can be found in the release notes.
