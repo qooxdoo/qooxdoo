@@ -392,7 +392,9 @@ qx.Bootstrap.define("qx.lang.Array",
     {
       var result = 0;
       for (var i=0, l=arr.length; i<l; i++) {
-        result += arr[i];
+        if (arr[i] != undefined) {
+          result += arr[i];
+        }
       }
 
       return result;

@@ -106,7 +106,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     __eventNames : null,
     __nativePointerEvents : false,
     __wrappedListener : null,
-    __lastButtonState : null,
+    __lastButtonState : 0,
     __buttonStates : null,
     __contextMenu : false,
     __primaryIdentifier : null,
@@ -243,11 +243,12 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
       var mouseProps = {pointerType : "mouse", pointerId: 1};
 
-      if (this.__lastButtonState != buttonsPressed) {
-        this.__lastButtonState = buttonsPressed;
+      // if the button state changes but not from or to zero
+      if (this.__lastButtonState != buttonsPressed && buttonsPressed != 0 && this.__lastButtonState != 0) {
         var moveEvt = new qx.event.type.dom.Pointer("pointermove", domEvent, mouseProps);
         this._fireEvent(moveEvt, "pointermove", target);
       }
+      this.__lastButtonState = buttonsPressed;
 
       // pointerdown should only trigger form the first pressed button.
       if (domEvent.type == "mousedown" && buttonsPressed > 1) {
