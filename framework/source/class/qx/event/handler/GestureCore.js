@@ -197,7 +197,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      */
     gestureChange : function(domEvent, target) {
       var gesture = this.__gesture[domEvent.pointerId];
-      if(gesture) {
+      if (gesture) {
         var oldClientX = gesture.clientX;
         var oldClientY = gesture.clientY;
 
@@ -344,6 +344,31 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
       var scale = Math.sqrt( Math.pow(pointerA.clientX - pointerB.clientX, 2) + Math.pow(pointerA.clientY - pointerB.clientY, 2));
       return scale;
+    },
+
+
+    /**
+     * Calculates the velocity for the swipe gesture.
+     * @param gesture {Map} description.
+     * @param distance {Number} distance of the gesture.
+     * @param duration {Number} duration of the gesture.
+     * @param axis {String} "x"/"y".
+     * @param pointerType {String} "mouse","touch","pen".
+     * @return {Number} The velocity
+     */
+    _calcVelocity : function(gesture, distance, duration, axis, pointerType) {
+      var velocity = 0;
+      if (pointerType == "touch") {
+        if (axis == "x") {
+          velocity = gesture.velocityX;
+        } else {
+          velocity = gesture.velocityY;
+        }
+        velocity = velocity / (new Date().getTime() - gesture.lastEventTime);
+      } else {
+        velocity = (duration !== 0) ? distance / duration : 0;
+      }
+      return velocity;
     },
 
 
@@ -552,6 +577,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
     /**
      * Stops the time for the long tap event.
+     * @param gesture {Map} Data may representing the gesture.
      */
     __stopLongTapTimer : function(gesture) {
       if (gesture.longTapTimer) {

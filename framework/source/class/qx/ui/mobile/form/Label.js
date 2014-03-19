@@ -206,8 +206,9 @@ qx.Class.define("qx.ui.mobile.form.Label",
     },
 
 
-    /** 
+    /**
      * Handler for <code>tap</code> event on the Label. This event will be delegated to target widget.
+     * @param evt {qx.event.type.Pointer} The tap event.
      */
     _onTap: function(evt) {
       if (this.__forWidget && qx.core.Environment.get("event.dispatchevent")) {
