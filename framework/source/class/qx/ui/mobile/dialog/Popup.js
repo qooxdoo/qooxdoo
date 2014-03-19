@@ -161,7 +161,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
 
     /**
-     * deprecated {3.5} Please use getHideOnBlockerTap() instead.
+     * @deprecated {4.0} Please use getHideOnBlockerTap() instead.
      * @param value {Boolean} the target value.
      */
     setHideOnBlockerClick: function(value) {
@@ -173,7 +173,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
 
     /**
-     * deprecated {3.5} Please use getHideOnBlockerTap() instead.
+     * @deprecated {4.0} Please use getHideOnBlockerTap() instead.
      * @return {Boolean} the target value of property hideOnBlockerClick.
      */
     getHideOnBlockerClick: function() {
