@@ -171,8 +171,8 @@ qx.Class.define("qx.ui.root.Application",
     // overridden
     _computeSizeHint : function()
     {
-      var width = qx.bom.Viewport.getWidth(this.__window) + window.scrollX;
-      var height = qx.bom.Viewport.getHeight(this.__window) + window.scrollY;
+      var width = qx.bom.Viewport.getWidth(this.__window) + (window.scrollX || 0);
+      var height = qx.bom.Viewport.getHeight(this.__window) + (window.scrollY || 0);
 
       return {
         minWidth : width,
