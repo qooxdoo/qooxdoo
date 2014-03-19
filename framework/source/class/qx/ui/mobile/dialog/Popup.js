@@ -141,7 +141,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     /**
      * Indicates whether the a modal popup should disappear when user taps/clicks on Blocker.
      */
-    hideOnBlockerClick :
+    hideOnBlockerTap :
     {
       check : "Boolean",
       init : false
@@ -159,6 +159,29 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     __titleWidget: null,
     __lastPopupDimension : null,
 
+
+    /**
+     * deprecated {3.5} Please use getHideOnBlockerTap() instead.
+     * @param value {Boolean} the target value.
+     */
+    setHideOnBlockerClick: function(value) {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, "The method 'setHideOnBlockerClick()' is deprecated. Please use 'setHideOnBlockerTap()'' instead");
+      }
+      this.setHideOnBlockerTap(value);
+    },
+
+
+    /**
+     * deprecated {3.5} Please use getHideOnBlockerTap() instead.
+     * @return {Boolean} the target value of property hideOnBlockerClick.
+     */
+    getHideOnBlockerClick: function() {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, "The method 'getHideOnBlockerClick()' is deprecated. Please use 'getHideOnBlockerTap()'' instead");
+      }
+      return this.getHideOnBlockerTap();
+    },
 
     /**
      * Event handler. Called whenever the position of the popup should be updated.
