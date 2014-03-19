@@ -156,7 +156,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       var changedTouches = domEvent.changedTouches;
       domEvent.stopPropagation();
 
-      if (domEvent.type == "touchstart" && !this.__primaryIdentifier) {
+      if (domEvent.type == "touchstart" && this.__primaryIdentifier === null) {
         this.__primaryIdentifier = changedTouches[0].identifier;
       }
 
