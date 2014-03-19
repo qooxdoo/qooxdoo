@@ -197,7 +197,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       menu.setUnselectedItemClass("selectbox-unselected");
 
       // Hide selectionDialog on tap on blocker.
-      menu.setHideOnBlockerClick(true);
+      menu.setHideOnBlockerTap(true);
 
       return menu;
     },
