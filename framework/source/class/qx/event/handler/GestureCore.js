@@ -348,30 +348,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
 
     /**
-     * Calculates the velocity for the swipe gesture.
-     * @param gesture {Map} description.
-     * @param distance {Number} distance of the gesture.
-     * @param duration {Number} duration of the gesture.
-     * @param axis {String} "x"/"y".
-     * @param pointerType {String} "mouse","touch","pen".
-     */
-    _calcVelocity : function(gesture, distance, duration, axis, pointerType) {
-      var velocity = 0;
-      if (pointerType == "touch") {
-        if (axis == "x") {
-          velocity = gesture.velocityX;
-        } else {
-          velocity = gesture.velocityY;
-        }
-        velocity = velocity / (new Date().getTime() - gesture.lastEventTime);
-      } else {
-        velocity = (duration !== 0) ? distance / duration : 0;
-      }
-      return velocity;
-    },
-
-
-    /**
      * Checks if the distance between the x/y coordinates of DOM event
      * exceeds TAP_MAX_DISTANCE and returns the result.
      *
@@ -499,7 +475,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       var axis = (Math.abs(deltaCoordinates.x) >= Math.abs(deltaCoordinates.y)) ? "x" : "y";
       var distance = deltaCoordinates[axis];
       var direction = clazz.SWIPE_DIRECTION[axis][distance < 0 ? 0 : 1];
-      var velocity = this._calcVelocity(gesture, distance, duration, axis, domEvent.getPointerType());
+      var velocity = (duration !== 0) ? distance / duration : 0;
 
       var swipe = {
         startTime: gesture.startTime,

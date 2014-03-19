@@ -261,7 +261,7 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
         this.__onTouch = false;
         this._scrollStep(this.__currentOffset[1], evt.getVelocity(), 1, scrollLimit);
-      } else if (this.ScrollableX() && !this.__isVerticalScroll) {
+      } else if (this.isScrollableX() && !this.__isVerticalScroll) {
         this.scrollTo(this.__currentOffset[0], this.__currentOffset[1]);
       }
     },
@@ -276,20 +276,24 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     * @param scrollLimit {Number} scrollLimit of the scroll area. 
     */
     _scrollStep: function(startPosition, velocity, momentum, scrollLimit) {
-      var nextPosition = startPosition + (velocity * 2);
+      var nextPosition = startPosition + velocity * 10;
 
       this._scrollContainer.setTranslateY(nextPosition);
       this.__lastOffset[1] = nextPosition;
       this._updateScrollIndicator(this.__lastOffset[1]);
 
       if (Math.abs(velocity) > 0.01 && !this.__onTouch) {
-        if (nextPosition > 0 || nextPosition < -scrollLimit[1]) {
-          momentum = momentum + Math.abs(nextPosition / 10000);
+        if (nextPosition > 0) {
+          momentum = momentum + Math.abs(nextPosition) / 10000;
+        } else if (nextPosition < -scrollLimit[1]) {
+          momentum = momentum + Math.abs(scrollLimit[1] + nextPosition) / 10000;
         } else {
           momentum = momentum + 0.00005;
         }
         var nextVelocity = (velocity / momentum);
-        setTimeout(this._scrollStep.bind(this), 2, nextPosition, nextVelocity, momentum, scrollLimit);
+        qx.bom.AnimationFrame.request(function() {
+          this._scrollStep(nextPosition, nextVelocity, momentum, scrollLimit);
+        }, this);
       } else {
         this.scrollTo(0, nextPosition);
       }
