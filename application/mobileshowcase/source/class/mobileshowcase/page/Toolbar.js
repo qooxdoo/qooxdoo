@@ -197,7 +197,7 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       popupWidget.add(searchButton);
 
       this.__searchDialog = new qx.ui.mobile.dialog.Popup(popupWidget);
-      this.__searchDialog.setHideOnBlockerClick(true);
+      this.__searchDialog.setHideOnBlockerTap(true);
       this.__searchDialog.setModal(true);
       this.__searchDialog.setTitle('Search ...');
       return this.__searchDialog;

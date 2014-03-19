@@ -253,7 +253,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
       {
         qx.ui.mobile.core.Blocker.getInstance().show();
 
-        if(this.getHideOnBlockerClick()) {
+        if(this.getHideOnBlockerTap()) {
           qx.ui.mobile.core.Blocker.getInstance().addListener("tap", this.hide, this);
         }
       }
