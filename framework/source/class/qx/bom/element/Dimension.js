@@ -49,7 +49,7 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
      */
     getWidth: function(element) {
       var rect = element.getBoundingClientRect();
-      return Math.round(rect.right) - Math.round(rect.left);
+      return Math.round(rect.right - rect.left);
     },
 
 
@@ -66,7 +66,7 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
      */
     getHeight: function(element) {
       var rect = element.getBoundingClientRect();
-      return Math.round(rect.bottom) - Math.round(rect.top);
+      return Math.round(rect.bottom - rect.top);
     },
 
 

@@ -42,3 +42,18 @@ datepicker.render();
   executable: true,
   showMarkup: true
 });
+
+addSample(".datepicker", {
+  html : ['<input type="text" id="datepicker-example"></input>'],
+  javascript: function() {
+var datepicker = q("#datepicker-example").datepicker(new Date());
+
+// allow user input on the connected input element
+datepicker.setConfig('readonly', false);
+
+// Update the datepicker by rendering it
+datepicker.render();
+  },
+  executable: true,
+  showMarkup: true
+});

@@ -23,6 +23,32 @@
  * This is a date picker widget used to combine an input element with a calendar widget
  * to select a date. The calendar itself is opened as popup to save visual space.
  *
+ * <h2>Markup</h2>
+ * Each Date Picker widget is connected to an existing input element.
+ *
+ * <h2>CSS Classes</h2>
+ * <table>
+ *   <thead>
+ *     <tr>
+ *       <td>Class Name</td>
+ *       <td>Applied to</td>
+ *       <td>Description</td>
+ *     </tr>
+ *   </thead>
+ *   <tbody>
+ *     <tr>
+ *       <td><code>qx-datepicker</code></td>
+ *       <td>Input element</td>
+ *       <td>Identifies the date picker widget</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-datepicker-icon</code></td>
+ *       <td>Icon element</td>
+ *       <td>Identifies the (if configured) image element to open the date picker</td>
+ *     </tr>
+ *   </tbody>
+ * </table>
+ *
  * @require(qx.module.Template)
  *
  * @group (Widget)
@@ -41,11 +67,41 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
      * <pre>function(date) {
         return date.toLocaleDateString();
       }</pre>
+     *
+     * *readonly*
+     *
+     * Boolean value to control if the connected input element is read-only.
+     *
+     * Default value:
+     * <pre>true</pre>
+     *
+     * *icon*
+     *
+     * Path to an icon which will be placed next to the input element as additional opener. If configured
+     * a necessary <code>img</code> element is created and equipped with the <code>qx-datepicker-icon</code>
+     * CSS class to style it.
+     *
+     * Default value:
+     * <pre>null</pre>
+     *
+     * *mode*
+     *
+     * Which control should trigger showing the date picker.
+     * Possible values are <code>input</code>, <code>icon</code>, <code>both</code>.
+     *
+     * Default value:
+     * <pre>input</pre>
      */
     _config : {
       format : function(date) {
         return date.toLocaleDateString();
-      }
+      },
+
+      readonly : true,
+
+      icon : null,
+
+      mode : 'input'
     },
 
     /**
@@ -78,7 +134,7 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
     getCalendar : function() {
       var calendarCollection = qxWeb();
       this._forEachElementWrapped(function(datepicker) {
-        calendarCollection = calendarCollection.concat(qxWeb('div#datepicker-' + datepicker.getData('qx-calendar-id')));
+        calendarCollection = calendarCollection.concat(qxWeb('div#' + datepicker.getProperty('calendarId')));
       });
 
       return calendarCollection;
@@ -96,20 +152,24 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
         return false;
       }
 
-      // all connected input elements can be set to 'readonly'
-      this.setAttribute('readonly', 'readonly');
-
       this._forEachElementWrapped(function(datepicker) {
+
         var uniqueId = Math.round(Math.random() * 10000);
-        var calendar = qxWeb.create('<div id="datepicker-' + uniqueId + '"></div>').calendar();
+        datepicker.setProperty('uniqueId', uniqueId);
+
+        this.__setReadOnly(datepicker);
+        this.__setIcon(datepicker);
+        this.__addInputListener(datepicker);
+
+        var calendarId = 'datepicker-calendar-' + uniqueId;
+        var calendar = qxWeb.create('<div id="' + calendarId + '"></div>').calendar();
         calendar.appendTo(document.body).hide();
 
         // create the connection between the date picker and the corresponding calendar widget
-        datepicker.setData('qx-calendar-id', uniqueId);
+        datepicker.setProperty('calendarId', calendarId);
 
-        // click/tap listener to open / hide calendar
-        datepicker.onWidget('tap', datepicker._onTap);
-
+        // grab tap events at the body element to be able to hide the calender popup
+        // if the user taps outside
         var bodyElement = qxWeb.getDocument(datepicker).body;
         qxWeb(bodyElement).on('tap', datepicker._onBodyTap, datepicker, true);
 
@@ -127,6 +187,13 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
     // overridden
     render : function() {
       this.getCalendar().render();
+
+      this._forEachElementWrapped(function(datepicker) {
+        this.__setReadOnly(datepicker);
+        this.__setIcon(datepicker);
+        this.__addInputListener(datepicker);
+      });
+
       return this;
     },
 
@@ -137,7 +204,7 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
      * @param e {Event} tap event
      */
     _onTap : function(e) {
-      var calendar = qxWeb('div#datepicker-' + this.getData('qx-calendar-id'));
+      var calendar = qxWeb('div#' + this.getProperty('calendarId'));
       calendar.isRendered() ? this.getCalendar().hide() :
                               this.getCalendar().show().placeTo(this, 'bottom-left');
 
@@ -175,15 +242,86 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
       this.getCalendar().hide();
     },
 
+
+    /**
+     * Helper method to set the readonly status on the input element
+     *
+     * @param collection {qxWeb} collection to work on
+     */
+    __setReadOnly : function(collection) {
+      if (collection.getConfig('readonly')) {
+        collection.setAttribute('readonly', 'readonly');
+      } else {
+        collection.removeAttribute('readonly');
+      }
+    },
+
+    /**
+     * Helper method to add / remove an icon next to the input element
+     *
+     * @param collection {qxWeb} collection to work on
+     */
+    __setIcon : function(collection) {
+      var icon;
+
+      if (collection.getConfig('icon') === null) {
+        icon = collection.getNext('img#' + collection.getProperty('iconId'));
+        if (icon.length === 1) {
+          icon.off('click', this._onClick, collection);
+          icon.remove();
+        }
+      } else {
+        var iconId = 'datepicker-icon-' + collection.getProperty('uniqueId');
+        collection.setProperty('iconId', iconId);
+
+        icon = qxWeb.create('<img>');
+
+        icon.setAttributes({
+          id: iconId,
+          src: collection.getConfig('icon')
+        });
+
+        icon.addClass(this.getCssPrefix() + '-icon');
+
+        var openingMode = collection.getConfig('mode');
+        if (openingMode === 'icon' || openingMode === 'both') {
+          icon.on('click', this._onClick, collection);
+        }
+
+        icon.insertAfter(collection);
+      }
+    },
+
+    /**
+     * Helper method to add a listener to the connected input element
+     * if the configured mode is set.
+     *
+     * @param collection {qxWeb} collection to work on
+     */
+    __addInputListener : function(collection) {
+      if (collection.getConfig('mode') === 'icon') {
+        collection.offWidget('click', collection._onClick);
+      } else {
+        collection.onWidget('click', collection._onClick);
+      }
+    },
+
     // overridden
     dispose : function() {
       this._forEachElementWrapped(function(datepicker) {
-        datepicker.offWidget('tap', datepicker._onTap);
+        datepicker.removeAttribute('readonly');
+        datepicker.getNext('img#' + datepicker.getProperty('iconId')).remove();
+
+        datepicker.offWidget('tap', datepicker._onClick);
 
         var bodyElement = qxWeb.getDocument(datepicker).body;
         qxWeb(bodyElement).off('tap', datepicker._onBodyTap, datepicker, true);
 
         datepicker.getCalendar().off('changeValue', this._calendarChangeValue, datepicker);
+
+        var calendar = qxWeb('div#' + datepicker.getProperty('calendarId'));
+        calendar.remove();
+        calendar.dispose();
       });
 
       return this.base(arguments);

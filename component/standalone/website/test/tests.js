@@ -4616,3 +4616,78 @@ testrunner.define({
     this.assertFalse(tabs.getChildren().eq(0).hasClass("qx-tabs-right"));
   }
 });
+
+
+testrunner.define({
+  classname: "ui.DatePicker",
+
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+
+  testReadOnlyInputElement : function() {
+    var sandbox = q("#sandbox");
+    sandbox.append("<input type='text' id='datepicker' data-qx-class='qx.ui.website.DatePicker' data-qx-config-readonly='false' value=''></input");
+
+    var datepicker = q("input#datepicker").datepicker();
+
+    // config is set via data attribute 'data-qx-config-input-read-only'
+    this.assertFalse(datepicker.getAttribute('readonly'));
+
+    datepicker.dispose();
+  },
+
+  testReadOnlyInputElementWithConfig : function() {
+    var sandbox = q("#sandbox");
+    sandbox.append("<input type='text' class='datepicker' data-qx-class='qx.ui.website.DatePicker' value=''></input");
+    sandbox.append("<input type='text' class='datepicker' data-qx-class='qx.ui.website.DatePicker' value=''></input");
+
+    var datepicker = q("input.datepicker").datepicker();
+
+    this.assertTrue(datepicker.eq(0).getConfig('readonly'));
+    this.assertTrue(datepicker.eq(1).getConfig('readonly'));
+
+    this.assertTrue(datepicker.eq(0).getAttribute('readonly'));
+    this.assertTrue(datepicker.eq(1).getAttribute('readonly'));
+
+    datepicker.eq(0).setConfig('readonly', false);
+    datepicker.render();
+
+    this.assertFalse(datepicker.eq(0).getAttribute('readonly'));
+    this.assertTrue(datepicker.eq(1).getAttribute('readonly'));
+
+    datepicker.dispose();
+  },
+
+  testIconOpener : function() {
+    var sandbox = q("#sandbox");
+    sandbox.append("<input type='text' class='datepicker' data-qx-class='qx.ui.website.DatePicker' value=''></input");
+
+    var datepicker = q("input.datepicker").datepicker();
+    datepicker.setConfig('icon', '../../../../application/websitewidgetbrowser/demo/datepicker/office-calendar.png');
+    datepicker.render();
+
+    var icon = datepicker.getNext();
+    this.assertEquals(1, icon.length);
+    this.assertEquals('img', q.getNodeName(icon));
+    this.assertEquals('qx-datepicker-icon', icon.getClass());
+
+    datepicker.dispose();
+  },
+
+  testIconOpenerToggle : function() {
+    var sandbox = q("#sandbox");
+    sandbox.append("<input type='text' class='datepicker' data-qx-class='qx.ui.website.DatePicker' value=''></input");
+
+    var datepicker = q("input.datepicker").datepicker();
+    datepicker.setConfig('icon', '../../../../application/websitewidgetbrowser/demo/datepicker/office-calendar.png');
+    datepicker.render();
+
+    datepicker.setConfig('icon', null);
+    datepicker.render();
+
+    var icon = datepicker.getNext();
+    this.assertEquals(0, icon.length);
+
+    datepicker.dispose();
+  }
+});
