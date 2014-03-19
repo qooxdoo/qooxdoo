@@ -161,29 +161,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
 
     /**
-     * @deprecated {4.0} Please use getHideOnBlockerTap() instead.
-     * @param value {Boolean} the target value.
-     */
-    setHideOnBlockerClick: function(value) {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, "The method 'setHideOnBlockerClick()' is deprecated. Please use 'setHideOnBlockerTap()'' instead");
-      }
-      this.setHideOnBlockerTap(value);
-    },
-
-
-    /**
-     * @deprecated {4.0} Please use getHideOnBlockerTap() instead.
-     * @return {Boolean} the target value of property hideOnBlockerClick.
-     */
-    getHideOnBlockerClick: function() {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, "The method 'getHideOnBlockerClick()' is deprecated. Please use 'getHideOnBlockerTap()'' instead");
-      }
-      return this.getHideOnBlockerTap();
-    },
-
-    /**
      * Event handler. Called whenever the position of the popup should be updated.
      */
     _updatePosition : function()
