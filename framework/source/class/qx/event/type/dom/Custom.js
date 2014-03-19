@@ -58,7 +58,7 @@ qx.Bootstrap.define("qx.event.type.dom.Custom", {
 
     this._event.stopPropagation = function() {
       this._stopped = true;
-      if (this._original.stopPropagation) {
+      if (this._nativeStopPropagation) {
         this._original.stopPropagation();
         this._nativeStopPropagation();
       } else {
