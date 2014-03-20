@@ -47,17 +47,17 @@ qx.Class.define("demobrowser.demo.event.PointerEvent",
 
       var pointerDiv = document.getElementById("pointer");
 
-      var events = ["pointerdown", "pointerup", "tap", "dbltap", "longtap", "pointermove", "pointerover", "pointerout", "swipe"];
+      var events = ["pointerdown", "pointerup", "tap", "dbltap", "longtap", "pointermove", "pointerover", "pointerout", "swipe", "track", "rotate", "pinch"];
       for (var i=0; i<events.length; i++)
       {
-        var elem = document.getElementById("check_" + events[i])
+        var elem = document.getElementById("check_" + events[i]);
         if (elem.checked) {
           qx.bom.Element.addListener(
             pointerDiv,
             events[i],
             this.logPointerEvent,
             this
-          )
+          );
         }
         qx.bom.Element.addListener(elem, "change", this.__changeCheckbox, this);
       }
@@ -95,7 +95,7 @@ qx.Class.define("demobrowser.demo.event.PointerEvent",
           type,
           this.logPointerEvent,
           this
-        )
+        );
       }
       else
       {
@@ -104,7 +104,7 @@ qx.Class.define("demobrowser.demo.event.PointerEvent",
           type,
           this.logPointerEvent,
           this
-        )
+        );
 
       }
     },

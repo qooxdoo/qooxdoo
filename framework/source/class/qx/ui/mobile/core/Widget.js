@@ -115,6 +115,15 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /** Fired when a finger swipes over the screen. */
     swipe : "qx.event.type.Touch",
 
+    /** Fired when two pointers performing a rotate gesture on the screen. */
+    rotate : "qx.event.type.Rotate",
+
+    /** Fired when two pointers performing a pinch in/out gesture on the screen. */
+    pinch : "qx.event.type.Pinch",
+
+    /** Fired when an active pointer moves on the screen (after pointerdown till pointerup). */
+    track : "qx.event.type.Track",
+
     /**
      * This event if fired if a keyboard key is released.
      **/

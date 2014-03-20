@@ -170,14 +170,26 @@ qx.Class.define("qx.ui.core.Widget",
     /** Fired if a touch at the screen is canceled. */
     touchcancel : "qx.event.type.Touch",
 
-    /** Fired when a finger taps on the screen. */
+    /** Fired when a pointer taps on the screen. */
     tap : "qx.event.type.Tap",
 
-    /** Fired when a finger holds on the screen. */
+    /** Fired when a pointer holds on the screen. */
     longtap : "qx.event.type.Tap",
 
-    /** Fired when a finger swipes over the screen. */
+    /** Fired when a pointer taps twice on the screen. */
+    dbltap : "qx.event.type.Tap",
+
+    /** Fired when a pointer swipes over the screen. */
     swipe : "qx.event.type.Touch",
+
+    /** Fired when two pointers performing a rotate gesture on the screen. */
+    rotate : "qx.event.type.Rotate",
+
+    /** Fired when two pointers performing a pinch in/out gesture on the screen. */
+    pinch : "qx.event.type.Pinch",
+
+    /** Fired when an active pointer moves on the screen (after pointerdown till pointerup). */
+    track : "qx.event.type.Track",
 
     /** Fired if a pointer (mouse/touch/pen) moves or changes any of it's values. */
     pointermove : "qx.event.type.Pointer",
