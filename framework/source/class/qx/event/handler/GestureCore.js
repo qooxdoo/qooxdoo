@@ -248,6 +248,20 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       var eventType;
 
 
+      /*
+        If the dom event's target or one of its ancestors have
+        a gesture handler, we don't need to fire the gesture again
+        since it bubbles.
+       */
+      var domTarget = target;
+      while (domTarget && domTarget !== this.__defaultTarget) {
+        if (domTarget.$$gestureHandler) {
+          delete this.__gesture[domEvent.pointerId];
+          return;
+        }
+        domTarget = domTarget.parentNode;
+      }
+
       if (target !== gesture.target) {
         delete this.__gesture[domEvent.pointerId];
         return;
@@ -442,8 +456,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       }
       var evt;
       if (qx.core.Environment.get("event.dispatchevent")) {
-        evt = new qx.event.type.dom.Custom(type, domEvent);
-        this.__defaultTarget.dispatchEvent(evt);
+        evt = new qx.event.type.dom.Custom(type, domEvent, {bubbles: true});
+        target.dispatchEvent(evt);
       } else if (this.__emitter) {
         evt = new qx.event.type.dom.Custom(type, domEvent, {
           target : this.__defaultTarget,

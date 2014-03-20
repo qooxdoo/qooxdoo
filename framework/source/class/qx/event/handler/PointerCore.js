@@ -331,7 +331,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           target.dispatchEvent(domEvent);
         }
         if (gestureEvent) {
-          this.__defaultTarget.dispatchEvent(gestureEvent);
+          target.dispatchEvent(gestureEvent);
         }
       } else {
         // ensure compatibility with native events for IE8
