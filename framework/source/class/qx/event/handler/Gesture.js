@@ -37,7 +37,12 @@ qx.Class.define("qx.event.handler.Gesture",
       tap : 1,
       swipe : 1,
       longtap : 1,
-      dbltap : 1
+      dbltap : 1,
+      rotate : 1,
+      pinch : 1,
+      track : 1,
+      trackstart : 1,
+      trackend : 1
     },
 
     GESTURE_EVENTS : ["gesturestart", "gestureend", "gesturechange"],
