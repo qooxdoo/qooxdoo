@@ -72,7 +72,7 @@ qx.Mixin.define("qx.ui.core.scroll.MWheelHandling",
       // x case
       if (scrollbarX) {
         if (qx.event.handler.MouseEmulation.ON) {
-          scrollbarX.scrollBySteps(deltaX);
+          scrollbarX.scrollBy(parseInt(deltaX));
         } else {
           var steps = parseInt(deltaX);
 
