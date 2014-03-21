@@ -140,6 +140,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         this.gestureChange(domEvent, target);
       } else if (type == "gestureend") {
         this.gestureEnd(domEvent, target);
+      } else if (type == "mousewheel") {
+        this.__fireScroll(domEvent, domEvent.target || target)
       }
     },
 
@@ -216,6 +218,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
         if(!this.__isMultiPointerGesture) {
           this.__fireTrack("track", domEvent, gesture.target);
+          this.__fireScroll(domEvent, gesture.target);
         }
 
         // abort long tap timer if the distance is too big
@@ -300,9 +303,55 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       this.__onTrack = false;
       this.__fireTrack("trackend", domEvent, target);
 
+      this.__handleScrollImpulse(
+        this.__gesture[domEvent.pointerId].velocityX,
+        this.__gesture[domEvent.pointerId].velocityY,
+        domEvent,
+        target
+      );
+
       delete this.__gesture[domEvent.pointerId];
     },
 
+
+    __handleScrollImpulse : function(deltaX, deltaY, domEvent, target, time) {
+      // delete the old timer id
+      this.__impulseRequestId = null;
+
+      // do nothing if we don't need to scroll
+      if (deltaX == 0 && deltaY == 0) {
+        return;
+      }
+
+      var change = parseInt((time || 20) / 10);
+
+      // linear momentum calculation for X
+      if (deltaX > 0) {
+        deltaX = Math.max(0, deltaX - change);
+      } else {
+        deltaX = Math.min(0, deltaX + change);
+      }
+
+      // linear momentum calculation for Y
+      if (deltaY > 0) {
+        deltaY = Math.max(0, deltaY - change);
+      } else {
+        deltaY = Math.min(0, deltaY + change);
+      }
+
+      // set up a new timer with the new delta
+      var start = +(new Date());
+      this.__impulseRequestId = qx.bom.AnimationFrame.request(qx.lang.Function.bind(function(deltaX, deltaY, domEvent, target, time) {
+        this.__handleScrollImpulse(deltaX, deltaY, domEvent, target, time - start);
+      }, this, deltaX, deltaY, domEvent, target));
+
+      // scroll the desired new delta
+      domEvent.delta = {
+        x: -deltaX,
+        y: -deltaY
+      };
+      this._fireEvent(domEvent, "scroll", domEvent.target || target);
+    },
 
     /**
     * Calculates the angle of the primary and secondary pointer.
@@ -526,6 +575,29 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       this._fireEvent(domEvent, type, domEvent.target || target);
     },
 
+
+    /**
+     * Fires a scroll event.
+     *
+     * @param domEvent {Event} DOM event
+     * @param target {Element} event target
+     */
+    __fireScroll : function(domEvent, target) {
+      if (domEvent.type === "mousewheel") {
+        domEvent.delta = {
+          x: qx.util.Wheel.getDelta(domEvent, "x") * 10,
+          y: qx.util.Wheel.getDelta(domEvent, "y") * 10
+        }
+      } else {
+        var gesture = this.__gesture[domEvent.pointerId];
+        domEvent.delta = {
+          x: -gesture.velocityX,
+          y: -gesture.velocityY
+        }
+      }
+
+      this._fireEvent(domEvent, "scroll", domEvent.target || target);
+    },
 
 
     /**

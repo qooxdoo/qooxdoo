@@ -41,41 +41,39 @@ qx.Mixin.define("qx.ui.core.scroll.MWheelHandling",
       var scrollbarY = showY ? this.getChildControl("scrollbar-y", true) : null;
       var scrollbarX = showX ? this.getChildControl("scrollbar-x", true) : null;
 
-      var deltaY = e.getWheelDelta("y");
-      var deltaX = e.getWheelDelta("x");
+      // var deltaY = e.getWheelDelta("y");
+      // var deltaX = e.getWheelDelta("x");
+      var deltaY = e.getDelta().y;
+      var deltaX = e.getDelta().x;
 
       var endY = !showY;
       var endX = !showX;
 
       // y case
       if (scrollbarY) {
-        var steps = parseInt(deltaY);
-
-        if (steps !== 0) {
-          scrollbarY.scrollBySteps(steps);
+        if (deltaY !== 0) {
+          scrollbarY.scrollBy(deltaY);
         }
 
         var position = scrollbarY.getPosition();
         var max = scrollbarY.getMaximum();
 
         // pass the event to the parent if the scrollbar is at an edge
-        if (steps < 0 && position <= 0 || steps > 0 && position >= max) {
+        if (deltaY < 0 && position <= 0 || deltaY > 0 && position >= max) {
           endY = true;
         }
       }
 
       // x case
       if (scrollbarX) {
-        var steps = parseInt(deltaX);
-
-        if (steps !== 0) {
-          scrollbarX.scrollBySteps(steps);
+        if (deltaX !== 0) {
+          scrollbarX.scrollBy(deltaX);
         }
 
         var position = scrollbarX.getPosition();
         var max = scrollbarX.getMaximum();
         // pass the event to the parent if the scrollbar is at an edge
-        if (steps < 0 && position <= 0 || steps > 0 && position >= max) {
+        if (deltaX < 0 && position <= 0 || deltaX > 0 && position >= max) {
           endX = true;
         }
       }

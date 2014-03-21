@@ -21,6 +21,7 @@
  * Unified gesture event handler.
  *
  * @require(qx.event.handler.Pointer)
+ * @require(qx.event.handler.Mouse)
  */
 qx.Class.define("qx.event.handler.Gesture",
 {
@@ -45,7 +46,7 @@ qx.Class.define("qx.event.handler.Gesture",
       trackend : 1
     },
 
-    GESTURE_EVENTS : ["gesturestart", "gestureend", "gesturechange"],
+    GESTURE_EVENTS : ["gesturestart", "gestureend", "gesturechange", "mousewheel"],
 
     /** @type {Integer} Which target check to use */
     TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE + qx.event.IEventHandler.TARGET_DOCUMENT,
@@ -62,7 +63,8 @@ qx.Class.define("qx.event.handler.Gesture",
       "pinch": qx.event.type.Pinch,
       "track": qx.event.type.Track,
       "trackstart": qx.event.type.Track,
-      "trackend": qx.event.type.Track
+      "trackend": qx.event.type.Track,
+      "scroll" : qx.event.type.Track // TODO
     }
   },
 
