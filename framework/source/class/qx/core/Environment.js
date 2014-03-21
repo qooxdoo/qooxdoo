@@ -698,10 +698,6 @@
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.dynamicmousewheel</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td><i>default:</i> <code>true</code></td>
- *     </tr>
- *     <tr>
  *       <td>qx.dynlocale</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
@@ -1278,7 +1274,6 @@ qx.Bootstrap.define("qx.core.Environment",
       this.add("qx.emulatemouse", function() {return false;});
       this.add("qx.blankpage", function() { return "qx/static/blank.html";});
 
-      this.add("qx.dynamicmousewheel", function() {return true;});
       this.add("qx.debug.databinding", function() {return false;});
       this.add("qx.debug.dispose", function() {return false;});
 
