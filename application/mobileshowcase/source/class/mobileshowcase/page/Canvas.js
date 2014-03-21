@@ -6,7 +6,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2012 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2014 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -31,6 +31,7 @@ qx.Class.define("mobileshowcase.page.Canvas",
   {
     this.base(arguments,false);
     this.setTitle("Canvas");
+    this.__ratio = qx.core.Environment.get("device.pixelRatio");
   },
 
 
@@ -39,9 +40,10 @@ qx.Class.define("mobileshowcase.page.Canvas",
     __canvasLeft : 0,
     __canvasTop : 0,
     __canvas : null,
-    __lastPoints : null,
-    __canvasWidth : 2000,
-    __canvasHeight : 2000,
+    __lastPoint : null,
+    __canvasWidth : 1000,
+    __canvasHeight : 1000,
+    __ratio : 1,
 
 
     // overridden
@@ -49,7 +51,7 @@ qx.Class.define("mobileshowcase.page.Canvas",
     {
       this.base(arguments);
 
-      this.__lastPoints = {};
+      this.__lastPoint = {};
 
       var clearButton = new qx.ui.mobile.navigationbar.Button("Clear");
       clearButton.addListener("tap", this.__clearCanvas, this);
@@ -62,8 +64,12 @@ qx.Class.define("mobileshowcase.page.Canvas",
       canvas.addListener("trackend", this._onTrackEnd, this);
       canvas.addListener("track", this._onTrack, this);
 
-      canvas.setWidth(this.__canvasWidth);
-      canvas.setHeight(this.__canvasHeight);
+      canvas.addListener("touchstart", qx.bom.Event.preventDefault, this);
+  
+      canvas.setWidth(this._to(this.__canvasWidth));
+      canvas.setHeight(this._to(this.__canvasHeight));
+      qx.bom.element.Style.set(canvas.getContentElement(),"width", this.__canvasWidth + "px");
+      qx.bom.element.Style.set(canvas.getContentElement(),"height", this.__canvasHeight + "px");
 
       this.getContent().add(canvas);
 
@@ -78,25 +84,34 @@ qx.Class.define("mobileshowcase.page.Canvas",
 
 
     /**
+    * Calculates the correct position in relation to the device pixel ratio.
+    * @return {Number} the correct position.
+    */
+    _to : function(value) {
+      return value * this.__ratio;
+    },
+
+
+    /**
      * Draws the example on the canvas.
      */
     _drawExample : function() {
       // Comment in Text
       var ctx = this.__canvas.getContext2d();
       ctx.fillStyle = 'gray';
-      ctx.font = 'bold 12pt Helvetica';
-      ctx.fillText('Start drawing here...', 15, 25);
+      ctx.font = 'bold '+this._to(16)+'px Helvetica';
+      ctx.fillText('Start drawing here ...', this._to(15), this._to(25));
 
       // Smiley
       ctx.strokeStyle = '#3D72C9';
       ctx.beginPath();
-      ctx.arc(75,85,50,0,Math.PI*2,true);
-      ctx.moveTo(110,85);
-      ctx.arc(75,85,35,0,Math.PI,false);
-      ctx.moveTo(65,75);
-      ctx.arc(60,75,5,0,Math.PI*2,true);
-      ctx.moveTo(95,75);
-      ctx.arc(90,75,5,0,Math.PI*2,true);
+      ctx.arc(475, 85, 50, 0, Math.PI * 2, true);
+      ctx.moveTo(510, 85);
+      ctx.arc(475, 85, 35, 0, Math.PI, false);
+      ctx.moveTo(465, 75);
+      ctx.arc(460, 75, 5, 0, Math.PI * 2, true);
+      ctx.moveTo(495, 75);
+      ctx.arc(490, 75, 5, 0, Math.PI * 2, true);
       ctx.stroke();
     },
 
@@ -104,21 +119,13 @@ qx.Class.define("mobileshowcase.page.Canvas",
     /**
      * Removes any drawings off the canvas.
      */
-    __clearCanvas : function() {
+    __clearCanvas: function() {
       this.__canvas.getContentElement().width = this.__canvas.getContentElement().width;
       var ctx = this.__canvas.getContext2d();
-      ctx.clearRect(0, 0, this.__canvasWidth, this.__canvasHeight);
+      ctx.clearRect(0, 0, this._to(this.__canvasWidth), this._to(this.__canvasHeight));
       ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, this.__canvasWidth, this.__canvasHeight);
+      ctx.fillRect(0, 0, this._to(this.__canvasWidth), this._to(this.__canvasHeight));
       ctx.fill();
-    },
-
-
-    /**
-     * Handles the <code>trackend</code> event on canvas.
-     */
-    _onTrackEnd : function(evt) {
-      this.__lastPoints = {};
     },
 
 
@@ -132,14 +139,22 @@ qx.Class.define("mobileshowcase.page.Canvas",
       this.__draw(evt);
     },
 
+
     /**
      * Handles the <code>track</code>  event on canvas.
      */
     _onTrack : function(evt) {
       this.__draw(evt);
-
       evt.preventDefault();
       evt.stopPropagation();
+    },
+
+
+    /**
+     * Handles the <code>trackend</code> event on canvas.
+     */
+    _onTrackEnd : function(evt) {
+      this.__lastPoint = {};
     },
 
 
@@ -148,7 +163,7 @@ qx.Class.define("mobileshowcase.page.Canvas",
      */
     __draw: function(evt) {
         var ctx = this.__canvas.getContext2d();
-        var lastPoint = this.__lastPoints[evt.getPointerId()];
+        var lastPoint = this.__lastPoint[evt.getPointerId()];
 
         var pointerLeft = evt.getViewportLeft() - this.__canvasLeft;
         var pointerTop = evt.getViewportTop() - this.__canvasTop;
@@ -158,13 +173,13 @@ qx.Class.define("mobileshowcase.page.Canvas",
         if (lastPoint) {
           ctx.beginPath();
           ctx.lineCap = 'round';
-          ctx.moveTo(lastPoint.x, lastPoint.y);
-          ctx.lineTo(pointerLeft, pointerTop);
+          ctx.moveTo(this._to(lastPoint.x), this._to(lastPoint.y));
+          ctx.lineTo(this._to(pointerLeft), this._to(pointerTop));
 
           var deltaX = Math.abs(lastPoint.x - pointerLeft);
           var deltaY = Math.abs(lastPoint.y - pointerTop);
 
-          var velocity = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+          var velocity = Math.sqrt(Math.pow(deltaX ,2) + Math.pow(deltaY ,2));
 
           opacity = (100 - velocity) / 100;
           opacity = Math.round(opacity * Math.pow(10, 2)) / Math.pow(10, 2);
@@ -172,7 +187,6 @@ qx.Class.define("mobileshowcase.page.Canvas",
           if (!lastPoint.opacity) {
             lastPoint.opacity = 1;
           }
-
           if (opacity < 0.1) {
             opacity = 0.1;
           }
@@ -183,12 +197,12 @@ qx.Class.define("mobileshowcase.page.Canvas",
           grad.addColorStop(1, 'rgba(61,114,201,' + opacity + ')');
           ctx.strokeStyle = grad;
 
-          ctx.lineWidth = 1.5;
+          ctx.lineWidth = this._to(1.5);
 
           ctx.stroke();
         }
 
-        this.__lastPoints[evt.getPointerId()] = {
+        this.__lastPoint[evt.getPointerId()] = {
           "x": pointerLeft,
           "y": pointerTop,
           "opacity": opacity
