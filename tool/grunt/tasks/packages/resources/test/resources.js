@@ -27,11 +27,11 @@ module.exports = {
     done();
   },
 
-  // TODO: don't hardwire paths and resolve dep to needed app
   collectImageInfoMaps: function (test) {
     var resources = require('../lib/resources.js');
 
     // real data should come from Manifest.json files
+    // i.e. from the library npm package
     var absQxPath = "../../../../../framework";
     var absAppPath = "./test/data/myapp/";
     var relQxResourcePath = "source/resource";
@@ -42,10 +42,18 @@ module.exports = {
       "myapp": path.join(absAppPath, relAppResourcePath)
     };
 
-    // real data should come from dependencies package
+    // real data should come from Gruntfile
+    var macroToExpansionMap = {
+      "${qx.icontheme}": "Tango"
+    };
+
+    // real data should come from @asset-hints
+    // i.e. from the dependency npm package
     var assets = {
      'myapp.Application':
-          [ 'myapp/*' ],
+          [ 'myapp/*',
+            'qx/icon/${qx.icontheme}/128/categories/*',
+            'qx/icon/Oxygen/16/places/folder-open.png'],
      'qx.ui.core.Widget':
           [ 'qx/static/blank.gif' ],
      'qx.theme.modern.Appearance':
@@ -117,8 +125,11 @@ module.exports = {
           [ 'qx/decoration/Modern/toolbar/toolbar-part.gif' ]
     };
 
-    var imgsInfo = resources.collectImageInfoMaps(assets, resBasePathMap, {metaFiles:true});
-    console.log(JSON.stringify(imgsInfo, null, 2), Object.keys(imgsInfo).length);
+    var assetNsBasesPaths = resources.flattenExpandAndGlobAssets(assets, resBasePathMap, macroToExpansionMap);
+    // console.log(assetNsBasesPaths);
+    var imgsInfo = resources.collectResources(assetNsBasesPaths, resBasePathMap, {metaFiles:true});
+    // console.log(JSON.stringify(imgsInfo, null, 2), Object.keys(imgsInfo).length);
+    console.log(imgsInfo, Object.keys(imgsInfo).length);
 
     test.ok(true);
     test.done();
