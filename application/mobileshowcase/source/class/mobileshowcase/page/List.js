@@ -41,22 +41,6 @@ qx.Class.define("mobileshowcase.page.List",
     {
       this.base(arguments);
 
-      var list = new qx.ui.mobile.list.List({
-        configureItem : function(item, data, row)
-        {
-          item.setImage("mobileshowcase/icon/internet-mail.png");
-          item.setTitle(row<4 ? ("Selectable " + data.title) : data.title);
-          item.setSubtitle(data.subtitle);
-          item.setSelectable(row<4);
-          item.setShowArrow(row<4);
-        }
-      });
-
-      var data = [];
-      for (var i=0; i < 100; i++) {
-        data.push({title:"Item" + i, subtitle:"Subtitle for Item #" + i});
-      }
-
       var closePopupButton = new qx.ui.mobile.form.Button("OK");
 
       var label = new qx.ui.mobile.basic.Label("labelText");
@@ -72,6 +56,39 @@ qx.Class.define("mobileshowcase.page.List",
         popup.hide();
       }, this);
 
+      var list = new qx.ui.mobile.list.List({
+        configureItem: function(item, data, row) {
+          item.setImage("mobileshowcase/icon/internet-mail.png");
+          item.setTitle(data.title);
+          item.setSubtitle(data.subtitle);
+          item.setSelectable(row < 4);
+          item.setShowArrow(row < 4);
+        },
+
+        configureGroup: function(item, data) {
+          item.setTitle(data.title);
+        }
+      });
+
+      var groups = {
+        "Selectable" : {
+          title : "Selectable"
+        },
+        "Unselectable" : {
+          title : "Not Selectable"
+        }
+      };
+      
+      var data = [];
+      for (var i = 0; i < 100; i++) {
+        data.push({
+          title: "Item" + i,
+          subtitle: "Subtitle for Item #" + i,
+          group: i < 4 ? "Selectable" : "Unselectable"
+        });
+      }
+
+      list.setGroups(groups);
       list.setModel(new qx.data.Array(data));
       list.addListener("changeSelection", function(evt) {
         var itemNumber = evt.getData();

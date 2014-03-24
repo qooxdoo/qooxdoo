@@ -64,12 +64,6 @@ qx.Class.define("qx.ui.mobile.list.List",
   extend : qx.ui.mobile.core.Widget,
 
 
- /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   /**
    * @param delegate {Object?null} The {@link #delegate} to use
    */
@@ -87,12 +81,6 @@ qx.Class.define("qx.ui.mobile.list.List",
     }
   },
 
-
- /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
 
   events :
   {
@@ -134,6 +122,17 @@ qx.Class.define("qx.ui.mobile.list.List",
       check : "qx.data.Array",
       apply : "_applyModel",
       event: "changeModel",
+      nullable : true,
+      init : null
+    },
+
+
+    /**
+     * The groups to use to render the list.
+     */
+    groups :
+    {
+      apply : "__render",
       nullable : true,
       init : null
     },
@@ -189,7 +188,7 @@ qx.Class.define("qx.ui.mobile.list.List",
       if (qx.bom.element.Attribute.get(element, "data-selectable") != "false"
           && qx.dom.Element.hasChild(this.getContainerElement(), element))
       {
-        index = qx.dom.Hierarchy.getElementIndex(element);
+        var index = element.getAttribute("data-row");
       }
       if (index != -1) {
         this.fireDataEvent("changeSelection", index);
@@ -277,10 +276,10 @@ qx.Class.define("qx.ui.mobile.list.List",
       if(evt) {
         var data = evt.getData();
         var isArray = (qx.lang.Type.isArray(data.old) && qx.lang.Type.isArray(data.value));
-        if(!isArray || (isArray && data.old.length == data.value.length)) {
+        if (!isArray || (isArray && data.old.length == data.value.length)) {
           var rows = this._extractRowsToRender(data.name);
 
-          for (var i=0; i < rows.length; i++) {
+          for (var i = 0; i < rows.length; i++) {
             this.__renderRow(rows[i]);
           }
         }
@@ -346,9 +345,8 @@ qx.Class.define("qx.ui.mobile.list.List",
      * @param index {Integer} index of the row which should be rendered.
      */
     __renderRow : function(index) {
-      var model = this.getModel();
       var element = this.getContentElement();
-      var itemElement = this.__provider.getItemElement(model.getItem(index), index);
+      var itemElement = this.__provider.getItemElement(this.getModel().getItem(index), index);
 
       var oldNode = element.childNodes[index];
 
@@ -383,23 +381,38 @@ qx.Class.define("qx.ui.mobile.list.List",
       var model = this.getModel();
       this.setItemCount(model ? model.getLength() : 0);
 
-      var itemCount = this.getItemCount();
-
-      var element = this.getContentElement();
-      for (var index = 0; index < itemCount; index++) {
-        var itemElement = this.__provider.getItemElement(model.getItem(index), index);
-        element.appendChild(itemElement);
+      for (var index = 0; index < this.getItemCount(); index++) {
+        var item = model.getItem(index);
+        var group = item.group;
+        if (group && this.getGroups() && this.getGroups()[group]) {
+          this._renderGroup(index, group);
+        }
+       
+        this.getContentElement().appendChild(this.__provider.getItemElement(item, index));
       }
+
       this._domUpdated();
+    },
+
+
+    /**
+    * Renders a group header.
+    *
+    * @param index {Integer} the item index. 
+    */
+    _renderGroup: function(index, group) {
+      var data = this.getGroups()[group];
+      if (index === 0) {
+        this.getContentElement().appendChild(this.__provider.getGroupElement(data));
+      } else {
+        var previousGroup = this.getModel().getItem(index - 1).group;
+        if (group !== previousGroup) {
+          this.getContentElement().appendChild(this.__provider.getGroupElement(data));
+        }
+      }
     }
   },
 
-
- /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
 
   destruct : function()
   {
