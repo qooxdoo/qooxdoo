@@ -27,7 +27,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
   statics : {
 
-    TYPES : ["tap", "swipe", "longtap", "dbltap", "track", "trackstart", "trackend", "rotate", "pinch"],
+    TYPES : ["tap", "swipe", "longtap", "dbltap", "track", "trackstart", "trackend", "rotate", "pinch", "roll"],
 
     GESTURE_EVENTS : ["gesturestart", "gestureend", "gesturechange"],
 
@@ -303,7 +303,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       this.__onTrack = false;
       this.__fireTrack("trackend", domEvent, target);
 
-      this.__handleScrollImpulse(
+      this.__handleRollImpulse(
         this.__gesture[domEvent.pointerId].velocityX,
         this.__gesture[domEvent.pointerId].velocityY,
         domEvent,
@@ -314,7 +314,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     },
 
 
-    __handleScrollImpulse : function(deltaX, deltaY, domEvent, target, time) {
+    __handleRollImpulse : function(deltaX, deltaY, domEvent, target, time) {
       // delete the old timer id
       this.__impulseRequestId = null;
 
@@ -342,7 +342,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       // set up a new timer with the new delta
       var start = +(new Date());
       this.__impulseRequestId = qx.bom.AnimationFrame.request(qx.lang.Function.bind(function(deltaX, deltaY, domEvent, target, time) {
-        this.__handleScrollImpulse(deltaX, deltaY, domEvent, target, time - start);
+        this.__handleRollImpulse(deltaX, deltaY, domEvent, target, time - start);
       }, this, deltaX, deltaY, domEvent, target));
 
       // scroll the desired new delta
@@ -350,7 +350,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         x: -deltaX,
         y: -deltaY
       };
-      this._fireEvent(domEvent, "scroll", domEvent.target || target);
+      this._fireEvent(domEvent, "roll", domEvent.target || target);
     },
 
     /**
@@ -577,12 +577,13 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
 
     /**
-     * Fires a scroll event.
+     * Fires a roll event.
      *
      * @param domEvent {Event} DOM event
+     * @param type {String} The type of the dom event
      * @param target {Element} event target
      */
-    __fireScroll : function(domEvent, target) {
+    _fireRoll : function(domEvent, type, target) {
       if (domEvent.type === qx.core.Environment.get("event.mousewheel").type) {
         domEvent.delta = {
           x: qx.util.Wheel.getDelta(domEvent, "x") * 10,
@@ -596,7 +597,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         }
       }
 
-      this._fireEvent(domEvent, "scroll", domEvent.target || target);
+      this._fireEvent(domEvent, "roll", domEvent.target || target);
     },
 
 

@@ -64,7 +64,7 @@ qx.Class.define("qx.event.handler.Gesture",
       "track": qx.event.type.Track,
       "trackstart": qx.event.type.Track,
       "trackend": qx.event.type.Track,
-      "scroll" : qx.event.type.Track // TODO
+      "roll" : qx.event.type.Track // TODO type
     }
   },
 

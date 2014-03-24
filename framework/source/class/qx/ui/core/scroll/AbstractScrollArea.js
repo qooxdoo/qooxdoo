@@ -77,7 +77,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
     }
 
     // Mousewheel listener to scroll vertically
-    this.addListener("scroll", this._onMouseWheel, this);
+    this.addListener("roll", this._onMouseWheel, this);
   },
 
 

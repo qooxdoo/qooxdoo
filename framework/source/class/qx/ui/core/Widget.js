@@ -192,7 +192,7 @@ qx.Class.define("qx.ui.core.Widget",
     track : "qx.event.type.Track",
 
     /** Fired when an active pointer moves on the screen (after pointerdown till pointerup). */
-    scroll : "qx.event.type.MouseWheel", // TODO
+    roll : "qx.event.type.MouseWheel", // TODO type
 
     /** Fired if a pointer (mouse/touch/pen) moves or changes any of it's values. */
     pointermove : "qx.event.type.Pointer",
