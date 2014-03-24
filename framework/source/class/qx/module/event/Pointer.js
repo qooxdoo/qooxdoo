@@ -21,6 +21,7 @@
  * Normalization for pointer events
  *
  * @require(qx.module.Event)
+ * @require(qx.module.Event#getPointerType) // static code analysis - this method has to referenced
  *
  * @group (Event_Normalization)
  */
