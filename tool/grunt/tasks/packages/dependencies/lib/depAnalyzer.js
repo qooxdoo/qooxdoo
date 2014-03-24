@@ -402,11 +402,13 @@ function getResourcesFromTagDesc(tag) {
   return resource;
 }
 
-function applyIgnoreRequireAndUse(deps, atHints) {
+function applyIgnoreRequireAndUse(deps, atHints, className) {
   var toBeFiltered = [];
   var collectIgnoredDeps = function(dep) {
     atHints.ignore.forEach(function(ignore) {
       if (toBeFiltered.indexOf(ignore) === -1) {
+        // TODO: is it better to use minimatch here?
+        // what does the manual state about @ignore?
         var ignoreRegex = new RegExp("^"+ignore+"$");
         if (ignoreRegex.test(dep)) {
           toBeFiltered.push(dep);
@@ -428,14 +430,29 @@ function applyIgnoreRequireAndUse(deps, atHints) {
   }
 
   var classesOnly = [];
-  var ignoreHashMethodAugmentation = function(hints) {
+  var ignoreHashMethodAugmentation = function(hints, className) {
     var classesOnly = [];
     hints.forEach(function(dep) {
       var posHash = 0;
+      var hintClass = "";
       // TODO: ignore qx.foo.Bar#getMyWhatever for now
-      // just require/use whole class
+      // just require/use whole class if no self reference
+      //
+      // Has to be revisited for statics optimization,
+      // classes which use this:
+      //   * qx.bom.storage.Web
+      //   * qx.bom.storage.Memory
+      //   * qx.bom.storage.UserData
+      //   * qx.bom.request.Script
+      //   * qx.bom.request.Xhr
+      //   * qx.util.ResponseParser
+      //   * ...
       if ((posHash = dep.indexOf("#")) !== -1) {
-        classesOnly.push(dep.substr(0, posHash));
+        hintClass = dep.substr(0, posHash);
+        if (hintClass === className) {
+          return;
+        }
+        classesOnly.push(hintClass);
       } else {
         classesOnly.push(dep);
       }
@@ -447,14 +464,14 @@ function applyIgnoreRequireAndUse(deps, atHints) {
   // @use
   if (atHints.use.length > 0) {
     classesOnly = [];
-    classesOnly = ignoreHashMethodAugmentation(atHints.use);
+    classesOnly = ignoreHashMethodAugmentation(atHints.use, className);
     deps.run = deps.run.concat(classesOnly);
   }
 
   // @require
   if (atHints.require.length > 0) {
     classesOnly = [];
-    classesOnly = ignoreHashMethodAugmentation(atHints.require);
+    classesOnly = ignoreHashMethodAugmentation(atHints.require, className);
     deps.load = deps.load.concat(classesOnly);
   }
 
@@ -571,7 +588,7 @@ function findUnresolvedDeps(tree, opts) {
   deps.run = unify(deps.run, tree.qxClassName);
 
   // add/remove deps according to atHints
-  deps = applyIgnoreRequireAndUse(deps, atHints);
+  deps = applyIgnoreRequireAndUse(deps, atHints, tree.qxClassName);
 
   // overlappings aren't important - remove them
   // i.e. if it's already in load remove from run
