@@ -37,6 +37,7 @@ var escope = require('escope');
 var escodegen = require('escodegen');
 var doctrine = require('doctrine');
 var Toposort = require('toposort-class');
+var glob = require('glob');
 var minimatch = require("minimatch");
 var _ = require('underscore');
 
@@ -598,22 +599,48 @@ function findUnresolvedDeps(tree, opts) {
   return (opts && opts.flattened ? deps.load.concat(deps.run) : deps);
 }
 
-// dynamic => self discovering (recursive) with class entry point
+// dynamic => self discovering (recursive) with class entry points
 function collectDepsRecursive(basePaths, initClassIds, excludedClassIds) {
   var classesDeps = {};
-
-  var getMatchingPath = function(basePaths, filePath) {
-    for (var i=0; i<basePaths.length; i++) {
-      if (fs.existsSync(path.join(basePaths[i], filePath))) {
-        return basePaths[i];
-      }
-    }
-  };
 
   var getClassNamesFromPaths = function(filePaths) {
     return filePaths.map(function(path) {
       return util.classNameFrom(path);
     });
+  };
+
+  var globClassIds = function(classIds, basePaths) {
+    var i = 0;
+    var posOfStar = 0;
+    var l = classIds.length;
+    var cls = "";
+    var clsPath = "";
+    var clsPaths = [];
+    var namespace = "";
+    var globbedClassIds = [];
+
+    var isNonInitFile = function(filePath) {
+      return (filePath.indexOf("__init__") === -1);
+    };
+
+    // glob classIds if needed
+    for (; i<l; i++) {
+      cls = classIds[i];
+      posOfStar = cls.indexOf("*");
+      // Note: only works if "*" is last char
+      if (posOfStar !== -1 && posOfStar+1 === cls.length) {
+        namespace = util.namespaceFrom(cls, Object.keys(basePaths));
+        clsPath = util.filePathFrom(cls+"*/*");
+        clsPaths = glob.sync(clsPath, {cwd: basePaths[namespace]});
+        clsPaths = clsPaths.filter(isNonInitFile);
+        clsPaths = clsPaths.map(util.classNameFrom);
+        globbedClassIds = globbedClassIds.concat(clsPaths);
+      } else {
+        globbedClassIds.push(cls);
+      }
+    }
+
+    return _.uniq(globbedClassIds);
   };
 
   var recurse = function(basePaths, classIds, seenOrSkippedClasses, excludedClassIds) {
@@ -640,8 +667,12 @@ function collectDepsRecursive(basePaths, initClassIds, excludedClassIds) {
       }
 
       var shortFilePath = util.filePathFrom(classIds[i]);
-      var curBasePath = getMatchingPath(basePaths, shortFilePath);
-      var curFullPath = path.join(curBasePath, shortFilePath);
+      var namespace = util.namespaceFrom(classIds[i], Object.keys(basePaths));
+      // console.log(namespace, shortFilePath);
+      var curFullPath = path.join(basePaths[namespace], shortFilePath);
+      if (!fs.existsSync(curFullPath)) {
+        throw new Error("ENOENT - "+curFullPath+" doesn't exist.");
+      }
       var jsCode = fs.readFileSync(curFullPath, {encoding: 'utf8'});
       var tree = esprima.parse(jsCode, {comment: true, loc: true});
       var classDeps = {
@@ -669,12 +700,12 @@ function collectDepsRecursive(basePaths, initClassIds, excludedClassIds) {
           recurse(basePaths, [dep], seenOrSkippedClasses, excludedClassIds);
         }
       }
-
     }
     return classesDeps;
   };
 
-  // start with initClassIds
+  // start with globbed initClassIds
+  initClassIds = globClassIds(initClassIds, basePaths);
   return recurse(basePaths, initClassIds, initClassIds, excludedClassIds);
 }
 
@@ -712,38 +743,31 @@ function sortDepsTopologically(classesDeps, subkey, excludedClassIds) {
   return classListLoadOrder;
 }
 
-function translateClassIdsToPaths(classList, options) {
-  if (!options) {
-    options = {};
-  }
+function prependNamespace(classList, namespaces) {
+  var augmentClassWithNamespace = function(className) {
+    var exceptions = ["qxWeb.js", "q.js"];
 
-  // merge options and default values
-  opts = {
-    nsPrefix: options.nsPrefix === false ? false : true,
-  };
-
-  var translateToPath = function(classId) {
-    return classId.replace(/\./g, "/") + ".js";
-  };
-
-  var prependNamespace = function(classString) {
-    var posFirstSlash = classString.indexOf("/");
-
-    if (["qxWeb.js"].indexOf(classString) !== -1) {
-      return "qx:"+classString;
+    if (exceptions.indexOf(className) !== -1) {
+      return "qx:"+className;
     }
 
-    return (posFirstSlash !== -1)
-           ? classString.substr(0, posFirstSlash)+":"+classString
-           : classString;
+    var prefix = util.namespaceFrom(className, namespaces);
+    return prefix+":"+className;
   };
 
-  classList = classList.map(translateToPath);
-  if (opts.nsPrefix) {
-    classList = classList.map(prependNamespace);
-  }
+   return classList.map(augmentClassWithNamespace);
+}
 
-  return classList;
+function translateClassIdsToPaths(classList) {
+  var translateToPath = function(classId) {
+    // if namespace is already prepended only pathify classId
+    var splitted = classId.split(":");
+    return (splitted.length === 2)
+           ? splitted[0] +":"+ splitted[1].replace(/\./g, "/") + ".js"
+           : classId.replace(/\./g, "/") + ".js";
+  };
+
+  return classList.map(translateToPath);
 }
 
 function createAtHintsIndex(deps, options) {
@@ -809,5 +833,6 @@ module.exports = {
   collectDepsRecursive: collectDepsRecursive,
   createAtHintsIndex: createAtHintsIndex,
   sortDepsTopologically: sortDepsTopologically,
+  prependNamespace: prependNamespace,
   translateClassIdsToPaths: translateClassIdsToPaths
 };

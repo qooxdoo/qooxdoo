@@ -39,6 +39,32 @@ function concat(sList, tList) {
 }
 
 /**
+ * Return namespace from className by checking against allNamespaces.
+ *
+ *  "qx.Foo.Bar"              => "qx"              allNa: ["qx", ...]
+ *  "myapp.Foo.Bar"           => "myapp"           allNa: ["myapp", ...]
+ *  "qxc.ui.logpane.LogPane"  => "qxc.ui.logpane"  allNa: ["qxc.ui.logpane", ...]
+ */
+function namespaceFrom(className, allNamespaces) {
+  var exceptions = ["qxWeb", "q"];
+  if (exceptions.indexOf(className) !== -1) {
+    return "qx";
+  }
+
+  var namespace = "";
+  var posNextDot = 0;
+  var start = 0;
+  do {
+    start = posNextDot;
+    posNextDot = (className.substr(start+1).indexOf(".")) + posNextDot+1;
+    namespace = className.substr(0, posNextDot);
+    // console.log(className, posNextDot, namespace, allNamespaces);
+  } while (allNamespaces.indexOf(namespace) === -1);
+
+  return namespace;
+}
+
+/**
  * File path to fqClassName conversion.
  *
  *  "foo/bar/qx/Foo/Bar.js" => "qx.Foo.Bar"
@@ -57,11 +83,13 @@ function classNameFrom(filePath, basePath) {
 
 /**
  * FqClassName to file path conversion.
+ * basePath is not checked and assumed to be appropriate!
  *
  *  "qx.Foo.Bar" => "foo/bar/qx/Foo/Bar.js"
  */
-function filePathFrom(className, basePath) {
-  var path = className.replace(/\./g, "/") + ".js";
+function filePathFrom(className, basePath, withoutExt) {
+  var ext = (withoutExt === true) ? "" : ".js";
+  var path = className.replace(/\./g, "/") + ext;
   basePath = (basePath)
              ? basePath[basePath.length-1] === "/" ? basePath : basePath + "/"
              : "";
@@ -88,6 +116,7 @@ module.exports = {
   pipeline: pipeline,
   filter: filter,
   concat: concat,
+  namespaceFrom: namespaceFrom,
   classNameFrom: classNameFrom,
   filePathFrom: filePathFrom,
   get: get,

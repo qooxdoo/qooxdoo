@@ -40,7 +40,8 @@
     "underscore": "~1.5.2",
     "toposort-class": "~0.3.0",
     "doctrine": "~0.2.0",
-    "minimatch": "~0.2.14"
+    "minimatch": "~0.2.14",
+    "glob": "~3.2.9"
   },
   "devDependencies": {
     "nodeunit": "~0.8.4"
