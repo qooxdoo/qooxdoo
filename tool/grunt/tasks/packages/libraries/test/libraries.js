@@ -19,7 +19,7 @@
 
 'use strict';
 
-exports.dependencies = {
+module.exports = {
   setUp: function(done) {
     // setup here if necessary
     done();
@@ -32,7 +32,7 @@ exports.dependencies = {
       "./test/data/framework/Manifest.json"
     ];
 
-    console.log(libraries.getManifestPaths(testManifestPaths));
+    console.log(libraries.getPathsFromManifest(testManifestPaths));
 
     console.log(libraries.getPathsFor("class", testManifestPaths, {withKeys: true}));
     console.log(libraries.getPathsFor("resource", testManifestPaths, {withKeys: true}));
