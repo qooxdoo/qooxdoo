@@ -583,7 +583,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element} event target
      */
     __fireScroll : function(domEvent, target) {
-      if (domEvent.type === "mousewheel") {
+      if (domEvent.type === qx.core.Environment.get("event.mousewheel").type) {
         domEvent.delta = {
           x: qx.util.Wheel.getDelta(domEvent, "x") * 10,
           y: qx.util.Wheel.getDelta(domEvent, "y") * 10

@@ -189,30 +189,6 @@ qx.Class.define("qx.event.handler.Mouse",
 
 
     /**
-     * Internal target for checking the target and mouse type for mouse
-     * scrolling on a feature detection base.
-     *
-     * @return {Map} A map containing two keys, target and type.
-     */
-    __getMouseWheelTarget: function(){
-      // Fix for bug #3234
-      var targets = [this.__window, this.__root, this.__root.body];
-      var target = this.__window;
-      var type = "DOMMouseScroll";
-
-      for (var i = 0; i < targets.length; i++) {
-        if (qx.bom.Event.supportsEvent(targets[i], "mousewheel")) {
-          type = "mousewheel";
-          target = targets[i];
-          break;
-        }
-      };
-
-      return {type: type, target: target};
-    },
-
-
-    /**
      * Helper to prevent the next click.
      * @internal
      */
@@ -272,7 +248,7 @@ qx.Class.define("qx.event.handler.Mouse",
     _initWheelObserver : function()
     {
       this.__onWheelEventWrapper = qx.lang.Function.listener(this._onWheelEvent, this);
-      var data = this.__getMouseWheelTarget();
+      var data = qx.core.Environment.get("event.mousewheel");
       qx.bom.Event.addNativeListener(
         data.target, data.type, this.__onWheelEventWrapper
       );
@@ -328,7 +304,7 @@ qx.Class.define("qx.event.handler.Mouse",
      */
     _stopWheelObserver : function()
     {
-      var data = this.__getMouseWheelTarget();
+      var data = qx.core.Environment.get("event.mousewheel");
       qx.bom.Event.removeNativeListener(
         data.target, data.type, this.__onWheelEventWrapper
       );
