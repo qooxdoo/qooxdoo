@@ -570,8 +570,6 @@ function findUnresolvedDeps(tree, opts) {
   atHints = collectAtHintsFromComments(tree);
   deps.athint = atHints;
 
-  // -- alt: Deps from Tree
-
   filteredScopeRefs = util.pipeline(scopesRef,
     _.partial(util.filter, not_builtin),     // e.g. document, window, undefined ...
     _.partial(util.filter, not_qxinternal)   // e.g. qx.$$libraries, qx$$resources ...
@@ -658,10 +656,12 @@ function collectDepsRecursive(basePaths, initClassIds, excludedClassIds) {
       // Note: Excluded classes will still be entries in load and run deps!
       // Maybe it's better to remove them here too ...
       classesDeps[className] = classDeps;
+      // console.log(className);
 
       var loadAndRun = classDeps.load.concat(classDeps.run);
       for (var j=0; j<loadAndRun.length; j++) {
         var dep = loadAndRun[j];
+        // console.log("    ", dep);
 
         // only recurse non-skipped and non-excluded classes
         if (!isMatching(dep, seenOrSkippedClasses.concat(excludedClassIds))) {
