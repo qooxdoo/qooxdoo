@@ -554,11 +554,14 @@ function findUnresolvedDeps(tree, opts) {
     'load': [],
     'run': []
   };
-  var globalScope = escope.analyze(tree).scopes[0];
 
-  parentAnnotator.annotate(tree);  // TODO: don't call here if called from analyze_as_map()!
-  loadTimeAnnotator.annotate(globalScope,  // add load/runtime annotations to scopes
-    true);  // TODO: this should be a dynamic parameter to analyze()
+  // ignore eval scopes for now because they are subject to different
+  // scoping rules. When really in need for eval you should know what
+  // you're doing, anyway!
+  var globalScope = escope.analyze(tree, {ignoreEval:true}).scopes[0];
+
+  parentAnnotator.annotate(tree);
+  loadTimeAnnotator.annotate(globalScope, true);
 
   // deps from Scope
   var scopesRef = dependenciesFromAst(globalScope);
