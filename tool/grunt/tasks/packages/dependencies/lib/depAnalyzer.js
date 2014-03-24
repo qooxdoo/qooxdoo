@@ -376,8 +376,11 @@ function unify(deps, className) {
     return char;
   });
 
-  // no self ref
-  return _.without(shallowDeps, className);
+  // no exact self refs XOR deps starting with className and therefore
+  // very likely from class within (e.g. constant refs)
+  return _.filter(shallowDeps, function(dep) {
+    return (dep !== className && dep.indexOf(className+".") === -1);
+  });
 }
 
 function getClassesFromTagDesc(tag) {
