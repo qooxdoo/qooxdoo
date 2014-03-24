@@ -31,6 +31,7 @@ var common = {
   "ROOT": ".",
   "QOOXDOO_PATH": "../../..",
   "QXTHEME": "<%= common.APPLICATION %>.theme.Theme",
+  "QXICONTHEME": ["Tango"],
   "TMPDIR": os.tmpdir(),
   "CACHE": "<%= common.TMPDIR %>/qx<%= common.QOOXDOO_VERSION %>/cache",
   "CACHE_KEY":
@@ -89,11 +90,12 @@ var getConfig = function() {
       options: {
         appName: "<%= common.APPLICATION %>",
         qxPath: "<%= common.QOOXDOO_PATH %>",
-        sourcePath: "<%= common.SOURCE_PATH %>/script",
+        qxIconTheme: "<%= common.QXICONTHEME %>",
         locales:  "<%= common.LOCALES %>",
+        sourcePath: "<%= common.SOURCE_PATH %>/script",
+        environment: common.ENVIRONMENT,
         includes: ["<%= common.APPLICATION_MAIN_CLASS %>", "<%= common.QXTHEME %>"],
         excludes: [],
-        environment: common.ENVIRONMENT,
         libraries: [
           "<%= common.QOOXDOO_PATH %>/framework/Manifest.json",
           "<%= common.ROOT %>/Manifest.json"
