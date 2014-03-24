@@ -64,6 +64,31 @@ function renderLoaderTmpl(tmpl, ctx) {
   return tmpl;
 }
 
+function calculateRelPaths(manifestPaths, qxPath, appName, ns) {
+  var resolved_qxPath = path.resolve(qxPath);
+  var gruntDir = "tool/grunt";
+  var rel = {
+    qx: "",
+    res: "",
+    class: ""
+  };
+  // qx path depending on whether app is within qooxdoo sdk or not
+  rel.qx = (pathIsInside(manifestPaths[appName].base.abs, resolved_qxPath))
+           ? path.relative(manifestPaths[appName].base.abs, resolved_qxPath)
+           : qxPath;
+
+  // paths depending on whether app is within "tool/grunt" dir ('myapp' test app) or not
+  if (pathIsInside(manifestPaths[appName].base.abs, path.join(resolved_qxPath, gruntDir))) {
+    rel.res = path.join("../", manifestPaths[ns].resource);
+    rel.class = path.join("../", manifestPaths[ns].class);
+  } else {
+    rel.res = path.join("../", manifestPaths[ns].base.rel, manifestPaths[ns].resource);
+    rel.class = path.join("../", manifestPaths[ns].base.rel, manifestPaths[ns].class);
+  }
+
+  return rel;
+}
+
 
 //------------------------------------------------------------------------------
 // Public Interface
@@ -85,40 +110,46 @@ module.exports = function(grunt) {
 
     grunt.log.writeln('Scanning libraries ...');
     // -----------------------------------------
-    var classPaths = qxLib.getPathsFor("class", opts.libraries);
+    var classPaths = qxLib.getPathsFor("class", opts.libraries, {withKeys: true});
     var resBasePathMap = qxLib.getPathsFor("resource", opts.libraries, {withKeys: true});
+    var allNamespaces = Object.keys(classPaths);
     grunt.log.ok('Done.');
+
 
     grunt.log.writeln('Collecting classes ...');
     // -----------------------------------------
     var classesDeps = qxDep.collectDepsRecursive(classPaths, opts.includes, opts.excludes);
     grunt.log.ok('Done.');
 
+
     grunt.log.writeln('Sorting ' + Object.keys(classesDeps).length + ' classes ...');
     // ------------------------------------------------------------------------------
     var classListLoadOrder = qxDep.sortDepsTopologically(classesDeps, "load", opts.excludes);
+    classListLoadOrder = qxDep.prependNamespace(classListLoadOrder, allNamespaces);
     var classListPaths = qxDep.translateClassIdsToPaths(classListLoadOrder);
     var atHintIndex = qxDep.createAtHintsIndex(classesDeps);
     grunt.log.ok('Done.');
 
-    grunt.log.writeln('Get cldr ...');
-    // -------------------------------
-    var cldrData = qxLoc.getTailoredCldrData("en");
-    grunt.log.ok('Done.');
 
     grunt.log.writeln('Get resources ...');
     // ------------------------------------
-    var resData = qxRes.collectImageInfoMaps(atHintIndex.asset, resBasePathMap, {metaFiles: true});
+    var macroToExpansionMap = {
+      "${qx.icontheme}": opts.qxIconTheme
+    };
+    var assetNsBasesPaths = qxRes.flattenExpandAndGlobAssets(atHintIndex.asset, resBasePathMap, macroToExpansionMap);
+    var resData = qxRes.collectResources(assetNsBasesPaths, resBasePathMap, {metaFiles: true});
     grunt.log.ok('Done.');
 
-    grunt.log.writeln('Get translations ...');
-    // ---------------------------------------
-    var locales = {"C":{}};
+
+    grunt.log.writeln('Get locale and translation data ...');
+    // ----------------------------------------------------
+    var locales = {"C": {}};
+    var localeData = {"C": qxLoc.getTailoredCldrData("en") };
     var translationPaths = qxLib.getPathsFor("translation", opts.libraries);
-    var transData = {"C":{}};
+    var transData = {"C": qxTra.getTranslationFor("en", translationPaths) };
     opts.locales.forEach(function(locale){
       locales[locale] = {};
-
+      localeData[locale] = qxLoc.getTailoredCldrData(locale);
       transData[locale] = {};
       transData[locale] = qxTra.getTranslationFor(locale, translationPaths);
     });
@@ -126,10 +157,7 @@ module.exports = function(grunt) {
 
 
     var locResTrans = {
-      "locales": {
-        "C": cldrData,
-        "en": cldrData
-      },
+      "locales": localeData,
       "resources": resData,
       "translations": transData
     };
@@ -143,50 +171,51 @@ module.exports = function(grunt) {
       "uris": ["__out__:"+locResTransFileName].concat(classListPaths)
     };
 
-    // qxPath depending on whether app is within qooxdoo sdk or not
-    var manifestPaths = qxLib.getManifestPaths(opts.libraries);
-    var resolved_qxPath = path.resolve(opts.qxPath);
-    var qxPath = pathIsInside(manifestPaths[opts.appName].base.abs, resolved_qxPath)
-                 ? path.relative(manifestPaths[opts.appName].base.abs, resolved_qxPath)
-                 : opts.qxPath;
+    var libinfo = { "__out__":{"sourceUri":"script"} };
+    var manifestPaths = qxLib.getPathsFromManifest(opts.libraries);
+    var relPaths = {};
+    var ns = "";
+    for (ns in manifestPaths) {
+      relPaths = calculateRelPaths(manifestPaths, opts.qxPath, opts.appName, ns);
+      libinfo[ns] = {};
+      if (ns === "qx") {
+        libinfo[ns] = {
+          "resourceUri": "../"+relPaths.qx+"/framework/source/resource",
+          "sourceUri": "../"+relPaths.qx+"/framework/source/class",
+          "sourceViewUri":"https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"
+        };
+      } else {
+        libinfo[ns].resourceUri = relPaths.res;
+        libinfo[ns].sourceUri = relPaths.class;
+      }
+    }
 
-    var libinfo = {
-      "__out__":{"sourceUri":"script"},
-      "qx":{"resourceUri": "../"+qxPath+"/framework/source/resource",
-            "sourceUri": "../"+qxPath+"/framework/source/class",
-            "sourceViewUri":"https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"}
-    };
-    libinfo[opts.appName] = {"resourceUri":"../source/resource","sourceUri":"../source/class"};
-
-    // TODO: get from Gruntfile or query somewhere
     var ctx = {
       EnvSettings: opts.environment,
       Libinfo: libinfo,
       Resources: {},
       Translations: locales,
       Locales: locales,
-      Parts: {"boot":[0]},
-      Packages: {"0": packagesUris},
-      UrisBefore: [],
-      CssBefore: [],
-      Boot: 'boot',
-      ClosureParts: {},
-      BootIsInline: false,
-      NoCacheParam: false,
-      DecodeUrisPlug: '',
-      BootPart: '',
+      Parts: {"boot":[0]},             // TODO: impl missing
+      Packages: {"0": packagesUris},   // ...
+      UrisBefore: [],                  // ...
+      CssBefore: [],                   // ...
+      Boot: 'boot',                    // ...
+      ClosureParts: {},                // ...
+      BootIsInline: false,             // ...
+      NoCacheParam: false,             // ...
+      DecodeUrisPlug: '',              // ...
+      BootPart: '',                    // ...
     };
 
     grunt.log.writeln('Generate loader script ...');
     // ---------------------------------------------
     var tmpl = grunt.file.read(loaderTemplatePath);
-    // console.log(renderLoaderTmpl(tmpl, ctx));
     var renderedTmpl = renderLoaderTmpl(tmpl, ctx);
-    // console.log(locResTransContent);
 
     var appFileName = opts.appName + ".js";
 
-    // Write the destination file.
+    // write script files
     grunt.file.write(path.join(opts.sourcePath, appFileName), renderedTmpl);
     grunt.file.write(path.join(opts.sourcePath, locResTransFileName), locResTransContent);
     grunt.log.ok('Done.');
