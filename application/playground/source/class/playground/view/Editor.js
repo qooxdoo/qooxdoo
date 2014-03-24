@@ -21,6 +21,7 @@
  * Container for the source code editor.
  *
  * @asset(playground/*)
+ * @ignore(ace.*, require)
  */
 qx.Class.define("playground.view.Editor",
 {
