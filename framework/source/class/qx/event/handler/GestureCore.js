@@ -97,6 +97,10 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       {
         qxWeb(this.__defaultTarget).on("dblclick", this._onDblClick, this);
       }
+
+      // list to wheel events
+      var data = qx.core.Environment.get("event.mousewheel");
+      qxWeb(data.target).on(data.type, this._fireRoll, this);
     },
 
 
@@ -113,6 +117,9 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       {
         qxWeb(this.__defaultTarget).off("dblclick", this._onDblClick, this);
       }
+
+      var data = qx.core.Environment.get("event.mousewheel");
+      qxWeb(data.target).off(data.type, this._fireRoll, this);
     },
 
 
@@ -140,8 +147,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         this.gestureChange(domEvent, target);
       } else if (type == "gestureend") {
         this.gestureEnd(domEvent, target);
-      } else if (type == "mousewheel") {
-        this.__fireScroll(domEvent, domEvent.target || target)
       }
     },
 
@@ -218,7 +223,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
         if(!this.__isMultiPointerGesture) {
           this.__fireTrack("track", domEvent, gesture.target);
-          this.__fireScroll(domEvent, gesture.target);
+          this._fireRoll(domEvent, "touch", gesture.target);
         }
 
         // abort long tap timer if the distance is too big

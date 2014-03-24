@@ -21,7 +21,6 @@
  * Unified gesture event handler.
  *
  * @require(qx.event.handler.Pointer)
- * @require(qx.event.handler.Mouse)
  */
 qx.Class.define("qx.event.handler.Gesture",
 {
@@ -46,7 +45,7 @@ qx.Class.define("qx.event.handler.Gesture",
       trackend : 1
     },
 
-    GESTURE_EVENTS : ["gesturestart", "gestureend", "gesturechange", "mousewheel"],
+    GESTURE_EVENTS : ["gesturestart", "gestureend", "gesturechange"],
 
     /** @type {Integer} Which target check to use */
     TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE + qx.event.IEventHandler.TARGET_DOCUMENT,
@@ -89,6 +88,7 @@ qx.Class.define("qx.event.handler.Gesture",
     __root : null,
     __listener : null,
     __onDblClickWrapped : null,
+    __fireRollWrapped : null,
 
 
     // interface implementation
@@ -118,6 +118,11 @@ qx.Class.define("qx.event.handler.Gesture",
         this.__onDblClickWrapped = qx.lang.Function.listener(this._onDblClick, this);
         qx.bom.Event.addNativeListener(this.__root, "dblclick", this.__onDblClickWrapped);
       }
+
+      // list to wheel events
+      var data = qx.core.Environment.get("event.mousewheel");
+      this.__fireRollWrapped = qx.lang.Function.listener(this._fireRoll, this);
+      qx.bom.Event.addNativeListener(data.target, data.type, this.__fireRollWrapped, this);
     },
 
     /**
@@ -145,6 +150,9 @@ qx.Class.define("qx.event.handler.Gesture",
       {
         qx.bom.Event.removeNativeListener(this.__root, "dblclick", this.__onDblClickWrapped);
       }
+
+      var data = qx.core.Environment.get("event.mousewheel");
+      qx.bom.Event.removeNativeListener(data.target, data.type, this.__fireRollWrapped);
     },
 
 
