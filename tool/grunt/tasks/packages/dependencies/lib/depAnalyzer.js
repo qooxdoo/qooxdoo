@@ -385,8 +385,9 @@ function unify(deps, className) {
 
 function getClassesFromTagDesc(tag) {
   var classes = [];
-  if (/\(([^, ]+(, ?)?)+\)/.test(tag)) {
-    classes = tag.slice(1, -1).split(",").map(function (clazz) {
+  var match = /\(([^, ]+(, ?)?)+\)/.exec(tag);
+  if (match !== null) {
+    classes = match[0].slice(1, -1).split(",").map(function (clazz) {
       return clazz.trim();
     });
   }
