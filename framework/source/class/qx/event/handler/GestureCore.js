@@ -510,13 +510,23 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       }
       var evt;
       if (qx.core.Environment.get("event.dispatchevent")) {
-        evt = new qx.event.type.dom.Custom(type, domEvent, {bubbles: true});
+        evt = new qx.event.type.dom.Custom(type, domEvent, {
+          bubbles: true,
+          swipe: domEvent.swipe,
+          scale: domEvent.scale,
+          angle: domEvent.angle,
+          delta: domEvent.delta
+        });
         target.dispatchEvent(evt);
       } else if (this.__emitter) {
         evt = new qx.event.type.dom.Custom(type, domEvent, {
           target : this.__defaultTarget,
           currentTarget : this.__defaultTarget,
-          srcElement : this.__defaultTarget
+          srcElement : this.__defaultTarget,
+          swipe: domEvent.swipe,
+          scale: domEvent.scale,
+          angle: domEvent.angle,
+          delta: domEvent.delta
         });
 
         this.__emitter.emit(type, domEvent);
