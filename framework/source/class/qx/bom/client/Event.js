@@ -85,6 +85,36 @@ qx.Bootstrap.define("qx.bom.client.Event",
       return (engine !== "mshtml" && hashchange) ||
       (engine === "mshtml" && "documentMode" in document &&
        document.documentMode >= 8 && hashchange);
+    },
+
+
+    /**
+     * Checks if the MouseWheel event is available and on which target.
+     *
+     * @return {Map} A map containing two values: type and target.
+     */
+    getMouseWheel : function() {
+      // Fix for bug #3234
+      var targets = [window, window.document, window.document.body];
+      var target = window;
+      var type = "DOMMouseScroll"; // for FF < 17
+
+      for (var i = 0; i < targets.length; i++) {
+        // check for the spec event (DOM-L3)
+        if (qx.bom.Event.supportsEvent(targets[i], "wheel")) {
+          type = "wheel";
+          target = targets[i];
+          break;
+        }
+        // check for the non spec event
+        if (qx.bom.Event.supportsEvent(targets[i], "mousewheel")) {
+          type = "mousewheel";
+          target = targets[i];
+          break;
+        }
+      };
+
+      return {type: type, target: target};
     }
   },
 
@@ -93,5 +123,6 @@ qx.Bootstrap.define("qx.bom.client.Event",
     qx.core.Environment.add("event.mspointer", statics.getMsPointer);
     qx.core.Environment.add("event.help", statics.getHelp);
     qx.core.Environment.add("event.hashchange", statics.getHashChange);
+    qx.core.Environment.add("event.mousewheel", statics.getMouseWheel);
   }
 });
