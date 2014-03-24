@@ -73,7 +73,26 @@ function findVarRoot (var_node) {
 
 /**
  * Takes a variable AST node and returns the longest
- * possible variable name (with or without method name).
+ * possible variable name (with or without method name)
+ * i.e. a full-quallified class name.
+ *
+ * example input
+ *  - qx.ui.treevirtual.MTreePrimitive.Type.BRANCH
+ *  - qx.ui.table.Table
+ *  - qx.ui.basic.Label.toggleRich()
+ *  - qx.event.IEventHandler
+ *  - WebKitCSSMatrix
+ *  - qxWeb
+ *  - qx
+ *
+ * example output should be (withoutMethodName)
+ *  - qx.ui.treevirtual.MTreePrimitive
+ *  - qx.ui.table.Table
+ *  - qx.ui.basic.Label
+ *  - qx.event.IEventHandler
+ *  - WebKitCSSMatrix
+ *  - qxWeb
+ *  - qx
  *
  * @returns {String}
  */
@@ -89,7 +108,7 @@ function assemble(varNode, withMethodName) {
       var posOfLastDot = assembled.lastIndexOf('.');
 
       if (posOfLastDot === -1) {
-        // e.g. qx
+        // e.g. qx or WebKitCssMatrix
         return assembled;
       }
 
@@ -99,8 +118,13 @@ function assemble(varNode, withMethodName) {
         return charOrWord === charOrWord.toUpperCase();
       };
       var needsCut = function() {
+        // match e.g.:
+        //  - qx.MyClassName.myMethodName
+        //  - Bootstrap.DEBUG
+        //  - qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE
         return (firstCharLastWord === firstCharLastWord.toLowerCase() ||
-          lastSnippet.split("").every(isUpperCase));
+                lastSnippet.split("").every(isUpperCase) ||
+                /(\.[A-Z].+){2,}/.test(assembled));
       };
 
       if (needsCut()) {
@@ -115,10 +139,6 @@ function assemble(varNode, withMethodName) {
     assembled = cutOff(assembled);
   }
 
-  // should be
-  //  - qx.[foo.]MMyMixin        XOR
-  //  - qx.[foo.]IEventHandler   XOR
-  //  - qx.[foo.]NomalClassName
   return assembled;
 }
 
