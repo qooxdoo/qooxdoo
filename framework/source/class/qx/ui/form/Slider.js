@@ -85,7 +85,7 @@ qx.Class.define("qx.ui.form.Slider",
 
     // Add listeners
     this.addListener("keypress", this._onKeyPress);
-    this.addListener("mousewheel", this._onMouseWheel);
+    this.addListener("roll", this._onRoll);
     this.addListener("pointerdown", this._onPointerDown);
     this.addListener("pointerup", this._onPointerUp);
     this.addListener("losecapture", this._onPointerUp);
@@ -329,16 +329,21 @@ qx.Class.define("qx.ui.form.Slider",
 
 
     /**
-     * Listener of mousewheel event
+     * Listener of roll event
      *
-     * @param e {qx.event.type.Mouse} Incoming event object
+     * @param e {qx.event.type.Roll} Incoming event object
      */
-    _onMouseWheel : function(e)
+    _onRoll : function(e)
     {
-      var axis = this.getOrientation() === "horizontal" ? "x" : "y";
-      var delta = e.getWheelDelta(axis);
+      // only wheel
+      if (e.getPointerType() != "wheel") {
+        return;
+      }
 
-      var direction =  delta > 0 ? 1 : delta < 0 ? -1 : 0;
+      var axis = this.getOrientation() === "horizontal" ? "x" : "y";
+      var delta = e.getDelta()[axis];
+
+      var direction =  delta < 0 ? 1 : delta > 0 ? -1 : 0;
       this.slideBy(direction * this.getSingleStep());
 
       e.stop();
