@@ -47,6 +47,6 @@ module.exports = function(grunt) {
   // console.log(util.inspect(mergedConf, false, null));
   grunt.initConfig(mergedConf);
 
-  qx.tasks.registerTasks(grunt);
+  qx.task.registerTasks(grunt);
 };
 
