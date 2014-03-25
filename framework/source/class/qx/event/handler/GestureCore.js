@@ -356,7 +356,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       // scroll the desired new delta
       domEvent.delta = {
         x: -deltaX,
-        y: -deltaY,
+        y: -deltaY
       };
       domEvent.momentum = true;
       this._fireEvent(domEvent, "roll", domEvent.target || target);
