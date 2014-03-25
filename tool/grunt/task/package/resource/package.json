@@ -1,5 +1,5 @@
 {
-  "name": "qx-resources",
+  "name": "qx-resource",
   "description": "Collect resource information tailored for qooxdoo",
   "main": "lib/resources.js",
   "version": "0.1.0",
