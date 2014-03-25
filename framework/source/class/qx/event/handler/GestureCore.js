@@ -272,6 +272,14 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         domTarget = domTarget.parentNode;
       }
 
+      // always start the roll impulse on the original target
+      this.__handleRollImpulse(
+        this.__gesture[domEvent.pointerId].velocityX,
+        this.__gesture[domEvent.pointerId].velocityY,
+        domEvent,
+        gesture.target
+      );
+
       if (target !== gesture.target) {
         delete this.__gesture[domEvent.pointerId];
         return;
@@ -309,13 +317,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
       this.__onTrack = false;
       this.__fireTrack("trackend", domEvent, target);
-
-      this.__handleRollImpulse(
-        this.__gesture[domEvent.pointerId].velocityX,
-        this.__gesture[domEvent.pointerId].velocityY,
-        domEvent,
-        target
-      );
 
       delete this.__gesture[domEvent.pointerId];
     },
