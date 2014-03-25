@@ -1,5 +1,5 @@
 {
-  "name": "qx-libraries",
+  "name": "qx-library",
   "description": "Collects libraries information for the compile tasks",
   "main": "lib/libraries.js",
   "version": "0.1.0",
