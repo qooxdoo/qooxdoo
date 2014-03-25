@@ -55,9 +55,9 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     },
 
     POINTER_TO_GESTURE_MAPPING : {
-      pointerdown : "gesturestart",
-      pointerup : "gestureend",
-      pointermove : "gesturechange"
+      pointerdown : "gesturebegin",
+      pointerup : "gesturefinish",
+      pointermove : "gesturemove"
     },
 
     SIM_MOUSE_DISTANCE : 25,

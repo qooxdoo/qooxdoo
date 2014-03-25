@@ -29,7 +29,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
     TYPES : ["tap", "swipe", "longtap", "dbltap", "track", "trackstart", "trackend", "rotate", "pinch", "roll"],
 
-    GESTURE_EVENTS : ["gesturestart", "gestureend", "gesturechange"],
+    GESTURE_EVENTS : ["gesturebegin", "gesturefinish", "gesturemove"],
 
     TAP_MAX_DISTANCE : {"touch": 40, "mouse": 10, "pen": 20}, // values are educated guesses
 
@@ -141,12 +141,12 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         target = qx.bom.Event.getTarget(domEvent);
       }
 
-      if (type == "gesturestart") {
-        this.gestureStart(domEvent, target);
-      } else if (type == "gesturechange") {
-        this.gestureChange(domEvent, target);
-      } else if (type == "gestureend") {
-        this.gestureEnd(domEvent, target);
+      if (type == "gesturebegin") {
+        this.gestureBegin(domEvent, target);
+      } else if (type == "gesturemove") {
+        this.gestureMove(domEvent, target);
+      } else if (type == "gesturefinish") {
+        this.gestureFinish(domEvent, target);
       }
     },
 
@@ -156,11 +156,12 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param domEvent {Event} DOM event
      * @param target {Element} event target
      */
-    gestureStart : function(domEvent, target) {
+    gestureBegin : function(domEvent, target) {
       if (this.__gesture[domEvent.pointerId]) {
         this.__stopLongTapTimer(this.__gesture[domEvent.pointerId]);
         delete this.__gesture[domEvent.pointerId];
       }
+
       this.__gesture[domEvent.pointerId] = {
         "startTime" : new Date().getTime(),
         "lastEventTime" : new Date().getTime(),
@@ -194,13 +195,14 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
 
     /**
-     * Helper method for gesture change.
+     * Helper method for gesture move.
      *
      * @param domEvent {Event} DOM event
      * @param target {Element} event target
      */
-    gestureChange : function(domEvent, target) {
+    gestureMove : function(domEvent, target) {
       var gesture = this.__gesture[domEvent.pointerId];
+
       if (gesture) {
         var oldClientX = gesture.clientX;
         var oldClientY = gesture.clientY;
@@ -243,7 +245,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param domEvent {Event} DOM event
      * @param target {Element} event target
      */
-    gestureEnd : function(domEvent, target) {
+    gestureFinish : function(domEvent, target) {
       // If no start position is available for this pointerup event, cancel gesture recognition.
       if (Object.keys(this.__gesture).length === 0) {
         return;

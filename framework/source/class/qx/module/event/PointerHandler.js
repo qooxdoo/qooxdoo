@@ -39,9 +39,9 @@ qx.Bootstrap.define("qx.module.event.PointerHandler", {
       "pointerup",
       "pointercancel",
 
-      "gesturestart",
-      "gesturechange",
-      "gestureend"
+      "gesturebegin",
+      "gesturemove",
+      "gesturefinish"
     ],
 
     /**

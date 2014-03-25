@@ -42,9 +42,9 @@ qx.Class.define("qx.event.handler.Pointer",
       pointerup : 1,
       pointercancel : 1,
 
-      gesturestart : 1,
-      gesturechange : 1,
-      gestureend : 1
+      gesturebegin : 1,
+      gesturemove : 1,
+      gesturefinish : 1
     },
 
     /** @type {Integer} Which target check to use */
