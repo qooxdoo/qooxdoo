@@ -14,7 +14,32 @@ module.exports = function(grunt) {
       "APPLICATION" : "tutorial",
       "LOCALES": ["en"],
       "QOOXDOO_PATH" : "../..",
-      "QXTHEME": "<%= common.APPLICATION %>.theme.Theme"
+      "QXTHEME": "qx.theme.Indigo"
+    },
+
+    source: {
+      options: {
+        appName: "<%= common.APPLICATION %>",
+        qxPath: "<%= common.QOOXDOO_PATH %>",
+        sourcePath: "<%= common.SOURCE_PATH %>/script",
+        locales:  "<%= common.LOCALES %>",
+        includes: ["<%= common.APPLICATION %>.*", "qx.*"],
+        excludes: [
+         "qx.test.*",
+         "qx.dev.unit.*",
+         "qx.dev.FakeServer",  // as this depends on qx.dev.unit classes
+        ],
+        environment: {
+          "qx.debug.ui.queue" : true,
+          "qx.nativeScrollBars" : true,
+          "qx.mobile.emulatetouch" : true
+        },
+        libraries: [
+          "<%= common.QOOXDOO_PATH %>/component/library/logpane/Manifest.json",
+          "<%= common.QOOXDOO_PATH %>/component/library/versionlabel/Manifest.json",
+          "<%= common.QOOXDOO_PATH %>/application/playground/Manifest.json"
+        ]
+      }
     }
   };
 
