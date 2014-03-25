@@ -19,11 +19,12 @@
 ************************************************************************ */
 
 /**
- * Mobile page responsible for showing the "list" showcase.
+ * Mobile page for showing the "list" showcase.
  */
 qx.Class.define("mobileshowcase.page.List",
 {
   extend : mobileshowcase.page.Abstract,
+
 
   construct : function()
   {
@@ -38,24 +39,8 @@ qx.Class.define("mobileshowcase.page.List",
     /**
      * @lint ignoreDeprecated(alert)
      */
-    _initialize : function()
-    {
+    _initialize: function() {
       this.base(arguments);
-
-      var closePopupButton = new qx.ui.mobile.form.Button("OK");
-
-      var label = new qx.ui.mobile.basic.Label("labelText");
-      var popupContent = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
-      popupContent.add(label);
-      popupContent.add(closePopupButton);
-
-      var popup = new qx.ui.mobile.dialog.Popup(popupContent);
-      popup.setModal(true);
-      popup.setTitle("Selection");
-
-      closePopupButton.addListener("tap", function() {
-        popup.hide();
-      }, this);
 
       var list = new qx.ui.mobile.list.List({
         configureItem: function(item, data, row) {
@@ -67,7 +52,7 @@ qx.Class.define("mobileshowcase.page.List",
         },
 
         configureGroupItem: function(item, data, group) {
-          item.setTitle("#"+group + " " + data.title);
+          item.setTitle("#" + group + " " + data.title);
         },
 
         group: function(data, row) {
@@ -83,7 +68,34 @@ qx.Class.define("mobileshowcase.page.List",
         }
       });
 
-      
+      list.setModel(this._createModel());
+
+      list.addListener("changeSelection", function(evt) {
+        this._showDialog("You selected Item #" + evt.getData());
+      }, this);
+
+      list.addListener("changeGroupSelection", function(evt) {
+        this._showDialog("You selected Group #" + evt.getData());
+      }, this);
+
+      this.getContent().add(list);
+    },
+
+
+    /**
+     * Displays a confirm dialog with the passed text.
+     * @param text {String} text to display.
+     */
+    _showDialog: function(text) {
+      qx.ui.mobile.dialog.Manager.getInstance().confirm("Selection", text, null, this, ["OK"]);
+    },
+
+
+    /**
+     * Creates the model with the example data.
+     * @return {qx.data.Array} data array.
+     */
+    _createModel: function() {
       var data = [];
       for (var i = 0; i < 100; i++) {
         data.push({
@@ -91,19 +103,7 @@ qx.Class.define("mobileshowcase.page.List",
           subtitle: "Subtitle for Item #" + i
         });
       }
-
-      list.setModel(new qx.data.Array(data));
-      list.addListener("changeSelection", function(evt) {
-        label.setValue("You selected Item #" + evt.getData());
-        popup.show();
-      }, this);
-
-      list.addListener("changeGroupSelection", function(evt) {
-        label.setValue("You selected Group #" + evt.getData());
-        popup.show();
-      }, this);
-
-      this.getContent().add(list);
+      return new qx.data.Array(data);
     }
   }
 });
