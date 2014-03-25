@@ -355,8 +355,9 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       // scroll the desired new delta
       domEvent.delta = {
         x: -deltaX,
-        y: -deltaY
+        y: -deltaY,
       };
+      domEvent.momentum = true;
       this._fireEvent(domEvent, "roll", domEvent.target || target);
     },
 
@@ -518,7 +519,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
           scale: domEvent.scale,
           angle: domEvent.angle,
           delta: domEvent.delta,
-          pointerType: domEvent.pointerType
+          pointerType: domEvent.pointerType,
+          momentum : domEvent.momentum
         });
         target.dispatchEvent(evt);
       } else if (this.__emitter) {
@@ -530,7 +532,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
           scale: domEvent.scale,
           angle: domEvent.angle,
           delta: domEvent.delta,
-          pointerType: domEvent.pointerType
+          pointerType: domEvent.pointerType,
+          momentum : domEvent.momentum
         });
 
         this.__emitter.emit(type, domEvent);

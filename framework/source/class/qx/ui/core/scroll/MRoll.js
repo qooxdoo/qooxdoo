@@ -76,6 +76,11 @@ qx.Mixin.define("qx.ui.core.scroll.MRoll",
         }
       }
 
+      // block all momentum scrolling
+      if (e.getMomentum()) {
+        e.stop();
+      }
+
       // pass the event to the parent if both scrollbars are at the end
       if ((!endY && deltaX === 0) ||
           (!endX && deltaY === 0) ||

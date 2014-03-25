@@ -41,8 +41,18 @@ qx.Class.define("qx.event.type.Roll",
         var clone = this.base(arguments, nativeEvent, clone);
 
         clone.delta = nativeEvent.delta;
+        clone.momentum = nativeEvent.momentum;
 
         return clone;
+      },
+
+
+      /**
+       * Boolean flag to indicate if this event was triggered by a momentum.
+       * @return {Boolean} <code>true</code>, if the event is momentum based
+       */
+      getMomentum : function() {
+        return this._native.momentum;
       },
 
 
