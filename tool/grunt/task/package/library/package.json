@@ -1,7 +1,7 @@
 {
   "name": "qx-library",
   "description": "Collects libraries information for the compile tasks",
-  "main": "lib/libraries.js",
+  "main": "lib/library.js",
   "version": "0.1.0",
   "homepage": "https://github.com/qooxdoo/qooxdoo",
   "author": {

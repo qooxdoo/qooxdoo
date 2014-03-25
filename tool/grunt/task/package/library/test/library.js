@@ -26,21 +26,21 @@ module.exports = {
   },
 
   getManifestContents: function (test) {
-    var libraries = require('../lib/libraries.js');
+    var library = require('../lib/library.js');
     var testManifestPaths = [
       "./test/data/myapp/Manifest.json",
       "./test/data/framework/Manifest.json"
     ];
 
-    console.log(libraries.getPathsFromManifest(testManifestPaths));
+    console.log(library.getPathsFromManifest(testManifestPaths));
 
-    console.log(libraries.getPathsFor("class", testManifestPaths, {withKeys: true}));
-    console.log(libraries.getPathsFor("resource", testManifestPaths, {withKeys: true}));
-    console.log(libraries.getPathsFor("translation", testManifestPaths, {withKeys: true}));
+    console.log(library.getPathsFor("class", testManifestPaths, {withKeys: true}));
+    console.log(library.getPathsFor("resource", testManifestPaths, {withKeys: true}));
+    console.log(library.getPathsFor("translation", testManifestPaths, {withKeys: true}));
 
-    console.log(libraries.getPathsFor("class", testManifestPaths));
-    console.log(libraries.getPathsFor("resource", testManifestPaths));
-    console.log(libraries.getPathsFor("translation", testManifestPaths));
+    console.log(library.getPathsFor("class", testManifestPaths));
+    console.log(library.getPathsFor("resource", testManifestPaths));
+    console.log(library.getPathsFor("translation", testManifestPaths));
 
     test.ok(true);
     test.done();
