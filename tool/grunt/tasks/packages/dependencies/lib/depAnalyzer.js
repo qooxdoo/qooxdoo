@@ -668,6 +668,9 @@ function collectDepsRecursive(basePaths, initClassIds, excludedClassIds) {
 
       var shortFilePath = util.filePathFrom(classIds[i]);
       var namespace = util.namespaceFrom(classIds[i], Object.keys(basePaths));
+      if (!namespace) {
+        throw new Error("ENOENT - Missing library. No matching namespace found for " + classIds[i]);
+      }
       // console.log(namespace, shortFilePath);
       var curFullPath = path.join(basePaths[namespace], shortFilePath);
       if (!fs.existsSync(curFullPath)) {
@@ -692,7 +695,7 @@ function collectDepsRecursive(basePaths, initClassIds, excludedClassIds) {
       var loadAndRun = classDeps.load.concat(classDeps.run);
       for (var j=0; j<loadAndRun.length; j++) {
         var dep = loadAndRun[j];
-        // console.log("    ", dep);
+        // console.log("  ", dep);
 
         // only recurse non-skipped and non-excluded classes
         if (!isMatching(dep, seenOrSkippedClasses.concat(excludedClassIds))) {

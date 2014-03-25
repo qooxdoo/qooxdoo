@@ -82,10 +82,10 @@ function basePathForNsExistsOrError(namespaces, resBasePathMap) {
 }
 
 /**
- * Return namespace from className by checking against allNamespaces.
+ * Return namespace from className by checking against allNamespaces (longest match wins).
  *
  *  "qx.Foo.Bar"              => "qx"              allNa: ["qx", ...]
- *  "myapp.Foo.Bar"           => "myapp"           allNa: ["myapp", ...]
+ *  "qx.Foo.Bar"              => "qx.Foo"          allNa: ["qx", "qx.Foo", ...]
  *  "qxc.ui.logpane.LogPane"  => "qxc.ui.logpane"  allNa: ["qxc.ui.logpane", ...]
  *
  * TODO: Copy from pkg "qx-dependency" => "dependency/lib/util.js"
@@ -97,17 +97,25 @@ function namespaceFrom(className, allNamespaces) {
     return "qx";
   }
 
-  var namespace = "";
-  var posNextDot = 0;
-  var start = 0;
-  do {
-    start = posNextDot;
-    posNextDot = (className.substr(start+1).indexOf(".")) + posNextDot+1;
-    namespace = className.substr(0, posNextDot);
-  } while (allNamespaces.indexOf(namespace) === -1);
+  allNamespaces.sort(function(a, b){
+    // asc -> a - b
+    // desc -> b - a
+    return b.length - a.length;
+  });
 
-  return namespace;
+  var i = 0;
+  var l = allNamespaces.length;
+  var curNs = "";
+  for (; i<l; i++) {
+    curNs = allNamespaces[i];
+    if (className.indexOf(curNs) !== -1) {
+      return curNs;
+    }
+  }
+
+  return false;
 }
+
 
 function flattenAssetPathsByNamespace(assetPaths, namespaces) {
   var assetNsPaths = {};
