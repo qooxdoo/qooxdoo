@@ -42,7 +42,8 @@ qx.Class.define("qx.event.handler.Gesture",
       pinch : 1,
       track : 1,
       trackstart : 1,
-      trackend : 1
+      trackend : 1,
+      roll : 1
     },
 
     GESTURE_EVENTS : ["gesturebegin", "gesturefinish", "gesturemove"],
