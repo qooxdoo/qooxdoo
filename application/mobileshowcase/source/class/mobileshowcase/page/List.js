@@ -53,18 +53,13 @@ qx.Class.define("mobileshowcase.page.List",
 
         configureGroupItem: function(item, data, group) {
           item.setTitle("#" + group + " " + data.title);
+          item.setSelectable(true);
         },
 
         group: function(data, row) {
           return {
             title: row < 4 ? "Selectable Items" : "Unselectable Items"
           };
-        },
-
-        createGroupRenderer: function() {
-          var groupRenderer = new qx.ui.mobile.list.renderer.group.Default();
-          groupRenderer.setSelectable(true);
-          return groupRenderer;
         }
       });
 
