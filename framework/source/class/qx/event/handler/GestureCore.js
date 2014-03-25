@@ -612,12 +612,14 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
           x: qx.util.Wheel.getDelta(domEvent, "x") * 10,
           y: qx.util.Wheel.getDelta(domEvent, "y") * 10
         };
+        domEvent.delta.axis = Math.abs(domEvent.delta.x / domEvent.delta.y) < 1 ? "y" : "x";
         domEvent.pointerType = "wheel";
       } else {
         var gesture = this.__gesture[domEvent.pointerId];
         domEvent.delta = {
           x: -gesture.velocityX,
-          y: -gesture.velocityY
+          y: -gesture.velocityY,
+          axis : Math.abs(gesture.velocityX / gesture.velocityY) < 1 ? "y" : "x"
         }
       }
 
