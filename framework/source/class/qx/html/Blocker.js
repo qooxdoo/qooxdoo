@@ -60,6 +60,7 @@ qx.Class.define("qx.html.Blocker",
     this.addListener("mouseover", this._stopPropagation, this);
     this.addListener("mouseout", this._stopPropagation, this);
     this.addListener("mousewheel", this._stopPropagation, this);
+    this.addListener("roll", this._stopPropagation, this);
     this.addListener("contextmenu", this._stopPropagation, this);
     this.addListener("pointerdown", this._stopPropagation, this);
     this.addListener("pointerup", this._stopPropagation, this);
