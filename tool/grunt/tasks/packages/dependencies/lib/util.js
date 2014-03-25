@@ -39,6 +39,38 @@ function concat(sList, tList) {
 }
 
 /**
+ * Return namespace from className by checking against allNamespaces (longest match wins).
+ *
+ *  "qx.Foo.Bar"              => "qx"              allNa: ["qx", ...]
+ *  "qx.Foo.Bar"              => "qx.Foo"          allNa: ["qx", "qx.Foo", ...]
+ *  "qxc.ui.logpane.LogPane"  => "qxc.ui.logpane"  allNa: ["qxc.ui.logpane", ...]
+ */
+function namespaceFrom(className, allNamespaces) {
+  var exceptions = ["qxWeb", "q"];
+  if (exceptions.indexOf(className) !== -1) {
+    return "qx";
+  }
+
+  allNamespaces.sort(function(a, b){
+    // asc -> a - b
+    // desc -> b - a
+    return b.length - a.length;
+  });
+
+  var i = 0;
+  var l = allNamespaces.length;
+  var curNs = "";
+  for (; i<l; i++) {
+    curNs = allNamespaces[i];
+    if (className.indexOf(curNs) !== -1) {
+      return curNs;
+    }
+  }
+
+  return false;
+}
+
+/**
  * File path to fqClassName conversion.
  *
  *  "foo/bar/qx/Foo/Bar.js" => "qx.Foo.Bar"
@@ -57,11 +89,13 @@ function classNameFrom(filePath, basePath) {
 
 /**
  * FqClassName to file path conversion.
+ * basePath is not checked and assumed to be appropriate!
  *
  *  "qx.Foo.Bar" => "foo/bar/qx/Foo/Bar.js"
  */
-function filePathFrom(className, basePath) {
-  var path = className.replace(/\./g, "/") + ".js";
+function filePathFrom(className, basePath, withoutExt) {
+  var ext = (withoutExt === true) ? "" : ".js";
+  var path = className.replace(/\./g, "/") + ext;
   basePath = (basePath)
              ? basePath[basePath.length-1] === "/" ? basePath : basePath + "/"
              : "";
@@ -88,6 +122,7 @@ module.exports = {
   pipeline: pipeline,
   filter: filter,
   concat: concat,
+  namespaceFrom: namespaceFrom,
   classNameFrom: classNameFrom,
   filePathFrom: filePathFrom,
   get: get,

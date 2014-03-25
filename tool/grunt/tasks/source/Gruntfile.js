@@ -9,6 +9,7 @@ var common = {
   "QOOXDOO_PATH": "../../../..",
   "LOCALES": ["en", "de"],
   "QXTHEME": "<%= common.APPLICATION %>.theme.Theme",
+  "QXICONTHEME": ["Tango"],
   "ROOT": ".",
   "APPLICATION_MAIN_CLASS" : "<%= common.APPLICATION %>.Application",
   "SOURCE_PATH": "<%= common.ROOT %>/test/data/myapp/source",
@@ -45,11 +46,12 @@ module.exports = function(grunt) {
       options: {
         appName: "<%= common.APPLICATION %>",
         qxPath: "<%= common.QOOXDOO_PATH %>",
-        sourcePath: "<%= common.SOURCE_PATH %>/script",
+        qxIconTheme: "<%= common.QXICONTHEME %>",
         locales:  "<%= common.LOCALES %>",
+        sourcePath: "<%= common.SOURCE_PATH %>/script",
+        environment: common.ENVIRONMENT,
         includes: ["<%= common.APPLICATION_MAIN_CLASS %>", "<%= common.QXTHEME %>"],
         excludes: [],
-        environment: common.ENVIRONMENT,
         libraries: [
           "<%= common.QOOXDOO_PATH %>/framework/Manifest.json",
           "<%= common.ROOT %>/test/data/myapp/Manifest.json"

@@ -18,7 +18,17 @@
 ***************************************************************************** */
 
 /**
- * Extracts CLDR data tailored for loader usage.
+ * Collect resource/asset paths, which includes globbing:
+ *
+ * <ul>
+ *   <li>images (e.g. png, jpg, gif ...)</li>
+ *   <li>text (e.g. js, css, html, xml, txt, php, json, mxml, meta ...)</li>
+ *   <li>fonts (e.g. woff, tff, eot ...)</li>
+ *   <li>binary data (e.g. swf ...)</li>
+ *   <li>audio (mp3, wav, ogg ...)</li>
+ *   <li>video (m4v, ogv, webm ...)</li>
+ * </ul>
+ *
  */
 
 //------------------------------------------------------------------------------
@@ -39,6 +49,7 @@ var q = require('qooxdoo');
 
 var qxResources = {};
 qxResources.Image = require('./qxResources/Image');
+qxResources.Resource = require('./qxResources/Resource');
 
 //------------------------------------------------------------------------------
 // Privates
@@ -70,125 +81,232 @@ function basePathForNsExistsOrError(namespaces, resBasePathMap) {
   }
 }
 
-function flattenAssetPathsByNamespace(assetPaths) {
-  var assetNsPaths = {};
-  var namespace = "";
-  var posFirstDot = 0;
+/**
+ * Return namespace from className by checking against allNamespaces (longest match wins).
+ *
+ *  "qx.Foo.Bar"              => "qx"              allNa: ["qx", ...]
+ *  "qx.Foo.Bar"              => "qx.Foo"          allNa: ["qx", "qx.Foo", ...]
+ *  "qxc.ui.logpane.LogPane"  => "qxc.ui.logpane"  allNa: ["qxc.ui.logpane", ...]
+ *
+ * TODO: Copy from pkg "qx-dependency" => "dependency/lib/util.js"
+ *       Maybe extract in own package "qx-classid".
+ */
+function namespaceFrom(className, allNamespaces) {
+  var exceptions = ["qxWeb", "q"];
+  if (exceptions.indexOf(className) !== -1) {
+    return "qx";
+  }
 
-  for (var className in assetPaths) {
-    posFirstDot = className.indexOf(".");
-    ns = className.substr(0, posFirstDot);
+  allNamespaces.sort(function(a, b){
+    // asc -> a - b
+    // desc -> b - a
+    return b.length - a.length;
+  });
+
+  var i = 0;
+  var l = allNamespaces.length;
+  var curNs = "";
+  for (; i<l; i++) {
+    curNs = allNamespaces[i];
+    if (className.indexOf(curNs) !== -1) {
+      return curNs;
+    }
+  }
+
+  return false;
+}
+
+
+function flattenAssetPathsByNamespace(assetPaths, namespaces) {
+  var assetNsPaths = {};
+  var posFirstDot = 0;
+  var className = "";
+  var ns = "";
+
+  var uniqueValues = function(value, index, self) {
+    return self.indexOf(value) === index;
+  };
+
+  for (className in assetPaths) {
+    ns = namespaceFrom(className, namespaces);
     if (!(ns in assetNsPaths)) {
       assetNsPaths[ns] = [];
     }
 
     assetNsPaths[ns] = assetNsPaths[ns].concat(assetPaths[className]);
+    assetNsPaths[ns] = assetNsPaths[ns].filter(uniqueValues);
   }
+
   return assetNsPaths;
+}
+
+function filterUnwantedExts(assetNsBasePaths, exts) {
+  // return assetNsBasePaths;
 }
 
 function globAndSanitizePaths(assetNsPaths, resBasePathMap) {
   var toBeGlobbed = [];
-  var toBeRemoved = [];
-  var absImgPath = "";
+  var ns = "";
+  var assetNsBasesPaths = {};
 
-  for (var ns in assetNsPaths) {
-    if (!toBeRemoved[ns]) {
-      toBeRemoved[ns] = [];
+  var nonDir = function(item) {
+    return (item.slice(-1) !== "/");
+  };
+
+  var globifyProperly = function(expr) {
+    return (expr.slice(-1) === "*") ? expr.replace("*", "**/*") : expr;
+  };
+
+  var isEmpty = function(obj) {
+    return (Object.keys(obj).length === 0);
+  };
+
+  var collectMatchingBases = function(resBasePathMap, resPath) {
+    var resWithBases = {};
+    var absResPath = "";
+    var ns = "";
+
+    for (ns in resBasePathMap) {
+      absResPath = path.join(resBasePathMap[ns], resPath);
+      if (fs.existsSync(absResPath)) {
+        resWithBases[ns] = resPath;
+      }
+    }
+    return resWithBases;
+  };
+
+  var createEmptyBasePathProperties = function(assetNsPaths) {
+    var assetNsBasesPaths = {};
+    var ns1 = "";
+    var ns2 = "";
+
+    for (ns1 in assetNsPaths) {
+      assetNsBasesPaths[ns1] = {};
+      for (ns2 in assetNsPaths) {
+        assetNsBasesPaths[ns1][ns2] = [];
+      }
     }
 
+    return assetNsBasesPaths;
+  };
+
+  var addResWithBases = function(assetNsBasesPaths, resWithBase) {
+    var base = "";
+
+    for (base in resWithBase) {
+      assetNsBasesPaths[base].push(resWithBase[base]);
+    }
+
+    return assetNsBasesPaths;
+  };
+
+  assetNsBasesPaths = createEmptyBasePathProperties(assetNsPaths);
+  for (ns in assetNsPaths) {
     if (!toBeGlobbed[ns]) {
       toBeGlobbed[ns] = [];
     }
 
     var i = 0;
     var l = assetNsPaths[ns].length;
-    var imgPath = "";
+    var resPath = "";
+    var resWithBases = {};
     for (; i<l; i++) {
-      imgPath = assetNsPaths[ns][i];
-      if (imgPath.indexOf("*") !== -1) {
-      }
-      absImgPath = path.join(resBasePathMap[ns], imgPath);
+      resPath = assetNsPaths[ns][i];
+      resWithBases = collectMatchingBases(resBasePathMap, resPath);
 
-      if (!fs.existsSync(absImgPath)) {
-        // catches also "*"
-        toBeRemoved[ns].push(imgPath);
+      if (!isEmpty(resWithBases)) {
+        assetNsBasesPaths[ns] = addResWithBases(assetNsBasesPaths[ns], resWithBases);
       }
 
-      if (imgPath.indexOf("*") !== -1) {
-        toBeGlobbed[ns].push(imgPath);
+      if (resPath.indexOf("*") !== -1) {
+        toBeGlobbed[ns].push(resPath);
       }
     }
 
     i = 0;
     l = toBeGlobbed[ns].length;
     var globbedPaths = [];
-    var globImg = "";
+    var globRes = "";
+    var namespace = "";
     for (; i<l; i++) {
-      globImg = toBeGlobbed[ns][i];
-      globbedPaths = globbedPaths.concat(glob.sync(globImg, {cwd: resBasePathMap[ns]}));
+      globRes = globifyProperly(toBeGlobbed[ns][i]);
+      // try every namespace base path
+      // because e.g. "myapp" may also use imgs from "qx"
+      // TODO: the manual states that order is important
+      // (for shadowing resources) - this isn't regarded yet!
+      // See: desktop/ui_resources.html
+      // maybe introduce '_order' property within resBasePathMap
+      for (namespace in resBasePathMap) {
+        globbedPaths = glob.sync(globRes, {cwd: resBasePathMap[namespace], mark: true});
+        if (globbedPaths.length > 0) {
+          // works in combination with {mark: true} from glob options
+          globbedPaths = globbedPaths.filter(nonDir);
+          assetNsBasesPaths[ns][namespace] = assetNsBasesPaths[ns][namespace].concat(globbedPaths);
+        }
+      }
     }
-
-    i = 0;
-    l = toBeRemoved[ns].length;
-    var rmImg = "";
-    var rmIdx = 0;
-    for (; i<l; i++) {
-      rmImg = toBeRemoved[ns][i];
-      rmIdx = assetNsPaths[ns].indexOf(rmImg);
-      assetNsPaths[ns].splice(rmIdx, 1);
-    }
-
-    // append globbedPaths late to not interfere entry removal
-    assetNsPaths[ns] = assetNsPaths[ns].concat(globbedPaths);
   }
 
-  return assetNsPaths;
+  // assetNsBasesPaths = filterUnwantedFiles(assetNsBasesPaths);
+  return assetNsBasesPaths;
 }
 
-function createImages(imgPaths, ns, basePath) {
-  var images = [];
-  var l = imgPaths.length;
+function createResources(kind, resPaths, ns, basePath) {
+  var resources = [];
+  var l = resPaths.length;
   var i = 0;
 
-  for (; i<l; i++) {
-    img = new qxResources.Image(imgPaths[i], ns);
-    img.collectInfoAndPopulate(basePath);
-    images.push(img);
+  switch(kind) {
+    case 'image':
+      for (; i<l; i++) {
+        var img = new qxResources.Image(resPaths[i], ns);
+        img.collectInfoAndPopulate(basePath);
+        resources.push(img);
+      }
+      break;
+
+    default:
+      for (; i<l; i++) {
+        var res = new qxResources.Resource(resPaths[i], ns);
+        resources.push(res);
+      }
   }
 
-  return images;
+  return resources;
 }
 
-function createImageInfoMaps(images) {
-  var imgsInfo = {};
+function createResourceInfoMaps(resources) {
+  var resInfo = {};
 
-  images.forEach(function(img){
-    q.Bootstrap.objectMergeWith(imgsInfo, img.stringify());
+  resources.forEach(function(res){
+    q.Bootstrap.objectMergeWith(resInfo, res.stringify());
   });
 
-  return imgsInfo;
+  return resInfo;
 }
 
-function collectUsedMetaEntries(assetNsPaths, resBasePathMap) {
+function collectUsedMetaEntries(assetNsBasesPaths, resBasePathMap) {
   var usedMetaEntries = {};
-  var ns = "";
+  var ns1 = "";
+  var ns2 = "";
 
-  for (ns in assetNsPaths) {
-    var l = assetNsPaths[ns].length;
-    var i = 0;
-    var imgPath = "";
-    var metaPaths = findResourceMetaFiles(resBasePathMap[ns]);
-    var metaEntries = processMetaFiles(metaPaths, resBasePathMap[ns]);
+  for (ns1 in assetNsBasesPaths) {
+    for (ns2 in assetNsBasesPaths[ns1]) {
+      var l = assetNsBasesPaths[ns1][ns2].length;
+      var i = 0;
+      var imgPath = "";
+      var metaPaths = findResourceMetaFiles(resBasePathMap[ns2]);
+      var metaEntries = processMetaFiles(metaPaths, resBasePathMap[ns2]);
 
-    for (; i<l; i++) {
-      imgPath = assetNsPaths[ns][i];
-      if (metaEntries[imgPath]) {
-        usedMetaEntries[imgPath] = metaEntries[imgPath];
-        // insert namespace
-        usedMetaEntries[imgPath].splice(3, 0, ns);
-        // remove original entry
-        assetNsPaths[ns].splice(i, 1);
+      for (; i<l; i++) {
+        imgPath = assetNsBasesPaths[ns1][ns2][i];
+        if (metaEntries[imgPath]) {
+          usedMetaEntries[imgPath] = metaEntries[imgPath];
+          // insert namespace
+          usedMetaEntries[imgPath].splice(3, 0, ns2);
+          // remove original entry
+          assetNsBasesPaths[ns1][ns2].splice(i, 1);
+        }
       }
     }
   }
@@ -196,14 +314,65 @@ function collectUsedMetaEntries(assetNsPaths, resBasePathMap) {
   return usedMetaEntries;
 }
 
+function expandAssetMacros(assetNsPaths, macroToExpansionMap) {
+  var macro = "";
+  var ns = "";
+  var curAsset = "";
+  var replacement = "";
+  var i = 0;
+  var l = 0;
+
+  for (ns in assetNsPaths) {
+    for (macro in macroToExpansionMap) {
+      l = assetNsPaths[ns].length;
+      for (i=0; i<l; i++) {
+        curAsset = assetNsPaths[ns][i];
+        if (curAsset.indexOf(macro) !== -1) {
+          replacement = curAsset.replace(macro, macroToExpansionMap[macro]);
+          assetNsPaths[ns].splice(i, 1, replacement);
+        }
+      }
+    }
+  }
+
+  return assetNsPaths;
+}
+
 //------------------------------------------------------------------------------
 // Public Interface
 //------------------------------------------------------------------------------
 
-function collectImageInfoMaps(assets, resBasePathMap, options) {
-  var namespaces = [];
-  var images = [];
+function flattenExpandAndGlobAssets(assets, resBasePathMap, macroToExpansionMap) {
+  var assetNsPaths = {};
+  var assetNsBasesPaths = {};
+  var namespaces = Object.keys(resBasePathMap);
+
+  // Note: not possible anymore when qx packages are introduced
+  // cause classes and resources then belong together
+  assetNsPaths = flattenAssetPathsByNamespace(assets, namespaces);
+
+  basePathForNsExistsOrError(namespaces, resBasePathMap);
+
+  assetNsPaths = expandAssetMacros(assetNsPaths, macroToExpansionMap);
+
+  // console.log(assetNsPaths);
+  assetNsBasesPaths = globAndSanitizePaths(assetNsPaths, resBasePathMap);
+  // console.log(JSON.stringify(assetNsBasesPaths, null, 2));
+
+  return assetNsBasesPaths;
+}
+
+function collectResources(assetNsBasesPaths, resBasePathMap, options) {
   var opts = {};
+  var imgs = [];
+  var images = [];
+  var res = [];
+  var resources = [];
+  var usedMetaEntries = {};
+  var resStruct = {};
+  var imgsStruct = {};
+  var ns1 = "";
+  var ns2 = "";
 
   if (!options) {
     options = {};
@@ -214,29 +383,37 @@ function collectImageInfoMaps(assets, resBasePathMap, options) {
     metaFiles: options.metaFiles === true ? true : false,
   };
 
-  assetNsPaths = flattenAssetPathsByNamespace(assets);
+  var isImg = function(path) {
+    return /(png|gif|jpe?g)$/.test(path);
+  };
 
-  namespaces = Object.keys(assetNsPaths);
-  basePathForNsExistsOrError(namespaces, resBasePathMap);
-
-  assetNsPaths = globAndSanitizePaths(assetNsPaths, resBasePathMap);
-
-  if (opts.metaFiles) {
-    var usedMetaEntries = {};
-    usedMetaEntries = collectUsedMetaEntries(assetNsPaths, resBasePathMap);
-  }
-
-  for (var ns in assetNsPaths) {
-    images = images.concat(createImages(assetNsPaths[ns], ns, resBasePathMap[ns]));
-  }
-
-  imgsInfo = createImageInfoMaps(images);
+  var isNotImg = function(path) {
+    return !isImg(path);
+  };
 
   if (opts.metaFiles) {
-    q.Bootstrap.objectMergeWith(imgsInfo, usedMetaEntries);
+    usedMetaEntries = collectUsedMetaEntries(assetNsBasesPaths, resBasePathMap);
   }
 
-  return imgsInfo;
+  for (ns1 in assetNsBasesPaths) {
+    for (ns2 in assetNsBasesPaths[ns1]) {
+      imgs = assetNsBasesPaths[ns1][ns2].filter(isImg);
+      images = images.concat(createResources("image", imgs, ns2, resBasePathMap[ns2]));
+
+      res = assetNsBasesPaths[ns1][ns2].filter(isNotImg);
+      resources = resources.concat(createResources("resource", res, ns2));
+    }
+  }
+
+  // create json structs
+  resStruct = createResourceInfoMaps(resources);
+  imgsStruct = createResourceInfoMaps(images);
+  q.Bootstrap.objectMergeWith(resStruct, imgsStruct);
+  if (opts.metaFiles) {
+    q.Bootstrap.objectMergeWith(resStruct, usedMetaEntries);
+  }
+
+  return resStruct;
 }
 
 //------------------------------------------------------------------------------
@@ -244,5 +421,6 @@ function collectImageInfoMaps(assets, resBasePathMap, options) {
 //------------------------------------------------------------------------------
 
 module.exports = {
-  collectImageInfoMaps: collectImageInfoMaps,
+  flattenExpandAndGlobAssets: flattenExpandAndGlobAssets,
+  collectResources: collectResources
 };

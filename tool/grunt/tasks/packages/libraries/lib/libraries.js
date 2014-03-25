@@ -42,10 +42,10 @@ var path = require("path");
  *  * /provides/resource
  *  * /provides/translation
  *
- * @param filePaths {String[]}
+ * @param filePaths {String{}}
  * @returns {Object[]}
  */
-function getManifestPaths(filePaths) {
+function getPathsFromManifest(filePaths) {
   var i = 0;
   var l = filePaths.length;
   var manifPath = "";
@@ -82,7 +82,7 @@ function getManifestPaths(filePaths) {
  * @returns {Object[]}
  */
 function getPathsFor(kind, filePaths, options) {
-  var libPaths = getManifestPaths(filePaths);
+  var libPaths = getPathsFromManifest(filePaths);
   var validKinds = ["class", "resource", "translation"];
   var specificPathsWithKeys = {};
   var specificPaths = [];
@@ -119,7 +119,7 @@ function getPathsFor(kind, filePaths, options) {
 //------------------------------------------------------------------------------
 
 module.exports = {
-  getManifestPaths : getManifestPaths,
+  getPathsFromManifest : getPathsFromManifest,
   getPathsFor : getPathsFor
 };
 

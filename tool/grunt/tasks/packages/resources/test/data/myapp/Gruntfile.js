@@ -30,7 +30,7 @@ module.exports = function(grunt) {
   var mergedConf = qx.config.mergeConfig(config);
   grunt.initConfig(mergedConf);
 
-  qx.tasks.registerTasks(grunt);
+  qx.task.registerTasks(grunt);
 
   // grunt.loadNpmTasks('grunt-my-plugin');
 };

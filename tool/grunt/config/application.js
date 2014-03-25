@@ -26,11 +26,13 @@ var path = require('path');
 
 // third party
 var deepmerge = require('deepmerge');
+var q = require('qooxdoo');
 
 var common = {
   "ROOT": ".",
   "QOOXDOO_PATH": "../../..",
   "QXTHEME": "<%= common.APPLICATION %>.theme.Theme",
+  "QXICONTHEME": ["Tango"],
   "TMPDIR": os.tmpdir(),
   "CACHE": "<%= common.TMPDIR %>/qx<%= common.QOOXDOO_VERSION %>/cache",
   "CACHE_KEY":
@@ -44,7 +46,7 @@ var common = {
   "ENVIRONMENT": {
     "qx.application": "<%= common.APPLICATION %>.Application",
     "qx.revision":"",
-    "qx.theme": "<%= common.APPLICATION %>.theme.Theme",
+    "qx.theme": "<%= common.QXTHEME %>",
     "qx.version":"<%= common.QOOXDOO_VERSION %>"
   }
 };
@@ -89,11 +91,12 @@ var getConfig = function() {
       options: {
         appName: "<%= common.APPLICATION %>",
         qxPath: "<%= common.QOOXDOO_PATH %>",
-        sourcePath: "<%= common.SOURCE_PATH %>/script",
+        qxIconTheme: "<%= common.QXICONTHEME %>",
         locales:  "<%= common.LOCALES %>",
+        sourcePath: "<%= common.SOURCE_PATH %>/script",
+        environment: common.ENVIRONMENT,
         includes: ["<%= common.APPLICATION_MAIN_CLASS %>", "<%= common.QXTHEME %>"],
         excludes: [],
-        environment: common.ENVIRONMENT,
         libraries: [
           "<%= common.QOOXDOO_PATH %>/framework/Manifest.json",
           "<%= common.ROOT %>/Manifest.json"
@@ -114,9 +117,42 @@ var getConfig = function() {
 };
 
 var mergeConfig = function(config) {
-  // TODO how to overwrite std config?
-  // recycle '={key}'-syntax from config.json?
-  return deepmerge(getConfig(), config);
+  var task = "";
+  var prop = "";
+  var confKey = "";
+  var confKeyProp = "";
+
+  var mergedConfig = deepmerge(getConfig(), config);
+
+  // TODO:
+  //  Consider:
+  //    * Recycle '={confKey}'-syntax from config.json or sth. better?
+  //    * Introduce '!{confKeyProp}'-syntax for removing of confKeyProp?!
+  //
+  // for (task in config) {
+  //   for (prop in config[task]) {
+  //     if (prop === "options") {
+  //       for (confKey in config[task].options) {
+  //         if (q.Bootstrap.isObject(config[task].options[confKey])) {
+  //           for (confKeyProp in config[task].options[confKey]) {
+  //             if (confKeyProp[0] === "!") {
+  //               // remove !{confKeyProp}
+  //               delete mergedConfig[task].options[confKey][confKeyProp.substr(1)];
+  //               delete mergedConfig[task].options[confKey][confKeyProp];
+  //             }
+  //           }
+  //         }
+  //         if (confKey[0] === "=") {
+  //           // overwrite std config and remove "={confKey}"
+  //           mergedConfig[task].options[confKey.substr(1)] = config[task].options[confKey];
+  //           delete mergedConfig[task].options[confKey];
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
+
+  return mergedConfig;
 };
 
 

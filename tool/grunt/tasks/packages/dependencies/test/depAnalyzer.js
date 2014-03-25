@@ -33,37 +33,48 @@ exports.dependencies = {
     var classesDeps = {};
     var atHintIndex = {};
 
-    var excludedClassIds = ['qx.theme.*'];
+    var excludedClassIds = ['myapp.test.*'];
 
     classesDeps = depAnalyzer.collectDepsRecursive(
-      ['./test/data/myapp/source/class/',
-       '../../../../../framework/source/class/'],
+      {'myapp': './test/data/myapp/source/class/',
+       'qx': '../../../../../framework/source/class/'},
       ['myapp.Application', 'myapp.theme.Theme'],
-      [] // excludedClassIds
+      excludedClassIds
     );
 
     /*
     classesDeps = depAnalyzer.collectDepsRecursive(
-      ['../../../../../framework/source/class/'],
+      {'qx': '../../../../../framework/source/class/'},
+      ['qx.*'],
+      []
+    );
+    */
+
+    /*
+    classesDeps = depAnalyzer.collectDepsRecursive(
+      {'qx': '../../../../../framework/source/class/'},
       ['qx.Class',
        'qx.Mixin',
        'qx.Interface',
        'qx.data.marshal.Json',
        'qx.bom.client.Runtime'],
-      {}
+      []
     );
     */
 
-    classListLoadOrder = depAnalyzer.sortDepsTopologically(classesDeps, "load", []); // excludedClassIds
+    classListLoadOrder = depAnalyzer.sortDepsTopologically(classesDeps, "load", excludedClassIds);
+    classListLoadOrder = depAnalyzer.prependNamespace(classListLoadOrder, ["qx", "myapp"]);
     classListPaths = depAnalyzer.translateClassIdsToPaths(classListLoadOrder);
     atHintIndex = depAnalyzer.createAtHintsIndex(classesDeps);
 
     console.log(JSON.stringify(classesDeps, null, 2));
     console.log(classListLoadOrder, classListLoadOrder.length);
+
     // console.log(Object.keys(classesDeps).length);
     // console.log(classListLoadOrder.length);
-    console.log(classListPaths);
-    console.log(atHintIndex);
+
+    // console.log(classListPaths);
+    // console.log(atHintIndex);
 
     test.ok(true);
     test.done();

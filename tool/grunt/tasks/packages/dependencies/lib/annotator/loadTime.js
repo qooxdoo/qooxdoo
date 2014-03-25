@@ -43,8 +43,11 @@ function isDeferFunction(node) {
 }
 
 function isImmediateCall(node) {
+  // find     a(function(){}()) => CE(CE(FE))
+  // but not  a(function(){})   => CE(FE)
   return (node.type === "FunctionExpression"
-          && node.parent.type === "CallExpression");
+          && node.parent.type === "CallExpression"
+          && node.parent.parent.type === "CallExpression");
 }
 
 /**

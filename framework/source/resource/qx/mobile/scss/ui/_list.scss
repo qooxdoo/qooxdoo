@@ -6,52 +6,32 @@
   @include background-clip(padding-box);
   @include border-radius($list-border-radius);
   @include background($list-background);
+
   padding: 0;
-  font-weight: $list-title-font-weight;
-  font-style: $application-font;
   cursor:pointer;
+
+  img[src] {
+    display: block;
+  }
 }
 
-.list .list-item {
+.list-item {
   list-style-type: none;
   padding: rem(10) rem(25) rem(10) rem(10);
-  position:relative;
+  position: relative;
   color: $list-title-text-color;
   border: rem(1) solid $list-border-color;
 }
 
-.list-itemimage {
-  margin-right: rem(8);
-}
-
-.list .list-item .list-itemlabel {
-  font-size: $list-title-font-size;
-}
-
-.list .list-item .subtitle {
-  color: $list-subtitle-text-color;
-  font-weight: normal;
-  font-size: $list-subtitle-font-size;
-}
-
-.list img[src] {
-  display: block;
-}
-
-.list-item + .list-item {
-  border-top: none;
-}
-
-
-.list .list-item.active {
+.list-item.active {
   @include background($list-active-background);
+
+  * {
+    color: $list-active-text-color;
+  }
 }
 
-.list .list-item.active * {
-  color: $list-active-text-color;
-}
-
-.list .list-item.arrow:after {
+.list-item.arrow:after {
   @include transform(rotate(45deg));
   @include transform-origin(50% 50%);
 
@@ -69,8 +49,12 @@
   margin-top: -1.5*($list-arrow-size);
 }
 
-.list .list-item.arrow.active:after {
+.list-item.arrow.active:after {
   border-color: $list-active-arrow-color;
+}
+
+.list-item + .list-item {
+  border-top: none;
 }
 
 .list-item:first-child, .list-item:first-child a {
@@ -79,4 +63,36 @@
 
 .list-item:last-child, .list-item:last-child a {
   @include border-radius-bottom($list-border-radius);
+}
+
+.list-item-title {
+  font-size: $list-title-font-size;
+  font-weight: $list-title-font-weight;
+  font-style: $application-font;
+}
+
+.list-item-subtitle {
+  color: $list-subtitle-text-color;
+  font-weight: normal;
+  font-size: $list-subtitle-font-size;
+}
+
+.list-item-image {
+  margin-right: rem(8);
+}
+
+.group-item {
+  @extend .list-item;
+  @include background($list-group-header-background);
+  @include background-clip(padding-box);
+  height: $list-group-header-height;
+  color: $list-group-header-color;
+}
+
+.group-item-title {
+  font: $list-group-header-font;
+}
+
+.group-item-image {
+  margin-right: rem(8);
 }

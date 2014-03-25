@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2014 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -13,12 +13,12 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Tino Butz (tbtz)
+     * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
 
 /**
- * The default list item renderer. Used as the default renderer by the
+ * The default group renderer. Used as the default renderer by the
  * {@link qx.ui.mobile.list.provider.Provider}. Configure the renderer
  * by setting the {@link qx.ui.mobile.list.List#delegate} property.
  *
@@ -27,32 +27,42 @@
  * Here is a little example of how to use the widget.
  *
  * <pre class='javascript'>
- *
  *   // Create the list with a delegate that
  *   // configures the list item.
  *   var list = new qx.ui.mobile.list.List({
- *     configureItem : function(item, data, row)
+ *     configureItem: function(item, data, row)
  *     {
  *       item.setImage("path/to/image.png");
  *       item.setTitle(data.title);
  *       item.setSubtitle(data.subtitle);
- *     }
- *   });
+ *     },
+ *
+ *     configureGroupItem: function(item, data, group) {
+ *       item.setTitle(group + " " + data.title);
+ *     },
+ *
+ *     group: function(data, row) {
+ *      return {
+ *       title: row < 4 ? "Selectable" : "Unselectable"
+ *     };
+ *    }
+ *  });
  * </pre>
  *
- * This example creates a list with a delegate that configures the list item with
+ * This example creates a list with a delegate that configures the list items and groups with
  * the given data.
  */
-qx.Class.define("qx.ui.mobile.list.renderer.Default",
+
+qx.Class.define("qx.ui.mobile.list.renderer.group.Default",
 {
-  extend : qx.ui.mobile.list.renderer.Abstract,
+  extend : qx.ui.mobile.list.renderer.group.Abstract,
 
 
   construct : function(layout)
   {
     this.base(arguments, layout || new qx.ui.mobile.layout.HBox().set({
-        alignY : "middle"
-      }));
+      alignY: "middle"
+    }));
     this._init();
   },
 
@@ -61,7 +71,6 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
   {
     __image : null,
     __title : null,
-    __subtitle : null,
     __rightContainer : null,
 
 
@@ -82,17 +91,6 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
      */
     getTitleWidget : function() {
       return this.__title;
-    },
-
-
-    /**
-     * Returns the subtitle widget which is used for this renderer.
-     *
-     * @return {qx.ui.mobile.basic.Label} The subtitle widget
-     */
-    getSubtitleWidget : function()
-    {
-      return this.__subtitle;
     },
 
 
@@ -124,18 +122,11 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
 
 
     /**
-     * Sets the value of the subtitle widget.
-     *
-     * @param subtitle {String} The value to set
+     * Setter for the data attribute <code></code>
+     * @param groupTitle {Strin} the title of the group
      */
-    setSubtitle : function(subtitle)
-    {
-      if (subtitle && subtitle.translate) {
-        this.__subtitle.setValue(subtitle.translate());
-      }
-      else {
-        this.__subtitle.setValue(subtitle);
-      }
+    setGroup: function(groupTitle) {
+      this._setAttribute("data-group", groupTitle);
     },
 
 
@@ -153,9 +144,6 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
 
       this.__title = this._createTitle();
       this.__rightContainer.add(this.__title);
-
-      this.__subtitle = this._createSubtitle();
-      this.__rightContainer.add(this.__subtitle);
     },
 
 
@@ -177,7 +165,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
     _createImage : function() {
       var image = new qx.ui.mobile.basic.Image();
       image.setAnonymous(true);
-      image.addCssClass("list-item-image");
+      image.addCssClass("group-item-image");
       return image;
     },
 
@@ -190,21 +178,8 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
     _createTitle : function() {
       var title = new qx.ui.mobile.basic.Label();
       title.setWrap(false);
-      title.addCssClass("list-item-title");
+      title.addCssClass("group-item-title");
       return title;
-    },
-
-
-    /**
-     * Creates and returns the subtitle widget. Override this to adapt the widget code.
-     *
-     * @return {qx.ui.mobile.basic.Label} the subtitle widget.
-     */
-    _createSubtitle : function() {
-      var subtitle = new qx.ui.mobile.basic.Label();
-      subtitle.setWrap(false);
-      subtitle.addCssClass("list-item-subtitle");
-      return subtitle;
     },
 
 
@@ -213,13 +188,12 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
     {
       this.__image.setSource(null);
       this.__title.setValue("");
-      this.__subtitle.setValue("");
     }
   },
 
 
   destruct : function()
   {
-    this._disposeObjects("__image", "__title", "__subtitle", "__rightContainer");
+    this._disposeObjects("__image", "__title", "__rightContainer");
   }
 });

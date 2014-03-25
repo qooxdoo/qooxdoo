@@ -37,6 +37,7 @@ var escope = require('escope');
 var escodegen = require('escodegen');
 var doctrine = require('doctrine');
 var Toposort = require('toposort-class');
+var glob = require('glob');
 var minimatch = require("minimatch");
 var _ = require('underscore');
 
@@ -73,7 +74,26 @@ function findVarRoot (var_node) {
 
 /**
  * Takes a variable AST node and returns the longest
- * possible variable name (with or without method name).
+ * possible variable name (with or without method name)
+ * i.e. a full-quallified class name.
+ *
+ * example input
+ *  - qx.ui.treevirtual.MTreePrimitive.Type.BRANCH
+ *  - qx.ui.table.Table
+ *  - qx.ui.basic.Label.toggleRich()
+ *  - qx.event.IEventHandler
+ *  - WebKitCSSMatrix
+ *  - qxWeb
+ *  - qx
+ *
+ * example output should be (withoutMethodName)
+ *  - qx.ui.treevirtual.MTreePrimitive
+ *  - qx.ui.table.Table
+ *  - qx.ui.basic.Label
+ *  - qx.event.IEventHandler
+ *  - WebKitCSSMatrix
+ *  - qxWeb
+ *  - qx
  *
  * @returns {String}
  */
@@ -89,7 +109,7 @@ function assemble(varNode, withMethodName) {
       var posOfLastDot = assembled.lastIndexOf('.');
 
       if (posOfLastDot === -1) {
-        // e.g. qx
+        // e.g. qx or WebKitCssMatrix
         return assembled;
       }
 
@@ -99,8 +119,13 @@ function assemble(varNode, withMethodName) {
         return charOrWord === charOrWord.toUpperCase();
       };
       var needsCut = function() {
+        // match e.g.:
+        //  - qx.MyClassName.myMethodName
+        //  - Bootstrap.DEBUG
+        //  - qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE
         return (firstCharLastWord === firstCharLastWord.toLowerCase() ||
-          lastSnippet.split("").every(isUpperCase));
+                lastSnippet.split("").every(isUpperCase) ||
+                /(\.[A-Z].+){2,}/.test(assembled));
       };
 
       if (needsCut()) {
@@ -115,10 +140,6 @@ function assemble(varNode, withMethodName) {
     assembled = cutOff(assembled);
   }
 
-  // should be
-  //  - qx.[foo.]MMyMixin        XOR
-  //  - qx.[foo.]IEventHandler   XOR
-  //  - qx.[foo.]NomalClassName
   return assembled;
 }
 
@@ -356,14 +377,18 @@ function unify(deps, className) {
     return char;
   });
 
-  // no self ref
-  return _.without(shallowDeps, className);
+  // no exact self refs XOR deps starting with className and therefore
+  // very likely from class within (e.g. constant refs)
+  return _.filter(shallowDeps, function(dep) {
+    return (dep !== className && dep.indexOf(className+".") === -1);
+  });
 }
 
 function getClassesFromTagDesc(tag) {
   var classes = [];
-  if (/\(([^, ]+(, ?)?)+\)/.test(tag)) {
-    classes = tag.slice(1, -1).split(",").map(function (clazz) {
+  var match = /\(([^, ]+(, ?)?)+\)/.exec(tag);
+  if (match !== null) {
+    classes = match[0].slice(1, -1).split(",").map(function (clazz) {
       return clazz.trim();
     });
   }
@@ -378,11 +403,13 @@ function getResourcesFromTagDesc(tag) {
   return resource;
 }
 
-function applyIgnoreRequireAndUse(deps, atHints) {
+function applyIgnoreRequireAndUse(deps, atHints, className) {
   var toBeFiltered = [];
   var collectIgnoredDeps = function(dep) {
     atHints.ignore.forEach(function(ignore) {
       if (toBeFiltered.indexOf(ignore) === -1) {
+        // TODO: is it better to use minimatch here?
+        // what does the manual state about @ignore?
         var ignoreRegex = new RegExp("^"+ignore+"$");
         if (ignoreRegex.test(dep)) {
           toBeFiltered.push(dep);
@@ -404,14 +431,29 @@ function applyIgnoreRequireAndUse(deps, atHints) {
   }
 
   var classesOnly = [];
-  var ignoreHashMethodAugmentation = function(hints) {
+  var ignoreHashMethodAugmentation = function(hints, className) {
     var classesOnly = [];
     hints.forEach(function(dep) {
       var posHash = 0;
+      var hintClass = "";
       // TODO: ignore qx.foo.Bar#getMyWhatever for now
-      // just require/use whole class
+      // just require/use whole class if no self reference
+      //
+      // Has to be revisited for statics optimization,
+      // classes which use this:
+      //   * qx.bom.storage.Web
+      //   * qx.bom.storage.Memory
+      //   * qx.bom.storage.UserData
+      //   * qx.bom.request.Script
+      //   * qx.bom.request.Xhr
+      //   * qx.util.ResponseParser
+      //   * ...
       if ((posHash = dep.indexOf("#")) !== -1) {
-        classesOnly.push(dep.substr(0, posHash));
+        hintClass = dep.substr(0, posHash);
+        if (hintClass === className) {
+          return;
+        }
+        classesOnly.push(hintClass);
       } else {
         classesOnly.push(dep);
       }
@@ -423,14 +465,14 @@ function applyIgnoreRequireAndUse(deps, atHints) {
   // @use
   if (atHints.use.length > 0) {
     classesOnly = [];
-    classesOnly = ignoreHashMethodAugmentation(atHints.use);
+    classesOnly = ignoreHashMethodAugmentation(atHints.use, className);
     deps.run = deps.run.concat(classesOnly);
   }
 
   // @require
   if (atHints.require.length > 0) {
     classesOnly = [];
-    classesOnly = ignoreHashMethodAugmentation(atHints.require);
+    classesOnly = ignoreHashMethodAugmentation(atHints.require, className);
     deps.load = deps.load.concat(classesOnly);
   }
 
@@ -513,11 +555,14 @@ function findUnresolvedDeps(tree, opts) {
     'load': [],
     'run': []
   };
-  var globalScope = escope.analyze(tree).scopes[0];
 
-  parentAnnotator.annotate(tree);  // TODO: don't call here if called from analyze_as_map()!
-  loadTimeAnnotator.annotate(globalScope,  // add load/runtime annotations to scopes
-    true);  // TODO: this should be a dynamic parameter to analyze()
+  // ignore eval scopes for now because they are subject to different
+  // scoping rules. When really in need for eval you should know what
+  // you're doing, anyway!
+  var globalScope = escope.analyze(tree, {ignoreEval:true}).scopes[0];
+
+  parentAnnotator.annotate(tree);
+  loadTimeAnnotator.annotate(globalScope, true);
 
   // deps from Scope
   var scopesRef = dependenciesFromAst(globalScope);
@@ -525,8 +570,6 @@ function findUnresolvedDeps(tree, opts) {
   // top level atHints from tree
   atHints = collectAtHintsFromComments(tree);
   deps.athint = atHints;
-
-  // -- alt: Deps from Tree
 
   filteredScopeRefs = util.pipeline(scopesRef,
     _.partial(util.filter, not_builtin),     // e.g. document, window, undefined ...
@@ -547,7 +590,7 @@ function findUnresolvedDeps(tree, opts) {
   deps.run = unify(deps.run, tree.qxClassName);
 
   // add/remove deps according to atHints
-  deps = applyIgnoreRequireAndUse(deps, atHints);
+  deps = applyIgnoreRequireAndUse(deps, atHints, tree.qxClassName);
 
   // overlappings aren't important - remove them
   // i.e. if it's already in load remove from run
@@ -556,22 +599,48 @@ function findUnresolvedDeps(tree, opts) {
   return (opts && opts.flattened ? deps.load.concat(deps.run) : deps);
 }
 
-// dynamic => self discovering (recursive) with class entry point
+// dynamic => self discovering (recursive) with class entry points
 function collectDepsRecursive(basePaths, initClassIds, excludedClassIds) {
   var classesDeps = {};
-
-  var getMatchingPath = function(basePaths, filePath) {
-    for (var i=0; i<basePaths.length; i++) {
-      if (fs.existsSync(path.join(basePaths[i], filePath))) {
-        return basePaths[i];
-      }
-    }
-  };
 
   var getClassNamesFromPaths = function(filePaths) {
     return filePaths.map(function(path) {
       return util.classNameFrom(path);
     });
+  };
+
+  var globClassIds = function(classIds, basePaths) {
+    var i = 0;
+    var posOfStar = 0;
+    var l = classIds.length;
+    var cls = "";
+    var clsPath = "";
+    var clsPaths = [];
+    var namespace = "";
+    var globbedClassIds = [];
+
+    var isNonInitFile = function(filePath) {
+      return (filePath.indexOf("__init__") === -1);
+    };
+
+    // glob classIds if needed
+    for (; i<l; i++) {
+      cls = classIds[i];
+      posOfStar = cls.indexOf("*");
+      // Note: only works if "*" is last char
+      if (posOfStar !== -1 && posOfStar+1 === cls.length) {
+        namespace = util.namespaceFrom(cls, Object.keys(basePaths));
+        clsPath = util.filePathFrom(cls+"*/*");
+        clsPaths = glob.sync(clsPath, {cwd: basePaths[namespace]});
+        clsPaths = clsPaths.filter(isNonInitFile);
+        clsPaths = clsPaths.map(util.classNameFrom);
+        globbedClassIds = globbedClassIds.concat(clsPaths);
+      } else {
+        globbedClassIds.push(cls);
+      }
+    }
+
+    return _.uniq(globbedClassIds);
   };
 
   var recurse = function(basePaths, classIds, seenOrSkippedClasses, excludedClassIds) {
@@ -598,8 +667,15 @@ function collectDepsRecursive(basePaths, initClassIds, excludedClassIds) {
       }
 
       var shortFilePath = util.filePathFrom(classIds[i]);
-      var curBasePath = getMatchingPath(basePaths, shortFilePath);
-      var curFullPath = path.join(curBasePath, shortFilePath);
+      var namespace = util.namespaceFrom(classIds[i], Object.keys(basePaths));
+      if (!namespace) {
+        throw new Error("ENOENT - Missing library. No matching namespace found for " + classIds[i]);
+      }
+      // console.log(namespace, shortFilePath);
+      var curFullPath = path.join(basePaths[namespace], shortFilePath);
+      if (!fs.existsSync(curFullPath)) {
+        throw new Error("ENOENT - "+curFullPath+" doesn't exist.");
+      }
       var jsCode = fs.readFileSync(curFullPath, {encoding: 'utf8'});
       var tree = esprima.parse(jsCode, {comment: true, loc: true});
       var classDeps = {
@@ -614,10 +690,12 @@ function collectDepsRecursive(basePaths, initClassIds, excludedClassIds) {
       // Note: Excluded classes will still be entries in load and run deps!
       // Maybe it's better to remove them here too ...
       classesDeps[className] = classDeps;
+      // console.log(className);
 
       var loadAndRun = classDeps.load.concat(classDeps.run);
       for (var j=0; j<loadAndRun.length; j++) {
         var dep = loadAndRun[j];
+        // console.log("  ", dep);
 
         // only recurse non-skipped and non-excluded classes
         if (!isMatching(dep, seenOrSkippedClasses.concat(excludedClassIds))) {
@@ -625,12 +703,12 @@ function collectDepsRecursive(basePaths, initClassIds, excludedClassIds) {
           recurse(basePaths, [dep], seenOrSkippedClasses, excludedClassIds);
         }
       }
-
     }
     return classesDeps;
   };
 
-  // start with initClassIds
+  // start with globbed initClassIds
+  initClassIds = globClassIds(initClassIds, basePaths);
   return recurse(basePaths, initClassIds, initClassIds, excludedClassIds);
 }
 
@@ -668,38 +746,31 @@ function sortDepsTopologically(classesDeps, subkey, excludedClassIds) {
   return classListLoadOrder;
 }
 
-function translateClassIdsToPaths(classList, options) {
-  if (!options) {
-    options = {};
-  }
+function prependNamespace(classList, namespaces) {
+  var augmentClassWithNamespace = function(className) {
+    var exceptions = ["qxWeb.js", "q.js"];
 
-  // merge options and default values
-  opts = {
-    nsPrefix: options.nsPrefix === false ? false : true,
-  };
-
-  var translateToPath = function(classId) {
-    return classId.replace(/\./g, "/") + ".js";
-  };
-
-  var prependNamespace = function(classString) {
-    var posFirstSlash = classString.indexOf("/");
-
-    if (["qxWeb.js"].indexOf(classString) !== -1) {
-      return "qx:"+classString;
+    if (exceptions.indexOf(className) !== -1) {
+      return "qx:"+className;
     }
 
-    return (posFirstSlash !== -1)
-           ? classString.substr(0, posFirstSlash)+":"+classString
-           : classString;
+    var prefix = util.namespaceFrom(className, namespaces);
+    return prefix+":"+className;
   };
 
-  classList = classList.map(translateToPath);
-  if (opts.nsPrefix) {
-    classList = classList.map(prependNamespace);
-  }
+   return classList.map(augmentClassWithNamespace);
+}
 
-  return classList;
+function translateClassIdsToPaths(classList) {
+  var translateToPath = function(classId) {
+    // if namespace is already prepended only pathify classId
+    var splitted = classId.split(":");
+    return (splitted.length === 2)
+           ? splitted[0] +":"+ splitted[1].replace(/\./g, "/") + ".js"
+           : classId.replace(/\./g, "/") + ".js";
+  };
+
+  return classList.map(translateToPath);
 }
 
 function createAtHintsIndex(deps, options) {
@@ -765,5 +836,6 @@ module.exports = {
   collectDepsRecursive: collectDepsRecursive,
   createAtHintsIndex: createAtHintsIndex,
   sortDepsTopologically: sortDepsTopologically,
+  prependNamespace: prependNamespace,
   translateClassIdsToPaths: translateClassIdsToPaths
 };

@@ -48,6 +48,7 @@ qx.Class.define("mobileshowcase.page.Form",
     __radio2 : null,
     __form : null,
     __submitButton : null,
+    __resetButton : null,
     __numberField : null,
 
 

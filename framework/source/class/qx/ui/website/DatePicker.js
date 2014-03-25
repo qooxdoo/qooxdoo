@@ -206,6 +206,15 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
      */
     _onTap : function(e) {
       var calendar = qxWeb('div#' + this.getProperty('calendarId'));
+<<<<<<< HEAD
+=======
+
+      if (calendar.getStyle("display") == "none") {
+        this.getCalendar().show().placeTo(this, 'bottom-left');
+      } else {
+        this.getCalendar().hide();
+      }
+>>>>>>> master
 
       if (calendar.getStyle("display") == "none") {
         this.getCalendar().show().placeTo(this, 'bottom-left');

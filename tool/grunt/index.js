@@ -21,8 +21,8 @@
 'use strict';
 
 var config = require('./config/application.js');
-var tasks = require('./tasks/tasks.js');
+var task = require('./tasks/tasks.js');
 
 // exports
 module.exports.config = config;
-module.exports.tasks = tasks;
+module.exports.task = task;

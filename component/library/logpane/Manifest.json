@@ -1,15 +1,15 @@
 {
-  "info" : 
+  "info" :
   {
     "name" : "logpane",
 
     "summary" : "Common used log pannel.",
     "description" : "This is a view for the qooxdoo log.",
-    
+
     "homepage" : "http://qooxdoo.org/",
 
     "license" : "LGPL/EPL",
-    "authors" : 
+    "authors" :
     [
       {
         "name" : "Martin Wittemann (martinwittemann)",
@@ -20,8 +20,8 @@
     "version" : "trunk",
     "qooxdoo-versions": ["1.6"]
   },
-  
-  "provides" : 
+
+  "provides" :
   {
     "namespace"   : "qxc.ui.logpane",
     "encoding"    : "utf-8",
