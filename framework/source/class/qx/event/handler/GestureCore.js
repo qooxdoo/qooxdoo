@@ -517,7 +517,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
           swipe: domEvent.swipe,
           scale: domEvent.scale,
           angle: domEvent.angle,
-          delta: domEvent.delta
+          delta: domEvent.delta,
+          pointerType: domEvent.pointerType
         });
         target.dispatchEvent(evt);
       } else if (this.__emitter) {
@@ -528,7 +529,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
           swipe: domEvent.swipe,
           scale: domEvent.scale,
           angle: domEvent.angle,
-          delta: domEvent.delta
+          delta: domEvent.delta,
+          pointerType: domEvent.pointerType
         });
 
         this.__emitter.emit(type, domEvent);
@@ -605,7 +607,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         domEvent.delta = {
           x: qx.util.Wheel.getDelta(domEvent, "x") * 10,
           y: qx.util.Wheel.getDelta(domEvent, "y") * 10
-        }
+        };
+        domEvent.pointerType = "wheel";
       } else {
         var gesture = this.__gesture[domEvent.pointerId];
         domEvent.delta = {
