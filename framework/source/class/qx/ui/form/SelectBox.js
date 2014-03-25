@@ -72,7 +72,6 @@ qx.Class.define("qx.ui.form.SelectBox",
     this.addListener("pointerover", this._onPointerOver, this);
     this.addListener("pointerout", this._onPointerOut, this);
     this.addListener("tap", this._onTap, this);
-    this.addListener("mousewheel", this._onMouseWheel, this);
 
     this.addListener("keyinput", this._onKeyInput, this);
     this.addListener("changeSelection", this.__onChangeSelection, this);
@@ -303,47 +302,6 @@ qx.Class.define("qx.ui.form.SelectBox",
       this.toggle();
     },
 
-
-    /**
-     * Event handler for mousewheel event
-     *
-     * @param e {qx.event.type.Mouse} Mouse event
-     */
-    _onMouseWheel : function(e)
-    {
-      if (this.getChildControl("popup").isVisible()) {
-        return;
-      }
-
-      var direction = e.getWheelDelta("y") > 0 ? 1 : -1;
-      var children = this.getSelectables();
-      var selected = this.getSelection()[0];
-
-      if (!selected) {
-        if (!children[0]) {
-          return;
-        }
-        selected = children[0];
-      }
-
-      var index = children.indexOf(selected) + direction;
-      var max = children.length - 1;
-
-      // Limit
-      if (index < 0) {
-        index = 0;
-      } else if (index >= max) {
-        index = max;
-      }
-
-      this.setSelection([children[index]]);
-
-      // stop the propagation
-      // prevent any other widget from receiving this event
-      // e.g. place a selectbox widget inside a scroll container widget
-      e.stopPropagation();
-      e.preventDefault();
-    },
 
     // overridden
     _onKeyPress : function(e)
