@@ -13,20 +13,28 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Christopher Zuendorf (czuendorf)
+     * Martin Wittemann (wittemann)
 
 ************************************************************************ */
 
 
 /**
- * Track event object.
+ * Roll event object.
  */
-qx.Class.define("qx.event.type.Track",
+qx.Class.define("qx.event.type.Roll",
 {
     extend : qx.event.type.Pointer,
 
 
     members : {
+      // overridden
+      stop : function()
+      {
+        this.stopPropagation();
+        this.preventDefault();
+      },
+
+
       // overridden
       _cloneNativeEvent : function(nativeEvent, clone)
       {
@@ -40,10 +48,10 @@ qx.Class.define("qx.event.type.Track",
 
       /**
        * Returns a map with the calculated delta coordinates and axis,
-       * relative to the position on <code>trackstart</code> event.
+       * relative to the last <code>roll</code> event.
        *
        * @return {Map} a map with contains the delta as <code>x</code> and
-       * <code>y</code> and the movement axis as <code>axis</code>.
+       * <code>y</code>
        */
       getDelta : function() {
         return this._native.delta;

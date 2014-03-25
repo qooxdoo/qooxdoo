@@ -31,7 +31,7 @@ qx.Mixin.define("qx.ui.core.scroll.MRoll",
     /**
      * Roll event handler
      *
-     * @param e {qx.event.type.Mouse} Mouse event // TODO event
+     * @param e {qx.event.type.Roll} Roll event
      */
     _onRoll : function(e)
     {
