@@ -34,11 +34,11 @@ var path = require("path");
 var pathIsInside = require("path-is-inside");
 
 // qx
-var qxRes = require("qx-resources");
-var qxLoc = require("qx-locales");
-var qxDep = require("qx-dependencies");
-var qxLib = require("qx-libraries");
-var qxTra = require("qx-translations");
+var qxRes = require("qx-resource");
+var qxLoc = require("qx-locale");
+var qxDep = require("qx-dependency");
+var qxLib = require("qx-library");
+var qxTra = require("qx-translation");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -142,7 +142,7 @@ module.exports = function(grunt) {
 
 
     grunt.log.writeln('Get locale and translation data ...');
-    // ----------------------------------------------------
+    // ------------------------------------------------------
     var locales = {"C": {}};
     var localeData = {"C": qxLoc.getTailoredCldrData("en") };
     var translationPaths = qxLib.getPathsFor("translation", opts.libraries);
