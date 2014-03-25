@@ -1,5 +1,5 @@
 {
-  "name": "qx-locales",
+  "name": "qx-locale",
   "description": "Collect locale information tailored for qooxdoo",
   "main": "lib/locales.js",
   "version": "0.1.0",
