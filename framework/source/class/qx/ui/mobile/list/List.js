@@ -35,14 +35,23 @@
  *   ];
  *
  *   // Create the list with a delegate that
- *   // configures the list item.
  *   var list = new qx.ui.mobile.list.List({
- *     configureItem : function(item, data, row)
+ *     configureItem: function(item, data, row)
  *     {
+ *       item.setImage("path/to/image.png");
  *       item.setTitle(data.title);
  *       item.setSubtitle(data.subtitle);
- *       item.setShowArrow(true);
- *     }
+ *     },
+ *
+ *     configureGroupItem: function(item, data) {
+ *       item.setTitle(data.title);
+ *     },
+ *
+ *     group: function(data, row) {
+ *      return {
+ *       title: row < 2 ? "Selectable" : "Unselectable"
+ *     };
+ *    }
  *   });
  *
  *   // Set the model of the list
@@ -87,7 +96,13 @@ qx.Class.define("qx.ui.mobile.list.List",
     /**
      * Fired when the selection is changed.
      */
-    changeSelection : "qx.event.type.Data"
+    changeSelection : "qx.event.type.Data",
+
+
+    /**
+     * Fired when the group selection is changed.
+     */
+    changeGroupSelection : "qx.event.type.Data"
   },
 
 
@@ -122,17 +137,6 @@ qx.Class.define("qx.ui.mobile.list.List",
       check : "qx.data.Array",
       apply : "_applyModel",
       event: "changeModel",
-      nullable : true,
-      init : null
-    },
-
-
-    /**
-     * The groups to use to render the list.
-     */
-    groups :
-    {
-      apply : "__render",
       nullable : true,
       init : null
     },
@@ -175,7 +179,7 @@ qx.Class.define("qx.ui.mobile.list.List",
     _onTap : function(evt)
     {
       var element = evt.getOriginalTarget();
-      var index = -1;
+      var row = -1;
 
       // Click on border: do nothing.
       if(element.tagName == "UL") {
@@ -185,13 +189,20 @@ qx.Class.define("qx.ui.mobile.list.List",
       while (element.tagName != "LI") {
         element = element.parentNode;
       }
-      if (qx.bom.element.Attribute.get(element, "data-selectable") != "false"
-          && qx.dom.Element.hasChild(this.getContainerElement(), element))
-      {
-        var index = element.getAttribute("data-row");
-      }
-      if (index != -1) {
-        this.fireDataEvent("changeSelection", index);
+
+      var isItem = qx.bom.element.Class.has(element, "list-item");
+      if (isItem) {
+        if (qx.bom.element.Attribute.get(element, "data-selectable") != "false" 
+            && qx.dom.Element.hasChild(this.getContainerElement(), element)) {
+          row = parseInt(element.getAttribute("data-row"), 10);
+        }
+        if (row != -1) {
+          this.fireDataEvent("changeSelection", row);
+        }
+      } else {
+        var group = parseInt(element.getAttribute("data-group"), 10);
+        if (qx.bom.element.Attribute.get(element, "data-selectable") != "false")
+          this.fireDataEvent("changeGroupSelection", group);
       }
     },
 
@@ -220,7 +231,6 @@ qx.Class.define("qx.ui.mobile.list.List",
         value.addListener("changeLength", this.__onModelChangeLength, this);
       }
 
-
       this.__render();
     },
 
@@ -238,6 +248,7 @@ qx.Class.define("qx.ui.mobile.list.List",
     __onModelChangeLength : function(evt) {
       this.__render();
     },
+
 
     /**
      * Locale change event handler
@@ -381,13 +392,17 @@ qx.Class.define("qx.ui.mobile.list.List",
       var model = this.getModel();
       this.setItemCount(model ? model.getLength() : 0);
 
+      var groupIndex = 0;
+
       for (var index = 0; index < this.getItemCount(); index++) {
-        var item = model.getItem(index);
-        var group = item.group;
-        if (group && this.getGroups() && this.getGroups()[group]) {
-          this._renderGroup(index, group);
+        if (this.__hasGroup()) {
+          var groupElement = this._renderGroup(index, groupIndex);
+          if (groupElement) {
+            groupIndex++;
+            this.getContentElement().appendChild(groupElement);
+          }
         }
-       
+        var item = model.getItem(index);
         this.getContentElement().appendChild(this.__provider.getItemElement(item, index));
       }
 
@@ -398,18 +413,44 @@ qx.Class.define("qx.ui.mobile.list.List",
     /**
     * Renders a group header.
     *
-    * @param index {Integer} the item index. 
+    * @param itemIndex {Integer} the current list item index. 
+    * @param groupIndex {Integer} the group index. 
+    * @return {Element} the group element or <code>null</code> if no group was needed.
     */
-    _renderGroup: function(index, group) {
-      var data = this.getGroups()[group];
-      if (index === 0) {
-        this.getContentElement().appendChild(this.__provider.getGroupElement(data));
+    _renderGroup: function(itemIndex, groupIndex) {
+      var group = this.__getGroup(itemIndex);
+
+      if (itemIndex === 0) {
+        return this.__provider.getGroupElement(group, groupIndex);
       } else {
-        var previousGroup = this.getModel().getItem(index - 1).group;
-        if (group !== previousGroup) {
-          this.getContentElement().appendChild(this.__provider.getGroupElement(data));
+        var previousGroup = this.__getGroup(itemIndex - 1);
+
+        if (!qx.lang.Object.equals(group, previousGroup)) {
+          return this.__provider.getGroupElement(group, groupIndex);
         }
       }
+    },
+
+
+    /**
+    * Checks whether the delegate support group rendering.
+    * @return {Boolean} true if the delegate object supports grouping function.
+    */
+    __hasGroup : function() {
+      return qx.util.Delegate.getMethod(this.getDelegate(), "group") !== null;
+    },
+
+
+    /**
+     * Returns the group for this item, identified by its index
+     * @param index {Integer} the item index.
+     * @return {Object} the group object, to which the item belongs to. 
+     */
+    __getGroup : function(index)
+    {
+      var item = this.getModel().getItem(index);
+      var group = qx.util.Delegate.getMethod(this.getDelegate(), "group");
+      return group(item, index);
     }
   },
 

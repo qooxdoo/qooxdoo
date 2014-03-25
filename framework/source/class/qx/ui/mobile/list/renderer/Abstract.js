@@ -98,8 +98,6 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
   },
 
 
-
-
  /*
   *****************************************************************************
      MEMBERS
@@ -152,7 +150,8 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
       while (element.tagName != "LI") {
         element = element.parentNode;
       }
-      return qx.dom.Hierarchy.getElementIndex(element);
+
+      return element.getAttribute("data-row");
     },
 
 

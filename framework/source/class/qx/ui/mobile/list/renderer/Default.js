@@ -48,12 +48,6 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
   extend : qx.ui.mobile.list.renderer.Abstract,
 
 
- /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   construct : function(layout)
   {
     this.base(arguments, layout || new qx.ui.mobile.layout.HBox().set({
@@ -62,14 +56,6 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
     this._init();
   },
 
-
-
-
- /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -191,7 +177,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
     _createImage : function() {
       var image = new qx.ui.mobile.basic.Image();
       image.setAnonymous(true);
-      image.addCssClass("list-itemimage");
+      image.addCssClass("list-item-image");
       return image;
     },
 
@@ -204,7 +190,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
     _createTitle : function() {
       var title = new qx.ui.mobile.basic.Label();
       title.setWrap(false);
-      title.addCssClass("list-itemlabel");
+      title.addCssClass("list-item-title");
       return title;
     },
 
@@ -217,7 +203,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
     _createSubtitle : function() {
       var subtitle = new qx.ui.mobile.basic.Label();
       subtitle.setWrap(false);
-      subtitle.addCssClass("subtitle");
+      subtitle.addCssClass("list-item-subtitle");
       return subtitle;
     },
 
@@ -231,11 +217,6 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
     }
   },
 
- /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
 
   destruct : function()
   {

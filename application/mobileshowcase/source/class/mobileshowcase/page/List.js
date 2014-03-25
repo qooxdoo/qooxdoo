@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2014 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,6 +14,7 @@
 
    Authors:
      * Tino Butz (tbtz)
+     * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
 
@@ -65,37 +66,43 @@ qx.Class.define("mobileshowcase.page.List",
           item.setShowArrow(row < 4);
         },
 
-        configureGroup: function(item, data) {
-          item.setTitle(data.title);
+        configureGroupItem: function(item, data, group) {
+          item.setTitle("#"+group + " " + data.title);
+        },
+
+        group: function(data, row) {
+          return {
+            title: row < 4 ? "Selectable Items" : "Unselectable Items"
+          };
+        },
+
+        createGroupRenderer: function() {
+          var groupRenderer = new qx.ui.mobile.list.renderer.group.Default();
+          groupRenderer.setSelectable(true);
+          return groupRenderer;
         }
       });
 
-      var groups = {
-        "Selectable" : {
-          title : "Selectable"
-        },
-        "Unselectable" : {
-          title : "Not Selectable"
-        }
-      };
       
       var data = [];
       for (var i = 0; i < 100; i++) {
         data.push({
-          title: "Item" + i,
-          subtitle: "Subtitle for Item #" + i,
-          group: i < 4 ? "Selectable" : "Unselectable"
+          title: "Item #" + i,
+          subtitle: "Subtitle for Item #" + i
         });
       }
 
-      list.setGroups(groups);
       list.setModel(new qx.data.Array(data));
       list.addListener("changeSelection", function(evt) {
-        var itemNumber = evt.getData();
-
-        label.setValue("You selected Item #" + itemNumber);
+        label.setValue("You selected Item #" + evt.getData());
         popup.show();
       }, this);
+
+      list.addListener("changeGroupSelection", function(evt) {
+        label.setValue("You selected Group #" + evt.getData());
+        popup.show();
+      }, this);
+
       this.getContent().add(list);
     }
   }

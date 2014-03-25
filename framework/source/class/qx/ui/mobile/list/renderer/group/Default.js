@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * The default group header renderer. Used as the default renderer by the
+ * The default group renderer. Used as the default renderer by the
  * {@link qx.ui.mobile.list.provider.Provider}. Configure the renderer
  * by setting the {@link qx.ui.mobile.list.List#delegate} property.
  *
@@ -26,28 +26,36 @@
  *
  * Here is a little example of how to use the widget.
  *
- * <pre class='javascript'> * <pre class='javascript'>
+ * <pre class='javascript'>
  *   // Create the list with a delegate that
  *   // configures the list item.
  *   var list = new qx.ui.mobile.list.List({
- *     configureItem : function(item, data, row)
+ *     configureItem: function(item, data, row)
  *     {
  *       item.setImage("path/to/image.png");
  *       item.setTitle(data.title);
  *       item.setSubtitle(data.subtitle);
  *     },
- *     configureGroup: function(item, group) {
- *       item.setTitle(group.name);
- *     }
- *   });
+ *
+ *     configureGroupItem: function(item, data, group) {
+ *       item.setTitle(group + " " + data.title);
+ *     },
+ *
+ *     group: function(data, row) {
+ *      return {
+ *       title: row < 4 ? "Selectable" : "Unselectable"
+ *     };
+ *    }
+ *  });
  * </pre>
  *
- * This example creates a list with a delegate that configures the list item and the group header with
+ * This example creates a list with a delegate that configures the list items and groups with
  * the given data.
  */
-qx.Class.define("qx.ui.mobile.list.renderer.Group",
+
+qx.Class.define("qx.ui.mobile.list.renderer.group.Default",
 {
-  extend : qx.ui.mobile.list.renderer.Abstract,
+  extend : qx.ui.mobile.list.renderer.group.Abstract,
 
 
   construct : function(layout)
@@ -56,30 +64,6 @@ qx.Class.define("qx.ui.mobile.list.renderer.Group",
       alignY: "middle"
     }));
     this._init();
-    this.addCssClass("group-header");
-  },
-
-
-  properties: {
-    // overridden
-    selectable: {
-      refine: true,
-      init: false
-    },
-
-
-    // overridden
-    showArrow: {
-      refine: true,
-      init: false
-    },
-
-
-    //overridden
-    activatable: {
-      refine: true,
-      init: false
-    }
   },
 
 
@@ -152,8 +136,6 @@ qx.Class.define("qx.ui.mobile.list.renderer.Group",
      */
     _init : function()
     {
-      
-
       this.__image = this._createImage();
       this.add(this.__image);
 
@@ -183,7 +165,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Group",
     _createImage : function() {
       var image = new qx.ui.mobile.basic.Image();
       image.setAnonymous(true);
-      image.addCssClass("list-itemimage");
+      image.addCssClass("group-item-image");
       return image;
     },
 
@@ -196,7 +178,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Group",
     _createTitle : function() {
       var title = new qx.ui.mobile.basic.Label();
       title.setWrap(false);
-      title.addCssClass("list-itemlabel");
+      title.addCssClass("group-item-title");
       return title;
     },
 

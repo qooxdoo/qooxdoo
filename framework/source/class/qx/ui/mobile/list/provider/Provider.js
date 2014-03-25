@@ -27,12 +27,6 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
   extend : qx.core.Object,
 
 
- /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
   properties:
   {
     /**
@@ -50,14 +44,6 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
     }
   },
 
-
-
-
- /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -87,7 +73,7 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
 
     /**
     * Sets the group renderer.
-    * @param renderer {qx.ui.mobile.list.renderer.Abstract} the group renderer.
+    * @param renderer {qx.ui.mobile.list.renderer.group.Abstract} the group renderer.
     */
     _setGroupRenderer : function(renderer) {
       this.__groupRenderer = renderer;
@@ -96,7 +82,7 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
 
     /**
     * Gets the group renderer.
-    * @return {qx.ui.mobile.list.renderer.Abstract} the group renderer.
+    * @return {qx.ui.mobile.list.renderer.group.Abstract} the group renderer.
     */
     _getGroupRenderer : function() {
       return this.__groupRenderer;
@@ -124,15 +110,23 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
     },
 
 
-    getGroupElement : function(data)
+    /**
+     * Returns the group item element for a given row.
+     *
+     * @param data {var} The data of the group.
+     * @param group {Integer} The group index.
+     *
+     * @return {Element} the group item element.
+     */
+    getGroupElement : function(data, group)
     {
       this.__groupRenderer.reset();
-      this._configureGroup(data);
+      this._configureGroupItem(data, group);
 
       // Clone the element and all it's events
       var clone = qx.bom.Element.clone(this.__groupRenderer.getContainerElement(), true);
       clone.removeAttribute("id");
-
+      clone.setAttribute("data-group", group);
       return clone;
     },
 
@@ -155,13 +149,14 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
 
     /**
     * Configures the group renderer with the passed group data.
-    * @param data {Map} an object containing all group data. 
+    * @param data {var} The data of the group.
+    * @param group {Integer} The group index.
     */
-    _configureGroup : function(data)
+    _configureGroupItem : function(data, group)
     {
-      var configureGroup = qx.util.Delegate.getMethod(this.getDelegate(), "configureGroup");
-      if (configureGroup) {
-        configureGroup(this.__groupRenderer, data);
+      var configureGroupItem = qx.util.Delegate.getMethod(this.getDelegate(), "configureGroupItem");
+      if (configureGroupItem) {
+        configureGroupItem(this.__groupRenderer, data, group);
       }
     },
 
@@ -170,14 +165,14 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
      * Creates an instance of the group renderer to use. When no delegate method
      * is given the function will return an instance of {@link qx.ui.mobile.list.renderer.Group}.
      *
-     * @return {qx.ui.mobile.list.renderer.Abstract} An instance of the group renderer.
+     * @return {qx.ui.mobile.list.renderer.group.Abstract} An instance of the group renderer.
     */
     _createGroupRenderer : function()
     {
       var createGroupRenderer = qx.util.Delegate.getMethod(this.getDelegate(), "createGroupRenderer");
       var groupRenderer = null;
       if (createGroupRenderer == null) {
-        groupRenderer = new qx.ui.mobile.list.renderer.Group();
+        groupRenderer = new qx.ui.mobile.list.renderer.group.Default();
       } else {
         groupRenderer = createGroupRenderer();
       }
