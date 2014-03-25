@@ -32,7 +32,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
   extend : qx.ui.core.Widget,
   include : [
     qx.ui.core.scroll.MScrollBarFactory,
-    qx.ui.core.scroll.MWheelHandling,
+    qx.ui.core.scroll.MRoll,
     qx.ui.core.MDragDropScrolling
   ],
   type : "abstract",
@@ -76,8 +76,8 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
       this._setLayout(grid);
     }
 
-    // Mousewheel listener to scroll vertically
-    this.addListener("roll", this._onMouseWheel, this);
+    // Roll listener for scrolling
+    this.addListener("roll", this._onRoll, this);
   },
 
 
