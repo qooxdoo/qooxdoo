@@ -269,7 +269,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
         case "hue-saturation-pane":
           control = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
           control.setAllowGrowY(false);
-          control.addListener("mousewheel", this._onHueSaturationPaneMouseWheel, this);
+          control.addListener("roll", this._onHueSaturationPaneRoll, this);
           control.add(this.getChildControl("hue-saturation-field"));
           control.add(this.getChildControl("hue-saturation-handle"), {left: 0, top: 256});
           break;
@@ -289,7 +289,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
         case "brightness-pane":
           control = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
           control.setAllowGrowY(false);
-          control.addListener("mousewheel", this._onBrightnessPaneMouseWheel, this);
+          control.addListener("roll", this._onBrightnessPaneRoll, this);
           control.add(this.getChildControl("brightness-field"));
           control.add(this.getChildControl("brightness-handle"));
           break;
@@ -852,12 +852,18 @@ qx.Class.define("qx.ui.control.ColorSelector",
      * Listener of mousewheel event on the brightness pane.
      * Adjusts the color by changing the brightness.
      *
-     * @param e {qx.event.type.Mouse} Incoming event object
+     * @param e {qx.event.type.Roll} Incoming event object
      */
-    _onBrightnessPaneMouseWheel : function(e)
+    _onBrightnessPaneRoll : function(e)
     {
-      this.setBrightness(qx.lang.Number.limit(this.getBrightness() - e.getWheelDelta("y"), 0, 100));
       e.stop();
+
+      // only wheel
+      if (e.getPointerType() != "wheel") {
+        return;
+      }
+
+      this.setBrightness(qx.lang.Number.limit((this.getBrightness() + (e.getDelta().y / 10)), 0, 100));
     },
 
 
@@ -956,14 +962,20 @@ qx.Class.define("qx.ui.control.ColorSelector",
      * Listener of mousewheel event on the saturation pane.
      * Adjusts the color by changing the saturation.
      *
-     * @param e {qx.event.type.Mouse} Incoming event object
+     * @param e {qx.event.type.Roll} Incoming event object
      */
-    _onHueSaturationPaneMouseWheel : function(e)
+    _onHueSaturationPaneRoll : function(e)
     {
-      this.setSaturation(qx.lang.Number.limit(this.getSaturation() - e.getWheelDelta("y"), 0, 100));
-      this.setHue(qx.lang.Number.limit(this.getHue() + e.getWheelDelta("x"), 0, 360));
-
       e.stop();
+
+      // only wheel
+      if (e.getPointerType() != "wheel") {
+        return;
+      }
+
+      var delta = e.getDelta();
+      this.setSaturation(qx.lang.Number.limit(this.getSaturation() + delta.y / 10, 0, 100));
+      this.setHue(qx.lang.Number.limit(this.getHue() - delta.x / 10, 0, 360));
     },
 
 
