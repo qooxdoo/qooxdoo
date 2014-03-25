@@ -1,7 +1,7 @@
 {
   "name": "qx-locale",
   "description": "Collect locale information tailored for qooxdoo",
-  "main": "lib/locales.js",
+  "main": "lib/locale.js",
   "version": "0.1.0",
   "homepage": "https://github.com/qooxdoo/qooxdoo",
   "author": {

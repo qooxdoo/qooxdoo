@@ -26,9 +26,9 @@ module.exports = {
   },
 
   getTailoredCldrData : function (test) {
-    var locales = require('../lib/locales.js');
+    var locale = require('../lib/locale.js');
 
-    console.log(JSON.stringify(locales.getTailoredCldrData("en")));
+    console.log(JSON.stringify(locale.getTailoredCldrData("en")));
 
     test.ok(true);
     test.done();
