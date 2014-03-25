@@ -19,13 +19,12 @@
 
 'use strict';
 
-exports.dependencies = {
+module.exports = {
   setUp: function(done) {
     // setup here if necessary
     done();
   },
 
-  // TODO: don't hardwire paths and resolve dep to needed app
   getClassListLoadOrder: function (test) {
     var depAnalyzer = require('../lib/depAnalyzer.js');
     var classListLoadOrder = [];

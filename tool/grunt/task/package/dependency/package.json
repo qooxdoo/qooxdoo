@@ -1,5 +1,5 @@
 {
-  "name": "qx-dependencies",
+  "name": "qx-dependency",
   "description": "Collect dependencies of qooxdoo code (e.g. unresolved symbols and asset-hints)",
   "main": "lib/depAnalyzer.js",
   "version": "0.1.0",
