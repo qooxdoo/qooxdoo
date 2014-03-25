@@ -95,9 +95,9 @@ var registerGeneratorJobsAsTasks = function(grunt, jobs, supersededJobs) {
 var registerNodeTasks = function(grunt, relSdkPath) {
   // TODO:
   //   * move to registerGeneratorJobs
-  grunt.loadTasks(relSdkPath + '/tool/grunt/tasks/generate');
-  grunt.loadTasks(relSdkPath + '/tool/grunt/tasks/info/tasks');
-  // grunt.loadTasks(relSdkPath + '/tool/grunt/tasks/source/tasks');
+  grunt.loadTasks(relSdkPath + '/tool/grunt/task/generate');
+  grunt.loadTasks(relSdkPath + '/tool/grunt/task/info/tasks');
+  // grunt.loadTasks(relSdkPath + '/tool/grunt/task/source/tasks');
 };
 
 var registerTasks = function(grunt) {
