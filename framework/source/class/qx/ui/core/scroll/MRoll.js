@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2014 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -18,22 +18,22 @@
 ************************************************************************ */
 
 /**
- * Mixin holding the handler for the two axis mouse wheel scrolling. Please
+ * Mixin holding the handler for roll event. Please
  * keep in mind that the including widget has to have the scroll bars
  * implemented as child controls named <code>scrollbar-x</code> and
  * <code>scrollbar-y</code> to get the handler working. Also, you have to
  * attach the listener yourself.
  */
-qx.Mixin.define("qx.ui.core.scroll.MWheelHandling",
+qx.Mixin.define("qx.ui.core.scroll.MRoll",
 {
   members :
   {
     /**
-     * Mouse wheel event handler
+     * Roll event handler
      *
-     * @param e {qx.event.type.Mouse} Mouse event
+     * @param e {qx.event.type.Mouse} Mouse event // TODO event
      */
-    _onMouseWheel : function(e)
+    _onRoll : function(e)
     {
       var showX = this._isChildControlVisible("scrollbar-x");
       var showY = this._isChildControlVisible("scrollbar-y");
@@ -41,50 +41,37 @@ qx.Mixin.define("qx.ui.core.scroll.MWheelHandling",
       var scrollbarY = showY ? this.getChildControl("scrollbar-y", true) : null;
       var scrollbarX = showX ? this.getChildControl("scrollbar-x", true) : null;
 
-      var deltaY = e.getWheelDelta("y");
-      var deltaX = e.getWheelDelta("x");
+      var deltaY = e.getDelta().y;
+      var deltaX = e.getDelta().x;
 
       var endY = !showY;
       var endX = !showX;
 
       // y case
       if (scrollbarY) {
-        if (qx.event.handler.MouseEmulation.ON) {
-          scrollbarY.scrollBy(parseInt(deltaY));
-        } else {
-          var steps = parseInt(deltaY);
-
-          if (steps !== 0) {
-            scrollbarY.scrollBySteps(steps);
-          }
+        if (deltaY !== 0) {
+          scrollbarY.scrollBy(deltaY);
         }
-
 
         var position = scrollbarY.getPosition();
         var max = scrollbarY.getMaximum();
 
         // pass the event to the parent if the scrollbar is at an edge
-        if (steps < 0 && position <= 0 || steps > 0 && position >= max) {
+        if (deltaY < 0 && position <= 0 || deltaY > 0 && position >= max) {
           endY = true;
         }
       }
 
       // x case
       if (scrollbarX) {
-        if (qx.event.handler.MouseEmulation.ON) {
-          scrollbarX.scrollBySteps(deltaX);
-        } else {
-          var steps = parseInt(deltaX);
-
-          if (steps !== 0) {
-            scrollbarX.scrollBySteps(steps);
-          }
+        if (deltaX !== 0) {
+          scrollbarX.scrollBy(deltaX);
         }
 
         var position = scrollbarX.getPosition();
         var max = scrollbarX.getMaximum();
         // pass the event to the parent if the scrollbar is at an edge
-        if (steps < 0 && position <= 0 || steps > 0 && position >= max) {
+        if (deltaX < 0 && position <= 0 || deltaX > 0 && position >= max) {
           endX = true;
         }
       }
