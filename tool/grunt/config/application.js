@@ -26,6 +26,7 @@ var path = require('path');
 
 // third party
 var deepmerge = require('deepmerge');
+var q = require('qooxdoo');
 
 var common = {
   "ROOT": ".",
@@ -116,9 +117,42 @@ var getConfig = function() {
 };
 
 var mergeConfig = function(config) {
-  // TODO how to overwrite std config?
-  // recycle '={key}'-syntax from config.json?
-  return deepmerge(getConfig(), config);
+  var task = "";
+  var prop = "";
+  var confKey = "";
+  var confKeyProp = "";
+
+  var mergedConfig = deepmerge(getConfig(), config);
+
+  // TODO:
+  //  Consider:
+  //    * Recycle '={confKey}'-syntax from config.json or sth. better?
+  //    * Introduce '!{confKeyProp}'-syntax for removing of confKeyProp?!
+  //
+  // for (task in config) {
+  //   for (prop in config[task]) {
+  //     if (prop === "options") {
+  //       for (confKey in config[task].options) {
+  //         if (q.Bootstrap.isObject(config[task].options[confKey])) {
+  //           for (confKeyProp in config[task].options[confKey]) {
+  //             if (confKeyProp[0] === "!") {
+  //               // remove !{confKeyProp}
+  //               delete mergedConfig[task].options[confKey][confKeyProp.substr(1)];
+  //               delete mergedConfig[task].options[confKey][confKeyProp];
+  //             }
+  //           }
+  //         }
+  //         if (confKey[0] === "=") {
+  //           // overwrite std config and remove "={confKey}"
+  //           mergedConfig[task].options[confKey.substr(1)] = config[task].options[confKey];
+  //           delete mergedConfig[task].options[confKey];
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
+
+  return mergedConfig;
 };
 
 
