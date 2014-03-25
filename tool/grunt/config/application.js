@@ -45,7 +45,7 @@ var common = {
   "ENVIRONMENT": {
     "qx.application": "<%= common.APPLICATION %>.Application",
     "qx.revision":"",
-    "qx.theme": "<%= common.APPLICATION %>.theme.Theme",
+    "qx.theme": "<%= common.QXTHEME %>",
     "qx.version":"<%= common.QOOXDOO_VERSION %>"
   }
 };
