@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.menu.Manager",
 
     // React on pointer/mouse events, but on native, to support inline applications
     Registration.addListener(window.document.documentElement, "pointerdown", this._onPointerDown, this, true);
-    Registration.addListener(el, "mousewheel", this._onMouseWheel, this, true);
+    Registration.addListener(el, "roll", this._onRoll, this, true);
 
     // React on keypress events
     Registration.addListener(el, "keydown", this._onKeyUpDown, this, true);
@@ -840,11 +840,11 @@ qx.Class.define("qx.ui.menu.Manager",
 
 
     /**
-     * Event handler for mousewheel which hides all windows on scroll.
+     * Event handler for roll which hides all windows on scroll.
      *
-     * @param e {qx.event.type.MouseWheel} The mouse wheel event.
+     * @param e {qx.event.type.Roll} The roll event.
      */
-    _onMouseWheel : function(e) {
+    _onRoll : function(e) {
       var target = e.getTarget();
       target = qx.ui.core.Widget.getWidgetByElement(target, true);
 
