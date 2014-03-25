@@ -28,7 +28,6 @@
  *   <li>audio (mp3, wav, ogg ...)</li>
  *   <li>video (m4v, ogv, webm ...)</li>
  * </ul>
- *
  */
 
 //------------------------------------------------------------------------------
@@ -47,9 +46,9 @@ var glob = require('glob');
 // qx
 var q = require('qooxdoo');
 
-var qxResources = {};
-qxResources.Image = require('./qxResources/Image');
-qxResources.Resource = require('./qxResources/Resource');
+var qxResource = {};
+qxResource.Image = require('./qxResource/Image');
+qxResource.Resource = require('./qxResource/Resource');
 
 //------------------------------------------------------------------------------
 // Privates
@@ -259,7 +258,7 @@ function createResources(kind, resPaths, ns, basePath) {
   switch(kind) {
     case 'image':
       for (; i<l; i++) {
-        var img = new qxResources.Image(resPaths[i], ns);
+        var img = new qxResource.Image(resPaths[i], ns);
         img.collectInfoAndPopulate(basePath);
         resources.push(img);
       }
@@ -267,7 +266,7 @@ function createResources(kind, resPaths, ns, basePath) {
 
     default:
       for (; i<l; i++) {
-        var res = new qxResources.Resource(resPaths[i], ns);
+        var res = new qxResource.Resource(resPaths[i], ns);
         resources.push(res);
       }
   }

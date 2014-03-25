@@ -36,7 +36,7 @@ var q = require('qooxdoo');
 // Class
 //------------------------------------------------------------------------------
 
-q.Class.define("qxResources.Resource",
+q.Class.define("qxResource.Resource",
 {
   extend: qx.core.Object,
 
@@ -64,4 +64,4 @@ q.Class.define("qxResources.Resource",
 // Exports
 //------------------------------------------------------------------------------
 
-module.exports = qxResources.Resource;
+module.exports = qxResource.Resource;

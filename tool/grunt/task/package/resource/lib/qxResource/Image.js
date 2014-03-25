@@ -39,7 +39,7 @@ var imgsize = require('image-size');
 // Class
 //------------------------------------------------------------------------------
 
-q.Class.define("qxResources.Image",
+q.Class.define("qxResource.Image",
 {
   extend: qx.core.Object,
 
@@ -93,4 +93,4 @@ q.Class.define("qxResources.Image",
 // Exports
 //------------------------------------------------------------------------------
 
-module.exports = qxResources.Image;
+module.exports = qxResource.Image;

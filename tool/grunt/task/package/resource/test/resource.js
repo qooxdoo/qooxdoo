@@ -28,7 +28,7 @@ module.exports = {
   },
 
   collectImageInfoMaps: function (test) {
-    var resources = require('../lib/resources.js');
+    var resources = require('../lib/resource.js');
 
     // real data should come from Manifest.json files
     // i.e. from the library npm package
