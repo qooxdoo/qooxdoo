@@ -83,7 +83,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     // embed pane into a scrollable container
     this.__paneClipper = new qx.ui.table.pane.Clipper();
     this.__paneClipper.add(this.__tablePane);
-    this.__paneClipper.addListener("mousewheel", this._onMousewheel, this);
+    this.__paneClipper.addListener("roll", this._onRoll, this);
     this.__paneClipper.addListener("pointermove", this._onPointermovePane, this);
     this.__paneClipper.addListener("pointerdown", this._onPointerdownPane, this);
     this.__paneClipper.addListener("pointerup", this._onPointerupPane, this);
@@ -845,9 +845,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the user moved the mouse wheel.
      *
-     * @param e {Map} the event.
+     * @param e {qx.event.type.Roll} the event.
      */
-    _onMousewheel : function(e)
+    _onRoll : function(e)
     {
       var table = this.getTable();
 
@@ -856,33 +856,32 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       }
 
       // vertical scrolling
-      var delta = e.getWheelDelta("y");
+      var delta = e.getDelta();
       // normalize that at least one step is scrolled at a time
-      if (delta > 0 && delta < 1) {
-        delta = 1;
-      } else if (delta < 0 && delta > -1) {
-        delta = -1;
+      if (delta.y > 0 && delta.y < 1) {
+        delta.y = 1;
+      } else if (delta.y < 0 && delta.y > -1) {
+        delta.y = -1;
       }
-      this.__verScrollBar.scrollBySteps(delta);
+      this.__verScrollBar.scrollBy(delta.y);
 
-      var scrolled = delta != 0 && !this.__isAtEdge(this.__verScrollBar, delta);
+      var scrolled = delta.y != 0 && !this.__isAtEdge(this.__verScrollBar, delta.y);
 
       // horizontal scrolling
-      delta = e.getWheelDelta("x");
       // normalize that at least one step is scrolled at a time
-      if (delta > 0 && delta < 1) {
-        delta = 1;
-      } else if (delta < 0 && delta > -1) {
-        delta = -1;
+      if (delta.x > 0 && delta.x < 1) {
+        delta.x = 1;
+      } else if (delta.x < 0 && delta.x > -1) {
+        delta.x = -1;
       }
-      this.__horScrollBar.scrollBySteps(delta);
+      this.__horScrollBar.scrollBy(delta.x);
 
       // Update the focus
       if (this.__lastPointerPageX && this.getFocusCellOnPointerMove()) {
         this._focusCellAtPagePos(this.__lastPointerPageX, this.__lastPointerPageY);
       }
 
-      scrolled = scrolled || (delta != 0 && !this.__isAtEdge(this.__horScrollBar, delta));
+      scrolled = scrolled || (delta.x != 0 && !this.__isAtEdge(this.__horScrollBar, delta.x));
 
       // pass the event to the parent if the scrollbar is at an edge
       if (scrolled) {
