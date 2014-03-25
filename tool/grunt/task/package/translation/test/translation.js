@@ -19,7 +19,7 @@
 
 'use strict';
 
-exports.translations = {
+module.exports = {
   setUp: function(done) {
     // setup here if necessary
     done();

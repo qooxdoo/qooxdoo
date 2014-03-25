@@ -1,5 +1,5 @@
 {
-  "name": "qx-translations",
+  "name": "qx-translation",
   "description": "Create .po files for current library",
   "main": "lib/translation.js",
   "version": "0.1.0",
