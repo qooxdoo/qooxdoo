@@ -32,11 +32,11 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "qx-resources": "~0.1.0",
-    "qx-locales": "~0.1.0",
-    "qx-dependencies": "~0.1.0",
-    "qx-libraries": "~0.1.0",
-    "qx-translations": "~0.1.0",
+    "qx-resource": "~0.1.0",
+    "qx-locale": "~0.1.0",
+    "qx-dependency": "~0.1.0",
+    "qx-library": "~0.1.0",
+    "qx-translation": "~0.1.0",
     "path-is-inside": "~1.0.1"
   },
   "devDependencies": {
