@@ -322,6 +322,14 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     },
 
 
+    /**
+     * Method which will be called recursively to provide a momentum scrolling.
+     * @param deltaX {Number} The last offset in X direction
+     * @param deltaY {Number} The last offset in Y direction
+     * @param domEvent {Event} The original gesture event
+     * @param target {Element} The target of the momentum roll events
+     * @param time {Number ?} The time in ms between the last two calls
+     */
     __handleRollImpulse : function(deltaX, deltaY, domEvent, target, time) {
       // delete the old timer id
       this.__impulseRequestId = null;
@@ -361,6 +369,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       domEvent.momentum = true;
       this._fireEvent(domEvent, "roll", domEvent.target || target);
     },
+
 
     /**
     * Calculates the angle of the primary and secondary pointer.

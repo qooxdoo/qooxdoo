@@ -35,6 +35,11 @@ qx.Mixin.define("qx.ui.core.scroll.MRoll",
      */
     _onRoll : function(e)
     {
+      // only wheel
+      if (e.getPointerType() != "wheel") {
+        return;
+      }
+
       var showX = this._isChildControlVisible("scrollbar-x");
       var showY = this._isChildControlVisible("scrollbar-y");
 

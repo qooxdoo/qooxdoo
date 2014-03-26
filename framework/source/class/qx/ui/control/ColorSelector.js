@@ -849,7 +849,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
 
     /**
-     * Listener of mousewheel event on the brightness pane.
+     * Listener of roll event on the brightness pane.
      * Adjusts the color by changing the brightness.
      *
      * @param e {qx.event.type.Roll} Incoming event object
@@ -959,7 +959,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
 
     /**
-     * Listener of mousewheel event on the saturation pane.
+     * Listener of roll event on the saturation pane.
      * Adjusts the color by changing the saturation.
      *
      * @param e {qx.event.type.Roll} Incoming event object

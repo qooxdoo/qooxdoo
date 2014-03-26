@@ -396,7 +396,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
     /**
      * Handles all pointer events dispatched on the widget.
      *
-     * @param event {qx.event.type.Pointer|qx.event.type.MouseWheel} The pointer event.
+     * @param event {qx.event.type.Pointer|qx.event.type.Roll} The pointer event.
      */
     _handlePointer : function(event) {},
 
