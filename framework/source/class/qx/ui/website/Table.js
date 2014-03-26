@@ -405,8 +405,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
      */
     __createInputs: function(type) {
-      var rows = this[0].rows, inputNode = null;
-      var cellName = null;
+      var rows = this[0].rows;
       for (var i = 0; i < rows.length; i++) {
         this.__createInput(rows.item(i), type);
       }
@@ -586,8 +585,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
       var clickedInput = cell.find("input");
       var selectionMode = this.getConfig("columnSelection");
       var headerInput = qxWeb("." + clazz.__internalHeaderClass + " input");
-      var selection = [],
-        selectedRow = null;
+      var selection = [];
 
       if (selectionMode == "multiple") {
         if (cell.hasClass(clazz.__internalHeaderClass)) {
