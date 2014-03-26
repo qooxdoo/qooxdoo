@@ -35,8 +35,8 @@ qx.Mixin.define("qx.ui.core.scroll.MRoll",
      */
     _onRoll : function(e)
     {
-      // only wheel
-      if (e.getPointerType() != "wheel") {
+      // only wheel and touch
+      if (e.getPointerType() == "mouse") {
         return;
       }
 
