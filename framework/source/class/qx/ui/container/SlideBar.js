@@ -364,7 +364,7 @@ qx.Class.define("qx.ui.container.SlideBar",
           e.stop();
         }
       }
-      this.scrollBy(delta);
+      this.scrollBy(parseInt(delta, 10));
 
       // block all momentum scrolling
       if (e.getMomentum()) {

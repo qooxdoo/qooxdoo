@@ -55,7 +55,7 @@ qx.Mixin.define("qx.ui.core.scroll.MRoll",
       // y case
       if (scrollbarY) {
         if (deltaY !== 0) {
-          scrollbarY.scrollBy(deltaY);
+          scrollbarY.scrollBy(parseInt(deltaY, 10));
         }
 
         var position = scrollbarY.getPosition();
@@ -70,7 +70,7 @@ qx.Mixin.define("qx.ui.core.scroll.MRoll",
       // x case
       if (scrollbarX) {
         if (deltaX !== 0) {
-          scrollbarX.scrollBy(deltaX);
+          scrollbarX.scrollBy(parseInt(deltaX, 10));
         }
 
         var position = scrollbarX.getPosition();

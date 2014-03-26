@@ -863,7 +863,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       } else if (delta.y < 0 && delta.y > -1) {
         delta.y = -1;
       }
-      this.__verScrollBar.scrollBy(delta.y);
+      this.__verScrollBar.scrollBy(parseInt(delta.y, 10));
 
       var scrolled = delta.y != 0 && !this.__isAtEdge(this.__verScrollBar, delta.y);
 
@@ -874,7 +874,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       } else if (delta.x < 0 && delta.x > -1) {
         delta.x = -1;
       }
-      this.__horScrollBar.scrollBy(delta.x);
+      this.__horScrollBar.scrollBy(parseInt(delta.x, 10));
 
       // Update the focus
       if (this.__lastPointerPageX && this.getFocusCellOnPointerMove()) {
