@@ -108,7 +108,6 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     __wrappedListener : null,
     __lastButtonState : 0,
     __buttonStates : null,
-    __contextMenu : false,
     __primaryIdentifier : null,
     __lastTouch : null,
 
@@ -230,10 +229,6 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         this.__buttonStates[domEvent.which] = 1;
       } else if (domEvent.type == "mouseup") {
         this.__buttonStates[domEvent.which] = 0;
-        if (this.__contextMenu) {
-          this.__contextMenu = false;
-          return;
-        }
       }
 
       var type = qx.event.handler.PointerCore.MOUSE_TO_POINTER_MAPPING[domEvent.type];
@@ -262,13 +257,11 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
       if (domEvent.type == "contextmenu") {
         this.__buttonStates[domEvent.which] = 0;
-        this.__contextMenu = true;
         return;
       }
 
       var evt = new qx.event.type.dom.Pointer(type, domEvent, mouseProps);
       this._fireEvent(evt, type, target);
-      this.__contextMenu = false;
     },
 
 
