@@ -17,12 +17,24 @@
 
 ***************************************************************************** */
 
-// qooxdoo init needed before running grunt
 'use strict';
 
-var config = require('./config/application.js');
-var task = require('./task/task.js');
+module.exports = {
+  setUp: function(done) {
+    // setup here if necessary
+    done();
+  },
 
-// exports
-module.exports.config = config;
-module.exports.task = task;
+  getTranslationFor: function (test) {
+    var translation = require('../lib/translation.js');
+    var transPaths = [
+      "../../../../../framework/source/translation",
+      "./test/data"
+    ];
+
+    console.log(translation.getTranslationFor("de", transPaths));
+
+    test.ok(true);
+    test.done();
+  }
+};

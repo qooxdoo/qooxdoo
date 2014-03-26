@@ -173,9 +173,6 @@ qx.Bootstrap.define("qx.bom.client.Event",
     qx.core.Environment.add("event.mspointer", statics.getMsPointer);
     qx.core.Environment.add("event.help", statics.getHelp);
     qx.core.Environment.add("event.hashchange", statics.getHashChange);
-    qx.core.Environment.add("event.dispatchevent", statics.getDispatchEvent);
-    qx.core.Environment.add("event.customevent", statics.getCustomEvent);
-    qx.core.Environment.add("event.mouseevent", statics.getMouseEvent);
     qx.core.Environment.add("event.mousewheel", statics.getMouseWheel);
   }
 });

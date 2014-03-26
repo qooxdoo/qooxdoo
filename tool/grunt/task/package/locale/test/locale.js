@@ -17,12 +17,20 @@
 
 ***************************************************************************** */
 
-// qooxdoo init needed before running grunt
 'use strict';
 
-var config = require('./config/application.js');
-var task = require('./task/task.js');
+module.exports = {
+  setUp: function(done) {
+    // setup here if necessary
+    done();
+  },
 
-// exports
-module.exports.config = config;
-module.exports.task = task;
+  getTailoredCldrData : function (test) {
+    var locale = require('../lib/locale.js');
+
+    console.log(JSON.stringify(locale.getTailoredCldrData("en")));
+
+    test.ok(true);
+    test.done();
+  }
+};
