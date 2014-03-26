@@ -1,0 +1,51 @@
+{
+  "name": "qx-dependency",
+  "description": "Collect dependencies of qooxdoo code (e.g. unresolved symbols and asset-hints)",
+  "main": "lib/depAnalyzer.js",
+  "version": "0.1.0",
+  "homepage": "https://github.com/qooxdoo/qooxdoo",
+  "author": {
+    "name": "qooxdoo developers",
+    "email": "info@qooxdoo.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/qooxdoo/qooxdoo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/qooxdoo/qooxdoo/issues"
+  },
+  "licenses": [
+    {
+      "type": "LGPL",
+      "url": "http://www.gnu.org/licenses/lgpl.html"
+    },
+    {
+      "type": "EPL",
+      "url": "http://www.eclipse.org/org/documents/epl-v10.php"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "scripts": {
+    "test": "./node_modules/nodeunit/bin/nodeunit test"
+  },
+  "dependencies": {
+    "estraverse": "~1.5.0",
+    "esprima": "~1.0.4",
+    "escope": "~1.0.1",
+    "escodegen": "~1.0.1",
+    "jshint": "~2.3.0",
+    "underscore": "~1.5.2",
+    "toposort-class": "~0.3.0",
+    "doctrine": "~0.2.0",
+    "minimatch": "~0.2.14",
+    "glob": "~3.2.9"
+  },
+  "devDependencies": {
+    "nodeunit": "~0.8.4"
+  },
+  "//": "before publishing create README.md then this can be removed",
+  "private": true
+}
