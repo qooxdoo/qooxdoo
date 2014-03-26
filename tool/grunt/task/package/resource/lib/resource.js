@@ -152,6 +152,10 @@ function globAndSanitizePaths(assetNsPaths, resBasePathMap) {
     return (item.slice(-1) !== "/");
   };
 
+  var nonMetaFiles = function(item) {
+    return (item.indexOf(".meta") === -1);
+  };
+
   var globifyProperly = function(expr) {
     return (expr.slice(-1) === "*") ? expr.replace("*", "**/*") : expr;
   };
@@ -240,6 +244,7 @@ function globAndSanitizePaths(assetNsPaths, resBasePathMap) {
         if (globbedPaths.length > 0) {
           // works in combination with {mark: true} from glob options
           globbedPaths = globbedPaths.filter(nonDir);
+          globbedPaths = globbedPaths.filter(nonMetaFiles);
           assetNsBasesPaths[ns][namespace] = assetNsBasesPaths[ns][namespace].concat(globbedPaths);
         }
       }
