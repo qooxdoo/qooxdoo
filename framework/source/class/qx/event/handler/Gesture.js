@@ -121,7 +121,7 @@ qx.Class.define("qx.event.handler.Gesture",
       }
 
       // list to wheel events
-      var data = qx.core.Environment.get("event.mousewheel");
+      var data = qx.bom.client.Event.getMouseWheel(this.__window);
       this.__fireRollWrapped = qx.lang.Function.listener(this._fireRoll, this);
       qx.bom.Event.addNativeListener(data.target, data.type, this.__fireRollWrapped, this);
     },
@@ -152,7 +152,7 @@ qx.Class.define("qx.event.handler.Gesture",
         qx.bom.Event.removeNativeListener(this.__root, "dblclick", this.__onDblClickWrapped);
       }
 
-      var data = qx.core.Environment.get("event.mousewheel");
+      var data = qx.bom.client.Event.getMouseWheel(this.__window);
       qx.bom.Event.removeNativeListener(data.target, data.type, this.__fireRollWrapped);
     },
 

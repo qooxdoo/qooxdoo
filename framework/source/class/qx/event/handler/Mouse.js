@@ -248,7 +248,7 @@ qx.Class.define("qx.event.handler.Mouse",
     _initWheelObserver : function()
     {
       this.__onWheelEventWrapper = qx.lang.Function.listener(this._onWheelEvent, this);
-      var data = qx.core.Environment.get("event.mousewheel");
+      var data = qx.bom.client.Event.getMouseWheel(this.__window);
       qx.bom.Event.addNativeListener(
         data.target, data.type, this.__onWheelEventWrapper
       );
@@ -304,7 +304,7 @@ qx.Class.define("qx.event.handler.Mouse",
      */
     _stopWheelObserver : function()
     {
-      var data = qx.core.Environment.get("event.mousewheel");
+      var data = qx.bom.client.Event.getMouseWheel(this.__window);
       qx.bom.Event.removeNativeListener(
         data.target, data.type, this.__onWheelEventWrapper
       );
