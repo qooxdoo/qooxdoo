@@ -28,7 +28,7 @@ module.exports = {
   },
 
   collectImageInfoMaps: function (test) {
-    var resources = require('../lib/resource.js');
+    var resource = require('../lib/resource.js');
 
     // real data should come from Manifest.json files
     // i.e. from the library npm package
@@ -125,9 +125,9 @@ module.exports = {
           [ 'qx/decoration/Modern/toolbar/toolbar-part.gif' ]
     };
 
-    var assetNsBasesPaths = resources.flattenExpandAndGlobAssets(assets, resBasePathMap, macroToExpansionMap);
+    var assetNsBasesPaths = resource.flattenExpandAndGlobAssets(assets, resBasePathMap, macroToExpansionMap);
     // console.log(assetNsBasesPaths);
-    var imgsInfo = resources.collectResources(assetNsBasesPaths, resBasePathMap, {metaFiles:true});
+    var imgsInfo = resource.collectResources(assetNsBasesPaths, resBasePathMap, {metaFiles:true});
     // console.log(JSON.stringify(imgsInfo, null, 2), Object.keys(imgsInfo).length);
     console.log(imgsInfo, Object.keys(imgsInfo).length);
 
