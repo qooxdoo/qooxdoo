@@ -77,3 +77,8 @@
 \bonParentTouchStart\b=Please check if you use or override this framework function. A complete list of API changes can be found in the release notes.
 \bpreventTouch\b=Please check if you use or override this framework function. A complete list of API changes can be found in the release notes.
 \btrackUserTouch\b=Please check if you use or override this framework function. A complete list of API changes can be found in the release notes.
+
+\b_onMouseWheel\b=Please check if you override this framework function. A complete list of API changes can be found in the release notes.
+\b_onBrightnessPaneMouseWheel\b=Please check if you override this framework function. A complete list of API changes can be found in the release notes.
+\b_onHueSaturationPaneMouseWheel\b=Please check if you override this framework function. A complete list of API changes can be found in the release notes.
+\b_addWheelListener\b=Please check if you override this framework function. A complete list of API changes can be found in the release notes.
