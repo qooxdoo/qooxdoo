@@ -91,12 +91,17 @@ qx.Bootstrap.define("qx.bom.client.Event",
     /**
      * Checks if the MouseWheel event is available and on which target.
      *
+     * @param win {Window ? null} An optional window instance to check.
      * @return {Map} A map containing two values: type and target.
      */
-    getMouseWheel : function() {
+    getMouseWheel : function(win) {
+      if (!win) {
+        win = window;
+      }
+
       // Fix for bug #3234
-      var targets = [window, window.document, window.document.body];
-      var target = window;
+      var targets = [win, win.document, win.document.body];
+      var target = win;
       var type = "DOMMouseScroll"; // for FF < 17
 
       for (var i = 0; i < targets.length; i++) {
