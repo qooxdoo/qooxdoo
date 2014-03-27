@@ -48,11 +48,11 @@ def convert(index):
         res += convert(index / clength)
     res += ctable[index % clength]
     return res
-        
+
 def toString(data):
     if data == None:
         return ""
-    
+
     sortedList = _getSortedCopy(data)
 
     sortedString = []
@@ -61,7 +61,7 @@ def toString(data):
 
     return "|".join(sortedString)
 
-        
+
 def computeCombinations(variants):
     # convert dict to list
     variantPossibilities = []
@@ -80,9 +80,9 @@ def computeCombinations(variants):
         for item in entry:
             result[pos][item["id"]] = item["value"]
 
-    return result  
+    return result
 
-        
+
 def _findCombinations(a):
     result = [[]]
 
@@ -114,7 +114,7 @@ def _getSortedCopy(entries):
     result.sort(_compare)
 
     return result
-    
+
 
 ##
 # count bits in an int - long seems to work fine too
@@ -151,23 +151,23 @@ def getPlatformInfo():
     import platform
     osPlatform = platform.system()
     osVersion = "Unknown version"
-    
+
     winVer = platform.win32_ver()
     macVer = platform.mac_ver()
     try:
         linVer = platform.linux_distribution()
     except AttributeError:
         linVer = platform.dist()
-    
+
     if winVer[0] != "":
         osVersion = "%s %s %s" % (winVer[0], winVer[1], winVer[2])
-        
+
     if macVer[0] != "":
         osVersion = "%s %s" % (macVer[0], macVer[2])
-    
+
     if linVer[0] != "":
         osVersion = "%s %s" % (linVer[0], linVer[1])
-    
+
     return (osPlatform,osVersion)
 
 

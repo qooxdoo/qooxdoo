@@ -107,7 +107,7 @@ def lint_classes(classesObj, opts):
             warns.append(warn)
 
         for warn in warns:
-            console.warn("%s (%d, %d): %s" % (classObj.id, warn.line, warn.column, 
+            console.warn("%s (%d, %d): %s" % (classObj.id, warn.line, warn.column,
                 warn.msg % tuple(warn.args)))
 
 ##
@@ -134,7 +134,7 @@ def lint_comptime_opts():
     jobConf = Context.jobconf
     opts = add_config_lintopts(opts, jobConf)
     return do_check, opts
-        
+
 ##
 # Add/override attributes of <optsObj> from config.
 # Requires that the config keys and option attributes be identical (modulo "-"_")

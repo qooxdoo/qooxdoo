@@ -75,12 +75,12 @@ def test_ident_is_jsignored(node):
     var_root = treeutil.findVarRoot(node)
     name = treeutil.assembleVariable(var_root)[0]
     return name_is_jsignored(name, node)
-    
+
 ##
 # Check a node against builtin symbols.
 # builtins[] -> Node -> bool
 def test_ident_is_builtin(builtins=lang.GLOBALS):
-    GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % re.escape(x) 
+    GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % re.escape(x)
         for x in builtins + lang.QXGLOBALS))
     def test(node):
         var_root = treeutil.findVarRoot(node)
@@ -118,8 +118,8 @@ def test_for_libsymbol(symbol, class_names, name_spaces):
     # see if symbol is a (dot-exact) prefix of any of class_names
     else:
         for class_name in class_names:
-            if (symbol.startswith(class_name) and 
-                    re.search(r'^%s(?=\.|$)' % re.escape(class_name), symbol)): 
+            if (symbol.startswith(class_name) and
+                    re.search(r'^%s(?=\.|$)' % re.escape(class_name), symbol)):
                     # e.g. re.search(r'^mylib.Foo(?=\.|$)', 'mylib.Foo.Bar' is
                     # true, but not with 'mylib.FooBar'
                 # take the longest match
