@@ -221,11 +221,12 @@ qx.Class.define("qx.ui.mobile.list.List",
     * @param evt {qx.event.type.Track} the <code>trackstart</code> event 
     */
     _onTrackStart : function(evt) {
+      this.__isScrollingBlocked = null;
+      
       var element = this._getElement(evt);
       if (element &&
           qx.bom.element.Class.has(element, "list-item") &&
           qx.bom.element.Class.has(element, "removable")) {
-        this.__isScrollingBlocked = null;
 
         qx.bom.element.Style.set(element, "transform", "translateX(0)");
         qx.bom.element.Style.set(element, "opacity", "1");
@@ -251,7 +252,7 @@ qx.Class.define("qx.ui.mobile.list.List",
 
       var deltaX = Math.round(delta.x * 0.1) / 0.1;
 
-      if(this.__isScrollingBlocked == null) {
+      if(this.__isScrollingBlocked === null) {
         this.__isScrollingBlocked = (delta.axis == "x");
       }
 
