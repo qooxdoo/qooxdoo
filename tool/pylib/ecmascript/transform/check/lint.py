@@ -23,9 +23,9 @@
 # AST checking, for unknown globals etc.
 ##
 
-import os, sys, re, types, itertools
+import re
 from collections import defaultdict
-from ecmascript.frontend import treeutil, lang, Comment
+from ecmascript.frontend import treeutil, lang
 from ecmascript.frontend import tree, treegenerator
 from ecmascript.transform.optimizer import variantoptimizer
 from ecmascript.transform.check  import scopes

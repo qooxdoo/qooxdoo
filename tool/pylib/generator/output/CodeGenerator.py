@@ -40,7 +40,7 @@ from ecmascript.backend.Packer  import Packer
 from ecmascript.transform.optimizer    import privateoptimizer
 #from ecmascript.transform.optimizer    import globalsoptimizer
 from misc                       import filetool, json, Path, securehash as sha, util
-from misc.util                  import pipeline, bind, curry2
+from misc.util                  import pipeline, bind
 from misc.ExtMap                import ExtMap
 from misc.Path                  import OsPath, Uri
 
