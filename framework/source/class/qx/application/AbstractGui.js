@@ -89,7 +89,7 @@ qx.Class.define("qx.application.AbstractGui",
       "-ms-touch-select: none;",
       "user-select: none;",
       "-webkit-tap-highlight-color: rgba(0,0,0,0);",
-      "-webkit-tap-highlight-color: transparent;"].join();
+      "-webkit-tap-highlight-color: transparent;"].join("");
       qx.ui.style.Stylesheet.getInstance().addRule("*", rule);
 
       this.__root = this._createRootWidget();
