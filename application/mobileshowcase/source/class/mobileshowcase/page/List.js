@@ -35,6 +35,8 @@ qx.Class.define("mobileshowcase.page.List",
 
   members :
   {
+    _model : null,
+
     // overridden
     /**
      * @lint ignoreDeprecated(alert)
@@ -42,13 +44,16 @@ qx.Class.define("mobileshowcase.page.List",
     _initialize: function() {
       this.base(arguments);
 
+      this._model = this._createModel();
+
       var list = new qx.ui.mobile.list.List({
         configureItem: function(item, data, row) {
           item.setImage("mobileshowcase/icon/internet-mail.png");
           item.setTitle(data.title);
           item.setSubtitle(data.subtitle);
-          item.setSelectable(row < 4);
-          item.setShowArrow(row < 4);
+          item.setSelectable(data.selectable);
+          item.setShowArrow(data.selectable);
+          item.setRemovable(data.removable);
         },
 
         configureGroupItem: function(item, data, group) {
@@ -57,13 +62,19 @@ qx.Class.define("mobileshowcase.page.List",
         },
 
         group: function(data, row) {
+          var title = "Items";
+          if (data.selectable) {
+            title = "Selectable Items";
+          } else if (data.removable) {
+            title = "Removable Items";
+          }
           return {
-            title: row < 4 ? "Selectable Items" : "Unselectable Items"
+            title: title
           };
         }
       });
 
-      list.setModel(this._createModel());
+      list.setModel(this._model);
 
       list.addListener("changeSelection", function(evt) {
         this._showDialog("You selected Item #" + evt.getData());
@@ -71,6 +82,10 @@ qx.Class.define("mobileshowcase.page.List",
 
       list.addListener("changeGroupSelection", function(evt) {
         this._showDialog("You selected Group #" + evt.getData());
+      }, this);
+
+      list.addListener("removeItem", function(evt) {
+       this._model.removeAt(evt.getData());
       }, this);
 
       this.getContent().add(list);
@@ -95,7 +110,9 @@ qx.Class.define("mobileshowcase.page.List",
       for (var i = 0; i < 100; i++) {
         data.push({
           title: "Item #" + i,
-          subtitle: "Subtitle for Item #" + i
+          subtitle: "Subtitle for Item #" + i,
+          selectable: i < 6,
+          removable: i > 5 && i < 11
         });
       }
       return new qx.data.Array(data);

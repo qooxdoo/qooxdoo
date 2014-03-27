@@ -5,7 +5,6 @@
 .list {
   @include background-clip(padding-box);
   @include border-radius($list-border-radius);
-  @include background($list-background);
 
   padding: 0;
   cursor:pointer;
@@ -16,11 +15,13 @@
 }
 
 .list-item {
+  @include background($list-background);
   list-style-type: none;
   padding: rem(10) rem(25) rem(10) rem(10);
   position: relative;
   color: $list-title-text-color;
   border: rem(1) solid $list-border-color;
+  margin-top: rem(-1);
 }
 
 .list-item.active {
@@ -29,6 +30,10 @@
   * {
     color: $list-active-text-color;
   }
+}
+
+.list-item.removable:not(.track) {
+  @include transition(-webkit-transform 300ms ease-out, opacity 300ms ease-out);
 }
 
 .list-item.arrow:after {
@@ -53,12 +58,9 @@
   border-color: $list-active-arrow-color;
 }
 
-.list-item + .list-item {
-  border-top: none;
-}
-
 .list-item:first-child, .list-item:first-child a {
   @include border-radius-top($list-border-radius);
+  border-top: rem(1) solid $list-border-color;
 }
 
 .list-item:last-child, .list-item:last-child a {

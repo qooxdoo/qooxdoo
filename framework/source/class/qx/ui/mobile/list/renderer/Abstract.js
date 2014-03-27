@@ -36,6 +36,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
   {
     this.base(arguments, layout);
     this.initSelectable();
+    this.initRemovable();
     this.initShowArrow();
   },
 
@@ -75,6 +76,17 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
       check : "Boolean",
       init : true,
       apply : "_applyAttribute"
+    },
+
+
+    /**
+     * Whether the row is removable.
+     */
+    removable :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyRemovable"
     },
 
 
@@ -162,6 +174,17 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
         this.addCssClass("arrow");
       } else {
         this.removeCssClass("arrow");
+      }
+    },
+
+
+    // property apply
+    _applyRemovable : function(value, old)
+    {
+      if (value) {
+        this.addCssClass("removable");
+      } else {
+        this.removeCssClass("removable");
       }
     },
 

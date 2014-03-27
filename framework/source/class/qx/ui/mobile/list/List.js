@@ -79,8 +79,14 @@ qx.Class.define("qx.ui.mobile.list.List",
   construct : function(delegate)
   {
     this.base(arguments);
-    this.addListener("tap", this._onTap, this);
     this.__provider = new qx.ui.mobile.list.provider.Provider(this);
+    
+    this.addListener("tap", this._onTap, this);
+    this.addListener("trackstart", this._onTrackStart, this);
+    this.addListener("track", this._onTrack, this);
+    this.addListener("trackend", this._onTrackEnd, this);
+    this.addListener("touchmove", this.__onTouchMove, this);
+
     if (delegate) {
       this.setDelegate(delegate);
     }
@@ -102,7 +108,13 @@ qx.Class.define("qx.ui.mobile.list.List",
     /**
      * Fired when the group selection is changed.
      */
-    changeGroupSelection : "qx.event.type.Data"
+    changeGroupSelection : "qx.event.type.Data",
+
+
+    /**
+     * Fired when an item should be removed from list.
+     */
+    removeItem : "qx.event.type.Data"
   },
 
 
@@ -162,6 +174,8 @@ qx.Class.define("qx.ui.mobile.list.List",
   members :
   {
     __provider : null,
+    __minDeleteDistance : null,
+    __isScrollingBlocked : null,
 
 
     // overridden
@@ -178,22 +192,16 @@ qx.Class.define("qx.ui.mobile.list.List",
      */
     _onTap : function(evt)
     {
-      var element = evt.getOriginalTarget();
-      var row = -1;
-
-      // Click on border: do nothing.
-      if(element.tagName == "UL") {
+      
+      var element = this._getElement(evt);
+      if(!element) {
         return;
       }
 
-      while (element.tagName != "LI") {
-        element = element.parentNode;
-      }
-
-      var isItem = qx.bom.element.Class.has(element, "list-item");
-      if (isItem) {
-        if (qx.bom.element.Attribute.get(element, "data-selectable") != "false" 
-            && qx.dom.Element.hasChild(this.getContainerElement(), element)) {
+      var row = -1;
+      if (qx.bom.element.Class.has(element, "list-item")) {
+        if (qx.bom.element.Attribute.get(element, "data-selectable") != "false" &&
+            qx.dom.Element.hasChild(this.getContainerElement(), element)) {
           row = parseInt(element.getAttribute("data-row"), 10);
         }
         if (row != -1) {
@@ -201,9 +209,121 @@ qx.Class.define("qx.ui.mobile.list.List",
         }
       } else {
         var group = parseInt(element.getAttribute("data-group"), 10);
-        if (qx.bom.element.Attribute.get(element, "data-selectable") != "false")
+        if (qx.bom.element.Attribute.get(element, "data-selectable") != "false") {
           this.fireDataEvent("changeGroupSelection", group);
+        }
       }
+    },
+
+
+    /**
+    * Event handler for <code>trackstart</code> event.
+    * @param evt {qx.event.type.Track} the <code>trackstart</code> event 
+    */
+    _onTrackStart : function(evt) {
+      var element = this._getElement(evt);
+      if (element &&
+          qx.bom.element.Class.has(element, "list-item") &&
+          qx.bom.element.Class.has(element, "removable")) {
+        this.__isScrollingBlocked = null;
+
+        qx.bom.element.Style.set(element, "transform", "translateX(0)");
+        qx.bom.element.Style.set(element, "opacity", "1");
+
+        this.__minDeleteDistance = qx.bom.element.Dimension.getWidth(element) / 2;
+        qx.bom.element.Class.add(element, "track");
+      }
+    },
+
+
+    /**
+    * Event handler for <code>track</code> event.
+    * @param evt {qx.event.type.Track} the <code>track</code> event 
+    */
+    _onTrack : function(evt) {
+      var element = this._getElement(evt);
+
+      if (!qx.bom.element.Class.has(element, "list-item") ||
+          !qx.bom.element.Class.has(element, "removable")) {
+        return;
+      }
+      var delta = evt.getDelta();
+
+      var deltaX = Math.round(delta.x * 0.1) / 0.1;
+
+      if(this.__isScrollingBlocked == null) {
+        this.__isScrollingBlocked = (delta.axis == "x");
+      }
+
+      if (!this.__isScrollingBlocked) {
+        return;
+      }
+
+      var opacity = 1 - (Math.abs(deltaX) / this.__minDeleteDistance);
+      opacity = Math.round(opacity * 100) / 100;
+
+      qx.bom.AnimationFrame.request(function() {
+        qx.bom.element.Style.set(element, "transform", "translateX(" + deltaX + "px)");
+        qx.bom.element.Style.set(element, "opacity", opacity);
+      }.bind(this));
+    },
+
+
+    /**
+    * Event handler for <code>trackend</code> event.
+    * @param evt {qx.event.type.Track} the <code>trackend</code> event 
+    */
+    _onTrackEnd : function(evt) {
+      var element = this._getElement(evt);
+
+      if (!qx.bom.element.Class.has(element, "list-item") ||
+          !qx.bom.element.Class.has(element, "removable")) {
+        return;
+      }
+
+      if (Math.abs(evt.getDelta().x) > this.__minDeleteDistance) {
+        var row = parseInt(element.getAttribute("data-row"), 10);
+        this.fireDataEvent("removeItem", row);
+      }
+
+      qx.bom.AnimationFrame.request(function() {
+        qx.bom.element.Style.set(element, "transform", "translateX(0)");
+        qx.bom.element.Style.set(element, "opacity", "1");
+        qx.bom.element.Class.remove(element, "track");
+      }.bind(this));
+    },
+
+
+    /**
+    * Event handler for <code>touchmove</code> event.
+    * @param evt {Event} the <code>touchmove</code> event 
+    */
+    __onTouchMove : function(evt) {
+      if(this.__isScrollingBlocked) {
+        evt.preventDefault();
+        evt.stopPropagation();
+      }
+    },
+
+
+    /**
+    * Returns the target list item.
+    * @param evt {Event} the input event
+    * @return {Element} the target list item. 
+    */
+    _getElement : function(evt) {
+      var element = evt.getOriginalTarget();
+
+      // Click on border: do nothing.
+      if(element.tagName == "UL") {
+        return null;
+      }
+
+      while (element.tagName != "LI") {
+        element = element.parentNode;
+      }
+
+      return element;
     },
 
 
