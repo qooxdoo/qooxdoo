@@ -100,8 +100,7 @@ def globals_filter_by_builtins(global_names):
 # (class_names[], name_spaces[]) -> Node -> bool
 def test_ident_is_libsymbol(class_names, name_spaces):
     def test(node):
-        name = treeutil.assembleVariable(node)[0]
-        return test_for_libsymbol(name, class_names, name_spaces)
+        return test_for_libsymbol(node, class_names, name_spaces)
     return test
 
 
@@ -112,6 +111,11 @@ def test_ident_is_libsymbol(class_names, name_spaces):
 #
 def test_for_libsymbol(symbol, class_names, name_spaces):
     res_name = ''
+
+    # node may be unicode string or Node obj => unify
+    if not isinstance(symbol, unicode):
+        symbol = treeutil.assembleVariable(symbol)[0]
+
     # check for a name space match
     if symbol in name_spaces:
         res_name = symbol
