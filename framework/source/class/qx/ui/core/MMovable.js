@@ -175,6 +175,16 @@ qx.Mixin.define("qx.ui.core.MMovable",
     */
 
     /**
+     * Roll handler which prevents the scrolling via tap & move on parent widgets
+     * during the move of the widget.
+     * @param e {qx.event.type.Roll} The roll event
+     */
+    _onMoveRoll : function(e) {
+      e.stop();
+    },
+
+
+    /**
      * Enables the capturing of the caption bar and prepares the drag session and the
      * appearance (translucent, frame or opaque) for the moving of the window.
      *
@@ -185,6 +195,8 @@ qx.Mixin.define("qx.ui.core.MMovable",
       if (!this.getMovable() || this.hasState("maximized")) {
         return;
       }
+
+      this.addListener("roll", this._onMoveRoll, this);
 
       // Compute drag range
       var parent = this.getLayoutParent();
@@ -273,6 +285,10 @@ qx.Mixin.define("qx.ui.core.MMovable",
      */
     _onMovePointerUp : function(e)
     {
+      if (this.hasListener("roll", this._onMoveRoll, this)) {
+        this.removeListener("roll", this._onMoveRoll, this);
+      }
+
       // Only react when dragging is active
       if (!this.hasState("move")) {
         return;
