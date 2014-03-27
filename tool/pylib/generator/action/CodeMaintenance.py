@@ -62,7 +62,7 @@ def runLint(jobconf, classes):
 
     console = Context.console
     lib_class_names = classes.keys()
-    console.info("Checking Javascript source code...")
+    console.info("Checking JavaScript source code...")
     console.indent()
 
     # Options
