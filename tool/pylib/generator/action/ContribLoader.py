@@ -64,7 +64,7 @@ class AlluraSVNView(HTMLParser):
         self.svn_root = '/p/%s/code/' % pName
         self.reg = re.compile(r'^%s/(\d+)/$' % self.svn_root)
         self.reg = re.compile(self.svn_root, re.I)
-        
+
         self.feed(html)
         return max(self._t)
 
@@ -86,7 +86,7 @@ class AlluraSVNView(HTMLParser):
 #
 class ContribLoader(object):
 
-    def __init__(self, proj=project, uschema=svn_url_schema, 
+    def __init__(self, proj=project, uschema=svn_url_schema,
         cschema=catalog_url_schema, catalog_base_url=catalog_base_url):
         self.project = proj
         self.svn_url_schema = uschema
@@ -100,14 +100,14 @@ class ContribLoader(object):
 
     def get_sf_revision(self, cName, cBranch):
         cUrl =  self.svn_url_schema % {
-                    'project' : self.project, 
+                    'project' : self.project,
                     'cName' : cName,
                     'cBranch' : cBranch
                     }
         urlobj = urllib.urlopen(cUrl)
         assert urlobj.getcode() == 200, "Could not access contrib SVN URL: %s" % cUrl
         urlinfo=urlobj.info()
-        # etag mirror line: 
+        # etag mirror line:
         #  'W/"3812//dosbox/trunk/src/libs"'  (directory)
         #  '"3653//dosbox/trunk/src/libs/Makefile.am"'  (file)
         etag = urlinfo.getheader('etag')
@@ -122,7 +122,7 @@ class ContribLoader(object):
             'project' : project,
             'cName'   : cName,
             'cBranch' : cBranch,
-            'maniFile': maniFile, 
+            'maniFile': maniFile,
         }
         return maniUri
 
@@ -171,7 +171,7 @@ class ContribLoader(object):
         else: # clear for download
             shutil.rmtree(cache_path, ignore_errors=True)
             return (True, ext_rev)
-        
+
     def sf_spider(self, url, cache_path):
         dloader = Wget()
         rc = dloader.wget(url, cache_path, {'recursive':True})
