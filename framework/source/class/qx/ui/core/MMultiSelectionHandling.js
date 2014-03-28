@@ -38,7 +38,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
 
     // Add widget event listeners
     this.addListener("pointerdown", manager.handlePointerDown, manager);
-    this.addListener("pointerup", manager.handlePointerUp, manager);
+    this.addListener("tap", manager.handleTap, manager);
     this.addListener("pointerover", manager.handlePointerOver, manager);
     this.addListener("pointermove", manager.handlePointerMove, manager);
     this.addListener("losecapture", manager.handleLoseCapture, manager);

@@ -1345,7 +1345,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       var row = this._getRowForPagePos(e.getDocumentLeft(), e.getDocumentTop());
       if (row != -1 && row != null && this._getColumnForPageX(e.getDocumentLeft()) != null) {
-        table.getSelectionManager().handlePointerUp(row, e);
+        table.getSelectionManager().handleTap(row, e);
       }
     },
 

@@ -100,7 +100,7 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
     {
       var paneElement = this._pane.getContentElement();
       paneElement.addListener("pointerdown", this.handlePointerDown, this);
-      paneElement.addListener("pointerup", this.handlePointerUp, this);
+      paneElement.addListener("tap", this.handleTap, this);
       paneElement.addListener("pointerover", this.handlePointerOver, this);
       paneElement.addListener("pointermove", this.handlePointerMove, this);
       paneElement.addListener("losecapture", this.handleLoseCapture, this);
@@ -114,7 +114,7 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
     {
       var paneElement = this._pane.getContentElement();
       paneElement.removeListener("pointerdown", this.handlePointerDown, this);
-      paneElement.removeListener("pointerup", this.handlePointerUp, this);
+      paneElement.removeListener("tap", this.handleTap, this);
       paneElement.removeListener("pointerover", this.handlePointerOver, this);
       paneElement.removeListener("pointermove", this.handlePointerMove, this);
       paneElement.removeListener("losecapture", this.handleLoseCapture, this);

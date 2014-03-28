@@ -903,6 +903,92 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       // Be sure that item is in view
       this._scrollItemIntoView(item);
 
+      // Drag selection
+      var mode = this.getMode();
+      if (
+        this.getDrag() &&
+        mode !== "single" &&
+        mode !== "one" &&
+        !isShiftPressed &&
+        !isCtrlPressed &&
+        event.getPointerType() == "mouse"
+      )
+      {
+        this._setAnchorItem(item);
+        this._setLeadItem(item);
+
+        // Cache location/scroll data
+        this.__frameLocation = this._getLocation();
+        this.__frameScroll = this._getScroll();
+
+        // Store position at start
+        this.__dragStartX = event.getDocumentLeft() + this.__frameScroll.left;
+        this.__dragStartY = event.getDocumentTop() + this.__frameScroll.top;
+
+        // Switch to capture mode
+        this.__inCapture = true;
+        this._capture();
+      }
+
+
+      // Fire change event as needed
+      this._fireChange("tap");
+
+      this._userInteraction = false;
+    },
+
+
+    /**
+     * This method should be connected to the <code>tap</code> event
+     * of the managed object.
+     *
+     * @param event {qx.event.type.Tap} A valid pointer event
+     */
+    handleTap : function(event)
+    {
+      // this is a method invoked by an user interaction, so be careful to
+      // set / clear the mark this._userInteraction [BUG #3344]
+      this._userInteraction = true;
+
+      // Read in keyboard modifiers
+      var isCtrlPressed = event.isCtrlPressed() ||
+        (qx.core.Environment.get("os.name") == "osx" && event.isMetaPressed());
+      var isShiftPressed = event.isShiftPressed();
+
+      if (!isCtrlPressed && !isShiftPressed && this.__pointerDownOnSelected != null)
+      {
+        var item = this._getSelectableFromPointerEvent(event);
+        if (item === null || !this.isItemSelected(item)) {
+          this._userInteraction = false;
+          return;
+        }
+
+        var mode = this.getMode();
+        if (mode === "additive")
+        {
+          // Remove item from selection
+          this._removeFromSelection(item);
+        }
+        else
+        {
+          // Replace selection
+          this._setSelectedItem(item);
+
+          if (this.getMode() === "multi")
+          {
+            this._setLeadItem(item);
+            this._setAnchorItem(item);
+          }
+        }
+        this._userInteraction = false;
+      }
+
+      var item = this._getSelectableFromPointerEvent(event);
+      if (item === null) {
+        this._userInteraction = false;
+        return;
+      }
+
       // Action depends on selected mode
       switch(this.getMode())
       {
@@ -949,83 +1035,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           }
 
           break;
-      }
-
-
-      // Drag selection
-      var mode = this.getMode();
-      if (
-        this.getDrag() &&
-        mode !== "single" &&
-        mode !== "one" &&
-        !isShiftPressed &&
-        !isCtrlPressed
-      )
-      {
-        // Cache location/scroll data
-        this.__frameLocation = this._getLocation();
-        this.__frameScroll = this._getScroll();
-
-        // Store position at start
-        this.__dragStartX = event.getDocumentLeft() + this.__frameScroll.left;
-        this.__dragStartY = event.getDocumentTop() + this.__frameScroll.top;
-
-        // Switch to capture mode
-        this.__inCapture = true;
-        this._capture();
-      }
-
-
-      // Fire change event as needed
-      this._fireChange("tap");
-
-      this._userInteraction = false;
-    },
-
-
-    /**
-     * This method should be connected to the <code>pointerup</code> event
-     * of the managed object.
-     *
-     * @param event {qx.event.type.Pointer} A valid pointer event
-     */
-    handlePointerUp : function(event)
-    {
-      // this is a method invoked by an user interaction, so be careful to
-      // set / clear the mark this._userInteraction [BUG #3344]
-      this._userInteraction = true;
-
-      // Read in keyboard modifiers
-      var isCtrlPressed = event.isCtrlPressed() ||
-        (qx.core.Environment.get("os.name") == "osx" && event.isMetaPressed());
-      var isShiftPressed = event.isShiftPressed();
-
-      if (!isCtrlPressed && !isShiftPressed && this.__pointerDownOnSelected != null)
-      {
-        var item = this._getSelectableFromPointerEvent(event);
-        if (item === null || !this.isItemSelected(item)) {
-          this._userInteraction = false;
-          return;
-        }
-
-        var mode = this.getMode();
-        if (mode === "additive")
-        {
-          // Remove item from selection
-          this._removeFromSelection(item);
-        }
-        else
-        {
-          // Replace selection
-          this._setSelectedItem(item);
-
-          if (this.getMode() === "multi")
-          {
-            this._setLeadItem(item);
-            this._setAnchorItem(item);
-          }
-        }
-        this._userInteraction = false;
       }
 
       // Cleanup operation

@@ -121,7 +121,7 @@ qx.Class.define("qx.ui.table.selection.Manager",
      * @param index {Integer} the index the pointer is pointing at.
      * @param evt {Map} the pointer event.
      */
-    handlePointerUp : function(index, evt)
+    handleTap : function(index, evt)
     {
       if (evt.isLeftPressed() && !this.__lastPointerDownHandled) {
         this._handleSelectEvent(index, evt);
