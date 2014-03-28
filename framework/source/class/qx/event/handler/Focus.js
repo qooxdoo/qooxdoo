@@ -29,11 +29,10 @@
  * (See also: https://bugs.webkit.org/show_bug.cgi?id=7138)
  *
  * * TabIndex is normally 0, which means all naturally focusable elements are focusable.
- * * TabIndex > 0 means that the element is focusable and tabable
+ * * TabIndex > 0 means that the element is focusable and tappable
  * * TabIndex < 0 means that the element, even if naturally possible, is not focusable.
  *
  * @use(qx.event.dispatch.DomBubbling)
- * @require(qx.module.event.PointerHandler)
  */
 qx.Class.define("qx.event.handler.Focus",
 {
@@ -61,10 +60,6 @@ qx.Class.define("qx.event.handler.Focus",
     this._document = this._window.document;
     this._root = this._document.documentElement;
     this._body = this._document.body;
-
-    // abstraction
-    this.__down = "pointerdown";
-    this.__up = "pointerup";
 
     // Initialize
     this._initObserver();
@@ -155,8 +150,6 @@ qx.Class.define("qx.event.handler.Focus",
 
   members :
   {
-    __onNativePointerDownWrapper : null,
-    __onNativePointerUpWrapper : null,
     __onNativeFocusWrapper : null,
     __onNativeBlurWrapper : null,
     __onNativeDragGestureWrapper : null,
@@ -363,17 +356,14 @@ qx.Class.define("qx.event.handler.Focus",
       "gecko" : function()
       {
         // Bind methods
-        this.__onNativePointerDownWrapper = qx.lang.Function.listener(this.__onNativePointerDown, this);
-        this.__onNativePointerUpWrapper = qx.lang.Function.listener(this.__onNativePointerUp, this);
-
         this.__onNativeFocusWrapper = qx.lang.Function.listener(this.__onNativeFocus, this);
         this.__onNativeBlurWrapper = qx.lang.Function.listener(this.__onNativeBlur, this);
 
         this.__onNativeDragGestureWrapper = qx.lang.Function.listener(this.__onNativeDragGesture, this);
 
         // Register events
-        qxWeb(this._document).on(this.__down, this.__onNativePointerDownWrapper, true);
-        qxWeb(this._document).on(this.__up, this.__onNativePointerUpWrapper, true);
+        qx.event.Registration.addListener(this._document, "pointerdown", this.__onNativePointerDown, this, true);
+        qx.event.Registration.addListener(this._document, "pointerup", this.__onNativePointerUp, this, true);
 
         // Capturing is needed for gecko to correctly
         // handle focus of input and textarea fields
@@ -387,9 +377,6 @@ qx.Class.define("qx.event.handler.Focus",
       "mshtml" : function()
       {
         // Bind methods
-        this.__onNativePointerDownWrapper = qx.lang.Function.listener(this.__onNativePointerDown, this);
-        this.__onNativePointerUpWrapper = qx.lang.Function.listener(this.__onNativePointerUp, this);
-
         this.__onNativeFocusInWrapper = qx.lang.Function.listener(this.__onNativeFocusIn, this);
         this.__onNativeFocusOutWrapper = qx.lang.Function.listener(this.__onNativeFocusOut, this);
 
@@ -397,8 +384,8 @@ qx.Class.define("qx.event.handler.Focus",
 
 
         // Register events
-        qxWeb(this._document).on(this.__down, this.__onNativePointerDownWrapper);
-        qxWeb(this._document).on(this.__up, this.__onNativePointerUpWrapper);
+        qx.event.Registration.addListener(this._document, "pointerdown", this.__onNativePointerDown, this, true);
+        qx.event.Registration.addListener(this._document, "pointerup", this.__onNativePointerUp, this, true);
 
         // MSHTML supports their own focusin and focusout events
         // To detect which elements get focus the target is useful
@@ -414,9 +401,6 @@ qx.Class.define("qx.event.handler.Focus",
       "webkit" : function()
       {
         // Bind methods
-        this.__onNativePointerDownWrapper = qx.lang.Function.listener(this.__onNativePointerDown, this);
-        this.__onNativePointerUpWrapper = qx.lang.Function.listener(this.__onNativePointerUp, this);
-
         this.__onNativeFocusOutWrapper = qx.lang.Function.listener(this.__onNativeFocusOut, this);
 
         this.__onNativeFocusWrapper = qx.lang.Function.listener(this.__onNativeFocus, this);
@@ -426,8 +410,8 @@ qx.Class.define("qx.event.handler.Focus",
 
 
         // Register events
-        qxWeb(this._document).on(this.__down, this.__onNativePointerDownWrapper, true);
-        qxWeb(this._document).on(this.__up, this.__onNativePointerUpWrapper, true);
+        qx.event.Registration.addListener(this._document, "pointerdown", this.__onNativePointerDown, this, true);
+        qx.event.Registration.addListener(this._document, "pointerup", this.__onNativePointerUp, this, true);
 
         qx.bom.Event.addNativeListener(this._document, "selectstart", this.__onNativeSelectStartWrapper, false);
 
@@ -440,16 +424,12 @@ qx.Class.define("qx.event.handler.Focus",
       "opera" : function()
       {
         // Bind methods
-        this.__onNativePointerDownWrapper = qx.lang.Function.listener(this.__onNativePointerDown, this);
-        this.__onNativePointerUpWrapper = qx.lang.Function.listener(this.__onNativePointerUp, this);
-
         this.__onNativeFocusInWrapper = qx.lang.Function.listener(this.__onNativeFocusIn, this);
         this.__onNativeFocusOutWrapper = qx.lang.Function.listener(this.__onNativeFocusOut, this);
 
-
         // Register events
-        qxWeb(this._document).on(this.__down, this.__onNativePointerDownWrapper, true);
-        qxWeb(this._document).on(this.__up, this.__onNativePointerUpWrapper, true);
+        qx.event.Registration.addListener(this._document, "pointerdown", this.__onNativePointerDown, this, true);
+        qx.event.Registration.addListener(this._document, "pointerup", this.__onNativePointerUp, this, true);
 
         qx.bom.Event.addNativeListener(this._window, "DOMFocusIn", this.__onNativeFocusInWrapper, true);
         qx.bom.Event.addNativeListener(this._window, "DOMFocusOut", this.__onNativeFocusOutWrapper, true);
@@ -465,8 +445,8 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "gecko" : function()
       {
-        qxWeb(this._document).off(this.__down, this.__onNativePointerDownWrapper, true);
-        qxWeb(this._document).off(this.__up, this.__onNativePointerUpWrapper, true);
+        qx.event.Registration.removeListener(this._document, "pointerdown", this.__onNativePointerDown, this, true);
+        qx.event.Registration.removeListener(this._document, "pointerup", this.__onNativePointerUp, this, true);
 
         qx.bom.Event.removeNativeListener(this._window, "focus", this.__onNativeFocusWrapper, true);
         qx.bom.Event.removeNativeListener(this._window, "blur", this.__onNativeBlurWrapper, true);
@@ -476,8 +456,9 @@ qx.Class.define("qx.event.handler.Focus",
 
       "mshtml" : function()
       {
-        qxWeb(this._document).off(this.__down, this.__onNativePointerDownWrapper);
-        qxWeb(this._document).off(this.__up, this.__onNativePointerUpWrapper);
+        qx.event.Registration.removeListener(this._document, "pointerdown", this.__onNativePointerDown, this, true);
+        qx.event.Registration.removeListener(this._document, "pointerup", this.__onNativePointerUp, this, true);
+
         qx.bom.Event.removeNativeListener(this._document, "focusin", this.__onNativeFocusInWrapper);
         qx.bom.Event.removeNativeListener(this._document, "focusout", this.__onNativeFocusOutWrapper);
         qx.bom.Event.removeNativeListener(this._document, "selectstart", this.__onNativeSelectStartWrapper);
@@ -485,8 +466,8 @@ qx.Class.define("qx.event.handler.Focus",
 
       "webkit" : function()
       {
-        qxWeb(this._document).off(this.__down, this.__onNativePointerDownWrapper, true);
-        qxWeb(this._document).off(this.__up, this.__onNativePointerUpWrapper, true);
+        qx.event.Registration.removeListener(this._document, "pointerdown", this.__onNativePointerDown, this, true);
+        qx.event.Registration.removeListener(this._document, "pointerup", this.__onNativePointerUp, this, true);
         qx.bom.Event.removeNativeListener(this._document, "selectstart", this.__onNativeSelectStartWrapper, false);
 
         qx.bom.Event.removeNativeListener(this._window, "DOMFocusOut", this.__onNativeFocusOutWrapper, true);
@@ -497,8 +478,8 @@ qx.Class.define("qx.event.handler.Focus",
 
       "opera" : function()
       {
-        qxWeb(this._document).off(this.__down, this.__onNativePointerDownWrapper, true);
-        qxWeb(this._document).off(this.__up, this.__onNativePointerUpWrapper, true);
+        qx.event.Registration.removeListener(this._document, "pointerdown", this.__onNativePointerDown, this, true);
+        qx.event.Registration.removeListener(this._document, "pointerup", this.__onNativePointerUp, this, true);
 
         qx.bom.Event.removeNativeListener(this._window, "DOMFocusIn", this.__onNativeFocusInWrapper, true);
         qx.bom.Event.removeNativeListener(this._window, "DOMFocusOut", this.__onNativeFocusOutWrapper, true);
@@ -763,16 +744,16 @@ qx.Class.define("qx.event.handler.Focus",
     })),
 
     /**
-     * Native event listener for <code>pointerdown</code>.
+     * Event listener for <code>pointerdown</code>.
      *
-     * @signature function(domEvent)
-     * @param domEvent {Event} Native event
+     * @signature function(event)
+     * @param domEvent {qx.event.type.Pointer} Pointer event
      */
     __onNativePointerDown : qx.event.GlobalError.observeMethod(qx.core.Environment.select("engine.name",
     {
-      "mshtml" : function(domEvent)
+      "mshtml" : function(event)
       {
-        var target = qx.bom.Event.getTarget(domEvent);
+        var target = event.getTarget()
 
         // Stop events when no focus element available (or blocked)
         var focusTarget = this.__findFocusableElement(target);
@@ -805,7 +786,7 @@ qx.Class.define("qx.event.handler.Focus",
         else
         {
           // Stop event for blocking support
-          qx.bom.Event.preventDefault(domEvent);
+          event.preventDefault();
 
           // Add unselectable to keep selection
           if (!this.__isSelectable(target)) {
@@ -814,26 +795,26 @@ qx.Class.define("qx.event.handler.Focus",
         }
       },
 
-      "webkit|gecko" : function(domEvent) {
-        var target = qx.bom.Event.getTarget(domEvent);
+      "webkit|gecko" : function(event) {
+        var target = event.getTarget();
         var focusTarget = this.__findFocusableElement(target);
 
         if (focusTarget) {
           this.setFocus(focusTarget);
         } else {
-          qx.bom.Event.preventDefault(domEvent);
+          event.preventDefault();
         }
       },
 
-      "opera" : function(domEvent)
+      "opera" : function(event)
       {
-        var target = qx.bom.Event.getTarget(domEvent);
+        var target = event.getTarget();
         var focusTarget = this.__findFocusableElement(target);
 
         if (!this.__isSelectable(target)) {
           // Prevent the default action for all non-selectable
           // targets. This prevents text selection and context menu.
-          qx.bom.Event.preventDefault(domEvent);
+          event.preventDefault()
 
           // The stopped event keeps the selection
           // of the previously focused element.
@@ -862,17 +843,18 @@ qx.Class.define("qx.event.handler.Focus",
       "default" : null
     })),
 
+
     /**
-     * Native event listener for <code>pointerup</code>.
+     * Event listener for <code>pointerup</code>.
      *
-     * @signature function(domEvent)
-     * @param domEvent {Event} Native event
+     * @signature function(event)
+     * @param event {qx.event.type.Pointer} Pointer event
      */
     __onNativePointerUp : qx.event.GlobalError.observeMethod(qx.core.Environment.select("engine.name",
     {
-      "mshtml" : function(domEvent)
+      "mshtml" : function(event)
       {
-        var target = qx.bom.Event.getTarget(domEvent);
+        var target = event.getTarget()
         if (target.unselectable) {
           target.unselectable = "off";
         }
@@ -880,12 +862,12 @@ qx.Class.define("qx.event.handler.Focus",
         this.tryActivate(this.__fixFocus(target));
       },
 
-      "gecko" : function(domEvent)
+      "gecko" : function(event)
       {
         // As of Firefox 3.0:
         // Gecko fires mouseup on XUL elements
         // We only want to deal with real HTML elements
-        var target = qx.bom.Event.getTarget(domEvent);
+        var target = event.getTarget();
         while (target && target.offsetWidth === undefined) {
           target = target.parentNode;
         }
@@ -896,14 +878,15 @@ qx.Class.define("qx.event.handler.Focus",
 
       },
 
-      "webkit|opera" : function(domEvent)
+      "webkit|opera" : function(event)
       {
-        var target = qx.bom.Event.getTarget(domEvent);
+        var target = event.getTarget()
         this.tryActivate(this.__fixFocus(target));
       },
 
       "default" : null
     })),
+
 
     /**
      * Fix for bug #2602.
