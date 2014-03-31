@@ -201,8 +201,9 @@ qx.Class.define("qx.ui.mobile.list.List",
         }
       } else {
         var group = parseInt(element.getAttribute("data-group"), 10);
-        if (qx.bom.element.Attribute.get(element, "data-selectable") != "false")
+        if (qx.bom.element.Attribute.get(element, "data-selectable") != "false") {
           this.fireDataEvent("changeGroupSelection", group);
+        }
       }
     },
 
