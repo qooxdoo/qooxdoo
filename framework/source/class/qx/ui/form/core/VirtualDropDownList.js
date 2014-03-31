@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
           });
 
           control.getSelection().addListener("change", this._onListChangeSelection, this);
-          control.addListener("pointerdown", this._handlePointer, this);
+          control.addListener("tap", this._handlePointer, this);
           control.addListener("changeModel", this._onChangeModel, this);
           control.addListener("changeDelegate", this._onChangeDelegate, this);
 
