@@ -747,7 +747,7 @@ qx.Class.define("qx.event.handler.Focus",
      * Event listener for <code>pointerdown</code>.
      *
      * @signature function(event)
-     * @param domEvent {qx.event.type.Pointer} Pointer event
+     * @param event {qx.event.type.Pointer} Pointer event
      */
     __onNativePointerDown : qx.event.GlobalError.observeMethod(qx.core.Environment.select("engine.name",
     {
