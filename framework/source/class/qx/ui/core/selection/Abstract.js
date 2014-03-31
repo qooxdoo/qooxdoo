@@ -831,6 +831,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         return;
       }
 
+      // quick select should only work on mouse events
+      if (event.getPointerType() != "mouse") {
+        return;
+      }
+
       // this is a method invoked by an user interaction, so be careful to
       // set / clear the mark this._userInteraction [BUG #3344]
       this._userInteraction = true;
