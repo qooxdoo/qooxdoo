@@ -851,7 +851,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       var table = this.getTable();
 
-      if (!table.getEnabled()) {
+      if (e.getPointerType() == "mouse" || !table.getEnabled()) {
         return;
       }
 
