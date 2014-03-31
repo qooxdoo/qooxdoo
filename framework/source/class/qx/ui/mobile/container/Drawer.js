@@ -86,7 +86,6 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     this.__parent.addListener("back", this.forceHide, this);
 
     this.__pointerStartPosition = [0,0];
-    this.__inAnimation = false;
 
     this.forceHide();
   },
@@ -180,8 +179,6 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
   {
     __pointerStartPosition : null,
     __parent : null,
-    __inAnimation : null,
-    __lastLandscape : null,
     __transitionEnabled : null,
 
 
@@ -324,17 +321,11 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
         qx.bom.Element.removeListener(evt.getTarget(), "transitionEnd", this._onTransitionEnd, this);
       }
 
-      this.__inAnimation = false;
       this._disableTransition();
 
       if (this.isHidden()) {
         this.exclude();
         this.__parent.removeCssClass("blocked");
-      }
-
-      // Check for orientation change during transition.
-      if(this.__lastLandscape != qx.bom.Viewport.isLandscape()) {
-        this.show();
       }
     },
 
@@ -350,15 +341,13 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
      */
     show : function()
     {
-      if(this.__inAnimation || !this.isHidden()) {
+      if(!this.isHidden()) {
         return;
       }
 
       this.base(arguments);
 
       this.__parent.addCssClass("blocked");
-
-      this.__lastLandscape = qx.bom.Viewport.isLandscape();
 
       if (this.getPositionZ() == "below") {
         if (this.getOrientation() == "left") {
@@ -374,7 +363,6 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
       if (this.getTransitionDuration() > 0) {
         this._enableTransition();
-        this.__inAnimation = true;
         qx.bom.Element.addListener(this._getTransitionTarget().getContentElement(), "transitionEnd", this._onTransitionEnd, this);
         setTimeout(function() {
           this.removeCssClass("hidden");
@@ -390,11 +378,9 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
      * Hides the drawer.
      */
     hide : function() {
-      if(this.__inAnimation || this.isHidden()) {
+      if(this.isHidden()) {
         return;
       }
-
-      this.__lastLandscape = qx.bom.Viewport.isLandscape();
 
       if (this.getPositionZ() == "below") {
         this.__parent.setTranslateX(0);
@@ -402,7 +388,6 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       }
 
       if (this.getTransitionDuration() > 0) {
-        this.__inAnimation = true;
         this._enableTransition();
         qx.bom.Element.addListener(this._getTransitionTarget().getContentElement(), "transitionEnd", this._onTransitionEnd, this);
         setTimeout(function() {
@@ -494,11 +479,11 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       var isShown = !this.hasCssClass("hidden");
       if(isShown && this.isHideOnParentTap()) {
         var location = qx.bom.element.Location.get(this.getContainerElement());
-
-        if (this.getOrientation() =="left" && this.__pointerStartPosition[0] > location.right
-        || this.getOrientation() =="top" && this.__pointerStartPosition[1] > location.bottom
-        || this.getOrientation() =="bottom" && this.__pointerStartPosition[1] < location.top
-        || this.getOrientation() =="right" && this.__pointerStartPosition[0] < location.left)
+        var orientation = this.getOrientation();
+        if (orientation == "left" && this.__pointerStartPosition[0] > location.right
+        || orientation == "top" && this.__pointerStartPosition[1] > location.bottom
+        || orientation == "bottom" && this.__pointerStartPosition[1] < location.top
+        || orientation == "right" && this.__pointerStartPosition[0] < location.left)
         {
           // First event on overlayed page should be ignored.
           evt.preventDefault();
@@ -559,6 +544,6 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     this.__parent.removeListener("pointerdown", this._onParentPointerDown, this);
     this.__parent.removeListener("back", this.forceHide, this);
 
-    this.__pointerStartPosition = this.__inAnimation = this.__parent = this.__transitionEnabled = null;
+    this.__pointerStartPosition = this.__parent = this.__transitionEnabled = null;
   }
 });
