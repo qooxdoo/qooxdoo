@@ -79,12 +79,12 @@ qx.Class.define("qx.ui.table.selection.Manager",
 
 
     /**
-     * Handles the pointer down event.
+     * Handles the tap event.
      *
      * @param index {Integer} the index the pointer is pointing at.
-     * @param evt {Map} the pointer event.
+     * @param evt {qx.event.type.Tap} the pointer event.
      */
-    handlePointerDown : function(index, evt)
+    handleTap : function(index, evt)
     {
       if (evt.isLeftPressed())
       {
@@ -112,30 +112,11 @@ qx.Class.define("qx.ui.table.selection.Manager",
           selectionModel.setSelectionInterval(index, index);
         }
       }
-    },
 
-
-    /**
-     * Handles the pointer up event.
-     *
-     * @param index {Integer} the index the pointer is pointing at.
-     * @param evt {Map} the pointer event.
-     */
-    handleTap : function(index, evt)
-    {
       if (evt.isLeftPressed() && !this.__lastPointerDownHandled) {
         this._handleSelectEvent(index, evt);
       }
     },
-
-
-    /**
-     * Handles the pointer tap event.
-     *
-     * @param index {Integer} the index the pointer is pointing at.
-     * @param evt {Map} the pointer event.
-     */
-    handleTap : function(index, evt) {},
 
 
     /**

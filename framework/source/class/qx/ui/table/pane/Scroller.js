@@ -1144,7 +1144,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       var table = this.getTable();
 
-      if (! table.getEnabled()) {
+      if (!table.getEnabled()) {
         return;
       }
 
@@ -1182,21 +1182,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         // indicator, and from the tap even on the pane. Both possibilities
         // are necessary, however, to maintain the qooxdoo order of events.
         this.__firedTapEvent = false;
-
-        var selectBeforeFocus = this.getSelectBeforeFocus();
-
-        if (selectBeforeFocus) {
-          table.getSelectionManager().handlePointerDown(row, e);
-        }
-
-        // The pointer is over the data -> update the focus
-        if (! this.getFocusCellOnPointerMove()) {
-          this._focusCellAtPagePos(pageX, pageY);
-        }
-
-        if (! selectBeforeFocus) {
-          table.getSelectionManager().handlePointerDown(row, e);
-        }
       }
     },
 
@@ -1458,9 +1443,21 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var row = this._getRowForPagePos(pageX, pageY);
       var col = this._getColumnForPageX(pageX);
 
-      if (row != null && col != null)
-      {
-        table.getSelectionManager().handleTap(row, e);
+      if (row != null && col != null) {
+        var selectBeforeFocus = this.getSelectBeforeFocus();
+
+        if (selectBeforeFocus) {
+          table.getSelectionManager().handleTap(row, e);
+        }
+
+        // The pointer is over the data -> update the focus
+        if (!this.getFocusCellOnPointerMove()) {
+          this._focusCellAtPagePos(pageX, pageY);
+        }
+
+        if (!selectBeforeFocus) {
+          table.getSelectionManager().handleTap(row, e);
+        }
 
         if (this.__focusIndicator.isHidden() ||
             (this.__lastPointerDownCell &&
