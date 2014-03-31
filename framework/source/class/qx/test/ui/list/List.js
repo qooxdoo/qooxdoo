@@ -296,6 +296,19 @@ qx.Class.define("qx.test.ui.list.List",
       this.assertCalledOnce(spy);
       this.assertCalledWith(spy, widget);
       widget.dispose();
+    },
+
+
+    testMultiSelectionMode : function()
+    {
+      var model = qx.data.marshal.Json.createModel(["a", "b", "c"]);
+      this._list.setModel(model);
+      this._list.setSelectionMode('multi');
+      this._list.getSelection().push(model.getItem(0));
+
+      this._list.getSelection().removeAll();
+      this.assertNull(this._list._manager.getLeadItem());
+      model.dispose();
     }
   }
 });
