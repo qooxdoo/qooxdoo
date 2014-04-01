@@ -112,14 +112,13 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
       }
 
       this._addGroupHeaderRow();
-      for(var i=0, l=items.length; i<l; i++)
-      {
+      for (var i = 0, l = items.length; i < l; i++) {
         var item = items[i];
         var name = names[i];
-        var isLastItem = (i==items.length-1);
+        var isLastItem = (i == items.length - 1);
 
-        if(item instanceof qx.ui.mobile.form.TextArea) {
-          this._addInScrollComposite(item,name);
+        if (item instanceof qx.ui.mobile.form.TextArea) {
+          this._addInScrollComposite(item, name);
         } else {
           if (this._isOneLineWidget(item)) {
             this._addRow(item, name, new qx.ui.mobile.layout.HBox());
@@ -132,7 +131,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
           this.showErrorForItem(item);
         }
 
-        if(!isLastItem) {
+        if (!isLastItem) {
           this._addSeparationRow();
         }
       }
@@ -270,7 +269,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
       var errorNode = qx.dom.Element.create('div');
       errorNode.innerHTML = item.getInvalidMessage();
       qx.bom.element.Class.add(errorNode, 'form-element-error');
-      qx.dom.Element.insertAfter(errorNode, item.getLayoutParent().getContainerElement());
+      qx.dom.Element.insertAfter(errorNode, this._getParentRow(item).getContainerElement());
       this.__errorMessageContainers.push(errorNode);
     },
 
@@ -280,7 +279,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      * @param item {qx.ui.form.IForm} form item which should be hidden.
      */
     showItem : function(item) {
-      item.getLayoutParent().removeCssClass("exclude");
+      this._getParentRow(item).removeCssClass("exclude");
     },
 
 
@@ -289,13 +288,30 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      * @param item {qx.ui.form.IForm} form item which should be hidden.
      */
     hideItem : function(item) {
-      item.getLayoutParent().addCssClass("exclude");
+      this._getParentRow(item).addCssClass("exclude");
+    },
+
+
+    /**
+    * Returns the parent row of the item.
+    * 
+    * @param item {qx.ui.form.iForm} the form item.
+    * @return {qx.ui.mobile.core.Widget} the parent row.
+    */
+    _getParentRow : function(item) {
+      var parent = item.getLayoutParent();
+
+      while (!parent.hasCssClass("form-row")) {
+        parent = parent.getLayoutParent();
+      }
+
+      return parent;
     },
 
 
     // override
     resetForm : function() {
-      for(var i=0; i < this.__errorMessageContainers.length; i++) {
+      for (var i = 0; i < this.__errorMessageContainers.length; i++) {
         qx.dom.Element.remove(this.__errorMessageContainers[i]);
       }
     }
