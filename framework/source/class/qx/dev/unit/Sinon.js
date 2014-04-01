@@ -81,13 +81,13 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
 (function() {
 
 /**
-* Below is the original Sinon.JS code with some minor changes:
-*
-* - aliased "throws" as "throwsException"
-* - replaced references to this.sinon which do not make sense within a closure
-* - in failAssertion, "assert.fail" takes precedence over "object.fail"
-*
-*/
+ * Below is the original Sinon.JS code with some minor changes:
+ *
+ * - aliased "throws" as "throwsException"
+ * - replaced references to this.sinon which do not make sense within a closure
+ * - in failAssertion, "assert.fail" takes precedence over "object.fail"
+ *
+ */
 /**
  * Sinon.JS 1.7.3, 2013/06/20
  *
