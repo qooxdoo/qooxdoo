@@ -77,17 +77,6 @@ qx.Class.define("testrunner.runner.TestRunner", {
     TEST_MIXINS : null,
 
 
-    _getTestNameSpace : function()
-    {
-      // Test namespace set by URI parameter
-      var params = location.search;
-      if (params.indexOf("testclass=") > 0 ) {
-        return params.substr(params.indexOf("testclass=") + 10);
-      }
-      return qx.core.Environment.get("qx.testNameSpace");
-    },
-
-
     _loadTests : function()
     {
       switch(this._origin) {

@@ -20,7 +20,8 @@
     //"SFILES_VERSION_PART" : "-${QOOXDOO_VERSION}",
     "SFILES_VERSION_PART" : "",
     "BUILD_PATH"   : "script",
-    "ROOT"         : "."
+    "ROOT"         : ".",
+    "TEST_NAMESPACE" : "test"
   },
 
 
