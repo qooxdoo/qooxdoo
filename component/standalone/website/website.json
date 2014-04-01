@@ -37,6 +37,7 @@
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : ".",
     "TESTRUNNER_ROOT"  : "${QOOXDOO_PATH}/component/testrunner",
+    "TESTRUNNER_VIEW" : "testrunner.view.Html",
     "SCRIPT_PATH"      : "script",
     "TEST_SCRIPT_PATH" : "./test/script",
     "API_SCRIPT_PATH"  : "api/script",
@@ -195,6 +196,10 @@
 
     "testrunner-portable::build-script" :
     {
+      "let" : {
+        "TESTRUNNER_VIEW" : "${TESTRUNNER_VIEW}"
+      },
+
       "exclude" : "${QXWEB_ALL}",
 
       "config-warnings" :
