@@ -180,7 +180,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     /**
      * Set the column types for the table widgets in the collection
      * @param columnName {String} The column name
-     * @param type {Sring} The type of the column
+     * @param type {String} The type of the column
      * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
      */
     setColumnType: function(columnName, type) {
@@ -248,7 +248,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     /**
      * Returns the comparison function for the given type
      * @param type {String} The type to get the comparison function for
-     * @return {Funtion} The comparison function
+     * @return {Function} The comparison function
      */
     getCompareFunction: function(type) {
       type = qxWeb.string.firstUp(type);
@@ -654,7 +654,6 @@ qx.Bootstrap.define("qx.ui.website.Table", {
         }
       }else{
         if (cell && cell.length > 0) {
-          var rows = this[0].rows;
           var row = cell[0].parentNode,
             cells = row.cells;
           var colNumber = qx.ui.website.Table.__getIndex(cells, cell[0]);
@@ -681,7 +680,6 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     __applyTemplate: function(model) {
 
       var self = this, cell, row;
-      var columnData = this.getProperty("__columnMeta");
       var tHead = this.__getHeaderRow();
       var createdRow = null, colMeta = null;
       var inputType = (this.getConfig("columnSelection") == "single") ? "radio" : "checkbox";
@@ -976,7 +974,6 @@ qx.Bootstrap.define("qx.ui.website.Table", {
         }
       }
       if (data.cell[0].nodeName.toUpperCase() == "TH") {
-        var meta = this.__getDataForColumn(data.columnName);
         this.sort(data.columnName, dir);
       }
     },
@@ -990,7 +987,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     __getColumnIndex: function(columnName) {
       var tHead = this.__getHeaderRow();
       var cells = tHead.cells;
-      var columnIndex = -1;
+
       for (var i = 0; i < cells.length; i++) {
         if (columnName == this.__getColumName(cells.item(i))) {
           return i;
