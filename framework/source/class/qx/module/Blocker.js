@@ -61,10 +61,10 @@ qxWeb.define("qx.module.Blocker", {
 
       qx.module.Blocker.__styleBlocker(item, color, opacity, zIndex, isDocument);
 
-      item.__blocker.div.appendTo(win.document.body);
-
       if (isDocument) {
-        qxWeb(win).on("resize", qx.module.Blocker.__onWindowResize);
+        item.__blocker.div.insertBefore(qxWeb(win.document.body).getChildren(':first'));
+      } else {
+        item.__blocker.div.appendTo(win.document.body);
       }
     },
 
@@ -85,39 +85,26 @@ qxWeb.define("qx.module.Blocker", {
       var styles = {
         "zIndex" : zIndex,
         "display" : "block",
-        "position" : "absolute",
         "backgroundColor" : color,
-        "opacity" : opacity,
-        "width" : qItem.getWidth() + "px",
-        "height" : qItem.getHeight() + "px"
+        "opacity" : opacity
       };
 
       if (isDocument) {
         styles.top = 0 + "px";
         styles.left = 0 + "px";
+        styles.position = "fixed";
+        styles.width = "100%";
+        styles.height = "100%";
       }
       else {
         var pos = qItem.getOffset();
         styles.top = pos.top + "px";
         styles.left = pos.left + "px";
+        styles.position = "absolute";
+        styles.width = qItem.getWidth() + "px";
+        styles.height = qItem.getHeight() + "px";
       }
       item.__blocker.div.setStyles(styles);
-    },
-
-
-    /**
-     * Callback for the Window's resize event. Applies the window's new sizes
-     * to the blocker element(s).
-     *
-     * @param ev {Event} resize event
-     */
-    __onWindowResize : function(ev) {
-      var doc = q(this[0].document);
-      var size = {
-        width : doc.getWidth() + "px",
-        height : doc.getHeight() + "px"
-      };
-      qxWeb(doc[0].__blocker.div).setStyles(size);
     },
 
 
@@ -133,10 +120,6 @@ qxWeb.define("qx.module.Blocker", {
         return;
       }
       item.__blocker.div.remove();
-      if (qxWeb.isDocument(item)) {
-        qxWeb(qxWeb.getWindow(item))
-        .off("resize", qx.module.Blocker.__onWindowResize);
-      }
     },
 
 

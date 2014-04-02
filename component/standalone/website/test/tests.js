@@ -2652,6 +2652,10 @@ testrunner.define({
     this.assertTrue(q.$$qx.dom.Hierarchy.isRendered(blockerDiv[0]));
     this.assertEquals(q(document).getWidth(), blockerDiv.getWidth());
     this.assertEquals(q(document).getHeight(), blockerDiv.getHeight());
+    this.assertEquals(q(document.body).getChildren(":first")[0], blockerDiv[0]);
+    this.assertEquals('fixed', blockerDiv.getStyle("position"));
+    this.assertEquals('100%', blockerDiv[0].style.width);
+    this.assertEquals('100%', blockerDiv[0].style.height);
 
     q(document).unblock();
 
