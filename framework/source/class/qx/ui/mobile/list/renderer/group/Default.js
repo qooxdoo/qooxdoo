@@ -123,7 +123,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.group.Default",
 
     /**
      * Setter for the data attribute <code></code>
-     * @param groupTitle {Strin} the title of the group
+     * @param groupTitle {String} the title of the group
      */
     setGroup: function(groupTitle) {
       this._setAttribute("data-group", groupTitle);

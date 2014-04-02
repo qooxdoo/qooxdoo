@@ -104,7 +104,6 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
 
       // Clone the element and all it's events
       var clone = qx.bom.Element.clone(this.__itemRenderer.getContainerElement(), true);
-      clone.removeAttribute("id");
       clone.setAttribute("data-row", row);
       return clone;
     },
@@ -163,7 +162,7 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
 
     /**
      * Creates an instance of the group renderer to use. When no delegate method
-     * is given the function will return an instance of {@link qx.ui.mobile.list.renderer.Group}.
+     * is given the function will return an instance of {@link qx.ui.mobile.list.renderer.group.Default}.
      *
      * @return {qx.ui.mobile.list.renderer.group.Abstract} An instance of the group renderer.
     */
