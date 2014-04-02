@@ -28,7 +28,7 @@ addSample('q.func.throttle', {
 javascript: function() {
 // simple example to throttle the execution
 var myCallback = function() {
-  // this callback is called only *twice*
+  // this callback is called *four times* due the leading and trailing calls
   console.log('throttled function');
 };
 
@@ -42,6 +42,33 @@ var intervalId = window.setInterval(function() {
   }
   counter++;
 }, 100);
+
+  },
+  executable: true
+});
+
+addSample('q.func.throttle', {
+javascript: function() {
+var myCallback = function() {
+  // this callback is called *twice* -  the leading and trailing calls are omitted by configuration
+  console.log('throttled function');
+};
+
+var options = {
+  leading: false,
+  trailing: false
+};
+var throttledFunction = q.func.throttle(myCallback, 500, options);
+var counter = 0;
+var intervalId = window.setInterval(function() {
+  throttledFunction();
+
+  if (counter == 12) {
+    window.clearInterval(intervalId);
+  }
+  counter++;
+}, 100);
+
   },
   executable: true
 });

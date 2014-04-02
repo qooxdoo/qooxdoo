@@ -163,7 +163,7 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
 
     /**
      * Creates an instance of the group renderer to use. When no delegate method
-     * is given the function will return an instance of {@link qx.ui.mobile.list.renderer.Group}.
+     * is given the function will return an instance of {@link qx.ui.mobile.list.renderer.group.Default}.
      *
      * @return {qx.ui.mobile.list.renderer.group.Abstract} An instance of the group renderer.
     */

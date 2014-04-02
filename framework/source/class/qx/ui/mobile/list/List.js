@@ -212,6 +212,7 @@ qx.Class.define("qx.ui.mobile.list.List",
         if (qx.bom.element.Attribute.get(element, "data-selectable") != "false") {
           this.fireDataEvent("changeGroupSelection", group);
         }
+<<<<<<< HEAD
       }
     },
 
@@ -318,6 +319,8 @@ qx.Class.define("qx.ui.mobile.list.List",
       // Click on border: do nothing.
       if(element.tagName == "UL") {
         return null;
+=======
+>>>>>>> master
       }
 
       while (element.tagName != "LI") {

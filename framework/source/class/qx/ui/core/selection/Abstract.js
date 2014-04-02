@@ -483,7 +483,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @return {Object} The lead item or <code>null</code>
      */
     getLeadItem : function() {
-      return this.__leadItem !== null ? this.__leadItem : null;
+      return this.__leadItem;
     },
 
 
@@ -1772,6 +1772,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     _replaceMultiSelection : function(items)
     {
+      if (items.length === 0) {
+        this.clearSelection();
+        return;
+      }
+
       var modified = false;
 
       // Build map from hash codes and filter non-selectables

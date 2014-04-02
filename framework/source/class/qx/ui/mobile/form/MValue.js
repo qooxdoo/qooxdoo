@@ -256,7 +256,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
     */
     _getCaretPosition : function() {
       var val = this.getContentElement().value;
-      if(val) {
+      if(val && this._getAttribute("type") !== "number") {
         return val.slice(0, this.getContentElement().selectionStart).length;
       } else {
         return val.length;
@@ -270,7 +270,7 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
      */
     _setCaretPosition: function(position) {
       if (position != null && this.hasFocus()) {
-        if (this.getContentElement().setSelectionRange) {
+        if (this._getAttribute("type") !== "number" && this.getContentElement().setSelectionRange) {
           this.getContentElement().setSelectionRange(position, position);
         }
       }

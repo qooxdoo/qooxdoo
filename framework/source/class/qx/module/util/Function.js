@@ -111,12 +111,13 @@ qx.Bootstrap.define("qx.module.util.Function", {
      * This mechanism is very useful for event handling: only in specified intervals
      * the event should be handled (e.g. at resize of the browser window) to prevent flooding
      * the handler with a large amounts of events.
+     * As default the <code>leading</code> and <code>trailing</code> calls are executed.
      *
      * @attachStatic{qxWeb, func.throttle}
      * @param callback {Function} the callback which should be executed in the given interval
      * @param interval {Number} Interval in milliseconds
      * @param options {Map} the keys are <code>leading</code> and <code>trailing</code> to control the
-     * firing of events precisely.
+     * executing of the callback precisely. Default values are <code>true</code> for both options.
      * @return {Function} a wrapper function which <em>shields</em> the given callback function
      */
     throttle : function(callback, interval, options)

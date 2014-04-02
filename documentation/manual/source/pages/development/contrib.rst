@@ -307,7 +307,13 @@ This list should ease validating pull requests:
     ``curl https://github.com/qooxdoo/contrib-catalog/pull/{n}.patch | git am``
   * Validate the Manifest: ``./generate.py validate-manifest ../path/to/catalog/Manifest.json``
   * Is an (optional) archive download (e.g. *\*.zip/\*.tar.gz*) provided? Then a
-    valid checksum has to be provided too or the contrib can't be used.
+    valid SHA1 checksum has to be provided too or the contrib can't be used.
+  * The SHA1 checksum can be checked like this:
+
+    * ``curl -LO https://github.com/{user}/{contrib}/archive/master.zip``
+
+    * ``shasum master.zip``
+
   * You can also try out the catalog changes locally (not always needed):
 
     * Adapt the *CONTRIB_CATALOG_BASEURL* setting of the *base.json* within your

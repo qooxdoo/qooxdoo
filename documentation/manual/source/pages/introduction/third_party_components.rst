@@ -52,6 +52,9 @@ application.
   * - `JSON 3 <https://github.com/bestiejs/json3>`_
     - `MIT`_
 
+  * - `PluginDetect PDF.js <http://www.pinlady.net/PluginDetect/PDFjs/>`_
+    - `MIT`_
+
 Application %{JS} Code
 ============================
 

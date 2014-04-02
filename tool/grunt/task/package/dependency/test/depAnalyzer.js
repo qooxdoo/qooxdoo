@@ -45,7 +45,11 @@ module.exports = {
     classesDeps = depAnalyzer.collectDepsRecursive(
       {'qx': '../../../../../framework/source/class/'},
       ['qx.*'],
-      []
+      [
+        "qx.test.*",
+        "qx.dev.unit.*",
+        "qx.dev.FakeServer",  // as this depends on qx.dev.unit classes
+      ]
     );
     */
 
