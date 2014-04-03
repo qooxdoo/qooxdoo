@@ -84,6 +84,19 @@ qx.Class.define("qx.event.type.Mouse",
     /**
      * @type {Map} Contains the button ID to identifier data.
      *
+     * @lint ignoreReferenceField(__buttonsDom2EventModel)
+     */
+    __buttonsDom3EventModel :
+    {
+      0 : "none",
+      1 : "left",
+      2 : "right",
+      4 : "middle"
+    },
+
+    /**
+     * @type {Map} Contains the button ID to identifier data.
+     *
      * @lint ignoreReferenceField(__buttonsMshtmlEventModel)
      */
     __buttonsMshtmlEventModel :
@@ -142,6 +155,9 @@ qx.Class.define("qx.event.type.Mouse",
 
         default:
           if (this._native.target !== undefined) {
+            if (this._native.buttons !== undefined) {
+              return this.__buttonsDom3EventModel[this._native.buttons] || "none";
+            }
             return this.__buttonsDom2EventModel[this._native.button] || "none";
           } else {
             return this.__buttonsMshtmlEventModel[this._native.button] || "none";
