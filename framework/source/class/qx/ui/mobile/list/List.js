@@ -80,7 +80,7 @@ qx.Class.define("qx.ui.mobile.list.List",
   {
     this.base(arguments);
     this.__provider = new qx.ui.mobile.list.provider.Provider(this);
-    
+
     this.addListener("tap", this._onTap, this);
     this.addListener("trackstart", this._onTrackStart, this);
     this.addListener("track", this._onTrack, this);
@@ -192,7 +192,7 @@ qx.Class.define("qx.ui.mobile.list.List",
      */
     _onTap : function(evt)
     {
-      
+
       var element = this._getElement(evt);
       if(!element) {
         return;
@@ -212,18 +212,17 @@ qx.Class.define("qx.ui.mobile.list.List",
         if (qx.bom.element.Attribute.get(element, "data-selectable") != "false") {
           this.fireDataEvent("changeGroupSelection", group);
         }
-<<<<<<< HEAD
       }
     },
 
 
     /**
     * Event handler for <code>trackstart</code> event.
-    * @param evt {qx.event.type.Track} the <code>trackstart</code> event 
+    * @param evt {qx.event.type.Track} the <code>trackstart</code> event
     */
     _onTrackStart : function(evt) {
       this.__isScrollingBlocked = null;
-      
+
       var element = this._getElement(evt);
       if (element &&
           qx.bom.element.Class.has(element, "list-item") &&
@@ -240,7 +239,7 @@ qx.Class.define("qx.ui.mobile.list.List",
 
     /**
     * Event handler for <code>track</code> event.
-    * @param evt {qx.event.type.Track} the <code>track</code> event 
+    * @param evt {qx.event.type.Track} the <code>track</code> event
     */
     _onTrack : function(evt) {
       var element = this._getElement(evt);
@@ -273,7 +272,7 @@ qx.Class.define("qx.ui.mobile.list.List",
 
     /**
     * Event handler for <code>trackend</code> event.
-    * @param evt {qx.event.type.Track} the <code>trackend</code> event 
+    * @param evt {qx.event.type.Track} the <code>trackend</code> event
     */
     _onTrackEnd : function(evt) {
       var element = this._getElement(evt);
@@ -298,7 +297,7 @@ qx.Class.define("qx.ui.mobile.list.List",
 
     /**
     * Event handler for <code>touchmove</code> event.
-    * @param evt {Event} the <code>touchmove</code> event 
+    * @param evt {Event} the <code>touchmove</code> event
     */
     __onTouchMove : function(evt) {
       if(this.__isScrollingBlocked) {
@@ -311,7 +310,7 @@ qx.Class.define("qx.ui.mobile.list.List",
     /**
     * Returns the target list item.
     * @param evt {Event} the input event
-    * @return {Element} the target list item. 
+    * @return {Element} the target list item.
     */
     _getElement : function(evt) {
       var element = evt.getOriginalTarget();
@@ -319,8 +318,6 @@ qx.Class.define("qx.ui.mobile.list.List",
       // Click on border: do nothing.
       if(element.tagName == "UL") {
         return null;
-=======
->>>>>>> master
       }
 
       while (element.tagName != "LI") {
@@ -537,8 +534,8 @@ qx.Class.define("qx.ui.mobile.list.List",
     /**
     * Renders a group header.
     *
-    * @param itemIndex {Integer} the current list item index. 
-    * @param groupIndex {Integer} the group index. 
+    * @param itemIndex {Integer} the current list item index.
+    * @param groupIndex {Integer} the group index.
     * @return {Element} the group element or <code>null</code> if no group was needed.
     */
     _renderGroup: function(itemIndex, groupIndex) {
@@ -568,7 +565,7 @@ qx.Class.define("qx.ui.mobile.list.List",
     /**
      * Returns the group for this item, identified by its index
      * @param index {Integer} the item index.
-     * @return {Object} the group object, to which the item belongs to. 
+     * @return {Object} the group object, to which the item belongs to.
      */
     __getGroup : function(index)
     {
