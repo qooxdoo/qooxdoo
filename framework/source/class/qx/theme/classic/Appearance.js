@@ -343,7 +343,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
           padding         : states.lead ? [ 2, 4 ] : [ 3, 5 ],
           backgroundColor : states.selected ? "background-selected" : undefined,
           textColor       : states.selected ? "text-selected" : undefined,
-          decorator       : states.lead ? "lead-item" : undefined
+          decorator       : states.lead ? "lead-item" : undefined,
+          opacity : states.drag ? 0.5 : undefined
         };
       }
     },

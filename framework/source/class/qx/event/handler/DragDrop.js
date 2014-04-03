@@ -443,7 +443,10 @@ qx.Class.define("qx.event.handler.DragDrop",
       // Cleanup
       this.__validDrop = false;
       this.__dropTarget = null;
-      this.__dragTargetWidget = null;
+      if (this.__dragTargetWidget) {
+        this.__dragTargetWidget.removeState("drag");
+        this.__dragTargetWidget = null;
+      }
 
       // Clear init
       this.__dragTarget = null;
@@ -492,7 +495,10 @@ qx.Class.define("qx.event.handler.DragDrop",
         while (widgetOriginalTarget && widgetOriginalTarget.isAnonymous()) {
           widgetOriginalTarget = widgetOriginalTarget.getLayoutParent();
         }
-        this.__dragTargetWidget = widgetOriginalTarget;
+        if (widgetOriginalTarget) {
+          this.__dragTargetWidget = widgetOriginalTarget;
+          widgetOriginalTarget.addState("drag");
+        }
 
         this.__manager.addListener(this.__root, "keydown", this._onKeyDown, this, true);
         this.__manager.addListener(this.__root, "keyup", this._onKeyUp, this, true);

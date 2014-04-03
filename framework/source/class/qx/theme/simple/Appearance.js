@@ -1465,7 +1465,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
           padding : padding,
           backgroundColor : backgroundColor,
           textColor : states.selected ? "text-selected" : undefined,
-          decorator : states.lead ? "lead-item" : states.dragover ? "dragover" : undefined
+          decorator : states.lead ? "lead-item" : states.dragover ? "dragover" : undefined,
+          opacity : states.drag ? 0.5 : undefined
         };
       }
     },
