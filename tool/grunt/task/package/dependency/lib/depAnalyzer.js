@@ -59,16 +59,16 @@ function isVar(node) {
   return ["Identifier", "MemberExpression"].indexOf(node.type) !== -1;
 }
 
-function findVarRoot (var_node) {
-  if (!isVar(var_node)) {
+function findVarRoot(varNode) {
+  if (!isVar(varNode)) {
     return undefined;
   } else {
-    while (var_node.parent
-      && var_node.parent.type === 'MemberExpression'
-      && var_node.parent.computed === false) {
-        var_node = var_node.parent;
-      }
-    return var_node;
+    while (varNode.parent &&
+      varNode.parent.type === 'MemberExpression' &&
+      varNode.parent.computed === false) {
+      varNode = varNode.parent;
+    }
+    return varNode;
   }
 }
 
