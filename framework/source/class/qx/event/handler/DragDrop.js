@@ -486,11 +486,6 @@ qx.Class.define("qx.event.handler.DragDrop",
         // This is the source target
         this.__dragTarget = dragable;
 
-        // fire cancelable dragstart
-        if (!this.__fireEvent("dragstart", this.__dragTarget, this.__dropTarget, true, e)) {
-          return;
-        }
-
         var widgetOriginalTarget = qx.ui.core.Widget.getWidgetByElement(e.getOriginalTarget());
         while (widgetOriginalTarget && widgetOriginalTarget.isAnonymous()) {
           widgetOriginalTarget = widgetOriginalTarget.getLayoutParent();
@@ -498,6 +493,12 @@ qx.Class.define("qx.event.handler.DragDrop",
         if (widgetOriginalTarget) {
           this.__dragTargetWidget = widgetOriginalTarget;
           widgetOriginalTarget.addState("drag");
+        }
+
+        // fire cancelable dragstart
+        if (!this.__fireEvent("dragstart", this.__dragTarget, this.__dropTarget, true, e)) {
+          this.__dragTargetWidget = null;
+          return;
         }
 
         this.__manager.addListener(this.__root, "keydown", this._onKeyDown, this, true);
