@@ -99,11 +99,11 @@ module.exports = {
         require: require,
         console: console,
         // inject all local modules cause rel paths in depAnalyzer.js won't fit
-        parentAnnotator: require('lib/annotator/parent'),
-        classNameAnnotator: require('lib/annotator/className'),
-        loadTimeAnnotator: require('lib/annotator/loadTime'),
-        qxCoreEnv: require('lib/qxCoreEnv'),
-        util: require('lib/util')
+        parentAnnotator: require('../lib/annotator/parent'),
+        classNameAnnotator: require('../lib/annotator/className'),
+        loadTimeAnnotator: require('../lib/annotator/loadTime'),
+        qxCoreEnv: require('../lib/qxCoreEnv'),
+        util: require('../lib/util')
       };
       this.depAnalyzer = sandbox('lib/depAnalyzer.js', boxGlobals);
 
