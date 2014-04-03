@@ -68,12 +68,12 @@ module.exports = {
       );
       */
 
-      classListLoadOrder = this.depAnalyzer.sortDepsTopologically(classesDeps, "load", excludedClassIds);
-      classListLoadOrder = this.depAnalyzer.prependNamespace(classListLoadOrder, ["qx", "myapp"]);
+      classListLoadOrder = this.depAnalyzer.sortDepsTopologically(classesDeps, 'load', excludedClassIds);
+      classListLoadOrder = this.depAnalyzer.prependNamespace(classListLoadOrder, ['qx', 'myapp']);
       classListPaths = this.depAnalyzer.translateClassIdsToPaths(classListLoadOrder);
       atHintIndex = this.depAnalyzer.createAtHintsIndex(classesDeps);
 
-      // console.log(JSON.stringify(classesDeps, null, 2));
+      console.log(JSON.stringify(classesDeps, null, 2));
       console.log(classListLoadOrder, classListLoadOrder.length);
 
       // console.log(Object.keys(classesDeps).length);
@@ -111,27 +111,27 @@ module.exports = {
     },
 
     isVar: function (test) {
-      test.ok(!this.depAnalyzer.isVar({type:"Foo"}));
-      test.ok(this.depAnalyzer.isVar({type:"Identifier"}));
+      test.ok(!this.depAnalyzer.isVar({type:'Foo'}));
+      test.ok(this.depAnalyzer.isVar({type:'Identifier'}));
       test.done();
     },
 
     findVarRoot: function (test) {
-      var tree = {
-        type: "Identifier",
+      var ref = {
+        type: 'Identifier',
         parent: {
-          type: "MemberExpression",
+          type: 'MemberExpression',
           computed: false,
           parent: {
-            type: "MemberExpression",
+            type: 'MemberExpression',
             computed: false
           }
         }
       };
 
-      test.strictEqual(this.depAnalyzer.findVarRoot({type:"FunctionExpression"}), undefined);
-      test.deepEqual(this.depAnalyzer.findVarRoot(tree), tree.parent.parent);
-      test.strictEqual(this.depAnalyzer.findVarRoot(tree.parent.parent), tree.parent.parent);
+      test.strictEqual(this.depAnalyzer.findVarRoot({type:'FunctionExpression'}), undefined);
+      test.deepEqual(this.depAnalyzer.findVarRoot(ref), ref.parent.parent);
+      test.strictEqual(this.depAnalyzer.findVarRoot(ref.parent.parent), ref.parent.parent);
 
       test.done();
     },
@@ -163,22 +163,125 @@ module.exports = {
     },
 
     dependenciesFromAst: function (test) {
-      // TODO
+      var scope = {
+        through: [
+          {},
+          {resolved: {}}
+        ]
+      };
+
+      test.strictEqual(this.depAnalyzer.dependenciesFromAst(scope).length, 1);
+
       test.done();
     },
 
     not_builtin: function (test) {
-      // TODO
+      var refFunctionExpression = {
+        identifier: {
+          type: 'FunctionExpression'
+        }
+      };
+      var refIdentifierBuiltin = {
+        identifier: {
+          type: 'Identifier',
+          name: 'arguments'
+        }
+      };
+      var refIdentifierCustom = {
+        identifier: {
+          type: 'Identifier',
+          name: 'Infinity'
+        }
+      };
+      var refIdentifierNotBuiltin = {
+        identifier: {
+          type: 'Identifier',
+          name: 'myIdentifierFoo'
+        }
+      };
+
+      test.ok(this.depAnalyzer.not_builtin(refFunctionExpression));
+      test.ok(!this.depAnalyzer.not_builtin(refIdentifierBuiltin));
+      test.ok(!this.depAnalyzer.not_builtin(refIdentifierCustom));
+      test.ok(this.depAnalyzer.not_builtin(refIdentifierNotBuiltin));
+
       test.done();
     },
 
     not_qxinternal: function (test) {
-      // TODO
+      var refFunctionExpression = {
+        identifier: {
+          type: 'FunctionExpression'
+        }
+      };
+      var ref_qx_$$libraries = {
+        identifier: {
+          type: 'Identifier',
+          name: 'qx',
+          parent: {
+            property: {
+              name: '$$libraries'
+            }
+          }
+        }
+      };
+      var ref_qx_Bootsrap_$$logs = {
+        identifier: {
+          type: 'Identifier',
+          name: 'qx',
+          parent: {
+            property: {
+              name: 'Bootstrap',
+              parent: {
+                parent: {
+                  property: {
+                    name: '$$logs'
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+      var ref_qx_core_Property_$$method = {
+        identifier: {
+          type: 'Identifier',
+          name: 'qx',
+          parent: {
+            property: {
+              name: 'core',
+              parent: {
+                parent: {
+                  property: {
+                    name: 'Property',
+                    parent: {
+                      parent: {
+                        property: {
+                          name: '$$method'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+
+      test.ok(this.depAnalyzer.not_qxinternal(refFunctionExpression));
+      test.ok(!this.depAnalyzer.not_qxinternal(ref_qx_$$libraries));
+      test.ok(!this.depAnalyzer.not_qxinternal(ref_qx_Bootsrap_$$logs));
+      test.ok(!this.depAnalyzer.not_qxinternal(ref_qx_core_Property_$$method));
+
       test.done();
     },
 
     not_runtime: function (test) {
-      // TODO
+      test.ok(!this.depAnalyzer.not_runtime( {foo:1} ));
+      test.ok(!this.depAnalyzer.not_runtime( {from:{isLoadTime:false}} ));
+      test.ok(this.depAnalyzer.not_runtime( {from:{isLoadTime:true}} ));
+
       test.done();
     },
 
@@ -188,17 +291,212 @@ module.exports = {
     },
 
     getClassesFromTagDesc: function (test) {
-      // TODO
+      var tag = '';
+      var actual = [];
+      var expected = [];
+
+      tag = '(qx.event, qx.event.GlobalError.*)';
+      actual = this.depAnalyzer.getClassesFromTagDesc(tag);
+      expected = ['qx.event', 'qx.event.GlobalError.*'];
+      test.deepEqual(actual, expected);
+
+      tag = '(qx.data.IListData)';
+      actual = this.depAnalyzer.getClassesFromTagDesc(tag);
+      expected = ['qx.data.IListData'];
+      test.deepEqual(actual, expected);
+
+      tag = '(qx.bom.element.AnimationJs#play)';
+      actual = this.depAnalyzer.getClassesFromTagDesc(tag);
+      expected = ['qx.bom.element.AnimationJs#play'];
+      test.deepEqual(actual, expected);
+
       test.done();
     },
 
     getResourcesFromTagDesc: function (test) {
-      // TODO
+      var tag = '';
+      var actual = [];
+      var expected = [];
+
+      tag = '(qx/mobile/css/*)';
+      actual = this.depAnalyzer.getResourcesFromTagDesc(tag);
+      expected = 'qx/mobile/css/*';
+      test.strictEqual(actual, expected);
+
+      tag = '(qx/icon/Tango/48/places/folder.png)';
+      actual = this.depAnalyzer.getResourcesFromTagDesc(tag);
+      expected = 'qx/icon/Tango/48/places/folder.png';
+      test.strictEqual(actual, expected);
+
       test.done();
     },
 
     applyIgnoreRequireAndUse: function (test) {
-      // TODO
+      var actual = {};
+      var expected = {};
+      var className = '';
+
+      var depsRequire = {
+        load: [
+          'qx.Bootstrap',
+          'qx.log.Logger',
+        ],
+        run: [
+          'qx.core.Environment'
+        ],
+        athint: {
+          ignore: [],
+          require: [
+            'qx.log.appender.Util',
+            'qx.bom.client.Html'
+          ],
+          use: []
+        }
+      };
+      expected = {
+        load: [
+          'qx.Bootstrap',
+          'qx.log.Logger',
+          'qx.log.appender.Util',
+          'qx.bom.client.Html'
+        ]
+      };
+      className = 'qx.log.appender.Native';
+      actual = this.depAnalyzer.applyIgnoreRequireAndUse(depsRequire, className);
+      test.deepEqual(actual.load, expected.load);
+
+      var depsIgnore = {
+        load: [
+          'qx.Bootstrap'
+        ],
+        run: [
+          'qx.Class',
+          'qx.lang.String',
+          'qx.theme',
+          'qx.theme.manager',
+          'qx.theme.manager.Color'
+        ],
+        athint: {
+          ignore: [
+            'qx.theme.*',
+            'qx.Class',
+            'qx.Class.*'
+          ],
+          require: [],
+          use: []
+        }
+      };
+      expected = {
+        run: [
+          'qx.lang.String'
+        ],
+      };
+      className = 'qx.util.ColorUtil';
+      actual = this.depAnalyzer.applyIgnoreRequireAndUse(depsIgnore, className);
+      test.deepEqual(actual.run, expected.run);
+
+      var depsIgnoreAndRequire = {
+        load: [
+          'qx.Class',
+          'qx.core.Environment',
+          'qx.core.Object',
+          'qx.event.GlobalError',
+          'qx.event.IEventHandler',
+          'qx.event.Registration',
+        ],
+        run: [
+          'qx.bom.Event',
+          'qx.bom.client.Device',
+          'qx.bom.client.Engine',
+          'qx.bom.client.Event',
+          'qx.bom.client.OperatingSystem',
+          'qx.dom.Hierarchy',
+          'qx.event.handler.MouseEmulation',
+          'qx.event.handler.DragDrop',
+          'qx.event.type.Data',
+          'qx.event.type.Mouse',
+          'qx.event.type.MouseWheel',
+          'qx.lang.Function'
+        ],
+        athint: {
+          ignore: [
+            'qx.event.handler.DragDrop'
+          ],
+          require: [
+            'qx.event.handler.UserAction'
+          ],
+          use: [],
+        }
+      };
+      expected = {
+        load: [
+          'qx.Class',
+          'qx.core.Environment',
+          'qx.core.Object',
+          'qx.event.GlobalError',
+          'qx.event.IEventHandler',
+          'qx.event.Registration',
+          'qx.event.handler.UserAction'
+        ],
+        run: [
+          'qx.bom.Event',
+          'qx.bom.client.Device',
+          'qx.bom.client.Engine',
+          'qx.bom.client.Event',
+          'qx.bom.client.OperatingSystem',
+          'qx.dom.Hierarchy',
+          'qx.event.handler.MouseEmulation',
+          'qx.event.type.Data',
+          'qx.event.type.Mouse',
+          'qx.event.type.MouseWheel',
+          'qx.lang.Function'
+        ],
+      };
+      className = 'qx.util.ColorUtil';
+      actual = this.depAnalyzer.applyIgnoreRequireAndUse(depsIgnoreAndRequire, className);
+      test.deepEqual(actual.run, expected.run);
+      test.deepEqual(actual.load, expected.load);
+
+      var depsUse = {
+        load: [
+          'qx.Class',
+          'qx.core.Environment',
+          'qx.event.Registration',
+          'qx.event.dispatch.AbstractBubbling'
+        ],
+        run: [
+          'qx.bom.Event',
+          'qx.bom.client.Engine',
+          'qx.dom.Hierarchy',
+          'qx.event.handler.MouseEmulation',
+          'qx.event.type.Event'
+        ],
+        athint: {
+          ignore: [],
+          require: [],
+          use: [
+            'qx.event.handler.Focus',
+            'qx.event.handler.Window',
+            'qx.event.handler.Capture'
+          ],
+        }
+      };
+      expected = {
+        run: [
+          'qx.bom.Event',
+          'qx.bom.client.Engine',
+          'qx.dom.Hierarchy',
+          'qx.event.handler.MouseEmulation',
+          'qx.event.type.Event',
+          'qx.event.handler.Focus',
+          'qx.event.handler.Window',
+          'qx.event.handler.Capture'
+        ],
+      };
+      className = 'qx.event.dispatch.MouseCapture';
+      actual = this.depAnalyzer.applyIgnoreRequireAndUse(depsUse, className);
+      test.deepEqual(actual.run, expected.run);
+
       test.done();
     },
 
