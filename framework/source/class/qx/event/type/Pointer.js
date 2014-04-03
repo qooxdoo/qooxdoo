@@ -120,7 +120,7 @@ qx.Class.define("qx.event.type.Pointer",
 
     // overridden
     getOriginalTarget : function() {
-      if (this._native && this._native._original) {
+      if (this._native && this._native._original) { // fake pointer events
         var orig = this._native._original;
         // touch events have a wrong target compared to mouse events
         if (orig.type.indexOf("touch") == 0) {
@@ -129,6 +129,8 @@ qx.Class.define("qx.event.type.Pointer",
           }
         }
         return qx.bom.Event.getTarget(orig);
+      } else if (this._native) { // native pointer events
+        return qx.bom.Event.getTarget(this._native);
       }
       return this.base(arguments);
     },
