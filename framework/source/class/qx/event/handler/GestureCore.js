@@ -281,6 +281,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       );
 
       if (target !== gesture.target) {
+        this.__onTrack = false;
+        this.__fireTrack("trackend", domEvent, target);
         delete this.__gesture[domEvent.pointerId];
         return;
       }
