@@ -52,6 +52,145 @@ var qxCoreEnv = (qxCoreEnv || require('./qxCoreEnv'));
 var util = (util || require('./util'));
 
 //------------------------------------------------------------------------------
+// Attic
+//------------------------------------------------------------------------------
+
+// This envisaged code may be useful as starting point
+// at some point - if not remove it completly someday ...
+
+/**
+ * See ecmascript/frontend/tree.py#hasParentContext
+ */
+/*
+function hasParentContext(node, parent_expression) {
+  var curr_node = node;
+  parent_expression.split('/').reverse().forEach(function (path_elem) {
+    if (curr_node.parent) {
+      if (path_elem == '*' || curr_node.parent.type == path_elem) {
+        curr_node = curr_node.parent;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+    return true;
+  }
+}
+*/
+
+/**
+ * Return [name, map_tree] for any class map found in etree.
+ * Restricted to top-level class definitions.
+ */
+/*
+function getClassMaps(etree, optObj) {
+  var controller = new estraverse.Controller();
+  controller.traverse(etree, {
+    enter : function (node,parent) {
+      if (is_factory_call(node) && hasParentContext(node, "Program/ExpressionStatement")){
+
+      }
+    }
+  }
+}
+*/
+
+/**
+ * Gather the remain globals that are not referenced outside of class maps.
+ *
+ * Approach: Take the .through references from the global escope.Scope and
+ * remove those references that point inside class maps. The remaining are
+ * unresolved symbols referenced in code that is not part of a class map.
+ */
+/*
+function get_non_class_deps(etree, deps_map, optObj) {
+}
+*/
+
+/**
+ * Better alternative to analyze_tree():
+ * Get dependencies as a structured map that reflects qooxdoo's class map.
+ * This allows for good caching (these deps are shallow), and is much better
+ * for transitive load dependency exploration:
+ * - the driver for the transitive dependencies just has to use this function
+ *   and pick the deps of a specific feature *plus* the non-class deps.
+ *
+ * Sample return value:
+ *
+ *   {
+ *     __non_class_code__ : []  // top-level, @require etc.
+ *     "custom.Application" : {
+ *       extend : [<escope.Reference>, ...],
+ *       implement : [...],
+ *       statics : {
+ *         foo : [...],
+ *         bar : [...]
+ *       },
+ *       members : {
+ *         baz : [...],
+ *         yep : [...]
+ *       }
+ *       destruct : [...],
+ *       defer : [...],
+ *       ...
+ *     }
+ *   }
+ *
+ * @returns {Object} map embedding dependencies { 'custom.ClassA' : { extend : [escope.References] } }
+ */
+/*
+var KeysWithSubMaps = {
+  statics:true,
+  members:true,
+};
+*/
+
+
+/**
+ * Get deps by analysing this paricular (sub)tree.
+ */
+ /*
+function analyze_tree(etree, optObj) {
+}
+*/
+
+/*
+function analyze_as_map(etree, optObj) {
+  var result = {};
+
+  // extract deps from class maps
+  getClassMaps(etree, optObj).forEach(function (class_spec) { // class_spec = ["custom.ClassA" : <esprima.Node>]
+    var class_name = class_spec[0];
+    var class_map = class_spec[1];
+    var deps_map = result[class_name] = {};
+    var curr_map;
+
+    // iterate class map
+    class_spec.properties.forEach(function (prop) {
+      var prop_name = prop.key.name;
+      // iterate sub-maps
+      if (prop_name in KeysWithSubMaps) {
+        curr_map = deps_map[prop_name] = {};
+        prop.value.properties.forEach(function (subprop) {
+          var sprop_name = subprop.key.name;
+          curr_map[sprop_name] = analyze_tree(subprop.value, optObj);
+        });
+      } else {
+        deps_map[prop_name] = analyze_tree(prop.value, optObj);
+      }
+    });
+  });
+
+  // take the remaining symbols for the remaining code in the tree
+  // this includes all code outside class maps, top-level code, @require hints, etc.
+  result['__non_class_code__'] = get_non_class_deps(etree, deps_map, optObj);
+
+  return result;
+}
+*/
+
+//------------------------------------------------------------------------------
 // Privates
 //------------------------------------------------------------------------------
 
@@ -228,132 +367,6 @@ function not_qxinternal(ref) {
 
 function not_runtime(ref) {
   return !!(ref && ref.from && ref.from.isLoadTime);
-}
-
-/**
- * See ecmascript/frontend/tree.py#hasParentContext
- */
-/*
-function hasParentContext(node, parent_expression) {
-  var curr_node = node;
-  parent_expression.split('/').reverse().forEach(function (path_elem) {
-    if (curr_node.parent) {
-      if (path_elem == '*' || curr_node.parent.type == path_elem) {
-        curr_node = curr_node.parent;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
-    return true;
-  }
-}
-*/
-
-/**
- * Return [name, map_tree] for any class map found in etree.
- * Restricted to top-level class definitions.
- */
-/*
-function getClassMaps(etree, optObj) {
-  var controller = new estraverse.Controller();
-  controller.traverse(etree, {
-    enter : function (node,parent) {
-      if (is_factory_call(node) && hasParentContext(node, "Program/ExpressionStatement")){
-
-      }
-    }
-  }
-}
-*/
-
-/**
- * Gather the remain globals that are not referenced outside of class maps.
- *
- * Approach: Take the .through references from the global escope.Scope and
- * remove those references that point inside class maps. The remaining are
- * unresolved symbols referenced in code that is not part of a class map.
- */
-function get_non_class_deps(etree, deps_map, optObj) {
-
-}
-
-/**
- * Better alternative to analyze_tree():
- * Get dependencies as a structured map that reflects qooxdoo's class map.
- * This allows for good caching (these deps are shallow), and is much better
- * for transitive load dependency exploration:
- * - the driver for the transitive dependencies just has to use this function
- *   and pick the deps of a specific feature *plus* the non-class deps.
- *
- * Sample return value:
- *
- *   {
- *     __non_class_code__ : []  // top-level, @require etc.
- *     "custom.Application" : {
- *       extend : [<escope.Reference>, ...],
- *       implement : [...],
- *       statics : {
- *         foo : [...],
- *         bar : [...]
- *       },
- *       members : {
- *         baz : [...],
- *         yep : [...]
- *       }
- *       destruct : [...],
- *       defer : [...],
- *       ...
- *     }
- *   }
- *
- * @returns {Object} map embedding dependencies { 'custom.ClassA' : { extend : [escope.References] } }
- */
-var KeysWithSubMaps = {
-  statics:true,
-  members:true,
-};
-
-
-/**
- * Get deps by analysing this paricular (sub)tree.
- */
-function analyze_tree(etree, optObj) {
-
-}
-
-function analyze_as_map(etree, optObj) {
-  var result = {};
-
-  // extract deps from class maps
-  getClassMaps(etree, optObj).forEach(function (class_spec) { // class_spec = ["custom.ClassA" : <esprima.Node>]
-    var class_name = class_spec[0];
-    var class_map = class_spec[1];
-    var deps_map = result[class_name] = {};
-    var curr_map;
-
-    // iterate class map
-    class_spec.properties.forEach(function (prop) {
-      var prop_name = prop.key.name;
-      // iterate sub-maps
-      if (prop_name in KeysWithSubMaps) {
-        curr_map = deps_map[prop_name] = {};
-        prop.value.properties.forEach(function (subprop) {
-          var sprop_name = subprop.key.name;
-          curr_map[sprop_name] = analyze_tree(subprop.value, optObj);
-        });
-      } else {
-        deps_map[prop_name] = analyze_tree(prop.value, optObj);
-      }
-    });
-  });
-
-  // take the remaining symbols for the remaining code in the tree
-  // this includes all code outside class maps, top-level code, @require hints, etc.
-  result['__non_class_code__'] = get_non_class_deps(etree, deps_map, optObj);
-
-  return result;
 }
 
 /**
