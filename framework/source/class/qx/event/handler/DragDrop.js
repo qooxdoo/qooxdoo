@@ -49,8 +49,12 @@ qx.Class.define("qx.event.handler.DragDrop",
     this.__manager = manager;
     this.__root = manager.getWindow().document.documentElement;
 
-    // Initialize pointerdown listener
-    this.__manager.addListener(this.__root, "pointerdown", this._onPointerDown, this);
+    // Initialize track listener
+    this.__manager.addListener(this.__root, "longtap", this._onLongtap, this, true);
+    this.__manager.addListener(this.__root, "track", this._onTrack, this, true);
+    this.__manager.addListener(this.__root, "trackend", this._onTrackEnd, this, true);
+
+    qx.event.Registration.addListener(window, "blur", this._onWindowBlur, this);
 
     // Initialize data structures
     this.__rebuildStructures();
@@ -117,8 +121,10 @@ qx.Class.define("qx.event.handler.DragDrop",
     __currentType : null,
     __currentAction : null,
     __sessionActive : false,
-    __startLeft : 0,
-    __startTop : 0,
+    __validDrop : false,
+    __validAction : false,
+    __dragTargetWidget : null,
+
 
     /*
     ---------------------------------------------------------------------------
@@ -233,6 +239,11 @@ qx.Class.define("qx.event.handler.DragDrop",
      */
     getCurrentAction : function() {
       return this.__currentAction;
+    },
+
+
+    getDragTarget : function() {
+      return this.__dragTargetWidget;
     },
 
 
@@ -414,62 +425,31 @@ qx.Class.define("qx.event.handler.DragDrop",
 
 
     /**
-     * Clean up event listener and structures when a drag was ended without ever starting into session mode
-     * (e.g. not reaching the required offset before)
-     */
-    __clearInit : function()
-    {
-      // Clear drag target
-      this.__dragTarget = null;
-
-      // Deregister from root events
-      this.__manager.removeListener(this.__root, "pointermove", this._onPointerMove, this, true);
-      this.__manager.removeListener(this.__root, "pointerup", this._onPointerUp, this, true);
-
-      // Deregister from window's blur
-      qx.event.Registration.removeListener(window, "blur", this._onWindowBlur, this);
-
-      // Clear structures
-      this.__rebuildStructures();
-    },
-
-
-    /**
      * Cleans up a drag&drop session when <code>dragstart</code> was fired before.
      */
     clearSession : function()
     {
-      if (this.__sessionActive)
-      {
-        // Deregister from root events
-        this.__manager.removeListener(this.__root, "pointerover", this._onPointerOver, this, true);
-        this.__manager.removeListener(this.__root, "pointerout", this._onPointerOut, this, true);
-        this.__manager.removeListener(this.__root, "keydown", this._onKeyDown, this, true);
-        this.__manager.removeListener(this.__root, "keyup", this._onKeyUp, this, true);
-        this.__manager.removeListener(this.__root, "keypress", this._onKeyPress, this, true);
+      // Deregister from root events
+      this.__manager.removeListener(this.__root, "keydown", this._onKeyDown, this, true);
+      this.__manager.removeListener(this.__root, "keyup", this._onKeyUp, this, true);
+      this.__manager.removeListener(this.__root, "keypress", this._onKeyPress, this, true);
+      this.__manager.removeListener(this.__root, "roll", this._onRoll, this, true);
 
-        // Fire dragend event
+      // Fire dragend event
+      if (this.__dragTarget) {
         this.__fireEvent("dragend", this.__dragTarget, this.__dropTarget, false);
-
-        // Clear flag
-        this.__sessionActive = false;
       }
 
       // Cleanup
       this.__validDrop = false;
       this.__dropTarget = null;
+      this.__dragTargetWidget = null;
 
       // Clear init
-      this.__clearInit();
+      this.__dragTarget = null;
+      this.__sessionActive = false;
+      this.__rebuildStructures();
     },
-
-
-    /** @type {Boolean} Whether a valid drop object / action exists */
-    __validDrop : false,
-    __validAction : false,
-
-
-
 
 
 
@@ -479,6 +459,128 @@ qx.Class.define("qx.event.handler.DragDrop",
       EVENT HANDLERS
     ---------------------------------------------------------------------------
     */
+
+    _onLongtap : function(e) {
+      // only for touch
+      if (e.getPointerType() != "touch") {
+        return;
+      }
+      // prevent scrolling
+      this.__manager.addListener(this.__root, "roll", this._onRoll, this, true);
+      this._start(e);
+    },
+
+
+    _start : function(e) {
+      // only for primary pointer and allowed buttons
+      var isButtonOk = qx.event.handler.DragDrop.ALLOWED_BUTTONS.indexOf(e.getButton()) !== -1;
+      if (!e.isPrimary() || !isButtonOk) {
+        return;
+      }
+
+      var dragable = this.__findDraggable(e.getTarget());
+      if (dragable) {
+        // This is the source target
+        this.__dragTarget = dragable;
+
+        // fire cancelable dragstart
+        if (!this.__fireEvent("dragstart", this.__dragTarget, this.__dropTarget, true, e)) {
+          return;
+        }
+
+        var widgetOriginalTarget = qx.ui.core.Widget.getWidgetByElement(e.getOriginalTarget());
+        while (widgetOriginalTarget && widgetOriginalTarget.isAnonymous()) {
+          widgetOriginalTarget = widgetOriginalTarget.getLayoutParent();
+        }
+        this.__dragTargetWidget = widgetOriginalTarget;
+
+        this.__manager.addListener(this.__root, "keydown", this._onKeyDown, this, true);
+        this.__manager.addListener(this.__root, "keyup", this._onKeyUp, this, true);
+        this.__manager.addListener(this.__root, "keypress", this._onKeyPress, this, true);
+        this.__sessionActive = true;
+      }
+    },
+
+
+    _onTrack : function(e) {
+      // only allow drag & drop for primary pointer
+      if (!e.isPrimary()) {
+        return;
+      }
+
+      // start the drag session for mouse
+      if (!this.__sessionActive && e.getPointerType() == "mouse") {
+        this._start(e);
+      }
+
+      // check if the session has been activated
+      if (!this.__sessionActive) {
+        return;
+      }
+
+      if (!this.__fireEvent("drag", this.__dragTarget, this.__dropTarget, true, e)) {
+        this.clearSession();
+      }
+
+      // find current hovered dropable
+      var doc = this.__manager.getWindow().document;
+      var el = doc.elementFromPoint(e.getDocumentLeft(), e.getDocumentTop());
+      var cursor = qx.ui.core.DragDropCursor.getInstance();
+      var cursorEl = cursor.getContentElement().getDomElement();
+
+      if (el !== cursorEl) {
+        var dropable = this.__findDroppable(el);
+        if (dropable && dropable != this.__dropTarget) {
+          this.__validDrop = this.__fireEvent("dragover", dropable, this.__dragTarget, true, e);
+          this.__dropTarget = dropable;
+
+          this.__detectAction();
+        } else if (!dropable && this.__dropTarget) {
+          this.__fireEvent("dragleave", this.__dropTarget, dropable, false, e);
+          this.__dropTarget = null;
+          this.__validDrop = false;
+
+          qx.event.Timer.once(this.__detectAction, this, 0);
+        }
+      }
+
+      // Reevaluate current action
+      var keys = this.__keys;
+      keys.Control = e.isCtrlPressed();
+      keys.Shift = e.isShiftPressed();
+      keys.Alt = e.isAltPressed();
+      this.__detectAction();
+    },
+
+
+    _onTrackEnd : function(e) {
+      if (!e.isPrimary()) {
+        return;
+      }
+
+      // Fire drop event in success case
+      if (this.__validDrop && this.__validAction) {
+        this.__fireEvent("drop", this.__dropTarget, this.__dragTarget, false, e);
+      }
+
+      // Stop event
+      if (e.getTarget() == this.__dragTarget) {
+        e.stopPropagation();
+      }
+
+      // Clean up
+      this.clearSession();
+    },
+
+
+    /**
+     * Roll listener to stop scrolling on touch devices.
+     * @param e {qx.event.type.Roll} The roll event.
+     */
+    _onRoll : function(e) {
+      e.stop();
+    },
+
 
     /**
      * Event listener for window's <code>blur</code> event
@@ -495,8 +597,7 @@ qx.Class.define("qx.event.handler.DragDrop",
      *
      * @param e {qx.event.type.KeySequence} Event object
      */
-    _onKeyDown : function(e)
-    {
+    _onKeyDown : function(e) {
       var iden = e.getKeyIdentifier();
       switch(iden)
       {
@@ -517,8 +618,7 @@ qx.Class.define("qx.event.handler.DragDrop",
      *
      * @param e {qx.event.type.KeySequence} Event object
      */
-    _onKeyUp : function(e)
-    {
+    _onKeyUp : function(e) {
       var iden = e.getKeyIdentifier();
       switch(iden)
       {
@@ -539,176 +639,12 @@ qx.Class.define("qx.event.handler.DragDrop",
      *
      * @param e {qx.event.type.KeySequence} Event object
      */
-    _onKeyPress : function(e)
-    {
+    _onKeyPress : function(e) {
       var iden = e.getKeyIdentifier();
       switch(iden)
       {
         case "Escape":
           this.clearSession();
-      }
-    },
-
-
-    /**
-     * Event listener for root's <code>pointerdown</code> event
-     *
-     * @param e {qx.event.type.Pointer} Event object
-     */
-    _onPointerDown : function(e)
-    {
-      var isButtonOk = qx.event.handler.DragDrop.ALLOWED_BUTTONS.indexOf(e.getButton()) !== -1;
-      if (this.__sessionActive || !isButtonOk) {
-        return;
-      }
-      var dragable = this.__findDraggable(e.getTarget());
-      if (dragable)
-      {
-        // Cache coordinates for offset calculation
-        this.__startLeft = e.getDocumentLeft();
-        this.__startTop = e.getDocumentTop();
-
-        // This is the source target
-        this.__dragTarget = dragable;
-
-        // Register move event to manager
-        this.__manager.addListener(this.__root, "pointermove", this._onPointerMove, this, true);
-        this.__manager.addListener(this.__root, "pointerup", this._onPointerUp, this, true);
-
-        // Register window blur listener
-        qx.event.Registration.addListener(window, "blur", this._onWindowBlur, this);
-      }
-    },
-
-
-    /**
-     * Event listener for root's <code>pointerup</code> event
-     *
-     * @param e {qx.event.type.Pointer} Event object
-     */
-    _onPointerUp : function(e)
-    {
-      // Fire drop event in success case
-      if (this.__validDrop && this.__validAction) {
-        this.__fireEvent("drop", this.__dropTarget, this.__dragTarget, false, e);
-      }
-
-      // Stop event
-      if (this.__sessionActive && e.getTarget() == this.__dragTarget) {
-        e.stopPropagation();
-      }
-
-      // Clean up
-      this.clearSession();
-    },
-
-
-    /**
-     * Event listener for root's <code>pointermove</code> event
-     *
-     * @param e {qx.event.type.Pointer} Event object
-     */
-    _onPointerMove : function(e)
-    {
-      // Whether the session is already active
-      if (this.__sessionActive)
-      {
-        // Fire specialized move event
-        if (!this.__fireEvent("drag", this.__dragTarget, this.__dropTarget, true, e)) {
-          this.clearSession();
-        }
-      }
-      else
-      {
-        if (Math.abs(e.getDocumentLeft()-this.__startLeft) > 3 || Math.abs(e.getDocumentTop()-this.__startTop) > 3)
-        {
-          if (this.__fireEvent("dragstart", this.__dragTarget, this.__dropTarget, true, e))
-          {
-            // Flag session as active
-            this.__sessionActive = true;
-
-            // Register to root events
-            this.__manager.addListener(this.__root, "pointerover", this._onPointerOver, this, true);
-            this.__manager.addListener(this.__root, "pointerout", this._onPointerOut, this, true);
-            this.__manager.addListener(this.__root, "keydown", this._onKeyDown, this, true);
-            this.__manager.addListener(this.__root, "keyup", this._onKeyUp, this, true);
-            this.__manager.addListener(this.__root, "keypress", this._onKeyPress, this, true);
-
-            // Reevaluate current action
-            var keys = this.__keys;
-            keys.Control = e.isCtrlPressed();
-            keys.Shift = e.isShiftPressed();
-            keys.Alt = e.isAltPressed();
-            this.__detectAction();
-          }
-          else
-          {
-            // Fire dragend event
-            this.__fireEvent("dragend", this.__dragTarget, this.__dropTarget, false);
-
-            // Clean up
-            this.__clearInit();
-          }
-        }
-      }
-    },
-
-
-    /**
-     * Event listener for root's <code>pointerover</code> event
-     *
-     * @param e {qx.event.type.Pointer} Event object
-     */
-    _onPointerOver : function(e)
-    {
-      var target = e.getTarget();
-      var cursor = qx.ui.core.DragDropCursor.getInstance();
-      var cursorEl = cursor.getContentElement().getDomElement();
-      // don't fire dragover on the cursor
-      if (target === cursorEl) {
-        return;
-      }
-
-      var dropable = this.__findDroppable(target);
-
-      if (dropable && dropable != this.__dropTarget)
-      {
-        this.__validDrop = this.__fireEvent("dragover", dropable, this.__dragTarget, true, e);
-        this.__dropTarget = dropable;
-
-        this.__detectAction();
-      }
-    },
-
-
-    /**
-     * Event listener for root's <code>pointerout</code> event
-     *
-     * @param e {qx.event.type.Pointer} Event object
-     */
-    _onPointerOut : function(e)
-    {
-      var cursor = qx.ui.core.DragDropCursor.getInstance();
-      var cursorEl = cursor.getContentElement().getDomElement();
-      // prevent dragleave if the target is the cursor
-      if (e.getTarget() === cursorEl) {
-        return;
-      }
-      // also prevent dragleave if the the pointer moves out of the widget to the cursor
-      if (e.getRelatedTarget() === cursorEl) {
-        return;
-      }
-
-      var dropable = this.__findDroppable(e.getTarget());
-      var newDropable = this.__findDroppable(e.getRelatedTarget());
-
-      if (dropable && dropable !== newDropable && dropable == this.__dropTarget)
-      {
-        this.__fireEvent("dragleave", this.__dropTarget, newDropable, false, e);
-        this.__dropTarget = null;
-        this.__validDrop = false;
-
-        qx.event.Timer.once(this.__detectAction, this, 0);
       }
     }
   },

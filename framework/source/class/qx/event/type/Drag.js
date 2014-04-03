@@ -46,7 +46,7 @@ qx.Class.define("qx.event.type.Drag",
      *     right click) or the default action of a qooxdoo class (e.g. close
      *     the window widget). The default action can be prevented by calling
      *     {@link qx.event.type.Event#preventDefault}
-     * @param originalEvent {qx.event.type.Mouse} The original (mouse) event to use
+     * @param originalEvent {qx.event.type.Track} The original (mouse) event to use
      * @return {qx.event.type.Event} The initialized event instance
      */
     init : function(cancelable, originalEvent)
@@ -56,7 +56,7 @@ qx.Class.define("qx.event.type.Drag",
       if (originalEvent)
       {
         this._native = originalEvent.getNativeEvent() || null;
-        this._originalTarget = originalEvent.getTarget() || null;
+        this._originalTarget = originalEvent.getOriginalTarget() || null;
       }
       else
       {
@@ -231,6 +231,15 @@ qx.Class.define("qx.event.type.Drag",
      */
     getCurrentAction : function() {
       return this.getManager().getCurrentAction();
+    },
+
+
+    /**
+     * Returns the target which has been initially tapped on.
+     * @return {qx.ui.core.Widget} The tapped widget.
+     */
+    getDragTarget : function() {
+      return this.getManager().getDragTarget();
     },
 
 
