@@ -118,6 +118,22 @@ qx.Class.define("qx.event.type.Pointer",
     },
 
 
+    // overridden
+    getOriginalTarget : function() {
+      if (this._native && this._native._original) {
+        var orig = this._native._original;
+        // touch events have a wrong target compared to mouse events
+        if (orig.type.indexOf("touch") == 0) {
+          if (orig.changedTouches[0]) {
+            return document.elementFromPoint(orig.changedTouches[0].clientX, orig.changedTouches[0].clientY);
+          }
+        }
+        return qx.bom.Event.getTarget(orig);
+      }
+      return this.base(arguments);
+    },
+
+
     /**
      * Returns the device type which the event triggered. This can be one
      * of the following strings: <code>mouse</code>, <code>pen</code>

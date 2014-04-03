@@ -151,7 +151,6 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      */
     _onTouchEvent: function(domEvent) {
       var type = qx.event.handler.PointerCore.TOUCH_TO_POINTER_MAPPING[domEvent.type];
-      var target = qx.bom.Event.getTarget(domEvent);
       var changedTouches = domEvent.changedTouches;
       domEvent.stopPropagation();
 
@@ -170,7 +169,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           identifier: touch.identifier,
           screenX: touch.screenX,
           screenY: touch.screenY,
-          target: touch.target,
+          target: document.elementFromPoint(touch.clientX, touch.clientY),
           pointerType: "touch",
           pointerId: touch.identifier + 2
         };
@@ -178,11 +177,10 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         if (domEvent.type == "touchstart") {
           // Fire pointerenter before pointerdown
           var overEvt = new qx.event.type.dom.Pointer("pointerover", domEvent, touchProps);
-          this._fireEvent(overEvt, "pointerover", target);
+          this._fireEvent(overEvt, "pointerover", touchProps.target);
         }
 
         var evt = new qx.event.type.dom.Pointer(type, domEvent, touchProps);
-
         if (touch.identifier == this.__primaryIdentifier) {
           evt.isPrimary = true;
           // always simulate left click on touch interactions for primary pointer
@@ -195,12 +193,12 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           };
         }
 
-        this._fireEvent(evt, type, target);
+        this._fireEvent(evt, type, touchProps.target);
 
         if (domEvent.type == "touchend" || domEvent.type == "touchcancel") {
           // Fire pointerout after pointerup
           var outEvt = new qx.event.type.dom.Pointer("pointerout", domEvent, touchProps);
-          this._fireEvent(outEvt, "pointerout", target);
+          this._fireEvent(outEvt, "pointerout", touchProps.target);
 
           if (this.__primaryIdentifier == touch.identifier) {
             this.__primaryIdentifier = null;
