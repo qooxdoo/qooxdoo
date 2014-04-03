@@ -242,6 +242,10 @@ qx.Class.define("qx.event.handler.DragDrop",
     },
 
 
+    /**
+     * Returns the widget which has been the target of the drag start.
+     * @return {qx.ui.core.Widget} The widget on which the drag started.
+     */
     getDragTarget : function() {
       return this.__dragTargetWidget;
     },
@@ -463,6 +467,11 @@ qx.Class.define("qx.event.handler.DragDrop",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Handler for long tap which takes care of starting the drag & drop session for
+     * touch interactions.
+     * @param e {qx.event.type.Tap} The longtap event.
+     */
     _onLongtap : function(e) {
       // only for touch
       if (e.getPointerType() != "touch") {
@@ -474,6 +483,11 @@ qx.Class.define("qx.event.handler.DragDrop",
     },
 
 
+    /**
+     * Helper to start the drag & drop session. It is responsible for firing the
+     * dragstart event and attaching the key listener.
+     * @param e {qx.event.type.Pointer} Either a longtap or pointermove event.
+     */
     _start : function(e) {
       // only for primary pointer and allowed buttons
       var isButtonOk = qx.event.handler.DragDrop.ALLOWED_BUTTONS.indexOf(e.getButton()) !== -1;
@@ -509,6 +523,11 @@ qx.Class.define("qx.event.handler.DragDrop",
     },
 
 
+    /**
+     * Event handler for the track event which starts the session for mouse interactions and
+     * is responsible for firing the drag, dragover and dragleave event.
+     * @param e {qx.event.type.Track} The track event.
+     */
     _onTrack : function(e) {
       // only allow drag & drop for primary pointer
       if (!e.isPrimary()) {
@@ -560,6 +579,10 @@ qx.Class.define("qx.event.handler.DragDrop",
     },
 
 
+    /**
+     * Handler for the trackend event which is responsible fore firing the drop event.
+     * @param e {qx.event.type.Track} The trackend event
+     */
     _onTrackEnd : function(e) {
       if (!e.isPrimary()) {
         return;

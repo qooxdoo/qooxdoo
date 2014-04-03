@@ -180,7 +180,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     /**
      * Set the column types for the table widgets in the collection
      * @param columnName {String} The column name
-     * @param type {Sring} The type of the column
+     * @param type {String} The type of the column
      * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
      */
     setColumnType: function(columnName, type) {
@@ -248,7 +248,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     /**
      * Returns the comparison function for the given type
      * @param type {String} The type to get the comparison function for
-     * @return {Funtion} The comparison function
+     * @return {Function} The comparison function
      */
     getCompareFunction: function(type) {
       type = qxWeb.string.firstUp(type);
