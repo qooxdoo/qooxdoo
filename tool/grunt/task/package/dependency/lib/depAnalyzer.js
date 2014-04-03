@@ -416,8 +416,9 @@ function getResourcesFromTagDesc(tag) {
   return resource;
 }
 
-function applyIgnoreRequireAndUse(deps, atHints, className) {
+function applyIgnoreRequireAndUse(deps, className) {
   var toBeFiltered = [];
+  var atHints = deps.athint;
   var collectIgnoredDeps = function(dep) {
     atHints.ignore.forEach(function(ignore) {
       if (toBeFiltered.indexOf(ignore) === -1) {
@@ -603,7 +604,7 @@ function findUnresolvedDeps(tree, opts) {
   deps.run = unify(deps.run, tree.qxClassName);
 
   // add/remove deps according to atHints
-  deps = applyIgnoreRequireAndUse(deps, atHints, tree.qxClassName);
+  deps = applyIgnoreRequireAndUse(deps, tree.qxClassName);
 
   // overlappings aren't important - remove them
   // i.e. if it's already in load remove from run
