@@ -42,14 +42,14 @@ var minimatch = require("minimatch");
 var _ = require('underscore');
 
 // not pretty (require internals of jshint) but works
-var js_builtins = require('../node_modules/jshint/src/vars');
+var js_builtins = require('jshint/src/vars');
 
-// local
-var parentAnnotator = require('./annotator/parent');
-var classNameAnnotator = require('./annotator/className');
-var loadTimeAnnotator = require('./annotator/loadTime');
-var qxCoreEnv = require('./qxCoreEnv');
-var util = require('./util');
+// local (modules may be injected by test env)
+var parentAnnotator = (parentAnnotator || require('./annotator/parent'));
+var classNameAnnotator = (classNameAnnotator || require('./annotator/className'));
+var loadTimeAnnotator = (loadTimeAnnotator || require('./annotator/loadTime'));
+var qxCoreEnv = (qxCoreEnv || require('./qxCoreEnv'));
+var util = (util || require('./util'));
 
 //------------------------------------------------------------------------------
 // Privates
