@@ -1566,14 +1566,16 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       var pageX = e.getDocumentLeft();
       var pageY = e.getDocumentTop();
+      var col = this._getColumnForPageX(pageX);
 
+      if (col !== null) {
+        this._focusCellAtPagePos(pageX, pageY);
+        this.startEditing();
 
-      this._focusCellAtPagePos(pageX, pageY);
-      this.startEditing();
-
-      var row = this._getRowForPagePos(pageX, pageY);
-      if (row != -1 && row != null) {
-        this.fireEvent("cellDblclick", qx.ui.table.pane.CellEvent, [this, e, row], true);
+        var row = this._getRowForPagePos(pageX, pageY);
+        if (row != -1 && row != null) {
+          this.fireEvent("cellDblclick", qx.ui.table.pane.CellEvent, [this, e, row], true);
+        }
       }
     },
 
