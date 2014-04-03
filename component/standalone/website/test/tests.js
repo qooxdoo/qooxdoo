@@ -3833,7 +3833,7 @@ testrunner.define({
       this.resume(function() {
         this.assertEquals(3, callInfo.length);
       });
-    }).bind(this), 1800);
+    }).bind(this), 1300);
 
     this.wait(2000);
   },
@@ -3859,7 +3859,7 @@ testrunner.define({
       this.resume(function() {
         this.assertEquals(2, callInfo.length);
       });
-    }).bind(this), 1800);
+    }).bind(this), 1300);
 
     this.wait(2000);
   },
