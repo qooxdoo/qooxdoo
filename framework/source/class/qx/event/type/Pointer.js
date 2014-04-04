@@ -49,6 +49,7 @@ qx.Class.define("qx.event.type.Pointer",
       clone.tiltY = nativeEvent.tiltY;
       clone.pointerType = nativeEvent.pointerType;
       clone.isPrimary = nativeEvent.isPrimary;
+      clone._original = nativeEvent._original;
 
       return clone;
     },
