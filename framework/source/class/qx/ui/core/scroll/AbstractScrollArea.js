@@ -77,7 +77,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
     }
 
     // Roll listener for scrolling
-    this.addListener("roll", this._onRoll, this);
+    this._addRollHandling();
   },
 
 

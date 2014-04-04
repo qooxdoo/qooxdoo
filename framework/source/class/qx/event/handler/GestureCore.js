@@ -74,6 +74,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     __isMultiPointerGesture : null,
     __initialAngle : null,
     __lastTap : null,
+    __rollImpulseId : null,
+    __stopMomentum : false,
 
     /**
      * Register pointer event listeners
@@ -325,6 +327,16 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
 
     /**
+     * Stops the momentum scrolling currently running.
+     */
+    stopMomentum : function() {
+      if (this.__rollImpulseId) {
+        this.__stopMomentum = true;
+      }
+    },
+
+
+    /**
      * Method which will be called recursively to provide a momentum scrolling.
      * @param deltaX {Number} The last offset in X direction
      * @param deltaY {Number} The last offset in Y direction
@@ -333,11 +345,10 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param time {Number ?} The time in ms between the last two calls
      */
     __handleRollImpulse : function(deltaX, deltaY, domEvent, target, time) {
-      // delete the old timer id
-      this.__impulseRequestId = null;
-
       // do nothing if we don't need to scroll
-      if (deltaX == 0 && deltaY == 0) {
+      if ((deltaX == 0 && deltaY == 0) || this.__stopMomentum) {
+        this.__stopMomentum = false;
+        this.__rollImpulseId = null;
         return;
       }
 
@@ -359,9 +370,13 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
       // set up a new timer with the new delta
       var start = +(new Date());
-      this.__impulseRequestId = qx.bom.AnimationFrame.request(qx.lang.Function.bind(function(deltaX, deltaY, domEvent, target, time) {
-        this.__handleRollImpulse(deltaX, deltaY, domEvent, target, time - start);
-      }, this, deltaX, deltaY, domEvent, target));
+      this.__rollImpulseId = qx.bom.AnimationFrame.request(
+        qx.lang.Function.bind(
+          function(deltaX, deltaY, domEvent, target, time) {
+            this.__handleRollImpulse(deltaX, deltaY, domEvent, target, time - start);
+          },
+        this, deltaX, deltaY, domEvent, target)
+      );
 
       // scroll the desired new delta
       domEvent.delta = {

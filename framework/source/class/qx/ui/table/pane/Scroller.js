@@ -886,6 +886,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       // pass the event to the parent if the scrollbar is at an edge
       if (scrolled) {
         e.stop();
+      } else {
+        e.stopMomentum();
       }
     },
 

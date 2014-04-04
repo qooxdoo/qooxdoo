@@ -233,6 +233,7 @@ qx.Class.define("qx.ui.embed.ThemedIframe",
       {
         var body = this._getIframeElement().getBody();
         qx.bom.Element.addListener(body, "roll", this._onRoll, this);
+        qx.bom.Element.addListener(body, "pointerdown", this._onPointerDownForRoll, this);
       } catch (e) {
         this._disableScollbars();
       }

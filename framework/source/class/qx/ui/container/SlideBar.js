@@ -347,6 +347,8 @@ qx.Class.define("qx.ui.container.SlideBar",
           delta == 0)
         ) {
           e.stop();
+        } else {
+          e.stopMomentum();
         }
       } else {
         delta = e.getDelta().y;
@@ -362,6 +364,8 @@ qx.Class.define("qx.ui.container.SlideBar",
           delta == 0
         )) {
           e.stop();
+        } else {
+          e.stopMomentum();
         }
       }
       this.scrollBy(parseInt(delta, 10));

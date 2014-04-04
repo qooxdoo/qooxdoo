@@ -57,6 +57,16 @@ qx.Class.define("qx.event.type.Roll",
 
 
       /**
+       * Stops the momentum events.
+       */
+      stopMomentum : function() {
+        qx.event.Registration.getManager(this.getTarget())
+          .getHandler(qx.event.handler.Gesture)
+          .stopMomentum();
+      },
+
+
+      /**
        * Returns a map with the calculated delta coordinates and axis,
        * relative to the last <code>roll</code> event.
        *

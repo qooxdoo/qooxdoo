@@ -29,6 +29,34 @@ qx.Mixin.define("qx.ui.core.scroll.MRoll",
   members :
   {
     /**
+     * Responsible for adding the event listener needed for scroll handling.
+     */
+    _addRollHandling : function() {
+      this.addListener("roll", this._onRoll, this);
+      this.addListener("pointerdown", this._onPointerDownForRoll, this);
+    },
+
+
+    /**
+     * Responsible for removing the event listener needed for scroll handling.
+     */
+    _removeRollHandling : function() {
+      this.removeListener("roll", this._onRoll, this);
+      this.removeListener("pointerdown", this._onPointerDownForRoll, this);
+    },
+
+
+    /**
+     * Handler for the pointerdown event which simply stops the momentum scrolling.
+     */
+    _onPointerDownForRoll : function() {
+      qx.event.Registration.getManager(this)
+        .getHandler(qx.event.handler.Gesture)
+        .stopMomentum();
+    },
+
+
+    /**
      * Roll event handler
      *
      * @param e {qx.event.type.Roll} Roll event
@@ -81,9 +109,8 @@ qx.Mixin.define("qx.ui.core.scroll.MRoll",
         }
       }
 
-      // block all momentum scrolling
-      if (e.getMomentum()) {
-        e.stop();
+      if (endX && endY) {
+        e.stopMomentum();
       }
 
       // pass the event to the parent if both scrollbars are at the end
