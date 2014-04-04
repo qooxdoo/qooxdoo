@@ -92,20 +92,34 @@ module.exports = {
      * @see {@link https://github.com/caolan/nodeunit#sandbox-utility}
      */
     setUp: function (done) {
-      var sandbox = require('nodeunit').utils.sandbox;
-      var boxGlobals = {
-        // inject commen globals
-        module: {exports: exports},
-        require: require,
-        console: console,
-        // inject all local modules cause rel paths in depAnalyzer.js won't fit
-        parentAnnotator: require('../lib/annotator/parent'),
-        classNameAnnotator: require('../lib/annotator/className'),
-        loadTimeAnnotator: require('../lib/annotator/loadTime'),
-        qxCoreEnv: require('../lib/qxCoreEnv'),
-        util: require('../lib/util')
+      this.createStubbedSandbox = function(stubbedMethodsMap) {
+        var funcName = "";
+        // sandbox depAnalyzer to be able to call non-exported functions
+        var sandbox = require('nodeunit').utils.sandbox;
+        var boxGlobals = {
+          // inject commen globals
+          module: {exports: exports},
+          require: require,
+          console: console,
+          // inject all local modules cause rel paths in depAnalyzer.js won't fit
+          parentAnnotator: require('../lib/annotator/parent'),
+          classNameAnnotator: require('../lib/annotator/className'),
+          loadTimeAnnotator: require('../lib/annotator/loadTime'),
+          qxCoreEnv: require('../lib/qxCoreEnv'),
+          util: require('../lib/util')
+        };
+
+        // merge stubbedMethodsMap
+        if (stubbedMethodsMap) {
+          for (funcName in stubbedMethodsMap) {
+            boxGlobals[funcName] = stubbedMethodsMap[funcName];
+          }
+        }
+
+        return sandbox('lib/depAnalyzer.js', boxGlobals);
       };
-      this.depAnalyzer = sandbox('lib/depAnalyzer.js', boxGlobals);
+      // default depAnalyzer sanbox (may be overridden in test)
+      this.depAnalyzer = this.createStubbedSandbox();
 
       done();
     },
@@ -286,7 +300,26 @@ module.exports = {
     },
 
     unify: function (test) {
-      // TODO
+      var className = 'qx.Foo';
+      var deps = [
+        // good ones
+        'qx.Class',
+        'qx.core.Environment',
+        'qx.core.Object',
+        // filter qx
+        'qx',
+        // uniq
+        'qx.Class',
+        // filter self ref & constants
+        'qx.Foo',
+        'qx.Foo.MAX'
+      ];
+
+      var actual = this.depAnalyzer.unify(deps, className);
+      var expected = ['qx.Class', 'qx.core.Environment', 'qx.core.Object'];
+
+      test.deepEqual(actual, expected);
+
       test.done();
     },
 
@@ -501,13 +534,48 @@ module.exports = {
     },
 
     collectAtHintsFromComments: function (test) {
-      // TODO
+      var jsCode = "\n"+
+        "/**\n"+
+        " * This class is one of the most important parts of qooxdoo's\n"+
+        " * object-oriented features.\n"+
+        " *\n"+
+        " * @require(qx.Interface)\n"+
+        " * @cldr\n"+
+        " */\n"+
+        "qx.Bootstrap.define('qx.Class',{});\n"+
+        "\n"+
+        "/**\n"+
+        " * @use(qx.Mixin)\n"+
+        " * @asset(foo/*)\n"+
+        " * @ignore(qx.log.Logger)\n"+
+        " */\n"+
+        "(function(){})()\n";
+
+      var esprima = require('esprima');
+      var tree = esprima.parse(jsCode, {comment: true, loc: true});
+
+      var actual = this.depAnalyzer.collectAtHintsFromComments(tree);
+      var expected = {
+        ignore: ['qx.log.Logger'],
+        require: ['qx.Interface'],
+        use: ['qx.Mixin'],
+        asset: ['foo/*'],
+        cldr: true
+      };
+
+      test.deepEqual(actual, expected);
+
       test.done();
     }
   },
 
   // test exported functions
   external: {
+    setUp: function(done) {
+      this.depAnalyzer = require('../lib/depAnalyzer.js');
+      done();
+    },
+
     findUnresolvedDeps: function (test) {
       // TODO
       test.done();
@@ -519,7 +587,87 @@ module.exports = {
     },
 
     createAtHintsIndex: function (test) {
-      // TODO
+      var deps = {
+        'qx.Foo': {
+          'athint': {
+            'ignore': [],
+            'require': [
+              'qx.lang.normalize.Array',
+              'qx.lang.normalize.Date',
+              'qx.lang.normalize.Error'
+            ],
+            'use': [],
+            'asset': [
+              'myapp/*'
+            ],
+            'cldr': false
+          }
+        },
+        'qx.Bar': {
+          'athint': {
+            'ignore': [
+              'qx.Interface',
+            ],
+            'require': [
+              'qx.Mixin',
+              'qx.lang.normalize.Function',
+              'qx.lang.normalize.Object'
+            ],
+            'use': [
+              'qx.lang.normalize.String'
+            ],
+            'asset': [],
+            'cldr': false
+          }
+        },
+        'qx.Fugu': {
+          'athint': {
+            'ignore': [
+              'qx.data',
+              'qx.data.IListData',
+              'qx.util.OOUtil'
+            ],
+            'require': [],
+            'use': [],
+            'asset': [],
+            'cldr': true
+          }
+        }
+      };
+
+      var expected = {
+        ignore: {
+          'qx.Bar': ['qx.Interface'],
+          'qx.Fugu': ['qx.data', 'qx.data.IListData', 'qx.util.OOUtil'] },
+        require: {
+          'qx.Foo': [
+            'qx.lang.normalize.Array',
+            'qx.lang.normalize.Date',
+            'qx.lang.normalize.Error'
+          ],
+          'qx.Bar': [
+            'qx.Mixin',
+            'qx.lang.normalize.Function',
+            'qx.lang.normalize.Object'
+          ]
+        },
+        use: {'qx.Bar': ['qx.lang.normalize.String']},
+        asset: {'qx.Foo': ['myapp/*']},
+        cldr: ['qx.Fugu']
+      };
+      var actual = this.depAnalyzer.createAtHintsIndex(deps);
+      test.deepEqual(actual, expected);
+
+      var optsOnlyCldr = {
+        ignore: false,
+        require: false,
+        use: false,
+        asset: false
+      };
+      actual = this.depAnalyzer.createAtHintsIndex(deps, optsOnlyCldr);
+      expected = {cldr: ['qx.Fugu']};
+      test.deepEqual(actual, expected);
+
       test.done();
     },
 
@@ -534,7 +682,33 @@ module.exports = {
     },
 
     translateClassIdsToPaths: function (test) {
-      // TODO
+      var classListLong = [
+        'qx:qx.log.appender.Console',
+        'qx:qx.ui.core.MExecutable',
+        'qx:qx.ui.form.Button'
+      ];
+      var classListSmall = [
+        'qx.log.appender.Console',
+        'qx.ui.core.MExecutable',
+        'qx.ui.form.Button'
+      ];
+
+      var actualLong = this.depAnalyzer.translateClassIdsToPaths(classListLong);
+      var expectedClassListLong = [
+        'qx:qx/log/appender/Console.js',
+        'qx:qx/ui/core/MExecutable.js',
+        'qx:qx/ui/form/Button.js'
+      ];
+      test.deepEqual(actualLong, expectedClassListLong);
+
+      var actualSmall = this.depAnalyzer.translateClassIdsToPaths(classListSmall);
+      var expectedClassListSmall = [
+        'qx/log/appender/Console.js',
+        'qx/ui/core/MExecutable.js',
+        'qx/ui/form/Button.js'
+      ];
+      test.deepEqual(actualSmall, expectedClassListSmall);
+
       test.done();
     }
   }
