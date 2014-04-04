@@ -194,11 +194,13 @@ function analyze_as_map(etree, optObj) {
 // Privates
 //------------------------------------------------------------------------------
 
-function isVar(node) {
-  return ["Identifier", "MemberExpression"].indexOf(node.type) !== -1;
-}
+// privates may be injected by test env
 
-function findVarRoot(varNode) {
+var isVar = isVar || function (node) {
+  return ["Identifier", "MemberExpression"].indexOf(node.type) !== -1;
+};
+
+var findVarRoot = findVarRoot || function (varNode) {
   if (!isVar(varNode)) {
     return undefined;
   } else {
@@ -209,7 +211,7 @@ function findVarRoot(varNode) {
     }
     return varNode;
   }
-}
+};
 
 /**
  * Takes a variable AST node and returns the longest
@@ -236,7 +238,7 @@ function findVarRoot(varNode) {
  *
  * @returns {String}
  */
-function assemble(varNode, withMethodName) {
+var assemble = assemble || function (varNode, withMethodName) {
   var varRoot = findVarRoot(varNode);
   var assembled = escodegen.generate(varRoot);
   withMethodName = withMethodName || false;
@@ -280,9 +282,9 @@ function assemble(varNode, withMethodName) {
   }
 
   return assembled;
-}
+};
 
-function dependenciesFromAst(scope) {
+var dependenciesFromAst = dependenciesFromAst || function (scope) {
   var dependencies = [];
 
   scope.through.forEach( function (ref) {
@@ -292,12 +294,12 @@ function dependenciesFromAst(scope) {
   });
 
   return dependencies;
-}
+};
 
 /**
  * Identify builtins and reserved words.
  */
-function not_builtin(ref) {
+var not_builtin = not_builtin || function (ref) {
   var ident = ref.identifier;
   if (ident.type !== "Identifier") {
     return true;
@@ -320,13 +322,13 @@ function not_builtin(ref) {
       return false;
   }
   return true;
-}
+};
 
 /**
  *  Identify "qx.$$foo", "qx.foo.$$bar" and "qx.foo.Bar.$$method" dependencies
  *  (e.g. qx.$$libraries, qx.$$resources ...).
  */
-function not_qxinternal(ref) {
+var not_qxinternal = not_qxinternal || function (ref) {
   var propertyPath;
   var ident = ref.identifier;
 
@@ -363,16 +365,16 @@ function not_qxinternal(ref) {
   }
 
   return true;
-}
+};
 
-function not_runtime(ref) {
+var not_runtime = not_runtime || function (ref) {
   return !!(ref && ref.from && ref.from.isLoadTime);
-}
+};
 
 /**
  * Unify and sanitize (only strings, uniq, sort and no self reference) dependencies.
  */
-function unify(deps, className) {
+var unify = unify || function (deps, className) {
   // flatten (ref2string)
   var shallowDeps = deps.map(function (dep) {
     if (_.isString(dep)) {
@@ -395,10 +397,10 @@ function unify(deps, className) {
   return _.filter(shallowDeps, function(dep) {
     return (dep !== className && dep.indexOf(className+".") === -1);
   });
-}
+};
 
-function getClassesFromTagDesc(tag) {
-  var classes = [];
+var getClassesFromTagDesc = getClassesFromTagDesc || function (tag) {
+  var classes = [8];
   var match = /\(([^, ]+(, ?)?)+\)/.exec(tag);
   if (match !== null) {
     classes = match[0].slice(1, -1).split(",").map(function (clazz) {
@@ -406,17 +408,17 @@ function getClassesFromTagDesc(tag) {
     });
   }
   return classes;
-}
+};
 
-function getResourcesFromTagDesc(tag) {
+var getResourcesFromTagDesc = getResourcesFromTagDesc || function (tag) {
   var resource = "";
   if (/\([^)]+\)/.test(tag)) {
     resource = tag.slice(1, -1);
   }
   return resource;
-}
+};
 
-function applyIgnoreRequireAndUse(deps, className) {
+var applyIgnoreRequireAndUse = applyIgnoreRequireAndUse || function (deps, className) {
   var toBeFiltered = [];
   var atHints = deps.athint;
   var collectIgnoredDeps = function(dep) {
@@ -491,10 +493,10 @@ function applyIgnoreRequireAndUse(deps, className) {
   }
 
   return deps;
-}
+};
 
 
-function collectAtHintsFromComments(tree) {
+var collectAtHintsFromComments = collectAtHintsFromComments || function (tree) {
   var topLevelCodeUnitLines = [];
   var atHints = {
     'ignore': [],
@@ -511,9 +513,9 @@ function collectAtHintsFromComments(tree) {
   };
 
   // collect only file and class scope which means only top level
-  // @ignore/@require/@use/@asset/@cldr are consider here for now. This may be
-  // important later cause @ignore can be used within methods (which is
-  // neglected here) also!
+  // @ignore/@require/@use/@asset/@cldr are consider here for now.
+  // This may be important later cause @ignore can be used within methods
+  // (which is neglected here) also!
   tree.body.forEach(function (codeUnit) {
     topLevelCodeUnitLines.push(codeUnit.loc.start.line);
   });
@@ -545,7 +547,7 @@ function collectAtHintsFromComments(tree) {
   });
 
   return atHints;
-}
+};
 
 //------------------------------------------------------------------------------
 // Public Interface
