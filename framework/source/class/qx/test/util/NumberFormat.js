@@ -73,9 +73,16 @@ qx.Class.define("qx.test.util.NumberFormat",
 
       var goodNumbers = {
         "1000" : 1000,
+        "-0,02" : -0.02,
+        "0,02" : 0.02,
+        ",02" : 0.02,
+        "-,02" : -0.02,
+        "+,02" : 0.02,
+        "-1.111.111,2" : -1111111.2,
         "-1.000.000" : -1000000,
         "+1.000,12" : 1000.12
-      }
+      };
+
       for (var number in goodNumbers) {
         this.assertEquals(nf.parse(number), goodNumbers[number]);
       }
