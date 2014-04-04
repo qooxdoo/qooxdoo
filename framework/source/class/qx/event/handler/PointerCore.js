@@ -62,7 +62,16 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
     SIM_MOUSE_DISTANCE : 25,
 
-    SIM_MOUSE_DELAY : 1000
+    SIM_MOUSE_DELAY : 1000,
+
+    /**
+     * Coordinates of the last touch. This needs to be static because the target could
+     * change between touch and simulated mouse events. Touch events will be detected
+     * by one instance which moves the target. The simulated mouse events will be fired with
+     * a delay which causes another target and with that, another instance of this handler.
+     * last touch was.
+     */
+    __lastTouch : null,
   },
 
   /**
@@ -109,7 +118,6 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     __lastButtonState : 0,
     __buttonStates : null,
     __primaryIdentifier : null,
-    __lastTouch : null,
 
     /**
      * Adds listeners to native pointer events if supported
@@ -186,7 +194,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           // always simulate left click on touch interactions for primary pointer
           evt.button = 0;
           evt.buttons = 1;
-          this.__lastTouch = {
+          qx.event.handler.PointerCore.__lastTouch = {
             "x": touch.clientX,
             "y": touch.clientY,
             "time": new Date().getTime()
@@ -271,12 +279,12 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      * @return {Boolean} <code>true</code> if passed mouse position is a synthetic MouseEvent.
      */
     _isSimulatedMouseEvent: function(x, y) {
-      var touch = this.__lastTouch;
+      var touch = qx.event.handler.PointerCore.__lastTouch;
       if (touch) {
         var timeSinceTouch = new Date().getTime() - touch.time;
         var dist = qx.event.handler.PointerCore.SIM_MOUSE_DISTANCE;
-        var distX = Math.abs(x - this.__lastTouch.x);
-        var distY = Math.abs(y - this.__lastTouch.y);
+        var distX = Math.abs(x - qx.event.handler.PointerCore.__lastTouch.x);
+        var distY = Math.abs(y - qx.event.handler.PointerCore.__lastTouch.y);
         if (timeSinceTouch < qx.event.handler.PointerCore.SIM_MOUSE_DELAY) {
           if (Math.abs(Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2))) < dist) {
             return true;
@@ -349,7 +357,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      */
     dispose : function() {
       this._stopObserver();
-      this.__defaultTarget = this.__emitter = this.__lastTouch = null;
+      this.__defaultTarget = this.__emitter = null;
     }
   }
 });
