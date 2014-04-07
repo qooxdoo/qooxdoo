@@ -283,11 +283,12 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       );
 
       if (target !== gesture.target) {
-        this.__onTrack = false;
         this.__fireTrack("trackend", domEvent, target);
         delete this.__gesture[domEvent.pointerId];
         return;
       }
+
+      this.__fireTrack("trackend", domEvent, target);
 
       if (gesture.isTap) {
         this._fireEvent(domEvent, "tap", domEvent.target || target);
@@ -319,9 +320,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         }
       }
 
-      this.__onTrack = false;
-      this.__fireTrack("trackend", domEvent, target);
-
       delete this.__gesture[domEvent.pointerId];
     },
 
@@ -346,37 +344,34 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      */
     __handleRollImpulse : function(deltaX, deltaY, domEvent, target, time) {
       // do nothing if we don't need to scroll
-      if ((deltaX == 0 && deltaY == 0) || this.__stopMomentum) {
+      if ((Math.abs(deltaY) < 0.1 && Math.abs(deltaX) < 0.1) || this.__stopMomentum) {
         this.__stopMomentum = false;
         this.__rollImpulseId = null;
         return;
       }
 
-      var change = parseInt((time || 20) / 10);
-
-      // linear momentum calculation for X
-      if (deltaX > 0) {
-        deltaX = Math.max(0, deltaX - change);
-      } else {
-        deltaX = Math.min(0, deltaX + change);
+      if (!time) {
+        time = 1;
+        var startFactor = 2.8;
+        deltaY = deltaY / startFactor;
+        deltaX = deltaX / startFactor;
       }
+      time += 0.0006;
 
-      // linear momentum calculation for Y
-      if (deltaY > 0) {
-        deltaY = Math.max(0, deltaY - change);
-      } else {
-        deltaY = Math.min(0, deltaY + change);
-      }
+      deltaY = deltaY / time;
+      deltaX = deltaX / time;
 
       // set up a new timer with the new delta
-      var start = +(new Date());
       this.__rollImpulseId = qx.bom.AnimationFrame.request(
         qx.lang.Function.bind(
           function(deltaX, deltaY, domEvent, target, time) {
-            this.__handleRollImpulse(deltaX, deltaY, domEvent, target, time - start);
+            this.__handleRollImpulse(deltaX, deltaY, domEvent, target, time);
           },
-        this, deltaX, deltaY, domEvent, target)
+          this, deltaX, deltaY, domEvent, target, time)
       );
+
+      deltaX = Math.round(deltaX * 100) / 100;
+      deltaY = Math.round(deltaY * 100) / 100;
 
       // scroll the desired new delta
       domEvent.delta = {
