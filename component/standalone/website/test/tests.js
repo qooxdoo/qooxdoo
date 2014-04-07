@@ -2419,6 +2419,25 @@ testrunner.define({
     this.assertNull(test[0].$$pointerHandler);
   }
 });
+
+
+testrunner.define({
+  classname : "event.GestureHandler",
+
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+
+  testRegister : function()
+  {
+    var cb = function() {};
+    var test = q.create('<div></div>').appendTo(this.sandbox[0])
+    .on("tap", cb)
+    .on("swipe");
+    this.assertEquals("qx.event.handler.GestureCore", test[0].$$gestureHandler.classname);
+    test.off("tap", cb);
+    this.assertNotNull(test[0].$$gestureHandler);
+    test.off("swipe", cb);
+    this.assertNull(test[0].$$gestureHandler);
   }
 });
 
