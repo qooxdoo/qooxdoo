@@ -21,7 +21,9 @@ var _ = require('underscore');
 
 function pipeline(seed /*,funcs*/) {
   var funcs = _.toArray(arguments).slice(1);
-  return _.reduce(funcs, function(accu,func){return func(accu);}, seed);
+  return _.reduce(funcs, function (accu,func) {
+      return func(accu);
+    }, seed);
 }
 
 /**
@@ -104,18 +106,17 @@ function filePathFrom(className, basePath, withoutExt) {
 
 /** Safe access to deep object members */
 function get(obj, propertyPath) {
-  var o = obj;
   propertyPath.split('.').every(function(attr) {
-    if (attr in o) {
-      o = o[attr];
+    if (attr in obj) {
+      obj = obj[attr];
       return true;
     } else {
-      o = undefined;
+      obj = undefined;
       // break iteration
       return false;
     }
   });
-  return o;
+  return obj;
 }
 
 module.exports = {
