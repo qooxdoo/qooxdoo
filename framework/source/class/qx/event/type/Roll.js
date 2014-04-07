@@ -19,8 +19,7 @@
 
 
 /**
- * The roll event is a combination of mousewheel and touch scrolling.
- * It also supports momentum scrolling which can be stopped.
+ * Roll event object.
  */
 qx.Class.define("qx.event.type.Roll",
 {
@@ -61,14 +60,7 @@ qx.Class.define("qx.event.type.Roll",
        * Stops the momentum events.
        */
       stopMomentum : function() {
-        var target = this.getTarget();
-
-        // in qx.mobile, the target can be null
-        if (!target) {
-          target = qx.bom.Event.getTarget(this.getNativeEvent());
-        }
-
-        qx.event.Registration.getManager(target || window)
+        qx.event.Registration.getManager(this._originalTarget)
           .getHandler(qx.event.handler.Gesture)
           .stopMomentum();
       },
