@@ -151,8 +151,9 @@ module.exports = {
     },
 
     assemble: function (test) {
-      // require 'escodegen' to then monkey patch it for the assemble calls
+      // require 'escodegen' to then monkey patch
       var escodegen = require('escodegen');
+      var orig_generate = escodegen.generate;
       var fakeVarNode = {};
 
       escodegen.generate = function() { return 'qx.ui.treevirtual.MTreePrimitive.Type.BRANCH'; };
@@ -172,6 +173,9 @@ module.exports = {
       test.strictEqual(this.depAnalyzer.assemble(fakeVarNode), 'qxWeb');
       escodegen.generate = function() { return 'qx'; };
       test.strictEqual(this.depAnalyzer.assemble(fakeVarNode), 'qx');
+
+      // don't forget to restore original!
+      escodegen.generate = orig_generate;
 
       test.done();
     },
