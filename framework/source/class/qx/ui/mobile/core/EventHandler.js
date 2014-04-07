@@ -107,6 +107,9 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
       dragchange : 1,
       droprequest : 1,
 
+      // scroll events
+      roll : 1,
+
       // touch events
       touchstart : 1,
       touchend : 1,
