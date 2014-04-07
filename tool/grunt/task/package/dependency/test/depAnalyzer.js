@@ -118,7 +118,7 @@ module.exports = {
 
         return sandbox('lib/depAnalyzer.js', boxGlobals);
       };
-      // default depAnalyzer sanbox (may be overridden in test)
+      // default depAnalyzer sandbox (may be overridden in test)
       this.depAnalyzer = this.createStubbedSandbox();
 
       done();
