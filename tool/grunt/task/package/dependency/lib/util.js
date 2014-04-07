@@ -84,7 +84,7 @@ function classNameFrom(filePath, basePath) {
   //  * ${QXTHEME}                  => {appname}.theme.Theme
   if (basePath) {
     basePath = basePath[basePath.length-1] === "/" ? basePath : basePath + "/";
-    filePath.replace(basePath, "");
+    filePath = filePath.replace(basePath, "");
   }
   return filePath.replace(/\//g, ".").replace(".js", "");
 }
