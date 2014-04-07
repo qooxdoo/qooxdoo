@@ -516,12 +516,58 @@ module.exports = {
     },
 
     findUnresolvedDeps: function (test) {
-      // TODO
+      var fs = require('fs');
+      var esprima = require('esprima');
+
+      var curFullPath = './test/data/myapp/source/class/myapp/Application.js';
+      var jsCode = fs.readFileSync(curFullPath, {encoding: 'utf8'});
+      var tree = esprima.parse(jsCode, {comment: true, loc: true});
+
+      var actualClassDeps = this.depAnalyzer.findUnresolvedDeps(tree, {flattened: false});
+      var expectedClassDeps = {
+        load: [
+          'qx.Class',
+          'qx.application.Standalone'
+        ],
+        run: [
+          'qx.core.Environment',
+          'qx.log.appender.Console',
+          'qx.log.appender.Native',
+          'qx.ui.form.Button'
+        ],
+        athint: {
+          ignore: [],
+          require: [],
+          use: [],
+          asset: ['myapp/*'],
+          cldr: false
+        }
+      };
+
+      test.deepEqual(actualClassDeps, expectedClassDeps);
+
       test.done();
     },
 
     collectDepsRecursive: function (test) {
-      // TODO
+      var excludedClassIds = ['myapp.test.*'];
+      var classesDeps = this.depAnalyzer.collectDepsRecursive(
+        {'myapp': './test/data/myapp/source/class/',
+         'qx': '../../../../../framework/source/class/'},
+        ['myapp.Application', 'myapp.theme.Theme'],
+        excludedClassIds
+      );
+
+      test.ok(Object.keys(classesDeps).length, 247);
+      test.ok(!!classesDeps["myapp.Application"].load);
+      test.ok(!!classesDeps["myapp.Application"].run);
+      test.ok(!!classesDeps["myapp.Application"].athint);
+      test.ok(!!classesDeps["myapp.Application"].athint.ignore);
+      test.ok(!!classesDeps["myapp.Application"].athint.require);
+      test.ok(!!classesDeps["myapp.Application"].athint.use);
+      test.ok(!!classesDeps["myapp.Application"].athint.asset);
+      test.ok(!classesDeps["myapp.Application"].athint.cldr);
+
       test.done();
     },
 
@@ -611,12 +657,55 @@ module.exports = {
     },
 
     sortDepsTopologically: function (test) {
-      // TODO
+      var deps = {
+        'A':  { load: ['B','C'], run: ['D'] },
+        'Aa': { load: ['D'], run: [] },
+        'B':  { load: ['C'], run: [] },
+        'C':  { load: ['E'], run: ['D'] },
+        'D':  { load: [], run: [] },
+        'E':  { load: [], run: ['D'] }
+      };
+
+      // no excludes
+      var actual = this.depAnalyzer.sortDepsTopologically(deps, 'load', []);
+      var expected = ['E', 'C', 'B', 'A', 'D', 'Aa'];
+      test.deepEqual(actual, expected);
+
+      // excludes w/o glob
+      actual = this.depAnalyzer.sortDepsTopologically(deps, 'load', ['A']);
+      expected = ['E', 'C', 'B', 'D', 'Aa'];
+      test.deepEqual(actual, expected);
+
+      // excludes w/ glob
+      actual = this.depAnalyzer.sortDepsTopologically(deps, 'load', ['A*']);
+      expected = ['E', 'C', 'B', 'D'];
+      test.deepEqual(actual, expected);
+
       test.done();
     },
 
     prependNamespace: function (test) {
-      // TODO
+      var classList = [
+        'q.js',
+        'qxWeb.js',
+        'my.foo.namespace.Application',
+        'qx.log.appender.Console',
+        'qx.ui.core.MExecutable',
+        'qx.ui.form.Button'
+      ];
+      var classListExpected = [
+        'qx:q.js',
+        'qx:qxWeb.js',
+        'my.foo.namespace:my.foo.namespace.Application',
+        'qx:qx.log.appender.Console',
+        'qx:qx.ui.core.MExecutable',
+        'qx:qx.ui.form.Button'
+      ];
+
+      var namespaces =  ['qx','my.foo.namespace'];
+      var actualClassList = this.depAnalyzer.prependNamespace(classList, namespaces);
+      test.deepEqual(actualClassList, classListExpected);
+
       test.done();
     },
 
