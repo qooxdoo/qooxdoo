@@ -249,7 +249,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      */
     gestureFinish : function(domEvent, target) {
       // If no start position is available for this pointerup event, cancel gesture recognition.
-      if (Object.keys(this.__gesture).length === 0) {
+      if (!this.__gesture[domEvent.pointerId]) {
         return;
       }
 
