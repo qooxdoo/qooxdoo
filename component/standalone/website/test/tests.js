@@ -2410,12 +2410,15 @@ testrunner.define({
     }
     var cb = function() {};
     var test = q.create('<div></div>').appendTo(this.sandbox[0])
-    .on("pointerdown", cb).on("tap", cb);
-    this.assertEquals("qx.event.handler.PointerCore", test[0].__pointerHandler.classname);
+    .on("pointerdown", cb)
+    .on("pointerup");
+    this.assertEquals("qx.event.handler.PointerCore", test[0].$$pointerHandler.classname);
+    test.off("pointerdown", cb);
+    this.assertNotNull(test[0].$$pointerHandler);
     test.off("pointerup", cb);
-    this.assertNotNull(test[0].__pointerHandler);
-    test.off("pointerdown", cb)
-    this.assertNull(test[0].__pointerHandler);
+    this.assertNull(test[0].$$pointerHandler);
+  }
+});
   }
 });
 
