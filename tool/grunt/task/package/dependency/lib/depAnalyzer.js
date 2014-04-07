@@ -774,7 +774,7 @@ function prependNamespace(classList, namespaces) {
     return prefix+":"+className;
   };
 
-   return classList.map(augmentClassWithNamespace);
+  return classList.map(augmentClassWithNamespace);
 }
 
 function translateClassIdsToPaths(classList) {
