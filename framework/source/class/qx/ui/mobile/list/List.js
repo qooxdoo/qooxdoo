@@ -85,7 +85,7 @@ qx.Class.define("qx.ui.mobile.list.List",
     this.addListener("trackstart", this._onTrackStart, this);
     this.addListener("track", this._onTrack, this);
     this.addListener("trackend", this._onTrackEnd, this);
-    this.addListener("touchmove", this.__onTouchMove, this);
+    this.addListener("roll", this._onRoll, this);
 
     if (delegate) {
       this.setDelegate(delegate);
@@ -176,6 +176,7 @@ qx.Class.define("qx.ui.mobile.list.List",
     __provider : null,
     __minDeleteDistance : null,
     __isScrollingBlocked : null,
+    __trackElement : null,
 
 
     // overridden
@@ -222,11 +223,13 @@ qx.Class.define("qx.ui.mobile.list.List",
     */
     _onTrackStart : function(evt) {
       this.__isScrollingBlocked = null;
+      this.__trackElement = null;
 
       var element = this._getElement(evt);
       if (element &&
           qx.bom.element.Class.has(element, "list-item") &&
           qx.bom.element.Class.has(element, "removable")) {
+        this.__trackElement = element;
 
         qx.bom.element.Style.set(element, "transform", "translateX(0)");
         qx.bom.element.Style.set(element, "opacity", "1");
@@ -242,12 +245,10 @@ qx.Class.define("qx.ui.mobile.list.List",
     * @param evt {qx.event.type.Track} the <code>track</code> event
     */
     _onTrack : function(evt) {
-      var element = this._getElement(evt);
-
-      if (!qx.bom.element.Class.has(element, "list-item") ||
-          !qx.bom.element.Class.has(element, "removable")) {
+      if (!this.__trackElement) {
         return;
       }
+      var element = this.__trackElement;
       var delta = evt.getDelta();
 
       var deltaX = Math.round(delta.x * 0.1) / 0.1;
@@ -275,13 +276,11 @@ qx.Class.define("qx.ui.mobile.list.List",
     * @param evt {qx.event.type.Track} the <code>trackend</code> event
     */
     _onTrackEnd : function(evt) {
-      var element = this._getElement(evt);
-
-      if (!qx.bom.element.Class.has(element, "list-item") ||
-          !qx.bom.element.Class.has(element, "removable")) {
+       if (!this.__trackElement) {
         return;
       }
-
+      var element = this.__trackElement;
+      
       if (Math.abs(evt.getDelta().x) > this.__minDeleteDistance) {
         var row = parseInt(element.getAttribute("data-row"), 10);
         this.fireDataEvent("removeItem", row);
@@ -299,7 +298,7 @@ qx.Class.define("qx.ui.mobile.list.List",
     * Event handler for <code>touchmove</code> event.
     * @param evt {Event} the <code>touchmove</code> event
     */
-    __onTouchMove : function(evt) {
+    _onRoll : function(evt) {
       if(this.__isScrollingBlocked) {
         evt.preventDefault();
         evt.stopPropagation();
@@ -578,6 +577,7 @@ qx.Class.define("qx.ui.mobile.list.List",
 
   destruct : function()
   {
+    this.__trackElement = null;
     this._disposeObjects("__provider");
     if (qx.core.Environment.get("qx.dynlocale")) {
       qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
