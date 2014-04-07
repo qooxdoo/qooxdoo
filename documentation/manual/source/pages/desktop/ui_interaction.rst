@@ -8,7 +8,7 @@ Interaction
 Register listeners
 ==================
 
-To register listeners to a widget or other qooxdoo object just call ``addListener()`` with the given event type and callback method on them. The method will be executed every time the event occurs. Some types of events will bubble up the parent widget chain (such as mouse events, ...) while others are only fired on the original object (e.g. property changes, ...). A typical registration might look like this:
+To register listeners to a widget or other qooxdoo object just call ``addListener()`` with the given event type and callback method on them. The method will be executed every time the event occurs. Some types of events will bubble up the parent widget chain (such as pointer events, ...) while others are only fired on the original object (e.g. property changes, ...). A typical registration might look like this:
 
 ::
 
@@ -16,20 +16,28 @@ To register listeners to a widget or other qooxdoo object just call ``addListene
 
 The first parameter is the name of the event. The events supported by an object are listed in the API documentation of each class in the "Events" section. The second argument is a pointer to a function to call. The function can also be defined inline (in a closure). The third argument defines the context in which the function is executed. This argument is optional and defaults to the object which is listened to, e.g. a listener on a button will call a function on the button.
 
-The method is called with the event object as the first and only argument. The event object contains all information about the target and state of the event and also contains some other useful data: Mouse events may contain mouse coordinates while focus events may contain the focused element. Data events typically contain the current value of the data field listened to.
+The method is called with the event object as the first and only argument. The event object contains all information about the target and state of the event and also contains some other useful data: Pointer events may contain coordinates while focus events may contain the focused element. Data events typically contain the current value of the data field listened to.
 
-Please note that event objects are automatically pooled after their dispatch. This is mainly for performance reasons; event objects are reused during the application runtime. That's why keeping references to event instances is not a good idea! If some of the data is needed later during the application runtime it is best to store the actual data and not the event object, e.g. store the coordinates instead of the mouse event object.
+Please note that event objects are automatically pooled after their dispatch. This is mainly for performance reasons; event objects are reused during the application runtime. That's why keeping references to event instances is not a good idea! If some of the data is needed later during the application runtime it is best to store the actual data and not the event object, e.g. store the coordinates instead of the pointer event object.
 
 .. _pages/desktop/ui_interaction#event_phases:
 
 Event Phases
 ============
 
-In the browser most user input events like mouse or keyboard events are propagated from the target element up to the document root. In qooxdoo these events bubble up the widget hierarchy. This event propagation happens in two phases, the capturing and the bubbling event phase. The last parameter of the ``addListener(type, listener, context, capture)`` method defines whether the listener should be attached to the capturing (``true``) or bubbling (``false``) phase.
+In the browser most user input events like pointer or keyboard events are propagated from the target element up to the document root. In qooxdoo these events bubble up the widget hierarchy. This event propagation happens in two phases, the capturing and the bubbling event phase. The last parameter of the ``addListener(type, listener, context, capture)`` method defines whether the listener should be attached to the capturing (``true``) or bubbling (``false``) phase.
 
 In the capturing phase, the event is dispatched on the root widget first. Then it is dispatched on all widgets down the widget tree until the event target is reached. Now the event enters the bubbling phase. In this phase the event is dispatched in the opposite direction starting from the event target up to the root widget.
 
-Most of the time only the bubbling phase is used but sometimes the capturing phase can be very useful. For example a capturing listener for "mousedown" events on the root widget is guaranteed to receive every "mousedown" event even if the target widget calls ``stopPropagation()`` on the event. Further it can be used to block events from sub widgets.
+Most of the time only the bubbling phase is used but sometimes the capturing phase can be very useful. For example a capturing listener for "pointerdown" events on the root widget is guaranteed to receive every "pointerdown" event even if the target widget calls ``stopPropagation()`` on the event. Further it can be used to block events from sub widgets.
+
+.. _pages/desktop/ui_interaction#pointer_events:
+
+Pointer Events
+==============
+
+qooxdoo abstracts mouse and touch events in pointer events. This is the preferred way to react to user input from either a mouse or a touch device. Check out the :ref:`specified manual page about pointer events <pages/pointer#pointer_events>` for more details on that topic. Mouse and touch events are also supported and can be used.
+
 
 .. _pages/desktop/ui_interaction#mouse_events:
 
@@ -44,16 +52,30 @@ During every mouse event it is possible to check the status of modifier keys thr
 
 See the `API documentation of the MouseEvent <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.event.type.Mouse>`_ for a full list of all available methods.
 
+
+.. _pages/desktop/ui_interaction#touch_events:
+
+Touch Events
+============
+
+qooxdoo supports all the touch events: ``touchstart``, ``touchmove``, ``touchend`` and ``touchcancel``.
+
+Every touch event propagates the screen (e.g. ``getScreenLeft()``), document (e.g. ``getDocumentLeft()``) or viewport (e.g. ``getViewportLeft()``) coordinates through the available getters.
+
+See the `API documentation of the TouchEvent <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.event.type.Touch>`_ for a full list of all available methods.
+
+
+
 .. _pages/desktop/ui_interaction#event_capturing:
 
 Event Capturing
 ===============
 
-Usually only the widget underneath the mouse cursor will receive mouse events. This can be a problem in drag operations where the mouse cursor can easily leave the dragged widget. This issue can be resolved in qooxdoo by declaring this widget a capturing widget using the widget's ``capture()`` method.
+Usually only the widget underneath the pointer will receive events. This can be a problem in drag operations where the pointer can easily leave the dragged widget. This issue can be resolved in qooxdoo by declaring this widget a capturing widget using the widget's ``capture()`` method.
 
-If a widget is a capturing widget, all mouse events will be dispatched on this widget, regardless of the mouse cursor's position. Mouse capturing is active until either a different widget is set to capture mouse events, the browser loses focus or the user clicks the left mouse button. If a widget loses its capture state a ``losecapture`` event is dispatched on the widget.
+If a widget is a capturing widget, all pointer events will be dispatched on this widget, regardless of the pointer's position. Capturing is active until either a different widget is set to capture events, the browser loses focus or the user taps the primary button. If a widget loses its capture state a ``losecapture`` event is dispatched on the widget.
 
-Internally, qooxdoo uses mouse capturing in menus, split panes or sliders for example.
+Internally, qooxdoo uses capturing in menus, split panes or sliders for example.
 
 .. _pages/desktop/ui_interaction#keyboard_support:
 
@@ -100,7 +122,7 @@ Every widget can function as a focus root. To register a widget as a focus root 
 
   qx.ui.core.FocusHandler.getInstance().addRoot(myWidget);
 
-Activation is related to focus. While focus is limited to widgets which are marked as ``focusable``, any widget can be activated. Usually, the activation moves around while clicking on widgets (during the ``mouseup`` event). The focus is applied to the next focusable parent while the activation directly happens on the widget that was clicked on. Activation is mainly used for keyboard support (key events start bubbling from the active widget). Compared to the focus, there is no visual highlighting for this state. To change the currently focused or active widget just call ``focus()`` or ``activate()``:
+Activation is related to focus. While focus is limited to widgets which are marked as ``focusable``, any widget can be activated. Usually, the activation moves around while tapping on widgets (during the ``pointerup`` event). The focus is applied to the next focusable parent while the activation directly happens on the widget that was tapped on. Activation is mainly used for keyboard support (key events start bubbling from the active widget). Compared to the focus, there is no visual highlighting for this state. To change the currently focused or active widget just call ``focus()`` or ``activate()``:
 
 ::
 

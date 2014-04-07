@@ -3,7 +3,7 @@
 Drag & Drop
 ***********
 
-Drag & Drop is one of the essential technologies in today's applications. An operation must have a starting point (e.g. where the mouse was clicked), may have any number of intermediate steps (widgets that the mouse moves over during a drag), and must either have an end point (the widget above which the mouse button was released), or be canceled. 
+Drag & Drop is one of the essential technologies in today's applications. An operation must have a starting point (e.g. where the pointer was tapped), may have any number of intermediate steps (widgets that the pointer moves over during a drag), and must either have an end point (the widget above which the pointer was released), or be canceled.
 
 qooxdoo comes with a powerful event-based layer which supports drag&drop with full data exchange capabilities. Every widget can be configured to cooperate with drag&drop be it as sender (draggable), receiver (droppable) or both. A sender (drag target) can send data to any receiver (drop target).
 
@@ -20,10 +20,10 @@ To enable Drag & Drop the properties `draggable <http://demo.qooxdoo.org/%{versi
 
 ::
 
-  var dragTarget = new qx.ui.form.List;
+  var dragTarget = new qx.ui.form.List();
   dragTarget.setDraggable(true);
 
-  var dropTarget = new qx.ui.form.List;
+  var dropTarget = new qx.ui.form.List();
   dropTarget.setDroppable(true);
 
 The basic drag&drop should start working with these properties enabled, but it will show the no-drop cursor over all potential targets. To fix this one needs to register actions (and optionally data types) supported by the drag target. This can be done during the ``dragstart`` event which is fired on the drag target:
@@ -49,32 +49,30 @@ The listener now shows an alert box which should present the identification ID (
 Data Handling
 =============
 
-qooxdoo also supports advanced data handling in drag&drop sessions. The basic idea is to register the supported drag data types and then let the drop target choose which one to handle (if any at all). 
+qooxdoo also supports advanced data handling in drag&drop sessions. The basic idea is to register the supported drag data types and then let the drop target choose which one to handle (if any at all).
 
 To register some types write a listener for ``dragstart``:
 
 ::
 
-  source.addListener("dragstart", function(e)
-  {
+  source.addListener("dragstart", function(e) {
     e.addAction("move");
 
     e.addType("qx/list-items");
     e.addType("html/list");
   });
 
-This is basically only the registration for the types which could theoretically be delivered to the target. The IDs used are just strings. They have no special meaning. They could be identical to typical mime-types like ``text/plain`` but there is no need for this. 
+This is basically only the registration for the types which could theoretically be delivered to the target. The IDs used are just strings. They have no special meaning. They could be identical to typical mime-types like ``text/plain`` but there is no need for this.
 
 The preparation of the data (if not directly available) is done lazily by the ``droprequest`` event which will explained later. The next step is to let the target work with the incoming data. The following code block appends all the dropped children to the end of the list.
 
 ::
 
-  target.addListener("drop", function(e)
-  {
+  target.addListener("drop", function(e) {
     var items = e.getData("qx/list-items");
     for (var i=0, l=items.length; i<l; i++) {
       this.add(items[i]);
-    }  
+    }
   });
 
 The last step needed to get the thing to fly is to prepare the data for being dragged around. This might look like the following example:
@@ -85,7 +83,7 @@ The last step needed to get the thing to fly is to prepare the data for being dr
   {
     var type = e.getCurrentType();
 
-    if (type == "qx/list-items") 
+    if (type == "qx/list-items")
     {
       var items = this.getSelection();
 
@@ -203,7 +201,7 @@ This prevents the dragging of data from the source widget when some runtime cond
 Drag Session
 ============
 
-During the drag session the ``drag`` event is fired for every move of the mouse. This event may be used to "attach" an image or widget to the mouse cursor to indicate the type of data or object dragged around. It may also be used to render a line during a reordering drag&drop session (see next paragraph). It supports the methods ``getDocumentLeft`` and ``getDocumentTop`` known from the ``mousemove`` event. This data may be used for the positioning of a cursor.
+During the drag session the ``drag`` event is fired for every move of the pointer. This event may be used to "attach" an image or widget to the pointer to indicate the type of data or object dragged around. It may also be used to render a line during a reordering drag&drop session (see next paragraph). It supports the methods ``getDocumentLeft`` and ``getDocumentTop`` known from the ``pointermove`` event. This data may be used for the positioning of a cursor.
 
 When hovering a widget the ``dragover`` event is fired on the "interim" target. When leaving the widget the ``dragleave`` event is fired. The ``dragover`` is cancelable and has information about the related target (the source widget) through ``getRelatedTarget`` on the incoming event object.
 
@@ -212,10 +210,10 @@ Another quite useful event is the ``dragend`` event which is fired at every end 
 A typical sequence of events could look like this:
 
 * ``dragstart`` on source (once)
-* ``drag`` on source (mouse move)
-* ``dragover`` on target (mouse over)
+* ``drag`` on source (pointer move)
+* ``dragover`` on target (pointer over)
 * ``dragchange`` on source (action change)
-* ``dragleave`` on target (mouse out)
+* ``dragleave`` on target (pointer out)
 * ``drop`` on target (once)
 * ``droprequest`` on source (normally once)
 * ``dragend`` on source (once)

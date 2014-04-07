@@ -10,7 +10,7 @@ This tutorial is a fast-paced, high-level *tour de force*, to get you acquainted
 Set up the Framework
 ====================
 
-To follow this, make sure your computer meets the requirements for the SDK as outlined on the :doc:`sdk/sdk_requirements` page.  Go to the `download <http://qooxdoo.org/downloads>`_ page and grab the latest stable Desktop component. After downloading, all you have to do is to unzip the archive to a suitable path on your hard drive.  
+To follow this, make sure your computer meets the requirements for the SDK as outlined on the :doc:`sdk/sdk_requirements` page.  Go to the `download <http://qooxdoo.org/downloads>`_ page and grab the latest stable Desktop component. After downloading, all you have to do is to unzip the archive to a suitable path on your hard drive.
 
 
 .. _pages/getting_started/helloworld#create_your_application:
@@ -34,7 +34,7 @@ Windows |image0|
 
 .. |image0| image:: /_static/windows.png
 
-Open a command shell like ``cmd`` or ``PowerShell``. Let's create an application named ``custom`` in the current directory, with the qooxdoo SDK available at ``C:\qooxdoo-%{version}-sdk``: 
+Open a command shell like ``cmd`` or ``PowerShell``. Let's create an application named ``custom`` in the current directory, with the qooxdoo SDK available at ``C:\qooxdoo-%{version}-sdk``:
 
 ::
 
@@ -81,7 +81,7 @@ Now that your application is set up, let's generate a version that can be opened
 
 Under non-Windows systems you might have to prefix the command with the local directory, i.e. execute ``./generate.py source-all`` instead.
 
-Now that the application has been generated, open the ``source/index.html`` file in your web browser to run your application and click the button:
+Now that the application has been generated, open the ``source/index.html`` file in your web browser to run your application and tap the button:
 
 |Running application|
 
@@ -110,7 +110,7 @@ shell window to terminate the server process.
 Write Application Code
 ======================
 
-The folder ``source/class`` contains all application classes. When starting with a newly created application, there is only a single file for application logic, ``custom/Application.js``. Open it in your favorite editor or IDE. 
+The folder ``source/class`` contains all application classes. When starting with a newly created application, there is only a single file for application logic, ``custom/Application.js``. Open it in your favorite editor or IDE.
 
 The method ``main()`` contains the entire code of your little skeleton app. Even if you haven't done any qooxdoo programming before, you should be able to figure out what the code does. Get familiar with the code and change it, e.g. modify the label of the button, move the button to another position or add a second button.
 
@@ -131,7 +131,7 @@ In your newly created application you should have noticed the following code:
       qx.log.appender.Console;
     }
 
-This code turns on two different ways of "logging", i.e. capturing and printing out information about the operation of your application. 
+This code turns on two different ways of "logging", i.e. capturing and printing out information about the operation of your application.
 
 ``qx.log.appender.Native`` uses the native logging capabilities of your client if available, e.g. `Firebug <http://getfirebug.com>`_ in Firefox (use ``F12`` to toggle). If your browser doesn't come with developer-friendly logging, ``qx.log.appender.Console`` provides such a feature for *all* browsers: the console prints out the log messages in an area inside your browser window. It also includes an interactive JavaScript shell (use ``F7`` to toggle):
 
@@ -167,7 +167,7 @@ A lot of debugging code is also removed when a "build" is generated that would o
 API Reference
 =============
 
-qooxdoo supports inline comments that are similar to Javadoc or JSDoc comments. They allow for JavaScript and qooxdoo specific features, and look like ``/** your comment */``. 
+qooxdoo supports inline comments that are similar to Javadoc or JSDoc comments. They allow for JavaScript and qooxdoo specific features, and look like ``/** your comment */``.
 
 From those comments a complete, interactive API reference can be generated:
 

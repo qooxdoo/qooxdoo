@@ -17,7 +17,7 @@ Preview Image
 
 Features
 --------
-* Mouse support.
+* Pointer support.
 * Horizontal and vertical orientation.
 * Configurable steps.
 

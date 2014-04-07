@@ -186,7 +186,7 @@ But first, we should set Selenium's execution speed (the delay after each comman
     this.getQxSelenium().setSpeed(1000);
   }
 
-The first real action of the test will be to click the "Preferences" button. This leads us to one of the main challenges when developing Selenium tests: How to locate the right element.
+The first real action of the test will be to tap the "Preferences" button. This leads us to one of the main challenges when developing Selenium tests: How to locate the right element.
 
 Locator strategies
 ------------------

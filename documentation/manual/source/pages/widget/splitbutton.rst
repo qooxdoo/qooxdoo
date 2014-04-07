@@ -2,7 +2,7 @@
 
 SplitButton
 ***********
-The SplitButton acts like a normal button, but it opens a menu when clicking on the arrow.
+The SplitButton acts like a normal button, but it opens a menu when tapping on the arrow.
 
 .. _pages/widget/splitbutton#preview_image:
 
@@ -18,7 +18,7 @@ Preview Image
 Features
 --------
 * Contain text and/or icon.
-* Mouse and keyboard support.
+* Pointer and keyboard support.
 * Ellipsis: If the label does not fit into the widget bounds an ellipsis (”...”) is rendered at the end of the label.
 * Menu support.
 
@@ -26,7 +26,7 @@ Features
 
 Description
 -----------
-The SplitButton acts like a normal button, but it opens a menu when clicking on the arrow. The menu could contain a history list or something similar.
+The SplitButton acts like a normal button, but it opens a menu when tapping on the arrow. The menu could contain a history list or something similar.
 
 For using a menu see: :doc:`menu`
 

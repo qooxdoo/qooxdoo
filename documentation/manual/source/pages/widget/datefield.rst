@@ -16,14 +16,15 @@ Preview Image
 
 Features
 --------
-* Mouse and keyboard support.
+*
+er and keyboard support.
 * Own date format.
 
 .. _pages/widget/datefield#description:
 
 Description
 -----------
-A DateField has a ``qx.util.format.DateFormat`` which is used to format the date to a string. The formatted string is show in the input field. The input can be edit directly in the input filed or selecting a date with the data chooser. The date chooser can be pop up by clicking the calender icon.
+A DateField has a ``qx.util.format.DateFormat`` which is used to format the date to a string. The formatted string is show in the input field. The input can be edit directly in the input filed or selecting a date with the data chooser. The date chooser can be pop up by tapping the calendar icon.
 
 .. _pages/widget/datefield#demos:
 

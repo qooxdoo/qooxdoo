@@ -63,7 +63,7 @@ This will inject your part configuration into the standard build jobs (*source* 
 Add Part Loading to your Class Code
 -----------------------------------
 
-Next, you have to add code to your application to load any part other than the boot part. Carrying on with our example, at a suitable spot in your application code, you have to load the *settings* part, e.g. when some "Open Settings Dialog" button is pressed which is available from your main application class. We put the loading action in the click event listener of the button:
+Next, you have to add code to your application to load any part other than the boot part. Carrying on with our example, at a suitable spot in your application code, you have to load the *settings* part, e.g. when some "Open Settings Dialog" button is pressed which is available from your main application class. We put the loading action in the tap event listener of the button:
 
 ::
 

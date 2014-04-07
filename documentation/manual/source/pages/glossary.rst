@@ -72,7 +72,7 @@ Glossary
       A notification that signals a special situation in time. Events usually
       take the form of concrete objects. Important for reactive systems like
       user interfaces, to notify parts of the software of a particular
-      situation, e.g. a user action like a keyboard stroke or a mouse click.
+      situation, e.g. a user action like a keyboard stroke or a pointer tap.
 
 
    Exception

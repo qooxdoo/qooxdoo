@@ -17,7 +17,7 @@ Preview Image
 
 Features
 --------
-* Mouse and keyboard control.
+* Pointer and keyboard control.
 * Configurable fonts and text alignment.
 * Read only support.
 * Automatic wrap around.

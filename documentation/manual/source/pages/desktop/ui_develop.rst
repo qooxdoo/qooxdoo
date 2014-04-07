@@ -72,7 +72,7 @@ Instances for the supported child controls are created dynamically as needed. A 
         control = new qx.ui.basic.Image;
         this._add(control);
         break;
-    }  
+    }
 
     return control || this.base(arguments, id);
   }
@@ -144,7 +144,7 @@ Anonymous Widgets
 
 Anonymous widgets are ignored in the event hierarchy. This is useful for combined widgets where the internal structure does not have a custom appearance with a different styling from the enclosing element. This is especially true for widgets like checkboxes or buttons where the text or icon are handled synchronously for state changes to the outer widget.
 
-A good example is the ``SelectBox`` widget where the ``mouseover`` event should affect the entire widget at once and not the different child controls of which it consists. So setting the child controls (in this case an ``atom`` and an ``image`` widget) to ``anonymous`` keeps these child control widgets from receiving any events and the event handling is done completely by the parent widget (the ``SelectBox`` itself).
+A good example is the ``SelectBox`` widget where the ``pointerover`` event should affect the entire widget at once and not the different child controls of which it consists. So setting the child controls (in this case an ``atom`` and an ``image`` widget) to ``anonymous`` keeps these child control widgets from receiving any events and the event handling is done completely by the parent widget (the ``SelectBox`` itself).
 
 Defining the API
 ================
@@ -155,8 +155,8 @@ The number of constructor parameters should be kept short. Long parameter lists 
 
   qx.Class.define("custom.LinkAtom", {
     extend : qx.ui.basic.Atom,
-   
-    construct : function(text, icon, toolTipText, underline, bold, wrap, underlineOnMouseover) { ... }
+
+    construct : function(text, icon, toolTipText, underline, bold, wrap, underlineOnHover) { ... }
   });
 
 All parameters are optional. This can make the code using this class very hard to read:
@@ -174,15 +174,15 @@ In this case it helps to keep only those parameters, which are required or used 
 
   qx.Class.define("custom.LinkAtom", {
     extend : qx.ui.basic.Atom,
-   
+
     construct : function(text, icon) { ... },
-   
+
     properties {
       toolTipText: { ... },
       underline: { ... },
       bold: { ... },
       wrap: { ... },
-      underlineOnMouseover: { ... }
+      underlineOnHover: { ... }
     }
   });
 
@@ -194,7 +194,7 @@ Now only the text and icon parameter remain in the constructor. All other parame
     underline: false
     bold: true,
     wrap: false,
-    underlineOnMouseover: true
+    underlineOnHover: true
   });
 
 For someone reading this code it is immediately obvious, what's happening.

@@ -34,8 +34,9 @@ Features
 
 * `Mobile widget set <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile>`_
 * :doc:`Theming via CSS and SCSS <theming>`
+* Pointer events: pointerdown, pointerup, pointermove, pointerover, pointerout
 * Touch events: touchstart, touchmove, touchend, touchcancel
-* Gesture events: swipe, tap, longtap
+* Gesture events: swipe, tap, longtap, dbltap, roll
 * Animations between pages
 * Touch event emulation for debugging in desktop browsers
 * Fixed toolbars and momentum scrolling via `iScroll <http://cubiq.org/iscroll-4>`_

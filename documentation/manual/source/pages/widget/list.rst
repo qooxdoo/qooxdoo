@@ -35,9 +35,9 @@ Description
 -----------
 A List widget can be used to show a list of items. These items could selected in different modes:
 
-* ``single``: Only one or none could be selected. 
+* ``single``: Only one or none could be selected.
 * ``multi``: One, more or none could be selected.
-* ``additive``: The same selection like ``multi``, but each item, which the user clicked on it is added or removed to the selection.
+* ``additive``: The same selection like ``multi``, but each item, which the user taped on it is added or removed to the selection.
 * ``one``: The same selection like ``single``, but one must selected.
 
 The item which are added to the list are ``ListItem``. For more details see: `ListItem <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.ListItem>`_.
@@ -48,7 +48,7 @@ Demos
 -----
 Here are some links that demonstrate the usage of the widget:
 
-* `List Demo <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~List.html>`_ 
+* `List Demo <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~List.html>`_
 * `Lists with Drag and Drop <http://demo.qooxdoo.org/%{version}/demobrowser/#ui~DragDrop.html>`_
 * `List with re-size support <http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Resizer.html>`_
 

@@ -18,14 +18,14 @@ Preview Image
 Features
 --------
 * Contain text and/or icon.
-* Mouse and keyboard support.
+* Pointer and keyboard support.
 * Ellipsis: If the label does not fit into the widget bounds an ellipsis (”...”) is rendered at the end of the label.
 
 .. _pages/widget/togglebutton#description:
 
 Description
 -----------
-The button is a classic GUI element, that supports two states: pressed and not pressed. The state is changed by a mouse (click) or keyboard (enter or space) event. There is an additional third state when the tri-state mode is enabled. The third state means that the widget was neither pressed nor unpressed, i.e. the state of the button is undetermined.
+The button is a classic GUI element, that supports two states: pressed and not pressed. The state is changed by a pointer (tap) or keyboard (enter or space) event. There is an additional third state when the tri-state mode is enabled. The third state means that the widget was neither pressed nor unpressed, i.e. the state of the button is undetermined.
 
 .. _pages/widget/togglebutton#demos:
 
