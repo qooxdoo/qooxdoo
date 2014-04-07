@@ -71,7 +71,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      * a delay which causes another target and with that, another instance of this handler.
      * last touch was.
      */
-    __lastTouch : null,
+    __lastTouch : null
   },
 
   /**
