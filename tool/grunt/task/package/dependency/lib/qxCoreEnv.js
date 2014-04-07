@@ -9,7 +9,6 @@ var esprima = require('esprima');
 var estraverse = require('estraverse');
 var escodegen = require('escodegen');
 
-var parentAnnotator = require('./annotator/parent');
 var get = require('./util').get;
 
 // cache fore file contents
@@ -20,7 +19,7 @@ var qxCoreEnvCode = "";
  */
 function getFeatureTable(classCode) {
 
-  function is_feature_map (node) {
+  function isFeatureMap (node) {
     return (node.type === "Property"
       && node.key.type === "Identifier"
       && node.key.name === "_checksMap"
@@ -34,21 +33,20 @@ function getFeatureTable(classCode) {
     );
   }
 
-  var feature_map = {};
+  var featureMap = {};
   // parse classCode
   var etree = esprima.parse(classCode);
-  //parentAnnotator.annotate(etree);
 
   // search feature map
   var controller = new estraverse.Controller();
   controller.traverse(etree, {
     enter : function (node, parent) {
-      if (is_feature_map(node)) {
-        feature_map = node.value;
+      if (isFeatureMap(node)) {
+        featureMap = node.value;
       }
     }
   });
-  return eval('(' + escodegen.generate(feature_map) + ')');
+  return eval('(' + escodegen.generate(featureMap) + ')');
 }
 
 function findVariantNodes(etree) {
