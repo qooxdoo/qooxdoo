@@ -299,7 +299,7 @@ var dependenciesFromAst = dependenciesFromAst || function (scope) {
 /**
  * Identify builtins and reserved words.
  */
-var not_builtin = not_builtin || function (ref) {
+var notBuiltin = notBuiltin || function (ref) {
   var ident = ref.identifier;
   if (ident.type !== "Identifier") {
     return true;
@@ -328,7 +328,7 @@ var not_builtin = not_builtin || function (ref) {
  *  Identify "qx.$$foo", "qx.foo.$$bar" and "qx.foo.Bar.$$method" dependencies
  *  (e.g. qx.$$libraries, qx.$$resources ...).
  */
-var not_qxinternal = not_qxinternal || function (ref) {
+var notQxInternal = notQxInternal || function (ref) {
   var propertyPath;
   var ident = ref.identifier;
 
@@ -367,7 +367,7 @@ var not_qxinternal = not_qxinternal || function (ref) {
   return true;
 };
 
-var not_runtime = not_runtime || function (ref) {
+var notRuntime = notRuntime || function (ref) {
   return !!(ref && ref.from && ref.from.isLoadTime);
 };
 
@@ -588,12 +588,12 @@ function findUnresolvedDeps(tree, opts) {
   deps.athint = atHints;
 
   filteredScopeRefs = util.pipeline(scopesRef,
-    _.partial(util.filter, not_builtin),     // e.g. document, window, undefined ...
-    _.partial(util.filter, not_qxinternal)   // e.g. qx.$$libraries, qx$$resources ...
+    _.partial(util.filter, notBuiltin),     // e.g. document, window, undefined ...
+    _.partial(util.filter, notQxInternal)   // e.g. qx.$$libraries, qx$$resources ...
     // check library classes
   );
 
-  deps.load = filteredScopeRefs.filter(not_runtime);
+  deps.load = filteredScopeRefs.filter(notRuntime);
   deps.run = _.difference(filteredScopeRefs, deps.load);
 
   // add feature classes from qx.core.Environment calls

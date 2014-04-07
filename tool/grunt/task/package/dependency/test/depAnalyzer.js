@@ -128,7 +128,7 @@ module.exports = {
       test.done();
     },
 
-    not_builtin: function (test) {
+    notBuiltin: function (test) {
       var refFunctionExpression = {
         identifier: {
           type: 'FunctionExpression'
@@ -153,15 +153,15 @@ module.exports = {
         }
       };
 
-      test.ok(this.depAnalyzer.not_builtin(refFunctionExpression));
-      test.ok(!this.depAnalyzer.not_builtin(refIdentifierBuiltin));
-      test.ok(!this.depAnalyzer.not_builtin(refIdentifierCustom));
-      test.ok(this.depAnalyzer.not_builtin(refIdentifierNotBuiltin));
+      test.ok(this.depAnalyzer.notBuiltin(refFunctionExpression));
+      test.ok(!this.depAnalyzer.notBuiltin(refIdentifierBuiltin));
+      test.ok(!this.depAnalyzer.notBuiltin(refIdentifierCustom));
+      test.ok(this.depAnalyzer.notBuiltin(refIdentifierNotBuiltin));
 
       test.done();
     },
 
-    not_qxinternal: function (test) {
+    notQxInternal: function (test) {
       var refFunctionExpression = {
         identifier: {
           type: 'FunctionExpression'
@@ -222,18 +222,18 @@ module.exports = {
         }
       };
 
-      test.ok(this.depAnalyzer.not_qxinternal(refFunctionExpression));
-      test.ok(!this.depAnalyzer.not_qxinternal(ref_qx_$$libraries));
-      test.ok(!this.depAnalyzer.not_qxinternal(ref_qx_Bootsrap_$$logs));
-      test.ok(!this.depAnalyzer.not_qxinternal(ref_qx_core_Property_$$method));
+      test.ok(this.depAnalyzer.notQxInternal(refFunctionExpression));
+      test.ok(!this.depAnalyzer.notQxInternal(ref_qx_$$libraries));
+      test.ok(!this.depAnalyzer.notQxInternal(ref_qx_Bootsrap_$$logs));
+      test.ok(!this.depAnalyzer.notQxInternal(ref_qx_core_Property_$$method));
 
       test.done();
     },
 
-    not_runtime: function (test) {
-      test.ok(!this.depAnalyzer.not_runtime( {foo:1} ));
-      test.ok(!this.depAnalyzer.not_runtime( {from:{isLoadTime:false}} ));
-      test.ok(this.depAnalyzer.not_runtime( {from:{isLoadTime:true}} ));
+    notRuntime: function (test) {
+      test.ok(!this.depAnalyzer.notRuntime( {foo:1} ));
+      test.ok(!this.depAnalyzer.notRuntime( {from:{isLoadTime:false}} ));
+      test.ok(this.depAnalyzer.notRuntime( {from:{isLoadTime:true}} ));
 
       test.done();
     },
