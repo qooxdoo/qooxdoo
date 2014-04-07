@@ -196,7 +196,7 @@ Elements can be located using several different strategies, generic as well as a
 
 In this tutorial, we'll focus on the :ref:`qxhv <pages/development/simulator_locators#qxhv>` locator. Just like :ref:`qxh<pages/development/simulator_locators#qxh>`, it traverses the application's widget hierarchy, using a syntax similar to XPath to match the widgets it finds to criteria defined by the user.
 
-**Note:** The :ref:`Selenium IDE<pages/development/simulator#selenium_ide>` Firefox add-on and the :ref:`qooxdoo Inspector<pages/application/inspector_selenium#using_the_qooxdoo_inspector_to_write_selenium_tests>` can be very helpful tools for finding locators and debugging Selenium tests.
+**Note:** The :ref:`Selenium IDE<pages/development/simulator#selenium_ide>` Firefox add-on can be very helpful for finding locators and debugging Selenium tests.
 
 The qxhv locator allows us to find any widget with a given "label" property value:
 

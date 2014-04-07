@@ -150,11 +150,6 @@ This Firefox plugin allows test developers to run Selenium commands against a we
 
   C:\workspace\qooxdoo-%{version}-sdk\component\simulator\tool\user-extensions\user-extensions.js
 
-Inspector
-=========
-
-qooxdoo's :ref:`Inspector component <pages/application/inspector_selenium#using_the_qooxdoo_inspector_to_write_selenium_tests>` can provide assistance to test developers by automatically determining locators for widgets.
-
 .. _pages/development/simulator#generating:
 
 Generating the Simulator

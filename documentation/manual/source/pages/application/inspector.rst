@@ -4,7 +4,7 @@
 Inspector
 *********
 
-qooxdoo Inspector is a powerful development tool perfectly suited for *live* debugging and modifying qooxdoo applications. 
+qooxdoo Inspector is a powerful development tool perfectly suited for *live* debugging and modifying qooxdoo applications.
 
 |Inspector|
 
@@ -96,7 +96,7 @@ The properties window is one of two windows whose main focus is on actually *wor
 
 But it is not only about displaying properties, it also allows editing: To make this as convenient and least error-prone as possible, form elements are chosen according to the property's type. For instance, in many cases it is as easy as using a checkbox (for a boolean value), a drop-down menu (for pre-defined values) or a color picker (for a color value). For properties that support a wider range of values, regular text input fields are used.
 
-If you want to know more about a certain property, select it and click the API button to open up the API documentation for the selected property. 
+If you want to know more about a certain property, select it and click the API button to open up the API documentation for the selected property.
 
 .. _pages/application/inspector#console:
 
@@ -107,25 +107,9 @@ Console
 
 .. |Console| image:: /pages/application/inspector_console_window.png
 
-The console is probably the most powerful Inspector window, as it allows viewing and modifying instances similar to the properties window, but it also gives the developer a virtually unrestricted environment for debugging a qooxdoo app. 
+The console is probably the most powerful Inspector window, as it allows viewing and modifying instances similar to the properties window, but it also gives the developer a virtually unrestricted environment for debugging a qooxdoo app.
 
 One part of the console is a generic JavaScript console, familiar to most Firebug users. At the prompt you can enter arbitrary JavaScript code which is executed after pressing enter. The keyword "this" refers to the currently selected object. That way it is very easy to inspect and modify the currently selected widget instance.
 To make it even more convenient, auto-completion while entering code is available. This allows you to select one of the suggested methods that are available for a specific object. Hit the CRTL+Space keys to display a list of available instance members.
 
 Another part of the console window is a DOM browser, named as in Firebug. This browser allows you to inspect an object interactively. You can "dive into" an object, down to arbitrary depth, following property values that refer to data structures within the current object or pointing to ones within other objects.
-
-Selenium Window
-===============
-
-|Selenium|
-
-.. |Selenium| image:: /pages/application/inspector_selenium_window.png
-
-The Selenium window's purpose is to help test developers in writing simulated interaction tests which will then be run using the `Selenium <http://seleniumhq.org/>`_ testing framework and qooxdoo's :ref:`Simulator component <pages/development/simulator#simulator>` or the `Simulator contribution <http://qooxdoo.org/contrib/project/simulator>`_ it is based on. Similar to the Selenium IDE Firefox plugin, it can be used to determine a locator string for any element (qooxdoo widget in this case) and supports playback of test commands against the inspected application.
-
-There is a dedicated page with extensive descriptions that demonstrates how to create a test case using the Selenium window: 
-
-.. toctree::
-   :maxdepth: 1
-
-   inspector_selenium
