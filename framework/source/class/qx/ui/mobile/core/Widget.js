@@ -200,7 +200,12 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * When the widget gets inactive
      */
-    deactivate : "qx.event.type.Focus"
+    deactivate : "qx.event.type.Focus",
+
+    /**
+     * Fired when an active pointer moves on the screen or the mouse wheel is used.
+     */
+    roll : "qx.event.type.Roll"
   },
 
 
