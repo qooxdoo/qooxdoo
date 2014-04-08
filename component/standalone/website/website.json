@@ -223,7 +223,7 @@
       },
       "environment" :
       {
-        "q.eventtypes" : "qx.module.event.Mouse,qx.module.event.Keyboard,qx.module.event.Native,qx.module.event.Orientation,qx.module.event.Touch,qx.module.event.Pointer,qx.module.event.Swipe,qx.module.event.Track,qx.module.event.Pinch,qx.module.event.Rotate,qx.module.event.Gesture",
+        "q.eventtypes" : "qx.module.event.Mouse,qx.module.event.Keyboard,qx.module.event.Native,qx.module.event.Orientation,qx.module.event.Touch,qx.module.event.Pointer,qx.module.event.Swipe,qx.module.event.Track,qx.module.event.Pinch,qx.module.event.Rotate,qx.module.event.Tap",
         "apiviewer.modulenamereplacements" : {
           "qx\\.module\\.": "",
           "qx\\.ui\\.website\\.": ""
