@@ -9,7 +9,7 @@ var esprima = require('esprima');
 var estraverse = require('estraverse');
 var escodegen = require('escodegen');
 
-var get = require('./util').get;
+var util = (util || require('./util'));
 
 // cache fore file contents
 var qxCoreEnvCode = "";
@@ -20,15 +20,15 @@ var qxCoreEnvCode = "";
 function getFeatureTable(classCode) {
 
   function isFeatureMap (node) {
-    return (node.type === "Property"
-      && node.key.type === "Identifier"
-      && node.key.name === "_checksMap"
-      && node.value.type ===  "ObjectExpression"
+    return (node.type === 'Property'
+      && node.key.type === 'Identifier'
+      && node.key.name === '_checksMap'
+      && node.value.type ===  'ObjectExpression'
       /*
       && node.parent
-      && node.parent.type == "Property"
-      && node.parent.key.type == "Identifier"
-      && node.parent.key.name == "statics"
+      && node.parent.type == 'Property'
+      && node.parent.key.type == 'Identifier'
+      && node.parent.key.name == 'statics'
       */
     );
   }
@@ -52,11 +52,11 @@ function getFeatureTable(classCode) {
 function findVariantNodes(etree) {
   var result = [];
   var interestingEnvMethods = {
-    "select"      : true,
-    "selectAsync" : true,
-    "get"         : true,
-    "getAsync"    : true,
-    "filter"      : true
+    'select'      : true,
+    'selectAsync' : true,
+    'get'         : true,
+    'getAsync'    : true,
+    'filter'      : true
   };
 
   // walk etree
@@ -65,10 +65,10 @@ function findVariantNodes(etree) {
     enter : function (node, parent) {
       // pick calls to qx.core.Environment.get|select|filter
       if (node.type === 'CallExpression'
-          && get(node, "callee.object.object.object.name") === 'qx'
-          && get(node, "callee.object.object.property.name") === 'core'
-          && get(node, "callee.object.property.name") === 'Environment'
-          && get(node, "callee.property.name") in interestingEnvMethods) {
+          && util.get(node, 'callee.object.object.object.name') === 'qx'
+          && util.get(node, 'callee.object.object.property.name') === 'core'
+          && util.get(node, 'callee.object.property.name') === 'Environment'
+          && util.get(node, 'callee.property.name') in interestingEnvMethods) {
             result.push(node);
       }
     }
@@ -76,11 +76,11 @@ function findVariantNodes(etree) {
   return result;
 }
 
-function addLoadRunInformation(nodes, scopes) {
+function addLoadRunInformation(nodes, scopeRefs) {
   nodes.forEach(function (node) {
     var envCallLine = node.loc.start.line;
-    for (var i=0; i<scopes.length; i++) {
-      var curScope = scopes[i].from;
+    for (var i=0; i<scopeRefs.length; i++) {
+      var curScope = scopeRefs[i].from;
       if (curScope.isLoadTime === false) {
         continue;
       }
@@ -91,6 +91,10 @@ function addLoadRunInformation(nodes, scopes) {
       // TODO: add column
       if (envCallLine > scopeStartLine && envCallLine < scopeEndLine) {
         node.isLoadTime = true;
+        // if node is a load dep in any scope the job is done
+        // - so prevent overriding with the following scopeRefs
+        // where the node might be only a run dep.
+        break;
       } else {
         node.isLoadTime = false;
       }
@@ -114,21 +118,21 @@ function addEnvCallDependency(fqMethodName, node, result) {
 /**
  * Get the 'get' from a qx.core.Environment.get call.
  */
-function getEnvMethod(call_node) {
+function getEnvMethod(callNode) {
   // brute force, expecting 'CallExpression'
-  return get(call_node, "callee.property.name");
+  return util.get(callNode, 'callee.property.name');
 
 }
 
 /** Get the 'foo' from a qx.core.Environment.*('foo') call. */
-function getEnvKey(call_node) {
-  return get(call_node, "arguments.0.value");
+function getEnvKey(callNode) {
+  return util.get(callNode, 'arguments.0.value');
 }
 
 function getClassCode() {
   return fs.readFileSync(fs.realpathSync(
-    path.join(__dirname, "../../../../../../framework/source/class/qx/core/Environment.js")),
-    {encoding: "utf-8"});
+    path.join(__dirname, '../../../../../../framework/source/class/qx/core/Environment.js')),
+    {encoding: 'utf-8'});
 }
 
 /**
@@ -137,22 +141,24 @@ function getClassCode() {
  * Take a tree and return the list of feature classes used through
  * qx.core.Environment.* calls
  */
-function extract(etree, scopes, withMethodName) {
+function extract(etree, scopeRefs, withMethodName) {
   var result = {
-    "load": [],
-    "run": []
+    'load': [],
+    'run': []
   };
   var featureToClass = {};
   var envCallNodes = [];
 
   withMethodName = withMethodName || false;
   qxCoreEnvCode = qxCoreEnvCode || getClassCode();
-  featureToClass = getFeatureTable(qxCoreEnvCode); // { "plugin.flash" : "qx.bom.client.Flash#isAvailable" }
+
+  // { 'plugin.flash' : 'qx.bom.client.Flash#isAvailable', 'nextKey': ... }
+  featureToClass = getFeatureTable(qxCoreEnvCode);
 
   envCallNodes = findVariantNodes(etree);
 
   if (envCallNodes.length >= 1) {
-    envCallNodes = addLoadRunInformation(envCallNodes, scopes);
+    envCallNodes = addLoadRunInformation(envCallNodes, scopeRefs);
     envCallNodes.forEach(function (node) {
       if (getEnvMethod(node) in {select:1, get:1, filter:1}) {
         // extract environment key
@@ -161,7 +167,7 @@ function extract(etree, scopes, withMethodName) {
         var fqMethodName = featureToClass[env_key];
         if (fqMethodName) {
           // add to result
-          // console.log("Found: " + env_key + " : " + featureToClass[env_key]);
+          // console.log(etree.qxClassName, env_key + ' : ' + featureToClass[env_key]);
           if (!withMethodName) {
             var posOfLastDot = fqMethodName.lastIndexOf('.');
             result = addEnvCallDependency(fqMethodName.substr(0, posOfLastDot), node, result);
