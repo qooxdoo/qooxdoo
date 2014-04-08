@@ -19,7 +19,8 @@
 
 
 /**
- * Rotate event object.
+ * Rotate is a multi pointer gesture fired when two finger moved around
+ * a single point. It contains the angle of the rotation.
  */
 qx.Class.define("qx.event.type.Rotate",
 {

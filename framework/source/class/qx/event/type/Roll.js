@@ -19,7 +19,8 @@
 
 
 /**
- * Roll event object.
+ * The roll event is a combination of mousewheel and touch scrolling.
+ * It also supports momentum scrolling which can be stopped.
  */
 qx.Class.define("qx.event.type.Roll",
 {

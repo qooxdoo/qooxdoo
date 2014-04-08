@@ -37,3 +37,4 @@ In addition to the atomic pointer* events, several high-level gesture events are
 * `rotate <http://demo.qooxdoo.org/current/apiviewer/index.html#qx.event.type.Rotate>`__
 * `pinch <http://demo.qooxdoo.org/current/apiviewer/index.html#qx.event.type.Pinch>`__
 * `track <http://demo.qooxdoo.org/current/apiviewer/index.html#qx.event.type.Track>`__
+* `roll <http://demo.qooxdoo.org/current/apiviewer/index.html#qx.event.type.Roll>`__

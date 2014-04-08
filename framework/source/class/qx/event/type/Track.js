@@ -19,7 +19,9 @@
 
 
 /**
- * Track event object.
+ * Track is a single pointer gesture and contains of a three vent types:
+ * <code>trackstart</code>, <code>track</code> and <code>trackend</code>. These
+ * events will be fired when a pointer grabs an item and moves the pointer on it.
  */
 qx.Class.define("qx.event.type.Track",
 {

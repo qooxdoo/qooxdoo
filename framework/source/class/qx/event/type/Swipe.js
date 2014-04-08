@@ -19,7 +19,8 @@
 
 
 /**
- * Swipe event object.
+ * Swipe is a single pointer gesture fired when a pointer is moved in one direction.
+ * It contains some additional data like the primary axis, the velocity and the distance.
  */
 qx.Class.define("qx.event.type.Swipe",
 {
