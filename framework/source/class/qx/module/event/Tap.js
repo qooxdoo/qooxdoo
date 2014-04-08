@@ -18,13 +18,15 @@
 ************************************************************************ */
 
 /**
- * Normalization for gesture events
+ * Normalization for tap gesture events. These gestures are based on <a href="#Pointer">Pointer events</a>,
+ * meaning that they are available on all devices, no matter which input device type is used (e.g. mouse or
+ * touchscreen).
  *
  * @require(qx.module.Event)
  *
  * @group (Event_Normalization)
  */
-qx.Bootstrap.define("qx.module.event.Gesture", {
+qx.Bootstrap.define("qx.module.event.Tap", {
   statics :
   {
     /**
@@ -132,10 +134,10 @@ qx.Bootstrap.define("qx.module.event.Gesture", {
         return event;
       }
 
-      var bindMethods = qx.module.event.Gesture.BIND_METHODS;
+      var bindMethods = qx.module.event.Tap.BIND_METHODS;
       for (var i=0, l=bindMethods.length; i<l; i++) {
         if (typeof event[bindMethods[i]] != "function") {
-          event[bindMethods[i]] = qx.module.event.Gesture[bindMethods[i]].bind(event);
+          event[bindMethods[i]] = qx.module.event.Tap[bindMethods[i]].bind(event);
         }
       }
 
@@ -151,6 +153,6 @@ qx.Bootstrap.define("qx.module.event.Gesture", {
   },
 
   defer : function(statics) {
-    qxWeb.$registerEventNormalization(qx.module.event.Gesture.TYPES, statics.normalize);
+    qxWeb.$registerEventNormalization(qx.module.event.Tap.TYPES, statics.normalize);
   }
 });

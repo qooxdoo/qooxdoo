@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * Normalization for the pinch gesture
+ * Normalization for the pinch gesture.
  *
  * @require(qx.module.Event)
  *

@@ -18,7 +18,8 @@
 ************************************************************************ */
 
 /**
- * Normalization for pointer events
+ * Normalization for pointer events. Pointer events are hardware-agnostic and
+ * will be fired regardless of which input type of input device is used (e.g. mouse or touchscreen).
  *
  * @require(qx.module.Event)
  * @require(qx.module.event.Pointer#getPointerType) // static code analysis - this method has to referenced
@@ -33,7 +34,8 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      */
     TYPES : ["pointerdown", "pointerup", "pointermove", "pointercancel", "pointerover", "pointerout"],
 
-    BIND_METHODS : ["getPointerType"],
+    BIND_METHODS : ["getPointerType", "getViewportLeft", "getViewportTop",
+      "getDocumentLeft", "getDocumentTop", "getScreenLeft", "getScreenTop"],
 
 
     /**
@@ -65,6 +67,93 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
 
 
     /**
+     * Get the horizontal coordinate at which the event occurred relative
+     * to the viewport.
+     *
+     * @return {Number} The horizontal mouse position
+     */
+    getViewportLeft : function() {
+      return this.clientX;
+    },
+
+
+    /**
+     * Get the vertical coordinate at which the event occurred relative
+     * to the viewport.
+     *
+     * @return {Number} The vertical mouse position
+     * @signature function()
+     */
+    getViewportTop : function() {
+      return this.clientY;
+    },
+
+
+    /**
+     * Get the horizontal position at which the event occurred relative to the
+     * left of the document. This property takes into account any scrolling of
+     * the page.
+     *
+     * @return {Number} The horizontal mouse position in the document.
+     */
+    getDocumentLeft : function()
+    {
+      if (this.pageX !== undefined) {
+        return this.pageX;
+      } else {
+        var win = qx.dom.Node.getWindow(this.srcElement);
+        return this.clientX + qx.bom.Viewport.getScrollLeft(win);
+      }
+    },
+
+
+    /**
+     * Get the vertical position at which the event occurred relative to the
+     * top of the document. This property takes into account any scrolling of
+     * the page.
+     *
+     * @return {Number} The vertical mouse position in the document.
+     */
+    getDocumentTop : function()
+    {
+      if (this.pageY !== undefined) {
+        return this.pageY;
+      } else {
+        var win = qx.dom.Node.getWindow(this.srcElement);
+        return this.clientY + qx.bom.Viewport.getScrollTop(win);
+      }
+    },
+
+
+    /**
+     * Get the horizontal coordinate at which the event occurred relative to
+     * the origin of the screen coordinate system.
+     *
+     * Note: This value is usually not very useful unless you want to
+     * position a native popup window at this coordinate.
+     *
+     * @return {Number} The horizontal mouse position on the screen.
+     */
+    getScreenLeft : function() {
+      return this.screenX;
+    },
+
+
+    /**
+     * Get the vertical coordinate at which the event occurred relative to
+     * the origin of the screen coordinate system.
+     *
+     * Note: This value is usually not very useful unless you want to
+     * position a native popup window at this coordinate.
+     *
+     * @return {Number} The vertical mouse position on the screen.
+     */
+    getScreenTop : function() {
+      return this.screenY;
+    },
+
+
+    /**
      * Manipulates the native event object, adding methods if they're not
      * already present
      *
@@ -77,13 +166,6 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
     {
       if (!event) {
         return event;
-      }
-      // apply mouse event normalizations
-      var bindMethods = qx.module.event.Mouse.BIND_METHODS;
-      for (var i=0, l=bindMethods.length; i<l; i++) {
-        if (typeof event[bindMethods[i]] != "function") {
-          event[bindMethods[i]] = qx.module.event.Mouse[bindMethods[i]].bind(event);
-        }
       }
 
       var bindMethods = qx.module.event.Pointer.BIND_METHODS;

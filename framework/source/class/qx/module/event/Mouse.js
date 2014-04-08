@@ -18,7 +18,9 @@
 ************************************************************************ */
 
 /**
- * Normalization for native mouse events
+ * Normalization for native mouse events. For cross-device applications that
+ * support both mouse and touchscreen interaction, consider using
+ * <a href="#Pointer">Pointer</a> and/or <a href="#Gesture">Gesture</a> events.
  *
  * @require(qx.module.Environment)
  * @require(qx.module.Event)

@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * Normalization for the rotate gesture
+ * Normalization for the rotate gesture.
  *
  * @require(qx.module.Event)
  *

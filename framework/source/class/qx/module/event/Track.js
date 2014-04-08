@@ -18,7 +18,9 @@
 ************************************************************************ */
 
 /**
- * Normalization for the track gesture
+ * Normalization for the track gesture. This gesture is based on <a href="#Pointer">Pointer events</a>,
+ * meaning that it's available on all devices, no matter which input device type is used (e.g. mouse or
+ * touchscreen).
  *
  * @require(qx.module.Event)
  *
