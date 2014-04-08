@@ -36,6 +36,16 @@ qx.Class.define("testrunner.view.Console", {
   {
     qx.log.appender.Native;
     qx.log.appender.Console;
+
+    // Workaround for http://bugzilla.qooxdoo.org/show_bug.cgi?id=8242
+    var button = document.createElement("button");
+    button.id = "run";
+    var text = document.createTextNode("Run Tests");
+    button.appendChild(text);
+    qx.bom.Event.addNativeListener(button, "click", function() {
+      qx.core.Init.getApplication().runner.view.run();
+    });
+    document.body.appendChild(button);
   },
 
   /*
