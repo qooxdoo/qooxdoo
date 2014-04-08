@@ -267,7 +267,7 @@ qx.Bootstrap.define("qxWeb", {
      * @return {q} New collection containing the elements that passed the filter
      */
     map : function(callback, thisarg) {
-      return qxWeb.$init(Array.prototype.map.apply(this, arguments), this.constructor);
+      return qxWeb.$init(Array.prototype.map.apply(this, arguments), qxWeb);
     },
 
 
