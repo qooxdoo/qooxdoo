@@ -5,7 +5,7 @@ Pointer Events
 
 qooxdoo's pointer events layer offers a unified set of events that work across all three GUI toolkits (desktop, mobile and website) regardless of which input device type (mouse, touch or stylus) is used. This enables developers to create GUIs that work on touch devices such as smartphones and tablets just as well as on PCs.
 
-This layer is the foundation for high-level gesture events, and is based on the `W3C Pointer Events candidate recommendation <http://www.w3.org/TR/pointerevents/>`__, a specification that is based on mouse events and maps all input devices to pointer events. It extends the mouse event type with additional information like the ID of the pointer for multi pointer devices.
+This layer is the foundation for :ref:`high-level gesture events <pages/gestures#gesture_events>`, and is based on the `W3C Pointer Events candidate recommendation <http://www.w3.org/TR/pointerevents/>`__, a specification that is based on mouse events and maps all input devices to pointer events. It extends the mouse event type with additional information like the ID of the pointer for multi pointer devices.
 
 Currently, only IE 10+ supports pointer events natively. In all other browsers, native touch or mouse events are translated into synthetic pointer events. This translation layer checks for native pointer events availability so that no modifications to framework or application code should be necessary as more browsers gain native pointer events support.
 
@@ -23,18 +23,4 @@ The following events are available in all of qooxdoo's GUI toolkits:
 
 `Pointer event API documentation <http://demo.qooxdoo.org/current/apiviewer/index.html#qx.event.type.Pointer>`__
 
-Note that not all events mentioned in the specification are listed here. We chose to only implement the event types required for qooxdoo's widgets, which is one reason why we don’t like to call this implementation a polyfill, even if in most areas it conforms to the the spec and is quite broad in scope.
-
-Gestures
-########
-
-In addition to the atomic pointer* events, several high-level gesture events are available:
-
-* `tap <http://demo.qooxdoo.org/current/apiviewer/index.html#qx.event.type.Tap>`__
-* `longtap <http://demo.qooxdoo.org/current/apiviewer/index.html#qx.event.type.Tap>`__
-* `dbltap <http://demo.qooxdoo.org/current/apiviewer/index.html#qx.event.type.Tap>`__
-* `swipe <http://demo.qooxdoo.org/current/apiviewer/index.html#qx.event.type.Swipe>`__
-* `rotate <http://demo.qooxdoo.org/current/apiviewer/index.html#qx.event.type.Rotate>`__
-* `pinch <http://demo.qooxdoo.org/current/apiviewer/index.html#qx.event.type.Pinch>`__
-* `track <http://demo.qooxdoo.org/current/apiviewer/index.html#qx.event.type.Track>`__
-* `roll <http://demo.qooxdoo.org/current/apiviewer/index.html#qx.event.type.Roll>`__
+Note that not all events mentioned in the specification are listed here. We chose to only implement the event types required for qooxdoo's widgets, which is one reason why we don't like to call this implementation a polyfill, even if in most areas it conforms to the the spec and is quite broad in scope.
