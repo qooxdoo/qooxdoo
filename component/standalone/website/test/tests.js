@@ -2230,7 +2230,7 @@ testrunner.define({
     }, 100);
 
     this.wait(function() {
-      this.assertEquals(target, test[0]);
+      this.assertEquals(test[0], target);
     }, 500, this);
   }
 });
