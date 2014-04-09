@@ -188,7 +188,8 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * @return {Boolean} The enabled state of the collection.
      */
     getEnabled : function() {
-      return !this.getProperty("disabled");
+      // Until [Bug #8240] is not fixed, we have to use native getAttribute()
+      return !this[0].getAttribute("disabled");
     },
 
 

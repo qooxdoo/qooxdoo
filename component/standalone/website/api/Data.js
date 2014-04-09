@@ -399,12 +399,14 @@ var Data = q.define({
       this.__data[moduleName].events = this.__data[moduleName].events.concat(this._getEvents(ast));
 
       this.__data[moduleName].member = this.__data[moduleName].member.concat(Data.getByType(ast, "methods").children.filter(function(method) {
-        return !Data.__isInternal(method);
-      }));
+        // ignore internal and already listed methods e.g. factory methods
+        return !Data.__isInternal(method) && this.__data[moduleName].member.indexOf(method) == -1;
+      }.bind(this)));
 
       this.__data[moduleName].static = this.__data[moduleName].static.concat(Data.getByType(ast, "methods-static").children.filter(function(method) {
-        return !Data.__isInternal(method);
-      }));
+        // ignore internal and already listed methods
+        return !Data.__isInternal(method) && this.__data[moduleName].static.indexOf(method) == -1;
+      }.bind(this)));
 
       if (!this.__data[moduleName].desc) {
         var desc = Data.getByType(ast, "desc");

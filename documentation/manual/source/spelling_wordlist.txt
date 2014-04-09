@@ -80,6 +80,7 @@ Organisation
 Outdent
 Parameterizing
 Parsers
+Photoshop
 Placeholer
 Plugin
 Plugins
@@ -400,6 +401,7 @@ polymorphism
 popup
 popups
 postfix
+ppi
 pre
 predefine
 predefining
@@ -467,6 +469,7 @@ setValue
 sigil
 sitemap
 smartphone
+smartphones
 sortable
 spacings
 specialities
@@ -541,6 +544,7 @@ transfering
 trc
 tri
 trn
+trnc
 txt
 ui
 uncomment

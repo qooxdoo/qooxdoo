@@ -34,7 +34,7 @@ qx.Bootstrap.define("qx.bom.client.Device",
     __ids : {
       "iPod" : "ipod",
       "iPad" : "ipad",
-      "iPhone" : "iPhone",
+      "iPhone" : "iphone",
       "PSP" : "psp",
       "PLAYSTATION 3" : "ps3",
       "Nintendo Wii" : "wii",
@@ -53,7 +53,7 @@ qx.Bootstrap.define("qx.bom.client.Device",
      */
     getName : function() {
       var str = [];
-      for (var key in this.__ids) {
+      for (var key in qx.bom.client.Device.__ids) {
         str.push(key);
       }
       var reg = new RegExp("(" + str.join("|").replace(/\./g, "\.") + ")", "g");

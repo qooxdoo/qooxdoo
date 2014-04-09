@@ -42,193 +42,21 @@ var minimatch = require("minimatch");
 var _ = require('underscore');
 
 // not pretty (require internals of jshint) but works
-var js_builtins = require('../node_modules/jshint/src/vars');
+var js_builtins = require('jshint/src/vars');
 
-// local
-var parentAnnotator = require('./annotator/parent');
-var classNameAnnotator = require('./annotator/className');
-var loadTimeAnnotator = require('./annotator/loadTime');
-var qxCoreEnv = require('./qxCoreEnv');
-var util = require('./util');
+// local (modules may be injected by test env)
+var parentAnnotator = (parentAnnotator || require('./annotator/parent'));
+var classNameAnnotator = (classNameAnnotator || require('./annotator/className'));
+var loadTimeAnnotator = (loadTimeAnnotator || require('./annotator/loadTime'));
+var qxCoreEnv = (qxCoreEnv || require('./qxCoreEnv'));
+var util = (util || require('./util'));
 
 //------------------------------------------------------------------------------
-// Privates
+// Attic
 //------------------------------------------------------------------------------
 
-function isVar(node) {
-  return ["Identifier", "MemberExpression"].indexOf(node.type) !== -1;
-}
-
-function findVarRoot (var_node) {
-  if (!isVar(var_node)) {
-    return undefined;
-  } else {
-    while (var_node.parent
-      && var_node.parent.type === 'MemberExpression'
-      && var_node.parent.computed === false) {
-        var_node = var_node.parent;
-      }
-    return var_node;
-  }
-}
-
-/**
- * Takes a variable AST node and returns the longest
- * possible variable name (with or without method name)
- * i.e. a full-quallified class name.
- *
- * example input
- *  - qx.ui.treevirtual.MTreePrimitive.Type.BRANCH
- *  - qx.ui.table.Table
- *  - qx.ui.basic.Label.toggleRich()
- *  - qx.event.IEventHandler
- *  - WebKitCSSMatrix
- *  - qxWeb
- *  - qx
- *
- * example output should be (withoutMethodName)
- *  - qx.ui.treevirtual.MTreePrimitive
- *  - qx.ui.table.Table
- *  - qx.ui.basic.Label
- *  - qx.event.IEventHandler
- *  - WebKitCSSMatrix
- *  - qxWeb
- *  - qx
- *
- * @returns {String}
- */
-function assemble(varNode, withMethodName) {
-  var varRoot = findVarRoot(varNode);
-  var assembled = escodegen.generate(varRoot);
-  withMethodName = withMethodName || false;
-
-  if (!withMethodName) {
-    // cut off method name (e.g. starting with [_$a-z]+)
-    // or constants (e.g. Bootstrap.DEBUG)
-    var cutOff = function(assembled) {
-      var posOfLastDot = assembled.lastIndexOf('.');
-
-      if (posOfLastDot === -1) {
-        // e.g. qx or WebKitCssMatrix
-        return assembled;
-      }
-
-      var firstCharLastWord = assembled[posOfLastDot+1];
-      var lastSnippet = assembled.substr(posOfLastDot+1);
-      var isUpperCase = function(charOrWord) {
-        return charOrWord === charOrWord.toUpperCase();
-      };
-      var needsCut = function() {
-        // match e.g.:
-        //  - qx.MyClassName.myMethodName
-        //  - Bootstrap.DEBUG
-        //  - qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE
-        return (firstCharLastWord === firstCharLastWord.toLowerCase() ||
-                lastSnippet.split("").every(isUpperCase) ||
-                /(\.[A-Z].+){2,}/.test(assembled));
-      };
-
-      if (needsCut()) {
-        assembled = assembled.substr(0, posOfLastDot);
-        // recurse because of sth. like 'qx.bom.Style.__supports.call'
-        return cutOff(assembled);
-      }
-
-      return assembled;
-    };
-
-    assembled = cutOff(assembled);
-  }
-
-  return assembled;
-}
-
-function dependenciesFromAst(scope) {
-  var dependencies = [];
-
-  scope.through.forEach( function (ref) {
-    if (!ref.resolved) {
-      dependencies.push(ref);
-    }
-  });
-
-  return dependencies;
-}
-
-/**
- * Identify builtins and reserved words.
- */
-function not_builtin(ref) {
-  var ident = ref.identifier;
-  if (ident.type !== "Identifier") {
-    return true;
-  }
-
-  var isBuiltin = function(el) {
-    return ident.name in js_builtins[el];
-  };
-
-  var missingOrCustom = ["undefined", "Infinity", "performance"];
-
-  // check in various js_builtins maps
-  if (['reservedVars',
-       'ecmaIdentifiers',
-       'browser',
-       'devel',
-       'worker',
-       'wsh',
-       'nonstandard'].some(isBuiltin) || missingOrCustom.indexOf(ident.name) !== -1) {
-      return false;
-  }
-  return true;
-}
-
-/**
- *  Identify "qx.$$foo", "qx.foo.$$bar" and "qx.foo.Bar.$$method" dependencies
- *  (e.g. qx.$$libraries, qx.$$resources ...).
- */
-function not_qxinternal(ref) {
-  var propertyPath;
-  var ident = ref.identifier;
-
-  if (ident.type !== "Identifier") {
-    return true;
-  }
-
-  var startsWithTwoDollars = function(propertyPath, propName) {
-    return (propertyPath[propName]
-            && propertyPath[propName][0] === "$"
-            && propertyPath[propName][1] === "$");
-  };
-
-  // e.g. qx.$$libraries
-  if (propertyPath = util.get(ident, "parent.property")) {
-    if (startsWithTwoDollars(propertyPath, "name")) {
-      return false;
-    }
-  }
-
-
-  // e.g. qx.Bootstrap.$$logs
-  if (propertyPath = util.get(ident, "parent.property.parent.parent.property")) {
-    if (startsWithTwoDollars(propertyPath, "name")) {
-      return false;
-    }
-  }
-
-  // e.g. qx.core.Property.$$method
-  if (propertyPath = util.get(ident, "parent.property.parent.parent.property.parent.parent.property")) {
-    if (startsWithTwoDollars(propertyPath, "name")) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-function not_runtime(ref) {
-  return !!(ref && ref.from && ref.from.isLoadTime);
-}
+// This envisaged code may be useful as starting point
+// at some point - if not remove it completly someday ...
 
 /**
  * See ecmascript/frontend/tree.py#hasParentContext
@@ -275,9 +103,10 @@ function getClassMaps(etree, optObj) {
  * remove those references that point inside class maps. The remaining are
  * unresolved symbols referenced in code that is not part of a class map.
  */
+/*
 function get_non_class_deps(etree, deps_map, optObj) {
-
 }
+*/
 
 /**
  * Better alternative to analyze_tree():
@@ -310,19 +139,23 @@ function get_non_class_deps(etree, deps_map, optObj) {
  *
  * @returns {Object} map embedding dependencies { 'custom.ClassA' : { extend : [escope.References] } }
  */
+/*
 var KeysWithSubMaps = {
   statics:true,
   members:true,
 };
+*/
 
 
 /**
  * Get deps by analysing this paricular (sub)tree.
  */
+ /*
 function analyze_tree(etree, optObj) {
-
 }
+*/
 
+/*
 function analyze_as_map(etree, optObj) {
   var result = {};
 
@@ -355,11 +188,193 @@ function analyze_as_map(etree, optObj) {
 
   return result;
 }
+*/
+
+//------------------------------------------------------------------------------
+// Privates
+//------------------------------------------------------------------------------
+
+// privates may be injected by test env
+
+var isVar = isVar || function (node) {
+  return ["Identifier", "MemberExpression"].indexOf(node.type) !== -1;
+};
+
+var findVarRoot = findVarRoot || function (varNode) {
+  if (!isVar(varNode)) {
+    return undefined;
+  } else {
+    while (varNode.parent &&
+      varNode.parent.type === 'MemberExpression' &&
+      varNode.parent.computed === false) {
+      varNode = varNode.parent;
+    }
+    return varNode;
+  }
+};
+
+/**
+ * Takes a variable AST node and returns the longest
+ * possible variable name (with or without method name)
+ * i.e. a full-quallified class name.
+ *
+ * example input
+ *  - qx.ui.treevirtual.MTreePrimitive.Type.BRANCH
+ *  - qx.ui.table.Table
+ *  - qx.ui.basic.Label.toggleRich()
+ *  - qx.event.IEventHandler
+ *  - WebKitCSSMatrix
+ *  - qxWeb
+ *  - qx
+ *
+ * example output should be (withoutMethodName)
+ *  - qx.ui.treevirtual.MTreePrimitive
+ *  - qx.ui.table.Table
+ *  - qx.ui.basic.Label
+ *  - qx.event.IEventHandler
+ *  - WebKitCSSMatrix
+ *  - qxWeb
+ *  - qx
+ *
+ * @returns {String}
+ */
+var assemble = assemble || function (varNode, withMethodName) {
+  var varRoot = findVarRoot(varNode);
+  var assembled = escodegen.generate(varRoot);
+  withMethodName = withMethodName || false;
+
+  if (!withMethodName) {
+    // cut off method name (e.g. starting with [_$a-z]+)
+    // or constants (e.g. Bootstrap.DEBUG)
+    var cutOff = function(assembled) {
+      var posOfLastDot = assembled.lastIndexOf('.');
+
+      if (posOfLastDot === -1) {
+        // e.g. qx or WebKitCssMatrix
+        return assembled;
+      }
+
+      var firstCharLastWord = assembled[posOfLastDot+1];
+      var lastSnippet = assembled.substr(posOfLastDot+1);
+      var isUpperCase = function(charOrWord) {
+        return charOrWord === charOrWord.toUpperCase();
+      };
+      var needsCut = function() {
+        // match e.g.:
+        //  - qx.MyClassName.myMethodName
+        //  - Bootstrap.DEBUG
+        //  - qx.util.fsm.FiniteStateMachine.StateChange.CURRENT_STATE
+        return (firstCharLastWord === firstCharLastWord.toLowerCase() ||
+                lastSnippet.split("").every(isUpperCase) ||
+                /(\.[A-Z].+){2,}/.test(assembled));
+      };
+
+      if (needsCut()) {
+        assembled = assembled.substr(0, posOfLastDot);
+        // recurse because of sth. like 'qx.bom.Style.__supports.call'
+        return cutOff(assembled);
+      }
+
+      return assembled;
+    };
+
+    assembled = cutOff(assembled);
+  }
+
+  return assembled;
+};
+
+var dependenciesFromAst = dependenciesFromAst || function (scope) {
+  var dependencies = [];
+
+  scope.through.forEach( function (ref) {
+    if (!ref.resolved) {
+      dependencies.push(ref);
+    }
+  });
+
+  return dependencies;
+};
+
+/**
+ * Identify builtins and reserved words.
+ */
+var notBuiltin = notBuiltin || function (ref) {
+  var ident = ref.identifier;
+  if (ident.type !== "Identifier") {
+    return true;
+  }
+
+  var isBuiltin = function(el) {
+    return ident.name in js_builtins[el];
+  };
+
+  var missingOrCustom = ["undefined", "Infinity", "performance"];
+
+  // check in various js_builtins maps
+  if (['reservedVars',
+       'ecmaIdentifiers',
+       'browser',
+       'devel',
+       'worker',
+       'wsh',
+       'nonstandard'].some(isBuiltin) || missingOrCustom.indexOf(ident.name) !== -1) {
+      return false;
+  }
+  return true;
+};
+
+/**
+ *  Identify "qx.$$foo", "qx.foo.$$bar" and "qx.foo.Bar.$$method" dependencies
+ *  (e.g. qx.$$libraries, qx.$$resources ...).
+ */
+var notQxInternal = notQxInternal || function (ref) {
+  var propertyPath;
+  var ident = ref.identifier;
+
+  if (ident.type !== "Identifier") {
+    return true;
+  }
+
+  var startsWithTwoDollars = function(propertyPath, propName) {
+    return (propertyPath[propName]
+            && propertyPath[propName][0] === "$"
+            && propertyPath[propName][1] === "$");
+  };
+
+  // e.g. qx.$$libraries
+  if (propertyPath = util.get(ident, "parent.property")) {
+    if (startsWithTwoDollars(propertyPath, "name")) {
+      return false;
+    }
+  }
+
+
+  // e.g. qx.Bootstrap.$$logs
+  if (propertyPath = util.get(ident, "parent.property.parent.parent.property")) {
+    if (startsWithTwoDollars(propertyPath, "name")) {
+      return false;
+    }
+  }
+
+  // e.g. qx.core.Property.$$method
+  if (propertyPath = util.get(ident, "parent.property.parent.parent.property.parent.parent.property")) {
+    if (startsWithTwoDollars(propertyPath, "name")) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+var notRuntime = notRuntime || function (ref) {
+  return !!(ref && ref.from && ref.from.isLoadTime);
+};
 
 /**
  * Unify and sanitize (only strings, uniq, sort and no self reference) dependencies.
  */
-function unify(deps, className) {
+var unify = unify || function (deps, className) {
   // flatten (ref2string)
   var shallowDeps = deps.map(function (dep) {
     if (_.isString(dep)) {
@@ -382,10 +397,10 @@ function unify(deps, className) {
   return _.filter(shallowDeps, function(dep) {
     return (dep !== className && dep.indexOf(className+".") === -1);
   });
-}
+};
 
-function getClassesFromTagDesc(tag) {
-  var classes = [];
+var getClassesFromTagDesc = getClassesFromTagDesc || function (tag) {
+  var classes = [8];
   var match = /\(([^, ]+(, ?)?)+\)/.exec(tag);
   if (match !== null) {
     classes = match[0].slice(1, -1).split(",").map(function (clazz) {
@@ -393,18 +408,19 @@ function getClassesFromTagDesc(tag) {
     });
   }
   return classes;
-}
+};
 
-function getResourcesFromTagDesc(tag) {
+var getResourcesFromTagDesc = getResourcesFromTagDesc || function (tag) {
   var resource = "";
   if (/\([^)]+\)/.test(tag)) {
     resource = tag.slice(1, -1);
   }
   return resource;
-}
+};
 
-function applyIgnoreRequireAndUse(deps, atHints, className) {
+var applyIgnoreRequireAndUse = applyIgnoreRequireAndUse || function (deps, className) {
   var toBeFiltered = [];
+  var atHints = deps.athint;
   var collectIgnoredDeps = function(dep) {
     atHints.ignore.forEach(function(ignore) {
       if (toBeFiltered.indexOf(ignore) === -1) {
@@ -477,10 +493,10 @@ function applyIgnoreRequireAndUse(deps, atHints, className) {
   }
 
   return deps;
-}
+};
 
 
-function collectAtHintsFromComments(tree) {
+var collectAtHintsFromComments = collectAtHintsFromComments || function (tree) {
   var topLevelCodeUnitLines = [];
   var atHints = {
     'ignore': [],
@@ -497,9 +513,9 @@ function collectAtHintsFromComments(tree) {
   };
 
   // collect only file and class scope which means only top level
-  // @ignore/@require/@use/@asset/@cldr are consider here for now. This may be
-  // important later cause @ignore can be used within methods (which is
-  // neglected here) also!
+  // @ignore/@require/@use/@asset/@cldr are consider here for now.
+  // This may be important later cause @ignore can be used within methods
+  // (which is neglected here) also!
   tree.body.forEach(function (codeUnit) {
     topLevelCodeUnitLines.push(codeUnit.loc.start.line);
   });
@@ -531,7 +547,7 @@ function collectAtHintsFromComments(tree) {
   });
 
   return atHints;
-}
+};
 
 //------------------------------------------------------------------------------
 // Public Interface
@@ -572,12 +588,12 @@ function findUnresolvedDeps(tree, opts) {
   deps.athint = atHints;
 
   filteredScopeRefs = util.pipeline(scopesRef,
-    _.partial(util.filter, not_builtin),     // e.g. document, window, undefined ...
-    _.partial(util.filter, not_qxinternal)   // e.g. qx.$$libraries, qx$$resources ...
+    _.partial(util.filter, notBuiltin),     // e.g. document, window, undefined ...
+    _.partial(util.filter, notQxInternal)   // e.g. qx.$$libraries, qx$$resources ...
     // check library classes
   );
 
-  deps.load = filteredScopeRefs.filter(not_runtime);
+  deps.load = filteredScopeRefs.filter(notRuntime);
   deps.run = _.difference(filteredScopeRefs, deps.load);
 
   // add feature classes from qx.core.Environment calls
@@ -590,7 +606,7 @@ function findUnresolvedDeps(tree, opts) {
   deps.run = unify(deps.run, tree.qxClassName);
 
   // add/remove deps according to atHints
-  deps = applyIgnoreRequireAndUse(deps, atHints, tree.qxClassName);
+  deps = applyIgnoreRequireAndUse(deps, tree.qxClassName);
 
   // overlappings aren't important - remove them
   // i.e. if it's already in load remove from run
@@ -758,7 +774,7 @@ function prependNamespace(classList, namespaces) {
     return prefix+":"+className;
   };
 
-   return classList.map(augmentClassWithNamespace);
+  return classList.map(augmentClassWithNamespace);
 }
 
 function translateClassIdsToPaths(classList) {

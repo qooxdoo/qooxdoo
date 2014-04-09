@@ -229,22 +229,11 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
     {
       var data = evt.getData();
       this.fireDataEvent("input", data, true);
-      if (this.getLiveUpdate())
-      {
-        if (qx.core.Environment.get("browser.name") == "iemobile" || qx.core.Environment.get("os.name") == "android") {
-          if (this.__inputTimeoutHandle) {
-            clearTimeout(this.__inputTimeoutHandle);
-          }
-          this.__inputTimeoutHandle = setTimeout(function() {
-            var caretPosition = this._getCaretPosition();
-            this.setValue(data);
-            this._setCaretPosition(caretPosition);
-          }.bind(this), 500);
-        }
-        else {
-          var caretPosition = this._getCaretPosition();
-          this.setValue(data);
-          this._setCaretPosition(caretPosition);
+      if (this.getLiveUpdate()) {
+        if (this._setValue) {
+          this._setValue(data);
+        } else {
+          this.__fireChangeValue(this._convertValue(data));
         }
       }
     },

@@ -165,9 +165,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
      * @return {qx.ui.mobile.container.Composite} the right container.
      */
     _createRightContainer : function() {
-      var container = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
-      container.getContentElement().removeAttribute("id");
-      return container;
+      return new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
     },
 
 
@@ -180,7 +178,6 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
       var image = new qx.ui.mobile.basic.Image();
       image.setAnonymous(true);
       image.addCssClass("list-item-image");
-      image.getContentElement().removeAttribute("id");
       return image;
     },
 
@@ -194,7 +191,6 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
       var title = new qx.ui.mobile.basic.Label();
       title.setWrap(false);
       title.addCssClass("list-item-title");
-      title.getContentElement().removeAttribute("id");
       return title;
     },
 
@@ -208,7 +204,6 @@ qx.Class.define("qx.ui.mobile.list.renderer.Default",
       var subtitle = new qx.ui.mobile.basic.Label();
       subtitle.setWrap(false);
       subtitle.addCssClass("list-item-subtitle");
-      subtitle.getContentElement().removeAttribute("id");
       return subtitle;
     },
 

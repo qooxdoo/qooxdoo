@@ -141,4 +141,28 @@ module.exports = function(grunt) {
     'Generate the build version of qx.Website and the widget CSS',
     ["generate-build", "sass:indigo", "notify:build"]
   );
+
+
+  // pre-process the index file
+  var fs = require('fs');
+  grunt.registerTask('process-api-html', 'A task to preprocess the index.html', function() {
+    // read index file
+    var index = fs.readFileSync('api/index.html', {encoding: 'utf8'});
+
+    // process index file
+    var found = index.match(/<!--\s*\{.*\}\s*-->/g);
+    for (var i = 0; i < found.length; i++) {
+      var name = found[i].replace(/<!--|-->|\{|\}/g, "").trim();
+      var templateFileName = "api/" + name + ".html";
+      if (fs.existsSync(templateFileName)) {
+        console.log("Processing '" + name + "': OK");
+        index = index.replace(found[i], fs.readFileSync(templateFileName));
+      } else {
+        console.log("Processing '" + name + "': ignore");
+      }
+    }
+
+    // write index file
+    fs.writeFileSync('api/index.new.html', index, {'encoding': 'utf8'});
+  });
 };

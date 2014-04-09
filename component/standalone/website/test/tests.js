@@ -2230,7 +2230,7 @@ testrunner.define({
     }, 100);
 
     this.wait(function() {
-      this.assertEquals(target, test[0]);
+      this.assertEquals(test[0], target);
     }, 500, this);
   }
 });
@@ -2668,25 +2668,10 @@ testrunner.define({
     this.assertEquals(styles.width, blockerDiv.getWidth() + "px");
     this.assertEquals(styles.height, blockerDiv.getHeight() + "px");
 
-    if (q.env.get("engine.name") == "mshtml") {
-      var blockerIframe = test[0].__blocker.iframe;
-      this.assertElement(blockerIframe[0]);
-      this.assertTrue(q.$$qx.dom.Hierarchy.isRendered(blockerIframe[0]));
-      var blockerIframeLocation = blockerIframe.getOffset();
-      this.assertEquals(styles.top, blockerIframeLocation.top + "px");
-      this.assertEquals(styles.left, blockerIframeLocation.left + "px");
-      this.assertEquals(styles.width, blockerIframe.getWidth() + "px");
-      this.assertEquals(styles.height, blockerIframe.getHeight() + "px");
-    }
-
     this.assertEquals(1, blockerDiv.getStyle("opacity"));
     this.assertMatch(blockerDiv.getStyle("backgroundColor"), /(rgb.*?0,.*?255.*?0|#00ff00)/i);
     test.unblock();
     this.assertFalse(q.$$qx.dom.Hierarchy.isRendered(blockerDiv[0]));
-
-    if (q.env.get("engine.name") == "mshtml") {
-      this.assertFalse(q.$$qx.dom.Hierarchy.isRendered(blockerIframe[0]));
-    }
 
     var newStyles = {
       top: "400px",
@@ -2703,15 +2688,6 @@ testrunner.define({
     this.assertEquals(newStyles.left, blockerLocation.left + "px");
     this.assertEquals(newStyles.width, blockerDiv.getWidth() + "px");
     this.assertEquals(newStyles.height, blockerDiv.getHeight() + "px");
-
-    if (q.env.get("engine.name") == "mshtml") {
-      this.assertTrue(q.$$qx.dom.Hierarchy.isRendered(blockerIframe[0]));
-      blockerIframeLocation = blockerIframe.getOffset();
-      this.assertEquals(newStyles.top, blockerIframeLocation.top + "px");
-      this.assertEquals(newStyles.left, blockerIframeLocation.left + "px");
-      this.assertEquals(newStyles.width, blockerIframe.getWidth() + "px");
-      this.assertEquals(newStyles.height, blockerIframe.getHeight() + "px");
-    }
   },
 
   testBlockDocument : function()
@@ -2722,20 +2698,14 @@ testrunner.define({
     this.assertTrue(q.$$qx.dom.Hierarchy.isRendered(blockerDiv[0]));
     this.assertEquals(q(document).getWidth(), blockerDiv.getWidth());
     this.assertEquals(q(document).getHeight(), blockerDiv.getHeight());
-
-    if (q.env.get("engine.name") == "mshtml") {
-      var blockerIframe = document.__blocker.iframe;
-      this.assertTrue(q.$$qx.dom.Hierarchy.isRendered(blockerIframe[0]));
-      this.assertEquals(q(document).getWidth(), blockerIframe.getWidth());
-      this.assertEquals(q(document).getHeight(), blockerIframe.getHeight());
-    }
+    this.assertEquals(q(document.body).getChildren(":first")[0], blockerDiv[0]);
+    this.assertEquals('fixed', blockerDiv.getStyle("position"));
+    this.assertEquals('100%', blockerDiv[0].style.width);
+    this.assertEquals('100%', blockerDiv[0].style.height);
 
     q(document).unblock();
 
     this.assertFalse(q.$$qx.dom.Hierarchy.isRendered(blockerDiv[0]));
-    if (q.env.get("engine.name") == "mshtml") {
-      this.assertFalse(q.$$qx.dom.Hierarchy.isRendered(blockerIframe[0]));
-    }
   },
 
   testBlockWindow : function() {
@@ -3909,7 +3879,7 @@ testrunner.define({
       this.resume(function() {
         this.assertEquals(3, callInfo.length);
       });
-    }).bind(this), 1800);
+    }).bind(this), 1300);
 
     this.wait(2000);
   },
@@ -3935,7 +3905,7 @@ testrunner.define({
       this.resume(function() {
         this.assertEquals(2, callInfo.length);
       });
-    }).bind(this), 1800);
+    }).bind(this), 1300);
 
     this.wait(2000);
   },

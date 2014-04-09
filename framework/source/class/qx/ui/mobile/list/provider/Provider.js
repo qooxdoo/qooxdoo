@@ -104,7 +104,6 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
 
       // Clone the element and all it's events
       var clone = qx.bom.Element.clone(this.__itemRenderer.getContainerElement(), true);
-      clone.removeAttribute("id");
       clone.setAttribute("data-row", row);
       return clone;
     },
