@@ -4622,7 +4622,7 @@ testrunner.define({
 
   testIconOpenerToggle : function() {
     var sandbox = q("#sandbox");
-    sandbox.append("<input type='text' class='datepicker' data-qx-class='qx.ui.website.DatePicker' value=''></input");
+    sandbox.append("<input type='text' class='datepicker' data-qx-class='qx.ui.website.DatePicker' value='' />");
 
     var datepicker = q("input.datepicker").datepicker();
     datepicker.setConfig('icon', '../../../../application/websitewidgetbrowser/demo/datepicker/office-calendar.png');
