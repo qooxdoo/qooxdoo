@@ -296,7 +296,7 @@ module.exports = {
     },
 
     extract: function(test) {
-      var qxFooClassname = 'qx.Bootstrap.define("qx.lang.Array",\n'+   // line 1
+      var qxFooMyClass = 'qx.Bootstrap.define("qx.foo.MyClass",\n'+    // 1
         '{\n'+                                                         // 2
         '  statics:\n'+                                                // 3
         '  {\n'+                                                       // 4
@@ -304,13 +304,10 @@ module.exports = {
         '      qx.core.Environment.get("engine.name");\n'+             // 6
         '    }\n'+                                                     // 7
         '  },\n'+                                                      // 8
-        '  defer:\n'+                                                  // 9
-        '  {\n'+                                                       // 10
-        '    addEnvCallToRun: function() {\n'+                         // 11
-        '      qx.core.Environment.get("engine.name");\n'+             // 12
-        '    }\n'+                                                     // 13
-        '  }\n'+                                                       // 14
-        '});';                                                         // 15
+        '  defer: function(statics) {\n'+                              // 9
+        '    qx.core.Environment.get("engine.name");\n'+               // 10
+        '  }\n'+                                                       // 11
+        '});';                                                         // 12
 
       var scopeRefs = [
         {
@@ -323,8 +320,8 @@ module.exports = {
             isLoadTime: true,  // because of 'defer' special treatment
             block: {
               loc: {
-                start: {line: 11},
-                end: {line: 13}
+                start: {line: 9},
+                end: {line: 11}
               }
             }
           }
@@ -332,7 +329,7 @@ module.exports = {
       ];
 
       var esprima = require('esprima');
-      var tree = esprima.parse(qxFooClassname, {loc: true});
+      var tree = esprima.parse(qxFooMyClass, {loc: true});
       var expectedEnvDeps = {
         load: ['qx.bom.client.Engine'],
         run: ['qx.bom.client.Engine']
