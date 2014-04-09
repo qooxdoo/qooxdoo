@@ -4282,7 +4282,7 @@ testrunner.define({
 
     var newClass = "my-cool-calendar";
     cal.setTemplate("table", cal.getTemplate("table")
-      .replace("<table>", "<table class='" + newClass + "'>"));
+      .replace("{{cssPrefix}}-container", "{{cssPrefix}}-container " + newClass));
 
     var newPrev = "prev";
     cal.setTemplate("controls", cal.getTemplate("controls")
