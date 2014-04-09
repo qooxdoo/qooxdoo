@@ -3856,22 +3856,22 @@ testrunner.define({
       context = this;
       callInfo.push(Date.now());
     };
-    this.sandbox.on("myEvent", q.func.throttle(spy, 250), this.sandbox);
+    this.sandbox.on("myEvent", q.func.throttle(spy, 400), this.sandbox);
 
     var counter = 0;
     var intervalId = window.setInterval((function() {
       this.emit("myEvent");
 
-      if (counter === 14) {
+      if (counter === 4) {
         window.clearInterval(intervalId);
       }
       counter++;
-    }).bind(this.sandbox), 100);
+    }).bind(this.sandbox), 150);
 
     var checkContext = this.sandbox;
-    this.wait(2000, function() {
+    this.wait(1500, function() {
       this.assertEquals(checkContext, context);
-      this.assertEquals(7, callInfo.length);
+      this.assertEquals(3, callInfo.length);
     }, this);
   },
 
