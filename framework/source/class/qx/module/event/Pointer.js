@@ -23,6 +23,12 @@
  *
  * @require(qx.module.Event)
  * @require(qx.module.event.Pointer#getPointerType) // static code analysis - this method has to referenced
+ * @require(qx.module.event.Pointer#getViewportLeft) // static code analysis - this method has to referenced
+ * @require(qx.module.event.Pointer#getViewportTop) // static code analysis - this method has to referenced
+ * @require(qx.module.event.Pointer#getDocumentLeft) // static code analysis - this method has to referenced
+ * @require(qx.module.event.Pointer#getDocumentTop) // static code analysis - this method has to referenced
+ * @require(qx.module.event.Pointer#getScreenLeft) // static code analysis - this method has to referenced
+ * @require(qx.module.event.Pointer#getScreenTop) // static code analysis - this method has to referenced
  *
  * @group (Event_Normalization)
  */

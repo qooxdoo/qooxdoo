@@ -23,6 +23,12 @@
  * touchscreen).
  *
  * @require(qx.module.Event)
+ * @require(qx.module.event.Tap#getViewportLeft) // static code analysis - this method has to referenced
+ * @require(qx.module.event.Tap#getViewportTop) // static code analysis - this method has to referenced
+ * @require(qx.module.event.Tap#getDocumentLeft) // static code analysis - this method has to referenced
+ * @require(qx.module.event.Tap#getDocumentTop) // static code analysis - this method has to referenced
+ * @require(qx.module.event.Tap#getScreenLeft) // static code analysis - this method has to referenced
+ * @require(qx.module.event.Tap#getScreenTop) // static code analysis - this method has to referenced
  *
  * @group (Event_Normalization)
  */
