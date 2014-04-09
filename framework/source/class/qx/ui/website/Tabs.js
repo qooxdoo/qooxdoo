@@ -194,7 +194,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
             return;
           }
           button.addClass(cssPrefix + "-button")
-            .onWidget("click", this._onClick, tabs);
+            .$onFirstCollection("click", this._onClick, tabs);
 
           var page = tabs._getPage(button);
           if (page.length > 0) {
@@ -224,7 +224,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           this._showPage(active, null);
         }
 
-        tabs.getChildren("ul").getFirst().onWidget("keydown", this._onKeyDown, this);
+        tabs.getChildren("ul").getFirst().$onFirstCollection("keydown", this._onKeyDown, this);
       }.bind(this));
 
       return true;
@@ -238,7 +238,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         var pages= [];
         var selected;
         tabs.find("> ul > ." + cssPrefix + "-button")._forEachElementWrapped(function(li) {
-          li.offWidget("click", tabs._onClick, tabs);
+          li.$offFirstCollection("click", tabs._onClick, tabs);
           pages.push(li.getData(cssPrefix + "-page"));
           content.push(li.find("> button").getHtml());
           if (li.hasClass(cssPrefix + "-button-active")) {
@@ -308,7 +308,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           link.appendTo(list);
         }
 
-        link.onWidget("click", this._onClick, item)
+        link.$onFirstCollection("click", this._onClick, item)
         .addClass(cssPrefix + "-button");
         if (item.find("> ul ." + cssPrefix + "-button").length === 1) {
           link.addClass(cssPrefix + "-button-active");
@@ -481,8 +481,8 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
     dispose : function() {
       var cssPrefix = this.getCssPrefix();
       this._forEachElementWrapped(function(tabs) {
-        tabs.find("." + cssPrefix + "-button").offWidget("click", tabs._onClick, tabs);
-        tabs.getChildren("ul").getFirst().offWidget("keydown", tabs._onKeyDown, tabs)
+        tabs.find("." + cssPrefix + "-button").$offFirstCollection("click", tabs._onClick, tabs);
+        tabs.getChildren("ul").getFirst().$offFirstCollection("keydown", tabs._onKeyDown, tabs)
         .setHtml("");
       });
 

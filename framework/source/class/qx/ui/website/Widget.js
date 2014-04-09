@@ -64,7 +64,19 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
 
 
     /**
-     * TODOC
+     * Special 'on' method for qx.Website widgets that prevents memory
+     * leaks and duplicate listeners.
+     *
+     * During the lifetime of a widget, multiple collection instances can
+     * be created for the same DOM element. In the initialization of each
+     * of these widget collections, listeners can be attached using this method
+     * to prevent memory leaks and duplicate listeners.
+     *
+     * This is done by storing a reference to the collection the first time a
+     * listener is attached. For subsequent listeners, this stored collection
+     * is used as the context. If the context object already has the new listener,
+     * it is not attached again. This means that new collections don't create
+     * references to DOM elements and don't need to be disposed manually.
      *
      * @attach {qxWeb}
      * @param type {String} Type of the event to listen for
@@ -75,7 +87,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * phase if true.
      * @return {qxWeb} The collection for chaining
      */
-    onWidget : function(type, listener, ctx, useCapture) {
+    $onFirstCollection : function(type, listener, ctx, useCapture) {
       var propertyName = this.classname.replace(/\./g, "-") + "-context";
       if (!this.getProperty(propertyName)) {
         this.setProperty(propertyName, ctx);
@@ -90,7 +102,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
     },
 
     /**
-     * TODOC
+     * Removes a listener added with {@link #$onFirstCollection}.
      *
      * @attach {qxWeb}
      * @param type {String} Type of the event to listen for
@@ -98,10 +110,10 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * @param ctx {Object?} Context the callback function will be executed in.
      * Default: The element on which the listener was registered
      * @param useCapture {Boolean?} Attach the listener to the capturing
-     * phase if true.
+     * phase if true. Default: false
      * @return {qxWeb} The collection for chaining
      */
-    offWidget : function(type, listener, ctx, useCapture) {
+    $offFirstCollection : function(type, listener, ctx, useCapture) {
       var propertyName = this.classname.replace(/\./g, "-") + "-context";
       this._forEachElementWrapped(function(item) {
         var originalCtx = item.getProperty(propertyName);
@@ -356,8 +368,8 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
 
   defer : function(statics) {
     qxWeb.$attach({
-      onWidget : statics.onWidget,
-      offWidget : statics.offWidget,
+      $onFirstCollection : statics.$onFirstCollection,
+      $offFirstCollection : statics.$offFirstCollection,
       widget: statics.widget
     });
     qxWeb.$attachStatic({

@@ -333,22 +333,22 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
         if (item.getAttribute("tabindex") < 0) {
           item.setAttribute("tabindex", 0);
         }
-        item.find("." + cssPrefix + "-prev").offWidget("click", this._prevMonth, item);
-        item.find("." + cssPrefix + "-next").offWidget("click", this._nextMonth, item);
-        item.find("." + cssPrefix + "-day").offWidget("click", this._selectDay, item);
-        item.offWidget("focus", this._onFocus, item, true)
-        .offWidget("blur", this._onBlur, item, true);
+        item.find("." + cssPrefix + "-prev").$offFirstCollection("click", this._prevMonth, item);
+        item.find("." + cssPrefix + "-next").$offFirstCollection("click", this._nextMonth, item);
+        item.find("." + cssPrefix + "-day").$offFirstCollection("click", this._selectDay, item);
+        item.$offFirstCollection("focus", this._onFocus, item, true)
+        .$offFirstCollection("blur", this._onBlur, item, true);
       }, this);
 
       this.setHtml(this._getTable(value));
 
       this._forEachElementWrapped(function(item) {
-        item.find("." + cssPrefix + "-prev").onWidget("click", this._prevMonth, item);
-        item.find("." + cssPrefix + "-next").onWidget("click", this._nextMonth, item);
+        item.find("." + cssPrefix + "-prev").$onFirstCollection("click", this._prevMonth, item);
+        item.find("." + cssPrefix + "-next").$onFirstCollection("click", this._nextMonth, item);
         item.find("td").not(".qx-calendar-invalid")
-          .find("." + cssPrefix + "-day").onWidget("click", this._selectDay, item);
-        item.onWidget("focus", this._onFocus, item, true)
-        .onWidget("blur", this._onBlur, item, true);
+          .find("." + cssPrefix + "-day").$onFirstCollection("click", this._selectDay, item);
+        item.$onFirstCollection("focus", this._onFocus, item, true)
+        .$onFirstCollection("blur", this._onBlur, item, true);
       }, this);
 
       return this;
@@ -551,7 +551,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      * @param e {Event} focus event
      */
     _onFocus : function(e) {
-      this.onWidget("keydown", this._onKeyDown, this);
+      this.$onFirstCollection("keydown", this._onKeyDown, this);
     },
 
 
@@ -562,7 +562,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      */
     _onBlur : function(e) {
       if (this.contains(e.getRelatedTarget()).length === 0) {
-        this.offWidget("keydown", this._onKeyDown, this);
+        this.$offFirstCollection("keydown", this._onKeyDown, this);
       }
     },
 
@@ -671,12 +671,12 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
     dispose : function() {
       var cssPrefix = this.getCssPrefix();
       this._forEachElementWrapped(function(item) {
-        item.find("." + cssPrefix + "-prev").offWidget("click", this._prevMonth, item);
-        item.find("." + cssPrefix + "-next").offWidget("click", this._nextMonth, item);
-        item.find("." + cssPrefix + "-day").offWidget("click", this._selectDay, item);
-        item.offWidget("focus", this._onFocus, item, true)
-        .offWidget("blur", this._onBlur, item, true)
-        .offWidget("keydown", this._onKeyDown, item);
+        item.find("." + cssPrefix + "-prev").$offFirstCollection("click", this._prevMonth, item);
+        item.find("." + cssPrefix + "-next").$offFirstCollection("click", this._nextMonth, item);
+        item.find("." + cssPrefix + "-day").$offFirstCollection("click", this._selectDay, item);
+        item.$offFirstCollection("focus", this._onFocus, item, true)
+        .$offFirstCollection("blur", this._onBlur, item, true)
+        .$offFirstCollection("keydown", this._onKeyDown, item);
       }, this);
 
       this.setHtml("");

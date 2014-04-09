@@ -152,11 +152,11 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
         if (rating.getAttribute("tabindex") < 0) {
           rating.setAttribute("tabindex", 0);
         }
-        rating.onWidget("focus", this._onFocus, rating)
-        .onWidget("blur", this._onBlur, rating)
+        rating.$onFirstCollection("focus", this._onFocus, rating)
+        .$onFirstCollection("blur", this._onBlur, rating)
         .getChildren("span")
           .addClasses([cssPrefix + "-item", cssPrefix + "-item-off"])
-          .onWidget("click", this._onClick, rating);
+          .$onFirstCollection("click", this._onClick, rating);
       }.bind(this));
 
       return true;
@@ -221,14 +221,14 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
         if (diff > 0) {
           for (var i = 0; i < diff; i++) {
             qxWeb.create("<span>" + this.getConfig("symbol") + "</span>")
-            .onWidget("click", el._onClick, el)
+            .$onFirstCollection("click", el._onClick, el)
             .addClasses([cssPrefix + "-item", cssPrefix + "-item-off"])
             .appendTo(el);
           }
         } else {
           for (var i = 0; i < Math.abs(diff); i++) {
             el.getChildren().getLast()
-            .offWidget("click", el._onClick, el)
+            .$offFirstCollection("click", el._onClick, el)
             .remove();
           }
         }
@@ -286,9 +286,9 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
     dispose : function() {
       this._forEachElementWrapped(function(rating) {
         qxWeb(document.documentElement).off("keydown", this._onKeyDown, rating);
-        rating.offWidget("focus", this._onFocus, rating)
-        .offWidget("blur", this._onBlur, rating);
-        rating.getChildren("span").offWidget("click", rating._onClick, rating);
+        rating.$offFirstCollection("focus", this._onFocus, rating)
+        .$offFirstCollection("blur", this._onBlur, rating);
+        rating.getChildren("span").$offFirstCollection("click", rating._onClick, rating);
       });
       this.setHtml("");
 
