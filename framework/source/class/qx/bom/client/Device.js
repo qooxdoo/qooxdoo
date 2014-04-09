@@ -34,7 +34,7 @@ qx.Bootstrap.define("qx.bom.client.Device",
     __ids : {
       "iPod" : "ipod",
       "iPad" : "ipad",
-      "iPhone" : "iPhone",
+      "iPhone" : "iphone",
       "PSP" : "psp",
       "PLAYSTATION 3" : "ps3",
       "Nintendo Wii" : "wii",
