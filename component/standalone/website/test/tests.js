@@ -3984,17 +3984,17 @@ testrunner.define({
     var clb = function() {
       called++;
     };
-    w.onWidget("foo", clb, w);
+    w.$onFirstCollection("foo", clb, w);
 
     w.emit("foo");
     this.assertEquals(1, called);
 
-    w.onWidget("foo", clb, w);
+    w.$onFirstCollection("foo", clb, w);
 
     w.emit("foo");
     this.assertEquals(2, called);
 
-    w.offWidget("foo", clb, w);
+    w.$offFirstCollection("foo", clb, w);
     w.emit("foo");
     this.assertEquals(2, called);
   },
@@ -4005,19 +4005,19 @@ testrunner.define({
     var clb = function() {
       called++;
     };
-    w.onWidget("foo", clb, w);
+    w.$onFirstCollection("foo", clb, w);
 
     w.emit("foo");
     this.assertEquals(1, called);
 
-    w.onWidget("foo", function() {
+    w.$onFirstCollection("foo", function() {
       clb();
     }, w);
 
     w.emit("foo");
     this.assertEquals(3, called);
 
-    w.offWidget("foo", clb, w);
+    w.$offFirstCollection("foo", clb, w);
     w.emit("foo");
     this.assertEquals(4, called);
   },
@@ -4028,17 +4028,17 @@ testrunner.define({
     var clb = function() {
       called++;
     };
-    w.onWidget("foo", clb, {});
+    w.$onFirstCollection("foo", clb, {});
 
     w.emit("foo");
     this.assertEquals(1, called);
 
-    w.onWidget("foo", clb, {});
+    w.$onFirstCollection("foo", clb, {});
 
     w.emit("foo");
     this.assertEquals(2, called);
 
-    w.offWidget("foo", clb, {});
+    w.$offFirstCollection("foo", clb, {});
     w.emit("foo");
     this.assertEquals(2, called);
   },
@@ -4051,12 +4051,12 @@ testrunner.define({
     var clb = function() {
       called++;
     };
-    w.onWidget("foo", clb, w);
+    w.$onFirstCollection("foo", clb, w);
 
     w.emit("foo");
     this.assertEquals(2, called);
 
-    w.onWidget("foo", clb, w);
+    w.$onFirstCollection("foo", clb, w);
 
     w.emit("foo");
     this.assertEquals(4, called);
@@ -4064,7 +4064,7 @@ testrunner.define({
     w.getFirst().emit("foo");
     this.assertEquals(5, called);
 
-    w.offWidget("foo", clb, w);
+    w.$offFirstCollection("foo", clb, w);
     w.getFirst().emit("foo");
     this.assertEquals(5, called);
   },
@@ -4075,17 +4075,17 @@ testrunner.define({
     var clb = function() {
       called++;
     };
-    q("#sandbox").onWidget("foo", clb, q("#sandbox"));
+    q("#sandbox").$onFirstCollection("foo", clb, q("#sandbox"));
 
     q("#sandbox").emit("foo");
     this.assertEquals(1, called);
 
-    q("#sandbox").onWidget("foo", clb, q("#sandbox"));
+    q("#sandbox").$onFirstCollection("foo", clb, q("#sandbox"));
 
     q("#sandbox").emit("foo");
     this.assertEquals(2, called);
 
-    q("#sandbox").offWidget("foo", clb, q("#sandbox"));
+    q("#sandbox").$offFirstCollection("foo", clb, q("#sandbox"));
     this.assertEquals(2, called);
   }
 });
