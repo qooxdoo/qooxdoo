@@ -17,10 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-
-************************************************************************ */
 /**
  * @asset(qx/test/*)
  *
@@ -609,11 +605,11 @@ qx.Class.define("qx.test.data.marshal.Json",
       var propertiesSaved;
 
       var valN = function(data) {
-        if (data < 10) { throw new qx.core.ValidationError("NNN")};
+        if (data < 10) { throw new qx.core.ValidationError("NNN");}
       };
 
       var valS = function(data) {
-        if (data.length > 10) {throw new qx.core.ValidationError("SSS")};
+        if (data.length > 10) {throw new qx.core.ValidationError("SSS");}
       };
 
       var delegate = {getValidationRule : function(properties, propertyName) {
