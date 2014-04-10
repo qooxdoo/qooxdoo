@@ -27,31 +27,19 @@ module.exports = {
      * @see {@link https://github.com/caolan/nodeunit#sandbox-utility}
      */
     setUp: function (done) {
-      this.createStubbedSandbox = function(stubbedMethodsMap) {
-        var funcName = "";
-        // sandbox qxCoreEnv to be able to call non-exported functions
-        var sandbox = require('nodeunit').utils.sandbox;
-        var boxGlobals = {
-          // inject commen globals
-          module: {exports: exports},
-          require: require,
-          console: console,
-          __dirname: __dirname,
-          // inject all local modules cause rel paths in qxCoreEnv.js won't fit
-          util: require('../lib/util')
-        };
-
-        // merge stubbedMethodsMap
-        if (stubbedMethodsMap) {
-          for (funcName in stubbedMethodsMap) {
-            boxGlobals[funcName] = stubbedMethodsMap[funcName];
-          }
-        }
-
-        return sandbox('lib/qxCoreEnv.js', boxGlobals);
+      // sandbox qxCoreEnv to be able to call non-exported functions
+      var sandbox = require('nodeunit').utils.sandbox;
+      var boxGlobals = {
+        // inject commen globals
+        module: {exports: exports},
+        require: require,
+        console: console,
+        __dirname: __dirname,
+        // inject all local modules cause rel paths in qxCoreEnv.js won't fit
+        util: require('../lib/util')
       };
-      // default qxCoreEnv sandbox (may be overridden in test)
-      this.qxCoreEnv = this.createStubbedSandbox();
+
+      this.qxCoreEnv = sandbox('lib/qxCoreEnv.js', boxGlobals);
 
       done();
     },

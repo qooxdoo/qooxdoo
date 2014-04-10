@@ -27,34 +27,22 @@ module.exports = {
      * @see {@link https://github.com/caolan/nodeunit#sandbox-utility}
      */
     setUp: function (done) {
-      this.createStubbedSandbox = function(stubbedMethodsMap) {
-        var funcName = "";
-        // sandbox depAnalyzer to be able to call non-exported functions
-        var sandbox = require('nodeunit').utils.sandbox;
-        var boxGlobals = {
-          // inject commen globals
-          module: {exports: exports},
-          require: require,
-          console: console,
-          // inject all local modules cause rel paths in depAnalyzer.js won't fit
-          parentAnnotator: require('../lib/annotator/parent'),
-          classNameAnnotator: require('../lib/annotator/className'),
-          loadTimeAnnotator: require('../lib/annotator/loadTime'),
-          qxCoreEnv: require('../lib/qxCoreEnv'),
-          util: require('../lib/util')
-        };
-
-        // merge stubbedMethodsMap
-        if (stubbedMethodsMap) {
-          for (funcName in stubbedMethodsMap) {
-            boxGlobals[funcName] = stubbedMethodsMap[funcName];
-          }
-        }
-
-        return sandbox('lib/depAnalyzer.js', boxGlobals);
+      // sandbox depAnalyzer to be able to call non-exported functions
+      var sandbox = require('nodeunit').utils.sandbox;
+      var boxGlobals = {
+        // inject commen globals
+        module: {exports: exports},
+        require: require,
+        console: console,
+        // inject all local modules cause rel paths in depAnalyzer.js won't fit
+        parentAnnotator: require('../lib/annotator/parent'),
+        classNameAnnotator: require('../lib/annotator/className'),
+        loadTimeAnnotator: require('../lib/annotator/loadTime'),
+        qxCoreEnv: require('../lib/qxCoreEnv'),
+        util: require('../lib/util')
       };
-      // default depAnalyzer sandbox (may be overridden in test)
-      this.depAnalyzer = this.createStubbedSandbox();
+
+      this.depAnalyzer = sandbox('lib/depAnalyzer.js', boxGlobals);
 
       done();
     },

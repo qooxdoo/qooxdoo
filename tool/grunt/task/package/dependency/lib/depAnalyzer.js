@@ -196,11 +196,11 @@ function analyze_as_map(etree, optObj) {
 
 // privates may be injected by test env
 
-var isVar = isVar || function (node) {
+function isVar (node) {
   return ["Identifier", "MemberExpression"].indexOf(node.type) !== -1;
-};
+}
 
-var findVarRoot = findVarRoot || function (varNode) {
+function findVarRoot (varNode) {
   if (!isVar(varNode)) {
     return undefined;
   } else {
@@ -211,7 +211,7 @@ var findVarRoot = findVarRoot || function (varNode) {
     }
     return varNode;
   }
-};
+}
 
 /**
  * Takes a variable AST node and returns the longest
@@ -238,7 +238,7 @@ var findVarRoot = findVarRoot || function (varNode) {
  *
  * @returns {String}
  */
-var assemble = assemble || function (varNode, withMethodName) {
+function assemble (varNode, withMethodName) {
   var varRoot = findVarRoot(varNode);
   var assembled = escodegen.generate(varRoot);
   withMethodName = withMethodName || false;
@@ -282,9 +282,9 @@ var assemble = assemble || function (varNode, withMethodName) {
   }
 
   return assembled;
-};
+}
 
-var dependenciesFromAst = dependenciesFromAst || function (scope) {
+function dependenciesFromAst (scope) {
   var dependencies = [];
 
   scope.through.forEach( function (ref) {
@@ -294,12 +294,12 @@ var dependenciesFromAst = dependenciesFromAst || function (scope) {
   });
 
   return dependencies;
-};
+}
 
 /**
  * Identify builtins and reserved words.
  */
-var notBuiltin = notBuiltin || function (ref) {
+function notBuiltin (ref) {
   var ident = ref.identifier;
   if (ident.type !== "Identifier") {
     return true;
@@ -322,13 +322,13 @@ var notBuiltin = notBuiltin || function (ref) {
       return false;
   }
   return true;
-};
+}
 
 /**
  *  Identify "qx.$$foo", "qx.foo.$$bar" and "qx.foo.Bar.$$method" dependencies
  *  (e.g. qx.$$libraries, qx.$$resources ...).
  */
-var notQxInternal = notQxInternal || function (ref) {
+function notQxInternal (ref) {
   var propertyPath;
   var ident = ref.identifier;
 
@@ -365,16 +365,16 @@ var notQxInternal = notQxInternal || function (ref) {
   }
 
   return true;
-};
+}
 
-var notRuntime = notRuntime || function (ref) {
+function notRuntime (ref) {
   return !!(ref && ref.from && ref.from.isLoadTime);
-};
+}
 
 /**
  * Unify and sanitize (only strings, uniq, sort and no self reference) dependencies.
  */
-var unify = unify || function (deps, className) {
+function unify (deps, className) {
   // flatten (ref2string)
   var shallowDeps = deps.map(function (dep) {
     if (_.isString(dep)) {
@@ -397,9 +397,9 @@ var unify = unify || function (deps, className) {
   return _.filter(shallowDeps, function(dep) {
     return (dep !== className && dep.indexOf(className+".") === -1);
   });
-};
+}
 
-var getClassesFromTagDesc = getClassesFromTagDesc || function (tag) {
+function getClassesFromTagDesc (tag) {
   var classes = [8];
   var match = /\(([^, ]+(, ?)?)+\)/.exec(tag);
   if (match !== null) {
@@ -408,17 +408,17 @@ var getClassesFromTagDesc = getClassesFromTagDesc || function (tag) {
     });
   }
   return classes;
-};
+}
 
-var getResourcesFromTagDesc = getResourcesFromTagDesc || function (tag) {
+function getResourcesFromTagDesc (tag) {
   var resource = "";
   if (/\([^)]+\)/.test(tag)) {
     resource = tag.slice(1, -1);
   }
   return resource;
-};
+}
 
-var applyIgnoreRequireAndUse = applyIgnoreRequireAndUse || function (deps, className) {
+function applyIgnoreRequireAndUse (deps, className) {
   var toBeFiltered = [];
   var atHints = deps.athint;
   var collectIgnoredDeps = function(dep) {
@@ -493,10 +493,10 @@ var applyIgnoreRequireAndUse = applyIgnoreRequireAndUse || function (deps, class
   }
 
   return deps;
-};
+}
 
 
-var collectAtHintsFromComments = collectAtHintsFromComments || function (tree) {
+function collectAtHintsFromComments (tree) {
   var topLevelCodeUnitLines = [];
   var atHints = {
     'ignore': [],
@@ -547,7 +547,7 @@ var collectAtHintsFromComments = collectAtHintsFromComments || function (tree) {
   });
 
   return atHints;
-};
+}
 
 //------------------------------------------------------------------------------
 // Public Interface
