@@ -155,7 +155,7 @@ qx.Class.define("qx.data.marshal.Json",
       if (
         this.__delegate
         && this.__delegate.getModelClass
-        && this.__delegate.getModelClass(hash, data) != null
+        && this.__delegate.getModelClass(hash, data, parentProperty, depth) != null
       ) {
         return;
       }
@@ -198,7 +198,7 @@ qx.Class.define("qx.data.marshal.Json",
       // try to get the superclass, qx.core.Object as default
       if (this.__delegate && this.__delegate.getModelSuperClass) {
         var superClass =
-          this.__delegate.getModelSuperClass(hash) || qx.core.Object;
+          this.__delegate.getModelSuperClass(hash, parentProperty, depth) || qx.core.Object;
       } else {
         var superClass = qx.core.Object;
       }
@@ -206,7 +206,7 @@ qx.Class.define("qx.data.marshal.Json",
       // try to get the mixins
       var mixins = [];
       if (this.__delegate && this.__delegate.getModelMixins) {
-        var delegateMixins = this.__delegate.getModelMixins(hash);
+        var delegateMixins = this.__delegate.getModelMixins(hash, parentProperty, depth);
         // check if its an array
         if (!qx.lang.Type.isArray(delegateMixins)) {
           if (delegateMixins != null) {
@@ -270,14 +270,17 @@ qx.Class.define("qx.data.marshal.Json",
      *
      * @param hash {String} The hash of the data for which an instance should
      *   be created.
+     * @param parentProperty {String|null} The name of the property the data
+     *   will be stored in.
+     * @param depth {Number} The depth of the object relative to the data root.
      * @param data {Map} The data for which an instance should be created.
      * @return {qx.core.Object} An instance of the corresponding class.
      */
-    __createInstance: function(hash, data) {
+    __createInstance: function(hash, data, parentProperty, depth) {
       var delegateClass;
       // get the class from the delegate
       if (this.__delegate && this.__delegate.getModelClass) {
-        delegateClass = this.__delegate.getModelClass(hash, data);
+        delegateClass = this.__delegate.getModelClass(hash, data, parentProperty, depth);
       }
       if (delegateClass != null) {
         return (new delegateClass());
@@ -359,7 +362,7 @@ qx.Class.define("qx.data.marshal.Json",
       } else if (isObject) {
         // create an instance for the object
         var hash = this.__jsonToHash(data);
-        var model = this.__createInstance(hash, data);
+        var model = this.__createInstance(hash, data, parentProperty, depth);
 
         // go threw all element in the data
         for (var key in data) {

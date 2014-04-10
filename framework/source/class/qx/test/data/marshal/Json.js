@@ -39,8 +39,7 @@ qx.Class.define("qx.test.data.marshal.Json",
     __data : null,
     __propertyNames : null,
 
-    setUp : function()
-    {
+    setUp : function() {
       this.__marshaler = new qx.data.marshal.Json();
 
       this.__data = {s: 'String', n: 12, b: true};
@@ -48,8 +47,7 @@ qx.Class.define("qx.test.data.marshal.Json",
     },
 
 
-    tearDown : function()
-    {
+    tearDown : function() {
       this.__marshaler.dispose();
 
       // remove the former created classes
@@ -763,6 +761,39 @@ qx.Class.define("qx.test.data.marshal.Json",
     },
 
 
+    testGetModelClassDepth: function() {
+      var called = 0;
+      var delegate = {getModelClass : function(properties, object, parentProperty, depth) {
+        called++;
+        if (properties == "a") {
+          this.assertEquals(data, object);
+          this.assertNull(parentProperty);
+          this.assertEquals(0, depth);
+        } else if (properties == "b") {
+          this.assertEquals(data.a, object);
+          this.assertEquals("a", parentProperty);
+          this.assertEquals(1, depth);
+        } else if (properties == "c") {
+          this.assertEquals(data.a.b, object);
+          this.assertEquals("b", parentProperty);
+          this.assertEquals(2, depth);
+        } else {
+          this.fail("Unknown property in the marshaler.");
+        }
+      }.bind(this)};
+
+      this.__marshaler.dispose();
+      var data = {a: {b: {c: 1}}};
+      this.__marshaler = new qx.data.marshal.Json(delegate);
+      this.__marshaler.toClass(data);
+      this.assertEquals(3, called);
+      var model = this.__marshaler.toModel(data);
+      this.assertEquals(6, called);
+
+      model.dispose();
+    },
+
+
     testGetModelClassIgnore: function() {
       qx.Class.define("qx.test.model.C", {
         extend : qx.core.Object,
@@ -790,6 +821,57 @@ qx.Class.define("qx.test.data.marshal.Json",
 
       model.dispose();
       qx.Class.undefine("qx.test.model.C");
+    },
+
+    testGetModelSuperClass: function() {
+      var called = 0;
+      var delegate = {getModelSuperClass : function(properties, parentProperty, depth) {
+        called++;
+        if (properties == "a") {
+          this.assertNull(parentProperty);
+          this.assertEquals(0, depth);
+        } else if (properties == "b") {
+          this.assertEquals("a", parentProperty);
+          this.assertEquals(1, depth);
+        } else if (properties == "c") {
+          this.assertEquals("b", parentProperty);
+          this.assertEquals(2, depth);
+        } else {
+          this.fail("Unknown property in the marshaler.");
+        }
+      }.bind(this)};
+
+      this.__marshaler.dispose();
+      var data = {a: {b: {c: 1}}};
+      this.__marshaler = new qx.data.marshal.Json(delegate);
+      this.__marshaler.toClass(data);
+      this.assertEquals(3, called);
+    },
+
+
+    testGetModelMixins: function() {
+      var called = 0;
+      var delegate = {getModelMixins : function(properties, parentProperty, depth) {
+        called++;
+        if (properties == "a") {
+          this.assertNull(parentProperty);
+          this.assertEquals(0, depth);
+        } else if (properties == "b") {
+          this.assertEquals("a", parentProperty);
+          this.assertEquals(1, depth);
+        } else if (properties == "c") {
+          this.assertEquals("b", parentProperty);
+          this.assertEquals(2, depth);
+        } else {
+          this.fail("Unknown property in the marshaler.");
+        }
+      }.bind(this)};
+
+      this.__marshaler.dispose();
+      var data = {a: {b: {c: 1}}};
+      this.__marshaler = new qx.data.marshal.Json(delegate);
+      this.__marshaler.toClass(data);
+      this.assertEquals(3, called);
     },
 
 

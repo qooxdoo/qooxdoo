@@ -74,11 +74,14 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      * @param properties {String} A sorted order of propertynames
      *   separated by ".
      * @param object {Map} The object for which an class is needed.
+     * @param parentProperty {String|null} If there is a named parent property, the
+     *   name is given here. This might be null in case of arrays and the root data.
+     * @param depth {Number} The depth level of the data.
      * @return {Class|null} Returns the class containing the properties
      *   corresponding to the given hash of the properties. If <code>null</code>
      *   will be returned, the marshaler will create a class.
      */
-    getModelClass : function(properties, object) {},
+    getModelClass : function(properties, object, parentProperty, depth) {},
 
 
     /**
@@ -86,11 +89,14 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      *
      * @param properties {String} A sorted order of propertynames
      *   separated by ".
+     * @param parentProperty {String|null} If there is a named parent property, the
+     *   name is given here. This might be null in case of arrays and the root data.
+     * @param depth {Number} The depth level of the data.
      * @return {Class|null} Returns the class which should be used as superclass
      *   corresponding to the given hash of the properties. If <code>null</code>
      *   will be returned, {@link qx.core.Object} will be used as superclass.
      */
-    getModelSuperClass : function(properties) {},
+    getModelSuperClass : function(properties, parentProperty, depth) {},
 
 
     /**
@@ -99,12 +105,15 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      *
      * @param properties {String} A sorted order of propertynames
      *   separated by ".
+     * @param parentProperty {String|null} If there is a named parent property, the
+     *   name is given here. This might be null in case of arrays and the root data.
+     * @param depth {Number} The depth level of the data.
      * @return {Array|Mixin|null} Returns an array of mixins or a single mixin which
      *   will be included into the given class identified by the properties
      *   given in the parameter. If <code>null</code> will be returned, no mixin
      *   will be included.
      */
-    getModelMixins : function(properties) {},
+    getModelMixins : function(properties, parentProperty, depth) {},
 
 
     /**
