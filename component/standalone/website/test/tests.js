@@ -4427,6 +4427,9 @@ testrunner.define({
   },
 
   testOffset : function() {
+    if (q.env.get("engine.name") === "mshtml" && parseInt(q.env.get("browser.documentmode")) < 9) {
+      this.skip("Indigo styles don't work properly in IE8.");
+    }
     var slider = q("#sandbox").slider().setConfig("offset", 20).render();
     var knob = slider.getChildren(".qx-slider-knob");
     this.assertEquals(20, knob.getPosition().left);
