@@ -108,7 +108,8 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
 
     /**
      * The <code>forEach()</code> method executes a provided function
-     * once per array element.
+     * once per array element. You can not break the loop with this function.
+     * If you want to do so, use {@link Array.some} or {@link Array.every}.
      *
      * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach">MDN documentation</a> |
      * <a href="http://es5.github.com/#x15.4.4.18">Annotated ES5 Spec</a>
