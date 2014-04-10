@@ -47,18 +47,18 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
       tree.setDroppable(true);
       tree.setDraggable(true);
       tree.addListener("dragstart", function(e) {
-        e.addType("item")
+        e.addType("item");
         e.addAction("move");
       });
       tree.addListener("drop", function(e) {
         var item = e.getOriginalTarget();
         var model = item && item.getModel ? item.getModel() : store.getModel();
-
+        var newItem;
         if (e.getCurrentAction() == "move"){
-          var newItem = tree.getSelection().getItem(0);
+          newItem = e.getDragTarget().getModel();
           this.removeItem(store.getModel(), newItem);
         } else {
-          var newItem = qx.data.marshal.Json.createModel({
+          newItem = qx.data.marshal.Json.createModel({
             "name": "New Item " + this.i++,
             "children": []
           });
@@ -97,7 +97,7 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
           return;
         }
         this.removeItem(children.getItem(i), item);
-      };
+      }
     },
 
 
@@ -151,7 +151,7 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
         radioButton.setUserData("mode", mode);
 
         modeMgr.add(radioButton);
-        commandFrame.add(radioButton, {row: row++, column: 1})
+        commandFrame.add(radioButton, {row: row++, column: 1});
       }
 
       modeMgr.addListener("changeSelection", function(e) {
@@ -234,7 +234,7 @@ qx.Class.define("demobrowser.demo.virtual.Tree",
       var ddImg = new qx.ui.basic.Image("icon/48/places/folder.png");
       ddImg.setDraggable(true);
       ddImg.addListener("dragstart", function(e) {
-        e.addType("item")
+        e.addType("item");
         e.addAction("copy");
       });
       commandFrame.add(new qx.ui.basic.Label("Drag me:"), {row: row, column: 0});

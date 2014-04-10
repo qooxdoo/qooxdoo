@@ -63,7 +63,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       var labelSource = new qx.ui.basic.Label("Source");
       container.add(labelSource, { left : 20, top: 20 });
 
-      var source = new qx.ui.form.List;
+      var source = new qx.ui.form.List();
       source.setDraggable(true);
       source.setSelectionMode("multi");
       container.add(source, { left : 20, top : 40 });
@@ -101,8 +101,11 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
         var type = e.getCurrentType();
         var result;
         var selection = this.getSelection();
-        if (selection.length == 0) {
-          selection.push(e.getDragTarget());
+        var dragTarget = e.getDragTarget();
+        if (selection.length === 0) {
+          selection.push(dragTarget);
+        } else if (selection.indexOf(dragTarget) == -1) {
+          selection = [dragTarget];
         }
 
         switch(type)
@@ -182,7 +185,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       var labelEven = new qx.ui.basic.Label("Copy Even Items");
       container.add(labelEven, { left : 260, top: 20 });
 
-      var targetEven = new qx.ui.form.List;
+      var targetEven = new qx.ui.form.List();
       targetEven.setDroppable(true);
       container.add(targetEven, { left : 260, top: 40 });
 
@@ -223,11 +226,10 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
 
 
       // Text Field uses value
-
-      var labelSimple = new qx.ui.basic.Label("TextArea Target");
+      labelSimple = new qx.ui.basic.Label("TextArea Target");
       container.add(labelSimple, { left : 380, top: 20 });
 
-      var textareaTarget = new qx.ui.form.TextArea;
+      var textareaTarget = new qx.ui.form.TextArea();
       textareaTarget.setDroppable(true);
       textareaTarget.setHeight(100);
       container.add(textareaTarget, { left : 380, top: 40 });
@@ -339,7 +341,9 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       }
 
       var sel = this.__list.getSortedSelection();
-      if (sel.length == 0) {
+      if (sel.length === 0) {
+        sel = [reorderItem];
+      } else if (sel.indexOf(reorderItem) == -1) {
         sel = [reorderItem];
       }
 
