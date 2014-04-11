@@ -129,8 +129,12 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      *
      * @attachStatic {qxWeb}
      */
-    initWidgets : function() {
-      qxWeb("*[data-qx-class]")._forEachElementWrapped(function(widget) {
+    initWidgets : function(selector) {
+      var elements = qxWeb("*[data-qx-class]")
+      if (selector) {
+        elements = elements.filter(selector);
+      }
+      elements._forEachElementWrapped(function(widget) {
         widget.init();
       });
     }

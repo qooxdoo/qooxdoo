@@ -4087,6 +4087,14 @@ testrunner.define({
 
     q("#sandbox").$offFirstCollection("foo", clb, q("#sandbox"));
     this.assertEquals(2, called);
+  },
+
+  testInitWidgets : function() {
+    var el1 = q.create("<div id='el1' data-qx-class='qx.ui.website.Widget'></div>").appendTo(q("#sandbox"));
+    var el2 = q.create("<div id='el2' data-qx-class='qx.ui.website.Widget'></div>").appendTo(q("#sandbox"));
+    q.initWidgets("#el1");
+    this.assertTrue(el1.hasClass("qx-widget"));
+    this.assertFalse(el2.hasClass("qx-widget"));
   }
 });
 
