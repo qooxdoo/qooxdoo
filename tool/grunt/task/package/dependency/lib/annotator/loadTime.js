@@ -19,6 +19,9 @@
 ***************************************************************************** */
 
 /**
+ * @module annotator.loadTime
+ *
+ * @desc
  * Annotator for esprima AST.
  *
  * What?

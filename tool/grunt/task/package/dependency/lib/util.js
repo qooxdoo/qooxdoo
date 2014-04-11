@@ -18,6 +18,13 @@
 
 ***************************************************************************** */
 
+/**
+ * @module util
+ *
+ * @desc
+ * Utility and helper methods.
+ */
+
 var _ = require('underscore');
 
 function pipeline(seed /*,funcs*/) {

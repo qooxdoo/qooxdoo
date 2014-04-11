@@ -19,6 +19,9 @@
 ***************************************************************************** */
 
 /**
+ * @module annotator.parent
+ *
+ * @desc
  * Annotator for esprima AST.
  *
  * What?

@@ -18,6 +18,9 @@
 ***************************************************************************** */
 
 /**
+ * @module qxCoreEnv
+ *
+ * @desc
  * Find and extract feature classes from qx.core.Environment.* calls.
  */
 
