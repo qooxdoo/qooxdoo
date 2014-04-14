@@ -2984,6 +2984,7 @@ qx.Class.define("qx.ui.core.Widget",
         if (!value)
         {
           this.removeListener("contextmenu", this._onContextMenuOpen);
+          this.removeListener("longtap", this._onContextMenuOpen);
           old.removeListener("changeVisibility", this._onBeforeContextMenuOpen, this);
         }
       }
@@ -2996,6 +2997,7 @@ qx.Class.define("qx.ui.core.Widget",
         if (!old)
         {
           this.addListener("contextmenu", this._onContextMenuOpen);
+          this.addListener("longtap", this._onContextMenuOpen);
           value.addListener("changeVisibility", this._onBeforeContextMenuOpen, this);
         }
       }
@@ -3005,10 +3007,16 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Event listener for <code>contextmenu</code> event
      *
-     * @param e {qx.event.type.Mouse} The event object
+     * @param e {qx.event.type.Pointer} The event object
      */
     _onContextMenuOpen : function(e)
     {
+      // only allow long tap context menu on touch interactions
+      if (e.getType() == "longtap") {
+        if (e.getPointerType() !== "touch") {
+          return;
+        }
+      }
       this.getContextMenu().openAtPointer(e);
 
       // Do not show native menu
