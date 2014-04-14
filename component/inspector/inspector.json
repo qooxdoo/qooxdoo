@@ -55,8 +55,7 @@
         "qx.version"     : "${QOOXDOO_VERSION}",
         "qx.revision"    : "${QOOXDOO_REVISION}",
         "qx.theme"       : "${THEME}",
-        "qx.application" : "inspector.Application",
-        "inspector.selenium.core" : "http://selenium.googlecode.com/svn/tags/selenium-core/REL-1.0.1/src/main/resources/"
+        "qx.application" : "inspector.Application"
       },
 
       "asset-let" :
@@ -166,28 +165,7 @@
         "build-script",
         "build-files",
         "build-files-simulator"
-      ],
-
-      "environment" :
-      {
-        "inspector.selenium.extensions" : "script/user-extensions.js"
-      }
-    },
-
-    "source" :
-    {
-      "environment" :
-      {
-        "inspector.selenium.extensions" : null
-      }
-    },
-
-    "source-hybrid" :
-    {
-      "environment" :
-      {
-        "inspector.selenium.extensions" : null
-      }
+      ]
     }
   }
 }
