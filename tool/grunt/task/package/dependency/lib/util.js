@@ -41,12 +41,6 @@ function filter(iterator, list) {
   return _.filter(list, iterator);
 }
 
-/**
- * Append sList to the end of tList.
- */
-function concat(sList, tList) {
-  return tList.concat(sList);
-}
 
 /**
  * Return namespace from className by checking against allNamespaces (longest match wins).
