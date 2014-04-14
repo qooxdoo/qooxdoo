@@ -25,6 +25,7 @@
  * Utility and helper methods.
  */
 
+// third party
 var _ = require('underscore');
 
 //------------------------------------------------------------------------------
