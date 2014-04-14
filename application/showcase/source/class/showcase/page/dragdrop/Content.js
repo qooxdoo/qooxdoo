@@ -158,12 +158,7 @@ qx.Class.define("showcase.page.dragdrop.Content",
 
     __onDropRequest : function(e)
     {
-      var list = e.getTarget();
-      var selection = list.getSelection().concat();
-      if (selection.length == 0) {
-        selection.push(e.getDragTarget());
-      }
-      e.addData("items", selection);
+      e.addData("items", [e.getDragTarget()]);
     },
 
 
@@ -171,7 +166,7 @@ qx.Class.define("showcase.page.dragdrop.Content",
       e.addType("items");
       e.addAction("move");
 
-      var item = e.getTarget().getSelection()[0] || e.getDragTarget();
+      var item = e.getDragTarget();
       this.__dragFeedback.set({
         label: item.getLabel(),
         icon: item.getIcon(),

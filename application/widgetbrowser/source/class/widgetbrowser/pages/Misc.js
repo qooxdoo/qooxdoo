@@ -152,10 +152,18 @@ qx.Class.define("widgetbrowser.pages.Misc",
         var type = e.getCurrentType();
         var result;
 
+        var selection = this.getSelection();
+        var dragTarget = e.getDragTarget();
+        if (selection.length === 0) {
+          selection.push(dragTarget);
+        } else if (selection.indexOf(dragTarget) == -1) {
+          selection = [dragTarget];
+        }
+
         switch(type)
         {
           case "items":
-            result = this.getSelection();
+            result = selection;
 
             if (action == "copy")
             {
@@ -170,7 +178,6 @@ qx.Class.define("widgetbrowser.pages.Misc",
 
         if (action == "move")
         {
-          var selection = this.getSelection();
           for (var i=0, l=selection.length; i<l; i++) {
             this.remove(selection[i]);
           }
