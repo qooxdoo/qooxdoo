@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2006-2013 1&1 Internet AG, Germany, http://www.1und1.de
+     2013-2014 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,8 +14,16 @@
 
    Authors:
      * Thomas Herchenroeder (thron7)
+     * Richard Sternagel (rsternagel)
 
 ***************************************************************************** */
+
+/**
+ * @module util
+ *
+ * @desc
+ * Utility and helper methods.
+ */
 
 var _ = require('underscore');
 

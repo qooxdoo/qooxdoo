@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2013 Unicode, Inc.
+<!-- Copyright © 1991-2014 Unicode, Inc.
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9309 $"/>
-		<generation date="$Date: 2013-09-04 16:34:15 -0500 (Wed, 04 Sep 2013) $"/>
+		<version number="$Revision: 9862 $"/>
+		<generation date="$Date: 2014-03-03 17:35:05 -0600 (Mon, 03 Mar 2014) $"/>
 		<language type="yo"/>
 		<territory type="BJ"/>
 	</identity>
@@ -21,7 +21,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="az">Èdè Azerbaijani</language>
 			<language type="be">Èdè Belarusi</language>
 			<language type="bg">Èdè Bugaria</language>
-			<language type="bh">Èdè Bihari</language>
 			<language type="bn">Èdè Bengali</language>
 			<language type="br">Èdè Bretoni</language>
 			<language type="bs">Èdè Bosnia</language>
@@ -795,5 +794,4 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</messages>
 	</posix>
 </ldml>
-
 

@@ -179,10 +179,10 @@ qx.Bootstrap.define("qx.ui.website.Slider",
       }
 
       this._forEachElementWrapped(function(slider) {
-        slider.onWidget("pointerup", slider._onSliderPointerUp, slider)
-        .onWidget("focus", slider._onSliderFocus, slider);
+        slider.$onFirstCollection("pointerup", slider._onSliderPointerUp, slider)
+        .$onFirstCollection("focus", slider._onSliderFocus, slider);
         qxWeb(document.documentElement).on("pointerup", slider._onDocPointerUp, slider);
-        qxWeb(window).onWidget("resize", slider._onWindowResize, slider);
+        qxWeb(window).$onFirstCollection("resize", slider._onWindowResize, slider);
 
         if (slider.getChildren("." + cssPrefix + "-knob").length === 0) {
           slider.append(qx.ui.website.Widget.create("<button>")
@@ -195,10 +195,10 @@ qx.Bootstrap.define("qx.ui.website.Slider",
           "unselectable": "true"
         })
         .setHtml(slider._getKnobContent())
-        .onWidget("pointerdown", slider._onPointerDown, slider)
-        .onWidget("dragstart", slider._onDragStart, slider)
-        .onWidget("focus", slider._onKnobFocus, slider)
-        .onWidget("blur", slider._onKnobBlur, slider);
+        .$onFirstCollection("pointerdown", slider._onPointerDown, slider)
+        .$onFirstCollection("dragstart", slider._onDragStart, slider)
+        .$onFirstCollection("focus", slider._onKnobFocus, slider)
+        .$onFirstCollection("blur", slider._onKnobBlur, slider);
         slider.render();
       });
 
@@ -510,7 +510,7 @@ qx.Bootstrap.define("qx.ui.website.Slider",
      */
     _onKnobFocus : function(e) {
       this.getChildren("." + this.getCssPrefix() + "-knob")
-        .onWidget("keydown", this._onKeyDown, this);
+        .$onFirstCollection("keydown", this._onKeyDown, this);
     },
 
 
@@ -520,7 +520,7 @@ qx.Bootstrap.define("qx.ui.website.Slider",
      */
     _onKnobBlur : function(e) {
       this.getChildren("." + this.getCssPrefix() + "-knob")
-        .offWidget("keydown", this._onKeyDown, this);
+        .$offFirstCollection("keydown", this._onKeyDown, this);
     },
 
 
@@ -629,15 +629,15 @@ qx.Bootstrap.define("qx.ui.website.Slider",
     {
       this._forEachElementWrapped(function(slider) {
         qxWeb(document.documentElement).off("pointerup", slider._onDocPointerUp, slider);
-        qxWeb(window).offWidget("resize", slider._onWindowResize, slider);
-        slider.offWidget("pointerup", slider._onSliderPointerUp, slider)
-        .offWidget("focus", slider._onSliderFocus, slider);
+        qxWeb(window).$offFirstCollection("resize", slider._onWindowResize, slider);
+        slider.$offFirstCollection("pointerup", slider._onSliderPointerUp, slider)
+        .$offFirstCollection("focus", slider._onSliderFocus, slider);
         slider.getChildren("." + this.getCssPrefix() + "-knob")
-        .offWidget("pointerdown", slider._onPointerDown, slider)
-        .offWidget("dragstart", slider._onDragStart, slider)
-        .offWidget("focus", slider._onKnobFocus, slider)
-        .offWidget("blur", slider._onKnobBlur, slider)
-        .offWidget("keydown", slider._onKeyDown, slider);
+        .$offFirstCollection("pointerdown", slider._onPointerDown, slider)
+        .$offFirstCollection("dragstart", slider._onDragStart, slider)
+        .$offFirstCollection("focus", slider._onKnobFocus, slider)
+        .$offFirstCollection("blur", slider._onKnobBlur, slider)
+        .$offFirstCollection("keydown", slider._onKeyDown, slider);
       });
 
       this.setHtml("");

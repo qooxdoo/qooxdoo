@@ -3918,22 +3918,22 @@ testrunner.define({
       context = this;
       callInfo.push(Date.now());
     };
-    this.sandbox.on("myEvent", q.func.throttle(spy, 250), this.sandbox);
+    this.sandbox.on("myEvent", q.func.throttle(spy, 400), this.sandbox);
 
     var counter = 0;
     var intervalId = window.setInterval((function() {
       this.emit("myEvent");
 
-      if (counter === 14) {
+      if (counter === 4) {
         window.clearInterval(intervalId);
       }
       counter++;
-    }).bind(this.sandbox), 100);
+    }).bind(this.sandbox), 150);
 
     var checkContext = this.sandbox;
-    this.wait(2000, function() {
+    this.wait(1500, function() {
       this.assertEquals(checkContext, context);
-      this.assertEquals(7, callInfo.length);
+      this.assertEquals(3, callInfo.length);
     }, this);
   },
 
@@ -4030,17 +4030,17 @@ testrunner.define({
     var clb = function() {
       called++;
     };
-    w.onWidget("foo", clb, w);
+    w.$onFirstCollection("foo", clb, w);
 
     w.emit("foo");
     this.assertEquals(1, called);
 
-    w.onWidget("foo", clb, w);
+    w.$onFirstCollection("foo", clb, w);
 
     w.emit("foo");
     this.assertEquals(2, called);
 
-    w.offWidget("foo", clb, w);
+    w.$offFirstCollection("foo", clb, w);
     w.emit("foo");
     this.assertEquals(2, called);
   },
@@ -4051,19 +4051,19 @@ testrunner.define({
     var clb = function() {
       called++;
     };
-    w.onWidget("foo", clb, w);
+    w.$onFirstCollection("foo", clb, w);
 
     w.emit("foo");
     this.assertEquals(1, called);
 
-    w.onWidget("foo", function() {
+    w.$onFirstCollection("foo", function() {
       clb();
     }, w);
 
     w.emit("foo");
     this.assertEquals(3, called);
 
-    w.offWidget("foo", clb, w);
+    w.$offFirstCollection("foo", clb, w);
     w.emit("foo");
     this.assertEquals(4, called);
   },
@@ -4074,17 +4074,17 @@ testrunner.define({
     var clb = function() {
       called++;
     };
-    w.onWidget("foo", clb, {});
+    w.$onFirstCollection("foo", clb, {});
 
     w.emit("foo");
     this.assertEquals(1, called);
 
-    w.onWidget("foo", clb, {});
+    w.$onFirstCollection("foo", clb, {});
 
     w.emit("foo");
     this.assertEquals(2, called);
 
-    w.offWidget("foo", clb, {});
+    w.$offFirstCollection("foo", clb, {});
     w.emit("foo");
     this.assertEquals(2, called);
   },
@@ -4097,12 +4097,12 @@ testrunner.define({
     var clb = function() {
       called++;
     };
-    w.onWidget("foo", clb, w);
+    w.$onFirstCollection("foo", clb, w);
 
     w.emit("foo");
     this.assertEquals(2, called);
 
-    w.onWidget("foo", clb, w);
+    w.$onFirstCollection("foo", clb, w);
 
     w.emit("foo");
     this.assertEquals(4, called);
@@ -4110,7 +4110,7 @@ testrunner.define({
     w.getFirst().emit("foo");
     this.assertEquals(5, called);
 
-    w.offWidget("foo", clb, w);
+    w.$offFirstCollection("foo", clb, w);
     w.getFirst().emit("foo");
     this.assertEquals(5, called);
   },
@@ -4121,18 +4121,26 @@ testrunner.define({
     var clb = function() {
       called++;
     };
-    q("#sandbox").onWidget("foo", clb, q("#sandbox"));
+    q("#sandbox").$onFirstCollection("foo", clb, q("#sandbox"));
 
     q("#sandbox").emit("foo");
     this.assertEquals(1, called);
 
-    q("#sandbox").onWidget("foo", clb, q("#sandbox"));
+    q("#sandbox").$onFirstCollection("foo", clb, q("#sandbox"));
 
     q("#sandbox").emit("foo");
     this.assertEquals(2, called);
 
-    q("#sandbox").offWidget("foo", clb, q("#sandbox"));
+    q("#sandbox").$offFirstCollection("foo", clb, q("#sandbox"));
     this.assertEquals(2, called);
+  },
+
+  testInitWidgets : function() {
+    var el1 = q.create("<div id='el1' data-qx-class='qx.ui.website.Widget'></div>").appendTo(q("#sandbox"));
+    var el2 = q.create("<div id='el2' data-qx-class='qx.ui.website.Widget'></div>").appendTo(q("#sandbox"));
+    q.initWidgets("#el1");
+    this.assertTrue(el1.hasClass("qx-widget"));
+    this.assertFalse(el2.hasClass("qx-widget"));
   }
 });
 
@@ -4328,7 +4336,7 @@ testrunner.define({
 
     var newClass = "my-cool-calendar";
     cal.setTemplate("table", cal.getTemplate("table")
-      .replace("<table>", "<table class='" + newClass + "'>"));
+      .replace("{{cssPrefix}}-container", "{{cssPrefix}}-container " + newClass));
 
     var newPrev = "prev";
     cal.setTemplate("controls", cal.getTemplate("controls")
@@ -4473,6 +4481,9 @@ testrunner.define({
   },
 
   testOffset : function() {
+    if (q.env.get("engine.name") === "mshtml" && parseInt(q.env.get("browser.documentmode")) < 9) {
+      this.skip("Indigo styles don't work properly in IE8.");
+    }
     var slider = q("#sandbox").slider().setConfig("offset", 20).render();
     var knob = slider.getChildren(".qx-slider-knob");
     this.assertEquals(20, knob.getPosition().left);
@@ -4668,7 +4679,7 @@ testrunner.define({
 
   testIconOpenerToggle : function() {
     var sandbox = q("#sandbox");
-    sandbox.append("<input type='text' class='datepicker' data-qx-class='qx.ui.website.DatePicker' value=''></input");
+    sandbox.append("<input type='text' class='datepicker' data-qx-class='qx.ui.website.DatePicker' value='' />");
 
     var datepicker = q("input.datepicker").datepicker();
     datepicker.setConfig('icon', '../../../../application/websitewidgetbrowser/demo/datepicker/office-calendar.png');

@@ -18,6 +18,9 @@
 ***************************************************************************** */
 
 /**
+ * @module annotator.className
+ *
+ * @desc
  * Annotator for esprima AST.
  *
  * What?

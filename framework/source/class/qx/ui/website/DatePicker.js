@@ -313,9 +313,9 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
      */
     __addInputListener : function(collection) {
       if (collection.getConfig('mode') === 'icon') {
-        collection.offWidget('tap', collection._onTap);
+        collection.$offFirstCollection('tap', collection._onTap);
       } else {
-        collection.onWidget('tap', collection._onTap);
+        collection.$onFirstCollection('tap', collection._onTap);
       }
     },
 
@@ -325,7 +325,7 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
         datepicker.removeAttribute('readonly');
         datepicker.getNext('img#' + datepicker.getProperty('iconId')).remove();
 
-        datepicker.offWidget('tap', datepicker._onTap);
+        datepicker.$offFirstCollection('tap', datepicker._onTap);
 
         var bodyElement = qxWeb.getDocument(datepicker).body;
         qxWeb(bodyElement).off('tap', datepicker._onBodyTap, datepicker);

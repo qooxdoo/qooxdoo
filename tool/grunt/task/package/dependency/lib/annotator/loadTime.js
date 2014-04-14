@@ -19,6 +19,9 @@
 ***************************************************************************** */
 
 /**
+ * @module annotator.loadTime
+ *
+ * @desc
  * Annotator for esprima AST.
  *
  * What?
@@ -36,7 +39,9 @@ var annotateKey = "isLoadTime";
 function isDeferFunction(node) {
   return (
     node.type === "FunctionExpression" &&
+    node.parent &&
     node.parent.type === 'Property' &&
+    node.parent.key &&
     node.parent.key.type === 'Identifier' &&
     node.parent.key.name === 'defer'
   );
@@ -46,6 +51,7 @@ function isImmediateCall(node) {
   // find     a(function(){}()) => CE(CE(FE))
   // but not  a(function(){})   => CE(FE)
   return (node.type === "FunctionExpression"
+          && node.parent
           && node.parent.type === "CallExpression"
           && node.parent.parent.type === "CallExpression");
 }

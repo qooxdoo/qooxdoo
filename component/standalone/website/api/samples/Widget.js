@@ -76,20 +76,20 @@ addSample(".widget", {
   }
 });
 
-addSample(".onWidget", {
+addSample(".$onFirstCollection", {
   html: ['<div id="target"></div>'],
   javascript: function() {
-    q("#target").onWidget("click", clb); // adds a click listener
-    q("#target").onWidget("click", clb); // does not add the same listener again
+    q("#target").$onFirstCollection("click", clb); // adds a click listener
+    q("#target").$onFirstCollection("click", clb); // does not add the same listener again
 
-    q("#target").offWidget("click", clb); // remove the initial added listener
+    q("#target").$offFirstCollection("click", clb); // remove the initial added listener
   }
 });
 
-addSample(".offWidget", {
+addSample(".$offFirstCollection", {
   html: ['<div id="target"></div>'],
   javascript: function() {
-    q("#target").onWidget("click", clb); // adds a click listener
-    q("#target").offWidget("click", clb); // remove the initial added listener
+    q("#target").$onFirstCollection("click", clb); // adds a click listener
+    q("#target").$offFirstCollection("click", clb); // remove the initial added listener
   }
 });

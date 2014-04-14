@@ -29,7 +29,8 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "test": "./node_modules/nodeunit/bin/nodeunit test",
+    "test": "./node_modules/.bin/nodeunit test",
+    "jsdoc": "./node_modules/.bin/jsdoc lib lib/annotator",
     "stdout": "node test/stdout/stdout.js"
   },
   "dependencies": {
@@ -45,7 +46,8 @@
     "glob": "~3.2.9"
   },
   "devDependencies": {
-    "nodeunit": "~0.8.4"
+    "nodeunit": "~0.8.4",
+    "jsdoc": "~3.3.0"
   },
   "//": "before publishing create README.md then this can be removed",
   "private": true

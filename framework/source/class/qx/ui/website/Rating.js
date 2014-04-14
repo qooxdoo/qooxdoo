@@ -152,11 +152,11 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
         if (rating.getAttribute("tabindex") < 0) {
           rating.setAttribute("tabindex", 0);
         }
-        rating.onWidget("focus", this._onFocus, rating)
-        .onWidget("blur", this._onBlur, rating)
+        rating.$onFirstCollection("focus", this._onFocus, rating)
+        .$onFirstCollection("blur", this._onBlur, rating)
         .getChildren("span")
           .addClasses([cssPrefix + "-item", cssPrefix + "-item-off"])
-          .onWidget("tap", this._onTap, rating);
+          .$onFirstCollection("tap", this._onTap, rating);
       }.bind(this));
 
       return true;
@@ -221,14 +221,14 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
         if (diff > 0) {
           for (var i = 0; i < diff; i++) {
             qxWeb.create("<span>" + this.getConfig("symbol") + "</span>")
-            .onWidget("tap", el._onTap, el)
+            .$onFirstCollection("tap", el._onTap, el)
             .addClasses([cssPrefix + "-item", cssPrefix + "-item-off"])
             .appendTo(el);
           }
         } else {
           for (var i = 0; i < Math.abs(diff); i++) {
             el.getChildren().getLast()
-            .offWidget("tap", el._onTap, el)
+            .$offFirstCollection("tap", el._onTap, el)
             .remove();
           }
         }
@@ -286,9 +286,9 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
     dispose : function() {
       this._forEachElementWrapped(function(rating) {
         qxWeb(document.documentElement).off("keydown", this._onKeyDown, rating);
-        rating.offWidget("focus", this._onFocus, rating)
-        .offWidget("blur", this._onBlur, rating);
-        rating.getChildren("span").offWidget("tap", rating._onTap, rating);
+        rating.$offFirstCollection("focus", this._onFocus, rating)
+        .$offFirstCollection("blur", this._onBlur, rating);
+        rating.getChildren("span").$offFirstCollection("tap", rating._onTap, rating);
       });
       this.setHtml("");
 
