@@ -24,11 +24,12 @@
  * @desc
  * Annotator for esprima AST.
  *
- * What?
- *  boolean whether loadTime or not
- *
- * Where?
- *  some nodes
+ * <dl>
+ *  <dt>What?</dt>
+ *  <dd>boolean whether loadTime or not</dd>
+ *  <dt>Where?</dt>
+ *  <dd>some nodes</dd>
+ * </dl>
  */
 
 /**
@@ -36,6 +37,12 @@
  */
 var annotateKey = "isLoadTime";
 
+/**
+ * Check whether node is defer() call.
+ *
+ * @param {Object} node - esprima node
+ * @return {boolean}
+ */
 function isDeferFunction(node) {
   return (
     node.type === "FunctionExpression" &&
@@ -47,6 +54,12 @@ function isDeferFunction(node) {
   );
 }
 
+/**
+ * Check whether node is immediate call (i.e. <code>(function(){})()</code> aka IIFE).
+ *
+ * @param {Object} node - esprima node
+ * @return {boolean}
+ */
 function isImmediateCall(node) {
   // find     a(function(){}()) => CE(CE(FE))
   // but not  a(function(){})   => CE(FE)
@@ -56,29 +69,32 @@ function isImmediateCall(node) {
           && node.parent.parent.type === "CallExpression");
 }
 
-/**
- * Annotate escopes with load-/run-time marks.
- */
-function annotate(scope, parent_load) {
-  var node = scope.block;
-  if (scope.type === 'global') {
-    scope[annotateKey] = true;
-  } else if (scope.type === 'function') {
-    if (isDeferFunction(node)) {
-      scope[annotateKey] = true;
-    } else if (isImmediateCall(node)) {
-      scope[annotateKey] = parent_load; // inherit
-    } else {
-      scope[annotateKey] = false;
-    }
-  } else {
-    scope[annotateKey] = parent_load; // inherit
-  }
-  for (var cld in scope.childScopes) {
-    annotate(scope.childScopes[cld], scope[annotateKey]);
-  }
-}
-
 module.exports = {
-  annotate : annotate,
+  /**
+   * Annotate scope with load-/run-time marks.
+   *
+   * @param {Scope} scope
+   * @param {boolean} parentLoad
+   * @see {@link http://constellation.github.io/escope/Scope.html|Scope class}
+   */
+  annotate: function(scope, parentLoad) {
+    var node = scope.block;
+    if (scope.type === 'global') {
+      scope[annotateKey] = true;
+    } else if (scope.type === 'function') {
+      if (isDeferFunction(node)) {
+        scope[annotateKey] = true;
+      } else if (isImmediateCall(node)) {
+        scope[annotateKey] = parentLoad; // inherit
+      } else {
+        scope[annotateKey] = false;
+      }
+    } else {
+      scope[annotateKey] = parentLoad; // inherit
+    }
+    for (var cld in scope.childScopes) {
+      // recurse
+      this.annotate(scope.childScopes[cld], scope[annotateKey]);
+    }
+  }
 };

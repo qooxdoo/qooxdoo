@@ -817,7 +817,7 @@ module.exports = {
           'run': []
         };
 
-        classNameAnnotator.annotate(tree, shortFilePath);
+        classNameAnnotator.annotate(tree, util.classNameFrom(shortFilePath));
         classDeps = findUnresolvedDeps(tree, {flattened: false});
         var className = util.classNameFrom(shortFilePath);
 

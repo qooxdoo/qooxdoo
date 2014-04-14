@@ -23,13 +23,15 @@
  * @desc
  * Annotator for esprima AST.
  *
- * What?
- *  fqClassName from file path.
- *
- * Where?
- *  tree root node
+ * <dl>
+ *   <dt>What?</dt>
+ *   <dd>fqClassName from file path.</dd>
+ *   <dt>Where?</dt>
+ *   <dd>tree root node</dd>
+ * </dl>
  */
 
+// local
 var util = require('../util');
 
 /**
@@ -37,16 +39,16 @@ var util = require('../util');
  */
 var annotateKey = "qxClassName";
 
-/**
- * Annotate tree with full quallified class name.
- *
- *  "foo/bar/qx/Foo/Bar.js" => "qx.Foo.Bar"
- */
-function annotate (tree, filePath) {
-  tree[annotateKey] = util.classNameFrom(filePath);
-}
-
 module.exports = {
-  annotate : annotate
+  /**
+   * Annotate tree with class id.
+   *
+   * @param {Object} tree - esprima AST
+   * @param {string} classId - e.g. qx.foo.Bar
+   * @see {@link http://esprima.org/doc/#ast|esprima AST}
+   */
+  annotate: function(tree, classId) {
+    tree[annotateKey] = classId;
+  }
 };
 
