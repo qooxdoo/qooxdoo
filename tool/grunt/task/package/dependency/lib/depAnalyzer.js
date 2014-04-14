@@ -254,24 +254,24 @@ function findVarRoot(varNode) {
  *
  * <p>example input</p>
  * <ul>
- *  <li>qx.ui.treevirtual.MTreePrimitive.Type.BRANCH</li>
- *  <li>qx.ui.table.Table</li>
- *  <li>qx.ui.basic.Label.toggleRich()</li>
- *  <li>qx.event.IEventHandler</li>
- *  <li>WebKitCSSMatrix</li>
- *  <li>qxWeb</li>
- *  <li>qx</li>
+ *  <li><code>qx.ui.treevirtual.MTreePrimitive.Type.BRANCH</code></li>
+ *  <li><code>qx.ui.table.Table</code></li>
+ *  <li><code>qx.ui.basic.Label.toggleRich()</code></li>
+ *  <li><code>qx.event.IEventHandler</code></li>
+ *  <li><code>WebKitCSSMatrix</code></li>
+ *  <li><code>qxWeb</code></li>
+ *  <li><code>qx</code></li>
  * </ul>
  *
  * <p>example output should be (withoutMethodName)</p>
  * <ul>
- *  <li>qx.ui.treevirtual.MTreePrimitive</li>
- *  <li>qx.ui.table.Table</li>
- *  <li>qx.ui.basic.Label</li>
- *  <li>qx.event.IEventHandler</li>
- *  <li>WebKitCSSMatrix</li>
- *  <li>qxWeb</li>
- *  <li>qx</li>
+ *  <li><code>qx.ui.treevirtual.MTreePrimitive</code></li>
+ *  <li><code>qx.ui.table.Table</code></li>
+ *  <li><code>qx.ui.basic.Label</code></li>
+ *  <li><code>qx.event.IEventHandler</code></li>
+ *  <li><code>WebKitCSSMatrix</code></li>
+ *  <li><code>qxWeb</code></li>
+ *  <li><code>qx</code></li>
  * </ul>
  *
  * @param {string} varNode
@@ -381,8 +381,9 @@ function notBuiltin(ref) {
 }
 
 /**
- *  Identifies "qx.$$foo", "qx.foo.$$bar" and "qx.foo.Bar.$$method" dependencies
- *  (e.g. qx.$$libraries, qx.$$resources ...).
+ *  Identifies <code>qx.$$foo</code>, <code>qx.foo.$$bar</code> and
+ *  <code>qx.foo.Bar.$$method</code> dependencies (e.g. <code>qx.$$libraries</code>,
+ *  <code>qx.$$resources</code> ...).
  *
  * @param {Reference} ref - a scope reference
  * @returns {boolean}
@@ -471,7 +472,8 @@ function unify(deps, className) {
 }
 
 /**
- * Extracts classes from tag description (e.g. '(qx.foo.Bar, qx.baz.*)') as array.
+ * Extracts classes from tag description
+ * (e.g. '(<code>qx.foo.Bar</code>, <code>qx.baz.*</code>)') as array.
  *
  * @param {string} tag - tag description
  * @returns {string[]} - extracted classes
@@ -890,7 +892,7 @@ module.exports = {
   },
 
   /**
-   * Prepends the matching namespace to the class ('qx.foo.Bar' => 'qx:qx.foo.Bar').
+   * Prepends the matching namespace to the class (<code>qx.foo.Bar</code> => <code>qx:qx.foo.Bar</code>).
    *
    * @param {string[]} classList
    * @param {string[]} namespaces
@@ -912,7 +914,7 @@ module.exports = {
   },
 
   /**
-   * Translates class ids to paths ('qx.foo.Bar' => 'qx/foo/Bar.js').
+   * Translates class ids to paths (<code>qx.foo.Bar</code> => <code>qx/foo/Bar.js</code>).
    *
    * @param {string[]} classList
    * @return {string[]} classList

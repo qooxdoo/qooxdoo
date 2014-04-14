@@ -49,7 +49,7 @@ module.exports = {
   },
 
   /**
-   * Swaps the first two args (e.g. to satisfy _.filter()).
+   * Swaps the first two args (e.g. to satisfy <code>_.filter()</code>).
    *
    * @param {function} predicate - function which returns a boolean
    * @param {Object[]} list - list which is tested against the predicate
@@ -123,7 +123,7 @@ module.exports = {
   /**
    * Converts a file path to a full-qualified class name.
    *
-   *  "foo/baz/qx/foo/Bar.js" => "qx.foo.Bar"
+   * <code>"foo/baz/qx/foo/Bar.js" => "qx.foo.Bar"</code>
    *
    * @param {string} filePath - e.g. qx.foo.Bar
    * @param {string} [basePath] - e.g. foo/baz
@@ -141,7 +141,7 @@ module.exports = {
    * Converts a full-qualified class name to a file path.
    * basePath is not checked for existence and assumed to be appropriate!
    *
-   *  "qx.foo.Bar" => "foo/baz/qx/foo/Bar.js"
+   * <code>"qx.foo.Bar" => "foo/baz/qx/foo/Bar.js"</code>
    *
    * @param {string} filePath - e.g. qx/foo/Bar.js
    * @param {string} [basePath] - e.g. foo/baz

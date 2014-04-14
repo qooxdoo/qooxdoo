@@ -21,7 +21,7 @@
  * @module qxCoreEnv
  *
  * @desc
- * Find and extract feature classes from qx.core.Environment.* calls.
+ * Find and extract feature classes from <code>qx.core.Environment.*</code> calls.
  */
 
 // native
@@ -37,7 +37,7 @@ var escodegen = require('escodegen');
 var util = (util || require('./util'));
 
 /**
- * Extracts values from 'qx.Bootstrap.define().statics._checksMap'.
+ * Extracts values from <code>qx.Bootstrap.define().statics._checksMap</code>.
  *
  * @param {string} classCode - js code of Environment class.
  * @returns {Object} envKeys and envMethodNames
@@ -69,7 +69,7 @@ function getFeatureTable(classCode) {
 }
 
 /**
- * Finds variant nodes (qx.core.Environment.(select(Async)?|get(Async)?|filter) calls)
+ * Finds variant nodes (<code>qx.core.Environment.(select(Async)?|get(Async)?|filter)</code> calls)
  * within an esprima AST.
  *
  * @param {Object} tree - esprima AST
@@ -106,7 +106,7 @@ function findVariantNodes(tree) {
 /**
  * Augments esprima nodes with the information whether they are load
  * or run dependencies. Note: This method depends on location augmented
- * esprima nodes - see esprima.parse() options.
+ * esprima nodes - see <code>esprima.parse()</code> options.
  *
  * @param {Object[]} nodes - esprima nodes
  * @param {Object[]} scopeRefs - scope references
@@ -164,7 +164,7 @@ function addEnvCallDependency(fqMethodName, node, result) {
 }
 
 /**
- * Gets the 'get' (i.e. method name) from a 'qx.core.Environment.get' call.
+ * Gets the 'get' (i.e. method name) from a <code>qx.core.Environment.get</code> call.
  *
  * @param {Object} callNode - esprima AST call node
  * @returns {String} method name
@@ -176,7 +176,7 @@ function getEnvMethod(callNode) {
 }
 
 /**
- * Gets the 'foo' (i.e. env key) from a 'qx.core.Environment.*('foo')' call.
+ * Gets the 'foo' (i.e. env key) from a <code>qx.core.Environment.*('foo')</code> call.
  *
  * @param {Object} callNode - esprima AST call node
  * @returns {String} env key
@@ -186,7 +186,7 @@ function getEnvKey(callNode) {
 }
 
 /**
- * Provides the js code of 'qx.core.Environment'.
+ * Provides the js code of <code>qx.core.Environment</code>.
  *
  * @returns {string} js code
  */
@@ -204,7 +204,7 @@ module.exports = {
 
   /**
    * Takes an esprima AST and returns the list of feature classes used through
-   * 'qx.core.Environment.*' calls
+   * <code>qx.core.Environment.*</code> calls
    *
    * @param {Object} tree - esprima AST
    * @param {Object[]} scopeRefs - scope references
