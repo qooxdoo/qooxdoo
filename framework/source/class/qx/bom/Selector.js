@@ -452,7 +452,7 @@ function Sizzle( selector, context, results, seed ) {
 
 /**
  * Create key-value caches of limited size
- * @returns {Function(string, Object)} Returns the Object data after storing it on itself with
+ * @return {Function} Returns the Object data after storing it on itself with
  *  property name the (space-suffixed) string and (if the cache is larger than Expr.cacheLength)
  *  deleting the oldest entry
  */
@@ -472,7 +472,7 @@ function createCache() {
 
 /**
  * Mark a function for special use by Sizzle
- * @param {Function} fn The function to mark
+ * @param fn {Function} The function to mark
  */
 function markFunction( fn ) {
   fn[ expando ] = true;
@@ -481,7 +481,7 @@ function markFunction( fn ) {
 
 /**
  * Support testing using an element
- * @param {Function} fn Passed the created div and expects a boolean result
+ * @param fn {Function} Passed the created div and expects a boolean result
  */
 function assert( fn ) {
   var div = document.createElement("div");
@@ -502,8 +502,8 @@ function assert( fn ) {
 
 /**
  * Adds the same handler for all of the specified attrs
- * @param {String} attrs Pipe-separated list of attributes
- * @param {Function} handler The method that will be applied
+ * @param attrs {String} Pipe-separated list of attributes
+ * @param handler {Function} The method that will be applied
  */
 function addHandle( attrs, handler ) {
   var arr = attrs.split("|"),
@@ -516,9 +516,9 @@ function addHandle( attrs, handler ) {
 
 /**
  * Checks document order of two siblings
- * @param {Element} a
- * @param {Element} b
- * @returns {Number} Returns less than 0 if a precedes b, greater than 0 if a follows b
+ * @param a {Element}
+ * @param b {Element}
+ * @return {Number} Returns less than 0 if a precedes b, greater than 0 if a follows b
  */
 function siblingCheck( a, b ) {
   var cur = b && a,
@@ -545,7 +545,7 @@ function siblingCheck( a, b ) {
 
 /**
  * Returns a function to use in pseudos for input types
- * @param {String} type
+ * @param type {String}
  */
 function createInputPseudo( type ) {
   return function( elem ) {
@@ -556,7 +556,7 @@ function createInputPseudo( type ) {
 
 /**
  * Returns a function to use in pseudos for buttons
- * @param {String} type
+ * @param type {String}
  */
 function createButtonPseudo( type ) {
   return function( elem ) {
@@ -567,7 +567,7 @@ function createButtonPseudo( type ) {
 
 /**
  * Returns a function to use in pseudos for positionals
- * @param {Function} fn
+ * @param fn {Function}
  */
 function createPositionalPseudo( fn ) {
   return markFunction(function( argument ) {
@@ -589,8 +589,8 @@ function createPositionalPseudo( fn ) {
 
 /**
  * Checks a node for validity as a Sizzle context
- * @param {Element|Object=} context
- * @returns {Element|Object|Boolean} The input node if acceptable, otherwise a falsy value
+ * @param context {Element|Object}
+ * @return {Element|Object|Boolean} The input node if acceptable, otherwise a falsy value
  */
 function testContext( context ) {
   return context && typeof context.getElementsByTagName !== strundefined && context;
@@ -601,8 +601,8 @@ support = Sizzle.support = {};
 
 /**
  * Detects XML nodes
- * @param {Element|Object} elem An element or a document
- * @returns {Boolean} True iff elem is a non-HTML XML node
+ * @param elem {Element|Object} An element or a document
+ * @return {Boolean} True iff elem is a non-HTML XML node
  */
 isXML = Sizzle.isXML = function( elem ) {
   // documentElement is verified for cases where it doesn't yet exist
@@ -613,8 +613,8 @@ isXML = Sizzle.isXML = function( elem ) {
 
 /**
  * Sets document-related variables once based on the current document
- * @param {Element|Object} [doc] An element or document object to use to set the document
- * @returns {Object} Returns the current document
+ * @param doc {Element|Object?} An element or document object to use to set the document
+ * @return {Object} Returns the current document
  */
 setDocument = Sizzle.setDocument = function( node ) {
   var hasCompare,
@@ -1043,7 +1043,7 @@ Sizzle.error = function( msg ) {
 
 /**
  * Document sorting and removing duplicates
- * @param {ArrayLike} results
+ * @param results {ArrayLike}
  */
 Sizzle.uniqueSort = function( results ) {
   var elem,
@@ -1076,7 +1076,7 @@ Sizzle.uniqueSort = function( results ) {
 
 /**
  * Utility function for retrieving the text value of an array of DOM nodes
- * @param {Array|Element} elem
+ * @param elem {Array|Element}
  */
 getText = Sizzle.getText = function( elem ) {
   var node,
@@ -2044,11 +2044,11 @@ compile = Sizzle.compile = function( selector, match /* Internal Use Only */ ) {
 /**
  * A low-level selection function that works with Sizzle's compiled
  *  selector functions
- * @param {String|Function} selector A selector or a pre-compiled
+ * @param selector {String|Function} A selector or a pre-compiled
  *  selector function built with Sizzle.compile
- * @param {Element} context
- * @param {Array} [results]
- * @param {Array} [seed] A set of elements to match against
+ * @param context {Element}
+ * @param results {Array?}
+ * @param seed {Array?} A set of elements to match against
  */
 select = Sizzle.select = function( selector, context, results, seed ) {
   var i, tokens, token, type, find,
