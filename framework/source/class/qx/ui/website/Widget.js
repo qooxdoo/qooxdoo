@@ -133,7 +133,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * @attachStatic {qxWeb}
      */
     initWidgets : function(selector) {
-      var elements = qxWeb("*[data-qx-class]")
+      var elements = qxWeb("*[data-qx-class]");
       if (selector) {
         elements = elements.filter(selector);
       }
@@ -207,8 +207,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * @return {Boolean} The enabled state of the collection.
      */
     getEnabled : function() {
-      // Until [Bug #8240] is not fixed, we have to use native getAttribute()
-      return !this[0].getAttribute("disabled");
+      return !this.getAttribute("disabled");
     },
 
 
