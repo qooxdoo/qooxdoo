@@ -2611,6 +2611,7 @@ testrunner.define({
     };
     var test = q.create('<div id="foo"></div>').setStyles(styles)
     .appendTo(this.sandbox[0]);
+
     test.block("#00FF00", 1);
 
     var blockerDiv = test[0].__blocker.div;
@@ -2624,7 +2625,9 @@ testrunner.define({
 
     this.assertEquals(1, blockerDiv.getStyle("opacity"));
     this.assertMatch(blockerDiv.getStyle("backgroundColor"), /(rgb.*?0,.*?255.*?0|#00ff00)/i);
+
     test.unblock();
+
     this.assertFalse(q.$$qx.dom.Hierarchy.isRendered(blockerDiv[0]));
 
     var newStyles = {
@@ -2634,6 +2637,7 @@ testrunner.define({
       height: "175px"
     };
     test.setStyles(newStyles);
+
     test.block();
 
     this.assertTrue(q.$$qx.dom.Hierarchy.isRendered(blockerDiv[0]));
@@ -2642,12 +2646,16 @@ testrunner.define({
     this.assertEquals(newStyles.left, blockerLocation.left + "px");
     this.assertEquals(newStyles.width, blockerDiv.getWidth() + "px");
     this.assertEquals(newStyles.height, blockerDiv.getHeight() + "px");
+
+    test.unblock();
   },
 
   testBlockDocument : function()
   {
     this.require(["qx.debug"]);
+
     q(document).block();
+
     var blockerDiv = document.__blocker.div;
     this.assertTrue(q.$$qx.dom.Hierarchy.isRendered(blockerDiv[0]));
     this.assertEquals(q(document).getWidth(), blockerDiv.getWidth());
@@ -2663,7 +2671,8 @@ testrunner.define({
   },
 
   testBlockWindow : function() {
-    q(window).block();
+    // q(window).block();
+
   },
 
   testGetBlockerElements : function() {
@@ -2679,6 +2688,7 @@ testrunner.define({
     q.create('<div id="bar"></div>').setStyles(styles).appendTo(this.sandbox[0]);
 
     var test = this.sandbox.getChildren();
+
     test.block();
 
     var blockerCollection = test.getBlocker();
@@ -2686,6 +2696,8 @@ testrunner.define({
     this.assertEquals(2, blockerCollection.length);
     this.assertTrue(qxWeb.isElement(blockerCollection[0]));
     this.assertTrue(qxWeb.isElement(blockerCollection[1]));
+
+    test.unblock();
   },
 
   testGetBlockerWithoutBlockingBefore : function() {
@@ -2702,8 +2714,47 @@ testrunner.define({
     var blockerCollection = test.getBlocker();
     this.assertInstance(blockerCollection, q);
     this.assertEquals(0, blockerCollection.length);
+  },
+
+
+  testBlockerWithCSSClassStyling : function() {
+    this.require(["qx.debug"]);
+    var styleSheet = "./style2.css";
+    q.includeStylesheet(styleSheet);
+
+    q(document).block();
+    var blockerDiv = document.__blocker.div;
+
+    window.setTimeout((function()
+    {
+      this.resume(function()
+      {
+        var opacity = (qxWeb.env.get("browser.name") === "ie" && qxWeb.env.get("browser.version") <= 8) ? 0 : 0.7;
+
+        this.assertMatch(blockerDiv.getStyle("backgroundColor"), /(rgb.*?255,.*?0.*?0|#ff0000)/i);
+        this.assertEquals('8000', blockerDiv.getStyle('zIndex'));
+        this.assertEquals(opacity, (Math.round(blockerDiv.getStyle('opacity') * 10) / 10));
+
+        q(document).unblock();
+        q('link[href="./style2.css"]').remove();
+      });
+    }).bind(this), 500);
+
+    this.wait(1000);
+  },
+
+  testBlockerWithJSStyling : function() {
+    q(document).block('#00FF00', 0.6, 7000);
+    var blockerDiv = document.__blocker.div;
+
+    this.assertMatch(blockerDiv.getStyle("backgroundColor"), /(rgb.*?0,.*?255.*?0|#00ff00)/i);
+    this.assertEquals('7000', blockerDiv.getStyle('zIndex'));
+    this.assertEquals('0.6', (Math.round(blockerDiv.getStyle('opacity') * 10) / 10));
+
+    q(document).unblock();
   }
 });
+
 
 testrunner.define({
   classname : "ArrayUtil",

@@ -55,17 +55,17 @@ qxWeb.define("qx.module.Blocker", {
 
       if (!item.__blocker) {
         item.__blocker = {
-          div : qxWeb.create("<div/>")
+          div : qxWeb.create("<div class='qx-blocker' />")
         };
       }
-
-      qx.module.Blocker.__styleBlocker(item, color, opacity, zIndex, isDocument);
 
       if (isDocument) {
         item.__blocker.div.insertBefore(qxWeb(win.document.body).getChildren(':first'));
       } else {
         item.__blocker.div.appendTo(win.document.body);
       }
+
+      qx.module.Blocker.__styleBlocker(item, color, opacity, zIndex, isDocument);
     },
 
 
@@ -83,11 +83,17 @@ qxWeb.define("qx.module.Blocker", {
       var qItem = qxWeb(item);
 
       var styles = {
-        "zIndex" : zIndex,
-        "display" : "block",
-        "backgroundColor" : color,
-        "opacity" : opacity
+        "display" : "block"
       };
+
+      styles.backgroundColor = typeof color !== 'undefined' ? color : null;
+      styles.zIndex =  typeof zIndex !== 'undefined' ? zIndex : null;
+
+      if (qxWeb.env.get("browser.name") === "ie" && qxWeb.env.get("browser.version") <= 8) {
+        styles.opacity = typeof opacity !== 'undefined' ? opacity : 0;
+      } else {
+        styles.opacity = typeof opacity !== 'undefined' ? opacity : null;
+      }
 
       if (isDocument) {
         styles.top = 0 + "px";
@@ -158,10 +164,6 @@ qxWeb.define("qx.module.Blocker", {
       if (!this[0]) {
         return this;
       }
-
-      color = color || "transparent";
-      opacity = opacity || 0;
-      zIndex = zIndex || 10000;
 
       this.forEach(function(item, index) {
         qx.module.Blocker.__attachBlocker(item, color, opacity, zIndex);
