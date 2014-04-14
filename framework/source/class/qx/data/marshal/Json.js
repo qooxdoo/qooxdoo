@@ -126,7 +126,7 @@ qx.Class.define("qx.data.marshal.Json",
         // check for arrays
         if (data instanceof Array || qx.Bootstrap.getClass(data) == "Array") {
           for (var i = 0; i < data.length; i++) {
-            this.__toClass(data[i], includeBubbleEvents, null, depth+1);
+            this.__toClass(data[i], includeBubbleEvents, parentProperty + "[" + i + "]", depth+1);
           }
         }
 
@@ -355,7 +355,7 @@ qx.Class.define("qx.data.marshal.Json",
         array.setAutoDisposeItems(true);
 
         for (var i = 0; i < data.length; i++) {
-          array.push(this.__toModel(data[i], null, depth+1));
+          array.push(this.__toModel(data[i], parentProperty + "[" + i + "]", depth+1));
         }
         return array;
 
