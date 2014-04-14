@@ -332,6 +332,7 @@ function assemble(varNode, withMethodName) {
  * @returns {Reference[]}
  * @see {@link http://constellation.github.io/escope/Scope.html|Scope class}
  * @see {@link http://constellation.github.io/escope/Reference.html|Reference class}
+ * @see {@link http://esprima.org/doc/#ast|esprima AST}
  */
 function dependenciesFromAst(scope) {
   var dependencies = [];
@@ -600,6 +601,7 @@ function applyIgnoreRequireAndUse(deps, className) {
  * @returns {string[]} atHints.use
  * @returns {string[]} atHints.asset
  * @returns {boolean} atHints.cldr
+ * @see {@link http://esprima.org/doc/#ast|esprima AST}
  */
 function collectAtHintsFromComments(tree) {
   var topLevelCodeUnitLines = [];
@@ -666,6 +668,7 @@ module.exports = {
    * @param {Object} [opts]
    * @param {boolean} [opts.flattened=false] - whether to divide deps into load and run
    * @returns {string[]}
+   * @see {@link http://esprima.org/doc/#ast|esprima AST}
    */
   findUnresolvedDeps: function(tree, opts) {
     var deps = {
