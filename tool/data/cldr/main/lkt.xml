@@ -6,8 +6,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9280 $"/>
-		<generation date="$Date: 2013-08-27 13:07:13 -0500 (Tue, 27 Aug 2013) $"/>
+		<version number="$Revision: 9876 $"/>
+		<generation date="$Date: 2014-03-05 23:14:25 -0600 (Wed, 05 Mar 2014) $"/>
 		<language type="lkt"/>
 	</identity>
 	<localeDisplayNames>
@@ -18,7 +18,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="af">Afrikaans Iyápi</language>
 			<language type="alt">Itóǧata Altai Iyápi</language>
 			<language type="am">Amharic Iyápi</language>
-			<language type="apa">Čhíŋčakiŋze Iyápi</language>
 			<language type="ar">Arab Iyápi</language>
 			<language type="arp">Maȟpíya Tȟó Iyápi</language>
 			<language type="as">Assamese Iyápi</language>
@@ -121,7 +120,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="or">Oriya Iyápi</language>
 			<language type="pa">Punjabi Iyápi</language>
 			<language type="pl">Polish Iyápi</language>
-			<language type="pra">Prakrit Iyápi</language>
 			<language type="ps">Pashto Iyápi</language>
 			<language type="pt">Portuguese Iyápi</language>
 			<language type="qu">Quechua Iyápi</language>
@@ -534,6 +532,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</unit>
 			<unit type="mass-pound">
 				<unitPattern count="other">{0}#</unitPattern>
+			</unit>
+			<unit type="temperature-celsius">
+				<unitPattern count="other">{0}°C</unitPattern>
+			</unit>
+			<unit type="temperature-fahrenheit">
+				<unitPattern count="other">{0}°</unitPattern>
 			</unit>
 		</unitLength>
 	</units>
