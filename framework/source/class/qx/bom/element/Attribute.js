@@ -139,7 +139,6 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
         $$widget    : 1,
 
         // Native properties
-        disabled    : 1,
         checked     : 1,
         readOnly    : 1,
         multiple    : 1,
@@ -269,6 +268,10 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
         }
       } else { // fallback to attribute
         value = element.getAttribute(name);
+
+        if (hints.bools[name]) {
+          return qx.Bootstrap.isString(value); // also respect empty strings as true
+        }
       }
 
       if (hints.bools[name]) {
@@ -298,8 +301,8 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
       name = hints.names[name] || name;
 
       // respect booleans
-      if (hints.bools[name]) {
-        value = !!value;
+      if (hints.bools[name] && !qx.lang.Type.isBoolean(value)) {
+        value = qx.lang.Type.isString(value);
       }
 
       // apply attribute
