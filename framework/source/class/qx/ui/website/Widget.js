@@ -124,9 +124,12 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
     },
 
     /**
-     * Fetches all elements having a data-attribute named <code>data-qx-class</code>
-     * containing the class name of the desired widget and initialized the widgets.
+     * Fetches elements with a data attribute named <code>data-qx-class</code>
+     * containing the class name of the desired widget and initializes them as
+     * widgets.
      *
+     * @param selector {String?} Optional selector expression or filter function to
+     * restrict the list of elements
      * @attachStatic {qxWeb}
      */
     initWidgets : function(selector) {
