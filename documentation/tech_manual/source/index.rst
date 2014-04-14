@@ -37,3 +37,4 @@ Framework
    :maxdepth: 1
 
    pages/framework/deprecation
+   pages/framework/cldr_update
