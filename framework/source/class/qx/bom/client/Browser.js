@@ -67,7 +67,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
      */
     getName : function() {
       var agent = navigator.userAgent;
-      var reg = new RegExp("(" + qx.bom.client.Browser.__agents + ")(/| )([0-9]+\.[0-9])");
+      var reg = new RegExp("(" + qx.bom.client.Browser.__agents + ")(/|)?([0-9]+\.[0-9])?");
       var match = agent.match(reg);
       if (!match) {
         return "";
@@ -223,7 +223,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
       // Palm Pre uses both Safari (contains Webkit version) and "Version" contains the "Pre" version. But
       // as "Version" is not Safari here, we better detect this as the Pre-Browser version. So place
       // "Pre" in front of both "Version" and "Safari".
-      "webkit" : "AdobeAIR|Titanium|Fluid|Chrome|Android|Epiphany|Konqueror|iCab|OmniWeb|Maxthon|Pre|PhantomJS|Mobile Safari|Safari",
+      "webkit" : "AdobeAIR|Titanium|Fluid|Chrome|Android|Epiphany|Konqueror|iCab|iPad|iPhone|OmniWeb|Maxthon|Pre|PhantomJS|Mobile Safari|Safari",
 
       // Better security by keeping Firefox the last one to match
       "gecko" : "prism|Fennec|Camino|Kmeleon|Galeon|Netscape|SeaMonkey|Namoroka|Firefox",
