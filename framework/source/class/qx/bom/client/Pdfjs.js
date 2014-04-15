@@ -75,19 +75,14 @@ qx.Bootstrap.define("qx.bom.client.Pdfjs",
      * @param context {Object} The context object for the callback function.
      */
     __isAvailable: function(callback, context) {
-      var isFirefox = (qx.bom.client.Browser.getName() === "firefox");
-      var isGreaterThan19 = (qx.bom.client.Engine.getVersion() >= 19);
-
-      if (isFirefox && isGreaterThan19) {
-        var resManager = qx.util.ResourceManager.getInstance();
-        var urlToPdf = resManager.toUri("qx/static/empty.pdf");
-        var pluginDetect = qx.bom.client.Pdfjs.__getPluginDetect();
-        var pluginDetectCallback = function(PluginDetect) {
-          var result = (pluginDetect.isMinVersion('PDFjs', 0) === 0);
-          callback.call(context, result);
-        };
-        pluginDetect.onDetectionDone('PDFjs', pluginDetectCallback, urlToPdf);
-      }
+      var resManager = qx.util.ResourceManager.getInstance();
+      var urlToPdf = resManager.toUri("qx/static/empty.pdf");
+      var pluginDetect = qx.bom.client.Pdfjs.__getPluginDetect();
+      var pluginDetectCallback = function(PluginDetect) {
+        var result = (pluginDetect.isMinVersion('PDFjs', 0) === 0);
+        callback.call(context, result);
+      };
+      pluginDetect.onDetectionDone('PDFjs', pluginDetectCallback, urlToPdf);
     },
 
     /**
