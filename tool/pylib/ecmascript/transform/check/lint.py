@@ -136,7 +136,6 @@ class LintChecker(treeutil.NodeVisitor):
                         ok = self.is_name_lint_filtered(full_name, at_hints, "ignoreDeprecated")
                 if not ok:
                     issue = warn("Deprecated global symbol used: '%s'" % full_name, self.file_name, var_node)
-                    issue.name = full_name  # @deprecated {3.0} to filter against #ignore later
                     self.issues.append(issue)
 
     def filter_configsymbols(self, global_nodes):
@@ -171,7 +170,6 @@ class LintChecker(treeutil.NodeVisitor):
         def warn_appender(global_nodes):
             for node in global_nodes:
                 issue = warn("Unknown global symbol used: '%s'" % globals_table[node], self.file_name, node)
-                issue.name = globals_table[node] # @deprecated {3.0} to filter against #ignore later
                 self.issues.append(issue)
 
         # ------------------------------

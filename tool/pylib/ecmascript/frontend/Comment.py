@@ -629,12 +629,6 @@ class Comment(object):
             'functor' : presult.t_functor,
             'arguments' : presult.t_arguments.asList() if presult.t_arguments else []
         }
-        ##
-        # @deprecated {3.0} use @ignore(foo) instead of @lint ignoreUndefined
-        if res['functor'] == 'ignoreUndefined':
-            msg = u"'@lint ignoreUndefined' is deprecated. Use '@ignore' (same arguments) instead."
-            res['error'] = 'deprecationWarning'
-            res['message'] = msg
         return res
 
     gr_at_attach = ( py.Suppress('@') + py.Literal('attach') + py.Suppress('{') +
