@@ -25,7 +25,7 @@
  *
  * <dl>
  *   <dt>What?</dt>
- *   <dd>fqClassName from file path.</dd>
+ *   <dd>class id</dd>
  *   <dt>Where?</dt>
  *   <dd>tree root node</dd>
  * </dl>

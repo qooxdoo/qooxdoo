@@ -28,7 +28,9 @@
  *  <dt>What?</dt>
  *  <dd>boolean whether loadTime or not</dd>
  *  <dt>Where?</dt>
- *  <dd>some nodes</dd>
+ *  <dd>specific nodes which also define an own scope
+        (e.g. the global scope or the <code>defer</code>
+        FunctionExpression)</dd>
  * </dl>
  */
 
@@ -38,7 +40,7 @@
 var annotateKey = "isLoadTime";
 
 /**
- * Check whether node is defer() call.
+ * Check whether node is <code>defer()</code> call.
  *
  * @param {Object} node - esprima node
  * @return {boolean}
@@ -55,7 +57,8 @@ function isDeferFunction(node) {
 }
 
 /**
- * Check whether node is immediate call (i.e. <code>(function(){})()</code> aka IIFE).
+ * Check whether node is immediate call (i.e. <code>(function(){})()</code> aka
+ *  <abbr title="Immediately-Invoked Function Expression">IIFE</abbr>).
  *
  * @param {Object} node - esprima node
  * @return {boolean}

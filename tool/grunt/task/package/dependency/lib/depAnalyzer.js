@@ -22,7 +22,7 @@
  * @module depAnalyzer
  *
  * @desc
- * Collect external dependencies (i.e. unknown/unresolved symbols)
+ * Collects external dependencies (i.e. unknown/unresolved symbols)
  * of qooxdoo class files. This encompasses:
  * <ul>
  *  <li>starting at seed classes exploring recursivly all dependencies</li>
@@ -729,7 +729,7 @@ module.exports = {
   },
 
   /**
-   * Collects dependencies recursively. Supports globbing of classIds.
+   * Collects dependencies recursively. Supports globbing of class ids.
    *
    * @param {Object} basePaths - namespace (key) and filePath (value) to library
    * @param {string[]} initClassIds - seed class ids
@@ -932,7 +932,7 @@ module.exports = {
   },
 
   /**
-   * Creates an @-hint index (by className) of all given deps.
+   * Creates an @-hint index (by class name) of all given deps.
    *
    * @param {Object} deps
    * @param {Object} [options]
