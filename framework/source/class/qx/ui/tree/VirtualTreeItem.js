@@ -98,7 +98,7 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
         var eventType = "change" + qx.lang.String.firstUp(childProperty);
         // listen to children property changes
         if (qx.Class.hasProperty(value.constructor, childProperty)) {
-          value.addListener(eventType, this._onChageChildProperty, this);
+          value.addListener(eventType, this._onChangeChildProperty, this);
         }
 
 
@@ -115,7 +115,7 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
       if (old != null && qx.ui.tree.core.Util.isNode(old, childProperty)) 
       {
         var eventType = "change" + qx.lang.String.firstUp(childProperty);
-        old.removeListener(eventType, this._onChageChildProperty, this);
+        old.removeListener(eventType, this._onChangeChildProperty, this);
 
         var oldChildren = old.get(childProperty);
         if (oldChildren) {
@@ -138,7 +138,7 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
      *
      * @param e {qx.event.type.Data} Data event; provides children array
      */
-    _onChageChildProperty : function(e)
+    _onChangeChildProperty : function(e)
     {
       var children = e.getData();
       var old = e.getOldData();
