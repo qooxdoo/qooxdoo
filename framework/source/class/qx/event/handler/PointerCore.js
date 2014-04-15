@@ -228,6 +228,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           Simulated MouseEvents are fired by browsers directly after TouchEvents
           for improving compatibility. They should not trigger PointerEvents.
         */
+        domEvent.preventDefault();
         return;
       }
 
@@ -286,7 +287,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         var distX = Math.abs(x - qx.event.handler.PointerCore.__lastTouch.x);
         var distY = Math.abs(y - qx.event.handler.PointerCore.__lastTouch.y);
         if (timeSinceTouch < qx.event.handler.PointerCore.SIM_MOUSE_DELAY) {
-          if (Math.abs(Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2))) < dist) {
+          if (distX < dist || distY < dist) {
             return true;
           }
         }
