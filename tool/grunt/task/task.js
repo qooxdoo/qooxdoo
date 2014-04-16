@@ -77,7 +77,14 @@ var getSupersededJobs = function() {
   };
 };
 
-var registerGeneratorJobsAsTasks = function(grunt, jobs, supersededJobs) {
+var getMalfunctionedJobs = function() {
+  return {
+    // the migration job doesn't work because user input is needed
+    migration: "migration"
+  };
+};
+
+var registerGeneratorJobsAsTasks = function(grunt, jobs, supersededJobs, malfunctionedJobs) {
   var sortedJobNames = Object.keys(jobs).sort();
   sortedJobNames.forEach(function (jobName) {
     var jobDesc = jobs[jobName];
@@ -85,9 +92,17 @@ var registerGeneratorJobsAsTasks = function(grunt, jobs, supersededJobs) {
     if (supersededJobs[jobName] === undefined) {
       // register generator job as task if there's
       // no replacement implemented in node
-      grunt.registerTask(jobName, jobDesc, function (job) {
-        grunt.task.run(["generate:"+jobName]);
-      });
+      // and the job can be used with grunt
+      if (malfunctionedJobs[jobName] === undefined) {
+        grunt.registerTask(jobName, jobDesc, function (job) {
+          grunt.task.run(["generate:"+jobName]);
+        });
+      } else {
+        grunt.registerTask(jobName, jobDesc, function (job) {
+          grunt.warn("The '" + jobName + "' doesn't work with grunt, " +
+            " please use the real generator './generate.py " + jobName + "' instead.");
+        });
+      }
     }
   });
 };
@@ -110,12 +125,12 @@ var registerTasks = function(grunt) {
 
   var jobs = retrieveGeneratorJobsFromCache(files, cache);
   if (jobs) {
-    registerGeneratorJobsAsTasks(grunt, jobs, getSupersededJobs());
+    registerGeneratorJobsAsTasks(grunt, jobs, getSupersededJobs(), getMalfunctionedJobs());
     registerNodeTasks(grunt, conf.QOOXDOO_PATH);
   } else {
     jobs = queryAndWriteCurrentJobs(files.jobsAndDesc, cache);
     if (jobs !== null) {
-      registerGeneratorJobsAsTasks(grunt, jobs, getSupersededJobs());
+      registerGeneratorJobsAsTasks(grunt, jobs, getSupersededJobs(), getMalfunctionedJobs());
     }
     registerNodeTasks(grunt, conf.QOOXDOO_PATH);
   }
