@@ -29,7 +29,7 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "test": "./node_modules/nodeunit/bin/nodeunit test"
+    "test": "./node_modules/.bin/nodeunit test",
   },
   "dependencies": {
   },
