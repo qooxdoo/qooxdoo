@@ -100,7 +100,7 @@ var registerGeneratorJobsAsTasks = function(grunt, jobs, supersededJobs, malfunc
       } else {
         grunt.registerTask(jobName, jobDesc, function (job) {
           grunt.warn("The '" + jobName + "' doesn't work with grunt, " +
-            " please use the real generator './generate.py " + jobName + "' instead.");
+            "please use the real generator './generate.py " + jobName + "' instead.");
         });
       }
     }
