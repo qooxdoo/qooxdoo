@@ -23,33 +23,58 @@ changes.
 
 .. _pages/mobile/theming#scss-compilation:
 
+SCSS vs. Sass
+=============
+
+Names can be confusing. Sass is both the name of the reference implementation
+and the name of a syntax. Sass offers two syntax flavors:
+
+SCSS (Sassy CSS):
+
+::
+
+  #main {
+    color: blue;
+    font-size: 0.3em;
+
+    a {
+      font: {
+        weight: bold;
+        family: serif;
+      }
+  }
+
+Sass:
+
+::
+
+  #main
+    color: blue
+    font-size: 0.3em
+
+    a
+      font:
+        weight: bold
+        family: serif
+
+We use the SCSS sytnax throughout.
 
 SCSS Compilation
 ================
 
-%{Mobile} comes with a built-in SCSS compiler that can be used to leverage the
-changes you make to your application's \*.scss files. You can either invoke it
-manually through its ``tool/bin/scss.py`` frontend, or implicitly by running
-the ``watch-scss`` Generator job (see further).
+%{Mobile} uses the offical `Sass compiler
+<http://sass-lang.com/install>`_ to leverage the changes you
+make to your application's \*.scss files.
 
-Mind though that this compiler implements roughly version 3.2 of the SCSS
-language, with some omissions. Some of the issues we have come across are:
+It requires both a `Ruby <http://www.ruby-lang.org/>`_ and `RubyGems
+<http://rubygems.org/>`_ installation on your machine.
 
-* Data URLs get broken across lines.
-* If the first argument to ``linear-gradient`` is a degree value (like
-  ``-45deg``), an error will be printed (but the instruction is processed
-  alright).
+You can either invoke it manually through the ``sass`` command
+line tool or implicitly by running the ``watch-scss`` Generator job
+(see further).
 
-If you like to use one of those features, or want to use newer features
-of SCSS, you might want to install the `SCSS reference implementation
-<http://sass-lang.com/download.html>`_ which requires a `Ruby
-<http://www.ruby-lang.org/>`_ and `RubyGems <http://rubygems.org/>`_ installation on
-your machine. You can use the Ruby compiler everywhere you would use the qooxdoo
-built-in compiler.
-
-
-Watching SCSS files with qooxdoo's built-in SCSS compiler
-=========================================================
+Watching SCSS files
+===================
 
 Layout design through CSS is typically done by experimentation. You often
 change a stylesheet and reload the corresponding application to see the effect.
@@ -67,11 +92,7 @@ generator :ref:`watch-scss
 It recognizes any changes made to the SCSS files in your qx.Mobile application
 and triggers the compilation to CSS automatically.
 
-
-Watching SCSS files with SASS tool
-==================================
-
-If you decide to use the official SASS compiler, please replace the ``watch-scss`` job of your app-specific ``config.json``:
+This is the job configuration of your app-specific ``config.json``:
 
 ::
 
@@ -91,7 +112,7 @@ If you decide to use the official SASS compiler, please replace the ``watch-scss
       }
     }
 
-As mentioned before, it needs the official SASS compiler installed on your system.
+As mentioned before, it needs the official Sass compiler installed on your system.
 
 qx.Mobile Themes
 ================
@@ -233,9 +254,9 @@ extend the theme with your own CSS rules. In this case you can append your CSS s
 
 As mentioned before, you do not need to be an expert in SCSS for theming.  But
 if you want to know more about this exciting CSS enhancement technology, please
-have a look at the SASS website:
+have a look at the Sass website:
 
-* `SASS official website <http://www.sass-lang.com/>`_
+* `Sass official website <http://www.sass-lang.com/>`_
 
 
 Resolution Independence

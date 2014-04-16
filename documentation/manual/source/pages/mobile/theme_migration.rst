@@ -34,7 +34,7 @@ through these lines:
 Step 2: Update your watch-scss job
 ----------------------------------
 
-The watch-scss job was changed in ``3.5``. Please replace your existing ``watch-scss`` job at your app-specific``config.json``:
+The watch-scss job was changed in ``3.5``. Please replace your existing ``watch-scss`` job at your app-specific ``config.json``:
 
 ::
 
