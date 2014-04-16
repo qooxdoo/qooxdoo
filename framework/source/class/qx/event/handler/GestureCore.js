@@ -76,6 +76,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     __lastTap : null,
     __rollImpulseId : null,
     __stopMomentum : false,
+    __initialDistance : null,
 
     /**
      * Register pointer event listeners
@@ -133,8 +134,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element ? null} event target
      */
     checkAndFireGesture : function(domEvent, type, target) {
-      var gesture = this.__gesture[domEvent.pointerId];
-
       if (!type) {
         type = domEvent.type;
       }
@@ -256,9 +255,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       var gesture = this.__gesture[domEvent.pointerId];
       // delete the long tap
       this.__stopLongTapTimer(gesture);
-
-      var eventType;
-
 
       /*
         If the dom event's target or one of its ancestors have

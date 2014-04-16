@@ -147,6 +147,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     __currentOffset : null,
     __isVerticalScroll : null,
     __onTouch : null,
+    __distanceX : null,
+    __distanceY : null,
 
 
 
@@ -268,12 +270,12 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
 
     /**
-    * Enables the momentum scrolling. This method will be called recursively, 
+    * Enables the momentum scrolling. This method will be called recursively,
     * and divides the scroll velocity on every step by the parameter momentum.
-    * @param startPosition {Number} the last known position of the scroll area. 
-    * @param velocity {Number} the current scroll velocity. 
+    * @param startPosition {Number} the last known position of the scroll area.
+    * @param velocity {Number} the current scroll velocity.
     * @param momentum {Number} the momentum factor.
-    * @param scrollLimit {Number} scrollLimit of the scroll area. 
+    * @param scrollLimit {Number} scrollLimit of the scroll area.
     */
     _scrollStep: function(startPosition, velocity, momentum, scrollLimit) {
       var nextPosition = startPosition + velocity * 10;

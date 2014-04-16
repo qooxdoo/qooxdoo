@@ -126,7 +126,6 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
       trackstart : 1,
       pinch : 1,
       rotate : 1,
-      roll : 1,
 
       // pointer events
       pointermove : 1,
