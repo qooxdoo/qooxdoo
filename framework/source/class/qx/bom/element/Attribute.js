@@ -188,16 +188,6 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
         disabled: 1,
         multiple: 1,
         maxLength: 1
-      },
-
-
-      // Use getAttribute(name, 2) for these to query for the real value, not
-      // the interpreted one.
-      original :
-      {
-        href : 1,
-        src  : 1,
-        type : 1
       }
     },
 
@@ -243,16 +233,8 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
       // normalize name
       name = hints.names[name] || name;
 
-      // respect original values
-      // http://msdn2.microsoft.com/en-us/library/ms536429.aspx
-      if (qx.core.Environment.get("engine.name") == "mshtml" &&
-        parseInt(qx.core.Environment.get("browser.documentmode"), 10) < 8 &&
-        hints.original[name])
-      {
-        value = element.getAttribute(name, 2);
-      }
       // respect properties
-      else if (hints.property[name])
+      if (hints.property[name])
       {
         value = element[name];
 
