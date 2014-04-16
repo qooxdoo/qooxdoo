@@ -20,8 +20,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * This class provides a unified touch event handler.
  *
  * @require(qx.event.handler.UserAction)
@@ -30,7 +28,7 @@
  * @require(qx.event.type.Swipe)
  * @require(qx.event.type.Track)
  * @require(qx.event.type.Rotate)
- * @require(qx.event.type.Pinch) 
+ * @require(qx.event.type.Pinch)
  */
 qx.Class.define("qx.event.handler.Touch",
 {

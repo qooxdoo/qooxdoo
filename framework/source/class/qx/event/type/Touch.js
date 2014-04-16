@@ -20,8 +20,6 @@
 
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Touch event object.
  *
  * For more information see:
@@ -174,7 +172,7 @@ qx.Class.define("qx.event.type.Touch",
 
 
       /**
-       * Returns an array with the calculated delta coordinates of all active touches, 
+       * Returns an array with the calculated delta coordinates of all active touches,
        * relative to the position on <code>touchstart</code> event.
        *
        * @return {Array} an array with objects for each active touch which contains the delta as <code>x</code> and

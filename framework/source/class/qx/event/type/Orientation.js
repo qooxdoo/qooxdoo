@@ -34,8 +34,6 @@
 
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Orientation event object.
  */
 qx.Class.define("qx.event.type.Orientation",
