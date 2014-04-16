@@ -98,24 +98,6 @@
   height: rem(1);
 }
 
-.form-row-content {
-  border-top: 0;
-  padding: rem(10) rem(10) rem(10) rem(10);
-}
-
-.form-row-content + .form-row-content {
-  padding-top: 0px;
-}
-
-.form-row-content .label {
-  color: $form-label-text-color;
-}
-
-// If one row is excluded: hide its separationRow
-.form-row-content.exclude + .form-separation-row {
-  border-top: 0;
-}
-
 .form-element-error {
   color: red;
   text-align: right;
@@ -164,6 +146,24 @@
     @include background($form-background);
     border-left:rem(1) solid $form-border-color;
     border-right:rem(1) solid $form-border-color;
+  }
+
+  .form-row-content .label {
+    color: $form-label-text-color;
+  }
+
+  .form-row-content {
+    border-top: 0;
+    padding: rem(10) rem(10) rem(10) rem(10);
+  }
+
+  .form-row-content + .form-row-content {
+    padding-top: 0px;
+  }
+
+  // If one row is excluded: hide its separationRow
+  .form-row-content.exclude + .form-separation-row {
+    border-top: 0;
   }
 }
 

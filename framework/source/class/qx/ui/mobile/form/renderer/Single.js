@@ -120,7 +120,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
         if (item instanceof qx.ui.mobile.form.TextArea) {
           if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
           {
-            this._addInScrollComposite(item, name);
+            this._addToScrollContainer(item, name);
           } else {
             this._addRow(item, name, new qx.ui.mobile.layout.VBox());
           }
@@ -146,12 +146,22 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
 
 
     /**
-     * Wraps the given item with a {@link qx.ui.mobile.container.ScrollComposite} and
-     * calls _addInSeparateLines() with the composite as item.
+     * @deprecated {4.0} Please use '_addToScrollContainer' instead.
+     * Wraps the given item with a ScrollComposite.
      * @param item {qx.ui.mobile.core.Widget} A form item to render.
      * @param name {String} A name for the form item.
      */
-    _addInScrollComposite : function(item,name) {
+    _addInScrollComposite: function(item, name) {
+      this._addToScrollContainer(item, name);
+    },
+
+
+    /**
+     * Wraps the given item with a {@link qx.ui.mobile.container.Scroll scroll} container.
+     * @param item {qx.ui.mobile.core.Widget} A form item to render.
+     * @param name {String} A name for the form item.
+     */
+    _addToScrollContainer : function(item,name) {
       var scrollContainer = new qx.ui.mobile.container.Scroll();
       scrollContainer.addCssClass("form-row-scroll");
 
@@ -159,24 +169,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
         flex: 1
       });
 
-      if (item instanceof qx.ui.mobile.form.TextArea) {
-        item.addListener("appear", this._fixChildElementsHeight, item);
-        item.addListener("input", this._fixChildElementsHeight, item);
-        item.addListener("changeValue", this._fixChildElementsHeight, item);
-      }
-
       this._addRow(scrollContainer,name,new qx.ui.mobile.layout.VBox());
-    },
-
-
-    /**
-     * Synchronizes the elements.scrollHeight and its height.
-     * Needed for making textArea scrollable.
-     * @param evt {qx.event.type.Data} a custom event.
-     */
-    _fixChildElementsHeight : function(evt) {
-      this.getContainerElement().style.height = 'auto';
-      this.getContainerElement().style.height = this.getContainerElement().scrollHeight+'px';
     },
 
 

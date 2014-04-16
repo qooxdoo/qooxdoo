@@ -48,6 +48,12 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
   construct : function(value)
   {
     this.base(arguments);
+
+    if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
+      this.addListener("appear", this._fixChildElementsHeight, this);
+      this.addListener("input", this._fixChildElementsHeight, this);
+      this.addListener("changeValue", this._fixChildElementsHeight, this);
+    }
   },
 
 
@@ -75,7 +81,53 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
     _getTagName : function()
     {
       return "textarea";
-    }
+    },
 
+
+    /**
+     * Synchronizes the elements.scrollHeight and its height.
+     * Needed for making textArea scrollable.
+     * @param evt {qx.event.type.Data} a custom event.
+     */
+    _fixChildElementsHeight : function(evt) {
+      this.getContentElement().style.height = 'auto';
+      this.getContentElement().style.height = this.getContentElement().scrollHeight+'px';
+      
+      var scroll = this.__getScrollContainer();
+      if(scroll) {
+        scroll.refresh();
+      }
+    },
+
+
+    /**
+    * Returns the parent scroll container of this widget.
+    * @return {qx.ui.mobile.container.Scroll} the parent scroll container or <code>null</code>
+    */
+    __getScrollContainer : function() {
+      var scroll = this;
+      while (!(scroll instanceof qx.ui.mobile.container.Scroll)) {
+        if (scroll.getLayoutParent) {
+          var layoutParent = scroll.getLayoutParent();
+          if (layoutParent == null || layoutParent instanceof qx.ui.mobile.core.Root) {
+            return null;
+          }
+          scroll = layoutParent;
+        } else {
+          return null;
+        }
+      }
+      return scroll;
+    }
+  },
+
+
+  destruct : function()
+  {
+    if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
+      this.removeListener("appear", this._fixChildElementsHeight, this);
+      this.removeListener("input", this._fixChildElementsHeight, this);
+      this.removeListener("changeValue", this._fixChildElementsHeight, this);
+    }
   }
 });

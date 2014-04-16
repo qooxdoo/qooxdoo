@@ -47,36 +47,29 @@ qx.Class.define("qx.ui.mobile.form.renderer.SinglePlaceholder",
       {
         this._addGroupHeader(title);
       }
-      for(var i=0, l=items.length; i<l; i++)
-      {
-        var row = new qx.ui.mobile.form.Row(new qx.ui.mobile.layout.HBox());
+      for (var i = 0, l = items.length; i < l; i++) {
+
         var item = items[i];
         var name = names[i];
 
-        if(item instanceof qx.ui.mobile.form.TextArea) {
-          var scrollContainer = new qx.ui.mobile.container.ScrollComposite();
-          scrollContainer.setFixedHeight(true);
-          scrollContainer.setShowScrollIndicator(false);
-          scrollContainer.add(item, {
-            flex: 1
-          });
-
-          row.add(scrollContainer, {flex:1});
+        if (item instanceof qx.ui.mobile.form.TextArea) {
+          if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
+            this._addToScrollContainer(item, name);
+          } else {
+            this._addRow(item, name, new qx.ui.mobile.layout.VBox());
+          }
         } else {
           if (item.setPlaceholder === undefined) {
-            if(name !== null) {
-              var label = new qx.ui.mobile.form.Label("<p>"+name+"</p>");
-              label.setLabelFor(item.getId());
-              row.add(label, {flex:1});
-            }
-            row.add(item);
+            this._addRow(item, name, new qx.ui.mobile.layout.HBox());
           } else {
+            var row = new qx.ui.mobile.form.Row(new qx.ui.mobile.layout.HBox());
             item.setPlaceholder(name);
-            row.add(item, {flex:1});
+            row.add(item, {
+              flex: 1
+            });
+            this._add(row);
           }
         }
-
-        this._add(row);
 
         if (!item.isValid()) {
           this.showErrorForItem(item);
