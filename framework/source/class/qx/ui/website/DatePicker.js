@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * This is a date picker widget used to combine an input element with a calendar widget
  * to select a date. The calendar itself is opened as popup to save visual space.
  *

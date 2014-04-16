@@ -19,8 +19,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * This is the base collection for all widgets and offers a good foundation
  * for all widgets including enabled state handling, config and template storage
  * and event handling to name a few key features.

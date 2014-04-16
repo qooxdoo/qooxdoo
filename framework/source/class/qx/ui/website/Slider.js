@@ -19,8 +19,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * The Slider control is used to select a numerical value from a given range.
  * It supports custom minimum/maximum values, step sizes and offsets (which limit
  * the knob's range).
@@ -534,10 +532,10 @@ qx.Bootstrap.define("qx.ui.website.Slider",
       var step = this.getConfig("step");
       var stepType = qx.Bootstrap.getClass(step);
       var key = e.getKeyIdentifier();
-
+      var idx;
       if (key == "Right") {
         if (stepType === "Array") {
-          var idx = step.indexOf(currentValue);
+          idx = step.indexOf(currentValue);
           if (idx !== undefined) {
             newValue = step[idx + 1] || currentValue;
           }
@@ -550,7 +548,7 @@ qx.Bootstrap.define("qx.ui.website.Slider",
       }
       else if (key == "Left") {
         if (stepType === "Array") {
-          var idx = step.indexOf(currentValue);
+          idx = step.indexOf(currentValue);
           if (idx !== undefined) {
             newValue = step[idx - 1] || currentValue;
           }

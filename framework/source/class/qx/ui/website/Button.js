@@ -18,8 +18,6 @@
 
 ************************************************************************ */
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * This is a simple button widget which takes care of setting the label
  * and icon of a button.
  *

@@ -18,8 +18,6 @@
 
 ************************************************************************ */
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * This is a simple rating widget which can be used to display a predefined
  * number of symbols which the user can click or tap to give a rating e.g.
  * 3 out of 5 stars.

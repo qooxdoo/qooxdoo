@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * The Accordion is a group of vertically stacked panels (here called pages),
  * each with a header.
  * By default, only one page is visible while the others are collapsed.

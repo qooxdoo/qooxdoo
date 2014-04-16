@@ -19,8 +19,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * A row of buttons used to switch between connected pages. The buttons can be
  * right- or left-aligned, or they can be justified, i.e. they will be stretched
  * to fill the available width.
