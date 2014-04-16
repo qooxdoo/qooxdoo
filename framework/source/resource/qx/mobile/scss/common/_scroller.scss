@@ -14,7 +14,6 @@
 .iscroll {
   width:100%;
   position:absolute;
-  padding-bottom: 10px; // TODO: Experimental
 }
 
 // Bugfix for Android 2.x, adds a scale(1) to the element,
@@ -42,13 +41,16 @@
   position: absolute;
   z-index: 100;
   width: 100%;
+
 }
 
 .scrollbarV {
   position: absolute;
   top: rem(2);
   right: rem(2);
-  bottom: 0;
+  bottom: rem(2);
   width: rem(6);
   z-index: 100;
+
+  margin-top: 0 !important;
 }

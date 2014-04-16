@@ -29,7 +29,7 @@
   height: rem(26);
 }
 
-.text-field, .password-field, .number-field, .text-area {
+.text-field, .password-field, .number-field {
   @include border-radius($input-border-radius);
   @include background($input-background);
 
@@ -41,13 +41,4 @@
 
 .text-field.invalid, .checkbox.invalid, .radio.invalid, .password-field.invalid, .text-area.invalid {
   border: rem(1) solid $input-invalid-border-color !important;
-}
-
-.text-area {
-  @include border-radius(none);
-  @include background-clip(padding-box);
-  @include background($input-background);
-  resize: none;
-  height: rem(3);
-  overflow:hidden;
 }

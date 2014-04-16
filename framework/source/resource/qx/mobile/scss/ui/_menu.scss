@@ -26,6 +26,14 @@
   .list-item:last-child {
     border-bottom: none !important;
   }
+
+  .scroll {
+    @include background($list-background);
+  }
+
+  .iscroll {
+    position: relative !important;
+  }
 }
 
 .item-selected {

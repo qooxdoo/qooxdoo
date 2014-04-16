@@ -44,9 +44,9 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
      * Prevents "rubber-banding" effect of page in iOS.
      * @param evt {qx.event.type.Touch} The touch event.
      */
-    _onTouchStart : function(evt) {
+    _onTouchStart: function(evt) {
       // If scroll container is scrollable
-      if (this._isScrollable()) {
+      if (this._isScrollableY()) {
         var scrollTop = this.getContentElement().scrollTop;
         var maxScrollTop = this.getContentElement().scrollHeight - this.getLayoutParent().getContentElement().offsetHeight;
         if (scrollTop === 0) {
@@ -63,26 +63,11 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
 
 
     /**
-    * Detects whether this scroll container is scrollable or not.
-    * @return {Boolean} <code>true</code> or <code>false</code>
-    */
-    _isScrollable : function() {
-      if(this.getLayoutParent() === null) {
-        return false;
-      }
-      var parentHeight = this.getLayoutParent().getContentElement().offsetHeight;
-      var contentHeight = this.getContentElement().scrollHeight;
-      return parentHeight < contentHeight;
-    },
-
-
-    /**
      * Mixin method. Creates the scroll element.
      *
      * @return {Element} The scroll element
      */
-    _createScrollElement : function()
-    {
+    _createScrollElement: function() {
       return null;
     },
 
@@ -91,9 +76,9 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
      * Returns the current scroll position
      * @return {Array} an array with <code>[scrollLeft,scrollTop]</code>.
      */
-     _getPosition : function() {
-       return [this.getContentElement().scrollLeft, this.getContentElement().scrollTop];
-     },
+    _getPosition: function() {
+      return [this.getContentElement().scrollLeft, this.getContentElement().scrollTop];
+    },
 
 
     /**
@@ -101,20 +86,19 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
      *
      * @return {Element} The scroll content element
      */
-    _getScrollContentElement : function()
-    {
+    _getScrollContentElement: function() {
       return null;
     },
 
 
-   /**
-    * Scrolls the wrapper contents to the x/y coordinates in a given period.
-    *
-    * @param x {Integer} X coordinate to scroll to.
-    * @param y {Integer} Y coordinate to scroll to.
-    * @param time {Integer} is always <code>0</code> for this mixin.
-    */
-    _scrollTo : function(x, y, time) {
+    /**
+     * Scrolls the wrapper contents to the x/y coordinates in a given period.
+     *
+     * @param x {Integer} X coordinate to scroll to.
+     * @param y {Integer} Y coordinate to scroll to.
+     * @param time {Integer} is always <code>0</code> for this mixin.
+     */
+    _scrollTo: function(x, y, time) {
       var element = q(this.getContentElement());
       element.setScrollLeft(x, time);
       element.setScrollTop(y, time);
@@ -122,20 +106,15 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
 
 
     /**
-    * Scrolls the wrapper contents to the widgets coordinates in a given
-    * period.
-    *
-    * @param elementId {String} the elementId, the scroll container should scroll to.
-    * @param time {Integer} Time slice in which scrolling should
-    *              be done (in seconds).
-    */
-    _scrollToElement : function(elementId, time)
-    {
-      var targetElement = document.getElementById(elementId);
-      var offsetParent = qx.bom.element.Location.getOffsetParent(targetElement);
-      var location = qx.bom.element.Location.getRelative(offsetParent, targetElement, "scroll", "scroll");
-
-      this._scrollTo(Math.abs(location.left), Math.abs(location.top), time);
+     * Scrolls the wrapper contents to the widgets coordinates in a given period.
+     *
+     * @param target {Element} the element to which the scroll container should scroll to.
+     * @param time {Integer?0} Time slice in which scrolling should be done (in seconds).
+     *
+     */
+    _scrollToElement: function(target, time) {
+      var location = qx.bom.element.Location.getRelative(this._getContentElement(), target, "scroll", "scroll");
+      this._scrollTo(-location.left, -location.top, time);
     }
   }
 });

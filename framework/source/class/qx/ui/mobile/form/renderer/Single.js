@@ -118,7 +118,12 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
         var isLastItem = (i == items.length - 1);
 
         if (item instanceof qx.ui.mobile.form.TextArea) {
-          this._addInScrollComposite(item, name);
+          if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
+          {
+            this._addInScrollComposite(item, name);
+          } else {
+            this._addRow(item, name, new qx.ui.mobile.layout.VBox());
+          }
         } else {
           if (this._isOneLineWidget(item)) {
             this._addRow(item, name, new qx.ui.mobile.layout.HBox());
@@ -147,14 +152,31 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
      * @param name {String} A name for the form item.
      */
     _addInScrollComposite : function(item,name) {
-      var scrollContainer = new qx.ui.mobile.container.ScrollComposite();
-      scrollContainer.setFixedHeight(true);
-      scrollContainer.setShowScrollIndicator(false);
+      var scrollContainer = new qx.ui.mobile.container.Scroll();
+      scrollContainer.addCssClass("form-row-scroll");
+
       scrollContainer.add(item, {
         flex: 1
       });
 
+      if (item instanceof qx.ui.mobile.form.TextArea) {
+        item.addListener("appear", this._fixChildElementsHeight, item);
+        item.addListener("input", this._fixChildElementsHeight, item);
+        item.addListener("changeValue", this._fixChildElementsHeight, item);
+      }
+
       this._addRow(scrollContainer,name,new qx.ui.mobile.layout.VBox());
+    },
+
+
+    /**
+     * Synchronizes the elements.scrollHeight and its height.
+     * Needed for making textArea scrollable.
+     * @param evt {qx.event.type.Data} a custom event.
+     */
+    _fixChildElementsHeight : function(evt) {
+      this.getContainerElement().style.height = 'auto';
+      this.getContainerElement().style.height = this.getContainerElement().scrollHeight+'px';
     },
 
 

@@ -1,4 +1,5 @@
 \bqx\.ui\.mobile\.container\.MasterDetail\b=The MasterDetail container is obsolete. Please use qx.ui.mobile.page.Manager instead.
+\bqx\.ui\.mobile\.container\.ScrollComposite\b=The class 'qx.ui.mobile.container.ScrollComposite' is deprecated. Please use 'qx.ui.mobile.container.Scroll' instead
 
 \b_onMouseOver\b=Please check if you override '_onMouseOver'. A complete list of API changes can be found in the release notes.
 \b_onMouseOut\b=Please check if you override '_onMouseOut'. A complete list of API changes can be found in the release notes.

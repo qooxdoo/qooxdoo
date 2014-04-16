@@ -351,21 +351,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
 
 
     /**
-     * Handler for <code>pointerdown</code> events on popup. Prevents default of <code>pointerdown</code>
-     * if originalTarget was not of type {@link qx.ui.mobile.form.Input qx.ui.mobile.form.Input} or
-     * {@link qx.ui.mobile.form.TextArea qx.ui.mobile.form.TextArea}
-     * @param evt {qx.event.type.Pointer} The pointer event.
-     */
-    _preventPointerDown : function(evt) {
-      var originalTargetWidget = qx.ui.mobile.core.Widget.getWidgetById(evt.getOriginalTarget().id);
-      if (!(originalTargetWidget instanceof qx.ui.mobile.form.Input)
-          && !(originalTargetWidget instanceof qx.ui.mobile.form.TextArea)) {
-        evt.preventDefault();
-      }
-    },
-
-
-    /**
      * Centers this widget to window's center position.
      */
     _positionToCenter : function()
@@ -403,8 +388,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         this.__anchor.addCssClass("anchor-target");
         qx.ui.mobile.dialog.Popup.ROOT.addListener("pointerdown",this._trackUserTap,this);
       }
-
-      this.addListener("pointerdown", this._preventPointerDown, this);
     },
 
 
@@ -419,8 +402,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         this.__anchor.removeCssClass("anchor-target");
         qx.ui.mobile.dialog.Popup.ROOT.removeListener("pointerdown", this._trackUserTap, this);
       }
-
-      this.removeListener("pointerdown", this._preventPointerDown, this);
     },
 
 

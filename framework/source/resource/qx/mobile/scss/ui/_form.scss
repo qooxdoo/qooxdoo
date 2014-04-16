@@ -42,6 +42,40 @@
   padding-right: rem(10);
 }
 
+
+.text-area {
+  @include background-clip(padding-box);
+  @include background($input-background);
+  @include border-radius($input-border-radius);
+  border: rem(1) solid $input-border-color;
+  resize: none;
+  outline: none;
+  width:100%;
+
+  height: rem(150);
+  min-height: rem(150);
+
+  padding:rem(10);
+  box-sizing:border-box;
+
+  color:  $input-text-color;
+}
+
+.form-row-scroll {
+  @include border-radius($input-border-radius);
+  border: rem(1) solid $input-border-color;
+
+  overflow:hidden !important;
+  height: rem(150);
+  width: 100%;
+
+  .text-area {
+    @include border-radius(0);
+    border:0px solid transparent;
+    background: none;
+  }
+}
+
 // [BUG #7871] Bugfix for IE 10 for enabling word-wrap within a flexbox layout. 
 .form-row label > p {
   -ms-flex: 1;

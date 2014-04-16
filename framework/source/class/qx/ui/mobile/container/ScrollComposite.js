@@ -18,7 +18,9 @@
 ************************************************************************ */
 
 /**
- * The ScrollComposite is a extension of {@linkqx.ui.mobile.container.Composite},
+ * @deprecated {4.0} Please use {@link qx.ui.mobile.container.Scroll} instead.
+ * 
+ * The ScrollComposite is a extension of {@link qx.ui.mobile.container.Composite},
  * and makes it possible to scroll vertically, if content size is greater than
  * scrollComposite's size.
  *
@@ -54,6 +56,11 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
   construct : function(layout)
   {
     this.base(arguments);
+
+    if (qx.core.Environment.get("qx.debug"))
+    {
+      qx.log.Logger.deprecatedClassWarning(arguments.callee, "The class 'qx.ui.mobile.container.ScrollComposite' is deprecated. Please use 'qx.ui.mobile.container.Scroll' instead");
+    }
 
     this.__lastOffset = [0,0];
     this.__currentOffset = [0,0];

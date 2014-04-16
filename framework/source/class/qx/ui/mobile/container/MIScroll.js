@@ -116,33 +116,20 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     * Scrolls the wrapper contents to the widgets coordinates in a given
     * period.
     *
-    * @param elementId {String} the elementId, the scroll container should scroll to.
+    * @param element {String} the element to which the scroll container should scroll to.
     * @param time {Integer?0} Time slice in which scrolling should be done (in seconds).
     *
     */
-    _scrollToElement : function(elementId, time)
+    _scrollToElement : function(element, time)
     {
       if (this.__scroll && this._isScrollable()) {
         if (typeof time === "undefined") {
           time = 0;
         }
 
-        this.__scroll.scrollToElement("#" + elementId, time);
+        var location = qx.bom.element.Location.getRelative(this._getContentElement(), element, "scroll", "scroll");
+        this._scrollTo(-location.left, -location.top, time);
       }
-    },
-
-
-    /**
-    * Detects whether this scroll container is scrollable or not.
-    * @return {Boolean} <code>true</code> or <code>false</code>
-    */
-    _isScrollable : function() {
-       if(this.getLayoutParent() === null) {
-        return false;
-      }
-      var parentHeight = this.getLayoutParent().getContentElement().offsetHeight;
-      var contentHeight = this.getContentElement().scrollHeight;
-      return parentHeight < contentHeight;
     },
 
 
@@ -262,7 +249,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
             qx.event.message.Bus.getInstance().dispatch(iScrollStartEvent);
           }
         }
-      }
+      };
     },
 
 
@@ -273,6 +260,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     {
       qx.event.Registration.addListener(window, "orientationchange", this._refresh, this);
       qx.event.Registration.addListener(window, "resize", this._refresh, this);
+      this.addListener("touchmove", qx.bom.Event.stopPropagation);
       this.addListener("domupdated", this._refresh, this);
     },
 
@@ -284,6 +272,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     {
       qx.event.Registration.removeListener(window, "orientationchange", this._refresh, this);
       qx.event.Registration.removeListener(window, "resize", this._refresh, this);
+      this.removeListener("touchmove", qx.bom.Event.stopPropagation);
       this.removeListener("domupdated", this._refresh, this);
     },
 
@@ -368,6 +357,6 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     if (this.__scroll) {
       this.__scroll.destroy();
     }
-    this.__scroll;
+    this.__scroll = null;
   }
 });
