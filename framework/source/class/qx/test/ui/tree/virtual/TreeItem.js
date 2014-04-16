@@ -20,6 +20,7 @@
 /**
  * @ignore(qx.test.ui.tree.virtual.Node)
  * @ignore(qx.test.ui.tree.virtual.NodeDefered)
+ * @ignore(qx.test.ui.tree.virtual.Leaf)
  */
 qx.Class.define("qx.test.ui.tree.virtual.TreeItem",
 {
