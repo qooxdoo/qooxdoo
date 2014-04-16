@@ -225,7 +225,7 @@ qx.Class.define("qx.dev.unit.TestResult",
                 "Asynchronous Test Error",
                 "Timeout reached before resume() was called."
               );
-            }
+            };
             var timeoutFunc = (ex.getDeferredFunction() ? ex.getDeferredFunction() : defaultTimeoutFunction);
             var context = (ex.getContext() ? ex.getContext() : window);
             this._timeout[test.getFullName()] = qx.event.Timer.once(function() {
@@ -305,7 +305,6 @@ qx.Class.define("qx.dev.unit.TestResult",
 
 
     /**
-     * EXPERIMENTAL
      * Wraps the AUT's qx.event.Registration.addListener function so that it
      * stores references to all added listeners in an array attached to the
      * current test function. This is done so that any listeners left over after
@@ -336,7 +335,6 @@ qx.Class.define("qx.dev.unit.TestResult",
 
 
     /**
-     * EXPERIMENTAL
      * Removes any listeners left over after a test's run.
      *
      * @param testFunction {qx.dev.unit.TestFunction} The current test
