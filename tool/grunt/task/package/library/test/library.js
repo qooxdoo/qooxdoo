@@ -21,28 +21,65 @@
 
 module.exports = {
   setUp: function(done) {
-    // setup here if necessary
-    done();
-  },
-
-  getManifestContents: function (test) {
-    var library = require('../lib/library.js');
-    var testManifestPaths = [
+    this.library = require('../lib/library.js');
+    this.testManifestPaths = [
       "./test/data/myapp/Manifest.json",
       "./test/data/framework/Manifest.json"
     ];
+    done();
+  },
 
-    console.log(library.getPathsFromManifest(testManifestPaths));
+  getPathsFromManifest: function (test) {
+    var expected = ["myapp", "qx"];
+    var actual = this.library.getPathsFromManifest(this.testManifestPaths);
+    test.deepEqual(Object.keys(actual), expected);
 
-    console.log(library.getPathsFor("class", testManifestPaths, {withKeys: true}));
-    console.log(library.getPathsFor("resource", testManifestPaths, {withKeys: true}));
-    console.log(library.getPathsFor("translation", testManifestPaths, {withKeys: true}));
+    test.done();
+  },
 
-    console.log(library.getPathsFor("class", testManifestPaths));
-    console.log(library.getPathsFor("resource", testManifestPaths));
-    console.log(library.getPathsFor("translation", testManifestPaths));
+  getPathsFor: function (test) {
+    var expectedClassWithKeys = {
+      myapp: 'test/data/myapp/source/class',
+      qx: 'test/data/framework/source/class'
+    };
+    var actualClassWithKeys = this.library.getPathsFor("class", this.testManifestPaths, {withKeys: true});
+    test.deepEqual(actualClassWithKeys, expectedClassWithKeys);
 
-    test.ok(true);
+    var expectedRessourceWithKeys = {
+      myapp: 'test/data/myapp/source/resource',
+      qx: 'test/data/framework/source/resource'
+    };
+    var actualResourceWithKeys = this.library.getPathsFor("resource", this.testManifestPaths, {withKeys: true});
+    test.deepEqual(actualResourceWithKeys, expectedRessourceWithKeys);
+
+    var expectedTranslationWithKeys = {
+      myapp: 'test/data/myapp/source/translation',
+      qx: 'test/data/framework/source/translation'
+    };
+    var actualTranslationWithKeys = this.library.getPathsFor("translation", this.testManifestPaths, {withKeys: true});
+    test.deepEqual(actualTranslationWithKeys, expectedTranslationWithKeys);
+
+    var expectedClass = [
+      'test/data/myapp/source/class',
+      'test/data/framework/source/class'
+    ];
+    var actualClass = this.library.getPathsFor("class", this.testManifestPaths);
+    test.deepEqual(actualClass, expectedClass);
+
+    var expectedResource = [
+      'test/data/myapp/source/resource',
+      'test/data/framework/source/resource'
+    ];
+    var actualResource = this.library.getPathsFor("resource", this.testManifestPaths);
+    test.deepEqual(actualResource, expectedResource);
+
+    var expectedTranslation = [
+      'test/data/myapp/source/translation',
+      'test/data/framework/source/translation'
+    ];
+    var actualTranslation = this.library.getPathsFor("translation", this.testManifestPaths);
+    test.deepEqual(actualTranslation, expectedTranslation);
+
     test.done();
   }
 };
