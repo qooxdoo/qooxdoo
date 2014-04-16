@@ -794,6 +794,10 @@
  *       <td>html.dataurl</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getDataUrl}</td>
  *     </tr>
+ *     <tr>
+ *       <td>plugin.pdfjs</td><td><i>Boolean</i></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Pdfjs#getPdfjs}</td>
+ *     </tr>
  *   </tbody>
  * </table>
  *
@@ -845,8 +849,8 @@ qx.Bootstrap.define("qx.core.Environment",
       "plugin.flash.express" : "qx.bom.client.Flash.getExpressInstall",
       "plugin.flash.strictsecurity" : "qx.bom.client.Flash.getStrictSecurityModel",
       "plugin.pdf" : "qx.bom.client.Plugin.getPdf",
-      "plugin.pdfjs" : "qx.bom.client.Pdfjs.getPdfjs",
       "plugin.pdf.version" : "qx.bom.client.Plugin.getPdfVersion",
+      "plugin.pdfjs" : "qx.bom.client.Pdfjs.getPdfjs",
       "io.maxrequests" : "qx.bom.client.Transport.getMaxConcurrentRequestCount",
       "io.ssl" : "qx.bom.client.Transport.getSsl",
       "io.xhr" : "qx.bom.client.Transport.getXmlHttpRequest",

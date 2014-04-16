@@ -93,18 +93,34 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
       var childProperty = this.getUserData("cell.childProperty");
       var showLeafs = this.getUserData("cell.showLeafs");
 
-      if (value != null
-        && qx.ui.tree.core.Util.isNode(value, childProperty)
-        && qx.ui.tree.core.Util.hasChildren(value, childProperty, !showLeafs)
-      ) {
-        value.get(childProperty).addListener("changeLength", this._onChangeLength, this);
+      if (value != null && qx.ui.tree.core.Util.isNode(value, childProperty)) 
+      {
+        var eventType = "change" + qx.lang.String.firstUp(childProperty);
+        // listen to children property changes
+        if (qx.Class.hasProperty(value.constructor, childProperty)) {
+          value.addListener(eventType, this._onChangeChildProperty, this);
+        }
+
+
+        // children property has been set already, immediately add
+        // listener for indent updating
+        if (qx.ui.tree.core.Util.hasChildren(value, childProperty, !showLeafs)) {
+          value.get(childProperty).addListener("changeLength", 
+            this._onChangeLength, this);
+          this._updateIndent();
+        }
       }
 
-      if (old != null
-        && qx.ui.tree.core.Util.isNode(old, childProperty)
-        && qx.ui.tree.core.Util.hasChildren(old, childProperty, !showLeafs)
-      ) {
-        old.get(childProperty).removeListener("changeLength", this._onChangeLength, this);
+
+      if (old != null && qx.ui.tree.core.Util.isNode(old, childProperty)) 
+      {
+        var eventType = "change" + qx.lang.String.firstUp(childProperty);
+        old.removeListener(eventType, this._onChangeChildProperty, this);
+
+        var oldChildren = old.get(childProperty);
+        if (oldChildren) {
+          oldChildren.removeListener("changeLength", this._onChangeLength, this);
+        }
       }
     },
 
@@ -114,6 +130,27 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
      */
     _onChangeLength : function() {
       this._updateIndent();
+    },
+
+
+    /**
+     * Handler to add listener to array of children property.
+     *
+     * @param e {qx.event.type.Data} Data event; provides children array
+     */
+    _onChangeChildProperty : function(e)
+    {
+      var children = e.getData();
+      var old = e.getOldData();
+
+      if (children) {
+        this._updateIndent();
+        children.addListener("changeLength", this._onChangeLength, this);
+      }
+
+      if (old) {
+        old.removeListener("changeLength", this._onChangeLength, this);
+      }
     }
   }
 });

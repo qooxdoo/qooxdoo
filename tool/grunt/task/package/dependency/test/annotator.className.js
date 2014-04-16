@@ -30,9 +30,8 @@ module.exports = {
 
     annotate: function(test) {
       var tree = {};
-      var filePath = "qx/foo/Bar.js";
-      this.cnAnnotator.annotate(tree, filePath);
-      var expected = {qxClassName:"qx.foo.Bar"};
+      this.cnAnnotator.annotate(tree, 'qx.foo.Bar');
+      var expected = {qxClassName:'qx.foo.Bar'};
       test.deepEqual(tree, expected);
 
       test.done();

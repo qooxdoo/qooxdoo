@@ -24,13 +24,15 @@
  * @desc
  * Annotator for esprima AST.
  *
- * What?
- *  parent node
- *
- * Where?
- *  every node
+ * <dl>
+ *  <dt>What?</dt>
+ *  <dd>parent node</dd>
+ *  <dt>Where?</dt>
+ *  <dd>every node</dd>
+ * </dl>
  */
 
+// third party
 var estraverse = require('estraverse');
 
 /**
@@ -38,18 +40,19 @@ var estraverse = require('estraverse');
  */
 var annotateKey = "parent";
 
-/**
- * Annotate tree with parent information.
- */
-function annotate (etree) {
-  var controller = new estraverse.Controller();
-  controller.traverse(etree, {
-    enter : function (node, parent) {
-      node[annotateKey] = parent;
-    }
-  });
-}
-
 module.exports = {
-  annotate : annotate
+  /**
+   * Annotate tree with parent information.
+   *
+   * @param {Object} tree - esprima AST
+   * @see {@link http://esprima.org/doc/#ast|esprima AST}
+   */
+  annotate: function(tree) {
+    var controller = new estraverse.Controller();
+    controller.traverse(tree, {
+      enter : function (node, parent) {
+        node[annotateKey] = parent;
+      }
+    });
+  }
 };

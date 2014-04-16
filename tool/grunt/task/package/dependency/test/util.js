@@ -61,17 +61,6 @@ module.exports = {
       test.done();
     },
 
-    concat: function(test) {
-      var a = [1,2];
-      var b = [3,4];
-
-      var actual = this.util.concat(a, b);
-      var expected = [3, 4, 1, 2];
-      test.deepEqual(actual, expected);
-
-      test.done();
-    },
-
     namespaceFrom: function(test) {
       var allNamespaces = ['qx', 'qx.Foo'];
       var className = 'qx.Foo.Bar';
