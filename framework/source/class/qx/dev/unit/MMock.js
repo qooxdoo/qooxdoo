@@ -97,10 +97,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
   construct: function()
   {
     var sinon = this.__getSinon();
-    // Expose Sinon.JS assertions. Provides methods such
-    // as assertCalled(), assertCalledWith().
-    // (http://sinonjs.org/docs/#assert-expose)
-    sinon.assert.expose(this, {includeFail: false});
+    this.__exposeAssertions();
 
     this.__sandbox = sinon.sandbox;
   },
@@ -111,6 +108,23 @@ qx.Mixin.define("qx.dev.unit.MMock",
     __sandbox: null,
 
     __fakeXhr: null,
+
+    /**
+     * Expose Sinon.JS assertions. Provides methods such
+     * as assertCalled(), assertCalledWith().
+     * (http://sinonjs.org/docs/#assert-expose)
+     * Does not override existing assertion methods.
+     * @ignore(sinon.assert.expose)
+     */
+    __exposeAssertions : function() {
+      var temp = {};
+      sinon.assert.expose(temp, {includeFail: false});
+      for (var method in temp) {
+        if (!this[method]) {
+          this[method] = temp[method];
+        }
+      }
+    },
 
     /**
     * Get the Sinon.JS object.
