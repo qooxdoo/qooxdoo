@@ -282,12 +282,31 @@ qx.Class.define("qx.event.handler.DragDrop",
       return this.__sessionActive;
     },
 
+    /**
+     * Exposes the validDrop flag for specialized drag & drop operations
+     * (setter)
+     */
+    setValidDrop(value)
+    {
+       this.__validDrop = !!value;
+    },
+
+    /**
+     * Exposes the validDrop flag for specialized drag & drop operations
+     * (getter)
+     */
+    isValidDrop(value)
+    {
+       this.__validDrop = !!value;
+    },
 
     /*
     ---------------------------------------------------------------------------
       INTERNAL UTILS
     ---------------------------------------------------------------------------
     */
+    
+
 
     /**
      * Rebuilds the internal data storage used during a drag&drop session
