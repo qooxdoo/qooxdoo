@@ -1,6 +1,0 @@
-#a, #b {
-  color: black;
-}
-#a > div, #b > div {
-  color: white;
-}

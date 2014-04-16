@@ -1,9 +1,0 @@
-@option style:legacy;
-
-@function no-op($foo,) {
-    @return $foo;
-}
-
-div {
-    right: no-op(100px);
-}

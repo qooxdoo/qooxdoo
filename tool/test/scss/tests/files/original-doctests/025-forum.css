@@ -1,3 +1,0 @@
-body {
-  _width: expression(document.body.clientWidth > 1440? "1440px" : "auto");
-}
