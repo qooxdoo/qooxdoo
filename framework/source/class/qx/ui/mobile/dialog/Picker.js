@@ -87,6 +87,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
 
     this.__pickerContainer.addCssClass("picker-container");
     this.__pickerContainer.addCssClass("gap");
+    this.__pickerContainer.addCssClass("css-pointer-"+qx.core.Environment.get("css.pointerevents"));
 
     this.__pickerContent = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
 

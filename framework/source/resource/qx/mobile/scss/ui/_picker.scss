@@ -45,7 +45,7 @@
 }
 
 // Spinning Wheel Overlay Gradient
-.picker-container:after {
+.picker-container.css-pointer-true:after {
   @include border-radius($picker-spinning-wheel-border-radius);
   @include background($picker-spinning-wheel-overlay);
 
