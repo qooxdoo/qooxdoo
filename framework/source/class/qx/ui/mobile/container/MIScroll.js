@@ -107,28 +107,18 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     _scrollTo : function(x, y, time)
     {
       if (this.__scroll && this._isScrollable()) {
-        this.__scroll.scrollTo(-x, -y, time);
-      }
-    },
-
-
-    /**
-    * Scrolls the wrapper contents to the widgets coordinates in a given
-    * period.
-    *
-    * @param element {String} the element to which the scroll container should scroll to.
-    * @param time {Integer?0} Time slice in which scrolling should be done (in seconds).
-    *
-    */
-    _scrollToElement : function(element, time)
-    {
-      if (this.__scroll && this._isScrollable()) {
-        if (typeof time === "undefined") {
-          time = 0;
+        // Normalize scrollable values
+        var lowerLimitY = this.getContentElement().scrollHeight - this.getContainerElement().offsetHeight;
+        if (y > lowerLimitY) {
+          y = lowerLimitY;
         }
 
-        var location = qx.bom.element.Location.getRelative(this._getContentElement(), element, "scroll", "scroll");
-        this._scrollTo(-location.left, -location.top, time);
+        var lowerLimitX = this.getContentElement().scrollWidth - this.getContainerElement().offsetWidth;
+        if (x > lowerLimitX) {
+          x = lowerLimitX;
+        }
+
+        this.__scroll.scrollTo(-x, -y, time);
       }
     },
 

@@ -220,6 +220,27 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
 
 
     /**
+    * Scrolls the wrapper contents to the widgets coordinates in a given
+    * period.
+    *
+    * @param element {String} the element to which the scroll container should scroll to.
+    * @param time {Integer?0} Time slice in which scrolling should be done (in seconds).
+    *
+    */
+    _scrollToElement : function(element, time)
+    {
+      if (this._getContentElement() && this._isScrollable()) {
+        if (typeof time === "undefined") {
+          time = 0;
+        }
+
+        var location = qx.bom.element.Location.getRelative(this._getContentElement(), element, "scroll", "scroll");
+        this._scrollTo(-location.left, -location.top, time);
+      }
+    },
+
+
+    /**
      * Scrolls the wrapper contents to the widgets coordinates in a given
      * period.
      *

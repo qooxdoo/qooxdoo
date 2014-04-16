@@ -99,22 +99,9 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
      * @param time {Integer} is always <code>0</code> for this mixin.
      */
     _scrollTo: function(x, y, time) {
-      var element = q(this.getContentElement());
+      var element = qxWeb(this.getContentElement());
       element.setScrollLeft(x, time);
       element.setScrollTop(y, time);
-    },
-
-
-    /**
-     * Scrolls the wrapper contents to the widgets coordinates in a given period.
-     *
-     * @param target {Element} the element to which the scroll container should scroll to.
-     * @param time {Integer?0} Time slice in which scrolling should be done (in seconds).
-     *
-     */
-    _scrollToElement: function(target, time) {
-      var location = qx.bom.element.Location.getRelative(this._getContentElement(), target, "scroll", "scroll");
-      this._scrollTo(-location.left, -location.top, time);
     }
   }
 });
