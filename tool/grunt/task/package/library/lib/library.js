@@ -26,8 +26,8 @@
 //------------------------------------------------------------------------------
 
 // native
-var fs = require("fs");
-var path = require("path");
+var fs = require('fs');
+var path = require('path');
 
 
 //------------------------------------------------------------------------------
@@ -48,15 +48,15 @@ var path = require("path");
 function getPathsFromManifest(filePaths) {
   var i = 0;
   var l = filePaths.length;
-  var manifPath = "";
-  var contents = "";
-  var manif = "";
+  var manifPath = '';
+  var contents = '';
+  var manif = '';
   var manifests = {};
 
   for (; i<l; i++) {
     manifPath = filePaths[i];
     if (!fs.existsSync(manifPath)) {
-      throw Error("Can't read Manifest file at: " + manifPath);
+      throw Error('Can\'t read Manifest file at: ' + manifPath);
     }
     contents = fs.readFileSync(manifPath, {encoding: 'utf8'});
     manif = JSON.parse(contents);
@@ -75,7 +75,7 @@ function getPathsFromManifest(filePaths) {
 }
 
 /**
- * Extracts data by kind ("class", "resource", "translation") from given
+ * Extracts data by kind ('class', 'resource', 'translation') from given
  * Manifest.json paths optionally with namespace key.
  *
  * @param filePaths {String[]}
@@ -83,10 +83,10 @@ function getPathsFromManifest(filePaths) {
  */
 function getPathsFor(kind, filePaths, options) {
   var libPaths = getPathsFromManifest(filePaths);
-  var validKinds = ["class", "resource", "translation"];
+  var validKinds = ['class', 'resource', 'translation'];
   var specificPathsWithKeys = {};
   var specificPaths = [];
-  var lib = "";
+  var lib = '';
 
   var opts = {};
 
@@ -100,7 +100,7 @@ function getPathsFor(kind, filePaths, options) {
   };
 
   if (validKinds.indexOf(kind) === -1) {
-    throw Error("Invalid kind ("+kind+"). Supported: "+validKinds);
+    throw Error('Invalid kind ('+kind+'). Supported: '+validKinds);
   }
 
   for (lib in libPaths) {

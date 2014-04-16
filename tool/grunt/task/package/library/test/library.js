@@ -23,14 +23,14 @@ module.exports = {
   setUp: function(done) {
     this.library = require('../lib/library.js');
     this.testManifestPaths = [
-      "./test/data/myapp/Manifest.json",
-      "./test/data/framework/Manifest.json"
+      './test/data/myapp/Manifest.json',
+      './test/data/framework/Manifest.json'
     ];
     done();
   },
 
   getPathsFromManifest: function (test) {
-    var expected = ["myapp", "qx"];
+    var expected = ['myapp', 'qx'];
     var actual = this.library.getPathsFromManifest(this.testManifestPaths);
     test.deepEqual(Object.keys(actual), expected);
 
@@ -42,42 +42,42 @@ module.exports = {
       myapp: 'test/data/myapp/source/class',
       qx: 'test/data/framework/source/class'
     };
-    var actualClassWithKeys = this.library.getPathsFor("class", this.testManifestPaths, {withKeys: true});
+    var actualClassWithKeys = this.library.getPathsFor('class', this.testManifestPaths, {withKeys: true});
     test.deepEqual(actualClassWithKeys, expectedClassWithKeys);
 
     var expectedRessourceWithKeys = {
       myapp: 'test/data/myapp/source/resource',
       qx: 'test/data/framework/source/resource'
     };
-    var actualResourceWithKeys = this.library.getPathsFor("resource", this.testManifestPaths, {withKeys: true});
+    var actualResourceWithKeys = this.library.getPathsFor('resource', this.testManifestPaths, {withKeys: true});
     test.deepEqual(actualResourceWithKeys, expectedRessourceWithKeys);
 
     var expectedTranslationWithKeys = {
       myapp: 'test/data/myapp/source/translation',
       qx: 'test/data/framework/source/translation'
     };
-    var actualTranslationWithKeys = this.library.getPathsFor("translation", this.testManifestPaths, {withKeys: true});
+    var actualTranslationWithKeys = this.library.getPathsFor('translation', this.testManifestPaths, {withKeys: true});
     test.deepEqual(actualTranslationWithKeys, expectedTranslationWithKeys);
 
     var expectedClass = [
       'test/data/myapp/source/class',
       'test/data/framework/source/class'
     ];
-    var actualClass = this.library.getPathsFor("class", this.testManifestPaths);
+    var actualClass = this.library.getPathsFor('class', this.testManifestPaths);
     test.deepEqual(actualClass, expectedClass);
 
     var expectedResource = [
       'test/data/myapp/source/resource',
       'test/data/framework/source/resource'
     ];
-    var actualResource = this.library.getPathsFor("resource", this.testManifestPaths);
+    var actualResource = this.library.getPathsFor('resource', this.testManifestPaths);
     test.deepEqual(actualResource, expectedResource);
 
     var expectedTranslation = [
       'test/data/myapp/source/translation',
       'test/data/framework/source/translation'
     ];
-    var actualTranslation = this.library.getPathsFor("translation", this.testManifestPaths);
+    var actualTranslation = this.library.getPathsFor('translation', this.testManifestPaths);
     test.deepEqual(actualTranslation, expectedTranslation);
 
     test.done();
