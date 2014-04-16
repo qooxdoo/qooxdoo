@@ -28,7 +28,7 @@ qx.Class.define("qx.test.ui.tree.virtual.TreeItem",
   construct : function()
   {
     this.base(arguments);
-    
+
 
     qx.Class.define("qx.test.ui.tree.virtual.NodeDefered",
     {
@@ -81,7 +81,7 @@ qx.Class.define("qx.test.ui.tree.virtual.TreeItem",
         // add new node
         node.setChildren(new qx.data.Array([new qx.test.ui.tree.virtual.NodeDefered("Node1.1")]));
 
-        
+
         // check for event listener
         that.assertTrue(node.hasListener("changeChildren"),
          "There must be a 'changeChildren' event listener!");
@@ -89,11 +89,11 @@ qx.Class.define("qx.test.ui.tree.virtual.TreeItem",
         that.assertTrue(node.getChildren().hasListener("changeLength"),
          "There must be a 'changeLength' event listener on children array!");
 
-        
+
         // check for open indent
         var widget = that.__getWidgetForm(node);
         that.assertTrue(widget.isOpenable(), "Must be openable!");
-        
+
 
         // dispose and check if event listeners are removed
         root.dispose();
@@ -104,7 +104,7 @@ qx.Class.define("qx.test.ui.tree.virtual.TreeItem",
         that.assertFalse(node.getChildren().hasListener("changeLength"),
          "After disposing, there must not be a 'changeLength' event listener on children array!");
       }), 0);
-  
+
 
       // children property not set yet
       this.assertNull(node.getChildren(), "Must be null");
@@ -120,6 +120,6 @@ qx.Class.define("qx.test.ui.tree.virtual.TreeItem",
         widget = this.tree._layer.getRenderedCellWidget(row, 0);
       }
       return widget;
-    },
+    }
   }
 });
