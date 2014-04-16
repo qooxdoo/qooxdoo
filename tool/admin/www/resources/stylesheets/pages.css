@@ -11,6 +11,7 @@ body.community .community a {
 body.community .community a:hover {
   text-decoration: underline;
 }
+
 body#community .atom {
   overflow: hidden;
 }
@@ -20,12 +21,16 @@ body#community .atom > a {
   width: 95px;
   margin-left: 10px;
 }
+body#community .atom > a:first-child {
+  margin-left: 0;
+}
 body#community .atom > a > img {
   width: 64px;
   height: 64px;
 }
-body#community .atom > a:first-child {
-  margin-left: 0;
+
+body.demos #tools {
+  zoom: 1;
 }
 body.demos #tools:after {
   display: block;
@@ -33,137 +38,6 @@ body.demos #tools:after {
   height: 0;
   clear: both;
   content: ".";
-}
-body.demos #tools .tool:first-child {
-  margin-left: 0;
-}
-body.demos #tools .screenshot:first-child {
-  margin-left: 0;
-}
-body.demos #tools .screenshot a:after {
-  display: block;
-  visibility: hidden;
-  height: 0;
-  clear: both;
-  content: ".";
-}
-body.demos .versions:after {
-  display: block;
-  visibility: hidden;
-  height: 0;
-  clear: both;
-  content: ".";
-}
-body.demos .versions .line:after {
-  display: block;
-  visibility: hidden;
-  height: 0;
-  clear: both;
-  content: ".";
-}
-body.demos .versions ul:first-child {
-  margin-left: 0;
-}
-body#demos #domains section.domain:after {
-  display: block;
-  visibility: hidden;
-  height: 0;
-  clear: both;
-  content: ".";
-}
-body#demos #domains section.domain .title:first-child {
-  margin-left: 0;
-}
-body#demos #domains section.domain .demo:first-child {
-  margin-left: 0;
-}
-body#demos #domains section.domain .demo .primary:first-child,
-body#demos #domains section.domain .demo .secondary:first-child {
-  margin-left: 0;
-}
-body#docs #main #content:first-child {
-  margin-left: 0;
-}
-body#docs #boxes:first-child {
-  margin-left: 0;
-}
-body#docs #boxes .teaser:first-child {
-  margin-left: 0;
-}
-body#downloads #domains:first-child {
-  margin-left: 0;
-}
-body#downloads #domains .row:after {
-  display: block;
-  visibility: hidden;
-  height: 0;
-  clear: both;
-  content: ".";
-}
-body#downloads #domains .domain:first-child {
-  margin-left: 0;
-}
-body#home #domains:after {
-  display: block;
-  visibility: hidden;
-  height: 0;
-  clear: both;
-  content: ".";
-}
-body#home #domains .container:after {
-  display: block;
-  visibility: hidden;
-  height: 0;
-  clear: both;
-  content: ".";
-}
-body#home #domains .container .icons:after {
-  display: block;
-  visibility: hidden;
-  height: 0;
-  clear: both;
-  content: ".";
-}
-body#home #domains section.domain:first-child {
-  margin-left: 0;
-}
-body#home #domains section.domain header:first-child {
-  margin-left: 0;
-}
-body#home #domains section.domain div.description:first-child {
-  margin-left: 0;
-}
-body#home #domains section.domain div.description div.introduction:first-child,
-body#home #domains section.domain div.description div.sample:first-child {
-  margin-left: 0;
-}
-body#home #domains section.domain div.description div.sample:first-child {
-  margin-left: 0;
-}
-body#home #domains section.domain div.description div.sample .run .button:first-child {
-  margin-left: 0;
-}
-body#home #domains section.domain div.description div.action:first-child {
-  margin-left: 0;
-}
-body#home #domains section.domain.active div.description:first-child {
-  margin-left: 0;
-}
-body#home .show #main section#about:after {
-  display: block;
-  visibility: hidden;
-  height: 0;
-  clear: both;
-  content: ".";
-}
-body#home .show #main section#about #content:first-child {
-  margin-left: 0;
-}
-body#home .show #main section#about .action:first-child {
-  margin-left: 0;
-}
-body.demos #tools {
-  zoom: 1;
 }
 body.demos #tools .tool {
   display: block;
@@ -173,6 +47,9 @@ body.demos #tools .tool {
   margin-left: 0;
   margin-bottom: 21.6px;
 }
+body.demos #tools .tool:first-child {
+  margin-left: 0;
+}
 body.demos #tools .screenshot {
   margin-left: 115px !important;
   display: block;
@@ -180,8 +57,18 @@ body.demos #tools .screenshot {
   width: 305px;
   margin-left: 10px;
 }
+body.demos #tools .screenshot:first-child {
+  margin-left: 0;
+}
 body.demos #tools .screenshot a {
   zoom: 1;
+}
+body.demos #tools .screenshot a:after {
+  display: block;
+  visibility: hidden;
+  height: 0;
+  clear: both;
+  content: ".";
 }
 body.demos #tools .screenshot img {
   width: 285px;
@@ -192,9 +79,23 @@ body.demos #tools .screenshot img {
 body.demos .versions {
   zoom: 1;
 }
+body.demos .versions:after {
+  display: block;
+  visibility: hidden;
+  height: 0;
+  clear: both;
+  content: ".";
+}
 body.demos .versions .line {
   zoom: 1;
   clear: both;
+}
+body.demos .versions .line:after {
+  display: block;
+  visibility: hidden;
+  height: 0;
+  clear: both;
+  content: ".";
 }
 body.demos .versions .line + .line {
   margin-top: 2em;
@@ -206,9 +107,13 @@ body.demos .versions ul {
   margin-left: 10px;
   margin-top: 0;
 }
+body.demos .versions ul:first-child {
+  margin-left: 0;
+}
 body.demos .versions ul.last {
   clear: both;
 }
+
 body#demos #content {
   width: auto;
 }
@@ -227,16 +132,20 @@ body#demos #domains section.domain {
   margin-bottom: 21.6px;
   border-left: 2px solid transparent;
 }
+body#demos #domains section.domain:after {
+  display: block;
+  visibility: hidden;
+  height: 0;
+  clear: both;
+  content: ".";
+}
 body#demos #domains section.domain.expanded {
   background-color: #dddddd;
 }
 body#demos #domains section.domain.expanded .hint {
   display: block;
 }
-body#demos #domains section.domain.expanded .demo ul,
-body#demos #domains section.domain.expanded .demo .primary,
-body#demos #domains section.domain.expanded .demo .secondary,
-body#demos #domains section.domain.expanded .demo .note {
+body#demos #domains section.domain.expanded .demo ul, body#demos #domains section.domain.expanded .demo .primary, body#demos #domains section.domain.expanded .demo .secondary, body#demos #domains section.domain.expanded .demo .note {
   display: block !important;
 }
 body#demos #domains section.domain.expanded .demo img {
@@ -253,8 +162,13 @@ body#demos #domains section.domain.compact:hover {
   cursor: pointer;
   background-color: #dddddd;
 }
-body#demos #domains section.domain .title > h2,
-body#demos #domains section.domain .demo > h2 {
+body#demos #domains section.domain .title > h1, body#demos #domains section.domain .title > h2, body#demos #domains section.domain .title > h3, body#demos #domains section.domain .title > h4, body#demos #domains section.domain .title > a, body#demos #domains section.domain .title > p, body#demos #domains section.domain .title > ul, body#demos #domains section.domain .title > div > h1, body#demos #domains section.domain .title > div > h2, body#demos #domains section.domain .title > div > h3, body#demos #domains section.domain .title > div > h4, body#demos #domains section.domain .title > div > a, body#demos #domains section.domain .title > div > p, body#demos #domains section.domain .title > div > ul, body#demos #domains section.domain .demo > h1, body#demos #domains section.domain .demo > h2, body#demos #domains section.domain .demo > h3, body#demos #domains section.domain .demo > h4, body#demos #domains section.domain .demo > a, body#demos #domains section.domain .demo > p, body#demos #domains section.domain .demo > ul, body#demos #domains section.domain .demo > div > h1, body#demos #domains section.domain .demo > div > h2, body#demos #domains section.domain .demo > div > h3, body#demos #domains section.domain .demo > div > h4, body#demos #domains section.domain .demo > div > a, body#demos #domains section.domain .demo > div > p, body#demos #domains section.domain .demo > div > ul {
+  padding: 0 5px;
+}
+body#demos #domains section.domain .title > a:first-child, body#demos #domains section.domain .demo > a:first-child {
+  padding-top: 10px;
+}
+body#demos #domains section.domain .title > h2, body#demos #domains section.domain .demo > h2 {
   padding-top: 10px;
 }
 body#demos #domains section.domain .title {
@@ -262,6 +176,9 @@ body#demos #domains section.domain .title {
   float: left;
   width: 200px;
   margin-left: 10px;
+}
+body#demos #domains section.domain .title:first-child {
+  margin-left: 0;
 }
 body#demos #domains section.domain .hint {
   display: none;
@@ -273,6 +190,9 @@ body#demos #domains section.domain .demo {
   float: left;
   width: 305px;
   margin-left: 10px;
+}
+body#demos #domains section.domain .demo:first-child {
+  margin-left: 0;
 }
 body#demos #domains section.domain .demo.first {
   margin-left: 210px;
@@ -290,8 +210,7 @@ body#demos #domains section.domain .demo ul {
 body#demos #domains section.domain .demo ul span {
   font-size: 10px;
 }
-body#demos #domains section.domain .demo .primary,
-body#demos #domains section.domain .demo .secondary {
+body#demos #domains section.domain .demo .primary, body#demos #domains section.domain .demo .secondary {
   display: block;
   float: left;
   width: 130px;
@@ -299,8 +218,10 @@ body#demos #domains section.domain .demo .secondary {
   display: none;
   margin-bottom: 1em;
 }
-body#demos #domains section.domain .demo .primary h3,
-body#demos #domains section.domain .demo .secondary h3 {
+body#demos #domains section.domain .demo .primary:first-child, body#demos #domains section.domain .demo .secondary:first-child {
+  margin-left: 0;
+}
+body#demos #domains section.domain .demo .primary h3, body#demos #domains section.domain .demo .secondary h3 {
   font-weight: normal;
 }
 body#demos #domains section.domain .demo .primary {
@@ -320,55 +241,7 @@ body#demos #domains.all .expanded {
 body#demos section + p.note {
   margin-top: -1em;
 }
-body#demos #domains section.domain .title > h1,
-body#demos #domains section.domain .title > h2,
-body#demos #domains section.domain .title > h3,
-body#demos #domains section.domain .title > h4,
-body#demos #domains section.domain .title > a,
-body#demos #domains section.domain .title > p,
-body#demos #domains section.domain .title > ul,
-body#demos #domains section.domain .title > div > h1,
-body#demos #domains section.domain .title > div > h2,
-body#demos #domains section.domain .title > div > h3,
-body#demos #domains section.domain .title > div > h4,
-body#demos #domains section.domain .title > div > a,
-body#demos #domains section.domain .title > div > p,
-body#demos #domains section.domain .title > div > ul,
-body#demos #domains section.domain .demo > h1,
-body#demos #domains section.domain .demo > h2,
-body#demos #domains section.domain .demo > h3,
-body#demos #domains section.domain .demo > h4,
-body#demos #domains section.domain .demo > a,
-body#demos #domains section.domain .demo > p,
-body#demos #domains section.domain .demo > ul,
-body#demos #domains section.domain .demo > div > h1,
-body#demos #domains section.domain .demo > div > h2,
-body#demos #domains section.domain .demo > div > h3,
-body#demos #domains section.domain .demo > div > h4,
-body#demos #domains section.domain .demo > div > a,
-body#demos #domains section.domain .demo > div > p,
-body#demos #domains section.domain .demo > div > ul {
-  padding: 0 5px;
-}
-body#demos #domains section.domain .title > a:first-child,
-body#demos #domains section.domain .demo > a:first-child {
-  padding-top: 10px;
-}
-body#downloads #domains .domain > h1, body#downloads #domains .domain > h2,
-body#downloads #domains .domain > h3, body#downloads #domains .domain > h4,
-body#downloads #domains .domain > a, body#downloads #domains .domain > p,
-body#downloads #domains .domain > ul, body#downloads #domains .domain > div > h1,
-body#downloads #domains .domain > div > h2,
-body#downloads #domains .domain > div > h3,
-body#downloads #domains .domain > div > h4,
-body#downloads #domains .domain > div > a,
-body#downloads #domains .domain > div > p,
-body#downloads #domains .domain > div > ul {
-  padding: 0 10px;
-}
-body#downloads #domains .domain > a:first-child {
-  padding-top: 15px;
-}
+
 body#docs #main #content {
   position: relative;
   display: block;
@@ -377,18 +250,18 @@ body#docs #main #content {
   margin-left: 10px;
   margin-left: 0;
 }
+body#docs #main #content:first-child {
+  margin-left: 0;
+}
 body#docs code {
   font-family: monospace;
   white-space: pre;
   display: block;
 }
-body#docs h1 .headerlink, body#docs h2 .headerlink, body#docs h3 .headerlink,
-body#docs h4 .headerlink, body#docs h5 .headerlink {
+body#docs h1 .headerlink, body#docs h2 .headerlink, body#docs h3 .headerlink, body#docs h4 .headerlink, body#docs h5 .headerlink {
   visibility: hidden;
 }
-body#docs h1:hover .headerlink, body#docs h2:hover .headerlink,
-body#docs h3:hover .headerlink, body#docs h4:hover .headerlink,
-body#docs h5:hover .headerlink {
+body#docs h1:hover .headerlink, body#docs h2:hover .headerlink, body#docs h3:hover .headerlink, body#docs h4:hover .headerlink, body#docs h5:hover .headerlink {
   visibility: visible;
 }
 body#docs #boxes {
@@ -397,6 +270,9 @@ body#docs #boxes {
   float: left;
   width: 830px;
   margin-left: 10px;
+  margin-left: 0;
+}
+body#docs #boxes:first-child {
   margin-left: 0;
 }
 body#docs #boxes .versions {
@@ -425,6 +301,9 @@ body#docs #boxes .teaser {
   margin-bottom: 10px;
   height: 216px;
 }
+body#docs #boxes .teaser:first-child {
+  margin-left: 0;
+}
 body#docs #boxes .teaser > div {
   padding: 10px;
 }
@@ -438,6 +317,7 @@ body#docs #boxes .teaser.row {
 body#docs #boxes .teaser p {
   margin-bottom: 0;
 }
+
 body#downloads #domains {
   display: block;
   float: left;
@@ -447,8 +327,18 @@ body#downloads #domains {
   position: relative;
   margin-bottom: 21.6px;
 }
+body#downloads #domains:first-child {
+  margin-left: 0;
+}
 body#downloads #domains .row {
   zoom: 1;
+}
+body#downloads #domains .row:after {
+  display: block;
+  visibility: hidden;
+  height: 0;
+  clear: both;
+  content: ".";
 }
 body#downloads #domains .row + .row {
   margin-top: 10px;
@@ -461,6 +351,15 @@ body#downloads #domains .domain {
   border-top: 2px solid transparent;
   background-color: #f0f0f0;
   height: 302px;
+}
+body#downloads #domains .domain > h1, body#downloads #domains .domain > h2, body#downloads #domains .domain > h3, body#downloads #domains .domain > h4, body#downloads #domains .domain > a, body#downloads #domains .domain > p, body#downloads #domains .domain > ul, body#downloads #domains .domain > div > h1, body#downloads #domains .domain > div > h2, body#downloads #domains .domain > div > h3, body#downloads #domains .domain > div > h4, body#downloads #domains .domain > div > a, body#downloads #domains .domain > div > p, body#downloads #domains .domain > div > ul {
+  padding: 0 10px;
+}
+body#downloads #domains .domain > a:first-child {
+  padding-top: 15px;
+}
+body#downloads #domains .domain:first-child {
+  margin-left: 0;
 }
 body#downloads #domains .domain ul {
   list-style-type: none;
@@ -475,6 +374,7 @@ body#downloads #domains .domain p {
 body#downloads #domains .domain .highlight {
   background-color: transparent;
 }
+
 body#home section#wrapper > h1 {
   display: none;
 }
@@ -511,6 +411,20 @@ body#home #domains {
   height: 458px;
   margin-bottom: 43px;
   background: url(../images/domains-bg.png) repeat-x #f4f4f4;
+  /*
+  top: -10px;
+  margin: 0 -12px;
+  border: 12px solid #f7f7f7;
+  border-radius: 11px;
+  background-color: #f7f7f7;
+  */
+}
+body#home #domains:after {
+  display: block;
+  visibility: hidden;
+  height: 0;
+  clear: both;
+  content: ".";
 }
 body#home #domains.active {
   background: url(../images/domains-bg-active.png) repeat-x #f4f4f4;
@@ -522,10 +436,24 @@ body#home #domains .container {
   width: 830px;
   margin: 0 auto;
 }
+body#home #domains .container:after {
+  display: block;
+  visibility: hidden;
+  height: 0;
+  clear: both;
+  content: ".";
+}
 body#home #domains .container .icons {
   zoom: 1;
   height: 105px;
   margin-right: -10px;
+}
+body#home #domains .container .icons:after {
+  display: block;
+  visibility: hidden;
+  height: 0;
+  clear: both;
+  content: ".";
 }
 body#home #domains .container .icons img {
   float: left;
@@ -560,7 +488,10 @@ body#home #domains section.domain {
   font-size: 11px;
   color: #000;
 }
-body#home #domains section#website.domain {
+body#home #domains section.domain:first-child {
+  margin-left: 0;
+}
+body#home #domains section.domain#website {
   margin-left: 0;
 }
 body#home #domains section.domain:hover header h2 {
@@ -583,8 +514,10 @@ body#home #domains section.domain header {
   border-color: transparent;
   border-width: 1px 1px 0 1px;
 }
-body#home #domains section.domain header h2,
-body#home #domains section.domain header div.tagline {
+body#home #domains section.domain header:first-child {
+  margin-left: 0;
+}
+body#home #domains section.domain header h2, body#home #domains section.domain header div.tagline {
   padding: 0 10px;
 }
 body#home #domains section.domain header h2 {
@@ -608,6 +541,9 @@ body#home #domains section.domain div.description {
   padding: 8px 0 10px 0;
   position: relative;
 }
+body#home #domains section.domain div.description:first-child {
+  margin-left: 0;
+}
 body#home #domains section.domain div.description div > * {
   color: #262626;
   padding: 0 10px;
@@ -628,12 +564,14 @@ body#home #domains section.domain div.description p:first-child {
 body#home #domains section.domain div.description h3 {
   margin: 5px 0 3px 0;
 }
-body#home #domains section.domain div.description div.introduction,
-body#home #domains section.domain div.description div.sample {
+body#home #domains section.domain div.description div.introduction, body#home #domains section.domain div.description div.sample {
   display: block;
   float: left;
   width: 200px;
   margin-left: 10px;
+}
+body#home #domains section.domain div.description div.introduction:first-child, body#home #domains section.domain div.description div.sample:first-child {
+  margin-left: 0;
 }
 body#home #domains section.domain div.description div.introduction div.feature {
   visibility: hidden;
@@ -644,6 +582,9 @@ body#home #domains section.domain div.description div.sample {
   width: 410px;
   margin-left: 10px;
   display: none;
+}
+body#home #domains section.domain div.description div.sample:first-child {
+  margin-left: 0;
 }
 body#home #domains section.domain div.description div.sample .container {
   width: auto;
@@ -681,6 +622,9 @@ body#home #domains section.domain div.description div.sample .run .button {
   background-repeat: no-repeat;
   color: #fff;
 }
+body#home #domains section.domain div.description div.sample .run .button:first-child {
+  margin-left: 0;
+}
 body#home #domains section.domain div.description div.action {
   display: block;
   float: left;
@@ -688,6 +632,9 @@ body#home #domains section.domain div.description div.action {
   margin-left: 10px;
   display: none;
   margin-top: 6px;
+}
+body#home #domains section.domain div.description div.action:first-child {
+  margin-left: 0;
 }
 body#home #domains section.domain div.description div.action .button.download {
   background-image: url("../images/arrow.png");
@@ -724,23 +671,25 @@ body#home #domains section.domain.active div.description {
   margin-left: 10px;
   margin-left: 0;
 }
-body#home #domains section.domain.active div.description div.sample,
-body#home #domains section.domain.active div.description div.action {
+body#home #domains section.domain.active div.description:first-child {
+  margin-left: 0;
+}
+body#home #domains section.domain.active div.description div.sample, body#home #domains section.domain.active div.description div.action {
   display: block;
 }
 body#home #domains section.domain.active header {
-  background: url("../images/close.png") no-repeat scroll 94% 29% #fff;
+  background: url("../images/close.png") no-repeat scroll 94% 29% white;
   border-color: #e0e0e0;
 }
-body#home #domains section#mobile.domain.active div.description {
+body#home #domains section.domain#mobile.active div.description {
   margin-left: -220px !important;
   padding-left: 10px;
 }
-body#home #domains section#desktop.domain.active div.description {
+body#home #domains section.domain#desktop.active div.description {
   margin-left: -430px !important;
   padding-left: 10px;
 }
-body#home #domains section#server.domain.active div.description {
+body#home #domains section.domain#server.active div.description {
   margin-left: -640px !important;
   padding-left: 10px;
 }
@@ -753,11 +702,21 @@ body#home .show #main section#about {
   margin-top: 10.8px;
   zoom: 1;
 }
+body#home .show #main section#about:after {
+  display: block;
+  visibility: hidden;
+  height: 0;
+  clear: both;
+  content: ".";
+}
 body#home .show #main section#about #content {
   display: block;
   float: left;
   width: 480px;
   margin-left: 10px;
+}
+body#home .show #main section#about #content:first-child {
+  margin-left: 0;
 }
 body#home .show #main section#about #content h2 {
   font-weight: bold;
@@ -772,4 +731,7 @@ body#home .show #main section#about .action {
   float: left;
   width: 165px;
   margin-left: 10px;
+}
+body#home .show #main section#about .action:first-child {
+  margin-left: 0;
 }

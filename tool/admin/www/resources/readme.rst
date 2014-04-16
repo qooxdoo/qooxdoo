@@ -38,6 +38,5 @@ Manual generation of each individual file is of course possible, e.g. with
 
 ::
 
-  scss -t expanded scss/base.scss css/base.css (Ruby-Sass)
-  scss.py -C scss/base.scss -o css/base.css    (pyScss)
+  scss -t expanded scss/base.scss css/base.css (Sass compiler)
 
