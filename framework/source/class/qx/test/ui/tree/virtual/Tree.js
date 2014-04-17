@@ -36,7 +36,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
       this.assertEquals(200, this.tree.getHeight(), "Init value for 'height' is wrong!");
       this.assertEquals(25, this.tree.getItemHeight(), "Init value for 'itemHeight' is wrong!");
       this.assertEquals(25, this.tree.getPane().getRowConfig().getDefaultItemSize(), "Init value for 'itemHeight' is wrong!");
-      this.assertEquals("dblclick", this.tree.getOpenMode(), "Init value for 'openMode' is wrong!");
+      this.assertEquals("dbltap", this.tree.getOpenMode(), "Init value for 'openMode' is wrong!");
       this.assertFalse(this.tree.getHideRoot(), "Init value for 'hideRoot' is wrong!");
       this.assertNull(this.tree.getModel(), "Init value for 'model' is wrong!");
       this.assertNull(this.tree.getLabelPath(), "Init value for 'labelPath' is wrong!");
@@ -45,7 +45,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
       this.assertNull(this.tree.getIconOptions(), "Init value for 'iconOptions' is wrong!");
       this.assertNull(this.tree.getDelegate(), "Init value for 'delegate' is wrong!");
       this.assertNull(this.tree.getChildProperty(), "Init value for 'childProperty' is wrong!");
-      this.assertTrue(this.tree.getPane().hasListener("cellDblclick"), "Init listener 'cellDblclick' is wrong!");
+      this.assertTrue(this.tree.getPane().hasListener("cellDbltap"), "Init listener 'cellDbltap' is wrong!");
     },
 
 
@@ -485,9 +485,9 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
     },
 
 
-    testSetOpenModeWithClick : function()
+    testSetOpenModeWithTap : function()
     {
-      this.tree.setOpenMode("click");
+      this.tree.setOpenMode("tap");
       this.__testOpenMode(false, true);
 
       this.tree.resetOpenMode();
@@ -505,18 +505,18 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
     },
 
 
-    __testOpenMode : function(dblclick, click)
+    __testOpenMode : function(dbltap, tap)
     {
       var pane = this.tree.getPane();
       this.assertEquals(
-        dblclick,
-        pane.hasListener("cellDblclick"),
-        "Expected " + (dblclick ? "" : "no ") + " listener for 'cellDblclick'!"
+        dbltap,
+        pane.hasListener("cellDbltap"),
+        "Expected " + (dbltap ? "" : "no ") + " listener for 'cellDbltap'!"
       );
       this.assertEquals(
-        click,
-        pane.hasListener("cellClick"),
-        "Expected " + (click ? "" : "no ") + " listener for 'cellClick'!"
+        tap,
+        pane.hasListener("cellTap"),
+        "Expected " + (tap ? "" : "no ") + " listener for 'cellTap'!"
       );
     },
 

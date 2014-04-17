@@ -729,63 +729,63 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       var listener = function(e) {
         calls.push(e);
       }
-      pane.addListener("cellClick", listener);
-      pane.addListener("cellDblclick", listener);
+      pane.addListener("cellTap", listener);
+      pane.addListener("cellDbltap", listener);
       pane.addListener("cellContextmenu", listener);
 
-      var MouseEventMock = qx.test.ui.virtual.MouseEventMock;
-      var eventMouseToCellEvents = {
-        "click" : "cellClick",
-        "dblclick" : "cellDblclick",
+      var PointerEventMock = qx.test.ui.virtual.PointerEventMock;
+      var eventPointerToCellEvents = {
+        "tap" : "cellTap",
+        "dbltap" : "cellDbltap",
         "contextmenu" : "cellContextmenu"
       };
 
-      for (var mouseEvent in eventMouseToCellEvents)
+      for (var pointerEvent in eventPointerToCellEvents)
       {
-        var cellEvent = eventMouseToCellEvents[mouseEvent];
+        var cellEvent = eventPointerToCellEvents[pointerEvent];
 
         calls = [];
-        pane.dispatchEvent(new MouseEventMock("mousedown", {documentLeft: 99, documentTop: 99}));
-        pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 99, documentTop: 99}));
+        pane.dispatchEvent(new PointerEventMock("pointerdown", {documentLeft: 99, documentTop: 99}));
+        pane.dispatchEvent(new PointerEventMock(pointerEvent, {documentLeft: 99, documentTop: 99}));
         this.assertEquals(0, calls.length);
 
         calls = [];
-        pane.dispatchEvent(new MouseEventMock("mousedown", {documentLeft: 100, documentTop: 100}));
-        pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 100, documentTop: 100}));
+        pane.dispatchEvent(new PointerEventMock("pointerdown", {documentLeft: 100, documentTop: 100}));
+        pane.dispatchEvent(new PointerEventMock(pointerEvent, {documentLeft: 100, documentTop: 100}));
         this.assertEquals(1, calls.length, cellEvent);
         this.assertEquals(0, calls[0].getRow(), cellEvent);
         this.assertEquals(0, calls[0].getColumn(), cellEvent);
         this.assertEquals(cellEvent, calls[0].getType(), cellEvent);
 
         calls = [];
-        pane.dispatchEvent(new MouseEventMock("mousedown", {documentLeft: 160, documentTop: 103}));
-        pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 160, documentTop: 103}));
+        pane.dispatchEvent(new PointerEventMock("pointerdown", {documentLeft: 160, documentTop: 103}));
+        pane.dispatchEvent(new PointerEventMock(pointerEvent, {documentLeft: 160, documentTop: 103}));
         this.assertEquals(1, calls.length, cellEvent);
         this.assertEquals(0, calls[0].getRow(), cellEvent);
         this.assertEquals(1, calls[0].getColumn(), cellEvent);
         this.assertEquals(cellEvent, calls[0].getType(), cellEvent);
 
         calls = [];
-        pane.dispatchEvent(new MouseEventMock("mousedown", {documentLeft: 105, documentTop: 110}));
-        pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 105, documentTop: 110}));
+        pane.dispatchEvent(new PointerEventMock("pointerdown", {documentLeft: 105, documentTop: 110}));
+        pane.dispatchEvent(new PointerEventMock(pointerEvent, {documentLeft: 105, documentTop: 110}));
         this.assertEquals(1, calls.length, cellEvent);
         this.assertEquals(1, calls[0].getRow(), cellEvent);
         this.assertEquals(0, calls[0].getColumn(), cellEvent);
         this.assertEquals(cellEvent, calls[0].getType(), cellEvent);
 
         calls = [];
-        pane.dispatchEvent(new MouseEventMock("mousedown", {documentLeft: 105, documentTop: 125}));
-        pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 105, documentTop: 125}));
+        pane.dispatchEvent(new PointerEventMock("pointerdown", {documentLeft: 105, documentTop: 125}));
+        pane.dispatchEvent(new PointerEventMock(pointerEvent, {documentLeft: 105, documentTop: 125}));
         this.assertEquals(0, calls.length);
 
         calls = [];
-        pane.dispatchEvent(new MouseEventMock("mousedown", {documentLeft: 275, documentTop: 105}));
-        pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 275, documentTop: 105}));
+        pane.dispatchEvent(new PointerEventMock("pointerdown", {documentLeft: 275, documentTop: 105}));
+        pane.dispatchEvent(new PointerEventMock(pointerEvent, {documentLeft: 275, documentTop: 105}));
         this.assertEquals(0, calls.length);
 
         calls = [];
-        pane.dispatchEvent(new MouseEventMock("mousedown", {documentLeft: 275, documentTop: 105}));
-        pane.dispatchEvent(new MouseEventMock(mouseEvent, {documentLeft: 275, documentTop: 105}));
+        pane.dispatchEvent(new PointerEventMock("pointerdown", {documentLeft: 275, documentTop: 105}));
+        pane.dispatchEvent(new PointerEventMock(pointerEvent, {documentLeft: 275, documentTop: 105}));
         this.assertEquals(0, calls.length);
       }
 
@@ -814,22 +814,22 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       var calls = [];
       var listener = function(e) {
         calls.push(e);
-      }
-      pane.addListener("cellClick", listener);
+      };
+      pane.addListener("cellTap", listener);
 
-      var MouseEventMock = qx.test.ui.virtual.MouseEventMock;
+      var PointerEventMock = qx.test.ui.virtual.PointerEventMock;
 
       calls = [];
-      pane.dispatchEvent(new MouseEventMock("mousedown", {documentLeft: 100, documentTop: 100}));
-      pane.dispatchEvent(new MouseEventMock("click", {documentLeft: 100, documentTop: 100}));
+      pane.dispatchEvent(new PointerEventMock("pointerdown", {documentLeft: 100, documentTop: 100}));
+      pane.dispatchEvent(new PointerEventMock("tap", {documentLeft: 100, documentTop: 100}));
       this.assertEquals(1, calls.length);
       this.assertEquals(0, calls[0].getRow());
       this.assertEquals(0, calls[0].getColumn());
-      this.assertEquals("cellClick", calls[0].getType());
+      this.assertEquals("cellTap", calls[0].getType());
 
       calls = [];
-      pane.dispatchEvent(new MouseEventMock("mousedown", {documentLeft: 100, documentTop: 100}));
-      pane.dispatchEvent(new MouseEventMock("click", {documentLeft: 160, documentTop: 103}));
+      pane.dispatchEvent(new PointerEventMock("pointerdown", {documentLeft: 100, documentTop: 100}));
+      pane.dispatchEvent(new PointerEventMock("tap", {documentLeft: 160, documentTop: 103}));
       this.assertEquals(0, calls.length);
 
       pane.destroy();

@@ -2386,11 +2386,11 @@ testrunner.define({
     this.require(["qx.debug"]);
     var cb = function() {};
     var test = q.create('<div></div>').appendTo(this.sandbox[0])
-    .on("swipe", cb).on("tap", cb);
+    .on("touchstart", cb).on("touchmove", cb);
     this.assertEquals("qx.event.handler.TouchCore", test[0].__touchHandler.classname);
-    test.off("swipe", cb);
+    test.off("touchstart", cb);
     this.assertNotNull(test[0].__touchHandler);
-    test.off("tap", cb)
+    test.off("touchmove", cb)
     this.assertNull(test[0].__touchHandler);
   }
 });
@@ -4238,10 +4238,10 @@ testrunner.define({
     var menu = q.create("<div>").setStyle("display", "none").appendTo("#sandbox");
     var b = q.create("<button>").appendTo("#sandbox").button().setMenu(menu);
     var ev = {stopPropagation : function() {}};
-    b.emit("click", ev);
+    b.emit("tap", ev);
     this.assertEquals("block", menu.getStyle("display"));
     this.assertEquals("absolute", menu.getStyle("position"));
-    b.emit("click", ev);
+    b.emit("tap", ev);
     this.assertEquals("none", menu.getStyle("display"));
   }
 });
