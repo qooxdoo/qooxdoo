@@ -89,6 +89,19 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
     {
       refine : true,
       init : "scroll"
+    },
+
+
+    /**
+     * Delegation object which can have one or more functions defined by the
+     * {@link qx.ui.mobile.container.IScrollDelegate} interface.
+     *
+     * @internal
+     */
+    delegate :
+    {
+      init: null,
+      nullable: true
     }
   },
 
@@ -235,7 +248,28 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
         }
 
         var location = qx.bom.element.Location.getRelative(this._getContentElement(), element, "scroll", "scroll");
-        this._scrollTo(-location.left, -location.top, time);
+        var offset = this._getScrollOffset();
+
+        this._scrollTo(-location.left - offset[0], -location.top - offset[1], time);
+      }
+    },
+
+
+    /**
+     *
+     * Determines the scroll offset for the <code>_scrollToElement</code> method.
+     * If a delegate is available, the method calls 
+     * <code>qx.ui.mobile.container.IScrollDelegate.getScrollOffset()</code> for offset calculation.
+     *
+     * @return {Array} an array with x,y offset.
+     */
+    _getScrollOffset : function(data, row)
+    {
+      var delegate = this.getDelegate();
+      if (delegate != null && delegate.getScrollOffset) {
+        return delegate.getScrollOffset.bind(this)();
+      } else {
+        return [0,0];
       }
     },
 
