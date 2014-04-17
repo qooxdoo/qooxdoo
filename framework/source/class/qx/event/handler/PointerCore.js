@@ -206,7 +206,8 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         if (domEvent.type == "touchend" || domEvent.type == "touchcancel") {
           // Fire pointerout after pointerup
           var outEvt = new qx.event.type.dom.Pointer("pointerout", domEvent, touchProps);
-          this._fireEvent(outEvt, "pointerout", touchProps.target);
+          // fire on the original target to make sure over / out event are on the same target
+          this._fireEvent(outEvt, "pointerout", domEvent.target);
 
           if (this.__primaryIdentifier == touch.identifier) {
             this.__primaryIdentifier = null;
