@@ -46,6 +46,7 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
     __score : null,
     __scoreDivLeft : null,
     __scoreDivRight : null,
+    __leftField : null,
 
     /**
      * This method contains the initial application code and gets called
