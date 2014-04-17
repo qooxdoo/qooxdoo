@@ -16,57 +16,65 @@
      * Richard Sternagel (rsternagel)
 
 ***************************************************************************** */
-
 /**
- * Utility methods for cldr processing.
- */
-
-/**
+ * @module util
  *
+ * @desc
+ * Utility methods for CLDR processing.
  */
-var renameProperty = function (obj, oldName, newName) {
-  if (obj.hasOwnProperty(oldName)) {
-    obj[newName] = obj[oldName];
-    delete obj[oldName];
-  }
-  return obj;
-};
-
-/**
- *
- */
-var mergeObject = function(obj1, obj2) {
-  var obj = {};
-  var i;
-  var il = arguments.length;
-  var key;
-
-  for (i=0; i < il; i++) {
-    for (key in arguments[i]) {
-      if (arguments[i].hasOwnProperty(key)) {
-        obj[key] = arguments[i][key];
-      }
-    }
-  }
-  return obj;
-};
-
-/**
- *
- */
-var getWeekDayChars = function(weekDays, dayOfWeekIndex, charAmount) {
-  var validDayOfWeekIndizes = [0, 1, 2, 3, 4, 5, 6];
-  return (validDayOfWeekIndizes.indexOf(dayOfWeekIndex) === -1)
-         ? ""
-         : weekDays[dayOfWeekIndex].substr(0, charAmount);
-};
-
-//------------------------------------------------------------------------------
-// Exports
-//------------------------------------------------------------------------------
 
 module.exports = {
-  renameProperty : renameProperty,
-  mergeObject : mergeObject,
-  getWeekDayChars : getWeekDayChars
+  /**
+   * Renames a property of the given object.
+   *
+   * @param {Object} obj
+   * @param {string} oldName
+   * @param {string} newName
+   * @returns {Object}
+   */
+  renameProperty: function (obj, oldName, newName) {
+    if (obj.hasOwnProperty(oldName)) {
+      obj[newName] = obj[oldName];
+      delete obj[oldName];
+    }
+    return obj;
+  },
+
+  /**
+   * Merges two objects - the latter object overrides.
+   *
+   * @param {Object} obj1
+   * @param {Object} obj2
+   * @returns {Object}
+   */
+  mergeObject: function(obj1, obj2) {
+    var obj = {};
+    var i;
+    var il = arguments.length;
+    var key;
+
+    for (i=0; i < il; i++) {
+      for (key in arguments[i]) {
+        if (arguments[i].hasOwnProperty(key)) {
+          obj[key] = arguments[i][key];
+        }
+      }
+    }
+    return obj;
+  },
+
+  /**
+   * Gets a specific amount of chars of one week day (e.g. the first three chars of 'Monday' => 'Mon')
+   *
+   * @param {string[]} weekDays - could be ['Monday', 'Tuesday', 'Wednesday']
+   * @param {number} dayOfWeekIndex - the desired week day to look at
+   * @param {number} charAmount - the amount of chars to extract
+   * @returns {string}
+   */
+  getWeekDayChars: function(weekDays, dayOfWeekIndex, charAmount) {
+    var validDayOfWeekIndizes = [0, 1, 2, 3, 4, 5, 6];
+    return (validDayOfWeekIndizes.indexOf(dayOfWeekIndex) === -1)
+           ? ""
+           : weekDays[dayOfWeekIndex].substr(0, charAmount);
+  }
 };
