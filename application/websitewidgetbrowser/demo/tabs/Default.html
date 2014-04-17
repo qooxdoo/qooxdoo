@@ -23,7 +23,7 @@
 </div>
 
 <script type="text/javascript">
-q.initWidgets("#tabs-page");
+q.initWidgets("#tabs-page *");
 q("#tabs-page input[type='radio']").on("change", function(e) {
   var val = e.getTarget().value;
   q("#tabs-page .qx-tabs").setConfig("align", val).render();
