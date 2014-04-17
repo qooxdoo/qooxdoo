@@ -278,13 +278,12 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         gesture.target
       );
 
+      this.__fireTrack("trackend", domEvent, gesture.target);
+
       if (target !== gesture.target) {
-        this.__fireTrack("trackend", domEvent, target);
         delete this.__gesture[domEvent.pointerId];
         return;
       }
-
-      this.__fireTrack("trackend", domEvent, target);
 
       if (gesture.isTap) {
         this._fireEvent(domEvent, "tap", domEvent.target || target);
