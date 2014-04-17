@@ -40,9 +40,6 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      */
     TYPES : ["pointerdown", "pointerup", "pointermove", "pointercancel", "pointerover", "pointerout"],
 
-    BIND_METHODS : ["getPointerType", "getViewportLeft", "getViewportTop",
-      "getDocumentLeft", "getDocumentTop", "getScreenLeft", "getScreenTop"],
-
 
     /**
      * Returns the device type which the event triggered. This can be one
@@ -52,23 +49,7 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      * @return {String} The type of the pointer.
      */
     getPointerType : function() {
-      if (typeof this.pointerType == "string") {
-        return this.pointerType;
-      }
-
-      if (typeof this.pointerType == "number") {
-        if (this.pointerType == this.MSPOINTER_TYPE_MOUSE) {
-          return "mouse";
-        }
-        if (this.pointerType == this.MSPOINTER_TYPE_PEN) {
-          return "pen";
-        }
-        if (this.pointerType == this.MSPOINTER_TYPE_TOUCH) {
-          return "touch";
-        }
-      }
-
-      return "";
+      // stub for documentation. Implementation is in qx.event.type.dom.Pointer
     },
 
 
@@ -79,7 +60,7 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      * @return {Number} The horizontal mouse position
      */
     getViewportLeft : function() {
-      return this.clientX;
+      // stub for documentation. Implementation is in qx.event.type.dom.Pointer
     },
 
 
@@ -91,7 +72,7 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      * @signature function()
      */
     getViewportTop : function() {
-      return this.clientY;
+      // stub for documentation. Implementation is in qx.event.type.dom.Pointer
     },
 
 
@@ -102,14 +83,8 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      *
      * @return {Number} The horizontal mouse position in the document.
      */
-    getDocumentLeft : function()
-    {
-      if (this.pageX !== undefined) {
-        return this.pageX;
-      } else {
-        var win = qx.dom.Node.getWindow(this.srcElement);
-        return this.clientX + qx.bom.Viewport.getScrollLeft(win);
-      }
+    getDocumentLeft : function() {
+      // stub for documentation. Implementation is in qx.event.type.dom.Pointer
     },
 
 
@@ -120,14 +95,8 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      *
      * @return {Number} The vertical mouse position in the document.
      */
-    getDocumentTop : function()
-    {
-      if (this.pageY !== undefined) {
-        return this.pageY;
-      } else {
-        var win = qx.dom.Node.getWindow(this.srcElement);
-        return this.clientY + qx.bom.Viewport.getScrollTop(win);
-      }
+    getDocumentTop : function() {
+      // stub for documentation. Implementation is in qx.event.type.dom.Pointer
     },
 
 
@@ -141,7 +110,7 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      * @return {Number} The horizontal mouse position on the screen.
      */
     getScreenLeft : function() {
-      return this.screenX;
+      // stub for documentation. Implementation is in qx.event.type.dom.Pointer
     },
 
 
@@ -155,7 +124,7 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      * @return {Number} The vertical mouse position on the screen.
      */
     getScreenTop : function() {
-      return this.screenY;
+      // stub for documentation. Implementation is in qx.event.type.dom.Pointer
     },
 
 
@@ -174,13 +143,7 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
         return event;
       }
 
-      var bindMethods = qx.module.event.Pointer.BIND_METHODS;
-      for (var i=0, l=bindMethods.length; i<l; i++) {
-        if (typeof event[bindMethods[i]] != "function") {
-          event[bindMethods[i]] = qx.module.event.Pointer[bindMethods[i]].bind(event);
-        }
-      }
-
+      qx.event.type.dom.Pointer.normalize(event);
       return event;
     }
   },

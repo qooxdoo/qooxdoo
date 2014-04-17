@@ -112,7 +112,7 @@ qx.Class.define("qx.event.handler.Pointer",
 
       if (target && target.nodeType)
       {
-        domEvent = qx.module.event.Pointer.normalize(domEvent);
+        qx.event.type.dom.Pointer.normalize(domEvent);
         // ensure compatibility with native events for IE8
         domEvent.srcElement = target;
 

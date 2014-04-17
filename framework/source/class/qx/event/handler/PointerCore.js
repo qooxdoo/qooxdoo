@@ -323,7 +323,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         gestureEvent = new qx.event.type.dom.Pointer(
           qx.event.handler.PointerCore.POINTER_TO_GESTURE_MAPPING[type],
           domEvent);
-        gestureEvent = qx.module.event.Pointer.normalize(gestureEvent);
+        qx.event.type.dom.Pointer.normalize(gestureEvent);
         gestureEvent.srcElement = target;
       }
 
