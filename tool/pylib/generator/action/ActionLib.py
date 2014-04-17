@@ -116,13 +116,20 @@ class ActionLib(object):
     def runShellCommand(self, shellcmd):
         rc = 0
         self._shellCmd       = ShellCmd()
-
         self._console.info("Executing shell command \"%s\"..." % shellcmd)
         self._console.indent()
 
         rc = self._shellCmd.execute(shellcmd, self._config.getConfigDir())
         if rc != 0:
-            raise RuntimeError, "Shell command returned error code: %s" % repr(rc)
+            # BUG #7997
+            # @deprecated {4.0}
+            # 127 = given cmd is not found within PATH sys var and it's not a built-in shell cmd
+            if rc == 127 and ("sass" in shellcmd or "scss" in shellcmd):
+                msg = ("It seems that you want to compile .scss files. "+
+                       "Please make sure that Sass is installed.")
+                raise RuntimeError, msg
+            else:
+                raise RuntimeError, "Shell command returned error code: %s" % repr(rc)
         self._console.outdent()
 
 
