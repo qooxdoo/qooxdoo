@@ -39,6 +39,7 @@ module.exports = {
     var obj2 = {'b': 3, 'c': 3};
     var actual = this.util.mergeObject(obj1, obj2);
     var expected = {'a': 2, 'b': 3, 'c': 3};
+
     test.deepEqual(actual, expected);
     test.done();
   },
@@ -46,6 +47,7 @@ module.exports = {
   getWeekDayChars: function (test) {
     var m = this.util.getWeekDayChars(["Monday", "Tuesday"], 0, 1);
     var tue = this.util.getWeekDayChars(["Monday", "Tuesday"], 1, 3);
+
     test.deepEqual(tue, "Tue");
     test.deepEqual(m, "M");
     test.done();

@@ -20,5 +20,4 @@
 'use strict';
 
 var locale = require('../../lib/locale.js');
-
 console.log(JSON.stringify(locale.getTailoredCldrData("en")));
