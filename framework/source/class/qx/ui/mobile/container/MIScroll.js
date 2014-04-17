@@ -148,7 +148,9 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
         loader.open("GET", path);
         loader.send();
       } else {
-        this._setScroll(this.__createScrollInstance());
+        this.addListenerOnce("appear", function() {
+          this._setScroll(this.__createScrollInstance());
+        }, this);
       }
     },
 

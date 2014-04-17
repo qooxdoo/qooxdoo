@@ -36,7 +36,7 @@
   @include background($group-background);
 
   border: rem(1) solid $group-border-color;
-  padding: rem(10);
+  margin: rem(10);
 }
 
 .hbox:not(.flex-reverse) > .gap:not(.exclude) + .gap {

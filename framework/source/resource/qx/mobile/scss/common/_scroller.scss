@@ -13,7 +13,10 @@
 
 .iscroll {
   width:100%;
-  position:absolute;
+
+  .content {
+    padding-bottom: 10px;
+  }
 }
 
 // Bugfix for Android 2.x, adds a scale(1) to the element,
