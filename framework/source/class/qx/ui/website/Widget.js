@@ -188,7 +188,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * @return {Boolean} The enabled state of the collection.
      */
     getEnabled : function() {
-      return !this.getAttribute("disabled");
+      return !this.getProperty("disabled");
     },
 
 
