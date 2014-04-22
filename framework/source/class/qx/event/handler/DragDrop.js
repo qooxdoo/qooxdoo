@@ -556,13 +556,21 @@ qx.Class.define("qx.event.handler.DragDrop",
 
       if (el !== cursorEl) {
         var dropable = this.__findDroppable(el);
+
+        // new drop target detected
         if (dropable && dropable != this.__dropTarget) {
+          // fire dragleave for previous drop target
+          if (this.__dropTarget) {
+            this.__fireEvent("dragleave", this.__dropTarget, this.__dragTarget, false, e);
+          }
+
           this.__validDrop = this.__fireEvent("dragover", dropable, this.__dragTarget, true, e);
           this.__dropTarget = dropable;
+        } 
 
-          this.__detectAction();
-        } else if (!dropable && this.__dropTarget) {
-          this.__fireEvent("dragleave", this.__dropTarget, dropable, false, e);
+        // only previous drop target
+        else if (!dropable && this.__dropTarget) {
+          this.__fireEvent("dragleave", this.__dropTarget, this.__dragTarget, false, e);
           this.__dropTarget = null;
           this.__validDrop = false;
 
