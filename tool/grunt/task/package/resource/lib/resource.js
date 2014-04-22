@@ -81,14 +81,21 @@ function basePathForNsExistsOrError(namespaces, resBasePathMap) {
 }
 
 /**
- * Return namespace from className by checking against allNamespaces (longest match wins).
+ * Returns namespace from class name by checking against
+ * all namespaces (longest match wins).
  *
- *  "qx.Foo.Bar"              => "qx"              allNa: ["qx", ...]
- *  "qx.Foo.Bar"              => "qx.Foo"          allNa: ["qx", "qx.Foo", ...]
- *  "qxc.ui.logpane.LogPane"  => "qxc.ui.logpane"  allNa: ["qxc.ui.logpane", ...]
+ * <ul>
+ *  <li>"qx.Foo.Bar"   => "qx"      / allNa: ["qx", ...]</li>
+ *  <li>"qx.Foo.Bar"   => "qx.Foo"  / allNa: ["qx", "qx.Foo", ...]</li>
+ *  <li>"qxc.ui.Pane"  => "qxc.ui"  / allNa: ["qxc.ui.logpane", ...]</li>
+ * </ul>
  *
  * TODO: Copy from pkg "qx-dependency" => "dependency/lib/util.js"
  *       Maybe extract in own package "qx-classid".
+ *
+ * @param {string} className
+ * @param {string[]} allNamespaces
+ * @returns {string} namespace
  */
 function namespaceFrom(className, allNamespaces) {
   var exceptions = ["qxWeb", "q"];
