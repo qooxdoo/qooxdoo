@@ -34,12 +34,12 @@
     "stdout": "node test/stdout/stdout.js"
   },
   "dependencies": {
-    "cldr": "~2.1.0"
+    "cldr": "~2.2.1"
   },
   "devDependencies": {
     "nodeunit": "~0.8.4",
     "jsdoc": "~3.3.0"
   },
   "//": "before publishing create README.md then this can be removed",
-  "private" : true
+  "private": true
 }
