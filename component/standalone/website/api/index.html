@@ -92,7 +92,7 @@
     <div>
       <ul>
         {{#params}}
-        <li>{{{printTypes}}} <code>{{name}}</code> {{#defaultValue}}<em>(default: {{{defaultValue}}})</em> {{/defaultValue}} {{{desc}}}</li>
+        <li>{{{printTypes}}} <code>{{name}}</code>{{#optional}} <em>optional</em>{{/optional}} {{#defaultValue}}<em>(default: {{{defaultValue}}})</em> {{/defaultValue}} {{{desc}}}</li>
         {{/params}}
       </ul>
     </div>

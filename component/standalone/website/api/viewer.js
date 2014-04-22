@@ -437,7 +437,10 @@ q.ready(function() {
     var params = Data.getByType(method, "params");
     for (var j=0; j < params.children.length; j++) {
       var param = params.children[j];
-      var paramData = {name: param.attributes.name};
+      var paramData = {
+        name: param.attributes.name,
+        optional: param.attributes.optional
+      };
       paramData.desc = parse(Data.getByType(param, "desc").attributes.text || "");
       if (param.attributes.defaultValue) {
         paramData.defaultValue = param.attributes.defaultValue;
@@ -492,6 +495,9 @@ q.ready(function() {
     var params = "";
     for (var i = 0; i < this.params.length; i++) {
       params += this.params[i].name;
+      if (this.params[i].optional) {
+        params += "?";
+      }
       if (i < this.params.length - 1) {
         params += ", ";
       }
