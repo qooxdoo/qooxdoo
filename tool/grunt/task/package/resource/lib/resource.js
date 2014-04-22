@@ -36,8 +36,8 @@
 
 
 // native
-var fs = require("fs");
-var path = require("path");
+var fs = require('fs');
+var path = require('path');
 
 // third party
 var imgsize = require('image-size');
@@ -57,7 +57,7 @@ var qxResource = (qxResource || {
 //------------------------------------------------------------------------------
 
 function findResourceMetaFiles(root) {
-  return glob.sync("**/*.meta", {cwd: root});
+  return glob.sync('**/*.meta', {cwd: root});
 }
 
 function processMetaFiles(metaFilePaths, basePath) {
@@ -77,7 +77,7 @@ function basePathForNsExistsOrError(namespaces, resBasePathMap) {
   for (var i = 0; i < namespaces.length; i++) {
     var ns = namespaces[i];
     if (!(ns in resBasePathMap)) {
-      throw new Error("ENOENT - Namespace unknown: " + ns);
+      throw new Error('ENOENT - Namespace unknown: ' + ns);
     }
   }
 }
@@ -87,22 +87,22 @@ function basePathForNsExistsOrError(namespaces, resBasePathMap) {
  * all namespaces (longest match wins).
  *
  * <ul>
- *  <li>"qx.Foo.Bar"   => "qx"      / allNa: ["qx", ...]</li>
- *  <li>"qx.Foo.Bar"   => "qx.Foo"  / allNa: ["qx", "qx.Foo", ...]</li>
- *  <li>"qxc.ui.Pane"  => "qxc.ui"  / allNa: ["qxc.ui.logpane", ...]</li>
+ *  <li>'qx.Foo.Bar'   => 'qx'      / allNa: ['qx', ...]</li>
+ *  <li>'qx.Foo.Bar'   => 'qx.Foo'  / allNa: ['qx', 'qx.Foo', ...]</li>
+ *  <li>'qxc.ui.Pane'  => 'qxc.ui'  / allNa: ['qxc.ui.logpane', ...]</li>
  * </ul>
  *
- * TODO: Copy from pkg "qx-dependency" => "dependency/lib/util.js"
- *       Maybe extract in own package "qx-classid".
+ * TODO: Copy from pkg 'qx-dependency' => 'dependency/lib/util.js'
+ *       Maybe extract in own package 'qx-classid'.
  *
  * @param {string} className
  * @param {string[]} allNamespaces
  * @returns {string} namespace
  */
 function namespaceFrom(className, allNamespaces) {
-  var exceptions = ["qxWeb", "q"];
+  var exceptions = ['qxWeb', 'q'];
   if (exceptions.indexOf(className) !== -1) {
-    return "qx";
+    return 'qx';
   }
 
   allNamespaces.sort(function(a, b){
@@ -113,7 +113,7 @@ function namespaceFrom(className, allNamespaces) {
 
   var i = 0;
   var l = allNamespaces.length;
-  var curNs = "";
+  var curNs = '';
   for (; i<l; i++) {
     curNs = allNamespaces[i];
     if (className.indexOf(curNs) !== -1) {
@@ -127,8 +127,8 @@ function namespaceFrom(className, allNamespaces) {
 function flattenAssetPathsByNamespace(assetPaths, namespaces) {
   var assetNsPaths = {};
   var posFirstDot = 0;
-  var className = "";
-  var ns = "";
+  var className = '';
+  var ns = '';
 
   var uniqueValues = function(value, index, self) {
     return self.indexOf(value) === index;
@@ -153,19 +153,19 @@ function filterUnwantedExts(assetNsBasePaths, exts) {
 
 function globAndSanitizePaths(assetNsPaths, resBasePathMap) {
   var toBeGlobbed = [];
-  var ns = "";
+  var ns = '';
   var assetNsBasesPaths = {};
 
   var nonDir = function(item) {
-    return (item.slice(-1) !== "/");
+    return (item.slice(-1) !== '/');
   };
 
   var nonMetaFiles = function(item) {
-    return (item.indexOf(".meta") === -1);
+    return (item.indexOf('.meta') === -1);
   };
 
   var globifyProperly = function(expr) {
-    return (expr.slice(-1) === "*") ? expr.replace("*", "**/*") : expr;
+    return (expr.slice(-1) === '*') ? expr.replace('*', '**/*') : expr;
   };
 
   var isEmpty = function(obj) {
@@ -174,8 +174,8 @@ function globAndSanitizePaths(assetNsPaths, resBasePathMap) {
 
   var collectMatchingBases = function(resBasePathMap, resPath) {
     var resWithBases = {};
-    var absResPath = "";
-    var ns = "";
+    var absResPath = '';
+    var ns = '';
 
     for (ns in resBasePathMap) {
       absResPath = path.join(resBasePathMap[ns], resPath);
@@ -188,8 +188,8 @@ function globAndSanitizePaths(assetNsPaths, resBasePathMap) {
 
   var createEmptyBasePathProperties = function(assetNsPaths) {
     var assetNsBasesPaths = {};
-    var ns1 = "";
-    var ns2 = "";
+    var ns1 = '';
+    var ns2 = '';
 
     for (ns1 in assetNsPaths) {
       assetNsBasesPaths[ns1] = {};
@@ -202,7 +202,7 @@ function globAndSanitizePaths(assetNsPaths, resBasePathMap) {
   };
 
   var addResWithBases = function(assetNsBasesPaths, resWithBase) {
-    var base = "";
+    var base = '';
 
     for (base in resWithBase) {
       assetNsBasesPaths[base].push(resWithBase[base]);
@@ -220,7 +220,7 @@ function globAndSanitizePaths(assetNsPaths, resBasePathMap) {
 
     var i = 0;
     var l = assetNsPaths[ns].length;
-    var resPath = "";
+    var resPath = '';
     var resWithBases = {};
     for (; i<l; i++) {
       resPath = assetNsPaths[ns][i];
@@ -230,7 +230,7 @@ function globAndSanitizePaths(assetNsPaths, resBasePathMap) {
         assetNsBasesPaths[ns] = addResWithBases(assetNsBasesPaths[ns], resWithBases);
       }
 
-      if (resPath.indexOf("*") !== -1) {
+      if (resPath.indexOf('*') !== -1) {
         toBeGlobbed[ns].push(resPath);
       }
     }
@@ -238,12 +238,12 @@ function globAndSanitizePaths(assetNsPaths, resBasePathMap) {
     i = 0;
     l = toBeGlobbed[ns].length;
     var globbedPaths = [];
-    var globRes = "";
-    var namespace = "";
+    var globRes = '';
+    var namespace = '';
     for (; i<l; i++) {
       globRes = globifyProperly(toBeGlobbed[ns][i]);
       // try every namespace base path
-      // because e.g. "myapp" may also use imgs from "qx"
+      // because e.g. 'myapp' may also use imgs from 'qx'
       // TODO: the manual states that order is important
       // (for shadowing resources) - this isn't regarded yet!
       // See: desktop/ui_resources.html
@@ -300,14 +300,14 @@ function createResourceInfoMaps(resources) {
 
 function collectUsedMetaEntries(assetNsBasesPaths, resBasePathMap) {
   var usedMetaEntries = {};
-  var ns1 = "";
-  var ns2 = "";
+  var ns1 = '';
+  var ns2 = '';
 
   for (ns1 in assetNsBasesPaths) {
     for (ns2 in assetNsBasesPaths[ns1]) {
       var l = assetNsBasesPaths[ns1][ns2].length;
       var i = 0;
-      var imgPath = "";
+      var imgPath = '';
       var metaPaths = findResourceMetaFiles(resBasePathMap[ns2]);
       var metaEntries = processMetaFiles(metaPaths, resBasePathMap[ns2]);
 
@@ -328,10 +328,10 @@ function collectUsedMetaEntries(assetNsBasesPaths, resBasePathMap) {
 }
 
 function expandAssetMacros(assetNsPaths, macroToExpansionMap) {
-  var macro = "";
-  var ns = "";
-  var curAsset = "";
-  var replacement = "";
+  var macro = '';
+  var ns = '';
+  var curAsset = '';
+  var replacement = '';
   var i = 0;
   var l = 0;
 
@@ -384,8 +384,8 @@ function collectResources(assetNsBasesPaths, resBasePathMap, options) {
   var usedMetaEntries = {};
   var resStruct = {};
   var imgsStruct = {};
-  var ns1 = "";
-  var ns2 = "";
+  var ns1 = '';
+  var ns2 = '';
 
   if (!options) {
     options = {};
@@ -411,10 +411,10 @@ function collectResources(assetNsBasesPaths, resBasePathMap, options) {
   for (ns1 in assetNsBasesPaths) {
     for (ns2 in assetNsBasesPaths[ns1]) {
       imgs = assetNsBasesPaths[ns1][ns2].filter(isImg);
-      images = images.concat(createResources("image", imgs, ns2, resBasePathMap[ns2]));
+      images = images.concat(createResources('image', imgs, ns2, resBasePathMap[ns2]));
 
       res = assetNsBasesPaths[ns1][ns2].filter(isNotImg);
-      resources = resources.concat(createResources("resource", res, ns2));
+      resources = resources.concat(createResources('resource', res, ns2));
     }
   }
 
