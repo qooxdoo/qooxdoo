@@ -183,9 +183,8 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
      * already present
      *
      * @param event {Event} Native event object
-     * @return {Event} Normalized event object
      */
-    normalize : function(event, element) {
+    normalize : function(event) {
       var bindMethods = qx.event.type.dom.Pointer.BIND_METHODS;
       for (var i=0, l=bindMethods.length; i<l; i++) {
         if (typeof event[bindMethods[i]] != "function") {

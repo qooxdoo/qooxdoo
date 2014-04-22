@@ -50,6 +50,7 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      */
     getPointerType : function() {
       // stub for documentation. Implementation is in qx.event.type.dom.Pointer
+      return false;
     },
 
 
@@ -61,6 +62,7 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      */
     getViewportLeft : function() {
       // stub for documentation. Implementation is in qx.event.type.dom.Pointer
+      return false;
     },
 
 
@@ -73,6 +75,7 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      */
     getViewportTop : function() {
       // stub for documentation. Implementation is in qx.event.type.dom.Pointer
+      return false;
     },
 
 
@@ -85,6 +88,7 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      */
     getDocumentLeft : function() {
       // stub for documentation. Implementation is in qx.event.type.dom.Pointer
+      return false;
     },
 
 
@@ -97,6 +101,7 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      */
     getDocumentTop : function() {
       // stub for documentation. Implementation is in qx.event.type.dom.Pointer
+      return false;
     },
 
 
@@ -111,6 +116,7 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      */
     getScreenLeft : function() {
       // stub for documentation. Implementation is in qx.event.type.dom.Pointer
+      return false;
     },
 
 
@@ -125,6 +131,7 @@ qx.Bootstrap.define("qx.module.event.Pointer", {
      */
     getScreenTop : function() {
       // stub for documentation. Implementation is in qx.event.type.dom.Pointer
+      return false;
     },
 
 
