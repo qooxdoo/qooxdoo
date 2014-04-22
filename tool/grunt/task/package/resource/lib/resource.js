@@ -46,9 +46,11 @@ var glob = require('glob');
 // qx
 var q = require('qooxdoo');
 
-var qxResource = {};
-qxResource.Image = require('./qxResource/Image');
-qxResource.Resource = require('./qxResource/Resource');
+// local (modules may be injected by test env)
+var qxResource = (qxResource || {
+  Image: require('./qxResource/Image'),
+  Resource: require('./qxResource/Resource')
+});
 
 //------------------------------------------------------------------------------
 // Privates
@@ -121,7 +123,6 @@ function namespaceFrom(className, allNamespaces) {
 
   return false;
 }
-
 
 function flattenAssetPathsByNamespace(assetPaths, namespaces) {
   var assetNsPaths = {};
@@ -211,6 +212,7 @@ function globAndSanitizePaths(assetNsPaths, resBasePathMap) {
   };
 
   assetNsBasesPaths = createEmptyBasePathProperties(assetNsPaths);
+
   for (ns in assetNsPaths) {
     if (!toBeGlobbed[ns]) {
       toBeGlobbed[ns] = [];
