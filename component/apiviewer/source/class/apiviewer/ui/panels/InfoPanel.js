@@ -21,6 +21,7 @@
 ************************************************************************ */
 /**
  * @require(qx.module.event.GestureHandler)
+ * @require(qx.module.Attribute)
  */
 qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
@@ -1294,12 +1295,12 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      */
     _postProcessLinks : function(el) {
       q("[onmouseup]", el).forEach(function(item) {
-        q(item).on("pointerup", item.onmouseup); 
-        delete item.onmouseup
+        q(item).on("pointerup", item.onmouseup)
+        .removeAttribute("onmouseup");
       });
       q("[onclick]", el).forEach(function(item) {
-        q(item).on("tap", item.onclick);
-        delete item.click
+        q(item).on("tap", item.onclick)
+        .removeAttribute("onclick");
       });
     }
   },
