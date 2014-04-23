@@ -266,7 +266,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       var domTarget = target;
       while (domTarget && domTarget !== this.__defaultTarget) {
         if (domTarget.$$gestureHandler) {
-          delete this.__gesture[domEvent.pointerId];
           return;
         }
         domTarget = domTarget.parentNode;
@@ -274,8 +273,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
       // always start the roll impulse on the original target
       this.__handleRollImpulse(
-        this.__gesture[domEvent.pointerId].velocityX,
-        this.__gesture[domEvent.pointerId].velocityY,
+        gesture.velocityX,
+        gesture.velocityY,
         domEvent,
         gesture.target
       );
