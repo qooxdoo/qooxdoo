@@ -260,8 +260,8 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
     },
 
 
-    clickOn: function(widget) {
-      widget.fireEvent("click", qx.event.type.Mouse, [{}, widget, widget, false, true]);
+    tapOn: function(widget) {
+      widget.fireEvent("tap", qx.event.type.Tap, [{}, widget, widget, false, true]);
     }
   }
 });
