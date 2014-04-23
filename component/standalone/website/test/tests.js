@@ -446,62 +446,6 @@ testrunner.define({
     this.assertEquals(2, q("#sandbox p + h2 + h3").length);
   },
 
-  testFocus : function()
-  {
-    var obj = {
-      focused : 0
-    };
-    var onFocus =  function(ev) {
-      this.focused++;
-    };
-    var test = q.create('<input type="text"></input><input type="text"></input>')
-    .appendTo("#sandbox").on("focus", onFocus, obj);
-
-    // IE won't focus the element immediately after adding it to the DOM
-    window.setTimeout(function() {
-      test.focus();
-    }, 200);
-
-    var that = this;
-    window.setTimeout(function() {
-      that.resume(function() {
-        this.assertEquals(1, obj.focused);
-      }, that);
-    }, 400);
-
-    this.wait();
-  },
-
-  testBlur : function()
-  {
-    var obj = {
-      blurred : 0
-    };
-    var onBlur =  function(ev) {
-      this.blurred++;
-    };
-    var test = q.create('<input type="text"></input><input type="text"></input>')
-    .appendTo("#sandbox").on("blur", onBlur, obj);
-
-    // IE won't focus the element immediately after adding it to the DOM
-    window.setTimeout(function() {
-      test.focus();
-    }, 200);
-
-    window.setTimeout(function() {
-      test.blur();
-    }, 400);
-
-    var that = this;
-    window.setTimeout(function() {
-      that.resume(function() {
-        this.assertEquals(1, obj.blurred);
-      }, that);
-    }, 500);
-
-    this.wait();
-  },
-
   "test insertAfter with element" : function()
   {
     q.create('<h1>Foo</h1>').
@@ -1947,14 +1891,18 @@ testrunner.define({
 
   testContext : function()
   {
+    if (!qx.core.Environment.get("event.dispatchevent")) {
+      this.skip("Requires dispatchEvent");
+    }
     window.temp = null;
     q.create('<input type="text" id="one"></input><input type="text" id="two"></input>')
-    .on("focus", function(ev) {
+    .on("mousedown", function(ev) {
       window.temp = this.getAttribute("id");
     }).appendTo("#sandbox");
 
     window.setTimeout(function() {
-      q("#sandbox #one").focus();
+      var event = new qx.event.type.dom.Custom("mousedown");
+      q("#sandbox #one")[0].dispatchEvent(event);
     }, 100);
 
     this.wait(200, function() {
@@ -2021,7 +1969,10 @@ testrunner.define({
 
   testNormalization : function()
   {
-    this.__registerNormalization("focus", function(event) {
+    if (!qx.core.Environment.get("event.dispatchevent")) {
+      this.skip("Requires dispatchEvent");
+    }
+    this.__registerNormalization("mousedown", function(event) {
       event.affe = "juhu";
       return event;
     });
@@ -2030,14 +1981,14 @@ testrunner.define({
       event.affe += " hugo";
       return event;
     };
-    this.__registerNormalization("focus", normalizer1);
+    this.__registerNormalization("mousedown", normalizer1);
 
     var normalizer2 = function(event) {
       event.affe += " affe";
       return event;
     };
 
-    this.__registerNormalization("focus", normalizer2);
+    this.__registerNormalization("mousedown", normalizer2);
 
     var obj = {
       normalized : false
@@ -2050,27 +2001,25 @@ testrunner.define({
 
     var test = q.create('<input type="text"></input>');
     test.appendTo(this.sandbox[0]);
-    test.on("focus", callback, obj);
+    test.on("mousedown", callback, obj);
 
-    q.$unregisterEventNormalization("focus", normalizer1);
+    q.$unregisterEventNormalization("mousedown", normalizer1);
 
     window.setTimeout(function() {
-      test[0].focus();
+      var event = new qx.event.type.dom.Custom("mousedown");
+      test[0].dispatchEvent(event);
     }, 100);
 
     this.wait(function() {
       this.assert(obj.normalized, "Event was not manipulated!");
-      q.$unregisterEventNormalization("focus", normalizer2);
+      q.$unregisterEventNormalization("mousedown", normalizer2);
     }, 200, this);
   },
 
-  tearDownTestNormalization : function()
-  {
-    var registry = q.$getEventNormalizationRegistry();
-    delete registry.focus;
-  },
-
   testNormalizationWildcard : function() {
+    if (!qx.core.Environment.get("event.dispatchevent")) {
+      this.skip("Requires dispatchEvent");
+    }
     var normalizer = function(event) {
       event.affe = "juhu";
       return event;
@@ -2089,12 +2038,14 @@ testrunner.define({
 
     var test = q.create('<input type="text"></input>');
     test.appendTo(this.sandbox[0]);
-    test.on("focus", callback, obj1);
-    test.on("blur", callback, obj2);
+    test.on("mousedown", callback, obj1);
+    test.on("mouseup", callback, obj2);
 
     window.setTimeout(function() {
-      test[0].focus();
-      test[0].blur();
+      var down = new qx.event.type.dom.Custom("mousedown");
+      test[0].dispatchEvent(down);
+      var up = new qx.event.type.dom.Custom("mouseup");
+      test[0].dispatchEvent(up);
     }, 100);
 
     this.wait(function() {
@@ -2104,14 +2055,18 @@ testrunner.define({
     }, 200, this);
   },
 
-  __normalizeFocusBlur : null,
+  __normalizeMouse : null,
 
   testNormalizationForMultipleTypes : function() {
-    this.__normalizeFocusBlur = function(event) {
+    if (!qx.core.Environment.get("event.dispatchevent")) {
+      this.skip("Requires dispatchEvent");
+    }
+
+    this.__normalizeMouse = function(event) {
       event.affe = "juhu";
       return event;
     };
-    this.__registerNormalization(["focus", "blur"], this.__normalizeFocusBlur);
+    this.__registerNormalization(["mousedown", "mouseup"], this.__normalizeMouse);
 
     var obj1, obj2;
     obj1 = obj2 = {
@@ -2125,30 +2080,30 @@ testrunner.define({
 
     var test = q.create('<input type="text" />');
     test.appendTo(this.sandbox[0]);
-    test.on("focus", callback, obj1);
-    test.on("blur", callback, obj2);
+    test.on("mousedown", callback, obj1);
+    test.on("mouseup", callback, obj2);
 
     window.setTimeout(function() {
-      test[0].focus();
+      var event = new qx.event.type.dom.Custom("mousedown");
+      test[0].dispatchEvent(event);
     }, 100);
 
-    // IE < 9 won't fire the focus event if blur() is called immediately after
-    // focus()
     window.setTimeout(function() {
-      test[0].blur();
+      var event = new qx.event.type.dom.Custom("mouseup");
+      test[0].dispatchEvent(event);
     }, 250);
 
     this.wait(function() {
-      this.assert(obj1.normalized, "Focus event was not manipulated!");
-      this.assert(obj2.normalized, "Blur event was not manipulated!");
+      this.assert(obj1.normalized, "Mousedown event was not manipulated!");
+      this.assert(obj2.normalized, "Mouseup event was not manipulated!");
     }, 500, this);
   },
 
   tearDownTestNormalizationForMultipleTypes : function() {
     var registry = q.$getEventNormalizationRegistry();
-    var before = registry["focus"].length + registry["blur"].length;
-    q.$unregisterEventNormalization(["focus", "blur"], this.__normalizeFocusBlur);
-    var after = registry["focus"].length + registry["blur"].length;
+    var before = registry["mousedown"].length + registry["mouseup"].length;
+    q.$unregisterEventNormalization(["mousedown", "mouseup"], this.__normalizeMouse);
+    var after = registry["mousedown"].length + registry["mouseup"].length;
     this.assertEquals((before - 2), after);
   }
 });
@@ -2162,6 +2117,9 @@ testrunner.define({
 
   testGetTarget : function()
   {
+    if (!qx.core.Environment.get("event.dispatchevent")) {
+      this.skip("Requires dispatchEvent");
+    }
     var obj = {
       target : null
     };
@@ -2172,10 +2130,11 @@ testrunner.define({
 
     var test = q.create('<input id="foo" type="text" />');
     test.appendTo(this.sandbox[0]);
-    test.on("focus", callback, obj);
+    test.on("mousedown", callback, obj);
 
     window.setTimeout(function() {
-      test[0].focus();
+      var event = new qx.event.type.dom.Custom("mousedown");
+      test[0].dispatchEvent(event);
     }, 100);
 
     this.wait(function() {
@@ -2186,6 +2145,9 @@ testrunner.define({
 
   testEventMethods : function()
   {
+    if (!qx.core.Environment.get("event.dispatchevent")) {
+      this.skip("Requires dispatchEvent");
+    }
     var methods = ["getRelatedTarget", "preventDefault", "stopPropagation"];
 
     var obj = {
@@ -2200,10 +2162,11 @@ testrunner.define({
 
     var test = q.create('<input type="text"></input>');
     test.appendTo(this.sandbox[0]);
-    test.on("focus", callback, obj);
+    test.on("mousedown", callback, obj);
 
     window.setTimeout(function() {
-      test[0].focus();
+      var event = new qx.event.type.dom.Custom("mousedown");
+      test[0].dispatchEvent(event);
     }, 100);
 
     this.wait(function() {
@@ -2215,6 +2178,10 @@ testrunner.define({
 
   testCurrentTarget : function()
   {
+    if (!qx.core.Environment.get("event.dispatchevent")) {
+      this.skip("Requires dispatchEvent");
+    }
+
     var target;
 
     var callback = function(ev) {
@@ -2223,10 +2190,11 @@ testrunner.define({
 
     test = q.create('<input type="text" />');
     test.appendTo(this.sandbox[0]);
-    test.on("focus", callback, this);
+    test.on("mousedown", callback, this);
 
-    window.setTimeout(function(){
-      test[0].focus();
+    window.setTimeout(function() {
+      var event = new qx.event.type.dom.Custom("mousedown");
+      test[0].dispatchEvent(event);
     }, 100);
 
     this.wait(function() {
