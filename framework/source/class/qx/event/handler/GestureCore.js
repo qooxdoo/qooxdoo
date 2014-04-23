@@ -253,8 +253,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       }
 
       var gesture = this.__gesture[domEvent.pointerId];
-      delete this.__gesture[domEvent.pointerId];
-
       // delete the long tap
       this.__stopLongTapTimer(gesture);
 
@@ -282,6 +280,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       this.__fireTrack("trackend", domEvent, gesture.target);
 
       if (target !== gesture.target) {
+        delete this.__gesture[domEvent.pointerId];
         return;
       }
 
@@ -314,6 +313,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
           this._fireEvent(domEvent, "swipe", domEvent.target || target);
         }
       }
+
+      delete this.__gesture[domEvent.pointerId];
     },
 
 
