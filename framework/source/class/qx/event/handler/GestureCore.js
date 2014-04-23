@@ -226,9 +226,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
         if(!this.__isMultiPointerGesture) {
           this.__fireTrack("track", domEvent, gesture.target);
-          if (target !== gesture.target) {
-            this.__fireTrack("track", domEvent, target);
-          }
           this._fireRoll(domEvent, "touch", gesture.target);
         }
 
@@ -282,9 +279,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       );
 
       this.__fireTrack("trackend", domEvent, gesture.target);
-      if (target !== gesture.target) {
-        this.__fireTrack("trackend", domEvent, target);
-      }
 
       if (target !== gesture.target) {
         delete this.__gesture[domEvent.pointerId];
