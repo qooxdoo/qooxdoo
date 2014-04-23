@@ -25,7 +25,7 @@ module.exports = {
     /**
      * @see {@link https://github.com/caolan/nodeunit#sandbox-utility}
      */
-    setUp: function (done) {
+    setUp: function(done) {
       this.path = require('path');
 
       // sandbox resource to be able to call non-exported functions

@@ -79,8 +79,8 @@ q.Class.define("qxResource.Image",
     stringify: function() {
       imgEntry = {};
       imgEntry[this.__relpath] = [
-        this.__dimensions.width,
-        this.__dimensions.height,
+        (this.__dimensions !== null ? this.__dimensions.width : null),
+        (this.__dimensions !== null ? this.__dimensions.height : null),
         this.__format,
         this.__namespace,
       ];
