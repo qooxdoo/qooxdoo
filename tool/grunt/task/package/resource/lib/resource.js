@@ -18,7 +18,10 @@
 ***************************************************************************** */
 
 /**
- * Collect resource/asset paths, which includes globbing:
+ * @module resource
+ *
+ * @desc
+ * Collects resource/asset paths, which includes globbing:
  *
  * <ul>
  *   <li>images (e.g. png, jpg, gif ...)</li>
@@ -56,10 +59,23 @@ var qxResource = (qxResource || {
 // Privates
 //------------------------------------------------------------------------------
 
+/**
+ * Finds resource meta files.
+ *
+ * @param {Object} root - file path
+ * @returns {string[]} - globbed meta file entries
+ */
 function findResourceMetaFiles(root) {
   return glob.sync('**/*.meta', {cwd: root});
 }
 
+/**
+ * Combines the content of all provided meta files.
+ *
+ * @param {string[]} metaFilePaths
+ * @param {string} basePath
+ * @returns {Object}
+ */
 function processMetaFiles(metaFilePaths, basePath) {
   var combinedMap = {};
 
@@ -73,6 +89,12 @@ function processMetaFiles(metaFilePaths, basePath) {
   return combinedMap;
 }
 
+/**
+ * Throws an error if a namespace has no corresponding base path.
+ *
+ * @param {string[]} namespaces
+ * @param {Object} resBasePathMap - base paths by namespace
+ */
 function basePathForNsExistsOrError(namespaces, resBasePathMap) {
   for (var i = 0; i < namespaces.length; i++) {
     var ns = namespaces[i];
@@ -92,8 +114,10 @@ function basePathForNsExistsOrError(namespaces, resBasePathMap) {
  *  <li>'qxc.ui.Pane'  => 'qxc.ui'  / allNa: ['qxc.ui.logpane', ...]</li>
  * </ul>
  *
- * TODO: Copy from pkg 'qx-dependency' => 'dependency/lib/util.js'
- *       Maybe extract in own package 'qx-classid'.
+ * <p>
+ * TODO: Copy from pkg <code>qx-dependency</code> => <code>dependency/lib/util.js</code>.
+ *       Maybe extract in own package <code>qx-classid</code>.
+ * </p>
  *
  * @param {string} className
  * @param {string[]} allNamespaces
@@ -124,6 +148,13 @@ function namespaceFrom(className, allNamespaces) {
   return false;
 }
 
+/**
+ * Flattens assetPaths (originally by class ids) by their namespaces.
+ *
+ * @param {Object} assetPaths
+ * @param {string[]} namespaces
+ * @returns {Object} assetNsPaths
+ */
 function flattenAssetPathsByNamespace(assetPaths, namespaces) {
   var assetNsPaths = {};
   var posFirstDot = 0;
@@ -147,10 +178,13 @@ function flattenAssetPathsByNamespace(assetPaths, namespaces) {
   return assetNsPaths;
 }
 
-function filterUnwantedExts(assetNsBasePaths, exts) {
-  // return assetNsBasePaths;
-}
-
+/**
+ * Globs and sanitizes asset paths.
+ *
+ * @param {Object} assetNsPaths
+ * @param {Object} resBasePathMap - base paths by namespace
+ * @returns {Object} assetNsPaths
+ */
 function globAndSanitizePaths(assetNsPaths, resBasePathMap) {
   var toBeGlobbed = [];
   var ns = '';
@@ -264,6 +298,15 @@ function globAndSanitizePaths(assetNsPaths, resBasePathMap) {
   return assetNsBasesPaths;
 }
 
+/**
+ * Creates and populates resource objects.
+ *
+ * @param {string} kind - currently only 'image' gets a special treatment
+ * @param {string[]} resPaths
+ * @param {string} ns
+ * @param {string} basePath
+ * @returns {Array.<qxResource.Image|qxResource.Resource>}
+ */
 function createResources(kind, resPaths, ns, basePath) {
   var resources = [];
   var l = resPaths.length;
@@ -288,6 +331,12 @@ function createResources(kind, resPaths, ns, basePath) {
   return resources;
 }
 
+/**
+ * Combines all resource info maps to one object.
+ *
+ * @param {Array.<qxResource.Image|qxResource.Resource>} resources
+ * @returns {Object}
+ */
 function createResourceInfoMaps(resources) {
   var resInfo = {};
 
@@ -298,27 +347,35 @@ function createResourceInfoMaps(resources) {
   return resInfo;
 }
 
-function collectUsedMetaEntries(assetNsBasesPaths, resBasePathMap) {
+/**
+ * Checks all resources whether they are part of a metra entry and
+ * if so, collects their resource info map.
+ *
+ * @param {Object} assetNsPaths
+ * @param {Object} resBasePathMap - base paths by namespace
+ * @returns {Object} usedMetaEntries
+ */
+function collectUsedMetaEntries(assetNsPaths, resBasePathMap) {
   var usedMetaEntries = {};
   var ns1 = '';
   var ns2 = '';
 
-  for (ns1 in assetNsBasesPaths) {
-    for (ns2 in assetNsBasesPaths[ns1]) {
-      var l = assetNsBasesPaths[ns1][ns2].length;
+  for (ns1 in assetNsPaths) {
+    for (ns2 in assetNsPaths[ns1]) {
+      var l = assetNsPaths[ns1][ns2].length;
       var i = 0;
       var imgPath = '';
       var metaPaths = findResourceMetaFiles(resBasePathMap[ns2]);
       var metaEntries = processMetaFiles(metaPaths, resBasePathMap[ns2]);
 
       for (; i<l; i++) {
-        imgPath = assetNsBasesPaths[ns1][ns2][i];
+        imgPath = assetNsPaths[ns1][ns2][i];
         if (metaEntries[imgPath]) {
           usedMetaEntries[imgPath] = metaEntries[imgPath];
           // insert namespace
           usedMetaEntries[imgPath].splice(3, 0, ns2);
           // remove original entry
-          assetNsBasesPaths[ns1][ns2].splice(i, 1);
+          assetNsPaths[ns1][ns2].splice(i, 1);
         }
       }
     }
@@ -327,6 +384,13 @@ function collectUsedMetaEntries(assetNsBasesPaths, resBasePathMap) {
   return usedMetaEntries;
 }
 
+/**
+ * Expands asset macros within asset paths.
+ *
+ * @param {Object} assetNsPaths
+ * @param {Object} macroToExpansionMap - string replacement map (<code>s/{key}/{value}/</code>)
+ * @returns {Object} assetNsPaths
+ */
 function expandAssetMacros(assetNsPaths, macroToExpansionMap) {
   var macro = '';
   var ns = '';
@@ -355,85 +419,94 @@ function expandAssetMacros(assetNsPaths, macroToExpansionMap) {
 // Public Interface
 //------------------------------------------------------------------------------
 
-function flattenExpandAndGlobAssets(assets, resBasePathMap, macroToExpansionMap) {
-  var assetNsPaths = {};
-  var assetNsBasesPaths = {};
-  var namespaces = Object.keys(resBasePathMap);
-
-  // Note: not possible anymore when qx packages are introduced
-  // cause classes and resources then belong together
-  assetNsPaths = flattenAssetPathsByNamespace(assets, namespaces);
-
-  basePathForNsExistsOrError(namespaces, resBasePathMap);
-
-  assetNsPaths = expandAssetMacros(assetNsPaths, macroToExpansionMap);
-
-  // console.log(assetNsPaths);
-  assetNsBasesPaths = globAndSanitizePaths(assetNsPaths, resBasePathMap);
-  // console.log(JSON.stringify(assetNsBasesPaths, null, 2));
-
-  return assetNsBasesPaths;
-}
-
-function collectResources(assetNsBasesPaths, resBasePathMap, options) {
-  var opts = {};
-  var imgs = [];
-  var images = [];
-  var res = [];
-  var resources = [];
-  var usedMetaEntries = {};
-  var resStruct = {};
-  var imgsStruct = {};
-  var ns1 = '';
-  var ns2 = '';
-
-  if (!options) {
-    options = {};
-  }
-
-  // merge options and default values
-  opts = {
-    metaFiles: options.metaFiles === true ? true : false,
-  };
-
-  var isImg = function(path) {
-    return /(png|gif|jpe?g)$/.test(path);
-  };
-
-  var isNotImg = function(path) {
-    return !isImg(path);
-  };
-
-  if (opts.metaFiles) {
-    usedMetaEntries = collectUsedMetaEntries(assetNsBasesPaths, resBasePathMap);
-  }
-
-  for (ns1 in assetNsBasesPaths) {
-    for (ns2 in assetNsBasesPaths[ns1]) {
-      imgs = assetNsBasesPaths[ns1][ns2].filter(isImg);
-      images = images.concat(createResources('image', imgs, ns2, resBasePathMap[ns2]));
-
-      res = assetNsBasesPaths[ns1][ns2].filter(isNotImg);
-      resources = resources.concat(createResources('resource', res, ns2));
-    }
-  }
-
-  // create json structs
-  resStruct = createResourceInfoMaps(resources);
-  imgsStruct = createResourceInfoMaps(images);
-  q.Bootstrap.objectMergeWith(resStruct, imgsStruct);
-  if (opts.metaFiles) {
-    q.Bootstrap.objectMergeWith(resStruct, usedMetaEntries);
-  }
-
-  return resStruct;
-}
-
-//------------------------------------------------------------------------------
-// Exports
-//------------------------------------------------------------------------------
-
 module.exports = {
-  flattenExpandAndGlobAssets: flattenExpandAndGlobAssets,
-  collectResources: collectResources
+  /**
+   * Flattens (by namespace), expands (macros) and globs (resource paths) assets.
+   *
+   * @param {Object} assets
+   * @param {Object} resBasePathMap - base paths by namespace
+   * @param {Object} macroToExpansionMap - string replacement map (s/{key}/{value}/)
+   */
+  flattenExpandAndGlobAssets: function(assets, resBasePathMap, macroToExpansionMap) {
+    var assetNsPaths = {};
+    var assetNsBasesPaths = {};
+    var namespaces = Object.keys(resBasePathMap);
+
+    // Note: not possible anymore when qx packages are introduced
+    // cause classes and resources then belong together
+    assetNsPaths = flattenAssetPathsByNamespace(assets, namespaces);
+
+    basePathForNsExistsOrError(namespaces, resBasePathMap);
+
+    assetNsPaths = expandAssetMacros(assetNsPaths, macroToExpansionMap);
+
+    // console.log(assetNsPaths);
+    assetNsBasesPaths = globAndSanitizePaths(assetNsPaths, resBasePathMap);
+    // console.log(JSON.stringify(assetNsBasesPaths, null, 2));
+
+    return assetNsBasesPaths;
+  },
+
+  /**
+   * Collects resources as one big JSON resource struct/info map.
+   *
+   * @param {Object} assetNsPaths
+   * @param {Object} resBasePathMap - base paths by namespace*
+   * @param {Object} [options]
+   * @param {Object} [options.metaFiles=false] - whether to include meta entries
+   * @param {Object} - resource struct/map (i.e. JSON compatible) object
+   */
+  collectResources: function(assetNsBasesPaths, resBasePathMap, options) {
+    var opts = {};
+    var imgs = [];
+    var images = [];
+    var res = [];
+    var resources = [];
+    var usedMetaEntries = {};
+    var resStruct = {};
+    var imgsStruct = {};
+    var ns1 = '';
+    var ns2 = '';
+
+    if (!options) {
+      options = {};
+    }
+
+    // merge options and default values
+    opts = {
+      metaFiles: options.metaFiles === true ? true : false,
+    };
+
+    var isImg = function(path) {
+      return /(png|gif|jpe?g)$/.test(path);
+    };
+
+    var isNotImg = function(path) {
+      return !isImg(path);
+    };
+
+    if (opts.metaFiles) {
+      usedMetaEntries = collectUsedMetaEntries(assetNsBasesPaths, resBasePathMap);
+    }
+
+    for (ns1 in assetNsBasesPaths) {
+      for (ns2 in assetNsBasesPaths[ns1]) {
+        imgs = assetNsBasesPaths[ns1][ns2].filter(isImg);
+        images = images.concat(createResources('image', imgs, ns2, resBasePathMap[ns2]));
+
+        res = assetNsBasesPaths[ns1][ns2].filter(isNotImg);
+        resources = resources.concat(createResources('resource', res, ns2));
+      }
+    }
+
+    // create json structs
+    resStruct = createResourceInfoMaps(resources);
+    imgsStruct = createResourceInfoMaps(images);
+    q.Bootstrap.objectMergeWith(resStruct, imgsStruct);
+    if (opts.metaFiles) {
+      q.Bootstrap.objectMergeWith(resStruct, usedMetaEntries);
+    }
+
+    return resStruct;
+  }
 };
