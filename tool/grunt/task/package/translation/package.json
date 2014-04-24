@@ -30,13 +30,15 @@
   },
   "scripts": {
     "test": "./node_modules/.bin/nodeunit test",
+    "doc": "./node_modules/.bin/jsdoc lib -d api",
     "stdout": "node test/stdout/stdout.js"
   },
   "dependencies": {
     "pofile": "~0.2.6"
   },
   "devDependencies": {
-    "nodeunit": "~0.8.6"
+    "nodeunit": "~0.8.6",
+    "jsdoc": "~3.3.0"
   },
   "//": "before publishing create README.md then this can be removed",
   "private": true
