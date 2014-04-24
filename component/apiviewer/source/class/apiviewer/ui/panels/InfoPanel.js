@@ -1300,7 +1300,10 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       });
       q("[onclick]", el).forEach(function(item) {
         q(item).on("tap", item.onclick)
-        .removeAttribute("onclick");
+        .removeAttribute("onclick")
+        .on("click", function(e) {
+          e.preventDefault();
+        });
       });
     }
   },
