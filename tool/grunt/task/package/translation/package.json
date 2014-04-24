@@ -29,13 +29,14 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "test": "./node_modules/nodeunit/bin/nodeunit test"
+    "test": "./node_modules/.bin/nodeunit test",
+    "stdout": "node test/stdout/stdout.js"
   },
   "dependencies": {
     "pofile": "~0.2.6"
   },
   "devDependencies": {
-    "nodeunit": "~0.8.0"
+    "nodeunit": "~0.8.6"
   },
   "//": "before publishing create README.md then this can be removed",
   "private": true
