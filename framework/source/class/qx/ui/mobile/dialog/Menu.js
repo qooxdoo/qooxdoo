@@ -213,7 +213,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
      * @return {qx.ui.mobile.container.Scroll} the scroll container which contains the selectionList of this menu.
      */
     _createListScroller : function(selectionList) {
-      var listScroller = new qx.ui.mobile.container.Scroll();
+      var listScroller = new qx.ui.mobile.container.Scroll({"snap":".list-item"});
       listScroller.add(selectionList, {
         flex: 1
       });
