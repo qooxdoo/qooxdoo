@@ -28,8 +28,8 @@ module.exports = {
   getTranslationFor: function (test) {
     var locale = 'de';
     var transPaths = [
-      "../../../../../framework/source/translation",
-      "./test/data",
+      '../../../../../framework/source/translation',
+      './test/data',
       'i/dont/exist'
     ];
     var translations = this.translation.getTranslationFor(locale, transPaths);

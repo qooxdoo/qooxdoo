@@ -17,7 +17,7 @@
 
 ***************************************************************************** */
 
-"use strict";
+'use strict';
 
 /**
  * Wrapper for po files which exposes tailored data for qooxdoo translation.
@@ -28,8 +28,8 @@
 //------------------------------------------------------------------------------
 
 // native
-var fs = require("fs");
-var path = require("path");
+var fs = require('fs');
+var path = require('path');
 
 // third party
 var PO = require('pofile');
@@ -40,15 +40,15 @@ var PO = require('pofile');
 //------------------------------------------------------------------------------
 
 function getTranslationFor(locale, tranlationPaths) {
-  var contents = "";
+  var contents = '';
   var po = {};
   var i = 0;
   var j = 0;
   var l = tranlationPaths.length;
   var l2 = 0;
-  var curPath = "";
-  var curPathToPoFile = "";
-  var poExt = ".po";
+  var curPath = '';
+  var curPathToPoFile = '';
+  var poExt = '.po';
   var translationMap = {};
   var result = {};
   var item;
@@ -57,7 +57,7 @@ function getTranslationFor(locale, tranlationPaths) {
     curPath = tranlationPaths[i];
     curPathToPoFile = path.join(curPath, locale) + poExt;
     if (!fs.existsSync(curPathToPoFile)) {
-      // throw Error("Can't read *.po file at: " + curPathToPoFile);
+      // throw Error('Can't read *.po file at: ' + curPathToPoFile);
       continue;
     }
 
@@ -66,7 +66,7 @@ function getTranslationFor(locale, tranlationPaths) {
     // the Gernerator only uses the matching trx() calls of the pofiles
     // belonging to the framework, which is pretty expensive -
     // a compromise (if needed) could be to add references
-    // to the po files ("#: reference")
+    // to the po files ('#: reference')
     po = PO.parse(contents);
 
     l2 = po.items.length;
