@@ -448,7 +448,7 @@ module.exports = {
   },
 
   /**
-   * Collects resources as one big JSON resource struct/info map.
+   * Collects resources as one big resource struct/info map.
    *
    * @param {Object} assetNsPaths
    * @param {Object} resBasePathMap - base paths by namespace*
