@@ -61,6 +61,8 @@ qx.Class.define("mobileshowcase.page.Event",
     __vendorPrefix: "webkit",
     __logoLeft: -130,
     __logoTop: -130,
+    __logoStartLeft: 0,
+    __logoStartTop: 0,
     __pointers: null,
 
 

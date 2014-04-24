@@ -370,7 +370,6 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
      * @param index {Integer}, the index of the listItem to which the listScroller should scroll to.
      */
     scrollToItem : function(index) {
-      var scrollY = 0;
       if (index !== null && this.__selectionList.getModel() != null) {
         var listItems = qxWeb("#"+this.__listScroller.getId()+ " .list-item");
         var targetListItemElement = listItems[index];
