@@ -21,20 +21,24 @@
 
 module.exports = {
   setUp: function(done) {
-    // setup here if necessary
+    this.translation = require('lib/translation.js');
     done();
   },
 
   getTranslationFor: function (test) {
-    var translation = require('../lib/translation.js');
+    var locale = 'de';
     var transPaths = [
       "../../../../../framework/source/translation",
-      "./test/data"
+      "./test/data",
+      'i/dont/exist'
     ];
+    var translations = this.translation.getTranslationFor(locale, transPaths);
 
-    console.log(translation.getTranslationFor("de", transPaths));
+    test.ok('Hello world' in translations);
+    test.ok('Hello worlds' in translations);
+    test.ok('Hello another world' in translations);
+    test.ok('key_full_Escape' in translations);
 
-    test.ok(true);
     test.done();
   }
 };
