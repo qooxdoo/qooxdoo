@@ -731,6 +731,15 @@ q.ready(function() {
     });
   };
 
+  var getItemParent = function(itemName) {
+    var parent = null;
+    var ns = itemName.split(".");
+    if (ns.length > 1) {
+      ns.pop();
+      parent = ns.join(".");
+    }
+    return parent;
+  };
 
   var renderMethod = function(method, prefix) {
     // skip internal methods
@@ -744,7 +753,8 @@ q.ready(function() {
     data.module = getModuleName(method.attributes.sourceClass);
 
     // add the description
-    data.desc = parse(getByType(method, "desc").attributes.text) || "";
+    var parent = getItemParent(data.name);
+    data.desc = parse(getByType(method, "desc").attributes.text || "", parent);
 
     // add link to overridden method
     if (data.desc == "" && method.attributes.docFrom) {
@@ -756,7 +766,7 @@ q.ready(function() {
     // add the return type
     var returnType = getByType(method, "return");
     if (returnType) {
-      data.returns = {desc: parse(getByType(returnType, "desc").attributes.text || "")};
+      data.returns = {desc: parse(getByType(returnType, "desc").attributes.text || "", parent)};
       data.returns.types = [];
       getByType(returnType, "types").children.forEach(function(item) {
         var type = item.attributes.type;
@@ -771,7 +781,7 @@ q.ready(function() {
     for (var j=0; j < params.children.length; j++) {
       var param = params.children[j];
       var paramData = {name: param.attributes.name};
-      paramData.desc = parse(getByType(param, "desc").attributes.text || "");
+      paramData.desc = parse(getByType(param, "desc").attributes.text || "", parent);
       if (param.attributes.defaultValue) {
         paramData.defaultValue = param.attributes.defaultValue;
       }
@@ -946,7 +956,9 @@ q.ready(function() {
       linkTarget = "#widget.set" + upperType;
     }
     module.append(q.create("<h2>" + upperType + " <a title='More information on " + type + "' class='info' href='" + linkTarget + "'>i</a></h2>"));
-    var desc = parse(data[type].desc);
+    var parent = data.classname.split(".");
+    parent = parent.pop().toLowerCase();
+    var desc = parse(data[type].desc, parent);
     module.append(q.create("<div>").setHtml(desc).addClass("widget-settings"));
   };
 
