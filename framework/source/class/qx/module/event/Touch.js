@@ -20,8 +20,7 @@
 /**
  * Normalization for touch events. For cross-device applications that
  * support both mouse and touchscreen interaction, consider using
- * <a href="#Pointer">Pointer</a> and/or <a href="#Gesture">Gesture</a> events.
- *
+ * <a href="#Pointer">Pointer</a> and/or Gesture events (e.g. <a href="Tap"></a>).
  * @require(qx.module.Event)
  *
  * @group (Event_Normalization)

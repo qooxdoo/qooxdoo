@@ -402,6 +402,16 @@ q.ready(function() {
     });
   };
 
+  var getItemParent = function(itemName) {
+    var parent = null;
+    var ns = itemName.split(".");
+    if (ns.length > 1) {
+      ns.pop();
+      parent = ns.join(".");
+    }
+    return parent;
+  };
+
 
   var renderMethod = function(method, prefix) {
     // add the name
@@ -411,7 +421,8 @@ q.ready(function() {
     data.module = Data.getModuleName(method.attributes.sourceClass);
 
     // add the description
-    data.desc = parse(Data.getByType(method, "desc").attributes.text) || "";
+    var parent = getItemParent(data.name);
+    data.desc = parse(Data.getByType(method, "desc").attributes.text || "", parent);
 
     // add link to overridden method
     if (data.desc == "" && method.attributes.docFrom) {
@@ -423,7 +434,7 @@ q.ready(function() {
     // add the return type
     var returnType = Data.getByType(method, "return");
     if (returnType) {
-      data.returns = {desc: parse(Data.getByType(returnType, "desc").attributes.text || "")};
+      data.returns = {desc: parse(Data.getByType(returnType, "desc").attributes.text || "", parent)};
       data.returns.types = [];
       Data.getByType(returnType, "types").children.forEach(function(item) {
         var type = item.attributes.type;
@@ -441,7 +452,7 @@ q.ready(function() {
         name: param.attributes.name,
         optional: param.attributes.optional
       };
-      paramData.desc = parse(Data.getByType(param, "desc").attributes.text || "");
+      paramData.desc = parse(Data.getByType(param, "desc").attributes.text || "", parent);
       if (param.attributes.defaultValue) {
         paramData.defaultValue = param.attributes.defaultValue;
       }
@@ -524,7 +535,9 @@ q.ready(function() {
       linkTarget = "#widget.set" + upperType;
     }
     module.append(q.create("<h2>" + upperType + " <a title='More information on " + type + "' class='info' href='" + linkTarget + "'>i</a></h2>"));
-    var desc = parse(data[type]);
+    var parent = data.fileName.split(".");
+    parent = parent.pop().toLowerCase();
+    var desc = parse(data[type], parent);
     module.append(q.create("<div>").setHtml(desc).addClass("widget-settings"));
   };
 
@@ -532,10 +545,17 @@ q.ready(function() {
   /**
    * PARSER
    */
-  var parse = function(text) {
+  var parse = function(text, parent) {
     if (!text) {
       return;
     }
+
+    if (!parent) {
+      parent = "";
+    }
+
+    // @links: internal (within module)
+    text = text.replace(/\{@link\s+#(.*?)\}/g, "<code><a class='hey' href='#" + parent + ".$1'>" + parent + ".$1()</a></code>");
 
     // @links: methods
     text = text.replace(/\{@link .*?#(.*?)\}/g, "<code><a href='#.$1'>.$1()</a></code>");
