@@ -123,11 +123,17 @@ qx.Class.define("qx.event.type.Pointer",
     getOriginalTarget : function() {
       if (this._native && this._native._original) { // fake pointer events
         var orig = this._native._original;
-        // touch events have a wrong target compared to mouse events
-        if (orig.type.indexOf("touch") == 0) {
-          if (orig.changedTouches[0]) {
-            return document.elementFromPoint(orig.changedTouches[0].clientX, orig.changedTouches[0].clientY);
+        // In IE8, the original event can be a DispCEventObj which throws an
+        // exception when trying to access its properties.
+        try {
+          // touch events have a wrong target compared to mouse events
+          if (orig.type.indexOf("touch") == 0) {
+            if (orig.changedTouches[0]) {
+              return document.elementFromPoint(orig.changedTouches[0].clientX, orig.changedTouches[0].clientY);
+            }
           }
+        } catch(ex) {
+          return qx.bom.Event.getTarget(this._native);
         }
         return qx.bom.Event.getTarget(orig);
       } else if (this._native) { // native pointer events
