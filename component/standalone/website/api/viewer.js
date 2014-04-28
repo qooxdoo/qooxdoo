@@ -555,7 +555,7 @@ q.ready(function() {
     }
 
     // @links: internal (within module)
-    text = text.replace(/\{@link\s+#(.*?)\}/g, "<code><a class='hey' href='#" + parent + ".$1'>" + parent + ".$1()</a></code>");
+    text = text.replace(/\{@link\s+#(.*?)\}/g, "<code><a href='#" + parent + ".$1'>" + parent + ".$1()</a></code>");
 
     // @links: methods
     text = text.replace(/\{@link .*?#(.*?)\}/g, "<code><a href='#.$1'>.$1()</a></code>");
