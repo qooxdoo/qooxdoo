@@ -108,12 +108,12 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     {
       if (this.__scroll && this._isScrollable()) {
         // Normalize scrollable values
-        var lowerLimitY = this.getContentElement().scrollHeight - this.getContainerElement().offsetHeight;
+        var lowerLimitY = qx.bom.element.Dimension.getHeight(this._getScrollContentElement()) - this.getContainerElement().offsetHeight;
         if (y > lowerLimitY) {
           y = lowerLimitY;
         }
 
-        var lowerLimitX = this.getContentElement().scrollWidth - this.getContainerElement().offsetWidth;
+        var lowerLimitX = qx.bom.element.Dimension.getWidth(this._getScrollContentElement()) - this.getContainerElement().offsetWidth;
         if (x > lowerLimitX) {
           x = lowerLimitX;
         }

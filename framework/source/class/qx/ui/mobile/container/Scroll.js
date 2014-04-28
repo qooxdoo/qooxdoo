@@ -185,6 +185,12 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
 
       var parentWidth = this.getContainerElement().clientWidth;
       var contentWidth = this.getContentElement().scrollWidth;
+
+      var scrollContentElement = this._getScrollContentElement();
+      if(scrollContentElement) {
+        contentWidth = qx.bom.element.Dimension.getWidth(scrollContentElement);
+      }
+
       return parentWidth < contentWidth;
     },
 
@@ -200,6 +206,12 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
 
       var parentHeight = this.getContainerElement().clientHeight;
       var contentHeight = this.getContentElement().scrollHeight;
+
+      var scrollContentElement = this._getScrollContentElement();
+      if(scrollContentElement) {
+        contentHeight = qx.bom.element.Dimension.getHeight(scrollContentElement);
+      }
+
       return parentHeight < contentHeight;
     },
 
