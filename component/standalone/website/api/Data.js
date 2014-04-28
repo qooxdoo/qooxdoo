@@ -435,29 +435,32 @@ var Data = q.define({
     _extractPluginApi : function() {
       for (var moduleName in this.__data) {
         var moduleData = this.__data[moduleName];
-        if (moduleData.static) {
-          var pluginModuleName;
-          for (var i=moduleData.static.length - 1; i>=0; i--) {
-            var method = moduleData.static[i];
-            if (method.attributes.name.indexOf("$") === 0) {
-              method.attributes.plugin = true;
-              pluginModuleName = moduleName + "_Plugin_API";
-              if (!this.__data[pluginModuleName]) {
-                this.__data[pluginModuleName] = {
-                  member: [],
-                  static: [],
-                  group: "Plugin_API"
-                };
+        ["static", "member"].forEach(function(type) {
+          if (moduleData[type]) {
+            var pluginModuleName;
+            for (var i=moduleData[type].length - 1; i>=0; i--) {
+              var method = moduleData[type][i];
+              if (method.attributes.name.indexOf("$") === 0) {
+                method.attributes.plugin = true;
+                pluginModuleName = moduleName + "_Plugin_API";
+                if (!this.__data[pluginModuleName]) {
+                  this.__data[pluginModuleName] = {
+                    member: [],
+                    static: [],
+                    group: "Plugin_API"
+                  };
+                }
+                method.attributes.group = "Plugin_API";
+                this.__data[pluginModuleName][type].push(method);
+                moduleData[type].splice(i, 1);
               }
-              method.attributes.group = "Plugin_API";
-              this.__data[pluginModuleName].static.push(method);
-              moduleData.static.splice(i, 1);
+            }
+            if (pluginModuleName) {
+              this.__data[pluginModuleName][type].sort(Data.__sortMethods);
             }
           }
-          if (pluginModuleName) {
-            this.__data[pluginModuleName].static.sort(Data.__sortMethods);
-          }
-        }
+        }.bind(this));
+
       }
     },
 
