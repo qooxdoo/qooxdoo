@@ -21,7 +21,7 @@
 
 module.exports = {
   setUp: function(done) {
-    this.translation = require('lib/translation.js');
+    this.translation = require('../lib/translation.js');
     done();
   },
 
