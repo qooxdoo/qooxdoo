@@ -83,11 +83,7 @@ qx.Class.define("qx.application.AbstractGui",
       var rule = ["touch-action: none;",
       "-ms-touch-action: none;",
       "-webkit-touch-callout: none;",
-      "-webkit-user-select: none;",
-      "-moz-user-select: none;",
-      "-ms-user-select: none;",
       "-ms-touch-select: none;",
-      "user-select: none;",
       "-webkit-tap-highlight-color: rgba(0,0,0,0);",
       "-webkit-tap-highlight-color: transparent;"].join("");
       qx.ui.style.Stylesheet.getInstance().addRule("*", rule);
