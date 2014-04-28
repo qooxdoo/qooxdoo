@@ -644,45 +644,6 @@ q.ready(function() {
     }
   };
 
-  var fixLinks = true;
-  // replace links to qx classes with internal targets, e.g.
-  // #qx.bom.rest.Resource -> #Resource
-  var fixInternalLinks = q.func.debounce(function() {
-    q("a").forEach(function(lnk) {
-      var href = lnk.getAttribute("href");
-      if (href.indexOf("#qx") === 0) {
-        // target is a qx class
-        var target = href.substr(1);
-        var tmp = href.split(".");
-        href = "#" + tmp[tmp.length - 1];
-        lnk.setAttribute("href", href);
-        lnk.innerHTML = lnk.innerHTML.replace(target, href.substr(1));
-      } else if (href.indexOf("#") === 0) {
-        // relative method link (within module namespace)
-        var selector = href.replace(/\./g, "\\.").replace(/\$/g, "\\$");
-        if (q(selector).length === 0) {
-          lnk = q(lnk);
-          var redir;
-          var parentModule = lnk.getAncestors(".module");
-          parentModule.find(".method").forEach(function(meth) {
-            var methodName = meth.id.split(".");
-            methodName = methodName[methodName.length - 1];
-            if (methodName == href.substring(2)) {
-              redir = meth.id;
-            }
-          });
-
-          if (redir) {
-            lnk.setAttribute("href", "#" + redir);
-          } else {
-            // no redirect found
-            lnk.setAttribute("href", "");
-          }
-        }
-      }
-    });
-  }, 200);
-
   var highlightNavItem = function() {
     var hash = window.location.hash,
         navItems = q("."+convertNameToCssClass(hash, "nav-"));
