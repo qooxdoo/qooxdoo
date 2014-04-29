@@ -84,6 +84,20 @@ qx.Class.define("qx.event.type.Mouse",
     /**
      * @type {Map} Contains the button ID to identifier data.
      *
+     * @lint ignoreReferenceField(__buttonsDom3EventModel)
+     */
+    __buttonsDom3EventModel :
+    {
+      0 : "none",
+      1 : "left",
+      2 : "right",
+      4 : "middle"
+    },
+
+
+    /**
+     * @type {Map} Contains the button ID to identifier data.
+     *
      * @lint ignoreReferenceField(__buttonsMshtmlEventModel)
      */
     __buttonsMshtmlEventModel :
@@ -142,6 +156,11 @@ qx.Class.define("qx.event.type.Mouse",
 
         default:
           if (!(qx.core.Environment.get("engine.name") == "mshtml" && qx.core.Environment.get("browser.documentmode") <= 8)) {
+            // if the button value is -1, we should use the DOM level 3 .buttons attribute
+            // the value -1 is only set for pointer events: http://msdn.microsoft.com/en-us/library/ie/ff974877(v=vs.85).aspx
+            if (this._native.button === -1) {
+              return this.__buttonsDom3EventModel[this._native.buttons] || "none";
+            }
             return this.__buttonsDom2EventModel[this._native.button] || "none";
           } else {
             return this.__buttonsMshtmlEventModel[this._native.button] || "none";
