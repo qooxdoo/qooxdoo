@@ -100,7 +100,17 @@ qx.Class.define("qx.event.handler.DragDrop",
   },
 
 
-
+  properties : {
+    /**
+     * Widget instance of the drag & drop cursor. If non is given, the default
+     * {@link qx.ui.core.DragDropCursor} will be used.
+     */
+    cursor : {
+      check : "qx.ui.core.Widget",
+      nullable : true,
+      init : null
+    }
+  },
 
 
   /*
@@ -569,7 +579,10 @@ qx.Class.define("qx.event.handler.DragDrop",
       // find current hovered dropable
       var doc = this.__manager.getWindow().document;
       var el = doc.elementFromPoint(e.getDocumentLeft(), e.getDocumentTop());
-      var cursor = qx.ui.core.DragDropCursor.getInstance();
+      var cursor = this.getCursor();
+      if (!cursor) {
+        cursor = qx.ui.core.DragDropCursor.getInstance();
+      }
       var cursorEl = cursor.getContentElement().getDomElement();
 
       if (el !== cursorEl) {
