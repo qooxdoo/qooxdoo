@@ -26,19 +26,19 @@ qx.Bootstrap.define("qx.util.Wheel", {
      * The maximal measured scroll wheel delta.
      * @internal
      */
-    MAXSCROLL : null,
+    MAXSCROLL: null,
 
     /**
      * The minimal measured scroll wheel delta.
      * @internal
      */
-    MINSCROLL : null,
+    MINSCROLL: null,
 
     /**
      * The normalization factor for the speed calculation.
      * @internal
      */
-    FACTOR : 1,
+    FACTOR: 1,
 
 
     /**
@@ -52,75 +52,56 @@ qx.Bootstrap.define("qx.util.Wheel", {
      */
     getDelta : function(domEvent, axis) {
       // default case
-      if(axis === undefined){
-
-        if(delta === undefined){
-
+      if (axis === undefined) {
+        if (delta === undefined) {
           // default case
           var delta = -domEvent.wheelDelta;
-          if(domEvent.wheelDelta === undefined){
-
+          if (domEvent.wheelDelta === undefined) {
             delta = domEvent.detail;
-          };
-        };
+          }
+        }
         return this.__normalize(delta);
-      };
+      }
+
       // get the x scroll delta
-      if(axis === "x"){
-
+      if (axis === "x") {
         var x = 0;
-        if(domEvent.wheelDelta !== undefined){
-
-          if(domEvent.wheelDeltaX !== undefined){
-
+        if (domEvent.wheelDelta !== undefined) {
+          if (domEvent.wheelDeltaX !== undefined) {
             x = domEvent.wheelDeltaX ? this.__normalize(-domEvent.wheelDeltaX) : 0;
-          };
+          }
         } else {
-
-          if(domEvent.axis && domEvent.axis == domEvent.HORIZONTAL_AXIS){
-
-            if((domEvent.detail !== undefined) && (domEvent.detail > 0)){
-
+          if (domEvent.axis && domEvent.axis == domEvent.HORIZONTAL_AXIS) {
+            if ((domEvent.detail !== undefined) && (domEvent.detail > 0)) {
               x = this.__normalize(domEvent.detail);
-
-            }else if(domEvent.deltaX !== undefined){
-
+            } else if (domEvent.deltaX !== undefined) {
               x = this.__normalize(domEvent.deltaX);
             }
-          };
-        };
+          }
+        }
         return x;
-      };
+      }
+
       // get the y scroll delta
-      if(axis === "y"){
-
+      if (axis === "y") {
         var y = 0;
-        if(domEvent.wheelDelta !== undefined){
-
-          if(domEvent.wheelDeltaY !== undefined){
-
+        if (domEvent.wheelDelta !== undefined) {
+          if (domEvent.wheelDeltaY !== undefined) {
             y = domEvent.wheelDeltaY ? this.__normalize(-domEvent.wheelDeltaY) : 0;
           } else {
-
             y = this.__normalize(-domEvent.wheelDelta);
-          };
+          }
         } else {
-
-          if(!(domEvent.axis && domEvent.axis == domEvent.HORIZONTAL_AXIS)){
-
-            if((domEvent.detail !== undefined) && (domEvent.detail > 0)){
-
+          if (!(domEvent.axis && domEvent.axis == domEvent.HORIZONTAL_AXIS)) {
+            if ((domEvent.detail !== undefined) && (domEvent.detail > 0)) {
               y = this.__normalize(domEvent.detail);
-
-            }else if(domEvent.deltaY !== undefined){
-
+            } else if (domEvent.deltaY !== undefined) {
               y = this.__normalize(domEvent.deltaY);
             }
           }
-
-        };
+        }
         return y;
-      };
+      }
       // default case, return 0
       return 0;
     },
