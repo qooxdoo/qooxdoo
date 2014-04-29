@@ -87,7 +87,9 @@
   @extend .list-item;
   @include background($list-group-header-background);
   @include background-clip(padding-box);
+  padding: rem(5) rem(25) rem(5) rem(10);
   height: $list-group-header-height;
+  line-height: $list-group-header-height;
   color: $list-group-header-color;
 }
 
