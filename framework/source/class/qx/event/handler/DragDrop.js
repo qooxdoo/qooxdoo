@@ -564,14 +564,6 @@ qx.Class.define("qx.event.handler.DragDrop",
             this.__fireEvent("dragleave", this.__dropTarget, this.__dragTarget, false, e);
           }
 
-          // force valid drop and reevaluate current action
-          this.__validDrop = true;
-          var keys = this.__keys;
-          keys.Control = e.isCtrlPressed();
-          keys.Shift = e.isShiftPressed();
-          keys.Alt = e.isAltPressed();
-          this.__detectAction(); 
-
           this.__validDrop = this.__fireEvent("dragover", dropable, this.__dragTarget, true, e);
           this.__dropTarget = dropable;
         } 
