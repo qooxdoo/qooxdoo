@@ -261,7 +261,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
      *
      * @return {Array} an array with x,y offset.
      */
-    _getScrollOffset : function(data, row)
+    _getScrollOffset : function()
     {
       var delegate = this.getDelegate();
       if (delegate != null && delegate.getScrollOffset) {
