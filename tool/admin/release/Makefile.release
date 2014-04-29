@@ -37,6 +37,7 @@ CMD_NICE = nice -n 10
 export PYTHONPATH = $(CURDIR)/tool/pylib
 PATH_TOOL_BIN = $(CURDIR)/tool/bin
 PATH_TOOL_RESOURCES = $(CURDIR)/tool/admin/www/resources
+PATH_FRAMEWORK_RESOURCES = $(CURDIR)/framework/source/resource/qx/mobile
 CMD_PYTHON = $(CMD_NICE) python -t -O
 CMD_REMOVE = $(CMD_NICE) rm -rf
 CMD_MV = $(CMD_NICE) mv
@@ -51,7 +52,9 @@ CMD_ZIP_CREATE = $(CMD_ZIP) -rq
 CMD_ANY2UNIX = | xargs --null $(CMD_PYTHON) tool/pylib/misc/textutil.py --command any2Unix
 CMD_MKEXEC = $(CMD_NICE) chmod a+rx
 CMD_SCSS = $(CMD_NICE) sass
-CMD_SCSS_OPTS = --no-cache --style expanded
+CMD_SCSS_WEBSITE_OPTS = --no-cache --style expanded
+CMD_SCSS_FRAMEWORK_OPTS = --no-cache --style compressed
+
 
 ifeq ($(DO_RELEASE),)
 # --------  DEVELOPMENT SETTINGS --------------------------------------
@@ -536,7 +539,7 @@ tutorials-publish:
 	done;
 
 ################################################################################
-# RESOURCE TARGETS
+# RESOURCE *WEBSITE* TARGETS
 #
 # Re-creates files in the distribution directories of tool/admin/www/resources
 # which will then be published to the production websites (among others).
@@ -550,7 +553,7 @@ resources-build-css:
 	@echo "  * Compiling style sheets..."
 	@cd $(PATH_TOOL_RESOURCES)/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
 		echo "     - $$SCSS_FILE..."; \
-		$(CMD_SCSS) $(CMD_SCSS_OPTS) $$SCSS_FILE ../stylesheets/$${SCSS_FILE/%.scss/.css}; \
+		$(CMD_SCSS) $(CMD_SCSS_WEBSITE_OPTS) $$SCSS_FILE ../stylesheets/$${SCSS_FILE/%.scss/.css}; \
 	done
 
 ##
@@ -573,6 +576,27 @@ resources-publish:
 	@echo "  * Syncing resources..."
 	@$(CMD_SYNC_ONLINE) $(PATH_TOOL_RESOURCES)/stylesheets/ $(STAGING_HOST):/var/www/qooxdoo/resources/stylesheets/ || exit 1;
 	@$(CMD_SYNC_ONLINE) $(PATH_TOOL_RESOURCES)/javascripts/ $(STAGING_HOST):/var/www/qooxdoo/resources/javascripts/ || exit 1;
+
+################################################################################
+# RESOURCE *FRAMEWORK* TARGETS
+#
+# Create build artifacts from resource files (e.g. scss -> css compilation)
+################################################################################
+
+resources-framework-build: resources-framework-build-css
+
+resources-framework-build-css:
+	@echo "  * Compiling style sheets..."
+	@cd $(PATH_FRAMEWORK_RESOURCES)/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
+		echo "     - $$SCSS_FILE..."; \
+		$(CMD_SCSS) $(CMD_SCSS_FRAMEWORK_OPTS) --load-path ../../scss $$SCSS_FILE ../css/$${SCSS_FILE/%.scss/.css}; \
+	done
+
+resources-framework-check:
+	@cd $(PATH_FRAMEWORK_RESOURCES)/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
+		F="../css/$${SCSS_FILE/%.scss/.css}"; \
+		[ $$F -nt $$SCSS_FILE ] || ( echo "Missing $$F; run 'make resources-framework-build-css' first!"; exit 1 ) || exit 1; \
+	done
 
 ################################################################################
 # DOCUMENTATION TARGETS
@@ -770,7 +794,7 @@ components-publish:
 # PUBLISH TARGETS
 ################################################################################
 
-publish-build: build-apps build-components publish-build-q-zip tutorials-build framework-build resources-build manual-build
+publish-build: build-apps build-components publish-build-q-zip tutorials-build framework-build resources-build resources-framework-build manual-build
 
 ##
 # "q-core.js" -> "q-core-3.1.js" (also for .min.js files)
@@ -801,7 +825,7 @@ publish-build-q-zip:
 		rm -fr $$D; \
 	)
 
-publish-check: check-banner check-apps check-components framework-check manual-check resources-check
+publish-check: check-banner check-apps check-components framework-check manual-check resources-check resources-framework-check
 	@echo "    - Looks good"
 
 check-banner:
