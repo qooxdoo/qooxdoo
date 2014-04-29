@@ -107,17 +107,7 @@ qx.Class.define("qx.ui.mobile.form.Input",
       } else {
         setTimeout(function() {
           scrollContainer.scrollToWidget(this.getLayoutParent(), 0);
-
-          if (qx.core.Environment.get("os.name") == "android") {
-            var old = this._getCaretPosition();
-            window.getSelection().empty();
-
-            setTimeout(function() {
-              this._setCaretPosition(old);
-            }.bind(this), 50);
-          }
-
-        }.bind(this), 0);
+        }.bind(this), 500);
       }
     }
   },
