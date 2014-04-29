@@ -576,7 +576,7 @@ qx.Class.define("qx.event.handler.DragDrop",
         this.clearSession();
       }
 
-      // find current hovered dropable
+      // find current hovered droppable
       var doc = this.__manager.getWindow().document;
       var el = doc.elementFromPoint(e.getDocumentLeft(), e.getDocumentTop());
       var cursor = this.getCursor();
@@ -586,21 +586,21 @@ qx.Class.define("qx.event.handler.DragDrop",
       var cursorEl = cursor.getContentElement().getDomElement();
 
       if (el !== cursorEl) {
-        var dropable = this.__findDroppable(el);
+        var droppable = this.__findDroppable(el);
 
         // new drop target detected
-        if (dropable && dropable != this.__dropTarget) {
+        if (droppable && droppable != this.__dropTarget) {
           // fire dragleave for previous drop target
           if (this.__dropTarget) {
             this.__fireEvent("dragleave", this.__dropTarget, this.__dragTarget, false, e);
           }
 
-          this.__validDrop = this.__fireEvent("dragover", dropable, this.__dragTarget, true, e);
-          this.__dropTarget = dropable;
+          this.__validDrop = this.__fireEvent("dragover", droppable, this.__dragTarget, true, e);
+          this.__dropTarget = droppable;
         }
 
         // only previous drop target
-        else if (!dropable && this.__dropTarget) {
+        else if (!droppable && this.__dropTarget) {
           this.__fireEvent("dragleave", this.__dropTarget, this.__dragTarget, false, e);
           this.__dropTarget = null;
           this.__validDrop = false;
