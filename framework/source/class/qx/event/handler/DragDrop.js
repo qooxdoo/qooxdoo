@@ -135,6 +135,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     __validDrop : false,
     __validAction : false,
     __dragTargetWidget : null,
+    __startTargets : null,
 
 
     /*
