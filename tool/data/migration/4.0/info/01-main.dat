@@ -84,3 +84,12 @@
 \b_onBrightnessPaneMouseWheel\b=Please check if you override the framework function '_onBrightnessPaneMouseWheel'. A complete list of API changes can be found in the release notes.
 \b_onHueSaturationPaneMouseWheel\b=Please check if you override the framework function '_onHueSaturationPaneMouseWheel'. A complete list of API changes can be found in the release notes.
 \b_addWheelListener\b=Please check if you override the framework function '_addWheelListener'. A complete list of API changes can be found in the release notes.
+
+\bsetFocusCellOnMouseMove\b=Please check if you use the property 'focusCellOnMouseMove'. A complete list of API changes can be found in the release notes.
+\bgetFocusCellOnMouseMove\b=Please check if you use the property 'focusCellOnMouseMove'. A complete list of API changes can be found in the release notes.
+\bsetResetSelectionOnHeaderClick\b=Please check if you use the property 'resetSelectionOnHeaderClick'. A complete list of API changes can be found in the release notes.
+\bgetResetSelectionOnHeaderClick\b=Please check if you use the property 'resetSelectionOnHeaderClick'. A complete list of API changes can be found in the release notes.
+\bsetHideOnParentTouch\b=Please check if you use the property 'hideOnParentTouch'. A complete list of API changes can be found in the release notes.
+\bgetHideOnParentTouch\b=Please check if you use the property 'hideOnParentTouch'. A complete list of API changes can be found in the release notes.
+\bsetTouchOffset\b=Please check if you use the property 'touchOffset'. A complete list of API changes can be found in the release notes.
+\bgetTouchOffset\b=Please check if you use the property 'touchOffset'. A complete list of API changes can be found in the release notes.
