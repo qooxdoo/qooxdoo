@@ -19,7 +19,7 @@
 
 /**
  * Interactions for {@link qx.ui.form.VirtualComboBox} and derived widgets
- * @deprecated{3.6}
+ * @deprecated{4.0}
  */
 qx.Class.define("simulator.qxwebdriver.interaction.form.VirtualComboBox", {
 

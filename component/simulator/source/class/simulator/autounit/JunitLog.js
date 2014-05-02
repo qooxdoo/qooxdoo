@@ -21,7 +21,7 @@
  * Formats test suite results (provided e.g. by @link{simulator.autounit.AutoUnit})
  * as JUnit-style XML
  *
- * @deprecated{3.6}
+ * @deprecated{4.0}
  */
 
 qx.Class.define("simulator.autounit.JunitLog", {

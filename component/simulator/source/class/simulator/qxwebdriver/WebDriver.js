@@ -27,7 +27,7 @@
  * methods called 'interactions' will be added to the returned WebElement.
  *
  * @ignore(simulator.webdriver.*)
- * @deprecated{3.6}
+ * @deprecated{4.0}
  *
  */
 qx.Class.define("simulator.qxwebdriver.WebDriver",

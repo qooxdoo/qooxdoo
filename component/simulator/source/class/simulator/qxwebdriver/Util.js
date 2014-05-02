@@ -24,7 +24,7 @@
  * QxWebDriver utilities
  *
  * @ignore(qx.ui.core.Widget)
- * @deprecated{3.6}
+ * @deprecated{4.0}
  */
 qx.Class.define("simulator.qxwebdriver.Util", {
 

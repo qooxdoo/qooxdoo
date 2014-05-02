@@ -20,7 +20,7 @@
 /**
  * Provides event testing support.
  *
- * @deprecated{3.6}
+ * @deprecated{4.0}
  */
 
 qx.Mixin.define("simulator.MEventSupport",

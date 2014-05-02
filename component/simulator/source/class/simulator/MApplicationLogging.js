@@ -21,7 +21,7 @@
  * Provides functionality to capture the log messages of a tested qooxdoo
  * application.
  *
- * @deprecated{3.6}
+ * @deprecated{4.0}
  */
 
 qx.Mixin.define("simulator.MApplicationLogging",
