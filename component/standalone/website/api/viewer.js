@@ -43,7 +43,7 @@ q.ready(function() {
       docTitle = "qx.Website " + version + " API Documentation";
     }
   }
-  q("h1").setHtml(title);
+  q("h1#headline").setHtml(title);
   document.title = docTitle;
 
   var icons = {
