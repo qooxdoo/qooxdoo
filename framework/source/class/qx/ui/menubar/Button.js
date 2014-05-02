@@ -116,7 +116,9 @@ qx.Class.define("qx.ui.menubar.Button",
       this.base(arguments, selectFirst);
 
       var menubar = this.getMenuBar();
-      menubar._setAllowMenuOpenHover(true);
+      if (menubar) {
+        menubar._setAllowMenuOpenHover(true);
+      }
     },
 
 
@@ -184,7 +186,7 @@ qx.Class.define("qx.ui.menubar.Button",
       {
         var menubar = this.getMenuBar();
 
-        if (menubar._isAllowMenuOpenHover())
+        if (menubar && menubar._isAllowMenuOpenHover())
         {
           // Hide all open menus
           qx.ui.menu.Manager.getInstance().hideAll();
