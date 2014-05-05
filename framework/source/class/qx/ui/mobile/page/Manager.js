@@ -410,6 +410,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
      * @param evt {qx.event.type.Data} source event.
      */
     _onMasterContainerUpdate : function(evt) {
+      this._onMasterTransitionEnd();
+
       var widget = evt.getData();
       widget.getRightContainer().remove(this.__hideMasterButton);
       widget.getRightContainer().add(this.__hideMasterButton);
