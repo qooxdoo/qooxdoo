@@ -48,7 +48,11 @@ qx.Bootstrap.define("qx.event.type.dom.Custom", {
       if (this._original.preventDefault) {
         this._original.preventDefault();
       } else {
-        this._original.returnValue = false;
+        // In IE8, the original event can be a DispCEventObj which throws an
+        // exception when trying to access its properties.
+        try {
+          this._original.returnValue = false;
+        } catch(ex) {}
       }
     };
 
