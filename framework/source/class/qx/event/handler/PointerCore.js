@@ -230,8 +230,6 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           Simulated MouseEvents are fired by browsers directly after TouchEvents
           for improving compatibility. They should not trigger PointerEvents.
         */
-        // TODO Please review this: http://bugzilla.qooxdoo.org/show_bug.cgi?id=8267
-        // domEvent.preventDefault();
         return;
       }
 
