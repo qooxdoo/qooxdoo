@@ -82,7 +82,13 @@ qx.Class.define("qx.ui.root.Application",
 
     // prevent scrolling on touch devices
     this.addListener("touchmove", function(e) {
-      e.preventDefault();
+      // allow native scrolling
+      var orig = e.getOriginalTarget();
+      var touchAction = qx.bom.element.Style.get(orig, "touch-action") != "none";
+      var webkitOverflowScrolling = qx.bom.element.Style.get(orig, "-webkit-overflow-scrolling") === "touch";
+      if (!touchAction && !webkitOverflowScrolling) {
+        e.preventDefault();
+      }
     });
   },
 

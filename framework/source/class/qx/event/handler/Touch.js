@@ -408,7 +408,12 @@ qx.Class.define("qx.event.handler.Touch",
       if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
       {
         document.addEventListener("touchmove", function(e) {
-          e.preventDefault();
+          // allow native scrolling
+          var touchAction = qx.bom.element.Style.get(e.target, "touch-action") != "none";
+          var webkitOverflowScrolling = qx.bom.element.Style.get(e.target, "-webkit-overflow-scrolling") === "touch";
+          if (!touchAction && !webkitOverflowScrolling) {
+            e.preventDefault();
+          }
         });
       }
 
