@@ -89,7 +89,6 @@
       "environment" :
       {
         "qx.application" : "${APPLICATION}.Application",
-        "qx.mobile.emulatetouch" : true,
         "qx.mobile.nativescroll" : false
         /* Remove following inline comment if you want to optimize code for webkit browsers.
          Attention: if webkit engine optimization is enabled, mobile app will not be

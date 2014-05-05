@@ -715,10 +715,6 @@
  *       <td><i>default:</i> <code>false</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.mobile.emulatetouch</td><td><i>Boolean</i></td><td><code>false</code></td>
- *       <td><i>default:</i> <code>false</code></td>
- *     </tr>
- *     <tr>
  *       <td>qx.mobile.nativescroll</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.Scroll#getNativeScroll}</td>
  *     </tr>
@@ -1269,7 +1265,6 @@ qx.Bootstrap.define("qx.core.Environment",
       this.add("qx.aspects", function() {return false;});
       this.add("qx.dynlocale", function() {return true;});
       this.add("qx.dyntheme", function() {return true;});
-      this.add("qx.mobile.emulatetouch", function() {return false;});
       this.add("qx.emulatemouse", function() {return false;});
       this.add("qx.blankpage", function() { return "qx/static/blank.html";});
 

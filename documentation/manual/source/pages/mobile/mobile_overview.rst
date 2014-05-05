@@ -38,7 +38,6 @@ Features
 * Touch events: touchstart, touchmove, touchend, touchcancel
 * Gesture events: swipe, tap, longtap, dbltap, roll
 * Animations between pages
-* Touch event emulation for debugging in desktop browsers
 * Fixed toolbars and momentum scrolling via `iScroll <http://cubiq.org/iscroll-4>`_
 * Basic `PhoneGap <http://www.phonegap.com/>`_ support
 * Support for high-resolution displays ("Retina display support")
@@ -79,8 +78,6 @@ Environment Keys
 
 The following environment keys are available:
 
-* ``qx.mobile.emulatetouch: true|false`` - Enables desktop browser touch emulation.
-  Enable this option if you want to debug the application in your desktop browser.
 * ``qx.mobile.nativescroll: true|false`` - Whether to use native scrolling or
   `iScroll`_ for scrolling.
 * ``device.pixelRatio: Number`` - the ratio between physical pixels and device-independent pixels (dips) on the device.

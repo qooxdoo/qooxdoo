@@ -84,8 +84,7 @@
     {
       "environment" :
       {
-        "qx.nativeScrollBars" : true,
-        "qx.emulatemouse" : true
+        "qx.nativeScrollBars" : true
       },
 
       "compile-options" :
@@ -213,11 +212,6 @@
       "let" :
       {
         "APPLICATION_MAIN_CLASS" : "${APPLICATION}.MobileApplication"
-      },
-
-      "environment" :
-      {
-        "qx.mobile.emulatetouch" : true
       },
 
       "compile-options" :

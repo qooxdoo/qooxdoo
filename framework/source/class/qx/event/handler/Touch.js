@@ -189,35 +189,7 @@ qx.Class.define("qx.event.handler.Touch",
      * @signature function(domEvent)
      * @param domEvent {Event} DOM event
      */
-    __normalizeMouseEvent : qx.core.Environment.select("qx.mobile.emulatetouch",
-    {
-      "true" : function(domEvent)
-      {
-        var type = domEvent.type;
-        var eventMapping = qx.event.handler.Touch.MOUSE_TO_TOUCH_MAPPING;
-        if (eventMapping[type])
-        {
-          type = eventMapping[type];
-          // Remember if we are in a touch event
-          if (type == "touchstart" && this.__isLeftMouseButtonPressed(domEvent)) {
-            this.__isInTouch = true;
-          } else if (type == "touchend") {
-            this.__isInTouch = false;
-          }
-
-          var touchObject = this.__createTouchObject(domEvent);
-          var touchArray = (type == "touchend" ? [] : [touchObject]);
-
-          // add the touches to the native mouse event
-          domEvent.touches = touchArray;
-          domEvent.targetTouches = touchArray;
-          domEvent.changedTouches = [touchObject];
-        }
-        return type;
-      },
-
-      "default" : (function() {})
-    }),
+    __normalizeMouseEvent : function() {},
 
 
     /**
@@ -227,20 +199,7 @@ qx.Class.define("qx.event.handler.Touch",
      * @param domEvent {Event} DOM event
      * @return {Boolean} Whether the left mouse button is pressed
      */
-    __isLeftMouseButtonPressed : qx.core.Environment.select("qx.mobile.emulatetouch",
-    {
-      "true" : function(domEvent)
-      {
-        if ((qx.core.Environment.get("engine.name") == "mshtml")) {
-          var buttonIndex = 1;
-        } else {
-          var buttonIndex = 0;
-        }
-        return domEvent.button == buttonIndex;
-      },
-
-      "default" : (function() {})
-    }),
+    __isLeftMouseButtonPressed : function() {},
 
 
     /**
@@ -252,25 +211,7 @@ qx.Class.define("qx.event.handler.Touch",
      * @param domEvent {Event} DOM event
      * @return {Object} The Touch mock object
      */
-    __createTouchObject : qx.core.Environment.select("qx.mobile.emulatetouch",
-    {
-      "true" : function(domEvent)
-      {
-        var target = this._getTarget(domEvent);
-        return {
-          clientX : domEvent.clientX,
-          clientY : domEvent.clientY,
-          screenX : domEvent.screenX,
-          screenY : domEvent.screenY,
-          pageX : domEvent.pageX,
-          pageY : domEvent.pageY,
-          identifier : 1,
-          target : target
-        };
-      },
-
-      "default" : (function() {})
-    }),
+    __createTouchObject : function() {},
 
 
     /*
@@ -283,23 +224,7 @@ qx.Class.define("qx.event.handler.Touch",
     /**
      * Initializes the native mouse event listeners.
      */
-    _initMouseObserver : qx.core.Environment.select("qx.mobile.emulatetouch",
-    {
-      "true" : function()
-      {
-        if (!qx.core.Environment.get("event.touch"))
-        {
-          this.__onMouseEventWrapper = qx.lang.Function.listener(this._onMouseEvent, this);
-
-          var Event = qx.bom.Event;
-
-          Event.addNativeListener(this.__root, "mousedown", this.__onMouseEventWrapper);
-          Event.addNativeListener(this.__root, "mousemove", this.__onMouseEventWrapper);
-          Event.addNativeListener(this.__root, "mouseup", this.__onMouseEventWrapper);
-        }
-      },
-      "default" : (function() {})
-    }),
+    _initMouseObserver : function() {},
 
 
     /*
@@ -312,21 +237,7 @@ qx.Class.define("qx.event.handler.Touch",
     /**
      * Disconnects the native mouse event listeners.
      */
-    _stopMouseObserver : qx.core.Environment.select("qx.mobile.emulatetouch",
-    {
-      "true" : function()
-      {
-        if (!qx.core.Environment.get("event.touch"))
-        {
-          var Event = qx.bom.Event;
-
-          Event.removeNativeListener(this.__root, "mousedown", this.__onMouseEventWrapper);
-          Event.removeNativeListener(this.__root, "mousemove", this.__onMouseEventWrapper);
-          Event.removeNativeListener(this.__root, "mouseup", this.__onMouseEventWrapper);
-        }
-      },
-      "default" : (function() {})
-    }),
+    _stopMouseObserver : function() {},
 
 
     /*
@@ -353,22 +264,7 @@ qx.Class.define("qx.event.handler.Touch",
      * @signature function(domEvent)
      * @param domEvent {Event} The mouse event from the browser.
      */
-    _onMouseEvent : qx.core.Environment.select("qx.mobile.emulatetouch",
-    {
-      "true" : qx.event.GlobalError.observeMethod(function(domEvent)
-      {
-        if (!qx.core.Environment.get("event.touch"))
-        {
-          if (domEvent.type == "mousemove" && !this.__isInTouch) {
-            return;
-          }
-          var type = this.__normalizeMouseEvent(domEvent);
-          this._commonTouchEventHandler(domEvent, type);
-        }
-      }),
-
-      "default" : (function() {})
-    }),
+    _onMouseEvent : function() {},
 
 
     /**

@@ -535,11 +535,6 @@
         "TEST_LOADER" : "testrunner.TestLoaderMobile"
       },
 
-      "environment" :
-      {
-        "qx.mobile.emulatetouch" : true
-      },
-
       "asset-let" : {
         "qx.mobile.platform" : [ "${PLATFORM}" ]
       }
