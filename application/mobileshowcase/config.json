@@ -126,7 +126,7 @@
       "let" : {
         "BUILD_PATH" : "${ROOT}/build-${THEME}"
       },
-      "=run" : ["build-resources", "build-files", "build-script", "minify-css"]
+      "=run" : ["build-resources", "build-files", "build-script", "compile-scss", "minify-css"]
     },
 
 
@@ -134,9 +134,10 @@
     {
       "extend" : ["mobile-common"],
       "add-css" : [
-        { "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${THEME}.css" },
+        { "uri" : "./resource/qx/mobile/css/${THEME}.css" },
         { "uri" : "./resource/${APPLICATION_CSS}" }
-      ]
+      ],
+      "run": ["compile-scss"]
     },
 
     "build-script" :
@@ -173,9 +174,27 @@
         "${APPLICATION}.test.*"
       ],
       "add-css" : [
-        { "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${THEME}.css" },
+        { "uri" : "./resource/qx/mobile/css/${THEME}.css" },
         { "uri" : "./resource/${APPLICATION_CSS}" }
-      ]
+      ],
+      "run": ["compile-scss"]
+    },
+
+    "compile-scss" :
+    {
+      "desc"   : "Compile the theme scss once",
+      "extend" : ["cache"],
+      "let" :
+      {
+        "QX_MOBILE_THEME_PATH" : "$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss",
+        "QX_SHARED_THEME_PATH" : "$${QOOXDOO_PATH}/framework/source/resource/qx/scss",
+        "MOBILE_RESOURCE_PATH" : "source/resource/qx/mobile/css"
+      },
+      "shell" :
+      {
+        "command" : "sass -C -t compressed -I ${QX_MOBILE_THEME_PATH} -I ${QX_SHARED_THEME_PATH} --update ${QX_MOBILE_THEME_PATH}:${MOBILE_RESOURCE_PATH}",
+        "command-not-found" : "It seems that Sass (http://sass-lang.com/) is not installed and/or executable, which is needed for the SCSS-compilation."
+      }
     },
 
     "minify-combine-css" :
