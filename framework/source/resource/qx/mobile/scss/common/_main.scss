@@ -56,6 +56,10 @@ a:hover, a:active {
   width:100%;
 }
 
+img {
+  @include flex-shrink(0);
+}
+
 img:not([src]) {
   display:none;
 }
