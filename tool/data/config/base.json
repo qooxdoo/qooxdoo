@@ -670,6 +670,21 @@
       "collect-environment-info" : {}
     },
 
+    "compile-framework-scss" :
+    {
+      "desc"   : "Compile the theme scss",
+      "extend" : ["cache"],
+      "let" :
+      {
+        "QX_MOBILE_THEME_PATH" : "$${QOOXDOO_PATH}/framework/source/resource/qx/mobile",
+        "QX_SHARED_THEME_PATH" : "$${QOOXDOO_PATH}/framework/source/resource/qx/scss"
+      },
+      "shell" :
+      {
+        "command" : "sass -C -t compressed --load-path ${QX_SHARED_THEME_PATH} --update ${QX_MOBILE_THEME_PATH}/scss/:${QX_MOBILE_THEME_PATH}/css/",
+        "command-not-found" : "It seems that Sass (http://sass-lang.com/) is not installed and/or executable, which is needed for the SCSS-compilation."
+      }
+    },
 
     // -- various includer jobs that can be used in "extend" key ---------------
 

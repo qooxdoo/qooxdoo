@@ -1218,6 +1218,8 @@ you should write ::
 
 and it will work from everywhere.
 
+* **command-not-found** : message string to be shown if command is not found within PATH system variable and it's not a built-in shell command
+
 .. _pages/tool/generator/generator_config_ref#simulate:
 
 simulate (deprecated)

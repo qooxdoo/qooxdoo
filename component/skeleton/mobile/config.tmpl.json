@@ -14,6 +14,8 @@
     "api-data",
     "build",
     "clean",
+    "compile-scss",
+    "compile-framework-scss",
     "distclean",
     "dependencies",
     "fix",
@@ -125,7 +127,9 @@
       "add-css" : [
         { "uri" : "./resource/$${MOBILE_THEME_PATH}" },
         { "uri" : "./resource/$${APPLICATION_CSS}" }
-      ]
+      ],
+
+      "run": ["compile-scss"]
     },
 
     "source-hybrid" :
@@ -139,7 +143,7 @@
 
     "build" :
     {
-      "=run" : ["build-resources", "build-files", "build-script", "minify-css"]
+      "=run" : ["build-resources", "build-files", "build-script", "compile-scss", "minify-css"]
     },
 
     "build-script" :
@@ -166,7 +170,8 @@
       "add-css" : [
         { "uri" : "./resource/$${MOBILE_THEME_PATH}" },
         { "uri" : "./resource/$${APPLICATION_CSS}" }
-      ]
+      ],
+      "run": ["compile-scss"]
     },
 
     "minify-combine-css" :
@@ -207,6 +212,23 @@
       }
     },
 
+    "compile-scss" :
+    {
+      "desc"   : "Compile the theme scss once",
+      "extend" : ["cache"],
+      "let" :
+      {
+        "QX_MOBILE_THEME_PATH" : "$${QOOXDOO_PATH}/framework/source/resource/qx/mobile",
+        "QX_SHARED_THEME_PATH" : "$${QOOXDOO_PATH}/framework/source/resource/qx/scss",
+        "MOBILE_RESOURCE_PATH" : "source/resource/$${APPLICATION}"
+      },
+      "shell" :
+      {
+        "command" : "sass -C -t compressed -I $${MOBILE_RESOURCE_PATH}/scss -I $${QX_MOBILE_THEME_PATH}/scss -I $${QX_SHARED_THEME_PATH} --update $${MOBILE_RESOURCE_PATH}/scss:$${MOBILE_RESOURCE_PATH}/css",
+        "command-not-found" : "It seems that Sass (http://sass-lang.com/) is not installed and/or executable, which is needed for the SCSS-compilation."
+      }
+    },
+
     "watch-scss" :
     {
       "desc"   : "Watch and compile the theme scss",
@@ -215,11 +237,12 @@
       {
         "QX_MOBILE_THEME_PATH" : "$${QOOXDOO_PATH}/framework/source/resource/qx/mobile",
         "QX_SHARED_THEME_PATH" : "$${QOOXDOO_PATH}/framework/source/resource/qx/scss",
-        "MOBILE_THEME_PATH" : "source/resource/$${APPLICATION}"
+        "MOBILE_RESOURCE_PATH" : "source/resource/$${APPLICATION}"
       },
       "shell" :
       {
-        "command" : "sass -C -t compressed -I $${MOBILE_THEME_PATH}/scss -I $${QX_MOBILE_THEME_PATH}/scss -I $${QX_SHARED_THEME_PATH} --watch $${MOBILE_THEME_PATH}/scss:$${MOBILE_THEME_PATH}/css"
+        "command" : "sass -C -t compressed -I $${MOBILE_RESOURCE_PATH}/scss -I $${QX_MOBILE_THEME_PATH}/scss -I $${QX_SHARED_THEME_PATH} --watch $${MOBILE_RESOURCE_PATH}/scss:$${MOBILE_RESOURCE_PATH}/css",
+        "command-not-found" : "It seems that Sass (http://sass-lang.com/) is not installed and/or executable, which is needed for the SCSS-compilation."
       }
     }
   }
