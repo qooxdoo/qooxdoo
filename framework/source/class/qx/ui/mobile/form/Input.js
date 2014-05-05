@@ -102,13 +102,15 @@ qx.Class.define("qx.ui.mobile.form.Input",
         return;
       }
 
-      if (qx.core.Environment.get("os.name") == "ios") {
+      setTimeout(function() {
         scrollContainer.scrollToWidget(this.getLayoutParent(), 0);
-      } else {
-        setTimeout(function() {
-          scrollContainer.scrollToWidget(this.getLayoutParent(), 0);
-        }.bind(this), 500);
-      }
+
+        // Refresh caret position after scrolling.
+        this._setStyle("position","relative");
+        qx.bom.AnimationFrame.request(function() {
+          this._setStyle("position",null);
+        }, this);
+      }.bind(this), 300);
     }
   },
 
