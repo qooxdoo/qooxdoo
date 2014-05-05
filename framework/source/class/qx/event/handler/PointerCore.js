@@ -247,7 +247,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       var mouseProps = {pointerType : "mouse", pointerId: 1};
 
       // if the button state changes but not from or to zero
-      if (this.__lastButtonState != buttonsPressed && buttonsPressed != 0 && this.__lastButtonState != 0) {
+      if (this.__lastButtonState != buttonsPressed && buttonsPressed !== 0 && this.__lastButtonState !== 0) {
         var moveEvt = new qx.event.type.dom.Pointer("pointermove", domEvent, mouseProps);
         this._fireEvent(moveEvt, "pointermove", target);
       }
