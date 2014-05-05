@@ -114,7 +114,7 @@ class ActionLib(object):
             self.runShellCommand(shellcmd, cmdnotfoundmsg)
 
 
-    def runShellCommand(self, shellcmd, cmdnotfoundmsg):
+    def runShellCommand(self, shellcmd, cmdnotfoundmsg=""):
         rc = 0
         self._shellCmd       = ShellCmd()
         self._console.info("Executing shell command \"%s\"..." % shellcmd)

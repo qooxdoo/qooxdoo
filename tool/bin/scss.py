@@ -32,7 +32,7 @@ import sys
 msg = ("Error: The SCSS-compiler, which was formerly shipped with the SDK, is no longer supported. " +
        "Please install and use Sass, the reference implementation for SCSS-compilation, instead.\n" +
        "If you are running the 'watch-scss' job you have to adapt its configuration in order to use Sass. " +
-       "Create a new app with 'create-application.py' and copy the new 'watch-scss' job definition from the 'config.json' over."
+       "Create a new app with 'create-application.py' and copy the new 'watch-scss' job definition from the 'config.json' over. " +
        "Also copy the 'compile-scss' job which triggers a one-shot compilation. Don't forget to adapt the config exports.\n"
        "More details: http://manual.qooxdoo.org/current/pages/mobile/theming.html")
 sys.exit(msg)
