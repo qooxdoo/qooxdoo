@@ -143,6 +143,13 @@
   justify-content: $args;           /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 
+
+@mixin flex-shrink($args) {
+  -webkit-flex-shrink: $args;       /* Chrome */
+  -ms-flex-negative: $args;         /* IE 10 */
+  flex-shrink: $args;               /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+
 // -------------------------------
 
 @mixin border-image($args) {
