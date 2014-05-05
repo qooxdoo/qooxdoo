@@ -802,11 +802,13 @@ qx.Class.define("qx.event.handler.Focus",
         if (focusTarget) {
           // do not rely on the native focus for mobile safari
           var old = this.getFocus();
-          if (old) {
-            old.blur();
+          if (old !== focusTarget) {
+            if (old) {
+              old.blur();
+            }
+            focusTarget.focus();
+            this.setFocus(focusTarget);
           }
-          focusTarget.focus();
-          this.setFocus(focusTarget);
         } else {
           event.preventDefault();
         }
