@@ -241,6 +241,25 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
 
     /**
+     * Checks if a DOM element located between the target of a gesture
+     * event and the element this handler is attached to has a gesture
+     * handler of its own.
+     *
+     * @param target {Element} The gesture event's target
+     * @return {Boolean}
+     */
+    _hasIntermediaryHandler: function(target) {
+      while (target && target !== this.__defaultTarget) {
+        if (target.$$gestureHandler) {
+          return true;
+        }
+        target = target.parentNode;
+      }
+      return false;
+    },
+
+
+    /**
      * Helper method for gesture end.
      *
      * @param domEvent {Event} DOM event
@@ -261,12 +280,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         a gesture handler, we don't need to fire the gesture again
         since it bubbles.
        */
-      var domTarget = target;
-      while (domTarget && domTarget !== this.__defaultTarget) {
-        if (domTarget.$$gestureHandler) {
-          return;
-        }
-        domTarget = domTarget.parentNode;
+      if (this._hasIntermediaryHandler(target)) {
+        return;
       }
 
       // always start the roll impulse on the original target

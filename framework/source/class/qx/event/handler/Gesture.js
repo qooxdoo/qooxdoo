@@ -157,6 +157,14 @@ qx.Class.define("qx.event.handler.Gesture",
     },
 
 
+    // overridden
+    _hasIntermediaryHandler : function(target) {
+      /* This check is irrelevant for qx.Desktop since there is only one
+         gesture handler */
+      return false;
+    },
+
+
     /**
      * Fire a touch event with the given parameters
      *
