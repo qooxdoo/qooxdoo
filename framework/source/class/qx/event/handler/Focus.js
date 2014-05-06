@@ -211,14 +211,14 @@ qx.Class.define("qx.event.handler.Focus",
               textRange.collapse();
               textRange.select();
             }
-          } catch(ex) {};
+          } catch(ex) {}
         }, 0);
       }
       else
       {
         try {
           element.focus();
-        } catch(ex) {};
+        } catch(ex) {}
       }
 
       this.setFocus(element);
@@ -243,7 +243,7 @@ qx.Class.define("qx.event.handler.Focus",
     {
       try {
         element.blur();
-      } catch(ex) {};
+      } catch(ex) {}
 
       if (this.getActive() === element) {
         this.resetActive();
@@ -753,7 +753,7 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "mshtml" : function(event)
       {
-        var target = event.getTarget()
+        var target = event.getTarget();
 
         // Stop events when no focus element available (or blocked)
         var focusTarget = this.__findFocusableElement(target);
@@ -822,7 +822,7 @@ qx.Class.define("qx.event.handler.Focus",
         if (!this.__isSelectable(target)) {
           // Prevent the default action for all non-selectable
           // targets. This prevents text selection and context menu.
-          event.preventDefault()
+          event.preventDefault();
 
           // The stopped event keeps the selection
           // of the previously focused element.
@@ -862,7 +862,7 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "mshtml" : function(event)
       {
-        var target = event.getTarget()
+        var target = event.getTarget();
         if (target.unselectable) {
           target.unselectable = "off";
         }
@@ -888,7 +888,7 @@ qx.Class.define("qx.event.handler.Focus",
 
       "webkit|opera" : function(event)
       {
-        var target = event.getTarget()
+        var target = event.getTarget();
         this.tryActivate(this.__fixFocus(target));
       },
 
