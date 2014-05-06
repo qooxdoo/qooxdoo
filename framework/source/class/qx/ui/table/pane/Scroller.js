@@ -1939,20 +1939,14 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       if (this.isEditing())
       {
-        if (this._cellEditorIsModalWindow)
-        {
-          this.__cellEditor.destroy();
-          this.__cellEditor = null;
-          this.__cellEditorFactory = null;
-        }
-        else
+        if (!this._cellEditorIsModalWindow)
         {
           this.__focusIndicator.removeState("editing");
           this.__focusIndicator.setKeepActive(true);
-          this.__cellEditor.destroy();
-          this.__cellEditor = null;
-          this.__cellEditorFactory = null;
         }
+        this.__cellEditor.destroy();
+        this.__cellEditor = null;
+        this.__cellEditorFactory = null;
       }
     },
 
