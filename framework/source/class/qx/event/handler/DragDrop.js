@@ -136,6 +136,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     __validAction : false,
     __dragTargetWidget : null,
     __startTargets : null,
+    __escaped : false,
 
 
     /*
@@ -558,6 +559,11 @@ qx.Class.define("qx.event.handler.DragDrop",
         return;
       }
 
+      // ignore on escaped sessions
+      if (this.__escaped) {
+        return;
+      }
+
       // start the drag session for mouse
       if (!this.__sessionActive && e.getPointerType() == "mouse") {
         var delta = e.getDelta();
@@ -640,6 +646,7 @@ qx.Class.define("qx.event.handler.DragDrop",
 
       // Clean up
       this.clearSession();
+      this.__escaped = false;
     },
 
 
@@ -715,6 +722,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       {
         case "Escape":
           this.clearSession();
+          this.__escaped = true;
       }
     }
   },
