@@ -270,18 +270,6 @@ qx.Class.define("qx.event.handler.Touch",
 
     // Prevent scrolling on the document to avoid scrolling at all
     if (qx.core.Environment.get("event.touch")) {
-      if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
-      {
-        document.addEventListener("touchmove", function(e) {
-          // allow native scrolling
-          var touchAction = qx.bom.element.Style.get(e.target, "touch-action") != "none";
-          var webkitOverflowScrolling = qx.bom.element.Style.get(e.target, "-webkit-overflow-scrolling") === "touch";
-          if (!touchAction && !webkitOverflowScrolling) {
-            e.preventDefault();
-          }
-        });
-      }
-
       // get the handler to asure that the instance is created
       qx.event.Registration.getManager(document).getHandler(statics);
     }

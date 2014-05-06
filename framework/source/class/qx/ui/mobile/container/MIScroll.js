@@ -253,6 +253,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
       qx.event.Registration.addListener(window, "orientationchange", this._refresh, this);
       qx.event.Registration.addListener(window, "resize", this._refresh, this);
       this.addListener("touchmove", qx.bom.Event.stopPropagation);
+      this.addListener("touchmove", qx.bom.Event.preventDefault);
       this.addListener("domupdated", this._refresh, this);
     },
 
@@ -265,6 +266,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
       qx.event.Registration.removeListener(window, "orientationchange", this._refresh, this);
       qx.event.Registration.removeListener(window, "resize", this._refresh, this);
       this.removeListener("touchmove", qx.bom.Event.stopPropagation);
+      this.removeListener("touchmove", qx.bom.Event.preventDefault);
       this.removeListener("domupdated", this._refresh, this);
     },
 
