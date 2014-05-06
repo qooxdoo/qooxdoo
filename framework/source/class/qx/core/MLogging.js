@@ -77,6 +77,49 @@ qx.Mixin.define("qx.core.MLogging",
 
 
     /**
+     * Starts a logging group with an optional title. All output that
+     * occurs between calling this method and calling <code>groupEnd</code>
+     * appears in the same visual group. This logging group is initially
+     * expanded.
+     *
+     * @param varargs {var} The item(s) to log. Any number of arguments is
+     * supported. If an argument is not a string, the object dump will be
+     * logged.
+     */
+    group : function(varargs) {
+      this.__logMessage("group", arguments);
+    },
+
+
+    /**
+     * Starts a logging group with an optional title. All output that
+     * occurs between calling this method and calling <code>groupEnd</code>
+     * appears in the same visual group. This logging group is initially
+     * collapsed.
+     *
+     * @param varargs {var} The item(s) to log. Any number of arguments is
+     * supported. If an argument is not a string, the object dump will be
+     * logged.
+     */
+    groupCollapsed : function(varargs) {
+      this.__logMessage("groupCollapsed", arguments);
+    },
+
+
+    /**
+     * Closes the most recently created logging group created with
+     * <code>group</code> or <code>groupCollapsed</code>.
+     *
+     * @param varargs {var} The item(s) to log. Any number of arguments is
+     * supported. If an argument is not a string, the object dump will be
+     * logged.
+     */
+    groupEnd : function() {
+      this.__logMessage("groupEnd", []);
+    },
+
+
+    /**
      * Prints the current stack trace
      *
      */

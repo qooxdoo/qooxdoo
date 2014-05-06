@@ -51,6 +51,9 @@ qx.Bootstrap.define("qx.log.Logger",
      * @param value {String} One of "debug", "info", "warn" or "error".
      */
     setLevel : function(value) {
+      if (value[0] == "_") {
+        return;
+      }
       this.__level = value;
     },
 
@@ -219,6 +222,42 @@ qx.Bootstrap.define("qx.log.Logger",
       var trace = qx.dev.StackTrace.getStackTrace();
       qx.log.Logger.__log("info",
       [(typeof object !== "undefined" ? [object].concat(trace) : trace).join("\n")]);
+    },
+
+    /**
+     * Sending a message at level "group" to the logger.
+     *
+     * @param object {Object} Contextual object (either instance or static class)
+     * @param message {var} Any number of arguments supported. An argument may
+     *   have any JavaScript data type. All data is serialized immediately and
+     *   does not keep references to other objects.
+     */
+    group : function(object, message) {
+      qx.log.Logger.__log("_group", arguments);
+    },
+
+    /**
+     * Sending a message at level "groupCollapsed" to the logger.
+     *
+     * @param object {Object} Contextual object (either instance or static class)
+     * @param message {var} Any number of arguments supported. An argument may
+     *   have any JavaScript data type. All data is serialized immediately and
+     *   does not keep references to other objects.
+     */
+    groupCollapsed : function(object, message) {
+      qx.log.Logger.__log("_groupCollapsed", arguments);
+    },
+
+    /**
+     * Sending a message at level "groupEnd" to the logger.
+     *
+     * @param object {Object} Contextual object (either instance or static class)
+     * @param message {var} Any number of arguments supported. An argument may
+     *   have any JavaScript data type. All data is serialized immediately and
+     *   does not keep references to other objects.
+     */
+    groupEnd : function(object, message) {
+      qx.log.Logger.__log("_groupEnd", arguments);
     },
 
 
@@ -408,7 +447,8 @@ qx.Bootstrap.define("qx.log.Logger",
     /**
      * Internal logging main routine.
      *
-     * @param level {String} One of "debug", "info", "warn" or "error"
+     * @param level {String} One of "debug", "info", "warn" or "error",
+     *   "_group", "_groupCollapsed", "_groupEnd"
      * @param args {Array} List of other arguments, where the first is
      *   taken as the context object.
      */
@@ -416,7 +456,7 @@ qx.Bootstrap.define("qx.log.Logger",
     {
       // Filter according to level
       var levels = this.__levels;
-      if (levels[level] < levels[this.__level]) {
+      if (level[0] != "_" && levels[level] < levels[this.__level]) {
         return;
       }
 
